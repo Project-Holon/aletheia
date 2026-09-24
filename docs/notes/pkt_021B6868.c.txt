@@ -1,0 +1,82 @@
+# pkt_021B6868 residue and class record (lane O44)
+
+Lane O44 filed 17 ov172 functions under the new packet `pkt_021B6868`; every one
+is recorded by `tools/match.py manifest --verify --shard pkt_021B6868` as EXACT
+or EXACT\*.  This file is what the lane could not close, with the class named.
+
+## The `matched` witness class works, and that is the whole unblock
+
+The previous lane's report said loading the `matched` class aborted the run with
+
+    manifest shards disagree: func_02165590 is in both layout/matched/ov010/...
+
+That is now a warning, and the class resolves normally.  Measured here, three
+times over:
+
+* `func_021BA01C` calls `func_021BA120` (a bare ov172 sibling, no caller outside
+  the compared range).  Compiling `func_021BA120` on its own, recording it with
+  `manifest --verify --shard pkt_021B6868`, and then compiling `func_021BA01C`
+  resolves the site as `matched x1`.  Before the recording it caps at MATCH.
+* `func_021B9DF8` -> the four `0x021BE...` veneers, `func_021B8B00` ->
+  `func_021BE1A4`, `func_021B6E88` -> `func_021B6EC4`/`func_021B6ECC`: all
+  `matched`, all EXACT\*.
+
+So the ordering rule for the remaining ov172 work is mechanical: **deepest callee
+first, one `manifest --verify --shard` per layer, then the caller.**  A caller
+compiled in the same batch as its callee still caps at MATCH, because the shard
+is what the class reads, not `src/matched/`.
+
+The dependency map is in `scratch/ov_172/o44_deps.py`: it splits the remaining
+functions into `READY` (no unfiled ov172 callee) and `BLOCKED`, naming the
+callees.  At the end of this lane that split was 87 READY / 75 BLOCKED out of 162.
+
+## The second diagnostic: MATCH with "no witness outside <lo>..<hi>"
+
+Three functions compiled byte-perfect and still could not reach EXACT:
+
+| function | blocking site |
+|---|---|
+| func_021BE2F0 | `+0010 THM_CALL func_0200ED48` |
+| func_021BA120 | `+0016 THM_CALL func_0208B4B8` |
+| func_021BA050 | `+0008 THM_CALL func_0208B4B8` |
+
+The message is `[...] has no witness outside 021BE2F0..021BE316`: the call is
+real, the encoding is right, but the ARM9 target's only call site in the ARM9
+image is not outside the compared range, so no image class can carry it and no
+manifest entry exists at the address either.  This is the ARM9-side twin of the
+dropped-call class: **a MATCH whose body length equals the listing's is not a
+body problem at all, it is a witness problem, and no amount of re-spelling will
+move it.**  Park it, do not iterate on it.
+
+## DIFFs, by class
+
+1. **A struct passed by value as the fifth argument lands on the wrong stack
+   slot.**  `func_021B891C` and `func_021B8AD4` both build a 4-word record and
+   pass it to `func_0203D3F8` after four register arguments.  The image writes
+   the record at `[sp]`, `[sp,#4]`, `[sp,#8]`, `[sp,#0xc]` and frames exactly
+   `sub sp, #0x10`; CW instead allocates `0x14` and writes the record at
+   `sp+4`..`sp+0x10`, passing `&record` at `[sp]`.  Both spellings tried
+   (`Rec s;` passed as a value, and a pointer to it) produce CW's layout.
+   Fixing this likely needs the record declared as the callee's declared
+   parameter type, i.e. the real prototype, which is not recoverable from a call
+   site whose target has no header here.
+2. **`bge`/`bgt` where the image has `blo`/`bhi`.**  `func_021B9F4C` loads two
+   screen values and floors one at `0x68`; the image compares unsigned (`blo`),
+   the squares compare signed (`ble`/`bge`).  Spelling the floor test as
+   `(unsigned)v < 0x68` and the radii as `int` still emitted the wrong pair, so
+   the two variables are of different types in the original and the split is not
+   recoverable from the one comparison.
+3. **A dead third parameter is not what keeps r2 busy.**  `func_021BD820` saves
+   its first argument in **r3**; CW picks r2 for two-argument, three-argument and
+   four-argument spellings.  Nothing else in the function mentions r2, so r2 is
+   occupied for a reason that is not visible in this body.  Two concrete bytes,
+   parked.
+
+## What is NOT blocked any more
+
+`func_021B6A18`/`func_021B6A00`/`func_021B699C` were reported unreachable.  Two
+of the three are still open, but for an ordinary reason: `func_021B6A18` needs
+`func_021B6A88`, which needs `func_021B6B68`; `func_021B6A00` needs
+`func_021B6A30`, which needs `func_021B6ADC`.  Both chains are plain size-ordered
+work now that the `matched` class resolves -- file the deep end first.
+`func_021B699C` is closed (it was one of this lane's 17).

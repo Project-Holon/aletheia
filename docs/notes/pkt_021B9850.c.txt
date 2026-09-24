@@ -501,3 +501,70 @@ emits C; drv.py compiles 8-wide, files the EXACT ones and parks MATCH.
    That is 37 of 149 compiles, 0.25 functions per compile; the loss is
    entirely in the 99 DIFF, which are the templates reaching past what they
    can express rather than the symbols layer.
+
+Lane O43 (ov217 .inst decode + auto-synthesis) 2026-09-24
+----------------------------------------------------------
+
+RESULT: 66 functions filed, all EXACT/EXACT*.  The shard
+layout/matched/ov217/pkt_021B9850.json went 302 -> 368 entries
+(244 EXACT + 124 EXACT*), verified by
+
+    python tools/match.py manifest --verify --shard pkt_021B9850
+
+Tooling: scratch/ov_ov217/o43/{inv43,gen43,drv43,file43}.py.  inv43.py
+re-decodes every `.inst.n`/`.inst.w` line from its BYTE field with capstone
+(the comment field is not trusted), so the stream is uniform; gen43.py replays
+that stream through a register/expression engine.
+
+1. What actually limited O29, measured
+
+   inv29.py did decode `.inst` (0 undecoded left in its output) - the loss was
+   in its ENGINE, not its decoder.  It set a call's result as a pending
+   expression and then dropped the statement: `bl X; adds r4,r0,#0; bl Y`
+   came out as a body with one call and no locals (O29's own results file shows
+   func_021B9AF8 compiled to 8 bytes against a 16-byte original).  Two
+   structural faults, both fixed here:
+
+   * a call result is a LAZY value that stays in r0 and is inlined into
+     whatever consumes it - the next call's argument list, a store's rhs, a
+     local initialiser, the return.  `bl X; movs r1,#0; bl Y` is `Y(X(), 0)`,
+     and that is the only spelling that reproduces the image order.  A pending
+     value that is never consumed is flushed as a plain statement.
+   * `is_plain_call()` must balance parens: `func_X(*(u32*)(a0+40))` is a
+     statement, and a regex like `[\w]+\([^()]*\)` says it is not, which moves
+     the call into a hoisted `u32 t0 = ...;` declaration and reorders the whole
+     body.  That single regex cost every body with a load-fed call.
+
+2. Bearing of the `.inst` decode
+
+   Of the 421 unfiled labels at lane start, 308 contain at least one `.inst`
+   line; with the byte-field decode the true leaf count is 15, not 105.  Of the
+   67 candidates this lane closed, 37 are `.inst`-bearing bodies and 30 are
+   plain listing bodies.  Nothing about the 37 is special: once decoded they
+   are ordinary call sequences (the "constant-only leaf" class O29 reported was
+   an artefact of the comment field).
+
+3. Rate, measured
+
+   126 candidates generated from 421 unfiled labels (gen43 refuses the other
+   295: 85 need a stack frame it does not model yet, ~50 have control flow,
+   the rest are holes in the argument set or a dead base register), one compile
+   each, 67 closed EXACT/EXACT* - 0.53 functions per compile, up from 0.25.
+   Compiles: 126 + 46 (first, buggier round) + 126 (second round) = 298.
+
+4. Residue, for the next wave
+
+   * 49 DIFF.  The dominant shape is the two-colour tie O1 described: the
+     engine picks the wrong saved register for a call result
+     (func_021B9AD0: original `adds r6,r0,#0; adds r4,r0,#0`, ours the
+     reverse, every later use swapped).  This is web numbering, not expression
+     shape; variant-generation on local declaration order is the lever.
+   * 85 unfiled bodies begin with `sub sp, #N` and address the frame through
+     `[sp, #k]` / `add rX, sp, #0`.  gen43 models the frame as `u8 s[N]` and
+     that class is where the next lane's mass is.
+   * `mvns`, `ands`, `tst`, `rors`, `[sp]` stores with no modelled frame: small
+     additions to arith() in gen43.py, each worth a few functions.
+   * 021B9774 and the remaining stacked-switch leaves are still on the O11
+     jump-table recipe and were not reached here.
+ * Addresses are Black-image addresses.
+

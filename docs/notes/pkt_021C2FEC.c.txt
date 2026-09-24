@@ -1,0 +1,29 @@
+func_021C2FEC 0x021C2FEC ov208 DIFF (8 bytes short, codegen)
+
+residue
+-------
+  The original keeps the two halves apart in registers and re-adds them at
+  every access:
+
+      adds r5, r1, #0            ; r5 = q
+      lsls r4, r3, #2            ; r4 = i * 4
+      adds r0, r5, r4            ; recomputed before EVERY load/store
+
+  mwcc -O4,p common-subexpresses the sum into one register and reuses it
+  across the four calls, so the compiled body is 40 bytes against the
+  original's 48 and the whole block shifts by one register.
+
+  Two spellings measured, both 40 bytes, both with the pointer combined:
+    char *e = q + i * 4;   then *(int *)(e + 0x54) etc.
+    the same expression written out at each site with no temporary
+  A third spelling (int *p, p[i + 0x15], p[i + 0xf], p[i + 0x11], p[i + 0x13])
+  was not tried: the sizes would still turn on the same decision.
+
+  The callee set is not the problem: 0204B3B4, 0204ADA4, 0204A8D4 and
+  0204AFD8 all resolve `label` with 3 witnesses each.
+
+  Same shape as func_021C31CC, which DOES close (MATCH*, every concrete byte
+  equal) once the expression is written inline twice with a struct local, so
+  the recomputation is reproducible when the same base expression has to be
+  re-evaluated for a second, differently-typed argument.  Here nothing forces
+  the second evaluation and mwcc keeps the sum.

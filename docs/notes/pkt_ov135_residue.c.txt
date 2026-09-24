@@ -412,3 +412,125 @@ Still DIFF, all measured this session:
                              loop pre-header after `k = 0` and before the limit
                              load; every C form tried so far drops that second
                              test or moves the limit load in front of it.
+
+
+ov135 lane O41 residue, wave 4 (2026-09-24)
+==========================================
+
+Worked the 13 DIFF rows from waves 2 and 3 with the corrected rules.  10 of them
+now have byte-identical sources on disk, each verified through
+`match.py manifest --verify --shard`, all EXACT or EXACT* (the three EXACT* are
+trailing-padding only, brief rule 3):
+
+  func_021F9EEC  20B  EXACT   -> (p + n - 1) / n,  two-argument division
+  func_02202644  44B  EXACT   switch (kind) with case 0 then case 1
+  func_022026C4  20B  EXACT   tail call, third argument truncated (u16)
+  func_02202840  24B  EXACT   guard with a dead first condition
+  func_021FB240  44B  EXACT*  index declared before the counter
+  func_021F886C  68B  EXACT   index, then count, then table pointer
+  func_0220252C  32B  EXACT*  && guard with a single true exit
+  func_022007A0  64B  EXACT*  the whole seven-argument call duplicated per arm
+  func_021FB220  32B  EXACT   if/else with the load repeated in both arms
+  func_021FBA5C  40B  EXACT   same shape
+  func_021F51F0 / func_021F74E4 were already closed by wave 3.
+
+Still open, with the bytes measured this wave:
+
+  func_021F8498  36B  DIFF 3 bytes, closest miss in this lane
+      +001A image `01 99` (ldr r1,[sp,#4]) vs `01 98` (ldr r0,...)
+      +001C image `49 08` (lsrs r1,r1,#1)  vs `40 08` (lsrs r0,r0,#1)
+      +001E image `21 60` (str r1,[r4])    vs `20 60` (str r0,[r4])
+      Everything else, including the (u16) truncation of the id argument
+      (`lsls r3,r3,#0x10` / `lsrs r3,r3,#0x10` - the parameter must be
+      declared wider than u16 and cast at the call) is exact.  Tried: named
+      local for the shifted value, out[0] indexing, tmp >>= 1, tmp / 2, the
+      callee declared as returning u32/int, and a saved copy of the out
+      pointer.  All of them put the result in r0.  The image does the whole
+      read-shift-store in r1, and r0 is dead at that point, so this is an
+      allocation decision with no source lever found yet.
+
+  func_021FC668  80B  DIFF 6 bytes
+      +002A image `0c d1` (bne)   vs `09 d1`
+      +0032 image `00 21` (movs r1,#0) vs `00 20` (movs r0,#0)
+      +0034 image `35 20` (movs r0,#0x35) vs `a0 62` (str r0,[r4,#0x28])
+      +0036 image `a1 62` (str r1,[r4,#0x28]) vs `35 20`
+      Branch offset and pool word follow the instruction order, so the only
+      real residue is the register the zero is materialised into.  The image
+      keeps r0 for the `0x35` index constant and zeroes the state through r1;
+      every source shape tried (literal 0, a named zero local, the index in a
+      variable, the store written before/after the index, `off - 0x35`) gives
+      the zero in r0 and sinks the index materialisation below the store.
+      The image's order is value, index, store, shift - i.e. the index
+      materialisation is hoisted above the store, which is only legal because
+      the zero sits in a second register.
+
+What closed them, in order of what actually paid:
+
+1. IF-CONVERSION IS WHAT BREAKS THE TWO-ARM SHAPE.  `n = (f() == 1) ? 0 : 1`,
+   `if/else` assigning the same variable in both arms, and the equivalent
+   `switch` all collapse to the compact "assume one value, correct it"
+   sequence (`movs r1,#1; cmp; bne; movs r1,#0`) - 30 bytes where the image is
+   32.  No -O level changes it (the transform lives in the code generator, not
+   the optimiser): -O4,p, -O4,s, -O4, -O3, -O2 and -O1 all emit the same bytes.
+   The image is reproduced by putting the load in BOTH arms:
+
+       if (func_020355C4() == 1) {
+           v = *(u32 *)(p + 8);      /* duplicated, and CSE'd back to one ldr */
+           n = 0;
+       } else {
+           v = *(u32 *)(p + 8);
+           n = 1;
+       }
+       func_0204B3DC(v, n);          /* the ldr is scheduled between cmp and
+                                        bne, exactly as the image does it */
+
+   Rule of thumb: when the image has a conditional branch to each arm of a
+   constant select, the arms are not pure assignments in the source.
+
+2. A SECOND LIVE ARGUMENT MOVES THE TEMP.  func_021F9EEC is
+   `(p + n - 1) / n`, and the divide is the two-argument helper at 0x0209C0A4
+   (`blx` from Thumb, so the callee is ARM: 0x0209C0A4 is __aeabi-style
+   unsigned divmod in asm/arm9/main.s).  With a one-argument call the compiler
+   folds the offset into r1 (`subs r1,r1,#1; adds r0,r0,r1`); with the divisor
+   as a second argument r1 stays live and the offset lands in r2
+   (`subs r2,r1,#1; adds r0,r0,r2`).  Declaring the callee with the arity the
+   image uses is the fix: `extern u32 func_0209C0A4(u32 a, u32 b);`.
+
+3. DECLARATION ORDER IS THE REGISTER ALLOCATOR'S INPUT.  Two rows were pure
+   allocation:
+     - func_021FB240 wants `int i;` declared before `int n = 0;` (image: r4 = i,
+       r5 = n, r6 = end, r7 = the u16 table); `int n = 0; int i;` swaps the
+       pair and costs 8 bytes.
+     - func_021F886C wants `int i; int n; Entry *tab;` in that order (image:
+       r3 = i, r4 = n, r5 = tab).  Seven other orders were measured; each gives
+       a different pair of registers.
+   Both are 0-byte-cost permutations of an otherwise correct body, so on a
+   register-only residue the first experiment should be the declaration order,
+   not the expression.
+
+4. ARM9 CALLEES THAT ARE THUMB NEED `thumb`, AND ARM9 CALLEES THAT ARE ARM NEED
+   `arm` - both with NO region token.  Brief rule 9 covers the ARM case; the
+   Thumb case is its mirror and is what the wave-2/3 ISA conflicts actually
+   were: func_0200AD8C, func_0201CE30, func_0202208C, func_0203xxxx and
+   func_0209C0A4 are Thumb, func_020355C4 and func_0204B3DC are ARM.  A wrong
+   or missing ISA token does not produce a DIFF, it produces
+   `ISA conflict ... refusing to resolve the call` and no verdict at all, so
+   always read `the image says <isa>` off that message rather than guessing.
+   `python -c "import sys; sys.path.insert(0,'tools'); import match; ..."` is
+   not needed: the message states the image's ISA in words.
+
+5. Not every shape that compiles to the image's instruction list is a
+   candidate for `if/else` around a whole call.  func_022007A0 needs the seven
+   argument stores duplicated inside BOTH arms of the 0-vs-3 test; assigning
+   the first argument to a local first (`x = 0 / x = 3; f(x, 0, 0, 0, 6, 1, 48)`)
+   compiles the setup through r1/r2/r3 after the merge and costs 36 bytes.  An
+   if/else around the whole call is the shape; a ternary or a hoisted argument
+   is not.
+
+6. The ov010 manifest collision reported by waves 2 and 3 is gone: no duplicate
+   names remain in layout/matched/ov010/, and every run this wave resolved
+   names through the manifest without a SystemExit.  One transient remains:
+   runs that take longer than the other lanes' writes can die with
+   `mwccarm.exe Usage Error: Specified directory '+...sdk/TwlSDK/include' not
+   found` while another lane is compiling.  The compile is fine a second later;
+   retry before diagnosing.

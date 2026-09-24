@@ -1,0 +1,30 @@
+/*
+ * function: func_02196FF0
+ * address:  0x02196FF0
+ * packet:   pkt_02196FF0
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Untraced thunk: tail call on the word at +0x24 into the ARM9 image.
+ *
+ * symbols:
+ *   func_02051C88  0x02051C88  arm
+
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+extern void func_02051C88(u32 v);
+
+void func_02196FF0(u8 *p)
+{
+    func_02051C88(*(u32 *)(p + 0x24));
+}

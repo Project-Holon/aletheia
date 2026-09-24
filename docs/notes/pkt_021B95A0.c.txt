@@ -233,6 +233,135 @@ three new MATCH files parked by this lane
 src/pending/func_021BF050.c (0x021BF050), src/pending/func_021B9A60.c
 (0x021B9A60) and src/pending/func_021B98F0.c (0x021B98F0) are byte-correct
 with one unwitnessed relocation each: 0x02156B8C (no label in any listing),
-0x021C4A8C (no label, and nine overlays overlap the address) and 0x021B9FD0
-(ov099 code the disassembler emits as data at 0x021B9FD0).  Each turns EXACT
+0x021C4A8C (no label, and nine overlays overlap the address) and
+0x021B9FD0 (ov099 code the disassembler emits as data at 0x021B9FD0).  Each turns EXACT
 with no source change the moment its target is matched or labelled.
+
+
+==============================================================================
+lane O42 (continuation)
+==============================================================================
+
+46 further functions closed EXACT / EXACT*, all from the small end of the
+unfiled set (8 to 36 bytes each, 1238 bytes).  The shard now holds 123 entries
+(82 EXACT, 41 EXACT*).  What follows is only what did NOT close, plus the one
+codegen rule this lane had to learn.
+
+------------------------------------------------------------------------------
+what made the lane pay: three reusable shapes, all pattern-generated
+------------------------------------------------------------------------------
+
+1. The selector wrappers.  ov099 has one family per call target, all of the
+   shape
+
+       int f(char *p, int v) { <call>(p); *(u32 *)(p + 0x1CC) = SEL; return v; }
+
+   with `func_021BC940 / 021BC9FC / 021BCAB8 / 021BCF9C / 021C15FC`, a guard
+   variant `if (func_021BA928(p, v) == 0) return v; ...` (021BC1C4, 021BC29C,
+   021BC5FC, 021BD5D8, 021BD864, 021BDAA4, 021BC43C, 021BC4A8, 021BE94C,
+   021C1614, 021C17D4, 021BCF4C) and a re-arm variant that also calls
+   func_021B9B64(p + 0x274) (021C0254, 021C017C).  Marginal cost after the
+   first is zero: change the callee and the selector.
+
+2. The func_021BAC24 setup family (func_021BB9C8, 021BB9F4, 021BBA20,
+   021BAD50) writes two halfwords through a named `u16 *` and then calls
+   func_021BAC24(a, TAB1, TAB2, n, x, y).
+
+3. func_021BE21C / func_021BE244 / func_021BF29C are the same 0x21-slot table
+   walk at +0x814; func_021B9B80 / 021B97CC are the same 0x30-record walk at
+   +0x30 with stride 0x1C.
+
+------------------------------------------------------------------------------
+the one new codegen fact: literal address casts fold, extern data symbols do not
+------------------------------------------------------------------------------
+
+`func_021BAD50` measured DIFF at 14 bytes with the second script address spelled
+`(void *)0x021C3A50`: 1.1p1 -O4,p had put `0x021C3B00` in the pool and printed
+the second constant as `adds r2, r1, #0 ; subs r2, #0xb0`.  The same fold shows
+up in func_021BB9C8 (`subs r2, #0xbc`) and in func_021C205C, where
+`*(u32 *)(p + 0x8F4) = 1` is printed as `adds r2, r2, #5` off the 0x8EF base.
+
+The fix for the func_021BAC24 family is to give the addresses independent
+witnesses and let the compiler see them as symbols, not as integers:
+
+    extern u8 data_021C3B00[];      /* 0x021C3B00  data  */
+    ...
+    func_021BAC24(a, data_021C3B00, (void *)0x021C3A50, 5, 4, 0x11);
+
+An extern object address is a relocation, so no delta arithmetic is possible and
+the three pool words come out independent, which is what the image has.  Only
+the address that stays a literal can still be folded.  All four then close
+EXACT with the data symbol on the `symbols:` line as plain `data` (rule 8, no
+region token).
+
+------------------------------------------------------------------------------
+residues, all codegen, all measured
+------------------------------------------------------------------------------
+
+func_021C24D4  0x021C24D4  22 bytes  2-byte DIFF
+
+    The image branches `cmp r1, #4 ; bne else ; movs r2, #0x2a ; b else`.
+    1.1p1 emits the inverted layout `movs r2, #0x2a ; cmp r1, #4 ; beq`.
+    Measured: the ternary, the if/else on a shared local, and the two-store
+    if/else all give the same inverted block.  The `ldrb` half of the function
+    is right and came free once the base pointer was `u8 *` rather than
+    `char *` (`char` is signed here, so the first spelling produced `ldrsb`).
+
+func_021C205C  0x021C205C  20 bytes  2-byte DIFF
+
+    ORIGINAL   movs r3, #1 ; adds r1, r2, #5 ; str r3, [r0, r1]
+    COMPILED   movs r3, #1 ; adds r2, r2, #5 ; str r3, [r0, r2]
+
+    The tail of the 0x8EF offset register is reused as the address scratch in
+    the compiled version; the image wants a fresh r1.  Measured with the store
+    spelled `p + 0x8EF + 5` and `p + 0x8F4`; both pick r2.
+
+func_021C1BEC  0x021C1BEC  30 bytes  5-byte DIFF
+
+    Same shape, one register out: the compiled version keeps the loaded flag
+    byte in r2 where the image keeps it in r1.  The branch structure is right
+    once the body is written as two early `return`s (the image uses `bne` to a
+    shared epilogue, not the `beq` an `&&` produces) and the pointer is `u8 *`.
+    Measured with `char *` / `u8 *` and with `p[0x8EF+2]` / `p[0x8F1]`.
+
+func_021BF29C  0x021BF29C  32 bytes  2-byte DIFF
+
+    ORIGINAL   ldr r1, [r0, r7] ; cmp r1, #0
+    COMPILED   ldr r0, [r0, r7] ; cmp r0, #0
+
+    Its twin func_021BE21C (same table walk, same constant) closes EXACT, so
+    this is pure register allocation of the loaded slot; the loop, the pool
+    word and the call all match.
+
+func_021BA794  0x021BA794  36 bytes  8-byte DIFF
+
+    Two tells.  The image loads the byte at +0x0D with `ldrb r1, [r5, #0xd]`
+    (an immediate-offset unsigned load) where the compiled version prints
+    `movs r1, #0xd ; ldrsb r1, [r5, r1]`; and the image computes `1 << b` in
+    r0 with a single `lsls/lsrs` pair where the compiled version uses r1 and an
+    extra `lsls/asrs` pair, i.e. it treats the shifted value as signed.  The
+    source spelling was `u8 b` with `p[0x8] ^= (u8)(1 << b)`; the shift width
+    and the signedness of the loaded byte are both still wrong.
+
+------------------------------------------------------------------------------
+the previous lanes' residues, re-checked, unchanged
+------------------------------------------------------------------------------
+
+func_021BA168 (37 bytes), func_021BA858 (24 bytes), func_021BE384 (54 bytes),
+func_021BBD80 (62 bytes) and func_021C1A30 (20 bytes) are still out by 2 to 14
+bytes on register allocation, exactly as recorded above.  0x0203C3EC and
+0x0204047C are still not labels in any listing, so func_021BF03C,
+func_021BF068 and func_021BE6B0 stay MATCH.
+
+------------------------------------------------------------------------------
+the brief's region-token rule, re-measured
+------------------------------------------------------------------------------
+
+Not one relocation in this lane's 46 entries was left wildcarded.  Every
+cross-region callee was declared with its overlay and closed: func_021C5A4C
+(ov093), func_021C5F44 and func_021C49A4 (ov127), func_021B639C's neighbours
+in the parked set.  The two arm9 leaf targets went on as `arm` with no region
+token (func_020399A8, func_0203A574) and neither cost a byte.  The three
+unlabelled addresses this lane met -- 0x02156860, 0x02156BC4, 0x021C584C --
+are all reached by an unconditional tail call and are still unreachable as
+labels, so their callers stay unparked rather than filed.

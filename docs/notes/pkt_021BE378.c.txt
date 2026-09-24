@@ -1,0 +1,19 @@
+func_021BE378 0x021BE378 ov208 DIFF (90 bytes against 76)
+
+residue
+-------
+  Identical machinery to func_021BE32C, one table over:
+
+      case 6,7,8,9     -> 0,1,2,3
+      case 15,16,17,18 -> 0,1,2,3
+      else             -> 4      (021BE3BE, the `bhi` target)
+
+  Table at 021BE388, halfword entries 0x24/0x28/0x2C/0x30 for the eight live
+  cases and 0x34 for the gaps; the stubs are the bytes at 021BE3AE..021BE3C0
+  (`movs r0,#0/#1/#2/#3; bx lr`) printed as `.word` lines.  A plain switch
+  over the eight cases in ascending order compiles to 90 bytes, so mwcc built
+  a different dispatcher than the image's 19-entry halfword table.
+
+  See docs/notes/pkt_021BE32C.c.txt: the dense sibling func_021BE300 files
+  EXACT from the same C shape, so the sparse case list is what moves the
+  table.

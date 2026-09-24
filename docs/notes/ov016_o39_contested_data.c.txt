@@ -1,0 +1,67 @@
+Lane O39: ov016 contested data, the remaining ARM band
+======================================================
+
+Rule 8 holds unchanged on this lane, and the *first* finding is that most of the
+band needs no data symbol at all: 15 of the 17 functions filed here declare only
+their own name.  A literal address is not a relocation site (`match.py one`
+prints "0 relocation site(s)"), so the pool word is compared byte for byte.
+`extern int func_XXXXXXXX[];` plus a token-less `data` symbols line was not
+needed once on this lane -- the one case that demanded it on O35 (func_021BD3CC)
+stays the worked example, and the fold it fixes (a large literal split across
+`add` immediates) is reachable only when the source spells `ADDR + off` as one
+literal cast.
+
+Two mechanics this band does need, both measured.
+
+1. KEEP THE BASE LITERAL AND THE OFFSET APART.
+   `*(unsigned short *)(0x021DE5EC + 4)` is folded by the compiler into the single
+   pool word 0x021DE5F0 and every store then comes out at a negative offset:
+   `strh r4,[r0]` / `strb r4,[r0,#-4]` / `strb r4,[r0,#-2]` against the image's
+   `strh r4,[r0,#4]` / `strb r4,[r0]` / `strb r4,[r0,#2]`.  Going through a
+   pointer local, `unsigned char *g = (unsigned char *)0x021DE5EC;` then
+   `*(unsigned short *)(g + 4)` and `*(unsigned char *)(g + 8)`, keeps 0x021DE5EC
+   as the pool word and the offset in the instruction.  This cost four functions
+   their first compile: func_021C86B8, func_021C8C50, func_021C9D10, func_021D2F50,
+   func_021D2F8C and func_021D308C all had `[rX,#4]`/`[rX,#8]` folded away until
+   they were rewritten this way.  Brief rule 4 covers stores; it applies equally to
+   loads and to halfword access.
+
+2. THE INT LITERAL, NOT THE ADDRESS, TAKES r4 IN THIS COMPILER.
+   A whole class of rows in this band is block-for-block right, every relocation
+   resolved, and differs only in which callee-saved register holds what.  The
+   image puts the base address / global pointer in r4 and the integer constant in
+   r5 or r6; the compiler puts the integer constant in r4 and the address in the
+   higher register.  Ten rows:
+     func_021D298C 10B   func_021D45E0 10B   func_021D6EA4 10B
+     func_021BD138  6B   func_021BD704  6B   func_021D45A4  6B
+     func_021D28B4  6B   func_021D5904 25B   func_021D5580 16B
+     func_021D40F4 14B
+   Five spellings were compiled against func_021BD138 (the smallest of them) to
+   find a lever and none moved the allocation: a `volatile` pointer, a `char *`
+   instead of `unsigned char *`, the index through an `int` local, a fresh literal
+   cast per use with no pointer local at all, and the constant replaced by bare
+   literal arguments.  All five stay exactly 6 bytes out with the same swapped
+   pair.  Register naming of this shape is not addressable from the source at
+   this optimisation level; park these as MATCH rather than grinding them.
+
+3. ISA OF AN OUT-OF-REGION CALLEE IS A SEPARATE CAP FROM THE CONTESTED-DATA ONE.
+   `func_0207C958` (FX_DivS32, the only unresolved site on this lane) is recorded
+   `thumb` by match.py's check even though `layout/symbols_sdk.json` carries
+   `thumb: false` for 0x0207C958 and the call site is a plain ARM BL
+   (0xEBFACB0B, not BLX).  Declared `arm` the compile stops with "ISA conflict";
+   declared `thumb` the bytes come out right and the site is left unresolved for
+   want of a witness for the odd address.  The residue is a tool-side ISA/witness
+   disagreement, not a source defect -- func_021C9D10 is parked in src/pending
+   with every concrete byte correct.
+
+Corrected scale, re-measured after O35's 21 filings
+---------------------------------------------------
+`scratch/ov_ov016/o39/census.py` rebuilds the band from asm/overlays/ov016.s and
+drops everything already in src/matched/ or src/pending/:
+  301 ov016 functions still reference a contested address, 251 ARM and 50 thumb.
+The 50 includes 35 rows O35's rows2.json called ARM that the listing's own
+`.arm`/`.thumb` directive state makes Thumb (e.g. func_021BC804, func_021B7098,
+func_021BC7B8): they are Thumb by instruction encoding (2-byte `push {lr}`,
+`bl` with `FF F7 ..`), so rows2.json's ISA column was wrong on those and any
+lane compiling them `--arm` was compiling the wrong ISA.  census.py reads the
+directive in force at each label and gets the ISA right.

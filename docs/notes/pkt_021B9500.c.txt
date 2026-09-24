@@ -213,4 +213,98 @@ NEW residues (lane O34)
    several minutes with "func_021653E8 is in both
    layout/matched/ov010/pkt_021650F4.json and
    layout/matched/ov010/pkt_021653E8.json" — a concurrent ov010 lane
-   mid-write, not an ov114 problem.  It cleared on retry.
+   mid-write, not an ov114 problem. It cleared on retry.
+
+
+====================================================================
+Lane O47 - the shared-epilogue sink, and the three blocked bodies
+
+Filed EXACT (1 function, 264 bytes):
+  func_021BAA1C  0x021BAA1C  src/matched/func_021BAA1C.c
+Shard layout/matched/ov114/pkt_021B9500.json: 126 entries (116 EXACT,
+10 EXACT*), up from 125; the 10 are the extent-only EXACT* entries of
+section 5 above, not failures.
+
+1. THE SHARED-EPILOGUE SINK IS CLOSED (func_021BAA1C, 264 B, was 106 B
+   out).  The residue was never the returns; it is two source-shape
+   changes, each inert alone, and the second is what moves the block:
+
+   a. INVERT THE HEAD PROBE so the MATCH is the else arm:
+        if (func_021BA590((const char *)c, q->key) != 0) {
+            q = q->next;
+            while (q != *head) { ... found = 1; break; ... }
+        } else {
+            found = 1;
+        }
+      With the match in the then arm the compiler if-converts the first
+      `found = 1` in place (`moveq r5, #1`); inverted, it emits
+      `beq loc_021BAA94` and lays the block down immediately before the
+      join, which is the image.  `else found = 1;` without braces gives
+      the same bytes.
+
+   b. ONE `return 1` AT THE END, and the found path only stores:
+        if (found != 0) { q->val = d; }
+        else { p = func_021BA820(0x18, 4); ... link ... }
+        return 1;
+      That is what makes the streq chain end in `beq 0x021BAB1C` and
+      leaves a single shared `mov r0, #1; pop` at the end of the
+      function.  `return 1;` inside the found arm is compiled to its own
+      conditional pop and costs 4 bytes (268 vs 264).
+
+   c. Registers: `found` must be declared before `q` (either
+      `n, found, q, p` or `found, n, q, p`).  With `found` last the flag
+      lands in r5 and the cursor in r4, the mirror of the image.
+
+   Measured: 7 return/decl shapes (best 75 bytes out), then a 5 decl
+   order x 3 tail grid (best 73), then 10 arm-inversion shapes, of which
+   2 are EXACT and 4 sit at 12 to 107 bytes.  The winning lever was the
+   arm inversion, not the returns: no return shape alone gets below 73.
+
+2. func_021BA88C (252 B) - 3 bytes, ONE instruction, after the test
+   inversion.  Inverting the null test (fail path first as an early
+   `return 0`, good path out of line at 0x021BA948) fixed the whole
+   layout, the same lesson as func_021BE880.  What is left is the test:
+   the image has `movs r2, r0` (h's home register is r2, so the
+   assignment to h is a move that also sets the flags), the compile
+   folds h into r0 and emits `cmp r0, #0`.  Making h live past the first
+   `bl` moves the register to a callee-saved r4 and costs 11 bytes with
+   a `mov r0, r4` where the image reloads [r6+0x1c].  8 spellings tried
+   (int/u32/pointer h, reload vs h at the later call, both arm orders).
+
+3. func_021BA988 (140 B) - 2 bytes.  The sign test loads p+0xc into r0;
+   the image uses r2.  All of: a named local (int and u32, declared at
+   the point of use and at the top of the block), the inverted test, and
+   assigning the func_021BEC48 result to a dead variable (the
+   deleted-value lever of references/register-residues.md section 1)
+   reproduce the same two bytes.  8 spellings, none breaks it.
+
+4. func_021C00FC (32 B) - 6 bytes, register names only, unchanged from
+   lane O34: the image keeps the +0x20 word in r1 and the zero in r2,
+   every spelling tried (u32, int, s32, void *, u8 * for the loaded
+   value; literal vs named zero; either declaration order) is the exact
+   mirror.  5 further spellings this lane, all identical.
+
+5. func_021CDAC0 (40 B) - 17 bytes, down from 19.  `while (--n >= 0)`
+   (the parameter itself as the counter) fixes the counter register that
+   `for (i = n - 1; i >= 0; i--)` moved into lr, and the loop is now in
+   the image's shape.  The residue is three things at once: the umull
+   pair (image r4/r5 with `push {r4, r5, lr}`, compile r3/ip with
+   `push {r3, lr}`), the predicate (image `poplt`/`bge`, compile
+   `popmi`/`bpl`, so the reference kept the full signed compare where
+   the compile simplified `>= 0` to "N clear"), and the two stores
+   (image `str lo, [r0], #4; str hi, [r0], #4`, compile
+   `str hi, [r0, #4]; str lo, [r0], #8`, i.e. the compiler recognised a
+   64-bit store pair and reordered it).  A named `u64 s`, a
+   post-decrement test (`n-- > 0`) and `for (k = n; k-- > 0; )` all
+   leave it at 17, so the pair register is not the lever.
+
+Compiles run: about 75 (61 scripted variants plus the batch sweeps).
+Work files: scratch/ov_ov114/o47/ (t.py, t2.py, gA to gG.py).
+
+NEXT for this group, in order: 021BA88C's `movs` residue and
+021BA988's r0/r2 are both "the reference had a value at allocation time
+that leaves no instruction" (register-residues.md section 1); the
+compensation idea worth one pass is a source line that makes r2 (resp.
+r0) live at the residue without adding an instruction, which neither
+the named-local nor the dead-value shape does here.
+

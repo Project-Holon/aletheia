@@ -1,0 +1,26 @@
+func_021BE32C 0x021BE32C ov208 DIFF (90 bytes against 76)
+
+residue
+-------
+  The image is a jump table over kinds 0..0x12 with two runs of four live
+  cases and 0x34 (the default block at 021BE372, `movs r0,#9`) filling every
+  gap:
+
+      case 6,7,8,9    -> 6,5,4,3
+      case 15,16,17,18 -> 6,5,4,3
+      else            -> 9
+
+  A plain `switch (kind)` with the eight cases in ascending order does NOT
+  reproduce it: mwcc -O4,p emits 90 bytes, so it built a different dispatcher
+  (the table it makes for a sparse 0..18 case list differs from the image's
+  halfword table at 021BE33C, which is 19 entries of 2 bytes with the four
+  default gaps left as 0x34).
+
+  func_021BE300 (0x021BE300, filed EXACT) is the same switch machinery with a
+  DENSE case list (0,1,2,3) and it reproduces from the plain switch, so the
+  difference here is the sparse 6..9 / 15..18 pattern and not the shape of the
+  C.
+
+  The three stubs the table points at live inside the table region itself
+  (0x021BE362/366/36A: movs r0,#6/5/4; bx lr), which is why the disassembler
+  prints the stub code as `.word` lines.

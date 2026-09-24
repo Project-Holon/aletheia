@@ -1,32 +1,31 @@
 /*
  * function: func_021BE8FC
  * address:  0x021BE8FC
- * packet:   pkt_021B9850
- * region:   ov217
+ * packet:   pkt_021BE8FC
+ * region:   ov208
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
  *
- * Reconstructed from the listing.
- *
  * symbols:
- *   func_021BE8FC  0x021BE8FC  thumb  ov217
- *
- * Addresses are Black-image addresses.
+ *   (none)
+
+ * Tears down the handle at +0x24, the two word pair at +0x1C and the handles at +0x18 and +0x14.
  */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed char    s8;
-typedef signed short   s16;
-typedef signed int     s32;
 
-extern void func_0204E720();
-void func_021BE8FC(void)
+extern void func_02045C04(int);
+extern void func_0203FB44(int, int, int);
+extern void func_020437AC(int);
+extern void func_020452E8(int);
+
+void func_021BE8FC(char *p)
 {
-    func_0204E720(3, 16, 0, 0);
+    func_02045C04(*(int *)(p + 0x24));
+    func_0203FB44(5, *(int *)(p + 0x1c), *(int *)(p + 0x20));
+    func_020437AC(*(int *)(p + 0x18));
+    func_020452E8(*(int *)(p + 0x14));
 }
 

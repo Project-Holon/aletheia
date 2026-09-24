@@ -1,0 +1,32 @@
+/*
+ * function: func_021BD068
+ * address:  0x021BD068
+ * packet:   pkt_021BD068
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Pattern-generated from the ov021 family.
+ *
+ * symbols:
+ *   func_02045808  0x02045808  arm
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+extern void func_02045808(u32 v);
+
+void func_021BD068(u8 *p)
+{
+    u32 v = *(u32 *)(p + 28);
+    if (v != 0) {
+        func_02045808(v);
+        *(u32 *)(p + 28) = 0;
+    }
+}
