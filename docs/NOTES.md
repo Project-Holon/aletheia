@@ -1117,3 +1117,48 @@ b, blx or pool word (ARM or Thumb) that targets either address other than
 the two `bl` in func_0206DC00 itself (0x0206DCA4, 0x0206DD40), which lie
 inside the compared range. Rule 3 has no witness in this ROM; the two
 relocations stay wildcarded.
+
+## Overlay 230's own decryptor (region `ov230d`, 2026-09-24)
+
+Overlay 230 (y9 entry 230, 0x02187F00..0x021899A0) encrypts most of its own
+code. Each of its five static initialisers is a three-instruction entry
+thunk (`orr r0, pc, #0; adds r0, r0, #4; bne loc_02188A48`) whose argument
+is the table right after it: (start + 0x1600, size + 0x021899A0 + 0x1600)
+pairs, ended by a zero start word. The decryptor keeps branch words as
+branches (B and BL swap, the offset field gains the pool constant
+0xFFFFFA7E, i.e. moves by -0x582 words) and XORs every other word with a key rolled from the previous
+plaintext and ciphertext; it then flushes the range and zeroes its own
+thunk and table. 28 ranges come out: four tables of 0x24-byte ARM thunk
+slots (the table at 0x02188414 names the six slots 0x021882A0 + n * 0x3C),
+the dispatcher at 0x02188C60 with its two helpers, and seven more
+functions. The dispatcher decrypts, calls and re-encrypts a second-layer
+body at call time; that layer is not replayed.
+
+`tools/ovcrypt.py` (stdlib) replays the decryptor on a copy of
+`extract/overlays_dec/y9_0230.bin`. Its parameters (END, KEY, DELTA, the
+bias) are read from the decryptor's own pool words and immediates after the
+decryptor bytes pass a SHA-1 check, and each table address is computed from
+its thunk's immediates. It refuses the whole overlay unless every range is
+whole words inside ov230, disjoint from every other range, the decryptor,
+the thunks and the tables, changed by decryption, and a clean ARM function:
+a walk from its first word reaches every word, never leaves the range
+(no fall-through or `b` into the next slot), and ends in an unconditional
+return. `python tools/ovcrypt.py write` (also run by delink.py) writes the
+derived view `extract/ov230d.bin`; `python tools/disasm.py ov230d` lists it
+as `asm/ov230d/ov230d.s`, seeding every range start and refusing the listing
+unless Capstone traces each range as one function of code. The ROM files,
+`asm/overlays/ov230.s` and the ROM rebuild are unchanged: build.py never
+reads the view. The replay agrees byte for byte with the independent
+emulation lane H2 wrote.
+
+`match.py` takes a fourth `symbols:` token `ov230d`, which follows the
+`twl` design: it is required, and the plain `ov230` token keeps meaning
+the ROM listing. A target resolves only at a checked range start that the
+decrypted listing labels with the declared ISA, and only while
+`extract/ov230d.bin` equals a fresh decryption. With an outside branch the
+class is `label`; without one it is `sole-ref/code`: the label sits on
+decrypted code the game runs, not on ciphertext. In the other direction a
+`func_` label in ov230's ROM listing inside a decrypted range is a label on
+ciphertext, and the overlay `label` and `sole-ref/code` rules refuse it.
+func_02011D9C (ica_anime) BLXes slots 0, 3 and 4 right after it loads
+ov230. With the token it is EXACT, 25 of 25 sites resolved.

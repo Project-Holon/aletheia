@@ -204,3 +204,32 @@ The image defines the zero after `mov r0, r1` (buffer dead), so the zero's
 web is coloured r1; every compile defines it while buffer is still live in
 r1 and takes r2. No spelling moves the definition after the argument move.
 /* best source, 72 bytes against 68 (+8 follower), 43 concrete bytes out, 1.1p1 -- the wave-16 source above -- unchanged */
+
+==============================================================================
+2026-09-24, wave 21 (lane G): 0x0209D7D4 CLOSED EXACT* under dsi/1.1p1
+==============================================================================
+The lever is the arity of func_0209D778: ONE argument.  `mov r1, #0` in the
+image is the terminator store's register, free after `mov r0, r1`, not a
+second argument.  `extern void func_0209D778(u8 *str);` with the wave-16
+body (`end = buffer + *count; c = end[-1]; end[-1] = 0; func_0209D778(buffer);
+func_0209D774(&c);` / else `func_0209D774(buffer);`): 68 bytes, 0 out,
+EXACT* (the unlabelled `mov r0,#0; bx lr` leaf at 0x0209D818 extends the
+listing extent).  Filed src/matched/func_0209D7D4.c; shard pkt_0209D7D4
+verified twice.
+Measured before the lever this pass (all two-argument, 1.1p1 unless noted):
+  callees defined after the caller in the same TU 72/43; unprototyped
+  `extern int f();` 72/43; `void f();` 72/43; `#pragma scheduling off` 72/43;
+  store value `c - c` 43, argument `c - c` 43, store `(u8)256` 43, argument
+  `(u8)256` 43, store `c & 0` 43, argument `handle & 0` 43, argument
+  `end[-1]` 43; store `'\\0'` (a multi-char constant, 0x30) 72/39 (zero arg
+  goes straight to r1 once the constants differ);
+  inline helpers: `term(end)` as the argument 43, `emit(buffer, end)` 43,
+  `emit(buffer, end, 0)` 43, `save()` returning the byte 44; argument
+  `(u8)(end[-1] = 0)` 43; `(c = end[-1], end[-1] = 0)` as the argument 43;
+  `end[-1] &= 0` 43, `*= 0` 43, `end[-1] & 0` argument 43, `register int z`
+  43, `buffer - buffer` 43, `0 * handle` 43, `(u8)(handle * 0)` 43,
+  `(int)(0 == 1)` 43; the pkt note's single-call form 68/26 (ldrsb char);
+  flag probes on the best source: -O4,s 72/43, -O3,p 72/43, -O2,p 76/42,
+  -O1 76/39, -opt nopeephole 72/43; ../2.0/sp2 with -O3,p/-O2,p/-O1/
+  -inline off 76/42-39.  permuter anneal --types seed 2121: 117 compiles
+  flat at 43 (stopped once the arity lever closed it).

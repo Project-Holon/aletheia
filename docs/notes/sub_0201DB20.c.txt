@@ -440,3 +440,96 @@ s8 reload (nothing is spilled).  Contenders under the scheduler-after-
 allocation reading: m and hi for r4, with the loaded pNext non-interfering
 with either and taking whichever wins; no spelling separates them further.
 /* best source, 154 bytes against 156, 15 concrete bytes out, dsi/1.1p1 -- the wave 15 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 21 (lane F): 15 holds
+==============================================================================
+From the wave 15 source (1.1p1), 38 hand spellings measured once each, plus
+the permuter with the 156-byte extent chase removed.  Size/bytes-out:
+  switch as an if/else-if chain, and as three separate ifs     152/133 each
+  a u32 idx = f->unk70 result local, cases break, return idx   156/133
+  mappingMethod read into a u16 local                          154/15
+  ccodeBegin read into a u16 local b at the loop top           154/15
+  outer loop as a label + goto                                 154/15
+  inner search as `if (lo <= hi) { again: ... goto again; }`   154/15
+  do { ... } while (1) with `if (m == 0) return 0;`            158/40
+  m as a dead third parameter, hi/lo and lo/hi orders          154/15, 18
+  whole loop in an inline with m a parameter, lo before hi     154/15
+  case 2 as `return Scan(f, m, c)`, an inline with its own
+    lo/hi (both orders, const m)                               162/52, 49, 49
+  mapInfo[] flexible, mapInfo[0x100], +0x88 typed CMap *       154/15 each
+  chain step webs joined (`if (m) m = rebase; if (m == 0)
+    return 0;`, and the do/while form)                         156/28 each
+  dying-local lever: the loaded pNext held in hi, in lo; the
+    offset (pNext - unk68) held in hi, in lo                   154/15 each
+Diagnostics (not candidates; they only report where m lands): dropping
+cases 0/1 (120/104), removing the outer loop (134/19), removing the rebase
+(140/23), an extra m use in the search (156/79), u16 lo/hi (164/108),
+(lo+hi)/2 (152/91), j unnamed (152/85): m is r6 and hi r4 (or lo r4
+with lo declared first) in every one.  Only a use of m after the search
+loop (`return m->reserved`, 160/70) and a four-field extra sum (192/185)
+move m at all, and neither to r4.
+Permuter (tools/permuter.py via a scratch wrapper that sets the target
+extent to 154, so it no longer chases the 156-byte listing extent the way
+waves 16 to 19 reported): anneal 1000 --types seed 2421, hill --types (204
+single mutations), anneal 1500 seed 2422 from the lo-before-hi (18)
+source: best 154/15 each, nothing at 154 below 15.
+Reading: m is coloured after lo and hi under every spelling, including
+when its webs are joined and when it is a parameter; hi/lo follow
+declaration order among themselves.  The image colours m, lo, hi.
+/* best source, 154 bytes against 156, 15 concrete bytes out, dsi/1.1p1 -- the wave 15 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 21 (lane F2): 15 -> EXACT* (154/154, 2 pad bytes in the extent)
+==============================================================================
+Filed as src/matched/sub_0201DB20.c; shard pkt_0201DB20 verified twice
+(EXACT*, second pass 0 rewritten).
+
+The lever: the chain step goes through a second pointer local and ends in
+a copy, with m, lo, hi declared in that order:
+
+        n = m->pNext;
+        if (n != 0)
+            n = (struct CMap *)(*(u8 **)((u8 *)f + 0x88) + ((u8 *)n - f->unk68));
+        else
+            return 0;
+        m = n;
+
+How it was found (reductions measured with m declared first, m/lo/hi
+order; "m first" means m r4, lo r5, hi r6, the image's colouring):
+  search only, no switch/range test/loop            76/68   m first
+  range test + switch, no outer loop                134/6   m first
+  switch only                                       120/106 m first
+  outer loop, chain step `m = m->pNext; if (m == 0)
+    return 0;`, no rebase                           140/8   m first
+  outer loop with the wave 15 rebase                154/18  m LAST (lo r4 hi r5)
+  rebase `if (m == 0) return 0; m = rebase`         158/43  m last
+  rebase replaced by `m = (u8 *)m + 4`              144/29  m last
+  rebase replaced by `m = (u8 *)m - f->unk68`       146/31  m last
+  rebase replaced by `m = f88 + (u32)m`             150/30  m last
+So the rotation is caused by m's loop-carried definition being an
+arithmetic result: with it, m colours after every other local regardless
+of declaration order (which is why all 120 orders, the parameter forms and
+the inline forms measured 15 or 18).  A named n for pNext alone (the a04 /
+wave 18 form, `m = rebase(n)`) is still 15.  Routing the result through
+the copy `m = n;` restores declaration-order colouring for m.
+
+Declaration orders with the copy (1.1p1, all 154 bytes):
+  m lo hi n   EXACT*        n m lo hi   EXACT*        m n lo hi   EXACT*
+  m hi lo n   7             hi lo m n   15            lo hi m n   18
+The copy inside the arm (`{ n = rebase; m = n; } else return 0;`) is also
+EXACT*.
+
+Other spellings measured this pass, all flat at 154/15 from the wave 15
+source unless noted: hi or lo reused for case 0's sum (15); a04 named
+pNext holder n (15); the unit's preceding functions (DAF0/DB00/DB04) in
+the same TU (15); `(u32)m != 0` (15); the range test as `!(a > c || b <
+c)` (15); explicit `default: break;` (15); nested ifs for the range test
+(15); `while (m)` outer loop (166/153); a copy `p = m` inside the search
+loop, at its top, and copied back (15, all three, the copy is propagated);
+inline Find(f, c, m, lo, hi) with m/lo/hi as parameters in all 6 orders
+(15 or 18, m always r6); lo = 0 hoisted to function entry (154/66, m still
+r6); hi and lo holding pNext / the offset in the chain step with lo first
+(18 each).  Toy functions with three locals live across a pointer-chasing
+loop colour in plain declaration order.  About 50 compiles, no permuter.
+/* best source: src/matched/sub_0201DB20.c, EXACT*, dsi/1.1p1 */

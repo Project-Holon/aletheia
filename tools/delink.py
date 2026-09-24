@@ -17,7 +17,11 @@ What it does
 4. Declares the DSi-mode autoload block of arm9i.bin as region `twl` and,
    given a DSi key source (see "TWL region" below), decrypts and
    decompresses it into extract/arm9i_dec.bin.
-5. Writes layout/layout.json and layout/layout.txt.
+5. Replays overlay 230's own static-initialiser decryptor on a copy of its
+   decompressed image (tools/ovcrypt.py, every range checked) and writes the
+   derived view extract/ov230d.bin.  extract/overlays_dec/y9_0230.bin keeps
+   the ROM bytes; only `disasm.py ov230d` reads the view.
+6. Writes layout/layout.json and layout/layout.txt.
 
 Neither output file contains any game bytes: they hold addresses, sizes,
 counts and names only, which is why layout/ is committed while extract/ is
@@ -89,6 +93,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import blz  # noqa: E402
 import modcrypt  # noqa: E402
+import ovcrypt  # noqa: E402
 
 OVERLAY_ENTRY_SIZE = 32
 AUTOLOAD_ENTRY_SIZE = 16
@@ -402,6 +407,22 @@ def analyse_twl(extract_dir, header, dsi_key=None, dsi_bios=None):
                   % (src_note, len(image), TWL_DEC_FILE))
 
 
+def analyse_ov230d(extract_dir, overlays):
+    """Write extract/ov230d.bin (ovcrypt.py); returns a status line.
+
+    A failed check is fatal, exactly as a failed twl decryption is: the
+    view is written only when every decrypted range verified."""
+    o = next((r for r in overlays if r.get("id") == ovcrypt.OVERLAY_ID
+              and r.get("decompressed_file")), None)
+    if o is None:
+        return "no decompressed overlay %d, view skipped" % ovcrypt.OVERLAY_ID
+    try:
+        view = ovcrypt.view_for(extract_dir, o)
+    except ovcrypt.CryptError as exc:
+        raise LayoutError("ov230d: %s; nothing written" % exc)
+    return ovcrypt.write_view(extract_dir, view)
+
+
 # ---------------------------------------------------------------------------
 # overlays
 # ---------------------------------------------------------------------------
@@ -644,6 +665,7 @@ def cmd_run(args):
                        for al in a9["autoloads"])))
 
     overlays = analyse_overlays(extract_dir, extract_dir, quiet=False)
+    print("[*] ov230d: %s" % analyse_ov230d(extract_dir, overlays))
 
     twl, twl_status = analyse_twl(extract_dir, header, args.dsi_key,
                                   args.dsi_bios)

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   MATCH
  */
 
 typedef unsigned int u32;

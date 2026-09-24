@@ -307,3 +307,25 @@ order is the scheduler's tie-break, which only the whole-struct volatile
 doubled guard and region cast do not apply; the 8 as a variable was
 measured in wave 19 (6).
 /* best source, 96 bytes against 96, 6 concrete bytes out, dsi/1.1p1 -- the wave 17 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 21 (lane G): 0x02069BA0 CLOSED EXACT under ../2.0/sp2
+==============================================================================
+Identification: NitroSystem g2d internal/g2di_BitReader.c,
+NNSi_G2dBitReaderRead, with struct NNSiG2dBitReader {const u8 *src; s8
+availableBits; u8 bits; u8 padding_[2];} and the static inline
+BitReaderReload (reader->bits = *(reader->src)++; availableBits = 8).
+Written in the library's shape (ntrtwl/NitroSystem 071126 reconstruction):
+`val <<= lack; BitReaderReload(reader); val |= Read(reader, lack);` in the
+short arm, `val >>= (nAvl - nBits); availableBits = (s8)(nAvl - nBits);`
+in the else arm, `val &= 0xFF >> (8 - nBits);`.
+Measured (5 compiles), that source:
+  dsi/1.1p1   96/96, 6 out (the same mov r1,r6 / mov r2,#8 swap as before)
+  ../2.0/sp2  96/96, EXACT
+  ../2.0/sp1  96/96, EXACT
+  ../1.2/sp2  108 bytes, 95 out
+Filed src/matched/func_02069BA0.c with compiler ../2.0/sp2 (the NNS G2D
+schedule-tell pin of func_02062BAC / func_02062BF4); shard pkt_02069BA0
+verified twice, EXACT.  The waves 16-20 floor of 6 was the front end, not
+the source: the whole-struct volatile was the only 1.1p1 device that moved
+the pair.

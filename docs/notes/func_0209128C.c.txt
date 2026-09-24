@@ -139,3 +139,81 @@ The last look (a narrow flag compared against a narrow constant), with
 No narrow flag or narrow constant keeps the predicate on `mov r1, #1`
 under 1.1p1.  Best source unchanged (the ternary into a u8 local, 1 out);
 the ../2.0/sp2 exact build stays unfiled per the standing ruling.
+
+================================================================
+APPENDED 2026-09-24, wave 21 lane F: still DIFF 1 under 1.1p1
+================================================================
+With `g_02153B88 0x02153B88 data a1`, 1.1p1 only, measured once each:
+  volatile global, the u8 ternary                              28/1
+  void *p parameter, if/else into u8 v                         28/1
+  void *p parameter, `g = p ? 1 : 0;`                          28/1
+  u8 *g = &global local, ternary into v, *g = v                28/1
+  extern u8 g[], `g[0] = x ? 1 : 0;`                           28/1
+  if/else into v, store `v & 1`                                28/1
+  u8 *x parameter, `v = (x != 0)`                              28/1
+  function-pointer parameter, a store in each arm              32/22
+  static inline set(u8 *p, int x) { *p = x ? 1 : 0; }          28/1
+  do { if (x) d = 1; else d = 0; } while (0) macro             28/1
+  short x parameter, the ternary                               28/1
+  the ternary plus an explicit `return;`                       28/1
+Every one emits the plain `mov r1, #1` at +0004.  Best source unchanged;
+the ../2.0/sp2 build stays unfiled under the standing ruling.
+
+================================================================
+APPENDED 2026-09-24, wave 21 lane F3: EXACT under 1.1p1, filed
+================================================================
+Filed as src/matched/func_0209128C.c (pkt_02091284), `if (x && x) v = 1;
+else v = 0; g = v;`.  match.py one: EXACT, 28 bytes, ABS32 resolved
+sole-ref.  manifest --verify --shard pkt_02091284 run twice: EXACT both
+times, second run 0 rewritten.  src/pending/func_0209128C.c removed.
+
+How it was found: a scan of the asm listings for `cmp/tst` then a
+predicated mov then the opposite predicated mov to the same register, in
+functions whose shard says dsi/1.1p1, found 1.1p1 keeping BOTH predicates
+in three shapes:
+  - the destination register is also a compare operand
+    (0x0204C3A8, 0x02050934, 0x02096E04, 0x02036F8C);
+  - the condition is a `tst` (0x020921E0, 0x02070434, 0x02044740);
+  - the condition is a `&&` chain (0x0203772C in func_02037700,
+    `if (a && b) flag = 1;`; also 0x020378E8 and 0x02037988).
+1.1p1 drops the first predicate only for a single `cmp rX, #0` into a
+different register (0x02036ED4, 0x0203FA60, 0x02097194, and this function).
+A two-term `&&` goes through the short-circuit if-conversion, which
+predicates both arms. The second, redundant test is folded after that
+point, so only one `cmp r0, #0` is left.
+
+Measured this lane, 1.1p1, bytes/out (+0004 is the byte in question):
+  a01 (int x, int y) dead 2nd param, if/else into u8 v          28/1
+  a02 (int x, u8 v) v as the parameter, if/else                 28/1
+  a03 (int x, int v) same, int                                   28/1
+  a04 (int x, u8 v) ternary                                      28/1
+  a05 (int x, int y) g = x != 0 ? 1 : 0                          28/1
+  b01 { x = 0; v = 1; } else v = 0                               28/1
+  b02 { v = 1; x--; } else v = 0                                 28/1
+  b03 { x -= 1; v = 1; } else v = 0                              28/1
+  b04 else { v = 0; x = 1; }                                     28/1
+  b05 both arms with a dead store to x                           28/1
+  b06 (int x, int y) { v = 1; y = 0; } else v = 0                28/1
+  b07 u32 x, if (x & 1) { x -= 1; v = 1; } else v = 0            28/2 (tst r0,#1 at +0000; movne KEPT)
+  c01 u32 x, if (x & 1) v = 1; else v = 0                        28/2 (tst; movne KEPT)
+  c02 if (x & 0xffffffff)                                        28/1
+  c03 if (x & ~0)                                                28/1
+  c04 if ((x & -1) != 0)                                         28/1
+  c05 v = (x & 0xffffffffu) ? 1 : 0                              28/1
+  c06 if (x | 0)                                                 28/1
+  c07 if (x >> 0)                                                28/1
+  c08 u32 x, if (x & 0x80000000)                                 28/3 (tst; movne KEPT)
+  d01 if (x != 0 && x != 0) v = 1; else v = 0                    EXACT
+  d02 if (x || x)                                                EXACT
+  d03 if (x && x)                                                EXACT  <- filed
+  d04 v = (x && x) ? 1 : 0                                       28/1
+  d05 u32 flag = 0; if (x != 0 && x != 0) flag = 1               28/1
+  d06 if (x != 0 && &g != 0)                                     28/1 (folded early)
+  d07 g = x && x                                                 28/1
+  e01 nested if (x) { if (x) v = 1; else v = 0; } else v = 0     40/27
+  e02 if (x != 0 && x == x)                                      28/1 (folded early)
+  e03 static inline on(x) { return x != 0; } if (on(x) && x)     EXACT
+  e04 if (x && x) g = 1; else g = 0  (a store in each arm)       36/26
+So the lever is a two-term `&&`/`||` chain that is still two tests when
+if-conversion runs, in an if/else statement (not a ternary, and not a
+default-then-override).  The ../2.0/sp2 pin question is moot.

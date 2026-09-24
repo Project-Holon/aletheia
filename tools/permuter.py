@@ -1211,6 +1211,28 @@ class Score:
         return s
 
 
+def body_size(addr, extent, thumb, region):
+    """The original function's length without the alignment padding the listing
+    extent runs through: at most 3 trailing zero bytes that end on a word boundary,
+    leaving a length that is a whole number of instructions (2 bytes for Thumb, 4 for
+    ARM).  Returns the extent unchanged when there is no such padding, or when the
+    extent is unknown."""
+    if not extent:
+        return extent
+    try:
+        _, tgt = match.target_bytes(addr, extent, region=region)
+    except Exception:
+        return extent
+    unit = 2 if thumb else 4
+    body = extent
+    while body > 0 and extent - body < 3 and tgt[body - 1] == 0:
+        body -= 1
+    body -= body % unit
+    if body == extent or (addr + extent) % 4 != 0 or any(tgt[body:extent]):
+        return extent
+    return body
+
+
 class Scorer:
     """Compile-and-compare with a content-addressed cache.
 
@@ -1230,6 +1252,17 @@ class Scorer:
         self.srckey = match.source_key(cfg["src"])
         self.reg = match.find_region(cfg["addr"], cfg["region"])
         self.tsize, self.tthumb = match.target_extent(cfg["addr"], self.reg.name)
+        # The listing extent runs to the next function start, so it includes the
+        # alignment padding in front of it (a Thumb function ending on a halfword is
+        # followed by 0000 to reach the next word).  Ranking against the padded extent
+        # made every candidate that happened to grow to it (an extra return value, a
+        # volatile reload) outrank every correctly sized one, which sent whole runs
+        # after 92-byte mutations of the 90-byte wipe_sub 0x0202350C.  body_size is the
+        # extent with trailing zero padding taken off.  A trailing zero halfword can
+        # also be the function's own (ica_anime 0x02011D9C is 272 bytes and ends in
+        # one), so both lengths count as the right size: a candidate of either length
+        # is ranked against itself and bytes-out decides between them.
+        self.body = body_size(cfg["addr"], self.tsize, self.tthumb, self.reg.name)
 
     def score(self, text):
         return self.score_many([text])[0]
@@ -1327,6 +1360,8 @@ class Scorer:
         if self.tthumb is not None and self.tthumb != fb.thumb:
             status = "ISA"
         tsize = self.tsize or n
+        if self.body and n == self.body:
+            tsize = self.body
         try:
             _, tgt_full = match.target_bytes(c["addr"], tsize, region=self.reg.name)
         except Exception:

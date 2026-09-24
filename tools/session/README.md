@@ -53,3 +53,8 @@ dump does not contain it). Set `ALETHEIA_DSI_KEY` to its path (or pass
 `python tools/disasm.py twl`. The file is never committed (`*.key` and
 BIOS-like names are gitignored). Without it the region is skipped and
 everything else is unchanged.
+
+Overlay 230's decrypted view (region `ov230d`, no key needed): run
+`python tools/ovcrypt.py write` (delink.py also does it), then
+`python tools/disasm.py ov230d`. Without asm/ov230d/ov230d.s the `ov230d`
+symbols token attests nothing and func_02011D9C re-verifies as MATCH.

@@ -514,3 +514,165 @@ re-verified 2026-09-23 by tools/match.py: DIFF, 272 bytes against 272, 8 concret
   and derives r2 from it, and the both-arms spelling leaves a `b` to the next
   instruction where the image has a single call.
 /* best source, 272 bytes against 272, 8 concrete bytes out, 1.1p1 -- the wave-17 source above -- unchanged */
+
+
+==============================================================================
+2026-09-24, wave 21 (lane H): 0x02011D9C byte-correct, MATCH (overlay-capped)
+==============================================================================
+Closed at 0 concrete bytes out, 272 of 272 bytes, dsi/1.1p1, by
+docs/idioms/an-address-held-in-a-u32-local-is-reloaded-at-every-site.md:
+the probes' shared first argument is held in `u32 start = (u32)func_02011D28;`
+and cast back `(void (*)(void))start` at each of the three probe calls, over
+the wave-15 single-call shape (`off = 0; if (flag == 0) off = 0x191;` and one
+func_0203064C(1, 4, 4 << 14)).  Filed as src/pending/func_02011D9C.c.
+
+Mechanism, as measured: the image's `movs r2,#4 ... movs r1,#4; lsls r2,r2,#14`
+is the shared constant 4 rematerialised, which 1.1p1 does only when a further
+web is live across the second heap call (in the old compile, call 3 got the
+same treatment because the loop counter's zero, CSEd with probe 3's argument,
+was live in r5 there).  Proven three ways: `i = 0` before the call (272/11,
+the movs r5,#0 then lands before the blx), `flag` kept live to the modulo test
+(276/185, but call 2 comes out in the image's order), and the `start` local,
+whose web spans all three probes and is rematerialised from the pool at each
+site so it costs no instruction: 0 out.  With the both-arms shape the same
+local gives 137 out (the cross-jump `b` stays), so the single call is right.
+
+Spellings measured this wave (bytes compiled / concrete bytes out):
+  baselines: single-call 268/165, both-arms (wave-17 best) 272/8
+  enum HeapId type on func_0203064C's parameters (HeapId,HeapId,u32 /
+    u32,HeapId,u32 / HeapId x3 / HeapId,HeapId,u16), enum constants at the
+    call sites, size as 4 << 14, 0x10000 or HEAPID_4 << 14, both shapes:
+    single 268/165 (u16 size 268/161), both 272/8 (u16 size 272/13), 24 runs
+  static inline CreateHeap wrapper, enum or u32 or u16-size parameters, on
+    the middle call only or on all three, both prototypes, both shapes:
+    single 268/165 (u16 268/161), both 272/8 (u16 272/13), 32 runs
+  `i = 0` before call 2 (single 272/11, both 272/161); after call 2
+    (268/165, 272/8); at the top or as an initialiser (272/106, 272/214);
+    before `off = 0` 272/54; after `off = 0` 272/53; before `flag = 1`
+    268/170; after the 0x191 arm 272/11; before the first heap call 268/176
+  loop counter reusing `flag` (u32: 268/164 and 268/68; s32: 268/165, 272/8)
+  dead stores before call 2 (`i = 0` twice, `n = 0`, `i = flag`, `p = 0`):
+    all 268/165
+  local types u8/s8/u16/s16/s32/int for flag (all 268/165), off (u8 264/160,
+    s8 264/172, others 268/165), base (u8 272/186, s8 276/234, u16/s16
+    276/212, s32/int 268/165)
+  diagnostics: flag used in the modulo test 276/185, in a2 + flag 280/190
+  `start` local assigned after func_02011F24, after func_02034AC4, or just
+    before the first probe: single-call 272/0 MATCH (all three), both-arms
+    272/137
+  permuter anneal from the 272/11 source (i = 0 before call 2), seed 21,
+    ~840 compiles before it was stopped once the manual lever closed:
+    flat at 11.
+
+Evidence (unchanged in kind): 22 of 25 sites resolve; the three ov230 probe
+targets 0x021882A0 / 0x02188354 / 0x02188390 have no func_ label in any
+overlapping overlay (ov230 prints them as unreached data words, ov009 has
+mid-function ARM code there) and no witness outside this function, and
+`tu --suggest-split` finds no partition.  Byte-correct therefore parks at
+MATCH in src/pending; it becomes EXACT without a C change once ov230's
+listing traces those three entry points.
+
+re-verified 2026-09-24 by tools/match.py: MATCH, 272 bytes against 272, 0 concrete bytes out, 1.1p1 (src/pending/func_02011D9C.c)
+
+== 2026-09-24 wave 21, lane H2: what the three BLX targets are ==
+
+Answer: 0x021882A0, 0x02188354 and 0x02188390 are genuine ARM entry points
+in ov230, but ov230 stores them ENCRYPTED; they are plain code only after
+ov230's own static initialiser has decrypted them in RAM.  No listing can
+label them from the stored bytes without labelling ciphertext, so the
+function stays MATCH in src/pending.
+
+1. Decoding.  Image halfwords at the sites: +0x20 F176 EA70, +0x48 F176 EAB6,
+   +0x72 F176 EAC0.  First halfword 11110 (offset high, 0x176 -> +0x176000),
+   second 11101 = BLX (to ARM; the H bit pattern 11111 would be BL/Thumb).
+   Targets recomputed: 0x02011DC0+0x176000+0x4E0 = 0x021882A0,
+   0x02011DE8+0x176000+0x56C = 0x02188354, (0x02011E12+0x176000+0x580)&~3
+   = 0x02188390 (BLX clears bit 1).  All word aligned, all ARM.  Not Thumb.
+2. Overlay context.  The only reference to 0x02011D9C is the pointer
+   0x02011D9D at 0x0209DF9C, first of an {init 0x02011D9C, main 0x02011EAC,
+   exit 0x02011EC0} proc triple.  The function itself calls
+   sub_02034AC4(ov230_id) immediately before the first probe and
+   sub_02034A5C(ov230_id) after the third (both OVERLAY_ID_CONSUMERS,
+   overlay_id class already attested).  sub_02034AC4 reaches FS_LoadOverlay
+   (0x02079264), which calls FS_StartOverlay (0x0207902C, bl at 0x020792A4),
+   i.e. runs the overlay's static-initialiser table.  ov230's image
+   [0x02187F00,0x021899A0) covers all three targets, so whatever was loaded
+   before, the bytes executed at the three BLXs are ov230's.
+3. Other regions.  Every y9 entry whose [ram, ram+size+bss) covers the
+   targets: ov009 (0x02155160+0x53100+0x68C0), ov021 (0x02187F00+0x56800
+   +0x10040), ov096 (0x02187F00+0x28C0+0x20), ov230 (0x02187F00+0x1AA0+0x20).
+   No fifth.  match.regions_containing() agrees; twl window
+   0x02700000..0x02732DA0 does not cover them (no DSi key needed).
+4. ov009 is not it.  0x021882A0 is `cmp r0,#0` right after
+   `bl func_02193418`; 0x02188354 is the `bl func_0217F1E0` one instruction
+   after loc_02188350 (which sets r0 = sp+0x14; entering at +4 would drop
+   it); 0x02188390 is `mov r1, r5` right after `mov r5,#1` at 0x02188384.
+   No return or pool precedes any of them.  Also the caller keeps r5 as its
+   own flag (movs r5,#0/#1 right before each BLX); callee-saved, it is no
+   argument, so the "continuation" reading has no support.
+5. The ov230 mechanism (traced from asm/overlays/ov230.s, then emulated).
+   ov230's sinit table (y9 sinit 0x02189974..0x0218998C) = 0x02188408,
+   0x021889B0, 0x02188CB0, 0x02189448, 0x02189908.  Each is
+   `orr r0,pc,#0; adds r0,r0,#4; bne loc_02188A48` followed by a table of
+   (start+0x1600, ...) pairs.  loc_02188A48 walks the table: range =
+   [w0-0x1600, w0-0x1600 + ((w1 - 0x021899A0 - 0x1600) & ~3)), key reset
+   to 0xF0618C46 per range; words func_02188A0C classifies as B/BL/BLX get
+   their offset field adjusted by 0xFFFFFA7E and top byte toggled, others
+   are XOR-decoded with a rolling key; then func_021889E4 flushes the
+   cache over the range.  Table of 0x02188408 (0x02188414..0x02188443):
+   0x021898A0, 0x021898DC, 0x02189918, 0x02189954, 0x02189990, 0x021899CC
+   (each paired with 0x0218AFC4) -> ranges of 0x24 bytes at 0x021882A0,
+   0x021882DC, 0x02188318, 0x02188354, 0x02188390, 0x021883CC.  The three
+   targets are entries 0, 3 and 4 of that table, exactly.
+   Decrypted, each 0x3C-byte slot is a complete thunk:
+     orr ip,pc,pc; ands ip,ip,ip; moveq ip,#0; addne ip,ip,#0x1C;
+     ldr ip,[ip,#0x14]; sub ip,ip,#0x1600; stmdb sp!,{ip};
+     orr ip,pc,pc; ldm sp!,{pc}
+   followed by a 6-word parameter block (third word per slot:
+   0x02189500/0x021895A0/0x02189640/0x021896E0/0x02189780/0x02189810, i.e.
+   the encrypted bodies at 0x02187F00.. after -0x1600; last word 0x0218A260
+   -> dispatcher 0x02188C60).  The dispatcher (itself a decrypted range of
+   sinit 0x02188CB0) is `push {r0-r3}; ... bl 0x02188B48 (decrypt body);
+   pop {r0-r3}; blx ip; ... bl 0x02188BD0 (re-encrypt); bx lr`, so the
+   caller's r0..r2 (start, end, 0) pass straight to the body.  Every slot
+   ends in `ldm sp!,{pc}`: nothing falls into the next one.  Scratch
+   emulator: /tmp/aletheia_laneH2/decrypt230.py.
+6. What match.py allows.  Region hints tested on scratch copies
+   (ov009, ov021, ov096, ov230, twl, none): all MATCH, 22 of 25, the three
+   sites unresolved (the message text is the same whatever the hint): no
+   overlay listing carries a func_ label at the three addresses, and the
+   only branches to them are the three sites under test.
+   Mechanical test only: disasm.py overlay 230 with a scratch layout whose
+   function_starts.txt adds `overlay_230 0x021882A0/0x02188354/0x02188390
+   arm` does emit func_ labels, and match.py one with ov230's listing
+   swapped in-process for that scratch listing reports EXACT, 25 of 25, the
+   three as sole-ref x1.  But the labelled "code" is the ciphertext:
+   `mvnne r4,sb,asr #24; ands r0,r3,r5,lsl #7; cmpeq r3,#0x114;
+   sbcsne fp,ip,#0x264; ldrb pc,[r2,#-0x34d]`, which is exactly the
+   "plausible nonsense" function_starts.txt exists to refuse, and its
+   evidence would be a data table read by the decryptor, not a branch.  So
+   under the current rules the seed is not justified and the function stays
+   MATCH.  An honest route needs a tools change (owner's call): a listing of
+   ov230 after emulating its sinit decryptor, attested the way the `twl`
+   hint attests the decrypted arm9i listing.
+   Verdict (tools/match.py one, src/pending source, dsi/1.1p1 -O4,p):
+   MATCH, 272 of 272 bytes, 22 of 25 relocations resolved.
+
+## Wave 21, lane T (tools): ov230's decryptor in the pipeline
+
+The honest route from lane H2 is now in the tools.  tools/ovcrypt.py
+replays ov230's static-initialiser decryptor.  The decryptor bytes are
+SHA-1 checked, the parameters come from its own pool words and immediates,
+and the table addresses come from each entry thunk's immediates.  Every one
+of the 28 ranges must be a clean ARM function ending in a return and must
+not run into the next slot.  The result is written to extract/ov230d.bin,
+and `disasm.py ov230d` lists it as asm/ov230d/ov230d.s.  match.py's new
+`ov230d` symbols token attests a checked range start that listing labels.
+The three probe targets are slots 0, 3 and 4 of the table at 0x02188414.
+Their only caller is this function, so each resolves as sole-ref/code, on
+the decrypted thunk code the game runs, not on ciphertext.  The C is
+unchanged; only the three symbols: tokens changed from ov230 to ov230d.
+Verdict (tools/match.py one, dsi/1.1p1 -O4,p, thumb, c99): EXACT, 272 of 272
+bytes, 25 of 25 relocations resolved.  The file moved to src/matched, and
+shard layout/matched/arm9/pkt_02011D9C.json was written and verified twice
+(`manifest --verify --shard pkt_02011D9C`: EXACT, then 0 rewritten).

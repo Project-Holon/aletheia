@@ -7,27 +7,29 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * MSL __strtold (C99 soft-float number scanner, decimal and hex paths).
  *
- * Byte-correct: MATCH, 3864 bytes against 3864, 0 concrete bytes out
- * (match.py one, 1.1p1 -O4,p, 2026-09-24, wave 20 lane 20M).
+ * EXACT, 3864 bytes against 3864, 17 of 17 relocation sites resolved
+ * (match.py one, 1.1p1 -O4,p, 2026-09-24, wave 21 lane A).
  *
- * Blocking class: unresolved anonymous string pool words.  The two ABS32
- * sites at +0x0EF0 and +0x0EF4 are the compiler's anonymous string
- * literals (the initialiser sources of the local "INFINITY" and "NAN("
- * `model[]` arrays); they have no symbol and no outside witness, so the
- * verdict is capped at MATCH.  Every other site resolves (__double_huge and
- * func_0209739C by sole-ref, the rest by label or literal).
+ * What closed the MATCH cap: the two local model arrays.  MSL writes them
+ * as `unsigned char model[] = "INFINITY";` and `... = "NAN(";`, which makes
+ * the compiler emit anonymous string literals (@52/@70) into the object's
+ * own .rodata; those two ABS32 pool words (+0x0EF0, +0x0EF4) had no name
+ * and no witness.  Here each array is a one-member struct copied from an
+ * extern pinned to the address the image's pool word names (0x020A62E4
+ * "INFINITY", 0x020A62DC "NAN("), the same treatment as a __FILE__ string
+ * (docs/idioms/file-string-is-an-abs32-into-the-string-area.md).  The
+ * struct copy is byte-identical to the literal initialiser (same 4x2-byte
+ * copy loop plus tail byte, same unrolled 5-byte copy).  s_infinity attests
+ * by `string`, s_nan and __double_huge by sole-ref.
  *
- * What closed the last 39 bytes: declaration position inside the hex block.
- * The block declares hexresult, ui2, ch2, p, hch in that order (ui2/ch2
- * are used only in the second tail loop).  With p after hch the image's
- * r4/r5 pair comes out swapped; with p between ch2 and hch the colouring
- * gives p r4 and the first part's chindex plus the loop's hch r5, as in the
- * image.  See docs/idioms/declaration-position-orders-block-scope-colouring.md
- * and docs/notes/pkt_02094B8C.c.txt (wave 20, lane 20M).
+ * Register colouring of the hex tail: the hex block declares hexresult,
+ * ui2, ch2, p, hch in that order (wave 20 lane 20M); see
+ * docs/idioms/declaration-position-orders-block-scope-colouring.md and
+ * docs/notes/pkt_02094B8C.c.txt.
  *
  * symbols:
  *   __ctype_map    0x020A61DC  data  a2
@@ -42,6 +44,8 @@
  *   _dneq          0x0209BAC8  arm
  *   _dls           0x0209B9A0  arm
  *   _dgr           0x0209B864  arm
+ *   s_infinity     0x020A62E4  data  a1
+ *   s_nan          0x020A62DC  data  a1
  */
 
 typedef unsigned char u8;
@@ -62,6 +66,10 @@ extern const u16 __ctype_map[];
 extern const u8 __upper_map[];
 extern float __float_huge;
 extern double __double_huge;
+typedef struct { unsigned char c[9]; } model9;
+typedef struct { unsigned char c[5]; } model5;
+extern const model9 s_infinity;
+extern const model5 s_nan;
 extern double func_0209739C(const decimal *d);      /* __dec2num */
 extern double func_02091374(const char *tagp);      /* nan */
 
@@ -182,9 +190,9 @@ double func_02094B8C(int max_width, int (*ReadProc)(void *, int, int), void *Rea
         case infin_state:
         {
             int i = 1;
-            unsigned char model[] = "INFINITY";
+            model9 model = s_infinity;
 
-            while ((i < 8) && (toupper(c) == model[i]))
+            while ((i < 8) && (toupper(c) == model.c[i]))
             {
                 i++;
                 c = fetch();
@@ -206,10 +214,10 @@ double func_02094B8C(int max_width, int (*ReadProc)(void *, int, int), void *Rea
         case nan_state:
         {
             int i = 1, j = 0;
-            unsigned char model[] = "NAN(";
+            model5 model = s_nan;
             char nan_arg[32] = "";
 
-            while ((i < 4) && (toupper(c) == model[i]))
+            while ((i < 4) && (toupper(c) == model.c[i]))
             {
                 i++;
                 c = fetch();

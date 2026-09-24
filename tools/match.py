@@ -402,6 +402,9 @@ def listing_files(region):
         return unit_files("src", "units_arm9.json")
     elif region.startswith("arm9_autoload0"):
         return unit_files("src_itcm", "units_itcm.json")
+    elif region == OV230D_REGION:
+        # before the ovNNN branch: `ov230d` is not asm/overlays/ov230d.s
+        return ov230d_listing_files()
     elif region.startswith("ov"):
         p = os.path.join(ROOT, "asm", "overlays", "ov%s.s" % region[2:])
         return [p] if os.path.exists(p) else []
@@ -532,7 +535,10 @@ def target_extent(addr, region):
 #            .thumb_func, or a recognised veneer; an overlay label in exactly
 #            one overlay of the hinted pool; or, for a `twl`-hinted site, a
 #            func_ label in asm/twl/twl.s, a listing disassembled from the
-#            byte-verified decrypted TWL region); `sole-ref/string` (the
+#            byte-verified decrypted TWL region; or, for an `ov230d`-hinted
+#            site, a checked decrypted range start of overlay 230 that
+#            asm/ov230d/ov230d.s labels, see "decrypted ov230");
+#            `sole-ref/string` (the
 #            start of a NUL-terminated printable run, even when the preceding
 #            object is a table rather than a string); `sole-ref/self` (the
 #            target is in a data section and the ROM word at the site already
@@ -842,7 +848,8 @@ def attest_overlay_label(addr, kind, lo, hi, region_hint=None):
     else:
         pool = candidates
     labeled = [name for name in pool
-               if scan_listing(name).get(addr) == (kind == "thumb")]
+               if scan_listing(name).get(addr) == (kind == "thumb")
+               and not on_ciphertext(name, addr)]
     if len(labeled) != 1:
         return None
     sites = [s for s in image_call_sites(addr) if not lo <= s < hi]
@@ -947,6 +954,121 @@ def attest_sole_ref_twl_code(addr, kind, region_hint=None):
     if region_hint != TWL_REGION or kind not in ("thumb", "arm"):
         return None
     th = twl_label(addr)
+    if th is None or th != (kind == "thumb"):
+        return None
+    return "sole-ref", 1, addr, "code"
+
+
+# ---------------------------------------------------------------------------
+# decrypted ov230 (region `ov230d`, 2026-09-24)
+# ---------------------------------------------------------------------------
+#
+# Overlay 230 decrypts most of its own code when it is loaded: its static
+# initialisers run a decryptor over 28 ranges (tools/ovcrypt.py has the
+# scheme and the evidence).  The ROM bytes there, and so asm/overlays/ov230.s,
+# are ciphertext; the code the game runs exists only in the decrypted view
+# extract/ov230d.bin, listed by `disasm.py ov230d` as asm/ov230d/ov230d.s.
+# ica_anime's func_02011D9C loads ov230 and BLXes three of its thunk slots.
+#
+# The design is region `twl`'s (a separately listed, verified derived view,
+# reached only through an explicit token), with one more condition:
+#
+#   1. the `symbols:` line carries the token `ov230d`
+#      (`func_021882A0  0x021882A0  arm  ov230d`).  The plain `ov230` token
+#      keeps meaning ov230's ROM listing, so no existing hint changes meaning
+#      and an address is never looked up in the decrypted view on the
+#      strength of the address alone;
+#   2. the address is the START of a range ovcrypt.py decrypted and checked
+#      in this run (entry_points(): decryptor hash, table read from the
+#      initialiser's own immediates, every range a clean ARM function ending
+#      in a return, no range running into the next).  An interior address,
+#      a still-encrypted second-layer body or plain code outside the ranges
+#      is refused, even where the listing has a label;
+#   3. extract/ov230d.bin is byte-identical to that fresh decryption (so the
+#      listing was not built from a stale or hand-made view);
+#   4. asm/ov230d/ov230d.s carries a `func_` label there with the declared
+#      ISA (disasm.py traced it, and refuses the listing unless every range
+#      traced as one function of code).
+#
+# With an outside branch to the address as well that is `label`
+# (attest_ov230d_label()); without one it is `sole-ref/code`
+# (attest_sole_ref_ov230d_code()), the class the twl callees of
+# func_0206DC00 use: the label sits on real decrypted code the game
+# executes, not on ciphertext.
+#
+# The converse guard, on_ciphertext(): a func_ label of ov230's ROM listing
+# inside a decrypted range is a label on ciphertext (a function_starts.txt
+# seed would make one), and the overlay rules above never accept it.
+
+OV230D_REGION = "ov230d"
+OV230D_LISTING = os.path.join(ROOT, "asm", "ov230d", "ov230d.s")
+_OV230D = {}
+
+
+def ov230d_listing_files():
+    p = OV230D_LISTING
+    return [p] if os.path.exists(p) else []
+
+
+def ov230d_view():
+    """ovcrypt's checked View of ov230, or None (refuse everything)."""
+    if "v" not in _OV230D:
+        v = None
+        try:
+            import ovcrypt
+            v = ovcrypt.load(ROOT)
+            with open(os.path.join(ROOT, "extract", ovcrypt.VIEW_FILE),
+                      "rb") as fh:
+                if fh.read() != v.data:
+                    v = None
+        except Exception:       # CryptError, a missing file: no evidence
+            v = None
+        _OV230D["v"] = v
+    return _OV230D["v"]
+
+
+def on_ciphertext(region, addr):
+    """True when `region`'s ROM bytes at `addr` are ov230 ciphertext."""
+    if region != "ov230":
+        return False
+    v = ov230d_view()
+    return v is not None and v.range_at(addr) is not None
+
+
+def ov230d_label(addr):
+    """True/False (thumb) if the decrypted listing labels a range start."""
+    v = ov230d_view()
+    if v is None or addr not in v.entry_points():
+        return None
+    return scan_listing(OV230D_REGION).get(addr)
+
+
+def attest_ov230d_label(addr, kind, lo, hi, region_hint=None):
+    """The `label` class for a decrypted ov230 entry; see the rule above."""
+    if region_hint != OV230D_REGION or kind not in ("thumb", "arm"):
+        return None
+    th = ov230d_label(addr)
+    if th is None or th != (kind == "thumb"):
+        return None
+    sites = set(xregion_calls().get(addr, ()))
+    sites |= set(region_calls(OV230D_REGION).get(addr, ()))
+    sites = sorted(s for s in sites if not lo <= s < hi)
+    if not sites:
+        return None
+    return "label", len(sites), sites[0]
+
+
+def attest_sole_ref_ov230d_code(addr, kind, region_hint=None):
+    """`sole-ref/code` for a decrypted ov230 entry.  (class, n, site, "code").
+
+    Conditions 1-4 of the rule above and no outside branch: for the thunk
+    slot whose only caller image-wide is the range under test (ica_anime's
+    three probes).  The evidence is the decrypted code itself: a range the
+    game's own initialiser decrypts and flushes, checked to be a whole ARM
+    function, and traced there by disasm.py."""
+    if region_hint != OV230D_REGION or kind not in ("thumb", "arm"):
+        return None
+    th = ov230d_label(addr)
     if th is None or th != (kind == "thumb"):
         return None
     return "sole-ref", 1, addr, "code"
@@ -1280,7 +1402,8 @@ def declared_symbols(fields):
     several overlapping candidates the author means, and refuses rather than
     guess.  See attest_overlay_label().  The token `twl` names region
     `twl` (the DSi-mode block of arm9i.bin) the same way; see
-    attest_twl_label().
+    attest_twl_label().  The token `ov230d` names overlay 230 as its own
+    decryptor leaves it (asm/ov230d/ov230d.s); see "decrypted ov230".
     """
     out = {}
     for line in fields.get("symbols_lines", []):
@@ -2660,7 +2783,8 @@ def attest_sole_ref_overlay_code(addr, kind, region_hint=None,
     pool, _fixed = _overlay_pool(addr, region_hint, site_region,
                                  overlay_candidates(addr))
     labeled = [n for n in pool
-               if scan_listing(n).get(addr) == (kind == "thumb")]
+               if scan_listing(n).get(addr) == (kind == "thumb")
+               and not on_ciphertext(n, addr)]
     if len(labeled) != 1:
         return None
     return "sole-ref", 1, addr, "code"
@@ -2710,7 +2834,10 @@ def attest_sole_ref(addr, kind, align=None, lo=0, hi=0,
                                              site_region)
         if proof is not None:
             return proof
-        return attest_sole_ref_twl_code(addr, kind, region_hint)
+        proof = attest_sole_ref_twl_code(addr, kind, region_hint)
+        if proof is not None:
+            return proof
+        return attest_sole_ref_ov230d_code(addr, kind, region_hint)
     return None
 
 
@@ -2953,6 +3080,8 @@ def attest(addr, kind, lo, hi, src=None, region_hint=None, align=None,
             # is the same, a traced entry point plus an outside branch to it.
             if region_hint == TWL_REGION:
                 proof = attest_twl_label(addr, kind, lo, hi, region_hint)
+            elif region_hint == OV230D_REGION:
+                proof = attest_ov230d_label(addr, kind, lo, hi, region_hint)
             else:
                 proof = attest_overlay_label(addr, kind, lo, hi, region_hint)
             if proof is not None:
@@ -3490,6 +3619,14 @@ def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
                 # resolves to the wrong instruction rather than failing to
                 # resolve.  Cross-check it against the image before encoding.
                 found = isa_evidence(target)
+                if (found is None and name in decls
+                        and decls[name].region == OV230D_REGION):
+                    # the decrypted ov230 listing answers only for a site
+                    # that names it (see "decrypted ov230" above)
+                    th = ov230d_label(target)
+                    if th is not None:
+                        found = (("thumb" if th else "arm"),
+                                 "the func_%08X label in asm/ov230d" % target)
                 if found is not None and found[0] != kind:
                     raise SystemExit(
                         "ISA conflict for %s at %08X: the source declares "
@@ -4293,8 +4430,8 @@ CONT_RE = re.compile(r"^\s*\*\s*([A-Za-z_][A-Za-z0-9_]*\s*,\s*)*"
 # same sort.
 SYMBOL_RE = re.compile(
     r"^\s*\*\s+([A-Za-z_][A-Za-z0-9_]*)\s+(0[xX][0-9A-Fa-f]+)\s+"
-    r"(thumb|arm|data)(?:\s+(ov\d{3}|twl|a\d{1,2}))?"
-    r"(?:\s+(ov\d{3}|twl|a\d{1,2}))?"
+    r"(thumb|arm|data)(?:\s+(ov230d|ov\d{3}|twl|a\d{1,2}))?"
+    r"(?:\s+(ov230d|ov\d{3}|twl|a\d{1,2}))?"
     r"\s*$")
 SYMBOLS_OPEN_RE = re.compile(r"^\s*\*?\s*symbols\s*:\s*$", re.IGNORECASE)
 
@@ -4898,6 +5035,14 @@ TWL_ARM9_ADDR = 0x0206DBF4
 # the literal-pool word just before TWL_FUNC (not a label).
 TWL_FUNC2 = 0x0272FEF4
 TWL_POOL = 0x027300EC
+# decrypted ov230: ica_anime's probe targets (slots 0, 3, 4 of the table at
+# 0x02188414), its own extent, a plain ov230 function outside every
+# decrypted range, and a second-layer encrypted body at ov230's base
+OV230D_SLOTS = (0x021882A0, 0x02188354, 0x02188390)
+OV230D_CALLER_LO = 0x02011D9C
+OV230D_CALLER_HI = 0x02011D9C + 272
+OV230D_PLAIN = 0x02188A0C
+OV230D_BODY = 0x02187F00
 OVERLAY_FUNC_REGION = "ov093"
 # A candidate overlay of OVERLAY_FUNC's address window that does NOT label
 # it, for exercising a region_hint that resolves to nothing.
@@ -5459,6 +5604,11 @@ def cmd_selftest(args):
                            "f_C  0x021DFDB8  thumb  ov228"]),
            [("f_C", "ov228", None), ("g_A", "ov228", 4),
             ("g_B", "ov228", 2)])
+    _check(res, "symbols: the ov230d token parses as the region hint and "
+                "does not end the block",
+           _parse_symbols(["f_F  0x021882A0  arm  ov230d",
+                           "f_G  0x0215FA00  thumb  ov010"]),
+           [("f_F", "ov230d", None), ("f_G", "ov010", None)])
     _check(res, "symbols: the twl token parses as the region hint and does "
                 "not end the block",
            _parse_symbols(["f_D  0x027300F0  arm  twl",
@@ -5800,6 +5950,114 @@ def cmd_selftest(args):
         for key, val, cache in (("w", saved[0], _TWL),
                                 (TWL_REGION, saved[1], _FUNC_STARTS),
                                 (TWL_REGION, saved[2], _REGION_CALLS)):
+            if val is None:
+                cache.pop(key, None)
+            else:
+                cache[key] = val
+
+    # --- decrypted ov230 (region `ov230d`, 2026-09-24) ----------------------
+    # ica_anime's three BLX targets are thunk slots ov230's initialiser
+    # decrypts (tools/ovcrypt.py).  Without asm/ov230d/ov230d.s (disasm.py
+    # ov230d not run yet) the rule is exercised on an injected label table
+    # holding the checked range starts, and the result says which it was.
+    import ovcrypt
+    real_ovd = bool(ov230d_listing_files())
+    saved = (_OV230D.get("v"), _FUNC_STARTS.get(OV230D_REGION),
+             _REGION_CALLS.get(OV230D_REGION), _FUNC_STARTS.get("ov230"))
+    view = ov230d_view()
+    if not real_ovd and view is not None:
+        _FUNC_STARTS[OV230D_REGION] = dict(
+            [(a, False) for a in view.entry_points()] +
+            [(OV230D_PLAIN, False)])
+        _REGION_CALLS[OV230D_REGION] = defaultdict(list)
+    how = "asm/ov230d/ov230d.s" if real_ovd else "injected label table"
+    lo, hi = OV230D_CALLER_LO, OV230D_CALLER_HI
+    try:
+        _check(res, "ov230d: ovcrypt.py decrypts and checks ov230 and the "
+                    "three probe targets are range starts",
+               view is not None and all(a in view.entry_points()
+                                        for a in OV230D_SLOTS), True)
+        for a in OV230D_SLOTS:
+            _check(res, "ov230d sole-ref/code: slot 0x%08X, called only from "
+                        "inside func_02011D9C, is carried by attest() (%s)"
+                        % (a, how),
+                   (attest(a, "arm", lo, hi, region_hint="ov230d")
+                    or (None,))[::3], ("sole-ref", "code"))
+        a = OV230D_SLOTS[0]
+        _check(res, "ov230d: an interior address (slot + 4) is refused",
+               cls(attest(a + 4, "arm", lo, hi, region_hint="ov230d")), None)
+        _check(res, "ov230d: the label's ISA has to be the declared one",
+               cls(attest(a, "thumb", lo, hi, region_hint="ov230d")), None)
+        _check(res, "ov230d: without a token the decrypted view is not "
+                    "looked up",
+               cls(attest(a, "arm", lo, hi)), None)
+        _check(res, "ov230d: the twl token does not reach it",
+               cls(attest(a, "arm", lo, hi, region_hint="twl")), None)
+        _check(res, "ov230d: the plain ov230 token (the ROM listing, "
+                    "ciphertext there) does not reach it",
+               cls(attest(a, "arm", lo, hi, region_hint="ov230")), None)
+        _check(res, "ov230d: a hint for an address outside the decrypted "
+                    "ranges is refused even where the decrypted listing "
+                    "labels real plain code (func_%08X, %s)"
+                    % (OV230D_PLAIN, how),
+               (scan_listing(OV230D_REGION).get(OV230D_PLAIN),
+                cls(attest(OV230D_PLAIN, "arm", lo, hi,
+                           region_hint="ov230d"))), (False, None))
+        # a label planted on the second-layer ciphertext at ov230's base
+        _FUNC_STARTS[OV230D_REGION] = dict(scan_listing(OV230D_REGION))
+        _FUNC_STARTS[OV230D_REGION][OV230D_BODY] = False
+        _check(res, "ov230d: a label on still-encrypted bytes outside the "
+                    "decrypted ranges is refused",
+               cls(attest(OV230D_BODY, "arm", lo, hi,
+                          region_hint="ov230d")), None)
+        # a label on ciphertext in ov230's ROM listing (what a
+        # function_starts.txt seed there would create)
+        _FUNC_STARTS["ov230"] = dict(scan_listing("ov230"))
+        _FUNC_STARTS["ov230"][a] = False
+        _check(res, "ov230d: a label on ciphertext in the ROM listing is "
+                    "refused by the overlay label and sole-ref/code rules",
+               (on_ciphertext("ov230", a),
+                cls(attest(a, "arm", lo, hi, region_hint="ov230")),
+                cls(attest_overlay_label(a, "arm", 0, 0, "ov230")),
+                cls(attest_sole_ref_overlay_code(a, "arm", "ov230"))),
+               (True, None, None, None))
+        _FUNC_STARTS["ov230"] = saved[3]
+        if saved[3] is None:
+            _FUNC_STARTS.pop("ov230", None)
+        # a slot that fails the clean-function check: the view is refused
+        # as a whole and nothing is attested
+        real_load = ovcrypt.load
+
+        def _bad_load(root=None, extract_dir=None):
+            with open(os.path.join(ROOT, "layout", "layout.json")) as fh:
+                o = ovcrypt.overlay_record(json.load(fh))
+            with open(os.path.join(ROOT, "extract",
+                                   o["decompressed_file"]), "rb") as fh:
+                img = bytearray(fh.read())
+            off = OV230D_SLOTS[0] - o["ram_start"]
+            img[off + 3] ^= 0x0F          # the slot decrypts to garbage
+            return ovcrypt.decrypt(bytes(img), o["ram_start"],
+                                   ovcrypt.sinit_entries(img, o))
+        ovcrypt.load = _bad_load
+        _OV230D.pop("v", None)
+        try:
+            try:
+                _bad_load()
+                why = "accepted"
+            except ovcrypt.CryptError as exc:
+                why = ("not a clean ARM function" in str(exc))
+            _check(res, "ov230d: a slot failing the clean-function check "
+                        "makes ovcrypt refuse, and nothing is attested",
+                   (why, ov230d_view(),
+                    cls(attest(a, "arm", lo, hi, region_hint="ov230d"))),
+                   (True, None, None))
+        finally:
+            ovcrypt.load = real_load
+    finally:
+        for key, val, cache in (("v", saved[0], _OV230D),
+                                (OV230D_REGION, saved[1], _FUNC_STARTS),
+                                (OV230D_REGION, saved[2], _REGION_CALLS),
+                                ("ov230", saved[3], _FUNC_STARTS)):
             if val is None:
                 cache.pop(key, None)
             else:

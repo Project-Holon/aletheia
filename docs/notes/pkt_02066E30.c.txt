@@ -2383,3 +2383,356 @@ void func_02067080(const MtxFx22 *pMtxSR, GXOamAttr *pOam, const NNSG2dFVec2 *pB
 
     G2_SetOBJPosition(pOam, objTrans.x >> FX32_SHIFT, objTrans.y >> FX32_SHIFT);
 }
+
+
+==============================================================================
+2026-09-24, wave 21 (lane C): 0x02067080 unchanged, DIFF 2
+==============================================================================
+Every figure is a match.py output (../2.0/sp2 -O4,p unless stated); the base is
+the wave-13 source above, which re-verified at 704/704, 2 out (y read at +0x21C in
+ip where the image has r6).  "item 1" is the wave-20C hoisted-y form (y in r6 as
+the image, the dy mla moves to ip).
+PROVENANCE: while doing this lane I read the ntrtwl/NitroSystem reconstruction
+(g2di_OamUtil.h, g2d_RendererCore.c/.h, its meson.build) before the owner ruled
+external decompilations out.  The measurements that came from it are marked [ext]
+below.  None of them moved the residue, and nothing filed depends on them.
+
+Front ends, same source: ../2.0/base, sp1, sp1p2, sp1p5, sp1p6, sp1p7, sp2p2,
+sp2p3, sp2p4 all 704/2 (the same residue, so no 2.0 build separates it).
+dsi/1.2p1, 1.2p2, 1.3, 1.3p1, 1.6sp1, 1.6sp2: 676 bytes, 560 out.
+../1.2/sp4: 740 bytes, 607 out.
+Flags [ext, the library's own build line]: -ipa file; -inline on,noauto; both;
+both plus -gccext,on: 2 each.  The verbatim single-expression adjust inline under
+-ipa file -inline on,noauto: 696 bytes, 237 out (the same as under plain -O4,p).
+Static DoAffineTransforme_ with a global caller, plain and with -ipa file: 2.
+
+Spellings, bytes out:
+  overwrite arm: switch on the mode 696/311; RndCore pointer in a local 2; mode in
+  a const u32 local 2; mode as an enum field with named constants [ext] 2; a
+  G2_SetOBJEffect call in each arm 692/302; effectTypeAfter as int 2; objTrans
+  declared after effectTypeAfter 2.
+  flag: bShouldAdjust at function scope (not const) 684/214; non-const in its
+  block 684/214; through a const GXOamEffect local 2; `DOUBLE == eff` 2; ternary
+  1:0 or inverted 0:1 696/220; `(BOOL)` cast on the argument 2; `!= FALSE` test
+  2; the flag computed inside the inline (at the if, at the top, after the y
+  store) 696/271, 684/214, 696/271.
+  y side: `(&pV->x)[1] +=` 2; volatile y read at the store 2; volatile read
+  into a const local after a const _11 local 2; volatile store 708/254; y
+  through `fx32 *py` 2; const _11 / const product / const sum / const y read
+  in a block 2 each; x_new and y in one reused local t (four shapes, plus t
+  also carrying _01) 2 each; dy as const chains 700/168 (dy1 = dy + p, whole
+  sum), 2 (const dy0 copied into dy, const copy of dy before the store); dx as
+  a const with the whole x sum 700/232.
+  item 1 plus: const y 2 (item-1 residue); x and y both read early, either
+  order 2 (item-1 residue); only x read early 2 (old residue); y read before
+  the table loads 2 (item-1), the same without parentheses 20; dy0/dy1 locals
+  700/181; y accumulated through dy 2 (item-1).
+  per-axis nested inline helper (five shapes: value, pointer, returned delta,
+  two-statement delta, matrix-column pointer): 704/74..87.  The double-block
+  `halfW << 12` stops CSE-ing with the rsb operand across the helper, so the
+  64-bit accumulator falls to ip and the frame loses r8.
+  double block: `(u32)halfW << 12` 68, both axes 74, `(s64)` cast 68 (CSE broken,
+  emitted `sub ..., lsl #12`); `halfW * (1 << 12)` 2; locals for x and y 2; plain
+  assignment 2; y read first 12.  The base with `halfW << 13` (diagnostic):
+  every register in the block recoloured.
+  types: MtxFx22 as the SDK union (fields, m[][] and a[] access) 2; GXOamAttr as
+  the SDK union 2; both 2; non-const pM (inline or everywhere) 2; `const MtxFx22
+  *const pM` 2; `NNSG2dFVec2 *const pV` 712/256 (both together also 712/256);
+  `const GXOamAttr *const pOam` in the adjust inline 708/212; *const on
+  MulMtx22 m 2; *const on GetOamTransFx32 2; sizes by value 2; non-const
+  shape 2; non-const halfW/halfH 2; the four-statement core in a nested
+  block 2.
+  caller: objTrans through a pointer local 708/578; a pointer local for the
+  adjust call 708/177 (const 708/249, declared before the flag 708/224); a
+  const pM local 2; position args in const locals 2; plain `=` adds 2;
+  base adds y first 33.
+Permuter (scratch copy with the mutation target read from MUTFUNC, tools/
+untouched), anneal --types, jobs 3: the adjust inline 3000 (seed 2101) and
+from item 1 3000 (2102); MulMtx22 2000 (2103);
+NNSi_G2dRemovePositionAdjustmentFromDoubleAffineOBJ 1000 (2104);
+G2_GetOBJEffect 600 (2105); func body 3000 (2106).  All best
+`DIFF asm=10 bytes-out=2 size=704/704`.
+Reading for the next lane: the pattern of colour choices in this block (halfW
+and the y read take ip, the x load takes lr over a free r6) fits greedy
+colouring in the order r0-r3, ip, lr, r4..., with `dy +=` coalesced.  Under that
+order the image's r6 for the y read needs ip held by a value live across
++0x21C, and no instruction in the image names one.  No front end, library flag,
+type or statement spelling measured here creates such a value without also
+emitting a use of it.
+/* best source, 704 bytes against 704, 2 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 21 (lane C2): 0x02067080 unchanged, DIFF 2
+==============================================================================
+Every figure is a match.py output, ../2.0/sp2 -O4,p, ~115 compiles, no
+permuter.  Base: the wave-13 source above, re-verified 704/704, 2 out (y read
+at +0x21C in ip, image r6).  Angle: a value live in ip across +0x21C that the
+image never names.  Bytes out, one change each against the base:
+
+Hidden-value candidates:
+  dead store kept: `pV->y += 0;` after the y store 2; `dead = halfW;` into an
+  unused local 2; `fx32 dead = halfW; ... dead = dead;` 2; `pV->x = pV->x;`
+  after the y store 2 (all folded before allocation, residue unchanged).
+  volatile read, result unused, `(void)*(volatile fx32 *)&pV->y;` before or
+  after the y store: 708/143, 708/138 (the load is emitted; y still ip).
+  struct copy: the adjust core on a local `v = *pV; v.y += ...; pV->y = v.y`
+  712/237; the tail on a copy `t = objTrans` 704/79; pBaseTrans copied to a
+  const struct at the top 720/637, in a block at the tail 712/125.
+  argument evaluated early and held: pBaseTrans->x/y read into const locals at
+  the top 704/552, only y 704/512 (the loads stay early; no downward move).
+  64-bit intermediate: `s64 dy` with the sum truncated 712/196, `(fx32)dy +`
+  708/161; `(s64)halfW` local cast back at the mla 2 (folded); `(fx32)((s64)
+  _01 * halfW)` 708/162; `(fx32)((s64)_11 * halfH)` 708/198 (y DOES land in
+  r6 there, but through smull and a reordered block); `(fx32)(dy + (s64)_11 *
+  halfH)` 708/147; `(fx32)((s64)pV->y + sum)` 704/43 (`adds` replaces the add,
+  so the post-RA scheduler can no longer hoist `cmp r4, #0x300` over it).
+  parameter kept live: an unused fourth parameter on func_02067080 2; an
+  unused local at function scope 2; `register` on dy, dx, halfW, halfH and
+  all four 2 each.
+  adjust-inline parameter order: all 23 non-identity permutations of
+  (pOam, pM, pV, flag), prototype and call together: 2 each.
+Enum typing (the an-enum-typed-zero idiom; the permuter's --types set has no
+enum, so this dimension was unmeasured): dy, dx, halfW, halfH, a y local
+read at the store, the _11 operand, the flag parameter and bShouldAdjust:
+2 each (base residue).  NNSG2dFVec2 {E x, E y} 2, {fx32 x, E y} 2; MtxFx22 all
+four fields E 2, _11 only 2, _01 only 2.  An enum y local read EARLY (at the
+declaration, before the dx statements, after the x store, after `dy = -(..)`)
+gives the item-1 residue (y r6, the dy mla result in ip), read after the dy
+mla the base residue: the split point is the dy mla, exactly as with an int
+y (wave 20C), and enum dy on top of the early read changes nothing.
+Copy-terminated redefinition (the an-arithmetic-loop-carried idiom):
+`n = dy + _01 * halfW; dy = n;` (either operand order) 700/168, the same on
+dx 700/232, on both 696/237 (mwcc re-associates to the whole-sum form);
+through the initialiser only (`n = -(halfH << 12); dy = n;`) 2; m/n chain
+700/168.
+Translation unit (match.py tu, the three matched neighbours' own sources
+merged with the base, types unified on the union GXOamAttr of 0x02067340):
+0x02067080+0x02067340 (1756 bytes): only the same 2 bytes out, both other
+functions byte-exact inside the unit; 0x02066E30+0x02067080+0x02067340 (2348
+bytes): the same 2 only; the pair with func_02067080 static: the same 2 (not
+inlined into its caller, allocation unchanged).  Neighbours in one file do
+not move the tie.
+Diagnostics (not candidates): the double block removed 612 bytes; only its x
+half 688 bytes, y read in ip; only its y half 688 bytes, y read in ip.
+Reading: the base, item 1 and the enum sweep agree that the dy mla is the
+only statement boundary that moves the tie, and that it trades ip between
+the dy mla result and the y read.  In the image both avoid ip.  Under the
+first-free order r0-r3, ip, lr, r4... that the choices in the adjust block
+fit, a node the image does not name would have to be coloured ip across
++0x21C, and every node coloured ip in the image (halfW, +0x1D8..+0x214) dies
+at the same mla as _01, which shares r6 with the y read, so no pre-RA order
+of the image's instructions can have halfW live across the y read.  The
+hidden value would have to be one whose instructions are all deleted after
+allocation.  Every candidate measured here was either folded before
+allocation (residue unchanged) or emitted (bytes changed).  The first block
+(+0x008..+0x1D4) never uses ip or lr while they are free, so the order is not
+uniform for every node either: a model of the allocator that explains both
+halves is still missing.
+/* best source, 704 bytes against 704, 2 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 21 (lane C3): 0x02067080 unchanged, DIFF 2
+==============================================================================
+Base: the wave-13 source above, re-verified with match.py one under ../2.0/sp2
+-O4,p at the start of the lane: 704/704, 2 out (y read at +0x21C in ip, image
+r6).  This lane was cut short by the integrator after the allocator probes
+and before any spelling of the target was measured, so no new bytes-out
+figures for the function exist here; the best source is unchanged.  About
+25 compiles in all (one match.py verification, the rest scratch probes under
+/tmp/aletheia_laneC3/p, compiled with the same mwccarm command line match.py
+uses: ../2.0/sp2, -proc arm946e -enum int -Cpp_exceptions off -interworking
+-char signed -msgstyle gcc -lang c99 -O4,p, ARM).  Each probe is one small C
+file; the registers below are read from objdump of the .o.
+
+Allocator probes (what each asked, what the compiler did):
+  p01: nine loads from a[] all live to a final sum, r0-r2 live to the end.
+       Hand-out in emitted order: v0 r8, v1 r6, v2 r4, v3 r5, v4 r7, then
+       r6/r5/lr/r4 reused as earlier ones die; the partial-sum chain sits
+       in r3, moves to r9 at the fourth add and back to r3 at the last;
+       one product in ip.  NOT lowest-first, NOT a rotation: long webs go
+       high (r8, r9), short ones low (r3, ip).
+  p05_1..6: n loads, r0-r2 live, summed.  n=1: v -> ip (r3 free, taken by
+       the zero constant later).  n=2: v0 -> lr, v1 -> ip.  n=3: v0 ip,
+       v1 r3, v2 lr (ldmib pair).  n=4..6: the extra loads alternate ip, lr
+       with the sum in r3.
+  p08f/g (volatile loads, order pinned, three webs u,v,w live together,
+       r0-r2 live): u -> lr, v -> ip, w -> r3, whichever order they are
+       used in.  So with lr, ip, r3 all free the fresh-web order is
+       lr, ip, r3: scratch registers are handed out HIGH first.
+  p08a/b/c: use count does not move a web (u 1 use vs 3 uses: lr either
+       way; the more-used one is loaded first).
+  p06: no params live.  p06: v2 r2, v3 r1, v0 r3, v1 r0 (the mul rd != rm
+       rule of ARMv5 forces the return-value operand out of r0: `eor r1`
+       then `mul r0, r1, r0`, also seen in p07c).  p06b: ip, r2, r4/lr.
+  p07: eight independent `b[i] = a[i] + 1` temporaries, two params live:
+       every one takes r2 (the last takes r0 as a dies).  No rotation
+       between free registers; a short web reuses the same register.
+  p07d: the target's mla shape with a, b as parameters: `mla lr, ip, r2, lr`
+       frees ip; `ldr r0, [r0, #12]`; the v[1] read takes ip.
+  p02/p03/p04: the adjust inline as its own function (p03) and with
+       halfW/halfH as parameters (p04): the dying-operand reuse is
+       inconsistent even here: p02 `asr r3, r3, #1` in place, p03 halfW
+       `asr r4, r4, #1` in place but halfH `asr lr, r7, #1` fresh, and in
+       the target halfW `asr ip, r5, #1` fresh but halfH `asr r3, r3, #1`
+       in place.  In p04 the y read (after the mla) takes r0, the register
+       _11 freed at that mla.
+  Options: mwccarm 2.0/sp2 -help lists no scheduling switch (-scheduling,
+       -schedule, -sched, -opt nosched* all rejected); -opt display says
+       only "global optimizer level 4, speed".  -O4,s and -O1 stop
+       inlining the helpers, so they cannot show the block unscheduled.
+
+Models tested against the image's adjust block (+0x1D8..+0x228) and the
+probes, all refuted:
+  fixed lowest-first in any order: halfW takes ip over free r6/r7 but
+    hw12 then takes r5 over lr, x takes lr over free r6, y takes r6 over
+    ip in the image and ip over r6 in ours: no single order fits.
+  FIFO free list: r7 (free since the first block) would be handed out
+    first; it is not.  LIFO: r6 (freed at +0x1C4) would precede ip for
+    halfW.  Rotation: refuted by p07.
+  Chaitin colouring with a fixed try-order: y's coloured neighbours never
+    include an ip node, so y would take ip in the image as well.
+What the probes do say: fresh scratch webs are handed out lr, ip, r3 (high
+first) when all are free, long webs prefer high callee-saved registers
+(r8, r9 in p01), a def frequently but not always takes a dying operand's
+register, and use count is not the priority.  The order in which the
+allocator visits webs is still unknown; the flip between r6 and ip for the
+y read (both freed by the same mla at +0x214, in both builds) needs that
+visiting order, which none of the probes above isolates.  Suggested next
+probe: a volatile-pinned straight line with two webs freed by one mla and
+a load after it, varying which operand of the mla each web is, to see
+whether the operand slot (rm vs rs) decides which freed register the next
+load takes.
+/* best source, 704 bytes against 704, 2 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 21 (lane C4): 0x02067080 unchanged, DIFF 2
+==============================================================================
+Base: the wave-13 source above, re-verified with match.py one under ../2.0/sp2
+-O4,p: 704/704, 2 out (y read at +0x21C in ip, image r6).  About 72 compiles:
+51 match.py one, 7 probe TUs (44 probe functions) and 7 variant TUs, plus 2
+-proc diagnostics.  Probes and variant TUs used the match.py command line
+(/tmp/aletheia_laneC4/probe.py, copied from lane C3's).  A variant TU holds
+several renamed copies of the whole function, each with its own copy of the
+adjust inline.  One scratch point: match.py one passes no -lang unless asked.
+The base gives 2 either way, but `restrict` is only a keyword under
+--lang c99.  The D rows below were measured that way.
+
+ALLOCATOR MODEL (probes p10-p16, /tmp/aletheia_laneC4/p):
+ 1. Visit order is the reverse of web creation, and creation follows the
+    source (IR) order, not the final instruction order.  p15d: a short web A
+    sits between two blocks.  B1 is earlier in the source and uses r4-r6; B2
+    is later and uses r0/ip/lr.  A takes ip because B1 is coloured after A.
+    p15a/p14e: a zero constant written last in the source but hoisted to the
+    top is coloured before everything.
+ 2. The colour is the first free register in a DYNAMIC list:
+      r0 r1 r2 r3, then the callee-saved registers some web coloured earlier
+      already holds (ascending), then ip, lr, then fresh callee-saved
+      (ascending).
+    p14a/b: A takes ip when the later block used only ip/lr/r0.  p14c, p15a,
+    p15c: A takes r4 once the later block has r4 (and r5..r7), although ip
+    is free for A's whole life.  This explains lane C3's hand-out "lr, ip, r3"
+    (it is the reverse visit of r3, ip, lr).  It also explains why the first
+    block and MulMtx22 never touch ip/lr while r4-r8 are in use (MulMtx22's
+    64-bit accumulator takes r8 over a free ip).
+ 3. mla/mul: rd never equals rm; rd may equal rs or rn.  p16a/b: after
+    `D += A*B` the result avoids A (rm).  With B*A it lands on B's old
+    register (ip there).  The operand slot does NOT decide which freed
+    register a later load takes: in p10/p11/p16 the load takes the first free
+    register in the list (r3 in every form).
+ 4. A single-use local whose read has no store between the read and the use
+    is re-created at the use (late index).  A store in between keeps the
+    early index.  For a stack field (objTrans.y) the scheduler still sinks
+    the load to its use, so the colour changes and the bytes do not: item 1
+    against B6/B2/B7 below.  For a pointer parameter the load stays early and
+    lives long (p16d: k and Y loaded before the store, r5/lr).
+ 5. Scheduling runs before allocation as well as after (allocation changes
+    with -proc).  The -proc v4 compile of the base (diagnostic only, 708
+    bytes/354) is nearly unscheduled: x and y are loaded before their matrix
+    operand, and `cmp r4, #0x300` sits just before `moveq`.  The effect (r4)
+    is therefore live across the y read at allocation time; the scheduler
+    hoists the cmp afterwards.
+ Negative: a whole-function simulator (/tmp/aletheia_laneC4/sim.py, fit_t.py)
+ rebuilds webs from the listing and runs Chaitin simplify/select with rules
+ 1-3.  Creation order was taken from the v4 listing, K was 3..14, with and
+ without operand biasing.  It still mismatches 64 of 116 webs, mostly the
+ long high-degree webs (effect, table bases, the MulMtx22 pointer) and their
+ cascades.  Rules 1-3 hold on the probes, not yet on the whole function.
+ C4 below is also unexplained: dy1 skips a free ip there.
+
+WHAT THE MODEL SAYS ABOUT THE RESIDUE:
+ base  : y is created after dy1, so it is visited first.  No r6 web has been
+         coloured yet, so y takes ip.  dy1 then sees ip taken (y), lr (hh12),
+         r4 (effect), r5 (hw12) and r6 barred as rm, so it takes r7.
+ item 1: y's index is early (a store sits between the read and the use), so
+         it is visited after xs/_01.  r6 is already given out, so y takes r6.
+         dy1 is visited first and takes ip.
+ image : y r6 needs r6 already given out when y is visited (item-1 order).
+         dy1 r7 then needs ip barred, or r7 already given out when dy1 is
+         visited.  Every r7 web (dx0..dx2, dy0, MulMtx22, +0x0A8) is created
+         before dy1, and nothing after dy1 holds r7 or ip.  So under rules
+         1-4, no ordering of the image's own instructions gives both.  This
+         agrees with lanes C2/C3, now from the list rule rather than a fixed
+         order.  The one observed way to make dy1 skip a free ip is to define
+         it before a store it is used after (C4).  That keeps `_01` and dy0
+         live across the x store (r8/r9), which costs 76 bytes.
+
+SPELLINGS (match.py one, ../2.0/sp2, bytes out; 704 bytes unless stated).
+Inside the adjust inline; "item 1" = `fx32 y = pV->y;` before the x store,
+y stored as `y + (dy + _11*halfH)`:
+  A  dy computed early (y register in brackets):
+     A1 dy init+update before dx 76 (dy0 r9, _01 r8, dy1 r6);
+     A2 after dx init 76; A3 before the x store 76; A4-A6 the same three with
+     the item-1 y 76 each (y r7); A8 dy first and the y store before the x
+     store 116.  The dy mla is sunk, but the rsb and `_01` stay early and
+     live long.
+  B  y read point against a separate `_01` read (m01 local):
+     B1 m01 then y, after the x store 2 (y ip); B2 y then m01 after the x
+     store 2 (y ip: a store, not the `_01` load, is the split point);
+     B3 m01 at the top 82; B4/B5 y and m01 both at the top 82;
+     B6 y read after the x store, before dy init 2 (y ip); B7 y between the
+     dy init and the mla 2 (y ip); B8 `_11` into m11 then y, after the dy
+     mla 2 (y ip).
+  C  dy (or y) across the x store (the x sum in a local xs, stored later):
+     C1 y at the top 76; C2 base y 76; C3 dy init before xs 76;
+     C4 y read between dy1 and the store 76.  In C4 dy1 is r7 and y is r6,
+     the image's pair, but `_01` is r8 and dy0 r9.
+     C5 only the dy mla after the store 8 (dx chain in lr, dy1 ip);
+     C6 xs local, stored at once, item-1 y 2 (item-1 residue).
+  D  restrict (--lang c99): D1 `restrict pM` 2 (base residue); D2
+     `restrict pV` 712/256; D3 both 712/256; D4 item 1 + restrict pM 2
+     (item-1 residue); D5 item 1 + both 712/257; D6 C4 + restrict pM 76;
+     D7 C4 + both 712/253; D8 C4 + restrict pV 712/253.
+  E  store barriers and copies:
+     E1 C4 with y first 76; E2 the whole y sum into dy before the store
+     700/240; E3 xs, y read, x store, dy after 2 (item-1 residue);
+     E4 item 1 with dy through a late copy d2 2 (item-1); E5 item 1 with a
+     self-store `pV->x = pV->x;` between dy and the y store 2 (item-1);
+     E6 the same self-store on the base 2 (base residue); E7 item 1 with dy
+     held in a stack struct field 2 (item-1).
+  F  mla operand slots (the rd != rm rule): F1 `halfW * pM->_01` on the base
+     6 (`mla r6, ip, r6, r7`; dy1 is barred from ip and takes r6, y ip);
+     F2 the same on item 1 6 (dy1 r6, y r7, as predicted); F3
+     `halfH * pM->_11` on the base 6; F4 the same on item 1 5; F7 both
+     swaps on item 1 9.  The encoding follows the source order (rm = first
+     factor), so the image fixes `_01 * halfW`.
+  G  hidden-live-value tests: F5 hw/hh as block-scope consts declared after
+     the y store, used by the double block 2 (CSE'd to the dx/dy shift, base
+     residue); F6 the same on item 1 2 (item-1).
+  Reductions (scratch only, whole-function cuts): without the overwrite
+  block, the remove-adjustment inline or the attr-to-trans inline, the
+  adjust block's colours are unchanged (y ip).  Without the tail or MulMtx22
+  everything is recoloured.  The residue is local to the adjust block and
+  the tail.
+Reading for the next lane: rules 1-4 reproduce the base, item 1, F1, F2 and
+the B split exactly.  Under them the image needs a callee-saved r7 already
+given out before dy1 is visited, or ip barred across +0x214..+0x224, and the
+image's own instructions supply neither.  What would close it is the
+mechanism behind C4 (dy1 skipping a free ip) without `_01`/dy0 living across
+a store, or a value live in ip across +0x21C whose instructions are all
+deleted after allocation.  p13 looked for post-allocation deletion of a
+recomputed shift and saw none: every recomputation was CSE'd before
+allocation (p13a-e: `(unsigned)h << 12` and `h * 4096` both merge with
+`h << 12`).  The long-web rule still missing from
+sim.py is the next probe: which webs take callee-saved registers ahead of the
+list order.
+/* best source, 704 bytes against 704, 2 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */

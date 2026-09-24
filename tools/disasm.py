@@ -16,11 +16,14 @@ Usage
     python tools/disasm.py overlay 12
     python tools/disasm.py overlay --all
     python tools/disasm.py twl
+    python tools/disasm.py ov230d
 
-Output goes to asm/arm9/*.s, asm/overlays/ov###.s and asm/twl/twl.s. With ``--split`` the
-ARM9 static module and the ITCM autoload are additionally written as ordered
-translation units under asm/arm9/src/ and asm/arm9/src_itcm/, described by the
-committed manifests layout/units_arm9.json and layout/units_itcm.json.
+Output goes to asm/arm9/*.s, asm/overlays/ov###.s, asm/twl/twl.s and
+asm/ov230d/ov230d.s (overlay 230 after its own decryptor, tools/ovcrypt.py).
+With ``--split`` the ARM9 static module and the ITCM autoload are additionally
+written as ordered translation units under asm/arm9/src/ and
+asm/arm9/src_itcm/, described by the committed manifests
+layout/units_arm9.json and layout/units_itcm.json.
 ``tools/build.py`` reassembles either form and proves both produce the same
 bytes.
 
@@ -1227,6 +1230,10 @@ def _region_listing_paths(region_name, out_dir="asm"):
         twl_dir = os.path.join(out_dir, "twl")
         return ([os.path.join(twl_dir, "twl.s")],
                 os.path.join(twl_dir, "inst_index.txt"))
+    if region_name == OV230D:
+        d = os.path.join(out_dir, OV230D)
+        return ([os.path.join(d, OV230D + ".s")],
+                os.path.join(d, "inst_index.txt"))
 
     arm9_dir = os.path.join(out_dir, "arm9")
     split_sub = {"arm9_main": "src", "arm9_itcm": "src_itcm"}.get(region_name)
@@ -1528,6 +1535,67 @@ def build_twl_region(layout, extract_dir, layout_dir="layout"):
                   "extract/%s + 0x%X" % (tw["decompressed_file"],
                                          tw["src_offset"]),
                   seeds=seeds, note=note)
+
+
+OV230D = "ov230d"
+
+
+def build_ov230d_region(layout, extract_dir, layout_dir="layout"):
+    """Region `ov230d`: overlay 230 as its static initialisers leave it.
+
+    ov230 decrypts most of its own code in place when it is loaded
+    (tools/ovcrypt.py).  asm/overlays/ov230.s lists the ROM bytes, which
+    are ciphertext there; this region lists extract/ov230d.bin, the view
+    ovcrypt.py writes after replaying the decryptor and checking every
+    range.  The file is recomputed from extract/overlays_dec/y9_0230.bin
+    here and must agree byte for byte, so a stale view is refused.  Seeds
+    are ov230's static initialisers, the start of every decrypted range (the
+    decryptor's table is what says code begins there: it is the range the
+    game decrypts and flushes from the caches) and layout/function_starts.txt
+    rows for `ov230d`; the decryptor's tables are declared data.  The ROM
+    listing and the ROM rebuild never see this region.  Returns None when
+    the view has not been written."""
+    import ovcrypt
+    path = os.path.join(extract_dir, ovcrypt.VIEW_FILE)
+    if not os.path.isfile(path):
+        return None
+    o = ovcrypt.overlay_record(layout)
+    image = read_file(os.path.join(
+        extract_dir, o["decompressed_file"].replace("/", os.sep)))
+    try:
+        view = ovcrypt.decrypt(image, o["ram_start"],
+                               ovcrypt.sinit_entries(image, o))
+    except ovcrypt.CryptError as exc:
+        raise DisasmError("ov230d: %s" % exc)
+    data = read_file(path)
+    if data != view.data:
+        raise DisasmError("extract/%s does not match a fresh decryption of "
+                          "extract/%s; rerun: python tools/ovcrypt.py write"
+                          % (ovcrypt.VIEW_FILE, o["decompressed_file"]))
+    seeds = [(e, False) for e, _t, _x in view.tables]
+    seeds += [(s, False) for s, _n, _t in view.ranges]
+    seeds += load_function_starts(layout_dir, OV230D)
+    note = ("overlay 230 after its %d static initialiser(s) decrypted %d "
+            "range(s) in place (tools/ovcrypt.py); a derived view, never "
+            "built into the ROM" % (len(view.tables), len(view.ranges)))
+    reg = Region(OV230D, o["ram_start"], data,
+                 "extract/%s (derived from extract/%s)"
+                 % (ovcrypt.VIEW_FILE, o["decompressed_file"]),
+                 seeds=seeds, note=note)
+    reg.declared = {t: x for _e, t, x in view.tables}
+    reg.ov_ranges = list(view.ranges)
+    return reg
+
+
+def check_ov230d_trace(r):
+    """Every decrypted range must be a traced function, all code."""
+    for s, n, _t in r.ov_ranges:
+        o = r.off(s)
+        if s not in r.funcs or any(k != CODE for k in r.kind[o:o + n]):
+            raise DisasmError(
+                "ov230d: the trace does not cover decrypted range "
+                "0x%08X+0x%X as one function of code; refusing the listing"
+                % (s, n))
 
 
 # ---------------------------------------------------------------------------
@@ -1838,6 +1906,29 @@ def cmd_twl(args):
     return 0
 
 
+def cmd_ov230d(args):
+    layout = load_layout(args.layout)
+    r = build_ov230d_region(layout, args.extract, args.layout)
+    if r is None:
+        print("[*] ov230d: skipped (no extract/ov230d.bin; run: python "
+              "tools/ovcrypt.py write)")
+        return 0
+    out_dir = os.path.join(args.out, OV230D)
+    inst_index = []
+    Analyser(r).run()
+    check_ov230d_trace(r)
+    index_hidden_pool_words(r, [r])
+    stats = [emit(r, os.path.join(out_dir, OV230D + ".s"), [r],
+                  quirks=load_quirks(args.layout, r.name),
+                  inst_index=inst_index)]
+    write_inst_index(inst_index, os.path.join(out_dir, "inst_index.txt"))
+    print("[*] ov230d: 1 region, %d decrypted range(s) traced as functions"
+          % len(r.ov_ranges))
+    print_stats(stats)
+    print("[*] wrote %s" % stats[0]["path"])
+    return 0
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(
         prog="disasm.py",
@@ -1863,6 +1954,11 @@ def main(argv=None):
     p = sub.add_parser("twl", help="disassemble the DSi-mode autoload block "
                                    "(needs the decrypted arm9i)")
     p.set_defaults(func=cmd_twl)
+
+    p = sub.add_parser("ov230d", help="disassemble overlay 230 as its static "
+                                      "initialisers decrypt it (needs "
+                                      "extract/ov230d.bin, tools/ovcrypt.py)")
+    p.set_defaults(func=cmd_ov230d)
 
     args = ap.parse_args(argv)
     try:

@@ -104,6 +104,12 @@ function each one closed:
   `--dsi-key`); no key or key-bearing dump is ever committed, and without it the region is skipped.
 - **sole-ref/code extended to twl** (`dc6d427`), which let func_0206DC00 attest EXACT against the two
   TWL-only PC24 targets traced in that region.
+- **Overlay 230's own decryptor, region `ov230d`** (wave 21 lane T): `tools/ovcrypt.py` replays ov230's
+  static-initialiser decryptor (hash-checked, every range a clean ARM function) into the derived view
+  `extract/ov230d.bin` (`python tools/ovcrypt.py write`, also run by delink.py), `python tools/disasm.py
+  ov230d` lists it as `asm/ov230d/ov230d.s`, and match.py's `ov230d` symbols token attests a decrypted range
+  start there (sole-ref/code without an outside branch); ROM listing labels on ciphertext are refused. The
+  ROM build never reads the view. func_02011D9C (ica_anime) is EXACT with it (docs/NOTES.md).
 - **`match.py` reads only manifest-listed listings**, so a stale or regenerated listing file that no
   manifest entry names cannot silently feed a compare.
 - **The status gate**: a file header's `status:` line is never evidence; only a shard written by

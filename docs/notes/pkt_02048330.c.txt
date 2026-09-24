@@ -746,3 +746,279 @@ From the wave-16 long source (1.1p1):
   `*(void **)((u32)util->res + (resIdx + idx) * 4)` 472/324.
 The resIdx (image r7) / i (image sb) pair did not move under any of them.
 /* best source, 468 bytes against 468, 14 concrete bytes out, dsi/1.1p1 -- the wave-16 long source above -- unchanged */
+
+
+==============================================================================
+2026-09-24, wave 21 (lane D): 0x02048744 unchanged, DIFF 14
+==============================================================================
+From the wave-16 long source (re-verified: 468/468, 14 out, 9 of 9 relocations,
+same resIdx r7 / i sb pair swapped), dsi/1.1p1 unless noted, all 468 bytes
+unless noted, bytes out:
+  unitIdx parameter reused as the loop counter (dead-parameter lever), with
+    the parameter typed long / int / u32: 472/404 each (i gets sb as the
+    image has it, but through a `mov sb, r1` copy, and resIdx/objTbl rotate
+    to r8/r7); u16 unitIdx as the counter 480/406
+  resIdx computed into the dead unitIdx after the objIdx/objCount reads,
+    unitIdx long / int / u32: 480/410; u16: 472/388
+  getRes/useRes replaced by the open-coded table reads, all 31 non-empty
+    subsets of the five sites: the three getRes sites are inert (14 in every
+    subset without a useRes change); open-coding the model useRes 35; the
+    texture useRes 472/265 (with the model one too 472/286)
+  statement order of `resIdx = ...; objIdx = ...; objCount = ...; i = 0;`
+    (declarations without initialisers, `for (; i < objCount; i++)`), all 24
+    orders: floor 14 with long i, j; floor 18 with int i, j
+  a (int) cast on i at each subset of its four uses (os, the model-index read,
+    the compare's model-index read, obj[objIdx + i]), 15 subsets: 14 each;
+    the same with int i and a (long) cast: 18 each (casts fold away)
+  front ends, the same source: dsi/1.1, 1.2p1, 1.2p2, 1.3, 1.3p1, 1.6sp1,
+    1.6sp2 all 468/14 with the identical pair; ../1.2/sp2 532/439,
+    ../1.2/sp4 524/442, ../2.0/sp2p4 500/399.  No dsi front end separates
+    the pair, so this is not a pin question (and the sibling 0x02048330 of the
+    same file is EXACT under 1.1p1).
+  inline helper levers: the texture resolution as a static inline getTex(...)
+    14 (int 18); the animation array as an inline createAnm(...) 42 (int 39,
+    a wider rotation); the whole object body as an inline createObj(...)
+    writing through a dst pointer 480/366 (int 480/367)
+  loop spellings: `objCount > i` 14, `++i` 14, `i += 1` 14, inner
+    `os->anmCount > j` 14 (int versions 18 each)
+  objIdx x objCount types over {u16, int, u32, long, unsigned long, short}
+    (34 new combinations): floor 14 (int/int, int/u16, u16/int, u32/int,
+    u32/u16); short on either 15-16 (same pair plus a sign extension)
+  block scope: every per-object local (mdl, tex, rnd, anm, os, a, long j)
+    declared inside the for body 47 (int 18); `long i` in a block around the
+    loop 25; resIdx declared in a block around the loop 472/388
+  permuter.py anneal --types, budget 5000 (the largest run on this function
+    so far), seed 9021, from the wave-16 long source: best 14, no mutation
+    improved on the baseline.
+About 190 manual compiles plus the 5000-candidate permuter run.  The pair is
+flat under the dead-parameter and dying-local levers, inline-helper
+restructuring, every dsi front end, and block scoping.  The one variant that
+put i in sb (unitIdx reused as the counter) pays a coalescing copy and rotates
+resIdx with objTbl.
+/* best source, 468 bytes against 468, 14 concrete bytes out, dsi/1.1p1 -- the wave-16 long source above -- unchanged */
+re-verified 2026-09-24 by tools/match.py: DIFF, 468 bytes against 468, 14 concrete bytes out, 1.1p1
+
+
+==============================================================================
+2026-09-24, wave 21 (lane D2): 0x02048744 unchanged, DIFF 14 -- colouring-order map
+==============================================================================
+New here: every compile was read back for FOUR webs, from the compiled column of
+--diff: resIdx (+0x14 ldrh), i (+0x28 mov #0), objTbl (+0x50 ldr [r0,#8]) and
+j (+0x134 mov #0).  Callee-saved rank is written sb > r8 > r7 (r4-r6 are the
+short temporaries and match throughout).  Image: i sb > tbl/j r8 > res r7.
+All dsi/1.1p1 -O4,p, --arm, from the wave-16 long source unless noted; bytes
+are compiled/out (468 unless noted).  About 183 compiles, no permuter.
+
+Rank map by counter type (i;j declared i first unless noted):
+  int/int 18   tbl/j > i > res        long/long 14  res > tbl/j > i
+  int/long 18  i > res > tbl/j        long/int 25   tbl/j > res > i
+  int/u32 20, u32/u32 23, u32/int 21 (same rank as int/int); int/unsigned
+  long 20, u32/long 21, u32/unsigned long 23 (as int/long); long/unsigned long
+  16, unsigned long/long 17, unsigned long x2 19 (as long/long); long/u32 27,
+  unsigned long/int 28, unsigned long/u32 30 (as long/int)
+  declared j before i: int/int 18 (no change); long/long 25 res > i > tbl/j
+    (longs rank by declaration, later = higher); int i/long j 18; long i/int
+    j 25; u32 i/int j 21; int i/u32 j 20
+  So: tbl and j always share a register and j's type decides that slot; the
+  int class (int, u32, unsigned, enum, pointer) ranks ABOVE resIdx, the long
+  class (long, unsigned long, register long) ranks BELOW it, and inside the int
+  class tbl/j > i whatever the declaration or statement order.
+  The image order (i > tbl/j > res) needs i above an int j: no 32-bit type does it.
+
+The one spelling with the image's ranking: `short i; int j;` 476/45, res r7,
+i sb, tbl/j r8 -- every byte right except the sign-extending increment
+(add r0,sb,#1; lsl r1,r0,#16; asr sb,r1,#16; cmp r0,r1,asr #16; bgt).  So the
+rank depends on the IR shape of i's back-edge definition, not on a type rank.
+(int i with j short 476/100, u16 476/101, signed char 476/100, unsigned char
+472/95, char 476/100: j truncation, rank unchanged; j long long 480/182; i long
+long 544/463; i enum / register int / unsigned 18/18/21; j enum 18, register
+int 18, register long 18 (as long), unsigned 20; i `char *` with (int) casts,
+j int 18 / j long 18, i.e. pointers rank as int.)
+
+Directions measured (what each lever pushes):
+  j-before-i definition, int: `int i, j = 0` 18; `int j = 0; int i;` 18;
+    `j = 0;` statement before the for 18; `i = 0; j = 0;` then `for (; ...)`
+    18; the same four with u32 23.  j's first definition does not rank it.
+  `i = 0` placed before the resIdx read (no initialisers), int, orders
+    i,r,o,c 18 and r,i,o,c 18 (no change); o,c,r,i and o,c,i,r 472/387.
+  induction-variable spellings (all fold): `i = (i+1)|0`, `&-1`, `+1+0`,
+    `*1`, `i - -1`, `^0`, `(int)(i+1)`, `(unsigned)(i+1)`, while loop with i++
+    at the end, goto loop with `if (i >= objCount) return;`: int 18 each,
+    long 14 each.
+  per-iteration split of i (`k = i` at the top, k used in the body): long 14.
+  loop-carried k with body copy i (`for (k = 0; k < n; ) { i = k; ... k = i+1; }`):
+    int 18; long 25 (res > i > tbl/j: i rises above tbl); k/i/j types
+    int/int/long 18 (i > res > tbl/j), int/long/int 25, int/long/long 25
+    (res > i > tbl/j), long/int/int 18, long/int/long 18, long/long/int 25.
+    The BODY copy's type decides, not the carried counter's.
+  `n = i + 1` then `i = n` in the for header, n declared first / after i,j /
+    mid, int 18 each, long 14 each.  `k = i + 1` before func_020307B0 with
+    `i = k` in the header: int 18, long 14.
+  increment moved into the body: `obj[objIdx + i++]` int/int 35 (tbl/j > res
+    > i: i DROPS), long/long 35 (res > i > tbl/j), int/long 35; `i++` before
+    func_020307B0: int/int 28, long/long 24, int/long 30 (rank unchanged).
+  per-iteration `u16 r = resIdx` for all helper calls 476/391; the same for the
+    anm loop only 476/391.
+  i used in the inner loop (`setup->objTbl[i].anmTbl[j]`) 476/355.
+  objTbl read counts (os->mdlResIdx for the compare, for the model read, both;
+    os assigned after the model read): int 18, long 14, every one.  Source-level
+    use counts are CSE'd away before colouring.
+  named `const ObjSetup *tbl = setup->objTbl` per iteration, declared top /
+    after j / before mdl: int i long j 18, long/long 14, int/int 18 (copy-propagated).
+  resIdx type with matching getRes/useRes parameter types: int or u32 with
+    int i,j 18, with long i,j 14 (rank as u16); long or unsigned long with int
+    or long i,j 58 (res drops to r4, i r8, tbl sb).
+  `Unit u = util->unit[unitIdx]` struct copy 500/413.
+  whole-body static inline worker taking the unit fields as parameters
+    (util, setup, heapID + the three fields): long i,j with res,obj,cnt first
+    472/389 (three orders), heapID,cnt,obj,res 468/36 (i drops to r5, res sb);
+    int i,j over the six field orders: 472/388 (res first or cnt,res,obj) or
+    468/47 (rank unchanged); int i long j 472/390 or 468/42 (i > res > tbl, j r4).
+  per-object body as a static inline `one(...)` with i as a parameter: int
+    468/47 (unchanged), long 468/45 (i r4, j r5).
+  unitIdx (int, long, u32) reused as the INNER counter j, i int or long:
+    472/403-404 (a parameter copy).
+  inner-loop store shape: ternary into anm[j] int 18, long 14; the stores
+    written in each arm (no `a`) int/int 23 (i sb as the image, but res and
+    tbl/j swapped r8/r7 and `streq fp,[r5,r0]` replaces moveq+b), long/long 19;
+    `a` declared in the inner body int 18 long 14; `a = 0; if (!= 0xff) a = ...`
+    int/int 32, long/long 28, int/long 32; `== 0xff` arm storing 0 and
+    `continue` int/int 23 (i > res > tbl/j), long/long 19, int/long 23.
+  `a` typed u32 / int / long / unsigned long with casts: int 18, long 14 (inert).
+  j block-scoped around the inner loop (int i): int j 18, long j 18 (as int/long);
+    `for (int j = 0; ...)` is a CCERR under -lang c99 on 1.1p1.
+Conclusion: three bands.  int-class webs rank above resIdx, long-class below,
+and inside the int band the j web (whose zero the `a = 0` constant is copied
+from, `mov fp, r8`) outranks i.  Only an i whose back-edge definition is not an
+in-place add (short) or a j that loses the `a` merge (stores in the arms,
+continue) reorders the int band, and each costs bytes elsewhere.  Nothing
+tried gives i > tbl/j > resIdx at 468 bytes.
+/* best source, 468 bytes against 468, 14 concrete bytes out, dsi/1.1p1 -- the wave-16 long source above -- unchanged */
+re-verified 2026-09-24 by tools/match.py: DIFF, 468 bytes against 468, 14 concrete bytes out, 1.1p1
+
+
+==============================================================================
+2026-09-24, wave 21 (lane D3): 0x02048744 unchanged, DIFF 14 -- what lifts i
+==============================================================================
+Fresh lane on the resIdx r7 / i sb pair.  87 compiles, dsi/1.1p1 -O4,p --arm,
+each read back for resIdx (+0x14 ldrh), i (+0x28 mov #0), objTbl (+0x50 ldr
+[r0,#8]) and j (+0x134 mov #0) from the compiled column; ranks written
+sb > r8 > r7.  Image: i > tbl/j > res.  "long base" = the wave-16 long source
+(468/14, res sb > tbl/j r8 > i r7); "int base" = the same with `int i, j`
+(468/18, tbl/j sb > i r8 > res r7).  Bytes are compiled size/out when not 468.
+
+Correction to the D2 reading of the narrow types, measured here with ranks:
+  short i / int j            476/45  res r7, i sb, tbl/j r8   (image ranking)
+  signed char i, char i      476/45  same ranking as short
+  u8 i / int j               472/60  tbl/j sb > res r8 > i r7  (i at the BOTTOM,
+                                     as long i; the increment is add r0; and r7,
+                                     r0,#0xff and the cmp still reads i)
+  u16 / unsigned short i     476/86  tbl/j sb, guard rewritten unsigned
+  short i / long j           476/63  i sb > res r8 > tbl/j r7
+  short i / short j          484/96  i sb > tbl/j r8 > res r7
+  union {long l; short s} u, u.l as the counter, int j   468/25
+                                     tbl/j sb > res r8 > u r7 (ranks as long)
+  the same with u.s++ as the increment                    484/380
+  So only a SIGN-extended narrow counter rises; a zero-extended one (u8, u16)
+  falls to the long band.  The lever is the signed extension, not narrowness.
+
+The EXACT sibling 0x02048330 (int i, j) as a probe (registers there: i sl,
+j r8, res r7, tbl a temp): removing its two `util->objStat[objIdx + i] |= n`
+statements, either one or both, drops i from sl to r8 (996-1044 bytes, i r8);
+with `long i, j` it keeps i in sl (1044/14, res r8, j r7).  So in the sibling
+two extra REAL uses of i (ldrb/strb [r1, sl]) are what put i on top, and they
+beat the long penalty too.  Every codeless way of adding a reference to i
+below was folded away before costing.
+
+int base, all 468/18 with the int-base ranking unless noted:
+  `i = i;` at the head of the body / at the tail / before the loop / inside
+    the inner loop; `objTbl[i + 0]`; `os = setup->objTbl; os += i;`;
+    `(util->obj + objIdx)[i]`; `a = (void *)(i * 0)`; `objIdx + i + (i - i)`;
+    `os->anmCount * 4 + i * 0`; `objTbl[i + (i & 0)]`; `if (i != i) break;`
+  `if (i < 0) break;` 480/368; `if (i >= 0)` around the obj store 476/94
+  texResIdx / mdlDatIdx / anmCount / anmTbl read through setup->objTbl[i]
+    instead of os->: 492/308, 480/227, 532/445, 468/243 (new address code)
+  `os = &setup->objTbl[i];` repeated in the inner loop 492/402
+  an unused fourth parameter `int` carrying i on useRes / on getRes: 18 each
+  loop forms: i as a guarded do-while (`i = 0; if (i < objCount) do ... while
+    (++i < objCount)`), the same with `n = i + 1; i = n; } while (n < objCount)`,
+    with `if (n >= objCount) break; i = n;`; j as a guarded do-while, as a
+    while with j++ at the end, as a do-while through `n = j + 1; j = n`; both
+    loops do-while; i while + j do-while: 18 each (the IR normalises them)
+  increment through an inline: `inc(&i)` (`*p = *p + 1`) in the header or as
+    the last statement, `i = next(i)` (`return v + 1`), `i = bump(i)` (parameter
+    modified then returned), `inc(&j)`: 18 each; `i = next(i)` on the long
+    base 14
+  cross-type increment copies `n = i + 1` (tail) / `i = n` (header): long i
+    with int / u32 / unsigned long n: 14 each; int i with long / u32 /
+    unsigned long n: 18 each
+  types of the short-lived webs: mdl, tex, rnd as u32 or long (casts at the
+    calls), anm as u32 * / long *, a as u32, os non-const: 18 each
+  parameters: unitIdx int / u32 / long / short, heapID int / u32 / long /
+    short: 14 (long base) or 18 (int base) each; `Setup *setup` without const
+    476/355 (objTbl reload changes; const is required); os non-const 14
+  `util->obj[i + objIdx]`, `os = setup->objTbl + i`: 14 (long base)
+
+Merging variables that already share a register (the only lever here that
+moved the pair, so webs are per variable, not per du-chain):
+  tex reused for rnd (`tex = func_02047400(mdl, ..., tex)`): int 468/42
+    (res r6, i r7, j r8, tbl sb), long 468/49 (res r8, i r6, j r7)
+  mdl reused for anm:  int 468/25 (tbl/j sb > i r8 > res r7, same ranking as
+    the int base), long 468/21 (res sb > tbl/j r8 > i r7, as the long base)
+  both merges: int 42, long 49
+Reading: the pair behaves like a Chaitin/Chow priority (cost over degree):
+a zero-extending truncation adds an interfering temp and drops i (u8), two
+real extra uses lift it (sibling), a sign-extended narrow web is costed as
+if its reloads were dearer and lifts i, and merging outer-body variables
+lowers i's degree but reshuffles r4-r6 with it.  Nothing 32-bit and
+codeless raised i above an int j.  Not tried (budget): the same merges with
+short-lived variables declared in different orders, and a merge of os with
+a value dead across the inner loop.
+/* best source, 468 bytes against 468, 14 concrete bytes out, dsi/1.1p1 -- the wave-16 long source above -- unchanged */
+
+
+==============================================================================
+2026-09-24, wave 21 (lane D4): 0x02048744 DIFF 14 -> EXACT
+==============================================================================
+Filed: src/matched/func_02048744.c, status EXACT (match.py one: 468/468, 9 of 9
+relocations), shard pkt_02048330 verified twice (1 rewritten, then 0 rewritten,
+5 of 5 EXACT).  About 45 compiles, dsi/1.1p1 -O4,p --arm.  Readout per compile
+from the compiled column: res +0x14, i +0x28, tbl +0x50, os +0x68, mdl +0x7C,
+tex +0xB4, rnd +0x114, anm +0x130, j +0x134, zero +0x140.  Image: res r7 i sb
+tbl r8 os r6 mdl r5 tex r4 rnd r4 anm r5 j r8 zero fp.  All 468 unless noted.
+
+Merges (lead 3), each on long i,j / int i,j / short i;int j:
+  C  mdl reused for rnd (mdl = func_02047400(mdl, ...)): 14 / 18 / 476/45,
+     rankings unchanged (res sb i r7 / res r7 i r8 j sb / res r7 i sb j r8)
+  D  tex reused for anm (casts at the uses): 46 / 39 / 476/88
+     (long: res r8 i r6 tbl sb os r5 mdl r7 anm sb j r7; int: res r6 i r7
+     tbl sb os r5 mdl r8 j r8; the whole low set moves)
+  F  mdl reused for a: 14 / 18 / 476/45 (inert)
+  G  tex reused for a: 14 / 18 / 476/45 (inert)
+  A+F: 49 / 42 / 476/91 (res r8 i r6 / res r6 i r7 / res r6 i r8)
+  A+G: 472/132, 472/129, 480/138
+  D+C: 46 / 39 / 476/88 (as D)
+  (B+C is not the same program -- mdl live as rnd and anm at once --
+  456/386; B+F, B+G, D+F, D+G not built.)
+  Only the merges that touch r4/r5 move the pair, and they move r4-r6 with it.
+
+Increment spellings (lead 1: a codeless conversion on i's back edge), int i,j
+/ long i,j:
+  i = (int)((char *)i + 1)          18 / 14
+  i = (int)(char *)(i + 1)          18 / 14
+  i = (int)((u8 *)0 + i + 1)        EXACT (res r7 i sb tbl r8 j r8) / 14
+  i = (u8 *)i + 1 - (u8 *)0         472/53 / 472/49
+  i = (int)((long long)i + 1)       18 / 14
+  i = ~-i                           472/54 / 472/50
+  i = (int)((char *)0 + i + 1)      EXACT (int)
+  i = (int)((u8 *)0 + (i + 1))      18
+  i = (int)&((u8 *)0)[i + 1]        18
+  i = (int)((u8 *)i + 1)            18
+Reading: `(T *)0 + i` is a pointer conversion of i that emits nothing (the
+null base folds), and the following `+ 1` is a separate pointer add, so i's
+loop-carried definition reaches the allocator as a conversion of a pointer
+temporary, not an in-place integer add -- the same effect the sign extension
+of `short i` had, without its two instructions.  Grouping the add inside
+(`(i + 1)`), indexing, or casting i itself to a pointer folds back to the
+plain add (18).  With long i, j the long band still colours i first (14).
+/* best source: src/matched/func_02048744.c, EXACT, 468 bytes, dsi/1.1p1 */

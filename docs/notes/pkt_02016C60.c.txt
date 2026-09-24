@@ -1555,3 +1555,412 @@ the pointer, the header statements, dead defs or self-assignments, or a
 renamed pass-1 pointer.  A lever would have to change the colouring order
 of a compiler temporary; 20 measurements used, cap reached.
 /* best source, 870 bytes against 872, 29 concrete bytes out, dsi/1.1p1 -- the 2026-09-24 wave-18 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 21 (lane B): 0x02016C60 29 -> 16 bytes out, 870/872, DIFF 16
+==============================================================================
+THE LEVER: split h2 across the header.  `h2 = R->f30 >> 12;` early and
+`h2 <<= 1;` late, with the sx2/i2/sy2 statements between them, keeps the
+first h2 web in a register over those statements.  That long-lived web is
+coloured before the pass-2 record pointer, so the pointer is pushed to r1
+(`adds r1, r1, r0`) and the sx2 temporary to r3.  That is the image's
+colouring, and +0x1D0..+0x1E8 (the pointer, the f2c test, w2, the f30/f34
+load pair, h2's asrs/lsls) are now byte-identical.  It is the first
+measurement in five waves that moved the pointer.  Header of the 16 source
+(R = the repeated record expression, rest of the file = the wave-18 source):
+    w2 = R->f2c >> 12;  h2 = R->f30 >> 12;  sx2 = R->f34 >> 12;  i2 = 0;
+    sy2 = R->f38 >> 12;  h2 <<= 1;  y = 0;
+RESIDUE, 16 bytes, +0x1EA..+0x1FE: the tail of the header.  Image: sx2 asrs
+before the h2 store, i2's zero and y's zero both in r0, sy2 in r3 (loaded
+before the i2 store).  Here sy2's load goes to r1 (the dying pointer's
+register) and i2's zero goes to r3, because i2 = 0 sits inside the h2 web.
+Every order that moves i2 = 0 below `h2 <<= 1` loses the pointer colouring
+again (see the sweep below).
+
+Measured from the wave-18 source (dsi/1.1p1, bytes out, 870 against 872):
+  - wave-20's best header order (w2, sx2, h2, i2, sy2, y) re-measured: 27.
+  - the chained zero `i2 = y = 0;` / `y = i2 = 0;` at six header positions:
+    30-32 (both still get two movs; the constant is rematerialised).
+  - pass-2 record casts (idioms/a-char-cast-on-the-base...): char *, signed
+    char *, (u32) integer sum, on the guard only, the body only, all, or each
+    single read, on both the 27 and the 29 header orders (42 compiles): all
+    flat (27 / 29).
+  - named `struct Rec *p` for the pass-2 header on the 27 order: 27.
+  - pass-2 outer loop as `for (i2 = 0, y = 0; y < h2; i2++, y += step)`
+    (and y/i2 swapped, and pass 1 as a for too), headers WHXY/WXHY/WHYX:
+    31-33; increments swapped (`y += step, i2++`): 872 bytes.
+  - h2 split, `h2 = f30 >> 12; ... h2 <<= 1;`: W A X B I Y Z 26; W A X I B Y Z
+    32; W A X B Y I Z 33; W A X Y B I Z 20; W A Y X B I Z 22; W A X I Y B Z
+    16; W A X I Y Z B 868 bytes; W A X B I Z Y 31; the late half spelled
+    `h2 = h2 << 1`, `h2 *= 2`, `h2 += h2`, `h2 = h2 * 2`: 26 each (on the
+    26 order).  h2 = f30 then `h2 = (h2 >> 12) << 1` later: 81.
+  - all 24 orders of {I, Y, Z, B} after W A X: best 16 (IYBZ, ZYBI), then
+    18-20; B last 868 bytes.  All 96 orders of {X, I, Y, Z, B} after W A with
+    X not first: best 16 (IZYBX, ZIYBX), 17 (IZXBY, ZIXBY), rest >= 18.
+  - on the 16 order: `i2 = y = 0` / `y = i2 = 0` 868 bytes; second zero as a
+    copy (`i2 = y` / `y = i2`): 16; X before A 26; A before W 28.
+  - sx2 split (`sx2 = R->f34; ... sx2 >>= 12`) at five positions: 16, 17,
+    28, 29, 29; sy2 split (`sy2 = R->f38; ... sy2 >>= 12`): 158, 868/488
+    (moves the frame).  Also on the 26 order: sx2 split 31, sy2 split 154-210.
+  - one shared temporary for sx2 and sy2 (`q = f34 >> 12; sx2 = q; ...
+    q = f38 >> 12; sy2 = q;`) with q = t, v, addr, c, r, found, bw: 16 each
+    (copy propagated); the same with the stores moved late: 31.
+  - w2 through the guard (`w2 = R->f2c; if (w2 != 0) { w2 >>= 12;` and
+    `if ((w2 = R->f2c) != 0)`) on the 16 order: 16 / 16; h2 before w2: 28.
+  - self-assignment `v = v;` of h2, sx2, sy2, i2, y, w2, step, scale at all
+    eight header positions (64 compiles): all 16.
+  - permuter, 870-extent wrapper (scratch only), anneal --types:
+    from the 27 source, seed 9101, 935 compiles (stopped): flat 27;
+    from the 16 source, seed 9202, 3000 compiles, --focus w2,h2,sx2,sy2,i2,y:
+    flat 16.
+  - front end: not re-swept (wave 20 already measured every dsi build on this
+    header; no byte evidence for a pin).
+For the next lane: the pointer is solved by a register web that spans the
+header.  What is left is making i2's zero a separate short web in r0 while
+sy2's temporary still spans it.  In the image, sy2's load comes before the
+i2 store and after the sx2 store.
+
+/* best source 2026-09-24 (wave 21 lane B), 870 bytes against 872, 16 concrete bytes out, dsi/1.1p1 */
+/*
+ * function: func_02016C60
+ * address:  0x02016C60
+ * packet:   pkt_02016C60
+ * region:   arm9
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * symbols:
+ *   _s32_to_double  0x0209B750  arm
+ *   func_0209AB80   0x0209AB80  arm
+ *   _d2s            0x0209C508  arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+extern double _s32_to_double(s32 v);
+extern double func_0209AB80(double a, double b);
+extern s32 _d2s(double d);
+struct Rec
+{
+  s32 f00;
+  s32 f04;
+  s32 f08;
+  s32 f0c;
+  s32 f10;
+  s32 f14;
+  s32 f18;
+  s32 f1c;
+  s32 f20;
+  s32 f24;
+  s32 f28;
+  s32 f2c;
+  s32 f30;
+  s32 f34;
+  s32 f38;
+};
+struct Work
+{
+  u8 pad00[0x2c];
+  s32 *f2c;
+  u8 pada8[0xa8 - 0x30];
+  s32 fa8;
+  u8 padac[4];
+  s32 fb0;
+  u8 padb4[0x140 - 0xb4];
+  u32 f140;
+};
+struct Task
+{
+  u8 **f00;
+};
+void func_02016C60(struct Work *a0, struct Task *a1)
+{
+  s32 scale;
+  u8 *base;
+  s32 k;
+  s32 sx;
+  s32 sy;
+  s32 w;
+  s32 h;
+  s32 step;
+  s32 nib;
+  s32 found;
+  s32 x;
+  s32 y;
+  s32 i;
+  s32 j;
+  s32 sx2;
+  s32 sy2;
+  s32 w2;
+  s32 h2;
+  s32 i2;
+  s32 j2;
+  s32 bw;
+  s32 bh;
+  s32 r;
+  s32 c;
+  s32 addr;
+  s32 t;
+  s32 v;
+  s32 tmp1;
+  s32 tmp2;
+  s32 tmp3;
+  s32 tmp4;
+  s32 tmp5;
+  s32 tmp8;
+  s32 tmp10;
+  if (a0->fb0 != 3)
+  {
+    return;
+  }
+  scale = _d2s(func_0209AB80(2.0, _s32_to_double(a0->fa8 + 2)));
+  base = a1->f00[5];
+  k = 0;
+  while (((u32) k) < ((u32) a0->f2c[0]))
+  {
+    sx = ((struct Rec *) (((u8 *) a0->f2c) + (k * 0x30)))->f1c >> 12;
+    sy = ((struct Rec *) (((u8 *) a0->f2c) + (k * 0x30)))->f20 >> 12;
+    w = ((struct Rec *) (((u8 *) a0->f2c) + (k * 0x30)))->f14 >> 12;
+    h = ((struct Rec *) (((u8 *) a0->f2c) + (k * 0x30)))->f18 >> 12;
+    step = ((s32) ((a0->f140 << 4) >> 0x1c)) + 1;
+    i = 0;
+    y = 0;
+    if (h > 0)
+    {
+      do
+      {
+        for (j = 0, x = 0; x < w; j++, x += step)
+        {
+          {
+            s32 hi;
+            if ((x + step) > w)
+            {
+              bw = w - (step * j);
+            }
+            else
+            {
+              bw = step;
+            }
+            if ((y + step) > h)
+            {
+              bh = h - (step * i);
+            }
+            else
+            {
+              bh = step;
+            }
+            found = 0;
+            for (r = 0; r < bh; r++)
+            {
+              for (c = 0; c < bw; c++)
+              {
+                t = (sx + x) + c;
+                tmp3 = (sy + y) + r;
+                addr = (t / 2) + (tmp3 * scale);
+                if (c & 1)
+                {
+                  v = (base[addr] & 0xf0) >> 4;
+                }
+                else
+                {
+                  v = base[addr] & 0x0f;
+                }
+                if (v != 0)
+                {
+                  found = v;
+                  break;
+                }
+              }
+
+              if (found != 0)
+              {
+                break;
+              }
+            }
+
+            nib = (u8) found;
+            hi = nib << 4;
+            for (r = 0; r < bh; r++)
+            {
+              for (c = 0; c < bw; c++)
+              {
+                tmp10 = sx + x;
+                t = tmp10 + c;
+                tmp4 = sy + y;
+                tmp1 = tmp4 + r;
+                addr = (t / 2) + (tmp1 * scale);
+                if (addr < (1 << 14))
+                {
+                  if (t & 1)
+                  {
+                    base[addr] = (base[addr] & 0x0f) | hi;
+                  }
+                  else
+                  {
+                    base[addr] = (base[addr] & 0xf0) | nib;
+                  }
+                }
+              }
+
+            }
+
+          }
+        }
+
+        i++;
+        y += step;
+      }
+      while (y < h);
+    }
+    if (((struct Rec *) (((u8 *) a0->f2c) + (k * 0x30)))->f2c != 0)
+    {
+      w2 = ((struct Rec *) (((u8 *) a0->f2c) + (k * 0x30)))->f2c >> 12;
+      h2 = ((struct Rec *) (((u8 *) a0->f2c) + (k * 0x30)))->f30 >> 12;
+      sx2 = ((struct Rec *) (((u8 *) a0->f2c) + (k * 0x30)))->f34 >> 12;
+      i2 = 0;
+      sy2 = ((struct Rec *) (((u8 *) a0->f2c) + (k * 0x30)))->f38 >> 12;
+      h2 <<= 1;
+      y = 0;
+      if (h2 > 0)
+      {
+        do
+        {
+          for (j2 = 0, x = 0; x < w2; j2++, x += step)
+          {
+            {
+              s32 hi2;
+              if ((x + step) > w2)
+              {
+                bw = w2 - (step * j2);
+              }
+              else
+              {
+                bw = step;
+              }
+              if ((y + step) > h2)
+              {
+                bh = h2 - (step * i2);
+              }
+              else
+              {
+                bh = step;
+              }
+              found = 0;
+              for (r = 0; r < bh; r++)
+              {
+                for (c = 0; c < bw; c++)
+                {
+                  t = (sx2 + x) + c;
+                  tmp8 = (sy2 + y) + r;
+                  addr = (t / 2) + (tmp8 * scale);
+                  if (c & 1)
+                  {
+                    v = (base[addr] & 0xf0) >> 4;
+                  }
+                  else
+                  {
+                    v = base[addr] & 0x0f;
+                  }
+                  if (v != 0)
+                  {
+                    found = v;
+                    break;
+                  }
+                }
+
+                if (found != 0)
+                {
+                  break;
+                }
+              }
+
+              nib = (u8) found;
+              hi2 = nib << 4;
+              for (r = 0; r < bh; r++)
+              {
+                for (c = 0; c < bw; c++)
+                {
+                  t = sx2 + x;
+                  t = t + c;
+                  tmp5 = sy2 + y;
+                  tmp2 = tmp5 + r;
+                  addr = (t / 2) + (tmp2 * scale);
+                  if (addr < (1 << 14))
+                  {
+                    if (t & 1)
+                    {
+                      base[addr] = (base[addr] & 0x0f) | hi2;
+                    }
+                    else
+                    {
+                      base[addr] = (base[addr] & 0xf0) | nib;
+                    }
+                  }
+                }
+
+              }
+
+            }
+          }
+
+          i2++;
+          y += step;
+        }
+        while (y < h2);
+      }
+    }
+    k++;
+  }
+
+}
+
+==============================================================================
+2026-09-24, wave 21 (lane B2): 0x02016C60 16 -> EXACT* (870, listing 872 = 870 + 2 pad)
+==============================================================================
+Filed: src/matched/func_02016C60.c, shard layout/matched/arm9/pkt_02016C60.json
+(manifest --verify --shard pkt_02016C60 twice: EXACT*, second run 0 rewritten).
+
+THE LEVER: w2 is read raw into the guard and shifted later, and the h2
+split is no longer needed.  The pass-2 header of the EXACT* source
+(R = the repeated record expression):
+    w2 = R->f2c;
+    if (w2 != 0) {
+      sx2 = R->f34 >> 12;  sy2 = R->f38 >> 12;  w2 >>= 12;
+      h2 = (R->f30 >> 12) << 1;  i2 = 0;  y = 0;
+      ...
+That is pass 1's order (sx, sy, w, h, then the two zeros).  The raw w2 web
+spans the sx2/sy2 reads and is coloured before the record pointer, so the
+pointer lands in r1.  The two zeros come last and each takes r0, and sx2
+and sy2 both take r3.  Everything else is the wave-21 lane-B source.
+
+Measured this lane (dsi/1.1p1, bytes out, all 870 bytes unless noted):
+  - lane-B 16 source re-verified: 16.
+  - enum-typed zero (`typedef enum { Z0 } E; E z; z = Z0;`) on the 16 order:
+    i2 = z with z at header positions 0..4: 31, 27, 22, 16, 16; y = z at
+    0..6: 31, 27, 22, 16, 16, 16, 16; both i2 = z and y = z at 0..4: 31, 27,
+    22, 16, 16.  i2 declared E (i2 = Z0): 16; y declared E: 16.
+    z before X with i2 = z after B: 16; z after Y with i2 = z after B: 20;
+    z before X with i2 = z after Z: 16; z before I with y = z: 16.
+    The enum copy is coalesced into i2's spilled def, so the zero is stored
+    where z is assigned and never forms a long web.
+  - loop-carried copy (idioms/an-arithmetic-loop-carried-definition...):
+    `n2 = i2 + 1; i2 = n2;` 16; `n2 = y + step; y = n2;` 16; i2 copy after
+    y += step: 872 bytes, 65; `y += step; i2++;` 872 bytes, 65.
+  - long zero web orders: W X Y I A B Z 31; W X Y I Z A B 868 bytes, 381;
+    W z X Y i2=z A B Z 31; the same with y = z 31; W A z X Y B i2=z Z 22;
+    W A X z Y B i2=z Z 16.
+  - natural order w2, h2 = (f30>>12)<<1, sx2, sy2, i2 = 0, y = 0: 32 (the
+    zeros are right, the pointer is r0); with an enum z at positions 0..3
+    and i2 = z: 33, 32, 32, 32; with y = z: 33, 32, 32, 32; with both:
+    33, 32, 32, 32.
+  - w2 raw into the guard, `w2 >>= 12` (S) inserted in h2(A), sx2, sy2,
+    i2, y at positions 0..5: 32, 34, 14, 32, 31, 33.
+  - all 24 orders of {A, X, Y, S} followed by `i2 = 0; y = 0;`:
+      AXYS 32  AXSY 14  AYXS 33  AYSX 12  ASXY 34  ASYX 33
+      XAYS 25  XASY 33  XYAS 30  XYSA EXACT*  XSAY 36  XSYA 33
+      YAXS 26  YASX 32  YXAS 30  YXSA 4   YSAX 35  YSXA 34
+      SAXY 32  SAYX 31  SXAY 33  SXYA 30  SYAX 32  SYXA 31
+About 90 compiles, no permuter run.

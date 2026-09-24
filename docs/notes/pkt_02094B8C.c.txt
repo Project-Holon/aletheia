@@ -3757,3 +3757,34 @@ source 1, 3864 / 39):
   with the #defines joined: did not run, tools/permuter.py cannot parse
   the file ("<src>:64:47: before: |", the enum/success macro region).
 Idiom: docs/idioms/declaration-position-orders-block-scope-colouring.md.
+
+==========================================================================
+2026-09-24, wave 21 (lane A): 3864 of 3864, EXACT (MATCH -> EXACT)
+==========================================================================
+Starting point: the 20M pending source re-measured MATCH, 3864/3864, 0
+concrete bytes out, 15 of 17 sites (the dispatch brief's "DIFF 39" figure
+was stale; __double_huge already resolves by sole-ref/self). The only
+blockers were the two anonymous string literals @52 ("INFINITY",
++0x0EF0 -> 0x020A62E4) and @70 ("NAN(", +0x0EF4 -> 0x020A62DC), the
+initialiser sources of the two local model[] arrays.
+Change: each model array becomes a one-member struct copied from an extern
+pinned in symbols: at the address the pool word names, the __FILE__
+treatment of docs/idioms/file-string-is-an-abs32-into-the-string-area.md:
+    typedef struct { unsigned char c[9]; } model9;   /* "INFINITY" */
+    typedef struct { unsigned char c[5]; } model5;   /* "NAN(" */
+    extern const model9 s_infinity;                  /* 0x020A62E4 a1 */
+    extern const model5 s_nan;                       /* 0x020A62DC a1 */
+    model9 model = s_infinity;   ...   model.c[i]
+    model5 model = s_nan;        ...   model.c[i]
+The aggregate copy of an align-1 struct is byte-identical to the literal
+initialiser's copy (the 4x2-byte loop plus tail byte for 9 bytes, the
+unrolled 5-byte copy), including its hoisting.
+Measurements (match.py one, 1.1p1):
+   1  20M pending source unchanged              MATCH, 0 out, 15/17 sites
+   2  both model arrays as extern struct copies EXACT, 17/17 sites
+      (s_infinity by string, s_nan by sole-ref/string, __double_huge by
+      sole-ref/self, func_0209739C and func_02091374 by matched)
+Filed as src/matched/func_02094B8C.c (status EXACT); the superseded
+src/pending/func_02094B8C.c removed; shard layout/matched/arm9/
+pkt_02094B8C.json written by manifest --verify --shard pkt_02094B8C and
+re-verified (second run 0 rewritten, EXACT).

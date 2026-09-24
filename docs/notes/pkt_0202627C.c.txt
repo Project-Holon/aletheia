@@ -489,3 +489,28 @@ Finding: as in 0x0202350C, mwcc folds every spelling that yields `movs #0`
 before allocation; anything that survives folding is a different
 instruction. The zero web cannot be separated from the constant by spelling.
 /* best-source marker: the wave 16 source, 268/268, 10 out, unchanged (the w-first alternative stays the better base) */
+
+==============================================================================
+2026-09-24, wave 21 (lane E): 0x0202627C 10 -> EXACT (enum-typed zero)
+==============================================================================
+New lever: the finish arm's zero held in an enum-typed local, assigned
+before the reads. Under -enum int the enum value is not folded the way
+every integer spelling measured in waves 19 and 20 was, so the zero gets its
+own web (r2, shared with the bics mask) and the callback takes r5.
+All 1.1p1, 268/268:
+  - w-first alternative source, enum z (`typedef enum { Z0 } E; E z;`) used
+    for the f18/kind/f20 (cast)/f1c stores, z assigned at each of the 5
+    positions around the reads w, cb, a, b: z first 7 (the zero and the load
+    order now right, only the flag byte and cb swap r3/r5), the other four
+    positions 10;
+  - wave-16 source (bitfield b1), enum z at each of the 4 positions around
+    the reads a, b, cb: 10 each;
+  - sweep, z first x all 24 orders of the reads w, cb, a, b: EXACT for cb,
+    a, b, w; cb, a, w, b; cb, w, a, b. 4 for a, cb, b, w and a, cb, w, b. 7
+    for w, cb, a, b. 10, 18 or 23 for the rest;
+  - wave-16 bitfield form, z first, reads cb, a, b: EXACT; a, cb, b 4;
+    cb, b, a 18; b, cb, a and b, a, cb 23;
+  - the same with `p->f20 = 0;` in place of the enum cast: EXACT (filed).
+Filed as src/matched/func_0202627C.c (EXACT, 7 of 7 relocations resolved:
+func_02026490 by label, g_0209FB5C by sole-ref/self). Shard pkt_0202627C
+verified twice (1 rewritten, then 0 rewritten, all three entries EXACT).

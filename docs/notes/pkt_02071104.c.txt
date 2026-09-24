@@ -600,3 +600,21 @@ origHeight takes lr.  Measured once each from the scaleT-first form:
 Missing return, inverted guard, doubled guard, s8 reload and constant from
 a register do not apply (no branches, no spills, no compares).
 /* best source, 124 bytes against 124, 6 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 21 (lane G): 0x02071104 CLOSED EXACT under ../2.0/sp2
+==============================================================================
+Identification: NitroSystem g3d cgtool/maya.c texmtxCalc_flagR_ (the
+ntrtwl/NitroSystem 071126 reconstruction).  The library spells the _31
+aspect term `(-anm->scaleT - anm->scaleT + FX32_ONE * 2) * origHeight << 3`
+-- two subtractions of the same field -- where every lane measured a shift
+(`scaleT << 1`) or `scaleT * 2`; _30 is `-(fx32)((fx64)scaleS * transS >> 8)
+* origWidth` and the _31 product `(fx64)scaleT * transT` (scaleT first).
+Measured (5 compiles), that source:
+  dsi/1.1p1    116 bytes against 124, 103 out
+  ../2.0/sp2   124/124, EXACT
+  ../2.0/sp2p2 124/124, EXACT
+  ../2.0/sp1   124/124, EXACT
+  ../1.2/sp2   128 bytes, 5 out
+Filed src/matched/func_02071104.c (compiler ../2.0/sp2, the family's
+existing pin); shard pkt_02071104 verified twice, 4 entries EXACT.

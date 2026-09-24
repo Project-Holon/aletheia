@@ -1308,3 +1308,409 @@ Summary: every code-free change of o's or w's use count is removed before
   colouring; the only spelling that flips o/w is one where the g call does
   not read w, which is also what folds the copy to &ws.
 /* best source, 412 bytes against 412, 2 concrete bytes out, dsi/1.1p1 -O4,p -- the wave-19 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 21 (lane E): 0x0202E1F0 unchanged, DIFF 2
+==============================================================================
+New lever tried: enum types (`typedef enum { EW0, EWMAX = 0x7fffffff } EW;`),
+which keep a zero out of folding in bmp_oam 0x0202627C (closed EXACT this
+wave). All 1.1p1, 412/412:
+  - the wave-19 copy as an enum (`EW wp = (EW)w;`, `(void *)wp` at the g call),
+    with unsigned long w: 2; with `void *w`: 2 (a void * copy with void *w was
+    21, so the enum copy does what the unsigned long does); w itself typed
+    EW with the copy: 2; EW w with no copy (g takes w): 21. In every case the
+    copy is still rematerialised as `add r0, sp, #0x38` at +008E;
+  - from the 21 source (g takes w, no copy): i as EW 27, n as EW 21, cnt as
+    EW 21; from the 2 source: i 8, n 2, cnt 2;
+  - from the 21 source: `o->f04 = EW0` 21; an EW zero local for o->f04,
+    assigned at the top or just before the store, 21 each; `marks = {EW0,
+    EW0}` 21; `o->f04 = EW1` for the second store 21; an EW one-local for
+    `o->f20[i] = 1` 43 (o/w still swapped, loop 1 grows a movs);
+  - g call argument `(void *)(EW)w` (no copy) 21; copy `(void *)(w + EW0)` 2;
+  - the copy assigned inside loop 1 (each iteration, or in the f20 arm, or
+    with `wp = 0` before the loop): 416-424 bytes, 332-393 out.
+permuter anneal 4000 --types (seed 7124) from the 2 source: 4000 compiles,
+  flat at 2 (asm=10).
+The residue is unchanged. The image passes w (r7) at the g call with o in r6.
+Any use of w at that call puts o in r7, and any copy is rematerialised to &ws.
+/* best source, 412 bytes against 412, 2 concrete bytes out, dsi/1.1p1 -O4,p -- the wave-19 source above, unchanged */
+
+
+==============================================================================
+2026-09-24, wave 21 (lane E3): 0x0202E1F0 unchanged, DIFF 2
+==============================================================================
+All 1.1p1 -O4,p Thumb, one `match.py one` each, about 150 compiles, no
+permuter. "21" below means 412/412 with only the o/w r6/r7 swap; "2" means the
+wave-19 residue at +008E (`add r0, sp, #0x38` where the image has
+`adds r0, r7, #0`). "s21" is the wave-19 source with the copy removed and the
+g call passed `(void *)w`; "base" is the wave-19 source (2).
+
+MECHANISM, measured this wave (use these before trying another spelling):
+  1. The o/w choice is a one-unit cost balance, not a tie that a declaration
+     order can break. base with one post-loop o use removed
+     (`func_02045730(a3)`) flips back to 23 (or 24 when two are removed). s21
+     with one o use added flips to o=r6: a `func_02045808(o)` in the tail
+     (30 out, the added code only) or in B0 before func_0201D478 (319/335,
+     the added call moves the layout, but o=r6).
+  2. The w uses in B0 that come after `w = ws` are free. They are value
+     numbered to the constant in the same block and do not count toward w.
+     s21 with the 465C arg replaced by 0 is still swapped (27). base plus a
+     `func_02045808((void *)w)` at the end of B0 keeps o=r6. s21 with 465C
+     and/or 441C given `ws` instead of w gives the same 21 bytes (LVN turns
+     them back into r7). o uses in B0 do count (item 1). The w use at the g
+     call is in a different block, so it counts. That single unit is the
+     whole residue.
+  3. Loop weight comes from the CFG, not the syntax: loop 1 or loop 2, or
+     both, as a goto loop give the same 21. `do { } while (0)` or
+     `for (;;) { ...; break; }` around o stores gives 21. Moving the tail
+     into loop 2's exit arm gives 206.
+  4. A second explicit def of w folds everything. Adding `w = (unsigned
+     long)ws;` a second time folds the whole variable to the rematerialised
+     constant (400/412, 374 out), even when both defs are in B0 (before
+     n =). The same happens before the g call and before loop 2. A stack
+     parameter whose entry value is dead (an extra 10th parameter reused for
+     ws) folds the same way (374). So w needs exactly one explicit def and a
+     live entry value. Any copy of w is either LVN-folded to &ws (the 2
+     residue) or copy-propagated back into w (21).
+  5. Stack-parameter volatility is not needed. `u16 c3` (no volatile) with
+     `cnt = *(u16 *)&c3;` (or `*(volatile u16 *)&c3` at one or both reads)
+     gives exactly the volatile-parameter bytes: base form 2, s21 form 21.
+     The re-read comes from c3 being address-taken, since the `o->f00` store
+     may alias it. `(void)&c3;` alone gives 371.
+
+MEASURED, from s21 unless noted (all 21 unless a number is given):
+  g-call argument spellings (no copy): (void *)(w + 0), (w | 0), (w * 1),
+    (w & ~0UL), (w ^ 0), (w >> 0), (w - 0), (u8 *)w + 0; an enum-zero local
+    added at the g call `(void *)(w + z)`: 420/390.
+  copy containers from base: the copy in a one-member struct 2; in a
+    one-element pointer array 2; void *w with an unsigned long copy 2; the
+    copy taken from a first-call parameter copy (`void *wp = (void *)w;
+    func_02024570(ws, wp); ... wp = (void *)w;`) 2; the copy redefined at the
+    g call (two defs) 21 (first def dead, second propagated). Base plus
+    `wp = ws;` just before the g call: 2.
+  loop temporaries: `void *t = (void *)w` at the top of loop 1 body 408/272
+    (w demoted to its home slot, &ws CSE'd into r5 from entry); plus a loop-2
+    temp 408/272; with `&ws[0]` at the first call 408/272; the same with
+    void *w 21; a loop-2-only block temp 21.
+  o-use spellings with no code: `((struct Obj *)(u32)o)->` at f04=0, f04=1,
+    f20 store, the tail f00 read, and the bitfield store; `(void)o->f00;`;
+    `if (o == 0) { }`; static inline helpers taking o for the tail or the
+    bitfield pair (inlined, 21); an inline wrapper for the g call 21; volatile
+    on f00, f04, f20 or actor.
+  bitfield tail: b0 twice 416/43; b1 twice 412/29; `b1 = b0` 424/49; chained
+    424/49; a conditional b1 424/57.
+  loop-2 actor/f20 spellings: `((void **)o)[i + 2]` 416/163; byte offset
+    `o + 8 + (i << 2)` 412/120; `&o->f20[i] - 0x18` 416/163; `o + i*4 + 8`
+    412/120; `((u32 *)o)[i + 8]` 416/163. An explicit `u32 *ent` (block-
+    or function-scope, two positions) 440/404.
+  structure: a separate loop-2 counter j (three declaration positions: 21,
+    21, 37); `++i` 21; n split into two statements 31; ws declared before
+    marks 26; ws and marks in one local struct 243 (s21) / 237 (base); p0/p1/q0/q1 at
+    function scope, three positions 21; condition spellings `if (F8(..))`,
+    `!(F8(..) == 0)`, `!(D4(..) != 0xffff)`, `!(o->f20[i] != 1)`,
+    `!(marks[i] != 1)`, `1 == o->f20[i]` 21 each; renaming o or w (6
+    names) 21; c3 as `const volatile`, `(u16)c3` at the cnt read 21.
+Conclusion: in this compiler's accounting, the image's source has one more
+o-weighted or one less w-weighted reference than every spelling measured, with
+identical code. Every no-code o reference found is removed before costing
+(folded casts, dead stores, inlined copies), and every no-code way to drop the
+g use of w also folds the operand to &ws. What remains open is a reference to
+o that survives until costing but emits nothing. The only such class seen is a
+B0 use that LVN absorbs, and that absorbs w uses, never o's.
+/* best source, 412 bytes against 412, 2 concrete bytes out, dsi/1.1p1 -O4,p --
+   the wave-19 source above; an equivalent spelling without the volatile
+   parameter is `u16 c3` plus `cnt = *(u16 *)&c3;` (same 2 bytes) */
+
+==============================================================================
+2026-09-24, wave 21 (lane E4): 0x0202E1F0 unchanged, DIFF 2
+==============================================================================
+All 1.1p1 -O4,p Thumb, one `match.py one` each, 35 compiles, no permuter,
+stopped early by the integrator. "base" = the wave-19 source (2 out, o=r6,
+w=r7, +008E rematerialised); "s21" = base with the wp copy removed and the g
+call passed (void *)w (21 out, o=r7, w=r6). Scratch in /tmp/aletheia_laneE4.
+Verdict for every line is 412/412 unless a size is given; "o=r6"/"o=r7" is
+read off the +0004 `adds rN, r0, #0` line of --diff.
+
+No-code o references, from s21 (do they survive to costing?): all 21, o=r7,
+i.e. every one is removed before costing:
+  `switch ((u32)o) { default: break; }` before the g call            21
+  `o->f04 = (o != 0) ? 0 : 0;`                                       21
+  `func_02045374(((n > 0) ? o : o)->f00);` in the tail               21
+  `if (o) o->f04 = 0; else o->f04 = 0;`                              21
+  `if (o == o) o->f04 = 1;`                                          21
+  `o->f04 = (o == o);`                                               21
+  `o->f04 = (u8)((u32)o - (u32)o);`                                  21
+  `a3 = o->f00;` after `o->f00 = a3;` (store forwarded)              21
+  `*(u32 *)((u8 *)o + ((u8 *)&o->f00 - (u8 *)o))` at the tail read  21
+Pointer differences over o are NOT folded by the front end; the backend
+simplifier cancels `(o+0x20+i*4) - (o+0x20)` but the cancelled uses do not
+count either:
+  loop-2 `func_0201D4BC(g, &o->f20[i] - o->f20)`     420 bytes, 400 out, o=r7
+    (extra lsls #2 / asrs #2 pair: the o terms cancelled, i*4>>2 remained)
+  loop-1 `*(u32 *)((u8 *)o + ((u8 *)&o->f20[i] - (u8 *)o)) = 1;`
+                                                      424 bytes, 383 out, o=r7
+    (this pattern is not simplified at all: adds/subs emitted)
+
+Density / live-range-length test: base + an extra `func_02041B6C();` after
+the bitfield stores (o's range longer, w's unchanged): 416 bytes, 17 out,
+o=r6 still. The choice is not cost-per-instruction of live range.
+
+Position of a single added w use `func_02045808((void *)w);` from base
+(cost(w)+1): before the g call 269 out, o=r7; after the g call 255, o=r7;
+before func_02045808(g) 62, o=r7; after loop 2 before func_02045808(g) 62,
+o=r7. Every non-B0 w use, wherever it sits, flips the pair, confirming lane
+E3's one-unit finding, and the added uses are emitted as `adds r0, r7, #0`
+(register copies), never rematerialised.
+
+Loop-weight calibration: base with loop-1's func_020244F8 given `ws` (the
+constant, rematerialised `add r0, sp, #0x38` inside the loop, so one loop-1
+w use removed) plus k copies of `func_02045808((void *)w);` before the g
+call:
+  k = 1, 2, 3, 4   w not promoted at all (spilled, frame shrinks, add r5,sp,#0x58)
+                                                      301/349/355/367 out
+  k = 6, 8, 10, 12 o=r6, w=r7                         295/311/318/333 out
+So one loop-1 use of w is worth more than 12 non-loop uses, and with it
+removed w drops to the spill set until 5 or 6 plain uses are added back.
+The o/w order is therefore a genuine cost comparison in which the loop uses
+dominate; the residue really is one plain unit.
+
+Def of w inside loop 1 (`w = (unsigned long)ws;` at the top of the body,
+from s21): moved out of B0 412 bytes, 360 out, o=r7; kept in B0 as well
+408 bytes, 272 out (w folds to the constant, push {r4-r7}).
+
+Not reached (stopped): the bitfield-tail web-structure probes (b1 before b0,
+a local struct copy of f18), a pre-def second use of the parameter to test
+whether the entry web and the post-def web are costed separately, and the
+degree probes (an extra tail temporary). Conclusion so far: the backend's
+algebraic simplifier, the front end's folding, store forwarding and dead
+branch removal all run before costing; the only reference class still
+unmeasured is one that is created by the allocator itself (a coalesced copy
+that survives coalescing, or a split of w's entry web).
+/* best source, 412 bytes against 412, 2 concrete bytes out, dsi/1.1p1 -O4,p --
+   the wave-19 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 21 (lane E5): 0x0202E1F0 unchanged, DIFF 2
+==============================================================================
+All 1.1p1 -O4,p Thumb, one `match.py one --diff` each, about 135 compiles, no
+permuter. "base" = the wave-19 source (2 out: o=r6, w=r7, +008E compiles to
+`add r0, sp, #0x38` where the image has `adds r0, r7, #0`); "s21" = base with
+the wp copy removed and the g call passed (void *)w (21 out, o=r7, w=r6).
+o is read off +0004 (`adds rN, r0, #0`). Every line is 412/412 unless a size
+is given. Scratch: /tmp/aletheia_laneE5.
+Direction note: the IMAGE copies from the register at +008E and the COMPILE
+rematerialises. So "make &ws rematerialisable at that site" is the residue,
+not the fix: every constant spelling of the argument gives the 2-out result.
+
+(a) The g-call argument as another expression with the same value, from s21:
+  `&ws[0]`                                              2, o=r6 (rematerialised)
+  `(u8 *)marks - 8`, `(void *)((u32)marks - 8)`         412/263, o=r6 (add sp,#0x40; subs #8)
+  ws as `struct Ws { u16 h[4]; }` and `&ws` at g         2, o=r6
+  the same struct with w at g                           21, o=r7
+  `struct Ws ws[1]` with `&ws[0]`, or with `ws->h`      2, 2, o=r6
+  entry-block temporary `t = ws;` after n =, t at g     2, o=r6
+  `(u8 *)w + (cnt - cnt)`                               21, o=r7 (folded to w)
+  A constant spelling is always rematerialised outside B0; a w spelling is
+  always a counted w use.
+(b) ws inside a struct with marks (the only other local aggregate):
+  `struct { u8 ws[8]; u32 marks[2]; } L = {{0}, {0, 0}}` s21 416/379 o=r7,
+  base 416/376 o=r6; `struct { u32 marks[2]; u8 ws[8]; } L = {{0, 0}}` s21
+  416/384 o=r7, base 416/382 o=r6. The initialiser changes the frame code;
+  the o/w order does not move.
+(c) Inline helpers (each helper's parameter is its own variable at inlining):
+  `G(p,c,n){return 02024368(p,c,n);}` passed ws          2, o=r6
+  the same passed (void *)w                             21, o=r7
+  loop 1 + g call in a helper, p = (void *)w            37, o=r7
+  the same, p = ws                                      408/314, o=r6 (&ws in a register only inside the helper)
+  the same with an unsigned long parameter, p = w       37, o=r7
+  loop 1 only in a helper, p = (void *)w, g takes w     21, o=r7
+  loop 1 only in a helper, p = ws                       408/314, o=r6
+  g call + func_02043B5C in a helper, p = (void *)w     21, o=r7
+  the same, p = ws                                      2, o=r6
+  helper with an unsigned long parameter, passed w      21, o=r7
+  the same passed (unsigned long)ws                     400/374 (whole w folds)
+  helper taking &w (`*pw` at the call)                  21, o=r7
+  B0 as a helper `w = I(ws, w)` returning ws (two
+    spellings), from s21 and from base                  400/374 each (w folds)
+  An inline's parameter is copy-propagated when it gets w, and folded to the
+  constant when it gets ws. It is never an independent web at costing.
+
+Other levers, all new:
+  o as a conversion copy of an unsigned long parameter (`struct Obj *o =
+    (struct Obj *)op;` at the declaration, before the first call, or before
+    `o->f04 = 0`): s21 21/21/21 (o=r7), base 2/2/2 (o=r6).
+  self-assignments at the g call (`w = w;` before and after it, `w =
+    (unsigned long)(void *)w;`, `o = o;`, `w = w;` before loop 1): 21 each.
+  loop 1 with `continue` (then arm continues; else arm as a guard with
+    `continue`): 21 from s21, 2 from base. Both loops as `if (n > 0) do {} while`:
+    21. The loop-1 arms inverted with continue: 412/49 (s21), 412/32 (base).
+  first-call argument through a copy (`void *s = (void *)w;`, block scoped,
+    `unsigned long s`, `(w + 0)`): 21 each; `*(void **)&w` 400/374 (w address
+    taken folds it).
+  two-def o copy `p = o;` before the g-block uses and before the tail (both
+    and each): 21 each (copies of an unchanged o are propagated).
+  conditions that only range analysis could fold, guarding `o->f1c = 0`
+    before the g call: `(u8)n > 0xff` 21 (folded by the front end, no o use
+    left); `n > 0xff`, `n < 0`, `i < n`, `cnt > 0xffff`, `i < 0`,
+    `(n & 0x100) != 0`, `(cnt >> 16) != 0` all emit code (420-424 bytes), so
+    nothing is folded after costing.
+  unreachable o use after `return;` (plain, and behind a label reached only
+    by its own goto): 21 each (removed before costing).
+
+MECHANISM, measured this lane:
+  1. Live-range length and degree are not in the priority. Base with 4, 10
+     or 20 extra calls lengthening only o (428/45, 452/69, 492/105), and base
+     with one or two call-crossing temporaries that interfere with o only
+     (428/49, 444/65, 428/49): o=r6 in every case.
+  2. The entry use of w counts. Base plus a second use of w's entry value
+     (`func_02045808((void *)w)` after or before the first call): 416,
+     o=r7. So W = entry use + 2 loop-1 + 1 loop-2 + g use; B0 uses after the
+     def are the only free ones.
+  3. The free B0 uses are extended-basic-block value numbering, not a
+     same-block rule. A branch between `w = ws` and the 465C/441C calls makes
+     those uses count (base + `if (a1 == 5) func_02041B6C();` after the def
+     424/388, o=r7). The same branch after 441C leaves o=r6 (424/338). Put
+     between the first call and the def, it gives 424/381 with o=r7. That
+     case is not explained: the def and the B0 uses still share a block.
+     Passing `ws` to 465C/441C after that branch rematerialises them (424/389,
+     o=r6). Knowledge also reaches a single-predecessor successor of B0 (the
+     else arm below uses `ldrh r0, [r5, #8]`, r5 = sp+0x60 from B0).
+  4. Base is an exact tie that o wins. Base + one plain w use + one plain o
+     use: o=r6 (424/270). + w + a conditional o use: o=r6 (428/284).
+     + conditional w + plain o: o=r6. + 2w + o + conditional o: o=r6 (440/289).
+     s21 + one conditional o use `if (a1 == 5) func_02045808(o);`: o=r6 (424/59,
+     +008E `adds r0, r7, #0`). Arm weight outside the loops is a full unit.
+
+THE CLOSEST NEW SHAPE (post-allocation cross-jumping adds an o use with no
+code): write the loop-1 guard as an explicit if, the loop as a do-while, and
+the g call plus the first func_02043B5C line in BOTH arms:
+    if (n > 0) {
+        i = 0;
+        do { ...loop 1... i++; } while (i < n);
+        g = func_02024368((void *)w, cnt, n);
+        func_02043B5C(func_02045770(o->f00), c2);
+    } else {
+        g = func_02024368((void *)w, cnt, n);
+        func_02043B5C(func_02045770(o->f00), c2);
+    }
+  412/264: o=r6, w=r7, the g call passes `adds r0, r7, #0`, every register is
+  the image's. The else arm's copy of `ldr r0, [r6]` adds one o unit to the
+  costing (its w use is free by the EBB rule above), and the two arms are
+  cross-jumped after allocation. That leaves one extra instruction: the then
+  arm's copy becomes `b` to the next instruction at +008A. The pad
+  `mov r8, r8` at +0196 goes, so the size stays 412, but everything from
+  +008A on is shifted by 2.
+  Variants: the whole g block through `o->f04 = 1` in both arms 452/262 (the
+  else arm keeps c1's base in r5 from B0, so the arms differ at the ldrh and
+  only the suffix merges); the g call alone in both arms 412/275, o=r7 (no o
+  use duplicated); the arms inverted (`if (n <= 0)`) 412/315 (`bgt` + `b`),
+  the same with the whole block 452/352; the n <= 0 copy placed after the
+  return with `goto back` 420/324; the tail after loop 2 duplicated in both
+  arms (and as then-arm + `return`) 456/63 each: arms ending in the epilogue
+  are not cross-jumped, but the rest is the image with o=r6.
+  Why this cannot reach 0: cross-jumping runs after branch threading, so the
+  replaced copy always stays as a `b`. The image's g block has exactly two
+  predecessors, B0's `ble` (straight to +008A) and the loop fall-through, and
+  neither can hold a second copy without leaving a hop.
+
+Conclusion: (a) and (b) only change the argument's constant spelling, and
+every constant spelling is rematerialised outside B0's EBB. (c) inline
+parameters are propagated, never costed as their own web. The only no-code
+o reference found that survives to costing is a cross-jumped duplicate, and
+it costs one `b`. The residue stays at 2.
+/* best source, 412 bytes against 412, 2 concrete bytes out, dsi/1.1p1 -O4,p --
+   the wave-19 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 21 (lane E6): 0x0202E1F0 unchanged, DIFF 2
+==============================================================================
+All 1.1p1 -O4,p Thumb, one `match.py one --diff` each: 21 compiles of the
+target and 9 of small scratch probes (30 in total), no permuter. "base" = the
+wave-19 source (2 out); "s21" = base with the wp copy removed and the g call
+passed (void *)w (21 out, o=r7). o is read off +0004 (`adds rN, r0, #0`) and
+w off +0028 (`add rN, sp, #0x38`). Every line is 412/412 unless a size is
+given. Scratch: /tmp/aletheia_laneE6. Starting point: lane E5's shape,
+`if (n > 0) { do-while; T } else { T }`, reproduced at 264, o=r6, w=r7, with a
+`b` to the next instruction at +008A.
+
+(1) Other shapes with T reachable from two predecessors (T = the g call plus
+the first func_02043B5C line):
+  inverted by goto: `if (n > 0) goto L; T; goto J; L: do-while; T; J:`
+    315, o=r6 w=r7 (`bgt L; b K` at +0054: the n <= 0 copy becomes the `b`)
+  `i = 0; if (n > 0) { for (;;) { body; i++; if (i >= n) { T; break; } } }
+    else { T }`                                          264, o=r6 w=r7
+  `do { body; i++; if (i < n) continue; T; break; } while (1)` in the then
+    arm, T in the else arm                               264, o=r6 w=r7
+  `switch (n > 0) { case 0: T; break; default: do-while; T; break; }`
+                                                  424 bytes, 366 out, o=r6
+  T inside the last iteration (`if (i == n) { T }` in the do-while body),
+    else T                                        436 bytes, 396 out, o=r7
+  E5 shape with the else copy passing `ws` (then copy passes w)
+                                                         264, o=r6 w=r7
+    (LVN turns the else copy's ws into r7, and the two copies still merge)
+  E5 shape with a `for` in the then arm instead of the do-while
+                                     416 bytes, 321 out (for keeps its own
+                                     guard: `ble; ... ble` twice), o=r6
+  E5 shape with the else arm ending `goto K;` and `K:` after the if
+                                                         264, o=r6 w=r7
+(1b) A copy of o with two reaching defs, merged at the join (a coalesced
+copy, lane E4's unmeasured class), T reading p->f00:
+  `p = o;` at the end of the then arm (after the do-while) and in the else
+    arm                                                  21, o=r7
+  `p = o;` before the for and in loop 1's f20 arm           21, o=r7
+  `p = o;` before the for and at the end of its body  322, o=r7 (the for
+    gets a second guard `ble`); the same with p also at func_0201C724 322
+  So a copy of an unchanged o is propagated whatever its def count.
+(1c) The g argument as a variable wq with two defs:
+  `wq = ws;` in B0, `wq = (void *)w;` after the guarded do-while
+                           416 bytes, 363 out, o=r6 (w leaves r7: the
+                           constant web takes it, add r2, sp, #0x60 at +0028)
+  the same with `wq = (void *)w;` in B0                  416/363, same
+  `wq = ws;` before the for, `wq = (void *)w;` at the end of the body
+                           314, o=r6 w=r7, but g gets `add r0, sp, #0x38`:
+                           the in-loop copy of w is folded to &ws as well
+                           (copies of w fold to the constant anywhere, not
+                           only in B0's EBB)
+(1d) Qualifiers from s21: `struct Obj *const o` 21; `register struct Obj *o`
+  21; `register unsigned long w` 21 (all o=r7).
+
+(2) Why the tail merge leaves the `b` (scratch probes, same compiler and
+flags, `void f(int n, int x)` with extern f/g/h, T = `g(x); h(x);`):
+  `if (n > 0) { do f(i) while; T } else { T } f(0);`  then copy -> `b` to the
+    next instruction, `ble` straight to the kept copy (the target's shape)
+  `if (n <= 0) { T } else { do-while; T }`   `bgt L; b K` (no inversion)
+  three copies (`else if (y) { T } else { T }`)     the y test is removed
+    by the front end (identical arms), same single `b` to next
+  then arm ending in `f(0); return;`, else arm T; f(0)   not merged (arms
+    ending in the epilogue, as E5 found)
+  goto shape, the n <= 0 copy after the return with `goto J`   `ble E`,
+    E: `b K`: the hop is not threaded, and the unreachable epilogue after
+    it is still emitted
+  `if (n > 0) { for ...; T } else { T }`     for keeps a second guard, `b`
+  top-tested `for (i = 0;;)` with T before each break   `cmp; blt; b`
+  straight-line arms `if (n > 0) { f(n); T } else { T }`   `b` to next
+  T of one call only (`g(x)`)                             `b` to next
+  No probe deletes the branch. Cross-jumping inserts one `b` for the copy it
+  replaces (a fall-through copy is never the one replaced), and nothing after
+  it threads, inverts, or deletes branches or unreachable blocks. The image
+  itself has eight such leftover `b` to the next instruction
+  (e.g. 0x02022A80, 0x0202D590, 0x02027B7E), so the image's compiler behaves
+  the same. No condition was found under which it deletes one.
+
+(3) The image's own control flow: loc_0202E272 (loop-1 latch, ends
+  `blt loc_0202E248`) falls straight into loc_0202E27A (the g block), and the
+  B0 `ble` at 0x0202E244 targets loc_0202E27A directly. There is no hop, no
+  `b` to the next instruction and no separate join block. The image's
+  unconditional branches near the join are the loop-1 f20 arm's `b` to the
+  latch at 0x0202E25A and the loop-2 arm's at 0x0202E30C. Both land on latch
+  code (i, n), which holds no o or w reference, so neither can be the leftover
+  of a cross-jumped copy that carries the extra o unit. The image therefore
+  had a single copy of T at this join. This agrees with E5's argument: the
+  cross-jump near-lever reproduces the registers, but it cannot be the
+  original's mechanism.
+Conclusion: every T-duplication shape either leaves a branch (`b` to next,
+`bcc` over `b`, or a `bcc` onto a `b`), or grows the function, or gives o=r7.
+Copies of o and w, with any number of defs, are propagated or folded before
+costing. The residue stays at 2.
+/* best source, 412 bytes against 412, 2 concrete bytes out, dsi/1.1p1 -O4,p --
+   the wave-19 source above, unchanged */
