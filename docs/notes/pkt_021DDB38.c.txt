@@ -1,0 +1,61 @@
+func_021DDB38 (0x021DDB38, arm, 44 instruction bytes, DIFF/register promotion)
+================================================================================
+
+Body: a leaf validator over a 16-byte-stride table of
+{name, kind, payload, count} records.  Absent or empty name -> 7, kind >= 0xa
+-> 8, kind 4 or 5 with an empty payload -> 9, kind 8 with a negative count, or
+a positive count with no payload -> 9, clean -> 0.  The image is a leaf
+(`cmp r1, #0; mov ip, #0; ble`; every exit `bx lr`).
+
+Best spelling (instruction selection matches, size does not):
+
+    s32 func_021DDB38(char *base, int n)
+    {
+        int i;
+
+        for (i = 0; i < n; i++) {
+            char *s = *(char **)(base + i * 0x10);
+
+            if (s == 0 || *s == 0)
+                return 7;
+            if (*(s32 *)(base + i * 0x10 + 4) >= 0xa)
+                return 8;
+            if (*(s32 *)(base + i * 0x10 + 4) == 4
+                && *(u32 *)(base + i * 0x10 + 8) == 0)
+                return 9;
+            if (*(s32 *)(base + i * 0x10 + 4) == 5
+                && *(u32 *)(base + i * 0x10 + 8) == 0)
+                return 9;
+            if (*(s32 *)(base + i * 0x10 + 4) == 8) {
+                s32 t = *(s32 *)(base + i * 0x10 + 0xc);
+
+                if (t < 0)
+                    return 9;
+                if (*(u32 *)(base + i * 0x10 + 8) == 0 && t > 0)
+                    return 9;
+            }
+        }
+        return 0;
+    }
+
+Every selection in the image is reproduced: `ldrsbne` for the name gate, the
+`cmp r3,#0xa; movge` signed band, the two predicated `ldreq r2,[r2,#8];
+cmpeq r2,#0; moveq r0,#9; bxeq lr` arms for kinds 4 and 5, the
+`addeq r2, r0, ip, lsl #4` recompute in the *second* arm (r2 was clobbered by
+the first arm's predicated load, and this compiler clobbers it identically),
+and the kind-8 block's `movlt` / `movgt` signed pair.
+
+The single difference is the element address.  The image rematerialises it
+(`add r2, r0, ip, lsl #4`) at each use after a predicated load, keeping r2 a
+scratch.  This compiler instead promotes `base + i*0x10` to a callee-saved
+register (`lr`), which forces `stmdb sp!, {r3, lr}` ... `pop {r3, pc}` where the
+image has `bx lr`, and shifts the whole body by 4 instructions.  Both the
+"compute `u32 *e` once" and the "repeat the full `base + i*0x10 + off`
+expression at every use" spellings promote identically.
+
+Left to try: a struct-typed record pointer instead of an offset expression, and
+a spelling that reads the name into a separate `char *` first so the address
+temporary is born later (the image's first access is the shifted-index load
+`ldr r2, [r0, ip, lsl #4]`, i.e. offset 0 folds into the index, while every
+later access uses an explicit `add`).  Worth one structured lane, not a
+spelling sweep.

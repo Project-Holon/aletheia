@@ -1,0 +1,78 @@
+/*
+ * function: func_0216CAF4
+ * address:  0x0216CAF4
+ * packet:   pkt_0216CAF4
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02191388  0x02191388  thumb
+ *   func_020362DC  0x020362DC  arm
+ *   func_021912D8  0x021912D8  thumb
+ *   func_021912F8  0x021912F8  thumb
+ *   func_02045808  0x02045808  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern int func_02191388();
+extern int func_020362DC();
+extern int func_021912D8();
+extern int func_021912F8();
+extern int func_02045808();
+
+int func_0216CAF4(int a0, int a1, int a2)
+{
+    int t4;
+    int t5;
+
+t5 = a1 + 0;
+a0 = *(int *)((char *)t5);
+t4 = a2 + 0;
+    if (a0 == 0) goto loc_0216CB0A;
+loc_0216CB00:
+    if (a0 == 1) goto loc_0216CB1C;
+loc_0216CB04:
+    if (a0 == 2) goto loc_0216CB2E;
+loc_0216CB08:
+    goto loc_0216CB42;
+loc_0216CB0A:
+a0 = *(int *)((char *)t4 + 0x14);
+    a0 = func_02191388(a0);
+loc_0216CB10:
+    if (a0 != 1) goto loc_0216CB42;
+loc_0216CB14:
+a0 = *(int *)((char *)t5);
+a0 = a0 + 1;
+*(int *)((char *)t5) = a0;
+    goto loc_0216CB42;
+loc_0216CB1C:
+    a0 = func_020362DC();
+loc_0216CB20:
+a1 = 3;
+    if ((a0 & a1) == 0) goto loc_0216CB42;
+loc_0216CB26:
+a0 = *(int *)((char *)t4 + 0x14);
+    a0 = func_021912D8(a0);
+loc_0216CB2C:
+    goto loc_0216CB14;
+loc_0216CB2E:
+a0 = *(int *)((char *)t4 + 0x14);
+    a0 = func_021912F8(a0);
+loc_0216CB34:
+    if (a0 != 1) goto loc_0216CB42;
+loc_0216CB38:
+a0 = *(int *)((char *)t4 + 0x18);
+    a0 = func_02045808(a0);
+loc_0216CB3E:
+a0 = 1;
+    return a0;
+loc_0216CB42:
+a0 = 0;
+    return a0;}

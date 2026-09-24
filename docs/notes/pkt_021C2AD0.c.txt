@@ -1,0 +1,84 @@
+# pkt_021C2AD0 residue and class record (lane O75)
+
+Lane O75 (small-function lane) filed 2 ov172 functions under the new packet
+`pkt_021C2AD0`; both are recorded by
+`tools/match.py manifest --verify --shard pkt_021C2AD0` as EXACT.  292 bytes of
+listing extent (code + literal pool).
+
+Work order was `scratch/ov_172/deps2.py` (v2 planner: `scratch/ov_172/o75_plan2.py`
+adds the per-callee shard check that deps2.py lacks -- it classifies each callee by
+where its shard entry lives, arm9 vs ov172 vs another overlay).
+
+| function | address | bytes | verdict |
+|---|---|---|---|
+| func_021BF610 | 0x021BF610 | 128 | EXACT |
+| func_021C2AD0 | 0x021C2AD0 | 164 | EXACT |
+
+## One filed function unblocked one row
+
+`func_021C2B74` (0x021C2B74) called `func_021C2AD0` at 0x021C2BA8, so filing it
+moved that row from BLOCKED to READY: the split went 69 READY / 58 BLOCKED ->
+68 READY / 57 BLOCKED -> (after the second file) 68 READY / 57 BLOCKED with
+remaining 127 -> 125.  Recording the shard before the caller is compiled is what
+makes that transfer visible; `func_021BF610`'s two call sites (0x021BF0E8,
+0x021BF138) sit inside `func_021BF0B0`, which is itself unfiled, so that row
+stayed BLOCKED.
+
+## ARM functions are the bulk of ov172's SHARD-OK stratum
+
+Of the 69 READY rows, 19 have every ov172 callee already shard-recorded, and 14
+of those 19 are **ARM** (the rest of the lane's machinery assumed Thumb).  The
+compile is `--arm` with the same `--cc dsi/1.1p1`; the listing's `/* addr BYTES */`
+column distinguishes them: four bytes per instruction (`.` word` order
+little-endian, e.g. `08 40 2D E9` = `push {r3, lr}`) versus two for Thumb.
+
+## What closed these two, and what did not
+
+1. **A shared out-of-line `return`/tail block is the tell for a `break`-shaped
+   case, not a `return`.**  `func_021C2AD0` is a mode validator.  Written with
+   `if (ok) return 1; return 0;` in each of its three cases, CW if-converts the
+   tail (`moveq r0,#1; bxeq lr`) and the function comes out 4 bytes short.  Written
+   instead with `if (bad) return 0; break;` per case plus `default: return 0;` and
+   a single `return 1;` after the `switch`, the three success paths share CW's
+   out-of-line tail and the whole 164-byte body reproduces byte for byte.  The
+   image's own shape is the evidence: all three cases branch to ONE
+   `mov r0,#1; bx lr` at the end of the function, while each case keeps its own
+   `mov r0,#0; bx lr` as the fall-through of its second test.
+2. **Guards joined by `||` share one fail block; separate `if (x) return 0;`
+   statements get one fail block each.**  `func_021C2AD0`'s four range guards all
+   branch to the same 0x021C2AF4, so they are one
+   `if (a0 == 0 || a0 > 0xffff || a1 == 0 || a1 > 0xffff) return 0;`.  Split into
+   two statements the same function comes out 12 bytes long.
+3. **A struct field read as `s32` while the load is `ldrb` is what produces
+   `asr`.**  `func_021BF610` shifts `g->byte` right by the bit counter and the
+   image has `asr r0, r0, r1`, not `lsr`.  Declaring the field `int`/`s32` (the
+   stored value stays a zero-extended `ldrb` result, so nothing else changes) is
+   the whole fix.
+4. **Dereference the global at every site, do not cache it in a local.**  The same
+   function loads its pool word three times (0x021BF614, 0x021BF660, 0x021BF66C):
+   once for the initial test, again at the inner join (`bits = 8`), again in the
+   tail.  A `BitState *st = g_021C88F0;` local produces one load and a body 8 bytes
+   short; writing `g_021C88F0[0].field` at each use reproduces all three.
+   The cursor update must also be `*a1 = i + 1;` before the byte load and
+   `(*a1)++;` inside the escape branch -- `*a1 = i + 2` is one byte off at +0x38.
+5. **The ov172 data page rule (O65's) held again, from the other direction.**
+   `g_021C88F0  ... data ov172` is refused as contested; the identical source with
+   the token deleted is EXACT with `sole-ref x1`.  `g_021C719C` resolves sole-ref
+   *with* the token, so the order is: try the token, drop it on the contested
+   message.
+
+## Parked (source in `scratch/ov_172/parked/func_021C2DC8.c`, not committed)
+
+| function | address | residue |
+|---|---|---|
+| func_021C2DC8 | 0x021C2DC8 | 4 bytes: the five-iteration pair copy is right down to the shared counter form (`u32 n; for (n = 5; n != 0; n--)` -- an `int` counter gives `sub`+`cmp`+`bgt` where the image has `subs`+`bne`, and the counter and source pointer must be declared `u32 n;` before the pointer/array locals for CW to colour the pool load into **lr** and the counter into **r3**), but the two temporaries inside the body come out rotated: the image keeps s[1]/d[1] in **r1** and s[0]/d[0] in **r2**, every spelling tried uses r2 for the first and r1 for the second.  Statement order, declaration order and pointer-vs-index forms all leave the same 4 bytes. |
+
+## Rows still open in this stratum
+
+The other SHARD-OK READY rows, untouched by this lane, all with zero ov172
+callees: `func_021B9B88` (147, thumb), `func_021C1248` (169), `func_021C0C3C`
+(197), `func_021C2E1C` (833), `func_021C0D04` (837), `func_021BF1E0` (1069),
+`func_021BF690` (1237), `func_021BFA68` (2653) -- all ARM -- and `func_021C7C64`
+(3193, thumb).  `func_021B64AC` (351) is the jump-table dispatcher O55 recorded:
+its case bodies are still `.word` blobs, so a `switch` cannot be written from the
+listing until they are decoded as Thumb.

@@ -1,0 +1,41 @@
+/*
+ * function: func_021568E8
+ * address:  0x021568E8
+ * packet:   pkt_021568E8
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   (none: no relocation site)
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+
+
+int func_021568E8(int a0, int a1, int a2, int a3)
+{
+
+a3 = 0;
+loc_021568EA:
+a2 = a0 + a3;
+a2 = a2 + 0x44;
+a2 = *(u8 *)((char *)a2);
+    if (a1 != a2) goto loc_021568F8;
+loc_021568F4:
+a0 = a3 + 0;
+    return a0;
+loc_021568F8:
+a2 = a3 + 1;
+a2 = a2 << 0x18;
+a3 = (unsigned)a2 >> 0x18;
+    if ((unsigned)a3 < (unsigned)4) goto loc_021568EA;
+loc_02156902:
+a0 = 0;
+    return a0;}

@@ -1,0 +1,138 @@
+Packet ov175 (lane O77) -- matching notes
+==========================================
+
+Prior state: 108 manifest entries in layout/matched/ov175 (the 100 the brief's
+count carried, plus lanes O67's 8).  This lane filed 8 more EXACT (one of them
+EXACT*) and left 3 DIFF residues with the residue named.
+
+Attempted 12 distinct functions: 8 EXACT, 3 DIFF with a named single-idiom
+residue, 1 MATCH-cap.  That is 8 of 12, 67%.  Compiles run: 21.  Wall clock:
+about 75 minutes (lane budget 85).
+
+1. Filed this lane (8 functions, 528 instruction bytes)
+-------------------------------------------------------
+    func_021DD610  0x021DD610   60  arm  EXACT    pkt_021DD610
+    func_021DE038  0x021DE038   64  arm  EXACT    pkt_021DE038
+    func_021DDFF8  0x021DDFF8   44  arm  EXACT*   pkt_021DDFF8
+    func_021DE100  0x021DE100   76  arm  EXACT    pkt_021DE100
+    func_021E2290  0x021E2290   84  arm  EXACT    pkt_021E2290
+    func_021E22E4  0x021E22E4  112  arm  EXACT    pkt_021E22E4
+    func_021E1DD0  0x021E1DD0  220  arm  EXACT    pkt_021E1DD0
+    func_021E0504  0x021E0504   72  arm  EXACT    pkt_021E0504
+
+2. What closed first compile, and why
+--------------------------------------
+* Three sibling returns landed on EXACT with no residue because the *guard
+  order of the branches* is the whole shape, and only the positive-guard form
+  reproduces it.  func_021E2290:
+
+      if (g_021ACEF8 == 1) { ...; return 1; }
+      return 0;
+
+  The `!= 1` / early-`return 0` spelling if-converts to `movne r0,#0; popne`,
+  which is 8 bytes and a wholly different block order.  Same story on
+  func_021E22E4 (which also returns the 0x021E53BC address on the state-1 arm),
+  and the same lesson O67 recorded on the "call, test, post, return handle"
+  wrapper.  Reach for the positive guard first on any two-valued return.
+
+* A sparse switch is a `switch`, never an if-chain, on this compiler.
+  func_021DD610 (cases 0/1/0x12 + default) as an if-chain compiled to
+  `moveq/movne` predication (40 bytes); as a `switch` it emitted the image's
+  `cmp/beq` chain with every case out of line plus a `b` to the default
+  (60 bytes, EXACT).  The tell is a trailing unconditional `b` to a shared
+  return block.
+
+* An ARM jump table DOES reproduce from a plain `switch` (the O67 note holds
+  on ARM as well as Thumb).  func_021E1DD0 is the clean example: 15 cases,
+  values 0..0xe, plus a distinct `default` that *duplicates* case 0xe's value.
+  gcc kept them as two separate out-of-line blocks because the source wrote
+  them separately; writing only `case 0xe` (letting the default alias it)
+  would have merged them and lost 8 bytes.  Read the table base before pairing
+  a case with its block: entry k of an `addls pc, pc, r0, lsl #2` table sits at
+  table + 4k, and its branch target is (entry address + 8) + imm24*4, which is
+  why case 0's body here starts 0x34 past the table.
+
+* Two data-symbol rules, both confirmed:
+  - the symbol goes on the `symbols:` line as `type  address  data`; using it
+    as an array name is what emits the pool word.  Declaring the same address
+    as a scalar and reading it emits an extra load (func_021E2290/021E22E4
+    were 4 bytes over until 0x021ACEFC became `extern u32 g_021ACEFC[];` and
+    was passed as `g_021ACEFC`).
+  - a *scalar* read of a data word stays a scalar: `g_021ACEF8` is read as a
+    value (`ldr r0,=g; ldr r0,[r0]`) and must NOT be an array.
+
+* The bswap family, 16-bit sibling.  func_021E0504 is func_021E054C's shape at
+  half width, and it reproduced from the same spelling with one extra twist:
+  the parameter is `unsigned int` and the source narrows it explicitly,
+  `u16 t = (u16)v;`, before the two masked shifts.  Declaring the parameter
+  `u16` instead loses the `lsl#16; lsr#16` pair (8 bytes) because the
+  expression masks both halves anyway and gcc then needs no narrowing.
+  The address-taken `u16 w` (store, then two `ldrb` back out) and
+  `return dst + 2;` are both load-bearing.
+
+* Declared return type stays a codegen pivot: func_021DDFF8 needed the ternary
+  `return call(...) == 0 ? 5 : 0;` to keep the image's predicated
+  `moveq r0,#5` / `movne r0,#0`; the `if (...) return 5; return 0;` spelling
+  emits a branch plus two blocks.  Written the other way round (`!= 0 ? 0 : 5`)
+  the arms swap.
+
+3. Residues, with the one idiom each is short of (notes in docs/notes/)
+-----------------------------------------------------------------------
+* func_021DD290 (0x021DD290, 32 instr bytes): the 0x19-byte name copy plus the
+  +0x24/+0x28 latches.  Everything reproduces except *which register holds the
+  destination pointer*: the image keeps it in `lr` (and therefore pays
+  `push {r3, lr}` / `pop {r3, pc}`), this compiler keeps it in a scratch (`ip`)
+  and needs no frame.  Four spellings tried (pointer walk, indexed `i*2`,
+  `do/while (--n)`, `for (n = 0xc; n != 0; n--)`); all four reach the same
+  37-byte residue.  Also the image's loop test is `subs ip, ip, #1; bne`, i.e.
+  the decrement sets the flags, where this compiler emits `sub; cmp; bgt`.
+  See docs/notes/pkt_021DD290.c.txt.
+
+* func_021DDB38 (0x021DDB38, 44 instr bytes): the 16-byte-stride record
+  validator.  Every instruction selection is right (the predicated
+  `ldreq r2,[r2,#8]` chain for kinds 4 and 5, the recomputed
+  `add r2, r0, ip, lsl #4` after each predicated load, the `ldrsb` name gate)
+  but the element address is promoted to a callee-saved register here, so the
+  whole body is 4 instructions longer and `bx lr` becomes `pop {r3, pc}`.
+  The image rematerialises; this compiler hoists.  Filed at MATCH-class
+  residue; the register-promotion boundary wants the structured lane, not a
+  spelling sweep.  See docs/notes/pkt_021DDB38.c.txt.
+
+* func_021DF224 (0x021DF224, 16 instr bytes): MATCH cap.  Bytes and size are
+  already exact (24); the single unresolved site is the ABS32 word for the ARM
+  thunk at 0x021DFAA0 (`add r0, r0, #0x5c; bx lr`, sitting inside
+  func_021DFA6C's extent and never traced as a start).  The site reports
+  "has no witness outside 021DF224..021DF23C; 7 overlays overlap this address
+  (ov093, ov119, ov121, ov137, ov170, ov175, ov183), none resolvable without a
+  region hint on the symbols: line" -- *with* the `ov175` token present
+  (`func_021DFAA0  0x021DFAA0  arm  ov175`).  So the region token does not
+  resolve a mid-function target; it unblocks as soon as some other lane files a
+  body that reaches 0x021DFAA0 (func_021DFA6C's tail), same class as the
+  O14/O67 parks.  See docs/notes/pkt_021DF224.c.txt.
+
+4. Measured, for the next lane
+------------------------------
+* Where the cheap work is now: 216 open functions, and the *instruction-byte*
+  column of scratch/ov_ov175/o77/open.txt is what to sort by, not the extent
+  column -- open.py appends a function every time it meets a `.org` long-branch
+  island, so a 424-byte extent can be a 10-byte head.  The genuinely small
+  self-contained strata still open: func_021E1F6C (96, another pure ARM jump
+  table, same shape as func_021E1DD0 and now cheap by analogy), func_021E1EC4
+  and func_021E1F18 (64/68, both wrappers over a table function -- file the
+  table function first, rule 10), func_021DB258, func_021DE078, func_021DEDB4,
+  func_021DDA98.
+
+* The three-unlabelled-callee wall is *narrower than it looks*: 0x0201A918 is
+  still unlabelled in asm/arm9/main.s, so func_021DC1A0 / func_021DC200 /
+  func_021DC268 all stay capped, and 0x0200B358 caps func_021D965C.  But every
+  other callee this lane met resolved by declaration alone -- 0x02183A24,
+  0x02182AC0, 0x02182CF0 (ov009), 0x0217D254 (ov009), 0x021BF540 (ov114),
+  0x02084F80 (arm9) all attested as `label` or `sole-ref` and produced EXACT.
+  Do not park a body on a callee address before checking
+  `grep -rl '^func_<addr>:' asm/`: 6 of the 8 bodies filed here call an
+  outside-region function and none of them needed a park.
+
+* Beware the double-pool data word: 0x021E4C88 is referenced from both
+  func_021E13BC's and func_021DDA98's pools, so it is not sole-ref and its pool
+  word will not attest in either.  Two functions sharing one data address is
+  the cheap "no witness" tell to check before starting a body.

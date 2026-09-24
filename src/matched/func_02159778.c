@@ -1,0 +1,61 @@
+/*
+ * function: func_02159778
+ * address:  0x02159778
+ * packet:   pkt_02159778
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0215A5E4  0x0215A5E4  thumb  ov010
+ *   func_0201296C  0x0201296C  thumb
+ *   func_02159B10  0x02159B10  thumb  ov010
+ *   func_02159AE8  0x02159AE8  thumb  ov010
+ *   func_020142E8  0x020142E8  thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern int func_0215A5E4();
+extern int func_0201296C();
+extern int func_02159B10();
+extern int func_02159AE8();
+extern int func_020142E8();
+
+int func_02159778(int a0, int a1)
+{
+    int t4;
+    int t5;
+    int t6;
+    int t7;
+
+t4 = a1 + 0;
+t5 = a0 + 0;
+a0 = t4 + 0;
+    a0 = func_0215A5E4(a0);
+loc_02159784:
+    a0 = func_0201296C();
+loc_02159788:
+t6 = a0 + 0;
+a0 = t5 + 0;
+a1 = t4 + 0;
+    a0 = func_02159B10(a0, a1);
+loc_02159792:
+t7 = a0 + 0;
+a0 = t5 + 0;
+a1 = t4 + 0;
+    a0 = func_02159AE8(a0, a1);
+loc_0215979C:
+t4 = a0 + 0;
+a0 = t6 + 0;
+a1 = t7 + 0;
+    a0 = func_020142E8(a0, a1);
+loc_021597A6:
+*(u16 *)((char *)t4) = a0;
+a0 = 0;
+    return a0;}

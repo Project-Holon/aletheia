@@ -757,3 +757,119 @@ files.
    EXACT).  gen63 also emits a `symbols:` line with kind `thumb` and NO region
    token for an ARM9 target that is reached by `blx` with the odd bit set,
    which is the ISA-bearing case; the even-address ARM9 calls stay `arm`.
+
+Lane O73 (ov217 register-colour tie by variant generation, then the jump-table
+         dispatchers) 2026-09-24
+--------------------------------------------------------------------------
+
+RESULT: 0 new functions filed.  The shard
+layout/matched/ov217/pkt_021B9850.json is unchanged at 395 entries and still
+verifies:
+
+    python tools/match.py manifest --verify --shard pkt_021B9850
+
+Tooling: scratch/ov_ov217/o73/var73.py (re-spell one body, keep its generated
+header/symbols block, compile N variants 10-wide, print the differing rows) and
+scratch/ov_ov217/o73/dis73.py (assemble a listing region's .word/.byte runs via
+o11/ovbytes.py and disassemble them; the listing's `.inst` lines assemble as
+zeros, so pair it with the listing text).  Spec files: spec_tie1/2.txt,
+spec_disp1/2/3.txt.
+
+1. The tie's share of the O63 residue, measured (and smaller than O63 implied)
+
+   res_cand63u.json holds 156 unique DIFF addresses.  Reading the diff tables
+   position by position (`*` rows only, registers normalised):
+     7   are a pure register permutation of the whole body
+         (021B9AD0, 021BC740, 021BD5F4, 021BF11C, 021BF854, 021C097C, 021C0E08)
+     39  have their FIRST concrete divergence in the prologue register list
+         (26 `push/push`, 13 push against a ldr/other) - the tie seen at +0000
+     the rest are structural (22 beq/beq = code layout, 14 sub/sub = frame size,
+     11 blt/blo = signedness, ...)
+
+2. The tie does NOT yield to variant generation.  Measured, not argued.
+
+   func_021B9AD0 (40 B, the canonical shape: two call results live across a
+   third call) was re-spelled 22 ways - locals declared in both orders, split
+   from their initialisers, u32/s32/int, `register`, casts on the call result,
+   u32*/struct-typed locals, a dummy first local, an explicit parameter copy,
+   restructured return - and the compiled bytes are IDENTICAL in all 22.
+
+   `match.py sweep` was run on that same source: all nine dsi compilers
+   (1.1, 1.1p1, 1.2, 1.2p1, 1.2p2, 1.3, 1.3p1, 1.6sp1, 1.6sp2) crossed with
+   -O4,p / -O4,s / -O4 / -O3 / -O2 / -O1 / -O0 = 63 configurations, and with
+   --extra (11 columns, 99 configurations) - every one is the same D6 residue.
+   So the colour is not a compiler-build or flag artifact either.
+
+3. Why: the tie is a REVERSAL OF WEB CREATION ORDER, and creation order is the
+   image's instruction order, which is fixed.
+
+   Read off 021B9AD0 (a0 -> r5, first call -> r6, second call -> r4),
+   021BD5F4 (identical) and 021C097C (a0 -> r5, a1 -> r6, call result -> r4):
+   the image hands r4 to the LAST-created value, then r5, r6 to the earlier ones
+   in creation order.  gen63's compile hands r4 to the FIRST-created one.  Every
+   C-level ordering lever we have (declaration order, assignment order,
+   temporaries) leaves creation order untouched, because creation order is the
+   order the instructions appear in the image - so no spelling can reach it.
+   The same reversal is what pushes the prologue register list (`push/push`).
+
+4. The jump-table dispatcher func_021BE934: reproduced to the last byte except
+   ONE register pair.  132 bytes = the exact listing extent, 8 of 8 relocations
+   resolved, the halfword table, the case-body layout, the pool words and the
+   tail-merged call all byte-exact.  Residue, 11 concrete bytes, one place:
+
+     +0004  ldr r1,[r0,#0x34]   | ldr r0,[r0,#0x34]
+     +0006  cmp r1,#4           | cmp r0,#4
+     +000A  adds r2,r1,r1       | adds r1,r0,r0
+     +000C  add r2,pc           | add r1,pc
+     +000E  ldrh r2,[r2,#6]     | ldrh r1,[r1,#6]
+     +0010  lsls r2,r2,#0x10    | lsls r1,r1,#0x10
+     +0012  asrs r2,r2,#0x10    | asrs r1,r1,#0x10
+     +0014  add pc,r2           | add pc,r1
+     +0020  adds r3,r1,#0       | adds r3,r0,#0
+     +0022  movs r0,#0x24       | movs r1,#0x24
+     +0024  muls r3,r0,r3       | muls r3,r1,r3
+
+   i.e. everything in the function above and below is coloured one register
+   lower in ours: the image refuses to reuse the dying parameter r0 for the
+   switch value and takes r1, then r2 for the table scratch.  This is the same
+   phenomenon as 021BF854 (`ldr r1,[r0,r1]` against our `ldr r0,[r0,r1]`), and
+   here it is a 20-variant, 99-configuration dead end as well: parameter typed
+   u8*/u32/s32/s8*, parameter copy through a local, struct-field access, split
+   declaration, `(void)a0;` liveness nudge, unused second parameter, re-loading
+   the field (CSE'd), a cast on the switch value, a void-returning tail, a
+   guard `if (v > 4) return ...;` and a goto-out version were all tried; every
+   one reproduces the identical dispatch (the guard-if variant is worse - it
+   inverts the branch).  Source parked at
+   scratch/ov_ov217/o73/src2/func_021BE934.c; it is one register pair from
+   EXACT and should be re-measured after any harness or compiler change rather
+   than re-derived.
+
+5. Two new facts that made the dispatcher close, worth keeping for the
+   021B9774 / 021B970C / 021C1720 / 021C17C4 family
+
+   * A case body that indexes a byte table by an 0x24 stride through FOUR
+     separate addresses (0x021C3AC8, C9, CA, CB) must have all four declared as
+     `data` symbols on the `symbols:` line, with NO region token:
+         g_021C3AC8     0x021C3AC8  data
+     With the addresses written as literals mwcc folds them into one pool word
+     plus `subs rN,#3 / #2 / #1` derivations (7 of the 11 bytes above were that
+     folding, and declaring the symbols removed them).  Declared as symbols the
+     listing's four pool words come back in reference order - match.py resolves
+     each as `ABS32 ... [sole-ref x1]`, so the pool words count as EXACT.
+   * The table walk decodes as: switch value in rX, `cmp rX,#4; bhi <default>`,
+     then `adds rY,rX,rX; add rY,pc; ldrh rY,[rY,#6]; lsls; asrs; add pc,rY`.
+     The `ldrh` base is (`add rY,pc` address + 4) + 6 and the `add pc` base is
+     its own address + 4.  For 021BE934 that puts the table at 0x021BE94A with
+     entries 0x0008/0x002C/0x0008/0x0008/0x004E, i.e. cases 0, 2, 3 -> 0x021BE954
+     (shared body), case 1 -> 0x021BE978, case 4 -> 0x021BE99A, default (v > 4)
+     straight into the epilogue.  Cases 0 and 1 share the `blx` instruction at
+     0x021BE972 (mwcc tail-merged it); writing the two calls as plain
+     statements reproduces the `b #0x21be972` jump into the shared call.
+
+6. Where the next lane's mass is (opening the DIFF tables position by position)
+
+   26 `push/push` + 13 more prologue ties are the same reversal as (3) and are
+   not reachable from C.  The 22 `beq/beq` and the 6 `movs/bl`, 6 `adds/ldr`,
+   6 `ldr/adds` bodies are shape errors (mwcc moved a call or a load across the
+   value we kept in a saved register) and are worth reading whole-function, not
+   re-spelling; the 11 `blt/blo` are a signed/unsigned cast in the source.

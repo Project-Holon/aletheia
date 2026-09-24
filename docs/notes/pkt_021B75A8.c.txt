@@ -48,3 +48,49 @@ subsequent pool load takes the register r0 would have had, the multiply becomes
 Both files are parked in `scratch/ov_093/o61/` as `*_diff.c`; the C7CF4/C88A4
 family next door (15 members filed) shows the same shape closing on the first
 compile, so the missing thing is one allocator hint, not a wrong model.
+
+### lane O69 residue -- five parked record-builders from the same family
+
+All five are *characterised*: gates, field offsets, constant pool words and call
+lists reproduce; each fails on one mwcc codegen choice worth 2 to 4 bytes that
+shifts the rest of the body.  Sources are in `src/pending/` with the blocker in
+the header.
+
+**func_021DF0C4** (124 B code, ours 120; DIFF at +0x02, 119 bytes) -- the image
+opens `push {r3,r4,r5,r6,r7,lr}; sub sp,#8; str r0,[sp]`: an 8-byte frame with
+one spilled word.  mwcc here spills `a` into the pushed r3 dummy slot with *no*
+frame, so everything after +0x02 sits 2 bytes early and the `add sp,#8` is
+missing too.  Every other instruction is identical, in the same order (including
+the `ldr r2,pool` before `adds r0,#0x14`).  Probes: `void *a` and `int a` (with
+func_021D70A8 taking int) both give 120/no frame.  This is the same prologue as
+func_021DD588 (8-byte frame for *two* spills) and func_021E3CB0/func_021E25FC
+(8-byte frame, one [sp] access and one [sp] read) -- four functions in ov093 show
+the frame, so it is a real source shape, not noise.  Likely a second stack-resident
+local that mwcc kept the slot for; from the source it needs a hint that mwcc
+counts two spill slots.
+
+**func_021DFABC** (130 B code; DIFF, 48 bytes) -- the only residue is the
+`(u8)` of `func_021DCFF8(a,2)`: the image truncates *into the argument register*
+(`lsls r0,r0,#0x18; lsrs r1,r0,#0x18`), mwcc copies first (`adds r1,r0,#0;
+lsls r1,r1,#0x18; lsrs r1,r1,#0x18`), 2 bytes longer, and the tail shifts.
+Probes: declaring func_021D7B74's second parameter `u8`, and routing the truncation
+through a `u8` local, both made it worse (65 bytes).
+
+**func_021E4A70** (144 B extent; DIFF, 73 bytes) -- the `-2` written to +0xc is
+materialised in the image as `subs r0, r0, #3` *from the 1 already in r0* and then
+spilled to `[sp]` for the second record, which re-reads it.  mwcc folds the
+constant to `movs r0,#0xfe` and never spills.  So the source evidently carries the
+value in a variable that mwcc keeps live across the second `func_021C88A4`; the
+constant must not fold at the front end.
+
+**func_021D85F4** (DIFF, 31 bytes) -- two residues.  (a) the `0xff` at +0xc: the
+image does `subs r0, r2, #2` from the 1 in r2, mwcc emits `movs r0,#0xff`, and the
+same choice flips the record pointer from r1 to r2 for the whole body.  (b) the
+`func_021C8120(b,6)` result is copied through r4 before the byte-copy loop.
+
+**func_021E7388** (DIFF, 108 bytes) -- the scan loop.  The image is
+`n = func_021D775C(5); i = <pooled zero>; beq end; do {...} while (++i < n)`: the
+counter's zero comes from a literal pool word at 0x021E740C and the `n == 0` test
+is the `beq` on the `adds r7,r0,#0`.  The natural `for (i = 0; i < n; i++)` gives
+`movs r5,#0` plus a separate `cmp r7,#0; bls` pre-test, shifting the loop.  If a
+source shape is ever found that makes mwcc put a zero in the pool, this one closes.

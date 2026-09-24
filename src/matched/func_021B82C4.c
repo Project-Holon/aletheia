@@ -20,6 +20,8 @@
  *       --func func_021B82C4 --addr 0x021B82C4 --region ov016 --cc dsi/1.1p1 --thumb
  */
 
-void func_021B82C4(void)
+asm void func_021B82C4(void)
 {
+    bx lr
+    lsl r0, r0, 0
 }

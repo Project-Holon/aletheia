@@ -1,0 +1,104 @@
+Lane O70: ov016 big band, the stack-buffer prologue class
+=========================================================
+
+Four filed EXACT, 1,048 bytes of listing extent, ~17 one-compiles, ~80 minutes.
+The class named as the blocker by O62 is SOLVED; the three rows that use it in
+its richest form are parked with a named residue.
+
+Filed (all EXACT, all recorded with `manifest --verify --shard`):
+
+  func_021C1A04  0x021C1A04  228B  pkt_021C1A04
+  func_021CCAC0  0x021CCAC0  228B  pkt_021CCAC0
+  func_021CBCF0  0x021CBCF0  264B  pkt_021CBCF0
+  func_021C519C  0x021C519C  328B  pkt_021C519C
+
+Parked in src/pending/ with the residue in the header:
+
+  func_021C84BC  0x021C84BC  508B  DIFF, 14 bytes -- scratch naming in the last
+                                   six instructions only (all 508 bytes listed
+                                   = 508 compiled)
+  func_021C9F58  0x021C9F58  216B  DIFF, 93 bytes -- else-branch base not CSE'd
+
+Still open in this class (not started, budget): func_021C2B00 0x021C2B00, two
+copies (0x16 at sp+0x2b from 0x021DA4E8, 0x17 at sp+0x14 from 0x021DA500 with
+the trailing byte), two func_021BD1D4 pairs (0x021DB338/0x0207F0B8,
+0x021DB350/0x0207EB78), a masked write to a 0x04000010-ish register, an ARM9
+call at 0x02058518 on sp+0 with the two words at [sp] and [sp+4] tested
+afterwards, a publish into 0x021DE5A8+4, a two-iteration 0x20-byte block copy
+via 0x02082D44, then 0x020862F0 / 0x0207E3D0 / func_021D4C68 (all three
+`.inst`, so they go on the `symbols:` line as `arm` with no region token) and
+the 0x04001008 / 0x0400000A pair.  It is the same prologue as the four filed
+rows plus one more layer.
+
+THE PROLOGUE (the blocker, now spelled)
+---------------------------------------
+`ldrb r0,[ip,#1] / ldrb r1,[ip],#2 / subs r2,r2,#1 / strb r0,[r3,#1] /
+strb r1,[r3],#2 / bne` with the count in r2 is MWCC's **struct assignment for a
+type of alignment 1**.  Declare the object as a struct wrapping a char array,
+assign the whole struct from a token-less `data` symbol, and the loop appears
+with no other help:
+
+    typedef struct { char s[0x16]; } T22;      /* or any members, any layout */
+    extern T22 dat_021DA498;
+    T22 buf;                                   /* a plain local, not an array */
+    buf = dat_021DA498;
+
+Measured rules:
+
+1. **The copy length is sizeof(type) = 2 * (count in r2), plus one trailing
+   byte when sizeof is odd.**  The trailing byte is emitted after the loop as
+   `ldrb rN,[src] / strb rN,[dst]`.  So count 0xb is 0x16 bytes, count 0xc plus
+   a trailing byte is 0x19, count 0xa plus a trailing byte is 0x15.  All seven
+   ov016 members obey it, and in every case the length is exactly
+   strlen(source string) + 1 (the tables are `char/xxx.ncl.l`-style resource
+   paths), except func_021C9F58's, which is a 0xe-byte byte table.
+2. **The member layout does not matter, the size does.**  `{ char s[N]; }`,
+   `{ char name[0x14]; u8 a; u8 b; }` and any other 22-byte alignment-1 type
+   compile identically.  Do not spend compiles on the "real" struct.
+3. **The dest offset is the buffer's stack slot and comes from the
+   declaration order, reversed.**  MWCC gives the LATER-declared local the
+   LOWER address: `T22 buf; T25 buf2;` in func_021C519C puts buf2 at sp+0 and
+   buf at sp+0x16, the mirror image of the image.  Flip the declarations
+   (`T25 buf2; T22 buf;`) and the whole function lands.  Same for the
+   three-copy func_021C84BC: `T23; T21; T22;` puts them at sp+0x2b, sp+0x16,
+   sp+0 -- i.e. declare them in the order the image lays them out from the TOP
+   of the frame down.
+4. After the prologue these functions are the O62 display-bit shape: three or
+   four `func_021BD1D4(dst,src)` calls with one token-less `data` symbol per
+   address (same lever as O62 note 1a), `func_021BD170(&buf)` +
+   `func_021D4B68(..., 0, 4)` publishing the buffer, then the
+   0x04001008 / 0x0400000A halfword read-modify-writes with their own pool
+   words (O62 note 1b).
+5. **A store whose target is re-derived from a global pointer must be ONE
+   expression.**  `(*(int **)(dat_021DE5D8 + 4))[1] = func_021D4B68(...)`
+   reproduces the image, which loads the pointee AFTER the call.  Assigning the
+   pointee to a local first (`g = *(int **)(dat_021DE5D8 + 4); g[1] = ...`)
+   makes MWCC hoist the load above the calls, which pushes the value into a
+   callee-saved register (r7) and rewrites push/pop and every following
+   instruction -- 56 bytes of DIFF from one statement split.  func_021C519C
+   closed the moment the three publishes became three such expressions.
+6. **A signed compare on a byte-extracted value wants `int`.**  In
+   func_021C9F58 the image does `ldrb` then `cmp #3 / blt`; with
+   `unsigned char v` (both spellings of the type) MWCC emits `blo`, with
+   `int v` it emits `blt` and nothing else moves.
+7. **If a stack object must exist in memory, make it a member of an
+   address-taken local struct.**  In func_021C9F58 MWCC scalarises a plain
+   `u16 tmp[4]` into registers; the image has the `strh [sp,#2] / ldrh r3,[sp,#2]`
+   pair, and what produces it is
+   `typedef struct { u16 tmp[4]; T14 buf; } Frame;` with `Frame fr;` -- the
+   address of `fr.buf` escapes, the object stays in memory and the copy lands
+   at sp+8, not sp+0, exactly as listed.
+8. **Halfword tables indexed by a struct-scaled counter want a struct type.**
+   `extern u16 dat_021DA694[]` with index `v * 4` makes MWCC scale by 2 twice
+   (`lsl #2`, `lsl #1`) and address each element separately.  Declaring
+   `typedef struct { u16 h[4]; } Q;` and using `dat_021DA694[v].h[0]` gives the
+   image's single `lsl #3` and its three `ldrh rN,[rN,r3]` loads.
+
+The two parked rows are both one spelling away.  func_021C84BC is 100% right
+except which scratch register takes the 0x04001008 constant at +0144..+014e
+(image r1 + r2, compiler r3 + r1, and the two derived `sub`s move up three
+instructions as a consequence); four re-spellings (char* store target, value in
+a local int, and the constant assigned both immediately before the first and
+immediately before the last publish) are measured to change nothing.  The base
+of the next lane's search there is the register-naming class O62 note 1 already
+parked for this overlay.

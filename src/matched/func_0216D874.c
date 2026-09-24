@@ -17,8 +17,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
+
+
 void func_0216D874(int a0, int a1)
 {
-    a0 = a0 + 0x40;
-    *(u16 *)((char *)a0) = a1;
-}
+
+a0 = a0 + 0x40;
+*(u16 *)((char *)a0) = a1;
+    return;}

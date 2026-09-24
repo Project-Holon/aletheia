@@ -654,3 +654,156 @@ func_021EDBE8  36 bytes.  The residue is exactly two things:
     Free detail: `if (n == 0) return;` + do-while gives `beq`; letting the loop
     condition generate the entry test gives `bls` -- the opcode distinguishes
     a source-level guard from a rotated loop.
+
+================================================================================
+Lane O76 (ov170, packet pkt_021DC9A0) - one of the two residues closed, five new
+small functions filed.
+================================================================================
+
+--------------------------------------------------------------------------------
+func_021EDBE8 @ 0x021EDBE8 - SETTLED, EXACT, 36 bytes.
+--------------------------------------------------------------------------------
+O66 had reduced it to (a) the load's two register FIELDS and (b) the hoist
+landing in the entry block instead of the rotated preheader.  Both are ONE
+SOURCE FACT: the table has to be a CONST-qualified extern ARRAY SYMBOL.
+
+    extern const unsigned char g_021EFCEC[];
+    void func_021EDBE8(int x0, unsigned char *a, unsigned c, unsigned char d,
+                       unsigned n)
+    {
+        unsigned i;
+        for (i = 0; i < n; i++)
+            if (a[i] == d)
+                a[i] = g_021EFCEC[c];
+    }
+
+with `g_021EFCEC  0x021EFCEC  data  ov170` on the symbols: line.  That is the
+image byte for byte: push {r4,r5} / ldr r5,[sp,#8] / movs r4,#0 / cmp r5,#0 /
+bls exit / ldr r0,pool / ldrb r0,[r0,r2] / loop / adds r4,#1 / cmp r4,r5 / blo.
+
+Two independent mechanisms in that one declaration, both measured:
+
+  * the load is hoisted into the preheader ONLY because `const` makes it
+    loop-invariant to mwcc's LICM: the plain `extern unsigned char g[]`
+    spelling (and the `(unsigned char *)` local, and the literal cast) reloads
+    the byte every iteration and needs a third register, which grows the push
+    set from {r4,r5} to {r4,r5,r6};
+  * the ADDRESS lands in the base register (image `ldrb r0,[r0,r2]`, base =
+    0x021EFCEC in r0, index = c in r2) ONLY with the array-symbol form.  Every
+    cast/literal spelling emits `ldrb r2,[r2,r0]` - c as the base, the constant
+    as the index.  It is the same base/index role inversion O46 found in
+    func_021E2154, reached from the other side: a symbol-address operand
+    becomes Rn, a folded constant does not.
+
+Measured alternatives, all DIFF: `*(const unsigned char *)(0x021EFCEC + c)` in
+the loop (18 bytes out), the same with a `const unsigned char *t` local (18),
+the plain extern array without `const` (19), a source-level `unsigned char v =
+...` before the loop (14 - value hoisted but BEFORE the entry guard and two
+extra registers pushed), `unsigned char v` assigned inside the loop (25), and
+`if (n == 0) return;` + do-while (`beq` where the image has `bls`; only the
+loop's own rotated entry test gives `bls`).  `int c`, `int d` and `(int)c`
+spellings are also EXACT, so the argument types are not load-bearing here.
+
+--------------------------------------------------------------------------------
+func_021EE544 @ 0x021EE544 - still OPEN, but from 23-26 instructions out down to
+15 lines (28 of 56 bytes: one scheduling window and one pool-load slot).
+--------------------------------------------------------------------------------
+Settled now (best spelling is scratch/ov_170/o76/c1.c):
+
+  * the element access is POINTER ARITHMETIC on an unnamed temporary, not a
+    subscript: `*(t + idx * 0xc)` and `*(t + idx * 0xc + 1)`.  That reproduces
+    the image's `movs r2,#0xc / muls r2,r1,r2` with the index left undisturbed
+    in r1 - the subscript form pays `movs r3,#0xc / muls r3,r1,r3`, and a NAMED
+    element pointer `e = t + idx * 0xc` pays an extra `adds r4,r1,#0` copy on
+    top (the Thumb `muls` needs the multiplicand in the destination register,
+    so a named value forces a copy into its register).
+  * with that spelling the register ROLES are the image's exactly: r3 = the
+    0x021F0188 address, r4 = the selected table base, r2 = idx*0xc, r1 = idx
+    and then the t1[1] byte.
+  * the arms are `if (idx < 0x1e) {0DCC} else {0370; idx -= 0x1e}` (reversing
+    them gives `blo` and a different layout).
+
+What is left is two things in the same 0x14-byte window:
+
+  * the 0x021F0188 pool word is loaded at +0x04, BEFORE `cmp r1,#0x1e`, while
+    mwcc loads it at the join.  The pool-order oracle agrees: the image's pool
+    is 0188,0DCC,0370 (first-reference order) and every spelling that uses t1
+    only at the call emits 0DCC,0370,0188.  The one spelling that gets the
+    ORDER right loads the two bytes before the if (`unsigned char a0 = t1[0];
+    a1 = t1[1];`): the address then materialises at +0x04 exactly as the image
+    has it, but mwcc keeps the two BYTES live across the branch and pushes
+    {r3,r4,r5,r6,lr} instead of {r3,r4,lr}, and the loads stay before the
+    branch instead of sinking to the join.  So the image is that source with
+    the loads re-materialised from the live address; nothing found makes this
+    mwcc prefer "keep the address, redo the loads" over "keep the two values".
+    Tried and all 28-49 bytes out: pointer local before and after the branch,
+    `const` and `const const` pointers, a struct pointer, an extern const array
+    and an extern const struct for 0x021F0188 (the array/struct forms resolve
+    but cost 4 extra bytes - they re-derive the element address instead of
+    reusing it), the loads assigned in BOTH arms (52 bytes), a dead pre-branch
+    load, `q = t1 + 1` and `q = &t1[0]` hoisted before the branch (both sink to
+    the join like any other constant address), a `struct { u8 a, b; }` copy
+    before the branch (68 bytes), reading the two bytes as one halfword, and
+    preloading only the 5th argument.
+  * four instructions of the join: the image materialises the element address
+    as a VALUE (`adds r2,r4,r2` then two immediate-offset loads, `[r2]` and
+    `[r2,#1]`), while every spelling that merges the multiply emits the first
+    load in base+index form (`ldrb r1,[r4,r2]`) and only computes
+    `adds r2,r4,r2` for the second.  Same operands, same registers, one extra
+    address materialisation.
+
+--------------------------------------------------------------------------------
+Five new small functions filed EXACT this lane (196 bytes), all in one compile
+each.  The 33-64 byte band of ov170 is NOT exhausted: 67 functions of 33-64
+bytes and 143 of 65-128 are still open (369 open overall).
+--------------------------------------------------------------------------------
+  func_021E93F4  40  EXACT*  func_021DE898(p), then two byte fields copied into
+                             the sub-object at *(int*)p + 0x2a/+0x2b, state
+                             0x69 at +0x28, then func_021E8F90(p, 1).
+  func_021E7D3C  40  EXACT*  func_021EBB64(p, ldrh +0x10, 0x18), then the
+                             +0x24 selector: 3 -> 0x3c else 0xe stored at
+                             +0x28, then func_021E8F50(p, 6).
+  func_021ECCA4  40  EXACT   six -1 stores at +0xA088, +0xA10C, +0xA138,
+                             +0xA08C, +0xA110, +0xA13C; one pool word (0xA088)
+                             with the rest derived by `adds r1,#imm`.
+  func_021E22B8  40  EXACT   guard: func_0201C6B4(*(int*)(*(int*)(p+0x2c)
+                             +0x8c)) == 0 -> return 0xc, else
+                             func_021E8F60(p, *(int*)(*(int*)(p+0x2c)+0xA198)).
+  func_021EA908  32  EXACT   `*(int*)(*(int*)(p+0x2c) + 0xA174) ^= 1 << bit;`
+                             then func_021DF110(p, the same field) - the callee
+                             takes TWO arguments: p stays in r0 and the field
+                             is reloaded into r1; passing the field alone is
+                             2 bytes out at +0x12.
+
+Three that did not close in one pass, residue named, for the next lane:
+
+  func_021DD210  40 bytes.  Everything up to +0x0A matches: `subs r3,r1,r2 /
+      bpl / rsbs r3,r3,#0` (abs) and `cmp r1,r2 / ldrb r0,[r0,#0x15]`.  The
+      miss is the entry branch: the image has `bls` (unsigned) where the
+      compile has `blo`, and the whole tail then shifts.  `(unsigned)p[0x15]
+      >> 1` fixes the `asrs`/`lsrs` halfbyte but mwcc hoists the shift above
+      the `cmp` when it is a named local; keeping it inline in both arms
+      leaves only the branch opcode (36 of 40 bytes right).
+  func_021DD908  40 bytes.  `func_021DD25C(p, (unsigned short)a2, p[0x14], 5,
+      0)` then `func_020092AC(*(int*)(*(int*)p + 0x20), (unsigned short)v)`.
+      The result truncation is the image's `lsls r0,r0,#0x10 / lsrs
+      r1,r0,#0x10` with r0 as the scratch; mwcc instead copies the result into
+      r1 first, which makes the cast-at-the-call spelling MATCH* (38 of 40).
+      The `(unsigned short)a2` truncation IS in the image, so the callee's
+      second formal is a short and the caller's argument is wider.
+
+Free lessons measured this lane (each cost at least one DIFF first).
+--------------------------------------------------------------------------------
+1. `const` on an extern ARRAY symbol is not decoration - it is the switch for
+   LICM.  A loop-invariant load is hoisted into the rotated preheader only when
+   the object is const-qualified; without it the load stays inside the loop and
+   the register set grows by one.
+2. An extern array SYMBOL operand becomes Rn in a base+index load; the same
+   address written as a local pointer or a literal cast becomes Rm.  Cheapest
+   known fix for a "the two register FIELDS are swapped" residue.
+3. Pointer arithmetic on an UNNAMED temporary (`*(t + i * K)`) keeps the index
+   in its own register and multiplies into the constant's register; a subscript
+   or a named element pointer each cost an extra instruction.
+4. The pool-word order is a first-reference oracle; check it before writing the
+   third spelling.  The wrong order says the source's first touch of that
+   constant is somewhere you have not written yet.

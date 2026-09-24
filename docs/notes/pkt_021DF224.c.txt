@@ -1,0 +1,32 @@
+func_021DF224 (0x021DF224, arm, 16 instruction bytes, MATCH -- relocation cap)
+================================================================================
+
+Body (24 bytes, identical to the image, sole unresolved site named):
+
+    void func_021DF224(void)
+    {
+        func_021DFAA0(g_021E4D08[1]);
+    }
+
+    +0010 ABS32 g_021E4D08     -> 021E4D08       [sole-ref x1, resolved]
+    +0014 ABS32 func_021DFAA0  -> unresolved: 021DFAA0 (arm, from header) has no
+                                  witness outside 021DF224..021DF23C; 7 overlays
+                                  overlap this address (ov093, ov119, ov121,
+                                  ov137, ov170, ov175, ov183), none resolvable
+                                  without a region hint on the symbols: line
+
+The target 0x021DFAA0 is an 8-byte ARM thunk (`add r0, r0, #0x5c; bx lr`) that
+the disassembler never traced as a start: it sits at the tail of
+func_021DFA6C's extent, reachable only as a pooled tail-call address (brief rule
+10's `.word` blob).  The `symbols:` line carries
+
+    func_021DFAA0  0x021DFAA0  arm  ov175
+
+and the region token does *not* clear it -- for a target in the middle of
+another function's extent the hint has nothing to resolve against.  This is the
+same class as the O14/O67 parks, except the bytes are already counted: it
+promotes to EXACT automatically once a lane files func_021DFA6C (0x021DFA6C,
+58 bytes, still open) or any other body whose pool reaches 0x021DFAA0.
+
+Do not re-attempt with a different spelling: the compiled body is already
+byte-identical and only the pool word's attestation is missing.

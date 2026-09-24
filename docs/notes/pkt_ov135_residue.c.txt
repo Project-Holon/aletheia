@@ -746,3 +746,108 @@ Big band (>=129B): first target measured this wave
       bytes.  Source is in scratch/laneO59/a1d30.c - the three redraw groups
       are one block too many for MWCC to merge, so the shared-count is the
       thing to read off the listing next.
+
+
+ov135 lane O71 residue, wave 7 (2026-09-24) -- big band
+======================================================
+
+Four more jump-table handlers closed (the family waves 5/6 hand-decoded), all
+filed to src/pending/ because the same two callees 0x021C866C / 0x021C86A8
+still carry no func_ label in any overlay listing:
+
+  func_021F8B0C  0x021F8B0C  176B  MATCH  5 compiles
+  func_021FE744  0x021FE744  172B  MATCH  1 compile
+  func_02201E38  0x02201E38  156B  MATCH  1 compile
+  func_02201D30  0x02201D30  144B  MATCH* 2 compiles (was DIFF 53 in wave 6)
+
+Plus one that needed no symbols at all and is FILED, not parked:
+
+  func_02201F18  0x02201F18  140B  EXACT  1 compile  -> src/matched/func_02201F18.c
+      shard layout/matched/ov135/pkt_02201F18.json (manifest --verify).
+      Not a state handler: it switches on *(u32*)(p+0x38) + 15 with a 15-entry
+      table and a real `default:`, each arm assigning a code, then
+      `return func_021F9088(p, *(u32*)(p + 0xb6c), v, 1, 0x0f0f);` -- the case
+      bodies appear in DESCENDING case order, which is the source order here.
+
+TOTAL 788 code bytes, every concrete byte reproduced.  func_02201D30 no longer
+carries the 53-byte residue: it was ONE `break` too many (see rule 5).
+
+A. The table geometry, measured once so it stops costing compiles
+-----------------------------------------------------------------
+
+  1. THE TABLE HAS `bhi`-BOUND + 1 ENTRIES, not always 16.  Read the compare:
+     `cmp rX, #0xf` = 16 entries, `cmp rX, #0x16` (func_021FE744) = 23
+     entries, `cmp rX, #0x11` (func_021F8B0C) = 18.  The entries sit at
+     addr(`add pc, rX`) + 2, and a target is  table_start + 2 + entry; the
+     first case body always starts at table_start + 0x20 for a 16-entry table,
+     i.e. table_start + 2*N in general.
+  2. `switch (n + 15)` means the SLOT INDEX IS THE CASE VALUE (slot k is
+     `case k`), so read the case labels straight off the slots.  Verified
+     against the already-filed func_0220157C: slot 15/12/11/3/0,1,13/2 land on
+     its six bodies in exactly the source's order.
+  3. THE `bhi` TARGET IS THE POST-SWITCH TAIL, and a slot that points at that
+     same address is an EMPTY case: do not invent a body for it.  In
+     func_021F8B0C the tail is not `return 2` but `func_021F4FC4(p);
+     func_021F513C(p);` followed by `return 0`, and the `bhi` goes there while
+     slots 2 and 4..12 point at it - so those indexes are simply not cases.
+  4. WHEN TWO CASE GROUPS SHARE A CALL TAIL, MWCC puts the call in ONE place
+     (usually inside the else arm) and emits a bare `b` per group: slot 0/1/13
+     and slot 2 of func_02201D30/e38 each own a 2-byte `b` to the same redraw
+     block.  Count the `b`s, not the calls.
+  5. A CASE GROUP WITH NO `break` FALLS INTO THE NEXT GROUP AND SHARES ITS
+     EXIT.  func_02201D30's last residue was exactly one 2-byte block too many:
+     `case 3: case 11: *(u32*)(p+0x38) = n; break;` emitted its own `b`, while
+     the image has the archive falling straight into the `case 0: case 1:
+     case 13:` group's single `b`.  Writing the case WITHOUT the break
+     (`case 3: case 11: ...;` then `case 0: case 1: case 13: call; break;`)
+     removed the extra block and shifted the else arm and the pool back into
+     place.  Same reading for func_02201E38's three func_02201B18 bodies.
+  6. A PROLOGUE CALL WHOSE RESULT IS THE NEXT CALL'S ARGUMENT.  func_021F8B0C
+     opens `adds r4,r0,#0 / blx 0x021C7C1C / blx 0x021C866C / cmp r0,#0`
+     with NO reload of r0, which no two-statement source reproduces: written as
+     `func_021C7C1C(p); if (func_021C866C(p) != 0)` MWCC reloads p into r0
+     (`adds r0,r4,#0`, +2 bytes).  The image is `if (func_021C866C(
+     func_021C7C1C(p)) != 0)`, i.e. the first call's result is passed in r0.
+  7. RETURN-VALUE SHAPE IS NOT ALWAYS `return 2`.  func_021F8B0C's bodies
+     return 1 or 2 individually (each ending in its own `movs r0,#N; pop`),
+     the switch tail returns 0, and there is no trailing `return 2`.  Read the
+     epilogue off the bodies before assuming the family's usual shape.
+  8. func_021FE744's counter compares against 0x1c20 (a pool word), not the
+     0xe10 built with `movs/lsls`; its case bodies call func_02006210() first.
+
+B. Residue still open
+---------------------
+
+  func_0220171C  0x0220171C  208B/212B  DIFF 12 bytes  -- NOT CLOSED
+      Unchanged: the dispatch prologue's two dead-at-that-point registers are
+      mirrored (image: pool constant -> r2, zero -> r1, biased index -> r2;
+      source: r1, r2, r1).  Three more shapes measured this lane, all giving
+      the mirrored pair and all 212 bytes / 12 concrete bytes:
+        - `s32 i;` with `i = n + 15;` and `switch (i)` (named bias variable)
+        - `u32 v;` with `v = 0; *(u32*)(p + 0xf8c) = v;` (named zero)
+        - `u32 *c;` with `c = (u32 *)(p + 0xf8c); *c = 0;` (pointer local)
+      Total measured across waves 6 and 7: 7 shapes, one register assignment.
+      func_0220157C, textually identical through the dispatch, takes the
+      source's assignment, so this is a whole-function allocator decision with
+      no expression-level lever found.  Do not spend budget on it again unless
+      the body shape itself changes.
+
+  func_0220189C  0x0220189C  404B  DIFF 231 bytes (not re-attempted)
+      The wave-6 reading is confirmed by the byte layout, one step further
+      than it went: the image's ZERO STORE value lives in r6 (a callee-saved
+      register, `movs r6,#0; str r6,[r4,r5]`) at +0018, and r6 is later the
+      constant 1 reused by the index-12/11 bodies, i.e. 0 and 1 are ONE
+      function-scope variable, not two literals.  The source spelling that
+      would do this is a named local assigned 0 before the switch and 1 in the
+      index-16 body, with the other bodies reading the variable instead of the
+      literal.  Worth one lane; the 231-byte diff is otherwise a 2-byte shift
+      cascading through the pool.
+
+C. The one-line fix is still the whole blocker
+----------------------------------------------
+  0x021C866C / 0x021C86A8: ten parked ov135 handlers now (the four above plus
+  wave 5/6's six) promote the moment layout/function_starts.txt traces those
+  two addresses.  ov111 (0x021C3CC0..0x021C8E80) and ov114
+  (0x021B95A0..0x021CF960) both span them; the neighbours 0x021C8770,
+  0x021C87FC, 0x021C887C, 0x021C8978, 0x021C89F0 already carry labels in
+  asm/overlays/ov114.s.

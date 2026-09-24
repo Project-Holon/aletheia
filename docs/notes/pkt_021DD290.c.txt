@@ -1,0 +1,62 @@
+func_021DD290 (0x021DD290, arm, 32 instruction bytes, DIFF, 37 of 60 bytes)
+==========================================================================
+
+Body: latch the +0x28 word, copy the 0x19-byte name from the source into
++0x2c, then set the +0x24 live flag.  Best spelling (reaches the same size, 60)
+and the residue, straight from `match.py one --diff`:
+
+    void func_021DD290(char *p, u32 v, u8 *src)
+    {
+        int n = 0xc;
+        u8 *d = (u8 *)(p + 0x2c);
+
+        *(u32 *)(p + 0x28) = v;
+        do {
+            d[1] = src[1];
+            d[0] = *src;
+            d += 2;
+            src += 2;
+        } while (--n);
+        *d = *src;
+        *(u32 *)(p + 0x24) = 1;
+    }
+
+    offset   ORIGINAL                        | COMPILED
+    +0000    push {r3, lr}                   | str r1, [r0, #0x28]
+    +0004    str r1, [r0, #0x28]             | add ip, r0, #0x2c
+    +0008    add lr, r0, #0x2c               | mov r3, #0xc
+    +000C    mov ip, #0xc                    | ldrb r1, [r2, #1]
+    +0010    ldrb r1, [r2, #1]               | sub r3, r3, #1
+    +0014    ldrb r3, [r2], #2               | cmp r3, #0
+    +0018    subs ip, ip, #1                 | strb r1, [ip, #1]
+    +001C    strb r1, [lr, #1]               | ldrb r1, [r2], #2
+    +0020    strb r3, [lr], #2               | strb r1, [ip], #2
+    +0024    bne #0x21dd2a0                  | bgt #0x21dd29c
+    +0028    ldrb r2, [r2]                   | ldrb r2, [r2]
+    +002C    mov r1, #1                      | mov r1, #1
+    +0030    strb r2, [lr]                   | strb r2, [ip]
+    +0034    str r1, [r0, #0x24]             | str r1, [r0, #0x24]
+    +0038    pop {r3, pc}                    | bx lr
+
+Two distinct differences, both register allocation, not instruction selection:
+
+ 1. the destination pointer lives in `lr` in the image (hence the push/pop
+    frame) and in a scratch (`ip` here, `r3` for the indexed spelling) on this
+    compiler.  In the image the byte temp is `r3`; here it collapses to `r1`,
+    which is what frees the scratch register for the pointer.
+ 2. the image's loop test is the decrement itself (`subs ip, ip, #1; bne`);
+    every `--n` spelling here emits `sub; cmp; bgt`.
+
+Four source spellings all reach the same residue (identical instruction
+selection, different register roles): a pointer walk (above), an indexed
+`p[0x2c + i*2 + 1] = src[i*2 + 1]; p[0x2c + i*2] = src[i*2];` loop,
+`for (n = 0xc; n != 0; n--)`, and a `while (--n)` form.  Two others are
+required or the body does not even get the right sizes: `p[0x28] = v` must be
+`*(u32 *)(p + 0x28) = v;` (a `char *p` store is a `strb`), and the byte
+pointers must be `unsigned char *` because the target is built `-char signed`
+(`ldrb` in the image, `ldrsb` here otherwise).
+
+Left to try: a struct-typed destination (`*(Name19 *)(p + 0x2c) = *(Name19 *)src;`)
+or a walk whose destination starts at `p + 0x2c` but is advanced before the
+last byte rather than after, in case the live-range boundary is what pushes the
+pointer into `lr` in the original.

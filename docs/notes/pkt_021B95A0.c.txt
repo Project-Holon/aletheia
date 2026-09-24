@@ -506,3 +506,171 @@ func_021BD7A0  0x021BD7A0  42 bytes target  DIFF (31 bytes, 1 relocation)
     source the image came from keeps everything in r1/r2 and leaves r0 as
     the first argument untouched, so it is a shape this lane did not find;
     it is parked here rather than spent on.
+
+==============================================================================
+lane O78 (continuation): the complementary pair, closed
+==============================================================================
+
+Both halves of the 0x135C pair are EXACT, and so are five further functions of
+the small strata, one of them a residue two earlier lanes had parked.
+
+func_021BD744  0x021BD744  42 bytes  EXACT
+func_021BD7A0  0x021BD7A0  42 bytes  EXACT*
+    The lane before read the r6 frame as a shape it could not find: both
+    halves hoisted the third argument's zero into r6 and pushed
+    {r4,r5,r6,lr} where the image pushes {r3,r4,r5,lr}.  It is not the zero
+    and not the register.  The source computes no selector at all; it
+    duplicates the call, one per arm:
+
+        u32 x = *(u32 *)(p + 0x135C);
+
+        if (x - 2 <= 1) { func_021BAAB8(p, 0x7D, 0); }
+        else            { func_021BAAB8(p, 0x7C, 0); }
+
+        *(u32 *)(p + 0x135C) = 0;
+        *(u32 *)(p + 0x1CC) = 0x8E;
+        return v;
+
+    and 1.1p1 tail-merges the two calls into the image's single
+    `movs r2,#0 ; bl`, behind `subs r1,r1,#2 ; cmp r1,#1 ; bhi` with a fresh
+    `movs r1,#0` after it.  func_021BD7A0 is the same body with 0x7C and 0x7D
+    exchanged.
+
+    All of the following were measured and all of them produce the same 52
+    bytes with the r6 frame: the ternary `(x - 2 <= 1) ? 0x7D : 0x7C`, as a
+    named local and inlined into the call; the if/else on a named selector
+    (declared bare, and pre-set to 0x7C with a one-sided if); the same with
+    the third argument spelled `(void *)0` against a `void *` parameter; the
+    store cast `(u16)0` or `(u8)0`; the store through a `void *` lvalue; the
+    callee declared with an empty prototype; and a two-case `switch`.  The
+    switch is the closest - it reproduces the fallthrough-first layout - but
+    its test is `cmp #2 ; beq ; cmp #3 ; bne`, not the folded range test.
+
+    Codegen fact: with a computed selector passed to one call and a zero
+    stored afterwards, 1.1p1 shares the constant 0 across the call and has to
+    park it in a callee-saved register.  A source that calls once per arm has
+    no such value.  The r6 frame is therefore the tell for "the image had two
+    call sites here", just as the inverted `bls`/`bhi` is the tell for "the
+    image did not hoist the first arm".
+
+func_021BD014  0x021BD014  36 bytes  EXACT
+    One arm9 predicate on the block, then the byte at +0x1353 = 0x6E and
+    selector 0x8A; returns the second argument.  func_020362DC goes on the
+    symbols line as `arm` with no region token and costs nothing.
+
+func_021BA594  0x021BA594  32 bytes  EXACT
+    The three value arguments are packed into a four-byte stack record and
+    handed, with the pointer at +0x59C, to ov127's 0x021C5F44.  The struct
+    spelling (`struct S { u16 a; u8 b; u8 c; } s;`) and a `u16 buf[2]` with
+    explicit stores both give the image's `sub sp,#4 ; add r4,sp,#0 ; strh ;
+    strb [r4,#2] ; strb [r4,#3]`.  func_021C5F44 needs its region token: it
+    is a label of ov136 as well.
+
+func_021B9CF8  0x021B9CF8  56 bytes  EXACT
+
+func_021BA168  0x021BA168  40 bytes  EXACT*
+    The residue lanes O3 and O42 both left as "codegen, register allocation of
+    the scaled index", 6 bytes out with the product in r2 where the image has
+    it in r3.  It is the same fact as func_021B9CF8 and it is not allocation:
+    it is the two address spellings.  Write the load field-last and the exit
+    field-first.
+
+        if (*(u32 *)(p + i * 0x1C + 0x30) == 0) {
+            return (u8 *)(p + 0x30) + i * 0x1C;
+        }
+
+    With both expressions written `p + 0x30 + i * 0x1C` - which is what both
+    earlier lanes measured - 1.1p1 homes the product in r2 and prints
+    `adds r3, r0, r2 ; ldr r2, [r3, #0x30]`.  With the split spelling the
+    image's `adds r2, r0, r3 ; ldr r2, [r2, #0x30]` comes out and the exit
+    `adds r0,#0x30 ; adds r0,r0,r3` with it.  The same split closed
+    func_021B9CF8, whose record walk has the identical shape, on the first
+    compile.
+
+func_021BE2A8  0x021BE2A8  52 bytes  EXACT
+    Walks the 0x21 pointers at +0x814 for the first whose func_021B9A50
+    answer is the second argument.  Here too the table address is written
+    `p + i * 4 + 0x814` on the test and the call and `p + 0x814 + i * 4` on
+    the return; written all one way 1.1p1 keeps `p + i * 4` in r7 across the
+    call (`adds r7, r5, r0`) where the image keeps the bare scaled index
+    (`lsls r7, r4, #2 ; adds r1, r5, r7`).
+
+    The rule, now measured on three record walks of this overlay: when the
+    two uses of a walked address are written with the same association the
+    base is CSE'd into a callee-saved register across the intervening call,
+    and the image's allocator instead keeps the bare scaled index there.
+    Giving the two uses different associations (constant first in one,
+    constant last in the other) is what reproduces it.  Before calling a
+    register choice here allocator taste, try the other spelling.
+
+------------------------------------------------------------------------------
+one residue this lane did not close
+------------------------------------------------------------------------------
+
+func_021C1FE8  0x021C1FE8  64 bytes target  DIFF
+
+    A leaf: for each of the h = (*(u16 *)(p + 2) >> 3) rows it adds the
+    second argument to the w = (*(u16 *)p >> 3) halfwords of the block at
+    +0x0C, `q[i * w + j] += d`.  Size and instruction multiset are right;
+    every residue is a register name or a scheduling slot:
+
+        ORIGINAL   adds r5,r1,#0 ; adds r1,r0,#0 ; adds r1,#0xC ;
+                   mov ip,r1 ; ldrh r1,[r0] ; ldrh r0,[r0,#2] ;
+                   lsrs r3,r1,#3 ; lsrs r7,r0,#3 ; movs r1,#0
+        COMPILED   ldrh r2,[r0,#2] ; adds r5,r1,#0 ; ldrh r1,[r0] ;
+                   lsrs r7,r2,#3 ; adds r0,#0xC ; lsrs r1,r1,#3 ;
+                   movs r2,#0 ; mov ip,r0
+
+    The image homes the second argument first, keeps the width in r3 (i in
+    r1, j in r2, h in r7) and shifts logically; the compiled version takes
+    r1 = w, r2 = i, r3 = j and hoists the two halfword loads above the
+    prologue.  Measured: `p[0] >> 3` on a promoted `u16` compiles to `asrs`
+    unless the left operand is cast, `(u32)p[0] >> 3`; a `u16` second
+    argument avoids the `lsls/lsrs #0x10` truncation an `int` one costs; and
+    `u32` counters turn the two `ble`/`blt` into `bls`/`blo`, so the counters
+    are signed.  Left: the order of the two halfword loads and the w/i/j
+    register names read as scheduler and declaration-order choices rather
+    than source shapes.
+
+------------------------------------------------------------------------------
+the pre-existing MATCH files, re-checked
+------------------------------------------------------------------------------
+
+0x0203C3EC and 0x0204047C are still not labels in any listing, so
+func_021BF03C, func_021BF068 and func_021BE6B0 stay MATCH.  0x02156860,
+0x02156BC4, 0x021C584C, 0x021C4948, 0x021C57D8 and 0x021C4BC8 are unlabelled
+in every listing too, so the eight-byte thunks that only tail-call them
+(func_021C23B8, func_021B98E4, func_021C0C7C, func_021B9A34, func_021B9AE0)
+cap at MATCH as well and are left unfiled rather than parked.
+
+func_021BDB08  0x021BDB08  40 bytes  EXACT*
+    Two arm9 predicates chained (0x020399A8 then 0x02039CB4 with 0x18/0x0A)
+    and selector 0x79 when the chain answers non-zero; returns the second
+    argument.  Both arm9 callees go on the symbols line as `arm` with no
+    region token.  The early return `if (r == 0) return v; <stamp>; return v;`
+    is the shape - `if (r != 0) { stamp }` makes 1.1p1 inline the stamp block
+    and invert to `beq`, where the image branches out of line with `bne`.
+    Same lesson as func_021BD838 and the pair above: the
+    layout of the arm is a source-shape fact, not an optimizer mood.
+
+------------------------------------------------------------------------------
+two blockers that are not source shapes
+------------------------------------------------------------------------------
+
+func_021BEE94  0x021BEE94  40 bytes  unfiled
+    `if (func_0203CB00(p) != 0 || func_0203C628(r0) != 0) selector 0xA`, with
+    the second call fed the first one's answer (r0 is passed straight
+    through).  0x0203CB00 and 0x0203C628 have no label in any listing, so the
+    entry caps at MATCH; left unfiled.
+
+func_021B9D30  0x021B9D30  44 bytes  unfiled
+    Seven-argument ov127 setup: `x = func_021C5590(*(void **)(p + 0x14), 0,
+    0x30, a2, 0, 0, a3); *(u32 *)(p + 0x590) = x; func_021C5664(x, 2, a3);`.
+    The harness refuses the call outright:
+        ISA conflict for func_021C5590 at 021C5590: the source declares thumb,
+        the image says arm (the func_021C5590 label in ov016).
+    0x021C5590 is a label of both ov016 (arm) and ov127 (thumb), and the
+    resolver takes the ov016 one, so no region token rescues it and the entry
+    cannot be filed either way.  Worth knowing before spending a lane on the
+    0x021C5xxx contested addresses: the same address can be a different ISA
+    in each overlay, which is a harder blocker than an unwitnessed label.
