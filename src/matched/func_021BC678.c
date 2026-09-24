@@ -10,8 +10,9 @@
  * status:   EXACT
  *
  * symbols:
- *   (none)
-
+ *   func_02030D28 0x02030D28 arm
+ *   func_02021ED8 0x02021ED8 thumb
+ *
  * Releases +0 and re-checks the handle at +8 for the two armed states at +0x10.
  */
 

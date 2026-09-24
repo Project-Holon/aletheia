@@ -2,29 +2,22 @@
  * function: func_021BD140
  * address:  0x021BD140
  * packet:   pkt_021BD140
- * region:   ov021
+ * region:   ov208
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
  *
- * Tail-call thunk: forwards to func_02013E6C with no argument change.
- *
  * symbols:
- *   func_02013E6C  0x02013E6C  thumb  ov021
+ *   func_02047970 0x02047970  arm
  *
- * Addresses are Black-image addresses.
+ * Tail call to the ARM9 function at 0x02047970, forwarding the first argument.
  */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
+extern void func_02047970(char *);
 
-#pragma thumb on
-extern void sub_02013E6C(void);
-
-void func_021BD140(void)
+void func_021BD140(char *p)
 {
-    sub_02013E6C();
+    func_02047970(p);
 }
