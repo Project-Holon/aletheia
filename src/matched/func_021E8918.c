@@ -1,0 +1,26 @@
+/*
+ * function: func_021E8918
+ * address:  0x021E8918
+ * packet:   pkt_021EA478
+ * region:   ov093
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021E8918   0x021E8918  thumb  ov093
+
+ * Returns 0 with a 4-byte frame that nothing ever stores to.  Taking the address of a local array forces the slot, and the optimizer then removes both the store and the reload (nothing outside can alias it), so the frame and the register-resident value both survive.  A scalar `u32 v = 0; v &= ~7u;` folds to 4 bytes, which is why O28's residue could not reach this; the address-taken local is the missing form.
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed char s8;
+typedef signed short s16;
+typedef signed int s32;
+
+u32 func_021E8918(void) { u8 b[4]; *(u32*)b = 0; return *(u32*)b & ~7u; }
+

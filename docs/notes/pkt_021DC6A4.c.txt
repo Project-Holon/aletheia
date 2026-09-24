@@ -1,0 +1,25 @@
+func_021DC6A4 @ 0x021DC6A4 (ov175, Thumb) - DIFF, 24 bytes of 44 (compiled 48).
+
+The settled part, byte for byte: push {r4,r5,r6,lr}; r5 = obj; r4 = value;
+r6 = 0x130 (as movs #0x13 + lsls #4); clear the 0x021E4B80 head
+(`strb r1,[r0]`, `str r1,[r0,#4]`); `obj[0x130] = value`; `obj[0x12c] = 0xc8`;
+then 0x021C5B80, whose non-zero result leaves the function.
+
+Residue (the tail): the image materialises the 0x12c store address in r0
+(`movs r0,#0xc8; adds r0,#0x64; str r1,[r5,r0]` with the stored constant in
+r1) and does the `obj[0x130] = value` store *before* that address is built;
+this compiler builds the address in r1 and stores through it
+(`str r1,[r5,r1]`), which also costs the two extra bytes.
+
+    original                              compiled
+    +0012  c8 20  movs r0, #0xc8           | c8 21  movs r1, #0xc8
+    +0014  ac 51  str r4, [r5, r6]         | ac 51  str r4, [r5, r6]
+    +0016  c8 21  movs r1, #0xc8           | c8 20  movs r0, #0xc8
+    +0018  64 30  adds r0, #0x64           | 64 31  adds r1, #0x64
+    +001A  29 50  str r1, [r5, r0]         | 68 50  str r1, [r5, r1]
+
+The offset spelling that would explain the image is one where 0xc8 is a named
+base (e.g. a field access at +0xc8 plus 0x64) rather than the literal 0x12c;
+worth one more lane, not worth more of this one.
+
+Sources tried (DIFF, not committed).

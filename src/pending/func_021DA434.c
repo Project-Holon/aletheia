@@ -1,0 +1,37 @@
+/*
+ * function: func_021DA434
+ * address:  0x021DA434
+ * packet:   pkt_021DA434
+ * region:   ov175
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   MATCH
+ *
+ * symbols:
+ *   func_02156CD0  0x02156CD0  thumb  ov009
+ *   g_021E2C8C     0x021E2C8C  data
+ *
+ * BLOCKED: `bl 0x02156CD0` at +0002 has no witness -- no func_/sub_ label at
+ * that address in any listing and the address is not in layout/symbols_sdk.
+ * Same class as the func_021D9EA0/func_021D61CC parks (0x02156DE0/0x02156DC4).
+ * Every other byte matches: a live module (non-zero from 0x02156CD0) takes
+ * the 0x020399A8 handle into 0x0203D3A8 as the 0x2402/4 entry of the
+ * 0x021E2C8C block, anything else reports 1.
+ */
+
+typedef unsigned long u32;
+
+extern int func_02156CD0(void);
+extern int func_020399A8(void);
+extern int func_0203D3A8(int, int, int, u32);
+extern u32 g_021E2C8C[];
+
+int func_021DA434(void)
+{
+    if (func_02156CD0() != 0)
+        return func_0203D3A8(func_020399A8(), 0x2402, 4, (u32)g_021E2C8C);
+    return 1;
+}
+

@@ -29,8 +29,8 @@ extern u32 func_02045EC0();
 extern u32 func_021C0F78();
 u32 func_021C0F5C(u32 a0)
 {
-    u32 v4 = func_02045EC0(*(u32*)(((u8*)a0) + 20));
-    func_021C0F78(a0, v4);
-    return func_020307B0(v4);
+    u32 v1 = func_02045EC0(*(u32*)(((u8*)a0) + 20));
+    func_021C0F78(a0, v1);
+    return func_020307B0(v1);
 }
 

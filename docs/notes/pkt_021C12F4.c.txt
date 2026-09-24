@@ -1,0 +1,83 @@
+# pkt_021C12F4 residue and class record (lane O55)
+
+Lane O55 filed 12 ov172 functions under the new packet `pkt_021C12F4`; every one
+is recorded by `tools/match.py manifest --verify --shard pkt_021C12F4` as EXACT
+or EXACT\* (9 EXACT, 3 EXACT\* -- the three the summary counts as "not EXACT" are
+the EXACT\* entries, the known match.py summary wart).  1050 bytes of listing
+extent, 12 functions.
+
+Work order was deepest callee first, per `scratch/ov_172/deps2.py`.
+
+## `scratch/ov_172/o44_deps.py` is broken and reports 0 BLOCKED
+
+The file compares an **integer** callee address against `inline_names`, a set of
+**name strings**:
+
+    for t in info[n]['targets']:        # t is an int
+        if t in inline_names:           # inline_names is {'func_XXXXXXXX', ...}
+            ...
+
+so the `BLOCKED` list is always empty and every remaining label is reported
+READY.  The lane's tasking ("75 BLOCKED on an unfiled sibling") is right and the
+script's output is wrong.  `scratch/ov_172/deps2.py` is the corrected version:
+it compares `'func_%08X' % t` against the name set, and it also computes a
+`height` (longest chain of still-unfiled ov172 callees) so the deepest callee
+sorts first.  At the start of this lane the real split was **81 READY / 68
+BLOCKED** out of 143 remaining; at the end it is **76 READY / 59 BLOCKED** out of
+135.
+
+## The ordering rule held, cheaply
+
+Every READY row has all its ov172 callees filed *and shard-recorded*, so no
+`manifest --verify --shard` interleave was needed inside this lane's own work:
+the calls resolve through the shards the earlier lanes wrote
+(`pkt_021B6100`, `pkt_021B62A8`, `pkt_021B6868`).  The 7 unblocked rows are
+callees of the functions filed here, so the *next* lane must record its shard
+before compiling its callers -- one shard write per layer, as O44 found.
+
+## What closes in one or two compiles
+
+1. **ARM9 teardown / setup sequences** (the bulk of the bytes here).  A run of
+   `func_XXXX(a0 + OFF)` / `func_XXXX(5)` statements reproduces literally: read
+   the registers before guessing, then transcribe call by call.  No pool words,
+   no register colouring trouble.  `func_021B8FB8`, `func_021BB9E4`,
+   `func_021BBE5C`, `func_021BD0C4`, `func_021BD7D0` are all this shape.
+2. **A nested call as an argument is real, not cosmetic.**  The image's
+   `ldr r0,[r5,#0x2c] / blx A / ldr r0,[r5,#0x2c] / blx B / blx C` shape (two
+   argument setups, three calls) is `A(p); C(B(p));` and not `A(p); B(p); C(p);`
+   -- C's argument is B's result, so C gets no argument setup of its own.  This
+   spelling compiled EXACT in `func_021B8FB8`, `func_021BBE5C` and
+   `func_021BD0C4`; the "three separate statements" spelling does not.
+3. **mwccarm is strict about implicit `u32` -> `void *`.**  A source that reads a
+   handle out of a struct as `*(u32*)(p+off)` and passes it straight to an
+   `extern void f(void *p)` fails with `illegal implicit conversion`.  Declaring
+   the *extern* as `extern void f(u32 p)` (rather than casting every call site)
+   fixes it with no codegen change.
+4. **Local declaration order is the frame order.**  `func_021B792C` wanted
+   `u16 lim = *limit;` declared before `u16 v = *value;`; `func_021B6A30` wanted
+   `int pend = 0;` before `int have = 0;`.  The image's two `ldrh` / two
+   `movs rN,#0` in that order are the tell.
+5. **Inverted branch polarity means an inverted condition, not a reordered
+   body.**  `func_021B792C` emitted `bt/ble` where the image has `bge/bgt`;
+   rewriting `if (x >= lim) *v = lim; else *v = x;` as
+   `if (x < lim) *v = x; else *v = lim;` fixed both sites at once.
+
+## DIFFs parked (sources in `scratch/ov_172/parked/`, not committed)
+
+| function | address | residue |
+|---|---|---|
+| func_021C03C0 | 0x021C03C0 | image keeps `push {r3,lr}` / `pop {r3,pc}` on a leaf and computes `q = p+off` into **r2**; every spelling tried is frameless and uses r3.  The extra frame is not reachable from the body, so the argument list is not what it looks like. |
+| func_021B8130 | 0x021B8130 | 3 bytes: image spills `a0` to **r2** and loads the flag byte into **r0**; CW spills to r3 and loads into r2.  Body, order and call shape all match -- pure register colouring on a 36-byte function. |
+| func_021BCE2C | 0x021BCE2C | image lays out the two "out of range" guards as `blt`/`bgt` to a single fail block placed at the **end** of the function; `off < -0x20 \|\| off > 0xa0` with an early `return` gives the same semantics but CW puts the fail block first. |
+
+## Still open in the neighbourhood
+
+* `func_021B6338` (0x021B6338): the loop passes its argument in **r0 on the
+  first iteration and in r0 as `func_02085A38`'s return on later iterations**,
+  while the object pointer it needs afterwards is in r7.  Whatever variable that
+  is, it is not a reloaded parameter, and one pass at the obvious spelling
+  (`a0 = func_02085A38(x)` reusing the parameter) does not reproduce it.
+* Jump-table dispatchers, still emitted as `.word` blobs because the disassembler
+  never traced the case bodies: `func_021B64AC` (7 cases, 0x021B64C8..0x021B6558),
+  `func_021B8770` (0xb cases, 0x021B8798..0x021B890C).  Both need the case bodies
+  decoded as Thumb from the raw words before a `switch` can be written.

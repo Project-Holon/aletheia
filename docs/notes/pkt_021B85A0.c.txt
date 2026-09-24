@@ -30,3 +30,50 @@ emit `blo +8` with `movs r0,#1` inline and `movs r0,#0` at the target -- 3 bytes
 out (the branch polarity plus the two `movs` immediates).  mwcc here never puts
 the true arm out of line for a `>=`-shaped boolean, so the original must reach the
 same value through a construct that is not a plain comparison result.
+
+### lane O52 -- func_021B99F0 resolved (16 B, EXACT), func_021B9A40 narrowed
+
+**func_021B99F0 is filed**: `src/matched/func_021B99F0.c`, EXACT in
+`layout/matched/ov093/pkt_021EA478.json`.
+
+    u32 func_021B99F0(u32 x) { return (x == 2 || x == 3) ? 1 : 0; }
+
+O28 was one test away and the test is the *shape*, not the constants.  The fold
+is done by the branch-chain lowering of `if (cond)`, so the fix is to stop
+giving the compiler a branch condition: materialising the disjunction as a
+VALUE (`? 1 : 0`) keeps the two separate `cmp`s and the `beq`/`bne` pair.  All
+19 if-shaped spellings measured here (`if`, `if/else`, `switch`, `goto`,
+`u8`/`s8`/`s16`/`u32` operand, cast constants, `x-2==0||x-3==0`,
+`!(x!=2&&x!=3)`) either fold to the range test or move a branch; the ternary on
+the whole disjunction is the one form that reproduces the image.
+
+**func_021B9A40 is still open, but the residue is now bounded on both sides.**
+The image is an if/else whose *false* arm is the fall-through and whose *true*
+arm is out of line:
+
+    cmp r0,#0xc ; bhs L1 ; movs r0,#0 ; b L2 ; L1: movs r0,#1 ; L2: u8-mask ; bx lr
+
+Measured this lane (16 B, arm order is the only residue -- every candidate is
+byte-identical except at +0002, +0004 and +0008):
+
+  * 44 further source forms at dsi/1.1p1: the 13 O28 measured, plus the
+    swapped ternary `x < 0xc ? 0 : 1`, `if (!(x >= 0xc))`, `(cond) == 0`,
+    `(cond) != 0`, both `goto` layouts, a `u32` local with a `(u8)` return, a
+    `u8` local with a `u32` return, `switch (x >= 0xc)`, `0xc <= x`,
+    `(u8)`/`(u32)` constant casts, and `-O4,s`, `-O4`, `-O3`, `-O2`,
+    `-O4,p -inline off`.
+  * the same three bodies across all ten compiler versions in the tree
+    (`dsi/1.1` .. `dsi/1.6sp2`, `../2.0/sp2`, `../1.2/sp2`, `../1.2/sp3`).
+
+Result: 30 of them emit `blo` at +0002 (the value-1 arm as the fall-through, so
+the two `movs` are 0/1 the wrong way round), 9 emit a branchless
+`movs/cmp/bne` value form, 3 `bne`, 2 `beq`, 1 `bhi`, 1 `bls`; **none emits
+`bhs`**, at any version or flag set.  mwcc canonicalises the relational to
+`>=` and lays the value-1 arm out as the fall-through for every
+comparison-based source, so the arm order in the image cannot come from a
+comparison of `x` with a constant.  The residue is therefore no longer "which
+spelling" but "what construct", and the two candidates left are a conditional
+whose operands are not `x` and `0xc` (a bit test or a pointer comparison that
+happens to encode the same `cmp`) or a register-allocation difference from a
+larger original TU.  Not filed.
+

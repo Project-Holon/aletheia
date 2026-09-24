@@ -8,3 +8,23 @@ add sp,#4; pop {r3}; bx lr`: an 8-byte frame that is never stored to, a 32-bit
 (compiles to 4 bytes, frame folded away) and `v = 0; v &= 0xfffffff8; return v;`
 (4 bytes).  The frame exists, so some local is allocated and never used; the
 source shape that keeps it has not been found.  Not filed.
+
+### lane O52 resolution -- func_021E8918 (16 B), EXACT
+
+Resolved and filed as `src/matched/func_021E8918.c`, recorded EXACT in
+`layout/matched/ov093/pkt_021EA478.json`.
+
+    u32 func_021E8918(void) { u8 b[4]; *(u32*)b = 0; return *(u32*)b & ~7u; }
+
+The missing form is an **address-taken local**.  The 4-byte frame is not a
+frame the code uses: taking the address of a local array (`(u32*)b`) makes the
+compiler allocate the slot, and the optimizer then deletes both the store and
+the reload because nothing outside the block can alias it.  What survives is
+exactly the image -- `push {r3}; sub sp,#4` for the slot, the value kept in a
+register, `movs r0,#0; movs r1,#7; bics r0,r1`, `add sp,#4; pop {r3}`.
+
+Every scalar spelling folds (measured: 18 other forms, all `movs r0,#0; bx lr`,
+4 bytes): with no address taken there is no slot to keep and no reason to keep
+the `bic`.  Both forms in O28's residue are the same fold.  Note the residue's
+prose says `mask 0xf`; the image's mask is `#7` (`bics r0, r1` with r1 = 7).
+

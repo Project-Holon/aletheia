@@ -29,8 +29,8 @@ extern u32 func_021C2DA0();
 extern u32 func_021C2DCC();
 u32 func_021C29C8(void)
 {
-    u32 v4 = func_021C2DA0();
+    u32 v1 = func_021C2DA0();
     func_021C2DCC();
-    return v4;
+    return v1;
 }
 

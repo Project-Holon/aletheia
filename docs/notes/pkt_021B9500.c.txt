@@ -308,3 +308,116 @@ compensation idea worth one pass is a source line that makes r2 (resp.
 r0) live at the residue without adding an instruction, which neither
 the named-local nor the dead-value shape does here.
 
+
+
+====================================================================
+Lane O54 - the inversion lever applied to the remaining sunk blocks
+
+Filed EXACT (5 functions, 296 bytes), all in
+src/matched/, all in layout/matched/ov114/pkt_021B9500.json:
+
+  func_021B9F94  0x021B9F94  128 B  (was 89 bytes out, the O9 wall)
+  func_021BAB24  0x021BAB24   52 B  (was DIFF, 3 beq to a shared epilogue)
+  func_021B9748  0x021B9748   44 B  (was 29 out, branch polarity)
+  func_021BFAF0  0x021BFAF0   48 B  (was 2-3 bytes out, loop layout)
+  func_021BEBC8  0x021BEBC8   24 B  (was 6 out, merged conditional load)
+Shard now 131 functions (121 EXACT + 10 EXACT*), up from 126.
+
+THE LEVER, GENERALISED.  O47's arm inversion is not about returns; it is
+about WHICH ARM OF A TEST FALLS THROUGH.  A small block that the image
+places out of line needs to be the ELSE arm of its test, and the whole
+rest of the body the THEN arm.  The same source reaches EXACT in five
+different shapes:
+
+1. func_021B9F94 (the O9 wall).  Write the guard as the else arm:
+
+       if (p != 0) { r = func_021B9ECC(p, c, d, e, f); }
+       else return -1001;
+       if (r >= 0) return r; ...
+
+   First compile EXACT (f94_a/b, both with and without braces).
+   `if (p == 0) return -1001;` alone emits the block inline and costs 8
+   instructions of shift; the explicit else sinks it to 0x021B9FD0 with
+   the `beq` over the whole call sequence, as the image has it.  The
+   body-after-the-if stays at top level, so the join sits at 0x021B9FDC.
+
+2. func_021B9748.  Same for BOTH early exits at once: the whole body as
+   the then arm of `if (p != 0)`, each tiny return an else.  Both return
+   blocks land where the image has them (0x021B9766 then 0x021B976A).
+   The flat form (`if (p == 0) return 1;` + `if (h != 0) {...}`) is 29
+   bytes out; only the second test's polarity differs.
+
+3. func_021BAB24.  Not a block sink but the same family: return type
+   `signed char` plus ASSIGN to the variable and return ONCE
+
+       c = (c + 1) & 0xff;
+       if (c == 0x7b) c = 0x30; else if (c == 0x5b) c = 0x61; else ...
+
+   The three arms then branch to the single sign-extending epilogue
+   (lsl/asr/bx lr at 0x021BAB4C) exactly as the image does.  `return
+   0x30;` arms if-convert to `moveq r0,#0x30; ... ; bxeq lr`, which is
+   the O9 residue.  A `switch` over the same constants is 60 bytes, so
+   the chain must stay an if/else-if.
+
+4. func_021BEBC8.  A merged conditional read wants the conditional
+   EXPRESSION: `return p ? *(u32 *)(p + 0x14) : 0;` emits `ldrne` then
+   `moveq` (the image); the if/else statement form emits them in the
+   other order.  (The O9 note called this a branch pair; it is the
+   expression form.)
+
+5. func_021BFAF0.  A `while` with a `break` duplicates the test at the
+   top and at the bottom (52 B); the compound condition
+   `while (p != 0 && *(u32 *)(p + 0x18) != key) p = *(u8 **)(p + 0x1c);`
+   leaves ONE test block at 0x021BFB00 with the entry jumping to it and
+   the latch falling into it (48 B).  Also: the base must be a named
+   pointer (`u8 **base = (u8 **)0x021d3b20; p = base[1];`), because
+   `*(u8 **)(0x021d3b20 + 4)` folds the +4 into the pool word and gives
+   0x021d3b24.
+
+RESIDUES (0 of the 4 closed; 2 of them advanced with new evidence)
+
+A. func_021BA88C - 3 bytes, unchanged and now well covered.  The single
+   difference is `movs r2, r0` (image) against `cmp r0, #0` (compile) at
+   0x021BA928; the tested value is the func_021BA820 result, whose home
+   the compile folds into r0.  A further 14 shapes across four
+   dimensions leave it identical: chained assignment
+   (`*(u32*)(r6+0x1c) = h = call`), assignment-inside-the-condition,
+   re-loading the field for the test, `!h` and `0 == h`, `u32`/`long`
+   `h`, the field reloaded through a named pointer, a goto form, and
+   u32-returning / pointer-returning callee declarations.  r2 is dead at
+   that point in the image and every use of the value is a single node,
+   so this is the phantom-register case of register-residues.md section
+   1: the reference reserved r2 for a value whose instructions left no
+   trace.  Not a spelling target.
+
+B. func_021BA988 - 2 bytes, MOVED for the first time.  The image is
+   `bl func_021BEC48; ldr r2, [r5, #0xc]; cmp r2, #0; poplt` at
+   0x021BA9E8.  Both prior spellings put the load in r0, i.e. they
+   treated the func_021BEC48 result as dead.  It is not: the `poplt`
+   exit returns r0, so the reference RETURNS the func_021BEC48 value on
+   the field-negative path.  Making it live
+   (`int r = func_021BEC48(); ... if (*(int *)(p + 0xc) < 0) return r;`)
+   moves the load from r0 to r1 - the right direction, one register
+   short.  r2 therefore means that at 0x021BA9EC BOTH r0 and r1 are
+   occupied in the reference; r0 is the returned call result, and the r1
+   occupant is the next thing to find.  That is the state to resume
+   from, not `cand5/func_021BA988.c`.
+
+C. func_021C00FC - 6 bytes, unchanged.  r1/r2 are exactly mirrored
+   (image: value r1, zero r2).  The zero constant is what takes the low
+   register in the compile, so the value never gets r1.  No further
+   spellings tried this lane.
+
+D. func_021CDAC0 - 17 bytes, untouched this lane (umull pair, predicate,
+   and store order); see O47 item 5 for the three-way residue.
+
+NOT residues - size gaps, these need statements, not registers:
+
+  func_021B9C1C (100 B) compiles 68.  The enable/disable body is missing
+  roughly eight instructions; the O34 note's "register choice" is the
+  tail of a body that is 32 bytes short.  func_021B9790 (112 B)
+  compiles 100.  Both are the best remaining leads in this packet.
+
+Compiles run: 52.  Work files: scratch/ov_ov114/o54/ (r.py prints one
+verdict line per candidate, sweep.py a whole glob; the a88c*, f748*,
+f94*, faf0*, bc8*, b24* and a988* families are the measured cells).

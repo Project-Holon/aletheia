@@ -1,0 +1,25 @@
+func_021DFFA0 @ 0x021DFFA0 (ov175, ARM) - DIFF, 4 bytes of 40.
+
+    original                              compiled
+    +0008  91 03 0c e0  mul ip, r1, r3      | 91 03 03 e0  mul r3, r1, r3
+    +000C  24 31 90 e5  ldr r3, [r0, #0x124]| 24 c1 90 e5  ldr ip, [r0, #0x124]
+    +0010  54 00 8c e2  add r0, ip, #0x54   | 54 00 83 e2  add r0, r3, #0x54
+    +0018  00 00 83 e0  add r0, r3, r0      | 00 00 8c e0  add r0, r0, ip
+
+Same expression tree, same instruction count, same size: `i * 0x14 + 0x54 + base`
+with the base loaded from obj+0x124.  The image keeps the product in ip and the
+base pointer in r3; this compiler keeps the product in r3 and the base in ip.
+Five spellings all compile to the identical (mirrored) sequence, so the choice
+is not reachable from the source text via the obvious rewrites:
+
+    func(t + i * 0x14 + 0x54)            base first, left-assoc      -> mirror
+    func(i * 0x14 + 0x54 + t)            offset first, base last     -> mirror
+    off = i * 0x14 + 0x54; func(t + off) named offset                -> mirror
+    func(i * 0x14 + 0x54 + *(char **)(obj + 0x124))                  -> mirror
+    unsigned i, (i * 0x14 + 0x54) parenthesised                      -> mirror
+
+Next thing worth trying: a struct-array form
+(`((Rec *)(char *)obj->f124 + 0x54/0x14)[i]`) or a 2-argument helper, so the
+multiply is emitted for an index into a typed array rather than for the sum.
+
+Sources tried (DIFF, not committed).

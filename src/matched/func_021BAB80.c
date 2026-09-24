@@ -37,12 +37,12 @@ extern u32 func_021BC774();
 extern u32 func_021C09AC();
 u32 func_021BAB80(u32 a0, u32 a1)
 {
-    u32 v7 = func_021C09AC();
-    u32 v4 = func_021BC758();
+    u32 v1 = func_021C09AC();
+    u32 v2 = func_021BC758();
     func_021BC774();
-    func_021BC634(v4, v7);
-    func_021BC638(v4, a0);
-    func_021BC640(v4, a1);
-    return v4;
+    func_021BC634(v2, v1);
+    func_021BC638(v2, a0);
+    func_021BC640(v2, a1);
+    return v2;
 }
 

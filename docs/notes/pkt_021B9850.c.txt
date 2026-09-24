@@ -568,3 +568,102 @@ that stream through a register/expression engine.
      jump-table recipe and were not reached here.
  * Addresses are Black-image addresses.
 
+Lane O53 (ov217 modelled stack frame + frame-pointer arithmetic) 2026-09-24
+--------------------------------------------------------------------------
+
+RESULT: 22 new functions filed, all EXACT/EXACT*.  The shard
+layout/matched/ov217/pkt_021B9850.json went 368 -> 390 entries, verified by
+
+    python tools/match.py manifest --verify --shard pkt_021B9850
+
+Tooling: scratch/ov_ov217/o53/{gen53,drv53}.py - gen53.py is gen43.py with the
+frame model finished; drv53.py compiles 10-wide, files EXACT ones, parks MATCH.
+
+1. What "modelling the stack frame" actually needed (the 85-body mass)
+
+   gen43 already *allocated* the frame (`sub sp, #N` -> `u8 s[N]`); what it
+   refused were the five ways the frame is *addressed* and the three ways a
+   frame value is *consumed*:
+
+   * `add rX, sp, #N` (21 bodies) - gen43 only knew `mov rX, sp`.  The value is
+     the expression `s + N` and every later `[rX, #k]` becomes `((u8*)s + N)`,
+     which is exactly the pointer arithmetic mwcc is asked to fold back into
+     `add rX, sp, #N`.  One line, 21 bodies generated.
+   * a pool word whose target is inside the overlay and has NO func_ label is
+     DATA until a `bx` says otherwise (29 bodies).  gen43 classified every
+     in-range pool word as a function pointer, so `ldr r1, =table; ldrb r1,
+     [r1, r5]` died as "bad base r1" and `func(tbl, ...)` died as "hole in args
+     at r1".  New kind POOL: base()/operand() yield the numeric address,
+     `bx` still names it.  This is also the only change that helped the
+     `s + N` bodies, whose tables sit at 0x021C2E30 upwards - i.e. inside the
+     code range, in the overlay's data block.
+   * `mov rN, r0` after a call (18 bodies).  gen43 raised "call into rN" for
+     N in 1..3 and, for N >= 4, killed r0 - which is wrong: after
+     `bl X; adds r5, r0, #0` the image still uses **r0** as the next call's
+     argument (`func_0204B3DC(v5, 1)` compiles to `adds r5,r0,#0; ...; blx`,
+     not to `adds r0,r5,#0`).  Keeping r0 as an alias of the materialised local
+     is what closed this class; it also removed the "hole in args at r0" family.
+   * `ands`/`orrs`/`tst`/`mvns` (25 bodies) and `str <ptr>,[sp]` needing a
+     `(u32)` cast.
+   * a call's resulting value can be *consumed* by a following arithmetic
+     instruction rather than flushed (`bl X; adds r0, #4` is `X() + 4`); and
+     `bl` argument registers that are read by a later argument's computation
+     (`ldr r1,=0x7fff; ands r2,r1; ...; orrs r1,r2; blx Y`) are scratch temps,
+     not arguments - gen43 emitted a phantom third argument there.
+
+2. The one genuine new modelling idea: promoted stack arguments
+
+   A body like `movs r0,#0x20; str r0,[sp]; movs r0,#0x18; str r0,[sp,#4];
+   ldr r1,[sp,#8]; ...` is NOT two frame stores; [sp] and [sp+4] are the
+   OUTGOING ARGUMENT AREA of the following call (args 5 and 6), which is why
+   the frame is 0xc with the pointer local at [sp+8].  gen53 emits the same
+   opcodes as a call with stack-passed arguments and drops the stores
+   (option `stackargs`, run as a second variant of every body).  It closed 13
+   functions.  This also explains the "load hoisted above the stores" residue
+   in this family: with the stores present as *statements*, mwcc proves the
+   `[sp+8]` load cannot alias them and schedules it first; in the image the
+   load belongs to the argument list.
+
+3. The 85-body mass, measured after this lane
+
+   Of the 84 bodies that begin `sub sp, #N` and address the frame through
+   `[sp, #k]` and that gen43 refused, gen53 now generates 24 and still refuses
+   60.  NEITHER NUMBER IS A WIN: 0 of the 84 closed.  The 24 that generate are
+   all DIFF, and their residue is not the frame at all - it is (a) the
+   two-colour saved-register tie O1/O43 describe (func_021B9AD0: original
+   `adds r6,r0,#0; adds r4,r0,#0`, ours the reverse) and (b) mwcc reordering
+   an argument-computation instruction across the stack-argument stores
+   (func_021B9920 at +0066, func_021BA4E0 at +0002).  Both are scheduling
+   ties, not expression shapes: the frame arithmetic, the offsets, the call
+   order and the relocations match byte for byte in every one of them.
+
+   The 60 still refused are dominated by control flow, as gen43 predicted.
+
+4. What the 22 that did close came from
+
+   Not the frame - the frame work unblocked bodies that had a frame *and*
+   something else (func_021BA328's `bl X; adds r5,r0,#0; ... ; blx Y` chain,
+   func_021BA1F8's `mvns r1, r1` argument, func_021BB9A0's same, the
+   `orrs`/`ands` masks).  Rate: 220 compiles (176 unique bodies, the 44
+   stack-argument variants included), 89 EXACT/EXACT* of which 67 were already
+   in the shard from O43 - so 22 new, 0.40 functions per compile measured
+   against candidates, 0.10 against new coverage.
+
+5. Tooling findings worth keeping
+
+   * `tools/match.py one` WITHOUT `--lang c99` compiles in the compiler's
+     default C mode, where a declaration after a statement is a syntax error
+     ("expression syntax error" + a cascade of "undefined identifier").  The
+     manifest path always passes `lang:` from the header, so the two disagree:
+     14 candidates of the first batch were CCERR for that reason alone and
+     compiled cleanly with `--lang c99`.
+   * two variants of one body must not share a source file name: the driver
+     passes `--func func_XXXX` for both, so the tag may only change the file.
+     The first sa batch lost 44 candidates to "function 'func_XXXXsa' not
+     found in tu.o".
+   * layout/symbols_sdk.json carries a per-symbol `thumb` flag.  An ARM9
+     address reached by `blx` is not automatically `arm`: 0207D63C
+     (G2x_SetBlendAlpha_) and 0207DCF8 (G3X_SetEdgeColorTable) are thumb
+     there, and declaring them `arm` is an ISA abort in 7 bodies.  The
+     override is in gen53.name_of(); those 7 bodies are still DIFF, so the
+     flag is proved by the abort, not by a match yet.

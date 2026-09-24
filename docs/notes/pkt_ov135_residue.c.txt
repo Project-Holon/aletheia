@@ -534,3 +534,129 @@ What closed them, in order of what actually paid:
    `mwccarm.exe Usage Error: Specified directory '+...sdk/TwlSDK/include' not
    found` while another lane is compiling.  The compile is fine a second later;
    retry before diagnosing.
+
+ov135 lane O51 residue, wave 5 (2026-09-24)
+===========================================
+
+The two DIFF rows wave 4 left open are NOT closed.  Both are pure
+register-allocation residues with no source lever found, and both were
+attacked with 25 further measured source shapes this wave (list below).
+Everything else is a decode, not a guess.
+
+A. The two open residues, with every shape measured this wave
+------------------------------------------------------------
+
+  func_021F8498  0x021F8498  36B  DIFF 3 bytes (unchanged from wave 4)
+      +001A image `01 99` ldr r1,[sp,#4]   vs mine `01 98` ldr r0,...
+      +001C image `49 08` lsrs r1,r1,#1    vs mine `40 08` lsrs r0,r0,#1
+      +001E image `21 60` str r1,[r4]      vs mine `20 60` str r0,[r4]
+      r0, r1, r2 and r3 are all dead at +001A (the call at +0016 clobbers
+      them and the only live values are r4 = out and sp), so this is the
+      allocator choosing the second free register for a load/shift/store
+      chain.  Tried and measured this wave, ALL giving r0 (36 bytes, same
+      three bytes): a pointer local to the buffer (`u32 *q = &tmp` + `*q`),
+      a two-step local (`n = tmp; n >>= 1; *out = n;`), `out[0]` indexing,
+      a `u32 *d = (u32 *)out` lvalue, `u32 tmp[1]` + `tmp[0]`, a volatile
+      buffer, a cast at the store, and (wave 4, same result) a named local
+      for the shifted value, `tmp >>= 1`, `tmp / 2`, and the callee declared
+      as returning u32/int.  Fourteen independent shapes, one register.
+      Signature, for the record: `void f(u32 v, u32 b, u32 *out)` with
+      `func_0204A298(0x62, 5, 0, (u16)v, &tmp)` (declared `arm`) -- the
+      (u16) truncation must be a cast at the call, not a u16 parameter.
+
+  func_021FC668  0x021FC668  80B  DIFF 6 bytes (layout now understood)
+      The control flow is `if (k == 1) A; else if (k == 2) B;` with the tail
+      `func_021FCBF0(p); return 2;` after the chain, where `k` is ONE call to
+      func_021F4D14(p) held in a local (two calls in the source would give
+      two `bl`s; the image has one).  Writing the else arm as an explicit
+      `else { return 2; }` makes MWCC emit a dead 4-byte epilogue (84 bytes
+      compiled against 80); the 80-byte form is the chain with no else-return
+      and the false arm of the second test branching past the tail.
+
+      The residue is the register the state zero is materialised into:
+      image `movs r1,#0 / movs r0,#0x35 / str r1,[r4,#0x28] / lsls r0,r0,#6`
+      (the index constant hoisted ABOVE the store), mine `movs r0,#0 /
+      str r0,[r4,#0x28] / movs r0,#0x35 / lsls r0,r0,#6`.  Every shape gives
+      the zero in r0.  The image's order is only legal if the zero sits in a
+      second register, i.e. the index pseudo-register was allocated before
+      the store's.  Tried: `u32 n = 0x35;` declared before the chain, inside
+      the arm, and as `u8`; `u32 *q = (u32 *)(p + (0x35 << 6)); *q`; the
+      value loaded into a local before the store; a `u8 *` offset form; and
+      the seven-argument sibling shapes from wave 4.  None moves the zero.
+
+B. The jump-table state handlers, hand-decoded (the real yield this wave)
+-------------------------------------------------------------------------
+
+Reader: the listing loses disassembly sync at every `add pc, rN`, so the
+tables and case bodies appear as `.word`.  The extracted overlay
+`extract/overlays_dec/y9_0135.bin` is Thumb-disassemblable directly at these
+addresses and is how the tables below were read.
+
+The skeleton is ONE 116..208-byte shape, repeated.  It is byte-exact:
+
+    int func_X(u8 *p)
+    {
+        s32 n;
+        if (func_021C866C(p) != 0) {          /* blx, one arg: p */
+            n = func_021C86A8();              /* blx, NO argument: MWCC
+                                                 leaves r0 from the call */
+            *(u32 *)(p + 0xf8c) = 0;
+            switch (n + 15) { ... }           /* 16-entry table, min case
+                                                 -15 or the source's own +15 */
+        } else {
+            if (++*(u32 *)(p + 0xf8c) == 0xe10) {
+                func_021F513C(p);
+            }
+        }
+        return 2;
+    }
+
+Rules that made it reproduce, in the order they cost bytes:
+  1. `if (A != 0) {...} else {...}` with ONE trailing return, NOT
+     `if (A == 0) { ...; return 2; }` -- the latter puts the counter block in
+     the fall-through (120 bytes against 116).  The image's `beq` jumps to
+     the counter at the END, so the counter is the else arm of a single
+     if/else whose then-arm holds the switch.
+  2. The case order in the source is the case order in the emitted table:
+     MWCC does NOT reorder them.  Two handlers closed on the first compile
+     with the order read straight off the table blocks
+     (func_02201414: 15, 14, 4..10, 3+11, 0+1+13, 2; func_0220180C:
+     15, 10, 0+1+3+13, 2).  Reading `case` groups off the table's *targets*
+     is what makes this exact; case values must be written as `n + 15` so
+     the bias lands in the compiler's index computation.
+
+Filed byte-exact to src/pending/ (MATCH, every concrete byte right):
+
+  func_02201414  0x02201414  164B  MATCH   state 0x22 / 0x2b / 0x2d arms
+  func_022014D8  0x022014D8  124B  MATCH   state 0x25 (u16 +0x36 cleared),
+                                          0x2d (index archived at +0x38)
+  func_02201658  0x02201658  116B  MATCH   state 0x25
+  func_0220180C  0x0220180C  116B  MATCH   state 0x25
+  (520 bytes, four shards' worth of code, one compile each except the
+  func_022014D8 case-10 byte, which cost one more.)
+
+Still to do, and cheap for the next wave: func_0220157C (192B, table
+0x022015A6, groups 15 / 12 / 3 / 0+1+13 / 11 / 2 with a fall-through from
+0+1+13 into 12), func_0220171C (208B), func_0220189C (404B, 17-entry table
+at 0x022018CA), func_02201A64 (188B, table 0x02201A8E), func_02201C24
+(100B, sparse table at 0x02201C4E).
+
+C. Why all four are MATCH and not EXACT, and the one-line fix
+-------------------------------------------------------------
+
+0x021C866C and 0x021C86A8 have NO `func_` label in any overlay listing.
+match.py's `label` class (attest_overlay_label) accepts a region hint only
+to narrow the candidates and then still requires exactly one candidate
+listing to carry a label at the address, so no region token can witness
+them -- this is wave 2's parked func_02201FDC, now with nine more sites.
+The adjacent entries 0x021C8770 / 0x021C87FC / 0x021C887C / 0x021C8978 /
+0x021C8D14 / 0x021C89F0 DO carry labels (asm/overlays/ov114.s), so the
+region is almost certainly ov114 or ov111 (both spans cover 0x021C866C:
+ov111 0x021C3CC0..0x021C8E80, ov114 0x021B95A0..0x021CF960) -- but the
+listing has to carry the label before any hint is evidence.
+layout/function_starts.txt is not this lane's file; whoever owns it should
+add 0x021C866C and 0x021C86A8, and the ten parked handlers will promote.
+
+  Note for the next lane: a `bl`/`blx` whose target has no label is NOT a
+  shape problem and NOT fixable from the source. Test it FIRST with a
+  one-line stub before decoding a 400-byte switch.

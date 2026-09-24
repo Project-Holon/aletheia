@@ -1,0 +1,122 @@
+Lane O50: ov016 contested data, the highest-call-site band
+==========================================================
+
+Scope: the same 282-row band `scratch/ov_ov016/o39/census.py` rebuilds (301
+minus O39's 18 filings), worked in the order the task asked for -- the rows
+whose contested address carries the most ov016 call sites first.  Frequency
+counted over the whole listing (every `.word` of a contested address):
+
+    0x021DE5EC 30   0x021DCFD0 29   0x021DE660 29   0x021DE560 28
+    0x021DE5D8 21   0x021DE668 19   0x021DE65C 17   0x021DE508 16
+    0x021DE5E4 14   0x021DE680 12   0x021DE688 12   ... 120 addresses total
+
+Five of those rows came out EXACT and one is parked MATCH; the rest of the
+band was measured but not cleared.  What blocked the rest is recorded below so
+the next lane does not re-derive it.
+
+1. THE EXTERN DATA SYMBOL IS THE LEVER FOR A BASE THAT IS INDEXED BY A REGISTER
+   (extends O39 note 1, does not contradict it).
+   O39 recorded that a literal address folded with a *constant* offset
+   (`*(u16 *)(0x021DE5EC + 4)`) must be split into a pointer local plus an
+   offset so the base stays the pool word.  That is true for `base + const`.
+   It is NOT enough for `base + register`: when the source indexes the table by
+   a variable -- `t[a]`, `t[g[0] - 0xb]` -- the compiler ignores the pointer
+   local and synthesises the constant out of `add` immediates, which is a much
+   bigger residue than a register name.  Two rows failed exactly that way:
+
+     func_021CA0D4  t[a]        compiled  add r1, r0, #0x2100000 / add r1, r1, #0xDA000 /
+                                           ldrb r0, [r1, #0x650]   (base folded away)
+     func_021CA390  t[i]        compiled  add r0, r0, #0x2100000 / add r0, r0, #0xDA000 /
+                                           ldrb r1, [r0, #0x61C]
+
+   Declaring the table as an extern array and indexing that
+   (`extern unsigned char tbl_021DA650[];  ... tbl_021DA650[a];` with a
+   token-less `tbl_021DA650  0x021DA650  data` symbols line, brief rule 8)
+   forces the compiler back onto the pool word and both compile EXACT in one
+   try.  Index folds are the tell: if the residue is a chain of `add`s that
+   reconstructs the address piecewise, declare the base instead of rewriting the
+   access.  A plain literal passed as a *value* (not a base) is unaffected --
+   `func_021D6438(0x021DE504)` / `func_021C0E40(0x021CA5A0)` compare byte for
+   byte with no symbol and no relocation site.
+
+2. THE SAME SYMBOL FIXES "RELOAD FROM THE POOL INSTEAD OF REUSING THE REGISTER".
+   func_021BC8EC and func_021D6EEC hand the contested address itself to a tail
+   callee (`func_021D6438(g)`).  Written that way the compiler reuses the
+   callee-saved register that already holds the base (`mov r0, r4`); the image
+   reloads the pool word (`ldr r0, [pc, #8]`).  Writing the literal cast
+   `func_021D6438(0x021DE504)` does NOT fix it -- the compiler still CSEs it
+   against the register it knows holds 0x021DE504.  Passing the address of a
+   declared data symbol (`func_021D6438((int)dat_021DE504);`, symbols line
+   `dat_021DE504  0x021DE504  data`) does: a relocation is not comparable with a
+   literal to the optimiser, so the pool load comes back.
+   func_021BC8EC is EXACT on that change (56 bytes); func_021D6EEC drops from
+   register-naming to the same shape and is 7 bytes out only on the first
+   dereference chain (`ldr r1, [pc, #0x18]` vs `ldr r4, [pc, #0x18]`).
+
+3. `cmp` OPERAND ORDER IS NOT REACHABLE FROM THE SOURCE IN EITHER DIRECTION.
+   Two rows differ by the operand order of a single `cmp` and nothing else:
+     func_021BFED0  image `cmp r5, r1` (arg first);  source order `byte == arg`
+                    gives `cmp r1, r5`; swapping to `arg == byte` gives the
+                    image.  -> EXACT.
+     func_021C8C50   image `cmp r0, r4` (loaded byte first); both spellings
+                    (`byte == a` and `a == byte`) give `cmp r4, r0`.  2 bytes out.
+   So one of the pair is spellable and the other is not -- when a row is exactly
+   2 bytes out on a `cmp`, the other operand order is worth exactly one try, not
+   five.  func_021C8C50 is also the source of the "second call takes no visible
+   argument" shape: the image calls func_021C91F4 with no reload of r0 after
+   func_021CF42C, which needs an unprototyped `extern void func_021C91F4();`
+   and a bare `func_021C91F4();` -- with a declared parameter the compiler
+   inserts two extra bytes (`mov r0, r4`).
+
+4. THE `sub sp, sp, #8` FRAME IN THE 0x021DE560 WRAPPER FAMILY IS NOT
+   REPRODUCIBLE FROM SOURCE, AND THAT IS THE WHOLE RESIDUE.
+   func_021C0588, func_021C05E0, func_021C0638, func_021C0690 (and
+   func_021BF7B8/func_021BF824/... at 108 bytes) are one shape with three
+   parameters -- the shared-block field offset (0x34/0x28/0x1c/0x10), the first
+   argument of func_021C00A8 (3/2/1/0) and the address of the next stage
+   (0x021C05E0/0x021C0638/0x021C0690/0x021C06E8) -- and every instruction of the
+   body reproduces.  The image's prologue is
+       push {r3, r4, r5, lr} / sub sp, sp, #8 / ldr r1, [pc, #0x40] ...
+   and every exit path carries `add sp, sp, #8`.  Nothing in the function
+   touches the stack.  Compiled from the natural source the body is byte for
+   byte right and 8 bytes short (76 vs 84 code bytes) because no frame is
+   allocated.  Two hypotheses were compiled and both fail:
+     - a variadic declaration for either callee: mwccarm refuses the file
+       outright, so it is not the mechanism (and cannot be the mechanism);
+     - an unused 8-byte local: eliminated before frame layout, as expected.
+   The four rows are 8 bytes out on the frame and nothing else.  Since the body
+   is exact, the family is worth re-attempting the moment anyone finds what the
+   original source kept in those 8 bytes.
+
+5. THE 0x021DCFD0 THUMB CLUSTER (29 call sites) WANTS POOL RELOADS, NOT
+   CALLEE-SAVED REGISTERS, AND NO SPELLING TRIED PRODUCES THEM.
+   func_021BC804 func_021B96E4 func_021B970C func_021B96B4 func_021B94D8
+   func_021BABE8 func_021BC7B8 -- Thumb by the listing's own directive (the 35
+   rows O35's rows2.json mislabelled ARM are in this set).  All seven compile
+   with every relocation resolved (including the out-of-region blx targets
+   0x02086028/0x02086078/0x02087988/0x0208799C and 0x02165478, which
+   resolve fine as `arm` callees with no region token, brief rule 9), and all
+   seven are 20 to 45 bytes out on one class of difference: the image reloads
+   each constant address from the pool at every use
+       ldr r1, [pc, #0x18]   ; 0x021DCFD0
+       ldr r3, [pc, #0x14]   ; 0x021DD054
+   while the compiler keeps 0x021DCFD0 in r4/r5 and pays `push {r3, r4, lr}` /
+   `pop {r3, r4, pc}` for it.  Tried and measured, none moved it:
+     - an extern data symbol per address (the lever that worked in ARM, note 1):
+       it adds the ABS32 site (which does resolve, `sole-ref`) and the register
+       pressure is unchanged;
+     - a `volatile` pointer for the table base;
+     - a stack buffer declared `unsigned char [0xc]` versus an int array: the
+       buffer's address is what gets hoisted to r4 in func_021BC804, and the
+       re-computation `add r0, sp, #0` twice is what the image does.
+   This cluster is a door for whoever next changes compiler flags or finds the
+   source shape that makes a constant rematerialise per use under -O4,p.
+
+Corrected scale left behind
+---------------------------
+`scratch/ov_ov016/o39/census.py` re-run after this lane's six filings reports
+**275** ov016 functions still referencing a contested address (225 ARM, 50
+thumb).  The ten ARM rows O39 parked in its register-naming class are still in
+there and still not worth compiles; the rows above add a second parked class
+(the indexed-base folds that need the data-symbol spelling, note 1 -- those DO
+pay, one try each) and the two Thumb clusters.
