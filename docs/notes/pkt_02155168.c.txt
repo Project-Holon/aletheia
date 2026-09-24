@@ -50,3 +50,194 @@ Repo-level blocker seen mid-lane:
   pkt_021B85A0.json holds the same entry.  It resolved itself before this
   lane's final manifest run, but the stale shard is the thing to check if the
   error comes back.
+
+ov009 / pkt_02155168 -- lane O16, second pass from the smallest unfiled upward
+(2026-09-24, source list: scratch/ov009/o16_filed1.json and o16_filed2.json)
+
+Filed: 109 further entries, all EXACT or EXACT*, one source per file under
+src/matched/ (list in scratch/ov009/o16_mine.json: 97 EXACT and 12 EXACT*,
+2394 bytes of the overlay's code).  The shard pkt_02155168.json now holds 219
+entries (110 from lane O5 + 109 from this lane), 207 EXACT and 12 EXACT*, and
+`match.py manifest --verify --shard pkt_02155168` reports nothing but the
+EXACT* wart.  219 of the overlay's 1574 traced functions.
+
+Cost: 164 candidate sources written, about 300 compile+compare runs (2.5 per
+filed function, 1.5 sources each), one 63-configuration sweep, four manifest
+passes (769 entry verifications).  Most of the candidates that failed were
+failed on the first compile: the cheap classes are cheap, the residue is not.
+
+What paid, in order of yield (all one-compile closures unless stated):
+
+  * tail calls that only rearrange registers (ldr ip,=T ... bx ip).  0x15 of
+    them.  The register picture gives the C directly: an untouched r0/r1/r2 is
+    an argument passed through, so `mov r2,#6` before the bx is a third
+    argument of 6.  A temp register is a live register: 02162FC0 swaps its two
+    arguments and needs the *third* parameter to stay live (`t` in r3) to stop
+    mwcc using r2.
+  * pool getters/stores with a named base pointer: g_XXXX + constant, and
+    `*(int *)g = v`.  This is where the region token earns its keep -- every
+    callee that only exists in this overlay is declared
+    `func_XXXXXXXX  0xXXXXXXXX  arm  ov009`, and 0x30-odd entries rested on it.
+  * one wrapper shape per constant run: 0x0217F2DC/F304/F31C/F3B8 and
+    0x0217EB18/EB2C/EB9C/EC4C/EC90 are two such runs, the marginal cost after
+    the first is zero.
+  * conditional-order is a coin flip that the image decides: 02173C84 needed
+    `p == 0 ? 0xff : p[0x16]` where 0216BB54 of the same shape needed
+    `p ? p[1] : 0xff`; 0217F790 needed the value in a local so the mask is
+    computed before the test (`v ? x : 1`), not after the compare.
+
+Residue, unchanged from O5 and now inherited by the next lane:
+
+  02164484 / 90 / A0 / B4 -- the halfword family.  DECIDED, and the decision is
+      split in two.
+        02164484 = EXACT, filed.  `return (unsigned long long)*p << 32;`
+        reproduces `ldrh r1,[r0]; mov r0,#0; bx lr` byte for byte (r0 is the
+        low word of a 64-bit return and r1 the high one; that this compiler
+        returns long long that way was measured, not assumed).
+        02164490 / A0 / B4 = DIFF, sources kept in scratch/ov009/o16d/.
+        The image is a halfword-packer, not a leaf getter: each halfword
+        p[k], k <= 0, lands in 16-bit lane (k+3) of a 64-bit result --
+        021644B4 is exactly `p[-3] | p[-2]<<16 | p[-1]<<32 | p[0]<<48` with
+        the two middle lanes folded into the high register word as
+        `orr r1, r3, r2, lsl #16`.  The 1.1p1 front end will not keep the
+        halves apart: it turns that same expression into a 32-byte build with
+        the shifts recombined, and a *9 compiler versions x 7 optimisation
+        levels* sweep (`match.py sweep`, 63 configurations, log in
+        scratch/ov009/) returns DIFF in every one, 22 to 43 bytes out.  So the
+        residue is not a missing callee or a witness problem: the C shape that
+        produced the original's split words is still unknown.  Candidates
+        already eliminated: a 64-bit `*(unsigned int *)` read (mwcc emits an
+        unaligned ldr), a struct return (mwcc returns 8-byte structs through a
+        hidden pointer), a union/array of four short (32 to 48 bytes), a
+        named 64-bit local with |= (32 bytes), `+` instead of `|` (32 bytes).
+      Rate note for whoever takes it: 3 functions, one known tidier form each,
+      so it is bounded work but not one-compile work.
+
+  02157160 -- 16B Thumb, three nested calls to 0x0203CA04, 0x0203C968 and
+      0x02059F18, all outside the region.  match.py refuses the name-derived
+      ISA ("the source declares arm, the image says thumb") because
+      layout/symbols_sdk.json records 02059F18 as Thumb while the image's call
+      is a Thumb-2 `blx` (0xF6E5EC50) into ARM code.  Nothing tried so far
+      gets mwcc to emit `blx` from a plain declaration; needs an explicit
+      interworking declaration or a different lane's knowledge.  Source kept in
+      scratch/ov009/park_func_02157160.c.
+
+  021552DC -- 12B Thumb, `return 3 - func_0205CCD8();`.  MATCH, in
+      src/pending/: every byte identical, the only relocation (the blx at
+      +0002) stays wildcarded because 0x0205CCD8 has no witness -- it is in
+      symbols_sdk.json, so the call resolves by name, but the arm9 listing
+      emits that block as data and no arm9 source declares it.  Promotes to
+      EXACT the moment anyone attests 0x0205CCD8.
+
+  Still blocked, five of them, exactly as O5 left them: 0215FA9C, 0217CE48,
+      02194754, 021947C0, 0219F638 (the listing emits only the opening
+      `push {r0, r1, r2, r3}` and the body as data words).
+
+  Not examined at all by either lane: the 0x14 remaining size-4 to size-28
+      candidates whose only obstacle is an out-of-region callee with no label
+      (the 02164484-style data-blocks), and everything above 28 bytes.
+
+New residue this lane opened, all three size-28..32 ARM leaves, each one
+compile short of a closure and each with the residue named exactly:
+
+  func_02195E80  byte-pair read at an index: the image is
+      ldrb r2,[r0,r1]; add r1,r1,#1; ldrb r1,[r0,r1]; lsl r0,r2,#8;
+      and r0,r0,#0xff00; lsl r0,r0,#0x10; orr r0,r1,r0,lsr #16
+      -- a `(p[i] << 8) | p[i+1]` written through a 16-bit round trip.
+      `int f(unsigned char *p, int i)` and the two-statement increment form
+      both compile to 20 bytes: mwcc folds the mask away.  Needs the source
+      that forces the byte-mask, not a witness.
+
+  func_0216BF98  `(*(void (**)(int))(p->fn))(p->arg)`: the bytes match
+      instruction for instruction, the register allocation does not -- the
+      image holds the block in r2 and the pointer in r3, mwcc picks r0/r1.
+      Two attempts; parked rather than guessed.
+
+  func_02177E64  clamp of `call() - 0x207` to zero: the image loads the
+      constant from a pool word and then `cmp r0,#0; movle r0,#0`, where
+      `v - 0x207` folds to `sub` and `if (v < 0)` folds to `movmi`.  The
+      source that keeps the addition and the `<= 0` test separate is unknown.
+
+ov009 / pkt_02155168 -- lane O26, third pass from the smallest unfiled upward
+(2026-09-24, candidates in scratch/ov009/o26/, filed list in
+scratch/ov009/o26/jobs1..4.json)
+
+Filed: 28 further entries, every one EXACT, one source per file under
+src/matched/.  The shard pkt_02155168.json now holds 247 entries (110 from O5
++ 109 from O16 + 28 from this lane) and `match.py manifest --verify --shard
+pkt_02155168` reports 247 entr(ies) with no non-EXACT line.  247 of the
+overlay's 1574 traced functions.
+
+Cost: 70 candidate sources written, 70 compile+compare runs run 8 at a time,
+one manifest pass.  The cheap classes are still one compile each; the whole
+lane turned on two mechanical facts, below.
+
+Two things that decided nearly every closure:
+
+  * mwcc hoists the *initial* value of the returned local.  When the image
+    opens with `mov r0, #0` (or `#1`) and only later reaches a conditional
+    value, the source wrote the result into a local and returned the local:
+    `int r = 0; if (p && *p == 1) r = 1; return r;`.  The direct spelling
+    `if (p && *p == 1) return 1; return 0;` compiles to `moveq r0, #1;
+    bxeq lr` and never matches.  This flipped 02168D7C, 0216AA70 and
+    0216C82C from DIFF to EXACT in one compile each, and the same shape is
+    what 0215F080/0216B634 needed.
+
+  * `scratch/ov009/f2.json` (and every classifier built on it) DROPS `.inst`
+    lines.  The listing emits an out-of-region `bl` as `.inst 0xEB...` with
+    the target only in the trailing comment, so a function that calls
+    out-of-region reads as a leaf there.  0216909C cost one compile that
+    way: the body has an unnoticed `bl 0x020870D0` whose result is stored.
+    Parse asm/overlays/ov009.s directly (scratch/ov009/o26/listing.py) when
+    counting calls.
+
+What else paid: the g_<addr> + offset getter/store family (0216BC84,
+0216C7E0, 0216B634, 0215AA88, 0215AA88 neighbours), where naming the base as
+`extern char g_021AA878[]` and using `*(int *)(g + const)` is the whole
+source; the strided-record loops (0219C724 over 0xc8 records of 0x10 bytes,
+02159A30/021599EC over three 0xc records of 0xc bytes, where a 12-byte struct
+assignment is what makes mwcc emit ldm/stm); and the plain `unsigned char`
+range idiom `(unsigned char)(*s - 0x30) <= 9`.
+
+New residue this lane opened, each one compile short and each with the exact
+difference named:
+
+  func_021600E4  36B ARM.  Image keeps `mov r1, r0` and returns the argument
+      itself on the out-of-range path; the direct `if (i >= 0x20) return i;`
+      compiles to 20 bytes with no copy.  The source that forces the extra
+      copy is unknown.
+
+  func_0219E8D4  36B ARM.  Image is a branch to a shared `mov r0,#0` tail:
+      `if (*a == 0 || *b == 0) return 1;` and then returns *a.  Both the
+      if/return-1 spelling and the `*a && *b ? *a : 1` spelling produce
+      `moveq r0,#1; bxeq lr`.  A local-carry version is the next thing to
+      try.
+
+  func_0215C508  48B ARM.  A buffer walker whose two early exits return
+      different cursor values (`return p` for the zero byte, `return ++p`
+      for the 0xc0 lead byte); the second exit's exact cursor is unresolved
+      (both `++p` and `p+1` bodies compile, neither matched).
+
+  func_0215F184 / func_0215F0F0  80B and 148B ARM.  A two-argument
+      "does b cover the bits outside a" classifier whose first test is
+      `teq ~a, b & ~a` followed by two re-checks of b's top bytes.
+
+  func_0216FBB8 / func_0217F038  124B ARM, the private-address tester.
+      The semantics are settled (`a = v & 0xff`, `b = (v >> 8) & 0xff`;
+      1 for a == 10, a == 0xac with b in 0x10..0x1f, a == 0xc0 with
+      b == 0xa8) but the image computes a full byte swap before extracting
+      the two bytes, so the C that makes mwcc emit the swap is still open.
+
+  func_0217F7D0  84B ARM, base64 three-to-four packer:
+      `out[0] = in[0] << 2 | in[1] >> 4; out[1] = in[1] << 4 | in[2] >> 2;
+      out[2] = in[2] << 6 | in[3];` guarded by n >= 2/3/4.  DIFF: the
+      guarded loads are scheduled differently.
+
+  func_0215E2C0, func_02195E80, func_02164490/A0/B4, func_02161748,
+      02166424, 02156874, 02194DE4, 02193D64, 02157808: unchanged from the
+      two earlier lanes, same residues.
+
+  Still blocked exactly as before: 0215FA9C, 0217CE48, 02194754, 021947C0,
+      0219F638 (listing emits only `push {r0, r1, r2, r3}` and the body as
+      data), and the out-of-region-thunk MATCHes 021552DC, 0217F124,
+      02195B20, 0219F068.

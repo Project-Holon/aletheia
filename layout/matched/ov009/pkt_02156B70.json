@@ -259,6 +259,18 @@
    }
   },
   {
+   "name": "func_021954F4",
+   "address": "0x021954F4",
+   "kind": "game",
+   "region": "ov009",
+   "source": "src/matched/func_021954F4.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
    "name": "func_021A0440",
    "address": "0x021A0440",
    "kind": "game",

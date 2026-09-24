@@ -1,0 +1,39 @@
+/*
+ * function: func_02165518
+ * address:  0x02165518
+ * packet:   pkt_02165518
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_020270AC  0x020270AC  thumb
+ *   func_0202744C  0x0202744C  thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern int func_020270AC();
+extern int func_0202744C();
+
+int func_02165518(int a0, int a1)
+{
+    int t4;
+
+t4 = a0 + 0;
+a0 = 0x22;
+*(u16 *)((char *)t4 + 0x30) = a0;
+a0 = a1 + 0;
+a1 = t4 + 0;
+a1 = a1 + 0x34;
+    a0 = func_020270AC(a0, a1);
+loc_0216552A:
+a0 = t4 + 0;
+    a0 = func_0202744C(a0);
+loc_02165530:
+    return a0;}

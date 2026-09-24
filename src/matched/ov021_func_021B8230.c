@@ -1,0 +1,29 @@
+/*
+ * function: func_021B8230
+ * address:  0x021B8230
+ * packet:   pkt_021B8224
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Tail-call thunk on the object 0x20 bytes in.
+ *
+ * symbols:
+ *   func_021B87FC  0x021B87FC  thumb
+ *
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void func_021B87FC();
+
+void func_021B8230(u8 *p)
+{
+    func_021B87FC(p + 0x20);
+}

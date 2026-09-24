@@ -1,0 +1,49 @@
+/*
+ * function: func_02158E54
+ * address:  0x02158E54
+ * packet:   pkt_02158E54
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0201210C  0x0201210C  thumb
+ *   func_02082A7C  0x02082A7C  arm
+ *   func_02188C54  0x02188C54  thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern int func_0201210C();
+extern int func_02082A7C();
+extern int func_02188C54();
+
+int func_02158E54(int a0, int a1, int a2)
+{
+    int t4;
+    int t5;
+
+t5 = a0 + 0;
+a0 = a1 + 0;
+    a0 = func_0201210C(a0, a1);
+loc_02158E5E:
+t4 = a0 + 0;
+a0 = 0;
+a1 = t5 + 0;
+a2 = 8;
+    a0 = func_02082A7C(a0, a1, a2);
+loc_02158E6A:
+*(int *)((char *)t5 + 4) = t4;
+    if (t4 == 0) goto loc_02158E78;
+loc_02158E70:
+a0 = t4 + 0;
+    a0 = func_02188C54(a0);
+loc_02158E76:
+*(int *)((char *)t5) = a0;
+loc_02158E78:
+    return a0;}
