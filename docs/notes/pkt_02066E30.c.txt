@@ -2867,3 +2867,70 @@ directly is the likely next step: a -proc arm946e probe whose final order
 provably equals its allocation order (no load-use hazards to fill).  Probing
 the origin of rule (d) is the other.
 /* best source, 704 bytes against 704, 2 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 21 (lane C6): 0x02067080 unchanged, DIFF 2
+==============================================================================
+Base: the wave-13 source above, re-verified with match.py one under ../2.0/sp2
+-O4,p: 704/704, 2 out (y read at +0x21C in ip, image r6).  65 match.py one
+runs, all from the wave-13 source.  Scratch is in /tmp/aletheia_laneC6
+(gen.py builds every variant from base.c by text substitution; mone.sh runs
+match.py one).  I worked through the research lane's five untried spellings
+in order, then combined them.  Each result is classed by the compiled
+instruction stream: BASE (identical to the wave-13 output), ITEM1 (identical
+to wave 20C's item 1: y in r6, dy in ip), or new.
+
+SPELLINGS (bytes out, 704 bytes unless stated):
+ 1. Variable identity: reuse effectTypeAfter for the effect read.
+    e1a `effectTypeAfter = G2_GetOBJEffect(pOam); { const BOOL bShouldAdjust =
+        effectTypeAfter == GX_OAM_EFFECT_AFFINE_DOUBLE; ... }`: 2, BASE.
+    e1b `const BOOL bShouldAdjust = (effectTypeAfter = G2_GetOBJEffect(pOam))
+        == GX_OAM_EFFECT_AFFINE_DOUBLE;`: 2, BASE.
+    e1c e1a with the comparison passed straight as the inline's argument (no
+        bShouldAdjust): 684 bytes, 214 (the same shape as flattening).
+    The merged web gives byte-identical code.  Under sp2 the effect web's
+    colour does not depend on which variable holds it.
+ 2. A one-line nested inline for the y read or the final add only (the
+    halfW << 12 shift is never wrapped):
+    g2a `pV->y = GetY_(pV) + (dy + pM->_11 * halfH);`: 5, NEW.  _11 goes to
+        ip and y to r0, then `add r0, r3, r0`.  The y read now coalesces with
+        the sum, which is further from the image than the base.
+    g2c `(dy + _11*halfH) + GetY_(pV)`, g2k `GetY_(pV) + (_11*halfH + dy)`:
+        5, the same NEW residue.
+    g2g `GetY_(pV) + dy + _11*halfH` (no parentheses): 9 (re-associated to
+        add then mla).
+    g2b `AddY_(pV, dy + _11*halfH)` with `p->y += d`; g2e with
+        `p->y = p->y + d`; g2f with `p->y = d + p->y`: 2, BASE.
+    g2h `pV->y = Add_(pV->y, dy + ...)`, g2i with the arguments swapped:
+        2, BASE.
+    g2j `pV->y += Sum_(dy, pM->_11, halfH)` (`return d + m * h`): 2, BASE.
+    g2d `AddX_(pV, dx + _10*halfH)` on the x side: 2, BASE.
+ 3. Split the compound add (func_0206775C precedent):
+    s3y `pV->y += dy; pV->y += _11*halfH;`: 708 bytes, 150.  The front end
+        keeps the intermediate store (`add r4, ip, r7; str r4, [sp,#0xc]`
+        then the mla and a second str).
+    s3x (x side): 708, 190.  Both: 712, 208.  Discarded: the instruction
+        count changes.
+ 4. A fresh block-scope local for y, opened right after the dy mla:
+    l4a `{ fx32 y = pV->y; pV->y = y + (dy + _11*halfH); }`, l4b with the
+    sum first, l4c `y += dy + ...; pV->y = y;`, l4d `const fx32 y`, l4g
+    `fx32 y = GetY_(pV)`: 2 each, BASE (C4 rule 4 holds: the read is
+    re-created at the use).
+ 5. short halfW / halfH:
+    h5w 708, 228; h5h 708, 201; both 712, 219.  Each adds a sign-extension
+    pair (`lsl r3, r3, #0xf; asr r3, r3, #0x10` for halfH), so the u16
+    table value >> 1 is NOT range-known to sp2.  Stopped there.
+COMBINATIONS (e1a and e1b on each; all 704):
+    e1a/e1b x {g2b, g2d, g2e, g2h, g2i, g2j, l4a, l4b, l4c, l4g, g2b+g2d}:
+      2, BASE.
+    e1a/e1b x {g2a, g2c, g2k}: 5, the g2a residue.
+    e1a/e1b x {i1 (wave 20C item 1: y read hoisted before the x store),
+      i1g (the same, with the read spelled GetY_)}: 2, ITEM1.
+    i1+g2d, i1g+g2d: 2, ITEM1.  g2a+g2d, g2c+g2d: 5.  l4g+g2d: 2, BASE.
+Summary: all five levers are either inert (1, 2 when AddY_/Add_/Sum_ is used,
+4), change the instruction count (3, 5), or move to a worse tie (GetY_ in
+the expression: the y read coalesces into r0).  No spelling separates the
+two ip ties that wave 20C described.  This agrees with lane C5's model: the
+image pair needs an r6/r7 web coloured before the dy window, and none of
+these spellings creates one.
+/* best source, 704 bytes against 704, 2 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */
