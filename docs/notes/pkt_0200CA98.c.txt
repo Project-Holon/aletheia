@@ -442,3 +442,200 @@ noted):
   permuter.py anneal 1500 --types seed 2811 from the wave-13 source: flat
   at 147.
 /* best source, 392 bytes against 392, 147 concrete bytes out, 1.1p1 -- the wave-13 source above -- unchanged */
+
+
+==============================================================================
+2026-09-24, wave 19 (lane musical_3, 19P): func_0200CA98 DIFF 147 -> 114
+==============================================================================
+Levers this function had never had, all from the wave-13 source (1.1p1,
+392/392 unless noted). "asm" is permuter.py --explain's instruction score
+(wave-13 source 2310; lower is closer).
+
+What moved it (three facts, the first two are shape, not colouring):
+  1. THE FORM-LOOP MASK IS NAMED AND COMPUTED BEFORE THE OFFSET:
+     `s32 m = (1 << (x & 7)) ^ 0xFF; s32 o = x >> 3; ... *q &= m;` (s32
+     or u32 m; a u8 m is 396). The loop body then comes out in the image's
+     instruction order (movs #7 / ands / movs #1 / lsls / movs #0xff /
+     eors / asrs / lsls / ldrb / lsrs ...), x in r2 and mask in r5 as in
+     the image. Bytes out read 341 only because a colour change drops the
+     second `ldr [sp]` of p (388 bytes); the listing is closer (asm 1830
+     with fact 2).
+  2. THE TAIL NAMES base = p + 0x1AC BEFORE off, and the two 0x1AC arms
+     index base (`base[off] |= (u8)bit`): the preheader is then the
+     image's order (y, p+0x1AC, off, y&7 IN y's register, bit, nm, k=0).
+     Named base with the arms still spelling p+0x1AC is 404 (the wave-14
+     408 figure was this). On the wave-13 loop: 392/167, asm 2145.
+  3. `unsigned long j;` (the long recipe, on the form-loop index): with 1
+     and 2 the whole walk is exact, including the home-store order
+     (id before sel) and acc r1 / key r2 / id-reload r0 (asm 1660).
+The 114 point (permuter, below) is 1 + 3 + `u8 cnt`, tail as wave 13.
+The u8 cnt is NOT image-shaped: it adds `lsls/lsrs #0x18` on the count
+and a `beq` where the image has `cmp r7,#0; bls`, paid for by losing the
+p reload; treat it as a scoring artefact and drop it when the loop colours
+right.
+
+Measurements (31, sweeps counted once):
+  y &= 7 / y = y & 7 before bit: identical code (147).
+  key compare through a function-scope x reused as the form-loop x
+    (dying-local, walk): identical (147). key through cnt: identical (147).
+  separate u8 / u16 clear-loop counter: 396/258 both.
+  mask-before-offset, s32 m: 392(388 code)/341; u32 m 341; declared then
+    assigned (x, o, m) 341; m and o declared after q 341; `s32 m = x & 7`
+    shift inline: identical to wave 13 (147).
+  tail off/bit inside the clear loop (base: 396/267, 396/266; on the m
+    loop: 392/232, 392/231; y and k take the image's r4/r3 but 0x1AC is
+    built from the 0xFF constant).
+  named base, arms p+0x1AC 404/368; named base + base arms on m loop
+    388/347 (asm 1830); on the wave-13 loop 392/167 (asm 2145).
+  nm computed into y (`y = (u8)(bit ^ 0xFF)`): 396/257. u16 y: 392/186.
+  i = 0 before acc = 0: 168 (scheduling only).
+  row pointer `u8 *q = p + 0x30E` at declaration / declared before m:
+    388/347 flat.
+  unsigned long acc on the m loop: 347 flat; unsigned long j: 388/336,
+    asm 1660 (walk exact).
+  sweep: unsigned long i, declaration order of acc,i,j,cnt,y,off (720):
+    147 x360, 152 x360. Same sweep with unsigned long acc: 147 x360, 152 x360.
+  u8 cnt on (m loop + named base + long j) 134; on (m loop + named base)
+    162.
+  sweep: 7 single `==` commutes x {named base or not} x {long j or not}
+    on the m loop with u8 cnt: `==` order irrelevant; long j 114, int j
+    142; the dead named base irrelevant.
+  permuter.py anneal --types seed 3501 from the (m loop + named base)
+    source: 1830 -> 1580 asm, 114 out at compile 187 via expand(base x3)
+    + type cnt u8, flat to 1761 compiles (stopped there, not rerun).
+  Lever 4 (callee widths): the function has no calls (no bl; only the
+    two Table literals); SetBit is a local inline whose u16 x matches the
+    image's `lsls/lsrs #0x10` in both SetBit arms. Nothing to re-read.
+
+Register map (image, by block), for the next lane:
+  prologue: p [sp], id [sp+4], sel [sp+8], form [sp+0x20] round-trip,
+    alt lr.
+  walk: Table r3, acc r1, i r5, i*4 r6, key r2, id reload r0, &T[i] r4.
+    (best: exact.)
+  match arm: Table+2 pool r2, j r0 (set before the cnt load), cnt r7,
+    0x30E pool r2 (+9 in place), p load 1 r3 -> row1 r3 in place, p load 2
+    r4 -> row2 r6, x r2, x&7 r4, mask r5, 0xFF r4, o r4, byte r2.
+    (best: pool r2 then `ldrh r2` + u8 truncation into r7, j r0 after it;
+    one p load r3, row1 r4, x&7 / 0xFF / o r3: the row1 <-> {x&7, o}
+    swap is the first divergence once u8 cnt is dropped (v19 below:
+    j r0 but cnt loaded before j = 0, pool r0).)
+  SetBit arms: exact.
+  tail: y r4, p+0x1AC r1 (right after y), off r0, 7 r5, y&7 r4 in place,
+    bit r6, 0xFF r2, nm r4, k r3, 0x54 r7, row r2, byte r5; arms: sel r2,
+    alt r2 (sel==0) / r1 (sel!=0), const r2, p r1, row r3, byte r2.
+    (best, wave-13 tail: y r2, bit first, off r3, nm r2, base r0 late,
+    k r4, row r1, arms one register down: r2->r1, r1->r0, r3->r2.
+    With fact 2: order exact, y r0, base r2, off r3, 7 r1, nm r1, k r4,
+    row r0, and one `mov rX, lr` in the default arm lost (390 code).)
+Next: fact 1 + 2 + 3 without u8 cnt (v19, 388 code, asm 1660) is the
+image-shaped source; its remaining faults are the two colour swaps above
+(row1 vs o in the form loop, y r0 vs r4 in the tail), each of which also
+deletes one instruction. The dying-local lever had no purchase: mwcc
+renames every def into its own web, so writing a value into a dying local
+changed nothing in the walk (v2, v3 byte-identical).
+
+/* best source, 392 bytes against 392, 114 concrete bytes out, 1.1p1 */
+/*
+ * function: func_0200CA98
+ * address:  0x0200CA98
+ * packet:   pkt_0200CA98
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_0200CA98_Table  0x0209DE4C  data
+ */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct FormCount { u16 unk00; u16 unk02; };
+extern const struct FormCount func_0200CA98_Table[];
+
+static inline void SetBit(u8 *row, u16 x)
+{
+    row[x >> 3] |= (u8)(1 << (x & 7));
+}
+
+void func_0200CA98(u8 *p, u32 id, u32 sel, u32 alt, u32 form)
+{
+    u32 acc;
+    u32 i;
+    unsigned long j;
+    u8 cnt;
+    s32 y;
+    s32 off;
+    u32 bit;
+    u8 nm;
+
+    acc = 0;
+    i = 0;
+    do {
+        if (id == func_0200CA98_Table[i].unk00) {
+            cnt = func_0200CA98_Table[i].unk02;
+            for (j = 0; j < cnt; j++) {
+                s32 x = (u16)(acc + j);
+                s32 m = (1 << (x & 7)) ^ 0xFF;
+                s32 o = x >> 3;
+                u8 *q;
+                q = p + 0x30E;
+                q += o;
+                *q &= m;
+                q = p + 0x317;
+                q += o;
+                *q &= m;
+            }
+            if (form >= cnt) {
+                form = 0;
+            }
+            if (alt == 1) {
+                SetBit(p + 0x317, acc + form);
+            } else {
+                SetBit(p + 0x30E, acc + form);
+            }
+            break;
+        }
+        acc += func_0200CA98_Table[i].unk02;
+        i++;
+    } while (func_0200CA98_Table[i].unk00 != 0);
+
+    y = (u16)(id - 1);
+    off = y >> 3;
+    bit = 1 << (y & 7);
+    nm = bit ^ 0xFF;
+    for (i = 0; i < 4; i++) {
+        u8 *q = (p + 0x1AC) + i * 0x54;
+        q += off;
+        *q &= nm;
+    }
+    if (sel == 0) {
+        if (alt == 1) {
+            (p + 0x254)[off] |= (u8)bit;
+        } else {
+            (p + 0x1AC)[off] |= (u8)bit;
+        }
+    } else if (sel == 1) {
+        if (alt == 1) {
+            (p + 0x2A8)[off] |= (u8)bit;
+        } else {
+            (p + 0x200)[off] |= (u8)bit;
+        }
+    } else {
+        if (alt == 1) {
+            (p + 0x254)[off] |= (u8)bit;
+        } else {
+            (p + 0x1AC)[(u32)off] |= (u8)bit;
+        }
+    }
+}
+
+Image-shaped alternative (v19, 388 bytes, 336 out by the shift, asm 1660):
+the source above with `u32 cnt;`, and the tail's first lines and 0x1AC arms
+written as
+    base = p + 0x1AC;            (u8 *base declared after nm)
+    off = y >> 3; bit = 1 << (y & 7); nm = bit ^ 0xFF;
+    for (i = 0; i < 4; i++) { u8 *q = base + i * 0x54; q += off; *q &= nm; }
+    ... base[off] |= (u8)bit; ... base[(u32)off] |= (u8)bit;
+
+re-verified 2026-09-24 by tools/match.py: DIFF, 392 bytes against 392, 114 concrete bytes out, 1.1p1
