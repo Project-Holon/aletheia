@@ -403,3 +403,42 @@ Also 147 (j 152): unsigned long acc / i / j / cnt singly and together, unsigned 
   x and o declared then assigned as statements 147.
   permuter.py anneal 1000 --types seed 2401: flat at 147.
 /* best source, 392 bytes against 392, 147 concrete bytes out, 1.1p1 -- the wave-13 source above -- unchanged */
+
+
+==============================================================================
+2026-09-24, wave 19 (lane big_three): func_0200CA98 unchanged, DIFF 147
+==============================================================================
+Control flow re-derived from the image, top to bottom: prologue homes p, id,
+sel (form round-tripped at sp+0x20, alt in lr); a do-while table walk with
+no entry test (i r5, acc r1, &Table[i] r4 formed before the key compare);
+the match arm reads cnt through a second pool base (Table+2), j = 0 before
+the single rotated `cnt != 0` guard, row pointers p+0x30E / p+0x317 in the
+preheader (p reloaded twice), then the form clamp, two SetBit arms that
+cross-jump into one shared block and branch to the tail; the tail computes
+y, then p+0x1AC (r1), then off, bit, nm, a four-trip do-loop over
+(base + k*0x54)[off], and six set arms each with its own epilogue (the
+sel==0/alt!=1 and default/alt!=1 arms reuse r1 = p+0x1AC). The wave-13
+source already has every block in this order and count; the residue is
+colouring (acc r2 not r1, x r5 not r2, j r3 not r0, tail y r2 not r4) plus
+p+0x1AC scheduled after the bit computations.
+Measured from scratch or from the wave-13 source (1.1p1, all 392 unless
+noted):
+  fresh struct rewrite (seen[4][0x54] at 0x1AC, form[2][9] at 0x30E, member
+  array indexing everywhere) 424/382 (p+off reassociation in every access);
+  walk as `for (;;)` with the terminator test as a trailing `break` 147;
+  named u8 mask ahead of the rows with the offset inline 150;
+  `(u8)~(1 << (x & 7))` masks 388/350;
+  an inline ClrByte(q, o, u8 m) called with (p+K, x>>3, mask) 147
+  (identical code);
+  named row pointers declared in the match arm, `q = r0; q += o` 337;
+  the walk and the tail as two static inlines called in sequence 388/345;
+  tail through `u8 (*seen)[0x54] = p + 0x1AC` assigned before y 364/243
+  (base now computed first, as in the image, but seen+off reassociates);
+  named `base = p + 0x1AC` after y 408/240 (the wave-14 figure);
+  the tail as an inline SeenFlags(p + 0x1AC, (u16)(id - 1), sel, alt) with
+  base-relative arms 392/165 (the constants fold back to p+K; base still
+  late);
+  off/bit/nm inline in the clear loop and the arms 396/267.
+  permuter.py anneal 1500 --types seed 2811 from the wave-13 source: flat
+  at 147.
+/* best source, 392 bytes against 392, 147 concrete bytes out, 1.1p1 -- the wave-13 source above -- unchanged */

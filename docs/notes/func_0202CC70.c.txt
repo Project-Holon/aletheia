@@ -296,3 +296,135 @@ void func_0202CC70(struct WinMgr *mgr, u32 idx)
     g_020A0058[mgr->mode](win->bg);
 }
 re-verified 2026-09-24 by tools/match.py: DIFF, 240 bytes against 244, 174 concrete bytes out, 1.1p1
+
+
+==============================================================================
+2026-09-24, wave 19 (lane big_three): 0x0202CC70 240/174 -> 244/47, size exact
+==============================================================================
+Image re-read: slots 0x10 ymin, 0x14 sy (the y guard's load lands there and
+is later overwritten with ymin), 0x18 a separate y that feeds only
+`ymin - y`, 0x1c h, 0x20 sx (`str r0` = x, then `str r7` = xmin in the
+clip). x stays in r0 and is used by the clip, so sx cannot share x's
+register: sx must be assigned BEFORE the clip's last use of x. Registers:
+xmax r1, ymax r3, win r4, ow r5, x1 r6, xmin r7, w ip, y1 r2.
+Measured (1.1p1, all from the ties_d 240 source unless noted):
+  sx = xmin placed before the ow update in the x clip: 244/130 (size exact:
+  the sx spill appears; y copies lost);
+  the same on the 236 field-expression source: 244/130; ox/oy s8 temps in
+  both clips (twin shape): 244/130; `sy = win->y; y = sy; y1 = y + h` with
+  the clip on sy/y and no w/h names: 244/190; y as a local with sy = y in
+  the clip: 240/164; xmin named after x1 (both bases): 244/130 each;
+  sy = win->y ahead of the y guard (`if (sy >= ymax)`): 232/184 (x half
+  exact in registers: w ip, x1 r6, xmin r7, sx 0x20), + y1 = sy + h
+  232/185, + w/h named 232/185, embedded `(sy = win->y) >= ymax` 232/184,
+  `ymax <= (sy = win->y)` 232/184 (the assignment is always loaded first);
+  sy right after the field guard 244/129 (y1 from win->y or sy);
+  y copy on the sy-before-guard base 236/171 (compare on sy or on y);
+  sx-first + clip compare on sy 244/130; sx-first + oh update first 240/191;
+  ties_d base + y copy without sx-first 240/177;
+  sx-first + w/h named + `y = sy; y1 = y + h` + clip `if (sy < ymin)
+  { sy = ymin; oh -= (s8)(ymin - y); }` 244/57 (every instruction in place;
+  slots and r1/r2 off);
+  + declarations `s32 sx; s32 w, h; s32 y, sy;` 244/47 (BEST, slots now
+  exact: mwcc numbers spill slots from the last declared local upward);
+  x1, y1 declared first or before ow/oh 244/47; y1 = h + y 240/175.
+  permuter.py anneal 800 seed 2801 from the 244/130 point: 244/126 through
+  an unsigned compare (non-value-preserving), discarded.
+Residue at 47: xmax is in r2 and y/y1 in r1 (the image has the opposite),
+`str r0, [sp, #0x20]` is scheduled one slot later, the clip copies ymin
+with `adds r6, r2, #0` where the image reloads it from sp+0x10, and the
+call's `str r0, [sp, #8]` comes after the two argument reloads. All four are
+the same r1/r2 choice for the first guard's xmax against the y guard's load.
+
+/* best source, 244 bytes against 244, 47 concrete bytes out, 1.1p1 */
+/*
+ * symbols:
+ *   func_02041300 0x02041300 arm
+ *   g_020A0058    0x020A0058 data
+ */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed char    s8;
+typedef signed int     s32;
+
+struct Win {
+    u32 tiles;
+    u16 w:6;
+    u16 h:6;
+    u16 dirty:1;
+    u16 unk04_13:3;
+    s8 x;
+    s8 y;
+    u8 pad_08[2];
+    u8 bg;
+    u8 pad_0b;
+    s8 xmin;
+    s8 xmax;
+    s8 ymin;
+    s8 ymax;
+};
+
+struct WinMgr {
+    struct Win *wins;
+    u16 pad_04;
+    u16 mode:15;
+    u16 unk06_15:1;
+};
+
+extern void func_02041300(u32 index, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5,
+                          u32 a6);
+extern void (*g_020A0058[])(u32);
+
+void func_0202CC70(struct WinMgr *mgr, u32 idx)
+{
+    struct Win *win = &mgr->wins[idx];
+    s32 sx;
+    s32 w, h;
+    s32 y, sy;
+    s8 ow, oh;
+    s32 x1, y1;
+
+    win->dirty = 1;
+    if (win->x >= win->xmax) {
+        return;
+    }
+    if (win->y >= win->ymax) {
+        return;
+    }
+    w = win->w;
+    x1 = win->x + w;
+    if (x1 < win->xmin) {
+        return;
+    }
+    h = win->h;
+    sy = win->y;
+    y = sy;
+    y1 = y + h;
+    if (y1 < win->ymin) {
+        return;
+    }
+
+    ow = w;
+    sx = win->x;
+    if (win->x < win->xmin) {
+        sx = win->xmin;
+        ow = ow - (s8)(win->xmin - win->x);
+    }
+    if (x1 >= win->xmax) {
+        ow = ow - (s8)(x1 - win->xmax);
+    }
+
+    oh = h;
+    if (sy < win->ymin) {
+        sy = win->ymin;
+        oh = oh - (s8)(win->ymin - y);
+    }
+    if (y1 >= win->ymax) {
+        oh = oh - (s8)(y1 - win->ymax);
+    }
+
+    func_02041300(win->bg, 0, (u8)sx, (u8)sy, (u8)ow, (u8)oh, 0x10);
+    g_020A0058[mgr->mode](win->bg);
+}
+re-verified 2026-09-24 by tools/match.py: DIFF, 244 bytes against 244, 47 concrete bytes out, 1.1p1

@@ -309,3 +309,77 @@ dsi/1.2 52/26 and 50/14 on the two forms, the else arm written out
 % n` local 50/25. permuter anneal 800 --types seed 2301 from the 14-out form:
 best 44/56 via a u8 idx, rejected.
 /* best source, 52 bytes against 56, 26 concrete bytes out, 1.1p1 -- the wave 10 source above, unchanged */
+
+
+==============================================================================
+2026-09-24, wave 19 (lane big_three): 14 out with the image's branch polarity
+==============================================================================
+Image: `idx % n` result copied r1 -> r2 before the compare, bne FORWARD to a
+separate `movs r0, #0 / pop`, the copy falls through, 12 in r0, a second
+copy r2 -> r3, the table base loaded after that copy, `muls r3, r0, r3`,
+first field read at [base, off], then base += off in place.
+Measured (1.1p1): the 14-out early-return form 50/14 (beq over an inline
+`movs r0, #0; pop`, inverted); `==` with t[idx] field copies 50/25; a
+block-local `i = idx` 50/25; `off = idx; off *= 12` byte cursor 52/26;
+named function-scope `u32 i = idx % n` with the early return 52/34
+(multiply-into-a-copy appears: `adds r2, r1; muls r2, r0, r2`); the same as
+if/else with the return-0 arm first 52/34; `i = idx %= n` 50/25; named i
+with `&p->f1c[i]` 50/25; `i = idx %= n` with `&p->f1c[i]` 52/26;
+`idx = i` after the early return 52/34;
+a result variable, `u32 ret = 0; ... if (p->f18 == n) { t = p->f1c;
+t[i].a/b/c; ret = 1; } return ret;` with the named `i = idx % n` 50/14
+(BEST: image polarity, bne forward, and the multiply into a copy);
+the same with `idx %= n` and t[idx] 50/23.
+Residue at 14: the first copy (remainder stays in r1, the multiply copy
+lands in r2 not r3), ret's `movs r0, #0` is hoisted above the compare into
+a shared epilogue (the image has two epilogues), and the base is loaded
+before the constant 12.
+
+/* best source, 50 bytes against 56, 14 concrete bytes out, 1.1p1 */
+typedef unsigned char  u8;
+typedef unsigned int   u32;
+typedef int            s32;
+
+struct Rec12 { s32 a; s32 b; s32 c; };
+
+struct IcaAnime {
+    u8  pad00[0x0c];
+    u32 f0c;
+    s32 f10;
+    s32 f14;
+    u32 f18;
+    struct Rec12 *f1c;
+};
+
+u32 func_02011688(struct IcaAnime *p, struct Rec12 *dst, u32 idx)
+{
+    u32 n = p->f0c;
+    u32 i = idx % n;
+    struct Rec12 *t;
+    u32 ret = 0;
+
+    if (p->f18 == n) {
+        t = p->f1c;
+        dst->a = t[i].a;
+        dst->b = t[i].b;
+        dst->c = t[i].c;
+        ret = 1;
+    }
+    return ret;
+}
+re-verified 2026-09-24 by tools/match.py: DIFF, 50 bytes against 56, 14 concrete bytes out, 1.1p1
+
+==============================================================================
+2026-09-24, wave 19 (lane nns_small_2): 26 holds
+==============================================================================
+From the wave 10 source (1.1p1): the if (==) shape with t = p->f1c and
+t[idx] field copies, u32, unsigned long n or unsigned long idx: 50/25 each;
+&p->f1c[idx] with unsigned long n 52/26; t = p->f1c; t += idx with unsigned
+long n or idx 52/26; the early exit as `goto fail` with the return 0 at the
+end, t[idx] copies (u32 and unsigned long idx) 50/25, element pointer 52/26.
+The goto form compiles the same as the if (==) form. The image puts the
+element cursor in the table base's dying r1 (`adds r1, r1, r3`) and
+multiplies into a copy of the remainder. No spelling gives both. permuter
+anneal 1500 --types (seed 2955) from the 14-out form with unsigned long idx:
+best 56/56 at 50 out (temporaries plus a u8 type), rejected.
+/* best source, 52 bytes against 56, 26 concrete bytes out, 1.1p1 -- the wave 10 source above, unchanged */
