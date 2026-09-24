@@ -1,7 +1,9 @@
 # Handoff state (2026-09-24)
 
-> Current figures, end of wave 20 (in progress), 2026-09-24: **98.11 percent** of ARM9 game code matched byte for byte
-> (392726 of 400306 bytes, 4404 functions), reproduced coverage 98.11 percent (`python tools/worklist.py --summary`).
+> Current figures, end of wave 21, 2026-09-24: **100 percent** of ARM9 game code matched byte for byte
+> (400306 of 400306 bytes, 4422 functions), confirmed by a full ROM rebuild (sha1 26ad0b99). Scope: the
+> denominator is game-written functions in the ARM9 main binary only. SDK/NitroSystem library code, the
+> compiler runtime, ITCM, the DSi `twl` region and all 237 overlays are outside it and still assembly.
 > The denominator grew through eleven seed rounds (unlabelled leaves and followers added to
 > `layout/function_starts.txt`) and the SDK rulings. The live numbers are `layout/worklist.json`'s
 > summary (`python tools/worklist.py --summary`) and `README.md`; the coverage maps `docs/coverage_map.svg`

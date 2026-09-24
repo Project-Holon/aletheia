@@ -35,7 +35,10 @@ byte-matching ROM.
   - [x] Pokémon data field map and the message text cipher (`src/matched/`)
   - [x] Stat calculator, pokeparty.c, level-up and evolution logic
   - [x] About 1000 original source filenames recovered from `__FILE__` anchors (`layout/file_anchors.txt`)
-  - [x] 100% of ARM9 game code ships as verified C (4422 functions, 400306 of 400306 bytes; reached in wave 21, 2026-09-24, and confirmed by a full ROM rebuild against the cartridge SHA-1)
+  - [x] ARM9 main binary, game-written functions: all 4422 ship as verified C (400306 of 400306 bytes; wave 21, 2026-09-24, confirmed by a full ROM rebuild against the cartridge SHA-1). This is the narrow figure `tools/worklist.py --summary` reports. It does **not** cover:
+    - the ~1100 NitroSDK / NitroSystem library functions and the compiler runtime (MSL, soft-float) linked into ARM9, which are still reassembled listings;
+    - the ITCM block and the DSi-mode `twl` region;
+    - any of the 237 overlays (the bulk of the game: field, battle, menus).
   - Verified means recompiled and byte-identical to the original at every integration; unmatched functions are carried as reassembled listings so the ROM always rebuilds byte for byte.
   - [ ] Boot path: system init, overlay loader, `tcbl.c`, `bg_sys.c`,
         `palanm.c`, `clact.c`, `gf_font.c`, title and field managers
