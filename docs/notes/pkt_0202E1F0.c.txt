@@ -1999,3 +1999,98 @@ swap the r4/r5 counter webs. The residue is unchanged. The two best sources
 are still the wave-19 source and lane E7's fresh draft, both 2 out.
 /* best source, 412 bytes against 412, 2 concrete bytes out, dsi/1.1p1 -O4,p --
    the wave-19 source above (or lane E7's fresh draft), unchanged */
+
+==============================================================================
+2026-09-24, wave 21 (lane E9): 0x0202E1F0 unchanged, DIFF 2
+==============================================================================
+Angles no earlier lane measured: optimizer pragmas, compiler flags, the
+object behind &ws, w's declared type, the translation unit, K&R and language
+modes. All runs are 1.1p1 Thumb through `match.py one --diff` (or `tu`), about
+390 compiles, no permuter. Scratch files are in /tmp/aletheia_laneE9 (run.py
+and the sweep scripts, each with its .c and .out files).
+"base" is the wave-19 source (2 out). "s21" is base with the wp copy removed
+and the g call passed (void *)w (21 out, o=r7). o is read off +0004. Every
+line below is 412/412 unless a size is given.
+
+(1) Pragmas. No file in src/matched uses a #pragma (grep: zero hits; the one
+  text match is a comment in func_020613D8.c). So a pragma result could only
+  be reported, never committed. The build's own diagnostics (`-w all`) show
+  which pragmas it accepts: `scheduling` and `register_coloring` are reported
+  as "illegal #pragma", and `opt_pointer_analysis on` stops the compile (rc 5).
+  Every other name below is accepted. Each run wrapped the function in
+  `#pragma push` / `#pragma pop`, with the pragma set to off and then on:
+    base 2 / s21 21 (no change) for opt_dead_code, opt_dead_assignments,
+      opt_loop_invariants, opt_strength_reduction(_strict), global_optimizer,
+      peephole, opt_scalarize, opt_scalarizeliveranges, opt_scalarizebitfields,
+      opt_foldconstants, opt_unroll_loops, opt_propagateequivalentscalartypes,
+      opt_serializeassignments, opt_treetransformation, opt_unpromotetypes,
+      opt_marknonregtemps, opt_optimizenonregaccess,
+      opt_moveinvariantsinaddressexpr, opt_pulloutconstants,
+      opt_decomposeaggregates, opt_recomposeaggregates, opt_rebuildconditionals,
+      opt_rebuildlogicals, opt_obeyfunceffects, opt_defineargorder,
+      opt_arithtransformation, opt_useexpressioncostswhenlinearizingassignments,
+      opt_prelinearize, opt_removeemptyloops, opt_transformcounterloops,
+      opt_markcounterloops, opt_movepostops, opt_generateconditionalassignments,
+      opt_addtogetherconstantpartsoftreeexpressions, readonly_strings,
+      optimize_for_size off, optimization_level 4, and every "on" setting
+      not listed below;
+    opt_lifetimes off              base 17 (o=r6, r4/r5 swap), s21 35 (o=r7)
+    opt_common_subs off            base 122, s21 120 (o=r5; s21's g call
+                                   passes r7, but the rest of the allocation moves)
+    opt_propagation off            base 209, s21 217 (push {r4-r7}, sub sp,#0x4c)
+    opt_optimizecontrolflow off    base 208, s21 216 (the same frame)
+    optimization_level 3           base 208, s21 216 (the same frame)
+    optimization_level 0 / 1 / 2   432/370, 404/352, 408/319 (base)
+    opt_repositioncode on          416/404
+    opt_rotateloops off            404/299
+    optimize_for_size on           400/346
+  None moves the o/w pair without moving other code. Not a lever, and the
+  project does not use pragmas anyway.
+(2) Flags (`match.py sweep --extra`, 1.1p1/1.2/1.2p2/1.3p1): -O4,p with
+  -inline off, -inline all and -ipa function gives base 2 and s21 21 on every
+  version. -O4,s, -O4, -O3, -O2, -O1 and -O0 give 345-407. In the whole unit
+  (see 4), -ipa file, -inline deferred, -opt nopeephole and
+  -opt level=4,nointrinsics give 2 and 21. -inline auto inlines
+  func_0202E040 (472/476 bytes).
+(3) The object behind &ws, from base and from s21 (the address is passed as
+  `&ws` for scalars, structs and unions): unsigned long long, long long,
+  double, u16[4], s16[4], s32[2], void *[2], u8[2][4], float[2],
+  unsigned long long[1], a union {u16[4]; u32[2]}, a union {u64; u16[4]}, and
+  structs {u64}, {u16 arc, str, code[2]}, {four 16-bit bitfields} and
+  {void *, void *}: every one gives base 2 and s21 21, with ws at sp+0x38.
+  Position and scope: ws declared last among the locals, ws in a nested block
+  around the whole body, or ws and marks both in that block: base 2 and s21 21.
+  w's declared type, in s21 form: int, s32, u32, unsigned int, signed long,
+  struct Inc * (incomplete), const struct Inc *, void (*)(void), char *,
+  const char *, s16 *, u32 *, struct Cs *, void ** and unsigned long * all
+  give 21. So the allocator does not look at the type or size of ws or w.
+(4) Translation unit. The unit around the target runs from 0x0202E040 to
+  0x0202E38C: func_0202E040, func_0202E09C, sub_0202E0C8, func_0202E0E0 and
+  the target. The builder drops duplicate typedefs, renames struct tags, and
+  gives func_0202E0E0 two u32 casts so that it agrees with the target's
+  prototypes. `match.py tu --addr 0x0202E040` on it: DIFF, 844 bytes laid
+  out, 42/42 relocations, 2 concrete bytes out. All four neighbours are
+  byte-exact, and the only diff is the target's +008E. The s21 form in the
+  same unit gives 21.
+  func_0202E040, the only callee in the unit, defined before the target:
+  base 2, s21 21. The target declared static (with a caller): 2 / 21. So
+  neither definition order nor a known callee body changes the costing.
+(5) Other: a K&R definition gives 428/411 (base) and 424/397 (s21), because
+  the u16 parameters are promoted and the frame changes; with a prototype in
+  scope it does not compile. -lang c, c++ and ec++ give 2 / 21; c89 does not
+  compile. `inline` and `extern inline` on the target: the function is not
+  emitted.
+  o self-redefinitions in s21, at the g call, before `o->f04 = 1` and at the
+  tail: `o = (struct Obj *)&o->f00`, `&o[0]`, `&o[1] - 1`, `n ? o : o` and
+  `(u32)o & ~0u` are folded (21 each). `o = (struct Obj *)((u8 *)&o->f04 - 4)`
+  and `o = (struct Obj *)((u8 *)o->f20 - 0x20)` are not folded. Placed before
+  `o->f04 = 1`, each gives o=r6, w=r7 and `adds r0, r7, #0` at +008E. From
+  +0000 to +00C8 the listing is the image's exactly, but it costs
+  `adds r0, r6, #4; subs r6, r0, #4` (416/206). At the g call or at the tail
+  the same statements give o=r7 (416-424 bytes). This confirms again that one
+  extra def/use of o outside the loops is the whole residue. Every codeless
+  way to write that extra reference is folded before costing.
+Conclusion: no pragma, flag, ws object, w type, TU context, static or
+language mode moves the one-unit o/w balance. The residue stays at 2.
+/* best source, 412 bytes against 412, 2 concrete bytes out, dsi/1.1p1 -O4,p --
+   the wave-19 source above (or lane E7's fresh draft), unchanged */
