@@ -441,3 +441,30 @@ sp2's `add r1, sp, #8 / ldrh [r1, #0x14]` to the image's `add r1, sp,
 #0x18 / ldrh [r1, #4]`, and sp2 shows no documented tell (no kept branch or
 kept constant) here, so no pin is filed.
 /* best source, 56 bytes against 56, 2 concrete bytes out, ../2.0/sp2 -- the wave 11 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane printsys_4): 37 (1.1p1) holds; the dead-definition lever is flat
+==============================================================================
+Hypothesis: z was live until the last call in the original, so the stacked
+store is scheduled last and the address finds no free callee-saved
+register.  Measured under 1.1p1 from the wave 11 source, once each, all
+56/37:
+   1  `z = z;` after the last call
+   2  `z = z;` after the second call, after the third and after the last
+   3  `s16 t = z;` at entry, t passed, `t = t;` after the last call
+   4  `s16 t = 0;` (dead init), `t = z;` before every call and after the
+      last, t passed to sub_0201C808
+   5  `z = z;` before the second, third and fourth calls
+   6  `z = z;` before the first call and after the last
+   7  a block-scope `s16 t = z;` after the first call, `t = t;` at the end
+   8  `z = (s16)z;` after the last call
+   9  `struct Scratch *c = 0;` (dead init), `c = &g_0214655C;` once after
+      the first call, c at all three sites
+  10  the same with `c = &g_0214655C;` before each of the three calls
+  11  all five arguments of sub_0201C808 through locals, z's assigned last
+  12  the same with dead `= 0` initialisers and `a4 = a4;` after the
+      second and the last call
+Reading: 1.1p1 removes the self-assignments and dead inits before
+scheduling, and a copied or renamed z is coalesced back; the early `str
+r4, [sp]` and the cached address in r4 do not move.  Cap reached.
+/* best source, 56 bytes against 56, 2 concrete bytes out, ../2.0/sp2 -- the wave 11 source above, unchanged */

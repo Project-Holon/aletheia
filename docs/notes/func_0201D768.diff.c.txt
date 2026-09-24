@@ -434,3 +434,31 @@ u8 *func_0201D768(u16 *p, const u8 *src, u16 len, u32 n)
   return base + start;
 }
 
+
+==============================================================================
+2026-09-24, wave 19 (lane printsys_4): 63 holds; the dead-definition lever is flat
+==============================================================================
+The 19L lever (a dead definition extends a web so it is coloured earlier)
+measured from the printsys_3 63 source, 1.1p1, once each (bytes / out):
+   1  `u16 head = 0;` at function scope, loop assigns `head = p[0]`   92/65
+   2  block-scope `u16 head = 0;` then `head = p[0];`               92/63
+   3  head declared first with `= 0`, total declared last and zeroed
+      just before the loop                                           92/65
+   4  function-scope head, `head = 0;` before the loop, `head = head;`
+      after the copy call                                            92/63
+   5  as 4 with `head = head;` at the loop top instead               92/63
+   6  `u16 total = 0;` at the declaration (total=0 kept)             92/63
+   7  as 4 with `head = head;` at the loop end                       92/63
+   8  as 4 with `head = head;` after the loop                        92/63
+   9  function-scope head, `head = head;` after the call, no init    92/63
+  10  as 4 with the init before total's zero                         92/63
+  11  total declared last, zeroed after the base defs (its web
+      starts just before the loop)                                   92/63
+  12  head function-scope, `head = p[0]; start = head;` before the
+      loop (a real early def of head)                                90/76
+Reading: mwcc drops the dead initialiser and the self-assignments before
+colouring here, so neither the loaded-head web nor total's web changes; the
+compile still keeps total in r7 and spills the loaded head to [sp,#4].  The
+dead init that does survive (1, 3) only reorders the entry block (65).
+Cap reached; no permuter this pass.
+/* best source, 92 bytes against 92, 63 concrete bytes out, 1.1p1 -- the wave 19 printsys_3 source above, unchanged */

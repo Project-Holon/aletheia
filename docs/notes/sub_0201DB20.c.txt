@@ -402,3 +402,23 @@ From the wave 15 source (1.1p1), measured once each, 154 bytes throughout
 No permuter this pass (both earlier runs chase the 156-byte extent). The m
 and hi webs still colour in the compile's order under every spelling.
 /* best source, 154 bytes against 156, 15 concrete bytes out, dsi/1.1p1 -- the wave 15 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane printsys_4): 15 holds; the dead-definition lever is flat
+==============================================================================
+From the wave 15 source (1.1p1), measured once each, all 154/15:
+   1  `struct CMap *m = 0;` (dead initialiser, m still assigned from +0x88)
+   2  `s32 hi = 0;`
+   3  m declared first with `= 0`, then hi, lo
+   4  `hi = 0;` at the top of the for body (a dead def of hi per pass)
+   5  `hi = 0;` before `m = m->pNext` (dead def at the chain step)
+   6  `m = m;` before the case-2 break (a use of m after the search loop)
+   7  `m = m;` before and after `hi = m->mapInfo[0] - 1`
+   8  `m = m;` in the else arm before `return 0` (a use of the pNext web)
+   9  `hi = 0;` before `lo = 0` in case 2
+  10  `s32 lo = 0;`
+Reading: the m web already starts at the entry (its entry def and the
+rebase def both reach the loop top), so an earlier def cannot move it; hi
+is still coloured first (r4) and m takes r6.  Each dead def is removed
+before colouring.  Cap reached.
+/* best source, 154 bytes against 156, 15 concrete bytes out, dsi/1.1p1 -- the wave 15 source above, unchanged */
