@@ -1,0 +1,30 @@
+/*
+ * function: func_021A1BF8
+ * address:  0x021A1BF8
+ * packet:   pkt_021A1BF8
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Stores the word at +0x28, then tail calls on it.
+ *
+ * symbols:
+ *   func_02034AC4  0x02034AC4  arm
+ *
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void func_02034AC4(u32 v);
+
+void func_021A1BF8(u32 *p, u32 v)
+{
+    p[0xa] = v;
+    func_02034AC4(v);
+}

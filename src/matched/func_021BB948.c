@@ -1,15 +1,18 @@
 /*
  * function: func_021BB948
  * address:  0x021BB948
- * packet:   pkt_021B9850
- * region:   ov217
+ * packet:   pkt_021BB948
+ * region:   ov021
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
  *
- * Field getter, u32 at +0x28.
+ * Tail call on the word at +0x10.
+ *
+ * symbols:
+ *   func_02030D28  0x02030D28  arm
  *
  * Addresses are Black-image addresses.
  */
@@ -17,9 +20,10 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-typedef signed int     s32;
 
-u32 func_021BB948(void *p)
+extern void func_02030D28(u32 v);
+
+void func_021BB948(u8 *p)
 {
-    return *(u32 *)((char *)p + 0x28);
+    func_02030D28(*(u32 *)(p + 0x10));
 }

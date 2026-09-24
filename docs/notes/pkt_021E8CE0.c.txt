@@ -1,0 +1,10 @@
+
+
+### lane O28 residue -- func_021E8918 (16 B)
+
+The image is `push {r3}; sub sp,#4; movs r0,#0; movs r1,#7; bics r0,r1;
+add sp,#4; pop {r3}; bx lr`: an 8-byte frame that is never stored to, a 32-bit
+`bic` with mask 0xf, and a constant result.  Measured wrong: `return 0 & ~7;`
+(compiles to 4 bytes, frame folded away) and `v = 0; v &= 0xfffffff8; return v;`
+(4 bytes).  The frame exists, so some local is allocated and never used; the
+source shape that keeps it has not been found.  Not filed.
