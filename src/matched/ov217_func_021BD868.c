@@ -8,10 +8,18 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ *
+ * symbols:
+ *   func_021BE448 0x021BE448 thumb ov217
+ *   func_021BE4DC 0x021BE4DC thumb ov217
+ *   func_021BE4E0 0x021BE4E0 thumb ov217
+ *   func_021C0918 0x021C0918 thumb ov217
+ *   func_021C093C 0x021C093C thumb ov217
  */
 
 typedef unsigned int u32;
 
+#pragma thumb on
 extern u32 func_021BE448();
 extern u32 func_021BE4DC();
 extern u32 func_021BE4E0();
