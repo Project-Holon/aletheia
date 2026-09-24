@@ -451,3 +451,17 @@ unsigned long 44 (the stack parameters are then copied to fresh frame slots;
 the image copies each onto its own slot); the same with func_020219C4's b,
 c, d unsigned long 33; long a with a long callee parameter 33. Unchanged 33.
 /* best source, 268 / 232 bytes against 268 / 232, 33 concrete bytes out each, 1.1p1 -- the first section's source -- unchanged */
+
+
+==============================================================================
+2026-09-24, wave 19 (lane ties_d): 0x0202173C / 0x02021848 unchanged, DIFF 33 each
+==============================================================================
+0x0202173C (33, 1.1p1), from the first section's source, all 268/268:
+  `a = a;` as the first statement 33; `a = a;` before the func_020219C4 call
+  33; `a = a;` after `v = keep` 33; `a` passed through a block-local
+  `s32 t = a` at the call 33; the parameter renamed a0 and copied into a
+  function-scope `s32 sa = a0` before `done = 0` 33.
+0x02021848 (33, 1.1p1), twin, 232/232: `a = a;` first 33; `a = a;` before
+  the func_020219C4 call 33.
+  The self-assignment does not reach the [sp,#8] store order.
+/* best source, 268 / 232 bytes against 268 / 232, 33 concrete bytes out each, 1.1p1 -- the first section's source -- unchanged */

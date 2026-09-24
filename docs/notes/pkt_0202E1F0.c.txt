@@ -1075,3 +1075,17 @@ and every callee ws parameter const void * 21; marks zeroed by statements
 408/386; the two o stores through a block-local copy 21. Unchanged 21.
 Also 21: long i, n; unsigned long cnt.
 /* best source, 412 bytes against 412, 21 concrete bytes out, dsi/1.1p1 -O4,p -- the wave-16 source above -- unchanged */
+
+
+==============================================================================
+2026-09-24, wave 19 (lane ties_d): 0x0202E1F0 unchanged, DIFF 21
+==============================================================================
+0x0202E1F0 (21, 1.1p1), from the wave-16 source, all 412/412:
+  `o = o;` before the first call 21; `w = w;` before the first call 21;
+  `o = o;` after the bitfield stores 21; `w = w;` before func_02045808(g) 21;
+  `o = o;` after `o->f04 = 1` 21; `o = o;` before `w = ws` 21; dsi/1.2 with
+  `o = o;` at the head, at the tail and before `w = ws` 21, 21, 21;
+  `void *act = o->actor[i]` before the p0 call 75; the two bitfield stores
+  through a `struct Flags *` block local 21; cnt declared first 31.
+  The self-assignment lever does not move the o/w pair at any boundary.
+/* best source, 412 bytes against 412, 21 concrete bytes out, dsi/1.1p1 -O4,p -- the wave-16 source above -- unchanged */

@@ -179,3 +179,120 @@ win->x / y = win->y locals and s8 sx/ow/sy/oh 236/192, with s32 sx/sy
 232/197; the clip as a static inline over (win, x, y) called with win->x /
 win->y 232/204. Unchanged 176.
 /* best source: unchanged, the first section's source */
+
+
+==============================================================================
+2026-09-24, wave 19 (lane ties_d): 0x0202CC70 236/176 -> 240/174, y copies reproduced
+==============================================================================
+0x0202CC70 (176, 1.1p1), measured from the first section's source:
+  y spelled through sy and a copy (`sy = win->y; ... y = sy; y1 = y + win->h;`,
+  y used in `ymin - y`) 236/178 (copy propagated away); the y clip with the
+  oh update before `sy = win->ymin` 236/185;
+  w and h NAMED s32 locals (`w = win->w; x1 = win->x + w;` above the x1 guard,
+  `h = win->h; sy = win->y; y1 = sy + h;` above the y1 guard, `ow = w`,
+  `oh = h`) 240/177: this reproduces the image's three live copies of y
+  (spill slot, second slot, r5 copy feeding y1), the tell no earlier
+  spelling produced;
+  w, h declared first 240/174 (best); `s32 h, w` 240/177; u32 w, h 240/177;
+  `s32 h, w` declared first 240/174; the y clip testing `sy < win->ymin`
+  240/174; sx declared after x1/y1 240/174; x1, y1 declared first 240/174;
+  sx assigned before x1 and x1 = sx + w 240/174; x1 = w + win->x 240/174.
+  permuter.py anneal 1000 --types seed 2402 (from the 236 source): 244/244 at
+  121 out through ow as u16, sx as s8, a goto-ret and three temps; frame
+  push {r3-r7,lr} / sub sp,#0x28 against the image's push {r4-r7,lr} /
+  sub sp,#0x24, so not structurally closer; discarded.
+  Remaining 4 bytes: the image spills sx to sp+0x20 (`str r0` = x after the
+  y1 guard, `str r7` = xmin in the clip, `ldr r2` at the call); the 240
+  compile keeps sx in a register (`adds r2, r6, #0`). The image also loads
+  xmin after x1 = x + w, the compile before extracting w.
+
+/* best source, 240 bytes against 244, 174 concrete bytes out, 1.1p1 */
+/*
+ * symbols:
+ *   func_02041300 0x02041300 arm
+ *   g_020A0058    0x020A0058 data
+ */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed char    s8;
+typedef signed int     s32;
+
+struct Win {
+    u32 tiles;
+    u16 w:6;
+    u16 h:6;
+    u16 dirty:1;
+    u16 unk04_13:3;
+    s8 x;
+    s8 y;
+    u8 pad_08[2];
+    u8 bg;
+    u8 pad_0b;
+    s8 xmin;
+    s8 xmax;
+    s8 ymin;
+    s8 ymax;
+};
+
+struct WinMgr {
+    struct Win *wins;
+    u16 pad_04;
+    u16 mode:15;
+    u16 unk06_15:1;
+};
+
+extern void func_02041300(u32 index, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5,
+                          u32 a6);
+extern void (*g_020A0058[])(u32);
+
+void func_0202CC70(struct WinMgr *mgr, u32 idx)
+{
+    struct Win *win = &mgr->wins[idx];
+    s32 w, h;
+    s32 sx, sy;
+    s8 ow, oh;
+    s32 x1, y1;
+
+    win->dirty = 1;
+    if (win->x >= win->xmax) {
+        return;
+    }
+    if (win->y >= win->ymax) {
+        return;
+    }
+    w = win->w;
+    x1 = win->x + w;
+    if (x1 < win->xmin) {
+        return;
+    }
+    h = win->h;
+    sy = win->y;
+    y1 = sy + h;
+    if (y1 < win->ymin) {
+        return;
+    }
+
+    ow = w;
+    sx = win->x;
+    if (win->x < win->xmin) {
+        ow = ow - (s8)(win->xmin - win->x);
+        sx = win->xmin;
+    }
+    if (x1 >= win->xmax) {
+        ow = ow - (s8)(x1 - win->xmax);
+    }
+
+    oh = h;
+    if (win->y < win->ymin) {
+        sy = win->ymin;
+        oh = oh - (s8)(win->ymin - win->y);
+    }
+    if (y1 >= win->ymax) {
+        oh = oh - (s8)(y1 - win->ymax);
+    }
+
+    func_02041300(win->bg, 0, (u8)sx, (u8)sy, (u8)ow, (u8)oh, 0x10);
+    g_020A0058[mgr->mode](win->bg);
+}
+re-verified 2026-09-24 by tools/match.py: DIFF, 240 bytes against 244, 174 concrete bytes out, 1.1p1

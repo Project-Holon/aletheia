@@ -162,3 +162,16 @@ Measured once each from the wave 16 source: reproduced (72 / 43); arms
 swapped (`*count <= 1` first, 72 / 55); the dead `handle` parameter reused
 as the zero for both the store and the argument (72 / 43). The zero is
 still built in r2 and copied to r1. Best source unchanged.
+
+
+==============================================================================
+2026-09-24, wave 19 (lane ties_d): 0x0209D7D4 unchanged, DIFF 43
+==============================================================================
+0x0209D7D4 (43, 1.1p1), from the wave-16 source, all 72 against 68 (+8
+  follower) unless noted:
+  `buffer = buffer;` before the func_0209D778 call 43; a `u8 z = 0` local
+  stored and passed 43; an `int z; z = 0; z = z;` local stored and passed 43;
+  the store as `buffer[*count - 1] = 0` 76/44; the second callee parameter as
+  `void *` passed `(void *)0` 43.
+  The zero is still built in r2 before `mov r0, r1` and copied to r1.
+/* best source, 72 bytes against 68 (+8 follower), 43 concrete bytes out, 1.1p1 -- the wave-16 source above -- unchanged */

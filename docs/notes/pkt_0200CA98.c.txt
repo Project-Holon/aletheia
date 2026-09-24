@@ -390,3 +390,16 @@ table element pointer for the key compare only 147, for all three reads 388;
 dsi/1.2 147. Unchanged 147.
 Also 147 (j 152): unsigned long acc / i / j / cnt singly and together, unsigned long id / sel / all four u32 parameters, long y, off.
 /* best source, 392 bytes against 392, 147 concrete bytes out, 1.1p1 -- the wave-13 source above -- unchanged */
+
+
+==============================================================================
+2026-09-24, wave 19 (lane ties_d): func_0200CA98 unchanged, DIFF 147
+==============================================================================
+0x0200CA98 (147, 1.1p1), from the wave-13 source, all 392/392 unless noted:
+  the sel tail as a switch (case 0, case 1, default) 396/251; `acc = acc;`
+  after `acc = 0` 147; `id = id;` before the y computation 147; the form-loop
+  offset written inline `q += x >> 3` at both rows (no o) 147; u16 id with i
+  declared before acc 147; one function-scope `u8 *q` for both loops 147;
+  x and o declared then assigned as statements 147.
+  permuter.py anneal 1000 --types seed 2401: flat at 147.
+/* best source, 392 bytes against 392, 147 concrete bytes out, 1.1p1 -- the wave-13 source above -- unchanged */

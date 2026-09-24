@@ -336,3 +336,18 @@ a u8 copy of the stack parameter c at the top (58); u32 c (65); dsi/1.2 (58).
 The image hoists all three table loads above the f06/f09 stores and keeps
 the constant 1 in r5 for both shifts; the compile interleaves them.
 /* best source, 144 bytes against 144, 58 concrete bytes out, 1.1p1 -- the wave 12 source above, unchanged */
+
+
+==============================================================================
+2026-09-24, wave 19 (lane ties_d): 0x0204EEC8 unchanged, DIFF 58
+==============================================================================
+0x0204EEC8 (58, 1.1p1), from the wave-12 source, all 144/144, 5 of 5
+  relocations resolved:
+  no sb/st locals (every use spelled from fmt) 60; the f06 value and the three
+  table words in block locals before the f06..f1c stores 58; `s32 m = fmt &
+  0x70; s32 sb = m >> 4;` 58; st declared before sb 62; `struct Cell *const
+  dst` 58; a `static inline u16 texSize(s32 n)` for both shifts 58; Pair8
+  element pointers ps/pt computed once 58; the f04/f06/f14/f18/f1c block as a
+  static inline setTex(dst, idx, fmt) 58; the f09 store moved after f1c 58.
+  The schedule does not follow the source order of these stores or loads.
+/* best source, 144 bytes against 144, 58 concrete bytes out, 1.1p1 -- the wave 12 source above, unchanged */

@@ -694,3 +694,18 @@ arms swapped (!= 0xff first) 35; texResIdx arms swapped (== first) 95;
 AnmSetup element pointer `as = &os->anmTbl[j]` 35; the three unit reads
 through (&util->unit[unitIdx])-> 14; dsi/1.2 14 (same pair). Unchanged 14.
 /* best source, 468 bytes against 468, 14 concrete bytes out, dsi/1.1p1 -- the wave-16 long source above -- unchanged */
+
+
+==============================================================================
+2026-09-24, wave 19 (lane ties_d): 0x02048744 unchanged, DIFF 14
+==============================================================================
+0x02048744 (14, 1.1p1), from the wave-16 long source, all 468/468:
+  `resIdx = resIdx;` before the loop 14; `i = i;` at the head of the body 14;
+  `resIdx = resIdx;` after func_020307B0 14; `resIdx = resIdx;` before `os =` 14;
+  `i = i;` after func_020307B0 14; `resIdx = resIdx;` inside the anm loop 14;
+  `objCount = objCount;` before the loop 14; `i = i; resIdx = resIdx;` at the
+  tail 14; `long i = 0` declared first, `for (; i < ...)` 58; `register long i, j` 14;
+  `i < (long)objCount` 14; `i = i;` after func_02047400 14.
+  The no-code self-assignment does not reach this pair: resIdx is loaded once
+  before the loop and i is a loop counter, and no position moves the colouring.
+/* best source, 468 bytes against 468, 14 concrete bytes out, dsi/1.1p1 -- the wave-16 long source above -- unchanged */
