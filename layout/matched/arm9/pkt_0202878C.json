@@ -42,7 +42,12 @@
    "status": "EXACT",
    "functions": [
     "func_0202889C"
-   ]
+   ],
+   "evidence": {
+    "sole-ref": [
+     "code:0x02029F44"
+    ]
+   }
   },
   {
    "name": "func_020288C4",
@@ -114,7 +119,12 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x02028E0C"
+    ]
+   }
   },
   {
    "name": "unit_02028A50",
@@ -132,7 +142,15 @@
     "func_02028A58",
     "func_02028A64",
     "func_02028A70"
-   ]
+   ],
+   "evidence": {
+    "sole-ref": [
+     "code:0x02028794",
+     "code:0x02028D2C",
+     "code:0x02029F54",
+     "code:0x02029F60"
+    ]
+   }
   },
   {
    "name": "func_02028A7C",

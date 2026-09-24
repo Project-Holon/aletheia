@@ -21,7 +21,14 @@
     "func_02041F28",
     "func_02041F6C",
     "func_02041FB0"
-   ]
+   ],
+   "evidence": {
+    "sole-ref": [
+     "code:0x02043228",
+     "code:0x02043264",
+     "code:0x020432E4"
+    ]
+   }
   },
   {
    "name": "sub_020422D4",

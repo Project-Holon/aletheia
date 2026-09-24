@@ -19,7 +19,17 @@
    "status": "EXACT",
    "functions": [
     "func_02017214"
-   ]
+   ],
+   "evidence": {
+    "sole-ref": [
+     "code:0x0202D5F8",
+     "code:0x0202D640",
+     "code:0x0202D664",
+     "code:0x0202D688",
+     "code:0x0202D6AC",
+     "code:0x0202D6D0"
+    ]
+   }
   }
  ]
 }

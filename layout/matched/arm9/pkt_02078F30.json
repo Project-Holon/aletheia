@@ -18,6 +18,9 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "evidence": {
+    "sole-ref": [
+     "code:0x0209125C"
+    ],
     "sdk": [
      "0x0208139C",
      "0x020816FC"

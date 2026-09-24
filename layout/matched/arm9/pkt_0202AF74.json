@@ -16,7 +16,14 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x0202AFAC",
+     "code:0x0202AFFC",
+     "code:0x0202B04C"
+    ]
+   }
   },
   {
    "name": "func_0202B0A4",

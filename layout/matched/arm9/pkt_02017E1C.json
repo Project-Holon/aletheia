@@ -19,7 +19,12 @@
    "status": "EXACT",
    "functions": [
     "func_02017E1C"
-   ]
+   ],
+   "evidence": {
+    "sole-ref": [
+     "code:0x02018DB4"
+    ]
+   }
   },
   {
    "name": "unit_02017E40",
@@ -34,7 +39,12 @@
    "status": "EXACT",
    "functions": [
     "func_02017E40"
-   ]
+   ],
+   "evidence": {
+    "sole-ref": [
+     "code:0x02019308"
+    ]
+   }
   }
  ]
 }

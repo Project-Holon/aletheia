@@ -16,7 +16,12 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT*",
+   "evidence": {
+    "sole-ref": [
+     "code:0x0201B220"
+    ]
+   }
   },
   {
    "name": "unit_0201B100",
@@ -66,6 +71,8 @@
    "status": "EXACT*",
    "evidence": {
     "sole-ref": [
+     "code:0x0201B764",
+     "code:0x0201B774",
      "data:0x020A7330",
      "self:0x020A7320",
      "self:0x020A7322",

@@ -28,7 +28,12 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x0206EE60"
+    ]
+   }
   },
   {
    "name": "func_0206EBB8",
@@ -79,7 +84,15 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "code:0x0206F4C8"
+     "code:0x0206EBB8",
+     "code:0x0206EC50",
+     "code:0x0206ECE0",
+     "code:0x0206F214",
+     "code:0x0206F36C",
+     "code:0x0206F4C8",
+     "code:0x0206F6B0",
+     "code:0x0206F844",
+     "code:0x0206FC5C"
     ]
    }
   },
