@@ -639,3 +639,186 @@ written as
     ... base[off] |= (u8)bit; ... base[(u32)off] |= (u8)bit;
 
 re-verified 2026-09-24 by tools/match.py: DIFF, 392 bytes against 392, 114 concrete bytes out, 1.1p1
+
+
+==============================================================================
+2026-09-24, wave 20 (lane musical_4, 20B): func_0200CA98 DIFF 114 -> 89
+==============================================================================
+From v19 (measured here 388/392, 331 out, asm 2060; the wave-19 asm figures
+were on an older scorer). Best source below: 392/392, 89 out, asm 800, no
+u8 cnt, every instruction from +0x00 to +0xBC (walk, form loop, SetBit arms,
+tail head through base) byte-exact.
+
+What moved it (four facts):
+  1. `long o` in the form loop (the long recipe on the offset, not on row1;
+     `unsigned long o` is identical): row1 coalesces with the first p
+     reload (`ldr r3,[sp]; adds r3,r3,r2`), so the second `ldr r4,[sp]`
+     comes back, size 392, x&7 / 0xFF / o take r4. 331 -> 113.
+     Instruction read (direction 4): the extra instruction in v19 was the
+     second p reload, deleted because row1 got its own register and the
+     reload temp survived to row2; so no value has to be live longer, the
+     reload temp must die into row1.
+  2. `j = 0;` as a statement before `cnt = Table[i].unk02;` (the for loop
+     then has an empty init): the pool base goes to r2 and j = 0 is emitted
+     between the pool load and the ldrh, as in the image. 113 -> 108. The
+     form loop is now exact.
+  3. THE CLEAR-LOOP COUNTER IS ZEROED BEFORE y: `i = 0;` as the first tail
+     statement, loop written `for (; i < 4; i++)`. The image's y lives in
+     r4 because k's zero (r3), the 0x6B constant (r1) and the p reload /
+     off (r0, r2) are all live at y's definition before scheduling; the
+     scheduler later sinks `movs r3,#0` to +0xD0, which is why the listing
+     hides it. y then takes r4, y&7 stays in r4, 7 goes to r5. This is the
+     tail's "y kept live" answer: not y, but the counter's zero, must be
+     live across y.
+  4. `long off` (with 3): off is scheduled after base (+0xC2) and the nm
+     chain is hoisted as the image's single `lsls/lsrs #0x18` into r4 with
+     k in r3. Needs the mask written inline in the loop (`*q &= bit ^ 0xFF`,
+     no nm local) or through a reused s32 (`y = bit ^ 0xFF; *q &= y`); a
+     u8 nm local gives k r4 / nm r1 (the wave-19 swap), `y = (u8)(...)`
+     gives two truncation pairs (396).
+
+Residue (89 out): one three-way rotation from +0xBE on. Image: base r1,
+off r0, 0xFF/nm chain r2, loop row r2, sel r2; compiled: base r2, off r1,
+chain r0, row r0, sel r0. The arms follow (image alt r1 in the sel==1 arm
+and r2 in the default arm, so the two `mov rX, lr` differ and stay in their
+blocks; compiled both get r0 and the copy is cross-jumped above the `bne`,
+which is the second instruction v19 was short). off and base are coloured
+after the chain and the arm temps; in the image they are coloured first.
+
+Measurements (25, sweeps counted once), 1.1p1, 392/392 unless noted:
+  from v19: long o 113; unsigned long o 113; long x 331 (388); long m 331
+    (388); row1 as `(u8 *)((unsigned long)p + 0x30E)` 129.
+  from long o: j = 0 before cnt 108 (kept); y declared first 113; `y &= 7;
+    bit = 1 << y` 113; long y 113; long off 111 (before fact 3).
+  from 108: nm into y as `y = (u8)(bit ^ 0xFF)` with `y &= 7` 396/195,
+    without 396/195 (k r3 / nm r4 right, second truncation pair);
+    separate u32 k counter 118; `y = bit ^ 0xFF; *q &= y` 105 (kept);
+    `i = 0` first 103 (kept, y r4).
+  sweep, order of {i = 0, base, y, off, bit} with y before off and bit
+    (40): 102 best (y, off, base, bit, i: order exact but y back in r0),
+    103 x8 (i before y), 105-123 rest.
+  long off on 103: 89 (kept). Then: fresh s32 n for the chain, 120 decl
+    orders of {y, off, bit, base, n}: 89 x60, 103 x60; mask inline
+    `*q &= bit ^ 0xFF` 89 (kept, drops nm); long y 89; unsigned long bit
+    89; off unnamed (`y >> 3` everywhere) 110; long off at each of the
+    9 declaration slots: 89 x8, 103 after base; off computed before base
+    98; inverted sel guard (`if (sel != 0) { if (sel == 1) ... else
+    default } else { sel==0 }`) 151 (blocks reorder); nm local and
+    `(u32)off` cast dropped 89 (kept, cleaner).
+  permuter.py anneal 2000 --types seed 3801 from the best source: rejected.
+    Every accepted candidate has unresolved=1 against the baseline's 2
+    (the mutations, first `expand(i x4)`, merge the two Table literals
+    into one pool entry), and the scorer ranks that above bytes and asm,
+    so the walk climbed to 284 out / asm 6775. Worth an integrator look at
+    permuter.py's ordering when the image itself has two literals.
+
+Register map (image vs best, tail only; everything before +0xBE exact):
+  image: y r4, 0x1AC r1 -> base r1 in place, p r0, 7 r5, off r0, y&7 r4,
+    bit r6, 0xFF r2 -> chain r2, k r3, nm r4, 0x54 r7, row r2, byte r5;
+    arms sel r2, alt r2 (sel==0) / r1 (sel==1) / r2 (default), p r1,
+    const r2, row r3, byte r2.
+  best:  same, except base r2, off r1, chain r0, row r0, sel r0, arms
+    p r0, byte r1/r2, alt r0 in both sel!=0 arms (copy cross-jumped).
+Next: the rotation is off/base colour priority against the short temps.
+Untried: off or base as a function-scope value assigned in the walk's
+exit path; base as `u8 *const`; the arms through a local row pointer per
+arm (`q = p + K; q[off] |= ...`), which may lengthen base's and off's
+competitors instead of their own ranges.
+
+/* best source, 392 bytes against 392, 89 concrete bytes out, 1.1p1 */
+/*
+ * function: func_0200CA98
+ * address:  0x0200CA98
+ * packet:   pkt_0200CA98
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_0200CA98_Table  0x0209DE4C  data
+ */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct FormCount { u16 unk00; u16 unk02; };
+extern const struct FormCount func_0200CA98_Table[];
+
+static inline void SetBit(u8 *row, u16 x)
+{
+    row[x >> 3] |= (u8)(1 << (x & 7));
+}
+
+void func_0200CA98(u8 *p, u32 id, u32 sel, u32 alt, u32 form)
+{
+    u32 acc;
+    u32 i;
+    unsigned long j;
+    u32 cnt;
+    s32 y;
+    long off;
+    u32 bit;
+    u8 *base;
+
+    acc = 0;
+    i = 0;
+    do {
+        if (id == func_0200CA98_Table[i].unk00) {
+            j = 0;
+            cnt = func_0200CA98_Table[i].unk02;
+            for (; j < cnt; j++) {
+                s32 x = (u16)(acc + j);
+                s32 m = (1 << (x & 7)) ^ 0xFF;
+                long o = x >> 3;
+                u8 *q;
+                q = p + 0x30E;
+                q += o;
+                *q &= m;
+                q = p + 0x317;
+                q += o;
+                *q &= m;
+            }
+            if (form >= cnt) {
+                form = 0;
+            }
+            if (alt == 1) {
+                SetBit(p + 0x317, acc + form);
+            } else {
+                SetBit(p + 0x30E, acc + form);
+            }
+            break;
+        }
+        acc += func_0200CA98_Table[i].unk02;
+        i++;
+    } while (func_0200CA98_Table[i].unk00 != 0);
+
+    i = 0;
+    y = (u16)(id - 1);
+    base = p + 0x1AC;
+    off = y >> 3;
+    bit = 1 << (y & 7);
+    for (; i < 4; i++) {
+        u8 *q = base + i * 0x54;
+        q += off;
+        *q &= bit ^ 0xFF;
+    }
+    if (sel == 0) {
+        if (alt == 1) {
+            (p + 0x254)[off] |= (u8)bit;
+        } else {
+            base[off] |= (u8)bit;
+        }
+    } else if (sel == 1) {
+        if (alt == 1) {
+            (p + 0x2A8)[off] |= (u8)bit;
+        } else {
+            (p + 0x200)[off] |= (u8)bit;
+        }
+    } else {
+        if (alt == 1) {
+            (p + 0x254)[off] |= (u8)bit;
+        } else {
+            base[off] |= (u8)bit;
+        }
+    }
+}
