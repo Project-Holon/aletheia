@@ -64,12 +64,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x020933B8"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "func_02093BDC",
@@ -84,10 +79,6 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "code:0x02092C38",
-     "code:0x02092F0C",
-     "code:0x020934CC",
-     "code:0x02094750",
      "self:0x020A8A70",
      "self:0x020A8A74"
     ]

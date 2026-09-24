@@ -19,7 +19,6 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "code:0x02075A2C",
      "self:0x02150178"
     ]
    }
@@ -37,9 +36,6 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "code:0x02075968",
-     "code:0x02075A94",
-     "code:0x02075AB8",
      "self:0x02150190"
     ]
    }

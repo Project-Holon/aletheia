@@ -21,6 +21,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
+#pragma thumb on
 extern void sub_02013E6C(void);
 
 void func_021BD140(void)
