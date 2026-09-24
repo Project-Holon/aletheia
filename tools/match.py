@@ -529,7 +529,10 @@ def target_extent(addr, region):
 #            other class has failed: `sole-ref/data` (an object START in a
 #            data section, alignment satisfied, never an interior address);
 #            `sole-ref/code` (exactly a traced function start, respecting
-#            .thumb_func, or a recognised veneer); `sole-ref/string` (the
+#            .thumb_func, or a recognised veneer; an overlay label in exactly
+#            one overlay of the hinted pool; or, for a `twl`-hinted site, a
+#            func_ label in asm/twl/twl.s, a listing disassembled from the
+#            byte-verified decrypted TWL region); `sole-ref/string` (the
 #            start of a NUL-terminated printable run, even when the preceding
 #            object is a table rather than a string); `sole-ref/self` (the
 #            target is in a data section and the ROM word at the site already
@@ -894,8 +897,11 @@ def twl_window():
     return _TWL["w"]
 
 
+TWL_LISTING = os.path.join(ROOT, "asm", "twl", "twl.s")
+
+
 def twl_listing_files():
-    p = os.path.join(ROOT, "asm", "twl", "twl.s")
+    p = TWL_LISTING
     return [p] if os.path.exists(p) else []
 
 
@@ -920,6 +926,30 @@ def attest_twl_label(addr, kind, lo, hi, region_hint=None):
     if not sites:
         return None
     return "label", len(sites), sites[0]
+
+
+def attest_sole_ref_twl_code(addr, kind, region_hint=None):
+    """`sole-ref/code` for a TWL label.  (class, n, site, "code")/None.
+
+    The overlay rule (attest_sole_ref_overlay_code()) with the twl listing
+    as its only candidate: the site's `symbols:` line carries the `twl`
+    token, the address lies inside the twl window, and asm/twl/twl.s has a
+    `func_` label exactly there with the declared ISA.  That listing is
+    disassembled from the decrypted TWL region, which delink.py writes only
+    after verifying it: the key matches its recorded SHA-1, the decrypted
+    BLZ stream decodes with every byte consumed, and the clear tail agrees
+    byte for byte with the undecrypted file.  No outside
+    branch is required, which is what separates it from attest_twl_label():
+    it is for the callee whose only caller image-wide is the range under
+    test (func_0206DC00's two DSi-only callees).  Without the listing (no
+    key) twl_label() finds nothing and the rule refuses.
+    """
+    if region_hint != TWL_REGION or kind not in ("thumb", "arm"):
+        return None
+    th = twl_label(addr)
+    if th is None or th != (kind == "thumb"):
+        return None
+    return "sole-ref", 1, addr, "code"
 
 
 # ---------------------------------------------------------------------------
@@ -2676,8 +2706,11 @@ def attest_sole_ref(addr, kind, align=None, lo=0, hi=0,
         proof = attest_sole_ref_code(addr, kind)
         if proof is not None:
             return proof
-        return attest_sole_ref_overlay_code(addr, kind, region_hint,
-                                            site_region)
+        proof = attest_sole_ref_overlay_code(addr, kind, region_hint,
+                                             site_region)
+        if proof is not None:
+            return proof
+        return attest_sole_ref_twl_code(addr, kind, region_hint)
     return None
 
 
@@ -4861,6 +4894,10 @@ TWL_FUNC = 0x027300F0
 TWL_CALLER_LO = 0x0206DC00
 TWL_CALLER_HI = 0x0206DDA4
 TWL_ARM9_ADDR = 0x0206DBF4
+# The second DSi-only callee of func_0206DC00 (ARM, `bl` at 0x0206DD40), and
+# the literal-pool word just before TWL_FUNC (not a label).
+TWL_FUNC2 = 0x0272FEF4
+TWL_POOL = 0x027300EC
 OVERLAY_FUNC_REGION = "ov093"
 # A candidate overlay of OVERLAY_FUNC's address window that does NOT label
 # it, for exercising a region_hint that resolves to nothing.
@@ -5706,6 +5743,67 @@ def cmd_selftest(args):
     _check(res, "ov sole-ref/code: the hint resolves that ambiguity",
            cls(attest_sole_ref_overlay_code(OV_CODE_TWICE, "thumb",
                                             "ov010")), "sole-ref")
+
+    # --- sole-ref/code for TWL labels (2026-09-24) -------------------------
+    # func_0206DC00's two DSi-only callees have no caller outside it, so the
+    # `label` rule refuses them and sole-ref/code over asm/twl/twl.s carries
+    # them.  Without a key the rule is exercised on an injected label table.
+    real_twl = bool(twl_listing_files()) and twl_window() is not None
+    saved = (_TWL.get("w"), _FUNC_STARTS.get(TWL_REGION),
+             _REGION_CALLS.get(TWL_REGION), TWL_LISTING)
+    if not real_twl:
+        _TWL["w"] = (0x02700000, 0x02732DA0)
+        _FUNC_STARTS[TWL_REGION] = {TWL_FUNC: False, TWL_FUNC2: False}
+        _REGION_CALLS[TWL_REGION] = defaultdict(list)
+    how = "asm/twl/twl.s" if real_twl else "injected label table, no key"
+    lo, hi = TWL_CALLER_LO, TWL_CALLER_HI
+    try:
+        for a in (TWL_FUNC, TWL_FUNC2):
+            _check(res, "twl sole-ref/code: 0x%08X, called only from inside "
+                        "the compared range, is carried by attest() (%s)"
+                        % (a, how),
+                   (attest(a, "arm", lo, hi, region_hint="twl")
+                    or (None,))[::3], ("sole-ref", "code"))
+        _check(res, "twl sole-ref/code: an interior address (start + 4) is "
+                    "refused (%s)" % how,
+               cls(attest_sole_ref(TWL_FUNC + 4, "arm", lo=lo, hi=hi,
+                                   region_hint="twl")), None)
+        _check(res, "twl sole-ref/code: the pool word before the start is "
+                    "refused (%s)" % how,
+               cls(attest_sole_ref(TWL_POOL, "arm", lo=lo, hi=hi,
+                                   region_hint="twl")), None)
+        _check(res, "twl sole-ref/code: the label's ISA has to be the "
+                    "declared one (%s)" % how,
+               cls(attest_sole_ref(TWL_FUNC, "thumb", lo=lo, hi=hi,
+                                   region_hint="twl")), None)
+        _check(res, "twl sole-ref/code: without the twl token the address "
+                    "is not looked up (%s)" % how,
+               cls(attest_sole_ref(TWL_FUNC, "arm", lo=lo, hi=hi)), None)
+        _check(res, "twl sole-ref/code: an ovNNN hint does not reach the "
+                    "twl listing (%s)" % how,
+               cls(attest_sole_ref(TWL_FUNC, "arm", lo=lo, hi=hi,
+                                   region_hint="ov093")), None)
+        _check(res, "twl sole-ref/code: an ARM9 address is not attested via "
+                    "the twl token",
+               cls(attest_sole_ref_twl_code(TWL_ARM9_ADDR, "arm", "twl")),
+               None)
+        # No key: the listing path names a file that does not exist.
+        _FUNC_STARTS.pop(TWL_REGION, None)
+        globals()["TWL_LISTING"] = os.path.join(ROOT, "asm", "twl",
+                                                "missing_twl.s")
+        _check(res, "twl sole-ref/code: without asm/twl/twl.s (no key) the "
+                    "rule refuses",
+               cls(attest_sole_ref(TWL_FUNC, "arm", lo=lo, hi=hi,
+                                   region_hint="twl")), None)
+    finally:
+        globals()["TWL_LISTING"] = saved[3]
+        for key, val, cache in (("w", saved[0], _TWL),
+                                (TWL_REGION, saved[1], _FUNC_STARTS),
+                                (TWL_REGION, saved[2], _REGION_CALLS)):
+            if val is None:
+                cache.pop(key, None)
+            else:
+                cache[key] = val
 
     # --- sole-ref/data and /self for overlay data (2026-09-23) --------------
     _check(res, "ov sole-ref/data: an overlay pool word outside the range "
