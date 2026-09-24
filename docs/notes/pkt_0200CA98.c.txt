@@ -822,3 +822,74 @@ void func_0200CA98(u8 *p, u32 id, u32 sel, u32 alt, u32 form)
         }
     }
 }
+
+
+==============================================================================
+2026-09-24, wave 20 (lane musical_5, 20I): func_0200CA98 DIFF 89 -> 89
+==============================================================================
+Best source unchanged: the musical_4 block above, re-extracted and
+re-measured here at 392/392, 89 out, +0x00..+0xBC exact. No permuter run
+(its scorer is unusable here, see musical_4).
+
+Register map (unchanged from musical_4): image off r0, base r1, chain r2
+(0xFF/eor/lsl, then loop row, sel, arm temps); compiled chain r0, off r1,
+base r2. Reading of the colouring: under lowest-free assignment the image
+colours off, then base, then the chain family; every source measured here
+colours the chain family FIRST (it takes r0 in all 21 sweeps, including
+variants where off or base moved to another register), so the lever is
+whatever reorders the chain temps against off/base, not off/base against
+each other. The tail loop runs at full Thumb pressure (off, base, bit r6,
+nm r4, 0x54 r7, k r3, row, byte r5 = 8 low registers), so the order is
+set by the optimistic-push heuristic, which no spelling below reached.
+
+Measurements (21, sweeps counted once), 1.1p1, 392/392 unless noted:
+  1. statement order of {base, off, bit} (6) x position of `i = 0;` (5):
+     89 for base,off,bit with i anywhere but last (99 last); off,base,bit
+     96-98; others 105-108.
+  2. integer base (`unsigned long`/u32/long/s32 base = (T)p + 0x1AC, both
+     cast placements): 89 all; `u8 *const base` initialised at decl
+     412/396.
+  3. arms: per-arm row local (`r = p + K; r[off] |=`, and `r += off; *r`)
+     89; OrBit inline helper 89; `*(p + K + off)` 89; alt copied into a
+     local per arm 89; base arms as `(p + 0x1AC)[off]` 408/169.
+  4. chain local n (s32/u32/long/ulong/u8) as `n = bit ^ 0xFF` after bit,
+     or `n = 0xFF` at each of 6 positions with `bit ^ n`: 89 all (constant
+     propagated), u8 n = bit ^ 0xFF 96 (same rotation, k/nm swap).
+  5. separate tail counter k (u32/s32/long/ulong/int/u8/u16), `k = 0;`
+     first, declared last or first: 89-90 / 100-101, u8/u16 396.
+  6. no-code self-assignment (off/base/y/bit/i = itself) at every tail
+     statement boundary and inside the loop (45): 89 all; inert on 1.1p1.
+  7. variable identity: y, off, bit each in a dead variable (id, form,
+     acc, j, cnt) (~80 combos): 89 best (off kept; bit in acc/cnt/j is
+     89), rest 90-361.
+  8. off unnamed (3 spellings) 110 (base r1 right, off r2, chain r0);
+     base unnamed 396-412.
+  9. bit type x y type x mask spelling (`bit ^ 0xFF`, `0xFF ^ bit`, `~bit`,
+     `(u8)~bit`, `(u8)(bit ^ 0xFF)`) (75): 89 best, `~` forms 186-200.
+  10. parameter types of id, sel, alt in {u32, s32, long, ulong} (64):
+     89 all.
+  11. tail as a static inline Tail(p, id, sel, alt) (u32/u16/s32 id, and
+     pre-decremented): 103 (base r1 right, off r2, chain r0), 198, 210.
+  12. arms as base-relative (`(base + 0xA8)[off]` etc., 5 spellings):
+     368/141 (folds to base + imm).
+  13. walk/tail variable sharing: tail q = walk q 89; off = form-loop o
+     106; base = form-loop q 92; both 100; x = y 89. Chain r0 in all.
+  14. 2D rows: `u8 (*base)[0x54]` with `q = base[i]` 89, `base[i][off]`
+     114; struct Row { u8 b[0x54]; } same 89/114; unnamed 2D base / struct
+     member rows 368-420.
+  15. factored arm tail (row chosen per arm, one `r[off] |= bit`): 312/92.
+  16. tail loop form (++i, i != 4, i <= 3, do-while, while, i += 1, q
+     declared at function scope): 89, i <= 3 91.
+  17. off type x base type (6, pointer and integer) x y type (90): 89 for
+     long/ulong off, 110 otherwise.
+  18. p copied into a local pp (tail start, before arms, function start,
+     base too): 89 all (copy propagated).
+  19. mask from y (`(1 << (y & 7)) ^ 0xFF`) 103; `bit = 1; bit <<= y & 7`
+     89; `s = y & 7` local 89; `y &= 7` 89; block-scope s32 nm in the loop
+     89; `if (!sel)` 89; `(u16)(id + 0xFFFF)` 396/175.
+  20. tail counter as a reused variable (j, acc, cnt): 89; form 384/361;
+     id 404/338.
+Untried: which node of the r0 family (chain temps, row, sel reload, arm p
+reloads, alt copies) sets its priority; a source that changes the tail's
+peak pressure below 8 before scheduling (then the order would be forced
+rather than heuristic); the tail loop's alt/sel arms inverted per arm.
