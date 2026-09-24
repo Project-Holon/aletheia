@@ -190,3 +190,17 @@ From the wave-16 source, all 72 against 68 (+8 follower):
   chases the 76-byte extent that includes the follower), rejected.
 The zero is still built in r2 and copied to r1; long does not reach it.
 /* best source, 72 bytes against 68 (+8 follower), 43 concrete bytes out, 1.1p1 -- the wave-16 source above -- unchanged */
+
+
+==============================================================================
+2026-09-24, wave 20 (lane setaside_a): 0x0209D7D4 unchanged, DIFF 43
+==============================================================================
+From the wave-16 source (1.1p1), all 72 against 68 (+8 follower):
+  `s8 c` (with a u8 * end) 43; func_0209D778's second parameter s8 43;
+  the end pointer as an integer `u32 end = (u32)buffer + *count`, byte
+  accesses through `*(u8 *)(end - 1)` 43.
+Reading (scheduler after allocation): the zero and buffer contend for r1.
+The image defines the zero after `mov r0, r1` (buffer dead), so the zero's
+web is coloured r1; every compile defines it while buffer is still live in
+r1 and takes r2. No spelling moves the definition after the argument move.
+/* best source, 72 bytes against 68 (+8 follower), 43 concrete bytes out, 1.1p1 -- the wave-16 source above -- unchanged */

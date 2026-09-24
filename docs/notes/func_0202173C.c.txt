@@ -484,3 +484,24 @@ From the first section's source. 0x0202173C, 268/268 unless noted:
 The [sp,#8] home-store position is not a colouring decision and long does
 not reach it.
 /* best source, 268 / 232 bytes against 268 / 232, 33 concrete bytes out each, 1.1p1 -- the first section's source -- unchanged */
+
+
+==============================================================================
+2026-09-24, wave 20 (lane setaside_a): 0x0202173C / 0x02021848 unchanged, DIFF 33 each
+==============================================================================
+From the first section's source (1.1p1). There are no s8 fields in the
+palanm.h structs this pair touches (the s8-local lever has nothing to hold);
+the only 0/1 local is done:
+  twin 0x02021848, 232/232: `signed char done` 33; `short done` 33;
+  `unsigned short done` 33; inverted guard `if (done != 1) return done;`
+  then the tail 244/135; the same returning 0 / 1 244/135; `done = 1`
+  moved to the head of the channel body (separate done from the i * 0x14
+  temporary that shares r6) 33; the channel slot addresses as integers
+  `(void *)((u32)p + i * 0x14 [+ 0xc])` 33.
+  0x0202173C, 268/268: `signed char done` 33.
+Reading (scheduler after allocation): r0 carries p in and is reused for
+every stack-parameter reload, so `adds r5, r0` is on the critical path and
+the free `str r3, [sp, #8]` is a filler; in the image the store leads,
+which needs the store ordered before the [sp,#0x38] loads (a memory
+dependence), not a register one. No spelling in this lane creates it.
+/* best source, 268 / 232 bytes against 268 / 232, 33 concrete bytes out each, 1.1p1 -- the first section's source -- unchanged */

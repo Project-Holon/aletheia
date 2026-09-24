@@ -20,12 +20,7 @@
    "functions": [
     "func_0200B67C",
     "func_0200B6E0"
-   ],
-   "evidence": {
-    "sole-ref": [
-     "code:0x0200B7D8"
-    ]
-   }
+   ]
   },
   {
    "name": "unit_0200B784",

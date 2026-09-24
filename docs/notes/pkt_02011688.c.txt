@@ -468,3 +468,15 @@ coalesces with r1 in every form that multiplies into a copy. The 52/27 ret
 variants only differ from 50/14 by where `ret = 0` lands relative to the
 call. Lever exhausted here.
 /* best source, 50 bytes against 56, 14 concrete bytes out, 1.1p1 -- the big_three source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 20 (lane setaside_a): EXACT*, filed src/matched/func_02011688.c
+==============================================================================
+Two-return form with `idx %= n;` (the parameter homing of wave 10) plus the
+table base as an integer, `u32 base = (u32)p->f1c; off = idx * 12;` first
+field at base + off, then `base += off` for +4 / +8: 54 code bytes, every
+byte exact; the listing's 56 includes the 2-byte pad, so EXACT*.
+Measured (1.1p1): that form 54 EXACT*; the named `i = idx % n` with the
+integer base 52/31; the idx %= form with `u8 *base` 50/25 (the integer type
+is load-bearing). manifest --verify --shard pkt_02011688 twice (second pass
+rewrote nothing). Idiom: docs/idioms/an-integer-table-base-multiplies-into-a-copy-of-the-index.md.

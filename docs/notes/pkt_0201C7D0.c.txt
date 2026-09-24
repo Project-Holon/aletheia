@@ -468,3 +468,15 @@ Reading: 1.1p1 removes the self-assignments and dead inits before
 scheduling, and a copied or renamed z is coalesced back; the early `str
 r4, [sp]` and the cached address in r4 do not move.  Cap reached.
 /* best source, 56 bytes against 56, 2 concrete bytes out, ../2.0/sp2 -- the wave 11 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 20 (lane setaside_b): 37 (1.1p1) -> 0, EXACT under 1.1p1
+==============================================================================
+The region-symbol lever (the address as a u32 local): `u32 base = (u32)
+&g_0214655C;` after the first call, `(struct Scratch *)base` at all three
+sites.  1.1p1 then reloads the one pool word at every site, z keeps r4 and
+its stack store lands last, and the stacked u16 read keeps the 1.1p1 base:
+EXACT, 56 bytes.  Control: the inline cast at one site only (37).  Filed as
+src/matched/func_0201C7D0.c (1.1p1, no pin); manifest verified twice.
+Idiom: docs/idioms/an-address-held-in-a-u32-local-is-reloaded-at-every-site.md.
+The same spelling makes func_0201C7A4 EXACT under 1.1p1 (its sp2 pin can go).

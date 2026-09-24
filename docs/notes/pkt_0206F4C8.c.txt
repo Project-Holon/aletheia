@@ -1130,3 +1130,28 @@ Image `adds r5, r6, r5` (key b as Rn), compile `adds r5, r5, r6`.
 Every commuted spelling canonicalises to the same operand order, so source
 operand order is not the lever. Permuter not run (nothing moved).
 /* best source, 488 bytes against 488, 2 concrete bytes out, ../2.0/sp2p2, no volatile -- the wave-19 nns_small_2 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 20 (lane setaside_b): 0x0206F4C8 unchanged at 2
+==============================================================================
+Under ../2.0/sp2p2 from the no-volatile wave-19 source (488/2), the
+post-2026-09-24 levers on the s32 x blend, measured once each:
+  1  b read before a (`b = [j].x; a = [i0].x;`): 2
+  2  inverted guard, the V2i (s32) arm first under `if (!(f & 0x20000000))`
+     with the V2s arm after it: 142 (the blocks follow source order)
+  3  a as a block-local `long long A = [i0].x`, `(A * 3 + b)`: 5 (the
+     operand order is still b first, and a moves to lr)
+  4  b as a block-local `long long B`: 2
+  5  named product with b read first, `w3 = (long long)a * 3; (w3 + b)`: 27
+     (the operand order is RIGHT, product lo first, but a sign-extends in
+     place in r4, b lands in lr, and the sum's high word takes a new r4)
+  6  `+ (unsigned long long)(long long)b`: 2
+  7  `w3 = (long long)a * 3; w3 = w3 + [j].x; out[0] = (int)(w3 >> 2)`: 25
+  8  `w3 = (long long)a * 3 + [j].x; out[0] = (int)(w3 >> 2)`: 27
+Reading (scheduler-after-allocation): the unnamed sum colours right (a and b
+share r6, the sign in lr, the sum in place in r5/r4) and only the adds
+operand order is off; every spelling that fixes the operand order names the
+product, and the named product is a separate 64-bit web whose sum is not
+formed in place, so a and b stop sharing r6.  The two traits come from two
+different IR shapes; no spelling here gives both.  Cap reached, no permuter.
+/* best source, 488 bytes against 488, 2 concrete bytes out, ../2.0/sp2p2, no volatile -- the wave-19 nns_small_2 source above, unchanged */

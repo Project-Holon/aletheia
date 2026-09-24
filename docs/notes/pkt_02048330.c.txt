@@ -732,3 +732,17 @@ wave-16 long source, all 468/468 unless noted:
     unsigned-long-resIdx source: 25.
 The resIdx/i pair does not move under any long placement or any order.
 /* best source, 468 bytes against 468, 14 concrete bytes out, dsi/1.1p1 -- the wave-16 long source above -- unchanged */
+
+
+==============================================================================
+2026-09-24, wave 20 (lane setaside_a): 0x02048744 unchanged, DIFF 14
+==============================================================================
+From the wave-16 long source (1.1p1):
+  guarded do-while (`if (objCount > 0) { i = 0; do {...} while (++i <
+  objCount); }`) 468/32 (addeq/popeq, same resIdx/i pair); inverted early
+  `if (objCount == 0) return;` before the for 484/395; `short i` 476/63;
+  the masked heap id as a u32 local `hid` before the loop 472/390; the
+  getRes/useRes table read through an integer base
+  `*(void **)((u32)util->res + (resIdx + idx) * 4)` 472/324.
+The resIdx (image r7) / i (image sb) pair did not move under any of them.
+/* best source, 468 bytes against 468, 14 concrete bytes out, dsi/1.1p1 -- the wave-16 long source above -- unchanged */

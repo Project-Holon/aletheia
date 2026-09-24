@@ -19,9 +19,6 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "code:0x02005B6C",
-     "code:0x02005B74",
-     "code:0x02073FB8",
      "self:0x020AA2BC"
     ]
    }
@@ -39,8 +36,6 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "code:0x02005F5C",
-     "code:0x02006118",
      "code:0x02074A54"
     ]
    }
@@ -58,9 +53,6 @@
    "status": "EXACT*",
    "evidence": {
     "sole-ref": [
-     "code:0x02072758",
-     "code:0x020727B4",
-     "code:0x02073108",
      "self:0x020AA414"
     ]
    }
@@ -75,12 +67,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x02072794"
-    ]
-   }
+   "status": "EXACT"
   }
  ]
 }

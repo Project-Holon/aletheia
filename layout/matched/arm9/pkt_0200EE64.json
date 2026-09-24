@@ -16,13 +16,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x0200EED8",
-     "code:0x0200F0CC"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "sub_0200EEAC",
@@ -34,13 +28,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT*",
-   "evidence": {
-    "sole-ref": [
-     "code:0x0200EF78",
-     "code:0x0200F104"
-    ]
-   }
+   "status": "EXACT*"
   },
   {
    "name": "sub_0200EED8",
