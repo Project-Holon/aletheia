@@ -422,3 +422,21 @@ rebase def both reach the loop top), so an earlier def cannot move it; hi
 is still coloured first (r4) and m takes r6.  Each dead def is removed
 before colouring.  Cap reached.
 /* best source, 154 bytes against 156, 15 concrete bytes out, dsi/1.1p1 -- the wave 15 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 20 (lane setaside_b): 15 holds
+==============================================================================
+From the wave 15 source (1.1p1), the post-2026-09-24 levers:
+  1  a block-scope copy `struct CMap *mm = m;` at the top of case 2, mm in
+     the search: 154/15 (the copy is coalesced back into m)
+  2  missing return: the chain's `else return 0;` as `else break;` with no
+     return after the loop: 152/19 (the `movs r0, #0` goes, the m/hi
+     rotation stays: m r6, hi r4); the image has the explicit zero
+Not applicable: the inverted guard (the chain step already has the
+image's inverted shape; the inverted range test was 127), the doubled
+loop guard (the image tests `hi` once, `subs; bmi`), the region cast, the
+constant compared from a register (every compare is an immediate), the
+s8 reload (nothing is spilled).  Contenders under the scheduler-after-
+allocation reading: m and hi for r4, with the loaded pNext non-interfering
+with either and taking whichever wins; no spelling separates them further.
+/* best source, 154 bytes against 156, 15 concrete bytes out, dsi/1.1p1 -- the wave 15 source above, unchanged */

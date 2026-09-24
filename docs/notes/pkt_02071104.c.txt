@@ -578,3 +578,25 @@ ip, lr, r3); every transT-first spelling is the known 6. Splitting the value
 across helpers or copies does not separate the two uses: the copies are
 propagated back into one web. Permuter not run (nothing moved).
 /* best source, 124 bytes against 124, 6 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 20 (lane setaside_b): 0x02071104 unchanged, DIFF 6
+==============================================================================
+Under ../2.0/sp2.  The scaleT-first product `(s64)anm->scaleT * anm->transT`
+(18) is the image's operand order (smull lr, ip, r4, ip: Rm = scaleT) and
+the image's scaleT register; only transT / the shift / the smull low word
+rotate (image ip / r3 / lr, compile r3 / lr / ip), and the negation lands in
+place on the shift (lr) where the image puts it in scaleT's dead r4 while
+origHeight takes lr.  Measured once each from the scaleT-first form:
+  1  `(fx32)((u32)0 - (u32)(scaleT << 1)) + 0x2000`: 18
+  2  scaleT as a block u32 local st (region-cast lever), product
+     `(s64)(fx32)st * transT`, shift `-(st << 1)`: 18
+  3  the same with `(s64)transT * (fx32)st`: 6
+  4  origHeight through a block u16 local h: 18
+  5  the 0x2000 term written `(term) * origHeight`: 19 (the mul operands
+     swap; the image multiplies origHeight first)
+  6  permuter anneal 800 --types --arm, seed 4502, from the scaleT-first
+     form: best 6 (it walks back to the transT-first product)
+Missing return, inverted guard, doubled guard, s8 reload and constant from
+a register do not apply (no branches, no spills, no compares).
+/* best source, 124 bytes against 124, 6 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */

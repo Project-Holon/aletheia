@@ -287,3 +287,23 @@ value, not an argument):
 Nothing reorders the two moves; only the whole-struct volatile (wave 16) does.
 Permuter not run (nothing moved).
 /* best source, 96 bytes against 96, 6 concrete bytes out, dsi/1.1p1 -- the wave 17 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 20 (lane setaside_b): 6 holds
+==============================================================================
+From the wave 17 source (1.1p1), measured once each:
+  1  `signed char have` (s8 narrow local of the s8 field): 112/94
+  2  `u8 held` (narrow local of the u8 field): 96/7 (the ge-arm shift
+     becomes asr, held is promoted signed; the move pair is unchanged)
+  3  both: 112/94
+  4  `u32 shortfall`: 6
+  5  the refill through a block `u8 *p` with the cur store first: 6
+  6  permuter anneal 800 --types --arm, seed 4503: best 6
+Scheduler-after-allocation reading: the pair is two independent moves both
+ready after `ldrb r3, [r2]` (r2 holds cur and then the 8; r1 holds cur + 1
+and then the argument), so neither register contention orders them; the
+order is the scheduler's tie-break, which only the whole-struct volatile
+(wave 16) has moved.  Inverted guard (already inverted), missing return,
+doubled guard and region cast do not apply; the 8 as a variable was
+measured in wave 19 (6).
+/* best source, 96 bytes against 96, 6 concrete bytes out, dsi/1.1p1 -- the wave 17 source above, unchanged */

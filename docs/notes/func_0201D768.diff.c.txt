@@ -462,3 +462,27 @@ compile still keeps total in r7 and spills the loaded head to [sp,#4].  The
 dead init that does survive (1, 3) only reorders the entry block (65).
 Cap reached; no permuter this pass.
 /* best source, 92 bytes against 92, 63 concrete bytes out, 1.1p1 -- the wave 19 printsys_3 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 20 (lane setaside_b): 63 holds
+==============================================================================
+From the printsys_3 63 source (1.1p1), the post-2026-09-24 levers:
+  1  inverted wrap guard `if (head < p[2]) { } else head = 0;`   92/63
+     (normalised back to the same compare)
+  2  inverted guard with a store in each arm (`if (head < p[2])
+     p[0] = head; else p[0] = 0;`)                                96/81
+  3  doubled entry guard `if (total < len) while (total < len)`   94/77
+  4  permuter anneal 800 --types, seed 4501: best 63 (92)
+Not applicable: missing return (the pointer is returned), region cast,
+constant compared from a register (no mov/cmp pair), the s8 reload (every
+local already narrow; u8 total recorded at 68 earlier).
+Scheduler-after-allocation reading: the contenders are the loaded-head web
+and total's web for the last callee-saved register (r4 in the image, r7 in
+the compile).  The loaded head and the incremented head are disjoint webs
+in every spelling (the ldrh def reaches only the call argument and the add;
+the narrowed def and the zero reach the compare and the store), so the
+image's r4 for both is two webs coloured alike, not one web.  total's web
+spans the whole loop with an entry def, so its spill cost is at least the
+loaded head's; the image's choice of spilling total is the tie-break, and
+no spelling measured reaches it.
+/* best source, 92 bytes against 92, 63 concrete bytes out, 1.1p1 -- the wave 19 printsys_3 source above, unchanged */
