@@ -1,0 +1,9 @@
+
+## Lane O17 -- DIFF residue, not a committed source
+
+func_021BC52C 0x021BC52C (22 B, thumb) -- byte copy, and func_021BC544 0x021BC544 (22 B, thumb) -- byte fill
+func_021BC52C tried:  u32 i = 0; if (n <= 0) return; do { dst[i] = src[i]; i++; } while (i < n);
+The original is a rotated loop with a `bls` guard (unsigned <=), a byte-indexed body and a `blo` back edge, exactly the
+shape above -- but the residue is in the guard/branch polarity, not the body.  Both are single-function candidates for the
+next lane: the loop skeleton is certain, only the guard form is unresolved.
+

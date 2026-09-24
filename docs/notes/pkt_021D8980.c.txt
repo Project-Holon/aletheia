@@ -1,0 +1,88 @@
+Lane O21: overlay ov119, small-function strata
+==============================================
+
+26 functions filed EXACT (10 of them EXACT*), 746 instruction bytes, in shard
+ov119/pkt_021D8980.json.  Three DIFFs parked, residue below.
+
+What ov119 is
+-------------
+TwlDWC (Nintendo Wi-Fi Connection) plus TwlSDK/TwlSystem.  layout/symbols_sdk.txt
+carries only three named entries (DWCi_EncSessionGetAsync at 0x021D90AC,
+DWCi_EncSessionGetReuseHashAsync at 0x021D90C0, FSi_ConvertStringSjisToUnicode at
+0x021E36C8).  Literal ASCII in the data half names the sources: pokemontrade_3d.c,
+pokemontrade_neg.c, pokemontrade_mcs.c, pokemontrade_sav.c, pokemontrade_2d.c.
+
+The lever that carried this lane
+--------------------------------
+A bl whose target is another ov119 function has no witness from the listing
+alone: the only site that branches to it is the call inside the function under
+test, and `label` refuses a site inside the compared range.  Putting the callee
+on the source's own `symbols:` line with the `ov119` region token supplies the
+witness.  Every function filed here above two bytes needed at least one such
+declaration; six of them needed four.  This is OV-BRIEF rule 1 and it is the
+whole reason this lane moved at all.
+
+Shapes that closed in one compile
+---------------------------------
+- `void f(void) {}` for a bare `bx lr` stub (2 bytes).
+- `if (func_021D8AA8(p)) for (i = 0; i < N; i++) func_X(p, i[, a]);`
+  func_021D8AA8 is the state predicate over `*(u32*)((char*)p + 0x118c)`; it has
+  38 callers in this overlay and a large share of them are this shape with
+  different N and different callee.  Good pattern-generate target.
+- Arg-count forwarders where the prologue reads `[sp, #0x10]` or `[sp, #0x14]`
+  and re-stores it: a fifth or sixth argument.  func_021D90AC/C0/D4 are the same
+  body with the sixth argument 0/1/2; func_021E36C8 is a plain 5-arg forward.
+- Two temporaries then a five-argument call: func_021DCA84 (last arg 2) and
+  func_021DCAAC (last arg 0) are the same body with one immediate changed.
+- `((unsigned char *)p)[0x11e4 + i]` rather than a hoisted `q = p + 0x11e4`:
+  the image addresses it base (p+i) plus constant offset, and a hoisted pointer
+  moves the register allocation.
+
+Parked, with residue
+--------------------
+0x021DB4B4  10 bytes, src/pending/func_021DB4B4.c, DIFF.
+  The image makes TWO separate blx calls to the ARM helper at 0x0209C0A4 and
+  materialises `a - 2` once in r5, reused by both calls.  Ours splits `(a-2)`
+  into two divisions that the compiler merges into one helper call, or, when
+  written as two statements, emits Thumb `bl` instead of ARM `blx`.  Note the
+  second call's r1 is the remainder of the same divide, so the reference source
+  is two calls to the same divmod helper, not a `/` and a `%` in the ideal
+  form.  Every attempt produced the right instruction count with the wrong
+  call ISA.  Blocking site: the ISA/attestation of 0x0209C0A4 (`_s32_div_f`,
+  declared arm in src/matched/func_0200E27C.c) from this source.
+
+0x021D8E24  26 bytes, src/pending/func_021D8E24.c, DIFF.
+  Block order (OV-BRIEF rule 6).  The image falls through into the grid path
+  `p + 0x11fc + (b + a*0x1e + 6)*4` and branches out to the six-entry table
+  path `p + 0x11fc + b*4`; the if/if/if spelling that reproduces the tests
+  produces the two tails in the opposite order.
+
+0x021D8DD0  26 bytes, src/pending/func_021D8DD0.c, DIFF.
+  Rewriting it as a positive test (two compares then the grid path) is what
+  removed the ordering residue at 0x021D8E24, which is the same function one
+  contract smaller; this one keeps a residue in the tail, where the image does
+  `bl 0x0201AB28` then `bl 0x020185F4` and returns the second result.
+
+Classes that blocked whole batches
+---------------------------------
+- Functions guarded by `func_021D8AA8` whose body is one call (func_021DF7F0,
+  func_021D94D4, func_021D9610) need the callee's arity, and the callees are
+  TwlDWC internals with no symbol table entry; the argument setup at the call
+  site is the only evidence, so each one is a fresh inference rather than a
+  pattern.  func_021D94D4 in particular calls 0x02017E1C with a different
+  immediate per branch and then 0x0201AC80, and its return value comes from
+  comparing two of those results.
+- The 0x021E0000..0x021E3000 band is mostly a jump-table dispatcher
+  (func_021E049C is 1100 bytes of it), not the small leaves this lane wanted.
+- Nothing in this overlay is a NitroSDK middleware shape; the TwlDWC code does
+  not read like OAM/GX/NNS_G2d, so the `--cc ../2.0/sp2` lever in OV-BRIEF
+  step 3 never applied.
+
+Commands used
+-------------
+  python tools/match.py one --src src/matched/<name>.c --func <name> \
+      --addr 0x<ADDR> --region ov119 --thumb --cc dsi/1.1p1 --diff
+  python tools/match.py manifest --verify --shard pkt_021D8980
+
+Work files for this lane live in scratch/ov_119/ (parse.py, show.py, dump.py,
+run.py, genA-E.py).

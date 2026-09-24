@@ -301,3 +301,108 @@ is ov114's function at the same address - an ov217 source must use the
 region-qualified name src/matched/ov217_func_021B9774.c), func_021C1720
 (store-heavy setter loop over the 0x14-stride array) and func_021C17C4
 (0x18-byte stack record copy inside the same loop).
+
+Lane O19 (ov217 veneer family, measured) 2026-09-24
+--------------------------------------------------
+
+RESULT: 66 functions filed, all EXACT/EXACT*.  The shard
+layout/matched/ov217/pkt_021B9850.json went 202 -> 268 entries
+(188 EXACT + 80 EXACT*), each verified by
+
+    python tools/match.py manifest --verify --shard pkt_021B9850
+
+Tooling: scratch/ov_ov217/o19/{inv,gen,stage2,disdump,chain}.py - inv.py
+classifies every unfiled label, gen.py synthesises the C from the listing's
+own instructions (no hand-writing), compiles 6-wide, and copies EXACT ones
+into src/matched/ with the region collision check.
+
+1. How big the family really is (measured, not estimated)
+
+   Of the 511 unfiled func_ labels, 60 (11.7%) are tail-call veneers: an
+   entire body of zero to six argument-setup instructions, exactly one pool
+   load into r3 and a final `bx r3`, with the chunks joined across the
+   listing's `.org` / `loc_` splits.  The shape census:
+   2 instr x2, 3 instr x36, 4 instr x5, 5 instr x11, 6 x2, 7 x2, 8 x2.
+   The earlier note's "the listing is full of them" overstates it: veneers
+   are a ten-percent family here, but they close at ~0.7 functions per
+   compile, which is still the cheapest class in the overlay.
+
+2. The recipe (one compile each, once the target is witnessed)
+
+   * kind comes from the POOL WORD's parity, not from the target's region:
+     odd -> `thumb`, even -> `arm`.  Six of the 60 target ARM9 addresses
+     (02040DA8 x6 callers, 0204B3B4, 02040804, 0209C0A4, 0204B1CC,
+     02030EAC) and one target inside ov217 (0x021C3F60) are EVEN.
+   * the symbols: line carries the EVEN target address plus the region
+     token, and match.py adds the Thumb bit:
+         func_021C0EC0  0x021C0EC0  thumb  ov217
+   * argument setup maps straight through the expression builder:
+     `movs rN,#imm` -> literal, `lsls rX,rX,#s` -> `x*2^s`,
+     `ldr rN,[rM,#K]` -> `*(u32*)((u8*)p + K)`, `adds rX,rY,rZ` ->
+     `base + index`.  Two mwcc constant-materialisation idioms to expect
+     rather than copy: `movs r1,#0x4b; lsls r1,#2` is just 0x12c, and
+     `movs r2,#0xa; lsls r2,#6` is just 0x280.
+   * 35 of the 60 closed on the first spelling, on the symbols line alone.
+
+3. The chain that closed the other 25 (the real lesson)
+
+   A veneer's pool word is only witnessed OUTSIDE its own range when its
+   target is already in the shard.  Twelve of the 60 targets were invisible
+   to every listing-driven class: they are bytes inside `.word` runs, with no
+   func_ label (O11's five cases were the same phenomenon).  Matching those
+   targets FIRST created the `matched`-class witness for every veneer that
+   points at them, and each target is itself 4 to 16 bytes:
+
+     0x021C09B0  `ldr r0,[r0,#4]; bx lr`                      3 veneers
+     0x021C09C4  `str r1,[r0,#0x38]; bx lr`                   3
+     0x021C2D9C  `ldr r0,[r0,#0x14]; bx lr`                   1
+     0x021C0D7C  indexed getter, tail call func_021C29F0       1
+     0x021C0D6C  indexed getter, tail call func_021C2A08       1
+     0x021C2A00  `ldr r3,=func_021C2A28; bx r3`               4
+     0x021C0D5C  indexed getter, tail call func_021C2A00       1   (2nd round)
+     0x021C0E4C  `ldr r3,=func_021C0EA4; bx r3`               4
+     0x021C16DC  word +0xc to func_021C0E4C                    4   (2nd round)
+     0x021BF580  indexed getter, tail call ARM 02025774        3
+
+   Three rounds, because a target can itself be a veneer: 021C0D5C and
+   021C16DC only became matchable after 021C2A00 and 021C0E4C were in the
+   shard, and their callers (021C09E0, 021C1154/1160/116C/1178) only after
+   that.  Re-running a MATCH batch after every `manifest --verify` is what
+   moves them; a stale shard in the same run will not.
+   To read the untraced bytes: scratch/ov_ov217/o19/disdump.py assembles a
+   listing region's .word/.byte runs (o11's ovbytes.py) and disassembles it
+   with capstone; chain.py resolves a target's pc-relative pool word.
+
+4. Residue, still open
+
+   func_021BA31C  MATCH  target 0x021C09D8, itself a veneer whose own pool
+   func_021BEC00  MATCH  word points at 0x021C0D38, an unlabelled 0x16-byte
+                         leaf (`adds/movs/muls/lsls ... ldrh/ldr ... ldr
+                         r3,=0x021C3F60; bx r3`, that last an EVEN target)
+                         that neither class can witness yet.
+   func_021BBAD0  MATCH  target 0x021BC574, unlabelled and unmatched.
+   func_021C0C50  MATCH  target func_02021540 (thumb, arm9): an ARM9 address
+                         no ARM9 shard pins.  Out of this lane's range.
+   All four are parked in src/pending/ with the blocker named; they graduate
+   on coverage growth alone.
+
+5. Tooling findings worth keeping
+
+   * A region-qualified source (src/matched/ov217_func_XXXXXXXX.c) must still
+     DEFINE func_XXXXXXXX.  Renaming the C symbol to ov217_func_... makes
+     `manifest --verify` fail with "function ... not found in tu.o"; the file
+     name alone carries the region distinction, and `function:`/`region:` in
+     the header stay correct.
+   * `manifest --verify --shard X` is gated by a GLOBAL check: it aborts with
+     "manifest shards disagree" if any two shard files anywhere hold the same
+     (region, address, kind, name).  It fired at 16:00 on
+     layout/matched/ov010/pkt_02156BCC.json vs pkt_02156BCC_b.json (a `_b`
+     shard written at 15:16-15:17) and blocked shard recording for every
+     lane; it had cleared by 16:19.  Nothing in this lane could fix it -
+     layout/ is out of bounds - so the receipt is the timestamps above.
+   * The "N entr(ies) are not EXACT" summary counts EXACT* entries; the
+     exit code is 1 for that reason alone (see OV-BRIEF.md item 3).
+
+6. Not reached: the four switch-shaped leaves (021B970C, 021B9774,
+   021C1720, 021C17C4).  The budget went to the veneer family, which paid
+   66 of 66 filed functions at roughly 0.7 functions per compile.

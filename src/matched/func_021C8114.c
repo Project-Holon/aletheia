@@ -1,0 +1,28 @@
+/*
+ * function: func_021C8114
+ * address:  0x021C8114
+ * packet:   pkt_021C8114
+ * region:   ov093
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021C8114   0x021C8114  thumb ov093
+ *
+ * ldrh at #0x1f74 (pool constant)
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed char s8;
+typedef signed short s16;
+typedef signed int s32;
+
+u16 func_021C8114(u8 *p)
+{
+    return *(u16 *)(p + 0x1f74);
+}

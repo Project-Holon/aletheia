@@ -1,0 +1,24 @@
+/*
+ * function: func_02197BB8
+ * address:  0x02197BB8
+ * packet:   pkt_02155168
+ * region:   ov009
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * Tail call on three fields of the object.
+ *
+ * symbols:
+ *   func_02197BD4  0x02197BD4  arm  ov009
+ */
+
+extern void func_02197BD4(int a, int b, int c);
+
+void func_02197BB8(int *p)
+{
+    func_02197BD4(p[2], p[0], *(unsigned short *)((char *)p + 4));
+}
+

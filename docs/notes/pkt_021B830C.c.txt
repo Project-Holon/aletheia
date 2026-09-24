@@ -1,0 +1,12 @@
+
+## Lane O17 -- DIFF residue, not a committed source
+
+func_021B830C 0x021B830C (22 B, thumb) and func_021B834C 0x021B834C (22 B, thumb) -- halfword byte swap
+Best source tried:  unsigned short f(unsigned short x) { return (x << 8) | (x >> 8); }
+Compiles to 12 bytes, 12 short.  The original is
+    asrs r1, r0, #8 / lsls r1, r1, #0x18 / lsrs r2, r1, #0x18      -> (x >> 8) & 0xff, arithmetic shift
+    lsls r1, r0, #8 / movs r0, #0xff / lsls r0, r0, #8 / ands r0, r1 -> (x << 8) & 0xff00
+    orrs r0, r2 / lsls r0, r0, #0x10 / lsrs r0, r0, #0x10           -> | and truncate to 16 bits
+Two explicit masks plus an arithmetic first shift: the source masks both terms and the parameter is signed-promoted.  The
+asrs is the discriminator -- an `unsigned short` parameter gives a folded, mask-free 12-byte function.
+

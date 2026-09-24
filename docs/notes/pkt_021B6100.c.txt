@@ -1,0 +1,172 @@
+# pkt_021B6100 residue (lane O23, ov172)
+
+Each block is a source that did not reach EXACT; the source itself is parked under
+scratch/ov_172/diff/ (DIFF) or src/pending/ (MATCH), never in src/matched/.
+
+## func_021B65C4
+
+DIFF       func_021B65C4 @ 021B65C4 (ov172, Thumb)
+  compiled 16 bytes, 0 relocation site(s)
+  listing extent for the original: 20 bytes
+  note: listing says the original is 20 bytes, compiled 16
+  13 concrete byte(s) differ
+  offset     ORIGINAL @ 021B65C4                    | COMPILED                              
+  * +0000    10 b5                                  | 01 1c                                  
+  * +0002    04 1c                                  | 80 6c                                  
+  * +0004    a0 6c                                  | 48 31                                  
+  * +0008    03 d0                                  | 01 d0                                  
+  * +000A    87 f6                                  | 00 20                                  
+  * +000C    16 e9                                  | 08 60                                  
+  * +000E    00 20                                  | 70 47                                  
+
+## func_021B688C
+
+DIFF       func_021B688C @ 021B688C (ov172, Thumb)
+  compiled 24 bytes, 0 relocation site(s)
+  listing extent for the original: 20 bytes
+  note: listing says the original is 20 bytes, compiled 24
+  14 concrete byte(s) differ
+  offset     ORIGINAL @ 021B688C                    | COMPILED                              
+  * +0006    01 d0                                  | 01 d1                                  
+  * +0008    00 28                                  | 01 20                                  
+  * +000A    01 d1                                  | 70 47                                  
+  * +000C    01 20                                  | 00 28                                  
+  * +000E    70 47                                  | 01 d1                                  
+  * +0010    00 20                                  | 01 20                                  
+  * +0014    f8 b5                                  | 00 20                                  
+  * +0016    05 1c                                  | 70 47                                  
+
+## func_021B7590
+
+DIFF       func_021B7590 @ 021B7590 (ov172, Thumb)
+  compiled 26 bytes, 2 relocation site(s)
+  listing extent for the original: 28 bytes
+  note: listing says the original is 28 bytes, compiled 26
+  14 concrete byte(s) differ
+  offset     ORIGINAL @ 021B7590                    | COMPILED                              
+  * +000A    04 d1                                  | 01 d0                                  
+  * +000C    a4 34                                  | 01 20                                  
+  * +000E    20 68                                  | 10 bd                                  
+  * +0010    ff f7                                  | a4 34                                  
+  * +0012    74 f9                                  | 20 68                                  
+  * +0014    10 bd                                  | ff f7                                  <- THM_CALL func_021B688C [resolved: label]
+  * +0016    01 20                                  | 72 f9                                  
+
+## func_021B7888
+
+DIFF       func_021B7888 @ 021B7888 (ov172, Thumb)
+  compiled 18 bytes, 0 relocation site(s)
+  listing extent for the original: 24 bytes
+  note: listing says the original is 24 bytes, compiled 18
+  17 concrete byte(s) differ
+  offset     ORIGINAL @ 021B7888                    | COMPILED                              
+  * +0000    18 b4                                  | 81 81                                  
+  * +0002    01 24                                  | 01 21                                  
+  * +0004    81 81                                  | 01 60                                  
+  * +0006    04 60                                  | c2 81                                  
+  * +0008    c2 81                                  | 03 82                                  
+  * +000A    03 82                                  | 00 a9                                  
+  * +000C    02 a9                                  | 09 88                                  
+  * +000E    09 88                                  | 41 82                                  
+  * +0010    41 82                                  | 70 47                                  
+
+## func_021B78A0
+
+DIFF       func_021B78A0 @ 021B78A0 (ov172, Thumb)
+  compiled 18 bytes, 0 relocation site(s)
+  listing extent for the original: 24 bytes
+  note: listing says the original is 24 bytes, compiled 18
+  17 concrete byte(s) differ
+  offset     ORIGINAL @ 021B78A0                    | COMPILED                              
+  * +0000    18 b4                                  | 81 82                                  
+  * +0002    01 24                                  | 01 21                                  
+  * +0004    81 82                                  | 01 60                                  
+  * +0006    04 60                                  | c2 82                                  
+  * +0008    c2 82                                  | 03 83                                  
+  * +000A    03 83                                  | 00 a9                                  
+  * +000C    02 a9                                  | 09 88                                  
+  * +000E    09 88                                  | 41 83                                  
+  * +0010    41 83                                  | 70 47                                  
+
+## func_021B7B20
+
+DIFF       func_021B7B20 @ 021B7B20 (ov172, Thumb)
+  compiled 14 bytes, 0 relocation site(s)
+  listing extent for the original: 16 bytes
+  note: listing says the original is 16 bytes, compiled 14
+  6 concrete byte(s) differ
+  offset     ORIGINAL @ 021B7B20                    | COMPILED                              
+  * +0004    01 22                                  | 09 18                                  
+  * +0006    08 18                                  | 01 20                                  
+  * +0008    82 63                                  | 88 63                                  
+  * +000A    c2 63                                  | c8 63                                  
+
+## func_021B7B3C
+
+DIFF       func_021B7B3C @ 021B7B3C (ov172, Thumb)
+  compiled 36 bytes, 3 relocation site(s)
+  listing extent for the original: 32 bytes
+  note: listing says the original is 32 bytes, compiled 36
+  34 concrete byte(s) differ
+  offset     ORIGINAL @ 021B7B3C                    | COMPILED                              
+  * +0000    10 b5                                  | 38 b5                                  
+  * +0002    14 1c                                  | 05 1c                                  
+  * +0004    06 f0                                  | 14 1c                                  
+  * +0006    de fa                                  | 06 f0                                  <- THM_CALL func_021BE100 [resolved: label]
+  * +0008    01 28                                  | dd fa                                  
+  * +000A    08 d1                                  | 01 28                                  
+  * +000C    ce f6                                  | 09 d1                                  
+  * +000E    f8 e8                                  | 28 1c                                  
+  * +0010    01 28                                  | 06 f0                                  <- THM_CALL func_021BE100 [resolved: label]
+  * +0012    04 d1                                  | d8 fa                                  
+
+## func_021B8BFC
+
+DIFF       func_021B8BFC @ 021B8BFC (ov172, Thumb)
+  compiled 20 bytes, 0 relocation site(s)
+  listing extent for the original: 64 bytes
+  note: listing says the original is 64 bytes, compiled 20
+  14 concrete byte(s) differ
+  offset     ORIGINAL @ 021B8BFC                    | COMPILED                              
+  * +0006    52 1c                                  | 0a 54                                  
+  * +0008    0a 54                                  | 12 1c                                  
+  * +000A    0a 5c                                  | 40 2a                                  
+  * +000C    40 2a                                  | 01 d3                                  
+  * +000E    01 d3                                  | 40 3a                                  
+  * +0010    40 3a                                  | 0a 54                                  
+  * +0012    0a 54                                  | 70 47                                  
+
+## func_021BE100
+
+DIFF       func_021BE100 @ 021BE100 (ov172, Thumb)
+  compiled 16 bytes, 0 relocation site(s)
+  listing extent for the original: 28 bytes
+  note: listing says the original is 28 bytes, compiled 16
+  14 concrete byte(s) differ
+  offset     ORIGINAL @ 021BE100                    | COMPILED                              
+  * +0000    08 b5                                  | 01 28                                  
+  * +0002    70 f6                                  | 03 d1                                  
+  * +0004    03 fd                                  | 00 28                                  
+  * +0006    01 28                                  | 01 d1                                  
+  * +0008    05 d1                                  | 01 20                                  
+  * +000A    70 f6                                  | 70 47                                  
+  * +000C    03 fd                                  | 00 20                                  
+  * +000E    00 28                                  | 70 47                                  
+
+## func_021BE34C
+
+DIFF       func_021BE34C @ 021BE34C (ov172, Thumb)
+  compiled 16 bytes, 0 relocation site(s)
+  listing extent for the original: 24 bytes
+  note: listing says the original is 24 bytes, compiled 16
+  14 concrete byte(s) differ
+  offset     ORIGINAL @ 021BE34C                    | COMPILED                              
+  * +0000    38 b5                                  | 77 21                                  
+  * +0002    77 25                                  | 89 00                                  
+  * +0004    04 1c                                  | 42 58                                  
+  * +0006    ad 00                                  | 00 2a                                  
+  * +0008    60 59                                  | 01 d0                                  
+  * +000A    00 28                                  | 00 22                                  
+  * +000C    03 d0                                  | 42 50                                  
+  * +000E    70 f6                                  | 70 47                                  
+

@@ -1,0 +1,8 @@
+
+## Lane O17 -- DIFF residue, not a committed source
+
+func_021B8240 0x021B8240 (8 B, thumb) -- tail call with a narrowed argument
+Original:  ldr r3, [pc, #4] / lsls r1, r1, #0x18 / lsrs r1, r1, #0x18 / bx r3
+Every variant tried emits the pool load AFTER the narrowing; the original hoists it before.  Adding a third forwarded
+parameter (the trick that closed func_021B8230, 8 bytes away, exact) did not move it.  One byte region, 8 bytes.
+

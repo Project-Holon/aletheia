@@ -1,0 +1,21 @@
+func_021DD314 @ 0x021DD314 (ov170, Thumb) - DIFF, 1 byte of 28.
+
+    original                              compiled
+    +0006  03 d2   bhs loc_021DD324        | 03 da   blo loc_021DD324
+
+Everything else is identical (both arms, both calls, the 0x1e bias, the pops).
+
+Source tried (DIFF, not committed):
+
+    void func_021DD314(char **p, int a, int b)
+    {
+        if (b < 0x1e)
+            func_02007664(*(int *)(*p + 4), a, b);
+        else
+            func_0201A9C8(*(int *)(*p + 8), b - 0x1e);
+    }
+
+The image branches on the negated form (bhs = "b >= 0x1e" to the second arm);
+this compiler chose blo for the same test.  One source restructuring away: the
+`if (b >= 0x1e) { second; return; } first;` spelling, or a signed/unsigned
+difference on b, were not tried before the budget ran out.
