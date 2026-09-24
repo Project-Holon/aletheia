@@ -1,0 +1,24 @@
+/*
+ * function: func_02169FF8
+ * address:  0x02169FF8
+ * packet:   pkt_02155168
+ * region:   ov009
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * Sets the word at +0x10 of the module state block to 1.
+ *
+ * symbols:
+ *   g_021AA860  0x021AA860  data
+ */
+
+extern char g_021AA860[];
+
+void func_02169FF8(void)
+{
+    *(int *)(g_021AA860 + 0x10) = 1;
+}
+

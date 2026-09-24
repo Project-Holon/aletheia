@@ -1,0 +1,152 @@
+pkt_021B9500 (ov114) — residue notes, lane O9
+
+85 of ov114's 462 functions are filed EXACT (77 EXACT + 8 EXACT*), 2084 of its 74,896 code bytes (2.8%) in
+src/matched/, shards/layout/matched/ov114/pkt_021B9500.json.  This file
+records what stopped the rest, with the measured residue where a function
+was chased to a concrete diff.
+
+ov114 is an ARM overlay apart from its first 17 functions (0x021B95D4
+.. 0x021B9B00, thumb, 1400 bytes).  All 74,896 bytes of it were untraced
+before this lane; nothing here was matched elsewhere.
+
+--------------------------------------------------------------------
+1. DIFF, parked — func_021BAB24 @ 0x021BAB24 (52 bytes)
+
+    +0000    add r0, r0, #1                         ok
+    +0004    and r0, r0, #0xff                      ok
+    +0008    cmp r0, #0x7b                          ok
+    +000C    moveq r0, #0x30                        ok
+    * +0010    beq #0x21bab4c                         | bxeq lr
+    * +001C    beq #0x21bab4c                         | bxeq lr
+    * +0028    lsl r0, r0, #0x18                      | bx lr
+
+  The image returns through a single shared epilogue that sign-extends
+  r0 (`lsl r0, r0, #0x18` + `asr`), i.e. the function's return type is a
+  signed narrow type, and the three `return <const>` statements branch to
+  it.  With `signed char` as the return type the compiler still folded
+  each arm into `bxeq lr`, so the branch-to-epilogue shape was not
+  reproduced in 4 attempts.  Body that produced the residue:
+
+      c = (c + 1) & 0xff;
+      if (c == 0x7b) return 0x30;
+      if (c == 0x5b) return 0x61;
+      if (c == 0x3a) return 0x41;
+      return c;
+
+--------------------------------------------------------------------
+2. DIFF, parked — func_021BEA20 @ 0x021BEA20 (68 bytes)
+
+  The image reads the guard word with
+      ldr r0, pool(0x021CF984) ; ldr r0, [r0, #8] ; cmp r0, #0
+  whereas the compiled form folds the load and compares the *address*
+  of the bss block:
+      ldr r0, [pc, #0x24] ; cmp r0, #0
+  2-3 compiles with `u8 g[]`/`u32 *` spellings all took the folded path,
+  so the +0x08 double indirection is the open site.  The tail of the
+  function (the three stores into the 0x021CF98C block) agreed.
+
+--------------------------------------------------------------------
+3. DIFF, parked — func_021BA100 @ 0x021BA100 (24 bytes)
+
+    +0000    mov r3, r0                             | mov r2, r0
+    +000C    mov r1, r3                             | mov r1, r2
+  Argument swap for a tail call: the image keeps the old r0 in r3, the
+  compiler always chose the scratch r2 (5 spellings tried: 2-argument,
+  3-argument, 4-argument, pointer-typed, named temporary).  Register
+  choice only, both bytes otherwise identical.
+
+--------------------------------------------------------------------
+4. Tooling gap: same-name func_ labels in two overlays with different ISA
+   → "ISA conflict ... the image says thumb (the func_%08X label in
+   ovNNN); refusing to resolve the call".
+
+  113 of ov114's 462 function addresses also carry a `func_%08X` label in
+  an *earlier* overlay whose listing marks it thumb.  match.py's
+  isa_evidence() resolves an overlay label through overlay_label(addr),
+  which returns the first region in regions_containing() order and
+  ignores the `ov114` region token on the `symbols:` line, so every call
+  to one of those addresses is refused even though the ov114 listing
+  answers the question directly.  Blocked outright by this, all 6 with
+  only that site open:
+
+      0x021BE648  func_021BE648   (56 bytes)  calls 0x021BEF08
+      0x021BE6BC  func_021BE6BC   (48)        calls 0x021BEF08
+      0x021BE7FC  func_021BE7FC   (60)        calls 0x021BEF08
+      0x021BE880  func_021BE880   (56)        calls 0x021BEF08
+      0x021BE8B8  func_021BE8B8   (48)        calls 0x021BEF08
+      0x021BE9C8  func_021BE9C8   (48)        calls 0x021BEF08
+      0x021B9BD4  func_021B9BD4   (32)        calls 0x021B9C08
+      0x021BA820  func_021BA820   (48)        calls 0x021BEF08
+      0x021BA850  func_021BA850   (36)        calls 0x021BEF08
+
+  All nine have their complete C written out (scratch/ov_ov114/tbl2.py,
+  tbl4.py); the only unresolved field is the BL/BLX encoding of that one
+  callee.  Fixing isa_evidence() to honour the declared region token
+  would recover them — and the same class will hit every overlay lane.
+
+--------------------------------------------------------------------
+5. Unlabelled code inside the assigned extent (EXACT*, 3 entries)
+
+  func_021B9B4C, func_021BBEA0 and func_021C1C80 are shorter than the
+  extent disasm.py assigned them: the trailing words are second-level
+  `ldr ip, pool; bx ip` thunks / pool words for a neighbouring function,
+  emitted as data.  match.py reports the extent difference as EXACT*;
+  the compared bytes are exact.
+
+--------------------------------------------------------------------
+6. Untouched remainder
+
+  The remaining 392 functions are the larger half (median 106, mean 181
+  bytes) and are dominated by three repeated wrapper templates that need
+  one further callee each:
+    * func_021BA88C / func_021BA988 / func_021BAA1C — the 250-byte
+      list/registry primitives; every third function above 0x021BA000 is
+      a wrapper over one of them.
+    * func_021BBCF0 (268) and func_021BEAB8 (208) — switch-heavy keyed
+      dispatch; func_021BEAB8 uses a `addls pc, pc, r5, lsl #2` jump
+      table at 0x021BEB10 whose five entries are data words.
+    * func_021BAE90's callee func_021BADE0 and friends.
+  These are the right next targets: they are the callees the 70 filed
+  functions already name, so each one closed unlocks its whole wrapper
+  family.
+
+--------------------------------------------------------------------
+7. Second-wave DIFFs, parked (all four are register-choice only)
+
+  func_021B9C1C @ 0x021B9C1C (100) — the enable/disable logic reproduces
+    (v == 0 -> return; b == 0 ? v != a+0x2c : v == a+0x2c -> call
+    0x02088234), only the register carrying `a + 0x2c` differs.
+
+  func_021BEBC8 @ 0x021BEBC8 (24) — `return p ? *(u32 *)(p + 0x14) : 0`
+    with p = func_021BEC00(a, b); the merged conditional load came out
+    as a branch pair.
+
+  func_021BFAF0 @ 0x021BFAF0 (48) — keyed list walk of 0x021D3B20+4 by
+    the +0x18 key, stepping +0x1c; 2-3 compiles, the loop head/exit
+    layout differs while every instruction matches.
+
+  func_021B9F94 @ 0x021B9F94 (128) — the null-guard return (-1001) needs
+    to be sunk out of line to 0x021B9FD0 (`beq` over the whole call
+    sequence) while the post-call path falls through; both the early
+    `return -1001` and the single-return/`goto` spellings emitted it
+    inline (3 compiles).
+
+--------------------------------------------------------------------
+8. Thumb half (0x021B95D4..0x021B9B00) — filed and parked
+
+  Filed EXACT: func_021B9800, func_021B98A0, func_021B98D8,
+    func_021B99B8, func_021B99DC, func_021B9A64, func_021B9774,
+    func_021B9838.
+  Parked DIFF:
+    func_021B9748 (44)  — the only residue is the branch polarity of
+      `if (h == 0) return 0;`; every instruction matches.
+    func_021B9790 (112) — status query with three stack locals; the
+      outer branch layout differs.
+    func_021B984C (84) — name-field rewrite; the string copy loop and
+      the two appended bytes all land, the cursor arithmetic does not.
+    func_021B9AA8 (88) — allocate-or-assert; the two arm9 calls and the
+      pool constants match, the spill/reload order does not.
+    func_021B9B00 (76) — FILED EXACT (listed here only to close the
+      thumb census).
+    func_021B9A1C, func_021B95D4 — not attempted (72 and 372 bytes).
+

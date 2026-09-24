@@ -1,0 +1,35 @@
+/*
+ * function: func_021DB350
+ * address:  0x021DB350
+ * packet:   pkt_021DB350
+ * region:   ov175
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_020399A8  0x020399A8  arm
+ *   func_0203D1A4  0x0203D1A4  arm
+ *
+ * Guarded flag set: only when the caller's fifth argument (on the stack)
+ * matches the tick from 0x020399A8 and the first argument does NOT match
+ * 0x0203D1A4 does it store 1 in the +0x148 word of the fourth argument.
+ */
+
+typedef unsigned long u32;
+
+extern u32 func_020399A8(void);
+extern u32 func_0203D1A4(void);
+
+void func_021DB350(u32 a, u32 b, u32 c, char *d, u32 e)
+{
+    if (e != func_020399A8())
+        return;
+    func_020399A8();
+    if (a == func_0203D1A4())
+        return;
+    *(u32 *)(d + 0x148) = 1;
+}
+

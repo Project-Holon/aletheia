@@ -1,0 +1,62 @@
+Packet ov175 (lane O4) -- matching notes
+========================================
+
+324 traced functions, 31,886 code bytes.  42 functions attempted, 39 EXACT
+(93%), 3 MATCH parked in src/pending/ with the blocking site in the header.
+
+Every EXACT function carries `packet: pkt_<its own address>` and is filed as
+its own shard under layout/matched/ov175/.
+
+Blocked classes (worth knowing before the next wave)
+----------------------------------------------------
+1. Callee with no traced entry point.  0x021E8A90 (called by func_021D679C and
+   func_021D9A30) has no func_/sub_ label in ANY listing: ov093 holds a bare
+   `bx lr` at that address and ov177 holds plain .word data.  Five call sites
+   image-wide (ov175 x2, ov176 x3) cannot substitute for a traced entry, so
+   both sources are byte-exact and stuck at MATCH.  Same for 0x0201A918
+   (func_021DC240): no ARM9 label and no branch from outside the function.
+
+2. Ambiguous overlay callee.  0x021E5EF8 is inside ov093, ov119, ov170 and
+   ov177; two of them (ov119, ov177) have a func_ label there, so
+   `label` refuses to pick.  A `symbols:` region hint fixes it -- the hint is
+   only consulted when the address is not in the caller's own window:
+       func_021E5EF8   0x021E5EF8  thumb  ov177
+   Without the hint func_021D97A4 caps at MATCH.  Same rule applies to
+   intra-region callees, which need their ISA declared (a bare `extern` is
+   read as arm and raises "ISA conflict" against the ov175 label).
+
+3. Atomic write of one shard is impossible while any other region has a
+   duplicated manifest entry: `manifest --verify --shard pkt_X` reads every
+   shard first, so a stale entry in another region aborts every run.  Four
+   functions below were verified EXACT by `match.py one` and had their shard
+   write refused by exactly that check.
+
+The four EXACT functions whose shard write was refused
+------------------------------------------------------
+    func_021D6954  0x021D6954  16 bytes  EXACT   pkt_021D6954
+    func_021D97B8  0x021D97B8  24 bytes  EXACT*  pkt_021D97B8
+    func_021D97D0  0x021D97D0  20 bytes  EXACT   pkt_021D97D0
+    func_021D9D40  0x021D9D40  16 bytes  EXACT   pkt_021D9D40
+
+Re-run these once the conflicting region is clean:
+
+    python tools/match.py manifest --verify --shard pkt_021D6954
+    python tools/match.py manifest --verify --shard pkt_021D97B8
+    python tools/match.py manifest --verify --shard pkt_021D97D0
+    python tools/match.py manifest --verify --shard pkt_021D9D40
+
+Idioms found in ov175 (reusable)
+--------------------------------
+* free-and-null: `if (p) { free_fn(p); field = 0; }` is the shape behind a
+  dozen two-instruction fixes; the free helper is an address outside the
+  overlay (0x021E5D40, 0x021E5EF8, 0x021E89D0, 0x021E7710, 0x021E8AA0).
+* a call in last-statement position with no lr save compiles to the pooled
+  `ldr r3, =func; bx r3` tail jump, not `bl` (func_021D63B0, func_021D6954).
+* post-indexed byte store `strb r1, [r0], #1` needs `char *f(char *p, char v)
+  { *dst++ = v; return dst; }` -- a void version drops the increment
+  (func_021E04FC).
+* `if (e != A()) return; B(); if (a == C()) return; *flag = 1;` is what
+  produces `cmp/bne` then `cmp/beq` on the same flag store
+  (func_021DB300/328/350/378).
+* an offset the encoder cannot fold (0x140, 0x144, 0x148) still appears as
+  `movs rN,#0x51; lsls rN,rN,#2`, so write the plain byte offset.

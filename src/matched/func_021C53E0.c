@@ -1,0 +1,27 @@
+/*
+ * function: func_021C53E0
+ * address:  0x021C53E0
+ * packet:   pkt_021C53E0
+ * region:   ov208
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0204B3B4  0x0204B3B4  arm
+ *   func_0204A8D4  0x0204A8D4  arm
+ *
+ * Forwards its second argument to func_0204B3B4 and then the first to
+ * func_0204A8D4.
+ */
+
+extern void func_0204B3B4(int);
+extern void func_0204A8D4(int);
+
+void func_021C53E0(int a, int b)
+{
+    func_0204B3B4(b);
+    func_0204A8D4(a);
+}

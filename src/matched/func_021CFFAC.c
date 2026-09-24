@@ -1,0 +1,28 @@
+/*
+ * function: func_021CFFAC
+ * address:  0x021CFFAC
+ * packet:   pkt_021CF440
+ * region:   ov016
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021CFFAC   0x021CFFAC  arm
+ *
+ * Tail-call func_02075618 with the global object +0xa0, a zero and the argument.
+ * Addresses are Black-image addresses.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/func_021CFFAC.c \
+ *       --func func_021CFFAC --addr 0x021CFFAC --region ov016 --cc dsi/1.1p1 --arm
+ */
+
+extern void func_02075618(char *, unsigned int, unsigned int);
+
+void func_021CFFAC(unsigned int v)
+{
+    func_02075618(*(char **)0x021DE648 + 0xa0, 0, v);
+}

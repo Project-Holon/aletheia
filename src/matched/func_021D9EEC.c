@@ -1,0 +1,29 @@
+/*
+ * function: func_021D9EEC
+ * address:  0x021D9EEC
+ * packet:   pkt_021D9EEC
+ * region:   ov175
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_020399A8  0x020399A8  arm
+ *   func_02039CB4  0x02039CB4  arm
+ *
+ * Flush partner of func_021D9ED4: sends the byte the object kept at
+ *     +0x14 to 0x02039CB4 with the tick/state and line 0x24.
+ */
+
+typedef unsigned long u32;
+
+extern u32  func_020399A8(void);
+extern void func_02039CB4(u32 tick, u32 value, u32 line);
+
+void func_021D9EEC(char *obj)
+{
+    func_02039CB4(func_020399A8(), (unsigned char)*(u32 *)(obj + 0x14), 0x24);
+}
+

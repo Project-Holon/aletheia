@@ -1,0 +1,33 @@
+/*
+ * function: func_021D6788
+ * address:  0x021D6788
+ * packet:   pkt_021D6788
+ * region:   ov175
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021E7710   0x021E7710  thumb
+ *   func_021E8AA0   0x021E8AA0  thumb
+ *   func_021E8A80   0x021E8A80  thumb
+ *   func_021E8A90   0x021E8A90  thumb
+ *   func_021E64C8   0x021E64C8  thumb
+ *   func_021E8AA8   0x021E8AA8  thumb
+ *
+ * Closes the +0x38 stream handle through 0x021E8AA0 and parks the +0x3c
+ *     result word at its "no data" sentinel 0xFFFF.
+ */
+
+typedef unsigned long u32;
+
+extern void func_021E8AA0(u32 h);
+
+void func_021D6788(char *obj)
+{
+    func_021E8AA0(*(u32 *)(obj + 0x38));
+    *(u32 *)(obj + 0x3c) = 0xFFFF;
+}
+

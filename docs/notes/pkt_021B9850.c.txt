@@ -1,0 +1,303 @@
+pkt_021B9850  ov217 - residue of the functions that did NOT close
+
+Lane O1 (ov217 leaf sweep), 2026-09-24.  Every function below was compiled with
+  python tools/match.py one --src <src> --func <name> --addr <addr> --region ov217
+      --thumb --cc dsi/1.1p1 --diff
+and stayed DIFF at the last measurement.  No source for them is committed: the
+byte-level residue is what follows, `image | ours`, both streams the same size
+unless noted.
+
+func_021C18C4  0x021C18C4
+  initial verdict: DIFF       func_021C18C4 @ 021C18C4 (ov217, Thumb)
+  compiled 50 bytes, 0 relocation site(s)
+  note: listing says the original is 52 bytes, compiled 50
+  residue window:
+   * +0006    43 5c                                  | 42 5c
+   * +0008    00 24                                  | 1c 30
+   * +000A    00 22                                  | 00 23
+   * +000C    00 2b                                  | 00 24
+   * +000E    0e dd                                  | 00 2a
+   * +0010    1c 30                                  | 0d dd
+   * +0014    11 1c                                  | 21 1c
+   * +001A    4c 72                                  | 4b 72
+   * +001E    52 1c                                  | 64 1c
+   * +0020    a6 19                                  | 9e 19
+   * +0028    64 18                                  | 5b 18
+   * +002A    9a 42                                  | 94 42
+
+func_021C1A64  0x021C1A64
+  initial verdict: DIFF       func_021C1A64 @ 021C1A64 (ov217, Thumb)
+  compiled 32 bytes, 0 relocation site(s)
+  residue window:
+   * +0002    02 23                                  | 00 22
+   * +0004    cc 5e                                  | 8b 5e
+   * +0006    00 23                                  | 6d 22
+   * +0008    04 22                                  | 92 00
+   * +000A    cb 5e                                  | 83 52
+   * +000C    8a 5e                                  | 02 23
+   * +000E    6d 21                                  | cc 5e
+   * +0010    89 00                                  | 93 1c
+   * +0012    43 52                                  | c4 52
+   * +0014    8b 1c                                  | 04 23
+   * +0016    c4 52                                  | cb 5e
+   * +0018    09 1d                                  | 11 1d
+   * +001A    42 52                                  | 43 52
+
+func_021C1A84  0x021C1A84
+  initial verdict: DIFF       func_021C1A84 @ 021C1A84 (ov217, Thumb)
+  compiled 48 bytes, 0 relocation site(s)
+  residue window:
+   * +0006    85 5c                                  | 84 5c
+   * +0008    00 24                                  | 00 25
+   * +000A    00 2d                                  | 00 2c
+   * +0010    23 1c                                  | 2b 1c
+   * +0018    8b 42                                  | 99 42
+   * +001C    20 06                                  | 28 06
+   * +0024    64 1c                                  | 6d 1c
+   * +0026    ac 42                                  | a5 42
+
+func_021C1AD4  0x021C1AD4
+  initial verdict: DIFF       func_021C1AD4 @ 021C1AD4 (ov217, Thumb)
+  compiled 40 bytes, 0 relocation site(s)
+  residue window:
+   * +0006    44 5c                                  | 43 5c
+   * +0008    00 25                                  | 00 24
+   * +000A    00 23                                  | 00 25
+   * +000C    00 2c                                  | 00 2b
+   * +0012    1a 1c                                  | 2a 1c
+   * +001A    5b 1c                                  | 6d 1c
+   * +001C    ad 18                                  | a4 18
+   * +001E    a3 42                                  | 9d 42
+   * +0022    28 1c                                  | 20 1c
+
+func_021C1AFC  0x021C1AFC
+  initial verdict: DIFF       func_021C1AFC @ 021C1AFC (ov217, Thumb)
+  compiled 42 bytes, 0 relocation site(s)
+  note: listing says the original is 44 bytes, compiled 42
+  residue window:
+   * +0006    44 5c                                  | 43 5c
+   * +0008    00 25                                  | 00 24
+   * +000A    00 23                                  | 00 25
+   * +000C    00 2c                                  | 00 2b
+   * +0012    1a 1c                                  | 2a 1c
+   * +001C    5b 1c                                  | 6d 1c
+   * +001E    ad 18                                  | a4 18
+   * +0020    a3 42                                  | 9d 42
+   * +0024    28 1c                                  | 20 1c
+
+func_021C2194  0x021C2194
+  initial verdict: DIFF       func_021C2194 @ 021C2194 (ov217, Thumb)
+  compiled 46 bytes, 0 relocation site(s)
+  note: listing says the original is 48 bytes, compiled 46
+  residue window:
+   * +0006    44 5c                                  | 43 5c
+   * +0008    00 23                                  | 00 24
+   * +000A    00 2c                                  | 00 2b
+   * +0010    1a 1c                                  | 22 1c
+   * +0022    5b 1c                                  | 64 1c
+   * +0024    a3 42                                  | 9c 42
+
+func_021C2630  0x021C2630
+  initial verdict: DIFF       func_021C2630 @ 021C2630 (ov217, Thumb)
+  compiled 16 bytes, 0 relocation site(s)
+  note: listing says the original is 20 bytes, compiled 16
+  residue window:
+   * +0000    02 1c                                  | 0b 1c
+   * +0002    0b 1c                                  | 02 1c
+   * +0004    08 32                                  | 03 cb
+   * +0006    03 cb                                  | 08 32
+   * +000A    03 cb                                  | 18 68
+   * +000C    03 c2                                  | 10 60
+   * +000E    03 cb                                  | 70 47
+
+func_021C28CC  0x021C28CC
+  initial verdict: DIFF       func_021C28CC @ 021C28CC (ov217, Thumb)
+  compiled 14 bytes, 0 relocation site(s)
+  note: listing says the original is 16 bytes, compiled 14
+  residue window:
+   * +0000    43 68                                  | 83 68
+   * +0002    80 68                                  | 40 68
+   * +0004    14 33                                  | 08 3b
+   * +0006    0b 80                                  | 14 30
+   * +0008    08 38                                  | 08 80
+   * +000A    10 80                                  | 13 80
+
+func_021C28DC  0x021C28DC
+  initial verdict: DIFF       func_021C28DC @ 021C28DC (ov217, Thumb)
+  compiled 14 bytes, 0 relocation site(s)
+  note: listing says the original is 16 bytes, compiled 14
+  residue window:
+   * +0000    43 68                                  | 83 68
+   * +0002    80 68                                  | 40 68
+   * +0004    0f 33                                  | 08 3b
+   * +0006    0b 80                                  | 0f 30
+   * +0008    08 38                                  | 08 80
+   * +000A    10 80                                  | 13 80
+
+func_021C28EC  0x021C28EC
+  initial verdict: DIFF       func_021C28EC @ 021C28EC (ov217, Thumb)
+  compiled 14 bytes, 0 relocation site(s)
+  note: listing says the original is 16 bytes, compiled 14
+  residue window:
+   * +0000    43 68                                  | 83 68
+   * +0002    80 68                                  | 40 68
+   * +0004    0a 33                                  | 08 3b
+   * +0006    0b 80                                  | 0a 30
+   * +0008    08 38                                  | 08 80
+   * +000A    10 80                                  | 13 80
+
+Reading of the shared residue, for the next wave:
+
+* func_021C18C4 / 021C1A84 / 021C1AD4 / 021C1AFC / 021C2194 all begin with the same
+  `movs rX,#0x6b; lsls rX,rX,#2; ldrb rY,[r0,rX]` count load and then walk a record
+  array with a constant stride (0x14, 0x18 or 0xd4).  Ours matches the arithmetic
+  and the stride every time but colours the count / accumulator / induction webs
+  differently (the image puts the byte count in a callee-saved register, ours in a
+  caller-saved one, or vice versa).  This is the same class of residue as the ARM9
+  bands: a two-colour tie driven by web numbering, not by an expression shape - a
+  loop-counter or declaration-order variant did not move it in two rounds.
+
+* func_021C28CC / 021C28DC / 021C28EC are the same three instructions twice:
+  `ldr r3,[r0,#4]; ldr r0,[r0,#8]; adds r3,#K; strh r3,[r1]; subs r0,#8; strh r0,[r2]`.
+  The image hoists BOTH loads above the first store, which the front end only does
+  when it can see that *a and *b do not alias the fields; a two-local spelling does
+  hoist but then assigns the fields to the opposite registers (w -> r0, h -> r3).
+  The residue is that register swap plus the load placement.
+
+* func_021C2630 and func_021C29B4 are the same block copy from src to p+8 / p+0x20,
+  but only 021C29B4 closed: the 12-byte copy wants `adds r2,r0,#0; adds r3,r1,#0`
+  (destination first) while every spelling of the struct assignment emits the source
+  copy first.  Same trap for func_021C1A64, whose three s16 reads the image orders
+  2, 0, 4 (the middle element first).
+
+Tail-call veneers (a second class, 24 of them in ov217)
+-------------------------------------------------------
+
+24 functions in ov217 are the four-byte shape `ldr r3, =T; bx r3` plus one pool
+word, i.e. the interworking tail call mwcc emits for
+
+    extern void T(void);
+    void f(void) { T(); }
+
+Eleven of them closed EXACT in one compile each, because their target is an
+ARM9 function the ARM9 shards already pin (ten of the eleven jump to
+func_020307B0).  Thirteen did not: their target is an address *inside ov217*
+that no shard pins yet, so match.py wildcards the pool word and the entry is
+MATCH, not EXACT.  All thirteen are filed in src/pending/ with their blocking
+site named; they turn EXACT the moment their target is matched in ov217.  The
+targets, all Thumb entry points of this overlay:
+
+func_021C0E54  target 0x021C0EC1
+func_021C0E5C  target 0x021C0EDD
+func_021C0E64  target 0x021C0EE5
+func_021C1124  target 0x021C15B9
+func_021C1184  target 0x021C1A59
+func_021C118C  target 0x021C1A5D
+func_021C11C8  target 0x021C1A85
+func_021C11F4  target 0x021C1D29
+func_021C1D74  target 0x021C1E01
+func_021C20C4  target 0x021C20ED
+func_021C2740  target 0x021C2749
+func_021C2950  target 0x021C299D
+func_021C2A08  target 0x021C2D89
+
+That is a cheap second wave: five of these thirteen targets are functions this
+lane measured and did not close (0x021C1A84 -> func_021C1A84, 0x021C1D28 ->
+func_021C1D28, 0x021C1AFC is reached from 0x021C1AC8, ...), so closing one
+target closes its veneer too.
+
+Lane O11 (ov217 veneer promotion + residue), 2026-09-24
+------------------------------------------------------
+
+All thirteen parked veneers are now EXACT and in the shard. Two different
+things closed them, and the first is the one to remember.
+
+1. Eight of the thirteen targets ARE `func_` labels in asm/overlays/ov217.s.
+   The veneer source failed only because the pool word was resolved through
+   the address-bearing NAME, and symbol_address() reads an in-overlay
+   address as `arm` when evidence().labels (the ARM9 label index) has
+   nothing at it.  With kind `arm`, attest_overlay_label() finds no overlay
+   whose listing says ARM there and refuses.  An explicit `symbols:` line
+   fixes both the ISA and the overlay ambiguity at once:
+
+       symbols:
+         func_021C0EC0  0x021C0EC0  thumb  ov217
+
+   Note the address on that line is the EVEN target address; the pool word's
+   low bit is the interworking bit and match.py adds it (`val |= 1`) when
+   the declared kind is thumb.  Writing 0x021C0EC0 | 1 on the symbols line
+   makes the site unresolved again (the listing has no label at an odd
+   address).  With the line, the site resolves as `sole-ref/code` (target
+   labelled but nothing branches to it) or as `label` when something does.
+
+   Promoted this way: func_021C0E54, func_021C0E5C(*), func_021C0E64(*),
+   func_021C1124, func_021C1184(*), func_021C118C(*), func_021C11C8,
+   func_021C11F4, func_021C1D74(*), func_021C20C4, func_021C2740,
+   func_021C2950, func_021C2A08.  (*) = needed step 2 as well, see below.
+
+2. Five targets are NOT traced labels - they are code disasm.py left inside
+   a `.word` run (they sit between a pool label and the next func_ label):
+   0x021C0EDC, 0x021C0EE4, 0x021C1A58, 0x021C1A5C and 0x021C1E00.  No
+   listing-driven class can witness them, so they were matched FIRST and
+   their own manifest entries then witnessed the veneer pool words through
+   the `matched` class.  All five are tiny leaves with no relocation site,
+   so they came out EXACT on the first spelling and created the witness:
+
+       func_021C0EDC  `movs r1,#0; str r1,[r0,#8]; str r1,[r0,#0xc]; bx lr`
+       func_021C0EE4  `ldr r1,[r0,#8]; ldr r0,[r0,#0xc]; cmp; bne; movs
+                       r0,#1; bx lr / movs r0,#0; bx lr`  -> a == b
+       func_021C1A58  `str r1,[r0,#4]; bx lr`
+       func_021C1A5C  `movs r2,#1; str r2,[r0,#0x14]; str r1,[r0,#0x18]; bx lr`
+       func_021C1E00  `ldr r0,[r0,#0xc]; ldr r3,=0x021C0E3D; bx r3`
+
+   An untraced address is a perfectly good `--addr` for match.py: the
+   harness takes the extent from the next label, and src/pending/README.md's
+   graduation rule is satisfied - the target's bytes were verified before
+   anything leaned on them.
+
+That is the general recipe for the ~500 remaining unfiled ov217 functions:
+the listing is full of `ldr r3, =T; bx r3` and `ldr r0,[r0,#K]; ldr r3,=T;
+bx r3` shapes (`python scratch/ov_ov217/o11/next.py` lists them, smallest
+first, 513 of them).  Read the pool word to get T, put T on a `symbols:`
+line with `thumb  ov217` (or match T first when it has no label), and the
+veneer is one compile.  Two done at the end of this lane as the pattern
+check: func_021C29F0 (`matched`, T = func_021C2A30) and func_021BA68C
+(`label`, T = func_021C0E3C).
+
+Switch-with-jump-table residue (the seven large leaves)
+------------------------------------------------------
+
+Three of the seven closed this lane, all on the canonical pc-relative
+halfword-offset table mwcc emits for a dense switch:
+
+  func_021C1D28  60 B  EXACT*   switch (p->w8) { 0:0; 1:1; 2:1; 3:1; 4:0;
+                                5:1 } return 0;
+  func_021C1680  68 B  EXACT    p->counter++ then switch (p->type) over
+                                {0,4: -1; 1: 0x78; 2: 0x1e; 3: 0x14;
+                                5: 0x3c} and clamp: if (v < counter)
+                                counter = v -- with `case 0:` and `case 4:`
+                                written as SEPARATE labelled cases (writing
+                                `case 0: case 4:` shares one table entry and
+                                shifts every body; the image has two).
+  func_021C2A30  112 B EXACT    guard p->w4 && p->w14, then a ten-way
+                                switch on p->w18 calling func_021C2AA0,
+                                021C2B10, 021C2B80, 021C2BF0, 021C2C30,
+                                021C2C70, 021C2CB0, 021C2CF0, 021C2D28,
+                                021C2D68 in order.  Every callee is a
+                                labelled thumb entry of this overlay and
+                                took a `symbols:` line each.
+
+The two levers that mattered: (a) a duplicate case body must be spelled as
+two cases, never shared, or the block layout (and therefore every table
+offset) moves; (b) the tables are .word runs in the listing, so the case
+bodies' BL targets have to be decoded out of them - scratch/ov_ov217/o11/
+ovbytes.py assembles a listing region's bytes from its .org/.word/.byte
+lines and scratch/ov_ov217/o11/decode_021C2A30.py shows the halfword-offset
+table walk.
+
+Still open from the seven: func_021B970C (two stacked dispatchers),
+func_021B9774 (four stacked dispatchers; note src/matched/func_021B9774.c
+is ov114's function at the same address - an ov217 source must use the
+region-qualified name src/matched/ov217_func_021B9774.c), func_021C1720
+(store-heavy setter loop over the 0x14-stride array) and func_021C17C4
+(0x18-byte stack record copy inside the same loop).

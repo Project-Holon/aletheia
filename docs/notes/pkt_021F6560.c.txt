@@ -1,0 +1,306 @@
+/* residue of the DIFF functions of pkt_021F6560 (ov094), lane O10.
+ * each block is match.py one --diff output; see docs/MATCHING.md.
+ */
+
+==== func_021F9220 (0x021F9220) ====
+DIFF       func_021F9220 @ 021F9220 (ov094, Thumb)
+  compiler dsi/dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+  compiled 62 bytes, 0 relocation site(s)
+  listing extent for the original: 64 bytes
+  note: listing says the original is 64 bytes, compiled 62
+  30 concrete byte(s) differ
+  offset     ORIGINAL @ 021F9220                    | COMPILED                              
+  ------------------------------------------------------------------------------------------
+    +0000    push {r4, r5}                          | push {r4, r5}                          
+    +0002    ldr r5, [r0]                           | ldr r5, [r0]                           
+    +0004    ldr r4, [r1]                           | ldr r4, [r1]                           
+    +0006    adds r4, r5, r4                        | adds r4, r5, r4                        
+    +0008    str r4, [r0]                           | str r4, [r0]                           
+    +000A    ldr r1, [r1]                           | ldr r1, [r1]                           
+    +000C    cmp r1, #0                             | cmp r1, #0                             
+    +000E    ldr r1, [r2]                           | ldr r1, [r2]                           
+    +0010    bge #0x21f9248                         | bge #0x21f9248                         
+    +0012    cmp r4, r1                             | cmp r4, r1                             
+  * +0014    bgt #0x21f923c                         | ble #0x21f9242                         
+  * +0016    str r1, [r0]                           | cmp r3, #0                             
+  * +0018    pop {r4, r5}                           | beq #0x21f925a                         
+  * +001A    bx lr                                  | movs r0, #0                            
+  * +001C    cmp r3, #0                             | str r0, [r3]                           
+  * +001E    beq #0x21f925a                         | pop {r4, r5}                           
+  * +0020    movs r0, #0                            | bx lr                                  
+  * +0022    str r0, [r3]                           | str r1, [r0]                           
+    +0024    pop {r4, r5}                           | pop {r4, r5}                           
+    +0026    bx lr                                  | bx lr                                  
+    +0028    cmp r4, r1                             | cmp r4, r1                             
+  * +002A    blt #0x21f9252                         | bge #0x21f9258                         
+  * +002C    str r1, [r0]                           | cmp r3, #0                             
+  * +002E    pop {r4, r5}                           | beq #0x21f925a                         
+  * +0030    bx lr                                  | movs r0, #0                            
+  * +0032    cmp r3, #0                             | str r0, [r3]                           
+  * +0034    beq #0x21f925a                         | pop {r4, r5}                           
+  * +0036    movs r0, #0                            | bx lr                                  
+  * +0038    str r0, [r3]                           | str r1, [r0]                           
+    +003A    pop {r4, r5}                           | pop {r4, r5}                           
+    +003C    bx lr                                  | bx lr                                  
+  legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+==== func_021FD04C (0x021FD04C) ====
+DIFF       func_021FD04C @ 021FD04C (ov094, Thumb)
+  compiler dsi/dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+  compiled 34 bytes, 1 relocation site(s)
+  relocations: 1 of 1 resolved
+    +0008 THM_CALL func_021F7F1C       -> 021F7F1C  [label x6, e.g. 021EA35C]
+  listing extent for the original: 36 bytes
+  note: listing says the original is 36 bytes, compiled 34
+  17 concrete byte(s) differ
+  offset     ORIGINAL @ 021FD04C                    | COMPILED                              
+  ------------------------------------------------------------------------------------------
+    +0000    push {r3, r4, r5, lr}                  | push {r3, r4, r5, lr}                  
+    +0002    adds r4, r1, #0                        | adds r4, r1, #0                        
+    +0004    adds r5, r0, #0                        | adds r5, r0, #0                        
+    +0006    adds r0, r4, #0                        | adds r0, r4, #0                        
+    +0008    bl #0x21f7f1c                          | bl #0x21f7f1c                          <- THM_CALL func_021F7F1C [resolved: label]
+    +000C    cmp r0, #1                             | cmp r0, #1                             
+  * +000E    bne #0x21fd06a                         | bne #0x21fd068                         
+  * +0010    ldr r0, [r5]                           | ldr r1, [r5]                           
+  * +0012    lsls r0, r0, #0x1f                     | movs r0, #1                            
+  * +0014    lsrs r0, r0, #0x1f                     | tst r1, r0                             
+  * +0016    beq #0x21fd06c                         | beq #0x21fd06a                         
+  * +0018    movs r0, #1                            | eors r4, r0                            
+  * +001A    eors r4, r0                            | b #0x21fd06a                           
+  * +001C    b #0x21fd06c                           | movs r4, #0xff                         
+  * +001E    movs r4, #0xff                         | adds r0, r4, #0                        
+  * +0020    adds r0, r4, #0                        | pop {r3, r4, r5, pc}                   
+  legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+==== func_021FE4F8 (0x021FE4F8) ====
+DIFF       func_021FE4F8 @ 021FE4F8 (ov094, Thumb)
+  compiler dsi/dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+  compiled 36 bytes, 4 relocation site(s)
+  relocations: 4 of 4 resolved
+    +0004 THM_CALL func_021F8694       -> 021F8694  [label x54, e.g. 021F9694]
+    +000A THM_CALL func_021FFD9C       -> 021FFD9C  [label x19, e.g. 021F7F2E]
+    +0012 THM_CALL func_021F8694       -> 021F8694  [label x54, e.g. 021F9694]
+    +0018 THM_CALL func_022004BC       -> 022004BC  [sole-ref x1, e.g. 022004BC]
+  listing extent for the original: 40 bytes
+  note: listing says the original is 40 bytes, compiled 36
+  31 concrete byte(s) differ
+  offset     ORIGINAL @ 021FE4F8                    | COMPILED                              
+  ------------------------------------------------------------------------------------------
+    +0000    push {r4, lr}                          | push {r4, lr}                          
+    +0002    movs r4, #0                            | movs r4, #0                            
+  * +0004    cmp r4, #8                             | bl #0x21f8694                          <- THM_CALL func_021F8694 [resolved: label]
+  * +0006    bge #0x21fe51e                         | ca f8                                  
+  * +0008    bl #0x21f8694                          | adds r1, r4, #0                        
+  * +000A    c8 f8 21 1c                            | bl #0x21ffd9c                          <- THM_CALL func_021FFD9C [resolved: label]
+  * +000C    adds r1, r4, #0                        | 4b fc                                  
+  * +000E    bl #0x21ffd9c                          | cmp r0, #1                             
+  * +0010    49 fc                                  | bne #0x21fe514                         
+  * +0012    cmp r0, #1                             | bl #0x21f8694                          <- THM_CALL func_021F8694 [resolved: label]
+  * +0014    bne #0x21fe518                         | c3 f8                                  
+  * +0016    bl #0x21f8694                          | adds r1, r4, #0                        
+  * +0018    c1 f8 21 1c                            | bl #0x22004bc                          <- THM_CALL func_022004BC [resolved: sole-ref]
+  * +001A    adds r1, r4, #0                        | d4 ff                                  
+  * +001C    bl #0x22004bc                          | adds r4, r4, #1                        
+  * +001E    d2 ff                                  | cmp r4, #8                             
+  * +0020    adds r4, r4, #1                        | blt #0x21fe4fc                         
+  * +0022    cmp r4, #8                             | pop {r4, pc}                           
+  legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+==== func_021FE520 (0x021FE520) ====
+DIFF       func_021FE520 @ 021FE520 (ov094, Thumb)
+  compiler dsi/dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+  compiled 40 bytes, 4 relocation site(s)
+  relocations: 4 of 4 resolved
+    +0006 THM_CALL func_021F8694       -> 021F8694  [label x54, e.g. 021F9694]
+    +000C THM_CALL func_021FFD9C       -> 021FFD9C  [label x19, e.g. 021F7F2E]
+    +0014 THM_CALL func_021F8694       -> 021F8694  [label x54, e.g. 021F9694]
+    +001C THM_CALL func_021FF470       -> 021FF470  [label x2, e.g. 021FB1FC]
+  listing extent for the original: 44 bytes
+  note: listing says the original is 44 bytes, compiled 40
+  35 concrete byte(s) differ
+  offset     ORIGINAL @ 021FE520                    | COMPILED                              
+  ------------------------------------------------------------------------------------------
+    +0000    push {r3, r4, r5, lr}                  | push {r3, r4, r5, lr}                  
+    +0002    movs r5, #0                            | movs r5, #0                            
+  * +0004    cmp r5, #8                             | adds r4, r5, #0                        
+  * +0006    bge #0x21fe54a                         | bl #0x21f8694                          <- THM_CALL func_021F8694 [resolved: label]
+  * +0008    adds r4, r5, #0                        | b5 f8                                  
+  * +000A    bl #0x21f8694                          | adds r1, r5, #0                        
+  * +000C    b3 f8 29 1c                            | bl #0x21ffd9c                          <- THM_CALL func_021FFD9C [resolved: label]
+  * +000E    adds r1, r5, #0                        | 36 fc                                  
+  * +0010    bl #0x21ffd9c                          | cmp r0, #1                             
+  * +0012    34 fc                                  | bne #0x21fe540                         
+  * +0014    cmp r0, #1                             | bl #0x21f8694                          <- THM_CALL func_021F8694 [resolved: label]
+  * +0016    bne #0x21fe544                         | ae f8                                  
+  * +0018    bl #0x21f8694                          | adds r1, r5, #0                        
+  * +001A    ac f8                                  | adds r2, r4, #0                        
+  * +001C    adds r1, r5, #0                        | bl #0x21ff470                          <- THM_CALL func_021FF470 [resolved: label]
+  * +001E    adds r2, r4, #0                        | 98 ff                                  
+  * +0020    bl #0x21ff470                          | adds r5, r5, #1                        
+  * +0022    96 ff                                  | cmp r5, #8                             
+  * +0024    adds r5, r5, #1                        | blt #0x21fe526                         
+  * +0026    cmp r5, #8                             | pop {r3, r4, r5, pc}                   
+  legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+==== func_021FF2D8 (0x021FF2D8) ====
+DIFF       func_021FF2D8 @ 021FF2D8 (ov094, Thumb)
+  compiler dsi/dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+  compiled 42 bytes, 2 relocation site(s)
+  relocations: 1 of 2 resolved
+    +0004 THM_CALL func_022019F4       -> 022019F4  [label x59, e.g. 021FEBCE]
+    +0024 THM_CALL func_02015DF8       -> unresolved: 02015DF8 (thumb, from header) has no witness outside 021FF2D8..021FF302
+  listing extent for the original: 44 bytes
+  note: listing says the original is 44 bytes, compiled 42
+  2 concrete byte(s) differ
+  offset     ORIGINAL @ 021FF2D8                    | COMPILED                              
+  ------------------------------------------------------------------------------------------
+    +0000    push {r4, lr}                          | push {r4, lr}                          
+    +0002    adds r4, r0, #0                        | adds r4, r0, #0                        
+    +0004    bl #0x22019f4                          | bl #0x22019f4                          <- THM_CALL func_022019F4 [resolved: label]
+    +0008    movs r1, #0                            | movs r1, #0                            
+    +000A    mvns r1, r1                            | mvns r1, r1                            
+    +000C    cmp r0, r1                             | cmp r0, r1                             
+    +000E    bne #0x21ff2ec                         | bne #0x21ff2ec                         
+    +0010    movs r0, #0                            | movs r0, #0                            
+    +0012    pop {r4, pc}                           | pop {r4, pc}                           
+    +0014    movs r1, #0x5c                         | movs r1, #0x5c                         
+    +0016    muls r1, r0, r1                        | muls r1, r0, r1                        
+    +0018    adds r0, r4, r1                        | adds r0, r4, r1                        
+  * +001A    ldr r0, [r0, #8]                       | ldr r1, [r0, #8]                       
+  * +001C    cmp r0, #0                             | cmp r1, #0                             
+    +001E    bne #0x21ff2fc                         | bne #0x21ff2fc                         
+    +0020    movs r0, #0                            | movs r0, #0                            
+    +0022    pop {r4, pc}                           | pop {r4, pc}                           
+  ~ +0024    bl #0x2015df8                          | bl #0x21ff300                          <- THM_CALL func_02015DF8 [wildcard]
+    +0028    pop {r4, pc}                           | pop {r4, pc}                           
+  legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+==== func_021FF348 (0x021FF348) ====
+DIFF       func_021FF348 @ 021FF348 (ov094, Thumb)
+  compiler dsi/dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+  compiled 42 bytes, 2 relocation site(s)
+  relocations: 1 of 2 resolved
+    +0004 THM_CALL func_022019F4       -> 022019F4  [label x59, e.g. 021FEBCE]
+    +0024 THM_CALL func_02015E94       -> unresolved: 02015E94 (thumb, from header) has no witness outside 021FF348..021FF372
+  listing extent for the original: 44 bytes
+  note: listing says the original is 44 bytes, compiled 42
+  2 concrete byte(s) differ
+  offset     ORIGINAL @ 021FF348                    | COMPILED                              
+  ------------------------------------------------------------------------------------------
+    +0000    push {r4, lr}                          | push {r4, lr}                          
+    +0002    adds r4, r0, #0                        | adds r4, r0, #0                        
+    +0004    bl #0x22019f4                          | bl #0x22019f4                          <- THM_CALL func_022019F4 [resolved: label]
+    +0008    movs r1, #0                            | movs r1, #0                            
+    +000A    mvns r1, r1                            | mvns r1, r1                            
+    +000C    cmp r0, r1                             | cmp r0, r1                             
+    +000E    bne #0x21ff35c                         | bne #0x21ff35c                         
+    +0010    movs r0, #0                            | movs r0, #0                            
+    +0012    pop {r4, pc}                           | pop {r4, pc}                           
+    +0014    movs r1, #0x5c                         | movs r1, #0x5c                         
+    +0016    muls r1, r0, r1                        | muls r1, r0, r1                        
+    +0018    adds r0, r4, r1                        | adds r0, r4, r1                        
+  * +001A    ldr r0, [r0, #8]                       | ldr r1, [r0, #8]                       
+  * +001C    cmp r0, #0                             | cmp r1, #0                             
+    +001E    bne #0x21ff36c                         | bne #0x21ff36c                         
+    +0020    movs r0, #0                            | movs r0, #0                            
+    +0022    pop {r4, pc}                           | pop {r4, pc}                           
+  ~ +0024    bl #0x2015e94                          | bl #0x21ff370                          <- THM_CALL func_02015E94 [wildcard]
+    +0028    pop {r4, pc}                           | pop {r4, pc}                           
+  legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+==== func_021FFFAC (0x021FFFAC) ====
+DIFF       func_021FFFAC @ 021FFFAC (ov094, Thumb)
+  compiler dsi/dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+  compiled 42 bytes, 2 relocation site(s)
+  relocations: 1 of 2 resolved
+    +0004 THM_CALL func_022019F4       -> 022019F4  [label x59, e.g. 021FEBCE]
+    +0024 THM_CALL func_02015F24       -> unresolved: 02015F24 (thumb, from header) has no witness outside 021FFFAC..021FFFD6
+  listing extent for the original: 44 bytes
+  note: listing says the original is 44 bytes, compiled 42
+  2 concrete byte(s) differ
+  offset     ORIGINAL @ 021FFFAC                    | COMPILED                              
+  ------------------------------------------------------------------------------------------
+    +0000    push {r4, lr}                          | push {r4, lr}                          
+    +0002    adds r4, r0, #0                        | adds r4, r0, #0                        
+    +0004    bl #0x22019f4                          | bl #0x22019f4                          <- THM_CALL func_022019F4 [resolved: label]
+    +0008    movs r1, #0                            | movs r1, #0                            
+    +000A    mvns r1, r1                            | mvns r1, r1                            
+    +000C    cmp r0, r1                             | cmp r0, r1                             
+    +000E    bne #0x21fffc0                         | bne #0x21fffc0                         
+    +0010    movs r0, #0                            | movs r0, #0                            
+    +0012    pop {r4, pc}                           | pop {r4, pc}                           
+    +0014    movs r1, #0x5c                         | movs r1, #0x5c                         
+    +0016    muls r1, r0, r1                        | muls r1, r0, r1                        
+    +0018    adds r0, r4, r1                        | adds r0, r4, r1                        
+  * +001A    ldr r0, [r0, #8]                       | ldr r1, [r0, #8]                       
+  * +001C    cmp r0, #0                             | cmp r1, #0                             
+    +001E    bne #0x21fffd0                         | bne #0x21fffd0                         
+    +0020    movs r0, #0                            | movs r0, #0                            
+    +0022    pop {r4, pc}                           | pop {r4, pc}                           
+  ~ +0024    bl #0x2015f24                          | bl #0x21fffd4                          <- THM_CALL func_02015F24 [wildcard]
+    +0028    pop {r4, pc}                           | pop {r4, pc}                           
+  legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+==== func_02206864 (0x02206864) ====
+DIFF       func_02206864 @ 02206864 (ov094, Thumb)
+  compiler dsi/dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+  compiled 22 bytes, 0 relocation site(s)
+  listing extent for the original: 24 bytes
+  note: listing says the original is 24 bytes, compiled 22
+  1 concrete byte(s) differ
+  offset     ORIGINAL @ 02206864                    | COMPILED                              
+  ------------------------------------------------------------------------------------------
+    +0000    movs r3, #0                            | movs r3, #0                            
+    +0002    lsls r2, r3, #2                        | lsls r2, r3, #2                        
+    +0004    adds r2, r0, r2                        | adds r2, r0, r2                        
+    +0006    ldr r2, [r2, #8]                       | ldr r2, [r2, #8]                       
+  * +0008    cmp r2, r1                             | cmp r1, r2                             
+    +000A    beq #0x2206876                         | beq #0x2206876                         
+    +000C    adds r3, r3, #1                        | adds r3, r3, #1                        
+    +000E    cmp r3, #8                             | cmp r3, #8                             
+    +0010    blt #0x2206866                         | blt #0x2206866                         
+    +0012    adds r0, r3, #0                        | adds r0, r3, #0                        
+    +0014    bx lr                                  | bx lr                                  
+  legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+==== func_02207CC4 (0x02207CC4) ====
+DIFF       func_02207CC4 @ 02207CC4 (ov094, Thumb)
+  compiler dsi/dsi/1.1p1  flags: -proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb
+  compiled 56 bytes, 1 relocation site(s)
+  relocations: 1 of 1 resolved
+    +002C THM_CALL func_02207D04       -> 02207D04  [sole-ref x1, e.g. 02207D04]
+  listing extent for the original: 64 bytes
+  note: listing says the original is 64 bytes, compiled 56
+  51 concrete byte(s) differ
+  offset     ORIGINAL @ 02207CC4                    | COMPILED                              
+  ------------------------------------------------------------------------------------------
+    +0000    push {r3, r4, r5, r6, r7, lr}          | push {r3, r4, r5, r6, r7, lr}          
+  * +0002    movs r4, #0                            | adds r5, r0, #0                        
+  * +0004    adds r5, r0, #0                        | adds r7, r1, #0                        
+  * +0006    adds r7, r1, #0                        | adds r6, r2, #0                        
+  * +0008    adds r6, r2, #0                        | movs r4, #0                            
+  * +000A    cmp r4, #8                             | lsls r1, r4, #7                        
+  * +000C    bge #0x2207d00                         | cmp r6, #2                             
+  * +000E    cmp r6, #2                             | beq #0x2207cde                         
+  * +0010    beq #0x2207ce2                         | adds r0, r5, r1                        
+  * +0012    lsls r0, r4, #7                        | adds r0, #0x84                         
+  * +0014    adds r0, r5, r0                        | ldr r0, [r0]                           
+  * +0016    adds r0, #0x84                         | cmp r0, r6                             
+  * +0018    ldr r0, [r0]                           | bne #0x2207cf4                         
+  * +001A    cmp r6, r0                             | adds r0, r5, r1                        
+  * +001C    bne #0x2207cfa                         | adds r0, #0xb0                         
+  * +001E    lsls r0, r4, #7                        | ldr r0, [r0]                           
+  * +0020    adds r0, r5, r0                        | lsls r0, r0, #0x1c                     
+  * +0022    adds r0, #0xb0                         | lsrs r0, r0, #0x1f                     
+  * +0024    ldr r0, [r0]                           | beq #0x2207cf4                         
+  * +0026    lsls r0, r0, #0x1c                     | adds r0, r5, #0                        
+  * +0028    lsrs r0, r0, #0x1f                     | adds r1, r7, #0                        
+  * +002A    beq #0x2207cfa                         | adds r2, r4, #0                        
+  * +002C    adds r0, r5, #0                        | bl #0x2207d04                          <- THM_CALL func_02207D04 [resolved: sole-ref]
+  * +002E    adds r1, r7, #0                        | 08 f8                                  
+  * +0030    adds r2, r4, #0                        | adds r4, r4, #1                        
+  * +0032    bl #0x2207d04                          | cmp r4, #8                             
+  * +0034    05 f8                                  | blt #0x2207cce                         
+  * +0036    adds r4, r4, #1                        | pop {r3, r4, r5, r6, r7, pc}           
+  legend: '*' concrete mismatch, '~' relocation field (wildcarded)

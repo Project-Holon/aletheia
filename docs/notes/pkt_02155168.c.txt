@@ -1,0 +1,52 @@
+ov009 / pkt_02155168 -- lane O5 residue and blockers (2026-09-24)
+
+Filed: 110 EXACT entries in layout/matched/ov009/pkt_02155168.json (1832 bytes,
+7.0% of the overlay's 1574 traced functions).  Sources are one function per
+file under src/matched/.
+
+Parked, not committed (sources kept in scratch/ov009/):
+
+  func_02161748  36B ARM  loop shape (pre-decrement + increment test) guessed
+                          wrong; 40 vs 36 bytes.
+  func_0215E2C0  36B ARM  correct size, one instruction differs.
+  func_0219DEE8  28B ARM  correct size, store order differs.
+  func_02195E80  32B ARM  big-endian halfword read; 28 vs 32 bytes.
+  func_02194DE4  24B ARM  append-byte; correct size, differs.
+  func_02156874  16B Thumb byte at +0x32c of the block; correct size, differs.
+  func_02166424  32B ARM  push/mov/store/pop shape the compiler does not emit
+                          at -O4,p (prologue kept), so the original was built
+                          under different flags.
+  func_02193D64  20B ARM  generated source did not compile (CCERR).
+  func_02157808  20B ARM  xor/select idiom.
+
+Blocked, not filed:
+
+  func_0215FA9C, func_0217CE48, func_02194754, func_021947C0, func_0219F638
+      the listing emits only the opening `push {r0, r1, r2, r3}` and the rest
+      of the body as data, so neither the body nor its length is known.
+
+  func_02164484 / 90 / A0 / B4 (12..28B ARM)
+      a family of halfword readers whose results land in r1 (and r0) with an
+      unused `ldrh r1, [r0]` first.  The register assignment only makes sense
+      as a 64-bit (or structure) return, and no plausible C shape reproduced
+      it; left alone rather than guessed.
+
+  func_0217F124, func_02195B20, func_0219F068
+      MATCH, not EXACT: the pool target (0x020964F4, 0x02198020, 0x0219F7B4)
+      has no accepted witness.  Sources are in src/pending/.
+
+Repo-level blocker seen mid-lane:
+
+  Between 14:20 and 14:23 `tools/match.py one` and `manifest --verify` both
+  aborted with
+
+    manifest shards disagree: func_021B911C is in both
+    layout/matched/ov093/pkt_021B85A0.json and layout/matched/ov093/pkt_021B911C.json
+
+  load_manifest() raises on the duplicate, so every function whose relocation
+  needs the manifest class failed to verify across all lanes.  The stale
+  pkt_021B911C.json (written 14:20, compiler field "dsi/dsi/1.1p1") is left
+  over from a packet-id rename in the ov093 lane's source header; the later
+  pkt_021B85A0.json holds the same entry.  It resolved itself before this
+  lane's final manifest run, but the stale shard is the thing to check if the
+  error comes back.

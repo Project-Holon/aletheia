@@ -1,0 +1,37 @@
+/*
+ * function: func_021BD994
+ * address:  0x021BD994
+ * packet:   pkt_021B95A0
+ * region:   ov099
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   sub_020399A8  0x020399A8  arm
+ *   sub_02039C68  0x02039C68  arm
+ *
+ * The result of the first arm9 call is the first argument of the second.
+ * Returns the second argument.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned long  u32;
+typedef signed char    s8;
+typedef signed short   s16;
+typedef signed long    s32;
+typedef int BOOL;
+
+extern int sub_020399A8(void *v, int b);
+extern void sub_02039C68(int a, int b, int c);
+
+int func_021BD994(void *v, int b)
+{
+    sub_02039C68(sub_020399A8(v, b), 0x1B, 0x0A);
+    *(u32 *)((u8 *)v + 0x1CC) = 0x8B;
+
+    return b;
+}
