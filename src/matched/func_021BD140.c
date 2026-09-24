@@ -21,9 +21,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02013E6C();
+extern void sub_02013E6C(void);
 
 void func_021BD140(void)
 {
-    func_02013E6C();
+    sub_02013E6C();
 }
