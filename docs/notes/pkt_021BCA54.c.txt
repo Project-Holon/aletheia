@@ -1,0 +1,20 @@
+func_021BCA54 0x021BCA54 ov208 DIFF (12 of 20 bytes, SIZE)
+
+residue (two rewrites, both compiled 12 bytes against a 20-byte listing extent)
+-------------------------------------------------------------------------------
+  ORIGINAL                                    | COMPILED (variant A: int b, two (unsigned short) casts)
+  adds r2, r1, #0                             | ldr r3, [pc, #4]
+  lsls r1, r2, #0x10                          | adds r2, r1, #0
+  lsrs r2, r2, #0x10                          | bx r3
+  lsls r2, r2, #0x10                          | (pool word follows)
+  ldr r3, [pc, #4]                            | ...
+  lsrs r1, r1, #0x10                          |
+  lsrs r2, r2, #0x10                          |
+  bx r3                                       |
+
+The original zero-extends the low half of r1 twice, keeping the two copies in r1
+and r2 separately (r2 begins as a copy of r1).  Declaring the second parameter as
+`unsigned short` (variant B) and as `int` with two casts (variant A) both let the
+compiler CSE the two conversions into one, which drops the adds/lsls/lsrs
+prelude.  func_021C0950 shows the same double zero-extension shape and also came
+out DIFF, so this pair is a shared signature question, not a one-off.
