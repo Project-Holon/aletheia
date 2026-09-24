@@ -15,9 +15,9 @@
  * Runs the +0x3C object to completion and clears it.
  */
 
-#pragma thumb off
+#pragma arm
 extern void func_0204047C(int, int);
-#pragma thumb on
+#pragma thumb
 
 void func_021BDCDC(int unused, char *p)
 {
