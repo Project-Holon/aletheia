@@ -374,3 +374,25 @@ spill slot (lo's spill is at [sp]), done is a register candidate spilled
 there, and buf is the first addressable local. What hides the zero from
 propagation is still not found.
 /* best source, 184 bytes against 184, 17 concrete bytes out, 1.1p1 -- the note's source with int hi, mid, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane printsys_2): 17 -> 0, EXACT, filed src/matched/func_0201C8BC.c
+==============================================================================
+Two changes, both required:
+  - `u8 done = 0;` (plain, not volatile). With the mask below fixed: plain
+    u8, u16 and signed char done are all EXACT; volatile int stays at 15;
+    plain int is 180 bytes (zero forwarded); plain long 180/156.  The u8
+    flag is a register candidate spilled to [sp,#4] and its zero is not
+    propagated into the byte stores, so buf is the first addressable local
+    and gets its own `add r1, sp, #8` base (the wave 16 reading was right).
+  - the rewrite mask is 0xFF0FFFFF, not 0xFFFF0FFF: the pool word in the
+    image is ff ff 0f ff.  That was the 2 pool bytes left under every
+    spelling since wave 3 (the `lsrs r7, r7, #0x1f` / .byte row at +0xB0).
+    It clears bits 20..23, the field the `<< 8 >> 28` test reads, and the
+    or of 0x200000 sets it to 2.  docs/families/printsys.h still says
+    0xFFFF0FFF (integrator: correct the PrintCtx+0x04 comment).
+Other measurements this pass (with the old mask): volatile long done plus
+long hi 39; `int done = a1 & 0` 180/156; plain int done through a `u8 *q`
+block 180/156; volatile done assigned after declaration 17.
+Idiom: docs/idioms/a-narrow-flag-local-is-spilled-not-constant-propagated.md
+manifest --verify --shard pkt_0201C8BC twice: 1 rewritten, then 0.

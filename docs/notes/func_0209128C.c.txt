@@ -82,3 +82,22 @@ the store (1); the ternary plus `v = v;` (1); int v with `v = x` in the else
 arm (22); `v = 1; if (x == 0) v = 0;` (1); signed char v (1).
 Every 1.1p1 form drops the predicate on `mov r1, #1`.  Left as is: the
 ../2.0/sp2 result stands as the only exact build.
+
+================================================================
+APPENDED 2026-09-24, wave 19 lane 19K mcss_small_3: still DIFF 1 under 1.1p1
+================================================================
+With `g_02153B88 0x02153B88 data a1`, measured once each (10):
+  unsigned long v = (x != 0) ? 1 : 0;                         1
+  long v; if (x != 0) v = 1; else v = 0;                     1
+  long x parameter with the u8 ternary                        1
+  v from a static inline `nz(x)` returning int (x != 0)       1
+  static inline long nz() with two returns, stored directly   1
+  static inline unsigned long nz(unsigned long) ternary       1
+  unsigned long x, `v = 0; if (x) v = 1;`                     4
+  struct { u8 f; } global, ternary into the field             1
+  enum Flag local with if/else                                1
+  int return type, no return (missing-return idea)           11
+Final position: every 1.1p1 spelling measured in four waves emits a plain
+`mov r1, #1` at +0004; the image's `movne` is reproduced only by the
+../2.0 and ../1.2 builds (wave 18). No long, call-result or type lever
+moves it. Best source unchanged (the ternary into a u8 local, 1 out).

@@ -342,3 +342,25 @@ the load, `total = total;` before the loop (66 each); dsi/1.2 66 and 66 with
 the total self-assignment; `unsigned long n` 66; `unsigned long start` 66;
 `unsigned long total` without the u16 casts 88 bytes (74).
 /* best source, 92 bytes against 92, 66 concrete bytes out, 1.1p1 -- the wave 13 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane printsys_2): 66 holds
+==============================================================================
+From the wave 13 u16-len source, all 92 bytes:
+  - sweep (one measurement, 180 compiles): total in {u16, unsigned long,
+    long} x head in {u16, unsigned long} x every declaration order of
+    total/base/start with head block-scope, and of total/base/start/head
+    with head function-scope: 66 (72 cells), 67 (84), 68 (24).  The
+    backup_system recipe (long plus a re-sweep) does not reach this tie;
+  - `head + n` operand order (66; mwcc normalises the commutative add),
+    head read as `*(const u16 *)p` (66), `u16 *const p` (66),
+    `&base[head]` (66), `return &base[start]` (66);
+  - `if (total < len) do {} while (total < len)` (66) and the same guarded
+    by `len != 0` (66); a for loop with the u16-cast step (66);
+  - total's step moved before the copy (90/75), src's step moved to the end
+    (69), a u8 total (68, not a candidate, recorded only).
+Reading: the image also keeps the return's `base` as the spilled variable
+(`ldr r1, [sp, #8]`), while every compile rematerialises it as p + 0x18
+and sinks base's definition below the entry guard; that difference comes
+with the head/total tie and may be the better handle for the next lane.
+/* best source, 92 bytes against 92, 66 concrete bytes out, 1.1p1 -- the wave 13 source above, unchanged */

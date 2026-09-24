@@ -129,3 +129,18 @@ bound r0, compares right) but the bound becomes a second pool word
 follows which of the two values is defined first, and in the image the
 bound's def is coloured before the base's; the literal spelling defines the
 base first.
+
+================================================================
+APPENDED 2026-09-24, wave 19 lane 19K mcss_small_3: EXACT, filed
+================================================================
+Filed as src/matched/sub_02034D60.c (dsi/1.1p1, 100/100, 2/2 relocations,
+the base word attested literal x17).  The lever: the region base written as
+`u32 lo = (u32)SDK_AUTOLOAD_MAIN_TWL_START;` (extern data at 0x02FE0000) and
+the guard as `id <= lo + 0x4000 && id >= lo`.  Measured once each:
+  extern pointer base, `lo + 0x4000`            10 out, 104 bytes
+  extern pointer base, `lo + off` (long off)    10 out, 104 bytes
+  pointer difference `(long)(p - SYM) <= 0x4000` 11 out, 100 bytes
+  `&lo[0x4000]` on the extern pointer base       10 out, 104 bytes
+  u32 lo = (u32)SYM                              EXACT
+  unsigned long lo = (unsigned long)SYM          EXACT
+Idiom: docs/idioms/a-region-symbol-cast-to-u32-keeps-the-bound-an-add.md.

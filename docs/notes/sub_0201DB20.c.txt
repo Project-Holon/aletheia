@@ -362,3 +362,21 @@ after `m = m->pNext`, after the rebase; `hi = hi;` before the case-2 break;
 `long hi, lo`; dsi/1.2 (154/15). The self-assignment lever does not move the
 m/hi colouring here.
 /* best source, 154 bytes against 156, 15 concrete bytes out, dsi/1.1p1 -- the wave 15 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane printsys_2): 15 holds
+==============================================================================
+From the wave 15 source (1.1p1), all 154 bytes:
+  - sweep (one measurement, 48 compiles): hi/lo in {long/s32, s32/long,
+    long/long, unsigned long/s32} x mid in {s32, long} x all 6 orders of
+    hi, lo, m: 15 (hi before lo) or 18, and 148 bytes (90, 91) for
+    unsigned long hi;
+  - m held as an integer (`unsigned long m` and `u32 m`, a `M` cast macro
+    at the uses) in all 6 orders: 15 or 18;
+  - chain step: `if ((m = m->pNext) != 0)` (15), the rebase as the
+    cast-lvalue compound `(u8 *)m += f88 - f->unk68` (16, same rotation),
+    as two compounds `-= unk68; += f88` (26), as u32 arithmetic (15), and
+    `if (m == 0) break;` with the return 0 after the loop (15);
+  - permuter anneal, budget 800, seed 2901, --types: it chases the 156-byte
+    extent again (156/40, expand(m x2); commute(!=)), nothing at 154.
+/* best source, 154 bytes against 156, 15 concrete bytes out, dsi/1.1p1 -- the wave 15 source above, unchanged */

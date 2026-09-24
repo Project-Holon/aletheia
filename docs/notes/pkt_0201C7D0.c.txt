@@ -382,3 +382,30 @@ defined `static` in the TU 37; -lang c++ the same shape (25 only because the
 mangled callees are wildcarded). Still no single front end or spelling with
 one pool word and no caching.
 /* best source, 56 bytes against 56, 2 concrete bytes out, ../2.0/sp2 -- the wave 11 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane printsys_2): 2 (sp2) / 37 (1.1p1) hold
+==============================================================================
+Mechanism, from the three-name result: the image's address has no callee-
+saved register because it would interfere with x, y, z and s (r4..r7), so it
+is rematerialised; the 1.1p1 compile stores z to [sp] right after the first
+call, frees r4, and the one-name address takes it.  What would reproduce the
+image is anything that keeps z (or another value) live in r4 across the
+address's first definition without a post-call use.  Not found.
+Measured under 1.1p1 from the wave 11 source, all 56 bytes, 37 out unless
+stated:
+  - `extern volatile struct Scratch g_0214655C` with casts at the calls (37);
+  - `extern struct Scratch g_0214655C[1]`, `&g_0214655C[0]` at each site (37);
+  - pragmas before the function: opt_common_subs, opt_propagation,
+    opt_lifetimes, opt_dead_code, opt_strength_reduction, opt_loop_invariants,
+    global_optimizer off, optimization_level 3 and 2 (37 each), level 1 (39):
+    the caching survives every optimiser switch; -O0 reloads per site but is
+    68 bytes (no pin, recorded as evidence only);
+  - --flags -O4,s / -O3,p / -O2,p / -O4,p -opt nocse (37 each);
+  - all three calls inside one static inline helper taking the scratch as a
+    parameter, with and without the first call inside it (37, 37); the
+    address from an inline `get()` at each site (37);
+  - `register s16 z`, and register on x, y, z, s (37, 37);
+  - a `struct Scratch *volatile c` reassigned before each call (68/52);
+  - an unreferenced label before each call, and `goto L; L:` pairs (37, 37).
+/* best source, 56 bytes against 56, 2 concrete bytes out, ../2.0/sp2 -- the wave 11 source above, unchanged */
