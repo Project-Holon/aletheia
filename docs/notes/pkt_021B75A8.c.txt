@@ -94,3 +94,144 @@ counter's zero comes from a literal pool word at 0x021E740C and the `n == 0` tes
 is the `beq` on the `adds r7,r0,#0`.  The natural `for (i = 0; i < n; i++)` gives
 `movs r5,#0` plus a separate `cmp r7,#0; bls` pre-test, shifting the loop.  If a
 source shape is ever found that makes mwcc put a zero in the pool, this one closes.
+
+
+### lane O79 (big) -- the jump-table dispatchers of ov093, and the one residue they have
+
+**The table geometry is confirmed and is now mechanical.**  For the Thumb form
+
+    cmp rX, #N ; bhi <default> ; adds rY, rX, rX ; add rY, pc ;
+    ldrh rY, [rY, #6] ; lsls rY, rY, #0x10 ; asrs rY, rY, #0x10 ; add pc, rY
+
+    table  = (address of the `add rY, pc`) + 4 + 6
+    target = (address of the `add pc, rY`) + 4 + (s16) table[value]
+
+which decodes every one of ov093's 87 dispatchers.  `scratch/ov_093/o79/disp.py`
+takes a function address, prints the listing region, decodes the table with each
+case's target address, and capstone-disassembles the case-body blob straight out
+of `extract/overlays_dec/y9_0093.bin` -- the blob is `.word` lines in the listing,
+but it is ordinary Thumb code and it is *inside the function*, so a `switch` that
+gets the case set and the case *source order* right reproduces it.
+`scratch/ov_093/o79/o79_dispatchers.json` holds all 87 with their table address
+and traced/untraced byte split.
+
+**func_021D6324** (0x021D6324, 148 B extent = 146 B of code + 2 B alignment
+padding, 18 traced instructions, 11 cases) is **fully reconstructed and is 2
+bytes from EXACT; not filed**.  What reproduced, byte for byte:
+
+    int func_021D6324(int a, u32 b)
+    {
+        if (func_021D62C4(a, b) != 0) {
+            switch (b) {
+            case 5:
+                if (func_021E8A78(*(u32 *)(a + b * 4 + 0x1c)) != 0)
+                    return func_021D7B74(a, 0x10) * *(u8 *)(a + b + 0xac);
+                return func_021D7B74(a, 8);
+            case 4:
+                return func_021D7B74(a, 8);
+            case 9:
+                if (func_021D62C4(a, 2) != 0)
+                    return func_021D7B74(a, 4);
+                break;
+            case 10:
+                return func_021D7B74(a, 4);
+            default:
+                return 0;
+            }
+        }
+        return 0;
+    }
+
+Measured, each a real compile: the 11-entry halfword table and every entry
+value; the bodies in the source order **5, 4, 9, 10** (mwcc emits case bodies in
+the order the `case` labels appear, not ascending -- an ascending `switch` and
+the `||`-style arm swap both move bytes); the two distinct `movs r0,#0; pop`
+blocks (the switch's own `default:`, at the end of the body list, and one shared
+trailing `return 0` that the gate's `beq` *and* case 9's `break` both land on --
+write the gate as `if (gate != 0) { switch ... } return 0;`, not as an early
+`return 0;`, or mwcc inlines the return and inverts the branch); the arity-2 call
+`func_021D62C4(a, 2)` in case 9 (the image loads `movs r1,#2`; a one-argument
+declaration is a C error, not a codegen choice, so the helper takes two ints);
+and the two-copy `return func_021D7B74(a, 8)` (case 5's fallback and case 4's
+body are adjacent and *not* merged).  All 8 relocations resolve as labels; no
+`data` symbols are needed here.
+
+**The residue is one front-end fold, 2 bytes, at +0x38** -- and it is the class's
+wall, not this function's:
+
+    image :  +0038  adds r0, #0x1c      +003A  ldr r0, [r0]
+    ours  :  +0038  ldr r0, [r0, #0x1c]
+
+Everything from +0x38 to the end is then 2 bytes early (144 B compiled against
+146 B of code), which is what makes the table's halfword entries and the whole
+tail look wrong.  Nine spellings of the same expression all fold identically:
+`*(u32 *)(a + b * 4 + 0x1c)`, an `int`/`u32` address local, a `u32 *` local, a
+`(char *)`/`(u8 *)` base, `p[7]` and `*(p + 7)`, and `(u8 *)a + b * 4` followed
+by `+ 0x1c`.  `match.py sweep` over all nine dsi compilers x
+-O4,p/-O4,s/-O4/-O3/-O2/-O1/-O0 (63 configurations): every -O4 configuration gives
+144 B with that fold, every -O0 configuration gives the right 146 B but 58
+divergences elsewhere.  So mwcc -O4,p folds `base + idx*4 + const` into the
+load's displacement and the image's front end kept the constant as a separate
+`adds`; no source shape reaches it.  This is the same front-end-fold class as the
+`subs r0, r0, #3` for -2 in the o61/o69 residues.
+
+**Why that caps the whole 87.**  A dispatcher case body is a record walk: a
+4-byte-stride array plus a field constant (0x1c here is the first field access,
+in the first case body).  Unless a dispatcher's case bodies are all `bl` /
+`return` shapes with no `base + idx*stride + const` term, the first such term
+costs the 2 bytes and shifts everything after it.  The next lane should decode
+the case bodies first (`disp.py`), and prefer tables whose bodies are plain
+calls; 87 tables is 32,212 extent bytes and the dispatcher skeleton itself
+reproduces from a `switch` with the case order preserved, which this lane
+measured rather than guessed.
+
+Near-miss source: `scratch/ov_093/o79/func_021D6324_diff.c` (the 144-byte
+version), variants `try2_*.c`/`try3_*.c`/`try4_*.c`, sweep matrix
+`scratch/ov_093/o79/sweep6324.json`.
+
+**func_021EA55C** (0x021EA55C, 136 B extent, 14 traced instructions, 8 cases) is
+the second full reconstruction and is **136 of 136 bytes, 10 concrete bytes
+different -- one register colour**.  It is the clearest dispatcher in the overlay:
+free of the o61/o69/o79 fold class, because its case bodies pass *pointer*
+arguments that the source advances by one record instead of indexing with a
+constant.  Reconstructed:
+
+    typedef struct { u8 b0, b1, b2; u8 kind : 4; u8 spare : 4; } Rec;
+    /* a is the first parameter (r0 -> r2), b the second (r1) */
+    switch (((Rec *)a)->kind) {
+    case 1: return func_021EEE80(b, *(u16 *)a, a + 1);
+    case 2: return func_021EEEF4(b, *(u16 *)a, a + 1);
+    case 3: return func_021EF694(b, *(u16 *)a);
+    case 5: return func_021EF6A8(b, *(u16 *)a, a + 1);
+    case 6: return func_021EF6E8(b, *(u16 *)a, a + 1);
+    case 4: return func_021EF5E8(b, (u8) *(u32 *)((u8 *)a + 4), (u16) *(u32 *)((u8 *)a + 8));
+    case 7: return func_021EF664(b, (u16) *(u32 *)((u8 *)a + 4), *(u32 *)((u8 *)a + 8));
+    }
+    /* no default and no trailing return: case 0 and the fall-out share the bare
+       `pop {r3, pc}` at 0x021EA5E2, and case 7's `bl` tail-merges into it. */
+
+What made it close, measured: the `adds r2, r2, #4` that four of the seven bodies
+carry is **not** a dead pointer increment -- mwcc deletes `*(u16 *)a++` (two
+spellings tried, both 128 B against 136).  It is the third **argument** of those
+calls, `a + 1` on a 4-byte-record pointer, which is why arity matters here: with
+`a + 1` written out the function is exactly 136 B and every body, every table
+entry and both tail merges match.  The one residue left is the switch value:
+
+    image :  +0004 ldrb r0, [r2, #3] ... cmp r0, #7 ... add pc, r0
+    ours  :  +0004 ldrb r3, [r2, #3] ... cmp r3, #7 ... add pc, r3
+
+mwcc gives the temp r3; the image gives it the r0 the first parameter has just
+vacated.  Three spellings (direct `a->kind`, a `u32 kind` local, a `u8 kind`
+local) all land on r3.  This is the same register-colour tie lane O73 measured on
+ov217's func_021BE934 (`the image refuses to reuse the dying parameter r0`), and
+there it survived 20 source variants and 63 compiler/flag configurations, so it
+is a web-creation-order artefact, not a spelling.  Source parked at
+`scratch/ov_093/o79/func_021EA55C_diff.c`.
+
+**Net measured rate for the 87 dispatcher tables**: the table geometry, the case
+order and the tail merges all reproduce from a plain `switch` (2 of 2 attempted);
+what blocks them is *not* the dispatcher, it is the first case body that either
+folds a `base + idx*stride + const` address (func_021D6324, and the whole class)
+or needs a register the allocator colours differently (func_021EA55C).  Both
+dispatchers were reconstructed to their exact extent size in under 10 compiles
+each; neither could be filed because a `DIFF` is never `EXACT*`.

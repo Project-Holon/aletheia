@@ -851,3 +851,122 @@ C. The one-line fix is still the whole blocker
   (0x021B95A0..0x021CF960) both span them; the neighbours 0x021C8770,
   0x021C87FC, 0x021C887C, 0x021C8978, 0x021C89F0 already carry labels in
   asm/overlays/ov114.s.
+
+
+ov135 lane O83 residue, wave 8 (2026-09-24) -- the big band (129B and up)
+=========================================================================
+
+Seven big rows filed EXACT/EXACT*, one shard each
+(layout/matched/ov135/pkt_<addr>.json), all dsi/1.1p1 -O4,p -thumb:
+
+  func_021F663C  0x021F663C  140B  EXACT   1 compile
+  func_021F7538  0x021F7538  136B  EXACT   2 compiles
+  func_021FC810  0x021FC810  152B  EXACT   2 compiles
+  func_021FCFD8  0x021FCFD8  180B  EXACT   1 compile
+  func_021FDD00  0x021FDD00  168B  EXACT*  1 compile  (pool pad)
+  func_021FD1E0  0x021FD1E0  144B  EXACT   1 compile
+  func_0220015C  0x0220015C  152B  EXACT   1 compile
+
+1072 code bytes, 31 compiles, 72 minutes of lane = 0.10 functions/minute, the
+big-band rate.  The remaining 127 big rows are untouched; nothing here needs a
+second pass.
+
+A. The ov135 window families, which is what the big band mostly is
+------------------------------------------------------------------
+
+Three generators cover most of the band, and all three reproduce from the
+straight-line call list read off extract/overlays_dec/y9_0135.bin (the listing
+loses sync at the `add pc` tables, but these have none):
+
+  1. THE 0x60x0x48 FAMILY: func_0220015C / func_021FCFD8 / func_021FDD00 are
+     one body parameterised by which of the 0x60x0x48 opening calls and which
+     of the 49658/498F4/49B40 draws appear.  Six- and seven-argument calls; the
+     argument order in the source is the [sp] order in the image.
+  2. THE 0xb68/0xb6c/0xb88 FAMILY: func_021F7538 / func_021FC810 /
+     func_021F663C.  The handle is the window at p+0xd40 (or p+0xdd0, selected
+     by the sixth argument in 021F663C) and it goes through the
+     02045334/02045374/02045730/020409B4 group plus a 02202858 redraw.
+  3. THE TEARDOWN: func_021FD1E0 walks the sixteen p+0xd90 handles and the
+     p+0xd50/p+0xd54 pair, gated on *(u32 *)(p + 0x12fc) - the same field
+     func_021FCFD8 tests twice.
+
+B. Two rules this wave added, both measured
+-------------------------------------------
+
+1. A LOCAL HANDLE IS WHAT STOPS THE OFFSET BEING HOISTED.  func_021F7538 and
+   func_021FC810 keep one loaded pointer (*(u32 *)(p + 0xd40)) in a callee-saved
+   register across the 02045334/02045374/02045730 group only, and re-load it as
+   `movs/movs/lsls/ldr` at every other site.  Writing `*(u32 *)(p + 0xd40)` at
+   all four sites makes MWCC promote the OFFSET CONSTANT into a callee-saved
+   register and the function comes out 12 bytes short (124 against 136).  With
+   `h = *(u32 *)(p + 0xd40);` in front of exactly that three-call group and
+   fresh expressions elsewhere, both closed byte for byte on the next compile.
+   The image's re-materialisation is the tell: a constant that is asked for
+   twice in the source stays in a register, one that is asked for five times
+   with a variable-length use in the middle does not.
+
+2. THE `bl`/`blx` SPLIT READS OFF THE CALLS, NOT THE LIBRARY.  In this family
+   the ARM9 callees are mixed-ISA: 0201F250, 0201F73C, 0201F5BC, 0201EE84 are
+   THUMB (the image says `bl`), while 02045EC0, 020457B0, 02043B5C, 02045334,
+   02045374, 02045730, 020409B4, 02045808, 020452E8, 020456F8, 020490F4,
+   02049238, 02049658, 020498F4, 02049B40, 02049B68 are ARM (`blx`).  A wrong
+   token is an ISA conflict and no verdict at all, so the first compile of any
+   new site costs one message; read the ISA out of the words, do not guess, and
+   then 1.1p1 reproduces the whole call list.
+
+C. Residue, with the bytes measured
+-----------------------------------
+
+  func_021FB674  0x021FB674  144B  DIFF 3 instructions (best 144 bytes, u32 switch)
+      The kind dispatch is the same idiom as func_021FBDD0's:
+
+          cmp r4, #0xa      / beq CASE10
+          movs rX, #1 / mvns rX, rX   (the -1 sentinel)
+          cmp r4, rX        / beq CASE-1
+          adds rY, rX, #1   / cmp r4, rY / beq EXIT
+          b DEFAULT
+
+      so the source is one `switch (kind)` whose case list mixes an immediate
+      (10), -1 and 0, written in that order, with an explicit EMPTY `case 0:`
+      (it branches past the default, so it is a real chain entry).  Writing it
+      that way reproduced every BODY, every call, the halfword stores (-1 as
+      `0x14 - 0x15`, -2 as `0x14 - 0x16` - MWCC rematerialises the sentinel
+      after the calls rather than keeping it) and `return -1` byte for byte;
+      what differs is only the chain: MWCC puts the sentinel in a callee-saved
+      register here and tests 0 with `cmp r4, #0` (2 bytes) where the image
+      derives it with `adds rY, rX, #1`.  Its prologue also computes p+0x60 in
+      two steps (`adds r1, r5, #0 / adds r1, #0x60`), which is the shape of a
+      struct-member address rather than a `p + 0x60` cast.  Next probe: pass
+      `&obj->sub` of a declared struct and keep the sentinel unfolderable.
+
+  func_021FBDD0  0x021FBDD0  132B  DIFF 6-8 bytes
+      Same dispatch, two cases only (-1 and 0).  Three shapes measured: switch
+      with s32, switch with (u32)-1, and `if/else-if` with a named `n = -1`
+      (which the front end constant-folds) - all 124..126 bytes against 132,
+      all materialising the sentinel in a SCRATCH (r0) and testing 0 with an
+      immediate, where the image keeps it in r6 and derives the 0.  r6 is
+      callee-saved in the image because arm A STORES that same -1
+      (`adds r5, #0x41 / strb r6, [r5]`), i.e. the source stores the sentinel
+      value it compared against, after three calls.  Every body, including the
+      table expression
+      `*(u8 *)(p + 0x41) = *(u32 *)(*(u32 *)(p + 0x30) + ((r + (*(s16 *)(p + 0x56) << 2)) << 3) + 4)`
+      is otherwise exact.  Both this and func_021FB674 are the SAME unresolved
+      lever: an unfolderable -1 that is both compared and stored.
+
+  func_021FD270  0x021FD270  140B  DIFF 2 registers
+      Everything else in the 140 bytes is exact: the `q = (p + 0x20c) +
+      *(u32 *)(p + 0xd4) * 0x128` index, the 0xb88 store, the two 02202670
+      calls into 0xb90/0xb94 and both window tests.  The image loads the two
+      condition bytes into r2 and r3 (`ldrb r2, [r4, r7]`, `ldrb r3, [r4, r0]`)
+      where the source's `if (*(u8 *)(q + 0x120) != 0)` / `(q + 0x121) != 0`
+      compile into r0 for both.  Two dead-at-that-point registers; no lever
+      found in this lane.
+
+D. Not attempted, and why
+-------------------------
+The rows whose bodies are long literal-pool copies read out of the pool
+(func_021FCF28, func_021FFF10, func_021FC1C0, func_02200CCC, func_021F5250,
+func_021FDBCC - the 0x203FC28/0x203FCA0/0x2040588/0x2040B94/0x20414EC group,
+eight or more members, 160..280B each) are one shared skeleton over `ldm/stm`
+stack buffers and should be the next wave's first target: one decode, eight
+rows.  They were not reached inside this lane's budget.

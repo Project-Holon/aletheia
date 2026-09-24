@@ -873,3 +873,139 @@ spec_disp1/2/3.txt.
    6 `ldr/adds` bodies are shape errors (mwcc moved a call or a load across the
    value we kept in a saved register) and are worth reading whole-function, not
    re-spelling; the 11 `blt/blo` are a signed/unsigned cast in the source.
+
+
+
+Lane O82 (ov217 structural residue: the generator's duplicate statement, the
+         `||`-chain block order, and the two-case entries) 2026-09-24
+--------------------------------------------------------------------------
+
+RESULT: 31 new functions filed, 1,478 bytes, all EXACT or EXACT*; the shard
+layout/matched/ov217/pkt_021B9850.json went from 395 to 426 entries and
+verifies:
+
+    python tools/match.py manifest --verify --shard pkt_021B9850
+
+The register-colour tie was NOT worked (measured shut by O73).  Every function
+below closed on a BODY-SHAPE change read off the listing; not one was a
+re-spelling, a flag sweep or a compiler sweep.
+
+1. The generator's duplicate statement - 18 of the 31, and the cheapest mass in
+   the overlay.
+
+   gen63 emits the guard call twice: once as the `if (...)` condition and once
+   again as the first statement of that if's body, so every guard-shaped
+   candidate compiled 4 to 24 bytes long.  Detecting the duplicate mechanically
+   - a statement whose call expression text also appears in the preceding
+   `if (` line - and deleting it turned 18 rows from DIFF to EXACT with no
+   other edit at all:
+
+     021B96A0 021B97F8 021B9824 021BA078 021BA158 021BA1D4 021BA3B4
+     021BB94C 021BC168 021BC5B8 021BC6F4 021BE4A4 021BE678 021BE704
+     021BF38C 021C112C 021C1610 021C1658
+
+   Two of those, func_021BE678 and func_021BE704, are 140-byte fixed-order
+   call lists that differ only in one call argument (+1 against -1) - the same
+   "run of one wrapper shape with different constants" that pays elsewhere.
+   Tooling: scratch/ov_ov217/o82/gen_var.py builds the variants,
+   run_one.py compiles them 4-wide.  A lane that regenerates the o63
+   candidate set should fix gen63 itself: one line deleted per guard.
+
+2. Block order is a source-shape decision, and `||` is what flips it - 5 rows.
+
+   Where the image's LAST test is inverted relative to the earlier ones (early
+   tests `bne <fail block>`, the last one `beq <ok block>`), the source is an
+   `||` chain returning the failure value late, not a `&&` chain returning the
+   success value early.  Both spellings compile to the same instruction
+   sequence but the compiler places the two return blocks in the opposite
+   order, which shows up as 20 to 60 shifted bytes:
+
+     if (A != 0 || B != 0 || C != 0) return 0;   -> ret0 inline, ret1 after
+     if (A == 0 && B == 0 && C == 0) return 1;   -> ret1 inline, ret0 after
+
+   func_021BF78C (64 B) pinned it: 20 spellings of that switch/if shape gave
+   DIFF 6 bytes at `12 d1 | 14 d1`; the `||` chain is EXACT.  The same rule
+   closed func_021C2748 (68 B, `if (f() != 0 || g() != 0)`), and the nested
+   form (`if (x != 0) { switch (...) {...} return 4; } return 1;` - the early
+   return written LAST) closed func_021B97BC (60 B).
+
+3. Materialise both operands before testing - 3 rows.
+
+   Short-circuit `a != 0 && b == 0` lets the compiler test the first call
+   before making the second, which loses the callee-saved save the image has.
+   Writing both calls into locals first forces the image's shape:
+
+     u32 a = func_021C09C8(v);
+     u32 b = func_021C09CC(v);
+     if (a != 0 && b == 0) return 3;
+
+   closed func_021BE46C (34 B) and func_021BA19C (34 B).  The same idea, with
+   the guard value held in a local across the call, closed func_021BE630
+   (70 B) and func_021BEEA4's siblings.
+
+4. A two-case dispatcher family: `switch (func_021BE4DC(a0))` - 5 rows.
+
+   Five functions in this overlay are the same 46 to 58 byte entry point -
+   switch on a query call, case 0 a short call run ending in func_021BE4E0,
+   case 1 one guarded call - and they close from one template:
+
+     021BD868 021BE094 021BE0D0 021BE33C 021BA094 (the query is
+     func_021BA190 there, and case 1 is the ARM9 query func_0204E804)
+
+   The generator had every one of them as nested ifs with the query call
+   repeated; a real `switch` reproduces the `cmp/beq` pair and the falling
+   default.  func_0204E804 is a `blx` target, so its symbols line is
+   `thumb` with no region token (the O63 note 4 rule).
+
+5. Two folding traps, both measured:
+
+   * `u8 v = 2; if (c) v = v - 1; return v;` constant-folds to `movs r4,#1`
+     and is 4 bytes short of the image's `subs/lsls/lsrs`; `v -= 1;` in the
+     same place keeps the arithmetic and is EXACT (func_021BBF04, 24 B).
+   * The image computes a value in a register and the compiler folds it when
+     the same value is written as a separate initialiser - check the CSE'd
+     form against the listing before believing a 4-byte residue.
+
+6. func_021BE934 did NOT move, and the reason is now measured from a second
+   direction.  132 bytes compiled, 132 in the listing, 8 of 8 relocations,
+   table, dispatch, case bodies, pools and the tail-merged call all exact, and
+   the same 11 concrete bytes in the same one place:
+
+     +0004 41 6b  ldr r1,[r0,#0x34]  |  40 6b  ldr r0,[r0,#0x34]
+     +000A 4a 18  adds r2,r1,r1      |  48 18  adds r1,r0,r0
+     ...and the two instructions that follow each of them
+
+   Four further body shapes were measured this lane, on top of O73's 20: the
+   switch value read through a pointer alias (`u8 *p = a0;`), an assignment
+   in the switch expression (`switch (v = *(u32*)(a0+0x34))`), a split index
+   temp (`k = v * 0x24;` used four times), and a `do { switch } while (0)`
+   wrapper.  All four give byte-identical output and the identical residue.
+   That is 26 variants, 99 configurations and now four structural rewrites
+   pointing at one mechanism: the image does not reuse the dying parameter r0
+   for the value loaded out of it, and no C-level liveness lever reaches that.
+   Re-measure, do not re-derive.
+
+7. Residue left standing (addresses are ov217, all DIFF as of this lane)
+
+   * func_021BF47C (48 B, 22 bytes): the exact `&&` shape and size, mirrored
+     block order - mode-0 inline in the image, mode-1 inline in ours.  Same
+     family as 021BF78C but the `||` rewrite does not flip it.
+   * func_021BEAF8 (72 B, 30 bytes): image keeps `bl func_021BF810` between
+     the two entry tests and case A; the if/else-if spelling puts it after A.
+   * func_021BDF58 (232 B), func_021BE108 (276 B), func_021BE21C (288 B):
+     three-case dispatchers on func_021BE4DC with long fixed call lists, str
+     to computed offsets, and pool constants - the highest byte value left in
+     the overlay and purely a transcription job from the listing.
+   * func_021BB190/021BB484/021BB534 (112/176/192 B), func_021BB69C and
+     func_021BB710 (116 B each, identical listings): same dispatcher family,
+     same transcription job.
+   * func_021BEEA4 (140 B): closes on shape but needs a 12-byte stack frame
+     and four pointer arguments modelled before the first-compile read
+     (O73's note 4: three other rows are a 12-byte `u8 s[12]` frame).
+   * func_021BF6D4, func_021C1090: 4-byte divergences at +0002, both a
+     register-arg difference rather than layout.
+
+   Two entries parked as MATCH, not EXACT: func_021BF6A4 (24 B, byte-exact,
+   one relocation with no witness) and func_021BC55C (22 B compiled against a
+   36-byte listing extent).  Both want an independent witness on their callee
+   before they can be recorded.

@@ -673,4 +673,132 @@ func_021B9D30  0x021B9D30  44 bytes  unfiled
     resolver takes the ov016 one, so no region token rescues it and the entry
     cannot be filed either way.  Worth knowing before spending a lane on the
     0x021C5xxx contested addresses: the same address can be a different ISA
-    in each overlay, which is a harder blocker than an unwitnessed label.
+    ISA in each overlay, which is a harder blocker than an unwitnessed label.
+
+==============================================================================
+lane O88: the two rules applied, and the 0x021C5xxx band measured
+==============================================================================
+
+Four functions filed (three of them from the parked set); two closed on the
+first compile of the rule that fits.
+
+func_021C1FE8  0x021C1FE8  64 bytes  EXACT
+    The residue O78 left as "register names and scheduling slots".  It is
+    neither: the header halfwords must be read into named u16 locals before
+    the shifts.
+
+        u16 *q = (u16 *)((u8 *)p + 0xC);
+        u16 w0 = p[0];
+        u16 h0 = p[1];
+        int i, j;
+        int w = (u32)w0 >> 3;
+        int h = (u32)h0 >> 3;
+
+    The image keeps the raw halfwords in r1/r0 while the shifts write fresh
+    r3/r7, so r1 is then free for the i counter; with `int w = (u32)p[0] >> 3`
+    (measured, 14 bytes over seven instructions) 1.1p1 reuses r1 for the width
+    and pushes i into r2.  The index form `q[i * w + j] += d` is the image's,
+    not a row pointer, and q is computed before the two loads.  `int` counters
+    keep the two signed `ble`/`blt` (u32 counters give `bls`/`blo`), the (u32)
+    cast on the shifted operand is what makes it `lsrs` rather than `asrs`, and
+    `u16 d` avoids the lsls/lsrs truncation an int second argument costs.  12
+    spellings measured; two are EXACT (the same body with `int i, j;` before or
+    after w/h).
+
+func_021BBD80  0x021BBD80  80 bytes  EXACT
+    Parked by an earlier lane.  It is the two-spelling rule exactly: every
+    walked address is index-first (`s + i * 4 + 0x150`, `+ 0x118`, and the exit
+    pair), which lets 1.1p1 compute `s + i * 4` into r5 once and keep the field
+    constant in a register (`ldr r0, [r5, r0]`).  The constant-first spelling it
+    was parked with pulls the whole offset into the loop head and is a
+    different allocation.  The +0x150 constant is materialised once and reused
+    to derive +0x118 as -0x38 and the exit pair as -0x08/+0x04.
+
+func_021BBDD0  0x021BBDD0  128 bytes  EXACT
+    The twin of the above: the twelve pointers at +0x150 in two halves of six,
+    first half handed over with 1/0, second half with 0/1.  Both of this
+    overlay's rules are load-bearing, and each was measured against its
+    opposite:
+      - duplicated call per arm.  A computed selector (`int k = flag ? 1 : 0;`
+        passed to one call site) compiles to 116 bytes against the image's 128,
+        with the selector parked in a callee-saved register - the same fact as
+        O78's r6 frame, from the other direction.
+      - index-first walked address, as above.
+    The two halves share ONE counter: re-initialising it (`for (i = 6; ...)`
+    with the same i) is the image's shape; a second counter variable costs 8
+    bytes and swaps r4/r5.
+
+ov099/func_021BE384  0x021BE384  70 bytes  EXACT*
+    0x021BE384 is also a function of ov217, so this one is filed as
+    src/matched/ov099_func_021BE384.c (rule 2 of the brief).  The listing's
+    extent to the next label is 72 bytes; the last two are the
+    `.byte 0x00, 0x00` alignment before func_021BE3CC.  Both residues in the
+    parked source were source shapes:
+      - the fields are at +0x10 and +0x14, not +0x0C and +0x10.  The parked
+        struct was one word short (f08 then immediately f10) and 1.1p1 loaded
+        the wrong word.
+      - the two arguments are the LOW and the HIGH half of the one u32, not the
+        same truncated value twice.  `(u16)v, (u16)v` lets the compiler common
+        the two and drop both extra shifts and the load: 62 bytes against 70.
+
+------------------------------------------------------------------------------
+the 0x021C5xxx band, measured address by address
+------------------------------------------------------------------------------
+
+19 ov099 functions call 25 distinct addresses in 0x021C5xxx.  Eight are usable
+today, seventeen are not, and the blocker is per-address rather than per-band:
+
+    0x021C5664 0x021C5704 0x021C5840 0x021C5864 0x021C5994 0x021C5A60
+    0x021C5F44 0x021C5F80        <- usable (attests as `label`)
+    0x021C5370 0x021C5680 0x021C571C 0x021C57F4 0x021C59F4 0x021C5EEC
+    0x021C5F30                   <- only ever called from inside the one
+                                    function being compared, so no branch
+                                    targets it from outside lo..hi
+    0x021C57D8 0x021C57DC 0x021C57E8 0x021C5814 0x021C5834 0x021C584C
+    0x021C5858 0x021C5898 0x021C59D0
+                                 <- no func_ label in ANY of the nine overlays
+                                    whose window holds the address, though ov099
+                                    reaches them with a direct `bl`
+    0x021C5590                   <- the ISA split (below)
+
+Recipe for a call into the band, all three needed:
+  (a) isa_evidence(addr, "ov099") must be thumb.  The cross-check runs at
+      match.py:3638 BEFORE attest(), on the site's own region, so a `bl` from
+      ov099 (which does not hold these addresses) falls back to the load-window
+      order and takes whichever overlay answers first.
+  (b) some overlay in the window must carry a func_ label at the address with
+      the ISA the source declares - ov127 for most of them, ov093 for
+      func_021C5840 - and that overlay's bytes must not be ciphertext.
+  (c) the address must be branched to from outside the compared function's
+      range.  Put the region token on the `symbols:` line naming a
+      thumb-labelled overlay (func_021C5F44, func_021C5F80 and the func_021C5664
+      sites are multi-labelled and need it).
+
+0x021C5590 is refused permanently, not for want of a token: it is `arm` in
+ov016 and `thumb` in ov127, ov016 comes first in the window order, and
+isa_evidence() has no hint parameter - the hint is read only by attest(), which
+runs after the refusal.  No region token can rescue it.  The rest of the band is
+work, not a wall: the nine no-label addresses are the residue of a `bl` into an
+overlay whose listing never traced that entry point, and they need the TARGET
+filed (or a listing fix) before any ov099 caller can leave MATCH.
+
+------------------------------------------------------------------------------
+two residues left unspent, both named
+------------------------------------------------------------------------------
+
+func_021BA858  0x021BA858  28 bytes  DIFF (2 bytes)
+    `if (func_0201FEBC(p + 0x108) != (void *)-1) *(void **)(p + 0x108) = 0;`
+    Eight spellings measured - named result local, named zero local, `(void *)0`,
+    early return, `u32 *` lvalue, `u32` compare, struct field - and every one
+    compiles the same 28 bytes with the zero in r0: `movs r0, #0 ; str r0, [r4, r5]`
+    where the image has r1 (`movs r1, #0 ; str r1, [r4, r5]`).  The image reuses
+    the register that held the -1 across the compare; nothing about the source
+    shape moves it.  A one-instruction tie-break, left for a lane with a
+    compiler-level lever.
+
+func_021B9E0C  0x021B9E0C  68 bytes  DIFF (60 compiled)
+    The first call takes the u16 second argument on the stack as a sixth
+    argument: the image stores 0x100 at [sp] and the truncated b at [sp+4]
+    before the first blx, then re-stores 0/0/b before the third.  Adding b as
+    the sixth argument got 60 bytes of the 68; the remaining 8 bytes are in the
+    stack-slot scheduling around the two calls, not in the two rules.

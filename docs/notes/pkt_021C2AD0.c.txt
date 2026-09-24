@@ -82,3 +82,66 @@ callees: `func_021B9B88` (147, thumb), `func_021C1248` (169), `func_021C0C3C`
 (3193, thumb).  `func_021B64AC` (351) is the jump-table dispatcher O55 recorded:
 its case bodies are still `.word` blobs, so a `switch` cannot be written from the
 listing until they are decoded as Thumb.
+
+# Lane O85 (ARM-first drain) -- filed 2, residues for 3
+
+Filed under `pkt_021C2AD0` and recorded by `manifest --verify --shard`:
+
+| function | address | bytes | isa | verdict |
+|---|---|---|---|---|
+| func_021C1248 | 0x021C1248 | 172 | arm | EXACT |
+| func_021B8130 | 0x021B8130 | 36 | thumb | EXACT* |
+
+## The pool-global rule is a `volatile` declaration
+
+O75's finding 4 ("dereference the global at every use site") reproduced only when
+the global is declared `volatile`.  `func_021C1248` reads the limit at +8 of
+`g_021CADE4` in a pre-check and again after the first copy loop; with
+`extern u32 g_021CADE4[];` CW CSEs the load, the second guard reuses the first
+one's register and the body is exactly 8 bytes short (164 vs 172).  With
+`extern volatile u32 g_021CADE4[];` both sites reload the pool word and the
+function is byte exact on the first try.  Use this whenever two reads of the same
+global are separated by code that stores nothing to it.
+
+**Caveat:** `volatile` also forbids the LDM/STM merge, so it is the wrong tool for
+a function whose two adjacent field reads compile to `ldm`/`stm` (see func_021C0C3C
+below).
+
+## Bit tests written as mask pairs do not reproduce: use the shift pair
+
+`func_021B8130`'s image is `lsls r0,r0,#0x1e; lsrs r0,r0,#0x1f; bne`.  The source
+is `if ((((u32)a1[0x2d] << 30) >> 31) == 0) return 1;`.  Written as
+`(a1[0x2d] & 2)` it comes out `movs r0,#2; tst r0,r2`; written with a *signed*
+carrier it comes out `asrs` instead of `lsrs` (that one byte pair is the whole
+residue).  The `== 0` orientation also matters: `if (cond) {...} return 1;` makes
+CW invert the branch (`beq` past the tail) and costs the layout.
+
+## `g_021C4D10` is contested with a token and resolves without one
+
+`func_021B6ADC` and `func_021B6B68` both read the signed-byte table at
+`0x021C4D10`.  `g_021C4D10  0x021C4D10  data   ov172` is refused ("the ov172 hint
+is contested"); the same line with the token deleted resolves `sole-ref x1`.  Both
+sources then compile with every relocation witnessed.
+
+## Rows still out (sources in `scratch/ov_172/o85_021C*_best.c`)
+
+| function | address | bytes | residue |
+|---|---|---|---|
+| func_021C03C0 | 0x021C03C0 | 128 | 4 bytes + a missing `push {r3,lr}`.  The image keeps `a0`/`a1` live and reads byte 0 as `ldrb lr,[r0,r1]` (base+index) while bytes 1..3 go through `r2 = a0 + a1`, and it needs `lr` as a scratch (which is *why* it saves `lr` and returns by `pop`).  Every spelling tried -- `p[0]`, `a0[a1]`, `*(u8 *)(a0 + a1)`, a volatile cast on byte 0, `p = &a0[a1]`, with and without the `& 0xff00` / `& 0xff0000` / `& 0xff000000` masks -- lets CW value-number `a0[a1]` with `p[0]`, so `a0` dies, `p` takes `r0` and the push disappears: 124 bytes, right instruction *set*, wrong registers.  Best spelling kept: masks on, LE in the `a2 == 0` fall-through. |
+| func_021BF0B0 | 0x021BF0B0 | 172 | instruction-for-instruction identical at 172 bytes (same count, same order, same relocations); the only residue is the `a3`/`i` register pair -- the image has `a3` in **r6** and the loop counter in **r4**, every spelling tried (declaring `i` first, `int i = 0;` at the top, `m` as `int`/`u32`, `m = 0` before/after the guard, the `== 0` branch inversion) puts `a3` in **r4** and `i` in **r6**, dragged along with it the `mov r5,#0` placement and the if-conversion of the `a3 == 0` early return (`beq` to the shared tail in the image, `moveq r0,r7; popeq` when the pair is swapped).  Same family as the parked func_021C2DC8 pair rotation. |
+| func_021B6B68 | 0x021B6B68 | 120 | 40 bytes: draft in `scratch/ov_172/parked/func_021B6B68.c` has the right *size*; the two `mla`/clamp sequences and the `g_021C4D10[flags]` index order are still wrong. |
+| func_021B6ADC | 0x021B6ADC | 140 | 4 bytes over (144) on the parked draft: the `d = m >> 3` / `m >>= 1` ladder is ordered differently. |
+
+## Untouched ARM rows, in the order they should be tried
+
+`func_021C0C3C` (197) is the bit *writer* mirroring func_021C1248/`func_021BF610`
+and is the one ARM row of that family still open: it reads g_021CADE4[0] and [1]
+as one `ldm r4,{r7,sb}`, writes them back with `stm r4,{r5,r6}` (r5 = 8, r6 = 0
+hoisted to the prologue), indexes a u32 mask table at 0x021C7150 by *both* the
+remaining bit count `a3` and the bit counter, and flushes a byte at
+`a0[*a1]` every 8 bits, taking the 0xff escape path (`a0[j+1] = 0; *a1 = j + 2;`)
+with a `j + 2 >= g[2]` bounds check.  Because the two adjacent reads merge into an
+`ldm` this one must **not** be declared volatile -- that is the difference between
+it and func_021C1248.  Then the three largest ARM rows `func_021C2E1C` (833),
+`func_021C0D04` (837) and `func_021BF690`/`func_021BFA68` (1237/2653), which are
+big-function work.

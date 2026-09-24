@@ -1,0 +1,137 @@
+Packet ov175 (lane O87) -- matching notes
+=========================================
+
+Prior state: 116 manifest entries in layout/matched/ov175 (O77's 108 plus its
+8).  This lane filed 10 more functions from the open list, all EXACT or
+EXACT*, plus one enabling entry outside the open list (see 3.b).  Coverage
+before: 208 open.  After: 198 open, 126 of the 324 labels covered.
+
+Attempted 10 open-list functions: 10 filed, 0 abandoned, 0 left as a DIFF
+residue.  Compiles run: 25 (2 of them were ISA-conflict refusals that never
+reached a byte comparison, and 4 were variant compiles in scratch/).  Wall
+clock: about 35 minutes (lane budget 85).
+
+1. Filed this lane (10 open-list functions, 1324 compiled bytes)
+---------------------------------------------------------------
+    func_021DD044  0x021DD044  424  thumb  EXACT    pkt_021DD044
+    func_021E1F6C  0x021E1F6C  332  arm    EXACT    pkt_021E1F6C
+    func_021DEDB4  0x021DEDB4  100  arm    EXACT    pkt_021DEDB4
+    func_021DE078  0x021DE078   92  arm    EXACT*   pkt_021DE078
+    func_021DC610  0x021DC610   92  thumb  EXACT*   pkt_021DC610
+    func_021E1EC4  0x021E1EC4   84  arm    EXACT    pkt_021E1EC4
+    func_021E1F18  0x021E1F18   84  arm    EXACT    pkt_021E1F18
+    func_021DC5C8  0x021DC5C8   48  thumb  EXACT*   pkt_021DC5C8
+    func_021DFA6C  0x021DFA6C   44  arm    EXACT*   pkt_021DFA6C
+    func_021DF224  0x021DF224   24  arm    EXACT    pkt_021DF224
+    (enabling entry, off the open list by design -- see 3.b)
+    func_021DFAA0  0x021DFAA0    8  arm    EXACT    pkt_021DFAA0
+
+  EXACT* entries are the usual listing-extent artefact: the extent to the next
+  func_ label runs past the body into the neighbour's pool words or code
+  (func_021DE078 92 vs 136, func_021DC5C8 48 vs 72, func_021DFA6C 44 vs 60,
+  func_021DC610 92 vs 148).  Every byte of the compiled body compares equal.
+
+2. Measured: the ISA decides whether a chain is an if-chain or a switch
+-----------------------------------------------------------------------
+* func_021DD044 (424 B) is a 34-way id -> data-record mapper with its cases in
+  a scrambled, non-ascending order.  The O77 lesson ("a sparse switch is a
+  switch") is an ARM-only rule.  On THUMB the same function reproduces from a
+  *chain of positive single-return guards in the image's own order*:
+      if (a <= 0) return A; if (a == 0x1e) return B; ... return A;
+  one compile, EXACT.  Compiled forced as ARM it if-converts into
+  `ldrle/ldrle`-style predicated arms (558 bytes wrong); compiled as a Thumb
+  `switch` it emits a jump table (323 bytes wrong).  Read the listing's bytes
+  first: `00 28 01 dc 45 48 70 47` is Thumb, not ARM.
+* The data addresses only need to be *data symbols* if you want a witness.
+  Written as plain literals (`return (int)0x021E32C4;`) the pool words carry
+  no relocation at all, the harness reports 0 sites and returns EXACT -- but
+  that leaves the original's ABS32 unchecked.  Written with
+  `extern u32 g_XXXX[];` plus a `symbols:` line of 35 `... data` rows it is
+  still EXACT and all 35 sites resolve `sole-ref x1`.  Prefer the symbol form;
+  it costs one extra compile and survives a stricter re-check.
+* A *dense* Thumb switch does reproduce from a plain `switch` (jump table and
+  all).  func_021DC610 is `switch (a)` over 0..9: the last table entry and the
+  default point at the *same* block, so the source must stack the labels,
+  `case 9: default: return 0x3c;`.  Writing `case 9` and `default` as two
+  separate single-return bodies costs 4 bytes (a tenth block) and pushes every
+  later block 4 bytes out (96 vs 92).  This is the mirror image of O77's
+  "default duplicating a case value must be written separately": here the
+  image's blocks ARE merged, and stacked labels are what produce that.
+* ARM jump table, block order: func_021E1F6C's last two table words point at
+  blocks whose *memory* order is the reverse of their case values (the 0x16
+  block sits above the 0x20 block).  The table is indexed by value but the
+  blocks are emitted in source order, so the source's case list must end
+  `case 23: return 0x20; case 22: return 0x16;`.  Writing 22 then 23 gave
+  exactly 2 bad bytes, both table words, everything else identical.
+* Two data-symbol rules re-confirmed (both in this lane's bodies):
+  `extern u32 g_X[];` used as an *address value* is what emits the pool word;
+  the same address read as a scalar must stay a scalar.
+
+3. The unlock class this lane found, and its exact condition
+------------------------------------------------------------
+(a) An ARM9 callee carried on a Thumb caller's `bl`/`blx` must be declared
+    with an ISA.  func_021DC5C8's two `bl` targets (0x021B9774, 0x021B9838,
+    labelled in ov114 and ov217) and its in-region one (0x021DAE18) were
+    refused as "ISA conflict ... the source declares arm, the image says
+    thumb" *before any bytes were compared*: an undeclared callee defaults to
+    arm.  Fix: `symbols:` rows `func_021B9774  0x021B9774  thumb  ov114`
+    (the region token is needed because ov114 and ov217 both label it).
+    Two refusals, then EXACT*.  Cheap to check for: grep the label's
+    `.thumb_func` marker before the first compile.
+
+(b) Rule 10 is narrower than O77's note claimed: the `matched` class looks up
+    entries *by exact address* (attest_matched -> matched_addresses().get(addr)),
+    so a target is NOT unlocked by filing the function whose extent contains
+    it.  Filing func_021DFA6C (extent 0x021DFA6C..0x021DFAA8, which covers the
+    thunk 0x021DFAA0) left func_021DF224 at MATCH with the same refusal as
+    O77 saw.  What cleared it was filing an ENTRY whose address is exactly
+    0x021DFAA0: `src/matched/func_021DFAA0.c`,
+    `u32 func_021DFAA0(u32 p) { return p + 0x84; }` -> `add r0,r0,#0x84; bx lr`,
+    8 bytes, EXACT, and func_021DF224 then resolved
+    `ABS32 func_021DFAA0 [matched x1]` and went EXACT.  That entry is real code
+    in the image (the +0x84 half of the 0x021DFA98/0x021DFAA0 accessor pair,
+    reached only by the `bx ip` at the end of the thunk), so it is the brief's
+    rule-10 target-first move, but it is *off the open list* (disasm.py never
+    traced it) and should be counted as an enabler, not as a small-strata win.
+    The sibling 0x021DFA98 (`add r0,r0,#0x5c; bx lr`) is the same shape and
+    would unlock nothing else: its only reference is the pool word at
+    0x021DF220, which belongs to an untraced blob at 0x021DF20C.
+
+(c) The four ov175 parks in src/pending/ all need the same move in a region
+    this lane does not own, so they stay parked: func_021D6524 wants an entry
+    at 0x0200E008 (arm9), func_021D679C and func_021D9A30 want 0x021E8A80 and
+    0x021E8A90 (ov177), func_021DA434 wants 0x02156CD0 (ov009).  The rule-10
+    unlock has to be applied by whoever owns that region -- it is not a
+    spelling problem and will not clear from an ov175 lane.
+
+(d) A data address named from *many* pools is not automatically unwitnessable.
+    func_021DC610's `g_021E2EF8` is named from five other functions' pools and
+    still resolved `sole-ref x1` on the first compile.  O77's "double-pool
+    data word" warning (0x021E4C88) should be treated as "compile it and read
+    the resolution", not as a reason to skip a body.
+
+4. Measured, for the next lane
+------------------------------
+* Where the remaining ov175 work is, in the order this lane would take it, with
+  the reason each was left: func_021DCAEC (108 insn bytes, 5 arm9 blx calls
+  whose Thumb-2 encodings must be decoded by hand -- the listing prints them as
+  raw `.word`s inside a jump-table blob), func_021DA470 (72, five outside calls
+  plus two 3-word frame buffers copied byte-wise), func_021D429C (68, a
+  two-level table dispatch whose fall-through path returns an uninitialised r4
+  -- write the local and leave it unassigned on that arm), func_021DB258
+  (thumb, blx to 0x020399A8 twice with the first result passed back in, plus a
+  0x68+0xd0 offset pair), then the three big Thumb jump-table bodies
+  func_021DC77C (extent 288), func_021DC908 (extent 288) and func_021D4608
+  (extent 296, 8-way) -- all three are one body each and want the ARM-style
+  "read the whole function, write it once" treatment, not a spelling sweep.
+* Decoding a Thumb-2 `blx` from a raw `.word` is 6 lines: hw1 gives S and
+  imm10, hw2 gives J1/J2 (hw2 bit13 / bit11) and imm11 (bits 10..0), the BLX
+  form is hw2 bit12 = 0, I1 = !(J1^S), I2 = !(J2^S), offset =
+  sign_extend25(S:I1:I2:imm10:imm11:0) and target = Align(instr_addr + 4, 4) +
+  offset.  The +4-then-align base is the part that is easy to get wrong;
+  scratch/ov_ov175/o87/blxdec.py carries six calibrated pairs from this
+  overlay.  func_021DC610's blx lands on func_02034714 and its target needed
+  no symbols row at all -- a labelled arm9 callee resolves as `label x88`.
+* A Thumb jump-table switch reproduces only when the case list is dense from
+  zero: the image's own tell is the `adds r0,r0,r0; add r0,pc; ldrh r0,[r0,#6];
+  lsls; asrs; add pc,r0` idiom immediately after `cmp r0,#max; bhi`.

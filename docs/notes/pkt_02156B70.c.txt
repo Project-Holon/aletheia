@@ -73,6 +73,189 @@ assignment gives the build's order; declaring it `unsigned int` and writing
 `struct { u16 pad; u16 h; u32 w; } *` so the loads are typed member accesses.
 Source kept at scratch/ov009/o60/func_0215F5B4.diff.c.
 
+Re-measured after the sdk_addresses() fix: still 132 bytes, still exactly 23
+bytes out, still the single transposed `lsl ip, r7, #0x10`.  Eight further
+spellings were compiled and all landed on 23 (or worse): struct-member loads
+(`struct { u16 pad; u16 h; u32 w; } *`), operand order swapped in both ORR
+chains, `unsigned int` holding the computed value with `(u16)` at the call
+(128 bytes -- the cast is dropped because the value is provably 16-bit),
+`short`/`int` for the halfword, `#define` byte-swap macros, and computing
+v16/v32 through an `unsigned int` temporary.  The one spelling that reaches
+exactly 132 bytes and matches every other instruction is in
+src/matched/func_0215F714.c-adjacent scratch file
+scratch/ov009/o60/v_b.c (`u16 v16;` assigned at the assignment, then passed
+uncast).  Residue is a pure list-scheduler tie-break: both `and r4,r4,#0xff`
+and `lsl ip,r7,#0x10` are ready after `orr r7,r7,ip` and the image picks the
+AND first.  No source-level lever found; park as a scheduler wall.
+
+
+-------------------------------------------------------------------------------
+4. Re-measure: the SDK-blocked park CLOSED
+-------------------------------------------------------------------------------
+
+With tools/match.py:1161 `sdk_addresses()` back to the `{addr: bool}` shape
+expected by isa_evidence(), scratch/ov009/o60/func_0215E620.blocked.c compiles
+EXACT at the first attempt, 152 bytes, both `bl func_02082EA4` sites resolving
+as [sdk].  Filed as src/matched/func_0215E620.c.  The 16.5% of the band this
+refused is now reachable -- func_02168DA4 and func_0215F500 (both first
+compile EXACT) each carry an SDK-catalogued callee too.
+func_0215F5B4 does not benefit: its blocker is scheduling, not the ISA gate.
+
+
+-------------------------------------------------------------------------------
+5. Near misses filed this lane (DIFF, residue named)
+-------------------------------------------------------------------------------
+
+func_0215C814 @ 0x0215C814, 160 bytes, 12 bytes out.
+  Four dot-separated decimal octets -> one big-endian word.  Full body and all
+  opcodes reproduce; the residue is MWCC choosing if-conversion over a shared
+  exit block.  The image branches three of its four `return 0` sites to one
+  epilogue at +0074 (`bhi`, `bne`, fall-through) and only if-converts the
+  `p == q` test; the build predicates all four (`addhi/pophi`, `addne/popne`,
+  `addne/popne`), 172 bytes.  `unsigned char *p` is required for the `ldrb`
+  continuation-byte loads (see 3) and `if (i < 3) ... else if (*p != 0)`
+  reaches 164 bytes but moves the comparison to `bge`.  `if (i != 3) {...}`
+  followed by a separate `if (i == 3 && *p != 0) {...}` is the right structure
+  (two distinct `cmp r6, #3`).  Source: scratch/ov009/o60/v_15C814b.c.
+
+func_02195158 @ 0x02195158, 144 bytes, 7 bytes out.
+  Counter bracket around a +0x30 hook call.  Residue is one register name:
+  the image reloads the +0x08 pointer into r0 at +0060 and the field into r1;
+  the build uses r1/r0.  Two facts worth keeping: the hook is called with the
+  function's own two incoming arguments (r0/r1 are untouched across the whole
+  body up to the `blx r2`, so the signature is at least `(p, a)` and the call
+  is `hook(p, a)`), and the tail must be written as one
+  `if (*q->f14 != 0 && *q->f1c == 0) { call; return 0; } return 1;` -- the two
+  separate `if (...) return 1;` form predicates instead (22 bytes out), and
+  the `&&` form reaches the image's `beq/bne` pair to a shared +0088 epilogue.
+  Source: scratch/ov009/o60/v_195158c.c.  NOTE: func_021951E8 @ 0x021951E8
+  (144 bytes) is byte-identical to this function except that the hook lives
+  at +0x34 instead of +0x30 -- same body, same tail, so cracking the tail
+  colour closes TWO functions.  Tried on top of the above: an inline nested
+  `*(int *)(*(char **)(p + 0x08) + 0x14)` chain with no local (still 7),
+  explicit `(char *)` casts on the base (7), nested `if`s instead of `&&` (7),
+  a single `q` reused for both the decrement and the tail (7).
+
+func_0215D898 @ 0x0215D898, 148 bytes, 2 bytes out.
+  Mode dispatch on the signed byte at +0xaf; two early returns and two
+  six-argument calls.  Everything reproduces except the register holding the
+  sixth argument at +0058: the image uses r1 (`ldr r1,[sp,#0x24];
+  tst r1,#1`), the build r0.  Tried: a named `int r` for the probe result
+  declared at function scope, a block-scoped copy of a5, `unsigned int a5`,
+  `!(a5 & 1)`.  All 2 bytes.  Source: scratch/ov009/o60/v_15D898.c.
+
+
+func_02183EE0 @ 0x02183EE0, 136 bytes, 4 bytes short (132 compiled).
+  Table walk from (+0x08 word) + 1 to the count at *(a+0x00), counting entries
+  whose +0x14 matches +0x08 and (when b != 0) passing func_02183D98, with a
+  `break` when the entry falls below +0x08.  Every instruction reproduces
+  except one: the image copies the func_02184208 result out of r0
+  (`mov r1, r0`) and puts the reloaded `a->f08` in r2; the build keeps the
+  result in r0 and `a->f08` in r1, saving the copy (132 vs 136 bytes).
+  Declaration order is a real lever here -- `int i; int n = 0;` (i first)
+  is what moved i/n off r5/r4 onto r4/r5 and matched 30 of the 34
+  instructions; `n` first costs those.  Tried and failed to force the copy:
+  a function-scope `char *e`, a function-scope `int s` read after the call,
+  the same read before the call, `s` assigned once outside the loop.
+  Source: scratch/ov009/o60/v_183EE0b.c (best, 69 bytes out of 136).
+
+
+func_02163F7C @ 0x02163F7C, 156 bytes, 8 bytes out.
+  16-bit add with carry propagation into `dst`, length = max of the two
+  func_02163F24 significant lengths (+1 unless it already fills n), then the
+  tail is zeroed by func_02082BCC when `dst` is not one of the inputs.
+  Every instruction reproduces; the residue is that the image puts the loop
+  index in r3 and the carry in ip, while every build puts the index in ip and
+  the carry in r3 -- a straight role swap of the two scratch registers.
+  A first version that declared `unsigned int carry = 0;` at the top of the
+  function is much worse (65 bytes out): MWCC then keeps carry live across
+  the two func_02163F24 calls, which pushes it into r4 and forces an extra
+  callee-saved register (push {r3,...,sb,lr} instead of {r4,...,r8,lr}).
+  Initialize carry after the calls.  Tried and failed to break the tie:
+  `carry = 0; i = 0;` before a for, a while with i++ at the bottom, both
+  orders in a comma for-init, `dst[i] = b[i] + c[i] + carry;` with the carry
+  re-read.  Best source: scratch/ov009/o60/v_163F7Cd.c.
+  Sibling worth doing with the same body: the two func_02163F24 probes and
+  the u16 array indexing are a reusable shape.
+
+
+func_0215E588 @ 0x0215E588, 152 bytes, 28 bytes out.
+  Transfer-size probe under a lock: min of the +0x3a/+0x38 halfwords of the
+  +0xa4 object, capped by the +0x24 word of the 0x021AA450 block, doubled --
+  or just the capped word doubled with no lock object -- then
+  `size * func_0209C0A4(a, size)` when that is positive, else the argument.
+  Structure is exact at 28 bytes out; the residue is register choice only
+  (image: halfwords in r3/r2, limit in r1; build: r1/r0, limit in r0).
+  Two source facts learned here, both needed to get from 98 bytes out to 28:
+  the lock call's argument is the whole +4 object (`func_02087988(o)`), not
+  the +0xa4 word it was just read from -- and the whole probe is a nested
+  `if (q != 0) { t = ...; if (t != 0 && m != 0) {...} else {fallback} } else
+  {fallback}`, because the image loads `q->f3a` into a register before the
+  second test.  Folding the chain into one `&&` condition gives 98 bytes out.
+  Tried: an explicit `m` local, inlining the object expression.  Both 28.
+  Source: scratch/ov009/o60/v_15E588b.c.
+
+
+func_0217A15C @ 0x0217A15C, 160 bytes, 53 bytes out (not a near miss).
+  Buffer append: refill through the +0x10 hook of the object at a+0x1000,
+  memcpy the live bytes, notify through the +0x14 hook, then slide the four
+  cursor words.  Semantics settled -- `refill = hdr[4]` is the call whose
+  second argument is `p[3] + n`, `cb = hdr[5]` is the one called as
+  `cb(0, p[0], 0)`, and the cursors update as
+  `p[3] += n; p[2] = q + p[3]; p[1] += q - p[0]; p[0] = q;` -- but MWCC
+  hoists the two hook loads and the `a + 0x1000` add above the prologue
+  moves in the image and permutes the four cursor stores, so the body
+  still differs in two clusters.  Getting the hook-index swap right is
+  the difference between 53 and 57 bytes out; the rest is allocation.
+  Source: scratch/ov009/o60/v_17A15Cc.c.
+
+
+-------------------------------------------------------------------------------
+6. What actually paid on this band (measured, 12 EXACT in ~79 compiles)
+-------------------------------------------------------------------------------
+
+- Read the whole body, then write it: ten of the twelve closed on the first or
+  second compile.  func_02180334 needed six (all variations of the loop
+  bound), func_02183E50 five, func_02195158 thirteen (it never closed), and
+  the three 136-to-156-byte functions that did close with one compile each
+  were the ones whose body was a straight-line store list or a single loop.
+- **Local declaration order is a first-class lever, not a style choice.**
+  MWCC hands out the low callee-saved registers in declaration order, so
+  swapping two `int` locals can flip 4 to 8 bytes of a function that is
+  otherwise instruction-for-instruction correct.  Measured twice on this
+  band: func_0215D7FC went from 6 bytes out to EXACT purely by declaring
+  `old` before `t`; func_02183EE0 matched 30 of its 34 instructions only
+  after `int i;` was declared before `int n = 0;`.  When a diff shows only
+  two register names exchanged across a long run of instructions, swap the
+  declarations before touching the expressions.
+- `if (f(x) == 0) return 0; return 1;` is NOT the same build as
+  `return f(x) != 0;`.  The two-return form if-converts to
+  `moveq r0, #0` / `movne r0, #1` -- zero first -- which is the image's order
+  in func_02183E50; the `!= 0` form emits `movne` first and is 2 bytes out.
+  `return f(x) ? 1 : 0;` and `!!f(x)` are 4 bytes out.  When a function ends
+  on a boolean return, always try the two-return spelling.
+- When a call's result must survive the next statement because r0 is about to
+  be used as a load destination, the register-colouring tie shows up as a
+  one-instruction difference.  If the image has an extra `mov rX, r0` right
+  after a call, the callee's result is being kept in a named local.
+- Check whether the callee's incoming r0/r1 are still intact at a `blx`:
+  if they are, the hook really is called with the caller's own parameters,
+  and writing `hook()` with no arguments costs 30+ bytes of scratch-register
+  colouring.  This alone took func_02195158 from 45 bytes out to 7.
+- `ldrb` vs `ldrsb` is the single most common 2-to-6 byte residue.  Whenever
+  the image has `ldrb`, the pointer expression must be `unsigned char *` --
+  both the loop bound in func_02180334 and the continuation bytes in
+  func_0218022C needed a cast, and each cast alone flipped 2 and 6 bytes.
+- `x + 1 > n` is NOT interchangeable with `x >= n` at this compiler: writing
+  `max + 1 > n` inline in the loop condition (letting MWCC hoist it) is what
+  produced the image's `add sl, r3, #1` before the loop and fixed the whole
+  register permutation of func_02180334 (32 bytes -> 2).  Do not introduce a
+  `lim = x + 1` local; MWCC folds it back and the registers scramble again.
+- A shared-key pattern: three near misses (0215C814, 02195158, 0215D898) are
+  all at 2-to-12 bytes and all of them are if-conversion or register-colouring
+  coin flips with every opcode already right.  Expect roughly one such
+  near-miss per three closed functions on this band.
+
 
 -------------------------------------------------------------------------------
 3. Idioms that paid, measured on this band

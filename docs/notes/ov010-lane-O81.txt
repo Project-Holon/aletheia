@@ -1,0 +1,165 @@
+lane O81 (big, ov010): the stack-frame bodies
+================================================
+outcome: 21 functions filed EXACT/EXACT*, 1,404 bytes, 21 shards recorded.
+         3,334 compiles.  rate 21 / ~78 min = 0.27 functions per minute
+         (o72: 3.6).  The class is NOT a spelling class.
+
+The headline for the next wave: the struct-assignment frame spelling that
+closed this class in ov016 DOES NOT APPLY here, and that is measured, not
+guessed.  What the ov010 "stack-frame bodies" actually are is two things, and
+the generator now reproduces both -- the residue that is left is register
+allocation, not the frame.
+
+1. What the 215/227 refused bodies of the class really are
+----------------------------------------------------------
+Starting set: the 263 free ov010 functions the o72 generator still refuses;
+227 of them touch sp (the task's 211, plus 16 that use `[sp]` with no `sub`).
+
+  outgoing stack arguments (5th, 6th ... argument of a call)
+      `str rX, [sp, #k]` in the run of setup instructions before a `bl`, with
+      `sub sp, #4k` at entry.  Nothing to do with locals; the frame IS the
+      outgoing argument area.  func_0216742C is the canonical 24-byte case:
+      `adds r4,r3,#0 / movs r3,#0xa / str r3,[sp] / movs r3,#0 / bl`.
+      o72 could not express this because its per-call-site argument vector is
+      read over r0-r3 only, and its signature is `int a0..a3` -- the arity map
+      records the cap honestly as "4 vs 5+".
+  caller-saved spill of a value live across a call
+      `str rX, [sp]` with NO `sub sp` anywhere in the function: mwcc parks the
+      value in the free outgoing-argument slot.  func_0215E7DC.
+  true locals
+      `sub sp, #N` + `[sp, #k]` loads/stores and `add rX, sp, #k` (address of
+      a slot, usually handed to a callee).  func_02163F8C, func_02156FD0.
+  literal-pool loads: ZERO
+      not one of the 227 bodies contains an `ldr rX, [pc, #k]`.  The ov016
+      spelling needs one (the address of the `extern T dat;` global) and an
+      odd-length byte loop; neither shape exists in this class, so the
+      `typedef struct { char s[0xN]; } T; T buf; buf = dat;` idiom has no
+      target here.  That is the whole answer to "does the spelling work in
+      ov010": it cannot be applied, there is nothing to apply it to.
+
+2. What DID work
+----------------
+scratch/ov_010/o81_gen.py extends o72_gen.Gen.  Three frame models, crossed
+with o72's argument modes:
+
+  `fr[N]`  (`framevar=arr`)  skip `sub sp,#N`/`add sp,#N`, declare one
+      `u8 fr[N]`, spell every slot access `*(T *)(fr + k)`.  The image's
+      offsets are reproduced exactly rather than guessed.
+  `v{k}`   (`framevar=loc`)  skip the frame instructions, declare one typed
+      local per slot with NO array: `int v0;` etc.  This is the spelling for
+      the no-`sub sp` spill class and it is the single biggest coverage win:
+      107 -> 176 of 227 bodies now generate at all.
+  outgoing arguments (`pushmode=var`)  a `str rX,[sp,#k]` in a call's setup
+      run becomes `o(4+k/4) = <rX>;` and the call is spelled
+      `f(a0, a1, a2, a3, o4)`.  This is what makes the 5-argument calls match.
+  argmode `cur` (new)  the argument count comes from the callee's arity and
+      the register vector is a0..a(k-1) -- whatever r0..r3 hold at the call.
+      `f(a0,a1,a2,0,10)` for func_0216742C is EXACT on the first compile;
+      o72's site/site0/block readings give 2 arguments there and 18 bytes
+      where the image has 24.
+
+  Measured stack layout, by probe (scratch/ov_010/o81_frame2.c): mwcc gives a
+  LATER-declared local the LOWER address -- `int x; int y; int z;` compiles to
+  x@[sp,#8], y@[sp,#4], z@[sp].  The `loc` model declares slots in decreasing
+  offset order to mirror that.
+
+3. The residue, measured over 202 non-EXACT rows (one variant per name)
+-----------------------------------------------------------------------
+The first byte at which the compiled function and the image differ is inside
+the first two instructions in all 202 rows -- the prologue.  Crossed with the
+pair, the residue splits like this (image -> ours):
+
+   24  push {r3,r4,r5,r6,r7,lr} | sub sp,#8     -> push {r4,r5,r6,r7,lr} | sub sp,#0xc
+   12  push {r3,r4,r5,r6,r7,lr} | sub sp,#8     -> push {r4,r5,r6,r7,lr} | sub sp,#0x14
+    8  push {r3,r4,r5,r6,r7,lr} | sub sp,#0x10  -> push {r3,...}         | sub sp,#0x18
+    6  push {r4,r5,r6,lr}       | sub sp,#8     -> push {r4,...r7,lr}    | sub sp,#0xc
+    4  push {r3,...}            | sub sp,#0x30  -> push {r3,...}         | sub sp,#0x58
+   ...
+   ~27 rows have BOTH the same push list and the same `sub sp`, so their first
+   difference is the first body instruction (`adds r5,r0,#0` vs a different
+   destination register).
+
+Two mechanisms, both allocation, neither spelling:
+
+  (a) our frame is 4 to 40 bytes LARGER than the image's, always.  The offsets
+      inside it are right -- that is what the `fr[N]` spelling bought -- but
+      the translation keeps more values live than the original did, and the
+      ones it keeps in C locals (`o4`, the `t5..t7` register copies) land in
+      the frame on top of `fr[N]`, so `sub sp` grows.
+  (b) one callee-saved register more or fewer than the image, which is what
+      moves `push {r3,r4,...}` to `push {r4,...}`.
+
+Recomputation of the callee arity, the argument vector, the slot offsets, the
+spill model and the declaration order all move the divergence no earlier than
+the prologue: the generated function is the image's function instruction for
+instruction modulo which callee-saved registers hold which live values and how
+much of the frame is scratch.  This is the same register-allocation wall the
+o72 lane named for its 25 push-list rows; the frame itself is no longer part
+of the residue.
+
+4. Filed (21 functions, 1,404 bytes, every one re-verified EXACT by
+   tools/match.py one and its shard recorded by manifest --verify)
+-----------------------------------------------------------------------
+  func_02158768  0x02158768   24  EXACT*
+  func_021587B0  0x021587B0   48  EXACT
+  func_0215B660  0x0215B660   96  EXACT
+  func_0215B6C0  0x0215B6C0   68  EXACT
+  func_0215B704  0x0215B704   72  EXACT
+  func_0215BAB0  0x0215BAB0   68  EXACT
+  func_0215BCA0  0x0215BCA0   72  EXACT*
+  func_0215BFD4  0x0215BFD4   72  EXACT*
+  func_021605C0  0x021605C0   76  EXACT
+  func_02163230  0x02163230   88  EXACT
+  func_02163288  0x02163288  104  EXACT
+  func_021632F0  0x021632F0   80  EXACT
+  func_02163340  0x02163340  104  EXACT
+  func_021633A8  0x021633A8  112  EXACT
+  func_02163E34  0x02163E34   36  EXACT
+  func_02163E58  0x02163E58   36  EXACT
+  func_0216742C  0x0216742C   24  EXACT
+  func_02167444  0x02167444   24  EXACT
+  func_0216932C  0x0216932C   40  EXACT*
+  func_02169E4C  0x02169E4C   76  EXACT
+  func_0216AD1C  0x0216AD1C   84  EXACT
+
+The four EXACT* are the listing-extent alignment padding the brief calls a
+success (rule 3); every shard reports EXACT/EXACT*.
+
+Compiles: 1,070 (run A) + 2,264 (run B, arr x loc x 4 argument modes x int/void)
+= 3,334, about 8 minutes of 8-worker wall time.  Generation coverage went from
+107/227 to 176/227; the EXACT yield stayed at 21 names, which is the honest
+shape of this result -- widening the spelling moves bodies from "refused" to
+"DIFF at the prologue" far faster than it moves them to EXACT.
+
+5. What is left, and what would move it
+----------------------------------------
+  51 of 227 still refuse to generate: 6 `ldm`/`stm`, 2 `rors`, 2 `bpl`,
+     1 `rsbs`, 1 `sbcs`, and ~39 that mix an address-of-slot with something
+     the translator does not model.  None of them is a frame problem; the
+     generator's remaining gaps are the same ones o72 listed.
+  181 generated bodies whose only residue is the callee-saved push list.
+     This is a register-allocation class and no operand spelling reaches it.
+     Files for the generator and every measurement are below.
+
+6. Files
+--------
+  scratch/ov_010/o81_gen.py     the frame-aware generator (arr/loc frame model,
+                                outgoing stack arguments, `cur` argument mode)
+  scratch/ov_010/o81_all.py     variant matrix driver
+  scratch/ov_010/o81_check.py   parallel compile + verdict (hex-safe pcheck)
+  scratch/ov_010/o81_one.py     one name, the whole variant matrix, with disasm
+  scratch/ov_010/o81_probe.py   one source vs the image, both disassemblies
+  scratch/ov_010/o81_tu.py      compile a probe TU and dump frame layouts
+  scratch/ov_010/o81_frame2.c   the frame-layout probe (declaration order)
+  scratch/ov_010/o81_class.py   classify the 263 refused bodies
+  scratch/ov_010/o81_analyze2.py  how each of the 227 uses sp
+  scratch/ov_010/o81_why.py     the instruction a refused body stops on
+  scratch/ov_010/o81_copy.py    the pool-word / copy-shape census (result: 0)
+  scratch/ov_010/o81_res.py     first-divergence profiler
+  scratch/ov_010/o81_d1.py      two-column disassembly of one divergence
+  scratch/ov_010/o81_file.py    copy EXACT variants to src/matched
+  scratch/ov_010/o81b_spec.json / o81b_check.log  the 2,264-row variant run
+  scratch/ov_010/o81_residue.json  202 first-divergence records
+  scratch/ov_010/o81_res2.py  same profiler, keyed on the prologue pair
+  scratch/ov_010/o81_filed.json    the 21 filed names
+  src/matched/<name>.c  21 new       layout/matched/ov010/pkt_<addr>.json  21
