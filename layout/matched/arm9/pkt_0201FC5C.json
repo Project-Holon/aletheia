@@ -21,12 +21,7 @@
     "func_0201FC5C",
     "func_0201FD18",
     "func_0201FD54"
-   ],
-   "evidence": {
-    "sole-ref": [
-     "code:0x02020D5C"
-    ]
-   }
+   ]
   },
   {
    "name": "func_0201FDA0",

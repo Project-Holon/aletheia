@@ -1280,3 +1280,31 @@ Open: the image colours o r6 / w r7 while passing w at the g call; the
   needed is a way to lower w's colouring priority by one use (or raise o's)
   without changing code.
 /* best source, 412 bytes against 412, 2 concrete bytes out, dsi/1.1p1 -O4,p -- the wave-19 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 20 (lane billboard_pms_2): 0x0202E1F0 unchanged, DIFF 2
+==============================================================================
+From the wave-19 source (2), all 412/412 and 24 of 24 relocations.
+g call given `(void *)w`, copy removed, plus one more use of o that the
+  optimiser removes: a duplicate `o->f04 = 0;` 21; a duplicate
+  `o->f20[i] = 1;` in loop 1 21; five of them in loop 1 21 (all dead stores
+  removed, code identical to the 21 source). The priority is taken after
+  dead-store elimination: a removed use of o does not count.
+  A third bitfield store `o->f18.b0 = 1;` after b1 46 (416 bytes); loop-2
+  compare `o->f20[i] == 1 && o->f20[i] == 1` 196; loop-2 slot pointer
+  `u32 *slot = &o->f20[i]; if (*slot == 1)` 21.
+Differently typed alias at the g call: a union {unsigned long; void *}
+  30 (frame grows, union on the stack); func_02024368 prototyped with an
+  unsigned long first parameter and passed w 21; that prototype with the
+  void * copy passed `(unsigned long)wp` 2 (still folds to add r0, sp);
+  that prototype with an unsigned long copy `wp = w` 21 (a pure copy of w is
+  propagated back to w).
+A fresh `unsigned long wl = (unsigned long)ws` local in place of the reused
+  parameter (declared last, and declared first): 374 each (400 bytes); only
+  the reused parameter keeps &ws in a register.
+permuter anneal --types, budget 800, seed 4802, from the 21 source (g takes
+  w, no copy): 2 via temp(tmp = (void *)w), the wave-19 copy again. Flat.
+Summary: every code-free change of o's or w's use count is removed before
+  colouring; the only spelling that flips o/w is one where the g call does
+  not read w, which is also what folds the copy to &ws.
+/* best source, 412 bytes against 412, 2 concrete bytes out, dsi/1.1p1 -O4,p -- the wave-19 source above, unchanged */

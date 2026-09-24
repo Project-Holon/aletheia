@@ -1501,3 +1501,57 @@ of this size, so a single loop cannot produce it.
 Permuter not run (nothing moved).  The pass-2 pointer stays in r0 (the
 k*0x30 register) under every guard shape, pointer origin and constness.
 /* best source, 870 bytes against 872, 29 concrete bytes out, dsi/1.1p1 -- the 2026-09-24 wave-18 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 20 (lane 20C mcss_5): 0x02016C60 unchanged, DIFF 29
+==============================================================================
+REGISTERS AT THE PASS-2 HEADER (+0x1D0..+0x1FE, image vs this build):
+  +0x1D0 r0 = a0 (reload of the [sp] slot), +0x1D2 r1 = a0->f2c,
+  +0x1D4 r0 = k*0x30 (reload of slot 0x10).  Both builds agree so far.
+  r2 = base and ip = scale are live across the whole k loop, so the free
+  low registers at the header are r0, r1, r3 only.
+  Image: ptr r1 (f2c's register), w2/h2 temps and both zero temps r0,
+  sx2/sy2 temps r3.  This build: ptr r0 (k*0x30's register), every temp r1,
+  sy2 r1 and sx2 r0 after ptr dies.  Both source operands of the add die
+  there, so nothing is live in r0 across the pointer in either build: the
+  tie is the colouring order (image colours the r0 temps before ptr, so
+  ptr is pushed to r1 and sx2/sy2 to r3; this build colours ptr first).
+  No value can be given a longer web through r0 without changing visible
+  code, since the image overwrites r0 at +0x1D8.
+Measured from the wave-18 best source (870/872, 29, dsi/1.1p1):
+   1. dead initialiser `= 0` at the declaration on each of the 34 s32
+      locals and base (35 compiles): 29, except nib 41, x 39, c 40.
+   2. function-scope `struct Rec *p` for the pass-2 header, assigned before
+      the if, with `= 0` initialiser declared last / first: 29 / 29;
+      plain: 29.
+   3. same p with a dead `p = 0;` at the k-loop top, before pass 1's
+      `i = 0; y = 0;`, at function entry; `p = p;` at the k-loop top: 29 each.
+   4. p block-scoped and initialised inside the if block: 29.
+   5. p built as `p = a0->f2c; p = (u8 *)p + k*0x30;` function scope and in
+      a block around the pass-2 if (u8 *q, q += off): 29 each.
+   6. header statement order sweep, w2 fixed first, the 120 orders of
+      h2, sx2, i2 = 0, y = 0, sy2: best 27 (sx2, h2, i2, sy2, y and
+      sy2, h2, i2, sx2, y), pointer still r0 (the 2 bytes are load order
+      only); 381/382 for 24 orders.
+   7. the same with sx2/sy2 split through register temps (tX = f34 >> 12;
+      ... sx2 = tX), 420 of the 1260 orders (the chunk with H first
+      and the first Xa-first ones): best 27, pointer r0; temps are copy
+      propagated, the split never changes a colour.
+   8. `a0 = a0;` / `a1 = a1;` / base, scale, step, k, y, h self-assigned
+      at 7 points (entry, before k = 0, k-loop top, before pass 1's do,
+      before the pass-2 if, before k++, before i++): 56 compiles, all 29.
+   9. `w2 = R->f2c; if (w2 != 0) { w2 >>= 12;`, `if ((w2 = R->f2c) != 0)`
+      with `w2 >>= 12` and with `w2 = w2 >> 12`: 29 each.
+  10. header through `s32 *q = (s32 *)R;` with q[11]..q[14]: 29.
+  11. every other dsi compiler: 1.1, 1.2, 1.2p1, 1.2p2, 1.3, 1.3p1 all 29
+      (identical header); 1.6sp1/sp2 33 (push r3 dropped, same header);
+      ../2.0/* 874 bytes, 776.
+Permuter not run (three earlier anneal runs are flat and nothing moved).
+  12. pass-1 header through a named `struct Rec *p1` (function scope, and
+      block-scoped around the four pass-1 reads), pass 2 left on the
+      repeated expression: 29 / 29.
+For the next lane: the pointer's register is not moved by any spelling of
+the pointer, the header statements, dead defs or self-assignments, or a
+renamed pass-1 pointer.  A lever would have to change the colouring order
+of a compiler temporary; 20 measurements used, cap reached.
+/* best source, 870 bytes against 872, 29 concrete bytes out, dsi/1.1p1 -- the 2026-09-24 wave-18 source above, unchanged */

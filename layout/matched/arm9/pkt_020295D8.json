@@ -194,12 +194,7 @@
    "status": "EXACT",
    "functions": [
     "func_02029B28"
-   ],
-   "evidence": {
-    "sole-ref": [
-     "code:0x020298E0"
-    ]
-   }
+   ]
   },
   {
    "name": "unit_02029B5C",

@@ -517,3 +517,24 @@ void func_0204EEC8(struct Cell *dst, u32 idx, s32 fmt, u32 b, u8 c)
     dst->f0a = _s32_div_f(dst->f04, dst->f08);
     dst->f0b = _s32_div_f(dst->f06, dst->f09);
 }
+
+==============================================================================
+2026-09-24, wave 20 (lane billboard_pms_2): 0x0204EEC8 DIFF 14 -> EXACT
+==============================================================================
+From the wave-20 14 source, every row 144/144 and 5 of 5 relocations.
+Declaration position and use count (all 14): sb + 3 as a local declared
+  before sb in a block; the same at function scope; `s32 one = 1` declared
+  first in a block, used at both shifts; one, sb3 and sb all in a block,
+  one first; sb3 before one before sb; sb at function scope with one in an
+  inner block; one used at the f04 shift only (one fewer use of the named
+  constant); the gTexSizeTbl load into a local before sb is computed; the
+  S table word into a block local declared before sb; a t = fmt & 7 local
+  used at the f06 shift only.
+permuter anneal --types, budget 800, seed 4801, from the one/sb3 block
+  source: 11, but through an uninitialised local indexing gTexParamS (not a
+  valid source; discarded).
+f04 position sweep (the earlier 720-order sweeps all kept f04 first): f04
+  after f14 14; after f18 14; after f1c 0 (EXACT); after f06, f09, f08 0.
+THE LEVER: f04 written after the three table loads. The sb field, sb + 3
+  and the constant 1 then colour ip / lr / r5 as the image. Filed in
+  src/matched/func_0204EEC8.c at the first exact position (after f1c).

@@ -32,12 +32,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x0202C358"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "unit_0202C2D0",
@@ -65,12 +60,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x0202C338"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "unit_0202C318",

@@ -19,7 +19,6 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "code:0x02046C9C",
      "self:0x020A033C"
     ]
    }
@@ -53,12 +52,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x0202E79C"
-    ]
-   }
+   "status": "EXACT"
   }
  ]
 }

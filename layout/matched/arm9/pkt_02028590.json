@@ -19,7 +19,6 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "code:0x020285A4",
      "self:0x0209FD10"
     ]
    }
@@ -58,12 +57,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x020287B4"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "func_02028784",

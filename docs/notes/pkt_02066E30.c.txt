@@ -2104,3 +2104,53 @@ The +0x21C tie (y read into ip against the image's r6) survives every
 inverted guard, narrow flag, compound and dying-local form.  Permuter not
 run (nothing moved).
 /* best source, 704 bytes against 704, 2 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 20 (lane 20C mcss_5): 0x02067080 unchanged, DIFF 2
+==============================================================================
+REGISTERS AT +0x214..+0x224 (../2.0/sp2), live across the y read at +0x21C:
+  r0 = _11 (loaded at +0x218), r1 = pOam, r2 = pBaseTrans, r3 = halfH,
+  r4 = the effect bits (cmp r4, #0x300 feeds the adjust test), r5 =
+  halfW << 12 and lr = halfH << 12 (both used by the adjust subtractions at
+  +0x244/+0x248), r7 = dy.  Dead at +0x21C in both builds: ip (halfW, last
+  use the dy mla at +0x214), r6 (_01, same mla), r8.  So r6 is NOT held in
+  our compile; both builds free the same set {r6, r8, ip}.  The allocator
+  takes ip whenever ip is free: this build gives it to the y read.
+  The image uses ip for neither the dy mla result nor the y read, which
+  would need halfW live past +0x21C at allocation time; no instruction in
+  the image reads ip after +0x214.
+Measured from the wave-13 source (704/704, 2):
+   1. `fx32 y = pV->y;` (or `y = pV->y;`) before the x store, then
+      `pV->y = y + (dy + _11 * halfH)`: 2, but a DIFFERENT 2: the y read now
+      lands in r6 as in the image and the dy mla result moves to ip
+      (`mla ip, r6, ip, r7` / `mla r3, r0, r3, ip` at +0x214/+0x220 against
+      the image's r7).  The two ties trade: whichever of {dy after the _01
+      mla, the y read} is coloured first takes ip.
+   2. y read after the x store (every point up to the y store), with and
+      without a dead `= 0` initialiser, `y = y;` before dy: 2 (the old
+      residue, y in ip).
+   3. sweep, declaration orders of dx, dy, y (6) x six read points: 2
+      everywhere; read before the x store gives the item-1 residue, after it
+      the old one.
+   4. sweep, every dependency-legal order of the seven statements (dx init,
+      dx +=, x store, dy init, dy +=, y read, y store), 105 orders: best 2
+      (12 orders, one of the two residues), others 8, 76, 100, 116.
+   5. on item 1: dy as one expression (either operand order): 700 bytes,
+      181; dx reused for the y side, `y += ...; pV->y = y;`, `dy += _11 *
+      halfH` separately, sum operand order swapped, `dy = dy + ...`, dy
+      block-scoped: 2 each (dy still ip); `pV->y = y + dy + _11 * halfH`
+      (no parentheses): 20.
+   6. on item 1: halfW / halfH non-const with a self-assignment after the y
+      store, inside the adjust block, after it, before the y store (8): 2
+      each; halfW << 12 as a named const hw12 used by dx and the adjust:
+      2; hw12 and hh12: 22; `fx32 dy = 0;`: 2.
+   7. the inline flattened into func_02067080 (scratch only, for the
+      permuter): 684 bytes, 214 (the inline boundary is load-bearing).
+   8. permuter on the inline (scratch copy of tools/permuter.py with the
+      mutation target read from MUTFUNC, tools/ untouched), anneal --types,
+      800 compiles, seed 4101, from item 1: best 2.
+For the next lane: both residues are the same ip preference.  To match,
+ip must be unavailable to both the dy mla and the y read, that is halfW
+(or another value in ip) live past +0x21C at allocation time with no
+emitted use.  Item 1's source (y read hoisted) is an equal alternative.
+/* best source, 704 bytes against 704, 2 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged (item 1 is an equal-score alternative) */

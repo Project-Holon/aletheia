@@ -20,12 +20,7 @@
    "functions": [
     "func_0201854C",
     "func_02018584"
-   ],
-   "evidence": {
-    "sole-ref": [
-     "code:0x02019BA4"
-    ]
-   }
+   ]
   },
   {
    "name": "unit_02018598",
