@@ -2077,3 +2077,30 @@ The function has no index variable; the y web is the only candidate and no
 width or order of it moves the +0x21C tie (y read into ip against the
 image's r6).  Unchanged.
 /* best source, 704 bytes against 704, 2 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */
+
+
+==============================================================================
+2026-09-24, wave 19 (lane 19R mcss_4): 0x02067080 unchanged, DIFF 2
+==============================================================================
+../2.0/sp2, from the wave-13 source (re-verified 704/704, 2 out), one change
+each, bytes out:
+   1. bShouldAdjust as `const u8` (narrow flag): 4 (adds tst r0, #0xff)
+   2. adjustDoubleAffine parameter as u8: 4 (same)
+   3. Repeat X/Y clamps inverted (`if (srcX <= 255) return srcX; srcX |=
+      0xFF00;`, same for Y): 2
+   4. adjust block inverted (`if (!adjustDoubleAffine) return;` then the two
+      subtractions): 2
+   5. dying local t: `t = pM->_01; dy += t * halfW; t = pV->y;
+      pV->y = t + (dy + pM->_11 * halfH);`: 2 (t coalesced away)
+   6. y side computed in dx (dx dead after the x store): 2
+   7. clamp as a plain assignment `srcX = (s16)(srcX | 0xFF00)` (and Y): 2
+   8. 6 and 5 together (dx for the sum, dy for _01 then for y): 2
+   9. Remove-adjustment inline inverted (`if (effect != DOUBLE) return;`): 2
+  10. G2_GetOBJEffect inverted (non-affine arm returned first): 2
+  11. dsi/1.2 (re-measured): 676 bytes, 560 (not a 1.2 row)
+  12. `pV->x -= halfW * 4096` to keep halfW live past the y read: 2 (CSE'd
+      to the shifted value, ip still free)
+The +0x21C tie (y read into ip against the image's r6) survives every
+inverted guard, narrow flag, compound and dying-local form.  Permuter not
+run (nothing moved).
+/* best source, 704 bytes against 704, 2 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */

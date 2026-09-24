@@ -1464,3 +1464,40 @@ Reading: long moves the frame here, not the header colouring; the pointer
 register is unaffected by integer width, by any pass-2 declaration order
 that keeps the frame, and by the pointer's own type.
 /* best source, 870 bytes against 872, 29 concrete bytes out, dsi/1.1p1 -- the 2026-09-24 wave-18 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane 19R mcss_4): 0x02016C60 unchanged, DIFF 29
+==============================================================================
+From the wave-18 best source (re-verified 870/872, 29 out, dsi/1.1p1), one
+change each, bytes out (R = the pass-2 record expression):
+   1. inverted guard `if (R->f2c == 0) { k++; continue; }`, pass 2
+      unguarded: 872 bytes, 388 (bne/b pair at the header, every branch
+      shifts; pointer still r0)
+   2. `if (R->f2c == 0) goto next;` ... `next: k++;`: 29
+   3. `if (R->f2c == 0) { } else { pass 2 }`: 29
+   4. one `struct Rec *p` for both passes, reassigned before pass 2: 29
+   5. the same p NOT reassigned (pass-1 pointer reused): 876 bytes, 750
+   6. p assigned inside an inverted test `if (!((p = R)->f2c == 0))`: 29
+   7. p assigned in the test `if ((p = R)->f2c != 0)`: 29
+   8. dying-local sweep: the record address computed into an existing s32
+      local (cast back at each field read), 24 locals: addr, t, v, found,
+      c, r, bw, bh, nib, i, j, x, sx, sy, w, h all 29; tmp1..tmp10 169 to
+      515 (frame moves); j2 77
+   9. const struct Rec cast at every pass-2 read: 29
+  10. `const struct Rec *p` assigned before the if: 29
+  11. `const struct Work *a0`: 876 bytes, 771
+  12. `const struct Work *a0, const struct Task *a1`: 876, 771
+  13. Work.f2c as `const s32 *`: 29
+  14. `h2 = f30 >> 12; h2 <<= 1;` (compound): 29
+  15. 14 with sx2 read between the two h2 statements: 31
+  16. every header field as load then compound shift: 160 (frame moves)
+  17. bare guard `if (R->f2c)`: 29
+  18. pass 2 in `do { if (R->f2c == 0) break; ... } while (0);`: 872, 387
+  19. k as u32 (casts dropped in the loop test): 29
+Not tried, by structure: the two passes as one loop with a u8 pass flag.
+The image carries two full copies of the block loop with separate
+invariant slots (0x40..0x2c and 0x28..0x14); 1.1p1 does not unroll a loop
+of this size, so a single loop cannot produce it.
+Permuter not run (nothing moved).  The pass-2 pointer stays in r0 (the
+k*0x30 register) under every guard shape, pointer origin and constness.
+/* best source, 870 bytes against 872, 29 concrete bytes out, dsi/1.1p1 -- the 2026-09-24 wave-18 source above, unchanged */

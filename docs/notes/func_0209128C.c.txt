@@ -101,3 +101,27 @@ Final position: every 1.1p1 spelling measured in four waves emits a plain
 `mov r1, #1` at +0004; the image's `movne` is reproduced only by the
 ../2.0 and ../1.2 builds (wave 18). No long, call-result or type lever
 moves it. Best source unchanged (the ternary into a u8 local, 1 out).
+
+================================================================
+APPENDED 2026-09-24, wave 19 lane 19R mcss_4: still DIFF 1 under 1.1p1
+================================================================
+(a) Translation-unit check.  Every matched neighbour is 1.1p1: packet
+pkt_020911D8 (func_020911D8, 020911F0, 02091200, 02091220, 02091230,
+0209124C, 0209125C, 020912A8, 02091374, 0209138C, 020913A4) and pkt_02091284
+(func_02091284) all carry `compiler: 1.1p1`, as does the whole 0x02090F18 to
+0x02092F0C run in src/matched.  So there is no sp2 / 1.2 pin to inherit; the
+../2.0/sp2 exact build stays unfiled.
+(b) 1.1p1 spellings, `g_02153B88 0x02153B88 data a1`, measured once each (8):
+  1. u8 f = (x != 0); store f ? 1 : 0                      1
+  2. if (!(x == 0)) v = 1; else v = 0;                     1
+  3. u8 v = 0; if (x != 0) { v = 1; store; return; } store
+                                                           32 bytes, 22 (predicated
+                                                           pool load per arm)
+  4. u8 f = (x != 0); u8 v = f ? 1 : 0;                    1
+  5. goto arms, inverted test (if (x == 0) goto z)         1
+  6. u8 f = (x != 0); if (!f) v = 0; else v = 1;           1
+  7. if (!(x != 0)) v = 0; else v = 1;                     1
+  8. u8 f; f = x != 0; v = !f ? 0 : 1;                     40 bytes, 27
+     (movne r0 / moveq r0 then tst r0, #0xff: the flag is materialised)
+Every 1.1p1 form still emits the plain `mov r1, #1` at +0004.  Best source
+unchanged (the ternary into a u8 local, 1 out).
