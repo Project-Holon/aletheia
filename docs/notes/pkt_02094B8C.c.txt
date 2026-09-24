@@ -3715,3 +3715,45 @@ before chindex, or `(unsigned char *)&hexresult` recomputed at the swap
 loop), or on source 1 a permuter run with --focus p,hch.
 Still capped at MATCH at exact bytes (__double_huge, two anonymous pool
 words).
+
+2026-09-24, wave 20 (lane 20M, strtold_6): 3864 of 3864, MATCH, 0 bytes out
+==========================================================================
+36 -> 0. Filed as src/pending/func_02094B8C.c (status MATCH; blocking
+class: the two anonymous string pool words at +0x0EF0/+0x0EF4, the
+"INFINITY" and "NAN(" initialiser literals; __double_huge and
+func_0209739C now resolve by sole-ref). promote_fast.py --dry gives it a
+fresh MATCH and pending_pct.py counts it (2892 code bytes).
+The change against 20J source 1 (U C H hr p, 39): the hex block is
+    double hexresult;
+    unsigned long ui2;
+    unsigned long ch2;
+    unsigned char *p = (unsigned char *)&hexresult;
+    unsigned char hch;
+i.e. p moved one slot, between ch2 and hch. 20J swept the six U/C/H orders
+with p fixed last; the fix is p's own insertion point.
+Measurements (match.py one, 1.1p1; bytes / concrete out; base = 20J
+source 1, 3864 / 39):
+   1  p function-scope, first of the top locals, assigned in place  77
+   2  p function-scope, just before chindex                          77
+   3  p function-scope, after maxdigits (last)                       77
+   4  `p = (unsigned char *)&hexresult;` again before the swap loop
+                                                              3868 / 133
+   5  `p = p;` at the top of the second loop                 39 (identical)
+   6  `p = p;` at the bottom of the second loop              39 (identical)
+   7  p declared (initialised) in a nested block that opens at
+      `p[0] = 0` and runs to the return                             162
+   8  same, nested block opening at `if ((chindex = ++ui) ...)`     102
+   9  same, nested block opening at the bit-count `for (ui = 0 ...` 46
+  10  same, nested block opening at `expsign += intdigits * 4`      46 (= 9)
+  11  p uninitialised after hch, assigned just before `p[0] = 0`    162
+  12  first part's chindex as block var ch1, declared first         39 (identical)
+  13  ch1 declared between ch2 and hch                              39 (identical)
+  14  ch1 declared between hch and hexresult                        39 (identical)
+  15  hr U p C H                                                    47
+  16  hr U C p H                                                    MATCH
+  (mixed declarations and statements, i.e. a bare C99 declaration of p
+  after the first part, are rejected by 1.1p1: CCERR.)
+  permuter: anneal, 1500, seed 5001, --focus p,hch,chindex on source 1
+  with the #defines joined: did not run, tools/permuter.py cannot parse
+  the file ("<src>:64:47: before: |", the enum/success macro region).
+Idiom: docs/idioms/declaration-position-orders-block-scope-colouring.md.

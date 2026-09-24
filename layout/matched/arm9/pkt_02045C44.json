@@ -19,12 +19,7 @@
    "status": "EXACT",
    "functions": [
     "func_02045C44"
-   ],
-   "evidence": {
-    "sole-ref": [
-     "code:0x02045E04"
-    ]
-   }
+   ]
   },
   {
    "name": "sub_02045E04",

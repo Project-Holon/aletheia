@@ -20,13 +20,7 @@
    "functions": [
     "sub_02033CA8",
     "sub_02033CC0"
-   ],
-   "evidence": {
-    "sole-ref": [
-     "code:0x02033CFC",
-     "code:0x02033E30"
-    ]
-   }
+   ]
   },
   {
    "name": "sub_02033CFC",
@@ -38,12 +32,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x020342F8"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "sub_02033E30",
@@ -67,13 +56,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x02033FB0",
-     "code:0x020340D0"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "sub_02033FB0",
@@ -85,12 +68,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x02034348"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "sub_020340D0",

@@ -52,12 +52,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x0203B1B0"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "func_0203DC70",

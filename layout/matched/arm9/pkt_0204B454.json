@@ -162,12 +162,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x0204D3A0"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "sub_0204B8D4",
@@ -179,12 +174,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x0204D4C4"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "sub_0204B8F4",
@@ -208,12 +198,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x02062F1C"
-    ]
-   }
+   "status": "EXACT"
   }
  ]
 }

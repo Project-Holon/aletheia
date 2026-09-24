@@ -19,14 +19,6 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "code:0x02046C24",
-     "code:0x020613D8",
-     "code:0x0206210C",
-     "code:0x02062114",
-     "code:0x0206246C",
-     "code:0x02062474",
-     "code:0x0206DB40",
-     "code:0x0206DF14",
      "self:0x020A1300",
      "self:0x020A1308",
      "self:0x020A1328",
@@ -50,8 +42,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "code:0x0206DB24",
-     "code:0x0206DB60"
+     "code:0x0206DB24"
     ]
    }
   }
