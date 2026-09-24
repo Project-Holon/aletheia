@@ -437,3 +437,34 @@ on a copy, and the spellings that home the remainder in r2 (a write back
 into the parameter, wave 10) lose the multiply copy. The five listed levers
 are exhausted on this function.
 /* best source, 50 bytes against 56, 14 concrete bytes out, 1.1p1 -- the big_three source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane anime_4): 14 holds, dead-definition lever measured
+==============================================================================
+Lever from lane 19L (strtold): a dead definition of the remainder so its web
+spans the call and cannot coalesce with the _u32_div_f r1 return. Measured
+once each (1.1p1); "ret" is the 50/14 result-variable form, "two" the 52/31
+two-return form (t = p->f1c; t[i].a/b/c in both):
+  (1) `u32 i = 0;` at the top, `i = idx % n;` after the declarations:
+      ret 52/27 when the assignment follows `ret = 0` (ret moves to r7, a
+      six-register push), ret 50/14 when it precedes `ret = 0`; two 52/31.
+  (2) i declared first, `q = idx % n; i = q;` with the call result in a
+      separate local q: ret 52/27, two 52/31.
+  (3) the call is the modulus itself, so nothing can be computed before
+      it; the closest spelling, i live into the call as the divisor
+      (`u32 i = n; i = idx % i;`): ret 52/27, two 52/31.
+  (4) `unsigned long i = 0;` with (1): ret 52/27 (assignment after
+      ret = 0) and 50/14 (before), two 52/31.
+  (5) two-return form with (1): 52/31 (as above).
+  Extras: non-constant dead init `u32 i = idx;` then `i = idx % n;`: ret
+  52/27 or 50/14 by the same ordering, two 52/31; `i = i;` before the
+  call (two) 52/31; the idx %= n homing plus a dead-initialised i
+  (`u32 i = 0` or `u32 i = n`, then `i = idx`, or `i = idx %= n`): two
+  50/25 each.
+Reading: the dead definition is removed before colouring on this function
+(constant and copy propagation fold it, unlike strtold where the variable
+is live around a loop), so the remainder's web is unchanged: it still
+coalesces with r1 in every form that multiplies into a copy. The 52/27 ret
+variants only differ from 50/14 by where `ret = 0` lands relative to the
+call. Lever exhausted here.
+/* best source, 50 bytes against 56, 14 concrete bytes out, 1.1p1 -- the big_three source above, unchanged */
