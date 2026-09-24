@@ -36,3 +36,12 @@ end offset) and the swap partner was B.  There `unsigned long AB` alone moved
 TOP of the long type (AB, pa, pb, i, A, B) reached EXACT; every earlier
 720-order sweep had been with u32.  So when long moves a swap without closing
 it, sweep declaration order again with the long in place.
+
+Wave 19 (lane swaps_long): the type does not have to be on an index. In
+0x0202E1F0 (1.1p1, Thumb, docs/notes/pkt_0202E1F0.c.txt) the swapped pair
+was o and w, w being a stack parameter reused as the &ws pointer. `unsigned
+long w` alone is still 21, and a copy `wp = (void *)w;` before loop 1 with
+`void *w` is still 21; the two together put o in r6 and w in r7 as the image
+has them (21 to 2 bytes). The remaining 2 bytes are the copy being folded to
+&ws at its one use. The same recipe did not move 0x02048744, 0x0202173C,
+0x02021848, 0x0209D7D4 or 0x0204EEC8 (their notes list the measurements).

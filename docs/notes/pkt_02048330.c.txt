@@ -709,3 +709,26 @@ through (&util->unit[unitIdx])-> 14; dsi/1.2 14 (same pair). Unchanged 14.
   The no-code self-assignment does not reach this pair: resIdx is loaded once
   before the loop and i is a loop counter, and no position moves the colouring.
 /* best source, 468 bytes against 468, 14 concrete bytes out, dsi/1.1p1 -- the wave-16 long source above -- unchanged */
+
+
+==============================================================================
+2026-09-24, wave 19 (lane swaps_long): 0x02048744 unchanged, DIFF 14 (the long recipe)
+==============================================================================
+The backup_system recipe (long on one of the swapped pair, then an order sweep
+with the long in place, then the permuter from the long source). From the
+wave-16 long source, all 468/468 unless noted:
+  unsigned long i; long j 17;  long i; unsigned long j 16
+  unsigned long resIdx (helpers u16) 476;  u32 resIdx = (u16)... 476
+  unsigned long resIdx with getRes/useRes taking unsigned long resIdx 58
+    (468 bytes: a three-register rotation, resIdx r4 / i r8 / objTbl sb)
+  order sweeps (match.py one per order, 720 each):
+    long i, j over {resIdx, objIdx, objCount, os, i, j}            floor 14
+    long i, j over {mdl, tex, rnd, anm, os, a, i, j} (720 of 40320) 14
+    unsigned long i, same eight                                    floor 17
+    unsigned long j, same eight                                    floor 16
+    unsigned long resIdx (+helpers), same eight                    floor 27
+    unsigned long resIdx (+helpers) over the first six             floor 29
+  permuter anneal --types, budget 2000, seed 2701, from the
+    unsigned-long-resIdx source: 25.
+The resIdx/i pair does not move under any long placement or any order.
+/* best source, 468 bytes against 468, 14 concrete bytes out, dsi/1.1p1 -- the wave-16 long source above -- unchanged */

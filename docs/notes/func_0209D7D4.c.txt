@@ -175,3 +175,18 @@ still built in r2 and copied to r1. Best source unchanged.
   `void *` passed `(void *)0` 43.
   The zero is still built in r2 before `mov r0, r1` and copied to r1.
 /* best source, 72 bytes against 68 (+8 follower), 43 concrete bytes out, 1.1p1 -- the wave-16 source above -- unchanged */
+
+
+==============================================================================
+2026-09-24, wave 19 (lane swaps_long): 0x0209D7D4 unchanged, DIFF 43 (the long recipe)
+==============================================================================
+From the wave-16 source, all 72 against 68 (+8 follower):
+  unsigned long *count 43; long *count 43; a `long z = 0` local stored and
+  passed 43; unsigned long z 43; func_0209D778's second parameter long 43;
+  long handle reused as the zero 43; an `unsigned long n = *count` local 43;
+  sweep of {n, end, c, z} as function-scope locals with unsigned long n and
+  z, 24 orders, all 43. permuter anneal --types, budget 2000, seed 2705,
+  from the unsigned-long-z source: 51 at 76/76 (volatile count; the score
+  chases the 76-byte extent that includes the follower), rejected.
+The zero is still built in r2 and copied to r1; long does not reach it.
+/* best source, 72 bytes against 68 (+8 follower), 43 concrete bytes out, 1.1p1 -- the wave-16 source above -- unchanged */

@@ -351,3 +351,84 @@ the constant 1 in r5 for both shifts; the compile interleaves them.
   static inline setTex(dst, idx, fmt) 58; the f09 store moved after f1c 58.
   The schedule does not follow the source order of these stores or loads.
 /* best source, 144 bytes against 144, 58 concrete bytes out, 1.1p1 -- the wave 12 source above, unchanged */
+
+
+==============================================================================
+2026-09-24, wave 19 (lane swaps_long): 0x0204EEC8 DIFF 58 -> 20
+==============================================================================
+Measured with the symbols: block in the source below; every row 144/144 and
+5 of 5 relocations resolved unless noted.
+From the wave-12 source (58): long sb 58; unsigned long sb 58; unsigned long
+  idx 58; long idx 58; unsigned long st 148 (2 of 5); long fmt 58; unsigned
+  long b 58; long sb plus unsigned long idx 58. Long is inert on this body.
+Store-order sweep with long sb, all 720 orders of {f06, f09, f14, f18, f1c,
+  f08} after f04, scored with unresolved relocations penalised: floor 56 at
+  f04 f14 f18 f09 f1c f06 f08 (f06 after the table loads; the wave-12 sweep
+  kept f06 second or third). The same order with s32 sb: 56.
+permuter anneal --types, budget 2000, seed 2706, from that source: 21 via
+  type:l(st:u16->u32) (value-preserving: st = fmt & 7; in the wave-12
+  store order u32 st is 148 bytes, 2 of 5). Re-swept the 720
+  store orders with u32 st: floor 20 at f04 f14 f18 f1c f06 f09 f08.
+From the 20 source: s32 / long / unsigned long sb 20; unsigned long / long /
+  s32 st 20; unsigned long idx 20; st declared before sb 20; u32 sb 20; sb
+  and st declared then assigned 20; u32 fmt 21; shift amounts in locals 20.
+RESIDUE (20 bytes, same instructions, 5 of 5): a colouring rotation in the
+prologue: image sb ip, sb+3 lr, the constant 1 r5, st r7, st+3 r0, c lr;
+compile sb lr, sb+3 r5, 1 ip, st r0, st+3 r6, c r5 (and the gTexParamT base
+r6 against r7). The width of st is the masked-local idiom
+(docs/idioms/a-masked-locals-declared-width-is-invisible-in-the-diff-and-decides-its-register.md);
+it only paid once the stores were reordered.
+/* best source, 144 bytes against 144, 20 concrete bytes out, 5 of 5 relocations resolved, 1.1p1 */
+/*
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ *
+ * symbols:
+ *   _s32_div_f   0x0209C0A4  arm
+ *   gTexSizeTbl  0x020A14C0  data
+ *   gTexParamS   0x020A14D4  data
+ *   gTexParamT   0x020A14D8  data
+ */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+struct Cell {
+    u8  pad_00[4];
+    u16 f04;
+    u16 f06;
+    u8  f08;
+    u8  f09;
+    u8  f0a;
+    u8  f0b;
+    u8  pad_0c[8];
+    u32 f14;
+    u32 f18;
+    u32 f1c;
+};
+
+struct Pair8 { u32 w; u32 pad; };
+
+extern s32 _s32_div_f(s32 a, s32 b);
+extern const u32 gTexSizeTbl[];
+extern const struct Pair8 gTexParamS[];
+extern const struct Pair8 gTexParamT[];
+
+void func_0204EEC8(struct Cell *dst, u32 idx, s32 fmt, u32 b, u8 c)
+{
+    s32 sb = (fmt & 0x70) >> 4;
+    u32 st = fmt & 7;
+
+    dst->f04 = 1 << (sb + 3);
+    dst->f14 = gTexSizeTbl[idx];
+    dst->f18 = gTexParamS[sb].w;
+    dst->f1c = gTexParamT[st].w;
+    dst->f06 = 1 << (st + 3);
+    dst->f09 = c;
+    dst->f08 = b;
+    dst->f0a = _s32_div_f(dst->f04, dst->f08);
+    dst->f0b = _s32_div_f(dst->f06, dst->f09);
+}

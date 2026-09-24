@@ -66,3 +66,11 @@ which. `tools/permuter.py --types` generates exactly this mutation
 800-compile hill run each, after two hand passes apiece had missed them — a
 human reading the disassembly cannot see the axis, which is precisely why it
 is worth spending a tool run on.
+
+Wave 19 (lane swaps_long): the width can depend on statement order. In
+0x0204EEC8 (docs/notes/pkt_0204EEC8.c.txt) `u32 st = fmt & 7` in place of
+`u16 st` measured 148 bytes (2 of 5 relocations) in the wave-12 store
+order and 21 bytes once the f06 store was moved after the three table loads
+(then 20 after a second 720-order store sweep with u32 in place). If a width
+lever measures worse, measure it again after any store reorder that changed
+the score.

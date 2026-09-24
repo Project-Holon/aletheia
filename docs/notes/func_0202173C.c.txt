@@ -465,3 +465,22 @@ c, d unsigned long 33; long a with a long callee parameter 33. Unchanged 33.
   the func_020219C4 call 33.
   The self-assignment does not reach the [sp,#8] store order.
 /* best source, 268 / 232 bytes against 268 / 232, 33 concrete bytes out each, 1.1p1 -- the first section's source -- unchanged */
+
+
+==============================================================================
+2026-09-24, wave 19 (lane swaps_long): 0x0202173C / 0x02021848 unchanged, DIFF 33 each (the long recipe)
+==============================================================================
+From the first section's source. 0x0202173C, 268/268 unless noted:
+  unsigned long a 33; unsigned long a with func_020219C4's a unsigned long 33;
+  long i 264 bytes; unsigned long keep 272; unsigned long done 33;
+  long i with `i = (u8)(i + 1)` 35 (moved); unsigned long i with the same
+  wrap 33; with long i and the wrap: declaration sweep {keep, done, i} 6
+  orders all 35, init-statement sweep {done = 0, i = 0, keep = v} 6 orders
+  all 35. permuter anneal --types, budget 2000, seed 2703, from the
+  unsigned-long-a source: 33 (hoist-down(done) only).
+0x02021848 (twin), 232/232: unsigned long a 33; permuter anneal --types,
+  budget 2000, seed 2704, from the unsigned-long-a twin: 31 via a volatile d
+  and keep u16 -> u8 (not value-preserving), rejected.
+The [sp,#8] home-store position is not a colouring decision and long does
+not reach it.
+/* best source, 268 / 232 bytes against 268 / 232, 33 concrete bytes out each, 1.1p1 -- the first section's source -- unchanged */
