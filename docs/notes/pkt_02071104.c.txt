@@ -554,3 +554,27 @@ value), transT ip, scaleT << 1 r3 (the _30 product's register).
 A local that spans both halves is coloured as one web, so it cannot carry the
 image's register only in the second half. Permuter not run (nothing moved).
 /* best source, 124 bytes against 124, 6 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane mechanisms): 0x02071104 unchanged, DIFF 6
+==============================================================================
+Under ../2.0/sp2 (13 compiles, 12 distinct spellings):
+  - both halves as calls to a static inline helper
+    `mul8(a, b) = (fx32)(((s64)a * b) >> 8)`: args (scaleT, transT) 18,
+    (transT, scaleT) 6;
+  - a helper for the whole origin * product half: product (s64)t * s 16,
+    (s64)s * t 26;
+  - a helper for the 0x2000 - (scaleT << 1) term: 25;
+  - explicit copy `st = scaleT; st2 = st;`, st in the product and st2 in
+    the shift: product (s64)transT * st 6, (s64)st * transT 18;
+  - the shift term hoisted into a local k before _31: 6; the same with the
+    product (s64)scaleT * transT 18; plus transT read into a local after k 18;
+  - the shift as a u32 local sh before _31, scaleT-first product: 18;
+  - the named product p = (fx32)((s64)scaleT * transT >> 8) before _31: 23;
+  - k computed before the _30 statement: 128 bytes.
+Reading: every scaleT-first spelling puts scaleT in r4 as the image does but
+rotates transT / the smull low word / the shift through r3, ip, lr (image
+ip, lr, r3); every transT-first spelling is the known 6. Splitting the value
+across helpers or copies does not separate the two uses: the copies are
+propagated back into one web. Permuter not run (nothing moved).
+/* best source, 124 bytes against 124, 6 concrete bytes out, ../2.0/sp2 -- the wave-13 source above, unchanged */

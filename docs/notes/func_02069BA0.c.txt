@@ -266,3 +266,24 @@ shortfall into `have` plus 8 through `acc`. The pair is two argument
 set-up moves ahead of the call, and their order does not depend on which
 local holds either value. Permuter not run (nothing moved).
 /* best source, 96 bytes against 96, 6 concrete bytes out, dsi/1.1p1 -- the wave 17 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane mechanisms): 6 holds
+==============================================================================
+From the wave 17 source (1.1p1), 12 measurements aimed at the evaluation
+order of the `mov r1, r6` / `mov r2, #8` pair (the 8 is the have store's
+value, not an argument):
+  - the argument through a temporary on the line before the call (s =
+    shortfall): 6; `(s32)(u32)shortfall`: 6; `shortfall + 0`: 6;
+  - the argument as `n - have` in a call-first `acc = f(b, n - have); acc
+    |= held << shortfall;`: 6;
+  - the refill byte through a u8 local: 6; the refill as `b->cur[0]; b->cur++`: 23;
+  - 8 as a non-literal expression `(signed char)(mask >> 5) + 1`: 6;
+    8 stored through `*(u8 *)&b->have`: 6;
+  - shortfall as `-(have - n)`: 100 bytes; shortfall assigned in the
+    condition `(shortfall = n - have) > 0`: 52;
+  - `volatile` on the acc field alone: 14;
+  - the whole recursive arm returning directly: 112 bytes.
+Nothing reorders the two moves; only the whole-struct volatile (wave 16) does.
+Permuter not run (nothing moved).
+/* best source, 96 bytes against 96, 6 concrete bytes out, dsi/1.1p1 -- the wave 17 source above, unchanged */

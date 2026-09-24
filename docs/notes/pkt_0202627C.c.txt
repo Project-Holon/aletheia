@@ -402,3 +402,47 @@ fl (`fl = ((u8 *)p)[4]; ... ((u8 *)p)[4] = fl & ~2; cb(a, (fl << 30) >> 31)`)
 in three read orders gives 272 bytes (244-245 out: an extra copy for the
 bics and the extract moved to the call). Permuter not run (nothing moved).
 /* best-source marker: the wave 16 source above, 268/268, 10 out, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane mechanisms): 10 holds (residue changed shape)
+==============================================================================
+From the wave 16 source (1.1p1), 12 measurements on case 5's bitfield RMW,
+plus one permuter run:
+  - `p->b1 = 0` as `*((u8 *)p + 4) &= ~2`: 12 (ands #0xfd, not bics);
+  - `p->b1 = 0` as a split u32 RMW `{ u32 w = byte; w &= ~2; byte = w; }`: 10
+    (the same residue as before);
+  - b read by mask `(byte >> 1) & 1`, with the bitfield clear or with the
+    mask clear: 272 bytes each;
+  - the split RMW with read order b, cb, a: 23; `p->b1 &= 0`: 10 (repeat of wave 18);
+  - the RMW word read FIRST into a local, `w = byte; a; b = p->b1; cb; ...;
+    byte = w & ~2;`: 14. cb now takes r5 as in the image, but the flag byte
+    and the zero swap r2/r3. The same with w as u8 or int: 14; with a read
+    before w: 14; read order w, b, cb, a: 21;
+  - read order w, cb, a, b (source below): 10. The flag byte is in r3 and
+    the loads are in the image's order (flag, zero, cb, a). The only
+    residue is the zero and cb swapped between r2 and r5 (+0xE8..+0x104).
+permuter anneal 1000 --types (seed 3602) from that source: flat at 10.
+The wave-16 source stays the best source. The w-first form below is the same
+count but has a different residue. It is the better base for the next lane,
+because the flag byte's register is now right.
+/* alternative source (10 out, 268/268, 1.1p1): the wave 16 source with case 5 as */
+    case 5:
+    {
+      void (*cb)(u32, u32);
+      u32 a;
+      u32 b;
+      u32 w;
+      w = *((u8 *)p + 4);
+      cb = p->f20;
+      a = p->f1c;
+      b = p->b1;
+      p->f18 = 0;
+      p->kind = 0;
+      p->f20 = 0;
+      p->f1c = 0;
+      *((u8 *)p + 4) = w & ~2;
+      if (cb != 0)
+        cb(a, b);
+      break;
+    }
+/* best-source marker: the wave 16 source above, 268/268, 10 out, unchanged */

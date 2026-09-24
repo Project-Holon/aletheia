@@ -1111,3 +1111,22 @@ product gets the operand order right but sign-extends a in place (asr r4, r4)
 instead of into lr, which puts b in lr; no dying local changes that. Permuter
 not run (nothing moved).
 /* best source, 488 bytes against 488, 2 concrete bytes out, ../2.0/sp2p2, no volatile -- the wave-19 nns_small_2 source above, unchanged */
+
+==============================================================================
+2026-09-24, wave 19 (lane mechanisms): 0x0206F4C8 unchanged at 2
+==============================================================================
+Under ../2.0/sp2p2 from the no-volatile wave-19 source (488/2), the s32 x
+blend's 64-bit sum respelled with the product unnamed (12 measurements).
+Image `adds r5, r6, r5` (key b as Rn), compile `adds r5, r5, r6`.
+  - `(b + (long long)a * 3)`: 2; `((long long)b + (long long)a * 3)`: 2;
+    `(long long)a * 3 + (long long)b`: 2; `+ (long long)(int)b`: 2;
+  - `3LL * a + b`: 2; `a * 3LL + b`: 2;
+  - the sum through the s64 local, `w3 = (long long)a * 3 + b;`: 2;
+  - `w3 = b; out[0] = (w3 + (long long)a * 3) >> 2`: 2;
+  - `+=` on the accumulating side, `w3 = b; w3 += (long long)a * 3;`: 4;
+  - subtraction of a negated term, `- (long long)(-b)` and `- (long long)-b`:
+    76 each (a real rsb is emitted);
+  - `(long long)a + a + a + b`: 10.
+Every commuted spelling canonicalises to the same operand order, so source
+operand order is not the lever. Permuter not run (nothing moved).
+/* best source, 488 bytes against 488, 2 concrete bytes out, ../2.0/sp2p2, no volatile -- the wave-19 nns_small_2 source above, unchanged */
