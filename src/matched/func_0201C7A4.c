@@ -3,7 +3,7 @@
  * address:  0x0201C7A4
  * packet:   pkt_0201C7A4
  * region:   arm9
- * compiler: ../2.0/sp2
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
@@ -19,13 +19,12 @@
  * scratch through sub_0201C808 and hands it to func_0201C8BC with the
  * string object.  The leading func_02045A90(s) call's result is unused.
  *
- * Compiler pin.  Under dsi/1.1p1 the body is right and 48 bytes long: the
- * scratch address is used at two sites, and 1.1p1 caches it in a
- * callee-saved register and copies it into r0 twice.  2.0/sp2
- * rematerialises the pool load at each site, as the image does, and the
- * function is byte-exact (docs/families/cluster_020737C0.h records the
- * same tell for a repeated small constant).  The notes' three passes and
- * 3800 permuter compiles all ran under 1.1p1.
+ * Withdrawn 2026-09-24 (wave 20, lane 20G): the ../2.0/sp2 pin is retired.
+ * The scratch address is held as an integer, a u32 local assigned
+ * (u32)&g_0214655C and cast back at each site, matching func_0201C7D0.c.
+ * Spelled this way, dsi/1.1p1 caches the address in a callee-saved
+ * register and copies it into r0 at each site, byte-exact under the
+ * default compiler.
  */
 typedef unsigned char  u8;
 typedef unsigned short u16;
@@ -44,7 +43,10 @@ extern void func_0201C8BC(struct Scratch *c, void *s);
 
 void func_0201C7A4(void *x, s16 y, s16 z, void *s, void *w)
 {
+    u32 base;
+
     func_02045A90(s);
-    sub_0201C808(&g_0214655C, w, x, y, z);
-    func_0201C8BC(&g_0214655C, s);
+    base = (u32)&g_0214655C;
+    sub_0201C808((struct Scratch *)base, w, x, y, z);
+    func_0201C8BC((struct Scratch *)base, s);
 }

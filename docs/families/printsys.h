@@ -255,7 +255,8 @@ void  sub_0201C6EC(struct PrintSys *p);
  *
  * func_0201C7A4 and func_0201C7D0 are the same shape with an extra leading
  * func_02045A90(d) and sub_0201C8BC in place of sub_0201C758; both are
- * still DIFF, see docs/notes/pkt_0201C7A4.c.txt and pkt_0201C7D0.c.txt.
+ * both EXACT under dsi/1.1p1 as of 2026-09-24 (the scratch address held in a
+ * u32 local is reloaded at every call site; docs/idioms/an-address-held-in-a-u32-local-is-reloaded-at-every-site.md).
  * ------------------------------------------------------------------ */
 void  sub_0201C6FC(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e);
 void  sub_0201C724(struct PrintSys *p, u32 a, u32 b, u32 c, void *s, u32 e,
@@ -445,6 +446,10 @@ struct PrintCtx *func_0201D7C4(struct PrintSys *p, struct PrintCtx *q);
  * tenth argument being `u16 a9` (the `add r1, sp, #N / ldrh [r1, #k]` form
  * is a stacked u16 parameter, not an address taken of a4).
  *
+ * COMPILER PIN WITHDRAWN 2026-09-24.  func_0201C7A4 and func_0201C7D0 are both
+ * EXACT under dsi/1.1p1 once the scratch address g_0214655C is held in a u32
+ * local and cast at each call: 1.1p1 then reloads the pool word at every site
+ * as the image does.  The earlier reading below is kept for the record.
  * COMPILER PIN.  func_0201C7A4 is EXACT only under ../2.0/sp2: dsi/1.1p1
  * caches the scratch address g_0214655C in a callee-saved register across
  * its two uses, 2.0/sp2 reloads it from the pool at each site as the image
