@@ -19,8 +19,10 @@ Notes from the run:
 
 - `ov230d`: 5 initialisers, 28 ranges decrypted and checked (0x1AA0 bytes).
   The `tools/ovcrypt.py` path works outside the session container.
-- `twl`: the key path was left as a placeholder, so the DSi region's bytes
-  were skipped in the listing step. None of the wave 21 functions lie in
-  the twl region (0x02700000..), so this does not affect them, and the
-  ROM hash still matched.
+- `twl`: the first run left the key path as a placeholder, so the DSi
+  region's bytes were skipped in the listing step. A second run at 405f67d
+  with the real key file decrypted it (stream consumed exactly, 0x32DB4
+  bytes -> extract/arm9i_dec.bin, 305 functions in the twl listing) and
+  reproduced the same SHA-1 and figures. The check therefore covers the
+  DSi region too.
 - The single pending MATCH is src/pending/func_020863E0.c, as expected.
