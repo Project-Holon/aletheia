@@ -769,9 +769,23 @@ def region_calls(name):
     return out
 
 
-def overlay_label(addr):
-    """(region, thumb) if an overlay's own listing labels `addr`, else None."""
-    for name in regions_containing(addr):
+def overlay_label(addr, region=None):
+    """(region, thumb) if an overlay's own listing labels `addr`, else None.
+
+    `region` is the region the site belongs to, and it wins when it holds the
+    address.  Overlays share load windows, so the same address is labelled in
+    several of them with different ISAs; without a preference the first region
+    in load order answers, and a call that is correct in ov114 is refused as an
+    ISA conflict because ov016 labels that address as ARM.  Measured cost of the
+    old behaviour: about 113 callee addresses in ov114 alone, plus whole wrapper
+    families in ov208, ov099 and ov093.
+    """
+    names = regions_containing(addr)
+    if region is not None and region in names:
+        starts = scan_listing(region)
+        if addr in starts:
+            return region, starts[addr]
+    for name in names:
         if not name.startswith("ov"):
             continue
         starts = scan_listing(name)
@@ -1481,19 +1495,22 @@ def symbol_address(name, decls):
 # address the image says nothing about keeps the declaration and says so in
 # the per-site report, so a reader can see which claims carried no check.
 
-def isa_evidence(addr):
+def isa_evidence(addr, region=None):
     """("thumb"/"arm", where) the image says `addr` is, or None.
 
     Three readings, strongest first: a func_ label in a generated listing,
     the ARM shape of a linker veneer, and the ISA flag of a recovered SDK
     symbol.  None of these is an attestation of the ADDRESS -- that is
     attest()'s job -- they only say what is at it if anything is.
+
+    `region` is the region the site belongs to; it decides which overlay's
+    label answers when several hold the address (see overlay_label).
     """
     th = evidence().labels.get(addr)
     if th is not None:
         return ("thumb" if th else "arm"), \
             "the func_%08X label in asm/arm9" % addr
-    found = overlay_label(addr)
+    found = overlay_label(addr, region)
     if found is not None:
         region, th = found
         return ("thumb" if th else "arm"), \
@@ -1510,11 +1527,11 @@ def isa_evidence(addr):
     return None
 
 
-def isa_conflict(addr, kind):
+def isa_conflict(addr, kind, region=None):
     """(image isa, where) when the image contradicts `kind`, else None."""
     if kind not in ("thumb", "arm"):
         return None
-    found = isa_evidence(addr)
+    found = isa_evidence(addr, region)
     if found is None or found[0] == kind:
         return None
     return found
@@ -3618,7 +3635,7 @@ def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
                 # The declared ISA picks BL against BLX, so a wrong tag
                 # resolves to the wrong instruction rather than failing to
                 # resolve.  Cross-check it against the image before encoding.
-                found = isa_evidence(target)
+                found = isa_evidence(target, region)
                 if (found is None and name in decls
                         and decls[name].region == OV230D_REGION):
                     # the decrypted ov230 listing answers only for a site
@@ -4579,13 +4596,33 @@ def load_manifest_entries(check_legacy=True):
         with open(path, "r", encoding="utf-8") as fh:
             doc = json.load(fh)
         for e in doc.get("functions", []):
-            key = (e["address"], e.get("kind", ""), e["name"])
+            # The region is part of the identity, not just the address: overlays share
+            # load addresses, so ov016 and ov093 legitimately both define func_021CDA0C
+            # and they are different code.  A repeat inside one region is still the
+            # defect this check exists for (a source claimed twice, or a stale shard).
+            key = (e.get("region", ""), e["address"], e.get("kind", ""), e["name"])
             if key in seen:
-                raise SystemExit(
-                    "manifest shards disagree: %s is in both %s and %s"
-                    % (e["name"], os.path.relpath(seen[key], ROOT),
-                       os.path.relpath(path, ROOT)))
-            seen[key] = path
+                # A repeat inside one region is still the defect this check exists for (a source
+                # claimed twice, or a stale shard left behind by a packet rename).  But aborting
+                # here takes the whole tree down, including every unrelated `match.py one` compile,
+                # and concurrent filers see each other's half-written shards.  So: report it,
+                # prefer the shard written last, and keep going.
+                prev_path, prev_entry = seen[key]
+                newer = os.path.getmtime(path) > os.path.getmtime(prev_path)
+                sys.stderr.write(
+                    "warning: manifest shards disagree: %s is in both %s and %s; using %s\n"
+                    % (e["name"], os.path.relpath(prev_path, ROOT),
+                       os.path.relpath(path, ROOT),
+                       os.path.relpath(path if newer else prev_path, ROOT)))
+                if newer:
+                    try:
+                        entries.remove(prev_entry)
+                    except ValueError:
+                        pass
+                    seen[key] = (path, e)
+                    entries.append(e)
+                continue
+            seen[key] = (path, e)
             entries.append(e)
     entries.sort(key=lambda e: (int(e["address"], 16), e.get("kind", ""),
                                 e["name"]))
