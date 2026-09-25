@@ -235,7 +235,7 @@ def select(entries, keep=None):
     # Units first at equal address, so the wide entry wins the greedy pass
     # below even before any size is known.
     cand.sort(key=lambda e: (int(e["address"], 16),
-                             0 if e["kind"].endswith("_unit") else 1))
+                             0 if e.get("kind", "").endswith("_unit") else 1))
     return cand
 
 

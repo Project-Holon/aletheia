@@ -1379,7 +1379,7 @@ def matched_symbols():
         return _MATCHED_SYMS["m"]
     out = {}
     for e in load_manifest_entries():
-        out.setdefault(e["name"], (int(e["address"], 16), e["isa"] == "thumb"))
+        out.setdefault(e["name"], (int(e["address"], 16), e.get("isa") == "thumb"))
     _MATCHED_SYMS["m"] = out
     return out
 
@@ -4232,7 +4232,7 @@ def manifest_function_addresses():
         for n in names:
             m = _ADDR_NAME_RE.match(n)
             if m:
-                out.setdefault(int(m.group(1), 16), (e["name"], e["source"]))
+                out.setdefault(int(m.group(1), 16), (e["name"], e.get("source", e.get("src", ""))))
     return out
 
 
