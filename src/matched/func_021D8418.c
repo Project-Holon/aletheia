@@ -1,0 +1,28 @@
+/*
+ * function: func_021D8418
+ * address:  0x021D8418
+ * packet:   pkt_021D8418
+ * region:   ov120
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02027858  0x02027858  thumb
+ *
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned short u16;
+
+extern void func_02027858(int);
+
+void func_021D8418(int a)
+{
+    if (a != 0) {
+        *(volatile u16 *)0x04000050 = 0;
+        func_02027858(a);
+    }
+}

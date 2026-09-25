@@ -1,0 +1,38 @@
+func_021B8240 -- DIFF, pool load scheduled after the first truncation step (lane ov000-ov023 small, 2026-09-25)
+============================================================================================================
+
+ov016 0x021B8240 is a twelve-byte Thumb tail call that narrows its second
+argument to u8 before branching through a literal-pool pointer:
+
+  021B8240  01 4B        ldr  r3, [pc, #4]         ; target 0x02082BCC
+  021B8242  09 06        lsls r1, r1, #0x18
+  021B8244  09 0E        lsrs r1, r1, #0x18
+  021B8246  18 47        bx   r3
+  021B8248  cc 2B 08 02  .word 0x02082BCC           ; ARM func_02082BCC
+
+The target 0x02082BCC resolves as `label` (179 references image-wide), so the
+relocation is not the problem.  The closest C
+
+  extern void func_02082BCC(int, unsigned char);
+  void func_021B8240(int a, int b) { func_02082BCC(a, (unsigned char)b); }
+
+compiles to the same twelve bytes but in a different order:
+
+  lsls r1, r1, #0x18
+  ldr  r3, [pc, #4]
+  lsrs r1, r1, #0x18
+  bx   r3
+
+The pool load is scheduled between the two halves of the truncation and the
+first two halfwords differ (offsets +0 and +2).  Every spelling tried puts the
+load second: a bare call with a cast, an explicit local `unsigned char`, an
+explicit `void (*f)(...)` local, `register`/`const` pointer locals, `b & 0xFF`,
+and an `int` return all give the same interleaving.  The original hoists
+`ldr r3` above the argument setup; this front end does not.
+
+If the second parameter is declared `unsigned char` with no cast the compiler
+drops the truncation entirely (eight bytes), which is a second, larger way to
+miss it.
+
+No C source filed; the address stays open.  Verified with match.py one at
+--cc 1.1p1 --thumb --flags=-O4,p --region ov016.

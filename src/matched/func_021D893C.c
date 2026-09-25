@@ -1,0 +1,26 @@
+/*
+ * function: func_021D893C
+ * address:  0x021D893C
+ * packet:   pkt_021D893C
+ * region:   ov129
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * symbols:
+ *   func_02021D50  0x02021D50  thumb
+ *   func_0204A648  0x0204A648  arm
+ *
+ * Addresses are Black-image addresses.
+ */
+
+extern void func_02021D50(int);
+extern void func_0204A648(void);
+
+void func_021D893C(int a, char *p)
+{
+    func_02021D50(*(int *)(p + 0x290));
+    func_0204A648();
+}

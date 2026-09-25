@@ -1,0 +1,21 @@
+/*
+ * function: func_021E0CE8
+ * address:  0x021E0CE8
+ * packet:   pkt_021E0CE8
+ * region:   ov183
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0204B3DC  0x0204B3DC  arm
+ */
+
+extern int func_0204B3DC(int, int);
+
+int func_021E0CE8(char *p, int index, int a2)
+{
+    return func_0204B3DC(*(int *)(p + index * 0x1c + 0x194), a2);
+}

@@ -1,0 +1,31 @@
+/*
+ * function: func_0218949C
+ * address:  0x0218949C
+ * packet:   pkt_0219091C
+ * region:   ov009
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * gpiAppendIntToBuffer: format the integer with sprintf("%d") into a small
+ * stack buffer, then append that string to the GPIBuffer.
+ *
+ * symbols:
+ *   func_0218946C  0x0218946C  arm  ov009
+ *   func_02084F40  0x02084F40  arm
+ *   g_021A44D8     0x021A44D8  data
+ */
+
+extern int func_02084F40(char *dst, const char *fmt, ...);
+extern int func_0218946C(int *connection, int *buffer, const char *string);
+extern char g_021A44D8[];
+
+int func_0218949C(int *connection, int *buffer, int value)
+{
+    char buf[0x10];
+
+    func_02084F40(buf, g_021A44D8, value);
+    return func_0218946C(connection, buffer, buf);
+}

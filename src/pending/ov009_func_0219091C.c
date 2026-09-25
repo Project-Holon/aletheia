@@ -70,6 +70,46 @@
  * atoi 0x020964E0, gsimalloc 0x0217EAB0, gsirealloc 0x0217EAC8.
  * GPI_SEARCH_TIMEOUT = 60000 (0xEA60) is pooled at 0x02191840.
  *
+ * BOTTOM-UP HELPER TREE (this lane, packet pkt_0219091C; every file below is
+ * an EXACT entry in layout/matched/ov009/pkt_0219091C.json unless noted):
+ *   direct callees of func_0219091C
+ *     func_0218946C  gpiAppendStringToBuffer       EXACT (48)
+ *       func_021893C8 gpiAppendDataToBuffer        EXACT (164)
+ *         func_0218934C gpiAppendCharToBuffer      EXACT (124)
+ *     func_0218949C  gpiAppendIntToBuffer          EXACT (60)
+ *     func_02189D78  gpiAddCallback (wrapper)      EXACT (132)
+ *     func_02189DFC  gpiAddCallback                EXACT (164)
+ *     func_02193418  gpiValueForKey                EXACT (112)
+ *     func_02193488  gpiCheckSocketConnect         EXACT (276)
+ *     func_02193710  gpiSetError                   EXACT (36)
+ *     func_02193748  gpiEncodeString               EXACT (136)
+ *     func_0219329C  gpiCheckForError              DIFF -> src/pending
+ *         blocker: its atoi call targets the unlabelled thunk 0x020964E0,
+ *         which no evidence class can attest, so it is capped at MATCH; the
+ *         guard-epilogue layout is also still one block out.
+ *   already matched before this lane (witnesses, not re-filed)
+ *     func_0219327C, func_02193734, func_0217EAB0, func_0217EAC8,
+ *     func_0217EAE0, func_0217EC4C, func_0217ED54, func_0217F790,
+ *     func_0217F2BC, func_02190650
+ *   direct callees still open (large network I/O routines)
+ *     func_02189780  gpiRecvToBuffer               open (524)
+ *     func_0218998C  gpiSendFromBuffer             open (240)
+ *     func_021906E0  open (464, calls func_021905A4/func_02190650)
+ *     func_0219359C  gpiReadKeyAndValue            DIFF -> src/pending
+ *         blocker: codegen only, the whole body is right but the register
+ *         allocation is one cyclic rotation off (p/i/q/value); compiles 368
+ *         vs 372.  Worth cracking, it has 20 call sites here.
+ *   a second-level helper not yet filed: func_021894D8 (364, sole caller
+ *   func_0218998C), func_021905A4, func_0217F21C, func_0217D254 (logging).
+ *
+ * Reached this run: ten EXACT helpers plus the two pre-existing ones;
+ * func_0219091C itself is still DIFF (the stub body compiles 232 bytes
+ * against the 9460-byte original).  Its register allocation and 0x4d4 frame
+ * are global, so a partial port cannot byte-match; a full port of the public
+ * gpiProcessSearch with every absolute string pinned as an extern is the only
+ * route, and the 0xb case / extra +0x198,+0x19c fields still have to be
+ * transcribed from the disassembly before that can be attempted.
+ *
  * Why no partial credit is possible: register allocation, the 0x4d4 stack
  * frame (push {r4-r8,sb,sl,fp,lr}; sub sp,#0xd4; sub sp,#0x400) and every
  * branch displacement are global to the whole function, so no leading run

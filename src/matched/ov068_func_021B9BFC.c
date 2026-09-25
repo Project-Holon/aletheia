@@ -1,0 +1,19 @@
+/*
+ * function: func_021B9BFC
+ * address:  0x021B9BFC
+ * packet:   pkt_ov068_021B9BFC
+ * region:   ov068
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Unlabelled leaf; the function thunk func_021B995C tail-calls.
+ * lsls r1,#2 / ldr r0,[r0,r1] / bx lr.
+ */
+
+int func_021B9BFC(int *p, int i)
+{
+    return p[i];
+}

@@ -1,0 +1,51 @@
+func_021588A4 -- DIFF + unattestable Thumb veneer pointer (lane ov000-ov023 small, 2026-09-25)
+=============================================================================================
+
+ov010 0x021588A4 is a twelve-byte Thumb setter.  It stores the incoming value
+at +0x14 and a callback pointer at +0x10:
+
+  021588A4  01 4A        ldr  r2, [pc, #4]
+  021588A6  41 61        str  r1, [r0, #0x14]
+  021588A8  02 61        str  r2, [r0, #0x10]
+  021588AA  70 47        bx   lr
+  021588AC  9D 88 15 02  .word 0x0215889D
+
+Two independent problems.
+
+1. The pointer is a Thumb long-branch veneer.  0x0215889C holds
+
+     00 4B        ldr r3, [pc, #0]
+     18 47        bx  r3
+     5D 23 01 02  .word 0x0201235D     ; ARM func_0201235C
+
+   so the pool word is 0x0215889C with the Thumb bit set.  disasm.py emits
+   this as two raw `.word`s, not a `func_`/`veneer_` label, and match.py's
+   `veneer` class (`veneer_at`, VENEER_ARM_LDR_IP / VENEER_ARM_LDR_PC) only
+   recognises ARM shapes.  A `symbols:` line declaring func_0215889C thumb
+   therefore reports:
+
+     +0008 ABS32 func_0215889C -> unresolved: 0215889C (thumb, from header)
+     has no witness outside 021588A4..021588B0; 2 overlays overlap this
+     address (ov009, ov010), none resolvable without a region hint
+
+   Declaring the real ARM target func_0201235C instead resolves (label x5)
+   but writes 0x0201235D into the pool while the original writes the veneer
+   address 0x0215889D, so the concrete bytes differ.
+
+2. Independently of the pointer, the schedule is wrong.  The original hoists
+   the pool load into r2 ahead of both stores.  The closest C
+
+     extern void func_0215889C(void);
+     void func_021588A4(void *p, int a)
+     {
+         *(int *)((char *)p + 0x14) = a;
+         *(int *)((char *)p + 0x10) = (int)&func_0215889C;
+     }
+
+   compiles to `str r1,[r0,#0x14]; ldr r1,[pc,#4]; str r1,[r0,#0x10]; bx lr`
+   -- the load is delayed and reuses r1, so bytes +0/+2/+4 differ.  Storing
+   the constant first, an `int` local, an inline helper, and a `void (*)(void)`
+   struct field all give the same reuse of r1.
+
+No C source filed; the address stays open.  Verified with match.py one at
+--cc 1.1p1 --thumb --flags=-O4,p --region ov010.
