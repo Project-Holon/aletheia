@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  * blocker:  the only callee, 0x0205CCD8, is a 12-byte ARM veneer (ldr ip,[pc]; bx ip;.word 0x021666C8) emitted as data words in asm/arm9/main.s, so it has no func_ label; the `veneer` class refuses it too because its own pointer target 0x021666C8 is not known code to names_known_code().  All 12 bytes are right, including the BLX pair.
  *
  * symbols:

@@ -70,6 +70,18 @@
    }
   },
   {
+   "name": "func_021552DC",
+   "address": "0x021552DC",
+   "kind": "game",
+   "region": "ov009",
+   "source": "src/matched/func_021552DC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
    "name": "func_0215536C",
    "address": "0x0215536C",
    "kind": "game",

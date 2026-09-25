@@ -1519,6 +1519,18 @@
    "status": "EXACT*"
   },
   {
+   "name": "func_021BC55C",
+   "address": "0x021BC55C",
+   "kind": "game",
+   "region": "ov217",
+   "source": "src/matched/func_021BC55C.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT*"
+  },
+  {
    "name": "func_021BC5A8",
    "address": "0x021BC5A8",
    "kind": "game",
@@ -2167,7 +2179,6 @@
    "status": "EXACT*",
    "evidence": {
     "sole-ref": [
-     "code:0x021C0918",
      "code:0x021C093C"
     ]
    }
@@ -2713,6 +2724,18 @@
    "kind": "game",
    "region": "ov217",
    "source": "src/matched/func_021BF600.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_021BF6A4",
+   "address": "0x021BF6A4",
+   "kind": "game",
+   "region": "ov217",
+   "source": "src/matched/func_021BF6A4.c",
    "compiler": "dsi/dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

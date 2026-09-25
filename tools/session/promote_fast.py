@@ -22,9 +22,13 @@ MATCH_PY = os.path.join(env.ROOT, "tools", "match.py")
 def hdr(f):
     h = open(f, encoding="utf-8", errors="replace").read(12000).split("*/", 1)[0]
     g = lambda k: (re.search(r"^ \* %s:\s+(\S+)" % k, h, re.M) or [None, None])[1]
-    return dict(status=g("status"), fn=g("function"), addr=g("address"), isa=g("isa"),
+    # status is a bare token; some files carry prose on the same line after a colon
+    # ("status:   MATCH: every concrete byte reproduces; ..."), so match the word only.
+    return dict(status=(re.search(r"^ \* status:\s+([A-Za-z][A-Za-z0-9]*\*?)", h, re.M) or [None, None])[1],
+                fn=g("function"), addr=g("address"), isa=g("isa"),
                 cc=g("compiler") or "1.1p1", unit=bool(re.search(r"^ \* unit:\s+yes", h, re.M)),
-                pkt=g("packet"), flags=(re.search(r"^ \* flags:\s+(.*)$", h, re.M) or [None, None])[1])
+                pkt=g("packet"), region=g("region"),
+                flags=(re.search(r"^ \* flags:\s+(.*)$", h, re.M) or [None, None])[1])
 
 
 def verify(f):
@@ -34,6 +38,10 @@ def verify(f):
     else:
         cmd = [env.PYTHON, MATCH_PY, "one", "--src", f, "--func", h["fn"], "--addr", h["addr"],
                "--cc", h["cc"]] + (["--" + h["isa"]] if h["isa"] else [])
+    # overlays share load windows, so the same address disassembles differently in each;
+    # without the header's region match.py picks the first region in load order and the
+    # comparison silently uses the wrong overlay.  arm9/twl/ov230d names are valid too.
+    if h.get("region"): cmd += ["--region", h["region"]]
     if h["flags"]: cmd += ["--flags=" + h["flags"]]
     out = subprocess.run(cmd, capture_output=True, text=True, cwd=env.ROOT).stdout
     m = re.search(r"\b(EXACT\*?|MATCH\*?|DIFF|SIZE|CCERR|ISA)\b", out)

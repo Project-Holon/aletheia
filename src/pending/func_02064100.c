@@ -26,8 +26,11 @@ typedef struct Struct02064100 {
 
 void func_02064100(Struct02064100 *r0, s16 r1)
 {
+    u16 t;
+
     if (r0->unk0 == 1) {
-        r0->unk12 |= 4;
+        t = r0->unk12;
+        r0->unk12 = t | 4;
         r0->unk10 = r1;
     }
 }

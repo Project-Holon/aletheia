@@ -18,28 +18,28 @@ typedef int s32;
 struct Struct02071EAC_Arg {
     s32 unk00;
     u32 unk04;
-    u32 pad08[2];
+    u32 unk08;
+    u32 unk0c;
     u32 unk10;
     s32 unk14;
-    u32 pad18;
     s32 unk18;
     s32 unk1c;
-    u32 pad20[3];
+    s32 unk20;
+    s32 unk24;
+    s32 unk28;
     u16 unk2c;
     u16 unk2e;
     s32 unk30;
     s32 unk34;
 };
 
-void func_02071EAC(struct Struct02071EAC_Arg *dst, const struct Struct02071EAC_Arg *src)
+void func_02071EAC(struct Struct02071EAC_Arg *dst, struct Struct02071EAC_Arg *src)
 {
-    s32 v18 = src->unk18;
-    s32 v1c = src->unk1c;
-    dst->unk00 = v18;
-    dst->unk14 = v1c;
+    dst->unk00 = src->unk18;
+    dst->unk14 = src->unk1c;
     dst->unk04 = 0;
-    dst->unk30 = (0x1000 - v18) * src->unk2c << 3;
-    dst->unk34 = (0x1000 - v1c) * src->unk2e << 3;
+    dst->unk30 = (0x1000 - src->unk18) * src->unk2c << 3;
+    dst->unk34 = (0x1000 - src->unk1c) * src->unk2e << 3;
     dst->unk10 = 0;
 }
 

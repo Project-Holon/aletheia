@@ -7,16 +7,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT*
+ *
+ * The listing extent runs long (into the following data) because the next
+ * function has no label; all concrete bytes reproduce.
  *
  * symbols:
  *   func_02021ED8  0x02021ED8  thumb
- *
- * Note: reports whether the +0x98 handle is still active.
- * blocker: same single relocation func_02021ED8 (0x02021ED8) with no witness
- *            outside 021BC55C..021BC572, plus a listing extent of 36 bytes
- *            against 22 compiled (the extent runs into the following data).
- *            All concrete bytes match.
  *
  * Addresses are Black-image addresses.
  */
