@@ -12,7 +12,7 @@
    "kind": "game",
    "region": "ov170",
    "source": "src/matched/ov170_func_021EF770.c",
-   "compiler": "dsi/1.1p1",
+   "compiler": "dsi/dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",

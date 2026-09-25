@@ -4741,8 +4741,7 @@
    "status": "EXACT*",
    "evidence": {
     "sole-ref": [
-     "code:0x021C25D0",
-     "code:0x021C2630"
+     "code:0x021C25D0"
     ]
    }
   },

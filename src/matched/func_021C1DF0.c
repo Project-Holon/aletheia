@@ -1,0 +1,25 @@
+/*
+ * function: func_021C1DF0
+ * address:  0x021C1DF0
+ * packet:   pkt_021C1DF0
+ * region:   ov217
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * symbols:
+ *   func_021C0E08  0x021C0E08  thumb  ov217
+ *
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned short u16;
+
+extern int func_021C0E08(int, u16);
+
+void func_021C1DF0(char *p)
+{
+    *(int *)(p + 0xc) = func_021C0E08(0xa, *(u16 *)p);
+}

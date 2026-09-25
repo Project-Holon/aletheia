@@ -1,32 +1,31 @@
 /*
  * function: func_021EE3CC
  * address:  0x021EE3CC
- * packet:   pkt_021DC9A0
+ * packet:   pkt_021EE3CC
  * region:   ov170
- * compiler: dsi/1.1p1
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
- * blocker:  02025D14
+ *
+ * blocker:  every concrete byte reproduces; the single call to
+ *   func_02025D14 (0x02025D14) stays wildcarded because the target is an
+ *   unlabelled leaf emitted inside a .word run -- no traced func_ start,
+ *   no branch outside this range, no literal pool word elsewhere, so
+ *   `label` and `sole-ref/code` both refuse.  Evidence class: label /
+ *   sole-ref/code (target not a traced function start).
  *
  * symbols:
- *
- * Run and clear the +0x2c/+0x70 handle when it is present.
- *
- * MATCH, not EXACT: the only call site is `bl 0x02025D14` and that address has
- * no witness in the image outside this function (match.py: "unresolved:
- * 02025D14 ... has no witness").  Its sibling func_021DD238, which calls
- * 0x020260F0/0x020260F4, is EXACT, and its first call is a blx to a global
- * that does resolve.  All 24 bytes reproduce.
+ *   func_02025D14  0x02025D14  thumb
  */
 
-extern void func_02025D14(void *);
+extern void func_02025D14(int);
 
-void func_021EE3CC(char *p)
+void func_021EE3CC(int *p)
 {
-    if (*(void **)(*(char **)(p + 0x2c) + 0x70) != 0) {
-        func_02025D14(*(void **)(*(char **)(p + 0x2c) + 0x70));
-        *(int *)(*(char **)(p + 0x2c) + 0x70) = 0;
+    if (*(int *)(*(int *)((char *)p + 0x2c) + 0x70)) {
+        func_02025D14(*(int *)(*(int *)((char *)p + 0x2c) + 0x70));
+        *(int *)(*(int *)((char *)p + 0x2c) + 0x70) = 0;
     }
 }

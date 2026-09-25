@@ -1,0 +1,27 @@
+/*
+ * function: func_021BAAD8
+ * address:  0x021BAAD8
+ * packet:   pkt_021BAAD8
+ * region:   ov217
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * symbols:
+ *   func_021C29C8  0x021C29C8  thumb  ov217
+ *
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned short u16;
+
+extern int func_021C29C8(u16);
+
+void func_021BAAD8(char *p)
+{
+    int i;
+    for (i = 0; i < 5; i++)
+        ((int *)(p + 0x38))[i] = func_021C29C8(*(u16 *)(p + 4));
+}

@@ -1,0 +1,22 @@
+/*
+ * function: func_021B7300
+ * address:  0x021B7300
+ * packet:   pkt_021B7300
+ * region:   ov180
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02041F28  0x02041F28  arm
+ */
+
+extern void func_02041F28(int, int, int);
+
+void func_021B7300(void)
+{
+    func_02041F28(3, 1, 1);
+    func_02041F28(7, 1, 1);
+}

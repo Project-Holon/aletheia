@@ -1,0 +1,31 @@
+/*
+ * function: func_021D7710
+ * address:  0x021D7710
+ * packet:   pkt_021D7710
+ * region:   ov120
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02051C6C  0x02051C6C  arm
+ *
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+extern void func_02051C6C(void *);
+
+void func_021D7710(u8 *p)
+{
+    if (*(void **)(p + 8)) {
+        func_02051C6C(*(void **)(p + 8));
+        *(u32 *)(p + 8) = 0;
+    }
+}

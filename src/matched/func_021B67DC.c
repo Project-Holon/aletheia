@@ -1,0 +1,23 @@
+/*
+ * function: func_021B67DC
+ * address:  0x021B67DC
+ * packet:   pkt_021B67DC
+ * region:   ov179
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * symbols:
+ *   func_02040588  0x02040588  arm
+ */
+
+extern void func_02040588(int, int);
+
+int func_021B67DC(int a, int *q)
+{
+    func_02040588((unsigned char)*(int *)((char *)q + 4),
+                  (unsigned char)*(int *)((char *)q + 8));
+    return 1;
+}

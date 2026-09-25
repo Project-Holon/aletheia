@@ -1,0 +1,22 @@
+/*
+ * function: func_021BE864
+ * address:  0x021BE864
+ * packet:   pkt_021BE864
+ * region:   ov204
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021BFAE4 0x021BFAE4 thumb
+ */
+
+extern void func_021BFAE4(int, int);
+
+int func_021BE864(char *a, int b, int *p)
+{
+    func_021BFAE4(*(int *)(a + 0xc), *p);
+    return 1;
+}

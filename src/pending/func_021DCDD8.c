@@ -1,34 +1,31 @@
 /*
  * function: func_021DCDD8
  * address:  0x021DCDD8
- * packet:   pkt_021DC9A0
+ * packet:   pkt_021DCDD8
  * region:   ov170
- * compiler: dsi/1.1p1
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
- * blocker:  02021540
+ *
+ * blocker:  every concrete byte reproduces; the single call to
+ *   func_02021540 (0x02021540) stays wildcarded because the target is an
+ *   unlabelled leaf emitted inside a .word run -- no traced func_ start,
+ *   no branch outside this range, no literal pool word elsewhere, so
+ *   `label` and `sole-ref/code` both refuse.  Evidence class: label /
+ *   sole-ref/code (target not a traced function start).
  *
  * symbols:
- *
- * Release the two objects hanging off +0x2c/+0x6c.
- *
- * MATCH, not EXACT: the second call site is `bl 0x02021540`, and that address
- * has no witness anywhere in the image outside this function (match.py:
- * "unresolved: 02021540 (thumb, from header) has no witness outside
- * 021DCDD8..021DCDF0").  The first site, 0x020215A0, resolves as a label with
- * 54 references; the two bodies are otherwise identical.  All 24 bytes are
- * right.  Written as a plain call to the address it is, not as a literal
- * function pointer: a `((void(*)(void))0x02021541)()` spelling kills the tail
- * call the image has here.
+ *   func_020215A0  0x020215A0  thumb
+ *   func_02021540  0x02021540  thumb
  */
 
-extern void func_020215A0(void *, int);
-extern void func_02021540(void *);
+extern void func_020215A0(int, int);
+extern void func_02021540(int);
 
-void func_021DCDD8(char *p)
+void func_021DCDD8(int *p)
 {
-    func_020215A0(*(void **)(*(char **)(p + 0x2c) + 0x6c), 0);
-    func_02021540(*(void **)(*(char **)(p + 0x2c) + 0x6c));
+    func_020215A0(*(int *)(*(int *)((char *)p + 0x2c) + 0x6c), 0);
+    func_02021540(*(int *)(*(int *)((char *)p + 0x2c) + 0x6c));
 }
