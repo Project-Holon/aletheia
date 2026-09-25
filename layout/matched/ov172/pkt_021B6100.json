@@ -1064,30 +1064,6 @@
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT"
-  },
-  {
-   "name": "func_021C07A8",
-   "address": "0x021C07A8",
-   "kind": "game",
-   "region": "ov172",
-   "source": "src/matched/ov172_func_021C07A8.c",
-   "status": "EXACT"
-  },
-  {
-   "name": "func_021C41E0",
-   "address": "0x021C41E0",
-   "kind": "game",
-   "region": "ov172",
-   "source": "src/matched/ov172_func_021C41E0.c",
-   "status": "EXACT"
-  },
-  {
-   "name": "func_021C4558",
-   "address": "0x021C4558",
-   "kind": "game",
-   "region": "ov172",
-   "source": "src/matched/ov172_func_021C4558.c",
-   "status": "EXACT"
   }
  ]
 }

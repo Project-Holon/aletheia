@@ -7,7 +7,38 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   DIFF
+ *
+ * SDK provenance (read from sdk/TwlSDK/lib/ARM9-TS/{Release,Rom}/libssp.TWL.HYB.a
+ * (exifenc.o), whose jpeg_encode_main is byte-identical to this ROM function
+ * apart from relocations):
+ *   short jpeg_encode_main(short width, short height, unsigned short encode_option,
+ *                          unsigned char *thumb_src, unsigned long thumb_size);
+ *   locals: short cfg_encode_exif, cfg_encode_gray_scale, cfg_input_width,
+ *           cfg_input_height; jpeg_exif_data_structure *jexif; exif_tag_entry *entry;
+ * The source builds 27 ifd tag entries (each a block declaring its own `entry`)
+ * and then, when cfg_encode_exif is set, appends the ExifIFD/interop/jpeg
+ * pointers.  Structs recovered from the object's DWARF:
+ *   exif_tag_entry{tag,type,count,byte_data,padding,short_data,long_data,
+ *     rational_data[2],undefined_data[30],ascii_data[30],offset} = 0x58
+ *   exif_ifd_data{entries,count,padding,next_ifd_pointer} = 0x0C
+ *   jpeg_exif_data_structure{ifd[5],app1_length,thumb_compressed_data,
+ *     thumb_compressed_length} = 0x48
+ *
+ * Divergence (blocker): compiled 3500 bytes vs original 3496.  The prologue
+ * through +0x204 is register-identical (+0x08 in the pool displacement only);
+ * the first order difference is +0x204, where the original does the tag-4
+ * count0++ (ldrsh/add/strh) before loading g_021CADF0.fieldC, while this C
+ * schedules the fieldC load first.  The net extra instruction is at +0x5F4:
+ * `mov r2,r6` -- the compiler used r2 for the PixelXDimension width value and
+ * then has to rematerialise 0 into r2 for the `func_0208CB10(str, g_021CAEC6,
+ * 0)` call.  In the original the width load goes to r0, so r2 stays 0 and no
+ * move is needed.  Root cause is a register-allocation difference, not a
+ * missing statement; the 27 per-tag `entry` blocks (matching the DWARF lexical
+ * blocks) and the array-form `jifd[i]` manager both compile identically.
+ * Changing the exact C spelling of the config/width temporaries did not move
+ * the allocation.  Next lever: recover exifenc.c verbatim (SDK source not in
+ * the tree) or find the source form that keeps width in r0.
  *
  * symbols:
  *   g_021CAE48 0x021CAE48 data ov172
@@ -107,11 +138,14 @@ extern const char g_021C88C0[];
 
 extern void STD_CopyLString(char *dst, const char *src, u32 n);
 extern void MI_CpuCopy8(void *dst, const void *src, u32 n);
-extern u32 write_exif_ifd_tables(struct SlotManager *mgr, u32 mode, u32 arg3, void *arg4);
+extern u32 write_exif_ifd_tables(struct SlotManager *mgr, u32 mode, u8 *thumb_src, u32 thumb_size);
 
-u32 func_021C3DF4(void *arg0, void *arg1, u32 flags, u32 arg3, void *arg4)
+s16 func_021C3DF4(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u32 thumb_size)
 {
-    s16 is_flag;
+    s16 cfg_encode_exif;
+    s16 cfg_encode_gray_scale;
+    s16 cfg_input_width;
+    s16 cfg_input_height;
     struct SlotManager *sb = &g_021CAE48;
     struct Slot *s;
     sb->ptr0 = g_021CB728;
@@ -130,8 +164,16 @@ u32 func_021C3DF4(void *arg0, void *arg1, u32 flags, u32 arg3, void *arg4)
     sb->count4 = 0;
     sb->field38 = 0;
 
+    if (encode_option & 1) {
+        cfg_encode_exif = 1;
+    } else {
+        cfg_encode_exif = 0;
+    }
+    cfg_encode_gray_scale = 0;
+    cfg_input_width = width;
+    cfg_input_height = height;
+
     sb->count0 = 0;
-    is_flag = (flags & 1) != 0;
 
     // Tag 0: Make
     s = &sb->ptr0[sb->count0];
@@ -357,7 +399,7 @@ u32 func_021C3DF4(void *arg0, void *arg1, u32 flags, u32 arg3, void *arg4)
     s->count = 1;
     s->field8 = 0;
     s->fieldA = 0;
-    s->fieldC = (u32)arg0;
+    s->fieldC = (u32)cfg_input_width;
     s->field10 = 0;
     s->field14 = 0;
     s->field54 = 0;
@@ -370,7 +412,7 @@ u32 func_021C3DF4(void *arg0, void *arg1, u32 flags, u32 arg3, void *arg4)
     s->count = 1;
     s->field8 = 0;
     s->fieldA = 0;
-    s->fieldC = (u32)arg1;
+    s->fieldC = (u32)cfg_input_height;
     s->field10 = 0;
     s->field14 = 0;
     s->field54 = 0;
@@ -513,7 +555,7 @@ u32 func_021C3DF4(void *arg0, void *arg1, u32 flags, u32 arg3, void *arg4)
 
     sb->count4++;
 
-    if (is_flag) {
+    if (cfg_encode_exif) {
         if (sb->count0 == 0) {
             return 0;
         }
@@ -561,7 +603,7 @@ u32 func_021C3DF4(void *arg0, void *arg1, u32 flags, u32 arg3, void *arg4)
         s->tag = 0x0202;
         s->type = 4;
         s->count = 1;
-        sb->field44 = (u32)arg4;
+        sb->field44 = (u32)thumb_size;
         sb->count4++;
     } else {
         if (sb->count0 == 0) {
@@ -618,12 +660,12 @@ u32 func_021C3DF4(void *arg0, void *arg1, u32 flags, u32 arg3, void *arg4)
     g_021CADF0.buffer[g_021CADF0.len++] = 0xFF;
     g_021CADF0.buffer[g_021CADF0.len++] = 0xD8;
 
-    if (is_flag) {
-        if (write_exif_ifd_tables(sb, 0, arg3, arg4) == 0) {
+    if (cfg_encode_exif) {
+        if (write_exif_ifd_tables(sb, 0, thumb_src, thumb_size) == 0) {
             return 0;
         }
     } else {
-        if (write_exif_ifd_tables(sb, 1, arg3, arg4) == 0) {
+        if (write_exif_ifd_tables(sb, 1, thumb_src, thumb_size) == 0) {
             return 0;
         }
     }

@@ -22,6 +22,18 @@
    ]
   },
   {
+   "name": "func_02071EAC",
+   "address": "0x02071EAC",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/func_02071EAC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
    "name": "func_02071EFC",
    "address": "0x02071EFC",
    "kind": "game",

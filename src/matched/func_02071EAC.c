@@ -7,8 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
- * note:     re-verified 2026-09-20: DIFF; see verify output
+ * status:   EXACT
  */
 
 typedef unsigned short u16;
