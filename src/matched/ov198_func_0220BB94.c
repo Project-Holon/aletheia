@@ -1,0 +1,21 @@
+/*
+ * function: func_0220BB94
+ * address:  0x0220BB94
+ * packet:   pkt_0220BB94
+ * region:   ov198
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * symbols:
+ *   func_020215BC 0x020215BC thumb
+ */
+
+extern void func_020215BC(int, void *, int, int, int);
+
+void func_0220BB94(unsigned char *p)
+{
+    func_020215BC(*(int *)(p + 0x1d8), p + 0x1e78, 1, 0xc0, 0x20);
+}

@@ -1,0 +1,76 @@
+Near misses from the unmatched-overlay band [32,64) bytes, overlays ov168..ov191
+(lane report, Black image).  All four compile to the right instruction set and
+the right SIZE, and every concrete byte matches except a register-allocation or
+scheduling choice that no source spelling tried so far moves.  Recorded so the
+next attempt does not re-derive them.
+
+--------------------------------------------------------------------------
+func_02184360  (0x02184360, ov168, 56 bytes)
+--------------------------------------------------------------------------
+  int i; for (i = 0; i < 3; i++) {
+      func_02045770(p[i]);
+      func_02043B5C(p[i], 0);
+      func_020456F8(p[i]);
+      func_020452E8(p[i]);
+  }
+  func_02045C04(p[3]);
+  func_0201D83C(p[4]);
+
+The image keeps the loop counter i in r4 and the scaled i*4 in r6.  mwccarm
+puts i in r6 and i*4 in r4; it also hoists the p[i] load for the second call
+ahead of the `adds r1,r7,#0` that sets that call's constant second argument.
+Byte-correct apart from that swap; size identical.  u32 i, u32 *p, a named
+`zero` local and reordered calls were all tried.
+
+--------------------------------------------------------------------------
+func_0218449C  (0x0218449C, ov168, 44 bytes)
+--------------------------------------------------------------------------
+  int n = p->count;          /* [r0,#8] */
+  u8 *a = p->arr;            /* [r0,#4] */
+  int max = 0;
+  for (i = 0; i < n - 1; i++) {
+      u8 v = a[i];
+      if (v < 0x80) v = 0xff - v;
+      if (v > max) max = v;
+  }
+  return max;
+
+The image allocates: n=r1, max=r2, the n-1 bound temp=r3, i=r1 (reusing n
+once dead), a=r4.  This compiler emits: n=r1, max=r2, bound=r1, i=r4, a=r3 --
+a cyclic permutation of the same roles.  Many declaration orders and both
+`n-1` inline and a named `limit` were tried; the byte sum is 44 in every
+arrangement that keeps max in r2, and only the register names differ.
+
+--------------------------------------------------------------------------
+func_021E0FB0  (0x021E0FB0, ov170, 40 bytes)
+--------------------------------------------------------------------------
+  void f(char *a, u32 b, u32 c) {
+      func_021ED14C(b, c);      /* extern (s16, s16) */
+      func_021ED310(a);
+      *(u32 *)(a + 0xa180) = b;
+      *(u32 *)(a + 0xa184) = c;
+  }
+
+The image schedules the two sign-extension pairs (`lsls #0x10` / `asrs #0x10`)
+BEFORE it saves the first parameter a into r5; this compiler saves a first and
+uses r0/r1 for the extension temporaries.  Same instructions, different slots;
+size identical.  s16/int parameter spellings and explicit casts were tried.
+
+--------------------------------------------------------------------------
+func_021B9A70  (0x021B9A70, ov182, 56 bytes)
+--------------------------------------------------------------------------
+  char *base = (char *)0x021b9c78;
+  for (i = 0; i < 2; i++)
+      func_020403F4(*(u32 *)(base + i * 0x2c) & 0xff);
+
+The image emits `ldr r0,[r4,r0]` (base r4, scaled index r0).  This compiler
+emits `ldr r0,[r0,r4]` -- the same sum, the two addends swapped into base and
+index.  Both encodings load the same address; only the register field order
+differs, and no source shape tried (local base, extern array, inline literal,
+byte vs word index) changes it.  Size identical.
+
+--------------------------------------------------------------------------
+func_021D61CC  (0x021D61CC, ov175) is parked at MATCH in src/pending: its call
+to 0x021E8AA8 has no func_ label in any overlay listing (the target is an
+unlabelled leaf in the overlapping window), so no evidence class can attest it.
+All concrete bytes match.

@@ -1,0 +1,53 @@
+/*
+ * function: func_0215F6E8
+ * address:  0x0215F6E8
+ * packet:   pkt_0215F6E8
+ * region:   ov010
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Allocator with callback, then two accessor stores and two teardown calls.
+ *
+ * symbols:
+ *   func_020120F4  0x020120F4  thumb
+ *   func_020122C0  0x020122C0  thumb
+ *   func_020124E8  0x020124E8  thumb
+ *   func_02012944  0x02012944  thumb
+ *   func_02012ED0  0x02012ED0  thumb
+ *   func_0201213C  0x0201213C  thumb
+ *   func_0215F630  0x0215F630  thumb  ov010
+ *   func_0215F64C  0x0215F64C  thumb  ov010
+ *   func_021666A4  0x021666A4  thumb  ov010
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+void *func_020122C0(void *p, int a, void (*cb)(void), int n);
+void *func_020124E8(void *p);
+int func_020120F4(void *p);
+int func_02012944(int x);
+void func_02012ED0(int x);
+void func_0201213C(void *p, int v);
+void *func_0215F630(int x);
+void func_0215F64C(void);
+void func_021666A4(void);
+
+void *func_0215F6E8(void *p)
+{
+    int r4 = func_020120F4(p);
+    void *r7 = func_020122C0(p, 0, func_0215F64C, 0xc);
+    int *r6 = func_020124E8(r7);
+
+    r6[0] = (int)p;
+    r6[1] = (int)func_0215F630(r4);
+    r6[2] = func_02012944(r4);
+    func_02012ED0(r4);
+    func_021666A4();
+    func_0201213C(p, 0);
+    return r7;
+}

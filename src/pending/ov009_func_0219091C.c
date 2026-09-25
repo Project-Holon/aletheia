@@ -92,23 +92,38 @@
  *     func_0217EAE0, func_0217EC4C, func_0217ED54, func_0217F790,
  *     func_0217F2BC, func_02190650
  *   direct callees still open (large network I/O routines)
- *     func_02189780  gpiRecvToBuffer               open (524)
- *     func_0218998C  gpiSendFromBuffer             open (240)
- *     func_021906E0  open (464, calls func_021905A4/func_02190650)
+ *     func_02189780  gpiRecvToBuffer               DIFF -> src/pending
+ *         blocker: codegen only, the per-chunk GSIDebug raw-dump call
+ *         schedules the `recvCount++` vararg before reloading the format
+ *         pointer, where the original loads the format into r3 first; the
+ *         whole main loop and all other branches line up.
+ *     func_0218998C  gpiSendFromBuffer             EXACT (240)  [this run]
+ *     func_021906E0  gpiProfileSearch              EXACT (464)  [this run]
+ *     func_021894D8  gpiSendData (static)          DIFF -> src/pending
+ *         blocker: 21 bytes at the `sendCount++` GSIDebug call, same
+ *         argument-scheduling quirk as func_02189780.
  *     func_0219359C  gpiReadKeyAndValue            DIFF -> src/pending
  *         blocker: codegen only, the whole body is right but the register
  *         allocation is one cyclic rotation off (p/i/q/value); compiles 368
  *         vs 372.  Worth cracking, it has 20 call sites here.
- *   a second-level helper not yet filed: func_021894D8 (364, sole caller
- *   func_0218998C), func_021905A4, func_0217F21C, func_0217D254 (logging).
+ *   a second-level helper now filed:
+ *     func_021905A4  gpiCreateSearchData-alike     EXACT (172)  [this run]
+ *     func_0217F21C  ascii remap (_strlwr core)    EXACT (64)   [this run]
+ *     func_0217D254  variadic logger thunk         EXACT (44)   [this run]
  *
- * Reached this run: ten EXACT helpers plus the two pre-existing ones;
- * func_0219091C itself is still DIFF (the stub body compiles 232 bytes
- * against the 9460-byte original).  Its register allocation and 0x4d4 frame
- * are global, so a partial port cannot byte-match; a full port of the public
- * gpiProcessSearch with every absolute string pinned as an extern is the only
- * route, and the 0xb case / extra +0x198,+0x19c fields still have to be
- * transcribed from the disassembly before that can be attempted.
+ * Reached this run: five EXACT helpers (func_0218998C, func_021906E0,
+ * func_021905A4, func_0217F21C, func_0217D254) plus the ten pre-existing
+ * ones; the two remaining direct network helpers (func_021894D8,
+ * func_02189780) are byte-correct except one GSIDebugFormat call site each
+ * and are parked in src/pending.  func_0219091C itself is still DIFF (the
+ * stub body compiles 232 bytes against the 9460-byte original).  Its register
+ * allocation and 0x4d4 frame are global, so a partial port cannot byte-match;
+ * a full port of the public gpiProcessSearch with every absolute string
+ * pinned as an extern is the only route, and the 0xb case / extra +0x198,
+ * +0x19c fields still have to be transcribed from the disassembly before that
+ * can be attempted.  The function carries 165 PC-relative pool loads and 310
+ * call sites, so the port is a full multi-pass job; it was not attempted to
+ * completion this run.
  *
  * Why no partial credit is possible: register allocation, the 0x4d4 stack
  * frame (push {r4-r8,sb,sl,fp,lr}; sub sp,#0xd4; sub sp,#0x400) and every

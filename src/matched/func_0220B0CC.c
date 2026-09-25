@@ -1,0 +1,30 @@
+/*
+ * function: func_0220B0CC
+ * address:  0x0220B0CC
+ * packet:   pkt_0220B0CC
+ * region:   ov187
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02034714  0x02034714  arm
+ *   func_0203133C  0x0203133C  arm
+ *   func_02082BCC  0x02082BCC  arm
+ *   d_0220B2E0     0x0220B2E0  data  ov187  a4
+ */
+typedef unsigned int u32;
+
+extern void func_02034714(void *a, u32 b, void *c);
+extern void func_0203133C(void *p);
+extern void func_02082BCC(void *p, u32 v, u32 n);
+
+void func_0220B0CC(char *p)
+{
+    if (*(u32 *)(p + 8) != 0)
+        func_02034714((void *)0x0220b2e0, 0, (void *)0x0220b2e0);
+    func_0203133C(*(void **)p);
+    func_02082BCC(p, 0, 0x28);
+}

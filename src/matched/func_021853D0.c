@@ -1,0 +1,25 @@
+/*
+ * function: func_021853D0
+ * address:  0x021853D0
+ * packet:   pkt_021853D0
+ * region:   ov023
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0204B3DC  0x0204B3DC  arm
+ */
+
+extern void func_0204B3DC(void *p, int v);
+
+int func_021853D0(char *p, int a1)
+{
+    int i;
+
+    for (i = 0; i < 5; i++)
+        func_0204B3DC(*(void **)(p + 0x60 + i * 4), 0);
+    return a1;
+}

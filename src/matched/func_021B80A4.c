@@ -1,0 +1,29 @@
+/*
+ * function: func_021B80A4
+ * address:  0x021B80A4
+ * packet:   pkt_021B80A4
+ * region:   ov173
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0204B878  0x0204B878  arm
+ */
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern void func_0204B878(u32 a, u32 b);
+
+int func_021B80A4(char *p, u16 v)
+{
+    char *q = p + 0x1d0;
+
+    *(u16 *)(q + 0xa) = 0;
+    *(u16 *)(q + 6) = 0xd;
+    *(u16 *)(q + 8) = v;
+    func_0204B878(*(u32 *)(p + 0x138), 9);
+    return 0xd;
+}
