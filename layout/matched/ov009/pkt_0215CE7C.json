@@ -5,12 +5,13 @@
   "size": 32,
   "status": "EXACT",
   "src": "src/matched/ov009_func_0215CE7C.c",
-  "symbols": [
+  "functions": [
     {
       "name": "func_0215CE7C",
       "address": "0x0215CE7C",
       "size": 32,
-      "isa": "arm"
+      "isa": "arm",
+      "status": "EXACT"
     }
   ]
 }
