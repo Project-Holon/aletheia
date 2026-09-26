@@ -269,7 +269,8 @@ def esc(s):
 def render(out, headline, panel_titles, groups_pair, footnote, W, PH):
     """One SVG: headline, legend, then two titled panels stacked."""
     top, tith, gap, foot = 50, 20, 8, 20
-    H = top + tith + PH + gap + tith + PH + foot
+    n = len(panel_titles)
+    H = top + n * tith + n * PH + (n - 1) * gap + foot
     o = ['<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 0 %d %d" font-family="ui-monospace,Menlo,monospace">' % (W, H, W, H),
          '<rect width="%d" height="%d" fill="%s"/>' % (W, H, COL["bg"]),
          '<text x="10" y="32" font-size="13" fill="%s">%s</text>' % (COL["ink"], esc(headline))]
@@ -355,6 +356,92 @@ def render_overlays(a, anchors):
              100.0 * matched_game / game if game else 0.0, game, matched_sdk, sdk))
 
 
+# The always-resident ARM9 static image and the 237 overlays have their own maps.
+# What is left is the DSi-mode `twl` region and the four ARM9 autoload blocks
+# (ITCM plus the two MAIN_TWL stubs and VRAM_LCDC); they are code, they are not
+# in either other map, and they need one of their own to be tracked at all.
+AUX_REGIONS = [
+    ("twl", "asm/twl/twl.s"),
+    ("arm9_autoload0_ITCM", "asm/arm9/itcm.s"),
+    ("arm9_autoload1_MAIN_TWL", "asm/arm9/autoload1_main_twl.s"),
+    ("arm9_autoload2_MAIN_TWL", "asm/arm9/autoload2_main_twl.s"),
+    ("arm9_autoload3_VRAM_LCDC", "asm/arm9/vram_lcdc.s"),
+]
+
+
+def aux_shard_status(region):
+    """{name: status} for one aux region, whose shards live under itself or arm9/."""
+    out = {}
+    files = []
+    d = os.path.join(ROOT, "layout", "matched", region)
+    if os.path.isdir(d):
+        files += glob.glob(os.path.join(d, "pkt_*.json"))
+    files += glob.glob(os.path.join(ROOT, "layout", "matched", "arm9", "pkt_*.json"))
+    for sh in files:
+        try:
+            data = json.load(open(sh, encoding="utf-8"))
+        except Exception:
+            continue
+        for f in data.get("functions", []):
+            if isinstance(f, dict) and f.get("name") and str(f.get("region")) == region:
+                out[f["name"]] = f.get("status", "")
+    return out
+
+
+def aux_functions():
+    funcs = []
+    for region, rel in AUX_REGIONS:
+        path = os.path.join(ROOT, rel)
+        if not os.path.exists(path):
+            continue
+        head = "".join(open(path, encoding="utf-8", errors="replace").readlines()[:18])
+        mr = HDR_RANGE.search(head); mc = HDR_CODE.search(head)
+        code = int(mc.group(1), 16) if mc else 0
+        code_end = (int(mr.group(1), 16) + code) if mr else 0
+        labels, span_end = listing_labels(path)
+        labels = [(a, n) for a, n in labels if a < code_end]
+        entries = aux_shard_status(region)
+        sdk = sdk_addrs(region)
+        for i, (addr, name) in enumerate(labels):
+            if not FUNCNAME.match(name):
+                continue
+            end = labels[i + 1][0] if i + 1 < len(labels) else code_end
+            end = min(end, code_end)
+            size = end - addr
+            if size <= 0:
+                continue
+            st = entries.get(name, "")
+            exact = st.startswith(("EXACT", "EXACT*"))
+            if addr in sdk:
+                cls = "matched_sdk" if exact else "sdk"
+            else:
+                cls = "matched" if exact else "open"
+            funcs.append({"addr": addr, "name": name, "code_bytes": size, "region": region,
+                          "cls": cls, "sole_ref": False})
+    return funcs
+
+
+def render_aux(a):
+    funcs = aux_functions()
+    drawn = sum(f["code_bytes"] for f in funcs)
+    regions = {}
+    for f in funcs:
+        regions.setdefault(f["region"], []).append(f)
+    ugroups = sorted(regions.items())
+    game = sum(f["code_bytes"] for f in funcs if f["cls"] in ("open", "matched"))
+    matched = sum(f["code_bytes"] for f in funcs if f["cls"] == "matched")
+    matched_sdk = sum(f["code_bytes"] for f in funcs if f["cls"] == "matched_sdk")
+    sdk = sum(f["code_bytes"] for f in funcs if f["cls"] in ("sdk", "matched_sdk"))
+    headline = "TWL / ITCM / autoload: %.2f%% exact game (%s / %s B); +%s matched SDK of %s; %d fns" % (
+        100.0 * matched / game if game else 0.0, format(matched, ","), format(game, ","),
+        format(matched_sdk, ","), format(sdk, ","), len(funcs))
+    render(a.twl_out, headline, ("regions",), [ugroups],
+           "tile area is code bytes; the DSi twl region and the ARM9 autoload blocks", a.width, a.height)
+    print("wrote %s: %d regions, %d functions, %d bytes drawn, %.2f%% exact game of %d (+%d matched SDK of %d)"
+          % (os.path.relpath(a.twl_out, ROOT), len(ugroups), len(funcs), drawn,
+             100.0 * matched / game if game else 0.0, game, matched_sdk, sdk))
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("-o", "--out", default=os.path.join(ROOT, "docs", "coverage_map.svg"))
@@ -362,15 +449,19 @@ def main(argv=None):
     ap.add_argument("--height", type=int, default=520)
     ap.add_argument("--arm9", action="store_true", help="write the ARM9 image only")
     ap.add_argument("--overlays", action="store_true", help="write the overlay image only")
+    ap.add_argument("--twl", action="store_true", help="write the twl/ITCM/autoload image only")
     a = ap.parse_args(argv)
     a.arm9_out = a.out
     a.ov_out = os.path.join(ROOT, "docs", "coverage_overlays.svg")
+    a.twl_out = os.path.join(ROOT, "docs", "coverage_twl.svg")
     anchors = read_anchors()
-    do_both = not (a.arm9 or a.overlays)
-    if do_both or a.overlays:
+    do_all = not (a.arm9 or a.overlays or a.twl)
+    if do_all or a.overlays:
         render_overlays(a, anchors)
-    if do_both or a.arm9:
+    if do_all or a.arm9:
         render_arm9(a, anchors)
+    if do_all or a.twl:
+        render_aux(a)
 
 
 if __name__ == "__main__":
