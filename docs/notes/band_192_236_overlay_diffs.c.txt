@@ -1,0 +1,44 @@
+band lane ov192-236 (LO=128 HI=256) -- DIFF near misses
+========================================================
+
+Three functions were fully reconstructed (size-exact, semantics verified) but
+could not be brought to a byte-identical verdict.  They are parked in
+src/pending/ with the blocker in each header; the shapes below are for the
+next agent so the same ground is not re-covered.
+
+func_021C17C4 (ov217, pkt_021C17C4) -- DIFF 132 vs 140
+------------------------------------------------------
+Bubble sort of a 0x14-byte record array at p+0x1C, count *(u8*)(p+0x1AC),
+comparing record field +4, swapping descending.  The compare/increment/swap
+body is byte-identical to the original for every attempted spelling (`arr[j]`
+base, `e = p + j*0x14` base, named temporary, struct copy).  The only
+difference is the loop scaffolding:
+
+  original  keeps n in lr and recomputes (n-1) each outer iteration
+  compiled  hoists (n-1) into lr once and stores it to [sp]
+
+Tried: for()/while(), bound in a local, u8 vs int n, `i < n-1` vs `i+1 < n`.
+Every spelling hoists.  This is a CSE/hoist decision, not a source-shape one;
+a lane with more budget could try making the bound depend on a value the
+compiler cannot prove invariant across the inner loop.
+
+func_021BEA54 (ov210, pkt_021BEA54) -- DIFF, size-exact (184)
+-------------------------------------------------------------
+Sibling of func_021BE8F8/9D4/B0C/EB8C.  All ten relocations resolve; only two
+instructions differ:
+
+  original  ldrb r1, [r0, #3] ; cmp r1, #0xff
+  compiled  ldrb r0, [r0, #3] ; cmp r0, #0xff
+
+The byte value is dead after the compare, so mwcc is free to pick either
+register; it picks r0, the original kept r1.  Reproduced with a named u8
+local, an inline expression and a pointer local.  Semantics identical.
+
+func_021BE010 (ov210, pkt_ov210_021BE010) -- DIFF 178 vs 180
+------------------------------------------------------------
+State dispatch on p[0x2C0]/p[0x2C2] with shared arm bodies.  All five
+relocations resolve, every arm is right, but mwcc lays the shared RET19
+block and the p[0x2C0] != 0 else-block out in a different order than the
+original (bhi target 0x21BE09A vs 0x21BE0BE), shifting arms by 2-4 bytes.
+Tried return-per-arm and break-with-a-single-return.  A spelling that forces
+the original block order may close it.

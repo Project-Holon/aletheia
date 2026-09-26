@@ -26,10 +26,11 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 import worklist  # noqa: E402
+import ovstats  # noqa: E402
 
 COL = {"matched": "#2f9e5b", "matched2": "#3fb96e", "sole": "#8fd3a8", "open": "#34393b", "open2": "#3d4245",
-       "sdk": "#262b30", "runtime": "#3a3629", "bg": "#15181a", "line": "#0d0f10", "ink": "#e6e9e6",
-       "muted": "#8f978f", "title": "#c9d2c9"}
+       "sdk": "#262b30", "matched_sdk": "#2f8fb0", "runtime": "#3a3629", "bg": "#15181a", "line": "#0d0f10",
+       "ink": "#e6e9e6", "muted": "#8f978f", "title": "#c9d2c9"}
 
 HDR_RANGE = re.compile(r"address range\s+0x([0-9A-Fa-f]+)\.\.0x([0-9A-Fa-f]+)\s+\(0x([0-9A-Fa-f]+) bytes\)")
 HDR_CODE = re.compile(r"classified\s+0x([0-9A-Fa-f]+) bytes code")
@@ -188,8 +189,26 @@ def shard_status(region):
     return entries
 
 
+_SDK = {}
+
+
+def sdk_addrs(region):
+    """{address} of catalogued SDK symbol starts for one overlay region."""
+    if not _SDK:
+        p = os.path.join(ROOT, "layout", "symbols_sdk.json")
+        if os.path.exists(p):
+            for e in json.load(open(p, encoding="utf-8")).get("symbols", []):
+                _SDK.setdefault(str(e.get("region")), set()).add(int(e["address"]))
+        _SDK["__loaded__"] = set()
+    return _SDK.get(region, set())
+
+
 def overlay_functions():
-    """Every traced function in every overlay listing, sized to the next label."""
+    """Every traced function in every overlay listing, sized to the next label.
+
+    A function whose start is a catalogued SDK symbol is SDK code: matched SDK
+    when a shard reproduces it, plain SDK otherwise.  Everything else is game.
+    """
     funcs = []
     for path in sorted(glob.glob(os.path.join(ROOT, "asm", "overlays", "ov*.s"))):
         region = os.path.basename(path)[:-2]
@@ -197,6 +216,7 @@ def overlay_functions():
             continue
         labels, span_end = listing_labels(path)
         entries = shard_status(region)
+        sdk = sdk_addrs(region)
         for i, (addr, name) in enumerate(labels):
             if not FUNCNAME.match(name):
                 continue
@@ -205,9 +225,13 @@ def overlay_functions():
             if size <= 0:
                 continue
             status = entries.get(name, "")
+            exact = status.startswith(("EXACT", "EXACT*"))
+            if addr in sdk:
+                cls = "matched_sdk" if exact else "sdk"
+            else:
+                cls = "matched" if exact else "open"
             funcs.append({"addr": addr, "name": name, "code_bytes": size, "region": region,
-                          "cls": "matched" if status.startswith(("EXACT", "EXACT*")) else "open",
-                          "sole_ref": False})
+                          "cls": cls, "sole_ref": False})
     return funcs
 
 
@@ -244,15 +268,17 @@ def esc(s):
 
 def render(out, headline, panel_titles, groups_pair, footnote, W, PH):
     """One SVG: headline, legend, then two titled panels stacked."""
-    top, tith, gap, foot = 34, 20, 8, 20
+    top, tith, gap, foot = 50, 20, 8, 20
     H = top + tith + PH + gap + tith + PH + foot
     o = ['<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 0 %d %d" font-family="ui-monospace,Menlo,monospace">' % (W, H, W, H),
          '<rect width="%d" height="%d" fill="%s"/>' % (W, H, COL["bg"]),
-         '<text x="10" y="21" font-size="14" fill="%s">%s</text>' % (COL["ink"], esc(headline))]
+         '<text x="10" y="32" font-size="13" fill="%s">%s</text>' % (COL["ink"], esc(headline))]
+    # legend on its own top line, right-aligned, so it never collides with the headline
     lx = W - 10
-    for label, key in (("runtime", "runtime"), ("SDK", "sdk"), ("open", "open"), ("sole-ref", "sole"), ("matched", "matched")):
+    for label, key in (("runtime", "runtime"), ("SDK", "sdk"), ("matched SDK", "matched_sdk"),
+                       ("open", "open"), ("sole-ref", "sole"), ("matched", "matched")):
         lx -= 8 * len(label) + 26
-        o.append('<rect x="%d" y="11" width="11" height="11" fill="%s"/><text x="%d" y="21" font-size="11" fill="%s">%s</text>'
+        o.append('<rect x="%d" y="6" width="11" height="11" fill="%s"/><text x="%d" y="16" font-size="11" fill="%s">%s</text>'
                  % (lx, COL[key], lx + 15, COL["muted"], label))
     for i, (title, groups) in enumerate(zip(panel_titles, groups_pair)):
         y = top + i * (tith + PH + gap)
@@ -267,6 +293,11 @@ def render(out, headline, panel_titles, groups_pair, footnote, W, PH):
 
 def render_arm9(a, anchors):
     inv = worklist.build_inventory()
+    # An SDK row that a manifest entry covers (sdk_calibration, or a matched
+    # entry at an SDK address) is matched SDK, not plain SDK.
+    for fn in inv["funcs"]:
+        if fn.get("cls") == "sdk" and fn.get("matched_name"):
+            fn["cls"] = "matched_sdk"
     units = json.load(open(os.path.join(ROOT, "layout", "units_arm9.json")))["units"]
     ub = [u["base"] for u in units]
     per = [[] for _ in units]
@@ -277,10 +308,13 @@ def render_arm9(a, anchors):
     game = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] in ("open", "matched"))
     matched = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] == "matched")
     sole = sum(f["code_bytes"] for f in inv["funcs"] if f.get("sole_ref"))
+    sdk = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] in ("sdk", "matched_sdk"))
+    matched_sdk = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] == "matched_sdk")
     ugroups = [(units[i]["file"].split("/")[-1][:-2], per[i]) for i in range(len(units))]
     fgroups = sorted(families_arm9(inv["funcs"], anchors).items())
-    headline = "ARM9 game code: %.2f%% exact (%s of %s bytes; %.2f points on sole-ref)" % (
-        100 * matched / game, format(matched, ","), format(game, ","), 100 * sole / game)
+    headline = "ARM9: %.2f%% exact game (%s / %s B; %.2f pts sole-ref); +%s matched SDK of %s" % (
+        100 * matched / game, format(matched, ","), format(game, ","), 100 * sole / game,
+        format(matched_sdk, ","), format(sdk, ","))
     render(a.arm9_out, headline, ("translation units", "source files"), [ugroups, fgroups],
            "tile area is code bytes", a.width, a.height)
     print("wrote %s: %d units + %d source-file groups, %.2f%% exact"
@@ -292,15 +326,14 @@ def render_overlays(a, anchors):
     drawn = sum(f["code_bytes"] for f in funcs)
     matched = sum(f["code_bytes"] for f in funcs if f["cls"] == "matched")
     mfuncs = len([f for f in funcs if f["cls"] == "matched"])
-    # Denominator is each listing's own header figure, not the sum of the labelled extents:
-    # the headers say how many bytes the disassembler classified as code, and the labels draw
-    # a subset of that (data pools and unlabelled regions are not counted as work anywhere).
-    hdr = 0
-    for path in sorted(glob.glob(os.path.join(ROOT, "asm", "overlays", "ov*.s"))):
-        head = "".join(open(path, encoding="utf-8", errors="replace").readlines()[:18])
-        m = HDR_CODE.search(head)
-        if m:
-            hdr += int(m.group(1), 16)
+    # Denominator is game code only: each listing's header code minus the catalogued SDK
+    # symbol bytes (ovstats does the same split).  SDK and matched-SDK blocks are drawn but
+    # never counted as game work.
+    rows = ovstats.overlay_rows()
+    game = sum(r["game_bytes"] for r in rows)
+    matched_game = sum(r["matched_bytes"] for r in rows)
+    matched_sdk = sum(r["matched_sdk_bytes"] for r in rows)
+    sdk = sum(r["sdk_bytes"] for r in rows)
     regions = {}
     for f in funcs:
         regions.setdefault(f["region"], []).append(f)
@@ -312,13 +345,14 @@ def render_overlays(a, anchors):
         for name, ff in fam.items():
             fgroups.append(("%s %s" % (reg, name), ff))
     fgroups.sort(key=lambda kv: -sum(f["code_bytes"] for f in kv[1]))
-    headline = "Overlays: %.4f%% exact (%s of %s bytes), %d of %d functions" % (
-        100.0 * matched / hdr if hdr else 0.0, format(matched, ","), format(hdr, ","), mfuncs, len(funcs))
+    headline = "Overlays: %.2f%% exact game (%s / %s B); +%s matched SDK of %s; %d/%d fns" % (
+        100.0 * matched_game / game if game else 0.0, format(matched_game, ","), format(game, ","),
+        format(matched_sdk, ","), format(sdk, ","), mfuncs, len(funcs))
     render(a.ov_out, headline, ("overlays", "source files"), [ugroups, fgroups],
-           "tile area is code bytes", a.width, a.height)
-    print("wrote %s: %d overlays, %d functions, %d bytes drawn, %.4f%% exact of %d header code bytes"
+           "tile area is code bytes; SDK and matched SDK are not game work", a.width, a.height)
+    print("wrote %s: %d overlays, %d functions, %d bytes drawn, %.4f%% exact game of %d game bytes (+%d matched SDK of %d SDK)"
           % (os.path.relpath(a.ov_out, ROOT), len(ugroups), len(funcs), drawn,
-             100.0 * matched / hdr if hdr else 0.0, hdr))
+             100.0 * matched_game / game if game else 0.0, game, matched_sdk, sdk))
 
 
 def main(argv=None):

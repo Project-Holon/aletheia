@@ -1,0 +1,83 @@
+func_0216D57C @ 0x0216D57C, ov009, ARM, "big dependency tree" lane.
+
+VERDICT: no game-code match is appropriate.  The root is an SDK library
+function whose exact compiled object is already inside the tree; its
+non-SDK dependency tree is empty.  Nothing was promoted, parked or filed.
+
+WHAT THE ROOT IS
+----------------
+layout/symbols_sdk.json (and symbols_sdk.txt line 1808) name
+0x0216D57C DWCi_MatchProcess, TwlDWC/libdwcmatch.TWL.HYB.a(dwc_match.o),
+region ov009, size 3908 (0xF44), ISA arm.  That is exactly the listing
+extent match.py reports:
+
+    ov009 0216D57C..0216E4C0 (3908 bytes, ARM)
+
+so the "true extent" is not in question: 3908 bytes is the SDK size and the
+next label (func_0216E4C0) sits right after it.  Code runs
+0x0216D57C..0x0216E478 (0xEFC = 3836 bytes; last instruction `pop` at
+0x0216E474); 0x0216E478..0x0216E4C0 (0x48) is the function's own literal
+pool plus its .org tail.  Body: a `switch (state)` on field +0x61C with cases
+0..0x16 (23-entry PC word table at 0x0216D628), 235 `bl` sites, 49 distinct
+callees.
+
+The exact object is present in the checkout:
+
+    sdk/TwlDWC/lib/ARM9-TS/Rom/libdwcmatch.TWL.HYB.a -> dwc_match.o
+
+Verification (tools/arm-none-eabi-readelf + objcopy-free section read):
+section 81 of dwc_match.o is DWCi_MatchProcess, size 3908, and comparing it
+to the ROM bytes from `match.py show --region ov009` leaves 0 concrete
+differences once the object's 237 relocation fields are skipped (752 of the
+948 span bytes are nonzero in ROM).  In other words the ROM body is the
+Rom-configuration library object verbatim.  (The Debug and Release objects
+do NOT match: 5780 and 4452 bytes; only ARM9-TS/Rom is 3908.  The project's
+pinned compiler, dsi/1.1p1 -O4,p, is the build that produced it.)
+
+This is the SDK/link-time-recognition case worklist.py already encodes for
+arm9 (`proven_game` only when a game match overrides a weak SDK symbol,
+otherwise cls = sdk, counted as sdk separately).  Overlays have no per-overlay
+SDK table yet (see the ovstats.py header caveat), which is why this SDK body
+sits in the overlay "open" denominator at all.
+
+THE NON-SDK CALLEE TREE IS EMPTY
+--------------------------------
+All 49 direct `bl` targets, classified against symbols_sdk.json,
+runtime_arm9.txt and the shards:
+
+    47 SDK        e.g. DWCi_StopMatch, DWCi_SendMatchCommand,
+                  DWCi_SBUpdateAsync, DWCi_SendResvCommand,
+                  DWCi_ProcessMatchSynTimeout, DWCi_NNCompletedCallback,
+                  gt2Think, NNThink, qr2_think, ServerBrowserThink,
+                  ServerBrowserState, OS_GetTick, CTRDGi_IsTaskAvailable
+     1 runtime   0x0209C00C _ll_divmod_entry_flag0 (hand-written MSL asm)
+     1 non-SDK   0x02175F3C func_02175F3C -- already EXACT (pkt_02155168)
+
+There is therefore nothing to "close bottom-up": the only non-SDK callee is
+already an EXACT witness, and the runtime one is never C-compilable.  Every
+other callee is SDK-attestable, so no callee match is needed for the root's
+relocations either.
+
+WHY NO SOURCE FILE WAS WRITTEN
+------------------------------
+Matchable C would have to reproduce all 3836 code bytes of dwc_match.c
+(the Debug DWARF puts the function at decl_file 383 = dwc_match.c line 1956,
+running to ~line 2600, with locals fullSpec/resendInterval/sbInterval/result/
+sbError and block locals node/mc/idx/pNodeInfo/i/noResponseHosts/info/
+connection).  That is SDK library code, ~950 instructions of an unrolled
+twelve-state match state machine, whose source is not in the tree (only the
+seven SDK headers under sdk/TwlDWC/include/match).  Hand-matching it would be
+a multi-session project for zero game coverage; the honest record is this
+note plus the recommendation below.
+
+RECOMMENDATION
+--------------
+Treat 0x0216D57C like the arm9 SDK bodies: classify it sdk for ov009 and drop
+it from the overlay open denominator (or leave it; either way it is not game
+work).  If an overlay-side SDK exclusion is not wanted, the only correct
+artifact is the already-present Rom library object, not reconstructed C.
+This is the same situation wave 4 hit at 0x02170EA4 (ov010: the SDK leaf
+CRYPTOi__bn_sub_words) -- recorded, not matched.
+
+Investigator: big-tree lane 0x0216D57C, 2026-09-26.  No src/ or layout file
+was touched.

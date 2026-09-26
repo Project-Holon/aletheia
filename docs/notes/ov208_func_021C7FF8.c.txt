@@ -1,0 +1,61 @@
+ov208 func_021C7FF8 @ 0x021C7FF8..0x021C80AC (180 bytes, Thumb)
+
+VERDICT: near miss, DIFF by register colouring.  All 18 soft-float
+relocations reproduce (right targets, right order, right argument
+registers); the body is 16 bytes long (196 vs 180) purely because mwcc
+materialises the constant half (0.5f) where the image loads it once from
+the pool before the branch, and it colours r4/r5/r7 the other way.
+
+WHAT IT IS
+----------
+Fold three floats of record `index` (element stride 12, array based at
+base+8, fields at +8/+0xc/+0x10) to fixed point:
+
+    out[k] = (int)( v > 0 ? (0.5f - 0.5f*v) : (0.5f*v + 0.5f) );
+
+Each field is one `_fgr` (x>0, flags form) plus two arms: a sub arm
+(0.5f - 0.5f*v) and an add arm (0.5f*v + 0.5f), then `_ffix`.  This is
+the func_0201183C soft-float idiom with the runtime_arm9.txt name swap
+(0x0209C95C is _fadd, 0x0209CB8C is _fsub) and `_fgr` at 0x0209BBB0,
+`_ffix` at 0x0209C494, `_fmul` at 0x0209C77C.
+
+WHAT MATCHES
+------------
+The prologue register roles are the only free variable.  The image:
+
+    push {r3,r4,r5,r6,r7,lr}
+    r5 = base ; r4 = index ; r0 = 0xc
+    r7 = base ; r4 = index*12 ; r7 = base+8
+    ldr r0,[r7,r4] ; r1 = 0 ; r6 = out ; bl _fgr
+    ldr r0,[pc] (=0.5f) ; bls add_arm
+      ... _fmul(0.5f, v) ; _fsub(0.5f, prod) ...
+    add_arm:
+      ... _fmul(0.5f, v) ; _fadd(prod, 0.5f) ...
+    bl _ffix ; str r0,[r6{,#4,#8}]
+
+The nearest source found (`((Blk3 *)(base+8))[index].fN`, indexed by a
+12-byte struct) reproduces the instruction sequence exactly but colours
+`base -> r7`, `base+8 -> r6`, `out -> r5`; the image colours
+`base -> r5`, `base+8 -> r7`, `out -> r6`.  Every load/store therefore
+encodes a different register and the comparison is 100% concrete
+mismatch.
+
+TRIED AND REJECTED (all compile, all DIFF by colouring or ordering)
+  - `Blk3 *p = (Blk3 *)(base+8) + index;`  -> push {r4,r5,r6,lr}, +14B
+  - `float *f = (float*)(base+8); f[index*3+k]` -> spills index*3 to
+    [sp], 198B
+  - `int off = index*12;` flat `*(float*)(base+off+K)` -> folds base+off
+    into one register (wrong shape)
+  - `volatile float` fields -> same sequence, same colouring
+  - `int i = index;` local -> same colouring
+  - `volatile int *out` -> same colouring
+
+The 0.5f-pool-load/arm-materialise split suggests the image keeps `base`
+live across all three fields (it re-derives base+8, base+0xc, base+0x10
+each time), which is exactly the repeated `(Blk3*)(base+8)` spelling, but
+mwcc 1.1p1 will not colour that spelling `base=r5` for this parameter
+layout.  This is a colouring tie-break, not a source-semantics error:
+the two arms, both operand orders, the mask/compare helper and the
+conversion helper are all correct.
+
+Not filed as a source; recorded here per AGENT-BRIEF section 7.

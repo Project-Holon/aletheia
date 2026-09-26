@@ -43,6 +43,19 @@ ORG = re.compile(r"^\s*\.org\s+0x([0-9A-Fa-f]+)")
 INSN = re.compile(r"/\*\s*([0-9A-Fa-f]{8})\s+((?:[0-9A-Fa-f]{2} )+)\*/")
 MATCHED = ("EXACT", "EXACT*")
 
+# Per-region SDK symbol addresses, from layout/symbols_sdk.json (region: "ovNNN").
+_SDK = {}
+
+
+def sdk_addrs(region):
+    if not _SDK:
+        p = os.path.join(ROOT, "layout", "symbols_sdk.json")
+        if os.path.exists(p):
+            for e in json.load(open(p, encoding="utf-8")).get("symbols", []):
+                _SDK.setdefault(str(e.get("region")), set()).add(int(e["address"]))
+        _SDK.setdefault("__loaded__", set())
+    return _SDK.get(region, set())
+
 
 def listing_labels(path):
     """[(address, label)] for every label in a listing, in address order."""
@@ -118,25 +131,45 @@ def overlay_rows():
             "matched_bytes": 0,
             "matched_funcs": 0,
             "open_funcs": 0,
+            "sdk_bytes": 0,
+            "game_bytes": 0,
+            "matched_sdk_bytes": 0,
+            "matched_sdk_funcs": 0,
         }
+        sdk = sdk_addrs(overlay)
+        labels = listing_labels(path)
+        addrs = [a for a, _ in labels]
+        by_label = {}
+        for a, name in labels:
+            by_label.setdefault(name, a)
+        span_end = (int(m_range.group(2), 16) if m_range else 0)
+        code_end = (int(m_range.group(1), 16) + row["code_bytes"]) if m_range else span_end
+
+        def extent(a, clip=None):
+            after = [x for x in addrs if x > a]
+            end = after[0] if after else span_end
+            if clip is not None:
+                end = min(end, clip)
+            return max(0, end - a)
+
+        for a, _name in labels:
+            if a in sdk:
+                row["sdk_bytes"] += extent(a, clip=code_end)
+        row["game_bytes"] = max(0, row["code_bytes"] - row["sdk_bytes"])
         entries = shard_entries(overlay)
         if entries:
-            labels = listing_labels(path)
-            addrs = [a for a, _ in labels]
-            by_label = {}
-            for a, name in labels:
-                by_label.setdefault(name, a)
-            span_end = (int(m_range.group(2), 16) if m_range else 0)
             for name, status in entries.items():
                 if not status.startswith(MATCHED):
                     continue
                 a = by_label.get(name)
                 if a is None:
                     continue
-                after = [x for x in addrs if x > a]
-                end = after[0] if after else span_end
-                row["matched_bytes"] += max(0, end - a)
-                row["matched_funcs"] += 1
+                if a in sdk:
+                    row["matched_sdk_bytes"] += extent(a)
+                    row["matched_sdk_funcs"] += 1
+                else:
+                    row["matched_bytes"] += extent(a)
+                    row["matched_funcs"] += 1
         rows.append(row)
     return rows
 
@@ -166,6 +199,10 @@ def main():
     ov_funcs = sum(r["listing_funcs"] for r in rows)
     ov_matched_funcs = sum(r["matched_funcs"] for r in rows)
     ov_data = sum(r["data_bytes"] for r in rows)
+    ov_sdk = sum(r["sdk_bytes"] for r in rows)
+    ov_game = sum(r["game_bytes"] for r in rows)
+    ov_matched_sdk = sum(r["matched_sdk_bytes"] for r in rows)
+    ov_matched_sdk_funcs = sum(r["matched_sdk_funcs"] for r in rows)
     arm9 = arm9_summary()
     arm9_game = int(arm9.get("code_bytes_game", 0))
     arm9_matched = int(arm9.get("code_bytes_matched", 0))
@@ -188,14 +225,18 @@ def main():
             "totals": {
                 "overlay_count": len(rows),
                 "overlay_code_bytes": ov_code,
+                "overlay_sdk_bytes": ov_sdk,
+                "overlay_game_bytes": ov_game,
                 "overlay_data_bytes": ov_data,
                 "overlay_listing_funcs": ov_funcs,
                 "overlay_matched_bytes": ov_matched,
                 "overlay_matched_funcs": ov_matched_funcs,
+                "overlay_matched_sdk_bytes": ov_matched_sdk,
+                "overlay_matched_sdk_funcs": ov_matched_sdk_funcs,
                 "arm9_game_bytes": arm9_game,
                 "arm9_matched_bytes": arm9_matched,
                 "arm9_matched_funcs": arm9_funcs,
-                "combined_game_bytes": arm9_game + ov_code,
+                "combined_game_bytes": arm9_game + ov_game,
                 "combined_matched_bytes": arm9_matched + ov_matched,
             },
         }, sys.stdout, indent=1)
@@ -205,12 +246,17 @@ def main():
           % (ov_code, ov_code / 1048576.0, len(rows), ov_funcs))
     print("overlay data             : %d bytes (%.3f MB), not counted as work"
           % (ov_data, ov_data / 1048576.0))
-    print("overlay matched          : %d bytes (%.4f%% of overlay code), %d functions"
-          % (ov_matched, 100.0 * ov_matched / ov_code if ov_code else 0.0, ov_matched_funcs))
+    print("overlay SDK code         : %d bytes (%.1f%% of overlay code), excluded from the denominator"
+          % (ov_sdk, 100.0 * ov_sdk / ov_code if ov_code else 0.0))
+    print("overlay game code        : %d bytes, %d functions" % (ov_game, ov_matched_funcs))
+    print("overlay matched (game)   : %d bytes (%.4f%% of game code), %d functions"
+          % (ov_matched, 100.0 * ov_matched / ov_game if ov_game else 0.0, ov_matched_funcs))
+    print("overlay matched SDK      : %d bytes (%.4f%% of SDK code), %d functions"
+          % (ov_matched_sdk, 100.0 * ov_matched_sdk / ov_sdk if ov_sdk else 0.0, ov_matched_sdk_funcs))
     print()
     print("arm9 game code           : %d bytes, %d matched (%.4f%%)"
           % (arm9_game, arm9_matched, 100.0 * arm9_matched / arm9_game if arm9_game else 0.0))
-    total = arm9_game + ov_code
+    total = arm9_game + ov_game
     matched = arm9_matched + ov_matched
     print("combined game code       : %d bytes (%.3f MB), %d matched (%.4f%%)"
           % (total, total / 1048576.0, matched, 100.0 * matched / total if total else 0.0))

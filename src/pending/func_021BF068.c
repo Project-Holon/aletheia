@@ -10,9 +10,9 @@
  * status:   MATCH
  *
  * symbols:
- *   sub_0203C3EC  0x0203C3EC  arm
+ *   func_0203C3EC  0x0203C3EC  arm
  *
- * Channel-id predicate: true when sub_0203C3EC() answers 3, 4 or 5.
+ * Channel-id predicate: true when func_0203C3EC() answers 3, 4 or 5.
  * `push {r3, lr}; blx; cmp r0, #3; beq; cmp r0, #4; beq; cmp r0, #5; bne;
  * movs r0, #1; pop; movs r0, #0; pop`.
  *
@@ -27,11 +27,11 @@
 
 typedef int BOOL;
 
-extern int sub_0203C3EC(void);
+extern int func_0203C3EC(void);
 
 BOOL func_021BF068(void)
 {
-    int v = sub_0203C3EC();
+    int v = func_0203C3EC();
 
     if (v == 3 || v == 4 || v == 5) {
         return 1;

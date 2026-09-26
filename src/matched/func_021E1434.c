@@ -1,0 +1,35 @@
+/*
+ * function: func_021E1434
+ * address:  0x021E1434
+ * packet:   pkt_021E1434
+ * region:   ov175
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT*
+ *
+ * symbols:
+ *   g_021E5334  0x021E5334  data
+ *
+ * Return 4 once 0x02059F38 says the block is live, else the queued count at
+ * +8.
+ *
+ * Promoted from MATCH by the recursive-unblocker lane: 0x02059F38 now has an
+ * EXACT arm9 shard entry (pkt_02059F38), so `bl 0x02059F38` resolves via
+ * `matched`.  The trailing `*` is the usual unlabelled-follower extent.
+ * Verified EXACT*, 32 bytes.
+ */
+
+typedef unsigned long u32;
+
+extern int func_02059F38(void);
+extern u32 g_021E5334[];
+
+int func_021E1434(void)
+{
+    if (func_02059F38())
+        return 4;
+    return g_021E5334[2];
+}
+

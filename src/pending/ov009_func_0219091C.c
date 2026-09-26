@@ -83,15 +83,20 @@
  *     func_02193488  gpiCheckSocketConnect         EXACT (276)
  *     func_02193710  gpiSetError                   EXACT (36)
  *     func_02193748  gpiEncodeString               EXACT (136)
- *     func_0219329C  gpiCheckForError              DIFF -> src/pending
+ *     func_0219329C  gpiCheckForError              MATCH -> src/pending (220)
  *         blocker: its atoi call targets the unlabelled thunk 0x020964E0,
- *         which no evidence class can attest, so it is capped at MATCH; the
- *         guard-epilogue layout is also still one block out.
+ *         which no evidence class can attest, so it is capped at MATCH;
+ *         scanner-promotes to EXACT once 0x020964E0 is seeded in
+ *         layout/function_starts.txt (the two-word defaulting thunk is not
+ *         producible from C).
+ *     func_021803BC  bounded copy (strlcpy-shaped) EXACT (72)    [this run]
+ *     func_0217F264  current_time                  EXACT (40)    [this run]
+ *     func_0219359C  gpiReadKeyAndValue            EXACT (372)   [this run]
  *   already matched before this lane (witnesses, not re-filed)
  *     func_0219327C, func_02193734, func_0217EAB0, func_0217EAC8,
  *     func_0217EAE0, func_0217EC4C, func_0217ED54, func_0217F790,
  *     func_0217F2BC, func_02190650
- *   direct callees still open (large network I/O routines)
+ *   direct callees still parked (byte-correct but not EXACT)
  *     func_02189780  gpiRecvToBuffer               DIFF -> src/pending
  *         blocker: codegen only, the per-chunk GSIDebug raw-dump call
  *         schedules the `recvCount++` vararg before reloading the format
@@ -111,19 +116,30 @@
  *     func_0217F21C  ascii remap (_strlwr core)    EXACT (64)   [this run]
  *     func_0217D254  variadic logger thunk         EXACT (44)   [this run]
  *
- * Reached this run: five EXACT helpers (func_0218998C, func_021906E0,
- * func_021905A4, func_0217F21C, func_0217D254) plus the ten pre-existing
- * ones; the two remaining direct network helpers (func_021894D8,
- * func_02189780) are byte-correct except one GSIDebugFormat call site each
- * and are parked in src/pending.  func_0219091C itself is still DIFF (the
- * stub body compiles 232 bytes against the 9460-byte original).  Its register
- * allocation and 0x4d4 frame are global, so a partial port cannot byte-match;
- * a full port of the public gpiProcessSearch with every absolute string
- * pinned as an extern is the only route, and the 0xb case / extra +0x198,
- * +0x19c fields still have to be transcribed from the disassembly before that
- * can be attempted.  The function carries 165 PC-relative pool loads and 310
- * call sites, so the port is a full multi-pass job; it was not attempted to
- * completion this run.
+ * Reached this run: three more EXACT helpers closed bottom-up --
+ * func_0219359C gpiReadKeyAndValue (372, the four-error-tail parse loop,
+ * previously DIFF by a four-register rotation cured by using the public
+ * source's shared running cursor; see docs/idioms/
+ * a-shared-running-cursor-settles-a-parse-loop-register-rotation.md),
+ * func_021803BC (72, bounded strlcpy-shaped copy) and func_0217F264
+ * current_time (40, the tick/33514 u64 divide) -- so every non-SDK direct
+ * callee is now EXACT except: func_0219329C gpiCheckForError, capped at MATCH
+ * on the unlabelled atoi thunk 0x020964E0, and the two network I/O helpers
+ * func_021894D8 gpiSendData and func_02189780 gpiRecvToBuffer, byte-correct
+ * except one GSIDebugFormat call site each (codegen only; the counter
+ * increment is scheduled before the later format-pointer load, documented in
+ * docs/idioms/a-varargs-counter-increment-is-scheduled-before-a-later-
+ * format-pointer.md).  The shard layout/matched/ov009/pkt_0219091C.json now
+ * holds 18 EXACT entries.
+ *
+ * func_0219091C itself is still DIFF (the stub body compiles 232 bytes
+ * against the 9460-byte original).  Its register allocation and 0x4d4 frame
+ * are global, so a partial port cannot byte-match; a full port of the public
+ * gpiProcessSearch with every absolute string pinned as an extern is the only
+ * route, and the 0xb case / extra +0x198, +0x19c fields still have to be
+ * transcribed from the disassembly before that can be attempted.  The
+ * function carries 165 PC-relative pool loads and 310 call sites, so the port
+ * is a full multi-pass job; it was not attempted to completion this run.
  *
  * Why no partial credit is possible: register allocation, the 0x4d4 stack
  * frame (push {r4-r8,sb,sl,fp,lr}; sub sp,#0xd4; sub sp,#0x400) and every

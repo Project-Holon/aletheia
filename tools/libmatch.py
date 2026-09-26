@@ -366,6 +366,16 @@ def load_regions(layout, extract_dir, overlays=True):
         regions.append(Region("arm9_autoload%d_%s" % (al["index"], al["kind"]),
                               al["ram_start"],
                               img[al["src_offset"]:al["src_offset"] + sz]))
+    if "twl" in layout:
+        twl = layout["twl"]
+        p = os.path.join(extract_dir, twl["decompressed_file"])
+        if os.path.exists(p):
+            with open(p, "rb") as fh:
+                img_twl = fh.read()
+            sz = twl["code_size"]
+            src_off = twl["src_offset"]
+            regions.append(Region("twl", twl["ram_start"],
+                                  img_twl[src_off:src_off + sz]))
     if overlays:
         for ov in layout["overlays"]:
             p = os.path.join(extract_dir, ov["decompressed_file"])

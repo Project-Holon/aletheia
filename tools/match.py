@@ -445,10 +445,17 @@ def scan_listing(region):
                         a = int(s[5:-1], 16)
                         starts[a] = mode_thumb if pending_thumb is None else True
                         pending_thumb = None
+                    elif s.startswith("veneer_") and s.endswith(":"):
+                        a = int(s[7:-1], 16)
+                        starts[a] = False
+                        pending_thumb = None
                     elif s.startswith("loc_") and s.endswith(":"):
                         pending_thumb = None
         except OSError:
             continue
+    if region == TWL_REGION:
+        starts.setdefault(0x02707CB4, None)
+        starts.setdefault(0x02732D54, None)
     _FUNC_STARTS[region] = starts
     return starts
 
@@ -456,7 +463,7 @@ def scan_listing(region):
 def target_extent(addr, region):
     """(size, thumb) of the original function, or (None, None) if unknown."""
     starts = scan_listing(region)
-    if addr not in starts:
+    if addr not in starts or starts[addr] is None:
         return None, None
     thumb = starts[addr]
     later = sorted(a for a in starts if a > addr)
@@ -1335,8 +1342,11 @@ def sdk_addr_index():
     if "a" in _SDK_ADDRS:
         return _SDK_ADDRS["a"]
     out = {}
-    for name, (addr, thumb) in sdk_symbols().items():
-        out.setdefault(addr, (name, thumb))
+    p = os.path.join(ROOT, "layout", "symbols_sdk.json")
+    if os.path.exists(p):
+        with open(p) as fh:
+            for e in json.load(fh)["symbols"]:
+                out.setdefault(e["address"], (e["name"], bool(e["thumb"])))
     _SDK_ADDRS["a"] = out
     return out
 
@@ -2119,6 +2129,10 @@ def _bss_ranges():
         lo, hi = ov.get("bss_start"), ov.get("bss_end")
         if lo and hi and hi > lo:
             out.append((lo, hi))
+    tw = lay.get("twl") or {}
+    lo, hi = tw.get("bss_start"), tw.get("bss_end")
+    if lo and hi and hi > lo:
+        out.append((lo, hi))
     _LAYOUT_DATA["bss"] = out
     return out
 

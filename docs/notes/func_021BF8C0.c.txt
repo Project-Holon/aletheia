@@ -1,0 +1,58 @@
+func_021BF8C0 (ov114): near miss, sparse-switch constant factoring
+=================================================================
+
+Verdict: DIFF. The jump table itself is reproduced exactly (dense table on
+id+7 over -7..0x14, with id==0 returning 0 early and default falling to the
+shared call), but the case bodies will not come out in the original's shape.
+
+The function
+------------
+
+	021BF8C0  push {r4,lr}
+	movs r4, r0          ; id
+	mov  r0, #7          ; a = 7
+	ldr  r1, [pc, #..]   ; addr = 0xFFFE8130 (pool)
+	moveq r0, #0
+	popeq {r4,pc}        ; if (id == 0) return 0
+	add  r2, r4, #7
+	cmp  r2, #0x1b
+	addls pc, pc, r2, lsl #2
+	... jump table ...
+	bl func_02059F54     ; func_02059F54(a, addr)
+	mov r0, r4
+	pop {r4,pc}
+
+So each case sets an address and (for ids 1 and 20) sets a=9, then calls
+func_02059F54(a, addr) and returns id. The 0x1b table covers ids -7..0x14.
+
+The blocker
+-----------
+
+The original materialises each target as **base + delta**, loading the single
+base 0xFFFE8130 into r1 once and, for deltas that are not ARM-encodable
+immediates, loading the *negative delta* from a tiny pool and adding it:
+
+	sub r1, r1, #0x320        ; delta fits an immediate
+	ldr r2, [pc, #..]         ; pool 0xFFFFFCD6 = -0x32A
+	add r1, r1, r2
+
+The distinct case targets are a perfect arithmetic run (0xFFFE7DA2 + 10*k) plus
+0xFFFE812F/0xFFFE8130, which is what lets the compiler fold them onto one base.
+
+Three spellings were tried:
+
+* `addr = 0xFFFE7E06;` (absolute constants) -- mwccarm emits an absolute pool
+  load per case, no factoring, 356 bytes vs 328.
+* `addr -= 0x32A;` -- mwccarm splits a non-encodable delta into two subs
+  (`sub #0x2A; sub #0x300`) instead of using a pool word, 312 bytes.
+* `addr += 0xFFFFFCD6;` (the pool value verbatim) -- the encodable cases match
+  (`sub r1,r1,#K`) and the big ones match (`ldr r2; add r1,r1,r2`), 336 bytes,
+  but block ordering and cross-jump differ: mwccarm gives case 11/12 their own
+  block instead of pointing them at case 6's, and drops case 20's table entry
+  to default.
+
+To get the original, the source must be written so mwccarm factors a live base
+register across all cases. A struct-pointer form (`ptr - 0x64`, etc.) or a base
+that is a genuine runtime value (not constant-foldable) is the next thing to
+try; the two best spellings above are one diff away from each other but neither
+converged.

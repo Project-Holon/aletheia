@@ -1,0 +1,50 @@
+func_02015F50  (0x02015F50, arm9, Thumb, 92 bytes, dsi/1.1p1 -O4,p)
+
+Verdict: DIFF, unfixable at this compiler. Park, do not re-derive.
+
+The function is an unlabelled Thumb leaf (saves nothing, so disasm.py emits
+the whole run as ARM/.word). It is a timer/transfer setup helper on the
+register at +0x140 of the object:
+
+    void func_02015F50(void *p, int a, int b, int c, u32 d)
+    {
+        u32 off = 0x140;
+        *(u32 *)((char *)p + off) |= 0x1000;      /* start/enable */
+        *(u8  *)((char *)p + off - 0xC) = a;      /* +0x134 */
+        *(u8  *)((char *)p + off - 0xB) = b;      /* +0x135 */
+        *(u32 *)((char *)p + off - 4)   = d;      /* +0x13C */
+        *(u8  *)((char *)p + off - 0xA) = 0;      /* +0x136 */
+        if (c < 0) { *(u8 *)((char *)p + off - 9) = 0; c = -(c - 1); }
+        else       { *(u8 *)((char *)p + off - 9) = c; c = 1; }
+        *(u32 *)((char *)p + off - 8) = c;        /* +0x138 */
+        if ((u32)a > (u32)b)
+            *(u32 *)((char *)p + off - 8) *= -1;
+    }
+
+The logic is right (the branch tails and the second guard are byte-identical
+across every tried spelling). The blocker is the FIRST statement, register
+colouring only: the original keeps the 0x140 offset in r4 and builds the
+0x1000 OR constant in r5,
+
+    02015F50 movs r4, #5 ; lsls r4, r4, #6      r4 = 0x140
+             movs r5, #1 ; lsls r5, r5, #0xc    r5 = 0x1000
+             ldr  r6, [r0, r4] ; orrs r5, r6 ; str r5, [r0, r4]
+
+while dsi/1.1p1 every time assigns r5 = offset and r4 = temp,
+
+    movs r5, #5 ; lsls r5, r5, #6
+    movs r4, #1 ; ldr r6, [r0, r5] ; lsls r4, r4, #0xc ; orrs r4, r6 ; str r4, [r0, r5]
+
+a pure r4<->r5 permutation of the whole function (57 of 92 bytes differ, all
+register names). 70 source variants were tried: `|= 0x1000` vs `= x | 0x1000`
+vs `+=` vs a `u32 *` local vs `((u32 *)(p+0x140))[0]`, `volatile` and not,
+all six orderings of the four byte/word stores, and `int`/`u8`/`u16`/`signed
+char` for a and b. Every one keeps the swapped allocation. This looks like a
+compiler-version difference, not a source-shape difference; the project pins
+dsi/1.1p1 and forbids a version sweep.
+
+Consequence: the ov118 root func_021D7130 (which calls this 6 times) can
+never reach EXACT while 0x02015F50 has no label and no `matched` entry. To
+unblock it, seed `0x02015F50  thumb` (or the enclosing start) in
+layout/function_starts.txt so `label`/`sole-ref:code` can attest the call;
+do not spend budget re-spelling the C.

@@ -180,6 +180,30 @@
    "status": "EXACT"
   },
   {
+   "name": "func_021FF470",
+   "address": "0x021FF470",
+   "kind": "game",
+   "region": "ov094",
+   "source": "src/matched/func_021FF470.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT*"
+  },
+  {
+   "name": "func_021FF498",
+   "address": "0x021FF498",
+   "kind": "game",
+   "region": "ov094",
+   "source": "src/matched/func_021FF498.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT*"
+  },
+  {
    "name": "func_021FFD9C",
    "address": "0x021FFD9C",
    "kind": "game",
@@ -264,7 +288,6 @@
    "status": "EXACT*",
    "evidence": {
     "sole-ref": [
-     "code:0x021F8678",
      "code:0x021F8884"
     ]
    }

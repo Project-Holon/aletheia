@@ -1,0 +1,68 @@
+func_021BBF54 (ov110): near miss, `s16 += int` sign-extends the int operand
+=========================================================================
+
+Verdict: DIFF. The reconstruction is semantically right and everything but a
+handful of instruction-selection choices lines up; the blockers are recorded
+here so the next pass does not restart from zero.
+
+What the function does
+----------------------
+
+	021BBF54  push {r4,r5,r6,r7,lr}; sub sp, #0xc
+
+A UI/widget tick. `p->u8[0x19C]` (at offset 0x19C) is a step counter: if it is
+already >5 the function returns 1 untouched. Otherwise it builds a delta
+
+	delta = (p->u8[0x19D] != 0) ? -8 : 8;
+
+adds that delta to the two s16 fields at +0x19A and +0x198, calls
+func_02040618(4, 3, *(s16*)(p+0x19A)), then walks a 2x2 grid of gadget
+pointers -- outer loop over `p + 4*k`, inner over `q + 8*j`, each cell at
++0x14 (outer) / +0x1c+j*8 (inner) -- calling
+
+	func_0204B49C(ptr, (s16)(func_0204B4EC(ptr, (u16)k, 1) - delta), (u16)k, 1)
+
+It bumps p->u8[0x19C], and when p->u8[0x19D] != 0 and the counter is now 7 it
+frees the pointers at +0x1A4 and +0x1B0 via func_02030EAC and zeroes them;
+finally p->u32[0x1B8] = 1 and return 0.
+
+All callees are ARM (ARM9 SDK): func_02040618, func_0204B4EC, func_0204B49C,
+func_02030EAC. Source compiles at dsi/1.1p1 -O4,p --thumb, 7 relocation sites,
+all resolve.
+
+The blocker
+-----------
+
+Two code-selection differences, both from operand types:
+
+1. The fields at +0x19A/+0x198 are signed short. Written as an ordinary
+
+   	*(s16 *)(p + 0x19A) += delta;
+
+   with `int delta`, mwccarm narrows the RHS first:
+
+   	ldrsh r1, [r0, r2]
+   	ldr   r0, [sp, #4]
+   	lsls  r0, r0, #0x10
+   	asrs  r3, r0, #0x10     <-- (s16)delta, not in the original
+   	adds  r1, r1, r3
+   	strh  r1, [r0, r2]
+
+   while the original adds the raw 32-bit delta:
+
+   	ldrsh r1, [r0, r2]
+   	ldr   r0, [sp, #4]
+   	adds  r1, r1, r0
+   	strh  r1, [r0, r2]
+
+   Tried: `s16 delta` (worse -- sign-extends at the store too), `int delta`
+   with `= v + delta` spelled out, and explicit `(int)` casts; all still
+   narrow. The original clearly keeps delta as an int through the adds and only
+   truncates at the `(s16)(func() - delta)` call sites.
+
+2. With `p` as `char *` (char signed) the `p[0x19D] != 0` test compiles to
+   `ldrsb`; the original is `ldrb`, so `p` must be `unsigned char *` (this part
+   is fixed in the parked source's shape).
+
+The parked source's shape got to 272 bytes compiled vs 276 original with the
+grid loops and calls all matching; only the delta narrowing block differs.

@@ -1,0 +1,40 @@
+/*
+ * function: func_021BEB8C
+ * address:  0x021BEB8C
+ * packet:   pkt_021BEB8C
+ * region:   ov210
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02043B5C  0x02043B5C  arm
+ *   func_02045770  0x02045770  arm
+ *   func_021BE44C  0x021BE44C  thumb ov210
+ *   func_021BE49C  0x021BE49C  thumb ov210
+ */
+
+typedef unsigned char u8;
+typedef unsigned int  u32;
+
+extern void func_02043B5C(u32, u32);
+extern u32  func_02045770(u32);
+extern void func_021BE44C(void *, int, int, int, int, int, int);
+extern void func_021BE49C(void *);
+
+void func_021BEB8C(u8 *p)
+{
+    u32 v;
+    u8 *b;
+
+    func_02043B5C(func_02045770(*(u32 *)(p + 0x1B4)), 0);
+    b = (u8 *)*(u32 *)(*(u32 *)p + 8);
+    v = b[5];
+    if (v != 0xFF)
+        func_021BE44C(p, 0xD, v + 0x60, 0x30, 0, 0x3C40, 2);
+    else
+        func_021BE44C(p, 0xD, 0x6A, 0x30, 0, 0x3C40, 2);
+    func_021BE49C(p + 0x1B4);
+}

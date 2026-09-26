@@ -10,9 +10,9 @@
  * status:   MATCH
  *
  * symbols:
- *   sub_0203C3EC  0x0203C3EC  arm
+ *   func_0203C3EC  0x0203C3EC  arm
  *
- * True when sub_0203C3EC() reports 1: `push {r3, lr}; blx; cmp r0, #1; bne;
+ * True when func_0203C3EC() reports 1: `push {r3, lr}; blx; cmp r0, #1; bne;
  * movs r0, #1; pop; movs r0, #0; pop`.
  *
  * NOT EXACT.  MATCH: the 14 bytes are right and the single relocation is
@@ -33,11 +33,11 @@
 typedef unsigned long u32;
 typedef int BOOL;
 
-extern int sub_0203C3EC(void);
+extern int func_0203C3EC(void);
 
 BOOL func_021BF03C(void)
 {
-    if (sub_0203C3EC() == 1) {
+    if (func_0203C3EC() == 1) {
         return 1;
     }
 

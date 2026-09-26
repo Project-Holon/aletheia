@@ -1,8 +1,8 @@
 /*
  * function: func_021BF38C
  * address:  0x021BF38C
- * packet:   pkt_021B9850
- * region:   ov217
+ * packet:   pkt_021BF38C
+ * region:   ov210
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
@@ -10,28 +10,29 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021BF810  0x021BF810  thumb  ov217
- *   func_021C0FF8  0x021C0FF8  thumb  ov217
- *
- * Argues func_021C0FF8() on a +0x360 value, selecting bit 1 from
- * func_021BF810().
- *
- * Addresses are Black-image addresses.
+ *   func_021BEDF0  0x021BEDF0  thumb ov210
  */
 
-typedef unsigned char  u8;
-typedef unsigned short u16;
-typedef unsigned int   u32;
-typedef signed char    s8;
-typedef signed short   s16;
-typedef signed int     s32;
+typedef unsigned char u8;
 
-extern u32 func_021BF810();
-extern u32 func_021C0FF8();
-u32 func_021BF38C(u32 a0)
+extern void func_021BEDF0(void *, int, int);
+
+void func_021BF38C(u8 *p)
 {
-    if (func_021BF810() == 0) {
-    return func_021C0FF8(*(u32*)(((u8*)a0) + 864), 1);
+    unsigned int i;
+
+    func_021BEDF0(p, 0, 0);
+    func_021BEDF0(p, 1, 0);
+    func_021BEDF0(p, 9, 0);
+    func_021BEDF0(p, 0xA, 0);
+    func_021BEDF0(p, 0xB, 0);
+    func_021BEDF0(p, 0xC, 0);
+    func_021BEDF0(p, 0xD, 0);
+    func_021BEDF0(p, 0xE, 0);
+    for (i = 0; i < 0xE; i++) {
+        func_021BEDF0(p, i + 0xF, 0);
+        func_021BEDF0(p, i + 0x1D, 0);
+        func_021BEDF0(p, i + 0x2B, 0);
     }
-    return func_021C0FF8(*(u32*)(((u8*)a0) + 864), 0);
+    func_021BEDF0(p, 7, 0);
 }
