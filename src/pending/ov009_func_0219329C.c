@@ -7,21 +7,21 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF   (parked; not EXACT/MATCH)
+ * status:   MATCH
  *
- * gpiCheckForError.  Behaviour is understood and the C below compiles to the
- * right code shape, but two things block a byte match:
+ * gpiCheckForError.  Every concrete byte reproduces (220 bytes); the one
+ * unresolved site is the atoi call at +0x54 to 0x020964E0, an unlabelled
+ * argument-defaulting thunk (`ldr ip,[pc,#8]; mov r1,#0; mov r2,#0xa;
+ * bx ip` -> 0x02095F40).  It has no func_ label, so neither `label` nor
+ * `sole-ref/code` can attest the site, and the nearest EXACT* entry
+ * (func_020963F8, pkt_02095AA4) stops before it.  Witness class: label /
+ * sole-ref/code; promotes to EXACT when 0x020964E0 is labelled.
  *
- *  1. The atoi call at +0x54 targets 0x020964E0, an unlabelled
- *     argument-defaulting thunk (`ldr ip,[pc,#8]; mov r1,#0; mov r2,#0xa;
- *     bx ip` -> 0x02095F40).  It has no func_ label, so neither `label` nor
- *     `sole-ref/code` can attest the site, and the nearest EXACT* entry
- *     (func_020963F8, pkt_02095AA4) stops before it.  This alone caps the
- *     function at MATCH.
- *  2. The early `if (strncmp(...) != 0) return 0;` is laid out by this
- *     standalone compile as a conditional epilogue (or a fail block before
- *     the success block), while the original keeps a bare 0-epilogue after
- *     the 1-epilogue and branches to it.  DIFF until that layout is matched.
+ * Layout note that closed the old DIFF: the `\fatal\` branch's third
+ * argument is written as a *double* boolean -- `int b = func_02094B20(...)
+ * != 0;` then `func_02189D78(connection, 4, b != 0);`.  `_Bool` is not a
+ * keyword in this C99 front end (CCERR), and folding the two tests into one
+ * loses four instructions (12 bytes).
  *
  * Behaviour: guard on the 7-char prefix "\err\"; on a match read the code
  * from "\err\" via gpiValueForKey into a 0x10 stack buffer and atoi it into
@@ -62,8 +62,10 @@ int func_0219329C(int *connection, const char *input, int fatal)
         ic[0x5b8 / 4] = func_020964E0(value);
     if (!func_02193418(input, g_021A5728, (char *)ic, 0x100))
         *(char *)ic = 0;
-    if (fatal != 0)
-        func_02189D78(connection, 4, func_02094B20(input, g_021A5734) != 0);
+    if (fatal != 0) {
+        int b = func_02094B20(input, g_021A5734) != 0;
+        func_02189D78(connection, 4, b != 0);
+    }
     return 1;
 fail:
     return 0;

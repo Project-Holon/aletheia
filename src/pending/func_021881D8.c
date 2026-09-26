@@ -7,7 +7,16 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH (code identical; the bl to unlabelled func_021C6534 is refused by isa_evidence, which falls through to ov016's ARM label)
+ * status:   ISA  (blocked, not verifiable as written)
+ *
+ * The image's Thumb `bl` at +0x11A targets 0x021C6534, which is a Thumb
+ * callee; declared `arm ov016` the whole function verifies with only the two
+ * bytes of that call instruction differing (bl vs blx).  With the correct
+ * `thumb` declaration match.py hard-refuses: isa_evidence finds the
+ * func_021C6534 label in ov016 and declares the image ARM, so the site can
+ * never resolve -- no overlay labels 0x021C6534 Thumb (ov021 has data there,
+ * ov016 ARM code).  Witness class: none; needs a Thumb label seed at
+ * 0x021C6534 or the ov016 label corrected.  All other 1038 bytes reproduce.
  *
  * Seven-step field init sequence, one step per call; returns 1 once the last step has run.
  *

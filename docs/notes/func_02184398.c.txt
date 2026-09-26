@@ -1,0 +1,48 @@
+func_02184398 @ 0x02184398, ov168, Thumb, packet pkt_02184398.
+
+DIFF, 112 bytes against 112, 18 concrete bytes out.  Source is in
+src/pending/func_02184398.c.  Owner: lane 0x02160000..0x0219FFFF (promote
+lane), 2026-09-26.
+
+WHAT IS CLOSED
+--------------
+The 0x120 work-buffer size is kept live in a callee-saved register across the
+two allocating calls, so the original spills `c` to [sp+4] and derives
+`p[2] = size - 0x20` with `subs rN, #0x20`.  Written with
+`unsigned int size = 0x120;` mwcc constant-folds `size - 0x20` to 0x100,
+drops the live size register, keeps c in r7 and emits 104 bytes (93 out).
+
+Typing the size as an enum defeats the fold:
+
+    typedef enum { SIZE_0 = 0x120 } SizeE;
+    SizeE size = SIZE_0;
+
+That is the same lever docs/idioms/an-enum-type-keeps-values-out-of-constant-
+folding.md records for loop counters; here it applies to a size used as a call
+argument and then decremented.  With it the compile is 112 bytes and every
+instruction is present.  The two `(unsigned short)a` narrowings also need
+func_02006CBC and func_02030734 declared with an `unsigned short` first
+parameter (instead of an explicit cast at the call), otherwise the cast is
+CSE'd into one register.
+
+WHAT IS LEFT
+------------
+A single register-pair colouring.  The image puts the narrowed `a`/`n` web in
+r4 and the size web in r6; mwcc mirrors it (a/n r6, size r4).  The swap is
+stable across:
+
+    size declared function-scope vs block-scope
+    size before / after n
+    size with an initialiser vs a later assignment
+    const SizeE size
+    const int a
+    a declared unsigned short
+    i/result reorders
+
+Since every concrete difference is that one swap (and four bytes of the
+tail), this reads as an allocator tie, not a source-shape residue.  A
+different way in is probably to make the size a value the allocator must keep
+alive for its own sake (a second consumer that cannot take an immediate).
+
+No new witness problem: d_02184A20 resolves as sole-ref/data, all six call
+sites are `matched`/`label`.

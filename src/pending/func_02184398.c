@@ -9,9 +9,18 @@
  * isa:      thumb
  * status:   DIFF
  *
- * Blocker: register allocation.  The original spills c to [sp+4] and keeps
- *   the 0x120 size in r6 through the two calls, deriving p[2] with
- *   `subs r6,#0x20`; mwcc constant-folds size - 0x20 and keeps c in r7.
+ * Blocker: one register-pair colouring, 18 bytes.  The plain `unsigned int
+ *   size = 0x120;` lets mwcc constant-fold `size - 0x20` and drop the live
+ *   size register, so c stays in r7 and no stack spill appears (104/93 out).
+ *   Typing size as an enum (typedef enum { SIZE_0 = 0x120 } SizeE) keeps it
+ *   out of constant folding: the compile now emits `subs rN, #0x20` and
+ *   compiles to the image's 112 bytes.  The only residue left is which of the
+ *   two callee-saved webs gets r4: the image puts the narrowed `a`/`n` in r4
+ *   and size in r6, mwcc does the mirror (a/n r6, size r4).  Everything else,
+ *   including both `(unsigned short)a` narrowings (func_02006CBC and
+ *   func_02030734 declared with an unsigned short first parameter), is exact.
+ *   Tried: size function-scope vs block-scope, before/after n, const size,
+ *   const a, u16 a parameter -- all hold the r4/r6 swap or worse.
  *
  * symbols:
  *   d_02184A20      0x02184A20  data
@@ -27,26 +36,30 @@
 
 
 extern unsigned char d_02184A20[];
-extern void func_02006CBC(int);
+extern void func_02006CBC(unsigned short);
 extern int func_02006D94(void);
 extern void func_02034F84(int);
-extern int *func_02030734(int, int, int, void *, int);
+extern int *func_02030734(unsigned short, int, int, void *, int);
 extern void func_02082BCC(int *, int, int);
+
+typedef enum { SIZE_0 = 0x120 } SizeE;
 
 void func_02184398(int *p, int a, int b, int c)
 {
-    unsigned int size = 0x120;
-    int n;
-    func_02006CBC((unsigned short)a);
+    func_02006CBC(a);
     func_02034F84(8);
-    n = (int)func_02030734((unsigned short)a, size, 0, d_02184A20, 0x603);
-    func_02082BCC((int *)n, 0, size);
-    p[7] = n;
-    p[0] = 0;
-    p[1] = (n + 0x1f) & ~0x1f;
-    p[3] = 0x1001;
-    p[4] = 1;
-    p[2] = size - 0x20;
+    {
+        int n;
+        SizeE size = SIZE_0;
+        n = (int)func_02030734((unsigned short)a, size, 0, d_02184A20, 0x603);
+        func_02082BCC((int *)n, 0, size);
+        p[7] = n;
+        p[0] = 0;
+        p[1] = (n + 0x1f) & ~0x1f;
+        p[3] = 0x1001;
+        p[4] = 1;
+        p[2] = size - 0x20;
+    }
     p[5] = b;
     p[6] = c;
     p[13] = func_02006D94();

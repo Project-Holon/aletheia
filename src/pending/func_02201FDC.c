@@ -10,8 +10,8 @@
  * status:   MATCH
  *
  * symbols:
+ *   func_021F4EC0  0x021F4EC0  thumb  ov135
  *
-
  * Every concrete byte is reproduced (36 bytes, the last two of them the
  * listing's alignment padding).  The single wildcard is the BLX at +0004 to
  * func_021C866C, which has no independent witness outside 02201FDC..02201FFE;

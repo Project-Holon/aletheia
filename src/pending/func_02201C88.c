@@ -10,8 +10,8 @@
  * status:   MATCH
  *
  * symbols:
+ *   func_021F4FC4  0x021F4FC4  thumb  ov135
  *
-
  * Every concrete byte is reproduced (52 bytes of code; the listing's extra two
  * are alignment padding).  The one wildcard is the BLX at +0006 to
  * func_021C8658, which has no independent witness outside 0x02201C88..0x02201CBA; the

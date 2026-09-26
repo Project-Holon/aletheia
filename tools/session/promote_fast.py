@@ -60,7 +60,9 @@ def main(argv=None):
     argv = sys.argv[1:] if argv is None else argv
     os.chdir(env.ROOT)   # file keys and git paths are repo-relative
     files = [f.replace(os.sep, "/") for f in sorted(glob.glob(os.path.join("src", "pending", "*.c")))]
-    files = [f for f in files if hdr(f)["status"] in ("MATCH", "MATCH*", "EXACT", "EXACT*")]
+    # consider every pending file; a stale header status (e.g. DIFF that now
+    # verifies EXACT) must not hide a promotable file.  verify() decides.
+    files = [f for f in files if hdr(f)["status"] not in (None, "?")]
     with ThreadPoolExecutor(6) as ex:
         res = list(ex.map(verify, files))
     json.dump({f: v for f, v, _ in res}, open(verdicts_path(), "w"), indent=0)

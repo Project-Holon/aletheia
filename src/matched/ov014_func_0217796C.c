@@ -1,0 +1,58 @@
+/*
+ * function: func_0217796C
+ * address:  0x0217796C
+ * packet:   pkt_0217796C
+ * region:   ov014
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * symbols:
+ *   g_021797A4     0x021797A4  data  a4
+ *   func_02177888  0x02177888  thumb
+ *   func_02177C1C  0x02177C1C  thumb
+ *   func_02177744  0x02177744  thumb
+ *   func_02179664  0x02179664  thumb
+ *   func_021793F8  0x021793F8  thumb
+ */
+
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+
+typedef struct Head Head;
+struct Head {
+    void (*fn)(Head *);
+};
+
+void func_02177888(u32 a);
+int func_02177C1C(u32 *p);
+void func_02177744(void);
+void func_02179664(int v);
+void func_021793F8(void);
+
+void func_0217796C(u32 arg)
+{
+    Head *p = (Head *)*(u32 *)0x021797A4;
+    if (p != 0 && p->fn != 0)
+        p->fn(p);
+    if (*(u32 *)0x021797A4 != 0)
+        func_02177888(arg);
+    if (*(u32 *)0x021797A4 != 0) {
+        if (func_02177C1C((u32 *)*(u32 *)0x021797A4) != 0)
+            func_02177744();
+    }
+    if (*(u32 *)0x021797A4 != 0) {
+        if (*(u16 *)((u8 *)*(u32 *)0x021797A4 + 0xC6C) != 0) {
+            func_02179664(1);
+            ((u8 *)*(u32 *)0x021797A4)[0xCF3] = 1;
+            if (((u8 *)*(u32 *)0x021797A4)[0xCF4] == 0)
+                *(u16 *)((u8 *)*(u32 *)0x021797A4 + 0xC6C) -= 1;
+        } else {
+            func_02179664(0);
+            ((u8 *)*(u32 *)0x021797A4)[0xCF3] = 0;
+        }
+    }
+    func_021793F8();
+}

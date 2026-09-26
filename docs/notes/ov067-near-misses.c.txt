@@ -1,0 +1,37 @@
+DIFF near-misses, lane ov048..ov095, 2026-09-26 (agent)
+
+Both functions below are byte-for-byte correct except for branch/block layout or
+register allocation.  They are NOT filed in src/pending/ because they are DIFF,
+not MATCH; this note is the evidence trail.
+
+--------------------------------------------------------------------------------
+func_021B8990  ov067  0x021B8990  (DIFF)
+--------------------------------------------------------------------------------
+Linear field clamp.  Everything matches (including the `s->f76 = s->f76` dead
+store, which the original really has) except the clamped stores:
+
+    original:  cmp r1,#0xbf; bgt set; b store; set: movs r1,#0xbf; store
+    compiled:  cmp r1,#0xbf; ble store; movs r1,#0xbf; store
+
+The original materialises the clamped value into r1 and emits an out-of-line
+`set` block with an unconditional branch over it; mwcc with `if (t > 0xbf)
+t = 0xbf;` (or the equivalent ternary, or if/else assigning the field) always
+folds it to the compact `ble skip` form.  The f74 clamp already matches with
+`unsigned` comparison (`blo`), so f74 is unsigned while f75/f77 use signed `bgt`.
+Only ~4 instructions differ.  Something in the original shape keeps the `set`
+block out of line; not found.
+
+--------------------------------------------------------------------------------
+func_021B8DF0  ov067  0x021B8DF0  (DIFF)
+--------------------------------------------------------------------------------
+Logic matches after folding the two early guards into one disjunction:
+
+    if ((d < 0 && s->f85 > 0) || (d > 0 && s->f85 < 0)) return 0;
+
+Remaining differences: (a) the argument is kept in r7 in the original but r6 in
+the rebuilt C (uniform register-number swap for the value live across the two
+calls); (b) the `s->f62 == 0` / `s->f62 == s->f64` early returns are shared
+out-of-line in the original instead of duplicated inline.  A `goto` to one exit
+label is the likely source shape (see
+docs/idioms/guards-separated-by-statements-share-an-exit-only-through-goto.md);
+binding the argument differently may fix (a).

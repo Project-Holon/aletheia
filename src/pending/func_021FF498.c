@@ -8,9 +8,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   MATCH
- * blocking: 020160C4 has no witness outside the compared range (ov094 target, no outside caller attestation)
  *
- * Byte-identical to the original; parked because 020160C4 has no witness outside the compared range (ov094 target, no outside caller attestation).
+ * symbols:
+ *   func_022019F4  0x022019F4  thumb  ov094
+ *
+ * Byte-identical to the original; parked because the call to 0x020160C4
+ * (an unlabelled ARM9 leaf, no traced label) has no witness outside the
+ * compared range.  The call to 0x022019F4 is an ov094 Thumb function.
  */
 
 

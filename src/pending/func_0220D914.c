@@ -10,7 +10,12 @@
  * status:   MATCH
  *
  * symbols:
- * blocker: +000C ABS32 func_02025D14          -> unresolved: 02025D14 (arm, from name) has no witness outside 0220D914..0220D924
+ *   func_02025D14  0x02025D14  thumb
+ *
+ * blocker: the ABS32 at +000C names 0x02025D14, an unlabelled arm9 leaf (no
+ *   traced func_ label), so neither label nor sole-ref/code can attest it;
+ *   byte-correct otherwise.  Not resolvable from this packet.
+ *
  * Addresses are Black-image addresses.
  */
 

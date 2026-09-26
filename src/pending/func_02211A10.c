@@ -10,8 +10,8 @@
  * status:   DIFF
  *
  * symbols:
- *   func_0220AFDC  0x0220AFDC  thumb  ov198
- * blocker: codegen near miss (DIFF)
+ *   func_0220AFDC  0x0220AFDC  thumb  ov196
+ *
  * Addresses are Black-image addresses.
  */
 
@@ -27,6 +27,7 @@ u32 func_02211A10(u8 *p, u32 v)
     u32 i = 0x218c;
 
     *(u32 *)(p + i) = v;
-    return func_0220AFDC(*(u32 *)(p + i - 4));
+    i -= 4;
+    return func_0220AFDC(*(u32 *)(p + i));
 }
 

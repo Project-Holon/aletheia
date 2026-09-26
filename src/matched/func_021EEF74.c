@@ -1,0 +1,27 @@
+/*
+ * function: func_021EEF74
+ * address:  0x021EEF74
+ * packet:   pkt_021DC9A0
+ * region:   ov170
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * symbols:
+ *   func_0202616C  0x0202616C  thumb
+ *   func_021EEFA4  0x021EEFA4  thumb  ov170
+ *
+ * Pull the two tag records through the p+0x70 lookup and hand both
+ * pairs to the 0x54/0x10 emitter.
+ */
+
+extern unsigned char *func_0202616C(int, int);
+extern void func_021EEFA4(char *, int, int, int, int);
+void func_021EEF74(char *q, int a, int b)
+{
+    unsigned char *x = func_0202616C(*(int *)(q + 0x70), a);
+    unsigned char *y = func_0202616C(*(int *)(q + 0x70), b);
+    func_021EEFA4(q, x[0], x[1], y[0], y[1]);
+}
