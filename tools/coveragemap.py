@@ -268,18 +268,18 @@ def esc(s):
 
 def render(out, headline, panel_titles, groups_pair, footnote, W, PH):
     """One SVG: headline, legend, then two titled panels stacked."""
-    top, tith, gap, foot = 50, 20, 8, 20
+    top, tith, gap, foot = 54, 20, 8, 20
     n = len(panel_titles)
     H = top + n * tith + n * PH + (n - 1) * gap + foot
     o = ['<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 0 %d %d" font-family="ui-monospace,Menlo,monospace">' % (W, H, W, H),
          '<rect width="%d" height="%d" fill="%s"/>' % (W, H, COL["bg"]),
-         '<text x="10" y="32" font-size="13" fill="%s">%s</text>' % (COL["ink"], esc(headline))]
-    # legend on its own top line, right-aligned, so it never collides with the headline
+         '<text x="10" y="20" font-size="14" fill="%s">%s</text>' % (COL["ink"], esc(headline))]
+    # legend on the line below the title, right-aligned
     lx = W - 10
     for label, key in (("runtime", "runtime"), ("SDK", "sdk"), ("matched SDK", "matched_sdk"),
                        ("open", "open"), ("sole-ref", "sole"), ("matched", "matched")):
         lx -= 8 * len(label) + 26
-        o.append('<rect x="%d" y="6" width="11" height="11" fill="%s"/><text x="%d" y="16" font-size="11" fill="%s">%s</text>'
+        o.append('<rect x="%d" y="31" width="11" height="11" fill="%s"/><text x="%d" y="41" font-size="11" fill="%s">%s</text>'
                  % (lx, COL[key], lx + 15, COL["muted"], label))
     for i, (title, groups) in enumerate(zip(panel_titles, groups_pair)):
         y = top + i * (tith + PH + gap)
@@ -375,7 +375,7 @@ def aux_shard_status(region):
     files = []
     d = os.path.join(ROOT, "layout", "matched", region)
     if os.path.isdir(d):
-        files += glob.glob(os.path.join(d, "pkt_*.json"))
+        files += glob.glob(os.path.join(d, "*.json"))
     files += glob.glob(os.path.join(ROOT, "layout", "matched", "arm9", "pkt_*.json"))
     for sh in files:
         try:
