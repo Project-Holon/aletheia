@@ -1375,6 +1375,18 @@
    "status": "EXACT"
   },
   {
+   "name": "func_021BF050",
+   "address": "0x021BF050",
+   "kind": "game",
+   "region": "ov099",
+   "source": "src/matched/ov099_func_021BF050.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT*"
+  },
+  {
    "name": "func_021BF24C",
    "address": "0x021BF24C",
    "kind": "game",

@@ -1,0 +1,42 @@
+pkt_021C7C64 - phantom row: a data word whose low halfword looks like a Thumb prologue
+=====================================================================================
+
+func_021C7C64 @ 0x021C7C64 (ov172; lane.py extent 3196 = 0x021C7C64..0x021C88E0)
+verdict: NOT C - phantom (data).  Reported, not filed.  No callees, no C.
+
+The label is a false positive.  `disasm.py` auto-labels a `func_` whenever the
+bytes at a `.word` boundary decode as a prologue that saves `lr`; the word at
+0x021C7C64 is 0x0023B504, whose low halfword 0xB504 is `push {r2, lr}`:
+
+  021C7C60  D6 6B 24 00   0x00246BD6   <- table entry
+  021C7C64  04 B5 23 00   0x0023B504   <- labeled func_021C7C64; low half = push {r2, lr}
+  021C7C68  32 FE 22 00   0x0022FE32
+  021C7C6C  60 47 22 00   0x00224760
+
+The word is one entry of a 256-entry signed fixed-point table of constant step
+-0xB6D2, spanning 0x021C7B2C..0x021C7F2C (from +0x5B6900 down through zero at
+0x021C7D2C to -0x5AB22E; the zero run starts at 0x021C7F2C).  The whole span is
+emitted as `.word` in `asm/overlays/ov172.s`; nothing after the last real ov172
+function `func_021C4B9C` (0x021C4B9C) is code.  The 3196-byte "extent" is just
+the overlay's data tail to bss (0x021C7C64..0x021C88E0), not a function body.
+
+Fan-in test (`docs/idioms/a-data-word-that-looks-like-a-saved-lr-prologue-becomes-a-phantom-function.md`):
+
+  grep -rn 'func_021C7C64' asm   -> only ov172's own .global/.type/label lines
+  grep -rn '\.word.*0x021C7C64' asm -> no hits
+
+No `bl`/`blx` and no pool word anywhere in the image names the address, and
+`tools/lane.py --band 0 100000 --regions ov172` flags the row `phantom?`
+(no branch and no `[pc` load over the whole extent).
+
+Overlapping-window check (`docs/idioms/a-phantom-in-the-named-overlay-can-be-sdk-code-in-the-overlapping-one.md`):
+the address falls in nine overlay windows (ov016/021/093/111/114/128/136/172/208);
+only ov016 holds coherent code there, and it is interior to the SDK symbol
+`isCorrect` (0x021C7B34, size 320, TwlDWC/libdwcutil.TWL.HYB.a, object
+sceneseteditaddr, thumb:false) = listing `func_021C7B34`, 0x021C7B34..0x021C7C74.
+SDK code is out of lane scope; switching regions does not yield work.
+
+Conclusion: the "root" is data, there are no non-SDK callees to close, and no C
+can reproduce it.  Nothing filed.
+
+Addresses are Black-image addresses.

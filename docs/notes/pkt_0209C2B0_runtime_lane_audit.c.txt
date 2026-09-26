@@ -1,0 +1,111 @@
+Audit of the runtime_arm9.txt lane 0x0209C2B0..0x0209D724, 13 rows.
+Method: match.py show per row, then a real C probe at
+`--cc 1.1p1 --arm --region arm9 --flags=-O4,p` for every row that is not
+proved non-C by a structural tell.
+
+RESULT: 12 of the 13 rows stand as hand-written assembly.  ONE row does not:
+  0x0209D724  _runtime_null_stub   ->  MATCHED C (EXACT), src/matched/func_0209D724.c
+An empty C function compiles to exactly the 4-byte `bx lr` the row holds.
+The integrator may remove that one row from layout/runtime_arm9.txt.  This
+matches the soft-float note's own reading ("0x0209D724 4 `bx lr`, the null
+finaliser"); a null finaliser is a body a C compiler does produce.
+
+PER-ADDRESS EVIDENCE
+--------------------
+0x0209C2B0  _div_by_zero_check   STILL-RUNTIME
+  8 bytes: `cmp r1,#0; bxeq lr`, then falls through into 0x0209C2B8, a
+  separately labelled entry.  mwccarm emits one section per function, so no
+  C function can fall through into another; `show`'s own extent stops at the
+  8 bytes because 0x0209C2B8 is a label.  Shared-entry tell.
+
+0x0209C2B8  _u32_div_not_0_f     STILL-RUNTIME
+  476 bytes, hand unsigned-division.  Opening `cmp r0,r1; movlo...; bxlo lr`
+  and a normalise step, then `add pc, pc, r2, lsl #2` at 0x0209C304 dispatching
+  into a run of unrolled `adcs r3,r1,r3,lsl #1 / sublo r3,r3,r1 / adcs r0,r0,r0`
+  blocks (32 iterations), and a `clz`-normalised zero-operand path
+  (0x0209C6F0/0x0209C708).  A computed pc jump into unrolled shift/subtract
+  blocks is not C codegen; `clz` has no mwccarm intrinsic (proved below).
+
+0x0209C494  _f2s                 STILL-RUNTIME
+  Probe C (integer-bit float->signed-int with saturation) gave DIFF: 60
+  compiled vs 52 original.  Original folds the exponent into the subtract
+  operand (`mov r2,#0x9e; subs r2,r2,r1,lsr #23; ble`) and branches on that
+  subtract's flags; the compiler separates `lsr` / `rsb` / `cmp`.  Original
+  also reaches the sign test as `cmp r0,#0` feeding `rsbmi`, which the
+  compiler does not reproduce.  Codegen difference (no structural tell).
+
+0x0209C4C8  _f2u                 STILL-RUNTIME
+  Probe C gave DIFF (64 compiled vs 64 original, all but two words differ).
+  Original is `mov r1,#0x9e; subs r1,r1,r0,lsr #23; blt`; compiler emits
+  `lsrs`/`rsbs r1,r0,#0x9e` and a different NaN/overflow arm order.  Codegen
+  difference.
+
+0x0209C508  _d2s                 STILL-RUNTIME
+  Probe C (long long bits -> signed int) gave DIFF: 80 compiled vs 76.
+  Compiler reorders the saturation test ahead of the pool load and uses
+  `tst/movne/mvneq` where the original uses `subs ... ble` plus
+  `mvn r0,r1,asr #31; add r0,r0,#0x80000000`.  Codegen difference.
+
+0x0209C554  _d2u                 STILL-RUNTIME
+  Probe C gave DIFF: 160 compiled vs 140, and the compiler even inserts a
+  soft-float `push {r3,lr}` u64-return frame the original does not have.
+  The original returns in r0:r1 with `mov r1,#0` / `lsr r1,ip,r2` /
+  `orr r0,r0,ip,lsl r2`; the compiler's ABI-shaped return is entirely
+  different.  Codegen difference.
+
+0x0209C5E0  _double_arith_body   STILL-RUNTIME
+  412 bytes, binary64 add/sub.  Uses `clz r5,r0` (0x0209C6F0) and
+  `clz r2,r1` (0x0209C708), and the 20/11 field split (`lsr r1,#0x14`,
+  `lsl #0x15`, `orr #0x100000`).  `clz` structural proof: a probe TU
+  `int f(unsigned x){return __builtin_clz(x);}` compiled at pinned flags
+  emits a CALL to `__builtin_clz` (an unresolved ABS32 relocation), i.e. the
+  front end does not inline it and there is no intrinsic; no C source can
+  produce the inline `clz`.  (This entry is a real called function, `bl
+  func_0209C5E0` exists at 0x02097BF8, not a phantom label.)
+
+0x0209C77C  __fmul               STILL-RUNTIME
+  480 bytes, binary32 multiply.  Same `clz` normalisation tell
+  (0x0209C858/0x0209C8B4), plus `umull` significand product with hidden-bit
+  restore (`orr #0x80000000`), exponent `add ip,r3,ip`, and sign xOR
+  (`eor r2,r0,r1; and r2,r2,#0x80000000`).  No C emits the inline `clz`.
+
+0x0209C95C  __fsub               STILL-RUNTIME
+  560 bytes, binary32 subtract.  Structural tell: its interior 0x0209C968
+  (`subs ip,r0,r1`) is the target of __fadd's cross-entry branch
+  (0x0209CB94 `bmi 0x209c968`), so the body is shared between two entries and
+  is not a separately compiled function.  Also uses `rrx` for round-to-odd
+  (`orr r0,r1,r0,rrx`).
+
+0x0209CB8C  __fadd               STILL-RUNTIME
+  644 bytes, binary32 add, but at 0x0209CB94 it is `bmi #0x209c968`, a
+  displacement branch into the interior of __fsub (0x0209C968 is not a
+  function start).  mwccarm adds one section per function and cannot emit a
+  displacement branch between two functions, let alone into one's interior;
+  see docs/idioms/tail-call-is-a-pool-word-and-bx.md.
+
+0x0209CE10  __fdiv               STILL-RUNTIME
+  952 bytes, binary32 divide.  At 0x0209CE50 `sub r0, pc, #0x94` (pc =
+  0x0209CE58) yields 0x0209CDC4, the base of a reciprocal-seed byte table;
+  with the index `lr, lsr #15` the table itself is at 0x0209CEC4.  mwccarm in
+  ARM mode addresses static data through a pool word carrying an absolute
+  address and an R_ARM_ABS32 relocation; it never forms a data pointer as
+  pc-minus-immediate.  (0x0209CDC4 is also interior to the preceding entry
+  __fadd.)
+
+0x0209D1E0  __ddiv               STILL-RUNTIME
+  1348 bytes, binary64 divide.  At 0x0209D234 `sub r4, pc, #0x24` (pc =
+  0x0209D23C) yields 0x0209D218; the seed byte table is reached at
+  0x0209D218 + (r3>>12), and r3 carries the hidden bit so the index starts at
+  0x100, landing the table at 0x0209D318 inside this same section.  Same
+  pc-relative-data tell as __fdiv: no pool word / ABS32 relocation, a shape
+  this compiler does not emit.  Also `umlal`/`umull` significand chains.
+
+0x0209D724  _runtime_null_stub    MATCHED (EXACT)
+  `bx lr`.  An empty C function `void func_0209D724(void){}` compiles to
+  exactly those 4 bytes; match.py one = EXACT, filed as
+  src/matched/func_0209D724.c, shard layout/matched/arm9/pkt_0209D724.json.
+  Recommend the integrator remove this row from layout/runtime_arm9.txt.
+
+Scratch probes were not kept (no match); the only file produced is the one
+matched source above.
+re-verified 2026-09-26: 12/13 still-runtime, 1 matched

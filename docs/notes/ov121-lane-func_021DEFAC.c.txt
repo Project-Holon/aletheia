@@ -1,0 +1,108 @@
+Lane note: dependency tree rooted at func_021DEFAC (ov121)
+==========================================================
+2026-09-26.  Root: 0x021DEFAC, region ov121.  Callees touched: func_02045A98,
+func_020180F4 (both arm9).  See src/pending/func_021DEFAC.c for the WIP root.
+
+1. The true extent -- 3156 is a region-tail artefact, not the function
+----------------------------------------------------------------------
+`tools/lane.py --band 3000 3300 --regions ov121` reports
+    ov121  0x021DEFAC  3156  func_021DEFAC
+because for the last label in a region it takes the size to the region end.
+ov121 spans 0x021D6660..0x021DFC00 (asm/overlays/ov121.s header), so the
+enumerator's 3156 bytes = 0x021DFC00 - 0x021DEFAC and runs through the whole
+static data tail.
+
+The real function:
+  * code         0x021DEFAC..0x021DF4E2   (1334 bytes, Thumb)
+  * inline pool  0x021DF33C..0x021DF350   (2 words: 0x289, 0xFFFF)
+  * tail pool    0x021DF4E4..0x021DF4F0   (0x020A7370, 0x28A, 0x272)
+i.e. one function ending at the `pop {r3,r4,r5,r6,r7,pc}` 0x021DF4E0, with its
+literal pools.  `match.py one` compares 1352 bytes (0x548).  0x021DF4F0 onward
+(0x400, 0x00020001, ...) is unrelated static data.
+
+Note the listing is misleading past 0x021DF344: disasm.py lost sync at the
+inline pool and emitted the code 0x021DF350..0x021DF4E2 as `.word` runs.  The
+branch `bne 0x021DF350` at 0x021DF32E proves that run is code, and 0x021DF3A0
+branches back to 0x021DF330.  Capstone (Thumb) is the reliable disassembler
+here; the AGENT-BRIEF `show` output dumps the tail as raw bytes for the same
+reason.  So: do not trust the `.s` listing for this function's tail.
+
+2. The dependency tree
+----------------------
+The root makes 21 direct bl/blx calls; there are no indirect calls.  Coverage
+against every shard (nested game_unit members included) on entry:
+
+  already EXACT (attested `matched`):  020056EC, 020084F4, 02008530, 02008550,
+     02012944, 020173F0, 02017588, 02017E1C, 02017E40, 02017FA8, 0201808C,
+     020185C4, 020185F0, 020186C8, 02018A00, 0202F2AC, 020307B0, 02045808,
+     02045EC0
+  `label`-attested only:               02045A98 (16 callers image-wide)
+  NOT attested:                        020180F4
+
+So the tree has exactly two non-SDK callees to close bottom-up.  Both closed
+this lane:
+
+  src/matched/func_02045A98.c   EXACT  pkt_02045A98
+    16-byte ARM accessor: `ldr r0,=0x020A7E7C; ldrh r0,[r0]; bx lr`.
+    `u16 func_02045A98(void) { return *(volatile u16 *)0x020A7E7C; }`
+    The pool word attests sole-ref/data (0x020A7E7C is a mapped pool word with
+    99 referring sites, none inside this 16-byte range).
+
+  src/matched/func_020180F4.c   EXACT  pkt_020180F4
+    8-byte Thumb tail thunk to func_020180FC (itself already EXACT*):
+    `ldr r3,=func_020180FC; bx r3; .word 0x020180FD`.
+    It has no `func_` label (disasm.py sees the two halfwords as data), and the
+    `veneer` class is ARM-only, so the Thumb stub needs its own matched entry to
+    attest the root's `bl 0x020180F4`; `void func_020180F4(void){ func_020180FC(); }`
+    reproduces it byte-exactly.  This is the one callee the root could not
+    resolve on its own.
+
+3. The root: structure and current verdict
+------------------------------------------
+`python tools/match.py one --src src/pending/func_021DEFAC.c --func func_021DEFAC \
+     --addr 0x021DEFAC --cc 1.1p1 --thumb --region ov121`
+gives DIFF: compiled 1352 bytes (the correct size), 55 of 56 relocation sites
+resolved.  The one unresolved site is
+    +03EC ABS32 tbl_021DFB2C -> unresolved: 021DFB2C has no witness outside
+          021DEFAC..0x021DF4F4
+i.e. the 15-word Mon field-id table at 0x021DFB2C is named in the whole image
+only by the pool word at 0x021DF344, which lies INSIDE the compared range.  So
+even a byte-perfect body caps at MATCH, exactly the "CAPPED table" class in
+docs/families/poke_tool.h section 9.  (The table is the ids
+0x69,0x6A,0x6B,0x6C,0x33,0x34,0x2C,0x2F,0x30,0x31,0x32,0x66,0x67,0x68,0x2E,
+one per set bit of p->f0c.)
+
+The body (fully decoded, ~600 instructions) is the PokeTool summary builder:
+guard/count pass, then for p->fb3 == 1 it copies a source record's fields into
+a fresh Mon (func_020173F0 -> func_02017588), sets ~20 Mon fields through the
+func_02017E40/0x02017E1C accessor pair (ids 6, 9, 0xa, 0xc, 0x13..0x18, 0x4c,
+0x6f, 0x70, 0x73, 0x74, 0x77, 0x8e, 0x95, 0x96, 0x98, 0x99, 0x9a), draws it
+(func_020185F0 / func_0202F2AC / func_020185C4) and frees or returns it.
+p->fb3 cases 2 and 3 are short.  The 30-bit value rebuilt from six 5-bit
+fields of the source bytes at +0x43..+0x48 is the rendered id/trainer value.
+
+Where the WIP is stuck: the concrete residue is almost entirely STACK OFFSETS.
+Original frame 0x50 / `push {r3,r4,r5,r6,r7,lr}`; my compile gets 0x4c /
+`push {r4,r5,r6,r7,lr}`.  The original's scalar slots are
+   0x18 v18, 0x1c v1c, 0x20 v20, 0x24 v24, 0x28 v28, 0x2c v2c,
+   0x30 v30, 0x34 v34, 0x38 v38, 0x3c cnt, 0x40 buf[0x10]
+while mwcc assigns cnt to 0x18 and scatters the rest.  Declaration order over
+the range v18..v38/cnt/buf was tried in both directions (docs/idioms/
+local-declaration-order-is-stack-order.md) and did not move cnt: for this
+function mwcc's scalar stack assignment is NOT declaration order, so the exact
+source declaration grouping (and probably which values really get homes versus
+registers) still has to be recovered.  The init order the image wants is
+cnt=0, found=1, i=0, zero=0 after the two parameter homes.
+
+Next lane should start from src/pending/func_021DEFAC.c, fix the frame/stack
+map first (all the call sequences already line up), and expect MATCH at best
+because of the capped 0x021DFB2C table.
+
+4. Shards and gate
+------------------
+Written this lane (manifest --verify --shard ...):
+  layout/matched/arm9/pkt_02045A98.json   func_02045A98  EXACT
+  layout/matched/arm9/pkt_020180F4.json   func_020180F4  EXACT
+`manifest --check` reports only one duplicate, pre-existing and in another
+lane's overlay: func_021B98F0 in ov099 (pkt_021B95A0.json and
+pkt_ov099_021B98F0.json).  Not touched here.

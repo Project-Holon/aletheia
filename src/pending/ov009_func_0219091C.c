@@ -152,6 +152,33 @@
  * pass (its struct names/fields are not the real GPConnection / GPIOperation
  * / GPISearchData).  Do not trust it; replace it with a port of
  * gpiProcessSearch once the 0xb handler and the extra fields are recovered.
+ *
+ * LANE UPDATE (dependency-tree pass).  The second level below the direct
+ * callees was still open; eight GameSpy platform helpers of the DWC
+ * gscommon/gsplatform objects (also catalogued in layout/symbols_sdk.txt,
+ * but ordinary overlay functions here, so unfiled) are now EXACT:
+ *   func_0217D19C gsDebugVaList    184  debug lock plus level-table dispatch
+ *   func_0217ED64 GSISocketSelect  236  built over SOC_Poll, not select(2)
+ *   func_0217EE50 SetSockBlocking  180  EXACT*; follower 0x0217EF00 unlabelled
+ *   func_0217F730 nextlongrand      68  the 16807 16-bit-split LCG
+ *   func_0217F7AC Util_RandInt      36
+ *   func_0217F7D0 QuartToTrip       84
+ *   func_0217F8B4 B64Decode        476
+ *   func_0217FA90 B64Encode        312
+ * func_0217F774 longrand and func_0217F824 TripToQuart were already filed
+ * under pkt_02156B70, so they are referenced, not refiled.  The shard
+ * layout/matched/ov009/pkt_0219091C.json now holds 26 EXACT entries.
+ * func_0219329C is EXACT in its own pkt_0219329C shard (the atoi thunk was
+ * seeded), and the earlier func_0219359C DIFF line is stale: gpiReadKeyAndValue
+ * is EXACT.  The only non-SDK callees still parked are the two scheduling
+ * DIFFs func_021894D8 / func_02189780 (idiom documented).
+ *
+ * func_0219091C remains DIFF and oversized: 9460 bytes, ~2365 instructions,
+ * 310 call sites, 80 distinct pool references.  The public gpiProcessSearch
+ * (GamespySDK src/gp/gpisearch.c) is the base; the DWC fork differs by an
+ * eleventh type case 0xb at 0x0219129C reading GPIConnection+0x198/+0x1a0
+ * and GPISearchData+0x198/+0x19c, both confirmed from the disassembly.  A
+ * faithful full port is the only route and was not attempted to completion.
  */
 
 typedef unsigned char u8;

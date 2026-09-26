@@ -33,16 +33,35 @@
  * (first bytes diverge at the prologue). Reconstructing it needs the whole
  * body, not a prefix.
  *
- * Dependency-tree state (closing non-SDK callees, this lane):
- *   - All nine unlabelled ARM9 leaves the body marshals through are now
- *     EXACT shard entries in layout/matched/arm9/: 0x02015C30, 0x02015C48,
+ * Dependency-tree state (closed non-SDK callees, this lane, 2026-09-26):
+ *   - All nine unlabelled ARM9 leaves the body marshals through are EXACT
+ *     shard entries in layout/matched/arm9/: 0x02015C30, 0x02015C48,
  *     0x02015C94, 0x02015CAC, 0x02015E04, 0x02015E4C, 0x02015EA0,
  *     0x02015EB0 (pkt_02015Exx) and the storage pair 0x02051A2C/0x02051A24
- *     plus func_02051774 and func_020056BC. They now witness the body's
- *     calls via `matched` (declare them `thumb`/`arm` in symbols:).
+ *     plus func_02051774 and func_020056BC. They witness the body's calls
+ *     via `matched` (declare them `thumb`/`arm` in symbols:).
  *   - func_021D6E04 (this tree's caller) was promoted to EXACT against those
  *     leaves and lives at src/matched/ov118_func_021D6E04.c
  *     (pkt_ov118_021D6E04).
+ *   - NEWLY CLOSED this lane, each now an EXACT ov119 shard entry:
+ *       0x021D8AA8 (pkt_ov119_021D8AA8)   dense switch, returns 0/1
+ *       0x021DFA60 (pkt_ov119_021DFA60)   local Table copy + 25-way scan
+ *       0x021DFB4C (pkt_ov119_021DFB4C)   EXACT* (unaligned follower)
+ *       0x021DFB84 (pkt_ov119_021DFB84)   alloc + 021DFB4C ctor
+ *       0x021E36D8 (pkt_ov119_021E36D8)   slot teardown
+ *       0x021E71F0 / 0x021E7208 (pkt_021E71F0 / pkt_021E7208) promoted
+ *         EXACT once func_020056BC (thumb) was declared with the `matched`
+ *         class; they had been MATCH-capped on it.
+ *     They attest the root's calls by `matched`; declare them `thumb` (and
+ *     0x021E71F0/08 already carry the ov119 addresses in their own files).
+ *   - 0x021D6CC4 (ov118, 320 bytes) and 0x021DFC68 (ov119, 164 bytes) are
+ *     direct non-SDK callees that were decompiled and parked DIFF in
+ *     src/pending: both reproduce every byte except a header register
+ *     permutation (0x021D6CC4: 143 bytes, r4=offset/r6=temp vs the
+ *     compiler's r4=temp/r6=offset; 0x021DFC68: 8 bytes, r1 vs r2 for the
+ *     two counter locals). Both are labelled in their region, so the root's
+ *     calls to them still attest via `label`/`sole-ref/code` without their
+ *     own EXACT entries.
  *   - The one call target still without a witness is 0x02015F50 (thumb,
  *     unlabelled ARM9 leaf). It is NOT matchable with dsi/1.1p1: every
  *     spelling tried compiles with r5=offset / r4=temp where the original
@@ -53,10 +72,7 @@
  *     different compiler reproduces it. See docs/notes/func_02015F50.c.txt.
  *   - 0x021D8AA8, 0x021DFA60, 0x021DFB4C and 0x021E35A0 are labelled in both
  *     ov093 and ov119; from ov118 they attest via `label` only with an
- *     explicit `ov119` token on their symbols: line. Add it.
- *   - 0x021E71F0 / 0x021E7208 stay MATCH-capped on the ARM9 chain
- *     func_02030DA8 -> func_02030DC8 -> func_02030C44 (unlabelled, outside
- *     this packet; func_020056BC already filed).
+ *     explicit `ov119` token on their symbols: line.
  *
  * The real function is a generated event/demo state machine: 57 guards of
  * the form

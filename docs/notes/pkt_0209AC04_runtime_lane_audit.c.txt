@@ -1,0 +1,152 @@
+Audit of the runtime_arm9.txt lane 0x0209AC04..0x0209C0A4, 25 rows.
+Method: match.py show per row, then a real C probe at
+`--cc 1.1p1 --arm --region arm9 --flags=-O4,p` for every row not already
+proved non-C by a structural tell.  This is the middle third of the MSL
+soft-float/64-bit runtime block already characterised in
+docs/notes/pkt_0209AF34_soft_float_library.c.txt (0x0209AF34..0x0209BD38) and
+docs/notes/pkt_0209BDBC_runtime_library.c.txt (0x0209BDBC..0x0209CE10); most
+per-row tells below are those notes' tells, re-verified here, plus a
+per-row tell for _ll_mul and _ll_shl, which the BDBC note only listed.
+
+RESULT: 0 of the 25 rows is compiled C.  All 25 stand as hand-written
+assembly.  No row to remove from layout/runtime_arm9.txt.  The two closest
+calls, _ll_mul and _ll_shl, are genuine DIFFs (new evidence, below); every
+other row fails a structural test no C compiler can satisfy.
+
+PER-ADDRESS EVIDENCE
+--------------------
+0x0209AC04  _double_arith_prelude     STILL-RUNTIME
+  816 bytes, the head of the binary64 add/sub body.  Its interior
+  0x0209AC14 (`subs ip,r0,r2; sbcs lr,r1,r3`) is the target of __dadd_dsub's
+  cross-entry branch at 0x0209AF40 (`bmi #0x209ac14`), so entry and body are
+  shared and not separately compiled.  It also owns its 0x7ff00000 data word
+  at 0x0209AF18 inside the code extent.  mwccarm emits one section per
+  function and cannot branch into another entry's interior.  Same tell as the
+  soft-float note's 0x0209AF40.
+
+0x0209AF34  __dadd_dsub              STILL-RUNTIME
+  948 bytes, binary64 add/sub.  At 0x0209AF40 `bmi #0x209ac14`: backward
+  displacement branch to 0x0209AC14, interior to 0x0209AC04 and below this
+  entry's start.  Also `clz r4,r1` (0x0209B07C), inline `clz` with no
+  mwccarm intrinsic (probe below).  Two independent tells.
+
+0x0209B2E8  __dmul                   STILL-RUNTIME
+  1128 bytes.  `clz r6,r1` / `clz r6,r3` (0x0209B470/0x0209B504), `umull`
+  significand pairs, hidden-bit restore.  Its extent runs to 0x0209B750 and
+  its own 264-byte normalisation table 0x0209B648..0x0209B750 sits inside
+  that extent (disassembled as code starting `00 00 f0 7f` = 0x7ff00000):
+  compiled C puts rodata in .rodata, never inside one function's range.
+  Same tells as the soft-float note.
+
+0x0209B750  _s32_to_double           STILL-RUNTIME
+  64 bytes, signed int -> binary64.  `clz ip,r0` (0x0209B76C).  No C source
+  can produce an inline `clz`: a probe TU `int f(unsigned x){return
+  __builtin_clz(x);}` at the pinned flags emits a CALL with an unresolved
+  ABS32 relocation to `__builtin_clz`, not the instruction.  The note's
+  static bias 0x41E (mov #0x400; add #0x1e) confirms the format.
+
+0x0209B790  _u32_to_double           STILL-RUNTIME
+  60 bytes, unsigned int -> binary64.  `clz ip,r0` (0x0209B7A8).  Same
+  no-intrinsic proof.
+
+0x0209B7CC  __dcmp_1 (double compare) STILL-RUNTIME
+0x0209B864  __dcmp_2
+0x0209B8FC  __dcmp_3
+0x0209B9A0  __dcmp_4
+0x0209BA3C  __dcmp_5
+0x0209BAC8  __dcmp_6
+  140-232 bytes each.  Every one computes the ordering, writes the result
+  into APSR bit 29 (C) / bit 30 (V) with `mrs ip, apsr` / `bic`/`orr` /
+  `msr apsr_nzcvq, ip` and returns with the processor flags set for its
+  caller.  C has no construct that reads or writes APSR, and a C function
+  cannot return a value in the condition codes; this is a hand-assembly
+  calling convention.  All six open with the binary64 NaN test
+  `mov ip,#0x200000; cmn ip,r1,lsl #1; bhs`.
+
+0x0209BBB0  __fcmp_1 (float compare)  STILL-RUNTIME
+0x0209BC0C  __fcmp_2
+0x0209BC74  __fcmp_3
+0x0209BCD0  __fcmp_4
+  92-104 bytes each.  Same APSR-return tell (`mrs ip, apsr` / `msr
+  apsr_nzcvq, ip`), differing only in movgt/movle polarity.  All open with
+  the binary32 all-ones-exponent NaN test `mov r3,#0xff000000; cmp r3,r0,lsl
+  #1; cmphs r3,r1,lsl #1`.
+
+0x0209BD38  _f2d                    STILL-RUNTIME
+  132 bytes, binary32 -> binary64.  `clz ip,r3` (0x0209BD80) on the
+  subnormal path.  Same no-intrinsic proof.
+
+0x0209BDBC  _s32_to_float            STILL-RUNTIME
+  72 bytes, signed int -> binary32.  `clz r3,r0` (0x0209BDCC).  A probe C
+  using __builtin_clz compiles to a `bl __builtin_clz` (12 bytes vs the
+  original 72), confirming there is no clz idiom.
+
+0x0209BE04  _u32_to_float            STILL-RUNTIME
+  72 bytes, unsigned int -> binary32.  `clz ip,r0` (0x0209BE14).  Same.
+
+0x0209BE4C  _ll_divmod_entry_signed  STILL-RUNTIME
+  16 bytes.  `push {r4,r5,r6,r7,fp,ip,lr}` saves ip (r12), which compiled C
+  treats as intra-procedure scratch and never preserves, then sets r4 |= 1
+  and `b #0x209be6c` into the interior of 0x0209BE5C's body.  Cross-entry
+  fall/branch + non-ABI register save.
+
+0x0209BE5C  _ll_divmod_body          STILL-RUNTIME
+  432 bytes, 64-bit signed/unsigned divide-mod shared body.  Reached by
+  interior branches/falls from 0x0209BE4C, 0x0209C00C and 0x0209C018, and it
+  `bl #0x209c0a4` (_s32_div_f) on its fast path.  mwccarm emits one section
+  per function; it cannot have four entry points into one body.  Same tell
+  as the BDBC note's item 1.
+
+0x0209C00C  _ll_divmod_entry_flag0   STILL-RUNTIME
+  12 bytes.  `push {r4,r5,r6,r7,fp,ip,lr}` (saves ip) and `b #0x209c020`, a
+  fall into 0x0209C018's body interior.
+
+0x0209C018  _ll_divmod_entry_flag1   STILL-RUNTIME
+  60 bytes.  `push {...ip,lr}` (saves ip) and the shared body from
+  0x0209C020; `bl #0x209c2b8`.  Shared-entry tell.
+
+0x0209C054  _ll_mul                   STILL-RUNTIME (DIFF, new evidence)
+  32 code bytes.  Original:
+    push {r4,r5,lr}; umull r5,r4,r0,r2; mla r4,r0,r3,r4; mla r4,r2,r1,r4;
+    mov r1,r4; mov r0,r5; pop {r4,r5,lr}; bx lr
+  Probe `unsigned long long _ll_mul(unsigned long long a, unsigned long long
+  b){return a*b;}` at the pinned flags = DIFF: compiler emits 28 bytes
+    push {r3,lr}; umull lr,ip,r0,r2; mla ip,r0,r3,ip; mla ip,r1,r2,ip;
+    mov r0,lr; mov r1,ip; pop {r3,pc}
+  14 concrete bytes differ.  The tell is not the register choice alone: the
+  original computes into callee-saved r5/r4 and returns `pop {r4,r5,lr}; bx
+  lr`, whereas a compiled leaf returns `pop {r3,pc}`.  A leaf preserving lr
+  only to `bx lr` afterwards, and keeping its product in callee-saved
+  registers, is the hand-assembly shape; the two are not the same section
+  size (32 vs 28).  No C spelling reaches the `pop {...,lr}; bx lr` + r4/r5
+  allocation.
+
+0x0209C074  _ll_shl                   STILL-RUNTIME (DIFF, new evidence)
+  44 code bytes.  Original guards with `ands r2,r2,#0x3f; bxeq lr`, then
+  `subs r3,r2,#0x20; bge 0x209c098`, and the two arms end `bx lr` (no shared
+  tail).  Probe C implementing the same 64-bit shift over unsigned halves at
+  the pinned flags = DIFF: 52 compiled bytes vs 44, and the compiler uses the
+  conditional-instruction form (`ands r3,r2,#0x3f; cmp r3,#0x20; rsblt ...;
+  lsrlt ...; orrlt ...; lsllt ...; subge ...; lslge ...; movge ...`).  -O4,p
+  if-converts the arms and does not emit the branchy `subs`/`bge` structure
+  or the `ands`-flag early return.  Codegen difference; hand-tuned asm.
+
+0x0209C0A4  _s32_div_f                STILL-RUNTIME
+  524 bytes, 32-bit signed divide/mod, fan-in 549.  At 0x0209C110
+  `add pc, pc, r2, lsl #2` dispatches into a run of unrolled
+  `adcs r3,r1,r3,lsl #1 / sublo r3,r3,r1 / adcs r0,r0,r0` blocks (32
+  iterations).  A computed PC jump into unrolled shift/subtract blocks is not
+  C codegen (compilers use a literal-pool branch table, never `add pc,pc`),
+  and no C source spells the sign/rounding `rsblt`/`addlt ip,ip,#1` handling.
+  Same class as the adjacent note's _u32_div_not_0_f.
+
+CLZ PROOF (applies to every row marked _to_double/_to_float/_f2d)
+  `tools/mwccarm/mwccarm/dsi/1.1p1/mwccarm.exe ... -lang c99 -O4,p -c` on
+  `unsigned f(unsigned x){ return __builtin_clz(x); }` succeeds but produces
+  a CALL (`ldr ip,[pc]; bx ip` plus an ABS32 relocation to `__builtin_clz`),
+  i.e. the front end treats it as an ordinary extern, not an instruction
+  selection.  So an inline `clz` in the original cannot come from C.
+
+Scratch probes were not kept (both were DIFF, not MATCH); no src/ file was
+produced by this lane.
+re-verified 2026-09-26: 0/25 matched, 25/25 still-runtime

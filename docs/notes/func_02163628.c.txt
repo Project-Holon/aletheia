@@ -1,0 +1,133 @@
+function: func_02163628   (CPSi_sha1_block)
+address:  0x02163628
+region:   ov009
+isa:      arm
+verdict:  DIFF (parked; not EXACT/MATCH)
+packet:   pkt_02163628
+
+Identity
+--------
+0x02163628 is `CPSi_sha1_block` in
+  sdk/TwlWiFi_base/TwlWiFi/lib/ARM9-TS/Rom/libssl.TWL.HYB.a(sha1.o)
+(layout/symbols_sdk.txt).  Its neighbours in the same object are the schedule
+helper R at 0x02163558, char_from_long at 0x0216359C and long_from_char at
+0x021635E0 (the last is already EXACT as src/matched/ov009_func_021635E0.c,
+which proves the ROM obeys dsi/1.1p1 for this object -- sha1.o's own .comment
+is "Metrowerks C/C++ for ARM 4.0.0.1024").
+
+What reproduces exactly
+-----------------------
+The body is a SHA-1 compression function over a 16-word ring.  With the right
+shape every structural element lines up with the ROM: the prologue (push
+10 regs, sub sp,#0x50), `ldm/ldr` of ctx->state[0..4], the single
+long_from_char(w,m,64) call at +0x28, and all 19 R() calls.  The round split
+is:
+  rounds  0-14  loop of 3 x 5, blk0 (w[i]), K1=0x5a827999
+  round  15     w[15] direct, K1
+  rounds 16-19  4 x R(i&15,w), K1
+  rounds 20-39  loop of 4 x 5, R(i&15,w), K2=0x6ed9eba1
+  rounds 40-59  loop of 4 x 5, R(i&15,w), K3=0x8f1bbcdc
+  rounds 60-79  loop of 4 x 5, R(i&15,w), K4=0xca62c1d6
+and the final `state[k] += {a,b,c,d,e}`.  All 20 relocation sites resolve (19
+x sdk func_02163558, 1 x sdk func_021635E0).  F forms: F1=d^(b&(c^d)),
+F2=b^c^d, F3=majority, F4=b^c^d.
+
+The residue
+-----------
+Size is 8-24 bytes short depending on spelling (best 1644 vs 1652), and the
+1000+ concrete bytes that differ are pure register allocation:
+  * ROM: w -> r7, K -> r4 (loop-invariant across R calls), a..e ->
+    r5,r6,r10,r8,r9, i -> r0, scratch r4.  Frame 0x50 (w at sp+0x10, three
+    spill slots at sp+4/sp+8/sp+0xc for the three late loops' trip counters).
+  * any spelling I tried puts w -> r4, forces K into a scratch and reloads it
+    from the pool before each late round, and shrinks the frame to 0x44.
+`tools/permuter.py --explain`:
+    baseline DIFF asm=44090 bytes-out=1244 size=1628/1652
+    register substitutions r1->r2 x20, r2->r1 x16, r0->r1 x16, r3->r1 x14,
+    r3->r0 x11, r8->r7 x10, ... (general reshuffle, not one swapped pair)
+so permute/permuter will not reach it; this needs the original source text.
+
+Spellings tried (mismatch counts via match.py one) and why each is not it:
+  1. single `int i`, `for (i=0;i<15;i+=5)` + `for(;i<40;i+=5)` etc, macro R0..R4
+     with `w[i]` / `func_02163558((i)&0xf,w)`  -> 1644 bytes, 1256 out.
+  2. `int i,j` with `for (j=0;j<3;j++){...;i+=5;}` for round group A and
+     `for (j=0;j<4;j++)` for the late groups -> 1688 bytes: K reloaded from
+     pool in every late round because w took r4.
+  3. `int i,j` with j-loop only for A, `for(;i<...)` for the late groups
+     -> 1636 bytes, allocation shifted again.
+  4. a macro-free expansion of (1) (for permute.py) -> 1628 bytes.
+
+The lever this lane found (worth reusing)
+-----------------------------------------
+The original static library ships in the tree WITH DWARF:
+  sdk/TwlWiFi_base/TwlWiFi/lib/ARM9-TS/Rom/libssl.TWL.HYB.a
+An `ar` member `sha1.o` carries .debug_info/.debug_line whose local subprograms
+have real names, parameter/local names and decl lines, and whose decoded line
+table maps every ROM instruction back to its source line.  Extracting it:
+  objdump --dwarf=info          -> R(int t,u32 *w){u32 temp;}, char_from_long,
+                                   long_from_char, CPSi_sha1_block(a,b,c,d,e,i,j,w)
+  objdump --dwarf=decodedline   -> per-instruction source lines (this is how the
+                                   loop split above was recovered)
+  objdump --dwarf=frame, --dwarf=loc are empty for this object.
+The pointer types are u32/pointer-to-u8 (`m, long_from_char` etc), w is a
+u32[] array at fbreg 16.  The .o is built by the same 4.0.0.1024 front end, so
+this is a strong scaffold for any SDK-overlay function: names, arity, local
+count and the exact control-flow line map, without guessing.
+
+Best C so far (spelling 1) -- kept here, not in src/: it compiles clean and
+carries every call site, but its registers are wrong.
+
+----------------------------------------------------------------------------
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+extern u32 func_02163558(int t, u32 *w);
+extern void func_021635E0(u32 *d, const u8 *s, u32 len);
+
+typedef struct { u32 state[5]; } CPSSha1Ctx;
+
+#define ROL(x, n) (((x) << (n)) | ((x) >> (32 - (n))))
+#define F1(b, c, d) ((d) ^ ((b) & ((c) ^ (d))))
+#define F2(b, c, d) ((b) ^ (c) ^ (d))
+#define F3(b, c, d) (((b) & (c)) | ((b) & (d)) | ((c) & (d)))
+
+#define R0(a,b,c,d,e,i) { (e) += ROL((a),5) + F1((b),(c),(d)) + w[i]                 + 0x5a827999; (b) = ROL((b),30); }
+#define R1(a,b,c,d,e,i) { (e) += ROL((a),5) + F1((b),(c),(d)) + func_02163558((i)&0x0f,w) + 0x5a827999; (b) = ROL((b),30); }
+#define R2(a,b,c,d,e,i) { (e) += ROL((a),5) + F2((b),(c),(d)) + func_02163558((i)&0x0f,w) + 0x6ed9eba1; (b) = ROL((b),30); }
+#define R3(a,b,c,d,e,i) { (e) += ROL((a),5) + F3((b),(c),(d)) + func_02163558((i)&0x0f,w) + 0x8f1bbcdc; (b) = ROL((b),30); }
+#define R4(a,b,c,d,e,i) { (e) += ROL((a),5) + F2((b),(c),(d)) + func_02163558((i)&0x0f,w) + 0xca62c1d6; (b) = ROL((b),30); }
+
+void func_02163628(CPSSha1Ctx *ctx, u8 *m)
+{
+    u32 w[16];
+    u32 a, b, c, d, e;
+    int i;
+
+    a = ctx->state[0]; b = ctx->state[1]; c = ctx->state[2];
+    d = ctx->state[3]; e = ctx->state[4];
+    func_021635E0(w, m, 64);
+
+    for (i = 0; i < 15; i += 5) {
+        R0(a,b,c,d,e, i+0); R0(e,a,b,c,d, i+1); R0(d,e,a,b,c, i+2);
+        R0(c,d,e,a,b, i+3); R0(b,c,d,e,a, i+4);
+    }
+    R0(a,b,c,d,e, 15);
+    R1(e,a,b,c,d, 16); R1(d,e,a,b,c, 17);
+    R1(c,d,e,a,b, 18); R1(b,c,d,e,a, 19);
+    for (; i < 40; i += 5) {
+        R2(a,b,c,d,e, i+0); R2(e,a,b,c,d, i+1); R2(d,e,a,b,c, i+2);
+        R2(c,d,e,a,b, i+3); R2(b,c,d,e,a, i+4);
+    }
+    for (; i < 60; i += 5) {
+        R3(a,b,c,d,e, i+0); R3(e,a,b,c,d, i+1); R3(d,e,a,b,c, i+2);
+        R3(c,d,e,a,b, i+3); R3(b,c,d,e,a, i+4);
+    }
+    for (; i < 80; i += 5) {
+        R4(a,b,c,d,e, i+0); R4(e,a,b,c,d, i+1); R4(d,e,a,b,c, i+2);
+        R4(c,d,e,a,b, i+3); R4(b,c,d,e,a, i+4);
+    }
+
+    ctx->state[0] += a; ctx->state[1] += b; ctx->state[2] += c;
+    ctx->state[3] += d; ctx->state[4] += e;
+}
+----------------------------------------------------------------------------

@@ -1,0 +1,41 @@
+func_02167848 (0x02167848, ov010) -- DIFF near miss, register allocation
+======================================================================
+
+Blocked site: `bl 0x02167848` at +005C of func_0217FF78 (ov019).  The leaf is
+Thumb code in ov010 (ARM data in the overlapping ov009) and begins with
+`push {r4, r5}`, so ov010 is the correct region.  It copies five source words
+(a2+0, +4, +8, +0xC, +0x10) into a 0x1C-stride record at
+a0 + a1*0x1C (+0x14, +8, +0xC, +0x10, +0x18), with the first two words
+(+8,+0xC) emitted as one `ldm r5!`/`stm r4!` pair.
+
+Original:
+  0000 push {r4, r5}
+  0002 movs r3, #0x1c ; muls r3, r1, r3 ; adds r3, r0, r3   ; dst
+  0008 adds r5, r2, #4                                      ; src+4
+  000A adds r4, r3, #0
+  000C ldm r5!, {r0, r1}
+  000E adds r4, #8
+  0010 stm r4!, {r0, r1}
+  0012 ldr r0, [r5] ; str r0, [r4]        ; src+0xC -> dst+0x10
+  0016 ldrh r0, [r2, #0x10] ; strh r0, [r3, #0x18]
+  001A ldr r0, [r2] ; str r0, [r3, #0x14]
+  001E pop {r4, r5} ; bx lr
+
+Every attempt that reproduces the byte shape (`*(u64*)(dst+8) = *(u64*)(a2+4)`
+plus the three scalar stores, whether written with char* or u32* pointers,
+with an explicit `dst` local or fully inlined lvalues) emits the same sequence
+with different registers and evaluation order:
+
+  push {r3, r4}
+  adds r4, r2, #0                 ; source pointer computed FIRST
+  ... r0 = dst ...
+  ldm r1!, {r2, r3} ; adds r1, r0, #0 ; adds r1, #8 ; stm r1!, {r2, r3}
+  ...
+
+i.e. mwcc evaluates the 64-bit RHS address (a2+4) before the destination
+address, and allocates dst to r0/r1 instead of the original r3/r4.  The block
+copy itself, the strides and the store order are all correct; only the
+register/preaddress shape differs.  No source spelling tried so far flips the
+evaluation order or the chosen registers.  This is the sole remaining blocker
+for func_0217FF78 once func_021751DC is matched, so the file is left at MATCH
+with the blocker named rather than filed.

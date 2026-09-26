@@ -1,0 +1,76 @@
+/*
+ * function: func_0217FA90
+ * address:  0x0217FA90
+ * packet:   pkt_0219091C
+ * region:   ov009
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * B64Encode: GameSpy base64 encoder.  TripToQuart every 3 input bytes, then
+ * walk the output backwards mapping each 6-bit group to its character,
+ * padding the tail with encoding[2].  encodingType 1 selects the alternate
+ * table, 2 the URL-safe table, otherwise the default.
+ *
+ * symbols:
+ *   func_0217F824  0x0217F824  arm  ov009
+ *   g_021A19FC     0x021A19FC  data
+ *   g_021A19FF     0x021A19FF  data
+ *   g_021A1A02     0x021A1A02  data
+ */
+
+#define GSI_MIN(a, b) ((a) < (b) ? (a) : (b))
+
+extern void func_0217F824(const char *trip, char *quart, int inlen);
+extern char g_021A19FC[];
+extern char g_021A19FF[];
+extern char g_021A1A02[];
+
+void func_0217FA90(const char *input, char *output, int inlen, int encodingType)
+{
+    const char *encoding;
+    char *holdout = output;
+    char *lastchar;
+    int todo = inlen;
+
+    switch (encodingType) {
+    case 1:
+        encoding = g_021A1A02;
+        break;
+    case 2:
+        encoding = g_021A19FF;
+        break;
+    default:
+        encoding = g_021A19FC;
+    }
+
+    while (todo > 0) {
+        func_0217F824(input, output, GSI_MIN(todo, 3));
+        output += 4;
+        input += 3;
+        todo -= 3;
+    }
+    lastchar = output;
+    if (inlen % 3 == 1)
+        lastchar -= 2;
+    else if (inlen % 3 == 2)
+        lastchar -= 1;
+    *output = 0;
+    while (output > holdout) {
+        output--;
+        if (output >= lastchar)
+            *output = encoding[2];
+        else if (*output <= 25)
+            *output = (char)(*output + 65);
+        else if (*output <= 51)
+            *output = (char)(*output + 71);
+        else if (*output <= 61)
+            *output = (char)(*output + 48 - 52);
+        else if (*output == 62)
+            *output = encoding[0];
+        else if (*output == 63)
+            *output = encoding[1];
+    }
+}

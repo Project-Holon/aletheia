@@ -1,0 +1,108 @@
+func_0217AB78 @ 0x0217AB78, ov009, ARM, "big dependency tree" lane
+(0x0217AB78 = DWCi_Netcheck_Thread).
+
+VERDICT: no game-code match is appropriate.  The root is an SDK library
+function whose exact compiled object is already inside the tree; its
+non-SDK dependency tree is empty.  Nothing was promoted, parked or filed.
+
+WHAT THE ROOT IS
+----------------
+layout/symbols_sdk.json (and symbols_sdk.txt line 2078) name
+0x0217AB78 DWCi_Netcheck_Thread, TwlDWC/libdwcauth.TWL.HYB.a(dwc_netcheck.o),
+region ov009, size 3184 (0xC70), ISA arm, thumb=false.  That is exactly the
+listing extent match.py reports:
+
+    ov009 0217AB78..0217B7E8 (3184 bytes, ARM)
+
+so the "true extent" is not in question: 3184 bytes is the SDK size and the
+next label (func_0217B7E8 = DWCi_Netcheck_SetError) sits right after it.
+Code runs 0x0217AB78..0x0217B788 (0xC10 = 3088 bytes; last instruction
+`pop {r3,r4,r5,r6,r7,r8,sb,sl,fp,pc}` at 0x0217B784); 0x0217B788..0x0217B7E8
+(0x60 = 96 bytes) is the function's own literal pool (fifteen ARM words then
+a 36-byte .byte run holding the tail).  The body is ~772 instructions of a
+worker-thread state machine: 89 direct `bl` sites, 10 register-indirect
+`blx r5`/`blx r6`, a `switch` on the netcheck state field at [base+0x1020]
+(cases 2/3/8 and fall-back), and 18 literal-pool ABS32 words
+(DWCnetcheckhttpparam, DWCnetcheckauthparam, DWCauthhttpparam, OSi_ThreadInfo,
+errno, .bss/.data and eleven `@16828..@16838` section-local pool labels).
+
+The exact object is present in the checkout:
+
+    sdk/TwlDWC/lib/ARM9-TS/Rom/libdwcauth.TWL.HYB.a -> dwc_netcheck.o
+
+Verification (tools/gcc-arm readelf + a direct section read, no objcopy):
+section 50 of dwc_netcheck.o is DWCi_Netcheck_Thread, size 3184, and
+comparing it to the ROM bytes from `match.py show --region ov009` leaves 0
+concrete differences once the object's 107 relocation fields are skipped
+(all 107 are inside the function: 89 R_ARM_PC24 call sites + 18 R_ARM_ABS32
+pool words; 426 of the 428 span bytes are nonzero in ROM).  In other words
+the ROM body is the Rom-configuration library object verbatim.  (The Debug
+and Release objects do NOT match: Debug section 81 is 4900 bytes and Release
+section 79 is 3564 bytes; only ARM9-TS/Rom is 3184, produced by the project's
+pinned dsi/1.1p1 -O4,p.)
+
+This is the SDK/link-time-recognition case the wave-6 overlay SDK split now
+encodes (tools/ovstats.py sdk_addrs() reads the per-region addresses of
+layout/symbols_sdk.json): 0x0217AB78 is already region-ov009 SDK, excluded
+from the overlay game denominator and counted as SDK, so it is not game work
+at all -- the "open" status that made it a lane root is the pre-split reading.
+
+THE NON-SDK CALLEE TREE IS EMPTY
+--------------------------------
+All 26 distinct direct `bl` targets, classified against symbols_sdk.json,
+runtime_arm9.txt, the arm9 shards and the ov009 go/no-go windows:
+
+    21 SDK in ov009/arm9 (TwlDWC and TwlSDK):
+       DWC_Http_Create 0x0217956C, DWC_Http_Destroy 0x02179CF4,
+       DWC_Http_FinishHeader 0x0217967C, DWC_Http_StartThread 0x02179718,
+       DWC_Http_ParseResult 0x0217A484, DWC_Http_GetResult 0x0217A728,
+       DWC_Http_GetBase64DecodedResult 0x0217A77C,
+       DWC_Http_Add_PostBase64Item 0x02179F3C, DWC_Http_Add_Body 0x0217A044,
+       DWC_Auth_Create 0x02177EE8, DWC_Auth_Destroy 0x02178144,
+       DWC_Auth_Join 0x02178194, DWC_Auth_GetError 0x021781DC,
+       DWC_Auth_GetResult 0x02178224,
+       DWC_Auth_GetCalInfoFromNVRAM 0x02178F4C,
+       DWC_Auth_SetCalInfoToHttp 0x02179218,
+       DWCi_Netcheck_SetError 0x0217B7E8, DWCi_BM_GetWiFiInfo 0x02058518,
+       OS_JoinThread 0x02085710, OS_IsThreadTerminated 0x0208574C,
+       OS_Sleep 0x02085A38
+     5 MSL libc / libos helpers NOT in symbols_sdk.txt but each already an
+       EXACT arm9 shard entry (so each is a `matched` witness, not open):
+       OS_GetThreadPriority 0x02085A30  func_02085A30  pkt_02085A30  EXACT
+       atoi                  0x020964E0  func_020964E0  pkt_020964E0  EXACT
+       strcmp                0x020948E0  func_020948E0  pkt_02094750  EXACT
+       strlen                0x0209477C  func_0209477C  pkt_02094488  EXACT
+       strncpy               0x02094860  unit_02094860  pkt_02094798  EXACT
+
+The 10 `blx r5`/`blx r6` sites are the SDK heap pair (Debug DWARF names the
+locals `alloc` = r5 and `free` = r6; both pointers are loaded at run time from
+the DWC work object at [base+0x1108]/[base+0x110C]), not static symbols.
+
+There is therefore nothing to "close bottom-up": the only callees outside
+symbols_sdk.txt are the five libc helpers, and all five are already EXACT
+witnesses; every other callee is SDK-attestable, so no callee match is needed
+for the root's relocations either.
+
+WHY NO SOURCE FILE WAS WRITTEN
+------------------------------
+Matchable C would have to reproduce all 3088 code bytes of dwc_netcheck.c
+(the Debug DWARF puts the function at decl_file 444 = dwc_netcheck.c,
+decl_line 244, with locals httpretcode/httpretcodei/DWC_netcheck_wifiinfo/
+authresult/alloc/free/body302/bodywayport/retcode/url/url_len/data/data_len/
+wait/wait_len/wait_sec/calinfo).  That is SDK library code, ~770 instructions
+of Wi-Fi netcheck state machine, whose source is not in the tree (only the
+TwlDWC headers under sdk/TwlDWC/include and the archive are).  Hand-matching
+it would be a multi-session project for zero game coverage; the honest record
+is this note plus the recommendation below.
+
+RECOMMENDATION
+--------------
+Leave 0x0217AB78 as region-ov009 SDK, exactly as tools/ovstats.py already
+classifies it: the correct artifact is the already-present Rom library object
+dwc_netcheck.o, not reconstructed C.  This is the same situation the sibling
+lane hit at 0x0216D57C (ov009: DWCi_MatchProcess, docs/notes/func_0216D57C.c.txt)
+and wave 4 hit at 0x02170EA4 (ov010: the SDK leaf CRYPTOi__bn_sub_words) --
+recorded, not matched.
+
+Investigator: big-tree lane 0x0217AB78, 2026-09-26.  No src/ or layout file
+was touched.

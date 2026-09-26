@@ -12,14 +12,15 @@
  * Reconstructed from the listing.
  *
  * symbols:
- *   func_021C3F64  0x021C3F64  arm  ov217
- *   func_021C3F9C  0x021C3F9C  arm  ov217
+ *   d_021C3F64  0x021C3F64  data  ov217
+ *   d_021C3F9C  0x021C3F9C  data  ov217
  *
 
- * BLOCKED at MATCH: the relocation site(s) below have no independent witness.
- *   +000C ABS32 func_021C3F64          -> unresolved: 021C3F64 (arm, from header) has no witness outside 021C0AD8..021C0AF0; 10 overlays overlap this address (ov016, ov021, ov093, ov111, ov114, ov127, ov136, ov172, ov208, ov217), none resolvable without a region hint on the symbols: line
- *   +0010 ABS32 func_021C3F9C          -> unresolved: 021C3F9C (arm, from header) has no witness outside 021C0AD8..021C0AF0; 10 overlays overlap this address (ov016, ov021, ov093, ov111, ov114, ov127, ov136, ov172, ov208, ov217), none resolvable without a region hint on the symbols: line
- * Promote automatically when the target is matched.
+ * Still MATCH: d_021C3F64 resolves as sole-ref/data, but d_021C3F9C is
+ * contested -- another overlay in the window starts an object at 0x021C3F9C,
+ * so the ov217 hint alone cannot carry it, and the function loads no
+ * overlay_id site.  Needs a second witness for 0x021C3F9C (or the overlay
+ * contest broken); all 24 bytes and the other two sites reproduce.
  *
  * Addresses are Black-image addresses.
  */
@@ -32,10 +33,10 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern void func_0204A48C();
-extern void func_021C3F64();
-extern void func_021C3F9C();
+extern u8 d_021C3F64[];
+extern u8 d_021C3F9C[];
 void func_021C0AD8(u32 a0)
 {
-    func_0204A48C(func_021C3F64, func_021C3F9C, *(u16*)(((u8*)a0 + 0)));
+    func_0204A48C(d_021C3F64, d_021C3F9C, *(u16*)(((u8*)a0 + 0)));
 }
 

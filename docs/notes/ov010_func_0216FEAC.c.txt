@@ -1,0 +1,53 @@
+ov010 func_0216FEAC - near miss: a 0x30-iteration count loop with a second,
+entry-only guard the front end will not emit
+===============================================================================
+
+func_0216FEAC @ 0x0216FEAC (ov010; Thumb; body 0x0216FEAC..0x0216FED8, 42
+bytes, then a data tail to the lane's 2960-byte extent). One call, to
+func_0216FE2C @ 0x0216FE2C (labelled ov010), which resolves `label`; no other
+relocation.
+
+verdict: DIFF (best 46 bytes compiled vs 42, 33 concrete mismatches).
+
+Body:
+
+  0216FEAC  push {r3, r4, r5, r6, r7, lr}
+  0216FEAE  movs r5, #0              ; r5 = 0
+  0216FEB0  adds r6, r0, #0          ; a
+  0216FEB2  adds r7, r1, #0          ; b
+  0216FEB4  movs r4, #0              ; r4 = 0
+  0216FEB6  str  r2, [sp]            ; c
+  0216FEB8  cmp  r5, #0x30           ; ENTRY-only guard on r5
+  0216FEBA  bge  0x0216FED4
+  loop:                              ; 0x0216FEBC
+  0216FEBC  ldr  r3, [sp]
+  0216FEBE  adds r0, r6, #0
+  0216FEC0  adds r1, r4, #0          ; arg1 = r4
+  0216FEC2  adds r2, r7, #0
+  0216FEC4  bl   func_0216FE2C
+  0216FEC8  cmp  r0, #0
+  0216FECA  bne  0x0216FECE
+  0216FECC  adds r5, r5, #1          ; r5++ on success
+  0216FECE  adds r4, r4, #1          ; r4++ always
+  0216FED0  cmp  r4, #0x30
+  0216FED2  blt  loop                ; branches to the BODY, not the r5 guard
+  0216FED4  adds r0, r5, #0
+  0216FED6  pop  {r3, r4, r5, r6, r7, pc}
+
+So r4 is the index passed as arg1 and is the loop bound; r5 counts the probes
+that return zero and is the return value. The load-bearing oddity is the guard
+at 0x0216FEB8: it tests r5 (the success count, 0 on entry) and is reached only
+once, before the loop, while the per-iteration branch returns to 0x0216FEB8's
+next instruction. A plain
+
+    int n = 0, i;
+    for (i = 0; i < 0x30; i++)
+        if (func_0216FE2C(a, i, b, c) == 0) n++;
+
+compiles to 40 bytes with a single guard and does not produce it. Adding a
+second `n < 0x30` term (`&&`, either order, `for` or `while`) puts the second
+guard in the loop (46 bytes) but still not the entry-only shape. Tried the
+plausible spellings of the second condition and both declaration orders; none
+reaches 42 bytes. This is a front-end loop-rotation artefact, not a wrong
+reading of the body; a permuter run is the next thing to try, not another
+hand spelling. Nothing filed.

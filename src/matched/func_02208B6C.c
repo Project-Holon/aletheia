@@ -1,0 +1,55 @@
+/*
+ * function: func_02208B6C
+ * address:  0x02208B6C
+ * packet:   pkt_02208B6C
+ * region:   ov195
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * blocker resolved: 0x02047910 and 0x020478B8 were matched in arm9
+ *           (src/matched/func_02047910.c, src/matched/func_020478B8.c;
+ *           shards pkt_02047910 and pkt_020478B8), so their call sites now
+ *           attest as `matched`.  0x02048A18 already resolved via matched;
+ *           all 164 bytes are correct.
+ * symbols:
+ *   func_02048A18  0x02048A18  arm
+ *   func_02047910  0x02047910  arm
+ *   func_020478B8  0x020478B8  arm
+ */
+
+extern int func_02048A18(int a, int b);
+extern int func_02047910(int a, int b, int c);
+extern int func_020478B8(int a, int b, int c);
+
+void func_02208B6C(char *p)
+{
+    unsigned short i;
+    int j = 0;
+    int v2;
+
+    for (i = 0; i < *(unsigned short *)(p + 0x1c); i++) {
+        unsigned short v = *(unsigned short *)(*(int *)(p + 0x20) + i * 0x44);
+        int x = func_02048A18(*(int *)(p + 0x14), v);
+
+        func_02047910(x, j, 0x1000);
+    }
+    *(int *)(p + 0x24) = *(int *)(p + 0x24) + 1;
+    v2 = func_02048A18(*(int *)(p + 0x14),
+                       *(unsigned short *)(*(int *)(p + 0x20) +
+                                           *(unsigned short *)(p + 0x1a) * 0x44));
+    if (*(int *)(p + 0x28) == 1) {
+        int a = func_020478B8(v2, 1, 0x5000);
+        int b = func_020478B8(v2, 2, 0x5000);
+
+        if (a == 0 && b == 0)
+            *(int *)(p + 0x28) = 2;
+    } else if (*(int *)(p + 0x28) == 3) {
+        int a = func_020478B8(v2, 1, -0x2000);
+        int b = func_020478B8(v2, 2, -0x2000);
+
+        if (a == 0 && b == 0)
+            *(int *)(p + 0x28) = 0;
+    }
+}

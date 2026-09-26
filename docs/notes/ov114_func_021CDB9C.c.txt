@@ -1,0 +1,68 @@
+ov114 func_021CDB9C - near miss: a 64-bit-add-carry subtract whose register
+allocation the front end will not reproduce
+===============================================================================
+
+func_021CDB9C @ 0x021CDB9C (ov114; ARM; true body 0x021CDB9C..0x021CDBDC, 64
+bytes; the lane's 7620-byte extent is the data tail, which holds the URL
+strings "http://pkvldtprod.nintendo.co.jp/pokemon/validate" and "https://...").
+No callees, no relocations.
+
+verdict: DIFF (best 72 bytes compiled vs 64, 53 concrete mismatches).
+
+The body is a multi-word subtract with carry, spelled in the original as a
+64-bit add that keeps its high half as the borrow:
+
+  021CDB9C  push {r4, r5, r6, r7, lr}
+  021CDBA0  mov  r7, r0                ; dst
+  021CDBA4  subs r3, r3, #1            ; while (--n >= 0)
+  021CDBA8  mov  r0, #0                ; borrow = 0
+  021CDBAC  poplt {r4, r5, r6, r7, pc}
+  021CDBB0  mov  lr, #0                ; hoisted zero for the adc
+  loop:
+  021CDBB4  ldr  r5, [r2], #4          ; x = *b++
+  021CDBB8  ldr  r6, [r1], #4          ; y = *a++
+  021CDBBC  adds r5, r5, r0            ; (u32)((u64)x + borrow)
+  021CDBC0  adc  r0, lr, #0            ; borrow = high word
+  021CDBC4  subs r6, r6, r5            ; y - low
+  021CDBC8  movlo r0, #1               ; if (y < low) borrow = 1
+  021CDBCC  subs r3, r3, #1
+  021CDBD0  str  r6, [r7], #4
+  021CDBD4  bge  loop
+  021CDBD8  pop  {r4, r5, r6, r7, pc}
+
+The `adds`/`adc zero` pair is the 64-bit-add high-word tell, see
+docs/idioms/a-64-bit-add-high-word-is-adc-zero.md; the 32-bit form
+`borrow = (z < x)` compiles to cmp/movhi/movls instead.
+
+Closest source (72 bytes, 53 mismatches):
+
+    typedef unsigned int u32;
+    typedef unsigned long long u64;
+    u32 func_021CDB9C(u32 *dst, u32 *a, u32 *b, int n) {
+        u32 borrow = 0;
+        while (--n >= 0) {
+            u32 x = *b++;
+            u32 y = *a++;
+            u64 t = (u64)x + borrow;
+            borrow = (u32)(t >> 32);
+            *dst++ = y - (u32)t;
+            if (y < (u32)t) borrow = 1;
+        }
+        return borrow;
+    }
+
+That reproduces every instruction and even the hoisted zero register, but the
+front end colors it differently from the original:
+
+  original   dst -> r7, borrow -> r0, zero -> lr
+  compiled   dst -> r0, borrow -> r7, zero -> r4
+
+and, as a consequence, it shifts the result subtraction ahead of the `adc`
+(`add; sub; adc; cmp; movlo` instead of `adds; adc; subs; movlo`), and cannot
+use the inline `poplt`. Every spelling tried (u32 vs u64 borrow, result before
+or after the borrow update, a local copy of dst, named low/high temporaries,
+`int`/`u32` n, `while (--n >= 0)` vs `for (i = n - 1; i >= 0; i--)`, and a
+500-compile permuter hill climb) leaves the same allocation. The 32-bit
+`(z < x)` form does not compile to `adc` at all. This looks like a hand-written
+or differently-built routine; no C reproduces the 64 bytes with dsi/1.1p1
+-O4,p. Nothing filed.

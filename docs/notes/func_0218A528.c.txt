@@ -1,0 +1,66 @@
+func_0218A528 (0x0218A528, ov096, Thumb, 76-byte body) -- DIFF near miss
+=======================================================================
+
+The body is understood; only register allocation differs, and it is not yet
+reached.
+
+Image (from show --addr 0x0218A528 --region ov096 --size 0x60):
+
+    push {r3, r4, r5, lr}
+    ldr  r2, [pc, #0x44]      ; r2 = &g (g is at 0x0218A7C0, a pointer global)
+    adds r0, #0x45
+    ldr  r3, [r2]             ; r3 = g
+    ldrb r2, [r0]             ; r2 = a0[0x45]
+    movs r1, #0               ; i = 0
+  loop:
+    ldrb r0, [r3, r1]
+    cmp  r2, r0
+    bne  next
+    adds r2, r3, #4
+    ldrb r0, [r2, r1]
+    ldr  r4, [pc, #0x30]      ; r4 = &g (reload of the global's address)
+    subs r0, r0, #1
+    strb r0, [r2, r1]         ; g[4+i]--
+    ldr  r2, [r4]             ; g reloaded (the store may alias the global)
+    adds r0, r2, r1
+    ldrb r0, [r0, #4]
+    cmp  r0, #0
+    bne  done
+    movs r0, #0xff
+    strb r0, [r2, r1]         ; g[i] = 0xff
+    ldr  r0, [r4]             ; g reloaded again
+    lsls r5, r1, #2
+    adds r0, r0, r5
+    ldr  r0, [r0, #8]
+    blx  #0x20307b0
+    ldr  r0, [r4]
+    movs r1, #0
+    adds r0, r0, r5
+    str  r1, [r0, #8]
+    pop  {r3, r4, r5, pc}
+  next:
+    adds r1, r1, #1
+    cmp  r1, #4
+    blt  loop
+    pop  {r3, r4, r5, pc}
+
+Semantics: search the first four u8 entries of the global pointer `g` for
+`a0[0x45]`; on a hit decrement `g[4+i]` and, if it reaches zero, set
+`g[i] = 0xff`, call `func_020307B0(*(int *)(g + i*4 + 8))` and clear that
+word; then return. The `g` reload after the `strb` is the compiler being
+unable to prove the store does not alias the pointer global.
+
+C variants tried (all DIFF; the compiled body is structurally right but the
+register colouring is shifted):
+
+  * `u8 c = a0[0x45];` with `g_0218A7C0[i]`, `g_0218A7C0[4+i]` everywhere.
+  * `u8 *p = g_0218A7C0;` declared before `c`; `p[i]` in the test, `g` in body.
+  * `p` declared after `c`; `int`/`u8` width of `c`; reversed `c == g[i]`.
+
+Produced prologue in every case differs from the image: the compiler emits
+`adds r0, #0x45` first, then loads `&g` into r1 and `c` into r2/r3, and keeps
+`i` in r0; the image loads `&g` into r2, then `g` into r3, then `c` into r2,
+and keeps `i` in r1. No source spelling found that pins `i` to r1 while `r0`
+stays the test scratch. Same zero/alias allocation wall the ov010 frame lane
+documented, on a 76-byte body. Relocations both resolve (g_0218A7C0 via
+sole-ref/data, func_020307B0 via label), so only the allocation is open.

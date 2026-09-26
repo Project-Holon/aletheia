@@ -60,6 +60,5 @@
 0209BD38  _f2d                 MSL/runtime.a  arm9_main
 0209CE10  __fdiv               MSL/runtime.a  arm9_main
 0209D1E0  __ddiv               MSL/runtime.a  arm9_main
-0209D724  _runtime_null_stub   MSL/runtime.a  arm9_main
 #
 0209AC04  _double_arith_prelude                            MSL/runtime.a  arm9_main
