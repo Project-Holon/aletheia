@@ -1,0 +1,108 @@
+func_02157290 @ 0x02157290 (ov009, ARM, 256 bytes) -- DIFF, 16 bytes,
+one-slot scheduling rotation in the prologue.
+================================================================================
+
+Near miss, NOT filed.  Same size (256) as the original and the entire tail
+(the memset, the linked-list free loop, the 8-entry 0x38-stride handler loop,
+the tail call) matches byte for byte; only the first ten instructions of the
+function head are rotated by one slot.
+
+Original head:
+  push {r3,r4,r5,r6,r7,r8,sb,lr}
+  ldr  r1,[pc,#0xe4]          ; g_021A826C
+  ldr  r2,[pc,#0xe0]          ; g_021A826C (reload)
+  ldr  r1,[r1,#0x50]          ; prev
+  str  r0,[r2,#0x4c]          ; arg store here
+  cmp  r1,#0
+  mov  r1,#0
+  str  r1,[r2,#0x50]
+  str  r1,[r2,#0x10]
+  str  r1,[r2,#0x2c]
+  str  r1,[r2,#0x70]
+  str  r1,[r2,#0x74]
+  mov  r5,#0                    ; <-- materialised late
+  mov  r3,#1
+  moveq r3,r5
+  str  r1,[r2,#0x1c]
+  cmp  r3,#0
+  popeq {r3,r4,r5,r6,r7,r8,sb,pc}
+
+Compiled: the same instructions, but `mov r5,#0` is hoisted to +0x10 and the
+argument store `str r0,[r2,#0x4c]` is pushed down to +0x1c (everything between
+shifts by four bytes until the streams re-converge at +0x34).  The boolean
+`active = (g_021A826C->f50 != 0)` and its `mov r3,#1 / moveq r3,r5` are
+reproduced exactly; only where the zero for r5 is materialised differs.
+
+Tried (all DIFF, 16 bytes): `int prev = ...; if (prev == 0) return;` (loses the
+boolean, 240 bytes), `int active`, `u32 active`, `if (active == 0)`,
+`if (!active)`, declaring `active` before/after the stores, moving the argument
+store first, and a struct-typed base.  This is a pure -O4,p list-scheduling
+choice; see compute-a-stores-operands-before-the-store.md.
+
+The best C follows.  Verified with:
+  python tools/match.py one --src <file> --func func_02157290 \
+      --addr 0x02157290 --cc 1.1p1 --arm --region ov009 --flags=-O4,p
+
+symbols:
+  g_021A826C     0x021A826C  data
+  g_021A8384     0x021A8384  data
+  g_02150FEC     0x02150FEC  data
+  g_021A8A64     0x021A8A64  data
+  func_02082BCC  0x02082BCC  arm
+  func_02085868  0x02085868  arm
+  func_02162FA4  0x02162FA4  arm
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern char g_021A826C[];
+extern char g_021A8384[];
+extern char g_02150FEC[];
+extern char g_021A8A64[];
+extern void func_02082BCC(int dst, int value, int size);
+extern void func_02085868(int p);
+extern void func_02162FA4(void);
+
+void func_02157290(int a)
+{
+    int active = *(int *)(g_021A826C + 0x50) != 0;
+
+    *(int *)(g_021A826C + 0x4c) = a;
+    *(int *)(g_021A826C + 0x50) = 0;
+    *(int *)(g_021A826C + 0x10) = 0;
+    *(int *)(g_021A826C + 0x2c) = 0;
+    *(int *)(g_021A826C + 0x70) = 0;
+    *(int *)(g_021A826C + 0x74) = 0;
+    *(int *)(g_021A826C + 0x1c) = 0;
+    if (!active)
+        return;
+    func_02082BCC((int)g_021A8384, 0, 0x60);
+    {
+        char *p = *(char **)(g_02150FEC + 8);
+        while (p != 0) {
+            char *s = *(char **)(p + 0xa4);
+            if (s != 0 && *(int *)s != 0) {
+                if (*(u8 *)(s + 8) != 0xa && *(u8 *)(s + 8) != 0xb)
+                    *(u8 *)(s + 8) = 0;
+                if (*(int *)(s + 4) != 0) {
+                    *(int *)(s + 4) = 0;
+                    func_02085868(*(int *)s);
+                }
+            }
+            p = *(char **)(p + 0x68);
+        }
+    }
+    {
+        int i;
+        for (i = 0; i < 8; i++) {
+            char *e = g_021A8A64 + i * 0x38;
+            if (*(u16 *)(e + 4) != 0) {
+                void (*fn)(int) = *(void (**)(int))(g_021A826C + 0x44);
+                fn(*(int *)(e + 0x34));
+                *(u16 *)(e + 4) = 0;
+            }
+        }
+    }
+    func_02162FA4();
+}

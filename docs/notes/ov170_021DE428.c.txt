@@ -1,0 +1,100 @@
+func_021DE428 (ov170): 45/264 bytes wrong, register allocation only
+====================================================================
+
+Near miss, left in no shard.  This is not a source bug: the whole function
+compiles to the right sequence with the right sizes, and every differing byte
+is a register-name choice inside the second half's per-entry loop, plus one
+re-materialised constant.  The first 0x8A bytes (entry zeroing loop, the
+b==0xff / func_021DDE20 gate, the whole default path and its func_021DDEFC
+call) are byte-identical, and the two trailing entry writes match except for
+the same r1/r2 swap.
+
+The original loop body carries the 0x18-byte offset in r2 and the entry
+pointer in r1:
+
+    movs r0, #0x18
+    adds r2, r5, #0        ; r2 = j
+    muls r2, r0, r2        ; r2 = 0x18*j
+    adds r0, r5, #0
+    adds r0, #0x1e
+    lsls r0, r0, #0x10
+    lsrs r0, r0, #0x10
+    adds r1, r4, r2        ; r1 = entry
+    strh r0, [r4, r2]
+    adds r2, r5, #0
+    adds r2, #0x1d
+    strh r2, [r1, #2]
+    strh r0, [r1, #4]
+    movs r0, #1
+    strh r0, [r1, #6]
+
+The compiler insists on the mirrored allocation (offset in r1, pointer in r2),
+for every spelling tried: pointer local (`u8 *e = r4 + 0x18*j;`), direct
+repeated `r4 + 0x18*j` expressions (CSEd identically), a block-local
+`struct { u16 a,b,c,d; u16 z[8]; }` array, binding the `(u16)(j+0x1e)`
+temporary to a named local, and reordering the local declarations.  The one
+remaining extra instruction is at the end: the original keeps `1` in the
+callee-saved r5 across the `func_021DDFD4` call that writes the base entry and
+reuses it for the final r7-entry's `[r1,#6]`, while the compiler re-emits
+`movs r0,#1` after the call; that is the whole 2-byte size delta.
+
+Closest source (45 concrete bytes, dsi/1.1p1, -O4,p -thumb), for whoever picks
+this up:
+
+    void func_021DE428(u8 *p, u32 a, u32 b)
+    {
+        u8 *r4 = *(u8 **)(p + 0x2c);
+        u32 i, r7, j, base;
+        r4 = *(u8 **)(r4 + 0x60);
+
+        for (i = 0; i < 7; i++) {
+            u8 *e = r4 + 0x18 * i;
+            *(u16 *)(e + 0) = 0;
+            *(u16 *)(e + 2) = 0;
+            *(u16 *)(e + 4) = 0;
+            *(u16 *)(e + 6) = 0;
+        }
+
+        if (b == 0xff || func_021DDE20(p, a, b) == 0) {
+            *(u32 *)(r4 + 0xac) = 0xff;
+            *(u32 *)(r4 + 0xb0) = 0xff;
+            *(u16 *)(r4 + 0) = 0x24;
+            *(u16 *)(r4 + 2) = (u16)a;
+            *(u16 *)(r4 + 4) = (u16)a;
+            *(u16 *)(r4 + 6) = 1;
+            *(u16 *)(r4 + 0x18) = (u16)a;
+            *(u16 *)(r4 + 0x1a) = (u16)a;
+            *(u16 *)(r4 + 0x1c) = (u16)a;
+            *(u16 *)(r4 + 0x1e) = 1;
+            func_021DDEFC(p, r4);
+            return;
+        }
+
+        *(u32 *)(r4 + 0xac) = a;
+        *(u32 *)(r4 + 0xb0) = b;
+        r7 = func_0201AA18(*(u32 *)(*(u32 *)p + 8));
+        if (b < 0x1e) {
+            base = a - 0x1e;
+            for (j = base + 1; j < r7; j++) {
+                *(u16 *)(r4 + 0x18 * j + 0) = (u16)(j + 0x1e);
+                *(u16 *)(r4 + 0x18 * j + 2) = (u16)(j + 0x1d);
+                *(u16 *)(r4 + 0x18 * j + 4) = (u16)(j + 0x1e);
+                *(u16 *)(r4 + 0x18 * j + 6) = 1;
+                func_021DDFD4(p);
+            }
+            u8 *e = r4 + 0x18 * base;
+            *(u16 *)(e + 0) = 0x24;
+            *(u16 *)(e + 2) = (u16)b;
+            *(u16 *)(e + 4) = (u16)a;
+            *(u16 *)(e + 6) = 1;
+            func_021DDFD4(p);
+        }
+        u8 *e = r4 + 0x18 * r7;
+        *(u16 *)(e + 0) = (u16)b;
+        *(u16 *)(e + 2) = (u16)(r7 + 0x1d);
+        *(u16 *)(e + 4) = (u16)b;
+        *(u16 *)(e + 6) = 1;
+        func_021DDFD4(p);
+    }
+
+`j` must be unsigned (u32) or the loop comes out `blt` instead of `blo`.

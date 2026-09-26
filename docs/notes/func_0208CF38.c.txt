@@ -1,0 +1,10 @@
+0x0208CF38 is a mis-seeded label: the real function starts at 0x0208CF34
+(STD_TSScanf in layout/symbols_sdk.txt, filed in src/matched/func_0208CF34.c,
+already EXACT, packet pkt_02087AE4).  disasm.py labelled the SECOND push (the
+frame that saves lr) and skipped the four-word argument-home push at
+0x0208CF34, so the worklist seeded the row four bytes into the body.  The
+pending src/pending/func_0208CF38.c was therefore both mis-addressed and
+byte-wrong (its va_start spelling emitted no bic); it was removed.  No new
+manifest entry was made, since one at 0x0208CF34 would duplicate the existing
+entry.  See
+docs/idioms/a-varargs-function-is-seeded-four-bytes-late-and-va-start-masks-before-it-adds.md

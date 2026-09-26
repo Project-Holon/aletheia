@@ -9,6 +9,9 @@
  * isa:      arm
  * status:   DIFF
  *
+ * NOTE: `s32` was used but never typedef'd, so the file was CCERR ("illegal
+ * function definition"); added `typedef int s32;`.  Now DIFF.
+ *
  * NOT EXACT - 7 bytes differ. Two issues:
  *  1. CW allocates r1=addr, r2=val; original uses r2=addr, r1=val.
  *  2. CW if-converts the mode==1 arm to `orreq r1,r1,#0x2000 / strheq r1,[r2]`
@@ -23,6 +26,7 @@
 
 typedef unsigned int u32;
 typedef unsigned short u16;
+typedef int s32;
 
 extern u32 OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(u32 enable);

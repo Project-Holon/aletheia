@@ -1,0 +1,80 @@
+/*
+ * function: func_0220D090
+ * address:  0x0220D090
+ * packet:   pkt_0220D090
+ * region:   ov198
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+  * status:   EXACT
+ *
+ * symbols:
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_02045770 0x02045770 arm
+ *   func_0201C724 0x0201C724 thumb
+ *   func_02045808 0x02045808 arm
+ *   func_020457B0 0x020457B0 arm
+ *   func_0201EFA4 0x0201EFA4 thumb
+ *   func_0201F250 0x0201F250 thumb
+ *   func_0201D304 0x0201D304 thumb
+ *   func_02045738 0x02045738 arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef signed int     s32;
+typedef unsigned int   u32;
+
+extern void *func_02045EC0(void *a, u32 b);
+extern u32   func_02045770(void *a);
+extern void  func_0201C724(u32 a, u32 b, s16 c, u32 d, u32 e, u32 f, u16 g);
+extern void  func_02045808(void *a);
+extern u32   func_020457B0(u32 a, u32 b);
+extern void  func_0201EFA4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void  func_0201F250(void *a, u32 b, void *c);
+extern u32   func_0201D304(u32 a, u32 b, u32 c);
+extern u32   func_02045738(void *a);
+
+void func_0220D090(char *p, int a1, int a2)
+{
+    u32 handle;
+    void *t;
+    u16 w;
+
+    handle = *(u32 *)(p + 0x1f70 + a1 * 8);
+    if (a2 == 0) {
+        u32 f;
+
+        t = func_02045EC0(*(void **)(p + 0x1ea0), 0x3c);
+        w = func_0201D304((u32)t, *(u32 *)(*(u32 *)p + 0xc), 0);
+        w = (func_02045738((void *)handle) << 3) - w;
+        f = *(u32 *)(p + 0x1eac);
+        func_0201C724(f,
+                      func_02045770((void *)*(u32 *)(p + 0x1f70 + a1 * 8)), w, 0,
+                      (u32)t, *(u32 *)(*(u32 *)p + 0xc), 0x2120);
+        *(u8 *)(p + a1 * 8 + 0x1f74) = 1;
+        func_02045808(t);
+    } else {
+        void *t2;
+        u32 h;
+        u32 f;
+        u16 w0;
+        u16 w2;
+
+        t2 = func_02045EC0(*(void **)(p + 0x1ea0), 0x3e);
+        h = func_020457B0(8, *(u16 *)(*(u32 *)p + 0x10));
+        func_0201EFA4(*(void **)(p + 0x1ea4), 0, a2, 3, 0, 1);
+        func_0201F250(*(void **)(p + 0x1ea4), h, t2);
+        w0 = func_0201D304(h, *(u32 *)(*(u32 *)p + 0xc), 0);
+        w2 = (func_02045738((void *)handle) << 3) - w0;
+        f = *(u32 *)(p + 0x1eac);
+        func_0201C724(f,
+                      func_02045770((void *)*(u32 *)(p + 0x1f70 + a1 * 8)), w2, 0,
+                      h, *(u32 *)(*(u32 *)p + 0xc), 0x2120);
+        *(u8 *)(p + a1 * 8 + 0x1f74) = 1;
+        func_02045808(t2);
+        func_02045808((void *)h);
+    }
+}

@@ -39,3 +39,21 @@ register/preaddress shape differs.  No source spelling tried so far flips the
 evaluation order or the chosen registers.  This is the sole remaining blocker
 for func_0217FF78 once func_021751DC is matched, so the file is left at MATCH
 with the blocker named rather than filed.
+
+Wave-7 recursive-unblocker follow-up (still DIFF).  Fifteen more spellings all
+emit the identical wrong allocation, so the C shape is not the lever:
+  - int / u32 / void* base and src casts;
+  - u32* src with a2[0]/a2[3] and (char*)a2+4/*(u16*)+0x10;
+  - explicit `char *dst`, an `int off = a1*0x1C` local, `i8`/`u8`/unsigned
+    index, `a1*0x1C + a0` operand order, `Rec*` pointer arithmetic;
+  - a named `u64 v = *(u64*)(a2+4)` read before dst, and reading all four
+    source values into locals first;
+  - `Pair { u32 lo, hi; }` struct assignment for the 8-byte block;
+  - reversed scalar-store order.
+All produce `push {r3, r4} ; adds r4, r2, #0 ; movs r2, #0x1c ; muls r2, r1, r2
+; adds r0, r0, r2 ...`.  The allocator moves a2 from r2 to r4 and uses r2 for
+the 0x1c stride constant; the original keeps a2 in r2 (so r2 is not free) and
+puts the constant in r3, which becomes dst.  The region/ISA hint on
+func_0217FF78's `symbols:` line was corrected to `func_02167848 0x02167848
+thumb ov010` this wave; what remains needed is an EXACT ov010 entry (or a
+seeded function_starts.txt label), not a hint fix.

@@ -1,0 +1,122 @@
+Dependency-tree lane rooted at func_021FD1CC (ov094) - 2026-09-26
+=================================================================
+
+COMMAND AND THE EMPTY RESULT
+----------------------------
+The lane command was
+
+    python tools/lane.py --band 2048 100000 --overlays 48 95
+
+which prints `open overlay functions in [2048,100000): 0 candidate(s)`.  The
+two filters do not intersect: overlays 48..95 have no *open* function whose
+lane extent is >= 2048 bytes.  The only >=2048-byte labels in that window are
+already matched and therefore excluded by lane.py:
+
+    ov093  0x021EFCE4  15932  src/matched/ov093_func_021EFCE4.c   (EXACT)
+    ov094  0x02209CC4   4700  src/matched/func_02209CC4.c        (EXACT)
+    ov095  0x0689D5C8   4632  src/matched/func_0689D5C8.c        (EXACT)
+
+The two defensible readings of the command:
+
+  (a) keep the band, drop the region filter.  The largest non-`phantom?`,
+      non-SDK candidate in [2048,100000) is then ov009 0x021A3248 (lane
+      extent 20504).  Its *true* extent is 64 bytes: it is a stale `func_`
+      label the prologue sweep placed on the encrypted certificate/string
+      run that follows "...Thawte CA certs@thawte.com" and "VeriSign"; the
+      20504-byte lane extent merely runs to the next real label.  There is
+      no `bl`/`blx` in the 64 bytes and no outside branch to 0x021A3248
+      anywhere in the image, while a pool word at 0x021A2594 points *into*
+      it (0x021A3254), so it is not a function and no C can match it.  The
+      same 64-byte region-tail artefact also produces 0x021D88D6 (ov016),
+      0x021D4CE8 (ov117) and 0x021C842C (ov111).  This is the case lane.py's
+      `phantom?` flag is meant to catch but misses, because its body test
+      runs over the full bogus 20 kB extent and sees branches from other
+      code.
+
+  (b) keep the region filter, drop the band.  The largest non-`phantom?`,
+      non-SDK, genuinely-open function in overlays 48..95 is ov094
+      0x021FD1CC, lane extent 1792 bytes.  It is real code, referenced by
+      function-pointer pools (0x021FA454, 0x021FA880, 0x021FA984,
+      0x021FAB08, 0x021FAC90, 0x021FDF90 all hold 0x021FD1CD), and it has a
+      real tree of open game callees - so this is the one that matches the
+      lane's "close non-SDK callees bottom-up, match it" step.  This note
+      works reading (b).
+
+THE ROOT
+--------
+func_021FD1CC @ 0x021FD1CC, region ov094, Thumb, owner btlv_effvm.c
+(layout/file_anchors.txt: overlay_094 anchor 0x0220AE68).
+
+  true extent: 0x021FD1CC..0x021FD8CC = 1792 bytes (0x700).
+  The next label func_021FD8CC is real (push {r3,r4,r5,r6,r7,lr} at
+  0x021FD8CC), so there is no unlabelled-follower ambiguity here; the lane
+  extent is the true extent.  Body: 8 direct overlay-local calls (below)
+  plus ~34 ARM9 blx calls (mostly libmath VEC_/MTX_/FX_ and the DS
+  protocol helpers), an 0xc4 stack frame, two mirrored state-machine
+  blocks over the fields at +4 and +8, and a large coordinate-transform
+  block in the second half.
+
+DIRECT NON-SDK (OVERLAY-LOCAL) CALLEES - the bottom-up set
+----------------------------------------------------------
+Every one of these is a real ov094 entry, none was covered by a shard and
+none was in src/pending before this lane, so all eight are open:
+
+  address      size  status this lane
+  0x021FD070    24   EXACT  - int = b ^ bit0(*(func_02011324(a)))
+  0x021F8694    16   EXACT  - return *(int *)(*(void **)0x0220AF20 + 0x190)
+  0x021F8710    16   EXACT  - return *(int *)(*(void **)0x0220AF20 + 0x1bc)
+  0x021FD088   212   OPEN   - 14-case switch dispatching on
+                             *(u8 *)(ctx+0x248); writes an event id to *out
+  0x021FCF2C   288   OPEN
+  0x021FE1B8   156   OPEN   - VEC transform + 20.12 fixed-point repack
+  0x021FF3F4     8   VENEER - `ldr r3,[pc,#0]; bx r3; .word 0x022018A9`
+  0x021FF3FC    88   OPEN   - real Thumb function (show mis-decodes it as
+                             ARM because there is no .thumb_func marker):
+                             0x021FF3FC..0x021FF454, a small jump dispatch
+                             that copies a 12-byte record from a table at
+                             one of several pool bases.
+
+Bottom-up closure this pass:
+
+  * 0x021F8694 and 0x021F8710 are two copies of the same accessor over the
+    bss pointer at 0x0220AF20 (bss 0x0220AF20..0x0220AF40).  Both compile
+    EXACT with one `sole-ref` data relocation each.  Filed to
+    src/matched/func_021F8694.c and src/matched/func_021F8710.c.
+  * 0x021FD070 compiles EXACT once the `if (p->bit)` is written as a 1-bit
+    unsigned bitfield rather than `& 1` (the mask folds to `tst`; the
+    bitfield keeps the original `lsls #31 / lsrs #31 / beq`).  Filed to
+    src/matched/func_021FD070.c.
+  * Shard: layout/matched/ov094/pkt_021FD1CC.json (3 entries, all EXACT).
+  * The other five (0x021FD088, 0x021FCF2C, 0x021FE1B8, 0x021FF3FC, plus
+    the veneer) are left open; see "verdict".
+
+ARM9 CALLEES
+------------
+The root's blx targets are all in arm9 or the shared libs and are
+attestable as `sdk`/`label`; the ones present in layout/symbols_sdk.json
+include VEC_Normalize (0x0207CCA4, x5), VEC_DotProduct (0x0207CA68),
+VEC_CrossProduct (0x0207CAE8), VEC_Distance (0x0207CF3C), MTX_RotAxis43
+(0x0207B65C), MTX_MultVec43 (0x0207BC08), FX_AcosIdx (0x0207D184),
+ENV_SetResourceSet (0x020307B0), DWCi_MOV_WH_GetSystemState (0x02051774).
+0x02011324 (an arm9 leaf `return *(int *)(a0+0x20)`) shows as `label x21`.
+None of these needs a bottom-up match for the root's relocations.
+
+VERDICT
+-------
+No EXACT source was produced for the root.  The 1792-byte body is game
+code (not SDK), and it is coherent and matchable in principle, but it is
+well past the AGENT-BRIEF section 7 oversized threshold for a single
+lane, and the bottom-up set is not closed: five of the eight overlay-local
+callees are still open (two of them, 0x021FD088 and 0x021FCF2C, are
+200-300-byte switch bodies of their own).  What was filed is the three
+closed leaves above; the rest of the tree is mapped here so a follow-up
+lane can take the next one bottom-up without re-deriving it.
+
+Under reading (a) there is nothing to close at all: 0x021A3248 is a
+64-byte data run, has no callees, and no C will match it; the right action
+is to drop that stale label from the listing (layout/function_starts.txt
+and asm/ are the integrator's, so reported, not edited).
+
+Files touched: src/matched/func_021F8694.c, src/matched/func_021F8710.c,
+src/matched/func_021FD070.c, layout/matched/ov094/pkt_021FD1CC.json, this
+note.

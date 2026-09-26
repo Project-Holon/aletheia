@@ -1,0 +1,113 @@
+func_021689BC @ 0x021689BC (ov009, ARM, 280 bytes) -- DIFF, 10 bytes,
+register colouring on five instructions.
+================================================================================
+
+Near miss, NOT filed (a DIFF source never enters src/pending): the body is
+byte-identical except for the base register the first two field-store reloads
+use, plus one extra predicated compare.  This is the best of ~20 spellings
+tried (package: 0x021689BC, region ov009).
+
+Original head:
+
+  021689BC  push {r4, r5, r6, r7, r8, lr}
+  021689C0  ldr  r7, [pc, #0x108]        ; r7 = 0x021AA860
+  021689C4  ldr  r5, [sp, #0x18]         ; a4 (5th arg)
+  021689C8  str  r0, [r7, #0xc]          ; g->f0c = p
+  021689CC  mov  r4, #0
+  021689D0  str  r4, [r0]                ; p->f0 = 0
+  021689D4  ldr  r0, [r7, #0xc]
+  021689D8  cmp  r5, #0
+  021689DC  str  r1, [r0, #4]
+  021689E0  ldr  r0, [r7, #0xc]
+  021689E4  str  r4, [r0, #8]
+  021689E8  ldr  r0, [r7, #0xc]
+  021689EC  str  r4, [r0, #0xc]
+  021689F0  str  r4, [r0, #0x10]
+  021689F4  str  r5, [r0, #0x14]
+  ...
+  (then a reload before every remaining field store, the eight 0x38-stride
+   table is not here; the tail loops 0..a4-1 calling 0x020592A0)
+
+The whole body compiles to 280 bytes, same as the original, and every concrete
+byte matches except these five:
+
+  +0018  ORIGINAL ldr r0,[r7,#0xc]   | COMPILED ldr r6,[r7,#0xc]
+  +0020  ORIGINAL str r1,[r0,#4]     | COMPILED str r1,[r6,#4]
+  +0024  ORIGINAL ldr r0,[r7,#0xc]   | COMPILED ldr r1,[r7,#0xc]
+  +0028  ORIGINAL str r4,[r0,#8]     | COMPILED cmpgt r5,#0
+  +002C  ORIGINAL ldr r0,[r7,#0xc]   | COMPILED str r4,[r1,#8]
+
+Both residues are one register-allocation decision.  The winning spelling held
+the middle three field stores (0xc, 0x10, 0x14) through the ARGUMENT pointer p
+(`p->fc = 0; p->f10 = 0; p->f14 = a4;`), which is what makes the compiler share
+one base load across those three (all-`g->f0c` spellings reload before every
+store because `g->f0c` is memory and the stores may alias it).  But keeping p
+live forces the two earlier reloads into r6/r1 instead of r0, and the loop's
+entry test comes out as a predicated `cmpgt`.  Freeing r0 instead (assigning
+q = g->f0c also changed only register choices, not the reload sharing) loses the
+sharing.  No declaration-order, scope, self-assignment, do/while, while, `!=`
+bound or `if (a4 > 0) for` spelling changed either residue; see the residue
+classes a-no-code-self-assignment-reorders-the-register-colouring.md and
+a-store-between-arg-setup-and-the-call-names-the-second-argument.md.
+
+The winning C follows (status DIFF, 10 bytes).  Verified with:
+  python tools/match.py one --src <file> --func func_021689BC \
+      --addr 0x021689BC --cc 1.1p1 --arm --region ov009 --flags=-O4,p
+
+symbols:
+  g_021AA860     0x021AA860  data
+  func_020592A0  0x020592A0  arm
+
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+struct P {
+    u32 f0; u32 f4; u32 f8; u32 fc; u32 f10; u32 f14; u32 f18;
+    u8 f1c, f1d, f1e, f1f;
+    u32 f20; u32 f24; u32 f28; u32 f2c; u32 f30; u32 f34; u32 f38;
+    u32 f3c; u32 f40; u32 f44; u32 f48; u32 f4c; u32 f50; u32 f54;
+    u32 f58; u32 f5c;
+};
+
+struct G { char p0[0xc]; struct P *f0c; };
+
+extern struct G g_021AA860;
+extern void func_020592A0(void *a, int b);
+
+void func_021689BC(struct P *p, int a1, int a2, int a3, int a4)
+{
+    int i;
+
+    g_021AA860.f0c = p;
+    p->f0 = 0;
+    g_021AA860.f0c->f4 = a1;
+    g_021AA860.f0c->f8 = 0;
+    p->fc = 0;
+    p->f10 = 0;
+    p->f14 = a4;
+    g_021AA860.f0c->f18 = a3;
+    g_021AA860.f0c->f1c = 0;
+    g_021AA860.f0c->f1d = 0;
+    g_021AA860.f0c->f1e = 0;
+    g_021AA860.f0c->f1f = 0;
+    g_021AA860.f0c->f20 = 0;
+    g_021AA860.f0c->f24 = 0;
+    g_021AA860.f0c->f28 = a2;
+    g_021AA860.f0c->f2c = 0;
+    g_021AA860.f0c->f30 = 0;
+    g_021AA860.f0c->f34 = 0;
+    g_021AA860.f0c->f38 = 0;
+    g_021AA860.f0c->f3c = 0;
+    g_021AA860.f0c->f40 = 0;
+    g_021AA860.f0c->f44 = 0;
+    g_021AA860.f0c->f48 = 0;
+    g_021AA860.f0c->f4c = 0;
+    g_021AA860.f0c->f50 = 0;
+    g_021AA860.f0c->f54 = 0;
+    g_021AA860.f0c->f58 = 0;
+    g_021AA860.f0c->f5c = 0;
+    if (a4 <= 0)
+        return;
+    for (i = 0; i < a4; i++)
+        func_020592A0((char *)g_021AA860.f0c->f18 + i * 0xc, 0);
+}

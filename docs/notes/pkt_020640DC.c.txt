@@ -187,3 +187,10 @@ void func_02064120(volatile struct Srt02064120 *p, s32 scaleX, s32 scaleY)
     p->scaleY = scaleY;
 }
 re-verified 2026-09-21 by tools/match.py: DIFF, 32 bytes against 32, 19 concrete bytes out, 1.1p1
+
+resolved 2026-09-26: func_02064120 is unreachable at -O4,p (the predication
+threshold above), but it is already EXACT at -O1 as one section of
+src/matched/unit_020640DC.c (packet pkt_020640DC, `tu` re-verified this run:
+100 bytes, 0 relocations).  The stale src/pending/func_02064120.c DIFF row was
+removed; no new manifest entry was made, since one at 0x02064120 would
+duplicate the unit's entry.

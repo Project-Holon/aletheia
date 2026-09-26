@@ -1,0 +1,94 @@
+Lane note: dependency tree rooted at func_022040E0 (ov195)
+=========================================================
+2026-09-26.  Root: 0x022040E0, region ov195, Thumb.
+Enumerator: `python tools/lane.py --band 2048 100000 --overlays 192 210`
+reported two open candidates, ov195 0x022040E0 (2770) and ov195 0x02207868
+(2340).  Neither is `phantom?` and neither is in layout/symbols_sdk.json (no
+SDK symbol overlaps either address in any overlapping overlay), so the largest,
+func_022040E0, is the lane root.
+
+1. The true extent -- 2770 is a split-label cut, not the function
+-----------------------------------------------------------------
+`match.py show --addr 0x022040E0 --region ov195` reports
+0x022040E0..0x02204BB2 (2770 bytes) because the next `func_` label is
+func_02204BB2.  That label is not a real function start: func_02204BB2
+(0x02204BB2) has NO prologue, does not save lr, and operates on r4/r5/r6 set by
+the root -- it is the root's shared tail reached by both `bl` and `b` from the
+body.  The root's real code therefore runs to the `pop {r4,r5,r6,r7,pc}` at
+0x02204BB0 and on through the 0x02204BB2 body to the `pop` at 0x02204BB2+0x64
+= 0x02204C16; func_02204C24 (0x02204C24, `push {r3,r4,r5,r6,r7,lr}`) is the
+first genuine follower.  Real extent ~0x022040E0..0x02204C16 (~2870 bytes,
+~1000 Thumb instructions), plus its pools.  The listing is also unreliable past
+0x02204112: disasm.py lost sync at the PC halfword switch table and emitted the
+case bodies as `.word` runs; `show`/capstone decodes them correctly.
+
+2. What the root is
+--------------------
+A `switch` state machine dispatched on `[obj+0x28]` through a PC-relative
+halfword table at 0x02204112 (0x2d+ cases, guard `bls` -> tail).  The object
+is the ov195 field/scene object; the root reads the ARM9 frame tick
+(blx 0x02031330) and drives load/enter/update/exit states, calling the scene
+object accessors and the ARM9 alloc/timer/render helpers.  106 `bl`/`blx`
+sites, 74 distinct targets, no register-indirect calls, no `__FILE__` sites
+notable.  The state word at +0x28 and the shared tail make it one function.
+
+3. The dependency tree (direct callees, classified on entry)
+------------------------------------------------------------
+ARM9 (non-SDK), 28 targets -- all already `matched` (EXACT) except one:
+  020061E4 0200873C 02008DF0 0200CA1C 0200CDE0 0200CFA0 02012EBC 02012F2C
+  020178D8 02017E1C 02018328 0201AA18 02021518 0202155C 02021EE4 020272A4
+  02030734 02030CB0 02030CBC 02031330 02031348 02034A5C 02034AC4 020355C4
+  020355D8 020362DC 0203D34C 0204E720                    (EXACT)
+  0204E804   ARM9 boolean accessor `g_02146A7C->f0 != 0`  -> CLOSED this lane
+SDK: 02082BCC  MI_CpuFill8 (layout/symbols_sdk.json, arm9).
+Overlay-window-ambiguous 0x021B70xx/0x021B76xx (ov016/021/067/070/071/091/
+  093/101/... windows all hold them): 021B709C OPEN, 021B70F4 OPEN,
+  021B72DC EXACT, 021B76B0 OPEN.
+ov195 game callees, already matched on entry:
+  02204F00 02204F24 02204FF8 02205A84 02208814            (EXACT)
+  022053E8                                                (MATCH, pending)
+ov195 game callees, OPEN on entry (the tree to close bottom-up):
+  02204B66 02204C24(312B) 02204D5C(104B) 02204EA0 02204ED0(48B)
+  02204EF0 02204F40(56B) 02204F68 02204FA0(52B) 02204FC4 02204FD4(36B)
+  02205138(48B) 02205168(64B) 02205384(100B) 0220546C(48B) 022054E8(72B)
+  022055BC(100B) 022056E8(364B) 02205844 02206078(36B)
+  and the ten unlabelled leaf accessors at 0x02206044/4C/50/58/5C/64/6C/70/74
+  and the 0x0220882C/44/50/60 cluster (all called by the root).
+
+Closed bottom-up this lane (all EXACT/EXACT*, verified with `match.py one
+--thumb --region ov195 --flags=-O4,p` and filed):
+  the 0x022060xx leaf accessors (getters/setters of the +0x1c/+0x24/+0x20/
+  +0x28/+0x2c/+0x30/+0x34/+0x38/+0x3c words) and the 0x022088xx cluster
+  (0x0220882C/44/50/60), plus the ARM9 accessor func_0204E804.  See the shard
+  layout/matched/ov195/pkt_ov195_022040E0.json and arm9/pkt_0204E804.json.
+
+4. The root: verdict and why no C was written
+---------------------------------------------
+VERDICT: report-only.  There is no recoverable source in the tree, and the
+root is not a candidate for a C rewrite at this project's scale.  The body is
+~1000 instructions of a 0x2d-case load/enter/update/exit state machine over a
+large scene object whose field map is only partially recovered (the +0x00..
++0xf4 block is touched directly, plus a PC halfword switch table).  The
+project's largest matched bodies are a few hundred bytes (the 2026-09-21
+report-only note puts the max matched body at ~604 B); the two big dependency
+trees that did close EXACT were 124-137 lines of C, and the largest root ever
+attempted (ov121 func_021DEFAC, 1334 code bytes, ~600 instructions) still came
+out DIFF on stack layout.  A 2870-byte state machine is 2x that root and 4-5x
+any matched body.  Spending the budget transcribing it would be a multi-session
+project for zero closed coverage; the honest record is this note.
+
+Attestation is not the blocker for the callees: every unresolved pool site
+inside the closed leaves resolves against `literal`/`matched` witnesses outside
+the range.  The blocker is magnitude plus the unrecovered scene-object layout.
+
+5. Shards and gate
+------------------
+Written this lane:
+  layout/matched/ov195/pkt_ov195_022040E0.json   13 entries, all EXACT/EXACT*
+  layout/matched/arm9/pkt_0204E804.json          1 entry EXACT
+`manifest --check` was run after filing.  Nothing under tools/, docs/MATCHING.md,
+docs/PARALLEL.md, layout/worklist.json or asm/ was touched.
+
+Note: src/matched/ov195_func_02208814.c already existed (packet pkt_02208814,
+EXACT); it is NOT part of this lane and was left as committed.  It is listed
+above only as an already-matched witness on entry.

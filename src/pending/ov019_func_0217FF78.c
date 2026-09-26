@@ -17,7 +17,7 @@
  *   func_021751DC   0x021751DC  thumb  ov012
  *   func_021677E4   0x021677E4  thumb
  *   func_021675D0   0x021675D0  thumb
- *   func_02167848   0x02167848  thumb
+ *   func_02167848   0x02167848  thumb  ov010
  *
  * Up to four entries of the table based at p+0x18 (stride 0x2c), dispatching
  * each through one of two handlers.  Addresses are Black-image addresses.
@@ -25,12 +25,16 @@
  * blocker: one of two call sites now resolved. 0x021751DC was matched in
  * ov012 (the only overlay with a function start there; see
  * src/matched/ov012_func_021751DC.c) and attests the +0024 site as `matched`.
- * 0x02167848 (windows ov009/ov010) is still unresolved: no func_ label in any
- * overlay (target_extent is None), so `label`/`sole-ref/code` cannot fire and
- * the only reference is the call inside this range. Matching it caps at DIFF
- * on register allocation (see docs/notes/pkt_ov019_0217FF78.c.txt); a region
- * hint cannot resolve an unlabelled leaf, so it needs the integrator to seed
- * it into function_starts.txt or a corrected C.
+ * 0x02167848 is still unresolved.  The region/ISA hint is now correct
+ * (`thumb ov010`: Thumb code, ov010; ov009 holds ARM data at the address), so
+ * ambiguity is gone, but no func_ label exists in any overlay
+ * (target_extent is None): `label`/`sole-ref/code` cannot fire, and the only
+ * reference image-wide is the call inside this range, so it needs an EXACT
+ * ov010 entry.  The leaf itself caps at DIFF on register allocation because
+ * mwcc copies a2 into r4 and uses r2 for the 0x1c stride constant, where the
+ * original keeps a2 in r2 and the constant in r3 (see
+ * docs/notes/ov019_func_0217FF78.c.txt); a region hint cannot resolve an
+ * unlabelled leaf.
  */
 
 typedef unsigned int u32;

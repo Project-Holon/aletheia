@@ -53,23 +53,6 @@
    }
   },
   {
-   "name": "OS_SPrintf",
-   "address": "0x0208CF34",
-   "kind": "game",
-   "region": "arm9",
-   "source": "src/matched/func_0208CF34.c",
-   "compiler": "dsi/1.1p1",
-   "lang": "c99",
-   "isa": "arm",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sdk": [
-     "0x0208CFD8"
-    ]
-   }
-  },
-  {
    "name": "STD_TSPrintf",
    "address": "0x0208D7E0",
    "kind": "game",

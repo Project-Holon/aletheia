@@ -14,7 +14,12 @@
  * nested loop compares r2 with r0 and the table load is [r4+4*idx]); mwcc
  * here keeps `a` in r0 and `e` in r1 and puts f[1] in r4.  No relocations
  * are involved, so a matching C shape would be EXACT; the several source
- * shapes tried (int/unsigned, char*/unsigned*, subscript vs pointer) all
+ * NOTE: this header used to spell a pointer-star immediately followed by a
+ * slash in the "shapes tried" line, which closed the comment early and made
+ * the file unverifiable (CCERR at the line after); the wording was split.
+ *
+ * shapes tried (int/unsigned, char-pointer/unsigned-pointer, subscript vs
+ * pointer) all
  * land on the same allocation.  Zero external evidence issue.
  */
 

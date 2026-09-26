@@ -1,0 +1,78 @@
+func_021C2E20 @ 0x021C2E20, ov217, Thumb -- "dependency tree" lane
+(ov211-236, band [2048,100000))
+
+VERDICT: already EXACT.  The lane's only in-band candidate is a region-tail
+artefact; its true extent is 16 bytes, its non-SDK dependency tree is empty,
+and the work was filed in wave 5 (commit 99ed6948, shard pkt_021C2E20).
+Nothing was promoted, parked or filed by this lane.
+
+THE COMMAND
+-----------
+    python tools/lane.py --band 2048 100000 --overlays 211 236
+reports 0 open candidates in this checkout.  The reason is the artefact:
+across ov211..ov236 exactly one label has a lane extent >= 2048 -- ov217's
+last label func_021C2E20, whose size lane.py takes to the region end:
+
+    ov217 span 0x021B95A0..0x021C40A0, so 0x021C40A0 - 0x021C2E20 = 0x1280
+    = 4736 bytes.
+
+lane.py skips it because (ov217, 0x021C2E20) is already covered by
+layout/matched/ov217/pkt_021C2E20.json.
+
+TRUE EXTENT
+-----------
+asm/overlays/ov217.s:24516 has func_021C2E20 as the last label of the
+region, so the 4736-byte lane extent is the whole static-data tail, not the
+function.  `match.py show` reports 0x021C2E20..0x021C2E60 (64 bytes) only
+because an overlapping overlay labels 0x021C2E60 (ov114 loc_021C2E60,
+ov208 code at 0x021C2E60) and cuts the extent.  Bytes from 0x021C2E30 on
+are pool/static data: 0x021C2E30, 0x021C2E40, 0x021C2E60 and 0x021C2E80 are
+referenced from the table at 0x021B98FC (ov217.s lines 590-596).
+
+The real function is 8 Thumb instructions / 16 bytes:
+
+    021C2E20  10 b5        push {r4, lr}
+    021C2E22  04 1c        adds r4, r0, #0
+    021C2E24  e0 68        ldr  r0, [r4, #0xc]
+    021C2E26  6d f6 c4 ec  blx  0x020307B0
+    021C2E2A  00 20        movs r0, #0
+    021C2E2C  60 60        str  r0, [r4, #4]
+    021C2E2E  10 bd        pop  {r4, pc}
+
+`match.py one` compiles 16 bytes.
+
+THE TREE
+--------
+Root:    func_021C2E20 (game, Thumb, 16 bytes)
+Callees (1, already EXACT):
+    0x020307B0  sub_020307B0  arm  -- release counterpart of sub_02030734 in
+                the arm9 heap layer, EXACT in layout/matched/arm9/
+                pkt_02030608.json.  The root's C spells it ENV_SetResourceSet,
+                the weak SDK symbol of layout/symbols_sdk.json
+                (TwlSDK/libenv.TWL.HYB.a env_system.o) that this matched game
+                function overrules.
+
+There are no open or non-SDK callees, so there is nothing to close
+bottom-up and no file to write: the one relocation is a `label` site with
+302 witnesses image-wide, and the target is already an EXACT witness.
+
+VERDICT
+-------
+    tools/match.py one --src src/matched/func_021C2E20.c --func func_021C2E20
+        --addr 0x021C2E20 --cc dsi/1.1p1 --thumb --region ov217 --flags=-O4,p
+      -> EXACT, 16 of 16 bytes, 1 of 1 relocation resolved
+    tools/match.py manifest --verify --shard pkt_021C2E20
+      -> 1 shard, 1 entry, 0 rewritten: ov217/func_021C2E20 EXACT
+
+OPEN NEIGHBOURS (for the next lane, same region set, no band)
+-------------------------------------------------------------
+The largest genuinely-open candidates in ov211..ov236 are:
+    0x02188CB0  ov230  1944 lane / 12-byte ARM sinit decryptor thunk + table, not C
+    0x02183D14  ov219  1884 lane / Thumb game code
+    0x021B9834  ov214  1668 lane / Thumb game code
+    0x02188408  ov230  1448 lane / ARM sinit decryptor thunk + table, not C
+    0x021BA2B4  ov223  1384 lane / Thumb game code
+    0x02189448  ov230  1216 lane / ARM sinit decryptor thunk + table, not C
+
+Investigator: dependency-tree lane ov211-236, 2026-09-26.  No src/ or layout
+file was touched.

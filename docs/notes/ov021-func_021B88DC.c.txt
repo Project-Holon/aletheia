@@ -1,0 +1,95 @@
+Dependency-tree lane: root func_021B88DC (ov021)
+================================================
+2026-09-26. Root 0x021B88DC, region ov021, Thumb, size 2184 (0x888).
+Investigator: dependency-tree lane, `python tools/lane.py --band 2048 100000
+--overlays 0 47`.
+
+Candidates rejected before this tree (all reported with a phantom `func_`
+label by lane.py, none a real trailable function):
+
+  0x021A3248 ov009 20504  phantom: leaf `func_` label on the overlay's
+        rodata (the "VeriSign ..." certificate string). Zero bl/blx and zero
+        `.word 0x021A3248` image-wide. Documented in
+        docs/idioms/a-data-word-that-looks-like-a-saved-lr-prologue-becomes-a-phantom-function.md.
+        NOT flagged by lane.py only because its phantom test also matches the
+        `blo` mnemonic as if it were `bl` (tools/lane.py RE_BR `\b(bl|blx)\b`).
+  0x021D88D6 ov016 14186  phantom: first word `2f b5` decodes as
+        `push {r0,r1,r2,r3,r5,lr}`, body is a `.byte` blob; zero refs.
+  0x02170EA4 ov010  7420  phantom: ov010 pointer-table data; in overlapping
+        ov009 it is interior to SDK DWCi_ProcessRecvMatchCommand. Documented
+        in docs/idioms/a-phantom-in-the-named-overlay-can-be-sdk-code-in-the-overlapping-one.md.
+  0x0216FEAC ov010  2960  real 42-byte body + data tail; already a documented
+        DIFF near miss (docs/notes/ov010_func_0216FEAC.c.txt). Only caller is
+        an in-overlay loc_ so it is a subtree, not this tree. One `bl` image-wide.
+  0x021D7D48 ov016  2958  phantom (first word decode, zero refs).
+  0x02182AA4 ov018  2528  phantom (first word decode, zero refs).
+
+TRUE EXTENT AND ISA
+--------------------
+`match.py show --addr 0x021B88DC --region ov021` resolves the region from
+ov021's window (asm/overlays/ov021.s header: 0x02187F00..0x021DE700) and the
+ISA from the `.thumb_func` marker on `func_021B88DC` in that listing. The
+enumerator's 2184 bytes == `func_021B821C - func_021B88DC`, i.e. the next
+`func_` label, so 2184 is the real extent (not a region-tail artefact). The
+body is coherent Thumb and its fan-in is real: one outside `bl
+func_021B88DC` from `func_021B810C` (0x021B8158, ov021) -- the caller this
+tree exists to unblock. 2184 bytes / 546 instructions.
+
+THE DEPENDENCY TREE (non-SDK callees, closed bottom-up)
+-------------------------------------------------------
+13 direct bl targets, every one non-SDK (none in layout/symbols_sdk.json).
+Full recursive closure = 23 functions, 4000 bytes (including the root). The
+extra 10 come bottom-up through func_021B8514 / func_021B854C / func_021B9530
+/ func_021B95C0 / func_021B963C; no cycles.
+
+  filed EXACT / EXACT* this lane (src/matched, one shard each):
+    func_021B87D8  0x021B87D8  EXACT   36 B  u8 *get70(p, idx): row table,
+                                          stride 0x70, or NULL for 0xFFFF
+    func_021B87FC  0x021B87FC  EXACT   36 B  same, stride 0x48
+    func_021B94C0  0x021B94C0  EXACT   24 B  linear u16 search, 0x12 entries
+    func_021B93D4  0x021B93D4  EXACT*  48 B  dir -> dir-map, table order 1,3,4,2
+    func_021B9404  0x021B9404  EXACT*  48 B  dir -> dir-map, map {1:2,3:4,4:1,2:3}
+    func_021B9434  0x021B9434  EXACT*  48 B  dir -> dir-map, map {1:4,3:2,4:3,2:1}
+    func_021B8674  0x021B8674  EXACT*  24 B  get70(p, *q) == v
+    func_021B868C  0x021B868C  EXACT*  24 B  get70(p, q[1]) == v
+    func_021B9510  0x021B9510  EXACT   32 B  membership then get48
+
+  still open (recorded, not filed):
+    func_021B94D8  0x021B94D8  56 B  index-of-table scan. DIFF 45/52: the
+        original re-reads the u16 count each iteration and keeps the source
+        pointer in r3; 1.1p1 -O4,p CSEs the typed ldrh into a bound register.
+        Same rotation family as docs/notes/ov010_func_0216FEAC.c.txt.
+    func_021B8658  28 B  plain struct init (8 stores, stack args)
+    func_021B86A4  280 B  already EXACT elsewhere? (see coverage) / mid-tree
+    func_021B9280  184 B  big index scan with saturation
+    func_021B9338  48 B   clamp helper
+    func_021B9530  144 B  main state update
+    func_021B95C0  76 B
+    func_021B960C  48 B  iface lookup; DIFF (original spills i*4, does not
+        reuse; see below)
+    func_021B963C  112 B
+    func_021B96AC  188 B  iface-chain transition table
+    func_021B8514  56 B   (bottom of subtree)
+    func_021B854C  268 B
+    func_021B810C  272 B  the root's outside caller (not a callee)
+
+ROOT VERDICT
+------------
+The root is a 2184-byte game function, not SDK. It is a reachability/
+closure sweep over the objects 0x021B87D8/0x021B87FC index: a 4-slot loop
+(0x021B96B8..0x021B975C) that, for each slot with a live pointer, follows
+the interface chain (0x021B96AC), reads its direction/size words
+(0x021B9278/0x021B9280) and updates position/velocity with clamping
+(0x021B9338, 0x021B9530, 0x021B95C0, 0x021B963C). This wave did not land a
+full-body match for the root: it is ~546 instructions and the state/stack
+map has not been recovered; every one of its 13 relocation sites, however,
+is now attested by a filed EXACT callee, so the tree no longer caps the root
+on evidence. Next lane: work src/matched/func_021B88DC.c from the listing,
+functions 0x021B9280 and 0x021B96AC first (they carry most of the register
+rotation), expect EXACT once the frame map is pinned. No root source was
+filed this lane.
+
+Coverage gate: 9 shards written (layout/matched/ov021/pkt_021B87D8.json,
+pkt_021B87FC.json, pkt_021B94C0.json, pkt_021B93D4.json, pkt_021B9404.json,
+pkt_021B9434.json, pkt_021B8674.json, pkt_021B868C.json,
+pkt_021B9510.json), each verified by `manifest --verify --shard`.

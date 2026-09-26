@@ -10,8 +10,13 @@
  * status:   DIFF
  *
  * symbols:
- * blocker: codegen near miss (DIFF)
- * Addresses are Black-image addresses.
+ *
+ * BLOCKER (4 bytes): the image loads c[1] into r0 and materialises the -1
+ * sentinel into r1 (`movs r1,#0; mvns r1,r1; cmp r0,r1`); mwcc inverts the
+ * pair (value r1, sentinel r0).  `-1 == c[1]`, `c[1] != -1`, a named `int v`,
+ * a named `int z = 0` with `z - 1`, and a `c + 1` pointer local all reproduce
+ * the same inversion; the comparison is symmetric so no operand order flips
+ * it.  Addresses are Black-image addresses.
  */
 
 typedef unsigned char  u8;

@@ -1,0 +1,81 @@
+func_0215F8FC @ 0x0215F8FC (ov009, ARM, 404 bytes) -- DIFF, codegen,
+byte-swap scheduling and register pressure.
+================================================================================
+
+Near miss, NOT filed.  The function is a straight-line state initialiser: it
+packs five 32-bit fields through a byte swap into a global device block at
+0x021AA4BC, stores two function pointers (0x0215F8A4, 0x0215F8D0) and two
+descriptor words, sets +0x70 to 0x40, then calls func_0215CA8C(0x021AA50C).
+
+The five swaps are unambiguous -- each is the standard
+`((x>>24)&0xff)|((x>>8)&0xff00)|((x<<8)&0xff0000)|((x<<24)&0xff000000)` -- and
+the tail (constants, call, ABS32 sites) all resolve, but the inlined expression
+compiles to 372 bytes while the original is 404.  The original does TWO things
+the inlined form does not:
+
+  * it opens `sub sp, sp, #0xc` and spills three byte-extraction temporaries to
+    [sp], [sp+4], [sp+8] (the high and second bytes of [r0+0x18] and the high
+    byte of [r0+0x1c]); the inlined expression keeps everything in registers.
+  * it uses sl and fp as well as r8 (push {r4,r5,r6,r7,r8,sb,sl,fp,lr} in the
+    original vs push {r3,r4,r5,lr} when the swaps are inlined), because the
+    compiler evaluates all five swaps before their stores and runs out of
+    caller-saved registers.
+
+That means the source computed the swapped words into named locals and stored
+them afterwards (the spills are the locals), not as five `g->fX = BSWAP(d->fY)`
+assignments.  Both spellings tried (`g->f54 = BSWAP(d->f10)` inline, and a
+`static` helper -- which mwcc does NOT inline, it emits `bl bswap`) come out
+372 / DIFF; the helper route also loses all five relocations to a `bswap`
+symbol.  A version with five explicit `u32 b0..b4` locals that is stored after
+was not reached inside budget.
+
+The best inlined C follows (status DIFF, 372 vs 404 bytes).  Verified with:
+  python tools/match.py one --src <file> --func func_0215F8FC \
+      --addr 0x0215F8FC --cc 1.1p1 --arm --region ov009 --flags=-O4,p
+
+symbols:
+  g_021AA4BC     0x021AA4BC  data
+  func_0215F8A4  0x0215F8A4  arm
+  func_0215F8D0  0x0215F8D0  arm
+  g_021AA50C     0x021AA50C  data
+  func_0215CA8C  0x0215CA8C  arm
+
+typedef unsigned int u32;
+
+struct G {
+    char p0[4]; u32 f4; char p8[0xc - 8]; u32 fc;
+    char p10[0x50 - 0x10];
+    u32 f50, f54, f58, f5c, f60, f64, f68, f6c, f70;
+    char p74[0x80 - 0x74]; u32 f80, f84;
+};
+struct D {
+    char p0[4]; u32 f4, f8, fc, f10, f14, f18, f1c, f20;
+    char p24[0x2c - 0x24]; u32 f2c, f30;
+};
+
+extern struct G g_021AA4BC;
+extern void func_0215CA8C(int a);
+extern void func_0215F8A4(void);
+extern void func_0215F8D0(void);
+extern char g_021AA50C[];
+
+#define BSWAP(x) ((((x) >> 24) & 0xff) | (((x) >> 8) & 0xff00) \
+                | (((x) << 8) & 0xff0000) | (((x) << 24) & 0xff000000))
+
+void func_0215F8FC(struct D *d)
+{
+    g_021AA4BC.f50 = (d->fc == 1);
+    g_021AA4BC.f54 = BSWAP(d->f10);
+    g_021AA4BC.f58 = BSWAP(d->f14);
+    g_021AA4BC.f5c = BSWAP(d->f18);
+    g_021AA4BC.f60 = BSWAP(d->f1c);
+    g_021AA4BC.f64 = BSWAP(d->f20);
+    g_021AA4BC.f68 = (u32)func_0215F8A4;
+    g_021AA4BC.f6c = (u32)func_0215F8D0;
+    g_021AA4BC.fc = d->f4;
+    g_021AA4BC.f4 = d->f8;
+    g_021AA4BC.f70 = 0x40;
+    g_021AA4BC.f80 = d->f2c;
+    g_021AA4BC.f84 = d->f30;
+    func_0215CA8C((int)g_021AA50C);
+}

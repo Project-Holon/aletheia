@@ -66,3 +66,26 @@ or after the borrow update, a local copy of dst, named low/high temporaries,
 `(z < x)` form does not compile to `adc` at all. This looks like a hand-written
 or differently-built routine; no C reproduces the 64 bytes with dsi/1.1p1
 -O4,p. Nothing filed.
+
+Re-confirmed by the wave-8 lane (2026): nine further structural spellings were
+compiled against 0x021CDB9C and all land at 68-84 bytes / DIFF, never 64:
+
+  * explicit `u32 lo = (u32)t; u32 d = y - lo; borrow = (u32)(t >> 32);
+    if (y < lo) borrow = 1; *dst++ = d;` (result-first statement order)
+  * `u64 carry` running borrow with `carry = (t >> 32); if (y < lo) carry = 1;`
+  * `(u64)x + (u64)borrow` with both operands cast (forces two zero-extends)
+  * `if (y < lo) borrow = 1; else borrow = (u32)(t >> 32);` (if/else rather
+    than a trailing overwrite)
+  * `u64 x = *b++; u64 y = *a++;` (64-bit loads of the 32-bit words)
+  * named `low`/`high` locals with `if (low > y) high = 1; borrow = high;`
+  * a local `u32 *p = dst;` cursor instead of the parameter
+  * swapped load order (read `a` before `b`)
+  * `do { } while (--n != 0)` inside `if (n > 0)`
+
+None changes the allocator's choice: the front end always keeps the incoming
+`dst` in r0, puts the running borrow in a callee-saved/scratch register and
+copies it to r0 only at the epilogue (`mov r0, rX`), and schedules the result
+`sub` before the `adc` carry, which forces the extra `cmp` and defeats the
+inline `poplt`. The original keeps borrow in r0 for the whole function and dst
+in r7; that colouring is not reachable from any C tried. Verdict stands: DIFF,
+no match with dsi/1.1p1 -O4,p.

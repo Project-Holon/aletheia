@@ -17,3 +17,10 @@ void func_02084F44(int a0, int a1, ...)
     func_02084F68(a0, a1, ap);
 }
 re-verified 2026-09-21 by tools/match.py: could not re-run, isa unknown in header
+
+resolved 2026-09-26: 0x02084F44 is the second push of the real function at
+0x02084F40 (SDK OS_SPrintf); disasm.py mis-seeded it four bytes late.  The
+correct va_start spelling (((unsigned)&l & ~3u) + 4) makes it EXACT at the
+true entry.  Promoted to src/matched/func_02084F40.c (packet pkt_02084F44,
+EXACT, one sdk relocation to OS_VSPrintf 0x02084F68); the pending DIFF file
+was removed.

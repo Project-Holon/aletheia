@@ -1,0 +1,81 @@
+func_021C07A8 @ 0x021C07A8 (ov016, ARM, 264 bytes) -- DIFF, 20 bytes,
+register colouring plus the memcpy-loop colouring.
+================================================================================
+
+Near miss, NOT filed.  A head-buffer construction routine: allocates 0x26c
+bytes (func_021D6414), stores the pointer at 0x021DE564+4, fills a 0x104-byte
+stack buffer (func_02082A48), writes a two-field header (0x50, 0xc), formats it
+(func_02082D44(g_021DA468, buf+4, 0xc, 0x50)), copies the 0x104 bytes to the
+allocation+2 with a 0x41-iteration halfword loop, fills five halfwords at
+alloc+0x106..0x10e, calls func_02087C6C(alloc+0x110), and finally
+func_021B84E4(0x021C0954, 0x021C0964); if that returns nonzero it calls
+func_02088234.
+
+All ten relocations resolve (including the 0x021C0964 veneer), so the residue
+is pure codegen: 284 vs 264 bytes and 234 differing bytes.  The original keeps
+the global base in r5 and the buffer in r4 and pushes only {r4,r5,lr}; the
+transcription materialises the constant zero in r5 early (so the base goes to
+r6 and the frame grows to {r3,r4,r5,r6,lr}), which shifts the whole prologue and
+the post-loop halfword stores.  This is the same colouring class as the other
+near misses in this lane; the source order of `g->f0 = 0` against
+func_02082A48 is the only lever tried and it did not move it.
+
+The C that got closest follows (status DIFF, 284 vs 264 bytes).  Verified with:
+  python tools/match.py one --src <file> --func func_021C07A8 \
+      --addr 0x021C07A8 --cc 1.1p1 --arm --region ov016 --flags=-O4,p
+
+symbols:
+  g_021DE564     0x021DE564  data
+  g_021DA468     0x021DA468  data
+  d_021C0954     0x021C0954  arm
+  d_021C0964     0x021C0964  arm
+  func_021D6414  0x021D6414  arm
+  func_02082A48  0x02082A48  arm
+  func_02082D44  0x02082D44  arm
+  func_02087C6C  0x02087C6C  arm
+  func_021B84E4  0x021B84E4  thumb
+  func_02088234  0x02088234  arm
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+struct G { u8 f0; char pad[3]; void *f4; };
+
+extern struct G g_021DE564;
+extern char g_021DA468[];
+extern void d_021C0954(void);
+extern void d_021C0964(void);
+extern void *func_021D6414(int a, int b);
+extern void func_02082A48(int a, void *dst, int n);
+extern void func_02082D44(void *a, void *b, int c, int d);
+extern void func_02087C6C(void *p);
+extern int func_021B84E4(void *a, void *b);
+extern void func_02088234(void);
+
+void func_021C07A8(void)
+{
+    char buf[0x104];
+    u16 *d;
+    int i;
+
+    g_021DE564.f4 = func_021D6414(0x26c, 4);
+    g_021DE564.f0 = 0;
+    func_02082A48(0, buf, 0x104);
+    buf[0] = 0x50;
+    *(u16 *)(buf + 2) = 0xc;
+    func_02082D44((void *)g_021DA468, buf + 4, 0xc, 0x50);
+    *(u16 *)g_021DE564.f4 = 3;
+    d = (u16 *)((char *)g_021DE564.f4 + 2);
+    for (i = 0; i < 0x41; i++) {
+        d[i * 2 + 1] = ((u16 *)buf)[i * 2 + 1];
+        d[i * 2] = ((u16 *)buf)[i * 2];
+    }
+    *(u16 *)((char *)g_021DE564.f4 + 0x100 + 6) = 1;
+    *(u16 *)((char *)g_021DE564.f4 + 0x100 + 8) = 0xffff;
+    *(u16 *)((char *)g_021DE564.f4 + 0x100 + 0xa) = 1;
+    *(u16 *)((char *)g_021DE564.f4 + 0x100 + 0xc) = 0xffff;
+    *(u16 *)((char *)g_021DE564.f4 + 0x100 + 0xe) = 0xffff;
+    func_02087C6C((char *)g_021DE564.f4 + 0x110);
+    if (func_021B84E4((void *)d_021C0954, (void *)d_021C0964) != 0)
+        func_02088234();
+}

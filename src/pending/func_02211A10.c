@@ -12,7 +12,12 @@
  * symbols:
  *   func_0220AFDC  0x0220AFDC  thumb  ov196
  *
- * Addresses are Black-image addresses.
+ * BLOCKER (2 bytes): the image decrements the pooled 0x218C index in place
+ * (`subs r2, r2, #4` / `ldr r0, [r0, r2]`); mwcc keeps the pre-decrement
+ * source live for the just-issued store and materialises the index-4 into r1
+ * (`subs r1, r2, #4` / `ldr r0, [r0, r1]`).  `i -= 4` vs a named `j = i - 4`
+ * vs the compound spelling `p[i - 4]` all reproduce r1; the store before the
+ * decrement is what pins r2.  Addresses are Black-image addresses.
  */
 
 typedef unsigned char  u8;
