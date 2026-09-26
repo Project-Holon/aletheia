@@ -1,0 +1,78 @@
+/*
+ * function: func_021DFDA0
+ * address:  0x021DFDA0
+ * packet:   pkt_ov119_021DFDA0
+ * region:   ov119
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0204B1CC  0x0204B1CC  arm
+ *   func_0204A5AC  0x0204A5AC  arm
+ *   func_021E3E60  0x021E3E60  thumb  ov119
+ *   func_0204B100  0x0204B100  arm
+ *   func_021DFD3C  0x021DFD3C  thumb  ov119
+ *   func_021D8E84  0x021D8E84  thumb  ov119
+ *   func_021D9434  0x021D9434  thumb  ov119
+ *   func_021E10D8  0x021E10D8  thumb  ov119
+ *   func_02005DE4  0x02005DE4  thumb
+ *   func_02005E64  0x02005E64  thumb
+ *   func_02005E30  0x02005E30  thumb
+ *   func_021DFE48  0x021DFE48  thumb  ov119
+ *
+ * Slot-state teardown/rebuild, dispatched on *(p+0x118c): 5 and 6 run the
+ * shared +8 slot teardown and hand func_021D8E84 either func_021D9434 or
+ * NULL; the default path increments the +0x11f8 byte and hands
+ * func_021DFE48. Target of func_021D6C78's ABS32 callback argument (ov119).
+ *
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern void func_0204B1CC(void *);
+extern void func_0204A5AC(void);
+extern void func_021E3E60(void *);
+extern void *func_0204B100(int, int, int);
+extern void func_021DFD3C(void *);
+extern void func_021D8E84(void *, int);
+extern void func_021D9434(void);
+extern void func_021E10D8(void *);
+extern void func_02005DE4(int);
+extern void func_02005E64(void);
+extern void func_02005E30(int);
+extern void func_021DFE48(void);
+
+void func_021DFDA0(void *p)
+{
+    u8 *b = p;
+    int st;
+
+    func_0204B1CC(*(void **)(b + 0x9c4));
+    func_0204A5AC();
+    func_021E3E60(p);
+    *(void **)(b + 0x9c4) = func_0204B100(0x154, 0, *(u16 *)(b + 0x5f4));
+    st = *(int *)(b + 0x118c);
+    if (st == 5) {
+        func_021DFD3C(p);
+        *(int *)(*(int **)(b + 8) + 2) = 3;
+        func_021D8E84(p, (int)func_021D9434);
+    } else if (st == 6) {
+        func_021DFD3C(p);
+        *(int *)(*(int **)(b + 8) + 2) = 3;
+        func_021D8E84(p, 0);
+    } else {
+        func_021E10D8(p);
+        func_02005DE4(1);
+        func_02005E64();
+        (*(u8 *)(b + 0x11f8))++;
+        func_02005E30(6);
+        *(int *)(b + 0xf2c) = 0;
+        func_021D8E84(p, (int)func_021DFE48);
+    }
+}

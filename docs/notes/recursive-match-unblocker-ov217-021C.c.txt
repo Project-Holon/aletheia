@@ -1,0 +1,91 @@
+Recursive MATCH unblocker, overlay blocker targets in 0x021C0000..0x021CFFFF
+=============================================================================
+
+Lane scope: find the unresolved targets named as blockers by `src/pending/`
+MATCH files whose target lies in 0x021C0000..0x021CFFFF, match each target
+(and its non-SDK deps) bottom-up in the correct region, then re-verify the
+blocked file and promote it if it turned EXACT.  Every address below is a
+Black-image address.
+
+Target 0x021C09D8 (blocks func_021BA31C, ov217) -- RESOLVED
+----------------------------------------------------------
+0x021C09D8 is an unlabelled 4-byte Thumb tail-call veneer inside a `.word`
+run; its pool word 0x021C09DC names 0x021C0D38.  No listing class can witness
+it (no `func_` label), so it was matched FIRST and now witnesses the veneer
+through the `matched` class.  The chain had to be walked all the way down,
+each link matched before the one above it:
+
+  0x021C2A18  14 B  EXACT  unlabelled leaf in a `.word` run (0x021C2A18).
+                           Store order in the source is +0x14, +0x18, +0x1c,
+                           +0x12; writing +0x18 first puts the `movs` of the
+                           1 in r1 instead of r3 and loses 8 bytes.
+  0x021C29F8   8 B  EXACT  unlabelled veneer, pool 0x021C29FC -> func_021C2A18.
+                           Needs `func_021C2A18 0x021C2A18 thumb ov217` on the
+                           symbols line or the bare name resolves ARM (ov016's
+                           label) and the site stays wildcarded.
+  0x021C0D38  36 B  EXACT  22-byte leaf + 12 bytes of pool.  Tail-calls
+                           func_021C29F8 with two ov217 data loads indexed by
+                           i*0x14 (d_021C3F60 u16, d_021C3F5C u32).  Both data
+                           sites resolve `sole-ref x1`; the callee resolves
+                           `matched`.
+  0x021C09D8   8 B  EXACT  veneer, pool -> func_021C0D38 (matched).
+  func_021BA31C  12 B  EXACT  the original park; +0008 ABS32 func_021C09D8
+                           now `matched x1`.
+
+Files: src/matched/ov217_func_021C2A18.c, ov217_func_021C29F8.c,
+ov217_func_021C0D38.c, ov217_func_021C09D8.c, ov217_func_021BA31C.c.
+Shards: layout/matched/ov217/pkt_ov217_021C09D8.json (4 entries),
+layout/matched/ov217/pkt_ov217_021BA31C.json (1 entry).
+
+Target 0x021C584C (blocks ov099_func_021B98E4) -- RESOLVED
+----------------------------------------------------------
+0x021C584C has no `func_` label in any of the nine overlays whose window holds
+it (ov016, ov021, ov093, ov099, ov111, ov114, ov127, ov136, ov172, ov208), so
+the `label` class cannot fire.  Only ov127 holds it as coherent Thumb code:
+an 8-byte accessor veneer in a four-in-a-row `.word` run
+(0x021C5834/40/4C/58), `ldr r0,[r0,#4]; ldr r3,=func_021C424C; bx r3`.
+
+  0x021C584C   12 B  EXACT  accessor veneer; callee func_021C424C is an
+                            existing ov127 EXACT entry (matched x1).
+  func_021B98E4 12 B EXACT  the park; +0008 ABS32 func_021C584C now
+                            `matched x1` once the symbols line names the
+                            region: `func_021C584C 0x021C584C thumb ov127`.
+
+Shards: layout/matched/ov127/pkt_ov127_021C584C.json,
+layout/matched/ov099/pkt_ov099_021B98E4.json.
+
+Targets d_021C185C / d_021C1860 / d_021C1864 (block func_021BE7A8,
+func_021BE990, func_021BE9A4, ov203) -- ALREADY EXACT, PROMOTED
+----------------------------------------------------------------
+The three parks were already byte-correct with `status: EXACT` in the header
+but had been left in src/pending/.  Dropping the contested `ov203` region token
+from the `data` symbols line lets the function's own region pick the object and
+the +0010 ABS32 resolves `sole-ref/data` (`self:0x021C185C` etc.).  Moved to
+src/matched/ (region-qualified names, since ov204 labels func_021BE7A8 too) and
+verified:
+  layout/matched/ov203/pkt_021BE7A8.json, pkt_021BE990.json, pkt_021BE9A4.json.
+
+Target d_021C3F9C (blocks func_021C0AD8, ov217) -- promoted by a concurrent
+lane; both layout/matched/ov217/pkt_021B9850.json and
+layout/matched/ov217/pkt_ov217_021C0AD8.json now carry 0x021C0AD8 (duplicate
+flagged by `manifest --check`; not this lane's shard).
+
+Residual targets (NOT turned EXACT)
+-----------------------------------
+* 0x021C6534 (blocks func_021881D8, ov021): the target IS an EXACT Thumb
+  entry now (layout/matched/ov021/pkt_021C6534.json), and the call at +011A is
+  a Thumb `bl` to it.  `match.py` still hard-refuses before attestation:
+  `isa_evidence(0x021C6534, region=ov021)` finds no `func_` label in ov021's
+  own listing (the bytes are data there), falls through the overlay-label loop
+  to ov016's ARM label, and reports "the source declares thumb, the image says
+  arm".  A `matched` overlay entry is not consulted by `isa_evidence`.  This
+  needs either a tool change (let a `matched` EXACT overlay entry satisfy,
+  or override, `isa_evidence`) or a Thumb `func_` seed at 0x021C6534 in
+  ov021's listing; both are outside this lane's write set.  The C body is
+  correct: declared `arm ov016` it matches every concrete byte but the two
+  bytes of the call instruction (bl vs blx).
+
+* 0x021C7E14 (blocks ov096_func_02188D5C, ov093) and 0x021C3AC8 (blocks
+  ov217_func_021BE934, ov217): both blocked files are DIFF on register
+  colouring, not on an unwitnessed relocation, so matching the target cannot
+  promote them.  Verified still DIFF this lane.

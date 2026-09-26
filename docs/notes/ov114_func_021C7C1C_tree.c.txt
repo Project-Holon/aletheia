@@ -1,0 +1,72 @@
+ov114 func_021C7C1C - dependency tree; largest non-phantom non-SDK candidate
+============================================================================
+
+Lane: dependency tree.  Enumerator:
+  python tools/lane.py --band 2048 100000 --overlays 96 191
+
+PICK
+----
+The largest row is ov114 func_021CDB9C (lane size 7620), but it is the SDK
+symbol CRYPTOi__bn_sub_words (layout/symbols_sdk.txt line 3851) - excluded.
+The largest non-phantom, non-SDK row is:
+
+  ov114  0x021C7C1C  func_021C7C1C  lane size 2716
+
+TRUE EXTENT
+-----------
+0x021C7C1C is the last func_ label in asm/overlays/ov114.s, so lane.py's size
+runs to the overlay's data tail (next func_ label 0x021C86B8, which is the
+already-matched func_021C86B8).  The real body ends at its literal pool:
+
+  0x021C7C1C..0x021C864C  = 2608 bytes (ARM, 11-case state dispatch + arms)
+
+Inside the lane's 2716-byte extent sit two additional already-filed leaves and
+one SDK leaf, so the extent is NOT this function:
+
+  0x021C864C..0x021C8650  pool words (d_021D3D2C, d_021D3EF0)
+  0x021C8654              pool word (0xBACF914D, the /0x128 magic)
+  0x021C8658  EXT_TestResetCounter  sdk  (TwlSDK/libext)
+  0x021C866C  func_021C866C  EXACT  (pkt_ov114_021C866C)
+  0x021C86A8  func_021C86A8  EXACT  (pkt_ov114_021C86A8)
+
+TREE (call sites read from the root's disassembly)
+--------------------------------------------------
+func_021C7C1C  ov114 arm, body 2608 bytes, OPEN (game)
+  DWCi_EncSessionProcess        0x021CA0A0  sdk
+  DWC_GetLastErrorEx            0x02059E38  sdk
+  func_021C8EB4                 0x021C8EB4  game, was OPEN
+      DWC_UpdateConnection      0x0205D074  sdk
+      DWC_ClearError            0x02059F18  sdk
+  DWCi_EncSessionShutdown       0x021CA1B4  sdk
+  DWCi_EncSessionGetResponse    0x021CA228  sdk
+  func_02092344                 0x02092344  game, matched EXACT (unit_02092344.c)
+
+Every leaf under the root is SDK except func_021C8EB4 and the already-matched
+0x02092344.  The recursive tree therefore bottoms out immediately.
+
+BOTTOM-UP CLOSE
+---------------
+The one open non-SDK callee, func_021C8EB4 (ov114, 0x021C8EB4..0x021C8F2C,
+120 bytes), is now EXACT:
+
+  shard  layout/matched/ov114/pkt_ov114_021C8EB4.json
+  verdict EXACT, 2 relocation sites (DWC_UpdateConnection label, DWC_ClearError
+  sdk), no wildcards.  Source: src/matched/func_021C8EB4.c.
+
+Case-order tell: the -14 cases must be listed 3, 5, 4, 6 (case 5 before case
+4) or the per-case stubs land in the wrong slots; see
+docs/idioms/switch-arm-stubs-are-laid-down-in-source-order.md.
+
+ROOT DISPOSITION
+----------------
+func_021C7C1C is 2608 bytes: a switch on a global state (0..24) whose 11 even
+arms each call DWCi_EncSessionProcess, branch on 1 vs 8, and run an inner
+switch on the 0x1c4 field.  That is well past the AGENT-BRIEF section 7
+"oversized" line (one C rewrite that does not hold in the head), so it was not
+attempted and no C was filed.  It is also materially DWC SDK code: its entire
+callee set except the two game leaves is TwlDWC/libdwc encryption-session code,
+and it has no exact or interior entry in layout/symbols_sdk.json for ov114, so
+libmatch.py simply missed the symbol.  The honest verdict is "not attempted,
+oversized / SDK-adjacent", with its dependency tree closed.
+
+Addresses are Black-image addresses.

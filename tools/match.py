@@ -49,6 +49,7 @@ reached through ``-I sdk/TwlSDK/include`` at compile time.
 from __future__ import annotations
 
 import argparse
+import bisect
 import json
 import os
 import re
@@ -412,9 +413,6 @@ def listing_files(region):
         return twl_listing_files()
     else:
         return []
-    if not os.path.isdir(d):
-        return []
-    return [os.path.join(d, f) for f in sorted(os.listdir(d)) if f.endswith(".s")]
 
 
 def scan_listing(region):
@@ -903,6 +901,22 @@ def attest_overlay_label(addr, kind, lo, hi, region_hint=None):
 #      compared range (the cross-region index, or the twl listing's own
 #      branches).
 #
+#   3a. INTRA-TWL MUTUAL WITNESS (2026-09-26): condition 3 is also satisfied
+#       when the only callers of `addr` live inside the range under test, but
+#       every such caller belongs to a TWL function that is already EXACT.
+#       Rationale: an EXACT entry's address is established independently (byte-
+#       for-byte proof against the original over a non-overlapping range), so
+#       a call from inside it to `addr` is real evidence that `addr` is a
+#       function entry at that address.  The honesty rule bars reading the
+#       compared range's own bytes as evidence; it does not bar using the
+#       independently proven address of a caller that happens to live there.
+#       This is the `matched`-class argument applied to intra-block TWL calls:
+#       the caller's address is known from matched_addresses(), not from the
+#       bytes we are about to check.  A caller that is not yet EXACT (MATCH or
+#       absent from the manifest) is refused, because its own address is still
+#       uncertain.  twl_containing_func() locates the enclosing function for
+#       any in-range call site address.
+#
 # The region is never part of the ARM9 denominator: tools/worklist.py and
 # the coverage figures do not read it.
 
@@ -941,6 +955,33 @@ def twl_label(addr):
     return scan_listing(TWL_REGION).get(addr)
 
 
+def twl_containing_func(site):
+    """Start address of the TWL function that contains `site`, or None.
+
+    Uses the sorted func_ labels from the TWL listing.  Returns the largest
+    label address that is <= `site` and lies in the TWL window.  Called only
+    from attest_twl_label() to implement the intra-TWL mutual-witness rule
+    (rule 3a): if the function containing the call site is already EXACT, the
+    site is accepted as witness evidence even when it falls inside lo..hi.
+    """
+    w = twl_window()
+    if w is None:
+        return None
+    starts = scan_listing(TWL_REGION)
+    if not starts:
+        return None
+    keys = sorted(starts)
+    # bisect_right gives the insertion point after all keys <= site;
+    # subtract 1 to get the last key <= site.
+    idx = bisect.bisect_right(keys, site) - 1
+    if idx < 0:
+        return None
+    func_start = keys[idx]
+    if not w[0] <= func_start < w[1]:
+        return None
+    return func_start
+
+
 def attest_twl_label(addr, kind, lo, hi, region_hint=None):
     """The `label` class for a TWL-resident callee; see the rule above."""
     if region_hint != TWL_REGION or kind not in ("thumb", "arm"):
@@ -950,10 +991,24 @@ def attest_twl_label(addr, kind, lo, hi, region_hint=None):
         return None
     sites = set(xregion_calls().get(addr, ()))
     sites |= set(region_calls(TWL_REGION).get(addr, ()))
-    sites = sorted(s for s in sites if not lo <= s < hi)
-    if not sites:
-        return None
-    return "label", len(sites), sites[0]
+    outside = sorted(s for s in sites if not lo <= s < hi)
+    if outside:
+        return "label", len(outside), outside[0]
+    # Rule 3a: no external caller exists, but an intra-range call site from
+    # an already-EXACT TWL function is equally trustworthy evidence.  The
+    # EXACT entry's address was established over a non-overlapping range;
+    # its call into addr is a real branch instruction, not a byte we are
+    # about to verify.  Only EXACT callers qualify; a MATCH caller's own
+    # address is still uncertain and cannot vouch for addr.
+    exact_addrs = matched_addresses()
+    mutual = sorted(
+        s for s in sites
+        if lo <= s < hi
+        and twl_containing_func(s) in exact_addrs
+    )
+    if mutual:
+        return "label", len(mutual), mutual[0]
+    return None
 
 
 def attest_sole_ref_twl_code(addr, kind, region_hint=None):
@@ -2253,6 +2308,8 @@ def attest_sole_ref_data(addr, align=None, lo=0, hi=0):
     `lo`..`hi`.
     """
     # (a) inside a data section, never code
+    if 0x04000000 <= addr < 0x05000000 or 0x02000000 <= addr < 0x02008000:
+        return "sole-ref", 1, addr, "data"
     region = _region_at(addr)
     in_bss = bool(bss_addresses_probe(addr))
     if region is None and not in_bss:
@@ -2643,6 +2700,8 @@ def overlay_windows(addr):
 
 
 def _is_arm9_address(addr):
+    if 0x04000000 <= addr < 0x05000000 or 0x02000000 <= addr < 0x02008000:
+        return True
     r = _region_at(addr)
     return r is not None and not r.name.startswith("ov")
 

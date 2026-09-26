@@ -15,6 +15,13 @@
  * evaluates the 64-bit RHS address before the destination and picks different
  * registers; see docs/notes/ov019_func_0217FF78.c.txt. Left as the documented
  * near miss while func_0217FF78 stays MATCH on this one site.
+ *
+ * wave-8 re-check: the region/ISA hint is confirmed correct (`thumb ov010`,
+ * ov009 holds ARM data at the address), the row is size-exact at 36 bytes and
+ * the instruction sequence is the original's, so this remains an allocator
+ * coin-flip (dst r3/r4/r5 vs r0/r1/r4) and not a witness or hint problem.
+ * Four more spellings (u16/s16 index, Pair lvalue, Dst/Src struct types) all
+ * emit the same wrong allocation.
  */
 
 typedef unsigned char u8;

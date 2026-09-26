@@ -1,0 +1,45 @@
+function: func_02186A04
+address:  0x02186A04
+region:   ov023
+isa:      thumb
+compiler: dsi/1.1p1  -O4,p
+verdict:  DIFF (2 concrete bytes; near miss, parked here, not in src/)
+packet:   pkt_02186A04
+
+What it is
+----------
+A small leaf (no calls, no relocations; pushes only {r4,r5,r6,r7}) that copies
+five 6-byte records into dst, or, when two header words are equal, clears three
+bits (mask 0x38) in byte 4 of each record.
+
+  u32 statue0 = *(u32 *)(ctx + 3000);   /* pool word 0xBB8 = 3000 */
+  u32 hdr1    = *(u32 *)(ctx + 3004);
+  if (statue0 != hdr1) {
+      for (i = 0; i < 5; i++) {
+          idx = *(u32 *)(ctx + 3000);        /* re-read each pass (aliases dst) */
+          s   = ctx + 30 * idx + 6 * i;      /* 30 = 5 * 6 */
+          d   = dst + 6 * i;
+          d[0..5] = s[0..5];
+      }
+  } else {
+      for (i = 0; i < 5; i++)
+          ((Rec *)dst)[i].f = 0;             /* 3-bit field at bits 3..5 */
+  }
+
+The 3-bit bitfield at bits 3..5 is what makes the else arm emit
+`movs r2,#0x38 / bics r3,r2` rather than an `ands` with 0xC7: writing
+`p[4] &= ~0x38` compiles to `movs r2,#0xc7 / ands`, a byte difference.
+
+Residue
+-------
+With the shape above (byte-copy loop, bitfield clear) only 2 bytes differ, both
+in the source-address materialisation of the copy arm:
+
+  +0020   adds r4, r5, r7     ROM  |  adds r4, r7, r5    compiled
+  +0022   ldrb r7, [r5, r7]   ROM  |  ldrb r7, [r7, r5]  compiled
+
+i.e. mwcc keeps the base `ctx + 30*idx` in r7 and the offset `6*i` in r5 but
+encodes the ADD/LDR with r5 first in the ROM. Reordering the declarations swaps
+the allocation wholesale (15+ byte diffs), and `(ctx + 30*idx) + 6*i` in either
+association or as `s[6*i]` did not flip the operand order. Needs the original
+source spelling to pin the accumulator.

@@ -93,3 +93,126 @@ Coverage gate: 9 shards written (layout/matched/ov021/pkt_021B87D8.json,
 pkt_021B87FC.json, pkt_021B94C0.json, pkt_021B93D4.json, pkt_021B9404.json,
 pkt_021B9434.json, pkt_021B8674.json, pkt_021B868C.json,
 pkt_021B9510.json), each verified by `manifest --verify --shard`.
+
+CONTINUATION (2026-09-26, second lane): root body + frame map
+=============================================================
+Task from the orchestrator: the 13 callees are "now matched" and the
+relocation evidence "closed"; attempt the big root body (the 4-slot
+reachability/closure sweep) and map the frame/stack slots.
+
+FIRST FINDING: the callee premise is not true in the tree.
+Only 7 of the 13 direct `bl` targets have an EXACT/EXACT* shard entry:
+  MATCHED  func_021B87D8  021B8674  021B868C  021B9278  021B93D4
+           021B9404  021B9434
+  OPEN     func_021B8514 (56 B)   func_021B854C (268 B)
+           func_021B9280 (184 B)  func_021B9338 (48 B)
+           func_021B9530 (144 B)  func_021B96AC (188 B)
+No shard anywhere (`grep` over layout/matched/*/*.json) and no src file
+names the six OPEN addresses.  `layout/matched/ov021/` holds shards for the
+seven matched ones only.  So the root's call sites compile (the six resolve
+as `sole-ref/code` function starts, the seven as `matched`/`label`), but the
+tree is NOT closed: 6 of 13 direct callees remain.  Closing those is the
+real unblock for the dependency tree, ahead of the root itself.
+
+Direct-call census in the root (BL targets, 122 sites total):
+  8514 x10, 854C x18, 8674 x8, 868C x8, 87D8 x6, 9278 x18, 9280 x20,
+  9338 x4, 93D4 x1, 9404 x3, 9434 x3, 9530 x4, 96AC x18.
+
+FRAME / STACK SLOT MAP (recovered)
+----------------------------------
+Prologue `push {r4,r5,r6,r7,lr}` (20 B) + `sub sp,#0x6c` (108 B of frame);
+no frame pointer.  Register roles: r5 = p (1st arg Obj*), r4 = dir (2nd arg,
+verified by the `push {r0,r1,r2,r3}`-free direct use), r7 = p->f10 ("dir0",
+loaded once at entry 0x88EC), r6 = scratch.
+
+  off   size  meaning
+  0x00   4    outgoing stack-argument spill (call args 5,6,7); reused at
+              every call site, so every store here is a call argument.
+  0x0c   4    arg2 = 3rd formal parameter (stored once at 0x88EA).
+  0x4c   4    base = p->f4 (the direction/geometry object; 0x88E6).
+  0x3c   4    arm A "changed" flag    (init 0 @0x8902, set 1 @0x8974).
+  0x48   4    arm A source row n  = 87D8(p->f24, base->f4).
+  0x44   4    arm A row a         = 8514(n, dir, ...).
+  0x40   4    arm A row b         = 8514(n, 9404(dir), ...).
+  0x50   4    arm A 9278 temp (for a).
+  0x54   4    arm A 9278 temp (for c = 8514(n, 9434(dir))).
+  0x58   4    arm A 9278 temp (second pass of c).
+  0x38   4    arm B source row n  = 87D8(p->f24, base->f0).
+  0x34   4    arm B row = 8514(n, 9404(dir), ...).
+  0x30   4    arm B row = 8514(n, 9434(dir), ...).
+  0x2c   4    arm B row = 8514(n, dir, ...).
+  0x28   4    arm B "changed" flag.
+  0x24   4    arm C source row n  = 87D8(p->f24, base->f0).
+  0x20   4    arm C source row n2 = 87D8(p->f24, base->f4).
+  0x5c   4    arm C 9278 temp (n, first pass).
+  0x60   4    arm C 9278 temp (n, second pass).
+  0x64   4    arm C 9278 temp (n2, first pass).
+  0x68   4    arm C 9278 temp (n2, second pass).
+  0x1c   4    arm D source row n  = 87D8(p->f24, base->f0).
+  0x18   4    arm D source row n2 = 87D8(p->f24, base->f4).
+  0x10   4    arm D 9278 temp (n, first pass).
+  0x14   4    arm D 9278 temp (n2, first pass).
+              (arm D's second-pass 9278 results stay in r6, not the stack).
+
+Every arm's temporaries get their OWN slot: no coalescing across the four
+branches, which is why the frame is 0x6c rather than ~0x30.  The 9278
+results are stored at [sp+0x50..0x68] / [sp+0x10..0x14] in the order the
+four sub-branches (8674 then 868C, twice) produce them.
+
+STRUCTURE (recovered)
+---------------------
+  v = base->f8;  dir0 = p->f10;
+  if      (dir == v)                 -> arm A   (identity)
+  else if (dir == func_021B93D4(v))  -> arm B
+  else if (dir == func_021B9404(v))  -> arm C
+  else if (dir == func_021B9434(v))  -> arm D
+  else return 0;
+93D4/9404/9434 are the three non-identity rotations of the direction map
+(this is the "4-slot" part: the four orientations of one cell).
+
+Each arm performs the same closure step:
+  1. func_021B9530(p->f28, p, dx, dy, dir) with the movement components
+     (dx,dy) = (arg2,0) / (-arg2,0) / (0,arg2) / (0,-arg2) for A/B/C/D.
+  2. a guard that differs per orientation:
+       A: p->f0c <  dir0
+       B: p->f0c >= 0
+       C: p->f14 > 0 && p->f14 % 16 == 0
+       D: p->f14 < 0 && (-p->f14) % 16 == 0
+     (the `% 16` is emitted as the lsrs/lsls/subs/rors quartet at 0x8DBC
+      and 0x8F8A; 0x10/0x18/0x70/0x48 strides confirm a 16-unit grid with
+      row sizes 0x70 (87D8) and 0x48 (87FC/96AC)).
+  3. for each live neighbour row: func_021B8674(p->f24, row, n), else
+     func_021B868C(p->f24, row, n); on non-zero: func_021B96AC(n, p->f24),
+     m = func_021B9278(row,p->f1c,p->f24), then func_021B854C(p, row, dir,
+     r3, a5, a6, a7) with a5/a6/a7 = (p->f14, m, 9280(...)) and r3 the
+     signed distance (p->f0c-dir0, m-abs(f0c), m-f14, m-abs(f14) ...).
+  4. tail: if changed -> func_021B9338(p, base, dir0, dir); return dir;
+     arm A/B else update p->f0c (+/-arg2) and return 0; C/D return dir.
+
+ATTEMPT AND VERDICT
+-------------------
+Wrote a full structural transcription to
+`scratch/ov021/func_021B88DC_try.c` (scratch only; NOT filed, NOT in
+src/matched or src/pending).  `match.py one --thumb --region ov021`:
+
+  DIFF   func_021B88DC @ 021B88DC (ov021, Thumb)
+         compiled 2312 bytes vs original 2184; 2156 bytes differ;
+         122 of 122 relocation sites resolved.
+
+Every relocation was resolved, so there is no evidence gap, and the call
+sequence/order matches; the residual 128 bytes and the diff are register and
+stack allocation only.  The original spills each arm's temporaries to
+distinct slots (frame 0x6c) and keeps dir0 in r7; the C allocator coalesced
+the per-arm locals (frame 0x48).  Reproducing the original needs the exact
+per-arm local declaration order/scope; that is the remaining lever.  No root
+source was filed.
+
+NEXT LANE
+---------
+Higher value first: the six OPEN direct callees (8514, 854C, 9280, 9338,
+9530, 96AC) actually complete the tree's relocation evidence; the root's
+body is transcribed and only needs the frame/declaration order to converge.
+If the root is retaken, declare the per-arm temporaries with distinct names
+in each brace scope so the allocator stops coalescing them and the frame
+grows toward 0x6c.
+

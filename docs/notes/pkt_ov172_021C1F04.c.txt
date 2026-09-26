@@ -1,0 +1,63 @@
+ov172/ov110 lane (band 256-512) -- two codegen DIFFs
+====================================================
+
+Both functions were reconstructed semantically with every relocation site
+resolved and the correct compiled size; neither reached byte-identity.  A DIFF
+is not a filing decision, so both are left as documented near misses.  Recorded
+so the next agent does not re-derive them.
+
+func_021C1F04 (ov172, ARM) -- RGB555 -> planar YCbCr, DIFF 328 vs 332
+----------------------------------------------------------------------
+Converts a w x h RGB555 source into three byte planes (Y, Cb, Cr), each padded
+to `stride = (w+7)&~7` rows, plus a bottom pad of `(h+7)&~7` rows.
+
+  stride = (w + 7) & ~7;
+  hpad   = (h + 7) & ~7;
+  area   = stride * hpad;
+  d0 = dst; d1 = d0 + area; d2 = d1 + area;      /* three planes */
+  for (i = 0; i < area; i++) {
+      v = (i % stride < w) ? *src++ : 0;         /* column in range */
+      g = (v & 0x3e0) >> 2;                      /* 5-bit green x8 */
+      r = (v & 0x1f)  << 3;
+      b = (v & 0x7c00) >> 7;
+      d0[i] =          (g*0x964 + r*0x4c9 + b*0x1d3 + 0x800) >> 12;   /* Y  */
+      d1[i] = clamp( (0x80800 - r*0x2b3 - g*0x54d + (b<<11)) >> 12);  /* Cb */
+      d2[i] = clamp(((r<<11) + 0x80800 - g*0x6b3 - b*0x14d) >> 12);   /* Cr */
+  }
+
+Load-bearing spellings (all reproduced):
+  * `i % stride` must be UNSIGNED so the helper is _u32_div_f at 0x0209C2B0
+    (the same entry src/matched/func_0200AA00.c documents); a signed `i` emits
+    _s32_div_f at 0x0209C0A4 and loses the site.
+  * the channel extractions are the raw `(v & mask) >> n` forms, not
+    `(v >> n) & 0x1f`: mwcc uses `and #0x3e0; lsr #2` and `and #0x7c00;
+    lsr #7`.  v typed `u16` promotes to signed int and yields `asr`; typing v
+    `u32` (or an unsigned cast at the mask) yields the original `lsr`.
+  * `clamp(x)` is `if (x > 0xff) x = 0xff;` on an unsigned result, giving
+    `cmp #0xff; movhi #0xff`; the shift before it is `lsr`.
+
+Residual (why it is still DIFF): register allocation.  The original keeps `w`
+in r5, `i*2` in r7 and the Y result in [sp,#8]; mwcc spills `w` and `i*2` to
+the stack and keeps the result in r7.  The Y coefficient expression is
+re-associated (0x800 + 0x80000 vs a single 0x80800).  A spelling that reduces
+loop-body live ranges to free r5/r7 is the likely closer.
+
+func_021BD348 (ov110, Thumb) -- palette blend, DIFF 256 vs 256
+--------------------------------------------------------------
+Same family as the parked src/pending/func_021BF664.c: bump a wrapping
+0x400-step counter at +0xb8, look up `ratio = (tbl_020A1B38[((t>>4)<<1)+1] +
+0x1000) / 2` (signed short), then for each of 5 entries interpolate the
+RGB555 fields of srcA (at +0x98) toward srcB (at +0xa2) into dst (at +0xac):
+
+  b = (u8)(b + ((ratio * ((u8)((B & 0x7c00) >> 10) - b)) >> 12));
+  r = (u8)(r + ((ratio * ((u8)(B & 0x1f) - r)) >> 12));
+  g = (u8)(g + ((ratio * ((u8)((B & 0x3e0) >> 5) - g)) >> 12));
+  e->dst[i] = (u16)((b << 10) | (g << 5) | r);
+  func_02061CA4(0xe, 0x56, (int)e->dst, 0xa);
+
+Compiled size is exactly 256 and both relocations resolve (func_02061CA4 via
+label, tbl_020A1B38 via literal).  Typing the two words A/B as `unsigned int`
+makes the extractions use `lsr` and drops the mismatch from 217 to 128 bytes.
+What is left is pure loop-body colouring: mwcc spills `i*2` to [sp,#8] and
+keeps the high-channel result in r7, transposing every following instruction
+relative to the original.  Same wall as func_021BF664 (also DIFF).

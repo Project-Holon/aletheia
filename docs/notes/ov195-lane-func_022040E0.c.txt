@@ -92,3 +92,47 @@ docs/PARALLEL.md, layout/worklist.json or asm/ was touched.
 Note: src/matched/ov195_func_02208814.c already existed (packet pkt_02208814,
 EXACT); it is NOT part of this lane and was left as committed.  It is listed
 above only as an already-matched witness on entry.
+
+6. Continuation 2026-09-26 (second pass, enumerator `--overlays 192 236`)
+----------------------------------------------------------------------
+Same two candidates (neither phantom?, neither an SDK address).  A second
+bottom-up pass closed 14 more direct non-SDK callees, all EXACT/EXACT*, each
+verified with `match.py one --thumb --region ov195 --flags=-O4,p` and filed in
+the same shard; `pkt_ov195_022040E0` now carries 27 entries.
+
+  02204EA0 02204EF0 02204F68   state leaves (==1 / ==2 / ==4)
+  02204ED0 02204FA0           cue + state transitions (func_02005D90)
+  02204F40                    state 5/8/9 -> cue trio -> state 4
+  02204FC4                    state 7||8 predicate
+  02204FD4                    state 4 -> func_02204F24 + cue 0x515 -> state 9
+  02205138 02205168           six +0x48 handle teardown / probe
+  0220546C 022054E8           confirm gate; render-node branch
+  02204D5C                    scene teardown (13 calls)
+  02206078                    probe + state bump
+
+Evidence worth noting:
+  * 02204D5C's 0x43 argument to func_02034A5C is FS_OVERLAY_ID(67), carried
+    by the new `overlay_id` class (`extern u8 ov067_id[]` at 0x00000043).
+  * a new idiom, docs/idioms/a-boolean-argument-is-a-call-in-each-arm.md:
+    0220546C's 0/1 argument only matches when the call is written in each arm
+    and tail-merged; every value form compiles to the mirror orientation.
+
+Not closed, and why:
+  02205384 022055BC  100-byte stack-argument wrappers whose children
+    (0220549C, 02205620, ...) are still open.
+  02204C24          312-byte constructor, the largest remaining child.
+  021B70F4 021B76B0 overlay-window-ambiguous; need the overlay fixed by hand.
+  02204B66          not a function: `bl` at 0x022041C8 and `b` at 0x022045F0
+    reach it, so it is a second internal shared block of the root, the same
+    class as 02204BB2 (see the extent idiom).  The root's true extent still
+    runs to the pop at 0x02204C16.
+
+The root verdict is unchanged: report-only.  The dependency tree is now closed
+to the leaves; the blocker is magnitude (~2870 bytes, ~1000 Thumb
+instructions of a state machine over a scene object whose +0x00..+0x104 field
+map is only partially recovered), not attestation.
+
+Gate: `manifest --verify --shard pkt_ov195_022040E0` -> 27 entries, all
+EXACT/EXACT*.  `manifest --check` reports 7 **pre-existing** duplicate
+entries in ov016/ov091/ov093/ov099/ov104/ov110 (none in ov195, none written
+this pass).

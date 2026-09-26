@@ -9,12 +9,13 @@
  * isa:      thumb
  * status:   DIFF
  *
- * blocker:  6 bytes differ, codegen only.  The original hoists both loads
- *   first (ldrh r3,[p+4]; ldrh r0,[p+8]) then does each arm's arithmetic and
- *   store; mwcc interleaves load/add/store/load/subs/store.  A `b_then_a`
- *   source reproduces the hoisted load order but stores b before a; the exact
- *   load/arith/store interleave is a scheduler shape no tried C spelling
- *   reaches.  Constants: p+4 -> *a = x+0xF, p+8 -> *b = y-8.
+ * blocker:  5 bytes, codegen only.  The two source fields are WORD loads, not
+ *   halfwords (original `ldr r3,[p+4]; ldr r0,[p+8]`), so x/y are u32; with
+ *   that and this store order the loads and their registers (x->r3, y->r0)
+ *   are exact.  The residual is the tail schedule: the original interleaves
+ *   `adds r3,#0xF; strh r3,[a]; subs r0,#8; strh r0,[b]`, mwcc batches both
+ *   arithmetic ops and then emits the stores b-then-a.  Constants: p+4 -> *a =
+ *   x+0xF, p+8 -> *b = y-8.
  */
 
 typedef unsigned char u8;
@@ -26,9 +27,9 @@ typedef signed int s32;
 
 void func_021C28DC(char *p, u16 *a, u16 *b)
 {
-    u16 x = *(u16 *)(p + 4);
-    u16 y = *(u16 *)(p + 8);
+    u32 x = *(u32 *)(p + 4);
+    u32 y = *(u32 *)(p + 8);
 
-    *a = x + 0xF;
-    *b = y - 8;
+    *b = (u16)(y - 8);
+    *a = (u16)(x + 0xF);
 }

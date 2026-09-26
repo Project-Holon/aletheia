@@ -1,0 +1,70 @@
+/*
+ * function: func_021F40A0
+ * address:  0x021F40A0
+ * packet:   pkt_021F40A0
+ * region:   ov056
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * Unblocked (2026-09-26 recursive MATCH unblocker, arm9 0x0200..0x0202):
+ *   both wildcarded relocations are now `matched`.
+ *   - func_02011608: EXACT, src/matched/func_02011608.c (pkt_02011608).
+ *   - func_02011660: already an EXACT member of the game_unit
+ *     src/matched/unit_02011610.c (pkt_020113F0); that unit's `function:`
+ *     header now lists all three copies, so the manifest covers 0x02011660.
+ *   All 23 relocations resolve; EXACT* because the extent runs to the next
+ *   unlabelled follower.
+ *
+ * symbols:
+ *   func_02011608  0x02011608  thumb
+ *   func_020115EC  0x020115EC  thumb
+ *   func_02011610  0x02011610  thumb
+ *   func_02011660  0x02011660  thumb
+ *   func_02011638  0x02011638  thumb
+ *   func_021F4224  0x021F4224  thumb  ov056
+ *   func_021F423C  0x021F423C  thumb  ov056
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern int  func_02011608(int dev);
+extern void func_020115EC(int dev, int x);
+extern void func_02011610(int dev, int *out);
+extern void func_02011660(int dev, int *out);
+extern void func_02011638(int dev, int *out);
+extern void func_021F4224(int *p, int i);
+extern void func_021F423C(int *p, int i);
+
+int func_021F40A0(int *p)
+{
+    int flag;
+    int a[3], b[3], c[3];
+    int x = func_02011608(p[0]) << 12;
+
+    if (x <= p[1]) {
+        flag = 1;
+        p[1] = x - 0x1000;
+    } else {
+        flag = 0;
+    }
+    func_020115EC(p[0], p[1]);
+    func_02011610(p[0], a);
+    func_02011660(p[0], b);
+    func_02011638(p[0], c);
+    if (a[0] == 0x1000) func_021F4224(p, 0); else if (a[0] == 0x2000) func_021F423C(p, 0);
+    if (a[1] == 0x1000) func_021F4224(p, 1); else if (a[1] == 0x2000) func_021F423C(p, 1);
+    if (a[2] == 0x1000) func_021F4224(p, 2); else if (a[2] == 0x2000) func_021F423C(p, 2);
+    if (b[0] == 0x1000) func_021F4224(p, 3); else if (b[0] == 0x2000) func_021F423C(p, 3);
+    if (b[1] == 0x1000) func_021F4224(p, 4); else if (b[1] == 0x2000) func_021F423C(p, 4);
+    if (b[2] == 0x1000) func_021F4224(p, 5); else if (b[2] == 0x2000) func_021F423C(p, 5);
+    if (c[0] == 0x1000) func_021F4224(p, 6); else if (c[0] == 0x2000) func_021F423C(p, 6);
+    if (c[1] == 0x1000) func_021F4224(p, 7); else if (c[1] == 0x2000) func_021F423C(p, 7);
+    if (c[2] == 0x1000) func_021F4224(p, 8); else if (c[2] == 0x2000) func_021F423C(p, 8);
+    p[1] += 0x1000;
+    return flag;
+}

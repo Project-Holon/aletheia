@@ -1,0 +1,283 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "twl",
+ "shard": "twl",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "func_0270234C",
+   "address": "0x0270234C",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_0270234C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_027028E8",
+   "address": "0x027028E8",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_027028E8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_02703250",
+   "address": "0x02703250",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_02703250.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02082E74"
+    ]
+   }
+  },
+  {
+   "name": "func_02703A74",
+   "address": "0x02703A74",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_02703A74.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_02703B24",
+   "address": "0x02703B24",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_02703B24.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_02703B98",
+   "address": "0x02703B98",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_02703B98.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_02703F7C",
+   "address": "0x02703F7C",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_02703F7C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_02704230",
+   "address": "0x02704230",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_02704230.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x027343E0",
+     "self:0x0273442C"
+    ]
+   }
+  },
+  {
+   "name": "func_02704264",
+   "address": "0x02704264",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_02704264.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
+   "status": "EXACT*",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02734420",
+     "self:0x02734428"
+    ]
+   }
+  },
+  {
+   "name": "func_02704D48",
+   "address": "0x02704D48",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_02704D48.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02734450"
+    ]
+   }
+  },
+  {
+   "name": "func_02704D74",
+   "address": "0x02704D74",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_02704D74.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02734450"
+    ]
+   }
+  },
+  {
+   "name": "func_02704E90",
+   "address": "0x02704E90",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_02704E90.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x04004006"
+    ]
+   }
+  },
+  {
+   "name": "func_02704EE8",
+   "address": "0x02704EE8",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_02704EE8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x04004006"
+    ]
+   }
+  },
+  {
+   "name": "func_02704F1C",
+   "address": "0x02704F1C",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_02704F1C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x04004308"
+    ]
+   }
+  },
+  {
+   "name": "func_02704F9C",
+   "address": "0x02704F9C",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_02704F9C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x04004308"
+    ]
+   }
+  },
+  {
+   "name": "func_02704FE4",
+   "address": "0x02704FE4",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_02704FE4.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x0400430C"
+    ]
+   }
+  },
+  {
+   "name": "func_02705008",
+   "address": "0x02705008",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_02705008.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x0400430C"
+    ]
+   }
+  },
+  {
+   "name": "func_0270502C",
+   "address": "0x0270502C",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_0270502C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
+   "status": "EXACT"
+  }
+ ]
+}

@@ -10,16 +10,16 @@
  * status:   EXACT
  *
  * symbols:
- *   data_02004200  0x02004200  data twl a2
+ *   data_04004202  0x04004202  data twl a2
  */
 
 typedef unsigned short u16;
 typedef signed short s16;
 typedef signed int s32;
 
-extern u16 data_02004200;
+extern u16 data_04004202;
 
 s32 func_027020F0(void)
 {
-    return (data_02004200 & 0x8000) >> 15;
+    return (data_04004202 & 0x8000) >> 15;
 }

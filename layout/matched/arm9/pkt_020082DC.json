@@ -19,8 +19,10 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "code:0x020362A4",
      "self:0x0209DD64"
+    ],
+    "sdk": [
+     "0x020362A4"
     ]
    }
   }

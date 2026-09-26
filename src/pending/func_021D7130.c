@@ -18,6 +18,8 @@
  *   func_021DFA60  0x021DFA60  thumb  ov119
  *   func_021E3230  0x021E3230  thumb  ov119
  *   func_021E3208  0x021E3208  thumb  ov119
+ *   func_02015EA0  0x02015EA0  thumb
+ *   func_02015F50  0x02015F50  thumb
  *
  * Attempting the big function. The real body is 0xB4A bytes (2890) of code
  * from 0x021D7130 to 0x021D7C7A, an unrolled event/demo state machine of 57

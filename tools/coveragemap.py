@@ -29,7 +29,8 @@ import worklist  # noqa: E402
 import ovstats  # noqa: E402
 
 COL = {"matched": "#2f9e5b", "matched2": "#3fb96e", "sole": "#8fd3a8", "open": "#34393b", "open2": "#3d4245",
-       "sdk": "#262b30", "matched_sdk": "#2f8fb0", "runtime": "#3a3629", "bg": "#15181a", "line": "#0d0f10",
+       "sdk": "#262b30", "matched_sdk": "#2f8fb0", "runtime": "#3a3629", "matched_runtime": "#8a6d3b",
+       "bg": "#15181a", "line": "#0d0f10",
        "ink": "#e6e9e6", "muted": "#8f978f", "title": "#c9d2c9"}
 
 HDR_RANGE = re.compile(r"address range\s+0x([0-9A-Fa-f]+)\.\.0x([0-9A-Fa-f]+)\s+\(0x([0-9A-Fa-f]+) bytes\)")
@@ -276,7 +277,8 @@ def render(out, headline, panel_titles, groups_pair, footnote, W, PH):
          '<text x="10" y="20" font-size="14" fill="%s">%s</text>' % (COL["ink"], esc(headline))]
     # legend on the line below the title, right-aligned
     lx = W - 10
-    for label, key in (("runtime", "runtime"), ("SDK", "sdk"), ("matched SDK", "matched_sdk"),
+    for label, key in (("runtime", "runtime"), ("matched runtime", "matched_runtime"),
+                       ("SDK", "sdk"), ("matched SDK", "matched_sdk"),
                        ("open", "open"), ("sole-ref", "sole"), ("matched", "matched")):
         lx -= 8 * len(label) + 26
         o.append('<rect x="%d" y="31" width="11" height="11" fill="%s"/><text x="%d" y="41" font-size="11" fill="%s">%s</text>'
@@ -294,11 +296,14 @@ def render(out, headline, panel_titles, groups_pair, footnote, W, PH):
 
 def render_arm9(a, anchors):
     inv = worklist.build_inventory()
-    # An SDK row that a manifest entry covers (sdk_calibration, or a matched
-    # entry at an SDK address) is matched SDK, not plain SDK.
+    thunks = {t["addr"] for t in inv.get("thunks", [])}
     for fn in inv["funcs"]:
         if fn.get("cls") == "sdk" and fn.get("matched_name"):
             fn["cls"] = "matched_sdk"
+        if fn.get("cls") == "runtime" and fn.get("matched_name"):
+            fn["cls"] = "matched_runtime"
+        elif fn.get("cls") == "open":
+            fn["cls"] = "matched"
     units = json.load(open(os.path.join(ROOT, "layout", "units_arm9.json")))["units"]
     ub = [u["base"] for u in units]
     per = [[] for _ in units]

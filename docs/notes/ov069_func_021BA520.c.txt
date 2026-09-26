@@ -1,0 +1,68 @@
+func_021BA520 (0x021BA520, ov069, Thumb, 100-byte body) -- DIFF near miss
+========================================================================
+
+The whole body reproduces except a three-instruction register swap in the
+slot addressing: the image keeps the array base (a0+0x10) in r6 and the
+scaled index (a1*4) in r4 and loads `[r6, r4]`; every build keeps the base in
+r4 and the index in r6 and loads `[r4, r6]`.  Same frame, same spills, same
+call order, all eight relocations resolve -- only the two addressing
+registers are exchanged.
+
+Image prologue:
+
+    push {r3, r4, r5, r6, r7, lr}
+    sub  sp, #0x10
+    adds r5, r0, #0            ; r5 = a0
+    adds r7, r1, #0            ; r7 = a1
+    adds r6, r5, #0            ; r6 = a0
+    lsls r4, r7, #2            ; r4 = a1*4
+    adds r6, #0x10             ; r6 = a0+0x10
+    ldr  r0, [r6, r4]          ; element
+
+Every build instead emits `adds r4,r5,#0 / adds r4,#0x10 / lsls r6,r7,#2`
+and `ldr r0,[r4,r6]`: the base goes to r4 and the index to r6.
+
+Semantics: publish element `a1` of the a0+0x10 array -- probe through
+func_02045770, then func_02043B5C(x, 4); if a3 == 0 call func_0201C7D0 with
+mode word 0x3584 else with 0x2D44, passing a2 and a0->fc; then tear the slot
+down with func_02045334, func_0202CEBC(a0->f4, a1, elem) and
+func_0202CC58(a0->f4, a1).
+
+Best source (9 bytes out of 100):
+
+    typedef struct { int f0, f4, f8, fc; } Obj;
+
+    extern int  func_02045770(int e);
+    extern void func_02043B5C(int, int);
+    extern void func_0201C7D0(int, int, int, int, int, int);
+    extern void func_02045334(int e);
+    extern void func_0202CEBC(int, int, int);
+    extern void func_0202CC58(int, int);
+
+    void func_021BA520(Obj *a0, int a1, int a2, int a3)
+    {
+        int n = a1;
+        int *p = &((int *)a0)[4];
+
+        func_02043B5C(func_02045770(p[n]), 4);
+        if (a3 == 0)
+            func_0201C7D0(func_02045770(p[n]), 0, 0, a2, a0->fc, 0x3584);
+        else
+            func_0201C7D0(func_02045770(p[n]), 0, 0, a2, a0->fc, 0x2D44);
+        func_02045334(p[n]);
+        func_0202CEBC(a0->f4, n, p[n]);
+        func_0202CC58(a0->f4, n);
+    }
+
+Variants tried, all 9 bytes out with the same r4/r6 exchange:
+  * direct `a1` instead of the `n` copy; `((int *)a0)[4 + a1]` as a macro so
+    the element is reloaded (this one gives 94 bytes out because a2 stops
+    being spilled -- binding the base is what restores the image's frame);
+  * `int *p = (int *)a0 + 4;` / `&((int *)a0)[4]` / `(int *)((char *)a0 +
+    0x10)`;
+  * `n` declared before vs after `p`;
+  * `p[a1]` vs `p[n]`.
+The old note `pkt_02156B70.c.txt` records the same class ("swap the
+declarations") but here the two registers are the compiler-chosen base and
+scaled-index pair, not two named locals, so declaration order does not move
+them.  Parked as a colouring wall.

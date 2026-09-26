@@ -18,10 +18,9 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "evidence": {
-    "sole-ref": [
-     "code:0x021CA9DC"
-    ],
     "sdk": [
+     "0x021CA9A0",
+     "0x021CA9DC",
      "0x021CAB68"
     ]
    }
@@ -38,9 +37,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "evidence": {
-    "sole-ref": [
-     "code:0x021CAE08",
-     "code:0x021CAF78"
+    "sdk": [
+     "0x021CADCC",
+     "0x021CAE08",
+     "0x021CAF78"
     ]
    }
   },
@@ -56,9 +56,10 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "evidence": {
-    "sole-ref": [
-     "code:0x021CB518",
-     "code:0x021CB6A4"
+    "sdk": [
+     "0x021CB4DC",
+     "0x021CB518",
+     "0x021CB6A4"
     ]
    }
   }

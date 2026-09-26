@@ -12,18 +12,18 @@
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   data_02004200         0x02004200  data twl a2
+ *   data_04004202         0x04004202  data twl a2
  */
 
 extern unsigned int OS_DisableInterrupts(void);
 extern void OS_RestoreInterrupts(unsigned int enable);
-extern unsigned short data_02004200;
+extern unsigned short data_04004202;
 
 asm void func_027021E4(void)
 {
     stmdb   sp!, {r3, lr}
     bl      OS_DisableInterrupts
-    ldr     r2, =data_02004200
+    ldr     r2, =data_04004202
     ldrh    r1, [r2]
     orr     r1, r1, #0x20
     strh    r1, [r2]

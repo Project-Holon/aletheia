@@ -57,3 +57,15 @@ puts the constant in r3, which becomes dst.  The region/ISA hint on
 func_0217FF78's `symbols:` line was corrected to `func_02167848 0x02167848
 thumb ov010` this wave; what remains needed is an EXACT ov010 entry (or a
 seeded function_starts.txt label), not a hint fix.
+
+Wave-8 re-check (still DIFF, still the sole blocker).  Four more spellings --
+`u16`/`short` index parameter, a `Pair { u32, u32 }` lvalue for the 8-byte
+block, mirror `Dst`/`Src` structs with `u64` at +8, and an extra global --
+all emit the same wrong allocation; the `Pair` form is worse (28 bytes, the
+compiler scalarises the aggregate).  The header now records the re-check.
+The arm9 wih_dwc.c family that shared this "unlabelled overlay leaf" blocker
+class was unblocked this wave instead: 0x02177B80, 0x02178098 (both
+byte-identical readers of g_021797A4) and 0x0217963C (setter through
+g_021797A8) are now EXACT* ov014 entries, so sub_020107FC, func_0201058C,
+func_020103E4 and sub_02010360 all verify with every site resolved.  Only
+func_02167848 remains, and it is codegen, not evidence.

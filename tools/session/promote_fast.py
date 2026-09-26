@@ -59,7 +59,14 @@ def shard(p):
 def main(argv=None):
     argv = sys.argv[1:] if argv is None else argv
     os.chdir(env.ROOT)   # file keys and git paths are repo-relative
-    files = [f.replace(os.sep, "/") for f in sorted(glob.glob(os.path.join("src", "pending", "*.c")))]
+    target_args = [a for a in argv if not a.startswith("-")]
+    if target_args:
+        files = []
+        for arg in target_args:
+            files.extend(glob.glob(os.path.normpath(arg)))
+        files = [f.replace(os.sep, "/") for f in sorted(set(files))]
+    else:
+        files = [f.replace(os.sep, "/") for f in sorted(glob.glob(os.path.join("src", "pending", "*.c")))]
     # consider every pending file; a stale header status (e.g. DIFF that now
     # verifies EXACT) must not hide a promotable file.  verify() decides.
     files = [f for f in files if hdr(f)["status"] not in (None, "?")]

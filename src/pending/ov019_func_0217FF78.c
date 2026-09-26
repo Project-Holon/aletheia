@@ -22,10 +22,14 @@
  * Up to four entries of the table based at p+0x18 (stride 0x2c), dispatching
  * each through one of two handlers.  Addresses are Black-image addresses.
  *
- * blocker: one of two call sites now resolved. 0x021751DC was matched in
+ * blocker: one of two call sites still resolved. 0x021751DC was matched in
  * ov012 (the only overlay with a function start there; see
  * src/matched/ov012_func_021751DC.c) and attests the +0024 site as `matched`.
- * 0x02167848 is still unresolved.  The region/ISA hint is now correct
+ * 0x02167848 remains unresolved, and note the truth about that callee:
+ * src/pending/ov010_func_02167848.c was re-derived by a later lane and is
+ * DIFF (register permutation, 213 of 288 bytes), not EXACT, so even matching
+ * its address would not give this file a `matched` witness.  The region/ISA
+ * hint is now correct
  * (`thumb ov010`: Thumb code, ov010; ov009 holds ARM data at the address), so
  * ambiguity is gone, but no func_ label exists in any overlay
  * (target_extent is None): `label`/`sole-ref/code` cannot fire, and the only

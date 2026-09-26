@@ -24,6 +24,30 @@
    }
   },
   {
+   "name": "func_0272EBDC",
+   "address": "0x0272EBDC",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_0272EBDC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_0272F804",
+   "address": "0x0272F804",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_0272F804.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
    "name": "func_0272FB10",
    "address": "0x0272FB10",
    "kind": "game",
@@ -33,11 +57,73 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_0272FB28",
+   "address": "0x0272FB28",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_0272FB28.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "code:0x0272FD5C",
-     "code:0x0272FD7C"
+     "self:0x02732EFC"
+    ]
+   }
+  },
+  {
+   "name": "func_0272FB78",
+   "address": "0x0272FB78",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_0272FB78.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02732EFC"
+    ]
+   }
+  },
+  {
+   "name": "func_0272FBD0",
+   "address": "0x0272FBD0",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_0272FBD0.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02732EFC"
+    ]
+   }
+  },
+  {
+   "name": "func_0272FC2C",
+   "address": "0x0272FC2C",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_0272FC2C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02732EFC"
     ]
    }
   },
@@ -99,12 +185,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x0272FC90"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "func_0272FD5C",
@@ -141,6 +222,35 @@
    "kind": "game",
    "region": "twl",
    "source": "src/matched/func_0272FDC0.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_0272FDDC",
+   "address": "0x0272FDDC",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_0272FDDC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02732EFC"
+    ]
+   }
+  },
+  {
+   "name": "func_0272FE48",
+   "address": "0x0272FE48",
+   "kind": "game",
+   "region": "twl",
+   "source": "src/matched/func_0272FE48.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

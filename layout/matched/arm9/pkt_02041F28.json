@@ -72,7 +72,10 @@
    "status": "EXACT",
    "evidence": {
     "sdk": [
-     "0x0207E888"
+     "0x0207E888",
+     "0x0207E944",
+     "0x0207EC34",
+     "0x0207EDAC"
     ]
    }
   },
@@ -86,7 +89,17 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x0207EF90",
+     "0x0207F024",
+     "0x0207F0B8",
+     "0x0207F14C",
+     "0x0207F1E0",
+     "0x0207F274"
+    ]
+   }
   }
  ]
 }
