@@ -4847,7 +4847,57 @@ def match_shard_id(wanted, by_shard):
                      % (wanted, ", ".join("%s/%s" % k for k in exact)))
 
 
+def manifest_check():
+    """Report duplicate manifest entries and json files shard_files() ignores.
+
+    The one defect that silently corrupts coverage and the build is a shard
+    entry that exists twice (two sources claiming one region+address+name), or
+    a shard file that is not named so shard_files() reads it at all (the twl
+    shards were twl_audio.json / twl_sys.json for a while).  This is the
+    cheap, read-only gate for both.
+    """
+    read = set(os.path.normcase(os.path.abspath(p)) for p in shard_files())
+    on_disk = []
+    for dirpath, _dirs, files in os.walk(MANIFEST_DIR):
+        for fn in files:
+            if fn.endswith(".json"):
+                on_disk.append(os.path.join(dirpath, fn))
+    unread = [p for p in sorted(on_disk)
+              if os.path.normcase(os.path.abspath(p)) not in read]
+    seen = defaultdict(list)
+    for p in shard_files():
+        try:
+            with open(p, encoding="utf-8") as fh:
+                doc = json.load(fh)
+        except Exception as exc:       # unparseable is itself a defect
+            unread.append(p)
+            sys.stderr.write("unparseable shard: %s (%s)\n"
+                             % (os.path.relpath(p, ROOT), exc))
+            continue
+        for e in doc.get("functions", []):
+            if isinstance(e, dict):
+                seen[(e.get("region"), e.get("address"), e.get("name"),
+                      e.get("kind"))].append(os.path.relpath(p, ROOT))
+    dups = {k: v for k, v in seen.items() if len(v) > 1}
+    if unread:
+        print("%d json file(s) under layout/matched/ are not read by shard_files():"
+              % len(unread))
+        for p in unread:
+            print("  ", os.path.relpath(p, ROOT))
+    if dups:
+        print("%d duplicate manifest entr(ies):" % len(dups))
+        for key, files in sorted(dups.items()):
+            print("  %s  %s" % (key, files))
+    if not unread and not dups:
+        print("manifest check: clean (%d shard file(s), no duplicates, no unread json)"
+              % len(read))
+        return 0
+    return 1
+
+
 def cmd_manifest(args):
+    if getattr(args, "check", False):
+        return manifest_check()
     if args.migrate:
         return migrate_manifest()
 
@@ -4894,10 +4944,10 @@ def cmd_manifest(args):
             print("    %-10s %-16s %-30s %-10s %s"
                   % (e["address"], e["kind"], e["name"], e["compiler"],
                      e["status"]))
-            if args.verify and e["status"] != "EXACT":
+            if args.verify and e["status"] not in MATCHED_STATUS:
                 bad += 1
     if args.verify and bad:
-        print("\n%d entr(ies) are not EXACT" % bad, file=sys.stderr)
+        print("\n%d entr(ies) are not EXACT/EXACT*" % bad, file=sys.stderr)
         return 1
     return 0
 
@@ -6530,6 +6580,9 @@ def main(argv=None):
     p3.add_argument("--migrate", action="store_true",
                     help="one-time move from layout/matched.json to the "
                          "shards, then delete the old file")
+    p3.add_argument("--check", action="store_true",
+                    help="report duplicate manifest entries and shard json "
+                         "files that shard_files() does not read")
 
     p6 = sub.add_parser("idioms",
                         help="regenerate the docs/idioms index in docs/MATCHING.md")

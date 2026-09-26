@@ -1023,12 +1023,14 @@ def build_document(inv, packets):
     counts = {"total": len(funcs), "sdk": 0, "runtime": 0, "matched": 0, "open": 0}
     bytes_by = {"sdk": 0, "runtime": 0, "matched": 0, "open": 0}
     sdk_matched = 0
+    sdk_matched_bytes = 0
     sdk_conflicts = []
     for f in funcs:
         counts[f["cls"]] += 1
         bytes_by[f["cls"]] += f["code_bytes"]
         if f["cls"] == "sdk" and "matched_name" in f:
             sdk_matched += 1
+            sdk_matched_bytes += f["code_bytes"]
         if "sdk_conflict" in f:
             sdk_conflicts.append(
                 {
@@ -1094,6 +1096,7 @@ def build_document(inv, packets):
             "functions_total": counts["total"],
             "functions_sdk": counts["sdk"],
             "functions_sdk_also_matched": sdk_matched,
+            "code_bytes_sdk_also_matched": sdk_matched_bytes,
             "functions_runtime": counts["runtime"],
             "functions_matched": counts["matched"],
             "functions_open": counts["open"],
@@ -1238,8 +1241,8 @@ def print_summary(doc):
         )
     )
     print(
-        "    of which calibrated    %6d  (manifest sdk_calibration entries)"
-        % s["functions_sdk_also_matched"]
+        "    of which matched SDK   %6d              %d bytes of code"
+        % (s["functions_sdk_also_matched"], s.get("code_bytes_sdk_also_matched", 0))
     )
     print(
         "  runtime excluded         %6d              %d bytes of code"
