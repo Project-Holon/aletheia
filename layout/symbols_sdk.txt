@@ -2248,6 +2248,7 @@
 02180518  gsUdpClosedRoutingCB                          TwlDWC/libdwcgscommon.TWL.HYB.a(gsudpengine.o)  ov009
 021806A8  gsUdpConnectedRoutingCB                       TwlDWC/libdwcgscommon.TWL.HYB.a(gsudpengine.o)  ov009
 02180924  gsUdpPingRoutingCB                            TwlDWC/libdwcgscommon.TWL.HYB.a(gsudpengine.o)  ov009
+021809D8  IRC_Check                                     TwlSDK/libirc.thumb.a(irc.o)  ov231  ?
 02180A64  gsUdpReceivedRoutingCB                        TwlDWC/libdwcgscommon.TWL.HYB.a(gsudpengine.o)  ov009
 02180BFC  gsUdpUnrecognizedMsgCB                        TwlDWC/libdwcgscommon.TWL.HYB.a(gsudpengine.o)  ov009
 02180C94  gsUdpConnAttemptCB                            TwlDWC/libdwcgscommon.TWL.HYB.a(gsudpengine.o)  ov009
@@ -4515,6 +4516,7 @@
 021F27A8  MBi_CommParentSendDLFileInfo                  TwlSDK/libmb.TWL.HYB.a(mb_parent.o)  ov107
 021F2938  MBi_ReloadCache                               TwlSDK/libmb.TWL.HYB.a(mb_parent.o)  ov107
 021F2A44  MBi_CommParentSendBlock                       TwlSDK/libmb.TWL.HYB.a(mb_parent.o)  ov107
+021F2BF0  CTRDG_IsAgbCartridge                          TwlSDK/libctrdg.TWL.HYB.thumb.a(ctrdg.o)  ov029
 021F2CBC  MBi_CommParentSendData                        TwlSDK/libmb.TWL.HYB.a(mb_parent.o)  ov107
 021F2E58  MBi_calc_sendblock                            TwlSDK/libmb.TWL.HYB.a(mb_parent.o)  ov107
 021F2ED4  MBi_calc_nextsendblock                        TwlSDK/libmb.TWL.HYB.a(mb_parent.o)  ov107

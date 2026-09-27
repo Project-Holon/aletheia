@@ -40859,6 +40859,18 @@
    "siblings": 25
   },
   {
+   "address": 35129816,
+   "name": "IRC_Check",
+   "lib": "TwlSDK/libirc.thumb.a",
+   "object": "irc.o",
+   "region": "ov231",
+   "thumb": true,
+   "size": 22,
+   "concrete": 14,
+   "dupes": 1,
+   "siblings": 1
+  },
+  {
    "address": 35129956,
    "name": "gsUdpReceivedRoutingCB",
    "lib": "TwlDWC/libdwcgscommon.TWL.HYB.a",
@@ -68151,6 +68163,18 @@
    "concrete": 600,
    "dupes": 1,
    "siblings": 17
+  },
+  {
+   "address": 35597296,
+   "name": "CTRDG_IsAgbCartridge",
+   "lib": "TwlSDK/libctrdg.TWL.HYB.thumb.a",
+   "object": "ctrdg.o",
+   "region": "ov029",
+   "thumb": true,
+   "size": 26,
+   "concrete": 18,
+   "dupes": 1,
+   "siblings": 1
   },
   {
    "address": 35597500,
