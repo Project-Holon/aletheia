@@ -1,0 +1,396 @@
+=== 2026-09-27 tree_ov114: func_021C7C1C (ov114, ARM), best DIFF, same size ===
+
+Verdict: DIFF, 2620/2620 bytes (0x021C7C1C..0x021C8658 incl. 3 pool words),
+73/73 relocation sites resolved (d_021D3EF0 = d_021D3D2C + 0x1c4 resolves
+sole-ref as its own extern; a G.hdr spelling stores through [G,#0x1c4] and
+loses the second pool word, so the original named two objects).
+
+Residue: a pure register rotation of the five values the compiler hoists to
+the prologue. Image: r4 = 24, r5 = &G, r6 = &hdr, r7 = -13, r8 = 0.
+Compiled: r4 = &G, r5 = &hdr, r6 = -13, r7 = 0, r8 = 24. Instruction order
+is identical (ldr G, ldr hdr, ldr state, mvn -13, cmp, mov 0, mov 24). With
+that mapping applied, the ONLY other difference is 5 instructions in the
+state-14 len/0x128 divide (+0x66C..+0x67C), where the image reuses r4 (24,
+dead there) as the umull high register and the build reuses &hdr's register;
+that follows from the rotation. Every switch table, arm order, cross-jump and
+constant derivation (sub rX, r24, #0x1d etc., mvn #1 in states 4/12) matches.
+
+Levers measured, all leave 24 last (158 concrete bytes out, unchanged):
+  named local for 24 (int, enum-typed, declared first/last); enum-typed state
+  and result fields; u32/s32 field types; state as int array d_021D3D2C[]
+  with byte/pointer casts (sibling style); pointer local for G (G then
+  colours LAST, 154 out); declaration orders of len/code/type/resp; odd-state
+  arm moved first; case 0/1/24 first; returns vs breaks; resp local for the
+  hdr copy; removing the odd arm or the error-arm state store (probes: 24
+  still last); changing -13/0 to other values (probe: still last); ERROR arm
+  as a static inline helper (frame grows to 0x5c, 242 out).
+  Front ends: dsi/1.2, dsi/1.3 identical to 1.1p1; ../2.0/sp2 3176 bytes,
+  ../1.2/sp2 3316 bytes.
+  permuter.py seed 6301, budget 600: best 163 out (worse than hand).
+Open question for the next lane: what source makes the 24 temp the first
+allocated web (its def created before &G's) while still scheduled last.
+
+Best source:
+/*
+ * function: func_021C7C1C
+ * address:  0x021C7C1C
+ * packet:   pkt_ov114_021C7C1C
+ * region:   ov114
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * DWC encryption-session poll: a switch on the session state (0..24); every
+ * even state 2..22 runs DWCi_EncSessionProcess and on 1 (error) or 8 (done)
+ * moves to state 24 and maps the response to a result code; every odd state
+ * 3..23 is a cancel (-12).  Real extent 0x021C7C1C..0x021C864C plus three
+ * pool words; the listing extent of 2716 bytes also covers the filed leaves
+ * 0x021C8658/0x021C866C/0x021C86A8.  d_021D3EF0 is d_021D3D2C + 0x1c4.
+ *
+ * symbols:
+ *   d_021D3D2C                  0x021D3D2C  data  a4
+ *   d_021D3EF0                  0x021D3EF0  data  a1
+ *   DWCi_EncSessionProcess      0x021CA0A0  arm
+ *   DWCi_EncSessionShutdown     0x021CA1B4  arm
+ *   DWCi_EncSessionGetResponse  0x021CA228  arm
+ *   DWC_GetLastErrorEx          0x02059E38  arm
+ *   func_021C8EB4               0x021C8EB4  arm
+ *   func_02092344               0x02092344  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+typedef struct {
+    u8 code;
+    u8 sub;
+} Hdr;
+
+typedef struct {
+    int state;              /* 0x000 */
+    int result;             /* 0x004 */
+    u8 pad8[0x1c4 - 0x8];
+    Hdr hdr;                /* 0x1c4 */
+    u8 pad1c6[2];
+    u8 *buf;                /* 0x1c8 */
+} Ctx;
+
+extern Ctx d_021D3D2C;
+extern Hdr d_021D3EF0;
+
+extern int DWCi_EncSessionProcess(void);
+extern void DWCi_EncSessionShutdown(void);
+extern u8 *DWCi_EncSessionGetResponse(u32 *len);
+extern int DWC_GetLastErrorEx(int *code, int *type);
+extern int func_021C8EB4(u32 type);
+extern void func_02092344(void *dst, const void *src, u32 n);
+
+void func_021C7C1C(void)
+{
+    u32 len;
+    int code;
+    int type;
+    u8 *resp;
+
+    switch (d_021D3D2C.state) {
+    case 2:
+        switch (DWCi_EncSessionProcess()) {
+        case 1:
+            d_021D3D2C.state = 24;
+            DWC_GetLastErrorEx(&code, &type);
+            d_021D3D2C.result = func_021C8EB4(type);
+            DWCi_EncSessionShutdown();
+            return;
+        case 8:
+            d_021D3D2C.state = 24;
+            d_021D3EF0 = *(Hdr *)DWCi_EncSessionGetResponse(&len);
+            switch (d_021D3D2C.hdr.code) {
+            case 1: d_021D3D2C.result = 0; break;
+            case 2: d_021D3D2C.result = -5; break;
+            case 3: d_021D3D2C.result = -4; break;
+            case 7: d_021D3D2C.result = -1; break;
+            case 12: d_021D3D2C.result = -6; break;
+            case 13: d_021D3D2C.result = -7; break;
+            case 8: d_021D3D2C.result = -8; break;
+            case 9: d_021D3D2C.result = -9; break;
+            case 10: d_021D3D2C.result = -10; break;
+            case 11: d_021D3D2C.result = -11; break;
+            case 14: d_021D3D2C.result = -2; break;
+            default: d_021D3D2C.result = -13; break;
+            }
+            DWCi_EncSessionShutdown();
+            return;
+        }
+        return;
+    case 4:
+        switch (DWCi_EncSessionProcess()) {
+        case 1:
+            d_021D3D2C.state = 24;
+            DWC_GetLastErrorEx(&code, &type);
+            d_021D3D2C.result = func_021C8EB4(type);
+            DWCi_EncSessionShutdown();
+            return;
+        case 8:
+            d_021D3D2C.state = 24;
+            d_021D3EF0 = *(Hdr *)DWCi_EncSessionGetResponse(&len);
+            switch (d_021D3D2C.hdr.code) {
+            case 1: d_021D3D2C.result = 0; break;
+            case 2: d_021D3D2C.result = -5; break;
+            case 3: d_021D3D2C.result = -4; break;
+            case 5: d_021D3D2C.result = -3; break;
+            case 14: d_021D3D2C.result = -2; break;
+            default: d_021D3D2C.result = -13; break;
+            }
+            DWCi_EncSessionShutdown();
+            return;
+        }
+        return;
+    case 6:
+        switch (DWCi_EncSessionProcess()) {
+        case 1:
+            d_021D3D2C.state = 24;
+            DWC_GetLastErrorEx(&code, &type);
+            d_021D3D2C.result = func_021C8EB4(type);
+            DWCi_EncSessionShutdown();
+            return;
+        case 8:
+            d_021D3D2C.state = 24;
+            resp = DWCi_EncSessionGetResponse(&len);
+            func_02092344(d_021D3D2C.buf, resp, 0x128);
+            if (len == 0x128) {
+                d_021D3D2C.result = 0;
+            } else {
+                switch (d_021D3D2C.buf[0]) {
+                case 5: d_021D3D2C.result = -3; break;
+                case 3: d_021D3D2C.result = -4; break;
+                case 14: d_021D3D2C.result = -2; break;
+                default: d_021D3D2C.result = -13; break;
+                }
+            }
+            DWCi_EncSessionShutdown();
+            return;
+        }
+        return;
+    case 8:
+        switch (DWCi_EncSessionProcess()) {
+        case 1:
+            d_021D3D2C.state = 24;
+            DWC_GetLastErrorEx(&code, &type);
+            d_021D3D2C.result = func_021C8EB4(type);
+            DWCi_EncSessionShutdown();
+            return;
+        case 8:
+            d_021D3D2C.state = 24;
+            resp = DWCi_EncSessionGetResponse(&len);
+            func_02092344(d_021D3D2C.buf, resp, 0x128);
+            if (len == 0x128) {
+                d_021D3D2C.result = 1;
+            } else {
+                switch (d_021D3D2C.buf[0]) {
+                case 5: d_021D3D2C.result = -3; break;
+                case 3: d_021D3D2C.result = -4; break;
+                case 4: d_021D3D2C.result = 0; break;
+                case 14: d_021D3D2C.result = -2; break;
+                default: d_021D3D2C.result = -13; break;
+                }
+            }
+            DWCi_EncSessionShutdown();
+            return;
+        }
+        return;
+    case 10:
+        switch (DWCi_EncSessionProcess()) {
+        case 1:
+            d_021D3D2C.state = 24;
+            DWC_GetLastErrorEx(&code, &type);
+            d_021D3D2C.result = func_021C8EB4(type);
+            DWCi_EncSessionShutdown();
+            return;
+        case 8:
+            d_021D3D2C.state = 24;
+            d_021D3EF0 = *(Hdr *)DWCi_EncSessionGetResponse(&len);
+            switch (d_021D3D2C.hdr.code) {
+            case 1: d_021D3D2C.result = 0; break;
+            case 5: d_021D3D2C.result = -3; break;
+            case 3: d_021D3D2C.result = -4; break;
+            case 14: d_021D3D2C.result = -2; break;
+            default: d_021D3D2C.result = -13; break;
+            }
+            DWCi_EncSessionShutdown();
+            return;
+        }
+        return;
+    case 12:
+        switch (DWCi_EncSessionProcess()) {
+        case 1:
+            d_021D3D2C.state = 24;
+            DWC_GetLastErrorEx(&code, &type);
+            d_021D3D2C.result = func_021C8EB4(type);
+            DWCi_EncSessionShutdown();
+            return;
+        case 8:
+            d_021D3D2C.state = 24;
+            d_021D3EF0 = *(Hdr *)DWCi_EncSessionGetResponse(&len);
+            switch (d_021D3D2C.hdr.code) {
+            case 1: d_021D3D2C.result = 0; break;
+            case 5: d_021D3D2C.result = -3; break;
+            case 2: d_021D3D2C.result = -5; break;
+            case 3: d_021D3D2C.result = -4; break;
+            case 14: d_021D3D2C.result = -2; break;
+            default: d_021D3D2C.result = -13; break;
+            }
+            DWCi_EncSessionShutdown();
+            return;
+        }
+        return;
+    case 14:
+        switch (DWCi_EncSessionProcess()) {
+        case 1:
+            d_021D3D2C.state = 24;
+            DWC_GetLastErrorEx(&code, &type);
+            d_021D3D2C.result = func_021C8EB4(type);
+            DWCi_EncSessionShutdown();
+            return;
+        case 8:
+            d_021D3D2C.state = 24;
+            resp = DWCi_EncSessionGetResponse(&len);
+            *(Hdr *)d_021D3D2C.buf = *(Hdr *)resp;
+            switch (d_021D3D2C.buf[0]) {
+            case 1:
+                if (len - 2 >= 0x128) {
+                    d_021D3D2C.result = (len - 2) / 0x128;
+                    func_02092344(d_021D3D2C.buf, resp + 2, len - 2);
+                } else if (len == 2) {
+                    d_021D3D2C.result = 0;
+                }
+                break;
+            case 14: d_021D3D2C.result = -2; break;
+            default: d_021D3D2C.result = -13; break;
+            }
+            DWCi_EncSessionShutdown();
+            return;
+        }
+        return;
+    case 16:
+        switch (DWCi_EncSessionProcess()) {
+        case 1:
+            d_021D3D2C.state = 24;
+            DWC_GetLastErrorEx(&code, &type);
+            d_021D3D2C.result = func_021C8EB4(type);
+            DWCi_EncSessionShutdown();
+            return;
+        case 8:
+            d_021D3D2C.state = 24;
+            resp = DWCi_EncSessionGetResponse(&len);
+            func_02092344(d_021D3D2C.buf, resp, 0x128);
+            if (len == 0x128) {
+                d_021D3D2C.result = 0;
+            } else {
+                switch (d_021D3D2C.buf[0]) {
+                case 2: d_021D3D2C.result = -5; break;
+                case 12: d_021D3D2C.result = -6; break;
+                case 13: d_021D3D2C.result = -7; break;
+                case 8: d_021D3D2C.result = -8; break;
+                case 9: d_021D3D2C.result = -9; break;
+                case 10: d_021D3D2C.result = -10; break;
+                case 11: d_021D3D2C.result = -11; break;
+                case 14: d_021D3D2C.result = -2; break;
+                default: d_021D3D2C.result = -13; break;
+                }
+            }
+            DWCi_EncSessionShutdown();
+            return;
+        }
+        return;
+    case 18:
+        switch (DWCi_EncSessionProcess()) {
+        case 1:
+            d_021D3D2C.state = 24;
+            DWC_GetLastErrorEx(&code, &type);
+            d_021D3D2C.result = func_021C8EB4(type);
+            DWCi_EncSessionShutdown();
+            return;
+        case 8:
+            d_021D3D2C.state = 24;
+            d_021D3EF0 = *(Hdr *)DWCi_EncSessionGetResponse(&len);
+            switch (d_021D3D2C.hdr.code) {
+            case 1: d_021D3D2C.result = 0; break;
+            case 2: d_021D3D2C.result = -5; break;
+            case 14: d_021D3D2C.result = -2; break;
+            }
+            DWCi_EncSessionShutdown();
+            return;
+        }
+        return;
+    case 20:
+        switch (DWCi_EncSessionProcess()) {
+        case 1:
+            d_021D3D2C.state = 24;
+            DWC_GetLastErrorEx(&code, &type);
+            d_021D3D2C.result = func_021C8EB4(type);
+            DWCi_EncSessionShutdown();
+            return;
+        case 8:
+            d_021D3D2C.state = 24;
+            d_021D3EF0 = *(Hdr *)DWCi_EncSessionGetResponse(&len);
+            switch (d_021D3D2C.hdr.code) {
+            case 1: d_021D3D2C.result = 0; break;
+            case 6: d_021D3D2C.result = 1; break;
+            case 7: d_021D3D2C.result = 2; break;
+            case 14: d_021D3D2C.result = -2; break;
+            default: d_021D3D2C.result = -13; break;
+            }
+            DWCi_EncSessionShutdown();
+            return;
+        }
+        return;
+    case 22:
+        switch (DWCi_EncSessionProcess()) {
+        case 1:
+            d_021D3D2C.state = 24;
+            DWC_GetLastErrorEx(&code, &type);
+            d_021D3D2C.result = func_021C8EB4(type);
+            DWCi_EncSessionShutdown();
+            return;
+        case 8:
+            d_021D3D2C.state = 24;
+            resp = DWCi_EncSessionGetResponse(&len);
+            *(Hdr *)d_021D3D2C.buf = *(Hdr *)resp;
+            if (len == 8) {
+                d_021D3D2C.result = 0;
+            } else {
+                switch (d_021D3D2C.buf[0]) {
+                case 1: d_021D3D2C.result = 0; break;
+                case 6: d_021D3D2C.result = 1; break;
+                case 7: d_021D3D2C.result = 2; break;
+                case 14: d_021D3D2C.result = -2; break;
+                default: d_021D3D2C.result = -13; break;
+                }
+            }
+            DWCi_EncSessionShutdown();
+            return;
+        }
+        return;
+    case 3:
+    case 5:
+    case 7:
+    case 9:
+    case 11:
+    case 13:
+    case 15:
+    case 17:
+    case 19:
+    case 21:
+    case 23:
+        d_021D3D2C.state = 24;
+        d_021D3D2C.result = -12;
+        DWCi_EncSessionShutdown();
+        return;
+    case 0:
+    case 1:
+    case 24:
+        break;
+    }
+}

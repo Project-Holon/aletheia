@@ -1,0 +1,35 @@
+/*
+ * function: func_02206768
+ * address:  0x02206768
+ * packet:   pkt_02206768
+ * region:   ov195
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_022067B0 0x022067B0 thumb ov195
+ *   func_022086BC 0x022086BC thumb ov195
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern void func_022067B0(void *, u16, u32, u32, u32);
+extern void func_022086BC(void *, u16, u32, u32, u32);
+
+void func_02206768(char *a, u32 x, u32 y, u32 z)
+{
+    char *t = *(char **)(a + 0x58);
+    u8 i;
+
+    for (i = 0; i < 2; i++) {
+        if (*(void **)(t + i * 4 + 8) != 0)
+            func_022067B0(*(void **)(t + i * 4 + 8), *(u16 *)a, x, y, z);
+    }
+    if (*(void **)(t + 0x10) != 0)
+        func_022086BC(*(void **)(t + 0x10), *(u16 *)a, x, y, z);
+}

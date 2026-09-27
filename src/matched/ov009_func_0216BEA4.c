@@ -1,0 +1,51 @@
+/*
+ * function: func_0216BEA4
+ * address:  0x0216BEA4
+ * packet:   pkt_ov009_021702A0
+ * region:   ov009
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * DWCi_CloseConnectionHard: closes an aid's connection, or runs the closed path for a node with none.
+ *
+ * symbols:
+ *   g_021AA878  0x021AA878  data
+ *   func_02059F38  0x02059F38  arm
+ *   func_0216BAF4  0x0216BAF4  arm  ov009
+ *   func_02176410  0x02176410  arm  ov009
+ *   func_0216C230  0x0216C230  arm  ov009
+ *   func_02195DC4  0x02195DC4  arm  ov009
+ */
+
+extern char g_021AA878[];
+extern int func_02059F38(void);
+extern int func_0216BAF4(unsigned char aid);
+extern unsigned char *func_02176410(unsigned char aid);
+extern void func_0216C230(int a, int b, int c, int aid);
+extern void func_02195DC4(int conn);
+
+int func_0216BEA4(unsigned char aid)
+{
+    int conn;
+    unsigned char *node;
+
+    if (*(char **)(g_021AA878 + 4) == 0 || func_02059F38() != 0 ||
+        (*(int *)(*(char **)(g_021AA878 + 4) + 0x24) != 4 &&
+         *(int *)(*(char **)(g_021AA878 + 4) + 0x24) != 5)) {
+        return -1;
+    }
+    conn = func_0216BAF4(aid);
+    if (conn == 0) {
+        node = func_02176410(aid);
+        if (node == 0) {
+            return -2;
+        }
+        func_0216C230(0, 0, 1, node[0x16]);
+        return 0;
+    }
+    func_02195DC4(conn);
+    return 0;
+}

@@ -1,0 +1,13 @@
+=== 2026-09-27 tree_ov009: func_021700C8 (DWCi_MakeMatchCommandControl), ov009, DIFF 20 bytes
+
+Best source: src/pending/ov009_func_021700C8.c (size 160/160, all 5 relocations resolve).
+Residue: registers only, in the inlined 5-byte identifier copy from d_021A2188 and the
+two following stores. Original: ldr ip,=id / lsl r0,r6,#2 / ldrb r3,r2 / mov r1,#0x5a.
+Compiled: ldr r0,=id / lsl r1,r6,#2 / ldrb ip,r3 / mov r2,#0x5a.
+Tried, all DIFF with the same rotation or worse: len*4 assignment moved above the copy;
+non-const extern; copy through a const pointer local; (u8) cast and << 2 spellings;
+five explicit byte copies; a union of the id with a {char[4]; int version} header.
+Permuter, seed 6001, budget 400: best bytes-out=20, no progress.
+Next idea: the copy may be an inlined strcpy of a string literal (identifier char[4]
+plus NUL overrunning into the version word, which is then overwritten), which would
+need a literal whose relocation lands on 0x021A2188.
