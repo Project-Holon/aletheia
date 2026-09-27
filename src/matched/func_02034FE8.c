@@ -11,17 +11,15 @@
  *
  * symbols:
  *   func_02034FD4 0x02034FD4 arm
- *   g_021469BC 0x021469BC data
  */
 
 extern void func_02034FD4(void);
-extern void g_021469BC(void);
 
 asm void func_02034FE8(void)
 {
-    ldr r2, =g_021469BC
-    mov	r1, r0
-    ldr	r0, [r2]
+    ldr r2, =0x021469BC
+    mov r1, r0
+    ldr r0, [r2]
     ldr ip, =func_02034FD4
-    bx	ip
+    bx ip
 }

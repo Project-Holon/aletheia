@@ -1,7 +1,7 @@
 /*
  * function: FX_GetDivResultFx64c
  * address:  0x0207C848
- * packet:   pkt_02060000
+ * packet:   pkt_0207C848
  * region:   arm9
  * compiler: 1.1p1
  * flags:    -O4,p
