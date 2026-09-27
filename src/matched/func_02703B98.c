@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   func_027026DC  0x027026DC  code twl

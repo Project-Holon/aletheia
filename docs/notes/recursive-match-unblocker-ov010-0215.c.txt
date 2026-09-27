@@ -1,0 +1,72 @@
+Recursive MATCH unblocker, overlay blocker targets in 0x02150000..0x0217FFFF
+=============================================================================
+
+Lane scope: find the unresolved targets named as blockers by `src/pending/`
+MATCH files whose target lies in 0x02150000..0x0217FFFF, match each target (and
+its non-SDK deps) bottom-up in the correct region, then re-verify the blocked
+file and promote it if it turned EXACT.  Every address below is a Black-image
+address.  Overlay windows that cover this band are ov009 (0x02155160..),
+ov010 (0x02155160..) and ov019 (0x0217AE20..); the region/ISA hint on each
+target's `symbols:` line is what disambiguates them.
+
+Target 0x02167848 (blocks func_0217FF78, ov019) -- RESOLVED
+-----------------------------------------------------------
+0x02167848 is an **unlabelled Thumb leaf** living in ov010.  ov009 holds ARM
+data at the address, ov011/ov018/ov019 only call it (their `bl 0x02167848`
+sites), and `disasm.py` emitted ov010's body as the `pool_02167844` word run
+because the prologue `push {r4, r5}` saves no `lr` (the standard
+`unlabelled-leaf-functions-hide-in-word-runs.md` case).  No `func_` label
+exists in any overlay, so `label` and `sole-ref/code` cannot fire, and the only
+reference image-wide is the call inside func_0217FF78's own range; the only
+class that can witness it is `matched`, which needs an EXACT entry.
+
+Prior waves reached it repeatedly as DIFF (34 of 34 bytes) on register
+allocation and documented it as an allocator coin-flip.  The lever was the
+source shape, not the hints: the 12-byte block is one aggregate
+assignment, `struct { u64 lo; u32 hi; }`, which makes mwcc compute the
+destination address first and leaves the source pointer in r2:
+
+  0x02167848  34 B  EXACT  ov010.  `*(Blk12 *)(dst+8) = *(Blk12 *)(a2+4)` then
+                           the u16 at +0x18 and the u32 at +0x14.  Splitting the
+                           aggregate into a `u64` store plus a `u32` store (or an
+                           explicit `dst` local, a `u32` index, `Src`/`Dst`
+                           structs, an `off` local) moves a2 into r4 and loses
+                           the whole range.  See
+                           docs/idioms/a-twelve-byte-aggregate-copy-pins-the-destination-first.md.
+
+  func_0217FF78  106 B  EXACT  the original park (ov019).  The +005C call now
+                           resolves `matched x1` against the new ov010 entry; all
+                           seven relocation sites resolve and the body was already
+                           byte-exact.
+
+Files: src/matched/ov010_func_02167848.c, src/matched/ov019_func_0217FF78.c.
+Shards: layout/matched/ov010/pkt_02167848.json,
+layout/matched/ov019/pkt_ov019_0217FF78.json.
+
+Target 0x021751DC (blocks func_0217FF78, ov019) -- ALREADY MATCHED
+------------------------------------------------------------------
+0x021751DC (ov012) was resolved by an earlier lane; the +0024 site was already
+`matched x1` when this lane started (src/matched/ov012_func_021751DC.c,
+layout/matched/ov012/pkt_021751DC.json).  No work this lane.
+
+Region/ISA hints
+----------------
+The blocked file's hints were already correct and were re-confirmed:
+  func_021751DC  0x021751DC  thumb  ov012   -- matched EXACT ov012 entry
+  func_02167848  0x02167848  thumb  ov010   -- matched EXACT ov010 entry (new)
+Both sites print "declared thumb, no image evidence for the ISA" because
+`isa_evidence()` consults only each listing's own `func_` labels, and neither
+unlabelled leaf has one; a `matched` overlay entry is deliberately not used for
+the ISA check.  The suffix is expected and does not affect the EXACT verdict.
+
+Out of class (not overlay targets)
+-----------------------------------
+* 0x02150FEC is inside the band but in no overlay window (`overlay_windows`
+  returns []); it is the `DAT_02150fec` data object referenced by the TWL parks
+  src/pending/func_027040EC.c, func_027047C0.c, func_02704858.c.  Those files
+  are not this lane's addresses (0x0270xxxx), the target is data rather than
+  overlay code, and the unresolved reports there are a `symbols:`-block parse
+  issue for the `DAT_02150fec` name, not a missing match.  Left untouched.
+* func_021881D8 (ov021) is blocked on 0x021C6534, which is outside this band
+  (0x021C0000..) and was already documented as a residual ISA-evidence blocker
+  by the 0x021C lane; not re-opened here.

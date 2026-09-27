@@ -1,0 +1,128 @@
+Recursive MATCH unblocker, overlay blocker targets in 0x021A0000..0x021BFFFF
+=============================================================================
+
+Lane scope: find the unresolved targets named as blockers by src/pending/
+files whose target lies in 0x021A0000..0x021BFFFF, match each target (and its
+non-SDK deps) bottom-up in the correct region, re-verify the blocked file and
+promote it if it turned EXACT.  Every address below is a Black-image address.
+
+Method: every non-twl src/pending file was compiled with `match.py one` using
+its own header region/isa/flags, and the per-site report's unresolved
+relocation sites were collected.  Across the whole tree only five unresolved
+sites name a target in the band.  Everything else in the band that reads
+"blocked" is either already carried by `label`/`sole-ref`/`matched` or is a
+codegen/ISA DIFF with no unwitnessed relocation, so no target can move it.
+
+Targets in band already EXACT* (promoted by a concurrent lane, not duplicated)
+------------------------------------------------------------------------------
+The only in-band target addresses that reach EXACT/EXACT* are the two
+`(unverified)` parks in ov021.  Both were promoted while this lane ran; the
+files src/matched/func_021B8514.c, src/matched/func_021B9338.c and the shards
+layout/matched/ov021/pkt_021B8514.json, pkt_021B9338.json already exist, so
+this lane left them alone.  For the record:
+
+  0x021B8514  56 B  EXACT*  body calls func_021B9510 and func_021B87FC, both
+                           already EXACT in ov021 (`matched x1`); 2-byte pad
+                           follower (next start 0x021B854C seeded).
+  0x021B9338  48 B  EXACT*  body calls func_021B9280, whose only caller
+                           image-wide is inside the range (`sole-ref code`);
+                           2-byte pad follower (next start 0x021B9368 seeded).
+
+RESIDUAL TARGETS
+================
+
+Target 0x021B941C (blocks func_021BE658, ov209) -- RESIDUAL, needs a seed
+------------------------------------------------------------------------
+func_021BE658 is byte-correct `MATCH`; its one wildcarded site is +0070
+`bl 0x021B941C` (verified again this lane: 316 compiled, 21 of 22 sites
+resolved).  The +011E site to func_021B940C resolves `label x2` from ov210.
+
+0x021B941C is 0x10 bytes into func_021B940C in ov133: it is the
+`strb r0,[r2]; adds r2,#1; subs r1,#1; bne loc_021B9418` body of the 12-byte
+copy loop at 0x021B9418 (the routine is an outlined shared fragment, not a
+prologue-bearing function).  It is not a `func_`/`loc_` label in ov133 and it
+carries no code label in ANY of the ten overlapping overlays (ov016, ov021,
+ov067, ov070, ov071, ov091, ov093, ov106, ov133, ov172); no pool word anywhere
+holds 0x021B941D either (checked match.evidence().pool_words).  So `label`,
+`sole-ref/code`, `literal` and `matched` all refuse; a region hint does not
+help (tested `thumb ov133` on the symbols line, still unresolved).
+
+FIX (outside this lane's write set): seed 0x021B941C as a Thumb `func_` start
+in ov133 (layout/function_starts.txt).  With the seed, the symbols line
+`func_021B941C 0x021B941C thumb ov133` resolves the site through
+`sole-ref/code` with no outside branch required (the call site is inside the
+compared range), and func_021BE658 reaches EXACT -- every concrete byte
+already matches.  This is the same shape as the 0x021C6534 residual in
+docs/notes/recursive-match-unblocker-ov217-021C.c.txt.
+
+Target 0x021B6200 (blocks ov218_func_021BA0B0, ov218) -- RESIDUAL
+-----------------------------------------------------------------
+Callers ov213 (0x021B994E, 0x021B9B66, 0x021B9DB8) and ov218 (0x021BA1DE)
+pass one argument in r0 (`adds r0,r5,#0; bl 0x021B6200`).
+
+0x021B6200 is an interior code address in every one of the sixteen overlays
+whose window holds it (ov016, ov017, ov021, ov067, ov070, ov071, ov090, ov093,
+ov098, ov101, ov133, ov172, ov173, ov174, ov179, ov180).  In particular:
+  * ov180: it is the second half of func_021B61FC (`cmp r0,#0; bne; ldr
+    r0,=...; bx lr`) -- an EXACT entry at 0x021B61FC but at the wrong address;
+  * ov090: it is inside func_021B61FC (matched in ov090), which uses r4 set by
+    its own prologue at 0x021B61FE, so a one-arg entry there cannot be right;
+  * ov067/ov173: it is `.word` data; ov016/ov021: mid-function.
+No `func_` label names 0x021B6200 anywhere (only `pool_021B6200` in ov070) and
+no pool word holds 0x021B6201, so every class refuses.
+
+The blocked file is DIFF on codegen independently (144 compiled vs 136
+original, 103 bytes differ, shared-tail placement), so even a witness would
+not promote it.  Its other one-time-unlabelled targets now resolve
+(0x02024004 and 0x021B9C88 as `matched`).
+
+Targets 0x021B821C / 0x021B8234 (block func_021B7F38, ov180) -- RESIDUAL
+-----------------------------------------------------------------------
+Both are `data` (a two-entry 0x18-byte record table).  In ov180
+in_overlay_data() is True but _overlay_start_attested() is False for both:
+disasm emits the pair as one `.word` run whose only start is 0x021B821C, and
+the only pool referrer of either address is the one inside func_021B7F38
+itself (0x021B8008 / 0x021B800C, sites +00D0/+00D4), so the sole-ref/data
+demand that a start be carried from OUTSIDE the compared range fails.
+0x021B8234 is data in four overlays (ov067, ov105, ov173, ov180) so a hint
+cannot choose one; 0x021B821C is now an EXACT ov021 entry (a different object
+-- the ov180 table's only referrer is the ov180 pool word).  func_021B7F38 is
+DIFF (148 bytes, loop scaffolding) so it cannot promote regardless.
+
+Targets 0x021A4568 / 0x021A458C (block ov009_func_02189780, ov009) -- RESIDUAL
+-----------------------------------------------------------------------------
+Both are the `RECV...` GSIDebug format strings, declared `data`.  They are in
+data section only in ov009 (ov021 is the other window), but neither is a
+listing object START (they sit inside the 0x021A44C8... printable run) and the
+only pool referrer of each is inside func_02189780 (0x0218997C / 0x02189984),
+so sole-ref/data refuses.
+
+Notably `attest_sole_ref_overlay_self()` DOES accept both when handed the
+original site: the ov009 ROM word at 0x0218997C/0x02189984 already names
+0x021A4568/0x021A458C, so the correct class is sole-ref/self.  It fails only
+because the function is 4 bytes short (520 compiled vs 524 original) at the
+GSIDebug raw-dump call, which shifts the compiled pool site four bytes early
+and makes the self word check miss.  This is therefore a codegen blocker
+first, evidence second; the file stays DIFF.
+
+Also re-verified, not target-blocked
+------------------------------------
+* func_021BD880 (ov208) is labelled `MATCH` in its header but verifies DIFF
+  (same size, ldrh/ldr/strh store order; 2 of 2 relocations resolve), so it
+  has no unwitnessed relocation.  Header `status:` corrected MATCH -> DIFF
+  this lane (honesty rule: status is the verdict match.py gives).
+* ov218_func_021BA0B0's 0x021B9B78/0x021B9898/0x021B9C00 sit at `label`,
+  and 0x02024004/0x021B9C88 at `matched`; only 0x021B6200 is unresolved.
+* All in-band `open` overlay functions are covered: `tools/lane.py
+  --band 0 100000 --overlays 0 236` lists no open function with an address in
+  0x021A0000..0x021BFFFF, so the only unmatched in-band addresses are these
+  five unlabelled/interior targets.
+
+Outcome
+-------
+No in-band target could be matched by this lane and no blocked file could be
+promoted: the one byte-correct block (func_021BE658) needs the 0x021B941C
+Thumb seed, and the other four blocks are DIFF on codegen.  No shard was
+written and no matched file added; the only source change is the
+func_021BD880 `status:` correction above.  `match.py manifest --check` reports
+clean (5414 shard files, no duplicates, no unread json).

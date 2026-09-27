@@ -10,6 +10,7 @@
  * status:   DIFF
  *
  * blocker:  codegen only, 14 of 168 bytes; a pure callee-saved colouring swap
+ *           (r4/r6 and r6/r7 exchanged).  Re-verified 2026-09-27, unchanged.
  *   plus one schedule swap.  The second parameter b and the `x` flag are the
  *   two live-across-call temporaries; the image keeps b in r4 and x in r7
  *   (later `strb r7,[a+0x38]`, `adds r0,r7,#0`), mwcc keeps b in r6 and x in

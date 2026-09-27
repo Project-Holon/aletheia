@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   func_02082E74  0x02082E74  code twl

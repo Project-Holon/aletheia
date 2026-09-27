@@ -13,8 +13,11 @@
  * in r4 and the field value in r5; every spelling tried (named pointer copy,
  * reversed declarations, int index, inline re-read) makes this compiler put
  * the field value in r4 and the pointer in r5, because the loaded value is
- * the first live temporary while the pointer (arg r2) is spilled to the
- * highest callee-saved register.  `cmp`-style naming does not move it.
+ *   the first live temporary while the pointer (arg r2) is spilled to the
+ *   highest callee-saved register.  `cmp`-style naming does not move it.
+ *   Re-verified (DIFF fixer): declaration order v-then-o, assignment o-then-v,
+ *   and dropping the `o` alias to store through `out` directly all still swap
+ *   r4/r5 the same way.
  *
  * symbols:
  *   func_021D74D8  0x021D74D8  thumb  ov125

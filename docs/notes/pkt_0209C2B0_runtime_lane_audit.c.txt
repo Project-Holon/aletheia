@@ -109,3 +109,17 @@ PER-ADDRESS EVIDENCE
 Scratch probes were not kept (no match); the only file produced is the one
 matched source above.
 re-verified 2026-09-26: 12/13 still-runtime, 1 matched
+
+re-checked 2026-09-27 (arm9 runtime exclusion finish): all 12 remaining rows
+still-runtime under the pinned `--cc 1.1p1 --arm --region arm9
+--flags=-O4,p`; their tells are unchanged (APSR mrs/msr returns for the ten
+compare entries, pc-minus-immediate seed tables for __fdiv/__ddiv, shared
+entry interior branches for __fadd/__fsub, if-converted/clz codegen for the
+conversions).  The MSL runtime.a DWARF lever is unavailable (no archive
+under tools/ or sdk/); the inline-asm clz recheck that retires the
+no-intrinsic proof on the soft-float rows is recorded in
+pkt_0209AC04_runtime_lane_audit.c.txt.  The one matched row, 0x0209D724,
+re-verifies EXACT (src/matched/func_0209D724.c, shard
+layout/matched/arm9/pkt_0209D724.json).  No row changes verdict:
+12/13 still-runtime, 1 matched.
+re-verified 2026-09-27: 12/13 still-runtime, 1 matched

@@ -9,7 +9,14 @@
  * isa:      thumb
  * status:   DIFF
  *
- * blocker:  5 bytes, codegen only.  The two source fields are WORD loads, not
+ * blocker:  5 bytes, codegen only.  Re-verified 2026-09-27: the original
+ *   interleaves each load with its arithmetic (`ldr r3,[p+4]; ldr r0,[p+8];
+ *   adds r3,#0x14; strh r3,[a]; subs r0,#8; strh r0,[b]`); a-then-b order
+ *   makes mwcc batch both loads and both maths before either store.  b-then-a
+ *   (the current file, kept matching the image's +4 -> a / +8 -> b constants)
+ *   gives the right per-value registers but still batches.  Need a spelling
+ *   that stops the second load hoisting above the first store.  The two source
+ *   fields are WORD loads, not
  *   halfwords (original `ldr r3,[p+4]; ldr r0,[p+8]`), so x/y are u32; with
  *   that and this store order the loads and their registers (x->r3, y->r0)
  *   are exact.  The residual is the tail schedule: the original interleaves

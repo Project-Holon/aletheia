@@ -179,6 +179,12 @@
  * eleventh type case 0xb at 0x0219129C reading GPIConnection+0x198/+0x1a0
  * and GPISearchData+0x198/+0x19c, both confirmed from the disassembly.  A
  * faithful full port is the only route and was not attempted to completion.
+ *
+ * Re-verified 2026-09-27 (region ov009 / ARM confirmed): the fabricated stub
+ *   still compiles to 232 bytes against the 9460-byte original, DIFF from
+ *   +0x0000; its 5 relocations resolve.  Global register allocation and the
+ *   0x4d4 frame mean no leading run can byte-match, so nothing short of the
+ *   full gpiProcessSearch port changes the verdict.
  */
 
 typedef unsigned char u8;

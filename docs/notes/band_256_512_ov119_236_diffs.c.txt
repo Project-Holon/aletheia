@@ -1,0 +1,103 @@
+Lane: python tools/lane.py --band 256 512 --overlays 119 236
+640 open overlay functions; one EXACT filed (ov175 0x021E03F8,
+src/matched/ov175_func_021E03F8.c).  Three near misses worth recording:
+
+=== ov205 func_021B9DB8 (0x021B9DB8, 152 bytes, Thumb) ===
+Straight-line, 17 calls, no branches.  Every one of the 17 relocation sites
+resolves (16 label, 1 matched); the C below reproduces all but 4 reordered
+instructions.  The original homes the two spilled parameters at function entry
+(str r2,[sp,#4] is the FIRST instruction after sub sp) and interleaves them
+with the p/a1 copies and the 0x400 constant; the compiler here homes them
+together just before the first call.  The other difference is in the argument
+setup of the last call func_0201C7A4: the original sets r3 (the 4th arg, r6)
+before loading the two spilled args; the compiler here loads the 3rd arg
+(sp+8) first.  Both are 8 bytes of pure scheduling; no source spelling tried
+(declaration order, initializer vs assignment, volatile, swapped parameter
+names, explicit locals for the handle/5th arg) moved either site.
+
+    void f(char *p, int a1, int a2, int a3) {
+        int r4 = func_020457B0(0x400, *(u16 *)p);
+        int r6 = func_020457B0(0x400, *(u16 *)p);
+        func_02043B5C(func_02045770(*(int *)(p + 0x14)), 0);
+        func_02043B5C(func_02045770(*(int *)(p + 0x14)), 0xf);
+        func_02045CAC(*(int *)(p + 0xc), a1, r4);
+        func_0201F02C(*(int *)(p + 0x10), 1, *(int *)(p + 8));
+        func_0201F250(*(int *)(p + 0x10), r6, r4);
+        func_0201DD78(1, 2, 0xf);
+        func_0201C7A4(func_02045770(*(int *)(p + 0x14)), a2, a3, r6, *(int *)(p + 0x18));
+        func_02045808(r4);
+        func_02045808(r6);
+        func_02045334(*(int *)(p + 0x14));
+        func_02041B6C(func_02045730(*(int *)(p + 0x14)));
+    }
+
+=== ov134 func_021DCB48 (0x021DCB48, 256 bytes, Thumb) ===
+A struct constructor: 7-record zero loop, a 5-way switch on
+*(u8*)(*(char**)p + 0xba) writing out 0x38/0x64, an 0x49..0x4e index fill,
+field copies from p, then func_02034AC4(FS_OVERLAY_ID) and func_021B6100(out).
+Reached 250/256 bytes and 43 differing bytes; remaining blockers:
+  - the switch's landing pads (case1/case2 each a bare `b` onto case3) are
+    produced correctly by writing the 0x38/0x64 stores out in every arm and
+    letting the compiler cross-jump them (docs/idioms/
+    a-shared-exit-block-is-written-out-in-each-arm.md); flipping the
+    `if (*(u8*)(r6+0xb9) != 0)` set/zero arm to the fall-through form is
+    required for the collection of 0x90/0x60 stores to line up.  Both are in
+    the C below.
+  - the compiler still assigns r1/r2 the opposite way in the 0x44/0x46/0x48/
+    0x3c/0x40/loop block, and r0/r1 the opposite way in the 0x94 block.
+  - the last call's argument is a pooled small constant: the pool word at
+    0x21DCC44 is 0x0000005A, i.e. an absolute overlay-id symbol, not the
+    literal 0x5a (docs/idioms/
+    a-pooled-small-constant-argument-is-a-linker-symbol.md).  With the symbol
+    it caps at MATCH at best; written as `0x5a` the `movs` is 4 bytes short.
+
+=== ov170 func_021DE428 (0x021DE428, 264 bytes, Thumb) ===
+Record-builder for a p->0x2c->0x60 table: a 7-record zero loop, an early-out
+when a2>=0x1e (so a2 is unsigned -- the original uses `bhs`), a loop over
+n+1..r7 filling (i+0x1e, i+0x1d, i+0x1e, 1) records, then records n and r7.
+The C below compiles to exactly 264 bytes and all 6 relocations resolve
+(the early-return arm makes the local `n` spill to [sp+8], which the frame
+size matches).  Only 20 concrete bytes differ, all pure register renames: the
+original keeps the record offset in r2 and the record base in r1 in the loop
+and the n-record block; the compiler here uses r1 for the offset and r2 for
+the base (in the n-record block it swaps r0/r1).  The zero loop and the
+early-out call block are byte-identical.  Variants tried to flip it (struct
+record type, `u16 rec[4]` subscript form, int vs unsigned index, an explicit
+value temporary, `char*` vs `u16*` pointer) all keep the same swap.
+
+    struct Rec { u16 a,b,c,d; };
+    void f(char *p, unsigned a1, unsigned a2) {
+        char *r4 = *(char **)(*(char **)(p + 0x2c) + 0x60);
+        unsigned i, n; int r7;
+        for (i = 0; i < 7; i++) { struct Rec *r3 = (struct Rec *)(r4 + i*0x18);
+            r3->a = r3->b = r3->c = r3->d = 0; }
+        if (a2 == 0xff || func_021DDE20(p, a1, a2) == 0) {
+            *(int *)(r4 + 0xac) = 0xff; *(int *)(r4 + 0xb0) = 0xff;
+            *(u16 *)r4 = 0x24;
+            *(u16 *)(r4+2) = (u16)a1; *(u16 *)(r4+4) = (u16)a1;
+            *(u16 *)(r4+6) = 1;
+            *(u16 *)(r4+0x18) = (u16)a1; *(u16 *)(r4+0x1a) = (u16)a1;
+            *(u16 *)(r4+0x1c) = (u16)a1; *(u16 *)(r4+0x1e) = 1;
+            func_021DDEFC(p, r4); return;
+        }
+        *(int *)(r4 + 0xac) = a1; *(int *)(r4 + 0xb0) = a2;
+        r7 = func_0201AA18(*(int *)(*(char **)p + 8));
+        if (a2 >= 0x1e) return;
+        n = a1 - 0x1e;
+        for (i = n + 1; i < r7; i++) { struct Rec *rec = (struct Rec *)(r4 + i*0x18);
+            rec->a = (u16)(i+0x1e); rec->b = (u16)(i+0x1d);
+            rec->c = (u16)(i+0x1e); rec->d = 1; func_021DDFD4(p); }
+        { struct Rec *rec = (struct Rec *)(r4 + n*0x18);
+            rec->a = 0x24; rec->b = (u16)a2; rec->c = (u16)a1; rec->d = 1;
+            func_021DDFD4(p); }
+        { struct Rec *rec = (struct Rec *)(r4 + r7*0x18);
+            rec->a = (u16)a2; rec->b = (u16)(r7+0x1d); rec->c = (u16)a2;
+            rec->d = 1; func_021DDFD4(p); }
+    }
+
+=== note on overlap ===
+46 lane addresses are already matched in a DIFFERENT overlapping overlay
+(e.g. ov172 0x021BE468 matched in ov217; ov133/ov172 0x021B6100 in ov179).
+None of those C bodies reproduces the lane region's bytes: every one came out
+DIFF, confirming the overlapping overlays hold distinct function variants at
+the same address.

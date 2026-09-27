@@ -14,6 +14,10 @@
  * every spelling tried (named local, inline ternary, pointer type, volatile).
  * The rest of the function is byte-correct.
  *
+ * Re-verified (DIFF fixer): tried `if (p[0])`, a `p[0] != 0 ? ... : 0`
+ * ternary, and the reversed `if (p[0] == 0) return 0;`; all still land the
+ * dead load in r1 (`ldr r1,[r0]; cmp r1,#0`).
+ *
  * symbols:
  *   func_021FB4CC  0x021FB4CC  thumb  ov186
  */

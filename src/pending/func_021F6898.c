@@ -16,6 +16,9 @@
  * function is byte-different throughout despite identical logic.  No missing
  * witness; a matching C shape would be EXACT.
  *
+ * Re-verified (DIFF fixer): still 97 concrete bytes, all 12 relocations
+ * resolve, blocker stands.
+ *
  * symbols:
  *   func_0204762C  0x0204762C  arm
  *   func_02046EFC  0x02046EFC  arm

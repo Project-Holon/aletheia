@@ -7,12 +7,16 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   DIFF
  *
  * symbols:
  *   (none)
 
  * BLOCKED.  DIFF: the listing order is ldrh/ldr/strh where the compiler emits ldrh/strh/ldr; two rewrites of the first block did not close it.
+ * Re-verified 2026-09-27 (recursive MATCH unblocker, ov209/ov208 band): the
+ * tool verdict is DIFF (same size, store order), not MATCH, so this header's
+ * status is corrected to DIFF.  It is a codegen near miss, not a target-
+ * blocked MATCH; no relocation is wildcarded.
  */
 
 

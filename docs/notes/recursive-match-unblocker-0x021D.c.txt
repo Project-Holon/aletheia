@@ -1,0 +1,162 @@
+Recursive MATCH unblocker, overlay blocker targets in 0x021D0000..0x026FFFFF
+=============================================================================
+
+Lane scope: find the unresolved targets named as blockers by `src/pending/`
+files whose target lies at or above 0x021D0000 and below the twl region
+0x02700000, match each target (and its non-SDK deps) bottom-up in the correct
+region, then re-verify the blocked file and promote it if it turned EXACT.
+Every address below is a Black-image address.  Overlay windows overlap heavily
+in this band (0x021D7B74 alone is covered by eleven overlays), so the
+`region:` / `symbols:` hint is what disambiguates; a `show` with no `--region`
+resolves to whichever overlay happens to carry a `func_` label first and is
+routinely the wrong one.
+
+RESOLVED THIS LANE
+------------------
+
+Target 0x021D33A8 (blocks func_021881D8, ov021) -- RESOLVED
+----------------------------------------------------------
+  0x021D33A8  56 B  EXACT  ov021.  Debug-allocator wrapper of the
+                           field_palace_sys.c tree (file anchor 0x021DE6D4):
+                           `sub_02030734(heapId, 0xc, 1, "…", 0x43)`, two word
+                           stores, a zero, then `func_021D33FC(p, a3, heapId)`.
+                           The 4th parameter is the 4th register arg, not a
+                           stack one; the file pointer is a bare literal (no
+                           relocation) so no data witness is needed.
+  File src/matched/ov021_func_021D33A8.c, shard
+  layout/matched/ov021/pkt_ov021_021D33A8.json.
+
+Target 0x021D7B74 (blocks func_021DFABC, ov093) -- RESOLVED
+----------------------------------------------------------
+  0x021D7B74  24 B  EXACT  ov093.  `r = func_021D59B4(a0, 0xe); r /= a1;`
+                           through the unsigned divide entry 0x0209C2B0
+                           (`_u32_div_f`, see
+                           docs/notes/unsigned-divide-entry-is-0209c2b0.c.txt),
+                           then floors a zero quotient at 1.
+  File src/matched/ov093_func_021D7B74.c, shard
+  layout/matched/ov093/pkt_ov093_021D7B74.json.
+
+Target 0x021E899C (blocks func_021DF0C4, ov093) -- RESOLVED
+----------------------------------------------------------
+  0x021E899C  36 B  EXACT  ov093.  Packs a 3-bit constant with the low six bits
+                           of the argument shifted left three, as a bitfield
+                           struct read back through a cast.  The `= {0}`
+                           initialiser is what emits `movs r2,#0` instead of
+                           reading the uninitialised slot back; the empty frame
+                           is the compiler's storage for the local.
+  File src/matched/ov093_func_021E899C.c, shard
+  layout/matched/ov093/pkt_ov093_021E899C.json.
+
+Target 0x021DFBB4 (blocks ov118_func_021D6CC4, ov118) -- RESOLVED
+---------------------------------------------------------------
+  0x021DFBB4  60 B  EXACT  ov119.  The five-argument form of the
+                           pokemontrade_mcss.c alloc helper (func_021DFB84 is
+                           the four-argument, line 0xD2 form): a3 lands at
+                           +0x34 and the heap id is the fifth parameter, a u16
+                           that reaches the debug allocator through its own
+                           stack home (`ldrh r0,[sp,#0x20]`), which is what
+                           forces the 8-byte frame.
+  File src/matched/ov119_func_021DFBB4.c, shard
+  layout/matched/ov119/pkt_ov119_021DFBB4.json.
+
+Target 0x021DFBF0 (blocks ov119_func_021DFC68, ov119) -- RESOLVED
+---------------------------------------------------------------
+  0x021DFBF0  56 B  EXACT  ov119.  Interpolates between a0/a1 at record
+                           stride via `_s32_div_f` (0x0209C0A4), then
+                           re-derives from the sine table 0x020A1B38 with
+                           phase f14>>4.  The divide destination only
+                           reproduces when the quotient is bound to its own
+                           local first (`int q = (a1-a0)/a2->f04; int r =
+                           q*a2->f08 + a0;`).
+  File src/matched/ov119_func_021DFBF0.c, shard
+  layout/matched/ov119/pkt_ov119_021DFBF0.json.
+
+Target 0x021DFC28 (blocks ov119_func_021DFC68, ov119) -- RESOLVED
+---------------------------------------------------------------
+  0x021DFC28  64 B  EXACT  ov119.  Reads the descriptor at p->f34 + 0xc*p->f08
+                           into a three-word vector, calls func_02015C48 on
+                           p->f00, then forwards to func_021DFAD0.  The
+                           func_02015C48 site needs `matched` (an arm9 EXACT
+                           entry), which the harness refuses while the source
+                           path is outside the repo, so it must be verified
+                           in-tree.
+  File src/matched/ov119_func_021DFC28.c, shard
+  layout/matched/ov119/pkt_ov119_021DFC28.json.
+
+Target 0x021DFAD0 (non-SDK dep of 0x021DFC28, ov119) -- RESOLVED
+---------------------------------------------------------------
+  0x021DFAD0  124 B  EXACT  ov119.  Copies two constant record tables from
+                           0x021E7754 (two entries) and 0x021E7764 (six
+                           entries) to the stack, gates on the bytes at
+                           +0x11EF / +0x11ED, and calls func_020061E4 on each
+                           matching id.  The `== 0` arm is the fall-through and
+                           the counter must be unsigned (the loop is `blo`,
+                           not `blt`).  Both table addresses are literal pool
+                           words with no relocation.
+  File src/matched/ov119_func_021DFAD0.c, shard
+  layout/matched/ov119/pkt_ov119_021DFAD0.json.
+
+Target 0x022110D4 (blocks func_0220C8F0, ov198) -- RESOLVED
+----------------------------------------------------------
+  0x022110D4  12 B  EXACT*  ov198 (only overlay whose window holds it).
+                           `(p + i)[0x1cc]`; the subscript form is what keeps
+                           the index in r1 and 0x1cc in r0 (`ldrb r0,[r1,r0]`).
+                           The two-byte follower is an alignment word, so the
+                           inferred extent runs one word long.
+  File src/matched/ov198_func_022110D4.c, shard
+  layout/matched/ov198/pkt_ov198_022110D4.json.
+
+BLOCKED FILES RE-VERIFIED -- no promotion
+-----------------------------------------
+Every blocked file named the new EXACT entries now, and every one was
+re-verified with `match.py one`.  None turned EXACT: each is a codegen residue
+or an ISA-evidence wall, not a missing witness, so matching the target cannot
+promote it.
+
+  func_021DFABC   (ov093) DIFF, 48 bytes codegen (the (u8) truncation of
+                  func_021DCFF8 lands in r1 in the image, mwcc copies r0->r1
+                  first); +0070 now `matched` against 0x021D7B74.
+  func_021DF0C4   (ov093) DIFF, 120 of 124, the missing 8-byte frame.
+  ov118_func_021D6CC4 (ov118) DIFF, 143 bytes register permutation.
+  ov119_func_021DFC68 (ov119) DIFF, 8 bytes register permutation.
+  func_0220C8F0   (ov198) DIFF, 14 of 256 stack-slot/schedule.
+  func_021E7388   (ov093) DIFF, the pooled-zero scan loop.
+  func_021881D8   (ov021) ISA, still refuses at 0x021C6534 before reaching the
+                  now-matched 0x021D33A8 (isa_evidence is not satisfied by a
+                  matched overlay entry; tool/seed decision outside this lane).
+  func_021C84BC   (ov016) DIFF, register naming.
+  func_021D1F6C   (ov016) DIFF, 49 bytes register naming.
+
+RESIDUAL TARGETS (NOT turned EXACT)
+-----------------------------------
+* 0x021D59B4 (ov093, 292 B): a dense halfword-table switch with 0x16 cases
+  (offsets 0x0101/0x0102/0x0141 at 0x021D5AD0).  Labelled in ov093, so every
+  caller site already resolves via `label`; not attempted (size).  Blocks
+  func_021E7388 and is the callee of the now-matched 0x021D7B74.
+* 0x021D4B68 (ov016, ARM, 256 B): blocker target of func_021C84BC.  Not
+  attempted.
+* 0x021F1C30 (ov107, ARM, 220 B): blocker target of func_021D1F6C.  Not
+  attempted.
+* 0x021F5FB0 (ov107, ARM, 408 B, also labelled in ov215): blocker target of
+  func_021D1F6C, and ambiguous between ov107 and ov215.  Not attempted.
+* 0x021D33FC (ov021, 124 B): non-SDK dep of the now-matched 0x021D33A8.  Its
+  two callees 0x0215850C and 0x02158468 are labelled only in ov010
+  (window 0x02155160..0x02172BA0), which is not co-resident with ov021
+  (0x02187F00..0x021DE700); the ov021 copies carry no `func_` label, so a
+  bottom-up match needs those two ov021 starts seeded first.  Left unmatched.
+* 0x021D33F8: the second callee `func_021881D8`'s header names; no `func_`
+  label exists at that address (the real region starts are func_021D33E0 and
+  func_021D33FC), so the header's address is a mis-seed in the caller, not a
+  target.
+* Data addresses named as blockers in range are not code targets and are
+  unwitnessed outside their own compared range, so no recursion applies:
+  0x021DA694/6/8/C8 and 0x021DE5EC (func_021C9F58), 0x021DA6D8/F0/708,
+  0x021DB580/594/5AC/5C4 and 0x021DE5EC (func_021C84BC), tbl_021DFB2C
+  (func_021DEFAC), d_021D8398 (ov118_func_021D6CC4).  Their files are DIFF on
+  codegen regardless.
+
+MANIFEST
+--------
+`python tools/match.py manifest --check` is clean (no duplicates, no unread
+json); all eight new shards were written by
+`manifest --verify --shard <id>` and every entry reads EXACT/EXACT*.

@@ -15,6 +15,10 @@
  * second->r5) and rematerialise the zero instead of hoisting it into r7.
  * Same instruction count until the allocation diverges, 136 vs 140 bytes.
  *
+ * Re-verified (DIFF fixer): still 86 concrete bytes; the original spills `u`
+ * to [sp+0xc] and hoists z=0 into r7 (6-reg push, #0x10 frame), the compile
+ * rematerialises z and keeps u in r7 (5-reg push, #0xc frame). Blocker stands.
+ *
  * symbols:
  *   func_020457B0  0x020457B0  arm
  *   func_02045EC0  0x02045EC0  arm

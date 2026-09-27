@@ -89,3 +89,76 @@ Residual targets (NOT turned EXACT)
   ov217_func_021BE934, ov217): both blocked files are DIFF on register
   colouring, not on an unwitnessed relocation, so matching the target cannot
   promote them.  Verified still DIFF this lane.
+
+Wave 10 re-run (same lane scope)
+================================
+Re-derived the unresolved in-range targets from a fresh six-way scan of
+src/pending.  All five ov093 parks, ov096_func_02188D5C, ov217_func_021BE934
+and func_021C3DF4 re-verify with the same verdicts as above; no park turned
+EXACT.  Four open ov093 targets named by those parks were matched bottom-up
+and filed.  Every address Black.
+
+Targets matched
+---------------
+  0x021C8838  40 B  EXACT   Low byte of the +2 halfword <- (u8)a; +0 <- b;
+                            bits 8..14 of +2 cleared (func_0218838).  Two
+                            levers: `(u8)(u16)a` for the double narrowing and
+                            `(int)*h & ~0x7F00` so the pooled mask stays sign
+                            extended (0xFFFF80FF), not 0x000080FF.
+                            src/matched/ov093_func_021C8838.c,
+                            layout/matched/ov093/pkt_ov093_021C8838.json.
+  0x021C8860  44 B  EXACT   Append `val` at p+4+idx*4 and bump the count in
+                            bits 8..14 of the +2 halfword (func_021C8860).  A
+                            7-bit unsigned bitfield struct is what makes the
+                            count unsigned (`bhs`, not `bge`) and yields the
+                            lsl/lsr extraction pair.  Source overlaps the
+                            matched func_021C8838 record layout.
+                            src/matched/ov093_func_021C8860.c,
+                            layout/matched/ov093/pkt_ov093_021C8860.json.
+  0x021C7F68 100 B  EXACT*  Candidate-list builder called by func_021D85F4
+                            (func_021C7F68).  Levers: `volatile u32 n` (the
+                            result is spilled and reloaded around the loop
+                            calls), a `?:` boolean (materialised `movs #1/0`
+                            instead of a short-circuit), and the two u8
+                            locals declared j before i but initialised
+                            together in the for-clause (i->r5, j->r4).
+                            src/matched/ov093_func_021C7F68.c,
+                            layout/matched/ov093/pkt_ov093_021C7F68.json.
+  0x021C88B4  20 B  EXACT*  func_021C88C8(a, func_021C88A4(a,k,b)) (the
+                            record helper named by all five parks).  Both calls
+                            resolve by `label`; no dependency on the packer
+                            below.  src/matched/ov093_func_021C88B4.c,
+                            layout/matched/ov093/pkt_ov093_021C88B4.json.
+
+Recursive dependency found but not matchable
+--------------------------------------------
+  0x021CC9AC  176 B  PARK  func_021C88A4's tail call names 0x021CC9AC, real
+                            unlabelled Thumb code in ov093 that disasm prints
+                            as a `.word` run (it saves no lr).  No listing
+                            labels it and no branch or pool word anywhere
+                            outside func_021C88A4's own range names it, so
+                            `label`, `literal`, `sole-ref/code` and `matched`
+                            all refuse; only matching it can witness it.
+                            Its only data dependency, the size table at
+                            0x021EFE9C/0x021EFE9D, has no referrer outside the
+                            function either (no ARM9 pool word, no
+                            data_objects row), so matching the packer would
+                            cap at MATCH and still not witness func_021C88A4.
+                            src/pending/ov093_func_021C88A4.c parks byte-
+                            identical (MATCH) with this blocker named.
+
+Residuals unchanged
+-------------------
+* 0x021C6534 (blocks func_021881D8, ov021): still an ISA-evidence refusal in
+  match.py, not a witness gap.  The ov021 bytes ARE an exact Thumb setter
+  (src/matched/func_021C6534.c, pkt_021C6534.json) but isa_evidence() reads
+  ov016's ARM `func_` label first and aborts before attestation.  Needs the
+  integrator to seed 0x021C6534 as a Thumb start in ov021's listing
+  (layout/function_starts.txt) or a tool change; outside this lane's write set.
+* The 14 missing ov172 data targets for func_021C3DF4 (0x021C8894..0x021CC070)
+  are string/data starts referenced only by that DIFF function's own pool; no
+  class can witness them and the host is DIFF (register allocation), so none
+  promotes.  g_021CADF0 / g_021CAE28 / g_021CAE14 already resolve sole-ref/data.
+* All five ov093 parks, ov096_func_02188D5C and ov217_func_021BE934 stay DIFF
+  on codegen with every relocation resolved; target matching cannot promote
+  them.

@@ -13,12 +13,16 @@
  *   veneer_02031330  0x02031330  arm
  *   veneer_02031348  0x02031348  arm
  *
- * blocker: codegen only, same 172-byte size, 82 concrete bytes differ. All
- *   relocations resolve. The original keeps the state byte's switch value in
- *   r1 and the dispatch index in r1/r2; this source gets r0/r1 because the
- *   dead argument register r0 is reused. Case 1's base pointer then lands in
- *   r5 instead of r2, shifting every later register, and the early `return 0`
- *   is duplicated rather than shared. Blocked on that first register choice.
+ * blocker: codegen only, same 172-byte size, 73 concrete bytes differ, both
+ *   relocations resolve. Inlining the case-1 e/v temporaries into the veneer
+ *   arguments drops the extra callee-saved register and reproduces the
+ *   original `push {r4, lr}` frame (was `push {r3, r4, r5, lr}`, 82 bytes
+ *   diff). The remaining difference is the dense-switch dispatch register:
+ *   the original computes the table index in r1, mwccarm in r0. Per
+ *   docs/idioms/a-void-return-frees-r0-for-the-switch-dispatch-index.md that
+ *   is r0/r1 liveness at the dispatch, not a spelling; hoisting the switch
+ *   value into a named local, casting it and a trailing return do not move it.
+ *   The arms would have to leave r0 live across the dispatch to reach r1.
  */
 
 typedef struct S {
@@ -48,16 +52,15 @@ int func_02213754(S *s)
         break;
     case 1: {
         int (*r)(int, int);
-        int *e;
-        int v;
         r = *(int (**)(int, int))((char *)s->f10 + (s->f1a << 4) + 8);
         if (r)
-            v = r(s->f8, s->fc);
+            s->f4 = r(s->f8, s->fc);
         else
-            v = 0;
-        s->f4 = v;
-        e = (int *)((char *)s->f10 + (s->f1a << 4));
-        veneer_02031348(s->f0, e[0], e[1], s->f4);
+            s->f4 = 0;
+        veneer_02031348(s->f0,
+                        *(int *)((char *)s->f10 + (s->f1a << 4)),
+                        *(int *)((char *)s->f10 + (s->f1a << 4) + 4),
+                        s->f4);
         s->f1b = 2;
         break;
     }

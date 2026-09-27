@@ -1,0 +1,51 @@
+twl lane (0x02700000..0x02720000, region twl), 2026-09-27
+=================================================================
+
+Goal: drive the DSi `twl` region to 100%.  58 lane functions started parked in
+src/pending at status MATCH; 51 now promote EXACT (see the shard at
+layout/matched/twl/twl.json, 56 entries).  The 7 still parked are all
+byte-correct MATCH capped on ONE unattestable data relocation each; none has a
+`--suggest-split` cut (each function is a single section, and the blocker site
+is inside it, so the range cannot shrink below itself).
+
+The common, immediate unblocker was a symbols-token bug: every file declared its
+ARM callees with the token `code` instead of `arm`.  `SYMBOL_RE` accepts only
+`thumb|arm|data`, so a `code` line silently terminated the `symbols:` block and
+every following relocation read "not in the symbols: block".  Fixing `code` ->
+`arm` (and correcting the ISA hint on `func_02004632`, a Thumb ARM9 function
+mis-declared `arm`) took 45 files from MATCH to EXACT or to a single real
+blocker.  See docs/idioms/a-code-kind-symbols-token-is-not-arm.md.
+
+Second unblocker, no C change: once a TWL callee is filed EXACT, the `matched`
+class attests calls to it even though `label` still refuses them for having no
+outside caller.  Five files parked on `data_02701FD8`/`data_02702070`/etc. went
+EXACT the moment those callees' shards landed.  So re-run `match.py one` on a
+parked MATCH after each promotion wave.
+
+Remaining 7, all MATCH, each capped on one data ABS32:
+
+  func_02700000  data_02FFFDEC  -> 0x02FFFDEC is outside every loaded region
+                 and in no bss range: sole-ref/data has no layout evidence,
+                 sole-ref/self has no ROM word, no pool word names it outside
+                 the range.  Its sibling call func_020889F8 is alinker veneer
+                 (`ldr ip,[pc,#0]; bx ip; .word 0x02151428`) but the pointer
+                 names 0x02151428, not a func_ label or SDK symbol, so `veneer`
+                 refuses it too.
+
+  func_02702998  DAT_027341a4   twl bss (0x02732DA0..0x02735B40), no ROM word,
+                 no data_objects.txt row, no pool referrer outside the range.
+
+  func_02702B08  DAT_027341c8   same bss shape.
+
+  func_02703C28  data_02FFDFFC  outside every region, no bss: unattestable.
+
+  func_02703C60  DAT_02734E90, DAT_02734E94   twl bss, same shape.
+
+  func_02703E90  DAT_02734E90, DAT_02734E94   twl bss, same shape.
+
+  func_02704088  data_03004500  outside every region, no bss: unattestable.
+
+All seven are genuine evidence gaps, not C defects: the compiled bytes match and
+the only relocation is a bare data pointer the project has no outside witness
+for.  They belong in src/pending with the blocker named (which each header now
+does).

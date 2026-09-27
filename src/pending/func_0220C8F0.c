@@ -17,6 +17,9 @@
  * locals does not move the slots; not enough of the source shape is
  * recoverable to pin the allocator.
  *
+ * Re-verified (DIFF fixer): still 14 of 256 bytes; the 0x0C/0x14 slot swap
+ * and the one-slot-early load are unchanged. Blocker stands.
+ *
  * symbols:
  *   func_0201C724  0x0201C724  thumb
  *   func_0201D304  0x0201D304  thumb

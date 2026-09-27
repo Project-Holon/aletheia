@@ -11,9 +11,13 @@
  *
  * blocker:  size-exact, all 10 relocations resolved; only two instructions
  *           differ, the ldrb/cmp pair reads the byte into r0 where the
- *           original keeps it in r1 (register allocation, not semantics).
- *           Every structural variant (named u8 local, inline expression,
- *           pointer local) reproduces r0.
+ *           original keeps it in r1.  Re-verified 2026-09-27: named u8 local,
+ *           inline expression and pointer local all reproduce r0.  The image
+ *           stores the loaded byte in r1, which is the coercion tell: the field
+ *           is read through the pointer expression and the callee/most of the
+ *           body reuses it without a fresh register, so look for the type the
+ *           image declares on the operand rather than a different schedule
+ *           (docs/idioms/argument-register-match-names-a-coerced-extern.md).
  *
  * symbols:
  *   func_02043B5C  0x02043B5C  arm

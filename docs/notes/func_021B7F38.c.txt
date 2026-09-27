@@ -1,0 +1,40 @@
+func_021B7F38 (ov180) -- register-allocation dead end, 216/216 bytes
+
+The function body was fully recovered and compiles to exactly 216 bytes, but
+mwcc's register allocator refuses every natural spelling of the two loops.
+The original:
+
+  021B7F42  lsls r0, r4, #2      ; r4 = i, the u16 loop index
+  021B7F44  adds r0, r5, r0      ; r5 = p, the char * parameter
+  021B7F46  ldr  r0, [r0, r6]    ; r6 = pool offset 0x9048
+
+so the original keeps `p` in r5 and the index in r4, and the index update is
+the u16 wrap
+
+  021B7F60  adds r0, r4, #1
+  021B7F62  lsls r0, r0, #0x10
+  021B7F64  lsrs r4, r0, #0x10
+  021B7F66  cmp  r4, #0x21
+  021B7F68  blo  0x21B7F42
+
+which is what an `unsigned short i` (or `u16`) loop gives -- confirmed: with
+`u16 i; for (i = 9; i < 0x21; i++)` the increment block is byte-identical.
+
+The mismatch is only the initial `p`/`i` register assignment.  In mwcc's
+output `p` lands in r4 and `i` in r5 (the exact swap), and every spelling
+tried reproduces that swap:
+
+  u16 i, int i, i counting from 0 with `i + 9` as the index, `i - 9 < 0x18`
+  as the bound, a `while`, a `do/while`, a separate `int n = i` cursor, a
+  loop-bound local `n = 0x21`.
+
+All produce 216 bytes and differ from the original in the same register
+swap; the swap then cascades (every later `adds rN,r5/#` vs `adds rN,r4/#`
+and the memory-operand base registers).  This is a genuine allocator
+tie-break no source-level rewrite reached in ~12 attempts.  The two data
+words (0x021B821C, 0x021B8234 -- 24-byte row tables) also cap at MATCH: they
+have no witness outside the function's own range.
+
+Levers a future agent could try: a slightly different declaration order for
+the second loop's locals, or the two loops sharing one index variable in a
+shape the allocator treats as a single live range.

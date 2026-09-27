@@ -28,6 +28,9 @@
  * array, splitting f/y per block, and hoisting handle all leave the allocator
  * choosing a different split (5-reg push + #0x44) and one extra instruction.
  * Needs a different spelling of the three draw blocks; not an evidence problem.
+ *
+ * Re-verified (DIFF fixer): still 391 concrete bytes; all 15 relocations
+ * resolve, so it is a frame-packing/allocation residue, not evidence.
  */
 
 typedef unsigned char  u8;

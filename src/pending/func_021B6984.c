@@ -9,10 +9,14 @@
  * isa:      thumb
  * status:   DIFF
  *
- * BLOCKER: 2 bytes, r1 vs r0.  The original compares p[0x1c] in r1 so that
- * the body load p[0x18] can use r0; this compiler folds the dead comparison
- * temporary onto r0 in every spelling tried (inline, named local, pointer
- * type, separate body local).  The rest is byte-correct.
+ * BLOCKER: 2 bytes, r1 vs r0.  The original ldr/compares p[0x1c] in r1 and
+ * then loads p[0x18] in r0; compiled lands both in r0.  Re-verified 2026-09-27:
+ * inline, `int v` local, `unsigned`, `volatile`, pointer local and
+ * `if (*(int*)(p+0x1c))` all give r0.  The tell is type coercion, not an
+ * allocator quirk: declare the field with the width/signedness the image's
+ * load uses and mwcc stops converting the loaded value into a fresh register
+ * (see docs/idioms/argument-register-match-names-a-coerced-extern.md).
+ * The rest is byte-correct.
  *
  * symbols:
  *   func_02015BA4  0x02015BA4  thumb

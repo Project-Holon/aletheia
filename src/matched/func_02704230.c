@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   DAT_027343e0   0x027343e0  data twl

@@ -12,6 +12,10 @@
  * blocker:  5 bytes differ; the original keeps the p+i*4 base in r1 and the
  *   constant 1 in r3, this compiler swaps them (r3 base, r1 constant) in every
  *   spelling tried (int index reuse, pointer local, single expression).
+ *
+ * Re-verified (DIFF fixer): also tried inlining both stores with no local,
+ * `int *q = (int *)(p + i*4)` with `q[0xFC/4]`/`q[0x10C/4]` subscripts, and
+ * `p += i*4`; all five bytes, always the r1/r3 swap.
  */
 
 typedef unsigned char u8;

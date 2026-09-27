@@ -21,6 +21,10 @@
  * shapes tried (int/unsigned, char-pointer/unsigned-pointer, subscript vs
  * pointer) all
  * land on the same allocation.  Zero external evidence issue.
+ *
+ * Re-verified (DIFF fixer): extracting `unsigned *pa = a;` and using pa for
+ * the table load is coalesced straight back to a and changes nothing; the
+ * r4-vs-r0 choice for `a` is not reachable from the C for this front end.
  */
 
 typedef unsigned char u8;

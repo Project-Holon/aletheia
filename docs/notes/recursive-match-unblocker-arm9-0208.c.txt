@@ -1,0 +1,100 @@
+Recursive MATCH unblocker, ARM9 blocker targets in 0x02000000..0x0209FFFF
+============================================================================
+
+Lane scope: find the unresolved targets named as blockers by `src/pending/`
+MATCH files whose target lies in 0x02000000..0x0209FFFF, match each target
+(and its non-SDK deps) bottom-up, then re-verify the blocked file and promote
+it if it turned EXACT.  Every address below is a Black-image address.
+
+The unresolved ARM9-range targets image-wide, by referrer count (scan of the
+126 `src/pending/*.c` at lane start):
+
+  0x02015F50  2 sites  func_021D7130 (ov118, DIFF)
+  0x0208B7B0  2 sites  func_02703CDC (twl), func_02703F04 (twl)
+  0x020889F8  1 site   func_02700000 (twl)
+
+Every other ARM9 address named by a pending file already resolves as a real
+`func_` label with an outside branch, so this lane is those three.
+
+Target 0x0208B7B0 (blocks func_02703CDC, func_02703F04) -- RESOLVED
+-------------------------------------------------------------------
+An unlabelled 12-byte ARM pointer thunk in a `.word` run:
+
+  0208B7B0  E59F0000  ldr r0, [pc, #0]
+  0208B7B4  E12FFF1E  bx  lr
+  0208B7B8  02152FE4  .word func_02152FE4
+
+It loads r0 and returns through lr, so it is neither of the two ARM linker
+veneer encodings `veneer_at()` recognises (`ldr ip,[pc,#0]; bx ip` and
+`ldr pc,[pc,#-4]`), and no listing labels it, so `label`, `veneer` and
+`sole-ref/code` all refuse it.  The only class that can carry it is `matched`.
+
+Matching it is ordinary compiled C, not hand asm:
+
+  void *func_0208B7B0(void) { return (void *)func_02152FE4; }
+
+compiles to exactly those 12 bytes.  The pointer word is one relocation,
+resolved `literal x1` against the duplicate word 0x02152FE4 at 0x0208B7AC
+(the 8-byte pool immediately before the thunk), so the recursion stops there:
+no callee had to be matched, only the two identical pool words already name
+the target outside the compared range.
+
+  func_0208B7B0  12 B  EXACT  new entry
+  func_02703CDC 436 B  EXACT  the +0010 site is now `matched x1`; promoted
+  func_02703F04 120 B  EXACT  the +000C site is now `matched x1`; promoted
+
+Files: src/matched/func_0208B7B0.c.
+Shards: layout/matched/arm9/pkt_0208B7B0.json (1 entry),
+        layout/matched/twl/twl.json (func_02703CDC, func_02703F04 promoted by
+        the wave's promotion pass once the site resolved).
+
+Target 0x020889F8 (blocks func_02700000) -- RESOLVED target, park still MATCH
+-----------------------------------------------------------------------------
+Identical shape, pointing at 0x0215142C:
+
+  020889F8  E59F0000  ldr r0, [pc, #0]
+  020889FC  E12FFF1E  bx  lr
+  02088A00  0215142C  .word func_0215142C
+
+  void *func_020889F8(void) { return (void *)func_0215142C; }
+is EXACT, 12 of 12; the word resolves `literal x1` at 0x02088EE8.
+
+  func_020889F8  12 B  EXACT  new entry
+  func_02700000 120 B  MATCH  the +0004 `bl` is now `matched x1`, but the file
+                              has a second wildcarded site, the data object
+                              0x02FFFDEC (+0074 ABS32 data_02FFFDEC).  0x02FFFDEC
+                              is outside this band (0x02FFxxxx) and no class
+                              attests it, so the park stays in src/pending.
+
+Files: src/matched/func_020889F8.c.
+Shards: layout/matched/arm9/pkt_020889F8.json (1 entry).
+
+Target 0x02015F50 (blocks func_021D7130, ov118) -- RESIDUAL, DIFF
+-----------------------------------------------------------------
+An unlabelled 92-byte Thumb leaf (saves no lr, so disasm.py emits the run as
+ARM/.word).  `docs/notes/func_02015F50.c.txt` already records the result: the
+body is logically right and the branch tails are byte-identical, but dsi/1.1p1
+keeps the 0x140 offset in r5 where the image keeps it in r4 (a pure r4<->r5
+permutation of 57 of 92 bytes), invariant across ~70 source spellings.  This is
+a compiler-version difference; the project pins dsi/1.1p1, so no C closes it and
+no `matched` entry can exist.  Re-verified DIFF this lane; func_021D7130 is
+DIFF on top of that (its prologue is a prefix that mwcc colours globally), so
+matching the target would not promote it even if 0x02015F50 could be matched.
+Residual: seed 0x02015F50 thumb in layout/function_starts.txt (integrator), or
+a compiler that reproduces the r4 allocation.
+
+Stale `code` kind tokens
+------------------------
+The twl parks' `symbols:` blocks used `code` as the kind token, e.g.
+
+  *   func_0208B7B0  0x0208B7B0  code twl
+  *   data_02701AA0  0x02701AA0  code twl a2
+
+`SYMBOL_RE` (tools/match.py) admits only `thumb|arm|data`, so the first `code`
+line ended the block and every later line was ignored; the harness reported the
+data names as "not in the symbols: block" and fell back to a name-derived
+declaration for the funcs.  Correcting the kinds (`func_*` -> the real ISA,
+`data_*` -> `data`) lets the whole block parse.  Both ARM9 targets here need
+the token fixed to `arm`; once it is, the sites resolve and the parks promote.
+The wave's promotion pass swept the same fix across the twl parks and promoted
+every one that reached EXACT.

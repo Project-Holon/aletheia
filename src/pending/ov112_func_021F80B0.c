@@ -13,6 +13,12 @@
  *           every spelling tried emits the load first, or the store before
  *           the load.  (After 0x021F53B4, set b->4c = 0, call func_021F5424
  *           with b->58 and 0.)
+ *           Re-verified (DIFF fixer): `v = *(int*)(b+0x58)` and
+ *           `z = 0` hoisted before the store fixes the load/store order
+ *           (store now last), but the constant still schedules after the
+ *           load: `ldr r0; movs r1,#0; str r1; bl`.  The original is
+ *           `movs r1,#0; ldr r0; str r1; bl`.  A list-scheduler tie, not a
+ *           source shape.
  * symbols:
  *   func_021F53B4  0x021F53B4  thumb  ov112
  *   func_021F5424  0x021F5424  thumb  ov112

@@ -216,3 +216,85 @@ If the root is retaken, declare the per-arm temporaries with distinct names
 in each brace scope so the allocator stops coalescing them and the frame
 grows toward 0x6c.
 
+CONTINUATION (2026-09-27, dependency-tree lane)
+===============================================
+Enumerator re-run: `python tools/lane.py --band 1024 100000 --overlays 0 77`
+(67 candidates).  Largest non-`phantom?`, non-SDK candidate taken; callees
+closed bottom-up; root retaken.
+
+LARGEST CANDIDATE, TRUE EXTENT
+------------------------------
+`0x021A3248 ov009 20504` is the band's largest lane.py extent and is NOT a
+function.  `match.py show --addr 0x021A3248 --region ov009` returns only
+`021A3248..021A3288 (64 bytes, Thumb)`; the bytes themselves are the tail of
+ov009's rodata (the "VeriSign, Inc. ... Class 3 Public Key Infrastructure"
+certificate text and its DER/RSA tables, first readable at 0x021A2CFC).  The
+stale `func_` label sits on the certificate blob at 0x021A3248; there is no
+branch image-wide and no `.word 0x021A3248`, so the true extent is 64 bytes
+of mis-decoded rodata, not 20504, and no C can match it.  lane.py leaves it
+unflagged only because lane.py's plain-substring phantom test
+(`"bl" in line`, tools/lane.py body_has_branch) also matches the `blo`
+mnemonic found by chance in the blob (see
+docs/idioms/a-data-word-that-looks-like-a-saved-lr-prologue-becomes-a-phantom-function.md).
+
+Falling to the next sizes reproduces the same shape; all are phantom/SDK or
+subtrees, exactly as the 2026-09-26 lane recorded: 0x021D88D6 (14186, byte
+blob), 0x02170EA4 (7420, ov010 table = SDK in overlapping ov009),
+0x0216FEAC (2960, 42-byte body + data tail, caller is an in-overlay loc_),
+0x021D7D48 (2958, phantom), 0x02182AA4 (2528, phantom).  The largest real,
+trailable, non-SDK function is therefore the dependency-tree root
+`0x021B88DC` (ov021, **2184 bytes**, Thumb).  True extent confirmed:
+`func_021B821C - func_021B88DC` with `func_021B821C` the next `func_` label
+in asm/overlays/ov021.s, i.e. the enumerated 2184 is the real extent, not a
+region-tail artefact.
+
+DEPENDENCY TREE (ov021, all non-SDK)
+------------------------------------
+Root `func_021B88DC` has 13 direct `bl` targets.  State after this lane:
+
+  EXACT / EXACT* filed (src/matched + ov021 shard):
+    func_021B8514  0x021B8514  EXACT*  (this lane; pkt_021B8514)
+    func_021B9338  0x021B9338  EXACT*  (this lane; pkt_021B9338)
+    func_021B9530  0x021B9530  EXACT   (this lane; pkt_021B9530)
+    func_021B96AC  0x021B96AC  EXACT   (this lane; pkt_021B96AC)
+    func_021B87D8  func_021B8674  func_021B868C  func_021B9278  func_021B93D4
+    func_021B9404  func_021B9434                     (already sharded)
+  -> 11 of 13 direct callees closed.
+
+  STILL OPEN direct:
+    func_021B854C  0x021B854C  268 B  state machine; needs 95C0/8658/963C too
+    func_021B9280  0x021B9280  184 B  lerp/index; DIFF (frame 0x14 vs 0x18,
+        compiler spills `a` instead of keeping it in r7; body transcribed)
+
+  Indirect leaves still open (not needed for root attestation, which is
+  `sole-ref/code`-clean):
+    func_021B94D8  0x021B94D8  56 B   DIFF (original re-reads the u16 count
+        each iteration; 1.1p1 -O4,p CSEs the typed ldrh; documented family)
+    func_021B86A4  func_021B95C0  func_021B8658  func_021B963C
+    (func_021B960C still pending)
+
+  Runtime/SDK callee: `_s32_div_f` = 0x0209C0A4 (runtime class, arm), already
+  attested from layout/runtime_arm9.txt.
+
+ROOT VERDICT
+------------
+`match.py one --src scratch/ov021/func_021B88DC_try.c --thumb --region ov021`:
+
+  DIFF   func_021B88DC @ 021B88DC (ov021, Thumb)
+         compiled 2312 vs original 2184 bytes; 2156 concrete bytes differ;
+         122 of 122 relocation sites resolved.
+
+Every relocation resolves (calls bind as `matched`/`label`/`sole-ref/code`),
+so there is no evidence gap; the diff is entirely frame/register allocation.
+Prologue original `push {r4,r5,r6,r7,lr}; sub sp,#0x6c` vs compiled
+`push {r3,r4,r5,r6,r7,lr}; sub sp,#0x48`; the original spills each of the
+four arms' temporaries to its own slot (frame 0x6c) and keeps `dir0` in r7,
+the C allocator coalesces them (frame 0x48).  No root source filed; the
+transcription stays in scratch.  The remaining lever is unchanged from the
+2026-09-26 lane: distinct per-arm temporary names in brace scope so the
+allocator stops coalescing and the frame grows toward 0x6c.
+
+Coverage gate: 4 shards written, each verified with
+`manifest --verify --shard`: layout/matched/ov021/pkt_021B8514.json,
+pkt_021B9338.json, pkt_021B9530.json, pkt_021B96AC.json.
+

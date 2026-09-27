@@ -1,0 +1,41 @@
+ov060 func_021F39F4 -- DIFF, cross-overlay call-ISA collision
+============================================================
+
+Reconstructed (1 of 3 relocation sites resolved, 1 concrete byte differs):
+
+    void func_021F39F4(u8 *a, u32 b)
+    {
+        if (a[1] == 0)
+            return;
+        func_021BE674(b, 0, 0x14, 0);
+        if (func_021BE6BC() == 0)
+            return;
+        func_021BE4B4(b, 0, 0x14, 1);
+        a[1] = 0;
+    }
+
+Everything matches byte for byte except the middle call: the original at
++001C is a Thumb `bl` (CA F7 54 FE) but the compiled object comes out `blx`,
+because the only label for 0x021BE6BC anywhere in the image is
+`func_021BE6BC` in ov114, and that overlay's copy is ARM (see
+src/matched/func_021BE6BC.c, `isa: arm`).  ov060's window is
+0x021F36C0..0x021F3BE0, so 0x021BE6BC is outside it; disasm.py renders the
+call as `bl 0x021BE6BC (outside this region)`.  There is no Thumb label at
+that address in ov060 or ov009, so the target cannot be attested as Thumb.
+
+Declaring the symbol `thumb` in the header is refused:
+
+    ISA conflict for func_021BE6BC at 021BE6BC: the source declares thumb,
+    the image says arm (the func_021BE6BC label in ov114)
+
+with or without an `ov060` region token; the resolver checks the ov114 label
+first.  Leaving it out and letting the name convention resolve it produces the
+same `blx` patch.  This looks like the true constructor at 0x021BE6BC is a
+Thumb routine physically overlaid by ARM code from another overlay, and no
+listing labels the Thumb copy.
+
+The other two calls are fine: func_021BE674 resolves by `label` (thumb), and
+func_021BE4B4 resolves by `label` with `ov203` on the symbols line (14 overlays
+overlap the address).  A witness for the Thumb function at 0x021BE6BC -- a
+label in the right region's listing, or a matched EXACT entry for the ov060
+copy -- is the one thing that would turn this into EXACT.

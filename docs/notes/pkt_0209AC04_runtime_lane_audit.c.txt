@@ -150,3 +150,27 @@ CLZ PROOF (applies to every row marked _to_double/_to_float/_f2d)
 Scratch probes were not kept (both were DIFF, not MATCH); no src/ file was
 produced by this lane.
 re-verified 2026-09-26: 0/25 matched, 25/25 still-runtime
+
+re-checked 2026-09-27 (arm9 runtime exclusion finish; MSL runtime.a DWARF
+lever unavailable: no runtime.a/archive under tools/ or sdk/, and
+`rg -a _ll_mul` finds it only inside mwccarm.exe; the Archive is simply not
+in this tree).  The clz tell above is too strong: an inline-asm
+`asm { clz e, x }` DOES select the instruction in this tree
+(src/matched/func_020681E4.c uses exactly that shape).  Re-probed with
+inline-asm clz anyway:
+  _s32_to_float 0x0209BDBC: DIFF, 92/84 compiled vs 72; the pinned
+    -O4,p reorders the sign test (`cmp` before `and`), allocates sign to
+    r1 not r2, emits `moveq r0,#0` for `return 0`, and shifts the
+    exponent with `lsl` not `lsls`.  52+ concrete bytes differ.
+  _u32_to_float 0x0209BE04: DIFF, 84 compiled vs 72; -O4,p if-converts the
+    zero/high-bit arms (`clzge`/`lslge`/`rsbge`) where the original has a
+    real `bmi`, uses a `moveq r0,#0`, and merges `>>9`/`<<23`.
+  _ll_mul 0x0209C054: DIFF, 28 compiled vs 32; compiler uses ip/lr and
+    `pop {r3,pc}`, original uses callee-saved r4/r5 and `pop {r4,r5,lr};
+    bx lr`.
+  _ll_shl 0x0209C074: DIFF, 36 compiled vs 44; -O4,p if-converts the
+    `>=32` arm, original has branchy `ands`/`subs r3,#0x20; bge`.
+So the clz rows are still non-C under the pinned config, for codegen
+reasons independent of the (wrong) no-intrinsic proof.  No row changes
+verdict: 0/25 matched, 25/25 still-runtime.
+re-verified 2026-09-27: 0/25 matched, 25/25 still-runtime

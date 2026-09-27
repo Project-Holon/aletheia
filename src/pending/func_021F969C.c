@@ -14,6 +14,9 @@
  *           return shapes; TCO persists.  Needs a source form that defeats
  *           sibling-call optimisation without adding bytes.
  *
+ * Re-verified (DIFF fixer): still 18 concrete bytes, relocation resolves;
+ * the tail-call remains the whole difference. Blocker stands.
+ *
  * symbols:
  *   func_020064B8  0x020064B8  thumb
  *

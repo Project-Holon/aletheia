@@ -29,7 +29,13 @@
  * other call site in this file (the error path and the rcode==0 branch) is
  * byte-exact.  Not a witness problem: the three literals and both gsiSet
  * underlays all resolve; this is the mwcc argument-scheduling heuristic for
- * a post-increment in a varargs list.
+ * a post-increment in a varargs list.  Documented as docs/idioms/
+ * a-varargs-counter-increment-is-scheduled-before-a-later-format-pointer.md.
+ *
+ * Re-verified 2026-09-27 (region ov009 / ARM confirmed): still 364/364 with
+ *   the same 21 bytes at +0x118..+0x138; all 13 relocations resolve, so the
+ *   only cap is the argument-scheduling quirk.  Not promotable to MATCH (real
+ *   bytes differ), so it stays parked.
  *
  * symbols:
  *   func_0217EC90  0x0217EC90  arm  ov009

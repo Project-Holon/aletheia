@@ -18,6 +18,10 @@
  * (`subs r1, r2, #4` / `ldr r0, [r0, r1]`).  `i -= 4` vs a named `j = i - 4`
  * vs the compound spelling `p[i - 4]` all reproduce r1; the store before the
  * decrement is what pins r2.  Addresses are Black-image addresses.
+ *
+ * Re-verified (DIFF fixer): also tried a named result `r = *(u32*)(p+i)` then
+ * `return func(r)`, an `int` counter, a `u32 *q` pointer with `q--`, and a
+ * one-trip `for (i = 0x218c; i; i -= 4)`.  All 2 bytes, always `subs r2,r1`.
  */
 
 typedef unsigned char  u8;

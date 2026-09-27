@@ -22,6 +22,10 @@
  *   Tried: size function-scope vs block-scope, before/after n, const size,
  *   const a, u16 a parameter -- all hold the r4/r6 swap or worse.
  *
+ * Re-verified 2026-09-27 (region ov168 / Thumb confirmed): still 112/112 with
+ *   the same 18 bytes, i.e. the one r4/r6 web swap plus the four tail bytes.
+ *   The detailed near-miss note is docs/notes/func_02184398.c.txt.
+ *
  * symbols:
  *   d_02184A20      0x02184A20  data
  *   func_02006CBC   0x02006CBC  thumb

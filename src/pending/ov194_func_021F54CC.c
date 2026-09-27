@@ -20,6 +20,12 @@
  * hoists the later `c = 0` into that register.  Tried: for/while, index vs
  * pointer, `i != 0` vs `i > 0`, do/while.  Everything from +0x1C on is exact.
  *
+ * Re-verified (DIFF fixer): also tried `do { *d++ = 0; } while (--i);`,
+ * `for (i=0;i<0x20;i++) d[i]=0;`, a named `u16 z = 0` stored in the loop,
+ * and `while (i--) *d++ = 0;`.  dsi/1.1p1 always emits the `subs` before the
+ * store and CSEs the loop zero with the later `c = 0`; the original keeps a
+ * separate zero in r1 and the counter post-decremented at the bottom.
+ *
  * symbols:
  *   func_02082D44    0x02082D44  arm
  */

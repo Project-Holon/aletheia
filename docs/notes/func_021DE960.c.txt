@@ -1,0 +1,30 @@
+func_021DE960 (ov171) -- frame-shape dead end, 220 vs 216 bytes
+
+Algorithm recovered and evidently correct: take a screen point from
+func_02035D20, find the current slot r = (s16)func_021DE5F4(obj), scan the
+six slots r..r+5, and for each non-empty slot get its clamped 0x30 box via
+func_021DE0E4, keep the slot whose box contains the point and whose x is
+largest, and return (winning offset % 6) + 5 (0xff if none).  The modulo is
+the runtime helper reached by `blx 0x209C0A4`, remainder returned in r1.
+
+The bytes do not match because of stack-frame shape.  The original allocates
+sub sp, #0x20 and lays out:
+
+  sp+0x00  obj            (str r0,[sp] at entry)
+  sp+0x04  end = start+6
+  sp+0x08  start
+  sp+0x0c  bestX (s16)
+  sp+0x10  spilled copy of the initial best (-1)
+  sp+0x14  win[2] (4 bytes, read with ldrsh)
+  sp+0x18  out2 (word)
+  sp+0x1c  out1 (word)
+
+The compiler here folds the two call outputs down to sp+0x10/sp+0x14, drops
+the sp+0x10 spill, keeps obj in a register instead of [sp], and emits
+sub sp,#0x18 -- a 4-byte-shorter frame.  Because the two outputs are also
+passed by address to func_02035D20, the whole prologue/epilogue and every
+window offset shift.
+
+Note: the `% 6` must be spelled so the front end emits _s32_div_f (via the
+arm helper), not a bare divide; the remainder is taken from r1, hence the
+`+ 5` on r1 rather than r0.

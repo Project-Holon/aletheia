@@ -7,32 +7,39 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   (unverified)
+ * status:   DIFF
+ *
+ * near miss: compiles 54 vs 56.  The original re-reads the u16 count at
+ * sr+2 on every loop test (ldrh r6,[r3,#2] before adds/cmp); 1.1p1 CSEs the
+ * typed ldrh into a bound register.  Forcing the reload with volatile costs
+ * four extra bytes (60).  Byte-correct apart from that one ldrh.
  *
  * symbols:
  *   func_021B94C0  0x021B94C0  thumb
  * Addresses are Black-image addresses.
  */
-
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-
 int func_021B94C0(u16 *p, u16 v);
-
+/*
+ * symbols:
+ *   func_021B94C0  0x021B94C0  thumb  ov021
+ */
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+int func_021B94C0(u16 *p, u16 v);
 int func_021B94D8(u16 *r, u8 *tbl, u8 *sr)
 {
-    u8 *s = sr;
-    u8 *t = tbl;
-    u16 *rp = r;
-    int i = 0, found = 0;
-    if (*(u16 *)(s + 2) > 0) {
-        do {
-            if (t == *(u8 **)(s + 0x14) + i * 0x48)
+    int i, found = 0;
+    if (*(u16 *)(sr + 2) > 0) {
+        u8 *base = *(u8 **)(sr + 0x14);
+        for (i = 0; i < *(u16 *)(sr + 2); i++) {
+            if (tbl == base + i * 0x48)
                 found = i;
-            i++;
-        } while (i < *(u16 *)(s + 2));
+        }
     }
-    *rp = found;
-    return func_021B94C0(rp, (u16)found);
+    return func_021B94C0(r, (u16)found);
 }
+

@@ -28,6 +28,16 @@
  * loop, the grow path, the error/closed branches and the RECVTOTL dump all
  * line up; only the per-chunk raw-dump call site is off.
  *
+ * Re-verified 2026-09-27 (region ov009 / ARM confirmed): 520 bytes compiled
+ *   against the 524-byte original, 147 bytes out.  Most of that count is the
+ *   4-byte-short call site shifting everything after it, not 147 independent
+ *   errors.  Two of the pool literals also fail to resolve on relocation:
+ *   g_021A4568 and g_021A458C are data with no witness outside
+ *   02189780..02189988 (the string class does not fire on them), so even if the
+ *   scheduling quirk were cracked this file is additionally capped at MATCH by
+ *   evidence.  Same argument-scheduling idiom as func_021894D8 (docs/idioms/
+ *   a-varargs-counter-increment-is-scheduled-before-a-later-format-pointer.md).
+ *
  * The static traffic counters live in one struct at 0x021ADFC8: sendCount at
  * +0 (func_021894D8) and recvCount at +4 (here).
  *

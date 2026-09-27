@@ -1,0 +1,48 @@
+ov052 func_021F3998 -- DIFF, allocator-only near miss
+=====================================================
+
+A 10-entry table lookup (ov052, Thumb).  Fully reconstructed -- semantics and
+both relocations resolve (the two ABS32 sites are g_021F39DC and its +4 field
+g_021F39E0, both via `sole-ref`) -- but the loop register allocation is a
+permutation away at best (9 concrete bytes).
+
+    typedef struct { u32 key; u32 val; } E;
+    extern E g_021F39DC[10];
+
+    u32 func_021F3998(u32 a0, u32 *a1, u32 *a2)
+    {
+        int i;
+        u32 v;
+        for (i = 0; i < 10; i++) {
+            if (a0 == g_021F39DC[i].key) {
+                v = g_021F39DC[i].val;
+                *a1 = v;
+                *a2 = i;
+                return v;
+            }
+        }
+        *a1 = 0;
+        *a2 = 0;
+        return 0;
+    }
+
+The original allocates:
+
+    r5 = &g[0]        (key base, loop-invariant)
+    r3 = i
+    r6 = i * 8        (per-iteration offset, also reused for `[valbase, r6]`)
+    r4 = g[i].key
+
+The closest spelling found (u32 i, `E *t = g`, `t[i]`) gives exactly that but
+with the key base and the offset swapped: r6 = &g[0], r5 = i*8.  Spellings
+tried and their key-base / offset pairs:
+
+    E *t = g;           int i;   t[i]      -> r6 / r5
+    (global)            int i;   g[i]      -> r4 / r5
+    E *t = g;           u32 i;   t[i]      -> r6 / r5
+    E *t = g;           int i;   `E *p = t + i; p->key` -> r6 / r4 (extra adds)
+    separated `u32 k = ...; u32 v = ...;`  -> r4 / r3
+
+All of them keep i in r3 and the key in r4, so only the base/offset tie-break
+is wrong.  A declaration or expression shape that pins the loop-invariant base
+to r5 (below the per-iteration offset r6) would close it.
