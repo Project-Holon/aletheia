@@ -22,7 +22,7 @@ for this repository.
 ## DSi `twl` region and ARM9 autoloads
 
 twl 100% (37,658 of 37,658 game code bytes matched), ITCM 100% (168 of 168),
-plus 1,042 matched SDK bytes of 1,250. The DSi-mode `twl` block and the ARM9
+plus 1,250 matched SDK bytes of 1,418. The DSi-mode `twl` block and the ARM9
 autoload blocks (ITCM, the two MAIN_TWL stubs and VRAM_LCDC) are not part of
 the ARM9 static image or the overlays, so they have a map of their own.
 
