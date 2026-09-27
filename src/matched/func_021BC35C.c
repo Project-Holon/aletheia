@@ -1,0 +1,34 @@
+/*
+ * function: func_021BC35C
+ * address:  0x021BC35C
+ * packet:   pkt_ov208_021BC35C
+ * region:   ov208
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02030734  0x02030734  arm
+ *   d_021C8D98     0x021C8D98  data  ov208  a4
+ */
+
+extern void *func_02030734(int, int, int, void *, int);
+extern int d_021C8D98;
+
+void func_021BC35C(int a, int b, int c, int d, int e, int f, int g, int h,
+                   unsigned short i, int j)
+{
+    int *p = (int *)func_02030734(a, 0x24, 1, &d_021C8D98, 0x60);
+
+    p[0] = b;
+    p[1] = c;
+    p[2] = d;
+    p[3] = e;
+    p[4] = f;
+    p[5] = g;
+    p[6] = h;
+    *(unsigned short *)((char *)p + 0x1c) = i;
+    p[8] = j;
+}

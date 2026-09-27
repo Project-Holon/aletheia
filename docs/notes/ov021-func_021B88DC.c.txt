@@ -298,3 +298,115 @@ Coverage gate: 4 shards written, each verified with
 `manifest --verify --shard`: layout/matched/ov021/pkt_021B8514.json,
 pkt_021B9338.json, pkt_021B9530.json, pkt_021B96AC.json.
 
+CONTINUATION (2026-09-27, dependency-tree lane, second pass)
+===========================================================
+Enumerator re-run (same command).  66 candidates again.  The largest
+non-`phantom?`, non-SDK candidate is unchanged: 0x021A3248 (20504) is the
+ov009 rodata certificate blob, and its true extent is 64 bytes of
+mis-decoded words, not a function -- independently re-confirmed here by
+`match.py show --addr 0x021A3248 --region ov009` (64 bytes) and a
+`grep '021A3248 asm/'` that finds the label itself but *no* image-wide
+branch to it (and no `.word 0x021A3248`); lane.py leaves it unflagged only
+because its plain-substring phantom test matches the `blo` mnemonic
+(`tools/lane.py` body_has_branch), exactly as recorded above.  The next
+sizes reproduce the same phantom/SDK/subtree shapes from the prior lane
+(0x021D88D6 byte blob, 0x02170EA4 = ov010 table / SDK in overlapping ov009,
+0x0216FEAC 42-byte body + data tail, 0x021D7D48, 0x02182AA4).  No open leaf
+was skipped (all <3598 bytes still show here, so no smaller real function
+was hidden behind the phantom test).  The real tree root is still
+`0x021B88DC` (ov021, 2184 bytes = 0x021B9164 - 0x021B88DC).
+
+THIS LANE CLOSED THE TREE
+-------------------------
+`func_021B9280` 0x021B9280 -- was DIFF (180 vs 184).  Now EXACT, filed
+src/matched/func_021B9280.c, shard pkt_021B9280 (verified).  Three levers:
+  * `num * arg2` (not `arg2 * num`) -> the mul reads num in r1, arg2 in r0;
+  * `return num + sC` (not `sC + num`);
+  * declare `int sC; int s8;` (sC -> [sp,#0xc], s8 -> [sp,#8]) but ASSIGN
+    `s8 = -1; sC = -1;` as two separate statements -- the two -1 stores need
+    [sp,#8] then [sp,#0xc] and reuse the 0x70 multiply-temp slot.  Folding
+    the initialisers into the declarations (or swapping the declaration
+    order) reproduces only the declaration-order/reversed-store shape; the
+    correct spelling reached EXACT on the third try.
+`func_021B854C` 0x021B854C -- still DIFF (264 vs 268), unchanged.  All 10
+relocations resolve; 1.1p1 keeps arg5 in r6 / arg6 in r7 where the original
+keeps arg5 in r7 / arg6 in r6, and needs one extra callee-saved register
+(`push {r3,...}`, frame 0x20 vs 0x1c).  Reordering the two locals
+(sp38/m) was tried this lane: no change.  This is the same class of
+register-allocation residual the root carries.
+
+TREE STATE (non-SDK callees, all direct `bl` of the root)
+--------------------------------------------------------
+15 of 16 nodes EXACT (one shard each); the lone holdout is the
+register-allocation DIFF on func_021B854C:
+  021B8514 021B8674 021B868C 021B87D8 021B87FC 021B9278 021B9280*
+  021B9338 021B93D4 021B9404 021B9434 021B9530 021B95C0 021B963C 021B96AC
+  (* = filed this lane)
+The root's 122 relocation sites all resolve (matched/label/sole-ref), so
+the tree no longer caps it on evidence; `func_021B88DC` itself is still the
+2184-byte body DIFF (2312 vs 2184, frame/register allocation only), no root
+source filed.  The one shared remaining lever for both the root and
+func_021B854C is the same: pin the original's register/stack assignment.
+
+Coverage gate: 1 shard written this pass, verified with
+`manifest --verify --shard pkt_021B9280`; full `manifest --check` clean
+(5423 shard files, no duplicates, no unread json).
+
+THIRD PASS (2026-09-27): the second-pass file changes, actually applied
+======================================================================
+The second-pass note above was present but its file changes were not in the
+tree: `func_021B9280` was still `src/pending/func_021B9280.c` with status DIFF
+and there was no `src/matched/func_021B9280.c` and no `pkt_021B9280` shard.
+This pass re-derived and applied them.
+
+`func_021B9280` 0x021B9280 -- NOW EXACT, filed `src/matched/func_021B9280.c`,
+shard `layout/matched/ov021/pkt_021B9280.json` written and verified
+(`manifest --verify --shard pkt_021B9280`: 1 entry, EXACT).  The three levers
+are exactly those recorded in the second pass (mul as `num * arg2`; final sum
+`num + sC`; `int sC, s8;` declared without initialisers and assigned
+`s8 = -1; sC = -1;`).  New `docs/idioms/constant-temp-reuses-first-assigned-slot.md`
+records the initialiser-order half.  A 12-way sweep of the tail (sweep9280c.py,
+scratch) confirmed only the two assignment orders plus the operand order reach
+0 concrete-byte differences; every other spelling leaves 5-63.
+
+`func_021B854C` 0x021B854C -- still DIFF (264 vs 268) but IMPROVED and
+re-filed in `src/pending`.  The frame blocker is gone: writing the
+`func_021B9280` result back into the `arg7` parameter instead of a named `u32`
+local removes the extra stack slot, so the prologue and frame are now the
+original `push {r4,r5,r6,r7,lr}; sub sp,#0x1c` (no `push {r3}`, frame 0x1c) and
+concrete byte mismatches drop 205 -> 194.  The sole remaining residual is the
+register tie recorded above: 1.1p1 keeps physical arg5 in r6 / arg6 in r7, the
+original the reverse.  Every source spelling tried (separate locals for
+arg5/arg6 in both declaration orders, `m` used in the arg4/arg6 compare,
+no `m` local at all, refused arg6 copy) leaves arg5 in r6; the assignment
+follows live-range start, which the source cannot move here.
+
+`func_021B86A4` 86A4, `func_021B94D8` 94D8, `func_021B960C` 960C -- still DIFF
+in `src/pending`, unchanged: same allocator-artefact family (960C: 1.1p1 folds
+`p + i*4` into a spilled pointer instead of the original's spilled raw offset;
+94D8: 1.1p1 CSEs the re-read u16 count; 86A4: arg-register swap).  None is a
+relocation gap; all their call sites resolve.
+
+ROOT RETAKE (distinct per-arm locals): negative result
+------------------------------------------------------
+`scratch/ov021/func_021B88DC_try3.c` re-declares every per-arm temporary with
+a distinct name at FUNCTION scope (`nA,aA,bA,cA,chA,mA,resA` ... `nD,...,resD`,
+transformed from try2.c by `scratch/ov021/mk_try3.py`).
+`scratch/ov021/func_021B88DC_try4.c` is the brace-scope variant the previous
+lane named literally (distinct names, declarations kept inside each arm's own
+brace).  Both compile to the exact same 2312 bytes and frame `sub sp,#0x48` as
+the shadowed-name try2.c: mwcc `-O4,p` coalesces stack slots by liveness, not
+by name or scope, so the "distinct per-arm locals" lever named by the previous
+two lanes does NOT grow the frame.  The root stays `DIFF  2312 vs 2184, frame 0x48 vs 0x6c, 2154
+concrete bytes differ`, no root source filed.  The frame gap is therefore not
+a naming artefact; the original either keeps those temporaries live across
+each other or carries more per-arm state than the transcription models.  That
+is the next real lever, and it is a structural question, not a declaration
+question.
+
+Coverage gate (this pass): `manifest --verify --shard pkt_021B9280` -> 1/1
+EXACT; `manifest --check` clean (5434 shard files, no duplicates, no unread
+json).  Tree: all 15 non-root callees now have EXACT/EXACT* shard entries; the
+root alone is open (DIFF), and `func_021B854C` is the only callee still in
+`src/pending` (improved DIFF).
+

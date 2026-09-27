@@ -18,9 +18,30 @@
  * ov016 ARM code).  Witness class: none; needs a Thumb label seed at
  * 0x021C6534 or the ov016 label corrected.  All other 1038 bytes reproduce.
  *
+ * Re-verified 2026-09-27 (recursive MATCH unblocker lane, 0x02180000..0x0219FFFF):
+ * unchanged.  The blocker target 0x021C6534 is outside this lane's band
+ * (0x0218xxxx..0x0219xxxx); it needs a Thumb label seed in
+ * layout/function_starts.txt (integrator's file), which is why it is not a
+ * matchable bottom-up dependency here.
+ *
+ * Cross-checked 2026-09-27 (region ov021 blocker tree): the call at +0x11A is
+ * a genuine Thumb `bl` (3e f0 1f f9), not an interworking `blx`; its target
+ * 0x021C6534 is the two-word store `str r0,[r4,#0x10]; bx lr` in ov021's own
+ * window (ov021 data at 0x021C6534 is 01 61 70 47).  match.py still refuses
+ * because isa_evidence(0x021C6534, ov021) prefers the ov016 `func_021C6534`
+ * ARM label when the site's own region holds no func_ label there; the
+ * `symbols:` ov021 hint is not consulted by that ISA cross-check, and no
+ * evidence class carries a start at 0x021C6534 without a listing seed.  The
+ * separate ov019 blocker 0x0217F8C0 (called at +0x0C4) IS now an EXACT
+ * src/matched/ file and resolves here by the `matched` class.  So this file is
+ * one listing seed away from EXACT; it stays parked with status ISA.  This is
+ * the cross-ISA overlay collision of docs/idioms/
+ * a-cross-overlay-thumb-call-to-an-address-labelled-arm-elsewhere.md.
+ *
  * Seven-step field init sequence, one step per call; returns 1 once the last step has run.
  *
  * symbols:
+ *   func_0217F8C0  0x0217F8C0  thumb  ov019
  *   data_021D8F00  0x021D8F00  data  ov021
  *   data_021D8F10  0x021D8F10  data  ov021
  *   func_02008550  0x02008550  thumb
@@ -52,7 +73,6 @@
  *   func_0202E83C  0x0202E83C  thumb
  *   func_0203F4FC  0x0203F4FC  arm
  *   func_0216447C  0x0216447C  thumb  ov010
- *   func_0217F8C0  0x0217F8C0  thumb
  *   func_02188C9C  0x02188C9C  thumb  ov021
  *   func_02189154  0x02189154  thumb  ov021
  *   func_02189204  0x02189204  thumb  ov021

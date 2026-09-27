@@ -126,3 +126,86 @@ Thumb seed, and the other four blocks are DIFF on codegen.  No shard was
 written and no matched file added; the only source change is the
 func_021BD880 `status:` correction above.  `match.py manifest --check` reports
 clean (5414 shard files, no duplicates, no unread json).
+
+
+Wave 11 re-run (same lane scope) -- TWO PARKS PROMOTED
+======================================================
+Re-derived the unresolved in-band targets from a fresh full-tree compile of
+every src/pending file (95 .c files), reading each header's own
+region/isa/cc/flags.  Seven distinct targets fall in 0x021A0000..0x021BFFFF:
+0x021A4568, 0x021A458C, 0x021B6200, 0x021B821C, 0x021B8234, 0x021B941C and
+0x021BD574.  Two byte-correct MATCH parks that did not exist when the note
+above was written name two more in-band targets; both are now EXACT.  Every
+address Black.
+
+Promoted
+--------
+  0x021BAD58  ov213  EXACT   park src/pending/func_021BAD58.c, blocked by the
+                             +003C ABS32 0x021BB18C (in band).  0x021BB18C is
+                             data in the park's OWN overlay (ov213: the
+                             `.word 0` run start at 0x021BB18C; the pool word
+                             at 0x021BAD94 names it), so `sole-ref/self` is the
+                             right class -- the ROM word at the site already
+                             equals the word about to be written.  It only
+                             refused because the `ov213` token on the symbols
+                             line made the hint contested (ov223 also starts a
+                             `func_021BB18C` at the same window address) and the
+                             function loads no overlay id, so
+                             self_hint_accepted() declined.  Dropping the token
+                             lets the function's own region pick ov213 and the
+                             site resolves `sole-ref`; 7 of 7 sites, EXACT.
+                             0x021BAD58 is also an EXACT entry in ov068, so the
+                             file is region-qualified:
+                             src/matched/ov213_func_021BAD58.c,
+                             layout/matched/ov213/pkt_ov213_021BAD58.json.
+  0x021BC5F0  ov223  EXACT   the identical shape.  +003C ABS32 0x021BC944 is
+                             data in ov223 (`.word 0` start at 0x021BC944, pool
+                             word at 0x021BC62C); ov088 starts a
+                             `func_021BC944` there, so the `ov223` hint was
+                             contested the same way.  Drop the token, 7 of 7
+                             sites, EXACT.  The address is also EXACT in ov217,
+                             so: src/matched/ov223_func_021BC5F0.c,
+                             layout/matched/ov223/pkt_ov223_021BC5F0.json.
+
+  This is exactly the `sole-ref/self` + contested-hint fix already recorded in
+  docs/notes/recursive-match-unblocker-ov217-021C.c.txt ("Dropping the
+  contested `ov203` region token from the `data` symbols line lets the
+  function's own region pick the object").  No target function had to be
+  matched: the parks were byte-correct and the hint was the only blocker.
+
+Residuals (unchanged; NOT promoted)
+-----------------------------------
+  0x021B941C  blocks func_021BE658 (ov209, MATCH).  Re-verified: 316 compiled,
+              21 of 22 sites.  Still no seed in layout/function_starts.txt and
+              no `func_` label in any of the ten overlapping overlays; needs
+              the Thumb seed at 0x021B941C in ov133 (integrator's file), as
+              above.
+  0x021B6200  blocks ov218_func_021BA0B0 (ov218, DIFF): interior in all
+              sixteen overlays whose window holds it and the host is DIFF on
+              codegen (144 vs 136), so a witness could not promote it.
+  0x021B821C / 0x021B8234  block func_021B7F38 (ov180, DIFF): the ov180
+              two-record table; only referrer is the pool word inside the
+              function, and the host is DIFF on loop scaffolding.
+  0x021A4568 / 0x021A458C  block ov009_func_02189780 (ov009, DIFF): the
+              GSIDebug format strings; the host is 4 bytes short at the
+              raw-dump call.
+  0x021BD574  blocks func_02183C50 (ov168, MATCH).  This is the one in-band
+              target that is real code (func_021BD574, Thumb, ov208, outside
+              caller at 0x021BD4D6), but matching it does not promote the host:
+              the park's +0078 ABS32 stores the address EVEN (0x021BD574, no
+              Thumb bit), so declaring it `thumb ov208` writes 0x021BD575 and
+              is a 1-byte DIFF, while declaring it `data` leaves it
+              unwitnessable.  The park's other site, +0074 ABS32 0x00000058, is
+              a pooled small constant reaching func_020312F8, which is not in
+              OVERLAY_ID_CONSUMERS (the consumer is func_020312CC), so
+              `overlay_id` cannot carry it and no other class starts an object
+              at 0x58.  func_02183C50 is therefore out of this lane's reach
+              (needs a match.py consumer-list/tool change); its address is out
+              of band anyway.
+
+Outcome
+-------
+Two parks promoted to EXACT and filed with their own ov213 / ov223 shards; the
+five prior residuals and the new 0x021BD574 residual are unchanged.  No target
+function needed matching.  `match.py manifest --check` reports clean
+(5465 shard files, no duplicates, no unread json).

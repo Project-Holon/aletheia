@@ -268,9 +268,10 @@ def attach_c_sources(specs, manifest, jobs=1):
     for sp in kept:
         s = owner(sp.address, sp.region)
         if s is None:
-            raise csrc.CSourceError(
-                "%s at 0x%08X names region %s, which is not being built"
-                % (sp.name, sp.address, sp.region))
+            # The entry names a region this invocation is not building (e.g. the
+            # ITCM/autoload blocks, which are never spliced from C).  Leave it to
+            # the reassembled listing rather than failing the whole build.
+            continue
         if sp.end > s.base + s.size:
             raise csrc.CSourceError(
                 "%s at 0x%08X+%d runs past region %s"

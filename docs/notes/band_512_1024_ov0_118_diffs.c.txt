@@ -1,0 +1,46 @@
+band 512-1024, overlays 0-118 -- DIFF near miss
+===============================================
+
+func_021B3924 (ov013) -- DIFF 224 vs 212, one register pair away
+---------------------------------------------------------------
+ARM, signature in C terms (a0, a1, a2, a3):
+  i32 func(i32 a0, i32 *a1, i32 a2, i32 *a3)
+with a1 a "TCV_" record: a1[0] == 0x5F564354 ('TCV_'), byte a1[4] the type.
+
+Reconstructed body:
+  if (a1 == 0) return 0;
+  if (a1[0] != 0x5F564354) return 2;
+  if (d_021B60CC[7] == 0 || d_021B60CC[2] == 0) return 0;   // 0x021B60CC, ex-
+                                                            // tern int[] (ov013)
+  *a3 = 0; a3[1] = 0;
+  r = func_020870D0();
+  c = *(u8 *)((u8 *)a1 + 4);
+  if ((c & 0xf0) == 0x40) {
+      d_021B60CC[1] = d_021B60CC[1] + 1;
+      func_021B0F38(a0, a1, a2, r, a1[0]);
+      return 0;
+  }
+  if (c == 0 || c == 0xff)
+      return func_021B2488(a0, a1, a2, a3) != 0;
+  return 0;
+
+Using `extern int d_021B60CC[];` (the sibling func_021B3844.c spelling) makes
+the whole prologue and the early-return compares byte-identical:
+`movs r7,r1; mov r8,r0; mov r6,r2; mov r5,r3`, `ldr sb, =0x021B60CC`, both
+guard chains, and all three call sites resolve (func_020870D0 label,
+func_021B0F38 / func_021B2488 sole-ref, d_021B60CC sole-ref).
+
+The only remaining difference is which caller-saved register holds `c`
+(a1[4]) and the rematerialised magic:
+
+  original:  c -> r2, a1[0] stays in r1 across `bl func_020870D0` and is the
+             5th (stack) argument; r0 result moved to r3.
+  compiled:  c -> r1 (clobbers the magic), so a1[0] is reloaded (`ldr r5,[r7]`)
+             just before the 5th argument.
+
+That the original keeps r1 live across `bl 0x020870D0` means its compiler
+assumed the callee preserves r1; an isolated TU cannot reproduce that and
+rematerialises instead.  Tried: c declared before/after r, `u8`/`int` c, a
+named `magic` local (goes to a stack slot via sl, worse), and the raw
+`*(u8**)0x021B60CC` form (same c register).  A spelling that pins c to r2
+would close it.  Not parked (DIFF is not a filing decision).

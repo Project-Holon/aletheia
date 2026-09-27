@@ -1,0 +1,73 @@
+DIFF fixer lane, 2026-09-27: src/pending with address >= 0x021A0000 (no twl),
+status: DIFF.  56 files re-verified individually (show + one --diff, header
+region and ISA).  One promotion, one header-hint correction, the rest are
+compiler near misses.
+
+Promoted (pending -> matched, EXACT*, shard pkt_021BD880):
+
+  func_021BD880  ov208  0x021BD880
+    The +8 store is a full word in the image -- `str r1,[r4,#8]`, not `strh`
+    -- because the zero-extended u16 is written through an int lvalue.
+    Changing `*(unsigned short *)(p + 8) = h;` to `*(int *)(p + 8) = h;`
+    reproduces the whole function.  The prior header called this BLOCKED with
+    a store-order theory; the store width was the real difference.
+
+Header-hint correction, not a status change:
+
+  func_021BD3AC  ov210  0x021BD3AC
+    The three func_021C94xx callees were hinted `ov210`; none of them is in
+    ov210's window (ov210 calls into co-resident ov212).  Hints corrected to
+    ov212: 11/14 relocations resolved -> 13/14.  The two remaining concrete
+    bytes and the last site are described in the file's header.
+
+Falsified claim in docs/idioms/argument-register-match-names-a-coerced-extern.md
+--------------------------------------------------------------------------------
+That idiom says declaring the field `s32` (or the callee's parameter `int`)
+"resolves func_021B6984, where `int v = *(s32 *)(p + 0x1c)` puts the dead
+comparison temporary in r1 rather than r0".  It does not.  With dsi/1.1p1:
+
+  func_021B6984 (ov180): `int`, `s32`, `unsigned`, `void *`, `int *`, an inline
+    expression, an arg of `unsigned`, and a callee parameter of `unsigned` all
+    still emit `ldr r0,[r4,#0x1c]; cmp r0,#0` where the image has r1.
+  func_021BEA54 (ov210): named u8 local, inline expression, an address local
+    reused for both byte reads, and pointer-deref spelling all emit
+    `ldrb r0,[r0,#3]; cmp r0,#0xff` where the image has r1.
+  func_021BD3AC (ov210): the same shape, `ldrb r0,...` vs `ldrb r1,...`.
+
+The register an argument sits in is a real tell; the register a *dead test
+load* lands in under this compiler is not, and the idiom generalised one to
+the other.  Treat `argument-register-match...` as unproven for the dead-load
+case.
+
+Recurring near-miss classes (all still DIFF, no C shape reaches them)
+--------------------------------------------------------------------
+1. Dead test/load temporary  r0 vs r1.  A load whose only use is the compare
+   (or a byte/word read into a register after a call) is coalesced with the
+   free argument register r0 by dsi/1.1p1 wherever the image used r1.  Files:
+   func_021B6984, func_021BEA54, func_021BD3AC, func_021FAD04 (r3 vs r1),
+   func_021FF698 (r4/r5), func_021F9754 (r1/r3), ov210_func_021BFF30 (r1/r2),
+   ov217_func_021BE934 (r0/r1), ov218_func_021BA0B0, func_021DB4B4.  No
+   variable type, local, pointer, or volatile spelling moves it.
+
+2. Interleaved store scheduling.  The image computes-and-stores one value at a
+   time; dsi/1.1p1 batches both loads/maths before either store, or schedules
+   the second value's store first.  Files: func_021C28CC/DC/EC (a-then-b
+   swaps the loads; b-then-a batches), func_021C42A8, ov112_func_021F80B0,
+   func_0220C8F0 (stack-slot swap).  This is a list-scheduler tie.
+
+3. Frame shape.  The image's frame is 4 bytes larger with an extra spill; the
+   compile folds a call output or keeps a pointer in a register instead of
+   [sp], shifting every window offset.  Files: func_021DE960 (0x20 vs 0x18,
+   already noted), func_021B854C/func_021B86A4 (0x1c vs 0x20), func_021DEFAC
+   (0x50 vs 0x4c).  Not recoverable without the original local layout.
+
+4. TCO vs `bl`+`pop`.  A pure `return f(...)` is sibling-called
+   (`ldr r?,[pc]; bx r?`) where the image makes an ordinary `bl` and returns.
+   An intermediate `int r = f(...); return r;` does not defeat it.  Files:
+   func_021F969C, func_021D8DD0 (last call).  Needs a source shape that adds a
+   post-call use without adding bytes; none found.
+
+5. Unattestable Thumb stub.  func_021C9460 in ov212 is
+   `ldr r3,[pc,#0]; bx r3; .word 0x020307B0` (a Thumb->ARM veneer) emitted by
+   disasm as an unlabelled .word run, so neither `label` nor `veneer` attests
+   it.  See the veneer idiom's closing paragraph; only the ARM shape attests.

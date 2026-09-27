@@ -8,6 +8,7 @@
 01FF80F0  OS_IrqHandler                                 TwlSDK/libos.TWL.HYB.a(os_irqhandler.o)  arm9_autoload0_ITCM
 01FF8148  OS_IrqHandler_ThreadSwitch                    TwlSDK/libos.TWL.HYB.a(os_irqhandler.o)  arm9_autoload0_ITCM
 01FF82A8  OSi_VerifyStaticSegmentHash                   TwlSDK/libos.TWL.HYB.a(os_reset.o)  arm9_autoload0_ITCM
+01FF836C  OSi_VerifyStaticSegments                        TwlSDK/libos.TWL.HYB.a(os_reset.o)  arm9_autoload0_ITCM
 01FF8414  OSi_DoResetSystem                             TwlSDK/libos.TWL.HYB.a(os_reset.o)  arm9_autoload0_ITCM
 01FF8460  OSi_DoBoot                                    TwlSDK/libos.TWL.HYB.a(os_reset.o)  arm9_autoload0_ITCM
 01FF852C  MIi_CpuClear32                                TwlSDK/libmi.TWL.HYB.a(mi_memory.o)  arm9_autoload0_ITCM  ?

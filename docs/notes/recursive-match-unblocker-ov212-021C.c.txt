@@ -1,0 +1,79 @@
+Recursive MATCH unblocker, overlay blocker targets in 0x021C0000..0x021CFFFF
+=============================================================================
+Wave 11 re-run.  Scope: for every `src/pending/` MATCH file that names an
+unresolved target in 0x021C0000..0x021CFFFF, match the target (and its
+non-SDK deps) bottom-up in the correct region, then re-verify the blocked
+file and promote it if it turned EXACT.  Every address below is a Black-image
+address.  The prior run's record is
+`docs/notes/recursive-match-unblocker-ov217-021C.c.txt`.
+
+Target 0x021CE984 (blocks ov016_func_021C8C88, ov016_func_021C57E4) -- ALREADY EXACT
+------------------------------------------------------------------------------------
+The ARM leaf at 0x021CE984 (reload the global pointer at 0x021DE63C and return
+byte +0x1a) is already an EXACT entry:
+`src/matched/ov016_func_021CE984.c`, `layout/matched/ov016/pkt_ov016_021CE984.json`,
+evidence `self:0x021DE63C`.  Both blocked files stay MATCH, and no C can change
+that: the two `bl 0x021CE984` sites are refused by the ISA guard before
+attestation, exactly like 0x021C6534.  `isa_evidence(0x021CE984, region=ov016)`
+finds no `func_` label in ov016 (the bytes are a `.word` run), falls through the
+overlay-label loop to ov021's Thumb `func_021CE984`, and the declared-arm call
+raises "ISA conflict ... the image says thumb".  A `matched` overlay entry is
+not consulted by `isa_evidence`.  Needs a tool change or a seed of 0x021CE984
+as an ARM start in ov016's listing; both outside the lane write set.  (The
+`symbols:` line's `ov016` token does not help -- the guard reads the site
+region, not the declaration's hint.)
+
+Target 0x021C9460 (blocks func_021BD3AC, ov210) -- RESOLVED
+----------------------------------------------------------
+0x021C9460 is a Thumb tail-call veneer in ov212 (`ldr r3,[pc,#0]; bx r3;
+.word 0x020307B0`) that disasm emits as an unlabelled `.word` run, so no
+listing class attests it (the `veneer` class recognises only the ARM stub
+shape).  Matched bottom-up:
+
+  0x021C9460   8 B  EXACT  `void func_021C9460(void){ func_020307B0(); }`;
+                          the tail-call pool word resolves `label` at the ARM9
+                          func_020307B0 (x302 callers).
+                          src/matched/ov212_func_021C9460.c,
+                          layout/matched/ov212/pkt_ov212_021C9460.json.
+
+func_021BD3AC now resolves 14 of 14 relocations (the +0096 `bl` is
+`matched x1 e.g. 021C9460`), but the verdict is unchanged DIFF: the same two
+concrete bytes `ldrb r1,[r4,r5]/cmp r1,#0x79` vs `ldrb r0,.../cmp r0,#0x79`
+(the allocator tell).  Target matching cannot promote it.  The header of
+src/pending/func_021BD3AC.c is updated to say so.
+
+Target 0x021CC9AC (blocks ov093_func_021C88A4, and named by the five ov093
+parks) -- NOT matchable
+----------------------------------------------------------------------------
+Re-verified.  Its only data deps, the (key,size) pair table at
+0x021EFE9C/0x021EFE9D, DO resolve now -- both pool words resolve `sole-ref`
+(`self:0x021EFE9C`, `self:0x021EFE9D`), contrary to the earlier park note that
+called them unattestable.  The packer is still DIFF: same 200-byte size,
+~141-168 concrete bytes, because the image keeps `p` in r0 and `key` in r5 and
+puts `size` in r3, while mwcc moves `p` to r3, `key` to r0 and `size` to r5.
+Every semantically equivalent spelling tried (param/local key, void-pointer or
+struct-pointer param, one 2D table vs two extern arrays, one vs two loop
+counters, declaration-order permutations, `-proc arm7tdmi`) reproduces the
+swapped colouring.  It is a genuine codegen residue, not a witness gap:
+matching it would witness src/pending/ov093_func_021C88A4.c via `matched`.
+Parked with `status: DIFF` and this blocker in
+src/pending/ov093_func_021CC9AC.c.
+
+Targets d_021C2E30 / d_021C2E60 (block func_021B98B8, ov217) -- NOT resolvable
+------------------------------------------------------------------------------
+Two data sites.  Dropping or changing the `ov217` hint resolves d_021C2E60
+(sole-ref/self, or 11 of 12 sites), but d_021C2E30 never resolves: it is data
+in six overlays of the pool (ov021, ov093, ov099, ov110, ov203, ov217) and the
+ov217 hint is contested, so `sole-ref/self` refuses for >1 data overlay and
+`sole-ref/data` refuses the contested hint.  func_021B98B8 stays MATCH either
+way (2 of 12 sites unresolved at best).  Needs a tool change or an integrator
+data-object seed; no C fixes it.
+
+Residual 0x021C6534 (blocks func_021881D8, ov021) -- unchanged
+-------------------------------------------------------------
+The target is an EXACT Thumb entry already (layout/matched/ov021/pkt_021C6534.json)
+but the two-byte Thumb `bl` site is refused by the same `isa_evidence` guard as
+0x021CE984 (it reads ov016's ARM `func_` label).  Still needs a tool change or
+a Thumb start seed in ov021's listing.
+
+No promotions this wave.  `match.py manifest --check` is clean.

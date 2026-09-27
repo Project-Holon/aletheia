@@ -14026,6 +14026,18 @@
    "dupes": 1,
    "siblings": 5
   },
+ {
+   "address": 33522540,
+   "name": "OSi_VerifyStaticSegments",
+   "lib": "TwlSDK/libos.TWL.HYB.a",
+   "object": "os_reset.o",
+   "region": "arm9_autoload0_ITCM",
+   "thumb": true,
+   "size": 168,
+   "concrete": 168,
+   "dupes": 1,
+   "siblings": 5
+  },
   {
    "address": 33522708,
    "name": "OSi_DoResetSystem",

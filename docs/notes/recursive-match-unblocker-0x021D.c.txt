@@ -160,3 +160,83 @@ MANIFEST
 `python tools/match.py manifest --check` is clean (no duplicates, no unread
 json); all eight new shards were written by
 `manifest --verify --shard <id>` and every entry reads EXACT/EXACT*.
+
+Re-run (same lane scope, >= 0x021D0000)
+=======================================
+
+Re-derived the unresolved in-band targets from a fresh pass over src/pending:
+every `match.py one` report was collected and the per-site "unresolved" targets
+were filtered to >= 0x021D0000.  As in the first pass, no MATCH-capped file has
+an in-band witness gap -- the only missing-witness targets named by MATCH files
+are 0x021B941C, 0x021CE984, 0x02194D1C, 0x0216D4F8 and 0x021CC9AC, all below
+0x021D0000.  The prior pass's residual targets are open in-band functions; this
+run attempted them and closed two fresh dependencies.
+
+Targets matched
+---------------
+  0x021F5424  20 B  EXACT  ov112.  `if (a1 == 1) f_626C(*(int*)(a0+8)); else
+                           f_6280(*(int*)(a0+8));`.  The tell is that the two
+                           inline loads must be written out in both arms: mwcc
+                           CSEs them and is then free to hoist the single `ldr`
+                           above the `cmp`, which is exactly the image's order
+                           (`cmp`; `ldr`; `bne`).  Binding the load to a local
+                           first makes the compiler sink it instead and costs
+                           four bytes.
+                           src/matched/ov112_func_021F5424.c,
+                           layout/matched/ov112/pkt_ov112_021F5424.json.
+  0x021DE0E4  48 B  EXACT  ov171.  `v = *(int*)(obj + i*4 + 0xb74);
+                           f_0204B454(v, tmp, 0); *out1 = tmp[0]; *out2 =
+                           tmp[1];`.  0x0204B454 is ARM (`blx`), so it carries
+                           an `arm` symbol.
+                           src/matched/ov171_func_021DE0E4.c,
+                           layout/matched/ov171/pkt_ov171_021DE0E4.json.
+
+Dependencies attempted, parked DIFF (all relocations resolved)
+--------------------------------------------------------------
+  ov021 func_021D33FC  (0x021D33FC, 124 B, DIFF 13 bytes): dep of the matched
+       func_021D33A8.  Logic recovered; residue is prologue spill order and the
+       5th-argument/`r1` schedule in the tail.  Both `func_0215850C` and
+       `func_02158468` now attest by `matched` (EXACT ov010 entries), so this
+       is no longer the witness gap the first pass named.
+       src/pending/ov021_func_021D33FC.c.
+  ov093 func_021D59B4  (0x021D59B4, 292 B, DIFF 296/292): the attribute getter
+       is recovered, including the empty `case 0` that keeps the pc-relative
+       table dense from zero and the case order the image uses (8..12, 1..7,
+       15/18/13/14/21/17/16/19/20), but mwcc will not keep the switch index in
+       `r1` (`adds r1,r0` in the image), which shifts the table and prologue.
+       src/pending/ov093_func_021D59B4.c.
+  ov093 func_021D54C0  (0x021D54C0, 16 B, DIFF 10/16): stride-0xe record
+       accessor.  The image materialises 0xe in `r2` and derives the +0xa as
+       `adds r2,#0xfc`; every C spelling folds the constant and emits a
+       `ldrh #0xa` immediate.
+       src/pending/ov093_func_021D54C0.c.
+  ov186 func_021FB4CC  (0x021FB4CC, 72 B, DIFF 66/72): range-overlap test over
+       the two shorts expanded by 0x0204B454.  The image reads the scratch with
+       register addressing off `sp` and pushes `r7` as the constant index; the
+       declared-array and cast-buffer spellings both allocate a `sub sp,#4`
+       frame instead.
+       src/pending/ov186_func_021FB4CC.c.
+  ov125 func_021D74D8  (0x021D74D8, 72 B, DIFF 68/72): before/after compare and
+       refresh of the record at `func_021D85E8(a0)`.  The image keeps the
+       nested sub-object base (`r+4`) and adds the field offsets (+0xc, +0xc4,
+       +0xc8) as two separate `adds`; mwcc folds them to +0x10/+0xc8/+0xcc and
+       recolours `r4`/`r5`.
+       src/pending/ov125_func_021D74D8.c.
+
+Residual targets unchanged
+--------------------------
+  0x021D4B68 (ov016, ARM, 256 B), 0x021F1C30 (ov107, ARM, 220 B) and
+  0x021F5FB0 (ov107/ov215, ARM, 408 B) are labelled real functions named by the
+  DIFF hosts func_021C84BC and func_021D1F6C; matching them cannot promote a
+  codegen DIFF and was not attempted.  0x021D33FC's subtree (its callee
+  0x021D3478, ov021 220 B) remains the only open in-band code dependency.
+
+No blocked file promoted: every host (ov112_func_021F80B0, func_021DE960,
+func_021FAD04, func_021C84BC, func_021D1F6C, ov096_func_02188D5C,
+func_021FF698) re-verified at its prior DIFF.
+
+MANIFEST (re-run)
+-----------------
+`python tools/match.py manifest --check` is clean (5440 shards, no duplicates,
+no unread json); the two new shards above were written by
+`manifest --verify --shard <id>` and read EXACT.

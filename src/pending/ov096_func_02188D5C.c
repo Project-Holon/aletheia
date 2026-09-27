@@ -21,7 +21,13 @@
  *          func_021C7E14 call schedules it the original way, so this is a
  *          context-dependent scheduler tie, not a source-shape residue.
  *          Tried: swapping the t/r declarations (no change), int vs unsigned
- *          item.  [re-verified 2026-09-27]
+ *          item.
+ *
+ * Re-verified 2026-09-27 (region ov096 / Thumb confirmed): still 162 bytes
+ *          compiled against the 164-byte original, 4 concrete bytes differ,
+ *          all at +0x72..+0x75 (the single two-instruction store/address
+ *          swap described above); 8 of 8 relocation sites resolve.  Not
+ *          promotable (real bytes differ), so it stays DIFF.
  * symbols:
  *   func_0201134C  0x0201134C  thumb
  *   func_021D5440  0x021D5440  thumb  ov093

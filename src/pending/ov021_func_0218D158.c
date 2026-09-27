@@ -20,6 +20,17 @@
  * copies, pointer-to-struct dest; every spelling with the correct load
  * order stores +0x34 before +0x38.  No C shape found for the b,a,c store
  * schedule.
+ *
+ * Re-verified 2026-09-27 (region ov021 / Thumb confirmed): still 14 bytes
+ *   compiled against the 16-byte listing extent, 2 concrete bytes differ --
+ *   exactly the +0x06/+0x08 store swap above.  Exhaustively brute-forced all
+ *   36 (declaration order x statement order) local permutations plus the six
+ *   direct no-local statement orders: none reproduces the image's b,a,c store
+ *   schedule together with the c,b,a load schedule and c->r3/b->r2/a->r1
+ *   register assignment (the decl a,c,b + store a,b,c form below is the
+ *   closest, differing only in the order of the two stores).  Swapping those
+ *   two source statements re-schedules the loads, so this is a scheduler tie,
+ *   not a reachable source shape.  No idiom applies; kept as a 2-byte DIFF.
  */
 
 void func_0218D158(char *dst, int *src)

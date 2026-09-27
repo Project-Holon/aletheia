@@ -7,16 +7,17 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
+ *
+ * Re-verified 2026-09-27 (DIFF fixer lane): the +8 store in the image is a
+ * full word, `str r1,[r4,#8]`, not `strh`: the zero-extended u16 is written
+ * through an int lvalue.  With `*(int *)(p + 8) = h;` the whole function
+ * reproduces, including `ldrh r1,[r4,#0x28]; ldr r0,[r4]; str r1,[r4,#8]`.
+ * EXACT*: the inferred extent runs 2 bytes past `pop` (an unlabelled
+ * follower/alignment word), never a byte difference.
  *
  * symbols:
  *   (none)
-
- * BLOCKED.  DIFF: the listing order is ldrh/ldr/strh where the compiler emits ldrh/strh/ldr; two rewrites of the first block did not close it.
- * Re-verified 2026-09-27 (recursive MATCH unblocker, ov209/ov208 band): the
- * tool verdict is DIFF (same size, store order), not MATCH, so this header's
- * status is corrected to DIFF.  It is a codegen near miss, not a target-
- * blocked MATCH; no relocation is wildcarded.
  */
 
 
@@ -28,7 +29,7 @@ void func_021BD880(char *p)
     unsigned short h = *(unsigned short *)(p + 0x28);
     int v = *(int *)p;
 
-    *(unsigned short *)(p + 8) = h;
+    *(int *)(p + 8) = h;
     func_0204B878(v);
     if (*(int *)(p + 0x30) != 0)
         func_020061E4(*(int *)(p + 0x30));

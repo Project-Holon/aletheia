@@ -14,6 +14,13 @@
  * call sites stay wildcarded.  The MATCH* extent runs long because that leaf is
  * the disassembler's next label-less follower.
  *
+ * Re-verified 2026-09-27 (recursive MATCH unblocker lane, 0x02180000..0x0219FFFF):
+ * still MATCH*, 50/50 bytes, both sites unresolved.  The leaf was attacked
+ * bottom-up; the best C shape reproduces 344/344 bytes with 32 bytes of pure
+ * register-naming residue in five VTX_16 groups, so no matched EXACT entry could
+ * be filed.  Full write-up: docs/notes/func_02194D1C.c.txt.  The caller promotes
+ * with no C change the moment the leaf lands.
+ *
  * symbols:
  *   func_02194D1C  0x02194D1C  thumb  ov021
  */

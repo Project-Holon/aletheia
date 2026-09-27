@@ -1,0 +1,66 @@
+func_02194D1C @ 0x02194D1C, ov021, Thumb, the unlabelled leaf callee named by
+src/pending/ov021_func_02194CE8.c (packet pkt_ov021_02194CE8).
+
+Near miss, 2026-09-27 (recursive MATCH unblocker lane, 0x02180000..0x0219FFFF).
+
+WHY IT MATTERS
+--------------
+ov021_func_02194CE8 is byte-correct (MATCH*) but its only two relocation sites
+are calls to 0x02194D1C.  The target is real Thumb code, but disasm.py emits it
+as a `.word` run (its prologue is `push {r4,r5,r6,r7}` with no `lr`, so no
+`func_` label is traced), no branch anywhere outside the caller's range reaches
+it, and ov009 overlaps the address with different code.  `label`,
+`sole-ref/code` and `matched` all refuse, so the caller cannot leave MATCH until
+the leaf itself is a matched EXACT entry.  The correct extent is
+0x02194D1C..0x02194E4E (0x132 bytes of body: `pop {r4,r5,r6,r7}; bx lr` at
+0x02194E4A/0x02194E4C, then 0x46C0 alignment and the literal pool
+0x02194E50..0x02194E70; the next traced function is func_02194E74).
+
+WHAT IT IS
+----------
+A G3 immediate-mode draw setup (NitroSDK gecom-style register writes over
+0x04000440.., the same register family as src/matched/func_020155A0.c and
+func_0204F7DC.c): MTX_PUSH=0 (0x04000444), the three MTX_TRANS words from
+b+0x1c/0x20/0x24 (0x04000470), MTX_SCALE three times with
+(b[0x5e] * b[0x28]) / 8 (0x0400046C), then TEXIMAGE_PARAM (0x040004A8) from
+a+0xCC8, TEXPLTT_BASE (0x040004AC) from a+0xCCC, DIF_AMB (0x040004C0),
+SPE_EMI (0x040004C4), POLYGON_ATTR (0x040004A4); if b+0x58 is set a first
+quad block (BEGIN_VTXS=0, COLOR, TEXCOORD/VTX_16 pairs, END_VTXS=0); if the
+third argument c==0 a second quad block (BEGIN_VTXS=1 ... END_VTXS=0); finally
+MTX_POP=1 (0x04000448).
+
+BEST RESULT
+-----------
+344/344 bytes; 32 concrete bytes out, all register *naming* residue in five of
+the seven VTX_16 group pairs.  Everything else reproduces, including the two
+pointer-derived 0x04000480/0x04000488/0x0400048C bases, the
+`& 0x1fffffff` after the 16-bit narrowing of a+0xCC8, the reverse-order
+MTX_TRANS locals (the same lever docs/idioms/... / func_02054718 notes), and the
+`(s32)b+0x28 * (u16)b+0x5e` operand order.
+
+  BREAKTHROUGH SHAPES (all needed):
+   * the 0x04000470 trio goes through named locals loaded in REVERSE field
+     order (qc=b+0x24, q8=b+0x20, q4=b+0x1c) then stored forward, exactly as
+     src/matched/func_02054718.c documents;
+   * each VTX_16 pair reads its two halfwords into named u16 locals before the
+     combine, then stores the third halfword separately;
+   * the MTX_SCALE product is written word-first (`hi * lo`), so mwcc puts the
+     product in the halfword's register and the signed /8 sign fixup follows
+     the image exactly;
+   * a+0xCC8 needs the explicit `& 0x1fffffff` after `(u16)`, otherwise the
+     `ldr r2,[pc]; ands r4,r2` pair (and one pool word) is missing.
+
+  WHAT IS LEFT: in the image each group loads high, low, third into three
+  scratch registers and combines low|(high<<16); the destination/holder choice
+  is allocation-dependent and differs in groups G3 (b+0x38), G1 (b+0x2c),
+  G_a/G_b/G_c of the c==0 block.  Tried: both operand orders of the `|` (the
+  compiler canonicalises G3 either way), high-then-low source load order
+  (worse: 58 bytes, and it steals r2 so the 0x04000488 base moves to r3),
+  named `v` for the packed word, and local declaration permutations.  None
+  moves the five groups.  This is the same class of residue as the sibling
+  limb, not an evidence problem.
+
+NO MATCHED ENTRY WAS FILED (no wildcard-only MATCH either: real bytes differ),
+so src/pending/ov021_func_02194CE8.c stays MATCH.  If a later lane finds the
+source shape that pins the five group allocations, file the leaf under ov021
+and the caller promotes itself with no change to its C.

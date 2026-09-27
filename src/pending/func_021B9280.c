@@ -7,10 +7,12 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
  *
- * near miss: compiles 180 vs 184.  Logic byte-correct; sC/s8 stack slots and
- * the `num` destination register differ (the original keeps num in r1).
+ * lerp over two 4-row scans: sC from *a's row, s8 from a[1]'s row, then
+ * sC + (s8-sC)*arg2/(arg3-0x10) clamped.  The original declares sC, s8, num
+ * together and initialises s8 before sC by assignment, and writes the final
+ * sum as num + sC; both are load-bearing for the frame 0x14 slot layout.
  *
  * symbols:
  *   _s32_div_f  0x0209C0A4  arm
@@ -25,11 +27,10 @@ int func_021B9280(u8 *a, u32 arg2, u32 arg3, u8 *tbl)
 {
     u8 *row1 = *(u8 **)(tbl + 0x10) + *(u32 *)a * 0x70;
     u8 *row2 = *(u8 **)(tbl + 0x10) + *(u32 *)(a + 4) * 0x70;
-    int sC = -1;
-    int s8 = -1;
-    int num;
-    int i;
+    int sC, s8, num, i;
 
+    s8 = -1;
+    sC = -1;
     for (i = 0; i < 4; i++) {
         u32 v1 = *(u32 *)(row1 + i * 4);
         if (v1 != 0xFFFF) {
@@ -52,6 +53,6 @@ int func_021B9280(u8 *a, u32 arg2, u32 arg3, u8 *tbl)
         arg2 = arg3 - 0x10;
     num = s8 - sC;
     if (arg3 - 0x10 != 0)
-        num = (int)(arg2 * (u32)num) / (int)(arg3 - 0x10);
-    return sC + num;
+        num = (int)((u32)num * arg2) / (int)(arg3 - 0x10);
+    return num + sC;
 }

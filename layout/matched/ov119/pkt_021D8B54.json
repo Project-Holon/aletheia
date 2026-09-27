@@ -1,0 +1,145 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "ov119",
+ "shard": "pkt_021D8B54",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "func_021D8B54",
+   "address": "0x021D8B54",
+   "kind": "game",
+   "region": "ov119",
+   "source": "src/matched/func_021D8B54.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_021D8CCC",
+   "address": "0x021D8CCC",
+   "kind": "game",
+   "region": "ov119",
+   "source": "src/matched/func_021D8CCC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT*",
+   "evidence": {
+    "sole-ref": [
+     "code:0x021E64DC"
+    ]
+   }
+  },
+  {
+   "name": "func_021D8D4C",
+   "address": "0x021D8D4C",
+   "kind": "game",
+   "region": "ov119",
+   "source": "src/matched/func_021D8D4C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_021D9248",
+   "address": "0x021D9248",
+   "kind": "game",
+   "region": "ov119",
+   "source": "src/matched/func_021D9248.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_021DADAC",
+   "address": "0x021DADAC",
+   "kind": "game",
+   "region": "ov119",
+   "source": "src/matched/func_021DADAC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_021DDA50",
+   "address": "0x021DDA50",
+   "kind": "game",
+   "region": "ov119",
+   "source": "src/matched/func_021DDA50.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_021DF708",
+   "address": "0x021DF708",
+   "kind": "game",
+   "region": "ov119",
+   "source": "src/matched/func_021DF708.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_021E1CE8",
+   "address": "0x021E1CE8",
+   "kind": "game",
+   "region": "ov119",
+   "source": "src/matched/func_021E1CE8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x021E625C"
+    ]
+   }
+  },
+  {
+   "name": "func_021E26AC",
+   "address": "0x021E26AC",
+   "kind": "game",
+   "region": "ov119",
+   "source": "src/matched/func_021E26AC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_021E7160",
+   "address": "0x021E7160",
+   "kind": "game",
+   "region": "ov119",
+   "source": "src/matched/func_021E7160.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x021E7098"
+    ]
+   }
+  }
+ ]
+}

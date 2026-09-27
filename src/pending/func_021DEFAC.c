@@ -41,6 +41,10 @@
  * which run to the region end through an unrelated static data tail.
  *
  * WIP first draft; see docs/notes/ov121-lane-func_021DEFAC.c.txt.
+ *
+ * Re-verified 2026-09-27 (DIFF fixer lane): still DIFF, 1065 concrete bytes.
+ * The whole body is still being reconstructed (frame 0x50 vs 0x4c and every
+ * window offset shifted); no promotion attempted this pass.
  */
 
 typedef unsigned char u8;

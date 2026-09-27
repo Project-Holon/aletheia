@@ -275,11 +275,24 @@ def render(out, headline, panel_titles, groups_pair, footnote, W, PH):
     o = ['<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 0 %d %d" font-family="ui-monospace,Menlo,monospace">' % (W, H, W, H),
          '<rect width="%d" height="%d" fill="%s"/>' % (W, H, COL["bg"]),
          '<text x="10" y="20" font-size="14" fill="%s">%s</text>' % (COL["ink"], esc(headline))]
-    # legend on the line below the title, right-aligned
+    # legend on the line below the title, right-aligned, showing only categories present in this map
+    present_keys = set()
+    for groups in groups_pair:
+        for _, fns in groups:
+            for f in fns:
+                cls = f.get("cls")
+                if f.get("sole_ref") and cls == "matched":
+                    present_keys.add("sole")
+                elif cls:
+                    present_keys.add(cls)
+
+    all_legend = [("runtime", "runtime"), ("matched runtime", "matched_runtime"),
+                  ("SDK", "sdk"), ("matched SDK", "matched_sdk"),
+                  ("open", "open"), ("sole-ref", "sole"), ("matched", "matched")]
+    legend_items = [(label, key) for label, key in all_legend if key in present_keys]
+
     lx = W - 10
-    for label, key in (("runtime", "runtime"), ("matched runtime", "matched_runtime"),
-                       ("SDK", "sdk"), ("matched SDK", "matched_sdk"),
-                       ("open", "open"), ("sole-ref", "sole"), ("matched", "matched")):
+    for label, key in legend_items:
         lx -= 8 * len(label) + 26
         o.append('<rect x="%d" y="31" width="11" height="11" fill="%s"/><text x="%d" y="41" font-size="11" fill="%s">%s</text>'
                  % (lx, COL[key], lx + 15, COL["muted"], label))
@@ -316,11 +329,14 @@ def render_arm9(a, anchors):
     sole = sum(f["code_bytes"] for f in inv["funcs"] if f.get("sole_ref"))
     sdk = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] in ("sdk", "matched_sdk"))
     matched_sdk = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] == "matched_sdk")
+    runtime = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] in ("runtime", "matched_runtime"))
+    matched_runtime = sum(f["code_bytes"] for f in inv["funcs"] if f["cls"] == "matched_runtime")
     ugroups = [(units[i]["file"].split("/")[-1][:-2], per[i]) for i in range(len(units))]
     fgroups = sorted(families_arm9(inv["funcs"], anchors).items())
-    headline = "ARM9: %.2f%% exact game (%s / %s B; %.2f pts sole-ref); +%s matched SDK of %s" % (
+    rt_str = ("; +%s matched runtime of %s" % (format(matched_runtime, ","), format(runtime, ","))) if runtime else ""
+    headline = "ARM9: %.2f%% exact game (%s / %s B; %.2f pts sole-ref); +%s matched SDK of %s%s" % (
         100 * matched / game, format(matched, ","), format(game, ","), 100 * sole / game,
-        format(matched_sdk, ","), format(sdk, ","))
+        format(matched_sdk, ","), format(sdk, ","), rt_str)
     render(a.arm9_out, headline, ("translation units", "source files"), [ugroups, fgroups],
            "tile area is code bytes", a.width, a.height)
     print("wrote %s: %d units + %d source-file groups, %.2f%% exact"
