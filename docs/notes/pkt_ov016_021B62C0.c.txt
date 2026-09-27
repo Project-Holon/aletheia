@@ -1,0 +1,76 @@
+=== 2026-09-27 sdk_overlays_2: AOSSi_WLANConnect 0x021B87F0 (aosslink.o, ../2.0/sp1p2), DIFF ===
+
+Best source: scratchpad draft reproduced below. Control flow, the dense 0..19 switch
+table, case order and pool are right; the function comes out 4 bytes of frame larger
+and spills conParam to the stack. The original keeps conParam in r7, connect_option
+in r5, loop_flag in r4, and r6 holds wep_id = 0 which is then reused as connect_lock.
+The original also computes &wep_buf[2 + wep_id * 20] at run time (movs r1,#0x14;
+muls r1,r6,r1), i.e. the compiler did not constant-fold wep_id. Our build folds
+wep_id to 0, then keeps &connect_bssdesc in r6 across the loop and spills conParam
+(push {r4-r7,lr}, sub sp,#0x44 against push {r3-r7,lr}, sub sp,#0x40).
+Tried: forward and reverse declaration order; connect_lock = 0 at the top; chained
+`connect_lock = wep_id = 0` both ways; int wep_id. All 215 mismatching lines.
+Open lead: whatever makes wep_id opaque to constant propagation in the vendor source
+(it is only ever assigned 0 in the image).
+
+int AOSSi_WLANConnect(struct wlla_connect_param *conParam, struct wlla_link_stat *linkStat)
+{
+    void *msg; OSAlarm alarm; int loop_flag; int ret_code; int connect_retry_count;
+    int connect_lock; unsigned long link_status; unsigned long connect_option;
+    unsigned char wep_id; int i;
+
+    loop_flag = 1; ret_code = -1; wep_id = 0; connect_lock = 0;
+    if (conParam->AuthAlgo == 0) connect_option = 0x80000;
+    else if (conParam->AuthAlgo == 1) connect_option = 0xC0000;
+    connect_option |= 0x30000;
+    MI_CpuFill8(wep_buf, 0, sizeof(wep_buf));
+    if (conParam->Key.Length == 5) wep_buf[0] = 1;
+    else if (conParam->Key.Length == 13) wep_buf[0] = 2;
+    else if (conParam->Key.Length == 16) wep_buf[0] = 3;
+    else return -1;
+    wep_buf[1] = wep_id;
+    MI_CpuCopy8(conParam->Key.Key, &wep_buf[2 + wep_id * 20], conParam->Key.Length);
+    WCM_ClearApList();
+    if (APC_SearchStart(0, conParam->Ssid.Ssid, conParam->Ssid.Len, 0x30BFFE) == 0) goto link;
+    connect_retry_count = 0;
+    OS_CreateAlarm(&alarm);
+    OS_SetAlarm(&alarm, 0x3FEC42, alarmCallback, (void *)0x12);
+    while (loop_flag) {
+        OS_ReceiveMessage(&aoss_mq, &msg, 1);
+        switch ((int)msg) {
+        case 4: case 8: break;
+        case 18: if (connect_lock == 0) loop_flag = 0; break;
+        case 19: break;
+        case 5: if (connect_lock == 0) { OS_CancelAlarm(&alarm);
+                    if (APC_GetAPList(&connect_bssdesc, 1) != 1) { loop_flag = 0; break; }
+                    Get_WLLA_SSID_PARAM(&conParam->Ssid, &connect_bssdesc);
+                    for (i = 0; i < connect_bssdesc.ssidLength; i++) ;
+                    if (APC_Connect(&connect_bssdesc, wep_buf, connect_option) == 0) loop_flag = 0;
+                    else connect_lock = 1; }
+                break;
+        case 10: Get_WLLA_SSID_PARAM(&conParam->Ssid, &connect_bssdesc);
+                 if (APC_Connect(&connect_bssdesc, wep_buf, connect_option) == 0) loop_flag = 0; break;
+        case 12: loop_flag = 0; ret_code = 0; break;
+        case 13: connect_retry_count++;
+                 if (connect_retry_count < 3) { if (APC_Connect(&connect_bssdesc, wep_buf, connect_option) == 0) loop_flag = 0; }
+                 else loop_flag = 0;
+                 break;
+        case 0: case 1: case 2: case 3: case 6: case 7: case 9: case 11:
+        case 14: case 15: case 16: case 17: default: loop_flag = 0; break;
+        }
+    }
+    OS_CancelAlarm(&alarm);
+    while (OS_ReceiveMessage(&aoss_mq, &msg, 0) == 1) ;
+link:
+    if (ret_code == 0) link_status = 1; else link_status = 0;
+    Set_WLLA_LINK_STAT(linkStat, &connect_bssdesc, link_status);
+    return ret_code;
+}
+
+=== 2026-09-27 sdk_overlays_2: keywrap_decrypt 0x021BADD8 (atermset.o, ../2.0/sp1p2), DIFF 6 ===
+
+Source from tree_ov016 (scratch keywrap_decrypt_6bytes.c). Only miss: the second 8-byte
+copy (aes_data + 8 <- R) allocates dest r3 / src r2 where the original has dest r2 /
+src r3. Tried: s_ declared before d_ in the copy block; split post-increments in both
+orders; assignments after declarations in both orders; counter declared first; no R
+temporary (10 out, or 6 with the swapped block); u8 *R. None moved it.

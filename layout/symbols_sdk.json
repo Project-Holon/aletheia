@@ -14026,7 +14026,7 @@
    "dupes": 1,
    "siblings": 5
   },
- {
+  {
    "address": 33522540,
    "name": "OSi_VerifyStaticSegments",
    "lib": "TwlSDK/libos.TWL.HYB.a",
@@ -15983,6 +15983,19 @@
    "siblings": 2
   },
   {
+   "address": 33923340,
+   "name": "DWCi_GetGamecode",
+   "lib": "TwlDWC/libdwccommon.TWL.HYB.a",
+   "object": "dwc_init.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 16,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 3,
+   "adjacent": true
+  },
+  {
    "address": 33923356,
    "name": "CARDi_CommandBegin",
    "lib": "TwlSDK/libcard.TWL.HYB.a",
@@ -17531,6 +17544,19 @@
    "siblings": 9
   },
   {
+   "address": 33942304,
+   "name": "DWCi_AC_GetNintendoUSBWepKey",
+   "lib": "TwlDWC/libdwcac.TWL.HYB.a",
+   "object": "shop_usb.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 16,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 10,
+   "adjacent": true
+  },
+  {
    "address": 33942320,
    "name": "decodeSSID",
    "lib": "TwlDWC/libdwcac.TWL.HYB.a",
@@ -18287,6 +18313,19 @@
    "siblings": 18
   },
   {
+   "address": 34037152,
+   "name": "CARD_IsEnabled",
+   "lib": "TwlSDK/libcard.TWL.HYB.a",
+   "object": "card_api.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 16,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 19,
+   "adjacent": true
+  },
+  {
    "address": 34037168,
    "name": "CARD_CheckEnabled",
    "lib": "TwlSDK/libcard.TWL.HYB.a",
@@ -18911,6 +18950,19 @@
    "siblings": 6
   },
   {
+   "address": 34043056,
+   "name": "CARD_IsPulledOut",
+   "lib": "TwlSDK/libcard.TWL.HYB.a",
+   "object": "card_pullout.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 16,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 8,
+   "adjacent": true
+  },
+  {
    "address": 34043072,
    "name": "CARD_TerminateForPulledOut",
    "lib": "TwlSDK/libcard.TWL.HYB.a",
@@ -18933,6 +18985,18 @@
    "concrete": 71,
    "dupes": 1,
    "siblings": 6
+  },
+  {
+   "address": 34043240,
+   "name": "CARDi_SendtoPxi",
+   "lib": "TwlSDK/libcard.TWL.HYB.a",
+   "object": "card_pullout.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 80,
+   "concrete": 71,
+   "dupes": 1,
+   "siblings": 8
   },
   {
    "address": 34043320,
@@ -19473,6 +19537,18 @@
    "concrete": 107,
    "dupes": 1,
    "siblings": 11
+  },
+  {
+   "address": 34049840,
+   "name": "FSi_CompareDigest",
+   "lib": "TwlSDK/libfs.TWL.HYB.a",
+   "object": "fs_overlay.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 252,
+   "concrete": 227,
+   "dupes": 1,
+   "siblings": 12
   },
   {
    "address": 34050092,
@@ -20229,6 +20305,19 @@
    "concrete": 34,
    "dupes": 1,
    "siblings": 1
+  },
+  {
+   "address": 34057520,
+   "name": "FS_IsAvailable",
+   "lib": "TwlSDK/libfs.TWL.HYB.a",
+   "object": "fs_api.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 16,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 2,
+   "adjacent": true
   },
   {
    "address": 34057536,
@@ -22391,6 +22480,32 @@
    "siblings": 37
   },
   {
+   "address": 34081012,
+   "name": "GX_ResetBankForBG",
+   "lib": "TwlSDK/libgx.TWL.HYB.a",
+   "object": "gx_vramcnt.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 53,
+   "adjacent": true
+  },
+  {
+   "address": 34081032,
+   "name": "GX_DisableBankForOBJ",
+   "lib": "TwlSDK/libgx.TWL.HYB.a",
+   "object": "gx_vramcnt.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 2,
+   "siblings": 53,
+   "adjacent": true
+  },
+  {
    "address": 34081052,
    "name": "GX_DisableBankForBGExtPltt",
    "lib": "TwlSDK/libgx.TWL.HYB.a",
@@ -22413,6 +22528,71 @@
    "concrete": 28,
    "dupes": 2,
    "siblings": 37
+  },
+  {
+   "address": 34081124,
+   "name": "GX_DisableBankForTex",
+   "lib": "TwlSDK/libgx.TWL.HYB.a",
+   "object": "gx_vramcnt.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 2,
+   "siblings": 53,
+   "adjacent": true
+  },
+  {
+   "address": 34081144,
+   "name": "GX_DisableBankForTexPltt",
+   "lib": "TwlSDK/libgx.TWL.HYB.a",
+   "object": "gx_vramcnt.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 2,
+   "siblings": 53,
+   "adjacent": true
+  },
+  {
+   "address": 34081164,
+   "name": "GX_DisableBankForClearImage",
+   "lib": "TwlSDK/libgx.TWL.HYB.a",
+   "object": "gx_vramcnt.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 2,
+   "siblings": 53,
+   "adjacent": true
+  },
+  {
+   "address": 34081184,
+   "name": "GX_DisableBankForSubBG",
+   "lib": "TwlSDK/libgx.TWL.HYB.a",
+   "object": "gx_vramcnt.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 2,
+   "siblings": 53,
+   "adjacent": true
+  },
+  {
+   "address": 34081204,
+   "name": "GX_DisableBankForSubOBJ",
+   "lib": "TwlSDK/libgx.TWL.HYB.a",
+   "object": "gx_vramcnt.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 2,
+   "siblings": 53,
+   "adjacent": true
   },
   {
    "address": 34081224,
@@ -22451,6 +22631,32 @@
    "siblings": 37
   },
   {
+   "address": 34081496,
+   "name": "GX_DisableBankForBG",
+   "lib": "TwlSDK/libgx.TWL.HYB.a",
+   "object": "gx_vramcnt.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 53,
+   "adjacent": true
+  },
+  {
+   "address": 34081516,
+   "name": "GX_DisableBankForOBJ",
+   "lib": "TwlSDK/libgx.TWL.HYB.a",
+   "object": "gx_vramcnt.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 2,
+   "siblings": 53,
+   "adjacent": true
+  },
+  {
    "address": 34081536,
    "name": "GX_DisableBankForBGExtPltt",
    "lib": "TwlSDK/libgx.TWL.HYB.a",
@@ -22473,6 +22679,97 @@
    "concrete": 28,
    "dupes": 2,
    "siblings": 37
+  },
+  {
+   "address": 34081608,
+   "name": "GX_DisableBankForTex",
+   "lib": "TwlSDK/libgx.TWL.HYB.a",
+   "object": "gx_vramcnt.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 2,
+   "siblings": 53,
+   "adjacent": true
+  },
+  {
+   "address": 34081628,
+   "name": "GX_DisableBankForTexPltt",
+   "lib": "TwlSDK/libgx.TWL.HYB.a",
+   "object": "gx_vramcnt.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 2,
+   "siblings": 53,
+   "adjacent": true
+  },
+  {
+   "address": 34081648,
+   "name": "GX_DisableBankForClearImage",
+   "lib": "TwlSDK/libgx.TWL.HYB.a",
+   "object": "gx_vramcnt.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 2,
+   "siblings": 53,
+   "adjacent": true
+  },
+  {
+   "address": 34081668,
+   "name": "GX_DisableBankForARM7",
+   "lib": "TwlSDK/libgx.TWL.HYB.a",
+   "object": "gx_vramcnt.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 53,
+   "adjacent": true
+  },
+  {
+   "address": 34081688,
+   "name": "GX_DisableBankForLCDC",
+   "lib": "TwlSDK/libgx.TWL.HYB.a",
+   "object": "gx_vramcnt.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 53,
+   "adjacent": true
+  },
+  {
+   "address": 34081708,
+   "name": "GX_DisableBankForSubBG",
+   "lib": "TwlSDK/libgx.TWL.HYB.a",
+   "object": "gx_vramcnt.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 2,
+   "siblings": 53,
+   "adjacent": true
+  },
+  {
+   "address": 34081728,
+   "name": "GX_DisableBankForSubOBJ",
+   "lib": "TwlSDK/libgx.TWL.HYB.a",
+   "object": "gx_vramcnt.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 2,
+   "siblings": 53,
+   "adjacent": true
   },
   {
    "address": 34081748,
@@ -23963,6 +24260,18 @@
    "siblings": 2
   },
   {
+   "address": 34097840,
+   "name": "OSi_SyncWithOtherProc",
+   "lib": "TwlSDK/libos.TWL.HYB.a",
+   "object": "os_spinlock.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 224,
+   "concrete": 215,
+   "dupes": 1,
+   "siblings": 16
+  },
+  {
    "address": 34098064,
    "name": "OS_InitLock",
    "lib": "TwlSDK/libos.TWL.HYB.a",
@@ -23973,6 +24282,18 @@
    "concrete": 127,
    "dupes": 1,
    "siblings": 14
+  },
+  {
+   "address": 34098204,
+   "name": "OSi_DoLockByWord",
+   "lib": "TwlSDK/libos.TWL.HYB.a",
+   "object": "os_spinlock.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 76,
+   "concrete": 67,
+   "dupes": 1,
+   "siblings": 16
   },
   {
    "address": 34098280,
@@ -24309,6 +24630,19 @@
    "concrete": 282,
    "dupes": 1,
    "siblings": 33
+  },
+  {
+   "address": 34100144,
+   "name": "OS_IsThreadAvailable",
+   "lib": "TwlSDK/libos.TWL.HYB.a",
+   "object": "os_thread.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 16,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 34,
+   "adjacent": true
   },
   {
    "address": 34100160,
@@ -24933,6 +25267,18 @@
    "concrete": 32,
    "dupes": 1,
    "siblings": 1
+  },
+  {
+   "address": 34104180,
+   "name": "OSi_InitCommon",
+   "lib": "TwlSDK/libos.TWL.HYB.a",
+   "object": "os_init.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 108,
+   "concrete": 45,
+   "dupes": 1,
+   "siblings": 2
   },
   {
    "address": 34104288,
@@ -25715,6 +26061,18 @@
    "siblings": 10
   },
   {
+   "address": 34110180,
+   "name": "OS_WaitVBlankIntr",
+   "lib": "TwlSDK/libos.TWL.HYB.a",
+   "object": "os_system.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 32,
+   "concrete": 26,
+   "dupes": 1,
+   "siblings": 11
+  },
+  {
    "address": 34110212,
    "name": "OS_GetBootType",
    "lib": "TwlSDK/libos.TWL.HYB.a",
@@ -25929,6 +26287,30 @@
    "concrete": 85,
    "dupes": 1,
    "siblings": 3
+  },
+  {
+   "address": 34111420,
+   "name": "OS_EncodeDeliverArg",
+   "lib": "TwlSDK/libos.TWL.HYB.a",
+   "object": "os_argument.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 176,
+   "concrete": 159,
+   "dupes": 1,
+   "siblings": 5
+  },
+  {
+   "address": 34111596,
+   "name": "OS_DecodeDeliverArg",
+   "lib": "TwlSDK/libos.TWL.HYB.a",
+   "object": "os_argument.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 172,
+   "concrete": 153,
+   "dupes": 1,
+   "siblings": 5
   },
   {
    "address": 34111768,
@@ -26807,6 +27189,32 @@
    "siblings": 1
   },
   {
+   "address": 34117760,
+   "name": "SNDi_LockMutex",
+   "lib": "TwlSDK/libsnd.TWL.HYB.a",
+   "object": "snd_main.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 3,
+   "adjacent": true
+  },
+  {
+   "address": 34117780,
+   "name": "SNDi_UnlockMutex",
+   "lib": "TwlSDK/libsnd.TWL.HYB.a",
+   "object": "snd_main.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 3,
+   "adjacent": true
+  },
+  {
    "address": 34117800,
    "name": "SND_CommandInit",
    "lib": "TwlSDK/libsnd.TWL.HYB.a",
@@ -27585,6 +27993,18 @@
    "concrete": 52,
    "dupes": 1,
    "siblings": 43
+  },
+  {
+   "address": 34126000,
+   "name": "PM_Init",
+   "lib": "TwlSDK/libspi.TWL.HYB.a",
+   "object": "pm.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 160,
+   "concrete": 137,
+   "dupes": 1,
+   "siblings": 44
   },
   {
    "address": 34126160,
@@ -28379,6 +28799,19 @@
    "siblings": 16
   },
   {
+   "address": 34137276,
+   "name": "WMi_GetSystemWork",
+   "lib": "TwlSDK/libwm.TWL.HYB.a",
+   "object": "wm_system.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 16,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 18,
+   "adjacent": true
+  },
+  {
    "address": 34137292,
    "name": "WMi_CheckInitialized",
    "lib": "TwlSDK/libwm.TWL.HYB.a",
@@ -28485,6 +28918,19 @@
    "concrete": 36,
    "dupes": 1,
    "siblings": 16
+  },
+  {
+   "address": 34138752,
+   "name": "WMi_DeleteSleepCallback",
+   "lib": "TwlSDK/libwm.TWL.HYB.a",
+   "object": "wm_system.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 18,
+   "adjacent": true
   },
   {
    "address": 34138784,
@@ -29195,6 +29641,18 @@
    "siblings": 7
   },
   {
+   "address": 34148120,
+   "name": "CTRDGi_InitCommon",
+   "lib": "TwlSDK/libctrdg.TWL.HYB.a",
+   "object": "ctrdg.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 56,
+   "concrete": 42,
+   "dupes": 1,
+   "siblings": 10
+  },
+  {
    "address": 34148176,
    "name": "CTRDG_IsExisting",
    "lib": "TwlSDK/libctrdg.TWL.HYB.a",
@@ -29231,6 +29689,18 @@
    "siblings": 7
   },
   {
+   "address": 34148560,
+   "name": "CTRDGi_LockByProcessor",
+   "lib": "TwlSDK/libctrdg.TWL.HYB.a",
+   "object": "ctrdg.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 92,
+   "concrete": 77,
+   "dupes": 1,
+   "siblings": 10
+  },
+  {
    "address": 34148652,
    "name": "CTRDGi_UnlockByProcessor",
    "lib": "TwlSDK/libctrdg.TWL.HYB.a",
@@ -29241,6 +29711,18 @@
    "concrete": 30,
    "dupes": 1,
    "siblings": 7
+  },
+  {
+   "address": 34148688,
+   "name": "CTRDGi_SendtoPxi",
+   "lib": "TwlSDK/libctrdg.TWL.HYB.a",
+   "object": "ctrdg.o",
+   "region": "arm9",
+   "thumb": false,
+   "size": 80,
+   "concrete": 71,
+   "dupes": 1,
+   "siblings": 10
   },
   {
    "address": 34148768,
@@ -30489,6 +30971,19 @@
    "concrete": 48,
    "dupes": 1,
    "siblings": 109
+  },
+  {
+   "address": 34978800,
+   "name": "dacktimer_alarmhandler",
+   "lib": "TwlWiFi/libcps.TWL.HYB.a",
+   "object": "network.o",
+   "region": "ov009",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 2,
+   "siblings": 110,
+   "adjacent": true
   },
   {
    "address": 34978820,
@@ -32027,6 +32522,19 @@
    "siblings": 58
   },
   {
+   "address": 34996348,
+   "name": "CPS_GetSslHandshakePriority",
+   "lib": "TwlWiFi_base/libssl.TWL.HYB.a",
+   "object": "ssl.o",
+   "region": "ov009",
+   "thumb": false,
+   "size": 16,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 59,
+   "adjacent": true
+  },
+  {
    "address": 34996364,
    "name": "CARDi_CommandBegin",
    "lib": "TwlSDK/libcard.TWL.HYB.a",
@@ -33357,6 +33865,19 @@
    "concrete": 80,
    "dupes": 1,
    "siblings": 22
+  },
+  {
+   "address": 35018696,
+   "name": "WCMi_GetSystemWork",
+   "lib": "TwlWiFi_base/libwcm.TWL.HYB.a",
+   "object": "system.o",
+   "region": "ov009",
+   "thumb": false,
+   "size": 16,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 23,
+   "adjacent": true
   },
   {
    "address": 35018712,
@@ -36779,6 +37300,19 @@
    "siblings": 152
   },
   {
+   "address": 35086140,
+   "name": "DWCi_GetMatchCnt",
+   "lib": "TwlDWC/libdwcmatch.TWL.HYB.a",
+   "object": "dwc_match.o",
+   "region": "ov009",
+   "thumb": false,
+   "size": 16,
+   "concrete": 12,
+   "dupes": 2,
+   "siblings": 154,
+   "adjacent": true
+  },
+  {
    "address": 35086156,
    "name": "DWCi_SetMatchStatus",
    "lib": "TwlDWC/libdwcmatch.TWL.HYB.a",
@@ -37031,6 +37565,19 @@
    "siblings": 152
   },
   {
+   "address": 35087744,
+   "name": "DWCi_NodeInfo_IsValid",
+   "lib": "TwlDWC/libdwcmatch.TWL.HYB.a",
+   "object": "dwc_match.o",
+   "region": "ov009",
+   "thumb": false,
+   "size": 20,
+   "concrete": 20,
+   "dupes": 1,
+   "siblings": 154,
+   "adjacent": true
+  },
+  {
    "address": 35087764,
    "name": "DWCi_GetNextMeshMakeTryTick",
    "lib": "TwlDWC/libdwcmatch.TWL.HYB.a",
@@ -37245,6 +37792,19 @@
    "concrete": 24,
    "dupes": 1,
    "siblings": 5
+  },
+  {
+   "address": 35089408,
+   "name": "DWCi_ProcessReliableQueue",
+   "lib": "TwlDWC/libdwcmatch.TWL.HYB.a",
+   "object": "dwc_reliable.o",
+   "region": "ov009",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 6,
+   "adjacent": true
   },
   {
    "address": 35089428,
@@ -37715,6 +38275,19 @@
    "siblings": 2
   },
   {
+   "address": 35094232,
+   "name": "DWC_Auth_GetCustomNas",
+   "lib": "TwlDWC/libdwcauth.TWL.HYB.a",
+   "object": "dwc_auth.o",
+   "region": "ov009",
+   "thumb": false,
+   "size": 16,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 14,
+   "adjacent": true
+  },
+  {
    "address": 35094248,
    "name": "DWC_Auth_Create",
    "lib": "TwlDWC/libdwcauth.TWL.HYB.a",
@@ -38075,6 +38648,19 @@
    "siblings": 1
   },
   {
+   "address": 35098224,
+   "name": "DWCi_Auth_IsFinished",
+   "lib": "TwlDWC/libdwcauth.TWL.HYB.a",
+   "object": "dwc_auth_interfa",
+   "region": "ov009",
+   "thumb": false,
+   "size": 16,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 9,
+   "adjacent": true
+  },
+  {
    "address": 35098240,
    "name": "CARD_GetThreadPriority",
    "lib": "TwlSDK/libcard.TWL.HYB.a",
@@ -38085,6 +38671,19 @@
    "concrete": 12,
    "dupes": 2,
    "siblings": 2
+  },
+  {
+   "address": 35098256,
+   "name": "DWCi_Auth_GetErrorCode",
+   "lib": "TwlDWC/libdwcauth.TWL.HYB.a",
+   "object": "dwc_auth_interfa",
+   "region": "ov009",
+   "thumb": false,
+   "size": 16,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 9,
+   "adjacent": true
   },
   {
    "address": 35098272,
@@ -39609,6 +40208,19 @@
    "concrete": 25,
    "dupes": 1,
    "siblings": 21
+  },
+  {
+   "address": 35122516,
+   "name": "GOAGetLastError",
+   "lib": "TwlDWC/libdwcgscommon.TWL.HYB.a",
+   "object": "gsplatformsocket",
+   "region": "ov009",
+   "thumb": false,
+   "size": 16,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 22,
+   "adjacent": true
   },
   {
    "address": 35122532,
@@ -48227,6 +48839,18 @@
    "siblings": 61
   },
   {
+   "address": 35357164,
+   "name": "AOSS_Disconnect",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "aoss.o",
+   "region": "ov016",
+   "thumb": true,
+   "size": 34,
+   "concrete": 26,
+   "dupes": 1,
+   "siblings": 62
+  },
+  {
    "address": 35357200,
    "name": "AOSS_Memcmp",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -48551,6 +49175,42 @@
    "siblings": 7
   },
   {
+   "address": 35360304,
+   "name": "APC_SearchEnd",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "apc.o",
+   "region": "ov016",
+   "thumb": true,
+   "size": 60,
+   "concrete": 40,
+   "dupes": 1,
+   "siblings": 10
+  },
+  {
+   "address": 35360364,
+   "name": "APC_Disconnect",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "apc.o",
+   "region": "ov016",
+   "thumb": true,
+   "size": 56,
+   "concrete": 36,
+   "dupes": 2,
+   "siblings": 10
+  },
+  {
+   "address": 35360420,
+   "name": "APC_End",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "apc.o",
+   "region": "ov016",
+   "thumb": true,
+   "size": 88,
+   "concrete": 56,
+   "dupes": 2,
+   "siblings": 10
+  },
+  {
    "address": 35360508,
    "name": "APC_Connect",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -48623,6 +49283,30 @@
    "siblings": 55
   },
   {
+   "address": 35362008,
+   "name": "APC_Disconnect",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "atermset.o",
+   "region": "ov016",
+   "thumb": true,
+   "size": 56,
+   "concrete": 36,
+   "dupes": 2,
+   "siblings": 61
+  },
+  {
+   "address": 35362064,
+   "name": "APC_End",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "atermset.o",
+   "region": "ov016",
+   "thumb": true,
+   "size": 88,
+   "concrete": 56,
+   "dupes": 2,
+   "siblings": 61
+  },
+  {
    "address": 35362152,
    "name": "APC_Connect",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -48669,6 +49353,30 @@
    "concrete": 24,
    "dupes": 1,
    "siblings": 55
+  },
+  {
+   "address": 35362572,
+   "name": "AtermApc_InitEventBuf",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "atermset.o",
+   "region": "ov016",
+   "thumb": true,
+   "size": 40,
+   "concrete": 24,
+   "dupes": 1,
+   "siblings": 61
+  },
+  {
+   "address": 35362612,
+   "name": "AtermApc_GetEvent",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "atermset.o",
+   "region": "ov016",
+   "thumb": true,
+   "size": 56,
+   "concrete": 40,
+   "dupes": 1,
+   "siblings": 61
   },
   {
    "address": 35362668,
@@ -49415,6 +50123,18 @@
    "siblings": 6
   },
   {
+   "address": 35367912,
+   "name": "AutoConfigThread",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "atermset.o",
+   "region": "ov016",
+   "thumb": true,
+   "size": 56,
+   "concrete": 36,
+   "dupes": 1,
+   "siblings": 61
+  },
+  {
    "address": 35367924,
    "name": "NHTTPi_getHdrFromList",
    "lib": "TwlWiFi_base/libnhttp.TWL.HYB.a",
@@ -50111,6 +50831,18 @@
    "siblings": 55
   },
   {
+   "address": 35374468,
+   "name": "GetTickCount",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "atermset.o",
+   "region": "ov016",
+   "thumb": true,
+   "size": 28,
+   "concrete": 20,
+   "dupes": 1,
+   "siblings": 61
+  },
+  {
    "address": 35374496,
    "name": "Calloc",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -50745,6 +51477,19 @@
    "concrete": 85,
    "dupes": 1,
    "siblings": 5
+  },
+  {
+   "address": 35378784,
+   "name": "DWCi_HLlEnd",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "headline.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 6,
+   "adjacent": true
   },
   {
    "address": 35378804,
@@ -52763,6 +53508,18 @@
    "siblings": 26
   },
   {
+   "address": 35391400,
+   "name": "DWCi_AOSSlInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "libaoss.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 264,
+   "concrete": 230,
+   "dupes": 1,
+   "siblings": 5
+  },
+  {
    "address": 35391416,
    "name": "ghiTrySendThenBuffer",
    "lib": "TwlDWC/libdwcgsghttp.TWL.HYB.a",
@@ -52776,6 +53533,18 @@
   },
   {
    "address": 35391664,
+   "name": "DWCi_AOSSlEnd",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "libaoss.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 80,
+   "concrete": 63,
+   "dupes": 1,
+   "siblings": 5
+  },
+  {
+   "address": 35391664,
    "name": "ghiFindFreeSlot",
    "lib": "TwlDWC/libdwcgsghttp.TWL.HYB.a",
    "object": "ghttpconnection.",
@@ -52785,6 +53554,18 @@
    "concrete": 219,
    "dupes": 1,
    "siblings": 10
+  },
+  {
+   "address": 35391744,
+   "name": "DWCi_AOSSlStart",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "libaoss.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 84,
+   "concrete": 77,
+   "dupes": 1,
+   "siblings": 5
   },
   {
    "address": 35391828,
@@ -53123,6 +53904,19 @@
    "siblings": 5
   },
   {
+   "address": 35393432,
+   "name": "DWCi_MSGlEnd",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "message.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 6,
+   "adjacent": true
+  },
+  {
    "address": 35393452,
    "name": "DWCi_MSGlRead",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -53399,6 +54193,30 @@
    "siblings": 11
   },
   {
+   "address": 35394696,
+   "name": "DWCi_RAKUlInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "rakuraku.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 108,
+   "concrete": 80,
+   "dupes": 1,
+   "siblings": 5
+  },
+  {
+   "address": 35394804,
+   "name": "DWCi_RAKUlEnd",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "rakuraku.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 36,
+   "concrete": 23,
+   "dupes": 1,
+   "siblings": 5
+  },
+  {
    "address": 35394816,
    "name": "Yos_JpegEncodeSample2to2Component",
    "lib": "TwlSDK/libssp.TWL.HYB.a",
@@ -53421,6 +54239,30 @@
    "concrete": 302,
    "dupes": 1,
    "siblings": 11
+  },
+  {
+   "address": 35394840,
+   "name": "DWCi_RAKUlGetState",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "rakuraku.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 184,
+   "concrete": 174,
+   "dupes": 1,
+   "siblings": 5
+  },
+  {
+   "address": 35395024,
+   "name": "DWCi_RAKUlSetResult",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "rakuraku.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 44,
+   "concrete": 35,
+   "dupes": 1,
+   "siblings": 5
   },
   {
    "address": 35395068,
@@ -53663,6 +54505,19 @@
    "siblings": 20
   },
   {
+   "address": 35396496,
+   "name": "procInit2",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenemenu.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 36,
+   "concrete": 23,
+   "dupes": 24,
+   "siblings": 25,
+   "adjacent": true
+  },
+  {
    "address": 35396552,
    "name": "input",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -53709,6 +54564,19 @@
    "concrete": 188,
    "dupes": 1,
    "siblings": 7
+  },
+  {
+   "address": 35396940,
+   "name": "endScene",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenemenu.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 32,
+   "concrete": 19,
+   "dupes": 35,
+   "siblings": 25,
+   "adjacent": true
   },
   {
    "address": 35396972,
@@ -53807,6 +54675,32 @@
    "siblings": 24
   },
   {
+   "address": 35397476,
+   "name": "initGraphics",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneopterase.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 128,
+   "concrete": 117,
+   "dupes": 34,
+   "siblings": 28,
+   "adjacent": true
+  },
+  {
+   "address": 35397604,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneopterase.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 104,
+   "concrete": 85,
+   "dupes": 34,
+   "siblings": 28,
+   "adjacent": true
+  },
+  {
    "address": 35397624,
    "name": "ghttpStartup",
    "lib": "TwlDWC/libdwcgsghttp.TWL.HYB.a",
@@ -53853,6 +54747,19 @@
    "concrete": 96,
    "dupes": 1,
    "siblings": 18
+  },
+  {
+   "address": 35397768,
+   "name": "procInit2",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneopterase.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 36,
+   "concrete": 23,
+   "dupes": 24,
+   "siblings": 28,
+   "adjacent": true
   },
   {
    "address": 35397796,
@@ -53915,6 +54822,19 @@
    "siblings": 24
   },
   {
+   "address": 35397992,
+   "name": "endScene",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneopterase.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 32,
+   "concrete": 19,
+   "dupes": 35,
+   "siblings": 28,
+   "adjacent": true
+  },
+  {
    "address": 35398024,
    "name": "endScene1",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -53937,6 +54857,19 @@
    "concrete": 143,
    "dupes": 26,
    "siblings": 24
+  },
+  {
+   "address": 35398256,
+   "name": "ghttpThink",
+   "lib": "TwlDWC/libdwcgsghttp.TWL.HYB.a",
+   "object": "ghttpmain.o",
+   "region": "ov114",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 8,
+   "adjacent": true
   },
   {
    "address": 35398276,
@@ -54047,6 +54980,19 @@
    "siblings": 1
   },
   {
+   "address": 35398464,
+   "name": "initGraphics",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneopterase1.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 128,
+   "concrete": 117,
+   "dupes": 34,
+   "siblings": 23,
+   "adjacent": true
+  },
+  {
    "address": 35398492,
    "name": "ghiPostDataFree",
    "lib": "TwlDWC/libdwcgsghttp.TWL.HYB.a",
@@ -54057,6 +55003,19 @@
    "concrete": 112,
    "dupes": 1,
    "siblings": 20
+  },
+  {
+   "address": 35398592,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneopterase1.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 60,
+   "concrete": 47,
+   "dupes": 34,
+   "siblings": 23,
+   "adjacent": true
   },
   {
    "address": 35398628,
@@ -54081,6 +55040,19 @@
    "concrete": 31,
    "dupes": 29,
    "siblings": 15
+  },
+  {
+   "address": 35398696,
+   "name": "procInit2",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneopterase1.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 36,
+   "concrete": 23,
+   "dupes": 24,
+   "siblings": 23,
+   "adjacent": true
   },
   {
    "address": 35398752,
@@ -54129,6 +55101,19 @@
    "concrete": 27,
    "dupes": 1,
    "siblings": 20
+  },
+  {
+   "address": 35398828,
+   "name": "endScene",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneopterase1.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 32,
+   "concrete": 19,
+   "dupes": 35,
+   "siblings": 23,
+   "adjacent": true
   },
   {
    "address": 35398836,
@@ -54191,6 +55176,19 @@
    "siblings": 20
   },
   {
+   "address": 35399056,
+   "name": "initGraphics",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptinfo.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 128,
+   "concrete": 117,
+   "dupes": 34,
+   "siblings": 13,
+   "adjacent": true
+  },
+  {
    "address": 35399112,
    "name": "ghiPostGetContentType",
    "lib": "TwlDWC/libdwcgsghttp.TWL.HYB.a",
@@ -54239,6 +55237,19 @@
    "siblings": 20
   },
   {
+   "address": 35399712,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptinfo.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 104,
+   "concrete": 85,
+   "dupes": 34,
+   "siblings": 13,
+   "adjacent": true
+  },
+  {
    "address": 35399816,
    "name": "procInit1",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -54249,6 +55260,19 @@
    "concrete": 44,
    "dupes": 29,
    "siblings": 9
+  },
+  {
+   "address": 35399876,
+   "name": "procInit2",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptinfo.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 36,
+   "concrete": 23,
+   "dupes": 24,
+   "siblings": 13,
+   "adjacent": true
   },
   {
    "address": 35399932,
@@ -54273,6 +55297,19 @@
    "concrete": 27,
    "dupes": 21,
    "siblings": 9
+  },
+  {
+   "address": 35400008,
+   "name": "endScene",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptinfo.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 32,
+   "concrete": 19,
+   "dupes": 35,
+   "siblings": 13,
+   "adjacent": true
   },
   {
    "address": 35400040,
@@ -54479,6 +55516,19 @@
    "siblings": 10
   },
   {
+   "address": 35401020,
+   "name": "procInit2",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenemenu.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 36,
+   "concrete": 23,
+   "dupes": 24,
+   "siblings": 25,
+   "adjacent": true
+  },
+  {
    "address": 35401076,
    "name": "input",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -54561,6 +55611,19 @@
    "concrete": 307,
    "dupes": 1,
    "siblings": 20
+  },
+  {
+   "address": 35401492,
+   "name": "endScene",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptmenu.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 32,
+   "concrete": 19,
+   "dupes": 35,
+   "siblings": 9,
+   "adjacent": true
   },
   {
    "address": 35401524,
@@ -54647,6 +55710,32 @@
    "siblings": 10
   },
   {
+   "address": 35402132,
+   "name": "initGraphics",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptmovcomm.",
+   "region": "ov016",
+   "thumb": false,
+   "size": 128,
+   "concrete": 117,
+   "dupes": 34,
+   "siblings": 8,
+   "adjacent": true
+  },
+  {
+   "address": 35402260,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptmovcomm.",
+   "region": "ov016",
+   "thumb": false,
+   "size": 60,
+   "concrete": 47,
+   "dupes": 34,
+   "siblings": 8,
+   "adjacent": true
+  },
+  {
    "address": 35402264,
    "name": "ghiPostStateDoPosting",
    "lib": "TwlDWC/libdwcgsghttp.TWL.HYB.a",
@@ -54731,6 +55820,19 @@
    "siblings": 3
   },
   {
+   "address": 35402836,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptmovcompl",
+   "region": "ov016",
+   "thumb": false,
+   "size": 60,
+   "concrete": 47,
+   "dupes": 34,
+   "siblings": 5,
+   "adjacent": true
+  },
+  {
    "address": 35402896,
    "name": "procInit1",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -54741,6 +55843,19 @@
    "concrete": 31,
    "dupes": 29,
    "siblings": 15
+  },
+  {
+   "address": 35402940,
+   "name": "procInit2",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneopterase1.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 36,
+   "concrete": 23,
+   "dupes": 24,
+   "siblings": 23,
+   "adjacent": true
   },
   {
    "address": 35402996,
@@ -54765,6 +55880,19 @@
    "concrete": 27,
    "dupes": 21,
    "siblings": 15
+  },
+  {
+   "address": 35403072,
+   "name": "endScene",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneopterase1.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 32,
+   "concrete": 19,
+   "dupes": 35,
+   "siblings": 23,
+   "adjacent": true
   },
   {
    "address": 35403104,
@@ -54827,6 +55955,19 @@
    "siblings": 10
   },
   {
+   "address": 35403384,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptmovcompl",
+   "region": "ov016",
+   "thumb": false,
+   "size": 60,
+   "concrete": 47,
+   "dupes": 34,
+   "siblings": 5,
+   "adjacent": true
+  },
+  {
    "address": 35403444,
    "name": "procInit1",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -54837,6 +55978,19 @@
    "concrete": 44,
    "dupes": 29,
    "siblings": 9
+  },
+  {
+   "address": 35403504,
+   "name": "procInit2",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptmovconfi",
+   "region": "ov016",
+   "thumb": false,
+   "size": 36,
+   "concrete": 23,
+   "dupes": 24,
+   "siblings": 16,
+   "adjacent": true
   },
   {
    "address": 35403560,
@@ -54861,6 +56015,19 @@
    "concrete": 27,
    "dupes": 21,
    "siblings": 15
+  },
+  {
+   "address": 35403636,
+   "name": "endScene",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneopterase1.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 32,
+   "concrete": 19,
+   "dupes": 35,
+   "siblings": 23,
+   "adjacent": true
   },
   {
    "address": 35403668,
@@ -54911,6 +56078,32 @@
    "siblings": 20
   },
   {
+   "address": 35403884,
+   "name": "initGraphics",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptmovconfi",
+   "region": "ov016",
+   "thumb": false,
+   "size": 128,
+   "concrete": 117,
+   "dupes": 34,
+   "siblings": 16,
+   "adjacent": true
+  },
+  {
+   "address": 35404012,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptmovconfi",
+   "region": "ov016",
+   "thumb": false,
+   "size": 104,
+   "concrete": 85,
+   "dupes": 34,
+   "siblings": 16,
+   "adjacent": true
+  },
+  {
    "address": 35404116,
    "name": "procInit1",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -54921,6 +56114,19 @@
    "concrete": 31,
    "dupes": 29,
    "siblings": 9
+  },
+  {
+   "address": 35404160,
+   "name": "procInit2",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptmovconfi",
+   "region": "ov016",
+   "thumb": false,
+   "size": 36,
+   "concrete": 23,
+   "dupes": 24,
+   "siblings": 16,
+   "adjacent": true
   },
   {
    "address": 35404216,
@@ -54969,6 +56175,19 @@
    "concrete": 332,
    "dupes": 1,
    "siblings": 19
+  },
+  {
+   "address": 35404360,
+   "name": "endScene",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptmovconfi",
+   "region": "ov016",
+   "thumb": false,
+   "size": 32,
+   "concrete": 19,
+   "dupes": 35,
+   "siblings": 16,
+   "adjacent": true
   },
   {
    "address": 35404392,
@@ -55029,6 +56248,19 @@
    "concrete": 97,
    "dupes": 21,
    "siblings": 15
+  },
+  {
+   "address": 35404840,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptmovdisco",
+   "region": "ov016",
+   "thumb": false,
+   "size": 60,
+   "concrete": 47,
+   "dupes": 34,
+   "siblings": 18,
+   "adjacent": true
   },
   {
    "address": 35404900,
@@ -55101,6 +56333,19 @@
    "concrete": 40,
    "dupes": 1,
    "siblings": 6
+  },
+  {
+   "address": 35405256,
+   "name": "initGraphics",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptmovfailu",
+   "region": "ov016",
+   "thumb": false,
+   "size": 128,
+   "concrete": 117,
+   "dupes": 34,
+   "siblings": 8,
+   "adjacent": true
   },
   {
    "address": 35405300,
@@ -55199,6 +56444,19 @@
    "siblings": 6
   },
   {
+   "address": 35405780,
+   "name": "endScene",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptmovfailu",
+   "region": "ov016",
+   "thumb": false,
+   "size": 32,
+   "concrete": 19,
+   "dupes": 35,
+   "siblings": 8,
+   "adjacent": true
+  },
+  {
    "address": 35405812,
    "name": "endScene1",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -55245,6 +56503,32 @@
    "concrete": 533,
    "dupes": 1,
    "siblings": 19
+  },
+  {
+   "address": 35406304,
+   "name": "initGraphics",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptmovuser.",
+   "region": "ov016",
+   "thumb": false,
+   "size": 128,
+   "concrete": 117,
+   "dupes": 34,
+   "siblings": 9,
+   "adjacent": true
+  },
+  {
+   "address": 35406432,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptmovuser.",
+   "region": "ov016",
+   "thumb": false,
+   "size": 60,
+   "concrete": 47,
+   "dupes": 34,
+   "siblings": 9,
+   "adjacent": true
   },
   {
    "address": 35406492,
@@ -55365,6 +56649,32 @@
    "concrete": 46,
    "dupes": 1,
    "siblings": 25
+  },
+  {
+   "address": 35407192,
+   "name": "initGraphics",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptmovwait.",
+   "region": "ov016",
+   "thumb": false,
+   "size": 128,
+   "concrete": 117,
+   "dupes": 34,
+   "siblings": 29,
+   "adjacent": true
+  },
+  {
+   "address": 35407320,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptmovwait.",
+   "region": "ov016",
+   "thumb": false,
+   "size": 60,
+   "concrete": 47,
+   "dupes": 34,
+   "siblings": 29,
+   "adjacent": true
   },
   {
    "address": 35407380,
@@ -55547,6 +56857,19 @@
    "siblings": 17
   },
   {
+   "address": 35408396,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetaossbutt",
+   "region": "ov016",
+   "thumb": false,
+   "size": 104,
+   "concrete": 85,
+   "dupes": 34,
+   "siblings": 22,
+   "adjacent": true
+  },
+  {
    "address": 35408500,
    "name": "procInit1",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -55727,6 +57050,19 @@
    "siblings": 17
   },
   {
+   "address": 35409408,
+   "name": "procError",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetaossbutt",
+   "region": "ov016",
+   "thumb": false,
+   "size": 44,
+   "concrete": 28,
+   "dupes": 9,
+   "siblings": 22,
+   "adjacent": true
+  },
+  {
    "address": 35409452,
    "name": "procConfirm1",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -55809,6 +57145,19 @@
    "concrete": 97,
    "dupes": 21,
    "siblings": 15
+  },
+  {
+   "address": 35409776,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptmovdisco",
+   "region": "ov016",
+   "thumb": false,
+   "size": 60,
+   "concrete": 47,
+   "dupes": 34,
+   "siblings": 18,
+   "adjacent": true
   },
   {
    "address": 35409836,
@@ -55967,6 +57316,19 @@
    "siblings": 20
   },
   {
+   "address": 35411344,
+   "name": "procInit2",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenemenu.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 36,
+   "concrete": 23,
+   "dupes": 24,
+   "siblings": 25,
+   "adjacent": true
+  },
+  {
    "address": 35411400,
    "name": "input",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -56085,6 +57447,19 @@
    "concrete": 186,
    "dupes": 1,
    "siblings": 13
+  },
+  {
+   "address": 35412772,
+   "name": "endScene",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetaplist.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 32,
+   "concrete": 19,
+   "dupes": 35,
+   "siblings": 26,
+   "adjacent": true
   },
   {
    "address": 35412804,
@@ -56483,6 +57858,19 @@
    "siblings": 44
   },
   {
+   "address": 35415348,
+   "name": "procError",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetaplist.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 44,
+   "concrete": 28,
+   "dupes": 9,
+   "siblings": 26,
+   "adjacent": true
+  },
+  {
    "address": 35415372,
    "name": "DWCi_NdCleanupConnectionHandle",
    "lib": "TwlDWC/libdwcnd.TWL.HYB.a",
@@ -56565,6 +57953,19 @@
    "concrete": 224,
    "dupes": 1,
    "siblings": 44
+  },
+  {
+   "address": 35415908,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetedit32.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 104,
+   "concrete": 85,
+   "dupes": 34,
+   "siblings": 22,
+   "adjacent": true
   },
   {
    "address": 35416012,
@@ -56783,6 +58184,19 @@
    "siblings": 19
   },
   {
+   "address": 35418136,
+   "name": "procError",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetedit32.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 44,
+   "concrete": 28,
+   "dupes": 9,
+   "siblings": 22,
+   "adjacent": true
+  },
+  {
    "address": 35418180,
    "name": "procError1",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -56841,6 +58255,19 @@
    "concrete": 144,
    "dupes": 21,
    "siblings": 19
+  },
+  {
+   "address": 35418796,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetedit32.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 104,
+   "concrete": 85,
+   "dupes": 34,
+   "siblings": 22,
+   "adjacent": true
   },
   {
    "address": 35418900,
@@ -57023,6 +58450,32 @@
    "siblings": 44
   },
   {
+   "address": 35420384,
+   "name": "DWCi_Ndi_lockGlobal",
+   "lib": "TwlDWC/libdwcnd.TWL.HYB.a",
+   "object": "dwci_nd.o",
+   "region": "ov114",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 46,
+   "adjacent": true
+  },
+  {
+   "address": 35420404,
+   "name": "DWCi_Ndi_unlockGlobal",
+   "lib": "TwlDWC/libdwcnd.TWL.HYB.a",
+   "object": "dwci_nd.o",
+   "region": "ov114",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 46,
+   "adjacent": true
+  },
+  {
    "address": 35420424,
    "name": "DWCi_Ndi_initHttpCallback",
    "lib": "TwlDWC/libdwcnd.TWL.HYB.a",
@@ -57191,6 +58644,19 @@
    "siblings": 44
   },
   {
+   "address": 35421300,
+   "name": "procError",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneseteditaddr",
+   "region": "ov016",
+   "thumb": false,
+   "size": 44,
+   "concrete": 28,
+   "dupes": 9,
+   "siblings": 14,
+   "adjacent": true
+  },
+  {
    "address": 35421344,
    "name": "procError1",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -57213,6 +58679,19 @@
    "concrete": 15,
    "dupes": 1,
    "siblings": 3
+  },
+  {
+   "address": 35421440,
+   "name": "initGraphics",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneseterror.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 128,
+   "concrete": 117,
+   "dupes": 34,
+   "siblings": 5,
+   "adjacent": true
   },
   {
    "address": 35421568,
@@ -57239,6 +58718,19 @@
    "siblings": 1
   },
   {
+   "address": 35422392,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneseterror.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 60,
+   "concrete": 47,
+   "dupes": 34,
+   "siblings": 5,
+   "adjacent": true
+  },
+  {
    "address": 35422452,
    "name": "procInit1",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -57249,6 +58741,19 @@
    "concrete": 44,
    "dupes": 29,
    "siblings": 9
+  },
+  {
+   "address": 35422512,
+   "name": "procInit2",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptmovconfi",
+   "region": "ov016",
+   "thumb": false,
+   "size": 36,
+   "concrete": 23,
+   "dupes": 24,
+   "siblings": 16,
+   "adjacent": true
   },
   {
    "address": 35422568,
@@ -57273,6 +58778,19 @@
    "concrete": 27,
    "dupes": 21,
    "siblings": 15
+  },
+  {
+   "address": 35422644,
+   "name": "endScene",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneopterase1.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 32,
+   "concrete": 19,
+   "dupes": 35,
+   "siblings": 23,
+   "adjacent": true
   },
   {
    "address": 35422676,
@@ -57453,6 +58971,19 @@
    "concrete": 481,
    "dupes": 2,
    "siblings": 37
+  },
+  {
+   "address": 35425960,
+   "name": "endScene",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetlist.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 32,
+   "concrete": 19,
+   "dupes": 35,
+   "siblings": 38,
+   "adjacent": true
   },
   {
    "address": 35425992,
@@ -58127,6 +59658,19 @@
    "siblings": 11
   },
   {
+   "address": 35432564,
+   "name": "initGraphics",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetrakubutt",
+   "region": "ov016",
+   "thumb": false,
+   "size": 128,
+   "concrete": 117,
+   "dupes": 34,
+   "siblings": 21,
+   "adjacent": true
+  },
+  {
    "address": 35432684,
    "name": "CRYPTOi_GetDecodedHash",
    "lib": "TwlSDK/libcrypto.TWL.HYB.a",
@@ -58139,6 +59683,19 @@
    "siblings": 7
   },
   {
+   "address": 35432692,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptmovwait.",
+   "region": "ov016",
+   "thumb": false,
+   "size": 60,
+   "concrete": 47,
+   "dupes": 34,
+   "siblings": 29,
+   "adjacent": true
+  },
+  {
    "address": 35432752,
    "name": "procInit1",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -58149,6 +59706,19 @@
    "concrete": 31,
    "dupes": 29,
    "siblings": 25
+  },
+  {
+   "address": 35432796,
+   "name": "procInit2",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetrakubutt",
+   "region": "ov016",
+   "thumb": false,
+   "size": 36,
+   "concrete": 23,
+   "dupes": 24,
+   "siblings": 21,
+   "adjacent": true
   },
   {
    "address": 35432832,
@@ -58197,6 +59767,19 @@
    "concrete": 117,
    "dupes": 1,
    "siblings": 7
+  },
+  {
+   "address": 35432968,
+   "name": "endScene",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetrakubutt",
+   "region": "ov016",
+   "thumb": false,
+   "size": 32,
+   "concrete": 19,
+   "dupes": 35,
+   "siblings": 21,
+   "adjacent": true
   },
   {
    "address": 35433000,
@@ -58331,6 +59914,19 @@
    "siblings": 52
   },
   {
+   "address": 35433464,
+   "name": "procError",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetrakubutt",
+   "region": "ov016",
+   "thumb": false,
+   "size": 44,
+   "concrete": 28,
+   "dupes": 9,
+   "siblings": 21,
+   "adjacent": true
+  },
+  {
    "address": 35433508,
    "name": "CRYPTOi__bn_zexpand",
    "lib": "TwlSDK/libcrypto.TWL.HYB.a",
@@ -58391,6 +59987,19 @@
    "siblings": 52
   },
   {
+   "address": 35433632,
+   "name": "initGraphics",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetrakubutt",
+   "region": "ov016",
+   "thumb": false,
+   "size": 128,
+   "concrete": 117,
+   "dupes": 34,
+   "siblings": 21,
+   "adjacent": true
+  },
+  {
    "address": 35433680,
    "name": "CRYPTOi__BN_init",
    "lib": "TwlSDK/libcrypto.TWL.HYB.a",
@@ -58427,6 +60036,19 @@
    "siblings": 52
   },
   {
+   "address": 35433760,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptmovwait.",
+   "region": "ov016",
+   "thumb": false,
+   "size": 60,
+   "concrete": 47,
+   "dupes": 34,
+   "siblings": 29,
+   "adjacent": true
+  },
+  {
    "address": 35433800,
    "name": "CRYPTOi__BN_CTX_init",
    "lib": "TwlSDK/libcrypto.TWL.HYB.a",
@@ -58461,6 +60083,19 @@
    "concrete": 58,
    "dupes": 1,
    "siblings": 52
+  },
+  {
+   "address": 35433864,
+   "name": "procInit2",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetrakubutt",
+   "region": "ov016",
+   "thumb": false,
+   "size": 36,
+   "concrete": 23,
+   "dupes": 24,
+   "siblings": 21,
+   "adjacent": true
   },
   {
    "address": 35433900,
@@ -58521,6 +60156,19 @@
    "concrete": 110,
    "dupes": 1,
    "siblings": 52
+  },
+  {
+   "address": 35434036,
+   "name": "endScene",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetrakubutt",
+   "region": "ov016",
+   "thumb": false,
+   "size": 32,
+   "concrete": 19,
+   "dupes": 35,
+   "siblings": 21,
+   "adjacent": true
   },
   {
    "address": 35434068,
@@ -58607,6 +60255,19 @@
    "siblings": 52
   },
   {
+   "address": 35434588,
+   "name": "procError",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetrakubutt",
+   "region": "ov016",
+   "thumb": false,
+   "size": 44,
+   "concrete": 28,
+   "dupes": 9,
+   "siblings": 21,
+   "adjacent": true
+  },
+  {
    "address": 35434616,
    "name": "CRYPTOi__BN_ucmp",
    "lib": "TwlSDK/libcrypto.TWL.HYB.a",
@@ -58655,6 +60316,19 @@
    "siblings": 52
   },
   {
+   "address": 35434724,
+   "name": "initGraphics",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetrakucomp",
+   "region": "ov016",
+   "thumb": false,
+   "size": 128,
+   "concrete": 117,
+   "dupes": 34,
+   "siblings": 3,
+   "adjacent": true
+  },
+  {
    "address": 35434844,
    "name": "CRYPTOi__BN_is_bit_set",
    "lib": "TwlSDK/libcrypto.TWL.HYB.a",
@@ -58665,6 +60339,19 @@
    "concrete": 76,
    "dupes": 1,
    "siblings": 52
+  },
+  {
+   "address": 35434852,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetrakucomp",
+   "region": "ov016",
+   "thumb": false,
+   "size": 60,
+   "concrete": 47,
+   "dupes": 34,
+   "siblings": 3,
+   "adjacent": true
   },
   {
    "address": 35434912,
@@ -58787,6 +60474,19 @@
    "siblings": 52
   },
   {
+   "address": 35435500,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetaossbutt",
+   "region": "ov016",
+   "thumb": false,
+   "size": 104,
+   "concrete": 85,
+   "dupes": 34,
+   "siblings": 22,
+   "adjacent": true
+  },
+  {
    "address": 35435604,
    "name": "procInit1",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -58809,6 +60509,19 @@
    "concrete": 262,
    "dupes": 1,
    "siblings": 52
+  },
+  {
+   "address": 35435672,
+   "name": "procInit2",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetrakuread",
+   "region": "ov016",
+   "thumb": false,
+   "size": 36,
+   "concrete": 23,
+   "dupes": 24,
+   "siblings": 6,
+   "adjacent": true
   },
   {
    "address": 35435708,
@@ -58845,6 +60558,19 @@
    "concrete": 28,
    "dupes": 21,
    "siblings": 25
+  },
+  {
+   "address": 35435844,
+   "name": "endScene",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetrakubutt",
+   "region": "ov016",
+   "thumb": false,
+   "size": 32,
+   "concrete": 19,
+   "dupes": 35,
+   "siblings": 21,
+   "adjacent": true
   },
   {
    "address": 35435876,
@@ -58907,6 +60633,19 @@
    "siblings": 4
   },
   {
+   "address": 35436340,
+   "name": "procError",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetrakuread",
+   "region": "ov016",
+   "thumb": false,
+   "size": 44,
+   "concrete": 28,
+   "dupes": 9,
+   "siblings": 6,
+   "adjacent": true
+  },
+  {
    "address": 35436384,
    "name": "procConfirm1",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -58955,6 +60694,19 @@
    "siblings": 17
   },
   {
+   "address": 35436692,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetaossbutt",
+   "region": "ov016",
+   "thumb": false,
+   "size": 104,
+   "concrete": 85,
+   "dupes": 34,
+   "siblings": 22,
+   "adjacent": true
+  },
+  {
    "address": 35436720,
    "name": "CRYPTOi__BN_sub",
    "lib": "TwlSDK/libcrypto.TWL.HYB.a",
@@ -58977,6 +60729,19 @@
    "concrete": 48,
    "dupes": 29,
    "siblings": 17
+  },
+  {
+   "address": 35436860,
+   "name": "procInit2",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetsearch.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 36,
+   "concrete": 23,
+   "dupes": 24,
+   "siblings": 6,
+   "adjacent": true
   },
   {
    "address": 35436896,
@@ -59051,6 +60816,19 @@
    "siblings": 25
   },
   {
+   "address": 35437300,
+   "name": "endScene",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetrakubutt",
+   "region": "ov016",
+   "thumb": false,
+   "size": 32,
+   "concrete": 19,
+   "dupes": 35,
+   "siblings": 21,
+   "adjacent": true
+  },
+  {
    "address": 35437332,
    "name": "endScene1",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -59085,6 +60863,19 @@
    "concrete": 1353,
    "dupes": 1,
    "siblings": 52
+  },
+  {
+   "address": 35437636,
+   "name": "procError",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetsearch.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 44,
+   "concrete": 28,
+   "dupes": 9,
+   "siblings": 6,
+   "adjacent": true
   },
   {
    "address": 35437680,
@@ -59555,6 +61346,19 @@
    "siblings": 20
   },
   {
+   "address": 35441740,
+   "name": "procInit2",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenemenu.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 36,
+   "concrete": 23,
+   "dupes": 24,
+   "siblings": 25,
+   "adjacent": true
+  },
+  {
    "address": 35441796,
    "name": "input",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -59589,6 +61393,19 @@
    "concrete": 61,
    "dupes": 21,
    "siblings": 7
+  },
+  {
+   "address": 35442264,
+   "name": "endScene",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetselectwa",
+   "region": "ov016",
+   "thumb": false,
+   "size": 32,
+   "concrete": 19,
+   "dupes": 35,
+   "siblings": 8,
+   "adjacent": true
   },
   {
    "address": 35442296,
@@ -59819,6 +61636,19 @@
    "siblings": 15
   },
   {
+   "address": 35444252,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptmovdisco",
+   "region": "ov016",
+   "thumb": false,
+   "size": 60,
+   "concrete": 47,
+   "dupes": 34,
+   "siblings": 18,
+   "adjacent": true
+  },
+  {
    "address": 35444312,
    "name": "endScene1",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -59999,6 +61829,19 @@
    "siblings": 6
   },
   {
+   "address": 35445448,
+   "name": "initGraphics",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetusbcompl",
+   "region": "ov016",
+   "thumb": false,
+   "size": 128,
+   "concrete": 117,
+   "dupes": 34,
+   "siblings": 4,
+   "adjacent": true
+  },
+  {
    "address": 35445480,
    "name": "CRYPTOi__bn_div_words",
    "lib": "TwlSDK/libcrypto.TWL.HYB.a",
@@ -60021,6 +61864,19 @@
    "concrete": 148,
    "dupes": 1,
    "siblings": 6
+  },
+  {
+   "address": 35445576,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetusbcompl",
+   "region": "ov016",
+   "thumb": false,
+   "size": 60,
+   "concrete": 47,
+   "dupes": 34,
+   "siblings": 4,
+   "adjacent": true
   },
   {
    "address": 35445636,
@@ -60107,6 +61963,19 @@
    "siblings": 17
   },
   {
+   "address": 35446180,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetaossbutt",
+   "region": "ov016",
+   "thumb": false,
+   "size": 104,
+   "concrete": 85,
+   "dupes": 34,
+   "siblings": 22,
+   "adjacent": true
+  },
+  {
    "address": 35446284,
    "name": "procInit1",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -60117,6 +61986,19 @@
    "concrete": 44,
    "dupes": 29,
    "siblings": 11
+  },
+  {
+   "address": 35446344,
+   "name": "procInit2",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetusbready",
+   "region": "ov016",
+   "thumb": false,
+   "size": 36,
+   "concrete": 23,
+   "dupes": 24,
+   "siblings": 16,
+   "adjacent": true
   },
   {
    "address": 35446400,
@@ -60141,6 +62023,19 @@
    "concrete": 60,
    "dupes": 21,
    "siblings": 9
+  },
+  {
+   "address": 35446544,
+   "name": "endScene",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "sceneoptmovconfi",
+   "region": "ov016",
+   "thumb": false,
+   "size": 32,
+   "concrete": 19,
+   "dupes": 35,
+   "siblings": 16,
+   "adjacent": true
   },
   {
    "address": 35446576,
@@ -60203,6 +62098,19 @@
    "siblings": 17
   },
   {
+   "address": 35447216,
+   "name": "procInit",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetusbready",
+   "region": "ov016",
+   "thumb": false,
+   "size": 60,
+   "concrete": 47,
+   "dupes": 34,
+   "siblings": 16,
+   "adjacent": true
+  },
+  {
    "address": 35447276,
    "name": "procInit1",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -60213,6 +62121,19 @@
    "concrete": 31,
    "dupes": 29,
    "siblings": 11
+  },
+  {
+   "address": 35447320,
+   "name": "procInit2",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetusbready",
+   "region": "ov016",
+   "thumb": false,
+   "size": 36,
+   "concrete": 23,
+   "dupes": 24,
+   "siblings": 16,
+   "adjacent": true
   },
   {
    "address": 35447376,
@@ -60237,6 +62158,19 @@
    "concrete": 52,
    "dupes": 21,
    "siblings": 11
+  },
+  {
+   "address": 35447508,
+   "name": "endScene",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetusbready",
+   "region": "ov016",
+   "thumb": false,
+   "size": 32,
+   "concrete": 19,
+   "dupes": 35,
+   "siblings": 16,
+   "adjacent": true
   },
   {
    "address": 35447540,
@@ -60273,6 +62207,19 @@
    "concrete": 203,
    "dupes": 1,
    "siblings": 11
+  },
+  {
+   "address": 35448164,
+   "name": "procNotFound",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "scenesetusbready",
+   "region": "ov016",
+   "thumb": false,
+   "size": 44,
+   "concrete": 28,
+   "dupes": 1,
+   "siblings": 16,
+   "adjacent": true
   },
   {
    "address": 35448208,
@@ -60707,6 +62654,19 @@
    "siblings": 27
   },
   {
+   "address": 35451888,
+   "name": "DWCi_SETTIGNlEnd",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "setting.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 29,
+   "adjacent": true
+  },
+  {
    "address": 35451908,
    "name": "DWCi_SETTIGNlGet",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
@@ -60957,6 +62917,19 @@
    "concrete": 237,
    "dupes": 1,
    "siblings": 27
+  },
+  {
+   "address": 35453908,
+   "name": "DWCi_SETTINGlGetMemMap",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "setting.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 16,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 29,
+   "adjacent": true
   },
   {
    "address": 35453924,
@@ -62937,6 +64910,19 @@
    "concrete": 67,
    "dupes": 1,
    "siblings": 6
+  },
+  {
+   "address": 35476844,
+   "name": "DWCi_EFFlEnd",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "effect.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 20,
+   "concrete": 12,
+   "dupes": 1,
+   "siblings": 7,
+   "adjacent": true
   },
   {
    "address": 35476864,

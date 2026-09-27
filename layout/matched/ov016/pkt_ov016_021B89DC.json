@@ -1,0 +1,170 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "ov016",
+ "shard": "pkt_ov016_021B89DC",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "APCi_Notify",
+   "address": "0x021B89DC",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021B89DC.c",
+   "compiler": "dsi/../2.0/sp1p2",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DCF80"
+    ],
+    "sdk": [
+     "0x02164EE0"
+    ]
+   }
+  },
+  {
+   "name": "APCi_MoveIdleState",
+   "address": "0x021B8C94",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021B8C94.c",
+   "compiler": "dsi/../2.0/sp1p2",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DCF80"
+    ],
+    "sdk": [
+     "0x021B89DC"
+    ]
+   }
+  },
+  {
+   "name": "APC_GetAPList",
+   "address": "0x021B8CFC",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021B8CFC.c",
+   "compiler": "dsi/../2.0/sp1p2",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT*"
+  },
+  {
+   "name": "APC_SearchStart",
+   "address": "0x021B8D40",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021B8D40.c",
+   "compiler": "dsi/../2.0/sp1p2",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DCF80",
+     "self:0x021DCFA8",
+     "self:0x021DCFB0"
+    ]
+   }
+  },
+  {
+   "name": "APC_SearchEnd",
+   "address": "0x021B8E30",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021B8E30.c",
+   "compiler": "dsi/../2.0/sp1p2",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DCF80"
+    ]
+   }
+  },
+  {
+   "name": "APC_Disconnect",
+   "address": "0x021B8E6C",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021B8E6C.c",
+   "compiler": "dsi/../2.0/sp1p2",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DCF80"
+    ]
+   }
+  },
+  {
+   "name": "APC_End",
+   "address": "0x021B8EA4",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021B8EA4.c",
+   "compiler": "dsi/../2.0/sp1p2",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DCF80"
+    ]
+   }
+  },
+  {
+   "name": "APC_Connect",
+   "address": "0x021B8EFC",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021B8EFC.c",
+   "compiler": "dsi/../2.0/sp1p2",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DCF80"
+    ]
+   }
+  },
+  {
+   "name": "APC_Init",
+   "address": "0x021B8F80",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021B8F80.c",
+   "compiler": "dsi/../2.0/sp1p2",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DCF80"
+    ],
+    "sdk": [
+     "0x02164D64",
+     "0x021B89DC"
+    ]
+   }
+  }
+ ]
+}

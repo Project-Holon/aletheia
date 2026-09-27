@@ -1,0 +1,28 @@
+/*
+ * function: func_021F18D8
+ * address:  0x021F18D8
+ * packet:   pkt_ov107_021F18D8
+ * region:   ov107
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * symbols:
+ *   func_0201EC64  0x0201EC64  thumb
+ */
+
+typedef struct {
+    unsigned short f00;
+    unsigned char pad02[0x22];
+    void *f24;
+} Ov107Ctx;
+
+void *func_0201EC64(int);
+
+void func_021F18D8(Ov107Ctx *p)
+{
+    if (p->f24 == 0) {
+        p->f24 = func_0201EC64(p->f00);
+    }
+}

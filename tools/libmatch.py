@@ -122,6 +122,16 @@ RELOC_MASK = {
 }
 RELOC_DEFAULT = (0, 4)
 
+# ARM BL relocations whose top byte the linker may rewrite.  An unconditional
+# ARM ``bl`` (0xEB) to a Thumb target is turned into ``blx imm`` by the linker,
+# which sets the top byte to 0xFA or 0xFB (the H bit carries imm bit 1).  The
+# TwlSDK code in the ARM9 static image calls ARM code, so it never shows this;
+# TwlDWC libraries in the overlays call Thumb-built libraries and do.  That
+# byte is checked against exactly these three values, never wildcarded.
+BL_RELOCS = (1, 28)        # R_ARM_PC24, R_ARM_CALL
+BL_TOP = 0xEB
+BLX_TOPS = bytes((0xEB, 0xFA, 0xFB))
+
 
 class Obj:
     """A parsed ELF32 relocatable object."""
@@ -188,17 +198,21 @@ CODE_SECTION_RE = re.compile(r"^\.(text|itcm|init|dtcm)")
 
 
 class Pattern:
-    __slots__ = ("name", "data", "runs", "thumb", "size", "concrete", "key", "klen")
+    __slots__ = ("name", "data", "runs", "thumb", "size", "concrete", "key", "klen",
+                 "koff", "alts", "order")
 
-    def __init__(self, name, data, runs, thumb):
+    def __init__(self, name, data, runs, thumb, alts=()):
         self.name = name
         self.data = data
         self.runs = runs          # list of (offset, bytes) concrete runs
+        self.alts = tuple(alts)   # offsets of BL top bytes: one of BLX_TOPS
         self.thumb = thumb
         self.size = len(data)
-        self.concrete = sum(len(b) for _, b in runs)
+        self.concrete = sum(len(b) for _, b in runs) + len(self.alts)
         self.key = None
         self.klen = 0
+        self.koff = 0
+        self.order = (0, 0)       # (section index, offset) in the source object
 
 
 def build_patterns(obj, want_data=False):
@@ -260,6 +274,7 @@ def build_patterns(obj, want_data=False):
         blob = bytearray(body[value:value + size])
         mask = bytearray(b"\x01" * size)   # 1 = concrete, 0 = wildcard
 
+        alts = []
         for off, rtype in relocs.get(shndx, ()):
             if off < value or off >= value + size:
                 continue
@@ -268,6 +283,10 @@ def build_patterns(obj, want_data=False):
             for k in range(start, min(start + width, size)):
                 if k >= 0:
                     mask[k] = 0
+            top = off - value + 3
+            if rtype in BL_RELOCS and top < size and blob[top] == BL_TOP:
+                mask[top] = 0
+                alts.append(top)
 
         thumb = False
         maps = mapping.get(shndx)
@@ -291,7 +310,9 @@ def build_patterns(obj, want_data=False):
                 i = j
             else:
                 i += 1
-        out.append(Pattern(name, bytes(blob), runs, thumb))
+        pat = Pattern(name, bytes(blob), runs, thumb, sorted(set(alts)))
+        pat.order = (shndx, value)
+        out.append(pat)
     return out
 
 
@@ -408,32 +429,60 @@ def pattern_key(p):
     return run[:n], n
 
 
+def pattern_key_at(p):
+    """(key, klen, koff): the prefix key when there is one, else the first
+    concrete run of at least 4 bytes, keyed at its offset.
+
+    Only the index lookup moves; verify() still checks every concrete run
+    from the function start.  Without the fallback a Thumb function that
+    opens ``push {..,lr}; bl f`` (a 2-byte run, then the 4-byte THM_CALL
+    wildcard) had no key at all and was never scanned.
+    """
+    key, n = pattern_key(p)
+    if key is not None:
+        return key, n, 0
+    for off, run in p.runs:
+        n = min(len(run), 16)
+        n -= n % 4
+        if n >= 4:
+            return run[:n], n, off
+    return None, 0, 0
+
+
 def verify(regdata, start, p):
     for off, blob in p.runs:
         s = start + off
         if regdata[s:s + len(blob)] != blob:
+            return False
+    for off in p.alts:
+        if regdata[start + off] not in BLX_TOPS:
             return False
     return True
 
 
 def scan(regions, patterns, progress=True):
     """patterns: list of Pattern.  Returns dict pattern_index -> [(region, addr)]."""
-    arm_idx = {n: {} for n in KEY_LENS}
-    thm_idx = {n: {} for n in KEY_LENS}
+    # Tables are keyed by (key offset, key length); offset 0 is the prefix.
+    arm_idx = defaultdict(dict)
+    thm_idx = defaultdict(dict)
     usable = 0
     for i, p in enumerate(patterns):
         if p.size < MIN_SIZE or p.concrete < MIN_CONCRETE:
             continue
-        key, klen = pattern_key(p)
+        key, klen, koff = pattern_key_at(p)
         if key is None:
             continue
-        p.key, p.klen = key, klen
+        p.key, p.klen, p.koff = key, klen, koff
         tbl = thm_idx if p.thumb else arm_idx
-        tbl[klen].setdefault(key, []).append(i)
+        tbl[(koff, klen)].setdefault(key, []).append(i)
         usable += 1
 
-    arm_tbls = [(n, arm_idx[n]) for n in KEY_LENS if arm_idx[n]]
-    thm_tbls = [(n, thm_idx[n]) for n in KEY_LENS if thm_idx[n]]
+    def order(idx):
+        return [(ko, kl, idx[(ko, kl)])
+                for ko, kl in sorted(idx, key=lambda t: (t[0], -t[1]))]
+
+    arm_tbls = order(arm_idx)
+    thm_tbls = order(thm_idx)
 
     hits = defaultdict(list)
     for reg in regions:
@@ -444,8 +493,8 @@ def scan(regions, patterns, progress=True):
             sys.stderr.flush()
         # ARM: function entries are word aligned.
         for pos in range(0, n - 3, 4):
-            for klen, tbl in arm_tbls:
-                cand = tbl.get(d[pos:pos + klen])
+            for koff, klen, tbl in arm_tbls:
+                cand = tbl.get(d[pos + koff:pos + koff + klen])
                 if cand:
                     for pi in cand:
                         p = patterns[pi]
@@ -453,8 +502,8 @@ def scan(regions, patterns, progress=True):
                             hits[pi].append((reg.name, reg.base + pos))
         # Thumb: halfword aligned.
         for pos in range(0, n - 3, 2):
-            for klen, tbl in thm_tbls:
-                cand = tbl.get(d[pos:pos + klen])
+            for koff, klen, tbl in thm_tbls:
+                cand = tbl.get(d[pos + koff:pos + koff + klen])
                 if cand:
                     for pi in cand:
                         p = patterns[pi]
@@ -480,6 +529,7 @@ def collect(archives, want_data=False, verbose=False):
     seen = {}
     prov = defaultdict(list)
     by_archive = defaultdict(set)
+    obj_funcs = {}
     for ap in archives:
         try:
             if ap.endswith(".o"):
@@ -494,8 +544,10 @@ def collect(archives, want_data=False, verbose=False):
             obj = Obj(mname, mdata)
             if not obj.ok:
                 continue
+            placed = []
             for p in build_patterns(obj, want_data=want_data):
-                sig = (p.name, p.thumb, p.data, tuple((o, len(b)) for o, b in p.runs))
+                sig = (p.name, p.thumb, p.data, tuple((o, len(b)) for o, b in p.runs),
+                       p.alts)
                 idx = seen.get(sig)
                 if idx is None:
                     idx = len(patterns)
@@ -503,6 +555,16 @@ def collect(archives, want_data=False, verbose=False):
                     patterns.append(p)
                 prov[idx].append((ap, mname))
                 by_archive[ap].add(idx)
+                placed.append((p.order, idx))
+            # The object's functions in section order, which is the order
+            # the linker lays them out in (checked on libdwcutil's scene
+            # objects in ov016 and on libaoss.o).  A list per member: ar
+            # truncates names to 16 bytes, so two members can share one
+            # (libdwcutil has two "scenesetusbready" and two
+            # "sceneoptmovconfi").
+            obj_funcs.setdefault((ap, mname), []).append(
+                [i for _o, i in sorted(placed)])
+    collect.obj_funcs = obj_funcs
     return patterns, prov, by_archive
 
 
@@ -626,9 +688,10 @@ def run(args):
     resolved = {}
     dropped_overlap = 0
     contested = 0
+    taken_by_reg = {}
     for reg, lst in cands.items():
         lst.sort(key=lambda c: (-c[1], -c[2], -c[3], patterns[c[4]].name))
-        taken = []           # sorted list of (start, end)
+        taken = taken_by_reg[reg] = []      # sorted list of (start, end)
         for addr, size, concrete, sc, pi in lst:
             end = addr + size
             clash = False
@@ -646,6 +709,80 @@ def run(args):
             taken.sort()
             resolved[(reg, addr)] = pi
 
+    # Pass 2: a pattern that landed in more than MAX_HITS places is kept at
+    # one of them only when it is the next (or previous) function, in the
+    # section order of the source object, after (or before) a function
+    # already resolved from that same object, and sits flush against it with
+    # at most 3 bytes of alignment padding.  CodeWarrior gives each function
+    # its own section and the linker lays an object's sections out in order,
+    # so this is the sibling rule made positional.  Functions of the object
+    # that are absent from the image (dead-stripped, or never scannable) may
+    # be skipped; the nearest one in order that verifies there is taken.
+    # TwlDWC libdwcutil's scene*.o objects each carry their own static
+    # procInit / procInit2 / endScene, identical across objects, so every
+    # copy exceeded MAX_HITS and was dropped.  Runs to a fixed point, so a
+    # chain of such functions resolves outward from its anchor.
+    obj_funcs = getattr(collect, "obj_funcs", {})
+    source = {}                         # (reg, addr) -> (archive, member)
+
+    def src_of(key):
+        return source.get(key) or pick_source(resolved[key])
+
+    multi_at = defaultdict(set)         # (reg, addr) -> {pattern index}
+    for pi, locs in hits.items():
+        uniq = set(locs)
+        if len(uniq) > MAX_HITS:
+            for loc in uniq:
+                multi_at[loc].add(pi)
+    adjacent = 0
+    frontier = sorted(resolved)
+    while frontier:
+        nxt = []
+        for reg, a2 in frontier:
+            pi2 = resolved[(reg, a2)]
+            e2 = a2 + patterns[pi2].size
+            # The neighbour's own source first, then every other object that
+            # carries the identical function (libdwcutil's scene objects
+            # share bytes, so the first pass's pick can be a sister object).
+            srcs = [src_of((reg, a2))]
+            for am in sorted(prov[pi2], key=lambda am: source_rank(am[0])):
+                if am not in srcs:
+                    srcs.append(am)
+            walks = []
+            for src in srcs:
+                for funcs in obj_funcs.get(src, ()):
+                    if pi2 in funcs:
+                        k = funcs.index(pi2)
+                        walks += [(funcs[k + 1:], True, src),
+                                  (funcs[:k][::-1], False, src)]
+            for seq, forward, src in walks:
+                done = False
+                for pj in seq:
+                    size = patterns[pj].size
+                    for g in range(4):
+                        addr = e2 + g if forward else a2 - g - size
+                        if pj not in multi_at.get((reg, addr), ()):
+                            continue
+                        if (reg, addr) in resolved:
+                            continue
+                        end = addr + size
+                        taken = taken_by_reg.setdefault(reg, [])
+                        if any(addr < te and ts < end for ts, te in taken):
+                            continue
+                        taken.append((addr, end))
+                        taken.sort()
+                        resolved[(reg, addr)] = pj
+                        source[(reg, addr)] = src
+                        nxt.append((reg, addr))
+                        adjacent += 1
+                        done = True
+                        break
+                    if done:
+                        break
+        frontier = sorted(nxt)
+    print("pass 2: %d placements of patterns with >%d hits, each the next or"
+          " previous function of a resolved neighbour's object" % (adjacent, MAX_HITS))
+
     name_addrs = defaultdict(list)
     for (reg, addr), pi in resolved.items():
         name_addrs[patterns[pi].name].append((reg, addr))
@@ -654,12 +791,12 @@ def run(args):
     # corroborated: several independent patterns landed in the same module.
     obj_region = defaultdict(int)
     for (reg, addr), pi in resolved.items():
-        ap, mname = pick_source(pi)
+        ap, mname = src_of((reg, addr))
         obj_region[(reg, ap, mname)] += 1
 
     entries = []
     for (reg, addr), pi in resolved.items():
-        ap, mname = pick_source(pi)
+        ap, mname = src_of((reg, addr))
         tree, build, variant, thumb, lib = classify(ap)
         entries.append({
             "address": addr,
@@ -673,6 +810,8 @@ def run(args):
             "dupes": len(name_addrs[patterns[pi].name]),
             "siblings": obj_region[(reg, ap, mname)],
         })
+        if (reg, addr) in source:
+            entries[-1]["adjacent"] = True      # placed by pass 2
     entries.sort(key=lambda e: (e["address"], e["name"]))
 
     strong = [e for e in entries if e["size"] >= 24 or e["siblings"] >= 2]
@@ -692,7 +831,7 @@ def run(args):
     # ------------------------------------------------------------------
     # Write output.
     # ------------------------------------------------------------------
-    layout_dir = os.path.join(ROOT, "layout")
+    layout_dir = args.outdir or os.path.join(ROOT, "layout")
     txt = os.path.join(layout_dir, "symbols_sdk.txt")
     with open(txt, "w", newline="\n") as fh:
         fh.write("# SDK symbols recovered by tools/libmatch.py\n")
@@ -830,6 +969,9 @@ def main(argv=None):
     ap.add_argument("--data", action="store_true",
                     help="also pattern-match STT_OBJECT data symbols")
     ap.add_argument("--no-overlays", action="store_true")
+    ap.add_argument("--outdir",
+                    help="write symbols_sdk.txt/.json here instead of layout/"
+                         " (dry runs and diffs against the committed files)")
     ap.add_argument("-q", "--quiet", action="store_true")
     ap.add_argument("-v", "--verbose", action="store_true")
     args = ap.parse_args(argv)

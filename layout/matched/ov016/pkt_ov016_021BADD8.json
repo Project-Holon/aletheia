@@ -1,0 +1,106 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "ov016",
+ "shard": "pkt_ov016_021BADD8",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "aeskw_xor64",
+   "address": "0x021BAF90",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021BAF90.c",
+   "compiler": "dsi/../2.0/sp1p2",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT*"
+  },
+  {
+   "name": "rijndaelKeySetupEnc",
+   "address": "0x021BAFD8",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021BAFD8.c",
+   "compiler": "dsi/../2.0/sp1p2",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021D77D0",
+     "self:0x021D93F8"
+    ]
+   }
+  },
+  {
+   "name": "rijndaelKeySetupDec",
+   "address": "0x021BB290",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021BB290.c",
+   "compiler": "dsi/../2.0/sp1p2",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x021D77F8",
+     "data:0x021D7BF8",
+     "self:0x021D93F8",
+     "self:0x021D97F8",
+     "self:0x021D9BF8"
+    ],
+    "sdk": [
+     "0x021BAFD8"
+    ]
+   }
+  },
+  {
+   "name": "rijndaelEncrypt",
+   "address": "0x021BB420",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021BB420.c",
+   "compiler": "dsi/../2.0/sp1p2",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021D83F8",
+     "self:0x021D87F8",
+     "self:0x021D8BF8",
+     "self:0x021D8FF8",
+     "self:0x021D93F8"
+    ]
+   }
+  },
+  {
+   "name": "rijndaelDecrypt",
+   "address": "0x021BB7DC",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021BB7DC.c",
+   "compiler": "dsi/../2.0/sp1p2",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x021D77F8",
+     "data:0x021D7BF8",
+     "self:0x021D7FF8",
+     "self:0x021D97F8",
+     "self:0x021D9BF8"
+    ]
+   }
+  }
+ ]
+}

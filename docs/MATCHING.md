@@ -343,7 +343,10 @@ its own:
   rule, unchanged. It **accepts** an address only when all three of (a) it
   is in a data section of `layout/layout.json` — a `.word`/`.byte`/`.ascii`
   datum in the listings, or a declared bss range — and neither in a code
-  section nor inside any traced function's extent; (b) it is the **start**
+  section nor inside any traced function's extent (an extent runs over
+  contiguous instructions and ends at its last instruction's real length,
+  the byte count the listing prints, so a Thumb function ending in a 2-byte
+  instruction no longer swallows the datum after it); (b) it is the **start**
   of a known object, meaning a `pool_`/`veneer_`/`d_`/`g_`/`tbl_` label the
   listings carry at exactly that address, a data symbol of
   `layout/symbols_sdk.json`, a `__FILE__` anchor of
@@ -686,7 +689,10 @@ must hold, and each is a separate refusal in `attest_overlay_id()`:
    still holds the loaded value. The walk follows register copies
    (`adds r0, r7, #0`, `mov`) and unconditional `b`, and refuses on a
    conditional branch, an instruction it does not model, a call to anything
-   else, or more than eight steps. The call itself (a `bl`/`blx`, or a pool
+   else, or more than `OVERLAY_ID_WALK` (24) steps. The bound is not evidence,
+   only a stop for a `b` loop; it was 8 until 2026-09-27, when the ov010 main
+   sequence (func_02155478) showed ids 10, 15 and 19 modelled steps from their
+   calls, the record being filled field by field in between. The call itself (a `bl`/`blx`, or a pool
    word that a `bx Rm` jumps through) must have resolved on its own evidence,
    so the loader's identity is independently attested.
 
@@ -703,6 +709,7 @@ The loader table, with how each entry was verified:
 | 0x02031348 | `func_02031348` | r1 | `src/matched/func_02031348.c`, `ldr ip; bx ip` thunk to `func_020314F4` |
 | 0x020312CC | `func_020312CC` | r0 | listing 0x020312CC..0x020312F0 (not matched): `mov r4, r0` ... `mov r1, r4; bl func_020314F4` |
 | 0x020120B4 | `func_020120B4` | r1 | `src/matched/func_020120B4.c`, forwards r1 to `func_02031348` |
+| 0x020124AC | `func_020124AC` | r1 | `src/matched/func_020124AC.c`, stores r1 and calls `func_02034AC4(r1)` |
 
 The witness lies inside the compared range by construction, which the
 honesty rule normally forbids. It is admissible for the reason `local` is:
@@ -1580,7 +1587,7 @@ python tools/match.py idioms --check  # is it stale?
 
 <!-- idioms:begin -->
 
-298 idioms, one file each under `docs/idioms/`.
+299 idioms, one file each under `docs/idioms/`.
 
 - [A live `adc rd, zero, #0` after `adds` is the high word of a 64-bit add, not a 32-bit carry test](idioms/a-64-bit-add-high-word-is-adc-zero.md): `adds rA, rA, rB` / `adc rD, rz, #0` (with `rz` a hoisted zero) is produced by taking `(u32)(((u64)x + y) >> 32)`, i.e. the carry word of a 64-bit addition. The 32-bit overflow test `(x + y) < x` does **not** produce it.
 - [A bitmask complement built from `eors` against -1 instead of `mvns` says the mask is 64 bit](idioms/a-64-bit-complement-is-eors-with-minus-one-not-mvns.md): mwccarm compiles `~x` on a 32 bit value to `mvns`, so a live `movs rN, #3` / `subs rN, rN, #4` / `eors` triple is the low half of a **64 bit** NOT whose high half was dead-code eliminated; the mask is a `long long` even where the field it is applied to is a `u32`, and spelling it `~mask` instead of `mask ^ -1` costs the whole function.
@@ -1817,6 +1824,7 @@ python tools/match.py idioms --check  # is it stale?
 - [a / b and a % b on the same operands are two calls](idioms/div-and-mod-are-two-calls.md): the division helper returns quotient and remainder together but the compiler does not know that, so the original calls it twice in a row with identical arguments.
 - [`x / 8` is `lsrs` but `x % 8` is the full signed sequence, in the same expression on the same `ldrb`](idioms/divide-and-modulo-on-one-u8-field-get-different-signedness.md): mwccarm lowers `/` on a byte load as unsigned and `%` on the same value as signed `int`, so a bare `lsrs #3` next to an `lsls #29` / `subs` / `rors #29` quartet is one expression on one `u8` field; copying the field into a `u32` local first collapses the modulo to `movs #7` / `tst` and loses bytes.
 - [Identical loads written out in both arms are CSE'd and hoisted above the branch](idioms/duplicate-loads-in-both-arms-cse-and-hoist.md): writing the same `*(int *)(a0 + k)` load inline in both arms of an `if`/`else` lets mwcc common-subexpression-eliminate the pair into one load, which the scheduler is then free to hoist between the compare and the branch; binding the load to a local first makes the compiler sink it below the branch, four bytes and a reordering apart.
+- [DWARF lists a function's locals in reverse declaration order](idioms/dwarf-lists-locals-in-reverse-declaration-order.md): when a vendor object carries DWARF, declare the locals in the reverse of the order `sdkobj.py` prints them; the forward order swaps callee-saved registers or stack slots.
 - [A jump table with entries pointing at the exit needs those cases in the source, or there is no table at all](idioms/empty-switch-arms-are-what-make-the-table.md): mwccarm only emits the PC-relative halfword table when the case labels it can see are dense from zero, so a switch whose real arms start at 4 has to carry `case 0` through `case 3` as empty arms; written with only the three real arms it becomes a `cmp`/`beq` chain, eight bytes longer and with every register reallocated.
 - [A __FILE__ argument is an ABS32 into the packed string area, not a local string](idioms/file-string-is-an-abs32-into-the-string-area.md): declare the file-name string as an extern array pinned to its address in the `symbols:` block; writing `__FILE__` puts the string in the object's own rodata and the pool word then points at the wrong place.
 - [Four `lsls #16` / `lsrs #16` pairs on one value are an inlined helper with a `u16` parameter and a `u16` return](idioms/four-shift-pairs-for-one-offset-are-an-inlined-u16-helper.md): a `u16` local truncates once and a redundant `(u16)` cast on it folds away, so a value that is truncated four times in twenty instructions cannot be a `u16` variable at all; it is a `u32` passing through the argument, the parameter, the return value and the result of a small `u16`-shaped helper the compiler inlined, and reproducing it means writing `u32` locals with the cast spelled out at each of the four points.
