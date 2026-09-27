@@ -1,0 +1,33 @@
+/*
+ * function: func_02198DD4
+ * address:  0x02198DD4
+ * packet:   pkt_02198DD4
+ * region:   ov021
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * TwlDWC GHTTP root CA list setter (libdwcghttp / dwc_ghttp.o).
+ * Forwards the URL and this file's CA list to ghttpSetRootCAList and
+ * returns whether it reports success (1).
+ *
+ * symbols:
+ *   func_02198C4C       0x02198C4C  thumb
+ *   DWCca_ghttp_caList  0x021D4A80  data
+ */
+
+typedef int BOOL;
+
+extern int  func_02198C4C(char *url, const void *list);
+extern char DWCca_ghttp_caList[];
+
+BOOL func_02198DD4(char *url)
+{
+    if (func_02198C4C(url, DWCca_ghttp_caList) == 1)
+    {
+        return 1;
+    }
+    return 0;
+}

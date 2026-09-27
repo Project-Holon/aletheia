@@ -1,0 +1,528 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_02060000",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "NHTTP_CleanupAsync",
+   "address": "0x0206074C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/nhttp_cleanupasync.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "NHTTPi_InitRequestInfo",
+   "address": "0x02061DF0",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/nhttpi_initrequestinfo_02061df0.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "ENV_SetResourceSet",
+   "address": "0x0206434C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/env_setresourceset.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "CTRDGi_IsTaskAvailable",
+   "address": "0x0206DB24",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/ctrdgi_istaskavailable.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "DWCi_IsShutdownMatch",
+   "address": "0x02074A54",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/dwci_isshutdownmatch.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "CARDi_LockBusCondition",
+   "address": "0x02075C90",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/cardi_lockbuscondition.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02084E38"
+    ]
+   }
+  },
+  {
+   "name": "CARD_CheckEnabled",
+   "address": "0x02075DB0",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/card_checkenabled.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "CARD_GetRomHeader",
+   "address": "0x02075DEC",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/card_getromheader.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "CARD_GetOwnRomHeaderTWL",
+   "address": "0x02075E04",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/card_getownromheadertwl.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "CARD_UnlockRom",
+   "address": "0x02075E80",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/card_unlockrom.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02084E10"
+    ]
+   }
+  },
+  {
+   "name": "CARDi_ICInvalidateSmart",
+   "address": "0x02076344",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/cardi_icinvalidatesmart.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02086320"
+    ]
+   }
+  },
+  {
+   "name": "FSi_GetOverlayBinarySize",
+   "address": "0x02078CB0",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/fsi_getoverlaybinarysize.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "FS_UnloadOverlayImage",
+   "address": "0x02079254",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/fs_unloadoverlayimage.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02079164"
+    ]
+   }
+  },
+  {
+   "name": "FSi_ROMFAT_GetFileLength",
+   "address": "0x0207A1FC",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/fsi_romfat_getfilelength.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "FSi_ROMFAT_GetFilePosition",
+   "address": "0x0207A218",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/fsi_romfat_getfileposition.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "FSi_ROMFAT_GetArchiveCaps",
+   "address": "0x0207A264",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/fsi_romfat_getarchivecaps.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "FSi_ROMFAT_CloseDirectory",
+   "address": "0x0207A2C8",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/fsi_romfat_closedirectory.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "FS_SetArchiveProc",
+   "address": "0x0207A5A8",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/fs_setarchiveproc.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "FS_GetArchiveBase",
+   "address": "0x0207A78C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/fs_getarchivebase.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "FS_GetArchiveOffset",
+   "address": "0x0207A798",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/fs_getarchiveoffset.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "FS_IsArchiveTableLoaded",
+   "address": "0x0207A7A8",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/fs_isarchivetableloaded.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "FSi_EmptyArchiveProc",
+   "address": "0x0207AAE4",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/fsi_emptyarchiveproc.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "DWC_StartUtilityEx",
+   "address": "0x0207ACB4",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/dwc_startutilityex.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "MTX_RotAxis43",
+   "address": "0x0207B65C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/mtx_rotaxis43.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x0207AF50"
+    ]
+   }
+  },
+  {
+   "name": "GXS_SetGraphicsMode",
+   "address": "0x0207D518",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/gxs_setgraphicsmode.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "G2x_SetBlendAlpha_",
+   "address": "0x0207D63C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/g2x_setblendalpha.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "G3_LoadMtx44",
+   "address": "0x0207D8C4",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/g3_loadmtx44.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02080CA8"
+    ]
+   }
+  },
+  {
+   "name": "G3_LoadMtx43",
+   "address": "0x0207D8E0",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/g3_loadmtx43.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02080C84"
+    ]
+   }
+  },
+  {
+   "name": "G3_MultMtx44",
+   "address": "0x0207D8FC",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/g3_multmtx44.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02080CA8"
+    ]
+   }
+  },
+  {
+   "name": "G3_MultMtx43",
+   "address": "0x0207D918",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/g3_multmtx43.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02080C84"
+    ]
+   }
+  },
+  {
+   "name": "G3_MultMtx33",
+   "address": "0x0207D934",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/g3_multmtx33.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "G3X_SetEdgeColorTable",
+   "address": "0x0207DCF8",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/g3x_setedgecolortable.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "G3X_SetFogTable",
+   "address": "0x0207DD10",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/g3x_setfogtable.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02082B44"
+    ]
+   }
+  },
+  {
+   "name": "G2S_GetBG0ScrPtr",
+   "address": "0x0207DF94",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/g2s_getbg0scrptr.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "G2S_GetBG1ScrPtr",
+   "address": "0x0207DFE8",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/g2s_getbg1scrptr.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "G2S_GetBG0CharPtr",
+   "address": "0x0207E22C",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/g2s_getbg0charptr.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "G2S_GetBG1CharPtr",
+   "address": "0x0207E280",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/g2s_getbg1charptr.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "GXS_BeginLoadBGExtPltt",
+   "address": "0x0207F5B0",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/gxs_beginloadbgextpltt.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "GXS_BeginLoadOBJExtPltt",
+   "address": "0x0207F6A8",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/gxs_beginloadobjextpltt.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  }
+ ]
+}
