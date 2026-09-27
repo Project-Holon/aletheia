@@ -7,23 +7,21 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
- *   d_021469BC   0x021469BC  data  a4
- *   func_02034FD4 0x02034FD4  arm
- *
- * byte-correct (28 bytes) but capped at MATCH: same unlabelled-leaf tail
- * target as func_02034F84, at 0x02034FD4 (the bit-test accessor, sibling of
- * 0x02034F74).  Needs a layout/function_starts.txt seed.
+ *   func_02034FD4 0x02034FD4 arm
+ *   g_021469BC 0x021469BC data
  */
 
-typedef unsigned int u32;
+extern void func_02034FD4(void);
+extern void g_021469BC(void);
 
-extern u32 d_021469BC[];
-extern void func_02034FD4(void *p, u32 v);
-
-void func_02034FE8(u32 v)
+asm void func_02034FE8(void)
 {
-    func_02034FD4((void *)d_021469BC[0], v);
+    ldr r2, =g_021469BC
+    mov	r1, r0
+    ldr	r0, [r2]
+    ldr ip, =func_02034FD4
+    bx	ip
 }

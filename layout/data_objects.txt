@@ -49,10 +49,8 @@
 #                start must also carry a derived row of an accepted kind.
 
 arm9  0x01FF8000  pool         pool word at 0x020049C4 in arm9:000_02004000, pool word at 0x02077160 in arm9:024_02073344, pool word at 0x02077160 in arm9:024_02073438, pool word at 0x02077160 in arm9:024_02073500, pool word at 0x02077160 in arm9:024_02073B3C, pool word at 0x02077160 in arm9:024_020749C4 (+5 more)
-arm9  0x01FF8148  pool         pool word at 0x01FF8144 in arm9:000_01FF8000
 arm9  0x01FF8328  pool         pool word at 0x01FF8368 in arm9:000_01FF8000
 arm9  0x01FF86F9  string       NUL-terminated run of 4 chars, start fixed by the preceding terminator
-arm9  0x01FF87EB  string       NUL-terminated run of 6 chars, start fixed by the preceding terminator
 arm9  0x02004F7C  pool         pool word at 0x02004D4C in arm9:000_02004000
 arm9  0x02004F94  pool         pool word at 0x020049D4 in arm9:000_02004000
 arm9  0x02004FB0  pool         pool word at 0x020049EC in arm9:000_02004000, pool word at 0x02004D40 in arm9:000_02004000
@@ -1455,7 +1453,7 @@ arm9  0x02150FC8  pool         pool word at 0x02084A80 in arm9:026_0207E944, poo
 arm9  0x02150FCC  pool         pool word at 0x02084C10 in arm9:026_0207E944, pool word at 0x02084C10 in arm9:026_0207FBBC, pool word at 0x02084C10 in arm9:027_0207F7A0, pool word at 0x02084C10 in arm9:027_0207FADC, pool word at 0x02084C10 in arm9:027_020808BC, pool word at 0x02084C10 in arm9:027_0208091C (+4 more)
 arm9  0x02150FD0  pool         pool word at 0x02084FC8 in arm9:026_0207FBBC, pool word at 0x02085154 in arm9:026_0207FBBC, pool word at 0x0208519C in arm9:026_0207FBBC, pool word at 0x0208525C in arm9:026_0207FBBC, pool word at 0x02085378 in arm9:026_0207FBBC, pool word at 0x020854CC in arm9:026_0207FBBC (+184 more)
 arm9  0x02150FDC  pool         pool word at 0x02076DFC in arm9:024_02073344, pool word at 0x02076DFC in arm9:024_02073438, pool word at 0x02076DFC in arm9:024_02073500, pool word at 0x02076DFC in arm9:024_02073B3C, pool word at 0x02076DFC in arm9:024_020749C4, pool word at 0x02076DFC in arm9:025_02074758 (+4 more)
-arm9  0x02150FEC  pool         pool word at 0x0207653C in arm9:024_02073344, pool word at 0x0207653C in arm9:024_02073438, pool word at 0x0207653C in arm9:024_02073500, pool word at 0x0207653C in arm9:024_02073B3C, pool word at 0x0207653C in arm9:024_020749C4, pool word at 0x0207653C in arm9:025_02074758 (+161 more)
+arm9  0x02150FEC  pool         pool word at 0x0207653C in arm9:024_02073344, pool word at 0x0207653C in arm9:024_02073438, pool word at 0x0207653C in arm9:024_02073500, pool word at 0x0207653C in arm9:024_02073B3C, pool word at 0x0207653C in arm9:024_020749C4, pool word at 0x0207653C in arm9:025_02074758 (+162 more)
 arm9  0x02150FF0  pool         pool word at 0x0208537C in arm9:026_0207FBBC, pool word at 0x0208537C in arm9:027_0207F7A0, pool word at 0x0208537C in arm9:027_0207FADC, pool word at 0x0208537C in arm9:027_020808BC, pool word at 0x0208537C in arm9:027_0208091C, pool word at 0x0208537C in arm9:027_02080C74 (+4 more)
 arm9  0x02150FFC  pool         pool word at 0x020853A4 in arm9:026_0207FBBC, pool word at 0x020853A4 in arm9:027_0207F7A0, pool word at 0x020853A4 in arm9:027_0207FADC, pool word at 0x020853A4 in arm9:027_020808BC, pool word at 0x02085A2C in arm9:027_020808BC, pool word at 0x020853A4 in arm9:027_0208091C (+14 more)
 arm9  0x021510BC  pool         pool word at 0x02085380 in arm9:026_0207FBBC, pool word at 0x02085380 in arm9:027_0207F7A0, pool word at 0x02085380 in arm9:027_0207FADC, pool word at 0x02085380 in arm9:027_020808BC, pool word at 0x02085380 in arm9:027_0208091C, pool word at 0x02085380 in arm9:027_02080C74 (+4 more)
@@ -1521,7 +1519,7 @@ arm9  0x02153FB0  pool         pool word at 0x02094774 in arm9:029_0208CB10, poo
 arm9  0x02153FB4  pool         pool word at 0x0209D76C in arm9:030_0209028C, pool word at 0x0209D76C in arm9:030_020906E0, pool word at 0x0209D76C in arm9:030_02091054, pool word at 0x0209D76C in arm9:030_02096774, pool word at 0x0209D76C in arm9:030_020969D0, pool word at 0x0209D76C in arm9:030_02097170 (+5 more)
 arm9  0x02153FB8  pool         pool word at 0x0209D770 in arm9:030_0209028C, pool word at 0x0209D770 in arm9:030_020906E0, pool word at 0x0209D770 in arm9:030_02091054, pool word at 0x0209D770 in arm9:030_02096774, pool word at 0x0209D770 in arm9:030_020969D0, pool word at 0x0209D770 in arm9:030_02097170 (+5 more)
 arm9  0x021542B8  pool         pool word at 0x02079250 in arm9:024_020749C4, pool word at 0x02079250 in arm9:025_02074758, pool word at 0x02079250 in arm9:025_020749B4, pool word at 0x02079250 in arm9:025_020751F4, pool word at 0x02079250 in arm9:025_020752A4, pool word at 0x02079250 in arm9:025_02075B28 (+15 more)
-arm9  0x02FE00A0  pool         pool word at 0x0208460C in arm9:026_0207E24C, pool word at 0x0208460C in arm9:026_0207E944, pool word at 0x02084770 in arm9:026_0207E944, pool word at 0x0208460C in arm9:026_0207FBBC, pool word at 0x02084770 in arm9:026_0207FBBC, pool word at 0x0208460C in arm9:027_0207F7A0 (+14 more)
+arm9  0x02FE00A0  pool         pool word at 0x0208460C in arm9:026_0207E24C, pool word at 0x0208460C in arm9:026_0207E944, pool word at 0x02084770 in arm9:026_0207E944, pool word at 0x0208460C in arm9:026_0207FBBC, pool word at 0x02084770 in arm9:026_0207FBBC, pool word at 0x0208460C in arm9:027_0207F7A0 (+15 more)
 
 # hand-declared rows (kept verbatim by tools/datamap.py; see the header)
 arm9  0x02004200  data-decl    TWL wifi configuration register data_02004200

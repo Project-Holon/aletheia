@@ -59,6 +59,7 @@ import subprocess
 import sys
 import tempfile
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
@@ -4976,16 +4977,60 @@ def cmd_manifest(args):
     if args.shard:
         only = {match_shard_id(args.shard, by_shard)}
 
+    force = getattr(args, "force", False)
+    jobs = getattr(args, "jobs", None) or os.cpu_count() or 4
+
+    to_verify = []
     for key, items in sorted(meta.items()):
         if only is not None and key not in only:
             continue
-        for path, header, kind, rel in items:
-            by_shard[key].append(
-                entry_from_source(path, header, kind, rel, verify=args.verify))
+        by_shard[key] = [None] * len(items)
+        region, shard = key
+        sp = shard_path(region, shard)
+        cached_entries = {}
+        if args.verify and not force and os.path.exists(sp):
+            try:
+                smtime = os.path.getmtime(sp)
+                with open(sp, "r", encoding="utf-8") as fh:
+                    doc = json.load(fh)
+                for e in doc.get("functions", []):
+                    if isinstance(e, dict) and e.get("source"):
+                        cached_entries[os.path.normcase(os.path.normpath(e["source"]))] = (smtime, e)
+            except Exception:
+                cached_entries = {}
 
-    written = write_shards(
-        {k: v for k, v in by_shard.items() if only is None or k in only},
-        only=only)
+        for idx, (path, header, kind, rel) in enumerate(items):
+            norm_rel = os.path.normcase(os.path.normpath(rel))
+            if args.verify and not force and norm_rel in cached_entries:
+                smtime, e = cached_entries[norm_rel]
+                if os.path.getmtime(path) <= smtime and e.get("status") in MATCHED_STATUS:
+                    by_shard[key][idx] = e
+                    continue
+            to_verify.append((key, idx, (path, header, kind, rel)))
+
+    def do_work(task):
+        k, idx, (p, h, kd, r) = task
+        entry = entry_from_source(p, h, kd, r, verify=args.verify)
+        return k, idx, entry
+
+    if to_verify:
+        if args.verify and len(to_verify) > 1:
+            with ThreadPoolExecutor(max_workers=min(jobs, len(to_verify))) as ex:
+                for k, idx, entry in ex.map(do_work, to_verify):
+                    by_shard[k][idx] = entry
+        else:
+            for task in to_verify:
+                k, idx, entry = do_work(task)
+                by_shard[k][idx] = entry
+
+    clean_shards = {}
+    for k, v in by_shard.items():
+        if only is not None and k not in only:
+            continue
+        valid_entries = [e for e in v if e is not None and (not args.verify or e.get("status") in MATCHED_STATUS)]
+        if valid_entries:
+            clean_shards[k] = valid_entries
+    written = write_shards(clean_shards, only=only)
 
     total = sum(len(v) for k, v in by_shard.items()
                 if only is None or k in only)
@@ -6642,6 +6687,10 @@ def main(argv=None):
     p3.add_argument("--check", action="store_true",
                     help="report duplicate manifest entries and shard json "
                          "files that shard_files() does not read")
+    p3.add_argument("--force", action="store_true",
+                    help="re-verify all entries even if unchanged on disk")
+    p3.add_argument("-j", "--jobs", type=int, default=os.cpu_count() or 4,
+                    help="parallel verification workers (default: all cores)")
 
     p6 = sub.add_parser("idioms",
                         help="regenerate the docs/idioms index in docs/MATCHING.md")
