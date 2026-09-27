@@ -8,12 +8,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT
+ * status:   EXACT*
  *
- * PENDING, not filed to the manifest -- see converters.c in this same
- * scratchpad for the leak reason (tools/worklist.py's proven_game
- * short-circuit at a layout/runtime_arm9.txt address; no manifest kind
- * exists for hand-written runtime library code).
+ * Filed as manifest kind `runtime` (tools/match.py): each function is
+ * compared at its layout/runtime_arm9.txt row, and worklist.py keeps the
+ * rows out of the game figure.
  *
  * __dadd_dsub's `bmi #0x209ac14` branches backward into the interior of
  * _double_arith_prelude (the double add/sub magnitude-swap and mantissa

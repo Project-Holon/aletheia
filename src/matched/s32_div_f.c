@@ -8,12 +8,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT (each verified independently with match.py one)
+ * status:   EXACT*
  *
- * PENDING, not filed to the manifest -- see converters.c in this same
- * scratchpad for the leak reason (tools/worklist.py's proven_game
- * short-circuit at a layout/runtime_arm9.txt address; no manifest kind
- * exists for hand-written runtime library code).
+ * Filed as manifest kind `runtime` (tools/match.py): each function is
+ * compared at its layout/runtime_arm9.txt row, and worklist.py keeps the
+ * rows out of the game figure.
  *
  * _s32_div_f's own division kernel: `add r2, r2, r2, lsl #1` / `add pc,
  * pc, r2, lsl #2` lands inside a flat run of 32 repeated `adcs r3, r1, r3,

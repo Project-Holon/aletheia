@@ -362,13 +362,26 @@ def load_matched():
     sys.path.insert(0, os.path.join(ROOT, "tools"))
     import match  # noqa: E402
 
+    return cover_from_entries(match.load_manifest_entries(),
+                              match.MATCHED_STATUS)
+
+
+def cover_from_entries(entries, matched_status):
+    """load_matched() over an explicit entry list (the selftest's way in).
+
+    A `runtime` entry (tools/match.py: hand-written library assembly at a
+    layout/runtime_arm9.txt address) lists the runtime rows its compared
+    bytes cover in `covers`, because its members carry vendor names with
+    no address in them.  Its kind is never game, so classify() files every
+    one of those rows under runtime, not matched.
+    """
     cover = {}
-    for ent in match.load_manifest_entries():
+    for ent in entries:
         if ent.get("region") != REGION:
             continue
         # status gate (audit 2026-09-23, finding 4): only a verified shard
         # entry counts; plain `manifest` writes "unverified".
-        if ent.get("status") not in match.MATCHED_STATUS:
+        if ent.get("status") not in matched_status:
             continue
         name = ent.get("name", "")
         kind = ent.get("kind", "")
@@ -379,6 +392,9 @@ def load_matched():
             m = re.search(r"([0-9A-Fa-f]{8})$", member)
             if m:
                 addrs.append((int(m.group(1), 16), member))
+        if kind == "runtime":
+            for c in ent.get("covers", []) or []:
+                addrs.append((int(c, 16), name))
         sole = ((ent.get("evidence") or {}).get("sole-ref")) or []
         for addr, who in addrs:
             cover.setdefault(addr, {"name": who, "entry": name, "kind": kind,
@@ -694,6 +710,53 @@ def parse_all(units):
 # ---------------------------------------------------------------- inventory
 
 
+def classify(fn, matched, sdk, sdk_weak, sdk_ext, runtime):
+    """Set fn["cls"] (sdk > runtime > matched > open) and its name fields.
+
+    Only a `game`/`game_unit` manifest entry proves game code over an SDK or
+    runtime address; a `runtime` entry reproduces a runtime row and leaves it
+    runtime (with matched_name set), so it never reaches the game figure.
+    """
+    addr = fn["addr"]
+    ment = matched.get(addr)
+    proven_game = (ment is not None and ment["kind"] in ("game", "game_unit")
+                   and (addr not in sdk or addr in sdk_weak))
+    if addr in sdk and not proven_game:
+        fn["cls"] = "sdk"
+        fn["sdk_name"] = sdk[addr]
+        if ment is not None:
+            fn["matched_name"] = ment["name"]
+    elif not proven_game and sdk_interior(sdk_ext, addr) is not None:
+        # a label inside a sized SDK symbol: an interior kernel, not a
+        # function (owner decision 2026-09-23, see load_sdk_extents)
+        fn["cls"] = "sdk"
+        fn["sdk_name"] = sdk_interior(sdk_ext, addr)
+        fn["sdk_interior"] = True
+        if ment is not None:
+            fn["matched_name"] = ment["name"]
+    elif addr in runtime and not proven_game:
+        fn["cls"] = "runtime"
+        fn["runtime_name"] = runtime[addr]
+        if ment is not None:
+            fn["matched_name"] = ment["name"]
+    elif addr in matched:
+        fn["cls"] = "matched"
+        fn["matched_name"] = ment["name"]
+        fn["matched_entry"] = ment["entry"]
+        if ment.get("sole_ref"):
+            # the entry that covers this function rests on the weakest
+            # evidence class; the coverage line reports its share apart.
+            fn["sole_ref"] = list(ment["sole_ref"])
+        if ment.get("implied"):
+            fn["matched_implied"] = True
+        if addr in sdk:
+            # libmatch.py put a weak SDK symbol here but match.py has since
+            # proved the bytes are game code; the proof wins.
+            fn["sdk_conflict"] = sdk[addr]
+    else:
+        fn["cls"] = "open"
+
+
 def build_inventory():
     units = load_units()
     sdk = load_sdk_symbols()
@@ -746,44 +809,7 @@ def build_inventory():
 
     # classification
     for fn in funcs:
-        addr = fn["addr"]
-        ment = matched.get(addr)
-        proven_game = (ment is not None and ment["kind"] in ("game", "game_unit")
-                       and (addr not in sdk or addr in sdk_weak))
-        if addr in sdk and not proven_game:
-            fn["cls"] = "sdk"
-            fn["sdk_name"] = sdk[addr]
-            if ment is not None:
-                fn["matched_name"] = ment["name"]
-        elif not proven_game and sdk_interior(sdk_ext, addr) is not None:
-            # a label inside a sized SDK symbol: an interior kernel, not a
-            # function (owner decision 2026-09-23, see load_sdk_extents)
-            fn["cls"] = "sdk"
-            fn["sdk_name"] = sdk_interior(sdk_ext, addr)
-            fn["sdk_interior"] = True
-            if ment is not None:
-                fn["matched_name"] = ment["name"]
-        elif addr in runtime and not proven_game:
-            fn["cls"] = "runtime"
-            fn["runtime_name"] = runtime[addr]
-            if ment is not None:
-                fn["matched_name"] = ment["name"]
-        elif addr in matched:
-            fn["cls"] = "matched"
-            fn["matched_name"] = ment["name"]
-            fn["matched_entry"] = ment["entry"]
-            if ment.get("sole_ref"):
-                # the entry that covers this function rests on the weakest
-                # evidence class; the coverage line reports its share apart.
-                fn["sole_ref"] = list(ment["sole_ref"])
-            if ment.get("implied"):
-                fn["matched_implied"] = True
-            if addr in sdk:
-                # libmatch.py put a weak SDK symbol here but match.py has since
-                # proved the bytes are game code; the proof wins.
-                fn["sdk_conflict"] = sdk[addr]
-        else:
-            fn["cls"] = "open"
+        classify(fn, matched, sdk, sdk_weak, sdk_ext, runtime)
 
     # cross reference graph
     callers = {}     # target addr -> set of source func addrs
@@ -1024,6 +1050,8 @@ def build_document(inv, packets):
     bytes_by = {"sdk": 0, "runtime": 0, "matched": 0, "open": 0}
     sdk_matched = 0
     sdk_matched_bytes = 0
+    runtime_matched = 0
+    runtime_matched_bytes = 0
     sdk_conflicts = []
     for f in funcs:
         counts[f["cls"]] += 1
@@ -1031,6 +1059,9 @@ def build_document(inv, packets):
         if f["cls"] == "sdk" and "matched_name" in f:
             sdk_matched += 1
             sdk_matched_bytes += f["code_bytes"]
+        if f["cls"] == "runtime" and "matched_name" in f:
+            runtime_matched += 1
+            runtime_matched_bytes += f["code_bytes"]
         if "sdk_conflict" in f:
             sdk_conflicts.append(
                 {
@@ -1098,6 +1129,8 @@ def build_document(inv, packets):
             "functions_sdk_also_matched": sdk_matched,
             "code_bytes_sdk_also_matched": sdk_matched_bytes,
             "functions_runtime": counts["runtime"],
+            "functions_runtime_reproduced": runtime_matched,
+            "code_bytes_runtime_reproduced": runtime_matched_bytes,
             "functions_matched": counts["matched"],
             "functions_open": counts["open"],
             "code_bytes_sdk": bytes_by["sdk"],
@@ -1247,6 +1280,11 @@ def print_summary(doc):
     print(
         "  runtime excluded         %6d              %d bytes of code"
         % (s["functions_runtime"], s["code_bytes_runtime"])
+    )
+    print(
+        "    runtime reproduced %d of %d (%d bytes)"
+        % (s.get("functions_runtime_reproduced", 0), s["functions_runtime"],
+           s.get("code_bytes_runtime_reproduced", 0))
     )
     print(
         "  matched so far           %6d              %d bytes of code"

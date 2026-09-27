@@ -29,7 +29,7 @@ import worklist  # noqa: E402
 import ovstats  # noqa: E402
 
 COL = {"matched": "#2f9e5b", "matched2": "#3fb96e", "sole": "#8fd3a8", "open": "#34393b", "open2": "#3d4245",
-       "sdk": "#262b30", "matched_sdk": "#2f8fb0", "runtime": "#3a3629", "matched_runtime": "#8a6d3b",
+       "sdk": "#262b30", "matched_sdk": "#2f8fb0", "runtime": "#3a3629", "matched_runtime": "#e0b020",
        "bg": "#15181a", "line": "#0d0f10",
        "ink": "#e6e9e6", "muted": "#8f978f", "title": "#c9d2c9"}
 

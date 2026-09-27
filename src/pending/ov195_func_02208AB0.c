@@ -1,0 +1,94 @@
+/*
+ * function: func_02208AB0
+ * address:  0x02208AB0
+ * packet:   pkt_02208AB0
+ * region:   ov195
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   MATCH
+ *
+ * blocker: the two calls to 0x0204784C (sites +0x8E, +0x98) stay
+ *   wildcarded. 0x0204784C is an unlabelled ARM leaf in arm9 (an NNS G3d
+ *   style accessor: ldr r0,[r0,#8]; ldr r0,[r0,r1,lsl#2]; ...) that saves no
+ *   lr, so disasm.py never labels it and no class attests it. Every other
+ *   byte is right. Unblock: seed 0x0204784C in layout/function_starts.txt
+ *   (arm) or match that leaf.
+ *
+ * symbols:
+ *   d_02208EC0 0x02208EC0 data
+ *   func_022086C8 0x022086C8 thumb ov195
+ *   func_02047E88 0x02047E88 arm
+ *   func_020489F4 0x020489F4 arm
+ *   func_02048A18 0x02048A18 arm
+ *   func_020477A4 0x020477A4 arm
+ *   func_0204784C 0x0204784C arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+typedef s32 fx32;
+
+typedef struct Node {
+    u16 id;
+    u16 pad02;
+    fx32 tx, ty, tz;
+    fx32 sx, sy, sz;
+    u8 mtx[0x24];
+    u32 f40;
+} Node;
+
+typedef struct Anim {
+    u16 heap;
+    u8 pad02[0x12];
+    void *res;
+    u16 f18;
+    u16 f1a;
+    u16 count;
+    u16 pad1e;
+    Node *nodes;
+    u32 f24;
+    u32 f28;
+} Anim;
+
+extern char d_02208EC0[];
+extern Node *func_022086C8(u16 heap, u16 n);
+extern u16 func_02047E88(void *res, void *name);
+extern u16 func_020489F4(void *res, u16 idx);
+extern void *func_02048A18(void *res, u16 id);
+extern u32 func_020477A4(void *obj, u32 idx);
+extern u32 func_0204784C(void *obj, u32 idx, u32 *out);
+
+void func_02208AB0(Anim *p)
+{
+    u32 x;
+    void *q;
+    u16 i;
+    Node *n;
+    u16 id;
+
+    p->f18 = func_02047E88(p->res, d_02208EC0);
+    p->count = 1;
+    p->nodes = func_022086C8(p->heap, p->count);
+    id = func_020489F4(p->res, p->f18);
+    n = p->nodes;
+    p->f1a = 0;
+    n->id = id;
+    n->tx = 0;
+    n->ty = 0;
+    n->tz = 0;
+    n->f40 = 1;
+    for (i = 0; i < p->count; i++)
+        func_020477A4(func_02048A18(p->res, p->nodes[i].id), 0);
+    p->f24 = 0;
+    q = func_02048A18(p->res, p->nodes[p->f1a].id);
+    x = 0;
+    p->f28 = 0;
+    func_020477A4(q, 1);
+    func_020477A4(q, 2);
+    func_0204784C(q, 1, &x);
+    func_0204784C(q, 2, &x);
+}

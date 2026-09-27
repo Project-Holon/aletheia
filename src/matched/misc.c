@@ -8,12 +8,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT (each verified independently with match.py one)
+ * status:   EXACT*
  *
- * PENDING, not filed to the manifest -- see converters.c in this same
- * scratchpad for the leak reason (tools/worklist.py's proven_game
- * short-circuit at a layout/runtime_arm9.txt address; no manifest kind
- * exists for hand-written runtime library code).
+ * Filed as manifest kind `runtime` (tools/match.py): each function is
+ * compared at its layout/runtime_arm9.txt row, and worklist.py keeps the
+ * rows out of the game figure.
  *
  * _ll_mul: 64x64->64 multiply, `push {r4,r5,lr}` / `pop {r4,r5,lr}; bx lr`
  * rather than `pop {r4,r5,pc}` for a leaf -- one of the dead-prologue tells

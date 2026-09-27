@@ -9,25 +9,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT (each verified independently with match.py one)
+ * status:   EXACT
  *
- * PENDING, not filed to the manifest: this is mwccarm/MSL runtime.a
- * hand-written assembly at addresses layout/runtime_arm9.txt already lists
- * as non-C (rows 0x0209BDBC, 0x0209BE04, 0x0209C494, 0x0209C4C8, 0x0209C508,
- * 0x0209C554, 0x0209B750, 0x0209B790, 0x0209BD38).  Filing a manifest entry
- * of kind "game" here would make tools/worklist.py's classifier compute
- * proven_game = True at these addresses (kind in game/game_unit and address
- * not in symbols_sdk.txt), which short-circuits the `elif addr in runtime`
- * branch (precedence sdk > runtime > matched is written as `elif ... and
- * not proven_game` at each step) and reclassifies the row "matched" instead
- * of "runtime" -- i.e. it leaks into the game coverage figure.
- * tools/match.py's own manifest schema has no third kind for this
- * (MATCHED_KINDS = ("game", "game_unit", "sdk_calibration")), so there is
- * no way to file these as a plain manifest entry without causing that leak
- * under the current classifier.  Left here verified but unfiled; the
- * integrator's call is either a manifest kind for hand-written runtime
- * library code, or an explicit worklist.py exemption for
- * layout/runtime_arm9.txt addresses regardless of manifest kind.
+ * Filed as manifest kind `runtime` (tools/match.py): each function is
+ * compared at its layout/runtime_arm9.txt row, and worklist.py keeps the
+ * rows out of the game figure.
  *
  * Each function below is independently leaf code (no shared bodies, no
  * cross-entry branches), verified with:

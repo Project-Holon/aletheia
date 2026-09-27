@@ -527,3 +527,20 @@ arm9_itcm  0x01FF852C  arm     # MIi_CpuClear32, TwlSDK/libmi mi_memory.o, 20 by
 arm9_itcm  0x01FF8540  arm     # OSi_ReloadRomData, TwlSDK/libos os_reset.o, 448 bytes, symbol-table boundary
 arm9_itcm  0x01FF8700  arm     # OSi_ReadCardRom32, TwlSDK/libos os_reset.o, 212 bytes, symbol-table boundary
 arm9_itcm  0x01FF87D4  arm     # SCFGi_SwitchCpuSpeed, TwlSDK/libscfg scfg_proc.o, 48 bytes, symbol-table boundary
+
+# Tree lanes, 2026-09-27 (tree_ov195, tree_ov010, sdk_arm9 reports).  Thumb
+# leaves and thunks in arm9_main that nothing inside arm9_main branches to;
+# each witness is a Thumb `bl` (not `blx`) in an overlay, so the isa is thumb.
+arm9_main  0x02016020  thumb   # "str r1, [r0, #0x30]; bx lr"; bl from ov195 at 0x022060AE, ov119 at 0x021DC414, ov131 at 0x021D4886, ov180 at 0x021B68C0
+arm9_main  0x02015C78  thumb   # callee of ov195 func_02206274 or func_02205D50 (tree_ov195); bl from ov094 at 0x0220054E, 0x02201068, 0x022011C4
+arm9_main  0x02015EE8  thumb   # callee of ov195 func_02206274 or func_02205D50 (tree_ov195); bl from ov094 at 0x0220135E, 0x022013BA, ov208 at 0x021C5164
+arm9_main  0x02015F0C  thumb   # callee of ov195 func_02206274; bl from ov195 at 0x02206288, ov215 at 0x021F6BC4
+arm9_main  0x02015F14  thumb   # callee of ov195 func_02206274; bl from ov195 at 0x022062A0, ov119 at 0x021E3526, ov215 at 0x021F6BDC
+arm9_main  0x02015F1C  thumb   # callee of ov195 func_02206274; bl from ov195 at 0x02206294, ov215 at 0x021F6BD0
+arm9_main  0x02015F50  thumb   # callee of ov195 func_02206274 or func_02205D50 (tree_ov195); bl from ov094 at 0x021FFDE6, ov117 at 0x021D461A, 0x021D4A3A
+arm9_main  0x0201600C  thumb   # callee of ov195 func_02206274 or func_02205D50 (tree_ov195); bl from ov094 at 0x021FFCD0, ov215 at 0x021F6A88, 0x021F6D80
+arm9_main  0x02013128  thumb   # 16-byte tail thunk to func_0201AC2C, called from ov010 func_02155478 (+0x2E2, untraced there); bl from ov199 at 0x02212E06
+# RtcGetResultCallback, TwlSDK librtc external.o (layout/symbols_sdk.txt),
+# the follower of RtcBCD2HEX; ARM, a callback pointer loaded from
+# pool_02088894, pool_0208893C and pool_020889F0 in asm/arm9/src/028_020855BC.s.
+arm9_main  0x02088EC4  arm     # pool words 0x02088894, 0x0208893C, 0x020889F0; symbol-table boundary

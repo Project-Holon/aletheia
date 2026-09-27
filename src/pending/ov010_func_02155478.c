@@ -15,21 +15,17 @@
  * func_02155244, runs the fade and wireless-sync waits, and tears
  * everything down in states 21 to 23.
  *
- * Byte-correct (1388 bytes, every concrete byte). 86 of 97 relocations
- * resolve; the 11 left are evidence gaps, not C:
- *   - func_02013128 (arm9, Thumb): an unlabelled 16-byte leaf thunk
- *     (tail call to func_0201AC2C); needs a function_starts seed, then
- *     it attests as label.
- *   - ov100_id, ov119_id, ov195_id: the overlay_id walk from the pool
- *     load to func_020120B4 is longer than eight steps (field copies sit
- *     between the load and the call); ov008_id: its loader
- *     func_020124AC (r1, forwards to func_02034AC4, src/matched/
- *     func_020124AC.c) is not in OVERLAY_ID_CONSUMERS.
+ * Byte-correct (1388 bytes, every concrete byte). 91 of 97 relocations
+ * resolve (2026-09-27: func_02013128 by its seed, ov100/ov119/ov195 ids by
+ * the longer overlay_id walk, ov008_id by func_020124AC as a consumer).
+ * The 6 left are evidence gaps, not C:
  *   - d_021D3FE8, d_021BB6A4, d_021F03C4, d_021E75D8, d_02208C40,
- *     d_021B74AC: other overlays' data; the literal class indexes ARM9
- *     pools only, so the outside overlay pool words (for example
- *     0x021F03C4 at ov010 0x0216C970, 0x02208C40 at ov010 0x021713C0)
- *     are not counted.
+ *     d_021B74AC: other overlays' proc data, each paired with the id of
+ *     the overlay that holds it. Every address lies in 2 to 17 overlapping
+ *     overlay windows; the ov010 words naming them sit in untraced code,
+ *     and the only labelled pool words (ov021, ov174) are in overlays that
+ *     cover the address themselves, so no literal witness is sound
+ *     (tools/match.py, comment above _XCALLS).
  * Shape levers that closed it (they also settled the ctx/seq register
  * swap): case 18 writes the fe4 = 0 / (*seq)++ tail in both arms;
  * case 19 writes (*seq)++ in both arms; state 10 writes the

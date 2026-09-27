@@ -7,17 +7,16 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT*
  *
  * symbols:
  *   func_02014B08 0x02014B08 thumb
  *   func_02016020 0x02016020 thumb
  *   func_02015BF0 0x02015BF0 thumb
  *
- * Blocker: 0x02016020 (arm9, Thumb leaf `str r1,[r0,#0x30]; bx lr`, no lr save)
- * has no func_ label and no witness outside this range; every concrete byte
- * is right. Seed 0x02016020 into function_starts (witness site 0x022060AE) or
- * match it as an arm9 leaf, then this file is EXACT.
+ * 0x02016020 (arm9 Thumb leaf `str r1,[r0,#0x30]; bx lr`) resolves as label
+ * since its function_starts seed (2026-09-27). EXACT*: the listing extent
+ * includes the 2 bytes of alignment padding at 0x022060BA.
  */
 
 typedef unsigned short u16;

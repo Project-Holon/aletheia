@@ -1,0 +1,30 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_0209C95C",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "__fsub",
+   "address": "0x0209C95C",
+   "kind": "runtime",
+   "region": "arm9",
+   "source": "src/matched/fsub_fadd.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT*",
+   "functions": [
+    "__fsub",
+    "__fadd"
+   ],
+   "covers": [
+    "0x0209C95C",
+    "0x0209CB8C"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,27 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "ov195",
+ "shard": "pkt_02208478",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "func_02208478",
+   "address": "0x02208478",
+   "kind": "game",
+   "region": "ov195",
+   "source": "src/matched/ov195_func_02208478.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x02208F68"
+    ]
+   }
+  }
+ ]
+}

@@ -676,6 +676,19 @@ def evidence():
 # deliberately NOT admitted: the `literal` class is the weak one, its witness
 # has to be a word disasm.py classified as a literal pool, and widening it to
 # 237 regions would weaken it without closing anything.
+#
+# Re-examined 2026-09-27 for the six unresolved data sites of ov010
+# func_02155478 (0x021D3FE8, 0x021BB6A4, 0x021F03C4, 0x021E75D8, 0x02208C40,
+# 0x021B74AC), and still refused.  An overlay pool word is only a witness for
+# the same object when its region sees the same overlay at the address: the
+# address lies in one overlay window only, or the pool word is in the site's
+# own overlay.  All six addresses lie in 2 to 17 overlapping windows.  The
+# ov010 words naming them (0x0216C970, 0x021713C0, ...) sit in code
+# disasm.py did not trace, so no decoded load makes them pool words; the two
+# labelled pool words (ov021 0x021CB620 -> 0x021BB6A4, ov174 0x021B6C28 ->
+# 0x021B74AC) are in overlays whose own window covers the address, so they
+# name their own objects, not ov100's or ov101's.  A rule with those guards
+# closes none of the six, and one without them accepts wrong answers.
 
 _XCALLS = {}
 
@@ -2011,6 +2024,9 @@ SOLE_REF_DEFAULT_ALIGN = 4
 _DATA_DIRECTIVE_RE = re.compile(
     r"^\s*\.(word|byte|short|hword|2byte|4byte|ascii|asciz|string|space|zero)\b")
 _LINE_ADDR_RE = re.compile(r"/\*\s*([0-9A-Fa-f]{8})[\s*]")
+# The encoding bytes disasm.py prints after the address of an instruction
+# line ("/* 0216FED6  F8 BD */"); their count is the instruction's length.
+_LINE_BYTES_RE = re.compile(r"/\*\s*[0-9A-Fa-f]{8}((?:[ \t]+[0-9A-F]{2}\b)+)")
 _DATA_LABEL_RE = re.compile(
     r"^(pool|veneer|d|g|tbl)_([0-9A-Fa-f]{8}):$")
 
@@ -2597,6 +2613,7 @@ def overlay_data_structure(name):
     if key in _OV_DATA:
         return _OV_DATA[key]
     code, data, starts = set(), set(), set()
+    ilen = {}                   # instruction address -> length in bytes
     pool_refs = defaultdict(list)
     reg = _overlay_region(name)
     base = reg.base if reg is not None else 0
@@ -2647,19 +2664,30 @@ def overlay_data_structure(name):
                             pool_refs[int(mw.group(1), 16)].append(addr)
                 else:
                     code.add(addr)
+                    mb = _LINE_BYTES_RE.search(line)
+                    if mb:
+                        ilen[addr] = len(mb.group(1).split())
                     prev_data = False
                 in_pool = False
     starts |= overlay_declared_starts(name) & data
     import bisect
     all_code = sorted(code)
     extents = []
+    # An extent runs over contiguous instructions and ends where its last
+    # instruction does.  The length is the byte count the listing prints
+    # (2 for most Thumb lines, 4 for ARM and Thumb `bl`); a line without
+    # bytes counts as 4, the old assumption.  Taking every instruction as 4
+    # bytes made a Thumb function that ends in a 2-byte instruction swallow
+    # the first halfword of the data after it (ov010 func_0216FEAC ends in
+    # the `pop` at 0x0216FED6 and was taken to run to 0x0216FEDA, hiding the
+    # rodata word at 0x0216FED8), and let an extent bridge a 2-byte gap.
     for a in sorted(scan_listing(name)):
         i = bisect.bisect_right(all_code, a)
-        end = a
-        while i < len(all_code) and all_code[i] - end <= 4:
-            end = all_code[i]
+        end = a + ilen.get(a, 4)
+        while i < len(all_code) and all_code[i] <= end:
+            end = all_code[i] + ilen.get(all_code[i], 4)
             i += 1
-        extents.append((a, end + 4))
+        extents.append((a, end))
     out = (code, data, starts, extents, pool_refs)
     _OV_DATA[key] = out
     return out
@@ -2998,7 +3026,7 @@ def attest_sole_ref(addr, kind, align=None, lo=0, hi=0,
 # The class never applies to `data`: an entry attests the code it reproduced,
 # not an object some instruction in it happens to load.
 
-MATCHED_KINDS = ("game", "game_unit", "sdk_calibration")
+MATCHED_KINDS = ("game", "game_unit", "sdk_calibration", "runtime")
 MATCHED_STATUS = ("EXACT", "EXACT*")
 
 
@@ -3029,6 +3057,10 @@ def matched_index(entries):
             m = _ADDR_NAME_RE.match(n)
             if m:
                 addrs.append(int(m.group(1), 16))
+        # A runtime entry names its members by vendor name; `covers` holds
+        # the runtime rows its per-function comparisons reproduced.
+        for c in e.get("covers") or []:
+            addrs.append(int(c, 16))
         for a in addrs:
             lst = out.setdefault(a, [])
             if who not in lst:
@@ -3281,7 +3313,16 @@ def attest(addr, kind, lo, hi, src=None, region_hint=None, align=None,
 # every other class, and only for ABS32 data sites, because it needs the
 # function's call sites to be resolved first.
 
-OVERLAY_ID_WALK = 8
+# A bound on the walk, not part of the evidence: every step is decoded and
+# its effect on the id register tracked, and the walk stops on anything it
+# does not model.  8 was too short for the ov010 main sequence
+# (func_02155478), where mwccarm fills a record field by field between the
+# pool load of the id and the call: ov100's id is 19 steps from its call
+# (13 str/ldr to other registers, a `mov`, an `adds r5`, a `b` back to the
+# shared call block, a copy to r3), ov195's 15 and ov119's 10, each step an
+# instruction the walker already models.  The bound only keeps a `b` loop
+# from spinning.
+OVERLAY_ID_WALK = 24
 
 # Callee address -> (name, register the overlay id arrives in, how verified).
 # Every entry was verified by reading the code; the register column is the
@@ -3314,6 +3355,10 @@ OVERLAY_ID_CONSUMERS = {
     # src/matched/func_020120B4.c (EXACT): func_02031348(p->f8, id, a, b)
     # with the caller's r1 passed through.
     0x020120B4: ("func_020120B4", 1, "src/matched/func_020120B4.c"),
+    # src/matched/func_020124AC.c (EXACT): stores its r1 (a1) in the
+    # descriptor and calls func_02034AC4(a1) with it unchanged, so the id
+    # arrives in r1.  Read from the matched source 2026-09-27.
+    0x020124AC: ("func_020124AC", 1, "src/matched/func_020124AC.c"),
 }
 
 _OVERLAY_IDS = {}
@@ -4812,6 +4857,77 @@ def sdk_sites(result):
     return ["0x%08X" % a for a in sorted(out)]
 
 
+# ---------------------------------------------------------------------------
+# the `runtime` manifest kind
+# ---------------------------------------------------------------------------
+#
+# layout/runtime_arm9.txt lists the mwccarm/MSL runtime.a routines (soft
+# float, 64-bit divide, compares): hand-written library assembly, not game
+# C, and tools/worklist.py keeps those rows out of the game figure.  A file
+# under src/matched that reproduces them (asm blocks) is still a real
+# byte-for-byte comparison, but filing it as `game` would make worklist's
+# classifier treat the row as proven game code and count it there.  So an
+# entry whose address is a runtime_arm9.txt row gets kind `runtime`:
+#
+#   * each name in the header's `function:` list must be a runtime_arm9.txt
+#     row; each one the file defines (`asm ... name(`) is compiled and
+#     compared on its own at that row's address, the same comparison
+#     `match.py one` makes, whether or not the header says `unit: yes`
+#     (members of these files are not contiguous, so a unit compare would
+#     be the wrong test);
+#   * `covers` lists every runtime row inside the compared bytes of those
+#     functions (a merged asm body covers the interior entry points it
+#     branches into), and every name in the header must be covered;
+#   * the status is EXACT only when every comparison is EXACT or EXACT*
+#     (EXACT* when any is), else the first failing verdict.
+#
+# worklist.py classifies a `runtime` entry's rows as runtime with a matched
+# name, never as game; the coverage map draws them as matched runtime.
+
+_RUNTIME_ASM_DEF = r"^[ \t]*asm\b[^;{(]*\b%s[ \t]*\("
+
+
+def runtime_entry_status(path, header, addr, flags, lang, region):
+    """(status, covers, note) for a `runtime` kind entry; see above."""
+    rt = runtime_addresses()
+    by_name = dict((n, a) for a, n in rt.items())
+    names = [n.strip() for n in header.get("function", "").split(",")
+             if n.strip()]
+    try:
+        with open(path, "r", errors="replace") as fh:
+            text = fh.read()
+    except OSError:
+        return "CCERR", [], "cannot read %s" % path
+    if not names:
+        return "DIFF", [], "no function: names"
+    for n in names:
+        if n not in by_name:
+            return "DIFF", [], "%s is not a layout/runtime_arm9.txt row" % n
+    if by_name[names[0]] != addr:
+        return "DIFF", [], "address is not the first function's row"
+    covers = set()
+    statuses = []
+    for n in names:
+        if not re.search(_RUNTIME_ASM_DEF % re.escape(n), text, re.M):
+            continue
+        a = by_name[n]
+        r = run_one(path, n, a, header.get("compiler", "1.1p1"),
+                    flags.split(), False, lang, region=region)
+        statuses.append((n, r.status))
+        if r.status in MATCHED_STATUS:
+            covers.update(x for x in rt if a <= x < a + r.size)
+    bad = [(n, st) for n, st in statuses if st not in MATCHED_STATUS]
+    if not statuses:
+        return "DIFF", [], "the file defines none of its functions"
+    if bad:
+        return bad[0][1], sorted(covers), "%s: %s" % bad[0]
+    missing = [n for n in names if by_name[n] not in covers]
+    if missing:
+        return "DIFF", sorted(covers), "not covered: " + ", ".join(missing)
+    star = any(st == "EXACT*" for _n, st in statuses)
+    return ("EXACT*" if star else "EXACT"), sorted(covers), ""
+
+
 def entry_from_source(path, header, kind, rel, verify=False):
     """One manifest entry, optionally recompiled to record a live status."""
     h = header
@@ -4828,11 +4944,20 @@ def entry_from_source(path, header, kind, rel, verify=False):
         thumb = resolve_isa(addr, region,
                             argparse.Namespace(thumb=False, arm=False))
     is_unit = h.get("unit", "").strip().lower() in ("yes", "true", "1")
+    runtime_kind = (kind == "game" and region == "arm9"
+                    and addr in runtime_addresses())
+    if runtime_kind:
+        kind, is_unit = "runtime", False
+    covers = None
     # The header's `status:` is never trusted (audit 2026-09-23, finding 4):
     # without --verify the entry records "unverified", which no coverage
     # reader counts (worklist.load_matched filters on MATCHED_STATUS).
     status = "unverified"
-    if verify:
+    if verify and runtime_kind:
+        status, covers, _note = runtime_entry_status(path, h, addr, flags,
+                                                     lang, region)
+        sole, sdk_ev = [], []
+    elif verify:
         if is_unit:
             r, _tl = run_tu(path, addr, h.get("compiler", "1.1p1"),
                             flags.split(), thumb, lang, region=region)
@@ -4862,6 +4987,10 @@ def entry_from_source(path, header, kind, rel, verify=False):
     }
     if is_unit:
         entry["functions"] = names
+    if runtime_kind:
+        entry["functions"] = names
+        if covers is not None:
+            entry["covers"] = ["0x%08X" % a for a in covers]
     if verify and (sole or sdk_ev):
         entry["evidence"] = {}
         if sole:
@@ -5423,6 +5552,17 @@ OV_CODE_TWICE = 0x02155244
 # pool_02155470 in ov010.  Outside that site's range it is an ov010 object
 # start; with the site inside the range it has no witness left.
 OV_DATA_POOLED = 0x0216FEDC
+# Extent ends (2026-09-27).  ov010 func_0216FEAC is Thumb and ends in the
+# 2-byte `pop {..., pc}` at 0x0216FED6; the rodata word {1, 0} at 0x0216FED8
+# follows it directly and is pooled once, at 0x02155474 inside
+# func_02155328.  ov009 func_02157280 is ARM (last instruction at
+# 0x02157288) and ov009 func_021A3248 is Thumb ending in a 4-byte `bl` at
+# 0x021A328C: their extents must still close 4 bytes after that start.
+OV_EXT_THUMB2 = 0x0216FEAC
+OV_EXT_THUMB2_END = 0x0216FED8
+OV_EXT_ARM, OV_EXT_ARM_END = 0x02157280, 0x0215728C
+OV_EXT_BL, OV_EXT_BL_END = 0x021A3248, 0x021A3290
+OV_EXT_USER_LO, OV_EXT_USER_HI = 0x02155328, 0x02155478   # func_02155328
 OV_DATA_INTERIOR = 0x216fee8   # ov010 data, not a start, no pool referrer
 OV_DATA_POOLED_SITE = 0x02155470
 # 0x021D6338 (src/pending/func_02010AC4.c): ov021's listing starts a block
@@ -6268,6 +6408,37 @@ def cmd_selftest(args):
             else:
                 cache[key] = val
 
+    # --- overlay extents end at the real instruction length (2026-09-27) ---
+    def _ext_end(name, start):
+        for lo_, hi_ in overlay_data_structure(name)[3]:
+            if lo_ == start:
+                return hi_
+        return None
+    _check(res, "ov extent: a Thumb function ending in a 2-byte instruction "
+                "ends 2 bytes after it, not 4",
+           _ext_end("ov010", OV_EXT_THUMB2), OV_EXT_THUMB2_END)
+    _check(res, "ov extent: the word right after it is data again",
+           in_overlay_data("ov010", OV_EXT_THUMB2_END), True)
+    _check(res, "ov extent: its last instruction is still inside the extent",
+           in_overlay_data("ov010", OV_EXT_THUMB2_END - 2), False)
+    _check(res, "ov extent: an ARM function still ends 4 bytes after its "
+                "last instruction",
+           _ext_end("ov009", OV_EXT_ARM), OV_EXT_ARM_END)
+    _check(res, "ov extent: a Thumb function ending in a 4-byte bl still "
+                "ends 4 bytes after it",
+           _ext_end("ov009", OV_EXT_BL), OV_EXT_BL_END)
+    _check(res, "ov extent: the freed word is the first datum after code, "
+                "so the listing's block structure starts an object there",
+           OV_EXT_THUMB2_END in overlay_data_structure("ov010")[2], True)
+    _check(res, "ov extent: and sole-ref/data attests it for the function "
+                "that pools it",
+           (attest(OV_EXT_THUMB2_END, "data", OV_EXT_USER_LO,
+                   OV_EXT_USER_HI) or (None,))[::3],
+           ("sole-ref", "data"))
+    _check(res, "ov extent: its last halfword of code is still refused as "
+                "data",
+           cls(attest_sole_ref_overlay_data(OV_EXT_THUMB2_END - 2, 2)), None)
+
     # --- sole-ref/data and /self for overlay data (2026-09-23) --------------
     _check(res, "ov sole-ref/data: an overlay pool word outside the range "
                 "attests an ov010 object start",
@@ -6438,6 +6609,47 @@ def cmd_selftest(args):
     _check(res, "matched: a kind that is not verified against game bytes is "
                 "refused",
            matched_index([_matched_fixture(kind="note")]), {})
+    _check(res, "runtime kind: a runtime entry's covered rows are matched "
+                "witnesses like a unit's members",
+           sorted(matched_index([dict(_matched_fixture(kind="runtime"),
+                                      functions=["__fsub", "__fadd"],
+                                      covers=["0x0BADF000", "0x0BADF020"])])),
+           [0x0BADF000, 0x0BADF020])
+    try:
+        import worklist as _wl
+        _rt_row = min(runtime_addresses())
+        _ent = {"name": "__rt", "address": "0x%08X" % _rt_row,
+                "kind": "runtime", "region": "arm9", "status": "EXACT",
+                "functions": ["__rt"], "covers": ["0x%08X" % _rt_row]}
+        _cov = _wl.cover_from_entries([_ent], MATCHED_STATUS)
+        _fn = {"addr": _rt_row}
+        _wl.classify(_fn, _cov, {}, set(), [], runtime_addresses())
+        _check(res, "runtime kind: worklist files a runtime entry's row as "
+                    "runtime with a matched name, never as game",
+               (_fn.get("cls"), "matched_name" in _fn), ("runtime", True))
+        _fn2 = {"addr": _rt_row}
+        _wl.classify(_fn2, _wl.cover_from_entries(
+            [dict(_ent, kind="game")], MATCHED_STATUS), {}, set(), {},
+            runtime_addresses())
+        _check(res, "runtime kind: the same row filed as game would enter the "
+                    "game figure, which is why match.py never files it so",
+               _fn2.get("cls"), "matched")
+        _check(res, "runtime kind: an unverified runtime entry covers nothing",
+               _wl.cover_from_entries([dict(_ent, status="unverified")],
+                                      MATCHED_STATUS), {})
+    except ImportError:
+        _check(res, "runtime kind: tools/worklist.py importable", False, True)
+    _rt_hdr = {"address": "0x%08X" % min(runtime_addresses()),
+               "function": runtime_addresses()[min(runtime_addresses())],
+               "region": "arm9", "isa": "arm", "unit": "yes"}
+    _check(res, "runtime kind: a src/matched file at a runtime_arm9.txt row "
+                "is filed as runtime, never game or game_unit",
+           entry_from_source("x.c", _rt_hdr, "game", "src/matched/x.c")["kind"],
+           "runtime")
+    _check(res, "runtime kind: any other arm9 address stays game",
+           entry_from_source("x.c", dict(_rt_hdr, address="0x02008534",
+                                         unit="no", function="sub_02008534"),
+                             "game", "src/matched/x.c")["kind"], "game")
 
     # --- compare(): a wildcarded byte that happens to match is not EXACT --
     # The real case (see sub_02049800 / func_0204982C): an unresolved PC24
@@ -6524,6 +6736,25 @@ def cmd_selftest(args):
                 "refused",
            _resolve_ovid(0x14, code=bytes.fromhex("0148 024B 0020 1847")),
            (False, ""))
+    # The long walk (2026-09-27): `ldr r0, [pc, #0x24]; ldr r3, [pc,
+    # #0x28]`, sixteen `str r1, [r5, #0x64]` (no general register written),
+    # then `bx r3`: 18 steps from the load to the call.
+    _long = "0948 0A4B" + " 6966" * 16 + " 1847 C046"
+    _check(res, "overlay_id: a walk longer than the old 8-step bound, all "
+                "modelled stores, resolves",
+           _resolve_ovid(0x14, code=bytes.fromhex(_long), id_off=0x28,
+                         callee_off=0x2C), (True, "overlay_id"))
+    _check(res, "overlay_id: on the long walk an id register clobbered "
+                "just before the call is still refused",
+           _resolve_ovid(0x14, code=bytes.fromhex(
+               "0948 0A4B" + " 6966" * 15 + " 0020 1847 C046"),
+               id_off=0x28, callee_off=0x2C), (False, ""))
+    _check(res, "overlay_id: a walk past OVERLAY_ID_WALK steps is refused",
+           _resolve_ovid(0x14, code=bytes.fromhex(
+               "1048 114B" + " 6966" * 30 + " 1847 C046"),
+               id_off=0x44, callee_off=0x48), (False, ""))
+    _check(res, "overlay_id: func_020124AC takes the id in r1",
+           OVERLAY_ID_CONSUMERS[0x020124AC][1], 1)
 
     # --- stale split listings ---------------------------------------------
     with tempfile.TemporaryDirectory() as tmp:

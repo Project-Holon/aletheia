@@ -10,10 +10,9 @@
  * isa:      arm
  * status:   EXACT
  *
- * PENDING, not filed to the manifest -- see converters.c in this same
- * scratchpad for the leak reason (tools/worklist.py's proven_game
- * short-circuit at a layout/runtime_arm9.txt address; no manifest kind
- * exists for hand-written runtime library code).
+ * Filed as manifest kind `runtime` (tools/match.py): each function is
+ * compared at its layout/runtime_arm9.txt row, and worklist.py keeps the
+ * rows out of the game figure.
  *
  * IEEE-754 binary32 multiply: `mov ip, #0xff; ands r3, ip, r0, lsr #23`
  * pulls the exponent, `umull r1, r3, r0, r1` builds the 48-bit significand

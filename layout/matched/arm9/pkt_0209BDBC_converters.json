@@ -1,0 +1,44 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_0209BDBC_converters",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "_s32_to_float",
+   "address": "0x0209BDBC",
+   "kind": "runtime",
+   "region": "arm9",
+   "source": "src/matched/converters.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "_s32_to_float",
+    "_u32_to_float",
+    "_f2s",
+    "_f2u",
+    "_d2s",
+    "_d2u",
+    "_s32_to_double",
+    "_u32_to_double",
+    "_f2d"
+   ],
+   "covers": [
+    "0x0209B750",
+    "0x0209B790",
+    "0x0209BD38",
+    "0x0209BDBC",
+    "0x0209BE04",
+    "0x0209C494",
+    "0x0209C4C8",
+    "0x0209C508",
+    "0x0209C554"
+   ]
+  }
+ ]
+}

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * Binds each party slot's list (+0x3c) and party member into the 16-byte
  * slot records at +0x8c, indexed through the position byte at +0x78,
@@ -15,13 +15,9 @@
  * on the first side. The two tables are the unit's rodata copied into
  * locals ({1, 0} at 0x0216FED8, {2, 3, 0, 1} at 0x0216FEDC).
  *
- * Byte-correct. Blocker (tool, not C): the ABS32 to 0x0216FED8 has no
- * witness because overlay_data_structure() in tools/match.py closes each
- * traced extent at last code address + 4, so func_0216FEAC (Thumb, last
- * instruction the 2-byte pop at 0x0216FED6) is taken to run to 0x0216FEDA
- * and swallows the first rodata word; in_overlay_data() then refuses it.
- * With the extent ending at 0x0216FED8 the site is sole-ref/data like
- * 0x0216FEDC and this file is EXACT.
+ * The ABS32 to 0x0216FED8 resolves as sole-ref/data since
+ * overlay_data_structure() ends each extent at its last instruction's real
+ * length (func_0216FEAC ends in the 2-byte pop at 0x0216FED6).
  *
  * symbols:
  *   func_020399A8  0x020399A8  arm

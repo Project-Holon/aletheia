@@ -9,12 +9,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT (each verified independently with match.py one)
+ * status:   EXACT*
  *
- * PENDING, not filed to the manifest -- see converters.c in this same
- * scratchpad for the leak reason (tools/worklist.py's proven_game
- * short-circuit at a layout/runtime_arm9.txt address; no manifest kind
- * exists for hand-written runtime library code).
+ * Filed as manifest kind `runtime` (tools/match.py): each function is
+ * compared at its layout/runtime_arm9.txt row, and worklist.py keeps the
+ * rows out of the game figure.
  *
  * All ten entries are the mrs/msr-apsr float and double comparators: each
  * computes a result and returns it in the condition flags via `mrs ip,

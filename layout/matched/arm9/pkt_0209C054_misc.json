@@ -1,0 +1,30 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_0209C054_misc",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "_ll_mul",
+   "address": "0x0209C054",
+   "kind": "runtime",
+   "region": "arm9",
+   "source": "src/matched/misc.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT*",
+   "functions": [
+    "_ll_mul",
+    "_ll_shl"
+   ],
+   "covers": [
+    "0x0209C054",
+    "0x0209C074"
+   ]
+  }
+ ]
+}
