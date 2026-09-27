@@ -1,0 +1,29 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_0208E5BC",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "WmReceiveFifo",
+   "address": "0x0208E5BC",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/WmReceiveFifo.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021530B8",
+     "self:0x021530CC",
+     "self:0x021530DC"
+    ]
+   }
+  }
+ ]
+}
