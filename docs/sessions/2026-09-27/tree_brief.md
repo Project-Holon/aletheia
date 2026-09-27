@@ -41,3 +41,15 @@ Under 300 words, to the integrator and to docs/sessions/2026-09-27/reports/<lane
 the tree (root and how many functions), per function the verdict and what closed it,
 files written, shards verified, the unfinished remainder as a list for the next lane,
 seeds (unlabelled starts with a witness site), anything the integrator must do.
+
+## Addendum after the first set
+
+- Overlay GAME lanes: skip any root or callee that has a row in layout/symbols_sdk.txt
+  (DWC, GameSpy, crypto, NHTTP and so on). Those belong to the overlay SDK lane, and two
+  lanes writing the same file is a collision. SDK callees already attest through the
+  `sdk` class; treat them as witnesses. `python tools/sdkobj.py --open --region ovNNN`
+  lists open SDK rows if you need to check.
+- `lane.py`'s biggest candidates are often phantoms (code-pointer tables or rodata under a
+  stale label whose first word decodes as a push). Check before descending.
+- tools/sdkobj.py exists: for any SDK callee it prints the vendor object with named
+  relocations and DWARF prototypes, which gives exact callee arity and widths.
