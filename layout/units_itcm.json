@@ -11,24 +11,24 @@
    "file": "asm/arm9/src_itcm/000_01FF8000.s",
    "base": 33521664,
    "size": 876,
-   "functions": 3,
-   "code_bytes": 406
+   "functions": 4,
+   "code_bytes": 738
   },
   {
    "index": 1,
    "file": "asm/arm9/src_itcm/001_01FF836C.s",
    "base": 33522540,
-   "size": 448,
-   "functions": 3,
-   "code_bytes": 408
+   "size": 468,
+   "functions": 4,
+   "code_bytes": 428
   },
   {
    "index": 2,
-   "file": "asm/arm9/src_itcm/002_01FF852C.s",
-   "base": 33522988,
-   "size": 756,
+   "file": "asm/arm9/src_itcm/002_01FF8540.s",
+   "base": 33523008,
+   "size": 736,
    "functions": 3,
-   "code_bytes": 636
+   "code_bytes": 660
   }
  ]
 }

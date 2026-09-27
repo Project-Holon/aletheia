@@ -1,13 +1,25 @@
 /*
  * function: func_01FF8540
  * address:  0x01FF8540
- * packet:   itcm
+ * packet:   pkt_01FF8540
  * region:   arm9_autoload0_ITCM
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ * sdk:      OSi_ReloadRomData, sdk/TwlSDK/lib/ARM9-TS/Rom/libos.TWL.HYB.a
+ *           member os_reset.o (448 bytes, .itcm), declared
+ *           `static asm void OSi_ReloadRomData(BOOL ontwl)` at
+ *           sdk/TwlSDK/build/libraries/os/common/src/os_reset.c:678 -- the
+ *           original is inline assembly, so this is too.  DWARF agrees: no
+ *           locals at all, the sole formal `ontwl` is BOOL=int at fbreg+8,
+ *           and the 106 decoded line rows cover exactly the 106 code words
+ *           0x00..0x1A4 of os_reset.c:680..824, none of the six literal
+ *           words.  The .o matches the game in 443 of 448 bytes; the five
+ *           differences are the low byte of the five `bl` PC24 fields.
+ * symbols:
+ *   func_01FF8700    0x01FF8700  arm
  */
 
 typedef unsigned char u8;

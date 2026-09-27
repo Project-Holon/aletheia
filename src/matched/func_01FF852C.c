@@ -1,13 +1,17 @@
 /*
  * function: func_01FF852C
  * address:  0x01FF852C
- * packet:   itcm
+ * packet:   pkt_01FF852C
  * region:   arm9_autoload0_ITCM
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ * symbols:
+ *   MIi_CpuClear32     0x01FF852C  arm
+ *   OSi_DoBoot         0x01FF8460  arm
+ *   OSi_ReloadRomData  0x01FF8540  arm
  */
 
 typedef unsigned int u32;

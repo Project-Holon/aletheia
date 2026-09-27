@@ -1,7 +1,7 @@
 /*
  * function: func_01FF82A8
  * address:  0x01FF82A8
- * packet:   itcm
+ * packet:   pkt_01FF82A8
  * region:   arm9_autoload0_ITCM
  * compiler: 1.1p1
  * flags:    -O4,p

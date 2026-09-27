@@ -498,3 +498,32 @@ arm9_main  0x0200AD8C  thumb   # lane 17H follower: ldrh at +0xEC getter; bl fro
 arm9_main  0x0200AD94  thumb   # lane 17H follower: strh at +0xEC setter; bl from ov135 at 0x02201CF8, 0x022022B0, 0x02202398
 arm9_main  0x020141E0  thumb   # lane 17H follower: 3-word getter; bl from ov021 at 0x02189348, 0x02189384, 0x021893F8
 arm9_main  0x020141F0  thumb   # lane 17H follower: 3-word setter; bl from ov021 at 0x02189360
+
+# ---------------------------------------------------------------------------
+# arm9_itcm: the DSi-mode ITCM autoload block is one contiguous run of TwlSDK
+# library code.  layout/symbols_sdk.txt (built from the shipped archives in
+# sdk/TwlSDK/lib/ARM9-TS/Rom) lists 11 symbols for it, and their sizes tile
+# 0x01FF8020..0x01FF8804 with no gap and no overlap:
+#
+#     01FF8020 +208 = 01FF80F0  +88  = 01FF8148  +352 = 01FF82A8
+#     01FF82A8 +196 = 01FF836C  +168 = 01FF8414  +76  = 01FF8460
+#     01FF8460 +204 = 01FF852C  +20  = 01FF8540  +448 = 01FF8700
+#     01FF8700 +212 = 01FF87D4  +48  = 01FF8804  (= 0x01FF8020 + 2020)
+#
+# That is stronger evidence for the boundaries than the usual single branch
+# witness, and it is external to this repository: the block is entered through
+# the static-init pointer array, never by a bl from another region, so no
+# instruction in the image names any of these addresses.  0x01FF8020 was
+# already labelled (src/matched/func_01FF8020.c); the other ten had no label,
+# so their extents collapsed into their neighbours and the SDK coverage map
+# could not count them.  isa is as recorded in symbols_sdk.txt.
+arm9_itcm  0x01FF80F0  arm     # OS_IrqHandler, TwlSDK/libos os_irqhandler.o, 88 bytes, symbol-table boundary
+arm9_itcm  0x01FF8148  arm     # OS_IrqHandler_ThreadSwitch, TwlSDK/libos os_irqhandler.o, 352 bytes, symbol-table boundary
+arm9_itcm  0x01FF82A8  arm     # OSi_VerifyStaticSegmentHash, TwlSDK/libos os_reset.o, 196 bytes, symbol-table boundary (isa corrected: the thumb flag in symbols_sdk.txt is wrong, the .itcm section is ARM)
+arm9_itcm  0x01FF836C  arm     # OSi_VerifyStaticSegments, TwlSDK/libos os_reset.o, 168 bytes, os_reset.c:339 (isa corrected, as above)
+arm9_itcm  0x01FF8414  arm     # OSi_DoResetSystem, TwlSDK/libos os_reset.o, 76 bytes, symbol-table boundary
+arm9_itcm  0x01FF8460  arm     # OSi_DoBoot, TwlSDK/libos os_reset.o, 204 bytes, symbol-table boundary
+arm9_itcm  0x01FF852C  arm     # MIi_CpuClear32, TwlSDK/libmi mi_memory.o, 20 bytes, symbol-table boundary
+arm9_itcm  0x01FF8540  arm     # OSi_ReloadRomData, TwlSDK/libos os_reset.o, 448 bytes, symbol-table boundary
+arm9_itcm  0x01FF8700  arm     # OSi_ReadCardRom32, TwlSDK/libos os_reset.o, 212 bytes, symbol-table boundary
+arm9_itcm  0x01FF87D4  arm     # SCFGi_SwitchCpuSpeed, TwlSDK/libscfg scfg_proc.o, 48 bytes, symbol-table boundary

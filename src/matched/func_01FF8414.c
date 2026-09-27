@@ -1,7 +1,7 @@
 /*
  * function: func_01FF8414
  * address:  0x01FF8414
- * packet:   itcm
+ * packet:   pkt_01FF8414
  * region:   arm9_autoload0_ITCM
  * compiler: 1.1p1
  * flags:    -O4,p
@@ -9,32 +9,32 @@
  * isa:      arm
  * status:   EXACT
  * symbols:
- *   GX_GetBankForLCDC 0x02084A28  arm
- *   func_02085D3C     0x02085D3C  arm
- *   func_01FF8540     0x01FF8540  arm
- *   func_01FF836C     0x01FF836C  arm
- *   func_01FF8460     0x01FF8460  arm
+ *   OS_IsResetOccurred        0x02084A28  arm
+ *   OS_IsRunOnTwl             0x02085D3C  arm
+ *   OSi_ReloadRomData         0x01FF8540  arm
+ *   OSi_VerifyStaticSegments  0x01FF836C  arm
+ *   OSi_DoBoot                0x01FF8460  arm
  */
 
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern int GX_GetBankForLCDC(void);
-extern int func_02085D3C(void);
-extern void func_01FF8540(int);
-extern void func_01FF836C(void);
-extern void func_01FF8460(void);
+extern int OS_IsResetOccurred(void);
+extern int OS_IsRunOnTwl(void);
+extern void OSi_ReloadRomData(int);
+extern void OSi_VerifyStaticSegments(void);
+extern void OSi_DoBoot(void);
 
 void func_01FF8414(void)
 {
-    while (!GX_GetBankForLCDC()) {
+    while (!OS_IsResetOccurred()) {
     }
     *(volatile u16 *)0x04000208 = 0;
-    if (func_02085D3C() == 1) {
-        func_01FF8540(1);
-        func_01FF836C();
+    if (OS_IsRunOnTwl() == 1) {
+        OSi_ReloadRomData(1);
+        OSi_VerifyStaticSegments();
     } else {
-        func_01FF8540(0);
+        OSi_ReloadRomData(0);
     }
-    func_01FF8460();
+    OSi_DoBoot();
 }
