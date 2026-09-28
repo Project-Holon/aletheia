@@ -1,0 +1,207 @@
+WmInitCore 0x0208E038 (TwlSDK libwm wm_system.o, static, 640 B): near miss
+============================================================================
+
+2026-09-28, lane sdk_arm9_5.  Every callee attests (matched or sdk class).
+The draft below is 640/640 bytes; everything up to +0x1A0 and the tail
+from +0x240 is identical.  The residue is the two counted loops (port
+callback clear, 16 iterations; fifoBuf priming, 10 iterations):
+
+  original:  i = 0; b test; body: ...; i++; test: cmp i, #N; blt body
+  draft:     body entered directly (the 0 < N entry test is folded)
+
+So the original compiler did not fold the first test of either loop even
+though the counter starts at the constant 0.  Everything else, including
+the register holding the stored NULL (`mov r1, r4` versus `mov r7, r4`),
+follows from that.
+
+Measured, all DIFF with the same shape:
+- for / while / do-while / goto-rotated spellings, int, s32 (long), u16
+  counter, a sizeof-derived bound, the loop moved into a static inline
+  helper: the entry test is folded every time (u16 is worse).
+- -O4,s / -O3,p / -O2 are all further away (136 / 66 / 143 lines).
+- permuter seed 8901, budget 300 (macro-free copy of the draft, the
+  permuter cannot parse the wmInitialized / wm9buf macros): no candidate
+  closer than the hand draft.
+No idiom in the index covers an unfolded constant-start loop entry; it is
+open whether a declaration or pragma in the vendor unit causes it.
+
+Best draft (DIFF, loops only):
+
+typedef unsigned long u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+typedef long s32;
+typedef int BOOL;
+typedef u32 OSIntrMode;
+
+typedef enum WMErrCode {
+    WM_ERRCODE_SUCCESS = 0,
+    WM_ERRCODE_FAILED = 1,
+    WM_ERRCODE_OPERATING = 2,
+    WM_ERRCODE_ILLEGAL_STATE = 3,
+    WM_ERRCODE_WM_DISABLE = 4,
+    WM_ERRCODE_FIFO_ERROR = 8,
+    WM_ERRCODE_MAX = 0x7FFFFFFF
+} WMErrCode;
+
+typedef void (*WMCallbackFunc)(void *arg);
+
+typedef struct WMStatus {
+    u16 state;
+    u8 pad02[0x70];
+    u16 mp_recvBufSize;
+} WMStatus;
+
+typedef struct WMArm9Buf {
+    struct WMArm7Buf *WM7;
+    WMStatus *status;
+    u32 *indbuf;
+    u32 *fifo9to7;
+    u32 *fifo7to9;
+    u16 dmaNo;
+    u16 scanOnlyFlag;
+    WMCallbackFunc CallbackTable[44];
+    WMCallbackFunc indCallback;
+    WMCallbackFunc portCallbackTable[16];
+    void *portCallbackArgument[16];
+    u32 connectedAidBitmap;
+    u16 myAid;
+    u8 reserved1[174];
+} WMArm9Buf;
+
+typedef struct PMiGenCallbackInfo {
+    void (*callback)(void *);
+    void *arg;
+    int priority;
+    struct PMiGenCallbackInfo *next;
+} PMGenCallbackInfo;
+
+/* wm_system.o .bss, addressed section-relative from one pool word */
+typedef struct WmSystemBss {
+    u16 wmInitialized;
+    WMArm9Buf *wm9buf;
+    PMGenCallbackInfo sleepCbInfo;
+} WmSystemBss;
+
+extern WmSystemBss g_02153058;
+#define wmInitialized (g_02153058.wmInitialized)
+#define wm9buf        (g_02153058.wm9buf)
+
+typedef struct OSMessageQueue OSMessageQueue;
+
+extern OSMessageQueue g_02153070;   /* bufMsgQ */
+extern void *g_02153090[10];        /* bufMsg */
+extern u32 g_02153100[10][64];      /* fifoBuf */
+
+extern OSIntrMode OS_DisableInterrupts(void);
+extern BOOL OS_IsRunOnTwl(void);
+extern int NWM_CheckInitialized(void);
+extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
+extern BOOL OS_IsOnVram(void *ptr);
+extern BOOL OS_IsOnExtendedMainMemory(void *ptr);
+extern void PXI_Init(void);
+extern BOOL PXI_IsCallbackReady(int fifotag, int proc);
+extern void DC_InvalidateRange(void *startAddr, u32 nBytes);
+extern void MIi_DmaFill32(u32 dmaNo, void *dest, u32 data, u32 size, BOOL dmaEnable);
+extern void WmClearFifoRecvFlag(void);
+extern void OS_InitMessageQueue(OSMessageQueue *mq, void **msgArray, s32 msgCount);
+extern void DC_StoreRange(void *startAddr, u32 nBytes);
+extern BOOL OS_SendMessage(OSMessageQueue *mq, void *msg, s32 flags);
+extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int, u32, BOOL));
+extern void WmReceiveFifo(int tag, u32 fifo_buf_adr, BOOL err);
+
+WMErrCode WmInitCore(void *wmSysBuf, u16 dmaNo, u32 bufSize)
+{
+    OSIntrMode e;
+
+    e = OS_DisableInterrupts();
+
+    if (OS_IsRunOnTwl()) {
+        if (NWM_CheckInitialized() != 3) {
+            (void)OS_RestoreInterrupts(e);
+            return WM_ERRCODE_ILLEGAL_STATE;
+        }
+    }
+
+    if (wmInitialized) {
+        (void)OS_RestoreInterrupts(e);
+        return WM_ERRCODE_ILLEGAL_STATE;
+    }
+
+    if (wmSysBuf == 0) {
+        (void)OS_RestoreInterrupts(e);
+        return 6;
+    }
+
+    if (OS_IsOnVram(wmSysBuf) || (OS_IsRunOnTwl() && OS_IsOnExtendedMainMemory(wmSysBuf))) {
+        (void)OS_RestoreInterrupts(e);
+        return 6;
+    }
+
+    if (dmaNo > 3) {
+        (void)OS_RestoreInterrupts(e);
+        return 6;
+    }
+
+    if ((u32)wmSysBuf & 0x1F) {
+        (void)OS_RestoreInterrupts(e);
+        return 6;
+    }
+
+    PXI_Init();
+    if (!PXI_IsCallbackReady(10, 1)) {
+        (void)OS_RestoreInterrupts(e);
+        return WM_ERRCODE_WM_DISABLE;
+    }
+
+    DC_InvalidateRange(wmSysBuf, bufSize);
+    MIi_DmaFill32(dmaNo, wmSysBuf, 0, bufSize, 1);
+
+    wm9buf = (WMArm9Buf *)wmSysBuf;
+    wm9buf->WM7 = (struct WMArm7Buf *)((u32)wm9buf + 0x200);
+    wm9buf->status = (WMStatus *)((u32)(wm9buf->WM7) + 0x300);
+    wm9buf->fifo9to7 = (u32 *)((u32)(wm9buf->status) + 0x800);
+    wm9buf->fifo7to9 = (u32 *)((u32)(wm9buf->fifo9to7) + 0x100);
+
+    WmClearFifoRecvFlag();
+
+    wm9buf->dmaNo = dmaNo;
+    wm9buf->connectedAidBitmap = 0;
+    wm9buf->myAid = 0;
+
+    {
+        s32 i;
+
+        for (i = 0; i < 16; i++) {
+            wm9buf->portCallbackTable[i] = 0;
+            wm9buf->portCallbackArgument[i] = 0;
+        }
+    }
+
+    OS_InitMessageQueue(&g_02153070, g_02153090, 10);
+    {
+        s32 i;
+
+        for (i = 0; i < 10; i++) {
+            ((u16 *)(g_02153100[i]))[0] = 0x8000;
+            DC_StoreRange(g_02153100[i], 2);
+            (void)OS_SendMessage(&g_02153070, g_02153100[i], 1);
+        }
+    }
+
+    PXI_SetFifoRecvCallback(10, WmReceiveFifo);
+
+    wmInitialized = 1;
+    (void)OS_RestoreInterrupts(e);
+    return WM_ERRCODE_SUCCESS;
+}
+
+2026-09-28, lane sdk_arm9_5 (relaunch).  The draft above, re-measured,
+compiles to 624 bytes against the original's 640 (both loop entry tests
+folded, so 4 instructions short), not 640/640 as stated above.  Also
+measured, all 624 bytes with folded entries: `s32 i = 0;` then
+`for (; i < N; i++)`, `i = 0;` as a separate statement, `++i`,
+`i <= N - 1`, `N > i`.  In the original, i of the first loop is r4, which
+already holds 0 from the MIi_DmaFill32 data argument (+0x13C) and serves the
+two zero stores before the loop, so the loop's i = 0 is coalesced with that
+register; the folded draft does the same coalescing and still folds.

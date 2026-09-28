@@ -215,3 +215,28 @@ Measured this pass, all DIFF:
   statement, or `(BOOL)WM_ERRCODE_SUCCESS`: 138 lines.
 - function-scope sendFlag declared first, or `WMErrCode result =
   WM_ERRCODE_SUCCESS` at declaration: 3 instructions, unchanged.
+
+2026-09-28, lane sdk_arm9_5 (relaunch, fresh draft pass, still 3 instructions).
+DWARF reading: sdkobj lists locals as the exact reverse of the flattened
+declaration order (checked against WM_StartDataSharing, EXACT), so the list
+is consistent with function scope {result, aid, connectedAIDs, state},
+parent {sendFlag, delayed, {res}}, child {sendFlag, {res, buf}}, and equally
+with a function-scope sendFlag declared after `state` plus a child-block
+sendFlag.  Measured, all DIFF:
+- all 24 legal orders of the child's success block (copy, result, sendFlag,
+  currentSeqNum, readIndex++): best stays 3 instructions (5 orders), others
+  4, 6, 7 or 199.
+- child as `if (state == 4) {...}` then `if (!sendFlag && readIndex !=
+  writeIndex)`: 824 bytes.
+- block-scoped child sendFlag with `result = NO_DATASET` moved into each
+  arm, or the arms swapped (`if (aid != 0)`): 138 / 192 lines.
+- function-scope `sendFlag = 0` plus a redundant `sendFlag = 0` at the
+  child's head: the entry store dies, back to the 138-line shape.
+- one shared function-scope sendFlag (parent re-zeroes it): 3 instructions.
+- function-scope sendFlag declared after `state` with a shadowing child
+  sendFlag, parent using the outer one or its own: 816-832 bytes, 138-200
+  lines.
+Conclusion unchanged: the copy `mov r7, r5` only appears when the child's
+zero is set inside the child's extended basic block, and the entry store
+only appears when it is a function-scope initialiser; no single spelling
+tried gives both.  Permuter not rerun (seed 8301 already spent).

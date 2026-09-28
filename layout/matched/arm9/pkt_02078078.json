@@ -1,0 +1,32 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_02078078",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "FS_NormalizePath",
+   "address": "0x02078078",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/FS_NormalizePath.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x020A84A0"
+    ],
+    "sdk": [
+     "0x02078018",
+     "0x02078834",
+     "0x02078868"
+    ]
+   }
+  }
+ ]
+}
