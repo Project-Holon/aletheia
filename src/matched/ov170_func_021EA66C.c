@@ -1,0 +1,102 @@
+/*
+ * function: func_021EA66C
+ * address:  0x021EA66C
+ * packet:   pkt_ov170_021EA66C
+ * region:   ov170
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021DEFEC 0x021DEFEC thumb
+ *   func_021DD25C 0x021DD25C thumb
+ *   func_021EA878 0x021EA878 thumb
+ *   func_021EF534 0x021EF534 thumb
+ *   func_021EC000 0x021EC000 thumb
+ *   func_021ED164 0x021ED164 thumb
+ *   func_021ED094 0x021ED094 thumb
+ *   func_021ED1C8 0x021ED1C8 thumb
+ *   func_020260E0 0x020260E0 thumb
+ *   func_021EEF74 0x021EEF74 thumb
+ *   func_020260E4 0x020260E4 thumb
+ *   func_021E8FE0 0x021E8FE0 thumb
+ *   func_021E8FC0 0x021E8FC0 thumb
+ *   func_021E0A40 0x021E0A40 thumb
+ */
+
+typedef struct {
+    unsigned char pad0[2];
+    unsigned char pad2[0x26];
+    unsigned short h28;
+} Top;
+
+typedef struct {
+    Top *top;
+    unsigned char pad4[0x13 - 4];
+    unsigned char b13;
+    unsigned char b14;
+    unsigned char pad15;
+    unsigned char b16;
+    unsigned char b17;
+    unsigned char pad18[3];
+    unsigned char b1B;
+    unsigned char lo : 4;
+    unsigned char hi : 4;
+    unsigned char pad1D[0x24 - 0x1D];
+    int x24;
+    int x28;
+    char *work;
+} Obj;
+
+extern unsigned func_021DD25C(Obj *p, unsigned short a, int box, unsigned id, unsigned v);
+extern void func_021EBA5C(char *w, int v);
+extern void func_021DD14C(Obj *p);
+extern void func_021EC000(char *p, int i, int v);
+extern void func_021ED164(char *w, int i, int v);
+extern void func_021ED094(char *w, unsigned item);
+extern void func_021ED1C8(char *w);
+extern void func_021EE038(Obj *p, int a, int b, int c);
+extern int func_021EC01C(char *p, int i);
+extern void func_021ED6E4(Obj *p, int v);
+extern void func_021EC548(unsigned i, short *x, short *y, int mode);
+extern int func_021E8FE0(Obj *p, int v);
+extern int func_021E8FC0(Obj *p, int (*cb)(Obj *), int n);
+extern void func_021EF508(int mgr);
+extern void func_021EF534(int mgr);
+extern void func_021EA728(Obj *p);
+extern void func_021EA878(Obj *p, int v);
+extern void func_021DEFEC(Obj *p, int b);
+extern unsigned char func_020260E0(void *obj);
+extern void func_020260E4(void *obj, unsigned char sel);
+extern void func_021EEF74(char *w, int k, int v);
+extern int func_021E0ABC(Obj *p);
+extern int func_021E0A40(Obj *p);
+
+#define OBJ(p) (*(void **)((p)->work + 0x70))
+#define MGR(p) (*(int *)((p)->work + 0x74))
+#define CNT(p) (*(unsigned short *)((p)->work + 0xA16C))
+
+int func_021EA66C(Obj *p, int i)
+{
+    p->b16 = i;
+    p->b17 = p->b14;
+    p->work[0xA172] = 1;
+    func_021DEFEC(p, p->b16);
+    CNT(p) = func_021DD25C(p, p->b16, p->b14, 6, 0);
+    func_021EA878(p, (short)CNT(p));
+    func_021EF534(MGR(p));
+    if (CNT(p) != 0) {
+        func_021EC000(p->work, 10, 0);
+        func_021ED164(p->work, p->b16, 1);
+        func_021ED094(p->work, CNT(p));
+        func_021ED1C8(p->work);
+        func_021EEF74(p->work, 9, func_020260E0(OBJ(p)));
+        func_020260E4(OBJ(p), 9);
+    } else {
+        func_021EEF74(p->work, 10, func_020260E0(OBJ(p)));
+        func_020260E4(OBJ(p), 10);
+    }
+    return func_021E8FC0(p, func_021E0A40, func_021E8FE0(p, 0x46));
+}
