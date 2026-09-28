@@ -27,3 +27,50 @@ Integrator:
 - 0x021EF90C and 0x021EF948 sit beside SetBottomScreenLineCentered (screen.o) and look like libdwcgscommon. That makes them SDK lane work.
 - ov093 appears to be largely libdwcutil (DWC_StartUtilityEx at 0x021EF8A4). Please check whether its "game" figure is honest.
 - Regenerate the idiom index.
+
+# tree_ov093 report (second lane, 2026-09-28)
+
+## Tree
+
+The root is func_021BDE98 (1184 B, ov093 game). This lane continued the previous lane's "next lane" list under that root, working bottom up. It then took the subtree of func_021C001C (560 B) down to its leaves.
+
+44 functions are filed as EXACT or EXACT\*. The permuter was not used.
+
+## Files
+
+Each file is `src/matched/ov/ov093_func_<addr>.c` with shard `layout/matched/ov093/pkt_ov093_<addr>.json`. Every shard was verified twice, and the second pass rewrote nothing.
+
+EXACT (38): 021BE924 021BE95C 021C0274 021C02CC 021C031C 021C03AC 021C0404 021C0780 021C5480 021C54C8 021C54FC 021C557C 021C5620 021C5D88 021C88E4 021CC8D8 021CD4B0 021CD64C 021D57FC 021D6130 021D61A8 021D61F0 021D6238 021D6F0C 021D732C 021D7360 021D7394 021D73D4 021D7474 021D74F8 021D7540 021D75EC 021D7630 021D77C4 021D7B8C 021D7D18 021E02DC 021E0354
+
+EXACT\* (6): 021C03D8 021C5604 021D62D8 021D7AF0 021E03E8 021E8AFC
+
+New idiom: `docs/idioms/a-varargs-anchor-reloaded-from-its-home-slot-is-a-volatile-parameter.md`.
+
+## Levers that closed functions
+
+- **021CD4B0:** a `volatile` last named parameter in a variadic function (the new idiom above). Its sibling 021CD64C is variadic with a `u8` anchor.
+- **021C5620:** a struct-returning callee (`struct Slot func_021D6314`) forces the 8-byte frame.
+- **021D732C, 021D7394, 021D73D4:** dropping the overlay token on the contested `data_021F3CB0` line lets the relocation attest.
+- **021D7540:** a post-increment store, `keys[i++] = 0`.
+- **021D6F0C:** the `if (n != 0) { ... } return 0;` shape, plus the order of the key store.
+- **021E02DC:** a `u16` key parameter.
+
+Several shared layouts were recovered from the code:
+
+- The priority list node and its pool (`data_021F3CB0`).
+- The `g_021F3ECC` key/value stack.
+- The slot-kind union at `+0x1C`.
+- The `0x1D74` lock word.
+
+The ints 3985/3987, 4000/4004 and 5537/5544 passed to the lock/stack calls look like debug `__LINE__` arguments.
+
+## Next lane (still open under the root)
+
+- **Callees of func_021C001C:** 021C0450 (208 B) and 021C0520 (608 B). 021C0450's callees include 021C63D0, 021C4F64, 021BC2B0, 021C5C1C and 021C6564.
+- **func_021C001C itself.** It also calls 021EF948: sdkclass calls it game, but it sits beside libdwcgscommon, so an SDK lane should check it.
+- **func_021BEC58** (916 B), then the root 021BDE98.
+
+## Integrator
+
+- The Thumb-to-ARM `bx pc` veneers at 021C54AC and 021C5698 (target 0x0689D5C9) remain open as "game" code. The callers attest them as sole-ref.
+- Regenerate the idiom index.
