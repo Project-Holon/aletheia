@@ -9,7 +9,7 @@
   {
    "name": "OS_SPrintf",
    "address": "0x02084F40",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_02084F40.c",
    "compiler": "dsi/1.1p1",
@@ -17,6 +17,7 @@
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
+   "compared_bytes": 40,
    "evidence": {
     "sdk": [
      "0x02084F68"

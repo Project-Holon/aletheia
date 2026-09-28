@@ -9,7 +9,7 @@
   {
    "name": "func_02087AE4",
    "address": "0x02087AE4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_02087AE4.c",
    "compiler": "dsi/1.1p1",
@@ -21,7 +21,7 @@
   {
    "name": "func_02087FBC",
    "address": "0x02087FBC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_02087FBC.c",
    "compiler": "dsi/1.1p1",
@@ -38,7 +38,7 @@
   {
    "name": "func_0208B8B0",
    "address": "0x0208B8B0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0208B8B0.c",
    "compiler": "dsi/1.1p1",
@@ -53,28 +53,48 @@
    }
   },
   {
+   "name": "OS_SPrintf",
+   "address": "0x0208CF34",
+   "kind": "sdk",
+   "region": "arm9",
+   "source": "src/matched/arm9_sdk/func_0208CF34.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "compared_bytes": 40,
+   "evidence": {
+    "sdk": [
+     "0x0208CFD8"
+    ]
+   }
+  },
+  {
    "name": "STD_TSPrintf",
    "address": "0x0208D7E0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0208D7E0.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "compared_bytes": 44
   },
   {
    "name": "OS_SNPrintf",
    "address": "0x0208D80C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0208D80C.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "compared_bytes": 40
   }
  ]
 }

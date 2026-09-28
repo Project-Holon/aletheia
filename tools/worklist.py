@@ -263,16 +263,24 @@ def load_sdk_extents():
     return out
 
 
-def sdk_interior(extents, addr):
-    """name+offset when addr lies strictly inside an SDK symbol's extent."""
+def sdk_interior_parent(extents, addr):
+    """(start, end, name) of the sized SDK symbol addr lies strictly inside."""
     import bisect
     pos = bisect.bisect_right(extents, (addr, 1 << 40, "")) - 1
     if pos < 0:
         return None
     start, end, name = extents[pos]
     if start < addr < end:
-        return "%s+0x%X" % (name, addr - start)
+        return start, end, name
     return None
+
+
+def sdk_interior(extents, addr):
+    """name+offset when addr lies strictly inside an SDK symbol's extent."""
+    parent = sdk_interior_parent(extents, addr)
+    if parent is None:
+        return None
+    return "%s+0x%X" % (parent[2], addr - parent[0])
 
 
 def load_runtime_symbols():
@@ -414,9 +422,19 @@ def cover_from_entries(entries, matched_status):
             for c in ent.get("covers", []) or []:
                 addrs.append((int(c, 16), name))
         sole = ((ent.get("evidence") or {}).get("sole-ref")) or []
+        own = int(ent["address"], 16) if ent.get("address") else None
         for addr, who in addrs:
-            cover.setdefault(addr, {"name": who, "entry": name, "kind": kind,
-                                    "sole_ref": list(sole)})
+            rec = cover.setdefault(addr, {"name": who, "entry": name,
+                                          "kind": kind,
+                                          "sole_ref": list(sole)})
+            # the entry's own address: its status, and the compared length
+            # when it runs past the next listing label (tools/match.py
+            # entry_from_source); classify() credits an SDK interior label
+            # only from these two.
+            if addr == own and rec["entry"] == name and "status" not in rec:
+                rec["status"] = ent.get("status")
+                if ent.get("compared_bytes"):
+                    rec["compared_bytes"] = int(ent["compared_bytes"])
         # `sole` items are "<subkind>:0xADDRESS" since the 2026-09-21
         # sole-ref widening (tools/match.py sole_ref_sites()); a shard
         # written before that widening carries the bare "0xADDRESS" the
@@ -752,6 +770,18 @@ def classify(fn, matched, sdk, sdk_weak, sdk_ext, runtime):
         fn["sdk_interior"] = True
         if ment is not None:
             fn["matched_name"] = ment["name"]
+        else:
+            # Credit the label to its parent only when the parent's EXACT or
+            # EXACT* entry compared bytes past the label: the entry records
+            # compared_bytes only when the compiled length ran past the next
+            # listing label (owner decision 2026-09-28).
+            start, _end, pname = sdk_interior_parent(sdk_ext, addr)
+            pent = matched.get(start)
+            if (pent is not None
+                    and pent.get("status") in ("EXACT", "EXACT*")
+                    and start + int(pent.get("compared_bytes") or 0) > addr):
+                fn["matched_name"] = "%s+0x%X" % (pname, addr - start)
+                fn["matched_interior"] = True
     elif addr in runtime and not proven_game:
         fn["cls"] = "runtime"
         fn["runtime_name"] = runtime[addr]

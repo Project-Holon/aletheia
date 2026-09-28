@@ -480,6 +480,24 @@ def target_extent(addr, region):
     return size, thumb
 
 
+_LABEL_ORDER = {}
+
+
+def next_listing_label(addr, region):
+    """The first listing label strictly after addr, or None.
+
+    Unlike target_extent() this answers for an address that is not itself a
+    listing label (an SDK entry whose first word disasm.py wrote as data and
+    whose label it put on the second instruction).
+    """
+    import bisect
+    order = _LABEL_ORDER.get(region)
+    if order is None:
+        order = _LABEL_ORDER[region] = sorted(scan_listing(region))
+    pos = bisect.bisect_right(order, addr)
+    return order[pos] if pos < len(order) else None
+
+
 # ---------------------------------------------------------------------------
 # symbol addresses
 # ---------------------------------------------------------------------------
@@ -5668,6 +5686,17 @@ def entry_from_source(path, header, kind, rel, verify=False):
                  (" -thumb" if thumb else "") + " -lang " + lang,
         "status": status,
     }
+    # The compared length, only when it runs past the listing extent (the
+    # next listing label after the address, which need not itself be a
+    # label): run_one() compares the compiled function's full length at its
+    # address, so the bytes past that label (interior labels of one vendor
+    # symbol) are verified too, and worklist.py credits such a label only
+    # when this field covers it (owner decision 2026-09-28).  An entry whose
+    # compared bytes stop at or before the next label records nothing.
+    if verify and not is_unit and not runtime_kind and r.size:
+        nxt = next_listing_label(addr, find_region(addr, region).name)
+        if nxt is not None and addr + r.size > nxt:
+            entry["compared_bytes"] = r.size
     if is_unit:
         entry["functions"] = names
     if runtime_kind:
@@ -7399,6 +7428,40 @@ def cmd_selftest(args):
         _check(res, "runtime kind: an unverified runtime entry covers nothing",
                _wl.cover_from_entries([dict(_ent, status="unverified")],
                                       MATCHED_STATUS), {})
+
+        # SDK interior label (owner decision 2026-09-28): credited to its
+        # parent only when the parent's EXACT/EXACT* entry compared bytes
+        # past the label (compared_bytes, written by entry_from_source).
+        _pext = [(0x0BADF000, 0x0BADF100, "SDK_Parent")]
+        _pent = {"name": "SDK_Parent", "address": "0x0BADF000",
+                 "kind": "sdk", "region": "arm9", "status": "EXACT",
+                 "compared_bytes": 0x100}
+
+        def _interior(ent, label=0x0BADF040):
+            f = {"addr": label}
+            cov = _wl.cover_from_entries([ent], MATCHED_STATUS)
+            _wl.classify(f, cov, {}, set(), _pext, {})
+            return (f.get("cls"), f.get("matched_name"),
+                    f.get("matched_interior", False))
+        _check(res, "sdk interior: a label the parent's EXACT entry compared "
+                    "past is credited to the parent",
+               _interior(_pent), ("sdk", "SDK_Parent+0x40", True))
+        _check(res, "sdk interior: an EXACT* parent credits it the same way",
+               _interior(dict(_pent, status="EXACT*")),
+               ("sdk", "SDK_Parent+0x40", True))
+        _check(res, "sdk interior: a compared range that stops at the label "
+                    "leaves it open",
+               _interior(dict(_pent, compared_bytes=0x40)),
+               ("sdk", None, False))
+        _check(res, "sdk interior: a parent entry with no compared_bytes "
+                    "leaves it open",
+               _interior({k: v for k, v in _pent.items()
+                          if k != "compared_bytes"}), ("sdk", None, False))
+        _check(res, "sdk interior: an unverified parent leaves it open",
+               _interior(dict(_pent, status="unverified")),
+               ("sdk", None, False))
+        _check(res, "sdk interior: a MATCH parent leaves it open",
+               _interior(dict(_pent, status="MATCH")), ("sdk", None, False))
     except ImportError:
         _check(res, "runtime kind: tools/worklist.py importable", False, True)
     _rt_hdr = {"address": "0x%08X" % min(runtime_addresses()),
