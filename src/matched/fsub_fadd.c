@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: __fsub, __fadd
+ * function: __fadd, __fsub
  * address:  0x0209C95C
  * packet:   pkt_0209C95C
  * region:   arm9
@@ -14,20 +14,23 @@
  * compared at its layout/runtime_arm9.txt row, and worklist.py keeps the
  * rows out of the game figure.
  *
- * __fadd's third instruction is `bmi #0x209c968`, a backward displacement
- * branch into the interior of __fsub after flipping the sign bit of the
+ * __fsub's third instruction is `bmi #0x209c968`, a backward displacement
+ * branch into the interior of __fadd after flipping the sign bit of the
  * second operand -- the exact "branch into another entry's interior" shape
  * documented for this library, so the two are filed as one asm function;
- * __fadd is kept as a label inside it for documentation.
+ * __fsub is kept as a label inside it for documentation.  0x0209C95C is
+ * the add (equal signs fall into `adds r0, r0, r1' at 0x0209C9B4) and
+ * 0x0209CB8C the subtract (`subs r0, r0, r1' at 0x0209CBE8); the two names
+ * were filed the other way round until 2026-09-28.
  *
  * Verified with:
- *   python tools/match.py one --src <this file> --func __fsub --addr
+ *   python tools/match.py one --src <this file> --func __fadd --addr
  *     0x0209C95C --cc 1.1p1 --arm
  */
 
-asm void __fsub(void)
+asm void __fadd(void)
 {
-__fsub:
+__fadd:
     eors r2, r0, r1
     eormi r1, r1, #0x80000000
     bmi L_0209CB98
@@ -185,7 +188,7 @@ L_0209CB70:
     eor r0, r0, r1
     eor r1, r0, r1
     eor r0, r0, r1
-__fadd:
+__fsub:
     eors r2, r0, r1
     eormi r1, r1, #0x80000000
     bmi L_0209C968

@@ -45,6 +45,10 @@
  *     frame comes out `sub sp, #0x68' instead of `sub sp, #0x80' and
  *     nothing else differs, so the 24 extra bytes are real declared
  *     storage above 0x5c that this function never reads back.
+ *   - the wrap-around is `h += 360.0f': 0x0209C95C is the soft-float
+ *     add.  `h = h + 360.0f' puts the constant first (see docs/idioms/
+ *     a-soft-float-add-puts-the-constant-first-unless-it-is-a-compound-
+ *     assignment.md) and no longer matches.
  *   - declaration order is stack order: rgb highest, then hsv, a, b,
  *     basis, out, t0, t1.  Any other order shifts every sp offset.
  *
@@ -54,7 +58,7 @@
  *   _ffixu         0x0209C4C8  arm
  *   _fls           0x0209BC74  arm
  *   _fmul          0x0209C77C  arm
- *   _fsub          0x0209C95C  arm
+ *   _fadd          0x0209C95C  arm
  *   data_0209DF84  0x0209DF84  data
  *   data_0209DF90  0x0209DF90  data
  *   func_02011610  0x02011610  thumb
@@ -117,13 +121,13 @@ void func_02011B8C(void *dst, void *ctx)
     v = hsv[2] / 4096.0f;
 
     while (h < 0.0f) {
-        h = h - 360.0f;
+        h += 360.0f;
     }
     while (s < 0.0f) {
-        s = s - 360.0f;
+        s += 360.0f;
     }
     while (v < 0.0f) {
-        v = v - 360.0f;
+        v += 360.0f;
     }
 
     ch = (u16)(u32)(65535.0f * (h / 360.0f));

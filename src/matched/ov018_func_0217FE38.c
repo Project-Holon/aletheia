@@ -7,11 +7,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * blocker:  +002C THM_CALL 0x02175368 has no witness: it is an unlabelled Thumb leaf in ov011
- *           (movs r1,#0x57; lsls r1,#2; adds r0,r1; tail call 0x02082BCC(p+0x15C, 0, 4))
- *           with no other branch in the image. Seed 0x02175368 in function_starts.txt
- *           (ov011) and this closes as EXACT (sole-ref/code with the ov011 token).
+ * status:   EXACT*
+ * note:     the call to 0x02175368 attests through src/matched/ov011_func_02175368.c
+ *           (seeded in function_starts.txt). The star is the two bytes of
+ *           alignment padding before func_0217FE6C, not a byte difference.
  * symbols:
  *   func_0217F4C4  0x0217F4C4  thumb
  *   func_0217F318  0x0217F318  thumb

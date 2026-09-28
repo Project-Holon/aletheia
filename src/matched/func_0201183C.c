@@ -29,8 +29,8 @@
  * (f30 gates f24, f2c gates f20, f28 gates f1c), then freed; s->f14 = q >> 12.
  *
  * Levers (wave 10), each measured; together 631 bytes out -> EXACT:
- *  - THE SOFT-FLOAT NAMES ARE SWAPPED in layout/runtime_arm9.txt: 0x0209C95C
- *    is _fadd and 0x0209CB8C is _fsub.  With them declared that way the
+ *  - 0x0209C95C is _fadd and 0x0209CB8C is _fsub (layout/runtime_arm9.txt
+ *    had them swapped until 2026-09-28).  With them declared that way the
  *    plain SDK macro `x > 0 ? x*4096.0f + .5f : x*4096.0f - .5f` reproduces
  *    both arms, including the (0.5, prod) / (prod, 0.5) argument orders.
  *  - the conversion is a MACRO over `f[k + j]`, not an inline function, and

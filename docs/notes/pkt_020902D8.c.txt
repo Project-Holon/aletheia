@@ -197,3 +197,21 @@ WMErrCode WM_StepDataSharing(WMDataSharingInfo *dsInfo, u16 *sendData, WMDataSet
     }
     return result;
 }
+
+2026-09-28, lane sdk_arm9_5 (fresh look, still 3 instructions).
+Reading of the residue: in the original, r5 = 0 at entry and fp = 1 at
+entry are both hoisted constants.  fp is used as a constant register all
+through (state = 1, prio 1, `rsb r1, fp, #0x10000` for 0xFFFF, `movne r0,
+fp` and `movne r7, fp` for WM_ERRCODE_FAILED), and the child's
+`mov r7, r5` is result = WM_ERRCODE_SUCCESS copied out of the constant-0
+register, exactly like the fp copies.  The child's sendFlag then shares r5
+with that constant (the parent re-zeroes r5 itself with `mov r5, #0`).
+So the source question is what makes 1.1p1 hoist the constant 0 into a
+callee-saved register at entry when its only uses are in the child arm.
+Measured this pass, all DIFF:
+- child sendFlag block-scoped with `= 0` (the DWARF shape; DWARF lists the
+  child block's buf, res, sendFlag first): 138 lines, init at the child.
+- same, with `result = (WMErrCode)sendFlag`, with the init as a separate
+  statement, or `(BOOL)WM_ERRCODE_SUCCESS`: 138 lines.
+- function-scope sendFlag declared first, or `WMErrCode result =
+  WM_ERRCODE_SUCCESS` at declaration: 3 instructions, unchanged.

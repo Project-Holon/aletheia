@@ -20,8 +20,8 @@
  * The rounding is the SDK FX_F32_TO_FX32 shape applied to an integer
  * (x * 4096 is an int multiply, converted for the +-0.5f). mwccarm calls
  * the add helper (0x0209C95C) as _fadd and the subtract helper
- * (0x0209CB8C) as _fsub, the naming most matched files already use;
- * layout/runtime_arm9.txt lists the two the other way round.
+ * (0x0209CB8C) as _fsub, as layout/runtime_arm9.txt now does (swapped
+ * there until 2026-09-28).
  */
 
 typedef unsigned char u8;

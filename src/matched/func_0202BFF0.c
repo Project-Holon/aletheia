@@ -13,7 +13,7 @@
  *   _ffltu  0x0209BE04  arm
  *   _fdiv   0x0209CE10  arm
  *   _fmul   0x0209C77C  arm
- *   _fadd   0x0209CB8C  arm
+ *   _fsub   0x0209CB8C  arm
  *   _f2s    0x0209C494  arm
  *
  * The record's active window: while +0x12 exceeds the running +0x14 counter,
@@ -35,7 +35,7 @@
  * docs/idioms/a-compound-assignment-on-a-field-flips-the-guards-register-pair.md.
  *
  * The soft-float helpers are MSL/runtime.a's; this front end names them
- * _ffltu, _fdiv, _fmul, _fadd and _f2s, which is what the relocations carry.
+ * _ffltu, _fdiv, _fmul, _fsub and _f2s, which is what the relocations carry.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_0202BFF0.c \
@@ -61,7 +61,7 @@ extern void  func_02005F24(u32 id, int value);
 extern float _ffltu(u32 v);
 extern float _fdiv(float a, float b);
 extern float _fmul(float a, float b);
-extern float _fadd(float a, float b);
+extern float _fsub(float a, float b);
 extern int   _f2s(float a);
 
 void func_0202BFF0(struct Obj *o)
@@ -81,7 +81,7 @@ void func_0202BFF0(struct Obj *o)
     id = o->f10;
     if (id != 0) {
         func_02005F24(id, _f2s(_fmul(127.0f,
-                                      _fadd(1.0f,
+                                      _fsub(1.0f,
                                             _fdiv(_ffltu(o->f14),
                                                   _ffltu(o->f12))))));
     }

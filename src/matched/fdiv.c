@@ -19,7 +19,7 @@
  * `sub r0, pc, #0x94` / `ldrb r1, [r0, lr, lsr #15]` addresses a
  * reciprocal-seed table as a negative pc-relative displacement -- the
  * table itself starts at 0x0209CDC4, inside the *preceding* routine's own
- * extent (__fsub/__fadd, already filed), but it is 256 bytes long and its
+ * extent (__fadd/__fsub, already filed), but it is 256 bytes long and its
  * back half (0x0209CEC4..0x0209CFC4, 64 words) sits inside __fdiv's own
  * extent, between two stretches of real code.  mwccarm addresses static
  * data through a literal pool word with an ABS32 relocation; it never

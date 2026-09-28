@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   func_02015FBC  0x02015FBC  thumb
@@ -17,10 +17,8 @@
  *   func_02015CAC  0x02015CAC  thumb
  *   func_02015F50  0x02015F50  thumb
  *
- * MATCH: every concrete byte right. Blocker: the call to 0x02015FBC, an
- * unlabelled arm9 Thumb leaf (push {r3,r4}; byte insert at +0x140; no lr
- * save, so disasm.py never traced it) with no witness outside this range.
- * Seed 0x02015FBC (or match it in an arm9 lane) and this closes.
+ * The call to 0x02015FBC (arm9 byte insert at +0x140) attests through
+ * src/matched/func_02015FBC.c, seeded in layout/function_starts.txt.
  *
  * Addresses are Black-image addresses.
  */

@@ -28,9 +28,10 @@
  *
  * What it does.  Publishes the cell actor's two coordinate pairs into the
  * render state.  Each s16 field is converted with the same inlined helper:
- * the fixed-point value `v << 12` is turned into a float and offset by half,
- * `0.5f - (f32)(v << 12)` for a positive v and `(f32)(v << 12) + 0.5f`
- * otherwise, then truncated back to s32 by the soft-float runtime.  The
+ * the fixed-point value `v << 12` is turned into a float and rounded half
+ * away from zero, `(f32)(v << 12) + 0.5f` for a positive v and
+ * `(f32)(v << 12) - 0.5f` otherwise, then truncated back to s32 by the
+ * soft-float runtime.  The
  * second pair is published only when the 2-bit field at 0x60 bits 18-19 is
  * set, is followed by a scale (func_020664CC, 0x1000 == FX32_ONE) and a
  * rotation read as a pair of s16 from the table at 0x020A1B38 indexed by
@@ -38,11 +39,12 @@
  * trailing switch on +0x68 picks the draw path; case 0 splits again on bit 0
  * of +0x64.
  *
- * The `+=` in the helper's second arm is load-bearing: written
- * `(f32)(v << 12) + 0.5f` mwccarm canonicalises the commutative add so the
- * constant becomes the first operand and the call is `__fadd(0.5f, t)`,
- * three instructions instead of two.  See
+ * The add in the first arm is the expression form: mwccarm canonicalises the
+ * commutative add so the constant becomes the first operand and the call is
+ * `_fadd(0.5f, t)`, which is what the image has.  See
  * docs/idioms/a-soft-float-add-puts-the-constant-first-unless-it-is-a-compound-assignment.md
+ * (this file was matched earlier as `0.5f - t' / `t += 0.5f' against swapped
+ * _fsub/_fadd addresses; 0x0209C95C is the add, 0x0209CB8C the subtract).
  *
  * symbols:
  *   func_020663D0  0x020663D0  arm
@@ -54,8 +56,8 @@
  *   g_020A1B38     0x020A1B38  data
  *   _fflt          0x0209BDBC  arm
  *   _ffix          0x0209C494  arm
- *   _fsub          0x0209C95C  arm
- *   _fadd          0x0209CB8C  arm
+ *   _fadd          0x0209C95C  arm
+ *   _fsub          0x0209CB8C  arm
  */
 
 typedef unsigned char  u8;
@@ -96,7 +98,7 @@ extern void func_02065CE4(u32 a);
 extern void func_02065D4C(void *p);
 extern void func_02066080(void *p);
 
-#define CONV(d, v) do { s32 _t = (v); if (_t > 0) { (d) = 0.5f - (f32)(_t << 12); } else { (d) = (f32)(_t << 12); (d) += 0.5f; } } while (0)
+#define CONV(d, v) do { s32 _t = (v); if (_t > 0) { (d) = (f32)(_t << 12) + 0.5f; } else { (d) = (f32)(_t << 12) - 0.5f; } } while (0)
 
 void func_0204CC6C(struct Obj *o)
 {

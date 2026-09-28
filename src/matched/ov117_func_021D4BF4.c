@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   func_021DC720  0x021DC720  thumb  ov119
@@ -30,10 +30,8 @@
  *
  * Addresses are Black-image addresses.
  *
- * MATCH: every concrete byte right. Blocker: the call to 0x021E3E40, an
- * unlabelled ov119 Thumb tail-call wrapper (ldrh heap at +0x5F4, bx r3 to
- * 0x0204A48C) that the ov119 listing shows as pool words after
- * pool_021E3E3C. Seed 0x021E3E40 in ov119 and this closes.
+ * The call to 0x021E3E40 (ov119 tail-call wrapper to 0x0204A48C) attests
+ * through src/matched/ov119_func_021E3E40.c, seeded in function_starts.txt.
  */
 
 typedef unsigned int u32;

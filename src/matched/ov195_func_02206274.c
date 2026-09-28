@@ -24,7 +24,8 @@
  *   _ffix 0x0209C494 arm
  *
  * mwccarm calls the add helper (0x0209C95C) _fadd and the subtract helper
- * (0x0209CB8C) _fsub; layout/runtime_arm9.txt lists the two swapped.
+ * (0x0209CB8C) _fsub, as layout/runtime_arm9.txt now does (swapped there
+ * until 2026-09-28).
  */
 
 typedef unsigned char u8;
