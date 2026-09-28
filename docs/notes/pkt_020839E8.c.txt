@@ -291,3 +291,10 @@ void NVRAMi_WriteCallback(u32 data, BOOL err)
     }
     OS_WakeupThread(&nvramw.queue);
 }
+
+2026-09-28, lane sdk_arm9_3: CLOSED, EXACT (src/matched/NVRAMi_WriteCallback.c).
+The volatile arg[3] lead was right. With it, three more changes close it:
+`result` preset ahead of the tempSize computation, with cb at function scope
+(the pattern from NVRAMi_ReadCallback and NVRAMi_VerifyCallback, both EXACT);
+the page-remainder MIN written as an inline function, so arg[1] is read once;
+and in case 2, `seq = 4` stored after the NVRAMi_SoftwareReset call on both paths.

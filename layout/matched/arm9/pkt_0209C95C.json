@@ -7,7 +7,7 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "__fsub",
+   "name": "__fadd",
    "address": "0x0209C95C",
    "kind": "runtime",
    "region": "arm9",
@@ -18,8 +18,8 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT*",
    "functions": [
-    "__fsub",
-    "__fadd"
+    "__fadd",
+    "__fsub"
    ],
    "covers": [
     "0x0209C95C",
