@@ -1,0 +1,24 @@
+== 2026-09-28 tree_ov170_2 ==
+func_021DBE70 (ov119, 1088 B): best source is src/pending/ov119_func_021DBE70.c, DIFF,
+same size, 6 bytes out at +007C..+0094 (only residue).
+
+Residue: in the bound block after func_021E4DBC, the image keeps t + 5 in r1 and the
+0x634 limit in r3 (pool offset loaded into r3 first); the source gives them the other
+way round. Everything else is byte-identical.
+
+What closed the rest:
+- func_021DB7AC takes three arguments (its prologue saves r2); the call is (p, 0, 1) and
+  the 1 is shared with the store to 0x1084 (that fixed a stray r1/r2 pair).
+- The out-parameter of func_021E4E0C is copied into a register local before the store to
+  0xF74; comparing the stack slot directly reloads it after the store.
+- The func_021D9F24 switch has the rest of the function in its default arm, with case 3
+  (return, inline epilogue) and case 2 (break to the shared epilogue) listed first:
+  `case 3: return; case 2: break; case 1: ...; default: rest`.
+
+Tried on the residue (all leave 8 or more bytes out except the kept one):
+- declaration orders t/cur/a/b/lim in 10 permutations; assignment orders;
+- a = t + 5 with t + 10 written as a + 5 (lim then goes right but the add is not folded,
+  4 bytes short);
+- lim read inline twice; condition spelled end > a; t += 10 in place;
+- static inline bound helper (much worse);
+- permuter seed 9001, budget 400: best 6 bytes out, no change.
