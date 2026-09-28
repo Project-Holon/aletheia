@@ -54,7 +54,7 @@ extern const Sel tbl_02203D38[];
 extern const CurPos tbl_02203D46[];
 
 extern int func_021FE9B0(Work *p);
-extern void func_021F4FF4(u32 a, u16 b, u16 c);
+extern void func_021F4FF4(u32 a, u32 b, u32 c);
 
 void func_021FEAE0(Work *p, int i)
 {

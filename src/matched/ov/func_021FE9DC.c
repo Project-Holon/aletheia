@@ -55,7 +55,7 @@ extern u32 func_020362DC(void);
 extern void func_020061E4(u32 se);
 extern void func_0204B878(u32, u16);
 extern int func_021FE9B0(Work *p);
-extern void func_021F4FF4(u32 a, u16 b, u16 c);
+extern void func_021F4FF4(u32 a, u32 b, u32 c);
 
 void func_021FE9DC(Work *p)
 {

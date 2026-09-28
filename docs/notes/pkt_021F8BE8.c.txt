@@ -1,0 +1,25 @@
+== 2026-09-28 tree_ov135_4 ==
+
+func_021F8BE8 (ov135, Thumb, 296 bytes), the network wait/poll step of the
+worldtrade connect flow. Best source: src/pending/ov/ov135_func_021F8BE8.c
+(DIFF, 292 bytes compiled).
+
+Everything matches except one hop. In the image the inner switch on the
+sub-state (p+0xF80, cases 0..3, jump table) sends its out-of-range value to
+0x021F8C90, which is a lone "b 0x021F8CEC" (the shared func_021F513C(p);
+return 0 tail). Our build threads that bhi straight to the tail, so the
+table and every later pc-relative load shift by 2 bytes.
+
+Levers tried (none closed it):
+- inner cases in image order (0, 3, 1, 2): needed, fixed the jump-table
+  entries, hop remains.
+- state switch as an if/else chain: worse (register allocation shifts).
+- tail written out in the inner switch exit ("func_021F513C(p); return 0;"
+  per docs/idioms/a-conditional-branch-onto-an-unconditional-b-is-a-cross-jumped-tail-copy.md):
+  304 bytes, the copy is not cross-jumped here.
+- permuter, seed 11601, 1500 iterations: best DIFF, 116 bytes out (worse
+  than the hand source).
+
+Next idea: a goto label on the shared tail reached from both the code
+switch default and the inner switch, or a do/while(0) wrapper around the
+state switch so the exit is a separate block.

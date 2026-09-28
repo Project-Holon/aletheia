@@ -22,7 +22,7 @@ typedef unsigned int u32;
 typedef signed int s32;
 extern void func_0204B404(u32 a, u16 *t, int n);
 
-void func_021F4FF4(u32 a, u16 b, u16 c)
+void func_021F4FF4(u32 a, u32 b, u32 c)
 {
     u16 t[2];
 

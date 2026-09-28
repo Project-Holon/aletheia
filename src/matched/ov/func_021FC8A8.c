@@ -16,7 +16,9 @@
  * Mode table: 0 -> 0, 1 -> 0x14c0, 2 -> 0xc80, anything else 0.
  */
 
-int func_021FC8A8(int mode)
+typedef unsigned short u16;
+
+u16 func_021FC8A8(int mode)
 {
     switch (mode) {
     case 0:

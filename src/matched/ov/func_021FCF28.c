@@ -67,7 +67,7 @@ extern struct DispConfig g_02203618;
 extern struct BgTemplate g_02203628;
 extern struct BgTemplate g_02203648;
 
-void func_021FCF28(void)
+void func_021FCF28(int y)
 {
     struct DispConfig c = g_02203618;
     u32 v = func_02043668();

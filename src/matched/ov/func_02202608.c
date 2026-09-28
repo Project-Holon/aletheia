@@ -20,13 +20,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
-extern u32 func_020173EC(u8 *p, u32 k);
-extern void func_02030734(u8 *p, u32 h, u32 b, u32 t, u32 c);
-extern u8 g_02203F5C[];
+extern u32 func_020173EC(void);
+extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern const char g_02203F5C[];
 
-void func_02202608(u8 *p, u32 k)
+void *func_02202608(u32 heap)
 {
-    u32 h = func_020173EC(p, k);
-
-    func_02030734(p, h, 0, (u32)g_02203F5C, 0x47);
+    return func_02030734(heap, func_020173EC(), 0, g_02203F5C, 0x47);
 }

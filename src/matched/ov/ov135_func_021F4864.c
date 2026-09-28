@@ -1,0 +1,42 @@
+/*
+ * function: func_021F4864
+ * address:  0x021F4864
+ * packet:   pkt_021F4864
+ * region:   ov135
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ */
+
+typedef signed char s8;
+typedef signed short s16;
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+
+typedef void (*Cb)(void *p);
+
+typedef struct {
+    u8 pad0[0xEBC];
+    Cb once;
+    Cb every;
+} Work;
+
+extern void func_020419E4(void);
+extern void func_0204A648(void);
+
+void func_021F4864(void *unused, Work *p)
+{
+    func_020419E4();
+    func_0204A648();
+    if (p->once != 0) {
+        p->once(p);
+        p->once = 0;
+    }
+    if (p->every != 0) {
+        p->every(p);
+    }
+}

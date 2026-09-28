@@ -9,10 +9,10 @@
  * isa:      thumb
  * status:   MATCH
  *
- * blocker: five call targets have no label, so their relocations stay wildcarded:
- * 0x0200FB4C (arm9, Thumb leaf) and 0x021B97F4, 0x021B99F0, 0x021B99F4, 0x021B9A14
- * (ov114, Thumb leaves). Every other byte is identical. Labelling those starts
- * makes this EXACT.
+ * blocker: the call target 0x0200FB4C (arm9, Thumb leaf) has no label, so its
+ * relocation stays wildcarded (requested in docs/sessions/2026-09-27/arm9_requests.md).
+ * The four ov114 targets 0x021B97F4, 0x021B99F0, 0x021B99F4, 0x021B9A14 were seeded
+ * by tree_ov135_4. Every other byte is identical. Labelling 0x0200FB4C makes this EXACT.
  *
  * symbols:
  *   func_021B99DC  0x021B99DC  thumb  ov114

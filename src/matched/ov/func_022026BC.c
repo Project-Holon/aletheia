@@ -16,9 +16,11 @@
  * Tail-call thunk to the thumb routine at 0x020185F4.
  */
 
-extern void func_020185F4(void);
+typedef unsigned int u32;
 
-void func_022026BC(void)
+extern void *func_020185F4(void *a);
+
+u32 func_022026BC(void *mon)
 {
-    func_020185F4();
+    return (u32)func_020185F4(mon);
 }
