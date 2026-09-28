@@ -22,6 +22,7 @@ import argparse
 import glob
 import json
 import os
+import re
 import sys
 from collections import Counter, defaultdict
 
@@ -74,6 +75,162 @@ def union(catalog=CATALOG, scan=OUT):
 def addresses(region, **kw):
     return set(union(**kw).get(region, {}))
 
+
+
+# ---------------------------------------------------------------- interiors
+#
+# Propagation places every sibling of an anchored member at base + value.  A
+# sibling whose bytes happen to repeat inside another function (the tail of
+# G3X_SetClearColor reads as SBServerSetPublicAddr, the last three blocks of
+# MTX_Copy44To43_ read as MTX_Copy44To33_) then lands mid-function.  A scan
+# placement is rejected when it starts strictly inside the extent of another
+# function known in that region, unless the listing has a function label at
+# exactly that address (or a catalog row or matched shard entry starts there:
+# disasm.py traces straight through MI_CpuCopy8 into MI_CpuComp8 and
+# MI_CpuCopy, which the catalog and the shards know as function starts).
+# Known functions:
+#   listing  a func_XXXXXXXX label in the region's disasm.py listing; its
+#            extent is its traced code (label to the end of its last
+#            instruction before the next label; pools and untraced .word
+#            runs after it are outside)
+#   catalog  a layout/symbols_sdk.json row with a size
+#   matched  a layout/matched shard entry; its extent is the catalog size at
+#            that address, else the listing extent that starts there
+
+RE_FUNC_LABEL = re.compile(r"^func_([0-9A-Fa-f]{8}):")
+RE_ADDR_BYTES = re.compile(
+    r"/\*\s+([0-9A-F]{8})(?:\s\s((?:[0-9A-F]{2})(?:\s[0-9A-F]{2})*))?")
+
+
+def listing_files(region):
+    """The disasm.py listing file(s) of one region."""
+    units = {"arm9": "units_arm9.json", "arm9_autoload0_ITCM": "units_itcm.json"}
+    if region in units:
+        doc = json.load(open(os.path.join(ROOT, "layout", units[region]), encoding="utf-8"))
+        return [os.path.join(ROOT, u["file"].replace("/", os.sep)) for u in doc["units"]]
+    if region == "twl":
+        return [os.path.join(ROOT, "asm", "twl", "twl.s")]
+    if region.startswith("ov"):
+        return [os.path.join(ROOT, "asm", "overlays", region + ".s")]
+    return []
+
+
+def listing_labels(region):
+    """(sorted label addresses, {label: extent end}) for one region.
+
+    A label's extent is its traced code: from the label to the end of the
+    last instruction before the next function label.  disasm.py writes code
+    it never reached as .word data, so an unlabelled SDK function that sits
+    after a function's literal pool (OSi_IrqDma0 after OSi_IrqHandler's
+    pool) is outside the extent, while a lookalike that repeats a function's
+    own instructions is inside it."""
+    labels = []
+    ends = {}
+    for path in listing_files(region):
+        if not os.path.exists(path):
+            continue
+        cur = None
+        with open(path, encoding="utf-8") as fh:
+            for raw in fh:
+                line = raw.strip()
+                m = RE_FUNC_LABEL.match(line)
+                if m:
+                    cur = int(m.group(1), 16)
+                    labels.append(cur)
+                    continue
+                if cur is None or not line or line.startswith("/*"):
+                    continue
+                if line.startswith(".") and not line.startswith(".inst"):
+                    continue
+                am = RE_ADDR_BYTES.search(line)
+                if am and am.group(2):
+                    end = int(am.group(1), 16) + len(am.group(2).split())
+                    if end > ends.get(cur, cur):
+                        ends[cur] = end
+    return sorted(set(labels)), ends
+
+
+def known_extents(region, catalog_rows, shard_addrs):
+    """(exempt starts, sorted [(start, end, kind, name)]) of the functions
+    known in one region.  Exempt starts are the listing labels, catalog row
+    addresses and shard entry addresses."""
+    labels, lend = listing_labels(region)
+    ext = []
+    for a in labels:
+        if a in lend:
+            ext.append((a, lend[a], "listing", "func_%08X" % a))
+    csize = {}
+    for a, name, size in catalog_rows:
+        if size > 0:
+            ext.append((a, a + size, "catalog", name))
+            csize[a] = max(size, csize.get(a, 0))
+    for a, name in shard_addrs:
+        if a in csize:
+            end = a + csize[a]
+        elif a in lend:
+            end = lend[a]
+        else:
+            # a shard entry with no label and no catalog size: no extent
+            continue
+        ext.append((a, end, "matched", name))
+    ext.sort()
+    exempt = set(labels)
+    exempt.update(a for a, _n, _s in catalog_rows)
+    exempt.update(a for a, _n in shard_addrs)
+    return exempt, ext
+
+
+def load_shards():
+    """{region: [(address, name)]} from layout/matched."""
+    out = defaultdict(list)
+    for path in glob.glob(os.path.join(ROOT, "layout", "matched", "*", "*.json")):
+        try:
+            doc = json.load(open(path, encoding="utf-8"))
+        except ValueError:
+            continue
+        for f in doc.get("functions", []):
+            reg = f.get("region") or doc.get("region")
+            try:
+                out[reg].append((int(str(f["address"]), 0), f.get("name")))
+            except (KeyError, ValueError):
+                continue
+    return out
+
+
+def interior_rejections(out, catalog=CATALOG):
+    """Drop scan placements that start strictly inside another known
+    function; returns [(region, address, name, reason)]."""
+    import bisect
+    cat = defaultdict(list)
+    if os.path.exists(catalog):
+        for s in json.load(open(catalog, encoding="utf-8")).get("symbols", []):
+            cat[s.get("region")].append((int(s["address"]), s.get("name"),
+                                         int(s.get("size") or 0)))
+    shards = load_shards()
+    rejected = []
+    for reg in list(out):
+        exempt, ext = known_extents(reg, cat.get(reg, ()), shards.get(reg, ()))
+        starts = [e[0] for e in ext]
+        # prefix maximum of the extent ends, with the entry that reaches it
+        best = []
+        cur = None
+        for e in ext:
+            if cur is None or e[1] > cur[1]:
+                cur = e
+            best.append(cur)
+        for a in sorted(out[reg]):
+            if a in exempt:
+                continue
+            k = bisect.bisect_left(starts, a) - 1
+            if k < 0:
+                continue
+            s, end, kind, name = best[k]
+            if end > a:
+                e = out[reg].pop(a)
+                rejected.append((reg, a, e["name"],
+                                 "interior: starts inside %s %s 0x%08X..0x%08X (+0x%X)"
+                                 % (kind, name, s, end, a - s)))
+    return rejected
 
 
 def profile_archives(variants, builds=("Rom",), include_demos=False):
@@ -211,6 +368,14 @@ def main():
                     "member": member,
                     "method": method,
                 }
+
+    interior = interior_rejections(out)
+    print("placements inside another known function, rejected: %d" % len(interior))
+    for r, a, n, w in sorted(interior):
+        print("   %-22s 0x%08X %-32s %s" % (r, a, n, w))
+    dropped.extend(interior)
+    verified = sum(1 for d in out.values() for e in d.values() if e["method"] == "verified")
+    placed = sum(1 for d in out.values() for e in d.values() if e["method"] == "propagated")
 
     total = sum(len(v) for v in out.values())
     print()

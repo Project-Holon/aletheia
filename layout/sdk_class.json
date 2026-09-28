@@ -3038,13 +3038,6 @@
     "member": "fx_mtx44.o",
     "method": "verified"
    },
-   "0207BDEC": {
-    "name": "MTX_Copy44To33_",
-    "size": 40,
-    "lib": "libfx.TWL.HYB.a",
-    "member": "fx_mtx44.o",
-    "method": "verified"
-   },
    "0207BE14": {
     "name": "MTX_Concat44",
     "size": 956,
@@ -3526,13 +3519,6 @@
     "size": 40,
     "lib": "libgx.TWL.HYB.a",
     "member": "g3x.o",
-    "method": "verified"
-   },
-   "0207DD3C": {
-    "name": "SBServerSetPublicAddr",
-    "size": 12,
-    "lib": "libdwcgsserverbrowsing.TWL.HYB.a",
-    "member": "sb_server.o",
     "method": "verified"
    },
    "0207DD4C": {
@@ -14839,13 +14825,6 @@
    }
   },
   "ov009": {
-   "0215538A": {
-    "name": "DWCi_NodeInfo_IsValid",
-    "size": 14,
-    "lib": "libdwcmatch.TWL.HYB.thumb.a",
-    "member": "dwc_match.o",
-    "method": "verified"
-   },
    "02157280": {
     "name": "CPS_SetCheckNConfigCallback",
     "size": 16,
@@ -19389,13 +19368,6 @@
     "member": "dwc_reliable.o",
     "method": "verified"
    },
-   "02176B6C": {
-    "name": "NHTTPi_InitListInfo",
-    "size": 16,
-    "lib": "libnhttp.TWL.HYB.a",
-    "member": "nhttp_list.o",
-    "method": "verified"
-   },
    "02176B80": {
     "name": "DWCi_CleanupReliableQueue",
     "size": 100,
@@ -20731,13 +20703,6 @@
     "size": 160,
     "lib": "libdwcgscommon.TWL.HYB.a",
     "member": "gsplatformutil.o",
-    "method": "verified"
-   },
-   "0217FC50": {
-    "name": "DWCi_Ndi_getDecodeLenBASE64",
-    "size": 12,
-    "lib": "libdwcnd.TWL.HYB.a",
-    "member": "dwci_nd.o",
     "method": "verified"
    },
    "0217FC70": {
@@ -24949,13 +24914,6 @@
     "member": "dwc_ghttp.o",
     "method": "verified"
    },
-   "02177A96": {
-    "name": "DWCi_NodeInfo_IsValid",
-    "size": 14,
-    "lib": "libdwcmatch.TWL.HYB.thumb.a",
-    "member": "dwc_match.o",
-    "method": "verified"
-   },
    "02177C08": {
     "name": "DWC_IsValidFriendData",
     "size": 18,
@@ -25089,13 +25047,6 @@
     "size": 24,
     "lib": "libdwcmatch.TWL.HYB.a",
     "member": "dwc_reliable.o",
-    "method": "verified"
-   },
-   "021B2F9C": {
-    "name": "NHTTPi_InitListInfo",
-    "size": 16,
-    "lib": "libnhttp.TWL.HYB.a",
-    "member": "nhttp_list.o",
     "method": "verified"
    }
   },
@@ -29131,13 +29082,6 @@
     "member": "mb_task.o",
     "method": "verified"
    },
-   "021F6614": {
-    "name": "DWCi_NodeInfo_IsValid",
-    "size": 20,
-    "lib": "libdwcmatch.TWL.HYB.a",
-    "member": "dwc_match.o",
-    "method": "verified"
-   },
    "021F662C": {
     "name": "MBi_InitTaskInfo",
     "size": 20,
@@ -29257,24 +29201,8 @@
     "method": "verified"
    }
   },
-  "ov123": {
-   "021D5C52": {
-    "name": "DWCi_NodeInfo_IsValid",
-    "size": 14,
-    "lib": "libdwcmatch.TWL.HYB.thumb.a",
-    "member": "dwc_match.o",
-    "method": "verified"
-   }
-  },
-  "ov217": {
-   "021B9B82": {
-    "name": "DWCi_NodeInfo_IsValid",
-    "size": 14,
-    "lib": "libdwcmatch.TWL.HYB.thumb.a",
-    "member": "dwc_match.o",
-    "method": "verified"
-   }
-  },
+  "ov123": {},
+  "ov217": {},
   "ov125": {
    "021D7CC0": {
     "name": "SNDi_UnlockMutex",
@@ -29306,13 +29234,6 @@
     "size": 16,
     "lib": "libctrdg.TWL.HYB.thumb.a",
     "member": "ctrdg_task.o",
-    "method": "verified"
-   },
-   "021B99F4": {
-    "name": "version_ok",
-    "size": 12,
-    "lib": "libssl.TWL.HYB.thumb.a",
-    "member": "ssl.o",
     "method": "verified"
    }
   },
@@ -29386,13 +29307,6 @@
     "lib": "libscfg.TWL.HYB.a",
     "member": "scfg_proc.o",
     "method": "verified"
-   },
-   "01FF87F4": {
-    "name": "OS_SpinWaitCpuCycles",
-    "size": 12,
-    "lib": "libos.TWL.HYB.a",
-    "member": "os_system.o",
-    "method": "verified"
    }
   },
   "ov179": {
@@ -29405,13 +29319,6 @@
    }
   },
   "ov172": {
-   "021BE0E0": {
-    "name": "version_ok",
-    "size": 12,
-    "lib": "libssl.TWL.HYB.thumb.a",
-    "member": "ssl.o",
-    "method": "verified"
-   },
    "021BE468": {
     "name": "Mel_JPEGDecodeExif",
     "size": 348,
@@ -29723,15 +29630,7 @@
     "method": "verified"
    }
   },
-  "ov070": {
-   "021B8126": {
-    "name": "version_ok",
-    "size": 12,
-    "lib": "libssl.TWL.HYB.thumb.a",
-    "member": "ssl.o",
-    "method": "verified"
-   }
-  },
+  "ov070": {},
   "ov088": {
    "021BD3AC": {
     "name": "version_ok",
@@ -29741,24 +29640,8 @@
     "method": "verified"
    }
   },
-  "ov195": {
-   "02208412": {
-    "name": "version_ok",
-    "size": 12,
-    "lib": "libssl.TWL.HYB.thumb.a",
-    "member": "ssl.o",
-    "method": "verified"
-   }
-  },
-  "ov228": {
-   "021DFE9E": {
-    "name": "version_ok",
-    "size": 12,
-    "lib": "libssl.TWL.HYB.thumb.a",
-    "member": "ssl.o",
-    "method": "verified"
-   }
-  }
+  "ov195": {},
+  "ov228": {}
  },
  "rejected": [
   {
@@ -31209,6 +31092,12 @@
   },
   {
    "region": "arm9",
+   "address": "0207BDEC",
+   "name": "MTX_Copy44To33_",
+   "reason": "interior: starts inside catalog MTX_Copy44To43_ 0x0207BDE0..0x0207BE14 (+0xC)"
+  },
+  {
+   "region": "arm9",
    "address": "0207C788",
    "name": "FX_DivFx64c",
    "reason": "calls FX_DivAsync at 0x0207C8A0, where FX_DivAsync's bytes do not verify (1 of 1 checkable references disagree)"
@@ -31302,6 +31191,12 @@
    "address": "0207DD10",
    "name": "sakeiStartUpdateRecordRequest",
    "reason": "calls sakeiStartRequest at 0x02082B44, where sakeiStartRequest's bytes do not verify (1 of 1 checkable references disagree)"
+  },
+  {
+   "region": "arm9",
+   "address": "0207DD3C",
+   "name": "SBServerSetPublicAddr",
+   "reason": "interior: starts inside catalog G3X_SetClearColor 0x0207DD24..0x0207DD4C (+0x18)"
   },
   {
    "region": "arm9",
@@ -36014,6 +35909,12 @@
    "reason": "calls gti2CloseConnection at 0x02095AA4, where gti2CloseConnection's bytes do not verify (1 of 1 checkable references disagree)"
   },
   {
+   "region": "arm9_autoload0_ITCM",
+   "address": "01FF87F4",
+   "name": "OS_SpinWaitCpuCycles",
+   "reason": "interior: starts inside catalog SCFGi_SwitchCpuSpeed 0x01FF87D4..0x01FF8804 (+0x20)"
+  },
+  {
    "region": "ov009",
    "address": "02155388",
    "name": "CTRDGi_IsTaskAvailable",
@@ -36048,6 +35949,12 @@
    "address": "02155388",
    "name": "MBi_IsTaskAvailable",
    "reason": "static mbi_task_work at 0x021A8264 is also loaded by code at 0x02155614, outside the object"
+  },
+  {
+   "region": "ov009",
+   "address": "0215538A",
+   "name": "DWCi_NodeInfo_IsValid",
+   "reason": "interior: starts inside listing func_02155388 0x02155388..0x02155398 (+0x2)"
   },
   {
    "region": "ov009",
@@ -37449,6 +37356,12 @@
   },
   {
    "region": "ov009",
+   "address": "02176B6C",
+   "name": "NHTTPi_InitListInfo",
+   "reason": "interior: starts inside catalog DWCi_InitReliableQueue 0x02176B68..0x02176B80 (+0x4)"
+  },
+  {
+   "region": "ov009",
    "address": "02176C00",
    "name": "DWCi_EFFlEnd",
    "reason": "calls DWCi_HEAPlFree_ at 0x02176C14, where DWCi_HEAPlFree_'s bytes do not verify (1 of 1 checkable references disagree)"
@@ -37935,6 +37848,12 @@
   },
   {
    "region": "ov009",
+   "address": "0217FC50",
+   "name": "DWCi_Ndi_getDecodeLenBASE64",
+   "reason": "interior: starts inside catalog B64DecodeLen 0x0217FBC8..0x0217FC68 (+0x88)"
+  },
+  {
+   "region": "ov009",
    "address": "02181D84",
    "name": "FreeBucketSet",
    "reason": "calls TableFree at 0x0217EAE0, where TableFree's bytes do not verify (1 of 2 checkable references disagree)"
@@ -38361,6 +38280,12 @@
   },
   {
    "region": "ov013",
+   "address": "021B2F9C",
+   "name": "NHTTPi_InitListInfo",
+   "reason": "interior: starts inside catalog DWCi_InitReliableQueue 0x021B2F98..0x021B2FB0 (+0x4)"
+  },
+  {
+   "region": "ov013",
    "address": "021B33E0",
    "name": "sakeGetFileIdFromHeaders",
    "reason": "calls sakeiGetHeaderValueInt at 0x02082B0C, where sakeiGetHeaderValueInt's bytes do not verify (1 of 1 checkable references disagree)"
@@ -38472,6 +38397,12 @@
    "address": "02177A94",
    "name": "MBi_IsTaskAvailable",
    "reason": "static mbi_task_work at 0x021797A4 is also loaded by code at 0x02177304, outside the object"
+  },
+  {
+   "region": "ov014",
+   "address": "02177A96",
+   "name": "DWCi_NodeInfo_IsValid",
+   "reason": "interior: starts inside listing func_02177A94 0x02177A94..0x02177AA4 (+0x2)"
   },
   {
    "region": "ov014",
@@ -39716,6 +39647,18 @@
    "reason": "calls gsXmlReadAttribute at 0x021F3C2C, where gsXmlReadAttribute's bytes do not verify (1 of 1 checkable references disagree)"
   },
   {
+   "region": "ov070",
+   "address": "021B8126",
+   "name": "version_ok",
+   "reason": "interior: starts inside listing func_021B811C 0x021B811C..0x021B8132 (+0xA)"
+  },
+  {
+   "region": "ov093",
+   "address": "021B99F4",
+   "name": "version_ok",
+   "reason": "interior: starts inside listing func_021B99F0 0x021B99F0..0x021B9A00 (+0x4)"
+  },
+  {
    "region": "ov093",
    "address": "021C20BC",
    "name": "SOCL_LinkIsOn",
@@ -39924,6 +39867,12 @@
    "address": "021F6610",
    "name": "DWCi_IsError",
    "reason": "static stDwcLastError at 0x021F7004 is also loaded by code at 0x021F67B8, outside the object"
+  },
+  {
+   "region": "ov107",
+   "address": "021F6614",
+   "name": "DWCi_NodeInfo_IsValid",
+   "reason": "interior: starts inside catalog MBi_IsTaskAvailable 0x021F6610..0x021F662C (+0x4)"
   },
   {
    "region": "ov114",
@@ -40736,6 +40685,12 @@
    "reason": "calls gti2FilteredSend at 0x021E35A0, where gti2FilteredSend's bytes do not verify (1 of 1 checkable references disagree)"
   },
   {
+   "region": "ov123",
+   "address": "021D5C52",
+   "name": "DWCi_NodeInfo_IsValid",
+   "reason": "interior: starts inside listing func_021D5C2C 0x021D5C2C..0x021D5C60 (+0x26)"
+  },
+  {
    "region": "ov125",
    "address": "021D7C7C",
    "name": "ENV_PrependResourceSet",
@@ -41241,6 +41196,12 @@
   },
   {
    "region": "ov172",
+   "address": "021BE0E0",
+   "name": "version_ok",
+   "reason": "interior: starts inside listing func_021BE0D8 0x021BE0D8..0x021BE0EC (+0x8)"
+  },
+  {
+   "region": "ov172",
    "address": "021BE100",
    "name": "NWMi_CheckEnableFlag",
    "reason": "calls OS_IsAvailableWireless at 0x0202EB0C, where OS_IsAvailableWireless's bytes do not verify (2 of 2 checkable references disagree)"
@@ -41384,6 +41345,12 @@
    "reason": "calls formTask at 0x021FE794, where formTask's bytes do not verify (1 of 1 checkable references disagree)"
   },
   {
+   "region": "ov195",
+   "address": "02208412",
+   "name": "version_ok",
+   "reason": "interior: starts inside listing func_02208410 0x02208410..0x0220841E (+0x2)"
+  },
+  {
    "region": "ov204",
    "address": "021BE3B8",
    "name": "DWC_IsValidFriendData",
@@ -41400,6 +41367,12 @@
    "address": "021BE3B8",
    "name": "gsXmlReadAttributeAsString",
    "reason": "calls gsXmlReadAttribute at 0x02005F38, where gsXmlReadAttribute's bytes do not verify (1 of 1 checkable references disagree)"
+  },
+  {
+   "region": "ov217",
+   "address": "021B9B82",
+   "name": "DWCi_NodeInfo_IsValid",
+   "reason": "interior: starts inside listing func_021B9B80 0x021B9B80..0x021B9B90 (+0x2)"
   },
   {
    "region": "ov217",
@@ -41460,6 +41433,12 @@
    "address": "02185CF4",
    "name": "gsXmlReadAttributeAsString",
    "reason": "calls gsXmlReadAttribute at 0x02184790, where gsXmlReadAttribute's bytes do not verify (1 of 1 checkable references disagree)"
+  },
+  {
+   "region": "ov228",
+   "address": "021DFE9E",
+   "name": "version_ok",
+   "reason": "interior: starts inside listing func_021DFE98 0x021DFE98..0x021DFEAA (+0x6)"
   },
   {
    "region": "twl",
