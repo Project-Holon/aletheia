@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   func_021EC000 0x021EC000 thumb
@@ -32,11 +32,6 @@
  *
  * Item menu "give": checks the slot, then asks to swap or confirms.  A
  * four-step machine on the work word at 0xA194 (template 021E3C88).
- *
- * Blocker (MATCH): the call to func_021EBB1C.  The ov170 listing labels
- * 0x021EBB1C as a 64-byte ARM function; it is three Thumb functions
- * (0x021EBB1C, 0x021EBB28, 0x021EBB34, all EXACT in src/pending/ov).  Seeding
- * them as Thumb starts promotes this file to EXACT.
  */
 
 typedef unsigned short u16;

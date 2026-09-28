@@ -7,12 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- *
- * Blocker: 0x021DEB08 is an unlabelled Thumb thunk in ov170 (ldr r3, =func_021DEA6C;
- * movs r1, #0; bx r3), printed as .word data after func_021DEAFC's pool.  Seeding
- * 0x021DEB08 (witness: bl at 0x021E15C4) resolves the call at +0098 and makes this
- * EXACT.  Every concrete byte matches.
+ * status:   EXACT
  *
  * symbols:
  *   func_021DD210 0x021DD210 thumb
