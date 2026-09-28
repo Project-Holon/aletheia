@@ -11,7 +11,7 @@
    "address": "0x02082EA4",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/MI_CpuCopy.c",
+   "source": "src/matched/arm9_sdk/MI_CpuCopy.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

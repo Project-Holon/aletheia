@@ -1,5 +1,9 @@
 # Compiler idioms
 
+Sources are filed under `src/matched/<region>/` and `src/pending/<region>/`,
+where `<region>` is one of `arm9`, `arm9_sdk`, `itcm_sdk`, `ov`, `ov_sdk`,
+`twl`, `twl_sdk`.
+
 One file per idiom, so that two agents working different packets never edit the
 same file. `docs/MATCHING.md` carries a generated index of this directory;
 `python tools/match.py idioms` rebuilds it and the integrator runs that once per

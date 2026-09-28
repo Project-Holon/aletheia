@@ -11,7 +11,7 @@
    "address": "0x020734AC",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/func_020734AC.c",
+   "source": "src/matched/arm9/func_020734AC.c",
    "compiler": "dsi/../2.0/sp2",
    "lang": "c99",
    "isa": "arm",

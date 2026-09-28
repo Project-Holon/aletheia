@@ -11,7 +11,7 @@
    "address": "0x02085044",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/OSi_RemoveLinkFromQueue.c",
+   "source": "src/matched/arm9_sdk/OSi_RemoveLinkFromQueue.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

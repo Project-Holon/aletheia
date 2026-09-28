@@ -11,7 +11,7 @@
    "address": "0x02076B6C",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/CARD_GetBackupSectorSize.c",
+   "source": "src/matched/arm9_sdk/CARD_GetBackupSectorSize.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

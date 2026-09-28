@@ -11,7 +11,7 @@
    "address": "0x021C815C",
    "kind": "game_unit",
    "region": "ov093",
-   "source": "src/matched/unit_021C815C.c",
+   "source": "src/matched/ov/unit_021C815C.c",
    "compiler": "dsi/dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

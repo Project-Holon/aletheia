@@ -11,7 +11,7 @@
    "address": "0x020130DC",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/sub_020130DC.c",
+   "source": "src/matched/arm9/sub_020130DC.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

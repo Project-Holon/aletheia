@@ -11,7 +11,7 @@
    "address": "0x020749B4",
    "kind": "game_unit",
    "region": "arm9",
-   "source": "src/matched/unit_020749B4.c",
+   "source": "src/matched/arm9_sdk/unit_020749B4.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

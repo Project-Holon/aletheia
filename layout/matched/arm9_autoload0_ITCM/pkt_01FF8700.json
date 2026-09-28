@@ -11,7 +11,7 @@
    "address": "0x01FF8700",
    "kind": "game",
    "region": "arm9_autoload0_ITCM",
-   "source": "src/matched/func_01FF8700.c",
+   "source": "src/matched/itcm_sdk/func_01FF8700.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

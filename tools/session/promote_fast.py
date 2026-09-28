@@ -59,6 +59,25 @@ def shard(p):
 def main(argv=None):
     argv = sys.argv[1:] if argv is None else argv
     os.chdir(env.ROOT)   # file keys and git paths are repo-relative
+
+    def dest_dir(f):
+        """src/matched/<category>/<file>: the category is derived, not chosen."""
+        h = hdr(f)
+        region = h["region"] or ""
+        try:
+            addr = int(h["addr"], 0) if h["addr"] else None
+        except ValueError:
+            addr = None
+        try:
+            sys.path.insert(0, os.path.join(env.ROOT, "tools"))
+            import sdkclass
+            is_sdk = addr is not None and addr in sdkclass.union().get(region, {})
+        except Exception:
+            is_sdk = False
+        base = "itcm" if region.startswith("arm9_autoload") else (
+            "ov" if region.startswith("ov") else region)
+        return posixpath.join("src", "matched", base + ("_sdk" if is_sdk else ""),
+                              posixpath.basename(f))
     target_args = [a for a in argv if not a.startswith("-")]
     if target_args:
         files = []
@@ -66,7 +85,7 @@ def main(argv=None):
             files.extend(glob.glob(os.path.normpath(arg)))
         files = [f.replace(os.sep, "/") for f in sorted(set(files))]
     else:
-        files = [f.replace(os.sep, "/") for f in sorted(glob.glob(os.path.join("src", "pending", "*.c")))]
+        files = [f.replace(os.sep, "/") for f in sorted(glob.glob(os.path.join("src", "pending", "**", "*.c"), recursive=True))]
     # consider every pending file; a stale header status (e.g. DIFF that now
     # verifies EXACT) must not hide a promotable file.  verify() decides.
     files = [f for f in files if hdr(f)["status"] not in (None, "?")]
@@ -79,7 +98,7 @@ def main(argv=None):
     moved = []; pkts = set()
     for f, v, ns in res:
         if v not in ("EXACT", "EXACT*"): continue
-        dst = posixpath.join("src", "matched", posixpath.basename(f))   # git pathspec, same on every host
+        dst = dest_dir(f)   # git pathspec, same on every host
         if os.path.exists(dst): print("SKIP (exists):", dst); continue
         subprocess.run(["git", "mv", "-k", f, dst], check=False)
         if not os.path.exists(dst): os.replace(f, dst)

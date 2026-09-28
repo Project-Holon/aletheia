@@ -11,7 +11,7 @@
    "address": "0x02043B5C",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/sub_02043B5C.c",
+   "source": "src/matched/arm9/sub_02043B5C.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

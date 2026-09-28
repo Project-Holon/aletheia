@@ -11,7 +11,7 @@
    "address": "0x021C2630",
    "kind": "game",
    "region": "ov217",
-   "source": "src/matched/func_021C2630.c",
+   "source": "src/matched/ov/func_021C2630.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

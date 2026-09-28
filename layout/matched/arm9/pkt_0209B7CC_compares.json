@@ -11,7 +11,7 @@
    "address": "0x0209B7CC",
    "kind": "runtime",
    "region": "arm9",
-   "source": "src/matched/compares.c",
+   "source": "src/matched/arm9/compares.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

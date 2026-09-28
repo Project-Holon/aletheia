@@ -11,7 +11,7 @@
    "address": "0x02008500",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/CallbackForJpeg.c",
+   "source": "src/matched/arm9_sdk/CallbackForJpeg.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

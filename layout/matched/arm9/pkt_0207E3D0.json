@@ -11,7 +11,7 @@
    "address": "0x0207E3D0",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/GX_LoadBGPltt.c",
+   "source": "src/matched/arm9_sdk/GX_LoadBGPltt.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

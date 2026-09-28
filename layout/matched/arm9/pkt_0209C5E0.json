@@ -11,7 +11,7 @@
    "address": "0x0209C5E0",
    "kind": "runtime",
    "region": "arm9",
-   "source": "src/matched/double_arith_body.c",
+   "source": "src/matched/arm9/double_arith_body.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

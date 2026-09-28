@@ -11,7 +11,7 @@
    "address": "0x021FE784",
    "kind": "game",
    "region": "ov186",
-   "source": "src/matched/func_021FE784.c",
+   "source": "src/matched/ov_sdk/func_021FE784.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

@@ -11,7 +11,7 @@
    "address": "0x0207FADC",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/GX_EndLoadTexPltt.c",
+   "source": "src/matched/arm9_sdk/GX_EndLoadTexPltt.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

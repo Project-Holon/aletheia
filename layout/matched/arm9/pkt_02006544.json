@@ -11,7 +11,7 @@
    "address": "0x02006544",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/func_02006544.c",
+   "source": "src/matched/arm9/func_02006544.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

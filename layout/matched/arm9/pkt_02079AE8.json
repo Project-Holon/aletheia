@@ -11,7 +11,7 @@
    "address": "0x02079AE8",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/FSi_OpenFileFastDefault.c",
+   "source": "src/matched/arm9_sdk/FSi_OpenFileFastDefault.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

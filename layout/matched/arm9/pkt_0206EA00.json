@@ -11,7 +11,7 @@
    "address": "0x0206EA00",
    "kind": "game_unit",
    "region": "arm9",
-   "source": "src/matched/unit_0206EA00.c",
+   "source": "src/matched/arm9/unit_0206EA00.c",
    "compiler": "dsi/../2.0/sp2",
    "lang": "c99",
    "isa": "arm",

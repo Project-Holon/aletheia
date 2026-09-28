@@ -11,7 +11,7 @@
    "address": "0x0220B774",
    "kind": "game",
    "region": "ov197",
-   "source": "src/matched/ov197_func_0220B774.c",
+   "source": "src/matched/ov/ov197_func_0220B774.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

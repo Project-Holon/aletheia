@@ -11,7 +11,7 @@
    "address": "0x0207AF1C",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/MTX_RotY33_.c",
+   "source": "src/matched/arm9_sdk/MTX_RotY33_.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

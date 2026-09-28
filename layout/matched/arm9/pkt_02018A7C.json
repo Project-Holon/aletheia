@@ -11,7 +11,7 @@
    "address": "0x02018A7C",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/sub_02018A7C.c",
+   "source": "src/matched/arm9/sub_02018A7C.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

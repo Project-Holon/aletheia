@@ -11,7 +11,7 @@
    "address": "0x0207CFB8",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/FX_Atan2Idx.c",
+   "source": "src/matched/arm9_sdk/FX_Atan2Idx.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

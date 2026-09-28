@@ -11,7 +11,7 @@
    "address": "0x0206AA0C",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/func_0206AA0C.c",
+   "source": "src/matched/arm9/func_0206AA0C.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

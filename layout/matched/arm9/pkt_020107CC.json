@@ -11,7 +11,7 @@
    "address": "0x02010FAC",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/sub_02010FAC.c",
+   "source": "src/matched/arm9/sub_02010FAC.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

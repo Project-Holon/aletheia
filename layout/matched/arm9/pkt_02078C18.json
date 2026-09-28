@@ -11,7 +11,7 @@
    "address": "0x02078C18",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/CRYPTOi__BN_lshift1.c",
+   "source": "src/matched/arm9_sdk/CRYPTOi__BN_lshift1.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

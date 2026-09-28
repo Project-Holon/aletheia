@@ -18,8 +18,12 @@ Black image, drawn from `layout/worklist.json`. Inside it:
    lane filed that address after your packet was cut: re-deriving one
    costs a whole slot of your budget and adds no coverage, so check the
    mark (or re-run `match.py one`) before you write a body.
-2. Write C for it under `src/matched/` or `src/pending/` (see below), with
-   the house header block filled in.
+2. Write C for it under `src/matched/<category>/` or `src/pending/<category>/`
+   (see below), with the house header block filled in.  The category is
+   `arm9`, `arm9_sdk`, `itcm_sdk`, `ov`, `ov_sdk`, `twl`, `twl_sdk` and it is
+   derived, never chosen: the header's `region:` picks arm9/itcm/ov/twl and
+   `tools/sdkclass.py`'s union decides whether the address is vendor code
+   (`_sdk`).  `python tools/lane.py` prints the right folder for any address.
 3. Verify it with `match.py one` (single function) or `match.py tu` (a
    translation-unit range), and iterate the C until the verdict is `EXACT`.
 4. When several adjacent functions in your packet are all `EXACT`
@@ -29,11 +33,11 @@ Black image, drawn from `layout/worklist.json`. Inside it:
    shape once a run is clean.
 5. If the best you can reach is byte-correct but capped at `MATCH` (a
    relocation site has no outside witness), do not throw the work away:
-   park the file in `src/pending/`, not `src/matched/`. A pending file is
+   park the file in `src/pending/<category>/`, not `src/matched/`. A pending file is
    never spliced into the build and never enters a shard.
 6. If you find real `DIFF` evidence worth recording, whether a closed near
    miss or an informative dead end, write it to `docs/notes/*.c.txt`, not
-   into `src/matched/` or `src/pending/`.
+   into `src/matched/<category>/` or `src/pending/<category>/`.
 7. Gate your own work with `manifest --verify --shard <your packet id>`
    before calling it done.
 
@@ -76,8 +80,8 @@ header before rewriting the C.
 | `ISA` | Thumb/ARM mismatch between original and compiled object |
 | `CCERR` | the compiler rejected the translation unit |
 
-Only `EXACT` (or `EXACT*`) goes to `src/matched/` and into a shard.
-`MATCH` goes to `src/pending/` and stays out of both the shard and the
+Only `EXACT` (or `EXACT*`) goes to `src/matched/<category>/` and into a shard.
+`MATCH` goes to `src/pending/<category>/` and stays out of both the shard and the
 build splice: `csrc.py` refuses anything that is not `EXACT` and refuses
 even an `EXACT` that still carries a wildcard byte. `SIZE`, `DIFF`, `ISA`
 and `CCERR` are "keep working" signals, not filing decisions, unless you
@@ -96,10 +100,10 @@ confident `show`'s own guess is right, and always pass `--thumb` to `tu`
 
 ```
 python tools/match.py show  --addr 0xADDR
-python tools/match.py one   --src src/matched/sub_ADDR.c \
+python tools/match.py one   --src src/matched/arm9/sub_ADDR.c \
     --func sub_ADDR --addr 0xADDR --cc 1.1p1
 python tools/match.py one   ... --diff
-python tools/match.py tu    --src src/matched/unit_ADDR.c \
+python tools/match.py tu    --src src/matched/arm9/unit_ADDR.c \
     --addr 0xADDR --thumb
 python tools/match.py tu    ... --suggest-split
 python tools/match.py sweep --src ... --func ... --addr ...
@@ -170,7 +174,7 @@ put the whole line in that entry's `flags:` header field, e.g.
 
 ### The house header block
 
-Every source file under `src/matched/` or `src/pending/` opens with a
+Every source file under `src/matched/<category>/` or `src/pending/<category>/` opens with a
 comment carrying these fields (blank ones omitted, not left empty):
 
 ```c
@@ -224,7 +228,7 @@ nothing else in the tree:
 
 | what | where |
 | --- | --- |
-| your C sources | `src/matched/*.c` and `src/pending/*.c`, addresses inside your packet only |
+| your C sources | `src/matched/<category>/*.c` and `src/pending/<category>/*.c`, addresses inside your packet only |
 | your manifest shard | `layout/matched/<region>/pkt_ADDRESS.json` |
 | your idiom notes | `docs/idioms/<slug>.md`, one new file per finding |
 | your DIFF evidence notes | `docs/notes/*.c.txt`, for documented near misses |

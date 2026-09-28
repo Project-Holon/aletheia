@@ -11,7 +11,7 @@
    "address": "0x0208C828",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/func_0208C828.c",
+   "source": "src/matched/arm9_sdk/func_0208C828.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

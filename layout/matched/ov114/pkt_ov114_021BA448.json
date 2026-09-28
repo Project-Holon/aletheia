@@ -11,7 +11,7 @@
    "address": "0x021BA448",
    "kind": "game",
    "region": "ov114",
-   "source": "src/matched/ov114_func_021BA448.c",
+   "source": "src/matched/ov_sdk/ov114_func_021BA448.c",
    "compiler": "dsi/dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

@@ -948,7 +948,7 @@ def report(row, types=False, brief=False):
 def open_rows(region):
     m = matched_table()
     pend = set()
-    for p in glob.glob(os.path.join(ROOT, "src", "pending", "*.c")):
+    for p in glob.glob(os.path.join(ROOT, "src", "pending", "**", "*.c"), recursive=True):
         try:
             with open(p, encoding="utf-8", errors="replace") as fh:
                 head = fh.read(600)

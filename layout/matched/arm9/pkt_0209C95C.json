@@ -11,7 +11,7 @@
    "address": "0x0209C95C",
    "kind": "runtime",
    "region": "arm9",
-   "source": "src/matched/fsub_fadd.c",
+   "source": "src/matched/arm9/fsub_fadd.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

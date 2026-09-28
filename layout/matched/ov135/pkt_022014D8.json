@@ -11,7 +11,7 @@
    "address": "0x022014D8",
    "kind": "game",
    "region": "ov135",
-   "source": "src/matched/func_022014D8.c",
+   "source": "src/matched/ov/func_022014D8.c",
    "compiler": "dsi/dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

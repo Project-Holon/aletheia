@@ -11,7 +11,7 @@
    "address": "0x020848A4",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/OSi_EnterDmaCallback.c",
+   "source": "src/matched/arm9_sdk/OSi_EnterDmaCallback.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

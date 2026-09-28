@@ -49,10 +49,10 @@ _SDK = {}
 
 def sdk_addrs(region):
     if not _SDK:
-        p = os.path.join(ROOT, "layout", "symbols_sdk.json")
-        if os.path.exists(p):
-            for e in json.load(open(p, encoding="utf-8")).get("symbols", []):
-                _SDK.setdefault(str(e.get("region")), set()).add(int(e["address"]))
+        sys.path.insert(0, os.path.join(ROOT, "tools"))
+        import sdkclass
+        for reg, d in sdkclass.union().items():
+            _SDK.setdefault(reg, set()).update(d)
         _SDK.setdefault("__loaded__", set())
     return _SDK.get(region, set())
 

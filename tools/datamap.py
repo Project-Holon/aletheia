@@ -309,14 +309,18 @@ def scan_declarations(ranges):
     d = os.path.join(ROOT, "src", "matched")
     if not os.path.isdir(d):
         return decls
-    for f in sorted(os.listdir(d)):
-        if not f.endswith((".c", ".cpp")):
-            continue
-        rel = os.path.join("src", "matched", f)
+    files = []
+    for dp, _dn, fns in os.walk(d):
+        for f in fns:
+            if f.endswith((".c", ".cpp")):
+                files.append(os.path.join(dp, f))
+    for full in sorted(files):
+        f = os.path.basename(full)
+        rel = os.path.relpath(full, ROOT).replace(os.sep, "/")
         if rel not in ok:
             continue
         in_syms = False
-        with open(os.path.join(d, f), "r", errors="replace") as fh:
+        with open(full, "r", errors="replace") as fh:
             for line in fh:
                 s = line.strip().lstrip("*").strip()
                 if s.startswith("symbols:"):

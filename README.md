@@ -8,22 +8,21 @@ for this repository.
 
 ## Overlays
 
-237 overlays, 1,903,430 game code bytes (+473,222 SDK bytes), 26,578 functions,
-481,416 matched (25.2920% of game), plus 745 SDK functions (82,520 bytes) matched.
+237 overlays, 1,902,906 game code bytes (+473,746 SDK bytes), 26,578 functions,
+481,084 matched (25.2815% of game), plus 758 SDK functions (82,852 bytes) matched.
 
 ![Overlay coverage map](docs/coverage_overlays.svg)
 
 ## ARM9 main binary
 
-404,166 game bytes, 4,554 functions, byte-matching.
+404,080 game bytes, 4,548 functions, byte-matching.
 
 ![ARM9 coverage map](docs/coverage_map.svg)
 
 ## DSi `twl` region and ARM9 autoloads
 
-twl 100% (37,658 of 37,658 game code bytes matched), ITCM 100% (168 of 168),
-plus 1,794 of 1,794 matched SDK bytes — the autoload SDK is complete. The
-DSi-mode `twl` block and the ARM9
+twl: 204 functions, 39,012 SDK bytes (all matched) and 440 game bytes. ITCM
+100%. The DSi-mode `twl` block and the ARM9
 autoload blocks (ITCM, the two MAIN_TWL stubs and VRAM_LCDC) are not part of
 the ARM9 static image or the overlays, so they have a map of their own.
 
@@ -62,7 +61,7 @@ byte-matching ROM.
   - [ ] Boot path: system init, overlay loader, `tcbl.c`, `bg_sys.c`,
         `palanm.c`, `clact.c`, `gf_font.c`, title and field managers
   - [ ] Field and battle loop call trees
-  - [ ] Overlays: 5,929 of 26,578 game functions are matched (481,416 of 1,903,430 game code bytes, 25.29%), plus 745 SDK functions (82,520 of 473,222 SDK bytes) matched; the remaining 237 overlay regions are still carried as reassembled listings
+  - [ ] Overlays: 5,929 of 26,578 game functions are matched (481,084 of 1,902,906 game code bytes, 25.28%), plus 758 SDK functions (82,852 of 473,746 SDK bytes) matched; the remaining 237 overlay regions are still carried as reassembled listings
   - [ ] 100% matching across the whole ROM
 
 - [ ] **Milestone 4**: Native PC port ([eidos](https://github.com/Project-Holon/eidos))
@@ -154,3 +153,6 @@ no game data of any kind: you must dump your own cartridge to use any of it.
 
 `extract/` and `build/` are gitignored on purpose (they are generated from
 your own ROM dump) and must never be committed.
+
+Sources are sorted under `src/matched/` and `src/pending/` by region and kind:
+`arm9`, `arm9_sdk`, `itcm_sdk`, `ov`, `ov_sdk`, `twl`, `twl_sdk`.

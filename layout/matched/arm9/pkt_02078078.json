@@ -11,7 +11,7 @@
    "address": "0x02078078",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/FS_NormalizePath.c",
+   "source": "src/matched/arm9_sdk/FS_NormalizePath.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

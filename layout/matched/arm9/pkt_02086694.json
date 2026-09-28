@@ -11,7 +11,7 @@
    "address": "0x02086694",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/OS_GetInitArenaLo.c",
+   "source": "src/matched/arm9_sdk/OS_GetInitArenaLo.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

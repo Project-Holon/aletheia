@@ -3196,7 +3196,7 @@ def attest_sole_ref(addr, kind, align=None, lo=0, hi=0,
 # The class never applies to `data`: an entry attests the code it reproduced,
 # not an object some instruction in it happens to load.
 
-MATCHED_KINDS = ("game", "game_unit", "sdk_calibration", "runtime")
+MATCHED_KINDS = ("game", "game_unit", "sdk", "sdk_unit", "sdk_calibration", "runtime")
 MATCHED_STATUS = ("EXACT", "EXACT*")
 
 
@@ -3523,33 +3523,33 @@ OVERLAY_ID_CONSUMERS = {
     # and FS_UnloadOverlay(target, id) take the FSOverlayID second.
     0x02079264: ("FS_LoadOverlay", 1, "layout/symbols_sdk.txt"),
     0x020792B8: ("FS_UnloadOverlay", 1, "layout/symbols_sdk.txt"),
-    # src/matched/sub_02034AC4.c (EXACT): passes its argument to
+    # src/matched/arm9/sub_02034AC4.c (EXACT): passes its argument to
     # FS_LoadOverlay's id parameter.
-    0x02034AC4: ("sub_02034AC4", 0, "src/matched/sub_02034AC4.c"),
-    # src/matched/sub_02034A5C.c (EXACT): finds the registration holding its
+    0x02034AC4: ("sub_02034AC4", 0, "src/matched/arm9/sub_02034AC4.c"),
+    # src/matched/arm9/sub_02034A5C.c (EXACT): finds the registration holding its
     # argument and hands it to sub_02034A3C, which calls
-    # FS_UnloadOverlay(0, entry->handle) (src/matched/sub_02034A3C.c).
-    0x02034A5C: ("sub_02034A5C", 0, "src/matched/sub_02034A5C.c"),
-    # The proc system.  src/matched/func_02031538.c (EXACT) stores its r0 at
-    # Proc+4, which src/matched/func_020315F0.c (EXACT) passes to
+    # FS_UnloadOverlay(0, entry->handle) (src/matched/arm9/sub_02034A3C.c).
+    0x02034A5C: ("sub_02034A5C", 0, "src/matched/arm9/sub_02034A5C.c"),
+    # The proc system.  src/matched/arm9/func_02031538.c (EXACT) stores its r0 at
+    # Proc+4, which src/matched/arm9/func_020315F0.c (EXACT) passes to
     # func_02034AC4 on the first step and to func_02034A5C on the last.
-    0x02031538: ("func_02031538", 0, "src/matched/func_02031538.c"),
-    # src/matched/func_020314F4.c (EXACT): forwards its r1 to
+    0x02031538: ("func_02031538", 0, "src/matched/arm9/func_02031538.c"),
+    # src/matched/arm9/func_020314F4.c (EXACT): forwards its r1 to
     # func_02031538's r0.
-    0x020314F4: ("func_020314F4", 1, "src/matched/func_020314F4.c"),
-    # src/matched/func_02031348.c (EXACT): an `ldr ip; bx ip` tail thunk to
+    0x020314F4: ("func_020314F4", 1, "src/matched/arm9/func_020314F4.c"),
+    # src/matched/arm9/func_02031348.c (EXACT): an `ldr ip; bx ip` tail thunk to
     # func_020314F4, so r1 passes through untouched.
-    0x02031348: ("func_02031348", 1, "src/matched/func_02031348.c"),
+    0x02031348: ("func_02031348", 1, "src/matched/arm9/func_02031348.c"),
     # Not matched; read from the listing (asm/arm9/src/013_0202EC44.s,
     # 0x020312CC..0x020312F0): mov r4, r0 ... mov r1, r4; bl func_020314F4.
     0x020312CC: ("func_020312CC", 0, "listing 0x020312CC..0x020312F0"),
-    # src/matched/func_020120B4.c (EXACT): func_02031348(p->f8, id, a, b)
+    # src/matched/arm9/func_020120B4.c (EXACT): func_02031348(p->f8, id, a, b)
     # with the caller's r1 passed through.
-    0x020120B4: ("func_020120B4", 1, "src/matched/func_020120B4.c"),
-    # src/matched/func_020124AC.c (EXACT): stores its r1 (a1) in the
+    0x020120B4: ("func_020120B4", 1, "src/matched/arm9/func_020120B4.c"),
+    # src/matched/arm9/func_020124AC.c (EXACT): stores its r1 (a1) in the
     # descriptor and calls func_02034AC4(a1) with it unchanged, so the id
     # arrives in r1.  Read from the matched source 2026-09-27.
-    0x020124AC: ("func_020124AC", 1, "src/matched/func_020124AC.c"),
+    0x020124AC: ("func_020124AC", 1, "src/matched/arm9/func_020124AC.c"),
 }
 
 _OVERLAY_IDS = {}
@@ -4820,7 +4820,22 @@ def read_header(path):
     return fields
 
 
-SRC_DIRS = [("src/calib", "sdk_calibration"), ("src/matched", "game")]
+SRC_DIRS = [
+    ("src/calib", "sdk_calibration"),
+    # The source tree is region/category partitioned.  A file's directory
+    # fixes its kind, so kind is derived, never authored: the arm9/itcm/ov/twl
+    # split is the region and the _sdk suffix is membership in the
+    # tools/sdkclass.py union (the archive placement scan).  src/pending
+    # mirrors this and is never collected here.
+    ("src/matched/arm9", "game"),
+    ("src/matched/arm9_sdk", "sdk"),
+    ("src/matched/itcm", "game"),
+    ("src/matched/itcm_sdk", "sdk"),
+    ("src/matched/ov", "game"),
+    ("src/matched/ov_sdk", "sdk"),
+    ("src/matched/twl", "game"),
+    ("src/matched/twl_sdk", "sdk"),
+]
 
 # Where an entry lands when its source names no packet.  Everything matched
 # before tools/worklist.py existed is in the first of these.
@@ -5659,8 +5674,8 @@ OS_GETOWNERRTCOFFSET = 0x02087D08
 # in the image, so with that file's range under test no image class has a
 # witness left.  src/matched/sub_02018DB4.c is the EXACT entry that does.
 MATCHED_CALLEE = 0x02018DB4
-MATCHED_CALLEE_SRC = "src/matched/sub_02018DB4.c"
-MATCHED_CALLER_SRC = "src/matched/unit_02017E1C.c"
+MATCHED_CALLEE_SRC = "src/matched/arm9/sub_02018DB4.c"
+MATCHED_CALLER_SRC = "src/matched/arm9/unit_02017E1C.c"
 MATCHED_CALLER_LO, MATCHED_CALLER_HI = 0x02017E1C, 0x02017E40
 # func_0200B6E0 is not the address of src/matched/unit_0200B67C.c, it is the
 # second function that unit's layout records: the same byte comparison covered
@@ -5748,7 +5763,7 @@ SOLE_REF_MAP_LONE_SITE = 0x020049D4
 SOLE_REF_MAP_BETWEEN = 0x020050B0
 
 MATCHED_MEMBER = 0x0200B6E0
-MATCHED_MEMBER_SRC = "src/matched/unit_0200B67C.c"
+MATCHED_MEMBER_SRC = "src/matched/arm9/unit_0200B67C.c"
 
 # --- the overlay rules of sole-ref and matched (2026-09-23) ----------------
 # 0x02156460: a Thumb func_ label in ov009 (ov010 overlaps the address and
@@ -5796,7 +5811,7 @@ OV_DATA_SELF_LO, OV_DATA_SELF_HI = 0x02167394, 0x021673A8
 # shard; ov009 overlaps the address and labels nothing there.
 OV_MATCHED = 0x02168800
 OV_MATCHED_REGION = "ov010"
-OV_MATCHED_SRC = "src/matched/func_02168800.c"
+OV_MATCHED_SRC = "src/matched/ov/func_02168800.c"
 OV_MATCHED_CALLER_SRC = "src/pending/overlay_selftest.c"
 # func_021DC2D8 (EXACT, layout/matched/ov175/pkt_021DC2D8.json), called at
 # 0x021DA82C by func_021DA6B8 (0x021DA6B8..0x021DADA8).
@@ -5933,8 +5948,12 @@ def _selftest_overlay_id():
         # sole-ref/self on a contested ov115 hint, end to end: accepted in
         # func_02010AC4, which loads ov115; refused in the same function
         # once its ov115 id is declared as ov123's (no ov115 load left).
-        text = open(os.path.join(ROOT, "src", "matched",
-                                 "func_02010AC4.c")).read()
+        p10 = None
+        for dp, _dn, fns in os.walk(os.path.join(ROOT, "src", "matched")):
+            if "func_02010AC4.c" in fns:
+                p10 = os.path.join(dp, "func_02010AC4.c")
+                break
+        text = open(p10).read()
         acc = os.path.join(work, "selfhint_acc.c")
         with open(acc, "w", newline="\n") as fh:
             fh.write(text)

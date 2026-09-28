@@ -11,7 +11,7 @@
    "address": "0x020419E4",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/sub_020419E4.c",
+   "source": "src/matched/arm9/sub_020419E4.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

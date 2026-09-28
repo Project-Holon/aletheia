@@ -11,7 +11,7 @@
    "address": "0x0207A4B0",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/FS_LoadArchive.c",
+   "source": "src/matched/arm9_sdk/FS_LoadArchive.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

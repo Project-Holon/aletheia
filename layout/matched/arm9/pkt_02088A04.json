@@ -11,7 +11,7 @@
    "address": "0x02088A04",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/RtcCommonCallback.c",
+   "source": "src/matched/arm9_sdk/RtcCommonCallback.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

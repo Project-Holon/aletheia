@@ -11,7 +11,7 @@
    "address": "0x0208D708",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/string_put_char.c",
+   "source": "src/matched/arm9_sdk/string_put_char.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

@@ -1,5 +1,9 @@
 # Parallel decompilation
 
+Sources are filed under `src/matched/<region>/` and `src/pending/<region>/`,
+where `<region>` is one of `arm9`, `arm9_sdk`, `itcm_sdk`, `ov`, `ov_sdk`,
+`twl`, `twl_sdk`.
+
 A packet agent should start at `docs/AGENT-BRIEF.md`; come here only when the brief does not answer the question.
 
 Matching functions one at a time is serial only because the tooling was

@@ -11,7 +11,7 @@
    "address": "0x02087C6C",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/OS_GetMacAddress.c",
+   "source": "src/matched/arm9_sdk/OS_GetMacAddress.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

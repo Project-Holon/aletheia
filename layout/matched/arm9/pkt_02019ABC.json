@@ -11,7 +11,7 @@
    "address": "0x02019ABC",
    "kind": "game_unit",
    "region": "arm9",
-   "source": "src/matched/unit_02019ABC.c",
+   "source": "src/matched/arm9/unit_02019ABC.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

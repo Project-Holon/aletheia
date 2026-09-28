@@ -11,7 +11,7 @@
    "address": "0x021DFA60",
    "kind": "game",
    "region": "ov119",
-   "source": "src/matched/ov119_func_021DFA60.c",
+   "source": "src/matched/ov/ov119_func_021DFA60.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

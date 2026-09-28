@@ -11,7 +11,7 @@
    "address": "0x0207B5F4",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/MTX_Scale43_.c",
+   "source": "src/matched/arm9_sdk/MTX_Scale43_.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

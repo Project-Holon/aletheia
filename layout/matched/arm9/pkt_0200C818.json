@@ -11,7 +11,7 @@
    "address": "0x0200C818",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/sub_0200C818.c",
+   "source": "src/matched/arm9/sub_0200C818.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

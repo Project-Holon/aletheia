@@ -11,7 +11,7 @@
    "address": "0x02089FC0",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/SNDi_IncAlarmId.c",
+   "source": "src/matched/arm9_sdk/SNDi_IncAlarmId.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

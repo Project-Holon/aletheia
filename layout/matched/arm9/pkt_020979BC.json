@@ -11,7 +11,7 @@
    "address": "0x020979BC",
    "kind": "game_unit",
    "region": "arm9",
-   "source": "src/matched/unit_020979BC.c",
+   "source": "src/matched/arm9/unit_020979BC.c",
    "compiler": "dsi/1.2",
    "lang": "c99",
    "isa": "arm",

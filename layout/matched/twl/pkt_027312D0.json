@@ -11,7 +11,7 @@
    "address": "0x027312D0",
    "kind": "game",
    "region": "twl",
-   "source": "src/matched/func_027312D0.c",
+   "source": "src/matched/twl/func_027312D0.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

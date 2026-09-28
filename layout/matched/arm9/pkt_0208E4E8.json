@@ -11,7 +11,7 @@
    "address": "0x0208E4E8",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/WMi_CheckIdle.c",
+   "source": "src/matched/arm9_sdk/WMi_CheckIdle.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

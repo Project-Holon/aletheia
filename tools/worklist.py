@@ -188,6 +188,16 @@ def load_sdk_symbols():
             # duplicate addresses would mean two symbols on one entry point;
             # keep the first, which is the order libmatch.py emitted.
             syms.setdefault(addr, name)
+    # tools/sdkclass.py's placement scan: the determinate half of the SDK set,
+    # which sees library members the catalog never listed (the DSi `twl`
+    # block, the DSi-only libdsp/libaes/...).  Union, never a replacement, so
+    # nothing that used to be SDK stops being SDK.
+    try:
+        import sdkclass
+        for addr, e in sdkclass.union().get(REGION, {}).items():
+            syms.setdefault(addr, e["name"])
+    except Exception:
+        pass
     return syms
 
 
@@ -241,6 +251,14 @@ def load_sdk_extents():
         if size <= 0:
             continue
         out.append((int(s["address"]), int(s["address"]) + size, s["name"]))
+    try:
+        import sdkclass
+        for addr, e in sdkclass.union().get(REGION, {}).items():
+            size = int(e.get("size") or 0)
+            if size > 0:
+                out.append((addr, addr + size, e["name"]))
+    except Exception:
+        pass
     out.sort()
     return out
 
@@ -1483,10 +1501,11 @@ def load_pending_unlock_weights():
     weights = {}
     if not os.path.isdir(PENDING_DIR):
         return weights
-    for fname in sorted(os.listdir(PENDING_DIR)):
-        if not fname.endswith(".c"):
-            continue
-        path = os.path.join(PENDING_DIR, fname)
+    for fname in sorted(
+            os.path.join(dp, f)
+            for dp, _dn, fns in os.walk(PENDING_DIR)
+            for f in fns if f.endswith(".c")):
+        path = fname
         with open(path, encoding="utf-8", errors="replace") as fh:
             text = fh.read()
         header_end = text.find("*/")

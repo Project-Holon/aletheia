@@ -31,7 +31,7 @@ def main():
         for mm in re.finditer(r"0x(02[0-9A-Fa-f]{6})", open(f, errors="ignore").read()[:4000]):
             notes.add(int(mm.group(1), 16))
     pend = set()
-    for f in glob.glob(R("src", "pending", "*.c")):
+    for f in glob.glob(R("src", "pending", "**", "*.c"), recursive=True):
         mm = re.search(r"address:\s+0x([0-9A-Fa-f]{8})", open(f, errors="ignore").read())
         if mm: pend.add(int(mm.group(1), 16))
 

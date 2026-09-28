@@ -11,7 +11,7 @@
    "address": "0x021B6A10",
    "kind": "game_unit",
    "region": "ov067",
-   "source": "src/matched/ov067_unit_021B6A10.c",
+   "source": "src/matched/ov/ov067_unit_021B6A10.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

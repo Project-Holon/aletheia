@@ -11,7 +11,7 @@
    "address": "0x0201F250",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/sub_0201F250.c",
+   "source": "src/matched/arm9/sub_0201F250.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

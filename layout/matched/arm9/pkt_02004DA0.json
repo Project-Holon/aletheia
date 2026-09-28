@@ -11,7 +11,7 @@
    "address": "0x02004DA0",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/INITi_CallStaticInitializers.c",
+   "source": "src/matched/arm9_sdk/INITi_CallStaticInitializers.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

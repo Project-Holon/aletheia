@@ -11,7 +11,7 @@
    "address": "0x021B6910",
    "kind": "game_unit",
    "region": "ov098",
-   "source": "src/matched/ov098_unit_021B6910.c",
+   "source": "src/matched/ov/ov098_unit_021B6910.c",
    "compiler": "dsi/dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

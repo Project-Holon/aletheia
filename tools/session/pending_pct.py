@@ -34,7 +34,7 @@ def main():
         fresh = json.load(open(verdicts_path()))
     except Exception:
         fresh = {}
-    for f in sorted(glob.glob(os.path.join(env.ROOT, "src", "pending", "*.c"))):
+    for f in sorted(glob.glob(os.path.join(env.ROOT, "src", "pending", "**", "*.c"), recursive=True)):
         head = open(f, encoding="utf-8", errors="replace").read(6000)
         m = re.search(r"^ \* status:\s+(MATCH\*?)\s*$", head, re.M)
         if not m:

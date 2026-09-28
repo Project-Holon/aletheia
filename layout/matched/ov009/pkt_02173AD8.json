@@ -11,7 +11,7 @@
    "address": "0x02173AD8",
    "kind": "game",
    "region": "ov009",
-   "source": "src/matched/func_02173AD8.c",
+   "source": "src/matched/ov_sdk/func_02173AD8.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

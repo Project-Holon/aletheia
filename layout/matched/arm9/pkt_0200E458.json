@@ -11,7 +11,7 @@
    "address": "0x0200E458",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/func_0200E458.c",
+   "source": "src/matched/arm9/func_0200E458.c",
    "compiler": "dsi/dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

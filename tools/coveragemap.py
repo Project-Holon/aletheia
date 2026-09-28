@@ -194,12 +194,17 @@ _SDK = {}
 
 
 def sdk_addrs(region):
-    """{address} of catalogued SDK symbol starts for one overlay region."""
+    """{address} of catalogue SDK symbol starts for one region.
+
+    The union of libmatch.py's catalog and tools/sdkclass.py's placement
+    scan, so a region whose library member the catalog never listed (the
+    whole DSi `twl` block) still classifies as SDK.
+    """
     if not _SDK:
-        p = os.path.join(ROOT, "layout", "symbols_sdk.json")
-        if os.path.exists(p):
-            for e in json.load(open(p, encoding="utf-8")).get("symbols", []):
-                _SDK.setdefault(str(e.get("region")), set()).add(int(e["address"]))
+        sys.path.insert(0, os.path.join(ROOT, "tools"))
+        import sdkclass
+        for reg, d in sdkclass.union().items():
+            _SDK.setdefault(reg, set()).update(d)
         _SDK["__loaded__"] = set()
     return _SDK.get(region, set())
 

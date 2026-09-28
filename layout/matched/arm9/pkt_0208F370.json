@@ -11,7 +11,7 @@
    "address": "0x0208F370",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/FSi_HasEnoughSpaceToCreateUserFile.c",
+   "source": "src/matched/arm9_sdk/FSi_HasEnoughSpaceToCreateUserFile.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

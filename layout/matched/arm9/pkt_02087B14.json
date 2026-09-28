@@ -11,7 +11,7 @@
    "address": "0x02087B14",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/OS_GetBootInfo.c",
+   "source": "src/matched/arm9_sdk/OS_GetBootInfo.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

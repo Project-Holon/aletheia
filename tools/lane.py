@@ -58,7 +58,7 @@ def covered_addresses():
 
 def pending_addresses():
     out = {}
-    for path in glob.glob(os.path.join(ROOT, "src", "pending", "*.c")):
+    for path in glob.glob(os.path.join(ROOT, "src", "pending", "**", "*.c"), recursive=True):
         head = open(path, encoding="utf-8", errors="replace").read(6000).split("*/", 1)[0]
         m = re.search(r"^ \* address:\s+0x([0-9A-Fa-f]{8})", head, re.M)
         if m:

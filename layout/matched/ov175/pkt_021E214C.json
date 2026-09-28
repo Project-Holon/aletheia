@@ -11,7 +11,7 @@
    "address": "0x021E214C",
    "kind": "game",
    "region": "ov175",
-   "source": "src/matched/func_021E214C.c",
+   "source": "src/matched/ov_sdk/func_021E214C.c",
    "compiler": "dsi/dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

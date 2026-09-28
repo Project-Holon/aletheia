@@ -11,7 +11,7 @@
    "address": "0x0220AFDC",
    "kind": "game",
    "region": "ov196",
-   "source": "src/matched/ov196_func_0220AFDC.c",
+   "source": "src/matched/ov/ov196_func_0220AFDC.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

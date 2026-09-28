@@ -11,7 +11,7 @@
    "address": "0x02085D0C",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/DWCi_CMNlFontFlag.c",
+   "source": "src/matched/arm9_sdk/DWCi_CMNlFontFlag.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

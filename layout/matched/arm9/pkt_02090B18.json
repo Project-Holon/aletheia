@@ -11,7 +11,7 @@
    "address": "0x02090B18",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/WM_GetSharedDataAddress.c",
+   "source": "src/matched/arm9_sdk/WM_GetSharedDataAddress.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

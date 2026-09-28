@@ -11,7 +11,7 @@
    "address": "0x020844A8",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/NVRAMi_PageWrite.c",
+   "source": "src/matched/arm9_sdk/NVRAMi_PageWrite.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

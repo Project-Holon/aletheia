@@ -11,7 +11,7 @@
    "address": "0x0209CE10",
    "kind": "runtime",
    "region": "arm9",
-   "source": "src/matched/fdiv.c",
+   "source": "src/matched/arm9/fdiv.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

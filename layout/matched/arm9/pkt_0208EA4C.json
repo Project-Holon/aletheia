@@ -11,7 +11,7 @@
    "address": "0x0208EA4C",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/WMi_RegisterSleepCallback.c",
+   "source": "src/matched/arm9_sdk/WMi_RegisterSleepCallback.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

@@ -11,7 +11,7 @@
    "address": "0x020775B8",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/CP_SaveContext.c",
+   "source": "src/matched/arm9_sdk/CP_SaveContext.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

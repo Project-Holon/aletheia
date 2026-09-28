@@ -11,7 +11,7 @@
    "address": "0x0205911C",
    "kind": "sdk",
    "region": "arm9",
-   "source": "src/matched/func_0205911C.c",
+   "source": "src/matched/arm9_sdk/func_0205911C.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

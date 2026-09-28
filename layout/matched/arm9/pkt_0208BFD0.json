@@ -11,7 +11,7 @@
    "address": "0x0208BFD0",
    "kind": "game",
    "region": "arm9",
-   "source": "src/matched/PM_GetBackLight.c",
+   "source": "src/matched/arm9_sdk/PM_GetBackLight.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",
