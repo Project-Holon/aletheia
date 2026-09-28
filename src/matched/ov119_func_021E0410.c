@@ -1,0 +1,53 @@
+/*
+ * function: func_021E0410
+ * address:  0x021E0410
+ * packet:   pkt_ov119_021E0410
+ * region:   ov119
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02012F98  0x02012F98  thumb
+ *   sub_02007B50   0x02007B50  thumb
+ *   sub_02007B54   0x02007B54  thumb
+ *   func_0201AA18  0x0201AA18  thumb
+ *   func_0201AB28  0x0201AB28  thumb
+ *   func_02017E1C  0x02017E1C  thumb
+ *
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned int u32;
+
+extern void *func_02012F98(void *p);
+extern u32 sub_02007B50(void *voice);
+extern void sub_02007B54(void *voice);
+extern int func_0201AA18(void *party);
+extern void *func_0201AB28(void *party, int idx);
+extern u32 func_02017E1C(void *mon, u32 id, u32 v);
+
+int func_021E0410(char *p, void *party, int idx)
+{
+    int count = 0;
+    int i, n;
+    void *voice = func_02012F98(*(void **)(p + 0x82C));
+
+    if (!sub_02007B50(voice))
+        return count;
+    n = func_0201AA18(party);
+    for (i = 0; i < n; i++) {
+        if (func_02017E1C(func_0201AB28(party, i), 5, 0) == 0x1B9)
+            count++;
+    }
+    if (count != 1)
+        return 0;
+    count = 0;
+    if (func_02017E1C(func_0201AB28(party, idx), 5, 0) == 0x1B9) {
+        sub_02007B54(voice);
+        return 1;
+    }
+    return count;
+}

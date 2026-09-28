@@ -7,8 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * blocker:  0x02026124 is an unlabelled ARM9 Thumb function (printed as .word in asm/arm9/main.s); seed it and this closes EXACT
+ * status:   EXACT
  *
  * symbols:
  *   func_020061E4 0x020061E4 thumb

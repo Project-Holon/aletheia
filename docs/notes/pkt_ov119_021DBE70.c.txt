@@ -22,3 +22,13 @@ Tried on the residue (all leave 8 or more bytes out except the kept one):
 - lim read inline twice; condition spelled end > a; t += 10 in place;
 - static inline bound helper (much worse);
 - permuter seed 9001, budget 400: best 6 bytes out, no change.
+
+== 2026-09-28 tree_ov170_3 ==
+CLOSED, EXACT; src/matched/ov119_func_021DBE70.c. What closed it was separating the
+six block locals' declarations from their initialisers. They are declared first with
+no initialisers, then assigned in the old order (t, cur, a, b, lim, end). Of the
+720 declaration orders, 536 were measured before the sweep was stopped, and 105 of
+them are EXACT. The rest are 6, 8 or 12 bytes out. The filed order is
+end, a, t, cur, b, lim. A self-assignment (`x = x;`) of any of the six, at any of five
+points, did not move the residue while the initialisers stayed on the declarations.
+Reading lim inline or through an `int *` recoloured the whole function (600+ bytes out).

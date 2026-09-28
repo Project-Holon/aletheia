@@ -7,8 +7,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
- * blocker:  6 bytes (+007C..+0094): the t + 5 value and the 0x634 bound swap r1 and r3; every declaration order, an inline bound helper and one permuter run (seed 9001) leave it
+ * status:   EXACT
+ *
+ * The bound block after func_021E4DBC closes only with its six locals
+ * declared without initialisers and assigned afterwards; about a fifth of
+ * the declaration orders then match (docs/notes/pkt_ov119_021DBE70.c.txt).
  *
  * symbols:
  *   func_02035C38 0x02035C38 arm
@@ -141,12 +144,18 @@ void func_021DBE70(char *p)
             if (v < 2 && I(p, 0xF78) >= 3)
                 I(p, 0xF78) = 2;
         } else if (func_021DB4EC(p, I(p, 0xF74)) == 0) {
-            int t = func_021E4DBC(p);
-            int cur = I(p, 0xF74);
-            int a = t + 5;
-            int b = t + 10;
-            int lim = I(p, 0x634);
-            int end = cur;
+            int end;
+            int a;
+            int t;
+            int cur;
+            int b;
+            int lim;
+            t = func_021E4DBC(p);
+            cur = I(p, 0xF74);
+            a = t + 5;
+            b = t + 10;
+            lim = I(p, 0x634);
+            end = cur;
             if (b >= lim && cur < 0x14)
                 end = cur + (lim + 1);
             if (a < end)
