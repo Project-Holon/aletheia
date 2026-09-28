@@ -172,7 +172,7 @@ class FuncBytes:
     """A function extracted from a relocatable object."""
 
     __slots__ = ("name", "data", "mask", "thumb", "section", "relocs",
-                 "locals", "sites")
+                 "locals", "sites", "anon")
 
     def __init__(self, name, data, mask, thumb, section, relocs, locals_=None):
         self.name = name
@@ -183,6 +183,7 @@ class FuncBytes:
         self.relocs = relocs    # list of (offset, type, symbol name, addend)
         self.locals = locals_ or {}   # symbol -> offset within self.data
         self.sites = []         # filled in by resolve_relocations()
+        self.anon = {}          # "@N" local data object -> its bytes
 
     @property
     def size(self):
@@ -328,8 +329,17 @@ def extract_function(obj_path, func, prefer_thumb=None):
     locals_ = {n: v - value for n, v, sz, t, b, sh in syms
                if sh == shndx and not n.startswith("$")
                and value <= v < value + size}
-    return FuncBytes(name, blob, mask, thumb, obj.secnames[shndx], rels,
-                     locals_)
+    fb = FuncBytes(name, blob, mask, thumb, obj.secnames[shndx], rels,
+                   locals_)
+    # The compiler's anonymous data objects (`@N` initializer templates) the
+    # function relocates against, with their bytes, for the `template` rule.
+    wanted = set(r[2] for r in rels)
+    for n, v, sz, t, b, sh in syms:
+        if (n in wanted and n.startswith("@") and t == 1 and sz > 0
+                and 0 < sh < len(obj.sections)
+                and obj.sections[sh][1] == SHT_PROGBITS):
+            fb.anon[n] = bytes(obj.section_data(sh)[v:v + sz])
+    return fb
 
 
 # ---------------------------------------------------------------------------
@@ -561,6 +571,18 @@ def target_extent(addr, region):
 #            OVERLAY_ID_CONSUMERS entry, a call site that resolved on its
 #            own evidence.  Tried after everything else, once the
 #            function's other sites are known.  See attest_overlay_id().
+#
+#   linker   an ABS32 site the function's own vendor object (located with
+#            zero mismatches) relocates against an SDK_* symbol no member of
+#            its archive defines, with the value derived from layout.json or
+#            held at the same symbol's slot in another located row of that
+#            archive.  See "vendor-object rules" and attest_linker().
+#
+#   template an ABS32 site the vendor object relocates against its local
+#            `@N` initializer; the declared address holds the member's
+#            template bytes, and no other aligned address of the ARM9 static
+#            module does.  See attest_template().  (A `.bss` section symbol
+#            may also be named, attest_section_rel(); that adds no class.)
 #
 # A site with no accepted witness stays wildcarded and the entry stays MATCH,
 # with the reason printed.  Nothing is ever back-filled from the original.
@@ -3789,6 +3811,388 @@ def attest_overlay_id(fb, st, value, sites, place):
 
 
 # ---------------------------------------------------------------------------
+# vendor-object rules: `linker`, `template` and section-relative .bss
+# ---------------------------------------------------------------------------
+#
+# Three kinds of relocation target have no witness any address-based class
+# can give, because nothing in the image names them from outside the
+# compared range: a linker-defined absolute (SDK_OVERLAY_NUMBER is 0xED, not
+# a location), a compiler-generated initializer template (`@12151`, a local
+# with no name a `symbols:` line could share with our compile), and a
+# relocation against a section symbol (`.bss`+0 in os_spinlock.o).  All
+# three occur in SDK functions whose vendor object is in sdk/, and the vendor
+# object states what the relocated word IS.  The rules below accept a site
+# only when two independent sources agree: the vendor object says which
+# symbol the word at this slot is, and the image or the layout proves the
+# value.  A value match alone never passes.
+#
+# Common precondition (vendor_function()): the function under test has
+# exactly one layout/symbols_sdk.json row at `place` in the ARM9 static
+# region, and tools/sdkobj.py's locate() finds that row's member with ZERO
+# concrete mismatches against the image (every byte outside the member's own
+# relocation fields agrees).  That is what makes the member's relocation
+# table a statement about the image rather than about some other build.  The
+# member's relocation at the site's offset must be the same type (ABS32) as
+# ours.
+#
+#   linker    (attest_linker())  the member relocates the slot against an
+#             UNDEFINED symbol X (shndx 0) whose name is our relocation's
+#             name, spelled SDK_[A-Z0-9_]+, with addend 0 on both sides, and
+#             X is defined in no member of the member's archive (so only the
+#             linker can supply it).  The value must then be proven one of
+#             two ways, never by the word under comparison:
+#               (a) LINKER_LAYOUT names X and its derivation from
+#                   layout/layout.json equals the declared value (a
+#                   derivation that disagrees refuses outright, (b) is not
+#                   tried);
+#               (b) another SDK row of the same archive, also located with
+#                   zero mismatches, relocates X (ABS32, addend 0) at a slot
+#                   outside the compared range, and the image word there
+#                   equals the declared value; every such slot has to agree,
+#                   one disagreeing slot refuses.
+#   template  (attest_template())  the member relocates the slot against a
+#             LOCAL data object named `@N` (the compiler's anonymous
+#             initializer), of size S > 0 in a PROGBITS section, with no
+#             relocation inside it, addend 0 on both sides.  The source
+#             names the address with a `symbols:` line whose name is the
+#             member's `@N` (the only stable spelling; our own compile's
+#             `@M` number differs).  Accepted when the S template bytes
+#             contain a non-zero byte, the declared address is aligned to
+#             the template section's alignment and lies in an ARM9 static
+#             data section, the image holds exactly those S bytes there, the
+#             byte pattern occurs at no other aligned address of the ARM9
+#             static module, and our compile's own `@M` object (when the
+#             compiled object is at hand) has the same S bytes.
+#   .bss      (attest_section_rel())  a `symbols:` line may name `.bss`
+#             (the section symbol mwccarm writes for a function-local
+#             static) with the address of the object's .bss base.  Accepted
+#             only when the member relocates the slot against its own .bss
+#             section symbol with the same addend we do, the member's whole
+#             .bss placed at that base lies in the ARM9 static module's .bss
+#             (layout.json static bss_start..bss_end), the base is aligned to
+#             the member's .bss alignment, and the ordinary attest() still
+#             finds a witness for base+addend.  This rule adds no evidence of
+#             its own: it only lets a section-relative relocation be named;
+#             the witness is whatever class attest() reports.  (The exact
+#             placement of one member's .bss is not in any file we have; the
+#             static module's .bss range is the bound the layout gives.)
+
+LINKER_NAME_RE = re.compile(r"^SDK_[A-Z0-9_]+$")
+ANON_NAME_RE = re.compile(r"^@[0-9]+$")
+SECTION_NAMES = (".bss",)
+
+_VENDOR = {}
+
+
+def _layout_json():
+    if "layout" not in _VENDOR:
+        with open(os.path.join(ROOT, "layout", "layout.json")) as fh:
+            _VENDOR["layout"] = json.load(fh)
+    return _VENDOR["layout"]
+
+
+def _overlay_number(lay):
+    n = (lay.get("counts") or {}).get("overlays")
+    if not isinstance(n, int) or n != len(lay.get("overlays") or []):
+        return None             # the two layout statements must agree
+    return n
+
+
+# X -> (derivation from layout.json, how it is derived).  Only symbols whose
+# value is by definition a layout figure.
+LINKER_LAYOUT = {
+    # the number of entries in the y9 overlay table
+    "SDK_OVERLAY_NUMBER": (_overlay_number,
+                           "layout.json counts.overlays (= len(overlays))"),
+    # the TWL-only main-memory autoload block of arm9i.bin, which layout.json
+    # carries as region `twl`
+    "SDK_LTDAUTOLOAD_LTDMAIN_START": (
+        lambda lay: (lay.get("twl") or {}).get("ram_start"),
+        "layout.json twl.ram_start"),
+    "SDK_LTDAUTOLOAD_LTDMAIN_BSS_END": (
+        lambda lay: (lay.get("twl") or {}).get("bss_end"),
+        "layout.json twl.bss_end"),
+}
+
+
+def _sdkobj():
+    if "mod" not in _VENDOR:
+        import sdkobj           # noqa: E402  (tools/ is already on sys.path)
+        _VENDOR["mod"] = sdkobj
+    return _VENDOR["mod"]
+
+
+def _vendor_region(place, region):
+    """'arm9' when the vendor rules may run for a function at `place`."""
+    if region not in (None, "arm9"):
+        return None
+    r = _region_at(place)
+    if r is None or r.name != "arm9":
+        return None
+    return "arm9"
+
+
+def vendor_function(place, region=None):
+    """The vendor member of the SDK row at `place`, located with 0 mismatches.
+
+    Returns a dict (row, archive, view, sym, relocs {off: (rtype, symidx,
+    addend)}) or None.  None whenever the row is missing or ambiguous, or the
+    member disagrees with the image anywhere outside its relocation fields.
+    """
+    reg = _vendor_region(place, region)
+    if reg is None:
+        return None
+    key = ("fn", place)
+    if key in _VENDOR:
+        return _VENDOR[key]
+    so = _sdkobj()
+    out = None
+    rows = [r for r in so.sdk_table()
+            if r["address"] == place and r["region"] == reg]
+    if len(rows) == 1:
+        try:
+            got, _tried = so.locate(rows[0])
+        except Exception:           # an unreadable archive refuses
+            got = None
+        if got is not None and got[7] == 0:
+            arch, view, sym, _body, _mask, rels, _thumb, _mis = got
+            out = {"row": rows[0], "archive": arch, "view": view, "sym": sym,
+                   "relocs": {off: (rt, si, add) for off, rt, si, add in rels}}
+    _VENDOR[key] = out
+    return out
+
+
+def _vendor_site(vf, off, rtype):
+    """(symbol tuple, addend) of the member's relocation at `off`, or None."""
+    if vf is None:
+        return None
+    got = vf["relocs"].get(off)
+    if got is None or got[0] != rtype:
+        return None
+    _rt, si, add = got
+    syms = vf["view"].syms
+    if si >= len(syms):
+        return None
+    return syms[si], (add or 0)
+
+
+def vf_member_name(place, region=None):
+    vf = vendor_function(place, region)
+    if vf is None:
+        return "?"
+    return "%s(%s)" % (os.path.basename(vf["archive"]), vf["row"]["object"])
+
+
+def _archive_defines(archive, name):
+    """True when any member of `archive` defines `name` (shndx != 0)."""
+    key = ("def", archive)
+    if key not in _VENDOR:
+        so = _sdkobj()
+        from libmatch import read_archive  # noqa: E402
+        defined = set()
+        if archive.endswith(".o"):
+            with open(archive, "rb") as fh:
+                members = [(os.path.basename(archive), fh.read())]
+        else:
+            members = list(read_archive(archive))
+        for n, b in members:
+            o = Obj(n, b)
+            if not o.ok:
+                continue
+            for s in so.ObjView(o).syms:
+                if s[5] != 0 and s[0]:
+                    defined.add(s[0])
+        _VENDOR[key] = defined
+    return name in _VENDOR[key]
+
+
+def _image_word(addr):
+    r = _region_at(addr)
+    if r is None:
+        return None
+    off = addr - r.base
+    if off < 0 or off + 4 > len(r.data):
+        return None
+    return struct.unpack_from("<I", r.data, off)[0]
+
+
+def _linker_sites(vf, name):
+    """[(site addr, image word)] where another ARM9 row of vf's archive
+    relocates `name` (ABS32, undefined, addend 0); each such row is located
+    with 0 mismatches by vendor_function()."""
+    key = ("lsites", vf["archive"], name)
+    if key in _VENDOR:
+        return _VENDOR[key]
+    so = _sdkobj()
+    lib = vf["row"]["lib"]
+    out = []
+    for row in so.sdk_table():
+        if row["region"] != "arm9" or row["lib"] != lib:
+            continue
+        if row["address"] == vf["row"]["address"]:
+            continue
+        other = vendor_function(row["address"], "arm9")
+        if other is None or other["archive"] != vf["archive"]:
+            continue
+        syms = other["view"].syms
+        for off, (rt, si, add) in sorted(other["relocs"].items()):
+            if rt != R_ARM_ABS32 or (add or 0) != 0 or si >= len(syms):
+                continue
+            s = syms[si]
+            if s[0] != name or s[5] != 0:
+                continue
+            site = row["address"] + off
+            out.append((site, _image_word(site)))
+    _VENDOR[key] = out
+    return out
+
+
+def attest_linker(place, off, name, value, addend, lo, hi, region=None):
+    """The `linker` class.  (class, witnesses, site, note) or None.
+
+    `place` is where the function under test is compared, `off` the site's
+    offset in it, `name` our relocation's symbol, `value` the word the
+    declaration would write there.  See the commentary above.
+    """
+    if not LINKER_NAME_RE.match(name or "") or addend != 0:
+        return None
+    vf = vendor_function(place, region)
+    got = _vendor_site(vf, off, R_ARM_ABS32)
+    if got is None:
+        return None
+    sym, vadd = got
+    if sym[0] != name or sym[5] != 0 or vadd != 0:
+        return None
+    if _archive_defines(vf["archive"], name):
+        return None
+    member = vf_member_name(place, region)
+    derive = LINKER_LAYOUT.get(name)
+    if derive is not None:
+        want = derive[0](_layout_json())
+        if want is None or want != value:
+            return None
+        return ("linker", 1, value,
+                "%s is undefined in %s; value = %s" % (name, member, derive[1]))
+    sites = [(s, w) for s, w in _linker_sites(vf, name) if not lo <= s < hi]
+    if not sites or any(w != value for _s, w in sites):
+        return None
+    return ("linker", len(sites), sites[0][0],
+            "%s is undefined in %s; the archive's other located rows relocate "
+            "it at slots holding this value" % (name, member))
+
+
+def vendor_template(place, off, region=None):
+    """(member's @N name, template bytes, alignment) for the slot, or None."""
+    vf = vendor_function(place, region)
+    got = _vendor_site(vf, off, R_ARM_ABS32)
+    if got is None:
+        return None
+    sym, vadd = got
+    name, val, size, typ, bind, shndx = sym
+    if (not ANON_NAME_RE.match(name or "") or vadd != 0 or typ != 1
+            or bind != 0 or size <= 0 or shndx == 0):
+        return None
+    obj = vf["view"].obj
+    if shndx >= len(obj.sections) or obj.sections[shndx][1] != SHT_PROGBITS:
+        return None
+    for roff, _rt, _si, _add in vf["view"].relocs.get(shndx, ()):
+        if val <= roff < val + size:
+            return None             # a template with relocations: refuse
+    body = bytes(obj.section_data(shndx)[val:val + size])
+    if len(body) != size:
+        return None
+    return name, body, obj.sections[shndx][8] or 1
+
+
+def _template_unique(pattern, align, addr):
+    """True when `pattern` occurs in the ARM9 static module at `addr` and at
+    no other `align`-aligned address."""
+    r = _region_at(addr)
+    if r is None or r.name != "arm9":
+        return False
+    data = bytes(r.data)
+    seen = []
+    i = data.find(pattern)
+    while i >= 0:
+        if (r.base + i) % align == 0:
+            seen.append(r.base + i)
+            if len(seen) > 1:
+                return False
+        i = data.find(pattern, i + 1)
+    return seen == [addr]
+
+
+def attest_template(place, off, addr, addend, ours=None, region=None):
+    """The `template` class.  (class, witnesses, site, note) or None.
+
+    `addr` is the declared address of the member's `@N`; `ours` is our own
+    compile's template bytes, or None when the compiled object is not at
+    hand (the quick self-test calls it that way).
+    """
+    if addend != 0:
+        return None
+    got = vendor_template(place, off, region)
+    if got is None:
+        return None
+    name, body, align = got
+    if not any(body):
+        return None
+    if addr % align or not in_data_section(addr):
+        return None
+    r = _region_at(addr)
+    if r is None or r.name != "arm9":
+        return None
+    o = addr - r.base
+    if bytes(r.data[o:o + len(body)]) != body:
+        return None
+    if not _template_unique(body, align, addr):
+        return None
+    if ours is not None and bytes(ours) != body:
+        return None
+    return ("template", 1, addr,
+            "%s (%d bytes) of %s: the image holds the member's template here "
+            "and nowhere else" % (name, len(body), vf_member_name(place, region)))
+
+
+def attest_section_rel(place, off, name, base, addend, lo, hi, src=None,
+                       region=None):
+    """A section-relative `.bss` target: (attest()'s proof, note) or None.
+
+    `base` is the declared address of the member's .bss start."""
+    if name not in SECTION_NAMES:
+        return None
+    vf = vendor_function(place, region)
+    got = _vendor_site(vf, off, R_ARM_ABS32)
+    if got is None:
+        return None
+    sym, vadd = got
+    _sname, val, _size, typ, _bind, shndx = sym
+    obj = vf["view"].obj
+    if (typ != 3 or shndx == 0 or shndx >= len(obj.sections)
+            or obj.secnames[shndx] != name or val != 0 or vadd != addend):
+        return None
+    sec = obj.sections[shndx]
+    sec_size, sec_align = sec[5], sec[8] or 1
+    if addend < 0 or addend >= max(sec_size, 1) or base % sec_align:
+        return None
+    static = (_layout_json().get("arm9") or {}).get("static") or {}
+    b_lo, b_hi = static.get("bss_start"), static.get("bss_end")
+    if not isinstance(b_lo, int) or not isinstance(b_hi, int):
+        return None
+    if not (b_lo <= base and base + sec_size <= b_hi):
+        return None
+    # exactly the call the resolver makes for any ABS32 data site, so the
+    # witness classes (sole-ref/self included) apply unchanged
+    proof = attest(base + addend, "data", lo, hi, src, None, None,
+                   place + off, (base + addend) & 0xFFFFFFFF,
+                   site_region=region)
+    if proof is None:
+        return None
+    return proof, ("%s+%#x of %s, based at %08X in the ARM9 static .bss"
+                   % (name, addend, vf_member_name(place, region), base))
+
+
+# ---------------------------------------------------------------------------
 # relocation resolution
 # ---------------------------------------------------------------------------
 
@@ -3906,6 +4310,51 @@ def _encode_arm_branch(data, off, place, target, addend, thumb_target=False):
     return True
 
 
+def _resolve_vendor_named(fb, st, place, decls, lo, hi, src, region):
+    """(target, "data") for an `@N` or `.bss` relocation the vendor object
+    names, with st's class, witness and note set; None (st.reason set)."""
+    name, off, addend = st.name, st.off, st.addend
+    if name in SECTION_NAMES:
+        d = decls.get(name)
+        if d is None:
+            st.reason = ("no address for %r: a section-relative target needs "
+                         "a `%s 0xADDR data` symbols: line" % (name, name))
+            return None
+        got = attest_section_rel(place, off, name, d.addr, addend, lo, hi,
+                                 src, region)
+        if got is None:
+            st.reason = ("%s+%#x at %08X: the vendor object does not relocate "
+                         "this slot against its own %s with this addend, the "
+                         "base is not in the ARM9 static .bss, or no witness "
+                         "attests %08X" % (name, addend, d.addr, name,
+                                           d.addr + addend))
+            return None
+        proof, note = got
+        st.cls, st.witnesses, st.witness = proof[:3]
+        if proof[0] == "sole-ref" and len(proof) > 3:
+            st.subkind = proof[3]
+        st.note = note
+        return d.addr, "data"
+    vt = vendor_template(place, off, region)
+    if vt is None or vt[0] not in decls:
+        st.reason = ("no address for %r: a compiler template is named by the "
+                     "vendor object's own @N at this slot (%s), which the "
+                     "symbols: block does not declare"
+                     % (name, vt[0] if vt else "no vendor template here"))
+        return None
+    d = decls[vt[0]]
+    proof = attest_template(place, off, d.addr, addend,
+                            getattr(fb, "anon", {}).get(name), region)
+    if proof is None:
+        st.reason = ("%s declared at %08X: the image does not hold the "
+                     "vendor template there uniquely, or our template "
+                     "differs" % (vt[0], d.addr))
+        return None
+    st.cls, st.witnesses, st.witness = proof[:3]
+    st.note = proof[3]
+    return d.addr, d.kind
+
+
 def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
     """Fill in every relocation of `fb` whose target we can attest.
 
@@ -3933,6 +4382,17 @@ def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
             target = place + fb.locals[name]
             kind = "thumb" if fb.thumb else "arm"
             st.cls = "local"
+        elif ANON_NAME_RE.match(name) or name in SECTION_NAMES:
+            # A compiler template or a section symbol: only the vendor
+            # object can say what the slot is (see "vendor-object rules").
+            got = _resolve_vendor_named(fb, st, place, decls, lo, hi, src,
+                                        region)
+            if got is None:
+                continue
+            target, kind = got
+            if kind != "data" or rtype != R_ARM_ABS32:
+                st.reason = "%s: only an ABS32 data site is named this way" % name
+                continue
         else:
             info = symbol_address(name, decls)
             if info is None:
@@ -3977,6 +4437,15 @@ def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
                 self_expect = (target + addend) & 0xFFFFFFFF
             proof = attest(target, kind, lo, hi, src, region_hint, align,
                            self_site, self_expect, site_region=region)
+            if proof is None and rtype == R_ARM_ABS32 and kind == "data":
+                # A linker-defined absolute the vendor object names at this
+                # slot (see "vendor-object rules").
+                lk = attest_linker(place, off, name,
+                                   (target + addend) & 0xFFFFFFFF, addend,
+                                   lo, hi, region)
+                if lk is not None:
+                    proof = lk[:3]
+                    st.note = lk[3]
             if proof is None and rtype == R_ARM_ABS32 and kind == "data":
                 # Retried as `overlay_id` once every other site is known.
                 ovid_later.append((st, (target + addend) & 0xFFFFFFFF))
@@ -4763,7 +5232,8 @@ CONT_RE = re.compile(r"^\s*\*\s*([A-Za-z_][A-Za-z0-9_]*\s*,\s*)*"
 # alignment (`aN`), in either order; declared_symbols() refuses two of the
 # same sort.
 SYMBOL_RE = re.compile(
-    r"^\s*\*\s+([A-Za-z_][A-Za-z0-9_]*)\s+(0[xX][0-9A-Fa-f]+)\s+"
+    r"^\s*\*\s+([A-Za-z_][A-Za-z0-9_]*|@[0-9]+|\.bss)\s+"
+    r"(0[xX][0-9A-Fa-f]+)\s+"
     r"(thumb|arm|data)(?:\s+(ov230d|ov\d{3}|twl|a\d{1,2}))?"
     r"(?:\s+(ov230d|ov\d{3}|twl|a\d{1,2}))?"
     r"\s*$")
@@ -7088,6 +7558,92 @@ def cmd_selftest(args):
                id_off=0x44, callee_off=0x48), (False, ""))
     _check(res, "overlay_id: func_020124AC takes the id in r1",
            OVERLAY_ID_CONSUMERS[0x020124AC][1], 1)
+
+    # --- vendor-object rules: linker, template, section-relative .bss -----
+    fslo, fshi = 0x02078D34, 0x02078EB0          # FS_LoadOverlayInfo
+    solo, sohi = 0x0207902C, 0x02079164          # FS_StartOverlay
+    thlo, thhi = 0x02085264, 0x020853B0          # OS_InitThread
+    _check(res, "linker: SDK_OVERLAY_NUMBER at FS_LoadOverlayInfo+0x174 is "
+                "layout.json's overlay count (0xED)",
+           cls(attest_linker(fslo, 0x174, "SDK_OVERLAY_NUMBER", 0xED, 0,
+                             fslo, fshi)), "linker")
+    _check(res, "linker: a declared value the layout does not derive (0xEC) "
+                "is refused",
+           attest_linker(fslo, 0x174, "SDK_OVERLAY_NUMBER", 0xEC, 0,
+                         fslo, fshi), None)
+    _check(res, "linker: a slot the vendor object relocates against another "
+                "symbol (FSiOverlayContext at +0x170) is refused",
+           attest_linker(fslo, 0x170, "SDK_OVERLAY_NUMBER", 0xED, 0,
+                         fslo, fshi), None)
+    _check(res, "linker: SDK_LTDAUTOLOAD_LTDMAIN_START / _BSS_END are "
+                "layout.json twl ram_start / bss_end",
+           (cls(attest_linker(solo, 0x120, "SDK_LTDAUTOLOAD_LTDMAIN_START",
+                              0x02700000, 0, solo, sohi)),
+            cls(attest_linker(solo, 0x124, "SDK_LTDAUTOLOAD_LTDMAIN_BSS_END",
+                              0x02735B40, 0, solo, sohi))),
+           ("linker", "linker"))
+    _check(res, "linker: the twl bound swapped between the two slots is "
+                "refused",
+           attest_linker(solo, 0x120, "SDK_LTDAUTOLOAD_LTDMAIN_START",
+                         0x02735B40, 0, solo, sohi), None)
+    got = attest_linker(thlo, 0x120, "SDK_SYS_STACKSIZE", 0x1800, 0,
+                        thlo, thhi)
+    _check(res, "linker: SDK_SYS_STACKSIZE in OS_InitThread is witnessed by "
+                "OS_GetInitArenaHi's slot 0x02086684 (os_arena.o relocates "
+                "the same symbol)",
+           got[:3] if got else None, ("linker", 1, 0x02086684))
+    _check(res, "linker: a value the other slots do not hold (0x1000) is "
+                "refused",
+           attest_linker(thlo, 0x120, "SDK_SYS_STACKSIZE", 0x1000, 0,
+                         thlo, thhi), None)
+    _check(res, "linker: the other row's slot inside the compared range is "
+                "not a witness",
+           attest_linker(thlo, 0x120, "SDK_SYS_STACKSIZE", 0x1800, 0,
+                         0x02086594, 0x020866A0), None)
+    _check(res, "linker: a name outside SDK_* (OSi_ThreadInfo) never "
+                "qualifies",
+           attest_linker(thlo, 0x118, "OSi_ThreadInfo", 0x02150FEC, 4,
+                         thlo, thhi), None)
+    _check(res, "linker: a function with no located SDK row (game "
+                "sub_02005E50) is refused",
+           attest_linker(0x02005E50, 0x10, "SDK_OVERLAY_NUMBER", 0xED, 0,
+                         0x02005E50, 0x02005E70), None)
+    hmlo = 0x020816FC                           # MATH_CalcHMACSHA1
+    _check(res, "template: @12151 of dgt_sha1.o is the 28 bytes at "
+                "0x020A5CB8, uniquely",
+           cls(attest_template(hmlo, 0x84, 0x020A5CB8, 0)), "template")
+    _check(res, "template: a declared address 4 bytes off is refused",
+           attest_template(hmlo, 0x84, 0x020A5CBC, 0), None)
+    _check(res, "template: our compile's template differing from the "
+                "member's is refused",
+           attest_template(hmlo, 0x84, 0x020A5CB8, 0,
+                           ours=bytes.fromhex("10000000" "40000000") + bytes(20)), None)
+    _check(res, "template: a slot the member relocates against a function "
+                "(MATH_SHA1Init at +0x88) is refused",
+           attest_template(hmlo, 0x88, 0x020A5CB8, 0), None)
+    lklo, lkhi = 0x02084B90, 0x02084C1C          # OS_InitLock
+    got = attest_section_rel(lklo, 0x80, ".bss", 0x02150FCC, 0, lklo, lkhi)
+    _check(res, ".bss: os_spinlock.o's .bss+0 at 0x02150FCC is named and "
+                "keeps attest()'s witness",
+           got[0][0] if got else None, "sole-ref")
+    _check(res, ".bss: a base outside the ARM9 static .bss is refused",
+           attest_section_rel(lklo, 0x80, ".bss", 0x020A5CB8, 0,
+                              lklo, lkhi), None)
+    _check(res, ".bss: an addend the member does not use is refused",
+           attest_section_rel(lklo, 0x80, ".bss", 0x02150FCC, 4,
+                              lklo, lkhi), None)
+    _check(res, ".bss: a slot the member relocates against a function is "
+                "refused",
+           attest_section_rel(lklo, 0x44, ".bss", 0x02150FCC, 0,
+                              lklo, lkhi), None)
+    _check(res, "symbols: `@N` and `.bss` lines parse, `.text` does not",
+           (bool(SYMBOL_RE.match(" *   @12151  0x020A5CB8  data")),
+            bool(SYMBOL_RE.match(" *   .bss    0x02150FCC  data")),
+            bool(SYMBOL_RE.match(" *   .text   0x02000000  data"))),
+           (True, True, False))
+    _check(res, "function_starts: 0x02004EA8 (crt0 bx lr stub) is a traced "
+                "ARM function start",
+           evidence().labels.get(0x02004EA8), False)
 
     # --- stale split listings ---------------------------------------------
     with tempfile.TemporaryDirectory() as tmp:

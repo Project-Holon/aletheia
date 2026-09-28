@@ -7,8 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
- * notes:    byte-correct; the one wildcard is the pool word for the compiler-generated initializer template of hash2funcs (@12151 in the object, 0x020A5CB8), which has no C-nameable symbol; needs a match.py way to name an anonymous initializer by address.
+ * status:   EXACT
+ * notes:    byte-correct; the pool word for the hash2funcs initializer template is named `@12151` (the vendor member's local) in the symbols: block and resolves under the `template` class (image 0x020A5CB8 holds the member's 28 template bytes, uniquely).
  *
  * sdk:      MATH_CalcHMACSHA1 (dgt_sha1.o)
  *
@@ -17,7 +17,7 @@
  *   MATH_SHA1Init     0x020813D8  arm
  *   MATH_SHA1Update   0x0208142C  arm
  *   MATH_SHA1GetHash  0x020814C0  arm
- *   @30               0x020A5CB8  data
+ *   @12151            0x020A5CB8  data
  */
 
 typedef unsigned long u32;

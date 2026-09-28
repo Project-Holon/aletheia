@@ -7,19 +7,16 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH*
+ * status:   EXACT*
  *
  * sdk:      OS_InitThread (os_thread.o)
  *
- * notes:    code bytes identical; two pool words have no witness outside
- *           this function: SDK_SYS_STACKSIZE (0x1800) and
- *           SDK_SECTION_ARENA_DTCM_START (0x02FE00C0), both linker-absolute.
- *           OSi_IdleThreadProc is now attested by func_02085B20 (matched).
- *           The same two symbols are relocated by OS_GetInitArenaHi's object
- *           and sit in its pool (0x02086684, 0x0208668C) and in
- *           OS_GetInitArenaLo's pool (0x02086758), but those words follow
- *           pool_02086680 unlabelled, so the literal class does not see them.
- *           No C change can reach EXACT.
+ * notes:    code bytes identical; the linker absolutes SDK_SYS_STACKSIZE
+ *           (0x1800) and SDK_SECTION_ARENA_DTCM_START (0x02FE00C0) resolve
+ *           under the `linker` class: os_thread.o leaves both undefined, and
+ *           OS_GetInitArenaHi/Lo (os_arena.o, located with 0 mismatches)
+ *           relocate the same symbols at 0x02086684, 0x0208668C and
+ *           0x02086758, which hold these values.
  *
  * symbols:
  *   OS_SetSwitchThreadCallback    0x02085AF8  arm

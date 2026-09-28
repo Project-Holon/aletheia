@@ -7,8 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
- * notes:    byte-correct asm; the tail branch to _start_AutoloadDoneCallback (0x02004EA8) is unresolved because that address has no witness outside this body; matching 0x02004EA8 (crt0, next pass) should make this EXACT.
+ * status:   EXACT
+ * notes:    byte-correct asm; the tail branch to _start_AutoloadDoneCallback (0x02004EA8) resolves now that 0x02004EA8 is a seeded function start matched as func_02004EA8.
  *
  * sdk:      INITi_DoAutoload (crt0.HYB.TWL.o)
  * asm:      crt0 code that runs before C (no C runtime yet, fixed-register

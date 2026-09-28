@@ -7,8 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
- * notes:    bytes identical; ABS32 sites to the linker symbols SDK_LTDAUTOLOAD_LTDMAIN_START (0x02700000) and SDK_LTDAUTOLOAD_LTDMAIN_BSS_END (0x02735B40) have no witness outside this function
+ * status:   EXACT
+ * notes:    bytes identical; SDK_LTDAUTOLOAD_LTDMAIN_START and _BSS_END resolve under the `linker` class (undefined in fs_overlay.o and in libfs; values = layout.json twl ram_start / bss_end)
  *
  * sdk:      FS_StartOverlay (libfs.TWL.HYB.a fs_overlay.o)
  *

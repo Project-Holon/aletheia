@@ -899,3 +899,10 @@ overlay_114  0x021B99F0  thumb # "ldrb r0, [r0]; bx lr", printed as .word data a
 overlay_114  0x021B99F4  thumb # "push {r4, r5} ... pop {r4, r5}; bx lr" (byte-assembled u32 read), printed as .word data; bl from ov135 at 0x022011AA (func_022010BC)
 overlay_114  0x021B9A14  thumb # "adds r2, r0, #1; lsls r0, r1, #2; adds r0, r2, r0; bx lr", printed as .word data before func_021B9A1C; bl from ov135 at 0x022011B8 (func_022010BC)
 overlay_099  0x021B9FD0  thumb # already EXACT (src/matched/ov/ov099_func_021B9FD0.c, game); "ldr r0, [r0, #0x2c]; ldr r3, =0x0204B3DC; movs r1, #0; bx r3", printed as .word data after func_021B9F90's pop; pointer word 0x021B9FD1 at ov099 0x021B98F4 (tail-call pool of func_021B98F0)
+
+# crt0.HYB.TWL.o (witness_rules, 2026-09-28): the member has three 4-byte `bx lr`
+# globals no catalogue row places (_start_AutoloadDoneCallback, NitroStartUp,
+# OSi_ReferSymbol); the image has three at 0x02004EA8/0x02004EAC/0x02004EB0.
+# 0x02004EAC (bl from 0x02004984) and 0x02004EB0 (bl from 0x02059F84) are
+# already labelled; 0x02004EA8 was a loc_ inside func_02004DF4's extent.
+arm9_main  0x02004EA8  arm     # "bx lr"; b from 0x02004D3C (INITi_DoAutoload tail, crt0 reloc PC24 _start_AutoloadDoneCallback at +0x188)

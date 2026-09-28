@@ -7,8 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
- * notes:    bytes identical; ABS32 site to the absolute linker symbol SDK_OVERLAY_NUMBER (0xED) has no witness outside this function
+ * status:   EXACT
+ * notes:    bytes identical; SDK_OVERLAY_NUMBER (0xED) resolves under the `linker` class (undefined in fs_overlay.o and in libfs; value = layout.json counts.overlays)
  *
  * sdk:      FS_LoadOverlayInfo (libfs.TWL.HYB.a fs_overlay.o)
  *
