@@ -186,3 +186,246 @@ int GetMacEncKey(unsigned char *lpkey)
     }
     return 1;
 }
+
+=== 2026-09-28 sdk_overlays_4: CheckAccessPoint 0x021B9A2C (atermset.o), DIFF, 56 bytes (best) ===
+Measurements (-O4,p, ../2.0/sp1p2): the DWARF-faithful draft (locals exactly as DWARF lists them)
+compiles to 448 of 460 bytes, 420 bytes differ: the original hoists pOldList->NumberOfItems into a
+compiler temp at sp+0x10 and pNewBss->Ssid.SsidLength into r5 out of the inner j loop, across the
+strlen/memcmp calls; our build reloads both every iteration. Tried with no effect: prototypes removed
+(implicit declarations, as the object has no DWARF for memcpy/strlen/memcmp), MSL-style prototypes with
+size_t unsigned int, int/void returns, flagNew/flagOld at function or block scope, -O3,p. Adding two
+block locals the DWARF does not list (n = pOldList->NumberOfItems, len = SsidLength, below) brings it to
+56 bytes: the remaining residue is the stack slot of i (sp+0xc in the original, sp+0x20 here), and the
+len load, which the original issues after the zero-trip guard (so it is compiler LICM, not a source
+local). Open question: what lets mwcc treat the three string calls as not writing memory.
+Two 34-byte newSSID buffers are block locals (DWARF lists newSSID twice, at fb+40 and fb+74).
+static int CheckAccessPoint(BSSID_LIST *pNewList, BSSID_LIST *pOldList, unsigned long *ApNo)
+{
+    unsigned long i;
+    unsigned long j;
+    int flagDetect;
+    int Result;
+    WLAN_BSSID *pNewBss;
+    WLAN_BSSID *pOldBss;
+    int flagNew;
+    int flagOld;
+
+    flagDetect = 0;
+    Result = 0;
+    pNewBss = pNewList->Bssid;
+    pOldBss = pOldList->Bssid;
+    for (i = 0; i < pNewList->NumberOfItems; i++) {
+        char newSSID[34] = {0};
+        unsigned long n, len;
+
+        memcpy(newSSID, pNewBss->Ssid.Ssid, 32);
+        newSSID[pNewBss->Ssid.SsidLength] = 0;
+        n = pOldList->NumberOfItems; len = pNewBss->Ssid.SsidLength;
+        for (j = 0; j < n; j++) {
+            if (len == 0 || len > 32)
+                break;
+            if (len == 1 && (pNewBss->Ssid.Ssid[0] == 0 || pNewBss->Ssid.Ssid[0] == ' '))
+                break;
+            if (memcmp(newSSID, pOldBss->Ssid.Ssid, strlen(newSSID)) == 0
+                && memcmp(pNewBss->MacAddress, pOldBss->MacAddress, 6) == 0
+                && pNewBss->Privacy != pOldBss->Privacy && pNewBss->Privacy == 0) {
+                flagDetect = 1;
+                break;
+            }
+            pOldBss++;
+        }
+        if (flagDetect)
+            break;
+        pOldBss = pOldList->Bssid;
+        pNewBss++;
+    }
+    if (!flagDetect) {
+        char newSSID[34] = {0};
+
+        flagNew = 0;
+        flagOld = 0;
+        pOldBss = pNewList->Bssid;
+        pNewBss = pOldList->Bssid;
+        for (j = 0; j < pOldList->NumberOfItems; j++) {
+            memcpy(newSSID, pNewBss->Ssid.Ssid, 32);
+            newSSID[pNewBss->Ssid.SsidLength] = 0;
+            if (memcmp(newSSID, gszStealth, strlen(gszStealth)) == 0 && pNewBss->Privacy == 0) {
+                flagOld = 1;
+                break;
+            }
+            pNewBss++;
+        }
+        for (i = 0; i < pNewList->NumberOfItems; i++) {
+            memcpy(newSSID, pOldBss->Ssid.Ssid, 32);
+            newSSID[pOldBss->Ssid.SsidLength] = 0;
+            if (strlen(newSSID) == strlen(gszStealth)
+                && memcmp(newSSID, gszStealth, strlen(gszStealth)) == 0 && pOldBss->Privacy == 0) {
+                flagNew = 1;
+                break;
+            }
+            pOldBss++;
+        }
+        if (flagNew && !flagOld)
+            flagDetect = 1;
+    }
+    if (flagDetect) {
+        *ApNo = i;
+        Result = 1;
+    }
+    return Result;
+}
+
+=== 2026-09-28 sdk_overlays_4: ScanAP 0x021B9BF8 (atermset.o), DIFF, 652 of 660 bytes (best) ===
+Measurements (-O4,p, ../2.0/sp1p2; atermset.o is -O4,p: rijndaelKeySetupDec and Encode go DIFF at
+-O3,p). What moved it (instruction-level diff 174 -> 57): the event switch needs every case 0..19 in the
+source for the one 20-entry halfword table (cases 1,2,3,6,7,9,11..17 share default's body, 4/8/18 are
+bare breaks, 19 and 10 each have their own loop_flag = 0 block, in that source order); BssListSize is
+one statement (sizeof(BSSID_LIST) + gMaxApList * sizeof(WLAN_BSSID)); retv = -1 is the first statement
+(movs #0 early, mvns late); the MAC copy in the list loop is a 6-byte struct assignment (MACADDR), which
+strength-reduces the destination into its own register; i = 0 goes after wmbssdesc = ap_list, in front
+of the doubled if (ap_count > 0) / for guard.
+Two residues, probably one cause. (1) The original keeps n (sp+0x14) alive: n = 0 is stored before the
+gMaxApList test, retv = -6 is rematerialised as n - 6, and the list loop increments n and i separately.
+With n used only as the list index, mwcc folds it into the strength-reduced pointers and drops it. Using
+n as the counter of a 6-byte copy loop in the found block (below) restores all of that exactly.
+(2) The found block's copy into gAPMac: the original computes pBssid+0x28 twice (byte 0 through r4,
+bytes 1..5 through a copy in r0 with [r0,#k]); a struct copy, six statements, an inline helper,
+__builtin_memcpy, and #pragma opt_unroll_loops on over the n loop (which unrolls it into per-byte adds and
+kills n again) all miss. With the loop left rolled, the function is 8 bytes short, which moves two
+break branches (the in-loop timeout break chains onto the canceled-check's b in the original).
+Types (from DWARF): _BSSID_LIST {NumberOfItems; _WLAN_BSSID Bssid[1]}, _WLAN_BSSID 0x30 {Ssid
+(_NDIS_802_11_SSID, 0x28 in this layout), MacAddress[6] at 0x28, Privacy u16 at 0x2e}; WMBssDesc 0xC0.
+static int ScanAP(void)
+{
+    int retv;
+    int retry;
+    int i;
+    int n;
+    unsigned long ApNo;
+    unsigned long BssListSize;
+    BSSID_LIST *pBssList;
+    BSSID_LIST *pOldList;
+    WLAN_BSSID *pBssid;
+    char apBSSID[32];
+    int loop_flag;
+    OSAlarm alarm;
+    int ap_count;
+    int nfound;
+    WMBssDesc *wmbssdesc;
+
+    retv = -1;
+    pOldList = 0;
+    ApNo = 0;
+    BssListSize = sizeof(BSSID_LIST) + atermset_bss.gMaxApList * sizeof(WLAN_BSSID);
+    pBssList = Calloc(1, BssListSize);
+    if (pBssList == 0)
+        goto end;
+    pOldList = Calloc(1, BssListSize);
+    if (pOldList == 0)
+        goto end;
+    for (retry = 0; retry < 30 && !atermset_bss.bAtermApCanceled; retry++) {
+        if (GetTickCount() >= atermset_data.gAtermApTimeout)
+            break;
+        if (APC_SearchStart(0, 0, 0, 0x30BFFE) == 0) {
+            retv = -2;
+            goto end;
+        }
+        OS_CreateAlarm(&alarm);
+        OS_SetAlarm(&alarm, 0xFFB10, alarmCallback, (void *)0x13);
+        loop_flag = 1;
+        ap_count = 0;
+        while (loop_flag) {
+            OS_Sleep(10);
+            if (GetTickCount() >= atermset_data.gAtermApTimeout)
+                break;
+            if (atermset_bss.bAtermApCanceled)
+                break;
+            while ((nfound = AtermApc_GetEvent()) != 0) {
+                switch (nfound) {
+                case 4:
+                case 8:
+                case 18:
+                    break;
+                case 19:
+                    loop_flag = 0;
+                    break;
+                case 5:
+                    nfound = APC_GetAPList(atermset_bss.ap_list, atermset_bss.gMaxApList);
+                    if (nfound > ap_count) {
+                        ap_count = nfound;
+                        OS_CancelAlarm(&alarm);
+                        OS_SetAlarm(&alarm, 0xFFB10, alarmCallback, (void *)0x13);
+                    }
+                    break;
+                case 10:
+                    loop_flag = 0;
+                    break;
+                case 1:
+                case 2:
+                case 3:
+                case 6:
+                case 7:
+                case 9:
+                case 11:
+                case 12:
+                case 13:
+                case 14:
+                case 15:
+                case 16:
+                case 17:
+                default:
+                    loop_flag = 0;
+                    break;
+                }
+            }
+        }
+        OS_CancelAlarm(&alarm);
+        while (AtermApc_GetEvent() != 0)
+            ;
+        if (atermset_bss.bAtermApCanceled)
+            break;
+        n = 0;
+        if (ap_count >= atermset_bss.gMaxApList) {
+            retv = -6;
+            goto end;
+        }
+        wmbssdesc = atermset_bss.ap_list;
+        i = 0;
+        if (ap_count > 0) {
+            for (; i < ap_count; i++) {
+                memcpy(pBssList->Bssid[n].Ssid.Ssid, wmbssdesc->ssid, 32);
+                pBssList->Bssid[n].Ssid.SsidLength = wmbssdesc->ssidLength;
+                pBssList->Bssid[n].Ssid.Ssid[wmbssdesc->ssidLength] = 0;
+                pBssList->Bssid[n].Privacy = (wmbssdesc->capaInfo & 0x10) ? 1 : 0;
+                *(MACADDR *)pBssList->Bssid[n].MacAddress = *(MACADDR *)wmbssdesc->bssid;
+                wmbssdesc++;
+                n++;
+            }
+        }
+        pBssList->NumberOfItems = ap_count;
+        if (atermset_bss.gAtermApState != 1 && CheckAccessPoint(pBssList, pOldList, &ApNo)) {
+            pBssid = &pBssList->Bssid[ApNo];
+            atermset_bss.gAPId = ApNo;
+            strcpy((char *)gAPSSID, (char *)pBssid->Ssid.Ssid);
+            for (n = 0; n < 6; n++)
+                gAPMac[n] = pBssid->MacAddress[n];
+            PutMac(apBSSID, (char *)gAPMac);
+            break;
+        }
+        memcpy(pOldList, pBssList, BssListSize);
+        atermset_bss.gAtermApState = 2;
+        SendNotify();
+    }
+    if (retry >= 30 || GetTickCount() > atermset_data.gAtermApTimeout)
+        retv = -3;
+    else if (atermset_bss.bAtermApCanceled)
+        retv = -8;
+    else
+        retv = 1;
+end:
+    if (pBssList)
+        Free(pBssList);
+    if (pOldList)
+        Free(pOldList);
+    return retv;
+}

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   atermset_data      0x021DAB58  data
@@ -27,12 +27,10 @@
  * atermset.o was built by Metrowerks C/C++ for ARM 3.0.0.126 (its .comment), which is
  * the 2.0/sp1p2 front end; see aoss_release (ov016_func_021B6CF0.c) for the byte tell.
  *
- * MATCH: byte-identical; the one open relocation is the ABS32 to alarmCallback
- * (0x021B979C, atermset.o's 12-byte static, no label in function_starts.txt), so it has
- * no witness. Labelling 0x021B979C and matching it closes this.
+ * Was MATCH on the ABS32 to alarmCallback (0x021B979C) until that static was matched.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/ov016_func_021B98A4.c \
+ *   python tools/match.py one --src src/matched/ov016_func_021B98A4.c \
  *       --func ConnectAP --addr 0x021B98A4 --region ov016 --cc ../2.0/sp1p2 --thumb
  */
 /*

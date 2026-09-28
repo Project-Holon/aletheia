@@ -98,6 +98,24 @@
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT*"
+  },
+  {
+   "name": "MD5Encode",
+   "address": "0x021BC55C",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021BC55C.c",
+   "compiler": "dsi/../2.0/sp1p2",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT*",
+   "evidence": {
+    "sdk": [
+     "0x021BBB98",
+     "0x021BBC38"
+    ]
+   }
   }
  ]
 }
