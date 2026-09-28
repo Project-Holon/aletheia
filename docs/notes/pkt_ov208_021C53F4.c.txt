@@ -1,0 +1,20 @@
+
+021C53F4 (ov208), tree_ov208_3 lane, 2026-09-28
+Best: src/pending/ov208_func_021C53F4.c, DIFF 20 bytes, size 624/624. Every instruction and
+register matches; the residue is the spill slots of two locals: the image keeps `species` at
+sp+0x34 and the form counter `i` at sp+0x14, the draft has them the other way round (all other
+spilled locals, prev 0x18, found 0x1c, k 0x20, j 0x24, cur 0x28, ratio 0x2c, pd 0x30, sit where
+the image has them).
+Levers that closed the rest (475 -> 20 bytes):
+- `u32 seen[2] = {0, 0};` as a block local of the form loop, and `u32 en[3] = {0, 0, 0};` in a
+  block opened after `cur = 0;`: the image stores both through a base register (`add r0, sp,
+  #0x5c; str r4, [r0]`), which only an aggregate initialiser gives (en reuses r4 = n = 0).
+- `(forms >= 2 && seen[k] == 0) || forms < 2` for the double `cmp r6, #2` test.
+- `x = 0; if (ratio != 0xff) x = 1;` for `movs r1, #0; beq; adds r1, r2`; ternaries gave the
+  other polarity. `s != 0 ? 2 : 1` for the shiny field.
+- species, pd, n and h initialised at their declarations (the bare-assignment form reverses the
+  whole spill-slot order); permuter seed 9901 (400 iterations) then moved `i` next to them.
+Measurements on the slot residue: declaration position of `i` over all 19 places and swapping
+species/pd (38 runs, best 20); species bare at every position (39); block-local j/k/found/g/s/
+prev/t/m singly and in pairs (162 runs, all 20 or worse); u32/int species puts species at 0x34
+but adds a narrowing pair before each u16 argument (0x0200CC40 takes u16 id, matched body).
