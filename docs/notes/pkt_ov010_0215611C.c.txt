@@ -1,0 +1,15 @@
+
+=== 2026-09-28 tree_ov010_4 (fresh draft) ===
+Function extent 0x0215611C..0x02156420 (772 bytes incl. pool). Frame 0x30: sp4 a,
+sp8 j, spC name, sp10 t, sp14 bank, sp18 str, sp1C score[4], sp20 date.
+Path from 742 out (788 bytes) to 20 out (772, size-exact):
+- drop the Entry/Rec6/Sub pointer locals, write blk->ent[j].x: 349 out (780)
+- func_021568E8 declared u8 (its matched body returns a u8 counter): 244 (776)
+- slot held in a reused u8 (`k = m->recs[l].slot`): 146 (764); a Sub *pointer
+  instead spills blk (747), a Rec6 *pointer alone is 243-258
+- sort swap written in the image's order (v = score[b+1]; score[b+1] = score[b];
+  t = order[b+1]; order[b+1] = order[b]; score[b] = v; order[b] = t): 20 (772)
+Flat at 20: `k = l = 0`, `l = k = 0`, `k = 0, l = 0`, val = 0 literal, l = 0 hoisted,
+a second u8 for order[b]. Permuter seed 9601 anneal 600 --types: best 20.
+Residue: sub reset loop base/l in r1/r0 against the image's r0/r1 (8 insns), and
+the order swap's two address formations before the loads (3 insns).

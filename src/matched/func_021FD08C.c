@@ -1,0 +1,62 @@
+/*
+ * function: func_021FD08C
+ * address:  0x021FD08C
+ * packet:   pkt_021FD08C
+ * region:   ov135
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02082BCC  0x02082BCC  arm
+ *   func_0204B294  0x0204B294  arm
+ *   func_0204B92C  0x0204B92C  arm
+ *   func_0204B878  0x0204B878  arm
+ *   func_0204B3DC  0x0204B3DC  arm
+ *   func_0203D34C  0x0203D34C  arm
+ */
+
+typedef signed char s8;
+typedef signed short s16;
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    u16 x;
+    u16 y;
+    u16 z;
+    u8 pri;
+    u8 f7;
+} ObjPos;
+
+typedef struct {
+    u8 pad0[0xBC0];
+    void *res;
+    void *set[3];
+    u8 padBD0[0xD08 - 0xBD0];
+    void *obj;
+} Obj;
+
+extern void func_02082BCC(void *p, int v, int n);
+extern void *func_0204B294(void *res, void *a, void *b, void *c, ObjPos *pos, int f, int heap);
+extern void func_0204B92C(void *o, int v);
+extern void func_0204B878(void *o, int v);
+extern void func_0204B3DC(void *o, int v);
+extern void func_0203D34C(u32 a, u16 heap);
+
+void func_021FD08C(Obj *p)
+{
+    ObjPos pos;
+
+    func_02082BCC(&pos, 0, sizeof(pos));
+    pos.x = 0xD0;
+    pos.y = 0x3A;
+    p->obj = func_0204B294(p->res, p->set[0], p->set[1], p->set[2], &pos, 0, 0x48);
+    func_0204B92C(p->obj, 1);
+    func_0204B878(p->obj, 0x24);
+    func_0204B3DC(p->obj, 1);
+    func_0203D34C(0, 0x48);
+}

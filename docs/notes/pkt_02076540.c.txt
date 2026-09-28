@@ -1,0 +1,10 @@
+== 2026-09-28 sdk_arm9_7 ==
+CARDi_RequestStreamCommandCore 0x02076540 (card_backup.o), src/pending/CARDi_RequestStreamCommandCore.c.
+408/408 bytes, 21 lines out, all a register rotation. The image colours the
+cache page buffer address r4, req_type r5, req_mode r6, size r7; the draft gets
+req_mode r4, size r5, buffer r6, req_type r7 (len r8, p r9, retry r10 and the
+constant 9 in r11 agree). Locals declared in reverse DWARF order (req_type,
+req_mode, retry_count, size, then len in the loop).
+Tried without effect: non-const locals; size assigned after OSi_ReferSymbol;
+size as an if/else-if/else chain (27 out); a named buffer pointer local at
+function and loop scope. Permuter seed 9702: no improvement (21 out).

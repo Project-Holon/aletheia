@@ -7,13 +7,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH*
+ * status:   EXACT*
  *
  * Twin of func_02156A3C for the second word-set field: the local player's
  * record at +0x18, the session's record for a remote member (0x021FCE44),
  * or failing both the fallback string from message bank 0x4D.
  *
- * Byte-correct (first draft). Blocker: 0x021FCE44 (ov132) has no func_ label.
+ * First draft; the ov132 call to 0x021FCE44 resolves since seeds_2 labelled it.
  *
  * symbols:
  *   func_021568E8  0x021568E8  thumb  ov010

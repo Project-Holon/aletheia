@@ -1,0 +1,22 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_02079F60",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "FSi_ROMFAT_GetPath",
+   "address": "0x02079F60",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/FSi_ROMFAT_GetPath.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  }
+ ]
+}

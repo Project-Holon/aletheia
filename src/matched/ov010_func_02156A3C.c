@@ -7,13 +7,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH*
+ * status:   EXACT*
  *
  * Print the name of link member j into word-set slot `slot`: the local
  * player's own name, the session's name record for a remote member, or
  * failing both the fallback string from message bank 0x4C.
  *
- * Byte-correct (first draft). Blocker: 0x021FCE28 (ov132) has no func_ label.
+ * First draft; the ov132 call to 0x021FCE28 resolves since seeds_2 labelled it.
  *
  * symbols:
  *   func_021568E8  0x021568E8  thumb  ov010

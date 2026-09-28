@@ -7,15 +7,14 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * Proc main of the ov010 link exchange: a 16-state machine that drives
  * the ov021 connection object at +0xC, classifies the received result
  * code, and hands off to the result screens before tearing down.
  *
- * Byte-correct. Evidence gaps, not C: ov021 0x021C536C, 0x021C5380 and
- * 0x021C5394 are unlabelled starts that the listing folds into
- * func_021C5348. Levers: in state 4 `retry` declared first and `bad`
+ * The ov021 calls to 0x021C536C, 0x021C5380 and 0x021C5394 (once folded
+ * into func_021C5348) resolve since seeds_2 labelled them. Levers: in state 4 `retry` declared first and `bad`
  * last (retry spills to sp+4, ok to sp+0, next stays in r7), the result
  * code dispatched as a switch and the case-10 value as an if chain with
  * the f18 != 0 arm first; in state 12 the tail call in a local written

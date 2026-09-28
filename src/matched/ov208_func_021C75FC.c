@@ -7,12 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * blocker:  runtime row. Every byte matches; the one wildcard is the `_fgeq` call
- *           (`x >= tx` on floats) at +0x62 to 0x0209BB54, the unlisted float
- *           comparator between __dcmp_6 and __fcmp_1 (see src/matched/compares.c).
- *           It has no row in layout/runtime_arm9.txt and no other witness; a row
- *           `0209BB54  _fgeq  MSL/runtime.a  arm9_main` makes this EXACT.
+ * status:   EXACT
  *
  * symbols:
  *   func_021C80CC        0x021C80CC  thumb

@@ -12,6 +12,16 @@
  * Unlabelled: the listing folds it into func_02156074's extent. Builds the
  * 0x1B0-byte musical result record (musical_event.c).
  *
+ * DIFF, size-exact (772 of 772), 20 bytes out (2026-09-28 tree_ov010_4,
+ * fresh draft from the image; was 370 out): per-entry fields written as
+ * blk->ent[j].x with no entry pointer, the slot held in a reused u8 (k),
+ * func_021568E8 returning u8, and the bubble-sort swap interleaved as the
+ * image schedules it. Left: in the sub-record reset loop the image keeps
+ * the entry base in r0 and l in r1 (this C swaps them), and the order swap
+ * forms both addresses before the two loads. Permuter seed 9601 (anneal,
+ * 600, --types) found nothing below 20. Notes:
+ * docs/notes/pkt_ov010_0215611C.c.txt.
+ *
  * symbols:
  *   sub_02030734   0x02030734  arm
  *   func_0203F4E4  0x0203F4E4  arm
@@ -132,7 +142,7 @@ extern void *func_02156914(Work *w, int id);
 extern void sub_02045A38(void *vec, u16 *out, u32 n);
 extern void sub_02045808(void *vec);
 extern void *func_02012944(void *p);
-extern u32 func_021568E8(Work *w, u32 j);
+extern u8 func_021568E8(Work *w, u8 j);
 extern void *func_021FCE28(void *p, u32 i);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern u8 func_021568A8(Work *w, u8 n);
@@ -148,18 +158,16 @@ extern const char d_02172714[];
 
 void func_0215611C(Work *w)
 {
-    RTCDate date;
     u8 score[4];
+    RTCDate date;
     Blk *blk;
     Member *m;
-    Entry *e;
-    Rec6 *r;
-    Sub *s;
-    void *str;
     void *name;
+    void *str;
     void *bank;
     u8 t;
     u8 max;
+    u8 v;
     u8 i;
     u8 j;
     u8 k;
@@ -167,8 +175,8 @@ void func_0215611C(Work *w)
     u8 a;
     u8 b;
     int n;
-    u8 v;
 
+    max = 0;
     w->hdr = sub_02030734(4, 0x14, 0, d_02172714, 786);
     w->hdr->blk = sub_02030734(4, 0x1B0, 1, d_02172714, 787);
     w->hdr->f04 = 0;
@@ -187,7 +195,6 @@ void func_0215611C(Work *w)
     blk->f1af = 1;
     blk->self = w->f4c;
 
-    max = 0;
     for (i = 0; i < 4; i++) {
         v = w->party->members[i]->total;
         if (max < v) {
@@ -201,12 +208,11 @@ void func_0215611C(Work *w)
     for (j = 0; j < 4; j++) {
         name = 0;
         m = w->party->members[j];
-        e = &blk->ent[j];
-        e->f00 = m->f08;
-        e->b0 = m->f0a;
-        e->b2 = m->f0c;
-        e->b3 = m->f0b;
-        e->f04 = m->f10;
+        blk->ent[j].f00 = m->f08;
+        blk->ent[j].b0 = m->f0a;
+        blk->ent[j].b2 = m->f0c;
+        blk->ent[j].b3 = m->f0b;
+        blk->ent[j].f04 = m->f10;
         if (j == w->f4c)
             name = func_02012944(w->f04);
         else if (w->f14 == 1)
@@ -221,19 +227,19 @@ void func_0215611C(Work *w)
             sub_02045808(str);
             func_02045C04(bank);
         }
-        e = &blk->ent[j];
-        for (k = l = 0; k < 8; k++) {
-            e->sub[k].id = 0xFF;
-            e->sub[k].val = l;
-            e->sub[k].idx = 10;
+        k = 0;
+        l = 0;
+        for (; k < 8; k++) {
+            blk->ent[j].sub[k].id = 0xFF;
+            blk->ent[j].sub[k].val = l;
+            blk->ent[j].sub[k].idx = 10;
         }
-        for (; l < 9; l++) {
-            r = &m->recs[l];
-            if (r->id != 0xFF) {
-                s = &e->sub[r->slot];
-                s->id = r->id;
-                s->val = r->val;
-                s->idx = l;
+        for (l = 0; l < 9; l++) {
+            if (m->recs[l].id != 0xFF) {
+                k = m->recs[l].slot;
+                blk->ent[j].sub[k].id = m->recs[l].id;
+                blk->ent[j].sub[k].val = m->recs[l].val;
+                blk->ent[j].sub[k].idx = l;
             }
         }
     }
@@ -249,12 +255,12 @@ void func_0215611C(Work *w)
         n = 4 - (a + 1);
         for (b = 0; b < n; b++) {
             if (score[b + 1] > score[b]) {
-                v = score[b];
-                score[b] = score[b + 1];
-                score[b + 1] = v;
-                v = w->order[b];
-                w->order[b] = w->order[b + 1];
-                w->order[b + 1] = v;
+                v = score[b + 1];
+                score[b + 1] = score[b];
+                t = w->order[b + 1];
+                w->order[b + 1] = w->order[b];
+                score[b] = v;
+                w->order[b] = t;
             }
         }
     }

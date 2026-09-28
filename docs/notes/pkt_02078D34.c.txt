@@ -1,0 +1,5 @@
+== 2026-09-28 sdk_arm9_7 ==
+FS_LoadOverlayInfo 0x02078D34 (fs_overlay.o), src/pending/FS_LoadOverlayInfo.c.
+MATCH: byte-correct, one wildcarded relocation, the pool word for the linker's
+absolute symbol SDK_OVERLAY_NUMBER (0x000000ED). This is its only site in the
+image, so no literal witness exists; needs a rule for absolute linker symbols.

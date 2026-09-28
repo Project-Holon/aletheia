@@ -1,0 +1,10 @@
+== 2026-09-28 sdk_arm9_7 ==
+FS_StartOverlay 0x0207902C (fs_overlay.o), src/pending/FS_StartOverlay.c.
+308 bytes against 312. The digest result ret lives in r3 in the image and is
+copied from r0 after FSi_CompareDigest (mov r3, r0), then tested at the join;
+the draft keeps ret in r0 and saves the copy. Tried: ret at function scope,
+int ret, ret == 0 test, the digest check as an inline helper, the odt_max and
+digest pointer as inline expressions: all 52 lines out.
+Even when the code closes this is MATCH-capped: SDK_LTDAUTOLOAD_LTDMAIN_BSS_END
+(0x02735B40) and SDK_OVERLAY_DIGEST_END (0x020A9E64) have no witness outside
+the function, and SDK_LTDAUTOLOAD_LTDMAIN_START (0x02700000) only a code label.

@@ -7,20 +7,12 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
  *
- * The 21-state setup and teardown machine of the ov010 program. Byte-correct
- * apart from one call ISA (first draft): 851 of 852 bytes compare, and the
- * only diff is the `bl` to 0x021A153C, which this file must declare `arm`
- * because match.py refuses the true `thumb` declaration: isa_evidence()
- * answers with ov009's ARM label func_021A153C (DWC ProcessIncomingData),
- * while the callee this site reaches is an unlabelled ov021 Thumb thunk
- * (`ldr r0, [r0, #0x20]; ldr r3, =target; bx r3`). Once the tool prefers
- * the co-resident overlay (ov021, which also labels 0x02188CCC and
- * 0x021A0F30), flip that symbol line to thumb.
- * Blocker after that (MATCH): the ov021 thunks at 0x021A1518, 0x021A1524,
- * 0x021A1530, 0x021A153C, 0x021A1548, 0x021A1554 have no func_ label in
- * ov021 (seeds: 12-byte thunk run starting 0x021A1500).
+ * The 21-state setup and teardown machine of the ov010 program. First
+ * draft; the call at 0x021A153C reaches an ov021 Thumb thunk
+ * (`ldr r0, [r0, #0x20]; ldr r3, =target; bx r3`), declared `thumb ov021`
+ * (the ISA evidence honours the ovNNN hint since tooling_3).
  *
  * symbols:
  *   func_02188CCC  0x02188CCC  thumb  ov021
@@ -31,7 +23,7 @@
  *   func_021A1554  0x021A1554  thumb  ov021
  *   func_021A1530  0x021A1530  thumb  ov021
  *   func_021A1548  0x021A1548  thumb  ov021
- *   func_021A153C  0x021A153C  arm
+ *   func_021A153C  0x021A153C  thumb  ov021
  *   func_021A0FB4  0x021A0FB4  thumb  ov021
  *   func_02028590  0x02028590  thumb
  *   func_0201C440  0x0201C440  thumb

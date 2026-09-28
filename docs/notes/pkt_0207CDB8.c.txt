@@ -1,0 +1,10 @@
+== 2026-09-28 sdk_arm9_7 ==
+VEC_Fx16Normalize 0x0207CDB8 (fx_vec.o), src/pending/VEC_Fx16Normalize.c.
+300/300 bytes, 5 lines out: only the scheduling of the z*z smulbb. The image
+issues it after the x*x + y*y adds and after the DIVCNT/numerator-low stores;
+the draft issues it before them. Hardware divider and square root written as
+inline helpers on volatile u64 registers.
+Tried without effect: y*y first; t = t + ...; one-expression sums (12 out);
+(fx64) casts on each product (69 out, 280 bytes); z*z cast to fx32; numerator
+as two u32 stores; s64 helper parameters; a literal 2^56. Permuter seed 9703:
+no improvement.

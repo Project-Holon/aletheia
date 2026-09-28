@@ -1,0 +1,15 @@
+
+=== 2026-09-28 tree_ov010_4 ===
+Measurements (all dsi/1.1p1 -O4,p unless named), switch on r->type after the two calls:
+- empty arms with `break` (any case subset, with or without default/dead local): switch deleted, 26 bytes.
+- arms 16..38 `return;` plus `case 47: return;` (any order, break/return mixes,
+  (int)/(s16) casts, a default arm): table widened to 0x10..0x2F, 110-112 bytes.
+- sparse subsets of 16..38 with returns (12 of 23 cases) still table 0x10..0x2F.
+- `if (type <= 38) switch.. else if (type == 47) return;` and the `> 38` mirror: 100 bytes.
+- BEST, filed: 16..38 `return;`, `default: if (r->type == 47) return;`: 98 bytes,
+  registers right, 45 concrete bytes out; the dispatch is `adds r0,r1; subs #0x10;
+  cmp #0x16; bhi cmp47` against the image's `cmp r1,#0x26; bgt cmp47; adds r0,r1;
+  subs #0x10; bmi exit` (a switch-tree node whose lower out-of-range skips the 47 test),
+  and every table entry is off by the dispatch length.
+- ../2.0/sp2: same 98 bytes, same 45 out. ../1.2/sp2: 110.
+Open question: what makes 1.1p1 build a two-node tree for {16..38, 47}.

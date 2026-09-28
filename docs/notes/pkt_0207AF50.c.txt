@@ -1,0 +1,10 @@
+== 2026-09-28 sdk_arm9_7 ==
+MTX_RotAxis33 0x0207AF50 (fx_mtx33.o), src/pending/MTX_RotAxis33.c.
+Draft compiles to 292 bytes against 340. The image computes t*x once (64-bit)
+and reuses it for t*x*y and t*x*z, keeps t01 and t02 live together and spills
+five words; the draft computes t*x twice and needs no frame. DWARF locals:
+fx64 t, ss, xx, yy, zz and fx32 t01, s2 (declared in that order), nothing else.
+Tried: diagonal block moved after the off-diagonal pairs (320 bytes, 79 out);
+the three off-diagonal products before the diagonal; ss as t*vec->x with the
+sine products through xx (316 bytes). Not yet found: a spelling that makes
+mwcc CSE t*vec->x across statements. Candidate for a fresh draft.

@@ -7,12 +7,12 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * Unload overlays 112 and 132, free the link work and detach it.
  *
- * Byte-correct. Blocker: arm9 0x02012F74 (the Thumb setter of +0x6A8 beside
- * func_02012F80) has no func_ label.
+ * The call to arm9 0x02012F74 (the +0x6A8 setter beside func_02012F80)
+ * resolves since seeds_2 labelled and matched it (src/matched/unit_02012F68.c).
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm

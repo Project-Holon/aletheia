@@ -1,0 +1,8 @@
+=== 2026-09-28 tree_ov010_4 ===
+Filed source (src/pending/ov010_func_021569A4.c) is 2 bytes out: the image loads
+w->party into r6 (the register m then takes), 1.1p1 uses r3.
+Flat at 2: a Party *p local (declared first or last), an inline getter over Work
+or Party, `*(members + idx)`, int idx, int tie, a u16 `cur` local for the score.
+Worse: m assigned before the counters (17), a u16 *score pointer (57), int max (35).
+Other compilers on the filed source: ../2.0/sp2 8 out, ../1.2/sp2 and ../1.2/base 33.
+Earlier lanes: declaration order (120 permutations), init order, permuter seed 8701 flat.

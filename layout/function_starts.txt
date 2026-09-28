@@ -628,6 +628,7 @@ overlay_170  0x021DE5C8  thumb # bl from ov170 at 0x021DFBA4 (func_021DFA30), 0x
 overlay_170  0x021EF1B4  thumb # "ldr r0, =d_021F0F40; ldr r3, =func_021EF0A8; movs r1, #2; bx r3"; bl from ov170 at 0x021DFC96 (func_021DFA30), 0x021DF6D2, 0x021E0342
 overlay_170  0x021EF1C4  thumb # "ldr r0, =d_021F0040; ldr r3, =0x02035BA4; bx r3"; bl from ov170 at 0x021DFD5E (func_021DFA30), 0x021DF79A
 overlay_170  0x021EF264  thumb # "ldr r0, =d_021F0F58; ldr r3, =func_021EF0A8; movs r1, #1; bx r3"; bl from ov170 at 0x021DFCCE (func_021DFA30), 0x021DF70A
+overlay_170  0x021DEB08  thumb # "ldr r3, =func_021DEA6C; movs r1, #0; bx r3", printed as .word data after func_021DEAFC's pool; bl from ov170 at 0x021E15C4
 # ov208 leaves already EXACT (tree_ov135), unlabelled in the listing.
 overlay_208  0x021BD360  thumb # "movs r1, #0; str r1, [r0, #0x10]; bx lr"; pool word 0x021BD361 (Thumb bit set) at ov208 0x021BDBA8, the tail-call pool of func_021BDBA0
 overlay_208  0x021BDBAC  thumb # "ldr r0, [r0, #0x30]; ldr r3, =func_021BD330; bx r3"; bl from ov208 at 0x021C1976, 0x021C5FE0
@@ -660,4 +661,5 @@ arm9_main  0x02008A44  thumb   # already EXACT (sub_02008A44 in src/matched/unit
 arm9_main  0x02008A54  thumb   # packed-word reader; bl from ov111 at 0x021C7B52
 arm9_main  0x02047804  arm     # slot-table leaf, sibling of func_0204784C; blx from ov021 at 0x0218C064, 0x0218C0C4
 arm9_main  0x02047828  arm     # slot-table leaf, sibling of func_0204784C; blx from ov021 at 0x0218C486, 0x021ADC1E, 0x021BE6F6
+arm9_main  0x0209BB54  arm     # _fgeq runtime comparator (layout/runtime_arm9.txt); blx from ov208 at 0x021C7660, 0x021C7B04, 0x021C7BFC, ov120 at 0x021D7322
 overlay_111  0x021C7EF8  thumb # already EXACT (src/matched/ov111_func_021C7EF8.c); bl from func_021C7F2C (src/matched/ov111_func_021C7F2C.c); follows pool word 0x021C7EF4

@@ -1,0 +1,36 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_020771B4",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "CARDi_ReadRom",
+   "address": "0x020771B4",
+   "kind": "game",
+   "region": "arm9",
+   "source": "src/matched/CARDi_ReadRom.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02150850"
+    ],
+    "sdk": [
+     "0x020762F4",
+     "0x02076344",
+     "0x02076360",
+     "0x02077008",
+     "0x02077084",
+     "0x020770B4",
+     "0x02077168"
+    ]
+   }
+  }
+ ]
+}

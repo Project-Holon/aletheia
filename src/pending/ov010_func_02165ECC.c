@@ -12,11 +12,13 @@
  * Clear a string buffer and copy the 11-character text at +0x34 into it;
  * the type switch that follows has no effect left in it.
  *
- * DIFF (26 of 98 bytes): the original keeps an empty switch on the type
- * (a 0x10..0x26 table whose every entry, and every value above 0x26, lands on
- * a lone `cmp r1, #0x2f` before the return). Every empty-arm spelling tried
- * (break, return, dead local, empty inline call, goto) is deleted whole or
- * widens the table to 0x10..0x2F. Seed: no permuter run.
+ * DIFF, size-exact (98 of 98 bytes; 2026-09-28 tree_ov010_4): the arms
+ * must `return` for the switch to survive, and `if (type == 47)` in the
+ * default gives the lone `cmp #0x2f`. Left: the image dispatches as a
+ * switch-tree node (`cmp r1, #0x26; bgt cmp47; subs #0x10; bmi exit`, value
+ * kept in r1), this C as one range check (`subs; cmp #0x16; bhi`). Writing
+ * case 47 as a case widens the table to 0x10..0x2F. Notes:
+ * docs/notes/pkt_ov010_02165ECC.c.txt.
  *
  * symbols:
  *   func_0204581C  0x0204581C  arm
@@ -67,8 +69,9 @@ void func_02165ECC(Rec *r, void *buf)
     case 36:
     case 37:
     case 38:
-        break;
-    case 47:
-        break;
+        return;
+    default:
+        if (r->type == 47)
+            return;
     }
 }
