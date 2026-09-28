@@ -1,0 +1,8 @@
+2026-09-28 tree_ov021_2: func_021B7DC0 and func_021B7CD8 (Thumb, dsi/1.1p1 -O4,p)
+Best sources: src/pending/ov/ov021_func_021B7DC0.c (32 B), src/pending/ov/ov021_func_021B7CD8.c (96 B).
+Both copy an 8-byte struct of four u16 (Rect4). The image does ldrh/strh, ldrh/strh,
+then ldrh c, ldrh d, strh c, strh d; the compiled struct copy or field copy interleaves
+the last pair (1 or 2 instructions swapped). Tried: struct assignment, field-wise, u16 and
+u32 temps in both orders, s16/short fields, nested {u16,u16} sub-structs, dsi/1.1,
+1.2, 1.2p1, -O3,p. Permuter seed 11505 closes 0x021B7DC0 only with a volatile param plus
+a self-assignment (not taken). One fix will likely close both.

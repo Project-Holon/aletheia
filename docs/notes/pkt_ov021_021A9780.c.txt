@@ -1,0 +1,10 @@
+2026-09-28 tree_ov021_2: func_021A9780 and func_021A96B8 (Thumb, dsi/1.1p1 -O4,p)
+Best sources: src/pending/ov/ov021_func_021A9780.c (144 B), src/pending/ov/ov021_func_021A96B8.c (200 B).
+Both DIFF by 5 instructions, all in the argument setup of the
+func_02017588(mon, species, level, (u64)u->f20, pow, (u64)rnd) call. In 0x021A9780 the
+image loads r3 = u->f20 first and r0/r2 last; in 0x021A96B8 the image does the stack
+stores, then r1, r2, r3, r0. The compiled order is the reverse in each case. Everything
+else (including 96B8's 4-5 spelling of -1 and both 021A9CAC arguments) matches.
+Tried: u16/u8/int/u32 species and level, (u64) casts, s32 pow, splitting id into two u32
+words, inlining the last getter. Permuter seed 11503 (9780, 10 bytes best) and 11504
+(96B8, 10 bytes best): no improvement.

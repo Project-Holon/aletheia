@@ -1,0 +1,8 @@
+2026-09-28 tree_ov021_2: func_021A9A5C (0x021A9A5C, 164 B, Thumb, dsi/1.1p1 -O4,p)
+Best source: src/pending/ov/ov021_func_021A9A5C.c. DIFF (about 21 lines).
+Shape: 7-way switch on u->f08 choosing src/n/mode, then MI_CpuCopy8(src, spec, n*4).
+The image keeps a dead zero in r5 (movs r5, #0; str r5, [sp, #4] is mode), n in r6,
+src in r4, and lays out every case with its own b to the join (no cross-jumping);
+the u->f08 = 0 reset stores n's zero (r6). Prologue matches with int n declared first.
+Tried: all six declaration orders x n-first/n-last case bodies (best 21 lines), a
+separate zero local. Permuter seed 11502 (budget 500): no improvement (100 bytes out).

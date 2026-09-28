@@ -1,0 +1,8 @@
+2026-09-28 tree_ov021_2: func_021A9BE8 (0x021A9BE8, 112 B, Thumb, dsi/1.1p1 -O4,p)
+Best source: src/pending/ov/ov021_func_021A9BE8.c. DIFF, 4 bytes.
+Residue: the image reloads u->f14 (ldrb r0, [r6, #0x14]) at the bottom of every loop
+iteration and keeps u in r6; the compiled source hoists u->f14 into r6 once. There are
+no stores or calls in the loop, so nothing forces the reload. Also the image computes
+i*4 once for the id/hi reads. Tried: early return on the bit, declaration orders,
+varied/i ordering. Permuter seed 11501 (budget 400): best 4 bytes out, only with
+volatile on both pointer params; not taken.
