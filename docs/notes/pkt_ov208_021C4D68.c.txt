@@ -1,0 +1,8 @@
+021C4D68 (ov208), tree_ov135 lane, 2026-09-28
+Best: src/pending/ov208_func_021C4D68.c, DIFF 3 bytes (second call passes `y + 16`, which
+emits `adds r4,#0x10` where the image has `movs r3,#0x11`, then the same lsls/asrs pair).
+The image converts the constant 0x11 to s16 at run time. Literal 0x11, y = 0x11 on the
+same int/u16/u32 local, idx (dead u16 stack param) = 0x11, an inline helper taking y, u8 and
+s8 y (122): all fold to a bare `movs r3,#0x11` (71 bytes out, the scheduling around it moves).
+x must be passed as `(u16)((width - w) / 2)` with w a u16 local, not a u16 x local (123 -> 71).
+Callers 0x021C4E54 and 0x021C4EAC are EXACT (label witness from each other).

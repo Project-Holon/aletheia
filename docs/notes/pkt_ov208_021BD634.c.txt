@@ -1,0 +1,11 @@
+021BD634 (ov208), tree_ov135 lane, 2026-09-28
+Best: src/pending/ov208_func_021BD634.c, DIFF 8 bytes, size 280/280, all 16 relocations resolve
+(data_021C8314 by sole-ref, both callbacks matched).
+Residue: original `movs r0,#0; movs r7,#1; str r0,[r5,#0x34]; add r0,sp,#0x14; movs r1,#0;
+movs r2,#8; str r7,[r5,#4]; blx MI fill`; compiled puts `str r7,[r5,#4]` straight after the
+f34 store.
+Tried (all 8 or worse): f4 before f34 (12), f4 before the struct copy (23), raw-offset stores
+for either field (8), a pointer local for &pos (8), block-scope pointer (8), u8 fill value (8),
+sizeof(pos) (8), (p->f4 = 1) * 8 folded into the size (12). Permuter seed 8201, 300 iters: 8.
+Table reads need the index in a local (n = desc->f0) or every field reloads desc->f0.
+Blocks 0x021BD148 (its only caller), which then caps at MATCH.

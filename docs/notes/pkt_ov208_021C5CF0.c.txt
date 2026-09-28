@@ -1,0 +1,8 @@
+021C5CF0 (ov208), tree_ov135 lane, 2026-09-28
+Best: src/pending/ov208_func_021C5CF0.c, DIFF 19 bytes, size 116/116. Control flow exact,
+including the doubled `beq` (outer and inner test of obj[cur], written as nested ifs).
+Residue: the signed %2 block after the first call; image `movs r0,#0x51; lsls r0,#2;
+ldr r1,[r4,r0]; adds r1,#1; ...` compiled `movs r3,...; ldr r0,[r4,r3]`.
+Tried: cur++ then %= 2 (19), += 1 (19), 1 + cur (19), `& 1 ? 1 : 0` (14, wrong semantics
+kept only as a probe), inline Del helpers for the nested test (19). Permuter seed 8202,
+400 iters: 19.

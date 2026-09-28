@@ -1,0 +1,199 @@
+WM_StepDataSharing 0x020902D8 (TwlSDK libwm wm_ds.o, 816 B): near miss
+=======================================================================
+
+2026-09-28, lane sdk_arm9_4.  Every callee is matched (WMi_CheckStateEx,
+WM_GetAID, WM_GetConnectedAIDs, WM_SetMPDataToPortEx, MIi_CpuCopy16 and the
+three wm_ds.o statics), so the draft below is the whole remaining problem.
+Size is right (816/816); three instructions differ:
+
+  +0020/+0024  original: mov r5,#0 ; mov fp,#1    draft: mov fp,#1 ; mov r5,#0
+  +0288        original: mov r7,r5                draft: mov r7,#0
+
+r5 is the child's sendFlag, fp is the hoisted constant 1.  In the original
+the child's sendFlag is zeroed at function entry, ahead of the constant, and
+the child's `result = WM_ERRCODE_SUCCESS` is a copy of r5 (the compiler did
+not treat r5 as a known zero there).
+
+Measured, all DIFF:
+- both sendFlags block-scoped (the DWARF shape): the copy `mov r7,rN` is
+  reproduced, but the child's init lands at the child's block (mov r4,#0 at
+  +0230) and aid moves from r6 to r5 (138 lines differ).
+- the four function-scope declaration orders: no change.
+- child sendFlag at function scope with init (draft below): 3 instructions.
+- the same without init, assigned at the child's start, or after
+  `result = NO_DATASET`: the init moves back into the child.
+- parent reusing the function-scope sendFlag: worse.
+- `result = (WMErrCode)sendFlag` in the child: still `mov r7,#0`.
+- `connectedAIDs = 0` at declaration (WM_StartDataSharing in the same
+  object needed `connectedAIDs = 1`): adds its own mov and moves aid.
+- permuter seed 8301, budget 600: best 6 bytes out, nothing closer.
+- `% 4u` (not `% 4`) is required for the index wraps: the signed form
+  compiles to the sign-fixup sequence.
+
+Best draft (DIFF, 3 instructions):
+
+typedef unsigned long u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+typedef long s32;
+typedef int BOOL;
+
+typedef enum WMErrCode {
+    WM_ERRCODE_SUCCESS = 0,
+    WM_ERRCODE_FAILED = 1,
+    WM_ERRCODE_OPERATING = 2,
+    WM_ERRCODE_ILLEGAL_STATE = 3,
+    WM_ERRCODE_WM_DISABLE = 4,
+    WM_ERRCODE_NO_DATASET = 5,
+    WM_ERRCODE_INVALID_PARAM = 6,
+    WM_ERRCODE_NO_ENTRY = 7,
+    WM_ERRCODE_MAX = 0x7FFFFFFF
+} WMErrCode;
+
+typedef void (*WMCallbackFunc)(void *arg);
+
+typedef struct WMDataSet {
+    u16 aidBitmap;
+    u16 receivedBitmap;
+    u16 data[254];
+} WMDataSet;
+
+typedef struct WMDataSharingInfo {
+    WMDataSet ds[4];
+    u16 seqNum[4];
+    u16 writeIndex;
+    u16 sendIndex;
+    u16 readIndex;
+    u16 aidBitmap;
+    u16 dataLength;
+    u16 stationNumber;
+    u16 dataSetLength;
+    u16 port;
+    u16 doubleMode;
+    u16 currentSeqNum;
+    u16 state;
+    u16 reserved[1];
+} WMDataSharingInfo;
+
+extern WMErrCode WMi_CheckStateEx(s32 paramNum, ...);
+extern u16 WM_GetAID(void);
+extern u16 WM_GetConnectedAIDs(void);
+extern WMErrCode WM_SetMPDataToPortEx(WMCallbackFunc callback, void *arg, u16 *sendData,
+                                      u16 sendDataSize, u16 destBitmap, u16 port, u16 prio);
+extern void MIi_CpuCopy16(const void *srcp, void *destp, u32 size);
+extern void WmDataSharingSendDataSet(WMDataSharingInfo *dsInfo, BOOL delayed);
+extern void WmDataSharingReceiveData(WMDataSharingInfo *dsInfo, u16 aid, u16 *data);
+extern void WmDataSharingSetDataCallback(void *callback);
+
+WMErrCode WM_StepDataSharing(WMDataSharingInfo *dsInfo, u16 *sendData, WMDataSet *receiveData)
+{
+    WMErrCode result;
+    u16 aid;
+    u16 connectedAIDs;
+    u16 state;
+    BOOL sendFlag = 0;
+
+    result = WMi_CheckStateEx(2, 9, 10);
+    if (result != WM_ERRCODE_SUCCESS) {
+        return result;
+    }
+    if (dsInfo == 0) {
+        return WM_ERRCODE_INVALID_PARAM;
+    }
+    if (sendData == 0) {
+        return WM_ERRCODE_INVALID_PARAM;
+    }
+    if (receiveData == 0) {
+        return WM_ERRCODE_INVALID_PARAM;
+    }
+
+    aid = WM_GetAID();
+    if (aid == 0) {
+        connectedAIDs = WM_GetConnectedAIDs();
+    }
+
+    state = dsInfo->state;
+    if (state == 5) {
+        return WM_ERRCODE_FAILED;
+    }
+    if (state != 1 && state != 4) {
+        return WM_ERRCODE_ILLEGAL_STATE;
+    }
+
+    result = WM_ERRCODE_NO_DATASET;
+
+    if (aid == 0) {
+        BOOL sendFlag = 0;
+        BOOL delayed = 0;
+
+        if (state == 4) {
+            int res;
+            u16 oldWI = (u16)((dsInfo->writeIndex + 3) % 4u);
+
+            dsInfo->state = 1;
+            res = WM_SetMPDataToPortEx(WmDataSharingSetDataCallback, dsInfo,
+                                       (u16 *)&dsInfo->ds[oldWI], dsInfo->dataSetLength,
+                                       (u16)(dsInfo->aidBitmap & connectedAIDs), dsInfo->port, 1);
+            if (res == WM_ERRCODE_NO_ENTRY) {
+                dsInfo->seqNum[oldWI] = 0xFFFF;
+                dsInfo->sendIndex = (u16)((dsInfo->sendIndex + 1) % 4u);
+            } else if (res != WM_ERRCODE_SUCCESS && res != WM_ERRCODE_OPERATING) {
+                dsInfo->state = 5;
+                return WM_ERRCODE_FAILED;
+            }
+        }
+
+        if (dsInfo->readIndex != dsInfo->sendIndex) {
+            dsInfo->ds[dsInfo->readIndex].aidBitmap |= 1;
+            MIi_CpuCopy16(&dsInfo->ds[dsInfo->readIndex], receiveData, sizeof(WMDataSet));
+            dsInfo->currentSeqNum = dsInfo->seqNum[dsInfo->readIndex];
+            dsInfo->readIndex = (u16)((dsInfo->readIndex + 1) % 4u);
+            sendFlag = 1;
+            result = WM_ERRCODE_SUCCESS;
+            if (!dsInfo->doubleMode && connectedAIDs != 0
+                && dsInfo->ds[dsInfo->writeIndex].aidBitmap == 1) {
+                delayed = 1;
+            } else {
+                delayed = 0;
+            }
+        }
+
+        WmDataSharingSendDataSet(dsInfo, 0);
+        if (sendFlag) {
+            WmDataSharingReceiveData(dsInfo, 0, sendData);
+            if (!dsInfo->doubleMode) {
+                WmDataSharingSendDataSet(dsInfo, delayed);
+            }
+        }
+    } else {
+        if (state == 4) {
+            sendFlag = 1;
+            dsInfo->state = 1;
+        } else if (dsInfo->readIndex != dsInfo->writeIndex) {
+            if (!(dsInfo->ds[dsInfo->readIndex].aidBitmap & 1)) {
+                dsInfo->ds[dsInfo->readIndex].aidBitmap |= 1;
+            } else {
+                MIi_CpuCopy16(&dsInfo->ds[dsInfo->readIndex], receiveData, sizeof(WMDataSet));
+                result = WM_ERRCODE_SUCCESS;
+                sendFlag = 1;
+                dsInfo->currentSeqNum = dsInfo->seqNum[dsInfo->readIndex];
+                dsInfo->readIndex = (u16)((dsInfo->readIndex + 1) % 4u);
+            }
+        }
+
+        if (sendFlag) {
+            int res;
+            u16 *buf = (u16 *)((u8 *)&dsInfo->ds[dsInfo->sendIndex] + 32);
+
+            MIi_CpuCopy16(sendData, buf, dsInfo->dataLength);
+            res = WM_SetMPDataToPortEx(WmDataSharingSetDataCallback, dsInfo, buf,
+                                       dsInfo->dataLength, dsInfo->aidBitmap, dsInfo->port, 1);
+            dsInfo->sendIndex = (u16)((dsInfo->sendIndex + 1) % 4u);
+            if (res != WM_ERRCODE_OPERATING && res != WM_ERRCODE_SUCCESS) {
+                dsInfo->state = 5;
+                result = WM_ERRCODE_FAILED;
+            }
+        }
+    }
+    return result;
+}
