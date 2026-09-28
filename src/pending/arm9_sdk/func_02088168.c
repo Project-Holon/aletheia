@@ -11,10 +11,16 @@
  *
  * sdk:      OS_GetLowEntropyData (os_entropy.o)
  *
- * notes:    draft: the original reads VCOUNT into r6 before the OS_GetTickLo call and
- *           rebases the system-work reads off 0x02FFFC00 in r4; this spelling calls first.
- *           Even byte-exact it stays MATCH: the OSi_TickCounter+8 pool word (0x02151338)
- *           has no witness outside this function.
+ * notes:    draft (DIFF, 77 bytes).  VCOUNT is now read into a callee-saved
+ *           register before OS_GetTickLo as in the original.  Remaining
+ *           residue: the original loads the 0x02FFFC00 system-work base into
+ *           r4 before the call and keeps it across it (buffer in r5, VCOUNT
+ *           in r6); this spelling loads the base after the call, which shifts
+ *           every register.  Direct field access (no macAddress pointer)
+ *           reproduces the +0x300 rebasing but not the separate +0x3A8 base.
+ *           OSi_TickCounter (0x02151338) now resolves (sole-ref), so an exact
+ *           spelling would verify EXACT, not MATCH.  Permuter seed 13203,
+ *           400 rounds: 73 bytes at best, no structural gain.
  *
  * symbols:
  *   OS_GetTickLo     0x02087170  arm
@@ -56,7 +62,10 @@ void func_02088168(u32 *buffer)
     OSiSysWork *sw = (OSiSysWork *)0x02FFFC00;
     u8 *macAddress;
 
-    buffer[0] = (u32)((*(volatile u16 *)0x04000006 << 16) | OS_GetTickLo());
+    {
+        u16 vc = *(volatile u16 *)0x04000006;
+        buffer[0] = (u32)((vc << 16) | OS_GetTickLo());
+    }
     buffer[1] = (u32)(sw->hF8 << 16) ^ (u32)OSi_TickCounter;
     buffer[2] = sw->w3C ^ ((u32)(OSi_TickCounter >> 32) ^ sw->wF4);
     buffer[2] ^= *(volatile u32 *)0x04000600;

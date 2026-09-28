@@ -11,10 +11,13 @@
  *
  * sdk:      OSi_UnlockMutexCore (os_mutex.o)
  *
- * notes:    control flow and allocation differ: the original reloads count on the
- *           STD/W path (ldr r0,[r6,#0xc]; b to the next instruction) and keeps the switch
- *           value in r0; switch, fall-through and if-chain spellings and a 400-round
- *           permuter run (seed 12401) keep it in r5.
+ * notes:    original keeps the switch value (count) in r0 and reloads it on
+ *           the STD/W path (`ldr r0,[r6,#0xc]; b` into the R-case code); this
+ *           spelling keeps it in r5.  DWARF lists only mutex, type, unlocked
+ *           and e (no currentThread local).  Tried: duplicated case bodies,
+ *           fall-through STD/W into R, goto into R, no currentThread local
+ *           (worse: the thread load is no longer hoisted), swapped type test.
+ *           Permuter seeds 12401 (400) and 13202 (500): no gain.
  *
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm

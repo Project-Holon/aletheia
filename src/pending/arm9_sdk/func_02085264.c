@@ -11,10 +11,15 @@
  *
  * sdk:      OS_InitThread (os_thread.o)
  *
- * notes:    code bytes identical; three pool words have no witness outside
- *           this function: SDK_SYS_STACKSIZE (0x1800), SDK_SECTION_ARENA_DTCM_START
- *           (0x02FE00C0) and OSi_IdleThreadProc (0x02085B20, an uncatalogued
- *           16-byte os_thread.o local).  No C change can reach EXACT.
+ * notes:    code bytes identical; two pool words have no witness outside
+ *           this function: SDK_SYS_STACKSIZE (0x1800) and
+ *           SDK_SECTION_ARENA_DTCM_START (0x02FE00C0), both linker-absolute.
+ *           OSi_IdleThreadProc is now attested by func_02085B20 (matched).
+ *           The same two symbols are relocated by OS_GetInitArenaHi's object
+ *           and sit in its pool (0x02086684, 0x0208668C) and in
+ *           OS_GetInitArenaLo's pool (0x02086758), but those words follow
+ *           pool_02086680 unlabelled, so the literal class does not see them.
+ *           No C change can reach EXACT.
  *
  * symbols:
  *   OS_SetSwitchThreadCallback    0x02085AF8  arm

@@ -7,8 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
- * notes:    bytes identical; the PC24 to PMi_ExecutePostExitCallbackList (0x027315A8, TWL ltdmain) has no witness outside this function
+ * status:   EXACT
  *
  * sdk:      CARD_TerminateForPulledOut (libcard.TWL.HYB.a card_pullout.o)
  *

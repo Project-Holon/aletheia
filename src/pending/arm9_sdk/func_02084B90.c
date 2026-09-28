@@ -11,11 +11,18 @@
  *
  * sdk:      OS_InitLock (os_spinlock.o)
  *
- * notes:    code bytes identical with isInitialized as a function-local static; its
- *           .bss relocation (image 0x02150FCC, object symbol _ZZ11OS_InitLockvE13isInitialized)
- *           cannot be named, so it stays wildcarded.  Declared as an extern at that address
- *           the compiler no longer hoists the lock-word store above the flag store (DIFF);
- *           400-round permuter run (seed 12402) found nothing.
+ * notes:    code bytes identical with isInitialized as a function-local static.
+ *           Both the vendor object and this compile relocate that pool word
+ *           against the .bss section symbol (the vendor's local
+ *           _ZZ11OS_InitLockvE13isInitialized is only the name at .bss+0);
+ *           match.py resolves relocations by symbol name and the symbols:
+ *           block does not accept ".bss", so the site stays wildcarded
+ *           (image 0x02150FCC, sole-ref witness available).  As an extern,
+ *           a defined global, or with __restrict on the lock pointer, the
+ *           flag store stays above the lock-word stores (DIFF, 36 bytes).
+ *           Permuter seeds 12402 (static) and 13201 (extern, 300 rounds):
+ *           no gain.  A tool change mapping a section-relative relocation to
+ *           a symbols: line would lift this to EXACT without a C change.
  *
  * symbols:
  *   MIi_CpuClear32         0x02082A7C  arm
