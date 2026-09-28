@@ -7,10 +7,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT*
  *
  * sdk:      G2x_SetBGyAffine_ (libgx.TWL.HYB.a g2.o)
- * notes:    38 bytes differ, register allocation only (same instruction shapes and order); permuter seed 12606 made it worse. Pass 2 (sdk9w2_fxmisc): DWARF has no x2 local (only dx, dy, y2); x2 folded into the store, x1 or centerX reused for it, 288 combinations of declaration order / statement order, self-assignments, inline GX_FX32_FX16: all the same 26-line rotation. The image keeps dx in ip (not coalesced with x1); this C coalesces it.
+ * notes:    y2 is computed before the x row, and the x row is folded into its store (DWARF lists dx, dy, y2 and no x2); matrix stores before dx/dy.
  *
  * symbols:
  *   (none)
@@ -64,14 +64,13 @@ typedef struct {
 
 void func_0207D59C(u32 addr, const MtxFx22 *mtx, int centerX, int centerY, int x1, int y1)
 {
-    fx32 dx, dy, x2, y2;
+    fx32 dx, dy, y2;
 
-    dx = x1 - centerX;
-    dy = y1 - centerY;
     ((vu32 *)addr)[0] = (u32)((u16)GX_FX32_FX16(mtx->_00) | ((u16)GX_FX32_FX16(mtx->_01) << 16));
     ((vu32 *)addr)[1] = (u32)((u16)GX_FX32_FX16(mtx->_10) | ((u16)GX_FX32_FX16(mtx->_11) << 16));
-    x2 = mtx->_00 * dx + mtx->_01 * dy + (centerX << 12);
+    dx = x1 - centerX;
+    dy = y1 - centerY;
     y2 = mtx->_10 * dx + mtx->_11 * dy + (centerY << 12);
-    ((vu32 *)addr)[2] = (u32)(x2 >> 4);
+    ((vu32 *)addr)[2] = (u32)((mtx->_00 * dx + mtx->_01 * dy + (centerX << 12)) >> 4);
     ((vu32 *)addr)[3] = (u32)(y2 >> 4);
 }

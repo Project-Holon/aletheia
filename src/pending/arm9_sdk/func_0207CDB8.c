@@ -10,7 +10,7 @@
  * status:   DIFF
  *
  * sdk:      VEC_Fx16Normalize (libfx.TWL.HYB.a fx_vec.o)
- * notes:    19 bytes differ, scheduling only (same residue as VEC_Normalize at 0x0207CCA4: z*z and the t<<2 high word placed later in the image). Pass 2 (sdk9w2_fxmisc): writing DIVCNT and NUMER before the sum reproduces the image's store/multiply interleave but moves the I/O base to r2 (27 lines); sum spellings (single expression, fx32 casts) and permuter seed 13605 flat.
+ * notes:    19 bytes differ, scheduling only (same residue as VEC_Normalize at 0x0207CCA4: z*z and the t<<2 high word placed later in the image). Pass 2 (sdk9w2_fxmisc): writing DIVCNT and NUMER before the sum reproduces the image's store/multiply interleave but moves the I/O base to r2 (27 lines); sum spellings (single expression, fx32 casts) and permuter seed 13605 flat. Pass 3 (sdk9w3_fx): the residue is one instruction, smulbb z issued before the NUMER-low store instead of after the first adds; DIVCNT/NUMER as halves at every sum position, the sum through inline helpers (square, dot product with one or two pointers), s64/long/int casts, other dsi compilers and -proc models, and permuter seeds 13606 and 13613 (random mode) all flat at 19 or worse.
  *
  * symbols:
  *   (none)
