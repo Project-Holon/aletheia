@@ -9,7 +9,7 @@
   {
    "name": "GX_GetVCount",
    "address": "0x021BBE80",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov110",
    "source": "src/matched/ov_sdk/ov110_func_021BBE80.c",
    "compiler": "dsi/dsi/1.1p1",

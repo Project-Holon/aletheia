@@ -9,9 +9,9 @@
   {
    "name": "func_02185CF4",
    "address": "0x02185CF4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov219",
-   "source": "src/matched/ov_sdk/func_02185CF4.c",
+   "source": "src/matched/ov_sdk/ov219_func_02185CF4.c",
    "compiler": "dsi/dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

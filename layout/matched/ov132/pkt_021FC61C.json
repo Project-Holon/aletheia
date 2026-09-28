@@ -11,7 +11,7 @@
    "address": "0x021FC61C",
    "kind": "game",
    "region": "ov132",
-   "source": "src/matched/ov/func_021FC61C.c",
+   "source": "src/matched/ov/ov132_func_021FC61C.c",
    "compiler": "dsi/dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

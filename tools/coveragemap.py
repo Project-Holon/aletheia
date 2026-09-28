@@ -214,24 +214,30 @@ def overlay_functions():
 
     A function whose start is a catalogued SDK symbol is SDK code: matched SDK
     when a shard reproduces it, plain SDK otherwise.  Everything else is game.
+    Labels, extents and the matched set come from tools/ovstats.py (entries keyed
+    by address, an address counting only when it is a function label in its own
+    listing), so the matched tiles add up to ovstats' matched bytes exactly.
     """
     funcs = []
     for path in sorted(glob.glob(os.path.join(ROOT, "asm", "overlays", "ov*.s"))):
         region = os.path.basename(path)[:-2]
         if not region[2:].isdigit():
             continue
-        labels, span_end = listing_labels(path)
-        entries = shard_status(region)
+        head = "".join(open(path, encoding="utf-8", errors="replace").readlines()[:18])
+        m_range = HDR_RANGE.search(head)
+        span_end = int(m_range.group(2), 16) if m_range else 0
+        labels = ovstats.listing_labels(path)
+        by_label = {}
+        for a, name in labels:
+            by_label.setdefault(name, a)
+        matched, _uncounted = ovstats.matched_addresses(region, [a for a, _ in labels], by_label)
         sdk = sdk_addrs(region)
         for i, (addr, name) in enumerate(labels):
-            if not FUNCNAME.match(name):
-                continue
             end = labels[i + 1][0] if i + 1 < len(labels) else span_end
             size = end - addr
             if size <= 0:
                 continue
-            status = entries.get(name, "")
-            exact = status.startswith(("EXACT", "EXACT*"))
+            exact = addr in matched
             if addr in sdk:
                 cls = "matched_sdk" if exact else "sdk"
             else:
@@ -360,6 +366,10 @@ def render_overlays(a, anchors):
     matched_game = sum(r["matched_bytes"] for r in rows)
     matched_sdk = sum(r["matched_sdk_bytes"] for r in rows)
     sdk = sum(r["sdk_bytes"] for r in rows)
+    tiles_sdk = sum(f["code_bytes"] for f in funcs if f["cls"] == "matched_sdk")
+    if (matched, tiles_sdk) != (matched_game, matched_sdk):
+        sys.exit("coveragemap: overlay tiles disagree with ovstats: matched game %d vs %d, "
+                 "matched SDK %d vs %d" % (matched, matched_game, tiles_sdk, matched_sdk))
     regions = {}
     for f in funcs:
         regions.setdefault(f["region"], []).append(f)

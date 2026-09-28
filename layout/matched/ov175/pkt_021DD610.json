@@ -9,9 +9,9 @@
   {
    "name": "func_021DD610",
    "address": "0x021DD610",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov175",
-   "source": "src/matched/ov_sdk/func_021DD610.c",
+   "source": "src/matched/ov_sdk/ov175_func_021DD610.c",
    "compiler": "dsi/dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

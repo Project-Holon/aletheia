@@ -7,11 +7,11 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
-   "name": "ov071_unit_021B9FEC",
+   "name": "ov071_func_021B9FEC",
    "address": "0x021B9FEC",
    "kind": "game_unit",
    "region": "ov071",
-   "source": "src/matched/ov/ov071_unit_021B9FEC.c",
+   "source": "src/matched/ov/ov071_func_021B9FEC.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

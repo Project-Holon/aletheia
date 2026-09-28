@@ -9,7 +9,7 @@
   {
    "name": "MB_GetTgid",
    "address": "0x021F62A0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov107",
    "source": "src/matched/ov_sdk/ov107_func_021F62A0.c",
    "compiler": "dsi/dsi/1.1p1",

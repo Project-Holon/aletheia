@@ -40,7 +40,9 @@ HDR_FUNCS = re.compile(r"functions\s+(\d+)")
 FUNCNAME = re.compile(r"^(?:func|sub)_[0-9A-Fa-f]{6,8}$")
 LABEL = re.compile(r"^([A-Za-z_][A-Za-z0-9_.]*):\s*$")
 ORG = re.compile(r"^\s*\.org\s+0x([0-9A-Fa-f]+)")
-INSN = re.compile(r"/\*\s*([0-9A-Fa-f]{8})\s+((?:[0-9A-Fa-f]{2} )+)\*/")
+# An instruction line's comment is "/* ADDRESS  BYTES */", or "/* ADDRESS  BYTES  text */" for
+# an .inst line that carries its decoding; pool words have no byte field and do not match.
+INSN = re.compile(r"/\*\s*([0-9A-Fa-f]{8})\s+((?:[0-9A-Fa-f]{2} )*[0-9A-Fa-f]{2})(?:\s\s|\s*\*/)")
 MATCHED = ("EXACT", "EXACT*")
 
 # Per-region SDK symbol addresses, from layout/symbols_sdk.json (region: "ovNNN").
@@ -99,17 +101,74 @@ def listing_labels(path):
 
 
 def shard_entries(overlay):
-    """{name: status} for every function in an overlay's shards."""
+    """{key: status} for every function in an overlay's shards.
+
+    Shards are read in sorted path order.  An entry is keyed by its own "address"
+    field (by its name through the listing only when that field is missing), so a
+    static name shared by several functions resolves to each of them and the same
+    function listed in two shards is one address.  A unit entry (kind ``game_unit``
+    or ``sdk_unit``: one translation unit compiled once, whose ``functions`` list
+    names every member it reproduces, match.py attest_matched rule 3) also adds
+    one key per member, the member's name.  A key counts as matched when any entry
+    for it is EXACT or EXACT*; the result does not depend on read order or on
+    which duplicate is seen first.
+    """
     entries = {}
-    for shard in glob.glob(os.path.join(ROOT, "layout", "matched", overlay, "pkt_*.json")):
+
+    def put(key, status):
+        if key not in entries or (status.startswith(MATCHED) and not entries[key].startswith(MATCHED)):
+            entries[key] = status
+
+    for shard in sorted(glob.glob(os.path.join(ROOT, "layout", "matched", overlay, "pkt_*.json"))):
         try:
             d = json.load(open(shard, encoding="utf-8"))
         except Exception:
             continue
         for f in d.get("functions", []):
-            if isinstance(f, dict) and f.get("name"):
-                entries[f["name"]] = f.get("status", "")
+            if not isinstance(f, dict) or not f.get("name"):
+                continue
+            try:
+                key = int(str(f["address"]), 16) if f.get("address") else f["name"]
+            except ValueError:
+                key = f["name"]
+            status = f.get("status", "")
+            put(key, status)
+            if str(f.get("kind", "")).endswith("_unit"):
+                for member in f.get("functions", []):
+                    if isinstance(member, str) and member:
+                        put(member, status)
     return entries
+
+
+MEMBER = re.compile(r"^(?:func|sub)_([0-9A-Fa-f]{8})$")
+
+
+def matched_addresses(overlay, addrs, by_label):
+    """(matched, uncounted) for one overlay.
+
+    ``matched`` is the set of addresses with an EXACT/EXACT* shard entry that are
+    function labels in the overlay's own listing (``addrs``).  An address that is
+    not such a label is outside the denominator (its bytes are data, or sit in
+    another function's extent), so it is never counted; it is returned in
+    ``uncounted`` as (key, status) instead.  A member name that is not a label
+    resolves through its ``func_XXXXXXXX`` spelling and is guarded the same way.
+    """
+    labelset = set(addrs)
+    matched, uncounted = set(), []
+    for key, status in shard_entries(overlay).items():
+        if not status.startswith(MATCHED):
+            continue
+        a = key
+        if isinstance(key, str):
+            a = by_label.get(key)
+            if a is None:
+                m = MEMBER.match(key)
+                a = int(m.group(1), 16) if m else None
+        if a is not None and a in labelset:
+            matched.add(a)
+        else:
+            uncounted.append((key, status))
+    return matched, uncounted
 
 
 def overlay_rows():
@@ -152,24 +211,23 @@ def overlay_rows():
                 end = min(end, clip)
             return max(0, end - a)
 
-        for a, _name in labels:
+        for a in sorted(set(addrs)):
             if a in sdk:
                 row["sdk_bytes"] += extent(a, clip=code_end)
         row["game_bytes"] = max(0, row["code_bytes"] - row["sdk_bytes"])
-        entries = shard_entries(overlay)
-        if entries:
-            for name, status in entries.items():
-                if not status.startswith(MATCHED):
-                    continue
-                a = by_label.get(name)
-                if a is None:
-                    continue
-                if a in sdk:
-                    row["matched_sdk_bytes"] += extent(a)
-                    row["matched_sdk_funcs"] += 1
-                else:
-                    row["matched_bytes"] += extent(a)
-                    row["matched_funcs"] += 1
+        # Matched entries are keyed by address, and an address counts only when it is a
+        # function label in this listing (matched_addresses), so every matched byte is
+        # inside the denominator and a function listed twice counts once.
+        matched, uncounted = matched_addresses(overlay, addrs, by_label)
+        row["uncounted"] = ["0x%08X %s" % (k, st) if isinstance(k, int) else "%s %s" % (k, st)
+                            for k, st in uncounted]
+        for a in sorted(matched):
+            if a in sdk:
+                row["matched_sdk_bytes"] += extent(a)
+                row["matched_sdk_funcs"] += 1
+            else:
+                row["matched_bytes"] += extent(a)
+                row["matched_funcs"] += 1
         rows.append(row)
     return rows
 

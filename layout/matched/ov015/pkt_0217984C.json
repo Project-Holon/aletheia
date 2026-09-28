@@ -9,9 +9,9 @@
   {
    "name": "func_0217984C",
    "address": "0x0217984C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov015",
-   "source": "src/matched/ov_sdk/func_0217984C.c",
+   "source": "src/matched/ov_sdk/ov015_func_0217984C.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

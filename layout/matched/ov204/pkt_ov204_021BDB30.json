@@ -11,7 +11,7 @@
    "address": "0x021BDB30",
    "kind": "game",
    "region": "ov204",
-   "source": "src/matched/ov/func_021BDB30.c",
+   "source": "src/matched/ov/ov204_func_021BDB30.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

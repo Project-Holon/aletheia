@@ -9,9 +9,9 @@
   {
    "name": "func_021E2290",
    "address": "0x021E2290",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov175",
-   "source": "src/matched/ov_sdk/func_021E2290.c",
+   "source": "src/matched/ov_sdk/ov175_func_021E2290.c",
    "compiler": "dsi/dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

@@ -9,9 +9,9 @@
   {
    "name": "func_021DEB5C",
    "address": "0x021DEB5C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov175",
-   "source": "src/matched/ov_sdk/func_021DEB5C.c",
+   "source": "src/matched/ov_sdk/ov175_func_021DEB5C.c",
    "compiler": "dsi/dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

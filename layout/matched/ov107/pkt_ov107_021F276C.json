@@ -9,7 +9,7 @@
   {
    "name": "MBi_CommParentSendMsg",
    "address": "0x021F276C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov107",
    "source": "src/matched/ov_sdk/ov107_func_021F276C.c",
    "compiler": "dsi/dsi/1.1p1",

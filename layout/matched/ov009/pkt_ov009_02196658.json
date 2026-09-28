@@ -9,7 +9,7 @@
   {
    "name": "gti2IncomingBufferMessageCompare",
    "address": "0x02196658",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_02196658.c",
    "compiler": "dsi/1.1p1",

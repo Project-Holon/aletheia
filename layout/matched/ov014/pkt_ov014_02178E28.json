@@ -9,7 +9,7 @@
   {
    "name": "DWCi_MOV_WH_SetUserGameInfo",
    "address": "0x02178E28",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov014",
    "source": "src/matched/ov_sdk/ov014_func_02178E28.c",
    "compiler": "dsi/1.1p1",

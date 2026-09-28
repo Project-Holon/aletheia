@@ -11,7 +11,7 @@
    "address": "0x021DFD18",
    "kind": "game",
    "region": "ov175",
-   "source": "src/matched/ov/func_021DFD18.c",
+   "source": "src/matched/ov/ov175_func_021DFD18.c",
    "compiler": "dsi/dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

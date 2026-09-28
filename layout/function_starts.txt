@@ -629,9 +629,16 @@ overlay_170  0x021EF1B4  thumb # "ldr r0, =d_021F0F40; ldr r3, =func_021EF0A8; m
 overlay_170  0x021EF1C4  thumb # "ldr r0, =d_021F0040; ldr r3, =0x02035BA4; bx r3"; bl from ov170 at 0x021DFD5E (func_021DFA30), 0x021DF79A
 overlay_170  0x021EF264  thumb # "ldr r0, =d_021F0F58; ldr r3, =func_021EF0A8; movs r1, #1; bx r3"; bl from ov170 at 0x021DFCCE (func_021DFA30), 0x021DF70A
 overlay_170  0x021DEB08  thumb # "ldr r3, =func_021DEA6C; movs r1, #0; bx r3", printed as .word data after func_021DEAFC's pool; bl from ov170 at 0x021E15C4
+overlay_170  0x021EBB1C  thumb # "ldr r3, =func_021EBA84; adds r2, r1, #0; movs r1, #0x16; bx r3", printed as .word data after func_021EBAF8's pop (tree_ov170_6); bl from ov170 at 0x021E7B6E (func_021E7A10)
+overlay_170  0x021E2648  thumb # "ldr r3, =func_021E9284; bx r3" tail thunk after func_021E24EC's pool, printed as .word data (tree_ov170_6); pointer word 0x021E2649 at ov170 0x021EFABC (state handler table, between func_021E24EC and func_021E2650)
 # ov208 leaves already EXACT (tree_ov135), unlabelled in the listing.
 overlay_208  0x021BD360  thumb # "movs r1, #0; str r1, [r0, #0x10]; bx lr"; pool word 0x021BD361 (Thumb bit set) at ov208 0x021BDBA8, the tail-call pool of func_021BDBA0
 overlay_208  0x021BDBAC  thumb # "ldr r0, [r0, #0x30]; ldr r3, =func_021BD330; bx r3"; bl from ov208 at 0x021C1976, 0x021C5FE0
+# ov208 (tree_ov208_6, 2026-09-28): tree_ov208_5 functions printed as .word data; callers sit in untraced jump-table cases.
+overlay_208  0x021C0130  thumb # already EXACT (src/matched/ov/ov208_func_021C0130.c, game); "bx lr", printed as .word data after func_021C0090; bl from ov208 at 0x021BFD54 (func_021BF9B0)
+overlay_208  0x021C2228  thumb # already EXACT (src/matched/ov/ov208_func_021C2228.c, game); "ldr r0, =0x414; movs r2, #3; strb r2, [r1, r0]; bx lr" inside func_021C21D0's extent; bl from ov208 at 0x021C18B0 (func_021C1810)
+overlay_208  0x021C2234  thumb # already EXACT (src/matched/ov/ov208_func_021C2234.c, game); "bx lr" inside func_021C21D0's extent; bl from ov208 at 0x021C18BC (func_021C1810)
+overlay_208  0x021C255C  thumb # "strh r1, [r0]; bx lr" inside func_021C252C's extent; bl from ov208 at 0x021BCD0C (jump-table case 3 of the switch at 0x021BCCA0)
 # arm9 Thumb leaves already EXACT without a label (src/matched/func_020056BC.c,
 # sub_02008DF0 in src/matched/unit_02008DAC.c); the ov010 root func_02169AB8
 # cannot attest its calls to them until they are labelled.
@@ -663,3 +670,231 @@ arm9_main  0x02047804  arm     # slot-table leaf, sibling of func_0204784C; blx 
 arm9_main  0x02047828  arm     # slot-table leaf, sibling of func_0204784C; blx from ov021 at 0x0218C486, 0x021ADC1E, 0x021BE6F6
 arm9_main  0x0209BB54  arm     # _fgeq runtime comparator (layout/runtime_arm9.txt); blx from ov208 at 0x021C7660, 0x021C7B04, 0x021C7BFC, ov120 at 0x021D7322
 overlay_111  0x021C7EF8  thumb # already EXACT (src/matched/ov111_func_021C7EF8.c); bl from func_021C7F2C (src/matched/ov111_func_021C7F2C.c); follows pool word 0x021C7EF4
+
+# names_audit (2026-09-28): matched functions whose address the overlay listing showed as
+# .word data inside the preceding function, so tools/ovstats.py could not count them.
+# Each was re-verified in its own overlay (match.py manifest --verify --force) before seeding;
+# the witness is that verified match plus any pointer word or cross-region call site found.
+overlay_009  0x02156B70  thumb # already EXACT (src/matched/ov/ov009_func_02156B70.c, game); was data inside func_02156B3C+0x34; pointer word 0x02156B71 at ov009 0x02155350, bl from ov099 at 0x021BF572, bl from arm9 at 0x0200F6A6
+overlay_009  0x02156B8C  thumb # already EXACT (src/matched/ov/ov009_func_02156B8C.c, game); was data inside func_02156B3C+0x50; pointer word 0x02156B8D at ov009 0x02155358, bl from ov099 at 0x021BF052, bl from ov099 at 0x021BF380
+overlay_009  0x02156CD0  thumb # already EXACT (src/matched/ov/ov009_func_02156CD0.c, game); was data inside func_02156C84+0x4C; pointer word 0x02156CD1 at ov009 0x02155368, bl from ov175 at 0x021DA436
+overlay_009  0x02156DC4  thumb # already EXACT (src/matched/ov/ov009_func_02156DC4.c, game); was data inside func_02156D84+0x40; bl from ov116 at 0x021D6E78, bl from ov116 at 0x021D6F0C, bl from ov116 at 0x021D7004
+overlay_009  0x02156860  thumb # already EXACT (src/matched/ov/ov009_func_02156860.c, game); was data inside func_0215683C+0x24; pointer word 0x02156861 at ov099 0x021C23BC
+overlay_009  0x02156BC4  thumb # already EXACT (src/matched/ov/ov009_func_02156BC4.c, game); was data inside func_02156B3C+0x88; bl from ov099 at 0x021BC122, bl from ov099 at 0x021BF506, bl from ov099 at 0x021BF588
+overlay_009  0x0215AB7C  arm   # already EXACT (src/matched/ov_sdk/ov009_func_0215AB7C.c, SDK CPS_SocDup); was data inside func_0215AB5C+0x20
+overlay_009  0x0215AB94  arm   # already EXACT (src/matched/ov_sdk/ov009_func_0215AB94.c, SDK CPS_SetUdpCallback); was data inside func_0215AB5C+0x38
+overlay_009  0x0215CD0C  arm   # already EXACT (src/matched/ov_sdk/ov009_func_0215CD0C.c, SDK SOCLi_DhcpTimeout); was data inside func_0215CB24+0x1E8; pointer word 0x0215CD0C at ov009 0x0215CC90
+overlay_009  0x0215DD78  arm   # already EXACT (src/matched/ov_sdk/ov009_func_0215DD78.c, SDK DWCi_LSTlPopFront); was data inside func_0215DD28+0x50; pointer word 0x0215DD78 at ov009 0x0215DD74
+overlay_009  0x0215F2F4  arm   # already EXACT (src/matched/ov_sdk/ov009_func_0215F2F4.c, SDK SOCLi_SocketRegisterList); was data inside func_0215F2DC+0x18; pointer word 0x0215F2F4 at ov009 0x0215F2F0, pointer word 0x0215F2F4 at ov009 0x0215F318
+overlay_009  0x0216008C  arm   # already EXACT (src/matched/ov_sdk/ov009_func_0216008C.c, SDK CARDi_CommandBegin); was data inside func_0216003C+0x50; bl from arm9 at 0x0205C704
+overlay_009  0x02164D64  arm   # already EXACT (src/matched/ov_sdk/ov009_func_02164D64.c, SDK CRYPTOi__BN_lshift1); was data inside func_02164D20+0x44; blx from ov016 at 0x021B8FDA, blx from ov016 at 0x021B9648, bl from arm9 at 0x0205BC48
+overlay_009  0x021665CC  arm   # already EXACT (src/matched/ov_sdk/ov009_func_021665CC.c, SDK WCMi_CpsifSetMacAddress); was data inside func_02166594+0x38
+overlay_009  0x0216C788  arm   # already EXACT (src/matched/ov_sdk/ov009_func_0216C788.c, SDK DWCi_GT2ClosedCallback); was data inside func_0216C230+0x558; pointer word 0x0216C788 at ov009 0x0216AD3C
+overlay_009  0x0217A0C8  arm   # already EXACT (src/matched/ov_sdk/ov009_func_0217A0C8.c, SDK DWCi_Http_CPSCallback); was data inside func_0217A044+0x84; pointer word 0x0217A0C8 at ov009 0x02179CE4
+overlay_009  0x0217AADC  arm   # already EXACT (src/matched/ov_sdk/ov009_func_0217AADC.c, SDK DWC_Netcheck_GetReturnCode); was data inside func_0217AAA0+0x3C; bl from arm9 at 0x0205F2FC
+overlay_009  0x0217C050  arm   # already EXACT (src/matched/ov_sdk/ov009_func_0217C050.c, SDK CameraStandbyCallback); was data inside func_0217BDA8+0x2A8; pointer word 0x0217C050 at ov009 0x0217BC18
+overlay_009  0x0217C060  arm   # already EXACT (src/matched/ov_sdk/ov009_func_0217C060.c, SDK CameraStandbyCallback); was data inside func_0217BDA8+0x2B8; pointer word 0x0217C060 at ov009 0x0217BC1C
+overlay_009  0x0217EA9C  arm   # already EXACT (src/matched/ov_sdk/ov009_func_0217EA9C.c, SDK gsiMemoryCallbacksSet); was data inside func_0217EA7C+0x20; bl from arm9 at 0x0205A064
+overlay_009  0x02180410  arm   # already EXACT (src/matched/ov_sdk/ov009_func_02180410.c, SDK gsUdpMsgHandlerFree); was data inside func_02180404+0xC; pointer word 0x02180410 at ov009 0x02181004
+overlay_009  0x02180420  arm   # already EXACT (src/matched/ov_sdk/ov009_func_02180420.c, SDK gsUdpMsgHandlerCompare); was data inside func_02180404+0x1C; pointer word 0x02180420 at ov009 0x02180E2C, pointer word 0x02180420 at ov009 0x0218133C
+overlay_009  0x02180430  arm   # already EXACT (src/matched/ov_sdk/ov009_func_02180430.c, SDK gsUdpMsgHandlerCompare2); was data inside func_02180404+0x2C; pointer word 0x02180430 at ov009 0x02180BF0, pointer word 0x02180430 at ov009 0x02181824
+overlay_009  0x02180474  arm   # already EXACT (src/matched/ov_sdk/ov009_func_02180474.c, SDK gsUdpRemotePeerCompare2); was data inside func_02180404+0x70; pointer word 0x02180474 at ov009 0x021806A4
+overlay_009  0x0218D864  arm   # already EXACT (src/matched/ov_sdk/ov009_func_0218D864.c, SDK CaseInsensitiveCompare); was data inside func_0218D840+0x24; pointer word 0x0218D864 at ov009 0x0218D8FC, pointer word 0x0218D864 at ov009 0x0218D9A4, pointer word 0x0218D864 at ov009 0x0218DA3C
+overlay_009  0x0218FA0C  arm   # already EXACT (src/matched/ov_sdk/ov009_func_0218FA0C.c, SDK gpiProfilesTableCompare); was data inside func_0218F9F8+0x14; pointer word 0x0218FA0C at ov009 0x0218FB64
+overlay_009  0x02195DD4  arm   # already EXACT (src/matched/ov_sdk/ov009_func_02195DD4.c, SDK KeyValHashKey); was data inside func_02195DC4+0x10; pointer word 0x02195DD4 at ov009 0x02195DF8
+overlay_009  0x02196658  arm   # already EXACT (src/matched/ov_sdk/ov009_func_02196658.c, SDK gti2IncomingBufferMessageCompare); was data inside func_02196558+0x100; pointer word 0x02196658 at ov009 0x02196818
+overlay_009  0x02197BA4  arm   # already EXACT (src/matched/ov_sdk/ov009_func_02197BA4.c, SDK gti2SendPong); was data inside func_02197AD8+0xCC; pointer word 0x02197BA4 at ov009 0x02196C30
+overlay_009  0x02197D4C  arm   # already EXACT (src/matched/ov_sdk/ov009_func_02197D4C.c, SDK KeyValHashKey); was data inside func_02197CFC+0x50; pointer word 0x02197D4C at ov009 0x02197FD8
+overlay_009  0x02198020  arm   # already EXACT (src/matched/ov/ov009_func_02198020.c, game); was data inside func_02197FDC+0x44; pointer word 0x02198020 at ov009 0x02195B28
+overlay_009  0x0219DF30  arm   # already EXACT (src/matched/ov_sdk/ov009_func_0219DF30.c, SDK KeyValHashKey); was data inside func_0219DF04+0x2C; pointer word 0x0219DF30 at ov009 0x0219DFBC
+overlay_009  0x0219DF40  arm   # already EXACT (src/matched/ov_sdk/ov009_func_0219DF40.c, SDK CaseInsensitiveCompare); was data inside func_0219DF04+0x3C; pointer word 0x0219DF40 at ov009 0x0219DFB4
+overlay_009  0x0219DF54  arm   # already EXACT (src/matched/ov_sdk/ov009_func_0219DF54.c, SDK KeyValHashKey); was data inside func_0219DF04+0x50; pointer word 0x0219DF54 at ov009 0x0219DFB8
+overlay_009  0x0219E8C4  arm   # already EXACT (src/matched/ov_sdk/ov009_func_0219E8C4.c, SDK KeyValHashKey); was data inside func_0219E89C+0x28; pointer word 0x0219E8C4 at ov009 0x0219E9A8, pointer word 0x0219E8C5 at ov021 0x021D5910
+overlay_009  0x0219F7B4  arm   # already EXACT (src/matched/ov_sdk/ov009_func_0219F7B4.c, SDK DWCi_LSTlPopFront); was data inside func_0219F768+0x4C; pointer word 0x0219F7B4 at ov009 0x0219F074
+overlay_011  0x0217688C  thumb # already EXACT (src/matched/ov/ov011_func_0217688C.c, game); was data inside func_02176850+0x3C; bl from ov010 at 0x0216AF6E
+overlay_012  0x021751DC  thumb # already EXACT (src/matched/ov/ov012_func_021751DC.c, game); was data inside func_021751B4+0x28; bl from ov019 at 0x0217FF9C
+overlay_018  0x0217C294  thumb # already EXACT (src/matched/ov/ov018_func_0217C294.c, game); was data inside func_0217C274+0x20; bl from ov010 at 0x0216ACB6, bl from ov010 at 0x0216ACFE
+overlay_020  0x02186764  thumb # already EXACT (src/matched/ov/ov020_func_02186764.c, game); was data inside func_02186748+0x1C; bl from ov021 at 0x02193BD8
+overlay_020  0x02186770  thumb # already EXACT (src/matched/ov/ov020_func_02186770.c, game); was data inside func_02186748+0x28; bl from ov021 at 0x02193BF8
+overlay_022  0x021841A0  thumb # already EXACT (src/matched/ov/ov022_func_021841A0.c, game); was data inside func_0218416C+0x34; bl from ov023 at 0x0218434E, bl from ov023 at 0x021843BA, bl from ov023 at 0x0218451E
+overlay_022  0x021841A4  thumb # already EXACT (src/matched/ov/ov022_func_021841A4.c, game); was data inside func_0218416C+0x38; bl from ov023 at 0x02184340, bl from ov023 at 0x021843AC, bl from ov023 at 0x02185A84
+overlay_024  0x021EE838  thumb # already EXACT (src/matched/ov/ov024_func_021EE838.c, game); was data inside func_021EE7F0+0x48; pointer word 0x021EE839 at ov024 0x021EE8F8
+overlay_028  0x021EE7EC  thumb # already EXACT (src/matched/ov/ov028_func_021EE7EC.c, game); was data inside func_021EE7C0+0x2C; pointer word 0x021EE7ED at ov028 0x021EEC10
+overlay_028  0x021EEA04  thumb # already EXACT (src/matched/ov/ov028_func_021EEA04.c, game); was data inside func_021EE9D8+0x2C; pointer word 0x021EEA05 at ov028 0x021EEB78, pointer word 0x021EEA05 at ov028 0x021EEBC4, pointer word 0x021EEA05 at ov028 0x021EEC5C
+overlay_030  0x021EFEC0  thumb # already EXACT (src/matched/ov/ov030_func_021EFEC0.c, game); was data inside -; pointer word 0x021EFEC1 at ov030 0x021EFEC8, bl from ov021 at 0x021A137C, bl from ov021 at 0x021A14DE
+overlay_067  0x021B93B0  thumb # already EXACT (src/matched/ov/ov067_func_021B93B0.c, game); was data inside func_021B9344+0x6C; bl from ov209 at 0x021BCC3E, bl from ov209 at 0x021BE5DE, bl from ov210 at 0x021BF734
+overlay_067  0x021B93B8  thumb # already EXACT (src/matched/ov/ov067_func_021B93B8.c, game); was data inside func_021B9344+0x74; bl from ov209 at 0x021BCC12, bl from ov209 at 0x021BE5F8, bl from ov210 at 0x021BE138
+overlay_067  0x021B93C0  thumb # already EXACT (src/matched/ov/ov067_func_021B93C0.c, game); was data inside func_021B9344+0x7C; bl from ov209 at 0x021BE62A, bl from ov210 at 0x021BF784
+overlay_068  0x021B9BFC  thumb # already EXACT (src/matched/ov/ov068_func_021B9BFC.c, game); was data inside func_021B9BD0+0x2C; pointer word 0x021B9BFD at ov068 0x021B9960, pointer word 0x021B9BFC at ov182 0x021B9A68
+overlay_068  0x021B9D58  thumb # already EXACT (src/matched/ov/ov068_func_021B9D58.c, game); was data inside func_021B9C04+0x154; pointer word 0x021B9D59 at ov068 0x021B9968, pointer word 0x021B9D58 at ov092 0x021B9BD0, pointer word 0x021B9D58 at ov224 0x021B99D0
+overlay_068  0x021BA018  thumb # already EXACT (src/matched/ov/ov068_func_021BA018.c, game); was data inside func_021BA010+0x8; pointer word 0x021BA019 at ov068 0x021B994C
+overlay_068  0x021BA020  thumb # already EXACT (src/matched/ov/ov068_func_021BA020.c, game); was data inside func_021BA010+0x10; pointer word 0x021BA021 at ov068 0x021B9958, bl from ov094 at 0x021F749C, bl from ov094 at 0x021F74AC
+overlay_071  0x021B70B8  thumb # already EXACT (src/matched/ov/ov071_func_021B70B8.c, game); was data inside func_021B7070+0x48; pointer word 0x021B70B9 at ov071 0x021B7BEC, pointer word 0x021B70B9 at ov071 0x021B82F8, pointer word 0x021B70B9 at ov071 0x021B8ED8
+overlay_072  0x021BBAFC  thumb # already EXACT (src/matched/ov/ov072_func_021BBAFC.c, game); was data inside func_021BBAB4+0x48; pointer word 0x021BBAFD at ov072 0x021BB760
+overlay_072  0x021BBB0C  thumb # already EXACT (src/matched/ov/ov072_func_021BBB0C.c, game); was data inside func_021BBB04+0x8; pointer word 0x021BBB0D at ov072 0x021BB78C
+overlay_072  0x021BBB14  thumb # already EXACT (src/matched/ov/ov072_func_021BBB14.c, game); was data inside func_021BBB04+0x10; pointer word 0x021BBB15 at ov072 0x021BB780
+overlay_088  0x021BD374  thumb # already EXACT (src/matched/ov/ov088_func_021BD374.c, game); was data inside func_021BD2F4+0x80; bl from ov194 at 0x021F167C, bl from ov204 at 0x021BE6EE
+overlay_088  0x021BD39C  thumb # already EXACT (src/matched/ov/ov088_func_021BD39C.c, game); was data inside func_021BD2F4+0xA8; bl from ov204 at 0x021BE6FE
+overlay_095  0x06898CF4  thumb # already EXACT (src/matched/ov/ov095_func_06898CF4.c, game); was data inside func_06898CD0+0x24; pointer word 0x06898CF5 at ov093 0x021C82CC, pointer word 0x06898CF5 at ov093 0x021E08EC, pointer word 0x06898CF5 at ov093 0x021E08FC
+overlay_095  0x0689B670  thumb # already EXACT (src/matched/ov/ov095_func_0689B670.c, game); was data inside func_0689B65C+0x14; pointer word 0x0689B671 at ov093 0x021EAE50
+overlay_095  0x0689B790  thumb # already EXACT (src/matched/ov/ov095_func_0689B790.c, game); was data inside func_0689B69C+0xF4; pointer word 0x0689B791 at ov093 0x021EAE70
+overlay_102  0x021B7C14  thumb # already EXACT (src/matched/ov/ov102_func_021B7C14.c, game); was data inside func_021B7BC0+0x54; pointer word 0x021B7C15 at ov102 0x021B78F0, pointer word 0x021B7C15 at ov105 0x021B78D0
+overlay_103  0x021B7C64  thumb # already EXACT (src/matched/ov/ov103_func_021B7C64.c, game); was data inside func_021B7C54+0x10; pointer word 0x021B7C65 at ov103 0x021B7950
+overlay_104  0x021B7D1C  thumb # already EXACT (src/matched/ov/ov104_func_021B7D1C.c, game); was data inside func_021B7D14+0x8; pointer word 0x021B7D1D at ov104 0x021B7970
+overlay_104  0x021B7D0C  thumb # already EXACT (src/matched/ov/ov104_func_021B7D0C.c, game); was data inside func_021B7CA4+0x68; pointer word 0x021B7D0D at ov104 0x021B7964
+overlay_104  0x021B7D24  thumb # already EXACT (src/matched/ov/ov104_func_021B7D24.c, game); was data inside func_021B7D14+0x10; pointer word 0x021B7D25 at ov104 0x021B797C
+overlay_105  0x021B7C14  thumb # already EXACT (src/matched/ov/ov105_func_021B7C14.c, game); was data inside func_021B7C0C+0x8; pointer word 0x021B7C15 at ov105 0x021B78D0, pointer word 0x021B7C15 at ov102 0x021B78F0
+overlay_105  0x021B7C1C  thumb # already EXACT (src/matched/ov/ov105_func_021B7C1C.c, game); was data inside func_021B7C0C+0x10; pointer word 0x021B7C1D at ov105 0x021B78DC, pointer word 0x021B7C1D at ov102 0x021B78F8
+overlay_106  0x021B7FE4  thumb # already EXACT (src/matched/ov/ov106_func_021B7FE4.c, game); was data inside func_021B7FC8+0x1C; pointer word 0x021B7FE5 at ov106 0x021B80A8
+overlay_106  0x021B7FF4  thumb # already EXACT (src/matched/ov/ov106_func_021B7FF4.c, game); was data inside func_021B7FEC+0x8; pointer word 0x021B7FF5 at ov106 0x021B80B8
+overlay_107  0x021F1060  thumb # already EXACT (src/matched/ov/ov107_func_021F1060.c, game); was data inside func_021F1028+0x38
+overlay_107  0x021F1110  thumb # already EXACT (src/matched/ov/ov107_func_021F1110.c, game); was data inside func_021F1028+0xE8
+overlay_107  0x021F1118  thumb # already EXACT (src/matched/ov/ov107_func_021F1118.c, game); was data inside func_021F1028+0xF0
+overlay_107  0x021F1120  thumb # already EXACT (src/matched/ov/ov107_func_021F1120.c, game); was data inside func_021F1028+0xF8
+overlay_107  0x021F1134  thumb # already EXACT (src/matched/ov/ov107_func_021F1134.c, game); was data inside func_021F1028+0x10C
+overlay_107  0x021F1148  thumb # already EXACT (src/matched/ov/ov107_func_021F1148.c, game); was data inside func_021F1028+0x120
+overlay_107  0x021F115C  thumb # already EXACT (src/matched/ov/ov107_func_021F115C.c, game); was data inside func_021F1028+0x134
+overlay_107  0x021F1164  thumb # already EXACT (src/matched/ov/ov107_func_021F1164.c, game); was data inside func_021F1028+0x13C
+overlay_107  0x021F116C  thumb # already EXACT (src/matched/ov/ov107_func_021F116C.c, game); was data inside func_021F1028+0x144
+overlay_107  0x021F11BC  thumb # already EXACT (src/matched/ov/ov107_func_021F11BC.c, game); was data inside func_021F1184+0x38
+overlay_107  0x021F2ED4  arm   # already EXACT (src/matched/ov_sdk/ov107_func_021F2ED4.c, SDK MBi_calc_nextsendblock); was data inside func_021F2E58+0x7C
+overlay_110  0x021BAFDC  thumb # already EXACT (src/matched/ov/ov110_func_021BAFDC.c, game); was data inside func_021BAFAC+0x30; pointer word 0x021BAFDD at ov110 0x021BF810
+overlay_110  0x021BBE80  thumb # already EXACT (src/matched/ov_sdk/ov110_func_021BBE80.c, SDK GX_GetVCount); was data inside func_021BBD60+0x120; pointer word 0x021BBE81 at ov110 0x021BBF4C
+overlay_110  0x021BC320  thumb # already EXACT (src/matched/ov/ov110_func_021BC320.c, game); was data inside func_021BC23C+0xE4; pointer word 0x021BC321 at ov110 0x021BAC08
+overlay_110  0x021BC6DC  thumb # already EXACT (src/matched/ov/ov110_func_021BC6DC.c, game); was data inside func_021BC6D0+0xC; pointer word 0x021BC6DD at ov110 0x021BABF0, pointer word 0x021BC6DD at ov223 0x021BC510
+overlay_110  0x021BC6E0  thumb # already EXACT (src/matched/ov/ov110_func_021BC6E0.c, game); was data inside func_021BC6D0+0x10; pointer word 0x021BC6E1 at ov110 0x021BABFC
+overlay_110  0x021BEDE0  thumb # already EXACT (src/matched/ov/ov110_func_021BEDE0.c, game); was data inside func_021BEDD0+0x10; pointer word 0x021BEDE1 at ov110 0x021BF7A8
+overlay_110  0x021C1848  thumb # already EXACT (src/matched/ov/ov110_func_021C1848.c, game); was data inside func_021C1840+0x8; pointer word 0x021C1849 at ov110 0x021C1720
+overlay_111  0x021C3EF8  thumb # already EXACT (src/matched/ov/ov111_func_021C3EF8.c, game); was data inside func_021C3CC0+0x238
+overlay_111  0x021C523C  thumb # already EXACT (src/matched/ov/ov111_func_021C523C.c, game); was data inside func_021C51E4+0x58
+overlay_112  0x021F50D0  thumb # already EXACT (src/matched/ov/ov112_func_021F50D0.c, game); was data inside func_021F5064+0x6C; pointer word 0x021F50D1 at ov112 0x021F4B2C
+overlay_112  0x021F50E0  thumb # already EXACT (src/matched/ov/ov112_func_021F50E0.c, game); was data inside func_021F5064+0x7C; pointer word 0x021F50E1 at ov112 0x021F4B38
+overlay_112  0x021F6234  thumb # already EXACT (src/matched/ov/ov112_func_021F6234.c, game); was data inside func_021F621C+0x18; pointer word 0x021F6235 at ov112 0x021F5358
+overlay_112  0x021F624C  thumb # already EXACT (src/matched/ov/ov112_func_021F624C.c, game); was data inside func_021F621C+0x30; pointer word 0x021F624D at ov112 0x021F5364
+overlay_112  0x021F6264  thumb # already EXACT (src/matched/ov/ov112_func_021F6264.c, game); was data inside func_021F621C+0x48; pointer word 0x021F6265 at ov112 0x021F5370
+overlay_112  0x021F8068  thumb # already EXACT (src/matched/ov/ov112_func_021F8068.c, game); was data inside func_021F8054+0x14; bl from ov132 at 0x021FBA42, bl from ov132 at 0x021FBA66
+overlay_114  0x021B9B58  arm   # already EXACT (src/matched/ov/ov114_func_021B9B58.c, game); was data inside func_021B9B4C+0xC; pointer word 0x021B9B58 at ov114 0x021BEFD4
+overlay_114  0x021B9C6C  arm   # already EXACT (src/matched/ov_sdk/ov114_func_021B9C6C.c, SDK DWCi_Http_CPSCallback); was data inside func_021B9C1C+0x50; pointer word 0x021B9C6C at ov114 0x021B9EC8
+overlay_114  0x021BBEAC  arm   # already EXACT (src/matched/ov_sdk/ov114_func_021BBEAC.c, SDK NHTTPi_IsCreateCommThreadMessageQueueOff); was data inside func_021BBEA0+0xC; pointer word 0x021BBEAC at ov114 0x021BBE9C
+overlay_114  0x021C121C  arm   # already EXACT (src/matched/ov_sdk/ov114_func_021C121C.c, SDK CaseInsensitiveCompare); was data inside func_021C1184+0x98; pointer word 0x021C121C at ov114 0x021C1354, pointer word 0x021C121C at ov114 0x021C14FC, pointer word 0x021C121C at ov114 0x021C165C
+overlay_114  0x021C60A0  arm   # already EXACT (src/matched/ov_sdk/ov114_func_021C60A0.c, SDK DWCi_Ndi_getDecodeLenBASE64); was data inside func_021C6048+0x58
+overlay_114  0x021C8658  arm   # already EXACT (src/matched/ov_sdk/ov114_func_021C8658.c, SDK EXT_TestResetCounter); was data inside func_021C7C1C+0xA3C; blx from ov135 at 0x021F8F5E, blx from ov135 at 0x021FEB8A, blx from ov135 at 0x02201C8E
+overlay_114  0x021C866C  arm   # already EXACT (src/matched/ov/ov114_func_021C866C.c, game); was data inside func_021C7C1C+0xA50; blx from ov135 at 0x021F8B14, blx from ov135 at 0x021F8BF0, blx from ov135 at 0x021FE748
+overlay_114  0x021C86A8  arm   # already EXACT (src/matched/ov_sdk/ov114_func_021C86A8.c, SDK WCMi_GetSystemWork); was data inside func_021C7C1C+0xA8C; pointer word 0x021C86A8 at ov111 0x021C5FFC, blx from ov135 at 0x021F8B1C, blx from ov135 at 0x021F8BF8
+overlay_114  0x021C93BC  arm   # already EXACT (src/matched/ov_sdk/ov114_func_021C93BC.c, SDK EXT_TestResetCounter); was data inside func_021C8FA8+0x414; blx from ov116 at 0x021D7AE6
+overlay_114  0x021CA228  arm   # already EXACT (src/matched/ov_sdk/ov114_func_021CA228.c, SDK DWCi_EncSessionGetResponse); was data inside func_021CA1B4+0x74
+overlay_115  0x021D6130  thumb # already EXACT (src/matched/ov/ov115_func_021D6130.c, game); was data inside func_021D6104+0x2C; pointer word 0x021D6131 at ov115 0x021D6138
+overlay_127  0x021C4A8C  thumb # already EXACT (src/matched/ov/ov127_func_021C4A8C.c, game); was data inside func_021C4A54+0x38; bl from ov099 at 0x021B9A6A
+overlay_127  0x021C584C  thumb # already EXACT (src/matched/ov/ov127_func_021C584C.c, game); was data inside func_021C5816+0x36; bl from ov099 at 0x021B98DC, pointer word 0x021C584D at ov099 0x021B98EC
+overlay_132  0x021FD844  thumb # already EXACT (src/matched/ov/ov132_func_021FD844.c, game); was data inside func_021FD83C+0x8; bl from ov010 at 0x0215E0DC
+overlay_132  0x021FD904  thumb # already EXACT (src/matched/ov/ov132_func_021FD904.c, game); was data inside func_021FD8EC+0x18; bl from ov010 at 0x02155B38, bl from ov010 at 0x02155F3C, bl from ov010 at 0x02156C78
+overlay_132  0x021FD910  thumb # already EXACT (src/matched/ov/ov132_func_021FD910.c, game); was data inside func_021FD908+0x8; bl from ov010 at 0x0215E1B0
+overlay_175  0x021D97C4  thumb # already EXACT (src/matched/ov/ov175_func_021D97C4.c, game); was data inside func_021D97B8+0xC
+overlay_175  0x021D9868  thumb # already EXACT (src/matched/ov/ov175_func_021D9868.c, game); was data inside func_021D9854+0x14
+overlay_175  0x021DA384  thumb # already EXACT (src/matched/ov/ov175_func_021DA384.c, game); was data inside func_021DA36C+0x18
+overlay_175  0x021DA4E8  thumb # already EXACT (src/matched/ov/ov175_func_021DA4E8.c, game); was data inside func_021DA4B8+0x30; pointer word 0x021DA4E9 at ov175 0x021DA1DC, pointer word 0x021DA4E8 at ov016 0x021C2C70
+overlay_175  0x021DA4F0  thumb # already EXACT (src/matched/ov/ov175_func_021DA4F0.c, game); was data inside func_021DA4B8+0x38; pointer word 0x021DA4F1 at ov175 0x021DA1E0
+overlay_175  0x021DADB4  thumb # already EXACT (src/matched/ov/ov175_func_021DADB4.c, game); was data inside func_021DADAC+0x8; pointer word 0x021DADB5 at ov175 0x021DAB68
+overlay_175  0x021DAE00  thumb # already EXACT (src/matched/ov/ov175_func_021DAE00.c, game); was data inside func_021DADCC+0x34; pointer word 0x021DAE01 at ov175 0x021DADA0
+overlay_175  0x021DB218  thumb # already EXACT (src/matched/ov/ov175_func_021DB218.c, game); was data inside func_021DB160+0xB8; pointer word 0x021DB219 at ov175 0x021DA6A0, pointer word 0x021DB218 at ov016 0x021C18A0
+overlay_175  0x021DB228  thumb # already EXACT (src/matched/ov/ov175_func_021DB228.c, game); was data inside func_021DB160+0xC8; pointer word 0x021DB229 at ov175 0x021DA69C
+overlay_175  0x021DB238  thumb # already EXACT (src/matched/ov/ov175_func_021DB238.c, game); was data inside func_021DB160+0xD8; pointer word 0x021DB239 at ov175 0x021DA6AC
+overlay_175  0x021DB248  thumb # already EXACT (src/matched/ov/ov175_func_021DB248.c, game); was data inside func_021DB160+0xE8; pointer word 0x021DB249 at ov175 0x021DA6A8, pointer word 0x021DB248 at ov016 0x021C18B0, pointer word 0x021DB249 at ov093 0x021F1170
+overlay_175  0x021DB6A0  thumb # already EXACT (src/matched/ov/ov175_func_021DB6A0.c, game); was data inside func_021DB478+0x228
+overlay_175  0x021DC1E4  thumb # already EXACT (src/matched/ov/ov175_func_021DC1E4.c, game); was data inside func_021DC1A0+0x44
+overlay_175  0x021DC2D8  thumb # already EXACT (src/matched/ov/ov175_func_021DC2D8.c, game); was data inside func_021DC2C0+0x18
+overlay_175  0x021DCE40  thumb # already EXACT (src/matched/ov/ov175_func_021DCE40.c, game); was data inside func_021DCE24+0x1C; pointer word 0x021DCE40 at ov016 0x021B84CC, pointer word 0x021DCE40 at ov016 0x021B84E0, pointer word 0x021DCE40 at ov016 0x021B8594
+overlay_175  0x021DCE48  thumb # already EXACT (src/matched/ov/ov175_func_021DCE48.c, game); was data inside func_021DCE24+0x24
+overlay_175  0x021DCE50  thumb # already EXACT (src/matched/ov/ov175_func_021DCE50.c, game); was data inside func_021DCE24+0x2C
+overlay_175  0x021DCEE0  thumb # already EXACT (src/matched/ov/ov175_func_021DCEE0.c, game); was data inside func_021DCE60+0x80
+overlay_175  0x021DCFDC  thumb # already EXACT (src/matched/ov/ov175_func_021DCFDC.c, game); was data inside func_021DCE60+0x17C
+overlay_175  0x021DD02C  thumb # already EXACT (src/matched/ov/ov175_func_021DD02C.c, game); was data inside func_021DD020+0xC
+overlay_175  0x021DD034  thumb # already EXACT (src/matched/ov/ov175_func_021DD034.c, game); was data inside func_021DD020+0x14
+overlay_175  0x021DD038  thumb # already EXACT (src/matched/ov/ov175_func_021DD038.c, game); was data inside func_021DD020+0x18
+overlay_175  0x021DD040  thumb # already EXACT (src/matched/ov/ov175_func_021DD040.c, game); was data inside func_021DD020+0x20
+overlay_175  0x021DFAA0  arm   # already EXACT (src/matched/ov/ov175_func_021DFAA0.c, game); was data inside func_021DFA6C+0x34; pointer word 0x021DFAA0 at ov175 0x021DF238
+overlay_175  0x021DE024  arm   # already EXACT (src/matched/ov_sdk/ov175_func_021DE024.c, SDK DSP_MapProcessSegment); was data inside func_021DDFF8+0x2C; pointer word 0x021DE024 at ov175 0x021DD37C, pointer word 0x021DE025 at ov093 0x021F1E28, pointer word 0x021DE025 at ov121 0x021DE0D8
+overlay_175  0x021DE0D4  arm   # already EXACT (src/matched/ov_sdk/ov175_func_021DE0D4.c, SDK DSP_MapProcessSegment); was data inside func_021DE078+0x5C; pointer word 0x021DE0D4 at ov175 0x021DD3A4
+overlay_175  0x021DE0E8  arm   # already EXACT (src/matched/ov_sdk/ov175_func_021DE0E8.c, SDK sakeiDeleteRecordValidateInput); was data inside func_021DE078+0x70; pointer word 0x021DE0E8 at ov175 0x021E39DC, pointer word 0x021DE0E8 at ov021 0x021AD7E0
+overlay_175  0x021DEBE0  arm   # already EXACT (src/matched/ov_sdk/ov175_func_021DEBE0.c, SDK DSP_MapProcessSegment); was data inside func_021DEBBC+0x24; pointer word 0x021DEBE0 at ov175 0x021DD3CC, pointer word 0x021DEBE1 at ov093 0x021F21C0
+overlay_175  0x021DECE8  arm   # already EXACT (src/matched/ov_sdk/ov175_func_021DECE8.c, SDK DSP_MapProcessSegment); was data inside func_021DECC4+0x24; pointer word 0x021DECE8 at ov175 0x021DD3F4
+overlay_175  0x021DF490  arm   # already EXACT (src/matched/ov_sdk/ov175_func_021DF490.c, SDK DWC_ScGetLoginCertificate); was data inside func_021DF458+0x38; pointer word 0x021DF491 at ov119 0x021DF50C
+overlay_175  0x021E0040  arm   # already EXACT (src/matched/ov_sdk/ov175_func_021E0040.c, SDK sciReportBeginGlobalData); was data inside func_021E0000+0x40; pointer word 0x021E0040 at ov175 0x021DFCF0
+overlay_175  0x021E0070  arm   # already EXACT (src/matched/ov_sdk/ov175_func_021E0070.c, SDK sciReportBeginPlayerData); was data inside func_021E0000+0x70; pointer word 0x021E0070 at ov175 0x021DFCFC
+overlay_175  0x021E0080  arm   # already EXACT (src/matched/ov_sdk/ov175_func_021E0080.c, SDK sciReportBeginTeamData); was data inside func_021E0000+0x80; pointer word 0x021E0080 at ov175 0x021DFD08, pointer word 0x021E0081 at ov093 0x021F1A78, pointer word 0x021E0081 at ov183 0x021E37C8
+overlay_175  0x021E1454  arm   # already EXACT (src/matched/ov_sdk/ov175_func_021E1454.c, SDK DWC_GdbGetAsyncResult); was data inside func_021E1434+0x20
+overlay_177  0x021E5548  thumb # already EXACT (src/matched/ov/ov177_func_021E5548.c, game); was data inside func_021E5534+0x14; bl from ov175 at 0x021D435E, bl from ov175 at 0x021D43EA, bl from ov175 at 0x021D62C0
+overlay_177  0x021E5678  thumb # already EXACT (src/matched/ov/ov177_func_021E5678.c, game); was data inside func_021E5670+0x8; pointer word 0x021E5679 at ov177 0x021E5550
+overlay_177  0x021E64C0  thumb # already EXACT (src/matched/ov/ov177_func_021E64C0.c, game); was data inside func_021E62CC+0x1F4; bl from ov175 at 0x021D4576, bl from ov175 at 0x021D6BD4, bl from ov176 at 0x0217BB16
+overlay_177  0x021E8A90  thumb # already EXACT (src/matched/ov/ov177_func_021E8A90.c, game); was data inside func_021E8A80+0x10; bl from ov175 at 0x021D67A8, bl from ov175 at 0x021D9A3C, bl from ov176 at 0x0217AEE4
+overlay_177  0x021E8AA8  thumb # already EXACT (src/matched/ov/ov177_func_021E8AA8.c, game); was data inside func_021E8AA0+0x8; bl from ov175 at 0x021D61C4, bl from ov175 at 0x021D61E8, pointer word 0x021E8AA9 at ov175 0x021D9060
+overlay_183  0x021E2F98  thumb # already EXACT (src/matched/ov_sdk/ov183_func_021E2F98.c, SDK SOCL_GetResource); was data inside func_021E2F54+0x44
+overlay_186  0x021FD744  thumb # already EXACT (src/matched/ov/ov186_func_021FD744.c, game); was data inside func_021FD73C+0x8; pointer word 0x021FD745 at ov132 0x021FDC68, pointer word 0x021FD745 at ov183 0x021DB694, bl from ov183 at 0x021DBD76
+overlay_186  0x021FE7B0  thumb # already EXACT (src/matched/ov/ov186_func_021FE7B0.c, game); was data inside func_021FE794+0x1C; bl from ov183 at 0x021DB654, bl from ov183 at 0x021DBCD8, bl from ov183 at 0x021DBD24
+overlay_186  0x021FF8E0  thumb # already EXACT (src/matched/ov/ov186_func_021FF8E0.c, game); was data inside func_021FF8D4+0xC; pointer word 0x021FF8E1 at ov186 0x021FF4DC, pointer word 0x021FF8E1 at ov186 0x021FF65C, pointer word 0x021FF8E1 at ov186 0x021FF8FC
+overlay_186  0x021FFE90  thumb # already EXACT (src/matched/ov/ov186_func_021FFE90.c, game); was data inside func_021FFE70+0x20; bl from ov183 at 0x021E00AC, bl from ov185 at 0x021F86B4
+overlay_195  0x02204F90  thumb # already EXACT (src/matched/ov/ov195_func_02204F90.c, game); was data inside func_02204F78+0x18
+overlay_195  0x02205844  thumb # already EXACT (src/matched/ov/ov195_func_02205844.c, game); was data inside func_022056E8+0x15C
+overlay_195  0x02205BD8  thumb # already EXACT (src/matched/ov/ov195_func_02205BD8.c, game); was data inside func_02205BD0+0x8; pointer word 0x02205BD9 at ov195 0x02205A30
+overlay_195  0x02205C6C  thumb # already EXACT (src/matched/ov/ov195_func_02205C6C.c, game); was data inside func_02205C58+0x14; pointer word 0x02205C6D at ov195 0x02205A24
+overlay_195  0x02206264  thumb # already EXACT (src/matched/ov/ov195_func_02206264.c, game); was data inside func_0220623C+0x28
+overlay_195  0x0220672C  thumb # already EXACT (src/matched/ov/ov195_func_0220672C.c, game); was data inside func_02206664+0xC8
+overlay_195  0x0220826C  thumb # already EXACT (src/matched/ov/ov195_func_0220826C.c, game); was data inside func_022081A4+0xC8
+overlay_195  0x02208A48  thumb # already EXACT (src/matched/ov/ov195_func_02208A48.c, game); was data inside func_02208A38+0x10
+overlay_195  0x02208C10  thumb # already EXACT (src/matched/ov/ov195_func_02208C10.c, game); was data inside func_02208B6C+0xA4
+overlay_195  0x02208C18  thumb # already EXACT (src/matched/ov/ov195_func_02208C18.c, game); was data inside func_02208B6C+0xAC
+overlay_195  0x02208C28  thumb # already EXACT (src/matched/ov/ov195_func_02208C28.c, game); was data inside func_02208B6C+0xBC
+overlay_195  0x02208C30  thumb # already EXACT (src/matched/ov/ov195_func_02208C30.c, game); was data inside func_02208B6C+0xC4
+overlay_195  0x02204EA0  thumb # already EXACT (src/matched/ov/ov195_func_02204EA0.c, game); was data inside func_02204DE0+0xC0
+overlay_195  0x02204EF0  thumb # already EXACT (src/matched/ov/ov195_func_02204EF0.c, game); was data inside func_02204ED0+0x20
+overlay_195  0x02204F68  thumb # already EXACT (src/matched/ov/ov195_func_02204F68.c, game); was data inside func_02204F40+0x28
+overlay_195  0x02204FC4  thumb # already EXACT (src/matched/ov/ov195_func_02204FC4.c, game); was data inside func_02204FA0+0x24
+overlay_195  0x02206044  thumb # already EXACT (src/matched/ov/ov195_func_02206044.c, game); was data inside func_0220602C+0x18
+overlay_195  0x0220604C  thumb # already EXACT (src/matched/ov/ov195_func_0220604C.c, game); was data inside func_0220602C+0x20
+overlay_195  0x02206050  thumb # already EXACT (src/matched/ov/ov195_func_02206050.c, game); was data inside func_0220602C+0x24
+overlay_195  0x02206058  thumb # already EXACT (src/matched/ov/ov195_func_02206058.c, game); was data inside func_0220602C+0x2C
+overlay_195  0x0220605C  thumb # already EXACT (src/matched/ov/ov195_func_0220605C.c, game); was data inside func_0220602C+0x30
+overlay_195  0x02206064  thumb # already EXACT (src/matched/ov/ov195_func_02206064.c, game); was data inside func_0220602C+0x38
+overlay_195  0x0220606C  thumb # already EXACT (src/matched/ov/ov195_func_0220606C.c, game); was data inside func_0220602C+0x40
+overlay_195  0x02206070  thumb # already EXACT (src/matched/ov/ov195_func_02206070.c, game); was data inside func_0220602C+0x44
+overlay_195  0x02206074  thumb # already EXACT (src/matched/ov/ov195_func_02206074.c, game); was data inside func_0220602C+0x48
+overlay_195  0x02208844  thumb # already EXACT (src/matched/ov/ov195_func_02208844.c, game); was data inside func_0220882C+0x18
+overlay_195  0x02208850  thumb # already EXACT (src/matched/ov/ov195_func_02208850.c, game); was data inside func_0220882C+0x24
+overlay_195  0x02208860  thumb # already EXACT (src/matched/ov/ov195_func_02208860.c, game); was data inside func_0220882C+0x34
+overlay_196  0x0220B094  thumb # already EXACT (src/matched/ov/ov196_func_0220B094.c, game); was data inside func_0220B07C+0x18; pointer word 0x0220B095 at ov197 0x0220B9A0, bl from ov198 at 0x0220E268
+overlay_210  0x021BC33C  thumb # already EXACT (src/matched/ov/ov210_func_021BC33C.c, game); was data inside func_021BC330+0xC; pointer word 0x021BC33D at ov210 0x021BC32C
+overlay_212  0x021C9460  thumb # already EXACT (src/matched/ov/ov212_func_021C9460.c, game); was data inside func_021C9428+0x38; bl from ov210 at 0x021BD442
+overlay_217  0x021BF580  thumb # already EXACT (src/matched/ov/ov217_func_021BF580.c, game); was data inside func_021BF574+0xC; pointer word 0x021BF581 at ov217 0x021BF564, pointer word 0x021BF581 at ov217 0x021BF570, pointer word 0x021BF581 at ov217 0x021BF57C
+overlay_217  0x021C09B0  thumb # already EXACT (src/matched/ov/ov217_func_021C09B0.c, game); was data inside func_021C09AC+0x4; pointer word 0x021C09B1 at ov217 0x021BF73C
+overlay_217  0x021C09C4  thumb # already EXACT (src/matched/ov/ov217_func_021C09C4.c, game); was data inside func_021C09BC+0x8; pointer word 0x021C09C5 at ov217 0x021BA1C8, pointer word 0x021C09C5 at ov217 0x021BB93C, pointer word 0x021C09C5 at ov217 0x021BE45C
+overlay_217  0x021C0D5C  thumb # already EXACT (src/matched/ov/ov217_func_021C0D5C.c, game); was data inside func_021C0D2C+0x30; pointer word 0x021C0D5D at ov217 0x021C09E8
+overlay_217  0x021C0D6C  thumb # already EXACT (src/matched/ov/ov217_func_021C0D6C.c, game); was data inside func_021C0D2C+0x40; pointer word 0x021C0D6D at ov217 0x021C09F4, pointer word 0x021C0D6C at ov203 0x021C199C
+overlay_217  0x021C0D7C  thumb # already EXACT (src/matched/ov/ov217_func_021C0D7C.c, game); was data inside func_021C0D2C+0x50; pointer word 0x021C0D7D at ov217 0x021C09D4
+overlay_217  0x021C0E4C  thumb # already EXACT (src/matched/ov/ov217_func_021C0E4C.c, game); was data inside func_021C0E3C+0x10; pointer word 0x021C0E4D at ov217 0x021BA14C, pointer word 0x021C0E4D at ov217 0x021BB918, pointer word 0x021C0E4D at ov217 0x021BE4A0
+overlay_217  0x021C0EDC  thumb # already EXACT (src/matched/ov/ov217_func_021C0EDC.c, game); was data inside func_021C0EC0+0x1C; pointer word 0x021C0EDD at ov217 0x021C0E60
+overlay_217  0x021C0EE4  thumb # already EXACT (src/matched/ov/ov217_func_021C0EE4.c, game); was data inside func_021C0EC0+0x24; pointer word 0x021C0EE5 at ov217 0x021C0E68
+overlay_217  0x021C16DC  thumb # already EXACT (src/matched/ov/ov217_func_021C16DC.c, game); was data inside func_021C16C4+0x18; pointer word 0x021C16DD at ov217 0x021C115C, pointer word 0x021C16DD at ov217 0x021C1168, pointer word 0x021C16DD at ov217 0x021C1174
+overlay_217  0x021C1A58  thumb # already EXACT (src/matched/ov/ov217_func_021C1A58.c, game); was data inside func_021C18F8+0x160; pointer word 0x021C1A59 at ov217 0x021C1188, pointer word 0x021C1A58 at ov110 0x021C1CBC
+overlay_217  0x021C1A5C  thumb # already EXACT (src/matched/ov/ov217_func_021C1A5C.c, game); was data inside func_021C18F8+0x164; pointer word 0x021C1A5D at ov217 0x021C1190
+overlay_217  0x021C1E00  thumb # already EXACT (src/matched/ov/ov217_func_021C1E00.c, game); was data inside func_021C1DF0+0x10; pointer word 0x021C1E01 at ov217 0x021C1D78
+overlay_217  0x021C2A00  thumb # already EXACT (src/matched/ov/ov217_func_021C2A00.c, game); was data inside func_021C29F0+0x10; pointer word 0x021C2A01 at ov217 0x021BA418, pointer word 0x021C2A01 at ov217 0x021BC5B4, pointer word 0x021C2A01 at ov217 0x021BF5CC
+overlay_217  0x021C2D9C  thumb # already EXACT (src/matched/ov/ov217_func_021C2D9C.c, game); was data inside func_021C2D88+0x14; pointer word 0x021C2D9D at ov217 0x021C2A14
+overlay_217  0x021BAB50  thumb # already EXACT (src/matched/ov/ov217_func_021BAB50.c, game); was data inside func_021BAB38+0x18; pointer word 0x021BAB51 at ov217 0x021BAB60, pointer word 0x021BAB50 at ov181 0x021B9EF8
+overlay_217  0x021BB998  thumb # already EXACT (src/matched/ov/ov217_func_021BB998.c, game); was data inside func_021BB990+0x8; pointer word 0x021BB999 at ov217 0x021BB988, pointer word 0x021BB998 at ov070 0x021B8394
+overlay_217  0x021C09D8  thumb # already EXACT (src/matched/ov/ov217_func_021C09D8.c, game); was data inside func_021C09D0+0x8; pointer word 0x021C09D9 at ov217 0x021BA324, pointer word 0x021C09D9 at ov217 0x021BC57C, pointer word 0x021C09D9 at ov217 0x021BEC08
+overlay_217  0x021C0D38  thumb # already EXACT (src/matched/ov/ov217_func_021C0D38.c, game); was data inside func_021C0D2C+0xC; pointer word 0x021C0D39 at ov217 0x021C09DC
+overlay_217  0x021C29F8  thumb # already EXACT (src/matched/ov/ov217_func_021C29F8.c, game); was data inside func_021C29F0+0x8; pointer word 0x021C29F9 at ov217 0x021BA408, pointer word 0x021C29F9 at ov217 0x021BC5A4, pointer word 0x021C29F9 at ov217 0x021BF5B8
+overlay_217  0x021C2A18  thumb # already EXACT (src/matched/ov/ov217_func_021C2A18.c, game); was data inside func_021C2A10+0x8; pointer word 0x021C2A19 at ov217 0x021C29FC
+overlay_218  0x021B9C88  thumb # already EXACT (src/matched/ov/ov218_func_021B9C88.c, game); was data inside func_021B9C84+0x4
+
+# ov094 (tree_ov094_2, 2026-09-28): tree_ov094 functions the listing did not label.
+overlay_094  0x021FF3FC  thumb # already EXACT (src/matched/ov/ov094_func_021FF3FC.c, game); leaf "push {r3, r4}", printed as .word data after func_021FF3F4's pool; bl from ov094 at 0x021FD24A, 0x021FD25E, 0x021FD330, 0x021FD352, 0x021FD366 (func_021FD1CC)
+overlay_094  0x021FD04C  thumb # already EXACT (src/matched/ov/ov094_func_021FD04C.c, game); bl from ov094 at 0x021FCCFA
+overlay_094  0x021F7000  thumb # follower of func_021F6F48 (EXACT*); bl from ov094 at 0x021FA08E
+
+# ov135 / ov114 (tree_ov135_4, 2026-09-28): unlabelled Thumb starts with witnesses in ov135.
+overlay_135  0x021FAC84  thumb # "movs r0, #0; mvns r0, r0; bx lr" (return -1), printed as .word data after func_021FAC50's pop; pointer word 0x021FAC85 at ov135 0x02203C48 (head of the worldtrade_enter proc table)
+overlay_114  0x021B97F4  thumb # "cmp r0, #0; bne; movs r0, #0; bx lr; adds r0, #0x10; bx lr", printed as .word data after func_021B9790's pool; bl from ov135 at 0x022010D8 (func_022010BC)
+overlay_114  0x021B99F0  thumb # "ldrb r0, [r0]; bx lr", printed as .word data after func_021B99DC; bl from ov135 at 0x0220119E (func_022010BC)
+overlay_114  0x021B99F4  thumb # "push {r4, r5} ... pop {r4, r5}; bx lr" (byte-assembled u32 read), printed as .word data; bl from ov135 at 0x022011AA (func_022010BC)
+overlay_114  0x021B9A14  thumb # "adds r2, r0, #1; lsls r0, r1, #2; adds r0, r2, r0; bx lr", printed as .word data before func_021B9A1C; bl from ov135 at 0x022011B8 (func_022010BC)

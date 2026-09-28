@@ -9,7 +9,7 @@
   {
    "name": "WHi_MeasureChannel",
    "address": "0x02179010",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov014",
    "source": "src/matched/ov_sdk/ov014_func_02179010.c",
    "compiler": "dsi/1.1p1",

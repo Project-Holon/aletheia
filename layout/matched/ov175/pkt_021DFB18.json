@@ -9,9 +9,9 @@
   {
    "name": "func_021DFB18",
    "address": "0x021DFB18",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov175",
-   "source": "src/matched/ov_sdk/func_021DFB18.c",
+   "source": "src/matched/ov_sdk/ov175_func_021DFB18.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

@@ -9,7 +9,7 @@
   {
    "name": "DWCi_InitReliableQueue",
    "address": "0x021B2F98",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov013",
    "source": "src/matched/ov_sdk/ov013_func_021B2F98.c",
    "compiler": "dsi/1.1p1",

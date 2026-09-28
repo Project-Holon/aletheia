@@ -9,7 +9,7 @@
   {
    "name": "func_0217D19C",
    "address": "0x0217D19C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_0217D19C.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -28,7 +28,7 @@
   {
    "name": "func_0217D254",
    "address": "0x0217D254",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_0217D254.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -45,7 +45,7 @@
   {
    "name": "func_0217ED64",
    "address": "0x0217ED64",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_0217ED64.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -57,7 +57,7 @@
   {
    "name": "func_0217EE50",
    "address": "0x0217EE50",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_0217EE50.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -79,7 +79,7 @@
   {
    "name": "func_0217F21C",
    "address": "0x0217F21C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_0217F21C.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -91,7 +91,7 @@
   {
    "name": "func_0217F264",
    "address": "0x0217F264",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_0217F264.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -103,7 +103,7 @@
   {
    "name": "func_0217F730",
    "address": "0x0217F730",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_0217F730.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -115,7 +115,7 @@
   {
    "name": "func_0217F7AC",
    "address": "0x0217F7AC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_0217F7AC.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -132,7 +132,7 @@
   {
    "name": "func_0217F7D0",
    "address": "0x0217F7D0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_0217F7D0.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -144,7 +144,7 @@
   {
    "name": "func_0217F8B4",
    "address": "0x0217F8B4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_0217F8B4.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -166,7 +166,7 @@
   {
    "name": "func_0217FA90",
    "address": "0x0217FA90",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_0217FA90.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -185,7 +185,7 @@
   {
    "name": "func_021803BC",
    "address": "0x021803BC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_021803BC.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -197,7 +197,7 @@
   {
    "name": "func_0218934C",
    "address": "0x0218934C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_0218934C.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -209,7 +209,7 @@
   {
    "name": "func_021893C8",
    "address": "0x021893C8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_021893C8.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -221,7 +221,7 @@
   {
    "name": "func_0218946C",
    "address": "0x0218946C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_0218946C.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -233,7 +233,7 @@
   {
    "name": "func_0218949C",
    "address": "0x0218949C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_0218949C.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -253,7 +253,7 @@
   {
    "name": "func_0218998C",
    "address": "0x0218998C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_0218998C.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -270,7 +270,7 @@
   {
    "name": "func_02189D78",
    "address": "0x02189D78",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_02189D78.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -282,7 +282,7 @@
   {
    "name": "func_02189DFC",
    "address": "0x02189DFC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_02189DFC.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -294,7 +294,7 @@
   {
    "name": "func_021905A4",
    "address": "0x021905A4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_021905A4.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -311,7 +311,7 @@
   {
    "name": "func_021906E0",
    "address": "0x021906E0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_021906E0.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -323,7 +323,7 @@
   {
    "name": "func_02193418",
    "address": "0x02193418",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_02193418.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -335,7 +335,7 @@
   {
    "name": "func_02193488",
    "address": "0x02193488",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_02193488.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -354,7 +354,7 @@
   {
    "name": "func_0219359C",
    "address": "0x0219359C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_0219359C.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -366,7 +366,7 @@
   {
    "name": "func_02193710",
    "address": "0x02193710",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_02193710.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -378,7 +378,7 @@
   {
    "name": "func_02193748",
    "address": "0x02193748",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_02193748.c",
    "compiler": "dsi/dsi/1.1p1",

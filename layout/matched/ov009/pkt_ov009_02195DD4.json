@@ -9,7 +9,7 @@
   {
    "name": "KeyValHashKey",
    "address": "0x02195DD4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_02195DD4.c",
    "compiler": "dsi/1.1p1",

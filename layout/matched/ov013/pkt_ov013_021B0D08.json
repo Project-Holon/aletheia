@@ -9,7 +9,7 @@
   {
    "name": "CTRDG_SetPulledOutCallback",
    "address": "0x021B0D08",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov013",
    "source": "src/matched/ov_sdk/ov013_func_021B0D08.c",
    "compiler": "dsi/1.1p1",

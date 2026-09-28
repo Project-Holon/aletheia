@@ -9,9 +9,9 @@
   {
    "name": "func_021C2CDC",
    "address": "0x021C2CDC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov172",
-   "source": "src/matched/ov_sdk/func_021C2CDC.c",
+   "source": "src/matched/ov_sdk/ov172_func_021C2CDC.c",
    "compiler": "dsi/dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

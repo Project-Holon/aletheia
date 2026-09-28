@@ -9,9 +9,9 @@
   {
    "name": "func_0215CEB0",
    "address": "0x0215CEB0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
-   "source": "src/matched/ov_sdk/func_0215CEB0.c",
+   "source": "src/matched/ov_sdk/ov009_func_0215CEB0.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

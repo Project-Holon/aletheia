@@ -9,9 +9,9 @@
   {
    "name": "func_021BABF4",
    "address": "0x021BABF4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov114",
-   "source": "src/matched/ov_sdk/func_021BABF4.c",
+   "source": "src/matched/ov_sdk/ov114_func_021BABF4.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",

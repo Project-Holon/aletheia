@@ -11,7 +11,7 @@
    "address": "0x021853D0",
    "kind": "game",
    "region": "ov023",
-   "source": "src/matched/ov/func_021853D0.c",
+   "source": "src/matched/ov/ov023_func_021853D0.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

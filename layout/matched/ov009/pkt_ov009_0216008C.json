@@ -9,7 +9,7 @@
   {
    "name": "CARDi_CommandBegin",
    "address": "0x0216008C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_0216008C.c",
    "compiler": "dsi/1.1p1",

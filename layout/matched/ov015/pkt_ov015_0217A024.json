@@ -9,7 +9,7 @@
   {
    "name": "CARDi_GetTargetMode",
    "address": "0x0217A024",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov015",
    "source": "src/matched/ov_sdk/ov015_func_0217A024.c",
    "compiler": "dsi/1.1p1",

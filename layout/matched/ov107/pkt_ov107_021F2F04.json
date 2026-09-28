@@ -9,7 +9,7 @@
   {
    "name": "MBi_CommCallParentError",
    "address": "0x021F2F04",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov107",
    "source": "src/matched/ov_sdk/ov107_func_021F2F04.c",
    "compiler": "dsi/dsi/1.1p1",

@@ -9,7 +9,7 @@
   {
    "name": "CRYPTOi__BN_lshift1",
    "address": "0x02164D64",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov009",
    "source": "src/matched/ov_sdk/ov009_func_02164D64.c",
    "compiler": "dsi/1.1p1",

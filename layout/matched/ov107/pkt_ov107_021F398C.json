@@ -9,7 +9,7 @@
   {
    "name": "MBi_MakeBlockInfoTable",
    "address": "0x021F398C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov107",
    "source": "src/matched/ov_sdk/ov107_func_021F398C.c",
    "compiler": "dsi/dsi/1.1p1",

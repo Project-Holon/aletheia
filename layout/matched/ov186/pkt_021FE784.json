@@ -9,9 +9,9 @@
   {
    "name": "func_021FE784",
    "address": "0x021FE784",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov186",
-   "source": "src/matched/ov_sdk/func_021FE784.c",
+   "source": "src/matched/ov_sdk/ov186_func_021FE784.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

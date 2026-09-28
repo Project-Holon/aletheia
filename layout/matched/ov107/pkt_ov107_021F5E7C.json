@@ -9,7 +9,7 @@
   {
    "name": "MB_StartParentFromIdle",
    "address": "0x021F5E7C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov107",
    "source": "src/matched/ov_sdk/ov107_func_021F5E7C.c",
    "compiler": "dsi/dsi/1.1p1",
