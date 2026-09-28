@@ -1,0 +1,38 @@
+/*
+ * function: func_0217C704
+ * address:  0x0217C704
+ * packet:   pkt_ov009_0217C704
+ * region:   ov009
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * sdk:      SendPacket (gsavailable.o)
+ *
+ * symbols:
+ *   func_0217ECA4  0x0217ECA4  arm  ov009
+ *   func_0217F264  0x0217F264  arm  ov009
+ *   g_021ACF7C     0x021ACF7C  data
+ *   g_021ACF80     0x021ACF80  data
+ *   g_021ACF88     0x021ACF88  data
+ */
+
+typedef struct {
+    int sock;
+    char pad[0x48];
+    int len;
+    int time;
+} AC;
+extern AC g_021ACF7C;
+extern char g_021ACF80[];
+extern char g_021ACF88[];
+extern int func_0217ECA4(int sock, char *buf, int len, int flags, void *addr, int tolen);
+extern unsigned int func_0217F264(void);
+
+void func_0217C704(void)
+{
+    func_0217ECA4(g_021ACF7C.sock, g_021ACF88, g_021ACF7C.len, 0, g_021ACF80, 8);
+    g_021ACF7C.time = func_0217F264();
+}

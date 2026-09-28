@@ -1,0 +1,61 @@
+/*
+ * function: func_021BF5D8
+ * address:  0x021BF5D8
+ * packet:   pkt_ov114_021BF5D8
+ * region:   ov114
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * sdk:      GHTTPCompletedCallback (dwc_ghttp.o)
+ *
+ * symbols:
+ *   func_021BF8C0  0x021BF8C0  arm  ov114
+ *   DWC_Free       0x0205A1B0  arm
+ *   func_021BFA70  0x021BFA70  arm  ov114
+ */
+
+typedef void (*CompletedCallback)(char *buffer, int bufferLen, int result, void *param);
+typedef struct Entry {
+    void *param;
+    CompletedCallback callback;
+    int unk8;
+    int unkc;
+    int buffer_clear;
+    void *data;
+} Entry;
+extern int func_021BF8C0(int result);
+extern void DWC_Free(int name, void *ptr, int size);
+extern void func_021BFA70(Entry *entry);
+
+int func_021BF5D8(int request, int result, char *buffer, int bufferLen, void *param)
+{
+    Entry *parameter;
+    CompletedCallback callback;
+    int buffer_clear;
+
+    parameter = (Entry *)param;
+    callback = parameter->callback;
+    buffer_clear = parameter->buffer_clear;
+    if (callback != 0) {
+        if (result == 0) {
+            callback(buffer, bufferLen, result, parameter->param);
+        } else if (result == 0x12) {
+            callback(0, 0, result, parameter->param);
+        } else {
+            func_021BF8C0(result);
+            callback(0, 0, result, parameter->param);
+        }
+    }
+    if (result != 0 || buffer_clear == 1) {
+        if (parameter == 0 || parameter->data == 0) {
+            buffer_clear = 1;
+        } else {
+            DWC_Free(6, parameter->data, 0);
+        }
+    }
+    func_021BFA70(parameter);
+    return buffer_clear != 0;
+}

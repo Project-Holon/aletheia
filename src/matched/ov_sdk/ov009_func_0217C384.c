@@ -1,0 +1,59 @@
+/*
+ * function: func_0217C384
+ * address:  0x0217C384
+ * packet:   pkt_ov009_0217C384
+ * region:   ov009
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * sdk:      DWC_Svl_Process (dwc_svl.o)
+ *
+ * symbols:
+ *   OS_IsThreadTerminated  0x0208574C  arm
+ *   func_0217C448          0x0217C448  arm  ov009
+ *   func_02179CF4          0x02179CF4  arm  ov009
+ *   DWCi_SetError          0x02059F54  arm
+ *   g_021ACEF4             0x021ACEF4  data
+ */
+
+typedef struct {
+    int unk0;
+    void (*free)(unsigned long, void *, long);
+} Svl;
+extern Svl *g_021ACEF4;
+extern int OS_IsThreadTerminated(void *thread);
+extern int func_0217C448(void);
+extern void func_02179CF4(void *http);
+extern void DWCi_SetError(int error, int code);
+
+int func_0217C384(void)
+{
+    if (g_021ACEF4 == 0) {
+        return 0;
+    }
+    if (*(int *)((char *)g_021ACEF4 + 0x1be8) == 0) {
+        return 1;
+    }
+    if (OS_IsThreadTerminated((char *)g_021ACEF4 + 0x1b7c) == 1) {
+        switch (*(int *)((char *)g_021ACEF4 + 0x1028)) {
+        case 8:
+            if (func_0217C448() == 0) {
+                func_02179CF4((char *)g_021ACEF4 + 8);
+                return 4;
+            }
+            func_02179CF4((char *)g_021ACEF4 + 8);
+            return 3;
+        case 7:
+            func_02179CF4((char *)g_021ACEF4 + 8);
+            return 5;
+        default:
+            func_02179CF4((char *)g_021ACEF4 + 8);
+            DWCi_SetError(0x10, -24101);
+            return 4;
+        }
+    }
+    return 2;
+}

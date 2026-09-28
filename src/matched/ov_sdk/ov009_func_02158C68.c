@@ -1,0 +1,65 @@
+/*
+ * function: func_02158C68
+ * address:  0x02158C68
+ * packet:   pkt_ov009_02158C68
+ * region:   ov009
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * sdk:      dispatch_arp (libcps.TWL.HYB.a network.o)
+ *
+ * symbols:
+ *   func_021579BC            0x021579BC  arm  ov009
+ *   func_02157FF8            0x02157FF8  arm  ov009
+ *   func_02158BB8            0x02158BB8  arm  ov009
+ *   g_021A82D4               0x021A82D4  data
+ *   g_021A826C               0x021A826C  data
+ */
+
+extern unsigned long func_021579BC(void *s1, void *s2);
+extern void func_02157FF8(unsigned char (*mac)[6], unsigned long ip, int new_entry);
+extern void func_02158BB8(unsigned char *buf);
+extern unsigned char g_021A82D4[6];
+extern unsigned char g_021A826C;
+
+#define NV(off, type) (*(type *)((char *)&g_021A826C + (off)))
+#define SWAP16(x) ((unsigned short)(((x) >> 8) | ((x) << 8)))
+#define GET16(p) SWAP16(*(unsigned short *)(p))
+#define GET32(p) (((unsigned long)GET16(p) << 16) | GET16((p) + 2))
+
+/*
+ * The link-up test reads the address word as long: read as unsigned long it
+ * is common-subexpression-merged with the later compares and the image's
+ * second load of the word disappears.
+ */
+void func_02158C68(unsigned char *buf, unsigned long len)
+{
+	unsigned short op;
+	unsigned long ipfrom;
+	int from_me;
+	int to_me;
+
+	if (len < 0x1c)
+		return;
+	if (func_021579BC(buf + 8, g_021A82D4) == 0 || NV(0x50, long) == 0)
+		return;
+	if (*(unsigned short *)buf != 0x100 || *(unsigned short *)(buf + 2) != 8 || *(unsigned short *)(buf + 4) != 0x406)
+		return;
+	op = GET16(buf + 6);
+	if (op != 1 && op != 2)
+		return;
+	ipfrom = GET32(buf + 0xe);
+	from_me = (ipfrom == NV(0x50, unsigned long));
+	to_me = (NV(0x50, unsigned long) == GET32(buf + 0x18));
+	if (!from_me)
+		func_02157FF8((unsigned char (*)[6])(buf + 8), ipfrom, to_me);
+	if (op == 1 && to_me) {
+		func_02158BB8(buf);
+		return;
+	}
+	if (op == 2 && to_me && from_me)
+		NV(1, unsigned char) = 1;
+}
