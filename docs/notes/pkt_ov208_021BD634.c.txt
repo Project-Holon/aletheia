@@ -9,3 +9,11 @@ for either field (8), a pointer local for &pos (8), block-scope pointer (8), u8 
 sizeof(pos) (8), (p->f4 = 1) * 8 folded into the size (12). Permuter seed 8201, 300 iters: 8.
 Table reads need the index in a local (n = desc->f0) or every field reloads desc->f0.
 Blocks 0x021BD148 (its only caller), which then caps at MATCH.
+
+021BD634 (ov208), tree_ov208_2 lane, 2026-09-28
+Still DIFF 8 bytes (same residue: the image schedules `str r7, [r5, #4]` after the memset
+argument setup). New tries, all 8 or worse: stores after the struct copy moved before it (28),
+p->f4 set inside the call's argument list as a comma in each of the three positions (8, 8, 12),
+an inline clear(void *, u32) wrapper with and without the comma (8), a local `one` or `j` holding
+1 and reused for func_021BD56C(res, 1) (8), an enum-typed one (12, 30), enum f4 or f34 (8).
+No longer blocks 0x021BD148: that caller is EXACT against the label.

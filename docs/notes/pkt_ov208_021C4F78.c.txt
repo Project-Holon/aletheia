@@ -1,0 +1,9 @@
+
+021C4F78 (ov208), tree_ov208_2 lane, 2026-09-28
+Best: src/pending/ov208_func_021C4F78.c, DIFF 18 bytes, size 96/100 (the image has one more
+instruction plus 2 pad bytes). Residue: after `blx func_02030CBC` the image moves the result to
+r1 (`adds r1, r0, #0; adds r0, r5, #4; str r1, [r4, r0]`), the draft stores r0 through an r1
+address. Tried (all 18): u32 field and return type, the two fields as an array, a temp local, a
+local for the allocation, a void ** slot pointer, a size local, `*&p->mem`, returning the call.
+Returning p (a permuter find, seed 9101, 400 iterations) reaches 8 bytes with the right size
+but adds a `adds r0, r4, #0` the image does not have.

@@ -1,0 +1,122 @@
+/*
+ * function: func_021C5718
+ * address:  0x021C5718
+ * packet:   pkt_ov111_021C5718
+ * region:   ov111
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   MATCH
+ * blocker:  0x02012F5C is an unlabelled arm9 Thumb tail-call thunk, no witness outside ov111 (same blocker as 021C40DC and 021C61EC)
+ *
+ * symbols:
+ *   func_020061E4  0x020061E4  thumb
+ *   func_02012F5C  0x02012F5C  thumb
+ *   sub_02008A00  0x02008A00  thumb
+ *   func_021C3EF8  0x021C3EF8  thumb
+ *   func_021C61EC  0x021C61EC  thumb
+ *   func_021C628C  0x021C628C  thumb
+ *
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    u8 pad0[4];
+    u8 f4_0 : 1;
+    u8 f4_1 : 1;
+    u8 f4_2 : 1;
+    u8 f4_3 : 1;
+    u8 f4_4 : 1;
+    u8 f4_5 : 1;
+    u8 f4_6 : 1;
+} Cfg;
+
+typedef struct {
+    Cfg *cfg;
+    void *f4;
+    u8 pad8[4];
+    u32 fC;
+    u32 f10;
+} Args;
+
+typedef struct {
+    u8 pad0[6];
+    u8 b6;
+    u8 pad7[0x48 - 7];
+    u32 f48;
+} Info;
+
+typedef struct {
+    u16 heap;
+    u8 pad2[0x24 - 2];
+    Args *args;
+    Info *info;
+    u8 pad2C[0x32C6 - 0x2C];
+    u8 b32C6;
+} Work;
+
+extern void func_020061E4(int se);
+extern void *func_02012F5C(void *p);
+extern void sub_02008A00(void *p);
+extern void func_021C3EF8(Info *info);
+extern void func_021C61EC(Work *p, int v, int a);
+extern void func_021C628C(Work *p, int v, int a);
+
+void func_021C5718(Work *p, int sel, int *seq)
+{
+    switch (sel) {
+    case 3:
+        p->b32C6 = 0;
+        *seq = 5;
+        break;
+    case 8:
+        if (p->args->cfg->f4_6) {
+            *seq = 9;
+        }
+        break;
+    case 9:
+        if (p->args->cfg->f4_6) {
+            func_020061E4(0x548);
+            p->b32C6 = 0;
+            *seq = 6;
+        }
+        break;
+    case 4:
+        *seq = 2;
+        p->args->fC = 0;
+        p->args->f10 = 0;
+        break;
+    case 5:
+        *seq = 3;
+        p->args->fC = 0;
+        p->args->f10 = 1;
+        break;
+    case 6:
+        if (p->args->cfg->f4_6) {
+            sub_02008A00(func_02012F5C(p->args->f4));
+            func_020061E4(0x548);
+            func_021C3EF8(p->info);
+            func_021C61EC(p, p->info->b6, 1);
+        }
+        break;
+    case 7:
+        if (p->args->cfg->f4_6) {
+            func_020061E4(0x548);
+            p->info->f48++;
+            if (p->info->f48 > 0x18) {
+                p->info->f48 = 0;
+            }
+            func_021C628C(p, p->info->f48, 1);
+        }
+        break;
+    case 10:
+        p->b32C6 = 0;
+        *seq = 7;
+        break;
+    }
+}

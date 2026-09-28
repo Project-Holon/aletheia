@@ -1,0 +1,62 @@
+/*
+ * function: func_021C7970
+ * address:  0x021C7970
+ * packet:   pkt_ov111_021C7970
+ * region:   ov111
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0201C4E4  0x0201C4E4  thumb
+ *   func_02045770  0x02045770  arm
+ *   func_0201C6C4  0x0201C6C4  thumb
+ *   func_02045334  0x02045334  arm
+ *
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    u8 pad0[4];
+    void *f4;
+    void *f8;
+    void *fC;
+    u8 f10;
+    u8 pad11[3];
+    void *f14;
+    u8 pad18[0x7C - 0x18];
+    void *f7C[4][3];
+    u8 padAC[0xF8 - 0xAC];
+    void *fF8;
+    u16 fFC;
+    u8 padFE[2];
+    void *f100;
+    void *f104;
+    u8 pad108[4];
+    int state;
+} Work;
+
+extern void func_0201C4E4(void *p);
+extern int func_02045770(void *p);
+extern int func_0201C6C4(void *p, int v);
+extern void func_02045334(void *p);
+
+void func_021C7970(Work *p)
+{
+    void *w;
+
+    func_0201C4E4(p->f14);
+    w = p->f14;
+    if (p->f10) {
+        if (func_0201C6C4(w, func_02045770(p->fC)) == 0) {
+            func_02045334(p->fC);
+            p->f10 = 0;
+        }
+    }
+}

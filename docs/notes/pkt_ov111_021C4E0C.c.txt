@@ -1,0 +1,16 @@
+== 2026-09-28 tree_ov111 ==
+func_021C4E0C (ov111, Thumb, 372 bytes): 12-state zoom/scroll step called from
+the root 0x021C3F54 (state 9). Best source: src/pending/ov111_func_021C4E0C.c
+(DIFF, 17 instructions, all in case 0; cases 1..11 and the dispatch match).
+
+Original case 0:
+  ldr r1, =0x305C ; ldrh r0, [r4, r1] ; cmp r0, #0 ; movs r2, #0x20 / #0xE0
+  adds r0, r1, #0 ; subs r0, #0x10 ; str r2, [r4, r0]      (f304C)
+  movs r0, #0x98 ; subs r1, #0xC ; str r0, [r4, r1]        (f3050)
+  ldr r1, =0x103D ; ldr r0, =0x303C ; str r1, [r4, r0] ; adds r0, #4 ; str r1, [r4, r0]
+The draft loads the field value into r1 and the address into r0, then derives
+0x303C from a live address register instead of pooling it.
+
+Tried: ternary, if/else with == 0 and with the plain truth test, a block-scope
+value local (16 out, best of the variants but not kept), inline setter helpers
+for the two field pairs. None moves the address into r1.

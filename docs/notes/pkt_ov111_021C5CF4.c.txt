@@ -1,0 +1,18 @@
+== 2026-09-28 tree_ov111 ==
+func_021C5CF4 (ov111, Thumb, 196 bytes): plots a 4x4 brush into a 4bpp tiled
+pixel buffer (dst, src, x, y, w, h, mode, side). Best source:
+src/pending/ov111_func_021C5CF4.c (DIFF, 25 instructions).
+
+What matches: the prologue homing of the stack parameters, the per-row hoists
+(yy / 8 * 0x18 in lr, yy % 8 * 8 spilled), the offset expression
+xx % 8 + ((yy % 8) * 8 + (xx / 8 + (yy / 8) * 0x18) * 64) computed before the
+src[k] test, the shared strb tail.
+What does not: the original reaches the loop tail through `b skip`
+trampolines after each two-term guard (bmi A; cmp; bge B; A: b skip), where
+every draft branches straight to the tail; and the draft swaps k and xx
+between r3 and r4 (plus the order of the parameter homing stores).
+
+Tried: continue guards, one goto label before k++, empty-arm else-if chain,
+negated conjunctions, nested positive ifs, an inline range-check returning
+int, an inline per-dot helper (worse). Permuter seed 8502, 300 compiles, best
+680 asm score, 73 bytes out, no structural change.

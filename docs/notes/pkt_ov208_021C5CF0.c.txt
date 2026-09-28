@@ -6,3 +6,10 @@ ldr r1,[r4,r0]; adds r1,#1; ...` compiled `movs r3,...; ldr r0,[r4,r3]`.
 Tried: cur++ then %= 2 (19), += 1 (19), 1 + cur (19), `& 1 ? 1 : 0` (14, wrong semantics
 kept only as a probe), inline Del helpers for the nested test (19). Permuter seed 8202,
 400 iters: 19.
+
+021C5CF0 (ov208), tree_ov208_2 lane, 2026-09-28
+Still DIFF 19 bytes, pure register colouring (the 0x144 offset constant gets r3, image r0).
+New tries, all 19 unless noted: enum cur, block-scope int or enum temp for the new index,
+`c = cur; c++; cur = c % 2`, pointer to cur, u32 cur with an int cast, a local for the first
+obj test, an int index local for the first test, `*(p->res + p->cur)`, `% 2u` (69), explicit
+`x - x / 2 * 2` (71), a u32 pointer to the obj slot for the second block (54).

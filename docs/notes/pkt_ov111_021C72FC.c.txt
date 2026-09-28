@@ -1,0 +1,14 @@
+== 2026-09-28 tree_ov111 ==
+func_021C72FC (ov111, Thumb, 468 bytes): BG/OBJ graphics loader called from the
+proc init 0x021C6FC4. Best source: src/pending/ov111_func_021C72FC.c (DIFF).
+
+Measurement: 3 instructions differ, all at the seventh call
+(func_020498F4(arc, 0x22, 3, 0, 0, 0, 0x27), original 0x021C7376..0x021C7380).
+The original schedules `str r5, [sp, #8]` (the heap argument) after the four
+register arguments; the draft schedules it first, as the original does at the
+second and fifth calls of the same shape. Everything else, including the late
+store at the tenth call (0x21, 1), matches.
+
+Tried without effect: casts on each argument of that call ((u8)3, (u16)0x22,
+(u16)0x27, (u32)0); p->f0 re-read instead of the cached `arc` (worse, 11).
+Permuter seed 8501, 300 compiles, plateau at 20 bytes out, no gain.
