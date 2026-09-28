@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT*
  *
  * symbols:
  *   func_0200DFD8  0x0200DFD8  thumb
@@ -15,9 +15,8 @@
  *
  * Syncs three words of a record (+0x10, +0x8, +0xc) into slots 0..2 of table 10 of the save block at +0x104; returns 1 when any of them differed from what was stored.
  *
- * Blocker: byte-correct (MATCH*); both callees 0x0200DFD8 and 0x0200DFE4 are
- *     unlabelled arm9 Thumb leaves (12 and 0x30 bytes) with no witness. Seed and
- *     match them and this file is EXACT.
+ * Both callees 0x0200DFD8 and 0x0200DFE4 resolve since seeds_2 labelled and
+ *     matched them (src/matched/unit_0200DFD8.c).
  */
 
 typedef unsigned char u8;

@@ -3248,16 +3248,32 @@ def matched_addresses():
     return _MATCHED_AT["a"]
 
 
+EXTERNAL_SOURCE = "external:"
+
+
 def source_key(path):
-    """A source path spelled the way the manifest records it, or None."""
+    """A source path spelled the way the manifest records it, or None.
+
+    None only for no path at all.  A file outside the repository (a lane's
+    scratchpad copy, another drive on Windows) gets the key
+    "external:<absolute path>".  It cannot be any manifest entry's `source`
+    (those are repo-relative), so the `matched` class's self-reference check
+    has an answer for it.  Returning None here used to make attest_matched()
+    refuse outright, so every `matched` callee of a scratch copy came out
+    "no witness outside" while the same file inside the repo resolved them
+    (0x021DA6B8: 80 of 83 from the scratchpad, 83 of 83 from scratch/).
+    """
     if not path:
         return None
+    ab = os.path.abspath(path)
     try:
-        rel = os.path.relpath(os.path.abspath(path), ROOT)
+        rel = os.path.relpath(ab, ROOT)
     except ValueError:          # another drive on Windows
-        return None
+        rel = "../"
     rel = rel.replace("\\", "/")
-    return None if rel.startswith("../") else rel
+    if rel.startswith("../"):
+        return EXTERNAL_SOURCE + ab.replace("\\", "/")
+    return rel
 
 
 def _matched_overlay_ok(addr, kind, region, region_hint, site_region):
@@ -3413,9 +3429,14 @@ def attest(addr, kind, lo, hi, src=None, region_hint=None, align=None,
     # Last, because it is the one class that is not a reading of the original
     # image: our own compiled proof that the target address holds a function
     # we already reproduced byte for byte.
-    proof = attest_matched(addr, kind, src, region_hint, site_region)
-    if proof is not None:
-        return proof
+    # A source outside the repo (source_key()'s external key) can be a copy
+    # of the very entry at `addr`, which the by-file rule cannot see, so for
+    # it an entry inside the compared range is refused: that would be the
+    # range attesting itself.
+    if not (src and src.startswith(EXTERNAL_SOURCE) and lo <= addr < hi):
+        proof = attest_matched(addr, kind, src, region_hint, site_region)
+        if proof is not None:
+            return proof
     # Last of all, after every other class has failed: the layout's own
     # statement that a data object, a traced function or a printable string
     # begins at this address.  See "the `sole-ref` class" above.  Every kind
@@ -4550,7 +4571,7 @@ def _piece_bounds(tl, addr, i, j):
     return lo, hi
 
 
-def suggest_split(src, addr, tl, fb, decls):
+def suggest_split(src, addr, tl, fb, decls, region=None):
     """Report the cuts that would give every relocation an outside witness."""
     parts = tl.parts
     n = len(parts)
@@ -4573,7 +4594,11 @@ def suggest_split(src, addr, tl, fb, decls):
             inside = lo <= addr + loc < hi
             return inside, ("local" if inside
                             else "%08X leaves the range" % (addr + loc))
-        proof = attest(target, kind, lo, hi, source_key(src))
+        # the same hint and site region resolve_relocations() passes, so the
+        # split report agrees with the verdict on overlay callees
+        hint = decls[name].region if name in decls else None
+        proof = attest(target, kind, lo, hi, source_key(src), hint,
+                       site_region=region)
         if proof is None:
             return False, "%08X has no witness outside %08X..%08X" % (
                 target, lo, hi)
@@ -4694,7 +4719,8 @@ def cmd_tu(args):
     print_sites(r.func)
     if getattr(args, "suggest_split", False):
         suggest_split(args.src, addr, tl, r.func,
-                      declared_symbols(read_header(args.src)))
+                      declared_symbols(read_header(args.src)),
+                      region=r.region or args.region)
     if r.status in ("EXACT", "MATCH"):
         if args.diff:
             print_diff(r.func, r.target, addr, reloc_map(r.func))
@@ -5772,6 +5798,11 @@ OV_MATCHED = 0x02168800
 OV_MATCHED_REGION = "ov010"
 OV_MATCHED_SRC = "src/matched/func_02168800.c"
 OV_MATCHED_CALLER_SRC = "src/pending/overlay_selftest.c"
+# func_021DC2D8 (EXACT, layout/matched/ov175/pkt_021DC2D8.json), called at
+# 0x021DA82C by func_021DA6B8 (0x021DA6B8..0x021DADA8).
+OV175_MATCHED = 0x021DC2D8
+OV175_CALLER_LO = 0x021DA6B8
+OV175_CALLER_HI = 0x021DADA8
 
 
 def _matched_fixture(status="EXACT", kind="game_unit"):
@@ -6769,6 +6800,31 @@ def cmd_selftest(args):
     _check(res, "matched-overlay: the index records the entry's overlay",
            [w[3] for w in matched_addresses().get(OV_MATCHED, [])],
            [OV_MATCHED_REGION])
+
+    # --- matched-overlay from a scratch copy outside the repo (2026-09-28) ---
+    # ov175 0x021DA6B8 measured from a lane's scratchpad left 0x021DC2D8 (an
+    # EXACT ov175 entry) "no witness outside" with the ov175 hint, because
+    # source_key() gave None for a path outside ROOT and attest_matched()
+    # refuses a None source.  Seven overlays share that window.
+    ext = source_key(os.path.join(os.path.dirname(ROOT), "elsewhere",
+                                  "func_021DA6B8.c"))
+    _check(res, "source_key: a file outside the repo gets an external key "
+                "no manifest source can equal",
+           bool(ext) and ext.startswith(EXTERNAL_SOURCE), True)
+    _check(res, "matched-overlay: an EXACT ov175 entry attests a call from "
+                "an ov175 scratch copy outside the repo with the ov175 hint",
+           cls(attest(OV175_MATCHED, "thumb", OV175_CALLER_LO,
+                      OV175_CALLER_HI, ext, "ov175",
+                      site_region="ov175")), "matched")
+    _check(res, "matched-overlay: the same entry does not attest for a "
+                "different overlay (ov119) overlapping the window",
+           cls(attest_matched(OV175_MATCHED, "thumb", ext, "ov119",
+                              site_region="ov119")), None)
+    _check(res, "matched: from an external copy, an entry inside the "
+                "compared range never attests",
+           cls(attest(OV175_MATCHED, "thumb", OV175_MATCHED,
+                      OV175_MATCHED + 0x18, ext, "ov175",
+                      site_region="ov175")) == "matched", False)
 
     # --- two files attesting each other ------------------------------------
     # The pairwise case needs no machinery of its own: a compared range is one

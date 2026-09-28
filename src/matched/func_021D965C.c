@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
@@ -28,10 +28,8 @@
  *     triples, the play-time words from the +0x104 save), then hands it to
  *     0x021E5D68 with the +0x04..+0x18 words.
  *
- * Blocker: byte-correct (MATCH, 0 concrete bytes differ); the three calls to
- *     0x0200DFD8 stay wildcarded: it is an unlabelled arm9 Thumb leaf whose
- *     only callers are ov175 (here and func_021D9D50). Seed it and this file
- *     is EXACT.
+ * The three calls to 0x0200DFD8 resolve since seeds_2 labelled and matched
+ *     it (src/matched/unit_0200DFD8.c).
  */
 
 typedef unsigned char u8;

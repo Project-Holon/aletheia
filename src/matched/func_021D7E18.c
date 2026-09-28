@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT*
  *
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
@@ -97,11 +97,8 @@
  *     tail (the timeout and disconnect check); the real extent is
  *     0x021D7E18..0x021D8904, 2796 bytes.
  *
- * Blocker: byte-correct (MATCH*, 0 concrete bytes differ); six call sites
- *     stay wildcarded because their targets are unlabelled leaves outside ov175
- *     with no outside witness: 0x021E8AB4 (x3) and 0x021E8AB8 (ov177 field
- *     setters), 0x02156F50 (ov009 halfword store) and 0x02009EC8 (arm9 thunk).
- *     0x021E8844 resolves now. Label or match those leaves and this is EXACT*.
+ * The six leaf calls that kept it at MATCH* (0x021E8AB4 x3, 0x021E8AB8,
+ *     0x02156F50, 0x02009EC8) resolve since seeds_2 labelled and matched them.
  */
 
 typedef unsigned char u8;

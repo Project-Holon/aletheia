@@ -342,6 +342,35 @@ arm9_main  0x02010498  thumb   # leaf after func_0201045C; real prologue is 4 by
 arm9_main  0x020260E0  thumb   # Sound accessor after func_02026010 (ldrb +0xd)
 arm9_main  0x020260E4  thumb   # Sound accessor after func_02026010 (strb +0xd, 0xff to +0xe/+0xf)
 arm9_main  0x020260F0  thumb   # Sound accessor after func_02026010 (ldr +4)
+arm9_main  0x02026124  thumb   # bit-set/clear leaf; bl from ov170 at 0x021DF6AE and 0x021EA0FE
+arm9_main  0x0202614C  thumb   # bit-test leaf after 0x02026124; bl from ov170 at 0x021EA892, ov173 at 0x021B7F06
+arm9_main  0x0202616C  thumb   # index leaf after 0x0202614C; bl from ov069 at 0x021B9FD2, ov136 at 0x021C76DE, ov170 at 0x021EE3EE
+# seeds_2 (2026-09-28): leaves the ov175 roots func_021D7E18 and func_021D965C call;
+# "raw" sites sit in func_021D7E18's switch cases, which the listing prints as .word.
+arm9_main  0x02009EC8  thumb   # "ldr r3, =func_020071CC; movs r1, #0x1f; bx r3"; bl from ov120 at 0x021D4A90, 0x021D4AC8, ov135 at 0x02201B78, ov175 at 0x021D827E (raw); pool word 0x02009EC9 at 0x02012F1C
+arm9_main  0x0200DFD8  thumb   # "movs r3, #6; muls r3, r1; lsls r1, r2, #1; adds r0, r3; ldrh r0, [r1, r0]; bx lr"; bl from ov175 at 0x021D62E8, 0x021D62FC, 0x021D630E; follows pool word 0x0200DFD4 of func_0200DFCC
+arm9_main  0x0200DFE4  thumb   # setter after 0x0200DFD8 ("push {r3, r4}", strh); bl from ov175 at 0x021D6502, 0x021D650E, 0x021D9DA2
+arm9_main  0x02012F68  thumb   # "ldr r0, [r0]; ldr r3, =func_020071CC; movs r1, #0x42; bx r3"; bl from ov048 at 0x021F3B70, ov171 at 0x021DCD18, ov205 at 0x021B9A80
+arm9_main  0x02012F74  thumb   # "ldr r2, =0x6a8; str r1, [r0, r2]; bx lr"; bl from ov010 at 0x0215DDE8 and 0x0215DE28
+arm9_main  0x02012F80  thumb   # "ldr r1, =0x6a8; ldr r0, [r0, r1]; bx lr"; bl from ov010 at 0x0215D392, 0x0215D548, 0x0215DB96
+overlay_009  0x02156F50  thumb # "ldr r1, =d_021A8268; ldr r1, [r1]; strh r0, [r1, #0x20]; bx lr"; bl from ov175 at 0x021D85E0 (raw, func_021D7E18); follows pool word 0x02156F4C
+overlay_177  0x021E8AB4  thumb # "str r1, [r0, #0xc]; bx lr"; bl from ov175 at 0x021D7EF6, 0x021D8060, 0x021D8550 (raw, func_021D7E18); follows pool word 0x021E8AB0
+overlay_177  0x021E8AB8  thumb # "ldr r1, [r0, #0xc]; str r1, [r0, #4]; bx lr"; bl from ov175 at 0x021D5550 and 0x021D8858 (raw, func_021D7E18)
+# seeds_2, second batch (tree_ov010_3): leaves the ov010 files call in other
+# overlays, plus one ov010 leaf; "raw" sites sit in ov010 code the listing prints as .word.
+overlay_010  0x02157650  thumb # "ldr r2, [r0]; cmp r2, #0x29; bne; str r1, [r0]; bx lr"; bl from ov010 at 0x021574CA, 0x021574D2, 0x021574DA (raw, func_02157450); follows that function's pool
+overlay_021  0x021C536C  thumb # "adds r1, r0, #0; adds r1, #0x70; ldrh; cmp #3; ..."; bl from ov010 at 0x02160124 (raw, func_02160018); was folded into func_021C5348
+overlay_021  0x021C5380  thumb # leaf after 0x021C536C ("adds r0, #0x70; ..."); bl from ov010 at 0x02160078 and 0x02160134 (raw, func_02160018)
+overlay_021  0x021C5394  thumb # leaf after 0x021C5380; bl from ov010 at 0x0216008C (raw, func_02160018)
+overlay_021  0x02189A08  thumb # "movs r1, #0x4f; lsls r1, #2; ldr r0, [r0, r1]; bx lr"; bl from ov010 at 0x0216B0B4 (raw, func_0216B004), ov073 at 0x021F53A4, ov076 at 0x021F52C2
+overlay_098  0x021B6158  thumb # "ldr r0, [r0, #0x1c]; bx lr"; bl from ov010 at 0x0216B13C (raw, func_0216B004); precedes the push of 0x021B615C
+overlay_227  0x021B95C8  thumb # "ldr r3, =0x020307B0; bx r3"; bl from ov010 at 0x0216B1F6 (raw, func_0216B004)
+overlay_132  0x021FCE28  thumb # "ldr r2, [r0, #0x4c]; cmp r2, #0; ..." (+0x84 of a 0x30 record); bl from ov010 at 0x021568C4, 0x02156A10, 0x02156A70
+overlay_132  0x021FCE44  thumb # twin of 0x021FCE28 reading +0x88; bl from ov010 at 0x02156B10
+overlay_132  0x021FD83C  thumb # "movs r1, #0x17; lsls r1, #4; ldr r0, [r0, r1]; bx lr"; bl from ov010 at 0x02155D04 (raw, func_02155C0C)
+overlay_132  0x021FD8EC  thumb # "movs r2, #0x30; muls r2, r1; adds r0, r2; adds r0, #0x72; ldrb r0, [r0]; bx lr"; bl from ov010 at 0x02155CC6 and 0x02155D18 (raw, func_02155C0C)
+overlay_132  0x021FD908  thumb # "movs r1, #0x56; lsls r1, #2; ldr r0, [r0, r1]; bx lr"; bl from ov010 at 0x02155C64 (raw, func_02155C0C)
+overlay_132  0x021FDA6C  thumb # "ldr r0, =0x021FDDEC; bx lr"; bl from ov010 at 0x0215DD22 (raw, func_0215DB38)
 arm9_main  0x02028218  thumb   # leaf after func_02028178, zeroes +0x14 then tail-calls
 arm9_main  0x0202822E  thumb   # bare bx lr leaf after 0x02028218
 arm9_main  0x0202CD64  thumb   # leaf after func_0202CC70's pool
