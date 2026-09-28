@@ -3,13 +3,19 @@
  * address:  0x021BAF2C
  * packet:   pkt_ov114_021BAED4
  * region:   ov114
- * compiler: 1.1p1
+ * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   PENDING
+ * status:   DIFF
  *
  * sdk:      getcharFromHdrRecvBuf (libnhttp.TWL.HYB.a nhttp_recvbuf.o)
+ *
+ * blocker:  2 instruction-scheduling swaps (4 concrete bytes), same size:
+ *           p+0x14 wants add r0,r0,r3 before strlt r1,[r2]; and p+0x2c wants
+ *           ldr r0,[r0,#0x34] before str r3,[r2].  All source orderings tried
+ *           (post-inc, split temp, pointer base, ternary) reschedule identically.
+ *           No witnesses/relocs involved; pure mwcc scheduler residue.
  *
  * symbols:
  *   (none)
@@ -46,11 +52,8 @@ static char getcharFromHdrRecvBuf(struct _NHTTPRes *res_p,
         struct _NHTTPi_HDRBUFLIST **hdrbuf_pp, int *blockpos_p)
 {
     if (*hdrbuf_pp == 0) {
-        if (*blockpos_p < 0x400) {
-            char c = res_p->hdrBufFirst[*blockpos_p];
-            (*blockpos_p)++;
-            return c;
-        }
+        if (*blockpos_p < 0x400)
+            return res_p->hdrBufFirst[(*blockpos_p)++];
         *blockpos_p = 0;
         *hdrbuf_pp = res_p->hdrBufBlock_p;
     } else {

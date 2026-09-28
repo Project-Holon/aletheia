@@ -11,43 +11,43 @@
  *
  * sdk:      mytok (sb_server.o)
  *
- * BLOCKER (codegen only, size exact 104): string.h's strtok reference
- * implementation with a file-static `thestr` counter, but mwcc does not use it
- * here.  The original increments the static with a load/`add r2,r3,#1`/store
- * sequence and returns the accepting token via the `bxeq lr` fast exit; mwcc
- * instead keeps the static in the global pointer g_021AEAF8[0] only, indexes
- * the source with a callee-saved r4 and folds the epilogue into popeq.  The
- * parse loop, delimiter store and `*p=0` are semantically right.  The exact
- * GameSpy/glibc strtok body could not be recovered from the object.
+ * BLOCKER (register allocation only, size exact 104): the file-scope static
+ * `thestr` is the token cursor itself (the object shows a single ABS32 at
+ * +0x64, `_ZZ5mytokPccE6thestr` -> 0x021AEAF8, and the tail reads that pointer
+ * and writes back pointer+1), so the body is the GameSpy strtok: save the
+ * input into the static, walk `ip` while `*ip && *ip != delim` writing the
+ * static each step, clear the token byte, bump the static and return the
+ * token start.  mwcc reproduces every branch, both epilogues and the 104-byte
+ * extent but keeps the cursor in r3 and the character in ip (r12), while the
+ * original keeps the cursor in ip (r12) and the character in r3.  Every
+ * spelling tried (char* static, char temp, aliasing instr/result, post-inc
+ * order) leaves mwcc with the same swap; the object is hand-spelled.
  *
  * symbols:
- *   g_021AEAF8  0x021AEAF8  data
+ *   thestr  0x021AEAF8  data
  */
 
-extern char *g_021AEAF8[];
+static char *thestr;
 
-static char *mytok(char *instr, char delim)
+static char *mytok(char *instr, int delim)
 {
     char *result;
-    char *p;
-    static int thestr;
+    char *ip;
 
     if (instr != 0)
-        g_021AEAF8[0] = instr;
-    result = g_021AEAF8[0];
-    p = result;
-    while (*p != 0 && *p != delim)
-        p++;
-    g_021AEAF8[0] = p;
-    if (p == result)
-        result = 0;
-    if (*p == 0)
-        return result;
-    *p = 0;
+        thestr = instr;
+    result = thestr;
+    ip = result;
+    while (*ip != 0 && *ip != delim)
     {
-        int t = thestr;
-        thestr = t + 1;
+        ip++;
+        thestr = ip;
     }
-    g_021AEAF8[0] = p + 1;
+    if (ip == result)
+        result = 0;
+    if (*ip == 0)
+        return result;
+    *ip = 0;
+    thestr++;
     return result;
 }
