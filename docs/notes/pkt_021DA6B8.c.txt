@@ -357,3 +357,13 @@ int func_021DA6B8(char *obj, u32 *out)
     }
     return 0;
 }
+
+## 2026-09-28 relaunch (tree_ov175_2)
+
+The ISA refusal is gone (tooling fix landed): the best source above now measures
+DIFF, 1776 of 1780 bytes, 1102 bytes out (the 4-byte shortfall shifts every later pool
+and the jump table, so most of the count is cascade). Three calls stay wildcarded
+(0x021DC2D8, 0x021DADB4, 0x021DAE00: "no witness outside", even with an ov175 hint on the
+symbols line). Tried: err assigned before the out store (1059), err as an initialiser
+(1059), declaration order swapped (1102). The r5/r6 swap is unchanged. A fresh draft from
+the image is the next step; not attempted here for context budget.

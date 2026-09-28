@@ -116,3 +116,15 @@ void func_021D98E4(char *obj, u32 kind)
         break;
     }
 }
+
+## 2026-09-28 relaunch (tree_ov175_2)
+
+Still DIFF 6 bytes. The residue is purely allocation: the original gives the `1` web r2
+(so its movs is hoisted above the stores) although r1 is free once 0xd is stored, and the
+jump index then takes r1. With the natural store order h20, h22, h24, h26 the store order
+is right but `1` lands in r1 and the index in r2 (57 bytes). New brute forces, all best 6
+at the old order: 24 store orders times the kind parameter type (int, u16, u8, unsigned
+int, long); 24 orders times {if-wrapped body instead of early return, literal 0x30 fill
+size}; an inline four-parameter setter (u16, int, u32 parameters, 24 body orders); a u16
+pointer walk (87); a struct pointer alias (57); one u32 store for h20/h22 (75).
+Permuter not rerun (the earlier run used this function's single permuter pass).

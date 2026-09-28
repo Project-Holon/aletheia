@@ -115,3 +115,8 @@ int func_021D9C34(char *obj, int trigger, int go)
         return 1;
     return 0;
 }
+
+## 2026-09-28 relaunch (tree_ov175_2)
+
+Now EXACT* with the salvaged switch source (0x021E8844 got its label); promoted to
+src/matched/func_021D9C34.c, shard pkt_021D9C34 verified twice.
