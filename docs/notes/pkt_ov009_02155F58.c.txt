@@ -1,0 +1,163 @@
+/*
+ * function: func_02155F58
+ * address:  0x02155F58
+ * packet:   pkt_ov009_02155F58
+ * region:   ov009
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * DIFF, 2 bytes of branch encoding (every other byte is right, the size
+ * matches because the 2 bytes come out of the trailing pad).  The original
+ * skips the whole body on r == 0 with `beq 0x02156022`, a branch island:
+ * 0x02156022 is the `b 0x021560B0` ending case 4 of the switch, used because
+ * the real target 0x021560B0 is out of Thumb conditional-branch reach.  This
+ * C gives `bne body; b tail` instead (+2 bytes), and everything after it is
+ * shifted by 2 until the pad.  Tried, no change: `if (r == 0) goto tail;`,
+ * a `goto` to a label at the end of case 4, and tools/permuter.py
+ * (300 compiles, best 250 bytes out).  The next thing to try is a different
+ * nesting of the body, one that makes the r == 0 edge target the case-4
+ * exit block directly.
+ *
+ * symbols:
+ *   d_021A8264     0x021A8264  data  ov009  a4
+ *   func_02059E38  0x02059E38  arm
+ *   func_02059F18  0x02059F18  arm
+ *   func_02155374  0x02155374  thumb  ov009
+ *   func_021E1340  0x021E1340  arm  ov175
+ *   func_021C5B80  0x021C5B80  arm  ov114
+ *   func_0216AD50  0x0216AD50  arm  ov009
+ *   func_0205CC20  0x0205CC20  arm
+ *   func_0203C9AC  0x0203C9AC  arm
+ *   func_020111E8  0x020111E8  thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    char pad[0x28c];
+    void (*cb28c)(int, int, int, int);  /* 0x28c */
+    int arg290;                          /* 0x290 */
+    int (*cb294)(int, int, int, int);   /* 0x294 */
+    int arg298;                          /* 0x298 */
+    char pad1[0x2a8 - 0x29c];
+    void (*cb2a8)(int);                  /* 0x2a8 */
+    char pad2[0x754 - 0x2ac];
+    int state;                           /* 0x754 */
+    char pad3[0x79e - 0x758];
+    u8 b79e;                             /* 0x79e */
+    char pad4[0x7a9 - 0x79f];
+    u8 b7a9;                             /* 0x7a9 */
+} G;
+
+extern G *d_021A8264;
+int func_02059E38(int *err, int *kind);
+void func_02059F18(void);
+void func_02155374(int);
+void func_021E1340(void);
+void func_021C5B80(void);
+void func_0216AD50(void);
+void func_0205CC20(void);
+void func_0203C9AC(int, int, int, int);
+int func_020111E8(void);
+
+int func_02155F58(void)
+{
+    int err, kind;
+    int ret = 0;
+    int r;
+
+    r = func_02059E38(&err, &kind);
+    if (r != 0) {
+        if (d_021A8264->cb294 != 0) {
+            if (d_021A8264->cb294(d_021A8264->arg298, err, kind, r) == 1)
+                return ret;
+        }
+        if (d_021A8264->cb28c != 0)
+            d_021A8264->cb28c(d_021A8264->arg290, err, kind, r);
+        ret = err;
+        if (err == 0 || kind == 1)
+            ret = r;
+        switch (kind) {
+        case 0:
+            break;
+        case 1:
+            func_02059F18();
+            if (d_021A8264 != 0 && d_021A8264->state == 14)
+                func_02155374(6);
+            break;
+        case 2:
+            if (err <= -40000 && err >= -41999)
+                func_021E1340();
+            if (d_021A8264 != 0 && d_021A8264->state == 14)
+                func_02155374(6);
+            break;
+        case 4:
+            if (err <= -40000 && err >= -41999)
+                func_021E1340();
+            break;
+        case 5:
+            func_021C5B80();
+            break;
+        case 3:
+        case 6:
+            if (d_021A8264 != 0) {
+                switch (d_021A8264->state) {
+                case 3:
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                case 10:
+                case 11:
+                case 14:
+                case 18:
+                case 19:
+                case 20:
+                    if (d_021A8264->b7a9 == 1) {
+                        func_0216AD50();
+                        d_021A8264->b7a9 = 0;
+                    }
+                case 0:
+                case 1:
+                case 2:
+                    func_0205CC20();
+                    break;
+                case 4:
+                case 5:
+                case 12:
+                case 13:
+                case 15:
+                case 16:
+                case 17:
+                    break;
+                }
+            }
+            if (d_021A8264 != 0)
+                func_02155374(16);
+            break;
+        case 7:
+            if (d_021A8264 != 0) {
+                func_02155374(17);
+                if (d_021A8264->cb2a8 != 0)
+                    d_021A8264->cb2a8(-err);
+            }
+            break;
+        }
+    }
+    if (d_021A8264->b79e != 0) {
+        ret = 0x3ee;
+        func_0203C9AC(err, kind, r, ret);
+    } else if (d_021A8264->state == 0x14) {
+        ret = 0x3f0;
+        func_0203C9AC(err, kind, r, ret);
+    } else if (r != 0) {
+        func_0203C9AC(err, kind, r, 0);
+        func_020111E8();
+    }
+    return ret;
+}

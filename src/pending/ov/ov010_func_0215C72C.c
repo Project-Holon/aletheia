@@ -1,0 +1,76 @@
+/*
+ * function: func_0215C72C
+ * address:  0x0215C72C
+ * packet:   pkt_ov010_0215C72C
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   MATCH
+ *
+ * Script command: reads a selector and two words, maps the selector
+ * (0 -> 4, 1 -> 5, else 0), then opens overlay 0x46 over a work built
+ * from func_0202E474 with an 8-byte hand-off record.
+ *
+ * MATCH, bytes exact. Blockers: ov070_id (0x46) and d_021BB96C only reach an overlay loader through func_0215C63C, so no class attests them. The extent (180 B) also covers the unlabelled follower callback at 0x0215C7C4 (MATCH*).
+ *
+ * symbols:
+ *   func_0215A5DC  0x0215A5DC  thumb  ov010
+ *   func_0215A5F4  0x0215A5F4  thumb  ov010
+ *   func_02159B10  0x02159B10  thumb  ov010
+ *   func_02159AE8  0x02159AE8  thumb  ov010
+ *   func_0215A5E4  0x0215A5E4  thumb  ov010
+ *   func_0202E474  0x0202E474  thumb
+ *   func_02030734  0x02030734  arm
+ *   func_0215C63C  0x0215C63C  thumb  ov010
+ *   func_0215C700  0x0215C700  thumb  ov010
+ *   d_021728F0     0x021728F0  data  a1
+ *   ov070_id       0x00000046  data
+ *   d_021BB96C     0x021BB96C  data  a1
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern void *func_0215A5DC(void *vm);
+extern void *func_0215A5F4(void *vm);
+extern u32 func_02159B10(void *c, void *vm);
+extern u32 func_02159AE8(void *c, void *vm);
+extern void *func_0215A5E4(void *vm);
+extern void *func_0202E474(void *a, u32 b, u32 c, u32 d);
+extern void *func_02030734(u32 heap, u32 size, u32 flags, const char *file, u32 line);
+extern void func_0215C63C(void *c, void *vm, u32 ovId, const void *proc, void *work, u32 arg0, u32 arg1);
+extern void func_0215C700(void);
+extern const char d_021728F0[];
+extern const u8 d_021BB96C[];
+extern u8 ov070_id[];
+
+int func_0215C72C(void *c, void *vm)
+{
+    u32 sel;
+    u32 a;
+    u32 b;
+    u32 k;
+    void *work;
+    u32 *h;
+
+    func_0215A5DC(vm);
+    func_0215A5F4(vm);
+    sel = func_02159B10(c, vm);
+    a = func_02159AE8(c, vm);
+    b = func_02159AE8(c, vm);
+    if (sel == 0)
+        k = 4;
+    else if (sel == 1)
+        k = 5;
+    else
+        k = 0;
+    work = func_0202E474(func_0215A5E4(vm), 0, k, 4);
+    h = func_02030734(4, 8, 1, d_021728F0, 0x118);
+    h[0] = a;
+    h[1] = b;
+    func_0215C63C(c, vm, (u32)ov070_id, d_021BB96C, work, (u32)func_0215C700, (u32)h);
+    return 1;
+}

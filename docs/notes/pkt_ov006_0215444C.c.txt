@@ -10,6 +10,11 @@
  * status:   DIFF
  *
  * near miss: DIFF 18 bytes: original loads a->r into r1 and spills the second call result (sp+4) after two field loads; every C spelling tried (struct/char* forms, q assigned before/after, local order) spills it right after the call and loads a->r into r0.
+ * lane R1 (2026-09-28), 8 more runs, still the same 18 bytes (+0x1E..+0x32): a named `R *r = a->r`
+ *   local, q assigned before the first store, x/t as an `int v[2]` stack array, y recomputed as 1-x;
+ *   `unsigned char t` is worse (SIZE 116). The spill store of t is emitted at the def and the freed r0 is
+ *   reused for a->r; the original keeps t in r0 across two loads. permuter is unusable here: it scores
+ *   against the 136-byte listing extent (the unlabelled leaf at 0x021544BC follows at 0x70).
  *
  * symbols:
  *   func_020399A8  0x020399A8  arm

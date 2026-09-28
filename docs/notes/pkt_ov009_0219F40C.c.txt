@@ -1,0 +1,68 @@
+/*
+ * function: func_0219F40C
+ * address:  0x0219F40C
+ * packet:   pkt_ov009_0219F40C
+ * region:   ov009
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ * near miss: byte-shape identical, only callee-saved register naming differs
+ * (orig r4=base r5=P r6=g1 r7=str r8=a sb=b; ours g1,str,P,base). All 24
+ * declaration orders of the four temporaries give the same DIFF. 0x0219F48C is
+ * the same body with callee 0x020948E0 -> 0x0209ABF8 and 0x0219E0C0/0x0219F0E0
+ * shifted (bl targets 0x0219E0C0, 0x0219F0E0 same); same diff.
+ *
+ * lane R1 (2026-09-28): the address of d_021AEB04 (r5) and the string (r7) are compiler CSE temps,
+ *   not locals, and 0x98+0x400 is one unencodable offset 0x498 split in two, so the source holds
+ *   `&G.f4->sub` (sub at +0x98, buf at +0x400) in a local s. That spelling (below) gets every role right
+ *   except order: ours colours the temps first (G r4, g1 r5, str r6) then the locals s r7, a r8, b sb;
+ *   the original has s r4, G r5, g1 r6, str r7. Still 11 bytes. Tried: every declaration order of
+ *   s/a/b (sab best), explicit g/str/g1 locals in all 24 orders (all 11), const G or const f4 (worse,
+ *   the 0x6a0 read must reload f4), `register s`, s in an outer block, a static inline comparator
+ *   taking s (same 11); permuter --budget 300 plateaued at 11.
+ *
+ * symbols:
+ *   func_0219E0C0  0x0219E0C0  arm  ov009
+ *   func_020948E0  0x020948E0  arm
+ *   func_0219F0E0  0x0219F0E0  arm  ov009
+ *   d_021AEB04     0x021AEB04  data  a4
+ *   d_021A8230     0x021A8230  data  a4
+ */
+
+typedef struct {
+    char pad[0x400];
+    char buf[1];
+} Sub;
+typedef struct {
+    char pad[0x98];
+    Sub sub;
+} Obj;
+typedef struct {
+    int f0;
+    Obj *f4;
+} G;
+
+extern int func_0219E0C0(int a, char *b, char *c);
+extern int func_020948E0(int a, int b);
+extern int func_0219F0E0(int a, int b);
+extern G d_021AEB04;
+extern char d_021A8230[];
+
+static inline int cmp_inl(Sub *s, int a, int b)
+{
+    int r = func_020948E0(func_0219E0C0(a, s->buf, d_021A8230), func_0219E0C0(b, s->buf, d_021A8230));
+    if (r == 0) {
+        return func_0219F0E0(a, b);
+    }
+    if (*(int *)((char *)d_021AEB04.f4 + 0x6a0) == 0) {
+        return -r;
+    }
+    return r;
+}
+
+int func_0219F40C(int *pa, int *pb)
+{
+    return cmp_inl(&d_021AEB04.f4->sub, *pa, *pb);
+}

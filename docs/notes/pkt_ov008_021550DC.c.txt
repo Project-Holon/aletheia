@@ -10,6 +10,13 @@
  * status:   DIFF
  *
  * near miss: DIFF 11 bytes: only the r5/r6 swap (original r6=state ptr, r5=object; ours r5=state, r6=object); switch/if forms, statement order, struct forms tried.
+ * lane R1 (2026-09-28), 20 more runs, all still the same 11-byte swap: local copies of either or both
+ *   params in every declaration order (coalesced away), `u32 m = *mode` read before args[0], u32/void*
+ *   types as in the matched ov001/ov004 siblings, Args/Req struct form, `register` on either param,
+ *   K&R parameter declarations in swapped order, `*q = ...` for args[4], `default:` first, inverted
+ *   case-1 test; permuter --budget 300 found nothing below 11. A `ret` variable or hoisting q above the
+ *   switch makes it worse (80 / 25 bytes). The allocator seems to order the two params by parameter
+ *   position regardless of source; untried: a wrapper/inline caller shape.
  *
  * symbols:
  *   func_020120F4  0x020120F4  thumb

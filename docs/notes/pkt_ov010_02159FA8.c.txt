@@ -1,0 +1,63 @@
+/*
+ * function: func_02159FA8
+ * address:  0x02159FA8
+ * packet:   pkt_ov010_02159FA8
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (11 bytes: scheduling only; original loads f00 of the second table and movs r2,#0 before the (v<<16)>>24 stack argument. func_02159FE0 in this file is EXACT on its own)
+ *
+ * The extent also holds the unlabelled leaf at 0x02159FE0.
+ *
+ * symbols:
+ *   func_0215A064  0x0215A064  thumb  ov010
+ *   func_0215A048  0x0215A048  thumb  ov010
+ *   d_02170FEC  0x02170FEC  data
+ *   d_02170FF0  0x02170FF0  data
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct Bf {
+    u16 lo : 8;
+    u16 hi : 8;
+} Bf;
+
+typedef struct Ent {
+    u16 f00;
+    u16 f02_0 : 1;
+    u16 f02_rest : 15;
+    u16 f04;
+    u16 f06;
+    u8 pad[12];
+} Ent;
+
+extern int func_0215A064(int);
+extern void func_0215A048(int, int, int, int, int);
+extern Ent d_02170FEC[];
+extern Ent d_02170FF0[];
+
+void func_02159FA8(int a, int b)
+{
+    int i = func_0215A064(a);
+    Ent *e = &d_02170FEC[i];
+    u32 v = e->f06;
+    u32 w = d_02170FF0[i].f00;
+    u32 hi = (v << 16) >> 24;
+    func_0215A048(b, w, 0, (v << 24) >> 24, hi);
+}
+
+int func_02159FE0(int key)
+{
+    u32 i;
+    for (i = 0; i < 0x11; i++) {
+        Ent *e = &d_02170FEC[i];
+        if (key == e->f04 && e->f02_0)
+            return i + 1;
+    }
+    return 0;
+}

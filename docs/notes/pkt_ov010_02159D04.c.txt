@@ -1,0 +1,69 @@
+/*
+ * function: func_02159D04
+ * address:  0x02159D04
+ * packet:   pkt_ov010_02159D04
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (38 bytes, register allocation only: original d->r7, src(b+8)->r6, off(0x71c)->r4; ours d->r7, src->r4, off->r6)
+ *
+ * symbols:
+ *   func_02082A90  0x02082A90  arm
+ *   func_02082A48  0x02082A48  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct Dst {
+    u16 f00;
+    u16 f02;
+    u32 f04;
+    u16 f08;
+    u16 f0a;
+    u16 f0c;
+    u16 pad0e;
+    u32 f10;
+    u16 tiles[0x384];
+    u32 pal[1];
+} Dst;
+
+typedef struct Src {
+    u16 f00;
+    u16 pad02;
+    u16 w;
+    u16 h;
+    u32 data[1];
+} Src;
+
+extern void func_02082A90(void *, void *, int);
+extern void func_02082A48(int, void *, int);
+
+void func_02159D04(Dst *a, Src *b, u32 c, int d)
+{
+    int off = 0x71c;
+    u16 w = b->w;
+    u16 h = b->h;
+    u32 n;
+    u16 *p;
+    a->f04 = c;
+    n = h * w;
+    a->f0a = h;
+    a->f0c = b->f00;
+    a->f10 = n;
+    a->f02 = d;
+    a->f08 = w;
+    func_02082A90(b->data, (u8 *)a + off, n * 4);
+    p = a->tiles;
+    if (a->f0c == 1) {
+        u32 *s2 = b->data + a->f10;
+        u32 i;
+        for (i = 0; i < a->f10; i++)
+            p[i] = s2[i];
+    } else {
+        func_02082A48(d, p, off - 0x14);
+    }
+}

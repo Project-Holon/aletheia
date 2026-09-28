@@ -1,0 +1,53 @@
+/*
+ * function: func_0215C138
+ * address:  0x0215C138
+ * packet:   pkt_ov010_0215C138
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Script command: reads a destination variable, an argument and a
+ * selector; when the selector is one of the 12 bytes of a table the
+ * variable receives func_0215B4DC(vm, arg), otherwise 0.
+ *
+ * DIFF, 36 bytes: the loop keeps the selector in r0 and the table in r2; the image copies the selector to r2 (adds r2,r0,#0) and uses r0 as the load temporary. Tried u16/u32/int/u8 selector, u32/int/u8 index, do-while, reversed compare, static-inline find(): none matches (inline gives 80 bytes).
+ *
+ * symbols:
+ *   func_02159AE8  0x02159AE8  thumb  ov010
+ *   func_02159B10  0x02159B10  thumb  ov010
+ *   func_0215B4DC  0x0215B4DC  thumb  ov010
+ *   d_02171182     0x02171182  data  a1
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern u16 *func_02159AE8(void *c, void *vm);
+extern u16 func_02159B10(void *c, void *vm);
+extern u16 func_0215B4DC(void *vm, u32 v);
+extern const u8 d_02171182[];
+
+int func_0215C138(void *c, void *vm)
+{
+    u16 *dst;
+    u32 arg;
+    u16 sel;
+    u32 i;
+    const u8 *t;
+
+    dst = func_02159AE8(c, vm);
+    arg = func_02159B10(c, vm);
+    sel = func_02159B10(c, vm);
+    for (i = 0; i < 12; i++) {
+        if (sel == d_02171182[i]) {
+            *dst = func_0215B4DC(vm, arg);
+            return 0;
+        }
+    }
+    *dst = 0;
+    return 0;
+}

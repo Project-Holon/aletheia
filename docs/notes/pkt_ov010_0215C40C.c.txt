@@ -1,0 +1,79 @@
+/*
+ * function: func_0215C40C
+ * address:  0x0215C40C
+ * packet:   pkt_ov010_0215C40C
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * DIFF, 5 bytes: in the arguments of the func_02017430 call the image loads the zero for sp+8 into r1 before storing the func_020186C8 result (movs r1,#0; str r0,[sp,#4]; str r1,[sp,#8]); the compiler stores r0 first then reuses r0. Tried a zero local, param types u16/u32/int/pointer, inline call argument.
+ *
+ * symbols:
+ *   func_02012944  0x02012944  thumb
+ *   func_02008530  0x02008530  thumb
+ *   func_020186C8  0x020186C8  thumb
+ *   func_02017430  0x02017430  thumb
+ *   func_02017E40  0x02017E40  thumb
+ *   func_02020FE4  0x02020FE4  thumb
+ *   func_0202142C  0x0202142C  thumb
+ *   func_020127A4  0x020127A4  thumb
+ *   func_02012AC8  0x02012AC8  thumb
+ *   func_02013E4C  0x02013E4C  thumb
+ *   func_0202F190  0x0202F190  thumb
+ *   func_020185C4  0x020185C4  thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct Spec {
+    u16 f00;            /* 0x00 */
+    u16 pad02;
+    u32 f04;            /* 0x04 */
+    u32 f08;            /* 0x08 */
+    u32 f0c;            /* 0x0C */
+    u32 f10;            /* 0x10 */
+    u32 f14;            /* 0x14 */
+    u32 f18;            /* 0x18 */
+    u32 f1c;            /* 0x1C */
+    u32 f20;            /* 0x20 */
+} Spec;
+
+extern void *func_02012944(void *a);
+extern void *func_02008530(void);
+extern void *func_020186C8(void *a, u16 b, u16 c, u32 d, u32 e, u32 f);
+extern void *func_02017430(u16 a, u16 b, void *c, u32 d, int e, void *f, u32 g, u32 h);
+extern void func_02017E40(void *p, u32 id, u32 v);
+extern int func_02020FE4(u16 a, u32 b, u16 c);
+extern u32 func_0202142C(u16 a);
+extern void func_020127A4(void *a);
+extern void func_02012AC8(void);
+extern u32 func_02013E4C(void);
+extern void func_0202F190(void *p, u32 a, void *b, u32 c, u16 d);
+extern void func_020185C4(void *p);
+
+void *func_0215C40C(void *a, Spec *s)
+{
+    void *r7;
+    void *r4;
+    void *t;
+
+    r7 = func_02012944(a);
+    func_02012944(a);
+    r4 = func_02008530();
+    t = func_020186C8(r4, s->f04, s->f08, s->f18, s->f14, s->f1c);
+    r4 = func_02017430(s->f04, s->f0c, r4, 0, -1, t, 0, s->f00);
+    func_02017E40(r4, 0x6F, s->f08);
+    func_02017E40(r4, 6, s->f10);
+    if (func_02020FE4(s->f20, 0xF, s->f00) == 4)
+        func_02017E40(r4, 0x98, func_0202142C(s->f20));
+    func_020127A4(a);
+    func_02012AC8();
+    func_0202F190(r4, 0, r7, func_02013E4C(), s->f00);
+    func_020185C4(r4);
+    return r4;
+}
