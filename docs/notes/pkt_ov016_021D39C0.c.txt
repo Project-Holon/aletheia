@@ -1,0 +1,25 @@
+=== 2026-09-28 sdk_overlays_5: DWCi_MOV_WH_Initialize 0x021D3638 (dwc_mov_wh.o), DIFF 15 bytes ===
+Only the register pair of the two constants differs: the image keeps 0 in r5 and 1 in r4;
+every spelling tried keeps 0 in r4 and 1 in r5 and returns through 'moveq r5,r4; mov r0,r5'.
+Tried: if(!x) return 0; return 1 / if(x) return 1; return 0 / ternary / != 0 / result local
+initialised to 1 then cleared. Permuter seed 9201, budget 400: no improvement (15 out).
+Best source:
+
+extern int DWCi_MOV_WH_StateInInitialize(void);
+
+int DWCi_MOV_WH_Initialize(void)
+{
+    dwc_mov_wh_bss.wh->recvBufSize = 0;
+    dwc_mov_wh_bss.wh->sendBufSize = 0;
+    dwc_mov_wh_bss.wh->f_48 = 0;
+    dwc_mov_wh_bss.wh->f_50 = 0;
+    dwc_mov_wh_bss.wh->bitmap = 1;
+    dwc_mov_wh_bss.wh->f_54 = 0;
+    dwc_mov_wh_bss.wh->f_00 = 0;
+    dwc_mov_wh_bss.wh->f_04 = 0;
+    dwc_mov_wh_bss.wh->judgeAcceptFunc = 0;
+    if (DWCi_MOV_WH_StateInInitialize())
+        return 1;
+    return 0;
+}
+(prelude: see any src/matched/ov016_func_021D3*.c of shard pkt_ov016_021D39C0)

@@ -1,0 +1,27 @@
+=== 2026-09-28 sdk_overlays_5: scenesetlist.o (libdwcutil) near misses ===
+All three drafts are in src/pending/ov016_func_<addr>.c with the shared scenesetlist.o prelude
+(one struct per .bss/.rodata section, vendor member names). Default dsi/1.1p1 -O4,p c99; the
+object is stamped 4.0.0.1025. A sweep of 1.1, 1.2, 1.2p2, 1.3p1, 1.6sp1, 1.6sp2 and 2.0 base,
+sp1p2, sp2p4 never beats 1.1p1 on any of them.
+
+initGraphics 0x021C84BC (508 bytes, DIFF 17 lines, all in the last six BGxCNT priority writes)
+  The original loads 0x04001008 into r1 (MemSsl in r2), writes DB_BG0/DB_BG1, and only then
+  forms 0x04000008 as r1 - 0x1000 and 0x0400000A as r4 - 2. The draft hoists the sub right
+  after the first load and swaps r1/r2. Measured: six static inline G2/G2S SetBGnPriority
+  helpers (17), plain volatile macros (17), non-volatile registers (worse, sub scheduled even
+  earlier), one pointer walked over the registers (53). The earlier func_021C84BC.c draft
+  (14, same region) was superseded by this vendor-named one. Permuter seed 9204, budget 400:
+  best stays at 38 bytes out.
+
+setOffset 0x021C98E4 (432 bytes, compiled 424)
+  The original has `sub sp, sp, #8` for locals x, y (DWARF [fb+4], [fb+0]) that are never
+  read from the stack: their addresses reach an inlined G2_GetOBJPosition. It also re-reads
+  MemSsl->icon after the null test. Under 1.1p1 the inline, a macro through &x/&y and every
+  SetOBJPosition operand order promote x, y with no frame and CSE the icon load. Permuter seed
+  9203, budget 400: flat (424/432).
+
+isPush 0x021C9A94 (636 bytes, compiled 620)
+  Each `a = A_EDIT/A_YES/A_NO` AREA copy is scheduled in field pairs (ldrh l,t / strh / ldrh
+  w,h / strh) and the YES/NO copies store t twice (copy, then t + i * 29). The draft loads all
+  four fields first; spelling t as `A_YES.t + i * 29` drops even more stores; memberwise copy
+  and every declaration order of a, cell, i measured the same. Permuter seed 9202, flat.

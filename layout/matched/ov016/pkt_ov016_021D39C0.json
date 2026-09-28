@@ -1,0 +1,570 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "ov016",
+ "shard": "pkt_ov016_021D39C0",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "DWCi_MOV_WH_MemInit",
+   "address": "0x021D298C",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D298C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DE660"
+    ]
+   }
+  },
+  {
+   "name": "DWCi_MOV_WH_ChangeSysState",
+   "address": "0x021D29C8",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D29C8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DBD8C",
+     "self:0x021DBDB4",
+     "self:0x021DBDBC",
+     "self:0x021DE660"
+    ]
+   }
+  },
+  {
+   "name": "DWCi_MOV_WH_StateOutSetParentParam",
+   "address": "0x021D2AA8",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D2AA8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DE660"
+    ],
+    "sdk": [
+     "0x021D2B14"
+    ]
+   }
+  },
+  {
+   "name": "DWCi_MOV_WH_StateInSetParentWEPKey",
+   "address": "0x021D2B14",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D2B14.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DE660"
+    ],
+    "sdk": [
+     "0x02090BC4",
+     "0x021D2B74"
+    ]
+   }
+  },
+  {
+   "name": "DWCi_MOV_WH_StateOutSetParentWEPKey",
+   "address": "0x021D2B74",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D2B74.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "DWCi_MOV_WH_StateInStartParent",
+   "address": "0x021D2BAC",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D2BAC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DE660"
+    ],
+    "sdk": [
+     "0x0208F644",
+     "0x021D2C0C"
+    ]
+   }
+  },
+  {
+   "name": "DWCi_MOV_WH_StateOutStartParent",
+   "address": "0x021D2C0C",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D2C0C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x021DBE18",
+     "self:0x021DBDC0",
+     "self:0x021DBDEC",
+     "self:0x021DE660"
+    ],
+    "sdk": [
+     "0x021D2D6C"
+    ]
+   }
+  },
+  {
+   "name": "DWCi_MOV_WH_StateInStartParentMP",
+   "address": "0x021D2D6C",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D2D6C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DE660"
+    ],
+    "sdk": [
+     "0x021D2E00"
+    ]
+   }
+  },
+  {
+   "name": "DWCi_MOV_WH_StateOutStartParentMP",
+   "address": "0x021D2E00",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D2E00.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x021DBE18",
+     "self:0x021DBE38",
+     "self:0x021DE660"
+    ],
+    "sdk": [
+     "0x021D2F50"
+    ]
+   }
+  },
+  {
+   "name": "DWCi_MOV_WH_StateInEndParentMP",
+   "address": "0x021D2FBC",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D2FBC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x021D2FEC"
+    ]
+   }
+  },
+  {
+   "name": "DWCi_MOV_WH_StateOutEndParentMP",
+   "address": "0x021D2FEC",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D2FEC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DBE68",
+     "self:0x021DE660"
+    ],
+    "sdk": [
+     "0x021D3040"
+    ]
+   }
+  },
+  {
+   "name": "DWCi_MOV_WH_StateInEndParent",
+   "address": "0x021D3040",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D3040.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x021D3068"
+    ]
+   }
+  },
+  {
+   "name": "DWCi_MOV_WH_StateOutEndParent",
+   "address": "0x021D3068",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D3068.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "DWCi_MOV_WH_StateInEndChildMP",
+   "address": "0x021D30D8",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D30D8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x021D3108"
+    ]
+   }
+  },
+  {
+   "name": "DWCi_MOV_WH_StateOutEndChildMP",
+   "address": "0x021D3108",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D3108.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x021D313C",
+     "0x021D39C0"
+    ]
+   }
+  },
+  {
+   "name": "DWCi_MOV_WH_StateInEndChild",
+   "address": "0x021D313C",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D313C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x021D3178"
+    ]
+   }
+  },
+  {
+   "name": "DWCi_MOV_WH_StateOutEndChild",
+   "address": "0x021D3178",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D3178.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "DWCi_MOV_WH_StateInReset",
+   "address": "0x021D319C",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D319C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x021D31CC"
+    ]
+   }
+  },
+  {
+   "name": "DWCi_MOV_WH_StateOutReset",
+   "address": "0x021D31CC",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D31CC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "DWCi_MOV_WH_StateOutEnd",
+   "address": "0x021D3200",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D3200.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "DWCi_MOV_WH_StartMeasureChannel",
+   "address": "0x021D3264",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D3264.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DE660"
+    ]
+   }
+  },
+  {
+   "name": "DWCi_MOV_WH_StateInMeasureChannel",
+   "address": "0x021D3340",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D3340.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x021D34C0"
+    ]
+   }
+  },
+  {
+   "name": "DWCi_MOV_WH_StateOutMeasureChannel",
+   "address": "0x021D33E0",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D33E0.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DBEC0",
+     "self:0x021DE660"
+    ]
+   }
+  },
+  {
+   "name": "WHi_MeasureChannel",
+   "address": "0x021D34C0",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D34C0.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "DWCi_MOV_WH_GetMeasureChannel",
+   "address": "0x021D34E0",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D34E0.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DBED8",
+     "self:0x021DE660"
+    ]
+   }
+  },
+  {
+   "name": "SelectChannel",
+   "address": "0x021D3554",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D3554.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DE660"
+    ]
+   }
+  },
+  {
+   "name": "DWCi_MOV_WH_IndicateHandler",
+   "address": "0x021D36B0",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D36B0.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "DWCi_MOV_WH_StateOutInitialize",
+   "address": "0x021D371C",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D371C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x021D36B0"
+    ]
+   }
+  },
+  {
+   "name": "DWCi_MOV_WH_ParentConnect",
+   "address": "0x021D376C",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D376C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DBE90",
+     "self:0x021DBEA8",
+     "self:0x021DBEF0",
+     "self:0x021DE660"
+    ],
+    "sdk": [
+     "0x021D2A64"
+    ]
+   }
+  },
+  {
+   "name": "DWCi_MOV_WH_StepDS",
+   "address": "0x021D3904",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D3904.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DBF0C",
+     "self:0x021DBF3C",
+     "self:0x021DE660"
+    ]
+   }
+  },
+  {
+   "name": "DWCi_MOV_WH_Reset",
+   "address": "0x021D39A4",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D39A4.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x021D319C"
+    ]
+   }
+  },
+  {
+   "name": "DWCi_MOV_WH_Finalize",
+   "address": "0x021D39C0",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021D39C0.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DBF70",
+     "self:0x021DBF94",
+     "self:0x021DE660"
+    ],
+    "sdk": [
+     "0x021D2F8C",
+     "0x021D2FBC",
+     "0x021D308C",
+     "0x021D30D8"
+    ]
+   }
+  }
+ ]
+}
