@@ -2315,6 +2315,95 @@ def _map_attests(addr, lo, hi):
     return True
 
 
+# ---------------------------------------------------------------------------
+# documented ARM9 I/O registers (for `sole-ref/data`)
+# ---------------------------------------------------------------------------
+#
+# An I/O register is not an object any listing or map can witness: nothing
+# in the image starts there.  Its address is fixed by the hardware, so the
+# witness is the hardware documentation.  Source: GBATEK (Martin Korth,
+# problemkaputt.de/gbatek.htm), sections "DS I/O Map" (ARM9 column) and
+# "DSi I/O Map" / "DSi Control Registers (SCFG)" / "DSi New Shared WRAM" /
+# "DSi New DMA (NDMA)" / "DSi Cameras" / "DSi XpertTeak (DSP)".  The TwlSDK
+# drop under sdk/ carries no register headers (include/ holds 21 files, none
+# of them ioreg_*.h), so the list is curated from GBATEK, not read from the
+# SDK.  Keys are register START addresses, values their width in bytes;
+# rows below are only registers the ARM9 can address.  A sole-ref/data
+# address in 0x04xxxxxx is accepted only when it is a key here and the
+# declared type's alignment fits the width.
+
+def _io_run(base, width, count):
+    """`count` consecutive registers of `width` bytes starting at `base`."""
+    return {base + i * width: width for i in range(count)}
+
+
+# 2D engine registers, offsets from 0x04000000 (engine A) / 0x04001000 (B):
+# DISPCNT, DISPSTAT, VCOUNT, BG0..3CNT, BG0..3 H/VOFS, BG2/BG3 PA..PD, X, Y,
+# WIN0H..WINOUT, MOSAIC, BLDCNT, BLDALPHA, BLDY, MASTER_BRIGHT.  DISPSTAT and
+# VCOUNT exist only for engine A.
+_IO_2D = {0x00: 4, 0x08: 2, 0x0A: 2, 0x0C: 2, 0x0E: 2,
+          0x10: 2, 0x12: 2, 0x14: 2, 0x16: 2, 0x18: 2, 0x1A: 2, 0x1C: 2,
+          0x1E: 2,
+          0x20: 2, 0x22: 2, 0x24: 2, 0x26: 2, 0x28: 4, 0x2C: 4,
+          0x30: 2, 0x32: 2, 0x34: 2, 0x36: 2, 0x38: 4, 0x3C: 4,
+          0x40: 2, 0x42: 2, 0x44: 2, 0x46: 2, 0x48: 2, 0x4A: 2,
+          0x4C: 2, 0x50: 2, 0x52: 2, 0x54: 2, 0x6C: 2}
+
+
+def _io_regs_arm9():
+    r = {}
+    for base in (0x04000000, 0x04001000):
+        r.update({base + off: w for off, w in _IO_2D.items()})
+    r.update({0x04000004: 2, 0x04000006: 2})                 # DISPSTAT, VCOUNT
+    r.update({0x04000060: 2, 0x04000064: 4, 0x04000068: 4})  # 3DCNT, CAPCNT, MMEM FIFO
+    r.update(_io_run(0x040000B0, 4, 12))                     # DMA0..3 SAD/DAD/CNT
+    r.update(_io_run(0x040000E0, 4, 4))                      # DMA0..3 FILL
+    r.update(_io_run(0x04000100, 2, 8))                      # TM0..3 CNT_L/CNT_H
+    r.update({0x04000130: 2, 0x04000132: 2})                 # KEYINPUT, KEYCNT
+    r.update({0x04000180: 2, 0x04000184: 2, 0x04000188: 4})  # IPCSYNC, FIFOCNT, SEND
+    r.update({0x040001A0: 2, 0x040001A2: 2, 0x040001A4: 4})  # AUXSPICNT/DATA, ROMCTRL
+    r.update(_io_run(0x040001A8, 1, 8))                      # gamecard command
+    r.update({0x040001B0: 4, 0x040001B4: 4, 0x040001B8: 2, 0x040001BA: 2})
+    r.update({0x04000204: 2, 0x04000208: 4, 0x04000210: 4, 0x04000214: 4})
+    r.update(_io_run(0x04000240, 1, 10))                     # VRAMCNT_A..G, WRAMCNT, H, I
+    r.update({0x04000280: 2, 0x04000290: 8, 0x04000298: 8,
+              0x040002A0: 8, 0x040002A8: 8})                 # divider
+    r.update({0x040002B0: 2, 0x040002B4: 4, 0x040002B8: 8})  # square root
+    r.update({0x04000300: 1, 0x04000304: 2})                 # POSTFLG, POWCNT1
+    r[0x04000320] = 1                                        # RDLINES_COUNT
+    r.update(_io_run(0x04000330, 2, 8))                      # EDGE_COLOR
+    r[0x04000340] = 1                                        # ALPHA_TEST_REF
+    r.update({0x04000350: 4, 0x04000354: 2, 0x04000356: 2,
+              0x04000358: 4, 0x0400035C: 2})                 # CLEAR_*, FOG_*
+    r.update(_io_run(0x04000360, 1, 32))                     # FOG_TABLE
+    r.update(_io_run(0x04000380, 2, 32))                     # TOON_TABLE
+    r.update(_io_run(0x04000400, 4, 16))                     # GXFIFO
+    r.update(_io_run(0x04000440, 4, 13))                     # MTX_MODE..MTX_TRANS
+    r.update(_io_run(0x04000480, 4, 12))                     # COLOR..PLTT_BASE
+    r.update(_io_run(0x040004C0, 4, 5))                      # DIF_AMB..SHININESS
+    r.update({0x04000500: 4, 0x04000504: 4, 0x04000540: 4, 0x04000580: 4,
+              0x040005C0: 4, 0x040005C4: 4, 0x040005C8: 4})
+    r.update({0x04000600: 4, 0x04000604: 4, 0x04000610: 2})  # GXSTAT, RAM_COUNT, 1DOT
+    r.update(_io_run(0x04000620, 4, 4))                      # POS_RESULT
+    r.update(_io_run(0x04000630, 2, 3))                      # VEC_RESULT
+    r.update(_io_run(0x04000640, 4, 16))                     # CLIPMTX_RESULT
+    r.update(_io_run(0x04000680, 4, 9))                      # VECMTX_RESULT
+    r.update({0x04100000: 4, 0x04100010: 4})                 # IPCFIFORECV, card data
+    # DSi ARM9 additions
+    r.update({0x04004000: 1, 0x04004004: 2, 0x04004006: 2,
+              0x04004008: 4, 0x04004010: 2})                 # SCFG A9ROM/CLK/RST/EXT/MC
+    r.update(_io_run(0x04004040, 4, 9))                      # MBK1..MBK9
+    r[0x04004100] = 4                                        # NDMAGCNT
+    r.update(_io_run(0x04004104, 4, 28))                     # NDMA0..3, 7 words each
+    r.update({0x04004200: 2, 0x04004202: 2, 0x04004204: 4,
+              0x04004210: 4, 0x04004214: 4})                 # CAM_MCNT/CNT/DAT/SOFS/EOFS
+    r.update({0x04004300 + 4 * i: 2 for i in range(14)})    # DSP_PDATA..DSP_REP2
+    return r
+
+
+IO_REGS_ARM9 = _io_regs_arm9()
+
+
 def attest_sole_ref_data(addr, align=None, lo=0, hi=0):
     """The `sole-ref/data` sub-kind.  Returns (class, witnesses, site) or None.
 
@@ -2322,15 +2411,42 @@ def attest_sole_ref_data(addr, align=None, lo=0, hi=0):
     (a), (b) and (c) in the commentary above.  Condition (b) is satisfied
     either by the listings' own block structure (data_object_starts()) or by
     layout/data_objects.txt, and in the latter case only on evidence outside
-    `lo`..`hi`.
+    `lo`..`hi`.  Two ranges no loaded region covers have their own branch
+    (2026-09-27, replacing an unconditional pass added in 0b639465): I/O
+    space accepts only a documented register start (IO_REGS_ARM9), and main
+    RAM below the ARM9 image only an outside object start or a traced label.
     """
-    # (a) inside a data section, never code
-    if 0x04000000 <= addr < 0x05000000 or 0x02000000 <= addr < 0x02008000:
+    # I/O space: only the START of a documented ARM9 register (IO_REGS_ARM9);
+    # an interior byte, a gap or an undocumented address is refused.  The
+    # table gives the width, so with no declared alignment the register
+    # start is the whole condition; a declared alignment must divide the
+    # address and not exceed the register's width.
+    if 0x04000000 <= addr < 0x05000000:
+        width = IO_REGS_ARM9.get(addr)
+        if width is None:
+            return None
+        if align is not None and (align > width or addr % align):
+            return None
         return "sole-ref", 1, addr, "data"
+    # (a) inside a data section, never code
     region = _region_at(addr)
     in_bss = bool(bss_addresses_probe(addr))
     if region is None and not in_bss:
-        return None
+        # main RAM below the ARM9 image (0x02000000..the static module's
+        # load address) is in no loaded region, so the section test cannot
+        # run; only an outside object start (listing block structure, or a
+        # map row whose evidence lies outside lo..hi) or a traced label
+        # carries it.  Anything else, interior or unknown, is refused.
+        if not (0x02000000 <= addr < 0x02008000):
+            return None
+        if (addr not in data_object_starts()
+                and not _map_attests(addr, lo, hi)
+                and addr not in evidence().labels):
+            return None
+        a = SOLE_REF_DEFAULT_ALIGN if align is None else align
+        if a > 1 and (addr % a):
+            return None
+        return "sole-ref", 1, addr, "data"
     if not in_data_section(addr):
         return None
     # (b) the start of a known object, not its interior
@@ -6201,6 +6317,32 @@ def cmd_selftest(args):
                 "sub-kind (the dispatcher may still fall through to "
                 "sole-ref/string for the same address; see below)",
            cls(attest_sole_ref_data(SOLE_REF_MAP_OVERLAY, align=16)), None)
+
+    # --- sole-ref/data outside the loaded regions (2026-09-27) -------------
+    # I/O registers are witnessed by the hardware documentation
+    # (IO_REGS_ARM9, curated from GBATEK); the unloaded main RAM below the
+    # ARM9 image only by an outside object start.  Neither range is a
+    # blanket pass.
+    _check(res, "io: a documented DSi register start (CAM_CNT 0x04004202, "
+                "a2) is accepted",
+           cls(attest_sole_ref_data(0x04004202, align=2)), "sole-ref")
+    _check(res, "io: a documented DS register start with no declared "
+                "alignment (IME 0x04000208) is accepted",
+           cls(attest_sole_ref_data(0x04000208)), "sole-ref")
+    _check(res, "io: an undocumented 0x04 address is refused",
+           cls(attest_sole_ref_data(0x04000FF0)), None)
+    _check(res, "io: the interior of a 32-bit register (DISPCNT + 2) is "
+                "refused",
+           cls(attest_sole_ref_data(0x04000002, align=2)), None)
+    _check(res, "io: a declared alignment wider than the register "
+                "(0x04004202, a4) is refused",
+           cls(attest_sole_ref_data(0x04004202, align=4)), None)
+    _check(res, "low RAM: an address below the ARM9 image with no object "
+                "start or label is refused",
+           cls(attest_sole_ref_data(0x02000800)), None)
+    _check(res, "low RAM: an interior ARM9 rodata address under "
+                "0x02008000 is refused (no blanket low-area pass)",
+           cls(attest_sole_ref_data(SOLE_REF_MAP_BETWEEN, align=4)), None)
 
     # --- sole-ref/code for overlay labels (2026-09-23) ---------------------
     _check(res, "ov sole-ref/code: an overlay label whose only caller is "

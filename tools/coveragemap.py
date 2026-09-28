@@ -315,8 +315,7 @@ def render_arm9(a, anchors):
             fn["cls"] = "matched_sdk"
         if fn.get("cls") == "runtime" and fn.get("matched_name"):
             fn["cls"] = "matched_runtime"
-        elif fn.get("cls") == "open":
-            fn["cls"] = "matched"
+        # an `open` function stays open: the caption must equal worklist's
     units = json.load(open(os.path.join(ROOT, "layout", "units_arm9.json")))["units"]
     ub = [u["base"] for u in units]
     per = [[] for _ in units]
