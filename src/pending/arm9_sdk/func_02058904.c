@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
- * notes:    99 bytes: the object loads notAttestedId as two ldr and needs one fewer callee-saved register; every spelling tried gives ldm/stm and r7
+ * notes:    67 bytes: `tmp = (u64)info->notAttestedId` gives the two plain ldr/str (the uncast form gets ldm/stm, 99 bytes); residue is scheduling after the first MI_CpuCopy8 (the object computes tmp >> 5 before the Wifi[5] byte). A volatile read gives 59 but is not the shape. Tried 1.2 to 1.3p1: same. Permuter seed 13303 (1500): no gain
  *
  * sdk:      DWCi_BACKUPlConvWifiInfo (libdwcbm.TWL.HYB.a dwc_backup.o)
  *
@@ -45,7 +45,7 @@ u8 *func_02058904(DWCWiFiInfo *info)
 {
     u64 tmp;
 
-    tmp = info->notAttestedId;
+    tmp = (u64)info->notAttestedId;
     MI_CpuCopy8(&info->attestedUserId, &Wifi[0], 5);
     Address.Wifi[5] = (u8)(((info->attestedUserId >> 40) & 7) | ((tmp & 0x1F) << 3));
     tmp >>= 5;

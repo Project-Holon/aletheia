@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
- * notes:    189 bytes: the LCG state is a u32 register (r4) separate from the s64 seed in the object; this draft carries it through seed and schedules the pass/vend block differently
+ * notes:    189 bytes: the LCG state is a u32 register (r4) separate from the s64 seed in the object; this draft carries it through seed and schedules the pass/vend block differently. sdk9w2_dwc: the constants 0x5D588B65/0x269EC3 look like an inlined MATHRandContext16 {x, mul, add} (mul in r6, add in r7, loaded once before the first step and reused by the loop); spelling it as a local context with MATH_InitRand16/MATH_Rand16 inlines still gives 189 because mwcc propagates the constant fields
  *
  * sdk:      DWCi_AUTH_RemakeWiFiID (libdwcbm.TWL.HYB.a util_wifiidtool.o)
  *

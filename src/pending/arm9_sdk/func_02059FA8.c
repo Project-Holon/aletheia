@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
- * notes:    15 bytes: the two inlined host-name block copies load dst/src into r4/r3 swapped (and their literal-pool order follows); strcpy, memcpy, struct and loop spellings all tried; StatsServerHostname (0x021A5850) also has no outside witness
+ * notes:    15 bytes: the two inlined host-name block copies load dst/src into r4/r3 swapped (and their literal-pool order follows); strcpy, memcpy, struct and loop spellings all tried; StatsServerHostname (0x021A5850) also has no outside witness. sdk9w2_dwc also tried: string-literal struct casts, local struct initialisers, compound literals, inline copy helpers with either parameter order, switch forms, strcpy with restrict prototypes, __builtin_strcpy/__builtin_memcpy, and dsi/1.1 to 1.6sp2: all keep src-first (12 to 15 bytes); permuter seed 13302 no gain
  *
  * sdk:      DWCi_Init (libdwccommon.TWL.HYB.a dwc_init.o)
  *
