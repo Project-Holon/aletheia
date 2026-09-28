@@ -53,3 +53,17 @@ seeds (unlabelled starts with a witness site), anything the integrator must do.
   stale label whose first word decodes as a push). Check before descending.
 - tools/sdkobj.py exists: for any SDK callee it prints the vendor object with named
   relocations and DWARF prototypes, which gives exact callee arity and widths.
+
+## Addendum 2 (2026-09-28): new source layout and scope
+
+- The source tree is now partitioned by region and kind (docs/source-tree-rework.md):
+  `src/matched/{arm9,arm9_sdk,itcm_sdk,ov,ov_sdk,twl,twl_sdk}` and the same under
+  `src/pending/`. Overlay game files go in `ov/`, overlay SDK files in `ov_sdk/`. The folder
+  is the classification: `python tools/sdkclass.py --where 0xADDR ovNNN` tells you which
+  one an address belongs to. Follow docs/LANES.md for the exact paths.
+- A separate session owns the ARM9 SDK (`arm9_sdk/`). Lanes of this session work
+  overlays and overlay SDK only; do not write under arm9_sdk, and do not match ARM9 SDK
+  rows even when they are callees (they attest through the `sdk` class).
+- Uncommitted leftovers from a lane cut by the session limit may already be in the tree
+  under the new folders: check `git status` for your territory first and salvage per
+  docs/sessions/2026-09-27/relaunch_note.md.
