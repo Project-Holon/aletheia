@@ -9,7 +9,7 @@
   {
    "name": "DWCi_Language",
    "address": "0x020461E4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/DWCi_Language.c",
    "compiler": "dsi/1.1p1",

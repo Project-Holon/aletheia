@@ -5899,6 +5899,13 @@ def cmd_manifest(args):
         valid_entries = [e for e in v if e is not None and (not args.verify or e.get("status") in MATCHED_STATUS)]
         if valid_entries:
             clean_shards[k] = valid_entries
+        elif args.verify and v:
+            # every entry failed verification: the shard on disk would keep claiming
+            # them, so remove it rather than leave stale matched entries counted
+            stale = shard_path(*k)
+            if os.path.exists(stale):
+                os.remove(stale)
+                print("removed %s: no entry verifies" % os.path.relpath(stale, ROOT))
     written = write_shards(clean_shards, only=only)
 
     total = sum(len(v) for k, v in by_shard.items()

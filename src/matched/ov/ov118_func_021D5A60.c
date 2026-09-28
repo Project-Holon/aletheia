@@ -18,7 +18,7 @@
  *   func_021E5284  0x021E5284  thumb
  *   func_021E3208  0x021E3208  thumb
  *   func_021D8FA4  0x021D8FA4  thumb
- *   func_021E36C8  0x021E36C8  thumb
+ *   func_021E36C8  0x021E36C8  thumb  ov119
  *   func_02015EA0  0x02015EA0  thumb
  *   func_021E2F34  0x021E2F34  thumb
  *   func_021E2D70  0x021E2D70  thumb

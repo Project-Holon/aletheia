@@ -23,9 +23,6 @@
      "self:0x020A1308",
      "self:0x020A1328",
      "self:0x020A1E38"
-    ],
-    "sdk": [
-     "0x020307C8"
     ]
    }
   },
@@ -39,12 +36,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sdk": [
-     "0x0206DB24"
-    ]
-   }
+   "status": "EXACT"
   }
  ]
 }

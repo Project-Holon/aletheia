@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   MATCH
  *
  * Blocker: site +002C (func_020351F8, arm) has no witness outside the
  * compared range and is not in layout/symbols_sdk.json; every other byte is

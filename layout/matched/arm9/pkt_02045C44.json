@@ -84,7 +84,7 @@
   {
    "name": "sub_020461D4",
    "address": "0x020461D4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/sub_020461D4.c",
    "compiler": "dsi/1.1p1",

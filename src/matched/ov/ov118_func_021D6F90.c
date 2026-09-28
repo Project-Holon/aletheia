@@ -19,7 +19,7 @@
  *   func_021D8AA8  0x021D8AA8  thumb ov119
  *   func_021D8FA4  0x021D8FA4  thumb
  *   func_021E35A0  0x021E35A0  thumb ov119
- *   func_021E36C8  0x021E36C8  thumb
+ *   func_021E36C8  0x021E36C8  thumb  ov119
  *   func_02015C94  0x02015C94  thumb
  *   func_02015EA0  0x02015EA0  thumb
  *   func_021E2F34  0x021E2F34  thumb

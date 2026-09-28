@@ -19,15 +19,13 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
+     "code:0x021B6278",
      "code:0x021B67A4",
      "code:0x021B6BCC",
      "code:0x021B6CC0",
      "code:0x021B7128",
      "code:0x021B7A00",
      "code:0x021B7C44"
-    ],
-    "sdk": [
-     "0x021B6278"
     ]
    }
   }

@@ -9,7 +9,7 @@
   {
    "name": "MI_SetWramBank",
    "address": "0x020821B0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_020821B0.c",
    "compiler": "dsi/1.1p1",
