@@ -25,3 +25,12 @@ Tells for the next attempt: the alloc tags are __LINE__ values 595, 670,
 708, 755 (so sections 2, 3, 4 are distinct source, not one helper), and
 each section materialises its slot index (`movs r0, #N; lsls rX, r0, #2`),
 which in this codebase is an enum-typed or inline-parameter index.
+
+2026-09-28, tree_ov010_3 (fresh draft):
+- every section in its own block with block-scope side/party/mon/i/t,
+  ctx and kind initialised at declaration, section 3 as `rec++` in place
+  of a second pointer ................................................ 336
+  (816 bytes). Same root cause as every earlier spelling: this C keeps
+  ctx in r5 and spills rec, the image spills ctx (sp+0x20), bs and kind
+  and keeps rec in r7 for the whole function. The filed draft (325) was
+  restored.

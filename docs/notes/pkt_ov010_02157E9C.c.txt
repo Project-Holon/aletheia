@@ -24,3 +24,6 @@ Measured:
 
 The same function exists in ov121 (src/pending/func_021DEFAC.c, DIFF); a
 lever found for one should be tried on the other.
+
+2026-09-28, tree_ov010_3: not re-drafted (the lane's time went to the
+open roots); the residue above is unchanged at 10 instructions.

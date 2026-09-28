@@ -1,0 +1,20 @@
+func_02157174 (ov010, Thumb, 232 bytes), tree_ov010_3, 2026-09-28
+
+Best source: src/pending/ov010_func_02157174.c (DIFF, size right, 19
+instructions out, all one register swap; see the file header for the
+tree_ov010_2 measurements: 720 declaration orders, row pointer local,
+permuter seed 7203).
+
+Image allocation: the byte counter of loop 1's outer loop, loop 2's inner
+loop, loop 3 and loop 4's inner loop is r4 in every loop; the hoisted row
+base cnt[k] is r5 (loop 2) and r3 (loop 4, member pointer r2). This C gives
+the counter r5/r3 and the row base r4/r2.
+
+Measured 2026-09-28 (fresh draft):
+- distinct counters (i/j for the clear, k outer + i inner after) ... 19
+- t as int with a (u8) cast, call inline in the subscript,
+  `+= 1` for the two increments, k declared first ................... 19
+- member pointer re-read as party->members[k] in loop 2 ............. 89
+- cnt transposed ([i][j] clear, [t][k] count) ....................... 112
+The r6 zero of loop 1 doubling as loop 2's k = 0 is reproduced by every
+spelling, so it is not the lever.

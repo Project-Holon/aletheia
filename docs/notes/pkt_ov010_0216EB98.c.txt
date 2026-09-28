@@ -1,0 +1,22 @@
+func_0216EB98 (ov010, Thumb, 612 bytes), tree_ov010_3, 2026-09-28
+
+Best source: src/pending/ov010_func_0216EB98.c (DIFF, 608 bytes compiled).
+The whole body lines up; the residue is one allocation choice at entry:
+
+  image:  bl func_0201210C; ldr r1, [r4]; adds r2, r0, #0; ... cmp r1, #0xb
+          state 2 and state 10: adds r1, r2, #0 before the call
+  this C: bl func_0201210C; adds r1, r0, #0; ldr r0, [r4]; ... cmp r0, #0xb
+          (proc already in r1 at both uses, so two 2-byte moves vanish)
+
+Measured (size stays 608, the two moves never appear):
+- declaration order: proc first, sum first, all four split into
+  declarations then assignments (two orders) ............... flat
+- proc as u32 with casts at both uses .......................... flat
+- state as int *, and switch on a u32 local copy ................ flat
+- state-10 call through a named local ........................... flat
+- permuter seed 8701, budget 400 (temps on *state, w->f18, block
+  wrappers): best still 608 bytes, no gain
+
+Sibling: func_0216B004 (same proc-main shape, filed MATCH) loads the state
+into r1 too, but there the call result is live across calls and takes r6,
+so it gives no lever for the scratch-register case here.

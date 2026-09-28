@@ -1,0 +1,90 @@
+/*
+ * function: func_02156AD4
+ * address:  0x02156AD4
+ * packet:   pkt_ov010_02156AD4
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   MATCH*
+ *
+ * Twin of func_02156A3C for the second word-set field: the local player's
+ * record at +0x18, the session's record for a remote member (0x021FCE44),
+ * or failing both the fallback string from message bank 0x4D.
+ *
+ * Byte-correct (first draft). Blocker: 0x021FCE44 (ov132) has no func_ label.
+ *
+ * symbols:
+ *   func_021568E8  0x021568E8  thumb  ov010
+ *   func_021568A8  0x021568A8  thumb  ov010
+ *   func_02157384  0x02157384  thumb  ov010
+ *   func_021FCE44  0x021FCE44  thumb  ov132
+ *   func_02012944  0x02012944  thumb
+ *   func_0201EEF4  0x0201EEF4  thumb
+ *   func_0201EF14  0x0201EF14  thumb
+ *   func_0201EE0C  0x0201EE0C  thumb
+ *   func_02045B38  0x02045B38  arm
+ *   func_02045EC0  0x02045EC0  arm
+ *   func_02045808  0x02045808  arm
+ *   func_02045C04  0x02045C04  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct Work {
+    u8 pad00[4];
+    void *f04;          /* 0x04 */
+    u8 pad08[0x14 - 0x08];
+    u32 f14;            /* 0x14 */
+    u32 f18;            /* 0x18 */
+    u8 pad1C[0x28 - 0x1C];
+    void *f28;          /* 0x28 */
+    u8 pad2C[0x38 - 0x2C];
+    void *f38;          /* 0x38 */
+    u8 pad3C[0x4C - 0x3C];
+    u8 f4c;             /* 0x4C */
+} Work;
+
+extern u8 func_021568E8(Work *w, u8 j);
+extern u8 func_021568A8(Work *w, u8 n);
+extern u8 func_02157384(void *t, int i);
+extern void *func_021FCE44(void *sess, u32 i);
+extern void *func_02012944(void *p);
+extern void func_0201EEF4(void *ws, u32 i, u32 mon);
+extern void func_0201EF14(void *ws, u32 i, void *mon);
+extern void func_0201EE0C(void *win, u32 slot, void *str, u32 a, u32 b, u32 c);
+extern void *func_02045B38(u32 resident, u32 arc, u32 file, u32 heap);
+extern void *func_02045EC0(void *bank, u32 index);
+extern void func_02045808(void *str);
+extern void func_02045C04(void *bank);
+
+void func_02156AD4(Work *w, u8 j, void *ws, u32 slot)
+{
+    int done = 0;
+    u8 k = func_021568E8(w, j);
+    void *p;
+
+    if (j == w->f4c) {
+        func_02012944(w->f04);
+        func_0201EEF4(ws, slot, w->f18);
+        done = 1;
+    } else if (w->f14 == 1) {
+        p = func_021FCE44(w->f28, k);
+        if (p != 0) {
+            func_0201EF14(ws, slot, p);
+            done = 1;
+        }
+    }
+    if (!done) {
+        u8 n = func_02157384(w->f38, func_021568A8(w, k));
+        void *bank = func_02045B38(0, 2, 0x4D, 4);
+        void *str = func_02045EC0(bank, n);
+
+        func_0201EE0C(ws, slot, str, 0, 1, 2);
+        func_02045808(str);
+        func_02045C04(bank);
+    }
+}
