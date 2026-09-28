@@ -7,18 +7,18 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT*
  *
  * Clear a string buffer and copy the 11-character text at +0x34 into it;
  * the type switch that follows has no effect left in it.
  *
- * DIFF, size-exact (98 of 98 bytes; 2026-09-28 tree_ov010_4): the arms
- * must `return` for the switch to survive, and `if (type == 47)` in the
- * default gives the lone `cmp #0x2f`. Left: the image dispatches as a
- * switch-tree node (`cmp r1, #0x26; bgt cmp47; subs #0x10; bmi exit`, value
- * kept in r1), this C as one range check (`subs; cmp #0x16; bhi`). Writing
- * case 47 as a case widens the table to 0x10..0x2F. Notes:
- * docs/notes/pkt_ov010_02165ECC.c.txt.
+ * The image dispatches as a two-node switch tree (`cmp #0x26; bgt` to the
+ * lone `cmp #0x2f`, then `subs #0x10; bmi` into a 0x10..0x26 table). 1.1p1
+ * builds that tree only when the 16..38 cluster holds 10 or 11 case labels
+ * (9 or fewer: compare chain; 12 or more: one 0x10..0x2F table). The table
+ * holes and the listed cases all reach the same exit, so WHICH ten labels
+ * the source had is not recoverable from the bytes; 16..24 and 38 are a
+ * stand-in, only the endpoints are pinned (2026-09-28 tree_ov010_4).
  *
  * symbols:
  *   func_0204581C  0x0204581C  arm
@@ -55,23 +55,8 @@ void func_02165ECC(Rec *r, void *buf)
     case 22:
     case 23:
     case 24:
-    case 25:
-    case 26:
-    case 27:
-    case 28:
-    case 29:
-    case 30:
-    case 31:
-    case 32:
-    case 33:
-    case 34:
-    case 35:
-    case 36:
-    case 37:
     case 38:
+    case 47:
         return;
-    default:
-        if (r->type == 47)
-            return;
     }
 }

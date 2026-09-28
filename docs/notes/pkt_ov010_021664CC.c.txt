@@ -1,0 +1,11 @@
+=== 2026-09-28 tree_ov010_4 ===
+func_021664CC, 260 bytes. Filed source is size-exact, 10 bytes out, all in the
+second allocation of the partner path: image `movs r4, #0x77; lsls r4, #2;
+str r4, [sp]; ldr r0, [sp, #4]; ldr r3, =file; movs r1, #0x54; movs r2, #1; blx`,
+1.1p1 puts `str r4, [sp]` after `movs r2, #1`. r4 is kept because *start = 530
+is formed as 0x1DC + 0x36.
+Settled: bitfields at +0x50 from the pool (0xFFFFFC3F, 0xFFFFC3FF, 0xFFFC3FFF,
+0xFF03FFFF): count:6, st849:4, st848:4, kind:4 (= 4), page:6, rest:8.
+Flat at 10: *start stored before the copy (24), the partner path as
+`if (link != 0) {...} return 0;` (43), the ov011 result in a local (10), u16
+heap (does not build as tried). Permuter seed 9602, anneal, budget 400: best 10.

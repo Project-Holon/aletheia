@@ -7,15 +7,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
  *
  * Build a battle-facility Pokemon from its a/2/1/4 record (the reader is
- * func_02168800). Size-exact, 12 bytes out: the EV spread loop keeps i
- * and the u8 share in r6/r5 where the image uses r1/r2 (a second loop
- * variable, a ternary clamp, decl order and permuter seed 9602 are flat).
- * Levers that got here: the pid store in both arms of an if/else, and
- * the ability as a nested if storing in all three arms.
- * The ABS32 to d_02172084 (the item table) has no outside witness.
+ * func_02168800). Levers: the pid store in both arms of an if/else, the
+ * ability as a nested if storing in all three arms, and (2026-09-28
+ * tree_ov010_4) the EV share as an int local computed straight from the
+ * division with the count n reused as the second loop's counter.
  *
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
@@ -80,7 +78,7 @@ u32 func_021684E8(BattleMon *out, u32 member, u32 otId, u32 pid, u8 iv, u8 itemI
     int i;
     int n;
     u8 friendship;
-    u8 ev;
+    int ev;
     u32 ability;
     void *bank;
 
@@ -117,13 +115,12 @@ u32 func_021684E8(BattleMon *out, u32 member, u32 otId, u32 pid, u8 iv, u8 itemI
         if (rec.evMask & (1 << i))
             n++;
     }
-    n = 510 / n;
-    if (n > 255)
-        n = 255;
-    ev = n;
-    for (i = 0; i < 6; i++) {
-        if (rec.evMask & (1 << i))
-            out->ev[i] = ev;
+    ev = 510 / n;
+    if (ev > 255)
+        ev = 255;
+    for (n = 0; n < 6; n++) {
+        if (rec.evMask & (1 << n))
+            out->ev[n] = ev;
     }
     out->ppUps = 0;
     out->lang = 0;

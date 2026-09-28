@@ -6,3 +6,9 @@ or Party, `*(members + idx)`, int idx, int tie, a u16 `cur` local for the score.
 Worse: m assigned before the counters (17), a u16 *score pointer (57), int max (35).
 Other compilers on the filed source: ../2.0/sp2 8 out, ../1.2/sp2 and ../1.2/base 33.
 Earlier lanes: declaration order (120 permutations), init order, permuter seed 8701 flat.
+=== 2026-09-28 tree_ov010_4 (relaunch) ===
+Still 2 bytes (w->party in r3, image r6). Flat at 2: do/while loop, a Party *p
+local, `m = (Member *)w->party; m = ((Party *)m)->members[idx]` (one variable
+reused). Worse: `((Member **)w->party)[idx + 1]` (9), ternary return (8), the
+score read inline through w->party each time (62), p and m assigned before the
+counters (17).

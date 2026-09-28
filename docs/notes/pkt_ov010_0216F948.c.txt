@@ -1,0 +1,24 @@
+=== 2026-09-28 tree_ov010_4 ===
+func_0216F948 (waza_oshie.c, relearnable move list), 344 bytes incl. pool.
+Settled by the bytes: species u16 at sp+0x10, form u8 at sp+0xC, level u8 at
+sp+8, tbl at sp+0x14 (declare tbl, species, form, level in that order), `n = 0`
+AFTER the four-move loop (gives j=r4, n=r6 and the image's prologue exactly),
+i in ip, out in r7, the terminator test as the pointer inline with the `end`
+accumulator (func_02018328's), u16 moves[4] at sp+0x38.
+Open: the image frame is 0x40 with eight 4-byte entry copies:
+  0x18 cur = tbl[i]; 0x34 t (terminator); 0x30 e (level, a dead store: the
+  compare uses the register loaded from cur); 0x1C a, stored once, reloaded,
+  and 0x2C b stored from those registers INSIDE the 4-move loop (loop head is
+  the b store), read b.move each iteration; 0x20 c after the `n != 0` guard,
+  0x28 d = c inside the list loop the same way; 0x24 f for out[n] = f.move.
+Grid (w4 base, 64 cells): {explicit a/b in loop, inline Known(struct) with
+b = a, explicit a + Learn_Move(a), inline Known + Learn_Move} x the same four
+for the list chain x {explicit e, Learn_Level(cur)} x {explicit f,
+Learn_Move(cur)}. Every cell folds the a->b (and c->d) chain into one copy;
+frames 0x28..0x38, best 151 bytes out (explicit a/b, inline ListedM, explicit
+e, Learn_Move(cur)), filed. The natural all-explicit form is 170 (frame 0x38).
+Idea not tried: an inline returning the struct by value (a hidden return slot
+could be the extra copy per pair).
+Tried after: an identity inline returning the struct (`Learn_Copy(a).move` in
+each loop, explicit first copy): 144 out, frame 0x38, now filed; applied to one
+chain only 167/172; `cur = Learn_At(tbl, i)` returning tbl[i]: 170.
