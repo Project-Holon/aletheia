@@ -1,0 +1,26 @@
+func_02157E9C (ov010, Thumb, 1148 bytes), tree_ov010_2, 2026-09-28
+
+Best source: src/pending/ov010_func_02157E9C.c (DIFF, size right, 54 of 54
+relocations resolved, 10 instructions out). The residue is the argument
+setup of the first and third func_020186C8 calls:
+
+  image  (pidType 0): ldr r1,[sp,#0x20]; str r0,[sp]; movs r0,#0; lsls r1;
+                      ldrb r2,[r4,#0x1c]; str r0,[sp,#0x28]; str r0,[sp,#4]
+  this C (pidType 0): str r0,[sp]; movs r0,#0; ldr r1,[sp,#0x20];
+                      str r0,[sp,#4]; str r0,[sp,#0x28]; lsls r1; ldrb r2
+  image  (pidType 2): ldr r1; ldrb r2; str r0,[sp,#4]; lsls r1
+  this C (pidType 2): ldr r1; str r0,[sp,#4]; lsls r1; ldrb r2
+
+Measured:
+- 288-shape grid (species u32/int/u16 x species arg plain/(u16) x callee
+  a1 u16/int/u32 x form arg plain/(int) x slot u32/int x gender u32/int x
+  if-chain/switch on pidType): flat at 10 or 11, never lower.
+- pid as two u32 locals (the ov121 func_021DEFAC spelling, hi written
+  before the call in pidType 0 and after in 1 and 2): 431 at every one of
+  the 46 declaration positions (level leaves its stack slot for r7).
+- pid as u32[2]: 432. Half writes through ((u32 *)&pid)[k]: 52 (pid moves
+  to sp+0x34).
+- permuter seed 7201, budget 400, focus 0x17E: no gain.
+
+The same function exists in ov121 (src/pending/func_021DEFAC.c, DIFF); a
+lever found for one should be tried on the other.

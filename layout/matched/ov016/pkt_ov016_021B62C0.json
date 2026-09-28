@@ -27,6 +27,46 @@
    }
   },
   {
+   "name": "AOSS_Init_old",
+   "address": "0x021B62C0",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021B62C0.c",
+   "compiler": "dsi/../2.0/sp1p2",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021D77C4",
+     "self:0x021DAAB4",
+     "self:0x021DC040",
+     "self:0x021DC044",
+     "self:0x021DC060"
+    ],
+    "sdk": [
+     "0x021B6CD8",
+     "0x021B6D1C",
+     "0x021B6D8C",
+     "0x021B6FA8",
+     "0x021B7024",
+     "0x021B7068",
+     "0x021B70C4",
+     "0x021B797C",
+     "0x021B8194",
+     "0x021B81EC",
+     "0x021B824C",
+     "0x021B8260",
+     "0x021B82E4",
+     "0x021B830C",
+     "0x021B834C",
+     "0x021B8678",
+     "0x021B87F0"
+    ]
+   }
+  },
+  {
    "name": "aoss_IP_sta",
    "address": "0x021B6CD8",
    "kind": "game",
@@ -872,6 +912,23 @@
     ],
     "sdk": [
      "0x021B82E4"
+    ]
+   }
+  },
+  {
+   "name": "AOSS_Disconnect",
+   "address": "0x021B81EC",
+   "kind": "game",
+   "region": "ov016",
+   "source": "src/matched/ov016_func_021B81EC.c",
+   "compiler": "dsi/../2.0/sp1p2",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT*",
+   "evidence": {
+    "sdk": [
+     "0x021B8640"
     ]
    }
   },

@@ -143,3 +143,10 @@ void MTX_Concat44(const MtxFx44 *a, const MtxFx44 *b, MtxFx44 *ab)
         MI_Copy64B(&tmp, ab);
     }
 }
+
+2026-09-28, lane sdk_arm9_3: CLOSED, EXACT (src/matched/MTX_Concat44.c).
+The copy-back is `*ab = tmp;` as in the vendor source
+(sdk/TwlSDK/build/libraries/fx/common/src/fx_mtx44.c), not an MI_Copy64B
+inline asm. The compiler's struct copy produces the ldm!/stm! pairs with
+spilled pointers, and its register pressure causes the early b spills and
+the 0x74 frame. The vendor body verbatim is EXACT at 956 B.

@@ -1,0 +1,115 @@
+/*
+ * function: AstsRestartReq
+ * address:  0x021B7BF0
+ * packet:   pkt_ov016_021B62C0
+ * region:   ov016
+ * compiler: ../2.0/sp1p2
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   aoss_bss         0x021DC040  data
+ *   aoss_str_10375   0x021DAB20  data
+ *   AOSS_Memset      0x021B8240  thumb
+ *   AOSS_Memcpy      0x021B8230  thumb
+ *   AOSS_Strlen      0x021B8364  thumb
+ *   CryptSeqNo       0x021B8068  thumb
+ *   SetPacketHeader  0x021B7D3C  thumb
+ *   SendPacketUDP    0x021B7D94  thumb
+ *
+ * SDK: TwlDWC libdwcutil.TWL.HYB.a(aoss.o), symbol AstsRestartReq (name from the vendor object).
+ * aoss.o was built by Metrowerks C/C++ for ARM 3.0.0.126 (its .comment), which is
+ * the 2.0/sp1p2 front end; see aoss_release (ov016_func_021B6CF0.c) for the byte tell.
+ *
+ * aoss_str_10375 is the object's anonymous .data string literal @10375 (6 bytes), the
+ * sequence-number key. DWARF leaves out the unused first parameter (SEND_INFO *send_info),
+ * which SendMessage passes in r0.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/ov016_func_021B7BF0.c \
+ *       --func AstsRestartReq --addr 0x021B7BF0 --region ov016 --cc ../2.0/sp1p2 --thumb
+ */
+/*
+ * aoss.o's main .bss section (3424 bytes at 0x021DC040). The vendor object
+ * addresses these statics section-relative (one pool word for the section
+ * base plus a field offset), so they are declared here as one object laid
+ * out in the object's own order; member names are the vendor statics.
+ */
+typedef struct {
+    unsigned char *p_name;
+    unsigned int   p_name_len;
+    unsigned int   sLevel;
+    unsigned int   aLevel;
+    unsigned int   apAddr;
+    unsigned int   apMask;
+    char           ip_chg;
+    char           p_type;
+} _AOSS_INFO;
+
+typedef struct {
+    unsigned long x;
+    unsigned long mul;
+    unsigned long add;
+} MATHRandContext16;
+
+typedef struct {
+    int            SecurityType;    /* +0x000 */
+    void          *bssList;         /* +0x004 */
+    int            initflg;         /* +0x008 */
+    void          *linkInfo;        /* +0x00C */
+    unsigned int   gError;          /* +0x010 */
+    void          *s_buf;           /* +0x014 */
+    MATHRandContext16 randContext;  /* +0x018 */
+    _AOSS_INFO     gData;           /* +0x024 */
+    unsigned char  ProductInfo[0x280];   /* +0x040 PRODUCT_INFO_AOSS */
+    unsigned long  crc_table[256];       /* +0x2C0 */
+    unsigned char  SecurityInfo[0x6A0];  /* +0x6C0 ASTS_DATA_INFO[2] */
+} AOSS_BSS;
+
+extern AOSS_BSS aoss_bss;
+
+typedef struct {
+    char SendSeqID[8];
+} SEQID_INFO;
+
+typedef struct {
+    unsigned short PktVersion;
+    unsigned short PktID;
+    unsigned short PktSubID;
+    unsigned short cmd;
+    unsigned short type;
+    unsigned short size;
+    unsigned short CryptType;
+    unsigned char  crc8;
+    unsigned char  Fragment;
+    unsigned char  SeqID[8];
+} tagASTSpktHeader;
+
+struct UdpIpMsg {
+    unsigned char udpipmsg[1500];
+};
+
+extern char aoss_str_10375[];
+extern void *AOSS_Memset(void *s, int c, int n);
+extern void *AOSS_Memcpy(void *dest, void *src, int n);
+extern int AOSS_Strlen(char *s);
+extern int CryptSeqNo(unsigned char *Data, int Datalen, char *KeyData, int Keylen);
+extern void SetPacketHeader(tagASTSpktHeader *Hdr, short cmd, short size, short CryptType,
+                            char crc8, char Fragment, unsigned char *SeqID);
+extern int SendPacketUDP(unsigned char *packet, int size, unsigned char Mac, int port);
+
+int AstsRestartReq(void *send_info, SEQID_INFO *pSeqID, int sFd)
+{
+    struct UdpIpMsg *send_msg;
+    unsigned char wrkSeqID[8];
+
+    send_msg = aoss_bss.s_buf;
+    AOSS_Memset(send_msg, 0, sizeof(struct UdpIpMsg));
+    AOSS_Memcpy(wrkSeqID, pSeqID[2].SendSeqID, 8);
+    CryptSeqNo(wrkSeqID, 8, aoss_str_10375, AOSS_Strlen(aoss_str_10375));
+    SetPacketHeader((tagASTSpktHeader *)send_msg, 0x3000, 0, 0, 0, 0x11, wrkSeqID);
+    SendPacketUDP(send_msg->udpipmsg, 0x18, 0, sFd);
+    return 0;
+}

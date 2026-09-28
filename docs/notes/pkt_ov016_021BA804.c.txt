@@ -1,0 +1,188 @@
+=== 2026-09-28 sdk_overlays_3: SetFrameData 0x021B9FE0 (atermset.o), DIFF, 186 of 194 bytes ===
+
+The original keeps a copy of lpframe live in r4 across the keywrap_encrypt/memcpy calls
+(adds r4,r6,#0 just before the lpkey test) and derives psum from it at the end
+(adds r0,r4,#6; adds r4,r0,r7), which pushes id to a stack slot (sub sp,#8; str r1,[sp,#4]).
+Our build coalesces pfh with lpframe, keeps id in r7 and needs no frame. Tried: psum = lpframe
+first then advanced, an early lpb = lpframe, psum from pfh / pfh + 1, lpb = pfh + 1 before the
+if (192 bytes, 66 lines out, closest). Open lead: whatever makes the copy survive copy
+propagation.
+
+int SetFrameData(unsigned char *lpframe, int id, unsigned char *pbody, int size, unsigned char *lpkey)
+{
+    FRAMEHEADER *pfh;
+    ELEMENTHEADER *peh;
+    unsigned char *lpb;
+    unsigned char *lps;
+    unsigned short *psum;
+    unsigned long dwsum;
+
+    dwsum = 0;
+    peh = (ELEMENTHEADER *)pbody;
+    pbody[0] = 0;
+    pbody[1] = 0;
+    pbody[2] = 0;
+    pbody[3] = 0;
+    pbody[4] = 0;
+    pbody[5] = 0;
+    pbody[6] = 0;
+    pbody[7] = 0;
+    peh->FullLength = SWAP16((unsigned short)(size - 8));
+    pfh = (FRAMEHEADER *)lpframe;
+    if (lpkey != 0) {
+        keywrap_encrypt((char *)(lpframe + sizeof(FRAMEHEADER)), (char *)pbody, size, (char *)lpkey, 16);
+        size += 8;
+    } else {
+        memcpy(lpframe + sizeof(FRAMEHEADER), pbody, size);
+    }
+    lpframe[0] = 0;
+    lpframe[1] = 0;
+    lpframe[2] = 0;
+    lpframe[3] = 0;
+    lpframe[4] = 0;
+    lpframe[5] = 0;
+    pfh->FrameID = SWAP16((unsigned short)id);
+    pfh->DataLength = SWAP16((unsigned short)size);
+    lpb = (unsigned char *)(pfh + 1);
+    psum = (unsigned short *)(lpb + size);
+    for (lps = lpframe; lps < (unsigned char *)psum; lps++)
+        dwsum += *lps;
+    *psum = SWAP16((unsigned short)dwsum);
+    return (unsigned char *)(psum + 1) - lpframe;
+}
+
+=== 2026-09-28 sdk_overlays_3: InitAtermApcNetwork 0x021B97A8 (atermset.o), DIFF, 160 of 164 bytes ===
+
+Everything but the work-size arithmetic lines up. The original computes maxap*0xD0 once into
+r7 (movs r0,#0xd0; muls) and reuses it for the alloc size (+0x24D0, then + maxap*0xC0) and for
+APC_Init's work_size (+0x2490), and rounds with ands against -32 built from the 31 in r1
+(subs r0,#0x3f), not bics #0x1f. Best: APC_WORK_SIZE(n) as ((int)((n) * 0xD0U + 0x2490)) and
+BSSDESC_SIZE 0xC0U, 31 lines out. Signed constants strength-reduce the multiply to shifts
+(73 out).
+
+int InitAtermApcNetwork(int maxap)
+{
+    int loop_flag;
+    int retv;
+
+    loop_flag = 1;
+    atermset_bss.gMaxApList = maxap;
+    AtermApc_InitEventBuf();
+    atermset_bss.atermapc_work = atermset_bss.gAtermAlloc(APC_WORK_SIZE(maxap) + 0x40 + maxap * BSSDESC_SIZE);
+    if (atermset_bss.atermapc_work == 0)
+        return -1;
+    atermset_bss.apc_work = (unsigned char *)(((unsigned long)atermset_bss.atermapc_work + 31) & ~31);
+    atermset_bss.ap_list = (struct WMBssDesc *)(((unsigned long)atermset_bss.apc_work + APC_WORK_SIZE(maxap) + 31) & ~31);
+    if (APC_Init((void (*)(int, void *))AtermApc_callback, atermset_bss.apc_work, APC_WORK_SIZE(maxap)) == 0)
+        return -2;
+    while (loop_flag) {
+        int event;
+
+        OS_Sleep(10);
+        while ((event = AtermApc_GetEvent()) != 0) {
+            switch (event) {
+            case 4:
+            case 5:
+                break;
+            case 6:
+                loop_flag = 0;
+                retv = 1;
+                break;
+            default:
+                loop_flag = 0;
+                retv = -2;
+                break;
+            }
+        }
+    }
+    return retv;
+}
+
+=== 2026-09-28 sdk_overlays_3: ATERMi_ApConfigStart 0x021BC63C (atermset.o), DIFF, 232 bytes ===
+
+Blocker: the original clears gAtermApConfigParam (232 bytes) inline with four zero registers
+and a 7-count stm r5!,{r0-r3} x2 loop plus stm r5!,{r0,r1}. Not reproduced by: a static const
+zero struct with or without = {0} (ldm/stm copy), a local zero struct or compound literal
+(stack temp), a memset call, word loops (indexed, pointer, count-down), a 58-word struct = {0}.
+The store order of the leading assignments also differs (the original stores gMaxBssIdList
+through the .data base first). Everything after the clear matches.
+
+int ATERMi_ApConfigStart(int prio, int maxap, void (*notify)(struct _ATERMApConfigState *), void *(*alloc)(unsigned long), void (*free)(void *), unsigned long stackSize)
+{
+    int ret;
+
+    if (atermset_bss.gAtermApState >= 1 && atermset_bss.gAtermApState <= 5)
+        return -10;
+    atermset_data.gMaxBssIdList = maxap;
+    atermset_bss.gAtermApState = 7;
+    atermset_bss.gAtermNotify = notify;
+    atermset_bss.gAtermAlloc = alloc;
+    atermset_bss.gAtermFree = free;
+    atermset_data.gThreadStackSize = stackSize;
+    ret = InitAtermApcNetwork(maxap);
+    atermset_bss.bInitAtermApNetwork = 1;
+    if (ret < 0) {
+        atermset_bss.gAtermApResult = ret;
+        return ret;
+    }
+    atermset_bss.gThreadStack = atermset_bss.gAtermAlloc(atermset_data.gThreadStackSize);
+    if (atermset_bss.gThreadStack == 0) {
+        atermset_bss.gAtermApResult = -1;
+        return -1;
+    }
+    if (OS_IsThreadAvailable() != 1) {
+        atermset_bss.gAtermApResult = -9;
+        return -9;
+    }
+    OS_CreateThread(&gAtermThread, AutoConfigThread, 0,
+                    (unsigned char *)atermset_bss.gThreadStack + (atermset_data.gThreadStackSize & ~7),
+                    atermset_data.gThreadStackSize, prio);
+    atermset_bss.gAtermApState = 1;
+    atermset_data.gAtermApTimeout = GetTickCount() + 60000;
+    atermset_bss.bAtermApCanceled = 0;
+    {
+        static const ATERMApConfigParam zero;
+        gAtermApConfigParam = zero;
+    }
+    SendNotify();
+    OS_WakeupThreadDirect(&gAtermThread);
+    atermset_bss.gAtermThreadId = 1;
+    return 1;
+}
+
+=== 2026-09-28 sdk_overlays_3: GetMacEncKey 0x021BA2F8 (atermset.o), DIFF, 256 of 252 bytes ===
+
+Shape right (the "WARP" tag, ap_mac from gAPMac with bit 1 cleared, btAdapterMAC from
+GetAdapterMac, memcmp picks the order, debug PutMac pair). The original copies each MAC and the
+tag byte by byte through a destination pointer held in a register (adds r2,r4,#0xc; ...
+strb [r2,#n]; add r1,sp,#4; adds r1,#2) and clears the bit with movs #0xfd / ands. Struct
+assignment folds the offsets into the stores; memcpy stays a call; a byte-loop macro stays a
+loop (204 bytes). "WARP" is @11139 in .data (0x021DAC18).
+
+int GetMacEncKey(unsigned char *lpkey)
+{
+    unsigned char ap_mac[6];
+    unsigned char sta_mac[6];
+    int ret;
+    char strmac[32];
+    char strap[32];
+
+    *(KEYTAG *)(lpkey + 12) = *(KEYTAG *)"WARP";
+    *(MACADDR *)ap_mac = *(MACADDR *)gAPMac;
+    ap_mac[0] &= ~2;
+    GetAdapterMac(sta_mac);
+    *(MACADDR *)btAdapterMAC = *(MACADDR *)sta_mac;
+    ret = memcmp(ap_mac, sta_mac, 6);
+    if (ret > 0) {
+        *(MACADDR *)lpkey = *(MACADDR *)ap_mac;
+        *(MACADDR *)(lpkey + 6) = *(MACADDR *)sta_mac;
+    } else {
+        *(MACADDR *)lpkey = *(MACADDR *)sta_mac;
+        *(MACADDR *)(lpkey + 6) = *(MACADDR *)ap_mac;
+    }
+    if (atermset_data.bDebug) {
+        PutMac(strmac, (char *)sta_mac);
+        PutMac(strap, (char *)ap_mac);
+    }
+    return 1;
+}

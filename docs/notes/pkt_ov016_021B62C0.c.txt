@@ -74,3 +74,68 @@ copy (aes_data + 8 <- R) allocates dest r3 / src r2 where the original has dest 
 src r3. Tried: s_ declared before d_ in the copy block; split post-increments in both
 orders; assignments after declarations in both orders; counter declared first; no R
 temporary (10 out, or 6 with the swapped block); u8 *R. None moved it.
+
+=== 2026-09-28 sdk_overlays_3: keywrap_decrypt 0x021BADD8, still DIFF 6 ===
+
+Declaring the locals in DWARF order (xort, aes_data, i, j, n, rounds, aes_rk, status, iv)
+leaves the same 6. Copy-block variants that did not move the r2/r3 pair: s_ first, d_ first,
+explicit for with d_/s_ in either order, u8 *R, an inline cpy8 function, CSE'd dest + (i-1)*8
+without R (10), dest + 8 * (i - 1) (6), &dest[...] (6), indexed k loops (46), R assigned in the
+argument (10). Permuter seed 7701, 600 iterations: best still 6. Same residue as keywrap_encrypt:
+both inner copies want d_ in r2 and s_ in r3 while the outer copy (aes_data <- src/&iv) wants
+d_ in r3, s_ in r2, so the inner copy is spelled differently from the outer one in the vendor
+source.
+
+=== 2026-09-28 sdk_overlays_3: keywrap_encrypt 0x021BAC20, DIFF 15 lines (440 of 440 bytes) ===
+
+Fresh draft modelled on keywrap_decrypt. What moved it from 187 lines to 15: the block
+pointer is dest + i * sizeof(u64) (an unsigned multiply); with i * 8 mwcc strength-reduces i*8
+into its own induction register, spills i and grows the frame by 4. Left: i and R swap r4/r5,
+and the aes_data + 8 <- R copy has d_/s_ in r3/r2 against r2/r3 (the decrypt residue). DWARF
+declaration order, i before/after the others, and no-R spellings did not move it. Permuter seed
+7702, 1500 iterations: best 17 bytes out.
+
+int keywrap_encrypt(char *dest, char *src, unsigned long buflen, char *keyptr, unsigned long keylen)
+{
+    u64 xort;
+    u64 iv;
+    u8 aes_data[16];
+    int i;
+    int j;
+    int n;
+    int rounds;
+    u32 aes_rk[80];
+
+    iv = 0xA6A6A6A6A6A6A6A6ULL;
+    if ((buflen & 7) || (keylen & 7))
+        return 0;
+    n = buflen / 8;
+    if (n < 2)
+        return 0;
+    rounds = rijndaelKeySetupEnc(aes_rk, (u8 *)keyptr, keylen * 8);
+    memcpy(dest + 8, src, buflen);
+    CPY8(aes_data, &iv);
+    for (j = 0; j < 6; j++) {
+        for (i = 1; i <= n; i++) {
+            {
+            char *R = dest + i * sizeof(u64);
+            CPY8(aes_data + 8, R);
+            rijndaelEncrypt(aes_rk, rounds, aes_data, aes_data);
+            xort = SWAP64((u64)n * j + i);
+            aeskw_xor64(aes_data, (u8 *)&xort, aes_data);
+            CPY8(R, aes_data + 8);
+            }
+        }
+    }
+    CPY8(dest, aes_data);
+    return 1;
+}
+
+=== 2026-09-28 sdk_overlays_3: AOSSi_WLANConnect 0x021B87F0, still DIFF (215 lines) ===
+
+Rebuilt the draft with the aosslink.o types. Tried: wep_id and connect_lock initialised at
+their declarations (each and both), connect_lock left uninitialised, connect_lock = wep_id (both
+orders, and at the loop head), wep_buf + 2 + wep_id * 20, -O4,s / -O3,p / -O3,s / -O2 / -O1 /
+-opt nopeephole. All fold wep_id to 0 and keep &connect_bssdesc in r6. The original never folds
+wep_id (strb r6,[r2,#1] and muls r1,r6,r1), shares r6 with connect_lock, and reloads each global
+address from the pool; none of the spellings reproduces either.

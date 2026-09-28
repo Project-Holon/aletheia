@@ -546,3 +546,11 @@ arm9_main  0x02051B04  arm     # "ldrh r0, [r0, #8]; bx lr" after func_02051AB8'
 # the follower of RtcBCD2HEX; ARM, a callback pointer loaded from
 # pool_02088894, pool_0208893C and pool_020889F0 in asm/arm9/src/028_020855BC.s.
 arm9_main  0x02088EC4  arm     # pool words 0x02088894, 0x0208893C, 0x020889F0; symbol-table boundary
+# Seeds-and-leaves lane (2026-09-27): unlabelled callees blocking overlay MATCH files.
+arm9_main  0x02015FBC  thumb   # "push {r3, r4}" low-byte setter on +0x140; bl from ov117 at 0x021D49FE (func_021D49F4)
+arm9_main  0x02015FD4  thumb   # follower of 0x02015FBC (9-bit field at bit 14 of +0x140); bl from ov094 at 0x021FF032, ov131 at 0x021D78CC, 0x021D790A
+arm9_main  0x02015FF0  thumb   # follower of 0x02015FD4, already EXACT in src/matched/func_02015FF0.c; bl from ov094 at 0x021FF490, ov119 at 0x021E367A, ov195 at 0x022061D2
+arm9_main  0x02051A34  arm     # "ldr r0, [r0, #0x94]; bx lr" after the setter at 0x02051A2C; blx from ov118 at 0x021D4A62 (func_021D4A54)
+overlay_119  0x021E3E40  thumb # tail-call wrapper after pool_021E3E3C (ldrh +0x5F4, bx r3 to 0x0204A48C); bl from ov117 at 0x021D4C02 (func_021D4BF4)
+overlay_011  0x02175368  thumb # tail call 0x02082BCC(p + 0x15C, 0, 4); bl from ov018 at 0x0217FE64 (func_0217FE38)
+overlay_011  0x0217537C  thumb # follower of 0x02175368: starts right after that function's pool word 0x02175378, ends "bx lr" before func_0217538C; no branch names it

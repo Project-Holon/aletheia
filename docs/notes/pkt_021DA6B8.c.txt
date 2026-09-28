@@ -1,0 +1,359 @@
+# 021DA6B8 (ov175), tree_ov175 lane, 2026-09-28
+
+Not measurable as written: tools/match.py refuses the call at +0x1C4 with
+"ISA conflict for DWC_ScGetLoginCertificate at 021DF490: the source declares arm,
+the image says thumb (the func_021DF490 label in ov119)".  overlay_label() prefers the
+site's region only when that region's listing labels the address; ov175's listing has
+no label at 0x021DF490 (the SDK row and the ov175 shard pkt_ov175_021DF490 say ARM), so
+the ov119 label answers.  Tool fix: when the site's region holds the address but has no
+label there, consult the SDK row for that region before other overlays' labels.
+Measured with that one declaration switched to thumb: DIFF, 1776 of 1812 bytes.
+Residues: (1) r5/r6 swap (the original keeps err = 0x0203CA98() in r5 and the state
+offset 0x12c in r6); (2) in states 7, 8 and 10 the original computes the copy
+destination (record + 0xc / + 0x34) before calling DWC_ScGetConnectionId /
+func_021DF224; no spelling tried reorders it (dst local, inline dst-first wrapper,
+inline record accessor, volatile read); (3) the `state = 7` store is tail-merged
+into the shared store block in the original.
+
+Best source:
+
+/*
+ * function: func_021DA6B8
+ * address:  0x021DA6B8
+ * packet:   pkt_021DA6B8
+ * region:   ov175
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_0203CA98          0x0203CA98  arm
+ *   func_0200FB24          0x0200FB24  thumb
+ *   func_021DAE18          0x021DAE18  thumb  ov175
+ *   func_020399A8          0x020399A8  arm
+ *   func_02039C68          0x02039C68  arm
+ *   func_02039CB4          0x02039CB4  arm
+ *   func_021DC2C0          0x021DC2C0  thumb  ov175
+ *   func_021DC2D8          0x021DC2D8  thumb  ov175
+ *   DWC_ScInitialize       0x021DEE3C  arm  ov175
+ *   func_021DCE24          0x021DCE24  thumb  ov175
+ *   DWC_ScGetLoginCertificate          0x021DF490  arm  ov175
+ *   func_0203D378          0x0203D378  arm
+ *   func_021DF018          0x021DF018  arm  ov175
+ *   func_021DADB4          0x021DADB4  thumb  ov175
+ *   DWC_ScGetConnectionId  0x021DF20C  arm  ov175
+ *   MI_CpuCopy8            0x02082D44  arm
+ *   func_021DCE08          0x021DCE08  thumb  ov175
+ *   func_021DEFDC          0x021DEFDC  arm  ov175
+ *   func_021DF224          0x021DF224  arm  ov175
+ *   func_0203D3A8          0x0203D3A8  arm
+ *   func_021DF1C8          0x021DF1C8  arm  ov175
+ *   func_021DF09C          0x021DF09C  arm  ov175
+ *   func_021DADCC          0x021DADCC  thumb  ov175
+ *   func_021DAE54          0x021DAE54  thumb  ov175
+ *   func_021DF130          0x021DF130  arm  ov175
+ *   func_021DAE00          0x021DAE00  thumb  ov175
+ *
+ * Competition (report) session step, state at +0x12c: initialises the competition client, logs in, creates or joins the session, swaps connection and session ids with the peer over the link (channels 1 to 5), sets the report intention, exchanges and submits the report and waits for each server callback (+0x134 pending count, +0x15c result, 3600-tick timeouts at +0x1a0). Returns 1 when finished, 2 on error (error and source line to +0x18), 0 while running.
+ */
+
+typedef unsigned char u8;
+typedef unsigned long u32;
+
+extern char *func_0203CA98(void);
+extern int func_0200FB24(void);
+extern void func_021DAE18(char *obj);
+extern u32 func_020399A8(void);
+extern void func_02039C68(u32 h, int ch, int size);
+extern int func_02039CB4(u32 h, int ch, int size);
+extern int func_021DC2C0(char *obj, void *out);
+extern int func_021DC2D8(char *obj, void *out);
+extern int DWC_ScInitialize(u32 gameId);
+extern void func_021DCE24(char *ctx, int v, int line);
+extern int DWC_ScGetLoginCertificate(void *out);
+extern int func_0203D378(void);
+extern int func_021DF018(void *cb, int timeout, void *param);
+extern void func_021DADB4(int result, char *obj);
+extern void *DWC_ScGetConnectionId(void);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
+extern void func_021DCE08(char *ctx, int v, int line);
+extern void func_021DEFDC(void);
+extern void *func_021DF224(void);
+extern int func_0203D3A8(u32 h, int ch, int size, void *buf);
+extern int func_021DF1C8(void *id);
+extern int func_021DF09C(u32 a, void *cb, int timeout, void *param);
+extern void func_021DADCC(int result, char *obj);
+extern int func_021DAE54(char *ctx, char *other, char *peer, u32 a3, void *cb, int flag, int have, int twoway);
+extern int func_021DF130(u32 a, u32 b, void *cb, int timeout, void *param);
+extern void func_021DAE00(int result, char *obj);
+
+int func_021DA6B8(char *obj, u32 *out)
+{
+    char *err;
+    int r;
+
+    if (out != 0)
+        *out = *(u32 *)(obj + 0x16c);
+    err = func_0203CA98();
+    if ((u32)(*(u32 *)(err + 0xc) - 0x3f0) <= 1)
+        *(u32 *)(obj + 0x160) = 1;
+    if (func_0200FB24() == 1) {
+        if (*(u32 *)(err + 4) == 6 || *(u32 *)(err + 4) == 3) {
+            func_021DAE18(obj);
+            return 2;
+        }
+    } else if (*(u32 *)(obj + 0x160) == 0 && func_0200FB24() == 2) {
+        func_021DAE18(obj);
+        return 2;
+    }
+    if (*(u32 *)(obj + 0x160) != 0 && *(u32 *)(obj + 0x1ac) != 0 && *(u32 *)(obj + 0x164) == 0
+        && *(u32 *)(obj + 0x12c) > 7 && *(u32 *)(obj + 0x12c) < 10) {
+        *(u32 *)(obj + 0x168) = 0;
+        *(u32 *)(obj + 0x12c) = 6;
+    }
+
+    switch (*(u32 *)(obj + 0x12c)) {
+    case 0:
+        if (*(u32 *)(obj + 0x160) != 0) {
+            *(u32 *)(obj + 0x12c) = 4;
+            break;
+        }
+        func_02039C68(func_020399A8(), 4, 0x24);
+        *(u32 *)(obj + 0x12c) = 1;
+        break;
+    case 1:
+        if (*(u32 *)(obj + 0x160) != 0) {
+            *(u32 *)(obj + 0x12c) = 4;
+            break;
+        }
+        if (func_02039CB4(func_020399A8(), 4, 0x24) || *(u32 *)(obj + 0x160) != 0)
+            *(u32 *)(obj + 0x12c) = 2;
+        break;
+    case 2:
+        if (*(u32 *)(obj + 0x160) != 0) {
+            *(u32 *)(obj + 0x12c) = 4;
+            break;
+        }
+        if (func_021DC2C0(obj, obj + 0x188) || *(u32 *)(obj + 0x160) != 0)
+            *(u32 *)(obj + 0x12c) = 3;
+        break;
+    case 3:
+        if (*(u32 *)(obj + 0x160) != 0) {
+            *(u32 *)(obj + 0x12c) = 4;
+            break;
+        }
+        if (func_021DC2D8(obj, obj + 0x18c) || *(u32 *)(obj + 0x160) != 0)
+            *(u32 *)(obj + 0x12c) = 4;
+        break;
+    case 4:
+        *(u32 *)(obj + 0x134) = 0;
+        *(u32 *)(obj + 0x170) = 1;
+        r = DWC_ScInitialize(0xb5f);
+        if (r != 0) {
+            func_021DCE24(obj + 0x18, r, 0x751);
+            func_021DAE18(obj);
+            return 2;
+        }
+        *(u32 *)(obj + 0x12c) = 5;
+        break;
+    case 5:
+        r = DWC_ScGetLoginCertificate(*(char **)(obj + 0x1464) + 4);
+        if (r != 0) {
+            func_021DCE24(obj + 0x18, r, 0x761);
+            func_021DAE18(obj);
+            return 2;
+        }
+        *(u32 *)(obj + 0x12c) = 6;
+        break;
+    case 6:
+        if (func_0203D378() || *(u32 *)(obj + 0x160) != 0) {
+            (*(u32 *)(obj + 0x134))++;
+            r = func_021DF018(func_021DADB4, 100, obj);
+            *(u32 *)(obj + 0x164) = 1;
+            if (r != 0) {
+                func_021DCE24(obj + 0x18, r, 0x773);
+                func_021DAE18(obj);
+                return 2;
+            }
+            *(u32 *)(obj + 0x1a0) = 0;
+            *(u32 *)(obj + 0x12c) = 7;
+        } else {
+            *(u32 *)(obj + 0x12c) = 8;
+        }
+        break;
+    case 7:
+        if (*(u32 *)(obj + 0x134) == 0) {
+            MI_CpuCopy8(DWC_ScGetConnectionId(), *(char **)(obj + 0x1464) + 0xc, 0x28);
+            *(u32 *)(obj + 0x12c) = 8;
+            break;
+        }
+        if ((*(u32 *)(obj + 0x1a0))++ > 0xe10) {
+            func_021DCE08(obj + 0x18, 1, 0x78f);
+            func_021DAE18(obj);
+            return 2;
+        }
+        func_021DEFDC();
+        if (*(int *)(obj + 0x15c) != 0) {
+            func_021DCE24(obj + 0x18, *(int *)(obj + 0x15c), 0x797);
+            func_021DAE18(obj);
+            return 2;
+        }
+        break;
+    case 8:
+        if (*(u32 *)(obj + 0x160) != 0) {
+            *(u32 *)(obj + 0x12c) = 0xb;
+            break;
+        }
+        MI_CpuCopy8(func_021DF224(), *(char **)(obj + 0x1464) + 0x34, 0x28);
+        func_02039C68(func_020399A8(), 1, 0x24);
+        *(u32 *)(obj + 0x12c) = 9;
+        break;
+    case 9:
+        if (func_02039CB4(func_020399A8(), 1, 0x24) || *(u32 *)(obj + 0x160) != 0)
+            *(u32 *)(obj + 0x12c) = 0xa;
+        break;
+    case 10:
+        if (func_0203D378() || *(u32 *)(obj + 0x160) != 0) {
+            if (func_0203D3A8(func_020399A8(), 0x2400, 0x68, *(char **)(obj + 0x1464) + 4) || *(u32 *)(obj + 0x160) != 0)
+                *(u32 *)(obj + 0x12c) = 0xb;
+        } else if (*(u32 *)(obj + 0x138) != 0 || *(u32 *)(obj + 0x160) != 0) {
+            *(u32 *)(obj + 0x138) = 0;
+            r = func_021DF1C8(*(char **)(obj + 0x1464) + 0x74);
+            MI_CpuCopy8(DWC_ScGetConnectionId(), *(char **)(obj + 0x1464) + 0xc, 0x28);
+            if (r != 0) {
+                func_021DCE24(obj + 0x18, r, 0x7cd);
+                func_021DAE18(obj);
+                return 2;
+            }
+            *(u32 *)(obj + 0x12c) = 0xb;
+        }
+        break;
+    case 11:
+        (*(u32 *)(obj + 0x134))++;
+        r = func_021DF09C(*(u32 *)(obj + 0x1a8), func_021DADCC, 100, obj);
+        if (r != 0) {
+            func_021DCE24(obj + 0x18, r, 0x7dd);
+            func_021DAE18(obj);
+            return 2;
+        }
+        *(u32 *)(obj + 0x1a0) = 0;
+        *(u32 *)(obj + 0x12c) = 0xc;
+        break;
+    case 12:
+        if (*(u32 *)(obj + 0x134) == 0) {
+            *(u32 *)(obj + 0x12c) = 0xd;
+            break;
+        }
+        if ((*(u32 *)(obj + 0x1a0))++ > 0xe10) {
+            func_021DCE08(obj + 0x18, 1, 0x7f2);
+            func_021DAE18(obj);
+            return 2;
+        }
+        func_021DEFDC();
+        if (*(int *)(obj + 0x15c) != 0) {
+            func_021DCE24(obj + 0x18, *(int *)(obj + 0x15c), 0x7fa);
+            func_021DAE18(obj);
+            return 2;
+        }
+        break;
+    case 13:
+        if (*(u32 *)(obj + 0x160) != 0) {
+            *(u32 *)(obj + 0x12c) = 0x13;
+            break;
+        }
+        func_02039C68(func_020399A8(), 2, 0x24);
+        *(u32 *)(obj + 0x12c) = 0xe;
+        break;
+    case 14:
+        if (func_02039CB4(func_020399A8(), 2, 0x24) || *(u32 *)(obj + 0x160) != 0)
+            *(u32 *)(obj + 0x12c) = 0xf;
+        break;
+    case 15:
+        if (func_0203D378()) {
+            if (func_0203D3A8(func_020399A8(), 0x2400, 0x68, *(char **)(obj + 0x1464) + 4) || *(u32 *)(obj + 0x160) != 0)
+                *(u32 *)(obj + 0x12c) = 0x10;
+        } else if (*(u32 *)(obj + 0x138) != 0 || *(u32 *)(obj + 0x160) != 0) {
+            if (*(u32 *)(obj + 0x160) == 0)
+                *(u32 *)(obj + 0x168) = 1;
+            *(u32 *)(obj + 0x138) = 0;
+            *(u32 *)(obj + 0x12c) = 0x10;
+        }
+        break;
+    case 16:
+        if (!func_0203D378()) {
+            if (func_0203D3A8(func_020399A8(), 0x2400, 0x68, *(char **)(obj + 0x1464) + 4) || *(u32 *)(obj + 0x160) != 0)
+                *(u32 *)(obj + 0x12c) = 0x11;
+        } else if (*(u32 *)(obj + 0x138) != 0 || *(u32 *)(obj + 0x160) != 0) {
+            if (*(u32 *)(obj + 0x160) == 0)
+                *(u32 *)(obj + 0x168) = 1;
+            *(u32 *)(obj + 0x138) = 0;
+            *(u32 *)(obj + 0x12c) = 0x11;
+        }
+        break;
+    case 17:
+        func_02039C68(func_020399A8(), 3, 0x24);
+        *(u32 *)(obj + 0x12c) = 0x12;
+        break;
+    case 18:
+        if (func_02039CB4(func_020399A8(), 3, 0x24) || *(u32 *)(obj + 0x160) != 0)
+            *(u32 *)(obj + 0x12c) = 0x13;
+        break;
+    case 19:
+        r = func_021DAE54(*(char **)(obj + 0x1464) + 4, *(char **)(obj + 0x1464) + 0x6c, obj + 0x180,
+                          *(u32 *)(obj + 0x1a8), *(void **)(obj + 0x158),
+                          *(int *)(obj + 0x160), *(int *)(obj + 0x1ac), *(int *)(obj + 0x168));
+        if (r != 0) {
+            func_021DCE24(obj + 0x18, r, 0x86d);
+            func_021DAE18(obj);
+            return 2;
+        }
+        *(u32 *)(obj + 0x12c) = 0x14;
+        break;
+    case 20:
+        (*(u32 *)(obj + 0x134))++;
+        r = func_021DF130(*(u32 *)(*(char **)(obj + 0x1464) + 8), *(u32 *)(obj + 0x1a8), func_021DAE00, 100, obj);
+        if (r != 0) {
+            func_021DCE24(obj + 0x18, r, 0x87c);
+            func_021DAE18(obj);
+            return 2;
+        }
+        *(u32 *)(obj + 0x1a0) = 0;
+        *(u32 *)(obj + 0x12c) = 0x15;
+        break;
+    case 21:
+        if (*(u32 *)(obj + 0x134) == 0) {
+            *(u32 *)(obj + 0x12c) = 0x16;
+            break;
+        }
+        if ((*(u32 *)(obj + 0x1a0))++ > 0xe10) {
+            func_021DCE08(obj + 0x18, 1, 0x890);
+            func_021DAE18(obj);
+            return 2;
+        }
+        func_021DEFDC();
+        if (*(int *)(obj + 0x15c) != 0) {
+            func_021DCE24(obj + 0x18, *(int *)(obj + 0x15c), 0x898);
+            func_021DAE18(obj);
+            return 2;
+        }
+        break;
+    case 22:
+        *(u32 *)(obj + 0x16c) = 1;
+        func_021DAE18(obj);
+        *(u32 *)(obj + 0x12c) = 0x17;
+        break;
+    case 23:
+        func_02039C68(func_020399A8(), 5, 0x24);
+        *(u32 *)(obj + 0x12c) = 0x18;
+        break;
+    case 24:
+        if (func_02039CB4(func_020399A8(), 5, 0x24) || *(u32 *)(obj + 0x160) != 0)
+            *(u32 *)(obj + 0x12c) = 0x19;
+        break;
+    case 25:
+        return 1;
+    }
+    return 0;
+}

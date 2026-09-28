@@ -54,9 +54,17 @@ IDENTIFICATION, function by function
   0x0209C554  140   double -> unsigned / 64-bit int
   0x0209C5E0  412   double arithmetic body
   0x0209C77C  480   float multiply               (__fmul)
-  0x0209C95C  560   float subtract               (__fsub)
-  0x0209CB8C  644   float add (__fadd); branches into __fsub's body after
-                    flipping the sign bit of the second operand
+  0x0209C95C  560   float add                    (__fadd)
+  0x0209CB8C  644   float subtract (__fsub); branches into __fadd's body
+                    after flipping the sign bit of the second operand
+
+  The add/subtract names were swapped here until 2026-09-28.  Each entry
+  starts `eors r2, r0, r1`: on equal signs 0x0209C95C falls into
+  `adds r0, r0, r1` (0x0209C9B4, magnitudes added) and 0x0209CB8C into
+  `subs r0, r0, r1` (0x0209CBE8, magnitudes subtracted); on differing
+  signs each flips the second operand's sign and takes the other's
+  path.  Call site: func_02011B8C's `while (h < 0.0f)` wrap loop calls
+  0x0209C95C, which only terminates if that routine adds 360.
 
 The exponent-bias constants confirm the formats: 0x9e == 158 == 127 + 31
 in the single-precision conversions, and the double routines load their

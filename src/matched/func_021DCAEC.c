@@ -1,0 +1,51 @@
+/*
+ * function: func_021DCAEC
+ * address:  0x021DCAEC
+ * packet:   pkt_021DCAEC
+ * region:   ov175
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   DWC_CheckProfanityProcess  0x0217BC90  arm  ov009
+ *   func_02045B38  0x02045B38  arm
+ *   func_02045EC0  0x02045EC0  arm
+ *   func_02045C04  0x02045C04  arm
+ *   func_020084E4  0x020084E4  thumb
+ *   func_02045808  0x02045808  arm
+ *
+ * Polls the profanity check; once it has finished (state 2) reports whether the +0x1488 count is positive, and when it is, loads message 0x51 for the +0x124 id and hands it to the +0x1490 window.
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned long u32;
+
+extern int DWC_CheckProfanityProcess(void);
+extern u32 func_02045B38(u32 a, u32 b, u32 c, u32 d);
+extern u32 func_02045EC0(u32 msg, u32 id);
+extern void func_02045C04(u32 msg);
+extern void func_020084E4(u32 win, u32 str);
+extern void func_02045808(u32 str);
+
+int func_021DCAEC(char *obj, int *out)
+{
+    int state = DWC_CheckProfanityProcess();
+    int done = 1;
+
+    if (state != 2)
+        done = 0;
+    if (done)
+        *out = *(int *)(obj + 0x1488) > 0 ? 1 : 0;
+    if (done == 1 && *out == 1) {
+        u32 msg = func_02045B38(0, 2, 0x51, *(u16 *)(obj + 0x124));
+        u32 str = func_02045EC0(msg, 0xf);
+        func_02045C04(msg);
+        func_020084E4(*(u32 *)(obj + 0x1490), str);
+        func_02045808(str);
+    }
+    return done;
+}

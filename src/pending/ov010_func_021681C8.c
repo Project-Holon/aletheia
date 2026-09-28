@@ -1,0 +1,260 @@
+/*
+ * function: func_021681C8
+ * address:  0x021681C8
+ * packet:   pkt_ov010_021681C8
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Builds the battle setup for a four-slot link battle: player party from the
+ * save (levels forced to 50), trainer 1 from rec, optional trainer 3 from
+ * rec[1], optional partner from rec2. Structure and every call are right;
+ * the image is 800 bytes, this compiles to 808 with 325 of the listing's
+ * instructions out, all register allocation: the image keeps rec in r7 for
+ * the whole function and spills ctx (sp+0x20), src (sp+0x2c) and the
+ * section-2 record pointer (sp+0x30); this C keeps ctx in r5 and spills rec.
+ * The alloc tags 0x253/0x29E/0x2C4/0x2F3 are __LINE__ values 75 lines apart,
+ * and each section computes its slot index at run time (`movs r0, #1; lsls
+ * r6, r0, #2`), so the sections are probably inline functions. See
+ * docs/notes/pkt_ov010_021681C8.c.txt.
+ *
+ * symbols:
+ *   func_020120F4  0x020120F4  thumb
+ *   func_0201210C  0x0201210C  thumb
+ *   func_021AA304  0x021AA304  thumb  ov021
+ *   func_02013090  0x02013090  thumb
+ *   func_02013610  0x02013610  thumb
+ *   func_02013644  0x02013644  thumb
+ *   func_02013734  0x02013734  thumb
+ *   func_020399A8  0x020399A8  arm
+ *   func_02039338  0x02039338  arm
+ *   func_02013810  0x02013810  thumb
+ *   func_02013980  0x02013980  thumb
+ *   func_02012944  0x02012944  thumb
+ *   func_0201A954  0x0201A954  thumb
+ *   func_020173EC  0x020173EC  thumb
+ *   func_02030734  0x02030734  arm
+ *   func_02017528  0x02017528  thumb
+ *   func_0201AB28  0x0201AB28  thumb
+ *   func_02019CE0  0x02019CE0  thumb
+ *   func_02017E1C  0x02017E1C  thumb
+ *   func_02019CA0  0x02019CA0  thumb
+ *   func_0201A98C  0x0201A98C  thumb
+ *   func_020307B0  0x020307B0  arm
+ *   func_02045924  0x02045924  arm
+ *   func_0202428C  0x0202428C  thumb
+ *   func_02168AC8  0x02168AC8  thumb  ov010
+ *   func_0216869C  0x0216869C  thumb  ov010
+ *   func_0201394C  0x0201394C  thumb
+ *   d_02172A2C     0x02172A2C  data
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef enum Side { SIDE_0, SIDE_1, SIDE_2, SIDE_3 } Side;
+
+typedef struct Loc {
+    u8 raw[0x10];
+} Loc;
+
+typedef struct MonRec {
+    u8 raw[0x3C];
+} MonRec;
+
+typedef struct TrRec {
+    u32 f00;            /* 0x00 */
+    u16 f04;            /* 0x04 */
+    u16 pad06;
+    u16 name[8];        /* 0x08 */
+    u8 pad18[0x20 - 0x18];
+    u16 f20[8];         /* 0x20 */
+    MonRec mons[4];     /* 0x30 */
+} TrRec;
+
+typedef struct Trainer {
+    u32 f00;            /* 0x00 */
+    u32 f04;            /* 0x04 */
+    u32 f08;            /* 0x08 */
+    u8 pad0C[0x14 - 0x0C];
+    void *f14;          /* 0x14 */
+    u16 f18[4];         /* 0x18 */
+    u16 f20[4];         /* 0x20 */
+} Trainer;
+
+typedef struct BattleSetup {
+    u8 pad00[0x22];
+    u8 f22;             /* 0x22 */
+    u8 pad23;
+    void *party[4];     /* 0x24 */
+    void *f34[4];       /* 0x34 */
+    u8 pad44[0x48 - 0x44];
+    Trainer *tr[4];     /* 0x48 */
+} BattleSetup;
+
+extern void *func_020120F4(void *p);
+extern void *func_0201210C(void *p);
+extern void func_021AA304(Loc *loc, void *ctx, void *a);
+extern BattleSetup *func_02013090(u32 heap);
+extern void func_02013610(BattleSetup *bs, void *ctx, void *a, u32 b, u16 heap);
+extern void func_02013644(BattleSetup *bs, void *ctx, void *a, u32 b, u16 heap);
+extern void func_02013734(BattleSetup *bs, void *ctx, void *a, u32 b, u32 c, u32 d, u16 heap);
+extern void *func_020399A8(void);
+extern u16 func_02039338(void);
+extern void func_02013810(BattleSetup *bs, void *ctx, void *a, u32 b, u8 c, u32 d, u32 e, u16 heap);
+extern void func_02013980(BattleSetup *bs, u32 heap);
+extern void *func_02012944(void *ctx);
+extern void func_0201A954(void *party, int cap);
+extern u32 func_020173EC(void);
+extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
+extern void func_02017528(void *mon);
+extern void *func_0201AB28(void *save, u32 idx);
+extern void func_02019CE0(void *src, void *dst);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern void func_02019CA0(void *p, u32 level);
+extern u32 func_0201A98C(void *party, void *mon);
+extern void func_020307B0(void *p);
+extern void func_02045924(void *buf, const u16 *src);
+extern void func_0202428C(void *p);
+extern int func_02168AC8(TrRec *rec);
+extern void func_0216869C(MonRec *src, void *mon);
+extern void func_0201394C(BattleSetup *bs);
+
+extern const char d_02172A2C[];
+
+BattleSetup *func_021681C8(void *p0, void *save, int kindArg, TrRec *rec, TrRec *rec2, int count)
+{
+    Loc loc;
+    u16 kind;
+    TrRec *r;
+    TrRec *rr;
+    void *party1;
+    void *party2;
+    void *party3;
+    void *ctx;
+    BattleSetup *bs;
+    void *party;
+    void *mon;
+    void *src;
+    Trainer *t;
+    Side side;
+    int i;
+    u8 flag;
+    void *a;
+
+    ctx = func_020120F4(p0);
+    kind = kindArg;
+    func_021AA304(&loc, ctx, func_0201210C(p0));
+    bs = func_02013090(4);
+    switch (kind) {
+    case 0:
+    case 4:
+    case 5:
+        func_02013610(bs, ctx, &loc, 0, 4);
+        break;
+    case 1:
+    case 6:
+        func_02013644(bs, ctx, &loc, 0, 4);
+        break;
+    case 2:
+    case 7:
+        func_02013734(bs, ctx, &loc, 0, 0, 0, 4);
+        break;
+    case 3:
+    case 8:
+        a = func_020399A8();
+        flag = 0;
+        if (func_02039338() != 0)
+            flag = 2;
+        func_02013810(bs, ctx, a, 1, flag, 0, 0, 4);
+        break;
+    }
+    func_02013980(bs, 4);
+
+    side = SIDE_0;
+    bs->f34[side] = func_02012944(ctx);
+    party1 = bs->party[side];
+    func_0201A954(party1, 6);
+    mon = func_02030734(0x8004, func_020173EC(), 0, d_02172A2C, 0x253);
+    func_02017528(mon);
+    for (i = 0; i < count; i++) {
+        src = func_0201AB28(save, i);
+        func_02019CE0(src, mon);
+        if (func_02017E1C(src, 0x9E, 0) != 50)
+            func_02019CA0(mon, 50);
+        func_0201A98C(party1, mon);
+    }
+    func_020307B0(mon);
+
+    side = SIDE_1;
+    t = bs->tr[side];
+    t->f00 = rec->f00;
+    t->f04 = rec->f04;
+    t->f08 = 0x87;
+    func_02045924(t->f14, rec->name);
+    func_0202428C(t->f18);
+    func_0202428C(t->f20);
+    if (kind == 4 || func_02168AC8(rec) != 0) {
+        t->f18[0] = rec->f20[0];
+        t->f18[1] = rec->f20[1];
+        t->f18[2] = rec->f20[2];
+        t->f18[3] = rec->f20[3];
+        t->f20[0] = rec->f20[4];
+        t->f20[1] = rec->f20[5];
+        t->f20[2] = rec->f20[6];
+        t->f20[3] = rec->f20[7];
+    }
+    party2 = bs->party[side];
+    r = rec;
+    func_0201A954(party2, 6);
+    mon = func_02030734(0x8004, func_020173EC(), 0, d_02172A2C, 0x29E);
+    for (i = 0; i < count; i++) {
+        func_0216869C(&r->mons[i], mon);
+        func_0201A98C(party2, mon);
+    }
+    func_020307B0(mon);
+
+    if (bs->f22 != 0) {
+        side = SIDE_3;
+        rr = &rec[1];
+        t = bs->tr[side];
+        t->f00 = rr->f00;
+        t->f04 = rr->f04;
+        t->f08 = 0x87;
+        func_02045924(t->f14, rr->name);
+        party3 = bs->party[side];
+        func_0201A954(party3, 6);
+        mon = func_02030734(0x8004, func_020173EC(), 0, d_02172A2C, 0x2C4);
+        for (i = 0; i < count; i++) {
+            func_0216869C(&rr->mons[i], mon);
+            func_0201A98C(party3, mon);
+        }
+        func_020307B0(mon);
+    }
+
+    if (bs->f22 == 3) {
+        side = SIDE_2;
+        t = bs->tr[side];
+        t->f00 = rec2->f00;
+        t->f04 = rec2->f04;
+        t->f08 = 0x87;
+        func_02045924(t->f14, rec2->name);
+        func_0202428C(t->f18);
+        func_0202428C(t->f20);
+        party = bs->party[side];
+        func_0201A954(party, 6);
+        mon = func_02030734(0x8004, func_020173EC(), 0, d_02172A2C, 0x2F3);
+        for (i = 0; i < count; i++) {
+            func_0216869C(&rec2->mons[i], mon);
+            func_0201A98C(party, mon);
+        }
+        func_020307B0(mon);
+    }
+
+    func_0201394C(bs);
+    return bs;
+}
