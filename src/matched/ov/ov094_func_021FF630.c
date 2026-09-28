@@ -1,0 +1,74 @@
+/*
+ * function: func_021FF630
+ * address:  0x021FF630
+ * packet:   pkt_ov094_021F9AB8
+ * region:   ov094
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02015C94  0x02015C94  thumb
+ *   func_021F935C  0x021F935C  thumb  ov094
+ *   func_0220074C  0x0220074C  thumb  ov094
+ *   func_02200A84  0x02200A84  thumb  ov094
+ *   func_02200B10  0x02200B10  thumb  ov094
+ *   func_022019F4  0x022019F4  thumb  ov094
+ */
+typedef unsigned int u32;
+typedef int fx32;
+typedef long long s64;
+
+typedef struct {
+    void *h;                /* 0x00 */
+    char pad04[0x48];
+    unsigned int f0 : 1;    /* 0x4c */
+    unsigned int f1 : 1;
+    unsigned int flip : 1;
+    char pad50[0x0c];
+} Entry;
+
+typedef struct {
+    int pad00;              /* 0x000 */
+    void *obj;              /* 0x004 */
+    Entry e[14];            /* 0x008 */
+    char pad514[0x520 - 0x008 - 14 * 0x5c];
+    int mask;               /* 0x520 */
+    char pad524[0x534 - 0x524];
+    int active;             /* 0x534 */
+    fx32 scaleEven;         /* 0x538 */
+    fx32 scaleOdd;          /* 0x53c */
+    char pad540[0x55e - 0x540];
+    unsigned char cnt[14];  /* 0x55e */
+} Work;
+
+typedef unsigned char u8;
+
+typedef struct {
+    fx32 x, y, z;
+} VecFx32;
+
+extern int func_022019F4(Work *w, int key);
+extern void func_02015C94(void *p, VecFx32 *out);
+extern int func_021F935C(int x);
+extern void func_0220074C(Work *w, int i, int kind, VecFx32 *p, VecFx32 *q, int n,
+                          int f48, int f4c, void *fn, void (*cb)(void *), int flip, u8 f50);
+extern void func_02200A84(void);
+extern void func_02200B10(void *p);
+
+void func_021FF630(Work *w, int i, int kind, VecFx32 *q, int n, int f48, int f4c)
+{
+    int idx = func_022019F4(w, i);
+    VecFx32 cur;
+
+    if (idx == -1)
+        return;
+    if (w->e[idx].h == 0)
+        return;
+    func_02015C94(w->e[idx].h, &cur);
+    w->cnt[i]++;
+    func_0220074C(w, i, kind, &cur, q, n, f48, f4c, (void *)func_02200A84, func_02200B10, 0, w->cnt[i]);
+    w->mask |= func_021F935C(i);
+}

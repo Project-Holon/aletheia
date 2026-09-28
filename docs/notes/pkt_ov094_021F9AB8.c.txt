@@ -1,0 +1,59 @@
+pkt_ov094_021F9AB8: tree rooted at func_021F9AB8 (ov094)
+=========================================================
+
+2026-09-28 tree_ov094
+---------------------
+Tree (17 open): root 0x021F9AB8 (1092) -> 021F6F48, 021F7208, 021F8684,
+021FDB20 -> {021FF16C, 021FF1B0} -> 022006B4 -> 02201934; 021FE9F0 ->
+021FF630 -> 0220074C -> {021F896C -> 021F8B40 -> 021F89BC -> 021F899C,
+021F918C}.  Filed EXACT: 021F899C, 021F89BC, 021F8B40, 021F896C, 021F8684,
+021F7208, 021F918C, 02201934, 021FF16C, 021FF1B0, 021FDB20, 0220074C,
+021FF630, 021F6F48 (EXACT*).  022006B4 is MATCH (src/pending/ov): blocked on
+the unlabelled ARM9 Thumb leaf 0x02015D30.  Open: 021FE9F0 (below), the root.
+
+func_021FE9F0: DIFF, 73 bytes, 172 vs 176.  The original keeps an explicit
+`cmp r4,#8; bge` guard after `i = 0` and places the hoisted loop invariants
+(asr of both scales, two copies of FX32_ONE>>1) after the guard; ours folds
+the guard away and hoists before.  Tried: while loop, counter before the
+first call, unsigned counter, variable bound, continue form, loop moved into
+a static inline helper; all 73.  The two rounding constants are built as
+(1<<12)>>1 and the high word is a pooled zero, so the multiply is written
+with FX32_ONE >> 1, not 0x800LL.
+
+---- func_021FE9F0 (best) ----
+typedef int fx32;
+typedef long long fx64;
+
+typedef struct {
+    fx32 x, y, z;
+} VecFx32;
+
+extern void *func_021F8694(void);
+extern void func_021FF134(void *w, fx32 a, fx32 b);
+extern int func_021FFD9C(void *w, int key);
+extern fx32 func_021FF468(void *w, int i, int mode);
+extern void func_021FF630(void *w, int i, int kind, VecFx32 *q, int n, int f48, int f4c);
+
+#define FX32_ONE 4096
+
+void func_021FE9F0(fx32 sEven, fx32 sOdd, int n, int f48, int f4c)
+{
+    int i;
+    fx32 v;
+    VecFx32 s;
+
+    func_021FF134(func_021F8694(), sEven, sOdd);
+    for (i = 0; i < 8; i++) {
+        if (func_021FFD9C(func_021F8694(), i)) {
+            v = func_021FF468(func_021F8694(), i, 1);
+            if (i & 1)
+                v = (fx32)(((fx64)v * sOdd + (FX32_ONE >> 1)) >> 12);
+            else
+                v = (fx32)(((fx64)v * sEven + (FX32_ONE >> 1)) >> 12);
+            s.x = v;
+            s.y = v;
+            s.z = FX32_ONE;
+            func_021FF630(func_021F8694(), i, 1, &s, n, f48, f4c);
+        }
+    }
+}

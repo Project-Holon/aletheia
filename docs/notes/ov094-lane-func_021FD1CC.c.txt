@@ -120,3 +120,525 @@ and asm/ are the integrator's, so reported, not edited).
 Files touched: src/matched/func_021F8694.c, src/matched/func_021F8710.c,
 src/matched/func_021FD070.c, layout/matched/ov094/pkt_021FD1CC.json, this
 note.
+
+2026-09-28 tree_ov094 (relaunch): root and callback near misses
+===============================================================
+
+All eight open callees of the root are now EXACT in pkt_021FD1CC
+(func_021F7F1C, 021FF3F4, 021FF3FC, 021FD088, 021FCF2C, 021FD04C, plus the
+earlier 021F8694/021F8710/021FD070).  Two functions remain.
+
+func_021FD1CC (root): DIFF, 8 bytes, all inside the `cmd->kind == 4`
+position swap.  Everything else (both 22-way switches, the orbit setup, the
+emitter-rotation block, the scale block) is byte-identical.  Levers that
+closed the rest: case bodies in block order (9/11 before 8 for src; 9,10,12,11
+then 8 for dst), call results bound to a local before FX_Mul
+(`a = func_020517F0(e); FX_Mul(a, cmd->r50)`), and the final call written as
+if/else with two calls.  The swap as six scalar locals (sx,sy,sz,dx,dy,dz)
+gets 8 bytes; the residue is dx/dy register choice (r1/r7 swapped) and the
+position of the dst.x load relative to the sz spill.  All 720 declaration
+orders of the six locals and five statement orders were measured: none
+beats 8.  Tried and worse: struct temps (481-497), save-dst form (446),
+interleaved per-axis (448).
+Even at 0 bytes this caps at MATCH: 13 ARM9 accessor calls
+(0x02051790, 0x020517A4, 0x020517B4, 0x020517D0..0x02051830) land on
+unlabelled ARM leaves with no witness.  Filing those ARM9 leaves (ARM9
+session) is the prerequisite.
+
+func_021FD8CC (the orbit callback the root installs): DIFF, 46 bytes,
+compiles 296 vs 292.  Pure allocation: the original keeps the FX_Mul zero
+high word in r4 (reused from the dead `arg`) across both mode arms; ours
+puts a2 in r4, the zero in r7 and rematerialises the zero in the else arm.
+Tried: declaration orders, idx local, macro FX_Mul, if/else vs ternary
+index, polarity swap, inlining a1/a2.  Permuter (seed 10401, 400 iters)
+found only a semantics-changing size match.
+
+Best source for both is below.
+
+---- func_021FD8CC (best, 46 bytes) ----
+typedef unsigned short u16;
+typedef short s16;
+typedef int s32;
+typedef long long s64;
+typedef s32 fx32;
+
+typedef struct {
+    fx32 x, y, z;
+} VecFx32;
+
+typedef struct {
+    fx32 m[4][3];
+} MtxFx43;
+
+typedef struct {
+    MtxFx43 mtx;    /* 0x00 */
+    fx32 r30;       /* 0x30 */
+    fx32 r34;       /* 0x34 */
+    s32 a38;        /* 0x38 */
+    s32 a3c;        /* 0x3c */
+    s32 d40;        /* 0x40 */
+    s32 d44;        /* 0x44 */
+    s32 count;      /* 0x48 */
+    s32 mode;       /* 0x4c */
+    s32 wait;       /* 0x50 */
+    s32 acc54;      /* 0x54 */
+    s32 acc58;      /* 0x58 */
+    s32 project;    /* 0x5c */
+} Orbit;
+
+extern const s16 FX_SinCosTable_[];
+extern Orbit *func_02051A34(void *emitter);
+extern void func_02051838(void *emitter, const VecFx32 *v);
+extern void MTX_MultVec43(const VecFx32 *vec, const MtxFx43 *m, VecFx32 *dst);
+extern void func_021FE1B8(VecFx32 *v, const VecFx32 *ofs);
+
+static inline fx32 FX_Mul(fx32 a, fx32 b)
+{
+    return (fx32)(((s64)a * b + 0x800LL) >> 12);
+}
+
+void func_021FD8CC(void *emitter, void *arg)
+{
+    u16 a1;
+    u16 a2;
+    VecFx32 v;
+    Orbit *o = func_02051A34(emitter);
+
+    if (o->count == 0 || arg == 0)
+        return;
+    if (o->mode == 3) {
+        if (o->wait != 0) {
+            o->wait--;
+            return;
+        }
+        o->acc58 += 12;
+        o->acc54 += o->acc58;
+        o->wait = o->acc54 >> 12;
+    }
+    o->count--;
+    o->a38 += o->d40;
+    o->a3c += o->d44;
+    a1 = (o->a38 >> 12) + 0xc000;
+    a2 = (o->a3c >> 12) + 0xc000;
+    v.x = FX_SinCosTable_[(a1 >> 4) * 2];
+    v.x = FX_Mul(v.x, o->r30);
+    v.x += o->r30;
+    if (o->mode == 6) {
+        v.z = FX_SinCosTable_[(a2 >> 4) * 2 + 1];
+        v.z = FX_Mul(v.z, o->r34);
+        v.y = 0;
+    } else {
+        v.y = FX_SinCosTable_[(o->mode == 5) ? (a2 >> 4) * 2 + 1 : (a1 >> 4) * 2 + 1];
+        v.y = FX_Mul(v.y, o->r34);
+        v.z = 0;
+    }
+    MTX_MultVec43(&v, &o->mtx, &v);
+    if (o->project)
+        func_021FE1B8(&v, 0);
+    func_02051838(emitter, &v);
+}
+
+---- func_021FD1CC (best, 8 bytes) ----
+typedef unsigned short u16;
+typedef short s16;
+typedef int s32;
+typedef unsigned int u32;
+typedef long long s64;
+typedef s32 fx32;
+
+typedef struct {
+    fx32 x, y, z;
+} VecFx32;
+
+typedef struct {
+    fx32 m[4][3];
+} MtxFx43;
+
+typedef struct {
+    MtxFx43 mtx;    /* 0x00 */
+    fx32 r30;       /* 0x30 */
+    fx32 r34;       /* 0x34 */
+    s32 a38;        /* 0x38 */
+    s32 a3c;        /* 0x3c */
+    s32 d40;        /* 0x40 */
+    s32 d44;        /* 0x44 */
+    s32 count;      /* 0x48 */
+    s32 mode;       /* 0x4c */
+    s32 wait;       /* 0x50 */
+    s32 acc54;      /* 0x54 */
+    s32 acc58;      /* 0x58 */
+    s32 project;    /* 0x5c */
+} Orbit;
+
+typedef struct {
+    int unit;       /* 0x00 */
+    int src;        /* 0x04 */
+    int dst;        /* 0x08 */
+    VecFx32 ofs;    /* 0x0c */
+    int pad18;      /* 0x18 */
+    fx32 r1c;       /* 0x1c */
+    int kind;       /* 0x20 */
+    fx32 r24;       /* 0x24 */
+    VecFx32 pos28;  /* 0x28 */
+    VecFx32 pos34;  /* 0x34 */
+    int mode;       /* 0x40 */
+    fx32 r44;       /* 0x44 */
+    fx32 r48;       /* 0x48 */
+    fx32 r4c;       /* 0x4c */
+    fx32 r50;       /* 0x50 */
+    fx32 r54;       /* 0x54 */
+    int flag;       /* 0x58 */
+} Cmd;
+
+typedef struct {
+    char pad[0x1f4];
+    Orbit *orbits[16];  /* 0x1f4 */
+    int n;              /* 0x234 */
+    u16 heap;           /* 0x238 */
+} Unit;
+
+extern const s16 FX_SinCosTable_[];
+extern const char d_0220AE68[];
+
+extern Unit *func_02011324(int a);
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void sub_020307B0(void *p);
+extern Cmd *func_02051774(void);
+extern void func_02051790(void *e, VecFx32 *out);
+extern void func_020517A4(void *e, const VecFx32 *in);
+extern void func_020517B4(void *e, s16 *out);
+extern fx32 func_020517D0(void *e);
+extern void func_020517D8(void *e, fx32 v);
+extern fx32 func_020517E0(void *e);
+extern void func_020517E8(void *e, fx32 v);
+extern s16 func_020517F0(void *e);
+extern void func_02051800(void *e, s16 v);
+extern s16 func_02051808(void *e);
+extern void func_02051818(void *e, s16 v);
+extern s16 func_02051820(void *e);
+extern u16 func_02051830(void *e);
+extern void func_02051838(void *e, const VecFx32 *v);
+extern void func_02051880(void *e, const s16 *v);
+extern void func_0205189C(void *e, u32 v);
+extern void func_020518A4(void *e, u16 v);
+extern void func_020519C4(void *e, VecFx32 *v);
+extern void func_020519E4(void *e, s16 *v);
+extern void func_02051A04(void *e, VecFx32 *v);
+extern void func_02051A24(void *e, int v);
+extern void func_02051A2C(void *e, int v);
+extern void MTX_RotAxis43(MtxFx43 *m, const VecFx32 *axis, fx32 s, fx32 c);
+extern void MTX_MultVec43(const VecFx32 *vec, const MtxFx43 *m, VecFx32 *dst);
+extern u32 sub_0207C768(u32 a, u32 b);
+extern fx32 VEC_DotProduct(const VecFx32 *a, const VecFx32 *b);
+extern void VEC_CrossProduct(const VecFx32 *a, const VecFx32 *b, VecFx32 *ab);
+extern void VEC_Normalize(const VecFx32 *src, VecFx32 *dst);
+extern fx32 VEC_Distance(const VecFx32 *a, const VecFx32 *b);
+extern u16 FX_AcosIdx(fx32 x);
+extern int func_021F8694(void);
+extern int func_021F8710(void);
+extern int func_021FCF2C(int a, int idx);
+extern int func_021FD070(int a, int b);
+extern int func_021FD088(int a, int *out);
+extern void func_021FD8CC(void *emitter, void *arg);
+extern void func_021FE1B8(VecFx32 *v, const VecFx32 *ofs);
+extern void func_021FF3F4(void *obj, void *out, int idx);
+extern void func_021FF3FC(const VecFx32 *def, VecFx32 *out, int idx, int kind);
+
+static inline fx32 FX_Mul(fx32 a, fx32 b)
+{
+    return (fx32)(((s64)a * b + 0x800LL) >> 12);
+}
+
+void func_021FD1CC(void *emitter)
+{
+    VecFx32 srcPos;
+    VecFx32 dstPos;
+    VecFx32 tmp;
+    VecFx32 axis;
+    VecFx32 dir;
+    VecFx32 up;
+    MtxFx43 m;
+    VecFx32 r;
+    VecFx32 d2;
+    VecFx32 c;
+    VecFx32 sc;
+    s16 rot[4];
+    Cmd *cmd;
+    int flag;
+    Unit *u;
+    Orbit *o;
+    u16 ang;
+    fx32 a;
+    fx32 b;
+    fx32 e;
+    fx32 f;
+
+    cmd = func_02051774();
+    flag = cmd->flag;
+
+    switch (cmd->src) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+        cmd->src = func_021FD070(cmd->unit, cmd->src);
+        break;
+    case 9:
+    case 11:
+        cmd->src = func_021FCF2C(cmd->unit, cmd->src + 5);
+        break;
+    case 8:
+        srcPos.x = cmd->pos28.x;
+        srcPos.y = cmd->pos28.y;
+        srcPos.z = cmd->pos28.z;
+        break;
+    case 10:
+    case 12:
+    case 13:
+        break;
+    case 14:
+    case 15:
+    case 16:
+    case 17:
+        func_021FF3FC((const VecFx32 *)func_021F8694(), &srcPos, cmd->src - 12, 1);
+        cmd->src = -1;
+        break;
+    case 18:
+    case 19:
+    case 20:
+    case 21:
+        func_021FF3FC((const VecFx32 *)func_021F8694(), &srcPos, cmd->src - 16, 1);
+        switch (cmd->src) {
+        case 18:
+            srcPos.z += 0x1a00;
+            break;
+        case 19:
+            srcPos.z += 0x2600;
+            break;
+        case 20:
+            srcPos.z += 0x600;
+            break;
+        case 21:
+            srcPos.z += 0x3900;
+            break;
+        }
+        cmd->src = -1;
+        break;
+    }
+    if (cmd->src != -1 && cmd->src != 8)
+        func_021FF3F4((void *)func_021F8694(), &srcPos, cmd->src);
+
+    switch (cmd->dst) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+        cmd->dst = func_021FD070(cmd->unit, cmd->dst);
+        break;
+    case 9:
+        cmd->dst = func_021FCF2C(cmd->unit, cmd->dst + 5);
+        break;
+    case 10:
+        flag = 1;
+        cmd->dst = func_021FCF2C(cmd->unit, cmd->dst + 4);
+        break;
+    case 12:
+        flag = 1;
+    case 11:
+        a = func_021FD088(cmd->unit, &cmd->dst);
+        func_021FF3FC((const VecFx32 *)func_021F8694(), &dstPos, cmd->dst, a);
+        cmd->dst = -1;
+        break;
+    case 8:
+        dstPos.x = cmd->pos34.x;
+        dstPos.y = cmd->pos34.y;
+        dstPos.z = cmd->pos34.z;
+        break;
+    case 13:
+        break;
+    case 14:
+    case 15:
+    case 16:
+    case 17:
+        func_021FF3FC((const VecFx32 *)func_021F8694(), &dstPos, cmd->dst - 12, 1);
+        cmd->dst = -1;
+        break;
+    case 18:
+    case 19:
+    case 20:
+    case 21:
+        func_021FF3FC((const VecFx32 *)func_021F8694(), &dstPos, cmd->dst - 16, 1);
+        switch (cmd->src) {
+        case 18:
+            dstPos.z += 0x1a00;
+            break;
+        case 19:
+            dstPos.z += 0x2600;
+            break;
+        case 20:
+            dstPos.z += 0x600;
+            break;
+        case 21:
+            dstPos.z += 0x3900;
+            break;
+        }
+        cmd->dst = -1;
+        break;
+    }
+    if (cmd->dst != -1 && cmd->dst != 8)
+        func_021FF3F4((void *)func_021F8694(), &dstPos, cmd->dst);
+
+    func_021F8710();
+    srcPos.z += 0x500;
+    dstPos.z += 0x500;
+    if (cmd->mode == 1 || cmd->mode == 2) {
+        func_021FE1B8(&srcPos, &cmd->ofs);
+        func_021FE1B8(&dstPos, &cmd->ofs);
+    } else if (cmd->mode == 3) {
+        tmp.x = srcPos.x;
+        tmp.y = srcPos.y;
+        tmp.z = srcPos.z;
+        srcPos.y += cmd->ofs.y;
+        func_021FE1B8(&tmp, &cmd->ofs);
+    } else {
+        srcPos.y += cmd->ofs.y;
+    }
+    dstPos.y += cmd->ofs.y;
+
+    if (cmd->kind != 0) {
+        u = func_02011324(cmd->unit);
+        u->orbits[u->n] = sub_02030734((u16)((u->heap & 0x7fff) | 0x8000), 0x60, 0, d_0220AE68, 0x194a);
+        o = u->orbits[u->n];
+        func_02051A2C(emitter, (int)o);
+        func_02051A24(emitter, (int)func_021FD8CC);
+        u->n++;
+        o->a38 = 0;
+        o->wait = 0;
+        o->acc54 = 0;
+        o->acc58 = 0;
+        o->mode = cmd->kind;
+        o->count = cmd->r24 >> 12;
+        o->project = cmd->mode;
+        if (cmd->kind == 3) {
+            o->d40 = sub_0207C768(0x6000000, cmd->r24);
+        } else if (cmd->kind == 5 || cmd->kind == 6) {
+            o->d40 = sub_0207C768(0x8000000, cmd->r24);
+            o->d44 = sub_0207C768(0x10000000, cmd->r24);
+            o->d44 = FX_Mul(o->d44, cmd->r54);
+        } else {
+            o->d40 = sub_0207C768(0x8000000, cmd->r24);
+        }
+        if (o->d40 == 0)
+            o->d40 = 1;
+        o->r30 = VEC_Distance(&srcPos, &dstPos) / 2;
+        if (cmd->kind == 1 || cmd->kind == 4)
+            o->r34 = 0;
+        else
+            o->r34 = cmd->r1c;
+        if (cmd->kind == 4) {
+            fx32 sx = srcPos.x;
+            fx32 sy = srcPos.y;
+            fx32 sz = srcPos.z;
+            fx32 dx = dstPos.x;
+            fx32 dy = dstPos.y;
+            fx32 dz = dstPos.z;
+            srcPos.x = dx;
+            srcPos.y = dy;
+            srcPos.z = dz;
+            dstPos.x = sx + dx;
+            dstPos.y = sy + dy;
+            dstPos.z = sz + dz;
+        }
+        dir.x = dstPos.x - srcPos.x;
+        dir.y = dstPos.y - srcPos.y;
+        dir.z = dstPos.z - srcPos.z;
+        VEC_Normalize(&dir, &dir);
+        up.x = 0x1000;
+        up.y = 0;
+        up.z = 0;
+        ang = FX_AcosIdx(VEC_DotProduct(&up, &dir));
+        VEC_CrossProduct(&up, &dir, &axis);
+        VEC_Normalize(&axis, &axis);
+        MTX_RotAxis43(&o->mtx, &axis, FX_SinCosTable_[(ang >> 4) * 2], FX_SinCosTable_[(ang >> 4) * 2 + 1]);
+        o->mtx.m[3][0] = srcPos.x;
+        o->mtx.m[3][1] = srcPos.y;
+        o->mtx.m[3][2] = srcPos.z;
+    }
+
+    if (cmd->src != 8 && cmd->dst != 8 && cmd->src != cmd->dst) {
+        rot[0] = 2;
+        dstPos.x = dstPos.x - srcPos.x;
+        dstPos.y = dstPos.y - srcPos.y;
+        dstPos.z = dstPos.z - srcPos.z;
+        func_020519C4(emitter, &dstPos);
+        func_02051A04(emitter, &dstPos);
+        d2.x = dstPos.x;
+        d2.y = 0;
+        d2.z = dstPos.z;
+        func_020517B4(emitter, &rot[1]);
+        r.x = rot[1];
+        r.y = 0;
+        r.z = rot[3];
+        VEC_Normalize(&r, &r);
+        VEC_Normalize(&d2, &d2);
+        ang = FX_AcosIdx(VEC_DotProduct(&r, &d2));
+        VEC_CrossProduct(&r, &d2, &c);
+        VEC_Normalize(&c, &c);
+        MTX_RotAxis43(&m, &c, FX_SinCosTable_[(ang >> 4) * 2], FX_SinCosTable_[(ang >> 4) * 2 + 1]);
+        r.x = rot[1];
+        r.y = rot[2];
+        r.z = rot[3];
+        MTX_MultVec43(&r, &m, &r);
+        VEC_Normalize(&r, &r);
+        if (flag == 1) {
+            r.x *= -1;
+            r.z *= -1;
+        }
+        rot[1] = r.x;
+        rot[2] = r.y;
+        rot[3] = r.z;
+        if (ang < 0x2000 || (ang > 0x6000 && ang < 0xa000) || ang > 0xe000)
+            rot[0] = 0;
+        func_020519E4(emitter, rot);
+        func_02051880(emitter, &rot[1]);
+    }
+
+    if ((cmd->mode != 0 && (cmd->src & 1)) || cmd->mode == 0 || cmd->mode == 2 || cmd->mode == 3) {
+        a = func_020517D0(emitter);
+        b = func_02051830(emitter) << 12;
+        e = func_02051820(emitter);
+        f = func_020517E0(emitter);
+        if (cmd->r44 != 0) {
+            func_020517D8(emitter, FX_Mul(a, cmd->r44));
+            func_020517E8(emitter, FX_Mul(f, cmd->r44));
+        }
+        if (cmd->r48 != 0)
+            func_020518A4(emitter, FX_Mul(b, cmd->r48) >> 12);
+        if (cmd->r4c != 0)
+            func_0205189C(emitter, (s16)FX_Mul(e, cmd->r4c));
+        if (cmd->r50 != 0) {
+            func_02051790(emitter, &sc);
+            sc.x = FX_Mul(sc.x, cmd->r50);
+            sc.y = FX_Mul(sc.y, cmd->r50);
+            sc.z = FX_Mul(sc.z, cmd->r50);
+            func_020517A4(emitter, &sc);
+            a = func_020517F0(emitter);
+            func_02051800(emitter, FX_Mul(a, cmd->r50));
+            a = func_02051808(emitter);
+            func_02051818(emitter, FX_Mul(a, cmd->r50));
+        }
+    }
+    if (cmd->mode == 3)
+        func_02051838(emitter, &tmp);
+    else
+        func_02051838(emitter, &srcPos);
+    sub_020307B0(cmd);
+}

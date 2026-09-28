@@ -1,0 +1,234 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "ov094",
+ "shard": "pkt_ov094_021F9AB8",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "func_021F6F48",
+   "address": "0x021F6F48",
+   "kind": "game",
+   "region": "ov094",
+   "source": "src/matched/ov/ov094_func_021F6F48.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT*",
+   "evidence": {
+    "sole-ref": [
+     "code:0x021F918C"
+    ]
+   }
+  },
+  {
+   "name": "func_021F7208",
+   "address": "0x021F7208",
+   "kind": "game",
+   "region": "ov094",
+   "source": "src/matched/ov/ov094_func_021F7208.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_021F8684",
+   "address": "0x021F8684",
+   "kind": "game",
+   "region": "ov094",
+   "source": "src/matched/ov/ov094_func_021F8684.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x0220AF20"
+    ]
+   }
+  },
+  {
+   "name": "func_021F896C",
+   "address": "0x021F896C",
+   "kind": "game",
+   "region": "ov094",
+   "source": "src/matched/ov/ov094_func_021F896C.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x021F8B40",
+     "self:0x0220AF20"
+    ]
+   }
+  },
+  {
+   "name": "func_021F899C",
+   "address": "0x021F899C",
+   "kind": "game",
+   "region": "ov094",
+   "source": "src/matched/ov/ov094_func_021F899C.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x0220AF20"
+    ]
+   }
+  },
+  {
+   "name": "func_021F89BC",
+   "address": "0x021F89BC",
+   "kind": "game",
+   "region": "ov094",
+   "source": "src/matched/ov/ov094_func_021F89BC.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x0220AF20"
+    ]
+   }
+  },
+  {
+   "name": "func_021F8B40",
+   "address": "0x021F8B40",
+   "kind": "game",
+   "region": "ov094",
+   "source": "src/matched/ov/ov094_func_021F8B40.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x0220AF20"
+    ]
+   }
+  },
+  {
+   "name": "func_021F918C",
+   "address": "0x021F918C",
+   "kind": "game",
+   "region": "ov094",
+   "source": "src/matched/ov/ov094_func_021F918C.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_021FDB20",
+   "address": "0x021FDB20",
+   "kind": "game",
+   "region": "ov094",
+   "source": "src/matched/ov/ov094_func_021FDB20.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x021FF1B0"
+    ]
+   }
+  },
+  {
+   "name": "func_021FF16C",
+   "address": "0x021FF16C",
+   "kind": "game",
+   "region": "ov094",
+   "source": "src/matched/ov/ov094_func_021FF16C.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_021FF1B0",
+   "address": "0x021FF1B0",
+   "kind": "game",
+   "region": "ov094",
+   "source": "src/matched/ov/ov094_func_021FF1B0.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_021FF630",
+   "address": "0x021FF630",
+   "kind": "game",
+   "region": "ov094",
+   "source": "src/matched/ov/ov094_func_021FF630.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x02200A84",
+     "code:0x02200B10"
+    ]
+   }
+  },
+  {
+   "name": "func_0220074C",
+   "address": "0x0220074C",
+   "kind": "game",
+   "region": "ov094",
+   "source": "src/matched/ov/ov094_func_0220074C.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x0220AE7C"
+    ]
+   }
+  },
+  {
+   "name": "func_02201934",
+   "address": "0x02201934",
+   "kind": "game",
+   "region": "ov094",
+   "source": "src/matched/ov/ov094_func_02201934.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x02209FC8",
+     "self:0x02209FD0",
+     "self:0x0220A008",
+     "self:0x0220A020",
+     "self:0x0220A038"
+    ]
+   }
+  }
+ ]
+}
