@@ -210,7 +210,7 @@ def sdk_addrs(region):
 
 
 def overlay_functions():
-    """Every traced function in every overlay listing, sized to the next label.
+    """Every traced function in every overlay listing, sized by its instruction bytes.
 
     A function whose start is a catalogued SDK symbol is SDK code: matched SDK
     when a shard reproduces it, plain SDK otherwise.  Everything else is game.
@@ -232,9 +232,14 @@ def overlay_functions():
             by_label.setdefault(name, a)
         matched, _uncounted = ovstats.matched_addresses(region, [a for a, _ in labels], by_label)
         sdk = sdk_addrs(region)
-        for i, (addr, name) in enumerate(labels):
-            end = labels[i + 1][0] if i + 1 < len(labels) else span_end
-            size = end - addr
+        code = ovstats.function_code_bytes(path, [a for a, _ in labels])
+        seen = set()
+        for addr, name in labels:
+            # tiles are sized by instruction bytes, the measure ovstats and arm9 use
+            if addr in seen:
+                continue
+            seen.add(addr)
+            size = code[addr]
             if size <= 0:
                 continue
             exact = addr in matched

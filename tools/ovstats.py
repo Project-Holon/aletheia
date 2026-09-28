@@ -25,6 +25,7 @@ yet, unlike ``layout/symbols_sdk.txt`` for arm9), and only functions with a shar
 entry are counted as matched.  EXACT and EXACT* both count.
 """
 import argparse
+import bisect
 import glob
 import json
 import os
@@ -171,6 +172,27 @@ def matched_addresses(overlay, addrs, by_label):
     return matched, uncounted
 
 
+def function_code_bytes(path, addrs):
+    """{function address: instruction bytes} for a listing, the measure worklist.py uses
+    for arm9.  Every decoded instruction is credited to the function label at or before
+    it; pool words and data directives carry no byte field and are never counted, so a
+    function is sized by its code alone, not by the distance to the next label.
+    Instructions before the first label are returned under the key None."""
+    starts = sorted(set(addrs))
+    out = dict.fromkeys(starts, 0)
+    out[None] = 0
+    with open(path, encoding="utf-8", errors="replace") as fh:
+        for line in fh:
+            m = INSN.search(line)
+            if not m:
+                continue
+            a = int(m.group(1), 16)
+            size = len(m.group(2).split())
+            pos = bisect.bisect_right(starts, a) - 1
+            out[starts[pos] if pos >= 0 else None] += size
+    return out
+
+
 def overlay_rows():
     rows = []
     for path in sorted(glob.glob(os.path.join(ROOT, "asm", "overlays", "ov*.s"))):
@@ -201,20 +223,16 @@ def overlay_rows():
         by_label = {}
         for a, name in labels:
             by_label.setdefault(name, a)
-        span_end = (int(m_range.group(2), 16) if m_range else 0)
-        code_end = (int(m_range.group(1), 16) + row["code_bytes"]) if m_range else span_end
 
-        def extent(a, clip=None):
-            after = [x for x in addrs if x > a]
-            end = after[0] if after else span_end
-            if clip is not None:
-                end = min(end, clip)
-            return max(0, end - a)
-
+        # Both sides of the figure use one measure, each function's instruction bytes
+        # (function_code_bytes), as arm9 does; pools and data runs count nowhere.
+        code = function_code_bytes(path, addrs)
+        row["insn_bytes"] = sum(code.values())
+        row["unattributed_bytes"] = code[None]
         for a in sorted(set(addrs)):
             if a in sdk:
-                row["sdk_bytes"] += extent(a, clip=code_end)
-        row["game_bytes"] = max(0, row["code_bytes"] - row["sdk_bytes"])
+                row["sdk_bytes"] += code[a]
+        row["game_bytes"] = row["insn_bytes"] - row["sdk_bytes"]
         # Matched entries are keyed by address, and an address counts only when it is a
         # function label in this listing (matched_addresses), so every matched byte is
         # inside the denominator and a function listed twice counts once.
@@ -223,10 +241,10 @@ def overlay_rows():
                             for k, st in uncounted]
         for a in sorted(matched):
             if a in sdk:
-                row["matched_sdk_bytes"] += extent(a)
+                row["matched_sdk_bytes"] += code[a]
                 row["matched_sdk_funcs"] += 1
             else:
-                row["matched_bytes"] += extent(a)
+                row["matched_bytes"] += code[a]
                 row["matched_funcs"] += 1
         rows.append(row)
     return rows
