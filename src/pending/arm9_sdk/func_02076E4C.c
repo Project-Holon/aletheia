@@ -15,6 +15,11 @@
  *            pending: no asm instruction and no object evidence for one (brief asm rule). Shape from
  *            the Rom line table and the Debug build: cacheBuffer local (line 367), ptr/n/pos order
  *            (371-373), MIN clamp, for(;;) poll loop.
+ *            sdk9f_card: n from a page-size variable (function scope, const, sizeof), n assigned per
+ *            arm, casts through unsigned int/int/pointer, comma/+0/ternary on the compare, condition
+ *            split into an else-if chain: all fold to `cmp r8,#0x200`. Under opt_propagation off
+ *            the poll loop is word r2/ctrl r1/data r0 against the image's r3/r2/r1 (one-register
+ *            rotation; the copy's vreg takes r0 first in the image).
  *
  * sdk:      CARDi_ReadRomWithCPU (libcard.TWL.HYB.a card_rom.o)
  *

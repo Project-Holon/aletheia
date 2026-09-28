@@ -14,6 +14,11 @@
  *            does `#pragma opt_loop_invariants off`; held in pending: no asm instruction and no object
  *            evidence for either (brief asm rule). Shape confirmed by the Rom line table (lines
  *            147-222) and the Debug build (same locals, same switch and MIN clamp).
+ *            sdk9f_card: the four registers are allocated in declaration order for non-const
+ *            locals, then the hoisted buffer address, then a `const` req_type (const req_mode and
+ *            const retry_count change nothing). Declaring `size` first with type/mode/retry
+ *            non-const gives type r5, mode r6 and only size/buf swapped (12 bytes), but that
+ *            contradicts the DWARF declaration order (req_type, req_mode, retry_count, size, len).
  *
  * sdk:      CARDi_RequestStreamCommandCore (libcard.TWL.HYB.a card_backup.o, static)
  *

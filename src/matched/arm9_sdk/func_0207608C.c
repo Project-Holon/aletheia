@@ -7,8 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
- * notes:    p and the zero swap registers (image: p in r2, zero in r0 loaded first); enum-typed target, inline OS_InitThreadQueue, order variants and 1500-iteration permuter all 18 bytes out
+ * status:   EXACT
  *
  * sdk:      CARDi_InitResourceLock (libcard.TWL.HYB.a card_common.o)
  *
@@ -37,7 +36,10 @@ typedef enum CARDTarget
     CARD_TARGET_BACKUP
 } CARDTarget;
 
-typedef struct CARDiCommandArg CARDiCommandArg;
+typedef struct CARDiCommandArg
+{
+    int result;
+} CARDiCommandArg;
 typedef struct CARDDmaInterface CARDDmaInterface;
 
 typedef struct CARDiCommon
@@ -71,15 +73,15 @@ extern CARDiCommon cardi_common;
 
 static inline void OS_InitThreadQueue(OSThreadQueue *queue)
 {
-    queue->head = queue->tail = 0;
+    queue->head = queue->tail = (OSThread *)0;
 }
 
 void func_0207608C(void)
 {
-    CARDiCommon *p = &cardi_common;
+    CARDiCommon *p = (CARDiCommon *)&cardi_common;
 
     p->lock_owner = -3;
     p->lock_ref = 0;
-    p->lock_target = 0;
+    p->lock_target = CARD_TARGET_NONE;
     OS_InitThreadQueue(p->lock_queue);
 }
