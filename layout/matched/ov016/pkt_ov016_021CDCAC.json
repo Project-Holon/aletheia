@@ -55,6 +55,27 @@
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT"
+  },
+  {
+   "name": "endScene2",
+   "address": "0x021CDF98",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021CDF98.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DE628"
+    ],
+    "sdk": [
+     "0x021CBC90",
+     "0x021CE070"
+    ]
+   }
   }
  ]
 }

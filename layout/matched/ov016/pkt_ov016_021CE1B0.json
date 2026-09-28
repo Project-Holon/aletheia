@@ -90,6 +90,49 @@
    }
   },
   {
+   "name": "endScene1",
+   "address": "0x021CE2F4",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021CE2F4.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DE62C"
+    ],
+    "sdk": [
+     "0x021CE364"
+    ]
+   }
+  },
+  {
+   "name": "endScene2",
+   "address": "0x021CE364",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021CE364.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DE62C"
+    ],
+    "sdk": [
+     "0x021CBC90",
+     "0x021CDA88",
+     "0x021CDCAC",
+     "0x021D0CEC"
+    ]
+   }
+  },
+  {
    "name": "procNotFound",
    "address": "0x021CE564",
    "kind": "sdk",
