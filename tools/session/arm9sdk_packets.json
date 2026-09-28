@@ -1,0 +1,4701 @@
+{
+ "open_functions": 633,
+ "open_bytes": 81558,
+ "packets": [
+  {
+   "id": "A901",
+   "lo": "0x02004BB4",
+   "hi": "0x0205A1B0",
+   "funcs": 56,
+   "bytes": 6806,
+   "objects": [
+    "crt0.HYB.TWL.o",
+    "ctrdg.o",
+    "dwc_account.o",
+    "dwc_backup.o",
+    "dwc_base64.o",
+    "dwc_bm_init.o",
+    "dwc_init.o",
+    "dwc_memfunc.o",
+    "el.o",
+    "heap.o",
+    "rc4.o",
+    "util_wifiidtool."
+   ],
+   "list": [
+    {
+     "addr": "0x02004BB4",
+     "size": 412,
+     "name": "INITi_DoAutoload",
+     "lib": "crt0.HYB.TWL.o",
+     "object": "crt0.HYB.TWL.o"
+    },
+    {
+     "addr": "0x02006254",
+     "size": 18,
+     "name": "gsXmlReadAttributeAsString",
+     "lib": "",
+     "object": ""
+    },
+    {
+     "addr": "0x0200B424",
+     "size": 20,
+     "name": "DWCi_HEAPlEnd",
+     "lib": "libdwcutil.TWL.HYB.thumb.a",
+     "object": "heap.o"
+    },
+    {
+     "addr": "0x0201AB34",
+     "size": 20,
+     "name": "OS_IsForceDisableWireless",
+     "lib": "",
+     "object": ""
+    },
+    {
+     "addr": "0x02026C1C",
+     "size": 20,
+     "name": "EL_Export",
+     "lib": "libel.TWL.HYB.thumb.a",
+     "object": "el.o"
+    },
+    {
+     "addr": "0x02026C78",
+     "size": 20,
+     "name": "EL_Export",
+     "lib": "libel.TWL.HYB.thumb.a",
+     "object": "el.o"
+    },
+    {
+     "addr": "0x0202FAB4",
+     "size": 128,
+     "name": "CRYPTO_RC4Init",
+     "lib": "libcrypto.TWL.HYB.a",
+     "object": "rc4.o"
+    },
+    {
+     "addr": "0x020312CC",
+     "size": 44,
+     "name": "EL_LinkFileEx",
+     "lib": "libel.TWL.HYB.a",
+     "object": "el.o"
+    },
+    {
+     "addr": "0x020312F8",
+     "size": 44,
+     "name": "EL_LinkFileEx",
+     "lib": "libel.TWL.HYB.a",
+     "object": "el.o"
+    },
+    {
+     "addr": "0x02043658",
+     "size": 16,
+     "name": "WCMi_GetSystemWork",
+     "lib": "",
+     "object": ""
+    },
+    {
+     "addr": "0x02058518",
+     "size": 196,
+     "name": "DWCi_BM_GetWiFiInfo",
+     "lib": "libdwcbm.TWL.HYB.a",
+     "object": "dwc_backup.o"
+    },
+    {
+     "addr": "0x020585DC",
+     "size": 88,
+     "name": "ReadSlotInfo",
+     "lib": "libdwcbm.TWL.HYB.a",
+     "object": "dwc_backup.o"
+    },
+    {
+     "addr": "0x02058664",
+     "size": 88,
+     "name": "ReadSlotInfoEx",
+     "lib": "libdwcbm.TWL.HYB.a",
+     "object": "dwc_backup.o"
+    },
+    {
+     "addr": "0x020586BC",
+     "size": 180,
+     "name": "DWCi_BM_SetWiFiInfo",
+     "lib": "libdwcbm.TWL.HYB.a",
+     "object": "dwc_backup.o"
+    },
+    {
+     "addr": "0x02058784",
+     "size": 92,
+     "name": "DWCi_BACKUPlWritePage",
+     "lib": "libdwcbm.TWL.HYB.a",
+     "object": "dwc_backup.o"
+    },
+    {
+     "addr": "0x020587F8",
+     "size": 68,
+     "name": "DWCi_BACKUPlConvMaskCidr",
+     "lib": "libdwcbm.TWL.HYB.a",
+     "object": "dwc_backup.o"
+    },
+    {
+     "addr": "0x02058868",
+     "size": 104,
+     "name": "DWC_BACKUPlCheckIp",
+     "lib": "libdwcbm.TWL.HYB.a",
+     "object": "dwc_backup.o"
+    },
+    {
+     "addr": "0x02058904",
+     "size": 192,
+     "name": "DWCi_BACKUPlConvWifiInfo",
+     "lib": "libdwcbm.TWL.HYB.a",
+     "object": "dwc_backup.o"
+    },
+    {
+     "addr": "0x020589D0",
+     "size": 108,
+     "name": "DWC_BM_Init",
+     "lib": "libdwcbm.TWL.HYB.a",
+     "object": "dwc_bm_init.o"
+    },
+    {
+     "addr": "0x02058A3C",
+     "size": 388,
+     "name": "DWCi_Util_WiFiId_scrambleUid",
+     "lib": "libdwcbm.TWL.HYB.a",
+     "object": "util_wifiidtool."
+    },
+    {
+     "addr": "0x02058BC0",
+     "size": 456,
+     "name": "DWCi_AUTH_GetNewWiFiInfo",
+     "lib": "libdwcbm.TWL.HYB.a",
+     "object": "util_wifiidtool."
+    },
+    {
+     "addr": "0x02058D88",
+     "size": 72,
+     "name": "DWCi_AUTH_MakeWiFiID",
+     "lib": "libdwcbm.TWL.HYB.a",
+     "object": "util_wifiidtool."
+    },
+    {
+     "addr": "0x02058DD0",
+     "size": 80,
+     "name": "DWCi_AUTH_UpDateWiFiID",
+     "lib": "libdwcbm.TWL.HYB.a",
+     "object": "util_wifiidtool."
+    },
+    {
+     "addr": "0x02058E20",
+     "size": 404,
+     "name": "DWCi_AUTH_RemakeWiFiID",
+     "lib": "libdwcbm.TWL.HYB.a",
+     "object": "util_wifiidtool."
+    },
+    {
+     "addr": "0x02058FB4",
+     "size": 84,
+     "name": "DWC_Auth_GetId",
+     "lib": "libdwcbm.TWL.HYB.a",
+     "object": "util_wifiidtool."
+    },
+    {
+     "addr": "0x02059008",
+     "size": 80,
+     "name": "DWC_Auth_CheckWiFiIDNeedCreate",
+     "lib": "libdwcbm.TWL.HYB.a",
+     "object": "util_wifiidtool."
+    },
+    {
+     "addr": "0x0205912C",
+     "size": 48,
+     "name": "CTRDG_IsBitID",
+     "lib": "libctrdg.TWL.HYB.a",
+     "object": "ctrdg.o"
+    },
+    {
+     "addr": "0x02059214",
+     "size": 44,
+     "name": "DWCi_SetBuddyFriendData",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x02059240",
+     "size": 48,
+     "name": "DWCi_SetReverseBuddyFlag",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x02059270",
+     "size": 48,
+     "name": "DWCi_SetExpIsBuddyFriendFlag",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x020592A0",
+     "size": 48,
+     "name": "DWCi_SetSentBuddyReqFlag",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x020592D0",
+     "size": 132,
+     "name": "DWC_Acc_CreateFriendKey",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x02059374",
+     "size": 68,
+     "name": "DWC_Acc_CheckFriendKey",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x020593B8",
+     "size": 80,
+     "name": "DWC_Acc_FriendKeyToGsProfileId",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x02059408",
+     "size": 108,
+     "name": "DWCi_Acc_U64ToString32",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x02059474",
+     "size": 148,
+     "name": "DWCi_Acc_LoginIdToUserName",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x02059508",
+     "size": 128,
+     "name": "DWCi_Acc_CreateUserData",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x02059588",
+     "size": 188,
+     "name": "DWCi_Acc_CreateTempLoginId",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x02059644",
+     "size": 108,
+     "name": "DWCi_Acc_CheckConsoleUserId",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x02059718",
+     "size": 72,
+     "name": "DWC_CheckUserData",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x02059760",
+     "size": 104,
+     "name": "DWC_CheckValidConsole",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x020597C8",
+     "size": 40,
+     "name": "DWC_CheckHasProfile",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x020597F0",
+     "size": 92,
+     "name": "DWCi_Acc_SetLoginIdToUserData",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x0205987C",
+     "size": 72,
+     "name": "DWCi_Acc_ClearDirty",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x020598C4",
+     "size": 40,
+     "name": "DWC_GetFriendKey",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x020598EC",
+     "size": 96,
+     "name": "DWC_GetGsProfileId",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x0205994C",
+     "size": 52,
+     "name": "DWC_CreateFriendKey",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x02059980",
+     "size": 60,
+     "name": "DWC_CreateFriendKeyToken",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x020599BC",
+     "size": 84,
+     "name": "DWC_CreateExchangeToken",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x02059A10",
+     "size": 52,
+     "name": "DWC_SetGsProfileId",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x02059A5C",
+     "size": 228,
+     "name": "DWC_IsEqualFriendData",
+     "lib": "libdwcaccount.TWL.HYB.a",
+     "object": "dwc_account.o"
+    },
+    {
+     "addr": "0x02059B40",
+     "size": 380,
+     "name": "DWC_Base64Encode",
+     "lib": "libdwccommon.TWL.HYB.a",
+     "object": "dwc_base64.o"
+    },
+    {
+     "addr": "0x02059CBC",
+     "size": 348,
+     "name": "DWC_Base64Decode",
+     "lib": "libdwccommon.TWL.HYB.a",
+     "object": "dwc_base64.o"
+    },
+    {
+     "addr": "0x02059F6C",
+     "size": 60,
+     "name": "DWC_InitForProduction",
+     "lib": "libdwccommon.TWL.HYB.a",
+     "object": "dwc_init.o"
+    },
+    {
+     "addr": "0x02059FA8",
+     "size": 356,
+     "name": "DWCi_Init",
+     "lib": "libdwccommon.TWL.HYB.a",
+     "object": "dwc_init.o"
+    },
+    {
+     "addr": "0x0205A17C",
+     "size": 52,
+     "name": "DWC_AllocEx",
+     "lib": "libdwccommon.TWL.HYB.a",
+     "object": "dwc_memfunc.o"
+    }
+   ]
+  },
+  {
+   "id": "A902",
+   "lo": "0x0205A2DC",
+   "hi": "0x0205BE58",
+   "funcs": 32,
+   "bytes": 6812,
+   "objects": [
+    "beacon.o",
+    "callback.o",
+    "close.o",
+    "connect.o",
+    "dwc_ac.o",
+    "wds.o"
+   ],
+   "list": [
+    {
+     "addr": "0x0205A2DC",
+     "size": 492,
+     "name": "WDSScanCallback",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "wds.o"
+    },
+    {
+     "addr": "0x0205A4D4",
+     "size": 132,
+     "name": "WDS_Initialize",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "wds.o"
+    },
+    {
+     "addr": "0x0205A558",
+     "size": 64,
+     "name": "WDS_End",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "wds.o"
+    },
+    {
+     "addr": "0x0205A598",
+     "size": 184,
+     "name": "WDS_StartScan",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "wds.o"
+    },
+    {
+     "addr": "0x0205A650",
+     "size": 56,
+     "name": "WDS_EndScan",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "wds.o"
+    },
+    {
+     "addr": "0x0205A688",
+     "size": 156,
+     "name": "WDS_GetApInfoByIndex",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "wds.o"
+    },
+    {
+     "addr": "0x0205A724",
+     "size": 168,
+     "name": "WDS_GetApInfoAll",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "wds.o"
+    },
+    {
+     "addr": "0x0205A7CC",
+     "size": 252,
+     "name": "WDS_DecryptWMBssDesc",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "wds.o"
+    },
+    {
+     "addr": "0x0205A8C8",
+     "size": 52,
+     "name": "IsValidApnum",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "wds.o"
+    },
+    {
+     "addr": "0x0205A8FC",
+     "size": 60,
+     "name": "WDS_IsAvailableForAutoConnect",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "wds.o"
+    },
+    {
+     "addr": "0x0205A938",
+     "size": 376,
+     "name": "DWCi_AC_GetBeacon",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "beacon.o"
+    },
+    {
+     "addr": "0x0205AAB0",
+     "size": 164,
+     "name": "DWCi_AC_CheckNintendoSSID",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "beacon.o"
+    },
+    {
+     "addr": "0x0205AB54",
+     "size": 128,
+     "name": "DWCi_AC_IsSupportWPA",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "beacon.o"
+    },
+    {
+     "addr": "0x0205ABD4",
+     "size": 124,
+     "name": "CompareList",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "beacon.o"
+    },
+    {
+     "addr": "0x0205AC50",
+     "size": 148,
+     "name": "CompareListDiff",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "beacon.o"
+    },
+    {
+     "addr": "0x0205ACE4",
+     "size": 392,
+     "name": "AddList",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "beacon.o"
+    },
+    {
+     "addr": "0x0205AE6C",
+     "size": 104,
+     "name": "SetDataListTail",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "beacon.o"
+    },
+    {
+     "addr": "0x0205AED4",
+     "size": 136,
+     "name": "UpDateList",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "beacon.o"
+    },
+    {
+     "addr": "0x0205AF5C",
+     "size": 492,
+     "name": "SortList",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "beacon.o"
+    },
+    {
+     "addr": "0x0205B148",
+     "size": 156,
+     "name": "DWCi_AC_CallBackWCM",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "callback.o"
+    },
+    {
+     "addr": "0x0205B1E4",
+     "size": 128,
+     "name": "DWCi_AC_CloseNetwork",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "close.o"
+    },
+    {
+     "addr": "0x0205B2F8",
+     "size": 68,
+     "name": "CloseSocket",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "close.o"
+    },
+    {
+     "addr": "0x0205B33C",
+     "size": 64,
+     "name": "DWCi_AC_ConnectAP",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "connect.o"
+    },
+    {
+     "addr": "0x0205B37C",
+     "size": 268,
+     "name": "ConnectStart",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "connect.o"
+    },
+    {
+     "addr": "0x0205B488",
+     "size": 356,
+     "name": "ConnectAP",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "connect.o"
+    },
+    {
+     "addr": "0x0205B5EC",
+     "size": 420,
+     "name": "GetConnectType",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "connect.o"
+    },
+    {
+     "addr": "0x0205B7D0",
+     "size": 444,
+     "name": "GetWepKey",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "connect.o"
+    },
+    {
+     "addr": "0x0205B98C",
+     "size": 748,
+     "name": "DWC_AC_Create",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_ac.o"
+    },
+    {
+     "addr": "0x0205BC78",
+     "size": 236,
+     "name": "DWC_AC_Process",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_ac.o"
+    },
+    {
+     "addr": "0x0205BD64",
+     "size": 108,
+     "name": "DWC_AC_GetStatus",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_ac.o"
+    },
+    {
+     "addr": "0x0205BDD0",
+     "size": 48,
+     "name": "DWC_AC_GetApType",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_ac.o"
+    },
+    {
+     "addr": "0x0205BE00",
+     "size": 88,
+     "name": "DWC_AC_GetApSpotInfo",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_ac.o"
+    }
+   ]
+  },
+  {
+   "id": "A903",
+   "lo": "0x0205BE6C",
+   "hi": "0x0205DC58",
+   "funcs": 46,
+   "bytes": 7440,
+   "objects": [
+    "dwc_ac.o",
+    "dwc_connectinet.",
+    "error.o",
+    "makelist.o",
+    "nintendospot.o"
+   ],
+   "list": [
+    {
+     "addr": "0x0205BE6C",
+     "size": 60,
+     "name": "DWC_AC_Destroy",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_ac.o"
+    },
+    {
+     "addr": "0x0205BEA8",
+     "size": 116,
+     "name": "DWC_AC_SetSpecifyApEx",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_ac.o"
+    },
+    {
+     "addr": "0x0205BF1C",
+     "size": 184,
+     "name": "DWC_AC_SetSpecifyAp",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_ac.o"
+    },
+    {
+     "addr": "0x0205BFEC",
+     "size": 44,
+     "name": "DWCi_AC_InsertApInfo",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_ac.o"
+    },
+    {
+     "addr": "0x0205C018",
+     "size": 32,
+     "name": "DWCi_AC_InvalidatePriorityWPA",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_ac.o"
+    },
+    {
+     "addr": "0x0205C038",
+     "size": 72,
+     "name": "DWCi_AC_Alloc",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_ac.o"
+    },
+    {
+     "addr": "0x0205C080",
+     "size": 108,
+     "name": "DWCi_AC_Free",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_ac.o"
+    },
+    {
+     "addr": "0x0205C0EC",
+     "size": 296,
+     "name": "DWCi_AC_FreeAll",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_ac.o"
+    },
+    {
+     "addr": "0x0205C214",
+     "size": 72,
+     "name": "DWCi_AC_GetMemPtr",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_ac.o"
+    },
+    {
+     "addr": "0x0205C25C",
+     "size": 104,
+     "name": "DWCi_AC_SetPhase",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_ac.o"
+    },
+    {
+     "addr": "0x0205C2E4",
+     "size": 36,
+     "name": "DWCi_AC_SetError",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_ac.o"
+    },
+    {
+     "addr": "0x0205C31C",
+     "size": 148,
+     "name": "DWCi_AC_SetApType",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_ac.o"
+    },
+    {
+     "addr": "0x0205C3B0",
+     "size": 280,
+     "name": "DWCi_AC_CopyExSetting",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_ac.o"
+    },
+    {
+     "addr": "0x0205C4C8",
+     "size": 96,
+     "name": "DWCi_ConvConnectAPType",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_ac.o"
+    },
+    {
+     "addr": "0x0205C528",
+     "size": 52,
+     "name": "Free_Disused",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_ac.o"
+    },
+    {
+     "addr": "0x0205C55C",
+     "size": 164,
+     "name": "CheckDuplicate",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_ac.o"
+    },
+    {
+     "addr": "0x0205C600",
+     "size": 112,
+     "name": "CheckEULA",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_ac.o"
+    },
+    {
+     "addr": "0x0205C670",
+     "size": 60,
+     "name": "CheckWirelessPowerON",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_ac.o"
+    },
+    {
+     "addr": "0x0205C6AC",
+     "size": 100,
+     "name": "DWC_InitInetEx",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_connectinet."
+    },
+    {
+     "addr": "0x0205C710",
+     "size": 72,
+     "name": "DWC_SetRwinSize",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_connectinet."
+    },
+    {
+     "addr": "0x0205C758",
+     "size": 196,
+     "name": "DWC_ConnectInetAsync",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_connectinet."
+    },
+    {
+     "addr": "0x0205C81C",
+     "size": 112,
+     "name": "DWC_DebugConnectInetExAsync",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_connectinet."
+    },
+    {
+     "addr": "0x0205C88C",
+     "size": 84,
+     "name": "DWC_CheckInet",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_connectinet."
+    },
+    {
+     "addr": "0x0205C8E0",
+     "size": 320,
+     "name": "DWC_ProcessInet",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_connectinet."
+    },
+    {
+     "addr": "0x0205CA20",
+     "size": 512,
+     "name": "DWC_GetInetStatus",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_connectinet."
+    },
+    {
+     "addr": "0x0205CC20",
+     "size": 140,
+     "name": "DWC_CleanupInet",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_connectinet."
+    },
+    {
+     "addr": "0x0205CCAC",
+     "size": 44,
+     "name": "DWCi_CheckDisconnected",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_connectinet."
+    },
+    {
+     "addr": "0x0205CCE4",
+     "size": 64,
+     "name": "DWCi_DivideFullApinfo",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_connectinet."
+    },
+    {
+     "addr": "0x0205CD24",
+     "size": 352,
+     "name": "DWC_GetApInfo",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_connectinet."
+    },
+    {
+     "addr": "0x0205CE84",
+     "size": 160,
+     "name": "DWC_CheckWiFiStation",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_connectinet."
+    },
+    {
+     "addr": "0x0205CF30",
+     "size": 224,
+     "name": "DWC_CheckNintendoZone",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_connectinet."
+    },
+    {
+     "addr": "0x0205D01C",
+     "size": 88,
+     "name": "DWC_ParseWMBssDesc",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_connectinet."
+    },
+    {
+     "addr": "0x0205D074",
+     "size": 112,
+     "name": "DWC_UpdateConnection",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "dwc_connectinet."
+    },
+    {
+     "addr": "0x0205D0E4",
+     "size": 36,
+     "name": "DWCi_AC_Error",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "error.o"
+    },
+    {
+     "addr": "0x0205D108",
+     "size": 112,
+     "name": "DWCi_AC_GetResult",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "error.o"
+    },
+    {
+     "addr": "0x0205D1E4",
+     "size": 308,
+     "name": "GetNotFoundInet",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "error.o"
+    },
+    {
+     "addr": "0x0205D318",
+     "size": 200,
+     "name": "DWCi_AC_MakeSearchList",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "makelist.o"
+    },
+    {
+     "addr": "0x0205D3E0",
+     "size": 84,
+     "name": "DWCi_AC_CheckFreespot",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "makelist.o"
+    },
+    {
+     "addr": "0x0205D434",
+     "size": 60,
+     "name": "DWCi_AC_GetSearchListNum",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "makelist.o"
+    },
+    {
+     "addr": "0x0205D470",
+     "size": 104,
+     "name": "MakeAroundList",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "makelist.o"
+    },
+    {
+     "addr": "0x0205D4D8",
+     "size": 176,
+     "name": "MakeStealthList",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "makelist.o"
+    },
+    {
+     "addr": "0x0205D588",
+     "size": 704,
+     "name": "MakeUserList",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "makelist.o"
+    },
+    {
+     "addr": "0x0205D848",
+     "size": 140,
+     "name": "MakeDifferChannelList",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "makelist.o"
+    },
+    {
+     "addr": "0x0205D8D4",
+     "size": 72,
+     "name": "CheckDifferChannelStart",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "makelist.o"
+    },
+    {
+     "addr": "0x0205D91C",
+     "size": 112,
+     "name": "DWC_AC_StartupGetWDSInfo",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "nintendospot.o"
+    },
+    {
+     "addr": "0x0205D98C",
+     "size": 716,
+     "name": "DWC_AC_ProcessGetWDSInfo",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "nintendospot.o"
+    }
+   ]
+  },
+  {
+   "id": "A904",
+   "lo": "0x0205DC74",
+   "hi": "0x0205F7C8",
+   "funcs": 40,
+   "bytes": 6880,
+   "objects": [
+    "backup.o",
+    "nintendospot.o",
+    "retry.o",
+    "search.o",
+    "shop_usb.o",
+    "start.o",
+    "test.o"
+   ],
+   "list": [
+    {
+     "addr": "0x0205DC74",
+     "size": 84,
+     "name": "DWC_AC_CleanupGetWDSInfo",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "nintendospot.o"
+    },
+    {
+     "addr": "0x0205DD2C",
+     "size": 216,
+     "name": "DWCi_AC_ConnectRetryAP",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "retry.o"
+    },
+    {
+     "addr": "0x0205DE04",
+     "size": 360,
+     "name": "DWCi_AC_SearchAP",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "search.o"
+    },
+    {
+     "addr": "0x0205DF6C",
+     "size": 60,
+     "name": "DWCi_AC_SetStealthChannel",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "search.o"
+    },
+    {
+     "addr": "0x0205DFA8",
+     "size": 360,
+     "name": "DWCi_AC_SearchReStart",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "search.o"
+    },
+    {
+     "addr": "0x0205E110",
+     "size": 108,
+     "name": "SearchAround1stLap",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "search.o"
+    },
+    {
+     "addr": "0x0205E17C",
+     "size": 84,
+     "name": "SearchAround2ndLap",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "search.o"
+    },
+    {
+     "addr": "0x0205E1D0",
+     "size": 204,
+     "name": "SearchAround",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "search.o"
+    },
+    {
+     "addr": "0x0205E29C",
+     "size": 424,
+     "name": "SearchDifferChannel",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "search.o"
+    },
+    {
+     "addr": "0x0205E444",
+     "size": 332,
+     "name": "SearchStealth",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "search.o"
+    },
+    {
+     "addr": "0x0205E590",
+     "size": 188,
+     "name": "NextSearchCheck",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "search.o"
+    },
+    {
+     "addr": "0x0205E64C",
+     "size": 324,
+     "name": "SearchEndCheck",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "search.o"
+    },
+    {
+     "addr": "0x0205E790",
+     "size": 136,
+     "name": "CheckStartStealthSearch",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "search.o"
+    },
+    {
+     "addr": "0x0205E818",
+     "size": 164,
+     "name": "GetStartChannel",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "search.o"
+    },
+    {
+     "addr": "0x0205E8BC",
+     "size": 152,
+     "name": "GetNextAroundChannel",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "search.o"
+    },
+    {
+     "addr": "0x0205E954",
+     "size": 180,
+     "name": "GetNextStealthChannel",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "search.o"
+    },
+    {
+     "addr": "0x0205EA08",
+     "size": 60,
+     "name": "DWCi_AC_CheckNintendoShopAP",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "shop_usb.o"
+    },
+    {
+     "addr": "0x0205EA44",
+     "size": 44,
+     "name": "DWCi_AC_GetNintendoShopWepKey",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "shop_usb.o"
+    },
+    {
+     "addr": "0x0205EA70",
+     "size": 140,
+     "name": "DWCi_AC_GetPostalCode",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "shop_usb.o"
+    },
+    {
+     "addr": "0x0205EAFC",
+     "size": 36,
+     "name": "DWCi_AC_CheckNintendoUsbAP",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "shop_usb.o"
+    },
+    {
+     "addr": "0x0205EB30",
+     "size": 252,
+     "name": "decodeSSID",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "shop_usb.o"
+    },
+    {
+     "addr": "0x0205EC2C",
+     "size": 80,
+     "name": "makeShopWepKey",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "shop_usb.o"
+    },
+    {
+     "addr": "0x0205EC7C",
+     "size": 428,
+     "name": "makeUsbWepKey",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "shop_usb.o"
+    },
+    {
+     "addr": "0x0205EE28",
+     "size": 112,
+     "name": "codetovalue",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "shop_usb.o"
+    },
+    {
+     "addr": "0x0205EE98",
+     "size": 344,
+     "name": "db64",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "shop_usb.o"
+    },
+    {
+     "addr": "0x0205EFF0",
+     "size": 140,
+     "name": "DWCi_AC_Start",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "start.o"
+    },
+    {
+     "addr": "0x0205F07C",
+     "size": 216,
+     "name": "DWCi_AC_ConnectTest",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "test.o"
+    },
+    {
+     "addr": "0x0205F154",
+     "size": 100,
+     "name": "ConnectTestStart",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "test.o"
+    },
+    {
+     "addr": "0x0205F1B8",
+     "size": 224,
+     "name": "GetIPAddress",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "test.o"
+    },
+    {
+     "addr": "0x0205F298",
+     "size": 44,
+     "name": "ConnectTestCreate",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "test.o"
+    },
+    {
+     "addr": "0x0205F2C4",
+     "size": 152,
+     "name": "ConnectTestProcess",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "test.o"
+    },
+    {
+     "addr": "0x0205F35C",
+     "size": 40,
+     "name": "ConnectTestEnd",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "test.o"
+    },
+    {
+     "addr": "0x0205F384",
+     "size": 44,
+     "name": "ConnectTestRetry",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "test.o"
+    },
+    {
+     "addr": "0x0205F3B0",
+     "size": 340,
+     "name": "MakeSOCConfig",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "test.o"
+    },
+    {
+     "addr": "0x0205F504",
+     "size": 84,
+     "name": "ConvAddress",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "test.o"
+    },
+    {
+     "addr": "0x0205F558",
+     "size": 84,
+     "name": "ConvNetMask",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "test.o"
+    },
+    {
+     "addr": "0x0205F5AC",
+     "size": 156,
+     "name": "CheckSetDNS",
+     "lib": "libdwcac.TWL.HYB.a",
+     "object": "test.o"
+    },
+    {
+     "addr": "0x0205F648",
+     "size": 184,
+     "name": "NCFGi_InitBackupMemory",
+     "lib": "libncfg.TWL.HYB.a",
+     "object": "backup.o"
+    },
+    {
+     "addr": "0x0205F700",
+     "size": 44,
+     "name": "NCFG_GetFormatVersion",
+     "lib": "libncfg.TWL.HYB.a",
+     "object": "backup.o"
+    },
+    {
+     "addr": "0x0205F72C",
+     "size": 156,
+     "name": "NCFG_ReadBackupMemory",
+     "lib": "libncfg.TWL.HYB.a",
+     "object": "backup.o"
+    }
+   ]
+  },
+  {
+   "id": "A905",
+   "lo": "0x0205F7C8",
+   "hi": "0x02077008",
+   "funcs": 53,
+   "bytes": 6916,
+   "objects": [
+    "backup.o",
+    "card_api.o",
+    "card_backup.o",
+    "card_common.o",
+    "card_hook.o",
+    "card_rom.o",
+    "card_task.o",
+    "card_utility.o",
+    "check.o",
+    "dwc_backup.o",
+    "info.o"
+   ],
+   "list": [
+    {
+     "addr": "0x0205F7C8",
+     "size": 216,
+     "name": "NCFG_WriteBackupMemory",
+     "lib": "libncfg.TWL.HYB.a",
+     "object": "backup.o"
+    },
+    {
+     "addr": "0x0205F8A0",
+     "size": 208,
+     "name": "getSlotInfo",
+     "lib": "libncfg.TWL.HYB.a",
+     "object": "backup.o"
+    },
+    {
+     "addr": "0x0205F970",
+     "size": 104,
+     "name": "ReadNVRAM",
+     "lib": "libncfg.TWL.HYB.a",
+     "object": "backup.o"
+    },
+    {
+     "addr": "0x0205F9D8",
+     "size": 104,
+     "name": "ReadNVRAM",
+     "lib": "libncfg.TWL.HYB.a",
+     "object": "backup.o"
+    },
+    {
+     "addr": "0x0205FA40",
+     "size": 104,
+     "name": "ReadNVRAM",
+     "lib": "libncfg.TWL.HYB.a",
+     "object": "backup.o"
+    },
+    {
+     "addr": "0x0205FAC0",
+     "size": 92,
+     "name": "NCFG_CheckConfig",
+     "lib": "libncfg.TWL.HYB.a",
+     "object": "info.o"
+    },
+    {
+     "addr": "0x0205FB1C",
+     "size": 112,
+     "name": "NCFG_CheckConfigEx",
+     "lib": "libncfg.TWL.HYB.a",
+     "object": "info.o"
+    },
+    {
+     "addr": "0x0205FB8C",
+     "size": 544,
+     "name": "checkConfig",
+     "lib": "libncfg.TWL.HYB.a",
+     "object": "info.o"
+    },
+    {
+     "addr": "0x0205FDAC",
+     "size": 448,
+     "name": "checkConfigEx",
+     "lib": "libncfg.TWL.HYB.a",
+     "object": "info.o"
+    },
+    {
+     "addr": "0x0205FF6C",
+     "size": 44,
+     "name": "initPage",
+     "lib": "libncfg.TWL.HYB.a",
+     "object": "info.o"
+    },
+    {
+     "addr": "0x0205FF98",
+     "size": 44,
+     "name": "initPageEx",
+     "lib": "libncfg.TWL.HYB.a",
+     "object": "info.o"
+    },
+    {
+     "addr": "0x0205FFC4",
+     "size": 124,
+     "name": "readAllSlots",
+     "lib": "libncfg.TWL.HYB.a",
+     "object": "info.o"
+    },
+    {
+     "addr": "0x02060040",
+     "size": 84,
+     "name": "readAllExSlots",
+     "lib": "libncfg.TWL.HYB.a",
+     "object": "info.o"
+    },
+    {
+     "addr": "0x02060094",
+     "size": 172,
+     "name": "writeAllSlots",
+     "lib": "libncfg.TWL.HYB.a",
+     "object": "info.o"
+    },
+    {
+     "addr": "0x02060140",
+     "size": 148,
+     "name": "writeAllExSlots",
+     "lib": "libncfg.TWL.HYB.a",
+     "object": "info.o"
+    },
+    {
+     "addr": "0x020601D4",
+     "size": 80,
+     "name": "NCFGi_CheckApInfo",
+     "lib": "libncfg.TWL.HYB.a",
+     "object": "check.o"
+    },
+    {
+     "addr": "0x02060224",
+     "size": 120,
+     "name": "NCFGi_CheckApInfoEx",
+     "lib": "libncfg.TWL.HYB.a",
+     "object": "check.o"
+    },
+    {
+     "addr": "0x0206029C",
+     "size": 204,
+     "name": "NCFGi_CheckIpInfo",
+     "lib": "libncfg.TWL.HYB.a",
+     "object": "check.o"
+    },
+    {
+     "addr": "0x02060368",
+     "size": 44,
+     "name": "DWCi_BACKUPlConvMaskAddr",
+     "lib": "libdwcbm.TWL.HYB.a",
+     "object": "dwc_backup.o"
+    },
+    {
+     "addr": "0x02060394",
+     "size": 40,
+     "name": "DWC_BACKUPlCheckSsid",
+     "lib": "libdwcbm.TWL.HYB.a",
+     "object": "dwc_backup.o"
+    },
+    {
+     "addr": "0x020603BC",
+     "size": 128,
+     "name": "NCFGi_CheckIp",
+     "lib": "libncfg.TWL.HYB.a",
+     "object": "check.o"
+    },
+    {
+     "addr": "0x0206043C",
+     "size": 44,
+     "name": "DWC_BACKUPlCheckAddress",
+     "lib": "libdwcbm.TWL.HYB.a",
+     "object": "dwc_backup.o"
+    },
+    {
+     "addr": "0x02075C38",
+     "size": 88,
+     "name": "CARDi_PeekEventListener",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_api.o"
+    },
+    {
+     "addr": "0x02075CAC",
+     "size": 244,
+     "name": "CARD_Init",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_api.o"
+    },
+    {
+     "addr": "0x02075E10",
+     "size": 112,
+     "name": "CARD_LockRom",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_api.o"
+    },
+    {
+     "addr": "0x02075EAC",
+     "size": 40,
+     "name": "CARD_UnlockBackup",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_api.o"
+    },
+    {
+     "addr": "0x02075ED4",
+     "size": 120,
+     "name": "CARDi_LockResource",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_common.o"
+    },
+    {
+     "addr": "0x02075F4C",
+     "size": 128,
+     "name": "CARDi_UnlockResource",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_common.o"
+    },
+    {
+     "addr": "0x0207608C",
+     "size": 40,
+     "name": "CARDi_InitResourceLock",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_common.o"
+    },
+    {
+     "addr": "0x020760B4",
+     "size": 76,
+     "name": "CARDi_InitCommand",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_common.o"
+    },
+    {
+     "addr": "0x02076100",
+     "size": 112,
+     "name": "CARDi_NotifyEvent",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_hook.o"
+    },
+    {
+     "addr": "0x02076170",
+     "size": 116,
+     "name": "CARDi_ExecuteOldTypeTask",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_task.o"
+    },
+    {
+     "addr": "0x02076230",
+     "size": 120,
+     "name": "CARDi_WaitForTask",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_task.o"
+    },
+    {
+     "addr": "0x020762A8",
+     "size": 76,
+     "name": "CARDi_EndTask",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_task.o"
+    },
+    {
+     "addr": "0x020762F4",
+     "size": 80,
+     "name": "CARDi_GetDmaInterface",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_utility.o"
+    },
+    {
+     "addr": "0x02076360",
+     "size": 92,
+     "name": "CARDi_DCInvalidateSmart",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_utility.o"
+    },
+    {
+     "addr": "0x020763BC",
+     "size": 52,
+     "name": "CARDi_OnFifoRecv",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_backup.o"
+    },
+    {
+     "addr": "0x020763F0",
+     "size": 336,
+     "name": "CARDi_Request",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_backup.o"
+    },
+    {
+     "addr": "0x02076540",
+     "size": 408,
+     "name": "CARDi_RequestStreamCommandCore",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_backup.o"
+    },
+    {
+     "addr": "0x02076A20",
+     "size": 80,
+     "name": "CARDi_IdentifyBackupCore",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_backup.o"
+    },
+    {
+     "addr": "0x02076A70",
+     "size": 80,
+     "name": "CARDi_BeginBackupCommand",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_backup.o"
+    },
+    {
+     "addr": "0x02076AC0",
+     "size": 108,
+     "name": "CARDi_RequestStreamCommand",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_backup.o"
+    },
+    {
+     "addr": "0x02076B2C",
+     "size": 64,
+     "name": "CARD_IdentifyBackup",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_backup.o"
+    },
+    {
+     "addr": "0x02076B98",
+     "size": 36,
+     "name": "CARD_CancelBackupAsync",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_backup.o"
+    },
+    {
+     "addr": "0x02076BBC",
+     "size": 128,
+     "name": "CARDi_SetRomOp",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_rom.o"
+    },
+    {
+     "addr": "0x02076C3C",
+     "size": 76,
+     "name": "CARDi_IsNormalMode",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_rom.o"
+    },
+    {
+     "addr": "0x02076C88",
+     "size": 72,
+     "name": "CARDi_StartRomPageTransfer",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_rom.o"
+    },
+    {
+     "addr": "0x02076CD0",
+     "size": 104,
+     "name": "CARDi_ReadRomIDCore",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_rom.o"
+    },
+    {
+     "addr": "0x02076D38",
+     "size": 104,
+     "name": "CARDi_ReadRomStatusCore",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_rom.o"
+    },
+    {
+     "addr": "0x02076DA0",
+     "size": 96,
+     "name": "CARDi_RefreshRom",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_rom.o"
+    },
+    {
+     "addr": "0x02076E00",
+     "size": 76,
+     "name": "CARDi_RefreshRomCore",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_rom.o"
+    },
+    {
+     "addr": "0x02076E4C",
+     "size": 284,
+     "name": "CARDi_ReadRomWithCPU",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_rom.o"
+    },
+    {
+     "addr": "0x02076F68",
+     "size": 160,
+     "name": "CARDi_DmaReadPageCallback",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_rom.o"
+    }
+   ]
+  },
+  {
+   "id": "A906",
+   "lo": "0x02077008",
+   "hi": "0x0207BCA0",
+   "funcs": 60,
+   "bytes": 6900,
+   "objects": [
+    "card_pullout.o",
+    "card_rom.o",
+    "fs_api.o",
+    "fs_archive.o",
+    "fs_file.o",
+    "fs_overlay.o",
+    "fs_proc_mem.o",
+    "fs_proc_rom.o",
+    "fx_mtx22.o",
+    "fx_mtx33.o",
+    "fx_mtx43.o"
+   ],
+   "list": [
+    {
+     "addr": "0x02077008",
+     "size": 124,
+     "name": "CARDi_ReadRomWithDMA",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_rom.o"
+    },
+    {
+     "addr": "0x02077084",
+     "size": 48,
+     "name": "CARDi_DmaReadDone",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_rom.o"
+    },
+    {
+     "addr": "0x020770B4",
+     "size": 180,
+     "name": "CARDi_IsRomDmaAvailable",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_rom.o"
+    },
+    {
+     "addr": "0x02077168",
+     "size": 76,
+     "name": "CARDi_ReadRomSyncCore",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_rom.o"
+    },
+    {
+     "addr": "0x0207733C",
+     "size": 136,
+     "name": "CARDi_InitRom",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_rom.o"
+    },
+    {
+     "addr": "0x020773DC",
+     "size": 52,
+     "name": "CARD_InitPulledOutCallback",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_pullout.o"
+    },
+    {
+     "addr": "0x02077410",
+     "size": 144,
+     "name": "CARDi_PulledOutCallback",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_pullout.o"
+    },
+    {
+     "addr": "0x020774C0",
+     "size": 88,
+     "name": "CARD_TerminateForPulledOut",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_pullout.o"
+    },
+    {
+     "addr": "0x02077518",
+     "size": 80,
+     "name": "CARDi_CheckPulledOutCore",
+     "lib": "libcard.TWL.HYB.a",
+     "object": "card_pullout.o"
+    },
+    {
+     "addr": "0x02077C78",
+     "size": 132,
+     "name": "FSi_ExecuteAsyncCommand",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_archive.o"
+    },
+    {
+     "addr": "0x02077CFC",
+     "size": 132,
+     "name": "FSi_ExecuteSyncCommand",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_archive.o"
+    },
+    {
+     "addr": "0x02077EB8",
+     "size": 140,
+     "name": "FS_FindArchive",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_archive.o"
+    },
+    {
+     "addr": "0x02077F44",
+     "size": 212,
+     "name": "FS_SetCurrentDirectory",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_archive.o"
+    },
+    {
+     "addr": "0x02078018",
+     "size": 96,
+     "name": "FSi_CopySafeString",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_archive.o"
+    },
+    {
+     "addr": "0x02078360",
+     "size": 36,
+     "name": "FS_InitArchive",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_archive.o"
+    },
+    {
+     "addr": "0x02078384",
+     "size": 256,
+     "name": "FS_RegisterArchiveName",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_archive.o"
+    },
+    {
+     "addr": "0x02078484",
+     "size": 172,
+     "name": "FS_ReleaseArchiveName",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_archive.o"
+    },
+    {
+     "addr": "0x02078540",
+     "size": 72,
+     "name": "FS_MountArchive",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_archive.o"
+    },
+    {
+     "addr": "0x02078588",
+     "size": 192,
+     "name": "FS_UnmountArchive",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_archive.o"
+    },
+    {
+     "addr": "0x02078648",
+     "size": 144,
+     "name": "FS_SuspendArchive",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_archive.o"
+    },
+    {
+     "addr": "0x020786D8",
+     "size": 92,
+     "name": "FS_ResumeArchive",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_archive.o"
+    },
+    {
+     "addr": "0x02078734",
+     "size": 108,
+     "name": "FS_NotifyArchiveAsyncEnd",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_archive.o"
+    },
+    {
+     "addr": "0x020787A0",
+     "size": 64,
+     "name": "FSi_DecrementSjisPosition",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_file.o"
+    },
+    {
+     "addr": "0x02078834",
+     "size": 52,
+     "name": "FSi_DecrementSjisPositionToSlash",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_file.o"
+    },
+    {
+     "addr": "0x02078868",
+     "size": 68,
+     "name": "FSi_TrimSjisTrailingSlash",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_file.o"
+    },
+    {
+     "addr": "0x020788D8",
+     "size": 140,
+     "name": "FS_ConvertPathToFileID",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_file.o"
+    },
+    {
+     "addr": "0x02078964",
+     "size": 64,
+     "name": "FS_OpenFileDirect",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_file.o"
+    },
+    {
+     "addr": "0x020789A4",
+     "size": 88,
+     "name": "FS_OpenFileFast",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_file.o"
+    },
+    {
+     "addr": "0x020789FC",
+     "size": 132,
+     "name": "FS_OpenFileEx",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_file.o"
+    },
+    {
+     "addr": "0x02078A94",
+     "size": 88,
+     "name": "FS_GetFileLength",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_file.o"
+    },
+    {
+     "addr": "0x02078AEC",
+     "size": 88,
+     "name": "FS_GetFilePosition",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_file.o"
+    },
+    {
+     "addr": "0x02078B44",
+     "size": 44,
+     "name": "FS_SeekFile",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_file.o"
+    },
+    {
+     "addr": "0x02078B70",
+     "size": 84,
+     "name": "FS_ReadFile",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_file.o"
+    },
+    {
+     "addr": "0x02078BC4",
+     "size": 84,
+     "name": "FS_WriteFile",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_file.o"
+    },
+    {
+     "addr": "0x02078C40",
+     "size": 112,
+     "name": "FSi_InitOverlay",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_overlay.o"
+    },
+    {
+     "addr": "0x02078CCC",
+     "size": 60,
+     "name": "FS_ClearOverlayImage",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_overlay.o"
+    },
+    {
+     "addr": "0x02078D08",
+     "size": 44,
+     "name": "FS_GetOverlayFileID",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_overlay.o"
+    },
+    {
+     "addr": "0x02078D34",
+     "size": 380,
+     "name": "FS_LoadOverlayInfo",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_overlay.o"
+    },
+    {
+     "addr": "0x02078EB0",
+     "size": 128,
+     "name": "FS_LoadOverlayImage",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_overlay.o"
+    },
+    {
+     "addr": "0x0207902C",
+     "size": 312,
+     "name": "FS_StartOverlay",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_overlay.o"
+    },
+    {
+     "addr": "0x02079264",
+     "size": 84,
+     "name": "FS_LoadOverlay",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_overlay.o"
+    },
+    {
+     "addr": "0x0207A890",
+     "size": 176,
+     "name": "FSi_InitMemArchive",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_proc_mem.o"
+    },
+    {
+     "addr": "0x0207A940",
+     "size": 64,
+     "name": "FS_CreateFileFromMemory",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_proc_mem.o"
+    },
+    {
+     "addr": "0x0207A980",
+     "size": 72,
+     "name": "FSi_IsUnreadableRomOffset",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_proc_rom.o"
+    },
+    {
+     "addr": "0x0207A9C8",
+     "size": 36,
+     "name": "FSi_OnRomReadDone",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_proc_rom.o"
+    },
+    {
+     "addr": "0x0207A9EC",
+     "size": 72,
+     "name": "FSi_ReadRomCallback",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_proc_rom.o"
+    },
+    {
+     "addr": "0x0207AB10",
+     "size": 340,
+     "name": "FSi_InitRomArchive",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_proc_rom.o"
+    },
+    {
+     "addr": "0x0207AC64",
+     "size": 80,
+     "name": "FS_SetDefaultDMA",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_proc_rom.o"
+    },
+    {
+     "addr": "0x0207ACD4",
+     "size": 48,
+     "name": "FS_CreateFileFromRom",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_proc_rom.o"
+    },
+    {
+     "addr": "0x0207AD04",
+     "size": 44,
+     "name": "FS_Init",
+     "lib": "libfs.TWL.HYB.a",
+     "object": "fs_api.o"
+    },
+    {
+     "addr": "0x0207AD70",
+     "size": 84,
+     "name": "MTX_ScaleApply22",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_mtx22.o"
+    },
+    {
+     "addr": "0x0207ADC4",
+     "size": 36,
+     "name": "MTX_Identity33_",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_mtx33.o"
+    },
+    {
+     "addr": "0x0207ADE8",
+     "size": 60,
+     "name": "MTX_Copy33To44_",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_mtx33.o"
+    },
+    {
+     "addr": "0x0207AE38",
+     "size": 200,
+     "name": "MTX_ScaleApply33",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_mtx33.o"
+    },
+    {
+     "addr": "0x0207AF50",
+     "size": 340,
+     "name": "MTX_RotAxis33",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_mtx33.o"
+    },
+    {
+     "addr": "0x0207B51C",
+     "size": 124,
+     "name": "MTX_MultVec33",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_mtx33.o"
+    },
+    {
+     "addr": "0x0207B598",
+     "size": 40,
+     "name": "MTX_Identity43_",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_mtx43.o"
+    },
+    {
+     "addr": "0x0207B5C0",
+     "size": 52,
+     "name": "MTX_Copy43To44_",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_mtx43.o"
+    },
+    {
+     "addr": "0x0207B60C",
+     "size": 52,
+     "name": "MTX_ScaleApply43",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_mtx43.o"
+    },
+    {
+     "addr": "0x0207BC08",
+     "size": 152,
+     "name": "MTX_MultVec43",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_mtx43.o"
+    }
+   ]
+  },
+  {
+   "id": "A907",
+   "lo": "0x0207BCA0",
+   "hi": "0x0208068C",
+   "funcs": 70,
+   "bytes": 6908,
+   "objects": [
+    "fx_asinacosidx.o",
+    "fx_cp.o",
+    "fx_mtx43.o",
+    "fx_mtx44.o",
+    "fx_vec.o",
+    "g2.o",
+    "g3_util.o",
+    "g3imm.o",
+    "g3x.o",
+    "gx.o",
+    "gx_bgcnt.o",
+    "gx_vramcnt.o"
+   ],
+   "list": [
+    {
+     "addr": "0x0207BCA0",
+     "size": 276,
+     "name": "MTX_LookAt",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_mtx43.o"
+    },
+    {
+     "addr": "0x0207BDB4",
+     "size": 44,
+     "name": "MTX_Identity44_",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_mtx44.o"
+    },
+    {
+     "addr": "0x0207BDE0",
+     "size": 52,
+     "name": "MTX_Copy44To43_",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_mtx44.o"
+    },
+    {
+     "addr": "0x0207C788",
+     "size": 44,
+     "name": "FX_DivFx64c",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_cp.o"
+    },
+    {
+     "addr": "0x0207C7B4",
+     "size": 52,
+     "name": "FX_Sqrt",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_cp.o"
+    },
+    {
+     "addr": "0x0207C7E8",
+     "size": 96,
+     "name": "FX_InvSqrt",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_cp.o"
+    },
+    {
+     "addr": "0x0207C8A0",
+     "size": 48,
+     "name": "FX_InvAsync",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_cp.o"
+    },
+    {
+     "addr": "0x0207C8D0",
+     "size": 52,
+     "name": "FX_SqrtAsync",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_cp.o"
+    },
+    {
+     "addr": "0x0207C904",
+     "size": 44,
+     "name": "FX_GetSqrtResult",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_cp.o"
+    },
+    {
+     "addr": "0x0207C9D0",
+     "size": 48,
+     "name": "VEC_Add",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_vec.o"
+    },
+    {
+     "addr": "0x0207CA00",
+     "size": 48,
+     "name": "VEC_Subtract",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_vec.o"
+    },
+    {
+     "addr": "0x0207CA30",
+     "size": 56,
+     "name": "VEC_Fx16Add",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_vec.o"
+    },
+    {
+     "addr": "0x0207CA68",
+     "size": 60,
+     "name": "VEC_DotProduct",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_vec.o"
+    },
+    {
+     "addr": "0x0207CAA4",
+     "size": 68,
+     "name": "VEC_Fx16DotProduct",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_vec.o"
+    },
+    {
+     "addr": "0x0207CAE8",
+     "size": 128,
+     "name": "VEC_CrossProduct",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_vec.o"
+    },
+    {
+     "addr": "0x0207CB68",
+     "size": 104,
+     "name": "VEC_Fx16CrossProduct",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_vec.o"
+    },
+    {
+     "addr": "0x0207CBD0",
+     "size": 96,
+     "name": "VEC_Mag",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_vec.o"
+    },
+    {
+     "addr": "0x0207CCA4",
+     "size": 276,
+     "name": "VEC_Normalize",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_vec.o"
+    },
+    {
+     "addr": "0x0207CDB8",
+     "size": 300,
+     "name": "VEC_Fx16Normalize",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_vec.o"
+    },
+    {
+     "addr": "0x0207CEE4",
+     "size": 88,
+     "name": "VEC_MultAdd",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_vec.o"
+    },
+    {
+     "addr": "0x0207CF3C",
+     "size": 124,
+     "name": "VEC_Distance",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_vec.o"
+    },
+    {
+     "addr": "0x0207D184",
+     "size": 128,
+     "name": "FX_AcosIdx",
+     "lib": "libfx.TWL.HYB.a",
+     "object": "fx_asinacosidx.o"
+    },
+    {
+     "addr": "0x0207D384",
+     "size": 40,
+     "name": "GX_SetVCountEqVal",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx.o"
+    },
+    {
+     "addr": "0x0207D3AC",
+     "size": 56,
+     "name": "GX_HBlankIntr",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx.o"
+    },
+    {
+     "addr": "0x0207D3E4",
+     "size": 56,
+     "name": "GX_VBlankIntr",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx.o"
+    },
+    {
+     "addr": "0x0207D42C",
+     "size": 64,
+     "name": "GX_DispOff",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx.o"
+    },
+    {
+     "addr": "0x0207D46C",
+     "size": 68,
+     "name": "GX_DispOn",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx.o"
+    },
+    {
+     "addr": "0x0207D4B0",
+     "size": 104,
+     "name": "GX_SetGraphicsMode",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx.o"
+    },
+    {
+     "addr": "0x0207D534",
+     "size": 40,
+     "name": "GXx_SetMasterBrightness_",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx.o"
+    },
+    {
+     "addr": "0x0207D55C",
+     "size": 64,
+     "name": "GXx_GetMasterBrightness_",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx.o"
+    },
+    {
+     "addr": "0x0207D59C",
+     "size": 160,
+     "name": "G2x_SetBGyAffine_",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "g2.o"
+    },
+    {
+     "addr": "0x0207D658",
+     "size": 36,
+     "name": "G2x_SetBlendBrightness_",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "g2.o"
+    },
+    {
+     "addr": "0x0207D67C",
+     "size": 68,
+     "name": "G2x_SetBlendBrightnessExt_",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "g2.o"
+    },
+    {
+     "addr": "0x0207D704",
+     "size": 92,
+     "name": "G3i_PerspectiveW_",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "g3_util.o"
+    },
+    {
+     "addr": "0x0207D760",
+     "size": 100,
+     "name": "G3i_FrustumW_",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "g3_util.o"
+    },
+    {
+     "addr": "0x0207D7C4",
+     "size": 76,
+     "name": "G3i_LookAt_",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "g3_util.o"
+    },
+    {
+     "addr": "0x0207D810",
+     "size": 60,
+     "name": "G3_RotX",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "g3_util.o"
+    },
+    {
+     "addr": "0x0207D888",
+     "size": 60,
+     "name": "G3_RotZ",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "g3_util.o"
+    },
+    {
+     "addr": "0x0207D950",
+     "size": 56,
+     "name": "G3_MultTransMtx33",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "g3imm.o"
+    },
+    {
+     "addr": "0x0207D988",
+     "size": 260,
+     "name": "G3X_Init",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "g3x.o"
+    },
+    {
+     "addr": "0x0207DA8C",
+     "size": 108,
+     "name": "G3X_Reset",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "g3x.o"
+    },
+    {
+     "addr": "0x0207DAF8",
+     "size": 36,
+     "name": "G3X_ClearFifo",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "g3x.o"
+    },
+    {
+     "addr": "0x0207DB1C",
+     "size": 152,
+     "name": "G3X_InitMtxStack",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "g3x.o"
+    },
+    {
+     "addr": "0x0207DBB4",
+     "size": 144,
+     "name": "G3X_ResetMtxStack",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "g3x.o"
+    },
+    {
+     "addr": "0x0207DC44",
+     "size": 84,
+     "name": "G3X_SetFog",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "g3x.o"
+    },
+    {
+     "addr": "0x0207DC98",
+     "size": 48,
+     "name": "G3X_GetClipMtx",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "g3x.o"
+    },
+    {
+     "addr": "0x0207DCC8",
+     "size": 48,
+     "name": "G3X_GetVectorMtx",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "g3x.o"
+    },
+    {
+     "addr": "0x0207DD24",
+     "size": 40,
+     "name": "G3X_SetClearColor",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "g3x.o"
+    },
+    {
+     "addr": "0x0207DD4C",
+     "size": 228,
+     "name": "G3X_InitTable",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "g3x.o"
+    },
+    {
+     "addr": "0x0207DE30",
+     "size": 44,
+     "name": "G3X_GetMtxStackLevelPV",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "g3x.o"
+    },
+    {
+     "addr": "0x0207DE5C",
+     "size": 44,
+     "name": "G3X_GetMtxStackLevelPJ",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "g3x.o"
+    },
+    {
+     "addr": "0x0207DEA4",
+     "size": 40,
+     "name": "G3X_GetBoxTestResult",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "g3x.o"
+    },
+    {
+     "addr": "0x0207DECC",
+     "size": 148,
+     "name": "GXi_NopClearFifo128_",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "g3x.o"
+    },
+    {
+     "addr": "0x0207DF60",
+     "size": 52,
+     "name": "G2_GetBG0ScrPtr",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx_bgcnt.o"
+    },
+    {
+     "addr": "0x0207DFB4",
+     "size": 52,
+     "name": "G2_GetBG1ScrPtr",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx_bgcnt.o"
+    },
+    {
+     "addr": "0x0207E008",
+     "size": 132,
+     "name": "G2_GetBG2ScrPtr",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx_bgcnt.o"
+    },
+    {
+     "addr": "0x0207E08C",
+     "size": 116,
+     "name": "G2S_GetBG2ScrPtr",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx_bgcnt.o"
+    },
+    {
+     "addr": "0x0207E100",
+     "size": 132,
+     "name": "G2_GetBG3ScrPtr",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx_bgcnt.o"
+    },
+    {
+     "addr": "0x0207E184",
+     "size": 116,
+     "name": "G2S_GetBG3ScrPtr",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx_bgcnt.o"
+    },
+    {
+     "addr": "0x0207E1F8",
+     "size": 52,
+     "name": "G2_GetBG0CharPtr",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx_bgcnt.o"
+    },
+    {
+     "addr": "0x0207E24C",
+     "size": 52,
+     "name": "G2_GetBG1CharPtr",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx_bgcnt.o"
+    },
+    {
+     "addr": "0x0207E2A0",
+     "size": 80,
+     "name": "G2_GetBG2CharPtr",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx_bgcnt.o"
+    },
+    {
+     "addr": "0x0207E2F0",
+     "size": 64,
+     "name": "G2S_GetBG2CharPtr",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx_bgcnt.o"
+    },
+    {
+     "addr": "0x0207E330",
+     "size": 88,
+     "name": "G2_GetBG3CharPtr",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx_bgcnt.o"
+    },
+    {
+     "addr": "0x0207E388",
+     "size": 72,
+     "name": "G2S_GetBG3CharPtr",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx_bgcnt.o"
+    },
+    {
+     "addr": "0x02080100",
+     "size": 248,
+     "name": "GX_SetBankForBGExtPltt",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx_vramcnt.o"
+    },
+    {
+     "addr": "0x020801F8",
+     "size": 156,
+     "name": "GX_SetBankForOBJExtPltt",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx_vramcnt.o"
+    },
+    {
+     "addr": "0x0208040C",
+     "size": 220,
+     "name": "GX_SetBankForTexPltt",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx_vramcnt.o"
+    },
+    {
+     "addr": "0x020804E8",
+     "size": 256,
+     "name": "GX_SetBankForClearImage",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx_vramcnt.o"
+    },
+    {
+     "addr": "0x020805E8",
+     "size": 164,
+     "name": "GX_SetBankForARM7",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx_vramcnt.o"
+    }
+   ]
+  },
+  {
+   "id": "A908",
+   "lo": "0x020806B0",
+   "hi": "0x02084C1C",
+   "funcs": 55,
+   "bytes": 6860,
+   "objects": [
+    "crc.o",
+    "dgt_md5.o",
+    "dgt_sha1.o",
+    "gx_vramcnt.o",
+    "gxstate.o",
+    "mi_dma.o",
+    "mi_dma_card.o",
+    "mi_dma_gxcommand",
+    "mi_init.o",
+    "mi_memory.o",
+    "mi_uncompress.o",
+    "nvram.o",
+    "os_irqhandler.o",
+    "os_irqtable.o",
+    "os_pxi.o",
+    "os_spinlock.o"
+   ],
+   "list": [
+    {
+     "addr": "0x020806B0",
+     "size": 156,
+     "name": "GX_SetBankForSubBG",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx_vramcnt.o"
+    },
+    {
+     "addr": "0x0208074C",
+     "size": 112,
+     "name": "GX_SetBankForSubOBJ",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx_vramcnt.o"
+    },
+    {
+     "addr": "0x020807BC",
+     "size": 128,
+     "name": "GX_SetBankForSubBGExtPltt",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx_vramcnt.o"
+    },
+    {
+     "addr": "0x0208083C",
+     "size": 128,
+     "name": "GX_SetBankForSubOBJExtPltt",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx_vramcnt.o"
+    },
+    {
+     "addr": "0x020808BC",
+     "size": 56,
+     "name": "resetBankForX_",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx_vramcnt.o"
+    },
+    {
+     "addr": "0x02080A18",
+     "size": 192,
+     "name": "disableBankForX_",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gx_vramcnt.o"
+    },
+    {
+     "addr": "0x02080CC4",
+     "size": 96,
+     "name": "GX_InitGXState",
+     "lib": "libgx.TWL.HYB.a",
+     "object": "gxstate.o"
+    },
+    {
+     "addr": "0x02081120",
+     "size": 68,
+     "name": "MATH_MD5Init",
+     "lib": "libmath.TWL.HYB.a",
+     "object": "dgt_md5.o"
+    },
+    {
+     "addr": "0x02081164",
+     "size": 200,
+     "name": "MATH_MD5Update",
+     "lib": "libmath.TWL.HYB.a",
+     "object": "dgt_md5.o"
+    },
+    {
+     "addr": "0x0208122C",
+     "size": 180,
+     "name": "MATH_MD5GetHash",
+     "lib": "libmath.TWL.HYB.a",
+     "object": "dgt_md5.o"
+    },
+    {
+     "addr": "0x020816FC",
+     "size": 148,
+     "name": "MATH_CalcHMACSHA1",
+     "lib": "libmath.TWL.HYB.a",
+     "object": "dgt_sha1.o"
+    },
+    {
+     "addr": "0x02081940",
+     "size": 64,
+     "name": "MATHi_CRC8InitTable",
+     "lib": "libmath.TWL.HYB.a",
+     "object": "crc.o"
+    },
+    {
+     "addr": "0x02081980",
+     "size": 56,
+     "name": "MATHi_CRC8Update",
+     "lib": "libmath.TWL.HYB.a",
+     "object": "crc.o"
+    },
+    {
+     "addr": "0x020819B8",
+     "size": 68,
+     "name": "MATHi_CRC16InitTable",
+     "lib": "libmath.TWL.HYB.a",
+     "object": "crc.o"
+    },
+    {
+     "addr": "0x020819FC",
+     "size": 68,
+     "name": "MATHi_CRC16InitTableRev",
+     "lib": "libmath.TWL.HYB.a",
+     "object": "crc.o"
+    },
+    {
+     "addr": "0x02081A40",
+     "size": 64,
+     "name": "MATHi_CRC16Update",
+     "lib": "libmath.TWL.HYB.a",
+     "object": "crc.o"
+    },
+    {
+     "addr": "0x02081A80",
+     "size": 64,
+     "name": "MATHi_CRC16UpdateRev",
+     "lib": "libmath.TWL.HYB.a",
+     "object": "crc.o"
+    },
+    {
+     "addr": "0x02081AC0",
+     "size": 64,
+     "name": "MATHi_CRC32InitTableRev",
+     "lib": "libmath.TWL.HYB.a",
+     "object": "crc.o"
+    },
+    {
+     "addr": "0x02081B00",
+     "size": 60,
+     "name": "MATHi_CRC32UpdateRev",
+     "lib": "libmath.TWL.HYB.a",
+     "object": "crc.o"
+    },
+    {
+     "addr": "0x02081B3C",
+     "size": 40,
+     "name": "MATH_CalcCRC8",
+     "lib": "libmath.TWL.HYB.a",
+     "object": "crc.o"
+    },
+    {
+     "addr": "0x02081B64",
+     "size": 40,
+     "name": "MATH_CalcCRC16",
+     "lib": "libmath.TWL.HYB.a",
+     "object": "crc.o"
+    },
+    {
+     "addr": "0x02081B8C",
+     "size": 44,
+     "name": "MATH_CalcCRC16CCITT",
+     "lib": "libmath.TWL.HYB.a",
+     "object": "crc.o"
+    },
+    {
+     "addr": "0x02081BB8",
+     "size": 44,
+     "name": "MATH_CalcCRC32",
+     "lib": "libmath.TWL.HYB.a",
+     "object": "crc.o"
+    },
+    {
+     "addr": "0x020821C0",
+     "size": 132,
+     "name": "MIi_DmaFill32",
+     "lib": "libmi.TWL.HYB.a",
+     "object": "mi_dma.o"
+    },
+    {
+     "addr": "0x02082244",
+     "size": 164,
+     "name": "MIi_DmaCopy32",
+     "lib": "libmi.TWL.HYB.a",
+     "object": "mi_dma.o"
+    },
+    {
+     "addr": "0x020822E8",
+     "size": 168,
+     "name": "MIi_DmaCopy16",
+     "lib": "libmi.TWL.HYB.a",
+     "object": "mi_dma.o"
+    },
+    {
+     "addr": "0x02082390",
+     "size": 264,
+     "name": "MIi_DmaFill32Async",
+     "lib": "libmi.TWL.HYB.a",
+     "object": "mi_dma.o"
+    },
+    {
+     "addr": "0x02082498",
+     "size": 252,
+     "name": "MIi_DmaCopy32Async",
+     "lib": "libmi.TWL.HYB.a",
+     "object": "mi_dma.o"
+    },
+    {
+     "addr": "0x02082594",
+     "size": 92,
+     "name": "MI_WaitDma",
+     "lib": "libmi.TWL.HYB.a",
+     "object": "mi_dma.o"
+    },
+    {
+     "addr": "0x020825F0",
+     "size": 104,
+     "name": "MI_StopDma",
+     "lib": "libmi.TWL.HYB.a",
+     "object": "mi_dma.o"
+    },
+    {
+     "addr": "0x02082680",
+     "size": 140,
+     "name": "MIi_CheckAnotherAutoDMA",
+     "lib": "libmi.TWL.HYB.a",
+     "object": "mi_dma.o"
+    },
+    {
+     "addr": "0x0208270C",
+     "size": 84,
+     "name": "MIi_CheckDma0SourceAddress",
+     "lib": "libmi.TWL.HYB.a",
+     "object": "mi_dma.o"
+    },
+    {
+     "addr": "0x02082760",
+     "size": 236,
+     "name": "MI_SendGXCommandAsync",
+     "lib": "libmi.TWL.HYB.a",
+     "object": "mi_dma_gxcommand"
+    },
+    {
+     "addr": "0x0208284C",
+     "size": 180,
+     "name": "MIi_FIFOCallback",
+     "lib": "libmi.TWL.HYB.a",
+     "object": "mi_dma_gxcommand"
+    },
+    {
+     "addr": "0x02082900",
+     "size": 96,
+     "name": "MIi_DMACallback",
+     "lib": "libmi.TWL.HYB.a",
+     "object": "mi_dma_gxcommand"
+    },
+    {
+     "addr": "0x02082960",
+     "size": 188,
+     "name": "MI_SendGXCommandAsyncFast",
+     "lib": "libmi.TWL.HYB.a",
+     "object": "mi_dma_gxcommand"
+    },
+    {
+     "addr": "0x02082A1C",
+     "size": 44,
+     "name": "MIi_DMAFastCallback",
+     "lib": "libmi.TWL.HYB.a",
+     "object": "mi_dma_gxcommand"
+    },
+    {
+     "addr": "0x02082AC0",
+     "size": 76,
+     "name": "MIi_CpuClearFast",
+     "lib": "libmi.TWL.HYB.a",
+     "object": "mi_memory.o"
+    },
+    {
+     "addr": "0x02082B0C",
+     "size": 56,
+     "name": "MIi_CpuCopyFast",
+     "lib": "libmi.TWL.HYB.a",
+     "object": "mi_memory.o"
+    },
+    {
+     "addr": "0x02082BA0",
+     "size": 44,
+     "name": "MI_Copy64B",
+     "lib": "libmi.TWL.HYB.a",
+     "object": "mi_memory.o"
+    },
+    {
+     "addr": "0x020834C0",
+     "size": 224,
+     "name": "MI_UncompressLZ8",
+     "lib": "libmi.TWL.HYB.a",
+     "object": "mi_uncompress.o"
+    },
+    {
+     "addr": "0x020835A0",
+     "size": 124,
+     "name": "MIi_CardDmaCopy32",
+     "lib": "libmi.TWL.HYB.a",
+     "object": "mi_dma_card.o"
+    },
+    {
+     "addr": "0x0208361C",
+     "size": 40,
+     "name": "MI_Init",
+     "lib": "libmi.TWL.HYB.a",
+     "object": "mi_init.o"
+    },
+    {
+     "addr": "0x02083644",
+     "size": 192,
+     "name": "NVRAMi_Init",
+     "lib": "libnvram.TWL.HYB.a",
+     "object": "nvram.o"
+    },
+    {
+     "addr": "0x02083704",
+     "size": 180,
+     "name": "NVRAMi_ReadAsync",
+     "lib": "libnvram.TWL.HYB.a",
+     "object": "nvram.o"
+    },
+    {
+     "addr": "0x02083844",
+     "size": 240,
+     "name": "NVRAMi_Read",
+     "lib": "libnvram.TWL.HYB.a",
+     "object": "nvram.o"
+    },
+    {
+     "addr": "0x02083934",
+     "size": 180,
+     "name": "NVRAMi_WriteAsync",
+     "lib": "libnvram.TWL.HYB.a",
+     "object": "nvram.o"
+    },
+    {
+     "addr": "0x02083DC8",
+     "size": 240,
+     "name": "NVRAMi_Read",
+     "lib": "libnvram.TWL.HYB.a",
+     "object": "nvram.o"
+    },
+    {
+     "addr": "0x02083EB8",
+     "size": 232,
+     "name": "NVRAMi_VerifyAsync",
+     "lib": "libnvram.TWL.HYB.a",
+     "object": "nvram.o"
+    },
+    {
+     "addr": "0x020840F8",
+     "size": 240,
+     "name": "NVRAMi_Read",
+     "lib": "libnvram.TWL.HYB.a",
+     "object": "nvram.o"
+    },
+    {
+     "addr": "0x02084260",
+     "size": 40,
+     "name": "NVRAMi_SyncCallback",
+     "lib": "libnvram.TWL.HYB.a",
+     "object": "nvram.o"
+    },
+    {
+     "addr": "0x0208459C",
+     "size": 116,
+     "name": "OS_WaitIrq",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_irqhandler.o"
+    },
+    {
+     "addr": "0x02084614",
+     "size": 136,
+     "name": "OSi_IrqCallback",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_irqtable.o"
+    },
+    {
+     "addr": "0x02084A38",
+     "size": 76,
+     "name": "OSi_CommonCallback",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_pxi.o"
+    },
+    {
+     "addr": "0x02084B90",
+     "size": 140,
+     "name": "OS_InitLock",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_spinlock.o"
+    }
+   ]
+  },
+  {
+   "id": "A909",
+   "lo": "0x02084C78",
+   "hi": "0x02087C6C",
+   "funcs": 66,
+   "bytes": 6940,
+   "objects": [
+    "os_alarm.o",
+    "os_alloc.o",
+    "os_arena.o",
+    "os_cache.o",
+    "os_context.o",
+    "os_emulator.o",
+    "os_exception.o",
+    "os_init.o",
+    "os_message.o",
+    "os_mutex.o",
+    "os_protectionreg",
+    "os_reset.o",
+    "os_spinlock.o",
+    "os_system.o",
+    "os_systemwork.o",
+    "os_thread.o",
+    "os_tick.o",
+    "os_timer.o",
+    "os_valarm.o"
+   ],
+   "list": [
+    {
+     "addr": "0x02084C78",
+     "size": 116,
+     "name": "OSi_DoUnlockByWord",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_spinlock.o"
+    },
+    {
+     "addr": "0x02084CFC",
+     "size": 108,
+     "name": "OSi_DoTryLockByWord",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_spinlock.o"
+    },
+    {
+     "addr": "0x02084EB8",
+     "size": 88,
+     "name": "OS_GetLockID",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_spinlock.o"
+    },
+    {
+     "addr": "0x02084F10",
+     "size": 48,
+     "name": "OS_ReleaseLockID",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_spinlock.o"
+    },
+    {
+     "addr": "0x02085078",
+     "size": 84,
+     "name": "OSi_RemoveSpecifiedLinkFromQueue",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_thread.o"
+    },
+    {
+     "addr": "0x020850CC",
+     "size": 48,
+     "name": "OSi_RemoveMutexLinkFromQueue",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_thread.o"
+    },
+    {
+     "addr": "0x020850FC",
+     "size": 92,
+     "name": "OSi_InsertThreadToList",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_thread.o"
+    },
+    {
+     "addr": "0x02085158",
+     "size": 72,
+     "name": "OSi_RemoveThreadFromList",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_thread.o"
+    },
+    {
+     "addr": "0x02085264",
+     "size": 332,
+     "name": "OS_InitThread",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_thread.o"
+    },
+    {
+     "addr": "0x020853C0",
+     "size": 240,
+     "name": "OS_CreateThread",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_thread.o"
+    },
+    {
+     "addr": "0x020854D0",
+     "size": 88,
+     "name": "OSi_ExitThread_ArgSpecified",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_thread.o"
+    },
+    {
+     "addr": "0x02085528",
+     "size": 56,
+     "name": "OSi_ExitThread",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_thread.o"
+    },
+    {
+     "addr": "0x02085560",
+     "size": 92,
+     "name": "OSi_ExitThread_Destroy",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_thread.o"
+    },
+    {
+     "addr": "0x020855BC",
+     "size": 124,
+     "name": "OS_DestroyThread",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_thread.o"
+    },
+    {
+     "addr": "0x0208565C",
+     "size": 156,
+     "name": "OS_KillThreadWithPriority",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_thread.o"
+    },
+    {
+     "addr": "0x02085710",
+     "size": 60,
+     "name": "OS_JoinThread",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_thread.o"
+    },
+    {
+     "addr": "0x02085760",
+     "size": 80,
+     "name": "OS_SleepThreadDirect",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_thread.o"
+    },
+    {
+     "addr": "0x02085868",
+     "size": 40,
+     "name": "OS_WakeupThreadDirect",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_thread.o"
+    },
+    {
+     "addr": "0x020858D8",
+     "size": 176,
+     "name": "OS_YieldThread",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_thread.o"
+    },
+    {
+     "addr": "0x02085988",
+     "size": 168,
+     "name": "OS_SetThreadPriority",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_thread.o"
+    },
+    {
+     "addr": "0x02085A38",
+     "size": 160,
+     "name": "OS_Sleep",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_thread.o"
+    },
+    {
+     "addr": "0x02085AF8",
+     "size": 40,
+     "name": "OS_SetSwitchThreadCallback",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_thread.o"
+    },
+    {
+     "addr": "0x02085B30",
+     "size": 48,
+     "name": "OS_DisableScheduler",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_thread.o"
+    },
+    {
+     "addr": "0x02085B60",
+     "size": 52,
+     "name": "OS_EnableScheduler",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_thread.o"
+    },
+    {
+     "addr": "0x02085B9C",
+     "size": 108,
+     "name": "OS_InitContext",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_context.o"
+    },
+    {
+     "addr": "0x02085CBC",
+     "size": 80,
+     "name": "OS_GetConsoleType",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_emulator.o"
+    },
+    {
+     "addr": "0x02085D94",
+     "size": 40,
+     "name": "OS_InitMessageQueue",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_message.o"
+    },
+    {
+     "addr": "0x02085F8C",
+     "size": 120,
+     "name": "OS_ReadMessage",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_message.o"
+    },
+    {
+     "addr": "0x02086004",
+     "size": 36,
+     "name": "OS_InitMutex",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_mutex.o"
+    },
+    {
+     "addr": "0x02086028",
+     "size": 80,
+     "name": "OS_LockMutex",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_mutex.o"
+    },
+    {
+     "addr": "0x02086088",
+     "size": 72,
+     "name": "OSi_UnlockAllMutex",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_mutex.o"
+    },
+    {
+     "addr": "0x020860D0",
+     "size": 148,
+     "name": "OS_TryLockMutex",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_mutex.o"
+    },
+    {
+     "addr": "0x02086164",
+     "size": 216,
+     "name": "OSi_UnlockMutexCore",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_mutex.o"
+    },
+    {
+     "addr": "0x0208623C",
+     "size": 36,
+     "name": "OSi_EnqueueTail",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_mutex.o"
+    },
+    {
+     "addr": "0x02086260",
+     "size": 36,
+     "name": "OSi_DequeueItem",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_mutex.o"
+    },
+    {
+     "addr": "0x02086284",
+     "size": 52,
+     "name": "DC_FlushAll",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_cache.o"
+    },
+    {
+     "addr": "0x020862F0",
+     "size": 36,
+     "name": "DC_FlushRange",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_cache.o"
+    },
+    {
+     "addr": "0x02086348",
+     "size": 32,
+     "name": "OSi_WaitVCount0",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_init.o"
+    },
+    {
+     "addr": "0x020864FC",
+     "size": 112,
+     "name": "OS_InitArenaEx",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_arena.o"
+    },
+    {
+     "addr": "0x02086A50",
+     "size": 168,
+     "name": "OS_InitAlloc",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_alloc.o"
+    },
+    {
+     "addr": "0x02086AF8",
+     "size": 160,
+     "name": "OS_CreateHeap",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_alloc.o"
+    },
+    {
+     "addr": "0x02086B98",
+     "size": 188,
+     "name": "OS_CreateExtraHeap",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_alloc.o"
+    },
+    {
+     "addr": "0x02086C70",
+     "size": 76,
+     "name": "OS_IsOnExtendedMainMemory",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_alloc.o"
+    },
+    {
+     "addr": "0x02086DB0",
+     "size": 40,
+     "name": "OS_SetProtectionRegionEx",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_protectionreg"
+    },
+    {
+     "addr": "0x02086DD8",
+     "size": 104,
+     "name": "OS_InitException",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_exception.o"
+    },
+    {
+     "addr": "0x02086EC8",
+     "size": 128,
+     "name": "OSi_SetExContext",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_exception.o"
+    },
+    {
+     "addr": "0x02086F48",
+     "size": 124,
+     "name": "OSi_DisplayExContext",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_exception.o"
+    },
+    {
+     "addr": "0x02086FC4",
+     "size": 36,
+     "name": "OSi_SetTimerReserved",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_timer.o"
+    },
+    {
+     "addr": "0x02086FE8",
+     "size": 112,
+     "name": "OS_InitTick",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_tick.o"
+    },
+    {
+     "addr": "0x02087068",
+     "size": 104,
+     "name": "OSi_CountUpTick",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_tick.o"
+    },
+    {
+     "addr": "0x02087208",
+     "size": 60,
+     "name": "OS_InitAlarm",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_alarm.o"
+    },
+    {
+     "addr": "0x020873F8",
+     "size": 132,
+     "name": "OS_CancelAlarm",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_alarm.o"
+    },
+    {
+     "addr": "0x0208748C",
+     "size": 236,
+     "name": "OSi_ArrangeTimer",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_alarm.o"
+    },
+    {
+     "addr": "0x02087578",
+     "size": 64,
+     "name": "OS_InitVAlarm",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_valarm.o"
+    },
+    {
+     "addr": "0x020875B8",
+     "size": 124,
+     "name": "OSi_InsertVAlarm",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_valarm.o"
+    },
+    {
+     "addr": "0x02087634",
+     "size": 56,
+     "name": "OSi_AppendVAlarm",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_valarm.o"
+    },
+    {
+     "addr": "0x0208766C",
+     "size": 56,
+     "name": "OSi_DetachVAlarm",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_valarm.o"
+    },
+    {
+     "addr": "0x020876B8",
+     "size": 140,
+     "name": "OS_SetVAlarm",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_valarm.o"
+    },
+    {
+     "addr": "0x02087744",
+     "size": 64,
+     "name": "OSi_SetNextVAlarm",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_valarm.o"
+    },
+    {
+     "addr": "0x02087784",
+     "size": 360,
+     "name": "OSi_VAlarmHandler",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_valarm.o"
+    },
+    {
+     "addr": "0x020878EC",
+     "size": 76,
+     "name": "OSi_CompareVCount",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_valarm.o"
+    },
+    {
+     "addr": "0x02087938",
+     "size": 60,
+     "name": "OSi_GetVFrame",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_valarm.o"
+    },
+    {
+     "addr": "0x02087A3C",
+     "size": 168,
+     "name": "OS_WaitInterrupt",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_system.o"
+    },
+    {
+     "addr": "0x02087B20",
+     "size": 88,
+     "name": "OSi_IsCodecTwlMode",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_systemwork.o"
+    },
+    {
+     "addr": "0x02087B78",
+     "size": 84,
+     "name": "OS_InitReset",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_reset.o"
+    },
+    {
+     "addr": "0x02087BCC",
+     "size": 160,
+     "name": "OS_ResetSystem",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_reset.o"
+    }
+   ]
+  },
+  {
+   "id": "A910",
+   "lo": "0x02087C88",
+   "hi": "0x0208A6B0",
+   "funcs": 81,
+   "bytes": 6816,
+   "objects": [
+    "convert.o",
+    "external.o",
+    "internal.o",
+    "os_application_j",
+    "os_argument.o",
+    "os_entropy.o",
+    "os_event.o",
+    "os_ownerinfo.o",
+    "os_ownerinfoex.o",
+    "os_vramexclusive",
+    "pxi_fifo.o",
+    "snd_alarm.o",
+    "snd_bank.o",
+    "snd_command.o",
+    "snd_interface.o",
+    "snd_main.o",
+    "snd_util.o",
+    "snd_work.o"
+   ],
+   "list": [
+    {
+     "addr": "0x02087C88",
+     "size": 128,
+     "name": "OS_GetOwnerInfo",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_ownerinfo.o"
+    },
+    {
+     "addr": "0x02087D28",
+     "size": 156,
+     "name": "OS_GetOwnerInfoEx",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_ownerinfoex.o"
+    },
+    {
+     "addr": "0x02087DE0",
+     "size": 60,
+     "name": "OS_IsAgreeEULA",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_ownerinfoex.o"
+    },
+    {
+     "addr": "0x02087E1C",
+     "size": 36,
+     "name": "OS_GetAgreedEULAVersion",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_ownerinfoex.o"
+    },
+    {
+     "addr": "0x02087E60",
+     "size": 36,
+     "name": "OS_GetParentalControlInfoPtr",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_ownerinfoex.o"
+    },
+    {
+     "addr": "0x02087EA8",
+     "size": 52,
+     "name": "OSi_InitVramExclusive",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_vramexclusive"
+    },
+    {
+     "addr": "0x02087EDC",
+     "size": 132,
+     "name": "OSi_UnlockVram",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_vramexclusive"
+    },
+    {
+     "addr": "0x02087F60",
+     "size": 92,
+     "name": "OS_InitDeliverArgInfo",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_argument.o"
+    },
+    {
+     "addr": "0x0208812C",
+     "size": 36,
+     "name": "OS_GetTitleIdFromDeliverArg",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_argument.o"
+    },
+    {
+     "addr": "0x02088168",
+     "size": 204,
+     "name": "OS_GetLowEntropyData",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_entropy.o"
+    },
+    {
+     "addr": "0x020882F0",
+     "size": 168,
+     "name": "OS_WaitEventEx",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_event.o"
+    },
+    {
+     "addr": "0x02088398",
+     "size": 60,
+     "name": "OS_SignalEvent",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_event.o"
+    },
+    {
+     "addr": "0x020883D4",
+     "size": 196,
+     "name": "OSi_InitPrevTitleId",
+     "lib": "libos.TWL.HYB.a",
+     "object": "os_application_j"
+    },
+    {
+     "addr": "0x020885EC",
+     "size": 36,
+     "name": "PXI_IsCallbackReady",
+     "lib": "libpxi.TWL.HYB.a",
+     "object": "pxi_fifo.o"
+    },
+    {
+     "addr": "0x02088688",
+     "size": 256,
+     "name": "PXIi_HandlerRecvFifoNotEmpty",
+     "lib": "libpxi.TWL.HYB.a",
+     "object": "pxi_fifo.o"
+    },
+    {
+     "addr": "0x02088788",
+     "size": 108,
+     "name": "RTC_Init",
+     "lib": "librtc.TWL.HYB.a",
+     "object": "external.o"
+    },
+    {
+     "addr": "0x020887F4",
+     "size": 112,
+     "name": "RTC_GetDateAsync",
+     "lib": "librtc.TWL.HYB.a",
+     "object": "external.o"
+    },
+    {
+     "addr": "0x02088864",
+     "size": 56,
+     "name": "RTC_GetDate",
+     "lib": "librtc.TWL.HYB.a",
+     "object": "external.o"
+    },
+    {
+     "addr": "0x0208889C",
+     "size": 112,
+     "name": "RTC_GetTimeAsync",
+     "lib": "librtc.TWL.HYB.a",
+     "object": "external.o"
+    },
+    {
+     "addr": "0x0208890C",
+     "size": 56,
+     "name": "RTC_GetDate",
+     "lib": "librtc.TWL.HYB.a",
+     "object": "external.o"
+    },
+    {
+     "addr": "0x02088944",
+     "size": 124,
+     "name": "RTC_GetDateTimeAsync",
+     "lib": "librtc.TWL.HYB.a",
+     "object": "external.o"
+    },
+    {
+     "addr": "0x020889C0",
+     "size": 56,
+     "name": "RTC_GetAlarmParam",
+     "lib": "librtc.TWL.HYB.a",
+     "object": "external.o"
+    },
+    {
+     "addr": "0x02088F2C",
+     "size": 44,
+     "name": "RtcSendPxiCommand",
+     "lib": "librtc.TWL.HYB.a",
+     "object": "internal.o"
+    },
+    {
+     "addr": "0x02088F58",
+     "size": 148,
+     "name": "RTC_ConvertDateToDay",
+     "lib": "librtc.TWL.HYB.a",
+     "object": "convert.o"
+    },
+    {
+     "addr": "0x02089004",
+     "size": 92,
+     "name": "RTC_ConvertDateTimeToSecond",
+     "lib": "librtc.TWL.HYB.a",
+     "object": "convert.o"
+    },
+    {
+     "addr": "0x02089060",
+     "size": 256,
+     "name": "RTC_ConvertDayToDate",
+     "lib": "librtc.TWL.HYB.a",
+     "object": "convert.o"
+    },
+    {
+     "addr": "0x02089160",
+     "size": 128,
+     "name": "RTCi_ConvertSecondToTime",
+     "lib": "librtc.TWL.HYB.a",
+     "object": "convert.o"
+    },
+    {
+     "addr": "0x020891E0",
+     "size": 148,
+     "name": "RTC_ConvertSecondToDateTime",
+     "lib": "librtc.TWL.HYB.a",
+     "object": "convert.o"
+    },
+    {
+     "addr": "0x02089330",
+     "size": 32,
+     "name": "SND_StopSeq",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x02089350",
+     "size": 40,
+     "name": "SND_PrepareSeq",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x02089398",
+     "size": 32,
+     "name": "SND_PauseSeq",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x0208948C",
+     "size": 40,
+     "name": "SND_SetTrackAllocatableChannel",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x020894B4",
+     "size": 40,
+     "name": "SND_StartTimer",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x020894DC",
+     "size": 100,
+     "name": "SND_StopTimer",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x02089540",
+     "size": 64,
+     "name": "SND_SetupAlarm",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x02089580",
+     "size": 48,
+     "name": "SND_SetTrackMute",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x020895B0",
+     "size": 40,
+     "name": "SND_SetTrackMuteEx",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x020895D8",
+     "size": 32,
+     "name": "SND_LockChannel",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x020895F8",
+     "size": 32,
+     "name": "SND_UnlockChannel",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x02089618",
+     "size": 32,
+     "name": "SND_SetChannelTimer",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x02089638",
+     "size": 40,
+     "name": "SND_SetChannelVolume",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x02089660",
+     "size": 76,
+     "name": "SND_SetupChannelPcm",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x020896AC",
+     "size": 32,
+     "name": "SND_InvalidateSeqData",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x020896CC",
+     "size": 32,
+     "name": "SND_InvalidateBankData",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x020896EC",
+     "size": 32,
+     "name": "SND_InvalidateWaveData",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x0208970C",
+     "size": 32,
+     "name": "SND_SetMasterVolume",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x0208972C",
+     "size": 40,
+     "name": "SND_SetOutputSelector",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x02089754",
+     "size": 32,
+     "name": "SND_SetMasterPan",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x02089774",
+     "size": 32,
+     "name": "SND_ResetMasterPan",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x02089794",
+     "size": 32,
+     "name": "SND_ReadDriverInfo",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x020897B4",
+     "size": 40,
+     "name": "SNDi_SetPlayerParam",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x020897DC",
+     "size": 40,
+     "name": "SNDi_SetTrackParam",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x02089804",
+     "size": 68,
+     "name": "PushCommand_impl",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_interface.o"
+    },
+    {
+     "addr": "0x02089848",
+     "size": 56,
+     "name": "SND_Init",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_main.o"
+    },
+    {
+     "addr": "0x020898A8",
+     "size": 208,
+     "name": "SND_CommandInit",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_command.o"
+    },
+    {
+     "addr": "0x02089978",
+     "size": 256,
+     "name": "SND_RecvCommandReply",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_command.o"
+    },
+    {
+     "addr": "0x02089A78",
+     "size": 136,
+     "name": "SND_AllocCommand",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_command.o"
+    },
+    {
+     "addr": "0x02089B00",
+     "size": 56,
+     "name": "SND_PushCommand",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_command.o"
+    },
+    {
+     "addr": "0x02089CD4",
+     "size": 108,
+     "name": "SND_WaitForCommandProc",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_command.o"
+    },
+    {
+     "addr": "0x02089D40",
+     "size": 44,
+     "name": "SND_GetCurrentCommandTag",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_command.o"
+    },
+    {
+     "addr": "0x02089D6C",
+     "size": 80,
+     "name": "SND_IsFinishedCommandTag",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_command.o"
+    },
+    {
+     "addr": "0x02089DBC",
+     "size": 60,
+     "name": "SND_CountFreeCommand",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_command.o"
+    },
+    {
+     "addr": "0x02089DF8",
+     "size": 60,
+     "name": "SND_CountReservedCommand",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_command.o"
+    },
+    {
+     "addr": "0x02089E50",
+     "size": 36,
+     "name": "PxiFifoCallback",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_command.o"
+    },
+    {
+     "addr": "0x02089E74",
+     "size": 100,
+     "name": "InitPXI",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_command.o"
+    },
+    {
+     "addr": "0x02089ED8",
+     "size": 40,
+     "name": "RequestCommandProc",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_command.o"
+    },
+    {
+     "addr": "0x02089F00",
+     "size": 72,
+     "name": "AllocCommand",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_command.o"
+    },
+    {
+     "addr": "0x02089F48",
+     "size": 64,
+     "name": "IsCommandAvailable",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_command.o"
+    },
+    {
+     "addr": "0x02089F88",
+     "size": 56,
+     "name": "SND_AlarmInit",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_alarm.o"
+    },
+    {
+     "addr": "0x02089FE0",
+     "size": 48,
+     "name": "SNDi_SetAlarmHandler",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_alarm.o"
+    },
+    {
+     "addr": "0x0208A010",
+     "size": 68,
+     "name": "SNDi_CallAlarmHandler",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_alarm.o"
+    },
+    {
+     "addr": "0x0208A07C",
+     "size": 40,
+     "name": "SND_GetChannelStatus",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_work.o"
+    },
+    {
+     "addr": "0x0208A0A4",
+     "size": 264,
+     "name": "SND_ReadTrackInfo",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_work.o"
+    },
+    {
+     "addr": "0x0208A1AC",
+     "size": 36,
+     "name": "SNDi_GetFinishedCommandTag",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_work.o"
+    },
+    {
+     "addr": "0x0208A1D0",
+     "size": 124,
+     "name": "SNDi_InitSharedWork",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_work.o"
+    },
+    {
+     "addr": "0x0208A24C",
+     "size": 112,
+     "name": "SND_CalcChannelVolume",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_util.o"
+    },
+    {
+     "addr": "0x0208A2BC",
+     "size": 208,
+     "name": "SND_AssignWaveArc",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_bank.o"
+    },
+    {
+     "addr": "0x0208A38C",
+     "size": 152,
+     "name": "SND_DestroyBank",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_bank.o"
+    },
+    {
+     "addr": "0x0208A424",
+     "size": 72,
+     "name": "SND_DestroyWaveArc",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_bank.o"
+    },
+    {
+     "addr": "0x0208A640",
+     "size": 52,
+     "name": "SND_SetWaveDataAddress",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_bank.o"
+    },
+    {
+     "addr": "0x0208A674",
+     "size": 60,
+     "name": "SND_GetWaveDataAddress",
+     "lib": "libsnd.TWL.HYB.a",
+     "object": "snd_bank.o"
+    }
+   ]
+  },
+  {
+   "id": "A911",
+   "lo": "0x0208A924",
+   "hi": "0x0208EE60",
+   "funcs": 39,
+   "bytes": 6816,
+   "objects": [
+    "mic.o",
+    "nwm_init.o",
+    "pm.o",
+    "scfg_proc.o",
+    "std_string.o",
+    "tp.o",
+    "wm_sync.o",
+    "wm_system.o"
+   ],
+   "list": [
+    {
+     "addr": "0x0208A924",
+     "size": 116,
+     "name": "TP_Init",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "tp.o"
+    },
+    {
+     "addr": "0x0208A998",
+     "size": 148,
+     "name": "TP_GetUserInfo",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "tp.o"
+    },
+    {
+     "addr": "0x0208AA2C",
+     "size": 240,
+     "name": "TP_SetCalibrateParam",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "tp.o"
+    },
+    {
+     "addr": "0x0208AB1C",
+     "size": 156,
+     "name": "TP_RequestSamplingAsync",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "tp.o"
+    },
+    {
+     "addr": "0x0208ABB8",
+     "size": 84,
+     "name": "TP_WaitRawResult",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "tp.o"
+    },
+    {
+     "addr": "0x0208AC0C",
+     "size": 264,
+     "name": "TP_RequestAutoSamplingStartAsync",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "tp.o"
+    },
+    {
+     "addr": "0x0208AD14",
+     "size": 160,
+     "name": "TP_RequestAutoSamplingStopAsync",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "tp.o"
+    },
+    {
+     "addr": "0x0208ADB4",
+     "size": 340,
+     "name": "TP_GetLatestRawPointInAuto",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "tp.o"
+    },
+    {
+     "addr": "0x0208AF18",
+     "size": 492,
+     "name": "TP_CalcCalibrateParam",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "tp.o"
+    },
+    {
+     "addr": "0x0208B104",
+     "size": 284,
+     "name": "TP_GetCalibratedPoint",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "tp.o"
+    },
+    {
+     "addr": "0x0208B24C",
+     "size": 112,
+     "name": "MIC_Init",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "mic.o"
+    },
+    {
+     "addr": "0x0208B2BC",
+     "size": 304,
+     "name": "MIC_StartAutoSamplingAsync",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "mic.o"
+    },
+    {
+     "addr": "0x0208B3EC",
+     "size": 56,
+     "name": "MIC_AdjustAutoSampling",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "mic.o"
+    },
+    {
+     "addr": "0x0208B424",
+     "size": 92,
+     "name": "MIC_StopAutoSamplingAsync",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "mic.o"
+    },
+    {
+     "addr": "0x0208B480",
+     "size": 56,
+     "name": "MIC_StopAutoSampling",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "mic.o"
+    },
+    {
+     "addr": "0x0208B4C8",
+     "size": 56,
+     "name": "MIC_AdjustLimitedSamplingAsync",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "mic.o"
+    },
+    {
+     "addr": "0x0208B500",
+     "size": 40,
+     "name": "MIC_AdjustLimitedSampling",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "mic.o"
+    },
+    {
+     "addr": "0x0208B528",
+     "size": 32,
+     "name": "MIC_StopLimitedSampling",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "mic.o"
+    },
+    {
+     "addr": "0x0208B548",
+     "size": 264,
+     "name": "MicCommonCallback",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "mic.o"
+    },
+    {
+     "addr": "0x0208B650",
+     "size": 268,
+     "name": "MicStartAutoSampling",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "mic.o"
+    },
+    {
+     "addr": "0x0208B75C",
+     "size": 44,
+     "name": "MicStopAutoSampling",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "mic.o"
+    },
+    {
+     "addr": "0x0208B950",
+     "size": 288,
+     "name": "PMi_CommonCallback",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "pm.o"
+    },
+    {
+     "addr": "0x0208C6FC",
+     "size": 140,
+     "name": "PMi_InsertList",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "pm.o"
+    },
+    {
+     "addr": "0x0208C788",
+     "size": 88,
+     "name": "PMi_DeleteList",
+     "lib": "libspi.TWL.HYB.a",
+     "object": "pm.o"
+    },
+    {
+     "addr": "0x0208C960",
+     "size": 40,
+     "name": "SCFG_Init",
+     "lib": "libscfg.TWL.HYB.a",
+     "object": "scfg_proc.o"
+    },
+    {
+     "addr": "0x0208C988",
+     "size": 60,
+     "name": "SCFG_SetCpuSpeed",
+     "lib": "libscfg.TWL.HYB.a",
+     "object": "scfg_proc.o"
+    },
+    {
+     "addr": "0x0208C9C4",
+     "size": 280,
+     "name": "SCFGi_CommonCallback",
+     "lib": "libscfg.TWL.HYB.a",
+     "object": "scfg_proc.o"
+    },
+    {
+     "addr": "0x0208CB10",
+     "size": 260,
+     "name": "STD_CopyLString",
+     "lib": "libstd.TWL.HYB.a",
+     "object": "std_string.o"
+    },
+    {
+     "addr": "0x0208CC14",
+     "size": 100,
+     "name": "STD_SearchString",
+     "lib": "libstd.TWL.HYB.a",
+     "object": "std_string.o"
+    },
+    {
+     "addr": "0x0208CCFC",
+     "size": 152,
+     "name": "STD_GetStringNLength",
+     "lib": "libstd.TWL.HYB.a",
+     "object": "std_string.o"
+    },
+    {
+     "addr": "0x0208CD94",
+     "size": 184,
+     "name": "STD_CompareString",
+     "lib": "libstd.TWL.HYB.a",
+     "object": "std_string.o"
+    },
+    {
+     "addr": "0x0208CE4C",
+     "size": 232,
+     "name": "STD_CompareNString",
+     "lib": "libstd.TWL.HYB.a",
+     "object": "std_string.o"
+    },
+    {
+     "addr": "0x0208E038",
+     "size": 640,
+     "name": "WmInitCore",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_system.o"
+    },
+    {
+     "addr": "0x0208EAA0",
+     "size": 40,
+     "name": "NWMi_CheckEnableFlag",
+     "lib": "libnwm.TWL.HYB.a",
+     "object": "nwm_init.o"
+    },
+    {
+     "addr": "0x0208EAC8",
+     "size": 68,
+     "name": "WM_SetIndCallback",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_sync.o"
+    },
+    {
+     "addr": "0x0208EBE4",
+     "size": 80,
+     "name": "WM_ReadStatus",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_sync.o"
+    },
+    {
+     "addr": "0x0208EC34",
+     "size": 112,
+     "name": "WM_GetMPSendBufferSize",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_sync.o"
+    },
+    {
+     "addr": "0x0208ECA4",
+     "size": 204,
+     "name": "WM_GetMPReceiveBufferSize",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_sync.o"
+    },
+    {
+     "addr": "0x0208ED70",
+     "size": 240,
+     "name": "WM_ReadMPData",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_sync.o"
+    }
+   ]
+  },
+  {
+   "id": "A912",
+   "lo": "0x0208EE60",
+   "hi": "0x020911D4",
+   "funcs": 35,
+   "bytes": 5464,
+   "objects": [
+    "ctrdg_proc.o",
+    "wm_dcf.o",
+    "wm_ds.o",
+    "wm_etc.o",
+    "wm_mp.o",
+    "wm_standard.o",
+    "wm_sync.o"
+   ],
+   "list": [
+    {
+     "addr": "0x0208EE60",
+     "size": 60,
+     "name": "WM_GetAllowedChannel",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_sync.o"
+    },
+    {
+     "addr": "0x0208EE9C",
+     "size": 148,
+     "name": "WM_GetLinkLevel",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_sync.o"
+    },
+    {
+     "addr": "0x0208EF30",
+     "size": 148,
+     "name": "WM_GetDispersionBeaconPeriod",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_sync.o"
+    },
+    {
+     "addr": "0x0208EFC4",
+     "size": 152,
+     "name": "WM_GetDispersionScanPeriod",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_sync.o"
+    },
+    {
+     "addr": "0x0208F05C",
+     "size": 344,
+     "name": "WM_GetOtherElements",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_sync.o"
+    },
+    {
+     "addr": "0x0208F1B4",
+     "size": 112,
+     "name": "WM_GetNextTgid",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_sync.o"
+    },
+    {
+     "addr": "0x0208F234",
+     "size": 108,
+     "name": "WMi_EnableEx",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_standard.o"
+    },
+    {
+     "addr": "0x0208F2A0",
+     "size": 68,
+     "name": "WM_Disable",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_standard.o"
+    },
+    {
+     "addr": "0x0208F2E4",
+     "size": 68,
+     "name": "WM_PowerOn",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_standard.o"
+    },
+    {
+     "addr": "0x0208F328",
+     "size": 72,
+     "name": "WM_PowerOff",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_standard.o"
+    },
+    {
+     "addr": "0x0208F398",
+     "size": 104,
+     "name": "WMi_InitializeEx",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_standard.o"
+    },
+    {
+     "addr": "0x0208F400",
+     "size": 60,
+     "name": "WM_Reset",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_standard.o"
+    },
+    {
+     "addr": "0x0208F43C",
+     "size": 68,
+     "name": "WM_End",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_standard.o"
+    },
+    {
+     "addr": "0x0208F480",
+     "size": 248,
+     "name": "WM_SetParentParameter",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_standard.o"
+    },
+    {
+     "addr": "0x0208F578",
+     "size": 80,
+     "name": "WmCheckParentParameter",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_standard.o"
+    },
+    {
+     "addr": "0x0208F5C8",
+     "size": 124,
+     "name": "WMi_StartParentEx",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_standard.o"
+    },
+    {
+     "addr": "0x0208F654",
+     "size": 68,
+     "name": "WM_EndParent",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_standard.o"
+    },
+    {
+     "addr": "0x0208F698",
+     "size": 368,
+     "name": "WM_StartScanEx",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_standard.o"
+    },
+    {
+     "addr": "0x0208F808",
+     "size": 68,
+     "name": "WM_EndScan",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_standard.o"
+    },
+    {
+     "addr": "0x0208F84C",
+     "size": 236,
+     "name": "WM_StartConnectEx",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_standard.o"
+    },
+    {
+     "addr": "0x0208F938",
+     "size": 240,
+     "name": "WM_Disconnect",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_standard.o"
+    },
+    {
+     "addr": "0x0208FBA8",
+     "size": 164,
+     "name": "WM_StartMPEx",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_mp.o"
+    },
+    {
+     "addr": "0x0208FC4C",
+     "size": 104,
+     "name": "WM_StartMP",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_mp.o"
+    },
+    {
+     "addr": "0x0208FDEC",
+     "size": 120,
+     "name": "WM_EndMP",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_mp.o"
+    },
+    {
+     "addr": "0x0208FE64",
+     "size": 168,
+     "name": "WM_StartDCF",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_dcf.o"
+    },
+    {
+     "addr": "0x0208FF0C",
+     "size": 208,
+     "name": "WM_SetDCFData",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_dcf.o"
+    },
+    {
+     "addr": "0x0208FFDC",
+     "size": 112,
+     "name": "WM_EndDCF",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_dcf.o"
+    },
+    {
+     "addr": "0x020902D8",
+     "size": 816,
+     "name": "WM_StepDataSharing",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_ds.o"
+    },
+    {
+     "addr": "0x02090BC4",
+     "size": 124,
+     "name": "WM_SetWEPKey",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_etc.o"
+    },
+    {
+     "addr": "0x02090C40",
+     "size": 148,
+     "name": "WM_SetWEPKeyEx",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_etc.o"
+    },
+    {
+     "addr": "0x02090CD4",
+     "size": 196,
+     "name": "WM_SetGameInfo",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_etc.o"
+    },
+    {
+     "addr": "0x02090D98",
+     "size": 84,
+     "name": "WM_SetBeaconIndication",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_etc.o"
+    },
+    {
+     "addr": "0x02090DEC",
+     "size": 100,
+     "name": "WM_SetLifeTime",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_etc.o"
+    },
+    {
+     "addr": "0x02090E50",
+     "size": 124,
+     "name": "WM_MeasureChannel",
+     "lib": "libwm.TWL.HYB.a",
+     "object": "wm_etc.o"
+    },
+    {
+     "addr": "0x020911A0",
+     "size": 52,
+     "name": "CTRDG_DummyInit",
+     "lib": "libctrdg.TWL.HYB.a",
+     "object": "ctrdg_proc.o"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,170 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_0205DC74",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "func_0205DC74",
+   "address": "0x0205DC74",
+   "kind": "sdk",
+   "region": "arm9",
+   "source": "src/matched/arm9_sdk/func_0205DC74.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT*"
+  },
+  {
+   "name": "func_0205DF6C",
+   "address": "0x0205DF6C",
+   "kind": "sdk",
+   "region": "arm9",
+   "source": "src/matched/arm9_sdk/func_0205DF6C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_0205E17C",
+   "address": "0x0205E17C",
+   "kind": "sdk",
+   "region": "arm9",
+   "source": "src/matched/arm9_sdk/func_0205E17C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_0205EA08",
+   "address": "0x0205EA08",
+   "kind": "sdk",
+   "region": "arm9",
+   "source": "src/matched/arm9_sdk/func_0205EA08.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_0205EA44",
+   "address": "0x0205EA44",
+   "kind": "sdk",
+   "region": "arm9",
+   "source": "src/matched/arm9_sdk/func_0205EA44.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x0205EC2C"
+    ]
+   }
+  },
+  {
+   "name": "func_0205EAFC",
+   "address": "0x0205EAFC",
+   "kind": "sdk",
+   "region": "arm9",
+   "source": "src/matched/arm9_sdk/func_0205EAFC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT*"
+  },
+  {
+   "name": "func_0205EC2C",
+   "address": "0x0205EC2C",
+   "kind": "sdk",
+   "region": "arm9",
+   "source": "src/matched/arm9_sdk/func_0205EC2C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_0205F298",
+   "address": "0x0205F298",
+   "kind": "sdk",
+   "region": "arm9",
+   "source": "src/matched/arm9_sdk/func_0205F298.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x0217A880"
+    ]
+   }
+  },
+  {
+   "name": "func_0205F35C",
+   "address": "0x0205F35C",
+   "kind": "sdk",
+   "region": "arm9",
+   "source": "src/matched/arm9_sdk/func_0205F35C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x0205C31C",
+     "0x0205C3B0"
+    ]
+   }
+  },
+  {
+   "name": "func_0205F384",
+   "address": "0x0205F384",
+   "kind": "sdk",
+   "region": "arm9",
+   "source": "src/matched/arm9_sdk/func_0205F384.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_0205F558",
+   "address": "0x0205F558",
+   "kind": "sdk",
+   "region": "arm9",
+   "source": "src/matched/arm9_sdk/func_0205F558.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
+   "name": "func_0205F700",
+   "address": "0x0205F700",
+   "kind": "sdk",
+   "region": "arm9",
+   "source": "src/matched/arm9_sdk/func_0205F700.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  }
+ ]
+}
