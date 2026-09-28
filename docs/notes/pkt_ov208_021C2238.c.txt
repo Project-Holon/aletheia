@@ -1,0 +1,12 @@
+021C2238 (ov208), tree_ov208_6 lane, 2026-09-28
+Best: src/pending/ov/ov208_func_021C2238.c, DIFF, 204/204 bytes, 16 bytes out.
+Closed on the way: `u8 on[3] = {0, 0, 0};` as an initializer (three separate zero stores
+let the compiler CSE the entry byte across the flag stores; the image reloads it for each
+test), the index as `W(0x8c) != 0 ? p[0x78] : 0` (gives the lsls/lsrs #24 at the join),
+`k = (p + p[0x79])[0x3cc]` (base plus p[0x79] first) and the entry read through
+`(*(Entry **)(p + 0x94))[idx].b[k]` (base + idx*0x3e, then + k).
+Residue: argument scheduling in the func_020413B0 loop only. The image loads row[3] (stack
+arg), then the palette byte (stack arg), then row[1], row[0], row[2]; the draft loads row[0]
+right after row[3]. Tried: the row table as u8[3][4], a {x, y, w, h} struct, a flat u8[]
+with i * 4 offsets, `(*(tbl + i))[0]`; all 16 bytes out.
+Permuter seed 11401 (default budget): best 16 bytes out, nothing better.

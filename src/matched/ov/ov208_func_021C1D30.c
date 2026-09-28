@@ -1,0 +1,77 @@
+/*
+ * function: func_021C1D30
+ * address:  0x021C1D30
+ * packet:   pkt_ov208_021C1D30
+ * region:   ov208
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * symbols:
+ *   func_0201C6EC  0x0201C6EC  thumb
+ *   func_02045770  0x02045770  arm
+ *   func_02043B5C  0x02043B5C  arm
+ *   func_021BBB3C  0x021BBB3C  thumb  ov072
+ *   func_02013E4C  0x02013E4C  thumb
+ *   func_02045EC0  0x02045EC0  arm
+ *   func_0201C724  0x0201C724  thumb
+ *   func_02045808  0x02045808  arm
+ *   func_021C0740  0x021C0740  thumb  ov208
+ *   func_0204B878  0x0204B878  arm
+ *   func_0204B404  0x0204B404  arm
+ *   func_0204B3DC  0x0204B3DC  arm
+ *   func_02045334  0x02045334  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef short          s16;
+
+typedef struct {
+    u16 x;
+    u16 y;
+} Pt;
+
+extern void func_0201C6EC(u32 a);
+extern void *func_02045770(u32 p);
+extern void func_02043B5C(void *a, u32 b);
+extern u16  func_021BBB3C(u32 tbl, int idx, int field);
+extern int  func_02013E4C(int a0);
+extern void *func_02045EC0(u32 bank, u32 index);
+extern void func_0201C724(u32 a, void *b, s16 x, s16 y, void *e, u32 f, u16 g);
+extern void func_02045808(void *p);
+extern void func_021C0740(u16 *heap, u8 *p, int key, u8 i);
+extern void func_0204B878(u32 obj, u32 anim);
+extern void func_0204B404(u32 obj, Pt *pos, int n);
+extern void func_0204B3DC(u32 obj, int on);
+extern void func_02045334(u32 p);
+
+#define W(o) (*(u32 *)(p + (o)))
+
+void func_021C1D30(u16 *heap, u8 *p, int key)
+{
+    void *str;
+    Pt pt;
+
+    W(0x28) = 0;
+    func_0201C6EC(W(0x38));
+    func_02043B5C(func_02045770(W(0x18)), 0);
+    if (p[0x79] != 0xff) {
+        str = func_02045EC0(W(0x10), func_02013E4C(func_021BBB3C(W(0x3c8), p[0x79], 0)));
+        func_0201C724(W(0x38), func_02045770(W(0x18)), 0, 1, str, W(4), 0x3c40);
+        func_02045808(str);
+        W(0x28) = 1;
+        func_021C0740(heap, p, key, 1);
+        pt.x = func_021BBB3C(W(0x3c8), p[0x79], 2);
+        pt.y = func_021BBB3C(W(0x3c8), p[0x79], 3);
+        func_0204B878(W(0xd0), 5);
+        func_0204B404(W(0xd0), &pt, 0);
+        func_0204B3DC(W(0xd0), 1);
+    } else {
+        func_02045334(W(0x18));
+        func_0204B3DC(W(0xd0), 0);
+    }
+}
