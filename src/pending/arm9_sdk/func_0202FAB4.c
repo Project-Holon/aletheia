@@ -7,57 +7,52 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   pending
+ * status:   DIFF
  *
- * TwlSDK CRYPTO_RC4Init, `libcrypto.TWL.HYB.a(rc4.o)`, recovered at
- * src/pending/func_0202FAB4.c by symbol table (layout/symbols_sdk.json,
- * arm9) + DWARF from the SDK archive.  Body reproduced faithfully: the
- * declaration order, the signed/unsigned widths and the exact variable set
- * come out of the member's DWARF (rc4.c:34, params context/key/key_len,
- * locals d/id1/id2/i/tmp).  Verdict is SIZE (~124 compiled against 128
- * original) under every front end and spelling tried: the prime suspect is
- * that the branch-5_3 archive is Release-profile code while the shipped
- * image holds the Debug-profile object (the Debug member's *structure* is
- * this function, but its own arithmetic still does not match, so a C
- * spelling has not been reached).  Not filed as EXACT; see below.
+ * sdk:      CRYPTO_RC4Init (libcrypto.TWL.HYB.a rc4.o)
+ * notes:    38 bytes differ, register allocation only (same instruction shapes and order). The image keeps d in lr and puts (u8)key_len in a fresh register (r3) with 0 in key_len's r2; this C coalesces the mask into r2 and gives d r4. Declaration order (120 permutations), increment/compare spellings, key casts and permuter seeds 13601, 13602 did not move it.
+ *
+ * symbols:
+ *   (none)
  */
 
 typedef unsigned char u8;
 typedef unsigned long u32;
 
-typedef struct {
+typedef struct CRYPTORC4Context {
     u8 i;
     u8 j;
-    u8 padd[2];
+    u8 padding[2];
     u8 s[256];
 } CRYPTORC4Context;
 
-void func_0202FAB4(CRYPTORC4Context *d, const void *key, u8 key_len)
+void func_0202FAB4(CRYPTORC4Context *context, void *key, u32 key_len)
 {
+    u8 *d;
     u8 id1;
     u8 id2;
-    u8 *d2;
     int i;
     u8 tmp;
 
-    if (key_len > 16)
+    if (key_len > 16) {
         key_len = 16;
-
-    d->i = 0;
-    d->j = 0;
-    d2 = d->s;
-    for (i = 0; i < 256; i++)
-        d2[i] = i;
-
+    }
+    context->i = 0;
+    context->j = 0;
+    d = context->s;
+    for (i = 0; i < 256; i++) {
+        d[i] = (u8)i;
+    }
     id1 = 0;
     id2 = 0;
     for (i = 0; i < 256; i++) {
-        tmp = d2[i];
-        id2 = id2 + tmp + ((const u8 *)key)[id1];
-        id1 = id1 + 1;
-        if (id1 == key_len)
+        tmp = d[i];
+        id2 = (u8)(id2 + (tmp + ((u8 *)key)[id1]));
+        id1++;
+        d[i] = d[id2];
+        d[id2] = tmp;
+        if (id1 == (u8)key_len) {
             id1 = 0;
-        d2[i] = d2[id2];
-        d2[id2] = tmp;
+        }
     }
 }

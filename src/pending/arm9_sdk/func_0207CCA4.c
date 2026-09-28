@@ -10,7 +10,7 @@
  * status:   DIFF
  *
  * sdk:      VEC_Normalize (libfx.TWL.HYB.a fx_vec.o)
- * notes:    24 bytes differ, scheduling only: the image computes the high word of t<<2 after the denominator low-word store, this C hoists it above the DIVCNT write. Permuter seed 12601 did not close it.
+ * notes:    24 bytes differ, scheduling only: the image computes the high word of t<<2 after the denominator low-word store, this C hoists it above the DIVCNT write. Permuter seed 12601 did not close it. Pass 2 (sdk9w2_fxmisc): split setters (control / imm64 / denom), DIVCNT+NUMER before the sum, u32 halves for DENOM or SQRT_PARAM, s64 setter params, direct register writes, other -O levels (all 24 bytes) and permuter seed 13604 did not move the lsl.
  *
  * symbols:
  *   (none)

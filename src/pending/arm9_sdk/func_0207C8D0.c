@@ -10,7 +10,7 @@
  * status:   DIFF
  *
  * sdk:      FX_SqrtAsync (libfx.TWL.HYB.a fx_cp.o)
- * notes:    31 bytes differ: the image if-converts both arms and shares the high-word store; this C ends the gt arm with bxgt. Permuter seeds 12602, 12603 did not close it.
+ * notes:    31 bytes differ: the image if-converts both arms and shares the high-word store; this C ends the gt arm with bxgt. Permuter seeds 12602, 12603 did not close it. Pass 2 (sdk9w2_fxmisc): gt-first/le-first, ternary, early return, direct register writes, split u32 param stores, x=0 reassignment and permuter seed 13603 all keep a 5-instruction gt arm ending in bxgt lr; the image's arms are 4 instructions each with the high-word store after the join, so the merge happened before if-conversion.
  *
  * symbols:
  *   (none)

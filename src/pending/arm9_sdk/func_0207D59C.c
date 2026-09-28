@@ -10,7 +10,7 @@
  * status:   DIFF
  *
  * sdk:      G2x_SetBGyAffine_ (libgx.TWL.HYB.a g2.o)
- * notes:    38 bytes differ, register allocation only (same instruction shapes and order); permuter seed 12606 made it worse.
+ * notes:    38 bytes differ, register allocation only (same instruction shapes and order); permuter seed 12606 made it worse. Pass 2 (sdk9w2_fxmisc): DWARF has no x2 local (only dx, dy, y2); x2 folded into the store, x1 or centerX reused for it, 288 combinations of declaration order / statement order, self-assignments, inline GX_FX32_FX16: all the same 26-line rotation. The image keeps dx in ip (not coalesced with x1); this C coalesces it.
  *
  * symbols:
  *   (none)
