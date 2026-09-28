@@ -540,6 +540,8 @@ arm9_main  0x02015F1C  thumb   # callee of ov195 func_02206274; bl from ov195 at
 arm9_main  0x02015F50  thumb   # callee of ov195 func_02206274 or func_02205D50 (tree_ov195); bl from ov094 at 0x021FFDE6, ov117 at 0x021D461A, 0x021D4A3A
 arm9_main  0x0201600C  thumb   # callee of ov195 func_02206274 or func_02205D50 (tree_ov195); bl from ov094 at 0x021FFCD0, ov215 at 0x021F6A88, 0x021F6D80
 arm9_main  0x02013128  thumb   # 16-byte tail thunk to func_0201AC2C, called from ov010 func_02155478 (+0x2E2, untraced there); bl from ov199 at 0x02212E06
+arm9_main  0x0204784C  arm     # ARM leaf after func_020477D4's bx lr (frame clamp through obj->f8[idx]); blx from ov195 at 0x02208B3E, 0x02208B48 (func_02208AB0)
+arm9_main  0x02051B04  arm     # "ldrh r0, [r0, #8]; bx lr" after func_02051AB8's pool; blx from ov195 at 0x02208954 (func_0220887C)
 # RtcGetResultCallback, TwlSDK librtc external.o (layout/symbols_sdk.txt),
 # the follower of RtcBCD2HEX; ARM, a callback pointer loaded from
 # pool_02088894, pool_0208893C and pool_020889F0 in asm/arm9/src/028_020855BC.s.

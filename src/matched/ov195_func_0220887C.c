@@ -7,12 +7,12 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
- * blocker: the call at +0xD8 to 0x02051B04 stays wildcarded. 0x02051B04 is
- *   an unlabelled 8-byte ARM leaf in arm9 (ldrh r0,[r0,#8]; bx lr) that
- *   saves no lr, so disasm.py never labels it. Every other byte is right.
- *   Unblock: seed 0x02051B04 (arm) in layout/function_starts.txt.
+ * promoted: from src/pending on 2026-09-27, no C change. Its blocker, the
+ *   call at +0xD8 to the unlabelled ARM leaf 0x02051B04, closed when that
+ *   leaf was seeded in layout/function_starts.txt and matched
+ *   (src/matched/func_02051B04.c); all 13 relocations resolve.
  *
  * symbols:
  *   d_02208F24 0x02208F24 data

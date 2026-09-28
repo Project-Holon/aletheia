@@ -7,14 +7,12 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
- * blocker: the two calls to 0x0204784C (sites +0x8E, +0x98) stay
- *   wildcarded. 0x0204784C is an unlabelled ARM leaf in arm9 (an NNS G3d
- *   style accessor: ldr r0,[r0,#8]; ldr r0,[r0,r1,lsl#2]; ...) that saves no
- *   lr, so disasm.py never labels it and no class attests it. Every other
- *   byte is right. Unblock: seed 0x0204784C in layout/function_starts.txt
- *   (arm) or match that leaf.
+ * promoted: from src/pending on 2026-09-27, no C change. Its blocker, the
+ *   two calls to the unlabelled ARM leaf 0x0204784C (sites +0x8E, +0x98),
+ *   closed when that leaf was seeded in layout/function_starts.txt and
+ *   matched (src/matched/func_0204784C.c); all 11 relocations resolve.
  *
  * symbols:
  *   d_02208EC0 0x02208EC0 data
