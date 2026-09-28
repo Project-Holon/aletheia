@@ -7,19 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
- * notes:    DIFF 280/284 in plain C. Adding a zero-byte `asm { .align 4 }` statement just before
- *            CARDi_CheckPulledOutCore (or before CARDi_StartRomPageTransfer) with a plain
- *            `while (length > 0)` gives EXACT (match.py one): mwcc's asm mode stops copy propagation,
- *            which gives the line-372 copy `mov r0,r7` (n, DWARF r0) and the r1-r3 poll loop. Held in
- *            pending: no asm instruction and no object evidence for one (brief asm rule). Shape from
- *            the Rom line table and the Debug build: cacheBuffer local (line 367), ptr/n/pos order
- *            (371-373), MIN clamp, for(;;) poll loop.
- *            sdk9f_card: n from a page-size variable (function scope, const, sizeof), n assigned per
- *            arm, casts through unsigned int/int/pointer, comma/+0/ternary on the compare, condition
- *            split into an else-if chain: all fold to `cmp r8,#0x200`. Under opt_propagation off
- *            the poll loop is word r2/ctrl r1/data r0 against the image's r3/r2/r1 (one-register
- *            rotation; the copy's vreg takes r0 first in the image).
+ * status:   EXACT
+ * notes:    CARDi_cache_buf is a 512-byte static in card_rom.o .bss with sh_addralign 32;
+ *            declaring that alignment keeps n as a real copy at the compare.
  *
  * sdk:      CARDi_ReadRomWithCPU (libcard.TWL.HYB.a card_rom.o)
  *
@@ -47,7 +37,7 @@ typedef struct CARDiRomCacheState
 } CARDiRomCacheState;
 
 extern CARDiRomCacheState CARDiEnableCacheInvalidationDC;
-extern u8 CARDi_cache_buf[512];
+extern u8 CARDi_cache_buf[512] __attribute__((aligned(32)));
 
 extern void CARDi_StartRomPageTransfer(u32 offset);
 extern void MI_CpuCopy8(const void *srcp, void *dstp, u32 size);
@@ -62,11 +52,10 @@ extern void CARDi_CheckPulledOutCore(u32 id);
 
 BOOL func_02076E4C(void *userdata, void *buffer, u32 offset, u32 length)
 {
-#pragma unused(userdata)
     BOOL retval = (BOOL)length;
     u32 cachedPage = CARDiEnableCacheInvalidationDC.cached_page;
     u8 *const cacheBuffer = CARDi_cache_buf;
-    while ((length > 0) ? 1 : 0)
+    while (length > 0)
     {
         u8 *ptr = (u8 *)buffer;
         u32 n = CARD_ROM_PAGE_SIZE;

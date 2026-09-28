@@ -7,18 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
- * notes:    DIFF 408/408, 21 bytes: a pure register permutation (image: buf r4, req_type r5,
- *            req_mode r6, size r7; this: req_mode r4, size r5, buf r6, req_type r7). A zero-byte
- *            `asm { .align 4 }` as the last statement of the function gives EXACT (match.py one), as
- *            does `#pragma opt_loop_invariants off`; held in pending: no asm instruction and no object
- *            evidence for either (brief asm rule). Shape confirmed by the Rom line table (lines
- *            147-222) and the Debug build (same locals, same switch and MIN clamp).
- *            sdk9f_card: the four registers are allocated in declaration order for non-const
- *            locals, then the hoisted buffer address, then a `const` req_type (const req_mode and
- *            const retry_count change nothing). Declaring `size` first with type/mode/retry
- *            non-const gives type r5, mode r6 and only size/buf swapped (12 bytes), but that
- *            contradicts the DWARF declaration order (req_type, req_mode, retry_count, size, len).
+ * status:   EXACT
+ * notes:    CARDi_backup_cache_page_buf is a 256-byte static in card_backup.o .bss with
+ *            sh_addralign 32; declaring that alignment settles the r4-r7 colouring.
  *
  * sdk:      CARDi_RequestStreamCommandCore (libcard.TWL.HYB.a card_backup.o, static)
  *
@@ -125,7 +116,7 @@ typedef struct CARDiCommon
 
 extern const char cardi_backup_assert[22];
 extern CARDiCommon cardi_common;
-extern u8 CARDi_backup_cache_page_buf[256];
+extern u8 CARDi_backup_cache_page_buf[256] __attribute__((aligned(32)));
 
 extern void OSi_ReferSymbol(const void *symbol);
 extern u32 CARD_GetBackupSectorSize(void);
@@ -137,9 +128,9 @@ extern BOOL CARDi_Request(CARDiCommon *p, int req_type, int retry_count);
 
 void func_02076540(CARDiCommon *p)
 {
-    const int req_type = p->req_type;
-    const int req_mode = p->req_mode;
-    const int retry_count = p->req_retry;
+    int req_type = p->req_type;
+    int req_mode = p->req_mode;
+    int retry_count = p->req_retry;
     u32 size = sizeof(CARDi_backup_cache_page_buf);
 
     OSi_ReferSymbol(cardi_backup_assert);
