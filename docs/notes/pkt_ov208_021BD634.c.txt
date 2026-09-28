@@ -17,3 +17,5 @@ p->f4 set inside the call's argument list as a comma in each of the three positi
 an inline clear(void *, u32) wrapper with and without the comma (8), a local `one` or `j` holding
 1 and reused for func_021BD56C(res, 1) (8), an enum-typed one (12, 30), enum f4 or f34 (8).
 No longer blocks 0x021BD148: that caller is EXACT against the label.
+
+2026-09-28, tree_ov208_5: reordering the three header stores (f4 before f34, f4 first, f34 first) gives 12, 23 and 23 bytes; the 8-byte draft stays best.

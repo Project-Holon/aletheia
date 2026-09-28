@@ -1,0 +1,14 @@
+021C0544 (ov208), tree_ov208_5 lane, 2026-09-28
+Best: src/pending/ov/ov208_func_021C0544.c, DIFF, size 344/348 (the image has one more
+instruction plus 2 pad bytes before the 0xffff pool word). The only residue is the sentinel
+test at the loop head: the image does `adds r1, r0, #0; ldr r0, =0xffff; cmp r1, r0`, the
+draft does `ldr r1, =0xffff; cmp r0, r1`. Everything else (the stack-cached 0x1e0/0x1e4
+constants, the materialised `func_02166CD0(k) == 0 ? 1 : 0` flag, the ObjPos fill) is
+byte-identical after the 2-byte shift.
+Tried (all still 344 bytes): a u16, u32 or int local for the lookup, reusing `kind`, the
+operands reversed, `(u16)` casts on either side, `(u16)-1`, an inline IsSet helper (three
+spellings), an uninitialised `none` variable set before the loop, the == arm first.
+A u32 return type for func_021BBB3C gives 348 bytes but adds zero-extensions (60 bytes out).
+Permuter seed 10901, 600 iterations: nothing better (best 146 bytes out at size 348).
+The same shape (call result moved to r1, a constant or offset put in r0) is the residue of
+0x021C4F78; a lever for one probably closes both.

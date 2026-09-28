@@ -1,0 +1,38 @@
+/*
+ * function: ov208_func_021C0C50
+ * address:  0x021C0C50
+ * packet:   pkt_ov208_021C0C50
+ * region:   ov208
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * symbols:
+ *   ov208_func_021C0C14  0x021C0C14  thumb  ov208
+ *   func_021BBB3C  0x021BBB3C  thumb  ov072
+ *   func_0204B404  0x0204B404  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef int            s32;
+
+extern u8   ov208_func_021C0C14(u16 *heap, u8 *p, int key);
+extern u16  func_021BBB3C(u32 tbl, int idx, int field);
+extern void func_0204B404(u32 obj, u16 *pos, int n);
+
+void ov208_func_021C0C50(u16 *heap, u8 *p, int key)
+{
+    u8 idx;
+    u16 pos[2];
+
+    idx = ov208_func_021C0C14(heap, p, key);
+    if (idx != 0xff) {
+        pos[0] = func_021BBB3C(*(u32 *)(p + 0x3c8), idx, 2);
+        pos[1] = func_021BBB3C(*(u32 *)(p + 0x3c8), idx, 3);
+        func_0204B404(*(u32 *)(p + 0xd4), pos, 0);
+    }
+}
