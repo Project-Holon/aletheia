@@ -1,0 +1,79 @@
+/*
+ * function: func_021DBC08
+ * address:  0x021DBC08
+ * packet:   pkt_ov121_021DBC08
+ * region:   ov121
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Rebuild every entry from the list, free slot idx, then pull each later
+ * slot down one place (swap into an empty slot), and mark the table dirty.
+ *
+ * symbols:
+ *   func_0200A094  0x0200A094  thumb
+ *   func_0200A348  0x0200A348  thumb
+ *   func_0200A0E4  0x0200A0E4  thumb
+ *   func_0200A000  0x0200A000  thumb
+ *   func_021DBEE4  0x021DBEE4  thumb  ov121
+ *   func_021DBDF4  0x021DBDF4  thumb  ov121
+ *   func_021DD980  0x021DD980  thumb  ov121
+ */
+
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct Item {
+    unsigned char raw[0xDC];
+} Item;
+
+typedef struct Obj {
+    unsigned char pad00[0xC];
+    void *list;
+    unsigned char pad10[0x14];
+    u16 f24;
+    unsigned char pad26[2];
+    Item items[12];
+    unsigned char pad[0xA7C - 0x28 - 12 * 0xDC];
+    void *slots[12];
+    unsigned char padAAC[0xAD4 - 0xAAC];
+    int dirty;
+} Obj;
+
+extern void func_0200A094(void *list);
+extern u32 func_0200A348(void *list);
+extern int func_0200A0E4(void *list, u32 i);
+extern void func_0200A000(void *list, u32 i, void *out);
+extern void func_021DBEE4(Item *it);
+extern void func_021DBDF4(Item *it, void *data, Obj *o, u16 f);
+extern void func_021DD980(void *p);
+
+void func_021DBC08(Obj *o, int idx)
+{
+    unsigned char buf[0xCC];
+    u32 i;
+
+    func_0200A094(o->list);
+    for (i = 0; i < func_0200A348(o->list); i++)
+        func_021DBEE4(&o->items[i]);
+    for (i = 0; i < func_0200A348(o->list); i++) {
+        if (func_0200A0E4(o->list, i)) {
+            func_0200A000(o->list, i, buf);
+            func_021DBDF4(&o->items[i], buf, o, o->f24);
+        }
+    }
+    if (o->slots[idx] != 0) {
+        func_021DD980(o->slots[idx]);
+        o->slots[idx] = 0;
+    }
+    for (; idx < 11; idx++) {
+        void *tmp = o->slots[idx];
+        if (tmp == 0) {
+            o->slots[idx] = o->slots[idx + 1];
+            o->slots[idx + 1] = tmp;
+        }
+    }
+    o->dirty = 1;
+}
