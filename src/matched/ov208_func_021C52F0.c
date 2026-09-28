@@ -7,11 +7,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH*
+ * status:   EXACT*
  *
- * Code matches; three callees (0x0201BC3C, 0x0201BC78, 0x0201BCEC) are
- * unlabelled ARM9 functions with no witness outside this body, so the
- * relocations stay unresolved until those starts are labelled.
+ * The three ARM9 callees 0x0201BC3C, 0x0201BC78 and 0x0201BCEC were
+ * unlabelled; seeds_3 labelled them and matched them in
+ * src/matched/unit_0201BC3C.c, so every relocation now attests.
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm

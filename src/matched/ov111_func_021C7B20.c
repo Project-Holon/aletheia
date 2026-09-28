@@ -7,8 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * blocker:  sub_02008A54 is an arm9 near miss (see src/matched/unit_020089A8.c) with no other caller, so its relocation has no witness
+ * status:   EXACT
+ * callee:   0x02008A54 (arm9, labelled by seeds_3) is still a near miss; its one call site
+ *           here attests through the sole-ref class (docs/notes/pkt_02008A54.c.txt)
  *
  * symbols:
  *   func_020457B0  0x020457B0  arm

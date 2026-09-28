@@ -7,8 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * blocker:  0x02009020 and 0x02012F14 are unlabelled ARM9 Thumb tail-call thunks (.word runs in asm/arm9/main.s; witnesses here at 0x021E062E, 0x021E06D0, 0x021E080C); seed both and this closes EXACT
+ * status:   EXACT
+ * closed:   blocking arm9 callees labelled and matched by seeds_3 (2026-09-28)
  *
  * pokemontrade_save.c.  The first two buffer copies are inlined statics
  * (their arguments are spilled before the body, and each carries its own

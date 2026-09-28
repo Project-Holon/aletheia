@@ -636,3 +636,28 @@ overlay_208  0x021BDBAC  thumb # "ldr r0, [r0, #0x30]; ldr r3, =func_021BD330; b
 # cannot attest its calls to them until they are labelled.
 arm9_main  0x020056BC  thumb   # "ldr r0, =d_020AA194; ldr r0, [r0, #0x10]; ldr r0, [r0, #0x20]; bx lr"; bl from ov010 at 0x02169C4A, ov021 at 0x021B0604, ov070 at 0x021BB420, ov119 at 0x021E2FE0
 arm9_main  0x02008DF0  thumb   # "ldr r3, =func_02008DAC; movs r2, #1; bx r3"; bl from ov010 at 0x021564F0, 0x02169BF6, ov021 at 0x02188C3A
+# seeds_3 (2026-09-28): arm9 leaves and thunks the ov111, ov208 and ov119 tree
+# files call without a label, plus their unlabelled neighbours in the same runs.
+arm9_main  0x0201BC3C  thumb   # "movs r0, #0; bx lr"; bl from ov208 at 0x021C5304, ov021 at 0x021CC8EA, ov034 at 0x021F0792, ov091 at 0x021B73EC
+arm9_main  0x0201BC40  thumb   # register-mode leaf after 0x0201BC3C; bl from ov021 at 0x021CC906, ov034 at 0x021F07B2, ov091 at 0x021B740A
+arm9_main  0x0201BC78  thumb   # register-mode leaf; bl from ov208 at 0x021C531E, ov094 at 0x0220580A, ov097 at 0x021F6FFE, ov119 at 0x021DD560
+arm9_main  0x0201BCB4  thumb   # register-mode leaf; bl from ov021 at 0x021CC90C, ov034 at 0x021F07B8, ov091 at 0x021B7410
+arm9_main  0x0201BCEC  thumb   # register-mode leaf; bl from ov208 at 0x021C5324, ov094 at 0x02205810, ov097 at 0x021F7004, ov198 at 0x0220E3C6
+arm9_main  0x02009020  thumb   # "ldr r3, =func_02009074; movs r1, #0x14; bx r3"; bl from ov119 at 0x021E062E, 0x021D89B6, ov021 at 0x021B679A, ov091 at 0x021BA3C2
+arm9_main  0x02012F14  thumb   # "ldr r0, [r0]; ldr r3, =func_02009EC8; bx r3"; bl from ov119 at 0x021E0226, 0x021E06D0, 0x021E080C
+arm9_main  0x02012F38  thumb   # already EXACT (src/matched/func_02012F38.c); bl from ov010 at 0x02166996, ov021 at 0x021CFC58
+arm9_main  0x02012F44  thumb   # already EXACT (src/matched/func_02012F44.c); bl from ov010 at 0x02155B20, 0x0215D3F0
+arm9_main  0x02012F50  thumb   # already EXACT (src/matched/func_02012F50.c); bl from ov010 at 0x0216A406, 0x0216A42E
+arm9_main  0x02012F5C  thumb   # "ldr r0, [r0]; ldr r3, =0x020089C1; bx r3"; bl from ov111 at 0x021C40FC, 0x021C4126, 0x021C6208, ov010 at 0x0215AC8E
+arm9_main  0x02025C74  thumb   # table leaf; bl from ov019 at 0x0217AE76, ov021 at 0x021CFCD6
+arm9_main  0x02025C88  thumb   # already EXACT (src/matched/func_02025C88.c); bl from ov010 at 0x0215B0EC, ov099 at 0x021BB3AA, ov116 at 0x021D6AB0
+arm9_main  0x02025C9C  thumb   # table leaf; bl from ov111 at 0x021C6216
+arm9_main  0x02025CB0  thumb   # table search leaf; bl from ov116 at 0x021D6AAC
+arm9_main  0x0202DC98  thumb   # "ldr r0, [r0, #0x28]; bx lr"; bl from ov031 at 0x021F069A, ov110 at 0x021C023E, ov177 at 0x021E7B34
+arm9_main  0x0202DC9C  thumb   # tail call to func_0202E38C; bl from ov031 at 0x021F0826, ov110 at 0x021C0CC6, ov136 at 0x021C7396
+arm9_main  0x0202DCB0  thumb   # tail call to func_0202E3E4; bl from ov111 at 0x021C61D2, ov216 at 0x021BD12A
+arm9_main  0x02008A44  thumb   # already EXACT (sub_02008A44 in src/matched/unit_020089A8.c); bl from ov111 at 0x021C8214
+arm9_main  0x02008A54  thumb   # packed-word reader; bl from ov111 at 0x021C7B52
+arm9_main  0x02047804  arm     # slot-table leaf, sibling of func_0204784C; blx from ov021 at 0x0218C064, 0x0218C0C4
+arm9_main  0x02047828  arm     # slot-table leaf, sibling of func_0204784C; blx from ov021 at 0x0218C486, 0x021ADC1E, 0x021BE6F6
+overlay_111  0x021C7EF8  thumb # already EXACT (src/matched/ov111_func_021C7EF8.c); bl from func_021C7F2C (src/matched/ov111_func_021C7F2C.c); follows pool word 0x021C7EF4

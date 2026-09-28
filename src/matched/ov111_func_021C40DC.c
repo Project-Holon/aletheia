@@ -7,8 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * blocker:  0x02012F5C is an unlabelled arm9 Thumb tail-call thunk (ldr r0,[r0]; ldr r3,pool; bx r3 to 0x020089C1), no witness outside this function
+ * status:   EXACT
+ * closed:   blocking arm9 callees labelled and matched by seeds_3 (2026-09-28)
  *
  * symbols:
  *   func_021C59B0  0x021C59B0  thumb  ov111

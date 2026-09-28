@@ -7,8 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * blocker:  0x0202DCB0 is an unlabelled arm9 Thumb tail-call thunk (ldr r3, pool; bx r3 to 0x0202E3E5), no witness outside this function
+ * status:   EXACT
+ * closed:   blocking arm9 callees labelled and matched by seeds_3 (2026-09-28)
  *
  * symbols:
  *   func_020061E4  0x020061E4  thumb

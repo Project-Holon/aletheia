@@ -1,0 +1,37 @@
+== 2026-09-28 seeds_3
+
+0x02008A54 (arm9, Thumb, 40 bytes) labelled in layout/function_starts.txt (bl from ov111
+0x021C7B52). Still a near miss, 17 concrete bytes out, register allocation only;
+see the NEAR MISS paragraph in src/matched/unit_020089A8.c for the earlier sweep.
+
+Measurements this pass (dsi/1.1p1 -O4,p):
+- 432-shape sweep: {struct Rec b[4], u8[8][4], flat u8[32]} x {int, u32 index} x
+  {single expression with |, v = / v |= accumulator, single expression with +}
+  x all 24 term orders. Best 17 (accumulator, order b1, b0, b2, b3, which also
+  gives the 0x605 pool base); single expressions 36..43.
+- struct Rec pointer local (bare and initialised) and u8/u32 byte locals, all
+  24 orders: 30 or worse.
+- static inline reader over a u8 pointer: 42. Four loop spellings (unrolled by
+  the compiler): 32..36.
+- permuter seed 9551, budget 1500, from the best source below: flat at 17.
+
+Residue: the original computes the record pointer into r3 and accumulates in
+r0 with the b1 shift after the b0 load; every source gives pointer r0,
+accumulator r3, shift right after the b1 load.
+
+Best source:
+
+typedef unsigned char u8;
+typedef unsigned int u32;
+struct Rec { u8 b[4]; };
+struct Obj { u32 unk000[384]; u32 unk600; struct Rec unk604[8]; };
+
+u32 func_02008A54(struct Obj *obj, u32 i)
+{
+    u32 v;
+    v = obj->unk604[i].b[1] << 8;
+    v |= obj->unk604[i].b[0];
+    v |= obj->unk604[i].b[2] << 16;
+    v |= obj->unk604[i].b[3] << 24;
+    return v;
+}

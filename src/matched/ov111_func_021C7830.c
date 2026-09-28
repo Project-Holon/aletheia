@@ -7,8 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * blocker:  0x02047828 is an unlabelled arm9 ARM function, no witness outside this function
+ * status:   EXACT
+ * closed:   blocking arm9 callees labelled and matched by seeds_3 (2026-09-28)
  *
  * symbols:
  *   func_0207ADC4  0x0207ADC4  arm

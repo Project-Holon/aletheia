@@ -7,8 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * blocker:  0x02012F14 is an unlabelled ARM9 Thumb function (.word run in asm/arm9/main.s; bl witnesses ov119 0x021E0226, 0x021E06D0, 0x021E080C); seed it and this closes EXACT
+ * status:   EXACT
+ * closed:   blocking arm9 callees labelled and matched by seeds_3 (2026-09-28)
  *
  * symbols:
  *   sub_02030734   0x02030734  arm

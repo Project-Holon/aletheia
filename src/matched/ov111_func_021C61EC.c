@@ -7,8 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * blocker:  0x02012F5C and 0x02025C9C are unlabelled arm9 Thumb leaves (listing shows them as data), no witness outside this function
+ * status:   EXACT
+ * closed:   blocking arm9 callees labelled and matched by seeds_3 (2026-09-28)
  *
  * symbols:
  *   func_02045770  0x02045770  arm
