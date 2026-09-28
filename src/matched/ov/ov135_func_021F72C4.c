@@ -1,0 +1,74 @@
+/*
+ * function: func_021F72C4
+ * address:  0x021F72C4
+ * packet:   pkt_021F72C4
+ * region:   ov135
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * symbols:
+ *   func_0200846C  0x0200846C  thumb
+ *   func_020084A0  0x020084A0  thumb
+ *   func_020084D4  0x020084D4  thumb
+ *   func_02008560  0x02008560  thumb
+ *   func_02008568  0x02008568  thumb
+ *   func_0200854C  0x0200854C  thumb
+ *   func_02008558  0x02008558  thumb
+ *   func_02008574  0x02008574  thumb
+ */
+
+typedef signed char s8;
+typedef signed short s16;
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    u8 pad0[0x10];
+    u32 f10;
+    u32 f14;
+} Info;
+
+typedef struct {
+    u8 pad0[0xF6];
+    u8 fF6;
+    u8 padF7[0x108 - 0xF7];
+    u32 f108;
+    u32 f10C;
+    u8 name[0x120 - 0x110];
+    u8 f120;
+    u8 f121;
+    u8 f122;
+    u8 pad123;
+    u8 f124;
+    u8 f125;
+} Entry;
+
+extern Info *func_0200846C(int heap);
+extern void func_020084A0(Info *p);
+extern void func_020084D4(Info *p, void *name);
+extern void func_02008560(Info *p, u32 v);
+extern void func_02008568(Info *p, u32 v);
+extern void func_0200854C(Info *p, u32 v);
+extern void func_02008558(Info *p, u32 v);
+extern void func_02008574(Info *p, u8 a, u8 b);
+
+Info *func_021F72C4(Entry *e)
+{
+    Info *info;
+
+    info = func_0200846C(0x48);
+    func_020084A0(info);
+    func_020084D4(info, e->name);
+    func_02008560(info, e->f124);
+    func_02008568(info, e->f125);
+    func_0200854C(info, e->fF6);
+    func_02008558(info, e->f122);
+    func_02008574(info, e->f120, e->f121);
+    info->f10 = e->f10C;
+    info->f14 = e->f108;
+    return info;
+}

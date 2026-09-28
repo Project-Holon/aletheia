@@ -1,0 +1,68 @@
+/*
+ * function: func_021FD270
+ * address:  0x021FD270
+ * packet:   pkt_021FD270
+ * region:   ov135
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_020457B0  0x020457B0  arm
+ *   func_0201F31C  0x0201F31C  thumb
+ *   func_0201F048  0x0201F048  thumb
+ *   func_0201F094  0x0201F094  thumb
+ *   func_02202670  0x02202670  thumb
+ */
+
+typedef signed char s8;
+typedef signed short s16;
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    u8 pad0[0x120];
+    u8 lang;
+    u8 ver;
+    u8 pad122[0x128 - 0x122];
+} Entry;
+
+typedef struct {
+    u8 pad0[0xD4];
+    int cur;
+    u8 padD8[0x20C - 0xD8];
+    Entry arr[8];
+    u8 padB4C[0xB68 - 0xB4C];
+    void *words;
+    void *msg;
+    u8 padB70[0xB88 - 0xB70];
+    void *str;
+    u8 padB8C[4];
+    void *name0;
+    void *name1;
+} Work;
+
+extern void *func_020457B0(u32 size, u32 heap);
+extern void func_0201F31C(void *words);
+extern void func_0201F048(void *words, u32 i, u32 n);
+extern void func_0201F094(void *words, u32 i, u32 a, u32 n);
+extern void *func_02202670(void *words, void *msg, u32 id, u32 heap);
+
+void func_021FD270(Work *p)
+{
+    Entry *e = &p->arr[p->cur];
+
+    p->str = func_020457B0(0xB4, 0x48);
+    func_0201F31C(p->words);
+    if (e->lang != 0) {
+        func_0201F048(p->words, 8, e->lang);
+    }
+    if (e->ver != 0) {
+        func_0201F094(p->words, 9, e->lang, e->ver);
+    }
+    p->name0 = func_02202670(p->words, p->msg, 0x58, 0x48);
+    p->name1 = func_02202670(p->words, p->msg, 0x59, 0x48);
+}

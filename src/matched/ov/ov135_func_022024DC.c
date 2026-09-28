@@ -1,0 +1,46 @@
+/*
+ * function: func_022024DC
+ * address:  0x022024DC
+ * packet:   pkt_022024DC
+ * region:   ov135
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021F6DE8  0x021F6DE8  thumb
+ *   func_0201AA18  0x0201AA18  thumb
+ */
+
+typedef signed char s8;
+typedef signed short s16;
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    u8 pad0[8];
+    void *party;
+} Ctx;
+
+typedef struct {
+    Ctx *ctx;
+    u8 pad4[0xEB0 - 4];
+    u16 species;
+} Work;
+
+extern int func_021F6DE8(void *handle);
+extern int func_0201AA18(void *party);
+
+int func_022024DC(Work *p, void *mon)
+{
+    if (func_021F6DE8(mon) != 0 && func_0201AA18(p->ctx->party) == 6) {
+        return 2;
+    }
+    if (p->species == 0x2D0 && func_0201AA18(p->ctx->party) == 6) {
+        return 1;
+    }
+    return 0;
+}

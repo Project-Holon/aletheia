@@ -1,0 +1,21 @@
+== 2026-09-28 tree_ov135_3 ==
+func_021FF384 (ov135, Thumb, 240 bytes): six "load message, print into window, free"
+blocks (0x43, 0x45, 0x47 via func_021F91A0 into win[0], win[2], win[4], 0xB9 into
+win2[0], then 0x49 and 0xFC via func_021F91DC into win[6], win[7]), color 0x440.
+
+Best source: src/pending/ov/func_021FF384.c (DIFF, 240/240 bytes).
+The only difference is which repeated constant the allocator keeps in r7:
+  image:    movs r0,#0 / movs r7,#0x11 / str r0,[sp] / lsls r7,#6 / str r7,[sp,#4]
+            (0x440 held in r7 for all six calls, the stack zero rematerialised)
+  compiled: movs r7,#0 / movs r0,#0x11 / str r7,[sp] / lsls r0,#6 / str r0,[sp,#4]
+            (zero held in r7, 0x440 rematerialised at every call)
+The same shape (0x440 in r7, zero elsewhere) does come out of func_021FC8CC, where a
+loop-carried zero already occupies another register.
+
+Measured, all still pool the zero:
+  - u16 and u32 local `color = 0x440` passed at every site (constant-propagated)
+  - fifth parameter of func_021F91A0 declared u8, u16, int, void *
+  - sixth parameter declared u32 or int
+  - static inline helper per block (worse: frame grows to 0x3c)
+  - match.py sweep: every front end and -O level gives the same 181-byte diff at -O4
+  - permuter seed 10601, budget 400: no improvement (best still DIFF)

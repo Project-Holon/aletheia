@@ -1,0 +1,110 @@
+/*
+ * function: func_021FDDA8
+ * address:  0x021FDDA8
+ * packet:   pkt_021FDDA8
+ * region:   ov135
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02082BCC  0x02082BCC  arm
+ *   func_0204B294  0x0204B294  arm
+ *   func_0204B92C  0x0204B92C  arm
+ *   func_0204B878  0x0204B878  arm
+ *   func_0204B84C  0x0204B84C  arm
+ *   func_020355C4  0x020355C4  arm
+ *   func_0204B3DC  0x0204B3DC  arm
+ *   func_0203D34C  0x0203D34C  arm
+ *   tbl_02203D38   0x02203D38  data  a1
+ */
+
+typedef signed char s8;
+typedef signed short s16;
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    u16 x;
+    u16 y;
+    u16 z;
+    u8 pri;
+    u8 f7;
+} ObjPos;
+
+typedef struct {
+    u8 page;
+    u8 slot;
+} Sel;
+
+typedef struct {
+    u16 x;
+    u16 y;
+    u16 anim;
+} CurPos;
+
+typedef struct {
+    Sel sel[7];
+    CurPos cur[1];
+} SelTbl;
+
+typedef struct {
+    u8 pad0[0xBC0];
+    void *res;
+    void *set[3];
+    u8 padBD0[0xBE8 - 0xBD0];
+    void *set2;
+    u8 padBEC[4];
+    void *set3;
+    void *cursor;
+    void *mark;
+    u8 padBFC[0xD2C - 0xBFC];
+    void *btn[2];
+} Obj;
+
+extern const SelTbl tbl_02203D38;
+
+extern void func_02082BCC(void *p, int v, int n);
+extern void *func_0204B294(void *res, void *a, void *b, void *c, ObjPos *pos, int f, int heap);
+extern void func_0204B92C(void *o, int v);
+extern void func_0204B878(void *o, int v);
+extern void func_0204B84C(void *o, int v);
+extern int func_020355C4(void);
+extern void func_0204B3DC(void *o, int v);
+extern void func_0203D34C(u32 a, u16 heap);
+
+void func_021FDDA8(Obj *p)
+{
+    ObjPos pos;
+
+    func_02082BCC(&pos, 0, sizeof(pos));
+    pos.x = tbl_02203D38.cur[0].x;
+    pos.y = tbl_02203D38.cur[0].y;
+    p->cursor = func_0204B294(p->res, p->set2, p->set[1], p->set3, &pos, 0, 0x48);
+    func_0204B92C(p->cursor, 1);
+    func_0204B878(p->cursor, tbl_02203D38.cur[0].anim);
+    func_0204B84C(p->cursor, 1);
+    if (func_020355C4() == 1) {
+        func_0204B3DC(p->cursor, 0);
+    } else {
+        func_0204B3DC(p->cursor, 1);
+    }
+    pos.x = 0xA0;
+    pos.y = 0x20;
+    p->mark = func_0204B294(p->res, p->set2, p->set[1], p->set3, &pos, 0, 0x48);
+    func_0204B878(p->mark, 4);
+    func_0204B3DC(p->mark, 0);
+    pos.x = 0xE4;
+    pos.y = 0x75;
+    p->btn[0] = func_0204B294(p->res, p->set[0], p->set[1], p->set[2], &pos, 0, 0x48);
+    func_0204B878(p->btn[0], 0x26);
+    func_0204B3DC(p->btn[0], 0);
+    pos.x = 0x8C;
+    p->btn[1] = func_0204B294(p->res, p->set[0], p->set[1], p->set[2], &pos, 0, 0x48);
+    func_0204B878(p->btn[1], 0x27);
+    func_0204B3DC(p->btn[1], 0);
+    func_0203D34C(0, 0x48);
+}
