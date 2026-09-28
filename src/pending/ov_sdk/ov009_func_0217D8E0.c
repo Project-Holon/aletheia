@@ -9,6 +9,8 @@
  * isa:      arm
  * status:   DIFF
  *
+ * near miss (w2_s1): 17 bytes differ (36 vs 32); four argument-evaluation forms with local temporaries tried, all compile to the same 8-instruction body without the lr/ip shuffle.
+ *
  * sdk:      gsLargeIntDiv (gslargeint.o)
  *
  * near miss: gsLargeIntDiv: 36 vs 32 bytes. Original moves divisor to lr and dest to ip (`mov lr,r1; mov ip,r2; str r3,[sp]; ldr r1,[r0],#4; mov r2,lr; mov r3,ip`); 1.1p1 stores the 5th arg first and uses only ip. Callee 0x0217D904 (gsiLargeIntDiv) is also unmatched.
@@ -26,5 +28,7 @@ extern int func_0217D904(unsigned int *src, unsigned int len, struct gsLargeInt_
 
 int func_0217D8E0(struct gsLargeInt_s *src1, struct gsLargeInt_s *divisor, struct gsLargeInt_s *dest, struct gsLargeInt_s *remainder)
 {
-    return func_0217D904(src1->mData, src1->mLength, divisor, dest, remainder);
+    unsigned int *p = src1->mData;
+    unsigned int len = src1->mLength;
+    return func_0217D904(p, len, divisor, dest, remainder);
 }

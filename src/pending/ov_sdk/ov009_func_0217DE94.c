@@ -1,0 +1,93 @@
+/*
+ * function: func_0217DE94
+ * address:  0x0217DE94
+ * packet:   pkt_ov009_0217DE94
+ * region:   ov009
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * sdk:      gsLargeIntSquareMod (gslargeint.o)
+ *
+ * notes: 6 instructions differ, all in the prologue schedule: the image
+ *   stores squareLen = 0 ([sp,#0x14]) after the mod/dest spills and the
+ *   carry/oldShiftBit moves, just before the len load; ours stores it right
+ *   after mov r6,#0. Everything from the TimerEnter call on is identical.
+ *   Tried: all 24 statement orders of carry/oldShiftBit/squareLen/len,
+ *   decl-init vs statement, chained assignments, squareLen = (u32)carry,
+ *   result = 0, volatile squareLen, len declared after squareLen, and
+ *   dsi/1.1, 1.2, 1.2p1, 1.2p2 (same 6). The arrays are zeroed after
+ *   TimerEnter, so they live in an inner block with = {0}.
+ *
+ * symbols:
+ *   func_0217D3AC                  0x0217D3AC  arm  ov009
+ *   func_0217D3F8                  0x0217D3F8  arm  ov009
+ *   func_0217D508                  0x0217D508  arm  ov009
+ *   func_0217D904                  0x0217D904  arm  ov009
+ */
+
+struct gsLargeInt_s {
+    unsigned int mLength;
+    unsigned int mData[64];
+};
+
+extern void func_0217D3AC(int id);
+extern void func_0217D3F8(int id);
+extern int func_0217D508(unsigned int *data1, unsigned int length1,
+                         unsigned int *data2, unsigned int length2,
+                         unsigned int *dest, unsigned int *lenout,
+                         unsigned int maxlen);
+extern int func_0217D904(unsigned int *src, unsigned int len,
+                         struct gsLargeInt_s *div, struct gsLargeInt_s *dest,
+                         struct gsLargeInt_s *remainder);
+
+int func_0217DE94(struct gsLargeInt_s *lint, struct gsLargeInt_s *mod,
+                  struct gsLargeInt_s *dest)
+{
+    int i;
+    int k;
+    int len;
+    unsigned long long carry = 0;
+    int oldShiftBit = 0;
+    int result;
+    unsigned int squareLen = 0;
+
+    len = (int)lint->mLength;
+    func_0217D3AC(7);
+    {
+    unsigned int squareSums[128] = {0};
+    unsigned int otherSums[128] = {0};
+
+    for (i = 1; i < len; i++) {
+        for (k = 0; k < i; k++) {
+            carry += (unsigned long long)lint->mData[i] * lint->mData[k] + otherSums[i + k];
+            otherSums[i + k] = (unsigned int)carry;
+            carry >>= 32;
+        }
+        if (carry != 0) {
+            otherSums[i + k] = (unsigned int)carry;
+            carry >>= 32;
+        }
+    }
+
+    for (i = 0; i < len * 2; i++) {
+        k = (otherSums[i] & 0x80000000) == 0x80000000 ? 1 : 0;
+        otherSums[i] = (otherSums[i] << 1) + oldShiftBit;
+        oldShiftBit = k;
+    }
+
+    for (i = 0; i < len; i++) {
+        carry = (unsigned long long)lint->mData[i] * lint->mData[i];
+        squareSums[i * 2] = (unsigned int)carry;
+        squareSums[i * 2 + 1] = (unsigned int)(carry >> 32);
+    }
+
+    squareLen = (unsigned int)(len * 2);
+    func_0217D508(otherSums, squareLen, squareSums, squareLen, squareSums, &squareLen, 128);
+    result = func_0217D904(squareSums, squareLen, mod, 0, dest);
+    func_0217D3F8(7);
+    return result;
+    }
+}
