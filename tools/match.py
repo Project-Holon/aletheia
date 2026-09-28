@@ -1574,7 +1574,41 @@ def symbol_address(name, decls):
 # address the image says nothing about keeps the declaration and says so in
 # the per-site report, so a reader can see which claims carried no check.
 
-def isa_evidence(addr, region=None):
+_SDK_BY_REGION = {}
+
+
+def sdk_region_isa(region, addr):
+    """thumb flag of the layout/symbols_sdk.json row that `region` itself
+    carries at `addr`, or None.  sdk_addresses() keys by address alone, so
+    at an address several overlays share it answers with whichever row came
+    first; this asks one region only."""
+    if "r" not in _SDK_BY_REGION:
+        out = {}
+        p = os.path.join(ROOT, "layout", "symbols_sdk.json")
+        if os.path.exists(p):
+            with open(p) as fh:
+                for e in json.load(fh)["symbols"]:
+                    out.setdefault((e.get("region"), e["address"]),
+                                   bool(e["thumb"]))
+        _SDK_BY_REGION["r"] = out
+    return _SDK_BY_REGION["r"].get((region, addr))
+
+
+def _own_overlay_isa(name, addr):
+    """("thumb"/"arm", where) from overlay `name`'s own label, then its own
+    SDK row, or None."""
+    th = scan_listing(name).get(addr)
+    if th is not None:
+        return ("thumb" if th else "arm"), \
+            "the func_%08X label in %s" % (addr, name)
+    th = sdk_region_isa(name, addr)
+    if th is not None:
+        return ("thumb" if th else "arm"), \
+            "the %s row of layout/symbols_sdk.json" % name
+    return None
+
+
+def isa_evidence(addr, region=None, hint=None):
     """("thumb"/"arm", where) the image says `addr` is, or None.
 
     Three readings, strongest first: a func_ label in a generated listing,
@@ -1582,13 +1616,33 @@ def isa_evidence(addr, region=None):
     symbol.  None of these is an attestation of the ADDRESS -- that is
     attest()'s job -- they only say what is at it if anything is.
 
-    `region` is the region the site belongs to; it decides which overlay's
-    label answers when several hold the address (see overlay_label).
+    Overlays share load windows, so which overlay answers matters:
+
+      - `hint` is the overlay the source's `symbols:` line names for the
+        callee (the fourth token, e.g. `ov021`).  When it names an overlay
+        whose window holds the address, that overlay alone answers, by its
+        label and then its own SDK row, exactly as the hint already governs
+        the `label` class in attest_overlay_label(); another overlay's label
+        at the same address is a different function and says nothing.  With
+        neither, the ISA is unevidenced and the declaration is noted.
+      - otherwise `region`, the region the site belongs to, answers first
+        when its window holds the address, again by label and then by its
+        own SDK row (the ov175 call to its own ARM DWC row at 0x021DF490 was
+        refused because an ov119 Thumb label answered ahead of it);
+      - only when neither applies does the first labelled overlay in load
+        order answer, then the non-overlay readings.
     """
     th = evidence().labels.get(addr)
     if th is not None:
         return ("thumb" if th else "arm"), \
             "the func_%08X label in asm/arm9" % addr
+    cands = overlay_candidates(addr)
+    if hint is not None and hint in cands:
+        return _own_overlay_isa(hint, addr)
+    if region is not None and region in cands:
+        found = _own_overlay_isa(region, addr)
+        if found is not None:
+            return found
     found = overlay_label(addr, region)
     if found is not None:
         region, th = found
@@ -1606,11 +1660,11 @@ def isa_evidence(addr, region=None):
     return None
 
 
-def isa_conflict(addr, kind, region=None):
+def isa_conflict(addr, kind, region=None, hint=None):
     """(image isa, where) when the image contradicts `kind`, else None."""
     if kind not in ("thumb", "arm"):
         return None
-    found = isa_evidence(addr, region)
+    found = isa_evidence(addr, region, hint)
     if found is None or found[0] == kind:
         return None
     return found
@@ -3870,7 +3924,9 @@ def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
                 # The declared ISA picks BL against BLX, so a wrong tag
                 # resolves to the wrong instruction rather than failing to
                 # resolve.  Cross-check it against the image before encoding.
-                found = isa_evidence(target, region)
+                found = isa_evidence(
+                    target, region,
+                    decls[name].region if name in decls else None)
                 if (found is None and name in decls
                         and decls[name].region == OV230D_REGION):
                     # the decrypted ov230 listing answers only for a site
@@ -5498,6 +5554,24 @@ OVERLAY_FUNC_REGION = "ov093"
 # it, for exercising a region_hint that resolves to nothing.
 OVERLAY_FUNC_WRONG_REGION = "ov016"
 
+# Which overlay answers for the ISA of a shared address.  0x021DF490 is
+# DWC_ScGetLoginCertificate, an ARM row of layout/symbols_sdk.json in ov175,
+# which its own listing does not label; ov119 labels the same address as a
+# Thumb function, and ov093 (also holding it) has neither.  The real site is
+# the call at +0x1C4 of ov175 func_021DA6B8.
+ISA_OWN_SDK = 0x021DF490
+ISA_OWN_SDK_REGION = "ov175"
+ISA_OWN_SDK_OTHER = "ov119"
+ISA_OWN_SDK_NEITHER = "ov093"
+# 0x021A153C: ov009 labels an ARM function there (DWC ProcessIncomingData);
+# ov021 has a seeded Thumb thunk (layout/function_starts.txt), and the ov010
+# `bl` of func_02169AB8 reaches the ov021 one.  ov175's window does not hold
+# the address.
+ISA_HINTED = 0x021A153C
+ISA_HINTED_OVERLAY = "ov021"
+ISA_HINTED_SITE = "ov010"
+ISA_HINT_OUTSIDE = "ov175"
+
 # 0x021D21C0: the callee of src/pending/func_02028A7C.c and its two siblings
 # (see docs/AGENT-BRIEF.md's cross-region label paragraph).  Real ARM9-to-
 # overlay call sites name it (the header's `symbols:` block was derived from
@@ -5713,19 +5787,20 @@ def _matched_fixture(status="EXACT", kind="game_unit"):
             "functions": ["func_0BADF000", "func_0BADF010"]}
 
 
-def _resolve_one_call(addr, kind, place=0x02008000):
+def _resolve_one_call(addr, kind, place=0x02008000, hint=None, region=None):
     """Resolve a lone Thumb BL whose target is declared `addr` / `kind`.
 
     Four bytes of code and one R_ARM_THM_CALL, built by hand rather than
     compiled: the point is the resolver's treatment of the declaration, not
-    the code around the call.
+    the code around the call.  `hint` is the overlay token of the symbols
+    line, `region` the region the site belongs to.
     """
     name = "isa_selftest_callee"
     fb = FuncBytes("isa_selftest_caller", b"\x00\xF0\x00\xF8",
                    bytearray(b"\x01\x01\x00\x00"), True, ".text",
                    [(0, R_ARM_THM_CALL, name, -4)])
-    decls = {name: Decl(name, addr, kind, "header")}
-    return resolve_relocations(fb, place, decls)[0]
+    decls = {name: Decl(name, addr, kind, "header", region=hint)}
+    return resolve_relocations(fb, place, decls, region=region)[0]
 
 
 # func_02004490: the Thumb `svc #3; bx lr` stub called by an ARM `blx` at
@@ -5753,10 +5828,10 @@ def _resolve_one_arm_call(addr, kind, place=ARM_TO_THUMB_PLACE):
     return fb
 
 
-def _call_refused(addr, kind):
+def _call_refused(addr, kind, hint=None, region=None):
     """True when resolving such a call fails loudly instead of encoding it."""
     try:
-        _resolve_one_call(addr, kind)
+        _resolve_one_call(addr, kind, hint=hint, region=region)
     except SystemExit:
         return True
     return False
@@ -6837,6 +6912,47 @@ def cmd_selftest(args):
            isa_evidence(ISA_UNEVIDENCED), None)
     _check(res, "isa: a call whose declared ISA conflicts is refused",
            _call_refused(VENEER, "thumb"), True)
+    # --- which overlay answers for a shared address ------------------------
+    def isa_of(*a):
+        return (isa_evidence(*a) or (None,))[0]
+
+    _check(res, "isa: the site's own region answers by its own SDK row ahead "
+                "of another overlay's label (ov175 row vs ov119 label)",
+           isa_of(ISA_OWN_SDK, ISA_OWN_SDK_REGION), "arm")
+    _check(res, "isa: that SDK row is looked up per region, not by address",
+           (sdk_region_isa(ISA_OWN_SDK_REGION, ISA_OWN_SDK),
+            sdk_region_isa(ISA_OWN_SDK_OTHER, ISA_OWN_SDK)), (False, None))
+    _check(res, "isa: the real ov175 call declared arm now resolves",
+           _resolve_one_call(ISA_OWN_SDK, "arm",
+                             region=ISA_OWN_SDK_REGION).resolved, True)
+    _check(res, "isa: the same call declared thumb is refused",
+           _call_refused(ISA_OWN_SDK, "thumb", region=ISA_OWN_SDK_REGION),
+           True)
+    _check(res, "isa: another overlay's label still answers when the site's "
+                "region has neither and the hint names that overlay",
+           isa_of(ISA_OWN_SDK, ISA_OWN_SDK_NEITHER,
+                        ISA_OWN_SDK_OTHER), "thumb")
+    _check(res, "isa: a hint naming an overlay with neither label nor row "
+                "leaves the ISA unevidenced; neither the site region's row "
+                "nor another overlay's label answers for it",
+           isa_evidence(ISA_OWN_SDK, ISA_OWN_SDK_REGION, ISA_OWN_SDK_NEITHER),
+           None)
+    _check(res, "isa: the hinted overlay's label governs over another "
+                "overlay's label (ov021 Thumb thunk vs ov009 ARM label)",
+           isa_of(ISA_HINTED, ISA_HINTED_SITE, ISA_HINTED_OVERLAY),
+           "thumb")
+    _check(res, "isa: without the hint the first labelling overlay answers",
+           isa_of(ISA_HINTED, ISA_HINTED_SITE), "arm")
+    _check(res, "isa: a hint whose window does not hold the address is not "
+                "a hint",
+           isa_of(ISA_HINTED, ISA_HINTED_SITE, ISA_HINT_OUTSIDE),
+           "arm")
+    _check(res, "isa: the hinted call declared thumb resolves, declared arm "
+                "is refused",
+           (_resolve_one_call(ISA_HINTED, "thumb", hint=ISA_HINTED_OVERLAY,
+                              region=ISA_HINTED_SITE).resolved,
+            _call_refused(ISA_HINTED, "arm", hint=ISA_HINTED_OVERLAY,
+                          region=ISA_HINTED_SITE)), (True, True))
     _check(res, "isa: a call whose declared ISA agrees resolves unremarked",
            (lambda s: (s.resolved, s.note))(
                _resolve_one_call(FUNC_LABELLED, "thumb")), (True, ""))

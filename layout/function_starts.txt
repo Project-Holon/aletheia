@@ -554,3 +554,56 @@ arm9_main  0x02051A34  arm     # "ldr r0, [r0, #0x94]; bx lr" after the setter a
 overlay_119  0x021E3E40  thumb # tail-call wrapper after pool_021E3E3C (ldrh +0x5F4, bx r3 to 0x0204A48C); bl from ov117 at 0x021D4C02 (func_021D4BF4)
 overlay_011  0x02175368  thumb # tail call 0x02082BCC(p + 0x15C, 0, 4); bl from ov018 at 0x0217FE64 (func_0217FE38)
 overlay_011  0x0217537C  thumb # follower of 0x02175368: starts right after that function's pool word 0x02175378, ends "bx lr" before func_0217538C; no branch names it
+# Tooling lane 4 (2026-09-28), from the tree_ov010_2 and tree_ov175 reports.
+# Sites marked "raw" are Thumb bl pairs in bytes the listing has not traced
+# (the caller is unlabelled or its extent is cut); each one decodes to the
+# address named, found by scanning the region's bytes for BL encodings.
+# ov021: eight 12-byte Thumb thunks "ldr r0,[r0,#0x20]; ldr r3,[pc,#4]; bx r3;
+# nop; .word callee", end to end from 0x021A1500 to func_021A1560, each
+# starting right after the previous one's pointer word.
+overlay_021  0x021A1500  thumb # table word 0x021A1501 at ov021 0x021D87F4
+overlay_021  0x021A150C  thumb # table word 0x021A150D at ov021 0x021D87F8
+overlay_021  0x021A1518  thumb # bl from ov010 at 0x02169B20 (raw, inside func_02169AB8)
+overlay_021  0x021A1524  thumb # bl from ov010 at 0x02159AB0, 0x02169C00
+overlay_021  0x021A1530  thumb # bl from ov010 at 0x02159AB6, 0x02169C68
+overlay_021  0x021A153C  thumb # bl from ov010 at 0x021599E8, 0x02169CD6 (ov009's ARM func_021A153C is a different overlay)
+overlay_021  0x021A1548  thumb # bl from ov010 at 0x02159A3C, 0x02169CAC (raw)
+overlay_021  0x021A1554  thumb # bl from ov010 at 0x02169C0A (raw, inside func_02169AB8)
+overlay_021  0x021904A8  thumb # "ldr r0, [r0, #0xc]; bx lr" after pool word 0x021904A4; bl from ov010 at 0x0216A108, ov019 at 0x0217F79E
+# ov010 leaves with no lr-saving prologue, all called from untraced ov010 code.
+overlay_010  0x0215725C  thumb # bl from ov132 at 0x021FA0F6
+overlay_010  0x02157260  thumb # bl from ov010 at 0x02155C8E (raw, subtree of 0x02155C0C)
+overlay_010  0x02157298  thumb # bl from ov010 at 0x02155C96 (raw, subtree of 0x02155C0C)
+overlay_010  0x02157364  thumb # bl from ov010 at 0x02156164 (raw, inside func_0215611C), ov132 at 0x021F8D90
+overlay_010  0x02156954  thumb # bl from ov010 at 0x0215D77C (raw)
+overlay_010  0x02156978  thumb # bl from ov010 at 0x0215D784 (raw)
+overlay_010  0x0215699C  thumb # bl from ov010 at 0x0215D7B0 (raw)
+overlay_010  0x021569A4  thumb # bl from ov010 at 0x0215D7BC (raw)
+# ov175 and ov177 leaves called from untraced ov175 code.
+overlay_175  0x021DA044  thumb # bl from ov175 at 0x021D6D60 (raw); follows pool word 0x021DA040
+overlay_175  0x021DADAC  thumb # bl from ov175 at 0x021D52D2, 0x021D8A20 (raw); follows pool word 0x021DADA8
+overlay_177  0x021E8844  thumb # "ldr r0, [r0, #0x30]; bx lr"; bl from ov175 at 0x021D5546 and eleven more ov175 sites, pool words in ov176 at 0x0217B96C
+# arm9 tail thunks "ldr r3, [pc]; bx r3; .word callee" after func_0202E8D8's pop.
+arm9_main  0x0202E930  thumb   # bl from ov122 at 0x021D5142, 0x021D5160, ov172 at 0x021BCCAC; callee func_020084F4
+arm9_main  0x0202E938  thumb   # bl from ov172 at 0x021BCD00; callee func_02008534
+# ov172 setter "str r1, [r0, #0x2c]; bx lr" after the getter func_021BE0D0,
+# already EXACT in src/matched/ov172_func_021BE0D4.c.
+overlay_172  0x021BE0D4  thumb # bl from ov172 at 0x021B890C (raw; "ldr r0, [r4, #0x3dc]; movs r1, #1; bl")
+# ov016 vendor functions already EXACT without a label (integrator note, sdk_overlays_3).
+overlay_016  0x021B96A8  thumb # APC_GetState; bl from ov016 at 0x021BAB12 (raw, inside AutoConfigThreadEx 0x021BA804)
+overlay_016  0x021B979C  thumb # alarmCallback; pool words 0x021B979D at ov016 0x021B99BC (ConnectAP 0x021B98A4+0x118) and 0x021B9E80 (ScanAP's pool)
+overlay_016  0x021B9EE0  thumb # SendFrame; bl from ov016 at 0x021BA94E, 0x021BAA36, 0x021BAB3A (raw, inside AutoConfigThreadEx)
+# ov170 leaves already EXACT (tree_ov170), unlabelled until now; every
+# witness is a bl in root func_021DFA30 or its siblings.
+overlay_170  0x021DE5C8  thumb # bl from ov170 at 0x021DFBA4 (func_021DFA30), 0x021DF60C, 0x021E02C2; follows the "pop {r3-r7, pc}" of func_021DE530
+overlay_170  0x021EF1B4  thumb # "ldr r0, =d_021F0F40; ldr r3, =func_021EF0A8; movs r1, #2; bx r3"; bl from ov170 at 0x021DFC96 (func_021DFA30), 0x021DF6D2, 0x021E0342
+overlay_170  0x021EF1C4  thumb # "ldr r0, =d_021F0040; ldr r3, =0x02035BA4; bx r3"; bl from ov170 at 0x021DFD5E (func_021DFA30), 0x021DF79A
+overlay_170  0x021EF264  thumb # "ldr r0, =d_021F0F58; ldr r3, =func_021EF0A8; movs r1, #1; bx r3"; bl from ov170 at 0x021DFCCE (func_021DFA30), 0x021DF70A
+# ov208 leaves already EXACT (tree_ov135), unlabelled in the listing.
+overlay_208  0x021BD360  thumb # "movs r1, #0; str r1, [r0, #0x10]; bx lr"; pool word 0x021BD361 (Thumb bit set) at ov208 0x021BDBA8, the tail-call pool of func_021BDBA0
+overlay_208  0x021BDBAC  thumb # "ldr r0, [r0, #0x30]; ldr r3, =func_021BD330; bx r3"; bl from ov208 at 0x021C1976, 0x021C5FE0
+# arm9 Thumb leaves already EXACT without a label (src/matched/func_020056BC.c,
+# sub_02008DF0 in src/matched/unit_02008DAC.c); the ov010 root func_02169AB8
+# cannot attest its calls to them until they are labelled.
+arm9_main  0x020056BC  thumb   # "ldr r0, =d_020AA194; ldr r0, [r0, #0x10]; ldr r0, [r0, #0x20]; bx lr"; bl from ov010 at 0x02169C4A, ov021 at 0x021B0604, ov070 at 0x021BB420, ov119 at 0x021E2FE0
+arm9_main  0x02008DF0  thumb   # "ldr r3, =func_02008DAC; movs r2, #1; bx r3"; bl from ov010 at 0x021564F0, 0x02169BF6, ov021 at 0x02188C3A
