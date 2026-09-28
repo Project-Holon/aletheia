@@ -9,7 +9,7 @@
   {
    "name": "PMi_LCDOnAvoidReset",
    "address": "0x0208C89C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/PMi_LCDOnAvoidReset.c",
    "compiler": "dsi/1.1p1",

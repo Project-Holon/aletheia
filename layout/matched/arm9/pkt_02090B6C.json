@@ -9,7 +9,7 @@
   {
    "name": "WmGetSharedDataAddress",
    "address": "0x02090B6C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/WmGetSharedDataAddress.c",
    "compiler": "dsi/1.1p1",

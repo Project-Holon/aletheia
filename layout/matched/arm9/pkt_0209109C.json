@@ -9,7 +9,7 @@
   {
    "name": "CTRDGi_RestoreAccessCycle",
    "address": "0x0209109C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/CTRDGi_RestoreAccessCycle.c",
    "compiler": "dsi/1.1p1",

@@ -9,7 +9,7 @@
   {
    "name": "PMi_WaitBusy",
    "address": "0x0208B7BC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/PMi_WaitBusy.c",
    "compiler": "dsi/1.1p1",

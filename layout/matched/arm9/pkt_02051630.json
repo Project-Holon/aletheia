@@ -9,14 +9,15 @@
   {
    "name": "func_02051630",
    "address": "0x02051630",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_02051630.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "compared_bytes": 16
   }
  ]
 }

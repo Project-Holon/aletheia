@@ -9,7 +9,7 @@
   {
    "name": "IC_InvalidateRange",
    "address": "0x0208632C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/IC_InvalidateRange.c",
    "compiler": "dsi/1.1p1",

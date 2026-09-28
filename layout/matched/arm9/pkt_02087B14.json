@@ -9,7 +9,7 @@
   {
    "name": "OS_GetBootInfo",
    "address": "0x02087B14",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/OS_GetBootInfo.c",
    "compiler": "dsi/1.1p1",

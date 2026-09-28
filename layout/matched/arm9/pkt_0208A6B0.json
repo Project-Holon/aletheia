@@ -9,7 +9,7 @@
   {
    "name": "TPi_TpCallback",
    "address": "0x0208A6B0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/TPi_TpCallback.c",
    "compiler": "dsi/1.1p1",

@@ -9,7 +9,7 @@
   {
    "name": "PM_GetBackLight",
    "address": "0x0208BFD0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/PM_GetBackLight.c",
    "compiler": "dsi/1.1p1",

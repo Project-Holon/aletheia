@@ -9,7 +9,7 @@
   {
    "name": "func_02080978",
    "address": "0x02080978",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_02080978.c",
    "compiler": "dsi/1.1p1",
@@ -26,7 +26,7 @@
   {
    "name": "func_0208098C",
    "address": "0x0208098C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0208098C.c",
    "compiler": "dsi/1.1p1",
@@ -43,7 +43,7 @@
   {
    "name": "func_020809A0",
    "address": "0x020809A0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_020809A0.c",
    "compiler": "dsi/1.1p1",
@@ -60,7 +60,7 @@
   {
    "name": "func_020809B4",
    "address": "0x020809B4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_020809B4.c",
    "compiler": "dsi/1.1p1",

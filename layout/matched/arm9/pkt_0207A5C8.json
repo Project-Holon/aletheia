@@ -9,7 +9,7 @@
   {
    "name": "FS_LoadArchiveTables",
    "address": "0x0207A5C8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/FS_LoadArchiveTables.c",
    "compiler": "dsi/1.1p1",

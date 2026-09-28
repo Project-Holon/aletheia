@@ -9,7 +9,7 @@
   {
    "name": "GX_EndLoadClearImage",
    "address": "0x0207FCE4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/GX_EndLoadClearImage.c",
    "compiler": "dsi/1.1p1",

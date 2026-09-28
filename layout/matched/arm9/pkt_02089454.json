@@ -9,7 +9,7 @@
   {
    "name": "SND_SetTrackModDepth",
    "address": "0x02089454",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/SND_SetTrackModDepth.c",
    "compiler": "dsi/1.1p1",

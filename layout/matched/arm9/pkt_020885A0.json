@@ -9,7 +9,7 @@
   {
    "name": "PXI_SetFifoRecvCallback",
    "address": "0x020885A0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/PXI_SetFifoRecvCallback.c",
    "compiler": "dsi/1.1p1",

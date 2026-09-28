@@ -9,7 +9,7 @@
   {
    "name": "NVRAMi_PageWrite",
    "address": "0x020844A8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/NVRAMi_PageWrite.c",
    "compiler": "dsi/1.1p1",

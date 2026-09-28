@@ -9,7 +9,7 @@
   {
    "name": "AOSSi_Init",
    "address": "0x021B61D0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B61D0.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -29,7 +29,7 @@
   {
    "name": "AOSS_Init_old",
    "address": "0x021B62C0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B62C0.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -69,7 +69,7 @@
   {
    "name": "aoss_IP_sta",
    "address": "0x021B6CD8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B6CD8.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -81,7 +81,7 @@
   {
    "name": "aoss_release",
    "address": "0x021B6CF0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B6CF0.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -98,7 +98,7 @@
   {
    "name": "aoss_data_init",
    "address": "0x021B6D1C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B6D1C.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -152,7 +152,7 @@
   {
    "name": "AOSS_seq_data_copy",
    "address": "0x021B6D8C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B6D8C.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -178,7 +178,7 @@
   {
    "name": "aoss_check_str",
    "address": "0x021B6F84",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B6F84.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -190,7 +190,7 @@
   {
    "name": "checkAP",
    "address": "0x021B6FA8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B6FA8.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -210,7 +210,7 @@
   {
    "name": "AOSS_set_APInfo",
    "address": "0x021B7024",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B7024.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -231,7 +231,7 @@
   {
    "name": "MakeSendSeqID",
    "address": "0x021B7068",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B7068.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -250,7 +250,7 @@
   {
    "name": "AOSS_StatusExclusion",
    "address": "0x021B7098",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B7098.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -270,7 +270,7 @@
   {
    "name": "RecvMessage",
    "address": "0x021B70C4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B70C4.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -291,7 +291,7 @@
   {
    "name": "AstsSetInitRes",
    "address": "0x021B7164",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B7164.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -314,7 +314,7 @@
   {
    "name": "AstsSetSecureRes",
    "address": "0x021B7240",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B7240.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -337,7 +337,7 @@
   {
    "name": "AstsRestartRes",
    "address": "0x021B7318",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B7318.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -354,7 +354,7 @@
   {
    "name": "DecodePacket",
    "address": "0x021B73BC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B73BC.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -379,7 +379,7 @@
   {
    "name": "CheckSeqID",
    "address": "0x021B74B0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B74B0.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -396,7 +396,7 @@
   {
    "name": "CheckRecvSeqID",
    "address": "0x021B74F4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B74F4.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -414,7 +414,7 @@
   {
    "name": "GetProductInfo",
    "address": "0x021B7540",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B7540.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -436,7 +436,7 @@
   {
    "name": "aoss_get_bin",
    "address": "0x021B75FC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B75FC.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -448,7 +448,7 @@
   {
    "name": "GetWEPData",
    "address": "0x021B7620",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B7620.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -466,7 +466,7 @@
   {
    "name": "GetWPAData",
    "address": "0x021B7774",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B7774.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -484,7 +484,7 @@
   {
    "name": "GetBssidData",
    "address": "0x021B782C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B782C.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -502,7 +502,7 @@
   {
    "name": "GetSecurityData",
    "address": "0x021B785C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B785C.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -526,7 +526,7 @@
   {
    "name": "SendMessage",
    "address": "0x021B797C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B797C.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -545,7 +545,7 @@
   {
    "name": "AstsSetInitReq",
    "address": "0x021B79D0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B79D0.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -568,7 +568,7 @@
   {
    "name": "AstsSetSecureReq",
    "address": "0x021B7B14",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B7B14.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -590,7 +590,7 @@
   {
    "name": "AstsRestartReq",
    "address": "0x021B7BF0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B7BF0.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -611,7 +611,7 @@
   {
    "name": "SetStaData",
    "address": "0x021B7C5C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B7C5C.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -634,7 +634,7 @@
   {
    "name": "PacketDataSet",
    "address": "0x021B7CE8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B7CE8.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -656,7 +656,7 @@
   {
    "name": "SetPacketHeader",
    "address": "0x021B7D3C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B7D3C.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -674,7 +674,7 @@
   {
    "name": "SendPacketUDP",
    "address": "0x021B7D94",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B7D94.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -697,7 +697,7 @@
   {
    "name": "EncodeRC4",
    "address": "0x021B7DFC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B7DFC.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -722,7 +722,7 @@
   {
    "name": "DecodeRC4",
    "address": "0x021B7E78",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B7E78.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -746,7 +746,7 @@
   {
    "name": "RC4init",
    "address": "0x021B7F00",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B7F00.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -758,7 +758,7 @@
   {
    "name": "RC4encrypt",
    "address": "0x021B7F64",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B7F64.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -775,7 +775,7 @@
   {
    "name": "arcfour_byte",
    "address": "0x021B7F90",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B7F90.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -787,7 +787,7 @@
   {
    "name": "crc",
    "address": "0x021B7FD0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B7FD0.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -807,7 +807,7 @@
   {
    "name": "update_crc",
    "address": "0x021B7FF8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B7FF8.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -824,7 +824,7 @@
   {
    "name": "make_crc_table",
    "address": "0x021B8030",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B8030.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -836,7 +836,7 @@
   {
    "name": "CryptSeqNo",
    "address": "0x021B8068",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B8068.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -855,7 +855,7 @@
   {
    "name": "MakeKey",
    "address": "0x021B80E4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B80E4.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -867,7 +867,7 @@
   {
    "name": "AddKey",
    "address": "0x021B8118",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B8118.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -879,7 +879,7 @@
   {
    "name": "Rotate",
    "address": "0x021B813C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B813C.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -896,7 +896,7 @@
   {
    "name": "AOSS_SetIPAddr",
    "address": "0x021B8194",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B8194.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -918,7 +918,7 @@
   {
    "name": "AOSS_Disconnect",
    "address": "0x021B81EC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B81EC.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -935,7 +935,7 @@
   {
    "name": "AOSS_Memcmp",
    "address": "0x021B8210",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B8210.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -959,7 +959,7 @@
   {
    "name": "AOSS_Select",
    "address": "0x021B8260",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B8260.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -971,7 +971,7 @@
   {
    "name": "AOSS_Htonl",
    "address": "0x021B82E4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B82E4.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -983,7 +983,7 @@
   {
    "name": "AOSS_Htons",
    "address": "0x021B830C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B830C.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -995,7 +995,7 @@
   {
    "name": "AOSS_Ntohl",
    "address": "0x021B8324",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B8324.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -1007,7 +1007,7 @@
   {
    "name": "AOSS_Ntohs",
    "address": "0x021B834C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B834C.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -1019,7 +1019,7 @@
   {
    "name": "AOSS_Rand",
    "address": "0x021B8378",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B8378.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -1036,7 +1036,7 @@
   {
    "name": "Set_WLLA_BSS_INFO",
    "address": "0x021B83FC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B83FC.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -1053,7 +1053,7 @@
   {
    "name": "Get_WLLA_SSID_PARAM",
    "address": "0x021B8488",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B8488.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -1065,7 +1065,7 @@
   {
    "name": "AOSSi_InitLocal",
    "address": "0x021B84E4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B84E4.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -1088,7 +1088,7 @@
   {
    "name": "AOSSi_EndLocal",
    "address": "0x021B85A8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B85A8.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -1109,7 +1109,7 @@
   {
    "name": "AOSSi_Disconnect",
    "address": "0x021B8640",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B8640.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -1129,7 +1129,7 @@
   {
    "name": "AOSSi_WLANGetBSSList",
    "address": "0x021B8678",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B8678.c",
    "compiler": "dsi/../2.0/sp1p2",

@@ -9,7 +9,7 @@
   {
    "name": "NVRAMi_WriteCallback",
    "address": "0x020839E8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/NVRAMi_WriteCallback.c",
    "compiler": "dsi/1.1p1",

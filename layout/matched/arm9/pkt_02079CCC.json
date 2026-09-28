@@ -9,7 +9,7 @@
   {
    "name": "FSi_ROMFAT_ReadFile",
    "address": "0x02079CCC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/FSi_ROMFAT_ReadFile.c",
    "compiler": "dsi/1.1p1",

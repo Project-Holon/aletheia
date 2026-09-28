@@ -9,7 +9,7 @@
   {
    "name": "SND_SetPlayerVolume",
    "address": "0x020893D0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/SND_SetPlayerVolume.c",
    "compiler": "dsi/1.1p1",

@@ -9,7 +9,7 @@
   {
    "name": "func_0206DBF4",
    "address": "0x0206DBF4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0206DBF4.c",
    "compiler": "dsi/1.1p1",
@@ -30,12 +30,7 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "evidence": {
-    "sole-ref": [
-     "code:0x0272FEF4",
-     "code:0x027300F0"
-    ],
     "sdk": [
-     "0x0206DBF4",
      "0x02082760",
      "0x02082960"
     ]

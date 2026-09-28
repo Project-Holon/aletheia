@@ -9,7 +9,7 @@
   {
    "name": "MIi_CpuCopy32",
    "address": "0x02082A90",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/MIi_CpuCopy32.c",
    "compiler": "dsi/1.1p1",

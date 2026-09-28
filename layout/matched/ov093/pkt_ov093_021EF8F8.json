@@ -9,7 +9,7 @@
   {
    "name": "DWC_StartUtilityEx",
    "address": "0x021EF8F8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov093",
    "source": "src/matched/ov_sdk/ov093_func_021EF8F8.c",
    "compiler": "dsi/dsi/1.1p1",

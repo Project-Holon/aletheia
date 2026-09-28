@@ -9,7 +9,7 @@
   {
    "name": "GX_DisableBankForBGExtPltt",
    "address": "0x0208091C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/GX_DisableBankForBGExtPltt.c",
    "compiler": "dsi/1.1p1",

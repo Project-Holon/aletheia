@@ -9,7 +9,7 @@
   {
    "name": "CTRDGi_CallbackForSetPhi",
    "address": "0x02066DFC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/CTRDGi_CallbackForSetPhi.c",
    "compiler": "dsi/1.1p1",

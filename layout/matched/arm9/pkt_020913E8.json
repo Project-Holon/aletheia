@@ -9,7 +9,7 @@
   {
    "name": "ghiFreeTempBuffer",
    "address": "0x020913E8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/ghiFreeTempBuffer.c",
    "compiler": "dsi/1.1p1",

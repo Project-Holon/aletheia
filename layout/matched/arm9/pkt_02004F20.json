@@ -9,7 +9,7 @@
   {
    "name": "INITi_Fill32",
    "address": "0x02004F20",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/INITi_Fill32.c",
    "compiler": "dsi/1.1p1",

@@ -9,7 +9,7 @@
   {
    "name": "GX_LoadBGPltt",
    "address": "0x0207E3D0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/GX_LoadBGPltt.c",
    "compiler": "dsi/1.1p1",

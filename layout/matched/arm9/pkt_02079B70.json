@@ -9,7 +9,7 @@
   {
    "name": "FSi_OpenFileDirectDefault",
    "address": "0x02079B70",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/FSi_OpenFileDirectDefault.c",
    "compiler": "dsi/1.1p1",

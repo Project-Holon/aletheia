@@ -9,7 +9,7 @@
   {
    "name": "GX_LoadOBJ",
    "address": "0x0207E780",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/GX_LoadOBJ.c",
    "compiler": "dsi/1.1p1",

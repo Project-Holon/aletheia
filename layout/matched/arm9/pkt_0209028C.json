@@ -9,7 +9,7 @@
   {
    "name": "WM_EndDataSharing",
    "address": "0x0209028C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/WM_EndDataSharing.c",
    "compiler": "dsi/1.1p1",

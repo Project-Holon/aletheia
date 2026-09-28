@@ -9,7 +9,7 @@
   {
    "name": "FSi_ReadMemCallback",
    "address": "0x0207A45C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/FSi_ReadMemCallback.c",
    "compiler": "dsi/1.1p1",

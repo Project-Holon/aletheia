@@ -9,7 +9,7 @@
   {
    "name": "SND_GetNextInstData",
    "address": "0x0208A48C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/SND_GetNextInstData.c",
    "compiler": "dsi/1.1p1",

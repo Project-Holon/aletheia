@@ -9,7 +9,7 @@
   {
    "name": "STDi_FillBitset",
    "address": "0x0208CF84",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/STDi_FillBitset.c",
    "compiler": "dsi/1.1p1",

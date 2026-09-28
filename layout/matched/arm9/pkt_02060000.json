@@ -9,7 +9,7 @@
   {
    "name": "NHTTP_CleanupAsync",
    "address": "0x0206074C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/nhttp_cleanupasync.c",
    "compiler": "dsi/1.1p1",
@@ -21,7 +21,7 @@
   {
    "name": "NHTTPi_InitRequestInfo",
    "address": "0x02061DF0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/nhttpi_initrequestinfo_02061df0.c",
    "compiler": "dsi/1.1p1",
@@ -33,7 +33,7 @@
   {
    "name": "ENV_SetResourceSet",
    "address": "0x0206434C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/env_setresourceset.c",
    "compiler": "dsi/1.1p1",
@@ -45,7 +45,7 @@
   {
    "name": "CTRDGi_IsTaskAvailable",
    "address": "0x0206DB24",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/ctrdgi_istaskavailable.c",
    "compiler": "dsi/1.1p1",
@@ -57,7 +57,7 @@
   {
    "name": "DWCi_IsShutdownMatch",
    "address": "0x02074A54",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/dwci_isshutdownmatch.c",
    "compiler": "dsi/1.1p1",
@@ -69,7 +69,7 @@
   {
    "name": "CARDi_LockBusCondition",
    "address": "0x02075C90",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/cardi_lockbuscondition.c",
    "compiler": "dsi/1.1p1",
@@ -86,19 +86,24 @@
   {
    "name": "CARD_CheckEnabled",
    "address": "0x02075DB0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/card_checkenabled.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x02075DA0"
+    ]
+   }
   },
   {
    "name": "CARD_GetRomHeader",
    "address": "0x02075DEC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/card_getromheader.c",
    "compiler": "dsi/1.1p1",
@@ -110,7 +115,7 @@
   {
    "name": "CARD_GetOwnRomHeaderTWL",
    "address": "0x02075E04",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/card_getownromheadertwl.c",
    "compiler": "dsi/1.1p1",
@@ -122,7 +127,7 @@
   {
    "name": "CARD_UnlockRom",
    "address": "0x02075E80",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/card_unlockrom.c",
    "compiler": "dsi/1.1p1",
@@ -139,7 +144,7 @@
   {
    "name": "CARDi_ICInvalidateSmart",
    "address": "0x02076344",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/cardi_icinvalidatesmart.c",
    "compiler": "dsi/1.1p1",
@@ -156,7 +161,7 @@
   {
    "name": "FSi_GetOverlayBinarySize",
    "address": "0x02078CB0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/fsi_getoverlaybinarysize.c",
    "compiler": "dsi/1.1p1",
@@ -168,7 +173,7 @@
   {
    "name": "FS_UnloadOverlayImage",
    "address": "0x02079254",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/fs_unloadoverlayimage.c",
    "compiler": "dsi/1.1p1",
@@ -185,7 +190,7 @@
   {
    "name": "FSi_ROMFAT_GetFileLength",
    "address": "0x0207A1FC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/fsi_romfat_getfilelength.c",
    "compiler": "dsi/1.1p1",
@@ -197,7 +202,7 @@
   {
    "name": "FSi_ROMFAT_GetFilePosition",
    "address": "0x0207A218",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/fsi_romfat_getfileposition.c",
    "compiler": "dsi/1.1p1",
@@ -209,7 +214,7 @@
   {
    "name": "FSi_ROMFAT_GetArchiveCaps",
    "address": "0x0207A264",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/fsi_romfat_getarchivecaps.c",
    "compiler": "dsi/1.1p1",
@@ -221,7 +226,7 @@
   {
    "name": "FSi_ROMFAT_CloseDirectory",
    "address": "0x0207A2C8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/fsi_romfat_closedirectory.c",
    "compiler": "dsi/1.1p1",
@@ -233,7 +238,7 @@
   {
    "name": "FS_SetArchiveProc",
    "address": "0x0207A5A8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/fs_setarchiveproc.c",
    "compiler": "dsi/1.1p1",
@@ -245,7 +250,7 @@
   {
    "name": "FS_GetArchiveBase",
    "address": "0x0207A78C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/fs_getarchivebase.c",
    "compiler": "dsi/1.1p1",
@@ -257,7 +262,7 @@
   {
    "name": "FS_GetArchiveOffset",
    "address": "0x0207A798",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/fs_getarchiveoffset.c",
    "compiler": "dsi/1.1p1",
@@ -269,7 +274,7 @@
   {
    "name": "FS_IsArchiveTableLoaded",
    "address": "0x0207A7A8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/fs_isarchivetableloaded.c",
    "compiler": "dsi/1.1p1",
@@ -281,7 +286,7 @@
   {
    "name": "FSi_EmptyArchiveProc",
    "address": "0x0207AAE4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/fsi_emptyarchiveproc.c",
    "compiler": "dsi/1.1p1",
@@ -293,7 +298,7 @@
   {
    "name": "DWC_StartUtilityEx",
    "address": "0x0207ACB4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/dwc_startutilityex.c",
    "compiler": "dsi/1.1p1",
@@ -305,7 +310,7 @@
   {
    "name": "MTX_RotAxis43",
    "address": "0x0207B65C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/mtx_rotaxis43.c",
    "compiler": "dsi/1.1p1",
@@ -322,7 +327,7 @@
   {
    "name": "GXS_SetGraphicsMode",
    "address": "0x0207D518",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/gxs_setgraphicsmode.c",
    "compiler": "dsi/1.1p1",
@@ -334,7 +339,7 @@
   {
    "name": "G2x_SetBlendAlpha_",
    "address": "0x0207D63C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/g2x_setblendalpha.c",
    "compiler": "dsi/1.1p1",
@@ -346,7 +351,7 @@
   {
    "name": "G3_LoadMtx44",
    "address": "0x0207D8C4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/g3_loadmtx44.c",
    "compiler": "dsi/1.1p1",
@@ -363,7 +368,7 @@
   {
    "name": "G3_LoadMtx43",
    "address": "0x0207D8E0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/g3_loadmtx43.c",
    "compiler": "dsi/1.1p1",
@@ -380,7 +385,7 @@
   {
    "name": "G3_MultMtx44",
    "address": "0x0207D8FC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/g3_multmtx44.c",
    "compiler": "dsi/1.1p1",
@@ -397,7 +402,7 @@
   {
    "name": "G3_MultMtx43",
    "address": "0x0207D918",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/g3_multmtx43.c",
    "compiler": "dsi/1.1p1",
@@ -414,7 +419,7 @@
   {
    "name": "G3_MultMtx33",
    "address": "0x0207D934",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/g3_multmtx33.c",
    "compiler": "dsi/1.1p1",
@@ -426,7 +431,7 @@
   {
    "name": "G3X_SetEdgeColorTable",
    "address": "0x0207DCF8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/g3x_setedgecolortable.c",
    "compiler": "dsi/1.1p1",
@@ -438,7 +443,7 @@
   {
    "name": "G3X_SetFogTable",
    "address": "0x0207DD10",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/g3x_setfogtable.c",
    "compiler": "dsi/1.1p1",
@@ -455,7 +460,7 @@
   {
    "name": "G2S_GetBG0ScrPtr",
    "address": "0x0207DF94",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/g2s_getbg0scrptr.c",
    "compiler": "dsi/1.1p1",
@@ -467,7 +472,7 @@
   {
    "name": "G2S_GetBG1ScrPtr",
    "address": "0x0207DFE8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/g2s_getbg1scrptr.c",
    "compiler": "dsi/1.1p1",
@@ -479,7 +484,7 @@
   {
    "name": "G2S_GetBG0CharPtr",
    "address": "0x0207E22C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/g2s_getbg0charptr.c",
    "compiler": "dsi/1.1p1",
@@ -491,7 +496,7 @@
   {
    "name": "G2S_GetBG1CharPtr",
    "address": "0x0207E280",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/g2s_getbg1charptr.c",
    "compiler": "dsi/1.1p1",
@@ -503,7 +508,7 @@
   {
    "name": "GXS_BeginLoadBGExtPltt",
    "address": "0x0207F5B0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/gxs_beginloadbgextpltt.c",
    "compiler": "dsi/1.1p1",
@@ -515,7 +520,7 @@
   {
    "name": "GXS_BeginLoadOBJExtPltt",
    "address": "0x0207F6A8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/gxs_beginloadobjextpltt.c",
    "compiler": "dsi/1.1p1",

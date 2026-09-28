@@ -9,7 +9,7 @@
   {
    "name": "_start",
    "address": "0x02004800",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/_start.c",
    "compiler": "dsi/1.1p1",

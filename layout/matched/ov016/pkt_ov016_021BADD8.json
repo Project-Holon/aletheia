@@ -9,7 +9,7 @@
   {
    "name": "aeskw_xor64",
    "address": "0x021BAF90",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BAF90.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -21,7 +21,7 @@
   {
    "name": "rijndaelKeySetupEnc",
    "address": "0x021BAFD8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BAFD8.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -39,7 +39,7 @@
   {
    "name": "rijndaelKeySetupDec",
    "address": "0x021BB290",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BB290.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -63,7 +63,7 @@
   {
    "name": "rijndaelEncrypt",
    "address": "0x021BB420",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BB420.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -84,7 +84,7 @@
   {
    "name": "rijndaelDecrypt",
    "address": "0x021BB7DC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BB7DC.c",
    "compiler": "dsi/../2.0/sp1p2",

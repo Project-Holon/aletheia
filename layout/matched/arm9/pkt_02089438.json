@@ -9,7 +9,7 @@
   {
    "name": "SND_SetTrackPan",
    "address": "0x02089438",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/SND_SetTrackPan.c",
    "compiler": "dsi/1.1p1",

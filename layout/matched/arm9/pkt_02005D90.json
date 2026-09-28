@@ -9,7 +9,7 @@
   {
    "name": "ArrayDeleteAt",
    "address": "0x02005D90",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/ArrayDeleteAt.c",
    "compiler": "dsi/1.1p1",

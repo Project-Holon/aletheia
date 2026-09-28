@@ -9,7 +9,7 @@
   {
    "name": "NVRAMi_SoftwareReset",
    "address": "0x02084570",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/NVRAMi_SoftwareReset.c",
    "compiler": "dsi/1.1p1",

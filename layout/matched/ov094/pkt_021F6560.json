@@ -444,7 +444,7 @@
   {
    "name": "func_0220985C",
    "address": "0x0220985C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov094",
    "source": "src/matched/ov_sdk/func_0220985C.c",
    "compiler": "dsi/dsi/1.1p1",

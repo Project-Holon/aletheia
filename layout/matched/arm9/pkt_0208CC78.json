@@ -9,7 +9,7 @@
   {
    "name": "STD_GetStringLength",
    "address": "0x0208CC78",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/STD_GetStringLength.c",
    "compiler": "dsi/1.1p1",

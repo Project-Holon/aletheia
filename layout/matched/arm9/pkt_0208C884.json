@@ -9,7 +9,7 @@
   {
    "name": "PM_DeletePostSleepCallback",
    "address": "0x0208C884",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/PM_DeletePostSleepCallback.c",
    "compiler": "dsi/1.1p1",

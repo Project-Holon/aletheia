@@ -9,7 +9,7 @@
   {
    "name": "MATHi_SetOverlayTableMode",
    "address": "0x0208139C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/MATHi_SetOverlayTableMode.c",
    "compiler": "dsi/1.1p1",

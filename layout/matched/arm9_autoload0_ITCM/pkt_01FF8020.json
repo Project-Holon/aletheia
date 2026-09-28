@@ -9,7 +9,7 @@
   {
    "name": "func_01FF8020",
    "address": "0x01FF8020",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9_autoload0_ITCM",
    "source": "src/matched/itcm_sdk/func_01FF8020.c",
    "compiler": "dsi/1.1p1",

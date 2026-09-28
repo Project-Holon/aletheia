@@ -9,7 +9,7 @@
   {
    "name": "NHTTPi_GetConnection",
    "address": "0x0204960C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/NHTTPi_GetConnection.c",
    "compiler": "dsi/1.1p1",

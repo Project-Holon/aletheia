@@ -9,7 +9,7 @@
   {
    "name": "MATH_CountPopulation",
    "address": "0x02080D24",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/MATH_CountPopulation.c",
    "compiler": "dsi/1.1p1",

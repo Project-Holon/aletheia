@@ -9,7 +9,7 @@
   {
    "name": "DWCi_CMNlFontFlag",
    "address": "0x02085D0C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/DWCi_CMNlFontFlag.c",
    "compiler": "dsi/1.1p1",

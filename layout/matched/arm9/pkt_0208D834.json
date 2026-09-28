@@ -9,7 +9,7 @@
   {
    "name": "STD_TVSNPrintf",
    "address": "0x0208D834",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/STD_TVSNPrintf.c",
    "compiler": "dsi/1.1p1",

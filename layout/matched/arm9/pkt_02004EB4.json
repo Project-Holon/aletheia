@@ -9,7 +9,7 @@
   {
    "name": "INITi_IsRunOnTwl",
    "address": "0x02004EB4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/INITi_IsRunOnTwl.c",
    "compiler": "dsi/1.1p1",

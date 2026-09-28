@@ -9,7 +9,7 @@
   {
    "name": "APCi_Notify",
    "address": "0x021B89DC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B89DC.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -29,7 +29,7 @@
   {
    "name": "APCi_MoveIdleState",
    "address": "0x021B8C94",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B8C94.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -49,7 +49,7 @@
   {
    "name": "APC_GetAPList",
    "address": "0x021B8CFC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B8CFC.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -61,7 +61,7 @@
   {
    "name": "APC_SearchStart",
    "address": "0x021B8D40",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B8D40.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -80,7 +80,7 @@
   {
    "name": "APC_SearchEnd",
    "address": "0x021B8E30",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B8E30.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -97,7 +97,7 @@
   {
    "name": "APC_Disconnect",
    "address": "0x021B8E6C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B8E6C.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -114,7 +114,7 @@
   {
    "name": "APC_End",
    "address": "0x021B8EA4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B8EA4.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -131,7 +131,7 @@
   {
    "name": "APC_Connect",
    "address": "0x021B8EFC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B8EFC.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -148,7 +148,7 @@
   {
    "name": "APC_Init",
    "address": "0x021B8F80",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B8F80.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -161,7 +161,6 @@
      "self:0x021DCF80"
     ],
     "sdk": [
-     "0x02164D64",
      "0x021B89DC"
     ]
    }

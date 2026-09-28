@@ -9,7 +9,7 @@
   {
    "name": "FSi_IncrementSjisPositionToSlash",
    "address": "0x020787E0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/FSi_IncrementSjisPositionToSlash.c",
    "compiler": "dsi/1.1p1",

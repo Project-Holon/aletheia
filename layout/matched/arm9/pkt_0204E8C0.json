@@ -21,7 +21,7 @@
   {
    "name": "func_0204EA38",
    "address": "0x0204EA38",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0204EA38.c",
    "compiler": "dsi/1.1p1",

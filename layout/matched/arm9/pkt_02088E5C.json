@@ -9,14 +9,14 @@
   {
    "name": "RtcBCD2HEX",
    "address": "0x02088E5C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/RtcBCD2HEX.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT"
   }
  ]
 }

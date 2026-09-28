@@ -9,7 +9,7 @@
   {
    "name": "WM_GetAID",
    "address": "0x0208E9EC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/WM_GetAID.c",
    "compiler": "dsi/1.1p1",

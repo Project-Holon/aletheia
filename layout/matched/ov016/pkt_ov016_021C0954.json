@@ -9,7 +9,7 @@
   {
    "name": "aossAlloc",
    "address": "0x021C0954",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C0954.c",
    "compiler": "dsi/1.1p1",

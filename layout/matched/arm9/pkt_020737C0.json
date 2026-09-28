@@ -36,7 +36,6 @@
    "status": "EXACT",
    "evidence": {
     "sdk": [
-     "0x02073BE0",
      "0x02089540"
     ]
    }
@@ -44,7 +43,7 @@
   {
    "name": "func_02073BE0",
    "address": "0x02073BE0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_02073BE0.c",
    "compiler": "dsi/../2.0/sp2",

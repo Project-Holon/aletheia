@@ -9,7 +9,7 @@
   {
    "name": "IC_InvalidateAll",
    "address": "0x02086320",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/IC_InvalidateAll.c",
    "compiler": "dsi/1.1p1",

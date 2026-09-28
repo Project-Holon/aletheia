@@ -9,7 +9,7 @@
   {
    "name": "WMi_CheckInitialized",
    "address": "0x0208E4CC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/WMi_CheckInitialized.c",
    "compiler": "dsi/1.1p1",

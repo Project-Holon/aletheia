@@ -9,7 +9,7 @@
   {
    "name": "func_02082658",
    "address": "0x02082658",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_02082658.c",
    "compiler": "dsi/1.1p1",

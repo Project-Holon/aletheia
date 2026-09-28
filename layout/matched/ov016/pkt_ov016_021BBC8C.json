@@ -9,7 +9,7 @@
   {
    "name": "MY_MD5Update",
    "address": "0x021BBBC0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BBBC0.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -27,7 +27,7 @@
   {
    "name": "MY_MD5Final",
    "address": "0x021BBC38",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BBC38.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -48,7 +48,7 @@
   {
    "name": "MD5Transform",
    "address": "0x021BBC8C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BBC8C_md5.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -66,7 +66,7 @@
   {
    "name": "Encode",
    "address": "0x021BC4D4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BC4D4.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -78,7 +78,7 @@
   {
    "name": "MD5_memcpy",
    "address": "0x021BC52C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BC52C.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -90,7 +90,7 @@
   {
    "name": "MD5_memset",
    "address": "0x021BC544",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BC544.c",
    "compiler": "dsi/../2.0/sp1p2",
@@ -102,7 +102,7 @@
   {
    "name": "MD5Encode",
    "address": "0x021BC55C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BC55C.c",
    "compiler": "dsi/../2.0/sp1p2",

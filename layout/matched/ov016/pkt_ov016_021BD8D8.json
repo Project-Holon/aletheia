@@ -9,7 +9,7 @@
   {
    "name": "DWCi_KBlEnd",
    "address": "0x021BDC24",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BDC24.c",
    "compiler": "dsi/1.1p1",
@@ -29,7 +29,7 @@
   {
    "name": "taskStart0",
    "address": "0x021BDCAC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BDCAC.c",
    "compiler": "dsi/1.1p1",
@@ -46,7 +46,7 @@
   {
    "name": "taskStart1",
    "address": "0x021BDD24",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BDD24.c",
    "compiler": "dsi/1.1p1",
@@ -63,7 +63,7 @@
   {
    "name": "taskStart2",
    "address": "0x021BDD9C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BDD9C.c",
    "compiler": "dsi/1.1p1",
@@ -83,7 +83,7 @@
   {
    "name": "taskStart3",
    "address": "0x021BDE14",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BDE14.c",
    "compiler": "dsi/1.1p1",
@@ -103,7 +103,7 @@
   {
    "name": "taskStart4",
    "address": "0x021BDE8C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BDE8C.c",
    "compiler": "dsi/1.1p1",
@@ -123,7 +123,7 @@
   {
    "name": "touchTriger",
    "address": "0x021BDF20",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BDF20.c",
    "compiler": "dsi/1.1p1",
@@ -148,7 +148,7 @@
   {
    "name": "touchRelease",
    "address": "0x021BE0D8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BE0D8.c",
    "compiler": "dsi/1.1p1",
@@ -177,7 +177,7 @@
   {
    "name": "pushCaps",
    "address": "0x021BE384",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BE384.c",
    "compiler": "dsi/1.1p1",
@@ -194,7 +194,7 @@
   {
    "name": "pushShift",
    "address": "0x021BE3B4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BE3B4.c",
    "compiler": "dsi/1.1p1",
@@ -211,7 +211,7 @@
   {
    "name": "touch",
    "address": "0x021BE3E4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BE3E4.c",
    "compiler": "dsi/1.1p1",
@@ -238,7 +238,7 @@
   {
    "name": "exchangeBack",
    "address": "0x021BE5CC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BE5CC.c",
    "compiler": "dsi/1.1p1",
@@ -255,7 +255,7 @@
   {
    "name": "key",
    "address": "0x021BE618",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BE618.c",
    "compiler": "dsi/1.1p1",
@@ -278,7 +278,7 @@
   {
    "name": "changePage",
    "address": "0x021BEAD4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BEAD4.c",
    "compiler": "dsi/1.1p1",
@@ -296,7 +296,7 @@
   {
    "name": "changeColor",
    "address": "0x021BEB58",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BEB58.c",
    "compiler": "dsi/1.1p1",
@@ -315,7 +315,7 @@
   {
    "name": "dispFocus",
    "address": "0x021BEC20",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BEC20.c",
    "compiler": "dsi/1.1p1",
@@ -334,7 +334,7 @@
   {
    "name": "moveFocus",
    "address": "0x021BECFC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BECFC.c",
    "compiler": "dsi/1.1p1",
@@ -352,7 +352,7 @@
   {
    "name": "taskEnd0",
    "address": "0x021BF0D8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BF0D8.c",
    "compiler": "dsi/1.1p1",
@@ -372,7 +372,7 @@
   {
    "name": "taskEnd1",
    "address": "0x021BF140",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BF140.c",
    "compiler": "dsi/1.1p1",
@@ -392,7 +392,7 @@
   {
    "name": "taskEnd2",
    "address": "0x021BF19C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BF19C.c",
    "compiler": "dsi/1.1p1",
@@ -412,7 +412,7 @@
   {
    "name": "taskEnd3",
    "address": "0x021BF1F8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BF1F8.c",
    "compiler": "dsi/1.1p1",
@@ -432,7 +432,7 @@
   {
    "name": "taskEnd4",
    "address": "0x021BF254",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021BF254.c",
    "compiler": "dsi/1.1p1",

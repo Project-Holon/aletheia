@@ -161,7 +161,7 @@
   {
    "name": "func_0272FD18",
    "address": "0x0272FD18",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_0272FD18.c",
    "compiler": "dsi/1.1p1",

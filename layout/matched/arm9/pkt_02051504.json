@@ -9,7 +9,7 @@
   {
    "name": "func_020514F4",
    "address": "0x020514F4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_020514F4.c",
    "compiler": "dsi/1.1p1",
@@ -52,12 +52,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sdk": [
-     "0x020514F4"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "func_020515B4",

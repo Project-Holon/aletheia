@@ -9,7 +9,7 @@
   {
    "name": "NVRAMi_ReadCallback",
    "address": "0x020837B8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/NVRAMi_ReadCallback.c",
    "compiler": "dsi/1.1p1",

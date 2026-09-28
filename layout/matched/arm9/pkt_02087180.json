@@ -9,7 +9,7 @@
   {
    "name": "OSi_SetTimer",
    "address": "0x02087180",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/OSi_SetTimer.c",
    "compiler": "dsi/1.1p1",

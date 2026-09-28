@@ -31,22 +31,6 @@
    "status": "EXACT"
   },
   {
-   "name": "unit_02040E78",
-   "address": "0x02040E78",
-   "kind": "game_unit",
-   "region": "arm9",
-   "source": "src/matched/arm9/unit_02040E78.c",
-   "compiler": "dsi/1.1p1",
-   "lang": "c99",
-   "isa": "arm",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "functions": [
-    "func_02040E78",
-    "sub_02040EBC"
-   ]
-  },
-  {
    "name": "func_02040EBC",
    "address": "0x02040EBC",
    "kind": "game",

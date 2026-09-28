@@ -9,7 +9,7 @@
   {
    "name": "CARD_GetBackupSectorSize",
    "address": "0x02076B6C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/CARD_GetBackupSectorSize.c",
    "compiler": "dsi/1.1p1",

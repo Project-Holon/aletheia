@@ -9,7 +9,7 @@
   {
    "name": "CRYPTOi__BN_lshift1",
    "address": "0x02078C18",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/CRYPTOi__BN_lshift1.c",
    "compiler": "dsi/1.1p1",

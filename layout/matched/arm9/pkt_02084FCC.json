@@ -9,7 +9,7 @@
   {
    "name": "OSi_InsertLinkToQueue",
    "address": "0x02084FCC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/OSi_InsertLinkToQueue.c",
    "compiler": "dsi/1.1p1",

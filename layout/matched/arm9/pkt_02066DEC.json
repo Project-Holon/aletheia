@@ -9,7 +9,7 @@
   {
    "name": "CARD_SetPulledOutCallback",
    "address": "0x02066DEC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/CARD_SetPulledOutCallback.c",
    "compiler": "dsi/1.1p1",

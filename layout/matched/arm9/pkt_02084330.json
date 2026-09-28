@@ -9,7 +9,7 @@
   {
    "name": "NVRAMi_ReadStatusRegister",
    "address": "0x02084330",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/NVRAMi_ReadStatusRegister.c",
    "compiler": "dsi/1.1p1",

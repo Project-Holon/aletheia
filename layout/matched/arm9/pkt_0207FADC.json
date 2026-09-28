@@ -9,7 +9,7 @@
   {
    "name": "GX_EndLoadTexPltt",
    "address": "0x0207FADC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/GX_EndLoadTexPltt.c",
    "compiler": "dsi/1.1p1",

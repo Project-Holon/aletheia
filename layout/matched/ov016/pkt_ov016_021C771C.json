@@ -9,7 +9,7 @@
   {
    "name": "endScene",
    "address": "0x021C771C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C771C.c",
    "compiler": "dsi/1.1p1",

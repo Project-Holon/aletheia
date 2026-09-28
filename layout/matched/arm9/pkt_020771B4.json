@@ -9,7 +9,7 @@
   {
    "name": "CARDi_ReadRom",
    "address": "0x020771B4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/CARDi_ReadRom.c",
    "compiler": "dsi/1.1p1",

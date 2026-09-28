@@ -9,7 +9,7 @@
   {
    "name": "MATH_CalcSHA1",
    "address": "0x020816B8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/MATH_CalcSHA1.c",
    "compiler": "dsi/1.1p1",

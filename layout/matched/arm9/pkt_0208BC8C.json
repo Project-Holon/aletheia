@@ -9,7 +9,7 @@
   {
    "name": "PM_SendUtilityCommand",
    "address": "0x0208BC8C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/PM_SendUtilityCommand.c",
    "compiler": "dsi/1.1p1",

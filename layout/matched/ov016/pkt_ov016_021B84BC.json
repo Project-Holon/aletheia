@@ -9,7 +9,7 @@
   {
    "name": "alarmCallback",
    "address": "0x021B84BC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B84BC.c",
    "compiler": "dsi/1.1p1",

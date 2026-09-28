@@ -9,7 +9,7 @@
   {
    "name": "procInit1",
    "address": "0x021CD3B8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021CD3B8.c",
    "compiler": "dsi/1.1p1",

@@ -9,7 +9,7 @@
   {
    "name": "CP_SaveContext",
    "address": "0x020775B8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/CP_SaveContext.c",
    "compiler": "dsi/1.1p1",

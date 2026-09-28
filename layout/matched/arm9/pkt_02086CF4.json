@@ -9,7 +9,7 @@
   {
    "name": "OS_EnableProtectionUnit",
    "address": "0x02086CF4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/OS_EnableProtectionUnit.c",
    "compiler": "dsi/1.1p1",

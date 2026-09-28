@@ -9,7 +9,7 @@
   {
    "name": "INITi_InitRegion",
    "address": "0x02004A98",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/INITi_InitRegion.c",
    "compiler": "dsi/1.1p1",

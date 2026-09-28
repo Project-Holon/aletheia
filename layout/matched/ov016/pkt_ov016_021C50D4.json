@@ -9,7 +9,7 @@
   {
    "name": "DWCi_SceneSetApList",
    "address": "0x021C50D4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C50D4.c",
    "compiler": "dsi/1.1p1",
@@ -33,7 +33,7 @@
   {
    "name": "initScrollBar",
    "address": "0x021C52E4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C52E4.c",
    "compiler": "dsi/1.1p1",
@@ -53,7 +53,7 @@
   {
    "name": "getCharName",
    "address": "0x021C5388",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C5388.c",
    "compiler": "dsi/1.1p1",
@@ -72,7 +72,7 @@
   {
    "name": "procInit",
    "address": "0x021C54E8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C54E8.c",
    "compiler": "dsi/1.1p1",
@@ -84,7 +84,7 @@
   {
    "name": "input",
    "address": "0x021C55C8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C55C8.c",
    "compiler": "dsi/1.1p1",
@@ -107,7 +107,7 @@
   {
    "name": "draw",
    "address": "0x021C57E4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C57E4.c",
    "compiler": "dsi/1.1p1",
@@ -130,7 +130,7 @@
   {
    "name": "button",
    "address": "0x021C5A10",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C5A10.c",
    "compiler": "dsi/1.1p1",
@@ -153,7 +153,7 @@
   {
    "name": "endScene",
    "address": "0x021C5B24",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C5B24.c",
    "compiler": "dsi/1.1p1",
@@ -170,7 +170,7 @@
   {
    "name": "endScene1",
    "address": "0x021C5B44",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C5B44.c",
    "compiler": "dsi/1.1p1",
@@ -190,7 +190,7 @@
   {
    "name": "endScene2",
    "address": "0x021C5BBC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C5BBC.c",
    "compiler": "dsi/1.1p1",
@@ -216,7 +216,7 @@
   {
    "name": "drawApInfo",
    "address": "0x021C5D9C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C5D9C.c",
    "compiler": "dsi/1.1p1",
@@ -238,7 +238,7 @@
   {
    "name": "drawAp",
    "address": "0x021C5E40",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C5E40.c",
    "compiler": "dsi/1.1p1",
@@ -255,7 +255,7 @@
   {
    "name": "setOffset",
    "address": "0x021C6034",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C6034.c",
    "compiler": "dsi/1.1p1",
@@ -275,7 +275,7 @@
   {
    "name": "taskUp",
    "address": "0x021C60EC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C60EC.c",
    "compiler": "dsi/1.1p1",
@@ -296,7 +296,7 @@
   {
    "name": "taskDown",
    "address": "0x021C61A4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C61A4.c",
    "compiler": "dsi/1.1p1",
@@ -317,7 +317,7 @@
   {
    "name": "taskVBlank",
    "address": "0x021C6234",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C6234.c",
    "compiler": "dsi/1.1p1",
@@ -337,7 +337,7 @@
   {
    "name": "dispFocus",
    "address": "0x021C628C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C628C.c",
    "compiler": "dsi/1.1p1",
@@ -357,7 +357,7 @@
   {
    "name": "moveFocus",
    "address": "0x021C62D8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C62D8.c",
    "compiler": "dsi/1.1p1",
@@ -374,7 +374,7 @@
   {
    "name": "scrollUp",
    "address": "0x021C641C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C641C.c",
    "compiler": "dsi/1.1p1",
@@ -391,7 +391,7 @@
   {
    "name": "dispPushButton",
    "address": "0x021C6508",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C6508.c",
    "compiler": "dsi/1.1p1",
@@ -409,7 +409,7 @@
   {
    "name": "procError",
    "address": "0x021C6534",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C6534.c",
    "compiler": "dsi/1.1p1",
@@ -426,7 +426,7 @@
   {
    "name": "procError1",
    "address": "0x021C6560",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C6560.c",
    "compiler": "dsi/1.1p1",

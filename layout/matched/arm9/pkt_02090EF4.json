@@ -9,7 +9,7 @@
   {
    "name": "CTRDG_IsExistedAtInit",
    "address": "0x02090EF4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/CTRDG_IsExistedAtInit.c",
    "compiler": "dsi/1.1p1",

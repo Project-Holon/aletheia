@@ -9,7 +9,7 @@
   {
    "name": "WmDataSharingReceiveCallback_Parent",
    "address": "0x020906E0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/WmDataSharingReceiveCallback_Parent.c",
    "compiler": "dsi/1.1p1",

@@ -9,7 +9,7 @@
   {
    "name": "func_021CA390",
    "address": "0x021CA390",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/func_021CA390.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -26,7 +26,7 @@
   {
    "name": "func_021CA818",
    "address": "0x021CA818",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/func_021CA818.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -38,7 +38,7 @@
   {
    "name": "func_021CAC44",
    "address": "0x021CAC44",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/func_021CAC44.c",
    "compiler": "dsi/dsi/1.1p1",

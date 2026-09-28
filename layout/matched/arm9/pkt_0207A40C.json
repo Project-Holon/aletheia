@@ -9,7 +9,7 @@
   {
    "name": "FSi_ROMFAT_GetArchiveResource",
    "address": "0x0207A40C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/FSi_ROMFAT_GetArchiveResource.c",
    "compiler": "dsi/1.1p1",

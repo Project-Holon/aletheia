@@ -9,7 +9,7 @@
   {
    "name": "WMi_GetStatusAddress",
    "address": "0x0208E9C8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/WMi_GetStatusAddress.c",
    "compiler": "dsi/1.1p1",

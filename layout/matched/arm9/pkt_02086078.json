@@ -9,7 +9,7 @@
   {
    "name": "OS_UnlockMutex",
    "address": "0x02086078",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/OS_UnlockMutex.c",
    "compiler": "dsi/1.1p1",

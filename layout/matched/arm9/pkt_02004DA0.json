@@ -9,7 +9,7 @@
   {
    "name": "INITi_CallStaticInitializers",
    "address": "0x02004DA0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/INITi_CallStaticInitializers.c",
    "compiler": "dsi/1.1p1",

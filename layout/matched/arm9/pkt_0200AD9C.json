@@ -9,7 +9,7 @@
   {
    "name": "OS_KillThread",
    "address": "0x0200AD9C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/OS_KillThread.c",
    "compiler": "dsi/1.1p1",

@@ -9,7 +9,7 @@
   {
    "name": "SND_SetTrackModSpeed",
    "address": "0x02089470",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/SND_SetTrackModSpeed.c",
    "compiler": "dsi/1.1p1",

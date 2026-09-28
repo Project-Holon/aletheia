@@ -9,7 +9,7 @@
   {
    "name": "INITi_ShelterStaticInitializer",
    "address": "0x02004D50",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/INITi_ShelterStaticInitializer.c",
    "compiler": "dsi/1.1p1",

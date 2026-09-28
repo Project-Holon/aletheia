@@ -9,7 +9,7 @@
   {
    "name": "AOSS_Recvfrom",
    "address": "0x021B824C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021B824C.c",
    "compiler": "dsi/1.1p1",

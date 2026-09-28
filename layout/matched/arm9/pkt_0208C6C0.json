@@ -9,7 +9,7 @@
   {
    "name": "PM_GetLEDPattern",
    "address": "0x0208C6C0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/PM_GetLEDPattern.c",
    "compiler": "dsi/1.1p1",

@@ -9,7 +9,7 @@
   {
    "name": "MATH_SHA1Update",
    "address": "0x0208142C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/MATH_SHA1Update.c",
    "compiler": "dsi/1.1p1",

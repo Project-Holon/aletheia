@@ -9,7 +9,7 @@
   {
    "name": "WMi_RegisterSleepCallback",
    "address": "0x0208EA4C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/WMi_RegisterSleepCallback.c",
    "compiler": "dsi/1.1p1",

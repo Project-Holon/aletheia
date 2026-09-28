@@ -9,7 +9,7 @@
   {
    "name": "MTX_FrustumW",
    "address": "0x0207C1D0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/MTX_FrustumW.c",
    "compiler": "dsi/1.1p1",

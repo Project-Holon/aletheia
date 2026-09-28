@@ -9,7 +9,7 @@
   {
    "name": "PMi_SendSleepStart",
    "address": "0x0208BBB8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/PMi_SendSleepStart.c",
    "compiler": "dsi/1.1p1",

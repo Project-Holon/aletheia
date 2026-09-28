@@ -9,7 +9,7 @@
   {
    "name": "RTCi_WriteRawStatus2Async",
    "address": "0x02088F1C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/RTCi_WriteRawStatus2Async.c",
    "compiler": "dsi/1.1p1",

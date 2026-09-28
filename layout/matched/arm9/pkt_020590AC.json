@@ -9,7 +9,7 @@
   {
    "name": "DWCi_Acc_GetFriendKey",
    "address": "0x020590AC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/DWCi_Acc_GetFriendKey.c",
    "compiler": "dsi/1.1p1",

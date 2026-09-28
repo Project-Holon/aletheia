@@ -9,7 +9,7 @@
   {
    "name": "GXS_LoadOAM",
    "address": "0x0207E708",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/GXS_LoadOAM.c",
    "compiler": "dsi/1.1p1",

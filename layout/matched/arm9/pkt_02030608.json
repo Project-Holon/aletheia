@@ -69,7 +69,7 @@
   {
    "name": "sub_020307B0",
    "address": "0x020307B0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/sub_020307B0.c",
    "compiler": "dsi/1.1p1",

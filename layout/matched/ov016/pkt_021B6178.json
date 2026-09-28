@@ -26,7 +26,7 @@
   {
    "name": "func_021B61B0",
    "address": "0x021B61B0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/func_021B61B0.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -43,7 +43,7 @@
   {
    "name": "func_021B61C0",
    "address": "0x021B61C0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/func_021B61C0.c",
    "compiler": "dsi/dsi/1.1p1",

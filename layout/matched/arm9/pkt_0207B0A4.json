@@ -9,7 +9,7 @@
   {
    "name": "MTX_Inverse33",
    "address": "0x0207B0A4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/MTX_Inverse33.c",
    "compiler": "dsi/1.1p1",

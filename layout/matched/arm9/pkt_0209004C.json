@@ -9,7 +9,7 @@
   {
    "name": "WM_StartDataSharing",
    "address": "0x0209004C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/WM_StartDataSharing.c",
    "compiler": "dsi/1.1p1",

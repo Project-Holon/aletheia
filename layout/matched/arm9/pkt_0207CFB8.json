@@ -9,7 +9,7 @@
   {
    "name": "FX_Atan2Idx",
    "address": "0x0207CFB8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/FX_Atan2Idx.c",
    "compiler": "dsi/1.1p1",

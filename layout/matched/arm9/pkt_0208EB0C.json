@@ -9,7 +9,7 @@
   {
    "name": "WM_SetPortCallback",
    "address": "0x0208EB0C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/WM_SetPortCallback.c",
    "compiler": "dsi/1.1p1",

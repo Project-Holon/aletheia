@@ -5748,11 +5748,39 @@ def match_shard_id(wanted, by_shard):
                      % (wanted, ", ".join("%s/%s" % k for k in exact)))
 
 
+def manifest_duplicates(docs):
+    """{(region, address): [(shard, name, kind, source), ...]} for every
+    address that more than one shard entry of one region claims.
+
+    `docs` is [(shard path, parsed shard)].  The key is the region and the
+    address only: a function's identity is its address (tree brief, addendum
+    3), so two entries that differ only in name or kind (an old game copy
+    next to a newer sdk one, a renamed file next to its predecessor) are the
+    same claim made twice.  Unit entries are keyed the same way, by the
+    header address they carry, so a unit and a function entry at one address
+    are a duplicate too.  Overlays share load addresses, which is why the
+    region stays in the key.
+    """
+    seen = defaultdict(list)
+    for rel, doc in docs:
+        for e in doc.get("functions", []):
+            if not isinstance(e, dict):
+                continue
+            try:
+                addr = "0x%08X" % int(str(e.get("address")), 16)
+            except ValueError:
+                addr = e.get("address")
+            seen[(e.get("region"), addr)].append(
+                (rel, e.get("name"), e.get("kind"), e.get("source")))
+    return {k: v for k, v in seen.items() if len(v) > 1}
+
+
 def manifest_check():
     """Report duplicate manifest entries and json files shard_files() ignores.
 
     The one defect that silently corrupts coverage and the build is a shard
-    entry that exists twice (two sources claiming one region+address+name), or
+    entry that exists twice (two entries claiming one region+address, whatever
+    their name or kind; see manifest_duplicates()), or
     a shard file that is not named so shard_files() reads it at all (the twl
     shards were twl_audio.json / twl_sys.json for a while).  This is the
     cheap, read-only gate for both.
@@ -5765,30 +5793,30 @@ def manifest_check():
                 on_disk.append(os.path.join(dirpath, fn))
     unread = [p for p in sorted(on_disk)
               if os.path.normcase(os.path.abspath(p)) not in read]
-    seen = defaultdict(list)
+    docs = []
     for p in shard_files():
         try:
             with open(p, encoding="utf-8") as fh:
-                doc = json.load(fh)
+                docs.append((os.path.relpath(p, ROOT), json.load(fh)))
         except Exception as exc:       # unparseable is itself a defect
             unread.append(p)
             sys.stderr.write("unparseable shard: %s (%s)\n"
                              % (os.path.relpath(p, ROOT), exc))
             continue
-        for e in doc.get("functions", []):
-            if isinstance(e, dict):
-                seen[(e.get("region"), e.get("address"), e.get("name"),
-                      e.get("kind"))].append(os.path.relpath(p, ROOT))
-    dups = {k: v for k, v in seen.items() if len(v) > 1}
+    dups = manifest_duplicates(docs)
     if unread:
         print("%d json file(s) under layout/matched/ are not read by shard_files():"
               % len(unread))
         for p in unread:
             print("  ", os.path.relpath(p, ROOT))
     if dups:
-        print("%d duplicate manifest entr(ies):" % len(dups))
-        for key, files in sorted(dups.items()):
-            print("  %s  %s" % (key, files))
+        print("%d address(es) claimed by more than one manifest entry:"
+              % len(dups))
+        for (region, addr), claims in sorted(dups.items()):
+            print("  %s %s" % (region, addr))
+            for rel, name, kind, source in claims:
+                print("      %-40s %-8s %-28s %s"
+                      % (rel.replace("\\", "/"), kind, name, source))
     if not unread and not dups:
         print("manifest check: clean (%d shard file(s), no duplicates, no unread json)"
               % len(read))
@@ -7464,6 +7492,40 @@ def cmd_selftest(args):
                _interior(dict(_pent, status="MATCH")), ("sdk", None, False))
     except ImportError:
         _check(res, "runtime kind: tools/worklist.py importable", False, True)
+    # manifest --check: one address claimed twice in one region is a
+    # duplicate whatever the two entries' name or kind; overlays that share a
+    # load address are not.
+    _dg = {"name": "func_0BADF000", "address": "0x0BADF000", "kind": "game",
+           "region": "arm9", "source": "src/matched/arm9/func_0BADF000.c"}
+    _check(res, "manifest check: two entries for one address that differ only "
+                "in kind (game vs sdk) are a duplicate",
+           sorted(manifest_duplicates([
+               ("a.json", {"functions": [_dg]}),
+               ("b.json", {"functions": [dict(_dg, kind="sdk")]})])),
+           [("arm9", "0x0BADF000")])
+    _check(res, "manifest check: two entries for one address that differ in "
+                "name and source are a duplicate",
+           sorted(manifest_duplicates([
+               ("a.json", {"functions": [_dg, dict(
+                   _dg, name="OS_Thing", source="src/matched/arm9/x.c")]})])),
+           [("arm9", "0x0BADF000")])
+    _check(res, "manifest check: a unit entry at a function entry's address "
+                "is a duplicate",
+           sorted(manifest_duplicates([
+               ("a.json", {"functions": [_dg]}),
+               ("b.json", {"functions": [dict(_dg, kind="game_unit",
+                                              name="unit_x",
+                                              functions=["func_0BADF000"])]})])),
+           [("arm9", "0x0BADF000")])
+    _check(res, "manifest check: one address in two overlay regions is not a "
+                "duplicate",
+           manifest_duplicates([
+               ("a.json", {"functions": [dict(_dg, region="ov016")]}),
+               ("b.json", {"functions": [dict(_dg, region="ov093")]})]), {})
+    _check(res, "manifest check: distinct addresses are not a duplicate",
+           manifest_duplicates([
+               ("a.json", {"functions": [
+                   _dg, dict(_dg, address="0x0BADF004")]})]), {})
     _rt_hdr = {"address": "0x%08X" % min(runtime_addresses()),
                "function": runtime_addresses()[min(runtime_addresses())],
                "region": "arm9", "isa": "arm", "unit": "yes"}

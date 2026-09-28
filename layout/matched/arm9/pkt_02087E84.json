@@ -9,7 +9,7 @@
   {
    "name": "OS_IsForceDisableWireless",
    "address": "0x02087E84",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/OS_IsForceDisableWireless.c",
    "compiler": "dsi/1.1p1",

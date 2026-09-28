@@ -9,7 +9,7 @@
   {
    "name": "MI_InitWramManager",
    "address": "0x02082198",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/MI_InitWramManager.c",
    "compiler": "dsi/1.1p1",

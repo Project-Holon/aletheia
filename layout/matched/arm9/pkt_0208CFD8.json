@@ -9,7 +9,7 @@
   {
    "name": "STD_TVSScanf",
    "address": "0x0208CFD8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/STD_TVSScanf.c",
    "compiler": "dsi/1.1p1",

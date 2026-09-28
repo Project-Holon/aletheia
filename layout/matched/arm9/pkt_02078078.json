@@ -9,7 +9,7 @@
   {
    "name": "FS_NormalizePath",
    "address": "0x02078078",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/FS_NormalizePath.c",
    "compiler": "dsi/1.1p1",

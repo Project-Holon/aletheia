@@ -9,7 +9,7 @@
   {
    "name": "CARDi_IdentifyBackupCore2",
    "address": "0x020766D8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/CARDi_IdentifyBackupCore2.c",
    "compiler": "dsi/1.1p1",

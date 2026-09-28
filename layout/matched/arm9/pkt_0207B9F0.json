@@ -9,7 +9,7 @@
   {
    "name": "MTX_Concat43",
    "address": "0x0207B9F0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/MTX_Concat43.c",
    "compiler": "dsi/1.1p1",

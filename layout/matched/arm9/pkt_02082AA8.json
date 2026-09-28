@@ -9,7 +9,7 @@
   {
    "name": "MIi_CpuSend32",
    "address": "0x02082AA8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/MIi_CpuSend32.c",
    "compiler": "dsi/1.1p1",

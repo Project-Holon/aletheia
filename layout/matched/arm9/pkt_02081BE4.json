@@ -9,7 +9,7 @@
   {
    "name": "MATH_QSort",
    "address": "0x02081BE4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/MATH_QSort.c",
    "compiler": "dsi/1.1p1",

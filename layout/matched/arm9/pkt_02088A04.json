@@ -9,7 +9,7 @@
   {
    "name": "RtcCommonCallback",
    "address": "0x02088A04",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/RtcCommonCallback.c",
    "compiler": "dsi/1.1p1",

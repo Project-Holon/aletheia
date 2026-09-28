@@ -9,7 +9,7 @@
   {
    "name": "func_02700000",
    "address": "0x02700000",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02700000.c",
    "compiler": "dsi/1.1p1",
@@ -21,7 +21,7 @@
   {
    "name": "func_02700078",
    "address": "0x02700078",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02700078.c",
    "compiler": "dsi/1.1p1",
@@ -38,7 +38,7 @@
   {
    "name": "func_02700128",
    "address": "0x02700128",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02700128.c",
    "compiler": "dsi/1.1p1",
@@ -50,7 +50,7 @@
   {
    "name": "func_02700168",
    "address": "0x02700168",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02700168.c",
    "compiler": "dsi/1.1p1",
@@ -62,7 +62,7 @@
   {
    "name": "func_027001B8",
    "address": "0x027001B8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027001B8.c",
    "compiler": "dsi/1.1p1",
@@ -74,7 +74,7 @@
   {
    "name": "func_027001F0",
    "address": "0x027001F0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027001F0.c",
    "compiler": "dsi/1.1p1",
@@ -93,7 +93,7 @@
   {
    "name": "func_02700230",
    "address": "0x02700230",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02700230.c",
    "compiler": "dsi/1.1p1",
@@ -111,7 +111,7 @@
   {
    "name": "func_027007C8",
    "address": "0x027007C8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027007C8.c",
    "compiler": "dsi/1.1p1",
@@ -129,7 +129,7 @@
   {
    "name": "func_02700824",
    "address": "0x02700824",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02700824.c",
    "compiler": "dsi/1.1p1",
@@ -148,7 +148,7 @@
   {
    "name": "func_02700938",
    "address": "0x02700938",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02700938.c",
    "compiler": "dsi/1.1p1",
@@ -176,7 +176,7 @@
   {
    "name": "func_02700B34",
    "address": "0x02700B34",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02700B34.c",
    "compiler": "dsi/1.1p1",
@@ -199,7 +199,7 @@
   {
    "name": "func_02700BD0",
    "address": "0x02700BD0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02700BD0.c",
    "compiler": "dsi/1.1p1",
@@ -211,7 +211,7 @@
   {
    "name": "func_02700C18",
    "address": "0x02700C18",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02700C18.c",
    "compiler": "dsi/1.1p1",
@@ -228,7 +228,7 @@
   {
    "name": "func_02700CB4",
    "address": "0x02700CB4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02700CB4.c",
    "compiler": "dsi/1.1p1",
@@ -245,7 +245,7 @@
   {
    "name": "func_02700CEC",
    "address": "0x02700CEC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02700CEC.c",
    "compiler": "dsi/1.1p1",
@@ -280,7 +280,7 @@
   {
    "name": "func_02700DF0",
    "address": "0x02700DF0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02700DF0.c",
    "compiler": "dsi/1.1p1",
@@ -298,7 +298,7 @@
   {
    "name": "func_02700EB8",
    "address": "0x02700EB8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02700EB8.c",
    "compiler": "dsi/1.1p1",
@@ -316,7 +316,7 @@
   {
    "name": "func_02700FE4",
    "address": "0x02700FE4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02700FE4.c",
    "compiler": "dsi/1.1p1",
@@ -333,7 +333,7 @@
   {
    "name": "func_02701020",
    "address": "0x02701020",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02701020.c",
    "compiler": "dsi/1.1p1",
@@ -351,7 +351,7 @@
   {
    "name": "func_02701120",
    "address": "0x02701120",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02701120.c",
    "compiler": "dsi/1.1p1",
@@ -386,7 +386,7 @@
   {
    "name": "func_02701284",
    "address": "0x02701284",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02701284.c",
    "compiler": "dsi/1.1p1",
@@ -404,7 +404,7 @@
   {
    "name": "func_027013A4",
    "address": "0x027013A4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027013A4.c",
    "compiler": "dsi/1.1p1",
@@ -422,7 +422,7 @@
   {
    "name": "func_02701488",
    "address": "0x02701488",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02701488.c",
    "compiler": "dsi/1.1p1",
@@ -440,7 +440,7 @@
   {
    "name": "func_02701570",
    "address": "0x02701570",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02701570.c",
    "compiler": "dsi/1.1p1",
@@ -458,7 +458,7 @@
   {
    "name": "func_02701644",
    "address": "0x02701644",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02701644.c",
    "compiler": "dsi/1.1p1",
@@ -476,7 +476,7 @@
   {
    "name": "func_02701718",
    "address": "0x02701718",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02701718.c",
    "compiler": "dsi/1.1p1",
@@ -494,7 +494,7 @@
   {
    "name": "func_027017DC",
    "address": "0x027017DC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027017DC.c",
    "compiler": "dsi/1.1p1",
@@ -511,7 +511,7 @@
   {
    "name": "func_02701814",
    "address": "0x02701814",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02701814.c",
    "compiler": "dsi/1.1p1",
@@ -546,7 +546,7 @@
   {
    "name": "func_02701940",
    "address": "0x02701940",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02701940.c",
    "compiler": "dsi/1.1p1",
@@ -564,7 +564,7 @@
   {
    "name": "func_027019B4",
    "address": "0x027019B4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027019B4.c",
    "compiler": "dsi/1.1p1",
@@ -581,7 +581,7 @@
   {
    "name": "func_02701A60",
    "address": "0x02701A60",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02701A60.c",
    "compiler": "dsi/1.1p1",
@@ -593,7 +593,7 @@
   {
    "name": "func_02701AA0",
    "address": "0x02701AA0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02701AA0.c",
    "compiler": "dsi/1.1p1",
@@ -605,7 +605,7 @@
   {
    "name": "func_02701FD8",
    "address": "0x02701FD8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02701FD8.c",
    "compiler": "dsi/1.1p1",
@@ -622,7 +622,7 @@
   {
    "name": "func_02701FE8",
    "address": "0x02701FE8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02701FE8.c",
    "compiler": "dsi/1.1p1",
@@ -639,7 +639,7 @@
   {
    "name": "func_02702028",
    "address": "0x02702028",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02702028.c",
    "compiler": "dsi/1.1p1",
@@ -656,7 +656,7 @@
   {
    "name": "func_02702070",
    "address": "0x02702070",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02702070.c",
    "compiler": "dsi/1.1p1",
@@ -668,7 +668,7 @@
   {
    "name": "func_02702080",
    "address": "0x02702080",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02702080.c",
    "compiler": "dsi/1.1p1",
@@ -680,7 +680,7 @@
   {
    "name": "func_027022F8",
    "address": "0x027022F8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027022F8.c",
    "compiler": "dsi/1.1p1",
@@ -692,7 +692,7 @@
   {
    "name": "func_02702434",
    "address": "0x02702434",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02702434.c",
    "compiler": "dsi/1.1p1",
@@ -704,7 +704,7 @@
   {
    "name": "func_02702698",
    "address": "0x02702698",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02702698.c",
    "compiler": "dsi/1.1p1",
@@ -721,7 +721,7 @@
   {
    "name": "func_027026B4",
    "address": "0x027026B4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027026B4.c",
    "compiler": "dsi/1.1p1",
@@ -733,7 +733,7 @@
   {
    "name": "func_027026DC",
    "address": "0x027026DC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027026DC.c",
    "compiler": "dsi/1.1p1",
@@ -750,7 +750,7 @@
   {
    "name": "func_027026EC",
    "address": "0x027026EC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027026EC.c",
    "compiler": "dsi/1.1p1",
@@ -767,7 +767,7 @@
   {
    "name": "func_027028B0",
    "address": "0x027028B0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027028B0.c",
    "compiler": "dsi/1.1p1",
@@ -779,7 +779,7 @@
   {
    "name": "func_027028E4",
    "address": "0x027028E4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027028E4.c",
    "compiler": "dsi/1.1p1",
@@ -791,7 +791,7 @@
   {
    "name": "func_02702980",
    "address": "0x02702980",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02702980.c",
    "compiler": "dsi/1.1p1",
@@ -803,7 +803,7 @@
   {
    "name": "func_02702A40",
    "address": "0x02702A40",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02702A40.c",
    "compiler": "dsi/1.1p1",
@@ -824,7 +824,7 @@
   {
    "name": "func_02702A78",
    "address": "0x02702A78",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02702A78.c",
    "compiler": "dsi/1.1p1",
@@ -836,7 +836,7 @@
   {
    "name": "func_02703208",
    "address": "0x02703208",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02703208.c",
    "compiler": "dsi/1.1p1",
@@ -848,7 +848,7 @@
   {
    "name": "func_02703764",
    "address": "0x02703764",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02703764.c",
    "compiler": "dsi/1.1p1",
@@ -860,7 +860,7 @@
   {
    "name": "func_02703854",
    "address": "0x02703854",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02703854.c",
    "compiler": "dsi/1.1p1",
@@ -872,7 +872,7 @@
   {
    "name": "func_02703A34",
    "address": "0x02703A34",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02703A34.c",
    "compiler": "dsi/1.1p1",
@@ -884,7 +884,7 @@
   {
    "name": "func_02703A54",
    "address": "0x02703A54",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02703A54.c",
    "compiler": "dsi/1.1p1",
@@ -896,7 +896,7 @@
   {
    "name": "func_02703C28",
    "address": "0x02703C28",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02703C28.c",
    "compiler": "dsi/1.1p1",
@@ -908,7 +908,7 @@
   {
    "name": "func_02704088",
    "address": "0x02704088",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02704088.c",
    "compiler": "dsi/1.1p1",
@@ -920,7 +920,7 @@
   {
    "name": "func_027040B4",
    "address": "0x027040B4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027040B4.c",
    "compiler": "dsi/1.1p1",
@@ -932,7 +932,7 @@
   {
    "name": "func_027040EC",
    "address": "0x027040EC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027040EC.c",
    "compiler": "dsi/1.1p1",
@@ -944,7 +944,7 @@
   {
    "name": "func_0270410C",
    "address": "0x0270410C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_0270410C.c",
    "compiler": "dsi/1.1p1",
@@ -974,7 +974,7 @@
   {
    "name": "func_0270505C",
    "address": "0x0270505C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_0270505C.c",
    "compiler": "dsi/1.1p1",
@@ -986,7 +986,7 @@
   {
    "name": "func_02705088",
    "address": "0x02705088",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02705088.c",
    "compiler": "dsi/1.1p1",
@@ -998,7 +998,7 @@
   {
    "name": "func_02705150",
    "address": "0x02705150",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02705150.c",
    "compiler": "dsi/1.1p1",
@@ -1010,7 +1010,7 @@
   {
    "name": "func_02705284",
    "address": "0x02705284",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02705284.c",
    "compiler": "dsi/1.1p1",
@@ -1022,7 +1022,7 @@
   {
    "name": "func_02705294",
    "address": "0x02705294",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02705294.c",
    "compiler": "dsi/1.1p1",
@@ -1034,7 +1034,7 @@
   {
    "name": "func_027052A4",
    "address": "0x027052A4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027052A4.c",
    "compiler": "dsi/1.1p1",
@@ -1046,7 +1046,7 @@
   {
    "name": "func_027052B4",
    "address": "0x027052B4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027052B4.c",
    "compiler": "dsi/1.1p1",
@@ -1058,7 +1058,7 @@
   {
    "name": "func_0270532C",
    "address": "0x0270532C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_0270532C.c",
    "compiler": "dsi/1.1p1",
@@ -1070,7 +1070,7 @@
   {
    "name": "func_027053D4",
    "address": "0x027053D4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027053D4.c",
    "compiler": "dsi/1.1p1",
@@ -1082,7 +1082,7 @@
   {
    "name": "func_0270541C",
    "address": "0x0270541C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_0270541C.c",
    "compiler": "dsi/1.1p1",
@@ -1094,7 +1094,7 @@
   {
    "name": "func_027054E4",
    "address": "0x027054E4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027054E4.c",
    "compiler": "dsi/1.1p1",
@@ -1106,7 +1106,7 @@
   {
    "name": "func_027058D8",
    "address": "0x027058D8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027058D8.c",
    "compiler": "dsi/1.1p1",
@@ -1118,7 +1118,7 @@
   {
    "name": "func_02705980",
    "address": "0x02705980",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02705980.c",
    "compiler": "dsi/1.1p1",
@@ -1130,7 +1130,7 @@
   {
    "name": "func_02705A4C",
    "address": "0x02705A4C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02705A4C.c",
    "compiler": "dsi/1.1p1",
@@ -1142,7 +1142,7 @@
   {
    "name": "func_02705ACC",
    "address": "0x02705ACC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02705ACC.c",
    "compiler": "dsi/1.1p1",
@@ -1154,7 +1154,7 @@
   {
    "name": "func_02705B70",
    "address": "0x02705B70",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02705B70.c",
    "compiler": "dsi/1.1p1",
@@ -1178,7 +1178,7 @@
   {
    "name": "func_02705C24",
    "address": "0x02705C24",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02705C24.c",
    "compiler": "dsi/1.1p1",
@@ -1190,7 +1190,7 @@
   {
    "name": "func_02705E04",
    "address": "0x02705E04",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02705E04.c",
    "compiler": "dsi/1.1p1",
@@ -1202,7 +1202,7 @@
   {
    "name": "func_02705ED0",
    "address": "0x02705ED0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02705ED0.c",
    "compiler": "dsi/1.1p1",
@@ -1214,7 +1214,7 @@
   {
    "name": "func_02705F28",
    "address": "0x02705F28",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02705F28.c",
    "compiler": "dsi/1.1p1",
@@ -1226,7 +1226,7 @@
   {
    "name": "func_02705F64",
    "address": "0x02705F64",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02705F64.c",
    "compiler": "dsi/1.1p1",
@@ -1238,7 +1238,7 @@
   {
    "name": "func_02705FAC",
    "address": "0x02705FAC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02705FAC.c",
    "compiler": "dsi/1.1p1",
@@ -1250,7 +1250,7 @@
   {
    "name": "func_027060B4",
    "address": "0x027060B4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027060B4.c",
    "compiler": "dsi/1.1p1",
@@ -1262,7 +1262,7 @@
   {
    "name": "func_02706174",
    "address": "0x02706174",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02706174.c",
    "compiler": "dsi/1.1p1",
@@ -1274,7 +1274,7 @@
   {
    "name": "func_027062C8",
    "address": "0x027062C8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027062C8.c",
    "compiler": "dsi/1.1p1",
@@ -1286,7 +1286,7 @@
   {
    "name": "func_0270633C",
    "address": "0x0270633C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_0270633C.c",
    "compiler": "dsi/1.1p1",
@@ -1298,7 +1298,7 @@
   {
    "name": "func_02706530",
    "address": "0x02706530",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02706530.c",
    "compiler": "dsi/1.1p1",
@@ -1310,7 +1310,7 @@
   {
    "name": "func_02706694",
    "address": "0x02706694",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02706694.c",
    "compiler": "dsi/1.1p1",
@@ -1322,7 +1322,7 @@
   {
    "name": "func_02706B60",
    "address": "0x02706B60",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02706B60.c",
    "compiler": "dsi/1.1p1",
@@ -1334,7 +1334,7 @@
   {
    "name": "func_02706C2C",
    "address": "0x02706C2C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02706C2C.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1346,7 +1346,7 @@
   {
    "name": "func_02706CB4",
    "address": "0x02706CB4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02706CB4.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1358,7 +1358,7 @@
   {
    "name": "func_02706CD4",
    "address": "0x02706CD4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02706CD4.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1370,7 +1370,7 @@
   {
    "name": "func_02706D28",
    "address": "0x02706D28",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02706D28.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1382,7 +1382,7 @@
   {
    "name": "func_02706D44",
    "address": "0x02706D44",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02706D44.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1394,7 +1394,7 @@
   {
    "name": "func_02706DFC",
    "address": "0x02706DFC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02706DFC.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1406,7 +1406,7 @@
   {
    "name": "func_02706E18",
    "address": "0x02706E18",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02706E18.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1418,7 +1418,7 @@
   {
    "name": "func_02706E90",
    "address": "0x02706E90",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02706E90.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1430,7 +1430,7 @@
   {
    "name": "func_02706EC0",
    "address": "0x02706EC0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02706EC0.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1442,7 +1442,7 @@
   {
    "name": "func_02706FCC",
    "address": "0x02706FCC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02706FCC.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1454,7 +1454,7 @@
   {
    "name": "func_027070DC",
    "address": "0x027070DC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027070DC.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1466,7 +1466,7 @@
   {
    "name": "func_0270723C",
    "address": "0x0270723C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_0270723C.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1478,7 +1478,7 @@
   {
    "name": "func_02707278",
    "address": "0x02707278",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02707278.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1490,7 +1490,7 @@
   {
    "name": "func_027072E0",
    "address": "0x027072E0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027072E0.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1502,7 +1502,7 @@
   {
    "name": "func_02707310",
    "address": "0x02707310",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02707310.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1514,7 +1514,7 @@
   {
    "name": "func_0270738C",
    "address": "0x0270738C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_0270738C.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1526,7 +1526,7 @@
   {
    "name": "func_027073AC",
    "address": "0x027073AC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027073AC.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1538,7 +1538,7 @@
   {
    "name": "func_0270741C",
    "address": "0x0270741C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_0270741C.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1550,7 +1550,7 @@
   {
    "name": "func_02707458",
    "address": "0x02707458",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02707458.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1574,7 +1574,7 @@
   {
    "name": "func_027074B0",
    "address": "0x027074B0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027074B0.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1586,7 +1586,7 @@
   {
    "name": "func_02707570",
    "address": "0x02707570",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02707570.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1598,7 +1598,7 @@
   {
    "name": "func_0270768C",
    "address": "0x0270768C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_0270768C.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1610,7 +1610,7 @@
   {
    "name": "func_02707774",
    "address": "0x02707774",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02707774.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1622,7 +1622,7 @@
   {
    "name": "func_0270788C",
    "address": "0x0270788C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_0270788C.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1634,7 +1634,7 @@
   {
    "name": "func_02707994",
    "address": "0x02707994",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02707994.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1646,7 +1646,7 @@
   {
    "name": "func_027079D0",
    "address": "0x027079D0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027079D0.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1658,7 +1658,7 @@
   {
    "name": "func_027079FC",
    "address": "0x027079FC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027079FC.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1670,7 +1670,7 @@
   {
    "name": "func_02707A94",
    "address": "0x02707A94",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02707A94.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1682,7 +1682,7 @@
   {
    "name": "func_02707ACC",
    "address": "0x02707ACC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02707ACC.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1694,7 +1694,7 @@
   {
    "name": "func_02707AEC",
    "address": "0x02707AEC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02707AEC.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1706,7 +1706,7 @@
   {
    "name": "func_02707B0C",
    "address": "0x02707B0C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02707B0C.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1718,7 +1718,7 @@
   {
    "name": "func_02707B68",
    "address": "0x02707B68",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02707B68.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1730,7 +1730,7 @@
   {
    "name": "func_02707BDC",
    "address": "0x02707BDC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02707BDC.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1742,7 +1742,7 @@
   {
    "name": "func_02707C2C",
    "address": "0x02707C2C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02707C2C.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1754,7 +1754,7 @@
   {
    "name": "func_02707C48",
    "address": "0x02707C48",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02707C48.c",
    "compiler": "dsi/1.1p1",
@@ -1958,7 +1958,7 @@
   {
    "name": "func_02730090",
    "address": "0x02730090",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02730090.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -1982,7 +1982,7 @@
   {
    "name": "func_027301B4",
    "address": "0x027301B4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027301B4.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -2054,7 +2054,7 @@
   {
    "name": "func_02730388",
    "address": "0x02730388",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02730388.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -2102,7 +2102,7 @@
   {
    "name": "func_02730414",
    "address": "0x02730414",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02730414.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -2510,7 +2510,7 @@
   {
    "name": "func_027314F0",
    "address": "0x027314F0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_027314F0.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -2546,7 +2546,7 @@
   {
    "name": "func_0273156C",
    "address": "0x0273156C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_0273156C.c",
    "compiler": "dsi/dsi/1.1p1",
@@ -2558,7 +2558,7 @@
   {
    "name": "func_02731590",
    "address": "0x02731590",
-   "kind": "game",
+   "kind": "sdk",
    "region": "twl",
    "source": "src/matched/twl_sdk/func_02731590.c",
    "compiler": "dsi/dsi/1.1p1",

@@ -9,7 +9,7 @@
   {
    "name": "OS_GetIrqFunction",
    "address": "0x02084818",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/OS_GetIrqFunction.c",
    "compiler": "dsi/1.1p1",

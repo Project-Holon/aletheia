@@ -9,7 +9,7 @@
   {
    "name": "MATH_SHA1GetHash",
    "address": "0x020814C0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/MATH_SHA1GetHash.c",
    "compiler": "dsi/1.1p1",

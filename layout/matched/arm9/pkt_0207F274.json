@@ -9,7 +9,7 @@
   {
    "name": "GXS_LoadBG3Char",
    "address": "0x0207F274",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/GXS_LoadBG3Char.c",
    "compiler": "dsi/1.1p1",

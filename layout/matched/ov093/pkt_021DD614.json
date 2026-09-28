@@ -9,7 +9,7 @@
   {
    "name": "func_021DD614",
    "address": "0x021DD614",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov093",
    "source": "src/matched/ov_sdk/func_021DD614.c",
    "compiler": "dsi/1.1p1",

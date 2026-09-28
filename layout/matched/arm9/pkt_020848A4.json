@@ -9,7 +9,7 @@
   {
    "name": "OSi_EnterDmaCallback",
    "address": "0x020848A4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/OSi_EnterDmaCallback.c",
    "compiler": "dsi/1.1p1",

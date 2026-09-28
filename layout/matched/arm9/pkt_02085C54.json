@@ -9,7 +9,7 @@
   {
    "name": "OS_LoadContext",
    "address": "0x02085C54",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/OS_LoadContext.c",
    "compiler": "dsi/1.1p1",

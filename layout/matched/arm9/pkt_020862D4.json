@@ -9,7 +9,7 @@
   {
    "name": "DC_StoreRange",
    "address": "0x020862D4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/DC_StoreRange.c",
    "compiler": "dsi/1.1p1",

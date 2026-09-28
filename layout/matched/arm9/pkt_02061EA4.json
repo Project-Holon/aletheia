@@ -9,7 +9,7 @@
   {
    "name": "DWCi_TSKlForm",
    "address": "0x02061EA4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/DWCi_TSKlForm.c",
    "compiler": "dsi/1.1p1",

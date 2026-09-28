@@ -9,7 +9,7 @@
   {
    "name": "GX_DisableBankForOBJExtPltt",
    "address": "0x02080940",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/GX_DisableBankForOBJExtPltt.c",
    "compiler": "dsi/1.1p1",

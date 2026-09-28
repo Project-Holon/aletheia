@@ -9,7 +9,7 @@
   {
    "name": "INITi_CpuClear32",
    "address": "0x02004A00",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/INITi_CpuClear32.c",
    "compiler": "dsi/1.1p1",

@@ -9,7 +9,7 @@
   {
    "name": "cbConfig",
    "address": "0x021C15FC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021C15FC.c",
    "compiler": "dsi/1.1p1",

@@ -9,7 +9,7 @@
   {
    "name": "MI_Copy48B",
    "address": "0x02082B7C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/MI_Copy48B.c",
    "compiler": "dsi/1.1p1",

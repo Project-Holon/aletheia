@@ -9,7 +9,7 @@
   {
    "name": "GXS_LoadOBJExtPltt",
    "address": "0x0207F6C0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/GXS_LoadOBJExtPltt.c",
    "compiler": "dsi/1.1p1",

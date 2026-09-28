@@ -9,7 +9,7 @@
   {
    "name": "unit_020749B4",
    "address": "0x020749B4",
-   "kind": "game_unit",
+   "kind": "sdk_unit",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/unit_020749B4.c",
    "compiler": "dsi/1.1p1",

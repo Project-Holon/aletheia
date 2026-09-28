@@ -9,7 +9,7 @@
   {
    "name": "FS_LoadArchive",
    "address": "0x0207A4B0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/FS_LoadArchive.c",
    "compiler": "dsi/1.1p1",

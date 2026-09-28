@@ -9,7 +9,7 @@
   {
    "name": "WM_Init",
    "address": "0x0208E010",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/WM_Init.c",
    "compiler": "dsi/1.1p1",

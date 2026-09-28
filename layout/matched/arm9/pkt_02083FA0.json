@@ -9,7 +9,7 @@
   {
    "name": "NVRAMi_VerifyCallback",
    "address": "0x02083FA0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/NVRAMi_VerifyCallback.c",
    "compiler": "dsi/1.1p1",

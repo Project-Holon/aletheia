@@ -9,7 +9,7 @@
   {
    "name": "FS_CloseFile",
    "address": "0x02078A80",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/FS_CloseFile.c",
    "compiler": "dsi/1.1p1",

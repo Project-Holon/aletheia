@@ -9,7 +9,7 @@
   {
    "name": "string_fill_char",
    "address": "0x0208D734",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/string_fill_char.c",
    "compiler": "dsi/1.1p1",

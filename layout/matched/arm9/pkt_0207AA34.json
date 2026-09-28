@@ -9,7 +9,7 @@
   {
    "name": "FSi_RomArchiveProc",
    "address": "0x0207AA34",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/FSi_RomArchiveProc.c",
    "compiler": "dsi/1.1p1",

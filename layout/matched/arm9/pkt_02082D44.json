@@ -9,7 +9,7 @@
   {
    "name": "MI_CpuCopy8",
    "address": "0x02082D44",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/MI_CpuCopy8.c",
    "compiler": "dsi/1.1p1",

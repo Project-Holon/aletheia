@@ -9,7 +9,7 @@
   {
    "name": "OS_GetMacAddress",
    "address": "0x02087C6C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/OS_GetMacAddress.c",
    "compiler": "dsi/1.1p1",

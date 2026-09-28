@@ -9,7 +9,7 @@
   {
    "name": "OSi_GetAndDisplayContext",
    "address": "0x02086EB4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/OSi_GetAndDisplayContext.c",
    "compiler": "dsi/1.1p1",

@@ -9,7 +9,7 @@
   {
    "name": "string_put_string",
    "address": "0x0208D788",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/string_put_string.c",
    "compiler": "dsi/1.1p1",

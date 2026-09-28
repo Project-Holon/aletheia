@@ -9,7 +9,7 @@
   {
    "name": "MTX_Scale43_",
    "address": "0x0207B5F4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/MTX_Scale43_.c",
    "compiler": "dsi/1.1p1",

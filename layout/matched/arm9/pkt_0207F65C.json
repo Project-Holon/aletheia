@@ -9,7 +9,7 @@
   {
    "name": "GXS_EndLoadBGExtPltt",
    "address": "0x0207F65C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/GXS_EndLoadBGExtPltt.c",
    "compiler": "dsi/1.1p1",

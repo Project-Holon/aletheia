@@ -127,18 +127,6 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB1A0",
-   "address": "0x021AB1A0",
-   "kind": "game",
-   "region": "ov021",
-   "source": "src/matched/ov/sub_021AB1A0.c",
-   "compiler": "dsi/1.1p1",
-   "lang": "c99",
-   "isa": "thumb",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT"
-  },
-  {
    "name": "sub_021AB1AC",
    "address": "0x021AB1AC",
    "kind": "game",
@@ -391,18 +379,6 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB2F8",
-   "address": "0x021AB2F8",
-   "kind": "game",
-   "region": "ov021",
-   "source": "src/matched/ov/sub_021AB2F8.c",
-   "compiler": "dsi/1.1p1",
-   "lang": "c99",
-   "isa": "thumb",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT"
-  },
-  {
    "name": "sub_021AB304",
    "address": "0x021AB304",
    "kind": "game",
@@ -453,7 +429,7 @@
   {
    "name": "func_021AB334",
    "address": "0x021AB334",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov021",
    "source": "src/matched/ov_sdk/func_021AB334.c",
    "compiler": "dsi/1.1p1",
@@ -468,18 +444,6 @@
    "kind": "game",
    "region": "ov021",
    "source": "src/matched/ov/func_021AB348.c",
-   "compiler": "dsi/1.1p1",
-   "lang": "c99",
-   "isa": "thumb",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT"
-  },
-  {
-   "name": "sub_021AB358",
-   "address": "0x021AB358",
-   "kind": "game",
-   "region": "ov021",
-   "source": "src/matched/ov/sub_021AB358.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",
@@ -547,18 +511,6 @@
    "status": "EXACT"
   },
   {
-   "name": "sub_021AB3D4",
-   "address": "0x021AB3D4",
-   "kind": "game",
-   "region": "ov021",
-   "source": "src/matched/ov/sub_021AB3D4.c",
-   "compiler": "dsi/1.1p1",
-   "lang": "c99",
-   "isa": "thumb",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT"
-  },
-  {
    "name": "sub_021AB3E0",
    "address": "0x021AB3E0",
    "kind": "game",
@@ -588,18 +540,6 @@
    "kind": "game",
    "region": "ov021",
    "source": "src/matched/ov/sub_021AB3F8.c",
-   "compiler": "dsi/1.1p1",
-   "lang": "c99",
-   "isa": "thumb",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT"
-  },
-  {
-   "name": "sub_021AB404",
-   "address": "0x021AB404",
-   "kind": "game",
-   "region": "ov021",
-   "source": "src/matched/ov/sub_021AB404.c",
    "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",

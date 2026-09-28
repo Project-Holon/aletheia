@@ -9,7 +9,7 @@
   {
    "name": "MATHi_SHA1Fill",
    "address": "0x0208130C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/MATHi_SHA1Fill.c",
    "compiler": "dsi/1.1p1",

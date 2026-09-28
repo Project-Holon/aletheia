@@ -9,7 +9,7 @@
   {
    "name": "CallbackForJpeg",
    "address": "0x02008500",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/CallbackForJpeg.c",
    "compiler": "dsi/1.1p1",

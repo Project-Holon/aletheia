@@ -9,7 +9,7 @@
   {
    "name": "DC_WaitWriteBufferEmpty",
    "address": "0x02086314",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/DC_WaitWriteBufferEmpty.c",
    "compiler": "dsi/1.1p1",

@@ -9,7 +9,7 @@
   {
    "name": "OS_SendMessage",
    "address": "0x02085DBC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/OS_SendMessage.c",
    "compiler": "dsi/1.1p1",

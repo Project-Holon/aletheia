@@ -9,7 +9,7 @@
   {
    "name": "WM_GetConnectedAIDs",
    "address": "0x0208EA1C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/WM_GetConnectedAIDs.c",
    "compiler": "dsi/1.1p1",

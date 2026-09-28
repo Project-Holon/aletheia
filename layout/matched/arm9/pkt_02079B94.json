@@ -9,7 +9,7 @@
   {
    "name": "FSi_ReadFileDefault",
    "address": "0x02079B94",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/FSi_ReadFileDefault.c",
    "compiler": "dsi/1.1p1",

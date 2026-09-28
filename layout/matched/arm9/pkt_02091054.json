@@ -9,7 +9,7 @@
   {
    "name": "CTRDGi_ChangeLatestAccessCycle",
    "address": "0x02091054",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/CTRDGi_ChangeLatestAccessCycle.c",
    "compiler": "dsi/1.1p1",

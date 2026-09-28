@@ -9,7 +9,7 @@
   {
    "name": "OS_InitEvent",
    "address": "0x020882DC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/OS_InitEvent.c",
    "compiler": "dsi/1.1p1",

@@ -9,7 +9,7 @@
   {
    "name": "OS_SetIrqStackChecker",
    "address": "0x020849F4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/OS_SetIrqStackChecker.c",
    "compiler": "dsi/1.1p1",

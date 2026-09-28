@@ -9,7 +9,7 @@
   {
    "name": "PMi_TryToSendPxiData",
    "address": "0x0208BA70",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/PMi_TryToSendPxiData.c",
    "compiler": "dsi/1.1p1",

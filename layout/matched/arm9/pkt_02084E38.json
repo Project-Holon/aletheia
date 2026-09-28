@@ -9,7 +9,7 @@
   {
    "name": "OS_LockCard",
    "address": "0x02084E38",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/OS_LockCard.c",
    "compiler": "dsi/1.1p1",

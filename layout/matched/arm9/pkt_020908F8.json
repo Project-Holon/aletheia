@@ -9,7 +9,7 @@
   {
    "name": "WmDataSharingReceiveData",
    "address": "0x020908F8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/WmDataSharingReceiveData.c",
    "compiler": "dsi/1.1p1",

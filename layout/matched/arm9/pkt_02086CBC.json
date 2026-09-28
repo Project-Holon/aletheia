@@ -9,7 +9,7 @@
   {
    "name": "func_02086CBC",
    "address": "0x02086CBC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_02086CBC.c",
    "compiler": "dsi/1.1p1",

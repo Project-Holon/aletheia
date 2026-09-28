@@ -9,7 +9,7 @@
   {
    "name": "CTRDGi_IsTaskAvailable_0201C408",
    "address": "0x0201C408",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/CTRDGi_IsTaskAvailable_0201C408.c",
    "compiler": "dsi/1.1p1",

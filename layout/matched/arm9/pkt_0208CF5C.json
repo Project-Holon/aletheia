@@ -9,7 +9,7 @@
   {
    "name": "STDi_IsSpace",
    "address": "0x0208CF5C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/STDi_IsSpace.c",
    "compiler": "dsi/1.1p1",

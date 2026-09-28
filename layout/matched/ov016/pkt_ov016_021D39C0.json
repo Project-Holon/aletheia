@@ -9,7 +9,7 @@
   {
    "name": "DWCi_MOV_WH_MemInit",
    "address": "0x021D298C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D298C.c",
    "compiler": "dsi/1.1p1",
@@ -26,7 +26,7 @@
   {
    "name": "DWCi_MOV_WH_ChangeSysState",
    "address": "0x021D29C8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D29C8.c",
    "compiler": "dsi/1.1p1",
@@ -46,7 +46,7 @@
   {
    "name": "DWCi_MOV_WH_StateOutSetParentParam",
    "address": "0x021D2AA8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D2AA8.c",
    "compiler": "dsi/1.1p1",
@@ -66,7 +66,7 @@
   {
    "name": "DWCi_MOV_WH_StateInSetParentWEPKey",
    "address": "0x021D2B14",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D2B14.c",
    "compiler": "dsi/1.1p1",
@@ -87,7 +87,7 @@
   {
    "name": "DWCi_MOV_WH_StateOutSetParentWEPKey",
    "address": "0x021D2B74",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D2B74.c",
    "compiler": "dsi/1.1p1",
@@ -99,7 +99,7 @@
   {
    "name": "DWCi_MOV_WH_StateInStartParent",
    "address": "0x021D2BAC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D2BAC.c",
    "compiler": "dsi/1.1p1",
@@ -120,7 +120,7 @@
   {
    "name": "DWCi_MOV_WH_StateOutStartParent",
    "address": "0x021D2C0C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D2C0C.c",
    "compiler": "dsi/1.1p1",
@@ -143,7 +143,7 @@
   {
    "name": "DWCi_MOV_WH_StateInStartParentMP",
    "address": "0x021D2D6C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D2D6C.c",
    "compiler": "dsi/1.1p1",
@@ -163,7 +163,7 @@
   {
    "name": "DWCi_MOV_WH_StateOutStartParentMP",
    "address": "0x021D2E00",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D2E00.c",
    "compiler": "dsi/1.1p1",
@@ -185,7 +185,7 @@
   {
    "name": "DWCi_MOV_WH_StateInEndParentMP",
    "address": "0x021D2FBC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D2FBC.c",
    "compiler": "dsi/1.1p1",
@@ -202,7 +202,7 @@
   {
    "name": "DWCi_MOV_WH_StateOutEndParentMP",
    "address": "0x021D2FEC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D2FEC.c",
    "compiler": "dsi/1.1p1",
@@ -223,7 +223,7 @@
   {
    "name": "DWCi_MOV_WH_StateInEndParent",
    "address": "0x021D3040",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D3040.c",
    "compiler": "dsi/1.1p1",
@@ -240,7 +240,7 @@
   {
    "name": "DWCi_MOV_WH_StateOutEndParent",
    "address": "0x021D3068",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D3068.c",
    "compiler": "dsi/1.1p1",
@@ -252,7 +252,7 @@
   {
    "name": "DWCi_MOV_WH_StateInEndChildMP",
    "address": "0x021D30D8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D30D8.c",
    "compiler": "dsi/1.1p1",
@@ -269,7 +269,7 @@
   {
    "name": "DWCi_MOV_WH_StateOutEndChildMP",
    "address": "0x021D3108",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D3108.c",
    "compiler": "dsi/1.1p1",
@@ -287,7 +287,7 @@
   {
    "name": "DWCi_MOV_WH_StateInEndChild",
    "address": "0x021D313C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D313C.c",
    "compiler": "dsi/1.1p1",
@@ -304,7 +304,7 @@
   {
    "name": "DWCi_MOV_WH_StateOutEndChild",
    "address": "0x021D3178",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D3178.c",
    "compiler": "dsi/1.1p1",
@@ -316,7 +316,7 @@
   {
    "name": "DWCi_MOV_WH_StateInReset",
    "address": "0x021D319C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D319C.c",
    "compiler": "dsi/1.1p1",
@@ -333,7 +333,7 @@
   {
    "name": "DWCi_MOV_WH_StateOutReset",
    "address": "0x021D31CC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D31CC.c",
    "compiler": "dsi/1.1p1",
@@ -345,7 +345,7 @@
   {
    "name": "DWCi_MOV_WH_StateOutEnd",
    "address": "0x021D3200",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D3200.c",
    "compiler": "dsi/1.1p1",
@@ -357,7 +357,7 @@
   {
    "name": "DWCi_MOV_WH_StartMeasureChannel",
    "address": "0x021D3264",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D3264.c",
    "compiler": "dsi/1.1p1",
@@ -374,7 +374,7 @@
   {
    "name": "DWCi_MOV_WH_StateInMeasureChannel",
    "address": "0x021D3340",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D3340.c",
    "compiler": "dsi/1.1p1",
@@ -391,7 +391,7 @@
   {
    "name": "DWCi_MOV_WH_StateOutMeasureChannel",
    "address": "0x021D33E0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D33E0.c",
    "compiler": "dsi/1.1p1",
@@ -409,7 +409,7 @@
   {
    "name": "WHi_MeasureChannel",
    "address": "0x021D34C0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D34C0.c",
    "compiler": "dsi/1.1p1",
@@ -421,7 +421,7 @@
   {
    "name": "DWCi_MOV_WH_GetMeasureChannel",
    "address": "0x021D34E0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D34E0.c",
    "compiler": "dsi/1.1p1",
@@ -439,7 +439,7 @@
   {
    "name": "SelectChannel",
    "address": "0x021D3554",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D3554.c",
    "compiler": "dsi/1.1p1",
@@ -456,7 +456,7 @@
   {
    "name": "DWCi_MOV_WH_IndicateHandler",
    "address": "0x021D36B0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D36B0.c",
    "compiler": "dsi/1.1p1",
@@ -468,7 +468,7 @@
   {
    "name": "DWCi_MOV_WH_StateOutInitialize",
    "address": "0x021D371C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D371C.c",
    "compiler": "dsi/1.1p1",
@@ -485,7 +485,7 @@
   {
    "name": "DWCi_MOV_WH_ParentConnect",
    "address": "0x021D376C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D376C.c",
    "compiler": "dsi/1.1p1",
@@ -508,7 +508,7 @@
   {
    "name": "DWCi_MOV_WH_StepDS",
    "address": "0x021D3904",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D3904.c",
    "compiler": "dsi/1.1p1",
@@ -527,7 +527,7 @@
   {
    "name": "DWCi_MOV_WH_Reset",
    "address": "0x021D39A4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D39A4.c",
    "compiler": "dsi/1.1p1",
@@ -544,7 +544,7 @@
   {
    "name": "DWCi_MOV_WH_Finalize",
    "address": "0x021D39C0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
    "source": "src/matched/ov_sdk/ov016_func_021D39C0.c",
    "compiler": "dsi/1.1p1",

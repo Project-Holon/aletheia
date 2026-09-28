@@ -9,7 +9,7 @@
   {
    "name": "FSi_ROMFAT_OpenFileDirect",
    "address": "0x02079FEC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/FSi_ROMFAT_OpenFileDirect.c",
    "compiler": "dsi/1.1p1",

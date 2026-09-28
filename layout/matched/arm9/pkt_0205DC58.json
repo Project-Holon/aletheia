@@ -9,7 +9,7 @@
   {
    "name": "DWC_AC_CancelGetWDSInfo",
    "address": "0x0205DC58",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/DWC_AC_CancelGetWDSInfo.c",
    "compiler": "dsi/1.1p1",

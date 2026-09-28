@@ -9,7 +9,7 @@
   {
    "name": "GetProgramaError",
    "address": "0x0205D178",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/GetProgramaError.c",
    "compiler": "dsi/1.1p1",
