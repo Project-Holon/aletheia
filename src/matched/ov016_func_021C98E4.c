@@ -1,29 +1,29 @@
 /*
  * function: setOffset
  * address:  0x021C98E4
- * packet:   pkt_ov016_021C8F20
+ * packet:   pkt_ov016_021C98E4
  * region:   ov016
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
  *
  * symbols:
  *   FX_DivS32                        0x0207C958  arm
  *   FX_ModS32                        0x0207C994  arm
  *   scenesetlist_bss                 0x021DE5EC  data
  *
- * Blocker: DIFF, 8 bytes short. The original keeps an 8-byte frame for x and y (their
- * addresses feed the inlined G2_GetOBJPosition) and re-reads MemSsl->icon after the test;
- * no spelling tried here keeps the frame under 1.1p1 (permuter seed 9203 flat).
+ * The 8-byte frame for x and y comes from passing their addresses to the inlined
+ * G2_GetOBJPosition as (unsigned long *) casts (its parameters are u32 pointers); with int *
+ * parameters 1.1p1 promotes both and drops the frame.
  *
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(scenesetlist.o), symbol setOffset (name and prototype from the
  * vendor object DWARF). The object is stamped Metrowerks C/C++ for ARM 4.0.0.1025, which
  * no tools/mwccarm build writes, so it stays on the default dsi/1.1p1.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/ov016_func_021C98E4.c \
+ *   python tools/match.py one --src src/matched/ov016_func_021C98E4.c \
  *       --func setOffset --addr 0x021C98E4 --region ov016 --cc 1.1p1 --arm
  */
 typedef _Bool bool;
@@ -113,13 +113,13 @@ extern long FX_ModS32(long a, long b);
 
 static inline void G2_SetOBJPosition(GXOamAttr *oam, int x, int y)
 {
-    oam->attr01 = ((x & 0x1FF) << 16) | (oam->attr01 & 0xFE00FF00) | (y & 0xFF);
+    oam->attr01 = (oam->attr01 & 0xFE00FF00) | (y & 0xFF) | ((x & 0x1FF) << 16);
 }
 
-static inline void G2_GetOBJPosition(const GXOamAttr *oam, int *x, int *y)
+static inline void G2_GetOBJPosition(const GXOamAttr *oam, unsigned long *x, unsigned long *y)
 {
-    *x = (int)((oam->attr01 & 0x01FF0000) >> 16);
-    *y = (int)(oam->attr01 & 0xFF);
+    *x = (oam->attr01 & 0x01FF0000) >> 16;
+    *y = (oam->attr01 & 0x000000FF) >> 0;
 }
 
 void setOffset(void)
@@ -134,24 +134,24 @@ void setOffset(void)
     cell = FX_DivS32(scenesetlist_bss.Pos, 29);
     dif = 0x34 - FX_ModS32(scenesetlist_bss.Pos, 29);
     if (scenesetlist_bss.MemSsl->icon) {
-        if (cell)
-            x = 256;
-        else
+        if (!cell)
             x = 38;
+        else
+            x = 256;
         G2_SetOBJPosition(scenesetlist_bss.MemSsl->icon, x, dif);
     }
     for (i = 0, cy = dif; i < 5; i++, cy += 29) {
-        G2_GetOBJPosition(scenesetlist_bss.MemSsl->obj[i], &x, &y);
+        G2_GetOBJPosition(scenesetlist_bss.MemSsl->obj[i], (unsigned long *)&x, (unsigned long *)&y);
         G2_SetOBJPosition(scenesetlist_bss.MemSsl->obj[i], x, cy);
     }
-    if (cell > 2) {
-        G2_SetOBJPosition(scenesetlist_bss.MemSsl->obj[5], 256, 0);
-    } else {
-        G2_GetOBJPosition(scenesetlist_bss.MemSsl->obj[5], &x, &y);
+    if (cell <= 2) {
+        G2_GetOBJPosition(scenesetlist_bss.MemSsl->obj[5], (unsigned long *)&x, (unsigned long *)&y);
         G2_SetOBJPosition(scenesetlist_bss.MemSsl->obj[5], x, (2 - cell) * 29 + dif);
+    } else {
+        G2_SetOBJPosition(scenesetlist_bss.MemSsl->obj[5], 256, 0);
     }
     if (cell >= 2 && cell <= 6) {
-        G2_GetOBJPosition(scenesetlist_bss.MemSsl->obj[6], &x, &y);
+        G2_GetOBJPosition(scenesetlist_bss.MemSsl->obj[6], (unsigned long *)&x, (unsigned long *)&y);
         G2_SetOBJPosition(scenesetlist_bss.MemSsl->obj[6], x, (6 - cell) * 29 + dif);
     } else {
         G2_SetOBJPosition(scenesetlist_bss.MemSsl->obj[6], 256, 0);

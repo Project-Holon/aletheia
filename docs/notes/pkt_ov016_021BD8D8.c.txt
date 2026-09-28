@@ -1,0 +1,37 @@
+=== 2026-09-28 sdk_overlays_6: keyboard.o (libdwcutil), three near misses ===
+All -O4,p dsi/1.1p1 c99 (object stamped 4.0.0.1025). Sources in src/pending
+(ov016_func_021BE844.c disp, ov016_func_021BF2B0.c taskEnd5, ov016_func_021BD8D8.c DWCi_KBlInit).
+The 22 EXACT siblings are in shard pkt_ov016_021BD8D8.
+
+taskEnd5 0x021BF2B0 (224 bytes, compiled 208, 31 lines)
+  Every loop is right. The original loads &MemKb once for the canv/cellCanv nest (r7, after the
+  DWCi_TSKlDelete call) and again, into r4, in front of each of the three later loops, then takes a
+  second pool word for DWCi_HEAPlFree_(&MemKb). 1.1p1 CSEs the address into one register loaded
+  before the TSKlDelete call and shares one pool word. Other compilers: every dsi build 31 lines,
+  ../2.0/sp1p2 and sp2p4 7 lines (they reorder the TSKlDelete argument setup instead).
+  Permuter seed 9802 (budget 400): 3 bytes out, 4 short, only by binding `tmp = (void **)&MemKb`
+  (a local the DWARF does not list) in front of the last loop; that turns the per-loop reloads on,
+  so what the original has is something that makes &MemKb escape or look call-clobbered before the
+  loops. Not tried: a static definition of MemKb in the unit (the vendor symbol is a file static).
+
+disp 0x021BE844 (656 bytes, compiled 652, 147 lines)
+  Shape is right after three levers: the running index `for (i = 0; i < N_KEY[line]; i++, ix++)` with
+  ix = line * 12 (the original keeps ix in its own register and re-reads line * 12 from a spill for
+  the FNTlDisp x), G2_SetOBJPosition spelled mask, y, x, and the three 5-byte initialisers copied from
+  keyboard_str_20914/20916/20918 (@20914 N_KEY, @20916 N_SKEY, @20918 N_BTN). The residue is the
+  prologue: the original loads N_KEY[4] first and interleaves the fifteen byte copies with the
+  line * 12 setup in a 0x18 frame (one spill slot); 1.1p1 copies in order and needs a 0x1c..0x20
+  frame. Struct locals and cast-copied u8[5] arrays measure the same. Compiler sweep: every dsi build
+  147..149, 2.0 157.
+
+DWCi_KBlInit 0x021BD8D8 (844 bytes, compiled 876, 151 lines)
+  Closed so far: AREA a = { 0 } then a.w = 17, a.h = 18 (the original zero-fills all four fields and
+  then stores w, h); CN_SKEY and CN_BTN declared as their own vendor symbols (the loops index them
+  through their own pool words, see docs/idioms/an-indexed-array-inside-a-section-struct-needs-its-own-symbol-in-a-loop.md).
+  Residue from the button loop on: the original holds 0 in sb for the skey loop's lcd argument and
+  reuses sb as the button loop counter, keeps 0 in sl for the next loop and the canv outer counter,
+  keeps 2 (color) in fp and materialises 0x480 per call; 1.1p1 spills a zero to sp+0x10 and hoists
+  0x480, which costs a 0x24 frame for 0x20. Swapping the loop variables of the skey and button loops
+  among i, j, k changes nothing (151 every time).
+  Permuter: disp seed 9803 budget 400 flat (464 bytes out); DWCi_KBlInit seed 9804 budget 400 flat
+  (506 bytes out, best only with invented temps).

@@ -25,3 +25,10 @@ isPush 0x021C9A94 (636 bytes, compiled 620)
   w,h / strh) and the YES/NO copies store t twice (copy, then t + i * 29). The draft loads all
   four fields first; spelling t as `A_YES.t + i * 29` drops even more stores; memberwise copy
   and every declaration order of a, cell, i measured the same. Permuter seed 9202, flat.
+
+=== 2026-09-28 sdk_overlays_6: setOffset 0x021C98E4 closed (EXACT, shard pkt_ov016_021C98E4) ===
+The 8-byte frame comes back when x and y reach the inlined G2_GetOBJPosition as (unsigned long *)
+casts (u32 pointer parameters). With the frame in place three more spellings closed it:
+G2_SetOBJPosition as mask | y | x (docs/idioms/g2-set-obj-position-is-mask-then-y-then-x.md),
+`if (!cell) x = 38; else x = 256;`, and the obj[5] test written `if (cell <= 2) { get/set } else
+{ set 256 }` so the 256 arm is the predicated else. initGraphics and isPush not revisited.

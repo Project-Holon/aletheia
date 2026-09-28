@@ -1,151 +1,289 @@
 /*
- * function: func_021C57E4
+ * function: draw
  * address:  0x021C57E4
- * packet:   pkt_ov016_021C57E4
+ * packet:   pkt_ov016_021C50D4
  * region:   ov016
- * compiler: dsi/1.1p1
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
- * State tick sibling of func_021C8C88 for the object published at
- * 0x021DE5D8+4: dispatch on func_021CE998(), drive the +0x55/+0x57/+0x58
- * flags and recompute the 0x021DE5D8+2 halfword as
- * func_0207C958(func_021CE984() * o->f40, o->f53).  States 4 and 6 arm the
- * func_021C60EC / func_021C61A4 callback through func_021D7680(..., 0x78).
- * Addresses are Black-image addresses.
- *
- * blocker: the two `bl 0x021CE984` sites cap at MATCH, exactly as in
- * src/pending/ov016_func_021C8C88.c: 0x021CE984 is a real ARM leaf that
- * ov016 never traced a label at (`func_021CE998` at 0x021CE998 is its
- * traced sibling), so label / sole-ref/code cannot fire; naming it
- * `func_021CE984` is refused because ov021 overlaps the address with a
- * thumb label; and every referrer is inside this range.  Everything else is
- * byte-correct, the two call sites are wildcarded.
  * symbols:
- *   dat_021DE5D8  0x021DE5D8  data
- *   func_021BD5A8 0x021BD5A8  arm  ov016
- *   func_021CE998 0x021CE998  arm  ov016
- *   func_021BCB9C 0x021BCB9C  arm  ov016
- *   func_021BCB84 0x021BCB84  arm  ov016
- *   func_021C5D9C 0x021C5D9C  arm  ov016
- *   func_021CFFAC 0x021CFFAC  arm  ov016
- *   func_021C628C 0x021C628C  arm  ov016
- *   func_021D7680 0x021D7680  arm  ov016
- *   func_021C60EC 0x021C60EC  arm  ov016
- *   func_021C61A4 0x021C61A4  arm  ov016
- *   func_0207C958 0x0207C958  arm
- *   func_0207C994 0x0207C994  arm
+ *   DWCi_BTNlDisable                 0x021BCB9C  arm
+ *   DWCi_BTNlEnable                  0x021BCB84  arm
+ *   DWCi_FOCUSlDelete                0x021BD5A8  arm
+ *   DWCi_SBlGet                      0x021CE984  arm
+ *   DWCi_SBlGetState                 0x021CE998  arm
+ *   DWCi_SNDlPlay                    0x021CFFAC  arm
+ *   DWCi_TSKlForm                    0x021D7680  arm
+ *   FX_DivS32                        0x0207C958  arm
+ *   FX_ModS32                        0x0207C994  arm
+ *   dispFocus                        0x021C628C  arm
+ *   drawApInfo                       0x021C5D9C  arm
+ *   scenesetaplist_bss               0x021DE5D8  data
+ *   taskDown                         0x021C61A4  arm
+ *   taskUp                           0x021C60EC  arm
+ *
+ * SDK: TwlDWC libdwcutil.TWL.HYB.a(scenesetaplist.o), symbol draw (name and prototype from the
+ * vendor object DWARF). The object is stamped Metrowerks C/C++ for ARM 4.0.0.1025, which
+ * no tools/mwccarm build writes, so it stays on the default dsi/1.1p1.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/ov016_func_021C57E4.c \
+ *       --func draw --addr 0x021C57E4 --region ov016 --cc 1.1p1 --arm
  */
+typedef _Bool bool;
 
-typedef struct Sub021C57E4 {
-    char _38[0x38];
-    int f38;
-    char _3c[0x40 - 0x3c];
-    unsigned short f40;
-    char _42[0x51 - 0x42];
-    unsigned char f51;
-    char _52[0x53 - 0x52];
-    unsigned char f53;
-    char _54[0x55 - 0x54];
-    unsigned char f55;
-    char _56[0x57 - 0x56];
-    unsigned char f57;
-    unsigned char f58;
-} Sub021C57E4;
+typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
+typedef struct { unsigned long attr01; unsigned short attr2; unsigned short _3; } GXOamAttr;
 
-typedef struct Base021C57E4 {
-    char _0[2];
-    unsigned short f2;
-    Sub021C57E4 *o4;
-} Base021C57E4;
+typedef struct tagAPINFO {
+    unsigned char  ssid[32];          /* 0x00 */
+    unsigned char  bssid[6];          /* 0x20 */
+    unsigned short level;             /* 0x26 */
+    unsigned char  wep;               /* 0x28 */
+} APINFO;
 
-extern Base021C57E4 dat_021DE5D8;
+typedef struct tagMEMSSAL {
+    APINFO        *info;              /* 0x00 */
+    void          *back;              /* 0x04 */
+    void          *pltt;              /* 0x08 */
+    void          *canv;              /* 0x0C */
+    GXOamAttr     *objWep[5];         /* 0x10 */
+    GXOamAttr     *objLevel[5];       /* 0x24 */
+    void          *task;              /* 0x38 */
+    void          *taskV;             /* 0x3C */
+    unsigned short distScroll;        /* 0x40 */
+    unsigned short nameWep[3];        /* 0x42 */
+    unsigned short nameLv[4];         /* 0x48 */
+    signed char    push;              /* 0x50 */
+    unsigned char  apNum;             /* 0x51 */
+    unsigned char  apIdx;             /* 0x52 */
+    unsigned char  distBar;           /* 0x53 */
+    unsigned char  choose;            /* 0x54 */
+    unsigned char  disp;              /* 0x55 */
+    bool           renew;             /* 0x56 */
+    bool           scroll;            /* 0x57 */
+    bool           sound[2];          /* 0x58 */
+} MEMSSAL;
 
-extern int func_021CE998(void);
-extern int sub_ce984(void);
-extern void func_021BD5A8(void);
-extern void func_021BCB9C(void);
-extern void func_021BCB84(void);
-extern void func_021C5D9C(void);
-extern void func_021CFFAC(int);
-extern int func_0207C958(unsigned int, unsigned int);
-extern int func_0207C994(unsigned short, int);
-extern void func_021C628C(void);
-extern int func_021D7680(int, void *, int, int);
-extern void func_021C60EC(void);
-extern void func_021C61A4(void);
+/* scenesetaplist.o .bss at 0x021DE5D8, members at their vendor offsets */
+typedef struct {
+    unsigned char  Focus;             /* 0x00 */
+    unsigned short Pos;               /* 0x02 */
+    MEMSSAL       *MemSsal;           /* 0x04 */
+} SCENESETAPLIST_BSS;
+extern SCENESETAPLIST_BSS scenesetaplist_bss;
 
-void func_021C57E4(void)
+/* scenesetaplist.o .rodata at 0x021DA51C, members at their vendor offsets */
+typedef struct {
+    unsigned char  CELL_WEP[3];       /* 0x00 */
+    unsigned char  CELL_LV[4];        /* 0x03 */
+    RECT           R_TOUCH[5];        /* 0x08 */
+    RECT           R_FOCUS[5];        /* 0x30 */
+} SCENESETAPLIST_RODATA;
+extern const SCENESETAPLIST_RODATA scenesetaplist_rodata;
+
+typedef struct NCFGApInfo {
+    unsigned char  ispId[32];         /* 0x00 */
+    unsigned char  ispPass[32];       /* 0x20 */
+    unsigned char  ssid[2][32];       /* 0x40 */
+    unsigned char  wep[4][16];        /* 0x80 */
+    unsigned char  ip[4];             /* 0xC0 */
+    unsigned char  gateway[4];        /* 0xC4 */
+    unsigned char  dns[2][4];         /* 0xC8 */
+    unsigned char  netmask;           /* 0xD0 */
+    unsigned char  wep2[4][5];        /* 0xD1 */
+    unsigned char  authType;          /* 0xE5 */
+    unsigned char  wepMode : 2;       /* 0xE6 */
+    unsigned char  wepNotation : 6;   /* 0xE6 */
+    unsigned char  setType;           /* 0xE7 */
+    unsigned char  ssidLength[2];     /* 0xE8 */
+    unsigned short mtu;               /* 0xEA */
+    unsigned char  rsv[2];            /* 0xEC */
+    unsigned char  flags;             /* 0xEE */
+    unsigned char  state;             /* 0xEF */
+} NCFGApInfo;
+
+typedef struct tagSETTINGINFO {
+    NCFGApInfo     ap;                /* 0x00 */
+    unsigned char  netmask[4];        /* 0xF0 */
+    unsigned char  idx;               /* 0xF4 */
+    bool           ipAuto;            /* 0xF5 */
+    bool           dnsAuto;           /* 0xF6 */
+} SETTINGINFO;
+
+extern RECT DWCi_R_SCR;
+
+extern void DWCi_ARClRelease(void *file);
+extern void DWCi_BTNlDisable(void);
+extern void DWCi_BTNlEnable(void);
+extern void DWCi_BTNlEnd(void);
+extern int DWCi_BTNlGet(void);
+extern bool DWCi_BTNlIsEnd(void);
+extern void DWCi_BTNlSet(int idx);
+extern void DWCi_CEINlSet(int lcd, int idx, GXOamAttr *obj);
+extern GXOamAttr *DWCi_CEINlSetExObj(int lcd, int idx);
+extern void DWCi_CMNlStep(int step);
+extern bool DWCi_COMMENTlDelete(void);
+extern bool DWCi_COMMENTlDispEx(int messageId, int n, int num);
+extern void DWCi_ChangeScene(void (*scene)());
+extern bool DWCi_EFFlCheck(int lcd);
+extern bool DWCi_EFFlFade(int kind, int lcd, int plane, int frame);
+extern bool DWCi_EFFlWait(int frame);
+extern void DWCi_FNTlClear(void *canvas, int color);
+extern void DWCi_FNTlDeleteBg(void *canvas);
+extern void DWCi_FNTlDrawStringEx(void *canvas, int x, int y, int color, int interval, unsigned short *txt, int font);
+extern void *DWCi_FNTlFormBgEx(int lcd, int font);
+extern void DWCi_FNTlRenewBg(void *canvas);
+extern void DWCi_FOCUSlDelete(void);
+extern void DWCi_FOCUSlDisp(int kind, int x0, int x1, int y);
+extern void DWCi_GXlInvisible(int lcd, int plane);
+extern void DWCi_GXlVisible(int lcd, int plane);
+extern void DWCi_GetParam2_(void **param2, void **param3);
+extern void *DWCi_HEAPlAllocEx(unsigned long size, int alignment);
+extern void DWCi_HEAPlFree_(void **mem);
+extern void DWCi_HLlLoadSet(void);
+extern bool DWCi_IPTlCheckRelease(unsigned short input);
+extern bool DWCi_IPTlCheckRepeat(unsigned short input);
+extern bool DWCi_IPTlCheckTrigger(unsigned short input);
+extern void DWCi_OBJlDelete(GXOamAttr *obj);
+extern void DWCi_SBlDisable(void);
+extern void DWCi_SBlEnable(void);
+extern void DWCi_SBlEnd(void);
+extern int DWCi_SBlGet(void);
+extern int DWCi_SBlGetState(void);
+extern void DWCi_SBlInit(int kind, int max, int x, int y, int pos);
+extern void DWCi_SBlSet(int pos);
+extern void DWCi_SCREENlCopyPalette(void *src, int sColor, int dColor);
+extern void DWCi_SCREENlEnd(void);
+extern void DWCi_SEARCHlEnd(void);
+extern int DWCi_SEARCHlGetApInfo(APINFO **info);
+extern SETTINGINFO *DWCi_SETTIGNlGet(void);
+extern void DWCi_SETTINGlSetSetting(int idx);
+extern void DWCi_SETTINGlSetSsid(char *ssid);
+extern void DWCi_SNDlPlay(int no);
+extern int DWCi_STRlNLen(char *s, int maxlen);
+extern void DWCi_SetParam2_(void *param2, void *param3);
+extern void DWCi_SetParam_(void *param0, void *param1);
+extern bool DWCi_TPlCheckRelease(RECT *r);
+extern bool DWCi_TPlCheckTrigger(RECT *r);
+extern void DWCi_TSKlDelete(int kind, void *task);
+extern void DWCi_TSKlDeleteEx(int kind, void *task);
+extern void *DWCi_TSKlForm(int kind, void (*func)(void *, void *), void *work, unsigned char prio);
+extern void DWCi_WINlEnd(void);
+extern int DWCi_WINlGet(void);
+extern void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num);
+extern bool DWCi_WINlIsInit(void);
+extern long FX_DivS32(long a, long b);
+extern long FX_ModS32(long a, long b);
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
+
+extern void DWCi_SceneSetEdit32(void);
+extern void DWCi_SceneSetSearch(void);
+extern void DWCi_SceneSetSelectWay(void);
+extern void DWCi_SceneSetTestConfirm(void);
+
+static void dispFocus(void);
+static void dispPushButton(void);
+static void drapApObj(int ap, int column);
+static void drawAp(int ap, int column);
+static void drawApInfo(void);
+static void endScene(void);
+static void endScene1(void);
+static void endScene2(void);
+static void getCharName(void);
+static void initGraphics(void);
+static void initScrollBar(void);
+static void moveFocus(int dir);
+static void procError(void);
+static void procError1(void);
+static void procInit(void);
+static void procInit1(void);
+static void procScene(void);
+static void scrollDown(void);
+static void scrollUp(void);
+static void setOffset(void);
+static void taskDown(void *task);
+static void taskUp(void *task);
+static void taskVBlank(void);
+
+static inline void G2_SetOBJPosition(GXOamAttr *oam, int x, int y)
 {
-    if (dat_021DE5D8.o4->f38 != 0)
-        return;
-    if (dat_021DE5D8.o4->f55 != 0)
-        dat_021DE5D8.o4->f55--;
+    oam->attr01 = (oam->attr01 & 0xFE00FF00) | (y & 0xFF) | ((x & 0x1FF) << 16);
+}
 
-    switch (func_021CE998()) {
+static inline void G2_SetOBJPriority(GXOamAttr *oam, int priority)
+{
+    oam->attr2 = (unsigned short)((oam->attr2 & ~0xC00) | (priority << 10));
+}
+
+static void draw(void)
+{
+    int def;
+
+    if (scenesetaplist_bss.MemSsal->task != 0)
+        return;
+    if (scenesetaplist_bss.MemSsal->disp != 0)
+        scenesetaplist_bss.MemSsal->disp--;
+
+    switch (DWCi_SBlGetState()) {
     case 1:
-        dat_021DE5D8.o4->f57 = 1;
-        func_021BCB9C();
+        scenesetaplist_bss.MemSsal->scroll = 1;
+        DWCi_BTNlDisable();
         return;
     case 2:
-        if (dat_021DE5D8.o4->f55 != 0)
+        if (scenesetaplist_bss.MemSsal->disp != 0)
             return;
-        func_021BD5A8();
-        dat_021DE5D8.f2 = func_0207C958(
-            sub_ce984() * dat_021DE5D8.o4->f40, dat_021DE5D8.o4->f53);
-        func_021C5D9C();
-        dat_021DE5D8.o4->f55 = 4;
+        DWCi_FOCUSlDelete();
+        scenesetaplist_bss.Pos = FX_DivS32(DWCi_SBlGet() * scenesetaplist_bss.MemSsal->distScroll, scenesetaplist_bss.MemSsal->distBar);
+        drawApInfo();
+        scenesetaplist_bss.MemSsal->disp = 4;
         return;
-    case 3: {
-        int v;
-
-        dat_021DE5D8.o4->f57 = 0;
-        func_021BCB84();
-        dat_021DE5D8.f2 = func_0207C958(
-            sub_ce984() * dat_021DE5D8.o4->f40, dat_021DE5D8.o4->f53);
-        func_021CFFAC(0x13);
-        func_021C5D9C();
-        v = func_0207C994(dat_021DE5D8.f2, 0x1c);
-        if (v == 0) {
-            func_021C628C();
+    case 3:
+        scenesetaplist_bss.MemSsal->scroll = 0;
+        DWCi_BTNlEnable();
+        scenesetaplist_bss.Pos = FX_DivS32(DWCi_SBlGet() * scenesetaplist_bss.MemSsal->distScroll, scenesetaplist_bss.MemSsal->distBar);
+        DWCi_SNDlPlay(0x13);
+        drawApInfo();
+        def = FX_ModS32(scenesetaplist_bss.Pos, 28);
+        if (def == 0) {
+            dispFocus();
             return;
         }
-        if (v < 0xe) {
-            dat_021DE5D8.o4->f38 = func_021D7680(0, (void *)func_021C60EC, 0, 0x78);
+        if (def < 14) {
+            scenesetaplist_bss.MemSsal->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskUp, 0, 0x78);
             return;
         }
-        dat_021DE5D8.o4->f38 = func_021D7680(0, (void *)func_021C61A4, 0, 0x78);
+        scenesetaplist_bss.MemSsal->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskDown, 0, 0x78);
         return;
-    }
     case 4:
-        if (dat_021DE5D8.f2 == 0) {
-            if (dat_021DE5D8.o4->f58 != 0)
+        if (scenesetaplist_bss.Pos == 0) {
+            if (scenesetaplist_bss.MemSsal->sound[0] != 0)
                 return;
-            func_021CFFAC(9);
-            dat_021DE5D8.o4->f58 = 1;
+            DWCi_SNDlPlay(9);
+            scenesetaplist_bss.MemSsal->sound[0] = 1;
             return;
         }
-        func_021CFFAC(0x13);
-        dat_021DE5D8.o4->f38 = func_021D7680(0, (void *)func_021C60EC, 0, 0x78);
+        DWCi_SNDlPlay(0x13);
+        scenesetaplist_bss.MemSsal->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskUp, 0, 0x78);
         return;
     case 6:
-        if (dat_021DE5D8.o4->f51 > 4
-                && dat_021DE5D8.f2 != dat_021DE5D8.o4->f40)
-            goto case6_else;
-        if (dat_021DE5D8.o4->f58 != 0)
+        if (scenesetaplist_bss.MemSsal->apNum > 4 && scenesetaplist_bss.Pos != scenesetaplist_bss.MemSsal->distScroll)
+            goto down;
+        if (scenesetaplist_bss.MemSsal->sound[0] != 0)
             return;
-        func_021CFFAC(9);
-        dat_021DE5D8.o4->f58 = 1;
+        DWCi_SNDlPlay(9);
+        scenesetaplist_bss.MemSsal->sound[0] = 1;
         return;
-    case6_else:
-        func_021CFFAC(0x13);
-        dat_021DE5D8.o4->f38 = func_021D7680(0, (void *)func_021C61A4, 0, 0x78);
+    down:
+        DWCi_SNDlPlay(0x13);
+        scenesetaplist_bss.MemSsal->task = DWCi_TSKlForm(0, (void (*)(void *, void *))taskDown, 0, 0x78);
         return;
     case 5:
     case 7:
-        dat_021DE5D8.o4->f58 = 0;
+        scenesetaplist_bss.MemSsal->sound[0] = 0;
         return;
     }
     return;
