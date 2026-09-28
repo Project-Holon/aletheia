@@ -9,7 +9,7 @@
   {
    "name": "DWCi_BM_GetApInfo",
    "address": "0x020584E0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_020584E0.c",
    "compiler": "dsi/1.1p1",
@@ -21,7 +21,7 @@
   {
    "name": "DWCi_BM_GetApInfoEx",
    "address": "0x020584F4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_020584F4.c",
    "compiler": "dsi/1.1p1",
@@ -38,7 +38,7 @@
   {
    "name": "WriteSlotInfo",
    "address": "0x02058634",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_02058634.c",
    "compiler": "dsi/1.1p1",
@@ -50,7 +50,7 @@
   {
    "name": "DWCi_BACKUPlRead",
    "address": "0x02058770",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_02058770.c",
    "compiler": "dsi/1.1p1",
@@ -62,7 +62,7 @@
   {
    "name": "DWCi_BACKUPlSetWiFi",
    "address": "0x020587E0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_020587E0.c",
    "compiler": "dsi/1.1p1",
@@ -74,7 +74,7 @@
   {
    "name": "DWCi_BACKUPlConvMaskAddr",
    "address": "0x0205883C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0205883C.c",
    "compiler": "dsi/1.1p1",
@@ -86,7 +86,7 @@
   {
    "name": "DWC_BACKUPlCheckAddress",
    "address": "0x020588D0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_020588D0.c",
    "compiler": "dsi/1.1p1",
@@ -98,7 +98,7 @@
   {
    "name": "DWCi_Acc_SetMaskBits",
    "address": "0x02059058",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_02059058.c",
    "compiler": "dsi/1.1p1",
@@ -110,7 +110,7 @@
   {
    "name": "DWCi_Acc_GetUserId",
    "address": "0x02059084",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_02059084.c",
    "compiler": "dsi/1.1p1",
@@ -122,7 +122,7 @@
   {
    "name": "DWCi_Acc_SetUserId",
    "address": "0x020590C8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_020590C8.c",
    "compiler": "dsi/1.1p1",
@@ -139,7 +139,7 @@
   {
    "name": "DWCi_Acc_GetFlags",
    "address": "0x02059108",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_02059108.c",
    "compiler": "dsi/1.1p1",
@@ -149,21 +149,9 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0205911C",
-   "address": "0x0205911C",
-   "kind": "game",
-   "region": "arm9",
-   "source": "src/matched/arm9_sdk/func_0205911C.c",
-   "compiler": "dsi/1.1p1",
-   "lang": "c99",
-   "isa": "arm",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
-  },
-  {
    "name": "DWCi_IsBuddyFriendData",
    "address": "0x0205915C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0205915C.c",
    "compiler": "dsi/1.1p1",
@@ -175,7 +163,7 @@
   {
    "name": "DWCi_IsReverseBuddyFriendData",
    "address": "0x02059194",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_02059194.c",
    "compiler": "dsi/1.1p1",
@@ -187,7 +175,7 @@
   {
    "name": "DWCi_IsBuddyMsgAlreadySent",
    "address": "0x020591B0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_020591B0.c",
    "compiler": "dsi/1.1p1",
@@ -199,7 +187,7 @@
   {
    "name": "DWCi_Acc_SetFlags",
    "address": "0x020591D8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_020591D8.c",
    "compiler": "dsi/1.1p1",
@@ -211,7 +199,7 @@
   {
    "name": "DWCi_Acc_SetFlag_DataType",
    "address": "0x020591F0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_020591F0.c",
    "compiler": "dsi/1.1p1",
@@ -223,7 +211,7 @@
   {
    "name": "func_020596B0",
    "address": "0x020596B0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_020596B0.c",
    "compiler": "dsi/1.1p1",
@@ -235,7 +223,7 @@
   {
    "name": "DWCi_Acc_IsAuthentic",
    "address": "0x020596C8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_020596C8.c",
    "compiler": "dsi/1.1p1",
@@ -247,7 +235,7 @@
   {
    "name": "DWC_IsValidFriendData",
    "address": "0x020596D8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_020596D8.c",
    "compiler": "dsi/1.1p1",
@@ -259,7 +247,7 @@
   {
    "name": "DWC_CreateUserData",
    "address": "0x020596FC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_020596FC.c",
    "compiler": "dsi/1.1p1",
@@ -269,14 +257,15 @@
    "status": "EXACT",
    "evidence": {
     "sdk": [
-     "0x02059508"
+     "0x02059508",
+     "0x0205A10C"
     ]
    }
   },
   {
    "name": "DWCi_Acc_IsDirty",
    "address": "0x02059858",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_02059858.c",
    "compiler": "dsi/1.1p1",
@@ -288,7 +277,7 @@
   {
    "name": "DWC_LoginIdToUserName",
    "address": "0x02059A44",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_02059A44.c",
    "compiler": "dsi/1.1p1",
@@ -300,7 +289,7 @@
   {
    "name": "DWC_GetLastError",
    "address": "0x02059E18",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_02059E18.c",
    "compiler": "dsi/1.1p1",
@@ -312,7 +301,7 @@
   {
    "name": "DWC_ClearError",
    "address": "0x02059F18",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_02059F18.c",
    "compiler": "dsi/1.1p1",
@@ -324,7 +313,7 @@
   {
    "name": "DWCi_SetError",
    "address": "0x02059F54",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_02059F54.c",
    "compiler": "dsi/1.1p1",
@@ -341,7 +330,7 @@
   {
    "name": "CARDi_CommandBegin",
    "address": "0x0205A11C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0205A11C.c",
    "compiler": "dsi/1.1p1",
@@ -353,7 +342,7 @@
   {
    "name": "DWCi_SetAllocateHeader",
    "address": "0x0205A134",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0205A134.c",
    "compiler": "dsi/1.1p1",
@@ -363,21 +352,9 @@
    "status": "EXACT"
   },
   {
-   "name": "func_0205A148",
-   "address": "0x0205A148",
-   "kind": "game",
-   "region": "arm9",
-   "source": "src/matched/arm9_sdk/func_0205A148.c",
-   "compiler": "dsi/1.1p1",
-   "lang": "c99",
-   "isa": "arm",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
-  },
-  {
    "name": "DWCi_SetMemFunc",
    "address": "0x0205A158",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0205A158.c",
    "compiler": "dsi/1.1p1",
@@ -389,7 +366,7 @@
   {
    "name": "DWC_Alloc",
    "address": "0x0205A16C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0205A16C.c",
    "compiler": "dsi/1.1p1",
@@ -401,7 +378,7 @@
   {
    "name": "DWC_Free",
    "address": "0x0205A1B0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0205A1B0.c",
    "compiler": "dsi/1.1p1",
@@ -413,7 +390,7 @@
   {
    "name": "func_0205A1EC",
    "address": "0x0205A1EC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0205A1EC.c",
    "compiler": "dsi/1.1p1",
@@ -430,7 +407,7 @@
   {
    "name": "DWC_ReallocEx",
    "address": "0x0205A200",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0205A200.c",
    "compiler": "dsi/1.1p1",
@@ -448,7 +425,7 @@
   {
    "name": "DWCi_GsMalloc",
    "address": "0x0205A26C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0205A26C.c",
    "compiler": "dsi/1.1p1",
@@ -460,7 +437,7 @@
   {
    "name": "DWCi_GsRealloc",
    "address": "0x0205A280",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0205A280.c",
    "compiler": "dsi/1.1p1",
@@ -477,7 +454,7 @@
   {
    "name": "DWCi_GsFree",
    "address": "0x0205A29C",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0205A29C.c",
    "compiler": "dsi/1.1p1",
@@ -489,7 +466,7 @@
   {
    "name": "DWCi_GsMemalign",
    "address": "0x0205A2B4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0205A2B4.c",
    "compiler": "dsi/1.1p1",
@@ -501,7 +478,7 @@
   {
    "name": "WDSGetRssi8",
    "address": "0x0205A2C8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0205A2C8.c",
    "compiler": "dsi/1.1p1",
@@ -513,7 +490,7 @@
   {
    "name": "WDS_GetWorkAreaSize",
    "address": "0x0205A4C8",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0205A4C8.c",
    "compiler": "dsi/1.1p1",
@@ -525,7 +502,7 @@
   {
    "name": "GetPowerMode",
    "address": "0x0205B790",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0205B790.c",
    "compiler": "dsi/1.1p1",
@@ -537,7 +514,7 @@
   {
    "name": "GetAuthMode",
    "address": "0x0205B7B0",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0205B7B0.c",
    "compiler": "dsi/1.1p1",
@@ -549,7 +526,7 @@
   {
    "name": "DWC_AC_GetSecuritySetting",
    "address": "0x0205BE58",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0205BE58.c",
    "compiler": "dsi/1.1p1",
@@ -561,7 +538,7 @@
   {
    "name": "DWC_AC_CheckWiFiStation",
    "address": "0x0205BFD4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0205BFD4.c",
    "compiler": "dsi/1.1p1",
@@ -573,7 +550,7 @@
   {
    "name": "DWCi_AC_GetPhase",
    "address": "0x0205C2C4",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0205C2C4.c",
    "compiler": "dsi/1.1p1",
@@ -585,7 +562,7 @@
   {
    "name": "DWCi_AC_GetError",
    "address": "0x0205C308",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0205C308.c",
    "compiler": "dsi/1.1p1",
@@ -597,7 +574,7 @@
   {
    "name": "DWC_GetCheckNintendoZoneWorkSize",
    "address": "0x0205CF24",
-   "kind": "game",
+   "kind": "sdk",
    "region": "arm9",
    "source": "src/matched/arm9_sdk/func_0205CF24.c",
    "compiler": "dsi/1.1p1",
