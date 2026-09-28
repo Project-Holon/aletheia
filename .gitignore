@@ -62,6 +62,7 @@ __pycache__/
 
 # Scratch files (temporary test files used during decompilation)
 /scratch/
+/scratchpad/
 
 # Junction to the companion port repository (Documents/eidos) so VS Code shows both repos
 /eidos/
