@@ -7,10 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
- * notes:    15 bytes: the two inlined host-name block copies load dst/src into r4/r3 swapped (and their literal-pool order follows); strcpy, memcpy, struct and loop spellings all tried; StatsServerHostname (0x021A5850) also has no outside witness. sdk9w2_dwc also tried: string-literal struct casts, local struct initialisers, compound literals, inline copy helpers with either parameter order, switch forms, strcpy with restrict prototypes, __builtin_strcpy/__builtin_memcpy, and dsi/1.1 to 1.6sp2: all keep src-first (12 to 15 bytes); permuter seed 13302 no gain
+ * status:   EXACT
  *
- * sdk:      DWCi_Init (libdwccommon.TWL.HYB.a dwc_init.o)
+ * sdk:      DWCi_Init (dwc_init.o)
  *
  * symbols:
  *   DWCi_SetMemFunc                0x0205A158 arm
@@ -33,9 +32,11 @@
  *   DWCi_GsMemalign                0x0205A2B4 arm
  *   gcd_gamename                   0x021AE01C data a1
  *   StatsServerHostname            0x021A5850 data a1
- *   str_sdkdev                     0x020A8070 data a1
- *   str_gamestats                  0x020A8084 data a1
+ *   @16103                         0x020A8070 data a1
+ *   @16104                         0x020A8084 data a1
  */
+
+#include "libc/string.h"
 
 typedef unsigned long u32;
 
@@ -57,7 +58,6 @@ extern void  DWC_Free(int name, void *ptr, u32 size);
 extern int   DWCi_Auth_InitInterface(int auth_server);
 extern void  gsiMemoryCallbacksSet(void *(*p_malloc)(u32), void (*p_free)(void *),
                                    void *(*p_realloc)(void *, u32), void *(*p_memalign)(u32, u32));
-extern char *strcpy(char *dst, const char *src);
 extern void  DWCi_Np_SetInitFlag(int initialized);
 extern void *DWCi_GsMalloc(u32 size);
 extern void  DWCi_GsFree(void *ptr);
@@ -68,13 +68,8 @@ extern u32  dwci_gamecode;
 extern char gcd_gamename[];
 extern char StatsServerHostname[];
 
-/* the object copies its two host-name literals (@16103, @16104) into
- * StatsServerHostname as fixed-size blocks, NUL included */
-typedef struct { char s[19]; } DWCHostName19;
-typedef struct { char s[30]; } DWCHostName30;
-extern const DWCHostName19 str_sdkdev;      /* "sdkdev.gamespy.com" */
-extern const DWCHostName30 str_gamestats;   /* "gamestats.gs.nintendowifi.net" */
-
+/* @16103 "sdkdev.gamespy.com", @16104 "gamestats.gs.nintendowifi.net":
+ * both strcpy calls below are expanded inline (see libc/string.h) */
 int func_02059FA8(int authserver, const char *gameName, u32 gameCode, DWCAllocEx alloc, DWCFreeEx free)
 {
     int ret;
@@ -113,9 +108,9 @@ int func_02059FA8(int authserver, const char *gameName, u32 gameCode, DWCAllocEx
     if (gameName != 0)
         strcpy(gcd_gamename, gameName);
     if (authserver == 0)
-        *(DWCHostName19 *)StatsServerHostname = str_sdkdev;
+        strcpy(StatsServerHostname, "sdkdev.gamespy.com");
     else
-        *(DWCHostName30 *)StatsServerHostname = str_gamestats;
+        strcpy(StatsServerHostname, "gamestats.gs.nintendowifi.net");
     DWCi_Np_SetInitFlag(1);
     return result;
 }

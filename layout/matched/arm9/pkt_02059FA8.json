@@ -1,0 +1,39 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "arm9",
+ "shard": "pkt_02059FA8",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "func_02059FA8",
+   "address": "0x02059FA8",
+   "kind": "sdk",
+   "region": "arm9",
+   "source": "src/matched/arm9_sdk/func_02059FA8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021A5850",
+     "self:0x021AE01C"
+    ],
+    "sdk": [
+     "0x02059008",
+     "0x0205A11C",
+     "0x0205A158",
+     "0x0205A26C",
+     "0x0205A280",
+     "0x0205A29C",
+     "0x0205A2B4",
+     "0x02178C88",
+     "0x0217EA9C"
+    ]
+   }
+  }
+ ]
+}
