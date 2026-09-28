@@ -7,13 +7,17 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   DIFF (plain C, -O4,p); EXACT under match.py one with the zero-byte asm statement below
  *
  * sdk:      WmInitCore (libwm.TWL.HYB.a(wm_system.o))
  *           .comment Metrowerks C/C++ for ARM 4.0.0.1024
- *           DIFF under -O4,p: both counted loops come out rotated (first test folded); the object enters
- *           each loop with an unconditional b to a bottom test. Under -O2,p the whole body matches
- *           except an r5/r6 swap (e and bufSize), but the rest of wm_system.o is -O4,p only.
+ *           Both counted loops are entered with a b to a bottom test and their constant first
+ *           test is not folded. Under 1.1p1 -O4,p no C spelling or opt pragma does that; any
+ *           inline asm in the function (a statement, or an inlined helper that holds one) puts
+ *           mwcc in the mode that keeps the b-to-test loop form, and with a zero-byte
+ *           `asm { .align 4 }` after OS_DisableInterrupts the whole function is byte-identical
+ *           (640 bytes). Unfiled: the statement emits no instruction, so it is not an asm body
+ *           under the lane brief's evidence rule; it needs an integrator ruling.
  *           static in the object (local symbol WmInitCore).  wm_system.o .bss: wmInitialized (u16)
  *           at +0 and wm9buf at +4 share one pool word (g_02153058, as in WM_Init.c); bufMsgQ,
  *           bufMsg and fifoBuf each have their own pool word.
@@ -126,6 +130,7 @@ WMErrCode func_0208E038(void *wmSysBuf, u16 dmaNo, u32 bufSize)
     OSIntrMode e;
 
     e = OS_DisableInterrupts();
+    asm { .align 4 } /* zero bytes: selects mwcc's inline-asm optimisation mode */
 
     if (OS_IsRunOnTwl()) {
         if (NWM_CheckInitialized() != 3) {
