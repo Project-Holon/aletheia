@@ -35,3 +35,7 @@ DWCi_KBlInit 0x021BD8D8 (844 bytes, compiled 876, 151 lines)
   among i, j, k changes nothing (151 every time).
   Permuter: disp seed 9803 budget 400 flat (464 bytes out); DWCi_KBlInit seed 9804 budget 400 flat
   (506 bytes out, best only with invented temps).
+
+=== 2026-09-28 sdk_overlays_8 ===
+taskEnd5 0x021BF2B0 closed EXACT with the section lever (see pkt_ov016_021BF74C.c.txt): reads through
+`keyboard_bss.MemKb` (0x021DE55C), free through `&MemKb`. disp and DWCi_KBlInit not revisited.

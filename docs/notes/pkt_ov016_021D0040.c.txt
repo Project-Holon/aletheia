@@ -1,0 +1,12 @@
+=== 2026-09-28 sdk_overlays_8: step.o (libdwcutil), 15 EXACT, two near misses ===
+All dsi/1.1p1 -O4,p c99 (object stamped 4.0.0.1025). File and MemStep are the two file statics of
+one .bss section (0x021DE64C); every access goes through the section base (step_bss.MemStep is
+[base, #4]) and taskEnd4's &MemStep takes its own pool word, which the section struct gives for free.
+Locals x, y: declare x first (DWARF x fb+4, y fb+0).
+
+taskBegin4 0x021D04BC and taskEnd0 0x021D06A4 (the single-cell steps, 12 bytes each). In the arm that
+sets x to its end position, the original schedules `ldr MemStep` ahead of `str x` and the cell load
+after it; 1.1p1 stores x immediately. The loop forms of the same code (taskBegin0..3, taskEnd1..3)
+match. Tried: x = N inside the call argument, if/return shapes (62 bytes worse), inverted guard,
+a void *cell temp (23), an idx local for the cell index. Permuter: not run (the permuter reports a
+compile error on the step.o source through the File/MemStep macros; did not chase).

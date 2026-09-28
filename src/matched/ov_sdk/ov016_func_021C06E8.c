@@ -7,8 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
- * blocker:  30 lines: the original reloads &MemKb10 from the pool after the TSKlDelete call and again in front of each later loop, with a second pool word for DWCi_HEAPlFree_(&MemKb10); 1.1p1 keeps the address in one register (the keyboard.o taskEnd5 residue). Notes: docs/notes/pkt_ov016_021BF74C.c.txt
+ * status:   EXACT
  *
  * symbols:
  *   DWCi_CEINlSet                    0x021D52D4  arm
@@ -41,6 +40,7 @@
  *   DWCi_TSKlChangeFunc              0x021D771C  arm
  *   DWCi_TSKlDelete                  0x021D7724  arm
  *   DWCi_TSKlForm                    0x021D7680  arm
+ *   keyboard10_bss                   0x021DE560  data
  *   MemKb10                          0x021DE560  data
  *   changeColor                      0x021C0328  arm
  *   disp                             0x021C00A8  arm
@@ -74,7 +74,7 @@
  * no tools/mwccarm build writes, so it stays on the default dsi/1.1p1.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/ov_sdk/ov016_func_021C06E8.c \
+ *   python tools/match.py one --src src/matched/ov_sdk/ov016_func_021C06E8.c \
  *       --func taskEnd5 --addr 0x021C06E8 --region ov016 --cc 1.1p1 --arm --lang c99
  */
 typedef _Bool bool;
@@ -109,6 +109,11 @@ typedef struct tagMEMKB10 {
 
 /* keyboard10.o .bss at 0x021DE560 */
 extern MEMKB10 *MemKb10;
+/* the object reads the file static through its .bss section symbol and takes &MemKb10 through the
+   variable's own symbol, so the free gets a second pool word (see
+   docs/idioms/a-duplicated-pool-word-is-a-second-extern-name-for-the-same-address.md) */
+typedef struct { MEMKB10 *MemKb10; } KEYBOARD10_BSS;
+extern KEYBOARD10_BSS keyboard10_bss;
 
 /* keyboard10.o .rodata at 0x021DA35C, members at their vendor offsets */
 typedef struct {
@@ -226,14 +231,14 @@ static void taskEnd5(void *task)
 
     DWCi_TSKlDelete(0, task);
     for (i = 0; i < 4; i++) {
-        DWCi_CELLlDelete(MemKb10->cellCanv[i]);
-        DWCi_FNTlDelete(MemKb10->canv[i]);
+        DWCi_CELLlDelete(keyboard10_bss.MemKb10->cellCanv[i]);
+        DWCi_FNTlDelete(keyboard10_bss.MemKb10->canv[i]);
     }
     for (i = 0; i < 2; i++)
-        DWCi_CELLlDelete(MemKb10->button[i]);
+        DWCi_CELLlDelete(keyboard10_bss.MemKb10->button[i]);
     for (i = 0; i < 2; i++)
-        DWCi_OBJlDelete(MemKb10->skey[i]);
+        DWCi_OBJlDelete(keyboard10_bss.MemKb10->skey[i]);
     for (i = 0; i < 10; i++)
-        DWCi_OBJlDelete(MemKb10->key[i]);
+        DWCi_OBJlDelete(keyboard10_bss.MemKb10->key[i]);
     DWCi_HEAPlFree_((void **)&MemKb10);
 }

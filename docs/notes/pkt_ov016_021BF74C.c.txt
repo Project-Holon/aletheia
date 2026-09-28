@@ -21,3 +21,14 @@ disp 0x021C00A8 (640 bytes, 148 lines)
 DWCi_KB10lInit 0x021BF390 (800 bytes): not started. Locals from DWARF: AREA a [fb+24] (initialised
   from @20601 at 0x021DA460), int num [fb+20], unsigned short buf[2] [fb+16], ix r8, i r5, j r9.
   keyboard.o's DWCi_KBlInit near miss (same notes file as above) is the closest template.
+
+=== 2026-09-28 sdk_overlays_8 ===
+taskEnd5 0x021C06E8 closed EXACT (moved to src/matched/ov_sdk). The per-loop &MemKb10 reloads and the
+second pool word both come from the object reading the file static through its .bss section symbol
+and taking &MemKb10 through the variable's own symbol: reads go through
+`extern KEYBOARD10_BSS keyboard10_bss` (one member, MemKb10, at 0x021DE560) and the free keeps
+`DWCi_HEAPlFree_((void **)&MemKb10)`. Two extern names for one address give two pool words
+(docs/idioms/a-duplicated-pool-word-is-a-second-extern-name-for-the-same-address.md).
+DWCi_KB10lInit 0x021BF390 EXACT: `AREA a = keyboard10_str_20601` then a.w, a.h; locals declared
+a, num, ix, i, j, buf (the first declared gets the highest slot); CN_SKEY, CN_BTN, KEY_CHR as their
+own vendor symbols. disp 0x021C00A8 not revisited.

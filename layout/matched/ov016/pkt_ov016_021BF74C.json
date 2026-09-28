@@ -7,6 +7,27 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
+   "name": "DWCi_KB10lInit",
+   "address": "0x021BF390",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021BF390.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DA35E",
+     "self:0x021DA360",
+     "self:0x021DA396",
+     "self:0x021DA460",
+     "self:0x021DE560"
+    ]
+   }
+  },
+  {
    "name": "taskStart0",
    "address": "0x021BF74C",
    "kind": "sdk",
@@ -335,6 +356,23 @@
     ],
     "sdk": [
      "0x021C06E8"
+    ]
+   }
+  },
+  {
+   "name": "taskEnd5",
+   "address": "0x021C06E8",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021C06E8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DE560"
     ]
    }
   }

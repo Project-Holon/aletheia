@@ -1,0 +1,15 @@
+=== 2026-09-28 sdk_overlays_8: scenesetusbready (two archive members), 11 EXACT, three near misses ===
+All dsi/1.1p1 -O4,p c99. The archive has two members whose names truncate to `scenesetusbready`;
+tools/sdkobj.py reads the first (DWCi_SceneSetUsbReady, shard pkt_ov016_021CDCAC) and cannot reach
+the second (DWCi_SceneSetUsbReady1 and its steps, shard pkt_ov016_021CE1B0), so the second's names
+are the symbols_sdk rows and its types come from the accesses (Choose u8 at 0x021DE62C).
+procBoth: the switch lists case 1 before case 0 (source order places the bodies).
+
+endScene2 0x021CDF98 (own member, 88 bytes out) and endScene2 0x021CE364 (second member, 125):
+the original rematerialises the constant 1 at each call (GXlInvisible(1, 1), SetParam_(2, 1)) and
+keeps only 0 in a callee-saved register; 1.1p1 CSEs 1 into r4/r5 across the calls, which changes
+the push list. Tried: early return for the first arm. Permuter seed 11103 budget 200: 85 bytes out.
+endScene1 0x021CE2F4 (64): the original keeps 1 in r4 across EFFlCheck(1) into the first fade's
+arguments and rematerialises 3 and 8 per fade; 1.1p1 CSEs 3 and 8. Permuter seed 11104 budget 200:
+59 bytes out, only with invented temps.
+Not started: DWCi_SceneSetUsbReady1 0x021CE070 (152), cbUsb 0x021CE45C (264).

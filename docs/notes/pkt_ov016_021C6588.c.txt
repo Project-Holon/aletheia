@@ -1,0 +1,13 @@
+=== 2026-09-28 sdk_overlays_8: scenesetedit32.o (libdwcutil), 13 EXACT + 2 copies, one near miss ===
+All dsi/1.1p1 -O4,p c99. Levers: stack locals declared in reverse DWARF frame order (first declared
+gets the highest slot); @20570 / @20639 / @20694 initialisers as extern structs copied by assignment;
+dispCaret computes x, y unconditionally then overrides for pos >= 32; endScene3's second MemSse pool
+word is the section-symbol lever (reads through scenesetedit32_bss, free through &MemSse).
+The copy at 0x021C7738 filed as endScene1 calls DWCi_KB10lEnd, not DWCi_KBlEnd: it is a sibling
+scene's step (ten-key keyboard), not a byte copy.
+
+input 0x021C687C (400 bytes, 318 concrete bytes out, all from one shifted instruction). Every case
+body is identical; only the switch dispatch differs: the original checks the 0x80..0x83 cluster first
+(cmp #0x83 / bgt default, cmp #0x80 / blt to the zero test, beq 0x80, then 0x82, 0x83) and tests 0
+last; 1.1p1 tests 0 first. Tried: case order (0 last), `case 0x81:` folded into default (310).
+Permuter seed 11102 budget 300: flat (260 bytes out, only with an invented temp).
