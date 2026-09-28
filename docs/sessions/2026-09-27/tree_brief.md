@@ -67,3 +67,15 @@ seeds (unlabelled starts with a witness site), anything the integrator must do.
 - Uncommitted leftovers from a lane cut by the session limit may already be in the tree
   under the new folders: check `git status` for your territory first and salvage per
   docs/sessions/2026-09-27/relaunch_note.md.
+
+## Addendum 3: naming standard (2026-09-28)
+
+A function's identity is its address. Names follow one rule so every tool can resolve them:
+
+- Game functions are named by their listing label, `func_XXXXXXXX`; no `ovNNN_` prefix, no `sub_` or `unit_` forms, inside the C and in the shard `name` field.
+- SDK functions keep their vendor symbol name (from `tools/sdkobj.py` or `sdkclass.py --where`).
+- Every overlay source file is named `ovNNN_<name>.c` (for example `src/matched/ov/ov135_func_021F7F9C.c`), because overlays sharing a window share addresses.
+- The shard `kind` field matches the folder: `ov/` is game, `ov_sdk/` is sdk.
+- An address counts only once it is a code label in its own overlay's listing. If the listing shows your function as `.word` data, seed it in `layout/function_starts.txt` with a witness comment and regenerate that listing before filing; report every seed.
+
+The census of existing mismatches is `docs/sessions/2026-09-27/namecensus.tsv`; a dedicated lane fixes those, so do not rename committed files outside your own work.
