@@ -1,0 +1,20 @@
+=== 2026-09-28 sdk_arm9_6: TP_CalcCalibrateParam 0x0208AF18 (dsi/1.1p1, -O4,p) ===
+Best source: src/pending/TP_CalcCalibrateParam.c (status DIFF, 492/492 bytes, 17 bytes out).
+
+Closed on the way to 17 bytes:
+- Writing the divider denominator as one plain (non-volatile) u64 lvalue
+  (REG_CP_DIV_DENOM = (u32)x) instead of two vu32 halves: took the frame from
+  a separate 8-byte area down to the r3 slot and produced the image's stm of
+  {dy_width, zero} (520 -> 492 bytes).
+- ry_width assigned before dy_width (48 -> 17 bytes).
+
+What is left: the y tail after OS_RestoreInterrupts.  The original holds the
+-0x8000 bound in r1 and computes tmp32 (the y0 value) in r0; the draft swaps
+them (r0 bound, r1 value).  Everything before is identical.
+
+Tried without effect (all stay at 17): all 24 declaration orders of
+ry_width/dy_width/tmp32/enabled; `enabled = OS_RestoreInterrupts(enabled)`;
+the y0 value into dy_width instead of tmp32; an empty else after the yDotSize
+range check; an extra (s32) cast on the shifted sum.  Splitting the range test
+into two ifs is worse (32).  Permuter seed 9301 (budget 1500): best 17, no
+improvement.
