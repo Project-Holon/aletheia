@@ -1,0 +1,46 @@
+/*
+ * function: func_021988F4
+ * address:  0x021988F4
+ * packet:   pkt_ov009_021988F4
+ * region:   ov009
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ * near miss: registers allocate one extra callee-saved (r8) for p[0]; original
+ * keeps it in r1 and copies to r7 only on the != path. 0x021992FC is the same
+ * body with callees 0x0217EFB8/0x0217F038 at other addresses (same diff).
+ *
+ * symbols:
+ *   func_0217EFB8  0x0217EFB8  arm  ov009
+ *   func_0217F038  0x0217F038  arm  ov009
+ */
+
+extern int *func_0217EFB8(void);
+extern int func_0217F038(int *p);
+
+int func_021988F4(void)
+{
+    int i;
+    int *o;
+    int r = 0;
+    o = func_0217EFB8();
+
+    if (o == 0) {
+        return 0;
+    }
+    for (i = 0; ; i++) {
+        int *p = ((int **)o[3])[i];
+        if (p == 0) {
+            break;
+        }
+        if (p[0] != 0x0100007F) {
+            r = p[0];
+            if (func_0217F038(p) != 0) {
+                return r;
+            }
+        }
+    }
+    return r;
+}

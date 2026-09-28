@@ -1,0 +1,45 @@
+/*
+ * function: func_02157818
+ * address:  0x02157818
+ * packet:   pkt_ov010_02157818
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0203F328  0x0203F328  arm
+ *   func_02082D44  0x02082D44  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern void func_0203F328(void *, int, u32);
+extern void func_02082D44(void *, void *, u32);
+
+void func_02157818(u8 *p)
+{
+    u8 *base;
+    int i;
+
+    base = p;
+    i = 0;
+    base = p + 0x7C;
+
+    for (; i < 0x12; i++) {
+        u32 off = i * 0x54;
+        u8 *e = base + i * 100;
+        u32 n;
+
+        func_0203F328(e + 8, 0x54, *(u32 *)(e + 4));
+        n = (u16)off;
+        if (*(int *)(p + 8) > (int)(n + 0x54))
+            func_02082D44(e + 8, (u8 *)*(u32 *)(p + 0xC) + off, 0x54);
+        else
+            func_02082D44(e + 8, (u8 *)*(u32 *)(p + 0xC) + off, *(int *)(p + 8) - n);
+    }
+}

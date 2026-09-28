@@ -1,0 +1,81 @@
+DIFF ov010 0x02157760 (184 B): 3-slot frame (push r4-r7, sub sp,#0xc) not reproduced; compiler merges the two identical p+0x31B8 pointer locals (sel/sel2) into one slot [sp+4] and pushes r3 with sub sp,#8. Registers, control flow and bac-in-each-arm layout all match. Tried &p->sel vs q+0x31B8 for the second pointer, goto-rel vs per-arm calls.
+Unresolved: func_02177B2C, func_02177BAC etc need ov hints when filed.
+
+/*
+ * function: func_02157760
+ * address:  0x02157760
+ * packet:   pkt_ov010_02157760
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02177B2C  0x02177B2C  thumb
+ *   func_02177BAC  0x02177BAC  thumb
+ *   func_0203F1FC  0x0203F1FC  arm
+ *   func_021780C4  0x021780C4  thumb
+ *   func_02082D44  0x02082D44  arm
+ *   func_02177BCC  0x02177BCC  thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern u8 *func_02177B2C(int);
+extern void func_02177BAC(int);
+extern u32 func_0203F1FC(void *, u32);
+extern void func_021780C4(int);
+extern void func_02082D44(void *, void *, u32);
+extern void func_02177BCC(void);
+
+typedef struct P {
+    u8 pad00[0x31B8];
+    u8 sel;
+} P;
+
+void func_02157760(u8 *q)
+{
+    P *p = (P *)q;
+    u8 *base;
+    u8 *sel;
+    u8 *sel2;
+    int i;
+    u8 *e;
+    int idx;
+
+    base = q;
+    base = q + 0x7C;
+    sel2 = q + 0x31B8;
+    sel = &p->sel;
+    for (i = 0; i < 16; i++) {
+        e = func_02177B2C(i);
+        if (e == 0)
+            continue;
+        if (e[0x5F] != *(u32 *)(q + 0x10)) {
+            func_02177BAC(i);
+        } else if ((*(u32 *)(q + 0x14) & *(u32 *)(e + 0x60)) == 0) {
+            func_02177BAC(i);
+        } else if (e[0x5E] != p->sel && p->sel != 0xFF) {
+            func_02177BAC(i);
+        } else {
+            idx = e[0x5C] - 1;
+            if (idx >= 0x12)
+                continue;
+            if (q[idx * 100 + 0xD8] != 0)
+                continue;
+            if (func_0203F1FC(e + 8, 0x54) != *(u16 *)e) {
+                func_02177BAC(i);
+            } else {
+                if (*sel == 0xFF)
+                    *sel2 = e[0x5E];
+                func_021780C4(i);
+                func_02082D44(e, base + idx * 100, 100);
+                func_02177BCC();
+            }
+        }
+    }
+}

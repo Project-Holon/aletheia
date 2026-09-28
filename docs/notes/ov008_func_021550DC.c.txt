@@ -1,0 +1,49 @@
+/*
+ * function: func_021550DC
+ * address:  0x021550DC
+ * packet:   pkt_ov008_021550DC
+ * region:   ov008
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * near miss: DIFF 11 bytes: only the r5/r6 swap (original r6=state ptr, r5=object; ours r5=state, r6=object); switch/if forms, statement order, struct forms tried.
+ *
+ * symbols:
+ *   func_020120F4  0x020120F4  thumb
+ *   func_020120B4  0x020120B4  thumb
+ *   func_020120F0  0x020120F0  thumb
+ *   d_0215513C     0x0215513C  data  ov008  a4
+ */
+
+int func_020120F4(int h);
+void func_020120B4(int h, int a, void *t, int *q);
+int func_020120F0(int h);
+extern char d_0215513C[];
+
+int func_021550DC(int u, int *st, int *o)
+{
+    int h = o[0];
+    int *q;
+
+    switch (*st) {
+    case 0:
+        q = o + 4;
+        o[4] = func_020120F4(h);
+        q[2] = o[2];
+        q[1] = o[1];
+        q[3] = *(int *)(o[2] + 0x48);
+        q[4] = *(int *)(o[2] + 0x4c);
+        q[5] = o[3];
+        func_020120B4(h, -1, d_0215513C, q);
+        (*st)++;
+        break;
+    case 1:
+        if (func_020120F0(h) == 0)
+            return 1;
+        break;
+    }
+    return 0;
+}

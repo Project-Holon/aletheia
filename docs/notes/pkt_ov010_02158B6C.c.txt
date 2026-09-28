@@ -1,0 +1,56 @@
+/* NOTE: DIFF: original keeps a copy of the list pointer in r5 (push r4-r6) and reuses r1 as the id and later as the base; compiler folds the cursor into the parameter register (push r3-r5). Cursor local, base local, duplicated zero check all tried */
+/*
+ * function: func_02158B6C
+ * address:  0x02158B6C
+ * packet:   pkt_ov010_02158B6C
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_0201296C  0x0201296C  thumb
+ *   func_020143CC  0x020143CC  thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern int func_0201296C(void);
+extern u16 *func_020143CC(int);
+
+#define RD16(p) ((u16)((p)[0] + ((p)[1] << 8)))
+
+u16 func_02158B6C(int a, u8 *list, u32 key)
+{
+    u8 *p = list;
+    u8 *base;
+    u8 *q;
+    int h;
+    for (;; p += 6) {
+        u16 id = RD16(p);
+        if (id == 0)
+            return 0xFFFF;
+        if (key == id) {
+            key = p[2] + (p[3] << 8) + (p[4] << 16) + (p[5] << 24);
+            base = p + 6;
+            break;
+        }
+    }
+    if (key == 0)
+        return 0xFFFF;
+    q = base + key;
+    h = func_0201296C();
+    for (;; q += 6) {
+        u16 id = RD16(q);
+        if (id == 0)
+            return 0xFFFF;
+        if (id == 0)
+            return 0xFFFF;
+        if (RD16(q + 2) == *func_020143CC(h))
+            return RD16(q + 4);
+    }
+}

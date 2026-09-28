@@ -1,0 +1,46 @@
+/*
+ * function: func_021567B8
+ * address:  0x021567B8
+ * packet:   pkt_ov009_021567B8
+ * region:   ov009
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   g_021A8264  0x021A8264  data  ov009  a4
+ *   func_0205912C  0x0205912C  arm
+ *   func_02168848  0x02168848  arm  ov009
+ *   func_02082BCC  0x02082BCC  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u8 *g_021A8264;
+extern int func_0205912C(u8 *);
+extern u32 func_02168848(u8 *, u8 *, int *);
+extern void func_02082BCC(u8 *, u32, u32);
+
+void func_021567B8(void)
+{
+    if (*(u8 **)(g_021A8264 + 0x100) != 0) {
+        u32 i = *(u32 *)(g_021A8264 + 0x74c) & 0x1f;
+        u32 o = i * 12;
+        int n;
+        if (func_0205912C(*(u8 **)(g_021A8264 + 0x100) + o) != 0) {
+            u32 r = func_02168848(*(u8 **)(g_021A8264 + 0x100) + o,
+                                  g_021A8264 + 0x34c + i * 32, &n);
+            if (n < 1) {
+                (g_021A8264 + i)[0x32c] = 0;
+                func_02082BCC(g_021A8264 + 0x34c + i * 32, 0, 0x20);
+            } else {
+                (g_021A8264 + i)[0x32c] = r;
+            }
+        }
+        *(u32 *)(g_021A8264 + 0x74c) += 1;
+    }
+}

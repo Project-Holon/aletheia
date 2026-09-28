@@ -1,0 +1,72 @@
+/*
+ * function: func_0215444C
+ * address:  0x0215444C
+ * packet:   pkt_ov006_0215444C
+ * region:   ov006
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * near miss: DIFF 18 bytes: original loads a->r into r1 and spills the second call result (sp+4) after two field loads; every C spelling tried (struct/char* forms, q assigned before/after, local order) spills it right after the call and loads a->r into r0.
+ *
+ * symbols:
+ *   func_020399A8  0x020399A8  arm
+ *   func_0203D1A4  0x0203D1A4  arm
+ *   func_02012950  0x02012950  thumb
+ *   func_020084F4  0x020084F4  thumb
+ *   func_02008550  0x02008550  thumb
+ *   func_0201A948  0x0201A948  thumb
+ */
+
+typedef struct {
+    int f0, f4, f8;
+    unsigned char fc;
+    int f10, f14;
+    unsigned char f18;
+    int f1c, f20, f24;
+} Sub;
+typedef struct {
+    int pad[5];
+    int t14[2];
+    int f1c;
+} R;
+typedef struct {
+    char pad[0x20];
+    Sub s;
+    char pad2[0x5c - 0x48];
+    R *r;
+    char pad3[0x168 - 0x60];
+    int f168;
+} O;
+
+void func_020399A8(void);
+int func_0203D1A4(void);
+int func_02012950(int a, int b);
+int func_020084F4(void);
+int func_02008550(int a);
+void func_0201A948(int a);
+
+void func_0215444C(O *a, int b)
+{
+    int x, y, t;
+    Sub *q;
+
+    func_020399A8();
+    x = func_0203D1A4();
+    y = 1 - x;
+    t = func_02012950(b, y);
+    a->s.f0 = a->r->f1c;
+    q = &a->s;
+    q->f4 = a->r->t14[x];
+    q->f8 = func_020084F4();
+    q->fc = func_02008550(t);
+    q->f10 = a->r->t14[y];
+    q->f14 = b;
+    q->f18 = 0;
+    func_0201A948(a->f168);
+    q->f1c = a->f168;
+    q->f20 = a->r->t14[0];
+    q->f24 = a->r->t14[1];
+}

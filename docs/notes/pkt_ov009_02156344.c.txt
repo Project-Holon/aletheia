@@ -1,0 +1,59 @@
+/*
+ * function: func_02156344
+ * address:  0x02156344
+ * packet:   pkt_ov009_02156344
+ * region:   ov009
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   g_021A8264  0x021A8264  data  ov009  a4
+ *   func_0215631C  0x0215631C  thumb  ov009
+ *   func_021AEF6C  0x021AEF6C  thumb  ov009
+ *   func_021AF18C  0x021AF18C  thumb  ov009
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u8 *g_021A8264;
+extern void func_0215631C(void);
+extern void func_021AEF6C(u32, u32, u32);
+extern void func_021AF18C(void (*)(void));
+
+void func_02156344(u32 a)
+{
+    u8 *g;
+    u32 v = 1;
+    *(u16 *)(g_021A8264 + 0x794) = 1;
+    *(u32 *)(g_021A8264 + 0x790) = 1;
+    *(u16 *)(g_021A8264 + 0x796) = 1;
+    g = g_021A8264;
+    if (*(u32 *)(g + 0x76c) == 0) {
+        switch (*(u32 *)(g + 0x77c)) {
+        case 0:
+        case 1:
+            break;
+        case 2:
+            v = 2;
+            break;
+        case 3:
+            v = 3;
+            break;
+        case 4:
+            goto d;
+        case 5:
+        default:
+        d:
+            v = 4;
+            break;
+        }
+        func_021AEF6C(a, v, 1);
+        func_021AF18C(func_0215631C);
+        *(u32 *)(g_021A8264 + 0x76c) = 1;
+    }
+}

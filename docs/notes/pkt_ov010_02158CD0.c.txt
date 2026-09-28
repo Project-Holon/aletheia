@@ -1,0 +1,59 @@
+/* NOTE: DIFF: with per-field d[i].x indexing registers match (o3 in r7) but base pool word is reloaded per field; with a local base pointer or an e=&t[i] local the allocation changes (o3 to r6/stack) */
+/*
+ * function: func_02158CD0
+ * address:  0x02158CD0
+ * packet:   pkt_ov010_02158CD0
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02034714  0x02034714  arm
+ *   func_02013B5C  0x02013B5C  thumb
+ *   func_02013B68  0x02013B68  thumb
+ *   d_021701A8     0x021701A8  data  ov010
+ *   d_02172898     0x02172898  data  ov010  a1
+ */
+
+typedef unsigned short u16;
+
+struct E { u16 lo, hi, a, b, c; };
+
+extern void func_02034714(const char *, int, const char *);
+extern u16 func_02013B5C(u16);
+extern u16 func_02013B68(u16);
+extern struct E d_021701A8[];
+extern char d_02172898[];
+
+u16 func_02158CD0(unsigned k, unsigned v, u16 *o1, u16 *o2, u16 *o3)
+{
+    unsigned i;
+    struct E *t = d_021701A8;
+    struct E *e;
+    for (i = 0; i < 46; i++) {
+        if (v < t[i].lo)
+            continue;
+        e = &t[i];
+        if (v > e->hi)
+            func_02034714(d_02172898, 0, d_02172898);
+        *o1 = e->a;
+        *o2 = e->b;
+        *o3 = e->c;
+        return v - t[i].lo;
+    }
+    if (v >= 1) {
+        u16 t = func_02013B5C(k);
+        u16 u = func_02013B68(k);
+        *o1 = t;
+        *o2 = 3;
+        *o3 = u;
+        return v - 1;
+    }
+    *o1 = 0x356;
+    *o2 = 3;
+    *o3 = 0x9E;
+    return 0;
+}

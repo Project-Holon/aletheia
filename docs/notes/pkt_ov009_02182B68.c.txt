@@ -1,0 +1,46 @@
+/*
+ * function: func_02182B68
+ * address:  0x02182B68
+ * packet:   pkt_ov009_02182B68
+ * region:   ov009
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_0209477C  0x0209477C  arm
+ *   func_021829AC  0x021829AC  arm  ov009
+ *   func_0218335C  0x0218335C  arm  ov009
+ *   func_02182A2C  0x02182A2C  arm  ov009
+ */
+
+typedef unsigned char u8;
+
+extern int func_0209477C(const char *s);
+extern int func_021829AC(int a, int b, int c);
+extern int func_0218335C(int a, const char *s);
+extern int func_02182A2C(int a, int b, int c);
+
+int func_02182B68(int a, int b, int c, const char *s)
+{
+    int n = func_0209477C(s);
+    int i;
+
+    for (i = 0; i < n; i++) {
+        u8 ch = s[i];
+
+        if (ch < 0x20 && ch != 9 && ch != 10 && ch != 13) {
+            return 0;
+        }
+    }
+    if (func_021829AC(a, b, c) != 0) {
+        if (func_0218335C(a, s) != 0) {
+            if (func_02182A2C(a, b, c) != 0) {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
