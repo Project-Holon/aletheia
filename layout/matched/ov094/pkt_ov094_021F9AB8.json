@@ -24,6 +24,18 @@
    }
   },
   {
+   "name": "func_021F7000",
+   "address": "0x021F7000",
+   "kind": "game",
+   "region": "ov094",
+   "source": "src/matched/ov/ov094_func_021F7000.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT"
+  },
+  {
    "name": "func_021F7208",
    "address": "0x021F7208",
    "kind": "game",

@@ -898,3 +898,4 @@ overlay_114  0x021B97F4  thumb # "cmp r0, #0; bne; movs r0, #0; bx lr; adds r0, 
 overlay_114  0x021B99F0  thumb # "ldrb r0, [r0]; bx lr", printed as .word data after func_021B99DC; bl from ov135 at 0x0220119E (func_022010BC)
 overlay_114  0x021B99F4  thumb # "push {r4, r5} ... pop {r4, r5}; bx lr" (byte-assembled u32 read), printed as .word data; bl from ov135 at 0x022011AA (func_022010BC)
 overlay_114  0x021B9A14  thumb # "adds r2, r0, #1; lsls r0, r1, #2; adds r0, r2, r0; bx lr", printed as .word data before func_021B9A1C; bl from ov135 at 0x022011B8 (func_022010BC)
+overlay_099  0x021B9FD0  thumb # already EXACT (src/matched/ov/ov099_func_021B9FD0.c, game); "ldr r0, [r0, #0x2c]; ldr r3, =0x0204B3DC; movs r1, #0; bx r3", printed as .word data after func_021B9F90's pop; pointer word 0x021B9FD1 at ov099 0x021B98F4 (tail-call pool of func_021B98F0)

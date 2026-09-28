@@ -57,3 +57,318 @@ void func_021FE9F0(fx32 sEven, fx32 sOdd, int n, int f48, int f4c)
         }
     }
 }
+
+==== 2026-09-28 tree_ov094_2: func_021F9AB8 (root, 1092 B) ====
+Best source below (DIFF, size 1092/1092,
+6 instructions / 12 bytes out). Levers that closed the rest, in order:
+- The kind 8/15/16/14/17 test: an `==` or-chain (any parenthesisation), an
+  if/else-if chain, a switch and an inline predicate all fold 14..17 into a
+  range test. Only the negated and-chain `if (kind != 8 && kind != 15 && ...)
+  func_021FDB20(s); else s->b1 = 1;` keeps five cmp/beq in source order.
+- The inner switch on t needs an explicit `case 7:` next to default (table
+  runs to 7) and "assign, then reassign if r != 1" arms (movs before cmp).
+- f248 case 11 is the fallthrough target of cases 5/7/9/13
+  (`if (kind != 0xff) break;` then `case 11:`), so both share one b.
+- Kinds 2..5: the "b to the next instruction" at 0x021F9D74 is a cross-jumped
+  copy of the kind 6/7 arm; the source repeats that arm after the r==1 test.
+- `VecFx32 v1, v2;` in that order puts v1 at sp+0x1c and v2 at sp+0x10.
+Residue: arms 14, 19 and 18 read d_0220ACA0[k].{x,y,z}; our build hoists the
+last load (ldr r0,[r0,#0x20|0x14|0x38]) above str r1,[sp,#0x14]; the original
+does not (0x021F9DDE, 0x021F9E02, 0x021F9E3E). The same shape from s->f294
+(kind 13) matches. Tried without effect: const, volatile or sized table,
+volatile locals, struct-wrapped table, pointer local for the table, inline
+VecCopy for the table arms or all arms, a temporary for the last field,
+pointer locals for v1/v2 (+12 B). Permuter seed 11301 (400 iterations, 8
+jobs): best 12 bytes out, nothing new.
+
+---- func_021F9AB8 (best) ----
+typedef int fx32;
+
+typedef struct {
+    fx32 x, y, z;
+} VecFx32;
+
+typedef struct {
+    unsigned int b0 : 1;    /* 0x000 */
+    unsigned int b1 : 1;
+    unsigned int b2 : 11;
+    unsigned int b13 : 1;
+    unsigned int b14 : 1;
+    unsigned int b15 : 1;
+    char pad004[0xd8];
+    int fdc;                /* 0x0dc */
+    int fe0;                /* 0x0e0 */
+    char pad0e4[0x158];
+    int f23c;               /* 0x23c */
+    char pad240[0x8];
+    unsigned char f248;     /* 0x248 */
+    char pad249[0x3b];
+    int f284;               /* 0x284 */
+    VecFx32 f288;           /* 0x288 */
+    VecFx32 f294;           /* 0x294 */
+} State;
+
+extern int func_0201134C(void *a);
+extern void func_021F6EDC(int p, VecFx32 *a, VecFx32 *b);
+extern void func_021F6F48(int c, VecFx32 *a, VecFx32 *b, int n, int s, int t);
+extern void func_021F7208(VecFx32 *a, VecFx32 *b);
+extern int func_021F8684(void);
+extern int func_021F8694(void);
+extern int func_021F8710(void);
+extern void func_021FDB20(State *s);
+extern void func_021FE9F0(fx32 sEven, fx32 sOdd, int n, int f48, int f4c);
+extern void func_021FF16C(int w);
+
+extern VecFx32 d_0220ACA0[];
+extern VecFx32 d_0220ACE8[];
+extern VecFx32 d_0220AD00[];
+extern VecFx32 d_0220AD78[];
+extern VecFx32 d_0220ADA8[];
+extern VecFx32 d_0220ADD8[];
+extern VecFx32 d_0220AE20[];
+
+int func_021F9AB8(void *a, State *s)
+{
+    int mode, kind, n, p4, p5;
+    int r, t;
+    VecFx32 v1, v2;
+
+    mode = func_0201134C(a);
+    kind = func_0201134C(a);
+    n = func_0201134C(a);
+    p4 = func_0201134C(a);
+    p5 = func_0201134C(a);
+
+    if (s->b15)
+        return s->f23c;
+
+    if (kind == 13 && s->f284 == 0)
+        kind = 8;
+
+    if (kind != 8 && kind != 15 && kind != 16 && kind != 14 && kind != 17)
+        func_021FDB20(s);
+    else
+        s->b1 = 1;
+
+    switch (kind) {
+    case 15:
+    case 16:
+        r = func_021F8710();
+        t = (kind == 15) ? s->fdc : s->fe0;
+        switch (r) {
+        case 0:
+            return s->f23c;
+        case 1:
+        case 2:
+            switch (t) {
+            case 2:
+                kind = 2;
+                break;
+            case 3:
+                kind = 8;
+                if (r != 1)
+                    kind = 0x12;
+                break;
+            case 4:
+                kind = 4;
+                if (r != 1)
+                    kind = 8;
+                break;
+            case 5:
+                kind = 8;
+                break;
+            case 6:
+                kind = 8;
+                if (r != 1)
+                    kind = 6;
+                break;
+            case 7:
+            default:
+                return s->f23c;
+            }
+            break;
+        case 3:
+            if (t == 4 || t == 6)
+                kind = 0x13;
+            break;
+        }
+        break;
+    case 14:
+        r = func_021F8710();
+        if (r == 0 || r == 3)
+            return s->f23c;
+        break;
+    case 20:
+        r = func_021F8710();
+        if (r == 0 || r == 3) {
+            func_021FF16C(func_021F8694());
+            return s->f23c;
+        }
+        kind = 14;
+        break;
+    case 21:
+        r = func_021F8710();
+        if (r == 0 || r == 3) {
+            kind = s->fdc;
+        } else if (s->fdc & 1) {
+            kind = 1;
+        } else {
+            kind = 14;
+        }
+        break;
+    case 17:
+        kind = 8;
+        break;
+    case 9:
+    case 10:
+        r = func_021F8710();
+        kind = s->fdc;
+        if (r == 3 && (kind == 4 || kind == 6))
+            kind = 0x13;
+        break;
+    case 11:
+    case 12:
+        switch (s->f248) {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+            kind = s->fe0;
+            if (kind == 0xff)
+                kind = (s->fdc & 1) ^ 1;
+            break;
+        case 5:
+        case 7:
+        case 9:
+        case 13:
+            kind = s->fe0;
+            if (kind != 0xff)
+                break;
+        case 11:
+            kind = (s->fdc & 1) ^ 1;
+            break;
+        case 6:
+        case 12:
+            kind = s->fdc & 1;
+            break;
+        case 4:
+        case 8:
+        case 10:
+            r = func_021F8710();
+            if (r == 0 || r == 3)
+                kind = (s->fdc & 1) ^ 1;
+            else
+                kind = 14;
+            break;
+        }
+        break;
+    }
+
+    switch (kind) {
+    case 0:
+    case 1:
+        v1.x = d_0220ACE8[kind].x;
+        v1.y = d_0220ACE8[kind].y;
+        v1.z = d_0220ACE8[kind].z;
+        v2.x = d_0220AD00[kind].x;
+        v2.y = d_0220AD00[kind].y;
+        v2.z = d_0220AD00[kind].z;
+        break;
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+        r = func_021F8710();
+        if (r == 3) {
+            v1.x = d_0220ACE8[kind - 2].x;
+            v1.y = d_0220ACE8[kind - 2].y;
+            v1.z = d_0220ACE8[kind - 2].z;
+            v2.x = d_0220AD00[kind - 2].x;
+            v2.y = d_0220AD00[kind - 2].y;
+            v2.z = d_0220AD00[kind - 2].z;
+            break;
+        }
+        if (r == 1) {
+            v1.x = d_0220AD78[kind - 2].x;
+            v1.y = d_0220AD78[kind - 2].y;
+            v1.z = d_0220AD78[kind - 2].z;
+            v2.x = d_0220ADA8[kind - 2].x;
+            v2.y = d_0220ADA8[kind - 2].y;
+            v2.z = d_0220ADA8[kind - 2].z;
+            break;
+        }
+        v1.x = d_0220ADD8[kind - 2].x;
+        v1.y = d_0220ADD8[kind - 2].y;
+        v1.z = d_0220ADD8[kind - 2].z;
+        v2.x = d_0220AE20[kind - 2].x;
+        v2.y = d_0220AE20[kind - 2].y;
+        v2.z = d_0220AE20[kind - 2].z;
+        break;
+    case 6:
+    case 7:
+        v1.x = d_0220ADD8[kind - 2].x;
+        v1.y = d_0220ADD8[kind - 2].y;
+        v1.z = d_0220ADD8[kind - 2].z;
+        v2.x = d_0220AE20[kind - 2].x;
+        v2.y = d_0220AE20[kind - 2].y;
+        v2.z = d_0220AE20[kind - 2].z;
+        break;
+    case 13:
+        v1.x = s->f288.x;
+        v1.y = s->f288.y;
+        v1.z = s->f288.z;
+        v2.x = s->f294.x;
+        v2.y = s->f294.y;
+        v2.z = s->f294.z;
+        break;
+    case 14:
+        v1.x = d_0220ACA0[0].x;
+        v1.y = d_0220ACA0[0].y;
+        v1.z = d_0220ACA0[0].z;
+        v2.x = d_0220ACA0[2].x;
+        v2.y = d_0220ACA0[2].y;
+        v2.z = d_0220ACA0[2].z;
+        if (s->b1) {
+            func_021FE9F0(0xa66, 0xb9a, n, p4, 0);
+            s->b13 = 1;
+        }
+        break;
+    case 19:
+        v1.x = d_0220ACA0[3].x;
+        v1.y = d_0220ACA0[3].y;
+        v1.z = d_0220ACA0[3].z;
+        v2.x = d_0220ACA0[1].x;
+        v2.y = d_0220ACA0[1].y;
+        v2.z = d_0220ACA0[1].z;
+        if (s->b1) {
+            func_021FE9F0(0xa66, 0xb9a, n, p4, 0);
+            s->b13 = 1;
+        }
+        break;
+    case 18:
+        v1.x = d_0220ACA0[5].x;
+        v1.y = d_0220ACA0[5].y;
+        v1.z = d_0220ACA0[5].z;
+        v2.x = d_0220ACA0[4].x;
+        v2.y = d_0220ACA0[4].y;
+        v2.z = d_0220ACA0[4].z;
+        break;
+    default:
+        func_021F7208(&v1, &v2);
+        if (s->b13) {
+            func_021FE9F0(0x1000, 0x1000, n, p4, 0);
+            s->b13 = 0;
+        }
+        break;
+    }
+
+    switch (mode) {
+    case 0:
+        func_021F6EDC(func_021F8684(), &v1, &v2);
+        break;
+    case 1:
+        func_021F6F48(func_021F8684(), &v1, &v2, n, p4, p5);
+        break;
+    }
+    return s->f23c;
+}

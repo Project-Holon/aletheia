@@ -1,0 +1,32 @@
+/*
+ * function: func_021BB4EC
+ * address:  0x021BB4EC
+ * packet:   pkt_ov099_021BF2C4
+ * region:   ov099
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_020490F4  0x020490F4  arm
+ *   func_02049238  0x02049238  arm
+ *   func_02049990  0x02049990  arm
+ */
+typedef struct {
+    char pad[0x9a8];
+    int f9a8;               /* 0x9a8 */
+} Work;
+
+extern void *func_020490F4(int a, int b);
+extern void func_02049990(void *o, int a, int b, int c, unsigned short d, int e, int f, int g);
+extern void func_02049238(void *o);
+
+void func_021BB4EC(Work *w)
+{
+    void *o = func_020490F4(0x21, 0x21);
+
+    func_02049990(o, 0x16, 4, 0, (unsigned short)w->f9a8, 0, 0, 0x21);
+    func_02049238(o);
+}
