@@ -129,6 +129,11 @@ RELOC_DEFAULT = (0, 4)
 # TwlDWC libraries in the overlays call Thumb-built libraries and do.  That
 # byte is checked against exactly these three values, never wildcarded.
 BL_RELOCS = (1, 28)        # R_ARM_PC24, R_ARM_CALL
+# Relocations whose field is a branch displacement: the image target can be
+# decoded from the linked instruction (ARM b/bl/blx, Thumb bl/blx pair).
+ARM_BRANCH_RELOCS = (1, 15, 28, 29)
+THM_BRANCH_RELOCS = (10, 16)
+BRANCH_RELOCS = ARM_BRANCH_RELOCS + THM_BRANCH_RELOCS
 BL_TOP = 0xEB
 BLX_TOPS = bytes((0xEB, 0xFA, 0xFB))
 
@@ -199,7 +204,7 @@ CODE_SECTION_RE = re.compile(r"^\.(text|itcm|init|dtcm)")
 
 class Pattern:
     __slots__ = ("name", "data", "runs", "thumb", "size", "concrete", "key", "klen",
-                 "koff", "alts", "order")
+                 "koff", "alts", "order", "glob", "refs", "refobjs", "span")
 
     def __init__(self, name, data, runs, thumb, alts=()):
         self.name = name
@@ -213,6 +218,47 @@ class Pattern:
         self.klen = 0
         self.koff = 0
         self.order = (0, 0)       # (section index, offset) in the source object
+        self.glob = True          # STB_GLOBAL: defined once per link, so once per region
+        self.refs = []            # named references, one tuple per source
+                                  # object (see build_patterns and collect)
+        self.refobjs = []         # per refs entry: the member names using it
+        self.span = 0             # code bytes of the whole source object
+
+
+def inplace_addend(body, off, rtype):
+    """The addend a REL relocation keeps in the instruction or word, as the
+    offset from the symbol that the reference reaches; None if not decoded."""
+    if off + 4 > len(body):
+        return None
+    if rtype == 2:
+        return struct.unpack_from("<i", body, off)[0]
+    if rtype in ARM_BRANCH_RELOCS:
+        imm = struct.unpack_from("<I", body, off)[0] & 0xFFFFFF
+        if imm & 0x800000:
+            imm -= 0x1000000
+        return (imm << 2) + 8
+    if rtype in THM_BRANCH_RELOCS:
+        h1, h2 = struct.unpack_from("<HH", body, off)
+        v = ((h1 & 0x7FF) << 12) | ((h2 & 0x7FF) << 1)
+        if v & 0x400000:
+            v -= 0x800000
+        return v + 4
+    return None
+
+
+def section_symbol_at(syms, shndx, offset):
+    """The named function or object symbol of section shndx that covers
+    offset (an exact start first), or None."""
+    best = None
+    for sym in syms:
+        name, value, size, typ, bind, sh = sym
+        if sh != shndx or typ not in (STT_FUNC, STT_OBJECT) or not name:
+            continue
+        if value == offset:
+            return sym
+        if value <= offset < value + size and best is None:
+            best = sym
+    return best
 
 
 def build_patterns(obj, want_data=False):
@@ -240,7 +286,8 @@ def build_patterns(obj, want_data=False):
     for v in mapping.values():
         v.sort()
 
-    # Relocation offsets per target section.
+    # Relocation offsets per target section, with the symbol and the addend
+    # (RELA: explicit; REL: kept in place, read when the reference is used).
     relocs = defaultdict(list)
     for s in obj.sections:
         if s[1] not in (SHT_RELA, SHT_REL):
@@ -252,7 +299,15 @@ def build_patterns(obj, want_data=False):
         base = s[4]
         for j in range(s[5] // entsz):
             off, info = struct.unpack_from("<II", d, base + j * entsz)
-            relocs[target].append((off, info & 0xFF))
+            addend = None
+            if s[1] == SHT_RELA:
+                addend, = struct.unpack_from("<i", d, base + j * entsz + 8)
+            relocs[target].append((off, info & 0xFF, info >> 8, addend))
+
+    # Code bytes of the object: its functions sit within this many bytes of
+    # each other once linked (used by the static-data test in Checker).
+    span = sum(obj.sections[i][5] for i, n in enumerate(obj.secnames)
+               if obj.sections[i][1] == SHT_PROGBITS and CODE_SECTION_RE.match(n))
 
     out = []
     for name, value, size, typ, bind, shndx in syms:
@@ -275,9 +330,40 @@ def build_patterns(obj, want_data=False):
         mask = bytearray(b"\x01" * size)   # 1 = concrete, 0 = wildcard
 
         alts = []
-        for off, rtype in relocs.get(shndx, ()):
+        refs = []
+        for off, rtype, symi, addend in relocs.get(shndx, ()):
             if off < value or off >= value + size:
                 continue
+            if not 0 < symi < len(syms):
+                continue
+            rname, rv, _rs, rtyp, rbind, rsh = syms[symi]
+            if addend is None:
+                addend = inplace_addend(body, off, rtype)
+            elif rtype in ARM_BRANCH_RELOCS:
+                addend += 8                 # RELA: S + A - P, A = -8 for "S"
+            elif rtype in THM_BRANCH_RELOCS:
+                addend += 4
+            if rtyp == 3 and addend is not None:
+                # Section symbol plus offset: name the symbol defined there
+                # (CodeWarrior reaches statics this way), and keep the
+                # addend relative to that symbol.
+                hit = section_symbol_at(syms, rsh, addend)
+                if hit is None:
+                    continue
+                rname, rv, _rs, rtyp, rbind, rsh = hit
+                addend -= rv
+            if not rname or rname.startswith("$") or rtyp == 3:
+                continue
+            # (offset in function, type, name, local, kind, addend)
+            # kind: "func" for a defined function or any branch, "data" for
+            # a defined data object, "" for an undefined symbol.
+            if rtype in BRANCH_RELOCS or rtyp == STT_FUNC:
+                kind = "func"
+            elif rtyp == STT_OBJECT and rsh != 0:
+                kind = "data"
+            else:
+                kind = ""
+            refs.append((off - value, rtype, rname, rbind == 0, kind, addend or 0))
             lo, width = RELOC_MASK.get(rtype, RELOC_DEFAULT)
             start = off - value + lo
             for k in range(start, min(start + width, size)):
@@ -312,6 +398,10 @@ def build_patterns(obj, want_data=False):
                 i += 1
         pat = Pattern(name, bytes(blob), runs, thumb, sorted(set(alts)))
         pat.order = (shndx, value)
+        pat.glob = bind == 1      # STB_LOCAL statics and weak symbols may repeat
+        pat.refs = [tuple(refs)]
+        pat.refobjs = [{obj.name}]
+        pat.span = span
         out.append(pat)
     return out
 
@@ -515,6 +605,276 @@ def scan(regions, patterns, progress=True):
 
 
 # ---------------------------------------------------------------------------
+# reference consistency
+# ---------------------------------------------------------------------------
+
+def branch_target(d, pos, base, rtype):
+    """(address, thumb) that the linked branch at d[pos] reaches, or None."""
+    if pos < 0 or pos + 4 > len(d):
+        return None
+    if rtype in ARM_BRANCH_RELOCS:
+        w, = struct.unpack_from("<I", d, pos)
+        imm = w & 0xFFFFFF
+        if imm & 0x800000:
+            imm -= 0x1000000
+        t = base + pos + 8 + (imm << 2)
+        if (w >> 25) == 0x7D:                   # blx imm: Thumb, H is bit 24
+            return t + ((w >> 23) & 2), True
+        return t, False
+    if rtype in THM_BRANCH_RELOCS:
+        h1, h2 = struct.unpack_from("<HH", d, pos)
+        if (h1 & 0xF800) != 0xF000 or (h2 & 0xE800) != 0xE800:
+            return None
+        off = ((h1 & 0x7FF) << 12) | ((h2 & 0x7FF) << 1)
+        if off & 0x400000:
+            off -= 0x800000
+        t = base + pos + 4 + off
+        if (h2 & 0xF800) == 0xE800:             # blx: ARM target
+            return t & ~3, False
+        return t, True
+    return None
+
+
+class Checker:
+    """Tests a placement against what its object's relocations name.
+
+    A function of the object is placed at an address only if the addresses
+    its references reach agree with that name:
+
+      callee   every function it names (a branch, or an ABS32 code pointer)
+               must be a place where that function's own bytes verify, when
+               the callee is scannable at all (directly, or behind a
+               load-and-branch forwarder).  A body whose "EL_LoadLibrary"
+               call lands on game code is a lookalike, not EL_LinkFileEx.
+      data     a global it loads must sit where the functions that verify at
+               exactly one place (and so are placed with confidence) put
+               it: a lookalike loads another global.
+               A placement fails when at least half of its checkable callees
+               and globals disagree, so one odd reference in a large function
+               (a callee built from another variant) does not remove it.
+      static   a static data object of its own object cannot be named by
+               code outside that object.  A literal pool word equal to the
+               static's address that an ldr in code loads, farther away than
+               the object's code size, means the "static" is someone else's
+               global.
+    """
+
+    def __init__(self, regions, patterns, hits):
+        self.patterns = patterns
+        self.hits = hits
+        self.regions = {r.name: r for r in regions}
+        # name -> scanned patterns of that name.  A name with any pattern that
+        # was never scanned (too short, too few concrete bytes) is left out:
+        # the copy the game links may be that one, so a miss proves nothing.
+        self.by_name = defaultdict(list)
+        blind = set()
+        for i, p in enumerate(patterns):
+            if p.key is None:
+                blind.add(p.name)
+            else:
+                self.by_name[p.name].append(i)
+        # Names with a pattern that was never scanned: a miss proves nothing,
+        # unless a scanned pattern of the name verifies in the region of the
+        # call target (then that is where the linked copy is).
+        self.partial = {}
+        for name in blind:
+            if name in self.by_name:
+                self.partial[name] = self.by_name.pop(name)
+        self.names = set(p.name for p in patterns)
+        self._hitset = {}
+        self._words = {}
+
+    def hitset(self, pi):
+        h = self._hitset.get(pi)
+        if h is None:
+            h = self._hitset[pi] = set(self.hits.get(pi, ()))
+        return h
+
+    def target_regions(self, reg, t):
+        """(regions that can hold t, determinate?).  An overlay's own range
+        first, then the always-resident regions; another overlay's range is
+        ambiguous (overlays share addresses)."""
+        r = self.regions.get(reg)
+        if r is not None and r.base <= t < r.base + len(r.data):
+            return [reg], True
+        res = [n for n, x in self.regions.items() if not n.startswith("ov")
+               and x.base <= t < x.base + len(x.data)]
+        if res:
+            return res, True
+        return [n for n, x in self.regions.items()
+                if x.base <= t < x.base + len(x.data)], False
+
+    def targets(self, pi, reg, addr, refs=None):
+        """[(name, target, local, kind, rtype, word)] for the named references
+        of pattern pi placed at (reg, addr); kind as in build_patterns, word
+        the linked ABS32 literal (None for a branch).  refs: one of the
+        pattern's reference sets, default the first."""
+        r = self.regions.get(reg)
+        if r is None:
+            return []
+        if refs is None:
+            refs = self.patterns[pi].refs[0] if self.patterns[pi].refs else ()
+        d = r.data
+        out = []
+        for off, rtype, name, local, kind, addend in refs:
+            pos = addr - r.base + off
+            if rtype in BRANCH_RELOCS:
+                bt = branch_target(d, pos, r.base, rtype)
+                if bt is None:
+                    continue
+                out.append((name, bt[0], local, "func", rtype, None))
+            elif rtype == 2 and 0 <= pos and pos + 4 <= len(d):
+                v, = struct.unpack_from("<I", d, pos)
+                t = (v - (addend or 0)) & 0xFFFFFFFF
+                k = kind or ("func" if name in self.names else "")
+                if k == "func":
+                    t &= ~1
+                out.append((name, t, local, k, rtype, v))
+        return out
+
+    def thunk(self, reg, t):
+        """Where a load-and-branch forwarder at t goes, or None.  Thumb
+        ``ldr rN, [pc, #i]; bx rN`` and ARM ``ldr pc, [pc, #-4]`` or
+        ``ldr ip, [pc]; bx ip``, each followed by the target word."""
+        r = self.regions.get(reg)
+        if r is None:
+            return None
+        d, o = r.data, t - r.base
+        if o < 0 or o + 12 > len(d):
+            return None
+        h1, h2 = struct.unpack_from("<HH", d, o)
+        if (h1 & 0xF800) == 0x4800 and h2 == 0x4700 | (((h1 >> 8) & 7) << 3):
+            lit = ((t + 4) & ~3) + (h1 & 0xFF) * 4 - r.base
+            if 0 <= lit and lit + 4 <= len(d):
+                return struct.unpack_from("<I", d, lit)[0] & ~1
+        w1, w2, w3 = struct.unpack_from("<III", d, o)
+        if w1 == 0xE51FF004:
+            return w2 & ~1
+        if w1 == 0xE59FC000 and w2 == 0xE12FFF1C:
+            return w3 & ~1
+        return None
+
+    def words(self, reg):
+        w = self._words.get(reg)
+        if w is None:
+            w = self._words[reg] = defaultdict(list)
+            r = self.regions[reg]
+            d = r.data
+            for pos in range(0, len(d) - 3, 4):
+                w[struct.unpack_from("<I", d, pos)[0]].append(r.base + pos)
+        return w
+
+    def build_consensus(self, anchors):
+        """Where each global a function names sits, by the functions that
+        verify at exactly one place (anchors): {(region, name): {address:
+        count}}.  Statics are left to the static test (two objects may each
+        have a static of one name, and ar truncates member names)."""
+        self.consensus = defaultdict(lambda: defaultdict(int))
+        for pi, reg, addr in anchors:
+            p = self.patterns[pi]
+            if len(p.refs) != 1:
+                continue
+            for name, t, local, kind, rtype, word in self.targets(pi, reg, addr, p.refs[0]):
+                if kind == "func" or word is None or name.startswith("_ZZ"):
+                    continue
+                if not local:
+                    self.consensus[(reg, name)][t] += 1
+
+    def code_names(self, reg, pos):
+        """True when an ldr from a code position loads the word at pos:
+        ARM ``ldr rd, [pc, #+-i]`` within 4 KiB before or after it, Thumb
+        ``ldr rd, [pc, #i]`` within 1 KiB before it."""
+        r = self.regions[reg]
+        d, o = r.data, pos - r.base
+        for q in range(max(0, o - 4104) & ~3, min(len(d) - 3, o + 4096), 4):
+            w, = struct.unpack_from("<I", d, q)
+            if (w & 0x0F7F0000) == 0x051F0000:
+                imm = w & 0xFFF
+                if q + 8 + (imm if w & 0x00800000 else -imm) == o:
+                    return True
+        for q in range(max(0, o - 1024) & ~1, o, 2):
+            h, = struct.unpack_from("<H", d, q)
+            if (h & 0xF800) == 0x4800 and ((q + 4) & ~3) + (h & 0xFF) * 4 == o:
+                return True
+        return False
+
+    def bad(self, pi, reg, addr):
+        """None, or why pattern pi cannot be the function at (reg, addr).
+        A pattern shared by several objects passes when any object's
+        references agree."""
+        first = None
+        for j, refs in enumerate(self.patterns[pi].refs or [()]):
+            why = self._bad(pi, reg, addr, refs, j)
+            if why is None:
+                return None
+            first = first or why
+        return first
+
+    def _bad(self, pi, reg, addr, refs, j=0):
+        p = self.patterns[pi]
+        agree, miss = set(), []             # checkable references, by name
+        cons = getattr(self, "consensus", {})
+        for name, t, local, kind, rtype, word in self.targets(pi, reg, addr, refs):
+            if kind == "func":
+                cands = self.by_name.get(name)
+                tregs, _det = self.target_regions(reg, t)
+                if not tregs:
+                    continue
+                spots = set((tr, t) for tr in tregs)
+                for tr in tregs:
+                    f = self.thunk(tr, t)
+                    if f is not None:
+                        spots.update((tr2, f) for tr2 in self.target_regions(tr, f)[0])
+                if not cands:
+                    part = self.partial.get(name)
+                    if not part or not _det:
+                        continue            # callee never scannable: no evidence
+                    found = set()
+                    for pj in part:
+                        found |= set(a for r, a in self.hitset(pj) if r in tregs)
+                    if not found:
+                        continue
+                    if spots & set((tr, a) for tr in tregs for a in found):
+                        agree.add(name)
+                    else:
+                        miss.append((name, "calls %s at 0x%08X, but %s's bytes"
+                                     " verify at 0x%08X" % (name, t, name, min(found))))
+                    continue
+                if any(sp in self.hitset(pj) for pj in cands for sp in spots):
+                    agree.add(name)
+                else:
+                    miss.append((name, "calls %s at 0x%08X, where %s's bytes do not"
+                                 " verify" % (name, t, name)))
+            elif word is None or name.startswith("_ZZ"):
+                # (_ZZ...: the static of an inline function, one copy shared
+                # by every object that inlines it)
+                continue
+            elif not local:
+                v = cons.get((reg, name))
+                if not v:
+                    continue
+                best = max(v.items(), key=lambda kv: kv[1])[0]
+                if v[best] > v.get(t, 0):
+                    miss.append((name, "loads %s as 0x%08X, where the functions"
+                                 " placed once put it at 0x%08X" % (name, t, best)))
+                else:
+                    agree.add(name)
+            elif kind == "data":
+                lo = addr - p.span - 4
+                hi = addr + p.size + p.span + 4
+                foreign = [a for a in self.words(reg).get(word, ())
+                           if (a < lo or a >= hi) and self.code_names(reg, a)]
+                if foreign:
+                    return ("static %s at 0x%08X is also loaded by code at 0x%08X,"
+                            " outside the object" % (name, t, foreign[0]))
+        missed = set(n for n, _w in miss)
+        if missed and len(missed) >= len(agree - missed):
+            return "%s (%d of %d checkable references disagree)" % (
+                miss[0][1], len(missed), len(missed | agree))
+        return None
+
+
+# ---------------------------------------------------------------------------
 # driver
 # ---------------------------------------------------------------------------
 
@@ -553,6 +913,16 @@ def collect(archives, want_data=False, verbose=False):
                     idx = len(patterns)
                     seen[sig] = idx
                     patterns.append(p)
+                else:
+                    q = patterns[idx]
+                    if p.refs[0] not in q.refs:
+                        # Same bytes, other callees (libdwcutil's scene
+                        # objects share procInit2 bodies that call
+                        # different helpers).
+                        q.refs.append(p.refs[0])
+                        q.refobjs.append(set())
+                    q.refobjs[q.refs.index(p.refs[0])].add(mname)
+                    q.span = max(q.span, p.span)
                 prov[idx].append((ap, mname))
                 by_archive[ap].add(idx)
                 placed.append((p.order, idx))
@@ -673,7 +1043,36 @@ def run(args):
     def pick_source(pi):
         return sorted(prov[pi], key=lambda am: source_rank(am[0]))[0]
 
-    # candidates per region: (start, size, concrete, -pattern order) for greedy
+    # Support for one hit: other functions of the same object that hit exactly
+    # one place, in the same region within 4 KiB.  It picks the real copy of
+    # a global among same-shaped lookalikes (an object's functions are linked
+    # together; a lookalike in game code has no such neighbours).
+    obj_funcs = getattr(collect, "obj_funcs", {})
+    sibs = defaultdict(set)                  # pattern -> patterns of its object
+    for funcs_list in obj_funcs.values():
+        for funcs in funcs_list:
+            for pi in funcs:
+                sibs[pi].update(funcs)
+    once = {}
+    for pi, locs in hits.items():
+        u = set(locs)
+        if len(u) == 1:
+            once[pi] = next(iter(u))
+
+    def support(pi, reg, addr):
+        n = 0
+        for pj in sibs.get(pi, ()):
+            if pj != pi and pj in once:
+                r2, a2 = once[pj]
+                if r2 == reg and abs(a2 - addr) <= 0x1000:
+                    n += 1
+        return n
+
+    checker = Checker(regions, patterns, hits)
+    checker.build_consensus([(pi, loc[0], loc[1]) for pi, loc in once.items()])
+    rejected = []                           # (reg, addr, name, reason)
+
+    # candidates per region, for the greedy pass below
     cands = defaultdict(list)
     for pi, locs in hits.items():
         uniq = sorted(set(locs))
@@ -681,18 +1080,83 @@ def run(args):
             continue
         p = patterns[pi]
         for reg, addr in uniq:
-            cands[reg].append((addr, p.size, p.concrete, prov_score(pi), pi))
+            why = checker.bad(pi, reg, addr)
+            if why:
+                rejected.append((reg, addr, p.name, why))
+                continue
+            cands[reg].append([addr, p.size, p.concrete, prov_score(pi), pi,
+                               support(pi, reg, addr), 0])
+
+    # Votes: how many candidate placements call (reg, addr) by this name.
+    # Same-bytes functions of different names (OS_IsTickAvailable and
+    # OS_IsVAlarmAvailable, NVRAMi_Read and NVRAMi_Write) are told apart by
+    # the name their callers use.
+    votes = defaultdict(int)
+    for reg, lst in cands.items():
+        for c in lst:
+            seen_t = set()
+            for refs in patterns[c[4]].refs:
+                for name, t, _l, kind, _rt, _w in checker.targets(c[4], reg, c[0], refs):
+                    if kind == "func":
+                        seen_t.add((name, t))
+            for name, t in seen_t:
+                tregs, det = checker.target_regions(reg, t)
+                if det:
+                    for tr in tregs:
+                        votes[(tr, t, name)] += 1
+    for reg, lst in cands.items():
+        for c in lst:
+            c[6] = votes.get((reg, c[0], patterns[c[4]].name), 0)
+
+    # Same bytes under several names (GX_GetBankForLCDC, GX_IsDispOn,
+    # OS_IsTickAvailable, OS_IsAlarmAvailable ... are one 16-byte shape):
+    # the bytes cannot say which name an address carries, so such a
+    # placement needs a caller that names it (votes) or a sibling of its
+    # object nearby (support).  Without either, the address stays unnamed.
+    shape_names = defaultdict(set)
+    for pi, locs in hits.items():
+        shape_names[frozenset(locs)].add(patterns[pi].name)
+    unsure = 0
+    for reg in list(cands):
+        keep = []
+        for c in cands[reg]:
+            pi = c[4]
+            if (c[5] == 0 and c[6] == 0
+                    and len(shape_names[frozenset(hits[pi])]) > 1):
+                rejected.append((reg, c[0], patterns[pi].name,
+                                 "shares its bytes with other names at the"
+                                 " same addresses, and no caller or sibling"
+                                 " of its object says which"))
+                unsure += 1
+                continue
+            keep.append(c)
+        cands[reg] = keep
 
     # Greedy, biggest and most-concrete first: a 12-byte pattern that happens
     # to sit inside a longer function that also matched is a false positive.
+    # Ties: the name callers use (votes), copies of one name by object
+    # support, then the object's section
+    # order, which is the link order.  That splits same-bytes families
+    # (GX_/GXS_LoadBGnScr, GX_ResetBankForX / GX_DisableBankForX) in the
+    # order the object defines them; the name order used before gave the
+    # alphabetically first name every copy.  A global is defined once per
+    # link, so it is placed at most once per region; statics may repeat
+    # (libdwcutil's scene objects each carry the same procInit).
     resolved = {}
     dropped_overlap = 0
     contested = 0
+    twins = 0
     taken_by_reg = {}
+    placed_by_reg = {}
     for reg, lst in cands.items():
-        lst.sort(key=lambda c: (-c[1], -c[2], -c[3], patterns[c[4]].name))
+        lst.sort(key=lambda c: (-c[1], -c[2], -c[3], -c[6], -c[5],
+                                patterns[c[4]].order, c[0]))
         taken = taken_by_reg[reg] = []      # sorted list of (start, end)
-        for addr, size, concrete, sc, pi in lst:
+        placed = placed_by_reg[reg] = set()  # global names placed in reg
+        for addr, size, concrete, sc, pi, _sup, _votes in lst:
+            if patterns[pi].glob and patterns[pi].name in placed:
+                twins += 1
+                continue                    # leave the address to a twin
             end = addr + size
             clash = False
             for ts, te in taken:
@@ -708,6 +1172,8 @@ def run(args):
             taken.append((addr, end))
             taken.sort()
             resolved[(reg, addr)] = pi
+            if patterns[pi].glob:
+                placed.add(patterns[pi].name)
 
     # Pass 2: a pattern that landed in more than MAX_HITS places is kept at
     # one of them only when it is the next (or previous) function, in the
@@ -722,7 +1188,6 @@ def run(args):
     # procInit / procInit2 / endScene, identical across objects, so every
     # copy exceeded MAX_HITS and was dropped.  Runs to a fixed point, so a
     # chain of such functions resolves outward from its anchor.
-    obj_funcs = getattr(collect, "obj_funcs", {})
     source = {}                         # (reg, addr) -> (archive, member)
 
     def src_of(key):
@@ -765,6 +1230,11 @@ def run(args):
                             continue
                         if (reg, addr) in resolved:
                             continue
+                        if (patterns[pj].glob and patterns[pj].name
+                                in placed_by_reg.setdefault(reg, set())):
+                            continue
+                        if checker.bad(pj, reg, addr):
+                            continue
                         end = addr + size
                         taken = taken_by_reg.setdefault(reg, [])
                         if any(addr < te and ts < end for ts, te in taken):
@@ -772,6 +1242,8 @@ def run(args):
                         taken.append((addr, end))
                         taken.sort()
                         resolved[(reg, addr)] = pj
+                        if patterns[pj].glob:
+                            placed_by_reg[reg].add(patterns[pj].name)
                         source[(reg, addr)] = src
                         nxt.append((reg, addr))
                         adjacent += 1
@@ -782,6 +1254,11 @@ def run(args):
         frontier = sorted(nxt)
     print("pass 2: %d placements of patterns with >%d hits, each the next or"
           " previous function of a resolved neighbour's object" % (adjacent, MAX_HITS))
+
+    print("reference checks: %d candidate placements rejected (a named callee"
+          " whose bytes do not verify at the call target, or a static named from"
+          " outside its object); %d copies of an already placed global left to"
+          " a twin" % (len(rejected), twins))
 
     name_addrs = defaultdict(list)
     for (reg, addr), pi in resolved.items():
@@ -886,6 +1363,8 @@ def run(args):
             ],
             "libraries": summary,
             "symbols": entries,
+            "rejected": [{"address": a, "name": n, "region": r, "reason": w}
+                         for r, a, n, w in sorted(rejected)],
         }, fh, indent=1)
 
     print("\nwrote %s (%d lines)" % (os.path.relpath(txt, ROOT), len(entries)))

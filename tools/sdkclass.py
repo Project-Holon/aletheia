@@ -125,6 +125,38 @@ def main():
     hits, usable = libmatch.scan(regions, patterns, progress=False)
     print("patterns scanned: %d; patterns with at least one hit: %d" % (usable, len(hits)))
 
+    # The reference checks of libmatch.py: a hit whose named callees or
+    # globals disagree with the image (a lookalike in game code) anchors
+    # nothing.
+    checker = libmatch.Checker(regions, patterns, hits)
+    checker.build_consensus([(i, *next(iter(set(v)))) for i, v in hits.items()
+                             if len(set(v)) == 1])
+    dropped = []
+    for i in list(hits):
+        keep = []
+        for reg, adr in hits[i]:
+            why = checker.bad(i, reg, adr)
+            if why:
+                dropped.append((reg, adr, patterns[i].name, why))
+            else:
+                keep.append((reg, adr))
+        if keep:
+            hits[i] = keep
+        else:
+            del hits[i]
+    print("hits dropped by the reference checks: %d" % len(dropped))
+
+    # Patterns whose bytes verify at exactly the places another name's do
+    # (one 16-byte getter shape under GX_GetBankForLCDC, OS_IsTickAvailable,
+    # ...): their hits say nothing about which member sits there, so they
+    # anchor nothing; libmatch.py names those addresses from callers and
+    # siblings.
+    shape = defaultdict(set)
+    for i, v in hits.items():
+        shape[frozenset(v)].add(patterns[i].name)
+    twins = set(i for i, v in hits.items() if len(shape[frozenset(v)]) > 1)
+    print("patterns sharing their hits with another name: %d" % len(twins))
+
     # group the patterns of one member+section: (archive, member, section)
     groups = defaultdict(list)
     for i, p in enumerate(patterns):
@@ -138,19 +170,29 @@ def main():
     placed = 0
     verified = 0
     conflicts = []
+    ties = []
     for (archive, member, section), syms in groups.items():
         # anchors per region: adr - value, from every direct hit in that region
         by_region = defaultdict(Counter)
         for value, size, name, i in syms:
+            if i in twins:
+                continue
             for reg, adr in hits.get(i, ()):
                 by_region[reg][adr - value] += 1
         for reg, bases in by_region.items():
             if reg not in rlen:
                 continue
-            base, support = bases.most_common(1)[0]
+            top = bases.most_common(2)
+            base, support = top[0]
             if len(bases) > 1:
                 conflicts.append((reg, os.path.basename(archive), member,
                                   hex(base), [hex(b) for b, _ in bases.most_common(3)]))
+                if top[1][1] == support:
+                    # A tie (a one-function member whose bytes verify at
+                    # several places) does not determine the member's
+                    # place; tools/libmatch.py resolves such rows.
+                    ties.append((reg, member, [hex(b) for b, _ in top]))
+                    continue
             for value, size, name, i in syms:
                 a = base + value
                 off = a - rbase[reg]
@@ -178,6 +220,7 @@ def main():
           % (len(groups), sum(1 for g in groups.values()
                               if any(hits.get(i) for _, _, _, i in g))))
     print("base conflicts (a member with two different bases in one region): %d" % len(conflicts))
+    print("  of which ties, left unplaced: %d" % len(ties))
     for c in conflicts[:10]:
         print("   ", c)
 
@@ -189,7 +232,9 @@ def main():
 
     json.dump({"variants": args.variants, "builds": args.builds,
                "regions": {r: {"%08X" % a: e for a, e in sorted(d.items())}
-                           for r, d in out.items()}},
+                           for r, d in out.items()},
+               "rejected": [{"region": r, "address": "%08X" % a, "name": n,
+                             "reason": w} for r, a, n, w in sorted(dropped)]},
               open(OUT, "w", encoding="utf-8"), indent=1)
     print("wrote %s" % os.path.relpath(OUT, ROOT))
 
