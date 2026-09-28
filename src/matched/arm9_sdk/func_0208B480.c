@@ -8,47 +8,67 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT*
+ * notes:    mic_bss models mic.o .bss as one struct: micInitialized (u16) at 0x02152FE0 and
+ *            micWork (28 bytes) at 0x02152FE4; the object reaches both through one pool word.
  *
- * TwlSDK libspi mic.o, catalog MIC_StopAutoSampling.  Synchronous wrapper
- * around MIC_StopAutoSamplingAsync.
+ * sdk:      MIC_StopAutoSampling (libspi.TWL.HYB.a mic.o)
  *
  * symbols:
  *   MIC_StopAutoSamplingAsync  0x0208B424  arm
- *   MicWaitBusy                0x0208B798  arm
- *   g_02152FE0                 0x02152FE0  data
- *   MicGetResultCallback       0x0208B788  arm
+ *   MicWaitBusy  0x0208B798  arm
+ *   MicGetResultCallback  0x0208B788  arm
+ *   mic_bss  0x02152FE0  data
  */
 
-typedef unsigned long u32;
-typedef unsigned short u16;
 typedef unsigned char u8;
-typedef long s32;
-typedef u32 OSIntrMode;
+typedef unsigned short u16;
+typedef unsigned long u32;
+typedef int BOOL;
 
-typedef struct MicBss {
-    u16 micInitialized;
-    u8  pad02[2];
+#define TRUE 1
+#define FALSE 0
+#define NULL ((void *)0)
+
+typedef enum MICResult
+{
+    MIC_RESULT_SUCCESS = 0,
+    MIC_RESULT_BUSY = 1,
+    MIC_RESULT_ILLEGAL_PARAMETER = 2,
+    MIC_RESULT_SEND_ERROR = 3
+} MICResult;
+
+typedef void (*MICCallback)(MICResult result, void *arg);
+
+typedef struct MICAutoParam MICAutoParam;
+
+typedef struct MICWork
+{
     u32 lock;
-    u32 callback;
-    u32 callbackArg;
-    s32 commonResult;
+    MICCallback callback;
+    void *arg;
+    MICResult result;
+    u32 reserved[3];
+} MICWork;
+
+/* mic.o .bss: micInitialized (u16) at +0, micWork (28 bytes) at +4 */
+typedef struct MicBss
+{
+    u16 micInitialized;
+    MICWork micWork;
 } MicBss;
 
-extern MicBss g_02152FE0;
+extern MicBss mic_bss;
 
-extern s32 MIC_StopAutoSamplingAsync(void *callback, void *arg);
+extern MICResult MIC_StopAutoSamplingAsync(MICCallback callback, void *arg);
 extern void MicWaitBusy(void);
-extern void MicGetResultCallback(s32 result);
+extern void MicGetResultCallback(MICResult result, void *arg);
 
-s32 func_0208B480(void)
+MICResult func_0208B480(void)
 {
-    s32 result;
-
-    result = MIC_StopAutoSamplingAsync(MicGetResultCallback, 0);
-    g_02152FE0.commonResult = result;
-    if (result == 0)
+    mic_bss.micWork.result = MIC_StopAutoSamplingAsync(MicGetResultCallback, NULL);
+    if (mic_bss.micWork.result == MIC_RESULT_SUCCESS)
     {
         MicWaitBusy();
     }
-    return g_02152FE0.commonResult;
+    return mic_bss.micWork.result;
 }

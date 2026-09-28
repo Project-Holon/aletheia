@@ -9,20 +9,29 @@
  * isa:      arm
  * status:   EXACT
  *
- * symbols:
- *   G2_GetBG0ScrPtr  0x0207DF60  arm
+ * sdk:      G2_GetBG0ScrPtr (libgx.TWL.HYB.a gx_bgcnt.o)
  *
- * TwlSDK libgx gx_bgcnt.o. Main-engine BG0 screen pointer from DISPCNT's
- * screen base and BG0CNT's screen base block.
+ * symbols:
+ *   (none)
  */
 
 typedef unsigned short u16;
-typedef unsigned int u32;
+typedef unsigned long u32;
+typedef volatile u16 vu16;
+typedef volatile u32 vu32;
+
+#define reg_GX_DISPCNT (*(vu32 *)0x04000000)
+#define reg_G2_BGCNT (*(vu16 *)0x04000008)
+
+static inline int GetScreenBase(void)
+{
+    return (reg_G2_BGCNT & 0x1F00) >> 8;
+}
 
 void *func_0207DF60(void)
 {
-    u32 baseBlock = (u32)((*(volatile u16 *)0x04000008 & 0x1f00) >> 8);
+    int screenBase = GetScreenBase();
+    int baseBlock = 0x10000 * (int)((reg_GX_DISPCNT & 0x38000000) >> 27);
 
-    return (void *)(0x06000000 + (((*(volatile u32 *)0x04000000 & 0x38000000) >> 27) << 16) +
-                    (baseBlock << 11));
+    return (void *)(0x06000000 + baseBlock + screenBase * 0x800);
 }

@@ -9,26 +9,43 @@
  * isa:      arm
  * status:   EXACT*
  *
- * TwlSDK libspi mic.o, catalog MicStopAutoSampling.  Sends the ARM7 stop
- * command over the mic FIFO and reports whether it was accepted.
+ * sdk:      MicStopAutoSampling (libspi.TWL.HYB.a mic.o)
  *
  * symbols:
  *   PXI_SendWordByFifo  0x02088610  arm
  */
 
-typedef long s32;
+typedef unsigned char u8;
+typedef unsigned short u16;
 typedef unsigned long u32;
 typedef int BOOL;
 
-extern s32 PXI_SendWordByFifo(s32 fifotag, u32 data, s32 err);
+#define TRUE 1
+#define FALSE 0
+#define NULL ((void *)0)
+
+typedef enum MICResult
+{
+    MIC_RESULT_SUCCESS = 0,
+    MIC_RESULT_BUSY = 1,
+    MIC_RESULT_ILLEGAL_PARAMETER = 2,
+    MIC_RESULT_SEND_ERROR = 3
+} MICResult;
+
+typedef void (*MICCallback)(MICResult result, void *arg);
+
+typedef struct MICAutoParam MICAutoParam;
+
+#define PXI_FIFO_TAG_MIC 9
+#define MIC_PXI_STOP_AUTO_SAMPLING 0x03004200
+
+extern int PXI_SendWordByFifo(int fifotag, u32 data, BOOL err);
 
 BOOL func_0208B75C(void)
 {
-    BOOL ret = 0;
-
-    if (PXI_SendWordByFifo(9, 0x03004200, 0) >= 0)
+    if (PXI_SendWordByFifo(PXI_FIFO_TAG_MIC, MIC_PXI_STOP_AUTO_SAMPLING, FALSE) >= 0)
     {
-        ret = 1;
+        return TRUE;
     }
-    return ret;
+    return FALSE;
 }

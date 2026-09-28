@@ -9,20 +9,23 @@
  * isa:      arm
  * status:   EXACT
  *
- * TwlSDK libos os_cache.o, symbol DC_FlushRange. DWARF has formals but no
- * locals, and the body is a bare coprocessor loop: hand-written assembly.
+ * sdk:      DC_FlushRange (libos.TWL.HYB.a os_cache.o)
+ * asm:      mcr p15 c7,c10,4 (drain write buffer) and c7,c14,1 (clean and invalidate by address) have no C spelling; the DWARF subprogram has no DW_TAG_variable children.
+ *
+ * symbols:
+ *   (none)
  */
 
-asm void func_020862F0(void)
+asm void func_020862F0(void *startAddr, unsigned long nBytes)
 {
-    mov ip, #0
+    mov r12, #0
     add r1, r1, r0
     bic r0, r0, #0x1f
-loc_020862FC:
-    mcr p15, 0, ip, c7, c10, 4
+@_line:
+    mcr p15, 0, r12, c7, c10, 4
     mcr p15, 0, r0, c7, c14, 1
     add r0, r0, #0x20
     cmp r0, r1
-    blt loc_020862FC
+    blt @_line
     bx lr
 }

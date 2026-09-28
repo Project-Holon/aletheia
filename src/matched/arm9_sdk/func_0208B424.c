@@ -8,57 +8,79 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ * notes:    mic_bss models mic.o .bss as one struct: micInitialized (u16) at 0x02152FE0 and
+ *            micWork (28 bytes) at 0x02152FE4; the object reaches both through one pool word.
  *
- * TwlSDK libspi mic.o, catalog MIC_StopAutoSamplingAsync.  Takes the work
- * lock, records the completion callback, kicks the ARM7 command and releases
- * the lock when the command failed to be queued (return 3).
+ * sdk:      MIC_StopAutoSamplingAsync (libspi.TWL.HYB.a mic.o)
  *
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
  *   OS_RestoreInterrupts  0x0208799C  arm
- *   g_02152FE0            0x02152FE0  data
- *   MicStopAutoSampling   0x0208B75C  arm
+ *   MicStopAutoSampling  0x0208B75C  arm
+ *   mic_bss  0x02152FE0  data
  */
 
-typedef unsigned long u32;
-typedef unsigned short u16;
 typedef unsigned char u8;
-typedef long s32;
-typedef u32 OSIntrMode;
+typedef unsigned short u16;
+typedef unsigned long u32;
+typedef int BOOL;
 
-typedef struct MicBss {
-    u16 micInitialized;
-    u8  pad02[2];
+#define TRUE 1
+#define FALSE 0
+#define NULL ((void *)0)
+
+typedef enum MICResult
+{
+    MIC_RESULT_SUCCESS = 0,
+    MIC_RESULT_BUSY = 1,
+    MIC_RESULT_ILLEGAL_PARAMETER = 2,
+    MIC_RESULT_SEND_ERROR = 3
+} MICResult;
+
+typedef void (*MICCallback)(MICResult result, void *arg);
+
+typedef struct MICAutoParam MICAutoParam;
+
+typedef struct MICWork
+{
     u32 lock;
-    u32 callback;
-    u32 callbackArg;
-    s32 commonResult;
+    MICCallback callback;
+    void *arg;
+    MICResult result;
+    u32 reserved[3];
+} MICWork;
+
+/* mic.o .bss: micInitialized (u16) at +0, micWork (28 bytes) at +4 */
+typedef struct MicBss
+{
+    u16 micInitialized;
+    MICWork micWork;
 } MicBss;
 
-extern MicBss g_02152FE0;
+extern MicBss mic_bss;
 
-extern OSIntrMode OS_DisableInterrupts(void);
-extern OSIntrMode OS_RestoreInterrupts(OSIntrMode state);
-extern s32 MicStopAutoSampling(void);
+extern u32 OS_DisableInterrupts(void);
+extern u32 OS_RestoreInterrupts(u32 state);
+extern BOOL MicStopAutoSampling(void);
 
-s32 func_0208B424(void *callback, void *arg)
+MICResult func_0208B424(MICCallback callback, void *arg)
 {
-    OSIntrMode e;
+    u32 enabled = OS_DisableInterrupts();
 
-    e = OS_DisableInterrupts();
-    if (g_02152FE0.lock != 0)
+    if (mic_bss.micWork.lock)
     {
-        (void)OS_RestoreInterrupts(e);
-        return 1;
+        (void)OS_RestoreInterrupts(enabled);
+        return MIC_RESULT_BUSY;
     }
-    g_02152FE0.lock = 1;
-    (void)OS_RestoreInterrupts(e);
-    g_02152FE0.callback = (u32)callback;
-    g_02152FE0.callbackArg = (u32)arg;
-    if (MicStopAutoSampling() == 0)
+    mic_bss.micWork.lock = 1;
+    (void)OS_RestoreInterrupts(enabled);
+
+    mic_bss.micWork.callback = callback;
+    mic_bss.micWork.arg = arg;
+    if (!MicStopAutoSampling())
     {
-        g_02152FE0.lock = 0;
-        return 3;
+        mic_bss.micWork.lock = 0;
+        return MIC_RESULT_SEND_ERROR;
     }
-    return 0;
+    return MIC_RESULT_SUCCESS;
 }

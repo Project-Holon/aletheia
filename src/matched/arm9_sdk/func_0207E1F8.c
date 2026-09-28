@@ -9,19 +9,29 @@
  * isa:      arm
  * status:   EXACT
  *
- * symbols:
- *   G2_GetBG0CharPtr  0x0207E1F8  arm
+ * sdk:      G2_GetBG0CharPtr (libgx.TWL.HYB.a gx_bgcnt.o)
  *
- * TwlSDK libgx gx_bgcnt.o. Main-engine BG0 character pointer.
+ * symbols:
+ *   (none)
  */
 
 typedef unsigned short u16;
-typedef unsigned int u32;
+typedef unsigned long u32;
+typedef volatile u16 vu16;
+typedef volatile u32 vu32;
+
+#define reg_GX_DISPCNT (*(vu32 *)0x04000000)
+#define reg_G2_BGCNT (*(vu16 *)0x04000008)
+
+static inline int GetCharBase(void)
+{
+    return (reg_G2_BGCNT & 0x3C) >> 2;
+}
 
 void *func_0207E1F8(void)
 {
-    u32 baseBlock = (u32)((*(volatile u16 *)0x04000008 & 0x3c) >> 2);
+    int charBase = GetCharBase();
+    int baseBlock = 0x10000 * (int)((reg_GX_DISPCNT & 0x07000000) >> 24);
 
-    return (void *)(0x06000000 + (((*(volatile u32 *)0x04000000 & 0x7000000) >> 24) << 16) +
-                    (baseBlock << 14));
+    return (void *)(0x06000000 + baseBlock + charBase * 0x4000);
 }

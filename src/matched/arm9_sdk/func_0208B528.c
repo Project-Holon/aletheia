@@ -9,24 +9,43 @@
  * isa:      arm
  * status:   EXACT
  *
- * TwlSDK libspi mic.o, catalog name MIC_StopLimitedSampling.  Dispatches to
- * the TWL codec variant when the codec is in TWL mode, else the DS path.
+ * sdk:      MIC_StopLimitedSampling (libspi.TWL.HYB.a mic.o)
  *
  * symbols:
- *   OSi_IsCodecTwlMode           0x02087B20  arm
- *   MICEXi_StopLimitedSampling   0x02703E90  arm
- *   MIC_StopAutoSampling         0x0208B480  arm
+ *   OSi_IsCodecTwlMode  0x02087B20  arm
+ *   MICEXi_StopLimitedSampling  0x02703E90  arm
+ *   MIC_StopAutoSampling  0x0208B480  arm
  */
 
-typedef long s32;
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned long u32;
+typedef int BOOL;
 
-extern s32 OSi_IsCodecTwlMode(void);
-extern s32 MICEXi_StopLimitedSampling(void);
-extern s32 MIC_StopAutoSampling(void);
+#define TRUE 1
+#define FALSE 0
+#define NULL ((void *)0)
 
-s32 func_0208B528(void)
+typedef enum MICResult
 {
-    if (OSi_IsCodecTwlMode() == 1) {
+    MIC_RESULT_SUCCESS = 0,
+    MIC_RESULT_BUSY = 1,
+    MIC_RESULT_ILLEGAL_PARAMETER = 2,
+    MIC_RESULT_SEND_ERROR = 3
+} MICResult;
+
+typedef void (*MICCallback)(MICResult result, void *arg);
+
+typedef struct MICAutoParam MICAutoParam;
+
+extern BOOL OSi_IsCodecTwlMode(void);
+extern MICResult MICEXi_StopLimitedSampling(void);
+extern MICResult MIC_StopAutoSampling(void);
+
+MICResult func_0208B528(void)
+{
+    if (OSi_IsCodecTwlMode() == TRUE)
+    {
         return MICEXi_StopLimitedSampling();
     }
     return MIC_StopAutoSampling();

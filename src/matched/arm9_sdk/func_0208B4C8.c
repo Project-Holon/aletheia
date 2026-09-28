@@ -9,27 +9,44 @@
  * isa:      arm
  * status:   EXACT
  *
- * TwlSDK libspi mic.o.  Catalog calls this MIC_AdjustLimitedSamplingAsync,
- * but the member section that reproduces these bytes is
- * MIC_StartLimitedSamplingAsync (its TWL callee is MICEXi_StartLimitedSampling
- * Async); the catalog/DWARF disagree here.
+ * sdk:      MIC_StartLimitedSamplingAsync (libspi.TWL.HYB.a mic.o)
  *
  * symbols:
- *   OSi_IsCodecTwlMode               0x02087B20  arm
- *   MICEXi_StartLimitedSamplingAsync 0x02703CDC  arm
- *   MIC_StartAutoSamplingAsync       0x0208B2BC  arm
+ *   OSi_IsCodecTwlMode  0x02087B20  arm
+ *   MICEXi_StartLimitedSamplingAsync  0x02703CDC  arm
+ *   MIC_StartAutoSamplingAsync  0x0208B2BC  arm
  */
 
-typedef long s32;
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned long u32;
+typedef int BOOL;
 
-extern s32 OSi_IsCodecTwlMode(void);
-extern s32 MICEXi_StartLimitedSamplingAsync(s32 a, s32 b, s32 c);
-extern s32 MIC_StartAutoSamplingAsync(s32 a, s32 b, s32 c);
+#define TRUE 1
+#define FALSE 0
+#define NULL ((void *)0)
 
-s32 func_0208B4C8(s32 a, s32 b, s32 c)
+typedef enum MICResult
 {
-    if (OSi_IsCodecTwlMode() == 1) {
-        return MICEXi_StartLimitedSamplingAsync(a, b, c);
+    MIC_RESULT_SUCCESS = 0,
+    MIC_RESULT_BUSY = 1,
+    MIC_RESULT_ILLEGAL_PARAMETER = 2,
+    MIC_RESULT_SEND_ERROR = 3
+} MICResult;
+
+typedef void (*MICCallback)(MICResult result, void *arg);
+
+typedef struct MICAutoParam MICAutoParam;
+
+extern BOOL OSi_IsCodecTwlMode(void);
+extern MICResult MICEXi_StartLimitedSamplingAsync(MICAutoParam *param, MICCallback callback, void *arg);
+extern MICResult MIC_StartAutoSamplingAsync(MICAutoParam *param, MICCallback callback, void *arg);
+
+MICResult func_0208B4C8(MICAutoParam *param, MICCallback callback, void *arg)
+{
+    if (OSi_IsCodecTwlMode() == TRUE)
+    {
+        return MICEXi_StartLimitedSamplingAsync(param, callback, arg);
     }
-    return MIC_StartAutoSamplingAsync(a, b, c);
+    return MIC_StartAutoSamplingAsync(param, callback, arg);
 }

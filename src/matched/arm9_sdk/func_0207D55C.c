@@ -9,38 +9,30 @@
  * isa:      arm
  * status:   EXACT
  *
- * symbols:
- *   GXx_GetMasterBrightness_  0x0207D55C  arm
+ * sdk:      GXx_GetMasterBrightness_ (libgx.TWL.HYB.a gx.o)
  *
- * TwlSDK libgx gx.o. Reads a master-brightness register back, negating it for
- * the fade-down mode.
+ * symbols:
+ *   (none)
  */
 
 typedef unsigned short u16;
 typedef volatile u16 vu16;
 
-#define REG_GX_MASTER_BRIGHT_E_MOD_MASK   0xc000
-#define REG_GX_MASTER_BRIGHT_E_MOD_SHIFT  14
-#define REG_GX_MASTER_BRIGHT_E_VALUE_MASK 0x001f
-
 int func_0207D55C(vu16 *reg)
 {
-    u16 mode = (u16)(*reg & REG_GX_MASTER_BRIGHT_E_MOD_MASK);
+    u16 mode = (u16)(*reg & 0xC000);
 
     if (mode == 0)
     {
         return 0;
     }
-    else if (mode == (1 << REG_GX_MASTER_BRIGHT_E_MOD_SHIFT))
+    else if (mode == 0x4000)
     {
-        return *reg & REG_GX_MASTER_BRIGHT_E_VALUE_MASK;
+        return *reg & 0x1F;
     }
-    else if (mode == (2 << REG_GX_MASTER_BRIGHT_E_MOD_SHIFT))
+    else if (mode == 0x8000)
     {
-        return -(*reg & REG_GX_MASTER_BRIGHT_E_VALUE_MASK);
+        return -(*reg & 0x1F);
     }
-    else
-    {
-        return 0;
-    }
+    return 0;
 }

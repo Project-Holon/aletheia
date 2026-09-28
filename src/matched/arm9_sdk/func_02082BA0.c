@@ -9,21 +9,24 @@
  * isa:      arm
  * status:   EXACT
  *
+ * sdk:      MI_Copy64B (libmi.TWL.HYB.a mi_memory.o)
+ * asm:      fixed-register ldm/stm block copy (r2, r3, r12, then r0 reused as a fourth data register); the DWARF subprogram has no DW_TAG_variable children.
+ *
  * symbols:
- *   MI_Copy64B  0x02082BA0  arm
+ *   (none)
  */
 
-asm void func_02082BA0(void)
+asm void func_02082BA0(void *pSrc, void *pDest)
 {
-    ldmia r0!, {r2, r3, ip}
-    stmia r1!, {r2, r3, ip}
-    ldmia r0!, {r2, r3, ip}
-    stmia r1!, {r2, r3, ip}
-    ldmia r0!, {r2, r3, ip}
-    stmia r1!, {r2, r3, ip}
-    ldmia r0!, {r2, r3, ip}
-    stmia r1!, {r2, r3, ip}
-    ldmia r0, {r0, r2, r3, ip}
-    stmia r1!, {r0, r2, r3, ip}
+    ldmia r0!, {r2, r3, r12}
+    stmia r1!, {r2, r3, r12}
+    ldmia r0!, {r2, r3, r12}
+    stmia r1!, {r2, r3, r12}
+    ldmia r0!, {r2, r3, r12}
+    stmia r1!, {r2, r3, r12}
+    ldmia r0!, {r2, r3, r12}
+    stmia r1!, {r2, r3, r12}
+    ldmia r0, {r0, r2, r3, r12}
+    stmia r1!, {r0, r2, r3, r12}
     bx lr
 }

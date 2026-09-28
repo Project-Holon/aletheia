@@ -9,23 +9,42 @@
  * isa:      arm
  * status:   EXACT
  *
+ * sdk:      MATHi_CRC32UpdateRev (libmath.TWL.HYB.a crc.o)
+ *
  * symbols:
- *   MATHi_CRC32UpdateRev  0x02081B00  arm
+   (none)
  */
 
 typedef unsigned char u8;
+typedef unsigned short u16;
 typedef unsigned long u32;
 
-void func_02081B00(const u32 *table, u32 *context, const u8 *input, u32 length)
+typedef struct MATHCRC8Table
 {
-    u32 r;
-    u32 i;
-    const u8 *data;
+    u8 table[256];
+} MATHCRC8Table;
+
+typedef struct MATHCRC16Table
+{
+    u16 table[256];
+} MATHCRC16Table;
+
+typedef struct MATHCRC32Table
+{
+    u32 table[256];
+} MATHCRC32Table;
+
+void func_02081B00(MATHCRC32Table *table, u32 *context, void *input, u32 length)
+{
+    u32 r, i;
+    u8 *data;
 
     r = *context;
-    data = input;
-    for (i = 0; i < length; i++) {
-        r = table[(r ^ *data++) & 0xff] ^ (r >> 8);
+    data = (u8 *)input;
+    for (i = 0; i < length; i++)
+    {
+        r = (r >> 8) ^ table->table[(r ^ *data) & 0xFF];
+        data++;
     }
-    *context = r;
+    *context = (u32)r;
 }

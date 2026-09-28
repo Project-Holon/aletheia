@@ -8,51 +8,81 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
+ * notes:    mic_bss models mic.o .bss as one struct: micInitialized (u16) at 0x02152FE0 and
+ *            micWork (28 bytes) at 0x02152FE4; the object reaches both through one pool word.
  *
- * TwlSDK libspi mic.o, catalog MIC_Init.  One-time init: raise the
- * micInitialized flag, clear the work lock/callback, bring up the PXI FIFO,
- * wait for channel 9 callback readiness, clear the codec lock word and
- * install MicCommonCallback on FIFO 9.
+ * sdk:      MIC_Init (libspi.TWL.HYB.a mic.o)
  *
  * symbols:
- *   g_02152FE0             0x02152FE0  data
- *   PXI_Init               0x02088498  arm
- *   PXI_IsCallbackReady    0x020885EC  arm
- *   PXI_SetFifoRecvCallback 0x020885A0  arm
- *   MicCommonCallback      0x0208B548  arm
+ *   PXI_Init  0x02088498  arm
+ *   PXI_IsCallbackReady  0x020885EC  arm
+ *   PXI_SetFifoRecvCallback  0x020885A0  arm
+ *   mic_bss  0x02152FE0  data
+ *   MicCommonCallback  0x0208B548  arm
  */
 
-typedef unsigned long u32;
-typedef unsigned short u16;
 typedef unsigned char u8;
-typedef long s32;
+typedef unsigned short u16;
+typedef unsigned long u32;
+typedef int BOOL;
 
-typedef struct MicBss {
-    u16 micInitialized;
-    u8  pad02[2];
+#define TRUE 1
+#define FALSE 0
+#define NULL ((void *)0)
+
+typedef enum MICResult
+{
+    MIC_RESULT_SUCCESS = 0,
+    MIC_RESULT_BUSY = 1,
+    MIC_RESULT_ILLEGAL_PARAMETER = 2,
+    MIC_RESULT_SEND_ERROR = 3
+} MICResult;
+
+typedef void (*MICCallback)(MICResult result, void *arg);
+
+typedef struct MICAutoParam MICAutoParam;
+
+typedef struct MICWork
+{
     u32 lock;
-    u32 callback;
+    MICCallback callback;
+    void *arg;
+    MICResult result;
+    u32 reserved[3];
+} MICWork;
+
+/* mic.o .bss: micInitialized (u16) at +0, micWork (28 bytes) at +4 */
+typedef struct MicBss
+{
+    u16 micInitialized;
+    MICWork micWork;
 } MicBss;
 
-extern MicBss g_02152FE0;
+extern MicBss mic_bss;
+
+#define PXI_FIFO_TAG_MIC 9
+#define PXI_PROC_ARM7 1
+#define HW_MIC_LAST_ADDRESS (*(u32 *)0x02FFFF90)
 
 extern void PXI_Init(void);
-extern int PXI_IsCallbackReady(int fifotag, int procNo);
-extern void PXI_SetFifoRecvCallback(int fifotag, void *callback);
-extern void MicCommonCallback(int tag, u32 data, int err);
+extern BOOL PXI_IsCallbackReady(int fifotag, int proc);
+extern void PXI_SetFifoRecvCallback(int fifotag, void (*callback)(int tag, u32 data, BOOL err));
+extern void MicCommonCallback(int tag, u32 data, BOOL err);
 
 void func_0208B24C(void)
 {
-    if (g_02152FE0.micInitialized == 0)
+    if (mic_bss.micInitialized)
     {
-        g_02152FE0.micInitialized = 1;
-        g_02152FE0.lock = 0;
-        g_02152FE0.callback = 0;
-        PXI_Init();
-        while (PXI_IsCallbackReady(9, 1) == 0)
-        {
-        }
-        *(volatile u32 *)0x02FFFF90 = 0;
-        PXI_SetFifoRecvCallback(9, MicCommonCallback);
+        return;
     }
+    mic_bss.micInitialized = 1;
+    mic_bss.micWork.lock = 0;
+    mic_bss.micWork.callback = NULL;
+
+    PXI_Init();
+    while (!PXI_IsCallbackReady(PXI_FIFO_TAG_MIC, PXI_PROC_ARM7))
+    {
+    }
+    HW_MIC_LAST_ADDRESS = 0;
+    PXI_SetFifoRecvCallback(PXI_FIFO_TAG_MIC, MicCommonCallback);
 }
