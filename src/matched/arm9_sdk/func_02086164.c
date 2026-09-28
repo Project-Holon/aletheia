@@ -7,17 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
  *
  * sdk:      OSi_UnlockMutexCore (os_mutex.o)
- *
- * notes:    original keeps the switch value (count) in r0 and reloads it on
- *           the STD/W path (`ldr r0,[r6,#0xc]; b` into the R-case code); this
- *           spelling keeps it in r5.  DWARF lists only mutex, type, unlocked
- *           and e (no currentThread local).  Tried: duplicated case bodies,
- *           fall-through STD/W into R, goto into R, no currentThread local
- *           (worse: the thread load is no longer hoisted), swapped type test.
- *           Permuter seeds 12401 (400) and 13202 (500): no gain.
  *
  * symbols:
  *   OS_DisableInterrupts  0x02087988  arm
@@ -184,29 +176,27 @@ void func_02086164(OSMutex *mutex, u32 type)
         (void)OS_RestoreInterrupts(e);
         return;
     }
-
     switch (OSi_GetMutexType(mutex)) {
     case OSi_MUTEX_TYPE_STD:
     case OSi_MUTEX_TYPE_W:
-        if (mutex->thread != currentThread) {
+        if (mutex->thread != currentThread)
             break;
-        }
-        OSi_DecreaseMutexCount(mutex);
-        if (OSi_GetMutexCount(mutex) == 0) {
+        /* The object reloads the count on this path only (a separate load
+           that the switch value does not replace): read it through its
+           address here. */
+        mutex->count = (s32)(OSi_GetMutexType(mutex) | ((*(u32 *)&mutex->count - 1) & OSi_MUTEX_COUNT_MASK));
+        if (OSi_GetMutexCount(mutex) == 0)
             unlocked = 1;
-        }
         break;
     case OSi_MUTEX_TYPE_R:
         OSi_DecreaseMutexCount(mutex);
-        if (OSi_GetMutexCount(mutex) == 0) {
+        if (OSi_GetMutexCount(mutex) == 0)
             unlocked = 1;
-        }
         break;
     default:
         (void)OS_RestoreInterrupts(e);
         return;
     }
-
     if (unlocked) {
         OSi_DequeueItem(currentThread, mutex);
         mutex->thread = 0;
