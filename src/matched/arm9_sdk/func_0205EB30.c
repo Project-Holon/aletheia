@@ -7,16 +7,14 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
- * notes:    prologue, key xors, db64 call and table copy match; the cycle-walk loop does not. The image keeps two registers for the same u8 index (ctable_inv[lr] and ctable_inv[r2] both reloaded, 0xff store through the old lr address); every spelling tried (512 brute-forced variants, permuter seed 12202) CSEs them into one. Needs the index-aliasing shape.
+ * status:   EXACT
  *
- * sdk:      decodeSSID (libdwcac.TWL.HYB.a(shop_usb.o))
+ * sdk:      decodeSSID (shop_usb.o)
  *
  * symbols:
- *   db64                             0x0205ee98 arm
- *   SHMASKkey0                       0x020a80b0 data
- *   g_020A1688                       0x020A1688 data
- *   g_020A80B0                       0x020A80B0 data
+ *   db64 0x0205EE98 arm
+ *   g_020A1688 0x020A1688 data
+ *   g_020A80B0 0x020A80B0 data
  */
 
 typedef struct CTable {
@@ -42,16 +40,16 @@ void func_0205EB30(char *ssid, unsigned char *buf)
         buf[i] = buf[i] ^ g_020A80B0[2][i];
     }
     for (i = 0; i < 24; i++) {
+        destnum = (unsigned char)i;
         srcnum = (unsigned char)i;
-        destnum = srcnum;
         src = buf[i];
         while (ctable_inv.b[srcnum] != 0xff) {
-            destnum = ctable_inv.b[destnum];
-            dest = buf[destnum];
+            dest = buf[ctable_inv.b[srcnum]];
+            buf[ctable_inv.b[destnum]] = src;
+            destnum = ctable_inv.b[srcnum];
             ctable_inv.b[srcnum] = 0xff;
-            buf[destnum] = src;
-            src = dest;
             srcnum = destnum;
+            src = dest;
         }
     }
     for (i = 0; i < 24; i++) {

@@ -3,14 +3,13 @@
  * address:  0x02059588
  * packet:   pkt_02059588
  * region:   arm9
- * compiler: 1.1p1
+ * compiler: 1.2
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
- * notes:    4 bytes: the xor loop reads buffer[i] through the &buffer[i] base (ldr r1, [r0]); the image reads it indexed (ldr r1, [r4, r2, lsl #2]). Rest of the function is byte-identical.
+ * status:   EXACT
  *
- * sdk:      DWCi_Acc_CreateTempLoginId (libdwcaccount.TWL.HYB.a(dwc_account.o))
+ * sdk:      DWCi_Acc_CreateTempLoginId (dwc_account.o)
  *
  * symbols:
  *   OS_GetLowEntropyData             0x02088168 arm
@@ -19,10 +18,6 @@
  *   DWCi_Acc_SetPlayerId             0x020590f0 arm
  *   DWCi_Acc_SetFlag_DataType        0x020591f0 arm
  */
-
-struct MATHCRC32Table {
-    unsigned long table[256];
-};
 
 struct DWCstAccLoginId {
     unsigned long data[3];
@@ -39,8 +34,6 @@ struct DWCstAccUserData {
     unsigned long crc32;
 };
 
-extern void MATHi_CRC32InitTableRev(struct MATHCRC32Table *table, unsigned long poly);
-extern unsigned long MATH_CalcCRC32(struct MATHCRC32Table *table, void *data, unsigned long dataLength);
 typedef struct DWCAuthWiFiId {
     unsigned long long uId;
     unsigned long long notAttestedId;
