@@ -35,3 +35,11 @@ u32 func_02008A54(struct Obj *obj, u32 i)
     v |= obj->unk604[i].b[3] << 24;
     return v;
 }
+
+== 2026-09-28 arm9_02008A54
+
+CLOSED, EXACT, first measurement of a fresh draft. The function returns the
+4-byte record by value (the ov111 caller 0x021C7B20 already declared it as
+returning a struct): `struct Rec f(struct Obj *obj, int i) { return obj->unk604[i]; }`.
+Filed as src/matched/func_02008A54.c, shard pkt_02008A54. Idiom:
+docs/idioms/a-byte-assembled-word-in-r0-is-a-small-struct-returned-by-value.md.
