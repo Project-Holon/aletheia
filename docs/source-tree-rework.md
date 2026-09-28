@@ -73,9 +73,11 @@ Net ~37.3 KB reclassified game -> SDK, dominated by the twl block.
 disasm emits any byte it cannot reach from a seed as data, so code whose only
 reference is indirect is absent from the twl denominator.  `twl_probe.py`
 collects image pointers into the region and seeds the ones landing on neither
-a label nor an SDK symbol.  Seeding recovered 39 functions / 9 KB that
-assemble, but the tables also point at data and the tracer emitted Thumb-2
-(`and.w`, invalid on ARM9) and invalid ARM (`strdeq r3,r4`), so the seeding
+a label nor an SDK symbol.  Every seeded state was rejected: the largest
+contributor was an arm9->twl data table with a `+0x10000` stride, traced as
+Thumb and emitting Thumb-2 (`and.w`, invalid on ARM9); after dropping those,
+the remainder still failed the assembler on invalid ARM (`strdeq r3,r4`, odd
+first register to STRD).  No recovered function was confirmed, so the seeding
 was reverted.  twl is 204 functions, 39,012 SDK bytes, 440 game bytes; the
 game figure is a lower bound.  A validating pass (accept a seed only when its
 traced function assembles and is self-consistent) is the way to land it.
