@@ -9,25 +9,32 @@
  * isa:      arm
  * status:   EXACT
  *
- * symbols:
- *   MTX_Identity44_  0x0207BDB4  arm
+ * sdk:      MTX_Identity44_ (fx_mtx44.o)
  *
- * TwlSDK libfx fx_mtx44.o. Hand-written assembly (DWARF has no locals).
- * Writes the 4x4 identity matrix (FX32_ONE on the diagonal).
+ * asm:      fixed-register stm block (stmia r0!, {r1, r2, r3} runs) has no C spelling
+ *
+ * symbols:
+ *   (none)
  */
 
-asm void func_0207BDB4(void)
+typedef long fx32;
+
+typedef union {
+    fx32 m[4][4];
+    fx32 a[16];
+} MtxFx44;
+
+asm void func_0207BDB4(MtxFx44 *pDst)
 {
-    mov   r2, #4096
-    mov   r3, #0
+    mov r2, #0x1000
+    mov r3, #0
     stmia r0!, {r2, r3}
-    mov   r1, #0
+    mov r1, #0
     stmia r0!, {r1, r3}
     stmia r0!, {r1, r2, r3}
     stmia r0!, {r1, r3}
     stmia r0!, {r1, r2, r3}
     stmia r0!, {r1, r3}
     stmia r0!, {r1, r2}
-
-    bx    lr
+    bx lr
 }

@@ -9,25 +9,28 @@
  * isa:      arm
  * status:   EXACT
  *
- * SDK symbol: NCFG_GetFormatVersion (backup.o, libncfg.TWL.HYB.a)
+ * sdk:      NCFG_GetFormatVersion (backup.o)
  *
  * symbols:
- *   NCFGi_InitBackupMemory   0x0205F648  arm
- *   FormatVersionNumber      0x02146B00  data
+ *   NCFGi_InitBackupMemory           0x0205f648 arm
+ *   FormatVersionNumber              0x02146b00 data
  */
 
-extern long NCFGi_InitBackupMemory(void);
+extern long func_0205F648(void);
 extern unsigned char FormatVersionNumber;
 
 unsigned char func_0205F700(void)
 {
-    long result = NCFGi_InitBackupMemory();
+    long result;
     unsigned char version;
 
-    if (result != 0)
+    result = func_0205F648();
+    if (result != 0) {
         return 0;
+    }
     version = FormatVersionNumber;
-    if (version == 0xff)
-        return 0x10;
+    if (version == 0xFF) {
+        version = 0x10;
+    }
     return version;
 }

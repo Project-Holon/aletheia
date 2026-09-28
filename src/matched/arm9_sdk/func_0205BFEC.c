@@ -12,25 +12,29 @@
  * sdk:      DWCi_AC_InsertApInfo (dwc_ac.o)
  *
  * symbols:
- *   MIi_CpuCopy32  0x02082A90  arm
+ *   DWCi_AC_GetMemPtr                0x0205c214 arm
+ *   MIi_CpuCopy32                    0x02082a90 arm
  */
 
-typedef unsigned char u8;
-typedef unsigned int u32;
+typedef struct NCFGApInfo {
+    unsigned char data[0xF0];
+} NCFGApInfo;
 
-typedef struct {
-    u8 b[0x100];
-} USERINFO;
+typedef struct NCFGSlotInfo {
+    NCFGApInfo ap;
+    unsigned char rest[0x10];
+} NCFGSlotInfo;
 
-typedef struct {
-    USERINFO userInfo[3];
-} ACWORK;
+typedef struct tagACWORK {
+    NCFGSlotInfo userInfo[3];
+} tagACWORK;
 
-extern ACWORK *DWCi_AC_GetMemPtr(int name);
-extern void MIi_CpuCopy32(const void *src, void *dst, u32 size);
+extern void *func_0205C214(unsigned long name);
+extern void MIi_CpuCopy32(const void *srcp, void *destp, unsigned long size);
 
-void func_0205BFEC(int no, const void *info)
+void func_0205BFEC(int no, NCFGApInfo *info)
 {
-    ACWORK *wk = DWCi_AC_GetMemPtr(0x10);
-    MIi_CpuCopy32(info, &wk->userInfo[no], 0xf0);
+    tagACWORK *wk = (tagACWORK *)func_0205C214(0x10);
+
+    MIi_CpuCopy32(info, &wk->userInfo[no], sizeof(NCFGApInfo));
 }

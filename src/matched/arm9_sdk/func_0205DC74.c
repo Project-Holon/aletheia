@@ -9,29 +9,30 @@
  * isa:      arm
  * status:   EXACT*
  *
- * SDK symbol: DWC_AC_CleanupGetWDSInfo (nintendospot.o, libdwcac.TWL.HYB.a)
+ * sdk:      DWC_AC_CleanupGetWDSInfo (nintendospot.o)
  *
  * symbols:
- *   DWC_Free      0x0205A1B0  arm
- *   gDwcWdsWork   0x02146ADC  data
+ *   DWC_Free                         0x0205a1b0 arm
+ *   gDwcWdsWork                      0x02146adc data
+ *   .bss                             0x02146adc data
  */
 
-struct DWCWDSWork {
-    void *f0;
-    void *f4;
-};
+#define NULL ((void *)0)
+typedef struct DWCWDSWork DWCWDSWork;
 
-extern void DWC_Free(int name, void *ptr, int flag);
-extern struct DWCWDSWork gDwcWdsWork;
+extern void DWC_Free(int name, void *ptr, long size);
+
+static DWCWDSWork *gDwcWdsWork = NULL;
+static void *wdsSysBuf = NULL;
 
 void func_0205DC74(void)
 {
-    if (gDwcWdsWork.f4 != 0) {
-        DWC_Free(1, gDwcWdsWork.f4, 0);
-        gDwcWdsWork.f4 = 0;
+    if (wdsSysBuf != NULL) {
+        DWC_Free(1, wdsSysBuf, 0);
+        wdsSysBuf = NULL;
     }
-    if (gDwcWdsWork.f0 != 0) {
-        DWC_Free(1, gDwcWdsWork.f0, 0);
-        gDwcWdsWork.f0 = 0;
+    if (gDwcWdsWork != NULL) {
+        DWC_Free(1, gDwcWdsWork, 0);
+        gDwcWdsWork = NULL;
     }
 }

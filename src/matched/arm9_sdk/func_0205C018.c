@@ -10,21 +10,25 @@
  * status:   EXACT
  *
  * sdk:      DWCi_AC_InvalidatePriorityWPA (dwc_ac.o)
+ *
+ * symbols:
+ *   DWCi_AC_GetMemPtr                0x0205c214 arm
  */
 
-typedef struct {
-    unsigned char pad[0x14bc];
+typedef struct tagACWORK {
+    unsigned char before[0x14BC];
     unsigned char connectType : 4;
     unsigned char skipNetCheck : 1;
     unsigned char useDSWireless : 1;
     unsigned char duplicateFlag : 1;
     unsigned char wpaSetting : 1;
-} WK;
+} tagACWORK;
 
-extern WK *DWCi_AC_GetMemPtr(int name);
+extern void *func_0205C214(unsigned long name);
 
 void func_0205C018(void)
 {
-    WK *wk = DWCi_AC_GetMemPtr(0x10);
+    tagACWORK *wk = (tagACWORK *)func_0205C214(0x10);
+
     wk->wpaSetting = 0;
 }

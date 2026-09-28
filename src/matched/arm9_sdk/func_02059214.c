@@ -9,20 +9,27 @@
  * isa:      arm
  * status:   EXACT
  *
- * SDK symbol: DWCi_SetBuddyFriendData (libdwcaccount.TWL.HYB.a(dwc_account.o))
- * DWARF dwc_account.c:437-446, formal frienddata (r0), local flags (r0).
+ * sdk:      DWCi_SetBuddyFriendData (dwc_account.o)
+ *
+ * symbols:
+ *   DWCi_Acc_GetFlag_DataType        0x0205911c arm
+ *   DWCi_Acc_GetFlags                0x02059108 arm
+ *   DWCi_Acc_SetFlags                0x020591d8 arm
  */
 
-extern int DWCi_Acc_GetFlag_DataType(void *frienddata);
-extern unsigned long DWCi_Acc_GetFlags(void *frienddata);
-extern void DWCi_Acc_SetFlags(void *frienddata, unsigned long flags);
+typedef struct DWCstAccFlag DWCstAccFlag;
+typedef union DWCstAccFriendData DWCstAccFriendData;
 
-void func_02059214(void *frienddata)
+extern unsigned long func_0205911C(DWCstAccFlag *userdata);
+extern unsigned long func_02059108(DWCstAccFlag *userdata);
+extern void func_020591D8(DWCstAccFlag *userdata, unsigned long flags);
+
+void func_02059214(DWCstAccFriendData *frienddata)
 {
     unsigned long flags;
 
-    if (DWCi_Acc_GetFlag_DataType(frienddata) == 3) {
-        flags = DWCi_Acc_GetFlags(frienddata) | 4;
-        DWCi_Acc_SetFlags(frienddata, flags);
+    if (func_0205911C((DWCstAccFlag *)frienddata) == 3) {
+        flags = func_02059108((DWCstAccFlag *)frienddata) | 4;
+        func_020591D8((DWCstAccFlag *)frienddata, flags);
     }
 }

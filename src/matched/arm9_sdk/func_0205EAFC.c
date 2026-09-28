@@ -9,18 +9,21 @@
  * isa:      arm
  * status:   EXACT*
  *
- * SDK symbol: DWCi_AC_CheckNintendoUsbAP (shop_usb.o, libdwcac.TWL.HYB.a)
+ * sdk:      DWCi_AC_CheckNintendoUsbAP (shop_usb.o)
  *
  * symbols:
- *   memcmp          0x020923F0  arm
- *   str_020A8124    0x020A8124  data
+ *   memcmp                           0x020923f0 arm
+ *   g_020A8124                       0x020a8124 data
  */
 
-extern int memcmp(const void *a, const void *b, unsigned long n);
+extern int memcmp(const void *s1, const void *s2, unsigned long n);
 
-extern char str_020A8124[];
+extern const char g_020A8124[]; /* "NWCUSBAP", the vendor object's @16393 */
 
 int func_0205EAFC(char *ssid)
 {
-    return memcmp(ssid, str_020A8124, 8) == 0;
+    if (memcmp(ssid, g_020A8124, 8) == 0) {
+        return 1;
+    }
+    return 0;
 }

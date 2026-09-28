@@ -9,20 +9,33 @@
  * isa:      arm
  * status:   EXACT
  *
- * SDK symbol: FS_InitArchive (TwlSDK libfs.TWL.HYB.a fs_archive.o)
+ * sdk:      FS_InitArchive (fs_archive.o)
  *
  * symbols:
- *   MI_CpuFill8   0x02082BCC  arm
+ *   MI_CpuFill8                      0x02082bcc arm
  */
 
-typedef unsigned char u8;
-typedef unsigned long u32;
+#define NULL ((void *)0)
 
-extern void MI_CpuFill8(void *dstp, u8 data, u32 size);
+typedef struct _OSThread OSThread;
 
-void func_02078360(u8 *p_arc)
+typedef struct _OSThreadQueue {
+    OSThread *head;
+    OSThread *tail;
+} OSThreadQueue;
+
+typedef struct FSArchive {
+    unsigned long name;
+    struct FSArchive *next;
+    void *list;
+    OSThreadQueue queue;
+    unsigned char rest[0x5C - 0x14];
+} FSArchive;
+
+extern void MI_CpuFill8(void *dstp, unsigned char data, unsigned long size);
+
+void func_02078360(FSArchive *p_arc)
 {
-    MI_CpuFill8(p_arc, 0, 0x5c);
-    *(u32 *)(p_arc + 0x10) = 0;
-    *(u32 *)(p_arc + 0xc) = 0;
+    MI_CpuFill8(p_arc, 0, sizeof(FSArchive));
+    p_arc->queue.head = p_arc->queue.tail = NULL;
 }

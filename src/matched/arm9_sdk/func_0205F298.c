@@ -9,24 +9,27 @@
  * isa:      arm
  * status:   EXACT
  *
- * SDK symbol: ConnectTestCreate (test.o, libdwcac.TWL.HYB.a)
+ * sdk:      ConnectTestCreate (test.o)
  *
  * symbols:
- *   DWCi_AC_GetMemPtr     0x0205C214  arm
- *   DWC_Netcheck_Create   0x0217A880  arm
- *   DWCi_AC_SetError      0x0205C2E4  arm
+ *   DWCi_AC_GetMemPtr                0x0205c214 arm
+ *   DWC_Netcheck_Create              0x0217a880 arm
+ *   DWCi_AC_SetError                 0x0205c2e4 arm
  */
 
-extern void *DWCi_AC_GetMemPtr(unsigned long name);
-extern int DWC_Netcheck_Create(void *param);
-extern void DWCi_AC_SetError(int error);
+typedef struct DWCNetcheckParam DWCNetcheckParam;
 
-unsigned char func_0205F298(void)
+extern void *func_0205C214(unsigned long name);
+extern int DWC_Netcheck_Create(DWCNetcheckParam *param);
+extern void func_0205C2E4(int error);
+
+static unsigned char func_0205F298(void)
 {
-    void *nc = DWCi_AC_GetMemPtr(8);
+    DWCNetcheckParam *nc = (DWCNetcheckParam *)func_0205C214(8);
 
-    if (DWC_Netcheck_Create(nc) == 0)
-        return 0xe;
-    DWCi_AC_SetError(3);
+    if (DWC_Netcheck_Create(nc) == 0) {
+        return 0xE;
+    }
+    func_0205C2E4(3);
     return 0x11;
 }

@@ -9,12 +9,10 @@
  * isa:      arm
  * status:   EXACT
  *
- * Symbol at this offset is DWC_BACKUPlCheckSsid (libdwcbm dwc_backup.o,
- * dwc_backup.c:498).  DWARF: one formal (unsigned char *ssid) and one
- * local (int i).
+ * sdk:      NCFGi_CheckSsid (check.o)
  *
  * symbols:
- *   DWC_BACKUPlCheckSsid 0x02060394 arm
+ *   (none)
  */
 
 int func_02060394(unsigned char *ssid)
@@ -22,8 +20,9 @@ int func_02060394(unsigned char *ssid)
     int i;
 
     for (i = 0; i < 32; i++) {
-        if (ssid[i] != 0)
+        if (ssid[i] != 0) {
             return 1;
+        }
     }
     return 0;
 }

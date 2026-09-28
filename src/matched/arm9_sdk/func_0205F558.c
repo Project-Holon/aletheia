@@ -9,17 +9,24 @@
  * isa:      arm
  * status:   EXACT
  *
- * SDK symbol: ConvNetMask (test.o, libdwcac.TWL.HYB.a)
+ * sdk:      ConvNetMask (test.o)
+ *
+ * symbols:
+ *   (none)
  */
 
-unsigned long func_0205F558(unsigned char netmask)
-{
-    unsigned long netmask32 = 0xffffffff;
-    int i;
-    int n = 32 - netmask;
+#define SWAP32(x) ((((x) >> 24) & 0xFF) | (((x) >> 8) & 0xFF00) | (((x) << 8) & 0xFF0000) | (((x) << 24) & 0xFF000000))
 
-    for (i = 0; i < n; i++)
+static unsigned long func_0205F558(unsigned char netmask)
+{
+    int i;
+    int n;
+    unsigned long netmask32;
+
+    netmask32 = 0xFFFFFFFF;
+    n = 32 - netmask;
+    for (i = 0; i < n; i++) {
         netmask32 <<= 1;
-    return ((netmask32 >> 24) & 0xff) | ((netmask32 >> 8) & 0xff00)
-         | ((netmask32 << 8) & 0xff0000) | ((netmask32 << 24) & 0xff000000);
+    }
+    return SWAP32(netmask32);
 }

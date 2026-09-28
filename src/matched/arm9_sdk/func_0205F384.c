@@ -9,24 +9,27 @@
  * isa:      arm
  * status:   EXACT
  *
- * SDK symbol: ConnectTestRetry (test.o, libdwcac.TWL.HYB.a)
+ * sdk:      ConnectTestRetry (test.o)
  *
  * symbols:
- *   SOCL_CalmDown   0x0215ED60  arm
- *   SOC_Cleanup     0x0215FA90  arm
+ *   SOCL_CalmDown                    0x0215ed60 arm
+ *   SOC_Cleanup                      0x0215fa90 arm
  */
 
 extern int SOCL_CalmDown(void);
 extern int SOC_Cleanup(void);
 
-unsigned char func_0205F384(void)
+static unsigned char func_0205F384(void)
 {
-    int result = SOCL_CalmDown();
+    int result;
 
-    if (result != 0)
-        return 0xb;
+    result = SOCL_CalmDown();
+    if (result != 0) {
+        return 0xB;
+    }
     result = SOC_Cleanup();
-    if (result == 0 || result == -0x27)
+    if (result == 0 || result == -39) {
         return 9;
-    return 0xb;
+    }
+    return 0xB;
 }

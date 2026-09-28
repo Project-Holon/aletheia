@@ -10,23 +10,33 @@
  * status:   EXACT
  *
  * sdk:      DWCi_AC_Error (error.o)
+ *
+ * symbols:
+ *   DWCi_AC_GetMemPtr                0x0205c214 arm
+ *   DWCi_AC_CloseNetwork             0x0205b1e4 arm
  */
 
-typedef unsigned char u8;
+typedef struct tagACHOLD {
+    void *(*alloc)(unsigned long, long);
+    void (*free)(unsigned long, void *, long);
+    unsigned char allocState;
+    unsigned char phase;
+    unsigned char phaseError;
+    unsigned char findAP : 4;
+    unsigned char ipCollision : 4;
+    int error;
+    int errorTest;
+} tagACHOLD;
 
-typedef struct {
-    u8 pad[0xa];
-    u8 phase;
-} ACHOLD;
+extern void *func_0205C214(unsigned long name);
 
-extern ACHOLD *DWCi_AC_GetMemPtr(int name);
-extern int DWCi_AC_CloseNetwork(u8 *phase);
+extern int func_0205B1E4(unsigned char *phase);
 
-u8 func_0205D0E4(void)
+unsigned char func_0205D0E4(void)
 {
-    ACHOLD *hd = DWCi_AC_GetMemPtr(1);
+    tagACHOLD *hd = (tagACHOLD *)func_0205C214(1);
 
-    if (DWCi_AC_CloseNetwork(&hd->phase) == 1) {
+    if (func_0205B1E4(&hd->phaseError) == 1) {
         return 0x12;
     }
     return 0x11;

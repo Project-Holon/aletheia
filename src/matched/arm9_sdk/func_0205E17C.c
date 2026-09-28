@@ -9,31 +9,38 @@
  * isa:      arm
  * status:   EXACT
  *
- * SDK symbol: SearchAround2ndLap (search.o, libdwcac.TWL.HYB.a)
+ * sdk:      SearchAround2ndLap (search.o)
  *
  * symbols:
- *   DWCi_AC_MakeSearchList   0x0205D318  arm
- *   GetStartChannel          0x0205E818  arm
+ *   DWCi_AC_MakeSearchList           0x0205d318 arm
+ *   GetStartChannel                  0x0205e818 arm
  */
 
-struct tagACWORK {
-    char pad[0x14BB];
-    unsigned char low : 4;
-    unsigned char lap : 4;
-    char pad2[5];
-    unsigned char f14C1;
-    char pad3[3];
-    unsigned char f14C5;
-};
+typedef struct tagACWORK {
+    unsigned char before[0x14BB];
+    unsigned char powerMode : 2;
+    unsigned char authMode : 2;
+    unsigned char aroundCount : 4;
+    unsigned char flags14BC;
+    unsigned char connectApType;
+    unsigned char phaseBak;
+    unsigned char searchListNo;
+    unsigned char searchListNum;
+    signed char searchChannel;
+    unsigned char findListNum;
+    unsigned char connectNo;
+    unsigned char connectResult;
+    unsigned char count;
+} tagACWORK;
 
-extern int DWCi_AC_MakeSearchList(int type);
-extern signed char GetStartChannel(int lap);
+extern int func_0205D318(int type);
+extern signed char func_0205E818(int lap);
 
-unsigned char func_0205E17C(struct tagACWORK *wk)
+static unsigned char func_0205E17C(tagACWORK *wk)
 {
-    wk->lap = wk->lap + 1;
-    wk->f14C5 = 0;
-    DWCi_AC_MakeSearchList(0);
-    wk->f14C1 = GetStartChannel(1);
+    wk->count = 0;
+    wk->aroundCount++;
+    func_0205D318(0);
+    wk->searchChannel = func_0205E818(1);
     return 3;
 }

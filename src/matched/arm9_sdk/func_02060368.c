@@ -9,19 +9,19 @@
  * isa:      arm
  * status:   EXACT
  *
- * Symbol at this offset is DWCi_BACKUPlConvMaskAddr (libdwcbm dwc_backup.o,
- * dwc_backup.c:483).  DWARF: formals (int mask, unsigned char *buf), locals
- * (int i, unsigned long snm).  Writes the 4 bytes of the network-order mask.
+ * sdk:      NCFGi_ConvMaskAddr (check.o)
  *
  * symbols:
- *   DWCi_BACKUPlConvMaskAddr 0x02060368 arm
+ *   (none)
  */
 
 void func_02060368(int mask, unsigned char *buf)
 {
     int i;
-    unsigned int snm = ~0u ^ (~0u >> mask);
+    unsigned long snm;
 
-    for (i = 0; i < 4; i++)
-        buf[i] = snm >> (24 - i * 8);
+    snm = 0xFFFFFFFF ^ (0xFFFFFFFF >> mask);
+    for (i = 0; i < 4; i++) {
+        buf[i] = (unsigned char)(snm >> (24 - i * 8));
+    }
 }

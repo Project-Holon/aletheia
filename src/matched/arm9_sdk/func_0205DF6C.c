@@ -9,26 +9,28 @@
  * isa:      arm
  * status:   EXACT
  *
- * SDK symbol: DWCi_AC_SetStealthChannel (search.o, libdwcac.TWL.HYB.a)
+ * sdk:      DWCi_AC_SetStealthChannel (search.o)
  *
  * symbols:
- *   DWCi_AC_GetMemPtr   0x0205C214  arm
+ *   DWCi_AC_GetMemPtr                0x0205c214 arm
  */
 
-struct tagACWORK {
-    char pad[0x14C6];
-    unsigned short f14C6;
-    char pad2[6];
-    unsigned short f14CE;
-};
+typedef struct tagACWORK {
+    unsigned char before[0x14C6];
+    unsigned short stealthChannel;
+    long rwin;
+    unsigned char wontExecuteEULACheck;
+    unsigned short maxChannel;
+} tagACWORK;
 
-extern void *DWCi_AC_GetMemPtr(unsigned long name);
+extern void *func_0205C214(unsigned long name);
 
 void func_0205DF6C(unsigned short channel)
 {
-    struct tagACWORK *wk = DWCi_AC_GetMemPtr(0x10);
+    tagACWORK *wk = (tagACWORK *)func_0205C214(0x10);
 
-    if (channel > wk->f14CE)
-        channel = wk->f14CE;
-    wk->f14C6 = wk->f14C6 | (1 << (channel - 1));
+    if (channel > wk->maxChannel) {
+        channel = wk->maxChannel;
+    }
+    wk->stealthChannel = (unsigned short)(wk->stealthChannel | (1 << (channel - 1)));
 }

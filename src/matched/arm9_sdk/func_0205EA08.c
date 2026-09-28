@@ -9,22 +9,24 @@
  * isa:      arm
  * status:   EXACT
  *
- * SDK symbol: DWCi_AC_CheckNintendoShopAP (shop_usb.o, libdwcac.TWL.HYB.a)
+ * sdk:      DWCi_AC_CheckNintendoShopAP (shop_usb.o)
  *
  * symbols:
- *   decodeSSID       0x0205EB30  arm
- *   memcmp           0x020923F0  arm
- *   str_020A8118     0x020A8118  data
+ *   decodeSSID                       0x0205eb30 arm
+ *   memcmp                           0x020923f0 arm
+ *   @16365                           0x020a8118 data
  */
 
-extern void decodeSSID(char *ssid, unsigned char *buf);
-extern int memcmp(const void *a, const void *b, unsigned long n);
-extern char str_020A8118[];
+extern void func_0205EB30(char *ssid, unsigned char *buf);
+extern int memcmp(const void *s1, const void *s2, unsigned long n);
 
 int func_0205EA08(char *ssid)
 {
     unsigned char buf[24];
 
-    decodeSSID(ssid, buf);
-    return memcmp(buf, str_020A8118, 8) == 0;
+    func_0205EB30(ssid, buf);
+    if (memcmp(buf, "NDWCSHAP", 8) == 0) {
+        return 1;
+    }
+    return 0;
 }

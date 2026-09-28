@@ -9,35 +9,26 @@
  * isa:      arm
  * status:   EXACT
  *
- * symbols:
- *   PMi_SetDispOffCount  0x0208C944  arm
- *   sIsDispOn            0x020A84BC  data
- *   sDispMode            0x02150E0C  data
+ * sdk:      GX_DispOff (gx.o)
  *
- * TwlSDK libgx gx.o. Stops displaying the MAIN engine and remembers the mode.
+ * symbols:
+ *   PMi_SetDispOffCount              0x0208c944 arm
+ *   sIsDispOn                        0x020a84bc data
+ *   sDispMode                        0x02150e0c data
  */
 
-typedef unsigned int u32;
-typedef unsigned short u16;
-
-#define reg_GX_DISPCNT (*(volatile u32 *)0x04000000)
-
-#define REG_GX_DISPCNT_MODE_MASK  0x00030000
-#define REG_GX_DISPCNT_MODE_SHIFT 16
-
-extern u16 sDispMode;
-extern u16 sIsDispOn;
+#define reg_GX_DISPCNT (*(volatile unsigned long *)0x04000000)
 
 extern void PMi_SetDispOffCount(void);
+extern unsigned short sIsDispOn;
+extern unsigned short sDispMode;
 
 void func_0207D42C(void)
 {
-    u32 tmp = reg_GX_DISPCNT;
+    unsigned long tmp = reg_GX_DISPCNT;
 
     sIsDispOn = 0;
-    sDispMode = (u16)((tmp & REG_GX_DISPCNT_MODE_MASK) >> REG_GX_DISPCNT_MODE_SHIFT);
-
-    reg_GX_DISPCNT = tmp & ~REG_GX_DISPCNT_MODE_MASK;
-
+    sDispMode = (unsigned short)((tmp & 0x30000) >> 16);
+    reg_GX_DISPCNT = tmp & ~0x30000;
     PMi_SetDispOffCount();
 }

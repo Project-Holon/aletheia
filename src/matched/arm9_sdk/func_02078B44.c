@@ -9,36 +9,38 @@
  * isa:      arm
  * status:   EXACT
  *
- * SDK symbol: FS_SeekFile (TwlSDK libfs.TWL.HYB.a fs_file.o)
+ * sdk:      FS_SeekFile (fs_file.o)
  *
  * symbols:
- *   FSi_SendCommand   0x02077D80  arm
+ *   FSi_SendCommand                  0x02077d80 arm
  */
 
-typedef int BOOL;
-typedef unsigned char u8;
-typedef long s32;
+typedef enum FSSeekFileMode {
+    FS_SEEK_SET,
+    FS_SEEK_CUR,
+    FS_SEEK_END
+} FSSeekFileMode;
 
-typedef struct FSFile
-{
-    u8 pad[0x10];
+typedef struct FSArgumentForSeekFile {
+    long offset;
+    FSSeekFileMode from;
+} FSArgumentForSeekFile;
+
+typedef struct FSFile {
+    unsigned char head[0x10];
     void *argument;
 } FSFile;
 
-typedef struct FSArgumentForSeekFile
-{
-    s32 offset;
-    int from;
-} FSArgumentForSeekFile;
+extern int FSi_SendCommand(FSFile *file, unsigned long command, int blocking);
 
-extern BOOL FSi_SendCommand(FSFile *file, int command, BOOL blocking);
-
-BOOL func_02078B44(FSFile *file, s32 offset, int origin)
+int func_02078B44(FSFile *file, long offset, FSSeekFileMode origin)
 {
     FSArgumentForSeekFile arg[1];
+    int retval;
 
     file->argument = arg;
-    arg->offset = (int)offset;
+    arg->offset = offset;
     arg->from = origin;
-    return FSi_SendCommand(file, 0xe, 1);
+    retval = FSi_SendCommand(file, 14, 1);
+    return retval;
 }

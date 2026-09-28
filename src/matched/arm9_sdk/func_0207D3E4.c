@@ -9,28 +9,22 @@
  * isa:      arm
  * status:   EXACT
  *
- * symbols:
- *   GX_VBlankIntr  0x0207D3E4  arm
+ * sdk:      GX_VBlankIntr (gx.o)
  *
- * TwlSDK libgx gx.o. Enables/disables the V-Blank interrupt and returns the
- * previous state.
+ * symbols:
+ *   (none)
  */
 
 #define reg_GX_DISPSTAT (*(volatile unsigned short *)0x04000004)
 
-#define REG_GX_DISPSTAT_VBI_MASK 0x0008
-
-int func_0207D3E4(int enable)
+long func_0207D3E4(int enable)
 {
-    int rval = (reg_GX_DISPSTAT & REG_GX_DISPSTAT_VBI_MASK);
+    long rval = reg_GX_DISPSTAT & 0x8;
 
-    if (enable)
-    {
-        reg_GX_DISPSTAT |= REG_GX_DISPSTAT_VBI_MASK;
-    }
-    else
-    {
-        reg_GX_DISPSTAT &= ~REG_GX_DISPSTAT_VBI_MASK;
+    if (enable) {
+        reg_GX_DISPSTAT |= 0x8;
+    } else {
+        reg_GX_DISPSTAT &= ~0x8;
     }
     return rval;
 }

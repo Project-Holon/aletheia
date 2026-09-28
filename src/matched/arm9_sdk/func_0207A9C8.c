@@ -9,19 +9,29 @@
  * isa:      arm
  * status:   EXACT
  *
- * SDK symbol: FSi_OnRomReadDone (TwlSDK libfs.TWL.HYB.a fs_proc_rom.o)
+ * sdk:      FSi_OnRomReadDone (fs_proc_rom.o)
  *
  * symbols:
- *   CARD_IsPulledOut           0x020774B0  arm
- *   FS_NotifyArchiveAsyncEnd   0x02078734  arm
+ *   CARD_IsPulledOut                 0x020774b0 arm
+ *   FS_NotifyArchiveAsyncEnd         0x02078734 arm
  */
 
-typedef int BOOL;
+typedef struct FSArchive FSArchive;
 
-extern BOOL CARD_IsPulledOut(void);
-extern void FS_NotifyArchiveAsyncEnd(void *arc, int ret);
+typedef enum FSResult {
+    FS_RESULT_SUCCESS = 0,
+    FS_RESULT_FAILURE,
+    FS_RESULT_BUSY,
+    FS_RESULT_CANCELED,
+    FS_RESULT_UNSUPPORTED,
+    FS_RESULT_ERROR,
+    FS_RESULT_PROC_ASYNC = 0x100
+} FSResult;
 
-void func_0207A9C8(void *arg)
+extern int func_020774B0(void);
+extern void func_02078734(FSArchive *arc, FSResult ret);
+
+static void func_0207A9C8(void *arg)
 {
-    FS_NotifyArchiveAsyncEnd(arg, CARD_IsPulledOut() ? 5 : 0);
+    func_02078734((FSArchive *)arg, func_020774B0() ? FS_RESULT_ERROR : FS_RESULT_SUCCESS);
 }

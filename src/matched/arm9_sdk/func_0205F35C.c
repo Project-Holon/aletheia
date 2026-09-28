@@ -9,24 +9,24 @@
  * isa:      arm
  * status:   EXACT
  *
- * SDK symbol: ConnectTestEnd (test.o, libdwcac.TWL.HYB.a)
+ * sdk:      ConnectTestEnd (test.o)
  *
  * symbols:
- *   DWCi_AC_SetApType      0x0205C31C  arm
- *   DWCi_AC_CopyExSetting  0x0205C3B0  arm
+ *   DWCi_AC_SetApType                0x0205c31c arm
+ *   DWCi_AC_CopyExSetting            0x0205c3b0 arm
  */
 
-struct tagACWORK {
-    char pad[0x14BD];
-    unsigned char f;
-};
+typedef struct tagACWORK {
+    unsigned char before[0x14BD];
+    unsigned char connectApType;
+} tagACWORK;
 
-extern void DWCi_AC_SetApType(unsigned char type);
-extern void DWCi_AC_CopyExSetting(unsigned char type);
+extern void func_0205C31C(unsigned char type);
+extern void func_0205C3B0(unsigned char type);
 
-unsigned char func_0205F35C(struct tagACWORK *wk)
+static unsigned char func_0205F35C(tagACWORK *wk)
 {
-    DWCi_AC_SetApType(wk->f);
-    DWCi_AC_CopyExSetting(wk->f);
+    func_0205C31C(wk->connectApType);
+    func_0205C3B0(wk->connectApType);
     return 0x10;
 }

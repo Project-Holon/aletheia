@@ -9,25 +9,22 @@
  * isa:      arm
  * status:   EXACT
  *
- * Symbol at this offset is DWC_BACKUPlCheckAddress (libdwcbm dwc_backup.o,
- * dwc_backup.c:534).  No DW_TAG_variable children, only the formal
- * (unsigned char *address): hand-written assembly; kept as an asm body.
+ * sdk:      NCFGi_CheckAddress (check.o)
  *
  * symbols:
- *   DWC_BACKUPlCheckAddress 0x0206043C arm
+ *   (none)
  */
 
-asm int func_0206043C(unsigned char *address)
+int func_0206043C(unsigned char *address)
 {
-    ldrb r0, [r0]
-    cmp r0, #0x7f
-    moveq r0, #0
-    bxeq lr
-    cmp r0, #1
-    movlo r0, #0
-    bxlo lr
-    cmp r0, #0xdf
-    movls r0, #1
-    movhi r0, #0
-    bx lr
+    if (address[0] == 127) {
+        return 0;
+    }
+    if (address[0] < 1) {
+        return 0;
+    }
+    if (address[0] <= 223) {
+        return 1;
+    }
+    return 0;
 }
