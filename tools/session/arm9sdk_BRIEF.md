@@ -24,8 +24,8 @@ functions that share an `object` so the member is extracted once.
    extract, `.../arm-none-eabi-objdump` to read it.
 3. Read the member's DWARF: `--dwarf=info` gives the real arity, parameter and
    local types and their register/home locations; `--dwarf=decodedline` maps
-   every instruction to its source line. The DWARF's file path names the real
-   SDK source (under `sdk/*/build/libraries/...`); read it when it exists.
+   every instruction to its source line. Never open, read or copy the vendor
+   source files the DWARF names; cite file:line metadata only.
    **Trust the DWARF, not the catalog name** — `layout/symbols_sdk.txt` has
    known bad rows. If the catalog name disagrees with the member's symbol at
    that offset, say so in your report and use the DWARF's.
