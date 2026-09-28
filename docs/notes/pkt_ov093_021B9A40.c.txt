@@ -1,0 +1,20 @@
+func_021B9A40 (ov093, Thumb, 16 bytes), tree_ov093 lane, 2026-09-28
+
+Original:
+    cmp r0, #0xc ; bhs L1 ; movs r0, #0 ; b L2 ; L1: movs r0, #1 ; L2: lsls/lsrs #0x18 ; bx lr
+
+Semantics: u8 f(u32 x) { return x >= 12; }. Every spelling tried compiles to the
+same bytes with the arms swapped (blo, movs #1 on the fall-through, movs #0 on the
+branch target), 3 bytes out:
+    return x >= 12;              return x > 11;           return 12 <= x;
+    return !(x < 12);            return (x < 12) == 0;    return (x < 12) ^ 1;
+    return 1 - (x < 12);         return x < 12 ? 0 : 1;   return x >= 12 ? 1 : 0;
+    if (x < 12) return 0; return 1;    if (x >= 12) return 1; return 0;
+    u8/int result local set in if/else (both polarities)
+    parameter typed u32, u8, u16, int;  enum-typed constants;  x / 12 != 0
+    switch with cases 0..11 returning 0 (different shape)
+Note for comparison: in the same overlay `(flags & 1) == 0` keeps the source arm
+order where `!(flags & 1)` does not (func_021B8C20, func_021B8C38), and
+`return *out != 6;` reproduces the branch-on-false form (func_021B8778). No spelling
+found that branches on the true condition for an unsigned `>=` constant compare.
+Status: DIFF, no source filed.
