@@ -1,0 +1,342 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "ov016",
+ "shard": "pkt_ov016_021BF74C",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "taskStart0",
+   "address": "0x021BF74C",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021BF74C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DE560"
+    ],
+    "sdk": [
+     "0x021BF7B8"
+    ]
+   }
+  },
+  {
+   "name": "taskStart1",
+   "address": "0x021BF7B8",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021BF7B8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DE560"
+    ]
+   }
+  },
+  {
+   "name": "taskStart2",
+   "address": "0x021BF824",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021BF824.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DE560"
+    ],
+    "sdk": [
+     "0x021BF890"
+    ]
+   }
+  },
+  {
+   "name": "taskStart3",
+   "address": "0x021BF890",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021BF890.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DE560"
+    ],
+    "sdk": [
+     "0x021BF8FC"
+    ]
+   }
+  },
+  {
+   "name": "taskStart4",
+   "address": "0x021BF8FC",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021BF8FC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DE560"
+    ],
+    "sdk": [
+     "0x021BF970"
+    ]
+   }
+  },
+  {
+   "name": "touchTriger",
+   "address": "0x021BF988",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021BF988.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DA36A",
+     "self:0x021DA372",
+     "self:0x021DA376",
+     "self:0x021DA37A",
+     "self:0x021DA382",
+     "self:0x021DA3B0",
+     "self:0x021DAA7C",
+     "self:0x021DE560"
+    ]
+   }
+  },
+  {
+   "name": "touchRelease",
+   "address": "0x021BFB38",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021BFB38.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DA364",
+     "self:0x021DA366",
+     "self:0x021DA36A",
+     "self:0x021DA372",
+     "self:0x021DA376",
+     "self:0x021DA37A",
+     "self:0x021DA382",
+     "self:0x021DA38A",
+     "self:0x021DA3B0",
+     "self:0x021DAA7C",
+     "self:0x021DE560"
+    ]
+   }
+  },
+  {
+   "name": "touch",
+   "address": "0x021BFCF8",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021BFCF8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DA36A",
+     "self:0x021DA372",
+     "self:0x021DA376",
+     "self:0x021DA37A",
+     "self:0x021DA382",
+     "self:0x021DA3B0",
+     "self:0x021DAA7C",
+     "self:0x021DE560"
+    ]
+   }
+  },
+  {
+   "name": "key",
+   "address": "0x021BFF14",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021BFF14.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DA364",
+     "self:0x021DA366",
+     "self:0x021DA38A",
+     "self:0x021DE560"
+    ],
+    "sdk": [
+     "0x021C0480"
+    ]
+   }
+  },
+  {
+   "name": "changeColor",
+   "address": "0x021C0328",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021C0328.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DA35C",
+     "self:0x021DA362",
+     "self:0x021DE560"
+    ]
+   }
+  },
+  {
+   "name": "moveFocus",
+   "address": "0x021C0480",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021C0480.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DA410",
+     "self:0x021DE560"
+    ]
+   }
+  },
+  {
+   "name": "taskEnd0",
+   "address": "0x021C0528",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021C0528.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DE560"
+    ],
+    "sdk": [
+     "0x021C0588"
+    ]
+   }
+  },
+  {
+   "name": "taskEnd1",
+   "address": "0x021C0588",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021C0588.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DE560"
+    ],
+    "sdk": [
+     "0x021C05E0"
+    ]
+   }
+  },
+  {
+   "name": "taskEnd2",
+   "address": "0x021C05E0",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021C05E0.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DE560"
+    ],
+    "sdk": [
+     "0x021C0638"
+    ]
+   }
+  },
+  {
+   "name": "taskEnd3",
+   "address": "0x021C0638",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021C0638.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DE560"
+    ],
+    "sdk": [
+     "0x021C0690"
+    ]
+   }
+  },
+  {
+   "name": "taskEnd4",
+   "address": "0x021C0690",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021C0690.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021DE560"
+    ],
+    "sdk": [
+     "0x021C06E8"
+    ]
+   }
+  }
+ ]
+}

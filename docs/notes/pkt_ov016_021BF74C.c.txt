@@ -1,0 +1,23 @@
+=== 2026-09-28 sdk_overlays_7: keyboard10.o (libdwcutil), two near misses and one not started ===
+All -O4,p dsi/1.1p1 c99 (object stamped 4.0.0.1025). Sources in src/pending/ov_sdk
+(ov016_func_021C06E8.c taskEnd5, ov016_func_021C00A8.c disp). The 16 EXACT siblings are in shard
+pkt_ov016_021BF74C. The object is keyboard.o cut down to 10 keys, 2 special keys and 2 buttons; its
+.rodata is one run at 0x021DA35C (CL_BTN .. MOVE_TBL, declared as keyboard10_rodata) and the four
+compiler initialisers @20866/@20862/@20864/@20601 follow at 0x021DA448..0x021DA460.
+
+taskEnd5 0x021C06E8 (192 bytes, compiled 184, 30 lines)
+  Same residue as keyboard.o's taskEnd5 (docs/notes/pkt_ov016_021BD8D8.c.txt): the original loads
+  &MemKb10 into r4 after the DWCi_TSKlDelete call and again in front of each of the three later
+  loops, with a second pool word for DWCi_HEAPlFree_(&MemKb10); 1.1p1 loads it once before the call.
+  Also flat: MemKb10 declared static (the vendor symbol is a file static).
+
+disp 0x021C00A8 (640 bytes, 148 lines)
+  Written like keyboard.o's pending disp (three 5-byte initialisers copied by struct from
+  keyboard10_str_20862/20864/20866, ix = line * 3 as the running key index, skey and button loops
+  indexed by i). The prologue interleaves the fifteen byte copies with line * 3 in a 0x1c frame and
+  1.1p1 does not; the three @ objects have no witness outside this function, so even a byte match
+  would be MATCH-capped. Not iterated further.
+
+DWCi_KB10lInit 0x021BF390 (800 bytes): not started. Locals from DWARF: AREA a [fb+24] (initialised
+  from @20601 at 0x021DA460), int num [fb+20], unsigned short buf[2] [fb+16], ix r8, i r5, j r9.
+  keyboard.o's DWCi_KBlInit near miss (same notes file as above) is the closest template.

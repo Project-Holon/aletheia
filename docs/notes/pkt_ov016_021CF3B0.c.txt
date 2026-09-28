@@ -1,0 +1,15 @@
+=== 2026-09-28 sdk_overlays_7: setting.o (libdwcutil), one near miss ===
+All -O4,p dsi/1.1p1 c99 (object stamped 4.0.0.1025). Source in src/pending/ov_sdk/ov016_func_021CFCC8.c.
+The 20 EXACT siblings are in shard pkt_ov016_021CF3B0.
+
+write 0x021CFCC8 (static, 336 bytes, compiled 336, 3 lines)
+  Everything is right except one store: after DWCi_HEAPlAllocEx returns, the original does
+  mov r2, r0 / str r2, [sp] (work) / ldr r0, [r6] (MemSet) / add r1, sp, #4; 1.1p1 schedules the
+  MemSet load and the w address above the store of work. Closed on the way: bit = 1 << page written
+  before the MI_CpuFill8 call (bit is live across it in r6), the DWARF reverse declaration order
+  (work, type, i, bit, crc, w, use: type and i share r5), w[0] = w[1] = 1 as one chained assignment
+  (w[1] stored first, and both arms cross-jump onto it).
+  Flat (all 3 lines): work typed MEMSET *, char *, unsigned char *, int *; work declared in a block
+  with its initialiser; the allocation written inside the WritePage argument; (DWCMemMap *)MemSet,
+  &w[0], sizeof(NCFGSlotInfo) for 0x100; MemSet declared as the file static the vendor symbol is
+  (data local); permuter seed 10701, budget 300.
