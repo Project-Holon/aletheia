@@ -1,0 +1,33 @@
+func_021B074C (ov013, ARM, 172 B): DIFF, 18 bytes, pure scheduling / register choice.
+
+Structure is right (same size, all 7 relocations resolve). Original inside the found branch:
+  mla r0,r4,r0,r1 ; ldr r6,=g_021B3C84 ; mov r2,#0 ; ldr r1,[r6,#0x20] ; str r2,[r3,r4,lsl #2] ; sub r1,r1,#1 ; str r1,[r6,#0x20]
+with the pointer-array base in r3 (loaded at function entry). Ours puts the base in r2 and
+schedules mov r1,#0 / ldr r6 / str / ldr f20.
+
+Tried (all same 18 or worse):
+  arr[i]=0; f20--;            (18 bytes, this file)
+  f20--; arr[i]=0;            (26 bytes)
+  n=f20; arr[i]=0; f20=n-1;   (18 bytes)
+  local struct St *st = &g_021B3C84 (worse, 91 bytes, hoists the pool load)
+
+C used (loop over 3 slots, unsigned i, break after handling):
+
+  for (i = 0; i < 3; i++) {
+      if (g_021B3CB0[i] == p) {
+          g_021B3CB0[i] = 0;
+          g_021B3C84.f20--;
+          func_021B1A48(&g_021B3CBC[i]);   /* slot stride 0x94 */
+          func_021B1720(i);
+          func_021B133C(i);
+          g_021B3C84.f4 &= ~p->f8;
+          break;
+      }
+  }
+  if (g_021B3C84.f20 == 0) {
+      g_021B3C84.f14 = 1;
+      func_021B3018();
+      g_021B3C84.f4 = 0;
+  }
+
+Symbols: g_021B3CB0 0x021B3CB0 (ptr[3]), g_021B3CBC 0x021B3CBC (slots), g_021B3C84 0x021B3C84 (state).

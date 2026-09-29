@@ -1,0 +1,75 @@
+/*
+ * function: func_021B3278
+ * address:  0x021B3278
+ * packet:   pkt_ov013_021B3278
+ * region:   ov013
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * symbols:
+ *   d_021B4C48  0x021B4C48  data  ov013
+ */
+
+typedef short s16;
+typedef int s32;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef long long s64;
+typedef unsigned long long u64;
+
+#define reg_CP_DIVCNT       (*(volatile u16 *)0x04000280)
+#define reg_CP_DIV_NUMER    (*(u64 *)0x04000290)
+#define reg_CP_DIV_DENOM    (*(u64 *)0x04000298)
+#define reg_CP_DIV_RESULT_L (*(volatile u32 *)0x040002A0)
+
+static inline void CP_SetDiv64_32(u64 numer, u32 denom)
+{
+    reg_CP_DIVCNT = 1;
+    reg_CP_DIV_NUMER = numer;
+    reg_CP_DIV_DENOM = denom;
+}
+
+static inline void CP_WaitDiv(void)
+{
+    while (reg_CP_DIVCNT & 0x8000) {
+    }
+}
+
+extern s32 d_021B4C48[];
+
+s32 func_021B3278(s16 *x, u32 len)
+{
+    s32 prev;
+    u32 i;
+    s64 e;
+    s32 y;
+    s32 t;
+
+    t = x[0] * 0xE9F;
+    y = (t + d_021B4C48[1] + d_021B4C48[4] * 0xD3E) >> 12;
+    d_021B4C48[4] = y;
+    d_021B4C48[1] = prev = -t;
+    e = y * y;
+    len >>= 1;
+    i = 1;
+    if (len > 1) {
+        do {
+            t = x[i] * 0xE9F;
+            x[i - 1] = y;
+            y = (t + prev + y * 0xD3E) >> 12;
+            e += y * y;
+            prev = -t;
+        } while (++i < len);
+        d_021B4C48[1] = prev;
+        d_021B4C48[4] = y;
+    }
+    (x + len)[-1] = y;
+    reg_CP_DIVCNT = 1;
+    reg_CP_DIV_NUMER = e;
+    reg_CP_DIV_DENOM = len;
+    CP_WaitDiv();
+    return reg_CP_DIV_RESULT_L;
+}

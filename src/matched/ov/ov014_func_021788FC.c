@@ -1,0 +1,50 @@
+/*
+ * function: func_021788FC
+ * address:  0x021788FC
+ * packet:   pkt_ov014_021788FC
+ * region:   ov014
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * symbols:
+ *   g_021797A8     0x021797A8  data  a4
+ *   func_02178138  0x02178138  thumb  ov014
+ *   func_0217863C  0x0217863C  thumb  ov014
+ *   func_02087988  0x02087988  arm
+ *   func_0208799C  0x0208799C  arm
+ */
+
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+typedef signed short s16;
+
+extern u8 *g_021797A8;
+void func_02178138(int a);
+int func_0217863C(void);
+int func_02087988(void);
+void func_0208799C(int a);
+
+int func_021788FC(void)
+{
+    int irq;
+    int r = 0;
+
+    irq = func_02087988();
+
+    if (*(u32 *)(g_021797A8 + 0x1E70) == 2) {
+        if (*(s16 *)(g_021797A8 + 0x1EBE) != 0) {
+            if (func_0217863C() == 0)
+                func_02178138(9);
+        }
+        *(s16 *)(g_021797A8 + 0x1EBE) = -1;
+        *(u16 *)(g_021797A8 + 0x1EB4) = 0;
+        r = 1;
+        g_021797A8[0x1EDF] = 1;
+        func_02178138(3);
+    }
+    func_0208799C(irq);
+    return r;
+}

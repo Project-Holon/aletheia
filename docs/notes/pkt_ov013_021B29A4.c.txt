@@ -1,0 +1,44 @@
+/*
+ * function: func_021B29A4   (ov013, ARM, 124 B)
+ * status:   DIFF, 12 bytes (register allocation only), lane S23
+ *
+ * Closest C (relocations all resolve, structure matches): a 2D signed-byte
+ * table lookup t[obj[3]][i], t chosen by d_021B60D8[4] == 1.  What is wrong:
+ * the original keeps the 0xb multiplier register as the mla destination
+ * (mla r1,r3,r1,r2) so the later -1 is a fresh `mvn r1,#0` and -2 is r1-1;
+ * ours puts the mla result in r2 and derives -1 as (11 - 12), -2 as (11 - 13).
+ * Tried: 1D index t[cur*11+i], 2D array, array-of-struct rows, ternary vs
+ * if-assign table pick, local for obj[3], row pointer local, s8 vs int result,
+ * switch (v) (worse, +34 bytes).  None changed the mla destination.
+ */
+
+typedef unsigned char u8;
+typedef signed char s8;
+
+extern int d_021B60D8[];
+typedef struct { s8 a[11]; } R;
+extern R d_021B3B40[];
+extern R d_021B3B84[];
+
+int func_021B29A4(int *obj, u8 *q)
+{
+    unsigned int i;
+    s8 v;
+    R *t;
+
+    i = q[6];
+    if (q[4] == 0)
+        i += 5;
+    if (i >= 11)
+        i = -1;
+    if ((int)i < 0)
+        return -1;
+    t = (d_021B60D8[4] == 1) ? d_021B3B40 : d_021B3B84;
+    v = t[obj[3]].a[i];
+    if (v == -1)
+        return 1;
+    if (v == -2)
+        return 0;
+    obj[3] = v;
+    return 1;
+}

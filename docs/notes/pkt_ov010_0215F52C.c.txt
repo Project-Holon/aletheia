@@ -9,6 +9,11 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * SUPERSEDED (lane R1): EXACT* as src/matched/ov/ov010_func_0215F52C.c.
+ * The fix was a nested block after the calls holding `u16 n = 0x34;
+ * u16 buf[6] = {0};` (in that order) plus the loop locals; this body below
+ * is the old near miss, kept as a record.
+ *
  * Draws six distinct values from 0..0x33 (random pick among the ones not
  * yet taken) and writes each plus 0x37 to six script-variable slots.
  *

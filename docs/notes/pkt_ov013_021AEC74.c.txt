@@ -1,0 +1,50 @@
+/*
+ * function: func_021AEC74   address: 0x021AEC74   region: ov013   thumb   80 bytes
+ * verdict: DIFF (27 concrete bytes), same size, all relocations resolve.
+ *
+ * Original: push {r4, lr}; p = G[0x1A1C] held in r4; if p == 0 { p = func_021B1F2C(); if !p return 0 }
+ * (p==0 path reuses r0, only the p!=0 path emits `adds r0, r4, #0`); func_021B20B0(p, 0);
+ * nonzero -> func_021B1F54(p); G[0x1A1C] = 0 with the zero in r0 doubling as the return value;
+ * zero -> G[0x1A1C] = p, return 1.
+ *
+ * Ours: push {r3, r4, r5, lr}; p in r5 and a hoisted zero in r4 (three uses of 0), copy of p
+ * to r0 at the merge point. Tried, none shrank the diff: p as a local loaded once; reload of
+ * G->f1A1C in the else arm; `return (int)(G->f = 0)`; an `int r = 0` local; struct-typed G
+ * versus u8* G; success arm first. The zero-live-across-call trick that closed
+ * func_021746A8/func_021746FC (a named `int z` used as store value, call args and return)
+ * is not available because the original keeps no zero across the call.
+ *
+ * Callers: func_021AEE14 (matched) calls this with one ignored argument.
+ */
+
+typedef unsigned char u8;
+
+struct W {
+    u8 pad[0x1A1C];
+    void *f1A1C;
+};
+
+extern struct W *d_021B3C80;
+
+extern void *func_021B1F2C(void);
+extern int func_021B20B0(void *p, int x);
+extern void func_021B1F54(void *p);
+
+int func_021AEC74(void)
+{
+    void *p = d_021B3C80->f1A1C;
+
+    if (p == 0) {
+        p = func_021B1F2C();
+        if (p == 0) {
+            return 0;
+        }
+    }
+    if (func_021B20B0(p, 0) != 0) {
+        func_021B1F54(p);
+        d_021B3C80->f1A1C = 0;
+        return 0;
+    }
+    d_021B3C80->f1A1C = p;
+    return 1;
+}

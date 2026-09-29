@@ -1,0 +1,142 @@
+/*
+ * function: func_021B2BE0
+ * address:  0x021B2BE0
+ * packet:   pkt_ov013_021B2BE0
+ * region:   ov013
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF (364 of 372 bytes)
+ *
+ * Near miss, parked after 9 runs. Every instruction up to the tail
+ * matches in shape; three things remain:
+ *  1. the original's switch default jumps to a lone `b common` (+0x6C ->
+ *     +0x88) instead of straight to the common tail (4 bytes);
+ *  2. the original re-reads ev->type (`ldr r0,[r7]`) after `node->fc = r`
+ *     (4 bytes); here the compiler forwards the stored value, so it must
+ *     know node == &g.active at the tail;
+ *  3. register roles: original r=r4, node=r5, the zero constant r6; here
+ *     the zero gets r4 and r/node r5/r6 by declaration order.
+ * Found: the second error test is a switch with three stacked cases;
+ * `r == -3 || r == -2 || r == -1` compiles to an add/cmp range check
+ * instead of the original's conditional cmpne chain.
+ * Tried without effect: node assigned after the switch, `default: break`,
+ * fc as int, `ev->node->fc = r`, no node local (loses the r5 CSE).
+ * Untried: the tail (279C .. return 1) as an inlined static helper taking
+ * node as a parameter, which may explain both 1 and 2; and for 3, the
+ * zero as a named local (docs/idioms/a-zero-stored-passed-and-returned-
+ * is-a-named-local.md): r6 is stored, passed to func_021B26DC and
+ * returned, exactly that idiom's shape.
+ *
+ * symbols:
+ *   g_021B4BE0     0x021B4BE0  data  a4
+ *   g_021B4BD0     0x021B4BD0  data  a4
+ *   func_021B2894  0x021B2894  arm  ov013
+ *   func_021B279C  0x021B279C  arm  ov013
+ *   func_021B26DC  0x021B26DC  arm  ov013
+ *   func_020870D0  0x020870D0  arm
+ */
+
+struct Node {
+    unsigned int state;
+    unsigned char f4;
+    unsigned char f5;
+    unsigned short f6;
+    unsigned int f8;
+    unsigned int fc;
+    unsigned int f10;
+    struct Node *next;
+};
+
+struct Pool {
+    struct Node *nodes;
+    unsigned int f4;
+    void *tick;
+    unsigned int mul;
+    unsigned int add;
+    struct Node freeList;
+    struct Node active;
+};
+
+struct Stats {
+    unsigned int f0;
+    unsigned int f4;
+    unsigned long long f8;
+};
+
+struct Pkt {
+    unsigned char pad0[4];
+    unsigned char f4;
+    unsigned char f5;
+    unsigned char f6;
+    unsigned char f7;
+    unsigned char f8;
+    unsigned char f9;
+    unsigned char fa;
+    unsigned char fb;
+    unsigned int fc;
+};
+
+struct Event {
+    int type;
+    struct Node *node;
+};
+
+extern struct Pool g_021B4BE0;
+extern struct Stats g_021B4BD0;
+extern int func_021B2894(struct Node *node, struct Pkt *pkt);
+extern int func_021B279C(struct Pkt *pkt, struct Node *node);
+extern void func_021B26DC(int on);
+extern unsigned long long func_020870D0(void);
+
+int func_021B2BE0(struct Pkt *pkt, struct Event *ev)
+{
+    struct Node *node;
+    int r;
+
+    if (g_021B4BE0.active.state == 2) {
+        if (g_021B4BE0.active.f4 == pkt->f8) {
+            node = &g_021B4BE0.active;
+            r = func_021B2894(node, pkt);
+            switch (r) {
+            case -2:
+                ev->type = 0xC;
+                ev->node = 0;
+                return 1;
+            case -3:
+            case -1:
+                return 0;
+            }
+        } else {
+            func_021B26DC(1);
+            return 0;
+        }
+    } else {
+        if (!(g_021B4BD0.f4 & (pkt->f8 != 0 ? 1 << pkt->f8 : 1)))
+            return 0;
+        g_021B4BE0.active.f4 = pkt->f8;
+        g_021B4BE0.active.state = 2;
+        node = &g_021B4BE0.active;
+        g_021B4BE0.active.fc = 0;
+        r = func_021B2894(node, pkt);
+        switch (r) {
+        case -3:
+        case -2:
+        case -1:
+            g_021B4BE0.active.state = 0;
+            return 0;
+        }
+    }
+    ev->type = func_021B279C(pkt, node);
+    ev->node = node;
+    node->fc = r;
+    if (ev->type == 10) {
+        func_021B26DC(1);
+        g_021B4BD0.f8 = func_020870D0();
+    } else {
+        func_021B26DC(0);
+        g_021B4BD0.f8 = 0;
+    }
+    return 1;
+}

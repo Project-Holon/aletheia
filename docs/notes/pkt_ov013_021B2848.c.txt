@@ -1,0 +1,56 @@
+pkt_ov013_021B2848: DIFF, 9 bytes-words differ, same size (76 B). Not filed.
+
+Shape is right; only register allocation of the temporaries differs.
+Original: r2 (dead after strb n) is reused for the first load of the global byte,
+and the zero for b10/fC is materialised late in r0 (o is dead by then).
+Compiled: zero is allocated r2 early (mov r2,#0 before the first strb), the first
+global load lands in ip, o[4] load goes to r0.
+
+Tried without shrinking the diff: statement reorders (6 orders), o as u8* vs struct,
+volatile global, p->fC = (p->b10 = 0), fC = b10 reload.
+
+Source as left (DIFF):
+
+/*
+ * function: func_021B2848
+ * address:  0x021B2848
+ * packet:   pkt_ov013_021B2848
+ * region:   ov013
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * symbols:
+ *   d_021B60D8  0x021B60D8  data  ov013  a4
+ */
+
+typedef unsigned char u8;
+
+typedef struct Msg {
+    unsigned int magic;
+    u8 b4;
+    u8 b5;
+    u8 b6;
+    u8 b7;
+    u8 b8;
+    u8 b9;
+    u8 b10;
+    u8 b11;
+    int fC;
+} Msg;
+
+extern u8 d_021B60D8;
+
+void func_021B2848(u8 *o, Msg *p, int n)
+{
+    p->magic = 0x5f564354;
+    p->b5 = 0x10;
+    p->b6 = n;
+    p->b8 = d_021B60D8;
+    p->b9 = o[4];
+    p->b10 = 0;
+    p->b11 = d_021B60D8;
+    p->fC = 0;
+}

@@ -1,0 +1,39 @@
+func_021B21A4 (ov013, ARM, 176 B): DIFF, 6 concrete bytes, lane S21.
+
+Everything matches except the scratch register of the three "load global, compare"
+sequences: the original uses r1 (ldr r1,[r6,#0x10]; cmp r1,#3 / ldr r1,[r5] / ldrb r1,[r6]),
+every spelling tried gives r0. Register roles otherwise identical (r4 = id, r6 = 0x021B60D8,
+r5 = 0x021B4BD0).
+
+Found on the way:
+ - the id parameter must be `unsigned char`; with `int id` the two byte stores CSE into an
+   `and r1, id, #0xff` (extra bytes), with u8 the stores are plain `strb r4`.
+ - the callback at g_021B60D8+4 takes (id, 7, chan, g_021B60D8+8): r2 is the channel pointer.
+ - a local `struct Sess *s = &g_021B60D8;` moves s to r4 and id to r5 (worse); using the
+   global directly gives the right r4/r5/r6 roles.
+ - signed char fields add lsl/asr pairs.
+
+Best C (6 bytes off):
+
+struct Sess { unsigned char id; unsigned char pad[3]; void (*cb)(int, int, void *, unsigned int);
+              unsigned int arg; unsigned int pad2; int f10; };
+struct Chan { unsigned char pad[4]; unsigned char f4; unsigned char f5; unsigned char pad6[2];
+              unsigned int f8; int fc; };
+extern struct Sess g_021B60D8;  extern int g_021B4BD0;
+extern int func_021B2A20(void);  extern struct Chan *func_021B1F2C(int);
+
+int func_021B21A4(unsigned char id)
+{
+    struct Chan *c;
+
+    if (g_021B60D8.f10 != 3) return -2;
+    if (g_021B4BD0 == 3) return -6;
+    if (id == g_021B60D8.id) return -1;
+    if (func_021B2A20()) return 0;
+    c = func_021B1F2C(id);
+    if (c == 0) return -1;
+    c->f4 = id;  c->f5 = id;  c->fc = 2;  c->f8 = 1 << id;
+    g_021B60D8.cb(id, 7, c, g_021B60D8.arg);
+    g_021B4BD0++;
+    return 0;
+}

@@ -1,0 +1,168 @@
+/*
+ * function: func_021B0D18
+ * address:  0x021B0D18
+ * packet:   pkt_ov013_021B0D18
+ * region:   ov013
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * DIFF, 12 bytes (3 instructions), everything else byte-identical and all
+ * 12 relocations resolve. Only the `G.f8` block schedules differently: the
+ * original keeps `ldrbne; orrne; strbne r0,[r8,#5]; strne r5,[r4,#8]`, this
+ * C hoists the `strne r5,[r4,#8]` above the orr. The next `G.f14` block,
+ * written the same way, matches. Tried without effect: nesting the
+ * d_021B3C24 test, swapping the two statements, int-typed f8, volatile f8
+ * (and f14), and permuter.py (300 compiles, no improvement). An if-chain
+ * instead of the switch is worse (the switch is right). Register order
+ * needed the declaration order p, f, x, sq, mode.
+ *
+ * symbols:
+ *   d_021B42C0  0x021B42C0  data  ov013  a4
+ *   d_021B3C84  0x021B3C84  data  ov013  a4
+ *   d_021B3C24  0x021B3C24  data  ov013  a4
+ *   d_021B3C94  0x021B3C94  data  ov013  a4
+ *   d_021B60D8  0x021B60D8  data  ov013  a1
+ *   func_021B3278  0x021B3278  arm  ov013
+ *   func_021B3604  0x021B3604  arm  ov013
+ *   func_021B3084  0x021B3084  arm  ov013
+ *   func_021B04A8  0x021B04A8  arm  ov013
+ *   func_021B1588  0x021B1588  arm  ov013
+ *   func_021B1688  0x021B1688  arm  ov013
+ *   func_02080D24  0x02080D24  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+#define reg_SQRTCNT     (*(volatile u16 *)0x040002B0)
+#define reg_SQRT_RESULT (*(volatile u32 *)0x040002B4)
+#define reg_SQRT_PARAM  (*(volatile u32 *)0x040002B8)
+
+typedef struct {
+    u8 pad0[4];
+    u8 f4;
+    u8 f5;
+    u8 pad6[6];
+    u8 data[0x460 - 0xc];
+} Frame;
+
+typedef struct {
+    u8 pad0[0x8c0];
+    u32 f8C0;
+    u32 f8C4;
+    u32 f8C8;
+    u32 f8CC;
+    int f8D0;
+    int f8D4;
+} Ctx42C0;
+
+typedef struct {
+    u32 f0;
+    u32 f4;
+    u32 f8;
+    u32 fC;
+    u16 f10;
+    u8 f12;
+    u8 pad13;
+    u32 f14;
+    u32 f18;
+    int f1C;
+    u32 f20;
+    u32 f24;
+    int f28;
+} Ctx3C84;
+
+extern Ctx42C0 d_021B42C0;
+extern Ctx3C84 d_021B3C84;
+extern u32 d_021B3C24;
+extern u8 d_021B3C94[];
+extern u8 d_021B60D8;
+
+extern u32 func_021B3278(void *p, u32 n);
+extern void func_021B3604(void *p, u32 n, u32 sq);
+extern int func_021B3084(u32 x, u32 sq, int z);
+extern void func_021B04A8(void *a, void *b, u32 n, void *c, int mode);
+extern void func_021B1588(void *dst, void *src, u32 n);
+extern void func_021B1688(void *dst, void *src, u32 n);
+extern int func_02080D24(u32 x);
+
+Frame *func_021B0D18(void)
+{
+    u8 *p;
+    Frame *f;
+    u32 x;
+    u32 sq;
+    int mode;
+    u32 diff;
+
+    mode = d_021B3C84.f1C;
+    diff = d_021B42C0.f8C4 - d_021B42C0.f8C0;
+    if (diff > 1) {
+        d_021B42C0.f8C0 = d_021B42C0.f8C4 - 1;
+        diff = 1;
+    }
+    if (diff == 0)
+        return 0;
+
+    f = (Frame *)((u8 *)&d_021B42C0 + ((d_021B42C0.f8C0 & 1) ? 0 : 0x460));
+    p = f->data;
+    if (mode >= 2)
+        p += 4;
+
+    x = func_021B3278(p, d_021B3C84.f24);
+    reg_SQRTCNT = 0;
+    reg_SQRT_PARAM = x;
+    while (reg_SQRTCNT & 0x8000)
+        ;
+    sq = reg_SQRT_RESULT;
+
+    if (d_021B3C84.f18 != 0)
+        func_021B3604(p, d_021B3C84.f24, sq);
+
+    f->f5 = mode;
+    if (d_021B3C24 != 0) {
+        switch (d_021B3C84.f28 = func_021B3084(x, sq, 0)) {
+        case 0:
+            d_021B42C0.f8C0++;
+            return 0;
+        case 1:
+            f->f5 |= 0x80;
+            break;
+        case 3:
+            f->f4 = 0x41;
+            break;
+        }
+    }
+    if (d_021B3C24 == 0 && d_021B3C84.f8 != 0) {
+        f->f5 |= 0x80;
+        d_021B3C84.f8 = 0;
+    }
+    if (d_021B3C84.f14 != 0) {
+        f->f5 |= 0x80;
+        d_021B3C84.f14 = 0;
+    }
+
+    if (mode >= 2) {
+        if (f->f5 & 0x80) {
+            d_021B3C84.f10 = 0;
+            d_021B3C84.f12 = 0;
+        }
+        func_021B04A8(p - 4, p, d_021B3C84.f24 >> 1, d_021B3C94, mode);
+    } else if (mode == 1) {
+        func_021B1588(p, p, d_021B3C84.f24 >> 1);
+    } else if (mode == 0) {
+        func_021B1688(p, p, d_021B3C84.f24 >> 1);
+    }
+
+    d_021B42C0.f8CC = d_021B3C84.f4;
+    d_021B42C0.f8CC = d_021B3C84.f4 & ~(1 << d_021B60D8);
+    d_021B42C0.f8D4 = func_02080D24(d_021B42C0.f8CC) - 1;
+    if (d_021B42C0.f8D4 > 7)
+        return 0;
+    d_021B42C0.f8D0 = 0;
+    return f;
+}

@@ -1,0 +1,139 @@
+/*
+ * function: func_021B0508
+ * address:  0x021B0508
+ * packet:   pkt_ov013_021B0508
+ * region:   ov013
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * Initialise the TCV session state: G(0x021B3C84).f0 = func_02087170(),
+ * mode +0x1C = 0 or 4 from d_021B60D8.f10, +0xC from the (a, b) byte pair
+ * at 0x021B3AD0[mode], clear the six counters at 0x021B42C0+0x8C0, then
+ * reset the three slots (0x021B3CB0[i] = 0, func_021B16E4(i),
+ * func_021B19BC(&slot[i], i, -1)).
+ *
+ * DIFF, 12 of 62 instructions (45 bytes) differ (lane B2, 14 runs): same
+ * size, every relocation resolved; one basic block is scheduled
+ * differently. Original: after the f10 load it places mov sb, #0 (the
+ * zero later used for the 42C0 stores, the loop counter and the NULL
+ * store), stores +0x1C through the base still in r2, then loads the pair
+ * table into r2 and reloads the 3C84 base into r1 after the byte loads;
+ * 0x440 goes to r4. This source reloads the base into r1 and the table
+ * into r0 before the +0x1C store, emits mov sb, #0 after the byte loads,
+ * and puts 0x440 in r2. Levers that helped: the loop condition as
+ * (i < 3) ? 1 : 0 (the original enters the loop at its bottom test;
+ * see a-loop-entered-by-a-branch-to-its-bottom-test-has-a-ternary-
+ * condition), a Pair pointer local (one pool word for the table, not
+ * two). Tried without effect: mode as a ternary stored straight to +0x1C
+ * and re-read, the +0xC value in a temporary before the 0x440 store, if/else
+ * for the mode (worse, 59), i = 0 at the top (worse, 58) or just before
+ * the mode test (same), an asm block (worse, 68).
+ *
+ * symbols:
+ *   d_021B3C84     0x021B3C84  data  ov013  a4
+ *   d_021B3C24     0x021B3C24  data  ov013  a4
+ *   d_021B60D8     0x021B60D8  data  ov013  a4
+ *   d_021B3AD0     0x021B3AD0  data  ov013  a1
+ *   d_021B42C0     0x021B42C0  data  ov013  a4
+ *   d_021B3CB0     0x021B3CB0  data  ov013  a4
+ *   d_021B3CBC     0x021B3CBC  data  ov013  a4
+ *   func_02087170  0x02087170  arm
+ *   func_021B3250  0x021B3250  arm  ov013
+ *   func_021B16E4  0x021B16E4  arm  ov013
+ *   func_021B19BC  0x021B19BC  arm  ov013
+ *   func_021B12FC  0x021B12FC  arm  ov013
+ *   func_021B3364  0x021B3364  arm  ov013
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    u16 f0;
+    u8 pad2[2];
+    u32 f4;
+    u8 pad8[4];
+    u32 fC;
+    u8 pad10[0xC];
+    u32 f1C;
+    int f20;
+    u32 f24;
+} Ctx3C84;
+
+typedef struct {
+    u8 pad0[0x8c0];
+    int f8C0;
+    u32 f8C4;
+    u32 f8C8;
+    u32 f8CC;
+    int f8D0;
+    int f8D4;
+} Ctx42C0;
+
+typedef struct {
+    u8 pad0[0x10];
+    int f10;
+} Ctx60D8;
+
+typedef struct {
+    u8 raw[0x94];
+} Slot;
+
+extern Ctx3C84 d_021B3C84;
+extern int d_021B3C24;
+extern Ctx60D8 d_021B60D8;
+typedef struct {
+    u8 a;
+    u8 b;
+} Pair;
+
+extern const Pair d_021B3AD0[];
+extern Ctx42C0 d_021B42C0;
+extern void *d_021B3CB0[3];
+extern Slot d_021B3CBC[3];
+
+extern u16 func_02087170(void);
+extern void func_021B3250(void);
+extern void func_021B16E4(u32 i);
+extern void func_021B19BC(Slot *p, u32 i, int a2);
+extern void func_021B12FC(void);
+extern void func_021B3364(void);
+
+int func_021B0508(void)
+{
+    u32 i;
+    u32 k;
+    const Pair *pair;
+
+    d_021B3C84.f0 = func_02087170();
+    d_021B3C24 = 1;
+    d_021B3C84.f20 = 0;
+    d_021B3C84.f4 = 0;
+    k = 0;
+    if (d_021B60D8.f10 != 1) {
+        k = 4;
+    }
+    d_021B3C84.f1C = k;
+    d_021B3C84.f24 = 0x440;
+    pair = &d_021B3AD0[k];
+    d_021B3C84.fC = pair->a * 0x44 + pair->b + 0xC;
+    d_021B42C0.f8C0 = 0;
+    d_021B42C0.f8C4 = 0;
+    d_021B42C0.f8CC = 0;
+    d_021B42C0.f8C8 = 0;
+    d_021B42C0.f8D0 = 0;
+    d_021B42C0.f8D4 = 0;
+    func_021B3250();
+    for (i = 0; (i < 3) ? 1 : 0; i++) {
+        d_021B3CB0[i] = 0;
+        func_021B16E4(i);
+        func_021B19BC(&d_021B3CBC[i], i, -1);
+    }
+    func_021B12FC();
+    func_021B3364();
+    return 1;
+}

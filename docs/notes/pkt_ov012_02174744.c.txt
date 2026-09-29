@@ -16,6 +16,14 @@
  * self into r3 and the pool word 0x2830 into r2 (`ldr r3,[sp,#0x10];
  * ldr r2,=0x2830; ldrb r2,[r3,r2]`), and this source gives the reverse
  * (a `*((u8*)self+0x2830)` spelling changed nothing). Everything else is exact.
+ * Lane R1 retry (11 runs + permuter 300 --types --focus self, no gain):
+ * the byte spelled `*(0x2830 + (u8 *)self)`, `*(u8 *)(0x2830 + (u32)self)`,
+ * `((u8 *)self)[0x2830]`, through a u8 local, and through a static inline
+ * accessor (Self * or void * parameter) all give the same 3-instruction
+ * swap; case 8 using the unused local w for the list instead of t is
+ * byte-identical (so either spelling), and passing ctx->fC0 afresh is far
+ * worse. The swap is which vreg (spill reload of self vs the pooled 0x2830)
+ * coalesces with r2; no source-level lever found.
  * Keys found: case 13's loop is a do-while under `if (cnt > 0)`; t->f10 as an
  * if/else (not a ternary) gives t r7; `Slot *slots` declared first and q before
  * cnt/mine set the spill slots.

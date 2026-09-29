@@ -1,0 +1,90 @@
+/*
+ * function: func_02166734
+ * address:  0x02166734
+ * packet:   pkt_ov010_02166734
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Near miss: 170 B vs 172 B. Original keeps a in r4, p in r5 and has a dead
+ * 'b next' from case 8 into default; register order unresolved after a
+ * declaration-order permutation sweep (best 36 bytes differ). Callees
+ * 0x02166658 (ov010 unlabelled leaf) and 0x021C87AC/B8/C8 (ov021 unlabelled
+ * leaves) also unwitnessed, so it would cap at MATCH regardless.
+ *
+ * symbols:
+ *   func_0215A5F4  0x0215A5F4  thumb ov010
+ *   func_0215A5DC  0x0215A5DC  thumb ov010
+ *   func_020120F4  0x020120F4  thumb
+ *   func_02012ED0  0x02012ED0  thumb
+ *   func_02159B10  0x02159B10  thumb ov010
+ *   func_02011330  0x02011330  thumb
+ *   func_02159AE8  0x02159AE8  thumb ov010
+ *   func_02166658  0x02166658  thumb ov010
+ *   func_021C87A0  0x021C87A0  thumb ov021
+ *   func_021C87AC  0x021C87AC  thumb ov021
+ *   func_021C87B8  0x021C87B8  thumb ov021
+ *   func_021C87C8  0x021C87C8  thumb ov021
+ */
+
+typedef unsigned short u16;
+
+void func_0215A5F4(int a);
+int func_0215A5DC(int a);
+int func_020120F4(int a);
+int *func_02012ED0(int a);
+int func_02159B10(int a, int b);
+int func_02011330(int a);
+u16 *func_02159AE8(int a, int b);
+int func_02166658(int a, int b);
+int func_021C87A0(int a, int b);
+int func_021C87AC(int a, int b);
+int func_021C87B8(int a, int b, int c);
+int func_021C87C8(int a, int b);
+
+int func_02166734(int a, int b)
+{
+    int *p;
+    int x;
+    int k;
+    int y;
+    int v;
+
+    func_0215A5F4(b);
+    p = func_02012ED0(func_020120F4(func_0215A5DC(b)));
+    x = func_02159B10(a, b);
+    k = func_02011330(a);
+    y = func_02159B10(a, b);
+    a = (int)func_02159AE8(a, b);
+    switch (k) {
+    case 4:
+        v = func_02166658(*p, x);
+        break;
+    case 5:
+        v = func_021C87A0(*p, x);
+        break;
+    case 6:
+        v = func_021C87AC(*p, x);
+        break;
+    case 7:
+        v = func_021C87B8(*p, x, y);
+        break;
+    case 8:
+        if (func_021C87C8(*p, x) != 0) {
+            v = 1;
+            break;
+        }
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    default:
+        v = 0;
+        break;
+    }
+    *(u16 *)a = v;
+    return 0;
+}

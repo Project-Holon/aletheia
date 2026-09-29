@@ -3,6 +3,12 @@ Original loads *(p+0xd4) into r2 and adds r2+r0; ours loads it into r1 (adds r4,
 Tried: struct vs raw offsets, base in a named local (before/after the guard), compound `t += `,
 b typed void*/u32, if/else polarity swap (that one moves the branch layout, worse).
 The 'if (busy != 0) {call; return;}' form below is the closest (2 bytes).
+Lane R1 (big-lane retry, 14 runs + permuter 300 --types, no gain): also tried
+t in a nested block / else block with an initializer, busy in a u16 local,
+compound `+=` stores, base and t typed u8 * (either add order), an S *q alias,
+the tail as a static inline helper, and a one-argument func_02169A88(p) (worse:
+b is really passed, the copy to r6 moves ahead of the ldrh). Every one gives
+base r1; the image's r2 still has no C explanation.
 
 /*
  * function: func_021695BC

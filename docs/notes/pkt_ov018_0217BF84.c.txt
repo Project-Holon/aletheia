@@ -1,0 +1,44 @@
+/*
+ * function: func_0217BF84
+ * address:  0x0217BF84
+ * packet:   pkt_ov018_0217BF84
+ * region:   ov018
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * NOTE: original keeps an inner loop `for (i=0;i<1;i++)` (muls r0,r4,#10 index, blo) that
+ * -O4,p unrolls in every spelling tried (for, do-while, goto): compiled is 0x48+ bytes with
+ * spilled locals instead. Outer j loop 1..2, r6 = j<<6 hoisted per outer iteration.
+ *
+ * symbols:
+ *   func_0217BF2C  0x0217BF2C  thumb  ov018
+ *   d_02182B54     0x02182B54  data   a4
+ */
+
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct { u16 f0, f2, f4, f6, f8; } Ent;
+
+extern void func_0217BF2C(int, u16, u16, int, u16, u16, u16);
+extern const Ent d_02182B54[];
+
+void func_0217BF84(int a)
+{
+    int j;
+    u32 i;
+
+    j = 1;
+    do {
+        i = 0;
+      again:
+        func_0217BF2C(a, d_02182B54[i].f2 + (j << 6), d_02182B54[i].f4, 0x2001F, d_02182B54[i].f0, d_02182B54[i].f6, j + d_02182B54[i].f8 - 1);
+        i++;
+        if (i < 1)
+            goto again;
+        j++;
+    } while (j < 3);
+}

@@ -1,0 +1,29 @@
+/*
+ * function: func_021B3018   (ov013, ARM, 76 B)
+ * status:   DIFF, 6 bytes (one instruction scheduled a slot early), lane S23
+ *
+ * Every byte matches except the pool load of d_021B3C50: the original puts
+ * `ldr r0,[pool]` AFTER `str r2,[r1,#4]` (the d_021B4C2C[1] = 0 store) and
+ * before the `str r2,[r1]`; ours hoists it above the [r1,#4] store.
+ * Tried: plain statement order, chained assignments on either pair, a local
+ * pointer q = d_021B3C50 assigned before the stores (this one inverts the
+ * diff: load lands one slot too early instead of correct).  No spelling found
+ * that puts it between the first and second store.
+ */
+
+extern int d_021B4C38[];
+extern int d_021B4C2C[];
+extern int d_021B3C50[];
+
+void func_021B3018(void)
+{
+    int i;
+
+    for (i = 0; i < 4; i++)
+        d_021B4C38[i] = 0x1000000;
+    d_021B4C2C[1] = 0;
+    d_021B4C2C[0] = 0;
+    d_021B3C50[0] = 0;
+    d_021B3C50[1] = 0;
+    d_021B4C2C[2] = 0;
+}

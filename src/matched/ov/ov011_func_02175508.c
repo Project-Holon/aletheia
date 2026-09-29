@@ -1,0 +1,21 @@
+/*
+ * function: func_02175508
+ * address:  0x02175508
+ * packet:   pkt_ov011_02175508
+ * region:   ov011
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * symbols:
+ *   func_021754E8  0x021754E8  thumb ov011
+ */
+
+void func_021754E8(int a, int b, int c, int d);
+
+void func_02175508(int a, int b, int c)
+{
+    func_021754E8(a, b, 3, c);
+}

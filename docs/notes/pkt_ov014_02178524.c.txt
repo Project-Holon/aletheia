@@ -1,0 +1,46 @@
+/*
+ * function: func_02178524  (ov014, thumb, -O4,p dsi/1.1p1)
+ * status: DIFF, 4 concrete bytes (same size, 144 B)
+ *
+ * The C below reproduces everything except the schedule of the first
+ * three halfword copies when b != 0. Original order:
+ *     ldr r1,=g ; ldrh r2,[b,#4] ; ldr r0,[r1] ; ldr r7,=0x140E ;
+ *     ldrh r3,[b,#2] ; strh r2,[r0,r7] ; ...
+ * Compiled: the strh of b[2] comes before the ldrh of b[1].
+ * Tried: named u16 temporaries for b[2]/b[1], a 3-halfword struct copy,
+ * `if (b)` spelling. None moved the ldrh. Twin func_021785B4 (same copy)
+ * is EXACT with the plain spelling below, so the difference is context.
+ *
+ * symbols: g_021797A8 0x021797A8 data ov014 a4; func_02178138, func_0217863C
+ * thumb ov014; func_02082BCC arm.
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern u8 *g_021797A8;
+void func_02178138(u32 a);
+void func_02082BCC(void *p, u32 v, u32 n);
+int func_0217863C(void);
+
+int func_02178524(u32 a, u16 *b, u32 c)
+{
+    func_02178138(2);
+    if (b != 0) {
+        *(u16 *)(g_021797A8 + 0x140E) = b[2];
+        *(u16 *)(g_021797A8 + 0x140C) = b[1];
+        *(u16 *)(g_021797A8 + 0x140A) = b[0];
+    } else {
+        func_02082BCC(g_021797A8 + 0x140A, 0xff, 6);
+    }
+    *(u32 *)(g_021797A8 + 0x1E74) = a;
+    *(u32 *)(g_021797A8 + 0x1E94) = 0;
+    *(u16 *)(g_021797A8 + 0x1EB2) = c;
+    *(u16 *)(g_021797A8 + 0x1406) = 1;
+    *(u16 *)(g_021797A8 + 0x1EB4) = 1;
+    if (func_0217863C() == 0) {
+        func_02178138(9);
+        return 0;
+    }
+    return 1;
+}

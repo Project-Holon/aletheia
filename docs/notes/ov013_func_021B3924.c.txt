@@ -1,5 +1,77 @@
-func_021B3924 (0x021B3924, ov013, ARM, 210-byte body) -- DIFF near miss
-========================================================================
+func_021B3924 (0x021B3924, ov013, ARM, 220 bytes incl. pool) -- DIFF near miss
+================================================================================
+
+Update (lane B5): now 6 bytes out, down from 31.  The handed extent (860 B)
+runs on into rodata at 0x021B3A00; the function itself is 0x021B3924-0x021B39FF.
+
+The fix for the old nine-instruction block below: func_021B0F38 takes the
+timestamp as ONE u64 fourth parameter, not as (u32 lo, u32 hi).  MWCC splits
+a u64 that starts at r3 between r3 and the first stack slot, which is exactly
+the original's `mov r3, r0` / `str r1, [sp]`, and the lo word is no longer
+pre-coloured into r3 at the call to func_020870D0.
+
+    extern void func_021B0F38(int a0, Hdr *h, int a2, u64 t);
+    ...
+    func_021B0F38(a0, h, a2, t);
+
+What remains is two registers exchanged for the header's type byte and its
+masked nibble (five instructions, one byte each):
+
+    original: ldrb r2, [r7, #4]; and r3, r2, #0xf0; cmp r3, #0x40 ...
+              cmp r2, #0 / cmp r2, #0xff
+    compiled: ldrb r3, [r7, #4]; and r2, r3, #0xf0; cmp r2, #0x40 ...
+              cmp r3, #0 / cmp r3, #0xff
+
+Tried, all byte-identical to the above: a `u8 type` local; a `u32 kind =
+type & 0xf0` local declared before or after `type`; `(0xf0 & type)`;
+`switch (type & 0xf0) { case 0x40: }`; `switch (type) { case 0: case 0xff: }`;
+`((u8 *)h)[4]` for both reads.  `(type >> 4) == 4` gives asr/cmp #4.  A
+union with a `u8 hi : 4` bitfield DOES put the byte in r2, but compiles the
+test as lsl/lsr/cmp #4, twelve bytes wrong.  permuter.py 300 compiles, no
+improvement.  All four relocations resolve (func_020870D0 label, the two
+ov013 callees and d_021B60CC sole-ref/matched).
+
+Best source (6 bytes out of 220):
+
+    typedef unsigned int       u32;
+    typedef unsigned char      u8;
+    typedef unsigned long long u64;
+
+    typedef struct {
+        u32 magic;
+        u8  type;
+    } Hdr;
+
+    extern int  d_021B60CC[];
+    extern u64  func_020870D0(void);
+    extern void func_021B0F38(int a0, Hdr *h, int a2, u64 t);
+    extern int  func_021B2488(int a0, Hdr *h, int a2, int *a3);
+
+    int func_021B3924(int a0, Hdr *h, int a2, int *a3)
+    {
+        u64 t;
+
+        if (h == 0)
+            return 0;
+        if (h->magic != 0x5F564354)
+            return 2;
+        if (d_021B60CC[7] == 0 || d_021B60CC[2] == 0)
+            return 0;
+        a3[0] = 0;
+        a3[1] = 0;
+        t = func_020870D0();
+        if ((h->type & 0xf0) == 0x40) {
+            d_021B60CC[1]++;
+            func_021B0F38(a0, h, a2, t);
+            return 0;
+        }
+        if (h->type == 0 || h->type == 0xff)
+            return func_021B2488(a0, h, a2, a3) != 0;
+        return 0;
+    }
+
+Earlier record (superseded above, kept for the history)
+-------------------------------------------------------
 
 Every instruction reproduces except one nine-instruction scheduling block.
 The image keeps the low word of the func_020870D0 timestamp in r0 through the
@@ -38,48 +110,7 @@ type nibble (f4 & 0xf0) is 0x40 bump 0x021B60CC+4 and call
 func_021B0F38(a0, h, a2, lo, hi); when f4 is 0 or 0xff return
 func_021B2488(a0, h, a2, a3) != 0; otherwise return 0.
 
-Best source (31 bytes out of 210, only the block above differs):
-
-    typedef unsigned int       u32;
-    typedef unsigned char      u8;
-    typedef unsigned long long u64;
-
-    typedef struct { u32 magic; u8 f4; u8 f5; u8 f6; u8 f7; } Hdr;
-    typedef struct { u32 f0, f4, f8, fc, f10, f14, f18, f1c; } G;
-
-    extern G g_021B60CC;
-    extern u64 func_020870D0(void);
-    extern void func_021B0F38(int a0, Hdr *h, int a2, u32 lo, u32 hi);
-    extern int  func_021B2488(int a0, Hdr *h, int a2, int *a3);
-
-    int func_021B3924(int a0, Hdr *h, int a2, int *a3)
-    {
-        u64 t;
-
-        if (h == 0) return 0;
-        if (h->magic != 0x5F564354) return 2;
-        if (g_021B60CC.f1c == 0 || g_021B60CC.f8 == 0) return 0;
-        a3[0] = 0;
-        a3[1] = 0;
-        t = func_020870D0();
-        {
-            u32 typ = h->f4 & 0xf0;
-
-            if (typ == 0x40) {
-                g_021B60CC.f4++;
-                func_021B0F38(a0, h, a2, t, t >> 32);
-                return 0;
-            }
-        }
-        if (h->f4 == 0 || h->f4 == 0xff)
-            return func_021B2488(a0, h, a2, a3) != 0;
-        return 0;
-    }
-
-Variants tried, all 31 bytes out with the same pre-colouring: passing
+Variants tried then, all 31 bytes out with the same pre-colouring: passing
 `(u32)t, (u32)(t >> 32)` inline; binding `lo`/`hi` locals inside the branch;
 declaring an explicit `typ = h->f4 & 0xf0` local; passing the raw `t`,
-`t >> 32` to a `u32` parameter.  The four relocations (func_020870D0, the two
-ov013 callees and the 0x021B60CC global) all resolve.  Parked as a
-scheduler/colouring wall -- the timestamp lives in r0:r1 in the image and r1:r3
-here across the test.
+`t >> 32` to a `u32` parameter.
