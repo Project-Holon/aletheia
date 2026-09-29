@@ -1,0 +1,166 @@
+/*
+ * function: DWC_InitFriendsMatch
+ * address:  0x0216AB20
+ * packet:   pkt_ov009_0216AB20
+ * region:   ov009
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * sdk:      DWC_InitFriendsMatch (libdwcmatch.TWL.HYB.a(dwc_main.o))
+ *
+ * symbols:
+ *   DWC_Alloc                        0x0205a16c arm
+ *   MI_CpuFill8                      0x02082bcc arm
+ *   DWC_ClearError                   0x02059f18 arm
+ *   DWCi_ClearGT2ConnectionList      0x0216bb98 arm
+ *   DWCi_LoginInit                   0x0216a1f4 arm
+ *   DWCi_FriendInit                  0x021689bc arm
+ *   DWCi_MatchInit                   0x0216cc28 arm
+ *   DWCi_InitTransport               0x021772f8 arm
+ *   strlen                           0x0209477c arm
+ *   MI_CpuCopy8                      0x02082d44 arm
+ *   stLastSocketError                0x021aa878 data
+ *   DWCi_GT2ConnectedCallback        0x0216e834 arm
+ *   DWCi_GT2ReceivedCallback         0x0216c224 arm
+ *   DWCi_GT2ClosedCallback           0x0216c788 arm
+ *   DWCi_GT2PingCallback             0x0216c79c arm
+ *   gcd_gamename                     0x021ae01c data
+ *   gcd_secret_key                   0x021ae11c data
+ *   DWCi_LoginCallback               0x0216bf38 arm
+ */
+
+typedef unsigned char u8;
+
+struct DWCstAccUserData
+{
+    u8 pad0[0x24];
+    unsigned long gamecode;         /* +0x24 */
+};
+
+struct DWCstDwcCnt
+{
+    int field0;                     /* +0x00 */
+    void (*gt2Connected)(void);     /* +0x04 */
+    void (*gt2Received)(void);      /* +0x08 */
+    void (*gt2Closed)(void);        /* +0x0c */
+    void (*gt2Ping)(void);          /* +0x10 */
+    unsigned long sendBufSize;      /* +0x14 */
+    unsigned long recvBufSize;      /* +0x18 */
+    void *gp;                       /* +0x1c */
+    struct DWCstAccUserData *userdata; /* +0x20 */
+    int state;                      /* +0x24 */
+    int field28;                    /* +0x28 */
+    u8 pad2c[1];
+    u8 flag2d;                      /* +0x2d */
+    u8 pad2e[0x64 - 0x2e];
+    int field64;                    /* +0x64 */
+    void *gameName;                 /* +0x68 */
+    void *secretKey;                /* +0x6c */
+    int field70;                    /* +0x70 */
+    int field74;                    /* +0x74 */
+    int field78;                    /* +0x78 */
+    int field7c;                    /* +0x7c */
+    int field80;                    /* +0x80 */
+    int field84;                    /* +0x84 */
+    int field88;                    /* +0x88 */
+    int field8c;                    /* +0x8c */
+};
+
+struct DWCstGlobal
+{
+    int lastSocketError;            /* +0x00 */
+    struct DWCstDwcCnt *pDwc;       /* +0x04 */
+};
+
+extern struct DWCstGlobal stLastSocketError;
+
+extern void *DWC_Alloc(int name, unsigned long size);
+extern void MI_CpuFill8(void *dstp, u8 data, unsigned long size);
+extern void DWC_ClearError(void);
+extern void DWCi_ClearGT2ConnectionList(void);
+extern void DWCi_LoginInit(void *logcnt, struct DWCstAccUserData *userdata,
+                           void **pGpObj, int productID, unsigned long gamecode,
+                           unsigned short *playerName,
+                           void (*callback)(void), void *param);
+extern void DWCi_FriendInit(void *friendcnt, void **pGpObj,
+                            unsigned short *playerName, void *friendList,
+                            int friendListLen);
+extern void DWCi_MatchInit(void *matchcnt, void **pGpObj, void *pGt2Socket,
+                           void *gt2Callbacks, char *gameName, char *secretKey,
+                           void *friendList, int friendListLen);
+extern void DWCi_InitTransport(void *info);
+extern unsigned long strlen(const char *s);
+extern void MI_CpuCopy8(void *srcp, void *dstp, unsigned long size);
+extern void DWCi_GT2ConnectedCallback(void);
+extern void DWCi_GT2ReceivedCallback(void);
+extern void DWCi_GT2ClosedCallback(void);
+extern void DWCi_GT2PingCallback(void);
+extern char gcd_gamename[];
+extern char gcd_secret_key[];
+extern void DWCi_LoginCallback(void);
+
+void DWC_InitFriendsMatch(struct DWCstAccUserData *userdata, int productID,
+                          char *secretKey, int sendBufSize, int recvBufSize,
+                          void *friendList, int friendListLen)
+{
+    int len;
+
+    stLastSocketError.pDwc = DWC_Alloc(4, 0x1250);
+    MI_CpuFill8(stLastSocketError.pDwc, 0, 0x1250);
+    DWC_ClearError();
+
+    stLastSocketError.pDwc->field0 = 0;
+    stLastSocketError.pDwc->gt2Connected = DWCi_GT2ConnectedCallback;
+    stLastSocketError.pDwc->gt2Received = DWCi_GT2ReceivedCallback;
+    stLastSocketError.pDwc->gt2Closed = DWCi_GT2ClosedCallback;
+    stLastSocketError.pDwc->gt2Ping = DWCi_GT2PingCallback;
+    stLastSocketError.pDwc->sendBufSize =
+        sendBufSize == 0 ? 0x2000 : (unsigned long)sendBufSize;
+    stLastSocketError.pDwc->recvBufSize =
+        recvBufSize == 0 ? 0x2000 : (unsigned long)recvBufSize;
+    stLastSocketError.pDwc->gp = 0;
+    stLastSocketError.pDwc->userdata = userdata;
+    stLastSocketError.pDwc->state = 0;
+    stLastSocketError.pDwc->field28 = 0;
+    stLastSocketError.pDwc->flag2d = 0;
+    stLastSocketError.pDwc->field64 = 0;
+    stLastSocketError.pDwc->gameName = gcd_gamename;
+    stLastSocketError.pDwc->secretKey = gcd_secret_key;
+    stLastSocketError.pDwc->field70 = 0;
+    stLastSocketError.pDwc->field74 = 0;
+    stLastSocketError.pDwc->field78 = 0;
+    stLastSocketError.pDwc->field7c = 0;
+    stLastSocketError.pDwc->field80 = 0;
+    stLastSocketError.pDwc->field84 = 0;
+    stLastSocketError.pDwc->field88 = 0;
+    stLastSocketError.pDwc->field8c = 0;
+
+    DWCi_ClearGT2ConnectionList();
+
+    DWCi_LoginInit((char *)stLastSocketError.pDwc + 0x90, userdata,
+                   &stLastSocketError.pDwc->gp, productID, userdata->gamecode,
+                   (unsigned short *)((char *)stLastSocketError.pDwc + 0x30),
+                   DWCi_LoginCallback, 0);
+
+    DWCi_FriendInit((char *)stLastSocketError.pDwc + 0x2f0,
+                    &stLastSocketError.pDwc->gp,
+                    (unsigned short *)((char *)stLastSocketError.pDwc + 0x30),
+                    friendList, friendListLen);
+
+    DWCi_MatchInit((char *)stLastSocketError.pDwc + 0x350,
+                   &stLastSocketError.pDwc->gp, stLastSocketError.pDwc,
+                   (char *)stLastSocketError.pDwc + 4, gcd_gamename,
+                   gcd_secret_key, friendList, friendListLen);
+
+    DWCi_InitTransport((char *)stLastSocketError.pDwc + 0xb28);
+
+    if (strlen(secretKey) >= 0x100)
+        len = 0xff;
+    else
+        len = (int)strlen(secretKey);
+    MI_CpuCopy8(secretKey, gcd_secret_key, len);
+    gcd_secret_key[len] = 0;
+}

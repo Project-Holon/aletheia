@@ -1,0 +1,71 @@
+Yos_JPEGEncode @ 0x021C20B0 (ov172, libssp.TWL.HYB.a jpegenc.o) - DIFF near miss
+================================================================================
+
+Target: src/pending/ov_sdk/ov172_func_021C20B0.c
+Verdict: DIFF. compiled 2512 B vs original 2548 B / listing extent 2592 B.
+2209 of 2430 concrete bytes differ. 52 relocation sites, 49 resolved.
+No wildcarded site would cap at MATCH: the size and the bulk of the body are
+concrete mismatches.
+
+What was reconstructed (all read off the listing + the sdkobj DWARF map):
+  static unsigned long Yos_JPEGEncode(void *src, u8 *dst, unsigned long limit,
+      u8 *wrk, unsigned long width, unsigned long height, unsigned long quality,
+      unsigned long sampling, int thumb, u8 *thumb_src, unsigned long thumb_size,
+      void (*func)(void *, unsigned long, unsigned long, void *));
+  1. samplingx/samplingy from sampling: 1->(1,1), 2->(2,2), 3->(2,1).
+  2. gWriteLimit = limit.
+  3. mcu_cols = width/(samplingx*8), mcu_rows = height/(samplingy*8),
+     cx = width>>3, cy = height>>3, chroma_cols = cx/samplingx,
+     chroma_rows = cy/samplingy.
+  4. Work-buffer map (all pointers into wrk):
+       +0x000 long[64]  QuantizeTable luma      (scaleTable[j]/v)
+       +0x100 long[64]  QuantizeTable chroma
+       +0x200 u8[64]    dqttbl luma            (clamped table[j]*scale/100)
+       +0x240 u8[64]    dqttbl chroma
+       +0x280 huffman dcY   +0xab0 huffman dcC
+       +0x12e0 huffman acY  +0x1b10 huffman acC   (0x830 stride)
+       +0x2340 BuildTableWork (0x800)
+       +0x2b40 coefficients, then resample image planes
+     Component[0..2] coefficient bases: 0x2b40, +luma_size, +blocks*128,
+     luma_size = cx*cy*128 + 0x2b40, blocks = chroma_cols*chroma_rows.
+  5. quality scaling: scale = (q<=50) ? 200-2q : 5000/q;
+     v = (table[j]*scale + 50)/100; if(!v)v=1; if(v>255)v=255;
+     dqttbl[j]=v; QuantizeTable[j]=scaleTable[j]/v; same for chroma at +0x40.
+  6. optional func(src,width,height,wrk+ofs), then
+     Yos_JpegEncodeSample1to1Component for Y always, and 1to1/2to2/2to1 for Cb
+     and Cr per sampling.
+  7. header: thumb!=0 -> MI_CpuCopy8(thumbnail,dst,25) + patch [7],[8],[9],[10],
+     [0xd]=samplingy|(samplingx<<4); else SSP_ExifEncode then MI_CpuCopy8(jfif,
+     dst+size,0x17) + patch [size+5..8],[size+0xb].
+  8. DQT payload: 0x00 + 64 zigzag luma + 0x01 + 64 zigzag chroma.
+  9. DHT: BuildTable idx 0,2,1,3 into dcY,acY,dcC,acC; total = sum(OutputSize)+2;
+     marker FFC4 + length, ids 0x00,0x01,0x10,0x11 with PrintTable.
+ 10. reset mLastDcValue x3, Yos_BitInit, 14-byte jsos (SOS).
+ 11. MCU loop row<mcu_rows, col<mcu_cols:
+     sampling 1 -> 1x Y; sampling 2 -> 4x Y (2x2); sampling 3 -> 2x Y (2x1);
+     then Cb and Cr one block each, all via ComponentSequential.
+ 12. EOI FFD9, thumb pad to even, then optional SSPi_JpegEncoderDoSign when
+     SSPiEncodeSignCheckMode==1 and OS_IsRunOnTwl()==1.
+
+First divergence: +0x0000. Original frame 0x74, pushes {r4,r5,r6,r7,r8,sb,sl,
+fp,lr}; compiled 0x70 and an extra `push {r3,...}` (one 4-byte local short).
+The original DWARF frame map (sdkobj) is the map to reproduce:
+  src 0xc, samplingy 0x1c, samplingx 0x20, mcu_rows 0x24, mcu_cols 0x28,
+  chroma_cols 0x2c, ... 0x30/0x34/0x38/0x3c, ptr 0x40, Component[3] 0x44.
+The original recycles fp (width, then the constant 1), r7/r6 (cx/cy, then loop
+counters); that phases the callee-saved set and is the reason a natural
+declaration order lands 2209 bytes off.
+
+Known-lever residue to try next (in priority order):
+  A. Stack layout first: declare locals so mwcc assigns the 0x74 frame above
+     (later declaration = lower address). Until Component sits at 0x44 and
+     ptr at 0x40 nothing downstream can line up.
+  B. `gWriteLimit`: the image pool names gBitLen 0x021CADE4 and stores at +8
+     (=0x021CADEC), it is NOT a standalone 0x021CADE8 object. Declare the write
+     limit as a field 8 bytes past gBitLen (struct pinned at gBitLen) so the
+     site resolves the sdk/sole-ref way; as written it is unwitnessed.
+     thumbnail (0x021C84E5) and jfif (0x021C84CE) are likewise unwitnessed here.
+  C. Keep the `(long)v` cast in the quant divide: the clamp is unsigned
+     (movhi) but the divide is _s32_div_f.
+  D. Sampling discrimination is `if (sampling == 1) ... else if (==2) ... else
+     if (==3)`, not a switch; quality vs 0x32 uses `<=` then `200-2q`.

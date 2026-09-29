@@ -1,0 +1,27 @@
+GetAPP1  0x021C0440  ov172  static  libssp/exifdec.o  (1908 bytes)
+
+Reconstructed full C body parked in src/pending/ov_sdk/ov172_func_021C0440.c.
+Verdict dsi/1.1p1 -O4,p: DIFF, compiled 1924 bytes, 1294 concrete bytes.
+
+Two separate obstacles:
+
+1. EVIDENCE (hard cap).  relocations 35 of 37:
+     g_021CADB0 (SSPiDateTime)      -> unresolved, data, no witness outside range
+     g_021CADC4 (SSPiSoftwareBuffer)-> unresolved, data, no witness outside range
+   Both are NUL/plain data runs with no pool/label/string referrer anywhere but
+   inside 021C0440..021C0BC4, so even a byte-perfect body caps at MATCH.  If the
+   adjacent SSP_ExifDecode file were widened, or a literal-pool word naming either
+   address were added to another matched file, this cap lifts.
+
+2. CODEGEN.  dsi/1.1p1 diverges early:
+   - cur is allocated to r4 here; the object keeps cur in r8.
+   - the select temporary (`w`) widens the frame to 0x28 vs the object's 0x24.
+   The object's ValueOffset=0x1c / -1 sentinels and the maker-entry value select
+   `(count<=4) ? (p-count)&0xffff : ValueOffset&0xffff` are transcribed; the
+   select is the piece that forces a named temporary.
+
+The control flow is understood and complete: Exif signature check, IFD0 walk
+(ExifIFD 0x8769, DateTime 0x132 -> SSPiDateTime, Software 0x131 -> SSPiSoftware
+Buffer), next-IFD read, Exif-IFD walk (MakerNote 0x927c, Interop 0xa005), then
+three-in-order IFD walk (maker 0x1000/7/0x1c header, 0x1001/0x1002 size+offset,
+thumbnail 0x201), then the option&1 tail writing *soi_addr.

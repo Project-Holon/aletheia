@@ -1,0 +1,62 @@
+lane 2 / round 2 near misses (ov172 libssp, ov016 libdwcutil)
+
+jpeg_encode_ifd_direct  0x021C3160  ov172  exifenc.o  (libssp.TWL.HYB.a)
+  Reconstructed from the matched sibling jpeg_encode_ifd (0x021C3620,
+  src/matched/ov_sdk/ov172_func_021C3620.c): same PUT macro over the
+  exifenc.o file-static block based at dateTimeDataFlag (0x021CADF0),
+  same two-pass IFD writer.  Compiles to the exact 1216 bytes; all four
+  relocations resolve (func_021C2DC8 x3, func_021C2E1C, g_021CADF0);
+  status DIFF, 337 concrete bytes differ.
+  Residue: the !is_last next_ifd_pointer byte-write block (image
+  0x021C3440) and the layout shift it causes.  The image uses signed-shift
+  forms the source spelling of which was not recovered:
+    byte24: and r,r8,#0xff000000 ; asr r,r,#0x18
+    byte16: and r,r8,#0xff0000   ; lsl r,r,#0x10 ; asr r,r,#0x10 ; asr r,r,#0x10
+    byte8 : and r,r8,#0xff00     ; lsl r,r,#0x10 ; asr r,r,#0x18
+  (byte8 = (signed char)((x & 0xff00) >> 8) form; byte16's `lsl #16`
+  drives the masked value to zero, so the original emits 0 there.)
+  Also: the second loop's inner byte-copy counter is a separate `int`
+  allocated to r3 in the image, while our `signed char i` (r7) is reused;
+  adding an `int j` local reallocates the whole function (diff jumps from
+  337 to ~1000), so it was left out.
+  Definition note: the real definition takes an unused first argument --
+  r1 is the ifd pointer, r2 is is_last, r0 is never read (DWARF lists
+  only two params).  Modelled as (void *unused, exif_ifd_data *ifd,
+  short is_last); codegen-independent.
+
+DWCi_WINlInitEx  0x021D1208  ov016  window.o  (libdwcutil.TWL.HYB.a)
+  Full reconstruction (GUI setup): reads 6 bytes @20595 (0x021DAA58) into
+  a local EFF[6]; DWCi_MSGlGetEx(DWCiMsgCmn,...); allocates sizeof(MemWinT);
+  sets type/input/dark; G2x_SetBlendBrightness_; per-type window cell and
+  per-type button loop (CELL_WINDOW/BUTTON_NUM/CELL_BUTTON/CELL_WORDS),
+  DWCi_FNTlFormEx/DWCi_CELLlForm/DWCi_FNTlDrawRect/DWCi_FNTlDisp,
+  GXlSetWndPlane x3 + WndPosition, disp(0xc0), blend reg 0x04000000 update,
+  then task = TSKlForm(1, dark ? taskV : taskMove, 0, 0x78).
+  Compiles to 784 of 796 bytes; status DIFF, 567 concrete bytes differ.
+  Residue: register allocation.  The image spills `dark` to [sp+0x10]
+  (so locals sit dark,ms,obj,EFF at 0x10/0x14/0x18/0x1c, frame 0x24,
+  push without r3); ours keeps dark in fp and spills ms at 0x10 (frame
+  0x20, push includes r3).  Root cause: the image hoists both pool words
+  at entry -- r5 = EFF source, r4 = DWCiMsgCmn -- ours hoists only the
+  EFF source (r4) and defers DWCiMsgCmn to r5.  Tried: dark as int and as
+  bool; EFF copied by 6 element stores, by one struct assignment, by an
+  unrolled (rejected) for-loop and via memcpy (emits a call); a named EFF
+  source pointer; a named DWCiMsgCmn pointer; moving the EFF copy after
+  the first call (with the source declared const).  None changed the
+  fp=dark decision.
+  5 ABS32 sites stay unresolved (no outside witness) even at perfect
+  codegen: 0x021DAA58, 0x021DA9A0, 0x021DA9A6, 0x021DA9E6, 0x021DA9E8
+  (0x021DE598, 0x021DE658, 0x021DA9C8, 0x021DA9AC resolve sole-ref).
+
+next-pass notes
+  * First stop for the whole ov172 jpegdec.o cluster: a bit-reader /
+    IDCT pass.  hloadbit (0x021BF690) is self-contained (tables ntbl
+    0x021C725C, jw 0x021C959C, bcode2 0x021C88F0) and is the smallest of
+    the four; do it before writeblock/Mel_JPEGDecode/SSP_StartJpegDecoder.
+  * exifenc.o: jpeg_encode_exif (0x021C3A28) calls jpeg_encode_ifd_direct
+    (now reconstructed) and jpeg_encode_ifd (matched), so its call graph
+    is fully attested; the structs are in the header of
+    0x021C3620 and the extended exifenc_vars block in 0x021C3160.
+  * DWCi_WINlInitEx: the only unsolved decision is the `dark` spill.  If
+    a same-object window.o function ever reveals the source idiom for
+    spilling a bool parameter across calls, re-run this file first.

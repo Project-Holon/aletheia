@@ -1,0 +1,35 @@
+DWCi_GT2ClosedProcess  0x0216C230  ov009  DWCi  libdwcmatch/dwc_main.o  (1368 bytes)
+
+Reconstructed full C body parked in src/pending/ov_sdk/ov009_func_0216C230.c.
+Verdict dsi/1.1p1 -O4,p: DIFF, compiled 1364 bytes, 404 concrete bytes after
+the first branch-target divergence at +0x80.  All 45 relocation sites resolve:
+g_021AA878 and g_021AA8A0 are carried EXACT by sibling dwc_main.o files, so this
+is purely a codegen near miss, not an evidence-starvation one.
+
+Evidence that matters for the next pass:
+
+- The object stamp 4.0.0.1025 is NOT a blocker; dsi/1.1p1 reproduces the 4-byte
+  extent and the full prologue/trampoline shape.
+
+- Locals live at: aid [sp+0x14], profileID [sp+0x10], errorCode [sp+0xc],
+  aidValid [sp+8]; [sp+0] and [sp+4] are the 2 stack outgoing-arg slots for the
+  6-arg closed-callback (blr to ctrl->0x88), not locals.  In declaration order
+  aid first ... aidValid last reproduces this (later decl = lower address).
+
+- The prologue's `mov r4,#0; str r4,[sp,#0x10]; ldr fp,[sp,#0x10]` is the
+  compiler materialising `isServer = 0` through a slot that later becomes
+  profileID's home.
+
+- The callback is 6-arg: cb88(int error, int flag, int isServer, int aid,
+  int friendIndex, void *param); friendIndex = DWCi_GetFriendListIndex(profileID).
+
+- DWCi_ProcessMatchClosing is called with THREE register args in this object
+  (r0=dwcError, r1=errorCode, r2=profileID) even though its own DWARF
+  declaration names two; declare the call site 3-arg to match the bytes.
+
+- `ctrl->f365 == 3 || ctrl->f365 == 2` must keep the object's double load
+  (`cmp #3; ldrbne; cmpne #2`); this front end folds it to (f365-2)<=1.
+
+- The dwcError==0 guard block reorders in this front end, shifting the merge
+  target from +0x180 to +0x1e4 and inflating the aligned diff count.  Fixing
+  the block ordering/scheduling is the highest-value next step.

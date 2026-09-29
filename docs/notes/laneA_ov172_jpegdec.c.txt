@@ -1,0 +1,66 @@
+Lane A, ov172 (libssp.TWL.HYB.a jpegdec.o) - near-miss evidence for the two
+untouched-only targets.  Both are parked genuine bodies under
+src/pending/ov_sdk/, status DIFF.
+
+writeblock 0x021BFA68 (func_021BFA68)
+  - 1372 B = 1336 code + 36 pool (9 ABS32 data).  Signature
+    (u8 *d, int x, int y, int dx, int dy); dx is the row stride/bound and
+    dy the column bound.  The 5th argument sits at [sp+0x50].
+  - Switch index is bcode2.f14 + bcode2.f04*2 (positive), so cases 0/1/2
+    are empty arms written only to force the 7-entry PC halfword... (here
+    a 7-word LDR/ADD pc table) to exist; case 3..6 are (H,V) =
+    (1,1)/(2,1)/(1,2)/(2,2).  Pool order at 0x021BFFA0 is
+    bcode2, draw_block, dcb, dcr, limits, Crrtab, Crgtab, Cbbtab, Cbgtab.
+  - Per-pixel pack: v = ((b1 & 0xf8) << 2) | ((b0 & 0xf8) >> 3)
+    | ((b2 & 0xf8) << 7) | 0x8000, then d[off] = v; d[off+1] = v >> 8;
+    off += 2.  Operator order matters: 0x8000 is orr'd last.
+  - b0/b1/b2 are three bytes of limits[] at
+    limits[draw_block[e] + <colour table>]; cases 3/4/5 index Crrtab/Crgtab
+    by dcb and Cbbtab/Cbgtab by dcr, case 6 swaps dcb<->dcr.
+  - Table index per case: case3 z=i*8+j; case4 m*8 + n*4 + (j>>1);
+    case5 t*32 + (s>>1)*8 + j; case6 c*32 + (j>>1) + n*4 + (s>>1)*8.
+  - Residue: the compiled body is 1424 B, frame 0x34 vs original 0x2c.  The
+    original runs the per-pixel counters in callee-saved r9 (=z,
+    cases 3/4/5) / r7 (case 4/5 pixel) / r5 (case 6 pixel) and puts each
+    case's outer counter in its own stack slot (0x1c/0x24/0x20/0x00/0x08).
+    It also emits a redundant `str r4,[sp,#0x50]` re-store of dy at entry.
+    Re-deriving byte-exact needs those block-scoped locals spelled exactly;
+    this C is semantically verified against the listing.
+
+Mel_JPEGDecode 0x021BE5C4 (func_021BE5C4)
+  - 2548 B extent = 2492 code + 56-byte pool.  Full baseline driver:
+    init (clear bcode2.esc/bits, mtx[0]/mtx[0x180]/mtx[0x200]=0, clear jw
+    0x1000), length<=2 -> 0, SOI check, marker scan (skip non-FF, EOI
+    stops), then APP1/Exif, SOF0/1, DHT, SOS, DQT, DRI; else p += seglen.
+  - bcode2 layout proved by the object: +0 byte, +4 f04 (V), +8 length,
+    +0xc esc, +0x10 bits, +0x14 f14 (H), +0x18 p1, +0x1c err, +0x20 p2,
+    +0x24 H*8, +0x28 (spec&7)*8.  SOF height=(a[p+4]<<8)|a[p+3],
+    width=(a[p+6]<<8)|a[p+5], spec=a[p+9] must be 0x11/0x21/0x12/0x22.
+  - DHT: T = a[cursor], toff = (T&1 ? 0x138:0) + (T&0x10 ? 0x24:0),
+    soff = (T&1 ? 0x560:0) + (T&0x10 ? 0x2b0:0); p1 = p2 = jw+soff+0x270;
+    counts go to jw[toff+1..16], symbols to jw[toff+0x14..]; standard
+    huffsize/huffcode generation; p1[0x46+l] = first symbol index,
+    p2[l] = first code, p2[0x11+l] = last code (or -1); p2[0x22]=0xFFFFF;
+    then 8-bit fast tables at base[0x31e+ip] (length) / base[0x41e+ip]
+    (symbol) with base = jw+soff, ip = code<<(8-l).
+  - SOS loops: for y while y<height, x=0 while x<width, optional RST reset
+    (H*V getmatrix/decode_block pairs, then mtx[3]/dcr n=3, mtx[4]/dcb n=4,
+    writeblock(d,x,y,width,height)), x += f24, y += f28.
+  - DQT: qy[(T&0xf)*64 + zig[k]] = (asl[k]*raw + 0x800) >> 12; 16-bit when
+    T&0xf0, else 8-bit.  DRI: RSTn_intr=(a[p+2]<<8)|a[p+3], work=intr+1.
+  - Residue: compiled 2444 B, all 21 relocs resolve.  Two dead overflow
+    checks (pool 0xfffff3d2 / 0x00000bd3) are dropped; the register
+    allocation and the shared epilogue still differ.
+
+idiom candidates (not yet written as docs/idioms/*.md)
+  - "coalesced zero initialisation": a case's outer counter and its running
+    index are both set to 0 and the compiler coalesces them into one
+    mov+store.  Seen in every writeblock case.
+  - "redundant self-store of a stack argument": writeblock stores the
+    incoming 5th argument back to its own [sp+0x50] slot at entry; not a
+    local, just the compiler materialising a loop-invariant bound in memory.
+
+next pass
+  - The whole jpegdec.o cluster is SDK; seed it as a unit once the natural
+    source shape is found.  Starting point remains hloadbit (0x021BF690),
+    then writeblock, then Mel_JPEGDecode, then SSP_StartJpegDecoder.

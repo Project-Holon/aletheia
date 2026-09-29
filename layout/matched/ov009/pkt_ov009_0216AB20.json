@@ -1,0 +1,38 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "ov009",
+ "shard": "pkt_ov009_0216AB20",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "DWC_InitFriendsMatch",
+   "address": "0x0216AB20",
+   "kind": "sdk",
+   "region": "ov009",
+   "source": "src/matched/ov_sdk/ov009_func_0216AB20.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x021AA878",
+     "self:0x021AE11C"
+    ],
+    "sdk": [
+     "0x02059F18",
+     "0x021689BC",
+     "0x0216A1F4",
+     "0x0216BF38",
+     "0x0216C788",
+     "0x0216CC28",
+     "0x0216E834",
+     "0x021772F8"
+    ]
+   }
+  }
+ ]
+}
