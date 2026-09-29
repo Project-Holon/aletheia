@@ -2,12 +2,14 @@
  * function: func_021CDDDC
  * address:  0x021CDDDC
  * packet:   pkt_ov093_021CDDDC
+ * hint:     declare func_021F84E8 with two arguments (`(x6, x4)`: its own leaf file says `(int, int)`, and r1 still holds the || halfword at the call)
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * SUPERSEDED (lane R1, wave 15): EXACT as src/matched/ov/ov093_func_021CDDDC.c. Levers: the hint (func_021F84E8(x6, x4)), func_021D3FA8 declared u32 here (the original narrows its result), and case 0 as the call in each arm with the `!= 4` arm first (a-boolean-argument-is-a-call-in-each-arm.md).
  * checks:   1 callee arities read from each body (21E90A0 r0,r1; 21F84E8 r0; 21F8504 r0-r2; 21EAEA8 r0,(u16)r1), all 11 relocations resolve; 2 no matched twin shares the callees, the ov093 leaves 021EAA34/021EAA5C and the ov094 leaf 021F84E8 were filed for the sibling func_021CDF58 and this one; 3 flag local/param as int/u8/enum, pointer-compare and swapped ternary tried, all give the hoisted `movs r1,#1`; 4 idioms a-ternary-flag..., a-switch-return-flag... read, only the latter applied (break to one shared `return 0`); 5 none new
  *
  * Residuals (170 bytes compiled vs 176):

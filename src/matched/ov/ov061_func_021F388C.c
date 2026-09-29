@@ -1,0 +1,85 @@
+/*
+ * function: func_021F388C
+ * address:  0x021F388C
+ * packet:   pkt_ov061_021F388C
+ * region:   ov061
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * func_02162560, func_02162A64 (a thunk) and func_02162CE8 behind it are
+ * unlabelled ov010 leaves filed alongside this function.
+ *
+ * symbols:
+ *   func_02188C80  0x02188C80  thumb  ov021
+ *   func_020120F4  0x020120F4  thumb
+ *   func_02012844  0x02012844  thumb
+ *   func_02162560  0x02162560  thumb  ov010
+ *   func_02188C84  0x02188C84  thumb  ov021
+ *   func_02188D2C  0x02188D2C  thumb  ov021
+ *   func_021BE4B4  0x021BE4B4  thumb  ov021
+ *   func_021625CC  0x021625CC  thumb  ov010
+ *   func_021626E8  0x021626E8  thumb  ov010
+ *   func_02162A64  0x02162A64  thumb  ov010
+ *   func_02188C9C  0x02188C9C  thumb  ov021
+ *   func_021BE480  0x021BE480  thumb  ov021
+ *   func_021BE674  0x021BE674  thumb  ov021
+ *   func_021BE700  0x021BE700  thumb  ov021
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+
+typedef struct {
+    int a;
+    int b;
+    int c;
+} V3;
+
+extern int func_02188C80(int a);
+extern int func_020120F4(int a);
+extern int func_02012844(int a);
+extern u16 func_02162560(int h);
+extern u16 func_02188C84(int a);
+extern int func_02188D2C(int a);
+extern void func_021BE4B4(int a, int b, u16 c, int d);
+extern void *func_021625CC(int h, u16 id);
+extern u8 func_021626E8(void *p);
+extern void func_02162A64(const void *p, V3 *out);
+extern int func_02188C9C(int a);
+extern void *func_021BE480(int a, int b, u16 c);
+extern u8 *func_021BE674(int a, int b, u16 c, u16 d);
+extern void func_021BE700(int a, int b, u16 c, u16 d, int e);
+
+void func_021F388C(int *o, int a)
+{
+    int h;
+    int n;
+    int s;
+    int i;
+    void *e;
+    V3 v;
+
+    h = func_02012844(func_020120F4(func_02188C80(a)));
+    n = func_02162560(h);
+    func_02188C84(a);
+    s = func_02188D2C(a);
+    for (i = 0; i < 8; i++) {
+        func_021BE4B4(s, 0, i + 1, 1);
+    }
+    for (i = 0; i < n; i++) {
+        e = func_021625CC(h, i);
+        if (e != 0 && func_021626E8(e) == 6) {
+            func_02162A64(e, &v);
+            if (func_02188C9C(a) == 0x12E) {
+                v.b -= 0x2000;
+            }
+            func_021BE4B4(s, 0, i + 1, 0);
+            *(V3 *)func_021BE480(s, 0, i + 1) = v;
+            func_021BE674(s, 0, i + 1, 0);
+            func_021BE700(s, 0, i + 1, 0, 1);
+        }
+    }
+}

@@ -1,0 +1,57 @@
+/*
+ * unit:     yes
+ * function: func_021E63BC, func_021E6410, func_021E6414
+ * address:  0x021E63BC
+ * packet:   pkt_ov093_021E63BC
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021D775C  0x021D775C  thumb  ov093
+ *   func_021C88A4  0x021C88A4  thumb  ov093
+ *   func_021C88C8  0x021C88C8  thumb  ov093
+ *   func_021C8838  0x021C8838  thumb  ov093
+ *   func_021C8860  0x021C8860  thumb  ov093
+ *   d_021F2AF8     0x021F2AF8  data   ov093  a4
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern int func_021D775C(int key);
+extern void *func_021C88A4(void *a, int k, int b);
+extern void func_021C88C8(void *a, void *b);
+extern void func_021C8838(void *p, int a, int b);
+extern void func_021C8860(void *p, u32 v);
+extern int d_021F2AF8[];
+
+void func_021E63BC(int u, void *a, u32 b)
+{
+    u8 *e;
+
+    if (b == func_021D775C(3)) {
+        e = func_021C88A4(a, 0x17, b);
+        e[8] = b;
+        *(u32 *)(e + 4) = 5;
+        func_021C88C8(a, e);
+        e = func_021C88A4(a, 4, b);
+        func_021C8838(e + 4, 2, 0x21a);
+        func_021C8860(e + 4, b);
+        func_021C88C8(a, e);
+    }
+}
+
+void func_021E6410(void)
+{
+}
+
+int *func_021E6414(int *p)
+{
+    *p = 3;
+    return d_021F2AF8;
+}

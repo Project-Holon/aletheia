@@ -2,12 +2,14 @@
  * function: func_021D46FC
  * address:  0x021D46FC
  * packet:   pkt_ov093_021D46FC
+ * hint:     read the header as `union { u32 w; Hdr h; } *c`, with no hoisted `d` local
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * SUPERSEDED (lane R1, wave 15): EXACT* as src/matched/ov/ov093_func_021D46FC.c. Lever: bitfield header reads (type:8, size:24) through a `const` pointer; without `const` the size reloads *c.
  * checks:   1 callees fine (sub_02030734 5 args, MI_CpuCopy8 3, func_020307B0 1; only order differs, no arity shift); 2 no twin sharing tblC 0x3b04 in a matched file (func_021D4A6C/func_021D47A4 use the same struct but not this shape); 3 const u32 *c no change, u32 w local, (u8)(w = *c) inside the index, *c & 0xff, tblC pointer local: no change; bitfield Hdr *c (type:8,size:24) puts ldr r4 first as the original but reloads *c and loses w in r1, and a local Hdr copy spills; 4 idioms a-global-pointer-read-as-an-array tried (d_021F3B88[0]), worse; 5 n/a nothing new. Sweep not run; next try: bitfield Hdr with the size read once and kept in r1 (union of u32 and Hdr?).
  * residue:  same size, 17 mismatching lines. Original loads &d (pool) BEFORE `ldr r1,[r5]` (the message word) both at entry and at +0x42, and in the second half keeps r4 = &d, r5 = 0x3b04 constant where ours has them swapped. The word is read once into r1 and reused for `lsrs r1,r1,#8` before the ands (size arg), index goes through r2.
  *

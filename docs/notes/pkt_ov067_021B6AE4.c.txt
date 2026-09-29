@@ -2,6 +2,7 @@
  * function: func_021B6AE4
  * address:  0x021B6AE4
  * packet:   pkt_ov067_021B6AE4
+ * hint:     the matched caller ov067_func_021B6B2C.c passes its 3rd, 4th and 7th arguments as u16: declare those parameters u16 (untested)
  * region:   ov067
  * compiler: 1.1p1
  * flags:    -O4,p

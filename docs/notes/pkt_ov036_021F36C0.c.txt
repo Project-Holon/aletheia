@@ -2,7 +2,7 @@
  * function: func_021F36C0
  * address:  0x021F36C0
  * packet:   pkt_ov036_021F36C0
- * hint:     only the third loop's (d.b, d_021F3A98) instruction schedule is off; try what makes it compute &d.b[i] before &d.order[n]
+ * hint:     `extern const` tables, `unsigned i; i = (u8)(i + 1)` (a-u8-stepped-counter idiom), and an enum `v` in place of `15u`
  * region:   ov036
  * compiler: dsi/1.1p1
  * flags:    -O4,p

@@ -1,0 +1,133 @@
+/*
+ * function: func_021B9980
+ * address:  0x021B9980
+ * packet:   pkt_ov068_021B9980
+ * hint:     lane B9's untried levers: a second enum zero for the calls after func_02049BDC, or those calls behind a static inline wrapper
+ * region:   ov068
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 arity from the callees' own arm9 files (sub_02049658/sub_020498F4 and func_02049BDC take 7 with a u16 heap, sub_02049B68 takes 6, func_02049DF4 takes 5) and from the caller ov068 func_021B9850 (func_021B9980(p, a), heap 0x1c from 021B95A0); 2 no twin with this zero shape (ov069_func_021B98AC passes heap as the constant 0x80; ov067_func_021B6DC0 and ov018_func_0217D918 load bg templates but not this zero web); 3 heap u16 (param and callee params) no change, z as u8/u16/s16 no change or worse, int callee params no change; 4 an-enum-typed-zero-keeps-its-own-web-where-a-u32-zero-is-folded applied (10 -> 8 bytes), a-constant-built-as-movs-then-adds-or-subs-one-is-an-enum-local read, neither covers the mixed zeros; 5 re-listed docs/idioms (ls -t), nothing new fits
+ * runs:     7 + 1x4 + permuter
+ * residue:  492 vs 492 bytes, 8 bytes differ. The image keeps a zero in r5 (enum z) for the
+ *   stack zeros and for the final func_020450F0(0,0,0,..) / func_02040588(4,0), but writes a
+ *   fresh movs rX,#0 for r2 of func_02049DF4 (+0x10C) and r3 of the late B68/658/8F4 calls
+ *   (+0x120/+0x132/+0x144). This C emits adds rX,r5,#0 at those four sites: after the
+ *   func_02049BDC call the compiler reuses the z web for literal-0 register arguments, while
+ *   the early group (before BDC) already gets movs #0 as in the image.
+ *   Tried: id local in the loop (437 -> 10 bytes), enum z (10 -> 8), z only in the final
+ *   group (10), z only in the middle group (8), z assigned at the top (worse); permuter
+ *   --types 300 best 8, no improvement.
+ *   Next: a second enum zero for the late group, or the late calls behind a static inline
+ *   wrapper so their literal 0s stay constants outside the z web.
+ *
+ * symbols:
+ *   func_02082BCC  0x02082BCC  arm
+ *   func_0203F8F4  0x0203F8F4  arm
+ *   func_02045088  0x02045088  arm
+ *   func_0203FC28  0x0203FC28  arm
+ *   func_0203FCA0  0x0203FCA0  arm
+ *   func_020414AC  0x020414AC  arm
+ *   func_02040588  0x02040588  arm
+ *   func_02040C14  0x02040C14  arm
+ *   func_020490F4  0x020490F4  arm
+ *   func_02049B68  0x02049B68  arm
+ *   func_02049658  0x02049658  arm
+ *   func_020498F4  0x020498F4  arm
+ *   func_02049BDC  0x02049BDC  arm
+ *   func_02049DF4  0x02049DF4  arm
+ *   func_02049238  0x02049238  arm
+ *   func_02049F34  0x02049F34  arm
+ *   func_02082D44  0x02082D44  arm
+ *   func_020307B0  0x020307B0  arm
+ *   func_020450F0  0x020450F0  arm
+ *   func_021B9C04  0x021B9C04  thumb  ov068
+ *   d_021BB540     0x021BB540  data  ov068  a4
+ *   d_021BB614     0x021BB614  data  ov068  a4
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef enum { Z0 } Z;
+
+typedef struct {
+    u32 id;
+    u8 tmpl[0x20];
+    u32 type;
+} BgEnt;
+
+extern u8 d_021BB540[];
+extern BgEnt d_021BB614[];
+
+extern void  func_02082BCC(void *p, u32 v, u32 n);
+extern void  func_0203F8F4(int);
+extern void  func_02045088(int);
+extern void  func_0203FC28(void *);
+extern void  func_0203FCA0(u8, void *, u8);
+extern void  func_020414AC(u8 a);
+extern void  func_02040588(u8 a, int b);
+extern void  func_02040C14(int, int, int, int);
+extern void *func_020490F4(int id, int heap);
+extern void  func_02049B68(void *h, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void  func_02049658(void *h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void  func_020498F4(void *h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void  func_02049BDC(void *h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern u32   func_02049DF4(void *h, u32 a, u32 b, void *c, u32 d);
+extern void  func_02049238(void *h);
+extern void *func_02049F34(u32 a, u32 b, void *c, u32 d);
+extern void  func_02082D44(void *src, void *dst, u32 n);
+extern void  func_020307B0(void *p);
+extern u32   func_020450F0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern void  func_021B9C04(void *p);
+
+void func_021B9980(u8 *p, int heap)
+{
+    int i;
+    void *h;
+    void *r;
+    u8 *tmp;
+    u32 id;
+    Z z;
+
+    i = 0;
+    func_02082BCC(p, 0, 0x7c);
+    func_0203F8F4(heap);
+    func_02045088(heap);
+    func_0203FC28(d_021BB540);
+    for (i = 0; i < 6; i++) {
+        id = d_021BB614[i].id;
+        func_0203FCA0(id, d_021BB614[i].tmpl, d_021BB614[i].type);
+        func_020414AC(id);
+        func_02040588(id, 1);
+    }
+    z = Z0;
+    func_02040588(3, 0);
+    func_02040C14(4, 0, 1, 0);
+    func_02040C14(3, 0, 1, 0);
+    h = func_020490F4(0x1b, heap);
+    func_02049B68(h, 1, 0, 0, z, heap);
+    func_02049658(h, 0xd, 0, 0, z, z, heap);
+    func_020498F4(h, 0xe, 0, 0, z, z, heap);
+    func_02049658(h, 0, 2, 0, z, z, heap);
+    func_020498F4(h, 2, 2, 0, z, z, heap);
+    func_02049658(h, 0x10, 3, 1, z, z, heap);
+    func_02049BDC(h, 8, 0, 0x80, 0x1e0, 0x20, heap);
+    *(u32 *)(p + 0x54) = func_02049DF4(h, 0xf, 0, p + 0x58, heap);
+    func_02049B68(h, 8, 4, 0, z, heap);
+    func_02049658(h, 7, 5, 0, z, z, heap);
+    func_020498F4(h, 9, 5, 0, z, z, heap);
+    func_02049658(h, 0x10, 4, 1, z, z, heap);
+    func_02049238(h);
+    r = func_02049F34(0x1b, 1, &tmp, heap);
+    func_02082D44(*(u8 **)(tmp + 0xc) + 0xe0, p + 0x5c, 0x20);
+    func_020307B0(r);
+    *(u32 *)(p + 0x44) = func_020450F0(4, 1, 0x13, 0x1e, 4, 4, 1);
+    *(u32 *)(p + 0x48) = func_020450F0(3, 1, 1, 0x1e, 4, 0xf, 1);
+    *(u32 *)(p + 0x40) = func_020450F0(z, z, z, 0x10, 3, 8, 1);
+    func_021B9C04(p);
+    func_02040588(4, z);
+}

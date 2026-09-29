@@ -1,0 +1,132 @@
+/*
+ * function: func_021F3B10
+ * address:  0x021F3B10
+ * packet:   pkt_ov056_021F3B10
+ * hint:     keep idx in r4 to the end with a late use that emits no code (an inline helper reading idx, or idx in a dead branch), then permuter --types; the permuter's `return idx` candidate is the right size with one extra `adds r0,r4,#0`
+ * region:   ov056
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 arity from the only caller ov056 0x021F3734 (o = p+0x3c, a1 = func_02188CB4(p[0]), a2 = func_02012944(..), a3 = func_02188C84(p[0]) heap, idx = p[2] on the stack); callees from their own files (02046E24 (u32,u32), 02047180 (p), 020490F4 (int,u16) per ov055_func_021F3E84, 021A3074 (int) per ov051/ov055); 2 no twin (no other caller of 020490F4(0x96, ..) with this init shape; ov056_func_021F3BF0 and ov056_func_021F36F0 share the object but not this code); 3 idx u16 (232, worse), a1/a2 u16 (82 lines, worse), a3 u16 / idx u32 / a2 u32 no change; 4 a-no-code-self-assignment: idx = idx; at the end and after the join, no change; register on idx (param and local copy) no change; 5 re-listed docs/idioms, nothing else fits
+ * runs:     14 + 3x6 + permuter (3 before the checks, 8 check compiles, 3 after)
+ * residue:  228 vs 224 bytes. The original homes the stack parameter idx in r4 at entry
+ *   (ldr r4,[sp,#0x18] before the first blx) and keeps it there all the way to the two
+ *   idx * 6 multiplies in the arms (k then shares a2's r6, h is r7). This C spills idx
+ *   to its home slot: it loads it after the first call for the two table reads, then
+ *   reloads it with ldr r1,[sp,#0x18] in each arm (+4 bytes), and swaps a2/h (r7/r6).
+ *   Everything else is instruction-identical.
+ *   Lever found: permuter --types 300 best is `type:ret-var(idx)` (make the function
+ *   return idx): 224 bytes, every byte identical except one extra `adds r0, r4, #0`
+ *   before the pop. So idx needs one more late reference that emits no code; self-
+ *   assignments (idx = idx;) are dropped before colouring and do not do it.
+ *   Also measured: spelling idx * 6 + n inline (same as k), hoisting k above the if
+ *   (220 B, wrong shape), res1's call written in both arms (224 B, cross-jumped one
+ *   instruction earlier, idx still reloaded, 30 lines), ternary selector (212 B),
+ *   o->f64 = a1 first (worse), returning func_02049238's result (no change).
+ *   After a-self-recompute-pins-an-operand-before-the-other-side-calls.md (found at
+ *   check 5): `k = idx;` before the first call, tables indexed by k, `k = k * 6;` in
+ *   each arm DOES load the stack parameter into r4 before the blx like the image, but
+ *   k is then one live range across a2's, so a2 spills too (sub sp,#8, 228 B, 106
+ *   lines); `k = idx;` placed after the call gives 220 B. The lever is a named value of
+ *   idx whose range crosses the first call without swallowing idx * 6.
+ *   A second local `i = idx;` at entry (tables by i or by idx, `k = i * 6;` in
+ *   the arms) is copy-propagated away: output byte-identical to this draft.
+ *   The caller ov056_func_021F3734 is now EXACT with this 5-argument prototype.
+ *   Next: whatever keeps idx live to the epilogue with no code (an inline helper that
+ *   takes idx and returns void, a do/while(0) around the arms, or idx read in a
+ *   dead branch), then a permuter anneal on that spelling.
+ *   Data: d_021F4308/d_021F4264 still print "no witness outside" while the pool is
+ *   shifted by the 4 extra bytes; recheck them (sole-ref/self) once the size matches.
+ *
+ * symbols:
+ *   func_020490F4  0x020490F4  arm
+ *   func_021A3074  0x021A3074  thumb  ov021
+ *   func_0207ADC4  0x0207ADC4  arm
+ *   func_02008550  0x02008550  thumb
+ *   func_02046E24  0x02046E24  arm
+ *   func_02047180  0x02047180  arm
+ *   func_02049238  0x02049238  arm
+ *   d_021F4308     0x021F4308  data  a4
+ *   d_021F4264     0x021F4264  data  a2
+ *   d_021F426C     0x021F426C  data  ov056  a4
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef struct Vec {
+    int x;
+    int y;
+    int z;
+} Vec;
+
+typedef struct Mtx33 {
+    int m[9];
+} Mtx33;
+
+typedef struct Obj {
+    void *res0;
+    void *res1;
+    void *res2;
+    int f0c;
+    u8 pad10[0x10];
+    Vec pos;
+    Vec scale;
+    Mtx33 rot;
+    int f5c;
+    int f60;
+    int f64;
+    int f68;
+    Vec f6c;
+    u16 f78;
+    u16 pad7a;
+    int f7c;
+} Obj;
+
+extern int func_020490F4(int, u16);
+extern int func_021A3074(int a);
+extern void func_0207ADC4(Mtx33 *m);
+extern u32 func_02008550(int a);
+extern void *func_02046E24(u32 a0, u32 a1);
+extern int func_02047180(void *p);
+extern void func_02049238(int);
+
+extern const Vec d_021F4308[];
+extern const u16 d_021F4264[];
+extern const Vec d_021F426C;
+
+void func_021F3B10(Obj *o, int a1, int a2, int a3, int idx)
+{
+    int h;
+    int k;
+
+    h = func_020490F4(0x96, (a3 & 0x7fff) | 0x8000);
+    o->f7c = 0;
+    o->f5c = 0;
+    o->f6c = d_021F4308[idx];
+    o->f60 = a2;
+    o->f78 = d_021F4264[idx];
+    o->f64 = a1;
+    o->f68 = func_021A3074(a1);
+    o->pos = d_021F426C;
+    o->scale.x = 0x1000;
+    o->scale.y = 0x1000;
+    o->scale.z = 0x1000;
+    func_0207ADC4(&o->rot);
+    if (func_02008550(a2) == 0) {
+        k = idx * 6;
+        o->res0 = func_02046E24(h, k + 3);
+        o->res2 = func_02046E24(h, k + 4);
+    } else {
+        k = idx * 6;
+        o->res0 = func_02046E24(h, k + 1);
+        o->res2 = func_02046E24(h, k + 2);
+    }
+    o->res1 = func_02046E24(h, k + 5);
+    func_02047180(o->res0);
+    o->f0c = 1;
+    func_02049238(h);
+}

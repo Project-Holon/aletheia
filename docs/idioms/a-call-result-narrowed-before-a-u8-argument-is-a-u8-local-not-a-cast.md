@@ -2,7 +2,9 @@
 
 summary: when the image emits `lsls r0, r0, #24; lsrs r1, r0, #24` (narrow in r0, shift-copy into r1) for a call result that becomes the second argument of the next call, assign it to a `u8` local first; `f(b, (u8)g(k))` copies to r1 first (`adds r1, r0, #0; lsls r1; lsrs r1`) and is one instruction longer.
 
-Found in: src/matched/ov/ov093_func_021D901C.c (0x021D901C), src/pending/ov/ov093_func_021D8FCC.c (0x021D8FCC)
+Found in: src/matched/ov/ov093_func_021D901C.c (0x021D901C), src/pending/ov/ov093_func_021D8FCC.c (0x021D8FCC),
+and in ov093 021DDF98, 021DE3FC, 021DEDF8, 021E0F74, 021E1478, 021E1508,
+021E1C4C and 021E7420 (`src/matched/ov/ov093_func_<ADDR>.c`)
 
 Both functions call `func_021B9A24(b, func_021D775C(k))` where the original
 narrows the returned int to a byte. With the extern's second parameter `u8`

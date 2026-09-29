@@ -2,6 +2,7 @@
  * function: func_021D8D9C
  * address:  0x021D8D9C
  * packet:   pkt_ov093_021D8D9C
+ * hint:     EXACT* with `volatile u32 n` (store/reload of the count); filed only if Ilias accepts volatile locals (twin ov093_func_021C7F68.c already uses it). The checks: line's width claim compiled only u32.
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p

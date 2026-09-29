@@ -9,6 +9,8 @@ Found in: src/matched/ov/ov038_func_021F3F40.c (0x021F3F40),
 src/matched/ov/ov038_func_021F3DFC.c (0x021F3DFC),
 src/matched/ov/ov038_func_021F3B3C.c (0x021F3B3C),
 src/matched/ov/ov036_func_021F3980.c (0x021F3980)
+(measured against a plain-int spelling in 021F3F40 and 021F3980; 021F3DFC and 021F3B3C were
+written with the enum from the start and are untested without it)
 
 Measured under dsi/1.1p1 -O4,p. The three ov038 functions choose a button
 slot and pass it as the fourth argument of func_021BE674/700/6CC:

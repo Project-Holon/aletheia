@@ -2,19 +2,22 @@
  * function: func_021D2030
  * address:  0x021D2030
  * packet:   pkt_ov093_021D2030
+ * hint:     tried (lane R1): `int t3` local, argument assignment, r local, inline helper, a local struct {t1,t2} (scalarised, 43); the load order looks like a scheduler choice no statement order reaches
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks: 1 func_021EA0A0 reads 7 args (5 regs+2 stack... [sp],[sp+4],[sp+8] set), func_021D2000 takes (s,k,b); 2 no twin (func_021D2278 calls 0A0 but with unmasked ints); 3 const u32 *a no change, u8/u16 params on 0A0 with raw a[i] args made it worse (frame 0x10, masks at the call); 4 none fits; 5 n/a nothing new
+ * checks: 1 func_021EA0A0 reads 7 args (r0-r3 + [sp],[sp+4],[sp+8]), func_021D2000 takes (p,k,b) per its own matched file; 2 no twin (func_021D2278 calls 0A0 with (win,t,t,1,call,0,0), no a[] locals); 3 const vs non-const a (no change), int t3 (the hint) and all-int locals (no change), u8/u16 params on 0A0 (worse, earlier lane), a as a bitfield struct {v:8,t1:8,t2:16,t3:8 per word} (94-97, worse); 4 an-assignment-inside-a-call-argument (`t3 = a[3]` as the 6th argument: a[3] now loads before the call but spills, 76), an-inline-call-argument-is-scheduled-per-site (`r = func_021D2000(...)` local: 79), a static inline helper taking (v,t1,t2,t3) compiles identically to the locals (38); 5 re-listed docs/idioms, none new fits
+ * runs:     lane R1 (wave 15): 20 + 1x8 (declaration orders of v,t1,t2,t3,r with the r local: 79-80) + permuter (300, --types: nothing below 38)
  *
- * Remaining diff (best C): slots and registers all match; only the a[3] extraction
- * (ldr [r4,#0xc]; lsls/lsrs #24 into r4) sits before the func_021D2000 call in the
- * original (r4 holds it across the call, then str r4,[sp,#4]), while the compile
- * loads it after the call. Storing the leaf result in a local `r` makes it worse
- * (v leaves r7 and t2 moves into it).
+ * Remaining diff (best C, 38 bytes, same size): the original loads a[0..3] strictly in
+ * source order (a[0] -> r7, a[1] -> [sp,#0xc], a[2] -> [sp,#0x10], a[3] -> r4 = a's own
+ * register, held across func_021D2000). This compiler emits a[1] first (spilled to
+ * [sp,#0x10]), then a[0] -> r7, a[2] -> [sp,#0xc], and sinks a[3] below the call even
+ * with `a` non-const. Every spelling that pins a[3] before the call (r local, argument
+ * assignment) moves t2 into a callee-saved register and spills t3 instead.
  *
  * symbols:
  *   func_021CD9E0  0x021CD9E0  thumb  ov093

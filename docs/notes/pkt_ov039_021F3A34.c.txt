@@ -2,7 +2,7 @@
  * function: func_021F3A34
  * address:  0x021F3A34
  * packet:   pkt_ov039_021F3A34
- * hint:     big lane: spill-slot order only; permuter --types run twice (default seed on an earlier spelling, seed 7 on this one) found nothing
+ * hint:     named row pointers `sr`/`qr` declared between `b` and `v`; parameter widths by hand
  * region:   ov039
  * compiler: dsi/1.1p1
  * flags:    -O4,p

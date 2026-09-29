@@ -1,6 +1,12 @@
 ov060 func_021F39F4 -- DIFF, cross-overlay call-ISA collision
 ============================================================
 
+CLOSED (lane B4): EXACT as src/matched/ov/ov060_func_021F39F4.c. The
+Thumb callee at 0x021BE6BC is ov021's leaf (src/matched/ov/ov021_func_021BE6BC.c,
+EXACT), so `func_021BE6BC 0x021BE6BC thumb ov021` resolves as `matched` and
+the call compiles as `bl`. The C below also passed the wrong value: the
+original feeds func_021BE674's result straight into func_021BE6BC.
+
 Reconstructed (1 of 3 relocation sites resolved, 1 concrete byte differs):
 
     void func_021F39F4(u8 *a, u32 b)
