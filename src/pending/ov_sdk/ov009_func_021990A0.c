@@ -14,6 +14,9 @@
  * w4_nm tried: K&R and unsigned prototypes, 0x7fffffffu, ~0x80000000, ~0u>>1, long
  * args: the high bound is always built from r0 == 1 (sub) instead of mvn.
  *
+ * w6_nm tried: a result local, hi/lo locals, -(int)0x80000001, the store in an
+ * if block, a function-pointer call, cc 1.1, lang c++: always `sub r1,r0,#0x80000002`.
+ *
  * symbols:
  *   func_0217F264  0x0217F264  arm  ov009
  *   func_0217F790  0x0217F790  arm  ov009

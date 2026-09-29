@@ -19,6 +19,9 @@
  * compilers dsi/1.1, 1.2, 1.2p1, 1.6sp2, 2.0/sp1p2: all give the same 17-byte diff
  * (no lr/ip parameter shuffle).
  *
+ * w6_nm tried: the static callee declared and defined in the same TU (after
+ * the caller): the lr/ip parameter shuffle does not appear.
+ *
  * symbols:
  *   func_0217D904                  0x0217D904  arm ov009
  */

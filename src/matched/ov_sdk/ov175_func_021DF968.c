@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_02084F80  0x02084F80  arm
- *   func_0217D254  0x0217D254  arm  ov175
+ *   func_0217D254  0x0217D254  arm  ov009
  *   g_021ACEF8  0x021ACEF8  data
  *   g_021ACEFC  0x021ACEFC  data
  *   g_021E52B4  0x021E52B4  data

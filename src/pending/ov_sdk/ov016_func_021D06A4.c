@@ -15,6 +15,9 @@
  *           call with the store after it, a clamp then conditional change, and a
  *           block local for the cell (12 to 103 bytes; none better than 12).
  *
+ * w6_nm tried: the store as a call argument (assignment and comma), the
+ * literal in the call, a threaded end flag, a clamp then recheck: 12 B remain.
+ *
  * symbols:
  *   CELL_IDX                         0x021DA914  data
  *   C_POS                            0x021DA932  data

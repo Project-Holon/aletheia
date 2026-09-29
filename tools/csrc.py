@@ -270,9 +270,11 @@ def build_splices(manifest=None, keep=None, jobs=1, kinds=None,
                   progress=None):
     """Compile every applicable matched entry.  Returns (kept, dropped).
 
-    Raises CSourceError on the first entry that does not reproduce its range.
-    Evidence and region caches in match.py are warmed first, because they are
-    lazily built globals and several threads would otherwise race to fill them.
+    Every entry is compiled even after one fails, so a single run names every
+    regression; then one CSourceError lists them all (the first entry's diff
+    is attached as detail).  Evidence and region caches in match.py are warmed
+    first, because they are lazily built globals and several threads would
+    otherwise race to fill them.
     """
     entries = select(load_manifest(manifest), keep)
     if kinds is not None:
@@ -285,22 +287,34 @@ def build_splices(manifest=None, keep=None, jobs=1, kinds=None,
     match.sdk_symbols()
     match.matched_symbols()
 
-    splices = []
+    splices, failures = [], []
+
+    def take(get):
+        try:
+            sp = get()
+        except CSourceError as exc:
+            failures.append(exc)
+            return
+        splices.append(sp)
+        if progress:
+            progress(sp)
+
     if jobs > 1:
         from concurrent.futures import ThreadPoolExecutor
         with ThreadPoolExecutor(max_workers=jobs) as pool:
             futs = [(e, pool.submit(compile_entry, e)) for e in entries]
             for e, f in futs:
-                sp = f.result()
-                splices.append(sp)
-                if progress:
-                    progress(sp)
+                take(f.result)
     else:
         for e in entries:
-            sp = compile_entry(e)
-            splices.append(sp)
-            if progress:
-                progress(sp)
+            take(lambda e=e: compile_entry(e))
+    if failures:
+        if len(failures) == 1:
+            raise failures[0]
+        raise CSourceError(
+            "%d matched entr(ies) do not reproduce their range:\n%s"
+            % (len(failures), "\n".join("  - %s" % f for f in failures)),
+            "first failure (%s):\n%s" % (failures[0], failures[0].detail))
     return resolve_overlaps(splices)
 
 

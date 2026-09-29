@@ -20,6 +20,9 @@
  * compare, a result local for SocClose, void/K&R prototypes for the length and
  * SocClose, and the callback spelled `(*callback)()`.
  *
+ * w6_nm tried: a socket local, the length in a dead if/`|| 1` nest, a length
+ * local, a u64 length prototype, a typed NULL: socket still loads to r0.
+ *
  * symbols:
  *   NHTTPi_GetBgnEndInfoP          0x021BEF3C  arm ov114
  *   NHTTPi_GetThreadInfoP          0x021BEF50  arm ov114

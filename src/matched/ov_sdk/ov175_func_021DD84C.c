@@ -13,12 +13,12 @@
  *
  * symbols:
  *   func_021DD610  0x021DD610  arm  ov175
- *   func_021834D0  0x021834D0  arm  ov175
- *   func_021834E8  0x021834E8  arm  ov175
- *   func_0218372C  0x0218372C  arm  ov175
+ *   func_021834D0  0x021834D0  arm  ov009
+ *   func_021834E8  0x021834E8  arm  ov009
+ *   func_0218372C  0x0218372C  arm  ov009
  *   func_021DD64C  0x021DD64C  arm  ov175
- *   func_0217EAB0  0x0217EAB0  arm  ov175
- *   func_0217EAE0  0x0217EAE0  arm  ov175
+ *   func_0217EAB0  0x0217EAB0  arm  ov009
+ *   func_0217EAE0  0x0217EAE0  arm  ov009
  *   func_021DD604  0x021DD604  arm  ov175
  */
 

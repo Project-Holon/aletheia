@@ -15,7 +15,7 @@
  * symbols:
  *   func_02181DA0  0x02181DA0  arm  ov009
  *   func_0217EAE0  0x0217EAE0  arm  ov009
- *   func_021C2324  0x021C2324  arm  ov009
+ *   func_021C2324  0x021C2324  arm  ov114
  */
 
 typedef unsigned char  u8;

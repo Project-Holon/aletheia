@@ -15,7 +15,7 @@
  *   func_021DF4A4  0x021DF4A4  arm  ov175
  *   func_021DF644  0x021DF644  arm  ov175
  *   func_02059F54  0x02059F54  arm
- *   func_021BF8C0  0x021BF8C0  arm  ov175
+ *   func_021BF8C0  0x021BF8C0  arm  ov114
  *   func_021DF65C  0x021DF65C  arm  ov175
  *   unit_02092344  0x02092344  arm
  *   g_021E3F74  0x021E3F74  data

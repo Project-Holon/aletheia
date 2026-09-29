@@ -207,8 +207,16 @@ def candidate_archives(lib):
     return [p for _, p in out]
 
 
-def member(archive, objname):
-    key = (archive, objname)
+def member(archive, objname, want=None):
+    """The member `objname` of `archive`, or None.
+
+    Archive member names are truncated (ar's 16-byte field), so one archive
+    can hold two members of the same name: libdwcutil.TWL.HYB.a has two
+    `scenesetusbready` members and only the second defines cbUsb.  With
+    `want` (the row's symbol name) the first same-named member whose
+    function symbols include `want` is returned; if none defines it, or
+    without `want`, the first same-named member, as before."""
+    key = (archive, objname, want)
     if key in _CACHE:
         return _CACHE[key]
     found = None
@@ -217,10 +225,20 @@ def member(archive, objname):
             with open(archive, "rb") as fh:
                 found = Obj(objname, fh.read())
     else:
+        first = None
         for n, b in read_archive(archive):
-            if n.rstrip("/") == objname:
-                found = Obj(n, b)
+            if n.rstrip("/") != objname:
+                continue
+            o = Obj(n, b)
+            if first is None:
+                first = o
+            if want is None:
                 break
+            if o.ok and ObjView(o).func_symbols(want):
+                found = o
+                break
+        if found is None:
+            found = first
     _CACHE[key] = found
     return found
 
@@ -321,7 +339,7 @@ def locate(row, verbose=False):
     tried = []
     best = None
     for arch in candidate_archives(row["lib"]):
-        o = member(arch, row["object"])
+        o = member(arch, row["object"], row["name"])
         if o is None or not o.ok:
             continue
         v = ObjView(o)
@@ -629,7 +647,7 @@ def prototype_of(name, prefer_region="arm9"):
     rows.sort(key=lambda s: s["region"] != prefer_region)
     for row in rows[:1]:
         for arch in candidate_archives(row["lib"]):
-            o = member(arch, row["object"])
+            o = member(arch, row["object"], row["name"])
             if o is None or not o.ok:
                 continue
             dw = dwarf_of(ObjView(o))
@@ -826,9 +844,9 @@ def report(row, types=False, brief=False):
                                   "%d concrete mismatches of %d concrete bytes%s" % (
                                       mis, sum(a["mask"]), "" if mis == 0 else "  (member differs from image)")))
     if len(tried) > 1:
-        out.append("  tried    " + ", ".join("%s:%s" % (os.path.relpath(p, os.path.join(ROOT, "sdk")).split("/")[-2]
-                                                         if "/" in os.path.relpath(p, os.path.join(ROOT, "sdk")).replace("\\", "/") else p,
-                                                         m) for p, m in tried))
+        rel = lambda p: os.path.relpath(p, os.path.join(ROOT, "sdk")).replace("\\", "/")
+        out.append("  tried    " + ", ".join("%s:%s" % (rel(p).split("/")[-2] if "/" in rel(p) else p, m)
+                                             for p, m in tried))
     cm = v.comment()
     out.append("  compiler %s  ->  %s" % (cm, COMMENT_TO_CC.get(cm, "no tools/mwccarm build writes this stamp")))
     out.append("  status   %s" % ("matched as %s" % st if st else "open"))
@@ -1003,6 +1021,16 @@ def selftest():
             "ok  " if ok else "FAIL", name, os.path.basename(a["archive"]), len(a["sites"]),
             len(calls), cm, COMMENT_TO_CC.get(cm)))
         fails += not ok
+    # two archive members share a truncated name: the one defining the row's
+    # symbol is read (libdwcutil's second `scenesetusbready` defines cbUsb)
+    rows = lookup("cbUsb", "ov016")
+    a = analyse(rows[0])[0] if rows else None
+    if a is None or a["mismatches"] != 0:
+        print("FAIL cbUsb: the defining `scenesetusbready` member not chosen")
+        fails += 1
+    else:
+        print("ok   cbUsb                  the second `scenesetusbready` "
+              "member of %s, 0 mismatches" % os.path.basename(a["archive"]))
     # address form resolves to the same row as the name form
     r1 = lookup("OS_ExitThread", "arm9")
     r2 = lookup("%#x" % r1[0]["address"], "arm9") if r1 else []

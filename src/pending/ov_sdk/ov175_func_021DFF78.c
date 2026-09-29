@@ -17,6 +17,9 @@
  * and a sweep of constant splits (0x44 = A + B), init and call forms: 4 bytes remain
  * (buffer in ip instead of r0).
  *
+ * w6_nm tried: `&buffer[off]` with char/unsigned char buffers, `= 0` init then
+ * assignment, sizeof-based offsets, a const [16] GUID parameter, casts: 4 B remain.
+ *
  * symbols:
  *   func_021E05AC  0x021E05AC  arm  ov175
  */

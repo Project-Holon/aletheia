@@ -14,7 +14,7 @@
  * symbols:
  *   func_021C1230  0x021c1230  arm   ov114
  *   func_02088168  0x02088168  arm
- *   func_02162248  0x02162248  arm   ov010
+ *   func_02162248  0x02162248  arm   ov009
  *   func_0217EAB0  0x0217eab0  arm   ov009
  *   func_020923B0  0x020923b0  arm
  *   func_0217D254  0x0217d254  arm   ov009

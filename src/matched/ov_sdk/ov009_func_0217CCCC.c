@@ -10,6 +10,12 @@
  * status:   EXACT
  *
  * sdk:      gsCoreThink (gscore.o)
+ * evidence: +0x98 calls 0x021C204C, where symbols_sdk.json has two rows
+ *           (ov016 procInit1, ov114 ghttpCleanup).  The vendor object
+ *           libdwcgscommon.TWL.HYB.a(gscore.o) carries a PC24 relocation at
+ *           +0x98 naming ghttpCleanup, and the only catalog row with that
+ *           name is ov114 (libdwcgsghttp ghttpmain.o) at 0x021C204C, so the
+ *           hint is ov114 (tools/sdkobj.py --region ov009 0x0217CCCC).
  *
  * symbols:
  *   func_0217CA20                  0x0217CA20  arm ov009
@@ -18,7 +24,7 @@
  *   func_02184200                  0x02184200  arm ov009
  *   func_02184208                  0x02184208  arm ov009
  *   func_0217CB88                  0x0217CB88  arm ov009
- *   func_021C204C                  0x021C204C  arm
+ *   func_021C204C                  0x021C204C  arm ov114
  *   func_021841B0                  0x021841B0  arm ov009
  *   func_0217F114                  0x0217F114  arm ov009
  */

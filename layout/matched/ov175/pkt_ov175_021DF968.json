@@ -21,12 +21,8 @@
     "sole-ref": [
      "data:0x021ACEF8",
      "data:0x021ACEFC",
-     "data:0x021E412C",
      "data:0x021E52B4",
      "self:0x021E4184"
-    ],
-    "sdk": [
-     "0x0217D254"
     ]
    }
   }

@@ -12,10 +12,10 @@
  * sdk:      sciWsSetReportIntentionCallback (libdwcgssc.TWL.HYB.a sciwebservices.o)
  *
  * symbols:
- *   func_021834D0  0x021834D0  arm  ov175
- *   func_021834E8  0x021834E8  arm  ov175
- *   func_02183A24  0x02183A24  arm  ov175
- *   func_0218372C  0x0218372C  arm  ov175
+ *   func_021834D0  0x021834D0  arm  ov009
+ *   func_021834E8  0x021834E8  arm  ov009
+ *   func_02183A24  0x02183A24  arm  ov009
+ *   func_0218372C  0x0218372C  arm  ov009
  *   func_021DF948  0x021DF948  arm  ov175
  *   g_021E4338  0x021E4338  data
  *   g_021E4354  0x021E4354  data

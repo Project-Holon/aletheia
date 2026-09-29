@@ -12,7 +12,7 @@
  * sdk:      sakeiFreeOutputRecord (libdwcgssake.TWL.HYB.a(sakerequestread.o))
  *
  * symbols:
- *   func_0217EAE0  0x0217EAE0  arm  ov175
+ *   func_0217EAE0  0x0217EAE0  arm  ov009
  */
 
 extern void func_0217EAE0(void *ptr);

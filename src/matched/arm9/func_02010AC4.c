@@ -28,12 +28,24 @@
  *           block there, so sole-ref/data refuses the contested hint, and the
  *           choice rests on the hint plus the overlay_id 0x73 site in this
  *           same function.  EXACT, seed round 10.
+ * evidence: d_021DA9A8 lies in the windows of ov016, ov021, ov123, ov125
+ *           and ov175, so the ov123 hint needs outside support.  Case 1
+ *           passes ov123_id (0x7B, attested `overlay_id`) and this pointer
+ *           in one func_020312CC call; func_020314F4 -> func_02031538 stores
+ *           the id at Proc+4 and the pointer at Proc+0 (ProcData), and
+ *           func_020315F0 loads overlay Proc+4 (func_02034AC4) before it
+ *           calls any ProcData callback.  So ov123 is resident whenever the
+ *           pointer is dereferenced.  Independently, ov123's bytes at
+ *           0x021DA9A8 are three Thumb pointers 0x021DA479/0x021DA54D/
+ *           0x021DA5D1, each a func_ label in ov123's own listing, while
+ *           ov125 has bss there and ov016/ov021/ov175 hold non-pointer
+ *           words.  With the hint the site attests as `sole-ref` in ov123.
  *
  * symbols:
  *   ov115_id       0x00000073  data  a1
  *   ov123_id       0x0000007B  data  a1
  *   d_021D6338     0x021D6338  data  ov115
- *   d_021DA9A8     0x021DA9A8  data
+ *   d_021DA9A8     0x021DA9A8  data  ov123
  *   d_021D654C     0x021D654C  data  ov115
  *   func_020312CC  0x020312CC  arm
  *   func_0200F7B8  0x0200F7B8  thumb

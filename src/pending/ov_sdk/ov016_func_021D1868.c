@@ -1,0 +1,96 @@
+/*
+ * function: func_021D1868
+ * address:  0x021D1868
+ * packet:   pkt_ov016_021D1868
+ * region:   ov016
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * sdk:      disp (libdwcutil.TWL.HYB.a window.o)
+ *
+ * symbols:
+ *   func_021D5118  0x021D5118  arm  ov016
+ *   func_021D19F4  0x021D19F4  arm  ov016
+ *   func_021D5FF4  0x021D5FF4  arm  ov016
+ *   func_021D60EC  0x021D60EC  arm  ov016
+ *   g_021DE658  0x021DE658  data
+ *   g_021DA9FE  0x021DA9FE  data
+ *   g_021DA9A6  0x021DA9A6  data
+ *   g_021DA9B4  0x021DA9B4  data
+ *   g_021DAA2E  0x021DAA2E  data
+ *   g_021DAA18  0x021DAA18  data
+ *   g_021DAA16  0x021DAA16  data
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+typedef struct {
+    u16 x;
+    u16 y;
+} CoordT;
+
+typedef struct {
+    u16 l, t, r, b;
+} RectT;
+
+typedef struct {
+    void *cellWin;
+    void *cellChar;
+    void *button[2];
+    void *canv;
+    void *task;
+    u16 countWait;
+    signed char count;
+    signed char input;
+    u8 type;
+    u8 wait;
+    u8 dark;
+} MemWinT;
+
+extern void func_021D5118(void *cell, int idx, int x, int y);
+extern void func_021D19F4(void *cell, int y);
+extern void func_021D5FF4(int x0, int y0, int x1, int y1, RectT *r);
+extern void func_021D60EC(int a, int b, RectT *r);
+extern MemWinT *g_021DE658;
+extern CoordT g_021DA9FE[];
+extern u8 g_021DA9A6[6];
+extern u8 g_021DA9B4[][2];
+extern CoordT g_021DAA2E[][2];
+extern u16 g_021DAA18[][2];
+extern u16 g_021DAA16[][2];
+
+void func_021D1868(int y)
+{
+    RectT r;
+    int y0;
+    int y1;
+    int i;
+
+    func_021D5118(g_021DE658->cellWin, -1, g_021DA9FE[g_021DE658->type].x, y);
+    func_021D5118(g_021DE658->cellChar, -1, g_021DA9FE[g_021DE658->type].x + 8, y + 8);
+    func_021D19F4(g_021DE658->cellWin, y);
+    func_021D19F4(g_021DE658->cellChar, y);
+    for (i = 0; i < g_021DA9A6[g_021DE658->type]; i++) {
+        int idx = g_021DA9B4[g_021DE658->type][i];
+        func_021D5118(g_021DE658->button[i], -1,
+                      g_021DAA2E[g_021DE658->type][idx].x,
+                      y + g_021DAA2E[g_021DE658->type][idx].y - g_021DA9FE[g_021DE658->type].y);
+        func_021D19F4(g_021DE658->button[i], y);
+    }
+    y0 = (u8)y;
+    if (y0 >= 0xc0) {
+        y1 = 0;
+        y0 = y1;
+    } else {
+        y1 = y0 + g_021DAA18[g_021DE658->type][0];
+    }
+    if (y1 > 0xc0)
+        y1 = 0xc0;
+    func_021D5FF4(g_021DA9FE[g_021DE658->type].x, y0,
+                  g_021DA9FE[g_021DE658->type].x + g_021DAA16[g_021DE658->type][0], y1, &r);
+    func_021D60EC(0, 0, &r);
+}

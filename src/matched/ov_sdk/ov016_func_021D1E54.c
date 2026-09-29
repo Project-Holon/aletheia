@@ -13,7 +13,7 @@
  *
  * symbols:
  *   func_021D276C  0x021d276c  arm  ov016
- *   func_021F5E7C  0x021f5e7c  arm  ov016
+ *   func_021F5E7C  0x021f5e7c  arm  ov107
  *   func_021D1E9C  0x021d1e9c  arm  ov016
  *   func_02088234  0x02088234  arm
  */

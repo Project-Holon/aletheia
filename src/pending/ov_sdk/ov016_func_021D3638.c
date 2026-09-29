@@ -11,6 +11,9 @@
  *
  * sdk:      DWCi_MOV_WH_Initialize (libdwcutil.TWL.HYB.a(dwc_mov_wh.o))
  *
+ * w6_nm tried: goto-spelled exits with a shared return label (both senses),
+ * a result local via goto, unsigned char return/callee types: register roles unchanged.
+ *
  * symbols:
  *   DWCi_MOV_WH_StateInInitialize    0x021D36D0  arm  ov016
  *   g_021DE660                       0x021DE660  data

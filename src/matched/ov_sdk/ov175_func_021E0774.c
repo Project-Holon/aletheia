@@ -12,15 +12,15 @@
  * sdk:      sciWsCreateSession (libdwcgssc.TWL.HYB.a sciwebservices.o)
  *
  * symbols:
- *   func_021819B0  0x021819B0  arm  ov175
- *   func_021829AC  0x021829AC  arm  ov175
+ *   func_021819B0  0x021819B0  arm  ov009
+ *   func_021829AC  0x021829AC  arm  ov009
  *   func_021E2874  0x021E2874  arm  ov175
- *   func_02182A2C  0x02182A2C  arm  ov175
- *   func_02182E90  0x02182E90  arm  ov175
- *   func_02182CF0  0x02182CF0  arm  ov175
- *   func_02181DE8  0x02181DE8  arm  ov175
- *   func_02181D84  0x02181D84  arm  ov175
- *   func_0217FD7C  0x0217FD7C  arm  ov175
+ *   func_02182A2C  0x02182A2C  arm  ov009
+ *   func_02182E90  0x02182E90  arm  ov009
+ *   func_02182CF0  0x02182CF0  arm  ov009
+ *   func_02181DE8  0x02181DE8  arm  ov009
+ *   func_02181D84  0x02181D84  arm  ov009
+ *   func_0217FD7C  0x0217FD7C  arm  ov009
  *   func_021E08E8  0x021E08E8  arm  ov175
  *   g_021E41B8  0x021E41B8  data
  *   g_021E41E4  0x021E41E4  data

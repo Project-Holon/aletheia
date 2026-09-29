@@ -12,11 +12,23 @@
  *           ov021_id (21) resolves as `overlay_id` (a layout overlay index,
  *           loaded by a pc-relative load of this function, reaching the id
  *           register of a known overlay loader), which was the last blocker.
+ * evidence: s0x021D359C lies in the windows of ov021 (data) and ov114 (bss),
+ *           so the ov021 hint needs outside support.  The same call passes
+ *           ov021_id (0x15, attested `overlay_id`) and this pointer to the
+ *           proc system: func_020120B4 -> func_02031348 -> func_020314F4 ->
+ *           func_02031538 stores the id at Proc+4 and the pointer at Proc+0
+ *           (ProcData), and func_020315F0 loads overlay Proc+4
+ *           (func_02034AC4) before it calls any ProcData callback.  So ov021
+ *           is resident whenever the pointer is dereferenced.  Independently,
+ *           ov021's bytes at 0x021D359C are three Thumb pointers
+ *           0x02187F01/0x02187FD1/0x02187FE9, each a func_ label in
+ *           ov021's own listing (init/main/end), while ov114 holds bss there.
+ *           With the hint the site attests as `data_table` from ov021's bytes.
  *
  * symbols:
  *   func_020120B4     0x020120B4  thumb
  *   ov021_id          0x00000015  data
- *   s0x021D359C       0x021D359C  data
+ *   s0x021D359C       0x021D359C  data  ov021
  *
  * Four arguments, and the first is the same object twice: the pool words are
  * a small constant 0x15 (an absolute linker symbol, not a literal - see
