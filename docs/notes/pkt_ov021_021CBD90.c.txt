@@ -1,0 +1,149 @@
+/*
+ * function: func_021CBD90
+ * address:  0x021CBD90
+ * packet:   pkt_ov021_021CBD90
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_021CBF98 reads no argument but the original passes p in r0 (kept); _s32_div_f signed; 2 caller ov021_func_021C9E8C gives (u8*, u32, u32, u32, u8), no sibling twin; 3 x u16, y u8/u16, kind u8/u16, span int, tmp u16/u32/int: no change or worse, t is not a parameter; 4 declaration-order-picks-the-register-initialisation-order-picks-the-load fixed the prologue (111 -> 103), a-result-computed-in-a-dying-local (t computed in y) worse (260), inline calc helper no change; 5 n/a, no later neighbour shares the table tail; permuter --types 300: best only with volatile-add (refused spelling)
+ *
+ * Picks a u16 value for kind/x/y: a fixed id for the (y == 6) special
+ * cases, else lo + rand % (hi - lo + 1) from one of four {lo, hi} tables,
+ * else rand % 100 + 200.
+ *
+ * DIFF, compiled 324 of 328 bytes, 103 bytes out, all in the table tail:
+ * the original keeps t (the table pointer) in r6, y's register, and lays
+ * the flag != 0 table choice out as `cmp r6,#6; bhs; ldr r6,=E4; b calc;
+ * ldr r6,=F4; calc:`. This spelling puts t in r4 (kind's register), so the
+ * compiler hoists the E4 load above the compare (`ldr r4,=E4; cmp r6,#6;
+ * blo calc; ldr r4,=F4`), 4 bytes shorter, and x*4 / span land in r5 / r6
+ * instead of r4 / r5. Everything before offset 0xC4 matches except the
+ * branch displacements that the 4 missing bytes shift.
+ *
+ * symbols:
+ *   func_021CBF98  0x021CBF98  thumb  ov021
+ *   _s32_div_f     0x0209C0A4  arm
+ *   d_021DB3D0     0x021DB3D0  data  a2
+ *   d_021DB3D8     0x021DB3D8  data  a2
+ *   d_021DB3E4     0x021DB3E4  data  a2
+ *   d_021DB3F4     0x021DB3F4  data  a2
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef struct {
+    u16 lo;
+    u16 hi;
+} Range;
+
+extern u16 func_021CBF98(u8 *p);
+extern const Range d_021DB3D0[];
+extern const Range d_021DB3D8[];
+extern const Range d_021DB3E4[];
+extern const Range d_021DB3F4[];
+
+u16 func_021CBD90(u8 *p, u32 x, u32 y, u32 kind, u8 alt)
+{
+    int flag;
+    int sel;
+    u16 res;
+    const Range *t;
+    u16 span;
+
+    res = 0;
+    flag = 0;
+    sel = -1;
+
+    switch (kind) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+        break;
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+        flag = 1;
+        break;
+    }
+    if (y == 6) {
+        if (flag == 0) {
+            if (x == 2)
+                sel = 0;
+        } else {
+            if (x == 6)
+                sel = 1;
+        }
+    }
+    if (sel != -1) {
+        switch (kind) {
+        case 0:
+        case 5:
+            if (sel == 0)
+                res = 0x132;
+            else if (sel == 1)
+                res = 0x133;
+            break;
+        case 1:
+        case 6:
+            if (sel == 0)
+                res = 0x134;
+            else if (sel == 1)
+                res = 0x135;
+            break;
+        case 2:
+        case 3:
+        case 7:
+        case 8:
+            if (sel == 0) {
+                if (alt == 0)
+                    res = 0x137;
+                else
+                    res = 0x136;
+            } else if (sel == 1) {
+                if (alt == 0)
+                    res = 0x139;
+                else
+                    res = 0x138;
+            }
+            break;
+        case 4:
+            break;
+        }
+    } else if (flag == 0) {
+        if (x < 3) {
+            if (y < 6) {
+                t = d_021DB3D8;
+                goto calc;
+            }
+            if (x < 2) {
+                t = d_021DB3D0;
+                goto calc;
+            }
+        }
+    } else {
+        if (x >= 4)
+            goto rnd;
+        if (y < 6) {
+            t = d_021DB3E4;
+            goto calc;
+        }
+        t = d_021DB3F4;
+    calc:
+        span = t[x].hi - t[x].lo + 1;
+        res = t[x].lo + func_021CBF98(p) % span;
+        goto end;
+    rnd:
+        res = func_021CBF98(p) % 100 + 200;
+    }
+end:
+    return res;
+}

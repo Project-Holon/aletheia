@@ -1,0 +1,68 @@
+/*
+ * function: func_021B9B44
+ * address:  0x021B9B44
+ * packet:   pkt_ov069_021B9B44
+ * region:   ov069
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_0204B294 takes 7 (4 regs + 3 stack), returns the new handle, func_0204B92C takes 2; 2 no twin in matched ov069; 3 const Obj *o no change, int/s16/u8 widths already right (residue is scheduling, not a width); 4 an-inline-call-argument-is-scheduled-per-site-a-local-is-not tried (locals x/y/z for the three index args, result temp w, pointer temp q): no change or a different frame; 5 n/a
+ *
+ * Residue: 42 bytes differ but only ordering. Everything matches (constant slots
+ * [sp+0x10..0x1c], record fill, ABS32 table) up to +0x58. The original then does
+ * `ldr r1,[r3,#0xc]` (e->d) BEFORE `adds r7,r5,r0` and the three stack argument
+ * stores, and loads o->f11C (`ldr r0,[r5,r0]`) last, after the three index
+ * loads; the compile does r7 and the stack stores first, then the index chain, then
+ * f11C.
+ *
+ * symbols:
+ *   func_0204B294  0x0204B294  arm
+ *   func_0204B92C  0x0204B92C  arm
+ *   d_021BA6BC  0x021BA6BC  data  a4
+ */
+
+typedef unsigned char u8;
+typedef short s16;
+
+typedef struct Ent {
+    int a, b, c;
+    int d, e, f;
+} Ent;
+
+typedef struct Rec {
+    s16 a, b, c;
+    u8 d, e;
+} Rec;
+
+typedef struct Obj {
+    unsigned char pad000[0x11C];
+    int f11C;
+    int f120;
+    int slot[4];
+    int arr[1];
+} Obj;
+
+extern Ent d_021BA6BC[];
+
+extern int func_0204B294(int, int, int, int, Rec *, int, int);
+extern void func_0204B92C(int, int);
+
+void func_021B9B44(Obj *o)
+{
+    int i;
+    Rec r;
+    Ent *e;
+
+    for (i = 0; i < 4; i++) {
+        e = &d_021BA6BC[i];
+        r.a = e->a;
+        r.b = e->b;
+        r.c = e->c;
+        r.e = 0;
+        r.d = 0;
+        o->slot[i] = func_0204B294(o->f11C, o->arr[e->d], o->arr[e->e], o->arr[e->f], &r, 0, 0x80);
+        func_0204B92C(o->slot[i], 1);
+    }
+}

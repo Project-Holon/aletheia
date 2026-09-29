@@ -1,0 +1,141 @@
+/*
+ * function: func_021D14C4
+ * address:  0x021D14C4
+ * packet:   pkt_ov021_021D14C4
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks: 1 func_0207C768 (FX_Div) takes (a, b), _ll_mul is FX_Mul, no stray
+ *   argument register; 2 no twin (no matched file reads d_021DB9A0/d_021DC158;
+ *   021BACA8/021BA348 share only FX_Div); 3 slot as u8/u16/s16, size u32,
+ *   base s16, const pos/rec/aux: no change or worse; 4 compute-a-stores-
+ *   operands-before-the-store, a-truncated-load-into-an-int-local, a-flattened-
+ *   copy-of-a-pointed-vector: int/s16 temps in every order no change; 5 n/a
+ *   (2278/29F0/1264/2B54/2750 share no normal-setter shape).
+ * blocker: in each normal-setting arm the image loads z (rsbs), then y
+ *   (spilled to sp18/sp1c), then x, re-reading the d_021DB9A0 pool word for
+ *   each, and only then stores x, y, z through out+slot*16 ([r4,r6],[r5,#2],
+ *   [r5,#4]). The plain C below (444 B, 321 differ) loads/stores x first and
+ *   keeps the grid pointer in a register. An inline setter
+ *   setn(&out[slot].n, t[n], t[n+1], -t[n+2]) gets the store addressing right
+ *   but is 380 B (360 differ); reversed inline arguments, a getter inline,
+ *   a compound literal or V16 temp copy (440 B, 411) and s16 n[3] fields did
+ *   not reorder the loads. Type 2 cross-jumps into type 0 at the y store.
+ *
+ * symbols:
+ *   d_021DB9A0     0x021DB9A0  data  ov021  a2
+ *   d_021DC158     0x021DC158  data  ov021
+ *   _ll_mul        0x0209C054  arm
+ *   func_0207C768  0x0207C768  arm
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef short          s16;
+typedef unsigned int   u32;
+
+typedef struct { int x, y, z; } V3;
+
+typedef struct {
+    u16 type : 2;
+    u16 idx : 14;
+    u16 h;
+    u32 attr : 31;
+    u32 dir : 1;
+} Tile;
+
+typedef struct {
+    u16 t : 2;
+    u16 i0 : 14;
+    u16 i1;
+    u16 h0;
+    u16 h1;
+} Aux;
+
+typedef struct {
+    u16 w;
+    u16 h;
+    Tile t[1];
+} Grid;
+
+typedef struct {
+    s16 x;
+    s16 y;
+    s16 z;
+    u16 pad;
+    u32 attr;
+    int height;
+} Out;
+
+extern const s16 d_021DB9A0[];
+extern const int d_021DC158[];
+extern int func_0207C768(int a, int b);
+
+void func_021D14C4(Out *out, int slot, Grid *grid, V3 *pos, int size, int base)
+{
+    int half;
+    int z, x;
+    int xm, zm;
+    int col, row, w;
+    Tile *rec;
+    Aux *aux;
+    u8 type;
+    int n, hi;
+    int d;
+    int ny;
+    int tz, tx;
+
+    half = size / 2;
+    z = pos->z + half;
+    x = pos->x + half;
+    xm = x % 0x10000;
+    zm = z % 0x10000;
+    col = x / 0x10000;
+    w = (size >> 12) / 16;
+    row = z / 0x10000;
+    rec = &grid->t[col + row * w];
+    type = rec->type;
+    if (type == 0) {
+        n = rec->idx * 3;
+        hi = rec->h;
+        out[slot].x = d_021DB9A0[n];
+        out[slot].y = d_021DB9A0[n + 1];
+        out[slot].z = -d_021DB9A0[n + 2];
+        d = d_021DC158[hi];
+    } else if (type == 2) {
+        aux = (Aux *)&grid->t[grid->w * grid->h] + rec->h;
+        if (rec->dir == 0) {
+            if (xm + zm < 0x10000) {
+                n = aux->i0 * 3;
+                hi = aux->h0;
+            } else {
+                n = aux->i1 * 3;
+                hi = aux->h1;
+            }
+        } else if (xm > zm) {
+            n = aux->i0 * 3;
+            hi = aux->h0;
+        } else {
+            n = aux->i1 * 3;
+            hi = aux->h1;
+        }
+        out[slot].x = d_021DB9A0[n];
+        out[slot].y = d_021DB9A0[n + 1];
+        out[slot].z = -d_021DB9A0[n + 2];
+        d = d_021DC158[hi];
+    } else {
+        d = 0;
+        out[slot].x = 0;
+        out[slot].y = 0x1000;
+        out[slot].z = d;
+    }
+    ny = out[slot].y;
+    tz = (int)(((long long)out[slot].z * pos->z + 0x800) >> 12);
+    tx = (int)(((long long)out[slot].x * pos->x + 0x800) >> 12);
+    out[slot].attr = rec->attr;
+    out[slot].height = base + func_0207C768(-(d + (tx + tz)), ny);
+}

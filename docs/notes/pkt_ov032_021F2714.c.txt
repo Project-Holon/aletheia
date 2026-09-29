@@ -1,3 +1,5 @@
+SUPERSEDED (lane R3): EXACT in src/matched/ov/ov032_func_021F2714.c. Fix: func_021F05E8 takes three arguments (its own matched file); passing `func_021F05E8(p, 4, 0)` shares the cleared zero with its third argument and puts it in r2.
+
 /*
  * function: func_021F2714
  * address:  0x021F2714

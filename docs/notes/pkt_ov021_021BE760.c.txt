@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * closed:   EXACT 2026-09-29 (lane R1), src/matched/ov/ov021_func_021BE760.c: `u16 i` and `const Setup *b` together
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm

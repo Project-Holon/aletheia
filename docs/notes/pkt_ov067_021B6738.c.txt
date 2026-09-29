@@ -1,0 +1,74 @@
+/*
+ * function: func_021B6738
+ * address:  0x021B6738
+ * packet:   pkt_ov067_021B6738
+ * region:   ov067
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callees read: func_0204A380 4 args (r0,r1,k9,mask), func_020410D0 4 reg + 6 stack, func_020413B0 4 reg + 2 stack, the u8 first argument is truncated at the call site (a2 is u32, callee param u8, matches); 2 no ov067 twin; 3 tried u16/u32 k10, mask as local, (u16) cast dropped: no change to the frame; 4 none fits (the volatile-field reload of ov067_func_021B83A0 does not apply to parameters); 5 n/a
+ *
+ * Best C is 200 bytes against 192, DIFF. Everything is right up to the stack
+ * argument reads: the original addresses the incoming stack arguments with a
+ * fresh `add rN, sp, #0x30` in every block and re-loads k4/k5/k6 with `ldrb`
+ * for each of the two calls (no CSE, no hoisted base, h stays in r7, frame
+ * 0x1c with `out` at [sp,#0x18]).  The compile hoists `add r7, sp, #0x38` to
+ * the entry block, keeps k4..k6 in registers across the first call, spills h
+ * to [sp,#0x1c] and needs a 0x24 frame.  Not found: a spelling of the ten
+ * stack arguments that stops the CSE (a by-value struct of 4-byte-stride
+ * fields compiles identically to scalar u8 parameters).
+ *
+ * symbols:
+ *   func_0204A380  0x0204A380  arm
+ *   func_02062B30  0x02062B30  arm
+ *   func_0204169C  0x0204169C  arm
+ *   func_0204162C  0x0204162C  arm
+ *   func_020410D0  0x020410D0  arm
+ *   func_020413B0  0x020413B0  arm
+ *   func_020409B4  0x020409B4  arm
+ *   func_020307B0  0x020307B0  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern void *func_0204A380(u32 a, u32 b, u32 c, u32 d);
+extern int func_02062B30(void *p, u8 **out);
+extern int func_0204169C(u8 a);
+extern int func_0204162C(u8 a);
+extern void func_020410D0(u8 a, u32 b, u32 c, u32 d, u32 e, void *f, u32 g, u32 h, u32 i, u32 j);
+extern void func_020413B0(u8 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void func_020409B4(u8 a);
+extern void func_020307B0(void *p);
+
+void func_021B6738(u32 a0, u32 a1, u32 a2, u32 a3,
+                   u8 k0, u8 k1, u8 k2, u8 k3, u8 k4, u8 k5, u8 k6, u8 k7,
+                   u8 k8, u32 k9, u16 k10)
+{
+    void *h;
+    u8 *out;
+    int i;
+    int total;
+    u16 *arr;
+
+    h = func_0204A380(a0, a1, k9, (u16)((k10 & 0x7fff) | 0x8000));
+    func_02062B30(h, &out);
+    if (a3 != 0) {
+        if (func_0204169C(a2) == 0) {
+            total = k3 * k2;
+            arr = (u16 *)(out + 0xc);
+            for (i = 0; i < total; i++) {
+                arr[i] = arr[i] + (u16)a3;
+            }
+        }
+    }
+    if (func_0204162C(a2)) {
+        func_020410D0(a2, k4, k5, k6, k7, out + 0xc, k0, k1, k2, k3);
+        func_020413B0(a2, k4, k5, k6, k7, k8);
+        func_020409B4(a2);
+    }
+    func_020307B0(h);
+}

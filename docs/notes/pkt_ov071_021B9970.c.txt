@@ -1,0 +1,63 @@
+/*
+ * function: func_021B9970
+ * address:  0x021B9970
+ * packet:   pkt_ov071_021B9970
+ * region:   ov071
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callees' arities fine (func_0216FE2C from ov010 matched file, func_02043678 4 args); 2 no twin; 3 n/a (no param/spill/load-vs-store residue; residue is loop-guard and constant folding of n = i + 1); 4 none fits; 5 n/a
+ *
+ * 160 bytes vs 168 original, 107 bytes differ. Original: `movs r4,#0` before the
+ * first call (fixed by `int i = 0;` as a declaration initialiser, not an assignment);
+ * first entry stores literal 1 via `movs r1,#1` but `n` is computed later as
+ * `adds r5, r4, #1` (not folded to 1), and the 0..0x30 loop keeps its top guard
+ * (`cmp r4,#0x30; bge`), so mwcc did not know i == 0 there. In this C mwcc folds
+ * n = i + 1 to 1, shares r5 with the stored 1, and drops the guard.
+ * Tried: n as int/u8/u32/short, `while` loop, static helper for the three entry
+ * writes (not inlined, calls it as a real function), i initialised by assignment.
+ *
+ * symbols:
+ *   func_020120F4  0x020120F4  thumb
+ *   func_021B6F40  0x021B6F40  thumb  ov071
+ *   func_02043678  0x02043678  arm
+ *   func_0216FE2C  0x0216FE2C  thumb  ov010
+ */
+
+typedef unsigned int u32;
+typedef unsigned char u8;
+
+extern void func_020120F4(void *a);
+extern void *func_021B6F40(void *a);
+extern void *func_02043678(u32 a, u32 b, u32 c, u32 d);
+extern int func_0216FE2C(void *tbl, int idx, void *pos, u8 *flags);
+
+void func_021B9970(char **a, char *b, char *c)
+{
+    int i = 0;
+    int n;
+    int r;
+    void *pos;
+
+    func_020120F4(**(char ***)a);
+    pos = func_021B6F40(a);
+    *(int *)(b + 0xec) = i;
+    *(int *)(b + 0x1b4) = 1;
+    *(void **)(b + 0x24) = func_02043678(0x17, 2, 0x20, 0x61);
+    n = i + 1;
+    for (; i < 0x30; i++) {
+        r = func_0216FE2C(*(void **)(c + 0x34), i, pos, (u8 *)(*a + 0x38));
+        if (r != 2) {
+            *(int *)(b + n * 4 + 0xec) = i;
+            *(int *)(b + n * 4 + 0x1b4) = r;
+            *(void **)(b + n * 4 + 0x24) = func_02043678(0x17, 2, 0x20, 0x61);
+            n++;
+        }
+    }
+    *(int *)(b + n * 4 + 0xec) = 0;
+    *(int *)(b + n * 4 + 0x1b4) = 1;
+    *(void **)(b + n * 4 + 0x24) = func_02043678(0x17, 2, 0x20, 0x61);
+    *(u8 *)(b + 0x27c) = n + 1;
+}

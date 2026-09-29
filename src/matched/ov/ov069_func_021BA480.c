@@ -1,0 +1,66 @@
+/*
+ * function: func_021BA480
+ * address:  0x021BA480
+ * packet:   pkt_ov069_021BA480
+ * region:   ov069
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * symbols:
+ *   func_020457B0  0x020457B0  arm
+ *   func_021BA470  0x021BA470  thumb  ov069
+ *   func_02045994  0x02045994  arm
+ *   func_021BA520  0x021BA520  thumb  ov069
+ *   func_0202CC70  0x0202CC70  thumb
+ *   func_02045808  0x02045808  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+typedef struct Ent {
+    unsigned char pad[0x20];
+    u8 f0 : 1;
+    u8 f1 : 1;
+} Ent;
+
+typedef struct Obj {
+    unsigned char pad000[4];
+    int f4;
+    char *f8;
+    unsigned char pad00C[0x160 - 0xC];
+    u16 page;
+    u16 f162;
+    int f164;
+} Obj;
+
+extern void *func_020457B0(int size, int align);
+extern int func_021BA470(int a, int b, int c);
+extern void func_02045994(void *dst, void *src, int n);
+extern void func_021BA520(void *o, int i, void *buf, int flag);
+extern void func_0202CC70(int a, int i);
+extern void func_02045808(void *p);
+
+void func_021BA480(Obj *o)
+{
+    void *buf;
+    int n;
+    int i;
+
+    buf = func_020457B0(0x10, 0x80);
+    n = func_021BA470(o->page, o->f162, o->f164);
+    i = 0;
+    if (n > 0) {
+        do {
+            func_02045994(buf, o->f8 + (i + o->page * 10) * 0x22, 8);
+            func_021BA520(o, i, buf, ((Ent *)(o->f8 + (i + o->page * 10) * 0x22))->f1);
+            i++;
+        } while (i < n);
+    }
+    for (; i < 10; i++)
+        func_0202CC70(o->f4, i);
+    func_02045808(buf);
+}

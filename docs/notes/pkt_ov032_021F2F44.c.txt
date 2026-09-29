@@ -1,3 +1,5 @@
+SUPERSEDED (lane R3): EXACT in src/matched/ov/ov032_func_021F2F44.c. Fix: func_0204B258 takes two arguments (twin ov029_func_021F1DE8): `func_0204B258(p->128, p->12c)`; the 0x12C result left in r1 is its second argument.
+
 /*
  * function: func_021F2F44
  * address:  0x021F2F44

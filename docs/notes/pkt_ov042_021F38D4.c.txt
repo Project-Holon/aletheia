@@ -8,6 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * resolved: EXACT* in src/matched/ov/ov042_func_021F38D4.c (lane R4): func_021BE700/674/6CC
+ *   declared with u16 j/k (as ov043/ov045 do) and x a u8 local; the join's stack store moves first.
  * checks:   1 every callee read; func_02188D2C takes the sys pointer (fixed the sibling ov039/ov042 functions), func_021BE6CC takes 5 (stack word at [sp,#0x10]), no arity error left; 2 no twin (ov040 func_021F36C0 has the same 700/6B0/6B8/6CC chain but passes a call result inline); 3 const st and u8/u16/u32 for x and z, u16 func_021BE748 return with u16 z (idiom a-u16-accessor-result...): no change; 4 idioms scanned, none fits; 5 n/a
  *
  * Residual (DIFF, same size, 5 instructions in the last call setup): at the

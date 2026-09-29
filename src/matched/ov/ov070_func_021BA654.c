@@ -1,0 +1,41 @@
+/*
+ * function: func_021BA654
+ * address:  0x021BA654
+ * packet:   pkt_ov070_021BA654
+ * region:   ov070
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02035CB8  0x02035CB8  arm
+ *   func_0204B454  0x0204B454  arm
+ *   func_0204B404  0x0204B404  arm
+ */
+
+typedef struct {
+    unsigned short a, b;
+} Pt;
+
+extern int func_02035CB8(unsigned *, unsigned *);
+extern void func_0204B454(int, Pt *, int);
+extern void func_0204B404(int, Pt *, int);
+
+void func_021BA654(char *p)
+{
+    unsigned w;
+    unsigned v;
+    Pt pt;
+    if (func_02035CB8(&w, &v) == 1) {
+        if (v < 0x1A) {
+            v = 0x1A;
+        } else if (v > 0x8E) {
+            v = 0x8E;
+        }
+        func_0204B454(*(int *)(p + 0x6A8), &pt, 0xFFFF);
+        pt.b = v;
+        func_0204B404(*(int *)(p + 0x6A8), &pt, 0xFFFF);
+    }
+}

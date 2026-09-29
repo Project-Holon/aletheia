@@ -20,8 +20,7 @@
    "evidence": {
     "sole-ref": [
      "code:0x021EFF3C",
-     "code:0x021EFF78",
-     "data:0x021F0678"
+     "string:0x021F0678"
     ]
    }
   }

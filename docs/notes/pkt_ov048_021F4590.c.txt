@@ -8,6 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * resolved: EXACT in src/matched/ov/ov048_func_021F4590.c (lane R4): int i compared against
+ *   sizeof(d_021F4E5C) / sizeof(d_021F4E5C[0]) keeps the one-trip loop; func_02188C70 returns int.
  * checks:   1 func_021F44B8 takes 1 arg, func_02188C70 takes 2 (u8 result, lsls/lsrs 24); 2 twin func_021F44D8 EXACT (calls this); 3 int/unsigned/u8 for i, while, do-while, `i < lim` local, return i/n: no change; 4 none fits; 5 n/a
  *
  * SIZE: compiled 68 bytes, original 96. The original keeps the outer `for (i = 0; i < 1; i++)`

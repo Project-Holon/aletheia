@@ -28,6 +28,18 @@
  * inline wrapper: none reproduces the sequential b-then-a offsets with base
  * in r3.
  *
+ * Retry lane R2 (claude-opus-5-5), still 18 bytes: all of these compile to the
+ * same interleaved head: typedef u16 Row[0xE0] with base[a]/&base[a] (70 B
+ * off, 0x1C0 built as 7<<6 and muls), (u8 *) or u8 base with a*0x1C0 (70),
+ * u32 integer sums `off + (u32)base` either order (70), int/u32 offset locals
+ * in index or byte units assigned b-first or a-first (18/70), a static inline
+ * RowOfs(n) / RowP(base, n) returning the row (18), SDK-style inline
+ * MI_CpuCopy16(const void *src, ...) wrapper (18), an inline taking (a, b) or
+ * (b, a) that calls func_0204162C itself (18), `0xE0 * a` operand order
+ * (18), `size` local and 0xE0 * sizeof(u16) (18). permuter --types 300: no
+ * candidate below baseline. The original's shape needs b's scaled offset
+ * computed into r1 before a's multiply reuses r0, which no spelling reached.
+ *
  * symbols:
  *   func_021F0A04  0x021F0A04  thumb
  *   func_0204162C  0x0204162C  arm

@@ -1,0 +1,58 @@
+/*
+ * function: func_021B9D68
+ * address:  0x021B9D68
+ * packet:   pkt_ov068_021B9D68
+ * region:   ov068
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_02061CA4 reads r0-r3 (0xf, slot/idx offset, out, 2), all used, table pointer is a plain data extern; 2 no twin (no other RGB555 lerp in ov068); 3 u16 vs u32 locals for c0/c1 tried, by-value bitfield Col params tried (168 B, worse), local copy of ang tried, single-expression form tried; 4 none fits; 5 n/a
+ *
+ * 184 bytes out of 192.  Colour blend: advance the u16 angle at *ang by inc
+ * (wrap at 0x10000), f = (s16)((d_020A1B38[(*ang>>4)*2+1] + 0x1000) / 2),
+ * lerp each RGB555 channel of c0/c1 by f>>12, store to *out, then
+ * func_02061CA4(15, idx*32 + slot*2, out, 2).
+ * The image keeps 0x1f in r7 (masks 0x3e0/0x7c00 are `lsls rN, r7, #5/#10`),
+ * a3 in ip, out in r6, c0 in r5, g0 in r4 computed before the table load, and
+ * blends B, R, G in that order; every spelling tried allocates a3 to r7 and
+ * rematerialises the masks with movs/lsls instead.
+ *
+ * symbols:
+ *   d_020A1B38     0x020A1B38  data  a2
+ *   func_02061CA4  0x02061CA4  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+
+extern s16  d_020A1B38[];
+extern void func_02061CA4(u32 a, u32 b, void *c, u32 d);
+
+void func_021B9D68(u16 *out, u16 *ang, int inc, u32 idx, u8 slot, u16 c0, u16 c1)
+{
+    int t;
+    int f;
+    u8 r0, g0, b0;
+    u8 r, g, b;
+
+    t = *ang + inc;
+    if (t >= 0x10000) {
+        *ang = t - 0x10000;
+    } else {
+        *ang = t;
+    }
+    t = d_020A1B38[(*ang >> 4) * 2 + 1] + 0x1000;
+    f = (s16)(t / 2);
+    g0 = (c0 & 0x3e0) >> 5;
+    r0 = c0 & 0x1f;
+    b0 = (c0 & 0x7c00) >> 10;
+    r = r0 + (((c1 & 0x1f) - r0) * f >> 12);
+    g = g0 + ((((c1 & 0x3e0) >> 5) - g0) * f >> 12);
+    b = b0 + ((((c1 & 0x7c00) >> 10) - b0) * f >> 12);
+    *out = (b << 10) | (g << 5) | r;
+    func_02061CA4(15, idx * 32 + slot * 2, out, 2);
+}

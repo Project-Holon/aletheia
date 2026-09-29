@@ -1,0 +1,78 @@
+/*
+ * function: func_021F37B4
+ * address:  0x021F37B4
+ * packet:   pkt_ov054_021F37B4
+ * region:   ov054
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callees' arities match (17 relocations resolved); 2 no twin, same loop shape as pkt_ov055_021F3E84; 3 loop counter int/u32, temp copy tried; 4 none fits; 5 n/a
+ * residue:  tail loop only: original is adds r1,r4,#0; lsls r0,r4,#2; adds r0,r5,r0; adds r4,#1; str r1,[r0,#0x10] (copy i, increment, store the copy); mine stores r4 before the increment. for, while, ++i, t=i temp, pointer pw[i] all tried.
+ *
+ * symbols:
+ *   func_02188C84  0x02188C84  thumb  ov021
+ *   func_02188D2C  0x02188D2C  thumb  ov021
+ *   func_02188C80  0x02188C80  thumb  ov021
+ *   func_02012134  0x02012134  thumb
+ *   func_0202B57C  0x0202B57C  thumb
+ *   func_02048F60  0x02048F60  arm
+ *   func_021BE480  0x021BE480  thumb  ov021
+ *   func_021C4D14  0x021C4D14  thumb  ov021
+ *   func_021C4DC0  0x021C4DC0  thumb  ov021
+ *   func_020307B0  0x020307B0  arm
+ *   func_021F3874  0x021F3874  thumb  ov054
+ */
+
+typedef unsigned short u16;
+
+typedef struct O {
+    u16 h0;
+    u16 pad2;
+    int f4;
+    int f8;
+    int fc;
+    int w[2];
+} O;
+
+extern int func_02188C84(int);
+extern int func_02188D2C(int);
+extern int func_02188C80(int);
+extern int func_02012134(int);
+extern int func_0202B57C(int);
+extern int *func_02048F60(int, int, int);
+extern int func_021BE480(int, int, int);
+extern int func_021C4D14(int, int, int, int, int);
+extern void func_021C4DC0(int, int, int, int);
+extern void func_020307B0(int *);
+extern void func_021F3874(O *);
+
+void func_021F37B4(O *o, int q)
+{
+    int i;
+    int t8;
+    int s0;
+    int a;
+    int *p;
+    int r;
+
+    a = func_02188C84(q);
+    t8 = func_02188D2C(q);
+    o->h0 = a;
+    o->f4 = func_0202B57C(func_02012134(func_02188C80(q)));
+    p = func_02048F60(0x7f, 1, a);
+    i = 0;
+    s0 = func_021C4D14(q, func_021BE480(t8, 0, 0), 8, p[0] << 12, p[1]);
+    func_021C4DC0(s0, 0x7f, 3, 10);
+    o->f8 = s0;
+    func_020307B0(p);
+    p = func_02048F60(0x7f, 2, a);
+    r = func_021C4D14(q, func_021BE480(t8, 0, 1), 9, p[0] << 12, p[1]);
+    func_021C4DC0(r, 0x7f, 4, 10);
+    o->fc = r;
+    func_020307B0(p);
+    for (i = 0; i < 2; i++)
+        o->w[i] = i;
+    func_021F3874(o);
+}

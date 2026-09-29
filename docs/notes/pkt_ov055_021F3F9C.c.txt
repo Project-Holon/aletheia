@@ -1,0 +1,59 @@
+/*
+ * function: func_021F3F9C
+ * address:  0x021F3F9C
+ * packet:   pkt_ov055_021F3F9C
+ * region:   ov055
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_021F3B48 takes 6 args, func_021F3D0C 9 (u16 params tried, no change); 2 no twin; 3 int vs u16 for x/y/lo/t tried, u32 casts tried; 4 no register-allocation idiom fits; 5 n/a
+ * residue:  ~150 bytes, all allocation: original keeps x (sp+0x24) and rnd in stack slots with y in r7, frame sp 0x2c, push {r4-r7,lr}; mine keeps x in r7, spills y/lo, push {r3-r7,lr}, frame 0x30. ~80 declaration-order permutations gave no change.
+ *
+ * symbols:
+ *   func_020056EC  0x020056EC  thumb
+ *   _u32_div_f     0x0209C2B0  arm
+ *   func_021F3B48  0x021F3B48  thumb  ov055
+ *   func_021F3D0C  0x021F3D0C  thumb  ov055
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern u32 func_020056EC(u32);
+extern int func_021F3B48(char *, u32, u32, u32, int, int *);
+extern void func_021F3D0C(u8 *, int, int, int, u32, u32, u32, u32, u16 *);
+
+void func_021F3F9C(char *a, int b, u16 *c, u8 *d, int e)
+{
+    int out;
+    u16 x;
+    int t0;
+    u32 rnd;
+    u16 y;
+    u16 m;
+    u16 lo;
+    int t;
+
+    t0 = 0;
+    rnd = func_020056EC(0);
+    m = c[4];
+    if (m <= 1) {
+        lo = c[2];
+        x = lo + rnd % (c[3] - lo + 1);
+        t = (m == 0) ? c[0] - e : c[0] + e;
+    } else {
+        x = (m == 2) ? c[2] - e : c[2] + e;
+        lo = c[0];
+        t = lo + rnd % (c[1] - lo + 1);
+    }
+    y = t;
+    if (func_021F3B48(a, x, y, m, 1, &out) == 0) {
+        if (rnd % 10 == 0)
+            t0 = 1;
+    }
+    if (out == 0)
+        func_021F3D0C(d, *(int *)(a + 4), *(int *)a, t0, x, y, c[4], (u16)(c[5] - e), c);
+}

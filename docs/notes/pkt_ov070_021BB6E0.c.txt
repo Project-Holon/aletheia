@@ -1,0 +1,36 @@
+/*
+ * function: func_021BB6E0
+ * address:  0x021BB6E0
+ * packet:   pkt_ov070_021BB6E0
+ * region:   ov070
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_0201C724 takes 7 (print, bmp, s16 x, s16 y, str, font, u16 color) per matched func_02020408; 2 ov067 pending twin same prototype; 3 s16 vs int vs u32 for x (int with (s16) cast at the call gives the right lsls/asrs pair and size), local for print/sx no change; 4 none fits; 5 n/a
+ *
+ * DIFF: same instructions, same size (68); only scheduling differs. Original spills r3 to
+ * [sp,#0xc] first (before the ldr of the 0x504 field) and does the reload plus lsls/asrs of x
+ * late (after the ldrsh of y). Ours spills after 'ldr r0,[r4]' and reloads early. Tried print
+ * inline, print as late local, sx as local (three spellings), s16/int/u32 x.
+ *
+ * symbols:
+ *   func_02045770  0x02045770  arm
+ *   func_0201C724  0x0201C724  thumb
+ */
+
+typedef unsigned int u32;
+typedef signed short s16;
+typedef unsigned short u16;
+
+extern u32 func_02045770(u32 a);
+extern void func_0201C724(u32 print, u32 bmp, int x, s16 y, u32 str, u32 font, u16 color);
+
+void func_021BB6E0(int p, u32 *obj, u32 str, int x, s16 y, u16 color)
+{
+    u32 print = *(u32 *)(p + 0x504);
+
+    func_0201C724(print, func_02045770(*obj), (s16)x, y, str, *(u32 *)(p + 0x528), color);
+    *((unsigned char *)obj + 4) = 1;
+}

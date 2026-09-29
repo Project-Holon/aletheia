@@ -1,0 +1,43 @@
+/*
+ * function: func_021F4040
+ * address:  0x021F4040
+ * packet:   pkt_ov056_021F4040
+ * region:   ov056
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callees read (02030734 5 args, 02011510 4 args, 02082D44 3); 2 twin ov021_func_0218BEE8 for 02030734 shape, no register twin; 3 tried e as pointer-read (*pe) and as u32 copy, no change; 4 none fits (allocation shape); 5 n/a
+ *
+ * Residual: 25 mismatching lines, same size (76 B). The original pushes {r3..r7,lr}
+ * with a two-slot frame: a=r5, b=r6, c=r7, result=r4, only d (r3) spilled to
+ * [sp+4], and the u16 stack argument e is re-read (add r0,sp,#0x20; ldrh) at each of
+ * its two uses. Ours keeps e in r5, a in r6, b in r7 and spills both c and d
+ * (three slots, sp #0xc). Need a spelling that makes mwcc treat e as memory-resident.
+ *
+ * symbols:
+ *   func_02030734  0x02030734  arm
+ *   func_02011510  0x02011510  thumb
+ *   func_02082D44  0x02082D44  arm
+ *   d_021F4400  0x021F4400  data  ov056  a1
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u32 *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern u32 func_02011510(u32 a, u32 b, u32 c, u32 d);
+extern void func_02082D44(void *dst, void *src, int n);
+extern char d_021F4400[];
+
+u32 *func_021F4040(void *a, u32 b, u32 c, u32 d, u16 e)
+{
+    u32 *r;
+
+    r = func_02030734(e, 0x1c, 1, d_021F4400, 0x4d);
+    r[1] = 0;
+    r[0] = func_02011510(e, b, c, d);
+    func_02082D44(a, r + 2, 0x12);
+    return r;
+}

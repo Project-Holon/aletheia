@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * resolved: EXACT in src/matched/ov/ov046_func_021F4078.c (lane R4): d_021F4430[b][c][i]
+ *   indexed inside the loop (the row address is hoisted into b's register). func_021BB3DC
+ *   is ov021's thunk (filed as leaf ov021_func_021BB3DC.c), not ov214's label.
  * checks: 1 func_021BB3DC reads (r0,r1,r2), func_02188C5C one arg; 2 no twin; 3 int vs u32 for b/c no change; 4 none fits; 5 n/a
  *
  * Same size, only register assignment differs (8 lines): original keeps b in

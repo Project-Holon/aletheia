@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * closed:   EXACT 2026-09-29 (lane R1), src/matched/ov/ov021_func_021C1AF4.c: up vectors as inline-helper locals, first call one inline level deeper
  * checks: 1 func_02048A24 takes 12 (ov111_func_021C7744, ov195_func_02205BDC), 02030734/02047CFC arity from twins, every register right; 2 twins ov111_func_021C7744/ov195_func_02205BDC give the camera-create call but no zeroed target; 3 a as u16 no change, residue is local slot order only (no spill slot, no load/store swap); 4 local-declaration-order-is-stack-order, function-scope-versus-block-scope-decides-spill-slot-order, an-initialised-local-array-takes-its-address-before-the-stores applied (the last fixed 171 of 176 bytes); 5 n/a, no filed neighbour builds stack vectors; permuter --types 300 compiles flat at 5
  *
  * DIFF, 272 = 272 bytes, 5 bytes out: only the stack slots of the six

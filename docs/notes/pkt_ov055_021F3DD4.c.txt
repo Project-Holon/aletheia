@@ -1,0 +1,87 @@
+/*
+ * function: func_021F3DD4
+ * address:  0x021F3DD4
+ * packet:   pkt_ov055_021F3DD4
+ * region:   ov055
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callees' arities match, func_0216D5F8 must return u16; 2 no twin; 3 d as int/unsigned/u16, no h local, short x in place tried; 4 none fits; 5 n/a
+ * residue:  28 bytes: o and d swap r4/r5 (original o=r4, d=r5), and the original loads ldr r1,[r4,#0x10] after cmp r5,#1 while mine loads it before. 24-compile declaration-order sweep gave no change.
+ *
+ * symbols:
+ *   func_0216D5F8  0x0216D5F8  thumb  ov010
+ *   func_0216D83C  0x0216D83C  thumb  ov010
+ *   func_0216D86C  0x0216D86C  thumb  ov010
+ *   func_021642A4  0x021642A4  thumb  ov010
+ *   func_020056EC  0x020056EC  thumb
+ *   func_021641E8  0x021641E8  thumb  ov010
+ *   func_021641F8  0x021641F8  thumb  ov010
+ *   func_0216D410  0x0216D410  thumb  ov010
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+typedef struct O {
+    u8 f0;
+    u8 f1;
+    u8 f2;
+    u8 f3;
+    u16 h4;
+    u16 h6;
+    u16 h8;
+    u16 ha;
+    int fc;
+    u16 *f10;
+    u16 h14;
+    u16 h16;
+} O;
+
+extern u16 func_0216D5F8(int);
+extern int func_0216D83C(int);
+extern int func_0216D86C(int);
+extern u16 func_021642A4(int);
+extern int func_020056EC(int);
+extern int func_021641E8(int);
+extern int func_021641F8(int);
+extern void func_0216D410(int, int);
+
+void func_021F3DD4(O *o, int a)
+{
+    u16 d;
+    int x, y;
+    short sx, sy;
+    u16 *h;
+
+    d = func_0216D5F8(a);
+    x = func_0216D83C(o->fc);
+    y = func_0216D86C(o->fc);
+    if (o->h14 != 0) {
+        d = o->h16;
+    } else {
+        if (d == o->f3 || o->f3 == func_021642A4(d)) {
+            if (func_020056EC(2) == 0)
+                d = d + 2;
+            else
+                d = func_021642A4((u16)(d + 2));
+        } else {
+            d = func_021642A4(d);
+        }
+    }
+    sx = x + func_021641E8(d);
+    sy = y + func_021641F8(d);
+    h = o->f10;
+    if (d <= 1) {
+        if (sy < h[0] || sy > h[1])
+            d = func_021642A4(d);
+    } else {
+        if (sx < h[2] || sx > h[3])
+            d = func_021642A4(d);
+    }
+    func_0216D410(o->fc, (u16)(o->ha + d));
+    o->h14 = 1;
+    o->h16 = d;
+}

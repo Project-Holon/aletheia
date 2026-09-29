@@ -1,0 +1,46 @@
+/*
+ * function: func_021BB690
+ * address:  0x021BB690
+ * packet:   pkt_ov070_021BB690
+ * region:   ov070
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_0204B454/B404 take (handle, buf, 0xFFFF) per func_021C0980; 2 no twin; 3 const/int/unsigned tried, declaration order permuted (all 24), off/q statement order; 4 none fits; 5 n/a
+ *
+ * DIFF: five bytes, a register swap. The original keeps i*4 in r6 and p+i*4 in r5 (adds r5,r7,r6);
+ * ours gives i*4 to r5 and p+i*4 to r6, in every declaration order and with q computed
+ * before or after off. A struct-array table read (d[i].a) gave a different, worse shape.
+ * The ov070 hint on d_021BBBCC is contested; drop it and keep 'data a4' when this is filed.
+ *
+ * symbols:
+ *   func_0204B454  0x0204B454  arm
+ *   func_0204B404  0x0204B404  arm
+ *   d_021BBBCC     0x021BBBCC  data  a4
+ */
+
+extern void func_0204B454(int, void *, int);
+extern void func_0204B404(int, void *, int);
+extern short d_021BBBCC[];
+
+int func_021BB690(int p)
+{
+    unsigned i;
+    short v[2];
+    char *q;
+    int off;
+
+    for (i = 0; i < 5; i++) {
+        off = i * 4;
+        q = (char *)p + off;
+        func_0204B454(*(int *)(q + 0x6AC), v, 0xFFFF);
+        if (v[0] == *(short *)((char *)d_021BBBCC + off)) {
+            return 0;
+        }
+        v[0] = v[0] + 4;
+        func_0204B404(*(int *)(q + 0x6AC), v, 0xFFFF);
+    }
+    return 1;
+}

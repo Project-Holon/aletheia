@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * closed:   EXACT 2026-09-29 (lane R1), src/matched/ov/ov029_func_021F0B00.c: `t = 0;` as the first statement (permuter hoist)
  * checks:   1 callees func_021F0C70 (4 args, r0 unused there, u8 return), func_021F1290 (4 args), func_021F0C00 (2 args) counted, arity fine; 2 no twin (func_021F0B88 shares the struct and matched); 3 n/a no load/store swap; 4 none fits; 5 n/a
  *
  * Same size (124 bytes), 27 concrete diffs, all one cause: the original copies

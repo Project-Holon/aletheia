@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * closed:   EXACT 2026-09-29 (lane R1), src/matched/ov/ov029_func_021F07AC.c: one local v carries each step, with the table byte assigned to v as a statement of its own
  * checks:   1 func_021F0D08 called (e, i): r1 still holds i, 2 args; func_021F08BC 4 args (matched twin ov029_func_021F06B8); 2 twin ov029_func_021F06B8 shares f08bc only; 3 n/a; 4 none fits; 5 n/a
  * residual: 64 bytes vs 68 bytes compiled in the plain form, 29 concrete bytes differ in the best form
  *           below (same size). The original keeps the call result in r0 and does the u16 narrowing and

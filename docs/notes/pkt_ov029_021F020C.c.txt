@@ -8,15 +8,23 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks:   1 func_021F2B9C takes (p, x, y) returns int; 2 no twin; 3 n/a; 4 aggregate-assignment idiom: original copies each 2-word table with `ldm r5, {r3, r5}` (pointer reg overwritten), all my forms give ldr/ldr pairs; 5 n/a
- * residual: compiled 144 bytes vs 140. Tables are d_021F333C = {6,4} and d_021F334C = {3,4}, copied
- *           to sp+8 and sp+0. The original leaves b in r2 and sets the sums up in r3/r4/r5; mine moves
- *           b to r5 first. Forms tried: extern struct Pair copy (ldr pairs, data pool words unresolved:
- *           no witness outside the range, so drop the ov029 token if re-run), local int[2] initialisers
- *           (pool word becomes a compiler @N template, unresolved), static const struct copy (.rodata
- *           reloc unresolved). Only the lo/hi copy shape and the register order differ; the rest of the
- *           arithmetic (a/8+2)/4, %2, b/8 - lo[m], /4, bounds x<9, y<hi[m] matches instruction for
- *           instruction where the registers agree.
+ * checks:   1 func_021F2B9C takes (p, x, y) returns int; 2 twin ov029_func_021F1010 (const Pair t = d; ((int *)&t)[i % 2]): same 144-byte result here; 3 a/b as short, unsigned short in both spellings (no change or worse), early `return ret` (no change); 4 aggregate-assignment, an-eight-byte-pair-copy, a-two-word-const-table-copied-to-the-stack-is-a-pair-assignment: the ldm shape comes from the pair's register allocation, see below; 5 n/a; permuter --types 600 + 2x2500 on the u64 and param-reuse spellings: best candidates read t before assigning it or add volatile locals, none value-preserving, none kept
+ *
+ * residual (lane R1, 2026-09-29): same size, 140 = 140 bytes, 63 concrete bytes, all register
+ * allocation. The image loads each table with `ldm r5, {r3, r5}` (base in the list, so no
+ * writeback) and stores the words with separate sp-relative `str`s. That shape is just an
+ * 8-byte pair copy whose two loads get ascending registers with the base as the high one. The
+ * struct copy below gives `ldr r3,[r2]; ldr r2,[r2,#4]` (descending, no fusion, 144 bytes).
+ * The bare-u64 load split into two struct words (this file) gives `ldm r4, {r2, r4}` and the
+ * right size. Remaining difference: the image copies c to r7 and a to r4 (a, a/8+2 and x all
+ * share r4), leaves b in r2 and keeps ret = 5 in r1; this C copies b to r5 and leaves a in r1,
+ * so every register after that differs.
+ * Tried with no gain (63 or worse): a reused as x and/or b as y (144, the ldm splits again);
+ * x/y through temporaries or split statements; separate u64 temporaries t1/t2; no temporary
+ * at all; const u64 externs; declaration orders of t/ret/x/y/m; table copies moved after x or
+ * after the first guard (144); `*(u64 *)lo = d` into int[2] and a union (121, stm form).
+ * Earlier lane: extern struct Pair copy (ldr pairs), local int[2] initialisers (an @N rodata
+ * template, unresolved), static const struct copy (.rodata reloc unresolved).
  *
  * symbols:
  *   func_021F020C  0x021F020C  thumb  ov029
@@ -31,18 +39,26 @@ struct Pair {
 };
 
 extern int func_021F2B9C(void *p, int a, int b);
-extern struct Pair d_021F333C;
-extern struct Pair d_021F334C;
+typedef unsigned long long u64;
+extern u64 d_021F333C;
+extern u64 d_021F334C;
 
 int func_021F020C(void *p, int a, int b, int *c, int *d)
 {
-    struct Pair lo = d_021F333C;
-    struct Pair hi = d_021F334C;
+    struct Pair lo;
+    struct Pair hi;
+    u64 t;
     int ret = 5;
     int x;
     int y;
     int m;
 
+    t = d_021F333C;
+    lo.a = (int)t;
+    lo.b = (int)(t >> 32);
+    t = d_021F334C;
+    hi.a = (int)t;
+    hi.b = (int)(t >> 32);
     x = (a / 8 + 2) / 4;
     if (x < 0) {
         return 5;

@@ -1,0 +1,38 @@
+/*
+ * function: func_021B9560
+ * address:  0x021B9560
+ * packet:   pkt_ov071_021B9560
+ * region:   ov071
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0203FCA0  0x0203FCA0  arm
+ *   func_02041300  0x02041300  arm
+ *   d_021BAB28     0x021BAB28  data  ov071  a4
+ *   d_021BAB48     0x021BAB48  data  ov071  a4
+ *   d_021BAB68     0x021BAB68  data  a4
+ */
+
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+
+extern char d_021BAB28[];
+extern char d_021BAB48[];
+extern char d_021BAB68[];
+extern void func_0203FCA0(u32 a, void *b, u32 c);
+extern void func_02041300(u32 a, u32 b, u32 c, u32 d, u8 e, u8 f, u8 g);
+
+void func_021B9560(void)
+{
+    func_0203FCA0(4, d_021BAB28, 0);
+    func_0203FCA0(5, d_021BAB48, 0);
+    func_0203FCA0(6, d_021BAB68, 0);
+    func_02041300(4, 0, 0, 0, 0x20, 0x20, 0x11);
+    func_02041300(5, 0, 0, 0, 0x20, 0x20, 0x11);
+    func_02041300(6, 0, 0, 0, 0x20, 0x20, 0x11);
+}

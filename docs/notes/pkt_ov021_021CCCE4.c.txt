@@ -1,0 +1,107 @@
+/*
+ * function: func_021CCCE4
+ * address:  0x021CCCE4
+ * packet:   pkt_ov021_021CCCE4
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * residual: 276 of 276 bytes, 66 concrete bytes wrong. Loop 1: r6/r7 swap
+ *   between the &pos base and p + i*4. Loop 2: the call's &pos argument is
+ *   CSE'd into the q register (str r7,[sp]) where the original
+ *   rematerialises add r0,sp,#0x14. The d_021DB40C hint is `a2` alone:
+ *   with the ov021 token, match.py reports the hint contested, and
+ *   sole-ref resolves it.
+ * checks: 1 arity: func_0204B294 takes 7 (twin ov021_func_0219707C), func_0204B3DC
+ *   takes 2, func_0202136C takes a u16. 2 twins: ov021_func_021CCA00 (EXACT, same
+ *   family; it rematerialises &pos with no base register) and
+ *   ov021_func_0219707C. 3 widths: permuter --types, 300 compiles; its best of 62
+ *   comes only from an int return of n2, rejected. A u16 *q gives 66, a u16
+ *   temp no gain; there is no const load/store trade. 4 idioms: declaration
+ *   order and local-declaration-order-is-stack-order: q at the if-block top
+ *   gives 78, a temp o local 180, and two declaration orders no gain.
+ *   5 neighbour 021CCA00 re-read: its bound-result local fix does not apply
+ *   (different shape).
+ *
+ * symbols:
+ *   func_0201AA18  0x0201AA18  thumb
+ *   func_0201AB28  0x0201AB28  thumb
+ *   func_02017E1C  0x02017E1C  thumb
+ *   func_0202136C  0x0202136C  thumb
+ *   func_0204B294  0x0204B294  arm
+ *   func_0204B3DC  0x0204B3DC  arm
+ *   d_021DB40C     0x021DB40C  data  a2
+ */
+
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    u16 x;
+    u16 y;
+    u16 f4;
+    u16 f6;
+} Pos;
+
+typedef struct {
+    u32 f0;
+    void *f4;
+    void *f8;
+    u16 heap;
+    u16 padE;
+    u32 f10;
+    u32 f14;
+    u32 f18;
+    u32 pad1C[(0x4C - 0x1C) / 4];
+    u32 f4C[6];
+    u32 f64[6];
+    u32 pad7C[(0x98 - 0x7C) / 4];
+    u16 f98;
+    u16 f9A;
+    u16 f9C;
+} Obj;
+
+extern Pos d_021DB40C;
+
+extern int func_0201AA18(void *p);
+extern void *func_0201AB28(void *p, int i);
+extern u32 func_02017E1C(void *mon, u32 id, u32 v);
+extern u32 func_0202136C(u16 v);
+extern u32 func_0204B294(u32, u32, u32, u32, Pos *, u32, u32);
+extern void func_0204B3DC(u32 obj, int on);
+
+void func_021CCCE4(Obj *p)
+{
+    Pos pos = d_021DB40C;
+    int n1;
+    int n2;
+    int i;
+    u32 sp;
+
+    n1 = func_0201AA18(p->f4);
+    for (i = 0; i < n1; i++) {
+        sp = func_02017E1C(func_0201AB28(p->f4, i), 6, 0);
+        if (sp != 0) {
+            pos.f4 = (func_0202136C(sp) == 1) ? 1 : 0;
+            pos.x = i * 0x28 + 0x20;
+            p->f4C[i] = func_0204B294(p->f18, p->f9C, p->f98, p->f9A, &pos, 0, p->heap);
+            func_0204B3DC(p->f4C[i], 0);
+        }
+    }
+    if (p->f8 != 0) {
+        n2 = func_0201AA18(p->f8);
+        for (i = 0; i < n2; i++) {
+            sp = func_02017E1C(func_0201AB28(p->f8, i), 6, 0);
+            if (sp != 0) {
+                Pos *q = &pos;
+                q->f4 = (func_0202136C(sp) == 1) ? 1 : 0;
+                q->x = i * 0x28 + 0x20;
+                p->f64[i] = func_0204B294(p->f18, p->f9C, p->f98, p->f9A, &pos, 0, p->heap);
+                func_0204B3DC(p->f64[i], 0);
+            }
+        }
+    }
+}

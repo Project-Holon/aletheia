@@ -1,0 +1,49 @@
+/*
+ * function: func_021BB5DC
+ * address:  0x021BB5DC
+ * packet:   pkt_ov070_021BB5DC
+ * region:   ov070
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_021BB368  0x021BB368  thumb  ov070
+ *   func_021BB5A4  0x021BB5A4  thumb  ov070
+ *   func_02012BF8  0x02012BF8  thumb
+ *   func_0204B878  0x0204B878  arm
+ */
+
+extern int func_021BB368(int);
+extern void func_021BB5A4(int);
+extern int func_02012BF8(int, int);
+extern void func_0204B878(int, int);
+
+void func_021BB5DC(int p, int mode)
+{
+    int r = func_02012BF8(*(int *)p, func_021BB368(*(int *)(p + 0x80C)));
+
+    if (mode == 1) {
+        func_021BB5A4(p);
+        func_0204B878(*(int *)(p + 0x710), 4);
+        func_0204B878(*(int *)(p + 0x714), 5);
+        func_0204B878(*(int *)(p + 0x71C), 0);
+        if (r == 1) {
+            func_0204B878(*(int *)(p + 0x718), 7);
+        } else {
+            func_0204B878(*(int *)(p + 0x718), 6);
+        }
+    } else {
+        func_0204B878(*(int *)(p + 0x72C), 4);
+        func_0204B878(*(int *)(p + 0x710), 0x12);
+        func_0204B878(*(int *)(p + 0x714), 0x13);
+        func_0204B878(*(int *)(p + 0x71C), 0xE);
+        if (r == 1) {
+            func_0204B878(*(int *)(p + 0x718), 0x16);
+        } else {
+            func_0204B878(*(int *)(p + 0x718), 0x15);
+        }
+    }
+}

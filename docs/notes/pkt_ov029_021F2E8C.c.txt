@@ -8,12 +8,19 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks:   1 func_0202173C takes 8 (five stack-free regs + 3 stack slots), returns void; 2 no twin; 3 n/a (no load/store swap), u8/u16/s8 param widths, local for the table value, local `e = 8` for r1/r3: no change; 4 none fits; 5 n/a
+ * checks:   1 func_0202173C takes 8 (void *, u16, u16, s16, u8, u8, u16, void *) per its own matched file and the ov029 callers, returns int; 2 twins ov029_func_021F0F28/021F0EB0/021F0E70 give the prototype (no change on its own, 30 B); 3 c as int/unsigned/u8 local, zero local, s16 step local, ctx local, index local: int c is the only shrink (30 -> 23 B); 4 inline wrappers (an-inline-wrappers-arguments-are-evaluated-last-to-first) for the lookup or the whole call: 23-45 B; 5 n/a
  *
- * Same size, 14-instruction scheduling diff after the call to func_0204B918: the original
- * emits `movs r1,#0` right after the table pool load and `movs r3,#8` late (between the
- * p[4] load and its store, then `subs r3,#0x80`); the compiler emits `movs r3,#8` first.
- * Everything else is byte-identical.
+ * Best: same size (96), 23 bytes differ, all in the argument set-up after the
+ * func_0204B918 call; everything else is byte-identical. The original is
+ *   lsls r2,r0,#2 ; ldr r0,=tbl ; movs r1,#0 ; ldr r0,[r0,r2] ; str r1,[sp] ; ...
+ *   ldr r0,[r4,#0x10] ; movs r3,#8 ; str r0,[sp,#0xc] ; ... ; movs r1,#8 ; ... subs r3,#0x80
+ * This C gives the index in r1 (not r2), so the zero cannot take r1 until the
+ * table load and `movs r3,#8` fills the pool-load slot instead. Without the
+ * `int c` local the index lands in r2 but `movs r1,#0` is scheduled before it
+ * (30 B). Retry lane R2 (claude-opus-5-5): declaration scope (top/block),
+ * separate index local, zero/step/ctx locals, explicit casts, `8 - 0x80`,
+ * static inline lookup and call wrappers, and permuter --types 300 on this
+ * spelling: none below 23.
  *
  * symbols:
  *   func_0204B98C  0x0204B98C  arm
@@ -22,20 +29,25 @@
  *   d_021F3224     0x021F3224  data  ov029
  */
 
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef signed   short s16;
+
 extern int func_0204B98C(int a);
 extern int func_0204B918(int a);
-extern void func_0202173C(int a, int b, int c, int d, int e, int f, int g, int h);
+extern int func_0202173C(void *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
 extern unsigned int d_021F3224[];
 
 int func_021F2E8C(int *p)
 {
+    int c;
     if (p[0] == 0)
         return 1;
     if (func_0204B98C(p[2]) == 0) {
         p[0] = 0;
         return 1;
     }
-    func_0202173C(p[3], 8, (unsigned short)p[1], -120, 0,
-                  (unsigned char)d_021F3224[func_0204B918(p[2])], 0, p[4]);
+    c = d_021F3224[func_0204B918(p[2])];
+    func_0202173C((void *)p[3], 8, p[1], -120, 0, c, 0, (void *)p[4]);
     return 0;
 }

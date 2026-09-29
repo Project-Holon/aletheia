@@ -3,7 +3,7 @@
  * This C:   bl 0x201210c; adds r1,r0,#0; ldr r0,[r4]; cmp r0,#7 ... (copy first, index in r0)
  * Every arm writes out `(*p)++` (p needs the highest use count to take r4, q r5, a r6), which matches
  * the register assignment and the cross-jumped tails; the goto/shared-tail spelling swaps p and q.
- * Tried on the load/copy order without effect: sv as void*/int, a `k = *p` local, u32 *p.
+ * Tried on the load/copy order without effect: sv as void * or int, a `k = *p` local, u32 *p.
  */
 /*
  * function: func_021766F0

@@ -1,3 +1,5 @@
+SUPERSEDED (lane R3): EXACT in src/matched/ov/ov032_func_021F3264.c. Fix: type p as a struct with `void *o[6]` at 0x2BC and write `p->o[i]`; the raw (p + i * 4) spelling schedules p+i*4 ahead of &d[i].
+
 /*
  * function: func_021F3264
  * address:  0x021F3264

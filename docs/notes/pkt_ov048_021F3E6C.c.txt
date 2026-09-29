@@ -3,12 +3,23 @@
  * address:  0x021F3E6C
  * packet:   pkt_ov048_021F3E6C
  * region:   ov048
- * compiler: 1.1p1
+ * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
  * checks:   1 callees checked (func_0201EFA4 6 args, func_0201F230 3, func_021F3D38 4); 2 twin func_021F4058 is EXACT with the same struct shape (there the arg-3 `movs r2,#3` lands right); 3 struct vs int[7], s.d/s.e order, temp for the [p+0x1c]+0x18 load: no change; 4 none fits; 5 n/a
+ * retry (lane R4, 2026-09-29), all still the same 8 bytes: func_021F3D38's b as u16/u8,
+ *   its second parameter as void * with &s; a named 2 (`n`/`two`, int and u16, set at the
+ *   top, reassigned before s.d, used for some or all of the call's 2s); a named 1 for
+ *   every 1; buf as u32[4]; stores through `S *q = &s`, through an int[7] or an int *
+ *   into it, and buf folded into the struct as its first member; every single-statement
+ *   move of the seven field stores (best is the current order, 8; the rest 8-36); s.d
+ *   before the calls (87); s (or s and buf) in a nested block (18), buf alone in one
+ *   (8); permuter --types 300 compiles: nothing below 8. The
+ *   original keeps the seven stores strictly in source order and fills the first load
+ *   slot with `movs r2,#1`; ours lets `str r6` (the 2 already live in r6) jump the
+ *   queue, so the lever is whatever stops the store floating, not the value.
  *
  * DIFF: 8 concrete bytes, all one scheduling slip. Original: ldr r0,[r1,#0x2c]; movs r2,#1;
  * str r0,[sp,#0x1c]; ... movs r0,#0x26; str r6,[sp,#0x24]; str r0,[sp,#0x28]; ldr r0,[r5,#0x1c].

@@ -1,0 +1,42 @@
+/*
+ * function: func_021F4510
+ * address:  0x021F4510
+ * packet:   pkt_ov055_021F4510
+ * region:   ov055
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 no callees; 2 no twin; 3 const tables (pulls the ldrb up, matches original) and const struct pointer tried, stores then come out [4] before [0]; 4 none fits; 5 n/a
+ *
+ * Unlabelled leaf (not handed; found while working func_021F43D8, which
+ * resolves it as sole-ref/code so it is not a blocker). Fills an 8-byte slot
+ * from two byte tables. Original: ldr pool, movs r3,#0, ldrb r2,[r2,r1],
+ * strh r3,[r0], strh r1,[r0,#4], strb r2,[r0,#2], ldr pool2, strh r3,[r0,#6],
+ * ldrb r2,[r2,r1] (r2 not r1), strb r2,[r0,#3].
+ * Best (const u8 tables, struct S {u16 a; u8 b; u8 c; u16 d; u16 e;}): loads
+ * hoisted right, but strh [4] is emitted before strh [0] and the last ldrb
+ * lands in r1 instead of r2. Source-order swaps did not change either.
+ *
+ * symbols:
+ *   d_021F45E0  0x021F45E0  data  a1
+ *   d_021F45D0  0x021F45D0  data  a1
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+
+extern const u8 d_021F45E0[];
+extern const u8 d_021F45D0[];
+
+typedef struct { u16 a; u8 b; u8 c; u16 d; u16 e; } S;
+
+void func_021F4510(S *s, u16 i)
+{
+    s->a = 0;
+    s->d = i;
+    s->b = d_021F45E0[i];
+    s->e = 0;
+    s->c = d_021F45D0[i];
+}

@@ -8,6 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * resolved: EXACT in src/matched/ov/ov044_func_021F36C0.c (lane R4): r7 is a constant 0
+ *   (set once before the loop), so the call is func_021BE674(r6, 0, 0, i); func_021BE6B8(b, 0).
  * checks:   1 callees read: BE674 (p,i,j,k) BE6B8/BE6B0 leaves (p,v), BE760 3 args (unmatched), BE4A4 leaf 4 args; 2 no twin; 3 n/a; 4 none fits (loop counter copy); 5 n/a
  *
  * Remaining diff is 5 instructions in the 2-iteration loop only: the original

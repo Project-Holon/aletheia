@@ -13,7 +13,6 @@
  * a local for 0x6C078965. All compile to the same 160 bytes.
  * Pool words: 0x6C078965 (p+8), 0x5D588B65 (p+0xc), 0x00269EC3 (p+0x10).
  * symbols: func_02161ECC thumb ov010; func_02186818, func_0218682C, func_02186278 thumb ov020
- */
  *   func_0218682C  0x0218682C  thumb  ov020
  *   func_02186278  0x02186278  thumb  ov020
  */

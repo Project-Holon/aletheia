@@ -1,0 +1,41 @@
+/*
+ * function: func_021B6AE4
+ * address:  0x021B6AE4
+ * packet:   pkt_ov067_021B6AE4
+ * region:   ov067
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callees read: func_021B6C4C takes 3 args (r0,r1,r2) and returns u16, func_0201C724 takes 7 (u16 last at [sp+8]), func_02045770 one; 2 no ov067 twin; 3 b as u16/s16/u32, c as s16, p as u32*, y as u32/u16 with and without a temp for the call result, y initialised, h temp for the window handle: all give the same 7 bytes or a worse size; 4 none fits; 5 n/a
+ *
+ * Byte-identical except a register swap: the original keeps the first
+ * parameter p in r5 and the third parameter b (then y = (u16)(b - f())) in
+ * r4; the compile has p in r4 and b/y in r5 (bytes at +0004, +0008, +0016,
+ * +001A, +001C, +0026, +0042).  func_021B6C4C (0x021B6C4C, ov067, 40 bytes,
+ * unfiled: a 1/2 mode switch over func_0201D304) is the only callee outside
+ * arm9 and resolves as a label.
+ *
+ * symbols:
+ *   func_021B6C4C  0x021B6C4C  thumb  ov067
+ *   func_02045770  0x02045770  arm
+ *   func_0201C724  0x0201C724  thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef short s16;
+
+extern u32 func_021B6C4C(u32 a, u32 b, u32 c);
+extern u32 func_02045770(u32 p);
+extern void func_0201C724(u32 print, u32 bmp, s16 x, s16 y, u32 str, u32 font, u16 color);
+
+void func_021B6AE4(u8 *p, u32 a, u32 b, u32 c, u32 s0, u32 s1, u16 s2, u32 s3)
+{
+    u16 y;
+    y = b - func_021B6C4C(s0, s1, s3);
+    func_0201C724(a, func_02045770(*(u32 *)p), y, c, s0, s1, s2);
+    p[4] = 1;
+}

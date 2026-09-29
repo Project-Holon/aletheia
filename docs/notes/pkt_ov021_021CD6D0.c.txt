@@ -1,0 +1,357 @@
+/*
+ * function: func_021CD6D0
+ * address:  0x021CD6D0
+ * packet:   pkt_ov021_021CD6D0
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * residual: 1000 of 1000 bytes, 5 concrete bytes wrong, all at +0x238..+0x23D
+ *   (case 10, the f578 bit test). Original: ldr r0,[sp]; ldrb r1,[r4,r0];
+ *   movs r0,#1. Ours: ldr r1,[sp]; movs r0,#1; ldrb r1,[r4,r1]. The spilled
+ *   0x578 offset is reloaded into r1 and the movs is scheduled between the
+ *   reload and the load. Everything else, all 61 relocations included, matches.
+ * history: source order with cases 0..19 gave 653 wrong bytes. The fixes, in order:
+ *   case 8 goes after case 12 (the layout order is the source order);
+ *   `(i < 4) ? 1 : 0` as the loop condition (idiom a-loop-entered-by-a-branch-
+ *   to-its-bottom-test..., gives the entry `b` and fixed the r5/r6 colouring,
+ *   495 -> 132); `Entry *e` for case 14, which keeps the pool word at the table
+ *   base with ldrh [r1,#8] instead of folding +8 into the pool (132 -> 5).
+ * checks: 1 arity: func_0203D1C0 was tried as u8, int and u32 (ov011/ov019 twins take
+ *   u8), with no change; func_021CEA28 is filed (ov021_func_021CEA28.c, EXACT), so
+ *   the extent now resolves. 2 twins: ov021_func_021CE24C (the same 4-slot loop over
+ *   +0x70/0x2c) and ov019_func_0217E904 (the `(1 << i) & m` peer loop).
+ *   3 widths: the permuter ran twice with --types (300 each), both at 5 bytes;
+ *   a bit local as u8/u32/int, and a u8 fl = p->f578 local, gave no change.
+ *   4 idioms: loop-entry ternary and table-field fold (both applied);
+ *   self-assignment colouring does not apply (this is not a colouring rotation).
+ *   The if-inversion `if (func_0203D1C0(i) != 1) { ...; break; }` gives 169, and
+ *   `? 1 : 0` on the bit test gives no change. 5 neighbours: 021CE24C and
+ *   021CEA28 re-read.
+ *
+ * symbols:
+ *   func_021CE24C  0x021CE24C  thumb  ov021
+ *   func_021CE2BC  0x021CE2BC  thumb  ov021
+ *   func_021CE12C  0x021CE12C  thumb  ov021
+ *   func_021CE7AC  0x021CE7AC  thumb  ov021
+ *   func_021CE9E4  0x021CE9E4  thumb  ov021
+ *   func_021CF1AC  0x021CF1AC  thumb  ov021
+ *   func_021CE36C  0x021CE36C  thumb  ov021
+ *   func_021CE41C  0x021CE41C  thumb  ov021
+ *   func_021CE78C  0x021CE78C  thumb  ov021
+ *   func_021CE73C  0x021CE73C  thumb  ov021
+ *   func_021CEA28  0x021CEA28  thumb  ov021
+ *   func_021CE52C  0x021CE52C  thumb  ov021
+ *   func_021CE5AC  0x021CE5AC  thumb  ov021
+ *   func_021CF2F0  0x021CF2F0  thumb  ov021
+ *   func_021CE6F0  0x021CE6F0  thumb  ov021
+ *   func_021CF3B0  0x021CF3B0  thumb  ov021
+ *   func_021CF378  0x021CF378  thumb  ov021
+ *   func_021CF12C  0x021CF12C  thumb  ov021
+ *   func_021CE81C  0x021CE81C  thumb  ov021
+ *   func_02190EF0  0x02190EF0  thumb  ov021
+ *   func_0203D01C  0x0203D01C  arm
+ *   func_020392B8  0x020392B8  arm
+ *   func_02039ACC  0x02039ACC  arm
+ *   func_020362DC  0x020362DC  arm
+ *   func_020399A8  0x020399A8  arm
+ *   func_020399B8  0x020399B8  arm
+ *   func_0203D1B4  0x0203D1B4  arm
+ *   func_0203D1E8  0x0203D1E8  arm
+ *   func_0203D1A4  0x0203D1A4  arm
+ *   func_0203D7BC  0x0203D7BC  arm
+ *   func_0203D1C0  0x0203D1C0  arm
+ *   func_02080D24  0x02080D24  arm
+ *   func_02039C68  0x02039C68  arm
+ *   func_02039CB4  0x02039CB4  arm
+ *   func_0203D798  0x0203D798  arm
+ *   func_0203D650  0x0203D650  arm
+ *   func_0200FB24  0x0200FB24  thumb
+ *   data_021DB498  0x021DB498  data   ov021
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef struct {
+    u8 pad0[8];
+    u16 f8;
+    u16 padA;
+} Entry;
+
+typedef struct {
+    u8 pad0[0x14];
+    u32 f14;
+    u8 pad18[0x2C - 0x18];
+    u32 f2C;
+    u8 f30[0x514 - 0x30];
+    u8 f514;
+    u8 pad515[0x51B - 0x515];
+    u8 f51B;
+    u8 f51C;
+    u8 f51D;
+    u8 state;
+    u8 pad51F;
+    u8 f520;
+    u8 pad521[0x526 - 0x521];
+    u8 f526;
+    u8 pad527[0x573 - 0x527];
+    u8 f573;
+    u16 f574;
+    u8 pad576[2];
+    u8 f578;
+} Work;
+
+typedef struct {
+    u8 pad[0x26];
+    u16 f26;
+} Disp;
+
+typedef struct {
+    u8 pad[0x18];
+    Disp *(*f18)(u32 a);
+} Sys;
+
+extern void func_021CE24C(Work *p);
+extern void func_021CE2BC(Work *p);
+extern void func_021CE12C(Work *p);
+extern void func_021CE7AC(Work *p);
+extern void func_021CE9E4(Work *p, u32 m);
+extern int func_021CF1AC(void *a, u32 b, u32 c);
+extern void func_021CE36C(Work *p);
+extern void func_021CE41C(Work *p);
+extern int func_021CE78C(Work *p);
+extern int func_021CE73C(Work *p);
+extern void func_021CEA28(Work *p);
+extern int func_021CE52C(Work *p);
+extern int func_021CE5AC(Work *p);
+extern int func_021CF2F0(u32 a);
+extern void func_021CE6F0(Work *p, u32 i);
+extern int func_021CF3B0(u32 a);
+extern int func_021CF378(u32 a);
+extern int func_021CF12C(u32 a);
+extern void func_021CE81C(Work *p);
+extern int func_02190EF0(u32 a);
+extern void func_0203D01C(void);
+extern int func_020392B8(void);
+extern int func_02039ACC(void);
+extern u32 func_020362DC(void);
+extern u32 func_020399A8(void);
+extern int func_020399B8(u32 a);
+extern int func_0203D1B4(void);
+extern void func_0203D1E8(u32 a, u32 b);
+extern u8 func_0203D1A4(u32 a);
+extern void func_0203D7BC(u32 a);
+extern int func_0203D1C0(u32 a);
+extern u32 func_02080D24(u32 a);
+extern void func_02039C68(u32 h, u32 a, u32 b);
+extern int func_02039CB4(u32 h, u32 a, u32 b);
+extern Sys *func_0203D798(void);
+extern u32 func_0203D650(void);
+extern u32 func_0200FB24(void);
+extern Entry data_021DB498[];
+
+int func_021CD6D0(Work *p)
+{
+    int v;
+    u16 old;
+    u8 mask;
+    u8 i;
+    Sys *s;
+    Entry *e;
+
+    if (p->state != 0) {
+        func_021CE24C(p);
+        func_021CE2BC(p);
+        func_021CE12C(p);
+    }
+    switch (p->state) {
+    case 0:
+        func_021CE7AC(p);
+        func_021CE9E4(p, 8);
+        p->state++;
+        break;
+    case 1:
+        if (p->f520 == 0) {
+            p->state = 4;
+        } else {
+            func_0203D01C();
+            p->state++;
+        }
+        break;
+    case 2:
+        if (func_020392B8() > 1) {
+            if (func_02039ACC() == 1) {
+                p->state++;
+            }
+        } else if (func_020362DC() & 2) {
+            p->state = 7;
+            p->f2C = 2;
+            p->state = 0x13;
+        }
+        break;
+    case 3:
+        if (func_020399B8(func_020399A8()) == 1) {
+            p->state = 4;
+        }
+        break;
+    case 4:
+        if (func_021CF1AC(p->f30, 1, p->f51B) == 1) {
+            p->state++;
+        }
+        break;
+    case 5:
+        func_021CE36C(p);
+        func_021CE41C(p);
+        if (func_021CE78C(p) == 1) {
+            v = func_021CE73C(p);
+            old = p->f574;
+            p->f574 = 0xffff;
+            if (v >= p->f51D || (v >= p->f51C && (func_020362DC() & 1))) {
+                func_021CEA28(p);
+                p->state = 6;
+            } else if (func_020362DC() & 2) {
+                p->state = 7;
+            } else if (p->f520 == 0 && func_0203D1B4() <= 1) {
+                p->state = 0x11;
+            } else if (old != 0xffff) {
+                func_021CE9E4(p, old);
+            }
+        }
+        break;
+    case 6:
+        v = func_021CE52C(p);
+        if (v == 1) {
+            func_0203D1E8(func_020399A8(), 0);
+            p->state = 9;
+        } else if (v == 2) {
+            if (func_021CE73C(p) >= p->f51D) {
+                p->state = 7;
+            } else {
+                p->state = 5;
+                if (func_021CE73C(p) > 1 && p->f520 == 1) {
+                    p->f574 = 9;
+                } else {
+                    p->f574 = 8;
+                }
+            }
+        }
+        break;
+    case 7:
+        v = func_021CE5AC(p);
+        if (v == 1) {
+            func_0203D1E8(func_020399A8(), 0);
+            p->state = 0xd;
+        } else if (v == 2) {
+            p->state = 5;
+        }
+        break;
+    case 9:
+        if (func_021CF2F0(p->f51B) == 1) {
+            func_021CE6F0(p, func_0203D1A4(func_020399A8()));
+            p->f526 = p->f514;
+            func_0203D7BC(1);
+            p->state = 0xa;
+        }
+        break;
+    case 10:
+        mask = 1 << func_0203D1A4(func_020399A8());
+        for (i = 0; (i < 4) ? 1 : 0; i++) {
+            if (i == func_0203D1A4(func_020399A8())) {
+                continue;
+            }
+            if (!(p->f526 & (1 << i))) {
+                continue;
+            }
+            if (func_0203D1C0(i) == 1) {
+                if (p->f578 & (1u << i)) {
+                    mask |= (u8)(1u << i);
+                }
+            } else {
+                p->state = 0xb;
+                break;
+            }
+        }
+        if (p->f526 == mask) {
+            if (func_02080D24(p->f578) < p->f51C) {
+                p->state = 0xb;
+            } else {
+                p->state = 0xc;
+            }
+        }
+        break;
+    case 11:
+        if (func_021CF3B0(p->f51B) == 1) {
+            p->f526 = p->f514;
+            p->f2C = 2;
+            p->state = 0xe;
+        }
+        break;
+    case 12:
+        if (func_021CF378(p->f51B) == 1) {
+            p->f2C = 1;
+            p->state = 8;
+            p->f573 = func_02080D24(p->f578);
+            func_02039C68(func_020399A8(), 1, 0x27);
+        }
+        break;
+    case 8:
+        if (p->f573 != func_020392B8() || p->f51C > func_020392B8()) {
+            if (func_021CF3B0(p->f51B) == 1) {
+                p->f526 = p->f514;
+                p->f2C = 2;
+                p->state = 0xe;
+            }
+        } else if (func_02039CB4(func_020399A8(), 1, 0x27) == 1) {
+            p->f2C = 1;
+            p->state = 0x13;
+            s = func_0203D798();
+            s->f18(func_0203D650())->f26 = 0;
+        }
+        break;
+    case 13:
+        if (func_021CF3B0(p->f51B) == 1) {
+            p->f526 = p->f514;
+            p->f2C = 2;
+            p->state = 0x10;
+        }
+        break;
+    case 14:
+        e = &data_021DB498[p->f520];
+        func_021CE9E4(p, e->f8);
+        p->state = 0xf;
+        break;
+    case 15:
+        if (func_02190EF0(p->f14) == 1) {
+            p->state = 0x10;
+        }
+        break;
+    case 16:
+        if (func_021CF12C(p->f526) == 0) {
+            p->state = 0x13;
+        }
+        break;
+    case 17:
+        func_021CE9E4(p, 0x14);
+        p->state = 0x12;
+        break;
+    case 18:
+        if (func_02190EF0(p->f14) == 1) {
+            p->f2C = 2;
+            p->state = 0x13;
+        }
+        break;
+    case 19:
+        func_021CE81C(p);
+        return 1;
+    }
+    if (func_0200FB24() != 0) {
+        p->f2C = 4;
+        return 1;
+    }
+    return 0;
+}

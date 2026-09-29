@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * closed:   EXACT 2026-09-29 (lane R1), src/matched/ov/ov029_func_021F1574.c: both tables `extern const int`
  * checks:   1 callee arities read from asm (204abf0/204a6c8 5 args with stack 0x70), sizes equal; 2 no twin; 3 idx as unsigned, int k=0x70 local, t local, p as int, q=(int*)p field spelling: no change; 4 none fits; 5 n/a
  * DIFF: same size (136 B); the only difference is two instructions at +0x0A/+0x0C: original does
  * `adds r5, r0, #0` (copy of p) before `str r6, [sp]` (stack arg 0x70); this C emits the store first.

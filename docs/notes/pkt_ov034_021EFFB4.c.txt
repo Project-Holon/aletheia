@@ -1,3 +1,5 @@
+SUPERSEDED (lane R3): EXACT* in src/matched/ov/ov034_func_021EFFB4.c. Fix: assign `h = p[2]` before `s` in the second loop (permuter hoist-up(h)); EXACT* for the unlabelled follower at 0x021F0044.
+
 /*
  * function: func_021EFFB4
  * address:  0x021EFFB4

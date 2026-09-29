@@ -1,0 +1,58 @@
+/*
+ * function: func_021B9E14
+ * address:  0x021B9E14
+ * packet:   pkt_ov070_021B9E14
+ * region:   ov070
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021B9DE8  0x021B9DE8  thumb  ov070
+ *   func_020490F4  0x020490F4  arm
+ *   func_02020E60  0x02020E60  thumb
+ *   func_0204AC18  0x0204AC18  arm
+ *   func_0204A6C8  0x0204A6C8  arm
+ *   func_02049238  0x02049238  arm
+ *   func_0204B294  0x0204B294  arm
+ *   func_0204B92C  0x0204B92C  arm
+ *   func_0204B3DC  0x0204B3DC  arm
+ */
+
+typedef struct {
+    unsigned short a, b, c;
+    unsigned char d, e;
+} Rect;
+
+extern void func_021B9DE8(char *);
+extern int func_020490F4(int, unsigned short);
+extern int func_02020E60(unsigned short, int);
+extern int func_0204AC18(int, int, int, int, int, int, unsigned short);
+extern int func_0204A6C8(int, int, int, int, unsigned short);
+extern void func_02049238(int);
+extern int func_0204B294(int, int, int, int, Rect *, int, unsigned short);
+extern void func_0204B92C(int, int);
+extern void func_0204B3DC(int, int);
+
+void func_021B9E14(char *p, int id)
+{
+    int bg;
+    Rect r;
+    if (*(int *)(p + 0x6A0) != 0) {
+        func_021B9DE8(p);
+    }
+    bg = func_020490F4(0x19, *(unsigned short *)(p + 0x544));
+    *(int *)(p + 0x548) = func_0204AC18(bg, func_02020E60(id, 2), 1, 0, 0, 1, *(unsigned short *)(p + 0x544));
+    *(int *)(p + 0x54C) = func_0204A6C8(bg, func_02020E60(id, 1), 0, 1, *(unsigned short *)(p + 0x544));
+    func_02049238(bg);
+    r.a = 0x84;
+    r.b = 0x50;
+    r.c = 0;
+    r.d = 0;
+    r.e = 0;
+    *(int *)(p + 0x6A0) = func_0204B294(*(int *)(p + 0x69C), *(int *)(p + 0x54C), *(int *)(p + 0x548), *(int *)(p + 0x550), &r, 1, *(unsigned short *)(p + 0x544));
+    func_0204B92C(*(int *)(p + 0x6A0), 1);
+    func_0204B3DC(*(int *)(p + 0x6A0), 1);
+}

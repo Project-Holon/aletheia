@@ -1,0 +1,59 @@
+/*
+ * function: func_021BA8C0
+ * address:  0x021BA8C0
+ * packet:   pkt_ov070_021BA8C0
+ * region:   ov070
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_0204B294 takes 7 (r0-r3, &rect, 0, u16), func_0204B92C 2, call sites match; 2 no twin
+ *           in ov070 (ov018 uses 0204B294 with the same arity); 3 const on the three tables: no change
+ *           (23 bytes either way), temporaries for x/y: no change; 4 none fits (pure scheduling of
+ *           independent loads); 5 n/a, no later neighbour shares the shape
+ *
+ * 172 bytes, same size, 23 concrete bytes differ, all in the middle of the loop body: the original
+ * issues `ldrsh r2,[B,i*4]` before the second pool load of B and the r3/r2 spill reloads; ours hoists
+ * the spill reloads and the pool load above it. Pool words (table A 0x021BBA74, B 0x021BBBCC, C+1
+ * 0x021BBA81), the twice-loaded B word and the head of the loop match after `q = p + i*4` is bound
+ * first and the rect stores go d, e, x, y, z. Statement orders tried: deyxz, dexzy, dzexy, dyexz
+ * (all worse, 30-40 bytes), ternary/pointer spellings of y (41 bytes).
+ * The data symbols are declared without an ovNNN token (the hint is contested for 0x021BBA74 and
+ * 0x021BBBCC; sole-ref/data resolves all three sites on re-run).
+ *
+ * symbols:
+ *   d_021BBA74     0x021BBA74  data  a1
+ *   d_021BBBCC     0x021BBBCC  data  a2
+ *   d_021BBA81     0x021BBA81  data  a1
+ *   func_0204B294  0x0204B294  arm
+ *   func_0204B92C  0x0204B92C  arm
+ */
+
+typedef struct {
+    short x, y;
+    unsigned short z;
+    unsigned char d, e;
+} Rect;
+
+extern unsigned char d_021BBA74[];
+extern short d_021BBBCC[][2];
+extern unsigned char d_021BBA81[];
+extern int func_0204B294(int, int, int, int, Rect *, int, unsigned short);
+extern void func_0204B92C(int, int);
+
+void func_021BA8C0(char *p)
+{
+    unsigned i;
+    Rect r;
+    for (i = 0; i < 5; i++) {
+        char *q = p + i * 4;
+        r.d = d_021BBA74[i];
+        r.e = 1;
+        r.x = d_021BBBCC[i][0] - 0x10;
+        r.y = d_021BBBCC[i][1];
+        r.z = d_021BBA81[i * 2 + 1];
+        *(int *)(q + 0x6AC) = func_0204B294(*(int *)(p + 0x69C), *(int *)(p + 0x594), *(int *)(p + 0x590), *(int *)(p + 0x598), &r, 0, *(unsigned short *)(p + 0x544));
+        func_0204B92C(*(int *)(q + 0x6AC), 1);
+    }
+}

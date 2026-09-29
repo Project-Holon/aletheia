@@ -1,3 +1,5 @@
+SUPERSEDED (lane R3): EXACT in src/matched/ov/ov038_func_021F4200.c. Fix: hold the case-0 byte in a u8 local and declare func_021BE674 third parameter `int` (its own file says unsigned int, which keeps the swap).
+
 /*
  * function: func_021F4200
  * address:  0x021F4200
