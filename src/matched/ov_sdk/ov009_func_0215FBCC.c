@@ -1,0 +1,64 @@
+/*
+ * function: func_0215FBCC
+ * address:  0x0215FBCC
+ * packet:   pkt_ov009_0215FBCC
+ * region:   ov009
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * sdk:      SOC_Poll (libsoc.TWL.HYB.a(soc.o))
+ *
+ * symbols:
+ *   func_0215EFB0  0x0215EFB0  arm  ov009
+ *   func_02085A38  0x02085A38  arm
+ */
+
+typedef struct {
+	int fd;
+	short events;
+	short revents;
+} PollFD;
+
+extern int func_0215EFB0(int s);
+extern void func_02085A38(unsigned long msec);
+
+int func_0215FBCC(PollFD *fds, unsigned int nfds, long long timeout)
+{
+	PollFD *fp;
+	int is_enable_timeout;
+	long long time;
+	unsigned int i;
+	int num_good;
+	int status;
+	int status_mask;
+
+	if (nfds == 0 || fds == 0) {
+		return 0;
+	}
+	time = timeout;
+	is_enable_timeout = (time != -1);
+	for (;;) {
+		num_good = 0;
+		fp = fds;
+		for (i = 0; i < nfds; i++, fp++) {
+			status_mask = fp->events | 0xe0;
+			status = status_mask & func_0215EFB0(fp->fd);
+			fp->revents = (short)status;
+			if (status) {
+				num_good++;
+			}
+		}
+		if (num_good > 0) {
+			break;
+		}
+		if (is_enable_timeout && time <= 0) {
+			break;
+		}
+		func_02085A38(1);
+		time -= 523;
+	}
+	return num_good;
+}

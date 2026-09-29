@@ -14,6 +14,8 @@
  *   MI_CpuCopy                       0x02082ea4 arm
  *   g_021A826C                       0x021a826c data
  *   g_021A1CC0                       0x021a1cc0 data
+ * note: volatile in this file is a matching device (it forces the reload the
+ *   original performs); the vendor DWARF declares the object without volatile.
  */
 
 typedef unsigned char u8;

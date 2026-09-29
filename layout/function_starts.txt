@@ -927,6 +927,12 @@ overlay_009  0x0218F880  arm   # "bx lr" gpiPeerPingReplyCallback (gpipeer.o, 4 
 overlay_009  0x02174FE4  arm   # "bx lr" DWCi_NNProgressCallback (dwc_match.o, 4 B, 0 mismatches); pointer word at 0x0216FEEC (DWCi_DoNatNegotiationAsync +0xB8, ABS32 DWCi_NNProgressCallback)
 overlay_009  0x0219BA54  arm   # "bx lr" NatNegProgressCallback (qr2.o, 4 B, 0 mismatches); pointer word at 0x0219C550 (qr_process_client_message +0x1AC, ABS32 NatNegProgressCallback)
 
+# ov009 dwc_match.o (w7_nm, 2026-09-29): same evidence as the stubs above.
+# DWCi_QR2Startup relocates all three (ABS32) into its pool.
+overlay_009  0x02174C2C  arm   # "bx lr" DWCi_QR2PlayerKeyCallback (dwc_match.o, 4 B, 0 mismatches); pointer word at 0x0216CEFC (DWCi_QR2Startup +0x170, ABS32 DWCi_QR2PlayerKeyCallback)
+overlay_009  0x02174C30  arm   # "bx lr" DWCi_QR2TeamKeyCallback (dwc_match.o, 4 B, 0 mismatches); pointer word at 0x0216CF00 (DWCi_QR2Startup +0x174, ABS32 DWCi_QR2TeamKeyCallback)
+overlay_009  0x02174CF0  arm   # "mov r0, #0; bx lr" DWCi_QR2CountCallback (dwc_match.o, 8 B, 0 mismatches); pointer word at 0x0216CF08 (DWCi_QR2Startup +0x17C, ABS32 DWCi_QR2CountCallback)
+
 # w6_fix18 (2026-09-29): callees of overlay game entries that verified MATCH
 # because the target had no traced start.  ARM9 thunks and leaves the prologue
 # sweep misses (no lr-saving push, or an 8-byte wrapper printed as .word data

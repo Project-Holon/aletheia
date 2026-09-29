@@ -22,6 +22,10 @@
  * w6_nm tried: the static callee declared and defined in the same TU (after
  * the caller): the lr/ip parameter shuffle does not appear.
  *
+ * w7_nm tried: `*p++` split (p from the struct base, len = *p++), `++p` in
+ *           the call, divisor/dest copied to locals first; cc 1.1 to 1.6sp2 with
+ *           -O4,p/-O4,s/-O3,p/-O2: always 32 B without the lr/ip copies.
+ *
  * symbols:
  *   func_0217D904                  0x0217D904  arm ov009
  */

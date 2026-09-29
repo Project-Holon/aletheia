@@ -1,0 +1,62 @@
+/*
+ * function: func_0215ECB8
+ * address:  0x0215ECB8
+ * packet:   pkt_ov009_0215ECB8
+ * region:   ov009
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * sdk:      SOCL_CloseAll (libsoc.TWL.HYB.a(socl_cleanup.o))
+ *
+ * symbols:
+ *   func_02087988  0x02087988  arm
+ *   func_0208799C  0x0208799C  arm
+ *   func_0215E84C  0x0215E84C  arm  ov009
+ *   g_021AA44C     0x021AA44C  data
+ *   g_021AA4B4     0x021AA4B4  data
+ *   g_021AA4B8     0x021AA4B8  data
+ */
+
+typedef struct Socket Socket;
+struct Socket {
+	unsigned char pad0[0xac];
+	short state;
+	unsigned char pad1[0x0a];
+	Socket *next;
+};
+
+extern unsigned long func_02087988(void);
+extern unsigned long func_0208799C(unsigned long state);
+extern int func_0215E84C(Socket *s);
+extern Socket *g_021AA44C;
+extern Socket *g_021AA4B4;
+extern Socket *g_021AA4B8;
+
+int func_0215ECB8(void)
+{
+	unsigned long enable;
+	Socket *socket;
+
+	for (;;) {
+		enable = func_02087988();
+		for (socket = g_021AA4B4; socket != 0; socket = socket->next) {
+			if (socket != g_021AA44C && (socket->state & 0x10) == 0) {
+				break;
+			}
+		}
+		func_0208799C(enable);
+		if (socket == 0) {
+			break;
+		}
+		func_0215E84C(socket);
+	}
+	if (g_021AA4B4 == 0 || (g_021AA4B4 == g_021AA44C && g_021AA4B4->next == 0)) {
+		if (g_021AA4B8 == 0) {
+			return 0;
+		}
+	}
+	return -26;
+}

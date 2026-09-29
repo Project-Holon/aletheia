@@ -18,6 +18,8 @@
  *   func_020949F4                0x020949F4 arm
  *   func_021702A0                0x021702A0 arm   ov009
  *   g_021A2188                   0x021A2188 data
+ * note: volatile in this file is a matching device (it forces the reload the
+ *   original performs); the vendor DWARF declares the object without volatile.
  */
 
 typedef unsigned char u8;

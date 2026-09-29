@@ -17,6 +17,8 @@
  *   func_0208799C  0x0208799C  arm
  *   g_021A826C  0x021A826C  data
  *   g_02150FEC  0x02150FEC  data
+ * note: volatile in this file is a matching device (it forces the reload the
+ *   original performs); the vendor DWARF declares the object without volatile.
  */
 
 struct NetVars {

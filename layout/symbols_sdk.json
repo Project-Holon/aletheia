@@ -35908,6 +35908,32 @@
    "siblings": 152
   },
   {
+   "address": 35081260,
+   "name": "DWCi_QR2PlayerKeyCallback",
+   "lib": "TwlDWC/libdwcmatch.TWL.HYB.a",
+   "object": "dwc_match.o",
+   "region": "ov009",
+   "thumb": false,
+   "size": 4,
+   "concrete": 4,
+   "dupes": 1,
+   "siblings": 158,
+   "referenced": true
+  },
+  {
+   "address": 35081264,
+   "name": "DWCi_QR2TeamKeyCallback",
+   "lib": "TwlDWC/libdwcmatch.TWL.HYB.a",
+   "object": "dwc_match.o",
+   "region": "ov009",
+   "thumb": false,
+   "size": 4,
+   "concrete": 4,
+   "dupes": 1,
+   "siblings": 158,
+   "referenced": true
+  },
+  {
    "address": 35081268,
    "name": "DWCi_QR2KeyListCallback",
    "lib": "TwlDWC/libdwcmatch.TWL.HYB.a",
@@ -35918,6 +35944,19 @@
    "concrete": 154,
    "dupes": 1,
    "siblings": 152
+  },
+  {
+   "address": 35081456,
+   "name": "DWCi_QR2CountCallback",
+   "lib": "TwlDWC/libdwcmatch.TWL.HYB.a",
+   "object": "dwc_match.o",
+   "region": "ov009",
+   "thumb": false,
+   "size": 8,
+   "concrete": 8,
+   "dupes": 1,
+   "siblings": 158,
+   "referenced": true
   },
   {
    "address": 35081476,

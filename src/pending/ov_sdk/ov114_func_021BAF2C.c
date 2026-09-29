@@ -22,6 +22,13 @@
  *           hdrBufBlock_p, a hoisted `first` pointer, a duplicated return in
  *           the refill arm, and cc 1.2..1.6sp2 (same 14 bytes; 2.0 gives 79).
  *
+ * w7_nm tried: 40 combinations (5 first-arm spellings: post-inc, pointer temp,
+ *           pos temp, base pointer, pointer arithmetic; 4 refill-arm orders incl. a
+ *           hoisted hdrBufBlock_p local and a raw +0x34 read; plain and goto
+ *           nesting): 14 or 16 B.  -O4,s, -O3, -O2, `-opt noschedule`, `-opt
+ *           nopeephole` and `-inline off` all give the same 14 B, so the order
+ *           is fixed before scheduling.
+ *
  * symbols:
  *   (none)
  */

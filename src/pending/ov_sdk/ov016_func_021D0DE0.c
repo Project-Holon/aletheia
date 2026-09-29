@@ -1,0 +1,56 @@
+/*
+ * function: func_021D0DE0
+ * address:  0x021D0DE0
+ * packet:   pkt_ov016_021D0DE0
+ * region:   ov016
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   MATCH
+ *
+ * sdk:      cbWm (libdwcutil.TWL.HYB.a usbap.o)
+ *
+ * symbols:
+ *   func_021D0FCC  0x021D0FCC  arm  ov016
+ *   func_021D0E74  0x021D0E74  arm  ov016
+ *   func_021D0CB8  0x021D0CB8  arm  ov016
+ *   func_02088234  0x02088234  arm
+ *   g_021DE654     0x021DE654  data
+ */
+
+extern void func_0208F698();
+extern void func_021D0E74(void *prm);
+extern void func_021D0FCC(void *prm);
+extern void func_021D0CB8(void);
+extern void func_02088234(void);
+typedef struct { unsigned char pad[0x1B94]; unsigned char st; unsigned char x; unsigned char fl; } M;
+extern M *g_021DE654;
+
+static inline void setSt(M *m, int v) { m->st = v; }
+
+void func_021D0DE0(unsigned short *prm)
+{
+    if (prm[1] != 0)
+        return;
+    if (g_021DE654->st != 0) {
+        if (prm[0] == 2)
+            g_021DE654->st = 2;
+    } else if (prm[0] == 0x26) {
+        switch (prm[4]) {
+        case 5:
+            if (g_021DE654->fl != 0)
+                func_021D0FCC(prm);
+            else
+                func_021D0E74(prm);
+            func_021D0CB8();
+            break;
+        case 4:
+            func_021D0CB8();
+            break;
+        default:
+            func_02088234();
+            break;
+        }
+    }
+}

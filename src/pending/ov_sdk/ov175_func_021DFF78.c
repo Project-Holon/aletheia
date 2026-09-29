@@ -20,6 +20,10 @@
  * w6_nm tried: `&buffer[off]` with char/unsigned char buffers, `= 0` init then
  * assignment, sizeof-based offsets, a const [16] GUID parameter, casts: 4 B remain.
  *
+ * w7_nm tried: mBuffer as a one-member struct (`&r->mBuffer.mData[off]`), a
+ *           buffer local and a Buf* local, a cursor local, `0x44 + 20 * idx`,
+ *           a comma return: 4 B remain (a NULL check adds 35 B).
+ *
  * symbols:
  *   func_021E05AC  0x021E05AC  arm  ov175
  */
