@@ -1,0 +1,97 @@
+/*
+ * function: func_0217E014
+ * address:  0x0217E014
+ * packet:   pkt_ov018_0217E014
+ * region:   ov018
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * symbols:
+ *   func_020120F4  0x020120F4  thumb
+ *   func_0204B404  0x0204B404  arm
+ *   func_0204B6F4  0x0204B6F4  arm
+ *   func_0204B3DC  0x0204B3DC  arm
+ *
+ * DIFF, 47 concrete bytes (lane B5, 20 runs). Everything from +0x54 to the
+ * end is byte-identical; the residual is the prologue and first loop's
+ * register allocation only. The original keeps sel's zero in r0 (str [sp],
+ * then the three slot strb from the same r0), holds &l.slot in r2 across the
+ * first loop, i in r3 and the constant 1 in r4. This source puts n's zero
+ * (r5) into the slot stores, &l.slot in r4, i in r2 and 1 in r0.
+ * Tried without gain: sel = 0 before the slot stores (the compiler then
+ * reloads sel from [sp] for the strb, 197 B); a chained
+ * slot = sel store (208 B); a separate first-loop counter (47 B, same);
+ * a u8 *s = l.slot cursor (48 B); a Work struct for p (47 B, same);
+ * zeroing the slots in a loop (207-213 B). Separate u8 slot[3] / Pos locals
+ * instead of the Layout struct lose the reload of slot[i] after the call
+ * and spill p (172 B).
+ */
+
+typedef unsigned char u8;
+typedef signed short s16;
+
+typedef struct {
+    s16 x;
+    s16 y;
+} Pos;
+
+typedef struct {
+    u8 slot[4];
+    Pos pos;
+} Layout;
+
+extern void *func_020120F4(void *);
+extern void func_0204B404(void *, Pos *, int);
+extern void func_0204B6F4(void *, u8, int);
+extern void func_0204B3DC(void *, int);
+
+void func_0217E014(u8 *p)
+{
+    void *act;
+    int cur;
+    int sel;
+    int max;
+    int n;
+    int i;
+    int j;
+    Layout l;
+
+    func_020120F4(*(void **)p);
+    l.slot[0] = 0;
+    l.slot[1] = 0;
+    l.slot[2] = 0;
+    max = p[0xda];
+    n = 0;
+    cur = p[0xd8];
+    sel = 0;
+    l.pos.y = 0x1c;
+    for (i = 0; i < 3; i++) {
+        if ((1 << i) & p[0xd9]) {
+            l.slot[n] = i;
+            if (i == cur) {
+                sel = n;
+            }
+            n++;
+        }
+    }
+    j = 0;
+    for (i = 0; i < n; i++) {
+        if (sel != i) {
+            if (l.slot[i] == cur + 1 || (l.slot[i] == 0 && cur == max - 1)) {
+                l.pos.x = 0xa0;
+            } else {
+                l.pos.x = 0x60;
+            }
+            act = ((void **)(p + 0x80))[j];
+            func_0204B404(act, &l.pos, 0);
+            func_0204B6F4(act, l.slot[i] + 1, 1);
+            func_0204B3DC(act, 1);
+            j++;
+        }
+    }
+    for (; i < 3; i++) {
+        func_0204B3DC(((void **)(p + 0x80))[i], 0);
+    }
+}

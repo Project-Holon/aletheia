@@ -1,0 +1,48 @@
+/*
+ * function: func_0217FAE0   address: 0x0217FAE0 (ov018, thumb, 76 bytes)
+ * verdict: DIFF, same size, instruction sequence identical; only the callee-saved
+ * register assignment differs.
+ *
+ * original: out = r5 (first call result), q = r6, the two-call temporary = r4 (the arg's
+ * register). mine: out = r6, q = r4, temporary = r5.
+ * Tried, none changed a byte: all 24 declaration orders of {out, t, q, v}; folding t into
+ * the parameter (`a = f(a)`); naming both call results (x, y) and recomputing them in the
+ * else arm; inline versus named temporaries.
+ * Suspected lever: the original probably has q used fewer times than the temporary
+ * (mwcc seems to colour by use weight), i.e. a different arithmetic shape for
+ * `(f(q) == g(q)) ? 0 : (f(q) - g(q) + (neg ? 3 : 0))`.
+ * Callee ISA/overlays: 02159AE8, 0215A5DC, 0215841C are ov010 thumb; 020120F4, 02012138,
+ * 02012B58 are arm9 thumb.
+ */
+
+typedef unsigned short u16;
+
+u16 *func_02159AE8(void);
+int func_0215A5DC(int);
+void func_02012138(void);
+int func_020120F4(int);
+int func_0215841C(int);
+int func_02012B58(int);
+
+int func_0217FAE0(void *unused, int a)
+{
+    u16 *out;
+    int t;
+    int q;
+    int v;
+
+    out = func_02159AE8();
+    t = func_0215A5DC(a);
+    func_02012138();
+    q = func_020120F4(t);
+    if (func_0215841C(q) == func_02012B58(q)) {
+        v = 0;
+    } else {
+        v = func_0215841C(q) - func_02012B58(q);
+        if (v < 0) {
+            v += 3;
+        }
+    }
+    *out = v;
+    return 0;
+}

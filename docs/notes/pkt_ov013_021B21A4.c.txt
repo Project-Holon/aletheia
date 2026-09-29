@@ -1,3 +1,8 @@
+Resolved (lane R1): EXACT, now src/matched/ov/ov013_func_021B21A4.c.
+func_021B2A20 takes the id (its body compares r0): `if (func_021B2A20(id)) return 0;`
+keeps r0 live through the guards, so their loads use r1.
+The record below is the superseded near miss.
+
 func_021B21A4 (ov013, ARM, 176 B): DIFF, 6 concrete bytes, lane S21.
 
 Everything matches except the scratch register of the three "load global, compare"

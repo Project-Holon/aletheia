@@ -1,0 +1,34 @@
+/*
+ * DIFF near miss, lane S21: ov020 0x02184D38 (88 B), and its two twins
+ * 0x02184D90 and 0x02184DE8 (same body, callee 0x020141A8 instead of 0x02014184,
+ * callback pool word 0x02184389 / 0x02184505). All three: 6-10 concrete bytes.
+ *
+ * Shape (matches everything but instruction order inside the last call):
+ *   push {r4-r7,lr}; sub sp,#0xc
+ *   r0v = func_020122C0(p, 0, cb, 0x9c); obj = func_020124E8(r0v);
+ *   func_02184CEC(obj, p);
+ *   s = func_020142A4(s);               // u16 stack param, address kept in memory
+ *   callee(obj+0x10, a, (s16)s, q[0], q[1], q[2]);   // 0x02014184: q is int[3]
+ *   callee(obj+0x10, a, (s16)s, q0, q3, q2)          // 0x020141A8: q is u16 fields
+ *   obj[0x2c] = 0; obj[0x40] = t; return r0v;
+ *
+ * The u16 stack parameter `s` (not s16) is what fixes prologue/frame/spill (63 -> 10 bytes).
+ *
+ * Residual: original schedules `ldrh r3,[q]` (arg 4) before the `adds r1,r7` (arg 2) and
+ * before `adds r0,r4`, mine keeps `adds r1,r7` first and loads r3 last. Tried without
+ * effect: named locals for the three fields in all 6 orders, s16/u16 prototype parameter
+ * types for the callee, a struct-pointer q, `char *o = r4 + 0x10` local, s16 copy of s.
+ *
+ * void *func_02184D90(void *p, int unused, int a, u16 *q, u16 s, int t)
+ * {
+ *     void *r0v = func_020122C0(p, 0, func_02184388, 0x9c);
+ *     char *r4 = func_020124E8(r0v);
+ *
+ *     func_02184CEC(r4, p);
+ *     s = func_020142A4(s);
+ *     func_020141A8(r4 + 0x10, a, (s16)s, q[0], q[3], ((s16 *)q)[2]);
+ *     *(int *)(r4 + 0x2c) = 0;
+ *     *(int *)(r4 + 0x40) = t;
+ *     return r0v;
+ * }
+ */

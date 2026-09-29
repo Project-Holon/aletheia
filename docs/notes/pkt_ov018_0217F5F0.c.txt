@@ -1,0 +1,62 @@
+/*
+ * function: func_0217F5F0   address: 0x0217F5F0 (ov018, thumb, 88 bytes)
+ * verdict: DIFF, 78 vs 88 bytes ... SIZE-equal not reached; best variant below is 78 bytes.
+ *
+ * Blocker: the original has, at +0x2A..+0x2E, `ldr r0,[pc]; cmp r1,r0 (r0=0xFFFF); b end`
+ * i.e. a compare of the u16 field against 0xFFFF whose result is dead (both paths
+ * join at `ldrb [r2,#0x1a]; lsls 28; lsrs 28`). Every C spelling tried folds it away:
+ *   - empty `if (h == 0xFFFF) {}`; `(void)(h == 0xFFFF);`
+ *   - `if (h == 0xFFFF) return e->f1A; return e->f1A;`
+ *   - `return (u8)e->f1A` in the second arm (also folds)
+ *   - `return ((u8*)e)[0x1A] & 0xF` in the second arm: keeps the branch but 96 bytes
+ *     (it does put h in r1 and e in r2, as the original has).
+ * The original also keeps `h` in r1 and the entry pointer in r2 (mine: pointer r1).
+ * Everything else (callee order, chained 2026478 -> 2012950(idx) -> 2008550, 3/4 returns,
+ * 0x1c-byte entries at +0x8c, current entry at +0x70) is right.
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+typedef struct {
+    u8 pad0[0x18];
+    u16 f18;
+    u8 f1A : 4;
+} Ent;
+
+typedef struct {
+    u8 pad0[4];
+    void *f04;
+    u8 pad8[0x70 - 8];
+    Ent cur;
+    Ent arr[1];
+} Ov018Obj;
+
+void *func_02026478(void *);
+int func_02012B58(void);
+void *func_02012950(void *, int);
+int func_02008550(void *);
+
+int func_0217F5F0(Ov018Obj *p, int idx)
+{
+    Ent *e;
+    u16 h;
+
+    func_02026478(p->f04);
+    if (idx == func_02012B58()) {
+        e = &p->cur;
+    } else {
+        e = &p->arr[idx];
+    }
+    h = e->f18;
+    if (h != 0) {
+        if (h == 0xFFFF) {
+            return e->f1A;
+        }
+        return ((u8 *)e)[0x1A] & 0xF;
+    }
+    if (func_02008550(func_02012950(func_02026478(p->f04), idx)) == 0) {
+        return 3;
+    }
+    return 4;
+}

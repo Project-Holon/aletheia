@@ -1,3 +1,8 @@
+Resolved (lane R1): EXACT, now src/matched/ov/ov012_func_02173874.c.
+func_021A2E44 takes (q, 1): the call's 1 shares r1 with the stored 1, which
+re-colours the store and restores the prologue order.
+The record below is the superseded near miss.
+
 /*
  * function: func_02173874   address: 0x02173874   region: ov012   status: DIFF (7 bytes)
  * packet:   pkt_ov012_02173874

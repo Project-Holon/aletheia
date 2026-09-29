@@ -1,0 +1,11 @@
+func_0218B974 (ov021, thumb, 136 bytes): DIFF, 6 tries (126 vs 136 bytes).
+
+Semantics (a, b, p (16-byte records), n): k = 0; for j<n: func_0218BA04(a,b,p+16j,k);
+if (func_0218B930(a, u16(r[0xf] + (r[0xe] << 8)), &t.x, &t) == 1) { t.h = r->0xc;
+t.x += r->0; t.y += r->4; t.z -= r->8; k++; func_0218C4A0(a,b,&t,k); } k++; return k.
+T = {w0, x, y, z, h16} at sp+0xc (same T as func_0218BA04).
+
+Residual: original spills b, n and the loop counter j (sp0, sp4, sp8), keeps p in r5
+and a in r7, and recomputes `adds r2,r5,r6` (r6 = j<<4) per use instead of a
+strength-reduced record pointer.  Mine spills b, p, n and keeps a record pointer in r5.
+Tried u8* arithmetic, a struct array p[j], a named `off = j*16`, declaration order.

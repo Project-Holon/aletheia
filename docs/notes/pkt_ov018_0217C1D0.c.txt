@@ -1,0 +1,98 @@
+pkt_ov018_0217C1D0: DIFF, same size (164 bytes), instruction scheduling only.
+Everything structural matches (36-byte S copied from d_0218362C with nested
+tail T reached through T *t = &s.t, bitfield B for the *p shift pairs with (u16)
+casts, T x passed by value on the stack, e = d_0218360C[p->e]).
+Remaining diffs: original spills a2 before loading o->f4 (str r2; ldr r0,[r5,#4];
+str r3) where ours loads first; original loads o->f8 early (before strh [r6,#4])
+and reloads c=[sp,#8] just before the call, ours loads c early. Tried: u16 a2/a3
+params (worse), e computed after the calls (worse), calls inlined into the final
+call (SIZE 160). Source below is the closest.
+
+/*
+ * function: func_0217C1D0
+ * address:  0x0217C1D0
+ * packet:   pkt_ov018_0217C1D0
+ * region:   ov018
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02188C7C  0x02188C7C  thumb  ov021
+ *   func_02188C9C  0x02188C9C  thumb  ov021
+ *   func_0216CE60  0x0216CE60  thumb  ov010
+ *   func_0202A188  0x0202A188  thumb
+ *   d_0218360C     0x0218360C  data   a4
+ *   d_0218362C     0x0218362C  data   a4
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    u16 h0;
+    u16 h2;
+    int w4;
+} T;
+
+typedef struct {
+    u16 h[14];
+    T t;
+} S;
+
+typedef struct {
+    u32 x : 11;
+    u32 gap : 10;
+    u32 y : 2;
+    u32 z : 6;
+    u32 e : 3;
+} B;
+
+typedef struct {
+    u16 h0;
+    u8 b2;
+    u8 b3;
+} E;
+
+typedef struct {
+    int f0;
+    int f4;
+    int f8;
+} O;
+
+extern int func_02188C7C();
+extern int func_02188C9C();
+extern void func_0216CE60();
+extern int func_0202A188();
+extern const E d_0218360C[];
+extern const S d_0218362C;
+
+void func_0217C1D0(O *o, B *p, int a2, int a3, T x)
+{
+    const E *e;
+    int v;
+    int c;
+    S s;
+    T *t;
+
+    e = &d_0218360C[p->e];
+    v = func_02188C7C(o->f4);
+    c = func_02188C9C(o->f4);
+    s = d_0218362C;
+    s.h[0] = a2;
+    s.h[1] = func_0202A188(o->f0, (u16)p->x, (u16)p->y, (u16)p->z);
+    s.h[2] = e->h0;
+    s.h[10] = e->b2;
+    s.h[11] = e->b3;
+    s.h[7] = o->f8 + a2;
+    s.h[8] = *(u32 *)p;
+    s.h[9] = *(u32 *)p >> 16;
+    t = &s.t;
+    t->h0 = a3;
+    t->h2 = x.h0;
+    t->w4 = x.w4;
+    func_0216CE60(v, &s, c);
+}

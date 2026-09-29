@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02158378
+ * function: func_02158378, func_0215839C
  * address:  0x02158378
  * packet:   pkt_ov010_02158378
  * region:   ov010

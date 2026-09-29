@@ -4,6 +4,19 @@ func_021B3924 (0x021B3924, ov013, ARM, 220 bytes incl. pool) -- DIFF near miss
 Update (lane B5): now 6 bytes out, down from 31.  The handed extent (860 B)
 runs on into rodata at 0x021B3A00; the function itself is 0x021B3924-0x021B39FF.
 
+
+Update (lane R1): still 6 bytes out, unchanged.  Three more directions, all
+byte-identical to the best source below: control structure (else-if chain,
+which reallocates everything; `switch (h->type) { case 0: case 0xff: }`;
+`if (f()) return 1; return 0;`; `+= 1`), an explicit `type = h->type` local
+of type u8/u32/int declared before or after `t`, and static inline helpers
+for either test (the u8 parameter changes nothing).  `const Hdr *` changes
+nothing either.  Untried: `*(u64 *)a3 = 0` for the two zero stores (the
+zero register r4 is also the returned 0).  In lane R1 the same r0/r1 or
+r1/r2 swap on four other functions was an argument the caller keeps live
+(docs/idioms/the-register-a-temporary-lands-in-counts-a-forwarding-calls-arguments.md);
+no callee here has a spare argument register to explain it.
+
 The fix for the old nine-instruction block below: func_021B0F38 takes the
 timestamp as ONE u64 fourth parameter, not as (u32 lo, u32 hi).  MWCC splits
 a u64 that starts at r3 between r3 and the first stack slot, which is exactly

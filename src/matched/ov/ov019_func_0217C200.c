@@ -1,0 +1,71 @@
+/*
+ * function: func_0217C200
+ * address:  0x0217C200
+ * packet:   pkt_ov019_0217C200
+ * region:   ov019
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * symbols:
+ *   func_0217BB04  0x0217BB04  thumb  ov019
+ *   func_02173518  0x02173518  thumb  ov012
+ *   func_021734A8  0x021734A8  thumb  ov012
+ *   func_021735FC  0x021735FC  thumb  ov012
+ *   func_020399A8  0x020399A8  arm
+ *   func_02039C68  0x02039C68  arm
+ *   func_02039CB4  0x02039CB4  arm
+ *   func_02173B4C  0x02173B4C  thumb  ov012
+ *   func_02080D24  0x02080D24  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+extern int func_0217BB04(u8 *a);
+extern void func_02173518(u8 *a);
+extern void func_021734A8(u8 *a, int b, int c);
+extern void func_021735FC(u8 *a, int b);
+extern int func_020399A8(void);
+extern void func_02039C68(int a, int b, int c);
+extern int func_02039CB4(int a, int b, int c);
+extern int func_02173B4C(u8 *a);
+extern unsigned int func_02080D24(int a);
+
+int func_0217C200(u8 *a, u8 *b, int c, u8 *d)
+{
+    int r;
+    if (func_0217BB04(a) == 1)
+        return 1;
+    if (b[0x70] == 10) {
+        *(u16 *)(b + 0x6e) = 1;
+        return 1;
+    }
+    *(u16 *)(b + 0x6e) = 0;
+    switch (*d) {
+    case 0:
+        func_02173518(b + 0x14);
+        func_021734A8(a, 4, 1);
+        func_021735FC(b + 0x14, *(int *)(b + 0x20));
+        r = func_020399A8();
+        func_02039C68(r, 2, 0x14);
+        (*d)++;
+        break;
+    case 1:
+        r = func_020399A8();
+        if (func_02039CB4(r, 2, 0x14) == 1)
+            (*d)++;
+        break;
+    case 2:
+        if (func_02173B4C(a) == 1)
+            (*d)++;
+        break;
+    case 3:
+        if (func_02080D24(b[0x5b]) > 1)
+            return 1;
+        break;
+    }
+    return 0;
+}

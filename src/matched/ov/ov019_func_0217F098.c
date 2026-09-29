@@ -1,0 +1,47 @@
+/*
+ * function: func_0217F098
+ * address:  0x0217F098
+ * packet:   pkt_ov019_0217F098
+ * region:   ov019
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02034714  0x02034714  arm
+ *   func_02188C54  0x02188C54  thumb  ov021
+ *   func_021904B0  0x021904B0  thumb  ov021
+ *   func_020457B0  0x020457B0  arm
+ *   func_0217F020  0x0217F020  thumb  ov019
+ *   func_02191558  0x02191558  thumb  ov021
+ *   func_021915EC  0x021915EC  thumb  ov021
+ *   d_021807F8     0x021807F8  data  a4
+ */
+
+extern void func_02034714(int *a, int b, int *c);
+extern int func_02188C54(int a);
+extern int func_021904B0(int a, int b);
+extern int func_020457B0(int a, int b);
+extern void func_0217F020(unsigned char *p);
+extern int func_02191558(int a, int b, int c, int d, int e, int f, int g);
+extern void func_021915EC(int a);
+extern int d_021807F8[];
+
+void func_0217F098(unsigned char *base, int x)
+{
+    int r6;
+    if (*(int *)(base + 0x280C) == 0) {
+        if (*(int *)(base + 0x2808) != 0)
+            func_02034714(d_021807F8, 0, d_021807F8);
+        r6 = func_02188C54(x);
+        *(int *)(base + 0x2808) = func_021904B0(r6, 200);
+        *(int *)(base + 0x2820) = func_020457B0(0x100, 0x41);
+        *(int *)(base + 0x2824) = func_020457B0(0x100, 0x41);
+        func_0217F020(base);
+        *(int *)(base + 0x280C) = func_02191558(r6, *(int *)(base + 0x2808), 0, 1, 0x13, 0x1e, 4);
+    } else {
+        func_021915EC(*(int *)(base + 0x280C));
+    }
+}

@@ -39,6 +39,15 @@ moves a1>>8 to r4 and the ring pool up front); `ret = 0` before the test;
 the ring folded into Stat as hist[4]; the second loop written out in the
 body; permuter.py 300 compiles (no improvement).
 
+Lane R2 (9 runs), the same 17 bytes each time: the result read
+non-volatile as the SDK's CP_GetSqrtResultImm32 does (`*(u32 *)0x040002B4`,
+in every Level or only in Level2); the SDK nesting `return
+CP_GetSqrtResult32();` with the wait inside the getter (all three levels,
+or only Level2); binding Level2() to `a1` (the dead r1 parameter) or to
+`lvl` before the `* 3 / 2`. The result register stays ip.  To compile this
+note, expand Level2 as Level with `u32 i` and add a header with
+`d_021B3C50`, `d_021B4C38`, `d_021B4C2C` as `data a4`.
+
     typedef unsigned char u8;
     typedef unsigned short u16;
     typedef unsigned int u32;

@@ -1,0 +1,48 @@
+/*
+ * function: func_02184EEC
+ * address:  0x02184EEC
+ * packet:   pkt_ov020_02184EEC
+ * region:   ov020
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_020122C0  0x020122C0  thumb
+ *   func_020124E8  0x020124E8  thumb
+ *   func_020128B8  0x020128B8  thumb
+ *   func_02184894  0x02184894  thumb  ov020
+ *   func_02184CEC  0x02184CEC  thumb  ov020
+ *   func_02185F18  0x02185F18  thumb  ov020
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef struct { int f[7]; } S7;
+
+void *func_020122C0(void *p, int a, void (*cb)(void), int n);
+void *func_020124E8(void *p);
+S7 *func_020128B8(void *p);
+void func_02184894(void);
+void func_02184CEC(void *obj, void *p);
+void func_02185F18(void *a, void *b);
+
+void *func_02184EEC(void *p)
+{
+    void *r0v = func_020122C0(p, 0, func_02184894, 0x9c);
+    char *r4 = func_020124E8(r0v);
+    S7 *src;
+
+    func_02184CEC(r4, p);
+    src = func_020128B8(*(void **)(r4 + 4));
+    *(S7 *)(r4 + 0x10) = *src;
+    func_02185F18(*(void **)(r4 + 4), r4 + 0x10);
+    *(int *)(r4 + 0x10) = 1;
+    *(int *)(r4 + 0x2c) = 0;
+    *(int *)(r4 + 0x40) = 1;
+    return r0v;
+}

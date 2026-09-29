@@ -23,6 +23,9 @@
  * without effect: a separate variable for the first loop (either
  * declaration order), `register`, the first loop's return as a goto to
  * the shared return 1 (worse, 62).
+ * Lane R2 (3 runs): the first loop as a static inline Contains(p) (290
+ * bytes out, the helper's own counter reorders the prologue) and as
+ * `i = 0; do {...} while (++i < 3);` (203 out, the loop is not rotated).
  *
  * symbols:
  *   d_021B3C84     0x021B3C84  data  ov013  a4

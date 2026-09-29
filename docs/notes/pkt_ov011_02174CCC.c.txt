@@ -1,3 +1,8 @@
+Resolved (lane R1): EXACT, now src/matched/ov/ov011_func_02174CCC.c. The r1 was
+func_02026478's result held live in r0 as func_020127C4's (unset) argument:
+    h = func_02026478(...); ... func_02174734(p, p[0x908], func_020127C4(h))
+The record below is the superseded near miss.
+
 /*
  * function: func_02174CCC
  * address:  0x02174CCC

@@ -19,6 +19,14 @@
  * instead of the switch is worse (the switch is right). Register order
  * needed the declaration order p, f, x, sq, mode.
  *
+ * Lane R2 (10 runs), no change to the 10 bytes: f5 as a union with a
+ * `u8 hi : 1` bitfield set in the f8 block only or in every `|= 0x80` (and
+ * read as a bitfield too: 175 bytes out); f computed through a u32 cast of
+ * &d_021B42C0 (no change); f as &d_021B42C0.fr[idx] or a ternary of two
+ * &fr[] (384/479 out); a volatile u8 access to f->f5, or a volatile u32
+ * store to f8, in the f8 block only. Even with f5 volatile the f8 store
+ * moves between the ldrb and the orr, so the swap is not an alias question.
+ *
  * symbols:
  *   d_021B42C0  0x021B42C0  data  ov013  a4
  *   d_021B3C84  0x021B3C84  data  ov013  a4

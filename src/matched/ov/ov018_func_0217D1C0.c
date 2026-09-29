@@ -1,0 +1,164 @@
+/*
+ * function: func_0217D1C0
+ * address:  0x0217D1C0
+ * packet:   pkt_ov018_0217D1C0
+ * region:   ov018
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * symbols:
+ *   func_02012138            0x02012138  thumb
+ *   func_020120F4            0x020120F4  thumb
+ *   func_020120F8            0x020120F8  thumb
+ *   func_02012AC8            0x02012AC8  thumb
+ *   func_0201283C            0x0201283C  thumb
+ *   func_0201058C            0x0201058C  thumb
+ *   func_02037174            0x02037174  arm
+ *   func_02158344            0x02158344  thumb  ov010
+ *   func_0217F008            0x0217F008  thumb  ov018
+ *   func_02012B70            0x02012B70  thumb
+ *   func_020061E4            0x020061E4  thumb
+ *   func_020310C4            0x020310C4  arm
+ *   func_0201C4E4            0x0201C4E4  thumb
+ *   func_02045770            0x02045770  arm
+ *   func_0201C6C4            0x0201C6C4  thumb
+ *   func_02045334            0x02045334  arm
+ *   func_020257D0            0x020257D0  thumb
+ *   func_0217F0FC            0x0217F0FC  thumb  ov018
+ *   G2x_SetBlendBrightness_  0x0207D658  arm
+ *   func_0217EC7C            0x0217EC7C  thumb  ov018
+ *   func_0215841C            0x0215841C  thumb  ov010
+ *   func_0203D1C0            0x0203D1C0  arm
+ *   func_021746AC            0x021746AC  thumb  ov011
+ *   func_02158428            0x02158428  thumb  ov010
+ *   func_0201210C            0x0201210C  thumb
+ *   func_02188CCC            0x02188CCC  thumb  ov021
+ *   func_02034714            0x02034714  arm
+ *   str_02183B28             0x02183B28  data  a1
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct { u8 a : 7; u8 b : 1; } FlagsF8;
+
+extern char str_02183B28[];
+
+void *func_02012138(void *);
+void *func_020120F4(void *);
+void *func_020120F8(void *);
+int func_02012AC8(void *);
+void *func_0201283C(void *);
+void func_0201058C(void *);
+void func_02037174(void);
+u8 *func_02158344(void *);
+void func_0217F008(u8 *w, u8 *p);
+int func_02012B70(void *);
+void func_020061E4(int);
+void func_020310C4(void *);
+void func_0201C4E4(void *);
+void *func_02045770(void *);
+int func_0201C6C4(void *, void *);
+void func_02045334(void *);
+void func_020257D0(void *);
+int func_0217F0FC(u8 *w);
+void G2x_SetBlendBrightness_(volatile u16 *reg, int plane, int brightness);
+void func_0217EC7C(u8 *p, u8 *w, int q);
+int func_0215841C(void *);
+int func_0203D1C0(u8);
+int func_021746AC(u8 *p, u8);
+int func_02158428(u8 *p);
+void *func_0201210C(void *);
+void func_02188CCC(void *);
+void func_02034714(const char *file, int line, const char *msg);
+
+#define REG_DB_BLDCNT_SUB (*(volatile u16 *)0x04001050)
+
+void func_0217D1C0(u8 *w, int b)
+{
+    void *s1;
+    void *s2;
+    u8 *p;
+    int q;
+    int i;
+    int v;
+    void *h;
+
+    s1 = func_02012138(*(void **)w);
+    s2 = func_020120F4(*(void **)w);
+    p = func_02158344(s1);
+    q = func_02012AC8(func_020120F8(*(void **)w));
+    func_0201058C(func_0201283C(s2));
+    func_02037174();
+    if (p == 0 || (p != 0 && ((FlagsF8 *)(p + 0x8F8))->b == 0)) {
+        func_0217F008(w, p);
+    }
+    if (w[0x11E] < w[0xDA]) {
+        if (func_02012B70(s2) == 1) {
+            func_020061E4(0x699);
+        }
+        w[0x11E] = w[0xDA];
+    }
+    func_020310C4(*(void **)(w + 0x20));
+    func_0201C4E4(*(void **)(w + 0x28));
+    h = *(void **)(w + 0x28);
+    if (w[0x48] != 0) {
+        if (func_0201C6C4(h, func_02045770(*(void **)(w + 0x44))) == 0) {
+            func_02045334(*(void **)(w + 0x44));
+            w[0x48] = 0;
+        }
+    }
+    h = *(void **)(w + 0x28);
+    if (w[0x50] != 0) {
+        if (func_0201C6C4(h, func_02045770(*(void **)(w + 0x4C))) == 0) {
+            func_02045334(*(void **)(w + 0x4C));
+            w[0x50] = 0;
+        }
+    }
+    for (i = 0; i < 2; i++) {
+        if (func_0201C6C4(*(void **)(w + 0x28), *(void **)(w + 0xB4 + i * 4)) == 0) {
+            func_020257D0(*(void **)(w + 0xC0 + i * 4));
+        }
+    }
+    if (b == 0) {
+        if (func_0217F0FC(w) == 1 || w[0x116] == 1) {
+            REG_DB_BLDCNT_SUB = 0;
+        } else {
+            G2x_SetBlendBrightness_(&REG_DB_BLDCNT_SUB, 0x3F, -8);
+            return;
+        }
+    } else {
+        REG_DB_BLDCNT_SUB = 0;
+    }
+    if (b == 1) {
+        func_0217EC7C(p, w, q);
+    }
+    if (p != 0 && w[0x106] == 1) {
+        v = func_0215841C(s2);
+        if (func_0203D1C0(v) == 0) {
+            w[0x106] = 0;
+            return;
+        }
+        switch (w[0x107]) {
+        case 0:
+            if (func_021746AC(p, v) == 1) {
+                w[0x107]++;
+            }
+            break;
+        case 1:
+            if (func_02158428(p) == 1) {
+                func_02188CCC(func_0201210C(*(void **)w));
+                *(u16 *)(w + 0x110) = 0x126;
+                w[0x112] = 1;
+                w[0x106] = 0;
+            }
+            break;
+        default:
+            func_02034714(str_02183B28, 0, str_02183B28);
+            break;
+        }
+    }
+}

@@ -1,0 +1,74 @@
+/*
+ * function: func_02185588   address: 0x02185588   region: ov020   isa: thumb
+ * status:   DIFF (152 of 164 bytes identical in shape; register naming plus
+ *           one argument-setup order, same size)
+ *
+ * Remaining differences:
+ *  - the original keeps a0 in r4 and the running value r5 in r5; the
+ *    compiler here swaps them (a0 in r5, running value in r4).  Declaration
+ *    order and where `r5 = 0` is written (top, after r10, after h) do not
+ *    change it; `int t = bitfield - f(); if (t<0) t += ..; r5 = t` is worse.
+ *  - final call: the original orders `adds r2,r0; ldr r0,[sp,#0x18]; lsls
+ *    r2; str; ldr r0,[sp,#0x1c]; asrs r2; str; adds r0,r6; ldr r1,[sp,#8];
+ *    ldr r3,[sp,#0x14]; adds r0,#0x10`; the compiler here does the sign
+ *    extension after the r1 and r3 loads.  A `short v` local and an inline
+ *    (short) cast give the same shape; `const S3 *a2` and a callee prototype
+ *    with a short third parameter (the lever that fixed func_02185534) did
+ *    not help here.
+ * Levers that mattered: `(unsigned)(*(u16*)(r7+0x86) << 29) >> 29` for the
+ * lsls/lsrs #0x1d pair, and `S3 s = *a2` for the ldm/stm entry copy.
+ *
+ * Also blocked at MATCH regardless: unlabelled arm9 leaf 0x02014184 (EXACT
+ * leaf C in src/pending/ov/ov020_func_02185534.c's header).
+ *
+ * symbols: func_020120F4 func_020122C0 func_020124E8 func_02013D5C
+ * func_02012138 func_02012B58 func_020142A4 func_02014184 (arm9, thumb),
+ * func_0218466C func_02184CEC (ov020, thumb), func_02158344 (ov010, thumb)
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef struct { int a, b, c; } S3;
+
+int func_020120F4(int a);
+void *func_020122C0(int a, int b, void (*cb)(void), int n);
+void *func_020124E8(void *p);
+void func_0218466C(void);
+int func_02013D5C(int a);
+void func_02012138(int a);
+char *func_02158344(void);
+int func_02012B58(int a);
+void func_02184CEC(void *obj, int p);
+int func_020142A4(int v);
+void func_02014184(void *d, int a, short b, int c, int e, int f);
+
+void *func_02185588(int a0, int a1, const S3 *a2)
+{
+    int r5;
+    S3 s = *a2;
+    int r10 = func_020120F4(a0);
+    void *h;
+    char *r6;
+
+    r5 = 0;
+    h = func_020122C0(a0, 0, func_0218466C, 0x9c);
+    r6 = func_020124E8(h);
+
+    if (func_02013D5C(a1) == 1) {
+        char *r7;
+        func_02012138(a0);
+        r7 = func_02158344();
+        if (r7 != 0) {
+            r5 = (unsigned)(*(u16 *)(r7 + 0x86) << 29) >> 29;
+            r5 -= func_02012B58(r10);
+            if (r5 < 0)
+                r5 += *(u8 *)(r7 + 0x902);
+        }
+        s.a += r5 << 22;
+    }
+    func_02184CEC(r6, a0);
+    func_02014184(r6 + 0x10, a1, func_020142A4(0), s.a, s.b, s.c);
+    *(int *)(r6 + 0x2c) = 0;
+    *(int *)(r6 + 0x40) = 0;
+    return h;
+}

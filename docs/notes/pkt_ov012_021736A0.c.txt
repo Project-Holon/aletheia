@@ -1,0 +1,23 @@
+function: func_021736A0 (ov012, thumb, unlabelled leaf, 36 bytes + pool word 0x2830)
+status: DIFF, 4 bytes wrong (ordering of the last two ldrh/strh pairs)
+blocks: pending ov019_func_0217BD9C (MATCH, its call to this leaf has no witness)
+
+Original: ldrh/strh for s[0], s[1], then BOTH ldrh (s[2] -> r2, s[3] -> r1) before both strh.
+Best C (loads/stores interleaved for s[2], s[3]):
+
+typedef unsigned char u8; typedef unsigned short u16;
+void func_021736A0(u8 *a, u16 *s)
+{
+    u8 *p = a + 0x2830;
+    *(u16 *)(p + 4) = s[0];
+    *(u16 *)(p + 6) = s[1];
+    *(u16 *)(p + 8) = s[2];
+    *(u16 *)(p + 10) = s[3];
+    p[0xf] = 0;
+    (*(u16 *)(p + 0xc))++;
+    p[0xe] = 1;
+}
+
+Tried without success: temporaries x,y for s[2],s[3] (either declaration order swaps r1/r2;
+initialised-at-declaration form spills to push {r3,r4}); 8-byte struct of u16[4] assignment
+(same as best C); struct-pointer field copy; per-pair temporaries.

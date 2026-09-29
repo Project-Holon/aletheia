@@ -1,0 +1,46 @@
+/*
+ * function: func_02184E40   address: 0x02184E40   region: ov020   isa: thumb
+ * status:   DIFF (2 instructions, +0040 and +0044: the third copied word is
+ *           held in r0 by the compiler, the original holds it in r2)
+ *
+ * Everything else is byte-identical (84/84 bytes, registers and schedule).
+ * Also blocked at MATCH regardless: the bl to unlabelled ARM9 leaf 0x02014184
+ * (EXACT leaf C: Obj{int f0; s16 h4,h6,h8,ha; int fc,f10,f14,f18;};
+ *  f0=1; h4=a; h6=-1; h8=b; ha=0; fc=0; f10=c; f14=d; f18=e).
+ *
+ * Levers that mattered: `const int *s` (r1 argument reloaded last, as in
+ * the original), `s16` typed second parameter, and interleaving the 12-byte
+ * copy as t0=v[0]; t1=v[1]; store t0; t2=v[2]; store t1; store t2.
+ * Tried without effect on the last word's register: declaration order of
+ * t0/t1/t2 (all six permutations), S3 aggregate copy (becomes ldm/stm),
+ * direct v[i] stores, struct-pointer fields.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef short s16;
+
+void *func_020122C0(void *p, int a, void (*cb)(void), int n);
+void *func_020124E8(void *p);
+void func_02014184(void *d, s16 a, s16 b, int c, int e, int f);
+void func_02184730(void);
+void func_02184CEC(void *obj, void *p);
+
+void *func_02184E40(void *p, int u, const int *v, s16 b, const int *s)
+{
+    void *r0v = func_020122C0(p, 0, func_02184730, 0x9c);
+    char *r4 = func_020124E8(r0v);
+    int t0, t1, t2;
+
+    func_02184CEC(r4, p);
+    func_02014184(r4 + 0x10, b, 1, s[0], s[1], s[2]);
+    t0 = v[0];
+    t1 = v[1];
+    *(int *)(r4 + 0x34) = t0;
+    t2 = v[2];
+    *(int *)(r4 + 0x38) = t1;
+    *(int *)(r4 + 0x3c) = t2;
+    *(int *)(r4 + 0x2c) = 0;
+    return r0v;
+}

@@ -1,0 +1,55 @@
+/*
+ * function: func_0218C584   ov021, thumb, dsi/1.1p1 -O4,p
+ * verdict:  DIFF (SIZE: compiled 184 vs original 180 bytes)
+ *
+ * The C below reproduces the structure (all callees and the inlined rect test
+ * resolve), but register allocation differs.  Original keeps n in r6 and j in
+ * r7 with the count pointer ([sp,#0xc]) and filter ([sp,#8]) spilled at entry;
+ * this C spills n instead (and keeps filter in a register in one spelling).
+ * `static inline inside()` is needed for the inlined rectangle test (plain
+ * static is not inlined); the `cmp r0,#1` after it matches the original.
+ * Tried: all 120 orderings of the five local declarations, continue-style
+ * versus nested-if, `n = cnt * ...` variants; none got below 79 diff lines.
+ * Callees: 0x0218C674 (thumb ov021), 0x02169510 (thumb ov010, EXACT),
+ * 0x0207C9D0 (arm).  Pool: d_021DD9CC + line 0x749.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void *func_02030734(int, int, int, void *, int);
+extern int func_0218C674(u8 *owner, u32 *e);
+extern void func_02169510(u32 a, int *b);
+extern void func_0207C9D0(void *a, void *b, void *c);
+extern u8 d_021DD9CC[];
+
+static inline int inside(int *r, int x, int y)
+{
+    if (r[2] <= x && r[3] >= x && r[0] <= y && r[1] >= y)
+        return 1;
+    return 0;
+}
+
+u32 **func_0218C584(u8 *owner, int *rect, int filter, int *count)
+{
+    u32 **buf;
+    u32 *e;
+    int n;
+    u32 j;
+    int tmp[3];
+
+    buf = func_02030734(*(u16 *)owner, 0x80, 1, d_021DD9CC, 0x749);
+    n = 0;
+    for (j = 0; j < 0x120; j++) {
+        e = (u32 *)(owner + 0x1F8 + j * 16);
+        if (e[0] != 0 && (filter == 0 || filter == func_0218C674(owner, e))) {
+            func_02169510(e[0], tmp);
+            func_0207C9D0((u8 *)e[3] + 4, tmp, tmp);
+            if (inside(rect, tmp[0], tmp[2]) == 1)
+                buf[n++] = e;
+        }
+    }
+    *count = n;
+    return buf;
+}

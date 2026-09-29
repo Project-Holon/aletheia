@@ -1,0 +1,28 @@
+DIFF note for ov021 func_0218B930 (pkt_ov021_0218B930): 21 concrete bytes differ, same size.
+
+Original body after the *o2 store loads e->y (+8), e->z (+0xA), shifts y, loads x (+6),
+shifts z, shifts x, then stores z->out[2], x->out[0], y->out[1] using r0/r1/r2.
+Every source order tried (all 6 direct store permutations, temp-local declaration and
+assignment orders, s16 temps, temps hoisted above the guard) gives a different load or
+register order. Not matched.
+
+Best-effort C (ov021, thumb, dsi/1.1p1 -O4,p; func_0218B910 and func_0218BBD0 thumb):
+
+typedef unsigned short u16;
+typedef signed short   s16;
+struct Ent { u16 f0; u16 f2; u16 f4; s16 x; s16 y; s16 z; };
+extern struct Ent *func_0218B910(void *p);
+extern int func_0218BBD0(void *p);
+
+int func_0218B930(void *p, void *unused, int *out, int *o2)
+{
+    struct Ent *e = func_0218B910(p);
+
+    if (e->f4 == 0xFFFF)
+        return 0;
+    *o2 = func_0218BBD0(p);
+    out[2] = e->z << 12;
+    out[1] = e->y << 12;
+    out[0] = e->x << 12;
+    return 1;
+}

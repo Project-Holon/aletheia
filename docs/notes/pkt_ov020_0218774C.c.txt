@@ -1,0 +1,36 @@
+pkt_ov020_0218774C / pkt_ov020_021877A8 / pkt_ov020_02187808 (ov020, thumb, -O4,p dsi/1.1p1): DIFF, 4 bytes each
+
+Three constructors sharing one shape: func_020122C0(a, 0, func_021876E0, 0x28) -> r7,
+func_020124E8(r7) -> t (r4), func_020124EC(r7) -> x, then field stores on t
+(+0 a, +4 b, +8 strh, +0xc, +0x10, +0x14 strb d, +0x15 strb func_0202E8B8(c),
++0x20, +0x24), func_02187C20(t, x, 0), return r7.
+
+Everything is byte-correct except one scheduling swap, identical in all three:
+
+  original:  str r0,[r4,#0x10]; strb r6,[r4,#0x14]; ldr r0,[sp,#4]; bl 0x202e8b8
+  compiled:  str r0,[r4,#0x10]; ldr r0,[sp,#4]; strb r6,[r4,#0x14]; bl 0x202e8b8
+
+The compiler hoists the spilled-parameter load (c, saved to the stack at entry)
+above the byte store; the original keeps it after. Tried without effect: d as
+int/u8/(u8) cast, `t->d = t->e = 0` (reorders the two word stores), moving the
+`t->f = d` store before `t->e = 0` (whole stores and the ldr move together),
+binding the func_0202E8B8 result to a local first.
+
+Best C (0x0218774C), the struct T is inferred from the stores only:
+
+  typedef struct { int a; int b; u16 c; int d; int e; u8 f; u8 g; u8 pad[10];
+                   int h; int i; } T;
+  void *func_0218774C(int a, int b, int c, int d)
+  {
+      void *r7 = func_020122C0((void *)a, 0, func_021876E0, 0x28);
+      T *t = func_020124E8(r7);
+      int x = func_020124EC(r7);
+      t->a = a; t->b = b; t->c = func_02188C84(b); t->d = 0; t->e = 0;
+      t->f = d; t->g = func_0202E8B8(c); t->h = 0; t->i = 0;
+      func_02187C20(t, x, 0);
+      return r7;
+  }
+
+func_021877A8 stores h,i from two stack arguments (ldr [sp,#0x20]/[sp,#0x24]);
+func_02187808 has b=0, c=4, d=1 constants and one fewer argument.
+Pool word 0x021876E1 (func_021876E0 thumb) resolves.

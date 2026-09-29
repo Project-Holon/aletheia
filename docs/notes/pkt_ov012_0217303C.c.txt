@@ -8,6 +8,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF (6 bytes-wise lines: first temp is r1 in original, r0 in ours; everything else identical)
+ *
+ * Lane R2 (13 runs plus a 300-compile permuter run that found nothing): the
+ * w->q guard temp stays r0 under every spelling tried: a `Q *q = w->q`
+ * local, split early returns, `(q = w->q) == 0 ||`, `flag == 0`, an unused
+ * second parameter (w, int). An inline IsOn(w) helper does not fold (~135
+ * bytes out); `w->q->flag == 1` on a Q-resident bitfield, with or without a
+ * second bit as in ov012_func_02172E48.c, adds a cmp (~127 bytes out). The
+ * r1 choice is not explained by anything that reaches the first 0x16 bytes.
  * symbols:
  *   func_02173840  0x02173840  thumb  ov012
  *   func_02174268  0x02174268  thumb  ov012

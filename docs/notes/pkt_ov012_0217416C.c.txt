@@ -1,3 +1,8 @@
+Resolved (lane R1): EXACT, now src/matched/ov/ov012_func_0217416C.c.
+func_021734A8(p, which, v) takes a third argument (its case 4 is strb r2,[..]):
+    k = d_0217549C[r4->f4 * 8]; if (k != 0x1b) func_021734A8(base, 4, k);
+The record below is the superseded near miss.
+
 /*
  * function: func_0217416C   address: 0x0217416C   region: ov012   status: DIFF (4 bytes)
  * packet:   pkt_ov012_0217416C

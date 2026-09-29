@@ -7,9 +7,14 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   DIFF (superseded: EXACT in src/matched/ov/ov018_func_0217BA54.c, lane R2)
  *
- * NOTE: 2 bytes short. Original keeps the alloc result in r0 then `adds r2, r0, #0` and
+ * RESOLVED: func_020263D8 takes a third argument, the new record
+ * (void func_020263D8(int, int, void *), as in ov012_func_02173744.c). The
+ * `adds r2, r0, #0` is that argument, not a copy for the stores; with
+ * `func_020263D8(h, 2, r)` and plain `r->f0e = 1` the function is EXACT.
+ *
+ * Original note: 2 bytes short. Original keeps the alloc result in r0 then `adds r2, r0, #0` and
  * stores through r2, with `movs r2,#1` before `movs r6,#1` (arg 1 and the strb source are
  * separate movs). Tried u8 local, int-returning callee with cast, second pointer copy: no change.
  *

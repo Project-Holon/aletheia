@@ -1,0 +1,38 @@
+func_0217B66C (ov019, Thumb, 72 bytes): DIFF, 6 bytes, same size, same relocations.
+
+Only the scheduling of the switch value differs. Original:
+
+    bl  func_0217AFB0
+    ldrb r1, [r5]        ; state byte goes to r1
+    adds r4, r0, #0      ; call result copied to callee-saved r4 AFTER the load
+    cmp r1, #0 / cmp r1, #1
+
+Compiled: `adds r4, r0, #0` first, then `ldrb r0, [r5]`, `cmp r0, ...`.
+
+The sibling func_0217B6B4 (matched, three-case switch on the same state byte with
+the same `h = func_0217AFB0(base, *p, p)` head) emits the original order with
+plain `switch (*state)`; the two-case switches here (this one and
+func_0217B5E0) do not.
+
+Tried (each gave the identical 6-byte diff): `int h = call; switch (*state)`;
+`s = *state; switch (s)` with int and unsigned char locals; comma expression
+`switch ((h = call, *state))`; alias pointer `unsigned char *st = state`; declaration
+order swapped; if/else-if chain (size 70, worse); `default: return 0` arm (size 76).
+
+C as last tried:
+
+    int func_0217B66C(char *base, int *p, int r2, unsigned char *state)
+    {
+        int h = func_0217AFB0(base, *p, p);   /* (char *, int, int *) */
+        switch (*state) {
+        case 0:
+            if (func_0216D3CC() == 1) { func_0216D410(h, 0x43); *state = *state + 1; }
+            break;
+        case 1:
+            if (func_0216D454() == 1) { func_0216D480(h); return 1; }
+            break;
+        }
+        return 0;
+    }
+
+symbols: func_0217AFB0 ov019, func_0216D3CC/0410/D454/D480 ov010 (all thumb).

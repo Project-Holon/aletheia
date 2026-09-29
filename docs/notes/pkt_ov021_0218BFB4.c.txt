@@ -1,0 +1,31 @@
+func_0218BFB4 (ov021, thumb, 140 bytes): DIFF, 5 tries. Everything up to +0056 matches.
+
+Semantics: t = func_0218BCAC(e[0]); h = func_02047400(e[1], 0, s->0x1d0);
+for i<4: tmp[i] = e[2+i] ? func_02047564(h, e[2+i], 0) : 0;
+out[0] = func_0204767C(h, tmp, 4); out[1] = e; d_021D3D58[*t].fn(s)
+(table of 12-byte entries, fn first; word at pool 0x0218C028).
+
+Residual: original hoists `movs r2,#0xc` before `str r0,[r1]`, keeps the byte
+*t in r4 (`ldrb r4,[r0]; adds r3,r4,#0; muls r3,r2,r3`) and does
+`adds r0,r1,#0; str r6,[r0,#4]` for out[1]. Mine loads the byte into r2 and
+emits movs r1,#0xc afterwards.  Tried: `*t` inline, a u32 k local, reusing the
+loop counter, a function-pointer local.  None moved the hoisted constant.
+Unlabelled leaf follows at 0x0218C02C (zeroes 4 words at +8; not in this lane).
+
+Source of the last try:
+
+typedef struct { void (*fn)(void *s); u32 a; u32 b; } Ent;
+void func_0218BFB4(u8 *s, void **out, void **e)
+{
+    u8 *t; void *h; void *tmp[4]; int i; void (*f)(void *);
+    t = func_0218BCAC(e[0]);
+    h = func_02047400(e[1], 0, *(u32 *)(s + 0x1d0));
+    for (i = 0; i < 4; i++) {
+        if (e[2 + i] != 0) tmp[i] = func_02047564(h, e[2 + i], 0);
+        else tmp[i] = 0;
+    }
+    out[0] = func_0204767C(h, tmp, 4);
+    out[1] = e;
+    f = d_021D3D58[*t].fn;
+    f(s);
+}

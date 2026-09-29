@@ -1,0 +1,59 @@
+/*
+ * function: func_02186470   address: 0x02186470   region: ov020   isa: thumb
+ * status:   DIFF (register naming plus one spill order; same size, 108 bytes)
+ *
+ * Every call, branch and constant is right.  Remaining differences:
+ *  - the original keeps the parameter in r4 and the result of
+ *    func_02012AC8 in r5 (r5 -> `lsls/lsrs #16` -> r7 late, after the
+ *    reload `ldr r4,[sp]`); the compiler here gives the parameter r5 and the
+ *    result r4.  Declaration order of r5/i/e/b did not move it.
+ *  - the original stores the base twice, `str r0,[sp]; str r0,[sp,#4]`, then
+ *    `adds r0,#0xf8; ldr r4,[sp]; str r0,[sp,#4]`; the compiler here emits
+ *    `str [sp,#4]` after the reload.
+ * Levers that mattered: the chained call `func_02012AC8(func_020127A4(a))`
+ * (the original passes the first call's result straight on), and declaring
+ * `e` before `b` so `b` lands at [sp].
+ * Tried without effect: u16 local for the truncated result (frees r5 early
+ * and puts the parameter in r4 but truncates too soon), (u16) cast at the
+ * call argument, moving the int local's declaration.
+ *
+ * symbols: func_020127A4 func_02012AC8 func_020127C4 func_02013DE0 (arm9,
+ * thumb), func_02161ECC func_02161E78 func_02161E60 (ov010, thumb),
+ * func_02186BA8 func_02186B2C (ov020, thumb)
+ */
+
+typedef unsigned short u16;
+
+int func_020127A4(int a);
+int func_02012AC8(int a);
+char *func_020127C4(int a);
+int func_02161ECC(void *p);
+int func_02186BA8(void *p);
+int func_02013DE0(int a);
+void func_02186B2C(void *a, void *b);
+void func_02161E78(void *p);
+void func_02161E60(void *p, int a);
+
+void func_02186470(int a)
+{
+    char *e;
+    char *b;
+    char *q;
+    int r5;
+    int i;
+
+    r5 = func_02012AC8(func_020127A4(a));
+    b = func_020127C4(a);
+    e = b;
+    q = b;
+    e = b + 0xf8;
+    q = q + 8;
+    for (i = 0; i < 10; i++) {
+        int off = i * 0x18;
+        if (func_02161ECC(q + off) && func_02186BA8(q + off) && func_02013DE0((u16)r5) == 0) {
+            func_02186B2C(e, q + off);
+            func_02161E78(q + off);
+        }
+    }
+    func_02161E60(b, 0);
+}

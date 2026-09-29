@@ -1,0 +1,35 @@
+func_0217B5E0 (ov019, Thumb, 140 bytes): DIFF, 6 bytes, same size, 10 of 10 relocations resolved.
+
+Same 6-byte scheduling diff as func_0217B66C (see pkt_ov019_0217B66C.c.txt): the
+original loads the state byte into r1 (`ldrb r1, [r5]`) before copying the
+func_0217AFB0 result into r4; the compiler copies first and loads into r0.
+
+Everything else is byte-correct. C:
+
+    typedef short s16;
+    int func_0217B5E0(char *base, int *p, int r2, unsigned char *state)
+    {
+        s16 a[8];
+        int h = func_0217AFB0(base, *p, p);
+        switch (*state) {
+        case 0:
+            if (func_0216D3CC() == 1) {
+                func_0216D828(func_021A3074(func_02188CB4(r2)), a);
+                func_0216D828(h, a + 4);
+                if (a[4] != a[0] || a[6] != a[2]) {
+                    func_0216D410(h, 0x44);
+                    func_0216DAC8(h, 0);
+                    *state = *state + 1;
+                }
+            }
+            break;
+        case 1:
+            if (func_0216D454() == 1) { func_0216D480(h); return 1; }
+            break;
+        }
+        return 0;
+    }
+
+symbols: func_0217AFB0 ov019; func_0216D3CC, D828, D410, DAC8, D454, D480 ov010;
+func_02188CB4, func_021A3074 ov021 (all thumb). Prototypes: AFB0 (char *, int, int *),
+D828 (int, s16 *), 3CC/454 (void), 410/DAC8 (int, int), 480 (int).

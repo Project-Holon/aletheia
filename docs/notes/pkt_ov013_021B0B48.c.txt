@@ -7,9 +7,16 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   DIFF (superseded: EXACT in src/matched/ov/ov013_func_021B0B48.c, lane R2)
  *
- * SIZE-like DIFF: compiled 280 of 284 bytes, every instruction up to +00D0
+ * RESOLVED: 0x02082AC0 is MIi_CpuClearFast (tools/sdkobj.py). Calling it
+ * through two extern names, MIi_CpuClearFast in the found==0 arm and
+ * func_02082AC0 in the failed-guard arm, gives two call targets the
+ * cross-jumper will not merge, and the function is EXACT. This is the
+ * call-site form of
+ * docs/idioms/a-duplicated-pool-word-is-a-second-extern-name-for-the-same-address.md.
+ *
+ * Original note: SIZE-like DIFF: compiled 280 of 284 bytes, every instruction up to +00D0
  * identical and all 7 relocations resolve. The original keeps the two
  * func_02082AC0 (MIi_CpuClear32) calls apart: the found==0 arm is
  * `mov r1,r7; mov r2,r6; mov r0,#0; bl; b end`, the outer else is

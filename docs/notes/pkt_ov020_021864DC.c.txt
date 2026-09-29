@@ -1,0 +1,35 @@
+/*
+ * function: func_021864DC   address: 0x021864DC   region: ov020   isa: thumb
+ * status:   DIFF (compiled 74 bytes vs 68; register and constant handling)
+ *
+ * The original hoists the constant 2 out of the loop into a spill slot
+ * (`movs r0,#2; str r0,[sp]` before the loop) and clears the flag with
+ * `ldr r0,[sp]; bics r1,r0`, while the `& 2` test rematerialises `movs
+ * r0,#2; tst r0,r1`.  It keeps p in r6 and p+8 in r7, and recomputes
+ * `adds r0,r6,r5` / `adds r2,r6,r5` for the two flag accesses.
+ * The compiler here folds `&= ~2` to `movs r0,#0xfd; ands`, CSEs p+i*0x18 into
+ * one register (r5), and spills p instead of 2.
+ * Tried, none changed the fold: `int m = 2` local, `u8 m`, `volatile int m`
+ * (volatile makes p spill and adds a `mvns`), a typed struct
+ * {int h[2]; E e[10];} with `p->e[i].f &= ~2`, char* versus u8* parameter
+ * (char* adds `ldrsb`).  Do not retry those.
+ *
+ * symbols: func_02161ECC (ov010, thumb), func_02186BB8 (ov020, thumb)
+ */
+
+typedef unsigned char u8;
+
+int func_02161ECC(void *p);
+void func_02186BB8(void *p, int a);
+
+void func_021864DC(u8 *p)
+{
+    int i;
+
+    for (i = 0; i < 10; i++) {
+        if (func_02161ECC(p + 8 + i * 0x18) && (p[i * 0x18 + 0xb] & 2)) {
+            func_02186BB8(p + 8 + i * 0x18, 3);
+            p[i * 0x18 + 0xb] &= ~2;
+        }
+    }
+}

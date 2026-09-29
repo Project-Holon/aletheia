@@ -1,0 +1,28 @@
+pkt_ov020_021876E0 (ov020, thumb, -O4,p dsi/1.1p1): DIFF, 3 bytes (all the dispatch register)
+
+Original loads the switch value into r1 and dispatches in r1:
+  ldr r1,[r5]; cmp r1,#5; bhi; adds r0,r1,r1; add r0,pc; ldrh r0,[r0,#6]; ...
+Compiled uses r0 for the same five instructions (ldr r0,[r5]; cmp r0,#5; adds r0,r0,r0).
+Everything else, including the case-4 arm being its own `bl` + `b` to case 2's block,
+is byte-identical.
+
+Tried: `switch (*s)`, `int k`/`unsigned k` local, explicit `case 1: case 3: break;`,
+first parameter typed int instead of void *. All give r0.
+Not reachable from the idiom "void return frees r0" (this one returns int: 1 from
+case 5, 0 at the end).
+
+C:
+  int func_021876E0(void *unused, int *s, char *o)
+  {
+      switch (*s) {
+      case 0: func_02187CEC(o); break;
+      case 1: case 3: break;
+      case 2: func_02187A10(o); break;
+      case 4: func_02187A10(o); break;
+      case 5: func_02187CFC(o); return 1;
+      }
+      if (func_020362DC() & 1) { if (func_02187D20(o) == 0) func_02187D28(o); }
+      *(int *)(o + 0x18) = *(int *)(o + 0x18) + 1;
+      func_02187CCC(o, s);
+      return 0;
+  }

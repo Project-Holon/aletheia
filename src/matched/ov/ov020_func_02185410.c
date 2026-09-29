@@ -1,0 +1,47 @@
+/*
+ * function: func_02185410
+ * address:  0x02185410
+ * packet:   pkt_ov020_02185410
+ * region:   ov020
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_020120F4  0x020120F4  thumb
+ *   func_020122C0  0x020122C0  thumb
+ *   func_020124E8  0x020124E8  thumb
+ *   func_02162694  0x02162694  thumb  ov010
+ *   func_021626E8  0x021626E8  thumb  ov010
+ *   func_02184410  0x02184410  thumb  ov020
+ *   func_02184CEC  0x02184CEC  thumb  ov020
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+void *func_020122C0(void *p, int a, void (*cb)(void), int n);
+void *func_020124E8(void *p);
+void *func_020120F4(void *p);
+int func_02162694(int a0, int a1, int a2);
+int func_021626E8(int a0);
+void func_02184410(void);
+void func_02184CEC(void *obj, void *p);
+
+void *func_02185410(void *p, int u, int a, int b)
+{
+    void *r0v;
+    char *r4;
+
+    func_020120F4(p);
+    r0v = func_020122C0(p, 0, func_02184410, 0x9c);
+    r4 = func_020124E8(r0v);
+    func_02184CEC(r4, p);
+    *(int *)(r4 + 0x40) = 1;
+    func_02162694(a, (int)(r4 + 0x10), b);
+    *(int *)(r4 + 0x2c) = func_021626E8(a);
+    return r0v;
+}

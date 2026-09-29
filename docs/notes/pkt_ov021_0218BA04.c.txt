@@ -1,0 +1,10 @@
+func_0218BA04 (ov021, thumb, 68 bytes): DIFF, 8 tries; only the schedule of the
+five field copies differs (same size).
+
+Semantics: T t (w0,x,y,z,h16; 0x14 bytes): t.w0 = func_0218BBD0(a, u16(p[0xf] + (p[0xe] << 8)));
+t.x = p->0; t.y = p->4; t.z = -p->8; t.h = *(u16*)(p+0xc); func_0218C4A0(a, b, &t, c).
+
+Original order: ldr [p+8]; ldr [p+4]; rsbs r2,r0; ldr [p+0]; str y; str x; str z;
+ldrh h; add r0,sp; add r2,sp; strh; then r0=a, r1=b, r3=c set last.
+Mine loads x first (or z,neg,y,x) and sets r3=c early.  Tried statement orders,
+locals for x/y/z, a typed source struct, and a temp for the call result.

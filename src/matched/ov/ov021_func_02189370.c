@@ -1,0 +1,42 @@
+/*
+ * function: func_02189370
+ * address:  0x02189370
+ * packet:   pkt_ov021_02189370
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02012974  0x02012974  thumb
+ *   func_020141E0  0x020141E0  thumb
+ *   func_02159C48  0x02159C48  thumb  ov010
+ *   func_02159BD4  0x02159BD4  thumb  ov010
+ */
+
+typedef struct Vec { int x, y, z; } Vec;
+
+extern void *func_02012974(void *p);
+extern void func_020141E0(void *a, Vec *v);
+extern int func_02159C48(void *a, int x, int z);
+extern int func_02159BD4(void *a, int x, int z);
+
+int func_02189370(char *p)
+{
+    Vec v;
+    char *q;
+    void *m;
+    int r;
+
+    q = p + 0xd4;
+    m = func_02012974(*(void **)(p + 8));
+    func_020141E0(q, &v);
+    if (func_02159C48(m, v.x, v.z) == 1) {
+        r = func_02159BD4(m, v.x, v.z);
+        if (r != 0xFFFF && r != *(short *)(q + 4))
+            return 1;
+    }
+    return 0;
+}
