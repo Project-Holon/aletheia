@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * hint:     wave-13 review: writes a display register: try the SDK inline (a-hardware-register-write-is-the-sdk-inline-with-its-enum-parameters.md)
+ * resolved: EXACT in src/matched/ov/ov021_func_021C4F7C.c (lane R2): u16 heap together with u16
+ *           heap parameters in the callee prototypes it feeds (heap u16 alone was 512 bytes out)
  * checks:   1 every callee prototype copied from a matched ov021 caller, arities agree with the visible r0-r3/stack setup; 2 twins ov021_func_021B3BD8 (arc setup), ov021_func_0219707C (Pos loop), ov021_func_021C53A0 (callee, 8 args); 3 widths of a0 (void pointer, u32), mode (int, u32, u16, u8), a2 (u32, u16), a3 (u16, u8, u32, s16, const u16), heap (u32, int, u16), x (int, u16, u32), p (char or u8 pointer), an unused 6th parameter and a heap copy local: none moves the r3 spill; 4 none fits (not a const load/store swap, a prologue schedule); 5 no later neighbour shares it; permuter --types 300 compiles: no gain
  *
  * Residual: 3 instructions, same size (548 B), every relocation resolved

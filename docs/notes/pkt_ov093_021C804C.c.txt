@@ -1,0 +1,51 @@
+/*
+ * function: func_021C804C
+ * address:  0x021C804C
+ * packet:   pkt_ov093_021C804C
+ * region:   ov093
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * checks: 1 func_021D5440 takes one arg and returns u8 (twins); arity fine, no r1-r3 shift;
+ *   2 twin func_021C80AC (same array at p+0x7e0, stride 16, count at p+0x782) matched EXACT with
+ *     the raw-offset spelling; no twin for the bitfield read; 3 i as u32 (blo is unsigned), no
+ *     parameter width evidence, const p not applicable (no load/store swap); 4 none fits
+ *     (declaration-order idiom tried through struct/array-index spellings); 5 n/a no new idioms.
+ * Residual: 4 bytes short (92 vs 96) and different register plan.  Original keeps p in r5, the
+ * pooled 0x7e0 in r7, i*16 in r6 and recomputes p+i*16 for the second load (adds r1,r5,r6);
+ * spills [sp+8]=0x7e4 and [sp+0xc]=&p[0x782].  Every spelling tried CSEs p+i*16 into one
+ * register (r5) and keeps p in r7.  The (v & 0xf) != 6 test only becomes lsls/lsrs #28 through a
+ * 4-bit unsigned bitfield union (below); a plain mask or shift pair folds to movs/ands.
+ * Tried: raw offsets, ((E*)(p+0x7e0))[i], struct S with p->e[i] and a bitfield union.
+ *
+ * symbols:
+ *   func_021D5440  0x021D5440  thumb  ov093
+ */
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+typedef signed char s8; typedef signed short s16; typedef signed int s32;
+
+extern u8 func_021D5440(u32 x);
+
+typedef struct { u32 lo : 4; u32 hi : 28; } W;
+typedef union { u32 u; W w; } U;
+typedef struct { u32 key; u32 w; u32 c; u32 d; } E;
+typedef struct { u8 pad[0x782]; u8 cnt; u8 pad2[0x5d]; E e[8]; } S;
+
+int func_021C804C(S *p, int key, u32 *out)
+{
+    u32 i;
+    for (i = 0; i < p->cnt; i++) {
+        if (key == func_021D5440(p->e[i].key)) {
+            U v;
+            v.u = p->e[i].w;
+            if (v.w.lo != 6) {
+                *out = v.u;
+                return 1;
+            }
+        }
+    }
+    return 0;
+}

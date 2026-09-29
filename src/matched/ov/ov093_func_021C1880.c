@@ -1,0 +1,41 @@
+/*
+ * function: func_021C1880
+ * address:  0x021C1880
+ * packet:   pkt_ov093_021C1880
+ * region:   ov093
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * symbols:
+ *   sub_0201C1BC   0x0201C1BC  thumb
+ *   func_021C2CD8  0x021C2CD8  thumb  ov093
+ *   func_021C232C  0x021C232C  thumb  ov093
+ */
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+typedef signed char s8; typedef signed short s16; typedef signed int s32;
+
+extern u32 sub_0201C1BC(u16 move);
+extern void func_021C2CD8(u8 *p, u8 *q, u32 a, u32 b);
+extern void func_021C232C(u8 *p, u8 *q, u32 a, u32 b);
+
+void func_021C1880(u8 *p, u8 *q, u32 a, u32 b, u32 s0, int s1)
+{
+    switch (sub_0201C1BC(*(u16 *)q)) {
+    case 7:
+        func_021C2CD8(p, q, a, a);
+        break;
+    case 6:
+        if (s1 == 0) {
+            func_021C2CD8(p, q, a, b);
+        }
+        break;
+    case 4:
+        if (s1 == 0) {
+            func_021C232C(p, q, a, b);
+        }
+        break;
+    }
+}

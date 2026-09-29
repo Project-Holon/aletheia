@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * hint:     wave-13 review: permuter --types and a struct-typed p
+ * resolved: EXACT in src/matched/ov/ov091_func_021BAFA0.c (lane R2): separate then-blocks per
+ *           condition (cross-jumped), a[0xc] read at each use, buffer returned by an inline wrapper
  * checks:   1 021BB050 takes (a, s, int) and 0204B878 (int,int), 021BB56C (s,int,int,s16*), 0204B404 (int,s16*,int),
  *           all consistent with the call sites; 2 no twin; 3 st as u8 vs direct a[0xc] uses vs per-arm assignment vs
  *           int: only the u8 local keeps the r5/r6 parameter register order; 4 none fits; 5 n/a

@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * closed:   EXACT as src/matched/ov/ov091_func_021B907C.c (SDK G2 inline over volatile registers, wave-13 review)
  *
  * checks: 1 four arm9 blx callees, arities 3/2/1/1 read from matched twins (0207D658 3 args, 02017E1C-style), no arity shift; 2 no twin (func_021BC520 / func_02023EF4 only call the blend helper); 3 int vs u16 for both window temporaries tried (u16 = 60 bytes diff, int = 43), s16/u16 truncation variants worse (58-104); 4 none fits; 5 n/a no later neighbour shares the shape.
  *

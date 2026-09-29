@@ -1,0 +1,55 @@
+/*
+ * function: func_021C27A0
+ * address:  0x021C27A0
+ * packet:   pkt_ov093_021C27A0
+ * region:   ov093
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_021C282C takes 5 (p,x,z,a,u8 b; b is the stack arg), func_021C2B3C 4, func_021C2BA4 4, func_021C5C74 4: arities as written, no register shift; the caller func_021C2758 (EXACT*) passes the two stack words as {A,0} then B, so the stack params are one 8-byte aggregate (u32 a; u8 b) at sp+0x20 plus u32 c at sp+0x28; 2 no twin (no matched ov093 function reads an aggregate stack param); 3 tried the pair as separate u32/u8 params (a loaded ldr [sp,#0x20], b add+ldrb OK), as struct Pr {u32 a; u8 b;} by value (same), a read as *(u32 *)&pr (same), a as u32 a[1] (same), Pr *q = &pr (same), {u8 b; u32 a;} (same), and a 12-byte struct with c inside (same): the only residue is the original's `add r3, sp, #0x20 ; ldr r3, [r3]` for `a` (two instructions, sched after adds r4,r3) where the compiler emits `ldr r3, [sp, #0x20]`; 4 none of docs/idioms fits; 5 n/a, no sibling twin of this shape found.
+ *
+ * Everything else matches: struct Pr by value gets the u8 member as `add r2,sp,#0x20 ; ldrb r2,[r2,#4]`
+ * exactly as in the original.  Best C below (the by-value struct form).  The caller
+ * func_021C2758 is filed EXACT* with plain u32 words in its extern, so a struct
+ * spelling here would need the caller re-verified.
+ *
+ * symbols:
+ *   func_021C282C  0x021C282C  thumb  ov093
+ *   func_021C5C74  0x021C5C74  thumb  ov093
+ *   func_021CC8D8  0x021CC8D8  thumb  ov093
+ *   func_021CC95C  0x021CC95C  thumb  ov093
+ *   func_021C2B3C  0x021C2B3C  thumb  ov093
+ *   func_021C2BA4  0x021C2BA4  thumb  ov093
+ */
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+
+typedef struct { u32 a; u8 b; } Pr;
+extern int func_021C282C(u8 *p, u32 x, u32 z, u32 a, u8 b);
+extern void func_021C5C74(u8 *p, u32 x, int r, u32 z);
+extern u32 func_021CC8D8(void *lock, int line);
+extern void func_021CC95C(void *lock, u32 v, int line);
+extern int func_021C2B3C(u8 *p, u32 y, u32 x, u32 z);
+extern void func_021C2BA4(u8 *p, u32 x, u32 y, u32 z);
+
+int func_021C27A0(u8 *p, u32 x, u32 y, u32 z, Pr pr, u32 c)
+{
+    int r;
+    int t;
+    u32 s;
+    r = func_021C282C(p, x, z, pr.a, pr.b);
+    if (r != 0) {
+        if (c != 0)
+            func_021C5C74(p, x, r, z);
+        return 1;
+    }
+    s = func_021CC8D8(p + 0x1D74, 7779);
+    t = func_021C2B3C(p, y, x, z);
+    if (t != 0 && c != 0) {
+        func_021C2BA4(p, x, y, z);
+        p[0x78A] |= 0x10;
+    }
+    func_021CC95C(p + 0x1D74, s, 7792);
+    return t;
+}

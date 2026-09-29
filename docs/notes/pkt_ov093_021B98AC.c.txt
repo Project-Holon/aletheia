@@ -2,12 +2,14 @@
  * function: func_021B98AC
  * address:  0x021B98AC
  * packet:   pkt_ov093_021B98AC
+ * closed:   EXACT as src/matched/ov/ov093_func_021B98AC.c (wave-14 retry lane R1)
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * hint:     wave-13 review: same downward loop over p[0x428+i] as ov093 0x021B8E28, both spill a copy of n: try a shared `static inline` helper or n copied into a second local
  * checks:   1 callees func_021B8CFC (p,i)->u8, func_021B9B94 (p)->u32, func_021B9C00 (p,i) arities agree; 2 no twin; 3 u8 param vs u32 vs u8 c copy tried, u8 param gives 16 bytes; 4 none fits; 5 n/a
  *
  * 16 bytes differ, all one register swap: original keeps the parameter/counter

@@ -2,12 +2,14 @@
  * function: func_021BB320
  * address:  0x021BB320
  * packet:   pkt_ov093_021BB320
+ * closed:   EXACT as src/matched/ov/ov093_func_021BB320.c (wave-14 retry lane R1)
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * hint:     wave-13 review: split the || chain into separate ifs as the arm9 twin func_020284F4 does
  * checks:   1 callees checked: 021B9114 (u8 (u8**)), 020362DC/02035C60 (void, u32) match arm9 matched twin func_020284F4; 2 twin func_020284F4 (arm9) has the same two calls but separate ifs, not this chain; 3 no parameter/spill residue (p, s are only spilled through r5), n/a; 4 no idiom fits (dead `b` to the next instruction); 5 n/a
  *
  * Residual: compiled 70 bytes vs 72. Everything matches except the original's

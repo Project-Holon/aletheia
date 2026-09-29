@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * hint:     wave-13 review: permuter --types and a struct-typed p
+ * resolved: EXACT* in src/matched/ov/ov093_func_021BB4E0.c (lane R2): the inner copy loop reuses
+ *           the first loop's counter i (no separate j), written as a rotated while loop
  * checks:   1 func_021EE9B4 reads r0-r2 (dst, src, u8 at [dst]) and the original forwards r1/r2 untouched from entry, so 3 parameters; func_021EE9E4 takes 5 (r0-r3 + [sp]); 2 no twin; 3 tried u8 vs unsigned bound/counter (both need the lsls/lsrs pair, so u8 stays), params only forwarded so no width effect; 4 none fits; 5 n/a
  *
  * Residual: 23 bytes differ, all register allocation and schedule inside the

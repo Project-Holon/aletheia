@@ -1,0 +1,63 @@
+/*
+ * function: func_021C4C50
+ * address:  0x021C4C50
+ * packet:   pkt_ov093_021C4C50
+ * region:   ov093
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021CD64C  0x021CD64C  thumb  ov093
+ *   func_021CD4B0  0x021CD4B0  thumb  ov093
+ *   func_021C43F0  0x021C43F0  thumb  ov093
+ *   func_021C4CEC  0x021C4CEC  thumb  ov093
+ *   func_021C4CFC  0x021C4CFC  thumb  ov093
+ *   func_021D5B7C  0x021D5B7C  thumb  ov093
+ *   func_021C195C  0x021C195C  thumb  ov093
+ *   func_021C4D0C  0x021C4D0C  thumb  ov093
+ */
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+typedef signed char s8; typedef signed short s16; typedef signed int s32;
+
+extern void func_021CD64C(void *w, u32 id, ...);
+extern void func_021CD4B0(void *w, u32 id, ...);
+extern void func_021C43F0(u8 *p, u8 *a);
+extern void func_021C4CEC(u8 *a);
+extern u8 *func_021C4CFC(u8 *a);
+extern int func_021D5B7C(u8 *q);
+extern void func_021C195C(u8 *p, u8 *q, u32 n);
+extern u8 *func_021C4D0C(u8 *a);
+
+void func_021C4C50(u8 *p, int k)
+{
+    int r = -1;
+    u8 *q;
+    switch (k) {
+    case 0: break;
+    case 1: r = 0x74; break;
+    case 2: r = 0x76; break;
+    case 3: break;
+    case 4: break;
+    case 5: break;
+    case 6: r = 0xb3; break;
+    case 7: r = 0xb5; break;
+    }
+    if (r >= 0) {
+        func_021CD64C(*(void **)(p + 0xc), 0x5a, r, 0xffff0000);
+    }
+    func_021CD4B0(*(void **)(p + 0xc), 0x24, (u8)k);
+    if (k == 7) {
+        func_021C43F0(p, *(u8 **)(p + 0x868));
+        func_021C4CEC(*(u8 **)(p + 0x868));
+        q = func_021C4CFC(*(u8 **)(p + 0x868));
+        while (q) {
+            if (func_021D5B7C(q)) {
+                func_021C195C(p, q, 0);
+            }
+            q = func_021C4D0C(*(u8 **)(p + 0x868));
+        }
+    }
+}

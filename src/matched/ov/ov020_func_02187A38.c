@@ -1,0 +1,56 @@
+/*
+ * function: func_02187A38
+ * address:  0x02187A38
+ * packet:   pkt_ov020_02187A38
+ * region:   ov020
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Blend fade on the main engine (BLDCNT 0x04000050) plus the sub engine's
+ * master brightness (0x0400106C), driven by the ratio o->0x18 / o->0x1c.
+ * The object pointer is `const char *`: through a const pointer mwcc lets the
+ * loads after the G2x_SetBlendAlpha_ call ignore the outgoing stack-argument
+ * store, so that store is scheduled last (+0x7E). With a plain `char *` it
+ * moves up to +0x78 (8 bytes out); const casts on the loads alone do not.
+ *
+ * symbols:
+ *   _ffltu         0x0209BE04  arm
+ *   _fdiv          0x0209CE10  arm
+ *   _fmul          0x0209C77C  arm
+ *   _fadd          0x0209C95C  arm
+ *   _fsub          0x0209CB8C  arm
+ *   _ffix          0x0209C494  arm
+ *   func_0207D658  0x0207D658  arm
+ *   func_0207D63C  0x0207D63C  arm
+ *   func_0207D534  0x0207D534  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+void func_0207D658(u32 addr, int plane, int brightness);
+void func_0207D63C(u32 addr, int plane1, int plane2, int ev1, int ev2);
+void func_0207D534(u32 addr, int brightness);
+
+void func_02187A38(const char *o, int st)
+{
+    int v;
+
+    if (st == 2) {
+        func_0207D658(0x04000050, 8,
+            (int)(16.0f * ((float)*(const u32 *)(o + 0x18) / (float)*(const u32 *)(o + 0x1c)) + -16.0f));
+    } else if (st == 4) {
+        if (*(const u8 *)(o + 0x15) == *(const u8 *)(o + 0x14)) {
+            v = (int)(16.0f * ((float)*(const u32 *)(o + 0x18) / (float)*(const u32 *)(o + 0x1c)));
+            func_0207D63C(0x04000050, 8, 0x11, 16 - v, v);
+            func_0207D534(0x0400106C,
+                (int)(16.0f * ((float)*(const u32 *)(o + 0x18) / (float)*(const u32 *)(o + 0x1c)) + -16.0f));
+        } else {
+            func_0207D658(0x04000050, 8,
+                (int)(0.0f - 16.0f * ((float)*(const u32 *)(o + 0x18) / (float)*(const u32 *)(o + 0x1c))));
+        }
+    }
+}

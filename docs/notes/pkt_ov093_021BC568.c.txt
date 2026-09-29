@@ -1,0 +1,81 @@
+/*
+ * function: func_021BC568
+ * address:  0x021BC568
+ * packet:   pkt_ov093_021BC568
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_021CC8D8 returns a one-word bitfield struct by value (r0 stored to [sp]), func_021CC95C takes (p, struct Lock, line) with r1 = the saved struct and r2 = 0x5a0; func_021E02DC(u8*,u16,u32) from its matched file, func_021E0394/func_021C6394 have no source (args r6,r5 / r7,r6,r5);
+ *           2 no twin: Grep 0x782|0x7e0 over ov093 finds nothing else;
+ *           3 id as u16 local (needed for the lsls/lsrs 16 pair), i as u32 (blo), a as u32: no change; a const p not tried (p is only read);
+ *           4 a-loop-indexes-the-base-and-leaves-the-field-offset-in-place and a-cast-row-argument tried as struct S {pad[0x782]; n; pad[0x5d]; E e[6];} (168 bytes, but 0x7e0 comes from movs/lsls not from the 0x782 pool word + #0x5e) and as raw u8* arithmetic; an-enum-type-keeps-values-out-of-constant-folding gives the original's `adds r0,#0x5e` on the 0x782 pool word, but the enum local is then spilled and the pool word is loaded three times;
+ *           5 idioms re-listed, nothing new fits.
+ * Sweep I would run: the permuter over declaration order of {lk, i, o, base, o2, cnt} with the enum-typed offset (v7 below), and o2 as an enum/int/u32.
+ *
+ * Original shape: sp[0]=lock, sp[4]=p+(0x782+0x5e) (entry base, computed off the pooled 0x782),
+ * sp[8]=0x782+0x5e (offset, stored twice: 0x782 then +0x5e), sp[0xc]=p+0x782 (count pointer);
+ * guard loads p[0x782] first, invariants are computed after the guard, r7=p, r6=a, r5=id, r4=i.
+ * Entry word at +4 is a bitfield: kind = low 4 bits, id = 16 bits at bit 7 (u16 local).
+ *
+ * symbols:
+ *   func_021CC8D8  0x021CC8D8  thumb  ov093
+ *   func_021CC95C  0x021CC95C  thumb  ov093
+ *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   func_021E02DC  0x021E02DC  thumb  ov093
+ *   func_021C6394  0x021C6394  thumb  ov093
+ *   func_021E0394  0x021E0394  thumb  ov093
+ */
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+typedef signed char s8; typedef signed short s16; typedef signed int s32;
+
+enum O { O_A = 0x782 };
+struct Lock {
+    u32 a : 10;
+    u32 b : 9;
+    u32 c : 9;
+    u32 d : 1;
+    u32 e : 1;
+    u32 f : 1;
+    u32 g : 1;
+};
+typedef struct { u32 kind : 4; u32 pad : 3; u32 id : 16; u32 rest : 9; } B;
+
+extern struct Lock func_021CC8D8(void *p, int line);
+extern void func_021CC95C(void *p, struct Lock v, int line);
+extern int func_021D59B4(void *p, int k);
+extern int func_021E02DC(u32 a, u16 key, u32 sub_pri);
+extern void func_021C6394(u8 *p, u32 a, u16 key);
+extern void func_021E0394(u32 a, u16 key);
+
+void func_021BC568(u8 *p)
+{
+    struct Lock lk = func_021CC8D8(p + 0x1d74, 1425);
+    u32 i = 0;
+    enum O o = O_A;
+    if (p[o] != 0) {
+        u8 *base = p + o + 0x5e;
+        u32 o2 = o + 0x5e;
+        u8 *cnt = p + o;
+        do {
+            u16 id;
+            u32 a;
+            B b = *(B *)(base + i * 16 + 4);
+            if (b.kind == 1)
+                id = b.id;
+            else
+                id = 0;
+            if (id != 0) {
+                a = *(u32 *)(p + i * 16 + o2);
+                if (func_021E02DC(a, id, func_021D59B4((void *)a, 12))) {
+                    func_021C6394(p, a, id);
+                    func_021E0394(a, id);
+                }
+            }
+            i++;
+        } while (i < *cnt);
+    }
+    func_021CC95C(p + 0x1d74, lk, 0x5a0);
+}

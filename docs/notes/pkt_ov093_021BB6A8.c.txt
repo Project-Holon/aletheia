@@ -1,0 +1,71 @@
+/*
+ * function: func_021BB6A8
+ * address:  0x021BB6A8
+ * packet:   pkt_ov093_021BB6A8
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_021EEB64 returns the record pointer (r2 in the original is its result) and takes (u32, u32 *out); func_021BB830 one arg; arities agree; 2 twins ov093_func_021BAE60/021BB0A0 use the same 12-byte record array at +0x14 (no loop twin); 3 tried j/cnt as int (blt, worse) and u32, cnt hoisted vs re-read, u32 v temp, s++ vs s[j], comma increment, j-before-cnt: none moved the register colouring; 4 an-arithmetic-loop-carried-definition-colours-last (t = s + 1; s = t) no change, assign-the-loop-counter-before-the-bound (the pool zero already matches); 5 re-read matched neighbours, nothing new. Sweep left for the big lane: permuter over the inner loop's locals.
+ *
+ * Residual (best C, 6 concrete mismatches, same size 112): the original walks
+ * the source with `ldr r6,[r2]; adds r2,#4` (r2 = pointer from func_021EEB64,
+ * r1 = cnt, r0 = j) and gets the store address from `lsls r4,r0,#2`; the
+ * struct-typed C below has the same frame, the same pool zero (`ldr r0,[pc]`
+ * keeps the lsrs flags) and the muls-first order, but loads `[r2, r4]`
+ * (indexed source, `s[j]`). Writing the source as a walking pointer
+ * (`*s; s++`, every spelling tried) gives the right load but colours the
+ * inner loop r3 = s, r1 = j, r2 = cnt instead (29 mismatches).
+ *
+ * symbols:
+ *   func_021BB830  0x021BB830  thumb  ov093
+ *   func_021EEB64  0x021EEB64  thumb  ov093
+ */
+
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+typedef struct {
+    u32 h;
+    u32 x[2];
+} E;
+
+typedef struct {
+    u32 v[3];
+} D;
+
+typedef struct {
+    u8 pad0[0x14];
+    E e[4];
+    u8 pad1[0x70];
+    D d[4];
+    u8 c[4];
+} P;
+
+extern int func_021BB830(E *);
+extern u32 *func_021EEB64(u32, u32 *);
+
+void func_021BB6A8(P *p)
+{
+    u32 i;
+    u32 j;
+    u32 n;
+    u32 cnt;
+    u32 *s;
+    E *e;
+
+    for (i = 0; i < 4; i++) {
+        e = &p->e[i];
+        p->c[i] = 0;
+        if (func_021BB830(e) != 0) {
+            s = func_021EEB64(e->h, &n);
+            cnt = n >> 2;
+            for (j = 0; j < cnt; j++) {
+                p->d[i].v[j] = s[j];
+                p->c[i]++;
+            }
+        }
+    }
+}

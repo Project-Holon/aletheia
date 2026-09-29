@@ -2,12 +2,14 @@
  * function: func_021BA44C
  * address:  0x021BA44C
  * packet:   pkt_ov071_021BA44C
+ * closed:   EXACT as src/matched/ov/ov071_func_021BA44C.c (wave-14 retry lane R1)
  * region:   ov071
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * hint:     wave-13 review: try an enum loop counter or an element pointer for the 3-pass loop
  * checks:   1 func_020450F0 7 args returns handle, 02045334/02045374 take the result, func_020409B4 no visible arg; 2 no twin; 3 loop counter tried as int/u8/unsigned, k = i copies, post-increment forms, none moved the copy; 4 none fits; 5 n/a
  *
  * 136 bytes both; only the last loop's scheduling differs (~12 bytes).

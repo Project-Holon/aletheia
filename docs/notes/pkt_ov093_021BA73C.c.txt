@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * hint:     wave-13 review: permuter --types and a struct-typed p (17 hand variants already tried)
+ * resolved: EXACT in src/matched/ov/ov093_func_021BA73C.c (lane R2): check 1 below was wrong,
+ *           func_021CD95C takes (p, v) (its own file); the second argument is the stored E8F20 result
  * checks:   1 all callees' arity checked (021CD95C, 021BAB40 take r0 only; 021E8F20 takes 5, stack word 0x13 matches); 2 no twin in ov093; 3 const cp for the loads, u8/unsigned k, void* result: no change; 4 none fits; 5 n/a
  *
  * Residue: everything matches (26 bytes differ, all in the last 24 bytes) except the

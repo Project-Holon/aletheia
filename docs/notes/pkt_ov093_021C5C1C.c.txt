@@ -1,0 +1,47 @@
+/*
+ * function: func_021C5C1C
+ * address:  0x021C5C1C
+ * packet:   pkt_ov093_021C5C1C
+ * region:   ov093
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callees 021D5440 (u8 a->0x19), 021D6034 (a,k,x), 021CD4B0 variadic, 021E8A78 (x): arity as written, no shifted regs; 2 no twin with push{r0-r3} in ov093 (Grep of address-of idiom only ov-unrelated arm9 file); 3 tried k/x as int, (u8)k cast kept, q=&x before/after n, all 39 bytes; 4 idioms address-of-a-register-parameter and a-dead-stack-parameter-reassigned...: tried a reassigned to (u8*)&x (74 bytes, folds a into 6034 arg) and t=a copy (40 bytes); va_start form 86 bytes; 5 n/a no new idioms this wave for this shape.
+ *
+ * Residue: original keeps &x (the 4th parameter's home slot, sp+0x24) in r6, reusing
+ * the register that held `a` (r1) once `a` is dead after the 021D6034 argument copy
+ * (`adds r0,r6; add r6,sp,#0x24; ldr r2,[r6]`), and reads it again via [r6] for
+ * 021E8A78, but reads x directly from [sp,#0x24] for the stack argument of 021CD4B0.
+ * Every spelling tried rematerialises `add r0,sp,#0x24` at the later use instead of
+ * keeping the pointer in r6 (best: t=a; a=(u8*)&x; 40 bytes differ, only the pointer
+ * register/scheduling and the branch offsets that follow). Sweep to run: pointer
+ * local declared at different positions x (u8*) vs (int*) type of `a` param, permuter.
+ *
+ * symbols:
+ *   func_021D5440  0x021D5440  thumb  ov093
+ *   func_021D6034  0x021D6034  thumb  ov093
+ *   func_021CD4B0  0x021CD4B0  thumb  ov093
+ *   func_021E8A78  0x021E8A78  thumb  ov093
+ */
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+typedef signed char s8; typedef signed short s16; typedef signed int s32;
+
+extern u8 func_021D5440(u8 *p);
+extern void func_021D6034(u8 *a, int k, int x);
+extern void func_021CD4B0(void *w, u32 id, ...);
+extern int func_021E8A78(int);
+
+void func_021C5C1C(u8 *p, u8 *a, int k, int x)
+{
+    u8 n = func_021D5440(a);
+    u8 *t = a;
+    a = (u8 *)&x;
+    func_021D6034(t, k, *(int *)a);
+    func_021CD4B0(*(void **)(p + 0xc), 0xf, n, (u8)k, x);
+    if (k < 6) {
+        if (k == 5 && func_021E8A78(*(int *)a)) k = 6;
+        func_021CD4B0(*(void **)(p + 0xc), 0x35, n, k);
+    }
+}

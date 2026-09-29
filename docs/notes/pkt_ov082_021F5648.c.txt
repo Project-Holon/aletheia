@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * closed:   EXACT as src/matched/ov/ov082_func_021F5648.c (SDK G2 inline over volatile registers, wave-13 review)
  * checks:   1 callees' arities right, same 144-byte size (SIZE equal, only scheduling of the 4 bitfield extractions and the orrs order differs); 2 no twin found; 3 n/a no parameter/spill residue, locals as u16/u32 both tried (no change); 4 none fits (closest: shift-pair bitfield); 5 n/a first file of the lane
  *
  * Residue: original extracts all four bitfields (A=bits5..2 into r2, B=bits12..8 into r1,

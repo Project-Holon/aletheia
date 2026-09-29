@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * hint:     wave-13 review: permuter --types and a struct-typed p
+ * resolved: EXACT in src/matched/ov/ov091_func_021BB050.c (lane R2): three explicit calls in an
+ *           if / else if / else chain (last argument 4, 7, k), cross-jumped at the table load
  * checks:   1 func_021BB554 takes 1 (s), 020413B0 reads both stack args as ldrb (u8), 02041B6C one arg; 2 no twin
  *           (same 0x021BEC74/5 tables in 021BB1A0/021BA81C matched with const u8 tables); 3 const tables and u8
  *           return for 021BB554 no change, int vs u8 v no change; 4 none fits; 5 n/a

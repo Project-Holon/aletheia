@@ -1,0 +1,50 @@
+/*
+ * function: func_021CBFA0
+ * address:  0x021CBFA0
+ * packet:   pkt_ov093_021CBFA0
+ * region:   ov093
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021D5440  0x021D5440  thumb  ov093
+ *   func_021B9A40  0x021B9A40  thumb  ov093
+ *   func_021E8940  0x021E8940  thumb  ov093
+ *   func_021CBFF8  0x021CBFF8  thumb  ov093
+ *   func_021C88A4  0x021C88A4  thumb  ov093
+ *   func_021C8838  0x021C8838  thumb  ov093
+ *   func_021C8860  0x021C8860  thumb  ov093
+ *   func_021C88C8  0x021C88C8  thumb  ov093
+ */
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+typedef signed char s8; typedef signed short s16; typedef signed int s32;
+
+extern u8 func_021D5440(u8 *p);
+extern int func_021B9A40(int v);
+typedef struct Word { u32 v; } Word;
+extern Word func_021E8940(int v);
+extern int func_021CBFF8(int a, int b, Word c);
+extern void *func_021C88A4(void *a, int k, int b);
+extern void func_021C8838(void *p, int a, int b);
+extern void func_021C8860(void *p, u32 val);
+extern void func_021C88C8(void *a, void *b);
+
+int func_021CBFA0(u8 *p, u8 *q)
+{
+    int m;
+    u8 *w;
+    Word t;
+    m = func_021B9A40(func_021D5440(q));
+    t = func_021E8940(5);
+    if (func_021CBFF8(m, 3, t)) {
+        w = func_021C88A4(p, 4, 0x1f);
+        func_021C8838(w + 4, 1, 0x88);
+        func_021C8860(w + 4, m);
+        func_021C88C8(p, w);
+        return 1;
+    }
+    return 0;
+}

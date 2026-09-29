@@ -1,0 +1,72 @@
+/*
+ * function: func_021C6A9C
+ * address:  0x021C6A9C
+ * packet:   pkt_ov093_021C6A9C
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * checks: 1 func_021D59B4 takes (p, 15) and returns int (caller truncates to u8), 0201BD28 result truncated u8 before the add; 2 no twin found (0x021C6A04 shares callees but not this shape); 3 u8/int/u32 for c, z, n tried, c stays sunk below the func_021D78AC(100) call; 4 idiom "truncated load into an int local keeps source order" tried (int c, int z), no change; 5 n/a no new twin idioms appeared.
+ *
+ * Residual: 38 bytes differ from +0x9A. The original computes c = z + (u8)(x - y) (reloading y from [sp+8]) BEFORE the
+ * movs r0,#0x64 / bl func_021D78AC and keeps it in r4; every spelling below sinks the add/trunc after the call
+ * (cmp r0,r1). Tried: u8 c, int c with (u8) cast, int z = (u8)..., u32 n = call then n < c, c > call(100) (flips to bls),
+ * static inline roll(u8 c) helper (inlines but returns a bool: beq/movs shape wrong), roll(r, c) helper (frame changes).
+ * Everything up to +0x9A is byte-identical, including the "b 6b50" true arm. Sweep to run: permuter on the else block.
+ *
+ * symbols:
+ *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   func_021BF324  0x021BF324  thumb  ov093
+ *   sub_0201BD28  0x0201BD28  thumb
+ *   func_021D74F8  0x021D74F8  thumb  ov093
+ *   func_021D5440  0x021D5440  thumb  ov093
+ *   func_021D75EC  0x021D75EC  thumb  ov093
+ *   func_021D7630  0x021D7630  thumb  ov093
+ *   func_021D70F0  0x021D70F0  thumb  ov093
+ *   func_021D775C  0x021D775C  thumb  ov093
+ *   func_021D7540  0x021D7540  thumb  ov093
+ *   func_021D78AC  0x021D78AC  thumb  ov093
+ */
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+typedef signed char s8; typedef signed short s16; typedef signed int s32;
+
+extern int func_021D59B4(u8 *p, int k);
+extern int func_021BF324(u8 *p, u8 *a, u8 *b);
+extern u32 sub_0201BD28(u16 id, u32 field);
+extern void func_021D74F8(int line);
+extern u8 func_021D5440(u8 *p);
+extern void func_021D75EC(int key, u32 val);
+extern void func_021D7630(int key, u32 val);
+extern void func_021D70F0(u8 *p, int k);
+extern int func_021D775C(int key);
+extern void func_021D7540(int line);
+extern u32 func_021D78AC(u32 range);
+
+int func_021C6A9C(u8 *p, u8 *a, u8 *b, u16 id)
+{
+    u8 x, y, c;
+    int r, t;
+    x = func_021D59B4(a, 15);
+    y = func_021D59B4(b, 15);
+    if (x < y) return 0;
+    func_021D74F8(0x2E5A);
+    func_021D75EC(3, func_021D5440(a));
+    func_021D75EC(4, func_021D5440(b));
+    r = 0;
+    func_021D7630(0x41, 0);
+    func_021D70F0(p, 0x70);
+    t = func_021D775C(0x41);
+    func_021D7540(0x2E60);
+    if (t) return r;
+    if (func_021BF324(p, a, b)) {
+        r = 1;
+    } else {
+        u8 z = sub_0201BD28(id, 4);
+        c = z + (u8)(x - y);
+        if (func_021D78AC(100) < c) r = 1;
+    }
+    return r;
+}

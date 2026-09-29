@@ -8,6 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * hint:     wave-13 review: writes a display register: try the SDK inline (a-hardware-register-write-is-the-sdk-inline-with-its-enum-parameters.md)
+ * closed:   lane R3: EXACT as src/matched/ov/ov020_func_02187A38.c. The fix is
+ *           the parameter `const char *o`: the stack-argument store is then
+ *           free of the loads through o after the call and is scheduled last.
+ *           The SDK inline alone changes nothing (same 8 bytes).
  *
  * DIFF near miss, lane B10: 8 concrete bytes, one 4-instruction reorder.
  * Everything else (all 27 relocation sites, the 16.0f CSE'd into r6 across

@@ -19,12 +19,7 @@
    "status": "EXACT",
    "functions": [
     "func_021B9EB0"
-   ],
-   "evidence": {
-    "sole-ref": [
-     "code:0x021B9EC0"
-    ]
-   }
+   ]
   }
  ]
 }

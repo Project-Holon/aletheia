@@ -1,0 +1,43 @@
+/*
+ * function: func_021C1828
+ * address:  0x021C1828
+ * packet:   pkt_ov093_021C1828
+ * region:   ov093
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callees read: 5440 (1 arg), 6848 (r0,r1), CD4B0 variadic, arity ok; 2 no twin; 3 const q and u8/u16 locals no change (20 bytes, worse with locals: 49-65); 4 none fits; 5 n/a
+ * residue:  only the 7-byte Rec build differs (20 bytes, 19 with the r.c-first variant below). Original loads q[6] then q[0]
+ *           (ldrb, ldrh) then stores strh a, strh w, strb c, strb d, strb e; mine loads a, stores a, loads w, ... interleaved.
+ *           Tried: field order swaps, const q, struct Q pointer, k/h locals, brace init (CCERR).
+ *           Sweep to run: statement permutations of the five r.* stores and hoisting of the two 5440 calls.
+ *
+ * symbols:
+ *   func_021D5440  0x021D5440  thumb  ov093
+ *   func_021D6848  0x021D6848  thumb  ov093
+ *   func_021CD4B0  0x021CD4B0  thumb  ov093
+ */
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+typedef signed char s8; typedef signed short s16; typedef signed int s32;
+
+struct Rec { u16 a; u16 b; u8 c; u8 d; u8 e; };
+
+extern u8 func_021D5440(u8 *p);
+extern void func_021D6848(u8 *c, struct Rec *r);
+extern void func_021CD4B0(void *w, u32 id, ...);
+
+void func_021C1828(u8 *p, u8 b, u8 *x, u8 *c, u8 *q, u16 w)
+{
+    struct Rec r;
+    u8 n = func_021D5440(x);
+    u8 m = func_021D5440(c);
+    r.c = q[6];
+    r.a = *(u16 *)q;
+    r.b = w;
+    r.d = n;
+    r.e = b;
+    func_021D6848(c, &r);
+    func_021CD4B0(*(void **)(p + 0xc), 0x2d, m, n, b, q[6], *(u16 *)q, w);
+}

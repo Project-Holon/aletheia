@@ -1,0 +1,108 @@
+/*
+ * function: func_021EFEC0
+ * address:  0x021EFEC0
+ * packet:   pkt_ov031_021EFEC0
+ * region:   ov031
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * volatile: 0x021EFF9A/0x021EFFA6 ldrh re-reads of 0x0400104A (REG_WINOUT_SUB) and 0x021EFFB8 ldr of 0x04001000 (hardware registers, SDK window inlines; twin ov018 func_0217CFE4)
+ *
+ * symbols:
+ *   func_02012138  0x02012138  thumb
+ *   func_02030734  0x02030734  arm
+ *   func_020490F4  0x020490F4  arm
+ *   func_021F01F0  0x021F01F0  thumb  ov031
+ *   func_021F0250  0x021F0250  thumb  ov031
+ *   func_021F0430  0x021F0430  thumb  ov031
+ *   func_021F0490  0x021F0490  thumb  ov031
+ *   func_021F04EC  0x021F04EC  thumb  ov031
+ *   func_021F0378  0x021F0378  thumb  ov031
+ *   func_02049238  0x02049238  arm
+ *   func_0202DB0C  0x0202DB0C  thumb
+ *   func_0202DE5C  0x0202DE5C  thumb
+ *   func_02026474  0x02026474  thumb
+ *   func_02173940  0x02173940  thumb  ov012
+ *   func_021F09A0  0x021F09A0  thumb  ov031
+ *   func_0204B6F4  0x0204B6F4  arm
+ *   func_0203D34C  0x0203D34C  arm
+ *   func_02037174  0x02037174  arm
+ *   str_021F10C0   0x021F10C0  data  ov031  a1
+ *   d_021F1038     0x021F1038  data  ov031  a1
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern char str_021F10C0[];
+extern u8 d_021F1038[];
+
+extern void *func_02012138(void *);
+extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern u32 func_020490F4(u32 id, u32 heap);
+extern void func_021F01F0(u32 *p);
+extern void func_021F0250(u32 *p, u32 h);
+extern void func_021F0430(u32 *p);
+extern void func_021F0490(u32 *p, u32 h);
+extern void func_021F04EC(u32 *p, u32 h);
+extern void func_021F0378(u32 *p);
+extern void func_02049238(u32 h);
+extern void *func_0202DB0C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 heap);
+extern void func_0202DE5C(void *p, u32 a);
+extern u8 *func_02026474(void *);
+extern u8 func_02173940(u8 *p);
+extern void func_021F09A0(void *a, u8 *b);
+extern void func_0204B6F4(u32 obj, u32 v, u32 flag);
+extern void func_0203D34C(int a, int b);
+extern void func_02037174(void);
+
+#define REG_DB_DISPCNT_SUB (*(volatile u32 *)0x04001000)
+#define REG_WINOUT_SUB     (*(volatile u16 *)0x0400104A)
+
+u32 *func_021EFEC0(void *a)
+{
+    void *s;
+    u32 *w;
+    u32 h;
+    u8 *q;
+    u32 i;
+    u32 tmp;
+
+    s = func_02012138(a);
+    w = func_02030734(0x15, 0x80, 1, str_021F10C0, 0x10F);
+    w[0] = (u32)a;
+    h = func_020490F4(0x59, 0x15);
+    func_021F01F0(w);
+    func_021F0250(w, h);
+    func_021F0430(w);
+    func_021F0490(w, h);
+    func_021F04EC(w, h);
+    func_021F0378(w);
+    func_02049238(h);
+    w[0x1F] = (u32)func_0202DB0C(w[5], 1, w[0x10], w[0x11], 9, 3, 0x15);
+    func_0202DE5C((void *)w[0x1F], 0);
+    q = func_02026474(s);
+    if (q != 0) {
+        *((u8 *)w + 0x30) = func_02173940(q);
+        func_021F09A0(w, q + 0x30E0);
+        if (*((u8 *)w + 0x30) != 0) {
+            for (i = 0; (i < 5) ? 1 : 0; i++) {
+                if (d_021F1038[i] == *((u8 *)w + 0x30)) {
+                    func_0204B6F4(*(u32 *)((u8 *)w + 0x18 + i * 4), 1, 1);
+                    break;
+                }
+            }
+        }
+    }
+    func_0203D34C(0, 0x15);
+    func_02037174();
+    REG_WINOUT_SUB = (u16)((REG_WINOUT_SUB & ~0x3F00) | (0x1F << 8));
+    tmp = (REG_WINOUT_SUB & ~0x3F) | 0x1F;
+    tmp |= 0x20;
+    REG_WINOUT_SUB = (u16)tmp;
+    REG_DB_DISPCNT_SUB = (REG_DB_DISPCNT_SUB & ~0xE000) | 0x8000;
+    return w;
+}

@@ -1,0 +1,73 @@
+/*
+ * function: func_021CC008
+ * address:  0x021CC008
+ * packet:   pkt_ov093_021CC008
+ * region:   ov093
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * checks: 1 callee arities fit (func_021D805C(v,n) tail-stub takes 2, func_021D7B74(p,n), func_021D59B4(p,k), func_021C88A4(w,k,id), func_021C84E0 forwarder takes 2); 2 twins are the func_021C0274 family (func_021D805C/func_021D7B74 users); 3 r as int vs u32 no change, switch vs if-chain measured (if-chain in fd,fe,ff order lays the arms out in a different order and is 93 bytes off); 4 none fits (arm layout of a shared call); 5 n/a.
+ * best C: 142 bytes vs 144, 19 bytes differ. Residue: (a) the original stores `strb r7,[r4,#4]` before loading the switch value's arguments (`ldr r0,[sp]; movs r1,#0x3a`), mine schedules the store after them; (b) the original lays the arms out as case 0xff body (`b end`), case 0xfe (`movs r1,#2; b <shared call>`), case 0xfd (`movs r1,#4` then the shared `bl func_021D7B74; b end`), i.e. the shared call sits in the LATER arm and the earlier arm jumps forward; mine cross-jumps onto the EARLIER arm (fe hosts the call, fd jumps back), for every ordering of the three case labels tried (ff,fe,fd; fe,fd,ff; fe,ff,fd; fd,ff,fe; fd,fe,ff). The original is 2 bytes longer for the extra forward branch. Sweep to run: a goto-shared `n` variable form and the store position of w[4].
+ *
+ * symbols:
+ *   func_021D5B68  0x021D5B68  thumb  ov093
+ *   func_021D5440  0x021D5440  thumb  ov093
+ *   func_021C88A4  0x021C88A4  thumb  ov093
+ *   func_021D805C  0x021D805C  thumb  ov093
+ *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   func_021D7B74  0x021D7B74  thumb  ov093
+ *   func_021C8838  0x021C8838  thumb  ov093
+ *   func_021C8860  0x021C8860  thumb  ov093
+ *   func_021C88C8  0x021C88C8  thumb  ov093
+ *   func_021C84E0  0x021C84E0  thumb  ov093
+ */
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+typedef signed char s8; typedef signed short s16; typedef signed int s32;
+
+extern int func_021D5B68(void *p);
+extern u8 func_021D5440(u8 *p);
+extern void *func_021C88A4(void *a, int k, int b);
+extern u32 func_021D805C(u32 v, u32 n);
+extern int func_021D59B4(void *p, int k);
+extern int func_021D7B74(void *p, u32 n);
+extern void func_021C8838(void *p, int a, int b);
+extern void func_021C8860(void *p, u32 val);
+extern void func_021C88C8(void *a, void *b);
+extern void func_021C84E0(void *a, int b);
+
+int func_021CC008(u8 *p, u8 *q, u32 s)
+{
+    int id;
+    u8 *w;
+    u32 r;
+    if (func_021D5B68(q)) {
+        id = func_021D5440(q);
+        w = func_021C88A4(p, 0x2c, id);
+        w[4] = id;
+        r = func_021D805C(s, 0x3a);
+        switch (r) {
+        case 0xff:
+            r = func_021D59B4(q, 0xe);
+            break;
+        case 0xfe:
+            r = func_021D7B74(q, 2);
+            break;
+        case 0xfd:
+            r = func_021D7B74(q, 4);
+            break;
+        default:
+            r = func_021D805C(s, 0x3a);
+            break;
+        }
+        *(u16 *)(w + 6) = r;
+        func_021C8838(w + 8, 2, 3);
+        func_021C8860(w + 8, id);
+        func_021C88C8(p, w);
+        func_021C84E0(p, id);
+        return 1;
+    }
+    return 0;
+}

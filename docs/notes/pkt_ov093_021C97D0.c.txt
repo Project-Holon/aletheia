@@ -1,0 +1,45 @@
+/*
+ * function: func_021C97D0
+ * address:  0x021C97D0
+ * packet:   pkt_ov093_021C97D0
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_021C7BA8 (matched, u8 *p,u32 a,u32 b,u32 c,u32 *out) takes 5, id passed as u8; func_021C9818 takes 3 (b,a,v); 2 no twin with a stack out-slot read back through r6; 3 const c pointer (fixes load order with the cast-buffer form), u8/u32 id width, int/array/struct/cast-buffer storage tried, pointer local &v folds to sp; 4 a-declared-struct-local-folds-to-sp-relative-a-cast-buffer-does-not applies to the read only; 5 ls docs/idioms re-read, nothing new. Best is 6 bytes off (2 instructions): the original stores the out value with `str r1,[sp,#4]` (sp-relative, before `add r6,sp,#4`) yet reads it back through r6 (`ldr r2,[r6]`), and loads `ldrb r3,[r4,#0xc]` before the store; the cast buffer gives `add r6,sp,#4; str r1,[r6]` and loads ldrb after. Next lane: sweep of local-declaration spellings that split a folded store from a pointer read (permuter).
+ *
+ * symbols:
+ *   func_021C7BA8  0x021C7BA8  thumb  ov093
+ *   func_021C9818  0x021C9818  thumb  ov093
+ *   func_021C99A0  0x021C99A0  thumb  ov093
+ */
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+typedef signed char s8; typedef signed short s16; typedef signed int s32;
+
+struct Cmd {
+    u32 a : 8;
+    u32 id : 5;
+    u32 pad : 19;
+    u32 w4;
+    u32 w8;
+    u8 b12;
+};
+
+extern void func_021C7BA8(void *w, u8 id, u32 a, u32 b, u32 *out);
+extern int func_021C9818(u32 b, u32 a, u32 v);
+extern int func_021C99A0(void *w, const void *c);
+
+int func_021C97D0(void *w, const struct Cmd *c)
+{
+    u8 buf[4];
+    u32 *pv = (u32 *)buf;
+    *pv = c->w8;
+    func_021C7BA8(w, c->id, c->w4, c->b12, pv);
+    if (func_021C9818(c->b12, c->w4, *pv) != 0) {
+        func_021C99A0(w, (u8 *)c + 0x10);
+        return 1;
+    }
+    return 0;
+}

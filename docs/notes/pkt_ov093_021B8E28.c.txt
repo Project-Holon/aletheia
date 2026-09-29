@@ -2,12 +2,14 @@
  * function: func_021B8E28
  * address:  0x021B8E28
  * packet:   pkt_ov093_021B8E28
+ * closed:   EXACT as src/matched/ov/ov093_func_021B8E28.c (wave-14 retry lane R1)
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * hint:     wave-13 review: same downward loop over p[0x428+i] as ov093 0x021B98AC, both spill a copy of n: try a shared `static inline` helper or n copied into a second local
  * checks:   1 func_021B8CFC takes (p, n) and returns u8, args match; 2 no twin in ov093 (ov093_func_021B8BEC counts the same p[0x428+i] table but loops upward); 3 u8/int for n, i and cnt tried (u8 n + separate i, int i with (u8) casts, i computed before the call); 4 no idiom fits; 5 n/a
  *
  * Residue: the original copies n into a second callee-saved register before the

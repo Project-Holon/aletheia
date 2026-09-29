@@ -1,0 +1,21 @@
+/*
+ * function: func_02173934
+ * address:  0x02173934
+ * packet:   pkt_ov012_02173934
+ * region:   ov012
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Unlabelled leaf (no lr save) in the ov012 listing: stores the byte at
+ * +0x2832. Callee of ov031 func_021F00D4 (a blocker of its MATCH).
+ */
+
+typedef unsigned char u8;
+
+void func_02173934(u8 *p, int v)
+{
+    p[0x2832] = v;
+}

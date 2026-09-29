@@ -1,0 +1,74 @@
+/*
+ * function: func_021C07D4
+ * address:  0x021C07D4
+ * packet:   pkt_ov093_021C07D4
+ * region:   ov093
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Same size (148 B), 8 concrete bytes differ, all in the prologue: the original
+ * emits `str r2,[sp]` FIRST, then `ldr r5,[sp,#0x20]`, `ldr r0,pool`,
+ * `adds r7,r1`, `str r3,[sp,#4]`; the compiled code loads r5 first and delays
+ * both spills (`ldr r5; ldr r0; adds r7; str r2; str r3`). Everything after the
+ * prologue is identical, including the do/while loop shape (`if (r) do {...}
+ * while (r)`) and `movs r4,#0` landing between `adds r0,r5` and the first bl,
+ * which needed `i = 0;` written as its own statement right before the
+ * func_021C0868 call. func_021C0868/0878/0888 are `bx pc` ARM veneers
+ * (0878 and 0888 share one target), declared as ordinary thumb externs.
+ *
+ * checks: 1 func_021D75EC takes (key,val), 021C0868/0878/0888 veneers take (e[,i]) and return the value fed to 021D5440/021D75EC, 021D74F8/7540 take one line number each (two distinct pool words 0x16ef and 0x1704, no add); 2 no twin with a stack-argument spill pair in ov093 checked (21C0CE8/21C11A4 have the same shape but match by other means); 3 c,d as int/u32, e as int/u32/u8* no change to the prologue order, i declared with and without initialiser, res reused as i no change; 4 none fits (docs/idioms load-above-store note needs a pointer to make const, here the load is a stack parameter); 5 no new idiom. Sweep I would run: the permuter over statement order of the first three calls and the placement of `i = 0`.
+ *
+ * symbols:
+ *   func_021D74F8  0x021D74F8  thumb  ov093
+ *   func_021C0868  0x021C0868  thumb  ov093
+ *   func_021D75EC  0x021D75EC  thumb  ov093
+ *   func_021C0878  0x021C0878  thumb  ov093
+ *   func_021C0888  0x021C0888  thumb  ov093
+ *   func_021D5440  0x021D5440  thumb  ov093
+ *   func_021D75A8  0x021D75A8  thumb  ov093
+ *   func_021D70F0  0x021D70F0  thumb  ov093
+ *   func_021D775C  0x021D775C  thumb  ov093
+ *   func_021D7540  0x021D7540  thumb  ov093
+ */
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+typedef signed char s8; typedef signed short s16; typedef signed int s32;
+
+extern void func_021D74F8(int line);
+extern u32 func_021C0868(int e);
+extern void func_021D75EC(int key, u32 val);
+extern u8 *func_021C0878(int e, int i);
+extern u8 *func_021C0888(int e, int i);
+extern u8 func_021D5440(u8 *p);
+extern void func_021D75A8(int key, u32 val);
+extern void func_021D70F0(u8 *p, int id);
+extern int func_021D775C(int key);
+extern void func_021D7540(int line);
+
+int func_021C07D4(u8 *p, u8 *a, u32 c, u32 d, int e)
+{
+    int i;
+    u8 *r;
+    int res;
+    func_021D74F8(0x16ef);
+    i = 0;
+    func_021D75EC(5, func_021C0868(e));
+    r = func_021C0878(e, 0);
+    if (r != 0) {
+        do {
+            func_021D75EC(i + 6, func_021D5440(r));
+            i++;
+            r = func_021C0888(e, i);
+        } while (r != 0);
+    }
+    func_021D75EC(3, func_021D5440(a));
+    func_021D75EC(0x12, d);
+    func_021D75EC(0x17, c);
+    func_021D75A8(0x20, 1);
+    func_021D70F0(p, 0x4e);
+    res = func_021D775C(0x20);
+    func_021D7540(0x1704);
+    return res;
+}
