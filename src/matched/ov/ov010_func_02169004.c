@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02169138  0x02169138  thumb
@@ -26,6 +26,13 @@
  *   func_0200E518  0x0200E518  thumb
  *   func_0200A8A0  0x0200A8A0  thumb
  *   func_0200AB04  0x0200AB04  thumb
+ *
+ * evidence: 0x0200E518 is an unlabelled ARM9 leaf ("push {r4, r5, r6, r7}",
+ * no lr, right after the "pop {r4, pc}" at 0x0200E516) that the prologue
+ * sweep misses.  The bl at +0x52 is its only reference in the image; its
+ * start is seeded in layout/function_starts.txt, and the callee itself is
+ * matched EXACT* (src/matched/arm9/func_0200E518.c), so +0x52 attests as
+ * `matched`.
  */
 
 extern void func_02169138(int);

@@ -15,6 +15,12 @@
  *   func_021B9F98  0x021B9F98  thumb
  *
  * Addresses are Black-image addresses.
+ *
+ * evidence: func_021B9F98 is ov172's own code ("ldr r0, [r1, #0x10]; bx lr"
+ * after the pop at 0x021B9F94), inside ov172's window, so only ov172 can be
+ * resident there when this pool word is used.  Its start is seeded in
+ * layout/function_starts.txt from this pointer word, the only reference; it
+ * attests as sole-ref/code from ov172's own listing.
  */
 
 typedef unsigned char  u8;

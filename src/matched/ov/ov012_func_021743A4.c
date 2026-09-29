@@ -52,6 +52,15 @@
  *   ov137_id       0x00000089  data   a1
  *   d_02186B30     0x02186B30  data   ov023  a4
  *   d_021E1A2C     0x021E1A2C  data   ov137  a4
+ *
+ * evidence: 0x02029DF4 is an unlabelled ARM9 thunk ("ldr r3, =func_02029EB4;
+ * bx r3"), seeded in layout/function_starts.txt from the bl sites in ov020
+ * and ov021 (0x021AF018 and others), so +0x21E attests as `label`.
+ * 0x02005DA4 is an 8-byte ARM9 wrapper ("push {r3, lr}; bl 0x02005F70;
+ * pop {r3, pc}") between func_02005D90's pop and func_02005DAC; the bl at
+ * +0x22C is its only reference in the image, so it is seeded from that site;
+ * the wrapper is matched EXACT (src/matched/arm9/func_02005DA4.c), so +0x22C
+ * attests as `matched`.
  */
 
 typedef unsigned char  u8;

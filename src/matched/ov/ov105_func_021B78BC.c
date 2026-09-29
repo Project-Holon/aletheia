@@ -10,10 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B7C04  0x021B7C04  thumb  ov021
+ *   func_021B7C04  0x021B7C04  thumb  ov105
  *
- * Target func_021B7C04 is the traced Thumb function start in ov021's listing
- * (sole-ref/code overlay); the overlap that hid it is disambiguated by token.
+ * evidence: func_021B7C04 is ov105's own code ("ldr r3, =0x0204A600; bx r3"
+ * after the pop at 0x021B7C00), inside ov105's window, so only ov105 can be
+ * resident there when this pool word is used.  Its start is seeded in
+ * layout/function_starts.txt from this pointer word, the only reference;
+ * it attests as sole-ref/code from ov105's own listing.  The old hint ov021
+ * named a different overlay's function mapped over the same address.
  */
 
 typedef unsigned char u8;

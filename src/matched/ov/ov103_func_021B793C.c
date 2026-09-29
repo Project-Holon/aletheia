@@ -10,9 +10,14 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B7C5C  0x021B7C5C  thumb  ov016
+ *   func_021B7C5C  0x021B7C5C  thumb  ov103
  *
- * Target func_021B7C5C is the traced Thumb function start in ov016's listing.
+ * evidence: func_021B7C5C is ov103's own code ("lsls r1, #2; adds r0, r1;
+ * ldr r0, [r0, #0x10]; bx lr" after pool_021B7C58), inside ov103's window, so
+ * only ov103 can be resident there when this pool word is used.  Its start is
+ * seeded in layout/function_starts.txt from this pointer word, the only
+ * reference; it attests as sole-ref/code from ov103's own listing.  The old
+ * hint ov016 named a different overlay's function mapped over the address.
  */
 
 typedef unsigned char u8;

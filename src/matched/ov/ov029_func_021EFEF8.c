@@ -12,6 +12,12 @@
  * symbols:
  *   func_021EFEF8 0x021EFEF8 thumb
  *   func_021EFEE4 0x021EFEE4 thumb
+ *
+ * evidence: func_021EFEE4 is ov029's own code (a store leaf ending in bx lr
+ * after the bx lr at 0x021EFEE0), inside ov029's window, so only ov029 can be
+ * resident there when this pool word is used.  Its start is seeded in
+ * layout/function_starts.txt from this pointer word, the only reference; it
+ * attests as sole-ref/code from ov029's own listing.
  */
 
 extern void func_021EFEE4(void);

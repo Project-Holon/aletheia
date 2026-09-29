@@ -12,7 +12,14 @@
  * Tail call passing the field at +0x10.
  *
  * symbols:
- *   func_021BA094  0x021BA094  thumb  ov217
+ *   func_021BA094  0x021BA094  thumb  ov172
+ *
+ * evidence: func_021BA094 is ov172's own code (a 2-byte "bx lr" right after
+ * the "pop {r4, pc}" at 0x021BA092), inside ov172's window, so only ov172 can
+ * be resident there when this pool word is used.  Its start is seeded in
+ * layout/function_starts.txt from this pointer word, the only reference;
+ * it attests as sole-ref/code from ov172's own listing.  The old hint ov217
+ * named a different overlay's function mapped over the same address.
  *
  * Addresses are Black-image addresses.
  */

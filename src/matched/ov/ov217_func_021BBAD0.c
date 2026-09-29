@@ -12,12 +12,14 @@
  * Reconstructed from the listing.
  *
  * symbols:
- *   func_021BC574  0x021BC574  thumb  ov209
+ *   func_021BC574  0x021BC574  thumb  ov217
  *
-
- * BLOCKED at MATCH: the relocation site(s) below have no independent witness.
- *   +0008 ABS32 func_021BC574          -> unresolved: 021BC574 (thumb, from header) has no witness outside 021BBAD0..021BBADC; 16 overlays overlap this address (ov016, ov021, ov088, ov091, ov093, ov099, ov110, ov114, ov172, ov208, ov209, ov210, ov211, ov216, ov217, ov223), none resolvable without a region hint on the symbols: line
- * Promote automatically when the target is matched.
+ * evidence: func_021BC574 is ov217's own code ("ldr r0, [r0]; ldr r3,
+ * =func_021C09D8; bx r3" after the pop at 0x021BC570), inside ov217's window,
+ * so only ov217 can be resident there when this pool word is used.  Its start
+ * is seeded in layout/function_starts.txt from this pointer word, the only
+ * reference; it attests as sole-ref/code from ov217's own listing.  The old
+ * hint ov209 named a different overlay's function mapped over the address.
  *
  * Addresses are Black-image addresses.
  */

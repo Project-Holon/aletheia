@@ -50,3 +50,7 @@ verify MATCH/MATCH*; the written word may still be right.
 The fix for each is evidence from the site's own overlay (a function start seeded and
 witnessed in that overlay's listing), not a hint naming another overlay: an overlay's own
 window can only hold its own bytes, so such a hint is now refused.
+
+## Resolved (2026-09-29)
+
+All 18 entries above verify EXACT/EXACT* again (docs/sessions/2026-09-29/reports/w6_fix18.md): 15 witnessed function starts seeded in layout/function_starts.txt, 5 region hints corrected, 5 new ARM9 functions matched. The plain `python tools/build.py --split --pack` succeeds.

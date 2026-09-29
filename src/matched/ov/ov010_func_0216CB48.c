@@ -37,6 +37,11 @@
  *   func_021B09EC  0x021B09EC  thumb  ov021
  *   func_0219129C  0x0219129C  thumb  ov021
  *   func_0216CAF4  0x0216CAF4  thumb  ov010
+ *
+ * evidence: 0x0202435C is an unlabelled ARM9 thunk ("ldr r3, =func_02024368; movs r2, #2; bx r3") that the
+ * prologue sweep misses; its start is seeded in layout/function_starts.txt
+ * from the raw bl sites elsewhere in the image (ov069 0x021BA21A, ov093 0x021D1894, ov010 0x02168138), so the call
+ * attests as `label`.
  */
 
 typedef unsigned char  u8;

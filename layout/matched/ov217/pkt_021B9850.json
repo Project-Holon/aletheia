@@ -19,7 +19,9 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "code:0x021B98B8"
+     "code:0x021B98B8",
+     "code:0x021B9920",
+     "code:0x021B9A24"
     ]
    }
   },
@@ -57,7 +59,12 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x021B9B08"
+    ]
+   }
   },
   {
    "name": "func_021B97F8",
@@ -1215,7 +1222,12 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x021BC574"
+    ]
+   }
   },
   {
    "name": "func_021BBCFC",
@@ -2238,7 +2250,12 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x021BF658"
+    ]
+   }
   },
   {
    "name": "func_021BE33C",
@@ -2508,7 +2525,12 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT*",
+   "evidence": {
+    "sole-ref": [
+     "code:0x021BEA54"
+    ]
+   }
   },
   {
    "name": "func_021BE90C",
@@ -4266,6 +4288,7 @@
    "status": "EXACT*",
    "evidence": {
     "sole-ref": [
+     "code:0x021C124C",
      "code:0x021C13E8",
      "code:0x021C14DC"
     ]
@@ -4646,7 +4669,12 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT*"
+   "status": "EXACT*",
+   "evidence": {
+    "sole-ref": [
+     "code:0x021C1A84"
+    ]
+   }
   },
   {
    "name": "func_021C1B4C",
@@ -5281,8 +5309,10 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
+     "code:0x021C2AA0",
      "code:0x021C2B10",
      "code:0x021C2B80",
+     "code:0x021C2BF0",
      "code:0x021C2C30",
      "code:0x021C2C70",
      "code:0x021C2CB0",
