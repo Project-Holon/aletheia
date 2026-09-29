@@ -12,3 +12,40 @@ Tried without moving the registers: `lim < buf[1]` (flips the compare), a named 
 struct buf with named fields, early `return` on `<=`, `u32 *a` parameter (which fixed the store/ldr
 order in func_021A5044 and func_021A4DC0). The compiler always puts the loaded buf[1] in r1 and the
 0x8000 constant in r0; the original has them the other way round.
+
+Lane R1 (big-function retry, 10 runs + permuter --types budget 300, best still these 5 bytes):
+full C below. Also tried without moving the pair: `pos.y = pos.y;` or `lim = lim;` self-assignment
+before the subtract; `lim > pos.y` for the inner test (7 bytes); a local y loaded before the guard,
+in either declaration order, with `lim < (y = pos.y)`, or `pos.y = y - 0x8000` (9-10 bytes: y
+then loads before lim); y as a temp only inside the arm; an inline `step(v, d)` returning v - d.
+Callee arities checked (func_02163E58 returns int, unused; 0216D570 one argument).
+
+    typedef struct Vec3 { int x; int y; int z; } Vec3;
+    extern u8 *func_021A3960(u8 *p);
+    extern void func_0216D88C(u8 *a, Vec3 *out);
+    extern int  func_02163E58(u8 *a, Vec3 *p, int *out);
+    extern void func_0216D570(u8 *a);
+    extern void func_0216D89C(u8 *a, Vec3 *p);
+
+    void func_021A4F58(u32 *p)
+    {
+        u8 *a;
+        Vec3 pos;
+        int lim;
+
+        a = func_021A3960(*(u8 **)(p + 3));
+        func_0216D88C(a, &pos);
+        func_02163E58(a, &pos, &lim);
+        if (pos.y > lim) {
+            pos.y -= 0x8000;
+            if (pos.y < lim) {
+                pos.y = lim;
+                func_0216D570(a);
+                p[7] = 1;
+            }
+            func_0216D89C(a, &pos);
+            *p = 7;
+        }
+    }
+
+symbols: func_021A3960 ov021; func_0216D88C, func_02163E58, func_0216D570, func_0216D89C thumb ov010.

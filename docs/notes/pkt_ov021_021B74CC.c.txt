@@ -1,0 +1,23 @@
+pkt_ov021_021B74CC  func_021B74CC (ov021, thumb, 168 bytes)  DIFF, 7 bytes, register swap r6/r7
+
+Only difference: original keeps the halfword-table offset (i*4) in r7 and i*14 in r6;
+compiled has them the other way round. Everything else, including the per-site
+(u16) truncation of i*14 (declare func_02190758's third parameter u16 and pass the
+int), matches.
+
+Tried: (u16)k at each call site (CSE'd the narrowing: wrong); u16 param on the
+extern (fixes the truncation shape); off as a named local before/after k in the
+declaration list (no change).
+
+C (last):
+  h = func_02045B38(0, 2, 0x36, (u16)((o->f0 & 0x7fff) | 0x8000));
+  for (i = 0; i < o->f20; i++) {
+      off = i * 4; k = i * 14;
+      func_02045CAC(h, *(u16 *)(o->f24 + off), o->f18);
+      func_02190758(o->fC, 0, k, o->f18);            /* u16 c */
+      func_02045CAC(o->f8, 5, o->f18);
+      func_0201EFA4(o->f14, 0, *(u16 *)(o->f24 + off + 2), 2, 1, 1);
+      func_0201F250(o->f14, o->f1C, o->f18);
+      func_02190758(o->fC, 0x6c, k, o->f1C);
+  }
+  func_02045C04(h); func_021907C0(o->fC); func_02045730(); func_020409B4();

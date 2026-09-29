@@ -1,0 +1,20 @@
+func_021B4510 (ov021, thumb, 144 B): DIFF, same size, scheduling of the last call's arguments.
+Original tail: ldr r0,[r5,#8]; subs r2,r7,r6; str r0,[sp,#4]; ldr r0,[pc]; str r0,[sp,#8]; ldr r0,[r5,r4]; ldr r3,[sp,#0xc]; bl 021B44CC.
+Ours loads r3 from [sp,#0xc] first (before subs r2,r7,r6) and the r2/str/ldr r0 order shifts.
+Tried: hi-lo bound to a local (worse: loses the b spill), declaration order of hi/lo (no change).
+Callee 021B44CC is EXACT (filed). Signature: (u32,u32,u32,u32 b,u32,u32,u32).
+
+void func_021B4510(u32 unused, int a, u32 b)
+{
+    char *w; u32 hi; u32 lo;
+
+    w = func_02020D0C();
+    if (a != -2) {
+        func_0201EFA4(*(u32 *)(w + 0x190), 1, *(u32 *)(w + a * 8 + 0x24), 5, 0, 1);
+        func_0201F250(*(u32 *)(w + 0x190), *(u32 *)(w + 0x198), *(u32 *)(w + 0x194));
+        lo = func_0201D304(*(u32 *)(w + 0x198), *(u32 *)(w + 8), 0);
+        hi = func_020437DC(func_02045770(*(u32 *)(w + 0x16C)));
+        func_021B44CC(*(u32 *)(w + 0x1B0), func_02045770(*(u32 *)(w + 0x16C)), hi - lo, b,
+                      *(u32 *)(w + 0x198), *(u32 *)(w + 8), 0x31A0);
+    }
+}

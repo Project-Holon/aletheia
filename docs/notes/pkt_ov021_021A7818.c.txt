@@ -1,3 +1,7 @@
+SUPERSEDED (lane R1): EXACT in src/matched/ov/ov021_func_021A7818.c. Fix: declare
+func_021A7A40 as returning the two-byte struct by value (as its own matched file does) and write
+`t = func_021A7A40(...)`; the compiler's return temporary then copies into t and later uses read t.
+
 func_021A7818 (ov021, thumb, 196 bytes): DIFF, 2 concrete lines (4 bytes), same size, ~9 runs.
 
 Recovered semantics (a = 0x40-byte object; +0 dirty flag, +4 P2 *cur (2 bytes per entry), +8 s32 *ids,

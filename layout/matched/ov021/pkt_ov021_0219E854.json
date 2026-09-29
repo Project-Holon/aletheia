@@ -1,0 +1,53 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "ov021",
+ "shard": "pkt_ov021_0219E854",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "ov021_func_0219E854",
+   "address": "0x0219E854",
+   "kind": "game_unit",
+   "region": "ov021",
+   "source": "src/matched/ov/ov021_func_0219E854.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_0219E854",
+    "func_0219E864",
+    "func_0219E870",
+    "func_0219E87C",
+    "func_0219E888",
+    "func_0219E894",
+    "func_0219E8A0",
+    "func_0219E8AC",
+    "func_0219E8B8",
+    "func_0219E8C4",
+    "func_0219E8D0",
+    "func_0219E8DC",
+    "func_0219E8E8",
+    "func_0219E8F0",
+    "func_0219E8F8",
+    "func_0219E904",
+    "func_0219E910",
+    "func_0219E918",
+    "func_0219E920",
+    "func_0219E928",
+    "func_0219E930"
+   ],
+   "evidence": {
+    "sole-ref": [
+     "code:0x0219EB18",
+     "code:0x0219EBF4",
+     "code:0x0219ED8C",
+     "code:0x0219EDC4"
+    ]
+   }
+  }
+ ]
+}

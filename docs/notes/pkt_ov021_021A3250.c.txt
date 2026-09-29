@@ -1,3 +1,6 @@
+SUPERSEDED (lane R1): EXACT in src/matched/ov/ov021_func_021A3250.c. Fix: func_0216DDC0 takes
+four arguments (it forwards r0-r3 to func_0216DD60); the call is func_0216DDC0(h, v[2], v[0], 0).
+
 func_021A3250 (ov021, thumb, 88 bytes): DIFF, 4 concrete bytes (register swap), lane S17.
 
 Everything matches except the post-call reload of the s16 array: the original

@@ -1,0 +1,28 @@
+pkt_ov021_021ADDE8: func_021ADDE8 (ov021, thumb, 100 bytes) DIFF, 60 bytes differ (SIZE 108 vs 100).
+
+Original: two loops over 0..3. Loop 1 keeps its counter in r6 and copies it to r4 at the
+top of each iteration (adds r4,r6,#0; r4 is the 3rd argument of func_02047564, no
+truncation). Loop 2 (func_020477A4(b[1], (u16)i)) then runs on r4 WITHOUT reinitialising it,
+so it executes once with i == 3. Push list is {r3-r7,lr}.
+
+Tried (compiled with -O4,p, dsi/1.1p1):
+ - u16 i copy of j: adds lsls/lsrs #16 into the loop 1 call (wrong).
+ - int i = j; for (; i < 4; i++) in loop 2: compiler coalesces i and j (one register r4,
+   push {r4,r5,r6,lr}), so r6/r7 split is lost.
+ - j = i + 1 increment form: same coalescing.
+No spelling found that keeps j and i in separate registers; the original source shape
+is unknown (maybe two distinct variables where loop 2 starts from a stale value).
+
+Best C:
+void func_021ADDE8(int a, int *b)
+{
+    int *q; int j; int i;
+    q = func_021AC1AC(a);
+    b[0] = q[0];
+    func_021AC1CC(a, q + 1);
+    b[6] = func_02047400(((int *)b[0])[1], 0, ((int *)b[0])[1]);
+    for (j = 0; j < 4; j++) { i = j; b[2 + j] = func_02047564(b[6], ((int *)b[0])[2 + j], i); }
+    b[1] = func_0204767C(b[6], &b[2], 4);
+    for (; i < 4; i++) func_020477A4(b[1], i);
+}
+symbols: func_021AC1AC/1CC thumb ov021; func_02047400/564/67C/7A4 arm.

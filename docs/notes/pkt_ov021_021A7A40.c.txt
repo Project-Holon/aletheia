@@ -1,3 +1,7 @@
+CLOSED (lane R2): EXACT* in src/matched/ov/ov021_func_021A7A40.c. Levers: return a 2-byte struct {u8 lo, hi}
+by value (that is the stack buffer), `*(g + idx + 1)` for the (g+idx)[1] address, and `const Tbl *t`.
+The text below is the earlier dead end, kept as written.
+
 func_021A7A40 (ov021, thumb, 72 bytes): DIFF, ~11 runs, same size (72 bytes), register allocation only.
 
 Recovered semantics (t = r0 struct: +0 u16 *keys, +4 u8 *lo, +8 u8 *hi, +0xC u8 *group, +0x10 limit, +0x14 count):

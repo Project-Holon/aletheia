@@ -1,0 +1,19 @@
+func_021B30C8 (ov021, thumb, 144 bytes): DIFF, same size, 21 concrete bytes, register allocation only.
+
+Every call, stack offset, pool word and relocation is right (the three pooled tables at
+0x021D9708/0C/10, stride 12, resolve as sole-ref). Only the callee-saved assignment differs:
+
+  original: r4 = obj (param 3), r5 = p (param 0) then reused for the func_021A3050 result,
+            r6 = a (param 1) then reused for &local buffer, r7 = the constant 0 for five stores
+  compiled: r4 = p and the constant 0 share, r5 = obj, r6 = a then the result, r7 = &local buffer
+
+C used (best form):
+  void f(int *p, int a, void *obj){ int b[18]; int *bp; int m; int z = 0;
+    p[1] = f1(obj); f2(obj,0); f3(obj); f4(a); m = f5(); bp = b;
+    f6(obj,bp); f7(obj,b+3); f8(obj);
+    b[3] += *(int*)((char*)T0 + m*12); b[12]=z; b[4] += *(int*)((char*)T1 + m*12); b[13]=z;
+    b[5] += *(int*)((char*)T2 + m*12); b[17]=1; b[14]=z; b[15]=z; b[16]=z; f9(obj,bp,10); }
+
+Tried: table index as m*3 on int arrays (compiler emits lsls/adds instead of movs #12; muls, fixed
+by the byte-pointer m*12 form), literal 0 versus a named z, z declared first, a separate bp local,
+z stores hoisted (worse, 12 bytes longer). None moved obj to r4.

@@ -1,0 +1,33 @@
+ov021 0x021B5C80 (104 bytes, thumb): DIFF, 2 bytes (lane S25)
+
+Near miss: 2 concrete bytes differ, everything else byte-correct.
+Original at +0x46/+0x48:  ldrh r2, [r7, r0] ; cmp r2, #0
+Compiled:                 ldrh r0, [r7, r0] ; cmp r0, #0
+(the load lands in r2 in the original, r0 in ours; r4/r5 init order was fixed
+by `for (i = 0, n = 0; ...)`, which put i's `movs r4,#0` before n's).
+
+Tried without moving the load register: local u32/u16/int/s16 v = arr[i]
+(u8 v is worse), `n++` folded into the call argument, a u16 *p = arr copy
+(worse, 18 bytes).
+
+Best C (headers as for a normal ov021 file; symbols 0215A5E4, 0215A5F4,
+02158F74, 02159B10, 02159AE8 on ov010, 02012F08, 0200C2D0, 0201EE60 thumb):
+
+int func_021B5C80(u32 a, u32 b)
+{
+    u32 t; u32 w; u32 k; u16 *out; int i; int n; u16 arr[6];
+
+    t = func_0215A5E4(b);
+    w = func_02158F74(func_0215A5F4(b));
+    k = func_02159B10(a, b);
+    out = func_02159AE8(a, b);
+    func_0200C2D0(func_02012F08(t), k, arr);
+    for (i = 0, n = 0; i < 6; i++) {
+        if (arr[i] != 0) {
+            func_0201EE60(w, n);
+            n++;
+        }
+    }
+    *out = n;
+    return 0;
+}

@@ -1,0 +1,19 @@
+ov021 0x021B62C8 (84 bytes, thumb): DIFF, 15 bytes (lane S25)
+
+Only the block layout of the failure path differs. Original:
+
+  cmp r0,#0 ; bne ok1 ; b fail          (after func_0215B4AC)
+  ok1: ldr r0,[sp] ; adds r1,r7 ; bl func_020188AC ; cmp r0,#0 ; bne ok2
+  fail: ldr r0,=0xffff ; b store
+  ok2: ldr r0,[sp] ; bl func_02018790
+  store: strh r0,[r4]
+
+i.e. ONE shared 0xffff block placed between the second test and the success
+call, reached by a `b` from the first test. Every C shape tried inlines the
+0xffff load after the first test instead:
+
+  X1 (best, 15 bytes): if (A == 0) r = 0xffff; else if (B == 0) r = 0xffff; else r = f(rec);
+  X6/X7 nested if/else (21-22), X4 `A && B` else (32), X5/X13 early returns (30),
+  X8 goto fail/done (32), X10 `||` (33), X12 ternary (32), X3 r = 0xffff first (63).
+
+func_0202130C(0x151) is passed a pooled 0x151; r is int (a u16 r adds lsls/lsrs).

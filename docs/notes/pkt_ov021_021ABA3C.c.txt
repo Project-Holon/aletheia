@@ -1,3 +1,7 @@
+CLOSED (lane R2): EXACT* in src/matched/ov/ov021_func_021ABA3C.c. The C below with `const u16 *r` sinks the
+t.z spill store to its place; `const V *v` alone does not.
+The text below is the earlier dead end, kept as written.
+
 pkt_ov021_021ABA3C  func_021ABA3C @ 0x021ABA3C (ov021, thumb, dsi/1.1p1 -O4,p)  DIFF, 4 halfwords out of order
 
 Best C (9 runs): everything matches except one scheduling swap. The original

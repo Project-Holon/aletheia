@@ -1,0 +1,136 @@
+/*
+ * function: func_0219E0A8
+ * address:  0x0219E0A8
+ * packet:   pkt_ov021_0219E0A8
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_0216D6D4  0x0216D6D4  thumb  ov010
+ *   func_0219E348  0x0219E348  thumb  ov021
+ *   func_0219E354  0x0219E354  thumb  ov021
+ *   func_021B8028  0x021B8028  thumb  ov021
+ *   func_0216D89C  0x0216D89C  thumb  ov010
+ *   func_0219E370  0x0219E370  thumb  ov021
+ *   func_0219E6C8  0x0219E6C8  thumb  ov021
+ *   func_0216D568  0x0216D568  thumb  ov010
+ *   func_0216D8C0  0x0216D8C0  thumb  ov010
+ *   func_021B8040  0x021B8040  thumb  ov021
+ *   func_02163F10  0x02163F10  thumb  ov010
+ *   func_0216D674  0x0216D674  thumb  ov010
+ *   func_0216D7CC  0x0216D7CC  thumb  ov010
+ *   func_020061E4  0x020061E4  thumb
+ *   d_021DDD94     0x021DDD94  data  ov021  a4
+ * Addresses are Black-image addresses.
+ *
+ * Lane B8 (2026-09-29), ~30 runs plus a 300-compile permuter --types pass
+ * (no gain). Size right (264/264), all 17 relocations resolve
+ * (d_021DDD94 as sole-ref). 10 bytes differ, all in the table lookup
+ * at +0x8A..+0xA0: the original loads e->idx into r1 and e->val into r0,
+ * so the row lands in r1 and the index in r0 (`ldr r0, [r1, r0]`); this
+ * C gets the two swapped (idx r0, val r1, `ldr r0, [r0, r1]`).
+ * What moved it so far:
+ *   - `(u16)(x >> 8)` folds the truncation or emits asrs; only
+ *     `(u16)(v / 256)` gives the original's lsrs #8 / lsls #16 / lsrs #14.
+ *   - Loading idx and val into block locals before the lookup brings
+ *     both loads above the table-base load (20 -> 10 bytes).
+ * Tried without effect on the swap: v assigned before idx, v as u32,
+ * commuted subscript `lv[d[idx]]`, `*(lv + d[idx])`, row pointer local,
+ * inline get(idx, v) helpers (u16 and u32 parameters).
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed char    s8;
+typedef signed int     s32;
+
+typedef struct { s32 x, y, z; } Vec;
+
+typedef struct {
+    s32 p;
+    s32 acc;
+    u16 step;
+    u16 val;
+    s8  id;
+    s8  count;
+    s8  e;
+    s8  idx;
+} E;
+
+extern s32 *d_021DDD94[];
+
+extern E *func_0216D6D4();
+extern u32 func_0219E348();
+extern void func_0219E354();
+extern void func_021B8028();
+extern void func_0216D89C();
+extern void func_0219E370();
+extern void func_0219E6C8();
+extern void func_0216D568();
+extern void func_0216D8C0(u32, Vec *);
+extern int func_021B8040();
+extern void func_02163F10();
+extern void func_0216D674();
+extern void func_0216D7CC();
+extern void func_020061E4();
+
+int func_0219E0A8(u32 o)
+{
+    E *e;
+    u32 t;
+    s32 a;
+    u8 v[12];
+
+    e = func_0216D6D4(o);
+    e->count--;
+    if (e->p != 0) {
+        t = func_0219E348(o);
+        func_0219E354(o);
+        func_021B8028(t, v);
+        func_0216D89C(o, v);
+        if (e->acc >= 0x10000 && e->count > 0) {
+            e->acc = 0;
+            func_0219E370(o, e->id, 8);
+            func_0219E6C8(o, e->id);
+            func_0216D568(o, 0x20);
+        }
+        a = e->p;
+        if (a < 0) {
+            a = -a;
+        }
+        e->acc += a;
+    }
+    e->val += e->step;
+    if (e->val > 0xF00) {
+        e->val = 0xF00;
+    }
+    {
+        Vec q;
+        s32 idx;
+        u16 v;
+        idx = e->idx;
+        v = e->val;
+        q.x = 0;
+        q.y = d_021DDD94[idx][(u16)(v / 256)];
+        q.z = 0;
+        func_0216D8C0(o, &q);
+    }
+    if (e->count > 0 || func_021B8040(t)) {
+        return 0;
+    }
+    {
+        Vec z = { 0, 0, 0 };
+        func_0216D8C0(o, &z);
+    }
+    func_0216D568(o, 0x540);
+    func_02163F10(o);
+    func_0216D674(o, 0);
+    func_0216D7CC(o);
+    func_020061E4(0x67B);
+    return 1;
+}

@@ -1,3 +1,7 @@
+CLOSED (lane R2): EXACT in src/matched/ov/ov021_func_021A12D4.c. func_020490F4 takes (id, heap): the original
+leaves x in r1 for it, so the call is func_020490F4(0x47, x). No other change to the C below.
+The text below is the earlier dead end, kept as written.
+
 ov021 0x021A12D4 (132 B, thumb) -- DIFF, register allocation only. Lane S14, 8 runs.
 
 C used (every callee ARM/blx, resolves; body byte-shape matches):

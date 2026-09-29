@@ -1,3 +1,8 @@
+CLOSED (lane R2): EXACT in src/matched/ov/ov021_func_021ADC04.c. func_02047828's second parameter is an index
+(u32 idx, see src/matched/arm9/unit_02047804.c), not &v: the zero stored to v is passed in r1. The final call's
+arguments are named locals (c = table[v]; k = o->0x8a; x = func_02012A30(...); func_02028ACC(x, k, c)).
+The text below is the earlier dead end, kept as written.
+
 pkt_ov021_021ADC04  func_021ADC04  ov021 thumb, 104 bytes  status DIFF (77 bytes differ, same size)  lane S30, 4 runs
 
 Structure and all six relocations resolve (func_021AAA4C attests as matched, d_021D9234 with `data a1`).

@@ -1,3 +1,7 @@
+CLOSED (lane R2): EXACT in src/matched/ov/ov021_func_021AD82C.c. func_0204767C takes three arguments
+(ov019_func_0217FA10 is the twin); passing b->f88 as the third is what keeps n in r2. Body otherwise as below.
+The text below is the earlier dead end, kept as written.
+
 pkt_ov021_021AD82C  func_021AD82C  ov021 thumb, 120 bytes  status DIFF (12 bytes wrong, 4 concrete diffs)  lane S30, 8 runs
 
 Structure is settled (all calls, offsets, loop shapes match); only register choice for the loop bound differs.

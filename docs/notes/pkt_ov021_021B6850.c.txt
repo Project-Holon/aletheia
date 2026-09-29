@@ -1,0 +1,19 @@
+pkt_ov021_021B6850  func_021B6850 (ov021, thumb, 180 B)  status: DIFF (5 instructions, one scheduling swap)
+
+Everything matches except the third func_020079BC call (id 5): original emits
+`str r7,[sp]` BEFORE `adds r0,r6; adds r1,r5; adds r2,r4; movs r3,#5`, while the
+other three calls (ids 0xa9, 7, 0x4c) emit the store after `movs r3`. Ours emits
+it after for all four. r7 is the hoisted zero (copy of the loop start value).
+Tried: `b == f()` versus `f() == b`, && chain versus continue-style ifs. Stack
+slots need declaration order base, i, t10, j (later declaration lower address);
+mod is `(i + base) % 24` via _s32_div_f 0x0209C0A4.
+
+C (5 instructions off):
+  func_02012934(a); r4 = func_02012944(a); r6 = func_0201293C(a);
+  base = func_02007698(); t10 = func_02008530(r4);
+  for (i = 0; i < 24; i++) { r5 = (i + base) % 24;
+    for (j = 0; j < 30; j++) {
+      if (func_020079BC(r6,r5,j,0xa9,0) != 0 && t10 == func_020079BC(r6,r5,j,7,0)
+          && b == func_020079BC(r6,r5,j,5,0) && func_020079BC(r6,r5,j,0x4c,0) == 0)
+        { *c = r5; *d = j; return 1; } } }
+  return 0;   /* params (void *a, u32 b, u16 *c, u16 *d) */

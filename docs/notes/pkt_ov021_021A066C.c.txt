@@ -1,0 +1,65 @@
+/*
+ * function: func_021A066C   address: 0x021A066C   region: ov021   isa: thumb
+ * status:   DIFF (200 bytes, same size; 11 bytes differ, one instruction's schedule)
+ *
+ * Everything matches except the outgoing fifth-argument store of the last call,
+ * func_0207DD24 (G3X_SetClearColor-shaped: rgb, 0x1f, 0x7fff, 0, 0). The image stores
+ * the stack argument last:
+ *     adds r4,#0xa ; ldrh r0,[r6,r4] ; ldr r2,=0x7fff ; movs r1,#0x1f ; movs r3,#0 ; str r5,[sp] ; blx
+ * the compile hoists it first (str r5,[sp] ; adds r4,#0xa ; ...). r5 is the zero CSE'd
+ * with the third argument of func_0206AAB0 (movs r5,#0 before that call) in both.
+ *
+ * Levers that were needed and are in the C below: the two locals zeroed by
+ * declaration initialisers (Vec16 v1 = {0,0,0}; u16 v0 = 0;), which gives the
+ * image's separate `add r0,sp,#0x10 ; adds r0,#2` base for v1 (assignment statements,
+ * an array, and an inline setter all fold v1 into sp+0x10 and lose 4 bytes); and
+ * pc declared before p8 for the sp+8/sp+0xc slots.
+ *
+ * Tried without effect on the store (all still 11 bytes): unprototyped extern; col
+ * bound to a local; an inline wrapper around the call; prototypes (u16,int,int,int,u8),
+ * all-u32 and const fifth parameter; (u32)0, `i = 0`, `0 != 0`, a local fog = 0, a
+ * `zero` local shared with func_0206AAB0's third argument; field reads through a
+ * u16 *h (59 bytes worse). permuter.py --types, 300 compiles: no improvement.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+typedef signed int     s32;
+
+extern void func_02048CA4(u32 a, u8 i, void *p);
+extern void func_02048CDC(u32 a, u8 i, void *p);
+extern void func_0206AA8C(u16 a, u16 b, u32 c);
+extern void func_0206AAB0(u16 a, u16 b, u32 c);
+extern void func_021A01C4(u32 a, u16 b);
+extern void func_0207DD24(u16 a, u32 b, u32 c, u32 d, u32 e);
+
+typedef struct { s16 x, y, z; } Vec16;
+
+void func_021A066C(u8 *a, u32 b, u32 c)
+{
+    Vec16 v1 = {0, 0, 0};
+    u16 v0 = 0;
+    u8 *pc;
+    u8 *p8;
+    int i;
+
+    if (*(u16 *)(a + 0x38a) == 0)
+        return;
+    p8 = a + 0x366;
+    pc = a + 0x35e;
+    for (i = 0; i < 4; i++) {
+        if (a[i + 0x35a] != 0) {
+            func_02048CA4(c, i, p8 + i * 6);
+            func_02048CDC(c, i, pc + i * 2);
+        } else {
+            func_02048CA4(c, i, &v1);
+            func_02048CDC(c, i, &v0);
+        }
+    }
+    func_0206AA8C(*(u16 *)(a + 0x37e), *(u16 *)(a + 0x380), 1);
+    func_0206AAB0(*(u16 *)(a + 0x382), *(u16 *)(a + 0x384), 0);
+    func_021A01C4(b, *(u16 *)(a + 0x386));
+    func_0207DD24(*(u16 *)(a + 0x388), 0x1f, 0x7fff, 0, 0);
+}

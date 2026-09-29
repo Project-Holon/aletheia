@@ -1,0 +1,23 @@
+func_021AED24 (ov021, thumb, 136 B): DIFF, same size, 9 instructions differ, all in the
+outgoing-argument setup for the 8-argument call to func_0216EAB0 (4 stack args).
+
+Original order after `bl func_02158F58`:
+  str r4,[sp]; str r6,[sp,#4]; adds r1,r0,#0; ldr r0,[sp,#0x10]; adds r2,r7,#0;
+  str r0,[sp,#8]; str r5,[sp,#0xc]; ldr r0,[sp,#0x18]; ldr r1,[r1,#4]; movs r3,#0
+Compiled: adds r1,r0,#0 first, then stores, r2 later.
+
+Everything before that (four func_02159B10 results in r4,r6,[sp,#0x10],r5; y=x
+conditional on func_0215A4B4(x)==1; p spilled to [sp,#0x14]) is byte-identical.
+The 7-argument twins func_021AEABC/func_021AEB3C match with the call written inline.
+
+C tried (all give the same 9-line diff):
+    func_0215897C(p, func_0216EAB0(func_02158F54(p), func_02158F58(p)[1], t, 0, x, y, z, w));
+    t2 = func_02158F54(p); q = func_02158F58(p);   (inline q[1] / q1 = q[1] local)
+
+Source:
+    p = func_0215A5F4(b);  func_02158F8C();
+    x = func_02159B10(a, b); y = ...; z = ...; w = ...;
+    t = func_0215A4C8(x);
+    if (y == 0 && func_0215A4B4(x) == 1) y = x;
+    func_0215897C(p, func_0216EAB0(func_02158F54(p), func_02158F58(p)[1], t, 0, x, y, z, w));
+    return 1;

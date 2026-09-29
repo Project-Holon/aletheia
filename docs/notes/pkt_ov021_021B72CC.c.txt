@@ -1,0 +1,21 @@
+pkt_ov021_021B72CC  func_021B72CC (ov021, thumb, 152 bytes)  DIFF, 10 bytes, scheduling only
+
+Everything is byte-correct except the order of three instructions before the
+blx to func_0204A298:
+  original: ldr r1,[pc] (d_021D99D0) ; add r0,sp,#8 ; ldrb r1,[r1,r4] ; str r0,[sp] ; ldr r3,[pc] (0x7fff)
+  compiled: add r0,sp,#8 ; str r0,[sp] ; ldr r1,[pc] ; ldr r3,[pc] ; ldrb r1,[r1,r4]
+Sibling functions func_021B70D8 and func_021B716C (same call) are EXACT with the
+table index inline in the call. The only local difference here is the dead-result
+call func_020127A4(h) just before the arg setup.
+
+Tried: inline d_021D99D0[idx] (baseline); hoisting the table byte into a local;
+hoisting the (u16)((v&0x7fff)|0x8000) tag into a local. Diff unchanged each time.
+
+C (last variant):
+  v = func_02188C84(func_02158F58(func_0215A5F4(b))[1]);
+  k = func_02159B10(a, b); idx = func_02159B10(a, b);
+  h = func_0215A5E4(b); func_020127A4(h);
+  arr = func_0204A298(0xd0, d_021D99D0[idx], 0, (u16)((v & 0x7fff) | 0x8000), &cnt);   /* Ent {u32 k; u32 v;} *arr */
+  cnt >>= 3;
+  for (i = 0; i < cnt; i++) if (k == arr[i].k) { func_0200C278(func_02012F08(h), arr[i].v); break; }
+  func_020307B0(arr); return 0;

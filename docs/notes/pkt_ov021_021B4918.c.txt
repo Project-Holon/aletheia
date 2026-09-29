@@ -1,0 +1,15 @@
+func_021B4918 (ov021, thumb, 108 B): DIFF, same size, one instruction moved.
+Original prologue: movs r4,#0x5f; adds r5,r0; str r2,[sp,#8]; lsls r4; ldr r0,[r5,r4]; adds r7,r1; adds r6,r3.
+Ours:              movs r4,#0x5f; adds r5,r0; lsls r4; ldr r0,[r5,r4]; adds r7,r1; str r2,[sp,#8]; adds r6,r3.
+Everything else is byte-identical (callees 021B4878, 0201EF6C, 0201EFA4 x2, 021B4894; d*c gives muls r2,r6,r2).
+Tried: u32 vs int params, local copy of b (folded), volatile local copy (worse), const char *w. None moved the spill.
+Same shape in func_021B41AC (spill of r1 lands after lsls instead of before).
+
+void func_021B4918(char *w, int a, int b, int c, u16 d)
+{
+    func_021B4878(*(u32 *)(w + 0x17C));
+    func_0201EF6C(*(u32 *)(w + 0x190), 0, b, 0, 0);
+    func_0201EFA4(*(u32 *)(w + 0x190), 1, d, 2, 0, 1);
+    func_0201EFA4(*(u32 *)(w + 0x190), 2, d * c, 7, 0, 1);
+    func_021B4894((u32)w, a);
+}

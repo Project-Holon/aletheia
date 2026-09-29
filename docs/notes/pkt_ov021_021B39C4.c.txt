@@ -1,0 +1,17 @@
+func_021B39C4 (ov021, thumb, 160 bytes): DIFF, compiled 164 bytes (+4), ~70 bytes differ.
+
+Data pool words 0x021DE164 (u16/int entry pointer table, 8-byte entries {u16 a; int b}) and
+0x021D9430 (u8 count table) sit at 021B3A5C/A0 after a misdecoded 'b #0x21b3d28'.
+
+Stack slots are right once `int n;` is declared before `void *q` (q at sp+8, n at sp+0xc).
+Remaining delta is the loop tail. Original:
+    lsls r7,r4,#3 ; adds r0,r5,r7 ; str r0,[sp,#4]      (s = &e[k], spilled)
+    ... bl func_021B385C(p,k,p[354],ldrh [r5,r7],q)
+    ldrh r1,[r5,r7] ; adds r0,r6,r7 ; adds r4,#1 ; strh r1,[r0,#0x20]
+    ldr r1,[sp,#4] ; ldr r1,[r1,#4] ; str r1,[r0,#0x24]
+Compiled adds one extra `adds r0,r7,#0` copy of k*8 before `adds r0,r6,r0`, so 4 bytes longer.
+
+Loop (best form): s = &e[k]; call(p,k,*(u8*)(p+354),s->a,q);
+  *(u16*)(p+k*8+32) = s->a; *(int*)(p+k*8+36) = s->b;
+Tried: d = p + k*8 local, ((struct Ent*)(p+32))[k] store (spills p, 12 bytes longer),
+t = (struct Ent*)(p+32)+k pointer local (same). Blocker is codegen, not evidence.

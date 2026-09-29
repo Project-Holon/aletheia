@@ -1,0 +1,135 @@
+/*
+ * function: func_0219630C
+ * address:  0x0219630C
+ * packet:   pkt_ov021_0219630C
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (24 bytes, same size 326; 20 runs + permuter --types 300, no gain)
+ *
+ * Window-list builder: frees the 4 window slots at p+0x14, then for each of
+ * n entries creates a window from recs[i], prints strs[i] into it and centres
+ * it at xs[i]/ys[i] (either array may be NULL). Caller: func_02196A60.
+ *
+ * The only remaining diff is where p + i*4 for the slot store is computed.
+ * Original (+0x8E..+0xA4): i*4 -> r6 and p+r6 -> r7 BEFORE the blx to
+ * func_020450F0, then str r0,[r7,#0x14]; r6 (i*4) is then reused for
+ * strs[i], xs[i], ys[i]; the tail recomputes p+i*4 into r6 from scratch.
+ * Best below: identical, except i*4/p+i*4 are computed AFTER the call into
+ * r6/r1 (and the recs index lands in r1 not r2 as a knock-on).
+ *
+ * Tried (all worse): store as *(void **)(p + i*4 + 0x14) with or without a
+ * local w (the store address then CSEs with the tail's three loads, or with
+ * the next line's load, and strs[i] recomputes i*4: ~170 bytes off);
+ * p + 0x14 + i*4; ((u32)p + ...); `w = slot = call(...)` and
+ * `f(g(slot = call(...)))` assignment-expression forms (p+0x14 hoisted,
+ * 334 bytes); tail spelled ((void **)p)[i + 5] or (k << 2) via an inline
+ * helper. ((void **)(p + 0x14))[i] = w and ((void **)p)[i + 5] = w both give
+ * this 24-byte result. Next to try: a struct type for p whose window array
+ * is a member (p->win[i]) on the store only, or a pointer local
+ * `void **slot = ...` taken before the recs arguments are evaluated.
+ *
+ * The two stack params (xs, ys) show as ldr/str back to the same slot at
+ * entry in both the original and every compile; not a type tell.
+ *
+ * symbols:
+ *   func_020414EC  0x020414EC  arm
+ *   func_02049B40  0x02049B40  arm
+ *   func_020456F8  0x020456F8  arm
+ *   func_0201F7A8  0x0201F7A8  thumb
+ *   func_020452E8  0x020452E8  arm
+ *   func_0201DD78  0x0201DD78  thumb
+ *   func_020450F0  0x020450F0  arm
+ *   func_02045770  0x02045770  arm
+ *   func_02043B5C  0x02043B5C  arm
+ *   func_02045CAC  0x02045CAC  arm
+ *   func_0201D304  0x0201D304  thumb
+ *   func_0201D42C  0x0201D42C  thumb
+ *   func_0201C7A4  0x0201C7A4  thumb
+ *   func_02045334  0x02045334  arm
+ *   func_02045374  0x02045374  arm
+ *   func_02051C6C  0x02051C6C  arm
+ *   func_02041B6C  0x02041B6C  arm
+ *   func_02040588  0x02040588  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+
+typedef struct { u32 a; u32 b; u32 c; u32 d; } Rec;
+
+extern void func_020414EC(u32 i);
+extern void func_02049B40(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void func_020456F8(void *w);
+extern void func_0201F7A8(void *w, int m);
+extern void func_020452E8(void *w);
+extern void func_0201DD78(int a, int b, int c);
+extern void *func_020450F0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern void *func_02045770(void *w);
+extern void func_02043B5C(void *bmp, u32 color);
+extern void func_02045CAC(u32 a, u32 b, u32 c);
+extern u32 func_0201D304(u32 a, u32 b, u32 c);
+extern u32 func_0201D42C(u32 a, u32 b);
+extern void func_0201C7A4(void *x, s16 y, s16 z, u32 s, u32 w);
+extern void func_02045334(void *w);
+extern void func_02045374(void *w);
+extern void func_02051C6C(void *t);
+extern void func_02041B6C(u32 i);
+extern void func_02040588(u32 a, u32 b);
+
+static inline void place(u8 *p, int i, s16 x, s16 y)
+{
+    func_0201C7A4(func_02045770(*(void **)(p + i * 4 + 0x14)), x, y,
+        *(u32 *)(p + 0x38), *(u32 *)(p + 0x2C));
+    func_02045334(*(void **)(p + i * 4 + 0x14));
+    func_02045374(*(void **)(p + i * 4 + 0x14));
+}
+
+void func_0219630C(int n, u32 *strs, u8 *p, Rec *recs, u32 *xs, u32 *ys)
+{
+    int i;
+    u32 x;
+    u32 y;
+    void *w;
+
+    func_020414EC(7);
+    *(int *)(p + 0x2F4) = n;
+    func_02049B40(0x17, 5, 4, 0x100, 0x20, *(u16 *)(p + 0x10));
+    for (i = 0; i < 4; i++) {
+        if (*(void **)(p + i * 4 + 0x14) != 0) {
+            func_020456F8(*(void **)(p + i * 4 + 0x14));
+            func_0201F7A8(*(void **)(p + i * 4 + 0x14), 2);
+            func_020452E8(*(void **)(p + i * 4 + 0x14));
+        }
+        *(void **)(p + i * 4 + 0x14) = 0;
+    }
+    for (i = 0; i < n; i++) {
+        func_0201DD78(0xF, 2, 0);
+        w = func_020450F0(7, (u8)recs[i].a, (u8)recs[i].b, (u8)recs[i].c,
+            (u8)recs[i].d, 8, 0);
+        ((void **)(p + 0x14))[i] = w;
+        func_02043B5C(func_02045770(w), 0);
+        func_02045CAC(*(u32 *)(p + 0x28), strs[i], *(u32 *)(p + 0x38));
+        if (xs != 0) {
+            x = xs[i] - func_0201D304(*(u32 *)(p + 0x38), *(u32 *)(p + 0x2C), 0) / 2;
+        } else {
+            x = 0;
+        }
+        if (ys != 0) {
+            y = ys[i] - func_0201D42C(*(u32 *)(p + 0x38), *(u32 *)(p + 0x2C)) / 2;
+        } else {
+            y = 0;
+        }
+        place(p, i, x, y);
+    }
+    if (*(void **)(p + 0x24) != 0) {
+        func_02051C6C(*(void **)(p + 0x24));
+    }
+    *(void **)(p + 0x24) = 0;
+    func_02041B6C(7);
+    func_02040588(7, 1);
+}

@@ -1,3 +1,6 @@
+SUPERSEDED (lane R1): EXACT* in src/matched/ov/ov021_func_021A08CC.c. Fix: `const s16 *in`, with
+the two triples written through an inline set(o, x, y, z).
+
 ov021 0x021A08CC (76 bytes, thumb) DIFF: same size, 8 bytes differ (load scheduling only).
 Original loads in[2] (r0), in[1] (r2), in[0] (r1, via zero reg r7) in that order before the three
 word stores; every spelling tried (locals z,y,x in either declaration order, direct stores in

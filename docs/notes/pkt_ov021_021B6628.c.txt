@@ -1,0 +1,25 @@
+pkt_ov021_021B6628  func_021B6628 (ov021, thumb, 144 B)  status: DIFF (compiled 140 B) and MATCH-capped
+
+Blocker 1 (evidence): func_02012FD8 is an unlabelled arm9 thumb leaf (Ilias's), no witness.
+Verified C for it (match.py one, region arm9, --thumb, EXACT, 12 B):
+  extern void *func_020071CC(void *, int);
+  void *func_02012FD8(void **p) { return func_020071CC(*p, 0x43); }   (symbols: func_020071CC 0x020071CC thumb)
+
+Blocker 2 (codegen, 4 bytes): the else arm. Original:
+  add r6,sp,#0x10; movs r0,#0; strh r0,[r6]; blx 2045a98;
+  add r1,sp,#0x10; strh r0,[r1]; adds r0,r4; adds r1,r6   (join: blx 2045924)
+i.e. the pointer to the u16 temp is computed BEFORE the zero and kept in r6 across
+the call, while the result store re-materialises the address. Ours computes the
+zero first, and either reuses r6 for the store or rematerialises for the call arg.
+Tried: s=&tmp shared call after the if (regs differ), q=&tmp in the arm with the
+call duplicated per arm (closest, 140 B), q hoisted above the if (add r6 hoisted
+above the 0200E740 call), q assigned in the arm. Other parts (register roles,
+tail-merged blx 2045924, args 0,1,2 to 0201EE0C) match.
+
+Closest C:
+  u16 tmp; u16 *q;
+  if (func_0200E740(t7, tc)) func_02045924(r4, func_0200E7AC(t7, tc));
+  else { q = &tmp; *q = 0; tmp = func_02045A98(); func_02045924(r4, q); }
+  func_0201EE0C(r5, t8, r4, 0, 1, 2);
+with t7 = func_02012FD8(func_020120F4(func_0215A5DC(b))), p6 = func_0215A5F4(b),
+tc/t8 = func_02159B10(a,b) x2, r4 = func_02158F7C(p6), r5 = func_02158F74(p6).

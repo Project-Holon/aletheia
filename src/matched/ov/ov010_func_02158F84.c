@@ -1,0 +1,24 @@
+/*
+ * function: func_02158F84
+ * address:  0x02158F84
+ * packet:   pkt_ov010_02158F84
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Reads the word field at +0x38 (getter of func_02158F80).
+ *
+ * symbols:
+ *   (none)
+ */
+
+typedef unsigned char  u8;
+typedef unsigned int   u32;
+
+u32 func_02158F84(u8 *p)
+{
+    return *(u32 *)(p + 0x38);
+}

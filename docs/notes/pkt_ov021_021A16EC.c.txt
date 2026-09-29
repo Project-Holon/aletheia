@@ -1,3 +1,5 @@
+SUPERSEDED (lane R1): EXACT in src/matched/ov/ov021_func_021A16EC.c. Fix: `const u8 *s`.
+
 ov021 0x021A16EC (100 B, thumb) -- DIFF, 2 instructions swapped (scheduling only). Lane S14, 6 runs.
 
 Closest C (every relocation resolves; only +0x38/+0x3A differ):

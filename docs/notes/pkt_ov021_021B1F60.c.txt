@@ -1,0 +1,27 @@
+func_021B1F60 (ov021 0x021B1F60, 88 bytes, thumb): DIFF, 4 concrete bytes (two branch words), same size.
+
+Original: 4-entry halfword switch on func_021A3098(o) (0..3, default 0), then a shared `strh r0,[r4]`.
+Arms: case0 = `b default`, case1 = `movs r0,#1; b end` (at 0x021B1FA4), case2 = `movs r0,#2; b 0x021B1FA4`,
+case3 = `movs r0,#3; b 0x021B1FA4`, default = `movs r0,#0`. I.e. the breaks of case 2 and 3 branch to
+case 1's own `b`, a branch-to-branch; the compiled code branches straight to the end (0x021B1FB0) from every arm.
+
+Best C (4 bytes off; explicit default arm, `r = k; break;` per arm):
+
+    u32 o; u16 *p; u16 r;
+    func_0215A5F4(b);
+    o = func_02188CB4(func_02158F58()[1]);       /* [1] = word at +4 */
+    p = func_02159AE8(a, b);                     /* returns u16 * */
+    switch (func_021A3098(o)) {
+    case 0: r = 0; break;
+    case 1: r = 1; break;
+    case 2: r = 2; break;
+    case 3: r = 3; break;
+    default: r = 0; break;
+    }
+    *p = r;
+    return 0;
+
+Tried, all worse or equal: goto done from cases 2/3 (4 B), preset r=0 with no default (82 B, extra callee-saved
+registers), default first (35 B), case 0 merged with default (24 B), goto-based case0->default (24 B),
+return-in-each-arm with a store per arm (31 B), preset r then empty case 0 (49 B).
+symbols: func_0215A5F4 ov010, func_02158F58 ov010, func_02188CB4 ov021, func_02159AE8 ov010, func_021A3098 ov021 (all thumb).

@@ -1,0 +1,166 @@
+/*
+ * function: func_021955EC
+ * address:  0x021955EC
+ * packet:   pkt_ov021_021955EC
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (844/844 bytes, 30 concrete bytes out; lane B3)
+ *
+ * symbols:
+ *   func_02045758  0x02045758  arm
+ *   func_02045760  0x02045760  arm
+ *   func_02045748  0x02045748  arm
+ *   func_02045750  0x02045750  arm
+ *   func_02045374  0x02045374  arm
+ *   func_02041300  0x02041300  arm
+ *   func_020409B4  0x020409B4  arm
+ *
+ * Window frame + arrow drawer: eight BG tile fills around a window, then a
+ * 9-way switch on `dir` drawing a 2-tile marker.  Everything outside switch
+ * cases 1 and 2 is byte-exact, stack slots and registers included.
+ *
+ * What got it here (each measured):
+ *   - x, y as u16 with u16 returns for func_02045758/60 (u32 or int leaves
+ *     the `y - 1` CSE temp at sp+0x1C out: 840 bytes, 669 out; u8: 836).
+ *     That CSE slot only appears with u16 x/y.
+ *   - `u16 pal;` declared before `u16 base;` (r6/r5, else swapped: 57 out).
+ *   - w, h stay u32 (u16 or u8 w/h reshuffle every spill slot: 83-93 out).
+ *
+ * Residual (30 bytes): cases 1 and 2, `x + (w >> 1) - 1`.  The image
+ * stores the three constant stack arguments (2, 1, 0x11) first and loads w
+ * (sp+0x38) after them; this build hoists the w load above the first
+ * stack store (case 1) or sinks the 0x11 store below it (case 2).  Cases 3
+ * and 4 (`y + (h >> 1) - 1`, h at sp+0x34, into r3) schedule correctly.
+ * Tried, no better: `w / 2` (30), `(w >> 1) + x - 1` (30),
+ * `x - 1 + (w >> 1)` (31), `x + ((w >> 1) - 1)` (32), `(u16)(w >> 1)`
+ * (848 bytes), an explicit `(u8)` cast on the argument (30), `u32 tile`
+ * (856 bytes), int w/h with `/ 2` (856 bytes).  permuter.py --types:
+ * 300 compiles unfocused and 1500 focused on w,tile, both flat at 30.
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u16 func_02045758(u32 w);
+extern u16 func_02045760(u32 w);
+extern u32 func_02045748(u32 w);
+extern u32 func_02045750(u32 w);
+extern void func_02045374(u32 w);
+extern void func_02041300(u8 layer, u16 tile, u8 x, u8 y, u8 w, u8 h, u8 mode);
+extern void func_020409B4(u32 layer);
+
+void func_021955EC(u8 *cfg, u32 win, u32 dir)
+{
+    u32 w;
+    u32 h;
+    int top;
+    int bottom;
+    int left;
+    int right;
+    u8 bg;
+    u16 x;
+    u16 y;
+    u16 pal;
+    u16 base;
+    u16 tile;
+
+    x = func_02045758(win);
+    y = func_02045760(win);
+    w = func_02045748(win);
+    h = func_02045750(win);
+    top = 0;
+    bottom = 0;
+    left = 0;
+    right = 0;
+    bg = *(u32 *)(cfg + 0x10);
+    pal = cfg[0x14] << 12;
+    base = *(u16 *)(cfg + 0xC);
+    if (x == 0) {
+        left = 1;
+    }
+    if (x + w == 32) {
+        right = 1;
+    }
+    if (y == 0) {
+        top = 1;
+    }
+    if (y + h == 24) {
+        bottom = 1;
+    }
+    func_02045374(win);
+    if (!top) {
+        if (!left) {
+            func_02041300(bg, (base + 1) | pal, x - 1, y - 1, 1, 1, 0x11);
+        }
+        func_02041300(bg, (base + 3) | pal, x, y - 1, w, 1, 0x11);
+        if (!right) {
+            func_02041300(bg, (base + 0x401) | pal, x + w, y - 1, 1, 1, 0x11);
+        }
+    }
+    if (!left) {
+        func_02041300(bg, (base + 4) | pal, x - 1, y, 1, h, 0x11);
+    }
+    if (!right) {
+        func_02041300(bg, (base + 0x404) | pal, x + w, y, 1, h, 0x11);
+    }
+    if (!bottom) {
+        if (!left) {
+            func_02041300(bg, (base + 0x801) | pal, x - 1, y + h, 1, 1, 0x11);
+        }
+        func_02041300(bg, (base + 0x803) | pal, x, y + h, w, 1, 0x11);
+        if (!right) {
+            func_02041300(bg, (base + 0xC01) | pal, x + w, y + h, 1, 1, 0x11);
+        }
+    }
+    tile = (base + 2) | pal;
+    switch (dir) {
+    case 0:
+        break;
+    case 1:
+        if (!top) {
+            func_02041300(bg, tile, x + (w >> 1) - 1, y - 1, 2, 1, 0x11);
+        }
+        break;
+    case 2:
+        if (!bottom) {
+            func_02041300(bg, tile | 0x800, x + (w >> 1) - 1, y + h, 2, 1, 0x11);
+        }
+        break;
+    case 3:
+        if (!left) {
+            func_02041300(bg, (base + 5) | pal, x - 1, y + (h >> 1) - 1, 1, 2, 0x11);
+        }
+        break;
+    case 4:
+        if (!right) {
+            func_02041300(bg, (base + 5) | pal, x + w, y + (h >> 1) - 1, 1, 2, 0x11);
+        }
+        break;
+    case 5:
+        if (!top) {
+            func_02041300(bg, tile, x + 7, y - 1, 2, 1, 0x11);
+        }
+        break;
+    case 7:
+        if (!top) {
+            func_02041300(bg, tile | 0x800, x + 7, y + h, 2, 1, 0x11);
+        }
+        break;
+    case 6:
+        if (!bottom) {
+            func_02041300(bg, tile, x + w - 9, y - 1, 2, 1, 0x11);
+        }
+        break;
+    case 8:
+        if (!bottom) {
+            func_02041300(bg, tile | 0x800, x + w - 9, y + h, 2, 1, 0x11);
+        }
+        break;
+    }
+    func_020409B4(bg);
+}

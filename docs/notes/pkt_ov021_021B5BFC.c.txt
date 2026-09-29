@@ -1,0 +1,29 @@
+ov021 0x021B5BFC (132 bytes, thumb): DIFF, 14 bytes (lane S25)
+
+Pure register rotation, no instruction differs otherwise. Original regs
+(a, b, lst, i, j) = (r5, r6, r4, r5, r6); ours = (r4, r5, r6, r4, r5): `lst`
+(the func_02012934 result) gets the highest callee-saved register in ours and
+the lowest in the original. Stack slots, store order (`arr[j++] = ...`) and
+control flow match.
+
+Declaration order does not move registers (only stack slot order, so t must be
+declared before k for t at [sp,#4]). Tried: locals in five orders, arr[j++]
+versus separate increment, `v = func_02017E1C(...)` temp, `func_0201AA18(lst) > i`
+loop test. All 14 bytes.
+
+Current C:
+
+    t = func_0215A5E4(b);
+    lst = func_02012934(t);
+    k = func_02159B10(a, b);
+    for (i = 0; i < 6; i++) arr[i] = 0;
+    j = 0;
+    for (i = 0; i < func_0201AA18(lst); i++) {
+        item = func_0201AB28(lst, i);
+        if (func_02017E1C(item, 0x4c, 0) == 0)
+            arr[j++] = func_02017E1C(item, 5, 0);
+    }
+    func_0200C2B0(func_02012F08(t), k, arr);
+    return 0;
+
+(locals in order: lst, t, k, i, j, item, arr; args u32 a, u32 b; returns 0)

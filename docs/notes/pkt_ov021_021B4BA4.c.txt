@@ -1,0 +1,11 @@
+func_021B4BA4 (ov021, thumb, 72 bytes) DIFF, 5 runs.
+
+Shape: void f(int i) { func_02041300(1, 0, T654[i*4]&0xff, T658[i*4]&0xff, T65C[i*4]&0xff, T660[i*4]&0xff, 0); }
+with four separate pooled data words d_021D9654/58/5C/60 (all relocations resolve, sole-ref).
+
+Tried: inline (u8) casts at the call; u8 locals in load order 65C,654,660,658; mixed u8/u32 locals;
+u8 parameters in the callee prototype. All give the same 72 bytes with the same schedule.
+Residual: original loads r2/r3 raw values early (ldr r2,[r2,r3] / ldr r3,[r4,r3] interleaved
+before the shifts) and materialises movs r1,#0 / movs r0,#1 late, right before the blx;
+ours hoists movs r1,#0 to the top and loads r2,r3 late. Constants-late suggests a different
+source order of evaluation (perhaps args evaluated right to left through a wrapper).

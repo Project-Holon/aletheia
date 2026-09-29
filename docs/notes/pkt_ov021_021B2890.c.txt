@@ -1,0 +1,11 @@
+ov021 0x021B2890 (80 bytes) DIFF, 7 bytes, schedule only.
+
+Call order, callee arity and stack layout all match. Original after `bl func_02012984`:
+  movs r1,#0 ; lsls r0,r0,#24 ; str r1,[sp] ; lsrs r0,r0,#24 ; str r0,[sp,#4] ; str r0,[sp,#8]
+Compiled (int return, (u8) cast or u8 local): lsls ; lsrs r1,r0 ; movs r0,#0 ; str r0,[sp] ; str r1,[sp,#4] ; str r1,[sp,#8]
+(register roles swapped and the zero not hoisted). With `unsigned char` return type the lsls/lsrs vanish (SIZE).
+
+C used:
+  x=f5F4(b); y=f5DC(b); p=f120F4(); q=f1210C(y); z=f2984(p);
+  f897C(x, f21BE92C(y, q, 3, 0, 0, (u8)z, (u8)z)); return 0;
+Tried: int z with u8 casts at use, u8 z local, unsigned char return type, inline call. Stopped after four variants.

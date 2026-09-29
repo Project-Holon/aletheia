@@ -1,0 +1,19 @@
+func_021B0DF0 (ov021, 132 B, thumb): DIFF, 12 bytes, all one scheduling block.
+Lane S17. Everything matches (stack layout, registers, calls, relocations) except the
+outgoing-argument block at the join after the conditional `[sp+0xc] = [sp+0x14]`.
+
+original:  str r7,[sp]; str r6,[sp,#4]; ldr r1,[sp,#8]; ldr r2,[sp,#0x10]; ldr r3,[sp,#0xc]; adds r0,r4,#0
+compiled:  ldr r1,[sp,#8]; str r7,[sp]; ldr r2,[sp,#0x10]; ldr r3,[sp,#0xc]; adds r0,r4,#0; str r6,[sp,#4]
+
+C that gives that shape (six calls to func_02159B10(a,b) into v0..v5, then
+`if (func_02008550(func_020127A4(func_0215A5E4(b)) + 0x20) != 0) v1 = v2;`
+then `func_021B0BAC(b, v3, v0, v1, v4, v5) == 1`, callback func_021B0CEC):
+
+    v0 = g(a,b); v1 = g(a,b); v2 = g(a,b); v3 = g(a,b); v4 = g(a,b); v5 = g(a,b);
+    if (func_02008550(func_020127A4(func_0215A5E4((void *)b)) + 0x20) != 0) { v1 = v2; }
+    if (func_021B0BAC(b, v3, v0, v1, v4, v5) == 1) { func_020113D0(a, func_021B0CEC); return 1; }
+    return 0;
+
+Tried without change: ternary `v1 = c ? v2 : v1`, if/else into a fresh local w, result of 0BAC
+in a local before the compare. The unconditional twins func_021B0D14 / func_021B0E74 match
+with the same 0BAC call, so the difference is the phi at the join.

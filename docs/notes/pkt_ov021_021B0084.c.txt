@@ -1,0 +1,32 @@
+pkt_ov021_021B0084 (ov021 0x021B0084, 136 B listing extent, thumb): DIFF, 10 runs, parked.
+
+All 9 relocations resolve. Best C (compiles 132 B; original is 134 B + 2 pad):
+
+typedef struct { int a0; u16 *flag; int h; } Ctx;
+int func_021B0084(int a0, int *st, Ctx *c)
+{
+    int r; u16 v;
+    func_0215A5F4(c->a0);
+    switch (*st) {
+    case 0: func_0215A684(c->a0, 8); (*st)++;
+    case 1: if (func_0215A690(c->a0) == 1) { func_0215A5DC(c->a0);
+                c->h = func_02190BE4(func_02188C54(func_0201210C()), 0); goto inc; }
+            break;
+    case 2: r = func_02190C78(c->h);
+            if (r == 0) v = 0; else if (r != 2) v = 1; else break;
+            *c->flag = v;
+    inc:    (*st)++; break;
+    case 3: func_021909BC(c->h); return 1;
+    }
+    return 0;
+}
+
+Original shape (jump table 0..3, case targets 0xAA/0xB8/0xDA/0xFC):
+  - a1 (state ptr) is r4, a2 (ctx) is r5; every compiled variant swaps them (a1=r5, a2=r4).
+  - case 2 tests r==0 with `beq A` (A = `movs r1,#0` falling into the store), then
+    `cmp r,#2; beq ret0; b B` where B = `movs r1,#1; b store` is laid out AFTER the
+    shared `(*st)++; b ret0` block. Every variant tried (if/else chain, r!=0 nesting,
+    switch(r), separate stores per arm, goto inc) puts the v=1 arm inline before the store.
+  - case 1's tail jumps to the shared `(*st)++` block at 0xF0 (goto inc reproduces that).
+Tried: v-variable vs per-arm stores, goto/no goto, switch(r), r!=0 nesting.
+Not tried: permuter.

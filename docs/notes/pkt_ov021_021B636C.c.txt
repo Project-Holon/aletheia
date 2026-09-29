@@ -1,0 +1,20 @@
+pkt_ov021_021B636C  func_021B636C (ov021, thumb, 104 B)  status: DIFF (same size, 4 instructions reordered)
+
+Structure is right: ae8(a,b) x2, b10(a,b) x2, 5f4(b), 5dc(b), 0201210C(),
+func_0215A2E4(p5, cur, tc, t10, t6, t4==0, t4), func_0215897C(p7, r), return 1.
+Only the stack-argument store order differs:
+  original: str r6,[sp]; str flag,[sp,#4]; str r4,[sp,#8]; ldr r2,[sp,#0xc]; ldr r3,[sp,#0x10]; adds r0,r5
+  ours:     str r6,[sp]; str flag,[sp,#4]; ldr r2; ldr r3; adds r0,r5; str r4,[sp,#8]
+Tried (no change to the diff): flag inline / local / ternary / if-assign; last
+argument int, u32, u16 (t4 and callee); cur as local versus inline. The
+compiler places the third stack store after the register loads in every
+spelling. Twin callers of func_0215A2E4 in matched sources: none.
+
+Working C (byte count equal, 4 instructions out of order):
+  int t10 = func_02159AE8(a, b); int t6 = func_02159AE8(a, b);
+  int tc = func_02159B10(a, b);  int t4 = func_02159B10(a, b);
+  void *p7 = func_0215A5F4(b);   void *p5 = func_0215A5DC(b);
+  int cur = func_0201210C();
+  r = func_0215A2E4(p5, cur, tc, t10, t6, t4 == 0, t4);
+  func_0215897C(p7, r); return 1;
+with func_0215A2E4(void *, int, int, int, int, int, int) (ov010, thumb).

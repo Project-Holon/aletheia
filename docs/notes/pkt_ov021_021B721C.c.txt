@@ -1,0 +1,14 @@
+pkt_ov021_021B721C  func_021B721C (ov021, thumb, 176 bytes)  DIFF, 8 bytes, scheduling only
+
+Same shape as pkt_ov021_021B72CC: the original loads the d_021D99D0 pool word into r1
+before "str r0,[sp,#8]; add r0,sp,#0x1c; str r0,[sp]"; the compiled code loads it after.
+Sibling func_021B70D8 / func_021B716C (same func_0204A298 call) are EXACT.
+
+C:
+  s = func_0215A5F4(b); v = func_02188C84(func_02158F58(s)[1]);
+  k = func_02159B10(a,b); idx = ...; p1 = ...; p2 = ...;   (four calls, same args)
+  t = func_02158F74(s);
+  arr = func_0204A298(0xd0, d_021D99D0[idx], 0, (u16)((v & 0x7fff) | 0x8000), &cnt);  /* Ent {u32 k, v} */
+  cnt >>= 3;
+  for (i = 0; i < cnt; i++) if (k == arr[i].k) { func_0201EFA4(t, p1, arr[i].v, p2, 0, 1); break; }
+  func_020307B0(arr); return 0;

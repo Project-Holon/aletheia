@@ -1,0 +1,25 @@
+/*
+ * function: func_0215A624
+ * address:  0x0215A624
+ * packet:   pkt_ov010_0215A624
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Setter: word at +0x100 of the object whose pointer sits at +0x20.
+ * Unlabelled leaf (leaf of func_021B0480).
+ *
+ * symbols:
+ *   (none)
+ */
+
+typedef unsigned char  u8;
+typedef unsigned int   u32;
+
+void func_0215A624(u8 *p, u32 v)
+{
+    *(u32 *)((u8 *)*(u32 *)(p + 0x20) + 0x100) = v;
+}

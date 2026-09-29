@@ -1,3 +1,6 @@
+SUPERSEDED (lane R1): EXACT in src/matched/ov/ov021_func_021A0CF4.c. Fix: declare the callback
+table `extern const u8 d_021D872C[]` and read it through a const pointer.
+
 ov021 0x021A0CF4 (80 bytes, thumb) DIFF: same size, 6 bytes differ (store placement).
 Original: r5 = r; p[0]=r5; r3=r5*0x1c; ldr table; adds r0,r4,#0; ldr r2,[r2,r3]; movs r1,#0xb;
 then str r5,[r4,#4] AFTER the argument setup, then blx r2. Every spelling puts `str r5,[r4,#4]`

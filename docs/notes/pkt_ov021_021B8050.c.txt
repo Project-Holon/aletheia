@@ -1,0 +1,55 @@
+func_021B8050 (ov021 0x021B8050, 136 B, Thumb): DIFF, 3 concrete bytes (lane S28).
+
+Best C reaches everything but one address computation:
+
+  original  +004C add r1, sp, #0xc      +0050 strh r0, [r1, #4]
+  compiled  +004C add r1, sp, #8        +0050 strh r0, [r1, #8]
+
+The zero store into the third halfword of the 8-byte local that func_021B9238
+fills (its address is r6 = sp+0xc in both) is based at sp+8 with offset 8 in the
+compiled bytes, at sp+0xc with offset 4 in the original. Tried: struct {s32; s16}
+with .b, s16[3] with p[2], struct {s16 x,y,z} with .z, and a cast
+((s16*)&p)[2]; all give the sp+8 base.
+
+What did work (and is not obvious):
+ - `volatile s32 saved;` reproduces `str r0,[sp,#8]` then `ldr r7,[sp,#8]`
+   (original reloads the saved o->fC from its slot before adding 0x10); without it
+   the value stays in a callee-saved register and the frame is 0x28 not 0x2c.
+ - `e = saved + 0x10` used for the compare and the else arm, but the if arm
+   spells `o->fC = saved + 0x10` again (the original reloads and re-adds there).
+ - locals declared b, a, p, saved, limit, keep, e (later = lower address).
+ - the final three halfword stores load z, y, x first (locals z,y,x in that order).
+
+Source of the best attempt:
+
+void func_021B8050(struct Obj *o, s16 *out)
+{
+    Vec b; Vec a; Vec16 p;
+    volatile s32 saved; s32 limit; s32 e; s32 keep;
+
+    keep = o->f14;
+    o->f14 = 0;
+    func_021B91F8(o, &b);
+    saved = o->fC;
+    o->f14 = keep;
+    e = saved + 0x10;
+    limit = o->f10;
+    if (e < limit) {
+        o->fC = saved + 0x10;
+        o->f14 = 0;
+        func_021B91F8(o, &a);
+        o->f14 = keep;
+        o->fC = saved;
+    } else {
+        func_021B9238(o, &p);
+        p.z = 0;
+        func_021B9368(o->f78, &p, o->f4->f8, e - limit, &a);
+    }
+    func_0207CA00(&a, &b, &a);      /* arm */
+    func_0207CCA4(&a, &a);          /* arm */
+    { s32 z = a.z; s32 y = a.y; s32 x = a.x; out[0] = x; out[1] = y; out[2] = z; }
+}
+
+with Vec = {s32 x,y,z}, Vec16 = {s16 x,y,z}, Obj offsets fC/f10/f14 (s32), f4 (ptr to
+{pad8; s32 f8}), f78 (ptr). Callees: 021B91F8(o, Vec*), 021B9238(o, Vec16*),
+021B9368(f78, Vec16*, s32, s32, Vec*), 0207CA00(a,b,c), 0207CCA4(a,b).

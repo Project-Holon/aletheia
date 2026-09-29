@@ -1,3 +1,7 @@
+CLOSED (lane R2): EXACT in src/matched/ov/ov021_func_021AB890.c. The C below with `const Range *r` (keeping
+the inline VecSet) loads y, x, z as the original does. The same lever is worth trying on func_021AB9FC.
+The text below is the earlier dead end, kept as written.
+
 ov021 0x021AB890 (120 B, Thumb): DIFF, load scheduling of a 12-byte local vector copy only
 
 Everything else is byte-identical (stack layout, branch shape, shared return-0 tail,
