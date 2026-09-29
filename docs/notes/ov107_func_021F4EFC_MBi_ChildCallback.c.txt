@@ -1,0 +1,90 @@
+/*
+ * Near-miss documentation for MBi_ChildCallback (0x021F4EFC, ov107)
+ *
+ * Target: MBi_ChildCallback, ov107, 0x021F4EFC, 2464 bytes, ARM
+ * Vendor: TwlSDK/libmb.TWL.HYB.a(mb_wm_base.o), stamp 4.0.0.1024 (dsi/1.1p1)
+ *
+ * Status: DIFF (1720/2464 bytes, 1473 concrete byte differences)
+ * All 24 relocations resolved (23 matched/label/sdk, 1 sole-ref d_021F6F90)
+ *
+ * Function structure: Massive switch on WMCallback->apiid with 11 cases:
+ *   0x00 (WM_API_INIT), 0x01 (WM_API_END), 0x02 (WM_API_DISCONNECT),
+ *   0x0B (WM_API_CONNECT), 0x0C (WM_API_IND), 0x0E (WM_API_MP),
+ *   0x0F (WM_API_MP_END), 0x15 (WM_API_RESTART_SCAN), 0x1D (WM_API_SCAN_EX),
+ *   0x26 (WM_API_SCAN_EX_CONT), 0x80 (WM_API_SYSTEM)
+ *
+ * Each case handles a specific wireless multiplayer callback event.
+ *
+ * Blockers for EXACT match:
+ *
+ * 1. Prologue/epilogue register set mismatch
+ *    Original: push {r3,r4,r5,r6,r7,r8,sb,sl,fp,lr} / pop {...,pc}
+ *    Compiled: push {r3,r4,r5,r6,r7,r8,lr} / pop {...,pc}
+ *    Missing callee-saved: sb, sl, fp. Vendor uses fp as general register
+ *    (holds parent_info base from d_021F6F90+0xC), sb/sl as temporaries
+ *    in case 0x1D/0x26 scan loops. mwccarm only saves callee-saved regs
+ *    actually used; our C doesn't pressure sb/sl/fp enough.
+ *
+ * 2. Stack frame size mismatch
+ *    Original: sub sp, sp, #0x28 (40 bytes)
+ *    Compiled: sub sp, sp, #0x1c (28 bytes)
+ *    Vendor allocates extra space for numInvalidBeacon [fb+32] and
+ *    j [fb+36] DWARF locals, plus spill slots for case 0x0C/0x0F
+ *    stack arguments to WM_StartMPEx/WM_StartConnectEx.
+ *
+ * 3. Switch decision tree structure
+ *    Vendor uses a specific comparison chain at function entry:
+ *      cmp r2,#0x15; bgt >0x26; cmp #0xe; blt <0xb; beq 0xe; cmp #0xf; ...
+ *    Our switch compiles to a different branch ordering. The vendor's
+ *    chain reflects the original source's case order (likely numeric
+ *    but with fallthrough/goto structure). Dense switch idiom requires
+ *    empty arms for missing low cases (0x03-0x0A) to force jump table,
+ *    but vendor uses decision tree, not jump table.
+ *
+ * 4. Register allocation in case arms
+ *    DWARF locals map: buffer(r4), p(r5), i(r6), callback(r7?), tmpBuf(r8?),
+ *    p_param(r11). Our declaration order doesn't replicate vendor's
+ *    callee-saved assignment. Case 0x1D/0x26 scan loop uses r7=1, r8=0,
+ *    sb,sl,ip,lr as comparison result flags - hard to reproduce from C.
+ *
+ * 5. Case 0x0C (WM_API_IND) sub-switch on state (arg+8)
+ *    Vendor has nested switch with cases 6,7,8,9,0x1A,0x1A(default).
+ *    Case 8 (state==8) has complex WM_StartMPEx call with 11 args
+ *    pushed on stack + registers. Our C compresses this differently.
+ *
+ * 6. Case 0x1D/0x26 scan loop (lines ~0x21F51EC-0x21F53F8)
+ *    Iterates 16 ParentInfo entries (0x180 bytes each at fp+0x600).
+ *    Compares bssid[0-5] (offsets 0xCA-0xCF) against scan results.
+ *    Uses mla r2,r6,r1,r5 addressing. Vendor uses sb,sl,r8,ip,lr
+ *    as boolean flags for each byte match. Extremely hard to match
+ *    without replicating exact register pressure.
+ *
+ * 7. Case 0x0C state==8 WM_StartMPEx stack args
+ *    Vendor builds 11-arg call: 4 in regs, 7 on stack with stmib.
+ *    Our C passes differently, causing different stack layout.
+ *
+ * 8. d_021F6F90 global reference
+ *    Resolved via sole-ref/self (ROM word at relocation site matches).
+ *    No external witness (no other function references this global).
+ *
+ * Recommendation: This function is a "last 10%" candidate - the vendor
+ * code uses extensive register-level optimizations (sb/sl/ip/lr as
+ * temporaries, mla-based array indexing, predicated moves) that are
+ * emergent from mwccarm's register allocator under high pressure.
+ * Matching would require either:
+ *   - Extensive source rewriting with artificial register pressure
+ *   - Accepting DIFF and documenting as near-miss
+ *   - Finding a sibling function that shares codegen patterns to
+ *     triangulate the right C structure
+ *
+ * Sibling reference: MBi_ParentCallback (0x021F46C8, 2004 bytes, DIFF)
+ * shares d_021F6F90 access patterns, MB_CommCommonWork usage, and
+ * WM_StartMPEx call structure. Its blocker notes similar register
+ * pressure issues.
+ *
+ * Related idioms:
+ * - declaration-order-decides-which-register-a-local-gets
+ * - dense-switch-is-a-pc-relative-halfword-table (vendor uses tree)
+ * - guards-separated-by-statements-share-an-exit-only-through-goto
+ * - keeping-a-cursor-in-a-named-local-costs-a-callee-saved-register
+ */
