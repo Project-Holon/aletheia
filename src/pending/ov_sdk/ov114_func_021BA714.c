@@ -1,7 +1,20 @@
-/* NHTTPi_Base64Encode (nhttp_stdlib_ntr, tbl = g_021CE3BC): near miss, ~15 attempts.
- * Residue: 4 bytes short. Original loads the three source chars in order [r6],[r6,#1],[r6,#2] into r2,r3,ip and
- * bumps r6 by 3 at the end; draft loads b,c,a and folds the +3 into a post-indexed ldrsb (r6 advances early).
- * Registers tbl=r4 wp=r5 already match (locals declared tbl,wp,i,len). */
+/*
+ * function: func_021BA714
+ * address:  0x021BA714
+ * packet:   pkt_ov114_021BA714
+ * region:   ov114
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   MATCH (near miss: 33 B, register colouring only: i in r2, image r1)
+ *
+ * sdk:      NHTTPi_Base64Encode (libnhttp.TWL.HYB.a(nhttp_stdlib_ntr))
+ *
+ * symbols:
+ *   func_021BA118  0x021BA118  arm
+ *   g_021CE3BC     0x021CE3BC  data
+ */
 
 extern char g_021CE3BC[];
 extern int func_021BA118(char *str_p);
@@ -13,19 +26,18 @@ int func_021BA714(char *dst_p, char *src_p)
     int i;
     int len;
 
-    tbl = g_021CE3BC;
     wp = dst_p;
+    tbl = g_021CE3BC;
     len = func_021BA118(src_p);
-    for (i = 0; i < len; i += 3) {
-        char a = src_p[0];
-        char b = src_p[1];
-        char c = src_p[2];
-        wp[0] = tbl[a >> 2];
-        wp[1] = tbl[(b >> 4) + ((a & 0x3) << 4)];
-        wp[2] = tbl[(c >> 6) + ((b & 0xf) << 2)];
-        wp[3] = tbl[c & 0x3f];
-        wp += 4;
-        src_p += 3;
+
+    for (i = 0; i < len; i += 3, src_p += 3, wp += 4) {
+        int c0 = src_p[0];
+        int c1 = src_p[1];
+        int c2 = src_p[2];
+        wp[0] = tbl[c0 >> 2];
+        wp[1] = tbl[((c0 & 3) << 4) + (c1 >> 4)];
+        wp[2] = tbl[((c1 & 15) << 2) + (c2 >> 6)];
+        wp[3] = tbl[c2 & 63];
     }
     if (i == len + 1) {
         wp[-1] = '=';

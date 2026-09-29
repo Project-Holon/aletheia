@@ -24,6 +24,14 @@
  *           it in r4, and the original re-materialises reqCurrent->field_0x0c
  *           once more (the predicated condition load is not reused for the
  *           store); 148/152 bytes.
+ *
+ * w8_nm:    locals declared in reverse DWARF order (rc first) put rc, mutexInfo_p
+ *           and reqCurrent_p in r4, r5, r6 as in the object (75 B -> 66 B,
+ *           the rest is the one-instruction shift). Left: the object reloads
+ *           reqCurrent_p->field_0x0c for the store after the predicated test.
+ *           Not fixed by nested ifs (two or three levels), rc = 1 before the
+ *           store, `!*p`, an unsigned or volatile-cast deref, or a listInfo_p
+ *           local for the free call.
  */
 
 typedef unsigned char u8;
@@ -56,17 +64,16 @@ extern void NHTTPi_unlockReqList(struct _NHTTPMutexInfo *);
 
 int NHTTPi_CancelRequestAsync(struct _NHTTPSysInfo *sysInfo_p, int id)
 {
-    struct _NHTTPReqInfo *reqInfo_p;
-    struct _NHTTPi_REQLIST *reqCurrent_p;
-    struct _NHTTPMutexInfo *mutexInfo_p;
     int rc = 0;
+    struct _NHTTPReqInfo *reqInfo_p;
+    struct _NHTTPMutexInfo *mutexInfo_p;
+    struct _NHTTPi_REQLIST *reqCurrent_p;
 
     reqInfo_p = NHTTPi_GetReqInfoP(sysInfo_p);
     mutexInfo_p = NHTTPi_GetMutexInfoP(sysInfo_p);
     reqCurrent_p = reqInfo_p->field_0x00;
     NHTTPi_lockReqList(mutexInfo_p);
-    if (reqCurrent_p != 0 && reqCurrent_p->field_0x08 == id
-        && *reqCurrent_p->field_0x0c == 0) {
+    if (reqCurrent_p != 0 && reqCurrent_p->field_0x08 == id && *reqCurrent_p->field_0x0c == 0) {
         *reqCurrent_p->field_0x0c = 1;
         NHTTPi_SocCancel(mutexInfo_p, (int)reqCurrent_p->field_0x0c, reqCurrent_p->field_0x10);
         rc = 1;

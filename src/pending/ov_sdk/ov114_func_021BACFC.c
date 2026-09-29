@@ -18,6 +18,13 @@
  *           `id` lands in r6 while the original keeps it in r4 (the first
  *           callee-saved register) across the NHTTPi_alloc call; 148/152
  *           bytes, 46 concrete bytes differ.
+ *
+ * w8_nm:    storing list_p->field_0x08 before the increment puts listInfo_p,
+ *           req_p and id in r6, r5, r4 as in the object (46 B -> 17 B). Left:
+ *           the object reloads idRequest into r2 and stores list_p->id after
+ *           the increment. Explicit reload spellings (`= x + 1`, `+= 1`,
+ *           `++`, `x++` in the assignment, chained assignment) and moving the
+ *           req/-1 stores around did not reproduce it (17 to 46 B).
  */
 
 typedef unsigned char u8;
@@ -59,8 +66,8 @@ int NHTTPi_setReqQueue(struct _NHTTPListInfo *listInfo_p, struct _NHTTPReq *req_
             listInfo_p->field_0x00->field_0x00 = list_p;
         }
         id = listInfo_p->field_0x04;
-        listInfo_p->field_0x04 = id + 1;
         list_p->field_0x08 = id;
+        listInfo_p->field_0x04++;
         list_p->field_0x0c = req_p;
         list_p->field_0x10 = -1;
         if (listInfo_p->field_0x04 < 0)

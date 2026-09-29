@@ -1,0 +1,46 @@
+/*
+ * function: func_0215CCA0
+ * address:  0x0215CCA0
+ * packet:   pkt_ov009_0215CCA0
+ * region:   ov009
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * sdk:      SOCLi_SetMyIP (libsoc.TWL.HYB.a(socl_startup.o))
+ *
+ * symbols:
+ *   g_021A1CD8  0x021A1CD8  data
+ *   g_021A82BC  0x021A82BC  data
+ *   g_021A827C  0x021A827C  data
+ *   g_021A8298  0x021A8298  data
+ *   g_021A82DC  0x021A82DC  data
+ *   g_021AA440  0x021AA440  data
+ */
+
+typedef struct {
+	int pad0;
+	unsigned long myIp;
+	unsigned long netMask;
+	unsigned long gatewayIp;
+	unsigned long dnsIp[2];
+} Cfg;
+
+extern Cfg *g_021A1CD8;
+extern unsigned long g_021A82BC;
+extern unsigned long g_021A827C;
+extern unsigned long g_021A8298;
+extern unsigned long g_021A82DC[2];
+extern unsigned long g_021AA440[3];
+
+void func_0215CCA0(void)
+{
+	g_021A82BC = g_021A1CD8->myIp;
+	g_021A827C = g_021A1CD8->netMask;
+	g_021A8298 = g_021A1CD8->gatewayIp;
+	g_021A82DC[0] = g_021A1CD8->dnsIp[0];
+	g_021A82DC[1] = g_021A1CD8->dnsIp[1];
+	g_021AA440[2] |= 2;
+}

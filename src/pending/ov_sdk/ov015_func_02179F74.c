@@ -19,6 +19,9 @@
  *   g_0217ABD8     0x0217ABD8  data
  *   g_0217AAB0     0x0217AAB0  data
  *   g_0217ABA8     0x0217ABA8  data
+ *
+ * w8_nm tried: all 24 orders of the four stores, each with and without the
+ * DWARF local `size` for the IRCi_Read result: none under 11 B.
  */
 
 extern void func_0217A60C(void);

@@ -13,6 +13,10 @@
  * differ: a pure register rotation in the 5-byte identifier copy (original puts the
  * pool base in ip, len*4 in r0, 0x5a in r1). See docs/notes/pkt_ov009_021702A0.c.txt.
  *
+ * w8_nm tried: `len *= 4` and `len <<= 2` before the header stores, a
+ * u8-cast length store: 20 B remain (the object computes len * 4 into r0
+ * before loading the id base into ip).
+ *
  * symbols:
  *   d_021A2188  0x021A2188  data  a1
  *   MIi_CpuCopy32  0x02082A90  arm

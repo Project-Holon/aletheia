@@ -48249,6 +48249,19 @@
    "siblings": 12
   },
   {
+   "address": 35363960,
+   "name": "NHTTPi_CpsAuthCallbackForDebug",
+   "lib": "TwlWiFi_base/libnhttp.TWL.HYB.a",
+   "object": "nhttp_socket_ntr",
+   "region": "ov114",
+   "thumb": false,
+   "size": 8,
+   "concrete": 8,
+   "dupes": 1,
+   "siblings": 13,
+   "referenced": true
+  },
+  {
    "address": 35363968,
    "name": "NHTTPi_SetSSLseed",
    "lib": "TwlWiFi_base/libnhttp.TWL.HYB.a",

@@ -1,3 +1,24 @@
+/*
+ * function: func_021C1D8C
+ * address:  0x021C1D8C
+ * packet:   pkt_ov172_021C1D8C
+ * region:   ov172
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * sdk:      SSP_JpegEncoderResample (libssp.TWL.HYB.a jpegenc.o)
+ *
+ * near miss: 388 B vs 376 B original. Same instruction selection; register allocation
+ * differs (original keeps src r6, dst fp, src16 sb, dst16 r8, row offset r7 and puts
+ * y/u/v in r0/r3/ip; ours spills dst and puts y/u/v in r7/sl/r8).
+ *
+ * symbols:
+ *   _u32_div_f  0x0209C2B0  arm
+ */
+
 extern unsigned long _u32_div_f(unsigned long a, unsigned long b);
 
 void func_021C1D8C(void *src, unsigned long srcWidth, unsigned long srcHeight, void *dst, unsigned long dstWidth, unsigned long dstHeight, unsigned long option)

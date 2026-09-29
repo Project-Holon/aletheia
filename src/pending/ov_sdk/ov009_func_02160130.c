@@ -1,0 +1,45 @@
+/*
+ * function: func_02160130
+ * address:  0x02160130
+ * packet:   pkt_ov009_02160130
+ * region:   ov009
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   MATCH
+ *
+ * sdk:      get_rootCA (libssl.TWL.HYB.a(ssl.o))
+ *
+ * symbols:
+ *   func_020948E0  0x020948E0  arm
+ */
+
+typedef struct {
+	char *name;
+} CaInfo;
+
+typedef struct {
+	char pad0[0x814];
+	CaInfo **rootCa;
+	int rootCaNum;
+} Con;
+
+extern int func_020948E0();
+
+CaInfo *func_02160130(Con *con, char *dn)
+{
+	int i;
+	CaInfo **list;
+	int n;
+
+	n = con->rootCaNum;
+	list = con->rootCa;
+	for (i = 0; i < n; i++) {
+		CaInfo *ca = list[i];
+		if (func_020948E0(ca->name, dn) == 0) {
+			return ca;
+		}
+	}
+	return 0;
+}

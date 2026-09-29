@@ -17,6 +17,11 @@
  * w6_nm tried: a result local, hi/lo locals, -(int)0x80000001, the store in an
  * if block, a function-pointer call, cc 1.1, lang c++: always `sub r1,r0,#0x80000002`.
  *
+ * w8_nm tried: cc 1.1, 1.2, 1.2p1, 1.2p2, 1.3, 1.3p1, 1.6sp1, 1.6sp2, mwcc 1.2;
+ * -O4,s, -O3,p, -O2, -O1, and -opt nopeephole/noschedule/nocse/nopropagation/
+ * nostrength: always `sub r1,r0,#0x80000002` (even at -O1, so it is in code
+ * generation). natneg.o is stamped 4.0.0.1025, which no build here writes.
+ *
  * symbols:
  *   func_0217F264  0x0217F264  arm  ov009
  *   func_0217F790  0x0217F790  arm  ov009
