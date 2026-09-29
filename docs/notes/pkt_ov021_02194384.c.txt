@@ -1,0 +1,46 @@
+/*
+ * pkt_ov021_02194384: DIFF, same size (104 bytes, listing extent 148 includes the
+ * matched leaf 0x021943EC), lane S18, 5 runs.
+ *
+ * Only the prologue differs, everything from the cmp/bhs on is byte-identical:
+ *   original: str r1,[sp]; str r3,[sp,#4]; ldr r5,[sp,#0x24]; ldrh r6,[r0]; ldr r1,[r5]; adds r7,r2,#0
+ *   compiled: ldr r5,[sp,#0x24]; ldrh r6,[r0]; str r1,[sp]; ldr r1,[r5]; adds r7,r2,#0; str r3,[sp,#4]
+ * i.e. the original spills the two call-live arguments (b, d) first; the compiler
+ * interleaves the spills with the loads. Tried: single-return do/while form
+ * (the loop body and epilogue then match), `n > *f`, copying b and d into locals.
+ * None move the spills. Unknown lever.
+ * symbols: func_0216D854 thumb ov010, func_02163C04 thumb ov010
+ */
+ */
+
+typedef unsigned short u16;
+
+extern int func_0216D854(void *p);
+extern int func_02163C04(void *p, int b, int d, int one);
+
+int func_02194384(u16 *a, int b, int c, int d, int *e, unsigned *f)
+{
+    unsigned n = *a;
+    unsigned char *q;
+    short dlt;
+
+    if (*f < n) {
+        q = *(unsigned char **)(a + 4) + *f * 0xc;
+        do {
+            (*f)++;
+            if (*(void **)(q + 8) != 0) {
+                dlt = func_0216D854(*(void **)(q + 8)) - c;
+                if (dlt < 0)
+                    dlt = -dlt;
+                if (dlt < 1) {
+                    if (func_02163C04(*(void **)(q + 8), b, d, 1)) {
+                        *e = *(int *)q;
+                        return 1;
+                    }
+                }
+                q += 0xc;
+            }
+        } while (*f < n);
+    }
+    return 0;
+}

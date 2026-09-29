@@ -1,0 +1,48 @@
+/*
+ * function: func_02194670
+ * address:  0x02194670
+ * packet:   pkt_ov021_02194670
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02030734  0x02030734  arm
+ *   func_0203101C  0x0203101C  arm
+ *   func_02194A58  0x02194A58  thumb  ov021
+ *   func_021954CC  0x021954CC  thumb  ov021
+ *   d_021DDAC4     0x021DDAC4  data  a4
+ *   d_020A8140     0x020A8140  data  a4
+ *   d_020A8148     0x020A8148  data  a4
+ */
+
+typedef unsigned short u16;
+typedef struct { unsigned w[6]; } T24;
+
+extern int d_021DDAC4;
+extern void *(*d_020A8140)(int, int, int);
+extern void *(*d_020A8148)(int, int, int);
+
+extern void *func_02030734(int a, int b, int c, void *d, int e);
+extern void *func_0203101C(int a, int b, int c, int d);
+extern void func_02194A58(void *p);
+extern unsigned func_021954CC(void *a, void *b);
+
+void *func_02194670(u16 *a)
+{
+    unsigned char *r6;
+    int i;
+
+    r6 = (unsigned char *)func_02030734(*a, 0xcd0, 1, &d_021DDAC4, 0xec);
+    *(T24 *)r6 = *(T24 *)a;
+    *(void **)(r6 + 0xc98) = func_0203101C(*a, *a, 0x20, 0x20);
+    for (i = 0; i < 0x20; i++)
+        func_02194A58(r6 + 0x18 + i * 0x64);
+    *(void **)(r6 + 0xcc8) = d_020A8140(0x20, 0, 0);
+    *(void **)(r6 + 0xccc) = d_020A8148(0x20, 0, 0);
+    *(u16 *)(r6 + 0xc9c) = func_021954CC(r6, r6) >> 5;
+    return r6;
+}

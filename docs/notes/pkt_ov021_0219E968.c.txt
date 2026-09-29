@@ -1,0 +1,44 @@
+/*
+ * function: func_0219E968
+ * address:  0x0219E968
+ * region:   ov021 (thumb)
+ * status:   DIFF (25 concrete bytes, SIZE 62 vs 64)
+ *
+ * Everything matches except the branch shape around the conditional clear.
+ * Original:
+ *     cmp r4,#0 ; beq L ; b M ; L: <memset(p,0,8)> ; M: ...
+ * (a two-instruction "beq over b" trampoline, r4==0 runs the clear).
+ * Every spelling compiles to the plain "bne M ; clear ; M:" (2 bytes shorter):
+ *   if (r == 0) {clear}; if (r != 0) {} else {clear}; r ? (void)0 : clear;
+ *   if (r) goto skip; clear; skip:.
+ * Pointer local p = buf (kept in r7, add r7,sp,#0 at entry) matches the register use.
+ * The empty-arm "then" of the original probably held something the compiler dropped.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned int   u32;
+
+extern int func_02164380();      /* ov010 thumb */
+extern u32 func_0216D684();      /* ov010 thumb */
+extern void func_0219EA5C();     /* ov021 thumb */
+extern void func_02082BCC();     /* arm9 arm, blx */
+extern void func_0219E2C0();     /* ov021 thumb */
+
+u32 func_0219E968(u32 o, u32 k)
+{
+    int r;
+    u32 e;
+    u8 buf[8];
+    u8 *p;
+
+    p = buf;
+    r = func_02164380(o, p);
+    e = func_0216D684(o, k);
+    func_0219EA5C(e, o);
+    if (r != 0) {
+    } else {
+        func_02082BCC(p, 0, 8);
+    }
+    func_0219E2C0(o, p);
+    return e;
+}

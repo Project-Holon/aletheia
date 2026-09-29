@@ -1,0 +1,62 @@
+/*
+ * pkt_ov021_02194084: DIFF, 160 bytes vs 164, lane S18, 7 runs.
+ *
+ * The loop (10 x func_02161ECC / func_02186818 / func_0218682C) matches. The tail
+ * differs. Original after func_02186278 returns t in r0:
+ *   ldr r3,[pc]            ; 0x6C078965, hoisted above the first store
+ *   str r0,[r1,#0x1c]; ldr r1,[sp,#4]; cmp r0,#0   ; cmp hoisted above the q[4] load
+ *   ... stores 0, 4, 0xc, 8, 0x10, 0x14 ...
+ *   bne L1; movs r1,#1; b L2; L1: adds r1,r7,#2; L2: ldr r0,[sp]; strh r1,[r0,#0x18]
+ * Compiled puts the cmp late and folds it into `movs r1,#1; cmp; beq; adds r1,r7,#2`
+ * (no `b`), and reorders the 0x14 store before 8. Tried: ternary, if/else,
+ * `t ? s7+2 : 1`, testing *(p+0x1c) instead of t, swapping the 8/0xc stores,
+ * a local for 0x6C078965. All compile to the same 160 bytes.
+ * Pool words: 0x6C078965 (p+8), 0x5D588B65 (p+0xc), 0x00269EC3 (p+0x10).
+ * symbols: func_02161ECC thumb ov010; func_02186818, func_0218682C, func_02186278 thumb ov020
+ */
+ *   func_0218682C  0x0218682C  thumb  ov020
+ *   func_02186278  0x02186278  thumb  ov020
+ */
+
+extern int func_02161ECC(void *p);
+extern void func_02186818(void *p, int v);
+extern unsigned char *func_0218682C(void *p);
+extern int func_02186278(void *p, int v);
+
+void func_02194084(unsigned char *p, unsigned char *q, void *r)
+{
+    int i;
+    int s7 = 0;
+    int s6 = 0;
+    int off;
+    unsigned char *e;
+    int t;
+    int u;
+    int A;
+
+    for (i = 0; i < 10; i++) {
+        off = i * 0x18;
+        if (func_02161ECC(q + 8 + off)) {
+            e = q + off;
+            func_02186818(r, e[9]);
+            s7 += *(unsigned short *)(func_0218682C(r) + 0x2e);
+            s6 += e[9];
+        }
+    }
+    t = func_02186278(q, 0);
+    A = 0x6C078965;
+    *(int *)(p + 0x1c) = t;
+    *(int *)p = *(int *)(q + 4);
+    *(int *)(p + 4) = 0;
+    *(int *)(p + 8) = A;
+    *(int *)(p + 0xc) = 0x5D588B65;
+    *(int *)(p + 0x10) = 0x00269EC3;
+    *(int *)(p + 0x14) = 0;
+    if (*(int *)(p + 0x1c) == 0)
+        u = 1;
+    else
+        u = s7 + 2;
+    *(unsigned short *)(p + 0x18) = u;
+    *(unsigned short *)(p + 0x1a) = s6;
+    *(int *)(p + 0x20) = *(int *)(q + 4);
+}

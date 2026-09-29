@@ -1,0 +1,98 @@
+/*
+ * function: func_0219B13C
+ * address:  0x0219B13C
+ * packet:   pkt_ov021_0219B13C
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_0216D5A8  0x0216D5A8  thumb  ov010
+ *   func_0219B074  0x0219B074  thumb  ov021
+ *   func_0216D5A0  0x0216D5A0  thumb  ov010
+ *   func_0216D67C  0x0216D67C  thumb  ov010
+ *   func_0216DEE0  0x0216DEE0  thumb  ov010
+ *   func_0216D854  0x0216D854  thumb  ov010
+ *   func_0216D83C  0x0216D83C  thumb  ov010
+ *   func_0216D86C  0x0216D86C  thumb  ov010
+ *   func_0216D63C  0x0216D63C  thumb  ov010
+ *   func_021642B4  0x021642B4  thumb  ov010
+ *   d_021D4FEC     0x021D4FEC  data    a4
+ *
+ * DIFF, only register choice remains: the original keeps oy (the D86C(a)
+ * result) in r2 and the y1 = oy+rad sum in r5, ours gives r5 to oy and r2 to
+ * y1, so the corner arithmetic and the final call setup differ.  Local
+ * declaration order (5 orders tried) does not move it.  Leaf 0x021642B4 is
+ * filed (pkt_ov010_021642B4).
+ */
+
+typedef unsigned int u32;
+
+extern u32 func_0216D5A8(int a);
+extern int func_0219B074(int a);
+extern u32 func_0216D5A0(int a);
+extern int func_0216D67C(int a);
+extern int func_0216DEE0(int a);
+extern int func_0216D854(int a);
+extern int func_0216D83C(int a);
+extern int func_0216D86C(int a);
+extern int func_0216D63C(int a, int b);
+extern int func_021642B4(int a, int b, int c, int d);
+extern u32 d_021D4FEC[];
+
+int func_0219B13C(int a)
+{
+    int y1;
+    int x0;
+    int y0;
+    int x1;
+    u32 k;
+    u32 t;
+    u32 i;
+    int o;
+    int ox;
+    int oy;
+    int tx;
+    int ty;
+    int rad;
+
+    k = func_0216D5A8(a);
+    if (k != 1 && k != 2) {
+        return 9;
+    }
+    if (func_0219B074(a) == 0) {
+        return 9;
+    }
+    i = 0;
+    k = func_0216D5A0(a);
+    do {
+        t = d_021D4FEC[i];
+        i++;
+    } while (t != k && t != 0xff);
+    if (k != t) {
+        return 9;
+    }
+    o = func_0216DEE0(func_0216D67C(a));
+    if (o == 0) {
+        return 9;
+    }
+    if (func_0216D854(o) != func_0216D854(a)) {
+        return 9;
+    }
+    tx = func_0216D83C(o);
+    ty = func_0216D86C(o);
+    rad = func_0216D63C(a, 0);
+    ox = func_0216D83C(a);
+    oy = func_0216D86C(a);
+    y1 = oy + rad;
+    x0 = ox - rad;
+    y0 = oy - rad;
+    x1 = ox + rad;
+    if (y0 <= ty && y1 >= ty && x0 <= tx && x1 >= tx) {
+        return func_021642B4(ox, oy, tx, ty);
+    }
+    return 9;
+}

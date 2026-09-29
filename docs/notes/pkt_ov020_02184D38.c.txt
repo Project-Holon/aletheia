@@ -1,4 +1,9 @@
 /*
+ * SUPERSEDED (lane R2): `const` on q (`const int *q` / `const Q *q`) fixes
+ * the residual scheduling below. 0x02184D90 and 0x02184DE8 are EXACT in
+ * src/matched/ov/; 0x02184D38 is byte-correct MATCH in src/pending/ov/,
+ * blocked only by the unlabelled ARM9 leaf 0x02014184.
+ *
  * DIFF near miss, lane S21: ov020 0x02184D38 (88 B), and its two twins
  * 0x02184D90 and 0x02184DE8 (same body, callee 0x020141A8 instead of 0x02014184,
  * callback pool word 0x02184389 / 0x02184505). All three: 6-10 concrete bytes.

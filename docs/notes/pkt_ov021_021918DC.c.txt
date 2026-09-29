@@ -1,0 +1,16 @@
+func_021918DC (ov021, thumb, 112 B): DIFF, 17 bytes, instruction order only.
+
+Every instruction is present; the only difference is scheduling. Original:
+  adds r5,r0 / str r3,[sp,#0x14] / ldr r0,[pc] (line 0xE48) / ldr r3,[pc] (file) / str r0,[sp] / adds r4,r1 / adds r6,r2 / ldrh r0,[r5]
+Compiled: ldr r0 (line) first, str r3, str r0, adds, adds, ldrh r0, THEN ldr r3 (file).
+Also `str r0,[r7]` lands before `adds r1,r4,#0` in the original, after it in ours.
+Tried (no change in bytes): extern char[] vs int vs const char[], (u32) cast of the file, a `char *fl` local, `void *` cast,
+declaring t before h, a local `v` for the func_020457B0 result (worse, 74 B).
+Twin ov021_func_02188030 loads r3 (file) right after the line store, so the tail is normal there; here the ldrh of *a in r0 seems to change the schedule.
+
+C:
+  h = func_02030734(*a, 0x18, 1, d_021DDA50, 0xE48);
+  t = func_0219319C(a, h);
+  h[0] = func_020457B0(func_020458F8(b) + 1, *a);
+  func_02045838(h[0], b);
+  func_021917C4(a, h, h[0], (u16)(t + 3), d, e, f, g, c);   /* a: u16*, e,f,g: u8 stack args */

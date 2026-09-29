@@ -1,3 +1,7 @@
+RESOLVED (lane R1): EXACT as src/matched/ov/ov019_func_0217B66C.c. func_0216D3CC(h) and
+func_0216D454(h), not (void): h is still in r0 at both calls, so the switch value moves to r1.
+See docs/idioms/a-call-that-sets-no-arguments-takes-the-loaded-locals-in-place.md.
+
 func_0217B66C (ov019, Thumb, 72 bytes): DIFF, 6 bytes, same size, same relocations.
 
 Only the scheduling of the switch value differs. Original:

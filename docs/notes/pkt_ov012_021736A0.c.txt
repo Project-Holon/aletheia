@@ -1,3 +1,7 @@
+RESOLVED (lane R1): EXACT as src/matched/ov/ov012_func_021736A0.c with a volatile u16 *s and
+temporaries x = s[2]; y = s[3]; stored in order; plain temporaries let the scheduler load s[3]
+first. Its caller ov019 func_0217BD9C is now EXACT too.
+
 function: func_021736A0 (ov012, thumb, unlabelled leaf, 36 bytes + pool word 0x2830)
 status: DIFF, 4 bytes wrong (ordering of the last two ldrh/strh pairs)
 blocks: pending ov019_func_0217BD9C (MATCH, its call to this leaf has no witness)

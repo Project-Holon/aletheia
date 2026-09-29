@@ -1,0 +1,17 @@
+func_02198A10 (ov021, thumb, 72 bytes): DIFF, 6 instructions of ordering only.
+
+Everything matches (h = func_0216D6D4(a); h[0] += h[1]; call func_0216D8C0(a, &v);
+h[0] / 0x8000 < 0x28 -> return 0; else func_0216D7CC(a), return 1) except the
+zero-initialisation of the 12-byte local:
+
+  original: add r1, sp, #0 ; str r6,[r1] ; str r6,[r1,#4] ; str r6,[r1,#8] ; ldr r0,[r4] ; str r0,[sp,#4]
+            (r1 = &v is materialised BEFORE the three zero stores, stores go through r1,
+             the later v[1] = h[0] store goes through sp, and r1 is still live as the call arg)
+  ours:     str r6,[sp] ; str r6,[sp,#4] ; str r6,[sp,#8] ; ldr r0,[r4] ; add r1, sp, #0 ; str r0,[sp,#4]
+
+Tried (all folded the pointer to sp-relative stores or reordered further):
+  s32 v[3] plain stores; s32 *q = v with stores through q; `s32 v[3] = {0,0,0}` (hoists to the top);
+  static zero3(s32 *) helper (inlined, different register allocation);
+  q[0] = q[1] = q[2] = 0 (reverses store order).
+Next idea: the zero stores probably come from an inlined struct/vector initialiser whose
+pointer parameter is kept in r1; not found.

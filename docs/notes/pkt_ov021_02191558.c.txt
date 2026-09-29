@@ -1,0 +1,19 @@
+func_02191558 (ov021, 92 B, thumb): DIFF, same size, scheduling only.
+Original: `str r3,[sp,#0xc]` first, then the two pool loads (line, file), and `ldr r2,[sp,#0xc]`
+(d) loaded LAST before the bl to func_02191504 (after `ldrh r3,[r3]`). Ours stores r3 after the
+first pool load and loads r2 before `adds r1,r4,#0`.
+Tried: split declaration/assignment of r, local copy of d, swapped r[3]/r[5] stores. No change.
+Same family as func_02190DCC. Best C:
+
+u32 *func_02191558(u16 *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g)
+{
+    u32 *r = func_02030734(a[0], 0x2C, 1, &d_021DDA50, 0xCA7);   /* d_021DDA50 data ov021 a4 */
+    r[3] = (u32)a;
+    r[5] = b;
+    r[2] = func_020457B0(0xA0, a[0]);
+    func_02191504(a, r, d, e, f, g, c);   /* func_02191504 is EXACT: pkt_ov021_02191504 */
+    if (c == 1) {
+        *(u16 *)((u8 *)r + 0x28) = 8;
+    }
+    return r;
+}

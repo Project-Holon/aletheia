@@ -1,0 +1,24 @@
+func_02190DCC (ov021, 116 B, thumb): DIFF, same size, 12 mismatching lines, all scheduling.
+Only deltas: the original spills the 4th register arg with `str r3,[sp,#0xc]` at the very top
+(before `movs r1,#0xe`) and reloads it LAST (`ldr r3,[sp,#0xc]` after the two ldrh of a[2], a[0]);
+the compiler here places the store after `adds r7,r2,#0` and reloads r3 before the e/f stores.
+Tried: local copy of d, comma-expression for the a[3]=14 store, r[3]/r[5] store order,
+result via temp, volatile d (worse). None moved the reload.
+Same shape in ov021 func_02191558 (`ldr r2,[sp,#0xc]` last) and func_02191870 (result store sinks
+below the b/c reloads). Best C:
+
+u32 *func_02190DCC(u16 *a, u32 b, u32 c, u32 d, u16 e, u16 f)
+{
+    u32 *r;
+    a[3] = 14;
+    func_02192F74(a);
+    r = func_02030734(a[0], 0x20, 1, &d_021DDA50, 0x8FF);   /* d_021DDA50 data ov021 a4 */
+    r[5] = (u32)a;
+    r[3] = b;
+    r[0] = func_021930C0(a[2], a[0], c, d, e, f, a[3]);
+    r[4] = func_020457B0(0xA0, a[0]);
+    func_021927C0(r + 6, a);
+    func_02193144(a[0]);
+    func_02193044(1);
+    return r;
+}

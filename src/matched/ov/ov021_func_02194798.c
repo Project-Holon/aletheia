@@ -1,0 +1,37 @@
+/*
+ * function: func_02194798
+ * address:  0x02194798
+ * packet:   pkt_ov021_02194798
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02194B3C  0x02194B3C  thumb  ov021
+ *   d_020A814C     0x020A814C  data  a4
+ *   d_020A8144     0x020A8144  data  a4
+ *   func_02031140  0x02031140  arm
+ *   func_020307B0  0x020307B0  arm
+ */
+
+extern void (*d_020A814C)(void *p);
+extern void (*d_020A8144)(void *p);
+
+extern void func_02194B3C(void *a, void *b);
+extern void func_02031140(void *p);
+extern void func_020307B0(void *p);
+
+void func_02194798(unsigned char *a)
+{
+    int i;
+
+    for (i = 0; i < 0x20; i++)
+        func_02194B3C(a, a + 0x18 + i * 0x64);
+    d_020A814C(*(void **)(a + 0xccc));
+    d_020A8144(*(void **)(a + 0xcc8));
+    func_02031140(*(void **)(a + 0xc98));
+    func_020307B0(a);
+}

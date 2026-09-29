@@ -1,4 +1,8 @@
 /*
+ * SUPERSEDED (lane R2): EXACT once `*out = ...` is written inside each arm
+ * of the if/else instead of once after it; see
+ * src/matched/ov/ov018_func_0217FAE0.c.
+ *
  * function: func_0217FAE0   address: 0x0217FAE0 (ov018, thumb, 76 bytes)
  * verdict: DIFF, same size, instruction sequence identical; only the callee-saved
  * register assignment differs.

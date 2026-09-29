@@ -1,3 +1,8 @@
+RESOLVED (lane R1): EXACT as src/matched/ov/ov020_func_021876E0.c. Cases 2 and 4 call
+func_02187A10(o, *s): the callee forwards its second argument, so the switch value stays live
+in r1 and the dispatch index goes to r0 (case 4's `b` into case 2 is cross-jumping of the two
+identical calls). See docs/idioms/a-call-that-sets-no-arguments-takes-the-loaded-locals-in-place.md.
+
 pkt_ov020_021876E0 (ov020, thumb, -O4,p dsi/1.1p1): DIFF, 3 bytes (all the dispatch register)
 
 Original loads the switch value into r1 and dispatches in r1:

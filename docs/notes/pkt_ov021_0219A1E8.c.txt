@@ -1,0 +1,52 @@
+/*
+ * function: func_0219A1E8
+ * address:  0x0219A1E8
+ * packet:   pkt_ov021_0219A1E8
+ * region:   ov021
+ * status:   DIFF (same size, 89 concrete bytes differ; only register allocation)
+ *
+ * Lane S24. Control flow and instruction sequence reproduce; the register
+ * assignment does not. Original: key stays in r0 and is reused as the entry
+ * pointer (adds r0, r1, r2), val is copied to r4, the table base sits in r1,
+ * i and the inner index j share r3, the off = i*12 temporary is r2, r5/r6 hold
+ * the two hoisted 12s, and the entry pointer is computed only in the taken
+ * branch. Compiled: e is computed eagerly at the top of each iteration
+ * (adds r4, r2, r7) and lives in r4, val stays in r1, base in r2, i in r4.
+ *
+ * Tried (10 runs): separate j versus reuse of i; table base in a local Ent* and
+ * in a u8*; byte-offset (u8 *)t + i * 12 spelling; all six declaration orders
+ * of (i, j, e). None changed the shape of the diff.
+ *
+ * symbols:
+ *   d_021D5074  0x021D5074  data  a4
+ */
+
+typedef unsigned short u16;
+typedef struct { u16 v[6]; } Ent;
+extern Ent d_021D5074[];
+
+u16 func_0219A1E8(u16 key, u16 val)
+{
+    u16 *e;
+    int j;
+    int i;
+    i = 0;
+    do {
+        if (d_021D5074[i].v[0] == key) {
+            e = d_021D5074[i].v;
+            j = 1;
+            while (e[j] != 9) {
+                if (val == e[j]) {
+                    j++;
+                    if (e[j] == 9)
+                        j = 1;
+                    return e[j];
+                }
+                j++;
+            }
+            return 9;
+        }
+        i++;
+    } while (d_021D5074[i].v[0] != 0xFF);
+    return 9;
+}

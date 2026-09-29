@@ -7,12 +7,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
- * Blocker: func_021736A0 is an unlabelled ov012 thumb leaf (36 bytes + pool word 0x2830),
- * so its call has no witness (3 overlays overlap the address). Its C is unmatched: see
- * docs/notes/pkt_ov012_021736A0.c.txt (4 bytes off, load/store scheduling of the last two halfwords).
- * Byte-correct otherwise.
+ * func_021736A0 is an unlabelled ov012 thumb leaf, now filed as
+ * src/matched/ov/ov012_func_021736A0.c (pkt_ov012_021736A0), which resolves its call.
  *
  * symbols:
  *   func_020061E4  0x020061E4  thumb

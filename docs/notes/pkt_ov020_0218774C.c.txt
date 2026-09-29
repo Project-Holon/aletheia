@@ -1,3 +1,8 @@
+RESOLVED (lane R1): 0x0218774C and 0x021877A8 EXACT as src/matched/ov/ov020_func_0218774C.c
+and ov020_func_021877A8.c; 0x02187808 was already matched. The fix is the twin's: c (the
+func_0202E8B8 argument) is u8, which keeps its spilled reload below the strb of d
+(docs/idioms/a-narrow-spilled-parameter-keeps-its-reload-below-a-store.md).
+
 pkt_ov020_0218774C / pkt_ov020_021877A8 / pkt_ov020_02187808 (ov020, thumb, -O4,p dsi/1.1p1): DIFF, 4 bytes each
 
 Three constructors sharing one shape: func_020122C0(a, 0, func_021876E0, 0x28) -> r7,

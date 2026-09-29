@@ -1,0 +1,121 @@
+/*
+ * function: func_021880C8
+ * address:  0x021880C8
+ * packet:   pkt_ov021_021880C8
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * DIFF near miss, lane B10: one missing instruction (2 bytes; the pool then
+ * sits 4 bytes early, hence "110 bytes"). Every other instruction matches.
+ * Overlay id pool words resolve as overlay_id (19 and 18, fed to
+ * sub_02034AC4). d_021D3688 / d_021D3604 report "no witness outside" with
+ * `data a4`; not yet retried with an ov021 token (moot until byte-correct).
+ *
+ * Residual, +0x94, the store of func_02030734's result to p+0x114:
+ *   original: adds r1,r0,#0; movs r0,#0x20; adds r0,#0xf4; str r1,[r5,r0]
+ *   compiled:                movs r1,#0x20; adds r1,#0xf4; str r0,[r5,r1]
+ * Tried, all identical: direct store, via the shared int local r, via a
+ * fresh int local, via a void* local, void*-returning prototype, u16**
+ * cast store, ((int *)p)[0x45], hoisting func_02030CB0(0x20) into r.
+ * Permuter (300): best candidate 10 bytes out by re-reading *(u16 *)p into
+ * temporaries around the store (not taken, not a plausible source).
+ * A mirror-image register choice (there the compile adds the copy) blocks
+ * ov021 func_02187F00 (docs/notes/pkt_ov021_02187F00.c.txt).
+ *
+ * symbols:
+ *   func_020433E0  0x020433E0  arm
+ *   func_02188D5C  0x02188D5C  thumb  ov021
+ *   func_0204A48C  0x0204A48C  arm
+ *   func_020434DC  0x020434DC  arm
+ *   func_02043598  0x02043598  arm
+ *   func_02045088  0x02045088  arm
+ *   func_0201DD60  0x0201DD60  thumb
+ *   func_02046440  0x02046440  arm
+ *   func_02188E50  0x02188E50  thumb  ov021
+ *   func_02188EE4  0x02188EE4  thumb  ov021
+ *   func_02012984  0x02012984  thumb
+ *   func_0218C9E8  0x0218C9E8  thumb  ov021
+ *   func_020056A0  0x020056A0  thumb
+ *   func_02189108  0x02189108  thumb  ov021
+ *   func_02030CB0  0x02030CB0  arm
+ *   func_02030734  0x02030734  arm
+ *   func_02030CBC  0x02030CBC  arm
+ *   func_021C6D10  0x021C6D10  thumb  ov021
+ *   func_021D317C  0x021D317C  thumb  ov021
+ *   func_02013CC8  0x02013CC8  thumb
+ *   func_02013CE0  0x02013CE0  thumb
+ *   func_02034AC4  0x02034AC4  arm
+ *   func_02035660  0x02035660  arm
+ *   d_021D3688     0x021D3688  data  a4
+ *   d_021D3604     0x021D3604  data  a4
+ *   d_021DD9C0     0x021DD9C0  data  a4
+ *   abs_id_13      0x00000013  data  a1
+ *   abs_id_12      0x00000012  data  a1
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+extern u8 d_021D3688[];
+extern u8 d_021D3604[];
+extern u8 d_021DD9C0[];
+extern u8 abs_id_13[];
+extern u8 abs_id_12[];
+
+void func_020433E0(void *a);
+void func_02188D5C(void *p);
+void func_0204A48C(void *a, void *b, int c);
+void func_020434DC(int a, int b);
+void func_02043598(int a, int b);
+int func_02045088(int a);
+void func_0201DD60(int a);
+void func_02046440(int a, int b, int c, int d, int e, int f, void *g);
+void func_02188E50(void);
+void func_02188EE4(void *p);
+int func_02012984(int a);
+int func_0218C9E8(int a, int b);
+int func_020056A0(void *f, void *p, int c);
+void func_02189108(void);
+int func_02030CB0(int a);
+int func_02030734(int a, int b, int c, void *d, int e);
+int func_02030CBC(int a);
+int func_021C6D10(int a, int b);
+int func_021D317C(int a);
+int func_02013CC8(int a);
+int func_02013CE0(int a);
+void func_02034AC4(void *id);
+void func_02035660(int a);
+
+int func_021880C8(void *a, char *p)
+{
+    u16 id;
+    int r;
+
+    id = *(u16 *)p;
+    func_020433E0(d_021D3688);
+    func_02188D5C(p);
+    func_0204A48C(d_021D3604, d_021D3688, 0x89);
+    func_020434DC(0x10, 1);
+    func_02043598(0x10, 1);
+    func_0201DD60(func_02045088(id));
+    func_02046440(0, 3, 0, 1, 0x1000, *(u16 *)p, func_02188E50);
+    func_02188EE4(p);
+    r = func_02012984(*(int *)(p + 8));
+    *(int *)(p + 0x48) = func_0218C9E8(*(u16 *)p, r);
+    *(int *)(p + 0xac) = func_020056A0(func_02189108, p, 0);
+    r = func_02030734(id, func_02030CB0(0x20), 0, d_021DD9C0, 0x26B);
+    *(int *)(p + 0x114) = r;
+    *(int *)(p + 0x110) = func_02030CBC(0x20);
+    *(int *)(p + 0x134) = func_021C6D10(10, *(u16 *)p);
+    *(int *)(p + 0x14c) = func_021D317C(*(u16 *)p);
+    if (func_02013CC8(*(u16 *)(p + 0xd0)) == 1 || func_02013CE0(*(u16 *)(p + 0xd0)) == 1)
+        func_02034AC4(abs_id_13);
+    else
+        func_02034AC4(abs_id_12);
+    func_02035660(0x1e);
+    return 1;
+}

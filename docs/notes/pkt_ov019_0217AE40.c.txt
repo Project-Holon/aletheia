@@ -54,6 +54,10 @@ int func_0217AE40(int a, int b, u32 c, u32 d)
 }
 
 /*
+ * SUPERSEDED (lane R2): EXACT once the third parameter is `u16 c` instead
+ * of `u32 c`; see src/matched/ov/ov019_func_0217AE40.c and
+ * docs/idioms/a-narrow-spilled-parameter-keeps-its-reload-below-a-store.md.
+ *
  * DIFF, 2 concrete instructions (+0x32/+0x34): the original emits
  * `strh r5,[r6]` (the u16 store of d into the local) BEFORE the reload
  * `ldr r0,[sp]` of the spilled 3rd argument; this C emits the reload first.

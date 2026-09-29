@@ -32,3 +32,10 @@ The position of the hoisted `i = 0` matters. Written first (`i = 0; j = ...;`)
 or kept in the for header, the bytes come out the same size, but i and j swap
 registers in the later recompute loop (10 bytes out). No front end from 1.1 to
 2.0 produces the second guard from the plain for loop.
+
+The same holds in thumb overlay code with a field bound (ov021 0x0219CBE0,
+0x0219CC80, 1.1p1): assign the counter before the `if`, test the loop
+condition itself (`if (i < p->n)`), and write the loop as `for (; i < p->n; ...)`.
+The counter's type picks the branch pair: a signed `int i` gives `ble`/`blt`, a
+`u32 i` gives `bls`/`blo`. Testing `if (n > 0)` on a u16 count instead folds to
+a single `beq`.

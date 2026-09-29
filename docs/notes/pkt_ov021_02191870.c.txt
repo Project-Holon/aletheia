@@ -1,0 +1,15 @@
+func_02191870 (ov021, 108 B, thumb): DIFF, same size, scheduling only.
+Original keeps the func_020457B0 result in a copy (`adds r2,r0,#0`), loads the b/c arguments for
+func_02045CAC into r0/r1, and only then does `str r2,[r6]`; ours stores `str r0,[r6]` right after
+the call. Everything else (entry spills, the 9-argument call to func_021917C4 with the u16 `x + 3`
+and four ldrb stack arguments) is identical. A named local for the result did not move the store.
+Same family as func_02190DCC / func_02191558. Best C:
+
+void func_02191870(u16 *a, u32 b, u32 c, u32 d, u8 e, u8 f, u8 g, u8 h)
+{
+    u32 *r = func_02030734(a[0], 0x18, 1, &d_021DDA50, 0xE2A);   /* d_021DDA50 data ov021 a4 */
+    u32 x = func_0219319C(a, r);                                 /* thumb ov021 */
+    r[0] = func_020457B0(0x40, a[0]);
+    func_02045CAC(b, c);                                          /* arm */
+    func_021917C4(a, r, r[0], x + 3, e, f, g, h, d);   /* callee proto: (u16*, u32*, u32, u16, u8, u8, u8, u8, u32) */
+}

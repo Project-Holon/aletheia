@@ -1,0 +1,25 @@
+func_0219C928 (ov021, thumb, 100 bytes): DIFF, 9 bytes wrong, same size.
+Everything matches except the scheduling of the arguments of the call to
+func_0219C6B8: the original loads ldrb r2,[r5,#7]; ldrb r3,[r5,#9]; str v,[sp];
+then r0=a; r1=d. The compiled code does r1=d first, then str, ldrb, ldrb, r0.
+Tried: u8/u32/u16 spellings of the callee prototype, binding b[7]/b[9] to locals.
+
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+extern u32 func_0216D520(u32);
+extern int func_0219CBD4(u32, u32, u16 *, u16 *);
+extern u16 func_0219C6B8(u32, u32, u32, u32, u16);
+extern void func_0219CFB0(u32, u32, u16 *, u16 *, u32, u32, u32);
+
+int func_0219C928(u32 a, u16 *b, u16 *c, u32 d, u32 s0, u32 s1)
+{
+    u16 v;
+    u32 t = func_0216D520(a);
+    func_0219CBD4(t, *b, &v, c);
+    if (!(*c & 2)) {
+        c[1] = func_0219C6B8(a, d, ((u8 *)b)[7], ((u8 *)b)[9], v);
+        return 1;
+    }
+    c[1] = 0xFFFF;
+    func_0219CFB0(t, 0, b, &c[1], s0, s1, d);
+    return 0;
+}

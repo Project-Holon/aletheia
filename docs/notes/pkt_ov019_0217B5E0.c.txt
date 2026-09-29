@@ -1,3 +1,7 @@
+RESOLVED (lane R1): EXACT as src/matched/ov/ov019_func_0217B5E0.c. func_0216D3CC and
+func_0216D454 each take h as their one argument (h is still in r0 at both calls, so the
+switch value moves to r1): docs/idioms/a-call-that-sets-no-arguments-takes-the-loaded-locals-in-place.md.
+
 func_0217B5E0 (ov019, Thumb, 140 bytes): DIFF, 6 bytes, same size, 10 of 10 relocations resolved.
 
 Same 6-byte scheduling diff as func_0217B66C (see pkt_ov019_0217B66C.c.txt): the

@@ -1,0 +1,16 @@
+func_021921C8 (ov021, thumb, 124 B): DIFF, size 126 vs 124 (75+ bytes).
+
+Original: push {r3-r7,lr}, sub sp,#0x20, a in r6, w (func_020437DC result) in r7, d in r5, h in r4, only rem spilled (sp1c);
+zero for the two calls re-made with `movs r0,#0` each time, u16 stack arg re-read from [sp+0x38] at each use.
+Ours: a in r7, zero hoisted into r6, w spilled -> sp 0x24, so one register short. Tried: all six declaration orders of w/h/rem,
+`volatile u16 e` (makes e re-read per use like the original but does not free the register), plain u16 e (80 B).
+Return is `movs r0,#1 / cmp r5,r4 / bge / movs r0,#0` (d >= h after the clamp).
+
+C:
+  w = func_020437DC(a); h = func_020437E4(a);
+  func_02043B5C(a, (u8)e);
+  if (d > h) d = h;
+  rem = h - d;
+  func_020439A0(b, a, 0, d, 0, 0, w, rem, e);
+  func_020439A0(c, a, 0, 0, 0, rem, w, d, e);
+  return d >= h;   /* int func(u32 a, u32 b, u32 c, int d, u16 e) */

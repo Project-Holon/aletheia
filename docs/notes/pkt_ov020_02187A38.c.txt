@@ -1,0 +1,64 @@
+/*
+ * function: func_02187A38
+ * address:  0x02187A38
+ * packet:   pkt_ov020_02187A38
+ * region:   ov020
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * DIFF near miss, lane B10: 8 concrete bytes, one 4-instruction reorder.
+ * Everything else (all 27 relocation sites, the 16.0f CSE'd into r6 across
+ * the equal-branch calls) is byte-identical. Neighbour twin with the same
+ * float chain: src/matched/ov/ov020_func_02187B38.c.
+ *
+ * Residual, +0x78..+0x7F, the G2x_SetBlendAlpha_ (0x0207D63C) call:
+ *   original: movs r1,#8; movs r2,#0x11; subs r3,r3,r4; str r4,[sp]
+ *   compiled: str r4,[sp]; movs r1,#8; movs r2,#0x11; subs r3,r3,r4
+ * The original stores the 5th (stack) argument last. Tried without effect
+ * (all give the same 8 bytes): helper calls spelled as u32 externs vs real
+ * float (this file), a static inline G2_SetBlendAlpha wrapper, volatile void*
+ * register param, v declared in an inner block, v as u32, a named w = 16 - v
+ * local, an unprototyped callee declaration; `w, 16 - w` is worse; permuter
+ * (300 iterations) found nothing below 8 bytes.
+ *
+ * symbols:
+ *   _ffltu         0x0209BE04  arm
+ *   _fdiv          0x0209CE10  arm
+ *   _fmul          0x0209C77C  arm
+ *   _fadd          0x0209C95C  arm
+ *   _fsub          0x0209CB8C  arm
+ *   _ffix          0x0209C494  arm
+ *   func_0207D658  0x0207D658  arm
+ *   func_0207D63C  0x0207D63C  arm
+ *   func_0207D534  0x0207D534  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+void func_0207D658(u32 a, int b, int c);
+void func_0207D63C(u32 a, int b, int c, int d, int e);
+void func_0207D534(u32 a, int b);
+
+void func_02187A38(char *o, int st)
+{
+    int v;
+
+    if (st == 2) {
+        func_0207D658(0x04000050, 8,
+            (int)(16.0f * ((float)*(u32 *)(o + 0x18) / (float)*(u32 *)(o + 0x1c)) + -16.0f));
+    } else if (st == 4) {
+        if (*(u8 *)(o + 0x15) == *(u8 *)(o + 0x14)) {
+            v = (int)(16.0f * ((float)*(u32 *)(o + 0x18) / (float)*(u32 *)(o + 0x1c)));
+            func_0207D63C(0x04000050, 8, 0x11, 16 - v, v);
+            func_0207D534(0x0400106C,
+                (int)(16.0f * ((float)*(u32 *)(o + 0x18) / (float)*(u32 *)(o + 0x1c)) + -16.0f));
+        } else {
+            func_0207D658(0x04000050, 8,
+                (int)(0.0f - 16.0f * ((float)*(u32 *)(o + 0x18) / (float)*(u32 *)(o + 0x1c))));
+        }
+    }
+}

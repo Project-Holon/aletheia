@@ -1,0 +1,33 @@
+pkt_ov021_021964B0  func_021964B0  ov021 thumb  DIFF (same size, 10 runs)
+
+RGB555 saturating add: for each of n rows of 16 u16 at p, add q[j] to each 5-bit
+channel, clamp to 31, repack r | g<<5 | b<<10.
+
+Best C (closest scheduling), dsi/1.1p1 -O4,p:
+
+    for (i = 0; i < n; i++) {
+        u16 *row = p + i * 16;
+        for (j = 0; j < 16; j++) {
+            u16 c = row[j];
+            u16 r = c & 0x1F;
+            u16 g = (c & 0x3E0) >> 5;
+            u16 b = (c & 0x7C00) >> 10;
+            u16 d = q[j];
+            u16 rr = r + d, gg = g + d, bb = b + d;
+            if (rr > 0x1F) rr = 0x1F;
+            if (gg > 0x1F) gg = 0x1F;
+            if (bb > 0x1F) bb = 0x1F;
+            row[j] = rr + (gg << 5) + (bb << 10);
+        }
+    }
+
+The field extraction ops now match the image (movs 0x3e / lsls 4 / ands; lsls 0xb; lsrs 0x10;
+0x7c00 mask hoisted into a register as 0x3e<<9). What differs:
+ - the image loads q[j] AFTER all three field extractions (ldr r0,[sp,#4] at +3A) and adds
+   the three sums back to back (adds r2,r2,r0; adds r1,r1,r0; adds r0,r5,r0) with the u16
+   truncations (lsls/lsrs 16) deferred until after all three adds; mine loads q[j] up front
+   and truncates each sum right after its add.
+ - loop counter/register allocation follows (r4 vs r2, r7 mask, sp[4] reload).
+Tried: d as a local, q[j] inline three times, u32 field temporaries, a u16 bitfield struct
+{r:5,g:5,b:5} (worse: lsls 0x1b/lsrs 0x1b extraction), (u16)(c & mask) >> k (gives lsrs 0x15/0x1a),
+separate sum variables vs reassigning r/g/b. None moves the q[j] load after the extractions.

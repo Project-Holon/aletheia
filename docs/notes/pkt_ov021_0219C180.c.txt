@@ -1,0 +1,46 @@
+pkt_ov021_0219C180: func_0219C180 @ 0x0219C180 (ov021, thumb, 140 bytes) - DIFF, 34 concrete bytes
+
+Twin of func_0219C20C (identical code, pool tables differ: d_021D53B4 / d_021D53D4,
+declared `data  a4` with no ov021 token; the ov021 hint is contested and drops
+out per the brief). Callees func_02163E34 (ov010, label) and func_021AB11C (ov021, label) resolve.
+
+Semantics recovered: copy 12-byte V3 *b, replace x and z with
+((s16)(((x >> 4) / 4096) + (s16)T1[c][d])) << 16 and the same for z with T2, call
+func_02163E34(a, &s, &out); return 1 iff it returns 1 and func_021AB11C(out) != 0.
+
+Residual: the original keeps `a` spilled at [sp,#0], the V3 copy at sp+8, out at sp+4, and
+uses ip for &s (push {r4-r7,lr}, sub sp,#0x14). Every variant compiled instead keeps `a` in ip and
+saves r3 (push {r3-r7,lr}, sub sp,#0x10) with different register numbering (34 diff lines).
+Tried: struct-copy then inline s.x/s.z stores; nx/nz s16 locals; qx/qz quotient locals computed
+first; seven declaration orders of s/out/r/nx/nz. None moved the diff count below 34.
+
+C (34 diff lines):
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed short s16;
+
+typedef struct { int x, y, z; } V3;
+
+extern int d_021D53B4[4][2];
+extern int d_021D53D4[4][2];
+extern int func_02163E34(u32, V3 *, u32 *);
+extern int func_021AB11C(u32);
+
+int func_0219C180(u32 a, V3 *b, int c, int d)
+{
+    V3 s = *b;
+    u32 out;
+    int r = 0;
+    s16 nx = (s16)((b->x >> 4) / 4096) + (s16)d_021D53B4[c][d];
+    s16 nz = (s16)((b->z >> 4) / 4096) + (s16)d_021D53D4[c][d];
+    s.x = nx << 16;
+    s.z = nz << 16;
+    if (func_02163E34(a, &s, &out) == 1) {
+        if (func_021AB11C(out) != 0) {
+            r = 1;
+        }
+    }
+    return r;
+}

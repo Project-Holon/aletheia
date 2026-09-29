@@ -1,0 +1,28 @@
+/*
+ * shard note: pkt_ov021_02193498  (ov021, thumb, 0x02193498)  status: DIFF
+ *
+ * Near miss: same size, only the argument-setup schedule differs before the
+ * call(s) to func_021D14C4.  Original order: ldr r2,[src,#off] (offset word),
+ * then ldr r0,[sp,#0x128] (stack arg e), str d,[sp], str e,[sp,#4], ldr r3,[sp,#8],
+ * adds r2,src,r2.  Compiled order puts ldr e, str d, str e first and the offset
+ * ldr after them.  4 to 8 mismatched instructions, all in that window.
+ * Tried without effect: pointer local, int-offset local, struct-typed src,
+ * int* view of src, block-scoped temporary, e = e.  Buffer type is a 0x104-byte
+ * struct (memset 0x104 via func_02082BCC, copied out as an ldm/stm loop).
+ */
+
+typedef struct { int w[0x41]; } B104;
+
+extern void func_02082BCC(void *, int, int);
+extern void func_021D14C4(void *, int, int, int, int, int);
+
+void func_02193498(char *dst, char *src, int c, int d, int e)
+{
+    B104 buf;
+
+    func_02082BCC(&buf, 0, sizeof(buf));
+    func_021D14C4(&buf, 0, (int)src + ((int *)src)[2], c, d, e);
+    func_021D14C4(&buf, 1, (int)src + ((int *)src)[3], c, d, e);
+    *(B104 *)dst = buf;
+    *(int *)(dst + 0x100) = 2;
+}

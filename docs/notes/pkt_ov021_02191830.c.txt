@@ -1,0 +1,20 @@
+func_02191830 (ov021, 64 B, thumb): DIFF (62 vs 64 bytes with the closest C).
+Shape: func_0201D304(b, a[2], 0) is called with r3 left over (3 args, r3 = d spilled to [sp]),
+w = result + 2; h = func_0201D42C(b, a[2]); *c = ceil8(w); *d = ceil8(h) with
+`x = v>>3; if (v & 7) x++` and the tested value copied (`adds r2,r4,#0`) while the shift happens
+in place. Getting the copy needs `t = w; w >>= 3; if (t & 7) w++;` (a fresh cw local instead gives
+`lsrs r3,r4,#3`). The original also has one `adds r0,r0,#0` (self-copy of the second call's result)
+between `movs r1,#7` and the first `lsrs`; every spelling tried (helper function, extra copy k=h,
+reordered stores) either lacks that self-copy (62 B, only delta) or gets it with different
+registers (64 B, all registers shifted). Closest C (62 B, only the self-copy missing):
+
+void func_02191830(u32 *a, u32 b, u8 *c, u8 *d)
+{
+    u32 w = func_0201D304(b, a[2], 0) + 2;   /* thumb, 3 params */
+    u32 h = func_0201D42C(b, a[2]);          /* thumb */
+    u32 t, u;
+    t = w; w >>= 3; if (t & 7) { w++; }
+    u = h; h >>= 3; *c = w;
+    if (u & 7) { h++; }
+    *d = h;
+}

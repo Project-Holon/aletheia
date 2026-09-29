@@ -1,0 +1,15 @@
+func_021924F0 (ov021, thumb, 128 B): DIFF, 6 bytes after the loop is spelled as a for; residual is the stack-slot order of three compiler temporaries.
+
+Original slots: t (= func_0201DC80(d)+2) at sp14, (s16)a at sp10, (u16)t at sp18. Ours: t sp18, (s16)a sp14, (u16)t sp10.
+Registers match with `for (i = 0; func_0201D37C(e, h, i) == 1; i++)` (the do/while spelling put h/i in swapped registers, 14 B).
+Declaration permutations of i/h/t change nothing; naming the two truncated temps as s16/u16 locals (before the loop or at the top) breaks the schedule (85-116 B).
+
+C (closest, 6 B):
+  t = func_0201DC80(d) + 2;
+  h = func_020457B0(func_020458F8(e) + 1, f);
+  for (i = 0; func_0201D37C(e, h, i) == 1; i++) {
+      func_0201C7A4(c, (s16)a, (s16)b, h, d);
+      b = (u16)(b + (u16)t);
+  }
+  func_02045808(h);
+  /* void func(u32 a, u32 b, u32 c, u32 d, u32 e, u16 f); locals: int i; u32 h; int t; */

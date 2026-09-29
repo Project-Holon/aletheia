@@ -1,0 +1,33 @@
+/*
+ * function: func_0218FD88   (DIFF, 74 bytes compiled = 76 with pool pad; same size, one swap)
+ * address:  0x0218FD88, region ov021, thumb, dsi/1.1p1 -O4,p
+ * packet:   pkt_ov021_0218FD88
+ *
+ * Only mismatch: after the second call the original stores out[1] first, then
+ * does `adds r6,#8` (a) then `adds r5,#8` (b) for the third call. The compiler
+ * hoists `adds r5,#8` above the store and leaves `adds r6,#8` after it, whichever of
+ * `a+=2; b+=2`, `b+=2; a+=2`, `out[2] = f(a+2, b+2, ..)`, `out[i]` or `*out++`
+ * spellings is used (4 runs). Everything else, including the flag-reuse
+ * `if (d == 0)` guard (bne straight after `adds r7,r2,#0`), matches.
+ *
+ * symbols:
+ *   func_0218FDD4  0x0218FDD4  thumb  ov021   (s32 lerp: a + (b-a)*n/d, returns b when d==n)
+ */
+
+typedef unsigned int   u32;
+typedef signed int     s32;
+
+typedef struct { u32 w[3]; } B12;
+
+extern s32 func_0218FDD4(s32 *a, s32 *b, s32 d, s32 n);
+
+void func_0218FD88(s32 *a, s32 *b, s32 d, s32 n, s32 *out)
+{
+    if (d == 0)
+        *(B12 *)out = *(B12 *)b;
+    out[0] = func_0218FDD4(a, b, d, n);
+    out[1] = func_0218FDD4(a + 1, b + 1, d, n);
+    a += 2;
+    b += 2;
+    out[2] = func_0218FDD4(a, b, d, n);
+}

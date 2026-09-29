@@ -1,0 +1,64 @@
+DIFF note for func_0218DDB4 (ov021, 0x0218DDB4, 196 bytes): same size, one load out of place.
+Original interleaves the load of the callee argument 'ldr r1,[r6,#0x70]' between the first and second
+halfword stores of the 6-byte struct copy into the entry (+0084); every compiled variant puts it after
+the third store. Everything else matches: u8 parameters on the three callees (so (u8)i is re-narrowed
+per call, not CSE'd), declaration order 'S6 tmp; cnt; base; n; z; x; i' with x assigned before z, and the
+d_021D3DD4 pool word needs 'data a2' without the ov021 token. Tried: field-wise halfword stores, S6*
+entry pointer, nested struct entry, swapping the copy after the first call.
+
+/*
+ * function: func_0218DDB4
+ * address:  0x0218DDB4
+ * packet:   pkt_ov021_0218DDB4
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   d_021D3DD4     0x021D3DD4  data a2
+ *   func_021C0688  0x021C0688  thumb ov021
+ *   func_021C068C  0x021C068C  thumb ov021
+ *   func_021C06B4  0x021C06B4  thumb ov021
+ *   func_021C06A8  0x021C06A8  thumb ov021
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+
+typedef struct { u16 a; u16 b; u16 c; } S6;
+
+extern S6 d_021D3DD4;
+extern int func_021C0688(int o);
+extern int func_021C068C(int x, int z, int o, u8 i);
+extern int func_021C06B4(u8 i, int o);
+extern int func_021C06A8(u8 i, int o);
+
+void func_0218DDB4(char *p, int *q, char *r)
+{
+    S6 tmp = d_021D3DD4;
+    int cnt = 0;
+    int base = *(u16 *)(r + 0x100);
+    int n = func_021C0688(*(int *)(p + 0x70));
+    int z;
+    int x;
+    int i;
+
+    x = q[0] / 0x10000;
+    z = q[2] / 0x10000;
+    for (i = 0; i < n; i++) {
+        if (func_021C068C(x, z, *(int *)(p + 0x70), i)) {
+            int k = base + ++cnt - 1;
+            char *e;
+            if (k >= 0x10)
+                break;
+            e = r + k * 16;
+            *(S6 *)e = tmp;
+            *(int *)(e + 8) = func_021C06B4(i, *(int *)(p + 0x70));
+            *(int *)(e + 0xc) = func_021C06A8(i, *(int *)(p + 0x70));
+        }
+    }
+    *(u16 *)(r + 0x100) += (u16)cnt;
+}

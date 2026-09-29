@@ -1,0 +1,140 @@
+/*
+ * function: func_0217F4B4
+ * address:  0x0217F4B4
+ * packet:   pkt_ov019_0217F4B4
+ * region:   ov019
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * DIFF note (lane B6, 13 runs). Every instruction but two spots matches:
+ *  1. Loop entry. The original enters the pointer-search loop with
+ *     `movs r0,#0; ldr r2,=d_021805A4; b test` (test at the bottom,
+ *     `adds r0,#1; cmp r0,#8; blo body`). Every spelling tried compiles
+ *     rotated, with no entry branch (2 bytes short, all later offsets
+ *     shift): for/while, u32/int/(u32)i, u8/u16 (adds truncation), i = 0
+ *     hoisted to the top, bound in a local, if+do/while, top-of-body
+ *     `if (i >= 8)` test (keeps an entry cmp), Ent pointer, `continue`
+ *     arms. Matched loops with the `b test` shape (ov019 0217B098,
+ *     ov020 021861F4, ov010 02159E8C) all call something in the body;
+ *     this body has no call, which may be what lets the compiler rotate.
+ *  2. case -2: the original loads st[3] into r1 (key's register) and reads
+ *     e->p before e->b (`ldr r0,[r1,r2]; adds r1,r1,r2; ldrb r1,[r1,#4]`);
+ *     `e = &d_021805A4[st[3]]; key = e->p[e->b - 1].f4` gives the same ops
+ *     in r2/r0/r1 order.
+ * Resolved already: u32 i (blo), `tbl[i].p == (const Pair *)key` for the
+ * `cmp r3, r1` operand order, d_021805A4 one symbol (+4 addend for .b).
+ *
+ * symbols:
+ *   func_0217F310  0x0217F310  thumb  ov019
+ *   func_02034714  0x02034714  arm
+ *   d_021805A4     0x021805A4  data  ov019  a4
+ *   d_021803A0     0x021803A0  data  ov019  a1
+ *   d_0218050C     0x0218050C  data  ov019  a4
+ *   d_021804B4     0x021804B4  data  ov019  a4
+ *   d_021807F8     0x021807F8  data  ov019  a4
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef struct Pair {
+    u32 f0;
+    u32 f4;
+} Pair;
+
+typedef struct Ent {
+    Pair *p;
+    u8    b;
+    u8    pad5[3];
+} Ent;
+
+extern int  func_0217F310(char *p, u32 a1);
+extern void func_02034714(const char *a, u32 b, const char *c);
+
+extern const Ent d_021805A4[];
+extern const u8  d_021803A0[][2][2];
+extern const u32 d_0218050C[];
+extern const u32 d_021804B4[];
+extern u32 d_021807F8[];
+
+int func_0217F4B4(char *p, int *hit, u8 *st, int *flag, u32 a4)
+{
+    u32 key;
+    u32 i;
+    const Ent *e;
+
+    *hit = 0;
+    *flag = 0;
+    key = func_0217F310(p, a4);
+    switch (key) {
+    case (u32)-1:
+        return key;
+    case (u32)-2:
+        if (st[3] == 0)
+            return key;
+        e = &d_021805A4[st[3]];
+        key = e->p[e->b - 1].f4;
+        break;
+    case 0x64:
+        return d_021803A0[st[0]][st[1]][st[2]];
+    case 0x96:
+        *flag = 1;
+        return d_021803A0[st[0]][st[1]][st[2]];
+    }
+
+    if (st[3] == 0) {
+        if (key == (u32)d_0218050C) {
+            if (st[0] == 4)
+                st[0] = 0;
+        } else if (key == (u32)d_021804B4) {
+            st[0] = 4;
+        }
+    }
+
+    for (i = 0; i < 8; i++) {
+        if (d_021805A4[i].p == (const Pair *)key) {
+            *hit = 1;
+            return i;
+        }
+        switch (st[3]) {
+        case 0:
+        case 1:
+            break;
+        case 2:
+            if (key < 5) {
+                st[0] = key;
+                *hit = 1;
+                return 1;
+            }
+            break;
+        case 3:
+        case 6:
+            if (key < 2) {
+                st[1] = key;
+                *hit = 1;
+                if (st[3] == 6)
+                    return 5;
+                return 1;
+            }
+            break;
+        case 4:
+        case 7:
+            if (key < 2) {
+                st[2] = key;
+                *hit = 1;
+                if (st[3] == 7)
+                    return 5;
+                return 1;
+            }
+            break;
+        case 5:
+            break;
+        }
+    }
+    func_02034714((const char *)d_021807F8, 0, (const char *)d_021807F8);
+    return 0;
+}

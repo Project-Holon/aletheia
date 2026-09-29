@@ -1,0 +1,14 @@
+func_02192264 (ov021, thumb, 64 B): DIFF, 24 bytes; only the constant-zero variable is wrong.
+
+Everything else is right (func_02062A4C takes (tmp, &p): r0 is the func_0204A1BC result, r1 = &p).
+The original does `movs r7,#0` before the first call and later `lsls r0,r7,#5` -> the zero is a live variable, shift not folded:
+  p[5] + (y << 5) + (d << 5)  with y in r7 (callee-saved, extra push of r7, no `sub sp`).
+mwcc folds y = 0 in every form tried: u32/int y, y*32, register, static, param b = 0, for(y=0;y<1;y++), do/while, y = c - c,
+address-taken y, conditional y, trailing y = 1 / y++. Those give 24-32 B diffs. (u8/u16 y are CCERR under this front end when declared this way.)
+
+C (closest):
+  y = 0; src = func_020437D4(a); tmp = func_0204A1BC(5, 8, 0, c);
+  func_02062A4C(tmp, &p);
+  func_02082EA4(p[5] + (y * 32) + (d * 32), src, 0x20);
+  func_020307B0(tmp);
+  /* p is u32 *; func_02082EA4(dst, src, 0x20) */
