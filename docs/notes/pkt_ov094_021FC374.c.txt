@@ -1,0 +1,69 @@
+/*
+ * function: func_021FC374
+ * address:  0x021FC374
+ * packet:   pkt_ov094_021FC374
+ * region:   ov094
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_02048F60 reads r0-r2 (r2 truncated lsls/lsrs 16 so u16 param, kept), func_020307B0 takes 1, func_020113B0 takes 2; 2 twins: ov001/ov006 filed func_020307B0(void *p) only, no twin of this body; 3 u16 h238 and u16 third parameter kept, int v and int **pp compiled, no change of the residual; 4 none fits except a-field-reload-after-a-sibling-store-cannot-be-forced (below); 5 idiom list re-read, nothing newer, stack object n/a (no locals in memory)
+ *
+ * Residual (10 runs, 32 differing lines, same size 100 B): the original keeps the
+ * constant 0x1e8 in r6 across the whole function, derives 0x231 (r6+0x49) in
+ * each arm, and derives the ldrh offset 0x238 as r6+0x50 (mine: fresh
+ * movs 0x8e; lsls 2); it hoists the 0x7fff pool load above the bge; after the
+ * 02048F60 call it stores [r5,r6] then RELOADS s->f1e8 into r2 before the
+ * f4 store (mine forwards the returned pointer, no reload; see
+ * docs/idioms/a-field-reload-after-a-sibling-store-cannot-be-forced.md).
+ * Tried: sub-struct view at 0x1e8, raw char* cast spelling, local u16 flag
+ * before the branch, ternaries for op/arg, local q then store, int **pp
+ * field pointer (best, closest: else arm now recomputes r7+0x49 like the
+ * original), pp+0x50 offsets.
+ *
+ * symbols:
+ *   func_0201134C  0x0201134C  thumb
+ *   func_020307B0  0x020307B0  arm
+ *   func_02048F60  0x02048F60  arm
+ *   func_020113B0  0x020113B0  thumb
+ */
+typedef unsigned short u16;
+
+typedef struct {
+    int pad0;
+    int f4;
+    char pad1[0x1e8 - 8];
+    int *f1e8;
+    char pad2[0x238 - 0x1ec];
+    u16 h238;
+    char pad3[2];
+    int f23c;
+} State;
+
+extern int func_0201134C(int);
+extern void func_020307B0(void *p);
+extern int *func_02048F60(int a, int b, u16 c);
+extern void func_020113B0(int, int);
+
+int func_021FC374(int a, State *s)
+{
+    int v = func_0201134C(a);
+    int op;
+    int arg;
+
+    int **pp = &s->f1e8;
+
+    func_020307B0(*pp);
+    if (v < 0x231) {
+        op = 0x42;
+        arg = v;
+    } else {
+        op = 0x43;
+        arg = v - 0x231;
+    }
+    *pp = func_02048F60(op, arg, (s->h238 & 0x7fff) | 0x8000);
+    s->f4 = 0;
+    func_020113B0(a, (int)*pp + (*pp)[1]);
+    return s->f23c;
+}

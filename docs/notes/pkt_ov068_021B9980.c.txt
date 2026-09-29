@@ -2,7 +2,7 @@
  * function: func_021B9980
  * address:  0x021B9980
  * packet:   pkt_ov068_021B9980
- * hint:     lane B9's untried levers: a second enum zero for the calls after func_02049BDC, or those calls behind a static inline wrapper
+ * hint:     lane B9's two levers (second enum zero, inline wrapper) measured by lane R1: no change; the copies start at func_02049DF4's r2, the first call after BDC with a non-constant r3 (p + 0x58): look there
  * region:   ov068
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -22,6 +22,15 @@
  *   --types 300 best 8, no improvement.
  *   Next: a second enum zero for the late group, or the late calls behind a static inline
  *   wrapper so their literal 0s stay constants outside the z web.
+ *   Retry (lane R1, 6 runs + 0 sweeps, all still the same 4 sites / 8 bytes): both levers
+ *   above measured: the five late calls (DF4 and B68/658/8F4/658) inside a static inline
+ *   taking (h, p, heap, z); a second enum zero z2 = Z0 for every z use after BDC, assigned
+ *   right after the BDC call and again right after the DF4 call; z = Z0 moved below the two
+ *   func_02040C14 calls; the DF4 result through a local before the p+0x54 store.  Every
+ *   spelling keeps movs #0 for BDC's own r2 and copies r5 from DF4's r2 on, so the switch
+ *   happens at DF4, not at a web boundary the C can draw.  Callee arities re-derived from
+ *   src/matched/arm9/sub_02049658.c, sub_020498F4.c, func_02049BDC.c (7, u16 last) and the
+ *   ov069_func_021B98AC twin (B68 takes 6).
  *
  * symbols:
  *   func_02082BCC  0x02082BCC  arm

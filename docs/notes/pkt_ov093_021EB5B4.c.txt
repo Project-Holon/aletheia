@@ -1,0 +1,69 @@
+/*
+ * function: func_021EB5B4
+ * address:  0x021EB5B4
+ * packet:   pkt_ov093_021EB5B4
+ * hint:     only the i/k register swap is left after six declaration spellings: the permuter with --types at 300 has not been run on the u16-n version
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callees func_021B8ED8(u8*,u32)->u8, func_021B98AC(q,u8), func_021D5864(m), func_021F7EE8(a,b) all read as declared; the argless-looking bl func_021D5864 takes r0 = func_021B98AC's result; 2 twin func_021ED3D4 (matched) gives func_021F7EE8(func_021D5864(m), y); 3 n as u16 is the lever (u32 n gave a 78-line diff: guard folded to beq, stack spill order wrong; u16 n makes prologue, guard and loop end exact), k and idx u8 keep the truncations away, i as u32/int/u16/enum/while-loop and k/idx/i declaration orders (6 spellings) and block-scope k/idx and a no-code i = i all leave the same 6-line r4/r5 swap (i in r4, k in r5; image has i in r5, k in r4); 4 idioms a-dead-parameter-reused-as-the-index..., a-no-code-self-assignment..., declaration-position-orders-block-scope-colouring, block-locals-declared-without-initialisers read and the last two spellings tried; 5 n/a, no new idiom appeared mid-wave
+ *
+ * Residual: 6 lines at +0020 +0038 +0040 +0056 +006C +006E, all one swap of loop
+ * counter and element byte (r4/r5). Sweep not run: permuter over local order.
+ *
+ * symbols:
+ *   func_021B8ED8  0x021B8ED8  thumb  ov093
+ *   func_021B98AC  0x021B98AC  thumb  ov093
+ *   func_021D5864  0x021D5864  thumb  ov093
+ *   func_021F7EE8  0x021F7EE8  thumb  ov094
+ *   func_021EDA04  0x021EDA04  thumb  ov093
+ *   func_021EB584  0x021EB584  thumb  ov093
+ *   func_021F7EB4  0x021F7EB4  thumb  ov094
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern u8 func_021B8ED8(u8 *p, u32 k);
+extern int func_021B98AC(char *const *q, u8 b);
+extern int func_021D5864(int m);
+extern void func_021F7EE8(u32 a, u32 b);
+extern void func_021EDA04(u8 *p);
+extern void func_021EB584(int v);
+extern int func_021F7EB4(void);
+
+int func_021EB5B4(u8 *a, int *st, u8 *arr, u16 n)
+{
+    u32 i;
+    u8 k;
+    u8 idx;
+
+    switch (*st) {
+    case 0:
+        for (i = 0; i < n; i++) {
+            k = arr[i];
+            idx = func_021B8ED8(*(u8 **)(a + 0x134), k);
+            func_021F7EE8(func_021D5864(func_021B98AC(*(char *const **)(a + 0x138), idx)), k);
+            func_021EDA04(a + 0x48 + idx * 12);
+        }
+        *st = *st + 1;
+        break;
+    case 1:
+        if (a[0x150] != 0) {
+            return 1;
+        }
+        func_021EB584(-3);
+        *st = *st + 1;
+        break;
+    case 2:
+        if (func_021F7EB4() == 0) {
+            return 1;
+        }
+        break;
+    }
+    return 0;
+}

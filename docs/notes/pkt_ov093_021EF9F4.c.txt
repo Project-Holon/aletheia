@@ -1,0 +1,78 @@
+/*
+ * function: func_021EF9F4
+ * address:  0x021EF9F4
+ * packet:   pkt_ov093_021EF9F4
+ * hint:     b and b*4 swapped and b*4 recomputed at each store: name b*4 once in a local only where the original reuses it, or recompute it through an inline; permuter --types not yet run
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Residue: 36 concrete bytes, one pure r4/r6 swap.  The original has b in r4
+ * and b*4 in r6 (adds r4,r1 ; lsls r6,r4,#2), the compile has b in r6 and
+ * b*4 in r4.  Everything else (push {r0-r3} from the by-value Slot
+ * parameter, the [sp] spill of a+8 across the veneer call, the shared return
+ * 0 exit, the loop) is reproduced.  The original also recomputes b*4
+ * (lsls r1,r4,#2) for the +0x28/+0x48/+0x128 stores instead of reusing r6;
+ * the compile reuses its b*4 register there, so the later stores are probably
+ * a different spelling of the address (tried `char *e = a + b*4` for them).
+ *
+ * Levers that were needed: the third parameter is `Slot c` (a one-word struct
+ * by value, which gives the push {r0-r3} frame and the `add r0,sp,#0x20;
+ * ldr r0,[r0]` reload); `t[b] = func(b, 0); if (t[b] == 0)` as two
+ * statements keeps a+8 in the [sp] slot (an assign-to-x-then-store or a
+ * `(t[b] = f()) == 0` form loses it); the whole body inside
+ * `if (slot == 0) { ... return 1; } return 0;` gives the shared exit.
+ *
+ * checks: 1 func_021EFA84 (veneer) takes b,0; func_021E8A98 takes the union by
+ * value; func_021EFAD8 takes a,b,v, no change; 2 no twin in ov093 (Grep of
+ * callees over ov093_*.c found none of these three); 3 int for b and for the
+ * veneer/callee parameters no change, u32 b kept; 4 read
+ * indexed-field-stays-inline-or-base-and-index-swap and
+ * a-no-code-self-assignment (not tried: no matching swap in that shape), q[b]
+ * named base tried no change, named `o = b*4` no change; 5 re-listed idioms,
+ * none new for this shape.
+ * Not run: self-assignment `b = b;` after the first load, `u16`/`u8` b.
+ *
+ * symbols:
+ *   func_021EFA84  0x021EFA84  thumb  ov093
+ *   func_021E8A98  0x021E8A98  thumb  ov093
+ *   func_021EFAD8  0x021EFAD8  thumb  ov093
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern u32 func_021EFA84(u32 a, int b);
+typedef struct { u32 v; } Slot;
+extern u32 func_021E8A98(Slot a);
+extern int func_021EFAD8(char *p, u32 i, u32 v);
+
+int func_021EF9F4(char *a, u32 b, Slot c, int d)
+{
+    u32 i;
+    u32 x;
+
+    if (*(u32 *)(a + 0x148 + b * 4) == 0) {
+        if (d != 0) {
+            u32 *t = (u32 *)(a + 8);
+            t[b] = func_021EFA84(b, 0);
+            if (t[b] == 0)
+                return 0;
+        }
+        *(u32 *)(a + 0x148 + b * 4) = 1;
+        *(u32 *)(a + b * 4 + 0x28) = c.v;
+        *(u32 *)(a + b * 4 + 0x48) = 0;
+        *(u32 *)(a + b * 4 + 0x128) = 0;
+        for (i = 0; i < 6; i++)
+            *(u32 *)(a + b * 0x18 + i * 4 + 0x68) = 0x1f;
+        x = func_021E8A98(c);
+        if (x != 0x1f)
+            func_021EFAD8(a, b, x);
+        return 1;
+    }
+    return 0;
+}

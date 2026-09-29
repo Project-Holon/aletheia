@@ -1,0 +1,61 @@
+/*
+ * function: func_022025D8
+ * address:  0x022025D8
+ * packet:   pkt_ov094_022025D8
+ * hint:     zero in r6 and flag in r4 swapped; an enum zero fixed the registers but added truncations on the u8/u16 parameters: keep the enum zero and pass it through an int local, or narrow only the callee parameters the image truncates
+ * region:   ov094
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callees 0202173C (8 args, u8 b / u16 d), 02030734 (5 args), 02030DA8 (4), 0220684C (3) all read as declared; with u8 b/u16 d a named zero truncates (lsls/lsrs) where the image stores r6 directly; 2 twins ov094_func_021FB648 (alloc heap expr, 02030DA8/021F896C shape) and ov033_func_021F0C44 (0202173C) copied; 3 b/d as u8/u16/int, named zero as unsigned and as enum both compiled; 4 idiom an-enum-typed-zero-keeps-its-own-web fixes the r4/r6 colouring but not the truncation; 5 n/a, no new idiom fits
+ *
+ * symbols:
+ *   func_02030734  0x02030734  arm
+ *   func_0202173C  0x0202173C  thumb
+ *   func_02030DA8  0x02030DA8  arm
+ *   func_0220684C  0x0220684C  thumb  ov094
+ *   func_02204A3C  0x02204A3C  thumb  ov094
+ *   func_02204A70  0x02204A70  thumb  ov094
+ *   d_0220AEB0     0x0220AEB0  data   ov094  a1
+ *
+ * Residue (best spelling below: 148 bytes, size-exact, all 7 relocations resolve):
+ *   - the image keeps a zero in r6 across the alloc call and stores it as both the
+ *     `b` arm ([sp]) and the `d` argument ([sp,#8]); flag is in r4. Ours puts flag in r6 and
+ *     re-materialises the zeros, and builds 0x8000 as `lsls r4,#0xf` off the shared 1 where the
+ *     image has `movs r0,#2; lsls r0,#0xe`.
+ *   - an enum zero (`typedef enum { Z0 } Zero; Zero z = Z0;`) gives the image's r4/r6 colouring
+ *     but truncates it when it feeds the u8/u16 parameters (v30: 156 bytes); typing b/d as int
+ *     removes the truncation and moves the colouring back (v31/v33).
+ * The image has the `[sp]` store inside each arm of `flag == 1`, joined after; the if/else
+ * with a u8 local reproduces that.
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+
+extern char d_0220AEB0[];
+
+extern int *func_02030734(u16 heap, unsigned int size, unsigned int clear, const char *file, unsigned int line);
+extern int func_0202173C(void *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
+extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, unsigned int a3);
+extern void func_0220684C(void *o, void *task, void (*fn)(void *, void *));
+extern void func_02204A3C(void *a, void *b);
+extern void func_02204A70(void *a, void *b);
+
+void func_022025D8(char *o, int flag)
+{
+    int *p;
+    u8 b;
+
+    p = func_02030734((*(u16 *)(o + 0x240) & 0x7fff) | 0x8000, 4, 0, d_0220AEB0, 0x4F7);
+    if (flag == 1)
+        b = 0;
+    else
+        b = 0xC;
+    func_0202173C(*(void **)(o + 0x64), 0xA, 0xFFFF, 1, b, 0x10, 0, *(void **)o);
+    *(unsigned int *)(o + 0x68) = (*(unsigned int *)(o + 0x68) & 0xFFFE7FFF) | 0x8000;
+    p[0] = (int)o;
+    func_0220684C(o, func_02030DA8(*(void **)o, func_02204A3C, p, 0), func_02204A70);
+}

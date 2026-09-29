@@ -1,0 +1,84 @@
+/*
+ * function: func_0220055C
+ * address:  0x0220055C
+ * packet:   pkt_ov094_0220055C
+ * hint:     the key==3 beq landing on a 2-byte `b set` is a cross-jumped tail copy: write case 3's arm as a duplicate of case 1's tail (see a-conditional-branch-onto-an-unconditional-b-is-a-cross-jumped-tail-copy.md); still MATCH-capped on its arm9 leaf
+ * region:   ov094
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callees read: func_021F8710 takes none and returns int, func_02016394 takes (h, flag); 2 no twin (Grep of ov094 matched/pending); 3 key as unsigned no change (still merges 3/4 into a range test), goto-to-shared-set form fixed the r4/r5/r6 allocation; 4 none fits; 5 n/a, no new idiom in docs/idioms/ matches a switch arm range fold
+ *
+ * DIFF: same size, one instruction differs: at +0x46 the original's
+ * `beq` for key==3 targets a 2-byte `b set` stub at 0x022005A8 (the tail of
+ * the case-1 test), ours branches straight to `set` (0x022005B6). All
+ * registers, the dense 4-entry switch table (cases 1 and 2 with empty 0/3
+ * arms) and case 2's cmp 2 / cmp 5 / cmp 6 chain match. Also blocked on the
+ * unfiled ARM9 leaf func_02016394 (Ilias's); verified C for it:
+ *
+ *   typedef struct { char pad[0x140]; unsigned int lo : 30; unsigned int f : 1;
+ *                    unsigned int hi : 1; } S;
+ *   void func_02016394(S *s, int f) { s->f = f; }
+ *
+ * Tried: `||` with plain f=1 (range fold subs/cmp #1 and wrong registers),
+ * separate if/else-if, unsigned key, goto set for both arms (5/6 folds to a
+ * range), inner switch for case 2 (matches case 2), `if (key != 3 && key != 4)
+ * break; goto set;` (same as best). Best C:
+ *
+ * symbols:
+ *   func_02016394  0x02016394  thumb
+ *   func_021F8710  0x021F8710  thumb  ov094
+ *   func_022019F4  0x022019F4  thumb  ov094
+ */
+typedef struct {
+    void *h;                /* 0x00 */
+    char pad04[0x58];
+} Entry;
+
+typedef struct {
+    int pad00;              /* 0x000 */
+    void *obj;              /* 0x004 */
+    Entry e[14];            /* 0x008 */
+} Work;
+
+extern int func_022019F4(Work *w, int key);
+extern int func_021F8710(void);
+extern void func_02016394(void *h, int flag);
+
+void func_0220055C(Work *w, int key, int mode)
+{
+    int f = 0;
+    int i;
+
+    i = func_022019F4(w, key);
+    if (i == -1)
+        return;
+    if (w->e[i].h == 0)
+        return;
+    if (mode == 1) {
+        switch (func_021F8710()) {
+        case 0:
+        case 3:
+            break;
+        case 1:
+            if (key == 3 || key == 4)
+                goto set;
+            break;
+        case 2:
+            switch (key) {
+            case 2:
+            case 5:
+            case 6:
+                goto set;
+            }
+            break;
+        }
+    }
+    goto end;
+set:
+    f = 1;
+end:
+    func_02016394(w->e[i].h, f);
+}

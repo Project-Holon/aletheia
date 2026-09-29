@@ -9,7 +9,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks:   1 func_021B8434 takes 5 (own file; stack word at [sp]), func_021B841C takes 2 and returns int (body read); 2 twin ov067_func_021B8DF0 (same 841C/8434 tail) used for the call shape; 3 function has only s: callee params b/c/d as int/u8/u16/u32, lim int, f70 int, local decl order swapped, named `one` for the 1, separate step local, ternary min, inverted lim guard: no change or worse; 4 an-argument-bound-through-an-inline-wrapper tried (four wrapper shapes incl. f70 inside): no change; 5 re-listed idioms (396), nothing new fits
+ * checks:   1 func_021B8434 takes 5 (own file; stack word at [sp]), func_021B841C takes 2 and returns int (body read); 2 twin ov067_func_021B8DF0 (same 841C/8434 tail) used for the call shape; 3 function has only s: callee params b/c/d as int/u8/u16/u32, lim int, f70 int, local decl order swapped, named `one` for the 1, separate step local, ternary min, inverted lim guard: no change or worse; 4 an-argument-bound-through-an-inline-wrapper tried (four wrapper shapes incl. f70 inside): no change; 5 re-listed idioms (396), nothing new fits; retry R1: 1 arities re-derived from ov067_func_021B8434.c (5, u32 stack word) and twin 021B8DF0 (841C (s, int)); 3 v as s8 / short no change; 5 ls -t idioms again, a-narrow-spilled-parameter / an-s8-local idioms read, no fit
  *
  * Residual (256 bytes, same size): only the call to func_021B8434 at +0xD8.
  * The original materialises the stack word first (`movs r6,#1; str r6,[sp];
@@ -17,6 +17,17 @@
  * [sp] last (`lsls r2,r4,#24; movs r6,#1; ldr r1,[sp,#4]; ... str r6,[sp]`).
  * r6 holds the 1 reused for `s->f70 = 1` after the call. Permuter (300,
  * --types) found nothing. Tables resolve as sole-ref.
+ * Retry (lane R1, 8 runs, all still the same 7 bytes): the hint's levers
+ * measured: a u32 `one = 1` before the lim guard passed and stored, an enum
+ * `Flag one = F1` before the guard (10 bytes, movs hoisted above the cmp but
+ * the str still last) and after it; `(u8)d` cast at the call; the direction
+ * split into its own local `dir` (copy-propagated away); v as s8 and short
+ * (an-s8-local-holding-only-s8-fields idiom: byte-identical to int).  The
+ * twins 021B8C08/021B8E90 store their 1 from r0, which must precede the
+ * `adds r0, r5` for s; here the 1 lives in r6, so nothing pins the store,
+ * and the image's early store suggests the reload of v at [sp,#4] was
+ * ordered against it (a memory-resident v, not a spill), which no spelling
+ * without `&v` or volatile gives.
  *
  * symbols:
  *   func_021B841C  0x021B841C  thumb  ov067

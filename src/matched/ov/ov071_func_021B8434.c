@@ -1,0 +1,26 @@
+/*
+ * function: func_021B8434
+ * address:  0x021B8434
+ * packet:   pkt_ov071_021B8434
+ * region:   ov071
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Unlabelled tail-call stub called by func_021B7EE0.
+ *
+ * symbols:
+ *   func_02028484  0x02028484  thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+extern int func_02028484(void *a, u32 b);
+
+int func_021B8434(u8 *p, u8 *q)
+{
+    return func_02028484(p + 0x38, *(u32 *)(q + 0x40));
+}

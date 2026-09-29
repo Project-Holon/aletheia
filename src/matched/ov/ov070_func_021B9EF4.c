@@ -1,0 +1,56 @@
+/*
+ * function: func_021B9EF4
+ * address:  0x021B9EF4
+ * packet:   pkt_ov070_021B9EF4
+ * region:   ov070
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * lever:    the loop's array slots are spelled `p + i * 4 + 0x614` (index
+ *           before offset), which keeps `p + i*4` in one register across both
+ *           calls; `p + 0x614 + i * 4` and `((int *)(p + 0x614))[i]` both DIFF.
+ *
+ * symbols:
+ *   func_020490F4  0x020490F4  arm
+ *   func_0204AC18  0x0204AC18  arm
+ *   func_0204A6C8  0x0204A6C8  arm
+ *   func_0204AF28  0x0204AF28  arm
+ *   func_02043678  0x02043678  arm
+ *   func_02008550  0x02008550  thumb
+ *   func_02049238  0x02049238  arm
+ */
+
+typedef unsigned int u32;
+typedef unsigned short u16;
+
+extern int func_020490F4(int, u16);
+extern int func_0204AC18(int, int, int, int, int, int, u16);
+extern int func_0204A6C8(int, int, int, int, u16);
+extern int func_0204AF28(int, int, int, u16);
+extern int func_02043678(u32, u32, u32, u32);
+extern int func_02008550(int);
+extern void func_02049238(int);
+
+void func_021B9EF4(char *p)
+{
+    int bg;
+    int i;
+
+    bg = func_020490F4(0x58, *(u16 *)(p + 0x544));
+    *(int *)(p + 0x574) = func_0204AC18(bg, 0x20, 0, 0x1a0, 0, 1, *(u16 *)(p + 0x544));
+    *(int *)(p + 0x578) = func_0204A6C8(bg, 0x1f, 0, 0, *(u16 *)(p + 0x544));
+    *(int *)(p + 0x57C) = func_0204AF28(bg, 0x1e, 0x1d, *(u16 *)(p + 0x544));
+    *(int *)(p + 0x554) = func_0204AC18(bg, 0x1c, 0, 0x60, 0, 1, *(u16 *)(p + 0x544));
+    *(int *)(p + 0x560) = func_0204A6C8(bg, 0x1b, 0, 0, *(u16 *)(p + 0x544));
+    *(int *)(p + 0x568) = func_0204AF28(bg, 0x1a, 0x19, *(u16 *)(p + 0x544));
+    for (i = 0; i < 8; i++) {
+        *(int *)(p + i * 4 + 0x614) = func_02043678(0xc, 2, 0x20, *(u16 *)(p + 0x544));
+        *(int *)(p + i * 4 + 0x5F4) =func_0204A6C8(bg, 0x14, 0, 0, *(u16 *)(p + 0x544));
+    }
+    func_02008550(*(int *)(p + 8));
+    *(int *)(p + 0x588) = func_0204AC18(bg, 0x15, 0, 0, 0, 3, *(u16 *)(p + 0x544));
+    *(int *)(p + 0x56C) = func_0204AF28(bg, 0x13, 0x12, *(u16 *)(p + 0x544));
+    func_02049238(bg);
+}

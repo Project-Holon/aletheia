@@ -1,0 +1,90 @@
+/*
+ * function: func_021BA6F4
+ * address:  0x021BA6F4
+ * packet:   pkt_ov070_021BA6F4
+ * region:   ov070
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0204B294  0x0204B294  arm
+ *   func_0204B3DC  0x0204B3DC  arm
+ *   func_0204B92C  0x0204B92C  arm
+ *   func_021B811C  0x021B811C  thumb  ov070
+ *   d_021BBAA8     0x021BBAA8  data  ov070  a1
+ *   d_021BBA6C     0x021BBA6C  data  a1
+ *   d_021BBA68     0x021BBA68  data  a1
+ *   d_021BBA64     0x021BBA64  data  ov070  a1
+ */
+
+typedef unsigned short u16;
+typedef unsigned char u8;
+
+typedef struct {
+    short a, b, c;
+    u8 d, e;
+} Rect;
+
+typedef struct {
+    u8 v[5];
+} B5;
+
+typedef struct {
+    u8 v[2];
+} B2;
+
+extern int func_0204B294(int, int, int, int, Rect *, int, u16);
+extern void func_0204B3DC(int, int);
+extern void func_0204B92C(int, int);
+extern int func_021B811C(char *);
+extern const B5 d_021BBAA8;
+extern const B5 d_021BBA6C;
+extern const B2 d_021BBA68;
+extern const B2 d_021BBA64;
+
+void func_021BA6F4(char *p)
+{
+    Rect r;
+    B5 t1;
+    B5 t2;
+    B2 t3;
+    B2 t4;
+    u8 i;
+
+    r.d = 0xa;
+    r.e = 1;
+    t1 = d_021BBAA8;
+    t2 = d_021BBA6C;
+    for (i = 0; i < 5; i++) {
+        r.a = t2.v[i];
+        r.b = 0xa8;
+        r.c = t1.v[i];
+        if (i == 2) {
+            r.b += 4;
+        }
+        *(int *)(p + i * 4 + 0x710) = func_0204B294(*(int *)(p + 0x69C), *(int *)(p + 0x564), *(int *)(p + 0x55C), *(int *)(p + 0x570), &r, 0, *(u16 *)(p + 0x544));
+        func_0204B3DC(*(int *)(p + i * 4 + 0x710), 1);
+    }
+    func_0204B92C(*(int *)(p + 0x710), 1);
+    func_0204B92C(*(int *)(p + 0x714), 1);
+    if (func_021B811C(p) == 0) {
+        func_0204B3DC(*(int *)(p + 0x718), 0);
+    }
+    if (*(int *)(p + 0x10) == 2) {
+        func_0204B3DC(*(int *)(p + 0x71C), 0);
+    }
+    t3 = d_021BBA68;
+    t4 = d_021BBA64;
+    for (i = 0; i < 2; i++) {
+        r.a = 0xe8;
+        r.b = t4.v[i];
+        r.c = t3.v[i];
+        r.e = 0;
+        *(int *)(p + (u8)(i + 5) * 4 + 0x710) = func_0204B294(*(int *)(p + 0x69C), *(int *)(p + 0x564), *(int *)(p + 0x55C), *(int *)(p + 0x570), &r, 0, *(u16 *)(p + 0x544));
+        func_0204B92C(*(int *)(p + (u8)(i + 5) * 4 + 0x710), 1);
+        func_0204B3DC(*(int *)(p + (u8)(i + 5) * 4 + 0x710), 0);
+    }
+}

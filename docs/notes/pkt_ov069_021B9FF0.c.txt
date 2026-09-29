@@ -1,0 +1,157 @@
+/*
+ * function: func_021B9FF0
+ * address:  0x021B9FF0
+ * packet:   pkt_ov069_021B9FF0
+ * region:   ov069
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_020457B0  0x020457B0  arm
+ *   func_0201EFA4  0x0201EFA4  thumb
+ *   func_0201F048  0x0201F048  thumb
+ *   func_0201F094  0x0201F094  thumb
+ *   func_02045770  0x02045770  arm
+ *   func_02043B5C  0x02043B5C  arm
+ *   func_02045994  0x02045994  arm
+ *   func_0201C724  0x0201C724  thumb
+ *   func_0201F250  0x0201F250  thumb
+ *   func_0202435C  0x0202435C  thumb
+ *   func_02045808  0x02045808  arm
+ *   func_02045334  0x02045334  arm
+ *   func_02045374  0x02045374  arm
+ *   func_02045730  0x02045730  arm
+ *   func_02041B6C  0x02041B6C  arm
+ *
+ * checks: 1 EFA4 takes 6, F094 4, F048 3, 0202435C 2, 02041B6C none
+ *   (argless after void 02045730), from their call sites' register setup;
+ *   2 twin ov069_func_021BA480 (char* f8, 0x22-byte records, 8-byte memcpy),
+ *   caller 021B9F70 passes (p, p->f8, i + page*10), char* base no change;
+ *   3 idx u16/s16 no change, base as char *, u8 *, Ent * or u32 no change;
+ *   4 idioms an-integer-table-base-multiplies-into-a-copy-of-the-index and
+ *   a-char-cast-on-the-base-pins-the-base-plus-index-sum tried: full CSE;
+ *   5 re-listed docs/idioms (398), none fits.
+ *
+ * Residue (692/692, 100 mismatch lines; permuter --types 300 best 196 B
+ * out / 99 lines, only a b12/b13/e stack-slot reorder of this spelling,
+ * mutations temp(p+0xC0), decl-order s<->e, w<->e, temps for 0xFC/0xE8/0x44).
+ * Everything after the memcpy matches.  The original's prologue keeps
+ * r6=list and r7=idx*0x22 (the product alone is CSE'd), spills e=r6+r7 to
+ * [sp+0x1C] and overwrites it there with e+0x18; b12 at [sp+0x24], b13 at
+ * [sp+0x20], idx spilled to [sp+0xC]; the memcpy source is recomputed
+ * `adds r1,r6,r7`.  Every spelling tried (Ent * local, off local, byte form,
+ * commuted sum, u32 or char * base, mixed forms) gives either a full CSE of
+ * base+idx*0x22 or none; nothing gives a product-only CSE.
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef short s16;
+
+typedef struct Ent {
+    u8 f00[0x12];
+    u8 f12;
+    u8 f13;
+    u8 pad14[4];
+    u8 name[0x8];
+    u8 f20;
+    u8 f21;
+} Ent;
+
+extern void *func_020457B0(int size, int align);
+extern void func_0201EFA4(void *obj, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void func_0201F048(void *obj, u32 a, u32 b);
+extern void func_0201F094(void *obj, u32 a, u32 b, u32 c);
+extern int func_02045770(int);
+extern void func_02043B5C(int, int);
+extern void func_02045994(void *dst, void *src, int n);
+extern void func_0201C724(u32 print, u32 bmp, s16 x, s16 y, u32 str, u32 font, u16 color);
+extern void func_0201F250(void *obj, void *a, void *b);
+extern void *func_0202435C(void *s, u32 heap);
+extern void func_02045808(void *p);
+extern void func_02045334(int);
+extern void func_02045374(int);
+extern void func_02045730(int);
+extern void func_02041B6C(void);
+
+void func_021B9FF0(u8 *p, Ent *list, int idx)
+{
+    u8 *e;
+    u8 b12, b13;
+    void *buf;
+    void *s;
+    u32 h;
+    int w;
+    u32 *t154;
+    int t54;
+
+    b12 = list[idx].f12;
+    b13 = list[idx].f13;
+    e = list[idx].name;
+    buf = func_020457B0(0x10, 0x80);
+    t154 = (u32 *)(*(u8 **)(p + 0x154) + 8);
+    func_0201EFA4(*(void **)(p + 0xF8), 0, *(u32 *)(*(u8 **)(p + 0x154) + 4), 2, 0, 1);
+    func_0201EFA4(*(void **)(p + 0xF8), 1, *t154, 3, 0, 1);
+    func_0201F048(*(void **)(p + 0xF8), 2, b12);
+    func_0201F094(*(void **)(p + 0xF8), 3, b12, b13);
+    func_02043B5C(func_02045770(*(int *)(p + 0x3C)), 0);
+    func_02043B5C(func_02045770(*(int *)(p + 0x40)), 0);
+    func_02043B5C(func_02045770(*(int *)(p + 0x44)), 0);
+    t54 = *(int *)(p + 0x54);
+    func_02043B5C(func_02045770(*(int *)(p + 0x4C)), 0);
+    func_02043B5C(func_02045770(t54), 0);
+    if (idx < *(int *)(p + 0x164)) {
+        func_02045994(buf, (u8 *)list + idx * 0x22, 8);
+        h = *(u32 *)(p + 0xE8);
+        func_0201C724(h, func_02045770(*(int *)(p + 0xC0)), 0, 0,
+                      (u32)buf, *(u32 *)(p + 0xC), 0x3DC0);
+        p[0xC4] = 1;
+        func_0201F250(*(void **)(p + 0xF8), *(void **)(p + 0xFC), *(void **)(p + 0x104));
+        h = *(u32 *)(p + 0xE8);
+        func_0201C724(h, func_02045770(*(int *)(p + 0xB0)), 0, 0,
+                      *(u32 *)(p + 0xFC), *(u32 *)(p + 0xC), 0x3DC0);
+        p[0xB4] = 1;
+        func_0201F250(*(void **)(p + 0xF8), *(void **)(p + 0xFC), *(void **)(p + 0x108));
+        h = *(u32 *)(p + 0xE8);
+        func_0201C724(h, func_02045770(*(int *)(p + 0xB8)), 0, 0,
+                      *(u32 *)(p + 0xFC), *(u32 *)(p + 0xC), 0x3DC0);
+        p[0xBC] = 1;
+        func_0201F250(*(void **)(p + 0xF8), *(void **)(p + 0xFC), *(void **)(p + 0x110));
+        h = *(u32 *)(p + 0xE8);
+        func_0201C724(h, func_02045770(*(int *)(p + 0xD0)), 0, 0,
+                      *(u32 *)(p + 0xFC), *(u32 *)(p + 0xC), 0x3DC0);
+        p[0xD4] = 1;
+        func_0201F250(*(void **)(p + 0xF8), *(void **)(p + 0xFC), *(void **)(p + 0x114));
+        h = *(u32 *)(p + 0xE8);
+        func_0201C724(h, func_02045770(*(int *)(p + 0xD0)), 0, 0x10,
+                      *(u32 *)(p + 0xFC), *(u32 *)(p + 0xC), 0x3DC0);
+        p[0xD4] = 1;
+        s = func_0202435C(e, 0x80);
+        h = *(u32 *)(p + 0xE8);
+        func_0201C724(h, func_02045770(*(int *)(p + 0xE0)), 0, 0,
+                      (u32)s, *(u32 *)(p + 0xC), 0x3DC0);
+        p[0xE4] = 1;
+        func_02045808(s);
+    } else {
+        w = *(int *)(p + 0x44);
+        func_02045334(w);
+        func_02045374(w);
+        func_02045730(w);
+        func_02041B6C();
+        w = *(int *)(p + 0x4C);
+        func_02045334(w);
+        func_02045374(w);
+        func_02045730(w);
+        func_02041B6C();
+        w = *(int *)(p + 0x54);
+        func_02045334(w);
+        func_02045374(w);
+        func_02045730(w);
+        func_02041B6C();
+    }
+    func_02045808(buf);
+}

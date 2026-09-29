@@ -1,0 +1,53 @@
+/*
+ * function: func_0220255C
+ * address:  0x0220255C
+ * packet:   pkt_ov094_0220255C
+ * region:   ov094
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callees 0203FCA0(bg,tmpl,type) 0204152C(ch,u16) 02204960 (4 reg + 4 stack args) read as declared, u8 truncations on args 1 and 3 match; 2 no twin (0203FCA0 callers pass constants); 3 counter as int/u8/unsigned, const table, t local, cursor t++ all compiled, none moves the muls; 4 the integer-base idiom (an-integer-table-base-multiplies-into-a-copy-of-the-index) tried as (unsigned)d + i*0x24, no change; 5 re-listed docs/idioms/, nothing new that fits
+ *
+ * symbols:
+ *   d_0220A8BC     0x0220A8BC  data   a4
+ *   func_0203FCA0  0x0203FCA0  arm
+ *   func_0204152C  0x0204152C  arm
+ *   func_02204960  0x02204960  thumb  ov094
+ *
+ * Residue: 4 bytes short (84 vs 88). The image copies the counter before the multiply
+ * (`movs r0,#0x24; adds r1,r4,#0; muls r1,r0,r1; adds r1,r6,r1`), ours multiplies in the
+ * constant's register (`muls r0,r4,r0`). Everything else matches, including the two u8
+ * truncation pairs, the eight-argument call and the pool. The one data relocation
+ * (d_0220A8BC, single pool word) has no witness outside the range, so this caps at MATCH
+ * even when the bytes agree; tried `data a4` without the ov token, same reason.
+ * Spellings compiled: &d[i], t local, (char*)d + i*0x24, 0x24*i, t++ cursor, int i with
+ * (unsigned)i < 4, u8 i (different pool/reg layout, 4 of 4 relocs resolve), const Tmpl d[4].
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+typedef struct {
+    int pad[8];
+    int f20;
+} Tmpl;
+
+extern Tmpl d_0220A8BC[];
+
+extern void func_0203FCA0(u8 bg, Tmpl *t, u8 type);
+extern void func_0204152C(u8 ch, u16 val);
+extern void func_02204960(void *o, int bg, int a, int b, int c, int d, int e, int f);
+
+void func_0220255C(void *o)
+{
+    unsigned i;
+    Tmpl *t;
+
+    for (i = 0; i < 4; i++) {
+        t = &d_0220A8BC[i];
+        func_0203FCA0(i + 4, t, t->f20);
+        func_0204152C(i + 4, 0x3FF);
+        func_02204960(o, i + 4, 0, 0, 2, 2, 2, 2);
+    }
+}

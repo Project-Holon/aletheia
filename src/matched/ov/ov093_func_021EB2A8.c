@@ -1,0 +1,42 @@
+/*
+ * function: func_021EB2A8
+ * address:  0x021EB2A8
+ * packet:   pkt_ov093_021EB2A8
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Lever: the parameter is const u8 *; without const the ldrh of the heap
+ * halfword schedules after the second zero stack store (DIFF, 19 lines).
+ *
+ * symbols:
+ *   func_020490F4  0x020490F4  arm
+ *   func_02049658  0x02049658  arm
+ *   func_02049238  0x02049238  arm
+ *   func_020414EC  0x020414EC  arm
+ *   func_0204989C  0x0204989C  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern u32 func_020490F4(u32 id, u32 heap);
+extern void func_02049658(u32 h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void func_02049238(u32 h);
+extern void func_020414EC(u32 i);
+extern void func_0204989C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+
+void func_021EB2A8(const u8 *a)
+{
+    u32 h = func_020490F4(0xb, (u16)((*(u16 *)(a + 0x13c) & 0x7fff) | 0x8000));
+
+    func_02049658(h, 0xd5, 3, *(u32 *)(a + 0x14), 0, 0, *(u16 *)(a + 0x13c));
+    func_02049658(h, 0xdd, 3, *(u32 *)(a + 0x10), 0, 0, *(u16 *)(a + 0x13c));
+    func_02049238(h);
+    func_020414EC(3);
+    func_0204989C(0xb, 0xd8, 3, 0, 0, 0, *(u16 *)(a + 0x13c));
+}
