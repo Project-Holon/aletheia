@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
  *
  * sdk:      MBi_CommParentCallback (libmb.TWL.HYB.a mb_parent.o)
  *
@@ -26,18 +26,12 @@
  *   func_02082AC0  0x02082AC0  arm
  *   g_021F6FA0     0x021F6FA0  data
  *
- * notes: DIFF, 4 bytes long (1156 vs 1152). Everything outside the
- * fileid_of_child block of CHILD_DISCONNECTED matches. In that block the
- * object addresses fileinfo[fileID] fields as (mbc + fileID*0x5D4) +
- * 0x1D00 + #imm; this draft folds the constant into the base and uses
- * [base, idx] (one extra add over the three accesses). The block needs a
- * u16 copy of sparg->aid (the object holds it in ip across the stores),
- * which DWARF does not list. Tried: u8/int/u16/u32/s8 fileID, cast
- * expression without a local, &(...)->, (fileinfo + i)->, i[fileinfo],
- * static inline helper, unused nowChildFlag load, element padding
- * 4..0x6C, compilers 1.1/1.2/1.2p1 (1.1 also misses a u16 mask).
- * The API_ERROR switch needs an explicit case 15 in the WM_FAILURE group:
- * the object's jump table spans 0..15.
+ * notes:    the fileinfo fields are addressed as g + fileID * 0x5D4 + constant (the
+ *           FIELD macro), which puts the scaled index into the base and folds only the
+ *           large constant, as the image does; the API_ERROR switch is on an unsigned
+ *           value (cmp; addls pc) and lists every value of its table 0..29 explicitly
+ *           so the compiler emits the full table; the child-disconnect block works on a
+ *           u16 copy of the aid that the vendor's debug info does not list.
  */
 
 typedef unsigned char  u8;
@@ -117,6 +111,7 @@ extern void func_021F3FC8(u32 ggid, u16 tgid, u8 attribute);
 extern void func_021F2F04(u16 aid, u16 errcode);
 extern void func_02082AC0(u32 data, void *destp, u32 size);
 
+#define FIELD(id, off) (*(u16 *)((u8 *)g_021F6FA0 + (id) * 0x5D4 + (off)))
 void func_021F1D80(u16 type, void *arg)
 {
     switch (type) {
@@ -155,10 +150,10 @@ void func_021F1D80(u16 type, void *arg)
 
                 if (g_021F6FA0->fileid_of_child[child - 1] != -1) {
                     u8 fileID = (u8)g_021F6FA0->fileid_of_child[child - 1];
-                    g_021F6FA0->fileinfo[fileID].gameinfo_child_bmp &= (u16)~(1 << child);
-                    g_021F6FA0->fileinfo[fileID].gameinfo_changed_bmp |= (u16)(1 << child);
+                    FIELD(fileID, 0x1D4E) &= (u16)~(1 << child);
+                    FIELD(fileID, 0x1D50) |= (u16)(1 << child);
                     g_021F6FA0->fileid_of_child[child - 1] = -1;
-                    g_021F6FA0->fileinfo[fileID].pollbmp &= (u16)~(1 << child);
+                    FIELD(fileID, 0x1D4C) &= (u16)~(1 << child);
                 }
             }
 
@@ -216,7 +211,7 @@ void func_021F1D80(u16 type, void *arg)
         break;
 
     case 0x100:
-        switch (((WMCallback *)arg)->apiid) {
+        switch ((unsigned int)((WMCallback *)arg)->apiid) {
         case 0:
         case 7:
         case 8:
@@ -230,6 +225,25 @@ void func_021F1D80(u16 type, void *arg)
         case 29:
             func_021F2F04(0, 9);
             break;
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 9:
+        case 10:
+        case 11:
+        case 12:
+        case 16:
+        case 19:
+        case 20:
+        case 22:
+        case 23:
+        case 24:
+        case 26:
+        case 27:
+        case 28:
         default:
             func_021F2F04(0, 8);
             break;

@@ -7,9 +7,19 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * sdk:      DWCi_ProcessRequestMatch (libdwcmatch.TWL.HYB.a(dwc_match.o))
+ *
+ * lever:    the broadcast arm is a separate `if (bRet)`, not the `else` of
+ *           `if (immediate == 1)`.  Both spellings are the same CFG here (the
+ *           immediate arm falls through), but only the separate-if spelling
+ *           predicates the error return's epilogue.  Under `else if` 1.1p1
+ *           keeps `beq` + `add sp` / `mov r0,#0` / `pop {.. pc}` at 0x021759EC
+ *           (484 bytes, 171 concrete out) and reuses r7 for the immediate
+ *           arm's pNodeInfo; under two `if`s it emits the image's
+ *           `addne sp` / `movne r0,#0` / `popne {.. pc}` with pNodeInfo in sl
+ *           (the register AID dies in), 480 bytes, 0 out.
  *
  * symbols:
  *   func_0217637C  0x0217637C  arm  ov009
@@ -109,7 +119,8 @@ static int func_021758C4(u8 AID, int suspend, int immediate)
                                pNodeInfo->publicQueryPort, senddata, sendlen);
         if (func_021719A4(result))
             return 0;
-    } else if (bRet) {
+    }
+    if (bRet) {
         if (func_02175F3C()->suspendSent != 1) {
             func_02175F3C()->suspendSent = 1;
             senddata[0] = func_02175F3C()->w678;

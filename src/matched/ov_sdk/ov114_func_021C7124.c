@@ -7,16 +7,19 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
- *
- * blocker:  668/668 concrete bytes exact.  Sole unresolved site is the data
- *           ABS32 @17217 0x021CF518: the ov114 hint is contested (another
- *           overlay in the window starts an object there) and this function
- *           loads no overlay ov114 through an overlay_id site, so no outside
- *           witness attests it.  Evidence class blocked: sdk/sole-ref
- *           (data, no witness outside 021C7124..021C73BC).
+ * status:   EXACT
  *
  * sdk:      DWCi_NdGetFileListAsync (libdwcnd.TWL.HYB.a dwci_nd.o)
+ *
+ * The two NHTTP_AddPostDataAscii labels are the vendor object's own anonymous
+ * string objects, so they are written here as literals and named in the
+ * symbols: block under the member's @N spelling: @17416 "offset" (7 bytes at
+ * 0x021CF510) and @17417 "num" (4 bytes at 0x021CF518).  Each pattern occurs
+ * at exactly one aligned address of ov114's image, which is the `template`
+ * class.  0x021CF518 is a three-character string, so `string` and
+ * `sole-ref/string` both refuse it on length, and it is an object start in
+ * ov021 as well as not one in ov114, so an ov114 `symbols:` hint on it was
+ * contested; the template route needs no such hint.
  *
  * symbols:
  *   DWCi_NdSetError                 0x021C659C  arm  ov114
@@ -29,8 +32,8 @@
  *   freeHttp                        0x021C6BEC  arm  ov114
  *   g_021D3B9C                      0x021D3B9C  data  ov114
  *   DWCiNd_action_list              0x021CE0CE  data  ov114
- *   g_021CF510                      0x021CF510  data  ov114
- *   g_021CF518                      0x021CF518  data  ov114
+ *   @17416                          0x021CF510  data
+ *   @17417                          0x021CF518  data
  */
 
 typedef unsigned char u8;
@@ -77,8 +80,6 @@ typedef struct tagDWCi_Ndi_HTTPREQ {
 
 extern NdStatics g_021D3B9C;
 extern char DWCiNd_action_list[9];
-extern char g_021CF510[];
-extern char g_021CF518[];
 
 extern void DWCi_NdSetError(int err, int servererror);
 extern int DWCi_Ndi_intToStr(char *p, unsigned long n);
@@ -133,9 +134,9 @@ int DWCi_NdGetFileListAsync(DWCNdFileInfo *filelist, int offset, int num)
         g_021D3B9C.free(pBuf);
         return 0;
     }
-    if (NHTTP_AddPostDataAscii(req, g_021CF510, strOffset) == -1)
+    if (NHTTP_AddPostDataAscii(req, "offset", strOffset) == -1)
         goto error;
-    if (NHTTP_AddPostDataAscii(req, g_021CF518, strNum) == -1)
+    if (NHTTP_AddPostDataAscii(req, "num", strNum) == -1)
         goto error;
     hrq->reason = 2;
     hrq->param.list.filelist = filelist;

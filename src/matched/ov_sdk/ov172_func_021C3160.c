@@ -7,19 +7,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF (near miss, exact size, all 4 relocs resolved)
+ * status:   EXACT
  *
- * blocker:  whole function reconstructed from the matched sibling
- *           jpeg_encode_ifd (0x021C3620).  337 concrete bytes differ,
- *           concentrated in the !is_last next_ifd_pointer byte-write block
- *           (image 0x021C3440): the original materialises byte 24 with
- *           `and; asr`, byte 16 with `and #0xff0000; lsl #16; asr #16;
- *           asr #16` and byte 8 with `and #0xff00; lsl #16; asr #24`
- *           (signed-shift forms); the source spelling that produces these
- *           exact forms was not found.  Second loop's inner byte-copy
- *           counters are a separate `int` (r3) in the image while ours
- *           coalesce to the outer `signed char i` (r7); declaring it as an
- *           extra local reallocates the whole function and is worse.
+ * notes:    the pointer bytes are written through a short: byte 16 is
+ *           (short)(p & 0xff0000) >> 16 and byte 8 is (short)(p & 0xff00) >> 8, which
+ *           gives the image's lsl #16 / asr forms.  The second pass copies the two
+ *           thumbnail buffers with its own unsigned long counter j; the first pass keeps
+ *           the signed char i.
  *
  * sdk:      jpeg_encode_ifd_direct (libssp.TWL.HYB.a exifenc.o)
  *
@@ -77,6 +71,7 @@ void jpeg_encode_ifd_direct(void *unused, exif_ifd_data *ifd, short is_last)
     exif_tag_entry *entry;
     unsigned long size;
     signed char i;
+    unsigned long j;
     long next_ifd_pointer;
 
     PUT((ifd->count & 0xff00) >> 8);
@@ -117,8 +112,8 @@ void jpeg_encode_ifd_direct(void *unused, exif_ifd_data *ifd, short is_last)
 
     if (!is_last) {
         PUT((long)(next_ifd_pointer & 0xff000000) >> 24);
-        PUT((next_ifd_pointer & 0xff0000) >> 16);
-        PUT((signed char)(next_ifd_pointer >> 8));
+        PUT((short)(next_ifd_pointer & 0xff0000) >> 16);
+        PUT((short)(next_ifd_pointer & 0xff00) >> 8);
         PUT(next_ifd_pointer);
     } else {
         PUT(0);
@@ -136,11 +131,11 @@ void jpeg_encode_ifd_direct(void *unused, exif_ifd_data *ifd, short is_last)
                 if (size & 1)
                     PUT(0);
             } else if (entry->tag == 0x1001) {
-                for (i = 0; i < g_021CADF0.len1; i++)
-                    PUT(g_021CADF0.ptr1[i]);
+                for (j = 0; j < g_021CADF0.len1; j++)
+                    PUT(g_021CADF0.ptr1[j]);
             } else if (entry->tag == 0x1002) {
-                for (i = 0; i < g_021CADF0.len2; i++)
-                    PUT(g_021CADF0.ptr2[i]);
+                for (j = 0; j < g_021CADF0.len2; j++)
+                    PUT(g_021CADF0.ptr2[j]);
             }
         }
     }

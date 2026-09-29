@@ -1,5 +1,5 @@
 /*
- * function: DWCi_ProcessMatchSynPacketSub_Hybrid
+ * function: func_0216EC84
  * address:  0x0216EC84
  * packet:   pkt_ov009_0216EC84
  * region:   ov009
@@ -7,11 +7,14 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
- *
- * blocker: first full rewrite; control flow and the two DWCstNodeInfo stack
- *          temporaries reproduce the vendor body.  Diff is register
- *          allocation / callee-saved pressure, see --diff.
+ * status:   EXACT
+ * notes:    the unaligned four-byte field copies are memcpy(dst, src, 4) calls (the house
+ *           string.h makes the compiler expand them to the paired byte loads/stores through a
+ *           pointer register, hoisted out of the loop); DWCi_GetMatchCnt() is called before
+ *           every access rather than cached; values read from the packet are loaded into a
+ *           local before the getter call that precedes the store.  Local declaration order
+ *           (i, entry, clientCount) fixes the callee-saved register assignment in the
+ *           packet-4 loop.
  *
  * sdk:      DWCi_ProcessMatchSynPacketSub_Hybrid (libdwcmatch.TWL.HYB.a dwc_match.o)
  *
@@ -31,9 +34,12 @@
  *   DWCi_PostProcessConnection       0x02172254 arm
  */
 
+#include "../arm9_sdk/libc/string.h"
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
+
+typedef struct { u8 b[4]; } BYTES4;
 
 struct DWCstNodeInfo {
     u32 f0;                        /* 0x00 */
@@ -45,7 +51,7 @@ struct DWCstNodeInfo {
     u8 f16;                        /* 0x16 */
     u8 f17;                        /* 0x17 */
     u8 pad1[0x24 - 0x18];          /* 0x18 */
-    u32 f_24;                      /* 0x24 */
+    BYTES4 f_24;                   /* 0x24 */
 };
 
 struct DWCstMatchControl {
@@ -65,7 +71,7 @@ struct DWCstMatchControl {
     u8 pad6[0x658 - 0x654];
     unsigned long long f_658;          /* 0x658 */
     u8 pad7[0x670 - 0x660];
-    unsigned long long f_670;          /* 0x670 */
+    long long f_670;                   /* 0x670 */
     u8 pad8[0x680 - 0x678];
     u32 f_680;                         /* 0x680 */
     u8 pad9[0x7C8 - 0x684];
@@ -86,102 +92,120 @@ extern unsigned long long OS_GetTick(void);
 extern void DWCi_TempNewNodeInfo_Clear(void);
 extern void DWCi_PostProcessConnection(int type);
 
-void DWCi_ProcessMatchSynPacketSub_Hybrid(unsigned char aid, unsigned short type,
-                                          unsigned char *data)
+#define MC() DWCi_GetMatchCnt()
+
+void func_0216EC84(unsigned char aid, unsigned short type, unsigned char *data)
 {
-    struct DWCstMatchControl *mc;
     struct DWCstNodeInfo tempNodeInfo;
     struct DWCstNodeInfo tempNodeInfo2;
-    int clientCount;
-    u32 *pDataOffset;
     int i;
-    u32 bitmask;
-    u32 onewayGT2Latency;
+    u32 *entry;
+    int clientCount;
 
     switch (type) {
     case 2:
-        if (DWCi_GetMatchCnt()->f_61C != 1)
+        if (MC()->f_61C != 1)
             return;
         if (*(u32 *)data == 1) {
-            mc = DWCi_GetMatchCnt();
-            mc->f_680 = 0;
-            mc->srcNode.f0 = 0;
-            mc->f_7C8 = *((u32 *)data + 1);
+            MC()->f_680 = 0;
+            MC()->srcNode.f0 = 0;
+            {
+                u32 v = *(u32 *)(data + 4);
+
+                MC()->f_7C8 = v;
+            }
             if (DWCi_IsFullMesh())
-                DWCi_NodeInfoList_InsertToTop(&DWCi_GetMatchCnt()->myNode);
+                DWCi_NodeInfoList_InsertToTop(&MC()->myNode);
         } else {
+            u32 w;
+            u32 *p = (u32 *)data;
+
             MI_CpuFill8(&tempNodeInfo, 0, sizeof(tempNodeInfo));
-            tempNodeInfo.f16 = (u8)(*((u32 *)data + 1));
-            tempNodeInfo.f17 = (u8)(*((u32 *)data + 1) >> 16);
-            tempNodeInfo.f0 = *((u32 *)data + 2);
-            tempNodeInfo.f4 = *((u32 *)data + 3);
-            tempNodeInfo.f8 = *((u32 *)data + 4);
-            tempNodeInfo.f_c = (u16)(*((u32 *)data + 5) >> 16);
-            tempNodeInfo.f_e = (u16)(*((u32 *)data + 5));
-            tempNodeInfo.f_24 = *((u32 *)data + 6);
-            mc = DWCi_GetMatchCnt();
-            mc->srcNode = tempNodeInfo;
-            mc->f_7C8 = *((u32 *)data + 7);
-            mc->f_680 = tempNodeInfo.f0;
+            w = p[1];
+            tempNodeInfo.f16 = (u8)w;
+            tempNodeInfo.f17 = (u8)(w >> 16);
+            tempNodeInfo.f0 = p[2];
+            tempNodeInfo.f4 = p[3];
+            tempNodeInfo.f8 = p[4];
+            tempNodeInfo.f_c = (u16)(p[5] >> 16);
+            tempNodeInfo.f_e = (u16)p[5];
+            memcpy(&tempNodeInfo.f_24, data + 0x18, 4);
+            MC()->srcNode = tempNodeInfo;
+            w = p[7];
+            MC()->f_7C8 = w;
+            MC()->f_680 = tempNodeInfo.f0;
         }
-        clientCount = DWCi_NodeInfoList_GetCount();
-        if (clientCount == 1)
-            onewayGT2Latency = 0x15f90;
-        else
-            onewayGT2Latency = clientCount * 0x2ee0;
-        mc = DWCi_GetMatchCnt();
-        mc->f_670 = onewayGT2Latency;
-        mc->f_62E = 0;
+        {
+            int latency;
+
+            if (DWCi_NodeInfoList_GetCount() == 1)
+                latency = 0x15f90;
+            else
+                latency = DWCi_NodeInfoList_GetCount() * 0x2ee0;
+            MC()->f_670 = latency;
+        }
+        MC()->f_62E = 0;
         DWCi_SetMatchStatus(8);
         DWCi_SendMatchSynPacket(aid, 3);
         return;
-    case 3:
-        if (DWCi_GetMatchCnt()->f_61C != 0x13) {
+    case 3: {
+        u16 onewayGT2Latency;
+        u32 bitmask;
+
+        if (MC()->f_61C == 0x13) {
+            onewayGT2Latency = (u16)(data[0] | (data[1] << 8));
+            MC()->f_650 |= 1 << aid;
+            if (MC()->f_630 < onewayGT2Latency)
+                MC()->f_630 = onewayGT2Latency;
+            bitmask = DWCi_GetAIDBitmask(0);
+            if (bitmask != MC()->f_650)
+                return;
+            {
+                struct DWCstMatchControl *mc = MC();
+
+                mc->f_7C8 = DWCi_GetMathRand32(0 - 2) + 1;
+            }
+            DWCi_SendTypeMatchAck();
+            MC()->f_62C = 0;
+            {
+                unsigned long long tick = OS_GetTick();
+
+                MC()->f_658 = tick;
+            }
+        } else {
             DWCi_SendMatchSynPacket(aid, 4);
-            return;
         }
-        onewayGT2Latency = (u32)((u8)data[0] | ((u8)data[1] << 8));
-        mc = DWCi_GetMatchCnt();
-        mc->f_650 |= 1 << aid;
-        if (mc->f_630 < (u16)onewayGT2Latency) {
-            mc = DWCi_GetMatchCnt();
-            mc->f_630 = (u16)onewayGT2Latency;
-        }
-        if (DWCi_GetAIDBitmask(0) != DWCi_GetMatchCnt()->f_650)
-            return;
-        mc = DWCi_GetMatchCnt();
-        mc->f_7C8 = DWCi_GetMathRand32(0xfffffffe) + 1;
-        DWCi_SendTypeMatchAck();
-        DWCi_GetMatchCnt()->f_62C = 0;
-        mc->f_658 = OS_GetTick();
         return;
+    }
     case 4:
-        if (DWCi_GetMatchCnt()->f_61C != 8)
+        if (MC()->f_61C != 8)
             return;
         clientCount = *(int *)data;
-        if (clientCount == 0) {
-            DWCi_GetMatchCnt()->f_7C8 = *((u32 *)data + 1);
-        } else {
-            pDataOffset = (u32 *)(data + 4);
+        if (clientCount != 0) {
+            u32 v;
+
             for (i = 0; i < clientCount; i++) {
-                u32 *entry;
+                entry = (u32 *)(data + 4) + (clientCount - 1 - i) * 6;
 
                 MI_CpuFill8(&tempNodeInfo2, 0, sizeof(tempNodeInfo2));
-                entry = (u32 *)((u8 *)data + 4 + (clientCount - 1 - i) * 24);
                 tempNodeInfo2.f16 = (u8)entry[0];
                 tempNodeInfo2.f17 = (u8)(entry[0] >> 16);
                 tempNodeInfo2.f0 = entry[1];
                 tempNodeInfo2.f4 = entry[2];
                 tempNodeInfo2.f8 = entry[3];
-                tempNodeInfo2.f_c = (u16)(entry[4] >> 16);
                 tempNodeInfo2.f_e = (u16)entry[4];
-                tempNodeInfo2.f_24 = entry[5];
+                tempNodeInfo2.f_c = (u16)(entry[4] >> 16);
+                memcpy(&tempNodeInfo2.f_24, (u8 *)entry + 0x14, 4);
                 DWCi_NodeInfoList_InsertToTop(&tempNodeInfo2);
             }
-            mc = DWCi_GetMatchCnt();
-            mc->f_7C8 = ((u32 *)((u8 *)data + 4 + clientCount * 24))[0];
-            DWCi_NodeInfoList_InsertToTop(&DWCi_GetMatchCnt()->myNode);
+            v = ((u32 *)data + clientCount * 6)[1];
+            MC()->f_7C8 = v;
+            DWCi_NodeInfoList_InsertToTop(&MC()->myNode);
             DWCi_TempNewNodeInfo_Clear();
+        } else {
+            u32 v = *(u32 *)(data + 4);
+
+            MC()->f_7C8 = v;
         }
         DWCi_PostProcessConnection(3);
         return;

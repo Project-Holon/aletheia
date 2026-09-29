@@ -15,17 +15,15 @@
  * registers) plus the object disassembly.  Object stamp is 4.0.0.1025;
  * dsi/1.1p1 is the calibrated front end used for this object.
  *
- * BLOCKER (codegen only, extent correct to 4 bytes): all 45 relocations
- * resolve (g_021AA878/g_021AA8A0 are carried EXACT by sibling dwc_main.o
- * files).  dsi/1.1p1 builds 1364 bytes against the 1368-byte object.  The
- * remainder is register/stack-slot assignment and block ordering, not a
- * witness problem: the dwcError==0 guard block is laid out at a different
- * offset so the aligned diff over-reports (404 bytes after the first
- * branch-target divergence at +0x80).  Local stack order that the object
- * wants is aid=+0x14, profileID=+0x10, errorCode=+0xc, aidValid=+0x8 (aid
- * declared first, aidValid last); `w`-style temporaries were avoided.  The
- * `f365 == 3 || f365 == 2` test also needs the object's double load rather
- * than the range-fold (f365-2)<=1 this front end prefers.
+ * BLOCKER (codegen only, extent exact at 1368 bytes, 25 aligned blocks): all 45
+ * relocations resolve.  Recovered from the object: isServer = profileID = 0 and
+ * errorCode = dwcError = profileID (the object reads the profileID stack slot),
+ * errorCode -7600 for reasons 2/3 and -7601 for 4, SetError(dwcError, errorCode - 80000)
+ * (pool word), aidValid left uninitialised, the f365 test written as
+ * !(f365 != 3 && f365 != 2).  Left: the object reloads the byte f365 in the second
+ * arm of `== 3 || == 2` (ldrbne) which every spelling here folds, and it holds the
+ * constant 0 in r6 at +0x150 (module pointer reloaded later into r5) where this build
+ * hoists the module pointer instead, giving a r5/r6/r8 rotation from +0x150 on.
  *
  * symbols:
  *   DWCi_IsShutdownMatch                      0x0216F370  arm   ov009
@@ -170,8 +168,7 @@ void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason,
     int errorCode;
     int aidValid;
 
-    aidValid = 0;
-    isServer = 0;
+    isServer = profileID = 0;
 
     if (DWCi_IsShutdownMatch())
         return;
@@ -179,17 +176,16 @@ void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason,
     switch (reason) {
     case 0:
     case 1:
-        dwcError = 0;
-        errorCode = 0;
+        errorCode = dwcError = profileID;
         break;
     case 2:
     case 3:
         dwcError = 6;
-        errorCode = -7601;
+        errorCode = -7600;
         break;
     case 4:
         dwcError = 9;
-        errorCode = -7600;
+        errorCode = -7601;
         break;
     }
 
@@ -231,7 +227,7 @@ void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason,
 
         if (g_021AA878.ctrl->fb14 == 1 && DWC_IsServerMyself())
             g_021AA878.ctrl->fb14 = 1;
-        else if (g_021AA878.ctrl->f365 == 3 || g_021AA878.ctrl->f365 == 2)
+        else if ((!(g_021AA878.ctrl->f365 != 3 && g_021AA878.ctrl->f365 != 2)))
             g_021AA878.ctrl->fb14 = 0;
         else
             g_021AA878.ctrl->fb14 = (DWC_GetNumConnectionHost() == 1);
@@ -287,7 +283,7 @@ void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason,
     i = 0;
 
     if (dwcError != 0) {
-        DWCi_SetError(dwcError, errorCode - 4992);
+        DWCi_SetError(dwcError, errorCode - 80000);
         return;
     }
 

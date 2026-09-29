@@ -1,0 +1,192 @@
+func_021F5904 (MB_Init) -- 9 concrete bytes out in loop 2, no C filed
+=====================================================================
+
+ov107 / pkt_ov107_021F5904 / libmb.TWL.HYB.a(mb_wm_base.o), ARM, dsi/1.1p1,
+-O4,p, c99.  472-byte extent, 9 relocation sites, all 9 resolvable.
+
+Best candidate: 9 of 9 relocations resolved, 472/472 bytes, 9 concrete bytes
+differ.  That is DIFF, so per docs/AGENT-BRIEF.md step 4 ("Persistent DIFF/SIZE:
+consider a docs/notes/*.c.txt entry instead of a source file") the source is
+recorded here rather than filed in src/pending/.  The previously filed
+src/pending/ov_sdk/ov107_func_021F5904.c claimed `status: MATCH` while
+measuring 22 concrete bytes wrong; that claim was false and the file is
+removed rather than left in src/pending/.
+
+
+The whole function matches except the tail of the second copy loop
+----------------------------------------------------------------
+
+Everything up to the second loop is byte-exact: the alignment masking, the
+tgid==0x10000 call, the five mbi_life_mp stores (w4=0xffff, w6=5, w2=0x28,
+w0=0x28, w8=1), the three d_021F6F90 stores, both MIi_CpuClear calls, and the
+whole of loop 1.  Loop 1 (the user-name copy into p_parm->uname) only reached
+this once `c` -- the function-scope local -- was reused for the destination
+pointer rather than a second local `dst`, which is what
+docs/idioms/a-dead-parameter-reused-as-the-index-rotates-the-loop-registers.md
+describes; that alone took the function from 22 bytes wrong to 9.
+
+Target loop 2 (asm/overlays/ov107.s, the only mismatch left):
+
+  021F59EC  add  r0, r8, #0x138      ; d = p_parm->gname
+  021F59F0  add  r3, r0, #0x400
+  021F59F4  ldr  r0, [pc, #0xdc]     ; r0 = &mbi_life_mp      <- pool load
+  021F59F8  mov  r6, #0              ; i = 0
+  021F59FC  ldr  r1, [r0, #0xc]      ; cursor, HOISTED
+  loc_021F5A00:                      ; <- back edge lands HERE
+  021F5A00  ldrh r2, [r1]
+  021F5A04  cmp  r2, #0
+  021F5A08  beq  loc_021F5A24
+  021F5A0C  add  r1, r1, #2
+  021F5A10  add  r6, r6, #1
+  021F5A14  str  r1, [r0, #0xc]      ; writeback AFTER i++
+  021F5A18  cmp  r6, #0x10
+  021F5A1C  strh r2, [r3], #2
+  021F5A20  blt  loc_021F5A00
+
+Three separate facts have to hold at once, and they fight each other:
+
+  1. r0 = base (&mbi_life_mp), r1 = cursor, r2 = char, r3 = dest -- the same
+     colour assignment as the in-loop family.
+  2. the cursor load is loop-invariant in the target (hoisted to +0x00FC,
+     one execution) yet the field is still written back every iteration;
+  3. `add r6` (i++) is scheduled BEFORE the `str r1` writeback.
+
+What the compiler does with the natural spelling:
+
+  * read the field in the loop body -- keeps the register colours and the
+    exact instruction order of (1)+(3) [9 bytes: only the writeback/increment
+    swap and the back-edge target are wrong], but the cursor load lands
+    inside the loop so the back edge targets +0x00FC's `ldrh` at 0x021F59FC
+    rather than 0x021F5A00;
+  * hoist the cursor load to a local (`c = mbi_life_mp.gname;` before the
+    loop) -- gets (2), but the pool load for &mbi_life_mp is then scheduled
+    first (at +0x00EC) and the whole register set rotates by one, giving
+    r1 = base, r3 = cursor, r0 = char: 31-34 bytes wrong.
+
+So the 9-byte form satisfies 1 and 3, the hoisted form satisfies 2, and
+neither satisfies all three.  The target is the only place seen so far that
+hoists the load without losing the colours.
+
+
+Attempts recorded
+-----------------
+
+  * 9-byte basin: in-loop field read, ~200 hand spellings across search.py
+    .. search21.py (loop shapes, combined conditions, do/while, comma
+    increments, post-increment forms, `mbi_life_mp.gname[0]` vs `*c`,
+    `c = c + 1` vs `++c`, block vs function-scope cursors, the const
+    userNameLength spelling).  All land on exactly the same 9 bytes.
+  * fused post-increment through a struct pointer (`lp->gname++`,
+    per docs/idioms/a-running-counter-bumped-in-the-body-colours-apart-from-a-comma-increment.md)
+    -- gets the target's +0x010C/+0x0110 order, but rotates to r2 = base,
+    r0 = cursor and loads the pool word at +0x00EC: 19 bytes.
+  * reuse of the dead function-scope `c` as the base pointer, as a u16 cursor,
+    as a block cursor, and as an initialiser -- 31 bytes, because
+    `c[6]++` on a u16* defeats the field addressing.
+  * `MBiLife` field order: the sibling pending file spells it
+    w4,w6,w2,w0 and gives 13 extra mismatching bytes; w0,w2,w4,w6 is
+    required for this function.
+  * tools/permuter.py: 2000-compile focused anneal and a 2500-compile
+    unfocused hill run on the 9-byte basin, and a 3000-compile hill run on the
+    19-byte fused basin.  No single mutation improves either baseline.
+  * SDK naming: the vendor spelling `mbi_life_mp` is required to resolve the
+    +0x01D4 absolute; the earlier `g_021F6E58` spelling left it unresolved
+    (7 of 9).  `d_021F6F90` resolves +0x01CC.  Both sites are attested by
+    src/matched/ov_sdk/ov107_func_021F4628.c and ..._021F4E9C.c.
+
+
+Best candidate source
+---------------------
+
+  int MB_Init(void *work, const MBUserInfo *user, u32 ggid, u32 tgid, u32 dma)
+  {
+      MBiParam *p_parm;
+      MB_CommCommonWork *p_com;
+      u32 enabled;
+      int i;
+      u16 *c;
+      WMParentParam *p_parent;
+
+      if (*(MB_CommCommonWork **)(d_021F6F90 + 0x10) != 0
+          && (*(MB_CommCommonWork **)(d_021F6F90 + 0x10))->isMbInitialized != 0)
+          return 2;
+      p_parm = (MBiParam *)(((u32)work + 0x1f) & ~0x1f);
+      p_com = (MB_CommCommonWork *)(((u32)p_parm + 0x1e00 + 0x1f) & ~0x1f);
+      if (tgid == 0x10000)
+          tgid = WM_GetNextTgid();
+      enabled = OS_DisableInterrupts();
+      mbi_life_mp.w4 = 0xffff;
+      mbi_life_mp.w6 = 5;
+      mbi_life_mp.w2 = 0x28;
+      mbi_life_mp.w0 = 0x28;
+      mbi_life_mp.w8 = 1;
+      *(u16 *)d_021F6F90 = dma;
+      *(MBiParam **)(d_021F6F90 + 0xC) = p_parm;
+      *(MB_CommCommonWork **)(d_021F6F90 + 0x10) = p_com;
+      MIi_CpuClear32(0, p_parm, 0x1e00);
+      MIi_CpuClear16(0, p_com, 0x1340);
+      c = (u16 *)p_parm->uname;
+      for (i = 0; i < user->nameLength; i++) {
+          *c++ = user->name[i];
+      }
+      {
+          u16 *d;
+          u16 ch;
+          d = (u16 *)p_parm->gname;
+          for (i = 0; i < 16; i++) {
+              c = mbi_life_mp.gname;
+              ch = *c;
+              if (ch == 0)
+                  break;
+              mbi_life_mp.gname = c + 1;
+              *d++ = ch;
+          }
+      }
+      MI_CpuCopy8((void *)user, &p_com->user, 0x16);
+      if (user->nameLength < 10)
+          p_com->user.name[user->nameLength] = 0;
+      p_parm->p_sendlen = 0x100;
+      p_parm->p_recvlen = 8;
+      p_parm->sendBufSize = 0;
+      p_parm->recvBufSize = 0;
+      p_parm->contSend = 1;
+      p_parm->recvBuf = p_com->recvbuf;
+      p_parent = &p_parm->parentParam;
+      p_parent->entryFlag = 0;
+      p_parent->multiBootFlag = 0;
+      p_parent->CS_Flag = 1;
+      p_parent->KS_Flag = 0;
+      p_parent->ggid = ggid;
+      p_parent->tgid = tgid;
+      p_parent->beaconPeriod = MBi_GetBeaconPeriodDispersion() + 200;
+      p_parent->maxEntry = 15;
+      p_parm->mpBusy = 0;
+      p_parm->mbIsStarted = 0;
+      p_com->isMbInitialized = 1;
+      p_com->start_mp_busy = 0;
+      OS_RestoreInterrupts(enabled);
+      return 0;
+  }
+
+External names: d_021F6F90, mbi_life_mp, WM_GetNextTgid, OS_DisableInterrupts,
+MIi_CpuClear32, MIi_CpuClear16, MI_CpuCopy8, MBi_GetBeaconPeriodDispersion,
+OS_RestoreInterrupts.  `const` on the user parameter is a deliberate matching
+lever (the SDK prototype is non-const); the `(void *)` cast at the MI_CpuCopy8
+call preserves the copy.  Re-check with:
+
+  python tools/match.py one --src <file> --func MB_Init --addr 0x021F5904 \
+      --region ov107 --cc 1.1p1 --flags=-O4,p --arm --lang c99 --diff
+
+(the source function name must be MB_Init: the matcher resolves the object
+symbol, not the inventory name func_021F5904, and reports
+"object defines: $a, $d, MB_Init" otherwise).
+
+
+Open question
+-------------
+
+Whether 1.1p1 has a spelling that hoists the loop-invariant cursor load
+without rotating the register set -- i.e. that keeps &mbi_life_mp in r0 and
+the pool load at +0x00F4 while the load itself stays at +0x00FC.  If the
+hoist is what forces the colour rotation in this compiler, the two basins
+above are exhaustive and this is a real wall rather than a missing spelling.

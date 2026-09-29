@@ -1,5 +1,5 @@
 /*
- * function: gsiXmlUtilParseElement
+ * function: func_02181E80
  * address:  0x02181E80
  * packet:   pkt_ov009_02181E80
  * region:   ov009
@@ -7,19 +7,17 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
+ * notes:    strncmp is declared by the strncmp variant of the house string.h, so the
+ *           compiler keeps newElem.name.length in a register across the call (a
+ *           prototype in the .c file reloads it).  The vendor keeps no local for the
+ *           opening quote character or for the position saved in the closing-tag loop:
+ *           the quote test reads buffer[startPos + 1] twice and the loop reuses startPos.
+ *           The function ends with `return 0` after the last loop, and the two `>`
+ *           checks test != first, which orders the conditional returns as the image has
+ *           them.
  *
  * sdk:      gsiXmlUtilParseElement (libdwcgscommon.TWL.HYB.a gsxml.o)
- *
- * residue:  size-exact (1428) and all 25 relocations resolve; ~95 concrete
- *   words differ and every one is -O4,p scheduling or operand/register
- *   choice, not shape.  mwcc hoists the four call-argument movs above the
- *   `(*pos)` store in the source's `(*pos)++; SkipWhiteSpace(...)` pairs
- *   (ours stores `*pos` first), picks the commutative `cmp` order the other
- *   way at `buffer[*pos] == c`, and predicated the while-top `*pos >= len`
- *   exit where the original branches to the shared `mov r0,#0` epilogue.
- *   The stack slots (newElem@0x20, newAttr@8, startPos@4) and the callee
- *   registers already match.
  *
  * symbols:
  *   gsiXmlUtilSkipWhiteSpace         0x02181E28 arm ov009
@@ -32,6 +30,8 @@
  *   strncmp                          0x020949F4 arm
  *   __ctype_mapC                     0x020A61DC data
  */
+
+#include "../arm9_sdk/libc/strncmp/string.h"
 
 typedef struct GSIXmlString {
     char *string;
@@ -64,19 +64,17 @@ extern int gsiXmlUtilParseValue(void *stream, char *buffer, int len, int *pos, G
 extern int ArrayLength(void *array);
 extern void ArrayAppend(void *array, void *newElem);
 extern void ArrayReplaceAt(void *array, void *newElem, int n);
-extern int strncmp(const char *a, const char *b, unsigned long n);
 extern const unsigned short __ctype_mapC[];
 
 #define isalnum(c) (((unsigned)(c) >= 0x80u) ? 0 : (__ctype_mapC[c] & 0x9))
 
-static int gsiXmlUtilParseElement(GSIXmlStreamReader *stream, char *buffer, int len,
+static int func_02181E80(GSIXmlStreamReader *stream, char *buffer, int len,
                                   int *pos, int parentIndex)
 {
     GSIXmlElement newElem;
     GSIXmlAttribute newAttr;
     int startPos;
     int storeElement = 1;
-    char c;
 
     gsiXmlUtilSkipWhiteSpace(stream, buffer, len, pos);
     if (*pos >= len)
@@ -107,7 +105,7 @@ static int gsiXmlUtilParseElement(GSIXmlStreamReader *stream, char *buffer, int 
         ArrayAppend(stream->elements, &newElem);
     }
 
-    while (*pos < len && isalnum(c = buffer[*pos])) {
+    while (*pos < len && isalnum(buffer[*pos])) {
         __builtin__clear(&newAttr, sizeof(newAttr));
         if (!gsiXmlUtilParseName(stream, buffer, len, pos, &newAttr.name))
             return 0;
@@ -129,16 +127,14 @@ static int gsiXmlUtilParseElement(GSIXmlStreamReader *stream, char *buffer, int 
 
     if (!gsiXmlUtilSkipWhiteSpace(stream, buffer, len, pos))
         return 0;
-    c = buffer[startPos + 1];
-    if ((!isalnum(c) && buffer[*pos] == c) || buffer[*pos] == '/') {
+    if ((!isalnum(buffer[startPos + 1]) && buffer[*pos] == buffer[startPos + 1]) || buffer[*pos] == '/') {
         (*pos)++;
         if (!gsiXmlUtilSkipWhiteSpace(stream, buffer, len, pos))
             return 0;
-        if (buffer[*pos] == '>') {
-            (*pos)++;
-            return 1;
-        }
-        return 0;
+        if (buffer[*pos] != '>')
+            return 0;
+        (*pos)++;
+        return 1;
     }
     if (buffer[*pos] != '>')
         return 0;
@@ -155,7 +151,7 @@ static int gsiXmlUtilParseElement(GSIXmlStreamReader *stream, char *buffer, int 
     }
 
     while (*pos < len) {
-        int savePos = *pos;
+        startPos = *pos;
         if (buffer[*pos] != '<')
             return 0;
         (*pos)++;
@@ -167,22 +163,22 @@ static int gsiXmlUtilParseElement(GSIXmlStreamReader *stream, char *buffer, int 
                 return 0;
             if (*pos + newElem.name.length >= len)
                 return 0;
-            if (strncmp(&buffer[*pos], newElem.name.string, newElem.name.length) != 0)
+            if (strncmp(newElem.name.string, &buffer[*pos], newElem.name.length) != 0)
                 return 0;
             *pos += newElem.name.length;
             if (!gsiXmlUtilSkipWhiteSpace(stream, buffer, len, pos))
                 return 0;
-            if (buffer[*pos] == '>') {
-                (*pos)++;
-                return 1;
-            }
-            return 0;
+            if (buffer[*pos] != '>')
+                return 0;
+            (*pos)++;
+            return 1;
         }
         if (newElem.value.string != 0)
             return 0;
-        *pos = savePos;
-        if (!gsiXmlUtilParseElement(stream, buffer, len, pos, newElem.index))
+        *pos = startPos;
+        if (!func_02181E80(stream, buffer, len, pos, newElem.index))
             return 0;
         gsiXmlUtilSkipWhiteSpace(stream, buffer, len, pos);
     }
+    return 0;
 }

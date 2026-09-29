@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * sdk:      DWCi_CheckProfanityAsync (libdwcauth.TWL.HYB.a dwc_prof.o)
  *
@@ -46,10 +46,12 @@
  *
  * The object is stamped 4.0.0.1025; built with dsi/1.1p1.
  *
- * Blocker: every byte matches; the one open relocation is the wcscpy call
- * (arm9 0x02096594, PC24 at +0x2C8).  That address has no symbols_sdk row,
- * no manifest entry of its own (func_02096508.c only mentions it as a
- * trailing leaf) and no other caller, so no evidence class attests it.
+ * All 40 relocations resolve.  The last one to close was the wide-string copy
+ * at arm9 0x02096594 (PC24 at +0x2C8): the second unlabelled leaf trailing
+ * func_02096508's word run, which no `label`/`literal`/`sole-ref` class could
+ * see because the listing has it as bare `.word`s.  Reproducing it as
+ * src/matched/arm9/func_02096594.c (EXACT) gave the `matched` class the
+ * witness, the same route func_02096578 already had.
  */
 
 typedef struct OSThread {

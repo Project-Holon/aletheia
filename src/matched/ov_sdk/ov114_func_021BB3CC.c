@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
  *
  * sdk:      NHTTPi_CreateRequest (libnhttp.TWL.HYB.a nhttp_request.o)
  *
@@ -25,16 +25,15 @@
  *   str_https_scheme         0x021ce408 data a1
  *   NHTTPi_strMultipartBound 0x021cdfc8 data a1
  *
- * blocker:  codegen -- full URL/host parser reconstructed; 575/1172 concrete
- *           bytes differ, compiled 1260 vs 1256. Register allocation now
- *           matches (declen r4, urllen/i r5, prefix_p r6, req_p r7) by
- *           declaring declen/urllen/i/out before prefix_p and req_p last.
- *           Remaining: the two decode loops. The object's first loop is
- *           rotated (body at 0x554, incr 0x5a8, latch 0x5ac with the bound
- *           test and the prefix_p[i] load) -- a plain while/for emits it
- *           condition-first (749 differ); a `for(;;){ if(i>=declen)break; }`
- *           is closest (575). The object's second loop is not rotated.
- *           Left untouched: exact loop spelling and the +0044-byte extent.
+ * notes:    both percent-decode loops are the vendor's, with different shapes: the first is a
+ *           rotated loop with the slash test in its condition (`i < declen && (c =
+ *           prefix_p[i]) != '/'`); the 2 is kept
+ *           in a variable (flag) for the strToHex length; the second is a plain for with i
+ *           initialised before flag/out/deccount.  Both decrement deccount with
+ *           `deccount = deccount - 1` rather than assigning 1.  The host scan indexes a
+ *           pointer to decodedUrl + prelen, the port parse reuses a temporary for
+ *           hostend + 1, and the scheme suffix length (8 or 7) is recomputed inline
+ *           at each of its two uses rather than held in a local.
  */
 
 typedef unsigned char u8;
@@ -113,6 +112,7 @@ struct _NHTTPReq *NHTTPi_CreateRequest(
     int i;
     int out;
     char *prefix_p;
+    char *host_p;
     struct _NHTTPReq *req_p;
     int prelen;
     int nhostenc;
@@ -181,18 +181,13 @@ struct _NHTTPReq *NHTTPi_CreateRequest(
     nhostenc = 0;
     deccount = 0;
     flag = 2;
-    for (;;) {
-        if (i >= declen)
-            break;
-        c = prefix_p[i];
-        if (c == '/')
-            break;
+    while (i < declen && (c = prefix_p[i]) != '/') {
         if (deccount == 2) {
-            deccount = 1;
-        } else if (deccount == 1) {
-            c = (char)NHTTPi_strToHex(prefix_p + i - 1, 2);
             deccount = deccount - 1;
-            if (deccount < 0) {
+        } else if (deccount == 1) {
+            c = (char)NHTTPi_strToHex(prefix_p + (i - 1), flag);
+            deccount = deccount - 1;
+            if (c < 0) {
                 NHTTPi_SetError(bgnEndInfo_p, 4);
                 goto cleanup;
             }
@@ -222,18 +217,19 @@ struct _NHTTPReq *NHTTPi_CreateRequest(
     NHTTPi_memclr(req_p->decodedUrl, decode_urllen + 1);
     NHTTPi_memcpy(req_p->decodedUrl, a_url, prelen);
 
+    i = 0;
     out = 0;
     deccount = 0;
     flag = 0;
-    for (i = 0; i < declen; i++) {
+    for (; i < declen; i++) {
         if (deccount == 2) {
-            deccount = 1;
+            deccount = deccount - 1;
         } else if (deccount == 1) {
-            c = (char)NHTTPi_strToHex(prefix_p + i - 1, 2);
-            if (c == '/')
-                flag = 1;
+            c = (char)NHTTPi_strToHex(prefix_p + (i - 1), 2);
             deccount = deccount - 1;
             req_p->decodedUrl[prelen + out - 1] = c;
+            if (c == '/')
+                flag = 1;
         } else {
             c = prefix_p[i];
             if (c == '/')
@@ -248,26 +244,24 @@ struct _NHTTPReq *NHTTPi_CreateRequest(
     }
     req_p->decodedUrl[prelen + out] = 0;
 
-    i = 0;
-    if (out > 0) {
-        for (i = 0; i < out; i++) {
-            c = req_p->decodedUrl[prelen + i];
-            if (c == '/' || c == ':') {
-                req_p->hostend = i + prelen;
-                break;
-            }
+    host_p = req_p->decodedUrl + prelen;
+    for (i = 0; i < out; i++) {
+        c = host_p[i];
+        if (c == '/' || c == ':') {
+            req_p->hostend = i + prelen;
+            break;
         }
     }
     if (i == out) {
         req_p->hostend = i + prelen;
         req_p->pathstart = i + prelen;
     } else {
-        c = req_p->decodedUrl[prelen + i];
+        c = host_p[i];
         if (c == '/') {
             req_p->pathstart = req_p->hostend;
         } else if (c == ':') {
             for (; i < out; i++) {
-                c = req_p->decodedUrl[prelen + i];
+                c = host_p[i];
                 if (c == '/') {
                     req_p->pathstart = i + prelen;
                     break;
@@ -276,8 +270,8 @@ struct _NHTTPReq *NHTTPi_CreateRequest(
             if (i == out) {
                 req_p->pathstart = i + prelen;
             } else {
-                port = NHTTPi_strtonum(req_p->decodedUrl + req_p->hostend + 1,
-                                       req_p->pathstart - req_p->hostend - 1);
+                suflen = req_p->hostend + 1;
+                port = NHTTPi_strtonum(req_p->decodedUrl + suflen, req_p->pathstart - suflen);
                 if (port < 0) {
                     port = req_p->port;
                 } else if (port > 0xffff) {
@@ -289,15 +283,14 @@ struct _NHTTPReq *NHTTPi_CreateRequest(
         }
     }
 
-    suflen = req_p->isHttps ? 8 : 7;
-    urllen = req_p->hostend - suflen;
+    urllen = req_p->hostend - (req_p->isHttps ? 8 : 7);
     req_p->hostname = NHTTPi_alloc(urllen + 1, 4);
     if (req_p->hostname == 0) {
         NHTTPi_SetError(bgnEndInfo_p, 1);
         goto cleanup;
     }
     NHTTPi_memclr(req_p->hostname, urllen + 1);
-    NHTTPi_memcpy(req_p->hostname, req_p->decodedUrl + suflen, urllen);
+    NHTTPi_memcpy(req_p->hostname, req_p->decodedUrl + (req_p->isHttps ? 8 : 7), urllen);
 
     NHTTPi_memcpy(req_p->multipartBound, NHTTPi_strMultipartBound, 0x14);
     req_p->method = method;
