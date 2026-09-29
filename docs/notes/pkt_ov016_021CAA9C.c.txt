@@ -1,0 +1,71 @@
+=== 2026-09-29 endScene2 0x021CAA9C (ov016, TwlDWC libdwcutil scenesetrakubutt), EXACT ===
+src/matched/ov_sdk/ov016_func_021CAA9C.c, 204 bytes, 16/16 relocations resolved,
+all 0 vendor mismatches. Closed at 1.1p1 -O4,p c99.
+
+The inherited draft did not compile. Three real defects, all now fixed:
+  * extern void DWCi_ChangeScene(void (*)(...) scene) -- the vendor-DWARF form
+    the brief quotes -- does not parse in mwccarm 1.1p1 at all: "')' expected".
+    The form every matched sibling in the region uses is void (*scene)()
+    (0x021CCEE4, 0x021C1CFC, 0x021C29C4, 0x021C37D0, ...), and that is what builds.
+  * DWCi_SceneSetSelectWay / DWCi_SceneSetRakuButton1 were declared extern int and
+    passed as &name. 0x021CC998 and 0x021CAC64 are code, not data; the ABS32
+    relocations are function addresses and the call passes the bare names.
+  * DWCi_GXlInvisible(1, 1) was hoisted OUT of the `if (Choose == 0)` guard. This
+    was the real body error and it is the one that cost the iterations.
+
+THE STRUCTURAL POINT (the actual finding)
+  DWCi_GXlInvisible(1, 1) belongs INSIDE `if (Choose == 0)`, sharing the block with
+  DWCi_COMMENTlDelete. The image's bne at 0x021CAAF4 targets 0x021CAB08, which is
+  PAST the first GXlInvisible -- so a Choose != 0 path skips both calls:
+
+    021CAAF4  bne #0x21cab08      <- jumps over COMMENTlDelete AND GXlInvisible(1,1)
+    021CAAF8  bl DWCi_COMMENTlDelete
+    021CAAFC  mov r0, #1
+    021CAB00  mov r1, r0
+    021CAB04  bl DWCi_GXlInvisible
+    021CAB08  mov r4, #0          <- branch target, second GXlInvisible below
+
+  With the call inside the guard, the literal 1 appears in mutually exclusive
+  blocks, 1.1p1 rematerialises it at each site (mov r0,#1 / mov r1,r0 and
+  mov r1,#1) and still pools the 0 into r4 -- exactly the image.
+
+  With the call outside the guard, all three uses of 1 sit in one straight-line
+  region, the pooler hoists 1 into r5 as well as 0 into r4, and the prologue
+  grows to push {r3, r4, r5, lr} (208 bytes). That single misplaced brace is the
+  whole 4-byte difference.
+
+WHY THE FIRST READING OF THE RESIDUE WAS WRONG, and what it cost
+  Written outside the guard, the image read as "pools 0 but not 1" -- a shape
+  between 1.1p1 (pools both, 208 B) and 2.0/* (pools neither, 200 B), and
+  therefore apparently a missing mwccarm build: the object is stamped
+  4.0.0.1025, dsi/1.1p1 is build 1024 and dsi/1.2 is build 1026, and no 1.1p2
+  (build 1025) is installed. That reasoning was internally consistent and wrong.
+  Before blaming the build, sweep the C: the pooler only pools constants whose
+  uses are in the same block, so a hoist-looking residue is a statement in the
+  wrong place far more often than it is a front-end difference.
+
+  What was measured chasing it, all flat, recorded so it is not repeated:
+    * 19 pins (1.1, 1.1p1, 1.2, 1.2p1, 1.2p2, 1.3, 1.3p1, 1.6sp1, 1.6sp2,
+      2.0 base/sp1/sp1p2/sp1p5/sp1p6/sp1p7/sp2/sp2p2/sp2p3/sp2p4) -> 208/200,
+      never 204. The 2.0/* binaries self-report "Version 3.0 build 1xx" and are
+      OLDER than the dsi line, despite the directory name.
+    * 23 spellings against 1.1p1 and 2.0/sp2: argument casts (u8, s8, 0x01),
+      enum and static const locals for the 1, int/u8/u16/s8/bool/long/unsigned/
+      void* parameter types on DWCi_GXlInvisible and DWCi_SetParam_, and the 0
+      bound to a local including the copy-the-first-zero shape of
+      a-second-zero-must-be-spelled-as-a-copy-of-the-first.md (192/188 B, worse).
+    * none of it moved anything; the fix was one re-indentation.
+
+HOW THE CATCH WAS MADE
+  The static sibling 0x021CB5D8 in the same object (another lane's file) went EXACT
+  during this lane and its body is visible in src/matched. Diffing its structure
+  against mine showed the first GXlInvisible inside the guard there and outside
+  here. That is the fastest tool in the box: when a near-identical static copy in
+  the same vendor object is matched, read its block structure before sweeping
+  compilers. Its RakuButton target differs (0x021CA838 vs this one's 0x021CAC64)
+  and its Choose is a different .bss word (0x021DE604 vs 0x021DE5F8), so the two
+  files are not interchangeable -- only the shape is.
+
+SHARD
+  python tools/match.py manifest --verify --force --shard ov016/pkt_ov016_021CAA9C
+  run twice: 1 rewritten, then 0 rewritten. Idempotent.

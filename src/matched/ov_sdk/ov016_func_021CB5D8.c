@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   PENDING
+ * status:   EXACT
  *
  * symbols:
  *   DWCi_EFFlCheck                   0x021d5580 arm
@@ -21,7 +21,7 @@
  *   DWCi_ChangeScene                 0x021c0e40 arm
  *   Choose                           0x021de604 data
  *   DWCi_SceneSetSelectWay           0x021cc998 arm
- *   DWCi_SceneSetRakuButton1         0x021ca838 arm
+ *   DWCi_SceneSetRakuButton          0x021ca838 arm
  *
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(scenesetrakubutt), symbol endScene2 (name and prototype from the vendor object DWARF).
  * The object is stamped Metrowerks C/C++ for ARM 4.0.0.1025, which no tools/mwccarm build
@@ -44,8 +44,10 @@ extern void DWCi_RAKUlEnd(void);
 extern void DWCi_SetParam_(void *param0, void *param1);
 extern void DWCi_ChangeScene(void (*scene)());
 extern unsigned char Choose;
-extern int DWCi_SceneSetSelectWay;
-extern int DWCi_SceneSetRakuButton1;
+extern void DWCi_SceneSetSelectWay(void);
+extern void DWCi_SceneSetRakuButton(void);
+
+static void endScene2(void);
 
 static void endScene2(void)
 {
@@ -64,15 +66,15 @@ static void endScene2(void)
     DWCi_FNTlDeleteBgLcd(0);
     if (Choose == 0) {
         DWCi_COMMENTlDelete();
+        DWCi_GXlInvisible(1, 1);
     }
-    DWCi_GXlInvisible(1, 1);
     DWCi_GXlInvisible(0, 0x15);
     if (Choose == 0) {
         DWCi_RAKUlEnd();
-        DWCi_SetParam_((void *)2, (void *)(unsigned char)1);
-        DWCi_ChangeScene((void (*)())&DWCi_SceneSetSelectWay);
+        DWCi_SetParam_((void *)2, (void *)1);
+        DWCi_ChangeScene(DWCi_SceneSetSelectWay);
     } else {
         DWCi_SetParam_(0, 0);
-        DWCi_ChangeScene((void (*)())&DWCi_SceneSetRakuButton1);
+        DWCi_ChangeScene(DWCi_SceneSetRakuButton);
     }
 }
