@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * sdk:      _DWCi_MOVSearchChannel (libdwcutil.TWL.HYB.a(dwc_moveid.o))
  *

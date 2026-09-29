@@ -32,6 +32,10 @@
  *           Not fixed by nested ifs (two or three levels), rc = 1 before the
  *           store, `!*p`, an unsigned or volatile-cast deref, or a listInfo_p
  *           local for the free call.
+ *
+ * w9_nm2:   unchanged, 66 B. Also tried static inline helpers for the flag test,
+ *           for the flag store, and for both: the predicated load is still
+ *           reused for the store (r1) where the object reloads into r0.
  */
 
 typedef unsigned char u8;

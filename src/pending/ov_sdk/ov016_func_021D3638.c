@@ -9,6 +9,8 @@
  * isa:      arm
  * status:   MATCH
  *
+ * w9_nm: still 5 B. Also tried: the ternary with no local, one/zero locals selected by a ternary, result from a local then a ternary, early return of r or 1.
+ *
  * sdk:      DWCi_MOV_WH_Initialize (libdwcutil.TWL.HYB.a(dwc_mov_wh.o))
  *
  * w6_nm tried: goto-spelled exits with a shared return label (both senses),

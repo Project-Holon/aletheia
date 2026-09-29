@@ -7,7 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH (near miss: 58 B, guard shape: image has an extra cmpgt r1,#0 after the preloaded ldrsb and i in r2 first)
+ * status:   EXACT
+ *
+ * note: an explicit `if (len > 0)` around the for loop gives the image guard (cmp, preloaded ldrsb, cmpgt).
  *
  * sdk:      NHTTPi_getUrlEncodedSize2 (libnhttp.TWL.HYB.a(nhttp_stdlib_ntr))
  *
@@ -24,13 +26,15 @@ int func_021BA25C(char *p_p, int len)
     i = 0;
     n = 0;
     c = *p_p++;
-    for (; len > 0 && i < len; i++) {
-        if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') ||
+    if (len > 0) {
+        for (; i < len; i++) {
+            if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') ||
             (c >= 'a' && c <= 'z') || c == ' ')
-            n += 1;
-        else
-            n += 3;
-        c = *p_p++;
+                n += 1;
+            else
+                n += 3;
+            c = *p_p++;
+        }
     }
     return n;
 }

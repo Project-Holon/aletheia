@@ -7,12 +7,12 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * sdk:      FloatKeyCompare (libdwcgsserverbrowsing.TWL.HYB.a sb_serverlist.o)
  *
- * PARKED: every byte reproduces; the four _d2f call sites (0x0209B64C) have no witness
- * outside this function, so the shard stays MATCH and the file stays pending.
+ * _d2f (0x0209B64C) is a recorded MSL runtime row (layout/runtime_arm9.txt), matched in
+ * src/matched/arm9/d2f.c, so its call sites are attested.
  *
  * symbols:
  *   func_0219E1B8  0x0219E1B8  arm  ov009

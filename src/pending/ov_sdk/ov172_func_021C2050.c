@@ -9,6 +9,8 @@
  * isa:      arm
  * status:   MATCH
  *
+ * w9_nm: still 35 B. Tried: explicit cbbuf pointer (base + y, then + y), DWARF declaration order, size split (y = w*h; y >>= 1), while form, three result locals computed then stored, post-increment split. The object keeps yuyv in r1 (the width register), the Cb base in r4, and computes the third pair's masked half before the first store.
+ *
  * sdk:      SSP_YUV422ToYUV888 (jpegenc.o)
  *
  * symbols:

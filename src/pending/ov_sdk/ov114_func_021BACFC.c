@@ -25,6 +25,12 @@
  *           the increment. Explicit reload spellings (`= x + 1`, `+= 1`,
  *           `++`, `x++` in the assignment, chained assignment) and moving the
  *           req/-1 stores around did not reproduce it (17 to 46 B).
+ *
+ * w9_nm2:   unchanged, 17 B. The object's order is ldr id; ldr r2 (reload);
+ *           mvn; add; str; then str id into list_p->field_0x08. Any form that
+ *           stores field_0x08 after the increment (id load, ++ / += 1 / = x + 1 /
+ *           1 + x / post-increment, then the store; req and -1 stores hoisted
+ *           or sunk) moves id to r6 and req_p to r4 (36 to 48 B).
  */
 
 typedef unsigned char u8;

@@ -9,6 +9,8 @@
  * isa:      arm
  * status:   MATCH
  *
+ * w9_nm: DIFF 4 B (only the two ldrh destinations and the sub operand order: the object loads +0 into r1 and +2 into r0). 14 spellings, none moved it: locals in either order, direct expression, split subtract, u16 locals, const pointers, out-first declarations, if-return form.
+ *
  * sdk:      SOCLi_GetWriteBufferFreeSize (libsoc.TWL.HYB.a(socl_write.o))
  *
  * symbols:

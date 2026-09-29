@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Null-pointer guard through func_02156690, then either func_02156730 or func_0215592C.
  *

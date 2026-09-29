@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * sdk:      SOCLi_ExecReadCommand (libsoc.TWL.HYB.a(socl_read.o))
  *

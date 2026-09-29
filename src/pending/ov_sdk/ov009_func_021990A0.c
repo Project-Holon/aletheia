@@ -9,6 +9,8 @@
  * isa:      arm
  * status:   DIFF (one instruction: mvn r1,#0x80000000 vs compiled sub r1,r0,#0x80000002)
  *
+ * w9_nm: not retried (w8 covered every build and -opt switch).
+ *
  * sdk:      GetClientUniqueID (natify.o)
  *
  * w4_nm tried: K&R and unsigned prototypes, 0x7fffffffu, ~0x80000000, ~0u>>1, long

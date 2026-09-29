@@ -17,13 +17,11 @@
  * IEEE-754 binary64 multiply: two `umull` pairs build the 106-bit
  * significand product, `add ip, r4, ip` sums the exponents, `orr
  * #0x80000000` restores the hidden bit and `bic ip, ip, #0x800` (2048)
- * removes the doubled bias.  0x0209B648..0x0209B750 (264 bytes) is data,
- * not code -- the routine's own rounding/normalisation table, addressed by
- * two `ldr r1, [pc, #imm]` literal loads inside the body (both landing on
- * its first word, 0x0209B648, coincidentally also the double +Infinity
- * highword 0x7FF00000).  Kept as 66 raw `dcd` words in original byte
- * order; a data table sitting inside a function's own extent is a library
- * shape compiled C cannot produce (it would live in .rodata instead).
+ * removes the doubled bias.  The one literal word at 0x0209B648 (0x7FF00000,
+ * the double +Infinity high word) is addressed by two `ldr r1, [pc, #imm]`
+ * loads inside the body and is kept as a `dcd` at the end.  The 260 bytes
+ * from 0x0209B64C on are not this routine's table: they are the separate
+ * routine `_d2f` (double to float), matched in src/matched/arm9/d2f.c.
  *
  * Verified with:
  *   python tools/match.py one --src <this file> --func __dmul --addr
@@ -269,69 +267,4 @@ L_0209B638:
     ldmia sp!, {r4, r5, r6, r7, lr}
     bx lr
     dcd 0x7FF00000
-    dcd 0xE2012102
-    dcd 0xE1A0CA21
-    dcd 0xE3DCCB02
-    dcd 0x0A000019
-    dcd 0xE1A03A8C
-    dcd 0xE3730602
-    dcd 0x2A00000F
-    dcd 0xE25CCD0E
-    dcd 0x9A000018
-    dcd 0xE35C00FF
-    dcd 0xAA000032
-    dcd 0xE1A01601
-    dcd 0xE18234A1
-    dcd 0xE1833EA0
-    dcd 0xE1B01180
-    dcd 0xE1830B8C
-    dcd 0x012FFF1E
-    dcd 0xE3110102
-    dcd 0x012FFF1E
-    dcd 0xE1B01081
-    dcd 0x02101001
-    dcd 0x12800001
-    dcd 0xE12FFF1E
-    dcd 0xE1903601
-    dcd 0x1A000002
-    dcd 0xE3A004FF
-    dcd 0xE18200A0
-    dcd 0xE12FFF1E
-    dcd 0xE3E00102
-    dcd 0xE12FFF1E
-    dcd 0xE1903601
-    dcd 0x1A00001B
-    dcd 0xE1A00002
-    dcd 0xE12FFF1E
-    dcd 0xE37C0017
-    dcd 0x0A000012
-    dcd 0x4A000016
-    dcd 0xE1A01581
-    dcd 0xE3811102
-    dcd 0xE1A03421
-    dcd 0xE1833EA0
-    dcd 0xE26CC001
-    dcd 0xE1B01180
-    dcd 0xE1820C33
-    dcd 0xE26CC020
-    dcd 0xE1A03C13
-    dcd 0x13833001
-    dcd 0xE1B01003
-    dcd 0x012FFF1E
-    dcd 0xE3110102
-    dcd 0x012FFF1E
-    dcd 0xE1B01081
-    dcd 0x02101001
-    dcd 0x12800001
-    dcd 0xE12FFF1E
-    dcd 0xE1800601
-    dcd 0xE1B01000
-    dcd 0xE1A00002
-    dcd 0x12800001
-    dcd 0xE12FFF1E
-    dcd 0xE1A00002
-    dcd 0xE12FFF1E
-    dcd 0xE3A004FF
-    dcd 0xE18200A0
-    dcd 0xE12FFF1E
 }

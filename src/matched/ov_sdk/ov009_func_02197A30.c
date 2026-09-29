@@ -7,8 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * blocker: field_40==2 arm if-converted to conditional stores; orig keeps branch; 144 vs 168 B
- * status:   DIFF
+ * status:   EXACT
+ *
+ * notes:    w9_nm2: the two 2-byte copies written through pointer locals (s declared and assigned after dataLength = 5, then d = buffer + pos) keep the address arithmetic in registers instead of folding to sp offsets; the first attempt as a plain byte copy if-converted the arm.
  *
  * sdk:      gti2SendAck (gt2message.o)
  *
@@ -58,16 +59,27 @@ int gti2SendAck(struct GTI2Connection *connection)
     pos = 0;
     if (connection->socket->field_40 == 2)
     {
+        unsigned char *s;
+        unsigned char *d;
         dataLength = 5;
-        buffer[0] = (unsigned char)dataLength;
-        buffer[1] = (unsigned char)(dataLength >> 8);
-        pos = 2;
+        s = (unsigned char *)&dataLength;
+        d = (unsigned char *)buffer + pos;
+        d[0] = s[0];
+        d[1] = s[1];
+        pos += 2;
     }
-    buffer[pos] = d_021A5948[0];
-    buffer[pos + 1] = d_021A5948[1];
-    buffer[pos + 2] = 100;
-    gti2UShortToBuffer((unsigned char *)buffer, pos + 3, connection->field_66);
-    if (gti2ConnectionSendData(connection, (unsigned char *)buffer, pos + 5))
+    {
+        unsigned char *s = d_021A5948;
+        unsigned char *d = (unsigned char *)buffer + pos;
+        d[0] = s[0];
+        d[1] = s[1];
+        pos += 2;
+    }
+    buffer[pos] = 100;
+    pos += 1;
+    gti2UShortToBuffer((unsigned char *)buffer, pos, connection->field_66);
+    pos += 2;
+    if (gti2ConnectionSendData(connection, (unsigned char *)buffer, pos))
     {
         connection->pendingAck = 0;
         return 1;

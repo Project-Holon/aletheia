@@ -9,6 +9,8 @@
  * isa:      arm
  * status:   MATCH
  *
+ * w9_nm: 22 B: the object loads stacksize and prio (ldrh, ldrb) before the thread address add and the pool load; the compile defers the ldrb. Tried locals for both (u32, u16/u8, either order), a thread pointer local, swapped prototype order, u8 prio parameter: same 22 B.
+ *
  * sdk:      SOCLi_InitCommandPipe (libsoc.TWL.HYB.a(socl_create.o))
  *
  * symbols:

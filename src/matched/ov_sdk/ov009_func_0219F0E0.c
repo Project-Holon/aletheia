@@ -7,12 +7,12 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * sdk:      prevKeyCompare (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  *
- * PARKED: every byte reproduces; the _d2f call sites (0x0209B64C) have no witness
- * (same blocker as FloatKeyCompare 0x0219F2F8).
+ * _d2f (0x0209B64C) is a recorded MSL runtime row (layout/runtime_arm9.txt), matched in
+ * src/matched/arm9/d2f.c, so its call sites are attested.
  *
  * symbols:
  *   func_0219E120  0x0219E120  arm  ov009
@@ -20,10 +20,10 @@
  *   func_0219E0C0  0x0219E0C0  arm  ov009
  *   func_020948E0  0x020948E0  arm
  *   func_0209ABF8  0x0209ABF8  arm
- *   func_0209AF34  0x0209AF34  arm
- *   func_0209B64C  0x0209B64C  arm
- *   func_0209BBB0  0x0209BBB0  arm
- *   func_0209BC74  0x0209BC74  arm
+ *   _dsub  0x0209AF34  arm
+ *   _d2f  0x0209B64C  arm
+ *   _fgr  0x0209BBB0  arm
+ *   _fls  0x0209BC74  arm
  *   g_021AEB04  0x021AEB04  data
  *   g_021A8230  0x021A8230  data
  */

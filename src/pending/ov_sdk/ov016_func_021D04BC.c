@@ -8,7 +8,10 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * w9_nm2:   still 12 B. Tried: x = 176 as the argument expression, a MEMSTEP *m or void *cell local (loaded before or after the constant), the branch sense reversed, the store after the call; the compiler keeps mov, str x, ldr MemStep, ldr cell where the object has mov, ldr MemStep, str x, ldr cell.
  * blocker:  12 bytes: in the else arm the original loads MemStep->cell[4] before it stores x = 176; 1.1p1 stores x first. The loop forms (taskBegin0..3, taskEnd1..3) match. Notes: docs/notes/pkt_ov016_021D0040.c.txt
+ *
+ * w9_nm: same 12 B as taskEnd0 (the object loads MemStep->cell[4] before storing x = 176); the taskEnd0 spellings do not change it.
  *
  * symbols:
  *   CELL_IDX                         0x021DA914  data

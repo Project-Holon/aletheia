@@ -9,6 +9,8 @@
  * isa:      arm
  * status:   MATCH
  *
+ * w9_nm: 21 B: the object loads winSize into r3 and mss into r2, and loads the g_021AA450 base before the first compare; locals for mss, buf, or w<<1 as w*2 give 21 to 27 B.
+ *
  * sdk:      SOCLi_GetOptimumSendBufLen (libsoc.TWL.HYB.a(socl_write.o))
  *
  * symbols:

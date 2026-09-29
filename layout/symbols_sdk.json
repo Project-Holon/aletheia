@@ -63294,6 +63294,19 @@
    "siblings": 8
   },
   {
+   "address": 35474272,
+   "name": "cbWrite",
+   "lib": "TwlDWC/libdwcutil.TWL.HYB.a",
+   "object": "archive.o",
+   "region": "ov016",
+   "thumb": false,
+   "size": 8,
+   "concrete": 8,
+   "dupes": 1,
+   "siblings": 9,
+   "referenced": true
+  },
+  {
    "address": 35474280,
    "name": "DWCi_ARClReadEx",
    "lib": "TwlDWC/libdwcutil.TWL.HYB.a",

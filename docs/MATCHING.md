@@ -2113,6 +2113,15 @@ python tools/build.py --split --pack
 python tools/build.py --no-c      # the same, pure assembly
 ```
 
+`tools/provenance.py` is a read-only report over an existing build (`build/` and `extract/`) that
+classifies every byte of the ROM: compiled from our C, reassembled from listings (code or data words),
+filesystem files, ARM7 and other binaries copied from the extract, header and banner, and padding. Overlay
+and ARM9 bytes are counted on the decompressed image; a second table sums the stored, BLZ-compressed bytes
+to the ROM size. It learns the extent of each spliced entry by compiling it once, caches the result outside
+the repository, and never rebuilds or writes into the tree. `--json` gives the same numbers for scripts,
+`--verify` checks the ROM slices against their sources, and `--assets` adds the count of filesystem files
+the asset converters round-trip.
+
 ## Reproduce
 
 ```

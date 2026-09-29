@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * sdk:      cert_item_len (libssl.TWL.HYB.a(ssl.o))
  *

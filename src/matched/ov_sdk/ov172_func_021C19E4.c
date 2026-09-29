@@ -7,7 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
+ *
+ * notes:    w9_nm2: both mask locals (mx, my) in place of the inline samplingN * 8 - 1 expressions close it; the object holds the masks in r4 and a short-lived r2.
  *
  * sdk:      Yos_JPEGGetMemorySize (jpegenc.o)
  *
@@ -18,6 +20,8 @@
 unsigned long func_021C19E4(unsigned long width, unsigned long height, unsigned long sampling)
 {
     unsigned long i;
+    unsigned long mx;
+    unsigned long my;
     unsigned long cx;
     unsigned long cy;
     unsigned long dx;
@@ -37,8 +41,10 @@ unsigned long func_021C19E4(unsigned long width, unsigned long height, unsigned 
         samplingx = 2;
         break;
     }
-    dx = (width + (samplingx * 8 - 1)) & ~(samplingx * 8 - 1);
-    dy = (height + (samplingy * 8 - 1)) & ~(samplingy * 8 - 1);
+    mx = samplingx * 8 - 1;
+    dx = (width + mx) & ~mx;
+    my = samplingy * 8 - 1;
+    dy = (height + my) & ~my;
     cx = dx >> 3;
     cy = dy >> 3;
     return dx * dy * 3 + ((cx * cy + ((cx / samplingx) * (cy / samplingy)) * 2) << 7) + 0x2b40;

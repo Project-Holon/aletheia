@@ -9,6 +9,8 @@
  * isa:      arm
  * status:   DIFF
  *
+ * w9_nm: unchanged at 100 B vs 104 B: the constant spelled ~4, if/else, an extra add-zero statement in the arm, and a volatile result local (108 B) all keep the arm if-converted.
+ *
  * sdk:      WcmWmcbSetDCFDataAsync (wmif.o)
  *
  * blocker:  1.1p1 if-converts the one-instruction then-arm `wcmResult = -5;`

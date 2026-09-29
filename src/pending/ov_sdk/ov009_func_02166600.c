@@ -9,6 +9,8 @@
  * isa:      arm
  * status:   DIFF (near miss: copyDest assignment hoisted above the compares, registers shifted)
  *
+ * w9_nm: the object tests deviceId == 1 first, then == 2, then falls into the default mov r6,r1 without hoisting it; every switch spelling hoists mov r6,r1 above the compares (case 1 split from default, default alone, assignment before the switch, default last). The byte swap also differs: use ((len & 0xff) << 8) | ((len & 0xff00) >> 8) for the object's lsl 24 / lsr 16 form. Best 84 B with default listed first.
+ *
  * sdk:      WCMi_MergeToBuffer (libwcm.TWL.HYB.a cpsif.o)
  *
  * symbols:

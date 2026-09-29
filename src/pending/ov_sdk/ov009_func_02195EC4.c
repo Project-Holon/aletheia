@@ -10,6 +10,8 @@
  * blocker: gti2ConnectedCallback branch if-converted (movne) and return-1 blocks unmerged; 156 vs 152 B
  * status:   DIFF
  *
+ * w9_nm: not reached this wave.
+ *
  * sdk:      gti2ConnectionError (gt2message.o)
  *
  * symbols:

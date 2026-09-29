@@ -172,7 +172,7 @@ class FuncBytes:
     """A function extracted from a relocatable object."""
 
     __slots__ = ("name", "data", "mask", "thumb", "section", "relocs",
-                 "locals", "sites", "anon")
+                 "locals", "sites", "anon", "secs")
 
     def __init__(self, name, data, mask, thumb, section, relocs, locals_=None):
         self.name = name
@@ -184,6 +184,8 @@ class FuncBytes:
         self.locals = locals_ or {}   # symbol -> offset within self.data
         self.sites = []         # filled in by resolve_relocations()
         self.anon = {}          # "@N" local data object -> its bytes
+        self.secs = {}          # section symbol -> {"align", "size", "nobits",
+                                #   "objs": [(name, offset, size)]}
 
     @property
     def size(self):
@@ -339,6 +341,18 @@ def extract_function(obj_path, func, prefer_thumb=None):
                 and 0 < sh < len(obj.sections)
                 and obj.sections[sh][1] == SHT_PROGBITS):
             fb.anon[n] = bytes(obj.section_data(sh)[v:v + sz])
+    # The file's own data objects in each section the function relocates
+    # against by section symbol (`.data`+off, `.bss`+off), for the own-static
+    # rule (see "section-relative relocations to the file's own data").
+    for n, v, sz, t, b, sh in syms:
+        if (n in wanted and t == 3 and 0 < sh < len(obj.sections)
+                and obj.secnames[sh] == n and n != ".text"):
+            objs = sorted((on, ov, osz) for on, ov, osz, ot, ob, osh in syms
+                          if osh == sh and ot == 1 and osz > 0)
+            fb.secs[n] = {"align": obj.sections[sh][8] or 1,
+                          "size": obj.sections[sh][5],
+                          "nobits": obj.sections[sh][1] != SHT_PROGBITS,
+                          "objs": objs}
     return fb
 
 
@@ -4676,6 +4690,114 @@ def _resolve_vendor_named(fb, st, place, decls, lo, hi, src, region):
     return d.addr, d.kind
 
 
+# ---------------------------------------------------------------------------
+# section-relative relocations to the file's own data
+# ---------------------------------------------------------------------------
+#
+# A file-scope `static` (or a function-local one) is not relocated by name:
+# mwccarm writes `.data`/`.bss` (the section symbol) plus the object's offset
+# in the file's own section.  The vendor-object rules above cannot name it,
+# because the site under test need not be an SDK function.  Here the source
+# itself names the objects.  Each static is written in the `symbols:` block
+# with the address it has in the original (`gBitLen 0x021CADE4 data`), under
+# the name it has in the C file.  The compiled object says where every one of
+# them sits in its own section, so a declared static at address A and offset
+# O says the section base is A - O.  Accepted only when
+#   - the relocation's section symbol names a data section of the compiled
+#     object, and the object containing the addend is declared (an addend
+#     that lands in no object, or in an undeclared one, is refused);
+#   - every declared static of that section agrees on ONE base (the relative
+#     layout the compiler chose is the layout the image has, or the entry is
+#     refused: reorder the source until they agree);
+#   - the base is a multiple of the section's alignment, and a section with
+#     bytes (.data) lies wholly inside the image of the region it is compared
+#     in;
+#   - the ordinary attest() finds a witness at base + addend, with the
+#     declared static's own alignment and region hint.
+# The rule adds no class and no evidence: a declaration is a claim, and the
+# witness is whatever attest() reports.  A `.bss` line (the vendor route)
+# takes precedence when present, so no existing entry changes.
+
+def _declared_statics(fb, secname, decls):
+    sec = fb.secs.get(secname)
+    return [o[0] for o in (sec["objs"] if sec else ())
+            if o[0] in decls and decls[o[0]].kind == "data"]
+
+
+def section_static_base(fb, secname, decls):
+    """(base, [declared statics], reason): the one section base every
+    declared static of `secname` implies, or (None, [], why)."""
+    sec = fb.secs.get(secname)
+    if sec is None:
+        return None, [], "no data section %s in the compiled object" % secname
+    bases = {}
+    declared = []
+    for oname, ooff, osz in sec["objs"]:
+        d = decls.get(oname)
+        if d is None or d.kind != "data":
+            continue
+        declared.append((oname, ooff, osz, d))
+        bases.setdefault((d.addr - ooff) & 0xFFFFFFFF, []).append(oname)
+    if not declared:
+        return None, [], ("no static of %s is named in the symbols: block "
+                          "(one `name 0xADDR data` line per static)"
+                          % secname)
+    if len(bases) != 1:
+        return None, [], ("the declared statics of %s do not keep the "
+                          "compiled layout: %s" % (
+                              secname, "; ".join(
+                                  "%s -> base %08X" % (", ".join(v), k)
+                                  for k, v in sorted(bases.items()))))
+    return next(iter(bases)), declared, ""
+
+
+def _resolve_own_static(fb, st, place, decls, lo, hi, src, region):
+    """(target, "data") for a `.data`/`.bss` relocation into the file's own
+    statics, with st's class, witness and note set; None (st.reason set)."""
+    name, addend = st.name, st.addend
+    base, declared, why = section_static_base(fb, name, decls)
+    if base is None:
+        st.reason = "%s+%#x: %s" % (name, addend, why)
+        return None
+    sec = fb.secs[name]
+    if addend < 0 or base % sec["align"]:
+        st.reason = ("%s+%#x: base %08X is not a multiple of the section "
+                     "alignment %d" % (name, addend, base, sec["align"]))
+        return None
+    hit = [x for x in declared if x[1] <= addend < x[1] + x[2]]
+    if not hit:
+        st.reason = ("%s+%#x lands in no declared static (declared: %s)"
+                     % (name, addend, ", ".join(
+                         "%s@+%#x" % (x[0], x[1]) for x in declared)))
+        return None
+    oname, ooff, osz, d = hit[0]
+    if not sec["nobits"]:
+        try:
+            reg = find_region(base, region)
+        except SystemExit:
+            reg = None
+        if (reg is None or not reg.base <= base
+                or base + sec["size"] > reg.base + len(reg.data)):
+            st.reason = ("%s at base %08X does not lie inside the image of "
+                         "%s" % (name, base, region or "any region"))
+            return None
+    target = base + addend
+    proof = attest(target, "data", lo, hi, src, d.region, d.align,
+                   place + st.off, target & 0xFFFFFFFF, site_region=region)
+    if proof is None:
+        st.reason = ("%s+%#x = %08X (static %s of the file, base %08X) has "
+                     "no witness outside %08X..%08X"
+                     % (name, addend, target, oname, base, lo, hi))
+        return None
+    st.cls, st.witnesses, st.witness = proof[:3]
+    if proof[0] == "sole-ref" and len(proof) > 3:
+        st.subkind = proof[3]
+    st.note = ("%s+%#x is static %s (+%#x) of the file, section based at "
+               "%08X; %d declared static(s) agree on that base"
+               % (name, addend, oname, ooff, base, len(declared)))
+    return target, "data"
+
+
 def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
     """Fill in every relocation of `fb` whose target we can attest.
 
@@ -4703,6 +4825,24 @@ def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
             target = place + fb.locals[name]
             kind = "thumb" if fb.thumb else "arm"
             st.cls = "local"
+        elif (name in getattr(fb, "secs", {})
+              and not (name in SECTION_NAMES and name in decls)
+              and not (name in SECTION_NAMES
+                       and not _declared_statics(fb, name, decls))):
+            # A static of the file's own section (see "section-relative
+            # relocations to the file's own data").
+            got = _resolve_own_static(fb, st, place, decls, lo, hi, src,
+                                      region)
+            if got is None:
+                continue
+            target, kind = got
+            if rtype != R_ARM_ABS32:
+                st.reason = "%s: only an ABS32 data site is named this way" % name
+                continue
+        elif name in getattr(fb, "secs", {}) and name not in SECTION_NAMES:
+            st.reason = ("%s+%#x: %s" % (name, addend, section_static_base(
+                fb, name, decls)[2]))
+            continue
         elif ANON_NAME_RE.match(name) or name in SECTION_NAMES:
             # A compiler template or a section symbol: only the vendor
             # object can say what the slot is (see "vendor-object rules").
@@ -8162,6 +8302,55 @@ def cmd_selftest(args):
                 "refused",
            attest_section_rel(lklo, 0x44, ".bss", 0x02150FCC, 0,
                               lklo, lkhi), None)
+    # --- section-relative relocations to the file's own statics ------------
+    # ov172 Yos_BitWrite (0x021C0C3C): three adjacent statics in ov172's bss,
+    # relocated as `.bss`+0 from the pool word at +0xC0, which holds
+    # 0x021CADE4 in the image.
+    ybw = 0x021C0C3C
+
+    def _own_static(secinfo, decl_lines, addend=0, sec=".bss"):
+        fb = FuncBytes("t", bytes(200), bytearray(b"\x01" * 200), False,
+                       ".text", [(0xC0, R_ARM_ABS32, sec, addend)])
+        for k in range(0xC0, 0xC4):
+            fb.mask[k] = 0
+        fb.secs = {sec: secinfo}
+        decls = dict((n, Decl(n, a, "data", "header")) for n, a in decl_lines)
+        resolve_relocations(fb, ybw, decls, 200, region="ov172")
+        return fb.sites[0]
+    _objs = [("gBitLen", 0, 4), ("gBitCode", 4, 4), ("gWriteLimit", 8, 4)]
+    _bss = {"align": 4, "size": 12, "nobits": True, "objs": _objs}
+    _good = [("gBitLen", 0x021CADE4), ("gBitCode", 0x021CADE8),
+             ("gWriteLimit", 0x021CADEC)]
+    got = _own_static(_bss, _good)
+    _check(res, "static: three statics that keep the compiled layout place "
+                "the section, and the ordinary witness carries the site",
+           (got.resolved, got.cls, got.value), (True, "sole-ref", 0x021CADE4))
+    _check(res, "static: one declared static is enough to place the base",
+           _own_static(_bss, _good[:1]).resolved, True)
+    got = _own_static(_bss, [_good[0], ("gBitCode", 0x021CADEC), _good[2]])
+    _check(res, "static: a declared layout that differs from the compiled "
+                "one (gBitCode at +8, not +4) is refused",
+           (got.resolved, "do not keep the compiled layout" in got.reason),
+           (False, True))
+    got = _own_static(_bss, _good[1:])
+    _check(res, "static: an addend inside an undeclared static is refused",
+           (got.resolved, "lands in no declared static" in got.reason),
+           (False, True))
+    got = _own_static(_bss, [], sec=".data")
+    _check(res, "static: no declared static, no placement",
+           (got.resolved, "symbols: block" in got.reason), (False, True))
+    got = _own_static(dict(_bss, nobits=False), _good)
+    _check(res, "static: a .data section based outside the region's image "
+                "is refused",
+           (got.resolved, "does not lie inside the image" in got.reason),
+           (False, True))
+    got = _own_static(dict(_bss, align=8), _good)
+    _check(res, "static: a base that breaks the section alignment is refused",
+           (got.resolved, "alignment" in got.reason), (False, True))
+    got = _own_static(_bss, [(n, a + 0x100) for n, a in _good])
+    _check(res, "static: a consistent layout at an address with no witness "
+                "is refused (a declaration alone proves nothing)",
+           got.resolved, False)
     _check(res, "symbols: `@N` and `.bss` lines parse, `.text` does not",
            (bool(SYMBOL_RE.match(" *   @12151  0x020A5CB8  data")),
             bool(SYMBOL_RE.match(" *   .bss    0x02150FCC  data")),

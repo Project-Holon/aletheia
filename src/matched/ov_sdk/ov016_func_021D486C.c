@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * sdk:      DWCi_ARClInit (libdwcutil.TWL.HYB.a(archive.o))
  *
@@ -36,11 +36,8 @@
  *   @12216  0x021DBFB8  data
  *   @12217  0x021DBFD0  data
  *
- * blocker: every byte matches; the one open relocation is the ABS32 pool word for
- * cbWrite (0x021D4B60), the 8-byte `mov r0, #1; bx lr` static of archive.o. It has
- * no symbols_sdk.json row and no reference in ov016 outside this function, so it
- * attests through no class. The layout also runs its extent into the next function
- * at 0x021D4B68. A catalog row for cbWrite (or a witnessed start there) unblocks it.
+ * notes:    the ABS32 pool word at 0x021D4A18 (cbWrite, 0x021D4B60) attests through the
+ *           new symbols_sdk.json row and the seeded start (func_021D4B60, EXACT).
  */
 
 typedef unsigned short u16;

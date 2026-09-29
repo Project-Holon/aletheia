@@ -80,7 +80,8 @@ THE REST OF THE TWO RANGES, for completeness
 --------------------------------------------
   0209AF34   944  double add / subtract          (__dadd / __dsub body)
   0209B2E8   864  double multiply                (__dmul)
-  0209B648   264  (data: __dmul's normalisation table)
+  0209B648     4  (data: __dmul's literal word)
+  0209B64C   260  double -> float                (_d2f)
   0209B750    64  signed int -> double           (clz-normalised, bias 0x41E)
   0209B790    60  unsigned int -> double
   0209B7CC   152  double compare, ordering 1     (mrs/msr flag return)

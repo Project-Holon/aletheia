@@ -9,6 +9,13 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * w9_nm2:   still DIFF (173 to 182 B), not improved. Tried a BTAUTO struct for the
+ *           global (alloc pointer at +4, mem +0x54, work +0x40/+0x5c, maxap +0x70),
+ *           dropping the `t` local (the compiler folds 0xd0 + 0xc0 into 0x190 and
+ *           hoists 0x24d0/0xc0), and three local declaration orders. The object
+ *           keeps maxap in r6 and t in r7 with no frame; ours spills maxap to
+ *           [sp] and materialises 0xc0 and the 0x24d0 pool word early.
+ *
  * sdk:      InitAtermApcNetwork (libdwcutil.TWL.HYB.a(atermset.o))
  *
  * symbols:

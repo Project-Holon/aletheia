@@ -9,6 +9,8 @@
  * isa:      arm
  * status:   MATCH
  *
+ * w9_nm: not closed: the object branches on isA (bne to the isB block), no result temp and no cmp r5; isA as if/return chains (three forms) is 99 to 101 B, worse than the draft.
+ *
  * sdk:      SOCLi_IsIPv4ValidDNSAddr (libsoc.TWL.HYB.a(socl_misc.o))
  */
 

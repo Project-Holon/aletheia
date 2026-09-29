@@ -9,6 +9,13 @@
  * isa:      arm
  * status:   MATCH (near miss: 120 B; image reloads flags (ldrsh) at each of three tests and keeps socket in r4, send_pipe r5; ours CSEs the loads and swaps r4/r5; IsOpen predicate not materialised)
  *
+ * w9_nm2:   still DIFF (120 to 122 B), body unchanged. Tried predicate inline helpers
+ *           (IsConnected/IsShutdown/SetShutdown), helpers taking `int s` with a
+ *           local socket as in the DWARF, `int open = IsOpen(s); if (open == 0)`
+ *           (76 B, the only improvement: it materialises IsOpen, but into r0 not r1),
+ *           separate ifs, a flags pointer. The object reloads flags (ldrsh) at each
+ *           of four accesses and keeps s in r4, send_pipe in r5; ours keeps s in r5.
+ *
  * sdk:      SOCL_Shutdown (libsoc.TWL.HYB.a(socl_shutdown.o))
  *
  * symbols:

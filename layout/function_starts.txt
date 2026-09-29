@@ -668,6 +668,7 @@ arm9_main  0x02008A44  thumb   # already EXACT (sub_02008A44 in src/matched/unit
 arm9_main  0x02008A54  thumb   # packed-word reader; bl from ov111 at 0x021C7B52
 arm9_main  0x02047804  arm     # slot-table leaf, sibling of func_0204784C; blx from ov021 at 0x0218C064, 0x0218C0C4
 arm9_main  0x02047828  arm     # slot-table leaf, sibling of func_0204784C; blx from ov021 at 0x0218C486, 0x021ADC1E, 0x021BE6F6
+arm9_main  0x0209B64C  arm     # _d2f runtime (layout/runtime_arm9.txt); bl from ov009 at 0x02183D58, 0x0219F360 and 5 more, blx from ov021 at 0x021C6BEE, ov123 at 0x021D66EC
 arm9_main  0x0209BB54  arm     # _fgeq runtime comparator (layout/runtime_arm9.txt); blx from ov208 at 0x021C7660, 0x021C7B04, 0x021C7BFC, ov120 at 0x021D7322
 overlay_111  0x021C7EF8  thumb # already EXACT (src/matched/ov111_func_021C7EF8.c); bl from func_021C7F2C (src/matched/ov111_func_021C7F2C.c); follows pool word 0x021C7EF4
 
@@ -961,3 +962,18 @@ overlay_021  0x021BB13C  thumb # "push {r4, r5}" leaf right after the "pop {r4, 
 overlay_021  0x021BD474  thumb # "movs r1, #1; str r1, [r0, #0x44]; bx lr" after the pop at 0x021BD470 and padding; pointer word 0x021BD475 at ov021 0x021BD1D8 (pool of func_021BD1D4)
 overlay_217  0x021BC574  thumb # "ldr r0, [r0]; ldr r3, =func_021C09D8; bx r3" after the pop at 0x021BC570 and padding; pointer word 0x021BC575 at ov217 0x021BBAD8 (pool of func_021BBAD0)
 overlay_029  0x021EFEE4  thumb # "str r1, [r0]; ...; strb r2, [r0, r1]; bx lr" after the bx lr at 0x021EFEE0 and padding; pointer word 0x021EFEE5 at ov029 0x021EFEFC (pool of func_021EFEF8)
+
+# w9_f1 (2026-09-29): ov016 archive.o static cbWrite.
+overlay_016  0x021D4B60  arm   # "mov r0, #1; bx lr" cbWrite (archive.o, 8 B, 0 mismatches); pointer word 0x021D4B60 at ov016 0x021D4A18 (DWCi_ARClInit +0x1AC, ABS32 cbWrite, vendor member relocation)
+
+# w9_f1 (2026-09-29): verified overlay SDK functions the listing printed as data.  Each: vendor symbol located with 0 mismatches, plus a vendor relocation (in a row located with 0 mismatches) whose image word / decoded bl lands on the address.
+overlay_016  0x021D2794  arm   # DWCi_MOV_MBP_GetChildBmp (dwc_mov_mbp.o, 88 B); _DWCi_MOV_WaitandDownloadandBoot_Child 0x021D4214 PC24 bl at +0x5C, +0x78, +0x88, +0xB8, +0x100; raw bl also at 0x021D4270
+overlay_016  0x021D41F0  arm   # _DWCi_MOVStartWaitChild (dwc_moveid.o, 36 B); DWCi_MOVFramework 0x021D3DC0 +0xE4 PC24 bl (0x021D3EA4)
+overlay_016  0x021CEC9C  arm   # stepBar (scrollbar.o, 44 B); taskMain 0x021CE9E8 +0xBC, +0xC8, +0x11C, +0x160 PC24 bl
+overlay_107  0x021F6480  arm   # MBi_TaskThread (mb_task.o, 272 B); MBi_InitTaskThread 0x021F6590 +0x7C ABS32, image word at 0x021F660C
+overlay_107  0x021F40F4  arm   # MBi_InitSendFixedBeacon (mb_gameinfo.o, 76 B); MB_SendGameInfoBeacon 0x021F3FC8 +0x50 PC24 bl (0x021F4018)
+overlay_009  0x0215CFC0  arm   # SOCLi_CommandPacketHandler (socl_command.o, 176 B); SOCLi_InitCommandPipe 0x0215D3C8 +0x70 ABS32, image word at 0x0215D438
+overlay_009  0x0215DB0C  arm   # SOCLi_ReadCallBack (socl_read.o, 336 B); SOCLi_ExecReadCommand 0x0215DAA8 +0x5C ABS32, image word at 0x0215DB04
+overlay_009  0x0215CCA0  arm   # SOCLi_SetMyIP (socl_startup.o, 108 B); SOCLi_StartupCPS 0x0215CB24 +0x168 ABS32, image word at 0x0215CC8C
+overlay_009  0x021601CC  arm   # make_dn (ssl.o, 108 B); cert_item 0x021602B8 +0x2CC and +0x30C PC24 bl (0x02160584, 0x021605C4)
+overlay_114  0x021C5724  arm   # DWCi_SVLTokenWaitThread (dwc_nd.o, 420 B); DWC_NdInitAsync 0x021C5928 +0x18C ABS32, image word at 0x021C5AB4

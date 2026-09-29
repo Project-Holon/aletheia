@@ -17,6 +17,12 @@
  * u8-cast length store: 20 B remain (the object computes len * 4 into r0
  * before loading the id base into ip).
  *
+ * w9_nm2: still 20 B. Also tried a u8 local for len * 4 (inside a block),
+ * `len *= 4` after the copy, `(unsigned char)(len << 2)`, an idp pointer local
+ * for the id copy, and the header stores in six other orders (moving len or
+ * command ahead of the id copy changes the prologue, 46 to 54 B). The pool
+ * base stays in r0 with len * 4 in r1; the object has ip and r0.
+ *
  * symbols:
  *   d_021A2188  0x021A2188  data  a1
  *   MIi_CpuCopy32  0x02082A90  arm

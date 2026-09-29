@@ -9,6 +9,8 @@
  * isa:      arm
  * status:   MATCH
  *
+ * w9_nm: 148 B object vs 144 B: the object keeps the st != 0 arm as popne / mov / strb / pop, this compile if-converts it (moveq / strbeq). Tried: early-return spellings of the arm (three), the inline setSt helper, a block local, an explicit return after the store: always predicated.
+ *
  * sdk:      cbWm (libdwcutil.TWL.HYB.a usbap.o)
  *
  * symbols:

@@ -7,22 +7,19 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * sdk:      getlocalhost (gsplatformsocket)
  *
- * blocker: byte-identical (128 bytes) with function-local statics (declared in
- * the order aliases_0, localhost, ips_2, ipPtrs_1; the statics reach r4 as one base),
- * but the first literal (+0x6C) is emitted as a relocation against .bss+0 by
- * 1.1p1 while the vendor object relocates it against its aliases_0 symbol, and the
- * .bss slot in an overlay cannot be attested. Rewrites of the pending draft
- * written from the object only (previous DIFF draft replaced).
+ * note: function-local statics, declared in the order aliases_0, localhost,
+ * ips_2, ipPtrs_1 (they reach r4 as one base).  The first literal (+0x6C) is
+ * relocated against `.bss`+0 by 1.1p1; the four static symbols: lines place
+ * that section and agree on one base.
  *
  * symbols:
  *   func_0215EF48                  0x0215EF48  arm ov009
  *   func_0215FBAC                  0x0215FBAC  arm ov009
  *   g_021A37BC                     0x021A37BC  data
- *   .bss                           0x021AD0F4  data
  *   _ZZ13func_0217EFB8vE9aliases_0 0x021AD0F4  data
  *   _ZZ13func_0217EFB8vE9localhost_0 0x021AD0FC  data
  *   _ZZ13func_0217EFB8vE5ips_2_1   0x021AD10C  data

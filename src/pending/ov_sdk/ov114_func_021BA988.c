@@ -9,6 +9,8 @@
  * isa:      arm
  * status:   DIFF (2 bytes)
  *
+ * w9_nm: not moved (2 B): socket still loads into r0 after the length call; not retried beyond w5/w6.
+ *
  * sdk:      NHTTPi_CleanupAsync (nhttp_bgnend.o)
  *
  * blocker (w5_nm): rewritten from the DWARF; the earlier draft passed a0 to

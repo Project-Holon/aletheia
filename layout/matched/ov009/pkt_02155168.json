@@ -16,12 +16,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT*",
-   "evidence": {
-    "sole-ref": [
-     "code:0x0215592C"
-    ]
-   }
+   "status": "EXACT*"
   },
   {
    "name": "func_02155244",
@@ -62,12 +57,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT*",
-   "evidence": {
-    "sole-ref": [
-     "code:0x021562EC"
-    ]
-   }
+   "status": "EXACT*"
   },
   {
    "name": "func_021552DC",
@@ -111,7 +101,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021A8264"
+     "data:0x021A8264"
     ]
    }
   },
@@ -128,7 +118,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021A8264"
+     "data:0x021A8264"
     ]
    }
   },
@@ -145,7 +135,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021A8264"
+     "data:0x021A8264"
     ]
    }
   },
@@ -186,7 +176,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021A8264"
+     "data:0x021A8264"
     ]
    }
   },
@@ -200,12 +190,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT*",
-   "evidence": {
-    "sole-ref": [
-     "code:0x02155C8C"
-    ]
-   }
+   "status": "EXACT*"
   },
   {
    "name": "func_021563C0",
@@ -237,8 +222,7 @@
    "status": "EXACT*",
    "evidence": {
     "sole-ref": [
-     "code:0x021AF13C",
-     "self:0x021A8264"
+     "data:0x021A8264"
     ]
    }
   },
@@ -255,7 +239,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021A8264"
+     "data:0x021A8264"
     ]
    }
   },
@@ -272,7 +256,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021A8264"
+     "data:0x021A8264"
     ]
    }
   },
@@ -289,7 +273,7 @@
    "status": "EXACT*",
    "evidence": {
     "sole-ref": [
-     "self:0x021A8264"
+     "data:0x021A8264"
     ]
    }
   },
@@ -323,7 +307,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021A826C"
+     "data:0x021A826C"
     ]
    }
   },
@@ -340,7 +324,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021A826C"
+     "data:0x021A826C"
     ]
    }
   },
@@ -558,7 +542,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*",
+   "status": "EXACT",
    "evidence": {
     "sdk": [
      "0x0215CF14"
@@ -590,7 +574,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "string:0x021AA4AC"
+     "data:0x021AA4AC"
     ]
    }
   },
@@ -607,7 +591,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA4B4"
+     "data:0x021AA4B4"
     ],
     "sdk": [
      "0x0215F2F4"
@@ -627,7 +611,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA4B8"
+     "data:0x021AA4B8"
     ],
     "sdk": [
      "0x0215F2F4"
@@ -647,7 +631,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA4B4"
+     "data:0x021AA4B4"
     ],
     "sdk": [
      "0x0215F334"
@@ -667,7 +651,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA4B8"
+     "data:0x021AA4B8"
     ],
     "sdk": [
      "0x0215F334"
@@ -687,7 +671,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA4B8"
+     "data:0x021AA4B8"
     ]
    }
   },
@@ -793,7 +777,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA664"
+     "data:0x021AA664"
     ]
    }
   },
@@ -887,7 +871,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA7D4"
+     "data:0x021AA7D4"
     ]
    }
   },
@@ -904,7 +888,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA7D4"
+     "data:0x021AA7D4"
     ]
    }
   },
@@ -933,7 +917,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA7DC"
+     "data:0x021AA7DC"
     ]
    }
   },
@@ -950,7 +934,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA80C"
+     "data:0x021AA80C"
     ],
     "sdk": [
      "0x02082EA4"
@@ -1086,7 +1070,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA860"
+     "data:0x021AA860"
     ]
    }
   },
@@ -1103,7 +1087,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA860"
+     "data:0x021AA860"
     ]
    }
   },
@@ -1120,7 +1104,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA860"
+     "data:0x021AA860"
     ]
    }
   },
@@ -1137,7 +1121,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA860"
+     "data:0x021AA860"
     ]
    }
   },
@@ -1154,7 +1138,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA860"
+     "data:0x021AA860"
     ]
    }
   },
@@ -1171,7 +1155,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA860"
+     "data:0x021AA860"
     ]
    }
   },
@@ -1188,7 +1172,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA874"
+     "data:0x021AA874"
     ]
    }
   },
@@ -1205,7 +1189,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA874"
+     "data:0x021AA874"
     ]
    }
   },
@@ -1222,7 +1206,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA874"
+     "data:0x021AA874"
     ]
    }
   },
@@ -1239,7 +1223,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA878"
+     "data:0x021AA878"
     ]
    }
   },
@@ -1268,7 +1252,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA878"
+     "data:0x021AA878"
     ]
    }
   },
@@ -1297,7 +1281,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA8A0"
+     "data:0x021AA8A0"
     ]
    }
   },
@@ -1314,7 +1298,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA8A0"
+     "data:0x021AA8A0"
     ]
    }
   },
@@ -1331,7 +1315,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA920"
+     "data:0x021AA920"
     ]
    }
   },
@@ -1348,7 +1332,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA878"
+     "data:0x021AA878"
     ]
    }
   },
@@ -1377,7 +1361,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA878"
+     "data:0x021AA878"
     ]
    }
   },
@@ -1394,7 +1378,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA878"
+     "data:0x021AA878"
     ]
    }
   },
@@ -1507,7 +1491,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AAA20"
+     "data:0x021AAA20"
     ]
    }
   },
@@ -1524,7 +1508,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AAA20"
+     "data:0x021AAA20"
     ]
    }
   },
@@ -1719,7 +1703,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AAA20"
+     "data:0x021AAA20"
     ]
    }
   },
@@ -1748,7 +1732,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AB178"
+     "data:0x021AB178"
     ]
    }
   },
@@ -1765,7 +1749,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AB178"
+     "data:0x021AB178"
     ]
    }
   },
@@ -1823,7 +1807,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AB180"
+     "data:0x021AB180"
     ]
    }
   },
@@ -1840,7 +1824,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AB180"
+     "data:0x021AB180"
     ]
    }
   },
@@ -1857,7 +1841,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AB180"
+     "data:0x021AB180"
     ]
    }
   },
@@ -1874,7 +1858,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AB180"
+     "data:0x021AB180"
     ]
    }
   },
@@ -1891,7 +1875,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AB180"
+     "data:0x021AB180"
     ]
    }
   },
@@ -1908,7 +1892,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AB180"
+     "data:0x021AB180"
     ],
     "sdk": [
      "0x02176B80"
@@ -1928,7 +1912,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AB180"
+     "data:0x021AB180"
     ]
    }
   },
@@ -1945,7 +1929,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AB180"
+     "data:0x021AB180"
     ]
    }
   },
@@ -1962,7 +1946,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AB180"
+     "data:0x021AB180"
     ]
    }
   },
@@ -2008,7 +1992,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AB1A4"
+     "data:0x021AB1A4"
     ]
    }
   },
@@ -2025,7 +2009,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AB1A4"
+     "data:0x021AB1A4"
     ]
    }
   },
@@ -2042,7 +2026,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AB1A4"
+     "data:0x021AB1A4"
     ]
    }
   },
@@ -2204,7 +2188,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AD0F4"
+     "data:0x021AD0F4"
     ]
    }
   },
@@ -2305,7 +2289,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AD0F4"
+     "data:0x021AD0F4"
     ]
    }
   },
@@ -2736,7 +2720,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021ADFD0",
+     "data:0x021ADFD0",
      "self:0x021ADFD4"
     ]
    }
@@ -2754,7 +2738,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021ADFD0",
+     "data:0x021ADFD0",
      "self:0x021ADFD8"
     ]
    }
@@ -3499,7 +3483,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AEAF8"
+     "data:0x021AEAF8"
     ]
    }
   },

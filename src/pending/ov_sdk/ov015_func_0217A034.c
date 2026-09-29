@@ -9,6 +9,7 @@
  * isa:      arm
  * status:   MATCH
  *
+ * notes:    w9_nm2: DIFF 10 B (was 16). A dedicated local buf = g_0217ABD8 assigned after the copy loop (declared before pHeader) puts i in ip and the pointers in r6/r5; the final call keeps the pool word. Left: object stores sumLo before sumHi (scheduler swaps; tried order, masks, byte pointer, locals) and loop 2 counter is r1 not ip (tried i=0 hoists).
  * sdk:      IRCi_Send (libirc.a irc.o)
  *
  * symbols:
@@ -35,6 +36,7 @@ void func_0217A034(unsigned char *data, unsigned char size, unsigned char comman
     unsigned char *p;
     unsigned short sum;
     int i;
+    unsigned char *buf;
     IRCHeader *pHeader;
 
     pHeader = (IRCHeader *)g_0217ABD8;
@@ -46,10 +48,11 @@ void func_0217A034(unsigned char *data, unsigned char size, unsigned char comman
     for (i = 0; (i < size) ? 1 : 0; i++)
         *p++ = *data++;
     size += 4;
-    sum = func_02179EE0(g_0217ABD8, size);
+    buf = g_0217ABD8;
+    sum = func_02179EE0(buf, size);
     pHeader->sumLo = sum;
     pHeader->sumHi = sum >> 8;
     for (i = 0; (i < size) ? 1 : 0; i++)
-        g_0217ABD8[i] ^= 0xAA;
+        buf[i] ^= 0xAA;
     func_0217A8EC(g_0217ABD8, size);
 }

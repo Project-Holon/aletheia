@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * sdk:      gsXmlReadChildAsFloat (gsxml)
  *
@@ -18,7 +18,7 @@
  *   atof                  0x02095B2C arm
  *   _d2f                  0x0209B64C arm
  *
- * note: byte-correct; blocked: callee _d2f at arm9 0x0209B64C is an unmatched ARM9 game row with no witness (PC24 at +0x84 unattested); becomes EXACT once _d2f is matched
+ * note: _d2f (0x0209B64C) is a recorded MSL runtime row, matched in src/matched/arm9/d2f.c
  */
 
 struct GSIXmlStreamReader

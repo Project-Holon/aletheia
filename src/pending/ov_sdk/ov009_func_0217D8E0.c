@@ -11,6 +11,8 @@
  *
  * near miss (w2_s1): 17 bytes differ (36 vs 32); four argument-evaluation forms with local temporaries tried, all compile to the same 8-instruction body without the lr/ip shuffle.
  *
+ * w9_nm: not moved: the parameter DWARF says divisor lives in r14 and dest in r12 (a vendor register shuffle). No new spelling tried beyond w4 to w7; the wall is the parallel-move order (mov lr,r1 / mov ip,r2 before the stack store).
+ *
  * sdk:      gsLargeIntDiv (gslargeint.o)
  *
  * near miss: gsLargeIntDiv: 36 vs 32 bytes. Original moves divisor to lr and dest to ip (`mov lr,r1; mov ip,r2; str r3,[sp]; ldr r1,[r0],#4; mov r2,lr; mov r3,ip`); 1.1p1 stores the 5th arg first and uses only ip. Callee 0x0217D904 (gsiLargeIntDiv) is also unmatched.

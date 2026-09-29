@@ -9,6 +9,8 @@
  * isa:      arm
  * status:   MATCH
  *
+ * w9_nm: 21 B, register assignment only (m in r4 vs lr; temps r3/r0). Tried DWARF and reverse declaration orders, a separate counter for the second loop, m assigned before or after the ctx stores, explicit u8 casts on j and k.
+ *
  * sdk:      CPSi_rc4_init (libssl.TWL.HYB.a(arc4.o))
  *
  * symbols:

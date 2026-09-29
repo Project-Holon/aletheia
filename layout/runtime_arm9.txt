@@ -8,7 +8,7 @@
 #     that fall or branch into the interior of another entry (0x0209C00C/0x0209C018 share 0x0209C020,
 #     0x0209BE4C branches to 0x0209BE6C, 0x0209CB8C `bmi` into 0x0209C95C), which mwccarm's
 #     one-section-per-function output cannot produce.
-#   0x0209AF34..0x0209BD38 and 0x0209CE10, 0x0209D1E0, 0x0209D724 (19 rows):
+#   0x0209AF34..0x0209BD38 and 0x0209CE10, 0x0209D1E0, 0x0209D724 (20 rows, incl. _d2f 0x0209B64C, 260 bytes):
 #     docs/notes/pkt_0209AF34_soft_float_library.c.txt. Tells: displacement branch into another
 #     routine's interior (0x0209AF40 `bmi 0x0209AC14`), results returned in APSR via mrs/msr (the ten
 #     compare entries), pc-minus-immediate data addressing into a neighbour (0x0209CE50), `clz`
@@ -45,6 +45,7 @@
 0209CB8C  __fsub                                         MSL/runtime.a  arm9_main
 0209AF34  __dadd_dsub          MSL/runtime.a  arm9_main
 0209B2E8  __dmul               MSL/runtime.a  arm9_main
+0209B64C  _d2f                 MSL/runtime.a  arm9_main
 0209B750  _s32_to_double       MSL/runtime.a  arm9_main
 0209B790  _u32_to_double       MSL/runtime.a  arm9_main
 0209B7CC  __dcmp_1             MSL/runtime.a  arm9_main

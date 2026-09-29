@@ -23,6 +23,9 @@ baserom*
 # Build output
 /build/
 
+# Generated typed data C (tools/datagen.py, built from the user's own extract): never commit
+/build/data/
+
 # Asset lane output (extracted/converted game assets): never commit game data
 /build/assets/
 

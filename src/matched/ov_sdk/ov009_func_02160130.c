@@ -7,7 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
+ *
+ * note: a do-while behind an `if (n > 0)` guard puts the list load after the loop entry test.
  *
  * sdk:      get_rootCA (libssl.TWL.HYB.a(ssl.o))
  *
@@ -29,17 +31,18 @@ extern int func_020948E0();
 
 CaInfo *func_02160130(Con *con, char *dn)
 {
-	int i;
+	int i = 0;
 	CaInfo **list;
-	int n;
-
-	n = con->rootCaNum;
-	list = con->rootCa;
-	for (i = 0; i < n; i++) {
-		CaInfo *ca = list[i];
-		if (func_020948E0(ca->name, dn) == 0) {
-			return ca;
-		}
+	int n = con->rootCaNum;
+	if (n > 0) {
+		list = con->rootCa;
+		do {
+			CaInfo *ca = list[i];
+			if (func_020948E0(ca->name, dn) == 0) {
+				return ca;
+			}
+			i++;
+		} while (i < n);
 	}
 	return 0;
 }

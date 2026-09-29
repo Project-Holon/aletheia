@@ -7,27 +7,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
+ *
+ * note: const on the res_p parameter (fields load before the stores through the other pointers) fixes both scheduling swaps.
  *
  * sdk:      getcharFromHdrRecvBuf (libnhttp.TWL.HYB.a nhttp_recvbuf.o)
- *
- * blocker:  2 instruction-scheduling swaps (4 concrete bytes), same size:
- *           p+0x14 wants add r0,r0,r3 before strlt r1,[r2]; and p+0x2c wants
- *           ldr r0,[r0,#0x34] before str r3,[r2].  All source orderings tried
- *           (post-inc, split temp, pointer base, ternary) reschedule identically.
- *           No witnesses/relocs involved; pure mwcc scheduler residue.
- *
- * w5_nm: also tried the hdrBufFirst element via a pointer temp and an
- *           index temp, both store orders in the refill arm, a block local for
- *           hdrBufBlock_p, a hoisted `first` pointer, a duplicated return in
- *           the refill arm, and cc 1.2..1.6sp2 (same 14 bytes; 2.0 gives 79).
- *
- * w7_nm tried: 40 combinations (5 first-arm spellings: post-inc, pointer temp,
- *           pos temp, base pointer, pointer arithmetic; 4 refill-arm orders incl. a
- *           hoisted hdrBufBlock_p local and a raw +0x34 read; plain and goto
- *           nesting): 14 or 16 B.  -O4,s, -O3, -O2, `-opt noschedule`, `-opt
- *           nopeephole` and `-inline off` all give the same 14 B, so the order
- *           is fixed before scheduling.
  *
  * symbols:
  *   (none)
@@ -60,7 +44,7 @@ struct _NHTTPRes {
     void *param_p;                            /* 0x438 */
 };
 
-static char getcharFromHdrRecvBuf(struct _NHTTPRes *res_p,
+static char getcharFromHdrRecvBuf(const struct _NHTTPRes *res_p,
         struct _NHTTPi_HDRBUFLIST **hdrbuf_pp, int *blockpos_p)
 {
     if (*hdrbuf_pp == 0) {

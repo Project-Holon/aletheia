@@ -18,6 +18,8 @@
  * w6_nm tried: the store as a call argument (assignment and comma), the
  * literal in the call, a threaded end flag, a clamp then recheck: 12 B remain.
  *
+ * w9_nm: 12 B: const-qualified MemStep (in the macro cast, the struct member, or cell[]) and a MEMSTEP *const local do not move the cell load above the x = 152 store; block cell local, cell hoisted to the top, early-return arm order: 53 to 90 B.
+ *
  * symbols:
  *   CELL_IDX                         0x021DA914  data
  *   C_POS                            0x021DA932  data
