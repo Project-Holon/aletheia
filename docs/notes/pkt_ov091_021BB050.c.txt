@@ -1,0 +1,48 @@
+/*
+ * function: func_021BB050
+ * address:  0x021BB050
+ * packet:   pkt_ov091_021BB050
+ * region:   ov091
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_021BB554 takes 1 (s), 020413B0 reads both stack args as ldrb (u8), 02041B6C one arg; 2 no twin
+ *           (same 0x021BEC74/5 tables in 021BB1A0/021BA81C matched with const u8 tables); 3 const tables and u8
+ *           return for 021BB554 no change, int vs u8 v no change; 4 none fits; 5 n/a
+ * residue:  116 bytes original vs 96-104 compiled (69-85 bytes differ). The original repeats, in each of the three
+ *           arms, `ldrb r0,[r5,#4]; lsls r2,r0,#1; movs r0,#6; str r0,[sp]` and then leaves the fourth-argument value
+ *           (4 / 7 / (u8)k) in r0, joining only at `ldr r1,[pc]` (the table load) where `str r0,[sp,#4]` happens.
+ *           Tried: v assigned per arm (int and u8), i assigned per arm, ternary in the call, three explicit calls
+ *           (the last never cross-jumps), v initialised to k. In every one the compiler keeps v in r4 (k's register).
+ *
+ * symbols:
+ *   func_021BB554  0x021BB554  thumb  ov091
+ *   func_020413B0  0x020413B0  arm
+ *   func_02041B6C  0x02041B6C  arm
+ *   d_021BEC74     0x021BEC74  data  ov091  a1
+ *   d_021BEC75     0x021BEC75  data  ov091  a1
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern u8 func_021BB554(u8 *s);
+extern void func_020413B0(u32 index, u8 a1, u32 a2, u32 a3, u8 a4, u8 a5);
+extern void func_02041B6C(u32 id);
+extern const u8 d_021BEC74[];
+extern const u8 d_021BEC75[];
+
+void func_021BB050(int unused, u8 *s, int k)
+{
+    int v = k;
+
+    if (k == 3 && func_021BB554(s) == 3)
+        v = 4;
+    else if (k == 6 && func_021BB554(s) == 3)
+        v = 7;
+    func_020413B0(2, d_021BEC74[s[4] * 2] + 0x10, d_021BEC75[s[4] * 2], 0x10, 6, v);
+    func_02041B6C(2);
+}

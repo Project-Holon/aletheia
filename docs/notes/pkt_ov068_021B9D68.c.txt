@@ -8,6 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ *
+ * SUPERSEDED (lane R3): EXACT as src/matched/ov/ov068_func_021B9D68.c.
+ * The fix came from the arm9 twin func_0202EA40: six u8 channel locals in
+ * mask-then-shift form, s32 blended channels with (u8) casts, and the pack
+ * `(b << 10) | (r | (g << 5))`.
  * checks:   1 func_02061CA4 reads r0-r3 (0xf, slot/idx offset, out, 2), all used, table pointer is a plain data extern; 2 no twin (no other RGB555 lerp in ov068); 3 u16 vs u32 locals for c0/c1 tried, by-value bitfield Col params tried (168 B, worse), local copy of ang tried, single-expression form tried; 4 none fits; 5 n/a
  *
  * 184 bytes out of 192.  Colour blend: advance the u16 angle at *ang by inc

@@ -1,0 +1,41 @@
+/*
+ * function: func_021B9C30
+ * address:  0x021B9C30
+ * packet:   pkt_ov071_021B9C30
+ * region:   ov071
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_0204B3DC(void*,int) 2 args, func_021B7170 empty ov071 leaf taking r0 (declared void* here, matched file says void); 2 no twin; 3 n/a (no param/spill residue; residue is diamond polarity and where the r0 load sits); 4 none fits (fall-through-arm-is-the-source-order tried both polarities); 5 n/a
+ *
+ * 76 bytes both, 20 bytes differ, every instruction present, only branch shape differs.
+ * Original for each call's second argument: `cmp r1,r0; ldr r0,[r4,#0x18]; bgt L1; movs r1,#0;
+ * b J; L1: movs r1,#1; J: blx` (the pointer argument is loaded in the head block, the
+ * false value falls through, the true value is the branch target). Every C spelling here gives
+ * `cmp; ble L0; movs r1,#1; b J; L0: movs r1,#0; J: ldr r0,[r4,#0x18]; blx` (true falls through,
+ * load after the join). Tried: nested ternary, `? 1 : 0`, if/else both polarities, `int f=0; if (c) f=1;`,
+ * `!(v <= 0x800)`, `(c) ^ 1`, `(c) == 0`, u8 flag locals, pointer args bound to locals first
+ * (locals `a`,`b` change register allocation: push {r3,r4,r5,lr}), `f=1; if (!c) f=0`.
+ * Constants and loads otherwise identical (0x2d8 field, u8 at 0x27c, >>8, *32-200).
+ *
+ * symbols:
+ *   func_0204B3DC  0x0204B3DC  arm
+ *   func_021B7170  0x021B7170  thumb  ov071
+ */
+
+typedef unsigned char u8;
+
+extern void func_0204B3DC(void *a, int b);
+extern void func_021B7170(void *a);
+
+void func_021B9C30(u8 *p)
+{
+    int v = *(int *)(p + 0x2d8);
+
+    func_0204B3DC(*(void **)(p + 0x18), v > 0x800);
+    func_0204B3DC(*(void **)(p + 0x1c), (*(int *)(p + 0x2d8) >> 8) < p[0x27c] * 32 - 200);
+    func_021B7170(*(void **)(p + 0x18));
+    func_021B7170(*(void **)(p + 0x1c));
+}

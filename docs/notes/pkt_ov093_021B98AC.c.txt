@@ -1,0 +1,55 @@
+/*
+ * function: func_021B98AC
+ * address:  0x021B98AC
+ * packet:   pkt_ov093_021B98AC
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callees func_021B8CFC (p,i)->u8, func_021B9B94 (p)->u32, func_021B9C00 (p,i) arities agree; 2 no twin; 3 u8 param vs u32 vs u8 c copy tried, u8 param gives 16 bytes; 4 none fits; 5 n/a
+ *
+ * 16 bytes differ, all one register swap: original keeps the parameter/counter
+ * (b, then b-1) in r4 and the match count in r5; this compiles the counter in
+ * r5 and count in r4. The `str r1,[sp]` / `ldr r1,[sp]` spill of the guard copy
+ * is reproduced by the `c = b` copy. Tried: declaration-order permutations of
+ * a/i/cnt (no change), u32 param, u8 c, cnt initialised at declaration (worse).
+ *
+ * symbols:
+ *   func_021B8CFC  0x021B8CFC  thumb  ov093
+ *   func_021B9B94  0x021B9B94  thumb  ov093
+ *   func_021B9C00  0x021B9C00  thumb  ov093
+ */
+
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+typedef signed char s8; typedef signed short s16; typedef signed int s32;
+
+extern u8 func_021B8CFC(char *p, int i);
+extern u32 func_021B9B94(void *p);
+extern int func_021B9C00(void *p, int i);
+
+int func_021B98AC(char **q, u8 b)
+{
+    char *p = *q;
+    u8 a;
+    u8 cnt;
+    char *g;
+    u32 n;
+    u32 c = b;
+
+    a = func_021B8CFC(p, b);
+    b = b - 1;
+    cnt = 0;
+    if (c != 0) {
+        do {
+            if (a == *(u8 *)(p + b + 0x428))
+                cnt++;
+        } while (b-- != 0);
+    }
+    g = (char *)q + 4 + a * 0x1c;
+    n = func_021B9B94(g);
+    if (cnt < n)
+        return func_021B9C00(g, cnt);
+    return 0;
+}

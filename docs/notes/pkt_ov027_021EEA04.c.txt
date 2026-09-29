@@ -1,0 +1,93 @@
+/*
+ * function: func_021EEA04
+ * address:  0x021EEA04
+ * packet:   pkt_ov027_021EEA04
+ * region:   ov027
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF (superseded: EXACT in src/matched/ov/ov027_func_021EEA04.c; the fix is `extern const` tables read as `tbl[k]` at each use inside a plain for loop, per a-table-load-hoisted-past-the-loop-guard-names-a-const-extern-table.md and the ov025 twin func_021EEE04. The C below is the parked near miss.)
+ * checks:   1 func_021A21C8 takes 2 (ov026_func_021EF220), func_0204B908's r1 is truncated to u16 before the bl, func_021A2654 takes 2; 2 twin ov026_func_021EF220 (same spawn loop) gave the loop and callee types; 3 const tables, pointer temporaries for the bases, byte-offset indexing, a [2][8] table, swapping the roles of k and i, and a 120-order declaration sweep over k/ta/tb/i/w all flat at 9 (n and idx are word-reloaded from their slots, so int); 4 const-on-a-read-only-extern-table-settles-a-register-tie and a-store-moved-below-the-table-loads tried, no change; 5 the lane's ov026 levers (a local re-read at the use, loads inside a plain for loop with const or plain tables) 9-190 bytes, no gain; permuter --types 300 best 7 only by swapping the loads, which reverses the pool order
+ *
+ * DIFF, 240 of 240 bytes, 9 bytes out, all in the loop preheader: the
+ * original loads both table bases first (k*4 in r2, `ldr r0,=A; ldr r1,=B;
+ * ldr r0,[r0,r2]; ldr r6,[r1,r2]; str r0,[sp,#0x14]`); this C colours k*4
+ * into r1 and loads/spills ta before loading the second base. Swapping the
+ * two loads (tb first) gives 7 bytes but reverses the pool order, which is
+ * also what the permuter's best (7, `hoist-down(ta,+1)`) did. Everything
+ * else (the hoisted 777 constant, the 3 - (r)/6 spin, the u16 argument, both
+ * pool words resolving) is byte-exact. The guard-then-do-while shape is
+ * needed to place the loads after the `n <= 0` test with i at [sp,#0x10].
+ *
+ * symbols:
+ *   func_020056EC  0x020056EC  thumb
+ *   func_0204B908  0x0204B908  arm
+ *   func_021A21B8  0x021A21B8  thumb  ov021
+ *   func_021A21C8  0x021A21C8  thumb  ov021
+ *   func_021A2630  0x021A2630  thumb  ov021
+ *   func_021A2638  0x021A2638  thumb  ov021
+ *   func_021A2654  0x021A2654  thumb  ov021
+ *   d_021EEB68     0x021EEB68  data  a4
+ *   d_021EEB48     0x021EEB48  data  ov027  a4
+ */
+
+typedef unsigned short u16;
+typedef signed short s16;
+
+extern int func_020056EC(int v);
+extern void func_0204B908(int a, u16 b);
+extern int *func_021A21B8(int);
+extern int func_021A21C8(int, int);
+extern int *func_021A2630(int);
+extern int func_021A2638(int);
+extern void func_021A2654(int, s16 *);
+extern int d_021EEB68[];
+extern int d_021EEB48[];
+
+void func_021EEA04(int a, int n, int idx)
+{
+    int *w;
+    int k;
+    int ta;
+    int i;
+    int tb;
+    int q;
+    int obj;
+    int *e;
+    int r;
+    int s;
+    s16 pt[2];
+
+    w = func_021A21B8(a);
+    w[1] = (w[1] + 1) % 320;
+    k = w[1] / 40;
+    i = 0;
+    if (i < n) {
+    ta = d_021EEB68[k];
+    tb = d_021EEB48[k];
+    do {
+        obj = func_021A21C8(a, idx);
+        if (obj == 0) {
+            return;
+        }
+        e = func_021A2630(obj);
+        q = func_021A2638(obj);
+        e[0] = 0;
+        e[1] = func_020056EC(20) + 15;
+        s = 3 - (e[1] - 15) / 6;
+        e[2] = (s + 1) * ta;
+        e[4] = (s + 1) * tb;
+        e[3] = 0;
+        e[5] = tb;
+        if (func_020056EC(1000) == 777) {
+            s = 4;
+            e[2] = e[2] + e[2] / 2;
+        }
+        func_0204B908(q, s);
+        pt[0] = -6 - func_020056EC(24);
+        pt[1] = func_020056EC(192) - 64;
+        func_021A2654(obj, pt);
+    } while (++i < n);
+    }
+}

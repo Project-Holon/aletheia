@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * closed:   EXACT 2026-09-29 (lane R2), src/matched/ov/ov056_func_021F4040.c: both callees declared with a u16 heap parameter (e is reloaded with ldrh per call)
  * checks:   1 callees read (02030734 5 args, 02011510 4 args, 02082D44 3); 2 twin ov021_func_0218BEE8 for 02030734 shape, no register twin; 3 tried e as pointer-read (*pe) and as u32 copy, no change; 4 none fits (allocation shape); 5 n/a
  *
  * Residual: 25 mismatching lines, same size (76 B). The original pushes {r3..r7,lr}

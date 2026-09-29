@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ *
+ * SUPERSEDED (lane R3): EXACT as src/matched/ov/ov070_func_021BA8C0.c.
+ * The fix was a struct for the work area with the resources as `int res[3]`
+ * (args res[1], res[0], res[2]) in place of `*(int *)(p + 0x594)` offsets.
  * checks:   1 func_0204B294 takes 7 (r0-r3, &rect, 0, u16), func_0204B92C 2, call sites match; 2 no twin
  *           in ov070 (ov018 uses 0204B294 with the same arity); 3 const on the three tables: no change
  *           (23 bytes either way), temporaries for x/y: no change; 4 none fits (pure scheduling of

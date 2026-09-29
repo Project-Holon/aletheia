@@ -10,6 +10,7 @@
  * status:   DIFF
  * checks:   1 callees' arities match; 2 no twin; 3 volatile f3c / block-scoped {0,0,0} found the frame, f38 plain (v9/v10) was worse (CSE of f38+offset, frame change); 4 idioms a-re-read-loop-bound-is-a-volatile-field and an-initialised-local-array-takes-its-address-before-the-stores applied; 5 n/a
  * residue:  loop register swap only: original loads f38 once before the loop (hoisted, non-volatile) and uses lsls r2,r4,#4 with k<<4 spilled to [sp,#8], f3c re-read each iteration; mine reloads f38 in the loop and swaps r1/r2. ~20 runs.
+ * SUPERSEDED (lane R1): EXACT as src/matched/ov/ov055_func_021F3C2C.c, with no volatile: `const T *s` hoists f38 and keeps the f3c re-read, and the pool's two copies of 0x021F4620 are two extern names (d_021F4620 for the store, d_021F4620_b for the call argument).
  *
  * symbols:
  *   func_020056EC  0x020056EC  thumb

@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * closed:   EXACT 2026-09-29 (lane R2), src/matched/ov/ov067_func_021B6738.c: u8 stack-argument widths from func_020410D0.c/func_020413B0.c, loop bound `i < k2 * k3` as an expression, `arr[i] += a3`
  * checks:   1 callees read: func_0204A380 4 args (r0,r1,k9,mask), func_020410D0 4 reg + 6 stack, func_020413B0 4 reg + 2 stack, the u8 first argument is truncated at the call site (a2 is u32, callee param u8, matches); 2 no ov067 twin; 3 tried u16/u32 k10, mask as local, (u16) cast dropped: no change to the frame; 4 none fits (the volatile-field reload of ov067_func_021B83A0 does not apply to parameters); 5 n/a
  *
  * Best C is 200 bytes against 192, DIFF. Everything is right up to the stack

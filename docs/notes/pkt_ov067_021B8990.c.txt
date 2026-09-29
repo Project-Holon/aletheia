@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ *
+ * SUPERSEDED (lane R3): EXACT as src/matched/ov/ov067_func_021B8990.c.
+ * The fix was the in-range arm first: `if (t <= 0xbf) f75 = t; else f75 = 0xbf;`
+ * (and the same for f77 with 0xff).
  * checks:   1 func_02035CB8 takes 2 (&local, &s->f80) and returns int, arity fits; 2 no twin (8AE4 declares it void, other args); 3 const s no change, u8/u32/int for the clamp temporaries tried, unsigned t for f74/f76 is right; 4 none fits (a-guard idioms do not cover the out-of-line set block); 5 n/a (no later neighbour shares it)
  *
  * symbols:

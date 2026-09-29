@@ -17,3 +17,7 @@ bytes short). Declaring the callees with the widths of their own matched bodies
 (`sub_0204A6C8(…, u16 flags)`, `sub_0204B294(…, u16 f, u16 g)`) makes the argument a u16 to
 u16 pass, which the compiler rematerialises from the slot at each call, and the function is
 EXACT. Derive the width from the callee's body, not from the call site.
+
+Also seen: ov068 0x021BA37C, ov056 0x021F4040 and ov067 0x021B6738 (EXACT with u16/u8
+callee parameters). A `u8` stack parameter reloaded with `ldrb` before each call is the same
+shape and is `u8` in every callee it feeds.

@@ -7,7 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   DIFF (closed: EXACT in src/matched/ov/ov070_func_021BB1C4.c; the fix was a
+ *           struct-typed work pointer, so 0x3000 rather than the 0x808 offset takes r7,
+ *           and d declared before n)
  * checks:   1 callee arities read from the calls, all resolved; 2 no twin; 3 int vs unsigned loop counter, u16 vs int field read no change; 4 none fits; 5 n/a
  *
  * DIFF: same size. The original holds the image pointer in r3 and the tile count in r3 after,

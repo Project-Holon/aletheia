@@ -10,6 +10,7 @@
  * status:   DIFF
  * checks:   1 callees' arities match (020490F4 2, 02049250 3, u16 last arg gives the per-call truncation); 2 no twin; 3 int vs u16 c/m tried, u16 param is the winner; 4 none fits; 5 n/a
  * residue:  one instruction in the final loop: original copies i (adds r1,r4,#0), computes the address from the old i (lsls r0,r5,#1), increments, then stores the copy; mine does lsls r0,r1,#1. Same shape as func_021F37B4 (for, while, ++i, temp, pointer all tried).
+ * SUPERSEDED (lane R1): EXACT as src/matched/ov/ov055_func_021F3E84.c. The copy adds r1,r5,#0 sits before the loop label, so the loop stores the constant 0 (o->cnt[j] = 0), not j.
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm

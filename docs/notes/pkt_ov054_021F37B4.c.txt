@@ -10,6 +10,7 @@
  * status:   DIFF
  * checks:   1 callees' arities match (17 relocations resolved); 2 no twin, same loop shape as pkt_ov055_021F3E84; 3 loop counter int/u32, temp copy tried; 4 none fits; 5 n/a
  * residue:  tail loop only: original is adds r1,r4,#0; lsls r0,r4,#2; adds r0,r5,r0; adds r4,#1; str r1,[r0,#0x10] (copy i, increment, store the copy); mine stores r4 before the increment. for, while, ++i, t=i temp, pointer pw[i] all tried.
+ * SUPERSEDED (lane R1): EXACT* as src/matched/ov/ov054_func_021F37B4.c. The copy adds r1,r4,#0 sits before the loop label, so the loop stores the constant 0 (o->w[i] = 0), not i.
  *
  * symbols:
  *   func_02188C84  0x02188C84  thumb  ov021

@@ -1,0 +1,33 @@
+/*
+ * function: func_021F5BFC
+ * address:  0x021F5BFC
+ * packet:   pkt_ov081_021F5BFC
+ * region:   ov081
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021F5BCC  0x021F5BCC  thumb  ov081
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+extern int func_021F5BCC(int a, u8 *t);
+
+void func_021F5BFC(u8 *w, int x, int y)
+{
+    u8 *t = w + 0x300C;
+    int k = x + y * *(u16 *)(w + 0x3008);
+
+    if (*(int *)(w + k * 64 + 0x34) == 0) {
+        if (func_021F5BCC(k, t) == 0) {
+            *(u16 *)(t + 0xC0 + *(u16 *)(t + 0x182) * 2) = k;
+            (*(u16 *)(t + 0x182))++;
+        }
+    }
+}

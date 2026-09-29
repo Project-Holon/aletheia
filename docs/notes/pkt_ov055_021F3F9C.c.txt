@@ -10,6 +10,7 @@
  * status:   DIFF
  * checks:   1 func_021F3B48 takes 6 args, func_021F3D0C 9 (u16 params tried, no change); 2 no twin; 3 int vs u16 for x/y/lo/t tried, u32 casts tried; 4 no register-allocation idiom fits; 5 n/a
  * residue:  ~150 bytes, all allocation: original keeps x (sp+0x24) and rnd in stack slots with y in r7, frame sp 0x2c, push {r4-r7,lr}; mine keeps x in r7, spills y/lo, push {r3-r7,lr}, frame 0x30. ~80 declaration-order permutations gave no change.
+ * SUPERSEDED (lane R1): EXACT* as src/matched/ov/ov055_func_021F3F9C.c. Four levers, each measured: func_021F3D0C declared with its own file's u16 parameters (x spilled, y in r7: 43 -> 24 differing instructions, after the first arm's y became an if/else: 82 -> 44), const a and const c (final call's loads), u8 t0 (the stack parameter e loads first in the prologue), and the else arm's x as an if/else rather than a ternary (keeps the truncation ahead of the c[0]/c[1] loads).
  *
  * symbols:
  *   func_020056EC  0x020056EC  thumb

@@ -1,0 +1,77 @@
+/*
+ * function: func_021F5648
+ * address:  0x021F5648
+ * packet:   pkt_ov082_021F5648
+ * region:   ov082
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callees' arities right, same 144-byte size (SIZE equal, only scheduling of the 4 bitfield extractions and the orrs order differs); 2 no twin found; 3 n/a no parameter/spill residue, locals as u16/u32 both tried (no change); 4 none fits (closest: shift-pair bitfield); 5 n/a first file of the lane
+ *
+ * Residue: original extracts all four bitfields (A=bits5..2 into r2, B=bits12..8 into r1,
+ * C=bit7 in r0, D=bits15..14 into r6) before any left shift, then does the three shifts and
+ * ORs in the order D, C, B, A.  Mine shifts A<<2 straight after extracting it (into r6) and
+ * orrs r6 last.  Tried: bitfield struct with direct expression; u32 locals extracted in
+ * source order abcd; u16 locals; all 12 extraction orders starting with a or d; a static
+ * inline mk(a,b,c,d) combiner (worse, adds 8 bytes).  Everything else in the function is
+ * byte-identical (the BGxCNT 0x0400000E read-modify-write, the 0x04000050 clear, both
+ * ov082 callees resolve as sole-ref/code).
+ *
+ * symbols:
+ *   func_02188D20  0x02188D20  thumb  ov021
+ *   func_020414AC  0x020414AC  arm
+ *   func_021BC5D4  0x021BC5D4  thumb  ov021
+ *   func_02188C54  0x02188C54  thumb  ov021
+ *   func_021904D0  0x021904D0  thumb  ov021
+ *   func_021F56E4  0x021F56E4  thumb  ov082
+ *   func_021F56FC  0x021F56FC  thumb  ov082
+ *   func_020307B0  0x020307B0  arm
+ *   func_02189A60  0x02189A60  thumb  ov021
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef struct {
+    char pad[8];
+    u16 b0 : 2;
+    u16 a : 4;
+    u16 b6 : 1;
+    u16 c : 1;
+    u16 b : 5;
+    u16 b13 : 1;
+    u16 d : 2;
+} Cfg;
+
+extern int  func_02188D20(int a);
+extern void func_020414AC(int a);
+extern void func_021BC5D4(int a);
+extern int  func_02188C54(int a);
+extern void func_021904D0(int a);
+extern void func_021F56E4(void *p);
+extern void func_021F56FC(void *p);
+extern void func_020307B0(void *p);
+extern u32 *func_02189A60(int a);
+
+void func_021F5648(int a0, Cfg *p)
+{
+    int t = func_02188D20(a0);
+    u32 a, b, c, d;
+
+    func_020414AC(2);
+    a = p->a;
+    b = p->b;
+    c = p->c;
+    d = p->d;
+    *(u16 *)0x0400000E = (*(u16 *)0x0400000E & 0x43)
+                         | (d << 14) | (c << 7) | (b << 8) | (a << 2);
+    func_021BC5D4(t);
+    func_021904D0(func_02188C54(a0));
+    *(u16 *)0x04000050 = 0;
+    func_021F56E4(p);
+    func_021F56FC(p);
+    func_020307B0(p);
+    *func_02189A60(a0) = 0;
+}

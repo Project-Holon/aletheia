@@ -1,0 +1,62 @@
+/*
+ * function: func_021BA44C
+ * address:  0x021BA44C
+ * packet:   pkt_ov071_021BA44C
+ * region:   ov071
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_020450F0 7 args returns handle, 02045334/02045374 take the result, func_020409B4 no visible arg; 2 no twin; 3 loop counter tried as int/u8/unsigned, k = i copies, post-increment forms, none moved the copy; 4 none fits; 5 n/a
+ *
+ * 136 bytes both; only the last loop's scheduling differs (~12 bytes).
+ * Original loop body: `adds r0,r4,#0` (copy of i FIRST) ; `lsls r1,r4,#3; adds r2,r5,r1;
+ * lsls r1,r4,#2; ldr r1,[r5,r1]; adds r4,r4,#1; str r1,[r2,#0xc]; strb r0,[r2,#0x10]; cmp r4,#3`.
+ * Ours stores `strb r4,[..,#0x10]` before `adds r4,r4,#1` with no copy (element pointer in r1, value in r0).
+ * The original keeps the increment hoisted above the stores so the u8 store reads a pre-increment copy.
+ * Tried: for/do-while/while with i++ at end, `p->e[i].on = i++`, `int k = i++` with k as index,
+ * `u8 k = i` in body, on-store before h-store, byte-offset pointer arithmetic.
+ *
+ * symbols:
+ *   func_020450F0  0x020450F0  arm
+ *   func_02045334  0x02045334  arm
+ *   func_02045374  0x02045374  arm
+ *   func_020409B4  0x020409B4  arm
+ */
+
+typedef unsigned char u8;
+
+typedef struct {
+    int h[3];
+    struct {
+        int h;
+        u8 on;
+        u8 pad[3];
+    } e[3];
+} S;
+
+extern int func_020450F0(int a, int b, int c, int d, int e, int f, int g);
+extern void func_02045334(int a);
+extern void func_02045374(int a);
+extern void func_020409B4(void);
+
+void func_021BA44C(int a, S *p)
+{
+    int i;
+
+    p->h[0] = func_020450F0(0, 2, 0, 0x1c, 3, 0xd, 1);
+    func_02045334(p->h[0]);
+    func_02045374(p->h[0]);
+    p->h[1] = func_020450F0(0, 2, 4, 0x1c, 8, 0xd, 1);
+    func_02045334(p->h[1]);
+    func_02045374(p->h[1]);
+    p->h[2] = func_020450F0(0, 2, 0xf, 0x1c, 9, 0xd, 1);
+    func_02045334(p->h[2]);
+    func_02045374(p->h[2]);
+    for (i = 0; i < 3; i++) {
+        p->e[i].h = p->h[i];
+        p->e[i].on = i;
+    }
+    func_020409B4();
+}

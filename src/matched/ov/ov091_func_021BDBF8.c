@@ -1,0 +1,30 @@
+/*
+ * function: func_021BDBF8
+ * address:  0x021BDBF8
+ * packet:   pkt_ov091_021BDBF8
+ * region:   ov091
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02017E1C  0x02017E1C  thumb
+ */
+
+typedef unsigned int u32;
+
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+
+int func_021BDBF8(char *p)
+{
+    int r = 0;
+    if (func_02017E1C(*(void **)(p + 0x38), 5, 0) != 0x1E7)
+        return 0;
+    if (func_02017E1C(*(void **)(p + 0x38), 6, r) != 0x70)
+        return 0;
+    if (func_02017E1C(*(void **)(p + 0x38), 0x6F, r) == 0)
+        r = 1;
+    return r;
+}

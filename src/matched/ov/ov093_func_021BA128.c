@@ -1,0 +1,42 @@
+/*
+ * function: func_021BA128
+ * address:  0x021BA128
+ * packet:   pkt_ov093_021BA128
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0201A948  0x0201A948  thumb
+ *   func_0201AC2C  0x0201AC2C  thumb
+ *   func_0201AA18  0x0201AA18  thumb
+ *   func_0201AB28  0x0201AB28  thumb
+ */
+
+extern void func_0201A948(void *);
+extern void func_0201AC2C(void *, void *);
+extern int func_0201AA18(void *);
+extern void func_0201AB28(void *, int);
+
+struct S {
+    char pad[0x298];
+    void *a[4];
+    void *b[4];
+    void *c;
+};
+
+void func_021BA128(struct S *p, int i, void *x)
+{
+    if (p->a[i]) {
+        func_0201A948(p->a[i]);
+        func_0201A948(p->b[i]);
+        func_0201AC2C(x, p->a[i]);
+        func_0201AC2C(x, p->b[i]);
+        if (func_0201AA18(p->b[i])) {
+            func_0201AB28(p->b[i], 0);
+        }
+    }
+}

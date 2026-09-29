@@ -1,0 +1,62 @@
+/*
+ * function: func_021F52D8
+ * address:  0x021F52D8
+ * packet:   pkt_ov075_021F52D8
+ * region:   ov075
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * checks: 1 func_0207D704 is G3i_PerspectiveW_ (8 args: 4 fx32 in r0-r3, far/scale/load/mtx on the stack, all 32-bit); prototype arity/width right, s16/u16/long/u32/void* variants of the parameters change nothing; 2 no overlay twin calls it; 3 int/s16/u16/long/pointer for each parameter, zero as a local `int z`, `1 << 22` for the far constant: no change; 4 none fits; 5 n/a
+ *
+ * Residual (6 concrete lines, size identical, registers and stack layout all
+ * match): the last stack argument store `str r4, [sp, #0xc]` (the 0 for the
+ * mtx pointer) sits after the `ldr r2, =0x1555` in the original, but right
+ * after the first `ldr r2` (the &d_020A1EB8 pool load) in ours, so the
+ * movs/movs/ldrsh/ldrsh/ldr run is one slot later than in the original.
+ *
+ * What fixed the rest: `struct V c = {0,0,0}` in an inner block that also
+ * declares `struct V b` (declared after c), entered after `a = d_021F55F8`;
+ * this gives r4 = zero, r5 = p and the a/c/b stack slots 0x28/0x1c/0x10.
+ * Flat `c.x = 0; c.y = 0; c.z = 0;` at function level gives r4 = p, r7 = zero.
+ *
+ * symbols:
+ *   func_0207D704  0x0207D704  arm
+ *   func_0207DA8C  0x0207DA8C  arm
+ *   func_0207D7C4  0x0207D7C4  arm
+ *   d_020A1EB8     0x020A1EB8  data  a4
+ *   d_021F55F8     0x021F55F8  data  ov075  a4
+ */
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef short          s16;
+
+struct V { int x; int y; int z; };
+struct P { s16 pad[6]; s16 x; s16 y; };
+
+extern struct P d_020A1EB8;
+extern struct V d_021F55F8;
+
+extern void func_0207D704(int a, int b, int c, int d, int e, int f, int g, int h);
+extern void func_0207DA8C(void);
+extern void func_0207D7C4(struct V *a, struct V *b, struct V *c, int d, int e);
+
+void func_021F52D8(u32 *p)
+{
+    struct V a;
+
+    func_0207D704(d_020A1EB8.x, d_020A1EB8.y, 0x1555, 0x1000, 0x400000, 0x1000, 1, 0);
+    func_0207DA8C();
+    a = d_021F55F8;
+    {
+        struct V c = {0, 0, 0};
+        struct V b;
+
+        b = *(struct V *)(p + 6);
+        func_0207D7C4(&b, &a, &c, 1, 0);
+    }
+    *(volatile u32 *)0x040004A8 = ((u16)p[5] & 0x1FFFFFFF) | 0x5ED00000;
+    ((void (*)(u32))p[11])(p[9]);
+}

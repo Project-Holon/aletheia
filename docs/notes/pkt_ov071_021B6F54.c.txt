@@ -7,7 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   DIFF (closed: EXACT in src/matched/ov/ov071_func_021B6F54.c; the fix was
+ *           u16 flag = e == 0 ? B_FALSE : B_TRUE with enum constants, plus const int *d)
  * checks:   1 callees read: 0204B294 takes 7 (stack args &s, flag, 0x61), flag lsl/lsr 16 so u16 param; 0204B3DC/0204B92C take 2, r0 forwarded from 0204B294 result; 2 no twin; 3 flag as int vs u16, d0/d1 locals, flag inline as arg all tried, no change or worse; 4 none fits (fall-through arm polarity: original is cmp e; bne ->1, fallthrough 0; every spelling of e!=0 / e==0 / if-else / ternary gives beq ->0); 5 n/a
  *
  * Residual: 8 halfword diffs. Original polarity of the 0/1 flag is bne-to-1

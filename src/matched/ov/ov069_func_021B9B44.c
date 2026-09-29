@@ -1,0 +1,64 @@
+/*
+ * function: func_021B9B44
+ * address:  0x021B9B44
+ * packet:   pkt_ov069_021B9B44
+ * region:   ov069
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Creates four sprites from a const 6-word template table (x, y, z, then
+ * three resource-slot indices).  The table must be `const`: a non-const
+ * table lets the stores into the stack record alias it, and the index loads
+ * are then scheduled after the stack-argument stores (42 bytes of DIFF).
+ * Twin: ov111_func_021C75E4.
+ *
+ * symbols:
+ *   func_0204B294  0x0204B294  arm
+ *   func_0204B92C  0x0204B92C  arm
+ *   d_021BA6BC  0x021BA6BC  data  a4
+ */
+
+typedef unsigned char u8;
+typedef short s16;
+
+typedef struct Ent {
+    int a, b, c;
+    int d, e, f;
+} Ent;
+
+typedef struct Rec {
+    s16 a, b, c;
+    u8 d, e;
+} Rec;
+
+typedef struct Obj {
+    unsigned char pad000[0x11C];
+    int f11C;
+    int f120;
+    int slot[4];
+    int arr[1];
+} Obj;
+
+extern const Ent d_021BA6BC[];
+
+extern int func_0204B294(int, int, int, int, Rec *, int, int);
+extern void func_0204B92C(int, int);
+
+void func_021B9B44(Obj *o)
+{
+    int i;
+    Rec r;
+
+    for (i = 0; i < 4; i++) {
+        r.a = d_021BA6BC[i].a;
+        r.b = d_021BA6BC[i].b;
+        r.c = d_021BA6BC[i].c;
+        r.e = 0;
+        r.d = 0;
+        o->slot[i] = func_0204B294(o->f11C, o->arr[d_021BA6BC[i].d], o->arr[d_021BA6BC[i].e], o->arr[d_021BA6BC[i].f], &r, 0, 0x80);
+        func_0204B92C(o->slot[i], 1);
+    }
+}

@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * closed:   EXACT 2026-09-29 (lane R2), src/matched/ov/ov070_func_021BACF0.c: `win = p + 0x4FC` as a named local after the clear calls, used for the tail (permuter temp())
  * checks:   1 arities read from the callee bodies, all resolved; 2 func_021BB6E0 twin matched-shape only (p, obj, str, x, y, color), no twin for the body; 3 int/unsigned/local copy of mode no change; 4 none fits; 5 n/a
  *
  * DIFF: same size, only the callee-saved allocation differs. The original keeps the 0x4FC

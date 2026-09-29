@@ -1,0 +1,74 @@
+/*
+ * function: func_021BA73C
+ * address:  0x021BA73C
+ * packet:   pkt_ov093_021BA73C
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 all callees' arity checked (021CD95C, 021BAB40 take r0 only; 021E8F20 takes 5, stack word 0x13 matches); 2 no twin in ov093; 3 const cp for the loads, u8/unsigned k, void* result: no change; 4 none fits; 5 n/a
+ *
+ * Residue: everything matches (26 bytes differ, all in the last 24 bytes) except the
+ * store of func_021E8F20's result. Original: `adds r1,r0,#0; ldr r0,[r5];
+ * str r1,[r5,#4]; adds r0,#0x21; ldrb r0,[r0]; ...` (result moved to r1, base
+ * pointer load scheduled before the store). Compiled: `str r0,[r5,#4]` right after
+ * the bl, then `ldr r0,[r5]`. Tried: local result, local base pointer (gives ldr r1
+ * with store second, 28 bytes), const-pointer loads, struct fields, static inline
+ * accessor for the repeated `p->arr[sel]` (two-site inline moves the E8F20 args, 36
+ * bytes), pointer-typed result.
+ *
+ * symbols:
+ *   func_021B6818  0x021B6818  thumb  ov093
+ *   func_021D787C  0x021D787C  thumb  ov093
+ *   func_021B68D8  0x021B68D8  thumb  ov093
+ *   func_021B9424  0x021B9424  thumb  ov093
+ *   func_021B8B9C  0x021B8B9C  thumb  ov093
+ *   func_021B9460  0x021B9460  thumb  ov093
+ *   func_021CD984  0x021CD984  thumb  ov093
+ *   func_021E9034  0x021E9034  thumb  ov093
+ *   func_021E8E28  0x021E8E28  thumb  ov093
+ *   func_021E8F20  0x021E8F20  thumb  ov093
+ *   func_021CD95C  0x021CD95C  thumb  ov093
+ *   func_021BAB40  0x021BAB40  thumb  ov093
+ */
+
+typedef unsigned char u8;
+
+extern int func_021B6818(int *);
+extern void func_021D787C(void *);
+extern void func_021B68D8(void *, void *);
+extern void func_021B9424(void *);
+extern int func_021B8B9C(void *, u8);
+extern void func_021B9460(void *, void *, u8);
+extern void func_021CD984(void *, int);
+extern void func_021E9034(int);
+extern void func_021E8E28(int);
+extern int func_021E8F20(void *, void *, void *, int, int);
+extern void func_021CD95C(void *);
+extern void func_021BAB40(int);
+
+void func_021BA73C(char *p, int x)
+{
+    unsigned int i;
+    int t;
+
+    t = func_021B6818(*(int **)p);
+    func_021D787C(p + 0x3f0);
+    func_021B68D8(p, *(void **)p);
+    func_021B9424(p + 0xc8);
+    func_021B9424(p + 0x1b0);
+    for (i = 0; i < 4; i++) {
+        if (func_021B8B9C(p, i)) {
+            func_021B9460(p + 0x1b0, p, i);
+            func_021B9460(p + 0xc8, p, i);
+            func_021CD984(*(void **)(p + i * 4 + 0x10), x);
+        }
+    }
+    func_021E9034(*(int *)(p + 4));
+    func_021E8E28(0x13);
+    *(int *)(p + 4) = func_021E8F20(p, *(void **)(p + (*(u8 *)(*(char **)p + 0x21)) * 4 + 0x10), p + 0xc8, t, 0x13);
+    func_021CD95C(*(void **)(p + (*(u8 *)(*(char **)p + 0x21)) * 4 + 0x10));
+    func_021BAB40(*(int *)(p + 8));
+}

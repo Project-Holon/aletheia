@@ -1,0 +1,47 @@
+/*
+ * function: func_021B8E28
+ * address:  0x021B8E28
+ * packet:   pkt_ov093_021B8E28
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_021B8CFC takes (p, n) and returns u8, args match; 2 no twin in ov093 (ov093_func_021B8BEC counts the same p[0x428+i] table but loops upward); 3 u8/int for n, i and cnt tried (u8 n + separate i, int i with (u8) casts, i computed before the call); 4 no idiom fits; 5 n/a
+ *
+ * Residue: the original copies n into a second callee-saved register before the
+ * call (adds r4,r7 with n staying in r7 for the entry guard), decrements that
+ * copy after the call (subs; lsls; lsrs into r4), and spills cnt_out to [sp]
+ * because p, n, out, i are all live over the call; cnt is set (movs r1,#0)
+ * after the call. Every spelling either folds the copy into n (n in r4, cnt_out
+ * in r7, no spill) or, with i computed before the call, emits the
+ * subs/lsls/lsrs before the bl. In the closest variant below the loop body is
+ * byte-identical; only the prologue register roles (n/out in r6/r7 swapped) and
+ * the position of the subs/lsls/lsrs differ (68 vs 72 bytes with the spill).
+ *
+ * symbols:
+ *   func_021B8CFC  0x021B8CFC  thumb  ov093
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern u8 func_021B8CFC(u8 *p, int i);
+
+void func_021B8E28(u8 *p, u8 n, u8 *out, u8 *cnt_out)
+{
+    u8 i = n - 1;
+    u8 cnt;
+    *out = func_021B8CFC(p, n);
+    cnt = 0;
+    if (n != 0) {
+        do {
+            if (*out == p[i + 0x428]) {
+                cnt++;
+            }
+        } while (i-- != 0);
+    }
+    *cnt_out = cnt;
+}

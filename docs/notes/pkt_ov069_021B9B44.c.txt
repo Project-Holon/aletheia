@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ *
+ * SUPERSEDED (lane R3): EXACT as src/matched/ov/ov069_func_021B9B44.c.
+ * The fix was `extern const Ent d_021BA6BC[]` (twin ov111_func_021C75E4).
  * checks:   1 func_0204B294 takes 7 (4 regs + 3 stack), returns the new handle, func_0204B92C takes 2; 2 no twin in matched ov069; 3 const Obj *o no change, int/s16/u8 widths already right (residue is scheduling, not a width); 4 an-inline-call-argument-is-scheduled-per-site-a-local-is-not tried (locals x/y/z for the three index args, result temp w, pointer temp q): no change or a different frame; 5 n/a
  *
  * Residue: 42 bytes differ but only ordering. Everything matches (constant slots

@@ -1,0 +1,73 @@
+/*
+ * function: func_021848E0
+ * address:  0x021848E0
+ * packet:   pkt_ov023_021848E0
+ * region:   ov023
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0203FC28  0x0203FC28  arm
+ *   func_0203FCA0  0x0203FCA0  arm
+ *   func_020414EC  0x020414EC  arm
+ *   func_02040B94  0x02040B94  arm
+ *   d_02186B3C     0x02186B3C  data  ov023  a4
+ *   d_02186BCC     0x02186BCC  data  ov023  a4
+ *   d_02186B6C     0x02186B6C  data  ov023  a4
+ *   d_02186B8C     0x02186B8C  data  ov023  a4
+ *   d_02186BAC     0x02186BAC  data  ov023  a4
+ *   d_02186B4C     0x02186B4C  data  ov023  a4
+ */
+
+typedef struct { int w[4]; } B16;
+typedef struct { int w[8]; } B32;
+
+extern const B16 d_02186B3C;
+extern const B32 d_02186BCC;
+extern const B32 d_02186B6C;
+extern const B32 d_02186B8C;
+extern const B32 d_02186BAC;
+extern const B32 d_02186B4C;
+extern void func_0203FC28(void *);
+extern void func_0203FCA0(int, void *, int);
+extern void func_020414EC(int);
+extern void func_02040B94(int, int, int, int);
+
+void func_021848E0(void)
+{
+    B16 t;
+    B32 t0;
+    B32 t1;
+    B32 t2;
+    B32 t4;
+    B32 t5;
+
+    t = d_02186B3C;
+    func_0203FC28(&t);
+
+    t0 = d_02186BCC;
+    func_0203FCA0(0, &t0, 0);
+    func_020414EC(0);
+
+    t1 = d_02186B6C;
+    func_0203FCA0(1, &t1, 0);
+    func_020414EC(1);
+
+    t2 = d_02186B8C;
+    func_0203FCA0(2, &t2, 0);
+
+    t4 = d_02186BAC;
+    func_0203FCA0(4, &t4, 0);
+    func_020414EC(4);
+
+    t5 = d_02186B4C;
+    func_0203FCA0(5, &t5, 0);
+
+    func_02040B94(0, 0x20, 0, 0x28);
+    func_02040B94(4, 0x20, 0, 0x28);
+    func_02040B94(1, 0x20, 0, 0x28);
+    func_02040B94(5, 0x20, 0, 0x28);
+}

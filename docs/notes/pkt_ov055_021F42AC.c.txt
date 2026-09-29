@@ -9,6 +9,7 @@
  * isa:      thumb
  * status:   DIFF
  * checks:   1 callees read: DD1C takes 3, 55C 2, DAB4 1, 4318 4 (all match the call sites); 2 twin ov010_func_0216DD1C is the iterator, no twin for the caller; 3 e as u32/int/u16, const a, local copy of e: no change; 4 none fits (idioms load-above-store const did not apply); 5 n/a
+ * SUPERSEDED (lane R1): EXACT as src/matched/ov/ov055_func_021F42AC.c: d and e are u16 and func_021F4318 takes u16 c, u16 d (its own file); u16 e alone does not move the load.
  *
  * Residual: 4 differing bytes of one kind. The original loads the fifth
  * parameter (ldr r6,[sp,#0x20]) as the first instruction after the prologue,

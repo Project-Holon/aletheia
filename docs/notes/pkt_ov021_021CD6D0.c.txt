@@ -31,6 +31,19 @@
  *   The if-inversion `if (func_0203D1C0(i) != 1) { ...; break; }` gives 169, and
  *   `? 1 : 0` on the bit test gives no change. 5 neighbours: 021CE24C and
  *   021CEA28 re-read.
+ * big lane R3 (2026-09-29, claude-opus-5-5): callee arities re-derived (func_0203D1C0
+ *   takes 1 in ov019/ov021/ov022 matched callers, func_02080D24 takes 1), still 5 bytes.
+ *   No change (5 bytes each): u8 return for func_0203D1C0; `mask |= 1u << i` uncast;
+ *   `(1u << i) & p->f578`; `(u32)p->f578 & ...`; a u8 `bit` local assigned in the
+ *   inner if; `int mask` with a (u8) init cast; the else arm as `continue;` after the
+ *   inner if with `state = 0xb; break;` below; a sweep of all 30 declaration
+ *   positions of mask and i; permuter --types --seed 11 (300, best 5).
+ *   Worse: `(u8)(1u << i)` inside the test (16: the reload then lands in r0 as in the
+ *   original, but the truncation moves into the test); `mask = mask | (u8)...` (436);
+ *   signed `1 << i` in the f578 test (964/977: it CSEs with the f526 test's `1 << i`
+ *   across the call). The residue is which register the spilled 0x578 offset is
+ *   reloaded into (r1 coalesced with the ldrb result, vs r0 in the original), which
+ *   lets the scheduler lift `movs r0, #1` between the reload and the load.
  *
  * symbols:
  *   func_021CE24C  0x021CE24C  thumb  ov021

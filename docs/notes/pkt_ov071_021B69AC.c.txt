@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * closed:   EXACT* 2026-09-29 (lane R2), src/matched/ov/ov071_func_021B69AC.c: an enum-typed loop counter keeps the entry guard
  * checks:   1 02048F60 takes 3 (0x25,0,0x61), 020490A8 takes 2, both return values used; 2 no twin; 3 i as u32 / int, i=0 in header vs hoisted: no change; 4 doubled-loop-entry-guard (if (i<6) for) and counted-loop idioms tried, guard still folds; 5 n/a
  *
  * Residual: the original keeps the loop's entry guard (cmp r5,#6; bge) with

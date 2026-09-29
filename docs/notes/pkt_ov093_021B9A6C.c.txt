@@ -1,0 +1,44 @@
+/*
+ * function: func_021B9A6C
+ * address:  0x021B9A6C
+ * packet:   pkt_ov093_021B9A6C
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callee func_021B99E0 takes 1 (index), returns pointer to a 10-byte record; 2 no twin; 3 loop counters u32 (blo matches), separate j for loop 2 no change; 4 nothing in idioms fits (reloaded-invariant idiom needs two exits); 5 n/a
+ *
+ * 16 bytes differ (same size 68 vs 64 compiled + pad): the first loop
+ * hoists p->n0 into r3, but the original's second loop RELOADS p->n1
+ * (ldrh r1,[r0,#2]) at the bottom of every iteration, keeps its counter in r2
+ * (same register as loop 1) and the loop guard is `bls`. Mine hoists n1
+ * into r2 and counts in r3. Tried: single shared i, separate j, struct with
+ * c[3] member, while form, goto-rotated form.
+ *
+ * symbols:
+ *   func_021B99E0  0x021B99E0  thumb  ov093
+ */
+
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+typedef signed char s8; typedef signed short s16; typedef signed int s32;
+
+struct Unk021EFD70 { u16 n0; u16 n1; u8 b[6]; };
+extern struct Unk021EFD70 *func_021B99E0(int i);
+
+int func_021B9A6C(int a, u32 b)
+{
+    struct Unk021EFD70 *p = func_021B99E0(a);
+    u32 i;
+
+    for (i = 0; i < p->n0; i++) {
+        if (b == p->b[i])
+            return 1;
+    }
+    for (i = 0; i < p->n1; i++) {
+        if (b == *((u8 *)p + 7 + i))
+            return 1;
+    }
+    return 0;
+}

@@ -1,0 +1,33 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "ov091",
+ "shard": "pkt_ov091_021BC628",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "ov091_func_021BC628",
+   "address": "0x021BC628",
+   "kind": "game_unit",
+   "region": "ov091",
+   "source": "src/matched/ov/ov091_func_021BC628.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_021BC628",
+    "func_021BC6A0",
+    "func_021BC6C0"
+   ],
+   "evidence": {
+    "sole-ref": [
+     "code:0x021BC350",
+     "code:0x021BE2B4"
+    ]
+   }
+  }
+ ]
+}

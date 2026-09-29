@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ *
+ * SUPERSEDED (lane R3): EXACT as src/matched/ov/ov067_func_021B62E0.c.
+ * The fix was `flag = 0;` moved below the allocation call.
  * checks:   1 func_021B6608 takes 9 args (4 in regs, 5 on stack), func_021B67F8 takes 6, func_02030734 5, func_02082BCC 3: arities as written; 2 no twin (ov050 alloc twin has different tail); 3 const A *a gave 37 bytes worse, u32 heap and n local no change; 4 idioms: declaration-order-decides-local-stack-order fixed the slots (q2, q1, flag declared in that order); 5 n/a no later neighbour shares the shape
  *
  * Residual: 19 concrete bytes, all in +0006..+0018. Original spills heap

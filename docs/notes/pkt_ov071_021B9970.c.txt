@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * closed:   EXACT 2026-09-29 (lane R2), src/matched/ov/ov071_func_021B9970.c: an enum-typed counter, and the three 50-entry arrays indexed as struct fields
  * checks:   1 callees' arities fine (func_0216FE2C from ov010 matched file, func_02043678 4 args); 2 no twin; 3 n/a (no param/spill/load-vs-store residue; residue is loop-guard and constant folding of n = i + 1); 4 none fits; 5 n/a
  *
  * 160 bytes vs 168 original, 107 bytes differ. Original: `movs r4,#0` before the

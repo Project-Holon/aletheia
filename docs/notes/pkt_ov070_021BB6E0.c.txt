@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * closed:   EXACT 2026-09-29 (lane R2), src/matched/ov/ov070_func_021BB6E0.c: x as a u16 parameter narrowed with (s16) at the call; the fields are 0x50C/0x530, not 0x504/0x528
  * checks:   1 func_0201C724 takes 7 (print, bmp, s16 x, s16 y, str, font, u16 color) per matched func_02020408; 2 ov067 pending twin same prototype; 3 s16 vs int vs u32 for x (int with (s16) cast at the call gives the right lsls/asrs pair and size), local for print/sx no change; 4 none fits; 5 n/a
  *
  * DIFF: same instructions, same size (68); only scheduling differs. Original spills r3 to

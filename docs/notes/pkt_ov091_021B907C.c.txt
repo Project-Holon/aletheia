@@ -1,0 +1,63 @@
+/*
+ * function: func_021B907C
+ * address:  0x021B907C
+ * packet:   pkt_ov091_021B907C
+ * region:   ov091
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * checks: 1 four arm9 blx callees, arities 3/2/1/1 read from matched twins (0207D658 3 args, 02017E1C-style), no arity shift; 2 no twin (func_021BC520 / func_02023EF4 only call the blend helper); 3 int vs u16 for both window temporaries tried (u16 = 60 bytes diff, int = 43), s16/u16 truncation variants worse (58-104); 4 none fits; 5 n/a no later neighbour shares the shape.
+ *
+ * best result (43 bytes differ, same size): the original keeps p in r5 and the
+ * pool base 0x04000050 in r4, computes each register address as a fresh
+ * `adds r0,r4,#0; subs r0,#N` and pre-copies r2=r4 for the two read-modify-write
+ * pairs; mine swaps r4/r5 and re-derives r0 each time. The second window word is
+ * `0x20 | (0x1f | (h & ~0x3f))` NOT folded to 0x3f in the original (movs r0,#0x20;
+ * orrs r0,r1 after r1=0x1f | r3), while every spelling with constants folds it to
+ * `movs r0,#0x3f`; a named `int m = 0x1f` does not stop the fold. Tried: u32 base
+ * local with `b - N` (this file), u16* base with r[-N] (worse, 83-104), literal
+ * absolute addresses (60), truncating cast on the intermediate (58).
+ *
+ * symbols:
+ *   func_0207D658  0x0207D658  arm
+ *   func_0204B3DC  0x0204B3DC  arm
+ *   func_02041B6C  0x02041B6C  arm
+ *   func_020355D8  0x020355D8  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern void func_0207D658(u16 *r, int a, int b);
+extern void func_0204B3DC(int h, int f);
+extern void func_02041B6C(int a);
+extern void func_020355D8(int a);
+
+#define W(o) (*(int *)(p + (o)))
+
+void func_021B907C(u8 *p)
+{
+    u32 b = 0x04000050;
+    int t;
+    int u;
+
+    p[0xc] = 6;
+    p[0xe] = 0;
+    func_0207D658((u16 *)b, 0x1e, 8);
+    *(u16 *)(b - 0x10) = 0xE0F8;
+    *(u16 *)(b - 0xc) = 0xA8C0;
+    t = *(u16 *)(b - 8);
+    *(u16 *)(b - 8) = (t & ~0x3f) | 0x1f;
+    u = *(u16 *)(b - 6);
+    u = (u & ~0x3f) | 0x1f;
+    *(u16 *)(b - 6) = u | 0x20;
+    W(0x10) = 1;
+    func_0204B3DC(W(0x1e4), 0);
+    func_0204B3DC(W(0x1e0), 0);
+    func_02041B6C(0);
+    func_020355D8(W(8));
+}
