@@ -921,3 +921,8 @@ overlay_114  0x021C9B60  arm   # "bx lr" DWCi_EncSessionProgressCallback; pointe
 
 # ov009 gpipeer.o (w4_nm, 2026-09-29): same evidence as the block above.
 overlay_009  0x0218F880  arm   # "bx lr" gpiPeerPingReplyCallback (gpipeer.o, 4 B, 0 mismatches); pointer word at 0x0218A5FC (gpiStartConnect +0x3C4, ABS32 gpiPeerPingReplyCallback)
+
+# ov009 dwc_match.o / qr2.o (w5_nm, 2026-09-29): same evidence as the stubs above
+# (member symbol 0 mismatches, no relocation inside; a located row relocates it).
+overlay_009  0x02174FE4  arm   # "bx lr" DWCi_NNProgressCallback (dwc_match.o, 4 B, 0 mismatches); pointer word at 0x0216FEEC (DWCi_DoNatNegotiationAsync +0xB8, ABS32 DWCi_NNProgressCallback)
+overlay_009  0x0219BA54  arm   # "bx lr" NatNegProgressCallback (qr2.o, 4 B, 0 mismatches); pointer word at 0x0219C550 (qr_process_client_message +0x1AC, ABS32 NatNegProgressCallback)

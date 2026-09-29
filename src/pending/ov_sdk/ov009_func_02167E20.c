@@ -17,6 +17,13 @@
  *           trailing callback tail does not stop the if-conversion; 2.0/sp2
  *           and every dsi front end give the same 100 B. Codegen wall.
  *
+ * w5_nm: still 35 bytes with DWARF-named fields and the `cb` local.  Also
+ *           tried: switch on sendError (case 0 / default), ternary in both
+ *           senses, if/else, goto over the arm, a `(void)0` or self-assign
+ *           padding the arm, a block local for -5, unsigned compare, a
+ *           break-out while, and the callback tail written into both arms
+ *           (57 bytes, not cross-jumped).  The then-arm is always if-converted.
+ *
  * symbols:
  *   WCMi_GetCpsifWork                0x02166378 arm
  *   WCMi_ResetKeepAliveAlarm         0x02165af4 arm

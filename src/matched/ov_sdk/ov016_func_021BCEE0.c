@@ -1,0 +1,56 @@
+/*
+ * function: func_021BCEE0
+ * address:  0x021BCEE0
+ * packet:   pkt_ov016_021BCEE0
+ * region:   ov016
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * sdk:      taskEnd1 (libdwcutil.TWL.HYB.a(button.o))
+ *
+ * symbols:
+ *   func_021D7724  0x021d7724  arm  ov016
+ *   func_021D4F60  0x021d4f60  arm  ov016
+ *   func_021D6438  0x021d6438  arm  ov016
+ *   g_021DE508  0x021de508  data
+ *   g_021DE508_b  0x021DE508  data
+ */
+
+typedef _Bool bool;
+
+typedef struct tagMEMBTN {
+    void *cellButton[2];
+    void *cellBack;
+    void *task;
+    void *release;
+    unsigned short count;
+    signed char input;
+    unsigned char kind;
+    bool disable;
+    bool end;
+} MEMBTN;
+
+extern MEMBTN *g_021DE508;
+
+extern void func_021D7724(int kind, void *task);
+extern void func_021D4F60(void *cell);
+extern void func_021D6438(void **mem);
+extern MEMBTN *g_021DE508_b;
+
+void func_021BCEE0(void *task)
+{
+    int i;
+
+    func_021D7724(0, task);
+    if (g_021DE508->release)
+        func_021D7724(0, g_021DE508->release);
+    for (i = 0; i < 2; i++) {
+        if (g_021DE508->cellButton[i])
+            func_021D4F60(g_021DE508->cellButton[i]);
+    }
+    func_021D4F60(g_021DE508->cellBack);
+    func_021D6438((void **)&g_021DE508_b);
+}

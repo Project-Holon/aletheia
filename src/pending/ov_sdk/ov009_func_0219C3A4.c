@@ -22,12 +22,13 @@
  *   g_021ACEF8     0x021ACEF8  data
  *   g_021ACEFC     0x021ACEFC  data
  *
- * MATCH: every byte equal, two relocations without a witness.
+ * MATCH: every byte equal, one relocation without a witness.
  *   - @13818 (0x021A1B64), the initializer template of natNegBytes: the
  *     six bytes FD FC 1E 66 6A B2 recur in the image (0x021A1A64 and
  *     NNMagicData at 0x021A5A7C), so the template class does not fire.
- *   - func_0219BA54 (NatNegProgressCallback, a qr2.o static): no label,
- *     no catalog row, and ov021 overlaps the address.
+ *   - func_0219BA54 (NatNegProgressCallback) now attests as sdk (w5_nm:
+ *     seed, catalog row and stub ov009_func_0219BA54.c); @13818 is the only
+ *     unresolved site left.
  */
 
 #include "../../matched/arm9_sdk/libc/string.h" /* "../arm9_sdk/libc/string.h" once under src/matched */

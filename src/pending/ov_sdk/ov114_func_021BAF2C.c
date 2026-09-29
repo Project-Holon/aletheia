@@ -17,6 +17,11 @@
  *           (post-inc, split temp, pointer base, ternary) reschedule identically.
  *           No witnesses/relocs involved; pure mwcc scheduler residue.
  *
+ * w5_nm: also tried the hdrBufFirst element via a pointer temp and an
+ *           index temp, both store orders in the refill arm, a block local for
+ *           hdrBufBlock_p, a hoisted `first` pointer, a duplicated return in
+ *           the refill arm, and cc 1.2..1.6sp2 (same 14 bytes; 2.0 gives 79).
+ *
  * symbols:
  *   (none)
  */
