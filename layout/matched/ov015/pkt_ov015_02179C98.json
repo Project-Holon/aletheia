@@ -1,0 +1,22 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "ov015",
+ "shard": "pkt_ov015_02179C98",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "DWC_GHTTPCleanupRootCAList",
+   "address": "0x02179C98",
+   "kind": "sdk",
+   "region": "ov015",
+   "source": "src/matched/ov_sdk/ov015_func_02179C98.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT*"
+  }
+ ]
+}

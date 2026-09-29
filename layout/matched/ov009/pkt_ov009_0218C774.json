@@ -1,0 +1,36 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "ov009",
+ "shard": "pkt_ov009_0218C774",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "gpiSetInfoi",
+   "address": "0x0218C774",
+   "kind": "sdk",
+   "region": "ov009",
+   "source": "src/matched/ov_sdk/ov009_func_0218C774.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021A4C48",
+     "self:0x021A4C4C",
+     "self:0x021A4C50",
+     "self:0x021A4C54",
+     "string:0x021A4C58"
+    ],
+    "sdk": [
+     "0x02084F40",
+     "0x0218C6E4",
+     "0x0218C72C"
+    ]
+   }
+  }
+ ]
+}

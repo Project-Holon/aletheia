@@ -1,0 +1,71 @@
+wmif.o (libwcm.TWL.HYB.a) ov009 -- three DIFF residues, 2026-09-29
+=================================================================
+
+WcmWmcbCommon 0x02166F24 is EXACT (src/matched/ov_sdk/ov009_func_02166F24.c).
+The other three are reconstructed to their last byte but cannot reach EXACT
+under dsi/1.1p1 -O4,p.  Each is parked under src/pending/ov_sdk/.  The three
+residues are different classes, so the next pass can tell them apart.
+
+1. WcmWmcbConnect 0x021674BC, 552 B -> 552 B, 3 concrete mismatches
+------------------------------------------------------------------
+All three are the same shape: a switch arm whose body is *only* an epilogue.
+The image puts a fresh `pop {r4,r5,r6,pc}` directly in the jump-table slot:
+
+    state-6 slot    0x02167544   pop {r4,r5,r6,pc}
+    phase default   0x02167574   pop {r4,r5,r6,pc}
+    phase-11 slot   0x02167584   pop {r4,r5,r6,pc}
+
+dsi/1.1p1 instead emits `b <a shared pop>` in those three slots (the shared
+targets are 0x02167670 for state 6 and 0x021675B8 for the phase arms), so
+every other byte of the 552 is identical and the whole diff is those three
+4-byte slots.
+
+What it is NOT: this is not the empty-arm `break` vs `return` tell of
+docs/idioms/an-empty-switch-arm-breaks-to-the-last-epilogue-not-the-nearest.md.
+That idiom is about *which* epilogue copy the empty arm names; here the image
+has a copy where the compiler has only a branch.  A shallow, non-nested probe
+with the same phase switch (case 10 falls through to 8, case 9 falls through
+to 12, case 11/default empty) inlines the two empty-arm pops exactly like the
+image, so the arm spelling is right.  It is the nesting
+(outer switch on errcode -> switch on cb->state -> switch on wcmw->phase) that
+makes dsi/1.1p1 share one epilogue instead of placing per-slot copies.  Tried:
+case ordering (6 first / 6 last / 8-9 before 7 / 8-9 after 7), `break;` plus a
+trailing `return;`, `case 11:` split from `default:`, `default:` first,
+grouping `case 6: case 0x1a:`, all eight outer-default spellings.
+
+2. WcmWmcbReset 0x021679C0, 756 B -> 756 B, one instruction out of place
+-----------------------------------------------------------------------
+The image seeds the phase status in the entry block, before the
+WCMi_GetSystemWork call, so r5 is live across the call:
+
+    0x021679C8  mov r4, r0
+    0x021679CC  mov r5, #3        <- wlStatus = 3
+    0x021679D0  bl WCMi_GetSystemWork
+    0x021679D4  ldrh r1, [r4, #2]
+
+dsi/1.1p1 sinks the seed to its first use, the case 5/6 `WCMi_SetPhase(wlStatus)`
+at +0x210, and rematerialises `mov r5, #3` there.  The rest of the function
+(branch opcodes included) lines up; the two-column diff is that one 4-byte
+move and the +4 shift it introduces through the body and the literal pool.
+Tried: `unsigned short wlStatus = 3;` initializer vs a later assignment,
+declaration order (`wlStatus` first / `wcmw` first), `register`, `int` instead
+of `unsigned short`, assignment before vs after the call, using `wlStatus` in
+the not-yet-taken `errcode != 0` arm.  `register` and a declaration initializer
+make it worse (the value gets folded to `mov r0, #3` and r5 is reused for
+wcmw), so the parked spelling is the closest: a bare `wlStatus = 3;` right
+after `wcmw = WCMi_GetSystemWork();`.
+
+3. WcmWmcbScanEx 0x021671C0, 648 B -> 636 B, blocked by an inlined clz
+--------------------------------------------------------------------
+0x0216732C is a live `clz r0,r0; rsb r0,r0,#0x20` on cb->channelList before
+the WCMi_GetNextScanChannel call.  dsi/1.1p1 maps no C spelling of
+count-leading-zeros to `clz` (docs/idioms/a-clz-means-a-hand-written-asm-body-
+not-an-intrinsic.md), so a C body can never emit that pair; the two honest
+routes are an `asm void` transcription of the whole 648 bytes, or leaving
+those bytes.  The parked draft still reproduces the three-level dispatch, the
+whole scan/notify/probe body, every call and the register allocation
+(cb r4, wcmw r8, i sb, wmResult r6), but it carries the clz residue plus a
+`for`-loop pre-check (`ldrh r0,[r4,#0xe]; cmp r0,#0; ble skip`) the image does
+not emit - the image jumps straight to the bottom condition and reloads
+cb->bssDescCount there.  Not a MATCH: the clz site is a concrete byte, not a
+wildcarded relocation.
