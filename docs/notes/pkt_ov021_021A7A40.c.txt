@@ -1,0 +1,15 @@
+func_021A7A40 (ov021, thumb, 72 bytes): DIFF, ~11 runs, same size (72 bytes), register allocation only.
+
+Recovered semantics (t = r0 struct: +0 u16 *keys, +4 u8 *lo, +8 u8 *hi, +0xC u8 *group, +0x10 limit, +0x14 count):
+  i = group[idx]; next = (idx + 1 < count) ? group[idx + 1] : limit; end = next - 1;
+  if (i < end) do { if (keys[i + 1] > key) break; i++; } while (i < end);   (guard + do/while matches the loop shape)
+  buf[0] = lo[i]; buf[1] = hi[i]; return buf[0] | (buf[1] << 8);
+
+Closest C (prologue push {r3-r6} and loop shape correct) keeps a local u8 buf[2] and stores through u8 *p = buf
+assigned after "end = next - 1". Left differences:
+ - original loads group into r6 and count into r4 up front, holds idx+1 in r5, i in r3, and fetches group[idx+1]
+   as "adds r1,r6,r1 ; ldrb r1,[r1,#1]"; compiled code puts group in r5, idx+1 in r4, i in r3 and loads [r5,r4];
+ - the original reloads buf[0] with ldrb from the stack after storing buf[1] (last store forwarded, first not);
+   every spelling tried (array, struct Pair, p[0]/p[1], q = p + 1) either forwards both or drops the slot.
+Tried: locals g/cnt in either order, explicit n = idx + 1, g = g + idx pointer form, while-with-&& (top-tested loop
+adds a "b" to the condition, wrong shape).

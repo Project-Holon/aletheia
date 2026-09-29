@@ -1,0 +1,24 @@
+func_021A3250 (ov021, thumb, 88 bytes): DIFF, 4 concrete bytes (register swap), lane S17.
+
+Everything matches except the post-call reload of the s16 array: the original
+keeps the base in r2 and the zero index in r3 (`add r2,sp,#0; movs r1,#4;
+movs r3,#0; ldrsh r1,[r2,r1]; ldrsh r2,[r2,r3]`), the compile has base r3 and
+index r2. Tried: s16 v[8] with func_0216DDC0(h, v[2], v[0]); temporaries x/y
+between the loads; eight separate s16 locals (changes frame to 8 bytes,
+worse); `*v` for v[0]. None moved the swap.
+
+    void func_021A3250(u32 *a)
+    {
+        s16 v[8];
+        u32 h = func_02188C7C(a[0]);
+
+        if (func_02188CFC(a[0]) == 0) {
+            func_021A3460(a, &v[2], &v[1], &v[0]);
+            func_0216DDC0(h, v[2], v[0]);
+            return;
+        }
+        func_0219E634(func_021A3960(a[1]), &v[3]);
+        func_0219E570(h, &v[3], 0);
+    }
+
+Sibling func_021A32A8 (same shape, extra args) is EXACT with the same array.

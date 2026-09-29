@@ -1,0 +1,27 @@
+func_021A7818 (ov021, thumb, 196 bytes): DIFF, 2 concrete lines (4 bytes), same size, ~9 runs.
+
+Recovered semantics (a = 0x40-byte object; +0 dirty flag, +4 P2 *cur (2 bytes per entry), +8 s32 *ids,
++0xC u32 *slots, +0x10 s32 *pos, +0x14 count, +0x1C active, +0x20 sub-object, +0x3C context):
+  if (!a->f1c) return;  lim = f_021A7A8C(a+0x20) << 12;
+  for (i = 0; i < a->f14; i++) {
+      a->f10[i] += dt;
+      if (a->f10[i] >= lim) a->f10[i] %= lim;                       (_s32_div_f, remainder in r1)
+      else if (a->f8[i] != -1) {
+          v = f_021A7A40(a+0x20, i, a->f10[i] >> 12);               (u16 packed as two bytes)
+          t = unpack(v);                                            (strb v / strb v>>8 at sp+0x14/+0x15)
+          if (t.a != a->f4[i].a || a->f0) f_02061CA4(0, a->f8[i], f_021A79E4(a->f3c, t.a), a->fc[i]);
+          a->f4[i] = t;
+      }
+  }
+  a->f0 = 0;
+
+Closest C (static inline P2 mk(u32 v) { P2 r; r.a = v; r.b = v >> 8; return r; }  t = mk(v);
+a->f4[i] = t;) matches every byte but the last struct copy: the image reads the two bytes back from the
+SECOND slot (ldrb [r7,#2], [r7,#3], the copy t of the unpacked pair at [r7,#0..1]), compiled code
+forwards the copy and reads the first slot ([r7,#0], [r7,#1]).  The compare and the call argument do read
+the second slot in both.
+Tried: t declared before/after the temporary; t = s statement copy; unpack inline vs statement; e = a->f4
+local with e[i].a / e[i].b field stores (loads right, but registers e/off swapped, 6 lines); u8 f4[] with
+f4[i*2] byte stores (reloads f4 after the first byte store); P2 b[2] with b[1] = b[0] (final reads +2 but
+the i*2 spill moves after the compare: 20+ lines); volatile read of t (same as b[2]).
+The spilled i*2 at [sp,#4] loaded twice in the image is the tell that the original has three uses of it.

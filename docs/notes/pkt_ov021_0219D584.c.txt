@@ -1,3 +1,5 @@
+RESOLVED (lane R1): EXACT as src/matched/ov/ov021_func_0219D584.c. Wrong arity: func_021C6AF0 takes a third argument (buf, t, d[n]) and func_021C6AFC a second (buf, d[i+2]); the compare value is loaded straight into that argument register.
+
 func_0219D584 (ov021, thumb, 128 B): DIFF, 6 register-allocation bytes.
 Original loads each u16 compare value into r2 (first two tests) and r1 (loop);
 compiled uses r1 / r0. Tried: int/u32 loop counter, local temp, const u16*, struct

@@ -1,0 +1,26 @@
+ov021 0x021AB9FC (64 B, Thumb): DIFF, load order of two 12-byte local vector copies (and push list)
+
+Same residue as pkt_ov021_021AB890.c.txt. Original fills two local Vecs from src+0x24 and src+0x30
+with the loads grouped, in the order y, x, z (ldr r1,[+0x28]; ldr r0,[+0x24]; ldr r2,[+0x2c]),
+then stores. Struct assignment gives ldm/stm (wrong), plain statements give strict ldr/str pairs,
+an inline VecSet(v,x,y,z) gives grouped loads in z,y,x order (closest; the push list then also
+matches). Callees func_021AB760 (EXACT), func_0218E124, func_0218EC90, func_0218ECF4 (labelled,
+unfiled) all resolve by label.
+
+typedef struct Vec { int x, y, z; } Vec;
+typedef struct Src { char pad00[0x24]; Vec a; Vec b; } Src;
+
+static inline void VecSet(Vec *v, int x, int y, int z) { v->x = x; v->y = y; v->z = z; }
+
+void func_021AB9FC(void *self, Src *src)
+{
+    Vec va;
+    Vec vb;
+    void *obj = func_021AB760(self);
+
+    func_0218E124(obj, 2);
+    VecSet(&va, src->a.x, src->a.y, src->a.z);
+    VecSet(&vb, src->b.x, src->b.y, src->b.z);
+    func_0218EC90(obj, &va);
+    func_0218ECF4(obj, &vb);
+}

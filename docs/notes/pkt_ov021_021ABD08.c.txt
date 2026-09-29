@@ -1,0 +1,21 @@
+pkt_ov021_021ABD08  func_021ABD08 @ 0x021ABD08 (ov021, thumb, dsi/1.1p1 -O4,p)  DIFF (7 runs), same shape as 021ABABC
+
+Original: `adds r3,r0,#0` (quotient t, r3) ; ldrh r1,[p,#0x38] ; ldrh r2,[p,#0x3a] ;
+str r3,[sp] ; adds r0,r6,#0 (a) ; subs r2,r2,r1 ; muls r3,r2,r3 ...
+The store of the quotient back to the address-taken slot sits after both loads;
+compiles put it right after the call (t in r2, loads in r1/r3) or, with
+`t = f(); x = ...; d = t;`, after the whole arithmetic. Best variants differ by
+2-5 instructions of ordering only.
+
+typedef unsigned short u16;
+void func_021ABD08(int a0, u16 *p, void *q)
+{
+    int a; int s; int d; int t; int x; int lo; int hi;
+    a = func_021AB760(a0);
+    func_021ABBA0(p, q, &s, &d);
+    t = sub_0207C768(d, s);
+    lo = p[0x1c]; hi = p[0x1d] - lo;
+    d = t;
+    x = lo + (t * hi) / 4096;
+    func_0218ED64(a, x);          /* (int a, u16 v) */
+}

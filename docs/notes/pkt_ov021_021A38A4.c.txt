@@ -1,0 +1,26 @@
+func_021A38A4 (ov021, thumb, 124 bytes): DIFF, 30 concrete bytes (scheduling), lane S17.
+
+Shape is right (asrs 4, then signed /4096 as asrs 11 / lsrs 20 / adds, later
+lsls 4 / asrs 16 for the s16 argument; x spilled to [sp] twice). What differs:
+in the original `adds r0,r4,#0` (h as the first call's argument) is scheduled
+early, right after the load of b[1], so the y/z temporaries live in r1/r2;
+the compile places it after the y/z math and uses r0/r1. Load order b[0], h,
+b[1], b[2] is reproduced (first lines match); declaring h first, or x first
+then h, gives the same y/z block.
+
+    void func_021A38A4(u8 *a, s32 *b)
+    {
+        u32 h; s32 x; s32 y; s32 z;
+
+        x = (b[0] >> 4) / 4096;
+        h = *(u32 *)(a + 0x1C);
+        y = (b[1] >> 4) / 4096;
+        z = (b[2] >> 4) / 4096;
+        func_0216D80C(h, func_0216D83C(h));
+        func_0216D818(h, func_0216D854(h));
+        func_0216D824(h, func_0216D86C(h));
+        func_0216D844(h, x);   /* s16 parameter */
+        func_0216D85C(h, y);
+        func_0216D874(h, z);
+        func_0216D89C(h, b);
+    }

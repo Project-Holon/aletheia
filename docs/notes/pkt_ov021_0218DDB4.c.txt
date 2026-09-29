@@ -1,3 +1,5 @@
+RESOLVED (lane R2): EXACT via const char *p (same idiom); source src/matched/ov/ov021_func_0218DDB4.c.
+
 DIFF note for func_0218DDB4 (ov021, 0x0218DDB4, 196 bytes): same size, one load out of place.
 Original interleaves the load of the callee argument 'ldr r1,[r6,#0x70]' between the first and second
 halfword stores of the 6-byte struct copy into the entry (+0084); every compiled variant puts it after

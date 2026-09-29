@@ -1,3 +1,5 @@
+RESOLVED (lane R1): EXACT as src/matched/ov/ov021_func_0219C928.c. b is `const u8 *`: const lets the b[7]/b[9] loads schedule above the outgoing stack-argument store of v.
+
 func_0219C928 (ov021, thumb, 100 bytes): DIFF, 9 bytes wrong, same size.
 Everything matches except the scheduling of the arguments of the call to
 func_0219C6B8: the original loads ldrb r2,[r5,#7]; ldrb r3,[r5,#9]; str v,[sp];

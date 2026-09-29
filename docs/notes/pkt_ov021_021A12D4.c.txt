@@ -1,0 +1,23 @@
+ov021 0x021A12D4 (132 B, thumb) -- DIFF, register allocation only. Lane S14, 8 runs.
+
+C used (every callee ARM/blx, resolves; body byte-shape matches):
+
+    void f(u32 *p, u32 x) {
+        u32 h = func_020490F4(0x47);
+        func_02049BDC(h, 0, 0, 0x140, 0x140, 0x20, x);
+        func_02049658(h, 3, 1, 0x64, 0, 0, x);
+        func_02049990(h, 0xf, 1, 0, 0x64, 0, 0, x);
+        func_02049238(h);
+        func_021D3270(func_02188E30(p[5]), 1, 0, 0, 0, -6);
+        func_021D3244(func_02188E30(p[5]), 1, 1);
+    }
+
+Original: p=r6, x=r5, hoisted-constant register=r4 (movs r4,#0x47 ; adds r4,#0xf9
+; later movs r4,#0x64 ; movs r4,#0xf ; subs r4,#0x15), handle=r7.
+Compiled: p=r5, x=r4, constant register=r6. The constant register gets the
+LOWEST allocation priority here, the original gives it the highest.
+Tried: explicit local c walking 0x47/0x140/0x64/0xf, declaration order c/h vs
+h/c, a copy `y = x`, a copy `q = p`, `int x`, hoisting the 2188E30 call. None
+changes the assignment (the last one changes the prologue). Instruction
+sequence is otherwise identical, so this is an allocator-order residual, not
+a structural one.

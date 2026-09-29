@@ -1,3 +1,5 @@
+RESOLVED (lane R1): EXACT as src/matched/ov/ov021_func_021918DC.c. d is a `u8` parameter (the caller at 0x021B11B6 truncates r3); see docs/idioms/a-narrow-parameter-pins-its-home-store-to-the-front-of-the-prologue.md.
+
 func_021918DC (ov021, thumb, 112 B): DIFF, 17 bytes, instruction order only.
 
 Every instruction is present; the only difference is scheduling. Original:

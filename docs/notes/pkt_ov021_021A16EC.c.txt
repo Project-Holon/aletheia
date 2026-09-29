@@ -1,0 +1,21 @@
+ov021 0x021A16EC (100 B, thumb) -- DIFF, 2 instructions swapped (scheduling only). Lane S14, 6 runs.
+
+Closest C (every relocation resolves; only +0x38/+0x3A differ):
+
+    u32 r;  d[0]=s[2]; ... d[5]=s[7];
+    *(u32*)(d+8) = func_02030734(n, func_02046C94(), 1, d_021DDE5C, 0x2ad);
+    r = func_02049250(a, *(u16*)s, n);
+    func_02046CE0(*(u32*)(d+8), r);
+    func_02047180(*(u32*)(d+8));
+    d[6] = 1; d[7] = 1;
+
+with `u32 n` as the fourth parameter and the callee prototypes taking `u16`
+for the truncated argument (func_02030734 first parameter, func_02049250
+third): that spelling makes both `lsls/lsrs` truncations happen per call site
+instead of being CSE'd into one (a `(u16)n` cast in the C, or a `u16 n`
+parameter, CSEs it into `lsls r0,r6,#16; lsrs r6,r0,#16` up front).
+
+Residual: original does `lsls r2, r6, #0x10` BEFORE `str r0, [r5, #8]`
+(the store of the func_02030734 result); the compiled code does it after.
+Tried: separate local for the func_02049250 result, a u16 local `m = n`
+before or after the store, prototype-typed vs cast. None moves the lsls.

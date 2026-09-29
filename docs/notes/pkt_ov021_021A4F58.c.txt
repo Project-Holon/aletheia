@@ -1,0 +1,14 @@
+func_021A4F58 (ov021, thumb, 80 bytes): DIFF, 5 bytes, register choice only.
+
+Original: ldr r2,[sp]; ldr r0,[sp,#8]; cmp r0,r2; ble; movs r1,#2; lsls r1,r1,#0xe; subs r0,r0,r1
+Compiled: ldr r2,[sp]; ldr r1,[sp,#8]; cmp r1,r2; ble; movs r0,#2; lsls r0,r0,#0xe; subs r0,r1,r0
+Everything else (frame, calls, relocations) is identical.
+
+C used (buf[3] declared before lim, so lim sits at sp+0):
+  if (buf[1] > lim) { buf[1] -= 0x8000; if (buf[1] < lim) { buf[1] = lim; f570(x); a[7] = 1; } f89c(x, buf); *a = 7; }
+
+Tried without moving the registers: `lim < buf[1]` (flips the compare), a named temp for buf[1],
+`buf[1] = buf[1] - 0x8000`, `+ -32768`, `(1 << 15)`, a step local, a pointer `p = &buf[1]`,
+struct buf with named fields, early `return` on `<=`, `u32 *a` parameter (which fixed the store/ldr
+order in func_021A5044 and func_021A4DC0). The compiler always puts the loaded buf[1] in r1 and the
+0x8000 constant in r0; the original has them the other way round.

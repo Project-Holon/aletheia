@@ -1,0 +1,17 @@
+func_021A87A8 (ov021, thumb, 152 bytes): DIFF, ~9 runs.
+
+Structure recovered (all callees are arm9, 0x0204B09C has no witness -> it would cap at MATCH anyway):
+  d = {0, -(s16)a[0xFC]}; f_0204B09C(*(a+0x120), 0, &d);
+  for (u8 i = 0; i < 7; i++) { it = a + i*0x1C;
+     if (*(it+0x4C) && *(int*)(it+0x3C) != 7) { f_0204B454(*(it+0x4C), &b, i);
+         f_0204B3DC(*(it+0x4C), b.y < 0xD0 ? 1 : i); } }
+  f_0204B454(*(a+0x124), &c, 0);
+  f_0204B3DC(*(a+0x124), (*(int*)(a+0x2C) != 0 && c.y < 0xD6) ? 1 : 0);   (two epilogues)
+
+Residual: the original keeps a second callee-saved register r7 = copy of the u8 loop counter r4
+(taken at loop top, used as the 3rd argument and in the else arm of the select) and re-derives
+"add rN, sp, #0" for every access into the 12-byte s16[6] area at sp+0 (strh [r0,#8], [r0,#0xa],
+ldrsh [r1,r0] with #6 and #2). Every C spelling tried (three Pos locals, Pos[3], s16[6],
+int/s16/u8 copy j, static-inline helper taking (it, &b, j)) makes the compiler hoist
+"add r7, sp, #0" out of the loop, uses r4 for the argument, and reorders the prologue
+(movs r4,#0 before adds r6,r0).  Original prologue order: adds r6,r0 ; movs r4,#0 ; add r0,sp,#0.

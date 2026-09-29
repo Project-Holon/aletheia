@@ -1,3 +1,5 @@
+RESOLVED (lane R2): EXACT via t = func_0216E3C8(src); v[0] = 1; then the call with *t and 1, keeping u16 v[2]; source src/matched/ov/ov021_func_0219CFB0.c.
+
 DIFF note for func_0219CFB0 (ov021), 184 vs 180 bytes when written with a plain unsigned short v[2].
 
 Everything is structurally right (all five callees resolve: 0216D4F0, 0219CBD4, 0219CF00, 0216E3C8, 0219CD68).

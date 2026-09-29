@@ -1,0 +1,81 @@
+/*
+ * function: func_021A3FE8
+ * address:  0x021A3FE8
+ * packet:   pkt_ov021_021A3FE8
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021A3960  0x021A3960  thumb  ov021
+ *   func_0216D598  0x0216D598  thumb  ov010
+ *   func_021A3AD8  0x021A3AD8  thumb  ov021
+ *   func_021A398C  0x021A398C  thumb  ov021
+ *   func_021A3190  0x021A3190  thumb  ov021
+ *   func_021A3974  0x021A3974  thumb  ov021
+ *   func_021A3980  0x021A3980  thumb  ov021
+ *   func_021A3AD4  0x021A3AD4  thumb  ov021
+ *   func_021A3AD0  0x021A3AD0  thumb  ov021
+ *   func_02188CD0  0x02188CD0  thumb  ov021
+ *   func_0216D5F8  0x0216D5F8  thumb  ov010
+ *   func_0216D88C  0x0216D88C  thumb  ov010
+ *   func_021ACB38  0x021ACB38  thumb  ov021
+ *   func_021D05D8  0x021D05D8  thumb  ov021
+ *   func_021ACBC8  0x021ACBC8  thumb  ov021
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u32 func_021A3960(u8 *);
+extern u32 func_0216D598(u32);
+extern void func_021A3AD8(u8 *, u32);
+extern u32 func_021A398C(u8 *);
+extern u16 func_021A3190(int, int);
+extern int func_021A3974(u8 *);
+extern void func_021A3980(u8 *, int);
+extern u32 func_021A3AD4(u8 *);
+extern void func_021A3AD0(u8 *, u32);
+extern u32 func_02188CD0(u32);
+extern u32 func_0216D5F8(u32);
+extern void func_0216D88C(u32, u32 *);
+extern u32 func_021ACB38(u32, u32, u32 *, u32, int);
+extern void func_021D05D8(u32, u32);
+extern void func_021ACBC8(u32, int);
+
+int func_021A3FE8(u8 *p)
+{
+    u32 buf[3];
+    u32 a;
+    u32 b;
+    u32 c;
+    u32 d;
+    u32 e;
+
+    e = func_02188CD0(*(u32 *)(p + 8));
+    a = func_021A398C(p);
+    b = func_021A3960(p);
+    a = func_021A3190(a, 3);
+    if (a != func_0216D598(b)) {
+        func_021A3AD8(p, a);
+    }
+    if (func_021A3974(p) != 3) {
+        func_021A3980(p, 3);
+    }
+    if (func_021A3AD4(p) == 0) {
+        c = func_02188CD0(*(u32 *)(p + 8));
+        d = func_0216D5F8(b);
+        func_0216D88C(b, buf);
+        func_021A3AD0(p, func_021ACB38(c, d, buf, b, 1));
+    }
+    func_021D05D8(*(u32 *)(p + 0x1c), e);
+    if (*(u32 *)(p + 0x28) != 0) {
+        func_021ACBC8(*(u32 *)(p + 0x28), 0);
+    }
+    *(u16 *)(p + 0x32) = 1;
+    return 0;
+}

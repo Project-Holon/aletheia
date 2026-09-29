@@ -1,3 +1,5 @@
+RESOLVED (lane R2): EXACT via const int *q with d[1] = a; before x = q[0]; (same idiom); source src/matched/ov/ov021_func_0218DC84.c.
+
 DIFF note for func_0218DC84 (ov021, 0x0218DC84, 112 bytes): same size, 2 instructions swapped.
 Original order at +0008: 'ldr r3,[pc]' (pool address of 0x021DD9E0) BEFORE 'ldr r5,[r0]' (q[0]); the
 compiled C below emits the load first. Two distinct externs for the same address are needed to get the

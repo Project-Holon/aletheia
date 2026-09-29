@@ -1,0 +1,98 @@
+/*
+ * function: func_0218EEFC
+ * address:  0x0218EEFC
+ * packet:   pkt_ov021_0218EEFC
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * DIFF near miss, lane B6: 9 concrete bytes, one extra instruction (2 bytes)
+ * at the tail; size 216/216, the pool pad absorbs it.  Everything before
+ * +0xC2 is byte-identical, including the entry
+ *   ldr r0,[sp,#0x28]; str r1,[sp,#4]; str r0,[sp,#0x28]; ldr r0,[r0,#0x1c]
+ * (the 5th, stack-passed parameter stored back into its own incoming slot),
+ * which only appeared with `char *volatile p` plus `o = p; p = o;` and the
+ * guard read through the register copy o.
+ *
+ * Residual, the tail `*(owner + 0xec) = q`:
+ *   original: ldr r0,[sp,#0x28]; adds r0,#0xec; str r0,[sp,#0x28]; str r5,[r0]
+ *   compiled: ldr r0,[sp,#0x28]; adds r0,#0xec; str r0,[sp,#0x28];
+ *             ldr r0,[sp,#0x28]; str r5,[r0]       (the volatile re-read)
+ * So p is reassigned by +0xec and the stored value is reused without a
+ * reload.  Tried: non-volatile p with `p += 0xec` (copy-propagated, both slot
+ * stores vanish, 4 bytes short); `*(char **)(p += 0xec) = q` and
+ * `*(char **)(p = p + 0xec) = q` volatile (same re-read); `e = p + 0xec;
+ * p = e; *e = q` and `o = p; o += 0xec; p = o; *o = q` (the add is
+ * duplicated, +4 bytes); `pp = &p` non-volatile (no slot stores); returning
+ * p as char * (+4); permuter 300 compiles found nothing below 9.
+ * Next idea: the owner is probably a struct pointer and the store an inlined
+ * setter; a non-volatile spelling that keeps p a spilled local (every
+ * definition stored, per a-dead-store-to-a-spilled-local-...) is the target.
+ * Loop, alloc sequence (u16 heap callee parameter, int heap truncated per
+ * call) and store order are all exact.
+ *
+ * symbols:
+ *   func_02030734  0x02030734  arm
+ *   d_021DDA28     0x021DDA28  data  ov021  a4
+ */
+
+typedef unsigned short u16;
+
+typedef struct {
+    int x;
+    int y;
+    int z;
+} Vec;
+
+extern void *func_02030734(u16, int, int, void *, int);
+extern int d_021DDA28;
+
+void func_0218EEFC(int n, int a1, int flags, int heap, char *volatile p)
+{
+    int i;
+    char *q;
+    int sz;
+    Vec *v;
+    char *o;
+
+    o = p;
+    p = o;
+    if (*(int *)(o + 0x1c) == 0)
+        return;
+    i = 0;
+    q = func_02030734(heap, 0x30, 0, &d_021DDA28, 0x6aa);
+    sz = n * 12;
+    *(Vec **)(q + 0x20) = func_02030734(heap, sz, 0, &d_021DDA28, 0x6ab);
+    *(Vec **)(q + 0x24) = func_02030734(heap, sz, 0, &d_021DDA28, 0x6ac);
+    for (; i < n; i++) {
+        v = &(*(Vec **)(q + 0x20))[i];
+        v->x = 0;
+        v->y = 0;
+        v->z = 0;
+        v = &(*(Vec **)(q + 0x24))[i];
+        v->x = 0;
+        v->y = 0;
+        v->z = 0;
+    }
+    *(int *)(q + 0) = n;
+    *(int *)(q + 0xc) = a1;
+    *(int *)(q + 0x10) = 0;
+    *(int *)(q + 4) = 0;
+    *(int *)(q + 8) = a1;
+    *(int *)(q + 0x14) = 0;
+    *(int *)(q + 0x18) = 0;
+    *(int *)(q + 0x1c) = 0;
+    if (flags & 1)
+        *(int *)(q + 0x14) = 1;
+    if (flags & 2)
+        *(int *)(q + 0x18) = 1;
+    if (flags & 4)
+        *(int *)(q + 0x1c) = 1;
+    *(int *)(q + 0x28) = 1;
+    *(int *)(q + 0x2c) = 0;
+    p += 0xec;
+    *(char **)p = q;
+}

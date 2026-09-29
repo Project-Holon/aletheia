@@ -1,3 +1,5 @@
+RESOLVED (lane R2): EXACT* via s16 b and s16 d parameters (docs/idioms/a-narrow-parameter-pins-its-home-store-to-the-front-of-the-prologue.md); source src/matched/ov/ov021_func_02194384.c.
+
 /*
  * pkt_ov021_02194384: DIFF, same size (104 bytes, listing extent 148 includes the
  * matched leaf 0x021943EC), lane S18, 5 runs.

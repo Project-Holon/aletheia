@@ -1,0 +1,117 @@
+func_0218D444 0x0218D444 (ov021, Thumb, 300 B): DIFF, frame + r4/r5
+=====================================================================
+
+2026-09-29, lane B5.  Mode-2 cell layout for the grid object
+(func_0218CA78's switch): a cols x rows block around pos (x0/z0 from
+func_0218D980), wrapped modulo the w x h field, cell id xm + zm*w,
+position (half + x*size, 0, half + z*size) with the unwrapped x/z.
+
+Verdict: DIFF.  Same residual as pkt_ov021_0218D1D0 (read that note
+first), plus a register swap.  Image slots: 0 p, 4 zm, 8 cols, 0xC size,
+0x10 zm*w, 0x14 never touched, 0x18 sign word of (s64)size, 0x1C h,
+0x20 z, 0x24 x, 0x28 z0, 0x2C x0, 0x30 i, 0x34 y, 0x38 idx*16;
+`push {r4-r7,lr}; sub sp, #0x3c`.  Draft: `push {r3-r7,lr}; sub sp,
+#0x38`, no dead word, and w in r4 / pos-then-j in r5 where the image has
+w in r5 and pos-then-j in r4 (the image's `adcs r1, r4` borrows j == 0 as
+the carry-add zero for y).
+
+Tried (6 runs): `s64 size` (worse), FX_MUL as an inline with s64 params
+(same), FX_MUL with only the first operand cast, with and without the LL
+on 0x800 (same).
+
+/*
+ * function: func_0218D444
+ * address:  0x0218D444
+ * packet:   pkt_ov021_0218D444
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   _s32_div_f     0x0209C0A4  arm
+ *   _ll_mul        0x0209C054  arm
+ *   sub_0207C768   0x0207C768  arm
+ *   func_0218D980  0x0218D980  thumb ov021
+ *   func_0218DD80  0x0218DD80  thumb ov021
+ *   func_0218DD9C  0x0218DD9C  thumb ov021
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef long long s64;
+
+typedef struct Cell {
+    u32 id;             /* 0x00 */
+    int x;              /* 0x04 */
+    int y;              /* 0x08 */
+    int z;              /* 0x0C */
+} Cell;
+
+typedef struct Obj {
+    u16 heap;           /* 0x00 */
+    u8 pad02[2];
+    int size;           /* 0x04 */
+    int height;         /* 0x08 */
+    u32 mode;           /* 0x0C */
+    u32 f10;            /* 0x10 */
+    u16 w;              /* 0x14 */
+    u16 h;              /* 0x16 */
+    u32 count;          /* 0x18 */
+    u32 f1c;            /* 0x1C */
+    u32 f20;            /* 0x20 */
+    Cell *cells;        /* 0x24 */
+    Cell *f28;          /* 0x28 */
+    u8 cols;            /* 0x2C */
+    u8 rows;            /* 0x2D */
+    u16 n;              /* 0x2E */
+} Obj;
+
+#define FX_MUL(a, b) ((int)(((s64)(a) * (s64)(b) + 0x800LL) >> 12))
+
+extern int sub_0207C768(int a, int b);
+extern int func_0218D980(u32 n, int size, int pos);
+extern void func_0218DD80(Cell *c, u32 id);
+extern void func_0218DD9C(Cell *c, int x, int y, int z);
+
+void func_0218D444(Obj *p, int *pos, Cell *buf)
+{
+    int i;
+    int x0;
+    int z0;
+    int h;
+    int size;
+    int w;
+    int half;
+    int j;
+
+    w = p->w;
+    h = p->h;
+    size = p->size;
+    half = sub_0207C768(size, 0x2000);
+    x0 = func_0218D980(p->cols, size, pos[0]);
+    z0 = func_0218D980(p->rows, size, pos[2]);
+    for (i = 0; i < p->rows; i++) {
+        int z = z0 + i;
+        int zm = z % h;
+        if (zm < 0)
+            zm += h;
+        j = 0;
+        if (j < p->cols) {
+            int y = FX_MUL(z << 12, size);
+            for (; j < p->cols; j++) {
+                int x = x0 + j;
+                int xm = x % w;
+                int idx;
+                if (xm < 0)
+                    xm += w;
+                idx = i * p->cols + j;
+                func_0218DD80(&buf[idx], xm + zm * w);
+                func_0218DD9C(&buf[idx], half + FX_MUL(x << 12, size), 0, half + y);
+            }
+        }
+    }
+}

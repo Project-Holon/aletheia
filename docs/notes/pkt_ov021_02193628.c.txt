@@ -1,0 +1,146 @@
+/*
+ * function: func_02193628
+ * address:  0x02193628
+ * packet:   pkt_ov021_02193628
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Near miss (lane B10): 358 compiled against a 360-byte extent (the 2 are
+ * the trailing pad, as for the EXACT* twins 0x021933C0/0x02193544), 22 of
+ * 22 relocations resolved, 7 instructions differ, all in the stack-argument
+ * setup of the inner-loop call to func_02193924 (+0xF2..+0x100).
+ * Original: str r6,[sp,#8] (y), ldr a18, ldr hh, ldr d, str a18 -> [sp,#0xc],
+ * adds hh+d, ldr a1c, ldr c20.  Compiled: ldr a18, str r6,[sp,#8],
+ * str a18, ldr hh, ldr d, ldr a1c, adds, ldr c20.
+ *
+ * Fixed on the way: every stack slot (declaration order d, hh, i, by, c20,
+ * a1c, a18 after the address-taken st, x, h).  Tried without effect: a18 as
+ * u16, callee's 8th parameter u16, &hh[d], (int)hh + d, a temporary for
+ * hh + d, d + hh, d assigned before hh.  Worse: j + bx / i + by (10),
+ * h + *(int *)(p + 8) in the call with no hh/d locals (87; the original
+ * does load h and p[2] into their own slots right after the c20 call).
+ * Permuter 2 x 300: best 8 bytes out, only through `volatile int d`, not
+ * taken.
+ *
+ * The leaves it needed (0x02169528/30/40/60/78 in ov010, 0x0218DD08/0C in
+ * ov021) are filed EXACT, so an EXACT C here needs no further witness.
+ *
+ * symbols:
+ *   func_02169520  0x02169520  thumb ov010
+ *   func_0216959C  0x0216959C  thumb ov010
+ *   func_02169530  0x02169530  thumb ov010
+ *   func_021695BC  0x021695BC  thumb ov010
+ *   func_02169620  0x02169620  thumb ov010
+ *   func_02169528  0x02169528  thumb ov010
+ *   func_02169540  0x02169540  thumb ov010
+ *   func_02169580  0x02169580  thumb ov010
+ *   func_02169560  0x02169560  thumb ov010
+ *   func_02169578  0x02169578  thumb ov010
+ *   func_02169598  0x02169598  thumb ov010
+ *   func_0218DD04  0x0218DD04  thumb ov021
+ *   func_0218DD08  0x0218DD08  thumb ov021
+ *   func_0218DD0C  0x0218DD0C  thumb ov021
+ *   func_0218DD10  0x0218DD10  thumb ov021
+ *   func_0218B974  0x0218B974  thumb ov021
+ *   func_0218DCF4  0x0218DCF4  thumb ov021
+ *   func_0218DCFC  0x0218DCFC  thumb ov021
+ *   func_021A7410  0x021A7410  thumb ov021
+ *   func_02193924  0x02193924  thumb ov021
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+
+extern void func_02169520(int o, u16 **out);
+extern void func_0216959C(int o);
+extern void func_02169530(int o, int *out);
+extern void func_021695BC(int o, int v);
+extern int func_02169620(int o);
+extern void func_02169528(int o, char **out);
+extern void func_02169540(int o, void *p);
+extern void func_02169580(int o);
+extern int func_02169560(int o);
+extern int func_02169578(int o);
+extern int func_02169598(int o);
+extern int func_0218DD04(int q);
+extern int func_0218DD08(int q);
+extern int func_0218DD0C(int q);
+extern u16 func_0218DD10(int q);
+extern int func_0218B974(int a, int o, void *p, int n);
+extern int func_0218DCF4(int q);
+extern int func_0218DCFC(int q);
+extern void func_021A7410(int a, int b, int c, int d);
+extern int func_02193924(int a, char *b, int c, int o, int prev, int x, int y, int e);
+
+int func_02193628(int o, int q)
+{
+    u16 *st;
+    int x;
+    char *h;
+    char *p;
+    int off;
+    int r;
+    int d;
+    char *hh;
+    int i;
+    int by;
+    int c20;
+    int a1c;
+    int a18;
+    int w;
+    int bx;
+    int j;
+
+    func_0218DD10(q);
+    func_02169520(o, &st);
+    switch (*st) {
+    case 1:
+        func_0216959C(o);
+        func_02169530(o, &x);
+        func_021695BC(o, x);
+        *st = 2;
+        break;
+    case 2:
+        if (func_02169620(o) != 0)
+            break;
+        *(int *)((char *)st + 0x18) = 1;
+        *(int *)((char *)st + 0x1c) = 1;
+        *(int *)((char *)st + 0x20) = 1;
+        *st = 3;
+        break;
+    case 3:
+        func_02169528(o, &h);
+        p = h;
+        func_02169540(o, p + *(int *)(p + 4));
+        off = *(int *)(p + 0xc);
+        if (off != *(int *)(p + 0x10))
+            r = func_0218B974(func_0218DD04(q), o, h + off + 4, *(int *)(h + off));
+        c20 = func_0218DD04(q);
+        hh = h;
+        d = *(int *)(p + 8);
+        w = func_0218DD0C(q);
+        a1c = func_0218DD08(q);
+        a18 = func_0218DD10(q);
+        bx = (w % 2) * 4;
+        by = (w / 2) * 4;
+        for (i = 0; i < 4; i++) {
+            for (j = 0; j < 4; j++) {
+                r = func_02193924(a1c, hh + d, c20, o, r, bx + j, by + i, a18);
+            }
+        }
+        func_02169580(o);
+        if (func_0218DCF4(q))
+            func_021A7410(func_0218DCFC(q), func_02169560(o), func_02169578(o), func_02169598(o));
+        *st = 4;
+        break;
+    case 4:
+        *st = 0;
+        return 0;
+    }
+    return 1;
+}

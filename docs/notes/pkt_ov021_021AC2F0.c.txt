@@ -1,0 +1,20 @@
+pkt_ov021_021AC2F0  func_021AC2F0 @ 0x021AC2F0 (ov021, thumb, dsi/1.1p1 -O4,p)  DIFF (10 runs), 148 bytes, ~14 halfwords of register/order
+
+Builds a 0x34-byte request struct on the stack (b0@0 set to 2 later, V@4 zeroed,
+h10=0,h12=h14=0x1000,b16=0x13,w18=w1c=1, V@0x20 = copy of V@4, w2c=0, w30=obj),
+calls func_02050340(r->f10, (u16)r->f18, &st.h10, 1, 3) -> o[5], compares with
+0xFFFF, else func_0204F6DC(r->f14, o[5], &st) then func_021AC178(a).
+The zero V is written THROUGH A POINTER in the original (`add r3,sp,#8` before
+the strh's, `str r6,[r3]/[r3,#4]/[r3,#8]`, then `ldm r3!` copy): plain field
+stores are hoisted above the w18/w1c stores and the pointer form only matches
+the store position with an explicit `V *zp = &st.v4`. Residual: the zero constant
+lives in r6 (callee-saved, also used for w2c) and the pointer in r3 in the
+original; the compile has zero in r3 and the pointer in r6, and computes the
+pointer after the strb rather than first. Tried: inline setz(&st.v4), an int z
+shared by all zero stores, declaration orders of zp/r/z, zp assigned before z.
+
+  st.h10 = z; st.h12 = 0x1000; st.h14 = 0x1000; st.b16 = 0x13;
+  st.w18 = 1; st.w1c = 1;
+  zp->x = z; zp->y = z; zp->z = z; st.v20 = *zp; st.w2c = z; st.w30 = (int)o;
+(structure ST / R as in the pending source; symbols: func_021AC1AC thumb ov021,
+func_0216E1A4 thumb ov010, func_02050340 arm, func_021AC154/178 thumb ov021, func_0204F6DC arm)

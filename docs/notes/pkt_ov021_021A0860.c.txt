@@ -1,0 +1,36 @@
+ov021 0x021A0860 (108 bytes, thumb) DIFF: SIZE 96 vs 108, 68-69 bytes differ, 10 spellings tried.
+Packs three s16 lerps (p[k+1]*a/b + p[k]) into a 5-5-5 colour: t0 | t1<<5 | t2<<10.
+Original computes and sign-extends each term (asrs) as it goes: r7=t0, sp=t1<<16, r1=t2<<16>>6,
+calls in program order 1,3,5. Every C spelling (one expression, locals, s16/s32 locals,
+reversed OR tree, static inline rgb() helper) either evaluates the p[5] term first
+(right operand of the OR first) or, with the reversed tree, defers the +p[0] add until after
+the later calls (raw quotient kept in r7). Nothing reproduces "add p[k] right after each call".
+Compiler evaluates the right operand of | first, then the left subtree left-to-right.
+Best C (calls in wrong order):
+
+/*
+ * function: func_021A0860
+ * address:  0x021A0860
+ * packet:   pkt_ov021_021A0860
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   _s32_div_f  0x0209C0A4  arm
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+typedef signed int     s32;
+
+u16 func_021A0860(s16 *p, s32 a, s32 b)
+{
+    return (s16)(p[1] * a / b + p[0]) | ((s16)(p[3] * a / b + p[2]) << 5) | ((s16)(p[5] * a / b + p[4]) << 10);
+}

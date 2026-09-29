@@ -1,0 +1,40 @@
+/*
+ * function: func_0219FADC   address: 0x0219FADC   region: ov021   isa: thumb
+ * status:   DIFF (compiled 76 bytes against 68; the _s32_div_f call resolves as runtime/label)
+ *
+ * Prologue and the `% 20` (blx _s32_div_f, remainder in r1) match once c[3] is loaded into a
+ * local before the p[3] store (t = c[3]; p[3] = r; if (t == 11)).  The tail does not:
+ * the original has ONE shared `movs r0,#0 ; pop` (0x0219FB1C) reached by `blt` from three
+ * places and three separate `movs r0,#1 ; pop` blocks, with the return-1 arm falling through:
+ *     b==1:   cmp r1,5 ; blt RET1 ; cmp r1,15 ; blt RET0 ; RET1: return 1
+ *     b!=1:   cmp r1,10 ; bge RET0 ; return 1
+ *     other:  cmp r1,5 ; blt L ; cmp r1,10 ; blt RET1 ; L: cmp r1,15 ; blt RET0 ; RET1: return 1
+ * Every spelling of the ladder tried puts a `return 0` block inline (bge to the return-1 block)
+ * and duplicates the epilogue instead: `&&` conjunction (76 B), `if (r<5) return 1; if (r<15)
+ * return 0; return 1;` (78 B), nested (88 B), `return r < 10;` forms (76 B).
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+int func_0219FADC(u8 *p, int b, u8 *c)
+{
+    int r;
+    u32 t;
+
+    r = p[3] % 20;
+    t = c[3];
+    p[3] = r;
+    if (t == 11) {
+        if (b == 1) {
+            if (r >= 5 && r < 15) return 0;
+            return 1;
+        }
+        if (r >= 10) return 0;
+        return 1;
+    }
+    if (r >= 5 && r < 10) return 1;
+    if (r < 15) return 0;
+    return 1;
+}

@@ -1,3 +1,5 @@
+RESOLVED (lane R1): EXACT as src/matched/ov/ov021_func_02198A10.c. The zero-init is a nested block `{ Vec v = {0,0,0}; v.y = p[0]; func_0216D8C0(a, &v); }`, as in the EXACT twin ov021_func_02198A8C.
+
 func_02198A10 (ov021, thumb, 72 bytes): DIFF, 6 instructions of ordering only.
 
 Everything matches (h = func_0216D6D4(a); h[0] += h[1]; call func_0216D8C0(a, &v);

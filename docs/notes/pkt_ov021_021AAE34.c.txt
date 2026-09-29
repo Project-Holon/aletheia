@@ -1,0 +1,32 @@
+ov021 0x021AAE34 (140 B, Thumb): DIFF, register allocation of pkt (r7 in the original, spilled in the compile)
+
+Everything from the AAEC0 call onward is byte-identical, and so is the front except the allocation:
+original keeps pkt (param 2) in r7, self in r6, rec in r4, the entry pointer +0x10 in r5 and spills
+the raw func_02012A38 result to [sp,#4] (for func_021AABEC later). Compile keeps the raw pointer in r7,
+spills pkt to [sp,#4]. Also the original masks the func_02005728 result before the multiply
+(lsls/lsrs then muls) and computes pkt+8 after the 12*idx.
+Tried: base/e0 as separate char* or Ent*, all six declaration permutations of rec/base/e, cast of
+the random result. Needed to reach this point: Vec3s pos member so the 6-byte copy is ldrh/strh,
+`short y` on func_021AAEC0's third parameter (pins ldrsh at the call), (rec->w >> 4) / 4096 for
+the s16 store at +4.
+
+void func_021AAE34(Self *self, Pkt *pkt)
+{
+    Rec *rec = &pkt->recs[(unsigned short)func_02005728(pkt->n)];
+    Ent *e0 = (Ent *)func_02012A38(self->obj);
+    Ent *e;
+
+    rec->pos.y = (rec->w >> 4) / 4096;
+    e = (Ent *)((char *)e0 + 0x10);
+    if (func_021AAEC0(self, rec->pos.x, rec->pos.y, rec->pos.z, 0) == 0) {
+        e->pos = rec->pos;
+        e->w = rec->w;
+        e->b = rec->b;
+        e->id = func_02188C9C(self->ctx);
+        e->flags = 1;
+        func_021AABEC(e0);
+        func_021AAFC0(self, pkt, e);
+    }
+}
+(Ent: u16 id; Vec3s pos; u32 w; u8 b; u8 flags:4, f4:2, f6:2. Rec: u8 b; pad; Vec3s pos; s32 w.
+ Pkt: u16 n at +4, Rec recs[] at +8. Self: ctx +0, obj +8.)

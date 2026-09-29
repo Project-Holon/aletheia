@@ -1,0 +1,53 @@
+ov021 0x021A0CF4 (80 bytes, thumb) DIFF: same size, 6 bytes differ (store placement).
+Original: r5 = r; p[0]=r5; r3=r5*0x1c; ldr table; adds r0,r4,#0; ldr r2,[r2,r3]; movs r1,#0xb;
+then str r5,[r4,#4] AFTER the argument setup, then blx r2. Every spelling puts `str r5,[r4,#4]`
+before `adds r0,r4,#0` (p[1]=p[0]=r, p[1] first, reading p[0]/p[1] back for the index: same 6 bytes;
+reading p[0] back after the call is 18 bytes worse; a local function pointer loses r5).
+d_021D872C needs the `data a4` token without ov021 (contested hint). Best C:
+
+/*
+ * function: func_021A0CF4
+ * address:  0x021A0CF4
+ * packet:   pkt_ov021_021A0CF4
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02030734  0x02030734  arm
+ *   func_021A0EE4  0x021A0EE4  thumb  ov021
+ *   d_021DDE48  0x021DDE48  data  ov021
+ *   d_021D872C  0x021D872C  data  a4
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+typedef signed int     s32;
+
+extern void *func_02030734(u32 a, u32 b, u32 c, void *d, u32 e);
+extern u32 func_021A0EE4(void *p, u32 b);
+extern u8 d_021DDE48[];
+extern u8 d_021D872C[];
+
+u32 *func_021A0CF4(u32 a, u32 b, u32 c)
+{
+    u32 *p;
+    u32 r;
+
+    p = (u32 *)func_02030734((u16)a, 0x2c, 1, d_021DDE48, 0x13c);
+    p[2] = 0;
+    *(u16 *)(p + 3) = a;
+    p[8] = 0;
+    p[5] = b;
+    r = func_021A0EE4(p, c);
+    p[0] = r;
+    p[1] = r;
+    ((void (*)(u32 *, u32))*(u32 *)(d_021D872C + r * 0x1c))(p, 0xb);
+    return p;
+}

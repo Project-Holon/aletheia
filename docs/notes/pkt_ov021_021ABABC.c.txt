@@ -1,0 +1,33 @@
+pkt_ov021_021ABABC  func_021ABABC @ 0x021ABABC (ov021, thumb, dsi/1.1p1 -O4,p)  DIFF (8 runs)
+
+Structure is right (callee list, both 32-bit lerps, the _ll_mul rounding lerp
+for +0x18/+0x10, args to func_0218ED34/48/58, pool zero for the adcs).
+Residual: register allocation. Original saves r4-r7 only (sp #0xc): p=r4, q=r5
+(reused for base), x=r7, y=r6, z=r4, and the result of sub_0207C768 is stored
+to the address-taken slot [sp,#4] and RELOADED after each _ll_mul; a is spilled
+at [sp]. The compile keeps the quotient in callee-saved r4, spills x, and
+hoists `movs r7,#0`, so it pushes r3 too (146 vs 152 bytes with padding) and
+evaluates the y lerp first (0xe/0x16 loads before 0xc/0x14). Tried: array o[2]
+vs two int locals, `t = f(); d = t` versus `d = f()`, reading d vs t in the
+expressions, declaration-order permutations, dx/dy pre-computed locals.
+Also tried the operand order `t * diff` (original muls r3,r2,r3 has t in r2 as
+the multiplier's second operand).
+
+typedef unsigned short u16;
+void func_021ABABC(int a0, u16 *p, void *q)
+{
+    int a; int s; int d; int base; int x; int y; int z; int dx; int dy;
+    a = func_021AB760(a0);
+    func_0218E124(a, 0);
+    func_021ABBA0(p, q, &s, &d);        /* EXACT: ov021_func_021ABBA0.c */
+    d = sub_0207C768(d, s);
+    dx = p[10] - p[6];
+    base = *(int *)(p + 8);
+    dy = p[11] - p[7];
+    x = p[6] + (dx * d) / 4096;
+    y = p[7] + (dy * d) / 4096;
+    z = (int)(((long long)(*(int *)(p + 12) - base) * d + 0x800) >> 12);
+    func_0218ED34(a, x); func_0218ED48(a, y); func_0218ED58(a, z + base);
+}
+symbols: func_021AB760 thumb ov021, func_0218E124 thumb ov021, func_021ABBA0 thumb ov021,
+sub_0207C768 arm, _ll_mul 0x0209C054 arm (implicit), func_0218ED34/48/58 thumb ov021.

@@ -1,3 +1,5 @@
+RESOLVED (lane R1): EXACT* as src/matched/ov/ov021_func_021924F0.c. The loop step is the compound `b += (u16)t;` (b a u16 parameter); spelled `b = (u16)(b + (u16)t)` it swaps the three spill slots.
+
 func_021924F0 (ov021, thumb, 128 B): DIFF, 6 bytes after the loop is spelled as a for; residual is the stack-slot order of three compiler temporaries.
 
 Original slots: t (= func_0201DC80(d)+2) at sp14, (s16)a at sp10, (u16)t at sp18. Ours: t sp18, (s16)a sp14, (u16)t sp10.

@@ -1,0 +1,135 @@
+/*
+ * function: func_02188758
+ * address:  0x02188758
+ * packet:   pkt_ov021_02188758
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02012104  0x02012104  thumb
+ *   func_02012B38  0x02012B38  thumb
+ *   func_0201447C  0x0201447C  thumb
+ *   func_02012E40  0x02012E40  thumb
+ *   func_021888C8  0x021888C8  thumb  ov021
+ *   func_0204A600  0x0204A600  arm
+ *   func_02035648  0x02035648  arm
+ *   func_021892CC  0x021892CC  thumb  ov021
+ *   func_020120D8  0x020120D8  thumb
+ *   func_02168EEC  0x02168EEC  thumb  ov010
+ *   func_021BC484  0x021BC484  thumb  ov021
+ *   func_021C7FAC  0x021C7FAC  thumb  ov021
+ *   func_021A2EB8  0x021A2EB8  thumb  ov021
+ *   func_02013CC8  0x02013CC8  thumb
+ *   func_02013CE0  0x02013CE0  thumb
+ *   func_02012138  0x02012138  thumb
+ *   func_021737A4  0x021737A4  thumb  ov012
+ *   func_0217AE20  0x0217AE20  thumb  ov018
+ *   func_021A0D68  0x021A0D68  thumb  ov021
+ *   func_0216CD64  0x0216CD64  thumb  ov010
+ *   func_021BE258  0x021BE258  thumb  ov021
+ *   func_021ABE04  0x021ABE04  thumb  ov021
+ *   func_0217F914  0x0217F914  thumb  ov018
+ *   func_021BB948  0x021BB948  thumb  ov021
+ *   func_021903E0  0x021903E0  thumb  ov021
+ *   func_02030D28  0x02030D28  arm
+ *   func_021C6D90  0x021C6D90  thumb  ov021
+ *   func_0218D158  0x0218D158  thumb  ov021
+ *   func_02189004  0x02189004  thumb  ov021
+ *   func_02012ED0  0x02012ED0  thumb
+ *   func_021C8660  0x021C8660  thumb  ov021
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef struct {
+    u32 w[3];
+} Rec12;
+
+extern int func_02012104(u32 a);
+extern void *func_02012B38(u32 a);
+extern void func_0201447C(void *o, u8 v);
+extern u8 func_02012E40(u32 a);
+extern void func_021888C8(u8 *p);
+extern void func_0204A600(void);
+extern void func_02035648(void);
+extern void func_021892CC(u8 *p);
+extern int func_020120D8(void *a);
+extern void func_02168EEC(u32 a);
+extern void func_021BC484(u32 a);
+extern void func_021C7FAC(u32 a);
+extern void func_021A2EB8(u32 a);
+extern int func_02013CC8(u16 a);
+extern int func_02013CE0(u16 a);
+extern void *func_02012138(void *a);
+extern void func_021737A4(void *a, u8 *p);
+extern void func_0217AE20(u8 *p, u32 a, u32 b);
+extern void func_021A0D68(u32 a);
+extern void func_0216CD64(u32 a);
+extern void func_021BE258(u8 *p);
+extern void func_021ABE04(u32 a);
+extern void func_0217F914(u32 a);
+extern void func_021BB948(u32 a);
+extern void func_021903E0(u32 a);
+extern void func_02030D28(u32 a);
+extern void func_021C6D90(u32 a);
+extern void func_0218D158(u32 a, void *b);
+extern void func_02189004(u8 *p);
+extern u32 *func_02012ED0(u32 a);
+extern void func_021C8660(u32 a);
+
+int func_02188758(void *a, u8 *p)
+{
+    if (func_02012104(*(u32 *)(p + 4)) == 0)
+        func_0201447C(func_02012B38(*(u32 *)(p + 8)), 0);
+    if (func_02012E40(*(u32 *)(p + 8)) != 0)
+        return 0;
+    if (*(u32 *)(p + 0x140) != 0) {
+        func_021888C8(p);
+        func_0204A600();
+        return 0;
+    }
+    func_02035648();
+    func_021892CC(p);
+    if (func_020120D8(a) == 0) {
+        (*(void (**)(u8 *, void *))(*(u8 **)(p + 0x108) + 8))(p, p + 0xF4);
+        func_02168EEC(*(u32 *)(p + 8));
+    }
+    if (*(u32 *)(p + 0x30) != 0)
+        func_021BC484(*(u32 *)(p + 0x30));
+    func_021C7FAC(*(u32 *)(p + 0xA0));
+    func_021A2EB8(*(u32 *)(p + 0x8C));
+    if (func_02013CC8(*(u16 *)(p + 0xD0)) == 1 || func_02013CE0(*(u16 *)(p + 0xD0)) == 1)
+        func_021737A4(func_02012138(a), p);
+    else
+        func_0217AE20(p, *(u32 *)(p + 4), *(u32 *)(p + 0x8C));
+    func_021A0D68(*(u32 *)(p + 0x24));
+    if (*(u32 *)(p + 0x38) != 0) {
+        *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 & ~0x8000;
+        func_0216CD64(*(u32 *)(p + 0x38));
+        *(volatile u16 *)0x04000204 = *(volatile u16 *)0x04000204 | 0x8000;
+    }
+    func_021BE258(p);
+    func_021ABE04(*(u32 *)(p + 0x94));
+    if (*(u32 *)(p + 0x98) != 0)
+        func_0217F914(*(u32 *)(p + 0x98));
+    func_021BB948(*(u32 *)(p + 0xBC));
+    if (*(u32 *)(p + 0x28) != 0)
+        func_021903E0(*(u32 *)(p + 0x28));
+    func_02030D28(*(u32 *)(p + 0x110));
+    func_021C6D90(*(u32 *)(p + 0x134));
+    if (*(Rec12 **)(p + 0xF0) != 0)
+        *(Rec12 *)(p + 0xF4) = **(Rec12 **)(p + 0xF0);
+    func_0218D158(*(u32 *)(p + 0x48), p + 0xF4);
+    func_02189004(p);
+    func_021C8660(*func_02012ED0(*(u32 *)(p + 8)));
+    func_0204A600();
+    func_021888C8(p);
+    return 0;
+}

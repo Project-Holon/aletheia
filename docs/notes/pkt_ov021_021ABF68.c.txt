@@ -1,0 +1,19 @@
+pkt_ov021_021ABF68  func_021ABF68 @ 0x021ABF68 (ov021, thumb, dsi/1.1p1 -O4,p)  DIFF (5 runs)
+
+Callees and pool words are right (func_02030CB0/CBC arm, func_02030734 alloc
+with file d_021DE018 and line 0x1db, func_021ABFFC EXACT). Residual: after the
+alloc call the original emits `adds r1,r0,#0 ; adds r0,r4,#0 ; str r1,[r5,#0x18]`
+(store sinks below the next call's argument move, one extra halfword); the
+compile emits `str r0,[r5,#0x18] ; adds r0,r4,#0`. The second site
+(`adds r1,r0 ; ldrh r0 ; adds r2,r4 ; str r1,[r5,#0x1c]`) already matches.
+Tried casts vs struct fields, a temp for the alloc result stored before or after
+the cbc call (after: worse, r4 is kept live and r6 pushed).
+
+typedef unsigned short u16;
+void func_021ABF68(S *p, int v)     /* S: u16 heap @4, u16 cnt @0x14, f18, f1c, f20 */
+{
+    p->cnt = v;
+    p->f18 = func_02030734(p->heap, func_02030CB0(v), 0, d_021DE018, 0x1db);
+    p->f1c = func_02030CBC(v);
+    p->f20 = func_021ABFFC(p->heap, p->f1c, v);
+}

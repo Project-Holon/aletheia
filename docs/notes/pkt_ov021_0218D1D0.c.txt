@@ -1,0 +1,116 @@
+func_0218D1D0 0x0218D1D0 (ov021, Thumb, 308 B): DIFF, frame only
+==================================================================
+
+2026-09-29, lane B5.  Mode-0 cell layout for the grid object (one arm of
+func_0218CA78's switch): n = w*h cells per row over ceil(count/n) rows,
+each cell i placed at (half + x*size, row*height, half + z*size) with
+x = j % w, z = j / w, half = FX_Div(size, 0x2000), and the id wrapped to -1
+past count.  Siblings: 0218D304 (mode 1), 0218D444 (mode 2), 0218D570
+(mode 3, not drafted); all three drafted ones share this residual.
+
+Verdict: DIFF.  Every instruction's opcode and register is right; only the
+frame differs.  The image has `push {r4-r7,lr}; sub sp, #0x38`, the draft
+`push {r3-r7,lr}; sub sp, #0x34` (the same 0x4C total: the image puts its
+alignment word inside the locals, the draft pushes r3 as a pad), so every
+slot at 0xC and above is 4 lower in the draft.  The image's extra word
+sits directly below the slot that holds the loop-invariant sign word of
+(s64)size (asrs #31, the high half of _ll_mul's second operand) and is
+never read or written: it looks like the dead low half of a hoisted 64-bit
+(s64)size pair whose low word was copy-propagated to `size`'s own slot.
+The draft hoists only the 32-bit high word.
+
+Tried, all left the frame as is or worse (about 17 runs): y, w, or x/z at
+function scope; FX_MUL as a static inline taking int or s64 params;
+sub_0207C768 returning a one-word struct (+8 B); `s64 height`; an explicit
+`s64 size64 = size` copy; the permuter (300 compiles, no frame
+change); on sibling 0218D444, FX_MUL with only the first operand cast
+((s64)(a) * (b), the SDK spelling, no change).  Not tried: fx32/fx64 typedefs from the SDK headers with the real
+FX_Mul inline, a `long` size.
+
+/*
+ * function: func_0218D1D0
+ * address:  0x0218D1D0
+ * packet:   pkt_ov021_0218D1D0
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   _u32_div_f     0x0209C2B0  arm
+ *   _s32_div_f     0x0209C0A4  arm
+ *   _ll_mul        0x0209C054  arm
+ *   sub_0207C768   0x0207C768  arm
+ *   func_0218DD80  0x0218DD80  thumb ov021
+ *   func_0218DD9C  0x0218DD9C  thumb ov021
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef long long s64;
+
+typedef struct Cell {
+    u32 id;             /* 0x00 */
+    int x;              /* 0x04 */
+    int y;              /* 0x08 */
+    int z;              /* 0x0C */
+} Cell;
+
+typedef struct Obj {
+    u16 heap;           /* 0x00 */
+    u8 pad02[2];
+    int size;           /* 0x04 */
+    int height;         /* 0x08 */
+    u32 mode;           /* 0x0C */
+    u32 f10;            /* 0x10 */
+    u16 w;              /* 0x14 */
+    u16 h;              /* 0x16 */
+    u32 count;          /* 0x18 */
+} Obj;
+
+#define FX_MUL(a, b) ((int)(((s64)(a) * (s64)(b) + 0x800LL) >> 12))
+
+extern int sub_0207C768(int a, int b);
+extern void func_0218DD80(Cell *c, u32 id);
+extern void func_0218DD9C(Cell *c, int x, int y, int z);
+
+void func_0218D1D0(Obj *p, void *q, Cell *buf)
+{
+    u32 rows;
+    u32 n;
+    int half;
+    int row;
+    int height;
+    int size;
+    u32 k;
+    int j;
+
+    n = p->w * p->h;
+    rows = p->count / n;
+    if (p->count % n)
+        rows++;
+    size = p->size;
+    half = sub_0207C768(size, 0x2000);
+    height = p->height;
+    k = 0;
+    for (row = 0; row < rows; row++) {
+        j = 0;
+        if (j < n) {
+            int y = FX_MUL(row << 12, height);
+            for (; j < n; j++) {
+                int w = p->w;
+                int x = j % w;
+                int z = j / w;
+                if (k >= p->count)
+                    k = -1;
+                func_0218DD80(&buf[k], k);
+                func_0218DD9C(&buf[k], half + FX_MUL(x << 12, size), y,
+                              half + FX_MUL(z << 12, size));
+                k++;
+            }
+        }
+    }
+}

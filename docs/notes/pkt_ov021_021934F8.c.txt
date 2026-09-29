@@ -1,3 +1,5 @@
+RESOLVED (lane R2): EXACT* via const int *src (see docs/idioms/a-load-scheduled-above-an-unrelated-store-reads-through-a-const-pointer.md); source src/matched/ov/ov021_func_021934F8.c.
+
 /*
  * shard note: pkt_ov021_021934F8  (ov021, thumb, 0x021934F8)  status: DIFF
  *

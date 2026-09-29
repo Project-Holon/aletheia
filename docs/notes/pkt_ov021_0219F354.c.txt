@@ -1,0 +1,56 @@
+func_0219F354 @ ov021 0x0219F354 (156 B, thumb), DIFF, 5 concrete bytes (stores 3 bytes reordered).
+Sibling func_0219F3F0 (same shape, constant 1 instead of flag) is byte-correct (MATCH).
+
+Original order in the x >= 10 arm, after `y = func_0219FFD4(a)` (y in r0) and the x != q[5] test:
+    movs r1,#1 ; str r1,[sp,#4]      ; flag = 1 first
+    strb r0,[r4,#4] ; strb r6,[r4,#5]
+    movs r0,#0 ; strb r0,[r4,#6]
+
+Best compile (5 bytes off) puts `q[4] = y; flag = 1; q[5] = x; q[6] = 0;`:
+    strb r0,[r4,#4] ; movs r0,#1 ; str r0,[sp,#4] ; strb r6,[r4,#5] ...
+i.e. flag=1 lands after strb r0 and takes r0 instead of r1.
+
+Tried (each one run): flag=1 first then q[4],q[5],q[6] (12 B off: constant load sunk below the stores);
+flag=1 last (worse, r kept on the stack); `int flag`; declaration order flag/r swapped; `q[5] != x`;
+`u8 y` (99 B off); flag first then q[6],q[4],q[5] (6 B off); q[5],q[4],q[6]; q[4],q[6],q[5].
+Not tried: a struct-typed q (u8 fields b4/b5/b6) in case it changes store scheduling.
+
+Blockers besides the DIFF (would cap at MATCH anyway): unlabelled arm9 leaves 0x0205082C and 0x02050080
+(verified EXACT C in the headers of the sibling pending files) and the unlabelled ov010 leaf 0x0216D678
+(u16 func_0216D678(u8 *p) { return *(u16 *)(p + 0x54); }).
+
+Best source, as compiled (symbols: func_0216D6F0/0216E3C4-class callees as in the sibling pending files):
+
+void func_0219F354(u32 a)
+{
+    s32 buf[3];
+    u8 *q;
+    u32 flag;
+    u32 r;
+    u32 x;
+    u32 y;
+    q = (u8 *)func_0216D6F0(a);
+    if (*(u16 *)q != 0xFFFF) {
+        func_0216D910(a);
+        r = func_0219C9DC();
+        x = func_0216D678(a);
+        if (x >= 10) {
+            flag = 0;
+            y = func_0219FFD4(a);
+            if (x != q[5]) {
+                q[4] = y;
+                flag = 1;
+                q[5] = x;
+                q[6] = 0;
+                func_0205082C(r, *(u16 *)q, (u16)(x + 0x1e));
+            }
+            func_021A000C(a, r, *(u16 *)q, flag, 0);
+        } else {
+            func_0219FEB0((u16 *)(q + 4), a, r, *(u16 *)q);
+        }
+        func_02197CCC(a, buf);
+        func_0219FFBC(a, buf);
+        r = func_02050080(r);
+        func_0204F638(r, *(u16 *)q, buf);
+    }
+}

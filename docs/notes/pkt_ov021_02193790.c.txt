@@ -1,0 +1,112 @@
+/*
+ * function: func_02193790
+ * address:  0x02193790
+ * packet:   pkt_ov021_02193790
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Near miss (lane B10): same size (284), 3 of 3 relocations resolved, 10
+ * instructions differ, all inside the four normal-copy blocks
+ * (+0x74..+0x88 and +0x94..+0xA8).  Original loads y (r2), z (r0), x (r1)
+ * and stores y, x, z in the first block but x, y, z in the second, where
+ * it also hoists `ldr r7, [r5, #0x10]` (d = e->db) above the stores;
+ * compiled loads z first and stores x, y, z in both, with the d load last.
+ *
+ * What moved it (keep these): the inline setter taking the three values by
+ * value (plain field stores or s16 locals give 16-20 wrong lines); `int y`
+ * for the spilled out->y (s16 y costs 6 more lines around the first
+ * _ll_mul); the index spelled px/0x10000 + (size>>12)/16 * (pz/0x10000);
+ * m and m2 as named locals with out->v stored after both.
+ * Tried without effect or worse: setter params int; negation inside the
+ * setter; setter assigning y first (14); d assigned before the setter (13-81);
+ * one-if forms of the flag/fraction test (ternary, ||, goto: 65-92);
+ * operand order of the products; permuter 3 x 300 (best 12 bytes, a
+ * decl-order/type change that only reproduced `int y`).
+ *
+ * The grid cell is 0x18 bytes: two s16 normals, two fx32 plane offsets and
+ * a word whose top bit picks the diagonal (a 31-bit value is copied out).
+ *
+ * symbols:
+ *   _ll_mul        0x0209C054  arm
+ *   sub_0207C768   0x0207C768  arm
+ * Addresses are Black-image addresses.
+ */
+
+typedef short s16;
+typedef unsigned int u32;
+typedef int fx32;
+typedef long long fx64;
+
+typedef struct { fx32 x, y, z; } VecFx32;
+
+typedef struct {
+    s16 a[3];
+    s16 b[3];
+    fx32 da;
+    fx32 db;
+    u32 v : 31;
+    u32 f : 1;
+} Cell;
+
+typedef struct {
+    s16 x, y, z;
+    int v;
+    fx32 h;
+    char pad[0x100 - 0x10];
+    int set;
+} Out;
+
+extern fx32 sub_0207C768(fx32 numer, fx32 denom);
+
+static inline void SetN(Out *o, s16 x, s16 y, s16 z)
+{
+    o->x = x;
+    o->y = y;
+    o->z = z;
+}
+
+void func_02193790(Out *out, char *hdr, VecFx32 *pos, int size, int base)
+{
+    int half;
+    int px, pz;
+    int fx, fz;
+    Cell *e;
+    fx32 d;
+    int y;
+    fx32 m;
+    fx32 m2;
+
+    half = size / 2;
+    pz = pos->z + half;
+    px = pos->x + half;
+    fx = px % 0x10000;
+    fz = pz % 0x10000;
+    e = (Cell *)(hdr + *(int *)(hdr + 8) + 4) + (px / 0x10000 + (size >> 12) / 16 * (pz / 0x10000));
+    if (e->f == 0) {
+        if (fx + fz < 0x10000) {
+            SetN(out, e->a[0], e->a[1], -e->a[2]);
+            d = e->da;
+        } else {
+            SetN(out, e->b[0], e->b[1], -e->b[2]);
+            d = e->db;
+        }
+    } else {
+        if (fx > fz) {
+            SetN(out, e->a[0], e->a[1], -e->a[2]);
+            d = e->da;
+        } else {
+            SetN(out, e->b[0], e->b[1], -e->b[2]);
+            d = e->db;
+        }
+    }
+    y = out->y;
+    m = (fx32)(((fx64)out->z * pos->z + 0x800LL) >> 12);
+    m2 = (fx32)(((fx64)out->x * pos->x + 0x800LL) >> 12);
+    out->v = e->v;
+    out->h = base + sub_0207C768(-(d + (m2 + m)), y);
+    out->set = 1;
+}

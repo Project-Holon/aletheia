@@ -1,0 +1,20 @@
+func_021A2E50 (ov021, thumb, 64 bytes): DIFF, 44 concrete bytes (register allocation), lane S17.
+
+Wrapper: r = func_02030734(e, 0x10, 1, data_021DDEA8 (string, 0x021DDEA8), 0x4C, d);
+r[0] = b; r[1] = func_021A36E4(a, b, c, d, e); return r. Fifth parameter e is a
+u16 read from the stack home ([sp,#0x20]).
+
+Original keeps a,b,c in r6,r5,r7 and the result in r4; d is stored straight into
+the outgoing slot [sp,#4] and reloaded from it, and e is re-read from its home
+slot for the second call (frame 8 bytes). The compile instead loads e once into
+r4, spills a and c (frame 0x10). Also tried full prototypes (u16 e) on both callees, no change. The
+allocation, not the instruction set, differs.
+
+    u32 *func_021A2E50(u32 a, u32 b, u32 c, u32 d, u16 e)
+    {
+        u32 *r = func_02030734(e, 0x10, 1, data_021DDEA8, 0x4C, d);
+
+        r[0] = b;
+        r[1] = func_021A36E4(a, b, c, d, e);
+        return r;
+    }

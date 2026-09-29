@@ -1,0 +1,56 @@
+ov021 0x021A08CC (76 bytes, thumb) DIFF: same size, 8 bytes differ (load scheduling only).
+Original loads in[2] (r0), in[1] (r2), in[0] (r1, via zero reg r7) in that order before the three
+word stores; every spelling tried (locals z,y,x in either declaration order, direct stores in
+0,1,2 or 1,2,0 order) emits the loads as in[1], in[2], in[0] or moves the stores. The second
+half (v[] to o[3..5]) already matches. Best C:
+
+/*
+ * function: func_021A08CC
+ * address:  0x021A08CC
+ * packet:   pkt_ov021_021A08CC
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_0207CB68  0x0207CB68  arm
+ *   func_0207CAA4  0x0207CAA4  arm
+ *   func_0207D184  0x0207D184  arm
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+typedef signed int     s32;
+
+extern void func_0207CB68(s16 *a, u32 b, s16 *c);
+extern void func_0207CAA4(s16 *a, u32 b);
+extern u16 func_0207D184(void);
+
+void func_021A08CC(s32 *o, s16 *in, u32 c)
+{
+    s16 v[3];
+
+    s32 x, y, z;
+
+    z = in[2];
+    y = in[1];
+    x = in[0];
+    o[1] = y;
+    o[2] = z;
+    o[0] = x;
+    func_0207CB68(in, c, v);
+    z = v[2];
+    y = v[1];
+    x = v[0];
+    o[3] = x;
+    o[4] = y;
+    o[5] = z;
+    func_0207CAA4(in, c);
+    *(u16 *)(o + 6) = func_0207D184();
+}

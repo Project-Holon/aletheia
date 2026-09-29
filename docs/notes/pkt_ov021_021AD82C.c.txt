@@ -1,0 +1,28 @@
+pkt_ov021_021AD82C  func_021AD82C  ov021 thumb, 120 bytes  status DIFF (12 bytes wrong, 4 concrete diffs)  lane S30, 8 runs
+
+Structure is settled (all calls, offsets, loop shapes match); only register choice for the loop bound differs.
+
+Original (first loop head):
+    adds r0, r6, #0 ; adds r0, #0x88 ; ldrb r2, [r0] ; cmp r2, #0 ; ble
+    adds r1, r7, #0 ; muls r1, r2, r1      <- copy of c, times n (n stays in r2)
+    adds r1, r5, r1 ; lsls r1, r1, #2 ; adds r1, r6, r1 ; ldr r1, [r1, #0x18]
+Every spelling of `b->f18[c * b->f88 + i]` (i first/last, parenthesised) puts n in r1 and emits
+    muls r1, r7, r1                        <- n clobbered, no copy, 2 bytes shorter
+`b->f18[i + b->f88 * c]` puts n in r2 (as in the original) but copies n and multiplies by c
+(adds r1, r2, #0 ; muls r1, r7, r1), the operand roles swapped. Source of the original is one
+that keeps n live after the multiply in r2 while c is the copied first operand; not found.
+Tried: operand order, parentheses, `u8 *n = &b->f88` (spills, much worse), hoisting the row
+pointer (hoists the mul out of the loop, worse).
+Current best C: src/matched-shaped body in this note's address; callee decls: func_02047400/
+02047564/0204767C/020477A4 arm (blx), all arities confirmed from the listing.
+
+    void func_021AD82C(A *a, B *b, int c)   /* A: f0, f4[4], f14 ; B: f8[4] at 8, f18[28] at 0x18, u8 f88 at 0x88 */
+    {
+        int i = 0;
+        a->f14 = func_02047400(b->f8[c], 0, b->f8[c]);
+        for (; i < b->f88; i++)
+            a->f4[i] = func_02047564(a->f14, b->f18[c * b->f88 + i], 0);
+        a->f0 = func_0204767C(a->f14, a->f4);
+        for (i = 0; i < b->f88; i++)
+            func_020477A4(a->f0, (u16)i);
+    }

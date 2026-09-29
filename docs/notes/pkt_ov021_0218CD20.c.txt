@@ -1,0 +1,134 @@
+func_0218CD20 0x0218CD20 (ov021, Thumb, 452 B handed; 448 B function + the
+unlabelled 4-byte leaf at 0x0218CEE0, `ldr r0, [r0, #0x70]; bx lr`): DIFF
+=========================================================================
+
+2026-09-29, lane B4.  Grows a map-matrix grid: reads the source matrix's
+width/height/count/grid through the ov010 accessors 0x02159BF4/BF8/BFC/C20,
+checks the new size (width <= 30, height <= 30, count <= 900), allocates a
+temporary grid (heap (p->f0 & 0x7FFF) | 0x8000, line 0x25F, file
+0x021DD9EC), copies the old rows then the new columns in beside them, copies
+back, remaps p->f30 and every live entry's +0x18 cell index
+(v % oldw + v / oldw * neww), stores the new dims, pushes them into
+sub_02159C00 and frees the buffer.
+
+Verdict: DIFF against the 452-byte extent, all 16 relocations resolve, but
+the draft's code is really one Thumb instruction long (450 B + 2 pad against
+the image's 448 B): loop 1 keeps a copy of y's zero in r7 and resets x with
+`adds r1, r7, #0` each outer pass (two instructions) where the image spends
+one `movs r2, #0`.  Because the extent includes the 4-byte follower the tool
+prints DIFF, not SIZE.  The rest of the control flow, every call and the
+pool are right; the other differences are register colouring: the image keeps the width (first call) in r7 and the
+count in r6, every draft swaps them, and the swap ripples through the stack
+slot choice (image: nw 0xC, h 0x10, nh 0x14, v 0x18, buf 0x1C, total 0x20,
+data 0x24) and loop 1's registers (image keeps the reloaded old width in r6;
+drafts use r3 and copy the zero for x off r7).
+
+Tried, none moved the r6/r7 pair: declaration order (width before and after
+count), u16 width/height locals, an inline remap(u16 w, u32 v, u16 nw)
+helper (it did give the image's f14-before-v load order), loop counters
+declared first.  Not tried: separate named counters per loop, reusing one
+local across phases (docs/idioms/reusing-a-loop-variable-across-phases-...),
+a row pointer for loop 1.  The extent holds the unlabelled 0x0218CEE0
+follower, so the permuter scores the wrong range here.
+
+-----8<-----
+/*
+ * function: func_0218CD20
+ * address:  0x0218CD20
+ * packet:   pkt_ov021_0218CD20
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02159BF4  0x02159BF4  thumb  ov010
+ *   func_02159BF8  0x02159BF8  thumb  ov010
+ *   func_02159BFC  0x02159BFC  thumb  ov010
+ *   func_02159C20  0x02159C20  thumb  ov010
+ *   func_02030734  0x02030734  arm
+ *   d_021DD9EC     0x021DD9EC  data  ov021  a4
+ *   _u32_div_f     0x0209C2B0  arm
+ *   func_0218DD84  0x0218DD84  thumb  ov021
+ *   func_02188C80  0x02188C80  thumb  ov021
+ *   func_020120F4  0x020120F4  thumb
+ *   func_02012974  0x02012974  thumb
+ *   sub_02159C00   0x02159C00  thumb  ov010
+ *   func_020307B0  0x020307B0  arm
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern int d_021DD9EC;
+
+extern u16 func_02159BF4(void *m);
+extern u16 func_02159BF8(void *m);
+extern u32 func_02159BFC(void *m);
+extern u32 *func_02159C20(void *m);
+extern void *func_02030734(u32 heap, u32 size, u32 clear, const void *file, u32 line);
+extern int func_0218DD84(u32 *a);
+extern void *func_02188C80(void *a);
+extern void *func_020120F4(void *a);
+extern void *func_02012974(void *a);
+extern void sub_02159C00(void *m, u8 w, u8 h);
+extern void func_020307B0(void *p);
+
+static inline u32 remap(u16 w, u32 v, u16 nw)
+{
+    return v % w + v / w * nw;
+}
+
+int func_0218CD20(void *owner, char *p, void *src)
+{
+    int y;
+    int x;
+    u32 i;
+    u32 *data;
+    u32 total;
+    u32 *buf;
+    u16 nh;
+    int h;
+    u16 nw;
+    u32 n;
+    int w;
+
+    w = func_02159BF4(src);
+    h = func_02159BF8(src);
+    n = func_02159BFC(src);
+    data = func_02159C20(src);
+    nw = *(u16 *)(p + 0x14) + w;
+    nh = *(u16 *)(p + 0x16);
+    total = *(u32 *)(p + 0x18) + n;
+    if (nh != h)
+        return 0;
+    if (total > 900 || nw > 30 || nh > 30)
+        return 0;
+    buf = func_02030734((u16)((*(u16 *)p & 0x7FFF) | 0x8000), total * 4, 0, &d_021DD9EC, 0x25F);
+    for (y = 0; y < *(u16 *)(p + 0x16); y++)
+        for (x = 0; x < *(u16 *)(p + 0x14); x++)
+            buf[y * nw + x] = (*(u32 **)(p + 0x1C))[y * *(u16 *)(p + 0x14) + x];
+    for (y = 0; y < h; y++)
+        for (x = 0; x < w; x++)
+            buf[y * nw + (x + *(u16 *)(p + 0x14))] = data[y * w + x];
+    for (i = 0; i < total; i++)
+        (*(u32 **)(p + 0x1C))[i] = buf[i];
+    *(u32 *)(p + 0x30) = remap(*(u16 *)(p + 0x14), *(u32 *)(p + 0x30), nw);
+    for (y = 0; y < *(u16 *)(p + 0x2E); y++) {
+        if (func_0218DD84((u32 *)(*(char **)(p + 0x24) + y * 0x28 + 0x18))) {
+            char *e = *(char **)(p + 0x24) + y * 0x28;
+
+            *(u32 *)(e + 0x18) = remap(*(u16 *)(p + 0x14), *(u32 *)(e + 0x18), nw);
+        }
+    }
+    *(u16 *)(p + 0x14) = nw;
+    *(u16 *)(p + 0x16) = nh;
+    *(u32 *)(p + 0x18) = total;
+    sub_02159C00(func_02012974(func_020120F4(func_02188C80(owner))), nw, nh);
+    func_020307B0(buf);
+    return 1;
+}

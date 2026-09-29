@@ -1,0 +1,19 @@
+ov021 0x021A195C (140 B, thumb) -- DIFF, spill/schedule shape. Lane S14, 4 runs.
+
+Two 3D-engine register writes, 0x040004A8 and 0x040004AC, built from
+p[0x20..0x25] bytes and two ARM calls on p[0x28]:
+
+    v = func_02047388(*(u32*)(p+0x28));
+    a=p[0x22]; b=p[0x21]; c=p[0x20]; d=p[0x25]; e=p[0x23]; f=p[0x24];
+    *(volatile u32*)0x040004A8 = ((u16)v & 0x1fffffff) | (f<<26) | (1<<30)
+        | (c<<20) | (b<<23) | (a<<16) | (e<<18) | (d<<29);
+    v = (u16)func_020473B8(*(u32*)(p+0x28));
+    *(volatile u32*)0x040004AC = (v << 3) >> (4 - (f == 2));
+
+The OR tree, shift amounts and load order (p22, p21, p20, &p24, p25, p23, p24)
+were recovered from the original; the constant 0x1fffffff is pooled.
+Original spills the first call's result (`str r0,[sp]` ... `ldr r2,[sp]`)
+and keeps &p[0x24] in r5 early; compiled keeps v in a register and orders the
+loads differently, so registers diverge from +0x0A on. A static inline helper
+taking (v,a..f) was worse (arguments are evaluated last-to-first and spilled
+to four stack slots).

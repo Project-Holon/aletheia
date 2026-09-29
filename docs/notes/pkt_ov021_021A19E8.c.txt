@@ -1,0 +1,17 @@
+ov021 0x021A19E8 (196 B, thumb) -- DIFF, 2 scheduling groups only. Lane S14, 4 runs.
+
+Constructor: allocates 0x30 bytes (func_02030734, heap g, size 0x30, align 1,
+file string 0x021DDE74, line 344), fills p[0..1] from func_021A15A4(&tbl[i], g)
+with tbl = 0x021D8850 (12-byte entries), sets halfwords +8,+0xA=0, +0xC,+0xE,
++0x14=0xffff, p[10]=-1, p[6]=func_0204B100(0x40,8,g), p[7]=func_0204B034(
+0x021D8840,1,g), func_0204B258(p[6],p[7]), p[8+i]=func_021A1DB4(p[6],a,b,c,d,
+p,e,f,g) for i<2, p[11]=func_020056A0(func_021A1C1C,p,0x40), return p.
+Params a..g = r0-r3 + stack 0x38,0x3C,0x40. Loop counter must be signed `int`
+(unsigned gives blo instead of blt).
+
+Residuals (all else identical, relocations resolve):
+ - prologue: original stores r3/r1/r2 args before `ldr r6,[sp,#0x40]` (g);
+   compiled loads g first.
+ - last call's stack args: original `str r7,[sp,#8]` before `ldr r0,[sp,#0x3c]`;
+   compiled loads f first.
+Tried `u32 g = g0` copy and a local for the 0x40/8 call result; no change.

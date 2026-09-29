@@ -1,0 +1,52 @@
+/*
+ * function: func_021A27B8   (ov021, thumb, 64 bytes)
+ * status:   DIFF, 42 bytes, about 8 runs
+ *
+ * Structure is right (unlink of a circular list node, obj+0x778 count, obj+0x774 head,
+ * tail call to 0x0204B3DC with (n->f4, 0)); unlink order n->next->prev = n->prev first.
+ * Residual: the original loads pool word 0x778 once into r2, then takes
+ * head with `subs r3, r2, #4; ldr r3,[r0,r3]` (r2 stays live) and after the join
+ * `subs r2, r2, #4; str r3,[r0,r2]`. Also an unconditional `b` to the next
+ * instruction after `movs r3,#0` (empty else arm). Our compile derives 0x774 from a second
+ * pool word instead and clobbers r2, giving 68 bytes.
+ * Tried: char* base with q[-1], (char*)&count - 4, obj->count--, local h = head,
+ * if/else vs t = n->next; if (t==n) t = 0.
+ */
+
+typedef struct Node {
+    int pad0;
+    int f4;
+    char pad8[0x28];
+    struct Node *prev;
+    struct Node *next;
+} Node;
+
+typedef struct {
+    char pad[0x774];
+    Node *head;
+    int count;
+} Obj;
+
+void func_0204B3DC(int a, int b);   /* arm 0x0204B3DC */
+
+void func_021A27B8(Obj *obj, Node *n)
+{
+    Node *t;
+    Node *h;
+
+    obj->count--;
+    h = obj->head;
+    if (h == n) {
+        if (n->next == n) {
+            t = 0;
+        } else {
+            t = n->next;
+        }
+        obj->head = t;
+    }
+    n->next->prev = n->prev;
+    n->prev->next = n->next;
+    n->next = 0;
+    n->prev = 0;
+    func_0204B3DC(n->f4, 0);
+}

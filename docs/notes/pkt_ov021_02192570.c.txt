@@ -1,3 +1,5 @@
+RESOLVED (lane R1): EXACT as src/matched/ov/ov021_func_02192570.c. d is a `u16` parameter passed as (u8)d; the narrow type pins its home store to the front of the prologue (same fix as pkt_ov021_021918DC).
+
 func_02192570 (ov021, thumb, 184 B): DIFF, 22 bytes, instruction order only.
 
 Same shape as pkt_ov021_021918DC: the __FILE__ pool load (ldr r3) is scheduled after the ldrh of *a in ours, before it in the original,

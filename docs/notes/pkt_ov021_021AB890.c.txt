@@ -1,0 +1,47 @@
+ov021 0x021AB890 (120 B, Thumb): DIFF, load scheduling of a 12-byte local vector copy only
+
+Everything else is byte-identical (stack layout, branch shape, shared return-0 tail,
+`hi >= ang || (ang < 0x10000 && ang >= lo)` merged return-1 block). The one residue is the
+order of the three loads that fill the local Vec passed to func_0207CA00:
+
+  original:  ldr r1,[r5,#0x14]; ldr r0,[r5,#0x10]; ldr r3,[r5,#0x18]; str r0,[sp]; str r1,[sp,#4]; ... str r3,[sp,#8]
+  compiled:  ldr r3,[r5,#0x18]; ldr r1,[r5,#0x14]; ldr r0,[r5,#0x10]; ... (z, y, x)
+
+Tried (all DIFF): struct assignment (ldm/stm, wrong), three plain statements (strict ldr/str
+pairs), static inline VecSet(v,x,y,z) (loads z,y,x: the best, kept below), inline pointer copy
+(pairs), temporaries loaded in x,y,z or y,x,z order (r3/r1/r0 wrong regs). Brace initialiser from
+runtime values is a CCERR. func_021AB9FC has the identical residue (pair of 12-byte copies).
+
+Semantics: r2 = reference vector, r1 = range record {lo, hi, min, max, dir[3]}; cross product ->
+out, out.y = 0, |out|, normalise, angle = func_0207CFB8(out.x, out.z); true when min <= |out| < max
+and the angle lies in [lo, hi) (wrapping when hi < lo).
+
+typedef struct Vec { int x, y, z; } Vec;
+typedef struct Range { unsigned long lo, hi; int min, max; Vec dir; } Range;
+
+static inline void VecSet(Vec *v, int x, int y, int z) { v->x = x; v->y = y; v->z = z; }
+
+int func_021AB890(void *self, Range *r, Vec *ref)
+{
+    Vec out;
+    Vec a;
+    int d;
+    unsigned long ang;
+
+    VecSet(&a, r->dir.x, r->dir.y, r->dir.z);
+    func_0207CA00(ref, &a, &out);
+    out.y = 0;
+    d = func_0207CBD0(&out);
+    func_0207CCA4(&out, &out);
+    ang = func_0207CFB8(out.x, out.z);
+    if (r->min <= d && r->max > d) {
+        if (r->hi < r->lo) {
+            if (r->hi >= ang || (ang < 0x10000 && ang >= r->lo))
+                return 1;
+        } else {
+            if (r->lo <= ang && r->hi > ang)
+                return 1;
+        }
+    }
+    return 0;
+}

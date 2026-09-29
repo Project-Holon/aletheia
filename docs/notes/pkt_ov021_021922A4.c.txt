@@ -1,0 +1,114 @@
+/*
+ * function: func_021922A4
+ * address:  0x021922A4
+ * packet:   pkt_ov021_021922A4
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Nine-slice frame: loads each frame tile into an 8x8 scratch bitmap with
+ * func_02192264 and blits it over the centre, the four edges and the four
+ * corners of the target bitmap.
+ *
+ * symbols:
+ *   func_020437DC  0x020437DC  arm
+ *   func_020437E4  0x020437E4  arm
+ *   func_02043678  0x02043678  arm
+ *   func_020439A0  0x020439A0  arm
+ *   func_020437AC  0x020437AC  arm
+ *   func_02192264  0x02192264  thumb  ov021
+ * Addresses are Black-image addresses.
+ *
+ * DIFF, 580 of 588 bytes, 149 concrete bytes differ (lane B9, 14 runs).
+ * Everything up to +0x190 (centre and four edge loops) is byte-identical
+ * apart from pool displacements shifted by the size delta. What fixed it:
+ *   - `u16 hm1 = h - 1;` / `u16 wm1 = w - 1;` assigned right after the
+ *     tile load and used only by the edge loops: the original spills the
+ *     untruncated int (sp+0x1C / sp+0x20) and truncates once before the
+ *     loop guard (380 -> 198 bytes).
+ *   - declaration order w, j, h, i, tmp gives tmp r5 / i r4 and h at sp+0x2C,
+ *     j at sp+0x30 (198 -> 149).
+ * Residual: the four corners. The original materialises the constant 0 in
+ * r7 BEFORE the first corner's func_02192264 call and reuses it as x/y in
+ * the later corners, and for corners 2 and 3 it does the u16 truncation
+ * (`lsls r4, r0, #16` of the spilled w-1 / h-1) BEFORE the tile-load call,
+ * finishing with `lsrs r0, r4, #13` after it; corner 4 recomputes both
+ * after the call. This build instead keeps (u16)(w-1)*8 in r7 across
+ * corners 2-4 and rematerialises 0 each time, 8 bytes shorter. Tried
+ * without effect: an inline corner(tile, u16 x, u16 y) helper (identical
+ * code to direct calls), a u16 x local assigned before each load (sunk
+ * past the call), u16 x/y locals for all four corners (151), and using the
+ * u16 wm1/hm1 locals in the corners (327: they then truncate at def).
+ * Untried: corners written as an unrolled loop over a small table, and
+ * int (not u16) inline parameters cast inside the helper.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u32 func_020437DC(u32 a);
+extern u32 func_020437E4(u32 a);
+extern u32 func_02043678(u32 a, u32 b, u32 c, u32 d);
+extern void func_020439A0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h, u32 i);
+extern void func_020437AC(u32 p);
+extern void func_02192264(u32 a, u32 b, u32 c, u32 d);
+
+static inline void blit(u32 tmp, u32 bmp, u16 x, u16 y)
+{
+    func_020439A0(tmp, bmp, 0, 0, x * 8, y * 8, 8, 8, 0xFFFF);
+}
+
+static inline void corner(u32 tmp, u32 b, u32 heap, u32 bmp, u32 tile, u16 x, u16 y)
+{
+    func_02192264(tmp, b, heap, tile);
+    func_020439A0(tmp, bmp, 0, 0, x * 8, y * 8, 8, 8, 0xFFFF);
+}
+
+void func_021922A4(u32 bmp, u32 b, u32 heap)
+{
+    u16 w;
+    u16 j;
+    u16 h;
+    u16 i;
+    u32 tmp;
+    u16 hm1;
+    u16 wm1;
+
+    w = func_020437DC(bmp) >> 3;
+    h = func_020437E4(bmp) >> 3;
+    tmp = func_02043678(1, 1, 0x20, heap);
+
+    func_02192264(tmp, b, heap, 9);
+    for (j = 0; j < h; j++)
+        for (i = 0; i < w; i++)
+            blit(tmp, bmp, i, j);
+
+    func_02192264(tmp, b, heap, 1);
+    for (i = 0; i < w; i++)
+        blit(tmp, bmp, i, 0);
+
+    func_02192264(tmp, b, heap, 0x11);
+    hm1 = h - 1;
+    for (i = 0; i < w; i++)
+        blit(tmp, bmp, i, hm1);
+
+    func_02192264(tmp, b, heap, 8);
+    for (i = 0; i < h; i++)
+        blit(tmp, bmp, 0, i);
+
+    func_02192264(tmp, b, heap, 0xA);
+    wm1 = w - 1;
+    for (i = 0; i < h; i++)
+        blit(tmp, bmp, wm1, i);
+
+    corner(tmp, b, heap, bmp, 0, 0, 0);
+    corner(tmp, b, heap, bmp, 2, w - 1, 0);
+    corner(tmp, b, heap, bmp, 0x10, 0, h - 1);
+    corner(tmp, b, heap, bmp, 0x12, w - 1, h - 1);
+
+    func_020437AC(tmp);
+}

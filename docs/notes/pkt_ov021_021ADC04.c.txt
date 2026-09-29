@@ -1,0 +1,18 @@
+pkt_ov021_021ADC04  func_021ADC04  ov021 thumb, 104 bytes  status DIFF (77 bytes differ, same size)  lane S30, 4 runs
+
+Structure and all six relocations resolve (func_021AAA4C attests as matched, d_021D9234 with `data a1`).
+Difference is the frame: the original keeps ONE callee-saved register (r6 = sp+0) for the accesses to a
+u16 local `v` (`strh r1,[r6]`, `ldrh r0,[r6]` x3) and re-materialises `add r1, sp, #0` fresh for each
+address argument and for the table index (`add r0, sp, #0 ; ldrh r1, [r0]`). Push list is {r4,r5,r6,lr}.
+Every C spelling tried (plain u16 local; `u16 *p = &v` accessed through *p; a struct local {u16 v; int z}
+accessed through `Loc *pl = &l`) compiles to a second callee-saved copy of &v for the arguments
+(push {r3-r7,lr}, +2 bytes of prologue) and folds the first store to `add r0,sp,#0 ; strh r1,[r0]`.
+Original also loads the zero for the first store into r1 (`movs r1,#0` before `add r6`), and the
+mul is `movs r0,#0x18 ; muls r0,r2,r0` with r2 = w[0x1c].
+
+Body used (function signature (u8 *w, u8 *o)):
+    v = 0; func_02047828(*(int *)(o + 0x28 + w[0x1c]*0x18), &v, &z);   /* arm, blx */
+    if (z == 0 && func_021AAA4C(*(int *)(w + 0x34), &v) != 0) {
+        v = func_0209C0A4(v, 5); if (v > 3) v = 3;                      /* arm, blx: (int, int) -> u16 */
+        func_02028ACC(func_02012A30(*(int *)(*(int *)(w + 0x34) + 8)), *(u16 *)(o + 0x8a), d_021D9234[v]);
+    }

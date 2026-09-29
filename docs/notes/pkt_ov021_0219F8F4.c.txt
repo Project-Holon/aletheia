@@ -1,0 +1,64 @@
+/*
+ * function: func_0219F8F4   address: 0x0219F8F4   region: ov021   isa: thumb
+ * status:   DIFF (12 concrete bytes, 156 = 156; every call resolved except the arm9 leaves
+ *           func_0205082C / func_02050080, which have no witness)
+ *
+ * The only real difference: the original computes the address of the 12-byte zeroed
+ * temporary before the zero, so the block reads
+ *     add r1, sp, #8 ; movs r0, #0 ; str r0,[r1] ; str r0,[r1,#4] ; str r0,[r1,#8] ; adds r0, r5, #0
+ * where this C emits
+ *     movs r0, #0 ; str r0,[sp,#8] ; str r0,[sp,#0xc] ; str r0,[sp,#0x10] ; adds r0, r5, #0 ; add r1, sp, #8
+ * Tried (nine runs, none moved the add): z[0..2]=0 on a u32[3]; zp = z then zp[i]=0; *zp/zp[1]/zp[2];
+ * chained zp[0]=zp[1]=zp[2]=0; a zero temp k; a 3-field struct; struct assign from a static const
+ * zero (89 bytes worse); for-loop (127 worse); initialiser {0,0,0} (140 worse).
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u16 *func_0216D6F0(u32);
+extern u32 func_0216D910(u32);
+extern u32 func_0219C9DC(u32);
+extern void func_0219FFBC(u32, u32 *);
+extern void func_02197CCC(u32, u32 *);
+extern void func_021A000C(u32, u32, u32, u32, u32);
+extern u32 func_02050080(u32);
+extern void func_0204F638(u32, u32, u32 *);
+extern u32 func_0216D5F8(u32);
+extern void func_0216D8B0(u32, u32 *);
+extern void func_0219F990(u32, void *, u8);
+extern void func_0205082C(u32, u32, u32);
+
+void func_0219F8F4(u32 a)
+{
+    u16 *p;
+    u32 buf[3];
+    u32 z[3];
+    u32 flag;
+    u32 h;
+    u32 v;
+
+    p = func_0216D6F0(a);
+    if (*p != 0xFFFF) {
+        flag = 0;
+        h = func_0219C9DC(func_0216D910(a));
+        v = func_0216D5F8(a);
+        if (v != ((u8 *)p)[2]) {
+            flag = 1;
+            ((u8 *)p)[2] = v;
+            ((u8 *)p)[3] = 0;
+            *(u32 *)((u8 *)p + 8) = 0;
+            func_0205082C(h, *p, ((u8 *)p)[2]);
+            z[0] = 0;
+            z[1] = 0;
+            z[2] = 0;
+            func_0216D8B0(a, z);
+        }
+        func_0219F990(a, p, v);
+        func_02197CCC(a, buf);
+        func_0219FFBC(a, buf);
+        func_0204F638(func_02050080(h), *p, buf);
+        func_021A000C(a, h, *p, flag, 0);
+    }
+}

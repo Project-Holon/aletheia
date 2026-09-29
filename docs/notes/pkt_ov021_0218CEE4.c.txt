@@ -1,0 +1,199 @@
+func_0218CEE4 0x0218CEE4 (ov021, Thumb, 376 B): DIFF (compiles 372)
+=====================================================================
+
+2026-09-29, lane B5.  Grid-object init: copies the Init block into the
+object (f04..f1c, w/h bytes at 0x2C/0x2D, n = w*h at 0x2E, f38 -> 0x40,
+(u8)n -> 0x42/0x43), demotes mode 0 or 3 to mode 1 when count or the
+f14*f16 area does not fit, calls func_0218D104 and func_0218DC84, fills a
+Cfg on the stack (d_021D3DDC, 0x800, 0x20, 0x1000000, 0x400000), allocates
+cells (n*0x28, tag 0x306), n*16 (0x307) and n (0x308) from heap p->heap via
+sub_02030734 with site d_021DD9EC, then builds one ov010 object per cell
+(func_02169148 / 0216937C / 021693B4 / 021693C4).  All 14 relocations
+resolve.  The two ov010 leaves 021693B4/021693C4 are filed EXACT.
+
+Verdict: DIFF.  Everything from the switch onward is identical except for
+a 2-byte shift; the only real difference is the first block (0x08..0x5E),
+which the image does in 2 more bytes.  The image's first block:
+
+  L0 S4  L4 L18 S8  L10 L0c S10  L14 L8(w->r6) La(h->r1) S14  L16
+  S18 S0c S16  L1c S1c  strb w->0x2C, strb h->0x2D (via r0 = p+0x2C/0x2D)
+  adds r0, r6, #0; muls r0, r1, r0; strh 0x2E     <- copies w first
+  then the switch tests the cfg->f18 (r3) and cfg->mode (r2) registers.
+
+So the loads of f18, mode, w, h, f16 are hoisted above the stores of
+f08/f10/f14, which a non-const cfg does not allow (loads stay in source
+order) and a const cfg allows too freely (mwcc then also reorders the p
+stores: S16/S1c go first, 180 differing lines).
+
+Tried: const Init * (179-180 lines), the image's store order
+S4 S8 S10 S14 S18 S0c S16 S1c with const (180) and non-const (172, best,
+kept below: store order right, loads not hoisted), typed Obj * versus char *
+casts (same bytes), Init passed by value (380 B, the struct spills from
+r0-r3).  The permuter (300 compiles) gets back to 376 B only with CCERR
+candidates.  Not tried: locals for f18/mode/w/h read before the first
+store, a volatile or restrict on either pointer.
+
+/*
+ * function: func_0218CEE4
+ * address:  0x0218CEE4
+ * packet:   pkt_ov021_0218CEE4
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_0218D104  0x0218D104  thumb ov021
+ *   func_0218DC84  0x0218DC84  thumb ov021
+ *   sub_02030734   0x02030734  arm
+ *   func_0218DD70  0x0218DD70  thumb ov021
+ *   func_0218DD14  0x0218DD14  thumb ov021
+ *   func_02169148  0x02169148  thumb ov010
+ *   func_0216937C  0x0216937C  thumb ov010
+ *   func_021693B4  0x021693B4  thumb ov010
+ *   func_021693C4  0x021693C4  thumb ov010
+ *   func_0218BB04  0x0218BB04  thumb ov021
+ *   d_021D3DDC     0x021D3DDC  data ov021
+ *   d_021DD9EC     0x021DD9EC  data ov021 a1
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct Cfg {
+    u32 size;           /* 0x00 */
+    u32 texSize;        /* 0x04 */
+    u32 f08;            /* 0x08 */
+    u32 f0c;            /* 0x0C */
+    u32 f10;            /* 0x10 */
+    u16 nA;             /* 0x14 */
+    u16 nB;             /* 0x16 */
+    u32 f18;            /* 0x18 */
+    u32 f1c;            /* 0x1C */
+} Cfg;
+
+typedef struct Init {
+    u32 f00;            /* 0x00 */
+    u32 f04;            /* 0x04 */
+    u16 w;              /* 0x08 */
+    u16 h;              /* 0x0A */
+    u32 mode;           /* 0x0C */
+    u32 f10;            /* 0x10 */
+    u16 f14;            /* 0x14 */
+    u16 f16;            /* 0x16 */
+    u32 f18;            /* 0x18 */
+    u32 f1c;            /* 0x1C */
+    u32 f20;            /* 0x20 */
+    u8 pad24[0x2c - 0x24];
+    u8 f2c[8];          /* 0x2C */
+    u32 f34;            /* 0x34 */
+    u8 f38;             /* 0x38 */
+} Init;
+
+typedef struct Obj {
+    u16 heap;           /* 0x00 */
+    u8 pad02[2];
+    u32 f04;            /* 0x04 */
+    u32 f08;            /* 0x08 */
+    u32 mode;           /* 0x0C */
+    u32 f10;            /* 0x10 */
+    u16 f14;            /* 0x14 */
+    u16 f16;            /* 0x16 */
+    u32 f18;            /* 0x18 */
+    u32 f1c;            /* 0x1C */
+    u32 f20;            /* 0x20 */
+    char *cells;        /* 0x24 */
+    void *f28;          /* 0x28 */
+    u8 w;               /* 0x2C */
+    u8 h;               /* 0x2D */
+    u16 n;              /* 0x2E */
+    u8 pad30[0x40 - 0x30];
+    u8 f40;             /* 0x40 */
+    u8 pad41;
+    u8 f42;             /* 0x42 */
+    u8 f43;             /* 0x43 */
+    void *f44;          /* 0x44 */
+    u8 pad48[0x60 - 0x48];
+    int f60;            /* 0x60 */
+    int f64;            /* 0x64 */
+    int f68;            /* 0x68 */
+} Obj;
+
+extern char d_021D3DDC[];
+extern const char d_021DD9EC[];
+extern void func_0218D104(Obj *p, Init *cfg, int a);
+extern int func_0218DC84(int a, int b, const void *q, int c);
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void func_0218DD70(void *p);
+extern void func_0218DD14(void *dst, Obj *src, int a, int b);
+extern int func_02169148(const Cfg *cfg, u32 heap);
+extern void func_0216937C(int h, int a, int b);
+extern void func_021693B4(int h, int v);
+extern void func_021693C4(int h, int v);
+extern int func_0218BB04(int p);
+
+void func_0218CEE4(Obj *p, Init *cfg, int arg)
+{
+    Cfg c;
+    int i;
+    u16 w;
+    u16 h;
+
+    p->f04 = cfg->f00;
+    p->f08 = cfg->f04;
+    p->f10 = cfg->f10;
+    p->f14 = cfg->f14;
+    p->f18 = cfg->f18;
+    p->mode = cfg->mode;
+    p->f16 = cfg->f16;
+    p->f1c = cfg->f1c;
+    w = cfg->w;
+    h = cfg->h;
+    p->w = w;
+    p->h = h;
+    p->n = w * h;
+    p->f40 = cfg->f38;
+    p->f42 = p->n;
+    p->f43 = p->n;
+    switch (p->mode) {
+    case 0:
+        if (p->f18 > p->n)
+            p->mode = 1;
+        break;
+    case 3:
+        if (p->f14 * p->f16 > p->n / 2)
+            p->mode = 1;
+        break;
+    }
+    p->f20 = cfg->f20;
+    func_0218D104(p, cfg, arg);
+    p->f68 = func_0218DC84(p->n, p->f60, cfg->f2c, p->heap);
+    c.size = cfg->f34;
+    c.texSize = 0;
+    c.f08 = (u32)d_021D3DDC;
+    c.f0c = 0;
+    c.f10 = 0x800;
+    c.nA = 0x20;
+    c.nB = 0;
+    c.f18 = 0x1000000;
+    c.f1c = 0x400000;
+    p->cells = sub_02030734(p->heap, p->n * 0x28, 1, d_021DD9EC, 0x306);
+    p->f28 = sub_02030734(p->heap, p->n << 4, 1, d_021DD9EC, 0x307);
+    p->f44 = sub_02030734(p->heap, p->n, 1, d_021DD9EC, 0x308);
+    for (i = 0; i < p->n; i++) {
+        int off = i * 0x28;
+        int o;
+        func_0218DD70(p->cells + off + 0x18);
+        func_0218DD14(p->cells + off + 4, p, i, p->heap);
+        c.f0c = (u32)(p->cells + off + 4);
+        o = func_02169148(&c, p->heap);
+        *(int *)(p->cells + off) = o;
+        func_0216937C(o, p->f10, p->heap);
+        if (p->f60 != 0)
+            func_021693B4(o, p->f60);
+        func_021693C4(o, func_0218BB04(p->f64));
+    }
+}
