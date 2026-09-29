@@ -1,0 +1,50 @@
+/*
+ * function: func_021BE418
+ * address:  0x021BE418
+ * packet:   pkt_ov021_021BE418
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_020307B0  0x020307B0  arm
+ *   func_020480E4  0x020480E4  arm
+ *
+ * DIFF: 86 bytes compiled vs the 102-byte function (listing extent 172 runs on
+ * into unlabelled leaves 0x021BE480, 0x021BE4A4, 0x021BE4B4; BE480 is filed).
+ * The loop body and calls match (u16 counter k gives the lsls/lsrs 0x10).  The
+ * original keeps p in r6, spills i to [sp] and the slot pointer p+8 to [sp,#4]
+ * (stored twice: first p, then p+8), r7 = i*16 for the first half, then reloads i
+ * from [sp] and recomputes i*16 into r4 for the tail; this C keeps everything in
+ * registers.  Tried: raw offsets, u32/u16 counter, typed Ent/Obj struct, slot
+ * initialised to p then reassigned.
+ * checks: 1 callees take 1 and 2 args; 2 no twin; 3 n/a; 4 none fits; 5 n/a
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void func_020307B0(void *p);
+extern void func_020480E4(u32 a, u32 b);
+
+void func_021BE418(u8 *p, u32 i)
+{
+    u8 *slot = p;
+    u8 *e;
+    u16 k;
+
+    slot = p + 8;
+    if (*(u32 *)(slot + i * 16) != 0 && i < 4) {
+        e = p + i * 16;
+        for (k = 0; k < *(u16 *)(e + 0x16); k++)
+            func_020307B0(*(u8 **)(*(u8 **)(e + 0x10) + k * 8 + 4));
+        func_020307B0(*(void **)(p + i * 16 + 0x10));
+        func_020307B0(*(void **)(p + i * 16 + 0xC));
+        func_020480E4(*(u32 *)(p + 4), *(u16 *)(p + i * 16 + 0x14));
+        *(u32 *)(slot + i * 16) = 0;
+    }
+}

@@ -1,0 +1,24 @@
+/*
+ * function: func_02188C64
+ * address:  0x02188C64
+ * packet:   pkt_ov021_02188C64
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Unlabelled leaf accessor: returns the +0x18 member.
+ *
+ * symbols:
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned int   u32;
+
+u32 func_02188C64(u8 *p)
+{
+    return *(u32 *)(p + 0x18);
+}

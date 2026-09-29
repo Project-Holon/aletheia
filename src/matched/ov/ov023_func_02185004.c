@@ -1,0 +1,45 @@
+/*
+ * function: func_02185004
+ * address:  0x02185004
+ * packet:   pkt_ov023_02185004
+ * region:   ov023
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0203115C  0x0203115C  arm
+ *   func_02031140  0x02031140  arm
+ *   func_0201C6EC  0x0201C6EC  thumb
+ *   func_0201C4C0  0x0201C4C0  thumb
+ *   func_020452E8  0x020452E8  arm
+ *   func_020450C8  0x020450C8  arm
+ */
+
+typedef unsigned int u32;
+
+extern void func_0203115C(u32 a);
+extern void func_02031140(u32 a);
+extern void func_0201C6EC(u32 a);
+extern void func_0201C4C0(u32 a);
+extern void func_020452E8(u32 a);
+extern void func_020450C8(void);
+
+void func_02185004(char *p)
+{
+    int i;
+
+    func_0203115C(*(u32 *)(p + 0x170));
+    func_02031140(*(u32 *)(p + 0x170));
+    func_0201C6EC(*(u32 *)(p + 0x168));
+    func_0201C4C0(*(u32 *)(p + 0x168));
+    func_0201C6EC(*(u32 *)(p + 0x164));
+    func_0201C4C0(*(u32 *)(p + 0x164));
+    for (i = 0; i < 5; i++)
+        func_020452E8(*(u32 *)(p + 0x104 + i * 4));
+    func_020452E8(*(u32 *)(p + 0x118));
+    func_020452E8(*(u32 *)(p + 0x11c));
+    func_020450C8();
+}

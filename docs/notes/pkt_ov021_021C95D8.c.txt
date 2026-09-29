@@ -1,3 +1,9 @@
+CLOSED (lane R3): EXACT as src/matched/ov/ov021_func_021C95D8.c. The
+`adds r4, r6, #0` sits before the first loop's label, not inside it: it is the
+second loop's counter set to 0 and shared as the first loop's constant 0
+argument. Two plain `for (i = 0; i < 3; i++)` loops over one counter match.
+The earlier write-up follows.
+
 pkt_ov021_021C95D8  func_021C95D8 @ 0x021C95D8 (100 bytes, thumb, ov021)  DIFF, same size, 39 bytes differ
 
 Original shape (push {r3-r7,lr}): two loops with three iterations each. The first loop keeps i in r6

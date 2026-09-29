@@ -1,3 +1,8 @@
+CLOSED (lane R2): EXACT as src/matched/ov/ov021_func_021BBD0C.c. The missing
+`adds r1, r0, #0` was an argument: func_021AC1F0 takes (p[0], s.a), as its twin
+func_021AC6D4 shows. The table pointer then steps in the for header
+(`i++, t++`), not as `*t++` in the call. The earlier write-up follows.
+
 func_021BBD0C (ov021, 88 B, thumb): DIFF, 2 instructions.
 
 Loop of 0x1a: s.v = func_02046E24(func_021ABE24(p[0]), *t++); func_021AC1F0(p[0]);

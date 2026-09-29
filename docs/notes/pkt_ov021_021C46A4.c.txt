@@ -1,3 +1,9 @@
+CLOSED (lane R2): EXACT as src/matched/ov/ov021_func_021C46A4.c. The fix was
+to write `func_0215897C(z, ...)` out in each if/else arm, with no result
+local (see docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md);
+the merged local keeps z live, so it spills z instead of b. The earlier
+write-up follows.
+
 pkt_ov021_021C46A4 (ov021 0x021C46A4, 84 B): DIFF, register allocation.
 Original keeps a in r7 and spills b to [sp] at entry (str r1,[sp]); x=r5 (func_0215A5DC(b)), y=r4 (func_0201210C),
 z=r6 (func_0215A5F4(b)); reloads b from [sp] for 0215A5F4 and 02159B10 (ldr r0,[sp]; ldr r1,[sp]).

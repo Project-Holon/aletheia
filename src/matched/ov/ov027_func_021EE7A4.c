@@ -1,0 +1,49 @@
+/*
+ * function: func_021EE7A4
+ * address:  0x021EE7A4
+ * packet:   pkt_ov027_021EE7A4
+ * region:   ov027
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021A21B8  0x021A21B8  thumb  ov021
+ *   func_021A223C  0x021A223C  thumb  ov021
+ *   func_021A232C  0x021A232C  thumb  ov021
+ *   func_02014A10  0x02014A10  thumb
+ *   func_021A2108  0x021A2108  thumb  ov021
+ *   func_021A23B0  0x021A23B0  thumb  ov021
+ *   func_021A2160  0x021A2160  thumb  ov021
+ *   func_021EEAF4  0x021EEAF4  thumb  ov027
+ */
+
+int *func_021A21B8(int a);
+int func_021A223C(int a, int b);
+void func_021A232C(int a, int b, int c, int d, int e);
+unsigned short func_02014A10(int a);
+int func_021A2108(int a, int b, int c);
+int func_021A23B0(int a);
+void func_021A2160(int a, int b, int c);
+void func_021EEAF4(int a, int *p);
+
+int func_021EE7A4(int a, int b, int c)
+{
+    int *p = func_021A21B8(a);
+    int t = func_021A223C(a, c);
+
+    if (*p > 0) {
+        *p = *p - 1;
+        if (*p == 0) {
+            func_021A232C(a, 8, 0x7f5e, 0x5a, b);
+            func_021A2108(a, 0x3e, func_02014A10(3));
+        }
+    } else if (func_021A23B0(a) != 0 && t != 0) {
+        func_021A2160(a, 1, 0);
+        return 1;
+    }
+    func_021EEAF4(a, p);
+    return 0;
+}

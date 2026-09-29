@@ -1,3 +1,9 @@
+CLOSED (lane R3): EXACT as src/matched/ov/ov021_func_021C24BC.c. The fix was
+struct-typed access (p as a struct with a `Inner **` at 0x20 and a Vec at 0x28)
+in place of char-pointer offsets: the same `Vec o = {0, 0, 0}` initialiser then
+keeps its three stores ahead of the loads. Its caller func_021C24A8 is EXACT* on
+the strength of it. The earlier write-up follows.
+
 /*
  * function: func_021C24BC  (unlabelled thumb leaf, 52 bytes, push {r4} only)
  * region:   ov021, packet pkt_ov021_021C24BC

@@ -1,0 +1,61 @@
+/*
+ * function: func_021CBF38
+ * address:  0x021CBF38
+ * packet:   pkt_ov021_021CBF38
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Residual (same size): the two spill slots are swapped. Original has the
+ * func_021688BC result at [sp,#0x10] and the func_021CBEFC result at
+ * [sp,#0x14]; this C gives t [sp,#0x14] and iv [sp,#0x10]. Every other
+ * byte matches (iv passed as a plain int, callee's iv parameter declared
+ * u32 here so no truncation appears; (u8)i is the itemIdx truncation).
+ * Declaration order of t/iv, block scoping of either, u32 vs int types,
+ * and initialiser-at-declaration all leave the slot order unchanged.
+ *
+ * checks: 1 func_021688BC takes 3, func_021684E8 takes 8, arities right; 2 twin ov010 func_02168924 gives the FacDraw/BattleMon types; 3 n/a; 4 function-scope-versus-block-scope idiom tried (block-scoped t / iv), no change; 5 n/a
+ *
+ * symbols:
+ *   func_021688BC  0x021688BC  thumb  ov010
+ *   func_021CBEFC  0x021CBEFC  thumb  ov021
+ *   func_021684E8  0x021684E8  thumb  ov010
+ *   func_020307B0  0x020307B0  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct FacDraw {
+    u32 otId;           /* 0x00 */
+    u16 ids[2];         /* 0x04 */
+    u32 pids[2];        /* 0x08 */
+    u8 natures[2];      /* 0x10 */
+} FacDraw;
+
+typedef struct BattleMon {
+    u8 data[0x3C];
+} BattleMon;
+
+extern int func_021688BC(u8 *, int, u16);
+extern int func_021CBEFC(u32 v);
+extern u32 func_021684E8(BattleMon *out, u32 member, u32 otId, u32 pid, u32 iv, u8 itemIdx, int useItem, u16 heap);
+extern void func_020307B0(int p);
+
+void func_021CBF38(u32 unused, u8 *a, int b, int c, FacDraw *d, u16 heap)
+{
+    int t;
+    int iv;
+    int i;
+
+    t = func_021688BC(a, b, heap);
+    iv = func_021CBEFC(b);
+    for (i = 0; i < 2; i++) {
+        func_021684E8(&((BattleMon *)(a + 0x30))[i], d->ids[i], d->otId, d->pids[i], iv, (u8)i, c, heap);
+    }
+    func_020307B0(t);
+}

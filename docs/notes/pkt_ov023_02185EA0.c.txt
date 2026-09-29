@@ -1,0 +1,58 @@
+/*
+ * function: func_02185EA0
+ * address:  0x02185EA0
+ * packet:   pkt_ov023_02185EA0
+ * region:   ov023
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * DIFF: the original keeps e = p + 0x4212 in r6 across the loop and
+ * recomputes e + i*6 (muls) at each of its two uses; ours CSEs the element
+ * pointer into r6 and spills e to [sp] (+4 bytes, everything after shifts).
+ * checks: 1 func_02184180 takes (ptr, u8) and func_0218506C (obj, u8, u8) as
+ * declared; 2 no twin; 3 n/a; 4 none fits; 5 n/a.  Tried: char* base with
+ * struct casts at each use, an inline helper for e+n; neither stops the CSE.
+ * Callee func_02184180 is filed as ov022_func_02184180 (EXACT).
+ *
+ * symbols:
+ *   func_02039338  0x02039338  arm
+ *   func_0204B3DC  0x0204B3DC  arm
+ *   func_02184180  0x02184180  thumb  ov022
+ *   func_0218506C  0x0218506C  thumb  ov023
+ */
+
+struct e6 {
+    unsigned char b[4];
+    unsigned char c : 3;
+    unsigned char n : 3;
+    unsigned char d : 2;
+    unsigned char pad;
+};
+
+extern int  func_02039338(void);
+extern int  func_02184180(int a, int b);
+extern void func_0204B3DC(int obj, int on);
+extern void func_0218506C(int obj, int a, int b);
+
+void func_02185EA0(char *p)
+{
+    struct e6 *e;
+    int i;
+
+    e = (struct e6 *)(p + 0x4212);
+    for (i = 0; i < 5; i++) {
+        if (i == func_02039338())
+            continue;
+        if (e[i].n != 0 && func_02184180(**(int **)(p + 4), (unsigned char)i) != 0) {
+            func_0204B3DC(*(int *)(p + i * 4 + 0x60), 1);
+            func_0218506C(*(int *)(p + i * 4 + 0x60),
+                          *((unsigned char *)&e[i] + e[i].n - 1),
+                          *((unsigned char *)&e[i] + e[i].n + 1));
+        } else {
+            func_0204B3DC(*(int *)(p + i * 4 + 0x60), 0);
+        }
+    }
+}

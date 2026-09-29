@@ -1,0 +1,50 @@
+/*
+ * function: func_021D1A04
+ * address:  0x021D1A04
+ * packet:   pkt_ov021_021D1A04
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * symbols:
+ *   func_0215A5F4  0x0215A5F4  thumb  ov010
+ *   func_02158F58  0x02158F58  thumb  ov010
+ *   func_02188C84  0x02188C84  thumb  ov021
+ *   func_02159B10  0x02159B10  thumb  ov010
+ *   func_02188CB4  0x02188CB4  thumb  ov021
+ *   func_021A3038  0x021A3038  thumb  ov021
+ *   func_021D182C  0x021D182C  thumb  ov021
+ *   func_02159104  0x02159104  thumb  ov010
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u32 func_0215A5F4(u32 a);
+extern u32 *func_02158F58(void);
+extern u32 func_02188C84(u32 a);
+extern u32 func_02159B10(u32 a, u32 b);
+extern u32 func_02188CB4(u32 a);
+extern void func_021A3038(u32 a, u32 *out);
+extern u8 *func_021D182C(u32 a, u32 b, u32 *c, u32 d);
+extern void func_02159104(u32 a, u8 *b);
+
+int func_021D1A04(u32 a, u32 b)
+{
+    u32 buf[3];
+    u32 s = func_0215A5F4(b);
+    u32 *q = func_02158F58();
+    u32 t = func_02188C84(q[1]);
+    u32 k = func_02159B10(a, b);
+    u8 *r;
+
+    func_021A3038(func_02188CB4(q[1]), buf);
+    r = func_021D182C(q[1], k, buf, t);
+    func_02159104(s, r);
+    return 0;
+}

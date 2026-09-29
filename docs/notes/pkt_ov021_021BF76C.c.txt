@@ -1,3 +1,8 @@
+CLOSED (lane R1): all three EXACT. func_021C6E48 takes func_02188D38's result
+(`func_021C6E48(d)`, as in ov021_func_021A7CE8.c); that keeps r0 live and moves the index to r1.
+See src/matched/ov/ov021_func_021BF76C.c, ov021_func_021BF8EC.c, ov021_func_021C00C8.c and
+docs/idioms/a-switch-index-in-r1-with-an-argless-bl-in-an-arm-names-a-hidden-argument.md.
+
 S17 lane, ov021 0x021BF76C (also 0x021BF8EC, 0x021C00C8): DIFF, switch index register.
 
 Structure is right (140 bytes, every relocation resolved, every branch target and call

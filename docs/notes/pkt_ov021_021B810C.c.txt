@@ -1,0 +1,134 @@
+/*
+ * function: func_021B810C
+ * address:  0x021B810C
+ * packet:   pkt_ov021_021B810C
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callees read what is passed (func_021B88DC takes p and the f2E halfword); 2 no twin (same Sub struct as func_021B7EE4/func_021B977C, no s8 table add anywhere matched); 3 permuter --types x2 (600 compiles) no gain, e/old/d widths and an s8 local no change; 4 a-narrowing-cast-loads-wide-then-shifts-not-ldrsh fits only the ldrb+shift half; 5 func_021B7EE4 shares the struct, not the shape
+ *
+ * DIFF, 13 bytes, all in the f2D update at +0x2C..+0x44; everything else,
+ * size included, is byte-identical.  Original:
+ *   ldrh r2,[r5,#0x30]; ldr r0,=tbl; ldrh r6,[r5]; ldrb r2,[r0,r2];
+ *   movs r0,#0x2d; ldrsb r0,[r5,r0]; lsls r3,r2,#24; asrs r3,r3,#24;
+ *   adds r3,r0,r3; adds r0,r5,#0x2d; ldrh r1,[r5,#0x2e]; strb r3,[r0]
+ * This C gives the same instructions with the index in r3, the table base
+ * in r2, old (f0) loaded after f2D, and the sign-extension written back
+ * into r2 rather than a fresh r3.
+ *
+ * What got it this far: (s8)d_021DE298[i] on a u8 table (and every local,
+ * inline-helper or mask spelling of it) folds to `ldrsb r2,[r2,r3]` and
+ * the function comes out 4 bytes short.  Only a (u8) between two signed
+ * types keeps the `ldrb` + `lsls/asrs #24` pair: an s8 table read as
+ * (s8)(u8)tbl[i] (also through a u8 local, an s8 local, or an inline
+ * addv(s8, u8) helper; all three give this same 13-byte result).  Hoisting
+ * e = p->f2E above the store is needed for the f2E load to sit before the
+ * strb.  Statement order of old/e/d does not move any load (scheduler).
+ * (s8)(u8)tbl[i] + p->f2D (operand order swapped) puts old in the right
+ * place but moves the f2E load up and gives 18 bytes.
+ *
+ * symbols:
+ *   func_021B91AC  0x021B91AC  thumb  ov021
+ *   func_021B88DC  0x021B88DC  thumb  ov021
+ *   func_021B91F8  0x021B91F8  thumb  ov021
+ *   func_021B977C  0x021B977C  thumb  ov021
+ *   func_021B9238  0x021B9238  thumb  ov021
+ *   d_021DE298     0x021DE298  data   a1
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed char    s8;
+typedef signed short   s16;
+
+typedef struct { u32 a, b, c; } V3;
+typedef struct { u16 a, b, c, d; } Rect4;
+
+typedef struct Sub {
+    u16 f0;
+    u16 pad2;
+    void *f4;
+    u16 f8;
+    u16 padA;
+    int fC;
+    u8 pad10[0x1c];
+    u8 f2C;
+    s8 f2D;
+    u16 f2E;
+    u16 f30;
+    u8 f32;
+    u8 f33;
+    u8 f34;
+    u8 pad35[3];
+    V3 f38;
+    V3 f44;
+    u8 pad50[0xc];
+    Rect4 f5C;
+    Rect4 f64;
+    u8 pad6C[8];
+    u8 f74;
+    u8 pad75[3];
+    u16 *f78;
+} Sub;
+
+extern int func_021B91AC(Sub *p);
+extern int func_021B88DC(Sub *p, u16 v);
+extern void func_021B91F8(Sub *p, V3 *out);
+extern void func_021B977C(Sub *p);
+extern void func_021B9238(Sub *p, Rect4 *out);
+extern s8 d_021DE298[];
+
+void func_021B810C(Sub *p)
+{
+    int r;
+    u16 old;
+    int t;
+    int m;
+    u16 e;
+
+    if (p->f78[1] == 0 || p->f8 == 0 || func_021B91AC(p) == 0) {
+        return;
+    }
+    r = 0;
+    p->f34 = 0;
+    if (p->f2C == 0) {
+        return;
+    }
+    old = p->f0;
+    e = p->f2E;
+    p->f2D += (s8)(u8)d_021DE298[p->f30];
+    if (old == 1) {
+        r = func_021B88DC(p, e);
+    }
+    if (r != 0) {
+        p->f32 = r;
+        p->f33 = p->f30;
+        p->f34 = 1;
+        func_021B91F8(p, &p->f38);
+    }
+    if (old != p->f0) {
+        func_021B977C(p);
+    }
+    if (p->f2D < 16 && r != 0) {
+        return;
+    }
+    p->f2C = 0;
+    p->f74 = 0;
+    p->f64 = p->f5C;
+    func_021B9238(p, &p->f5C);
+    p->f44 = p->f38;
+    t = p->fC;
+    m = t % 16;
+    if (m != 0) {
+        if (m > 8) {
+            p->fC = t + (16 - m);
+        } else {
+            p->fC = t - m;
+        }
+    }
+}

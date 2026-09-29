@@ -1,0 +1,75 @@
+/*
+ * function: func_02183FB8
+ * address:  0x02183FB8
+ * packet:   pkt_ov022_02183FB8
+ * region:   ov022
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * DIFF: 3 instructions at +0x4A..+0x50 (one-argument address of the far
+ * field): the original loads a from [sp] first and the pool word 0x2830
+ * second (`ldr r1,[sp]; ldr r0,[pc]; adds r0,r1,r0; adds r0,#0x14`), this C
+ * loads the pool word into r1 and a into r0 (`adds r0,r0,r1`). Same size,
+ * same relocation, offsets right. Everything else (struct copy loop, the
+ * u8 mask RMW, the call) is byte-identical.
+ * The split `+0x2830` then `+0x14` only appears with the T14 cast spelling
+ * below; `((C *)a)->t.f` folds to one pool word 0x2844.
+ * The same expression written with a `C *` parameter inside a loop
+ * (func_02183E48, EXACT) gives the original operand order, so the original
+ * of this function probably has the address of `a->t.f` computed in a
+ * shape this C does not reach (not in a loop here).
+ *
+ * checks: 1 all callees' arities verified (02008550/54 one arg, 0217357C
+ * four, 0203D1A4 takes the 020399A8 result); 2 twin is func_02183E48 (same
+ * expression, matches only in a loop); 3 n/a (no load/store trade); 4 none
+ * fits; 5 n/a. Tried: a+0x2830+0x14 (folds), 0x2830+a, (u32)a+0x2830,
+ * ((C*)a)->t.f, local e for src+0x20.
+ *
+ * symbols:
+ *   func_020399A8  0x020399A8  arm
+ *   func_0203D1A4  0x0203D1A4  arm
+ *   func_02008550  0x02008550  thumb
+ *   func_02008554  0x02008554  thumb
+ *   func_0217357C  0x0217357C  thumb  ov012
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+typedef struct Rec28 {
+    u32 w[10];
+} Rec28;
+
+typedef struct T14 {
+    u8 pad[0x14];
+    u8 f[1];
+} T14;
+
+typedef struct C {
+    u8 pad[0x2830];
+    T14 t;
+} C;
+
+extern int func_020399A8(void);
+extern u32 func_0203D1A4(u32 v);
+extern u32 func_02008550(u8 *p);
+extern u32 func_02008554(u8 *p);
+extern void func_0217357C(u8 *a, u8 *b, u32 c, u32 d);
+
+void func_02183FB8(u8 *s, C *a, int idx, u8 *src)
+{
+    u32 x;
+    u32 y;
+
+    *(Rec28 *)(s + 0x2c + idx * 0x28) = *(Rec28 *)src;
+    s[0xe] |= (u8)(1 << idx);
+    if (idx != func_0203D1A4(func_020399A8())) {
+        x = func_02008554(src);
+        y = func_02008550(src);
+        func_0217357C(((T14 *)((u8 *)a + 0x2830))->f, src + 0x20, x, (u8)y);
+    }
+}

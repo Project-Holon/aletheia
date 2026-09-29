@@ -1,3 +1,9 @@
+CLOSED (lane R2): EXACT as src/matched/ov/ov021_func_021BBD84.c. The fix was a
+result local initialised to 0 before the switch, with `break` arms and
+`r = tbl - 4; r += 14;` (the subtract in the assignment, the add as a
+separate compound statement). `r = v; r -= 4; r += 14;` and one expression
+both fold. The earlier write-up follows.
+
 func_021BBD84 (ov021, 80 B, thumb): DIFF, 8-byte SIZE-equivalent (cases 3 and 4 fold).
 
 Dense 5-way switch on r1; r2 = byte index, r3 = row (int-stride table d_021D9AE8, pool 0x021D9AE8):

@@ -1,0 +1,85 @@
+/*
+ * function: func_021B38E0
+ * address:  0x021B38E0
+ * packet:   pkt_ov021_021B38E0
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 every callee prototype copied from its own source or an ov021 caller (func_021B385C takes 5, stack arg h); 2 no twin shares the table loop; 3 d_021DE1A8 non-const needed for the per-iteration reload (const cached it, 126 B); widths tried: h void* (5 B), n int/u8/u16, idx u32/int (u16 183 B), i u32 (bls); none moves the idx*4 spill; 4 local-declaration-order-is-stack-order does not apply (these are spill slots): all 6 orders of h/idx/n give the same bytes; 5 n/a
+ *
+ * DIFF, same size (228 B), 5 concrete bytes: two spill slots swapped. Every
+ * instruction, register, relocation and pool word is right. The original
+ * spills idx*4 (the CSE'd table offset reused inside the loop) to sp+4, h to
+ * sp+8, n to sp+0xC and the 0x162 offset to sp+0x10; this C gives idx*4 sp+0xC
+ * and n sp+4. With h as u32 (the first form) h also moves, 8 B. Loop as while,
+ * n assigned inside the func_0201F81C argument, and permuter.py --types (600
+ * compiles, two seeds) found nothing better than this 5-byte form.
+ *
+ * symbols:
+ *   func_02045B38  0x02045B38  arm
+ *   func_02021288  0x02021288  thumb
+ *   func_0201F81C  0x0201F81C  thumb
+ *   func_021B385C  0x021B385C  thumb  ov021
+ *   func_02020FE4  0x02020FE4  thumb
+ *   func_0201102C  0x0201102C  thumb
+ *   func_021B3834  0x021B3834  thumb  ov021
+ *   func_0201F878  0x0201F878  thumb
+ *   func_02045C04  0x02045C04  arm
+ *   d_021D946C     0x021D946C  data   a1
+ *   d_021DE1A8     0x021DE1A8  data   a4
+ *   d_021D95DE     0x021D95DE  data   ov021  a1
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern void *func_02045B38(u32 a, u32 b, u32 c, u32 d);
+extern u32 func_02021288(u32 a);
+extern u32 func_0201F81C(u32 a, u32 b);
+extern void func_021B385C(char *p, int idx, int mode, int val, void *arg);
+extern u32 func_02020FE4(u32 a, u32 b, u32 c);
+extern u32 func_0201102C(u32 a);
+extern void func_021B3834(char *p, u32 n);
+extern void func_0201F878(void *, int, int, int, int);
+extern void func_02045C04(void *h);
+extern const u8 d_021D946C[];
+extern u16 *d_021DE1A8[];
+extern const u8 d_021D95DE[];
+
+void func_021B38E0(char *w, u32 b, u32 c, u32 d)
+{
+    void *h;
+    u32 idx;
+    int n;
+    int i;
+    u16 v;
+    char *e;
+
+    h = func_02045B38(0, 2, 0x36, *(u16 *)(w + 4));
+    if (b == 0xFF) {
+        idx = d_021D946C[d];
+    } else {
+        idx = c + 6;
+    }
+    if (func_02021288(*d_021DE1A8[idx])) {
+        *(u8 *)(w + 0x162) = 1;
+    }
+    n = d_021D95DE[idx];
+    *(u32 *)(w + 0x180) = func_0201F81C(n + 1, *(u16 *)(w + 4));
+    for (i = 0; i < n; i++) {
+        v = d_021DE1A8[idx][i];
+        func_021B385C(w, i, *(u8 *)(w + 0x162), v, h);
+        e = w + i * 8;
+        *(u16 *)(e + 0x20) = v;
+        *(u32 *)(e + 0x24) = func_0201102C(func_02020FE4(v, 0, *(u16 *)(w + 4)));
+    }
+    *(u16 *)(w + 0x160) = i;
+    func_021B3834(w + 0x20, *(u16 *)(w + 0x160));
+    func_0201F878(*(char **)(w + 0x180) + i * 8, *(int *)(w + 0x188), 11, -2, *(u16 *)(w + 4));
+    func_02045C04(h);
+}

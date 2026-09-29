@@ -1,3 +1,7 @@
+CLOSED (lane R1): both EXACT. The Vec copy is an inline setter `vset(&o->f10, c->x, c->y, c->z)`
+(arguments evaluated right to left). See src/matched/ov/ov021_func_021C7878.c, ov021_func_021C78DC.c and
+docs/idioms/a-vec-copy-as-three-field-moves-with-swapped-registers-is-an-inline-setter.md.
+
 pkt_ov021_021C7878 and pkt_ov021_021C78DC (ov021, thumb, 100 B each): DIFF, 4 lines, register naming only.
 
 The two functions are byte-identical except for the callback pool word (func_021C7A20 / func_021C7A7C).

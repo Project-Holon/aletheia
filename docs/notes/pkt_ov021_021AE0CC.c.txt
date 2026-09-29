@@ -39,7 +39,14 @@
  *      `((S *)tb)->f14` instead propagates the pointer everywhere (152).
  *  (c) ret and kind/tp are swapped: the original has ret in r4 and kind then tp in r6,
  *      ours has kind and tp in r4 and ret in r6. Declaration order of tp/ret/kind has
- *      no effect (four orders, all 33).
+ *      no effect (four orders, all 33). Lane R3 swept all 120 orders of
+ *      tp/ret/kind/n/v after s and tb: every one 33.
+ *  Lane R3, also tried: the untried lead below (`S arr[2]`, arr[1] = s,
+ *  arr[0] = t, as `&arr[0]` or `arr`), `S t[1]`, and `S t` with `&t` direct,
+ *  or with tp = &t and a direct `t.f14 = v` store: all 152 (no register for
+ *  the second record, 200 bytes of code). The register holding &t needs the
+ *  pointer local over the cast buffer; `((S *)tb)->f14 = v` with tp kept for
+ *  the calls is also 152.
  * The kind==0 and kind==1 tails are written out twice around a variable v, and
  * mwcc cross-jumps them the way the original does. A `goto` into one tail keeps
  * the pointer register but stops the zero pooling into r7 (118).

@@ -1,0 +1,77 @@
+/*
+ * function: func_021D029C
+ * address:  0x021D029C
+ * packet:   pkt_ov021_021D029C
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callees 021AC1AC/02047564/0204767C/020477D4 arity from twin ov021_func_021AD82C; 2 twin 021AD82C (same
+ *           struct shapes) gives types; 3 const n/a; 4 none fits; 5 n/a
+ *
+ * Best: 6 bytes differ (3 instructions), everything else identical. The original holds the
+ * constant 0 loop-invariant in r4 as a COPY of the first loop counter (movs r6,#0 early, later
+ * adds r4,r6,#0, then adds r2,r4,#0 as the third arg of func_02047564, r4 then reused as the
+ * second loop's counter). Mine folds it to movs r2,#0 / movs r4,#0. Tried: j=0 before loop, j=i,
+ * i=j=0, for(j=i=0), declaration orders (6), do/while, no cnt local, struct-typed q.
+ *
+ * symbols:
+ *   func_021AC1AC  0x021AC1AC  thumb  ov021
+ *   func_02047564  0x02047564  arm
+ *   func_0204767C  0x0204767C  arm
+ *   func_020477D4  0x020477D4  arm
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern u32 *func_021AC1AC(u32 a);
+extern u32 func_02047564(u32 a, u32 b, u32 c);
+extern u32 func_0204767C(u32 a, u32 *b, u32 c);
+extern void func_020477D4(u32 a, u32 b);
+
+typedef struct B {
+    u32 f0;
+    u32 f4[8];
+    u32 f24[4];
+    u32 f34[1];
+} B;
+
+typedef struct O {
+    u8 pad0[2];
+    u8 n;
+    u8 pad3;
+    u32 f4;
+    u32 f8;
+    u32 fc;
+    u32 f10[4];
+} O;
+
+void func_021D029C(u32 a, O *b)
+{
+    u32 *q;
+    B *base;
+    u32 cnt;
+    int i;
+    int j;
+
+    q = func_021AC1AC(a);
+    i = 0;
+    base = (B *)q[0];
+    cnt = q[1];
+    b->f4 = (u32)base;
+    b->f8 = cnt;
+    j = 0;
+    for (; i < 4; i++) {
+        b->f10[i] = func_02047564(base->f34[cnt], base->f24[i], j);
+    }
+    b->n = 4;
+    b->fc = func_0204767C(base->f34[cnt], b->f10, 4);
+    for (; j < 4; j++) {
+        func_020477D4(b->fc, (u16)j);
+    }
+}

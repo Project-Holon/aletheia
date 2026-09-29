@@ -1,0 +1,58 @@
+/*
+ * function: func_02185BBC
+ * address:  0x02185BBC
+ * packet:   pkt_ov023_02185BBC
+ * region:   ov023
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * DIFF: byte-identical shape but the original moves a1 into r0 at +0008
+ * (before r6/r7), keeping t in r1 and the clamp bound in r2; ours keeps a1
+ * in r1 so t lands in r2 and the bound in r0.  Every later instruction is
+ * shifted by that allocation only.
+ * checks: 1 callees take 5/2?/9/1 args as declared (func_020439A0 9 as in
+ * ov206_func_021BAFC4); 2 twin ov206_func_021BAFC4 gives the call shapes only;
+ * 3 n/a; 4 none fits; 5 n/a.  Tried: local order, ternary clamp, temp for
+ * func_02045770, a1 copied through a local.
+ *
+ * symbols:
+ *   func_020436FC  0x020436FC  arm
+ *   func_02045770  0x02045770  arm
+ *   func_020439A0  0x020439A0  arm
+ *   func_020437AC  0x020437AC  arm
+ */
+
+extern int  func_020436FC(int a, int b, int c, int d, int e);
+extern int  func_02045770(int a);
+extern void func_020439A0(int, int, int, int, int, int, int, int, int);
+extern void func_020437AC(int);
+
+void func_02185BBC(int a0, int a1, int x, int y, int w, int h, int dx, int dy,
+                   int mx, int my)
+{
+    int s;
+    int t;
+
+    if (dx < 0) {
+        t = -dx;
+        if (t > mx)
+            t = mx;
+        x += t;
+        w -= t;
+        dx = 0;
+    }
+    if (dy < 0) {
+        t = -dy;
+        if (t > my)
+            t = my;
+        y += t;
+        h -= t;
+        dy = 0;
+    }
+    s = func_020436FC(a1, 8, 8, 0x20, 0x28);
+    func_020439A0(s, func_02045770(a0), x, y, dx, dy, w, h, 0);
+    func_020437AC(s);
+}

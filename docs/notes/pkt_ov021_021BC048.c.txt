@@ -1,3 +1,11 @@
+CLOSED (lane R2): EXACT as src/matched/ov/ov021_func_021BC048.c. Three fixes:
+the zeroed V3 is a block-scope `V3 v = {0, 0, 0};` right before the call
+(this is what puts &v in r6 across the call; see docs/idioms/
+an-initialised-local-array-takes-its-address-before-the-stores.md), s[1] goes
+through an int temporary, and the clamp tail is spelled on the fields
+(`p->f8 += p->fC; if (p->f8 >= p->f0 + 0x400) ...`) with no locals. The
+earlier write-up follows.
+
 pkt_ov021_021BC048  func_021BC048 (ov021, thumb, 196 bytes)  DIFF, run 7, lane S12
 
 Callees 0216E1C4/0216DC34/0216D7A8/0216E3C4 need the `ov010` token on their

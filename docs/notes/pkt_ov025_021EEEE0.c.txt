@@ -1,0 +1,69 @@
+/*
+ * function: func_021EEEE0
+ * address:  0x021EEEE0
+ * packet:   pkt_ov025_021EEEE0
+ * region:   ov025
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * DIFF (same size). The original calls _s32_div_f (s[8]/28) first, keeps
+ * s[8] live in r7 (push {r3-r7,lr}), then calls _u32_div_f ((s[8]+1)%252)
+ * and stores the remainder. This C always emits the _u32_div_f call first
+ * (reordered whatever the statement order: tried mod-first, div-first, a
+ * local t, unsigned t, u = t+1, sinking the s[8] store below the table read),
+ * which changes the register allocation of the whole function.
+ * Also unresolved: d_021EF765 (0x021EF765, odd address, no witness outside
+ * the range) and the stubs func_021A2190 / func_021A21A0 (ov021 pending
+ * files of another lane).
+ * checks: 1 all callee arities read (2190/21A0 take 3 incl. unused r2=0);
+ *   2 no twin; 3 const s no change; 4 none fits; 5 n/a
+ *
+ * symbols:
+ *   func_021EEEE0 0x021EEEE0 thumb ov025
+ *   func_021A244C 0x021A244C thumb ov021
+ *   func_021A2564 0x021A2564 thumb ov021
+ *   func_021A2190 0x021A2190 thumb ov021
+ *   func_021A21A0 0x021A21A0 thumb ov021
+ *   _s32_div_f    0x0209C0A4 arm
+ *   _u32_div_f    0x0209C2B0 arm
+ *   d_021EF765    0x021EF765 data ov025 a1
+ *   d_021EF75C    0x021EF75C data ov025 a1
+ */
+
+typedef signed char s8;
+
+extern void func_021A244C(int, int *, int *);
+extern void func_021A2564(int, int, int);
+extern void func_021A2190(int, int, int);
+extern void func_021A21A0(int, int, int);
+extern s8 d_021EF765[];
+extern s8 d_021EF75C[];
+
+void func_021EEEE0(int a, int *s)
+{
+    int w;
+    int h;
+    int i;
+    int t;
+
+    func_021A244C(a, &w, &h);
+    func_021A2564(a, w, h);
+    t = s[8];
+    i = t / 28;
+    s[8] = (unsigned)(t + 1) % 252u;
+    s[2] = s[2] + d_021EF765[i] - w / 2;
+    s[9] = s[9] + d_021EF75C[i] - h / 2;
+    if (s[2] < 0) {
+        s[2] = s[2] + 256;
+    }
+    if (s[9] < 0) {
+        s[9] = s[9] + 256;
+    }
+    s[2] = s[2] % 256;
+    s[9] = s[9] % 256;
+    func_021A2190(a, -s[2], 0);
+    func_021A21A0(a, -s[9], 0);
+}

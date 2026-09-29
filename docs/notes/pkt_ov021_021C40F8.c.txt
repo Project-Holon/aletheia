@@ -1,3 +1,8 @@
+CLOSED (lane R3): EXACT as src/matched/ov/ov021_func_021C40F8.c. r2 is never
+written before the func_02048F60 call: the function takes a third parameter and
+forwards it as that callee's third (heap) argument, which moves the table copy
+from r3/r2 to r4/r3. The earlier write-up follows.
+
 ov021 0x021C40F8 (Thumb, 104 B): DIFF, 7 bytes, one register choice. Lane S22, 5 runs.
 
 Everything matches except the 16-byte table copy prologue (d_021DA908, sole-ref/data

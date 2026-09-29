@@ -1,3 +1,8 @@
+CLOSED (lane R2): EXACT as src/matched/ov/ov021_func_021BBBD8.c. The fix was
+to declare the ring as `Entry e[30]` (0x24-byte entries) and write the second
+half as `ret = &r->e[r->tail]; r->tail += 1;` instead of `(u8 *)r + u * 0x24`
+through a local. The earlier write-up follows.
+
 func_021BBBD8 (ov021, 84 B, thumb): DIFF, 5 instructions of register naming only.
 
 Ring buffer step. Best C (all bytes right except r3/r4 swap in the second half):

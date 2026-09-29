@@ -1,3 +1,8 @@
+CLOSED (lane R2): EXACT as src/matched/ov/ov021_func_021BBC58.c. The fix was
+to declare the compared parameter `u16 c` (the field it is compared with is a
+u16); int and unsigned both keep the spills in the wrong order. The earlier
+write-up follows.
+
 func_021BBC58 (ov021, 100 B, thumb): DIFF, the two prologue spills trade places.
 
     int func_021BBC58(Ring *r, void *b, unsigned c)   /* r->count at +0x43c */

@@ -1,0 +1,50 @@
+/*
+ * function: func_021EF2D8
+ * address:  0x021EF2D8
+ * packet:   pkt_ov026_021EF2D8
+ * region:   ov026
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * symbols:
+ *   func_021A2640  0x021A2640  thumb  ov021
+ *   func_021A26C4  0x021A26C4  thumb  ov021
+ *   func_021A21E0  0x021A21E0  thumb  ov021
+ */
+
+typedef unsigned short u16;
+typedef signed short   s16;
+
+extern void func_021A2640(int, s16 *);
+extern void func_021A26C4(int, s16 *);
+extern void func_021A21E0(int);
+
+void func_021EF2D8(int a, s16 *b, s16 *c)
+{
+    s16 v[2];
+    int x;
+    int y;
+
+    x = b[11];
+    if (x == 0) {
+        x = c[4];
+        y = c[5];
+    } else {
+        y = b[12];
+        c[4] = x;
+        c[5] = y;
+    }
+    func_021A2640(a, v);
+    c[0] = c[0] + (s16)(c[2] + x);
+    c[1] = c[1] + (s16)(c[3] + y);
+    v[0] = c[0] / 8;
+    v[1] = c[1] / 8;
+    if (v[0] >= 256 || v[1] >= 192) {
+        func_021A21E0(a);
+        return;
+    }
+    func_021A26C4(a, v);
+}

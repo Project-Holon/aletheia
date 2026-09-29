@@ -7,11 +7,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * blocker:  ABS32 func_021C24BC (pool word 0x021C24BD) has no witness: the
- *           callee is an unlabelled leaf (see ov021_func_021C24BC DIFF note),
- *           so sole-ref/code refuses it. Verdict MATCH*; 72-byte extent
- *           includes that leaf.
+ * status:   EXACT
+ * EXACT*: the 72-byte listing extent runs on into the unlabelled leaf
+ * func_021C24BC (ov021_func_021C24BC.c), whose EXACT entry attests the
+ * pool word 0x021C24BD as matched.
  * symbols:
  *   func_020515CC  0x020515CC  arm
  *   func_021C24BC  0x021C24BC  thumb  ov021

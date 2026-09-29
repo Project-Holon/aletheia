@@ -1,0 +1,75 @@
+/*
+ * function: func_021868C8
+ * address:  0x021868C8
+ * packet:   pkt_ov023_021868C8
+ * region:   ov023
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_02186878 takes 1 (p), returns int; 2 twin func_02186888 (matched, same Rec/30-byte group); 3 n/a, no load/store swap;
+ *           4 none fits; 5 n/a
+ * symbols:
+ *   func_02186878  0x02186878  thumb
+ *
+ * DIFF, 3 concrete instruction words (registers only), ~15 runs. Everything matches except the
+ * multiplier temporary of the second `30 * idx`: original `movs r2,#0x1e; muls r2,r0,r2;
+ * adds r0,r5,r2` (temp in r2, group pointer lands in r0, loop counter j in r1); this C gives the
+ * temp r1 (`movs r1,#0x1e; muls r1,r0,r1; adds r0,r5,r1`). Declaring `i` = 0 before the group
+ * pointer, a separate second pointer `q` and counter `j` declared after `r` (order i,n,m,r,q,j)
+ * got closest; other declaration orders, `j = 0` before/after `q`, and an inlined counting helper
+ * were all worse.
+ * Byte 6 of Rec (b5) exists only to make sizeof(Rec) == 6 so `r[i]` is `muls #6`.
+ */
+
+typedef unsigned char u8;
+
+typedef struct {
+    u8 b[4];
+    u8 lo : 3;
+    u8 mid : 3;
+    u8 hi : 2;
+    u8 b5;
+} Rec;
+
+typedef struct {
+    Rec r[5];
+} Grp;
+
+extern int func_02186878(char *p);
+
+void func_021868C8(char *p)
+{
+    int i;
+    int n;
+    int m;
+    Rec *r;
+    Rec *q;
+    int j;
+
+    n = 0;
+    m = 0;
+    i = 0;
+    r = ((Grp *)p)[*(int *)(p + 0xBBC)].r;
+
+    for (; i < 5; i++) {
+        if (r[i].mid == 0) {
+            n++;
+        }
+    }
+    if (n == 5) {
+        q = ((Grp *)p)[func_02186878(p)].r;
+        for (j = 0; j < 5; j++) {
+            if (q[j].mid == 0) {
+                m++;
+            }
+        }
+    }
+    if (m != 5) {
+        *(int *)(p + 0xBBC) += 1;
+        if (*(int *)(p + 0xBBC) >= 100) {
+            *(int *)(p + 0xBBC) = 0;
+        }
+    }
+}

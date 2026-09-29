@@ -1,0 +1,63 @@
+/*
+ * function: func_021CC6A8
+ * address:  0x021CC6A8
+ * packet:   pkt_ov021_021CC6A8
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Residual (same size, 84 bytes): only the join layout at the end. The
+ * original keeps two separate `movs r0,#0` blocks (inner "== 0x30" zero
+ * falls into `b` over the outer-else zero, both then meet at one strh);
+ * this C tail-merges them into one zero block reached by two branches.
+ * Nested-ternary (comma operator), && with comma, if/else with r as int,
+ * both polarities were tried; the tail-merge always happens.
+ * Also capped at MATCH regardless: the arm9 callees 02010F18, 02010F7C,
+ * 02010F40, 02010F8C (bl targets in the first 64 bytes of a 0x02010F18
+ * table area, unlabelled leaves / tail stubs) have no witness outside the
+ * range (arm9 leaves belong to Ilias, not filed here).
+ *
+ * checks: 1 callee arities: 02010F18 none, 02010F7C (r0=0x8015, tail-call stub), 02010F40 (idx, tbl), 02010F8C (one arg); 2 no twin; 3 n/a; 4 none fits; 5 n/a
+ *
+ * symbols:
+ *   func_02159AE8  0x02159AE8  thumb  ov010
+ *   func_02010F18  0x02010F18  thumb
+ *   func_02010F7C  0x02010F7C  thumb
+ *   func_02010F40  0x02010F40  thumb
+ *   func_02010F8C  0x02010F8C  thumb
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u16 *func_02159AE8(void *a, void *b);
+extern int func_02010F18(void);
+extern u32 func_02010F7C(u32 a);
+extern void func_02010F40(u32 a, u32 b);
+extern void func_02010F8C(u32 a);
+
+int func_021CC6A8(void *a, void *b)
+{
+    u16 *p;
+    u16 *q;
+    u32 h;
+    u32 r;
+
+    p = func_02159AE8(a, b);
+    q = func_02159AE8(a, b);
+    *p = func_02010F18();
+    if (*p != 0x30) {
+        h = func_02010F7C(0x8015);
+        func_02010F40(*p, h);
+        func_02010F8C(h);
+        r = (func_02010F18() != 0x30) ? 1 : 0;
+    } else {
+        r = 0;
+    }
+    *q = r;
+    return 0;
+}

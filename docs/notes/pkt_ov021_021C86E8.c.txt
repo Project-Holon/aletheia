@@ -1,3 +1,8 @@
+CLOSED (lane R3): EXACT as src/matched/ov/ov021_func_021C86E8.c. The fix was
+building the sum in two statements, `r = p->f4 % 1350; r += b * 30;`, which
+keeps the multiply after the _s32_div_f call (a separate `t = b * 30` local or
+one expression both hoist it into r4). The earlier write-up follows.
+
 pkt_ov021_021C86E8  func_021C86E8 @ 0x021C86E8 (ov021, thumb, 80 bytes)  DIFF, same size
 
 Best C (8 runs); the carry arm and the else arm's reload now match, the

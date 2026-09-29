@@ -1,3 +1,6 @@
+CLOSED (lane R1): EXACT*. func_020124E8 takes the first parameter (`func_020124E8(a)`, r0 untouched
+from entry); that keeps r0 live and puts the switch value in r1. See src/matched/ov/ov021_func_021C2CF4.c.
+
 ov021 0x021C2CF4 (116 B, thumb): DIFF, 17 bytes, one register choice. Lane S21, 6 runs.
 
 Everything matches (switch on the u32 at +0x130, three guards at +0x11C/+0x120/+0x124, the -1 4th argument to
