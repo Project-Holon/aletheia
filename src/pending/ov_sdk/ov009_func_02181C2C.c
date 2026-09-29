@@ -23,7 +23,7 @@
  *   g_021A3EA8               0x021A3EA8 data
  *   gsiXmlUtilAttributeFree  0x02181E14 arm ov009
  *
- * note: near miss, 6 bytes differ (literal pool order only): original pool is g_021A3E74, gsiXmlUtilElementFree, g_021A3EA8, gsiXmlUtilAttributeFree; C yields ...ElementFree, AttributeFree, g_021A3EA8; also blocked for EXACT because gsiXmlUtilElementFree 0x02181E10 and gsiXmlUtilAttributeFree 0x02181E14 (4-byte bx lr statics) have no catalog row and no witness
+ * note: near miss, 6 bytes differ (literal pool order only): original pool is g_021A3E74, gsiXmlUtilElementFree, g_021A3EA8, gsiXmlUtilAttributeFree; C yields ...ElementFree, AttributeFree, g_021A3EA8; also blocked for EXACT because gsiXmlUtilElementFree 0x02181E10 and gsiXmlUtilAttributeFree 0x02181E14 (4-byte bx lr statics) have no catalog row and no witness. 2026-09-29 (w3_tools): both callees now have catalog rows and matched bodies and resolve; only the pool order remains (DIFF)
  */
 
 struct GSIXmlStreamReader

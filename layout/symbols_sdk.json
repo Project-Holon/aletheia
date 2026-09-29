@@ -39875,6 +39875,58 @@
    "siblings": 45
   },
   {
+   "address": 35134992,
+   "name": "gsiXmlUtilElementFree",
+   "lib": "TwlDWC/libdwcgscommon.TWL.HYB.a",
+   "object": "gsxml.o",
+   "region": "ov009",
+   "thumb": false,
+   "size": 4,
+   "concrete": 4,
+   "dupes": 1,
+   "siblings": 50,
+   "referenced": true
+  },
+  {
+   "address": 35134996,
+   "name": "gsiXmlUtilAttributeFree",
+   "lib": "TwlDWC/libdwcgscommon.TWL.HYB.a",
+   "object": "gsxml.o",
+   "region": "ov009",
+   "thumb": false,
+   "size": 4,
+   "concrete": 4,
+   "dupes": 1,
+   "siblings": 50,
+   "referenced": true
+  },
+  {
+   "address": 35135000,
+   "name": "gsXmlWriterGetData",
+   "lib": "TwlDWC/libdwcgscommon.TWL.HYB.a",
+   "object": "gsxml.o",
+   "region": "ov009",
+   "thumb": false,
+   "size": 8,
+   "concrete": 8,
+   "dupes": 1,
+   "siblings": 50,
+   "referenced": true
+  },
+  {
+   "address": 35135008,
+   "name": "gsXmlWriterGetDataLength",
+   "lib": "TwlDWC/libdwcgscommon.TWL.HYB.a",
+   "object": "gsxml.o",
+   "region": "ov009",
+   "thumb": false,
+   "size": 8,
+   "concrete": 8,
+   "dupes": 1,
+   "siblings": 50,
+   "referenced": true
+  },
+  {
    "address": 35135016,
    "name": "gsiXmlUtilSkipWhiteSpace",
    "lib": "TwlDWC/libdwcgscommon.TWL.HYB.a",
@@ -53102,6 +53154,32 @@
    "siblings": 20
   },
   {
+   "address": 35396744,
+   "name": "ghiEncryptorSslEncryptFunc",
+   "lib": "TwlDWC/libdwcgsghttp.TWL.HYB.a",
+   "object": "ghttpencryption.",
+   "region": "ov114",
+   "thumb": false,
+   "size": 8,
+   "concrete": 8,
+   "dupes": 1,
+   "siblings": 14,
+   "referenced": true
+  },
+  {
+   "address": 35396752,
+   "name": "ghiEncryptorSslDecryptFunc",
+   "lib": "TwlDWC/libdwcgsghttp.TWL.HYB.a",
+   "object": "ghttpencryption.",
+   "region": "ov114",
+   "thumb": false,
+   "size": 8,
+   "concrete": 8,
+   "dupes": 1,
+   "siblings": 14,
+   "referenced": true
+  },
+  {
    "address": 35396760,
    "name": "ghiEncryptorSslCleanupFunc",
    "lib": "TwlDWC/libdwcgsghttp.TWL.HYB.a",
@@ -57676,6 +57754,19 @@
    "concrete": 586,
    "dupes": 1,
    "siblings": 37
+  },
+  {
+   "address": 35429216,
+   "name": "DWCi_EncSessionProgressCallback",
+   "lib": "TwlDWC/libdwcenc.TWL.HYB.a",
+   "object": "dwc_encsession.o",
+   "region": "ov114",
+   "thumb": false,
+   "size": 4,
+   "concrete": 4,
+   "dupes": 1,
+   "siblings": 16,
+   "referenced": true
   },
   {
    "address": 35429220,

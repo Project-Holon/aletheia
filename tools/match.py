@@ -599,8 +599,11 @@ def next_listing_label(addr, region):
 #   template an ABS32 site the vendor object relocates against its local
 #            `@N` initializer; the declared address holds the member's
 #            template bytes, and no other aligned address of the ARM9 static
-#            module does.  See attest_template().  (A `.bss` section symbol
-#            may also be named, attest_section_rel(); that adds no class.)
+#            module (or, for an overlay row, of that overlay) does, or every
+#            other such address is another template of the archive relocated
+#            at a located row's slot outside the range.  See
+#            attest_template().  (A `.bss` section symbol may also be named,
+#            attest_section_rel(); that adds no class.)
 #
 # A site with no accepted witness stays wildcarded and the entry stays MATCH,
 # with the reason printed.  Nothing is ever back-filled from the original.
@@ -3881,6 +3884,33 @@ def attest_overlay_id(fb, st, value, sites, place):
 #             byte pattern occurs at no other aligned address of the ARM9
 #             static module, and our compile's own `@M` object (when the
 #             compiled object is at hand) has the same S bytes.
+#
+#             OVERLAYS (2026-09-29).  This rule, and only this one, also
+#             runs for an SDK row whose region is an overlay: the row is
+#             looked up in the region the code is compared in (never guessed
+#             from the address, since overlays share windows) and located
+#             with 0 mismatches as above.  The template's module is then
+#             that overlay (a member's local `@N` is linked with its code):
+#             the declared address must be in that overlay's image and be
+#             data in its listing (in_overlay_data()), and uniqueness is
+#             over that overlay's aligned addresses.  `linker` and `.bss`
+#             stay ARM9-only.
+#
+#             PRONG (b), ELIMINATION.  When the pattern occurs at more than
+#             one aligned address of the module (dwc_encsession.o holds two
+#             byte-identical 17-byte `hextbl` templates, @16077 and
+#             @16117), the site is still accepted when every OTHER
+#             occurrence is claimed by a different template: a row of the
+#             same archive in the same region, located with 0 mismatches,
+#             relocates (ABS32, addend 0) a local `@K` with the same bytes,
+#             in a PROGBITS section without SHF_MERGE, at a slot outside the
+#             compared range, and the image word at that slot is that
+#             occurrence.  Distinct local objects in non-merge sections
+#             occupy disjoint storage, so the remaining occurrence is the
+#             only one `@N` can be.  Refused when any claim word is not an
+#             occurrence, another template claims the declared address, two
+#             templates claim one address, a claim of `@N` itself points
+#             elsewhere, or any occurrence stays unclaimed.
 #   .bss      (attest_section_rel())  a `symbols:` line may name `.bss`
 #             (the section symbol mwccarm writes for a function-local
 #             static) with the address of the object's .bss base.  Accepted
@@ -3940,8 +3970,21 @@ def _sdkobj():
     return _VENDOR["mod"]
 
 
-def _vendor_region(place, region):
-    """'arm9' when the vendor rules may run for a function at `place`."""
+OVERLAY_NAME_RE = re.compile(r"^ov[0-9]{3}$")
+
+
+def _vendor_region(place, region, overlays=False):
+    """The region the vendor rules may run in for a function at `place`:
+    'arm9', or (only when `overlays` is set, which the `template` rule alone
+    does) the overlay `region` names, when that overlay's image holds
+    `place`.  An overlay is never guessed from the address: overlays share
+    RAM windows, so only the region the code is compared in can say which
+    one is meant."""
+    if overlays and region is not None and OVERLAY_NAME_RE.match(region):
+        r = _overlay_region(region)
+        if r is None or not r.base <= place < r.base + len(r.data):
+            return None
+        return region
     if region not in (None, "arm9"):
         return None
     r = _region_at(place)
@@ -3950,17 +3993,19 @@ def _vendor_region(place, region):
     return "arm9"
 
 
-def vendor_function(place, region=None):
+def vendor_function(place, region=None, overlays=False):
     """The vendor member of the SDK row at `place`, located with 0 mismatches.
 
     Returns a dict (row, archive, view, sym, relocs {off: (rtype, symidx,
     addend)}) or None.  None whenever the row is missing or ambiguous, or the
     member disagrees with the image anywhere outside its relocation fields.
+    `overlays` admits an overlay row (see _vendor_region()); only the
+    `template` rule passes it.
     """
-    reg = _vendor_region(place, region)
+    reg = _vendor_region(place, region, overlays)
     if reg is None:
         return None
-    key = ("fn", place)
+    key = ("fn", reg, place)
     if key in _VENDOR:
         return _VENDOR[key]
     so = _sdkobj()
@@ -3994,8 +4039,8 @@ def _vendor_site(vf, off, rtype):
     return syms[si], (add or 0)
 
 
-def vf_member_name(place, region=None):
-    vf = vendor_function(place, region)
+def vf_member_name(place, region=None, overlays=False):
+    vf = vendor_function(place, region, overlays)
     if vf is None:
         return "?"
     return "%s(%s)" % (os.path.basename(vf["archive"]), vf["row"]["object"])
@@ -4026,6 +4071,18 @@ def _archive_defines(archive, name):
 
 def _image_word(addr):
     r = _region_at(addr)
+    if r is None:
+        return None
+    off = addr - r.base
+    if off < 0 or off + 4 > len(r.data):
+        return None
+    return struct.unpack_from("<I", r.data, off)[0]
+
+
+def _region_word(reg_name, addr):
+    """The image word at `addr` in the named region (an overlay's own bytes,
+    never whichever region happens to hold the address first)."""
+    r = _overlay_region(reg_name)
     if r is None:
         return None
     off = addr - r.base
@@ -4100,8 +4157,10 @@ def attest_linker(place, off, name, value, addend, lo, hi, region=None):
 
 
 def vendor_template(place, off, region=None):
-    """(member's @N name, template bytes, alignment) for the slot, or None."""
-    vf = vendor_function(place, region)
+    """(member's @N name, template bytes, alignment) for the slot, or None.
+
+    The one vendor rule that also runs in an overlay (see attest_template())."""
+    vf = vendor_function(place, region, overlays=True)
     got = _vendor_site(vf, off, R_ARM_ABS32)
     if got is None:
         return None
@@ -4122,26 +4181,121 @@ def vendor_template(place, off, region=None):
     return name, body, obj.sections[shndx][8] or 1
 
 
-def _template_unique(pattern, align, addr):
-    """True when `pattern` occurs in the ARM9 static module at `addr` and at
-    no other `align`-aligned address."""
-    r = _region_at(addr)
-    if r is None or r.name != "arm9":
-        return False
+def _template_hits(pattern, align, addr, region=None):
+    """Every `align`-aligned address of the ARM9 static module (or, with an
+    overlay `region`, of that overlay's image) holding `pattern`."""
+    r = _template_region(addr, region)
+    if r is None:
+        return []
     data = bytes(r.data)
     seen = []
     i = data.find(pattern)
     while i >= 0:
         if (r.base + i) % align == 0:
             seen.append(r.base + i)
-            if len(seen) > 1:
-                return False
         i = data.find(pattern, i + 1)
-    return seen == [addr]
+    return seen
 
 
-def attest_template(place, off, addr, addend, ours=None, region=None):
+def _template_unique(pattern, align, addr, region=None):
+    """True when `pattern` occurs in the ARM9 static module (or, with an
+    overlay `region`, in that overlay's image) at `addr` and at no other
+    `align`-aligned address of it."""
+    return _template_hits(pattern, align, addr, region) == [addr]
+
+
+SHF_MERGE = 0x10
+
+
+def _template_claims(vf, pattern, reg_name, lo, hi):
+    """[(template key, image word)] for every slot outside [lo, hi) at which
+    a row of vf's archive in region `reg_name`, located with 0 mismatches,
+    relocates (ABS32, addend 0) a local `@K` template whose bytes are
+    `pattern`.  The key is (archive, object, @K), which names one template:
+    a member's `@K` is local, and its section has no SHF_MERGE, so two keys
+    are two disjoint objects in the link."""
+    key = ("tclaims", vf["archive"], reg_name, pattern, lo, hi)
+    if key in _VENDOR:
+        return _VENDOR[key]
+    so = _sdkobj()
+    lib = vf["row"]["lib"]
+    out = []
+    for row in so.sdk_table():
+        if row["region"] != reg_name or row["lib"] != lib:
+            continue
+        other = vendor_function(row["address"], reg_name, overlays=True)
+        if other is None or other["archive"] != vf["archive"]:
+            continue
+        obj = other["view"].obj
+        syms = other["view"].syms
+        for off, (rt, si, add) in sorted(other["relocs"].items()):
+            site = row["address"] + off
+            if rt != R_ARM_ABS32 or (add or 0) != 0 or si >= len(syms):
+                continue
+            if lo <= site < hi:
+                continue
+            name, val, size, typ, bind, shndx = syms[si]
+            if (not ANON_NAME_RE.match(name or "") or typ != 1 or bind != 0
+                    or size != len(pattern) or shndx == 0
+                    or shndx >= len(obj.sections)):
+                continue
+            sec = obj.sections[shndx]
+            if sec[1] != SHT_PROGBITS or sec[2] & SHF_MERGE:
+                continue
+            if bytes(obj.section_data(shndx)[val:val + size]) != pattern:
+                continue
+            out.append(((other["archive"], row["object"], name),
+                        _region_word(reg_name, site)))
+    _VENDOR[key] = out
+    return out
+
+
+def _template_by_elimination(vf, name, pattern, hits, addr, reg_name, lo,
+                             hi):
+    """True when the other aligned occurrences of `pattern` are each claimed
+    by a different template of vf's archive, leaving `addr` as the only one
+    `name` can be.  See attest_template(), prong (b)."""
+    sec = vf["view"].obj.sections
+    mine = (vf["archive"], vf["row"]["object"], name)
+    claims = _template_claims(vf, pattern, reg_name, lo, hi)
+    owner = {}
+    for tkey, word in claims:
+        if word is None or word not in hits:
+            return False            # a slot not at an occurrence: refuse
+        if tkey == mine:
+            if word != addr:
+                return False        # our own template seen elsewhere
+            continue
+        if word == addr:
+            return False            # another template claims our address
+        if owner.setdefault(word, tkey) != tkey:
+            return False            # two templates at one address
+    others = set(hits) - {addr}
+    return bool(others) and others == set(owner)
+
+
+def _template_region(addr, region):
+    """The region whose image must hold a template at `addr`: the ARM9
+    static module, or the overlay the function under test is compared in
+    (a member's local `@N` is linked into the same module as its code).
+    None when `addr` is not in that image."""
+    if region is not None and OVERLAY_NAME_RE.match(region):
+        r = _overlay_region(region)
+    else:
+        r = _region_at(addr)
+        if r is not None and r.name != "arm9":
+            r = None
+    if r is None or not r.base <= addr < r.base + len(r.data):
+        return None
+    return r
+
+
+def attest_template(place, off, addr, addend, ours=None, region=None,
+                    lo=None, hi=None):
     """The `template` class.  (class, witnesses, site, note) or None.
+
+    `lo`/`hi` bound the compared range (default: the SDK row's extent);
+    prong (b) reads only slots outside it.
 
     `addr` is the declared address of the member's `@N`; `ours` is our own
     compile's template bytes, or None when the compiled object is not at
@@ -4155,21 +4309,38 @@ def attest_template(place, off, addr, addend, ours=None, region=None):
     name, body, align = got
     if not any(body):
         return None
-    if addr % align or not in_data_section(addr):
+    r = _template_region(addr, region)
+    if r is None or addr % align:
         return None
-    r = _region_at(addr)
-    if r is None or r.name != "arm9":
+    if r.name == "arm9":
+        if not in_data_section(addr):
+            return None
+    elif not in_overlay_data(r.name, addr):
         return None
     o = addr - r.base
     if bytes(r.data[o:o + len(body)]) != body:
         return None
-    if not _template_unique(body, align, addr):
-        return None
     if ours is not None and bytes(ours) != body:
         return None
-    return ("template", 1, addr,
-            "%s (%d bytes) of %s: the image holds the member's template here "
-            "and nowhere else" % (name, len(body), vf_member_name(place, region)))
+    where = "the ARM9 static module" if r.name == "arm9" else r.name
+    member = vf_member_name(place, region, True)
+    hits = _template_hits(body, align, addr, r.name)
+    if hits == [addr]:
+        return ("template", 1, addr,
+                "%s (%d bytes) of %s: the image holds the member's template "
+                "here and nowhere else in %s"
+                % (name, len(body), member, where))
+    vf = vendor_function(place, region, overlays=True)
+    if lo is None or hi is None:
+        lo, hi = place, place + vf["row"]["size"]
+    if not _template_by_elimination(vf, name, body, hits, addr, r.name,
+                                    lo, hi):
+        return None
+    return ("template", len(hits) - 1, addr,
+            "%s (%d bytes) of %s: %d aligned copies in %s; every other copy "
+            "is another template of the archive, relocated at a located "
+            "row's slot outside this range" % (name, len(body), member,
+                                               len(hits), where))
 
 
 def attest_section_rel(place, off, name, base, addend, lo, hi, src=None,
@@ -4362,7 +4533,7 @@ def _resolve_vendor_named(fb, st, place, decls, lo, hi, src, region):
         return None
     d = decls[vt[0]]
     proof = attest_template(place, off, d.addr, addend,
-                            getattr(fb, "anon", {}).get(name), region)
+                            getattr(fb, "anon", {}).get(name), region, lo, hi)
     if proof is None:
         st.reason = ("%s declared at %08X: the image does not hold the "
                      "vendor template there uniquely, or our template "
@@ -7753,6 +7924,48 @@ def cmd_selftest(args):
     _check(res, "template: a slot the member relocates against a function "
                 "(MATH_SHA1Init at +0x88) is refused",
            attest_template(hmlo, 0x88, 0x020A5CB8, 0), None)
+    # overlay templates (2026-09-29)
+    gslo = 0x02194614                           # ov009 ClosePendingCallbacks
+    _check(res, "template/ov: @14079 of gstats.o is the 16 bytes at "
+                "0x021A1A54 in ov009, uniquely",
+           cls(attest_template(gslo, 0xD4, 0x021A1A54, 0, region="ov009")),
+           "template")
+    _check(res, "template/ov: @13818 of gstats.o (256 bytes) at 0x021A1A64 "
+                "in ov009, uniquely",
+           cls(attest_template(0x02193F00, 0xC0, 0x021A1A64, 0,
+                               region="ov009")), "template")
+    _check(res, "template/ov: the same overlay row with no region named is "
+                "refused (an overlay is never guessed from the address)",
+           attest_template(gslo, 0xD4, 0x021A1A54, 0), None)
+    _check(res, "template/ov: an address 16 bytes off (another ov009 datum) "
+                "is refused",
+           attest_template(gslo, 0xD4, 0x021A1A64, 0, region="ov009"), None)
+    _check(res, "template/ov: our compile's template differing from the "
+                "member's is refused",
+           attest_template(gslo, 0xD4, 0x021A1A54, 0, region="ov009",
+                           ours=bytes(16)), None)
+    evlo, cblo = 0x021C99D0, 0x021C9B64         # ov114 dwc_encsession.o
+    _check(res, "template/ov (b): @16077 at 0x021CE1B8; the other copy "
+                "0x021CE1CC is @16117 at CompleteCallback's slot",
+           cls(attest_template(evlo, 0x184, 0x021CE1B8, 0, region="ov114")),
+           "template")
+    _check(res, "template/ov (b): @16117 at 0x021CE1CC by the converse "
+                "elimination",
+           cls(attest_template(cblo, 0x224, 0x021CE1CC, 0, region="ov114")),
+           "template")
+    _check(res, "template/ov (b): @16077 declared at the copy @16117 "
+                "claims is refused",
+           attest_template(evlo, 0x184, 0x021CE1CC, 0, region="ov114"), None)
+    _check(res, "template/ov (b): with the claiming slot inside the "
+                "compared range, the other copy is unclaimed: refused",
+           attest_template(evlo, 0x184, 0x021CE1B8, 0, region="ov114",
+                           lo=evlo, hi=cblo + 0x238), None)
+    _check(res, "template/ov: the right row named in the wrong overlay "
+                "(ov009) is refused",
+           attest_template(evlo, 0x184, 0x021CE1B8, 0, region="ov009"), None)
+    _check(res, "template/ov: `linker` stays ARM9-only (no vendor row "
+                "for an overlay place)",
+           vendor_function(evlo, "ov114"), None)
     lklo, lkhi = 0x02084B90, 0x02084C1C          # OS_InitLock
     got = attest_section_rel(lklo, 0x80, ".bss", 0x02150FCC, 0, lklo, lkhi)
     _check(res, ".bss: os_spinlock.o's .bss+0 at 0x02150FCC is named and "

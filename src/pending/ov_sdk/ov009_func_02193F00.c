@@ -11,7 +11,7 @@
  *
  * sdk:      value_for_key (gstats.o)
  *
- * Byte-correct (208/208); two relocation sites stay wildcarded.\nBlockers: strcat 0x020948B0 is an unlabelled ARM9 leaf (game/unknown, no witness,\nsame as BucketConcat 0x02193A90); the keyspec initializer copies from the vendor\ntemplate @13818 at 0x021A1A64 in ov009 data, and the template class only attests\ntemplates inside the ARM9 static module.
+ * Byte-correct (208/208); two relocation sites stay wildcarded.\nBlockers: strcat 0x020948B0 is an unlabelled ARM9 leaf (game/unknown, no witness,\nsame as BucketConcat 0x02193A90); the keyspec initializer copies from the vendor\ntemplate @13818 at 0x021A1A64 in ov009 data, and the template class only attests\ntemplates inside the ARM9 static module.\n(2026-09-29, w3_tools) the template site now resolves (template class extended to\noverlays); strcat 0x020948B0 is the only blocker left: MATCH, 1 of 2 sites.
  *
  * symbols:
  *   func_020948B0 0x020948B0  arm

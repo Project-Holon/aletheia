@@ -1,0 +1,84 @@
+/*
+ * function: func_0218F248
+ * address:  0x0218F248
+ * packet:   pkt_ov009_0218F248
+ * region:   ov009
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * sdk:      gpiPeerStartConnect (libdwcgsgp.TWL.HYB.a gpipeer.o)
+ *
+ * symbols:
+ *   func_0218FD9C  0x0218fd9c  arm   ov009
+ *   func_02193734  0x02193734  arm   ov009
+ *   func_02181010  0x02181010  arm   ov009
+ *   func_021810CC  0x021810cc  arm   ov009
+ *   func_02193710  0x02193710  arm   ov009
+ *   func_02189D78  0x02189d78  arm   ov009
+ *   g_021A4E7C     0x021a4e7c  data
+ *   g_021A4F8C     0x021a4f8c  data
+ */
+
+typedef struct {
+    int state;
+    int initiated;
+    unsigned int ip;
+    unsigned short port;
+    int profile;
+} GPIPeer;
+typedef struct {
+    char pad[0x1c];
+    unsigned int ip;
+    unsigned short port;
+} GPIProfileInfo;
+typedef struct {
+    char pad[0xc];
+    GPIProfileInfo *buddyStatusInfo;
+} GPIProfile;
+typedef struct {
+    char pad[0x220];
+    char initMsg[1];
+} GPIConnection;
+extern int func_0218FD9C(void *connection, int profileid, GPIProfile **pProfile);
+extern void func_02193734(void *connection, char *errorString);
+extern int func_02181010(unsigned int ip, unsigned short port, int *state);
+extern int func_021810CC(unsigned int ip, unsigned short port, char *msg, int timeOut);
+extern void func_02193710(void *connection, int errorCode, char *errorString);
+extern void func_02189D78(void *connection, int result, int fatal);
+extern char g_021A4E7C[];
+extern char g_021A4F8C[];
+
+int func_0218F248(void **connection, GPIPeer *peer)
+{
+    GPIProfile *profile;
+    GPIConnection *iconnection;
+    int anError;
+    int result;
+    int aPeerState;
+
+    iconnection = (GPIConnection *)*connection;
+    if (!func_0218FD9C(connection, peer->profile, &profile)) {
+        func_02193734(connection, g_021A4E7C);
+        return 3;
+    }
+    if (profile->buddyStatusInfo) {
+        func_02181010(profile->buddyStatusInfo->ip, profile->buddyStatusInfo->port, &aPeerState);
+        if (aPeerState != 1 || aPeerState != 0) {
+            anError = func_021810CC(profile->buddyStatusInfo->ip, profile->buddyStatusInfo->port,
+                                    iconnection->initMsg, 10000);
+            if (anError != 5) {
+                func_02193710(connection, 5, g_021A4F8C);
+                result = 3;
+                func_02189D78(connection, result, 0);
+                return result;
+            }
+        }
+        peer->ip = profile->buddyStatusInfo->ip;
+        peer->port = profile->buddyStatusInfo->port;
+    }
+    peer->state = 0x67;
+    return 0;
+}
