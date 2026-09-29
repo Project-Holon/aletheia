@@ -9,6 +9,10 @@
  * isa:      arm
  * status:   PENDING
  *
+ * w4_nm tried (all DIFF): | and + of the (u64)s[0]<<32 term with (u32)(s[-1]<<16),
+ * a u64/u32 union, shift-accumulate, xor. MWCC keeps an `orr hi, x, #0` or adds with
+ * carry; the object has no such op. Sibling get48bits_3 is an asm body.
+ *
  * symbols:
 */
 

@@ -19,6 +19,8 @@
  *
  * pending:  asm body kept as a reference only; the object has a C prototype (static u64 get64bits(u16 *s)), so an asm body is not evidence of a match. Needs a C spelling.
  * sdk:      get64bits (libssl.TWL.HYB.a biginteger.o)
+ * w4_nm: not retried beyond get48bits_2 (same u64 assembly problem).
+ *
  * symbols:
  */
 

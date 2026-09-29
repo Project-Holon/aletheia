@@ -1,0 +1,77 @@
+/*
+ * function: func_0216980C
+ * address:  0x0216980C
+ * packet:   pkt_ov009_0216980C
+ * region:   ov009
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   DIFF
+ *
+ * sdk:      DWCi_GetFriendBuddyStatus (libdwcmatch.TWL.HYB.a(dwc_friend.o))
+ *
+ * symbols:
+ *   func_0216AA70  0x0216AA70  arm  ov009
+ *   func_0216A39C  0x0216A39C  arm  ov009
+ *   func_020598EC  0x020598EC  arm
+ *   func_02186108  0x02186108  arm  ov009
+ *   func_02185FD4  0x02185FD4  arm  ov009
+ *   g_021AA860  0x021AA860  data
+ *
+ * near miss: 24 words differ (branch layout after gpGetBuddyIndex, ret init order)
+ */
+
+typedef struct FriendCtl {
+	unsigned char pad0[4];
+	void **connection;
+	unsigned char pad1[0x28];
+	void (*statusCallback)(int, unsigned char, char *, void *);
+	void *statusParam;
+	unsigned char pad2[0x30];
+	unsigned char needRefresh;
+} FriendCtl;
+
+typedef struct FriendGlobal {
+	int pad0[3];
+	FriendCtl *ctl;
+} FriendGlobal;
+
+extern FriendGlobal g_021AA860;
+
+typedef struct BuddyStatus {
+	int profile;
+	int status;
+	char statusString[256];
+	char locationString[256];
+	unsigned char pad[0xc];
+} BuddyStatus;
+
+extern int func_0216AA70(void);
+extern void *func_0216A39C(void);
+extern int func_020598EC(void *userdata, void *friendData);
+extern int func_02186108(void **connection, int profile, int *index);
+extern int func_02185FD4(void **connection, int index, BuddyStatus *status);
+
+int func_0216980C(void *friendData, BuddyStatus *status)
+{
+	unsigned char ret;
+	int profileid;
+	int buddyIdx;
+	ret = 0;
+	buddyIdx = 0;
+	if (g_021AA860.ctl == 0 || !func_0216AA70())
+		return 0;
+	profileid = func_020598EC(func_0216A39C(), friendData);
+	if (profileid > 0) {
+		if (func_02186108(g_021AA860.ctl->connection, profileid, &buddyIdx) != 0)
+			return ret;
+	}
+	if (profileid > 0 && buddyIdx != -1) {
+		ret = 0;
+		if (func_02185FD4(g_021AA860.ctl->connection, buddyIdx, status) == 0)
+			ret = 1;
+	} else
+		ret = 0;
+	return ret;
+}

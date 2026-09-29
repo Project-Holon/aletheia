@@ -42231,6 +42231,19 @@
    "siblings": 23
   },
   {
+   "address": 35190912,
+   "name": "gpiPeerPingReplyCallback",
+   "lib": "TwlDWC/libdwcgsgp.TWL.HYB.a",
+   "object": "gpipeer.o",
+   "region": "ov009",
+   "thumb": false,
+   "size": 4,
+   "concrete": 4,
+   "dupes": 1,
+   "siblings": 24,
+   "referenced": true
+  },
+  {
    "address": 35190916,
    "name": "gpiPeerAddOp",
    "lib": "TwlDWC/libdwcgsgp.TWL.HYB.a",

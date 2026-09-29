@@ -16,6 +16,10 @@
  *           cursor in r3, while the original keeps the head in r3 and the
  *           cursor in ip; 14 concrete bytes, no C arrangement found to flip
  *           the pair (leaf, 76/76 bytes).
+ *
+ * w4_nm tried: do/while, for, goto and early-return loops (30-42 B worse), and the
+ * head read through listInfo_p->head twice (two access paths): still 14 B, the
+ * head/cursor registers (r3/ip) stay swapped.
  */
 
 typedef unsigned char u8;

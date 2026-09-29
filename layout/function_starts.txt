@@ -918,3 +918,6 @@ overlay_009  0x02181E20  arm   # "ldr r0, [r0, #4]; bx lr" gsXmlWriterGetDataLen
 overlay_114  0x021C1C88  arm   # "mov r0, #3; bx lr" ghiEncryptorSslEncryptFunc; pointer word at 0x021C117C (ghttpSetRequestEncryptionEngine +0xE0, ABS32)
 overlay_114  0x021C1C90  arm   # "mov r0, #3; bx lr" ghiEncryptorSslDecryptFunc; pointer word at 0x021C1180 (ghttpSetRequestEncryptionEngine +0xE4, ABS32)
 overlay_114  0x021C9B60  arm   # "bx lr" DWCi_EncSessionProgressCallback; pointer word at 0x021CA184 (DWCi_EncSessionProcess +0xE4, ABS32)
+
+# ov009 gpipeer.o (w4_nm, 2026-09-29): same evidence as the block above.
+overlay_009  0x0218F880  arm   # "bx lr" gpiPeerPingReplyCallback (gpipeer.o, 4 B, 0 mismatches); pointer word at 0x0218A5FC (gpiStartConnect +0x3C4, ABS32 gpiPeerPingReplyCallback)

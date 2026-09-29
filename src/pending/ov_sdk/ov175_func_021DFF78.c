@@ -13,6 +13,10 @@
  *
  * NEAR MISS (4 B differ): register allocation only; the object uses r0 for the buffer pointer and r3 for the offset add, the compiler here picks ip for the pointer.
  *
+ * w4_nm tried: enum SCResult return, DWARF local rosterDataOffset, 5 call spellings,
+ * and a sweep of constant splits (0x44 = A + B), init and call forms: 4 bytes remain
+ * (buffer in ip instead of r0).
+ *
  * symbols:
  *   func_021E05AC  0x021E05AC  arm  ov175
  */

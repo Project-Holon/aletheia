@@ -13,6 +13,9 @@
  *
  * NEAR MISS (4 B differ): register allocation only; the object holds the offset in ip and the buffer pointer in r3, the compiler here swaps them.
  *
+ * w4_nm tried: the same sweep as sciReportSetPlayerConnectionId (0x54 = A + B,
+ * enum return, init/call forms): 4 bytes remain (ip/r3 roles).
+ *
  * symbols:
  *   func_021E054C  0x021E054C  arm  ov175
  */

@@ -1,0 +1,62 @@
+/*
+ * function: func_0216E4C0
+ * address:  0x0216E4C0
+ * packet:   pkt_ov009_0216E4C0
+ * region:   ov009
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * sdk:      DWCi_GT2UnrecognizedMessageCallback (libdwcmatch.TWL.HYB.a dwc_match.o)
+ *
+ * symbols:
+ *   MIi_CpuClear32  0x02082A7C  arm
+ *   func_02175F3C   0x02175F3C  arm  ov009
+ *   func_0219C7C0   0x0219C7C0  arm  ov009
+ *   func_020923F0   0x020923F0  arm
+ *   func_0219AB8C   0x0219AB8C  arm  ov009
+ *   g_021A5A7C      0x021A5A7C  data
+ */
+
+typedef struct SockAddrIn {
+    unsigned char len;
+    unsigned char family;
+    unsigned short port;
+    unsigned int addr;
+} SockAddrIn;
+
+typedef struct MatchCnt {
+    unsigned char pad0[0x10];
+    void *f10;
+} MatchCnt;
+
+extern void MIi_CpuClear32(int v, void *p, int size);
+extern MatchCnt *func_02175F3C(void);
+extern void func_0219C7C0(void *qr2, unsigned char *message, int len, SockAddrIn *saddr);
+extern int func_020923F0(void *a, void *b, int n);
+extern void func_0219AB8C(unsigned char *message, int len, SockAddrIn *saddr);
+extern char g_021A5A7C[];
+
+int func_0216E4C0(int unused, unsigned int ip, unsigned short port, unsigned char *message, int len)
+{
+    SockAddrIn saddr;
+
+    if (len == 0 || message == 0)
+        return 0;
+    MIi_CpuClear32(0, &saddr, 8);
+    saddr.family = 2;
+    saddr.port = (unsigned short)(((port >> 8) & 0xFF) | ((port << 8) & 0xFF00));
+    saddr.addr = ip;
+    ip = message[0];
+    if ((ip == 0xFE && message[1] == 0xFD) || ip == 0x5C) {
+        if (func_02175F3C()->f10 != 0)
+            func_0219C7C0(func_02175F3C()->f10, message, len, &saddr);
+    } else if (func_020923F0(message, g_021A5A7C, 6) == 0) {
+        func_0219AB8C(message, len, &saddr);
+    } else {
+        return 0;
+    }
+    return 1;
+}

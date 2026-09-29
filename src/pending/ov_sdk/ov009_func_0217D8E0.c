@@ -15,6 +15,10 @@
  *
  * near miss: gsLargeIntDiv: 36 vs 32 bytes. Original moves divisor to lr and dest to ip (`mov lr,r1; mov ip,r2; str r3,[sp]; ldr r1,[r0],#4; mov r2,lr; mov r3,ip`); 1.1p1 stores the 5th arg first and uses only ip. Callee 0x0217D904 (gsiLargeIntDiv) is also unmatched.
  *
+ * w4_nm tried: direct call args, static callee prototype, casts, &mData[0], and
+ * compilers dsi/1.1, 1.2, 1.2p1, 1.6sp2, 2.0/sp1p2: all give the same 17-byte diff
+ * (no lr/ip parameter shuffle).
+ *
  * symbols:
  *   func_0217D904                  0x0217D904  arm ov009
  */

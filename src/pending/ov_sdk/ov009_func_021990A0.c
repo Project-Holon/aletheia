@@ -11,6 +11,9 @@
  *
  * sdk:      GetClientUniqueID (natify.o)
  *
+ * w4_nm tried: K&R and unsigned prototypes, 0x7fffffffu, ~0x80000000, ~0u>>1, long
+ * args: the high bound is always built from r0 == 1 (sub) instead of mvn.
+ *
  * symbols:
  *   func_0217F264  0x0217F264  arm  ov009
  *   func_0217F790  0x0217F790  arm  ov009

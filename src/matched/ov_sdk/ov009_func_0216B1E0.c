@@ -1,0 +1,59 @@
+/*
+ * function: func_0216B1E0
+ * address:  0x0216B1E0
+ * packet:   pkt_ov009_0216B1E0
+ * region:   ov009
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * sdk:      DWC_UpdateServersAsync (libdwcmatch.TWL.HYB.a(dwc_main.o))
+ *
+ * symbols:
+ *   func_02059F38  0x02059F38  arm
+ *   func_02168D7C  0x02168D7C  arm  ov009
+ *   func_02168DA4  0x02168DA4  arm  ov009
+ *   func_0216BF98  0x0216BF98  arm  ov009
+ *   g_021AA878  0x021AA878  data
+ */
+
+typedef struct DwcState {
+	unsigned char pad0[0x24];
+	int state;
+	unsigned char pad1[0x3c];
+	int profileID;
+	unsigned char pad2[0x8];
+	void (*loginCallback)(int, int, void *);
+	void *loginParam;
+	void *updateCallback;
+	void *updateParam;
+	unsigned char pad3[0x58];
+	unsigned char updateBuf0[0x100];
+	unsigned char updateBuf1[0x100];
+} DwcState;
+
+typedef struct DwcGlobal {
+	int lastSocketError;
+	DwcState *st;
+} DwcGlobal;
+
+extern DwcGlobal g_021AA878;
+
+
+
+extern int func_02059F38(void);
+extern int func_02168D7C(void);
+extern void func_02168DA4(void *a, void *b, void *c, int d, void *e, void *f, void *g, void *h);
+extern void func_0216BF98(int error, int isChanged);
+
+int func_0216B1E0(int unused, void *updateCallback, void *updateParam, void *statusCallback, void *statusParam, void *deleteCallback, void *deleteParam)
+{
+	if (func_02059F38() || g_021AA878.st->state < 3 || func_02168D7C())
+		return 0;
+	g_021AA878.st->updateCallback = updateCallback;
+	g_021AA878.st->updateParam = updateParam;
+	func_02168DA4(g_021AA878.st->updateBuf0, g_021AA878.st->updateBuf1, func_0216BF98, 0, statusCallback, statusParam, deleteCallback, deleteParam);
+	return 1;
+}

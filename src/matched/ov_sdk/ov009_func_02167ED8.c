@@ -1,0 +1,48 @@
+/*
+ * function: func_02167ED8
+ * address:  0x02167ED8
+ * packet:   pkt_ov009_02167ED8
+ * region:   ov009
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      arm
+ * status:   EXACT
+ *
+ * sdk:      DWC_GetDateTime (libdwcnas.TWL.HYB.a dwc_nasfunc.o)
+ *
+ * symbols:
+ *   func_020889C0  0x020889C0  arm
+ *   func_02089004  0x02089004  arm
+ *   func_020891E0  0x020891E0  arm
+ *   g_021AA834     0x021AA834  data
+ *   g_021AA838     0x021AA838  data
+ *   g_021AA840     0x021AA840  data
+ */
+
+extern int func_020889C0(void *date, void *time);
+extern long long func_02089004(void *date, void *time);
+extern void func_020891E0(void *date, void *time, long long sec);
+extern int g_021AA834;
+extern long long g_021AA838;
+extern long long g_021AA840;
+
+int func_02167ED8(void *date, void *time)
+{
+    long long localsec;
+
+    if (g_021AA834 == 0)
+        return 0;
+    if (func_020889C0(date, time) != 0)
+        return 0;
+    localsec = func_02089004(date, time);
+    if (localsec == -1LL)
+        return 0;
+    if (localsec < g_021AA838)
+        localsec += 3155760000LL;
+    localsec -= g_021AA840;
+    if (localsec < 0 || localsec > 3155759999LL)
+        return 0;
+    func_020891E0(date, time, localsec);
+    return 1;
+}
