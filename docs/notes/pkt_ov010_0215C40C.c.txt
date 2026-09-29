@@ -77,3 +77,4 @@ void *func_0215C40C(void *a, Spec *s)
     func_020185C4(r4);
     return r4;
 }
+/* R1 (big lane), still 5 bytes: moving func_020186C8 alone, or it together with func_02017430, into a static inline helper leaves the diff unchanged (a non-inline static helper is not auto-inlined when it returns a value). */

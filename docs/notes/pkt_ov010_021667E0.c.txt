@@ -1,0 +1,53 @@
+/*
+ * function: func_021667E0
+ * address:  0x021667E0
+ * packet:   pkt_ov010_021667E0
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Runs func_0216666C on the record of `b`; when it answers non-zero,
+ * calls func_0215897C on the first lookup. Always returns 1.
+ *
+ * symbols:
+ *   func_0215A5F4  0x0215A5F4  thumb  ov010
+ *   func_0215A5DC  0x0215A5DC  thumb  ov010
+ *   func_020120F4  0x020120F4  thumb
+ *   func_02012ED0  0x02012ED0  thumb
+ *   func_02159AE8  0x02159AE8  thumb  ov010
+ *   func_0216666C  0x0216666C  thumb  ov010
+ *   func_0215897C  0x0215897C  thumb  ov010
+ */
+
+typedef unsigned int u32;
+
+extern int func_0215A5F4();
+extern int func_0215A5DC();
+extern int func_020120F4();
+extern u32 *func_02012ED0();
+extern int func_02159AE8();
+extern int func_0216666C();
+extern void func_0215897C();
+
+int func_021667E0(int a, int b)
+{
+    int x = func_0215A5F4(b);
+    int y = func_0215A5DC(b);
+    u32 *p;
+    int r;
+
+    func_020120F4();
+    p = func_02012ED0();
+    r = func_0216666C(y, *p, func_02159AE8(a, b));
+    if (r == 0)
+        return 1;
+    func_0215897C(x);
+    return 1;
+}
+
+/* DIFF pkt_ov010_021667E0: 1 line. Original tests the func_0216666C result through a copy
+ * (adds r1,r0,#0; bne) where every spelling gives cmp r0,#0 (int/u32/void*/u8/u16/s16 local, ==/!=/!r, r=1 return).
+ * Sizes and everything else identical (68 bytes). */

@@ -1,0 +1,117 @@
+/*
+ * function: func_02174F4C
+ * address:  0x02174F4C
+ * packet:   pkt_ov012_02174F4C
+ * region:   ov012
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Allocates and initialises a 0x170-byte object from heap 0x41
+ * ("colosseum.c" allocations, lines 53 and 56).
+ *
+ * Near miss, 7 bytes: every instruction and register is right; only two
+ * stack spill slots are swapped. The original keeps n (func_0203D1A4's
+ * result) at sp+0x10 and the CSE'd n*4 (index into f134[]/f148[]) at
+ * sp+0x14; this compiles them the other way round. Declaration order of
+ * n/p/i/s, u32 n, a named temp for func_02012934's result, a void** cursor
+ * into f134, and `!(a3 == 1)` do not move them (the cursor and temp cost
+ * ~110 bytes); permuter.py --budget 300 found nothing better. Getting
+ * f27 as `(a3 != 1)` rather than `(a3 == 1) ? 0 : 1`, and reaching the
+ * slots through a `Slot *s = p->slot` base, took it from 127 to 7 bytes.
+ * Second blocker once bytes match: func_02008494 is an unlabelled arm9
+ * Thumb thunk (MI_CpuCopy8 with size 0x20, bytes 01 4B 20 22 18 47 C0 46
+ * + pool 0x02082D44) with no witness, so the bl stays wildcarded (MATCH
+ * cap); the same thunk blocks src/pending/ov/ov175_func_021D9A9C.c.
+ *
+ * symbols:
+ *   func_020399A8  0x020399A8  arm
+ *   func_0203D1A4  0x0203D1A4  arm
+ *   func_02030734  0x02030734  arm
+ *   func_02167518  0x02167518  thumb  ov010
+ *   func_0201A920  0x0201A920  thumb
+ *   func_02012934  0x02012934  thumb
+ *   func_0201AC2C  0x0201AC2C  thumb
+ *   func_02008494  0x02008494  thumb
+ *   func_02087C6C  0x02087C6C  arm
+ *   func_0216F40C  0x0216F40C  thumb  ov010
+ *   str_02175630   0x02175630  data   ov012  a1
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef struct Slot {
+    u8  f0[0x20];
+    u8  f20[6];
+    u8  f26;
+    u8  f27;
+    u8  f28;
+    u8  pad29[3];
+} Slot;
+
+typedef struct Obj {
+    void *f0;
+    u8    pad4[0x14];
+    Slot  slot[4];
+    u8    padC8[4];
+    u8    fCC[4];
+    u8    fD0[4];
+    u8    padD4[8];
+    u8    fDC;
+    u8    fDD;
+    u8    padDE[0x56];
+    void *f134[4];
+    u8    f144[4];
+    void *f148[4];
+    u8    pad158[0x18];
+} Obj;
+
+extern void  func_020399A8(void);
+extern u32   func_0203D1A4(void);
+extern void *func_02030734(int heap, int size, int a, const char *file, int line);
+extern void *func_02167518(int a, u32 b, int heap, int d);
+extern void *func_0201A920(int heap);
+extern void *func_02012934(u32 a0);
+extern void  func_0201AC2C(void *a, void *b);
+extern void  func_02008494(u32 src, void *dst);
+extern void  func_02087C6C(void *p);
+extern void  func_0216F40C(void *a, u32 b, int c, int d, int heap);
+
+extern char str_02175630[];
+
+Obj *func_02174F4C(u32 a0, u32 a1, u32 a2, int a3)
+{
+    Obj *p;
+    int i;
+    u32 n;
+    Slot *s;
+
+    func_020399A8();
+    n = func_0203D1A4();
+    p = func_02030734(0x41, sizeof(Obj), 1, str_02175630, 0x35);
+    p->f0 = func_02167518(4, a1, 0x41, 0);
+    for (i = 0; i < 4; i++) {
+        p->f134[i] = func_02030734(0x41, 0x678, 1, str_02175630, 0x38);
+        p->f148[i] = func_0201A920(0x41);
+    }
+    for (i = 0; i < 4; i++) {
+        p->fCC[i] = 0xff;
+        p->fD0[i] = 0xff;
+    }
+    p->fDC = 0xff;
+    p->fDD = 0xff;
+    func_0201AC2C(func_02012934(a0), p->f148[n]);
+    s = p->slot;
+    func_02008494(a2, &s[n]);
+    func_02087C6C(s[n].f20);
+    s[n].f26 = 1;
+    s[n].f27 = (a3 != 1);
+    s[n].f28 = 100;
+    func_0216F40C(p->f134[n], a0, 1, 0, 0x41);
+    p->f144[n] = 1;
+    return p;
+}

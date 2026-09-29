@@ -41,3 +41,4 @@ void *func_0215A55C(S16 *src, int v)
 }
 
 /* DIFF: 4 bytes; original schedules 'adds r3,r6,#0' (copy of src ptr) before 'strh r5,[r4]'; every C ordering tried keeps strh first or last of the ldm/stm block. */
+/* R1 (big lane), still 4 bytes: also tried a &p->r destination local, a plain src copy local, a second T* alias, u16 v, a comma expression *(p->id = v, &p->r) = *src, auto-inlined static void setters for id, for the copy and for &p->r (30-35 bytes), and a static helper doing both (much worse). Copy-first order gives adds r3 before adds r2 but pushes strh after the ldm/stm block. permuter 300: no gain. */

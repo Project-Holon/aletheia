@@ -1,0 +1,49 @@
+/*
+ * function: func_0216BFD4
+ * address:  0x0216BFD4
+ * packet:   pkt_ov010_0216BFD4
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * DIFF: only the prologue schedule: original spills r0 (str r0,[sp,#4]) right after the
+ * three arg copies, before movs r1,#0x37; ours spills it after the stack arg. Tail: original
+ * loads s1 before the store of p[8]. Tried a local copy of a0 and a local for the result.
+ *
+ * symbols:
+ *   func_02030734  0x02030734  arm
+ *   func_02082BCC  0x02082BCC  arm
+ *   func_020457B0  0x020457B0  arm
+ *   func_02045838  0x02045838  arm
+ *   d_02172A60     0x02172A60  data  ov010  a1
+ */
+
+extern int func_02030734(int, int, int, char *, int);
+extern void func_02082BCC(void *, int, int);
+extern int func_020457B0(int, int);
+extern void func_02045838(int);
+extern char d_02172A60[];
+
+int *func_0216BFD4(int a0, int a1, short a2, short a3, int s0, int s1, int s2)
+{
+    int *p;
+    int b = a0;
+    p = (int *)func_02030734(a0, 0x2c, 0, d_02172A60, 0x37);
+    func_02082BCC(p, 0, 0x2c);
+    p[0] = a1;
+    p[6] = s0;
+    *(short *)((char *)p + 4) = a2;
+    *(short *)((char *)p + 6) = a3;
+    p[10] = s2;
+    {
+    int t = func_020457B0(0xb, b);
+    int f = s1;
+    p[8] = t;
+    if (f)
+        func_02045838(p[8]);
+    }
+    return p;
+}

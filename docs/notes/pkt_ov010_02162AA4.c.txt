@@ -1,0 +1,80 @@
+/*
+ * function: func_02162AA4
+ * address:  0x02162AA4
+ * packet:   pkt_ov010_02162AA4
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Near miss: SIZE 186 vs 196, 42 bytes differ, all in the tail layout. Prologue,
+ * mask order (decl `int b, a, c`, statements b,a,c), the mode switch and the
+ * unsigned h/hw halves match. The original has two no-op `b next` stubs before
+ * the shared centring block and re-reads stack arg n (add r0,sp,#0x10; ldrh)
+ * for the final `a >= n` compare; empty if/else arms and goto spellings do not
+ * reproduce them.
+ *
+ * symbols:
+ */
+
+typedef unsigned short u16;
+
+u16 func_02162AA4(int v, int m, int flag, int dir, u16 n)
+{
+    int b, a, c;
+    unsigned hw, h;
+    int d;
+    int w;
+    if (v == 0)
+        return 0;
+    b = (v & 0xf0) >> 4;
+    a = v & 0xf;
+    c = (v & 0xf00) >> 8;
+    if ((c == 0 && m == 3) || (c == 1 && m == 2) || (c == 3 && m == 0)
+        || (c == 2 && m == 1))
+        a = b - 1 - a;
+    if (flag != 0) {
+        switch (dir) {
+        case 0:
+            if ((unsigned)(c - 2) <= 1)
+                a = b - 1 - a;
+            break;
+        case 1:
+            if ((unsigned)c <= 1)
+                a = b - 1 - a;
+            break;
+        case 2:
+            a = b - 1 - a;
+            break;
+        }
+    }
+    w = n;
+    h = (unsigned)b / 2;
+    d = w - b;
+    hw = (unsigned)w / 2;
+    if (d != 0) {
+        if (d % 2 != 0) {
+            if (w % 2 != 0) {
+                if (a >= h) {
+                } else {
+                    h = h - 1;
+                }
+            } else {
+                if (a > h) {
+                } else {
+                    a = (hw - 1) + (a - h);
+                    goto clamp;
+                }
+            }
+        }
+        a = hw + (a - h);
+    }
+clamp:
+    if (a < 0)
+        a = 0;
+    else if (a >= n)
+        a = w - 1;
+    return a;
+}

@@ -1,0 +1,83 @@
+DIFF, 9 bytes, pure register swap: original holds the table in r1 and -1 in r0, ours the reverse
+(tbl load r0 first). Tried: raw int*, struct E, while vs do-while, declaration order, operand order,
+static inline Find(). Latest C follows.
+
+Diff lines:
+  9 concrete byte(s) differ
+  * +0036    ldr r1, [r5, #0x28]                    | ldr r0, [r5, #0x28]                    
+  * +0038    subs r0, r6, #3                        | subs r1, r6, #3                        
+  * +003A    ldr r2, [r1]                           | ldr r2, [r0]                           
+  * +003C    cmp r2, r0                             | cmp r2, r1                             
+  * +0040    add r0, sp, #4                         | add r1, sp, #4                         
+  * +0042    ldrh r0, [r0]                          | ldrh r1, [r1]                          
+  * +0048    ldr r3, [r1, r3]                       | ldr r3, [r0, r3]                       
+  * +004A    cmp r0, r3                             | cmp r1, r3                             
+  * +0052    ldr r3, [r1, r3]                       | ldr r3, [r0, r3]                       
+  legend: '*' concrete mismatch, '~' relocation field (wildcarded)
+
+/*
+ * function: func_02169470
+ * address:  0x02169470
+ * packet:   pkt_ov010_02169470
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02169998  0x02169998  thumb  ov010
+ *   func_02169550  0x02169550  thumb  ov010
+ *   func_02169568  0x02169568  thumb  ov010
+ *   func_02169880  0x02169880  thumb  ov010
+ *   func_0204944C  0x0204944C  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct E {
+    int key;
+    int a;
+    int b;
+    int c;
+} E;
+
+static inline int Find(E *tbl, u16 *pv)
+{
+    int i;
+
+    i = 0;
+    while (tbl[i].key != -1) {
+        if (*pv == tbl[i].key)
+            break;
+        i++;
+    }
+    return i;
+}
+
+extern void func_02169998(void *p);
+extern void func_02169550(void *p);
+extern void func_02169568(void *p);
+extern void func_02169880(void *p);
+extern void func_0204944C(u32 h, u32 b, u32 c, u32 d, u16 *out);
+
+void func_02169470(u8 *p, u32 b)
+{
+    u16 v;
+    E *tbl;
+    int i;
+
+    func_02169998(*(void **)(p + 0x2c));
+    func_02169550(p);
+    func_02169568(p);
+    func_02169880(p);
+    *(u32 *)(p + 0x14) = b;
+    func_0204944C(*(u32 *)(p + 0x10), b, 0, 2, &v);
+    tbl = *(E **)(p + 0x28);
+    i = Find(tbl, &v);
+    *(int *)(p + 0x18) = i;
+    *(u16 *)(p + 0xb0) = 1;
+}

@@ -1,0 +1,7 @@
+func_02160FE0 (ov010, 144 B) DIFF, best C in src/pending/ov/ov010_func_02160FE0.c (136 B).
+Switch 0..8 with cases 1,3-8 as empty labels falling to default reproduces the halfword table;
+case 2 has a private call site (r6=4 shared with the -1 compare via subs r0,r6,#5);
+case 0 and default share the tail call (goto form).
+Remaining diff: original spills a3 ([sp]) and keeps h in r7, dispatch index in r1 (r0 live);
+mine keeps a3 in r7, spills h, dispatch in r0. Tried: 3 separate call sites (144 B, same regalloc),
+goto-shared call site (136 B). Regalloc spill choice not moved by either.

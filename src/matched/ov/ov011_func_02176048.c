@@ -1,0 +1,109 @@
+/*
+ * function: func_02176048
+ * address:  0x02176048
+ * packet:   pkt_ov011_02176048
+ * region:   ov011
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * symbols:
+ *   func_02082BCC  0x02082BCC  arm
+ *   func_02175B14  0x02175B14  thumb  ov011
+ *   func_02175FB8  0x02175FB8  thumb  ov011
+ *   func_020392B8  0x020392B8  arm
+ *   func_0203D1B4  0x0203D1B4  arm
+ *   func_02175920  0x02175920  thumb  ov011
+ *   func_0203F4FC  0x0203F4FC  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    u32 f0_0 : 15;
+    u32 f0_15 : 7;
+    u32 f0_22 : 10;
+    u32 kind : 4;
+    u32 f4_4 : 28;
+    u32 w8[4];
+} Head;
+
+typedef struct {
+    u16 name[8];
+    u8 b10;
+    u8 pad11;
+    u16 pad12;
+} Name;
+
+typedef struct {
+    Head head;
+    Name name;
+    u8 b2C;
+} Src;
+
+typedef struct {
+    Head head;
+    Name name;
+    u8 idx;
+    u8 b2D;
+    u8 b2E;
+    u16 h30;
+    u16 h32;
+} Rec;
+
+typedef struct {
+    u8 state;
+    Rec rec;
+} Entry;
+
+typedef struct {
+    u8 pad0[0x78];
+    Rec tmp;
+    u8 padAC[0xE8 - 0xAC];
+    Entry entries[1];
+} Work;
+
+extern void func_02082BCC(void *p, int v, int n);
+extern int func_02175B14(void *p);
+extern int func_02175FB8(void *p, Src *src);
+extern int func_020392B8(void);
+extern int func_0203D1B4(void);
+extern void func_02175920(void *p);
+extern u32 func_0203F4FC(void);
+
+int func_02176048(u8 *a0, Work *p, Src *src, int idx)
+{
+    Rec *tmp = &p->tmp;
+
+    func_02082BCC(&p->entries[idx], 0, sizeof(Entry));
+    if (func_02175B14(a0 + 0x1AC) == 1) {
+        p->entries[idx].state = 2;
+        return 0;
+    }
+    if (func_02175FB8(a0 + 0x1AC, src) == 0) {
+        p->entries[idx].state = 2;
+        return 0;
+    }
+    if (src->head.kind == 0 || src->head.kind == 3) {
+        if (func_020392B8() != 2 || func_0203D1B4() != 2) {
+            p->entries[idx].state = 4;
+            return 0;
+        }
+    }
+    tmp->head = src->head;
+    tmp->name = src->name;
+    tmp->idx = idx;
+    tmp->b2D = src->name.b10;
+    tmp->b2E = src->b2C;
+    tmp->h30 = 10;
+    tmp->h32 = src->head.f0_22;
+    p->entries[idx].rec = *tmp;
+    p->entries[idx].state = 1;
+    func_02175920(p);
+    *(u32 *)((u8 *)p + 0x190) = func_0203F4FC();
+    *((u8 *)p + 0x19C) = 0;
+    return 1;
+}

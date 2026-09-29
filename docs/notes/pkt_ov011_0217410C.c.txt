@@ -1,0 +1,92 @@
+/*
+ * function: func_0217410C
+ * address:  0x0217410C
+ * packet:   pkt_ov011_0217410C
+ * region:   ov011
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02026478  0x02026478  thumb
+ *   func_020127B8  0x020127B8  thumb
+ *   func_020399A8  0x020399A8  arm
+ *   func_0203D1A4  0x0203D1A4  arm
+ *   func_02175DA8  0x02175DA8  thumb  ov011
+ *   func_021763D8  0x021763D8  thumb  ov011
+ *   func_02175E30  0x02175E30  thumb  ov011
+ *   func_02176424  0x02176424  thumb  ov011
+ *   func_02175D7C  0x02175D7C  thumb  ov011
+ *
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+struct Rec {
+    u32 pad0;
+    u32 lo : 4;
+};
+
+extern int func_02026478(int);
+extern int func_020127B8(void);
+extern int func_020399A8(void);
+extern int func_0203D1A4(int);
+extern int func_02175DA8(u8 *);
+extern void func_021763D8(int, int);
+extern void func_02175E30(int, u8 *, u8 *);
+extern int func_02176424(int, u8 *, u8 *);
+extern void func_02175D7C(u8 *, u8 *, u8 *);
+
+void func_0217410C(int a0, int a1, u8 *b, u8 *s)
+{
+    int y;
+    int flag;
+    int x;
+    u8 buf[2];
+    int r7;
+    int r6;
+
+    x = func_02026478(*(int *)(s + 4));
+    y = func_020127B8();
+    buf[1] = 0;
+    flag = 0;
+    buf[0] = 0;
+    r7 = 0;
+    r6 = 0;
+    if (b[0x2c] == 4) {
+        return;
+    }
+    if (func_02175DA8(s + 0x1ac) == 1) {
+        return;
+    }
+    if (b[0x28] == func_0203D1A4(func_020399A8())) {
+        if (b[0x37] == 1) {
+            func_021763D8(y, ((struct Rec *)b)->lo);
+        } else {
+            func_02175E30(x, s, b);
+        }
+        s[0x907] = 1;
+        if (func_02176424(y, &buf[1], &buf[0]) == 1) {
+            flag = 1;
+            s[0x907] = 1;
+        }
+        if (b[0x2e] == 1) {
+            r6 = 1;
+        } else {
+            r7 = 1;
+        }
+        if (flag == 1) {
+            r6 += buf[0];
+            r7 += buf[1];
+        }
+        s[0x354] = r7;
+        s[0x355] = r6;
+        s[0x356] = 1;
+        s[0x93e] = 1;
+    }
+    func_02175D7C(s, s + 0x1ac, b);
+}

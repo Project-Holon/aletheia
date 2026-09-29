@@ -1,0 +1,172 @@
+/*
+ * function: func_021731C8
+ * address:  0x021731C8
+ * packet:   pkt_ov011_021731C8
+ * region:   ov011
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02026478  0x02026478  thumb
+ *   func_02012E40  0x02012E40  thumb
+ *   func_0203CDBC  0x0203CDBC  arm
+ *   func_02012B70  0x02012B70  thumb
+ *   func_0200FBA0  0x0200FBA0  thumb
+ *   func_020127A4  0x020127A4  thumb
+ *   func_02012AC8  0x02012AC8  thumb
+ *   func_02013D5C  0x02013D5C  thumb
+ *   func_02012114  0x02012114  thumb
+ *   func_0201210C  0x0201210C  thumb
+ *   func_02188BE8  0x02188BE8  thumb  ov021
+ *   func_02161F68  0x02161F68  thumb  ov010
+ *   func_0201281C  0x0201281C  thumb
+ *   func_0216754C  0x0216754C  thumb  ov010
+ *   func_0200FB24  0x0200FB24  thumb
+ *   func_02175DA8  0x02175DA8  thumb  ov011
+ *   func_02175E90  0x02175E90  thumb  ov011
+ *   func_02175BCC  0x02175BCC  thumb  ov011
+ *   func_02012B58  0x02012B58  thumb
+ *   func_02026480  0x02026480  thumb
+ *   func_02012B64  0x02012B64  thumb
+ *   func_02012B8C  0x02012B8C  thumb
+ *   func_02012B4C  0x02012B4C  thumb
+ *   func_02012124  0x02012124  thumb
+ *   func_02026680  0x02026680  thumb
+ *   func_02045808  0x02045808  arm
+ *   func_020307B0  0x020307B0  arm
+ *
+ * DIFF, same size (416). Control flow and every call match; two
+ * residuals:
+ *  1. callee-saved allocation is permuted: the original has o=r7, s=r5,
+ *     h=r6, ok/pt/i=r4; this C gives o=r6, s=r4, h=r7, ok/pt/i=r5.
+ *     Declaration order of the locals has no effect (all 24 orders of
+ *     ctx/ok/h/i give the same bytes); permuter 300 found nothing.
+ *  2. the original ends the `func_02012B70(h) == 0` arm (+0x136) with a
+ *     `b` to the very next instruction. Not reproduced by: empty else,
+ *     else { (void)0; } / { do {} while (0); } / dead store, inverted
+ *     empty-then, goto to the next label, an inline void/int helper with a
+ *     return, a one-case switch, while(...) { ...; break; }. The missing
+ *     2 bytes land as trailing padding instead.
+ * Relocations: func_02161F68 (unlabelled in ov010, a leaf) and
+ * func_02026680 (arm9, only caller in range) have no witness yet.
+ *
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    u8 b0 : 1;
+    u8 b1 : 1;
+    u8 rest : 6;
+} Bits;
+
+typedef struct {
+    u8 pad0[0x34];
+    u8 slot[3];
+} Party;
+
+extern int func_02026478(int);
+extern int func_02012E40(int);
+extern int func_0203CDBC(void);
+extern int func_02012B70(int);
+extern void func_0200FBA0(void);
+extern int func_020127A4(int);
+extern int func_02012AC8(int);
+extern int func_02013D5C(int);
+extern int func_02012114(int);
+extern int func_0201210C(int);
+extern int func_02188BE8(int);
+extern void func_02161F68(u8 *);
+extern void func_0201281C(int);
+extern void func_0216754C(int, int);
+extern int func_0200FB24(void);
+extern int func_02175DA8(u8 *);
+extern int func_02175E90(u8 *, u8 *);
+extern Party *func_02175BCC(u8 *);
+extern int func_02012B58(int);
+extern void func_02026480(int, int);
+extern void func_02012B64(int, int);
+extern void func_02012B8C(int, int);
+extern void func_02012B4C(int, int);
+extern void func_02012124(int, int);
+extern void func_02026680(int);
+extern void func_02045808(u32);
+extern void func_020307B0(void *);
+
+int func_021731C8(int a0, int *o, u8 *s)
+{
+    int ctx;
+    int ok;
+    int h;
+    Party *pt;
+    int me;
+    int i;
+
+    ctx = o[1];
+    h = func_02026478(ctx);
+    ok = 0;
+    if (func_02012E40(h) == 1) {
+        return ok;
+    }
+    if (s[0x8fd] == 10 || func_0203CDBC() == 1) {
+        if (func_02012B70(h) == 0) {
+            func_0200FBA0();
+            ok = 1;
+        } else if (func_02013D5C(func_02012AC8(func_020127A4(h))) == 1
+                   && func_02012114(o[0]) == 1
+                   && func_02188BE8(func_0201210C(o[0])) == 1) {
+            ok = 1;
+        }
+    }
+    if (ok == 1) {
+        func_02161F68(s + 0x35c);
+        func_0201281C(h);
+        func_0216754C(o[0], *(int *)(s + 8));
+        if (((Bits *)(s + 0x93f))->b1 == 1 || func_0200FB24() != 0) {
+            func_02026480(ctx, 5);
+        } else if (func_02175DA8(s + 0x1ac) == 1) {
+            if (((Bits *)(s + 0x904))->b0 == 1) {
+                func_02026480(ctx, 4);
+            } else if (func_02175E90(s, s + 0x1ac) == 1) {
+                func_02026480(ctx, 2);
+            } else {
+                pt = func_02175BCC(s + 0x1ac);
+                me = func_02012B58(h);
+                for (i = 0; i < 3; i++) {
+                    if (pt->slot[i] != 4 && me != pt->slot[i]) {
+                        break;
+                    }
+                }
+                if (i < 3) {
+                    func_02026480(ctx, 3);
+                } else {
+                    func_02026480(ctx, 4);
+                }
+            }
+        } else if (s[0x8fb] > 1) {
+            func_02026480(ctx, 1);
+        }
+        if (func_02012B70(h) == 0) {
+            func_02012B64(h, 0);
+            func_02012B8C(h, 0);
+        }
+        func_02012B4C(h, 1);
+        if ((((Bits *)(s + 0x93f))->b1 == 1 || func_0200FB24() != 0) && func_02012B70(h) == 1) {
+            func_02012124(o[0], 1);
+        }
+        func_02026680(ctx);
+        for (i = 0; i < 2; i++) {
+            func_02045808(*(u32 *)(s + 0x928 + i * 4));
+        }
+        func_020307B0(s);
+        func_020307B0(o);
+        return 1;
+    }
+    return 0;
+}

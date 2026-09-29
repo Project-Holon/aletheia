@@ -1,0 +1,54 @@
+/*
+ * function: func_02163418
+ * address:  0x02163418
+ * packet:   pkt_ov010_02163418
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * near miss: 10 bytes; original zero-fills the second local via r1=&z (add r1,sp,#0 then stores [r1],[r1+4],[r1+8]), compiler stores sp-relative then adds r1. Tried pointer local, array, chained assign, static inline helper.
+ *
+ * symbols:
+ *   func_0216DC00  0x0216DC00  thumb  ov010
+ *   func_021AB41C  0x021AB41C  thumb  ov021
+ *   func_0216D900  0x0216D900  thumb  ov010
+ *   d_021714D0     0x021714D0  data  ov010  a4
+ */
+
+typedef struct {
+    int x, y, z;
+} V;
+
+typedef struct {
+    char pad[10];
+    unsigned short f;
+} S;
+
+extern int func_0216DC00();
+extern int func_021AB41C();
+extern void func_0216D900();
+extern V d_021714D0;
+
+static inline void vzero(V *p)
+{
+    p->x = 0;
+    p->y = 0;
+    p->z = 0;
+}
+
+void func_02163418(int a, S *s)
+{
+    V v;
+    V z;
+    V *pz;
+
+    if (func_0216DC00() == 0 && func_021AB41C(s->f) != 0) {
+        v = d_021714D0;
+        func_0216D900(a, &v);
+        return;
+    }
+    vzero(&z);
+    func_0216D900(a, &z);
+}

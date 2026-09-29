@@ -1,0 +1,89 @@
+/*
+ * function: func_0216FD54
+ * address:  0x0216FD54
+ * packet:   pkt_ov010_0216FD54
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Near miss (DIFF, 172 vs 176 B). Semantics: reads two 12-byte-stride table
+ * entries (d_021726A0[a->2].w and [a->0].w, >>3 unsigned), allocates two
+ * buffers, runs func_0216FC74 then the tile deswizzle func_0216FCA0, and
+ * DMA-copies (wi*A/8)<<5 bytes. Blocker: allocation. The image spills the raw
+ * table value A (sp+0x14) and keeps wi in r6; every spelling gives A in r6 and
+ * wi spilled, and the compiler hoists the second ldrh early where the image
+ * loads it after the first store sequence (str r2, str r3, str r1). Also its
+ * callee func_0216FCA0 is itself parked (docs/notes/pkt_ov010_0216FCA0.c.txt).
+ *
+ * symbols:
+ *   d_021726A0     0x021726A0  data  ov010
+ *   func_02043678  0x02043678  arm
+ *   func_0216FC74  0x0216FC74  thumb  ov010
+ *   func_0216FCA0  0x0216FCA0  thumb  ov010
+ *   func_020437D4  0x020437D4  arm
+ *   func_0207F7A0  0x0207F7A0  arm
+ *   func_020862F0  0x020862F0  arm
+ *   func_0207F7FC  0x0207F7FC  arm
+ *   func_0207F9B4  0x0207F9B4  arm
+ *   func_020437AC  0x020437AC  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    u16 w;
+    u16 pad;
+    u16 x;
+} Ent;
+
+typedef struct {
+    u16 w;
+    u8 pad[10];
+} TE;
+
+extern TE d_021726A0[];
+
+extern void *func_02043678(int a, int b, int c, u16 d);
+extern void func_0216FC74(int a, int b, int c, u16 d, void *e, int f);
+extern void func_0216FCA0(void *a, void *b);
+extern void *func_020437D4(void *p);
+extern void func_0207F7A0(void);
+extern void func_020862F0(void *p, int n);
+extern void func_0207F7FC(void *p, int src, int n);
+extern void func_0207F9B4(void);
+extern void func_020437AC(void *p);
+
+void func_0216FD54(char *a, int b, int c, int d, u16 e, u16 f)
+{
+    int hi;
+    int wi;
+    int A;
+    void *buf;
+    void *tmp;
+    void *vram;
+    int n;
+    int base;
+    int off;
+
+    A = d_021726A0[*(u16 *)(a + 2)].w;
+    hi = (u32)A >> 3;
+    tmp = func_02043678(wi = (u32)d_021726A0[*(u16 *)a].w >> 3, hi, 0x20, f);
+    buf = func_02043678(wi, hi, 0x20, f);
+    func_0216FC74(b, c, d, e, buf, *(int *)(a + 0x14));
+    func_0216FCA0(buf, tmp);
+    vram = func_020437D4(tmp);
+    off = (u16)*(int *)(a + 4) << 3;
+    base = *(int *)(a + 0xc);
+    n = (A * wi / 8) << 5;
+    func_0207F7A0();
+    func_020862F0(vram, n);
+    func_0207F7FC(vram, base + off, n);
+    func_0207F9B4();
+    func_020437AC(buf);
+    func_020437AC(tmp);
+}

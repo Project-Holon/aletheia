@@ -1,0 +1,378 @@
+/*
+ * function: func_02174744
+ * address:  0x02174744
+ * packet:   pkt_ov012_02174744
+ * region:   ov012
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Stage machine on *state (18 states), same family as func_021743A4.
+ *
+ * DIFF, 5 bytes (B9, 20 runs + permuter 300 with no gain). Only case 12's
+ * `*out = func_02157450(a0, a2, self->f2830, t)` differs: the original loads
+ * self into r3 and the pool word 0x2830 into r2 (`ldr r3,[sp,#0x10];
+ * ldr r2,=0x2830; ldrb r2,[r3,r2]`), and this source gives the reverse
+ * (a `*((u8*)self+0x2830)` spelling changed nothing). Everything else is exact.
+ * Keys found: case 13's loop is a do-while under `if (cnt > 0)`; t->f10 as an
+ * if/else (not a ternary) gives t r7; `Slot *slots` declared first and q before
+ * cnt/mine set the spill slots.
+ * After the bytes: unlabelled leaf callees ov090 0x021B6100 (p[0x62]=0),
+ * ov090 0x021B6108 (tail call func_0203A5E4(0x2D00)) and ov012 0x0217534C
+ * (func_02082BCC(p,0,0x58)) need their own files and shards.
+ * Pooled small words 0x5A/0x5B/0x83 are linker overlay ids
+ * (ov090/ov091/ov131). p is the object func_02174F4C builds (0x2c-byte
+ * slots at +0x18, per-player pointers at +0x148, flag bytes at +0x15C).
+ *
+ * symbols:
+ *   func_020399A8  0x020399A8  arm
+ *   func_0203D1A4  0x0203D1A4  arm
+ *   func_021B6114  0x021B6114  thumb  ov090
+ *   func_021BE8D4  0x021BE8D4  thumb  ov021
+ *   func_021BE92C  0x021BE92C  thumb  ov021
+ *   func_02012374  0x02012374  thumb
+ *   func_020144DC  0x020144DC  thumb
+ *   func_02034AC4  0x02034AC4  arm
+ *   func_02034A5C  0x02034A5C  arm
+ *   func_021B6100  0x021B6100  thumb  ov090
+ *   func_021B6108  0x021B6108  thumb  ov090
+ *   func_020120B4  0x020120B4  thumb
+ *   func_020120F0  0x020120F0  thumb
+ *   func_020120F4  0x020120F4  thumb
+ *   func_0201AA18  0x0201AA18  thumb
+ *   func_0200CA1C  0x0200CA1C  thumb
+ *   func_0200CA38  0x0200CA38  thumb
+ *   func_0200FB24  0x0200FB24  thumb
+ *   func_02034714  0x02034714  arm
+ *   func_0201A920  0x0201A920  thumb
+ *   func_0201AC2C  0x0201AC2C  thumb
+ *   func_0201A948  0x0201A948  thumb
+ *   func_0201AB28  0x0201AB28  thumb
+ *   func_0201A98C  0x0201A98C  thumb
+ *   func_020307B0  0x020307B0  arm
+ *   func_02175240  0x02175240  thumb  ov012
+ *   func_02039C68  0x02039C68  arm
+ *   func_02039CB4  0x02039CB4  arm
+ *   func_02174D98  0x02174D98  thumb  ov012
+ *   func_02175214  0x02175214  thumb  ov012
+ *   func_02175280  0x02175280  thumb  ov012
+ *   func_02157450  0x02157450  thumb  ov010
+ *   func_0201283C  0x0201283C  thumb
+ *   func_0203D1B4  0x0203D1B4  arm
+ *   func_02009D1C  0x02009D1C  thumb
+ *   func_02009B80  0x02009B80  thumb
+ *   func_02009BB8  0x02009BB8  thumb
+ *   func_0217534C  0x0217534C  thumb  ov012
+ *   func_020145CC  0x020145CC  thumb
+ *   ov090_id       0x0000005A  data   a1
+ *   ov091_id       0x0000005B  data   a1
+ *   ov131_id       0x00000083  data   a1
+ *   d_021BED00     0x021BED00  data   ov091  a4
+ *   d_021DC800     0x021DC800  data   ov131  a4
+ *   str_02175628   0x02175628  data   ov012  a1
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef struct Slot {
+    u8  f0[0x20];
+    u8  f20[6];
+    u8  f26;
+    u8  f27;
+    u8  f28;
+    u8  pad29[3];
+} Slot;
+
+typedef struct Obj {
+    void *f0;
+    u8    pad4[0x14];
+    Slot  slot[4];
+    u8    padC8[0x6c];
+    void *f134[4];
+    u8    f144[4];
+    void *f148[4];
+    u8    pad158[4];
+    u8    f15C[4];
+} Obj;
+
+typedef struct Self {
+    u8    pad0[0x2830];
+    u8    f2830;
+    u8    pad2831[0xcfb];
+    u32   f352C;
+    u8    pad3530[0x2c];
+    Obj  *f355C;
+} Self;
+
+typedef struct Req {
+    u32 f0;
+    u32 f4;
+    u32 f8;
+    u8  fC;
+    u8  fD;
+    u8  fE;
+    u8  fF;
+    u8  f10;
+    u8  pad11[7];
+    u32 f18;
+} Req;
+
+typedef struct Out {
+    void *f0;
+    u8    pad4[0xc];
+    u16   f10;
+    u8    f12;
+    u8    pad13;
+    u32   f14;
+    u8    f18[0x40];
+    u32   f58;
+} Out;
+
+typedef struct Ctx {
+    u32  f0;
+    u8   pad4[8];
+    u32  fC;
+    u8   pad10[0x2c];
+    u32  f3C;
+    u32  f40;
+    u8   pad44[5];
+    u8   f49[6];
+    u8   pad4F[0x49];
+    Req  req;
+    u8   pad[0xc];
+    Out *fC0;
+} Ctx;
+
+extern u32   func_020399A8(void);
+extern int   func_0203D1A4(void);
+extern void  func_021B6114(Ctx *ctx);
+extern void *func_021BE8D4(u32 a0, u32 a1, int a2, int a3);
+extern void *func_021BE92C(u32 a0, u32 a1, int a2, int a3, int a4, int a5, int a6);
+extern void  func_02012374(void *obj, void *out);
+extern void *func_020144DC(u32 a0, u32 a1);
+extern void  func_02034AC4(u32 id);
+extern void  func_02034A5C(u32 id);
+extern void  func_021B6100(Ctx *ctx);
+extern void  func_021B6108(Ctx *ctx);
+extern void  func_020120B4(u32 a0, void *a1, void *a2, void *a3);
+extern int   func_020120F0(u32 a0);
+extern u32   func_020120F4(u32 a0);
+extern u8    func_0201AA18(u32 a);
+extern u32   func_0200CA1C(u32 a);
+extern u32   func_0200CA38(u32 a);
+extern int   func_0200FB24(void);
+extern void  func_02034714(const char *file, int line, const char *msg);
+extern void *func_0201A920(int heap);
+extern void  func_0201AC2C(void *a, void *b);
+extern void  func_0201A948(void *a);
+extern void *func_0201AB28(void *list, int i);
+extern void  func_0201A98C(void *list, void *e);
+extern void  func_020307B0(void *p);
+extern void  func_02175240(Obj *p, int a);
+extern void  func_02039C68(u32 a0, int a1, int a2);
+extern int   func_02039CB4(u32 a0, int a1, int a2);
+extern int   func_02174D98(void *a);
+extern int   func_02175214(Obj *p);
+extern void  func_02175280(Obj *p, u32 a0, void *dst, int heap);
+extern u32   func_02157450(u32 a0, u32 a2, u8 b, Out *t);
+extern u32   func_0201283C(u32 a);
+extern int   func_0203D1B4(void);
+extern int   func_02009D1C(u32 s, Slot *slot, u32 *out);
+extern void  func_02009B80(u32 s, u32 v);
+extern void  func_02009BB8(u32 s, u32 v, int a, int b, int c);
+extern void  func_0217534C(void *p);
+extern void *func_020145CC(u32 a0);
+
+extern char ov090_id[];
+extern char ov091_id[];
+extern char ov131_id[];
+extern u8 d_021BED00[];
+extern u8 d_021DC800[];
+extern char str_02175628[];
+
+int func_02174744(u32 a0, Self *self, u32 a2, Ctx *ctx, void *obj, u32 *out, u8 *state)
+{
+    Slot *slots;
+    Obj *p = self->f355C;
+    Req *req = &ctx->req;
+    Out *t = ctx->fC0;
+    int n;
+    int i;
+    void *w;
+    void *q;
+    int cnt;
+    int mine;
+    u32 s;
+    u32 tmp;
+    u8 c;
+
+    func_020399A8();
+    n = func_0203D1A4();
+    if (*state > 2 && *state < 7)
+        func_021B6114(ctx);
+
+    switch (*state) {
+    case 0:
+        func_02012374(obj, func_021BE8D4(a0, a2, 0, 0));
+        (*state)++;
+        break;
+    case 1:
+        func_02012374(obj, func_020144DC(a0, a2));
+        (*state)++;
+        break;
+    case 2:
+        func_02034AC4((u32)ov090_id);
+        func_021B6100(ctx);
+        (*state)++;
+        break;
+    case 3:
+        func_020120B4(a0, ov091_id, d_021BED00, ctx);
+        (*state)++;
+        break;
+    case 4:
+        if (func_020120F0(a0) != 0)
+            break;
+        if (ctx->f40 == 1)
+            *state = 5;
+        else
+            *state = 7;
+        break;
+    case 5:
+        req->f0 = ctx->f0;
+        req->f4 = ctx->fC;
+        req->f8 = func_020120F4(a0);
+        req->fC = 1;
+        req->fE = func_0201AA18(ctx->f0);
+        req->fD = 0;
+        req->fF = ctx->f3C;
+        req->f10 = 0;
+        req->f18 = func_0200CA38(func_0200CA1C(req->f8));
+        func_020120B4(a0, ov131_id, d_021DC800, req);
+        (*state)++;
+        break;
+    case 6:
+        if (func_020120F0(a0) != 0)
+            break;
+        ctx->f3C = req->fF;
+        *state = 3;
+        break;
+    case 7:
+        func_021B6108(ctx);
+        func_02034A5C((u32)ov090_id);
+        *state = 8;
+        break;
+    case 8:
+        if (func_0200FB24() != 0) {
+            *state = 17;
+            break;
+        }
+        if (ctx->f40 != 0)
+            func_02034714(str_02175628, 0, str_02175628);
+        if (ctx->f3C != 6)
+            func_02034714(str_02175628, 0, str_02175628);
+        t = p->f148[n];
+        q = func_0201A920(0x41);
+        func_0201AC2C(t, q);
+        func_0201A948(t);
+        for (i = 0; i < 6; i++) {
+            c = ctx->f49[i];
+            if (c == 0)
+                break;
+            func_0201A98C(t, func_0201AB28(q, c - 1));
+        }
+        func_020307B0(q);
+        func_02175240(p, 1);
+        func_02039C68(func_020399A8(), 0x16, 0x14);
+        (*state)++;
+        break;
+    case 9:
+        if (func_0200FB24() != 0) {
+            *state = 17;
+            break;
+        }
+        if (func_02039CB4(func_020399A8(), 0x16, 0x14) == 1)
+            (*state)++;
+        break;
+    case 10:
+        if (func_0200FB24() != 0) {
+            *state = 17;
+            break;
+        }
+        if (func_02174D98(p->f148[n]) == 1)
+            (*state)++;
+        break;
+    case 11:
+        if (func_0200FB24() != 0) {
+            *state = 17;
+            break;
+        }
+        if (func_02175214(p) == 1)
+            (*state)++;
+        break;
+    case 12:
+        t->f0 = p->f148[n];
+        t->f12 = p->f15C[n];
+        t->f14 = self->f352C;
+        if (n == 0 || (p->f15C[0] & 2) == (p->f15C[n] & 2))
+            t->f10 = 0x48b;
+        else
+            t->f10 = 0x48c;
+        func_02175280(p, a0, t->f18, 0x41);
+        *out = func_02157450(a0, a2, self->f2830, t);
+        (*state)++;
+        break;
+    case 13:
+        if (func_0200FB24() == 0) {
+            s = func_0201283C(func_020120F4(a0));
+            cnt = func_0203D1B4();
+            i = 0;
+            mine = p->f15C[n] & 1;
+            if (cnt > 0) {
+                slots = p->slot;
+                do {
+                    if (i == n)
+                        continue;
+                    if (func_02009D1C(s, &slots[i], &tmp) != 1)
+                        continue;
+                    if (mine == (p->f15C[i] & 1)) {
+                        func_02009B80(s, tmp);
+                        continue;
+                    }
+                    switch (t->f58) {
+                    case 0:
+                        func_02009BB8(s, tmp, 1, 0, 0);
+                        break;
+                    case 1:
+                        func_02009BB8(s, tmp, 0, 1, 0);
+                        break;
+                    case 2:
+                        func_02009B80(s, tmp);
+                        break;
+                    }
+                } while (++i < cnt);
+            }
+        }
+        func_0217534C(t->f18);
+        *state = 16;
+        break;
+    case 14:
+        func_02012374(obj, func_020145CC(a0));
+        (*state)++;
+        break;
+    case 15:
+        func_02012374(obj, func_021BE92C(a0, a2, 0, 0, 1, 0, 0));
+        (*state)++;
+        break;
+    case 16:
+    default:
+        return 1;
+    case 17:
+        *state = 14;
+        break;
+    }
+    return 0;
+}

@@ -1,0 +1,43 @@
+/* DIFF near miss, ov010 0x021620B0; last run left a small register/slot allocation diff, see below */
+/*
+ * function: func_021620B0
+ * address:  0x021620B0
+ * packet:   pkt_021620B0
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02161ECC  0x02161ECC  thumb
+ *   func_02161E78  0x02161E78  thumb
+ *   func_02082D44  0x02082D44  arm
+ */
+
+extern int func_02161ECC(char *);
+extern void func_02161E78(char *);
+extern void func_02082D44(char *, char *, int);
+
+void func_021620B0(char *p)
+{
+    int i;
+    int j;
+    int o;
+
+    i = 0;
+    do {
+        o = i * 0x18;
+        if (func_02161ECC(p + o) == 0) {
+            for (j = i + 1; j < 10; j++) {
+                if (func_02161ECC(p + j * 0x18) != 0) {
+                    func_02082D44(p + j * 0x18, p + o, 0x18);
+                    func_02161E78(p + j * 0x18);
+                    break;
+                }
+            }
+        }
+        i++;
+    } while (i < 10);
+}

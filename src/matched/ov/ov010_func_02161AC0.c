@@ -1,0 +1,60 @@
+/*
+ * function: func_02161AC0
+ * address:  0x02161AC0
+ * packet:   pkt_ov010_02161AC0
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_020122C0  0x020122C0  thumb
+ *   func_020124E8  0x020124E8  thumb
+ *   func_0201210C  0x0201210C  thumb
+ *   func_02188CD0  0x02188CD0  thumb  ov021
+ *   func_0207CA00  0x0207CA00  arm
+ *   func_020061E4  0x020061E4  thumb
+ *   func_021619B8  0x021619B8  thumb  ov010
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct Tri {
+    u32 w[3];
+} Tri;
+
+typedef struct Node {
+    void *f00;          /* 0x00 */
+    void *f04;          /* 0x04 */
+    u8 pad08[4];
+    Tri f0c;            /* 0x0C */
+    u8 f18[12];         /* 0x18 */
+} Node;
+
+extern void *func_020122C0(void *p, int a, void (*cb)(void), int n);
+extern Node *func_020124E8(void *p);
+extern void func_0201210C(void *p);
+extern void *func_02188CD0(void);
+extern void func_0207CA00(void *a, void *b, void *c);
+extern void func_020061E4(u32 v);
+extern void func_021619B8(void);
+
+void *func_02161AC0(void *p, void *a1, Tri *t, void *a3)
+{
+    void *h;
+    Node *n;
+
+    h = func_020122C0(p, 0, func_021619B8, 0x24);
+    n = func_020124E8(h);
+    n->f04 = a1;
+    func_0201210C(p);
+    n->f00 = func_02188CD0();
+    n->f0c = *t;
+    func_0207CA00(a3, t, n->f18);
+    func_020061E4(0x55E);
+    return h;
+}

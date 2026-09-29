@@ -1,0 +1,36 @@
+/*
+ * function: func_0200E714
+ * address:  0x0200E714
+ * packet:   pkt_ov010_0200E714
+ * region:   arm9
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Unlabelled leaf: copies four halfwords from src to dst[idx * 4 ..].
+ * Filed as the sole blocker of func_0216F31C.
+ *
+ * Note: 8 bytes differ, all register naming: original shift in r4 and
+ * the pointer sum in r3 (`lsls r4,r1,#3; adds r3,r0,r4`); every spelling tried
+ * (Q-struct with dst+idx, byte-offset cast, shift local, first store via dst[idx])
+ * gives r3=shift, r4=sum.
+ */
+
+typedef unsigned short u16;
+
+typedef struct {
+    u16 a, b, c, d;
+} Q;
+
+void func_0200E714(Q *dst, int idx, Q *src)
+{
+    Q *d;
+
+    d = (Q *)((char *)dst + (idx << 3));
+    d->a = src->a;
+    d->b = src->b;
+    d->c = src->c;
+    d->d = src->d;
+}

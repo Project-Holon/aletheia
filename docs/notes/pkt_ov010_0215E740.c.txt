@@ -61,3 +61,4 @@ void func_0215E740(void *a, void *b, void *c, int d)
     w = buf[func_02005728(k)];
     func_0215E7DC(a, c, w, w > 0x10 ? 0x13f : d_021711C6[w]);
 }
+/* R1 (big lane), still 7 bytes: the image homes c (r2) to [sp,#4] at entry and reloads it for the first call instead of copying r2->r1. Tried c as a one-word struct by value (pushes r0-r3, much worse), unprototyped func_0200D478 / func_0215E7DC, *&c as the argument, a static inline wrapper around func_0200D478 and an auto-inlined void wrapper around func_0215E7DC: no change. permuter 300: no gain. */

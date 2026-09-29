@@ -1,0 +1,29 @@
+/*
+ * function: func_02163A40
+ * address:  0x02163A40
+ * packet:   pkt_ov010_02163A40
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * near miss: 15 bytes; structure and first half match, second half register
+ * numbering off (original d1 in r4 with lo2 in r3; ours the reverse). Tried
+ * 8 declaration orders of the locals for the second segment.
+ */
+
+typedef short s16;
+
+#define SEG(k) {     s16 d1, d2, lo1, hi1, lo2, hi2, big0, big1, sm0, sm1;     lo1 = a[k];     hi1 = a[(k) + 2];     d1 = hi1 - lo1;     if (d1 < 0) { d1 = -d1; }     lo2 = b[k];     hi2 = b[(k) + 2];     d2 = hi2 - lo2;     if (d2 < 0) { d2 = -d2; }     if (d1 > d2) { big0 = lo1; big1 = hi1; sm0 = lo2; sm1 = hi2; }     else { big0 = lo2; big1 = hi2; sm0 = lo1; sm1 = hi1; }     if (!((big0 <= sm0 && big1 >= sm0) || (big0 <= sm1 && big1 >= sm1))) { goto fail; } }
+
+#define SEGB(k) {     s16 lo1, hi1, lo2, hi2, d1, d2, big0, big1, sm0, sm1;     lo1 = a[k];     hi1 = a[(k) + 2];     d1 = hi1 - lo1;     if (d1 < 0) { d1 = -d1; }     lo2 = b[k];     hi2 = b[(k) + 2];     d2 = hi2 - lo2;     if (d2 < 0) { d2 = -d2; }     if (d1 > d2) { big0 = lo1; big1 = hi1; sm0 = lo2; sm1 = hi2; }     else { big0 = lo2; big1 = hi2; sm0 = lo1; sm1 = hi1; }     if (!((big0 <= sm0 && big1 >= sm0) || (big0 <= sm1 && big1 >= sm1))) { goto fail; } }
+
+int func_02163A40(s16 *a, s16 *b)
+{
+    SEG(0)
+    SEGB(1)
+    return 1;
+fail:
+    return 0;
+}

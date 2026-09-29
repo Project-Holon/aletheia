@@ -1,0 +1,82 @@
+/* DIFF near miss, ov010 0x021624B0; last run left a small register/slot allocation diff, see below */
+/*
+ * function: func_021624B0
+ * address:  0x021624B0
+ * packet:   pkt_021624B0
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_02013ECC  0x02013ECC  thumb
+ *   func_020493D4  0x020493D4  arm
+ *   func_0204944C  0x0204944C  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+typedef struct {
+    u8 n[4];
+    u8 data[1];
+} H;
+
+typedef struct {
+    int pad0;
+    int f4;
+    u8 pad8[0xA];
+    u16 c12;
+    u16 c14;
+    u16 c16;
+    u16 c18;
+    u16 pad1A;
+    char *p1C;
+    char *p20;
+    char *p24;
+    char *p28;
+    u16 c2C;
+    u16 c2E;
+    u16 c30;
+    u16 c32;
+    u8 pad34[0x120 - 0x34];
+    char *p120;
+    int size;
+    H hdr;
+} O;
+
+extern int func_02013ECC(int);
+extern int func_020493D4(int, int);
+extern void func_0204944C(int, int, int, int, int *);
+
+void func_021624B0(O *o, int x)
+{
+    int a;
+    int r;
+    char *d;
+    int off;
+
+    a = func_02013ECC(x);
+    r = func_020493D4(o->f4, a);
+    func_0204944C(o->f4, a, 0, r, &o->size);
+    d = (char *)&o->hdr + 4;
+    off = 0;
+    o->p120 = (char *)&o->hdr + o->size;
+    o->c12 = o->hdr.n[0];
+    off += o->hdr.n[0] * 0x14;
+    o->p1C = d;
+    o->p20 = d + off;
+    off += o->hdr.n[1] * 0x24;
+    o->c14 = o->hdr.n[1];
+    o->p24 = d + off;
+    o->c16 = o->hdr.n[2];
+    off += o->hdr.n[2] * 0x14;
+    o->p28 = d + off;
+    o->c18 = o->hdr.n[3];
+    o->c2C = o->c12;
+    o->c2E = o->c14;
+    o->c30 = o->c16;
+    o->c32 = o->c18;
+}

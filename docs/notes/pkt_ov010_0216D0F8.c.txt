@@ -1,0 +1,110 @@
+/*
+ * function: func_0216D0F8
+ * address:  0x0216D0F8
+ * packet:   pkt_ov010_0216D0F8
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * DIFF, 21 concrete bytes, same size (208), all 12 relocations resolved.
+ * Everything else, including every register, matches.  The residue is three
+ * scheduling swaps:
+ *   +0x46  orig `movs r1,#0; str r0,[sp,#4]` (ldrsh offset, then v.x store),
+ *          this C stores v.x first;
+ *   +0xA4  the same swap for v.z / `movs r1,#2`;
+ *   +0x66  orig loads p->z into r0 and moves obj into r0 last, this C moves
+ *          obj into r0 first and loads p->z into r1.
+ * Tried without effect (still 21): (s16)/u16/int helper-local for the
+ * D7F4 argument, comma-expression store, v.x stores sunk, x*0x10000 /
+ * 0x8000+(x<<16) / (8<<12) spellings, inline ToGrid/FromGrid helpers,
+ * const Src *, Src embedded in an outer struct, u8 return from
+ * func_0216E51C, declaration reorders; made worse: u16 x/y locals (+90),
+ * int-parameter prototypes with casts (+65), axis inline helpers (+87),
+ * ((x<<4)+8)<<12 (+111), all v stores at the end (+172).  permuter.py
+ * (300 anneal, 300 random --types) found only volatile p plus a
+ * mid-block temp, which CCERRs under match.py.
+ * Next lever: parameter/field types (a u8 parameter was what fixed the
+ * same kind of store-versus-argument swap in func_0216CB48).
+ *
+ * symbols:
+ *   func_0216E51C  0x0216E51C  thumb  ov010
+ *   func_0216E544  0x0216E544  thumb  ov010
+ *   func_0216D7F0  0x0216D7F0  thumb  ov010
+ *   func_0216D7F4  0x0216D7F4  thumb  ov010
+ *   func_0216D800  0x0216D800  thumb  ov010
+ *   func_0216D80C  0x0216D80C  thumb  ov010
+ *   func_0216D818  0x0216D818  thumb  ov010
+ *   func_0216D824  0x0216D824  thumb  ov010
+ *   func_0216D844  0x0216D844  thumb  ov010
+ *   func_0216D85C  0x0216D85C  thumb  ov010
+ *   func_0216D874  0x0216D874  thumb  ov010
+ *   func_0216D89C  0x0216D89C  thumb  ov010
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef int            s32;
+typedef s32            fx32;
+
+typedef struct VecFx32 {
+    fx32 x;
+    fx32 y;
+    fx32 z;
+} VecFx32;
+
+typedef struct Src {
+    u16  x;
+    u16  y;
+    fx32 z;
+} Src;
+
+extern int  func_0216E51C(void *obj);
+extern void func_0216E544(void *obj, VecFx32 *out);
+extern void func_0216D7F0(void *obj, s16 v);
+extern void func_0216D7F4(void *obj, s16 v);
+extern void func_0216D800(void *obj, s16 v);
+extern void func_0216D80C(void *obj, s16 v);
+extern void func_0216D818(void *obj, s16 v);
+extern void func_0216D824(void *obj, s16 v);
+extern void func_0216D844(void *obj, s16 v);
+extern void func_0216D85C(void *obj, s16 v);
+extern void func_0216D874(void *obj, s16 v);
+extern void func_0216D89C(void *obj, const VecFx32 *v);
+
+void func_0216D0F8(void *obj, u8 *a1)
+{
+    Src *p = (Src *)(a1 + 0x1c);
+    VecFx32 v;
+    s32 x;
+    s32 y;
+    fx32 z;
+
+    if (func_0216E51C(obj) == 0) {
+        x = p->x;
+        y = p->y;
+        z = p->z;
+    } else {
+        func_0216E544(obj, &v);
+        x = (v.x >> 4) / 4096;
+        y = (v.z >> 4) / 4096;
+        z = v.y;
+    }
+    v.x = (x << 16) + 0x8000;
+    func_0216D7F0(obj, p->x);
+    func_0216D80C(obj, x);
+    func_0216D844(obj, x);
+    func_0216D7F4(obj, (p->z >> 4) / 4096);
+    v.y = z;
+    x = (z >> 4) / 4096;
+    func_0216D818(obj, x);
+    func_0216D85C(obj, x);
+    v.z = (y << 16) + 0x8000;
+    func_0216D800(obj, p->y);
+    func_0216D824(obj, y);
+    func_0216D874(obj, y);
+    func_0216D89C(obj, &v);
+}

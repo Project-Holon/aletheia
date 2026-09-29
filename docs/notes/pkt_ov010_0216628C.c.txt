@@ -1,0 +1,73 @@
+/*
+ * function: func_0216628C
+ * address:  0x0216628C
+ * packet:   pkt_ov010_0216628C
+ * region:   ov010
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Maps the slot's kind (0..3, via the 0x0200E184 thunk) to a new kind,
+ * asks func_0200E164 for a free slot, and moves the word at obj[slot]
+ * there; kind 3 also runs func_0200E27C on it. Returns 0 on failure.
+ *
+ * symbols:
+ *   func_0200E184  0x0200E184  thumb
+ *   func_0200E164  0x0200E164  thumb
+ *   func_0200E06C  0x0200E06C  thumb
+ *   func_0200E27C  0x0200E27C  thumb
+ *   func_0200E024  0x0200E024  thumb
+ *   func_0200E18C  0x0200E18C  thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern u32 func_0200E184(u32 slot);
+extern u32 func_0200E164(u32 *obj, u32 kind);
+extern void func_0200E06C(u32 *obj);
+extern void func_0200E27C(u32 *obj, u16 slot);
+extern void func_0200E024(u32 *obj);
+extern void func_0200E18C(u32 *obj, u32 slot);
+
+int func_0216628C(u32 *obj, u32 slot)
+{
+    u32 kind;
+    u32 dst;
+
+    switch (func_0200E184(slot)) {
+    case 0:
+        kind = 2;
+        break;
+    case 1:
+        kind = 3;
+        break;
+    case 2:
+        kind = 0;
+        break;
+    case 3:
+        kind = 1;
+        break;
+    default:
+        return 0;
+    }
+    dst = func_0200E164(obj, kind);
+    if (dst == 0xFFFF)
+        return 0;
+    func_0200E06C(obj);
+    obj[dst] = obj[slot];
+    if (kind == 3)
+        func_0200E27C(obj, (u16)dst);
+    func_0200E024(obj);
+    func_0200E18C(obj, slot);
+    return 1;
+}
+
+/* DIFF (4 lines, scheduling only; pkt_ov010_0216628C):
+ * original: lsls r0,r7,#2; lsls r1,r6,#2; ldr r0,[r4,r0]; cmp r5,#3; str r0,[r4,r1]
+ * compiled: lsls r0,r7,#2; ldr r1,[r4,r0]; lsls r0,r6,#2; str r1,[r4,r0]; cmp r5,#3
+ * Tried: temp var, pointer temps, split if/else, int slot/dst, k3 flag. The unlabelled thunk
+ * func_0200E184 is now filed (pkt_ov010_0200E184) so the call site resolves. */
