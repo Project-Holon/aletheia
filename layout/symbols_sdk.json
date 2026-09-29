@@ -35968,6 +35968,19 @@
    "siblings": 152
   },
   {
+   "address": 35082212,
+   "name": "DWCi_NNProgressCallback",
+   "lib": "TwlDWC/libdwcmatch.TWL.HYB.a",
+   "object": "dwc_match.o",
+   "region": "ov009",
+   "thumb": false,
+   "size": 4,
+   "concrete": 4,
+   "dupes": 1,
+   "siblings": 155,
+   "referenced": true
+  },
+  {
    "address": 35082216,
    "name": "DWCi_NNCompletedCallback",
    "lib": "TwlDWC/libdwcmatch.TWL.HYB.a",
@@ -45218,6 +45231,19 @@
    "concrete": 307,
    "dupes": 1,
    "siblings": 34
+  },
+  {
+   "address": 35240532,
+   "name": "NatNegProgressCallback",
+   "lib": "TwlDWC/libdwcgsqr2.TWL.HYB.a",
+   "object": "qr2.o",
+   "region": "ov009",
+   "thumb": false,
+   "size": 4,
+   "concrete": 4,
+   "dupes": 1,
+   "siblings": 35,
+   "referenced": true
   },
   {
    "address": 35240536,

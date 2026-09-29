@@ -10,6 +10,11 @@
  * status:   DIFF
  * blocker:  12 bytes: in the else arm the original loads MemStep->cell[4] before it stores x = 152; 1.1p1 stores x first. The loop forms (taskBegin0..3, taskEnd1..3) match. Notes: docs/notes/pkt_ov016_021D0040.c.txt
  *
+ * w5_nm: also tried `x = 152` inside the call argument, the `<= 152` arm
+ *           first, an early return from the `> 152` arm, the literal 152 in the
+ *           call with the store after it, a clamp then conditional change, and a
+ *           block local for the cell (12 to 103 bytes; none better than 12).
+ *
  * symbols:
  *   CELL_IDX                         0x021DA914  data
  *   C_POS                            0x021DA932  data

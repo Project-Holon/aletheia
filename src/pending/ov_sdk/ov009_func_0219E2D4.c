@@ -7,47 +7,38 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   MATCH
  *
  * sdk:      mytok (sb_server.o)
  *
- * BLOCKER (register allocation only, size exact 104): the file-scope static
- * `thestr` is the token cursor itself (the object shows a single ABS32 at
- * +0x64, `_ZZ5mytokPccE6thestr` -> 0x021AEAF8, and the tail reads that pointer
- * and writes back pointer+1), so the body is the GameSpy strtok: save the
- * input into the static, walk `ip` while `*ip && *ip != delim` writing the
- * static each step, clear the token byte, bump the static and return the
- * token start.  mwcc reproduces every branch, both epilogues and the 104-byte
- * extent but keeps the cursor in r3 and the character in ip (r12), while the
- * original keeps the cursor in ip (r12) and the character in r3.  Every
- * spelling tried (char* static, char temp, aliasing instr/result, post-inc
- * order) leaves mwcc with the same swap; the object is hand-spelled.
+ * blocker (w5_nm): byte-correct.  The DWARF has one local (result) and a char
+ * delim, and the static is function-local (_ZZ5mytokPccE6thestr), so the
+ * cursor is the static itself with `*thestr++ = '\0'`; that gives every byte.
+ * Our compiler emits the function-local static as `.bss+0`, while the vendor
+ * relocates the named static; the `.bss` rule is ARM9-only and the vendor slot
+ * is not section-relative, so +0x64 (0x021AEAF8) stays unresolved.  A file-scope
+ * static or extern (which would resolve as sole-ref) changes 9 bytes: the tail
+ * then stores before reloading the cursor.  Needs tooling (named local static
+ * against our .bss slot), not C.  Tried before: file-scope static cursor with
+ * an ip local, char temp, post-inc orders.
  *
  * symbols:
- *   thestr  0x021AEAF8  data
+ *   .bss                           0x021AEAF8  data
  */
 
-static char *thestr;
-
-static char *mytok(char *instr, int delim)
+char *mytok(char *instr, char delim)
 {
     char *result;
-    char *ip;
+    static char *thestr;
 
-    if (instr != 0)
+    if (instr)
         thestr = instr;
     result = thestr;
-    ip = result;
-    while (*ip != 0 && *ip != delim)
-    {
-        ip++;
-        thestr = ip;
-    }
-    if (ip == result)
+    while (*thestr && *thestr != delim)
+        thestr++;
+    if (thestr == result)
         result = 0;
-    if (*ip == 0)
-        return result;
-    *ip = 0;
-    thestr++;
+    if (*thestr)
+        *thestr++ = '\0';
     return result;
 }
