@@ -1,3 +1,9 @@
+CLOSED (lane R1): EXACT* as src/matched/ov/ov021_func_021B0084.c. The fix
+was a nested switch on func_02190C78's result (case 0 / empty case 2 /
+default), with the flag store and (*st)++ written in each arm, and
+func_0201210C(func_0215A5DC(c->a0)) passing the result along. The earlier
+write-up follows.
+
 pkt_ov021_021B0084 (ov021 0x021B0084, 136 B listing extent, thumb): DIFF, 10 runs, parked.
 
 All 9 relocations resolve. Best C (compiles 132 B; original is 134 B + 2 pad):

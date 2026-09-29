@@ -1,0 +1,63 @@
+pkt_ov021_021C5440 (func_021C5440, ov021, thumb, 136 bytes): DIFF, 2 instructions swapped.
+
+Every byte matches (size, registers, bitfield-style shift chain) except the two
+subtractions that build the second and third arguments of func_021C58CC:
+
+    original:  subs r1, r6, #1     ; c - 1
+               subs r2, r7, #1     ; r - 1
+               subs r1, r1, r2
+    compiled:  subs r2, r7, #1     ; r - 1 first
+               subs r1, r6, #1
+               subs r1, r1, r2
+
+Tried: (u16)((c-1)-(r-1)) inline (folds to c - r, 6 bytes shorter);
+x = c-1; y = r-1; (u16)(x-y), (u16)y with both declaration orders; the
+three-statement x, y, z = x - y form; (c-1)-y with y local.  The compiler
+always schedules the y subtraction first; the one spelling that avoids the
+fold puts y ahead of x.
+
+Fixed on the way (worth reusing): the 3-instruction chain
+"adds r1,r0,#0 / lsls #13 / lsrs #16" on a call result becomes the original
+two-instruction "lsls r0,r0,#13 / lsrs r1,r0,#16" when the value is bound to a
+u16 local: `u16 w = f(...) >> 3; g(a, (w + 0xc) << 3);` (also EXACT in
+func_021C54C8).  Inline (u16)(f() >> 3), a u32 local, a bitfield struct return
+and (x >> 3) & 0x1fff all miss.
+
+Best C (DIFF, 2 instructions out of order):
+
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern int func_02020350(int a, int b);
+extern void func_021C59A8(int *a, int b, int c);
+extern void func_021C58CC(int *a, int b, int c, int d);
+extern void func_020061E4(int a);
+extern void func_020202FC(int a, int b, u16 *out);
+extern u32 func_02020324(int a, int b);
+extern void func_021C59F8(int *a, int b);
+
+void func_021C5440(int *a, int b, int c, int *d)
+{
+    int r; int x; int y; int z; u16 v; u16 w;
+
+    if (b == 0) {
+        r = func_02020350(a[1], 3);
+        func_021C59A8(a, 0, 0);
+        x = c - 1;
+        y = r - 1;
+        z = x - y;
+        func_021C58CC(a, (u16)z, (u16)y, *(u16 *)((char *)a + 0x34));
+        if (a[9] == 1) {
+            a[16] = 1;
+        }
+        func_020061E4(0x548);
+        *d = 1;
+        return;
+    }
+    if (a[16] == 1 && a[9] == 1) {
+        func_020202FC(a[1], 0, &v);
+        w = func_02020324(a[1], v) >> 3;
+        func_021C59F8(a, (w + 0xc) << 3);
+        a[16] = 0;
+        *d = 1;
+    }
+}

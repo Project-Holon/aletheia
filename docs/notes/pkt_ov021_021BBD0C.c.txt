@@ -1,0 +1,12 @@
+func_021BBD0C (ov021, 88 B, thumb): DIFF, 2 instructions.
+
+Loop of 0x1a: s.v = func_02046E24(func_021ABE24(p[0]), *t++); func_021AC1F0(p[0]);
+((u16 *)p)[4 + i] = func_020500F0(p[1], &s, 1); with s = {int v; u8 2,0x11,0x10,0x10; int 1}
+and t a u16 pointer hoisted (pool 0x021D9B0C) before the first call. Matching that
+shape (`const u16 *t = d_021D9B0C;` declared before the call) got everything except:
+
+  original  adds r1,r0,#0 ; str r1,[sp]         (call result copied to r1, then stored)
+  ours      str r0,[sp]
+
+Named local `v = call; s.v = v;` and `*pv = v` with pv = &s.v both compile to the plain
+`str r0,[sp]`; storing through `Req *ps = &s` gives `add r1,sp,#0 ; str r0,[r1]`.

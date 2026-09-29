@@ -1,3 +1,8 @@
+CLOSED (lane R1): EXACT as src/matched/ov/ov021_func_021B4BA4.c. The fix
+was a single `extern const Rect d_021D9654[]` of 16-byte {x,y,w,h} records
+with u8 callee parameters; const is what lets the loads pass the first
+stack store. The earlier write-up follows.
+
 func_021B4BA4 (ov021, thumb, 72 bytes) DIFF, 5 runs.
 
 Shape: void f(int i) { func_02041300(1, 0, T654[i*4]&0xff, T658[i*4]&0xff, T65C[i*4]&0xff, T660[i*4]&0xff, 0); }

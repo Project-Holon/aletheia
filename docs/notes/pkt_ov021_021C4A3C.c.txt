@@ -1,0 +1,53 @@
+pkt_ov021_021C4A3C (ov021 0x021C4A3C, 172 B): DIFF, same size, schedule only.
+Original: ldr r1,[r0]; ldr r0,[r0,#4]; add r6,sp,#0x28; str r1,[r5]; adds r1,r6,#0; str r0,[r5,#4]; bl 0x216D88C.
+Ours:     ldr r1,[r0]; add r6,sp,#0x28; str r1,[r5]; ldr r0,[r0,#4]; adds r1,r6,#0; str r0,[r5,#4]; bl.
+Everything after (v.y/v.z subtractions, Desc fill, call) matches once `t = h->f4;` sits before the v.y/v.z updates.
+Tried: r->f4 = s->f4 then call(r->f4); local k; local f0/f4 both up front (f4 load goes first); *(Src*)r = *s
+(swaps registers r1/r2, stores reversed); const Src *s; explicit V3 *pv = &v. None moves the second load up.
+Also capped at MATCH by arm9 unlabelled leaves 0x0205082C / 0x020507F0 and data 0x021DE478 (see ov021_func_021C48A0.c header).
+
+/* body as last compiled (flags -O4,p, dsi/1.1p1, thumb), symbols: func_021AC1AC ov021, func_0216D88C ov010,
+   func_02050340 arm, func_021AC154 ov021, func_02050804/0205082C/020507F0 arm, d_021DE478 data a4 */
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+typedef struct { int x, y, z; } V3;
+typedef struct { u16 slot; u16 v12; u16 v14; u8 k; u8 pad; u32 flag; u32 w; V3 pos; void (*f1c)(void); u32 f20; } Desc;
+typedef struct Src { u32 f0; u32 f4; } Src;
+typedef struct Res { u32 f0; u32 f4; u16 h8; } Res;
+typedef struct Head { u8 pad[4]; u32 f4; u16 h8; } Head;
+
+void func_021C4A3C(u32 a, Res *r)
+{
+    const Src *s = func_021AC1AC(a);
+    Head *h;
+    u32 t, k;
+    V3 v;
+    V3 *pv = &v;
+    Desc d;
+
+    r->f0 = s->f0;
+    k = s->f4;
+    r->f4 = k;
+    func_0216D88C(k, pv);
+    h = (Head *)r->f0;
+    t = h->f4;
+    v.y -= 0xE000;
+    v.z -= 0xA000;
+    d.slot = h->h8;
+    d.v12 = 0x1000;
+    d.v14 = 0x1000;
+    d.k = 0x1f;
+    d.flag = 1;
+    d.w = 1;
+    d.pos = v;
+    d.f1c = 0;
+    d.f20 = (u32)r;
+    r->h8 = func_02050340(t, 0, &d, 1, 3);
+    if (r->h8 == 0xFFFF) {
+        func_021AC154(a);
+        return;
+    }
+    func_02050804(t, r->h8, (u32)d_021DE478, 1);
+    k = r->h8;
+    func_0205082C(t, k, 0);
+    func_020507F0(t, k, 1);
+}

@@ -1,3 +1,6 @@
+SUPERSEDED (lane R2): EXACT* in src/matched/ov/ov021_func_021B6E68.c.  The return reads
+`*(u16 *)((u8 *)t + i * 0x24)` instead of t[i].a, so only the product is CSE'd, not t + off.
+
 pkt_ov021_021B6E68  func_021B6E68 (ov021, thumb, 72 bytes)  DIFF, 6 bytes, register swap r2/r3
 
 Search loop over 0x24-byte records (func_02162740 base, func_02162744 count):

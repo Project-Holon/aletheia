@@ -1,3 +1,8 @@
+CLOSED (lane R1): EXACT as src/matched/ov/ov021_func_021B636C.c. The fix
+was func_0215A2E4's matched prototype (last parameter unsigned short, d/e
+u16 *) together with u16 func_02159B10 and u16 locals tc, t4. The earlier
+write-up follows.
+
 pkt_ov021_021B636C  func_021B636C (ov021, thumb, 104 B)  status: DIFF (same size, 4 instructions reordered)
 
 Structure is right: ae8(a,b) x2, b10(a,b) x2, 5f4(b), 5dc(b), 0201210C(),

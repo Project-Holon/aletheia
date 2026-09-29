@@ -1,0 +1,34 @@
+pkt_ov021_021C86E8  func_021C86E8 @ 0x021C86E8 (ov021, thumb, 80 bytes)  DIFF, same size
+
+Best C (8 runs); the carry arm and the else arm's reload now match, the
+only residual is where `30 * b` is scheduled:
+
+void func_021C86E8(char *p, int b, int c)
+{
+    int rem; int t; int n;
+
+    rem = *(short *)(p + 4) % 1350;      /* blx _s32_div_f (0x0209C0A4), r1 = remainder */
+    t = 30 * b;
+    if (rem + t >= 1350) {
+        if (c) {
+            *(short *)(p + 4) = (*(int *)(p + 8) + 1) * 1350 - 1;
+        } else {
+            n = *(int *)(p + 8);
+            n++;
+            *(short *)(p + 4) = n * 1350;
+            *(int *)(p + 8) = n;
+        }
+    } else {
+        *(short *)(p + 4) += (short)t;   /* compound assignment gives the fresh reload */
+    }
+}
+
+Original: `movs r0,#4; ldrsh r0,[r5,r0]; ldr r7,[pc]; adds r4,r1,#0; adds r1,r7,#0;
+adds r6,r2,#0; blx div; movs r0,#0x1e; muls r0,r4,r0; adds r1,r1,r0; cmp r1,r7`,
+i.e. the multiply comes AFTER the helper call, into r0, and the else arm reuses that r0.
+Mine hoists `movs r0,#0x1e; adds r4,r1,#0; muls r4,r0,r4` above the ldrsh and adds
+one instruction of register pressure (`adds r0,r1,r4`), 6 concrete mismatches in the
+prologue and the compare. Tried: `rem + b*30`, `b*30 + rem`, `t = b*30` and `t = 30*b` as
+separate statements, inline in the condition, (short)(b*30) versus (short)t in the else arm.
+None moves the multiply. Untried: a struct-typed p, a different type for b.
+Also needs `_s32_div_f 0x0209C0A4 arm` only if the tool asks (it resolved by label).

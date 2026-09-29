@@ -1,0 +1,26 @@
+ov021 0x021C3158 (64 B, thumb): DIFF, 19 bytes (register allocation / schedule), size correct. Lane S21, 6 runs.
+
+Original: table pointer t = d_021DA720[p->u16@0x66] lands in r3 (loaded before the ldrh of the index),
+then `movs r1,#0; mvns r1,r1` (the -1) is built BEFORE `lsls r2,r0,#3` (index*8), a = [r3,r2] compared with
+r1, and the second field is read as `adds r2,r3,r2; ldr r2,[r2,#4]`.
+Ours always puts t in r2, indexes with r1 and builds -1 after the first load (`ldr r2,[r2,r1]; movs r1,#0; mvns r1,r1`).
+Tried: E* table with int/u32 field, `-1` literal, `int m = -1` local, `u32 m = ~0` local, `0xFFFFFFFF`,
+byte-pointer + byte offset form, const E*, separate `E *e = &t[i]`, early-return form. None moved the mvns above the scale.
+
+Best source (DIFF):
+
+typedef struct { u32 a; u32 b; } E;
+extern E *const d_021DA720[];
+void func_021C3158(u8 *p)
+{
+    const E *t = d_021DA720[*(u16 *)(p + 0x66)];
+    int i = *(u16 *)(p + 0x136);
+    u32 m = 0; const E *e;
+    m = ~m;
+    if (t[i].a != m) {
+        e = &t[i];
+        if (*(u16 *)(p + 0x134) != e->b) return;
+        func_020061E4();
+        *(u16 *)(p + 0x136) += 1;
+    }
+}

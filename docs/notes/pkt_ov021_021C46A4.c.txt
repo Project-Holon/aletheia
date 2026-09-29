@@ -1,0 +1,25 @@
+pkt_ov021_021C46A4 (ov021 0x021C46A4, 84 B): DIFF, register allocation.
+Original keeps a in r7 and spills b to [sp] at entry (str r1,[sp]); x=r5 (func_0215A5DC(b)), y=r4 (func_0201210C),
+z=r6 (func_0215A5F4(b)); reloads b from [sp] for 0215A5F4 and 02159B10 (ldr r0,[sp]; ldr r1,[sp]).
+Ours keeps b in r7, a in r6, and spills z instead (str r0,[sp] after the 0215A5F4 call).
+Tried: local t + if chain (body below); switch (func_02159B10(a,b)); local declaration order reversed. All give the same
+allocation (switch also changes branch layout). Callees: 021D2418/021D2440 resolve as ov021 sole-ref, 0215897C/02159B10/0215A5DC/0215A5F4 ov010.
+
+typedef unsigned int u32;
+u32 func_021C46A4(u32 a, u32 b)
+{
+    u32 r, z, y, x, t;
+
+    x = func_0215A5DC(b);
+    y = func_0201210C();
+    z = func_0215A5F4(b);
+    t = func_02159B10(a, b);
+    if (t == 0)
+        r = func_021D2418(x, y);
+    else if (t == 1)
+        r = func_021D2440(x, y, 0);
+    else
+        r = func_021D2440(x, y, 1);
+    func_0215897C(z, r);
+    return 1;
+}

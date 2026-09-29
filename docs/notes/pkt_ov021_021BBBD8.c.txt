@@ -1,0 +1,26 @@
+func_021BBBD8 (ov021, 84 B, thumb): DIFF, 5 instructions of register naming only.
+
+Ring buffer step. Best C (all bytes right except r3/r4 swap in the second half):
+
+    typedef struct Ring { u8 pad[0x438]; u8 head; u8 tail; u8 pad2[2]; int count; } Ring;
+    u8 *func_021BBBD8(Ring *r)
+    {
+        int t; int u; u8 *ret;
+        if (r->count > 0) {
+            t = r->tail;               /* local forces tail-first load order */
+            if (t == r->head) {
+                r->head += 1;          /* compound form re-reads head, as the original does */
+                if (r->head >= 30) r->head = 0;
+            }
+        }
+        u = r->tail;
+        ret = (u8 *)r + u * 0x24;
+        r->tail = u + 1;
+        if (r->tail >= 30) r->tail = 0;
+        return ret;
+    }
+
+Original second half: ldrb r3,[tail]; adds r4,r3,#0; muls r4,r1,r4; adds r1,r3,#1
+(loaded tail in r3, product in r4). Ours puts the loaded tail in r4 and the product in
+r3. Declaration order of ret/t/u, `r->tail++ * 0x24` (worse: mul after the store) and a
+shared local for both halves did not move it. About 10 runs.

@@ -1,0 +1,19 @@
+pkt_ov021_021C95D8  func_021C95D8 @ 0x021C95D8 (100 bytes, thumb, ov021)  DIFF, same size, 39 bytes differ
+
+Original shape (push {r3-r7,lr}): two loops with three iterations each. The first loop keeps i in r6
+and copies it to r4 at the top of every iteration (`adds r4, r6, #0`, r7 = i*4); the second loop is a
+do-while that starts from that r4 (no reset: it runs once with 2) and calls 020477A4(q[1], (u16)r4).
+
+Best C (same size, ~39 bytes differ, whole-loop register assignment):
+
+    for (i = 0; i < 3; i++) {
+        q[2 + i] = func_02047564(q[5], ((u32 *)q[0])[2 + i], i);
+        j = i;
+    }
+    q[1] = func_0204767C(q[5], q + 2, 3);
+    do { func_020477A4(q[1], j); j++; } while (j < 3);
+
+mwcc coalesces j into i (loop counter in r4, `subs r4, r4, #1` after the loop) instead of keeping
+the separate copy in r4 with i in r6. Tried: do/do, for/for, for/do, j declared u32/u16/int,
+j = 0 initialiser, i used after the loop (`q + 2, i`), j assigned before or after the call.
+Not tried: a separate inlined helper carrying j.

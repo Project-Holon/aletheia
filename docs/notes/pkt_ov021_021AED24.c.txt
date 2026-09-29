@@ -1,3 +1,8 @@
+CLOSED (lane R1): EXACT as src/matched/ov/ov021_func_021AED24.c. The fix was
+u16 func_02159B10 with u16 locals x, y, z, w (see docs/idioms/
+a-u16-accessor-result-held-in-a-u16-local-moves-the-stack-argument-stores.md).
+The earlier write-up follows.
+
 func_021AED24 (ov021, thumb, 136 B): DIFF, same size, 9 instructions differ, all in the
 outgoing-argument setup for the 8-argument call to func_0216EAB0 (4 stack args).
 

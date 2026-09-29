@@ -1,0 +1,27 @@
+ov021 0x021C40F8 (Thumb, 104 B): DIFF, 7 bytes, one register choice. Lane S22, 5 runs.
+
+Everything matches except the 16-byte table copy prologue (d_021DA908, sole-ref/data
+resolved): original uses ldr r4 (source) / add r3,sp,#8 (dest); every C spelling gives
+ldr r3 / add r2. Tried: local struct copy, pt = t.v pointer, T *pt = &t, src pointer
+temp, declaration orders (buf/n/i before or after t). Nothing moved the copy pair
+from r3/r2 to r4/r3. Compare ov021_func_021C3FC0 (24-byte copy, r3/r2 matched with
+the same `T t = d; pt = t.v` shape), where p is not spilled.
+
+Best C:
+
+typedef struct { u32 v[4]; } T;
+void func_021C40F8(u32 *p, u32 *q)
+{
+    T t = d_021DA908;
+    u32 *pt = t.v;
+    u16 *buf = func_02048F60(0x7b, q[0]);   /* arm callee */
+    int n = buf[0];
+    int i;
+    for (i = 0; i < 4; i++) {
+        u32 v = func_02017E1C(p[0], pt[i], 0);
+        int j;
+        for (j = 1; j <= n; j++)
+            if (v == buf[j]) { func_021C42F4(q, v); break; }
+    }
+    func_020307B0(buf);                      /* arm callee */
+}

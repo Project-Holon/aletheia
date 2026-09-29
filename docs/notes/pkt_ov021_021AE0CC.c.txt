@@ -1,0 +1,121 @@
+/*
+ * function: func_021AE0CC
+ * address:  0x021AE0CC
+ * packet:   pkt_ov021_021AE0CC
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callee arities from EXACT files (func_021AE1FC, func_021AE8B4 via
+ *           ov021_func_021AE1FC, func_0215A438 via ov010_func_0215A438, func_021AE8D4,
+ *           func_0218B6AC takes void so func_02188C80's result is dropped); 2 twin
+ *           ov021_func_021AE1FC shows the 0x18-byte record that func_021AE8B4 fills; 3
+ *           const S * on func_0215A438's source: no change; 4 cast-buffer idiom
+ *           (a-declared-struct-local-folds-to-sp-relative-a-cast-buffer-does-not.md)
+ *           is what took it from 105 to 33; 5 n/a
+ *
+ * symbols:
+ *   func_021AE1FC  0x021AE1FC  thumb  ov021
+ *   func_0215A4C8  0x0215A4C8  thumb  ov010
+ *   func_02188C80  0x02188C80  thumb  ov021
+ *   func_0218B6AC  0x0218B6AC  thumb  ov021
+ *   func_021AE930  0x021AE930  thumb  ov021
+ *   func_0215A438  0x0215A438  thumb  ov010
+ *   func_021AE8D4  0x021AE8D4  thumb  ov021
+ *   func_021AE8B4  0x021AE8B4  thumb  ov021
+ * Addresses are Black-image addresses.
+ *
+ * DIFF, 33 bytes, same size (204). Remaining:
+ *  (a) the second record's address. The original computes `add r6, sp, #0` after the
+ *      `n < 2` test (only on the path that calls func_021AE1FC) and after the
+ *      func_021AE8D4 call in the kind==1 arm. Ours hoists `tp = (S *)tb` above both.
+ *      Moving the assignment into the argument (`tp = (S *)tb` or a comma expression)
+ *      lets mwcc propagate the constant: the pointer folds back to `add r2, sp, #0`
+ *      and the diff goes up to 130.
+ *  (b) the original stores tp->f14 as `str r5, [sp, #0x14]`, sp-relative, while ours
+ *      stores through the pointer as `str r5, [r4, #0x14]`. Writing
+ *      `((S *)tb)->f14` instead propagates the pointer everywhere (152).
+ *  (c) ret and kind/tp are swapped: the original has ret in r4 and kind then tp in r6,
+ *      ours has kind and tp in r4 and ret in r6. Declaration order of tp/ret/kind has
+ *      no effect (four orders, all 33).
+ * The kind==0 and kind==1 tails are written out twice around a variable v, and
+ * mwcc cross-jumps them the way the original does. A `goto` into one tail keeps
+ * the pointer register but stops the zero pooling into r7 (118).
+ * Untried lead: t and s as one `S arr[2]` array (arr[0] at sp+0, arr[1] at sp+0x18,
+ * see an-array-of-aggregates-is-laid-out-low-to-high.md), which may keep
+ * &arr[0] in a register without a pointer local.
+ */
+
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef struct {
+    int f0;
+    int f4;
+    int f8;
+    int fC;
+    int f10;
+    int f14;
+} S;
+
+extern int func_021AE1FC(int a, int b, S *c);
+extern int func_0215A4C8(u16 a);
+extern u32 func_02188C80(int a);
+extern u32 func_0218B6AC(void);
+extern int func_021AE930(int a, int b);
+extern void func_0215A438(int a, int b, S *src);
+extern int func_021AE8D4(int a, u16 b);
+extern void func_021AE8B4(S *a, int b, int c, u16 d);
+
+int func_021AE0CC(int a)
+{
+    S s;
+    unsigned char tb[24];
+    S *tp;
+    int ret;
+    int kind;
+    u32 n;
+    int v;
+
+    ret = 0;
+    if (func_021AE1FC(a, 0, &s) == 1) {
+        kind = func_0215A4C8(s.f10);
+        func_02188C80(a);
+        n = func_0218B6AC();
+        if (kind == 0) {
+            tp = (S *)tb;
+            if (n < 2 || func_021AE1FC(a, s.f0, tp) == 0) {
+                ret = func_021AE930(a, s.f0);
+                s.f14 = 0;
+                func_0215A438(ret, 0, &s);
+            } else {
+                ret = func_021AE930(a, s.f0);
+                v = 2;
+                s.f14 = v;
+                func_0215A438(ret, 0, &s);
+                tp->f14 = v;
+                func_0215A438(ret, 1, tp);
+            }
+        } else if (kind == 1) {
+            if (n >= 2) {
+                tp = (S *)tb;
+                func_021AE8B4(tp, func_021AE8D4(s.f0, s.f10), s.f4, s.f8);
+                ret = func_021AE930(a, s.f0);
+                v = 1;
+                s.f14 = v;
+                func_0215A438(ret, 0, &s);
+                tp->f14 = v;
+                func_0215A438(ret, 1, tp);
+            }
+        } else if (kind == 2 || kind == 3) {
+            if (n >= 3) {
+                ret = func_021AE930(a, s.f0);
+                s.f14 = 0;
+                func_0215A438(ret, 0, &s);
+            }
+        }
+    }
+    return ret;
+}

@@ -1,0 +1,93 @@
+/*
+ * function: func_021AD410
+ * address:  0x021AD410
+ * packet:   pkt_ov021_021AD410
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callees' arities copied from EXACT twins ov021_func_021ACA70 / 021AC4CC,
+ *           third arg of func_021C6574 also tried as u8 and as an enum and unprototyped:
+ *           no change; 2 twins ov021_func_021ACA70 and 021AC4CC (same five callees,
+ *           buf in r7) match with this exact spelling, they just have fewer blocks;
+ *           3 u8 third parameter no change; 4 a-repeated-small-constant-takes-a-callee-
+ *           saved-register.md fits (the zero is pooled into r7); 5 n/a
+ *
+ * symbols:
+ *   func_021ABE18  0x021ABE18  thumb  ov021
+ *   func_021ABE24  0x021ABE24  thumb  ov021
+ *   func_021C6AE0  0x021C6AE0  thumb  ov021
+ *   func_021C6AF0  0x021C6AF0  thumb  ov021
+ *   func_021C6AF8  0x021C6AF8  thumb  ov021
+ *   func_021C6AFC  0x021C6AFC  thumb  ov021
+ *   func_021C6574  0x021C6574  thumb  ov021
+ * Addresses are Black-image addresses.
+ *
+ * DIFF, 101 bytes, same size (288). Everything is right except
+ * the register colouring. The original keeps &buf in r7 (`add r7, sp, #0` once,
+ * then `adds r0, r7, #0` at all 25 uses) and rematerialises the zero third argument
+ * of func_021C6574 as `movs r2, #0` at each of the five calls. Ours pools that
+ * zero into r7 (`movs r7, #0` / `adds r2, r7, #0`) and folds &buf to `add r0, sp, #0`
+ * at every use. func_021ACA70 has the same prologue, six zero arguments and plain
+ * `u32 buf[9]`, and it compiles to the original's shape. Here the five
+ * identical blocks tip mwcc into pooling the zero.
+ * Tried with no change: a `u32 *b = buf` pointer local; `u8 buf[36]` plus a cast
+ * pointer; one static inline helper per block; `buf` in one nested block
+ * (five nested blocks, one buf each, is worse: 219); declaration orders
+ * of r6/r4/h/buf; the handle parameter spelled `u16 *`; the zero spelled as an
+ * enum value, as `u8`, and with an unprototyped callee.
+ * Untried: the ../2.0/sp2 pin that the correction in the idiom above reports as
+ * reaching the non-pooled shape. The lane rules pin dsi/1.1p1, so it was not run.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u32 func_021ABE18(u32 a);
+extern u32 func_021ABE24(u32 a);
+extern void func_021C6AE0(u32 *a);
+extern u32 func_021C6AF0(u32 *a, u32 b, u32 c);
+extern void func_021C6AF8(u32 *a, u32 b);
+extern void func_021C6AFC(u32 *a, u32 b);
+extern u32 func_021C6574(u32 a, u32 *b, u32 c);
+
+void func_021AD410(u32 *a)
+{
+    u32 buf[9];
+    u16 *h = (u16 *)a;
+    u32 r6 = func_021ABE18(a[0]);
+    u32 r4 = func_021ABE24(a[0]);
+    func_021C6AE0(buf);
+    func_021C6AF0(buf, r4, 0x37);
+    func_021C6AF8(buf, r4);
+    func_021C6AFC(buf, 0x80);
+    func_021C6AFC(buf, 0x6c);
+    h[2] = func_021C6574(r6, buf, 0);
+    func_021C6AE0(buf);
+    func_021C6AF0(buf, r4, 0x3a);
+    func_021C6AF8(buf, r4);
+    func_021C6AFC(buf, 0x6f);
+    func_021C6AFC(buf, 0x63);
+    h[3] = func_021C6574(r6, buf, 0);
+    func_021C6AE0(buf);
+    func_021C6AF0(buf, r4, 0x39);
+    func_021C6AF8(buf, r4);
+    func_021C6AFC(buf, 0x6e);
+    func_021C6AFC(buf, 0x62);
+    h[5] = func_021C6574(r6, buf, 0);
+    func_021C6AE0(buf);
+    func_021C6AF0(buf, r4, 0x3b);
+    func_021C6AF8(buf, r4);
+    func_021C6AFC(buf, 0x70);
+    func_021C6AFC(buf, 0x64);
+    h[4] = func_021C6574(r6, buf, 0);
+    func_021C6AE0(buf);
+    func_021C6AF0(buf, r4, 0x38);
+    func_021C6AF8(buf, r4);
+    func_021C6AFC(buf, 0x6d);
+    func_021C6AFC(buf, 0x61);
+    h[6] = func_021C6574(r6, buf, 0);
+}

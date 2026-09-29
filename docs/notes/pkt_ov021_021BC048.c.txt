@@ -1,0 +1,37 @@
+pkt_ov021_021BC048  func_021BC048 (ov021, thumb, 196 bytes)  DIFF, run 7, lane S12
+
+Callees 0216E1C4/0216DC34/0216D7A8/0216E3C4 need the `ov010` token on their
+symbols: lines (ov009 and ov010 both overlap; ov010 labels them, thumb).
+0219C928 and 0219C9E0 resolve as matched/sole-ref; the callback argument is
+func_021BC138 (pool word 0x021BC139), thumb, ov021.
+
+Best C (same size as original once the register allocation is ignored; every
+call and every branch shape agrees):
+
+  void func_021BC048(int a0, Obj *p)   // Obj: f0,f4,f8,fC ints; b10,b11 u8 at 0x10/0x11;
+  {                                    // f1c 0x1c, f20 0x20, u16 h28 @0x28, h2a @0x2a
+      if (A(p->f1c, &p->h28 + 2) == 0 || B(p->f1c) == 0) { func_021AC154(a0); return; }
+      r4 = 0;  r0 = C(p->f1c, 0);
+      if (p->b10 == 0) {
+          if (r0 == 0xFFFF) return;
+          v.a = v.b = v.c = r4;   // struct V {int a,b,c;} local
+          func_0219C928(p->f20, D(p->f1c), &p->h28, &v, func_021BC138, p);
+          p->b10 = 1;
+      }
+      if (p->h2a == 0xFFFF) return;
+      if (p->b11 == 0) { E(p->f1c, &s[1], &s[0]); t = s[1]; p->f0 = t; p->f4 = s[0]; p->f8 = t; p->b11 = 1; }
+      r0 = p->f8; r3 = p->fC; r2 = p->f0; r4 = r0 + r3; r1 = r2 + 0x400; p->f8 = r4;
+      if (r4 >= r1) { p->f8 = r1; p->fC = -r3; return; }
+      r0 = r2 - 0x400; if (r4 <= r0) { p->f8 = r0; p->fC = -r3; }
+  }
+
+Residual: the original pushes {r4,r5,r6,lr}, taking `add r6, sp, #0xc` BEFORE
+the call to 0216E3C4 and holding it in r6 across that call, then `adds r3, r6,
+#0` for the argument.  Mine pushes {r3,r4,r5,lr} and stores straight to
+[sp,#0xc], rematerialising `add r3, sp, #0xc` after the call.  Also the
+original's sum lives in r4 and the two later values in r3/r2; mine swaps them.
+Tried: plain int[3] local, `int *vp = v` at declaration (swaps r4/r5 in the
+prologue, worse), pointer assigned in the branch (folded away), struct local
+with pointer (folded away), a 3-iteration store loop (not unrolled, +8 bytes).
+Untried: a local whose address escapes earlier (e.g. address taken before the
+0xFFFF compare), or the permuter.

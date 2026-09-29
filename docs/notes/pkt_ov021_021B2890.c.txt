@@ -1,3 +1,7 @@
+CLOSED (lane R1): EXACT as src/matched/ov/ov021_func_021B2890.c. The fix
+was to declare func_021BE92C's last two parameters u8 (it reads them with
+ldrb) and pass a plain u32 z with no cast. The earlier write-up follows.
+
 ov021 0x021B2890 (80 bytes) DIFF, 7 bytes, schedule only.
 
 Call order, callee arity and stack layout all match. Original after `bl func_02012984`:

@@ -1,0 +1,46 @@
+/*
+ * function: func_021C6744
+ * address:  0x021C6744
+ * packet:   pkt_ov021_021C6744
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * push {r0-r3} entry (0x021C6744); the fourth parameter's address is taken.
+ *
+ * symbols:
+ *   func_0204784C  0x0204784C  arm
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef struct { u32 k : 2; } K;
+
+extern int func_0204784C(u32 h, u16 i, u32 *p);
+
+void func_021C6744(u32 *a, int idx, int mode, u32 val)
+{
+    u8 *e = (u8 *)a[3] + idx * 0x68;
+    int n, i;
+
+    if (((K *)e)->k == 1) {
+        n = *(u8 *)((u8 *)a[2] + *(u16 *)(e + 4) * 0x2c + 0x28);
+        if (mode == 8) {
+            i = 0;
+            if (n > 0) {
+                do {
+                    func_0204784C(*(u32 *)(e + 0x44), i, &val);
+                    i++;
+                } while (i < n);
+            }
+        } else if (mode < n) {
+            func_0204784C(*(u32 *)(e + 0x44), mode, &val);
+        }
+    }
+}

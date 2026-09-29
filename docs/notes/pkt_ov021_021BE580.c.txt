@@ -1,0 +1,48 @@
+func_021BE580 (ov021 0x021BE580, 176 bytes): DIFF, stack slot order only
+=====================================================================
+
+Every instruction and register is right after fixing three things (u8 fields
+so ldrb not ldrsb; `off = k * 8` kept in its own int; `off + table` operand
+order for the arr address). Remaining diff is the spill slots of i and n:
+
+  original: n=[sp,#4] off=[sp,#8] i=[sp,#0xc] cnt=[sp,#0x10] k=[sp,#0x14]
+  compiled: i=[sp,#4] off=[sp,#8] n=[sp,#0xc] cnt=[sp,#0x10] k=[sp,#0x14]
+
+Tried: six declaration orders (function-top and block-scoped); moving n
+before i moves more slots wrong, not fewer. The slot order does not follow
+declaration order simply. Best C (the order i,k,cnt,j,n,off):
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+struct S { int n; char *arr; };
+
+void func_021BE580(char *p)
+{
+    u8 i; u8 k; int cnt; u8 j; int n; int off;
+    char *e; char *q; u8 *s;
+
+    for (i = 0; i < 4; i++) {
+        e = p + i * 16;
+        if (*(int *)(e + 8) == 1) {
+            n = func_02048A00(*(void **)(p + 4), *(u16 *)(e + 0x14));
+            for (k = 0; k < n; k++) {
+                q = (char *)func_021BE4C4(p, i, k);
+                off = k * 8;
+                cnt = *(int *)(*(char **)(e + 0x10) + off);
+                for (j = 0; j < cnt; j++) {
+                    s = (u8 *)((struct S *)(off + *(int *)(e + 0x10)))->arr + j * 16;
+                    if (s[2] != 0 && s[0] == 0) {
+                        if (s[1] != 0)
+                            *(int *)(s + 8) = func_02047910(q, j, *(int *)(s + 4));
+                        else
+                            *(int *)(s + 8) = func_020478B8(q, j, *(int *)(s + 4));
+                    }
+                }
+            }
+        }
+    }
+}
+
+Symbols: func_021BE4C4 thumb ov021, func_02048A00/func_02047910/func_020478B8 arm.
+Sibling func_021BE4F8 (same loop shape, EXACT*) matched first try with
+declaration order i,j,base,n,e,ent.

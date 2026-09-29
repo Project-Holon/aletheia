@@ -1,3 +1,6 @@
+SUPERSEDED (lane R2): EXACT in src/matched/ov/ov021_func_021B72CC.c.  Declaring the table
+`extern const u8 d_021D99D0[]` lets its byte load be scheduled above the `str r0,[sp]` of &cnt.
+
 pkt_ov021_021B72CC  func_021B72CC (ov021, thumb, 152 bytes)  DIFF, 10 bytes, scheduling only
 
 Everything is byte-correct except the order of three instructions before the

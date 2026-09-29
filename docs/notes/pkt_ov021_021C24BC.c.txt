@@ -1,0 +1,32 @@
+/*
+ * function: func_021C24BC  (unlabelled thumb leaf, 52 bytes, push {r4} only)
+ * region:   ov021, packet pkt_ov021_021C24BC
+ * status:   DIFF (SIZE 50 vs 52 in the best spelling; six runs)
+ *
+ * Original: three zero stores through r1 = sp+0 come FIRST, then the load of
+ * p->0x20, then `str #0x40,[sp,#8]` lands after the first pointer load; the
+ * later reads of the local are folded (r3 = 0, r2 = 0x40).
+ * Plain field assignments or an int[3] local are dead-store-eliminated
+ * entirely (24 bytes). `T3 o = {0,0,0}` keeps the stores but the scheduler
+ * sinks them after the loads (50 bytes). Inline init helper, const-qualified
+ * load pointers and a T4-typed source pointer did not move the stores up.
+ * Blocks func_021C24A8 (pool word 0x021C24BD names this leaf).
+ */
+
+typedef struct {
+    int a;
+    int b;
+    int c;
+} T3;
+
+void func_021C24BC(char *p)
+{
+    T3 o = { 0, 0, 0 };
+    int **s;
+
+    s = *(int ***)(p + 0x20);
+    o.c = 0x40;
+    *(int *)(p + 0x28) = o.a + (*s)[1];
+    *(int *)(p + 0x2c) = o.b + (*s)[2];
+    *(int *)(p + 0x30) = o.c + (*s)[3];
+}

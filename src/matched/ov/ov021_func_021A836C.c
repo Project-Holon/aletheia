@@ -1,0 +1,167 @@
+/*
+ * function: func_021A836C
+ * address:  0x021A836C
+ * packet:   pkt_ov021_021A836C
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02030734  0x02030734  arm
+ *   d_021DDF94     0x021DDF94  data  ov021  a1
+ *   func_02188C80  0x02188C80  thumb  ov021
+ *   func_020120F4  0x020120F4  thumb
+ *   func_020120F8  0x020120F8  thumb
+ *   func_02012AC8  0x02012AC8  thumb
+ *   func_0201296C  0x0201296C  thumb
+ *   func_02012944  0x02012944  thumb
+ *   func_02188C54  0x02188C54  thumb  ov021
+ *   func_020355C4  0x020355C4  arm
+ *   func_020056A0  0x020056A0  thumb
+ *   func_021A8D40  0x021A8D40  thumb  ov021
+ *   func_0201C440  0x0201C440  thumb
+ *   func_020490F4  0x020490F4  arm
+ *   func_021A8B18  0x021A8B18  thumb  ov021
+ *   func_021A8874  0x021A8874  thumb  ov021
+ *   func_021A8BB8  0x021A8BB8  thumb  ov021
+ *   func_02049238  0x02049238  arm
+ *   func_02040588  0x02040588  arm
+ *   func_021A90E0  0x021A90E0  thumb  ov021
+ *   func_021A8DD8  0x021A8DD8  thumb  ov021
+ *   func_020129C4  0x020129C4  thumb
+ *   func_021A8E20  0x021A8E20  thumb  ov021
+ *   func_0204B3DC  0x0204B3DC  arm
+ *   func_0203D34C  0x0203D34C  arm
+ *
+ * 0x021DDF94 is the "field_menu.c" file-name string; 0x134 is its line.
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct Item {
+    int f00;
+    void *f04;
+    int f08;
+    void *f0C;
+    void *f10;
+    int f14;
+    void *f18;
+} Item;
+
+typedef struct Obj {
+    u16 f00;
+    u16 f02;
+    void *f04;
+    int f08;
+    int f0C;
+    u32 f10;
+    u32 f14;
+    u32 f18;
+    u16 f1C;
+    u8 f1E;
+    u8 f1F;
+    u8 f20;
+    u8 f21;
+    u8 pad22[2];
+    int f24;
+    int f28;
+    int f2C;
+    int f30;
+    Item items[7];
+    int fF8;
+    u16 fFC;
+    u8 padFE[2];
+    int f100;
+    u8 pad104[0x124 - 0x104];
+    u32 f124;
+    u32 f128;
+    void *f12C;
+    void *f130;
+    u32 f134;
+} Obj;
+
+extern char d_021DDF94[];
+
+extern void *func_02030734(int, int, int, void *, int);
+extern u32 func_02188C80(void *p);
+extern u32 func_020120F4(u32);
+extern u32 func_020120F8(u32);
+extern u32 func_02012AC8(u32);
+extern u32 func_0201296C(u32);
+extern u32 func_02012944(u32);
+extern u32 func_02188C54(void *p);
+extern int func_020355C4(void);
+extern void *func_020056A0(void *callback, void *ctx, int a2);
+extern void func_021A8D40(void *unused, Obj *w);
+extern void *func_0201C440(u16 heap);
+extern void *func_020490F4(int a, int b);
+extern u32 func_021A8B18(u32 a, u32 b, u32 c);
+extern void func_021A8874(Obj *p, void *q, u32 r, u32 s);
+extern void func_021A8BB8(Obj *p, void *q, u32 r);
+extern void func_02049238(void *q);
+extern u32 func_02040588(u32, u32);
+extern void func_021A90E0(Obj *p);
+extern void func_021A8DD8(Obj *p);
+extern u32 func_020129C4(u32);
+extern void func_021A8E20(Obj *p, u32 v);
+extern void func_0204B3DC(u32, int);
+extern void func_0203D34C(int, int);
+
+Obj *func_021A836C(u16 heap, u16 a1, int a2, void *a3, int a4)
+{
+    Obj *p;
+    u32 x;
+    u32 y;
+    void *q;
+    u32 r;
+
+    p = func_02030734(heap, 0x138, 0, d_021DDF94, 0x134);
+    x = func_02188C80(a3);
+    y = func_020120F4(x);
+    p->f00 = heap;
+    p->f02 = a1;
+    p->f04 = a3;
+    p->f08 = a2;
+    p->f0C = 1;
+    p->f1C = func_02012AC8(func_020120F8(x));
+    p->f14 = func_0201296C(y);
+    p->f18 = func_02012944(y);
+    p->f10 = func_02188C54(a3);
+    p->f1E = 0;
+    p->f1F = 0;
+    p->f24 = p->f2C = func_020355C4() ^ 1;
+    p->fF8 = 0;
+    p->f130 = func_020056A0(func_021A8D40, p, 0);
+    p->f12C = func_0201C440(p->f00);
+    p->f100 = 0;
+    p->fFC = 0;
+    q = func_020490F4(0x47, p->f02);
+    r = func_021A8B18(y, p->f14, p->f1C);
+    p->f21 = r;
+    func_021A8874(p, q, r, p->f10);
+    func_021A8BB8(p, q, r);
+    func_02049238(q);
+    func_02040588(1, 1);
+    if (a4 == 1) {
+        p->f1E = 0;
+        p->f1F = 0;
+        p->f24 = 1;
+        func_021A90E0(p);
+        func_021A8DD8(p);
+    } else {
+        func_021A8E20(p, func_020129C4(y));
+        p->f24 = 1;
+        if (p->f2C != 0) {
+            func_0204B3DC(p->f124, 1);
+        } else {
+            func_0204B3DC(p->f124, 0);
+        }
+    }
+    func_0203D34C(0, p->f02);
+    return p;
+}

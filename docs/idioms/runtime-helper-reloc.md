@@ -22,4 +22,5 @@ this is an ordinary attested lookup and not a special case in the harness.
 Without the line the four calls in `sub_020085D4` are wildcards and the whole
 unit caps at `MATCH`; with it the unit is `EXACT`.
 
-Any function doing integer division needs this line.
+Any function doing unsigned integer division needs this line. Signed `/` and
+`%` call `_s32_div_f` (0x0209C0A4), which resolves by its `label` with no line.

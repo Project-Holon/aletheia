@@ -1,0 +1,24 @@
+pkt_ov021_021C7878 and pkt_ov021_021C78DC (ov021, thumb, 100 B each): DIFF, 4 lines, register naming only.
+
+The two functions are byte-identical except for the callback pool word (func_021C7A20 / func_021C7A7C).
+Best C so far (both files): a wrapper that allocates a 0x2c-byte task via func_021C6C70(func_02188C84(a), 0x2c, cb),
+fills it, and copies the Vec *c into +0x10 with three ldr/str (NOT ldm/stm, so not a struct assignment).
+
+    int func_021C7878(int a, int b, const Vec *c, int d)
+    {
+        Obj *o; int h; int x, z, y;
+        h = func_021C6C70(func_02188C84(a), 0x2c, func_021C7A20);
+        o = func_021C6CCC(h);
+        o->f0 = 0; o->f4 = a; o->f28 = d;
+        func_0216D88C(d, &o->f1C);
+        if (b >= 0) { o->f8 = 0; o->fC = 0; o->fE = b; }
+        else        { o->f8 = 1; o->fC = 0; o->fE = -b; }
+        x = c->x; y = c->y; z = c->z;
+        o->f10.x = x; o->f10.y = y; o->f10.z = z;
+        return h;
+    }
+
+Residual: original loads y into r1 and z into r2 (stores str r1,[+0x14]; str r2,[+0x18]); ours has y in r2 and z in r1.
+Tried: struct assign (ldm/stm), direct field copies (a/c swap r6/r7), temporaries interleaved (a/c swap, z in r0),
+all loads first (a/c right, y/z swapped), declaration order of the temporaries (no effect).
+Nothing else differs; the callbacks func_021C7A20 / func_021C7A7C are filed EXACT.

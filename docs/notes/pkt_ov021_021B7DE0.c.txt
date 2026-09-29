@@ -1,37 +1,84 @@
-func_021B7DE0 (ov021 0x021B7DE0, 128 B, Thumb): DIFF, 77 concrete bytes, 124 B compiled (lane S28).
+/*
+ * function: func_021B7DE0
+ * address:  0x021B7DE0
+ * packet:   pkt_ov021_021B7DE0
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * SIZE-shaped DIFF: compiled 124 B against 128 (lanes S28 and R2).  All
+ * relocations resolve.  Structure is right: the flag==0 arm and the checks
+ * share one `return 1` tail only in the if/else spelling below.  Residue, in
+ * the else arm only:
+ *  - the original computes off = i*0x48 first (`movs r3,#0x48; muls r3,r0,r3`)
+ *    straight after the bounds check, spills it to [sp], then reuses r0 for
+ *    the r->f6 load; the first call's argument is `adds r0,r3,#0; adds
+ *    r0,r7,r0` (a copy of off, then + base: 2 B longer than ours).
+ *  - this compiler always sinks the multiply to just before the first call
+ *    (`movs r1,#0x48; muls r1,r0,r1; str r1,[sp]; adds r0,r7,r1`), whatever
+ *    the spelling.  Everything after the first call is right but shifted 2 B.
+ *
+ * Tried, each giving byte-identical output to the source below: all 24
+ * orders of the four assignments (off, base, y, x); off/v/base declared
+ * first or last; u16/int/u32 i; u32 off; `off + base`, `&base[off]`, base
+ * as u32; no off local (`base + i * 0x48` twice); struct E48 *base with
+ * `base + i`, `&base[i]` and `&t->f14[i]` (the last reloads f14); r->f0
+ * read twice instead of a local i, with and without the t local;
+ * i reused as `i *= 0x48`; `e = base + off` as its own statement;
+ * func_021B9278 given the third argument t (as in pending func_021B86A4);
+ * permuter --types, 300 compiles: best reaches 126 B only by making x a u8
+ * (a spurious shift pair), and the multiply stays sunk.
+ *
+ * checks: 1 func_021B9278 is passed r0, r1 (o->f1C) and r2 still holds t
+ *           (func_021B86A4 passes three), func_021B9280 four: arity right,
+ *           no register shifts; 2 twin func_021B86A4 (pending, DIFF) calls
+ *           the same pair, no local-type hint beyond the third argument;
+ *         3 const/width: u16/int/u32 i and u32 off, no change;
+ *         4 none fits (the multiply is sunk, not a load/store swap);
+ *         5 n/a.
+ *
+ * symbols:
+ *   func_021B9278  0x021B9278  thumb  ov021
+ *   func_021B9280  0x021B9280  thumb  ov021
+ */
 
-Structure is right (flag==0 arm and the checks share one `return 1` tail when
-written as `if (f2==0) { if (f0 >= t0) return 0; } else { ...; if (...) return 0; }
-return 1;`; the shared exit only appears in that spelling). Residue:
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef unsigned int   u32;
+typedef signed int     s32;
 
- - the original computes off = i*0x48 first (`movs r3,#0x48; muls r3,r0,r3`) right
-   after the bounds check, then loads r->f6, then t->f14 (r7), spilling off to [sp];
-   the compiled code schedules the muls after the r->f6 / r->f4 loads. Source order
-   (off, base, y, x), (off, y, base, x), and a `u16 i = r->f0` local all leave it late.
- - the original passes off in r3 to the first call (`adds r0,r3,#0; adds r0,r7,r0`) and
-   reloads it from [sp] for the second; the compiled code does the add in one register
-   and spills after. Original is 4 B longer.
- - `struct Ent *base; base + r->f0` (element arithmetic) is worse (136 B).
+struct Tbl { u16 f0; u16 f2; u8 pad[0x10]; u8 *f14; };
+struct Req { u16 f0; u8 f2; u8 f3; s16 f4; u16 f6; };
+struct Obj { u8 pad[0x1C]; u32 f1C; u8 pad2[4]; struct Tbl *f24; };
 
-Best source:
+int func_021B9278(u8 *a, u32 b, struct Tbl *c);
+int func_021B9280(u8 *a, s32 arg2, s32 arg3, struct Tbl *tbl);
 
-int func_021B7DE0(struct Obj *o, struct Req *r)   /* Req {u16 f0; u8 f2; s16 f4 @4; u16 f6 @6} */
+int func_021B7DE0(struct Obj *o, struct Req *r)
 {
-    char *base; struct Tbl *t; u16 i; s32 off, x, y, w, v;
+    u8 *base;
+    struct Tbl *t;
+    u16 i;
+    s32 off, x, y, w, v;
+
     if (r->f2 == 0) {
         if (r->f0 >= o->f24->f0) return 0;
     } else {
-        t = o->f24; i = r->f0;
+        t = o->f24;
+        i = r->f0;
         if (i >= t->f2) return 0;
         off = i * 0x48;
-        base = (char *)t->f14;
+        base = t->f14;
         y = r->f6 << 4;
         x = r->f4 << 4;
-        v = func_021B9278((struct Ent *)(base + off), o->f1C);
-        w = func_021B9280((struct Ent *)(base + off), y, v, o->f24);
+        v = func_021B9278(base + off, o->f1C, t);
+        w = func_021B9280(base + off, y, v, o->f24);
         if (-w > x || x > w) return 0;
         if (y > v || y < 0) return 0;
     }
     return 1;
 }
-Tbl {u16 f0; u16 f2; pad; Ent *f14 @0x14}, Obj {f1C @0x1C ptr; f24 @0x24 Tbl*}.

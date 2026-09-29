@@ -1,0 +1,55 @@
+/*
+ * function: func_021C3D1C
+ * address:  0x021C3D1C
+ * packet:   pkt_ov021_021C3D1C
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * symbols:
+ *   func_02017E1C  0x02017E1C  thumb
+ *   func_02005728  0x02005728  thumb  ov021
+ *   func_021C452C  0x021C452C  thumb  ov021
+ */
+
+typedef unsigned int u32;
+typedef unsigned short u16;
+
+extern u32 func_02017E1C(u32 a, u32 b, u32 c);
+extern u32 func_02005728(u32 n);
+extern u32 func_021C452C(u16 a, u16 b, u16 c, u32 d);
+
+void func_021C3D1C(u32 *p, u32 *q, u32 d)
+{
+    u32 a = func_02017E1C(p[1], 5, 0);
+    u32 b = func_02017E1C(p[1], 0x6f, 0);
+    u32 c = func_02017E1C(p[1], 0xa, 0);
+    u32 k = func_021C452C(a, b, c, d);
+    u32 r = func_02005728(100);
+
+    switch (k) {
+    default:
+    case 0:
+        if (r < 0x50)
+            q[0x13] = 0;
+        else
+            q[0x13] = 1;
+        return;
+    case 1:
+        if (r < 0x14)
+            q[0x13] = 0;
+        else
+            q[0x13] = 1;
+        return;
+    case 2:
+        if (r < 0x14)
+            q[0x13] = 0;
+        else if (r < 0x28)
+            q[0x13] = 1;
+        else
+            q[0x13] = 2;
+        return;
+    }
+}

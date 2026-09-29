@@ -1,0 +1,29 @@
+ov021 0x021C30D4 (104 B, thumb): DIFF, same size (104), scheduling and register allocation. Lane S21, 5 runs.
+
+Function: k = func_020808F4() (arm); walks 0xC000 halfwords at 0x06860000 (VRAM), halving each RGB555 channel
+(a<<15 | (r>>1)<<10 | (g>>1)<<5 | (b>>1)); then func_0207FDCC(k) (arm). v must be `int` (original uses asrs on
+the loaded halfword); channels are u8 locals, halves narrow to u8 again.
+Size matches, but the original hoists `movs r7,#1` (the `& 1` mask) into a loop-invariant register with the
+counter r5, pointer r4 and bound r6, and computes all four channel extractions from r3 before narrowing;
+ours keeps the pointer in r3, bound in r7 and rematerialises `movs r0,#1` in the loop. A local `int m = 1` used
+as the mask folds away (identical bytes). Separate u8 locals for the halves versus inline (u8)(x>>1) casts:
+identical bytes.
+
+Best source (DIFF):
+
+void func_021C30D4(void)
+{
+    u32 k = func_020808F4();
+    u16 *p = (u16 *)0x06860000;
+    int i;
+    for (i = 0; i < 0xC000; i++) {
+        int v = *p;
+        u8 r = (v >> 10) & 0x1F;
+        u8 g = (v >> 5) & 0x1F;
+        u8 b = v & 0x1F;
+        u8 a = (v >> 15) & 1;
+        *p = (a << 15) | ((u8)(r >> 1) << 10) | ((u8)(g >> 1) << 5) | (u8)(b >> 1);
+        p++;
+    }
+    func_0207FDCC(k);
+}

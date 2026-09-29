@@ -1,0 +1,123 @@
+/*
+ * function: func_021AA0A0
+ * address:  0x021AA0A0
+ * packet:   pkt_ov021_021AA0A0
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * DIFF, 94 bytes, same size (220 compiled + padding = 224). Every
+ * instruction up to +0x80 matches except two: the image stores
+ * slots[0].f00 through a fresh `add r0, sp, #8` and the 0xFFFF into
+ * slots[0].f02 through r6 (`strh r0, [r6, #2]`); this C keeps sp+8 live
+ * in r1 and stores f02 as `[r1, #0x2e]`. The rest is one register
+ * decision: the image holds a constant 4 in r7 (`movs r0, #4; movs r7, #4`
+ * right before func_02013090) and uses it only as the second argument of
+ * the flags&1 call func_02013144(h, 4), so h lands in r6 and the slots
+ * pointer passed to func_021AA490 is recomputed (`add r0, sp, #0x34`).
+ * This C propagates the 4 as an immediate, h takes r7 and slots stays in r6.
+ * Measured without success: an int/enum/pointer local for the 4 (used by
+ * one, two or all three sites), reassigning the dead id or lvl parameter to
+ * 4, a two-definition join (`v = 0x80` on the other arm: spills v), u16 heap
+ * for func_021AA490 (its matched prototype), s16 f02 = -1, sel and slots as
+ * one struct, and parameter widths int/u32/u16. An enum `heap` local passed to
+ * all three sites with the u16 prototype scores 30 bytes, but only because
+ * it moves h to r7 early. It adds a lsls/lsrs pair on r3 and is no closer.
+ * The permuter (300, --types) got 57 bytes, from temporaries for flags&0x20 and
+ * flags&0x100, and did not reach the r7 constant.
+ *
+ * checks: 1 func_02013144 takes (p, v), matched arm9; func_021AA490 takes 5;
+ *   2 twins ov021_func_021AA180 / 021A9F40 / 021AA248 share the
+ *   02013090(4) + 021AA490(...,4,...) pair but not the r7 constant;
+ *   3 u16/s16/int/u32 on id, lvl, flags and f02 no gain;
+ *   4 a-repeated-small-constant-takes-a-callee-saved-register and the enum
+ *   idioms tried, no fit; 5 AA180/9F40's `h = 0; return h` register-zero
+ *   shape tried as `v = 4` with a second definition, spills instead.
+ *
+ * symbols:
+ *   func_02188CB4  0x02188CB4  thumb  ov021
+ *   func_02188C6C  0x02188C6C  thumb  ov021
+ *   func_021A1BF4  0x021A1BF4  thumb  ov021
+ *   func_021A9350  0x021A9350  thumb  ov021
+ *   func_02082BCC  0x02082BCC  arm
+ *   func_02013090  0x02013090  thumb
+ *   func_021AA490  0x021AA490  thumb  ov021
+ *   func_02013144  0x02013144  thumb
+ *   func_0216E7C8  0x0216E7C8  thumb  ov010
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+struct Ctx {
+    void *f00;
+    int f04;
+    void *f08;
+};
+
+struct Slot14 {
+    u16 f00;
+    u16 f02;
+    u8 f04;
+    u8 f05;
+    u8 f06;
+    u8 f07;
+    u8 pad08[8];
+    u8 f10;
+    u8 pad11[3];
+};
+
+struct Sel {
+    u8 raw[0x2C];
+};
+
+extern void *func_02188CB4(void *p);
+extern u32 func_02188C6C(void *p);
+extern u16 func_021A1BF4(u32 v);
+extern void func_021A9350(struct Sel *s, void *a, int b, int c, u16 d);
+extern void func_02082BCC(void *p, int v, int n);
+extern void *func_02013090(int a);
+extern void func_021AA490(struct Ctx *ctx, struct Sel *s, void *a, int b, struct Slot14 *o);
+extern void func_02013144(void *p, int v);
+extern int func_0216E7C8(int a0, void *a1, void *a2, int a3, int a4);
+
+int func_021AA0A0(struct Ctx *ctx, u16 id, u8 lvl, u32 flags)
+{
+    struct Slot14 slots[2];
+    struct Sel sel;
+    void *h;
+
+    func_02188CB4(ctx->f00);
+    func_021A9350(&sel, ctx->f08, 0xFF, 0, func_021A1BF4(func_02188C6C(ctx->f00)));
+    func_02082BCC(slots, 0, 0x28);
+    slots[0].f00 = id;
+    slots[0].f04 = lvl;
+    if (flags & 4)
+        slots[0].f02 = 0xFFFF;
+    if (flags & 2)
+        slots[0].f06 = 1;
+    else if (flags & 0x10)
+        slots[0].f06 = 2;
+    else
+        slots[0].f06 = 0;
+    if (flags & 8)
+        slots[0].f07 = 1;
+    if (flags & 0x20)
+        slots[0].f10 = 1;
+    else if (flags & 0x40)
+        slots[0].f10 = 2;
+    h = func_02013090(4);
+    func_021AA490(ctx, &sel, h, 4, slots);
+    if (flags & 1)
+        func_02013144(h, 4);
+    else if (flags & 0x80)
+        func_02013144(h, 0x80);
+    if (flags & 0x100)
+        func_02013144(h, 0x200);
+    return func_0216E7C8(ctx->f04, ctx->f00, h, 1, 0);
+}

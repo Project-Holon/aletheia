@@ -1,3 +1,7 @@
+SUPERSEDED (lane R2): EXACT in src/matched/ov/ov021_func_021B9B7C.c.  Bind the second call
+to a local, then `a = a + 0x30;` as its own statement: `b = func_021B834C(p); a = (V *)((u8 *)a
++ 0x30); func_0207CA00((V *)(b + 0x30), a, &t);`.  d_021D9A54 needs the ov021 token.
+
 pkt_ov021_021B9B7C  func_021B9B7C  ov021 thumb  172 bytes  DIFF (same size, register allocation + one add position)
 
 Best C (7 runs, size matches, every call/pool relocation resolves):

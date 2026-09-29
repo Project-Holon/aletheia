@@ -1,0 +1,10 @@
+func_021BBD84 (ov021, 80 B, thumb): DIFF, 8-byte SIZE-equivalent (cases 3 and 4 fold).
+
+Dense 5-way switch on r1; r2 = byte index, r3 = row (int-stride table d_021D9AE8, pool 0x021D9AE8):
+  0: x            1: ((u8 *)&d[y])[x]       2: x + 10
+  3: ((u8 *)&d[y])[x] - 4 + 14              4: ((u8 *)&d[y])[x] - 4 + 20
+The original emits `subs r0,r0,#4` then `adds r0,#0xe` / `adds r0,#0x14` (no folding
+to +10 / +16). Tried and all fold: one expression, `r -= 4; r += 14`, `14 + (v - 4)`,
+a named temporary, and a `static inline int sub4(x,y)` helper. Everything else in the
+function (switch table, pool, case 0-2) is byte-exact. Caller func_021BBDD4 truncates
+the result to u16. Possibly the -4 is applied in a narrower type than int.

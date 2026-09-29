@@ -1,0 +1,32 @@
+S17 lane, ov021 0x021BF76C (also 0x021BF8EC, 0x021C00C8): DIFF, switch index register.
+
+Structure is right (140 bytes, every relocation resolved, every branch target and call
+matches); the only diff is the dense-switch dispatch preamble, 8 bytes:
+  original: ldr r1,[r4]; cmp r1,#5; adds r1,r1,r1; add r1,pc; ldrh r1,[r1,#6]; ...; add pc,r1
+  compiled: the same with r0.
+The idiom docs/idioms/a-void-return-frees-r0-for-the-switch-dispatch-index.md says r1 means
+r0 is live through the arms. Here the only r0 value alive before the switch is the result of
+func_02188D38 (a +0x134 field getter, `movs/lsls/ldr r0,[r0,r1]`), which no arm reads.
+0x021C00C8 shows the same tell one step further: `ldr r2,[r5,#0x74]; adds r1,r2,#1; str r1;
+cmp r2,#0x23` where the compile has r1/r0, so r0 is held across the whole arm there too.
+
+Tried (each 8 bytes off, same shape): getter declared void; getter declared int with the
+result in an unused local; switch value copied to a local first; (unsigned) cast on the switch.
+
+Body that gets the rest exact (0x021BF76C; 0x021BF8EC is the same with callees
+0x021BF9F4/978/A18/9E0; s = r1 state word, q = r2 object, a = r0 unused-by-switch):
+
+  int v = q[1]; int h = func_02188C58(v); func_02188D38(v);
+  switch (s[0]) {
+  case 0: func_0218F0A8(h); s[0]++; break;
+  case 1: if (func_0218F0E8(h) == 0) s[0]++; break;
+  case 2: if (q[23] == 0) { func_021BF874(q); func_021BF7F8(q); } s[0]++; break;
+  case 3: func_02012374(a, func_021BF898(q)); s[0]++; break;
+  case 4: if (func_021C6E48() != 0) s[0]++; break;
+  case 5: func_021BF860(q); return 1; }
+  return 0;
+
+0x021C00C8: func_02188D38(q[1]); case 0: func_021C0140(q); func_021C017C(q); s[0]++;
+case 1: t = q[29]; q[29] = t + 1; if (t > 35) { func_02012374(a, func_021C01F8(q)); s[0]++; break; }
+then falls into case 2: if (func_021C6E48()) { func_020061E4(0x559); s[0]++; } break;
+case 3: func_021C01E4(q); return 1.

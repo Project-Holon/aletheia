@@ -1,0 +1,19 @@
+func_021BBC58 (ov021, 100 B, thumb): DIFF, the two prologue spills trade places.
+
+    int func_021BBC58(Ring *r, void *b, unsigned c)   /* r->count at +0x43c */
+    {
+        int i; u8 *p;
+        for (i = r->count; i > r->count - 30; i--) {
+            if (i < 0) return 1;
+            p = func_021BBC2C(r, i);          /* ov021, labelled */
+            if (p != 0 && func_0203EFC8(p + 0x1a, b, 6) == 0) {
+                if (*(u16 *)(p + 0x18) != c) return 1;
+                return 0;
+            }
+        }
+        return 1;
+    }
+
+Every other byte matches. Original spills `str r2,[sp,#4]` (c) before `str r1,[sp]` (b),
+ours the reverse. Tried: c as int / unsigned, b as int / void *, `c != h` operand order
+(changes the cmp), a local copy `cc = c` at the top. None moved the spill order.

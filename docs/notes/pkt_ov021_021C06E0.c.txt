@@ -1,0 +1,66 @@
+pkt_ov021_021C06E0 (func_021C06E0, ov021, thumb, 160 bytes): DIFF, register allocation only.
+
+Control flow, sizes and pool layout are byte-identical with the C below (switch(*st) with cases 0/1;
+case 0 nested `if (r==2) { if (h==1) B else A } else B` reproduces `bne A; b B` before A).
+Left: original st=r6 a=r7 x=r5 y=r4; ours st=r5 a=r7 x=r4 y=r6. Declaration order of x/y/v and a
+copy `s = *st` did not move it (5 runs).
+Leftover-register facts: func_02188C7C(y) at 0x06FE and func_02188BE8(y) at 0x0758 take y from the
+r0 still holding the call result (no `adds`), so pass y there.
+Pool word 0x15 (arg r2 of func_020146F8) is pooled, not `movs`: declared `ov021_id 0x00000015 data`;
+func_020146F8 is not in OVERLAY_ID_CONSUMERS, so that site resolves only as `literal`.
+0x021DA08C (d_021DA08C, pool r3) has no witness outside the range: even a byte-correct build caps at MATCH.
+
+UPDATE: func_0202647C(a) and func_02012138(a) are one-load leaves taking r0; the call is
+`func_0202647C(func_02012138(x)) == 2` (r0 leftover), and the separate `func_02012138(x);` statement in
+the listing below should be dropped (that form and the goto form, 10 runs, still leave the r5/r6/r4 swap).
+A goto spelling (`if (!=2) goto other; if (h==1) goto other; A; goto done;`) changes the layout and is worse.
+
+extern u32 func_020124E4(void);   /* thumb */
+extern u32 func_0201210C(void);
+extern u32 func_02188C7C(u32 a);  /* ov021 */
+extern void func_0216D9A0(u32 a); /* ov010 */
+extern void func_02012138(u32 a);
+extern int func_0202647C(void);
+extern u32 func_020120F4(u32 a);
+extern int func_02012B70(u32 a);
+extern u32 func_020122C0(u32 a, u32 b, void *c, u32 d);
+extern void func_0200FB38(void);
+extern u32 func_020146F8(u32 a, u32 b, u32 c, void *d, u32 e);
+extern void func_02012374(u32 a, u32 b);
+extern int func_02188BE8(u32 a);
+extern void func_0216D9E4(u32 a);   /* ov010 */
+extern int func_021C0780(void);     /* ov021, callback pointer */
+
+int func_021C06E0(u32 a, int *st)
+{
+    u32 y, x, v;
+
+    x = func_020124E4();
+    y = func_0201210C();
+    switch (*st) {
+    case 0:
+        func_0216D9A0(func_02188C7C(y));
+        func_02012138(x);
+        if (func_0202647C() == 2) {
+            if (func_02012B70(func_020120F4(x)) == 1) {
+                func_0200FB38();
+                v = func_020146F8(x, y, (u32)ov021_id, d_021DA08C, x);
+            } else {
+                v = func_020122C0(x, 0, (void *)func_021C0780, 0);
+            }
+        } else {
+            func_0200FB38();
+            v = func_020146F8(x, y, (u32)ov021_id, d_021DA08C, x);
+        }
+        func_02012374(a, v);
+        *st = *st + 1;
+        break;
+    case 1:
+        if (y != 0 && func_02188BE8(y) == 1) {
+            func_0216D9E4(func_02188C7C(y));
+            return 1;
+        }
+        break;
+    }
+    return 0;
+}

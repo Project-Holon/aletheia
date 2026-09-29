@@ -1,3 +1,7 @@
+CLOSED (lane R1): EXACT* as src/matched/ov/ov021_func_021B5C80.c. The
+fix was that func_0201EE60 takes three arguments (ws, i, u16 v) and arr[i]
+is the third, so the ldrh lands in r2. The earlier write-up follows.
+
 ov021 0x021B5C80 (104 bytes, thumb): DIFF, 2 bytes (lane S25)
 
 Near miss: 2 concrete bytes differ, everything else byte-correct.

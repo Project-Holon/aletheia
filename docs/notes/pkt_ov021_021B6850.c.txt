@@ -1,19 +1,86 @@
-pkt_ov021_021B6850  func_021B6850 (ov021, thumb, 180 B)  status: DIFF (5 instructions, one scheduling swap)
+/*
+ * function: func_021B6850
+ * address:  0x021B6850
+ * packet:   pkt_ov021_021B6850
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * SUPERSEDED (lane R2): EXACT in src/matched/ov/ov021_func_021B6850.c by
+ * declaring the parameter b as u16 (no instruction of its own; it only moves
+ * the third call's stack-argument store).  The C below is the u32-b DIFF.
+ *
+ * DIFF, 5 instructions (one scheduling swap), size 180/180, every relocation
+ * resolves.  Everything matches except the third func_020079BC call (id 5):
+ * the original emits `str r7,[sp]` (the hoisted zero fifth argument) BEFORE
+ * `adds r0,r6; adds r1,r5; adds r2,r4; movs r3,#5`, while the other three
+ * calls (ids 0xa9, 7, 0x4c) emit the store after `movs r3`.  This C emits it
+ * after for all four.  Blocks 2 and 3 have the same shape (call, reload a
+ * stack value, cmp, bne), so the difference is in the IR, not the scheduler.
+ * Stack slots need the declaration order base, i, t10, j (later declaration
+ * lower address); the mod is (i + base) % 24 via _s32_div_f.
+ *
+ * Tried (lanes S-earlier and R2): `b == f()` versus `f() == b`; && chain
+ * versus continue-style ifs; the id-5 call through a static inline helper;
+ * fifth parameter as u8; permuter --types, 300 compiles, no improvement
+ * (best DIFF, 8 bytes out).
+ *
+ * checks: 1 func_020079BC reads five (r0-r3 + [sp]), the others one or none;
+ *         2 no ov021 twin calling func_020079BC with a stack argument;
+ *         3 const/param width: fifth param u8 and b as u32/int no change;
+ *         4 none fits (not a const-load/store swap: the moved store has no
+ *           load to trade with); 5 n/a.
+ *
+ * symbols:
+ *   func_02012934  0x02012934  thumb
+ *   func_02012944  0x02012944  thumb
+ *   func_0201293C  0x0201293C  thumb
+ *   func_02007698  0x02007698  thumb
+ *   func_02008530  0x02008530  thumb
+ *   func_020079BC  0x020079BC  thumb
+ *   _s32_div_f     0x0209C0A4  arm
+ */
 
-Everything matches except the third func_020079BC call (id 5): original emits
-`str r7,[sp]` BEFORE `adds r0,r6; adds r1,r5; adds r2,r4; movs r3,#5`, while the
-other three calls (ids 0xa9, 7, 0x4c) emit the store after `movs r3`. Ours emits
-it after for all four. r7 is the hoisted zero (copy of the loop start value).
-Tried: `b == f()` versus `f() == b`, && chain versus continue-style ifs. Stack
-slots need declaration order base, i, t10, j (later declaration lower address);
-mod is `(i + base) % 24` via _s32_div_f 0x0209C0A4.
+typedef unsigned short u16;
+typedef unsigned int u32;
 
-C (5 instructions off):
-  func_02012934(a); r4 = func_02012944(a); r6 = func_0201293C(a);
-  base = func_02007698(); t10 = func_02008530(r4);
-  for (i = 0; i < 24; i++) { r5 = (i + base) % 24;
-    for (j = 0; j < 30; j++) {
-      if (func_020079BC(r6,r5,j,0xa9,0) != 0 && t10 == func_020079BC(r6,r5,j,7,0)
-          && b == func_020079BC(r6,r5,j,5,0) && func_020079BC(r6,r5,j,0x4c,0) == 0)
-        { *c = r5; *d = j; return 1; } } }
-  return 0;   /* params (void *a, u32 b, u16 *c, u16 *d) */
+extern u32 func_02012934(u32 a);
+extern u32 func_02012944(u32 a);
+extern u32 func_0201293C(u32 a);
+extern int func_02007698(void);
+extern u32 func_02008530(u32 a);
+extern u32 func_020079BC(u32 a, int b, int c, int d, int e);
+
+int func_021B6850(u32 a, u32 b, u16 *c, u16 *d)
+{
+    int base;
+    int i;
+    u32 t10;
+    int j;
+    int m;
+    u32 r4;
+    u32 r6;
+
+    func_02012934(a);
+    r4 = func_02012944(a);
+    r6 = func_0201293C(a);
+    base = func_02007698();
+    t10 = func_02008530(r4);
+    for (i = 0; i < 24; i++) {
+        m = (i + base) % 24;
+        for (j = 0; j < 30; j++) {
+            if (func_020079BC(r6, m, j, 0xa9, 0) != 0
+                && t10 == func_020079BC(r6, m, j, 7, 0)
+                && b == func_020079BC(r6, m, j, 5, 0)
+                && func_020079BC(r6, m, j, 0x4c, 0) == 0) {
+                *c = m;
+                *d = j;
+                return 1;
+            }
+        }
+    }
+    return 0;
+}

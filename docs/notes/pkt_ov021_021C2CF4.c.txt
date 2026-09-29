@@ -1,0 +1,28 @@
+ov021 0x021C2CF4 (116 B, thumb): DIFF, 17 bytes, one register choice. Lane S21, 6 runs.
+
+Everything matches (switch on the u32 at +0x130, three guards at +0x11C/+0x120/+0x124, the -1 4th argument to
+func_0204E720 compiles as the original `movs r3,#0x10 ... subs r3,#0x11`) except the register of the switch value:
+original loads it into r1 (`ldr r1,[r4,r2]`, temporaries in r0, and case 0 stores `adds r0,r1,#1`), ours into r0
+(temporaries in r1, `adds r0,r0,#1` in place). Size differs only by trailing pad (114 vs 116).
+Tried: value in a local (int / u32), reads spelled `p->x = p->x + 1` versus `+= 1`, a dummy int temp assigned in
+the guard chain. The first parameter (r0) is unused in both.
+
+Best source (DIFF):
+
+int func_021C2CF4(void *a, u8 *p)
+{
+    switch (*(int *)(p + 0x130)) {
+    case 0:
+        if (*(int *)(p + 0x11C) != 0 && *(int *)(p + 0x120) != 0 && *(int *)(p + 0x124) != 0)
+            *(int *)(p + 0x130) = *(int *)(p + 0x130) + 1;
+        break;
+    case 1:
+        func_0204E720(func_020124E8()[0xF] != 0 ? 0xC : 3, 0, 0x10, -1);
+        *(int *)(p + 0x130) += 1;
+    case 2:
+        if (func_0204E804() == 0) return 1;
+        break;
+    }
+    return 0;
+}
+(func_020124E8 returns u32 *, func_0204E720/0204E804 are arm.)
