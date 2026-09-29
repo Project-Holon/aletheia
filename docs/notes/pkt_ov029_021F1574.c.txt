@@ -1,0 +1,58 @@
+/*
+ * function: func_021F1574
+ * address:  0x021F1574
+ * packet:   pkt_ov029_021F1574
+ * region:   ov029
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callee arities read from asm (204abf0/204a6c8 5 args with stack 0x70), sizes equal; 2 no twin; 3 idx as unsigned, int k=0x70 local, t local, p as int, q=(int*)p field spelling: no change; 4 none fits; 5 n/a
+ * DIFF: same size (136 B); the only difference is two instructions at +0x0A/+0x0C: original does
+ * `adds r5, r0, #0` (copy of p) before `str r6, [sp]` (stack arg 0x70); this C emits the store first.
+ * Row loop matched via i=0 hoisted first, base = loc->0xc hoisted, q = p + i*4 with q[0x6e].
+ * symbols:
+ *   func_0204ABF0  0x0204ABF0  arm
+ *   func_0204A6C8  0x0204A6C8  arm
+ *   func_0204AF28  0x0204AF28  arm
+ *   func_02049F78  0x02049F78  arm
+ *   func_020307B0  0x020307B0  arm
+ *   func_0203D88C  0x0203D88C  arm
+ *   func_0203D34C  0x0203D34C  arm
+ *   d_021F31C8     0x021F31C8  data  a4
+ *   d_021F33CC     0x021F33CC  data  a4
+ */
+
+extern int func_0204ABF0(int, int, int, int, int);
+extern int func_0204A6C8(int, int, int, int, int);
+extern int func_0204AF28(int, int, int, int);
+extern int func_02049F78(int, int, void *, int);
+extern void func_020307B0(int);
+extern void func_0203D88C(int, int);
+extern void func_0203D34C(int, int);
+extern int d_021F31C8[];
+extern int d_021F33CC[];
+
+void func_021F1574(char *p, int idx)
+{
+    int i;
+    int r;
+    char *loc;
+    int *base;
+    int *q;
+
+    i = 0;
+    *(int *)(p + 0x28) = func_0204ABF0(*(int *)(p + 0x24), d_021F31C8[idx], 1, 0, 0x70);
+    *(int *)(p + 0x2c) = func_0204A6C8(*(int *)(p + 0x24), 0x16, 0, 1, 0x70);
+    *(int *)(p + 0x30) = func_0204AF28(*(int *)(p + 0x24), 0x15, 0x14, *(unsigned short *)(p + 0xc));
+    r = func_02049F78(*(int *)(p + 0x24), 0x18, &loc, *(unsigned short *)(p + 0xc));
+    base = *(int **)(loc + 0xc);
+    for (; i < 17; i++) {
+        q = (int *)(p + i * 4);
+        q[0x6e] = base[d_021F33CC[i]];
+    }
+    func_020307B0(r);
+    func_0203D88C(0xda, 0xe);
+    func_0203D34C(0, *(unsigned short *)(p + 0xc));
+}

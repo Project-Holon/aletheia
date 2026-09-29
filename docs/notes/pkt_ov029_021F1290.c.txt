@@ -1,0 +1,65 @@
+/*
+ * function: func_021F1290
+ * address:  0x021F1290
+ * packet:   pkt_ov029_021F1290
+ * region:   ov029
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_021F0C70 takes 4 (h,c,x,y), func_021F0D14 4 (x,y,&A,&B), returns int; 2 no twin; 3 c as u16 and idx types no change; 4 register-allocation shape only (same 172 bytes), no idiom fits; 5 n/a
+ * DIFF: 172 bytes, same size as the original. Only register/stack-slot allocation differs: original keeps the
+ * outer counter k in [sp,#8] with buf at [sp,#4], row-index (B+k) in ip, aa in r2, j in r3, k*32 in r4, row pointer in r5,
+ * s<<12 in r6, w*4 in r7; this C puts k in [sp,#4], buf at [sp,#8], aa in r4, row in r2, k*32 in r5.
+ * Tried: no aa/bb vars (156 B), aa/bb vars, tp pointer local (176 B), declaration orders, kk local.
+ * symbols:
+ *   func_0204162C  0x0204162C  arm
+ *   func_021F0D14  0x021F0D14  thumb  ov029
+ *   func_021F0C70  0x021F0C70  thumb  ov029
+ *   d_021F3354     0x021F3354  data  a4
+ *   d_021F31D4     0x021F31D4  data  a2
+ *   d_021F323C     0x021F323C  data  a1
+ */
+
+typedef struct {
+    int v[6];
+} S13Tbl;
+
+extern int func_0204162C(int);
+extern void func_021F0D14(int, int, int *, int *);
+extern int func_021F0C70(int, int, int, int);
+extern const S13Tbl d_021F3354;
+extern const unsigned short d_021F31D4[];
+extern const unsigned char d_021F323C[];
+
+void func_021F1290(int h, int x, int y, int w)
+{
+    S13Tbl tbl = d_021F3354;
+    unsigned short *buf;
+    unsigned short *row;
+    int A;
+    int B;
+    int c;
+    int s;
+    int bb;
+    int j;
+    int aa;
+    int k;
+
+    buf = (unsigned short *)func_0204162C(4);
+    func_021F0D14(x, y, &A, &B);
+    c = d_021F31D4[w];
+    s = d_021F323C[c * 5 + func_021F0C70(h, c, x, y)];
+    bb = B;
+    for (k = 0; k < 4; k++) {
+        row = buf + bb * 32;
+        aa = A;
+        for (j = 0; j < 4; j++) {
+            if (aa >= 0 && aa < 32)
+                row[aa] = (s << 12) | (tbl.v[w] + k * 32 + j);
+            aa++;
+        }
+        bb++;
+    }
+}

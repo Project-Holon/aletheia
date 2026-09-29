@@ -1,0 +1,49 @@
+/*
+ * function: func_021F4078
+ * address:  0x021F4078
+ * packet:   pkt_ov046_021F4078
+ * region:   ov046
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks: 1 func_021BB3DC reads (r0,r1,r2), func_02188C5C one arg; 2 no twin; 3 int vs u32 for b/c no change; 4 none fits; 5 n/a
+ *
+ * Same size, only register assignment differs (8 lines): original keeps b in
+ * r6, first-loop counter in r5, and the table pointer t in r6 (b's register
+ * reused). Ours puts b in r5, i and t in r6. Tried: declaration order of
+ * i/t/h/v1/v2 (5 permutations), separate counters for the two loops, `int i = 0`
+ * initialiser, u32 params, flat `d + b*24 + c*6` indexing (much worse),
+ * split declaration and assignment of t.
+ *
+ * symbols:
+ *   func_02188C5C  0x02188C5C  thumb  ov021
+ *   func_021BB3DC  0x021BB3DC  thumb  ov214
+ *   d_021F4430  0x021F4430  data  ov046  a4
+ */
+
+typedef unsigned int u32;
+extern u32 func_02188C5C(u32);
+extern void func_021BB3DC(u32, int, int);
+extern int d_021F4430[][4][6];
+
+void func_021F4078(u32 a, int b, int c)
+{
+    int v1[6];
+    int v2[6];
+    u32 h = func_02188C5C(a);
+    int i;
+    int *t = d_021F4430[b][c];
+
+    for (i = 0; i < 6; i++) {
+        v1[i] = t[i];
+        v2[i] = 0;
+    }
+    if (c != 1) {
+        v2[0] = 1;
+        v2[1] = 1;
+    }
+    for (i = 0; i < 6; i++)
+        func_021BB3DC(h, v1[i], v2[i]);
+}

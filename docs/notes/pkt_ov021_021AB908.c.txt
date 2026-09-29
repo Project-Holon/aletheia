@@ -9,34 +9,33 @@
  * isa:      thumb
  * status:   DIFF
  *
- * DIFF, same size (244 B), 33 bytes differ (lane B8). Every instruction and
- * the whole schedule match except one thing: the original keeps the saved
- * p+0x14 value (y) in r7 for the whole function (push {r3-r7,lr}), stores
- * a.y = y late (at +0x52, among the first FX_Mul's operand setup), and
- * finishes out.y with `adds r1, r7, #0; adds r1, r2, r1` (a forwarded copy).
- * This C instead stores a.y = y before the table loads, lets y die, and
- * re-reads a.y from the frame at the end (push {r4-r6,lr}, so the zero,
- * table base and c registers are all renumbered).
- * Levers that got here: inline FX_Mul with the table value first (idiom
- * an-fx-mul-with-a-shared-radius...) took 99 -> 88; `out.y += a.y` instead
- * of `+= y` 88 -> 64; const on p and q 64 -> 33.
- * Tried without gain: every declaration order of obj/y/c (x2 spellings of
- * the out.y add, all 88); a.y = y placed after each later statement (58,
- * 73, 101, 154); with `+= y` (y kept in r4, no copy): `y += out.y;
- * out.y = y;` and `out.y = out.y + y` (both 49).
- * Lane R3 (16 runs, all >= 33): the copy `adds r1, r7, #0` before
- * `adds r1, r2, r1` reads as the final a.y load replaced by the register
- * y still holds (y live to the end, hence r7 and push {r3-r7}); nothing
- * made mwcc do that replacement. `out.y += y` gets the schedule exactly
- * (restore store at +0x52) but no copy and y in r4 (49); y as u32/long/
- * unsigned long/int: 49 each; `out.y = y + out.y` 49; `a.y + out.y` 33;
- * inline VecAdd(&out,&a,&out) 33, (&a,&out,&out) 37; re-reading p->0x14
- * for the restore (no y local) or `a = *(const Vec *)(p + 0x10)`: 176-201;
- * restore after the out.y or c FX_Mul: 58 / 73.
+ * DIFF, same size (244 B), 22 bytes differ (lane R1; was 33 after lane B8/R3).
+ * Lane R1: the permuter (--types) bound both table values to s16 temporaries,
+ * the first loaded before the `a.y = y` restore and the second after the
+ * out.y FX_Mul (its raw output had `s16 tmp = ...` mid-block, a CCERR; the
+ * declaration is hoisted here). That gives push {r3-r7,lr}, the restore store
+ * at +0x52 and the whole schedule; every remaining byte is register naming
+ * plus one instruction:
+ *   original: y -> r7, pooled zero -> r6, table base -> r4, c -> r4:r5
+ *   this C:   y -> r6, pooled zero -> r4, table base -> r7, c -> r5:r6
+ * and at +0xD0 the original has `adds r1, r7, #0` where this has
+ * `ldr r1, [sp, #0x24]`. Reading of that copy: it is the a.y reload replaced
+ * by the register still holding y (r7 is never reused after the restore in
+ * the original); here y's register is reused by c, so the reload stays. So
+ * the whole residue is which register y gets.
+ * Lane R1 also tried on this spelling: `out.y += y` / `out.y = out.y + y` /
+ * `y + out.y` (49: y in r4 live to the end, final add `adds r1, r1, r4`, 2
+ * bytes short); `out.y = out.y + a.y` 22; y as u32/int, c as int, tmps as s32,
+ * a named `const s16 *` table pointer (set before the loads or at the top):
+ * all 22. A second permuter pass (--types, 300) from this spelling: 22.
+ * Earlier lanes (on the 33 spelling, see git history of this note): every
+ * declaration order of obj/y/c, a.y = y placed after each later statement,
+ * inline VecAdd, re-reading p->0x14 for the restore, y as long/unsigned long.
  * checks: 1 func_0218E124 (u32,u32) as in matched 021BA4FC, VEC_Subtract/
  * Normalize arity from 021AB890; 2 twins 021ABC5C/021BA4FC/021AB890 give
- * types, no shared shape for the y restore; 3 const p/q: 64 -> 33 (kept);
- * 4 FX_Mul inline idiom applied; 5 n/a.
+ * types, no shared shape for the y restore; 3 const p/q: 64 -> 33 (kept),
+ * lane R1 widths of y/c/table temps: no change; 4 FX_Mul inline idiom
+ * applied; 5 n/a (no later neighbour in lane R1 shares the shape).
  *
  * symbols:
  *   func_021AB760  0x021AB760  thumb  ov021
@@ -80,6 +79,8 @@ void func_021AB908(u32 a0, const u8 *p, const Vec *q)
     u32 obj;
     s32 y;
     s32 c;
+    s16 t0;
+    s16 t1;
 
     obj = func_021AB760(a0);
     func_0218E124(obj, 2);
@@ -92,9 +93,11 @@ void func_021AB908(u32 a0, const u8 *p, const Vec *q)
     b.y = 0;
     func_0207CA00(&b, &a, &b);
     func_0207CCA4(&b, &n);
+    t0 = tbl_020A1B38[(*(const s32 *)(p + 0x1c) >> 4) * 2];
     a.y = y;
-    out.y = FX_Mul(tbl_020A1B38[(*(const s32 *)(p + 0x1c) >> 4) * 2], *(const s32 *)(p + 0x20));
-    c = FX_Mul(tbl_020A1B38[(*(const s32 *)(p + 0x1c) >> 4) * 2 + 1], *(const s32 *)(p + 0x20));
+    out.y = FX_Mul(t0, *(const s32 *)(p + 0x20));
+    t1 = tbl_020A1B38[(*(const s32 *)(p + 0x1c) >> 4) * 2 + 1];
+    c = FX_Mul(t1, *(const s32 *)(p + 0x20));
     out.x = FX_Mul(n.x, c);
     out.z = FX_Mul(n.z, c);
     out.x += a.x;

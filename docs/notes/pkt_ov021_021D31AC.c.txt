@@ -8,6 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * resolved: EXACT in src/matched/ov/ov021_func_021D31AC.c (lane R3): func_02040588 takes
+ *   two arguments; the slot byte is the second, which puts the ldrb in r1.
  *
  * DIFF: 2 bytes (+003A/+003C): original loads the slot byte into r1
  * (ldrb r1,[r0]; cmp r1,#0xff), compiled uses r0. Everything else is identical.

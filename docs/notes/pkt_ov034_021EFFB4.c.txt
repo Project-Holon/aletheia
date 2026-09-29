@@ -1,0 +1,60 @@
+/*
+ * function: func_021EFFB4
+ * address:  0x021EFFB4
+ * packet:   pkt_ov034_021EFFB4
+ * region:   ov034
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 all callees' arities consistent, 10/10 relocs resolved, only r5/r6 swapped (p in r6 wanted, r5 got; second-loop counter r5 wanted, r6 got; 9 instrs); 2 no twin; 3 const p, separate counters, int/unsigned counters no change; 4 self-assignment p=p at 2 points, no change; 5 n/a. Also swept all 24 declaration orders of i,j,s,h: all DIFF.
+ *
+ * symbols:
+ *   func_021EFFB4 0x021EFFB4 thumb
+ *   func_0201C6B4 0x0201C6B4 thumb
+ *   func_02040588 0x02040588 arm
+ *   func_02045374 0x02045374 arm
+ *   func_02041B6C 0x02041B6C arm
+ *   func_0201C4E4 0x0201C4E4 thumb
+ *   func_02045770 0x02045770 arm
+ *   func_0201C6C4 0x0201C6C4 thumb
+ *   func_02045334 0x02045334 arm
+ */
+
+extern int func_0201C6B4(int);
+extern void func_02040588(int, int);
+extern void func_02045374(int);
+extern void func_02041B6C(int);
+extern void func_0201C4E4(int);
+extern int func_02045770(int);
+extern int func_0201C6C4(int, int);
+extern void func_02045334(int);
+
+void func_021EFFB4(int *p)
+{
+    unsigned int i;
+    char *s;
+    int h;
+
+    if (!(p[0x4A] & 2) && func_0201C6B4(p[2]) == 1) {
+        func_02040588(4, 1);
+        func_02040588(5, 1);
+        func_02040588(6, 1);
+        for (i = 0; i < 8; i++)
+            func_02045374(p[3 + i * 2]);
+        func_02041B6C(5);
+        p[0x4A] |= 2;
+    }
+    func_0201C4E4(p[2]);
+    for (i = 0; i < 8; i++) {
+        s = (char *)p + i * 8;
+        h = p[2];
+        if (*(unsigned char *)(s + 0x10)) {
+            if (func_0201C6C4(h, func_02045770(*(int *)(s + 0xC))) == 0) {
+                func_02045334(*(int *)(s + 0xC));
+                *(unsigned char *)(s + 0x10) = 0;
+            }
+        }
+    }
+}

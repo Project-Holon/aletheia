@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * closed 2026-09-29 (lane R2): EXACT in src/matched/ov/ov023_func_02185BBC.c.
+ *   Lever (found by permuter.py --types): `dx = 0;` before `w -= t;` (and
+ *   `dy = 0;` before `h -= t;`) moves a1 into r0 at entry.
  *
  * DIFF: byte-identical shape but the original moves a1 into r0 at +0008
  * (before r6/r7), keeping t in r1 and the clamp bound in r2; ours keeps a1

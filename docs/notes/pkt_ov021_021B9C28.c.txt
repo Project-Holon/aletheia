@@ -8,6 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * resolved: EXACT in src/matched/ov/ov021_func_021B9C28.c (lane R3): first call spelled
+ *   (u32)t1 << 12, (u32)t2 << 12, second use plain, so the shifts are not CSE'd.
  * checks: 1 every callee prototype copied from the twin ov021_func_021B9B7C.c and the matched accessors, arities agree with the image; 2 twin ov021_func_021B9B7C.c (its V* reassignment after the second call fixed the adds r6/r7,#0x30 placement); 3 u16/u8/s16 t1,t2 with narrow accessor returns no change; 4 a-narrow-flag-local-is-spilled-not-constant-propagated.md tried (no change); 5 n/a
  *
  * Twin of func_021B9B7C: height interpolated between the two +0x30 vectors

@@ -1,0 +1,53 @@
+/*
+ * function: func_021F0C00
+ * address:  0x021F0C00
+ * packet:   pkt_ov029_021F0C00
+ * region:   ov029
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021F0D14  0x021F0D14  thumb  ov029
+ *   func_020413B0  0x020413B0  arm
+ *   func_020409B4  0x020409B4  arm
+ *   d_021F323C     0x021F323C  data  a1
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+
+typedef struct {
+    u16 on  : 1;
+    u16 cnt : 15;
+    u16 f2;
+    u8  f4;
+    u8  f5;
+    u8  f6;
+    u8  f7;
+} Ent;
+
+extern const u8 d_021F323C[];
+extern void func_021F0D14(int a, int b, int *x, int *y);
+extern void func_020413B0(unsigned int index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void func_020409B4(unsigned int index);
+
+void func_021F0C00(Ent *p, int idx)
+{
+    int x, y, w;
+    int pal;
+
+    pal = (d_021F323C + p->f4 * 5)[idx];
+    func_021F0D14(p->f6, p->f7, &x, &y);
+    w = 4;
+    if (x < 0) {
+        w = x + 4;
+        x = 0;
+    } else if (x + 4 > 0x20) {
+        w = 0x20 - x;
+    }
+    func_020413B0(4, x, y, w, 4, pal);
+    func_020409B4(4);
+}

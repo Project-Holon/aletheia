@@ -1,0 +1,62 @@
+/*
+ * function: func_021F020C
+ * address:  0x021F020C
+ * packet:   pkt_ov029_021F020C
+ * region:   ov029
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_021F2B9C takes (p, x, y) returns int; 2 no twin; 3 n/a; 4 aggregate-assignment idiom: original copies each 2-word table with `ldm r5, {r3, r5}` (pointer reg overwritten), all my forms give ldr/ldr pairs; 5 n/a
+ * residual: compiled 144 bytes vs 140. Tables are d_021F333C = {6,4} and d_021F334C = {3,4}, copied
+ *           to sp+8 and sp+0. The original leaves b in r2 and sets the sums up in r3/r4/r5; mine moves
+ *           b to r5 first. Forms tried: extern struct Pair copy (ldr pairs, data pool words unresolved:
+ *           no witness outside the range, so drop the ov029 token if re-run), local int[2] initialisers
+ *           (pool word becomes a compiler @N template, unresolved), static const struct copy (.rodata
+ *           reloc unresolved). Only the lo/hi copy shape and the register order differ; the rest of the
+ *           arithmetic (a/8+2)/4, %2, b/8 - lo[m], /4, bounds x<9, y<hi[m] matches instruction for
+ *           instruction where the registers agree.
+ *
+ * symbols:
+ *   func_021F020C  0x021F020C  thumb  ov029
+ *   func_021F2B9C  0x021F2B9C  thumb  ov029
+ *   d_021F333C     0x021F333C  data  a4
+ *   d_021F334C     0x021F334C  data  a4
+ */
+
+struct Pair {
+    int a;
+    int b;
+};
+
+extern int func_021F2B9C(void *p, int a, int b);
+extern struct Pair d_021F333C;
+extern struct Pair d_021F334C;
+
+int func_021F020C(void *p, int a, int b, int *c, int *d)
+{
+    struct Pair lo = d_021F333C;
+    struct Pair hi = d_021F334C;
+    int ret = 5;
+    int x;
+    int y;
+    int m;
+
+    x = (a / 8 + 2) / 4;
+    if (x < 0) {
+        return 5;
+    }
+    m = x % 2;
+    y = b / 8 - (&lo.a)[m];
+    if (y < 0) {
+        return 5;
+    }
+    y = y / 4;
+    if (x < 9 && y < (&hi.a)[m]) {
+        ret = func_021F2B9C(p, x, y);
+    }
+    *c = x;
+    *d = y;
+    return ret;
+}

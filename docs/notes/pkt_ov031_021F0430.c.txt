@@ -1,0 +1,54 @@
+/*
+ * function: func_021F0430
+ * address:  0x021F0430
+ * packet:   pkt_ov031_021F0430
+ * region:   ov031
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_020450F0 takes 7 args, the last three read as ldrb (u8 stack params): u8 prototype gave no change; 2 no twin (0x021F0054 shares the struct layout at 0x4C/0x58/0x64 and matched); 3 n/a (no load/store trade); 4 no idiom fits; 5 n/a
+ *
+ * Best: 34 bytes differ, same size (72). Struct layout and the three stores per iteration
+ * ([r6,#0x4c], [r1,#0x64], strb via adds #0x68) are right. Residue: the original hoists only
+ * `movs r7,#7` (stack arg 0) above the loop and rebuilds 0xF and 1 in r0 per use; it also computes
+ * r6 = p + 4*i BEFORE the call (callee-saved across it). Every compile hoists both 7 and 0xF
+ * (r6, r7) and computes p + 4*i after the call. Tried: `u32 *ap = &p->a[i]` before the call,
+ * `int e = 7` as a declaration initialiser (either position), chained assignment in both orders,
+ * word-array spelling (w[0x13+i]); none moved the residue.
+ *
+ * symbols:
+ *   func_020450F0  0x020450F0  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+extern u32 func_020450F0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+
+struct Slot {
+    u32 h;
+    u8  f;
+    u8  pad[3];
+};
+
+struct Obj {
+    char pad0[0x4C];
+    u32 a[3];
+    char pad1[0x64 - 0x58];
+    struct Slot s[3];
+};
+
+void func_021F0430(struct Obj *p)
+{
+    int i;
+
+    for (i = 0; i < 3; i++) {
+        u32 h = func_020450F0(5, 1, (u8)(i * 0x38 / 8), 0x1D, 7, 0xF, 1);
+        p->a[i] = h;
+        p->s[i].h = h;
+        p->s[i].f = 0;
+    }
+}

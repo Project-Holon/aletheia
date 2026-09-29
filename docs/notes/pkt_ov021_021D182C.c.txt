@@ -1,3 +1,9 @@
+CLOSED (lane R1): EXACT as src/matched/ov/ov021_func_021D182C.c. The fix was
+to declare the spilled second parameter `u16 b` (func_0216DE94 compares its id
+against a u16); as u32/int its [sp] reload is hoisted above the struct copy's
+last store. func_021BBA6C also takes func_021BB990's result as its argument.
+The earlier write-up follows.
+
 /*
  * function: func_021D182C
  * address:  0x021D182C

@@ -1,0 +1,91 @@
+/*
+ * function: func_021C1AF4
+ * address:  0x021C1AF4
+ * packet:   pkt_ov021_021C1AF4
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks: 1 func_02048A24 takes 12 (ov111_func_021C7744, ov195_func_02205BDC), 02030734/02047CFC arity from twins, every register right; 2 twins ov111_func_021C7744/ov195_func_02205BDC give the camera-create call but no zeroed target; 3 a as u16 no change, residue is local slot order only (no spill slot, no load/store swap); 4 local-declaration-order-is-stack-order, function-scope-versus-block-scope-decides-spill-slot-order, an-initialised-local-array-takes-its-address-before-the-stores applied (the last fixed 171 of 176 bytes); 5 n/a, no filed neighbour builds stack vectors; permuter --types 300 compiles flat at 5
+ *
+ * DIFF, 272 = 272 bytes, 5 bytes out: only the stack slots of the six
+ * VecFx32 locals.  Every instruction, register and relocation is right.
+ *
+ * The image puts them (high to low) pos1 0x64, tgt1 0x58, pos2 0x4C,
+ * tgt2 0x40, up2 0x34, up1 0x28; the code runs pos1 copy, tgt1 = {0},
+ * up1 copy, call 1, pos2 copy, tgt2 = {0}, up2 copy, call 2.
+ * The zero targets need a brace initialiser in a declaration
+ * (`add r0,sp,#k; str r1,[r0]` x3): VecSet inline, field stores, a pointer
+ * alias, chained `=`, a compound literal all store straight off sp (176
+ * bytes out) or add a temporary (SIZE 296).
+ * Slot order measured on this compiler: plain function scope and nested
+ * blocks allocate in textual pre-order (first declared highest); an inline
+ * helper's locals come after the caller's and in fully reversed textual
+ * order.  With function-scope bare declarations p1,t1,p2,t2,u2,u1 the slots
+ * are right but the zeroing is wrong; the block spelling below gets the
+ * zeroing right with slots p1,t1,u1,p2,t2,u2.  Tried and worse: outer u2/u1
+ * with blocked p/t (8), one inline helper per call (6), helper with
+ * caller-owned up (8), one helper holding both blocks (7), u in a nested
+ * block (5, unchanged), all initialisers at the top (240).
+ * Next idea not tried: a construct that allocates up1/up2 after both pos/tgt
+ * pairs in reverse (e.g. by-value struct parameters of an inline helper whose
+ * temporaries land last; the one by-value-up run moved the up copy ahead of
+ * pos and came out SIZE 264, so it needs pos by value too).
+ *
+ * symbols:
+ *   func_02030734  0x02030734  arm
+ *   func_02047CFC  0x02047CFC  arm
+ *   func_02048A24  0x02048A24  arm
+ *   d_021DE3D8     0x021DE3D8  data  a4
+ *   d_021DA6E8     0x021DA6E8  data  a4
+ *   d_021DA6D0     0x021DA6D0  data  a4
+ *   d_021DA6F4     0x021DA6F4  data  a4
+ *   d_021DA6DC     0x021DA6DC  data  a4
+ *   d_020A1EB8     0x020A1EB8  data  a4
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef unsigned int   u32;
+
+typedef int fx32;
+typedef struct { fx32 x, y, z; } VecFx32;
+
+extern u32 *func_02030734(u32, u32, u32, u8 *, u32);
+extern void *func_02047CFC(int a, int b, int heap);
+extern void *func_02048A24(int a, int s, int c, int d, int e, int f, int g, int h, VecFx32 *pos, VecFx32 *up, VecFx32 *tgt, int heap);
+extern u8 d_021DE3D8;
+extern const VecFx32 d_021DA6E8;
+extern const VecFx32 d_021DA6D0;
+extern const VecFx32 d_021DA6F4;
+extern const VecFx32 d_021DA6DC;
+extern const s16 d_020A1EB8[];
+
+u32 *func_021C1AF4(u32 a, u32 b)
+{
+    u32 *r;
+
+    r = func_02030734(a, 0x138, 1, &d_021DE3D8, 0x158);
+    r[5] = (u32)func_02047CFC(8, 2, a);
+    *(u16 *)((u8 *)r + 0x10) = a;
+    r[0] = b;
+    r[6] = -1;
+    {
+        VecFx32 p1 = d_021DA6E8;
+        VecFx32 t1 = {0, 0, 0};
+        VecFx32 u1 = d_021DA6D0;
+        r[1] = (u32)func_02048A24(0, d_020A1EB8[6], d_020A1EB8[7], 0x1555, 0, 0x1000, 0x400000, 0, &p1, &u1, &t1, a);
+    }
+    {
+        VecFx32 p2 = d_021DA6F4;
+        VecFx32 t2 = {0, 0, 0};
+        VecFx32 u2 = d_021DA6DC;
+        r[2] = (u32)func_02048A24(2, 0x30000, -0x30000, -0x40000, 0x40000, 0x1000, 0x400000, 0, &p2, &u2, &t2, a);
+    }
+    r[3] = 0;
+    return r;
+}

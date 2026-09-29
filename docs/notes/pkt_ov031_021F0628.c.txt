@@ -1,0 +1,49 @@
+/*
+ * function: func_021F0628
+ * address:  0x021F0628
+ * packet:   pkt_ov031_021F0628
+ * region:   ov031
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_0204B6F4 takes 3 args (obj, v, flag); 2 no twin; 3 n/a; 4 enum-counter idiom (an-enum-type-keeps-values-out-of-constant-folding) took the diff from 64 bytes to 15; 5 n/a
+ *
+ * Best: 15 bytes differ, same size (88). Body and registers all match. Two residues, both
+ * branch-shape only. (1) The original has an empty `b` to the next instruction after
+ * `movs r1,#0` in `if (v == cur) v = 0;` (0x021F0016 b #0x21f0640); compiles fall through with
+ * no branch, so everything after shifts by 2 bytes. (2) The original enters the loop with an
+ * unconditional `b` to the bottom test (`b #0x21f0674`); the enum counter compiles a
+ * `cmp r4,#4; bgt exit` guard there instead. `while` spelling, enum `v`, u8/u32 counter, the
+ * ternary form of the call argument, all left it unchanged or worse.
+ *
+ * symbols:
+ *   d_021F1038     0x021F1038  data  a1
+ *   func_0204B6F4  0x0204B6F4  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef enum { IDX_0, IDX_4 = 4, IDX_MAX = 5 } Idx;
+extern u8 d_021F1038[];
+extern void func_0204B6F4(u32 obj, u32 v, u32 flag);
+
+void func_021F0628(char *p, int sel)
+{
+    Idx i;
+    int v;
+
+    v = d_021F1038[sel];
+    if (v == *(u8 *)(p + 0x30))
+        v = 0;
+    *(u8 *)(p + 0x30) = v;
+    for (i = 0; i <= 4; i++) {
+        if (i == sel && *(u8 *)(p + 0x30) != 0)
+            func_0204B6F4(*(u32 *)(p + 0x18 + i * 4), 1, 1);
+        else
+            func_0204B6F4(*(u32 *)(p + 0x18 + i * 4), 0, 1);
+    }
+}

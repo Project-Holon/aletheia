@@ -1,3 +1,7 @@
+CLOSED (lane R1): EXACT as src/matched/ov/ov021_func_021B4918.c. The fix was
+to declare the spilled third parameter `u16 b` (s16/u8 give the same bytes);
+as u32/int its entry spill lands after the `lsls`. The earlier write-up follows.
+
 func_021B4918 (ov021, thumb, 108 B): DIFF, same size, one instruction moved.
 Original prologue: movs r4,#0x5f; adds r5,r0; str r2,[sp,#8]; lsls r4; ldr r0,[r5,r4]; adds r7,r1; adds r6,r3.
 Ours:              movs r4,#0x5f; adds r5,r0; lsls r4; ldr r0,[r5,r4]; adds r7,r1; str r2,[sp,#8]; adds r6,r3.

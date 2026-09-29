@@ -8,6 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * resolved: EXACT* in src/matched/ov/ov021_func_021CC614.c (lane R3): func_020120F4
+ *   takes the func_0215A5DC result as its argument; void(void) caused the reallocation.
  *
  * Residual (same size, 148 bytes): register assignment only, every
  * instruction shape and the dense switch table are right. Original:

@@ -1,0 +1,45 @@
+/*
+ * function: func_021F0C04
+ * address:  0x021F0C04
+ * packet:   pkt_ov032_021F0C04
+ * region:   ov032
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021F0C04  0x021F0C04  thumb
+ *   func_0202800C  0x0202800C  thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern u32 *func_0202800C(u32 a0, u32 a1, u32 a2, u32 a3, u8 a4, u8 a5, u32 a6, u32 a7,
+                          u16 a8);
+
+void func_021F0C04(char *p, int flag)
+{
+    int i;
+    int n;
+    int base;
+    char *q;
+
+    if (flag == 0) {
+        q = p + 0xc0;
+        n = 3;
+        base = 8;
+    } else {
+        q = p + 0xf0;
+        n = 2;
+        base = 0x10;
+    }
+    for (i = 0; i < n; i++) {
+        *(u32 *)(q + i * 16) = (u32)func_0202800C(*(u32 *)(p + 0xb8), (u32)(q + i * 16 + 4),
+                                      (u8)(base + i * 8), 0x15, 8, 3, 1, 0,
+                                      *(u16 *)(p + 0x98));
+    }
+}

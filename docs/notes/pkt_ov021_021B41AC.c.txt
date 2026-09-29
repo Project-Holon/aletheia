@@ -1,3 +1,8 @@
+CLOSED (lane R1): EXACT as src/matched/ov/ov021_func_021B41AC.c. The fix was
+to declare the spilled second parameter `u16 b` (func_021B3370 passes a u16
+to func_02007FB8 in that slot); as u32 its entry spill lands after the `lsls`.
+The earlier write-up follows.
+
 func_021B41AC (ov021, thumb, 184 B): DIFF, same size, two instructions swapped.
 Original: movs r0,#0x62; str r1,[sp,#8]; lsls r0,r0,#2.  Ours: movs r0,#0x62; lsls r0,r0,#2; str r1,[sp,#8].
 Rest byte-identical. Tried const char *w, int b. Same shape as func_021B4918 (early param spill).

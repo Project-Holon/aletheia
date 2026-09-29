@@ -1,0 +1,52 @@
+/*
+ * function: func_021F2F44
+ * address:  0x021F2F44
+ * packet:   pkt_ov032_021F2F44
+ * region:   ov032
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callee arities read from bytes (204B100 3 args, 204B034 3 args, 32F8 (p,u8)); 2 no twin; 3 n/a; 4 none fits; 5 n/a.
+ * residual: 132 vs 136 bytes. `for (i = 0; ...)` (not do/while with i=0 up front) fixes the movs r6/r4 order. Left: after the func_0204B034 call the original copies r0 to r1 and builds the offset (movs r0,#0x40; adds r0,#0xec) in r0, str r1,[r5,r0]; we build the offset in r1 and store r0. A named local for the result, a named 0x40 local, and a struct-typed p (fields) all compile the same.
+ *
+ * symbols:
+ *   func_021F2F44 0x021F2F44 thumb
+ *   d_021F35E0 0x021F35E0 data ov032 a4
+ *   func_0204B100 0x0204B100 arm
+ *   func_0204B034 0x0204B034 arm
+ *   func_0204B258 0x0204B258 arm
+ *   func_02025538 0x02025538 thumb
+ *   func_021F3264 0x021F3264 thumb ov032
+ *   func_021F32F8 0x021F32F8 thumb ov032
+ *   func_02043598 0x02043598 arm
+ */
+
+typedef struct { int w[4]; } T16;
+
+extern T16 d_021F35E0;
+extern int func_0204B100(int, int, unsigned);
+extern int func_0204B034(T16 *, int, unsigned);
+extern void func_0204B258(int);
+extern int func_02025538(unsigned, int);
+extern void func_021F3264(char *);
+extern void func_021F32F8(char *, int);
+extern void func_02043598(unsigned, unsigned);
+
+void func_021F2F44(char *p)
+{
+    T16 t;
+    int i;
+
+    *(int *)(p + 0x128) = func_0204B100(0x40, 0, *(unsigned short *)(p + 0x94));
+    t = d_021F35E0;
+    *(int *)(p + 0x12c) = func_0204B034(&t, 1, *(unsigned short *)(p + 0x98));
+    func_0204B258(*(int *)(p + 0x128));
+    *(int *)(p + 0x124) = func_02025538(*(unsigned short *)(p + 0x98), *(int *)(p + 0x128));
+    func_021F3264(p);
+    for (i = 0; i < 5; i++) {
+        func_021F32F8(p, (unsigned char)i);
+    }
+    func_02043598(0x10, 1);
+}

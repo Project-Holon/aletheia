@@ -8,6 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * resolved: EXACT in src/matched/ov/ov023_func_021868C8.c (lane R3): second loop indexes
+ *   ((Grp *)p)[idx].r[j] in full, no named group pointer.
  * checks:   1 func_02186878 takes 1 (p), returns int; 2 twin func_02186888 (matched, same Rec/30-byte group); 3 n/a, no load/store swap;
  *           4 none fits; 5 n/a
  * symbols:

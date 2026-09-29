@@ -1,0 +1,69 @@
+/*
+ * function: func_021F0B00
+ * address:  0x021F0B00
+ * packet:   pkt_ov029_021F0B00
+ * region:   ov029
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callees func_021F0C70 (4 args, r0 unused there, u8 return), func_021F1290 (4 args), func_021F0C00 (2 args) counted, arity fine; 2 no twin (func_021F0B88 shares the struct and matched); 3 n/a no load/store swap; 4 none fits; 5 n/a
+ *
+ * Same size (124 bytes), 27 concrete diffs, all one cause: the original copies
+ * the third parameter into r1 at entry (`adds r1, r2, #0` at +6, before the
+ * `ldrh r2,[r5]`), keeps it there, and so has r2 free for the `movs r2,#1`
+ * bic/orr constants and passes r1 straight to func_021F0C70 in the mode==2 arm.
+ * Mine leaves it in r2 (bic/orr constant goes through r0, `adds r1,r2,#0`
+ * appears only at the call). Everything else (bitfield ops, mask 0xFFFF0001
+ * pool word, branch chain, stack args, calls) is byte-identical.
+ *
+ * Tried without effect: param type u8/u16/s8/s16/unsigned; local copy
+ * `int a = a0`; passing p->f4 instead of a; moving `p->f4 = a` after
+ * `p->f2 = d`; switch instead of if-chain; `p->on = 0; p->on = 1` (gives a
+ * second bic).
+ *
+ * symbols:
+ *   func_021F0C70  0x021F0C70  thumb  ov029
+ *   func_021F1290  0x021F1290  thumb  ov029
+ *   func_021F0C00  0x021F0C00  thumb  ov029
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+
+typedef struct {
+    u16 on  : 1;
+    u16 cnt : 15;
+    u16 f2;
+    u8  f4;
+    u8  f5;
+    u8  f6;
+    u8  f7;
+} Ent;
+
+extern u8 func_021F0C70(void *q, int a, int b, int c);
+extern void func_021F1290(void *q, int a, int b, int c);
+extern void func_021F0C00(Ent *p, int t);
+
+void func_021F0B00(Ent *p, void *q, int a, int mode, int c, u16 d)
+{
+    int t;
+
+    p->f4 = a;
+    p->cnt = 0;
+    p->on = 1;
+    p->f2 = d;
+    t = 0;
+    if (mode == 0) {
+        p->f5 = 0;
+    } else if (mode == 1) {
+        p->f5 = 4;
+    } else if (mode == 2) {
+        p->f5 = func_021F0C70(q, a, p->f6, p->f7);
+        p->cnt = d * 5;
+        t = 4;
+    }
+    func_021F1290(q, p->f6, p->f7, c);
+    func_021F0C00(p, t);
+}

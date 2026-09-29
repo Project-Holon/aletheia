@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * closed 2026-09-29 (lane R2): EXACT in src/matched/ov/ov023_func_02185EA0.c.
+ *   Lever: a struct-pointer parameter with the records reached through
+ *   ((struct e6 *)((char *)p + 0x4212))[i] at every use (no local e); the
+ *   same cast on a char * parameter still CSEs the element pointer.
  *
  * DIFF: the original keeps e = p + 0x4212 in r6 across the loop and
  * recomputes e + i*6 (muls) at each of its two uses; ours CSEs the element

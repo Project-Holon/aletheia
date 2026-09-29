@@ -1,3 +1,8 @@
+CLOSED (lane R1): EXACT as src/matched/ov/ov021_func_021B4510.c, the else arm
+of its matched twin func_021B45A0. The fix was to declare the third parameter
+`u8 b`, as the twin does; as u32 its [sp,#0xc] reload is hoisted above the
+hi - lo subtraction. The earlier write-up follows.
+
 func_021B4510 (ov021, thumb, 144 B): DIFF, same size, scheduling of the last call's arguments.
 Original tail: ldr r0,[r5,#8]; subs r2,r7,r6; str r0,[sp,#4]; ldr r0,[pc]; str r0,[sp,#8]; ldr r0,[r5,r4]; ldr r3,[sp,#0xc]; bl 021B44CC.
 Ours loads r3 from [sp,#0xc] first (before subs r2,r7,r6) and the r2/str/ldr r0 order shifts.

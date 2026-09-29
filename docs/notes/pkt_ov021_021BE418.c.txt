@@ -8,6 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * resolved: EXACT* in src/matched/ov/ov021_func_021BE418.c (lane R3): u16 i, `i << 4`
+ *   for slot/entry, `(u32)i * 16` in the tail field reads, k declared before e.
  *
  * symbols:
  *   func_020307B0  0x020307B0  arm

@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * closed 2026-09-29 (lane R2): EXACT in src/matched/ov/ov025_func_021EEEE0.c.
+ *   Levers: `t = (unsigned)(t + 1) % 252u; s[8] = t;` keeps `i = t / 28`
+ *   ahead of the _u32_div_f call; `const` on both s8 tables fixes the table
+ *   load schedule; d_021EF765 resolves sole-ref once its ov025 token is dropped.
  *
  * DIFF (same size). The original calls _s32_div_f (s[8]/28) first, keeps
  * s[8] live in r7 (push {r3-r7,lr}), then calls _u32_div_f ((s[8]+1)%252)

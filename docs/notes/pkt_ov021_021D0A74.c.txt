@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * closed 2026-09-29 (lane R2): EXACT* in src/matched/ov/ov021_func_021D0A74.c.
+ *   Lever: the 0x124 store written in each arm of the mode test (cross-jumped)
+ *   and the 0x12C store after them, so the second offset is rematerialised.
  * checks: 1 func_0201A954 takes 2 (r0,r1); 2 no twin; 3 n/a (no load/store swap); 4 none fits; 5 n/a
  * symbols:
  *   func_0201A954  0x0201A954  thumb

@@ -1,0 +1,146 @@
+/*
+ * function: func_021BE760
+ * address:  0x021BE760
+ * packet:   pkt_ov021_021BE760
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * symbols:
+ *   func_020490F4  0x020490F4  arm
+ *   func_02048010  0x02048010  arm
+ *   func_02049238  0x02049238  arm
+ *   func_02030734  0x02030734  arm
+ *   func_021BE630  0x021BE630  thumb  ov021
+ *   func_0207ADC4  0x0207ADC4  arm
+ *   func_021BE4C4  0x021BE4C4  thumb  ov021
+ *   func_02047790  0x02047790  arm
+ *   d_021DE390     0x021DE390  data   a4
+ *
+ * Twin of func_021BE310 (EXACT with `u16 i`), opening its own archive for
+ * the setup call. DIFF, 12 bytes, same size (316), all 10 relocations
+ * resolved. Two two-instruction swaps, both around the spilled third
+ * parameter i:
+ *   +0x0C  original stores i (str r2, [sp, #0xc]) between ldr r1, [sp, #4]
+ *          and ldr r1, [r1]; with `int i` it lands after ldr r0, [r0].
+ *   +0xEA  original stores nd->f4 = 0 (str r4, [r5, #4]) before the
+ *          reloads of p and i for func_021BE4C4; with `int i` it sinks
+ *          after them.
+ * `u16 i` (the twin's type) fixes the loop swap but moves i's home store
+ * to the front of the prologue and loads b->arc before p->heap (18 bytes).
+ * The original looks register-width at entry and narrow in the loop.
+ * checks: 1 callees' arity fixed by the twin and matched callers (func_02048010 takes util, setup, handle; func_021BE4C4 three); 2 twin func_021BE310 gives every type, its u16 i does not fit here; 3 i as int/u32/u16/s16/u8, with func_021BE4C4's i as int/u16/u32; const Setup *b; heap bound to a u16 local; an inline arc-open wrapper evaluating heap first (no change beyond 12); nd->f0/f4 store order, chained and indexed forms (no change); 4 a-narrow-spilled-parameter-keeps-its-reload-below-a-store and a-narrow-parameter-pins-its-home-store-to-the-front-of-the-prologue each explain one half and conflict; 5 func_021BE310 re-read, same loop matches only with u16 i; permuter --types 300 on both int and u16 spellings: no gain (best mutation u16->int)
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+typedef struct { int x, y, z; } Vec;
+typedef struct { int m[9]; } Mtx33;
+
+typedef struct {
+    u8 f0, f1, f2, f3;
+    int f4;
+    int f8;
+    void *fC;
+} Ent;
+
+typedef struct {
+    int n;
+    Ent *e;
+} Grp;
+
+typedef struct {
+    int f0;
+    int f4;
+    Vec t;
+    Vec s;
+    Mtx33 r;
+} Node;
+
+typedef struct {
+    int active;
+    Node *nodes;
+    Grp *grps;
+    u16 id;
+    u16 n;
+} Slot;
+
+typedef struct {
+    int heap;
+    void *util;
+    Slot slots[4];
+} P;
+
+typedef struct {
+    u8 pad[0xC];
+    u16 fC;
+    u16 pad2;
+} SEnt;
+
+typedef struct {
+    u32 *arc;
+    int f4;
+    SEnt *ents;
+    u16 n;
+} Setup;
+
+extern int d_021DE390;
+
+extern void *func_020490F4(u32 archive_id, u16 heap);
+extern u16 func_02048010(void *util, const Setup *setup, void *arc);
+extern void func_02049238(void *arc);
+extern void *func_02030734(u16 heap, int size, int clear, void *file, int line);
+extern void func_021BE630(Grp *g, int n, int heap);
+extern void func_0207ADC4(Mtx33 *m);
+extern void *func_021BE4C4(P *p, int i, int j);
+extern void *func_02047790(void *obj, u16 idx);
+
+static inline void vset(Vec *d, int x, int y, int z)
+{
+    d->x = x;
+    d->y = y;
+    d->z = z;
+}
+
+void func_021BE760(P *p, Setup *b, int i)
+{
+    void *arc;
+    u16 id;
+    u16 n;
+    Node *nodes;
+    u16 j;
+
+    arc = func_020490F4(*b->arc, ((u16)p->heap & 0x7FFF) | 0x8000);
+    id = func_02048010(p->util, b, arc);
+    func_02049238(arc);
+    n = b->n;
+    p->slots[i].n = n;
+    p->slots[i].active = 1;
+    p->slots[i].id = id;
+    nodes = func_02030734(p->heap, n * sizeof(Node), 1, &d_021DE390, 0x23E);
+    p->slots[i].nodes = nodes;
+    p->slots[i].grps = func_02030734(p->heap, n * sizeof(Grp), 1, &d_021DE390, 0x241);
+    for (j = 0; j < n; j++) {
+        int k;
+        Node *nd;
+        void *h;
+        Grp *g;
+
+        func_021BE630(&p->slots[i].grps[j], b->ents[j].fC, p->heap);
+        nd = &nodes[j];
+        vset(&nd->s, 0x1000, 0x1000, 0x1000);
+        func_0207ADC4(&nd->r);
+        vset(&nd->t, 0, 0, 0);
+        nd->f0 = 0;
+        nd->f4 = 0;
+        h = func_021BE4C4(p, i, j);
+        g = &p->slots[i].grps[j];
+        for (k = 0; k < g->n; k++)
+            g->e[k].fC = func_02047790(h, k);
+    }
+}

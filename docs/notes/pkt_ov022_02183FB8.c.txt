@@ -28,6 +28,17 @@
  * fits; 5 n/a. Tried: a+0x2830+0x14 (folds), 0x2830+a, (u32)a+0x2830,
  * ((C*)a)->t.f, local e for src+0x20.
  *
+ * Retry 2026-09-29 (lane R2, 22 runs + permuter.py --types, 300; the
+ * extent also holds an unlabelled leaf at 0x0218401C): still the same
+ * 5 bytes. The reload of the spilled `a` takes r0 and the 0x2830 pool word
+ * r1; the original has them the other way round. No change from: a as
+ * u8 * / u32 / int / const C * / C *const, (T14 *)(0x2830 + (u8 *)a),
+ * ((T14 *)&a[0x2830])->f, &(...)->f[0], a T14 * or u8 * local computed
+ * after the two calls, a `C *c = a` copy, early-return guard, indexed Rec28
+ * copy, u8 idx, const src. Worse: a static inline getter (18 or 28 bytes),
+ * u8 y (18), &a[0x2844] or (&a->t)->f (20, folds).
+ * check 3 (params): idx u8, a's type and const src tried, no change.
+ *
  * symbols:
  *   func_020399A8  0x020399A8  arm
  *   func_0203D1A4  0x0203D1A4  arm

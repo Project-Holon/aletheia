@@ -1,0 +1,41 @@
+/*
+ * function: func_021F3264
+ * address:  0x021F3264
+ * packet:   pkt_ov032_021F3264
+ * region:   ov032
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_021F3214 (EXACT*, 9 args: p, 3 words, s16, s16, u8 x3) and func_0204B3DC(p,1) arities fit; 2 no twin; 3 n/a (no load/store trade, an adds pair swaps); 4 none fits; 5 n/a
+ * residual: same size, 2 instructions swapped at +001E/+0020: original computes `adds r0,r0,r1` (&d[i], the y pointer) before `adds r6,r5,r1` (p+i*4, callee-saved); ours does r6 first. Tried: x,y order, q declared before/after x,y, t=&d[i] pointer, q inline, q=(void**)(p+0x2BC)+i, result temp, char-cast for x, short* index.
+ *
+ * symbols:
+ *   func_021F3214 0x021F3214 thumb ov032
+ *   func_0204B3DC 0x0204B3DC arm
+ *   d_021F35F0 0x021F35F0 data ov032 a2
+ */
+
+typedef struct {
+    short x;
+    short y;
+} Pt;
+
+extern Pt d_021F35F0[];
+extern void *func_021F3214(void *, unsigned, unsigned, unsigned, short, short, unsigned char, unsigned char, unsigned char);
+extern void func_0204B3DC(void *, unsigned);
+
+void func_021F3264(char *p)
+{
+    int i;
+    for (i = 0; i < 6; i++) {
+        short x = d_021F35F0[i].x;
+        short y = d_021F35F0[i].y;
+        void **q = (void **)(p + i * 4);
+        q[0xAF] = func_021F3214(p,
+            **(unsigned **)(p + 0x140), **(unsigned **)(p + 0x138), **(unsigned **)(p + 0x148),
+            x, y, i * 3 + 1, 1, 1);
+        func_0204B3DC(q[0xAF], 1);
+    }
+}

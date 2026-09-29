@@ -1,0 +1,52 @@
+/*
+ * function: func_021F1930
+ * address:  0x021F1930
+ * packet:   pkt_ov032_021F1930
+ * region:   ov032
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021F1930 0x021F1930 thumb
+ *   func_021F0B80 0x021F0B80 thumb
+ *   func_021F178C 0x021F178C thumb
+ *   func_021F0BA8 0x021F0BA8 thumb
+ *   func_02031194 0x02031194 arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+extern void func_021F0B80(char *p, u32 a, u8 *s);
+extern void func_021F178C(char *p, int a, u8 *s);
+extern int func_021F0BA8(u8 *s);
+extern void func_02031194(void *task);
+
+void func_021F1930(void *task, u8 *s)
+{
+    if (*(int *)(s + 4) != 0)
+        return;
+    switch (s[0]) {
+    case 0:
+        func_021F0B80(*(char **)(s + 8), *(u32 *)(*(char **)(s + 8) + 0x120), s + 4);
+        s[0]++;
+        return;
+    case 1:
+        func_021F178C(*(char **)(s + 8), 0, s + 4);
+        s[0]++;
+        return;
+    case 2:
+        if (func_021F0BA8(s + 1) != 0) {
+            func_021F178C(*(char **)(s + 8), 1, s + 4);
+            s[0]++;
+        }
+        return;
+    default:
+        (**(int **)(s + 0xc))--;
+        func_02031194(task);
+        return;
+    }
+}

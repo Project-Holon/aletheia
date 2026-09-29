@@ -18,6 +18,19 @@
  * store of the deltas; 3 const s16 *b no change; int vs s16 for x/d0/d1 and
  * assignment-in-expression spelling no change; 4 none fits; 5 n/a
  *
+ * Retry 2026-09-29 (lane R2, 13 runs + permuter.py --types x2, 300 each):
+ * the residue is the then-arm schedule. The original loads c[2] and c[0]
+ * before `c[2] + x` (d0 lands in r3, zero rematerialised per c[0] load, 2
+ * CSE'd into r7); every spelling here CSEs the 0 offset and loads c[0] after
+ * the sign extension. Tried, none reached the original: twin-style inline
+ * `c[0] + (s16)(c[2] + x)` with c[4] = the same expression (192 B), y = b[12]
+ * local (184 B), assignment inside the sum, t0 = c[0] temporaries before or
+ * after d0, a Pos struct for c, `*c` for c[0], s16 x. Best byte count is
+ * d0 and d1 both computed before the c[0]/c[1] updates (84 bytes differ vs
+ * 90 for the body below, still 190 B vs 188), but the original's
+ * instruction order is the body below. Permuter best only rewrote
+ * `>= 256` as `> 255` (wrong: the image has movs #1; lsls #8; cmp).
+ *
  * symbols:
  *   func_021A2640  0x021A2640  thumb  ov021
  *   func_021A26C4  0x021A26C4  thumb  ov021

@@ -1,0 +1,41 @@
+/*
+ * function: func_021F2E8C
+ * address:  0x021F2E8C
+ * packet:   pkt_ov029_021F2E8C
+ * region:   ov029
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_0202173C takes 8 (five stack-free regs + 3 stack slots), returns void; 2 no twin; 3 n/a (no load/store swap), u8/u16/s8 param widths, local for the table value, local `e = 8` for r1/r3: no change; 4 none fits; 5 n/a
+ *
+ * Same size, 14-instruction scheduling diff after the call to func_0204B918: the original
+ * emits `movs r1,#0` right after the table pool load and `movs r3,#8` late (between the
+ * p[4] load and its store, then `subs r3,#0x80`); the compiler emits `movs r3,#8` first.
+ * Everything else is byte-identical.
+ *
+ * symbols:
+ *   func_0204B98C  0x0204B98C  arm
+ *   func_0204B918  0x0204B918  arm
+ *   func_0202173C  0x0202173C  thumb
+ *   d_021F3224     0x021F3224  data  ov029
+ */
+
+extern int func_0204B98C(int a);
+extern int func_0204B918(int a);
+extern void func_0202173C(int a, int b, int c, int d, int e, int f, int g, int h);
+extern unsigned int d_021F3224[];
+
+int func_021F2E8C(int *p)
+{
+    if (p[0] == 0)
+        return 1;
+    if (func_0204B98C(p[2]) == 0) {
+        p[0] = 0;
+        return 1;
+    }
+    func_0202173C(p[3], 8, (unsigned short)p[1], -120, 0,
+                  (unsigned char)d_021F3224[func_0204B918(p[2])], 0, p[4]);
+    return 0;
+}
