@@ -1,0 +1,84 @@
+/*
+ * function: func_021CDDDC
+ * address:  0x021CDDDC
+ * packet:   pkt_ov093_021CDDDC
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callee arities read from each body (21E90A0 r0,r1; 21F84E8 r0; 21F8504 r0-r2; 21EAEA8 r0,(u16)r1), all 11 relocations resolve; 2 no matched twin shares the callees, the ov093 leaves 021EAA34/021EAA5C and the ov094 leaf 021F84E8 were filed for the sibling func_021CDF58 and this one; 3 flag local/param as int/u8/enum, pointer-compare and swapped ternary tried, all give the hoisted `movs r1,#1`; 4 idioms a-ternary-flag..., a-switch-return-flag... read, only the latter applied (break to one shared `return 0`); 5 none new
+ *
+ * Residuals (170 bytes compiled vs 176):
+ *  (a) case 0: the original computes the flag branchily and late (`cmp r0,#4; ldr r0,[r5,#0x54];
+ *      beq X; movs r1,#0; b J; X: movs r1,#1; J: bl func_021E90A0`), this compiler hoists
+ *      `movs r1,#1` above the compare and predicates the zero (every spelling of the flag
+ *      compiles the same; `t = 0; if (...) t = 1;` costs a callee-saved register instead).
+ *  (b) case 1: the first halfword test `adds r0,r5,#0; adds r0,#0xe4; ldrh r1,[r0]; cmp r1,#0`
+ *      loads into r1 in the original, r0 here.
+ * Structure otherwise matches (one shared `movs r0,#0; pop` exit reached by break, case 1's
+ * success path returns 1).
+ *
+ * symbols:
+ *   func_021B86B8  0x021B86B8  thumb  ov093
+ *   func_021E90A0  0x021E90A0  thumb  ov093
+ *   func_021E90D0  0x021E90D0  thumb  ov093
+ *   func_021BA5C4  0x021BA5C4  thumb  ov093
+ *   func_021BA5D0  0x021BA5D0  thumb  ov093
+ *   func_021F84E8  0x021F84E8  thumb  ov094
+ *   func_021F8504  0x021F8504  thumb  ov094
+ *   func_021CDECC  0x021CDECC  thumb  ov093
+ *   func_021CD9E0  0x021CD9E0  thumb  ov093
+ *   func_021D3FA8  0x021D3FA8  thumb  ov093
+ *   func_021EAEA8  0x021EAEA8  thumb  ov093
+ */
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+typedef signed char s8; typedef signed short s16; typedef signed int s32;
+
+extern void *func_021B86B8(void ***p);
+extern void func_021E90A0(void *o, int v);
+extern int func_021E90D0(void *o);
+extern u16 func_021BA5C4(void *p);
+extern u16 func_021BA5D0(void *p);
+extern void func_021F84E8(u16 a);
+extern void func_021F8504(int a, int b, int c);
+extern void func_021CDECC(u8 *p);
+extern u32 func_021CD9E0(u8 *p);
+extern u16 func_021D3FA8(u8 *p);
+extern void func_021EAEA8(void *o, u16 v);
+
+int func_021CDDDC(u8 *p, int *st)
+{
+    int t;
+
+    switch (*st) {
+    case 0:
+        if ((int)func_021B86B8(*(void ****)p) == 4) {
+            t = 1;
+        } else {
+            t = 0;
+        }
+        func_021E90A0(*(void **)(p + 0x54), t);
+        *st = *st + 1;
+        break;
+    case 1:
+        if (func_021E90D0(*(void **)(p + 0x54)) == 0) {
+            break;
+        }
+        *(u16 *)(p + 0xe4) = func_021BA5C4(*(void **)p);
+        *(u16 *)(p + 0xe6) = func_021BA5D0(*(void **)p);
+        if (*(u16 *)(p + 0xe4) != 0 || *(u16 *)(p + 0xe6) != 0) {
+            func_021F84E8(*(u16 *)(p + 0xe6));
+            if (*(u16 *)(p + 0xe6) != 0) {
+                func_021F8504(0, 1, 1);
+            }
+        }
+        func_021CDECC(p);
+        if (func_021CD9E0(p) != 0) {
+            func_021EAEA8(*(void **)(p + 0x54), func_021D3FA8(p + 0x18));
+        }
+        return 1;
+    }
+    return 0;
+}

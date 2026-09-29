@@ -1,0 +1,53 @@
+/*
+ * function: func_021D46FC
+ * address:  0x021D46FC
+ * packet:   pkt_ov093_021D46FC
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callees fine (sub_02030734 5 args, MI_CpuCopy8 3, func_020307B0 1; only order differs, no arity shift); 2 no twin sharing tblC 0x3b04 in a matched file (func_021D4A6C/func_021D47A4 use the same struct but not this shape); 3 const u32 *c no change, u32 w local, (u8)(w = *c) inside the index, *c & 0xff, tblC pointer local: no change; bitfield Hdr *c (type:8,size:24) puts ldr r4 first as the original but reloads *c and loses w in r1, and a local Hdr copy spills; 4 idioms a-global-pointer-read-as-an-array tried (d_021F3B88[0]), worse; 5 n/a nothing new. Sweep not run; next try: bitfield Hdr with the size read once and kept in r1 (union of u32 and Hdr?).
+ * residue:  same size, 17 mismatching lines. Original loads &d (pool) BEFORE `ldr r1,[r5]` (the message word) both at entry and at +0x42, and in the second half keeps r4 = &d, r5 = 0x3b04 constant where ours has them swapped. The word is read once into r1 and reused for `lsrs r1,r1,#8` before the ands (size arg), index goes through r2.
+ *
+ * Message handler: c points at a header word {type:8, size:24}; ensures d->tblC[type]
+ * is allocated (sub_02030734 with size, tag 0x282), copies the payload (c+1) into it,
+ * frees d->f3b14 and clears it.  The extent also holds an unlabelled leaf at
+ * 0x021D4784 (bool d->tblC[a] != 0) and its pool.
+ *
+ * symbols:
+ *   sub_02030734   0x02030734  arm
+ *   MI_CpuCopy8    0x02082D44  arm
+ *   func_020307B0  0x020307B0  arm
+ *   d_021F3B88     0x021F3B88  data  ov093
+ *   d_021F3A98     0x021F3A98  data  ov093  a1
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+struct S {
+    u32 f00;
+    u16 f04;
+    u8 pad06[0x3afe];
+    void *tblC[4];
+    void *f3b14;
+};
+
+extern struct S *d_021F3B88;
+extern const char d_021F3A98[];
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
+extern void func_020307B0(void *p);
+
+void func_021D46FC(u32 a, u32 b, u32 *c)
+{
+    if (d_021F3B88->tblC[(u8)*c] == 0) {
+        d_021F3B88->tblC[(u8)*c] = sub_02030734((u16)((d_021F3B88->f04 & 0x7fff) | 0x8000), *c >> 8, 1, d_021F3A98, 0x282);
+    }
+    MI_CpuCopy8(c + 1, d_021F3B88->tblC[(u8)*c], *c >> 8);
+    func_020307B0(d_021F3B88->f3b14);
+    d_021F3B88->f3b14 = 0;
+}

@@ -2,13 +2,15 @@
  * function: func_021C312C
  * address:  0x021C312C
  * packet:   pkt_ov093_021C312C
+ * hint:     big lane R2: no spelling found; every ov093 site where the second line number is its own pool word has a branch between the two calls, and this one has none
  * region:   ov093
- * compiler: 1.1p1
+ * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
  * checks:   1 callee arities fine (74F8/7540 take one arg; 7630 two; stack arg d at [sp,#0x1c], e at [sp,#0x18] unused); 2 twins 021C02CC/021C0274 (same shape, lines 5563/5569, 5537/5544) match with two separate pool words; 3 line param int/u16/u32 for 74F8 and 7540 tried, no change; 4 idiom consecutive-line-numbers-are-one-pool-word-and-adds is the residue itself (our compile folds, the original does not); 5 nothing new. Sweep I would run: permuter over statement order / a dummy local live across the calls to stop the second pool word being derived as first+7.
+ * checks (big lane R2): 1 re-derived: 74F8/7540 one arg each; the fold persists with the 7630 argument 0 or with e dropped (the stack parameter is not the cause); 2 the twins 021C0274 and 021C1678 FOLD in the original too (`ldr; adds r0,#7`); the listing's 23 unfolded `ldr r0,pool; bl func_021D7540` sites whose functions are matched (021C17CC, 021C2B3C, 021C2BF0, 021C2C50, 021C66AC, 021C7998, 021C68A8, 021C6948, 021C75EC, 021C65A8, 021C2F70) all have a loop, ternary or if between the two calls; 3 4x4 width grid of int/u16/u32/s16 for the 74F8 and 7540 parameters: no change; 4 block splits that leave no code (unused label, `goto L; L:`, `if (e) goto L;`, `if (r) goto L;`, do-while(0) around the calls, `e ? d : d`, `a ? f(a) : f(a)`) and inline Begin()/Run() helpers holding either constant: all still fold, 14 bytes; 5 idioms re-listed, nothing new. Permuter --types 300 (anneal) and 2000 (random): nothing below 14 bytes.
  *
  * Residue: 14 bytes. The original loads two separate pool words (0x20C1, 0x20C8)
  * for the two line arguments; ours loads 0x20C1 once and derives the second as

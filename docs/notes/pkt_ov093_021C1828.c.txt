@@ -2,6 +2,7 @@
  * function: func_021C1828
  * address:  0x021C1828
  * packet:   pkt_ov093_021C1828
+ * hint:     declare `u8 c6; u16 a0` at the top and assign them after the second func_021D5440 call, c6 first
  * region:   ov093
  * compiler: 1.1p1
  * flags:    -O4,p

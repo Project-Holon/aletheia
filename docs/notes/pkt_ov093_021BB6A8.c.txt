@@ -2,6 +2,7 @@
  * function: func_021BB6A8
  * address:  0x021BB6A8
  * packet:   pkt_ov093_021BB6A8
+ * hint:     big lane R2: the indexed spelling below stays best (26 bytes); walking-pointer, inline-helper and declaration-order work all came out worse
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -9,6 +10,7 @@
  * isa:      thumb
  * status:   DIFF
  * checks:   1 func_021EEB64 returns the record pointer (r2 in the original is its result) and takes (u32, u32 *out); func_021BB830 one arg; arities agree; 2 twins ov093_func_021BAE60/021BB0A0 use the same 12-byte record array at +0x14 (no loop twin); 3 tried j/cnt as int (blt, worse) and u32, cnt hoisted vs re-read, u32 v temp, s++ vs s[j], comma increment, j-before-cnt: none moved the register colouring; 4 an-arithmetic-loop-carried-definition-colours-last (t = s + 1; s = t) no change, assign-the-loop-counter-before-the-bound (the pool zero already matches); 5 re-read matched neighbours, nothing new. Sweep left for the big lane: permuter over the inner loop's locals.
+ * checks (big lane R2): 1 unchanged; 2 no loop twin found; 3 const u32 *s, *(s + j), a D *d = &p->d[i] local (54 bytes): no gain; 4 walking source (`*s; s++`, `*s++`, `j++, s++`, s++ last): 51 bytes and 2 bytes short (the original reloads p from [sp] twice; the walking form loads it once and colours j=r1, cnt=r2, s=r3); a 720-order sweep of the six declarations on the walking form: best 50; an inline Copy(p, i, s, cnt) helper with `*s++` puts s in r2 as the original does (38 bytes) but j lands in r1 and cnt in r4; 5 idioms re-listed. Permuter --types 300 on this spelling and 600 on the walking one: nothing better (its best adds a return value). Residue as below, 26 bytes.
  *
  * Residual (best C, 6 concrete mismatches, same size 112): the original walks
  * the source with `ldr r6,[r2]; adds r2,#4` (r2 = pointer from func_021EEB64,

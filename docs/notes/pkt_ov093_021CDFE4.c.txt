@@ -1,0 +1,61 @@
+/*
+ * function: func_021CDFE4
+ * address:  0x021CDFE4
+ * packet:   pkt_ov093_021CDFE4
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_0203F0A8 takes none (blx, r0 result is the draw), _ull_mul 0x0209C054 args are the u64 cast and 100; 2 twins func_021D06C8/func_021D78AC give the (u64)draw*N>>32 shape; 3 r as u8/u32/int/enum and return u8/u32 tried: only writing into the parameter `mode` (r4 is the parameter's own register, mode-0 arms store constants straight into it) gives the shared join `adds r0,r4,#0`; 4 idioms random-below-n and a-switch-return-flag read, no fit; 5 none new
+ *
+ * Residual: 88 bytes compiled vs 92 (+4 byte follower `movs r0,#1; bx lr` at 0x021CE040
+ * which is an unlabelled leaf, not part of this function). Structure now matches (chain
+ * cmp 1/2/3, mode-0 arms store into r4 and jump to the join, one lsls/lsrs r4 in the else
+ * path) except that the original arms keep `blo -> b join` (jump to a jump) where this
+ * compiler threads each `blo` straight to the join and drops those `b`s (4 bytes... 2 b).
+ * Ternary versus if-form arms compile identically. Switch with a case 0 arm makes a
+ * halfword table (wrong); the if (mode == 0) else switch(mode) form gives the right chain.
+ *
+ * symbols:
+ *   func_0203F0A8  0x0203F0A8  arm
+ *   _ull_mul       0x0209C054  arm
+ */
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+typedef signed char s8; typedef signed short s16; typedef signed int s32;
+typedef unsigned long long u64;
+
+extern u32 func_0203F0A8(void);
+
+u32 func_021CDFE4(u32 mode)
+{
+    u32 v;
+    int t;
+
+    v = (u32)(((u64)func_0203F0A8() * 100) >> 32);
+    if (mode == 0) {
+        if (v < 0x1e) {
+            mode = 3;
+        } else if (v < 0x3c) {
+            mode = 2;
+        } else {
+            mode = 1;
+        }
+    } else {
+        switch (mode) {
+        case 1:
+        default:
+            t = (v < 0x32) ? 2 : 3;
+            break;
+        case 3:
+            t = (v < 0x28) ? 2 : 1;
+            break;
+        case 2:
+            t = (v < 0x28) ? 3 : 1;
+            break;
+        }
+        mode = (u8)t;
+    }
+    return mode;
+}

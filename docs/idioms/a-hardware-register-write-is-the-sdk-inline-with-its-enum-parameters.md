@@ -1,4 +1,4 @@
-# A hardware register write is the SDK inline with its own parameter types
+# A hardware register write is the SDK inline with its enum parameters
 
 summary: A store to a 0x04xxxxxx display register, above all a
 read-modify-write whose constants stay unfolded or whose field extractions

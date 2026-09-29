@@ -2,13 +2,14 @@
  * function: func_021F07AC
  * address:  0x021F07AC
  * packet:   pkt_ov031_021F07AC
+ * hint:     declare e `const u8 *` (check 3's const pointer lever)
  * region:   ov031
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks:   1 arities read from matched callers/callees (func_0201C724 7 with s16 x/y, func_0202DC60 5, func_020413B0 6 u8, func_0202DCC4 2); 2 no twin (ov031 func_021F0054/021F0680 give the Obj layout at 0x40-0x7C); 3 k as u8/u16/s16/int/u32, c int/u32/u8, off int/u16/u32, k copied to an int/u32/u8 local (first or last declared): none moved it; 4 no-code self-assignment (k = k, c = c at five points) and dying-local idioms: no change; 5 re-read ov031 neighbours, nothing new. permuter --types 300: no candidate beat the baseline
+ * checks:   1 arities read from matched callers/callees (func_0201C724 7 with s16 x/y, func_0202DC60 5, func_020413B0 6 u8, func_0202DCC4 2); 2 no twin (ov031 func_021F0054/021F0680 give the Obj layout at 0x40-0x7C); 3 k as u8/u16/s16/int/u32, c int/u32/u8, off int/u16/u32, k copied to an int/u32/u8 local (first or last declared): none moved it; 4 no-code self-assignment (k = k, c = c at five points) and dying-local idioms: no change; 5 re-read ov031 neighbours, nothing new. permuter --types 300: no candidate beat the baseline. Big lane R1: `const u8 *e` (hint) no change (24 lines); offset sweep: c = 0 before off, if/else and ternary c with &pal[off], (u8 *)pal + off * 2, off *= sizeof(u16) all 24 lines (the shift still sinks); off = k * 0xE0 * 2, (k * 0xE0) << 1, k * 0xE0 * sizeof(u16) with a byte pointer fold to 7<<6 (504 B); `u16 *dst = pal + k * 0xE0;` before the flag is the only spelling that leaves `lsls #1` in the first block with the add in the join block, as the original has it, but pal then moves to r2 and the flag load takes r0 (504 B, 242 lines; dst after the flag 29 lines; dst via a separate off, &pal[], void *dst, dst declared first: 504 B); permuter --types 300 on the dst form: best 496 B, worse.
  *
  * Best: 500 bytes against 500, 24 lines differ, all 27 relocations resolve.
  * Residue (a) the prologue copies k into r6 and the flag c = e[0x20] ? 2 : 0 lives

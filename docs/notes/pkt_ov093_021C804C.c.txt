@@ -2,6 +2,7 @@
  * function: func_021C804C
  * address:  0x021C804C
  * packet:   pkt_ov093_021C804C
+ * hint:     big lane: permuter with --types from the best spelling
  * region:   ov093
  * compiler: 1.1p1
  * flags:    -O4,p

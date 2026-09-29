@@ -1,0 +1,59 @@
+/*
+ * function: func_021D79E8
+ * address:  0x021D79E8
+ * packet:   pkt_ov093_021D79E8
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 leaf, no callees; 2 no twin (Grep of d_021F0427 users found none); 3 params
+ *           only feed table loads, no spill/width residue, n/a; 4 idioms on switch layout
+ *           read (dense-switch-dispatches-first, switch-return-flag-shares-one-exit,
+ *           two-failure-returns-need-two-labels), none fits; 5 n/a. Tried u8 x,y (no change,
+ *           92 B / 16 differ) and a result-local variant (84 B, 41 differ); no sweep run.
+ *
+ * Best variant: 92 bytes (size right), 16 bytes differ. The original lays the blocks out as
+ * [dispatch][halfword table][default: cmp r1,#0x10 / beq L5 / b Lend][ret 0 (case 0)]
+ * [ret 1][ret 2][ret 3 (case 4)][ret 4 (case 8)][L5: ret 5][Lend: ret 0]. The compiled C
+ * puts `ret 5` directly after the default compare instead of after the case 8 block, and
+ * has no `b Lend`. Variants that fold to 88 bytes: default returning 0 inline, `break` to
+ * a trailing `return 0`, `goto out`, gap cases 3/5/6/7 as break/goto; the 92-byte one is
+ * default first with `return 0` plus explicit gap cases that `break` to a trailing return.
+ *
+ * symbols:
+ *   d_021F0427  0x021F0427  data  ov093  a1
+ */
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+typedef signed char s8; typedef signed short s16; typedef signed int s32;
+
+extern u8 d_021F0427[];
+
+int func_021D79E8(int x, int y)
+{
+    int m = d_021F0427[x] * d_021F0427[y] / 4;
+
+    switch (m) {
+    default:
+        if (m == 0x10)
+            return 5;
+        return 0;
+    case 0:
+        return 0;
+    case 1:
+        return 1;
+    case 2:
+        return 2;
+    case 4:
+        return 3;
+    case 8:
+        return 4;
+    case 3:
+    case 5:
+    case 6:
+    case 7:
+        break;
+    }
+    return 0;
+}

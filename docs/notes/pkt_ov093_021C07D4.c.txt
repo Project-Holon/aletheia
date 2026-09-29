@@ -2,6 +2,7 @@
  * function: func_021C07D4
  * address:  0x021C07D4
  * packet:   pkt_ov093_021C07D4
+ * hint:     narrow d and e and func_021D75EC's second parameter; twin func_021C7194
  * region:   ov093
  * compiler: 1.1p1
  * flags:    -O4,p

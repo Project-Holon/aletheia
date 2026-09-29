@@ -1,8 +1,8 @@
 # A `push {r0-r3}` frame whose home slot is only read is a by-value struct parameter
 
-summary: when a function opens with `push {r0, r1, r2, r3}` and an `add rN, sp, #K` base is used only to load (`ldr r1, [r7]`), never passed to a callee, the parameter is a small struct passed by value, not a scalar whose address is taken.
+summary: when a function opens with `push {r0, r1, r2, r3}` and an `add rN, sp, #K` base is used only to load (`ldr r1, [r7]`), never passed to a callee as the whole slot's address, the parameter is a small struct passed by value, not a scalar whose address is taken.
 
-Found in: `src/matched/ov/ov093_func_021C3C60.c` (0x021C3C60, third parameter a one-word struct), `src/matched/ov/ov093_func_021C4104.c` (0x021C4104, fifth and sixth parameters are one 8-byte struct `{int a; u8 b;}`).
+Found in: `src/matched/ov/ov093_func_021C3C60.c` (0x021C3C60, third parameter a one-word struct), `src/matched/ov/ov093_func_021C4104.c` (0x021C4104, fifth and sixth parameters are one 8-byte struct `{int a; u8 b;}`; it does pass the field addresses `&s` and `&s.b`, so there the struct shows in the +0/+4 field layout, not in the absence of an address).
 
 `address-of-a-register-parameter-is-a-push-of-all-four.md` covers a scalar whose
 address goes to a callee. Here the address is never handed out:

@@ -2,6 +2,7 @@
  * function: func_021CC008
  * address:  0x021CC008
  * packet:   pkt_ov093_021CC008
+ * hint:     spell the switch like func_021CC2C0 (a store in every arm), 6 B off that way; then try w as a struct pointer
  * region:   ov093
  * compiler: 1.1p1
  * flags:    -O4,p

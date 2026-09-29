@@ -2,6 +2,7 @@
  * function: func_021BC568
  * address:  0x021BC568
  * packet:   pkt_ov093_021BC568
+ * hint:     wave-14 review draft is 80 B off (local copy E:/Temp/claude/f--repos-aletheia/e1f0afe3-7286-4ff7-bddc-b9a655bfb5d5/scratchpad/review14/S12/c.c); levers: `p + (o + 0x5e)`, a for guard, o kept un-propagated
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p

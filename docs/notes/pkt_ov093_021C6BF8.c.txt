@@ -2,6 +2,7 @@
  * function: func_021C6BF8
  * address:  0x021C6BF8
  * packet:   pkt_ov093_021C6BF8
+ * hint:     big lane R2: permuter (--types, 300 and 2500) and the spellings below leave the r4/r5 swap; the twin func_021C2D10 colours param 1 (r4) before p (r5), so look for why h outranks p
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
@@ -10,6 +11,7 @@
  * status:   DIFF
  *
  * checks: 1 all callees' arities read from the listing (sub_0201BD28(q,7), func_021D5F14(a), func_021D7930(u8), func_021B911C(x,3) two args, sub_0201C284(q)); 2 no twin; 3 u16 h vs u32 h with (u16) casts, q u16 kept: no change; 4 no-code self-assignment (p = p; h = h;) tried at three points: no change; 5 n/a.
+ * checks (big lane R2): 1 unchanged; 2 twins 021C2D10 and 021C6A9C (same callers, sub_0201BD28/func_021B911C) filed EXACT, neither has a u16 sum live across the calls; 3 h and r merged into one int with (u16) casts, h declared before r, const u8 *a/*b with const callee parameters: no change; 4 inline Calc(q, a) for h (two spellings) and inline Tail(p, q) for the branch after 0x41: no change; a named local k = 0x2c for the repeated key (declared first, last, or assigned at first use): no change (a-repeated-small-constant-takes-a-callee-saved-register: r6 = 0x2c and r7 = 4 already match); 5 idioms re-listed, nothing else fits. All 12 bytes.
  *
  * Residual: same size (180), same instructions, pure register swap r4<->r5: the original keeps p in r5 and h/r in r4,
  * ours p in r4 and h/r in r5 (12 lines differ, all operand names). Declaration order (h,r,n / r,n,h / n,r,h),

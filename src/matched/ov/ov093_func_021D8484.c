@@ -1,0 +1,57 @@
+/*
+ * function: func_021D8484
+ * address:  0x021D8484
+ * packet:   pkt_ov093_021D8484
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021D59B4  0x021D59B4  thumb  ov093
+ *   func_021D85B0  0x021D85B0  thumb  ov093
+ *   func_021D5440  0x021D5440  thumb  ov093
+ *   func_021D84F8  0x021D84F8  thumb  ov093
+ *   func_021D6F0C  0x021D6F0C  thumb  ov093
+ *   d_021F0E74     0x021F0E74  data  ov093
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed char s8;
+typedef signed short s16;
+typedef signed int s32;
+
+int func_021D59B4(void *p, int k);
+u32 func_021D85B0(void *p);
+u8 func_021D5440(void *p);
+int func_021D84F8(u32 *p);
+void *func_021D6F0C(int id, u16 key, int pri, u32 sub_pri, u8 sub, u32 f8, u16 f16);
+
+struct Ent { u32 key; u32 (*fn)(u32 *); };
+extern struct Ent d_021F0E74[0x9e];
+
+void *func_021D8484(void *a)
+{
+    u16 k = func_021D59B4(a, 0x10);
+    u32 i;
+    u32 t;
+    u32 f8;
+    u8 sub;
+    int pri;
+    u32 loc;
+
+    for (i = 0; i < 0x9e; i++) {
+        if (k == d_021F0E74[i].key) {
+            t = func_021D85B0(a);
+            sub = func_021D5440(a);
+            f8 = d_021F0E74[i].fn(&loc);
+            pri = func_021D84F8(&loc);
+            return func_021D6F0C(4, k, pri, t, sub, f8, loc);
+        }
+    }
+    return 0;
+}

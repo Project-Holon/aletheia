@@ -2,6 +2,7 @@
  * function: func_021C5C1C
  * address:  0x021C5C1C
  * packet:   pkt_ov093_021C5C1C
+ * closed:   EXACT as src/matched/ov/ov093_func_021C5C1C.c (wave-14 review)
  * region:   ov093
  * compiler: 1.1p1
  * flags:    -O4,p

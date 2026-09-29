@@ -2,15 +2,27 @@
  * function: func_021CBEA8
  * address:  0x021CBEA8
  * packet:   pkt_ov093_021CBEA8
+ * hint:     big lane R2 got it from 65 to 16 bytes (only where `>> 12` lands); next: a spelling that keeps the quotient in a variable the compare does not pull in, with the shift inside the compare
  * region:   ov093
- * compiler: 1.1p1
+ * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
  *
- * checks: 1 func_021D78AC takes one arg (r0 = 256, built as movs r5,#6 ... adds r5,#0xfa around the divide); func_021B873C returns the word its tail call returns; 2 no twin (siblings func_021CBCF4 EXACT shares the threshold ladder 600/450/300/150/30); 3 locals int vs u32 for x/k/r no change, `enum Six d = 6` for the divisor and the 250 offset made it worse (138 bytes, r7 held 6); 4 none fits (closest: a call scheduled ahead of two helper calls); 5 n/a no new sibling files.
- * best C: 134 bytes vs 136, 65 bytes differ. Residue: the original calls func_021D78AC AFTER the signed divide by 6 (r4 = quotient survives the call, `movs r5,#6` is kept in a callee-saved register and the argument is r5+250), so k stays in r2 and the push is {r4,r5,r6,lr}; mine hoists the func_021D78AC(256) call ahead of the 64-bit multiply, takes r4/r7 for k and 1, and pushes {r3-r7,lr}. The "6 then +250" arithmetic is unexplained: a plain 256 constant does not reproduce it. Sweep to run: argument spellings for 0x100 (6+250 through an enum or a u8 local, a static const) against evaluation order of `rand < q` in a single return expression.
+ * checks: 1 func_021D78AC takes one arg and returns u32 (matched callers 021C2D10, 021C6A9C, 021BD60C); func_021B873C(char **) from EXACT sibling func_021CBCF4; 2 sibling func_021CBCF4 shares the ladder; func_021BD60C has the same `t = ...; if (func_021D78AC(0x100) >= t)` shape with a bare variable; 3 x/k/r int vs u32, r as u32 with (int)r >> 12, s16 cast, s64 q: no gain; 4 consecutive-line-numbers-are-one-pool-word-and-adds explains the 6+250: the constant 256 is derived from the nearest earlier constant, so it comes from the divisor 6 only when the call follows the divide in IR (from 0x800 via lsrs #3 otherwise); an-inline-wrappers-arguments-are-evaluated-last-to-first: inline Check(rnd, q) / Check(q, rnd) / Roll(q) all evaluate the call first; 5 re-listed idioms, nothing else fits. Permuter (--types, 300) from this spelling: nothing better (it only trades bytes for size).
+ *
+ * Residue: 16 bytes, compiled 134 vs 136. With the product assigned to x, the
+ * quotient to r and `x = r >> 12` as its own statement, everything through the
+ * divide matches (push {r4,r5,r6,lr}, r6 = 0 shared by adcs and `return 0`,
+ * 256 = 6 + 250 in a callee-saved register) and only the shift is misplaced:
+ * the original keeps the quotient in r4 across the call and does
+ * `asrs r1,r4,#12` after it; this spelling shifts before the call (`asrs r5,r0,#12`)
+ * and saves one move. Every spelling with the shift inside the compare
+ * (`func_021D78AC(256) < (u32)(r >> 12)` with r, x, a u32 q, an inline Div6 or
+ * a call result stored first in a local) pulls the divide in after the call too
+ * (33 bytes); the note's original `(u32)(r >> 12) > func_021D78AC(256)` hoists the
+ * call above the multiply (65).
  *
  * symbols:
  *   func_021B873C  0x021B873C  thumb  ov093
@@ -34,6 +46,10 @@ int func_021CBEA8(u8 *p, int x)
     else if (v > 30) k = 0x800;
     else return 0;
     if (x > 0xff000) x = 0xff000;
-    r = (int)(((long long)x * k + 0x800) >> 12) / 6;
-    return (u32)(r >> 12) > func_021D78AC(256);
+    x = (int)(((long long)x * k + 0x800) >> 12);
+    r = x / 6;
+    x = r >> 12;
+    if (func_021D78AC(256) < (u32)x)
+        return 1;
+    return 0;
 }

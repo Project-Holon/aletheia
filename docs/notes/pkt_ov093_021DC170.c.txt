@@ -1,0 +1,68 @@
+/*
+ * function: func_021DC170
+ * address:  0x021DC170
+ * packet:   pkt_ov093_021DC170
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * DIFF only because of the memory-resident count.  With `volatile u32 n;`
+ * (spelling below, volatile removed from the C as the rules require) this
+ * compiles EXACT* (verified: push {r3-r7,lr}, sub sp #8, n at [sp], buf at
+ * [sp+4]; `str r0,[sp]; ldr r0,[sp]` after the 021C7F68 call and `ldr r0,[sp]`
+ * at the loop tail).  Without it n lives in r7 and the frame is 0 for n.
+ * The same shape is the matched twin ov093_func_021C7F68.c (`volatile u32 n`
+ * there too), so this source style keeps the returned count in memory.
+ * Other levers found here: the two orrs into *e are two statements
+ * (`|= 2 << 22; |= 2 << 24;`, a single merged constant folds to 0xa<<22);
+ * the 021C7CF4 argument is buf[i], not b.
+ *
+ * checks: 1 021C7F68 takes (p, u16, u8 *) and returns the count, 021C7CF4 takes buf[i] in r1; 2 twin ov093_func_021C7F68.c uses volatile u32 n for the same reload; 3 u32/u8/s32 width of n, struct {u32 n; u8 buf[4];} local (strength-reduces &buf into a register, worse), one-field struct return Cnt (frame 0x14, worse) none give the reload without volatile; 4 no idiom names a stored-then-reloaded returned count except the struct-return one, which does not fit; 5 n/a nothing new. Sweep I would run: permuter over the local declaration order with n address-escaped.
+ *
+ * symbols:
+ *   func_021D775C  0x021D775C  thumb  ov093
+ *   func_021C8010  0x021C8010  thumb  ov093
+ *   func_021C7F68  0x021C7F68  thumb  ov093
+ *   func_021C7CF4  0x021C7CF4  thumb  ov093
+ *   func_021D62A8  0x021D62A8  thumb  ov093
+ *   func_021D85C0  0x021D85C0  thumb  ov093
+ *   func_021C88A4  0x021C88A4  thumb  ov093
+ *   func_021C88C8  0x021C88C8  thumb  ov093
+ */
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+typedef signed char s8; typedef signed short s16; typedef signed int s32;
+
+extern int func_021D775C(int key);
+extern int func_021C8010(void *p, u32 x);
+extern u32 func_021C7F68(void *p, u16 b, u8 *out);
+extern void *func_021C7CF4(void *a, int b);
+extern int func_021D62A8(void *t);
+extern int func_021D85C0(void *a, int b);
+extern void *func_021C88A4(void *a, int k, int b);
+extern void func_021C88C8(void *a, void *b);
+
+void func_021DC170(int u, void *a, u32 b)
+{
+    u8 buf[4];
+    u32 n;
+    u8 i;
+    u8 *e;
+    if (b == func_021D775C(2)) {
+        n = func_021C7F68(a, (2 << 9) | func_021C8010(a, b), buf);
+        for (i = 0; i < n; i++) {
+            if (buf[i] != b && func_021D62A8(func_021C7CF4(a, buf[i])) != 0
+                && func_021D85C0(a, 0x1e) != 0) {
+                e = func_021C88A4(a, 0xb, b);
+                *(u32 *)e |= 2 << 22;
+                *(u32 *)e |= 2 << 24;
+                e[0x14] = 1;
+                e[8] = buf[i];
+                *(u32 *)(e + 4) = 0x24;
+                func_021C88C8(a, e);
+            }
+        }
+    }
+}

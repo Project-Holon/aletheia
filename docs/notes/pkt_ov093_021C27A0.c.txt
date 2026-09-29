@@ -2,6 +2,7 @@
  * function: func_021C27A0
  * address:  0x021C27A0
  * packet:   pkt_ov093_021C27A0
+ * hint:     pass the Pr struct by value to the callee too: `extern int func_021C282C(u8 *p, u32 x, u32 z, Pr pr)` (the push-r0-r3 struct idiom)
  * region:   ov093
  * compiler: 1.1p1
  * flags:    -O4,p

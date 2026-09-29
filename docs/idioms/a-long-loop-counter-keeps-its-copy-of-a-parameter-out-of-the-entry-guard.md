@@ -1,6 +1,6 @@
 # A long loop counter keeps its copy of a parameter out of the entry guard
 
-summary: when `for (i = n; i < K; ...)` compiles with an extra `adds r0, rN, #0` copy of the parameter and the entry guard tests that copy (`cmp r0, #K`) where the image tests the counter itself (`adds r7, r2, #0; ...; cmp r7, #K`), declare the counter `long`: the int-to-long assignment is no longer a plain copy, so 1.1p1 stops propagating `n` into the guard and drops the spare register.
+summary: when `for (i = n; i < K; ...)` compiles with an extra `adds r0, rN, #0` copy of the parameter and the entry guard tests that copy (`cmp r0, #K`) where the image tests the counter itself (`adds r7, r2, #0; ...; cmp r7, #K`), declare the counter `long`: the int-to-long assignment is no longer a plain copy, so 1.1p1 stops propagating `n` into the guard and drops the spare register. One function so far; try it as a lever, not a rule.
 
 Found in: src/matched/ov/ov031_func_021F0AA0.c (0x021F0AA0)
 
@@ -20,7 +20,7 @@ fresh register just for it:
     movs r7, #0
     cmp  r0, #3
 
-That is two bytes long and shifts everything after it. The else arm, where
+That is one extra two-byte instruction, and it shifts everything after it. The else arm, where
 `i = n + 2` is not a copy, is already right. `long i` removes the copy (17
 bytes out, all a same-width i/j register swap). Moving `j++`/`j--` from the
 for header into the loop body then closed the swap (see

@@ -2,13 +2,14 @@
  * function: func_021BEAB4
  * address:  0x021BEAB4
  * packet:   pkt_ov093_021BEAB4
+ * hint:     second parameter `int b`, q a struct pointer; the wave-14 review's ternary draft is 2 B off (local copy E:/Temp/claude/f--repos-aletheia/e1f0afe3-7286-4ff7-bddc-b9a655bfb5d5/scratchpad/review14/S14/v3.c)
  * region:   ov093
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks: 1 func_021BEB14 reads one stack slot at entry+0x20 (first stack arg) and r0-r3 forwarded from entry, arity as written; 2 no twin (Grep of ov093 callers of BEB14/BEB04 found none); 3 residual is not a parameter/spill, only which register the second byte compare loads into; 4 none fits (register choice, r1 vs r0 for the buf[0] compare, 4 bytes differ, same size); 5 n/a (no new idioms landed for this shape). Sweep to run: permuter over local shapes of buf/out pointers.
+ * checks: 1 func_021BEB14 reads one stack slot at entry+0x20 (first stack arg) and r0-r3 forwarded from entry, arity as written; 2 no twin (Grep of ov093 callers of BEB14/BEB04 found none); 3 residual is not a parameter/spill, only which register the second byte compare loads into; 4 none fits (register choice, r1 vs r0 for the buf[0] compare, 4 bytes differ, same size); 5 n/a (no new idioms landed for this shape). Sweep to run: permuter over local shapes of buf/out pointers. Big lane R1 (ternary draft below, 2 lines off: ldrb/cmp r1 vs r0): b,c as int with func_021BEB14 declared (u8*,u8*,int,int,u8*,u8*) no change; q as struct {f0,f1,..,f7} no change; func_021BEB04 returning int no change; == polarity ternary, if/else ==, t local for the ternary, t = 6 then if: 9-20 lines worse; early `if (buf[1] == 0x1F) return 0;` 19 worse; u8 *pb = buf for the stores and tests 38 worse; permuter --types 300 on the int-parameter ternary: no candidate beat the baseline (asm=10, 2 bytes out).
  *
  * Residual: original loads buf[0] into r1 (ldrb r1,[r7]; cmp r1,#0x1f); mine loads it into r0 (and the
  * early-exit `return 0` is shared at the tail in both). Everything else, including the epilogue, matches.
@@ -22,18 +23,17 @@
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
-extern void func_021BEB14(u8 *p, u8 *a, u32 b, void *c, u8 *x, u8 *y);
-extern int func_021BEB04(u8 *p);
+extern void func_021BEB14(u8 *p, u8 *a, int b, int c, u8 *x, u8 *y);
+extern u8 func_021BEB04(u8 *p);
 
-int func_021BEAB4(u8 *p, u8 *a, u32 b, void *c, u8 *q)
+int func_021BEAB4(u8 *p, u8 *a, int b, int c, u8 *q)
 {
     u8 buf[2];
     buf[1] = 0x1F;
     buf[0] = 0x1F;
     func_021BEB14(p, a, b, c, &buf[1], &buf[0]);
     if (buf[1] != 0x1F) {
-        if (buf[0] != 0x1F) q[7] = func_021BEB04(p + 0x1AB8);
-        else q[7] = 6;
+        q[7] = (buf[0] != 0x1F) ? func_021BEB04(p + 0x1AB8) : 6;
         q[1] = buf[1];
         q[0] = 1;
         return 1;

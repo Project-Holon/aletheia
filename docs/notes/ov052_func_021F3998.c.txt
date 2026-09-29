@@ -1,6 +1,10 @@
 ov052 func_021F3998 -- DIFF, allocator-only near miss
 =====================================================
 
+CLOSED (lane B10): EXACT as src/matched/ov/ov052_func_021F3998.c.  The
+function returns void (the four matched ov052 callers declare it so); the
+`return v;` below is what swapped the key base and the offset registers.
+
 A 10-entry table lookup (ov052, Thumb).  Fully reconstructed -- semantics and
 both relocations resolve (the two ABS32 sites are g_021F39DC and its +4 field
 g_021F39E0, both via `sole-ref`) -- but the loop register allocation is a

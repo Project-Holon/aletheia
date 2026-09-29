@@ -1,0 +1,86 @@
+/*
+ * function: func_021D31A0
+ * address:  0x021D31A0
+ * packet:   pkt_ov093_021D31A0
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks: 1 callees fit (021B9C50 4 args, 021EA678 u16 at r1, 021B9F70 result narrowed u8); 2 no twin (ov093 21D3xxx siblings match, none has the k-selected constant); 3 u8/u32/u16/int locals, const c, u16 vs u32 callee param tried, no change to the c[0]/c[1] load order or the arm shape; 4 none fits (closest: a-ternary-passed-to-a-u8-parameter-is-cast-u8); 5 n/a no new idiom after re-listing. Sweep not run.
+ *
+ * Best variant (48 bytes differ, the static helper). Two residues:
+ *  (a) case 0: original loads c[0] into r7 (u) then c[1] into r6; every spelling
+ *      loads c[1] first (u and v swap registers, args of 021B9AEC/021EAA6C swap).
+ *  (b) case 1: original leaves the 0x26..0x29 selection in r0 and narrows
+ *      `lsls r0,#16; lsrs r1,r0,#16`; ternary/if-else spellings put it in r1
+ *      directly (no r0 copy). The static helper puts a copy in r0 but adds an
+ *      `adds r0,r7 / adds r1,r0` pair.
+ *
+ * symbols:
+ *   func_021B9AEC  0x021B9AEC  thumb  ov093
+ *   func_021B9C50  0x021B9C50  thumb  ov093
+ *   func_021EAA6C  0x021EAA6C  thumb  ov093
+ *   func_021EAAD8  0x021EAAD8  thumb  ov093
+ *   func_021B9F70  0x021B9F70  thumb  ov093
+ *   func_021EA678  0x021EA678  thumb  ov093
+ *   func_021EA710  0x021EA710  thumb  ov093
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern char *func_021B9AEC(char *p, int i);
+extern void func_021B9C50(char *p, int k, u32 *o1, u32 *o2);
+extern void func_021EAA6C(u32 a, int b, int c);
+extern int func_021EAAD8(u32 a);
+extern int func_021B9F70(u32 p, int i);
+extern void func_021EA678(u32 a, u16 b, u32 *c);
+extern int func_021EA710(u32 a);
+
+static u16 sel(u32 u, u32 k)
+{
+    if (u == 3) {
+        return (k != 0) ? 0x26 : 0x27;
+    }
+    return (k != 0) ? 0x28 : 0x29;
+}
+
+int func_021D31A0(u32 *a, int *b, u32 *c)
+{
+    u32 v;
+    u32 u;
+    u32 x;
+    char *p;
+    u8 k;
+
+    switch (*b) {
+    case 0:
+        v = (u8)c[1];
+        u = (u8)c[0];
+        p = func_021B9AEC((char *)a[1], u);
+        func_021B9C50(p, v, 0, 0);
+        func_021EAA6C(a[0x15], u, v);
+        (*b)++;
+        break;
+    case 1:
+        if (func_021EAAD8(a[0x15]) != 0) {
+            u = (u8)c[1];
+            if (u == 1) {
+                return 1;
+            }
+            k = func_021B9F70(a[0], (u8)c[0]);
+            func_021EA678(a[0x15], sel(u, k), c);
+            (*b)++;
+        }
+        break;
+    case 2:
+        if (func_021EA710(a[0x15]) != 0) {
+            return 1;
+        }
+        break;
+    }
+    return 0;
+}

@@ -1,0 +1,73 @@
+/*
+ * function: func_021D2030
+ * address:  0x021D2030
+ * packet:   pkt_ov093_021D2030
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks: 1 func_021EA0A0 reads 7 args (5 regs+2 stack... [sp],[sp+4],[sp+8] set), func_021D2000 takes (s,k,b); 2 no twin (func_021D2278 calls 0A0 but with unmasked ints); 3 const u32 *a no change, u8/u16 params on 0A0 with raw a[i] args made it worse (frame 0x10, masks at the call); 4 none fits; 5 n/a nothing new
+ *
+ * Remaining diff (best C): slots and registers all match; only the a[3] extraction
+ * (ldr [r4,#0xc]; lsls/lsrs #24 into r4) sits before the func_021D2000 call in the
+ * original (r4 holds it across the call, then str r4,[sp,#4]), while the compile
+ * loads it after the call. Storing the leaf result in a local `r` makes it worse
+ * (v leaves r7 and t2 moves into it).
+ *
+ * symbols:
+ *   func_021CD9E0  0x021CD9E0  thumb  ov093
+ *   func_021B8590  0x021B8590  thumb  ov093
+ *   func_021D2000  0x021D2000  thumb  ov093
+ *   func_021EA0A0  0x021EA0A0  thumb  ov093
+ *   func_021EA0E4  0x021EA0E4  thumb  ov093
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    u32 unk00;
+    u8 unk04[0x50];
+    void *win;            /* 0x54 */
+} Seq;
+
+extern u32 func_021CD9E0(void *s);
+extern int func_021B8590(u32 v);
+extern u32 func_021D2000(Seq *s, u32 k, u32 b);
+extern void func_021EA0A0(void *win, u32 a, u32 b, u32 c, u32 d, u32 e, int f);
+extern int func_021EA0E4(void *win);
+
+int func_021D2030(Seq *s, int *state, const u32 *a)
+{
+    u8 v;
+    u16 t2;
+    u8 t1;
+    u8 t3;
+
+    switch (*state) {
+    case 0:
+        if (func_021CD9E0(s)) {
+            return 1;
+        }
+        if (func_021B8590(s->unk00)) {
+            v = a[0];
+            t1 = a[1];
+            t2 = a[2];
+            t3 = a[3];
+            func_021EA0A0(s->win, v, t1, t2, func_021D2000(s, t2, v), t3, 0);
+            *state = *state + 1;
+        } else {
+            return 1;
+        }
+        break;
+    case 1:
+        if (func_021EA0E4(s->win)) {
+            return 1;
+        }
+        break;
+    }
+    return 0;
+}

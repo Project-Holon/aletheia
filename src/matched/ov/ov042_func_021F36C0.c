@@ -1,0 +1,110 @@
+/*
+ * function: func_021F36C0
+ * address:  0x021F36C0
+ * packet:   pkt_ov042_021F36C0
+ * region:   ov042
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * The counters are 32-bit with a u8 wraparound increment: each use passed
+ * to a u16 parameter keeps its own (u8) truncation pair, which a u8 counter
+ * drops.
+ *
+ * symbols:
+ *   d_021F3A58     0x021F3A58  data  a4
+ *   d_021F3AD4     0x021F3AD4  data  a4
+ *   d_021F3A68     0x021F3A68  data  a4
+ *   func_02188D2C  0x02188D2C  thumb  ov021
+ *   func_02188C80  0x02188C80  thumb  ov021
+ *   func_02188C84  0x02188C84  thumb  ov021
+ *   func_02189764  0x02189764  thumb  ov021
+ *   func_020120F4  0x020120F4  thumb
+ *   func_02012EC4  0x02012EC4  thumb
+ *   func_0200B3A4  0x0200B3A4  thumb
+ *   func_021BE760  0x021BE760  thumb  ov021
+ *   func_021BE480  0x021BE480  thumb  ov021
+ *   func_021BE4A4  0x021BE4A4  thumb  ov021
+ *   func_021BE700  0x021BE700  thumb  ov021
+ *   func_021BE674  0x021BE674  thumb  ov021
+ *   func_021BE6B0  0x021BE6B0  thumb  ov021
+ *   func_021BE6B8  0x021BE6B8  thumb  ov021
+ *   func_021BE748  0x021BE748  thumb  ov021
+ *   func_021BE6CC  0x021BE6CC  thumb  ov021
+ */
+
+typedef unsigned int u32;
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+typedef struct {
+    int a;
+    int b;
+    int c;
+} V;
+
+typedef struct {
+    V v[9];
+} T;
+
+extern int d_021F3A58;
+extern T d_021F3AD4;
+extern T d_021F3A68;
+
+extern void *func_02188D2C(void *p);
+extern u32   func_02188C80(void *p);
+extern int   func_02188C84(void *p);
+extern void  func_02189764(void *p, int a, int b, int c);
+extern u32   func_020120F4(u32 a);
+extern u32   func_02012EC4(u32 a);
+extern u8   *func_0200B3A4(u32 a, u32 b);
+extern void  func_021BE760(void *p, void *a, int b);
+extern char *func_021BE480(void *p, int i, u16 j);
+extern void  func_021BE4A4(void *p, int i, u16 j, int v);
+extern void  func_021BE700(void *p, int i, u16 j, u16 k, int flag);
+extern void *func_021BE674(void *p, int i, u16 j, u16 k);
+extern void  func_021BE6B0(void *p, int v);
+extern void  func_021BE6B8(void *p, int v);
+extern int   func_021BE748(void *p);
+extern void  func_021BE6CC(void *p, int i, u16 j, u16 k, int flag);
+
+void func_021F36C0(void *a0)
+{
+    void *s;
+    u8 *q;
+    char *e;
+    void *b;
+    u32 i;
+    u8 x;
+    T ta;
+    T tb;
+
+    s = func_02188D2C(a0);
+    q = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(a0))), 4);
+    func_02189764(a0, 1, func_02188C84(a0), 4);
+    func_021BE760(s, &d_021F3A58, 0);
+    ta = d_021F3AD4;
+    for (i = 0; i < 9; i = (u8)(i + 1)) {
+        e = func_021BE480(s, 0, (u8)i);
+        *(V *)e = ta.v[i];
+        func_021BE4A4(s, 0, (u8)i, 1);
+    }
+    tb = d_021F3A68;
+    for (i = 0; i < 3; i = (u8)(i + 1)) {
+        e = func_021BE480(s, 0, (u8)(i + 9));
+        *(V *)e = tb.v[i];
+        func_021BE4A4(s, 0, (u8)(i + 9), 1);
+    }
+    for (i = 0; i < 3; i = (u8)(i + 1)) {
+        if (q[i]) {
+            x = i + 9;
+            func_021BE700(s, 0, x, 0, 1);
+            b = func_021BE674(s, 0, x, 0);
+            func_021BE6B0(b, 0);
+            func_021BE6B8(b, 0);
+            func_021BE6CC(s, 0, x, 0, func_021BE748(b));
+        }
+    }
+}
