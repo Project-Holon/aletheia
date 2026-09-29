@@ -1,0 +1,50 @@
+/*
+ * function: func_021BBA64
+ * address:  0x021BBA64
+ * packet:   pkt_ov088_021BBA64
+ * region:   ov088
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_02041300 takes 7 (layer, tile, x, y, w, h, pal; a2-a5 truncated at the call so u8 in the extern), func_02041B6C takes 1; 2 twin src/matched/arm9/func_0201F628.c (u32 locals for the derived edges: here that keeps x in r7 and is far worse, 100+ lines); 3 bg as int/u8/u16/enum, w/h as int/u16, all params const: none moves the load (u8/u16 bg loads first but as ldrb/ldrh), callee a1 u16/int, a6 u8, index int no change; 4 static inline helper with u8 params no change, local copy of bg no change; 5 idioms re-listed (narrow-parameter-pins-its-home-store, narrow-stack-parameters-and-callee-prototype) fit only a narrow bg; permuter --types 300: no candidate beats baseline (bytes-out 11)
+ *
+ * Nine-slice frame fill: corners, edges and centre of a w*h box at (x, y)
+ * with tiles 1..9 on bg layer `bg`, then commits the layer.
+ *
+ * Residue (same size, 288 B): one instruction scheduled differently at the
+ * top.  The original loads the stack parameter bg (`ldr r5, [sp, #0x38]`)
+ * right after the three parameter spills, ahead of `movs r4, #1` and the
+ * three `str r4, [sp, #k]` stack-argument stores; this C loads it after the
+ * second of those stores.  The rest of the function, spill slots of the
+ * CSE'd x+w-1 / w-2 / x+1 included, is byte-identical.  Writing the edge
+ * values inline (not as u32 locals, as the arm9 twin does) is what got
+ * here.  Untried: `y++` / `h -= 2` spellings for y+1 and h-2 (the original
+ * reuses y's register r6 for y+1).
+ *
+ * symbols:
+ *   func_02041300  0x02041300  arm
+ *   func_02041B6C  0x02041B6C  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+extern void func_02041300(u32 index, u32 a1, u8 a2, u8 a3, u8 a4, u8 a5,
+                          u32 a6);
+extern void func_02041B6C(u32);
+
+void func_021BBA64(u8 x, u8 y, u8 w, u8 h, u32 bg)
+{
+    func_02041300(bg, 1, x, y, 1, 1, 1);
+    func_02041300(bg, 3, x + w - 1, y, 1, 1, 1);
+    func_02041300(bg, 7, x, y + h - 1, 1, 1, 1);
+    func_02041300(bg, 9, x + w - 1, y + h - 1, 1, 1, 1);
+    func_02041300(bg, 2, x + 1, y, w - 2, 1, 1);
+    func_02041300(bg, 8, x + 1, y + h - 1, w - 2, 1, 1);
+    func_02041300(bg, 4, x, y + 1, 1, h - 2, 1);
+    func_02041300(bg, 6, x + w - 1, y + 1, 1, h - 2, 1);
+    func_02041300(bg, 5, x + 1, y + 1, w - 2, h - 2, 1);
+    func_02041B6C(bg);
+}

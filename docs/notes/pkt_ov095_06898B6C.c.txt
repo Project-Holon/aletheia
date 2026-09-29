@@ -1,0 +1,51 @@
+/*
+ * function: func_06898B6C
+ * address:  0x06898B6C
+ * packet:   pkt_ov095_06898B6C
+ * region:   ov095
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Original is 64 B, compiled 62 B, 18 concrete bytes. Everything matches
+ * except the tail: the original copies the call result `adds r1,r0,#0` and
+ * then loads `*d` into r0 (`ldr r0,[r6]; strb r0,[r1,#4]; strb r4,[r1,#5]`);
+ * the compiled code keeps the result in r0 and loads `*d` into r1. The same
+ * residue is in ov095 func_068989CC (`adds r1,r0,#0; strb; strb; ldr r0; strh
+ * [r1,#6]`), so it is a property of the source shape, not of one function.
+ *
+ * checks: 1 the five callees are ov095 `bx pc` veneers (targets 021D775C, 021C8020, 021C88A4, 021C88C8, 021D7040) read at 1/2/3/1/1 arguments, no stack argument; 2 twin func_068989CC has the identical residue (both use veneer 021C88A4 returning a message pointer); 3 `const u32 *d`, `int *d`, `u32` local for the load declared before/after the pointer, no change (locals declared in either order gave 18 or 38 bytes); 4 none fits (a-conditional-branch..., declaration-order idioms do not touch a returned-pointer copy); 5 idiom list re-read, nothing new. Tried (11 runs): `u8 *p` plain, `u32` result with `*(u8 *)(p + 4)`, `void *` cast, struct pointer `M{u32;u8 a;u8 b}` with fields, store order swapped, `k = *d` local before/after, `static inline set(u8 *p, u32 v, u32 t)` taking the call result as its argument (worse, 38 B). Sweep I would run: the permuter over the statement order of the two stores and the load.
+ *
+ * symbols:
+ *   func_06898BAC  0x06898BAC  thumb  ov095
+ *   func_06898BBC  0x06898BBC  thumb  ov095
+ *   func_06898BCC  0x06898BCC  thumb  ov095
+ *   func_06898BDC  0x06898BDC  thumb  ov095
+ *   func_06898BEC  0x06898BEC  thumb  ov095
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern int func_06898BAC(int k);
+extern int func_06898BBC(int b, int c);
+extern u8 *func_06898BCC(int b, int k, int n);
+extern void func_06898BDC(int b);
+extern void func_06898BEC(int a);
+
+void func_06898B6C(int a, int b, int c, u32 *d)
+{
+    u8 t = func_06898BAC(2);
+    u8 *p;
+
+    if (t == func_06898BBC(b, c)) {
+        p = func_06898BCC(b, 0x2a, 0x1f);
+        p[4] = *d;
+        p[5] = t;
+        func_06898BDC(b);
+        func_06898BEC(a);
+    }
+}

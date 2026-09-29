@@ -1,0 +1,75 @@
+/*
+ * function: func_022097CC
+ * address:  0x022097CC
+ * packet:   pkt_ov094_022097CC
+ * region:   ov094
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Residue (4 instructions, same size, everything else byte-identical incl.
+ * frame, both soft-call sites and the pooled callback 0x022099E9): the
+ * original has `movs r0,#1 ; adds r1,r6,#0 ; tst r1,r0 ; ... ; subs r0,r0,#2 ;
+ * muls r0,r1,r0` (the mask 1 in r0 is reused as the 1 in `1 - 2` = -1, the
+ * copy of the flag argument in r1). This source gives `movs r2,#1 ; adds r0,r6,#0 ;
+ * tst r0,r2 ; ... ; subs r0,r2,#2`, i.e. the same values in r2/r0 instead of r0/r1.
+ * A literal `* -1` becomes `rsbs r0,r0,#0` (no muls), `(a & 1) - 2` becomes
+ * `ands` + `subs`, an enum `K k = K_ONE` declared inside the `b == 4` block is
+ * what keeps the 1 unfolded and materialised inside the block (closest form).
+ *
+ * checks: 1 func_0220986C reads four stack args (ldr [sp,#0x20..0x2c]) and r0-r3, prototype is 8 args, unchanged;
+ *   2 no twin (no matched file shares the 020407E8/02040804 pair with this shape);
+ *   3 `u32 a` instead of `int a` no change, k-and-a order swapped (k & a) moves the 1 to r0 but rematerialises it in r2 for the sub;
+ *   4 an-enum-type-keeps-values-out-of-constant-folding.md is why the enum local is used, an inline with an enum parameter folds K_ONE again (worse);
+ *   5 re-ls docs/idioms after the runs, nothing new fits (register naming only).
+ * Tried: v*-1, -1*v, v*((a&1)-2), enum k at function scope / block scope /
+ * with a copy `int t = a`, decl order of t and k, k&a, inline flip(int *, int, K),
+ * u32 a. Ten runs.
+ *
+ * symbols:
+ *   func_020407E8  0x020407E8  arm
+ *   func_02040804  0x02040804  arm
+ *   func_0220986C  0x0220986C  thumb  ov094
+ *   func_022099E8  0x022099E8  thumb  ov094
+ */
+typedef unsigned int u32;
+
+typedef struct {
+    int f0;
+    u32 on : 1;             /* 0x04 */
+} Ent;
+
+typedef enum { K_ONE = 1, K_TWO = 2 } K;
+
+extern int func_020407E8(int a);
+extern int func_02040804(int a);
+extern void func_0220986C(Ent *e, int a, int *w, int *v, int d, int e2, int f, void *cb);
+extern void func_022099E8(void *h, void *s);
+
+void func_022097CC(Ent *p, int a, int b, int c, int d, int e, int f, int g)
+{
+    int w[3];
+    int v[3];
+
+    v[0] = c << 12;
+    v[1] = d << 12;
+    v[2] = 0;
+    w[0] = func_020407E8(3) << 12;
+    w[1] = func_02040804(3) << 12;
+    w[2] = 0;
+    if (b == 4) {
+        K k = K_ONE;
+
+        if (a & k)
+            v[0] = v[0] * (k - K_TWO);
+    }
+    if (b == 1) {
+        v[0] += w[0];
+        v[1] += w[1];
+        v[2] += w[2];
+    }
+    func_0220986C(p, b, w, v, e, f, g, func_022099E8);
+    p->on = 1;
+}

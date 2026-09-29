@@ -1,0 +1,66 @@
+/*
+ * function: func_068993B0
+ * address:  0x068993B0
+ * packet:   pkt_ov095_068993B0
+ * region:   ov095
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callees are 16-byte `bx pc` stubs, arities from the register setup (all match, every reloc resolves);
+ *           2 twin 0x068994B4 (same shape, EXACT*) gets v in the lowest callee-saved reg with the &&-chain form;
+ *           3 h as u16 param / u16 local / u32 with (u16) cast, v as u8 / u32 / u8 param: no change; 4 declaration
+ *           order (two orders), dead-parameter reuse (x reused for k and q; v,h as params), block-scoped h: no change;
+ *           5 idiom list re-read, nothing about a two-local swap.
+ *
+ * Residue: only a register swap.  Original: v (u8) in r6, h (u16) in r5, x/k/q in r4.  Mine: v in r5, h in r6.
+ * Six halfwords differ (+000C/+000E/+0020/+0022/+002C/+005A), sizes equal.  Runs: 9.
+ *
+ * symbols:
+ *   func_06899418  0x06899418  thumb
+ *   func_06899428  0x06899428  thumb
+ *   func_06899438  0x06899438  thumb
+ *   func_06899448  0x06899448  thumb
+ *   func_06899458  0x06899458  thumb
+ *   func_06899468  0x06899468  thumb
+ *   func_06899478  0x06899478  thumb
+ *   func_06899488  0x06899488  thumb
+ *   func_06899498  0x06899498  thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern int func_06899418(int a);
+extern int func_06899428(int a);
+extern int func_06899438(int a);
+extern int func_06899448(int a, int b);
+extern int func_06899458(int a);
+extern int func_06899468(int a, int b);
+extern int func_06899478(int a);
+extern void func_06899488(int p, int n, int c);
+extern void func_06899498(int p, int v);
+
+void func_068993B0(int a0, int a1, int x)
+{
+    u8 v;
+
+    v = func_06899418(4);
+    if (x == func_06899428(v)) {
+        u16 h;
+
+        h = func_06899438(0x12);
+        x = func_06899448(h, 0x1b);
+        if (func_06899458(h) != 0) {
+            if (x == 4 || x == 5) {
+                if (func_06899468(0x40, 1) != 0) {
+                    x = func_06899478(0x3f);
+                    func_06899488(x, 2, 0x31d);
+                    func_06899498(x, v);
+                }
+            }
+        }
+    }
+}

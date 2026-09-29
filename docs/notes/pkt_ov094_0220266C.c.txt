@@ -1,0 +1,83 @@
+/*
+ * unit:     yes
+ * function: func_0220266C
+ * function: func_022026FC
+ * address:  0x0220266C
+ * packet:   pkt_ov094_0220266C
+ * region:   ov094
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callees read: func_0204E720 takes 4 (last is signed), func_02030DA8 4, func_0207D55C 1, func_02030734 5, func_0220684C 3 (3rd is the cb pool word); 2 twins func_02204960/func_02203A78 (same alloc idiom, named-zero local); 3 z as int/enum, 0x10 param as u16, no change of the remaining diff; 4 an-enum-typed-zero idiom moved the zero into a callee-saved reg (r7 instead of r6) but did not remove the 0x10 CSE; 5 n/a no sibling filed after this one
+ *
+ * Residue (tu over 0x0220266C..0x0220270C, 160 B, same size): the original keeps
+ * the named zero in r6 (push {r3-r6}, sub sp,#4) and builds the bitfield value
+ * as `movs r0,#1; lsls r0,#16`. Mine keeps 0x10 (the 2nd arg of func_0204E720) in r6
+ * and builds the value as `lsls r0,r6,#12`, so the zero lands in r7 and the frame
+ * is push {r3-r7}. Tried: int z (folds, no r6 at all), E z (enum zero, r7), z also as
+ * the alloc clear arg (no change), 1-bit b15=0/b16=1 instead of mode:2=2 (same),
+ * raw word mask/or (same), u16 param for the 0x10 (same), declaration order (same).
+ * The getter half (0x022026FC, unlabelled, function_starts seed) matches.
+ *
+ * symbols:
+ *   d_0220AEB0     0x0220AEB0  data   ov094  a1
+ *   func_02030734  0x02030734  arm
+ *   func_0207D55C  0x0207D55C  arm
+ *   func_0204E720  0x0204E720  arm
+ *   func_02202248  0x02202248  thumb  ov094
+ *   func_02030DA8  0x02030DA8  arm
+ *   func_02204A3C  0x02204A3C  thumb  ov094
+ *   func_02204A70  0x02204A70  thumb  ov094
+ *   func_0220684C  0x0220684C  thumb  ov094
+ */
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef enum { Z0 } E;
+
+typedef struct Main {
+    void *f0;
+    unsigned char pad04[0x68 - 4];
+    unsigned int f0b : 1;
+    unsigned int st : 3;
+    unsigned int pad4 : 11;
+    unsigned int mode : 2;
+    unsigned int hi : 15;
+    unsigned char pad6C[0x240 - 0x6C];
+    u16 h240;
+} Main;
+
+typedef struct Obj {
+    Main *main;
+} Obj;
+
+extern const char d_0220AEB0[];
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
+extern int func_0207D55C(u16 *reg);
+extern void func_0204E720(int a, int b, int c, int d);
+extern void func_02202248(Main *m);
+extern void *func_02030DA8(void *a0, void *callback, void *ctx, int a3);
+extern void func_02204A3C(int a0, Obj *o);
+extern void func_02204A70(void);
+extern void func_0220684C(Main *m, void *t, int b);
+
+void func_0220266C(Main *m)
+{
+    Obj *o;
+    E z = Z0;
+
+    o = func_02030734((u16)((m->h240 & 0x7fff) | 0x8000), 4, 0, d_0220AEB0, 0x50c);
+    func_0204E720(func_0207D55C((u16 *)0x0400106C) <= 0 ? 2 : 8, 0x10, z, z);
+    func_02202248(m);
+    m->mode = 2;
+    o->main = m;
+    func_0220684C(m, func_02030DA8(m->f0, (void *)func_02204A3C, o, 0), (int)func_02204A70);
+}
+
+int func_022026FC(Main *m)
+{
+    if (m->mode != 0)
+        return 1;
+    return 0;
+}

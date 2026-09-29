@@ -1,0 +1,57 @@
+/*
+ * function: func_02206950
+ * address:  0x02206950
+ * packet:   pkt_ov094_02206950
+ * region:   ov094
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 no callees; 2 no twin (bitfield at +0x68 bits 5..8 shared with func_022064CC and func_02206A7C-area code); 3 x/y as u16 versus int not needed (same bytes), n/o locals no change; 4 none fits; 5 nothing new in docs/idioms
+ *
+ * Residual: same size, 33 bytes differ, all in case 2 and the shared block for cases 1/5.
+ * Switch table (cases 0,4,default -> clear t; 1,5 -> t = byte; 2 falls into 1/5 after a compare;
+ * 3 -> compare nibble) and case 3 are exact. Two scheduling differences remain:
+ *  - case 2: original forms n*8 in r5 first and adds p only after the u16 load (`adds r0,r3,r5`
+ *    after `ldrh r1`), ours forms p+n*8 in r1 before the u16 address (p+n*2);
+ *  - block 1/5: original loads the field at +0x58 after p+n*8 (`adds r4,r3,r2; ldr r2,[r3,#0x58]`),
+ *    ours hoists it above the mask `ands`.
+ * Tried: locals n / o = n*8 / row = p+n*8, x and y first or inline, statement order swaps; the
+ * compiler folds all of them to the same bytes.
+ *
+ * symbols: none (no calls, no data)
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+typedef struct {
+    unsigned int lo : 5;
+    unsigned int t : 4;
+} Bf;
+
+void func_02206950(char *p)
+{
+    switch (*(int *)(p + 0x58)) {
+    case 2:
+        if (((u16 *)(p + 0x266))[*(int *)(p + 0x27c)] !=
+            ((u16 *)(p + 0x26c))[*(u8 *)(p + *(int *)(p + 0x27c) * 8 + *(int *)(p + 0x58) + 0x242)])
+            *(u8 *)(p + *(int *)(p + 0x27c) * 8 + 0x245) = 0;
+    case 1:
+    case 5:
+        ((Bf *)(p + 0x68))->t = *(u8 *)(p + *(int *)(p + 0x27c) * 8 + *(int *)(p + 0x58) + 0x242);
+        break;
+    case 3: {
+        u8 v = *(u8 *)(p + *(int *)(p + 0x27c) * 8 + *(int *)(p + 0x58) + 0x242);
+
+        if (((v & 0xf0) >> 4) == *(u8 *)(p + *(int *)(p + 0x27c) * 8 + 0x244))
+            ((Bf *)(p + 0x68))->t = v;
+        else
+            ((Bf *)(p + 0x68))->t = 0;
+        break;
+    }
+    default:
+        ((Bf *)(p + 0x68))->t = 0;
+        break;
+    }
+}

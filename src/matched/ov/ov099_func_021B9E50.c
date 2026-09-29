@@ -1,0 +1,36 @@
+/*
+ * function: func_021B9E50
+ * address:  0x021B9E50
+ * packet:   pkt_ov099_021B9E50
+ * region:   ov099
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0204A6C8  0x0204A6C8  arm
+ *   func_0204AC18  0x0204AC18  arm
+ *   func_0204AF28  0x0204AF28  arm
+ */
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    char pad[8];
+    int f8;
+    int fc;
+    int f10;
+} Obj;
+
+extern int func_0204A6C8(u32 a, u32 b, u32 c, u32 d, u16 e);
+extern int func_0204AC18(u32 a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern int func_0204AF28(u32 a, u32 b, u32 c, u16 d);
+
+void func_021B9E50(Obj *o, int a, u32 c)
+{
+    o->f8 = func_0204A6C8(c, 0x11, 0, 0, a);
+    o->fc = func_0204AC18(c, 8, 0, 0x160, 0, 2, a);
+    o->f10 = func_0204AF28(c, 0x14, 0x20, a);
+}

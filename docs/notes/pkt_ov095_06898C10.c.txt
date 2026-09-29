@@ -1,0 +1,91 @@
+/*
+ * function: func_06898C10
+ * address:  0x06898C10
+ * packet:   pkt_ov095_06898C10
+ * region:   ov095
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Handed as 0x06898C12, the second label after `push {r0-r3}` at 0x06898C10;
+ * written and verified from the push address (176 B original, 172 B compiled,
+ * 146 concrete bytes). Frame, `push {r0-r3}` + `bx r3` epilogue, the by-value
+ * one-word struct third parameter (read from [sp,#0x30] twice) and every
+ * callee/relocation are right. The residue is register allocation: the
+ * original spills `a` at entry (`str r0,[sp,#0xc]`) and reloads it for the
+ * `a*0xe0` multiply (`ldr r0,[sp,#0xc]`), keeps `w = p->en` in r0 and the
+ * table walk in r1/r2/r3 (`movs r1,#0xc; adds r3,r6,#0; muls r3,r1,r3; ldr
+ * r1,[r7,r3]; adds r2,r7,r3`); the compiled code multiplies straight from r0
+ * (spill store after it), keeps w in r3 and walks in r0/r2. 4 B smaller from
+ * the missing reload and copy.
+ *
+ * checks: 1 func_06898CC0 (target 021D6F0C, 7 args: id,key16,pri,subpri,sub,f8,f16 per ov093_func_021D6F0C) and func_06898CD0 (021D70DC, 3 args) read; the fn table entry takes &v; 2 twin pkt_ov095_06898D54 shares g_0689E7E0's 0xe0/16 layout (matched); 3 `u32 a`, `int a2 = a` copy, `Row *row` local, byte-cast pointer arithmetic, locals in another order no change (all 146 B); S vs plain `u32 c` (plain u32 cannot give the push frame); 4 none fits (address-of-a-register-parameter and struct-by-value idioms explain the frame only); 5 idiom list re-read, nothing new. Sweep I would run: the permuter over the order of `p`/`w` initialisation and the loop-bound form.
+ *
+ * symbols:
+ *   g_0689E7E0     0x0689E7E0  data
+ *   d_0689D780     0x0689D780  data   ov095  a4
+ *   func_06898CC0  0x06898CC0  thumb  ov095
+ *   func_06898CD0  0x06898CD0  thumb  ov095
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    void *p;
+    u32 f;
+    u32 n;
+    u32 en;
+} E;
+
+typedef struct {
+    E e[14];
+} Row;
+
+typedef struct {
+    int key;
+    int (*fn)(u32 *);
+    u32 lim;
+} T;
+
+typedef struct {
+    u32 x;
+} S;
+
+extern Row g_0689E7E0[2];
+extern T d_0689D780[14];
+extern void *func_06898CC0(int id, u16 key, int pri, u32 sub_pri, u32 sub, u32 f8, u16 f16);
+extern void func_06898CD0(void *p, int i, u32 v);
+
+void *func_06898C10(int a, int b, S c)
+{
+    E *p = &g_0689E7E0[a].e[b];
+    u32 w = p->en;
+    u32 k;
+    u32 v;
+
+    for (k = 0; k < 14; k++) {
+        if (b == d_0689D780[k].key) {
+            if (w == 0) {
+                void *r;
+                int x = d_0689D780[k].fn(&v);
+
+                r = func_06898CC0(2, b, 2, 0, a, x, v);
+                func_06898CD0(r, 6, c.x);
+                p->en = 1;
+                p->n = 0;
+                p->f = c.x;
+                p->p = r;
+                return r;
+            }
+            if (w < d_0689D780[k].lim) {
+                p->en++;
+                return p->p;
+            }
+        }
+    }
+    return 0;
+}

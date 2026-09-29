@@ -1,0 +1,99 @@
+/*
+ * function: func_068996D4
+ * address:  0x068996D4
+ * packet:   pkt_ov095_068996D4
+ * region:   ov095
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 every callee is a 16-byte `bx pc` veneer stub (args unread by the stub): arities taken from the caller's
+ *           register setup (F3 2 args, F4 2 args, F5 3, F7 3), 0x06898DE0 compared unsigned (bls) so u32 return, no
+ *           change; 2 no twin (ov095 has no other 0x1a/0x1f alloc-and-send function; 0x068995B0/0x06899900 are siblings
+ *           with the same stub-call frame and are EXACT); 3 `a` as int only (spill is first store as in the original),
+ *           loop counter int vs u32 (u32 gives the original blo) no change; 4 struct/array local (folded away by
+ *           mwcc, no frame), static inline helper for the t[] stores (identical output) none fits; 5 re-listed
+ *           docs/idioms, nothing about an unexplained 8-byte frame hole.
+ *
+ * Residue: the original is `push {r4-r7, lr}; sub sp, #0xc` with only `a` at [sp] (an 8-byte hole nothing reads), and
+ * the new record pointer t is copied r0 -> r1 before the t[7]/t[4] stores and the zeroing loop (loop temp then lands
+ * in r0).  Mine is `push {r3-r7, lr}` with t left in r0 and the loop temp in r1.  Everything else matches
+ * (all 12 callee relocations resolve).  Runs: 6.
+ *
+ * symbols:
+ *   func_06898DE0  0x06898DE0  thumb
+ *   func_06899780  0x06899780  thumb
+ *   func_06899790  0x06899790  thumb
+ *   func_068997A0  0x068997A0  thumb
+ *   func_068997B0  0x068997B0  thumb
+ *   func_068997C0  0x068997C0  thumb
+ *   func_068997D0  0x068997D0  thumb
+ *   func_068997E0  0x068997E0  thumb
+ *   func_068997F0  0x068997F0  thumb
+ *   func_06899800  0x06899800  thumb
+ *   func_06899810  0x06899810  thumb
+ *   func_06899820  0x06899820  thumb
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern u32 func_06898DE0(int a, int b);
+extern int func_06899780(int a);
+extern int func_06899790(int a);
+extern int func_068997A0(int a, int b);
+extern int func_068997B0(int a, int b);
+extern int func_068997C0(int a, int b);
+extern u8 *func_068997D0(int a, int b, int c);
+extern void func_068997E0(int a);
+extern u32 *func_068997F0(int a, int b, int c);
+extern u32 func_06899800(void);
+extern u32 func_06899810(void);
+extern void func_06899820(int a, u32 *q);
+
+static inline void fill(u8 *t, int x, int n)
+{
+    u32 i;
+
+    t[7] = x;
+    t[4] = n;
+    for (i = 1; i < 3; i++)
+        t[i + 4] = 0;
+    if (t[4] > 1)
+        t[5] |= 0x80;
+}
+
+void func_068996D4(int a, int p, int x)
+{
+    u8 v;
+    int n;
+    u8 *t;
+    u32 *q;
+    struct {
+        int a;
+        int b;
+        int c;
+    } loc;
+
+    loc.a = a;
+    v = func_06899780(2);
+    if (x == func_06899790(v) && func_068997A0(p, v) == 0) {
+        n = 3;
+        if (func_068997C0(func_068997B0(p, v), n) != 0) {
+            t = func_068997D0(p, 0x1a, v);
+            fill(t, x, n);
+            func_068997E0(p);
+        } else {
+            q = func_068997F0(p, 0xc, 0x1f);
+            q[1] = 5;
+            if (func_06898DE0(loc.a, x) > 1)
+                q[2] = func_06899800();
+            else
+                q[2] = func_06899810();
+            *((u8 *)q + 0xf) = v;
+            func_06899820(p, q);
+        }
+    }
+}

@@ -1,0 +1,51 @@
+/*
+ * function: func_02188C1C
+ * address:  0x02188C1C
+ * packet:   pkt_ov096_02188C1C
+ * region:   ov096
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * Lever: as func_02188BB0 (Conn struct pointer, int second parameter).
+ * symbols:
+ *   func_0201134C  0x0201134C  thumb
+ *   func_020113B0  0x020113B0  thumb
+ *   func_0218A378  0x0218A378  thumb  ov096
+ *   func_021D5448  0x021D5448  thumb  ov093
+ *   func_021D54C0  0x021D54C0  thumb  ov093
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    u8 pad00[0xbc];
+    int fbc;
+    u8 padC0[4];
+    int fc4;
+} Conn;
+
+extern int func_0201134C(int);
+extern void func_020113B0(int, int);
+extern int func_0218A378(Conn *, int, int);
+extern int func_021D5448(int);
+extern int func_021D54C0(int, int);
+
+int func_02188C1C(int a, Conn *b)
+{
+    int m;
+    int i;
+
+    m = func_0201134C(a);
+    for (i = 0; i < func_021D5448(b->fbc); i++) {
+        if (func_0218A378(b, func_021D54C0(b->fbc, (u8)i), 3) != 0)
+            break;
+    }
+    if (i == func_021D5448(b->fbc))
+        func_020113B0(a, *(int *)(a + 0x14) + m);
+    return b->fc4;
+}

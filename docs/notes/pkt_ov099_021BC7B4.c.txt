@@ -1,0 +1,83 @@
+/*
+ * function: func_021BC7B4
+ * address:  0x021BC7B4
+ * packet:   pkt_ov099_021BC7B4
+ * region:   ov099
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callee arities read from show: func_021C18C8(p,a,b) void, func_021BAADC(p,a,b) void, func_021C24A4 matches its matched file; func_021BA8EC/func_021BC104 take p only; 2 no twin; 3 u8/int types not involved (residue is control flow); 4 none fits; 5 n/a nothing new in idioms
+ *
+ * Residue (4 bytes short): the second dispatch's 0x4c arm is an untouched `b L`
+ * (0x021BC822 `02 e0`) that jumps over the 0x4d arm's func_021BC104 call to L
+ * (0x021BC82A, the shared func_021BA8EC / +0x1D0 / v=2 block). Everything else is
+ * byte-identical (first switch, arms, pools). mwcc threads `case 0x4c: goto L;`,
+ * `case 0x4c: break;` (L after the switch), a dead `r4 = r4` / `v = v` / `sel = 0x4c`
+ * and an if-chain all differently: the first three put the 4c dispatch beq
+ * straight at L (no arm, 4 bytes short), the if-chain reloads/compares differently
+ * (worse), and `r4 = 5;` in the arm keeps the arm but emits `movs r4,#5` (2 bytes
+ * long). What leaves a bare `b` in the arm is not found. 9 runs.
+ *
+ * symbols:
+ *   func_021C282C  0x021C282C  thumb  ov099
+ *   func_021BC104  0x021BC104  thumb  ov099
+ *   func_021BAADC  0x021BAADC  thumb  ov099
+ *   func_021C18C8  0x021C18C8  thumb  ov099
+ *   func_021C24A4  0x021C24A4  thumb  ov099
+ *   func_021BA8EC  0x021BA8EC  thumb  ov099
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned long  u32;
+
+extern int func_021C282C(u8 *p);
+extern void func_021BC104(char *p);
+extern void func_021BAADC(char *p, int a, int b);
+extern void func_021C18C8(char *p, int a, int b);
+extern void func_021C24A4(char *p, int v);
+extern void func_021BA8EC(char *p);
+
+int func_021BC7B4(char *p, int v)
+{
+    int r4;
+    int sel;
+
+    func_021C282C(*(u8 **)(p + 8));
+    *(u8 *)(p + 0x1351) = 0;
+    sel = *(u16 *)(p + 0x132c);
+    switch (sel) {
+    case 0x4b:
+        r4 = 4;
+        break;
+    case 0x4c:
+        r4 = 5;
+        break;
+    case 0x4d:
+        r4 = 6;
+        break;
+    }
+    switch (sel) {
+    case 0x4b:
+        func_021BC104(p);
+        func_021BAADC(p, 0x7b, 0);
+        func_021C18C8(p, 4, 4);
+        func_021C24A4(p, 0);
+        *(u8 *)(p + 0x1355) = 0;
+        *(u32 *)(p + 0x1CC) = 0x10;
+        break;
+    case 0x4c:
+        goto L;
+    case 0x4d:
+        func_021BC104(p);
+    L:
+        func_021BA8EC(p);
+        *(u32 *)(p + 0x1D0) = r4;
+        v = 2;
+        break;
+    }
+    func_021C18C8(p, 4, r4);
+    return v;
+}

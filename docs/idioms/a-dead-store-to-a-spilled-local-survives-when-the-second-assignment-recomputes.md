@@ -58,3 +58,23 @@ to one ordinary local**, and the second one was written against the original
 value. Reading them as evidence of an aggregate or of a qualifier invents a
 declaration that is not there, and the three source shapes above are cheap to
 measure before doing that.
+
+## Two constants into the same local
+
+Found in: src/matched/ov/ov094_func_02205E30.c (0x02205E30),
+src/matched/ov/ov094_func_02205E80.c (0x02205E80)
+
+Both functions spill a handful of dead offset locals (0x11c then 0x14c, 0x240 then 0x17c, and
+0x110 then 0x180 three times over) that a loop then adds to a base pointer. mwcc materialises the
+second constant from the register still holding the first, which is why the second store looks like an
+`adds`/`subs` of a small delta.
+
+What each spelling gave (ov094_func_02205E80):
+
+- `x = A; x = (Off)(x + d)` with an enum type: the double store appears, but three locals that end
+  with the same value (0x180) are merged into one slot and the frame is 8 bytes short.
+- a local struct of enum members: every field is stored twice through memory, the frame is 16 bytes over.
+- `int` locals, `x = 0x110; x = 0x180;` (both literals), one local per slot: EXACT, including the three
+  separate 0x180 slots and the descending slot order. In 02205E30 the same shape needs the counter
+  initialised before the offset (`i = 0; off = 0x11c; off = 0x14c; for (; i < 2; i++)`) so the stores
+  follow `str i`.

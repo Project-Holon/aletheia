@@ -1,0 +1,54 @@
+/*
+ * function: func_021BC6B0
+ * address:  0x021BC6B0
+ * packet:   pkt_ov099_021BC6B0
+ * region:   ov099
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_021BA928(p,v) and func_020362DC() void match matched twins (021BC5FC); 2 no twin of this shape in ov099; 3 s as u8 / int, field read as u32 vs int, s spelled ternary or one store per arm: same swap; 4 enum-offset lever (an-enum-type-keeps-values-out-of-constant-folding) already applied, 021BC468 needs it; 5 re-read idioms, none fits
+ *
+ * Residue (16 bytes, register swap only): the original loads the pooled offset 0x135c
+ * into r0 and the field into r1 (`ldr r0,[pc]; ldr r1,[r5,r0]; subs r1,#3; cmp r1,#1;
+ * ... movs r1,#0x90/0x97; subs r0,#9; strb r1,[r5,r0]`); every spelling below gives
+ * offset in r1 and the field/value in r0. Tried: int o, enum o (folds / swaps), o declared
+ * before or after s, x local for the field, ternary s, per-arm stores, ||-form compare,
+ * u8 s, u32 field read. 10 runs.
+ *
+ * symbols:
+ *   func_021BA928  0x021BA928  thumb  ov099
+ *   func_020362DC  0x020362DC  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned long  u32;
+
+typedef enum { K135C = 0x135c } Off;
+
+extern int func_021BA928(void *p, int v);
+extern int func_020362DC(void);
+
+int func_021BC6B0(char *p, int v)
+{
+    Off o;
+    int s;
+
+    if (func_021BA928(p, v) == 0) {
+        return v;
+    }
+    if (func_020362DC() == 0) {
+        return v;
+    }
+    o = K135C;
+    if ((u32)(*(int *)(p + o) - 3) <= 1) {
+        s = 0x90;
+    } else {
+        s = 0x97;
+    }
+    *(u8 *)(p + (o - 9)) = s;
+    *(u32 *)(p + 0x1CC) = 0x8a;
+    return v;
+}

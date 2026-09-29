@@ -1,0 +1,55 @@
+/*
+ * function: func_022099E8
+ * address:  0x022099E8
+ * packet:   pkt_ov094_022099E8
+ * region:   ov094
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * symbols:
+ *   func_021F9260  0x021F9260  thumb  ov094
+ *   func_02209784  0x02209784  thumb  ov094
+ *   func_021F89BC  0x021F89BC  thumb  ov094
+ */
+typedef unsigned char u8;
+
+typedef struct {
+    void *w;                /* 0x00 */
+    int x;                  /* 0x04 */
+    int y;                  /* 0x08 */
+    int pad0c;
+    int mv[4];              /* 0x10 */
+    int dx;                 /* 0x20 */
+    int dy;                 /* 0x24 */
+    char pad28[0x38 - 0x28];
+    int n;                  /* 0x38 */
+} S;
+
+extern int func_021F9260(void *m, int *out);
+extern void func_02209784(void *w, int x, int y);
+extern void func_021F89BC(void *h);
+
+void func_022099E8(void *h, S *s)
+{
+    void *w = s->w;
+    int done;
+
+    if (s->mv[0] == 4) {
+        s->x += s->dx;
+        s->y += s->dy;
+        if (s->n == 0) {
+            done = 1;
+        } else {
+            s->n--;
+            done = 0;
+        }
+    } else {
+        done = func_021F9260(s->mv, &s->x);
+    }
+    func_02209784(w, s->x >> 12, s->y >> 12);
+    if (done == 1)
+        func_021F89BC(h);
+}

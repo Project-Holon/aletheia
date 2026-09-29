@@ -1,0 +1,73 @@
+/*
+ * function: func_021BCDB0
+ * address:  0x021BCDB0
+ * packet:   pkt_ov099_021BCDB0
+ * region:   ov099
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 callees func_021BCBBC(a,b,&out) and func_021BBEB4(p,a,u8,n) arities agree with the original register setup; 2 twin func_021BCE30 (same switch tail) is parked with the same residue; 3 int vs u8 for the arm constant, m/c merged, no change; 4 none fits; 5 re-listed idioms; sweep not run: declaration of f relative to the calls
+ *
+ * Residue (same as pkt_ov099_021BCE30): layout and every branch target match,
+ * only the switch tail's register roles differ (original: r0 = 0x135C offset
+ * kept for `subs r0,#9`, r1 = loaded value / arm constants; ours swapped).
+ *
+ * symbols:
+ *   func_020362DC  0x020362DC  arm
+ *   func_021BC06C  0x021BC06C  thumb  ov099
+ *   func_021BCBBC  0x021BCBBC  thumb  ov099
+ *   func_021BBEB4  0x021BBEB4  thumb  ov099
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned long  u32;
+
+typedef enum { K135C = 0x135C } Off;
+
+extern int func_020362DC(void);
+extern void func_021BC06C(char *p);
+extern void func_021BCBBC(int a, int b, int *out);
+extern void func_021BBEB4(char *p, int a, u8 b, int c);
+
+int func_021BCDB0(char *p, int v)
+{
+    int out;
+    int s;
+    int c;
+    int m;
+    Off f;
+
+    if (func_020362DC() != 0) {
+        func_021BC06C(p);
+        if (*(int *)(p + 0xCC) != 0) {
+            func_021BCBBC(*(int *)(p + 0x1348), *(int *)(p + 0xCC), &out);
+            func_021BBEB4(p, out, *(u8 *)(*(u8 **)(p + 0x248) + 0x48), 3);
+            *(u32 *)(p + 0x1CC) = 0x78;
+        } else {
+            f = K135C;
+            m = *(int *)(p + f);
+            switch (m) {
+            case 3:
+                s = 0x4E;
+                break;
+            case 2:
+                c = 0x97;
+                goto L;
+            case 4:
+                c = 0x90;
+            L:
+                *(u8 *)(p + (f - 9)) = c;
+                s = 0x8A;
+                break;
+            default:
+                s = 0x72;
+                break;
+            }
+            *(u32 *)(p + 0x1CC) = s;
+        }
+    }
+    return v;
+}

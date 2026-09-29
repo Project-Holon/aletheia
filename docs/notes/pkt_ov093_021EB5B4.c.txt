@@ -2,17 +2,28 @@
  * function: func_021EB5B4
  * address:  0x021EB5B4
  * packet:   pkt_ov093_021EB5B4
- * hint:     only the i/k register swap is left after six declaration spellings: the permuter with --types at 300 has not been run on the u16-n version
+ * hint:     `volatile u8 *arr` (the permuter's find, lane R1) is EXACT: the element load must be something 1.1p1 cannot value-number or move, which colours k ahead of i. Look for a non-volatile spelling of that load (arr as a field of a struct the caller passes, a table the image reads through another object); not a const, getter, cast, int/u32/long k, [] parameter, in-call assignment or struct-typed a (all measured 6)
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks:   1 callees func_021B8ED8(u8*,u32)->u8, func_021B98AC(q,u8), func_021D5864(m), func_021F7EE8(a,b) all read as declared; the argless-looking bl func_021D5864 takes r0 = func_021B98AC's result; 2 twin func_021ED3D4 (matched) gives func_021F7EE8(func_021D5864(m), y); 3 n as u16 is the lever (u32 n gave a 78-line diff: guard folded to beq, stack spill order wrong; u16 n makes prologue, guard and loop end exact), k and idx u8 keep the truncations away, i as u32/int/u16/enum/while-loop and k/idx/i declaration orders (6 spellings) and block-scope k/idx and a no-code i = i all leave the same 6-line r4/r5 swap (i in r4, k in r5; image has i in r5, k in r4); 4 idioms a-dead-parameter-reused-as-the-index..., a-no-code-self-assignment..., declaration-position-orders-block-scope-colouring, block-locals-declared-without-initialisers read and the last two spellings tried; 5 n/a, no new idiom appeared mid-wave
+ * checks:   1 callees func_021B8ED8(u8*,u32)->u8, func_021B98AC(q,u8), func_021D5864(m), func_021F7EE8(a,b) all read as declared; the argless-looking bl func_021D5864 takes r0 = func_021B98AC's result; 2 twin func_021ED3D4 (matched) gives func_021F7EE8(func_021D5864(m), y); 3 n as u16 is the lever (u32 n gave a 78-line diff: guard folded to beq, stack spill order wrong; u16 n makes prologue, guard and loop end exact), k and idx u8 keep the truncations away, i as u32/int/u16/enum/while-loop and k/idx/i declaration orders (6 spellings) and block-scope k/idx and a no-code i = i all leave the same 6-line r4/r5 swap (i in r4, k in r5; image has i in r5, k in r4); 4 idioms a-dead-parameter-reused-as-the-index..., a-no-code-self-assignment..., declaration-position-orders-block-scope-colouring, block-locals-declared-without-initialisers read and the last two spellings tried; 5 n/a, no new idiom appeared mid-wave; R1: 3 const u8 *arr no change, int/u32/unsigned long k and unsigned long i no change, 4 a-long-index-colours-apart, an-assignment-inside-a-call-argument, the-volatile-field-load idioms read and their spellings tried, 5 relisted idioms (407), none new fits
  *
  * Residual: 6 lines at +0020 +0038 +0040 +0056 +006C +006E, all one swap of loop
- * counter and element byte (r4/r5). Sweep not run: permuter over local order.
+ * counter and element byte (r4/r5).
+ *
+ * Lane R1 (1 + 13 runs + 1x6 sweep + permuter): the permuter (--types, 300) found EXACT
+ * at compile 206 with `volatile-add(arr)` plus a cosmetic `0 != a[0x150]`; `volatile u8
+ * *arr` alone is EXACT, but volatile on a parameter is not a filable spelling. Measured
+ * at the same 6 lines: `const u8 *arr`, `u8 arr[]`, `void *arr` with a cast, `*(arr + i)`,
+ * `*(u8 *)((u32)arr + i)`, an inline `at(arr, i)` getter, `idx = 0` after the load,
+ * `k = k;`, u32/int/unsigned long k, unsigned long i, i through a copy (`j = i + 1; i = j;`),
+ * `idx = f(.., k = arr[i])`, and a struct-typed a (e[] of 12-byte records at 0x48,
+ * p134/p138 pointers, f150 byte). arr[i] written at both uses (no k) is 168 bytes (the
+ * second read reloads after the calls). func_021EFC1C (docs/notes/pkt_ov093_021EFC1C.c.txt)
+ * has the same element-before-counter colouring in the same overlay.
  *
  * symbols:
  *   func_021B8ED8  0x021B8ED8  thumb  ov093

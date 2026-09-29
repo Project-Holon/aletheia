@@ -1,0 +1,80 @@
+/*
+ * function: func_022064CC
+ * address:  0x022064CC
+ * packet:   pkt_ov094_022064CC
+ * region:   ov094
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_0204B3DC(int,int) and func_0204B404(int,u16*,int) arities match the original's loads; 2 twin ov094_func_02201F98 gives 0204B404 arity, no twin for the switch; 3 pt as u16[2] versus struct {u16 x,y}: no change; 4 none fits; 5 no new idiom in the directory covers a swapped store/load order in tail-merged switch arms
+ *
+ * Residual: 2 bytes short (170 vs 172), all bytes but one region identical. Only the tail of the
+ * case 2..5 arms differs. Original tail at 0x02206532 is `ldrb r0,[r0,#1]; strh r1,[r5]; strh r0,[r5,#2]`
+ * (y loaded before x is stored); ours is `strh r1,[r5]; ldrb r0,[r0,#1]; strh r0,[r5,#2]`, which is
+ * the same order the case 0/1 arms give. Tried: y-first statement order (worse, y stored first),
+ * temporaries vx/vy (worse), struct pt, cases 0/1 y-first (worse), default for case 5 (worse).
+ * The switch itself (6-entry halfword table, cases 2/4 and 3/5 cross-jumped) matches.
+ *
+ * symbols:
+ *   func_0204B3DC  0x0204B3DC  arm
+ *   func_0204B404  0x0204B404  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+typedef struct {
+    unsigned int lo : 5;
+    unsigned int t : 4;
+} Bf;
+
+extern void func_0204B3DC(int a, int b);
+extern void func_0204B404(int a, u16 *v, int k);
+
+void func_022064CC(char *s, u8 *a, signed char *b)
+{
+    int i;
+    u16 pt[2];
+
+    for (i = 0; i < 6; i++) {
+        signed char *row = b + ((Bf *)(s + 0x68))->t * 12;
+        int idx = row[i];
+
+        if (idx >= 0) {
+            u8 *q = a + idx * 4;
+
+            switch (i) {
+            case 0:
+                pt[0] = q[2];
+                pt[1] = q[0];
+                break;
+            case 1:
+                pt[0] = q[3];
+                pt[1] = q[0];
+                break;
+            case 2:
+                pt[0] = q[2];
+                pt[1] = q[1];
+                break;
+            case 3:
+                pt[0] = q[3];
+                pt[1] = q[1];
+                break;
+            case 4:
+                pt[0] = q[2];
+                pt[1] = q[1];
+                break;
+            case 5:
+                pt[0] = q[3];
+                pt[1] = q[1];
+                break;
+            }
+            func_0204B3DC(*(int *)(s + i * 8 + 0x180), **(u8 **)(s + 0x274));
+            func_0204B404(*(int *)(s + i * 8 + 0x180), pt, 1);
+        } else {
+            func_0204B3DC(*(int *)(s + i * 8 + 0x180), 0);
+        }
+    }
+}

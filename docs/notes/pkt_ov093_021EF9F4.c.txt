@@ -2,7 +2,7 @@
  * function: func_021EF9F4
  * address:  0x021EF9F4
  * packet:   pkt_ov093_021EF9F4
- * hint:     b and b*4 swapped and b*4 recomputed at each store: name b*4 once in a local only where the original reuses it, or recompute it through an inline; permuter --types not yet run
+ * hint:     SUPERSEDED (lane R1): EXACT in src/matched/ov/ov093_func_021EF9F4.c with a as a struct of eight-slot member arrays (a->used[b], a->t[b], a->c[b], ..., a->w[b][i])
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p

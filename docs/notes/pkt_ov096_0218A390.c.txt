@@ -1,0 +1,68 @@
+/*
+ * function: func_0218A390
+ * address:  0x0218A390
+ * packet:   pkt_ov096_0218A390
+ * region:   ov096
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Residue: 98 bytes compiled against 100 (2-byte pad follower), 5 halfwords
+ * differ at +0x3A..+0x44: the original stores the stack argument d to [sp,#4]
+ * BEFORE reloading a from [sp,#8] and computing a+0xb4; mwcc loads a first and
+ * stores d after it.  Same context-dependent tie as ov096_func_02188D5C
+ * (pending), whose second func_021C7E14 call shows the identical swap.
+ * Everything else (loop shape, spill slots, u8 index cast, best/unsigned
+ * compare) is byte-identical.
+ *
+ * checks: 1 func_021C7E14 reads 6 args (its own file: u8 *p, int, int, u32, int,
+ *   int), func_021D54C0/5440/5448 arity fine, no register shifts; 2 twins:
+ *   ov096_func_02188D5C (same residue), ov096_func_02189170 / 02189BFC (matched,
+ *   same call with plain int prototypes, arg 4 not a call result); 3 tried
+ *   `const u8 *a` (worse: d store moves later still), d as u32 with u32 last
+ *   parameter (no change), callee declared with its own prototype
+ *   (u16 return, u8 *p first arg) (no change); 4 idioms a-u16-accessor-result-...
+ *   (item as u16 local + u16 extern return: no change), an-inline-call-argument-
+ *   is-scheduled-per-site (item bound to a local: no change), Conn-struct
+ *   pointer for a (no change); 5 re-listed docs/idioms after the runs, nothing
+ *   new fits.  Sweep not run: y/z as u8 locals (they are reloaded with ldr, so
+ *   a narrow local cannot be the spelling).
+ *
+ * symbols:
+ *   func_021D5440  0x021D5440  thumb  ov093
+ *   func_021D5448  0x021D5448  thumb  ov093
+ *   func_021D54C0  0x021D54C0  thumb  ov093
+ *   func_021C7E14  0x021C7E14  thumb  ov093
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef short s16;
+typedef signed char s8;
+typedef unsigned int u32;
+typedef int s32;
+
+extern int func_021D5440(int);
+extern int func_021D5448(int);
+extern int func_021D54C0(int, int);
+extern int func_021C7E14(int, int, int, int, int, int);
+
+u32 func_0218A390(u8 *a, int b, int c, int d)
+{
+    u32 best;
+    u32 v;
+    int y;
+    int z;
+    int i;
+    best = 0;
+    y = func_021D5440(b);
+    z = func_021D5440(c);
+    for (i = 0; i < func_021D5448(b); i++) {
+        v = func_021C7E14(*(int *)(a + 0xb4), y, z, func_021D54C0(b, (u8)i), 1, d);
+        if (v > best)
+            best = v;
+    }
+    return best;
+}

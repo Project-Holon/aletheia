@@ -2,21 +2,36 @@
  * function: func_021EE830
  * address:  0x021EE830
  * packet:   pkt_ov093_021EE830
- * hint:     leaf bit-stream walker, 28 bytes of allocation only: the permuter with --types at 300 has not been run
+ * hint:     only the header byte's temporary is mis-coloured now: 1.1p1 colours it (and the flag it becomes) FIRST, into r0, then the locals in declaration order; the image colours it after d (r4). Find what makes the byte a later web (a pointer walk, a struct/bitfield read of the header byte, a second function-scope use) rather than more declaration orders
  * region:   ov093
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks:   1 no callees (leaf, no bl); 2 no twin found (leaf bit-stream walker, no shared callees/data); 3 const p no change (28 concrete diffs, same as plain), int cnt + u8 j worse (49), u8 len/flag locals no better (register order still differs); 4 none fits (residue is allocation only); 5 n/a no new idiom file appeared
+ * checks:   1 no callees (leaf, no bl); 2 no twin found (leaf bit-stream walker, no shared callees/data); 3 const p no change, int cnt + u8 j worse, u8 len/flag no better (earlier lane), flag/len block-scope and a named u32/int header-byte local (function and block scope) leave the byte temp in r0; 4 declaration-position-orders-block-scope-colouring and a-result-computed-in-a-dying-local read, block-scope positions tried; 5 relisted idioms, none new for a temporary coloured ahead of the locals
  *
  * Same size (100 B), control flow identical (type != 1 fall-through arm, for (j<len) with cmp/bls).
- * Residue is pure register allocation: original has size=r2, data=r3, cnt=r5, flag=r4, len=r0;
- * compiled has cnt=r2, size=r3, data=r4, len=r5, flag=r0. Declaration-order variants
- * (size first; data first; cnt last) changed size to 102 or moved further away.
- * Levers that fixed the shape: switch of arms polarity (`type != 1` first), `(u8)(x & 0x1f) << 2`
- * (cast inside the shift gives lsls 24 / lsrs 22), `int type` (asrs), size = 31-bit field at +4.
+ * Image registers: len r0, idx r1, size r2, data r3, header byte and flag r4, cnt r5,
+ * type and j r6, n r4, masks r7.
+ *
+ * Lane R1 (this spelling, 31 bytes as the earlier 31 but structurally closer): cnt now in r5
+ * and its `movs r5, #0` scheduled between the size shift pair as in the image, from
+ * (a) plain declarations with `idx = 0; cnt = 0; size = p->size;` statements in that order
+ * (size initialised before cnt costs a `cmp r3, #0`, 102 bytes) and (b) no flag local: the
+ * flag test is `if ((u8)((d[idx++] >> 7) & 1))`.  What is left: the header byte/flag
+ * temporary takes r0 and shifts len/idx/size/data up by one (r1/r2/r3/r4), plus the
+ * `lsrs len` scheduled above `adds idx` where the image has it below.
+ * Measured model: with a flag local or a named header byte (u32 or int, function or
+ * block scope) that value is always coloured first (r0), then the other locals in
+ * declaration order (len idx cnt size d gave len r1 idx r2 cnt r3 size r4 d r5).
+ * Loop invariants read through p (p->data[idx], p->size in the loop) give 32-33.
+ * Runs: 1 + 2x4 + 2x6 + 1x5 + 3 + permuter (best 30 bytes-out at a worse asm score:
+ * type:len u8, temp(d[idx] >> 7 & 1), temp(d[idx]); not taken).
+ *
+ * Earlier levers that fixed the shape: switch of arms polarity (`type != 1` first),
+ * `(u8)(x & 0x1f) << 2` (cast inside the shift gives lsls 24 / lsrs 22), `int type` (asrs),
+ * size = 31-bit field at +4.
  *
  * symbols:
  */
@@ -32,23 +47,23 @@ struct Buf {
 
 int func_021EE830(struct Buf *p)
 {
-    u32 idx = 0;
-    u32 cnt = 0;
-    u32 size = p->size;
-    u8 *d;
     u32 len;
+    u32 idx;
+    u32 size;
+    u8 *d;
+    u32 cnt;
     int type;
-    u32 flag;
     u32 j;
 
+    idx = 0;
+    cnt = 0;
+    size = p->size;
     if (size != 0) {
         d = p->data;
         do {
             len = (u8)(d[idx] & 0xf);
             type = (d[idx] >> 4) & 7;
-            flag = (u8)((d[idx] >> 7) & 1);
-            idx++;
-            if (flag != 0) {
+            if ((u8)((d[idx++] >> 7) & 1)) {
                 cnt++;
             }
             if (idx >= size) {

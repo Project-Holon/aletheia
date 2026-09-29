@@ -2,7 +2,7 @@
  * function: func_0220055C
  * address:  0x0220055C
  * packet:   pkt_ov094_0220055C
- * hint:     the key==3 beq landing on a 2-byte `b set` is a cross-jumped tail copy: write case 3's arm as a duplicate of case 1's tail (see a-conditional-branch-onto-an-unconditional-b-is-a-cross-jumped-tail-copy.md); still MATCH-capped on its arm9 leaf
+ * hint:     SUPERSEDED (lane R1): byte-correct MATCH* in src/pending/ov/ov094_func_0220055C.c, each switch arm writing `f = 1` out in its own inner switch; capped only on the arm9 leaf func_02016394
  * region:   ov094
  * compiler: dsi/1.1p1
  * flags:    -O4,p

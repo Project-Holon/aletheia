@@ -1,0 +1,167 @@
+/*
+ * function: func_021F582C
+ * address:  0x021F582C
+ * packet:   pkt_ov077_021F582C
+ * region:   ov077
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * volatile: G3 geometry FIFO registers 0x04000444-0x04000504, written by the SDK inlines (stores only)
+ *
+ * Draws the cols x rows tiles of the 0x40-byte records func_021F5798
+ * steps (cols/rows at 0x3008/0x300A), each as one textured quad under
+ * its own translate and X/Y rotation.
+ *
+ * symbols:
+ *   func_0207AF1C  0x0207AF1C  thumb
+ *   func_0207AF38  0x0207AF38  thumb
+ *   func_0207D934  0x0207D934  arm
+ *   d_020A1B38     0x020A1B38  data  a2
+ *   d_021F5A58     0x021F5A58  data  a4
+ * Addresses are Black-image addresses.
+ * checks:   1 func_0207AF1C/func_0207AF38 take (m, sin, cos) as in ov058 0x021F391C, func_0207D934 takes one, no stray argument registers; 2 no shape twin (ov079 0x021F5AE4 and ov077 0x021F5798 share only the 0x3008/0x300A grid fields; ov078 0x021F5800 is the G3 sibling whose spelling this reuses); 3 cols/rows u16 244 lines (worse), permuter's i as u16 compiles 8 bytes longer, the only parameter is a pointer; 4 four-halfword-zero-stores-...-placed-by-block applied (prologue now exact), enum-typed 0x300A offset local 246 (frame grows), TileSet struct pointer identical to best, function-vs-block scope and declaration position swept (213-214, flat); 5 re-listed idioms (415), nothing else fits a hoisted-constant register choice
+ *
+ * Residue (same size, 214 diff lines from +0x36): the original materialises
+ * 0x300A in r7 and reaches cols as r7 - 2, hoists that 0x3008 offset to
+ * sp+0x40, keeps the in-loop column count and then t in r7, and spills the
+ * MTX_TRANS address to sp+0x28 (s at sp+0x24, e at sp+0x14, cw/ch/n at
+ * 0x1C/0x18/0x20). This spelling keeps MTX_TRANS in r7, spills cols and t,
+ * and loads 0x3008 from the pool in the loop; the prologue up to +0x36
+ * (register setup, block-scoped `trans = {0,0,0}` / `scale = d_021F5A58`) is
+ * exact. Runs: 6 + 1x7 sweep + permuter (300, best rejected: size change)
+ * + 2 idiom checks. Next to try: G3_Translate taking a `const VecFx32 *`,
+ * or s/t spelled inside the TexCoord calls.
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+typedef signed int s32;
+typedef s32 fx32;
+typedef s16 fx16;
+typedef volatile u32 vu32;
+
+typedef struct {
+    fx32 x, y, z;
+} VecFx32;
+
+typedef struct {
+    fx32 m[3][3];
+} MtxFx33;
+
+typedef struct {
+    VecFx32 pos;
+    u8 _0c[0x1c - 0x0c];
+    int rotX;
+    int rotY;
+    u8 _24[0x40 - 0x24];
+} Tile;
+
+#define REG_MTX_PUSH       (*(vu32 *)0x04000444)
+#define REG_MTX_POP        (*(vu32 *)0x04000448)
+#define REG_MTX_SCALE      (*(vu32 *)0x0400046C)
+#define REG_MTX_TRANS      (*(vu32 *)0x04000470)
+#define REG_NORMAL         (*(vu32 *)0x04000484)
+#define REG_TEXCOORD       (*(vu32 *)0x04000488)
+#define REG_VTX_16         (*(vu32 *)0x0400048C)
+#define REG_POLYGON_ATTR   (*(vu32 *)0x040004A4)
+#define REG_DIF_AMB        (*(vu32 *)0x040004C0)
+#define REG_SPE_EMI        (*(vu32 *)0x040004C4)
+#define REG_LIGHT_COLOR    (*(vu32 *)0x040004CC)
+#define REG_BEGIN_VTXS     (*(vu32 *)0x04000500)
+#define REG_END_VTXS       (*(vu32 *)0x04000504)
+
+extern s16 d_020A1B38[];
+extern const VecFx32 d_021F5A58;
+
+extern void func_0207AF1C(MtxFx33 *m, fx32 s, fx32 c);
+extern void func_0207AF38(MtxFx33 *m, fx32 s, fx32 c);
+extern void func_0207D934(const MtxFx33 *m);
+
+static inline void G3_Translate(fx32 x, fx32 y, fx32 z)
+{
+    REG_MTX_TRANS = (u32)x;
+    REG_MTX_TRANS = (u32)y;
+    REG_MTX_TRANS = (u32)z;
+}
+
+static inline void G3_Scale(fx32 x, fx32 y, fx32 z)
+{
+    REG_MTX_SCALE = (u32)x;
+    REG_MTX_SCALE = (u32)y;
+    REG_MTX_SCALE = (u32)z;
+}
+
+static inline void G3_TexCoord(fx32 s, fx32 t)
+{
+    REG_TEXCOORD = (u32)(u16)(s16)(s >> 8) | ((u32)(u16)(s16)(t >> 8) << 16);
+}
+
+static inline void G3_Vtx(fx16 x, fx16 y, fx16 z)
+{
+    REG_VTX_16 = (u32)(u16)x | ((u32)(u16)y << 16);
+    REG_VTX_16 = (u32)(u16)z;
+}
+
+void func_021F582C(u8 *w)
+{
+    int i;
+
+    i = 0;
+    REG_MTX_PUSH = i;
+    REG_DIF_AMB = 0x7FFF7FFF;
+    REG_SPE_EMI = 0x4210;
+    REG_LIGHT_COLOR = 0x7FFF;
+    REG_POLYGON_ATTR = 0x001F0081;
+    {
+        VecFx32 trans = {0, 0, 0};
+        VecFx32 scale = d_021F5A58;
+        MtxFx33 m;
+        int n;
+        int cw;
+        int ch;
+        int cols;
+        int rows;
+        fx32 s;
+        fx32 t;
+        Tile *e;
+
+        cols = *(u16 *)(w + 0x3008);
+        rows = *(u16 *)(w + 0x300A);
+        n = cols * rows;
+        cw = (32 / cols) * 8;
+        ch = (24 / rows) * 8;
+        scale.x = (cw / 8) << 12;
+        scale.y = (ch / 8) << 12;
+        for (; i < n; i++) {
+            e = (Tile *)(w + i * 64);
+            REG_MTX_PUSH = 0;
+            cols = *(u16 *)(w + 0x3008);
+            trans = e->pos;
+            s = ((i % cols) * cw) << 12;
+            t = ((i / cols) * ch) << 12;
+            G3_Translate(trans.x, trans.y, trans.z);
+            G3_Scale(scale.x, scale.y, scale.z);
+            func_0207AF1C(&m, d_020A1B38[(e->rotX >> 4) * 2], d_020A1B38[(e->rotX >> 4) * 2 + 1]);
+            func_0207D934(&m);
+            func_0207AF38(&m, d_020A1B38[(e->rotY >> 4) * 2], d_020A1B38[(e->rotY >> 4) * 2 + 1]);
+            func_0207D934(&m);
+            REG_BEGIN_VTXS = 1;
+            REG_NORMAL = 0x20000000;
+            G3_TexCoord(s, t);
+            G3_Vtx(-0x4000, 0x4000, 0);
+            G3_TexCoord(s, t + (ch << 12));
+            G3_Vtx(-0x4000, -0x4000, 0);
+            G3_TexCoord(s + (cw << 12), t + (ch << 12));
+            G3_Vtx(0x4000, -0x4000, 0);
+            G3_TexCoord(s + (cw << 12), t);
+            G3_Vtx(0x4000, 0x4000, 0);
+            REG_END_VTXS = 0;
+            REG_MTX_POP = 1;
+        }
+    }
+    REG_MTX_POP = 1;
+}

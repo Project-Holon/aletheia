@@ -1,0 +1,68 @@
+/*
+ * function: func_0220868C
+ * address:  0x0220868C
+ * packet:   pkt_ov094_0220868C
+ * region:   ov094
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * Residual (10 runs): first half (decl order r, j, i fixed the r0/r2 swap) and every
+ * byte except a register swap in the copy loop: original hoists the VRAM
+ * constant 0x06400000 into r6 and the array base (add r7,sp,#0) into r7 and
+ * adds `r6 + i*32`; mine gets the array base in r6, the constant in r7 and
+ * `i*32 + r7`.  4 concrete lines differ (+3E/+42/+44/+46/+58).
+ *
+ * checks: 1 func_0204B7C8 takes (h, Struct36 *) like ov170's twin, func_02082A60 takes
+ *   (src, dst, size), both match the arity; 2 ov170_func_021ED594 twin gives Struct36 {int w[9]}
+ *   for the 0x24-byte buffer; 3 u32 loop counter compiled (adds blo, worse), u8 array kept,
+ *   no change to the swap; 4 no idiom fits (hoist-order idioms read, none applies);
+ *   5 re-listed docs/idioms, nothing new; next sweep would be evaluating dst/src via
+ *   pointer locals and enum counter.
+ * tried: dst first / src first via locals, vram as a u32 local (declared first, last,
+ *   assigned before the loop), operand order flips, decl order i,r,j.
+ *
+ * symbols:
+ *   func_0204B7C8  0x0204B7C8  arm
+ *   func_02082A60  0x02082A60  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+typedef struct {
+    int w[9];
+} Struct36;
+
+extern void func_0204B7C8(void *src, Struct36 *dst);
+extern void func_02082A60(const void *src, void *dst, int size);
+
+void func_0220868C(char *obj, char *q, int n)
+{
+    u8 a[6];
+    Struct36 buf;
+    int r;
+    int j;
+    int i;
+
+    r = *(int *)(q + 0x78) - n;
+    for (i = 0; i < 6; i++) {
+        a[i] = 8;
+    }
+    for (j = 5; j >= 0; j--) {
+        if (r >= 8) {
+            a[j] = 0;
+            r -= 8;
+        } else {
+            a[j] = 8 - r;
+            break;
+        }
+    }
+    func_0204B7C8(*(void **)(q + 0xc), &buf);
+    for (i = 0; i < 6; i++) {
+        func_02082A60((void *)(*(u32 *)(obj + 0x14) + (a[i] * 32 + 0x6a0)),
+                      (void *)(buf.w[1] + (0x06400000 + i * 32)), 0x20);
+    }
+}

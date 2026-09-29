@@ -1,0 +1,64 @@
+/*
+ * unit:     yes
+ * function: func_021BBD80, func_021BBE3C
+ * address:  0x021BBD80
+ * packet:   pkt_ov088_021BBD80
+ * region:   ov088
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * 0x021BBE3C is an unlabelled tail-call stub (function_starts seed).
+ * Twin of func_021BBBAC (same print_line inline).
+ *
+ * symbols:
+ *   func_020450F0  0x020450F0  arm
+ *   func_02045EC0  0x02045EC0  arm
+ *   func_02045770  0x02045770  arm
+ *   func_0201C724  0x0201C724  thumb
+ *   func_02045808  0x02045808  arm
+ *   func_02045374  0x02045374  arm
+ *   func_02041B6C  0x02041B6C  arm
+ *   func_021BBA64  0x021BBA64  thumb  ov088
+ *   func_020452E8  0x020452E8  arm
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern int func_020450F0(int, int, int, int, int, int, int);
+extern u32 func_02045EC0(u32 a, u32 b);
+extern u32 func_02045770(u32 p);
+extern void func_0201C724(u32 a, u32 bmp, u32 x, u32 y, u32 text, u32 f, u16 color);
+extern void func_02045808(u32 a);
+extern void func_02045374(u32 win);
+extern void func_02041B6C(u32);
+extern void func_021BBA64(int, int, int, int, int);
+extern void func_020452E8(void *);
+
+static inline void print_line(char *p, u32 id, u32 y, u16 color)
+{
+    u32 s = func_02045EC0(*(u32 *)(p + 0x5c), id);
+    u32 a = *(u32 *)(p + 0x68);
+    func_0201C724(a, func_02045770(*(u32 *)(p + 0xf0)), 0, y, s, *(u32 *)(p + 0x58), color);
+    *(u8 *)(p + 0xf4) = 1;
+    func_02045808(s);
+}
+
+void func_021BBD80(char *p)
+{
+    *(u32 *)(p + 0xf0) = func_020450F0(4, 2, 3, 0x1e, 0x13, 5, 1);
+    print_line(p, 0x14, 0, 0x14c0);
+    print_line(p, 0x15, 0x18, 0x440);
+    func_02045374(*(u32 *)(p + 0xf0));
+    func_02041B6C(4);
+    func_021BBA64(0, 1, 0x20, 0x16, 5);
+}
+
+void func_021BBE3C(char *p)
+{
+    func_020452E8(*(void **)(p + 0xf0));
+}

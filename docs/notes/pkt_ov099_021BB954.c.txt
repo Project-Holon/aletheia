@@ -1,0 +1,69 @@
+/*
+ * function: func_021BB954
+ * address:  0x021BB954
+ * packet:   pkt_ov099_021BB954
+ * region:   ov099
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_021BAC24 (300-byte ov099 fn, labelled) reads r0-r3 + two stack args, matches the 6-arg extern; 2 no twin in src/matched or src/pending sharing d_021C3A70; 3 const char *p CCERR (q assigned from it), u16 temp for the 0x134C read compiled, no change (flag/t widths not tried: no truncation in the original); 4 pointer-local-can-rematerialise-the-symbol-base compiled as the int-array form, no change; others do not fit; 5 re-read idioms after 9 runs, nothing new
+ *
+ * Residue: same size (116 B), same instructions; base pointer d_021C3A70 sits in
+ * r1 and the loaded temporaries in r2, the original has base r2 and temporaries
+ * r1 in both arms (about 30 lines, pure r1/r2 swap). Tried: global direct
+ * stores (base reloaded at the tail, t takes r2), D *d hoisted above the branch
+ * (base loaded before cmp), D *d assigned per arm (best, below), d declared
+ * first, q assigned before d, temp read before d, int-array form d[0x18],
+ * base assigned after the arm (worse). Two ABS32 sites (d_021C3A70,
+ * d_021C3B68) are also wildcards here (no outside witness).
+ * Sweep not run: a permuter over the per-arm statement order.
+ *
+ * symbols:
+ *   d_021C3A70     0x021C3A70  data   ov099
+ *   d_021C3AD0     0x021C3AD0  data   ov099
+ *   d_021C3B68     0x021C3B68  data   ov099
+ *   func_021BAC24  0x021BAC24  thumb  ov099
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+typedef struct {
+    char pad0[0x60];
+    int f60;
+    int pad64;
+    int f68;
+    int pad6c;
+    int f70;
+} D;
+
+extern D d_021C3A70;
+extern char d_021C3AD0[];
+extern char d_021C3B68[];
+extern void func_021BAC24(void *p, void *a, void *b, int c, int d, int e);
+
+void func_021BB954(char *p, int flag)
+{
+    D *d;
+    char *q;
+    int t;
+
+    if (flag) {
+        q = *(char **)(p + 0x248);
+        d = &d_021C3A70;
+        d->f60 = *(u8 *)(q + 0x21) + 0x83;
+        d->f68 = *(u8 *)(q + 0x22) + 0x87;
+        t = *(u8 *)(q + 0x20);
+    } else {
+        u16 a = *(u16 *)(p + 0x134C);
+        d = &d_021C3A70;
+        d->f60 = a + 0x83;
+        d->f68 = *(u16 *)(p + 0x134E) + 0x87;
+        q = *(char **)(p + 0x248);
+        t = *(u8 *)(q + 0x48);
+    }
+    d->f70 = 0x8A - t;
+    func_021BAC24(p, d_021C3B68, d_021C3AD0, 6, 0, 0x1E);
+}

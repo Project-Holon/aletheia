@@ -1,0 +1,135 @@
+/*
+ * function: func_021B6B24
+ * address:  0x021B6B24
+ * packet:   pkt_ov091_021B6B24
+ * region:   ov091
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks:   1 func_02082A60 takes 3 (src, dst, size), func_02061CA4 takes 4 (the str r2,[sp] before it is a reuse of p's spill slot, the compiled C emits it too); 2 twins ov068_func_021B9D68.c (blink_palanm cross-fade, same tbl_020A1B38 / 0x3e0 / 0x7c00 extraction; its int-with-u8-cast lever is what got this to 576 B) and the parked src/pending/ov/ov110_func_021BD348.c, src/pending/func_021BF664.c (same family, same register-colouring residue); 3 int components with (u8) casts fixed the size (580 -> 576 B, 107 -> 68 lines); c0/c1 as int, int with (u16) cast, s8 deltas as int with (s8) casts: no change; p is the only parameter (a pointer), loop counters are u8 (truncations visible); 4 declaration-order, a-truncated-load-into-an-int-local..., block-scope idioms: separate loop-1 locals declared first 79 lines (worse), separate loop-2 counters and row pointer 117 (worse), inline Blend() helper no change; 5 re-listed docs/idioms, no new twin. Permuter --types 300: best non-volatile candidate worse (108), its best overall needs volatile-add(a).
+ *
+ * Palette flash + cross-fade: copies the 0x60-byte palette p+0x40 -> p+0xa0,
+ * while the u8 timer p[0x100] runs brightens rows 0..2 (entries 0,1,5..15)
+ * by 2*min(t, 12-t), then advances the u16 phase at p+0x102 (+0x400 with a
+ * wrap, or 0xc000 when p+0x10 is set) and cross-fades entries 2..4 of each
+ * row from d_021BEBFC toward d_021BEC04 by (sin(phase)+0x1000)/2, clamped
+ * 0..31, then loads the 0x60 bytes to palette 0xc0 via func_02061CA4.
+ *
+ * Residue (107 bytes, same size 576 = 0x230 code + 16 pool): register
+ * colouring only.  Loop 1: the original keeps step in r5, the row base in
+ * r6, j*2 in r7, g in r3, b in r4; this C gives r4/r5/r6/r7/r3.  Loop 2: the
+ * original keeps k in r4, j in r3, the row base spilled to [sp+4] and i to
+ * [sp+8]; this C swaps those two slots, keeps k in r3 and j in r4, and
+ * extracts c0's three channels before loading c1 (the original loads both
+ * colours first, then g0, g1/dg, r0, b0, b1/db, r1/dr).  Everything else
+ * (the phase update with a store in each arm, the struct copies, frame 0x28)
+ * matches.  The two d_ pool words resolve only on a byte-correct compile.
+ *
+ * Unlabelled follower in the listing extent: 0x021B6D64..0x021B6D90 (44 B),
+ * a leaf that reads r1->0x10, rewrites DISPCNT (0x04000000) display bits
+ * with mask 0xFFFF1FFF and tail-calls 0x0204A648 (function_starts seed).
+ *
+ * symbols:
+ *   func_02082A60  0x02082A60  arm
+ *   func_02061CA4  0x02061CA4  arm
+ *   tbl_020A1B38   0x020A1B38  data
+ *   d_021BEBFC     0x021BEBFC  data  a2
+ *   d_021BEC04     0x021BEC04  data  a2
+ */
+
+typedef unsigned char u8;
+typedef signed char s8;
+typedef unsigned short u16;
+typedef short s16;
+typedef unsigned int u32;
+
+typedef struct {
+    u16 c[3];
+} Pal3;
+
+extern s16 tbl_020A1B38[];
+extern Pal3 d_021BEBFC;
+extern Pal3 d_021BEC04;
+
+extern void func_02082A60(void *srcp, void *destp, unsigned long size);
+extern void func_02061CA4(int type, int addr, void *data, int size);
+
+void func_021B6B24(u8 *p)
+{
+    u8 i;
+    u8 j;
+    u8 n;
+    int r0, g0, b0, r1, g1, b1;
+    s8 dr, dg, db;
+    int tr, tg, tb;
+    u8 nr, ng, nb;
+    u16 c0, c1;
+    int step;
+    int k;
+    int v;
+    int t;
+    Pal3 b;
+    Pal3 a;
+
+    func_02082A60(p + 0x40, p + 0xa0, 0x60);
+    if (p[0x100] != 0) {
+        p[0x100]--;
+        n = p[0x100];
+        if (n > 6) {
+            n = 12 - n;
+        }
+        step = n * 2;
+        for (i = 0; i < 3; i++) {
+            for (j = 0; j < 16; j++) {
+                if (j < 2 || j > 4) {
+                    c0 = *(u16 *)(p + i * 32 + 0x40 + j * 2);
+                    r0 = (u8)(c0 & 0x1f);
+                    g0 = (u8)((c0 & 0x3e0) >> 5);
+                    b0 = (u8)((c0 & 0x7c00) >> 10);
+                    nr = r0 + step > 31 ? 31 : r0 + step;
+                    ng = g0 + step > 31 ? 31 : g0 + step;
+                    nb = b0 + step > 31 ? 31 : b0 + step;
+                    *(u16 *)(p + i * 32 + 0xa0 + j * 2) = nr | (ng << 5) | (nb << 10);
+                }
+            }
+        }
+    }
+    b = d_021BEBFC;
+    a = d_021BEC04;
+    if (*(int *)(p + 0x10) == 0) {
+        t = *(u16 *)(p + 0x102);
+        if (t + 0x400 >= 0x10000) {
+            *(u16 *)(p + 0x102) = t - 0xfc00;
+        } else {
+            *(u16 *)(p + 0x102) = t + 0x400;
+        }
+    } else {
+        *(u16 *)(p + 0x102) = 0xc000;
+    }
+    k = (tbl_020A1B38[(*(u16 *)(p + 0x102) >> 4) * 2] + 0x1000) / 2;
+    for (i = 0; i < 3; i++) {
+        for (j = 0; j < 3; j++) {
+            c0 = b.c[j];
+            c1 = a.c[j];
+            r0 = (u8)(c0 & 0x1f);
+            g0 = (u8)((c0 & 0x3e0) >> 5);
+            b0 = (u8)((c0 & 0x7c00) >> 10);
+            r1 = (u8)(c1 & 0x1f);
+            g1 = (u8)((c1 & 0x3e0) >> 5);
+            b1 = (u8)((c1 & 0x7c00) >> 10);
+            dr = ((r1 - r0) * k) >> 12;
+            dg = ((g1 - g0) * k) >> 12;
+            db = ((b1 - b0) * k) >> 12;
+            tr = r0 + dr;
+            nr = tr > 31 ? 31 : (tr < 0 ? 0 : tr);
+            tg = g0 + dg;
+            ng = tg > 31 ? 31 : (tg < 0 ? 0 : tg);
+            tb = b0 + db;
+            nb = tb > 31 ? 31 : (tb < 0 ? 0 : tb);
+            *(u16 *)(p + i * 32 + 0xa4 + j * 2) = nr | (ng << 5) | (nb << 10);
+        }
+    }
+    func_02061CA4(0xf, 0xc0, p + 0xa0, 0x60);
+}

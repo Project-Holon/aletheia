@@ -2,7 +2,7 @@
  * function: func_022025D8
  * address:  0x022025D8
  * packet:   pkt_ov094_022025D8
- * hint:     zero in r6 and flag in r4 swapped; an enum zero fixed the registers but added truncations on the u8/u16 parameters: keep the enum zero and pass it through an int local, or narrow only the callee parameters the image truncates
+ * hint:     SUPERSEDED (lane R1): EXACT in src/matched/ov/ov094_func_022025D8.c as two whole func_0202173C calls in the if/else arms (cross-jumped after the [sp] store; the zeros pool in r6)
  * region:   ov094
  * compiler: dsi/1.1p1
  * flags:    -O4,p

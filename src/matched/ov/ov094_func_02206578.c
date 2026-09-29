@@ -1,0 +1,69 @@
+/*
+ * function: func_02206578
+ * address:  0x02206578
+ * packet:   pkt_ov094_02206578
+ * region:   ov094
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_0203630C  0x0203630C  arm
+ *   func_02030734  0x02030734  arm
+ *   func_02030DA8  0x02030DA8  arm
+ *   func_0220684C  0x0220684C  thumb  ov094
+ *   func_0220663C  0x0220663C  thumb  ov094
+ *   func_02206710  0x02206710  thumb  ov094
+ *   d_0220AEB0     0x0220AEB0  data   ov094
+ */
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    unsigned int lo : 31;
+    unsigned int top : 1;
+} Top;
+
+typedef struct {
+    char *s;
+    int f4;
+    int f8;
+    int fc;
+} Ctx;
+
+extern u32 func_0203630C(void);
+extern Ctx *func_02030734(u16 heap, int size, int clear, char *file, int line);
+extern void *func_02030DA8(void *owner, void *fn, void *p, u32 a3);
+extern void func_0220684C(char *p, void *h, void *cb);
+extern void func_0220663C(void);
+extern void func_02206710(void);
+extern char d_0220AEB0[];
+
+int func_02206578(char *s, int a, int b)
+{
+    Ctx *c;
+    int flag;
+
+    if (b < 0)
+        return a;
+    if ((func_0203630C() & 0x200) && a < 4 && (*(int *)(s + 0x58) == 2 || *(int *)(s + 0x58) == 5))
+        *(int *)(s + 0x70) = a | 0x8000;
+    else
+        *(int *)(s + 0x70) = a;
+    c = func_02030734((*(u16 *)(s + 0x240) & 0x7fff) | 0x8000, 0x10, 0, d_0220AEB0, 0x1440);
+    flag = 0;
+    if ((0x10000 & b) == 0)
+        flag = 1;
+    ((Top *)(s + 0x68))->top = flag;
+    c->s = s;
+    c->f4 = 0;
+    c->f8 = (u16)b;
+    if (*(int *)(s + 0x220) == 1 && c->f8 == 0)
+        c->fc = 1;
+    else
+        c->fc = 0;
+    func_0220684C(s, func_02030DA8(*(void **)s, (void *)func_0220663C, c, 0), (void *)func_02206710);
+    return -1;
+}
