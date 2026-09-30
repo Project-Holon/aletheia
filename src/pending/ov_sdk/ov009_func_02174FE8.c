@@ -17,8 +17,9 @@
  *           NNResult dispatch and both reset tails).  Residue: the caller's
  *           `result` lands in r7 and the shared zero in r6, the reverse of the
  *           image (result r6, zero r7), which cascades through every zero
- *           store; the port byte-swap folds to `orr r1,r1,r4,asr#8` where the
- *           image keeps `asr`/`lsl` + two `and` masks.  A `zero` local and
+ *           store; the port byte-swap is now exact (the port is an int local
+ *           loaded before the getter call); the status choice is a branch in the
+ *           image, conditional moves here.  A `zero` local and
  *           declaration-order permutations are the next levers.
  *
  * symbols:
@@ -138,7 +139,7 @@ void DWCi_NNCompletedCallback(int result, int unused, struct SOCSockAddrIn *remo
         if (nnInfo->isQR2 != 0) {
         MC->f_564 = remoteaddr->addr;
         {
-            u16 p = remoteaddr->port;
+            int p = remoteaddr->port;
             MC->f_568 = ((p >> 8) & 0xff) | ((p << 8) & 0xff00);
         }
         MC->f_5f8 = 0;
@@ -172,7 +173,7 @@ void DWCi_NNCompletedCallback(int result, int unused, struct SOCSockAddrIn *remo
         if (remoteaddr != 0) {
             MC->f_564 = remoteaddr->addr;
             {
-                u16 p = remoteaddr->port;
+                int p = remoteaddr->port;
                 MC->f_568 = ((p >> 8) & 0xff) | ((p << 8) & 0xff00);
             }
         }
