@@ -23,6 +23,16 @@
  * unsigned cx / i / dx, one-line declarations, `i = i;` / `dx = dx;` / `cx = cx;` /
  * `ax = ax;` self-assignments and six renames (names are inert). Next lever: permuter.
  *
+ * Lane U38 (2026-09-30): ten further shapes measured, none below the current 10
+ * (`int i; int dx;` 14, `int i, dx;` 14, `int dx, i;` 10, while-loop for the
+ * second loop 10, `i = 0;` hoisted in front of the `if` 10, `dx = 0;` hoisted
+ * in front of the `if` 32, `int i = 0;` + `for (;` 69, `unsigned int i;` first
+ * 80, `unsigned int cx` 80, all-unsigned 80).  The residue is exactly the
+ * two-cycle cx<->i: image colours the locals first (i r4, dx r5) and the
+ * modified parameter last (cx r6); every spelling that keeps cx as a live
+ * parameter gives cx r4 / i r6.  First divergence +0004 image `movs r6, r3`
+ * | ours `movs r4, r3`.
+ *
  * symbols:
  *   func_021BF610  0x021BF610  arm  ov172
  *   g_021C88F0     0x021C88F0  data

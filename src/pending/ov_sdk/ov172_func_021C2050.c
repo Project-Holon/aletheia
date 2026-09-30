@@ -11,6 +11,19 @@
  *
  * w9_nm: still 35 B. Tried: explicit cbbuf pointer (base + y, then + y), DWARF declaration order, size split (y = w*h; y >>= 1), while form, three result locals computed then stored, post-increment split. The object keeps yuyv in r1 (the width register), the Cb base in r4, and computes the third pair's masked half before the first store.
  *
+ * Lane U38 (2026-09-30): ten more shapes, none below 35 (named Cb base `cbuf`
+ * + `crbuf = cbuf + y` 43, the same declared first 41, `*(ybuf + y + x)` 35,
+ * `(ybuf + y)[x]` malformed, DWARF (forward) declaration order 40, 44 for
+ * y declared last, block-scoped `yuyv` inside the loop 35, `crbuf += y` 35,
+ * combined forms 35).  Exact residue, first divergence +000C:
+ *   image `add r4, r3, ip, lsl #1` | ours `add r1, r3, ip, lsl #1`
+ * i.e. the loop word gets r1 (the register `width` died in) and the Cb base
+ * (dst + 2y) gets r4, with the middle store `strh r8, [r3, r7]` /
+ * `strh r6, [r4, r7]` / `strh r1, [lr, r7]`; ours has the Cb base in r1, the
+ * word in r8, and the middle store as `strh r6, [r7, r1]` (base/index
+ * swapped).  Both use the same push set and the same scratch registers, so
+ * this is one colouring tie, not pressure.
+ *
  * sdk:      SSP_YUV422ToYUV888 (jpegenc.o)
  *
  * symbols:

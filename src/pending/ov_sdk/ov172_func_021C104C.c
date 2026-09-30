@@ -14,9 +14,28 @@
  *   and all relocations resolve; 520 of ~508 bytes.  mwcc -O4,p assigns the
  *   long-lived locals differently: original has code=sb (r9), kk=r8,
  *   ii/idx=r7 and reserves r6 as a sentinel zero, mine has code=r7,
- *   idx=r8, kk=sb.  Declaration reordering and u16-vs-u32 code both leave
- *   the rotation unchanged.  Needs the exact source spelling that drives
+ *   idx=r8, kk=sb.  Needs the exact source spelling that drives
  *   the callee-saved allocation.
+ *
+ * Lane U38 (2026-09-30), measured, two findings:
+ *  (1) Declaration order is NOT the lever here.  All 120 permutations of the
+ *      five local declarations (u16 code; u32 si/kk/jj/ii) compile to 520
+ *      bytes / 241 concrete bytes, i.e. mwcc's colouring is invariant, so the
+ *      "declaration reordering" doubt above is now settled: stop re-ordering.
+ *      The rotation of the DWARF order (code r9, si r2, kk r8, jj r3, ii r7)
+ *      is not reachable from any order of these five lines.
+ *  (2) The eight ABS32 pool sites (+01E8..+0204, dc0_tbl/dc1_tbl/ac0_tbl/
+ *      ac1_tbl at 021C8500/8520/86C0/8600, base and +0x10) stay unresolved
+ *      ("021C8500 ... has no witness outside 021C104C..021C1254"), so 6 of
+ *      14 relocations resolve.  Dropping the ov172 token, and renaming the
+ *      symbols to g_021C8500/func_021C8500, all fail identically (the name
+ *      must stay whatever the C extern is called; the failure is the missing
+ *      witness).  Cause: 021C8500 is inside ov172's image (range
+ *      021B6100..021C88E0) but asm/overlays/ov172.s has no object START there
+ *      (the 021C7C64..021C88E0 tail is a raw .word/.byte blob), so
+ *      attest_sole_ref_overlay_data refuses.  That is a layout gap in the
+ *      listing, not a source problem; the row cannot reach EXACT until the
+ *      overlay listing is taught the table starts.
  *
  * sdk:      Yos_JpegEncoderHuffmanEncoderBuildTable (libssp.TWL.HYB.a jpegenc.o)
  *
