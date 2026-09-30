@@ -10,6 +10,7 @@
  * status:   DIFF (capped - see residue)
  *
  * residue (lane T3, 2026-09-30, measured): 4 concrete bytes: the last two eors of the oddmode chain. +007C image `eor r0, r0, r2` | ours `eor r0, r2, r0`; +0080 image `eor r8, r0, r1` | ours `eor r8, r1, r0`. Pin/flag sweep (9 pins x 7 flag sets) best -O4,p at 4 diffs, every other cell worse (D176-D251). Three body shapes tried: flat left-assoc chain (38 diffs), named a/b/c/d/e left-nested tree (4 diffs = identical to committed), sequential compound-assign (40 diffs). CW canonicalises the XOR tree, so the accumulator/operand order is not reachable from the source: capped, register allocation.
+ * extra (lane T3, second pass): extra spellings (lane T3, second pass): ten more inline trees, all worse than the committed 4-diff form - left-nested ((C^(D^E))^B)^A 38, D^E^C^B^A 38, (D^E)^(C^(B^E)) 43, (D^E)^((C^B)^A) 39, ((D^E)^(C^B))^A 35, (C^(D^E))^(B^A) 44, D^((E^C)^B)^A 132, flat D^E^C^B^A 38, A^(B^C^D^E) 33. First divergence is +007C `eor r0, r0, r2` | ours `eor r0, r2, r0` and +0080 `eor r8, r0, r1` | ours `eor r8, r1, r0`: the image's accumulator is the Rn slot of the last two eors, ours puts the fresh term there. Capped.
  *
  * near miss (w3_s4): 4 bytes differ, the last two eors of the oddmode expression have their operands swapped (original: eor r0,r0,r2; eor r8,r0,r1). All five terms reordered in left and right chains (about 400 forms); best is the committed right-nested D ^ (E ^ (A ^ (B ^ C))).
  *

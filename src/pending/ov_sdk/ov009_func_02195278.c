@@ -10,6 +10,7 @@
  * status:   DIFF (capped - see residue)
  *
  * residue (lane T3, 2026-09-30, measured): 38 concrete bytes. The callback pointer is allocated to r2 instead of r0, which shifts every temporary in the body. First diff +0024 image `cmp r0, #0` | ours `movs r2, r0`. Pin/flag sweep (9x7) best -O4,p at 38 diffs (-O2/-O3 also 38; -O1 164, -O0 225). Three body shapes tried: assignment-in-if, void*-with-cast, function-pointer-value -> 38/38/63 diffs. Capped, register allocation.
+ * extra (lane T3, second pass): extra spellings (lane T3, second pass): named local (baseline) 38, assignment-in-if 38, negated assignment-in-if 38, hoisted list local 38, hoisted connection->8 local 38, body-inside-the-if 121, if(callback!=0){body} return 0/1 form 121. The single divergence at +0024 is `cmp r0, #0` (image) vs `movs r2, r0` (ours): the callback pointer's home register is r0 in the image and r2 in ours, so the image's increment temporaries start at r1/r2/r3 and ours at r0/r1. Capped, register allocation.
  *
  * sdk:      gti2SendFilterCallback (libdwcgsgt2.TWL.HYB.a gt2callback.o)
  * symbols:

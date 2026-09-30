@@ -11,6 +11,25 @@
  *
  * sdk:      qr2_parse_queryA (libdwcgsqr2.TWL.HYB.a qr2.o)
  *
+ * residue:  DIFF, 1504/1532 bytes (the parked body was 1472).  Two real source
+ *   defects were read off the image and fixed here:
+ *   (1) the vendor calls func_0217D254(3, 0, 0x40, g_021A7874) at entry, before
+ *       the qrec == 0 test.  The string was identified from the image's first pool
+ *       word: ldr r3,[pc,#0x58c] at +0x20 -> 0x219CD74 holds 0x021A7874.  Without
+ *       that call the prologue is 4 bytes out, the whole body is misaligned and the
+ *       function is 60 bytes short.
+ *   (2) the `len < 7` test uses ptype, not a second *query load, and both bytes are
+ *       unsigned: the image emits `and r0, r5, #0xff / cmp r0, #0xfe` and `ldrb` for
+ *       query[1], ours emitted `ldrsb` twice.  Now
+ *       `(unsigned char)ptype != 0xfe || (unsigned char)query[1] != 0xfd`.
+ *   What is left is register assignment and constant hoisting, 300 concrete
+ *   instructions, no size-bearing statement: image `push {r4-r8,sb,sl,fp,lr}` +
+ *   `sub sp,#0x18c` | ours `push {r3,...}` + `sub sp,#0x188`; image keeps query/len/
+ *   sender in r6/r8/r7, ours in r8/r7/r6 (one-register rotation); image hoists &buf
+ *   into fp (`add fp, sp, #0x10` at +0048) and rematerialises 0 (`mov r1, #0`),
+ *   ours keeps 0 in fp and rematerialises &buf (`add r0, sp, #0xc`).  Ours needs one
+ *   more callee-saved register than the image (r3 padding in the push).
+ *
  * symbols:
  *   func_0217D254  0x0217D254  arm  ov009
  *   func_020923F0  0x020923F0  arm
@@ -155,6 +174,7 @@ void qr2_parse_queryA(qr2_implementation_s *qrec, char *query, int len,
     unsigned char backendoptions;
 
     buf.len = 0;
+    func_0217D254(3, 0, 0x40, g_021A7874);
     if (qrec == 0)
         qrec = current_rec;
     ptype = *query;
@@ -172,7 +192,7 @@ void qr2_parse_queryA(qr2_implementation_s *qrec, char *query, int len,
         func_0219AB8C(query, len, (SOCSockAddrIn *)sender);
         return;
     }
-    if (len < 7 || (unsigned char)*query != 0xfe || query[1] != 0xfd)
+    if (len < 7 || (unsigned char)ptype != 0xfe || (unsigned char)query[1] != 0xfd)
         return;
     if (qrec->listed_state > 0)
         qrec->listed_state = 0;
