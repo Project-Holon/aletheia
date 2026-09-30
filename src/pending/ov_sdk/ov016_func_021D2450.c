@@ -9,17 +9,36 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker:  near miss (792 vs 796 compiled). Residue is codegen, not source
- *           shape: (1) the object allocates child_aid to r8 and the case-2
- *           wb temp to r6 (push {r4,r5,r6,r7,r8,lr}); dsi/1.1p1 allocates the
- *           same values one register lower (push {r3,r4,r5,r6,r7,lr}, r7/r6/r3)
- *           although every instruction body matches. (2) MSG-case 0xd switch
- *           on arg->f0 lowers to a range tree in the object (cmp #8/bgt, then
- *           ==2, ==1, ==9) but to a linear chain under 1.1p1. dwc_mov_mbp.o
- *           carries its own .comment 4.0.0.1025, between 1.1p1 (1024) and
- *           1.2 (1026); its smaller functions reproduce exactly, this largest
- *           one does not. No source spelling of the two forms above flipped
- *           either residue (12+ variants tried).
+ * blocker:  near miss (792 vs 796 compiled). 245 concrete bytes differing when this
+ *           lane picked it up, 99 now.  Two source-shape levers landed:
+ *           (1) case 2 must read the work pointer into a named local *before*
+ *               OS_DisableInterrupts (`DWCi_MOV_WPB_WORK *w = g_021DE65C;`), or the
+ *               1.1p1 allocator defers the global load to after the call, spilling
+ *               the work pointer out of the callee-saved set and shifting every
+ *               register in the function down one (push {r3,r4..r7,lr} + r7/r6/r3
+ *               instead of the image's push {r4..r8,lr} + r8/r7/r6).  The prologue
+ *               and 26 further instructions now match.
+ *           (2) case 10's arms are inverted in the image: `if (GetState() != 2)
+ *               KickChild(); else { ... }` - the KickChild arm is the fallthrough
+ *               and the beq jumps forward into the body.  Both arms now match.
+ *           Residue, 34 lines, two causes, both lowering/colouring:
+ *           (a) +029C: our 0x1b144/0x1b140 pair is associated (g+0x144)+0x1b000 and
+ *               keeps g alive in r0; the image computes (g+0x1b000) once into r0 and
+ *               reuses it for load and store at #0x144/#0x140.  Spelling the two
+ *               accesses as ((u32 *)((char *)g + 0x1b000))[0x51]/[0x50] reproduces
+ *               the image's association exactly (measured: scratch/t27/gen4/w3.c,
+ *               776/51) but then only the base/value registers r0/r1 are swapped,
+ *               and the size moves to -20, so it is not filed.
+ *           (b) +02D0 case 13: the image lowers `switch (userInfo->f0)` over
+ *               {1,2,9} as a range tree - cmp #8/bgt, popge, cmp #2/popgt,
+ *               cmp #1/poplt, cmpne #2/beq - one shared ChangeState(7); 1.1p1
+ *               emits a linear chain (cmp #1, cmpne #2, beq, cmp #9, popne).
+ *               16 variants of the case body (case order, no-default, u16/int
+ *               local, s16/u16 field, cast, if/|| spellings, explicit range and
+ *               nested-if trees) leave the chain untouched; the tree is 28 bytes
+ *               larger and is the whole remaining size gap.
+ *           dwc_mov_mbp.o carries .comment 4.0.0.1025 (1.1p1 is 1024, 1.2 is
+ *           1026), so both residues may be front-end, not source.
  *
  * sdk:      ParentStateCallback (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  *
@@ -94,10 +113,11 @@ static void ParentStateCallback(u16 child_aid, u32 status, void *arg)
         break;
     case 2:
         if (DWCi_MOV_MBP_GetState() == 2) {
+            DWCi_MOV_WPB_WORK *w = g_021DE65C;
             u32 enabled = OS_DisableInterrupts();
             u8 *mac;
 
-            g_021DE65C->mbpState.connectChildBmp |= 1 << child_aid;
+            w->mbpState.connectChildBmp |= 1 << child_aid;
             OS_RestoreInterrupts(enabled);
             mac = g_021DE65C->childInfo[child_aid - 1].macAddress;
             mac[0] = userInfo->mac[0];
@@ -129,14 +149,14 @@ static void ParentStateCallback(u16 child_aid, u32 status, void *arg)
     case 6:
         break;
     case 10:
-        if (DWCi_MOV_MBP_GetState() == 2) {
+        if (DWCi_MOV_MBP_GetState() != 2) {
+            DWCi_MOV_MBP_KickChild(child_aid);
+        } else {
             g_021DE65C->mbpState.requestChildBmp |= 1 << child_aid;
             DWCi_MOV_MBP_AcceptChild(child_aid);
             childUser = MB_CommGetChildUser(child_aid);
             if (childUser)
                 MI_CpuCopy8(childUser, g_021DE65C->childInfo[child_aid - 1].user, 0x16);
-        } else {
-            DWCi_MOV_MBP_KickChild(child_aid);
         }
         break;
     case 14:

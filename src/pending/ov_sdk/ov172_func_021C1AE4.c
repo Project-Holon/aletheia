@@ -7,16 +7,27 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   DIFF (size-exact, allocator only)
  *
- * blocker: codegen/register allocation.  Segment walk reconstructed in full
- *   (IFD tag 0x8769 -> EXIF sub-IFD tag 0x927c -> sign block) and all six
- *   relocations resolve, but mwcc -O4,p picks different registers than the
- *   original throughout: original keeps `limit` in ip (r12) and stores the
- *   u16 count/tag in r2, mine keeps it in r0/r2 and quantises into r3.
- *   Tried u32 vs u16 count/tag, `|` vs `+` for the big-endian reads, and an
- *   explicit base+2 cursor local; the allocation (not the logic) is what
- *   differs.  Closest 708 of 680 bytes.
+ * blocker: register allocation only, SIZE-EXACT.  Lane T30 fixed the size
+ *   (732 -> 680 B): every 4-byte big-endian read addresses `dst[offset + 8]`
+ *   ... `dst[offset + 0xb]` inline, so mwcc spent four `add rN, r1, #k` per
+ *   read; with a `const unsigned char *p = dst + offset;` local and `p[8]`
+ *   ... `p[11]` the image's `add r0, r5, r1` + `[r0,#8..#0xb]` form appears
+ *   (same for the `[2]`/`[3]` and `[0xa..#0xd]` checks).  `unsigned int i`
+ *   turns the loop guards into the image's `bls`/`blo`, and spelling the
+ *   big-endian read `(dst[offset] << 8) + dst[offset+1]` -- i.e. dst[offset]
+ *   loaded first -- matches the image's load pair; assigning `offset = base+2`
+ *   AFTER the count read in the second block stops the `mov rN, r1` copy.
+ *   Left: 680/680 but 103 concrete bytes, all one register rotation from
+ *   +0x10 -- the image puts the gBitLen load in ip (`ldr ip,[r2,#8]`) and keeps
+ *   `n` in r2, ours reuses r2 for the load and puts `n` in ip; that extra live
+ *   value pushes `i` of the second loop into r8 and costs a `push {..., r8}`
+ *   the image does not have.  First differing instruction:
+ *     +0010 image `ldr ip, [r2, #8]` | ours `ldr r2, [r2, #8]`.
+ *   Tried and rejected (all 103-137): `((u32 *)gBitLen)[2]`, a named `u32 *lp`
+ *   block, a function-scope `p`, declaring n/tag/p/i in every order, `for`
+ *   block-scoped `p` vs assigned.  Pin/flag shut (see lane T19).
  *
  * sdk:      SSPi_JpegEncoderDoSign (libssp.TWL.HYB.a jpegenc.o)
  *
@@ -47,8 +58,9 @@ static int SSPi_JpegEncoderDoSign(u8 *dst, u32 ptr)
     u32 base;
     u32 offset;
     u16 n;
+    const unsigned char *p;
     int tag;
-    int i;
+    unsigned int i;
 
     limit = *(u32 *)(gBitLen + 8);
     if (limit < 0x17)
@@ -64,10 +76,11 @@ static int SSPi_JpegEncoderDoSign(u8 *dst, u32 ptr)
 
     tag = 0;
     for (i = 0; i < n; i++) {
-        tag = (u16)((dst[offset] << 8) + dst[offset + 1]);
+        const unsigned char *p = dst + offset;
+        tag = (u16)((dst[offset + 1] + (dst[offset] << 8)));
         if (tag == 0x8769) {
-            offset = (((u32)dst[offset + 8] << 24) + ((u32)dst[offset + 9] << 16) +
-                      ((u32)dst[offset + 10] << 8) + dst[offset + 11]) + 0xc;
+            offset = (((u32)p[8] << 24) + ((u32)p[9] << 16) +
+                      ((u32)p[10] << 8) + p[11]) + 0xc;
             break;
         }
         offset += 0xc;
@@ -78,17 +91,18 @@ static int SSPi_JpegEncoderDoSign(u8 *dst, u32 ptr)
     base = offset;
     if (base + 2 > limit)
         return 0;
-    offset = base + 2;
     n = (u16)((dst[base] << 8) + dst[base + 1]);
+    offset = base + 2;
     if (n * 0xc + offset > limit)
         return 0;
 
     tag = 0;
     for (i = 0; i < n; i++) {
-        tag = (u16)((dst[offset] << 8) + dst[offset + 1]);
+        const unsigned char *p = dst + offset;
+        tag = (u16)((dst[offset + 1] + (dst[offset] << 8)));
         if (tag == 0x927c) {
-            offset = (((u32)dst[offset + 8] << 24) + ((u32)dst[offset + 9] << 16) +
-                      ((u32)dst[offset + 10] << 8) + dst[offset + 11]) + 0xc;
+            offset = (((u32)p[8] << 24) + ((u32)p[9] << 16) +
+                      ((u32)p[10] << 8) + p[11]) + 0xc;
             break;
         }
         offset += 0xc;
@@ -98,13 +112,14 @@ static int SSPi_JpegEncoderDoSign(u8 *dst, u32 ptr)
 
     if (offset + 4 > limit)
         return 0;
-    if (dst[offset + 2] != 0x10 || dst[offset + 3] != 0)
+    p = dst + offset;
+    if (p[2] != 0x10 || p[3] != 0)
         return 0;
     if (offset + 0xe > limit)
         return 0;
 
-    offset = (((u32)dst[offset + 0xa] << 24) + ((u32)dst[offset + 0xb] << 16) +
-              ((u32)dst[offset + 0xc] << 8) + dst[offset + 0xd]) + 0xc;
+    offset = (((u32)p[0xa] << 24) + ((u32)p[0xb] << 16) +
+              ((u32)p[0xc] << 8) + p[0xd]) + 0xc;
     if (offset + 0x1c > limit)
         return 0;
 
