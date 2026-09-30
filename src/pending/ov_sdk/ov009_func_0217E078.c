@@ -9,10 +9,16 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker: first full rewrite from the listing; Montgomery exponentiation with
- *          eight 0x104-byte gsLargeInt_s stack temporaries and a bit-length
- *          scan of `power`.  Diff is expected in the aggregate zero-init loop
- *          shape and register allocation.
+ * blocker: rewritten from the vendor listing, 11 aligned blocks, 1092 vs 1164 bytes.
+ *          Recovered: TimerEnter(8) precedes the zero initialisers (so the eight
+ *          0x104-byte structs live in an inner block), power == 0 stores 1 to both
+ *          fields, the loop bit test is `(word & mask) == mask` with an unsigned
+ *          word index, and power.mLength - 1 is a shared temporary.  Left: the object
+ *          zero-initialises R twice (once with the other four at entry, again just
+ *          before `R.mLength = mod.mLength + 1`, same stack slot); a shadowing inner
+ *          R adds a ninth struct and moves the frame, and struct assignment from a
+ *          compound literal compiles to memcpy loops.  The constants 1/0 are
+ *          rematerialised in the object where this build keeps them in r4/r6.
  *
  * sdk:      gsLargeIntPowerMod (libdwcgscommon.TWL.HYB.a gslargeint.o)
  *
@@ -52,99 +58,104 @@ int gsLargeIntPowerMod(struct gsLargeInt_s *b, struct gsLargeInt_s *p,
                        struct gsLargeInt_s *m, struct gsLargeInt_s *dest)
 {
     unsigned int mask;
-    struct gsLargeInt_s R = {0};
-    struct gsLargeInt_s Rmod = {0};
-    struct gsLargeInt_s R2mod = {0};
-    struct gsLargeInt_s temp = {0};
-    struct gsLargeInt_s xwiggle = {0};
-    struct gsLargeInt_s base;
-    struct gsLargeInt_s power;
-    struct gsLargeInt_s mod;
     unsigned int expHighBit;
+    unsigned int top;
     unsigned int modPrime;
     int i;
 
     gsiLargeIntTimerEnter(8);
+    {
+        struct gsLargeInt_s R = {0};
+        struct gsLargeInt_s Rmod = {0};
+        struct gsLargeInt_s R2mod = {0};
+        struct gsLargeInt_s temp = {0};
+        struct gsLargeInt_s xwiggle = {0};
+        struct gsLargeInt_s base;
+        struct gsLargeInt_s power;
+        struct gsLargeInt_s mod;
 
-    func_02092344(&base, b, sizeof(base));
-    func_02092344(&power, p, sizeof(power));
-    func_02092344(&mod, m, sizeof(mod));
+        func_02092344(&base, b, sizeof(base));
+        func_02092344(&power, p, sizeof(power));
+        func_02092344(&mod, m, sizeof(mod));
 
-    gsiLargeIntStripLeadingZeroes(&base);
-    gsiLargeIntStripLeadingZeroes(&power);
-    gsiLargeIntStripLeadingZeroes(&mod);
+        gsiLargeIntStripLeadingZeroes(&base);
+        gsiLargeIntStripLeadingZeroes(&power);
+        gsiLargeIntStripLeadingZeroes(&mod);
 
-    if (mod.mLength == 0) {
-        dest->mLength = 0;
-        gsiLargeIntTimerExit(8);
-        return 0;
-    }
-    if (mod.mLength == 1 && mod.mData[0] == 1) {
-        dest->mLength = 0;
-        dest->mData[0] = 0;
+        if (mod.mLength == 0) {
+            dest->mLength = 0;
+            gsiLargeIntTimerExit(8);
+            return 0;
+        }
+        if (mod.mLength == 1 && mod.mData[0] == 1) {
+            dest->mLength = 0;
+            dest->mData[0] = 0;
+            gsiLargeIntTimerExit(8);
+            return 1;
+        }
+        if (power.mLength == 0) {
+            dest->mLength = 1;
+            dest->mData[0] = 1;
+            gsiLargeIntTimerExit(8);
+            return 1;
+        }
+        if ((mod.mData[0] & 1) == 0) {
+            dest->mLength = 0;
+            dest->mData[0] = 0;
+            gsiLargeIntTimerExit(8);
+            return 0;
+        }
+        if (gsiLargeIntCompare(base.mData, base.mLength, mod.mData, mod.mLength) != -1)
+            gsLargeIntDiv(&base, &mod, 0, &base);
+
+        if (base.mLength == 0) {
+            dest->mLength = 0;
+            dest->mData[0] = 0;
+            gsiLargeIntTimerExit(8);
+            return 1;
+        }
+
+        top = power.mLength - 1;
+        expHighBit = 0x20;
+        while (!(power.mData[top] & (1u << (expHighBit - 1))))
+            expHighBit--;
+        expHighBit += top << 5;
+
+        R.mLength = mod.mLength + 1;
+        if (R.mLength > 0x40)
+            return 0;
+        R.mData[mod.mLength] = 1;
+
+        gsiLargeIntInverseMod(&mod, &modPrime);
+
+        if (gsLargeIntDiv(&R, &mod, 0, &Rmod) == 0) {
+            gsiLargeIntTimerExit(8);
+            return 0;
+        }
+        if (gsLargeIntSquareMod(&Rmod, &mod, &R2mod) == 0) {
+            gsiLargeIntTimerExit(8);
+            return 0;
+        }
+        if (gsiLargeIntMultM(&base, &R2mod, &mod, modPrime, &xwiggle) == 0) {
+            gsiLargeIntTimerExit(8);
+            return 0;
+        }
+
+        func_02092344(dest, &Rmod, sizeof(*dest));
+
+        for (i = expHighBit - 1; i >= 0; i--) {
+            gsiLargeIntMultM(dest, dest, &mod, modPrime, dest);
+            mask = 1u << (i & 0x1f);
+            if ((power.mData[(unsigned int)i >> 5] & mask) == mask)
+                gsiLargeIntMultM(dest, &xwiggle, &mod, modPrime, dest);
+        }
+
+        temp.mLength = 1;
+        temp.mData[0] = 1;
+        gsiLargeIntMultM(dest, &temp, &mod, modPrime, dest);
+
         gsiLargeIntTimerExit(8);
         return 1;
+
     }
-    if (power.mLength == 0) {
-        dest->mLength = 1;
-        dest->mData[0] = 0;
-        gsiLargeIntTimerExit(8);
-        return 1;
-    }
-    if ((mod.mData[0] & 1) == 0) {
-        dest->mLength = 0;
-        dest->mData[0] = 0;
-        gsiLargeIntTimerExit(8);
-        return 0;
-    }
-    if (gsiLargeIntCompare(base.mData, base.mLength, mod.mData, mod.mLength) != -1)
-        gsLargeIntDiv(&base, &mod, 0, &base);
-
-    if (base.mLength == 0) {
-        dest->mLength = 0;
-        dest->mData[0] = 0;
-        gsiLargeIntTimerExit(8);
-        return 1;
-    }
-
-    expHighBit = 0x20;
-    while (!(power.mData[power.mLength - 1] & (1u << (expHighBit - 1))))
-        expHighBit--;
-    expHighBit += (power.mLength - 1) << 5;
-
-    R.mLength = mod.mLength + 1;
-    if (R.mLength > 0x40)
-        return 0;
-    R.mData[mod.mLength] = 1;
-
-    gsiLargeIntInverseMod(&mod, &modPrime);
-
-    if (gsLargeIntDiv(&R, &mod, 0, &Rmod) == 0) {
-        gsiLargeIntTimerExit(8);
-        return 0;
-    }
-    if (gsLargeIntSquareMod(&Rmod, &mod, &R2mod) == 0) {
-        gsiLargeIntTimerExit(8);
-        return 0;
-    }
-    if (gsiLargeIntMultM(&base, &R2mod, &mod, modPrime, &xwiggle) == 0) {
-        gsiLargeIntTimerExit(8);
-        return 0;
-    }
-
-    func_02092344(dest, &Rmod, sizeof(*dest));
-
-    for (i = expHighBit - 1; i >= 0; i--) {
-        gsiLargeIntMultM(dest, dest, &mod, modPrime, dest);
-        mask = 1u << (i & 0x1f);
-        if (power.mData[i >> 5] & mask)
-            gsiLargeIntMultM(dest, &xwiggle, &mod, modPrime, dest);
-    }
-
-    temp.mLength = 1;
-    temp.mData[0] = 1;
-    gsiLargeIntMultM(dest, &temp, &mod, modPrime, dest);
-
-    gsiLargeIntTimerExit(8);
-    return 1;
 }

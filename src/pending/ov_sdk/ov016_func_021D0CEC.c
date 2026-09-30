@@ -24,12 +24,47 @@
  *           `((volatile unsigned long *)&g->task)[0]`, `(char *)g + 0x1B90`);
  *           local-variable shapes (a second local at function scope, the
  *           block-scope local, and reusing `rs` for the task value); and a
- *           pointer local bound to `MemUsb` or to `&MemUsb->task`.  `const`
- *           on the read-only extern (`M * const g`) is not a fix here: it
- *           rewrites the whole function.  Nothing in the shape of the source
- *           decides it, so the residue is the allocator tie between the
- *           `tagMEMUSB *` base vreg and the loaded value; see
- *           docs/idioms/a-guard-load-that-folds-into-its-dying-base-register-is-not-a-source-shape.md.
+*           pointer local bound to `MemUsb` or to `&MemUsb->task`).
+ *
+ * The residue is not a source-shape question at all.  In this repo the
+ * matched EXACT sources that do emit `ldr r1, [r0, #imm]` / `cmp r1, #0`
+ * are the ones whose source reads the base again after the guard, which
+ * keeps the base live at the load.  Here the intervening `func_021D7744(0)`
+ * call forces the reload of `g_021DE654` at +00A8, so the base has exactly
+ * one use and is dead at +0094, and 1.1p1 coalesces it into the load
+ * destination.  The lane is closed as unreachable from C at this base
+ * lifetime; see
+ * docs/idioms/a-guard-load-that-folds-into-its-dying-base-register-is-not-a-source-shape.md.
+ *
+ * Later batches, all still 220 bytes / 2 diffs / 9 relocs at +0094,+0098:
+ * return type `unsigned char` and `bool`; brace/`else`/`do while (0)`
+ * rewrites; base captured in a local and reloaded; 16 member types
+ * (`unsigned char *`, `unsigned int`, `int`, `void *`, `void **`, `u8 *`,
+ * and the plain and `const` spellings of the load target); casts to
+ * `unsigned int`; `!!` and `!=`/`==` negations; and member qualifiers
+ * `void * const`, `volatile void * const`, `volatile void * volatile`.
+ * `M * const`, `volatile M * const` and nested-struct spellings do not
+ * compile under -lang c99 here.  `end` must stay volatile: a non-volatile
+ * `end` hoists its load and adds diffs at +00B4,+00B8,+00BC, and a single
+ * `const M *` for both reads lets the call CSE the second read (212 bytes,
+ * 45 diffs).  Declaring the full DWARF struct (start, stack, wait) does not
+ * move the pair either; `volatile` vs plain `task`/`end` in that struct only
+ * reproduces the same +0094,+0098 or +0094,+0098,+00B4,+00B8,+00BC pair.
+ *
+ * The lever is confirmed to exist in this corpus but not reachable here: a
+ * scan of the whole `asm` tree for `ldr rN,[rM,#imm]` followed by
+ * `cmp rN,#0` with
+ * N != M found 13,207 hits outside arm9/main.s, 1,504 with base r0 and
+ * destination r1, and every EXACT match among those (func_0203D610,
+ * func_020414EC, unit_0201BD28, unit_0201BEB8, func_020221B8,
+ * func_02029374, func_0202B2A4, sub_02030FB4, ...) is a case where the
+ * source reads the base again after the guard, so the base is live at the
+ * load and the value must take a fresh register.  Here the base has exactly
+ * one use: the intervening `func_021D7744(0)` call forces the compiler to
+ * reload `g_021DE654` at +00A8, so the base is dead at +0094 and 1.1p1
+ * coalesces it.  Compiler sweep over every build in the repo (1.1, 1.1p1,
+ * 1.2, 1.2p1, 1.2p2, 1.3, 1.3p1, 1.6sp1, 1.6sp2) reports the same
+ * 2-byte residue, so the version is not the discriminator either.
  *
  * sdk:      DWCi_USBAPlEnd (libdwcutil.TWL.HYB.a usbap.o)
  *

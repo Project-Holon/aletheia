@@ -145,8 +145,6 @@ int func_021B87F0(wlla_connect_param *conParam, wlla_link_stat *linkStat)
     g_021DCF20[1] = wep_id;
     MI_CpuCopy8(cp->key, &g_021DCF20[wep_id * 20 + 2], cp->keyLen);
 
-    u32 gbase = (u32)&g_021DCE60;
-
     WCM_ClearApList();
     if (func_021B8D40(0, cp->ssid, cp->ssidLen, 0x30BFFE)) {
         connect_retry_count = 0;
@@ -156,26 +154,22 @@ int func_021B87F0(wlla_connect_param *conParam, wlla_link_stat *linkStat)
         lreceive:
             OS_ReceiveMessage(&g_021DCE40, &msg, 1);
             switch ((int)msg) {
-            case 4:
-            case 8:
-                break;
             case 18:
                 if (wep_id == WEP_OFF)
                     loop_flag = 0;
-                break;
             case 19:
                 break;
             case 5:
                 if (wep_id != WEP_OFF)
                     break;
                 OS_CancelAlarm(&alarm);
-                if (func_021B8CFC((WMBssDesc *)gbase, 1) != 1) {
+                if (func_021B8CFC(&g_021DCE60, 1) != 1) {
                     loop_flag = 0;
                 } else {
                     func_021B8488(conParam, &g_021DCE60);
-                    for (i = 0; i++ < g_021DCE60_b.ssidLength; )
+                    for (i = 0; (i < g_021DCE60_b.ssidLength) ? 1 : 0; i++)
                         ;
-                    if (func_021B8EFC((WMBssDesc *)gbase, g_021DCF20, connect_option) == 0)
+                    if (func_021B8EFC(&g_021DCE60, g_021DCF20, connect_option) == 0)
                         loop_flag = 0;
                     else
                         wep_id = WEP_ON;
@@ -183,7 +177,7 @@ int func_021B87F0(wlla_connect_param *conParam, wlla_link_stat *linkStat)
                 break;
             case 10:
                 func_021B8488(conParam, &g_021DCE60);
-                if (func_021B8EFC((WMBssDesc *)gbase, g_021DCF20, connect_option) == 0)
+                if (func_021B8EFC(&g_021DCE60, g_021DCF20, connect_option) == 0)
                     loop_flag = 0;
                 break;
             case 12:
@@ -193,7 +187,7 @@ int func_021B87F0(wlla_connect_param *conParam, wlla_link_stat *linkStat)
             case 13:
                 connect_retry_count++;
                 if (connect_retry_count < 3) {
-                    if (func_021B8EFC((WMBssDesc *)gbase, g_021DCF20, connect_option) == 0)
+                    if (func_021B8EFC(&g_021DCE60, g_021DCF20, connect_option) == 0)
                         loop_flag = 0;
                 } else {
                     loop_flag = 0;
@@ -201,6 +195,9 @@ int func_021B87F0(wlla_connect_param *conParam, wlla_link_stat *linkStat)
                 break;
             default:
                 loop_flag = 0;
+                break;
+            case 4:
+            case 8:
                 break;
             }
         lstest:

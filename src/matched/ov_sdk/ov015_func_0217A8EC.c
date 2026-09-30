@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * sdk:      IRCi_Write (libirc.a irc_internal.o)
  *
@@ -44,6 +44,7 @@ extern unsigned short g_0217AAB4;
 void func_0217A8EC(unsigned char *data, unsigned char size)
 {
     int i;
+    int n;
 
     g_0217AC90.wp = g_0217AD58;
     g_0217AC90.rp = 0;
@@ -56,8 +57,9 @@ void func_0217A8EC(unsigned char *data, unsigned char size)
     func_0217A674(&g_0217AC90_b);
     func_0217A5B4();
     g_0217AC90.wp = data;
+    n = size;
     for (i = 0; (i < size) ? 1 : 0; i++) {
-        if (i + 1 == size)
+        if (i == n - 1)
             *(volatile unsigned short *)0x040001A0 = 0xA002;
         func_0217A674(&g_0217AC90_b);
     }

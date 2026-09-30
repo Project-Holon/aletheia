@@ -7,28 +7,14 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   MATCH
  *
  * sdk:      ghiDoReceivingHeaders (libdwcgsghttp.TWL.HYB.a ghttpprocess.o)
  *
- * blocker:  one loop.  Struct offsets and every statement now follow the vendor's
- *           GHIConnection layout and the image, and an instruction-aligned diff of the
- *           whole function shows a single differing block: the second isspace loop
- *           (the `while (*end != 0 && !ISSPACE(*end))` skip of the Location value).  The
- *           image branches (cmp #0 / beq exit / blt zero / cmp #0x80 / blt lookup, then
- *           mov r0,r4 / b join, and the lookup and cmp #0 after the join); the compiler
- *           always folds the ctype test to one unsigned compare and predicates the three
- *           lookup instructions.  Tried with identical output: a macro or an inlined
- *           function, the unsigned and the signed range forms, ternary and && chains,
- *           early-return inline functions, a local c, and for/while spellings.  The
- *           first isspace loop matches with ((unsigned)(c) < 0x80u) ? map[c] & 0x100 : 0.
- *           Also open: the string arguments are externs by address here; with string
- *           literals the harness needs the literal-pool order to match first (declare the
- *           vendor names @14557 @14858 @14859 @14860 @14861 @14862 @14863 @13998).
- *           Levers found: pEnd must be assigned from pStart before the strlen call (it
- *           then lives in a callee-saved register, which spills pStart and contentLength
- *           as in the image); the retry search is `if (end == 0) end = strstr(..)` after
- *           both paths; szMaxSize is a block local; GOAGetLastError takes the socket.
+ * notes:    every concrete byte matches (1460 of 1460); one data word has no witness,
+ *           hence MATCH.  The second isspace loop (after the header-value scan) is the
+ *           short-circuit `(c < 0 || c >= 0x80) ? 0 : table` form, not the unsigned
+ *           fold the first loop uses.
  *
  * symbols:
  *   gsimalloc                       0x0217eab0 arm
@@ -281,7 +267,7 @@ void func_021C4E7C(GHIConnection *connection)
                 while (ISSPACE(*location))
                     location++;
                 end = location;
-                while (*end != 0 && !ISSPACE2(*end))
+                while (*end != 0 && !(((*end) < 0 || (*end) >= 0x80) ? 0 : (__ctype_mapC[*end] & 0x100)))
                     end++;
                 *end = 0;
                 if (*location == '/') {

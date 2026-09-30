@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * sdk:      client_hello_v2 (libssl.TWL.HYB.a(ssl.o))
  *
@@ -17,9 +17,15 @@
  *   func_02082BCC  0x02082BCC  arm
  *   func_02082D44  0x02082D44  arm
  *
- * notes: near miss, 26 B differ, registers only. Bytes and instruction order are right;
- * s/con/random_len get r5/r6/r7 where the vendor has r6/r7/r5. Defining random_len
- * before sessionID_len fixes the registers but reorders the s[4..7] loads (16 B differ).
+ * The offset `pairlist_len + 8 + sessionID_len` needs a local of its own
+ * (`offset`); accumulating it back into pairlist_len colours r4/r5/r6/r7 as
+ * pairlist_len/s/con/random_len where the vendor has pairlist_len/random_len/
+ * s/con, which also pushes the s[4] temp out of r5 and into ip.  With the
+ * separate name the coalescer merges pairlist_len and offset back into one
+ * register and all four land as the vendor has them.
+ *
+ * Declaration order is inert here: all 24 permutations of the four locals
+ * compile to the same 26-byte DIFF.
  */
 
 typedef struct CPSSslConnection {
@@ -40,6 +46,7 @@ extern void func_02082D44(const void *srcp, void *dstp, unsigned long size);
 static void func_02160E1C(CPSSslConnection *con, unsigned char *s)
 {
     int pairlist_len;
+    int offset;
     int sessionID_len;
     int random_len;
     unsigned short method;
@@ -54,12 +61,12 @@ static void func_02160E1C(CPSSslConnection *con, unsigned char *s)
     sessionID_len = (s[4] << 8) + s[5];
     random_len = (s[6] << 8) + s[7];
     con->cache = 0;
-    pairlist_len = pairlist_len + 8 + sessionID_len;
+    offset = pairlist_len + 8 + sessionID_len;
     if (random_len >= 0x20) {
-        func_02082D44(s + pairlist_len, con->random, 0x20);
+        func_02082D44(s + offset, con->random, 0x20);
     } else {
         func_02082BCC(con->random, 0, 0x20 - random_len);
-        func_02082D44(s + pairlist_len, con->random + 0x20 - random_len, random_len);
+        func_02082D44(s + offset, con->random + 0x20 - random_len, random_len);
     }
     con->state = 1;
 }

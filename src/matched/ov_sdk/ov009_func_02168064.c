@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF (2 B differ at +0x90/+0x94: object ldr r1,[r4]; add r0,r1,#0xc50 for the auth pointer, compiler emits ldr r0 and add r0,r0)
+ * status:   EXACT
  *
  * sdk:      DWC_NASLoginAsync (libdwcnas.TWL.HYB.a dwc_nasfunc.o)
  *
@@ -36,7 +36,7 @@ extern void *DWC_Alloc(int kind, int size);
 extern void DWCi_SetError(int kind, int code);
 extern void MI_CpuFill8(void *dst, int data, int size);
 extern void MI_CpuCopy8(void *src, void *dst, int size);
-extern void func_02177EE8(void *auth);
+extern void func_02177EE8(void *auth, void *http);
 extern void DWC_Free(void);
 extern NalCnt *g_021AA830;
 extern char g_021A1F74[];
@@ -54,6 +54,6 @@ int func_02168064(void)
     MI_CpuCopy8(g_021A1F74, g_021AA830->id, 9);
     g_021AA830->alloc = (void (*)(void))DWC_Alloc;
     g_021AA830->free = DWC_Free;
-    func_02177EE8(g_021AA830->auth);
+    func_02177EE8(g_021AA830->auth, g_021AA830);
     return 1;
 }

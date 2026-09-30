@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH (near miss: 33 B, register colouring only: i in r2, image r1)
+ * status:   EXACT
  *
  * sdk:      NHTTPi_Base64Encode (libnhttp.TWL.HYB.a(nhttp_stdlib_ntr))
  *
@@ -19,7 +19,7 @@
 extern char g_021CE3BC[];
 extern int func_021BA118(char *str_p);
 
-int func_021BA714(char *dst_p, char *src_p)
+int func_021BA714(char *dst_p, const char *src_p)
 {
     char *tbl;
     char *wp;
@@ -28,16 +28,13 @@ int func_021BA714(char *dst_p, char *src_p)
 
     wp = dst_p;
     tbl = g_021CE3BC;
-    len = func_021BA118(src_p);
+    len = func_021BA118((char *)src_p);
 
     for (i = 0; i < len; i += 3, src_p += 3, wp += 4) {
-        int c0 = src_p[0];
-        int c1 = src_p[1];
-        int c2 = src_p[2];
-        wp[0] = tbl[c0 >> 2];
-        wp[1] = tbl[((c0 & 3) << 4) + (c1 >> 4)];
-        wp[2] = tbl[((c1 & 15) << 2) + (c2 >> 6)];
-        wp[3] = tbl[c2 & 63];
+        wp[0] = tbl[src_p[0] >> 2];
+        wp[1] = tbl[((src_p[0] & 3) << 4) + (src_p[1] >> 4)];
+        wp[2] = tbl[((src_p[1] & 15) << 2) + (src_p[2] >> 6)];
+        wp[3] = tbl[src_p[2] & 63];
     }
     if (i == len + 1) {
         wp[-1] = '=';

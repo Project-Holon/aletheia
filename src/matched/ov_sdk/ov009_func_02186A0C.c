@@ -7,13 +7,15 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
  *
- * blocker: codegen + compiler. The vendor object carries the Metrowerks
- *   ARM 4.0.0.1025 stamp, which no tool/mwccarm build in this collection
- *   reproduces, so this can never reach EXACT here. Body is transcribed
- *   from the disassembly (connection send/recv, command dispatch by
- *   strncmp prefix, blocking retry), parked for coverage.
+ * notes:    the string.h variant that declares strncmp keeps the command string in a
+ *           register across the prefix tests; the strncmp chain works on a local `str`
+ *           reloaded from sendBuf after gpiCheckForError.  The outer loop is a
+ *           do/while on gpiOperationsAreBlocking with `now` read once before it, the
+ *           recv result 3 is returned through the local `result`, and gsDebugFormat is
+ *           variadic (recvBuf and id are extra arguments).  Local declaration order
+ *           (operation, len, connClosed, result) fixes the stack slots.
  *
  * sdk:      gpiProcessConnectionManager (libdwcgsgp.TWL.HYB.a gpi.o)
  *
@@ -63,6 +65,7 @@
  *   d_021A4234                       0x021A4234  data
  */
 
+#include "../arm9_sdk/libc/strncmp/string.h"
 typedef unsigned char u8;
 typedef unsigned long u32;
 
@@ -96,7 +99,7 @@ extern int gpiRecvToBuffer(void **connection, int sock, GPIBuffer *inputBuffer,
                            int *bytesRead, int *connClosed, char *id);
 extern void gpiSetError(void **connection, int errorCode, char *errorString);
 extern void gpiCallErrorCallback(void **connection, int result, int fatal);
-extern void gsDebugFormat(int cat, int type, int level, char *token);
+extern void gsDebugFormat(int cat, int type, int level, char *token, ...);
 extern void *gsirealloc(void *ptr, unsigned long size);
 extern void gpiSetErrorString(void **connection, char *errorString);
 extern int gpiFindOperationByID(void **connection, void **operation, int id);
@@ -113,10 +116,8 @@ extern void msleep(int ms);
 extern int gpiAppendStringToBuffer(void **connection, GPIBuffer *outputBuffer, char *buffer);
 
 extern char *strstr(char *s, char *t);
-extern void *memcpy(void *dst, void *src, unsigned long n);
 extern void *memmove(void *dst, void *src, unsigned long n);
 extern int atoi(char *s);
-extern int strncmp(char *a, char *b, unsigned long n);
 
 extern char d_021A412C[], d_021A4130[], d_021A415C[], d_021A4164[];
 extern char d_021A4170[], d_021A4180[], d_021A4188[], d_021A41B0[];
@@ -128,118 +129,111 @@ int gpiProcessConnectionManager(void **connection)
 {
     GPIConnection *ic;
     u32 now;
+    void *operation;
+    int len;
     int connClosed;
     int result;
-    int bytesRead;
-    int len;
-    void *operation;
     int id;
     char *str;
     char *next;
-    char *value;
+    char *tempPtr;
+    int loop;
 
+    connClosed = 0;
     ic = (GPIConnection *)*connection;
     now = current_time();
 
-retry:
-    gpiAddLocalInfo(connection, (GPIBuffer *)&ic->localBuf);
-    if (ic->f218 > 0)
-        ic->lastSend = now;
-    result = gpiSendFromBuffer(connection, ic->sock, (GPIBuffer *)&ic->localBuf,
-                               &connClosed, 1, d_021A412C);
-    if (result)
-        return result;
-    result = gpiRecvToBuffer(connection, ic->sock, (GPIBuffer *)&ic->recvBuf,
-                             &bytesRead, &connClosed, d_021A412C);
-    if (result == 0)
-        goto process;
-    if (result != 3)
-        return result;
-    gpiSetError(connection, 5, d_021A4130);
-    gpiCallErrorCallback(connection, 3, 1);
-    return 3;
-
-process:
-    str = strstr(ic->recvBuf, d_021A415C);
-    if (str) {
-dispatch:
-        ic->lastSend = now;
-        *str = 0;
-        gsDebugFormat(1, 0, 0x20, d_021A4164);
-        len = (int)(str - ic->recvBuf);
-        if (len > ic->sendCap) {
-            int grow;
-            grow = len < 0x4000 ? 0x4000 : len;
-            ic->sendCap = ic->sendCap + grow;
-            next = (char *)gsirealloc(ic->sendBuf, ic->sendCap + 1);
-            if (next == 0) {
-                gpiSetErrorString(connection, d_021A4170);
-                return 1;
-            }
-            ic->sendBuf = next;
+    do {
+        gpiAddLocalInfo(connection, (GPIBuffer *)&ic->localBuf);
+        if (ic->f218 > 0)
+            ic->lastSend = now;
+        result = gpiSendFromBuffer(connection, ic->sock, (GPIBuffer *)&ic->localBuf,
+                                   &connClosed, 1, d_021A412C);
+        if (result)
+            return result;
+        result = gpiRecvToBuffer(connection, ic->sock, (GPIBuffer *)&ic->recvBuf,
+                                 &len, &connClosed, d_021A412C);
+        if (result) {
+            if (result != 3)
+                return result;
+            gpiSetError(connection, 5, d_021A4130);
+            result = 3;
+            gpiCallErrorCallback(connection, result, 1);
+            return result;
         }
-        memcpy(ic->sendBuf, ic->recvBuf, len + 1);
-        ic->f200 = ic->f200 - ((str + 7) - ic->recvBuf);
-        memmove(ic->recvBuf, str + 7, ic->f200 + 1);
-        str = ic->sendBuf;
-        next = strstr(str, d_021A4180);
-        if (next) {
-            id = atoi(next + 4);
-            if (gpiFindOperationByID(connection, &operation, id)) {
-                result = gpiProcessOperation(connection, operation, str);
-                if (result)
-                    return result;
-            } else {
-                gsDebugFormat(1, 0, 1, d_021A4188);
+
+        while ((str = strstr(ic->recvBuf, d_021A415C)) != 0) {
+            ic->lastSend = now;
+            *str = 0;
+            gsDebugFormat(1, 0, 0x20, d_021A4164, ic->recvBuf);
+            len = (int)(str - ic->recvBuf);
+            if (len > ic->sendCap) {
+                ic->sendCap = ic->sendCap + (len < 0x4000 ? 0x4000 : len);
+                tempPtr = (char *)gsirealloc(ic->sendBuf, ic->sendCap + 1);
+                if (tempPtr == 0) {
+                    gpiSetErrorString(connection, d_021A4170);
+                    return 1;
+                }
+                ic->sendBuf = tempPtr;
             }
-        } else {
-            if (gpiCheckForError(connection, str, 1))
-                return 4;
-            if (strncmp(str, d_021A41B0, 4) == 0) {
-                result = gpiProcessRecvBuddyMessage(connection, str);
-                if (result)
-                    return result;
-            } else if (strncmp(str, d_021A41B8, 4) == 0) {
-                /* no-op */
-            } else if (strncmp(str, d_021A41C0, 4) == 0) {
-                value = (char *)((u8 *)&ic->f214 + 0x400);
-                gpiValueForKey(str, d_021A41C0, value, 0x19);
-            } else if (strncmp(str, d_021A41C8, 5) == 0) {
-                result = gpiProcessRecvBuddyStatusInfo(connection, str);
-                if (result)
-                    return result;
-            } else if (strncmp(str, d_021A41D0, 5) == 0) {
-                result = gpiProcessRecvBuddyList(connection, str);
-                if (result)
-                    return result;
-            } else if (strncmp(str, d_021A41D8, 5) == 0) {
-                result = gpiProcessRecvBlockedList(connection, str);
-                if (result)
-                    return result;
-            } else if (strncmp(str, d_021A41E0, 5) == 0) {
-                result = gpiProcessRemoteAuthResponse(connection, str);
-                if (result)
-                    return result;
+            memcpy(ic->sendBuf, ic->recvBuf, len + 1);
+            ic->f200 = ic->f200 - ((str + 7) - ic->recvBuf);
+            memmove(ic->recvBuf, str + 7, ic->f200 + 1);
+            str = ic->sendBuf;
+            next = strstr(str, d_021A4180);
+            if (next) {
+                id = atoi(next + 4);
+                if (!gpiFindOperationByID(connection, &operation, id)) {
+                    gsDebugFormat(1, 0, 1, d_021A4188, id);
+                } else {
+                    result = gpiProcessOperation(connection, operation, ic->sendBuf);
+                    if (result)
+                        return result;
+                }
             } else {
-                gsDebugFormat(1, 0, 1, d_021A41E8);
+                if (gpiCheckForError(connection, str, 1))
+                    return 4;
+                str = ic->sendBuf;
+                if (strncmp(str, d_021A41B0, 4) == 0) {
+                    result = gpiProcessRecvBuddyMessage(connection, str);
+                    if (result)
+                        return result;
+                } else if (strncmp(str, d_021A41B8, 4) == 0) {
+                } else if (strncmp(str, d_021A41C0, 4) == 0) {
+                    gpiValueForKey(str, d_021A41C0, (char *)&ic->f214 + 0x400, 0x19);
+                } else if (strncmp(str, d_021A41C8, 5) == 0) {
+                    result = gpiProcessRecvBuddyStatusInfo(connection, str);
+                    if (result)
+                        return result;
+                } else if (strncmp(str, d_021A41D0, 5) == 0) {
+                    result = gpiProcessRecvBuddyList(connection, str);
+                    if (result)
+                        return result;
+                } else if (strncmp(str, d_021A41D8, 5) == 0) {
+                    result = gpiProcessRecvBlockedList(connection, str);
+                    if (result)
+                        return result;
+                } else if (strncmp(str, d_021A41E0, 5) == 0) {
+                    result = gpiProcessRemoteAuthResponse(connection, str);
+                    if (result)
+                        return result;
+                } else {
+                    gsDebugFormat(1, 0, 1, d_021A41E8);
+                }
             }
         }
-        next = strstr(ic->recvBuf, d_021A415C);
-        str = next;
-        if (str)
-            goto dispatch;
-    }
 
-    if (connClosed != 0 && ic->lastResult != 5) {
-        gpiSetError(connection, 7, d_021A420C);
-        gpiCallErrorCallback(connection, 3, 1);
-        return 0;
-    }
-    if (gpiOperationsAreBlocking(connection)) {
-        msleep(10);
-        goto retry;
-    }
-    if ((int)(now - ic->lastSend) > 120000) {
+        if (connClosed != 0 && ic->lastResult != 5) {
+            gpiSetError(connection, 7, d_021A420C);
+            gpiCallErrorCallback(connection, 3, 1);
+            return 0;
+        }
+        loop = gpiOperationsAreBlocking(connection);
+        if (loop)
+            msleep(10);
+    } while (loop);
+
+    if ((now - ic->lastSend) > 120000) {
         gpiAppendStringToBuffer(connection, (GPIBuffer *)&ic->localBuf, d_021A4234);
         ic->lastSend = now;
     }

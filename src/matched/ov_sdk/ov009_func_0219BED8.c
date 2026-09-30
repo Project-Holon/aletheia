@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
  *
  * sdk:      qr_build_split_query_reply (qr2.o)
  *
@@ -77,7 +77,7 @@ int func_0219BED8(qr2_implementation_s *qrec, qr2_buffer_s *buf, QRSplitQueryPro
 
     while (progress->mState < 3) {
         if (progress->mKeyBuffer.numkeys == 0)
-            qrec->key_list_callback((qr2_key_type)progress->mState, &progress->mKeyBuffer, qrec->udata);
+            qrec->key_list_callback(*(qr2_key_type *)&progress->mState, &progress->mKeyBuffer, qrec->udata);
         if (progress->mNumPlayersOrTeams == 0 && progress->mState != 0)
             progress->mNumPlayersOrTeams = qrec->playerteam_count_callback((qr2_key_type)progress->mState, qrec->udata);
 

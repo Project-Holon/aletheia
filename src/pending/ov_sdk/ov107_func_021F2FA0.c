@@ -9,8 +9,15 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker: codegen. Hand-reconstructed from the disassembly; algorithm and
- *   control flow transcribed from the listing.
+ * blocker: rewritten from the vendor listing: all 1324 bytes line up and one block
+ *          differs, a register rotation in the final four-instruction sequence that
+ *          stores 0xE12FFF1E (image: r1,r2,r3,r0 for main_ram_address, the callback
+ *          address, p_buf and the constant; this build r0..r3).  Recovered: nested
+ *          if/else with `rest >= n` (else `rest = 0`), per-branch mainBuf/mainSize/
+ *          mainTop/base locals in the two read paths, direct BUFROM field reads,
+ *          `file` reassigned to own_bin, a frame of ret/is_own_binary/bak_pos in that
+ *          order, and the segment-map loop reading through a u32 pointer so the
+ *          length is reloaded (ldm).
  *
  * sdk:      MB_ReadSegment (libmb.TWL.HYB.a mb_fileinfo.o)
  *
@@ -114,196 +121,189 @@ extern CARDRomRegion *mbi_seg_header;
 extern CARDRomRegion _ZZ14MB_ReadSegmentP6FSFilePvmE18mbi_seg_header_twl[3];
 extern u32 _start_AutoloadDoneCallback[];
 
+#define BUFROM(f) (((RomHeader *)buf)->f)
+
 int MB_ReadSegment(FSFile *file, void *buf, u32 len)
 {
     FSFile own_bin[1];
-    FSFile *afile;
     SegmentHeaderInfo info;
-    RomHeader *p_rom;
-    u32 *p_header;
-    MBiCacheList *p_cache;
-    CARDRomRegion *p_map;
-    u8 *mainBuf;
-    u32 mainSize;
-    u32 base;
-    u32 own_size;
-    u32 rest;
-    u32 bak_pos;
-    u32 main_size;
-    u32 sub_size;
-    int is_own_binary;
     int ret;
+    int is_own_binary;
+    u32 bak_pos;
+    RomHeader *p_rom;
+    u32 rest;
+    u8 *dst;
+    MBiCacheList *p_cache;
+    u32 own_size;
+    CARDRomRegion *p_map;
+    u32 *p_header;
     int i;
-
     ret = 0;
-    afile = file;
 
     if (file == 0) {
         p_rom = (RomHeader *)CARD_GetOwnRomHeader();
-        if (p_rom->machine_code & 2)
-            mbi_seg_header = _ZZ14MB_ReadSegmentP6FSFilePvmE18mbi_seg_header_twl;
-        else
+        if ((p_rom->machine_code & 2) == 0)
             mbi_seg_header = mbi_seg_header_default;
+        else
+            mbi_seg_header = _ZZ14MB_ReadSegmentP6FSFilePvmE18mbi_seg_header_twl;
     }
 
-    if (len < 0x164)
-        return ret;
+    if (len >= 0x164) {
+        p_cache = 0;
+        is_own_binary = 0;
+        p_header = 0;
+        dst = (u8 *)buf + 0x160;
+        rest = len - 0x160;
 
-    p_cache = 0;
-    is_own_binary = 0;
-    mainBuf = (u8 *)buf + 0x160;
-    rest = len - 0x160;
-
-    if (file != 0) {
-        bak_pos = FS_GetFilePosition(file);
-        if ((long)FS_ReadFile(file, buf, 0x160) < 0x160)
-            rest = 0;
-        own_size = ((RomHeader *)buf)->own_size;
-        if (own_size == 0)
-            own_size = 0x1000000;
-    } else {
-        p_rom = (RomHeader *)0x02FFFE00;
-        own_size = p_rom->own_size;
-        is_own_binary = 1;
-        if (own_size == 0)
-            own_size = 0x1000000;
-        afile = own_bin;
-        FS_InitFile(afile);
-        if (FS_OpenFileDirect(afile, FS_FindArchive(d_021F6E54, 3), 0, own_size + 0x88, (u32)-1) == 0)
-            return 0;
-        bak_pos = FS_GetFilePosition(afile);
-        MI_CpuCopy8((void *)0x02FFFE00, buf, 0x160);
-        ((RomHeader *)buf)->flags |= 0x6000;
-        ((RomHeader *)buf)->flags |= 0x400000;
-    }
-
-    main_size = ((RomHeader *)buf)->main_size;
-    sub_size = ((RomHeader *)buf)->sub_size;
-
-    if (rest < 0x88) {
-        rest = 0;
-        goto l_cache;
-    }
-    if (is_own_binary) {
-        MI_CpuCopy8(CARDi_GetOwnSignature(), mainBuf, 0x88);
-    } else {
-        FS_SeekFile(afile, bak_pos + own_size, 0);
-        FS_ReadFile(afile, mainBuf, 0x88);
-    }
-    mainBuf += 0x88;
-    rest -= 0x88;
-
-l_cache:
-    if (rest < 0x70) {
-        rest = 0;
-        goto l_header;
-    }
-    p_cache = (MBiCacheList *)mainBuf;
-    MBi_InitCache(p_cache);
-    MBi_AttachCacheBuffer(p_cache, 0, 0x160, buf, 3);
-    mainBuf += 0x70;
-    rest -= 0x70;
-    {
-        char *arc = (char *)afile->arc;
-        for (i = 0; i < 3; i++)
-            if (arc[i] == 0)
-                break;
-        MI_CpuCopy8(arc, (u8 *)p_cache + 0x10, (u32)i);
-        *(u32 *)((u8 *)p_cache + 0x14) = (u32)i;
-        *(void **)((u8 *)p_cache + 0x18) = arc;
-    }
-    goto l_afterheader;
-
-l_header:
-    rest = 0;
-
-l_afterheader:
-    if (rest < 0x10) {
-        rest = 0;
-        goto l_afterinfoheader;
-    }
-    p_header = (u32 *)mainBuf;
-    p_header[0] = 0;
-    p_header[1] = ((RomHeader *)buf)->main_rom_offset + (bak_pos + FS_GetFileImageTop(afile));
-    p_header[2] = ((RomHeader *)buf)->sub_rom_offset + (bak_pos + FS_GetFileImageTop(afile));
-    mainBuf += 0x10;
-    rest -= 0x10;
-
-l_afterinfoheader:
-    mainSize = main_size + sub_size;
-    if (rest < mainSize)
-        goto l_big;
-
-    base = FS_GetFileImageTop(afile);
-    {
-        u32 v1 = p_header[1] - base;
-        u32 readlen = main_size;
-        u8 *rdst = mainBuf;
-
-        if (is_own_binary && v1 < 0x8000) {
-            u32 skip = 0x8000 - v1;
-            readlen = main_size - skip;
-            rdst = mainBuf + skip;
-            v1 = 0x8000;
+        if (file != 0) {
+            bak_pos = FS_GetFilePosition(file);
+            if ((long)FS_ReadFile(file, buf, 0x160) < 0x160)
+                rest = 0;
+            own_size = BUFROM(own_size);
+            if (own_size == 0)
+                own_size = 0x1000000;
+        } else {
+            p_rom = (RomHeader *)0x02FFFE00;
+            own_size = p_rom->own_size;
+            is_own_binary = 1;
+            if (own_size == 0)
+                own_size = 0x1000000;
+            file = own_bin;
+            FS_InitFile(file);
+            if (FS_OpenFileDirect(file, FS_FindArchive(d_021F6E54, 3), 0, own_size + 0x88, (u32)-1) == 0)
+                return 0;
+            bak_pos = FS_GetFilePosition(file);
+            MI_CpuCopy8((void *)0x02FFFE00, buf, 0x160);
+            BUFROM(flags) |= 0x6000;
+            BUFROM(flags) |= 0x400000;
         }
-        FS_SeekFile(afile, v1, 0);
-        FS_ReadFile(afile, rdst, readlen);
-        MBi_AttachCacheBuffer(p_cache, p_header[1], main_size, mainBuf, 3);
-        FS_SeekFile(afile, (long)(p_header[2] - base), 0);
-        FS_ReadFile(afile, mainBuf + main_size, sub_size);
-        MBi_AttachCacheBuffer(p_cache, p_header[2], sub_size, mainBuf + main_size, 3);
-    }
-    goto l_done;
 
-l_big:
-    if (rest < 0xcc00)
-        goto l_restore;
-    base = FS_GetFileImageTop(afile);
-    {
-        u32 v1 = p_header[1] - base;
-        u32 readlen = 0x4400;
-        u8 *rdst = mainBuf;
-
-        if (is_own_binary && v1 < 0x8000) {
-            u32 skip = 0x8000 - v1;
-            readlen = 0x4400 - skip;
-            rdst = mainBuf + skip;
-            v1 = 0x8000;
-        }
-        FS_SeekFile(afile, v1, 0);
-        FS_ReadFile(afile, rdst, readlen);
-        MBi_AttachCacheBuffer(p_cache, p_header[1], 0x4400, mainBuf, 3);
-        FS_SeekFile(afile, (long)(p_header[1] + 0x4400 - base), 0);
-        FS_ReadFile(afile, mainBuf + 0x4400, 0x4400);
-        MBi_AttachCacheBuffer(p_cache, p_header[1] + 0x4400, 0x4400, mainBuf + 0x4400, 2);
-        FS_SeekFile(afile, (long)(p_header[1] + 0x8800 - base), 0);
-        FS_ReadFile(afile, mainBuf + 0x8800, 0x4400);
-        MBi_AttachCacheBuffer(p_cache, p_header[1] + 0x8800, 0x4400, mainBuf + 0x8800, 2);
-    }
-
-l_done:
-    ret = 1;
-
-l_restore:
-    FS_SeekFile(afile, bak_pos, 0);
-    if (is_own_binary) {
-        FS_CloseFile(own_bin);
-        if (ret) {
-            info.target = ((RomHeader *)buf)->main_rom_offset;
-            info.src = (u8 *)(((RomHeader *)buf)->main_ram_address - info.target);
-            info.dst = (u8 *)((u32)p_cache->p_buf - info.target);
-            info.size = len;
-            MBi_ReadSegmentHeader(&info, 0x4000, 0x8000, 1);
-            p_map = mbi_seg_header;
-            while (p_map->length != 0) {
-                MBi_ReadSegmentHeader(&info, p_map->offset, p_map->offset + p_map->length, 0);
-                p_map++;
+        if (rest >= 0x88) {
+            if (is_own_binary) {
+                MI_CpuCopy8(CARDi_GetOwnSignature(), dst, 0x88);
+            } else {
+                FS_SeekFile(file, bak_pos + own_size, 0);
+                FS_ReadFile(file, dst, 0x88);
             }
-            *(u32 *)(p_cache->p_buf + (0x02004EA8 - ((RomHeader *)buf)->main_ram_address)) = 0xE12FFF1E;
+            dst += 0x88;
+            rest -= 0x88;
+        } else {
+            rest = 0;
         }
-    }
 
-    if (ret)
-        DC_FlushRange(buf, len);
+        if (rest >= 0x70) {
+            char *arc;
+
+            p_cache = (MBiCacheList *)dst;
+            MBi_InitCache(p_cache);
+            dst += 0x70;
+            rest -= 0x70;
+            MBi_AttachCacheBuffer(p_cache, 0, 0x160, buf, 3);
+            arc = (char *)file->arc;
+            i = 0;
+            while (i < 3 && arc[i] != 0)
+                i++;
+            MI_CpuCopy8(arc, (u8 *)p_cache + 0x10, (u32)i);
+            *(u32 *)((u8 *)p_cache + 0x14) = (u32)i;
+            *(void **)((u8 *)p_cache + 0x18) = arc;
+        } else {
+            rest = 0;
+        }
+
+        if (rest >= 0x10) {
+            p_header = (u32 *)dst;
+            p_header[0] = 0;
+            p_header[1] = BUFROM(main_rom_offset) + (bak_pos + FS_GetFileImageTop(file));
+            p_header[2] = BUFROM(sub_rom_offset) + (bak_pos + FS_GetFileImageTop(file));
+            dst += 0x10;
+            rest -= 0x10;
+        } else {
+            rest = 0;
+        }
+
+        if (rest >= BUFROM(main_size) + BUFROM(sub_size)) {
+            u8 *mainBuf;
+            u32 mainTop;
+            u32 base;
+            u32 mainSize;
+
+            base = FS_GetFileImageTop(file);
+            mainTop = p_header[1] - base;
+            mainBuf = dst;
+            mainSize = BUFROM(main_size);
+            if (is_own_binary) {
+                if (mainTop < 0x8000) {
+                    u32 skip = 0x8000 - mainTop;
+
+                    mainSize -= skip;
+                    mainBuf += skip;
+                    mainTop = 0x8000;
+                }
+            }
+            FS_SeekFile(file, mainTop, 0);
+            FS_ReadFile(file, mainBuf, mainSize);
+            MBi_AttachCacheBuffer(p_cache, p_header[1], BUFROM(main_size), dst, 3);
+            mainSize = BUFROM(main_size);
+            FS_SeekFile(file, p_header[2] - base, 0);
+            FS_ReadFile(file, dst + mainSize, BUFROM(sub_size));
+            MBi_AttachCacheBuffer(p_cache, p_header[2], BUFROM(sub_size), dst + mainSize, 3);
+            ret = 1;
+        } else if (rest >= 0xcc00) {
+            u8 *mainBuf;
+            u32 mainTop;
+            u32 base;
+            u32 mainSize;
+            u32 p1;
+
+            base = FS_GetFileImageTop(file);
+            p1 = p_header[1];
+            mainBuf = dst;
+            mainTop = p1 - base;
+            mainSize = 0x4400;
+            if (is_own_binary) {
+                if (mainTop < 0x8000) {
+                    u32 skip = 0x8000 - mainTop;
+
+                    mainSize -= skip;
+                    mainBuf += skip;
+                    mainTop = 0x8000;
+                }
+            }
+            FS_SeekFile(file, mainTop, 0);
+            FS_ReadFile(file, mainBuf, mainSize);
+            mainSize = 0x4400;
+            MBi_AttachCacheBuffer(p_cache, p1, mainSize, dst, 3);
+            FS_SeekFile(file, p1 + 0x4400 - base, 0);
+            FS_ReadFile(file, dst + 0x4400, mainSize);
+            MBi_AttachCacheBuffer(p_cache, p1 + 0x4400, mainSize, dst + 0x4400, 2);
+            FS_SeekFile(file, p1 + 0x8800 - base, 0);
+            FS_ReadFile(file, dst + 0x8800, mainSize);
+            MBi_AttachCacheBuffer(p_cache, p1 + 0x8800, mainSize, dst + 0x8800, 2);
+            ret = 1;
+        }
+
+        FS_SeekFile(file, bak_pos, 0);
+        if (is_own_binary) {
+            FS_CloseFile(own_bin);
+            if (ret) {
+                info.target = BUFROM(main_rom_offset);
+                info.src = (u8 *)(BUFROM(main_ram_address) - info.target);
+                info.dst = (u8 *)((u32)p_cache->p_buf - info.target);
+                info.size = len;
+                p_map = mbi_seg_header;
+                MBi_ReadSegmentHeader(&info, 0x4000, 0x8000, 1);
+                while (p_map->length != 0) {
+                    u32 *w = (u32 *)p_map;
+
+                    MBi_ReadSegmentHeader(&info, w[0], w[0] + w[1], 0);
+                    p_map++;
+                }
+                *(u32 *)(p_cache->p_buf + ((u32)_start_AutoloadDoneCallback - BUFROM(main_ram_address))) = 0xE12FFF1E;
+            }
+        }
+
+        if (ret)
+            DC_FlushRange(buf, len);
+    }
     return ret;
 }

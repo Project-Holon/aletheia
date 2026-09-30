@@ -11,16 +11,14 @@
  *
  * sdk:      DWCi_NNCompletedCallback (libdwcmatch.TWL.HYB.a dwc_match.o)
  *
- * blocker:  register allocation + size, compiled 992 vs image 1008.  Full
- *           body: all 56 relocations resolve and the control flow is
- *           reproduced (including the isQR2-zero tunnel, the result!=0
- *           NNResult dispatch and both reset tails).  Residue: the caller's
- *           `result` lands in r7 and the shared zero in r6, the reverse of the
- *           image (result r6, zero r7), which cascades through every zero
- *           store; the port byte-swap is now exact (the port is an int local
- *           loaded before the getter call); the status choice is a branch in the
- *           image, conditional moves here.  A `zero` local and
- *           declaration-order permutations are the next levers.
+ * blocker:  register allocation only, compiled 1000 vs image 1008.  Body rewritten
+ *           from the vendor listing (structured, no gotos): the non-QR2 and QR2 tails,
+ *           status test order 2/1/3, CancelPreConnectedClientProcess takes the profile
+ *           id, port swap through an int local.  Left: the image keeps result in r6 and
+ *           the shared zero in r7 (and status in r5), this build has them swapped, which
+ *           cascades through every zero store; the image also picks the status value
+ *           with a branch where this build emits conditional moves, and computes -1 for
+ *           the gt2Connect length as (0x18 register) - 0x19.
  *
  * symbols:
  *   DWCi_GetMatchCnt                 0x02175f3c arm
@@ -115,7 +113,7 @@ extern unsigned long long OS_GetTick(void);
 extern int DWCi_HandleNNResult(int result);
 extern void NNCancel(int cookie);
 extern int DWCi_ProcessNNFailure(int ignoreError);
-extern int DWCi_CancelPreConnectedClientProcess(void);
+extern int DWCi_CancelPreConnectedClientProcess(int profileID);
 extern int DWCi_DoNatNegotiationAsync(struct DWCstNNInfo *nnInfo);
 extern int DWCi_HandleNNError(int error);
 
@@ -145,7 +143,11 @@ void DWCi_NNCompletedCallback(int result, int unused, struct SOCSockAddrIn *remo
         MC->f_5f8 = 0;
         MC->f_5fc = 0;
         MC->f_600 = 0;
-        DWCi_SetMatchStatus((MC->f_61c == 0xe) ? 0xf : 6);
+        if (MC->f_61c == 0xe)
+            status = 0xf;
+        else
+            status = 6;
+        DWCi_SetMatchStatus(status);
         MC->f_c = 0;
         DWCi_MakeGT2ConnectString(pidStr, 0x18);
         {
@@ -192,53 +194,40 @@ void DWCi_NNCompletedCallback(int result, int unused, struct SOCSockAddrIn *remo
         return;
     }
     status = DWCi_HandleNNResult(result);
-    if (status != 1 && status != 2 && status != 3)
+    if (status != 2 && status != 1 && status != 3)
         return;
-    if (nnInfo->isQR2 != 0)
-        goto isQR2;
-    if (status == 1 || status == 3)
-        goto fail_path;
-    if (status != 2)
-        goto retry;
-    if (nnInfo->retryCount < 1)
-        goto retry;
-fail_path:
-    NNCancel(MC->f_618);
-    nnInfo->cookie = 0;
-    if (DWCi_ProcessNNFailure(0) == 0)
+    if (nnInfo->isQR2 == 0) {
+        if (status == 1 || status == 3 || (status == 2 && nnInfo->retryCount >= 1)) {
+            NNCancel(MC->f_618);
+            nnInfo->cookie = 0;
+            if (DWCi_ProcessNNFailure(0) == 0)
+                return;
+            DWCi_CancelPreConnectedClientProcess(MC->f_554);
+            return;
+        }
+        nnInfo->retryCount++;
+        DWCi_HandleNNError(DWCi_DoNatNegotiationAsync(nnInfo));
         return;
-    DWCi_CancelPreConnectedClientProcess();
-    return;
-retry:
-    nnInfo->retryCount++;
-    DWCi_HandleNNError(DWCi_DoNatNegotiationAsync(nnInfo));
-    return;
-
-isQR2:
+    }
     tick = OS_GetTick();
     MC->f_600 = tick;
-    if (status == 1 || status == 3)
-        goto reset1;
-    if (status != 2)
-        return;
-    if (MC->f_5f8 < 1)
-        return;
-reset1:
+    if (status != 1 && status != 3) {
+        if (status != 2)
+            return;
+        if (MC->f_5f8 < 1)
+            return;
+    }
     NNCancel(MC->f_618);
     nnInfo->cookie = 0;
-    if (MC->f_15 == 3 || MC->f_15 == 2)
-        goto proc1;
-    if (DWCi_ProcessNNFailure(0) == 0)
-        return;
-    goto reset2;
-proc1:
-    if (DWCi_ProcessNNFailure(1) != 0)
-        goto reset2;
-    return;
-reset2:
+    if (MC->f_15 == 3 || MC->f_15 == 2) {
+        if (DWCi_ProcessNNFailure(1) == 0)
+            return;
+    } else {
+        if (DWCi_ProcessNNFailure(0) == 0)
+            return;
+    }
     MC->f_5f8 = 0;
     MC->f_5fc = 0;
     MC->f_600 = 0;
     DWCi_CancelPreConnectedServerProcess(MC->f_554);
-    return;
 }
