@@ -10,6 +10,17 @@
  * status:   DIFF
  * blocker:  148 lines: prologue copy scheduling of the three 5-byte initialisers (the keyboard.o disp residue), and @20862/@20864/@20866 have no witness outside this function. Notes: docs/notes/pkt_ov016_021BF74C.c.txt
  *
+ * wave8 witness lane: the vendor relocs at disp+0x25C/0x260/0x264 are @20862/@20866/@20864
+ * (Rom libdwcutil.TWL.HYB.a, keyboard10.o), i.e. local 5-byte initialiser templates, not
+ * extern strings.  Spelling the three locals as `unsigned char N_KEY[5] = {3,3,3,1,0};` etc.
+ * makes OUR compile emit local @N templates too (+0250/54/58 -> @129/@133/@131), so the
+ * `template` class is now the applicable witness -- but `vendor_template()` keys the slot on
+ * OUR relocation offset, and the compiled layout is 16 B short of the original (624 vs 640,
+ * the interleaved byte-copy prologue), so our @N slots sit 0xC before the vendor's and the
+ * vendor slot lookup returns "no vendor template here".  Template/sole-ref/string/label all
+ * refuse these three 5-byte objects: address-only classes have no start label for them and the
+ * template rule cannot bridge the offset.  Fix the prologue schedule and the templates resolve.
+ *
  * wave10 lane2: replacing the three KB10_N5 struct assignments with memcpy(N_x, &str, 5)
  * through libc/string.h (the lever that closed gsUdpConnAttemptCB) is worse here: 616 B vs 640,
  * the locals move into a different register web.  Not the spelling; stays a DIFF.
@@ -226,15 +237,11 @@ static inline void G2_SetOBJPriority(GXOamAttr *oam, int priority)
 
 static void disp(int line, int y)
 {
-    unsigned char N_KEY[5];
-    unsigned char N_SKEY[5];
-    unsigned char N_BTN[5];
+    unsigned char N_KEY[5] = { 3, 3, 3, 1, 0 };
+    unsigned char N_SKEY[5] = { 0, 0, 0, 2, 0 };
+    unsigned char N_BTN[5] = { 0, 0, 0, 0, 2 };
     int ix;
     int i;
-
-    *(KB10_N5 *)N_KEY = keyboard10_str_20862;
-    *(KB10_N5 *)N_SKEY = keyboard10_str_20864;
-    *(KB10_N5 *)N_BTN = keyboard10_str_20866;
 
     ix = line * 3;
     for (i = 0; i < N_KEY[line]; i++, ix++) {

@@ -45,6 +45,14 @@
  * `retries` declared `long`, `0u`, and the loop counter fixed in the `for`
  * header.  The 5/5 pool words and all 7 relocations resolve; this is the list
  * scheduler's slot tie-break, not a body shape.
+ *
+ * lane W8 (2026-09-30).  Two more spellings against the same three one-slot
+ * swaps, both no better: computing rand32's return into a temp BEFORE the
+ * context->x store (the compute-a-stores-operands-before-the-store lever) is
+ * still 24 (the front end canonicalises it back); an aggregate initialiser
+ * `unsigned short id[2] = { rand32(...), rand32(...) };` disables the
+ * cross-call interleaving and blows up to 97.  Residue unchanged; all 7
+ * relocations resolve.
  */
 
 typedef struct {

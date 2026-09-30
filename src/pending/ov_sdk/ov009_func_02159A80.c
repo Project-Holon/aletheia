@@ -8,6 +8,12 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * blocker:  register-allocator spill-vs-rematerialise tie at +0A8: image
+ *           spills `enabled` to [sp] and keeps both soc+ci*12 (sl) and ci*12
+ *           (fp); this build keeps enabled in fp and rematerialises soc+ci*12
+ *           (sb holds ci*12), 820 bytes cascade. w8 lane re-tested a
+ *           block-scope chunk pointer local (917 B, size 1360) and a named
+ *           `wend = disconp+len` local (823 B); neither flips the spill.
  *
  * sdk:      dt_ack (libcps.TWL.HYB.a network.o, static)
  *

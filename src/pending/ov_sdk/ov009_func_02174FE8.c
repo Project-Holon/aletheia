@@ -11,8 +11,14 @@
  *
  * sdk:      DWCi_NNCompletedCallback (libdwcmatch.TWL.HYB.a dwc_match.o)
  *
- * blocker:  register rename only, size exact at 1008 bytes (65 concrete bytes differ,
- *           49 sites).  The size gap that used to sit here was a body-shape bug, not
+ * blocker:  register rename only, size exact at 1008 bytes (63 concrete bytes differ).
+ *           NOTE (wave 8): the previous lane mislabelled one site as part of the
+ *           cascade.  +0198 was `DWCi_HandleGT2Error(1)` in this source vs the image's
+ *           `DWCi_HandleGT2Error(gt2Result)` (mov r0, r4, not mov r0, #1); fixing it
+ *           removed 2 concrete bytes (65 -> 63) and leaves ONLY the result/zero swap.
+ *           Remaining: `result`(r0) -> r6 and shared zero -> r7 in the image; this build
+ *           swaps them (zero r6, result r7), cascading over the rest.  The size gap
+ *           that used to sit here was a body-shape bug, not
  *           allocation: `status = (f_61c == 0xe) ? 0xf : 6; DWCi_SetMatchStatus(status);`
  *           if-converts to moveq/movne and comes out 8 bytes short.  Writing the call
  *           into both arms (`if (..) DWCi_SetMatchStatus(0xf); else DWCi_SetMatchStatus(6);`)
@@ -183,7 +189,7 @@ void DWCi_NNCompletedCallback(int result, int unused, struct SOCSockAddrIn *remo
             return;
         }
         if (gt2Result == 1) {
-            DWCi_HandleGT2Error(1);
+            DWCi_HandleGT2Error(gt2Result);
             return;
         }
         if (gt2Result == 0)

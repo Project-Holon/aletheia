@@ -28,6 +28,16 @@
  *           predicated in the image (ldrgt/movgt/strgt/cmpgt/ble) but
  *           branched here, which shifts the whole first third.
  *
+ * w8:  dropped the explicit `&& req->param.getfile.size > 0` so the loop's
+ *           own entry test (`0 < size`) folds into the guard: 652 -> 648 bytes.
+ *           Now only the if-conversion of the 5-instruction `bodyLen > 0`
+ *           then-block (ldr req/mov p/ldr size/str n/cmp size, image
+ *           ldrgt/movgt/ldrgt/strgt/cmpgt) is missing; 1.1p1 keeps it as a
+ *           branch after `cmp r4,#0`.  Feeding it as a nested `if` (so the
+ *           then-block is short) made it worse (652).  Residue: 1 predicated
+ *           block not if-converted; 8 bytes / ~2 instructions.
+
+ *
  * sdk:      DWCi_Ndi_response_list (libdwcnd.TWL.HYB.a dwci_nd.o)
  *
  * symbols:
@@ -101,7 +111,7 @@ int DWCi_Ndi_response_list(void *res, tagDWCi_Ndi_HTTPREQ *hrq)
             return 1;
     }
     bodyLen = NHTTP_GetBodyBuffer(res, &body, &bodyBufSize);
-    if (bodyLen > 0 && req->param.getfile.size > 0) {
+    if (bodyLen > 0) {
         p = 0;
         for (n = 0; n < req->param.getfile.size; n++) {
             if (p >= bodyLen) { isComplete = 1; break; }

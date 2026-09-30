@@ -8,6 +8,13 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * blocker:  8 B excess (564 vs 556): image loads sigLen once into r2 across the
+ *           hashLen guard (this spelling rematerialises it; `unsigned int slen =
+ *           sigLen;` did not force the cache) and materialises i+1 (then +0x22/+0x23)
+ *           where 1.1p1 folds to i+0x23/i+0x24 (a named block-scope `n = i+1` only
+ *           swapped i->r1/n->r5, 560 B / 358 concrete, no better). Separate blocker:
+ *           the two initialiser templates (@13305/@13307) still have no overlay
+ *           attestation class -> 8/10 relocs. This lane measured the swap path only.
  * notes:    draft; residue: the image loads sigLen once into r2 (this spelling reloads it for memcpy) and keeps i+1 as its own value for the length compares ((i+1)+0x22, (i+1)+0x23) where this spelling folds to i+0x23. The md5Header/sha1Header initializer templates (vendor @13305, @13307) have no overlay attestation class, so MATCH* is the ceiling in an overlay.
  *
  * measured (U23): the public upstream gsCrypt.c spelling was compiled as written (i++ then

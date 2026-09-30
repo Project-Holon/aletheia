@@ -20,7 +20,14 @@
  *           the same allocation needs the original declaration/use order
  *           of the two char buffers, which the object does not expose.
  *           Attempted as a callee of DWCi_SceneOptInfo, not part of L11's
- *           own function list.
+ *           own function list.  Original DWARF lists the locals
+ *           mac,tmpbuf,buf,i,tmp,id,info (no canvas); that is the reverse of
+ *           the source order here, and it confirms tmpbuf is declared before
+ *           buf.  Permuting declarations to that order and to its reverse
+ *           both keep the stack layout (mac 0x14/tmpbuf 0x1a/buf 0x2e/tmp
+ *           0x58/info 0x68) but leave the allocation unchanged at 141 bytes:
+ *           the allocator still gives &tmpbuf to sb and 20 to r8, whereas the
+ *           image gives &tmpbuf to sl and 20 to sb, so &buf lands in r4 not r8.
  *
  * symbols:
  *   DWCi_FNTlFormBgEx                    0x021D5A58  arm
@@ -55,13 +62,13 @@ extern char g_021DB324[];
 
 void drawInfo(void)
 {
-    unsigned char mac[6];
     struct tagDWCWiFiInfo info;
+    unsigned long long id;
     int tmp[4];
+    int i;
     unsigned short buf[20];
     char tmpbuf[20];
-    unsigned long long id;
-    int i;
+    unsigned char mac[6];
     void *canvas;
 
     canvas = DWCi_FNTlFormBgEx(0, 0);

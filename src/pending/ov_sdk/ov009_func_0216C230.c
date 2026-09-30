@@ -1,5 +1,5 @@
 /*
- * function: DWCi_GT2ClosedProcess
+ * function: func_0216C230
  * address:  0x0216C230
  * packet:   pkt_ov009_0216C230
  * region:   ov009
@@ -64,6 +64,19 @@
  *           with `*(volatile u8 *)&...f365` in either or both operands is much worse
  *           (1372 bytes / 781 concrete), so the vendor's re-read is not a volatile cast.
  *           Parked.
+ *
+ * lane W8 (2026-10-01): renamed the C symbol to func_0216C230 and the header
+ *           `function:` to the repo convention (the file had been parked as
+ *           `DWCi_GT2ClosedProcess`, so `match.py one --func func_0216C230` could not
+ *           even find it; the vendor name stays on the `sdk:` line).  Baseline after
+ *           the rename: 1368/1368, 326 concrete (100 sites), all 45 relocs resolve.
+ *           Measured this lane, all worse: naming the module base
+ *           (`struct DWCModule *m = &g_021AA878;`, declared before `i`, uses rewritten)
+ *           1352 bytes / 918 concrete; spelling the f365 test positively
+ *           (`f365 == 3 || f365 == 2`) 1372 / 793; declaring `i` first 118 sites.
+ *           The r5/r6 residue is the module base taking r6 (image r5) so the dying
+ *           `i` falls to r8 (image r6): a genuine allocator tie, not reachable by any
+ *           declaration-order or naming spelling tried so far.  Parked.
  */
 
 typedef unsigned char u8;
@@ -166,7 +179,7 @@ extern void DWCi_SetState(int state);
 extern void DWCi_ClearQR2Key(void);
 extern int DWCi_IsServerChangeEnabled(void);
 
-void DWCi_GT2ClosedProcess(struct GTI2Connection *connection, int reason,
+void func_0216C230(struct GTI2Connection *connection, int reason,
                            int isPseudClose, unsigned char closeAid)
 {
     struct DWCstConnectionInfo *conninfo;

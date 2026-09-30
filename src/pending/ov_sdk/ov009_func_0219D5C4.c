@@ -8,11 +8,15 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
- * blocker:  wave7: `sdkobj 0x0219D5C4 --region ov009` reports the defining object
- *           is Metrowerks 4.0.0.1025 and **no tools/mwccarm build writes that
- *           stamp**, so dsi/1.1p1 cannot reproduce it by construction; the
- *           residue below is consistent with that version gap, not with a
- *           source shape we can reach from 1.1p1.
+ * blocker:  wave8: dsi/1.1p1 compiles 672/672 with 5/5 relocs; the only residue
+ *           is a one-slot rotation of the callee-saved register file (140 B /
+ *           78 sites), all instuction-shape identical.  sdkobj DWARF confirms
+ *           the image homes querySuccess in r4 ahead of the params (server r5,
+ *           engine r6); our build homes the params first and pushes
+ *           querySuccess to sb.  This lane measured inert: all top-level
+ *           declaration orders of queryBuffer/queryLen/querySuccess/saddr, the
+ *           vendor order, moving `ip` from function scope to the inner block
+ *           (and removing it), and block-scoping challengeNBO/pos/i.
  *
  * Blocker: register colouring is rotated by one slot.  The compiled code is
  * the same length (672 B) and instruction-for-instruction the same shape, but

@@ -97,7 +97,7 @@ static void create_key_block(struct _CPSSslConnection *con)
         CPSi_sha1_init((char *)con + 0x348);
         c = 'A' + i;
         for (j = 0; j < i + 1; j++)
-            CPSi_sha1_calc((char *)con + 0x348, &c, 1);
+            CPSi_sha1_calc((char *)con + 0x348, cp, 1);
         CPSi_sha1_calc((char *)con + 0x348, con, 0x30);
         CPSi_sha1_calc((char *)con + 0x348, (char *)con + 0x54, 0x20);
         CPSi_sha1_calc((char *)con + 0x348, (char *)con + 0x34, 0x20);

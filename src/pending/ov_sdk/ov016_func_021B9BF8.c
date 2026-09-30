@@ -9,11 +9,16 @@
  * isa:      thumb
  * status:   DIFF
  *
- * blocker:  wave7: `sdkobj 0x021B9BF8 --region ov016` reports the defining object
- *           is Metrowerks 3.0.0.126 and **no tools/mwccarm build writes that
- *           stamp**; dsi/1.1p1 is not that compiler, so the 8-byte loop-tail /
- *           MAC-copy residue below is unlikely to be a source-shape problem
- *           under the required toolchain.
+ * blocker:  under the pinned front end (tools/mwccarm/mwccarm/2.0/sp1p2, run
+ *           with --thumb) this body reproduces 652 of 660 bytes, 355 concrete
+ *           bytes differ.  The missing 8 bytes are the loop tail: the image
+ *           increments `retry` through its stack slot and re-reads it for the
+ *           bound (`ldr/adds/str/ldr/cmp`), this front end keeps it in a
+ *           register.  Separately the found block's copy into `gAPMac` is
+ *           spelled differently (image computes `pBssid+0x28` twice).  The
+ *           wave7 stamp claim (3.0.0.126) is retired: the pin above is a real
+ *           2.0/sp1p2 build and reaches 652/660, so this is a source-shape
+ *           residue, not a toolchain mismatch.
  *
  * sdk:      ScanAP (libdwcutil.TWL.HYB.a(atermset.o))
  *

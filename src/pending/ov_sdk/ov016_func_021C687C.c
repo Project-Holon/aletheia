@@ -24,7 +24,10 @@
  * bgt cluster / beq post-switch / b default), so the image's 192-byte dispatch
  * head is ours with the two groups swapped.  Flat across all nine pins; not a
  * case-order or case-set question (case 0x81 folded into the default changes
- * nothing but the size).
+ * nothing but the size).  Wave 8: an explicit empty `case 0x81: break;` makes
+ * 0x80..0x83 a dense run and 1.1p1 then emits a `subs #0x80 / cmp #3 / addls
+ * pc, pc, r0, lsl #2` jump table (396 B), so the case set must stay sparse; the
+ * dispatch stays singleton-first however the arms are ordered.
  * symbols:
  *   DWCi_CEINlSetExObj               0x021D5368  arm
  *   DWCi_CMNlLoadResource            0x021BD1D4  arm

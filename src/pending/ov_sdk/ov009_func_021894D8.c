@@ -67,6 +67,14 @@
  * schedules `sendCount++` before the format pointer (see
  * docs/idioms/a-varargs-counter-increment-is-scheduled-before-a-later-format-pointer.md).
  *
+ * lane W8 (2026-09-30): re-measured 364/364, 13/13 relocations, 21 concrete.
+ *   New spellings tried: `const char *fmt = g_021A4528;` then `fmt` + inline
+ *   `g_021ADFC8++` (same 21, compactor already sinks the fmt load); sequential
+ *   `int count = g_021ADFC8; char *fmt = g_021A4528; ... g_021ADFC8 = count+1;`
+ *   which does place the fmt load between the counter load and its store but
+ *   resizes to 368/117 (extra callee-saved).  Residue unchanged: mwcc sinks the
+ *   format-pointer load below the counter RMW and colours the counter r3.
+ *
  * lane W7 (2026-09-30): re-measured 364/364, 13/13 relocations, 21 concrete
  * bytes.  Re-tested the counter as a `cnt` temp with the increment before the
  * call (368/117), after the call (368/119) and passing `g_021ADFC8 + 1` then

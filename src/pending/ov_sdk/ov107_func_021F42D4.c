@@ -9,15 +9,20 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker: codegen/scheduling.  Logic reconstructed in full (per the
- *   MBi_InitSendVolatBeacon sibling and the insurance layout) and reaches
- *   600 of 612 bytes, but mwcc -O4,p hoists the `SM->unk10` and `SM->unk29`
- *   loads out of source order, uses `and r,r,#0xff` where the original has
- *   `bic r,r,#0xfc` for `(v & 3)`, and quantises `(P->unk4b5 << 2)` as
- *   `lsl #2; and #0xff` instead of the original's fused shift pair
- *   `lsl #0x1a; orr ...,lsr #24`.  Tried plain-u8 vs 6-bit-bitfield for
- *   `unk4hi`/`unk4b5`; the bitfield form reorders the whole prologue block.
- *   Needs an exact scheduling match, not just a correct expression.
+ * blocker: scheduling/register-colouring.  Logic reconstructed in full (per
+ *   the MBi_InitSendVolatBeacon sibling).  Fixed the instruction selection:
+ *   `bsendBuff.unk4` is a byte union of the whole `raw` and a `{lo:2,hi:6}`
+ *   bitfield split (idioms a-byte-union-of-whole-and-split-bitfields...,
+ *   clearing-a-small-bitfield-uses-bics...), which reproduces the original's
+ *   `bic r,r,#0xfc` and the fused field-insert shift pair
+ *   `lsl #0x1a; orr ...,lsr #24`.  What remains is a pure -O4,p scheduling /
+ *   register-colouring mismatch: mwcc hoists the `SM->unk10`, `SM->unk26`,
+ *   `SM->unk29` and `SM->p1c` loads to the top of the straight-line block
+ *   where the original keeps them in source order, and colours the whole body
+ *   differently (compiled 596 B vs original 612 B).  Tried `volatile` on the
+ *   SM pointer: prevents some CSE but blows the function up to 644 B and the
+ *   hoist survives.  Needs the exact source ordering / local shape, not a
+ *   different expression.
  *
  * sdk:      MBi_SendVolatBeacon (libmb.TWL.HYB.a mb_gameinfo.o)
  *
@@ -54,7 +59,10 @@ typedef struct MbGameInfo {
 
 typedef struct MbBeacon {
     u32 unk0;
-    u8  unk4;
+    union {
+        u8 raw;
+        struct { u8 lo : 2; u8 hi : 6; } bf;
+    } unk4;
     u8  unk5;
     u8  unk6;
     u8  unk7;
@@ -102,12 +110,12 @@ static void MBi_SendVolatBeacon(u32 ggid, u16 tgid, u8 attribute)
     if (SM->unk26 != *(u8 *)((u8 *)SM->p1c + 0x4b4))
         MBi_InitSendVolatBeacon();
 
-    v = (bsendBuff.unk4 & ~3) | 2;
-    bsendBuff.unk4 = v;
+    v = (bsendBuff.unk4.raw & ~3) | 2;
+    bsendBuff.unk4.raw = v;
     bsendBuff.unk5 = *(u8 *)((u8 *)SM->p1c + 0x4b3);
     bsendBuff.unk6 = SM->unk26;
     bsendBuff.unk0 = *(u32 *)((u8 *)SM->p1c + 0x4b8);
-    bsendBuff.unk4 = (v & 3) | (u8)(*(u8 *)((u8 *)SM->p1c + 0x4b5) << 2);
+    bsendBuff.unk4.bf.hi = *(u8 *)((u8 *)SM->p1c + 0x4b5);
     bsendBuff.unk7 = SM->unk29++;
     bsendBuff.unka = *(u8 *)((u8 *)SM->p1c + 0x358);
     bsendBuff.unkc = *(u16 *)((u8 *)SM->p1c + 0x35a);

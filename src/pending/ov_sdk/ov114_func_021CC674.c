@@ -8,6 +8,15 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * blocker:  scheduler/colouring tie-break at -O4,p, 39 concrete bytes.  The
+ *           target keeps the `ldm sb,{d,top}` below the two terminator byte
+ *           stores, if-converts `hi = 0` to `movle ip,r4` after `cmp r3,#1`,
+ *           and holds 0xff in fp; this build hoists the ldm, emits an
+ *           unconditional `mov ip,r4` before the cmp, and holds 0xff in sl
+ *           (so the frame loses one word).  All three are register/schedule
+ *           consequences of the same liveness, not separate C errors:
+ *           `hi = top > 1 ? *dp++ : 0;` and the if/else spelling both fold to
+ *           47 bytes (worse) at this front end.
  *
  * sdk:      CRYPTOi__BN_gen_exp_string (crypto_bobj1.o)
  *

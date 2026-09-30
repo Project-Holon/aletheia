@@ -14,9 +14,16 @@
  * BLOCKER (codegen + evidence): dsi/1.1p1 builds this at 1924 bytes against
  * the 1908-byte object, with 1294 concrete bytes differing -- register
  * allocation and stack-slot order diverge early (cur lands in r4 instead of
- * r8, and the extra `w` temporary widens the frame to 0x28).  Even if the
- * body were brought byte-for-byte into codegen agreement it could not pass
- * EXACT: the two ABS32 sites g_021CADB0 (SSPiDateTime) and g_021CADC4
+ * r8, and the extra `w` temporary widens the frame to 0x28).  Root cause of
+ * the rotation: the `= 0xffff` declaration initialiser is parked in a stack
+ * slot and reloaded (`str r4,[sp,#0xc]; ldr r1,[sp,#0xc]`) in the compiled
+ * output, freeing r4 for cur; the original keeps 0xffff in r4, copies it to
+ * r5 (maker) and gives cur r8.  Splitting the declaration from the
+ * initialisation and reordering the six spilled locals (AppLen, len, next,
+ * exif, inter, thumb) moved the exif slot but did not free the constant back
+ * into r4 (1289 vs 1294 bytes).  Even if the body were brought byte-for-byte
+ * into codegen agreement it could not pass EXACT: the two ABS32 sites
+ * g_021CADB0 (SSPiDateTime) and g_021CADC4
  * (SSPiSoftwareBuffer) have no witness anywhere outside 021C0440..021C0BC4,
  * so 35 of 37 relocations resolve and the best verdict is MATCH.  GetLong
  * (0x021C03C0) is already EXACT; GetWord (0x021C0370) resolves as sole-ref

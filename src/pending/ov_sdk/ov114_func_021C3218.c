@@ -9,28 +9,35 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker: wave7: `sdkobj 0x021C3218 --region ov114` reports the defining object
- *          is Metrowerks 4.0.0.1025 and **no tools/mwccarm build writes that
- *          stamp**, so dsi/1.1p1 cannot reproduce the 1564-byte vendor body.
- *          The rewrite below (628 B) is a partial transcription, not the vendor
- *          source; the open GameSpy text at scratch/u39/gs/ghttpPost.c:1254 is a
- *          different revision of the function and does not compile to the image.
+ * blocker: wave8 structural transcription, not EXACT.  Compiled 1344 B vs the
+ *          original 1564 B (220 B short), 1129 concrete bytes differ; 23 of 34
+ *          relocations resolve, the rest are the five private string literals
+ *          and the two static format strings (g_firstFmt/g_normalFmt, the
+ *          GHI_MULTIPART_BOUNDARY_FIRST/NORMAL prefixes) plus the two static
+ *          DIME names, which have no attestation yet.  The overall body is now
+ *          right: prologue push {r4-r8,sb,sl,lr} + sub sp,#0x820, the
+ *          state->pos == -1 gate, the simple-post / type==0 / type==3 / file
+ *          branch tree, the four-byte ghiPostAppendString padding loop, the
+ *          encryptor-vs-ghiTrySendThenBuffer split with the shared
+ *          ghiResetBuffer tail, and the per-type tail dispatch are all laid
+ *          out in the original order and use the original call set.
  *
- * blocker: partial rewrite.  The state->pos == -1 gate, the data->type branch
- *          (0 / 3 / else), the four-byte-aligned gsiSafeStrcpyA append, the
- *          encryptor-vs-ghiTrySendThenBuffer send split and the final
- *          per-post-type dispatch are all transcribed from the listing.  The
- *          exact GHIPostData field roles and the multipart header byte values
- *          are approximate; this body does not reproduce the vendor bytes.
- *          ACTIONABLE: this function exists verbatim in the open GameSpy
- *          source already cloned into the tree -- scratch/u39/gs/ghttpPost.c
- *          line 1254 `static GHIPostingResult ghiPostStateDoPosting
- *          (GHIPostState *state, GHIConnection *connection, GHTTPBool first,
- *          GHTTPBool last)`, with `char buffer[2048]`, the GHIDimeHeader local,
- *          GHI_MULTIPART_BOUNDARY_FIRST/NORMAL, and the four
- *          ghiPost*StateDoPosting siblings called from the tail dispatch.
- *          Rewrite from that text rather than from the disassembly: that is
- *          the rule-4d upstream lever.
+ *          The residual is the DIME header construction (both the
+ *          GHIXmlData/type==3 arm and the file arm).  The original builds the
+ *          12-byte GSIDimeHeader from a local, byte-swapping mIdLength /
+ *          mTypeLength / mDataLength with inline lsl/asr/and/orr sequences and
+ *          four gsXmlWriterGetDataLength (func_02181E20) results packed into
+ *          mDataLength, then copies the struct to buffer a byte at a time.  The
+ *          transcription reproduces the shape but the exact field/source roles
+ *          (which union member feeds each DIME field, and the htonl pack order)
+ *          are approximate, so the arm is short.  A near-correct but unverified
+ *          guess for the file arm's filelen select is in place; it is the
+ *          clearest remaining 100+ byte discrepancy.  Next lane: build the
+ *          header straight from the upstream ghiPostStateDoPosting DIME block
+ *          and verify each of the four func_02181E20 calls' positions.
+ *
+ *          (Previous wave7 claim that the 4.0.0.1025 vendor stamp blocks this
+ *          is withdrawn: the body is plain 1.1p1-reachable C.)
  *
  * sdk:      ghiPostStateDoPosting (libdwcgsghttp.TWL.HYB.a ghttppost.o)
  *
@@ -47,14 +54,6 @@
  *   func_021C2DB0                    0x021C2DB0 arm  ov114
  *   func_021C2F10                    0x021C2F10 arm  ov114
  *   func_021C304C                    0x021C304C arm  ov114
- *   g_021CEE80                       0x021CEE80 data
- *   g_021CEE88                       0x021CEE88 data
- *   g_021CEEC8                       0x021CEEC8 data
- *   g_021CEECC                       0x021CEECC data
- *   g_021CEED4                       0x021CEED4 data
- *   g_021CEEFC                       0x021CEEFC data
- *   g_021CEF28                       0x021CEF28 data
- *   g_021CEF58                       0x021CEF58 data
  */
 
 typedef unsigned char u8;
@@ -70,144 +69,242 @@ struct GSIDimeHeader {
     u32 mDataLength;               /* 0x08 */
 };
 
-struct GHIPostData {
-    u32 type;                      /* 0x00 */
-    u32 field4;                    /* 0x04 */
-    void *field8;                  /* 0x08 */
-    char *fieldC;                  /* 0x0C */
-    char *field10;                 /* 0x10 */
-    char *field14;                 /* 0x14 */
-};
+typedef struct GHIPostStringData {
+    char *string;
+    int len;
+    int invalidChars;
+    int extendedChars;
+} GHIPostStringData;
 
-struct GHIBuffer {
+typedef struct GHIPostFileDiskData {
+    char *filename;
+    char *reportFilename;
+    char *contentType;
+} GHIPostFileDiskData;
+
+typedef struct GHIPostFileMemoryData {
+    const char *buffer;
+    int len;
+    char *reportFilename;
+    char *contentType;
+} GHIPostFileMemoryData;
+
+typedef struct GHIPostXmlData {
+    void *xml;
+} GHIPostXmlData;
+
+typedef struct GHIPostData {
+    int type;
+    char *name;
+    union {
+        GHIPostStringData string;
+        GHIPostFileDiskData fileDisk;
+        GHIPostFileMemoryData fileMemory;
+        GHIPostXmlData xml;
+    } data;
+} GHIPostData;
+
+typedef struct GHIPostState {
+    GHIPostData *data;
+    int pos;
+} GHIPostState;
+
+typedef struct GHIPost {
     void *data;                    /* 0x00 */
-    int len;                       /* 0x04 */
-    int size;                      /* 0x08 */
-    int fieldC;                    /* 0x0C */
-    int field10;                   /* 0x10 */
-};
+    void *callback;                /* 0x04 */
+    void *param;                   /* 0x08 */
+    int hasFiles;                  /* 0x0C */
+    int hasSoap;                   /* 0x10 */
+    int useDIME;                   /* 0x14 */
+} GHIPost;
 
-struct GHIEncryptor {
-    u8 pad0[4];
-    int field4;                    /* 0x04 */
-    int field8;                    /* 0x08 */
-    u8 padC[0x14];
-};
+typedef struct GHIBuffer {
+    char *data;
+    int len;
+    int size;
+    int pos;
+    int field10;
+} GHIBuffer;
 
-struct GHIConnection {
+typedef struct GHIEncryptor {
+    int pad0;
+    int mEngine;
+    int mEncryptOnBuffer;
+} GHIEncryptor;
+
+typedef struct GHIConnection {
     u8 pad0[0x58];
-    struct GHIBuffer sendBuffer;   /* 0x58 */
-    u8 pad1[0x164 - 0x7C];
-    struct GHIPostData *post;      /* 0x164 */
+    GHIBuffer sendBuffer;          /* 0x58 */
+    u8 pad1[0x164 - 0x6C];
+    GHIPost *post;                 /* 0x164 */
     u8 pad2[0x194 - 0x168];
-    struct GHIEncryptor encryptor; /* 0x194 */
-};
+    GHIEncryptor encryptor;        /* 0x194 */
+} GHIConnection;
 
-struct GHIPostState {
-    struct GHIPostData *data;      /* 0x00 */
-    int pos;                       /* 0x04 */
-    u8 state[8];                   /* 0x08 */
-};
-
-extern int func_0209477C(const char *s);
+extern int func_0209477C(char *s);
 extern int func_02181E20(void *stream);
 extern unsigned long func_021803BC(char *dst, char *src, unsigned long size);
-extern int func_02084F40(char *dst, char *fmt, ...);
-extern int func_021BFDEC(struct GHIBuffer *buffer, char *data, int dataLen);
-extern int func_021C011C(struct GHIConnection *connection);
-extern int func_021C07B8(struct GHIConnection *connection, char *buffer, int len);
-extern void func_021C00FC(struct GHIBuffer *buffer);
-extern int func_021C2C28(struct GHIPostState *state, struct GHIConnection *connection);
-extern int func_021C2DB0(struct GHIPostState *state, struct GHIConnection *connection);
-extern int func_021C2F10(struct GHIPostState *state, struct GHIConnection *connection);
-extern int func_021C304C(struct GHIPostState *state, struct GHIConnection *connection);
+extern void func_02084F40(char *dst, char *fmt, ...);
+extern int func_021BFDEC(GHIBuffer *buffer, char *data, int dataLen);
+extern int func_021C011C(GHIConnection *connection);
+extern int func_021C07B8(GHIConnection *connection, char *buffer, int len);
+extern void func_021C00FC(GHIBuffer *buffer);
+extern int func_021C2C28(GHIPostState *state, GHIConnection *connection);
+extern int func_021C2DB0(GHIPostState *state, GHIConnection *connection);
+extern int func_021C2F10(GHIPostState *state, GHIConnection *connection);
+extern int func_021C304C(GHIPostState *state, GHIConnection *connection);
 
-extern char g_021CEE80[];
-extern char g_021CEE88[];
-extern char g_021CEEC8[];
-extern char g_021CEECC[];
-extern char g_021CEED4[];
-extern char g_021CEEFC[];
-extern char g_021CEF28[];
-extern char g_021CEF58[];
+static char *g_soapId;
+static char *g_soapType;
+static char *g_firstFmt;
+static char *g_normalFmt;
 
-/* Append `str` at buffer[writePos], NUL included, padded to a four-byte
- * boundary; *writePos is advanced past the padding. */
-static void ghiPostAppendString(char *buffer, int *writePos, char *str)
+static void ghiPostAppendString(char *buffer, int *len, char *str)
 {
-    int written;
     int pad;
+    int written;
 
-    written = func_021803BC(buffer + *writePos, str, 0x800 - *writePos);
+    written = (int)func_021803BC(buffer + *len, str, 0x800 - *len);
     pad = 4 - (written & 3);
-    *writePos += written;
+    *len += written;
     if (pad == 4)
         return;
-    for (pad--; pad > 0; pad--)
-        buffer[(*writePos)++] = 0;
+    pad--;
+    if (pad <= 0)
+        return;
+    do {
+        buffer[(*len)++] = 0;
+        pad--;
+    } while (pad > 0);
 }
 
-static int ghiPostStateDoPosting(struct GHIPostState *state,
-                                 struct GHIConnection *connection,
+static int ghiPostStateDoPosting(GHIPostState *state, GHIConnection *connection,
                                  int first, int last)
 {
     char buffer[2048];
     struct GSIDimeHeader header;
-    struct GHIPostData *data;
-    int writePos;
+    int len = 0;
     int result;
-    u32 *src;
-    u32 *dst;
-    int i;
 
     if (state->pos == -1) {
         state->pos = 0;
-        data = state->data;
-        if (connection->post->fieldC == 0 && connection->post->field10 == 0) {
+
+        if (connection->post->hasFiles == 0 && connection->post->hasSoap == 0) {
             if (first)
-                func_02084F40(buffer, g_021CEE80, connection->post->field4);
+                func_02084F40(buffer, "%s=", state->data->name);
             else
-                func_02084F40(buffer, g_021CEE88, connection->post->field4);
-            writePos = func_0209477C(buffer);
-        } else if (data->type == 0) {
+                func_02084F40(buffer, "&%s=", state->data->name);
+        } else if (state->data->type == 0) {
             if (first)
-                func_02084F40(buffer, g_021CEE80, data->field4);
+                func_02084F40(buffer,
+                    "%sContent-Disposition: form-data; name=\"%s\"\r\n\r\n",
+                    g_firstFmt, state->data->name);
             else
-                func_02084F40(buffer, g_021CEE88, data->field4);
-            writePos = func_0209477C(buffer);
-        } else if (data->type == 3) {
-            header.mVersionAndFlags = 8;
-            header.mTypeT = (first ? 8 : 8) | 4 | 2;
-            header.mOptionsLength = 0;
-            header.mIdLength = 0x20;
-            header.mTypeLength = 0;
-            header.mDataLength = 0;
-            src = (u32 *)&header;
-            dst = (u32 *)buffer;
-            for (i = 0; i < 3; i++)
-                dst[i] = src[i];
-            writePos = 0xc;
-            ghiPostAppendString(buffer, &writePos, connection->post->fieldC);
-            ghiPostAppendString(buffer, &writePos, connection->post->field14);
+                func_02084F40(buffer,
+                    "%sContent-Disposition: form-data; name=\"%s\"\r\n\r\n",
+                    g_normalFmt, state->data->name);
+        } else if (state->data->type == 3) {
+            if (connection->post->useDIME != 0) {
+                header.mVersionAndFlags = 8;
+                if (first)
+                    header.mVersionAndFlags |= 4;
+                if (last)
+                    header.mVersionAndFlags |= 2;
+                header.mTypeT = 0x20;
+                header.mOptionsLength = 0;
+                header.mIdLength = (u16)((((func_0209477C(g_soapId) & 0xff) << 8) | ((func_0209477C(g_soapId) & 0xff00) >> 8)) & 0xffff);
+                header.mTypeLength = (u16)((((func_0209477C(g_soapType) & 0xff) << 8) | ((func_0209477C(g_soapType) & 0xff00) >> 8)) & 0xffff);
+                header.mDataLength = (u32)(((func_02181E20(state->data->data.xml.xml) & 0xff) << 24) |
+                                           ((func_02181E20(state->data->data.xml.xml) & 0xff00) << 8) |
+                                           ((func_02181E20(state->data->data.xml.xml) & 0xff0000) >> 8) |
+                                           ((func_02181E20(state->data->data.xml.xml) & 0xff000000) >> 24));
+                buffer[0] = *(char *)&header;
+                buffer[1] = *((char *)&header + 1);
+                buffer[2] = *((char *)&header + 2);
+                buffer[3] = *((char *)&header + 3);
+                buffer[4] = *((char *)&header + 4);
+                buffer[5] = *((char *)&header + 5);
+                buffer[6] = *((char *)&header + 6);
+                buffer[7] = *((char *)&header + 7);
+                buffer[8] = *((char *)&header + 8);
+                buffer[9] = *((char *)&header + 9);
+                buffer[10] = *((char *)&header + 10);
+                buffer[11] = *((char *)&header + 11);
+                len = 0xc;
+                ghiPostAppendString(buffer, &len, g_soapId);
+                ghiPostAppendString(buffer, &len, g_soapType);
+            } else {
+                buffer[0] = 0;
+            }
         } else {
-            writePos = func_0209477C(buffer);
+            GHIPostData *data2 = state->data;
+            char *filename;
+            char *contentType;
+            int filelen;
+
+            if (data2->type == 1) {
+                filelen = data2->data.fileDisk.contentType[0];
+                filename = data2->data.fileDisk.reportFilename;
+                contentType = data2->data.fileDisk.contentType;
+            } else {
+                filelen = data2->data.fileMemory.len;
+                filename = data2->data.fileMemory.contentType;
+                contentType = data2->data.fileMemory.contentType;
+            }
+
+            if (connection->post->useDIME != 0) {
+                header.mVersionAndFlags = 8;
+                if (first)
+                    header.mVersionAndFlags |= 4;
+                if (last)
+                    header.mVersionAndFlags |= 2;
+                header.mTypeT = 0x10;
+                header.mOptionsLength = 0;
+                header.mIdLength = (u16)((((func_0209477C(state->data->name) & 0xff) << 8) | ((func_0209477C(state->data->name) & 0xff00) >> 8)) & 0xffff);
+                header.mTypeLength = (u16)((((func_0209477C(contentType) & 0xff) << 8) | ((func_0209477C(contentType) & 0xff00) >> 8)) & 0xffff);
+                header.mDataLength = (u32)filelen;
+                buffer[8] = *(char *)&header;
+                buffer[9] = *((char *)&header + 1);
+                buffer[10] = *((char *)&header + 2);
+                buffer[11] = *((char *)&header + 3);
+                buffer[12] = *((char *)&header + 4);
+                buffer[13] = *((char *)&header + 5);
+                buffer[14] = *((char *)&header + 6);
+                buffer[15] = *((char *)&header + 7);
+                buffer[16] = *((char *)&header + 8);
+                buffer[17] = *((char *)&header + 9);
+                buffer[18] = *((char *)&header + 10);
+                buffer[19] = *((char *)&header + 11);
+                len = 0xc;
+                ghiPostAppendString(buffer, &len, state->data->name);
+                ghiPostAppendString(buffer, &len, filename);
+            } else {
+                if (first)
+                    func_02084F40(buffer,
+                        "%sContent-Disposition: form-data; name=\"%s\"; filename=\"%s\"\r\nContent-Type: %s\r\n\r\n",
+                        g_firstFmt, state->data->name, filename, contentType);
+                else
+                    func_02084F40(buffer,
+                        "%sContent-Disposition: form-data; name=\"%s\"; filename=\"%s\"\r\nContent-Type: %s\r\n\r\n",
+                        g_normalFmt, state->data->name, filename, contentType);
+            }
         }
 
-        if (connection->encryptor.field4 != 0 &&
-            connection->encryptor.field8 == 1) {
-            if (writePos == 0)
-                writePos = func_0209477C(buffer);
-            result = func_021BFDEC(&connection->sendBuffer, buffer, writePos);
+        if (connection->encryptor.mEngine != 0 &&
+            connection->encryptor.mEncryptOnBuffer == 1) {
+            if (len == 0)
+                len = func_0209477C(buffer);
+            result = func_021BFDEC(&connection->sendBuffer, buffer, len);
             if (result == 0)
                 return 0;
             if (func_021C011C(connection) == 0)
                 return 0;
-            if (connection->sendBuffer.field10 < connection->sendBuffer.fieldC)
+            if (connection->sendBuffer.len < connection->sendBuffer.pos)
                 return 2;
         } else {
-            if (writePos == 0)
-                writePos = func_0209477C(buffer);
-            result = func_021C07B8(connection, buffer, writePos);
+            if (len == 0)
+                len = func_0209477C(buffer);
+            result = func_021C07B8(connection, buffer, len);
             if (result == 0)
                 return 0;
             if (result == 2)

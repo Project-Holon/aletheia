@@ -7,7 +7,12 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF (size-exact 484/484, 33 concrete bytes, one register exchange)
+ * status:   DIFF (size-exact 484/484, 46 concrete bytes, one register exchange)
+ * blocker:  phase-2 `index`/`ac+0x700` table-temp swap (image index=r4/temp=r7,
+ *           ours index=r7/temp=r4).  Wave 8 (2026-09-30) retried: const on the
+ *           read-only JpegZigZagInputOrderCodes extern (->480B), const on dc/ac
+ *           params (46B, no change), swapped `zerorun=0;index=1;` order (49B),
+ *           `int index` (47B).  None move it; register allocation tie only.
  *
  * sdk:      Yos_JpegEncoderComponentSequential (libssp.TWL.HYB.a jpegenc.o)
  *

@@ -37,6 +37,18 @@
  * 1660, so the parked order is the only size-exact one and the residue is
  * allocation, not statement order or declaration order.
  *
+ * U64 (measured): sdkobj DWARF of sha1.o gives the homes a=r5 b=r6 c=r10
+ * d=r8 e=r9 w=[fb+16] (address in r7), i=r0 j=r1; the DWARF listing order
+ * reversed is w,a,b,c,d,e,i,j, which is the declaration order already parked,
+ * so the declaration-order lever is spent.  Tried this lane, all still 142:
+ * `register` on w; w declared last; initialised declarations for a..e (both
+ * one-per-line and comma-joined); const on the read-only w of R and on the
+ * source pointer of long_from_char.  Swapping the i/j declarations gives 152
+ * and making them u32 gives 146, confirming the allocator is sensitive to the
+ * counter declarations but not in a direction that reaches 0.  The residue is
+ * the {c,d,w,temp} permutation over {r7,r8,r10,r4}; no source spelling found
+ * this lane moves it.
+ *
  * symbols:
  *   long_from_char   0x021635E0  arm  ov009
  *   R                0x02163558  arm  ov009

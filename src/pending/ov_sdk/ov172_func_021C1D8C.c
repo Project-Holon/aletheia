@@ -8,6 +8,15 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF (388 vs 376 B, 230 concrete bytes - allocator only)
+ * blocker:  pure callee-saved tie: image gives dst fp (`mov fp, r3` +0x40)
+ *           and src r6 (`mov r6, r0` +0x10); ours gives src fp and spills
+ *           dst to [sp+8] (frame 0x1c vs 0x18), which then forces y/u/v into
+ *           r7/sl/r8 instead of r0/r3/ip.  Tried this lane: `const` on the
+ *           read-only src pointer
+ *           (docs/idioms/const-on-a-read-only-source-parameter-settles-a-register-tie.md)
+ *           -> no change (388/230).  Combined with the eight declaration
+ *           orders already tried by lane U57, this is a genuine allocator tie
+ *           with no source lever found.
  *
  * sdk:      SSP_JpegEncoderResample (libssp.TWL.HYB.a jpegenc.o)
  *

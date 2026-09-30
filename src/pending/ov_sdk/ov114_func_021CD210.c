@@ -9,20 +9,56 @@
  * isa:      arm
  * status:   DIFF
  *
- * lane W7 (2026-09-30): re-measured 1764/1908, 37/37 relocations, 1505
- * concrete bytes -- the draft's structure diverges from the top, so the
- * residue is not a near miss.  Disassembly walk (0x021CD210..0x021CD984)
- * confirms the shape: BN_MONT_CTX_new/BN_MONT_CTX_set_word at [sp+0x14];
- * callback = ctx->depth (ctx+0x10c) into [sp+0x10]; CRYPTOi__BN_gen_exp_bits
- * returns the windowed-exponent header (p[0..1] len, p[2] window, p[3] count;
- * see the EXACT sibling ov114_func_021CC530.c) and ctx->tos is bumped for it;
- * then aa is a fresh ctx->bn BIGNUM, and val[] is built with
- * CRYPTOi__bn_mul_normal / bn_from_montgomery_words.  The draft's
- * `bits=(bitsbuf[2]<<8)|bitsbuf[3]` and
- * `window=(bitsbuf[2]+0x3f)/bitsbuf[2]` misread that header, and the windowed
- * loop's table size, sqr chain and callback accounting need rewriting from
- * the listing.  This is real decomp work still outstanding, not a witness
- * problem.
+ * lane W8 (2026-10-01): re-measured 1764/1908, 37/37 relocations.  The draft
+ * body is wrong from CRYPTOi__BN_gen_exp_bits on; a full listing walk
+ * (0x021CD210..0x021CD984) now fixes the real structure.  This is NOT the
+ * recp sibling's bit-indexed sliding window -- gen_exp_bits emits a byte
+ * STREAM that is walked sequentially.
+ *
+ * Verified structure (register/stack map from asm/overlays/ov114.s):
+ *   [sp+4]=rr  [sp+8]=2n  [sp+0xc]=progress counter(init 0)
+ *   [sp+0x10]=callback OBJECT (ctx+0x10c; called via vtable[0])
+ *   [sp+0x14]=mont  [sp+0x18]=aa  [sp+0x1c]=count  [sp+0x20]=savedtos
+ *   [sp+0x28]=bitsbuf cursor  [sp+0x2c..]=table[] pointer array
+ *   r4=n (mont->N.top)   r7=exp (then n0)   r6=m (then accumulator r)
+ *
+ *   1. odd-m -> BN_is_zero(a)->BN_is_zero(p)->BN_is_one(p) early outs, as
+ *      the draft has them.
+ *   2. mont = in_mont ?: (BN_MONT_CTX_new + BN_MONT_CTX_set_word(m,ctx)).
+ *   3. callback = *(void**)(ctx+0x10c); called callback(0xff, counter) as
+ *      r3=*obj; r1=0xff; r2=[sp+0xc]; blx r3.  counter++ each call; on err
+ *      callback(0xff,-1).  (Draft's plain `int(*)(int,int)` is wrong.)
+ *   4. BN_gen_exp_bits(p,&bitsbuf,0).  ctx->tos++ for its temp bn.
+ *      Header per EXACT sibling ov114_func_021CC530.c: p[0..1]=len,
+ *      p[2]=window(log), p[3]=count=2^(window-1).  count -> [sp+0x1c].
+ *      A sizing term `r5=(unsigned)(p[2]+0x3f)/p[2]` = ceil(64/p[2]) is
+ *      computed; bitsbuf += 4.  The draft's bits=(p[2]<<8)|p[3] is bogus --
+ *      there is no bit count used as a loop bound.
+ *   5. Four ctx->bn slots are taken:  aa(n words),  r(2n),
+ *      product scratch d(2n),  val/table storage (sb words), where
+ *      sb = count*n + ((p->top*r5*2+7)/8 with CW signed rounding).  All are
+ *      bn_wexpand/bn_expand2'd, aborting to err.
+ *   6. table[0]=mont_mul(aa,RR); for i=1..count-1
+ *      table[i]=mont_mul(table[i-1],table[0]); each table[i] = table[0]+i*n
+ *      inside the one storage bn (helpers bn_mul_normal + the equivalent of
+ *      bn_from_montgomery_words with (dst,scratch,N.d,n,n0)).  rr is also
+ *      mont_mul(aa,RR)'d into r.
+ *   7. Main loop walks the encoded stream (no bit indexing):
+ *        byte w1=*cursor++, w2=*cursor++;
+ *        a run of (0x00,0xff) pairs is skipped; each 0xNN byte adds 0xNN+1
+ *        to r5 (a squaring repeat count); the low window index is w1>>1.
+ *        r6 = table[w1>>1] via MI_CpuCopy8(src=table, dst=r, n*4).
+ *        if r5!=0: callback(0xff,counter); if ctx->flags(ctx+0x108)&0x4000
+ *        -> err; square r exactly r5 times; then read the next window and
+ *        r = mont_mul(r, table[next>>1]) (window==1 && r5==0 -> multiply by
+ *        aa).  ends when (w1==0 && r5==0), i.e. loc_021CD8BC.
+ *   8. Tail: zero-fill r to n words in [sp+8]; rr = from_mont(r); if
+ *      !(ctx->flags & 0x4000) rr->top=n then bn_fix_top(rr), ret=1.
+ *   err: callback(0xff,-1) may clear ret; ctx->tos=savedtos; free mont iff
+ *      in_mont==0.
+ *
+ * So the outstanding work is a faithful rewrite of steps 4-8; the helper
+ * prototypes are fine and all 37 relocations already resolve.
  *
  * sdk:      CRYPTOi__BN_mod_exp_mont (libcrypto.TWL.HYB.a crypto_bobj1.o)
  *
@@ -43,16 +79,21 @@
  *   CRYPTOi__bn_fix_top              0x021cac8c arm
  *   CRYPTOi__BN_MONT_CTX_free        0x021cca24 arm
  *
- * blocker:  codegen -- no DWARF subprogram. Full windowed Montgomery
- *           exponentiation reconstructed from the listing and the EXACT
- *           reciprocal sibling CRYPTOi__BN_mod_exp_recp (0x021CCE7C). The
- *           object computes the exponent bit windows through
- *           CRYPTOi__BN_gen_exp_bits (not BN_is_bit_set) and does its
- *           Montgomery reduction with CRYPTOi__bn_mul_normal /
- *           CRYPTOi__bn_sqr_normal + CRYPTOi__bn_from_montgomery_words,
- *           with a progress callback off BN_CTX+0x10c. Not yet iterated
- *           against --diff; the helper prototypes in this file are inferred
- *           from the call sites and may need tightening.
+ * blocker:  codegen -- no DWARF subprogram.  The C body below is still the
+ *           W7 draft (1764/1908, 37/37 relocs); it is wrong from
+ *           CRYPTOi__BN_gen_exp_bits onward and must be rewritten to the
+ *           decoded structure in the header comment above.  Known required
+ *           changes: (a) drop bits=(p[2]<<8)|p[3] and the bit-indexed
+ *           BN_is_bit_set-style loop entirely -- gen_exp_bits emits a byte
+ *           stream walked by a moving cursor, with (0x00,0xff) padding runs
+ *           and 0xNN+1 squaring counts; (b) count=p[3] is the table size
+ *           2^(window-1) and the table is count BIGNUMs carved at stride n
+ *           from one storage bn, table[i]=mont_mul(table[i-1],table[0]);
+ *           (c) the callback at ctx+0x10c is an object invoked through its
+ *           vtable[0] as (0xff, counter) with counter at [sp+0xc], not a
+ *           bare function pointer; (d) add the a-already-reduced alias
+ *           (a->top==n && a->d[n-1]<m->d[n-1] -> aa=(BIGNUM*)a) and the
+ *           four per-loop scratch bn allocations.  No witness problem.
  */
 
 typedef unsigned int BN_ULONG;

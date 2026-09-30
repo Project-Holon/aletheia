@@ -36,7 +36,14 @@
  *           Remaining 149: prologue homing order.  Image homes y (r5) then
  *           m (r4) then x (r7); this build homes m (r4) then y (r7) and puts
  *           x in r8 - a different register SET, not a rotation.  First
- * divergence: image `mov r5, r1` | ours `mov r4, r2`.
+ *           divergence: image `mov r5, r1` | ours `mov r4, r2`.
+ *
+ * WAVE8 (inert, re-confirmed 149): moving the `temp[128]` declaration to
+ *           after all pointer locals, and a same-typed local
+ *           `struct gsLargeInt_s *yp = y;` (copy-propagated away) both leave
+ *           149 exactly.  The register SET is the vendor front end's
+ *           allocator, not a source-order lever.  See idiom
+ *           `vendor-front-end-parameter-register-set-cannot-be-forced`.
  *
  * sdk:      gsiLargeIntMultM (gslargeint.o)
  *

@@ -11,21 +11,19 @@
  *
  * sdk:      DWCi_FriendProcess (libdwcmatch.TWL.HYB.a dwc_friend.o)
  *
- * blocker:  near miss.  All 19 relocations resolve and the body/control flow
- *           match (including the odd fl->list==0 -> DWCi_GPProcess early
- *           exit).  Remaining diff is register choice: the singleton lands
- *           in r6 and the shared zero in r7, the reverse of the image
- *           (state r4, zero r5), which cascades into the two counting loops
- *           and costs 4 bytes.  Needs a declaration/init-order nudge.
- *           Re-tested (lane U34) and inert at 684 bytes / 428: `FriendState
- *           *state` declared first, `int i, j, pidcnt;` on one line, and
- *           `state` declared but assigned on its own later statement.  Note
- *           this build is not a pure rotation of the image - image {state r4,
- *           zero r5, singleton-loaded-at-+8}, ours {state sb, zero r6} - and
- *           the two stores at +0x80 are emitted in the reverse order
- *           (image `str r0,[r4,#4]` then `str r5,[r4]`; ours `str r6,[sb]`
- *           then `str r0,[sb,#4]`).  First divergence: image `ldr r4, [pc,
- *           #0x28c]` | ours `ldr sb, [pc, #0x290]`.
+ * blocker:  near miss.  All 19 relocations resolve.  Control flow fixed this
+ *           lane: the original test is `list != 0 && reason != 3 &&
+ *           field8 > 7`, not the previously written negated
+ *           `!(list != 0 && reason == 3) && field8 > 7` (which is
+ *           `list == 0 || reason != 3`, a different predicate).  That cut
+ *           size 684 -> 672 (function 668) and removed the extra branch.
+ *           Remaining diff is register choice: the shared zero is r5 as the
+ *           image, but the singleton `state` lands in r6 where the image has
+ *           r4, cascading into both counting loops (image loop1 i=r6/size=sb,
+ *           loop2 i=sb/size=sl/temp=r6; ours reuses lower regs).  Tested inert:
+ *           `FriendState *state` declared first; splitting the reused loop
+ *           counter into a distinct `k` merely regained 2 bytes, no colour
+ *           change.  Needs a lever that pins `state` to r4.
  *
  * symbols:
  *   DWCi_IsError                    0x02059F38 arm
@@ -92,12 +90,13 @@ extern int DWCi_HandleGPError(int result);
 extern void DWCi_GetReverseBuddiesCallback(void **connection, void *arg, void *param);
 extern char s_bNeedCloseStatsConnection[];
 
-void DWCi_FriendProcess(void)
+void func_02168AD4(void)
 {
+    FriendState *state = (FriendState *)s_bNeedCloseStatsConnection;
     int i;
     int j;
+    int k;
     int pidcnt;
-    FriendState *state = (FriendState *)s_bNeedCloseStatsConnection;
 
     if (state->fl == 0)
         return;
@@ -127,7 +126,7 @@ void DWCi_FriendProcess(void)
             return;
         if (state->fl->field0 == 0)
             return;
-        if (!(state->fl->list != 0 && state->fl->reason == 3) && state->fl->field8 > 7) {
+        if (state->fl->list != 0 && state->fl->reason != 3 && state->fl->field8 > 7) {
             if (state->fl->reason <= 1)
                 DWCi_UpdateFriendReq(state->fl->list, state->fl->count);
             if (state->fl->field1c >= state->fl->count) {
@@ -157,9 +156,9 @@ void DWCi_FriendProcess(void)
         return;
     }
     j = 0;
-    for (i = 0; i < state->fl->count; i++) {
-        if (DWC_GetFriendDataType(&state->fl->list[i]) == 3) {
-            state->fl->field5c[j] = DWC_GetGsProfileId(DWCi_GetUserData(), &state->fl->list[i]);
+    for (k = 0; k < state->fl->count; k++) {
+        if (DWC_GetFriendDataType(&state->fl->list[k]) == 3) {
+            state->fl->field5c[j] = DWC_GetGsProfileId(DWCi_GetUserData(), &state->fl->list[k]);
             j++;
         }
     }

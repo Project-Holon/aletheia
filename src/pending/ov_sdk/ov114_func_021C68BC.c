@@ -9,13 +9,16 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker:  full body, control flow follows the listing.  Object built by
- *           Metrowerks 4.0.0.1025 (no tools/mwccarm build writes that
- *           stamp); dsi/1.1p1 rotates the callee-saved assignment:
+ * blocker:  full body.  Frame, block layout and cold-block sinking now EXACT
+ *           (single shared epilogue via `goto end;`; event==2 handler spelled
+ *           as a `goto ev2;` to a block written after `done:`, so the image's
+ *           cold placement is reproduced).  Compiled 648 == listing extent
+ *           648, 398 concrete bytes differ, all the callee-saved rotation:
  *           image res=r8/event=sl/arg=r4/reason=r5/callback=r6/serverError=r7,
  *           ours res=r7/event=r6/arg=r5/reason=sl/callback=sb/serverError=r8,
- *           and lays the frame 664 vs 648 bytes.  Tried the DWARF variable
- *           declaration order; allocation does not follow it.
+ *           plus the split ldm {r5,r6} vs two ldr.  Tried DWARF declaration
+ *           order both ways; allocation does not follow it (541/533).
+ *           Idiom used: an-early-return-branching-to-a-shared-epilogue-is-a-goto.
  *
  * sdk:      req_callback (libdwcnd.TWL.HYB.a dwci_nd.o)
  *
@@ -89,16 +92,10 @@ int req_callback(void *res, int event, void *arg)
     reason = hrq->reason;
     callback = (void (*)(int, int, int))hrq->callback;
     threadEvent = hrq->threadEvent;
-    if (event == 2) {
-        isCode = 4;
-        ((int *)arg)[2] = 0;
-        DWCi_NdSetError(4, serverError);
-        if (callback != 0)
-            callback(reason, isCode, serverError);
-        return 0;
-    }
+    if (event == 2)
+        goto ev2;
     if (event != 4)
-        return 0;
+        goto end;
     if (NHTTP_GetConnectionError(res) == 8) {
         result = 6;
         goto done;
@@ -169,5 +166,15 @@ done:
         callback(reason, result, serverError);
     if (threadEvent != 0)
         DWCi_Ndi_kickThread(threadEvent);
+    goto end;
+
+ev2:
+    isCode = 4;
+    ((int *)arg)[2] = 0;
+    DWCi_NdSetError(4, serverError);
+    if (callback != 0)
+        callback(reason, isCode, serverError);
+
+end:
     return 0;
 }

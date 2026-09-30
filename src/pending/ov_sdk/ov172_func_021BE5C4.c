@@ -11,14 +11,34 @@
  *
  * blocker:  codegen / register allocation.  Full marker walker reconstructed
  *           (SOI, APP1/Exif, SOF0/1, DHT table build, SOS MCU loops, DQT,
- *           DRI); it compiles to 2444 bytes against the original 2548 and all
+ *           DRI); it compiles to 2468 bytes against the original 2548 and all
  *           21 relocations resolve, but register allocation, loop-invariant
- *           materialisation and the shared epilogue differ throughout (2098
- *           of ~2400 concrete bytes).  Two fast-Huffman-table bounds checks
+ *           materialisation and the shared epilogue differ throughout (2092
+ *           of ~2480 concrete bytes).  Two fast-Huffman-table bounds checks
  *           on pool constants 0xfffff3d2 / 0x00000bd3 are omitted because
- *           they are dead for any in-range code (ip < 256), and the exact
- *           stack-slot layout of huffsize/huffcode is not pinned.  Semantics
- *           follow the listing; byte-exact needs the original source shape.
+ *           they are dead for any in-range code (ip < 256).  Semantics follow
+ *           the listing; byte-exact needs the original source shape.
+ *
+ *           The object DWARF (tools/sdkobj.py 0x021BE5C4 --brief) gives that
+ *           shape and is the way in for the next lane:
+ *             prototype: static int Mel_JPEGDecode(unsigned char *d,
+ *                unsigned char *a, unsigned long length, long maxWidth,
+ *                long maxHeight, int option)
+ *             locals (DWARF print order, offsets are frame base):
+ *               result r0; huffsize char[257] [fb+76]; huffcode u16[257]
+ *               [fb+334]; b u8 r0; RSTn_work [fb+24]; RSTn_intr [fb+28];
+ *               y r14; x r12; s r0; q r0; p [fb+72]; m r1; j r0; i r0;
+ *               g r4 (bcode2 base, pool_021BEF80); h r6; dy [fb+32];
+ *               dx [fb+36] (dy/dx are the SOF height/width locals)
+ *             frame is fixed by huffcode@0x14E + 0x202 = 0x350.
+ *           Lever already applied: spelling `u16 huffcode[257];` before
+ *           `char huffsize[257];` moved the frame 0x348 -> 0x350 and matched
+ *           the entry prologue (2098 -> 2092 differing bytes).  The body still
+ *           uses guessed names (marker/seglen/k, width/height) instead of the
+ *           DWARF set, so the allocation stays wrong.  Rebuild the declaration
+ *           list and the marker-arm temporaries from the DWARF list and the
+ *           per-arm register colour, not from the disassembly text.
+ *           See docs/idioms/draft-sdk-declarations-from-the-object-dwarf.md.
  *
  * sdk:      Mel_JPEGDecode (libssp.TWL.HYB.a jpegdec.o)
  *
@@ -85,8 +105,8 @@ extern void func_021BFA68(u8 *d, int x, int y, int dx, int dy);
 int func_021BE5C4(u8 *d, u8 *a, u32 length, int maxWidth, int maxHeight,
                   int option)
 {
-    char huffsize[257];
     u16 huffcode[257];
+    char huffsize[257];
     int RSTn_work = 0;
     int RSTn_intr = 0;
     int width = 0;

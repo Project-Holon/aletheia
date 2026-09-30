@@ -9,23 +9,44 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker: stack-slot / spill-order residue (703 of ~2430 concrete bytes
+ * blocker: stack-slot / spill-order residue (693 of ~2430 concrete bytes
  *   differ, down from 2209; compiled 2592 B == listing extent, 51/51
- *   relocations resolved, instruction stream ~27 aligned instrs off). The
- *   0x74 frame, clean {r4..fp,lr} push, callee-saved assignment of
- *   width/quality/cx/cy/dqttbl/acY-base, sampling switch, ptr memory traffic,
- *   thumb/sign epilogue and Huffman total expression all match now.
- *   Remaining: (1) spill slots of the temporaries are assigned in a different
- *   order: original ascending sy 0x1c, sx 0x20, mcu_rows 0x24, mcu_cols 0x28,
- *   chroma_cols 0x2c, ofs 0x30, ofs2 0x34, ofs3 0x38, acC-base 0x3c, ptr 0x40;
- *   ours has ofs3/ofs2/ofs lowest, then cols, rows, sx, sy, chroma_cols (the
- *   spill priority of ofs* is higher than the original's); (2) quant loop:
- *   original j=r7 and &dqttbl[j]=r6, ours swapped (declaration order,
- *   do-while, pointer temp and index forms made no difference); (3) the
- *   original flushes ptr to [sp,#0x40] only at `dst[ptr++]=0`, ours also
- *   after the thumb/JFIF join, and stores the EXIF size after the limit
- *   load, not before; (4) Component[1].mCofficients store is emitted before
- *   ofs in the original, after in ours.
+ *   relocations resolved, ~27 aligned instrs off). The 0x74 frame, clean
+ *   {r4..fp,lr} push, callee-saved assignment of width/quality/cx/cy/dqttbl/
+ *   acY-base, sampling switch, ptr memory traffic, thumb/sign epilogue and
+ *   Huffman total expression all match. Everything after +0x418 matches
+ *   except the mcu_rows slot number.
+ *   Spill-slot findings (this lane): the slot order is NOT driven by use counts
+ *   (extra real uses of ofs/ofs2/ofs3/sy/sx/cols/rows, statement reordering of
+ *   the whole setup region, self-assignments, pointer temps, block scoping of
+ *   chroma_cols all leave it unchanged). It IS driven by the order of the
+ *   local declarations: among the ordinary spilled ints a LATER declaration
+ *   gets a LOWER slot (declare ofs3, ofs2, ofs, [chroma_cols], mcu_cols,
+ *   mcu_rows, samplingx, samplingy in that order: sy 0x1c, sx 0x20, rows 0x24,
+ *   cols 0x28, ofs 0x2c, ofs2 0x30, ofs3 0x34), with samplingy/samplingx a
+ *   pair that comes out first-declared-lowest; acC is always the top slot
+ *   (declare the huffman pointers first). The remaining slot error is
+ *   chroma_cols: the original has it at 0x2c between mcu_cols (0x28) and ofs
+ *   (0x30), ours always parks it at 0x38 above ofs3 whatever its declaration
+ *   position, scope, type (int/long change code) or expression (width>>3
+ *   instead of cx); giving it extra uses moves it to the LOWEST slot instead.
+ *   Its position is the last unsolved slot fact; once it lands at 0x2c, ofs*
+ *   move to 0x30/0x34/0x38 and most remaining byte diffs (the ofs store/
+ *   Component[1].mCofficients scheduling at +0xFC..+0x160, the quant-loop
+ *   j/&dqttbl[j] swap r7/r6, ptr flush after the thumb/JFIF join) may fall
+ *   away or show their true shape. tools/permuter.py cannot run this function
+ *   (it rejects SSP_ExifEncode as thumb from the ov111 label despite
+ *   --region ov172).
+ *   Lane 2 (00:16): exhaustive probe shows ALL 8 permutation orders of
+ *   {ofs3,ofs2,ofs,chroma_cols,mcu_cols,mcu_rows,samplingx,samplingy} give
+ *   byte-identical 693, so chroma_cols is immovable by declaration order.
+ *   Narrowing it to u16/u8 or widening to long/int is strictly worse
+ *   (2140/1582/2123/2123). Original slots read off the ov172 listing:
+ *   sy 0x1c, sx 0x20, mcu_rows 0x24, mcu_cols 0x28, chroma_cols 0x2c,
+ *   ofs 0x30, ofs2 0x34, ofs3 0x38; ours parks chroma_cols at 0x38 and
+ *   shifts ofs/ofs2/ofs3 down one. Reverse-declaration predicts the
+ *   original exactly, yet mwcc overrides chroma_cols to the newest slot,
+ *   so source declaration position is not the driver for this variable.
  *   Reconstruction facts established (keep): gBitLen is a struct {len, code,
  *   limit} pinned at 0x021CADE4 (limit = +8); quality is reused as the scale
  *   (no scale local); ofs/ofs2/ofs3 are integer offsets, wrk+ofs is formed at
@@ -130,20 +151,23 @@ static unsigned long Yos_JPEGEncode(void *src, u8 *dst, unsigned long limit, u8 
     component_structure Component[3];
     u8 *dqttbl;
     long *QuantizeTable;
-    unsigned long samplingy;
-    unsigned long samplingx;
-    unsigned long mcu_rows;
+    huffman_structure *dcY, *acY, *dcC, *acC;
+    unsigned long ofs3;
+    unsigned long ofs2;
+    unsigned long ofs;
+    unsigned long chroma_cols;
     unsigned long mcu_cols;
-    unsigned long ptr;
+    unsigned long mcu_rows;
+    unsigned long samplingx;
+    unsigned long samplingy;
     unsigned long cx;
     unsigned long cy;
+    unsigned long ptr;
     unsigned long y;
     unsigned long x;
     unsigned long j;
-    huffman_structure *dcY, *acY, *dcC, *acC;
     unsigned long total, size, v, i;
-    unsigned long ofs, ofs2, ofs3;
-    unsigned long chroma_cols, chroma_rows, luma_size, blocks;
+    unsigned long chroma_rows, luma_size, blocks;
 
     samplingy = 1;
     samplingx = 1;
@@ -192,7 +216,7 @@ static unsigned long Yos_JPEGEncode(void *src, u8 *dst, unsigned long limit, u8 
     ofs2 = ofs + ptr;
     ofs3 = ofs + ptr * 2;
 
-    if (quality <= 50)
+    if (quality >= 50)
         quality = 200 - quality * 2;
     else
         quality = 5000 / quality;

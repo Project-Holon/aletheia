@@ -9,6 +9,16 @@
  * isa:      arm
  * status:   DIFF
  *
+ * blocker:  register colouring.  The three callee-saved homes are a 3-cycle
+ *   against the image (image r7=sender / r6=query / r8=len; this build
+ *   r6=sender / r8=query / r7=len) and the frame is one int short (0x188 vs
+ *   the image's 0x18c), so 1034 concrete bytes differ across the whole body.
+ *   Re-measured 2026-09-30: 38/46 relocs resolve; the 8 unresolved are the
+ *   debug format strings with no witness outside 0219C7C0..0219CDA0.
+ *   scratch/U44/vD.c (all four U44 fixes below) re-compiles to 1560 bytes /
+ *   1061 concrete, i.e. worse, so it is not the lever.  No <=8-byte residue
+ *   to permute; the rotation is the blocker.
+ *
  * sdk:      qr2_parse_queryA (libdwcgsqr2.TWL.HYB.a qr2.o)
  *
  * residue:  DIFF, 1504/1532 bytes (the parked body was 1472).  Two real source

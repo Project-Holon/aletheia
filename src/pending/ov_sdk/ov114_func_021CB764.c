@@ -23,6 +23,14 @@
  * temp, min-after-wexpand, `long`/`unsigned` max/min, carry types, split register decls,
  * BN_ULONG max/min -- all land on the same exchange; the `long i` change is what buys the
  * other 20 bytes.
+ * Wave-8 retry: `if (b->top > a->top)` only swaps which operand is loaded first
+ * (a->top into r5) and leaves max still r5/min r4; assigning `max=a->top;min=b->top;`
+ * before the guard (guard on max<min) is inert; declaration `int min, max;` inert.
+ * max is pinned to the higher callee-saved register regardless of load/assign/decl
+ * order -- the allocator's value-number choice, not a source order lever.
+ *
+ * blocker: max allocated r5 (object r4), min r4 (object r5); every load/assign/decl
+ * order spelling lands on the same exchange of the whole 332-byte body.
  */
 
 typedef unsigned int BN_ULONG;

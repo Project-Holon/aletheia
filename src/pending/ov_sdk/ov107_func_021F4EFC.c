@@ -1,5 +1,5 @@
 /*
- * function: MBi_ChildCallback
+ * function: func_021F4EFC
  * address:  0x021F4EFC
  * packet:   pkt_ov107_021F4EFC
  * region:   ov107
@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   DIFF
  *
- * SDK: TwlSDK/libmb.TWL.HYB.a(mb_wm_base.o).
+ * sdk: MBi_ChildCallback (libmb.TWL.HYB.a mb_wm_base.o).
  * Vendor stamp: 4.0.0.1024 (dsi/1.1p1) — fully matchable.
  * Relocations: WM_SetLifeTime, MBi_CheckWmErrcode, WM_StartScanEx,
  *   MBi_CheckMBParent, DC_InvalidateRange, MIi_DmaCopy16, MI_CpuCopy8,
@@ -17,12 +17,33 @@
  *   WM_SetPortCallback, WM_StartMPEx, MBi_IsSendEnabled, WM_End,
  *   MBi_EndCommon, OS_Terminate, OS_SpinWaitSysCycles
  *
- * blocker: prologue/epilogue saves {r3,r4,r5,r6,r7,r8,lr} vs original
- *   {r3,r4,r5,r6,r7,r8,sb,sl,fp,lr}; stack frame 0x1c vs 0x28; switch
- *   decision tree differs from vendor's comparison chain; many case arms
- *   have register allocation mismatches due to local declaration order.
- *   Cases: 0x00, 0x01, 0x02, 0x0B, 0x0C, 0x0E, 0x0F, 0x15, 0x1D, 0x26, 0x80.
- *   1720/2464 bytes, 1473 concrete diffs. All 24 relocations resolved.
+ * blocker (wave 8, 2026-10-01): the file is MISSING ~836 bytes of body.
+ *   compiled 1628 vs original 2464; the whole case 0x26 state==5 path
+ *   (original 0x021F50F0..0x021F53F4, ~800 B) is absent, so the calls it
+ *   makes -- MBi_CheckMBParent (0x021F4538), DC_InvalidateRange
+ *   (0x020862B8), MIi_DmaCopy16 (0x020822E8), MI_CpuCopy8 (0x02082D44),
+ *   MIi_CpuCopy16 (0x02082A60) -- never appear in our object.
+ *   Fixed this lane: C function renamed func_021F4EFC (was MBi_ChildCallback)
+ *   and header given the `sdk:` line, so match.py can find it; and the
+ *   hoisted global base `char *base = *(char **)(d_021F6F90 + 0xC)` now
+ *   feeds all 33 `+0x51C`/`+0x500`/`+0x5xx` references (fp in the image).
+ *   Remaining: prologue still saves {r3,r4,r5,r6,r7,r8,lr}/frame 0x1c vs
+ *   image {..sb,sl,fp,lr}/0x28 (sb+sl are the beacon-match bools in the
+ *   missing block); state==4 branch polarity is wrong (see below); the
+ *   switch comparison chain is vendor-ordered, we emit a balanced tree.
+ *   What case 0x26 really is (from the listing):
+ *     state==4 (0x5488): callback(5,arg); if(!work[0x5E4]) return;
+ *       if(work[0x5E8] != 0){ if(changeScanChannel(work) == 0) MBi_CommEnd(); }
+ *       errcode = WM_StartScanEx(callback, work); MBi_CheckWmErrcode(0x26,errcode);
+ *     state==5 (0x50E4): n=0; cnt=0; while(n < arg[0x0E]){ ... }
+ *       body 0x50F0: bd = arg->bssDesc[n]; validity tests on bd[0x3C]/[0x40]/
+ *       [0x4A]/bd->length, MBi_CheckMBParent(bd), a mask compare against
+ *       g+0x10/g+0x14, else a 0x180-stride scan of the parent array at
+ *       base+0x600 for a duplicate bssid (bd[4..9] vs +0xCA..0xCF), then the
+ *       MI_CpuCopy8 / DC_InvalidateRange / MIi_DmaCopy16 / MIi_CpuCopy16
+ *       copy block and callback(4, arg+0x50+n*2).
+ *   1720/2464 -> now 1628/2464 bytes, 1461 concrete diffs. All 24 relocs
+ *   that we do emit resolve.
  *
  * symbols:
  *   WM_SetLifeTime             0x02090DEC  arm
@@ -140,10 +161,11 @@ extern void MBi_EndCommon(void *arg);
 extern void OS_Terminate(void);
 extern void OS_SpinWaitSysCycles(u32 cycle);
 
-static void MBi_ChildCallback(void *arg)
+static void func_021F4EFC(void *arg)
 {
     struct WMCallback *buf = arg;
     void (*callback)(int, void *);
+    char *base = base;
     struct ParentInfo *p;
     struct WMBssDesc *buffer;
     int i;
@@ -153,8 +175,8 @@ static void MBi_ChildCallback(void *arg)
     int errcode;
     struct WMScanExParam *scanParam;
 
-    callback = *(void (**)(int, void *))(*(char **)(d_021F6F90 + 0xC) + 0x51C);
-    p = (struct ParentInfo *)(*(char **)(d_021F6F90 + 0xC) + 0x600);
+    callback = *(void (**)(int, void *))(base + 0x51C);
+    p = (struct ParentInfo *)(base + 0x600);
     i = 0;
     j = 1;
 
@@ -204,8 +226,8 @@ static void MBi_ChildCallback(void *arg)
             *(u16 *)(base + 0x10) = 1;
             *(u16 *)(base + 0x12) = 0;
         }
-        *(int *)(*(char **)(d_021F6F90 + 0xC) + 0x5E4) = 1;
-        *(int *)(*(char **)(d_021F6F90 + 0xC) + 0x5E8) = 1;
+        *(int *)(base + 0x5E4) = 1;
+        *(int *)(base + 0x5E8) = 1;
         errcode = WM_StartScanEx(callback, *(struct WMScanExParam **)(d_021F6F90 + 0x10));
         MBi_CheckWmErrcode(0x26, errcode);
         return;
@@ -221,23 +243,20 @@ static void MBi_ChildCallback(void *arg)
             if (state == 3)
                 return;
             if (state == 4) {
-                *(int *)(*(char **)(d_021F6F90 + 0xC) + 0x5EC) = i;
                 callback(5, arg);
-                if (*(int *)(*(char **)(d_021F6F90 + 0xC) + 0x5E4) == 0)
+                if (*(int *)(base + 0x5E4) == 0)
                     return;
-                if (*(int *)(*(char **)(d_021F6F90 + 0xC) + 0x5E8) == 0)
-                    return;
-                errcode = changeScanChannel(*(char **)(d_021F6F90 + 0x10));
-                if (errcode == 0)
-                    return;
-                MBi_CommEnd();
+                if (*(int *)(base + 0x5E8) != 0) {
+                    if (changeScanChannel(*(char **)(d_021F6F90 + 0x10)) == 0)
+                        MBi_CommEnd();
+                }
                 errcode = WM_StartScanEx(callback, *(struct WMScanExParam **)(d_021F6F90 + 0x10));
                 MBi_CheckWmErrcode(0x26, errcode);
                 return;
             }
             if (state == 5) {
                 int cnt = 0;
-                *(int *)(*(char **)(d_021F6F90 + 0xC) + 0x5EC) = i;
+                *(int *)(base + 0x5EC) = i;
                 cnt = 0;
                 i = 0;
                 while (i < 16) {
@@ -261,11 +280,11 @@ static void MBi_ChildCallback(void *arg)
             return;
         }
         {
-            u16 a = *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x520);
+            u16 a = *(u16 *)(base + 0x520);
             u16 b = 0;
             u16 c = 1;
             u16 d = 0;
-            errcode = WM_StartConnectEx(MBi_ChildCallback, a, b, c, d);
+            errcode = WM_StartConnectEx(func_021F4EFC, a, b, c, d);
         }
         MBi_CheckWmErrcode(0xC, errcode);
         return;
@@ -273,7 +292,7 @@ static void MBi_ChildCallback(void *arg)
     case 0x0C: {
         u16 errcode = buf->errcode;
         if (errcode != 0) {
-            *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x5E0) = 0;
+            *(u16 *)(base + 0x5E0) = 0;
             callback(0xB, arg);
             return;
         }
@@ -281,7 +300,7 @@ static void MBi_ChildCallback(void *arg)
             u16 state = *(u16 *)((char *)arg + 8);
             if (state > 9) {
                 if (state == 0x1A) {
-                    *(int *)(*(char **)(d_021F6F90 + 0xC) + 0x5EC) = i;
+                    *(int *)(base + 0x5EC) = i;
                     return;
                 }
                 goto default_case;
@@ -289,21 +308,21 @@ static void MBi_ChildCallback(void *arg)
             if (state < 6)
                 goto default_case;
             if (state == 6) {
-                *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x52A) = 0;
-                *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x528) = 0;
+                *(u16 *)(base + 0x52A) = 0;
+                *(u16 *)(base + 0x528) = 0;
                 return;
             }
             if (state == 7) {
                 u16 bit = *(u16 *)((char *)arg + 0x10);
                 int f = 1;
-                *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x52A) |= (u16)(f << bit);
+                *(u16 *)(base + 0x52A) |= (u16)(f << bit);
                 callback(0, arg);
-                if (*(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x528) == 0 &&
+                if (*(u16 *)(base + 0x528) == 0 &&
                     ((struct MB_CommCommonWork *)*(char **)(d_021F6F90 + 0x10))->start_mp_busy == 0) {
                     ((struct MB_CommCommonWork *)*(char **)(d_021F6F90 + 0x10))->start_mp_busy = f;
-                    f = (*(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x52C) != 0) ? 0 : f;
+                    f = (*(u16 *)(base + 0x52C) != 0) ? 0 : f;
                     {
-                        char *parm = *(char **)(d_021F6F90 + 0xC);
+                        char *parm = base;
                         errcode = WM_StartMPEx(callback,
                             *(u16 **)(parm + 0x504),
                             *(u16 *)(parm + 0x51A),
@@ -319,15 +338,15 @@ static void MBi_ChildCallback(void *arg)
                 return;
             }
             if (state == 8) {
-                struct ParentInfo *pi = (struct ParentInfo *)(*(char **)(d_021F6F90 + 0xC) + 0x500);
-                *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x52A) &= (u16)~(1 << *(u16 *)((char *)arg + 0x10));
+                struct ParentInfo *pi = (struct ParentInfo *)(base + 0x500);
+                *(u16 *)(base + 0x52A) &= (u16)~(1 << *(u16 *)((char *)arg + 0x10));
                 callback(1, arg);
                 return;
             }
             if (state == 9) {
-                u16 *field = (u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x500 + 0x2A);
+                u16 *field = (u16 *)(base + 0x500 + 0x2A);
                 *field = 0;
-                *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x528) = 0;
+                *(u16 *)(base + 0x528) = 0;
                 return;
             }
         }
@@ -339,8 +358,8 @@ static void MBi_ChildCallback(void *arg)
     case 0x0E: {
         u16 wlCmdID = buf->wlCmdID;
         if (wlCmdID == 0xA) {
-            *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x528) = 1;
-            if (*(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x526) != 0)
+            *(u16 *)(base + 0x528) = 1;
+            if (*(u16 *)(base + 0x526) != 0)
                 return;
             callback(0x19, 0);
             return;
@@ -354,10 +373,10 @@ static void MBi_ChildCallback(void *arg)
     }
     case 0x0F: {
         u16 errcode = buf->errcode;
-        *(u8 *)(*(char **)(d_021F6F90 + 0xC) + 0x50C) = 0;
+        *(u8 *)(base + 0x50C) = 0;
         if (errcode == 0) {
             callback(2, arg);
-            if (*(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x526) == 0)
+            if (*(u16 *)(base + 0x526) == 0)
                 callback(0x19, 0);
             return;
         }
@@ -366,22 +385,22 @@ static void MBi_ChildCallback(void *arg)
             return;
         }
         callback(0x13, arg);
-        if (*(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x526) == 0)
+        if (*(u16 *)(base + 0x526) == 0)
             callback(0x19, 0);
         return;
     }
     case 0x01: {
         u16 errcode = buf->errcode;
         if (errcode != 0) {
-            *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x526) = 0;
-            *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x500 + 0x26) = 0;
+            *(u16 *)(base + 0x526) = 0;
+            *(u16 *)(base + 0x500 + 0x26) = 0;
             callback(0x100, arg);
             return;
         }
-        *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x500 + 0x2A) = 0;
-        *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x528) = 0;
+        *(u16 *)(base + 0x500 + 0x2A) = 0;
+        *(u16 *)(base + 0x528) = 0;
         {
-            char *base = *(char **)(d_021F6F90 + 0xC);
+            char *base = base;
             char *parm = base + 0x500;
             errcode = WM_End(callback);
         }
@@ -394,7 +413,7 @@ static void MBi_ChildCallback(void *arg)
             MBi_EndCommon(arg);
             return;
         }
-        *(u16 *)(*(char **)(d_021F6F90 + 0xC) + 0x500 + 0x26) = 0;
+        *(u16 *)(base + 0x500 + 0x26) = 0;
         callback(0x100, arg);
         return;
     }
@@ -402,9 +421,9 @@ static void MBi_ChildCallback(void *arg)
         if (!MBi_IsSendEnabled())
             return;
         callback(0x19, 0);
-        if (*(int *)(*(char **)(d_021F6F90 + 0xC) + 0x5E4) != 0)
+        if (*(int *)(base + 0x5E4) != 0)
             return;
-        if (*(int *)(*(char **)(d_021F6F90 + 0xC) + 0x5E8) != 0)
+        if (*(int *)(base + 0x5E8) != 0)
             return;
         errcode = changeScanChannel(*(char **)(d_021F6F90 + 0x10));
         if (errcode == 0)

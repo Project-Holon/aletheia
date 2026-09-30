@@ -11,21 +11,28 @@
  *
  * sdk:      gpiProcessSearch (TwlDWC/libdwcgsgp.TWL.HYB.a gpisearch.o)
  *
- * blocker:  codegen, not the C.  The full body is present and compiles to 9456
- *           of the 9460 bytes with 389 relocation sites (the image has 389);
- *           every call and data site resolves.  What is unresolved is the
- *           callee-saved register assignment (the image keeps `loop` in r8 and
- *           the pooled GPITrue scratch in r9; 1.1p1 does the reverse, and
- *           carries key/value/&index in different registers), two scheduled
- *           instruction orders (the two-part `sp+0x2d1` address computation is
- *           emitted in the other order), and the image's inlined unrolled
- *           zeroing of the new GPUniqueMatch: 1.1p1 does not inline `memset`
- *           (probed at -O1..-O4 and -O4,p: always a call) and folds an explicit
- *           zeroing loop back into a `memset` call, so that 28-byte body is not
- *           reproducible from this front end.  Ruled out: struct layout (all
- *           offsets are DWARF-exact), callee/string addresses (all resolve),
- *           and the 0xb request/response cases (transcribed from the object's
- *           own relocations).
+ * blocker:  codegen, not the C.  Size is now exact (9460 bytes, 389 relocation
+ *           sites) and only 14 concrete bytes differ, all one register swap:
+ *           the image keeps `loop` in r8 and the rematerialised GPITrue /
+ *           namespace-index scratch in r9/sb; 1.1p1 keeps `loop` in sb and the
+ *           scratch in r8.  Every site of the swap is on that single pair
+ *           (+0x2c/0x30 loop init, +0x90/0x98 GPITrue arg, +0x10c and the
+ *           namespace `i` loop at +0x8e4..0x8f8, +0xaa4, +0xb04 data->remove,
+ *           and the +0x24b4..0x24c8 outer-loop tail).  Insertion-point sweeps
+ *           of `loop`'s declaration among the other locals (front, before/after
+ *           `done`, end) all reproduce the same 14 bytes, so it is not the
+ *           declaration-order colouring lever.
+ *
+ *           Two earlier blockers are now resolved and verified against the
+ *           image: the inlined 28-byte GPUniqueMatch zeroing is
+ *           `__builtin__clear` (idiom builtin-clear-inlines-where-memset-calls),
+ *           which reproduces the object's byte-store loop at 0x21927ac exactly;
+ *           and `arg->profile` in the GPI_SEARCH_PROFILE_LIST response must
+ *           rematerialise `operation->data` (2 extra loads at +0x22c0) rather
+ *           than reuse the cached `data` local, which closed the previous
+ *           8-byte size gap.  Ruled out: struct layout (all offsets are
+ *           DWARF-exact), callee/string addresses (all resolve), and the 0xb
+ *           request/response cases (transcribed from the object's relocations).
  *
  * Full-body reconstruction of gpiProcessSearch.  Types, struct offsets and
  * source line numbers are taken from the DWARF of the vendor member
@@ -1172,14 +1179,7 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                                     Error(connection, GP_MEMORY_ERROR, g_021918FC);
                                 arg->matches = (GPUniqueMatch *)tempPtr;
                                 uniqueNickMatch = &arg->matches[arg->numOfUniqueMatchs];
-                                {
-                                    unsigned char *d = (unsigned char *)uniqueNickMatch;
-                                    unsigned int n = sizeof(GPUniqueMatch) / 4;
-                                    do {
-                                        d[0] = 0; d[1] = 0; d[2] = 0; d[3] = 0;
-                                        d += 4;
-                                    } while (--n);
-                                }
+                                __builtin__clear(uniqueNickMatch, sizeof(GPUniqueMatch));
                                 arg->numOfUniqueMatchs++;
 
                                 uniqueNickMatch->profile = func_020964E0(value);
@@ -1276,7 +1276,7 @@ GPResult func_0219091C(GPConnection *connection, GPIOperation *operation)
                         arg->numMatches = 0;
                         arg->matches = 0;
                         arg->hidden = 0;
-                        arg->profile = data->profile;
+                        arg->profile = ((GPISearchData *)operation->data)->profile;
 
                         CHECK_RESULT(func_0219359C(connection, data->inputBuffer.buffer, &index, key, value));
                         if (func_020948E0(key, g_02192E00) != 0)

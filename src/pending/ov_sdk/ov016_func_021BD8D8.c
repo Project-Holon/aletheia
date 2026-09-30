@@ -26,9 +26,13 @@
  *   keyboard_data                    0x021DAE68  data
  *   taskStart0                       0x021BDCAC  arm
  *
- * Blocker: DIFF, 32 bytes long: from the button loop on, the original coalesces the zero
- * arguments with the next loop counters and materialises 0x480 per call; 1.1p1 spills a zero.
- * Notes in docs/notes/pkt_ov016_021BD8D8.c.txt (permuter seed 9804 flat).
+ * Blocker: DIFF. Prologue now matches with the local order buf,a,num,k,j,i,ix
+ * (a at sp+0x18). Residue is from the button loop on: the original keeps the
+ * lcd zero in a callee-saved reg (sl) and rematerialises 0x480 per FNTlDrawRect
+ * call, hoisting only the shared 2; 1.1p1 hoists 0x480 into fp and spills the
+ * zero to sp+0x10, costing frame 0x24 vs 0x20. CN_BTN 0x021DA09C also has no
+ * witness outside the range. Notes in docs/notes/pkt_ov016_021BD8D8.c.txt
+ * (permuter seed 9804 flat).
  *
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(keyboard.o), symbol DWCi_KBlInit (name and prototype from the
  * vendor object DWARF). The object is stamped Metrowerks C/C++ for ARM 4.0.0.1025, which
@@ -198,13 +202,13 @@ extern const unsigned char CN_BTN[2];
 
 void DWCi_KBlInit(void)
 {
+    unsigned short buf[2];
     AREA a = { 0 };
     int num;
-    int ix;
-    int i;
-    int j;
     int k;
-    unsigned short buf[2];
+    int j;
+    int i;
+    int ix;
 
     a.w = 17;
     a.h = 18;

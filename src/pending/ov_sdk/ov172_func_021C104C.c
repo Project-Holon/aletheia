@@ -29,6 +29,13 @@
  *   a 180-way role renaming of ii/jj/kk/si/last-loop var (best 47, different shape).
  *   Image has ii=0 (r7) hoisted before the clear call with kk = copy; ours hoists kk.
  *
+ *   lane (w25): 55 -> 48.  Moving si++ before code = code << 1 matches the image order
+ *   (lsl, add si, lsr).  Still colouring only (idx=sb/code=r7 vs r7/sb, kk r8 then r6 then
+ *   r3 vs r8 throughout).  No gain: sel copy of idx for the switches, ii=0;kk=0 orders, code
+ *   declared late/as block, post-inc/compound forms, last loop on idx, pointer local for the
+ *   first clear, for<->while, 12k permuter compiles (random+anneal, 5 seeds), one dummy use
+ *   (if (v) {}) of each var at ~25 positions (all >= 48).
+ *
  * sdk:      Yos_JpegEncoderHuffmanEncoderBuildTable (libssp.TWL.HYB.a jpegenc.o)
  *
  * symbols:
@@ -69,9 +76,9 @@ extern u8 ac1_tbl[178];
 static void Yos_JpegEncoderHuffmanEncoderBuildTable(Yos_JpegEncoderHuffmanEncoderBuildTableWork *pWork,
                           huffman_structure *hf, u32 idx)
 {
-    u16 code = 0;
-    u32 ii;
     u32 jj;
+    u32 ii;
+    u16 code = 0;
     u32 kk;
     u32 si;
 
@@ -92,11 +99,13 @@ static void Yos_JpegEncoderHuffmanEncoderBuildTable(Yos_JpegEncoderHuffmanEncode
     }
 
     MIi_CpuClearFast(0, pWork, 0x400);
+    ii = 0;
     kk = 0;
-    for (idx = 0; (idx < 0x10) ? 1 : 0; idx++) {
-        for (jj = 0; (jj < hf->mHuffBits[idx]) ? 1 : 0; jj++)
-            pWork->mHuffSize[kk++] = idx + 1;
+    while ((ii < 0x10) ? 1 : 0) {
+        for (jj = 0; (jj < hf->mHuffBits[ii]) ? 1 : 0; jj++)
+            pWork->mHuffSize[kk++] = ii + 1;
         pWork->mHuffSize[kk] = 0;
+        ii++;
     }
 
     MIi_CpuClearFast(0, pWork->mHuffCode, 0x400);
@@ -108,8 +117,8 @@ static void Yos_JpegEncoderHuffmanEncoderBuildTable(Yos_JpegEncoderHuffmanEncode
             code = code + 1;
             kk++;
         }
-        code = code << 1;
         si++;
+        code = code << 1;
     }
 
     for (kk = 0; (kk < 0x100) ? 1 : 0; kk++) {

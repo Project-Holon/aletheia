@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * blocker:  register-allocation tie: the first (21-byte) inline memcpy in the
+ *           ptype==2 branch takes r3 in the image and sb here, rotating the
+ *           whole NN_ERTREPLY branch (flag base r1<->r3, data+0xf r3<->r2,
+ *           ptype r2<->r1) and the three switch arms. No source shape found.
  *
  * sdk:      Think (libdwcgsnatneg.TWL.HYB.a natify.o)
  *

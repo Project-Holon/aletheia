@@ -35,6 +35,10 @@
  * 652/0x20.  The frame can only reach 0x18 by removing a spill, which this
  * front end will not do for the unrolled three-copy sequence.
  * Notes in docs/notes/pkt_ov016_021BD8D8.c.txt (permuter seed 9803 flat).
+ * Wave8: moving `ix = line * 12;` between the N_KEY and N_SKEY copies is inert
+ * (652 B / frame 0x20, 465 concrete). Declaring the three locals as initialised
+ * `KB_N5 N_KEY = keyboard_str_20914;` is rejected by dsi/1.1p1 (CCERR, abort).
+ * No source lever found that removes the early N_SKEY byte spill.
  *
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(keyboard.o), symbol disp (name and prototype from the
  * vendor object DWARF). The object is stamped Metrowerks C/C++ for ARM 4.0.0.1025, which

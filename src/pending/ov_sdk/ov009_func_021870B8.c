@@ -66,6 +66,19 @@
  *   1.2 sp2 3412 B, 1.2 sp3/sp4 3272 B.  Consistent with a 4.0.0.1025 allocator
  *   difference (no such compiler on this machine).
  *
+ * lane wave8 (2026-10-01, 00:15 stop): re-verified 3240/3240, 708 concrete,
+ *   122/122 relocations resolved.  Confirmed the residue is one allocation tie,
+ *   not per-arm shape: the object emits `mov sl,#0` then `mov fp,#1` before the
+ *   switch (fp pooled shared constant 1, rematerialised `add rN,sp,#0x150` for
+ *   the buffer address), while 1.1p1 emits `mov sl,#0` and `add fp,sp,#0x150`
+ *   (fp pooled the address, #1 rematerialised).  Every downstream byte is the
+ *   knock-on register rotation (sl/r4/r6 arg/callback/buddyStatus).  The sibling
+ *   0x02187D60 from the same gpibuddy.o is EXACT, so the object is reachable,
+ *   but no source spelling in this file moved the tie: 1.1p1 keeps the one
+ *   callee-saved slot it has and prices the sp-relative address above `mov #1`.
+ *   See docs/idioms/a-repeated-small-constant-takes-a-callee-saved-register.md
+ *   and a-vendor-front-end-homed-parameter-cannot-be-forced-by-source.md.
+ *
  * blocker:  size is exact at 3240/3240; 708 concrete bytes remain and they are
  *           the object's fp-flag / per-use &strTemp allocation against
  *           1.1p1's &strTemp-in-fp / per-arm constants, plus the case-local

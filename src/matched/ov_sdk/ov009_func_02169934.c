@@ -7,31 +7,15 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
  *
- * measured (U23): rule-4b check done -- all eleven ../2.0/* trees give 672 bytes / 442
- *   concrete (dsi/1.1p1 is 636/21), so 1.1p1 is right and the residue is 21 concrete bytes:
- *   the {r5,r6,r7} rotation only (+0x30 mul r6 vs mul r7 and 20 more).
+ * lane08 (2026-09-30): the {r5,r6,r7} rotation was the second-loop counter's
+ *   VARIABLE IDENTITY.  A fresh `j` colours as r5, pushing the persistent
+ *   match-index offset to r7 and the scale temp to r6.  Reusing `i` for the
+ *   second loop (no separate `j`) merges the two loop live ranges and gives the
+ *   image's r5=scale temp, r6=param*0xc, r7=second-loop counter (rotated down
+ *   from a-o.., i.e. docs/idioms/reusing-a-loop-variable-across-phases-changes-the-allocation.md).
  * sdk:      DWCi_GPProfileSearchCallback (libdwcmatch.TWL.HYB.a dwc_friend.o)
- *
- * blocker:  register allocation, 19 bytes.  Full body; all 15 relocations
- *           resolve, the size is exact (636) and the instruction stream
- *           matches except a rotation of the three inner callee-saved
- *           registers {r5,r6,r7}.  Image: r5=tmp, r6=param*0xc (the friend-list
- *           offset, live top-to-bottom), r7=second-loop counter j (and reused
- *           for the state base in the else arm).  Ours: r5=j, r6=tmp,
- *           r7=param*0xc.  Accessing the global `s_bNeedCloseStatsConnection.fl`
- *           fresh at each use (instead of caching it in a local) was the fix
- *           that brought this from 624 to 636 and aligned every other
- *           instruction.  Tried: named vs inline `(int)param`, declaration-order
- *           permutations, pointer-arithmetic matches; none rotates the triple.
- *
- * lane05 (2026-09-30): the defining object dwc_friend.o carries stamp
- *   `Metrowerks C/C++ for ARM 4.0.0.1025` (checked with tools/sdkobj.py), which
- *   no tree under tools/mwccarm writes -- so this is a toolchain wall, not a
- *   spelling one.  Re-confirmed: 636/636 with the residual 21-byte rotation
- *   (image r6=friend-list offset, r7=j, r5=matchoff; ours r7/r5/r6); declaration
- *   orders, unsigned/long j and named temporaries all still 636/21.
  *
  * symbols:
  *   DWC_GetFriendDataType            0x020591cc arm
@@ -107,7 +91,6 @@ extern FriendState s_bNeedCloseStatsConnection;
 void DWCi_GPProfileSearchCallback(void **connection, GPProfileSearchResponseArg *arg, void *param)
 {
     int i;
-    int j;
     int idx;
     int match_index = (int)param;
 
@@ -127,10 +110,10 @@ void DWCi_GPProfileSearchCallback(void **connection, GPProfileSearchResponseArg 
         }
     }
 
-    for (j = 0; j < arg->numMatches; j++) {
-        DWCi_HandleGPError(gpGetBuddyIndex(connection, arg->matches[j].profileID, &idx));
+    for (i = 0; i < arg->numMatches; i++) {
+        DWCi_HandleGPError(gpGetBuddyIndex(connection, arg->matches[i].profileID, &idx));
         if (idx == -1) {
-            DWCi_GPSendBuddyRequest(arg->matches[j].profileID);
+            DWCi_GPSendBuddyRequest(arg->matches[i].profileID);
             DWCi_SetSentBuddyReqFlag(&FL->list[match_index], 1);
         } else {
             DWC_SetGsProfileId(&FL->list[match_index], arg->matches[0].profileID);

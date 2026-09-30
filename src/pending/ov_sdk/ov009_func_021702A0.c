@@ -1,5 +1,5 @@
 /*
- * function:DWCi_ProcessRecvMatchCommand
+ * function: func_021702A0
  * address: 0x021702A0
  * packet:  pkt_ov009_021702A0
  * region:  ov009
@@ -8,6 +8,22 @@
  * lang:    c99
  * isa:     arm
  * status:  DIFF
+ *
+ * measured (wave8, 2026-09-30): renamed the C definition/header to
+ *          func_021702A0.  `match.py one --diff` now reports:
+ *            compiled 852 bytes, 156 relocation sites, 150/156 resolved,
+ *            204 concrete mismatching rows (~717 bytes) of 369 compared rows,
+ *            6 unresolved (2x DWCi_HandleMatchCommandError @0x21779A4 has no
+ *            witness outside the range -- contested ov009/ov014).
+ *          IMPORTANT: the compared range is only 021702A0..021705F4 (852 B),
+ *          NOT the 4396 B of the object -- a mid-function `func_` label at
+ *          0x021705F4 cuts the extent (see idiom
+ *          a-bl-target-inside-a-function-cuts-its-extent).  The image's real
+ *          prologue is `push {r3,r4,r5,r6,r7,r8,sb,sl,fp,lr}` +
+ *          `sub sp,sp,#0x170` with data/len read at [sp,#0x198]/[sp,#0x19c];
+ *          the draft compiles `push {r3,r4,r5,lr}` with no frame, so it is
+ *          wrong from +0000.  Case bodies are bare call skeleton (no argument
+ *          set-up) which is why it is 852 B instead of 4396 B.
  *
  * blocker: no byte of this body is verified.  It compiles 852 bytes with
  *          push {r3, r4, r5, lr} where the image has
@@ -180,7 +196,7 @@ extern int qr2_send_statechanged();
 extern int DWCi_GetFriendListIndex();
 extern int DWCi_ProcessRequestMatch();
 
-static int DWCi_ProcessRecvMatchCommand(unsigned char command, int srcPid,
+static int func_021702A0(unsigned char command, int srcPid,
     unsigned long srcIP, unsigned short srcPort, unsigned long *data, int len)
 {
     if (DWCi_GetMatchCnt() == 0 ||

@@ -18,6 +18,10 @@
  *           two `C_CODE[DWCi_Language()]` arguments in the opposite order
  *           (original computes .x first into r6, then .y into r1).  Looks
  *           like an allocator/eval-order divergence, not source shape.
+ *           Wave8 also tried: direct ErrorCode re-spelling so the global is
+ *           CSE'd rather than held in a named local, and extern int
+ *           ErrorCode[]; err = ErrorCode[0]; - both byte-identical to the
+ *           named-local build, so the load-dest r0 is not reachable this way.
  *
  * sdk:      drawMessage (libdwcutil.TWL.HYB.a sceneseterror.o)
  *

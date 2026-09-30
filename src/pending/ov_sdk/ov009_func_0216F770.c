@@ -70,6 +70,18 @@
  *                 does not reproduce.
  *           The clean body is 16 bytes short of the image; these three account for 3 of the 4
  *           instructions. Next lane: build the clean body with (1)+(2)+(3) and find the fourth.
+ *
+ * lane wave8 (2026-09-30) - DIFF, measured. Re-ran the declaration-order / register-
+ *           colouring lever: dropping `volatile` from the profileID parameter (which is
+ *           what forces the `push {r0,r1,r2,r3}` home area the image does not have)
+ *           makes the match WORSE, not better: 852 bytes / 655 concrete vs the
+ *           scaffolding form's 868 / 372. The scaffolding home area is load-bearing for
+ *           the byte count (16 of the 868 bytes) and for keeping the register map close,
+ *           so it stays. EXACT here needs the whole callee-saved map rebuilt from the
+ *           clean body ((1) sbBlock=1, (2) `n` a live local so `n+3` is not folded,
+ *           (3) a real `u64 tick` local across the GetMatchCnt call) plus the fourth
+ *           missing instruction, and all of that is a body-wide recolour no declaration
+ *           reorder closes. Parked honestly at 868/372.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

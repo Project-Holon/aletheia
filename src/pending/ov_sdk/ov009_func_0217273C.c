@@ -22,10 +22,15 @@
  *   func_0216FF2C  0x0216FF2C  arm  ov009
  *   func_021719A4  0x021719A4  arm  ov009
  *
- * Near miss (lane w5_s6): the image hoists a zero constant into r4 for the whole function
- * (strb r4 at +0x620 and +0x6d9, movne r0, r4 on both error returns) and pushes r3-r7;
- * this draft folds the zeros to immediates and pushes r4-r6 (177 concrete bytes differ, all
- * register assignment and the hoist; the instruction sequence otherwise agrees).
+ * Near miss (lane w8): 15 concrete bytes differ, all one callee-saved pair swap.
+ * The enum-zero lever (docs/idioms/an-enum-typed-zero-keeps-its-own-web-where-a-u32-zero-is-folded.md)
+ * fixed the hoist and the frame (177 -> 15 bytes): `ZeroE result; result = Z0;` and moving
+ * `pNew = &tmpNewNodeInfo;` after the struct copy keeps the zero live in a register and
+ * pushes r3-r7. blocker: the allocator homes the zero in r5 and pNew in r4; the image has
+ * the zero in r4 and pNew in r5 (strb r4/r5 at +0x620,+0x6d9; movne r0,r4/r5; ldrh/ldm
+ * [r5]/[r4] at +0xfc,+0x104,+0x128,+0x12c). Also +0x84/+0x88 store order and the +0xe8
+ * beq target (+0x18ac vs +0x18a4) follow from that swap. Declaring result last and
+ * reordering the senddata[0]/[1] stores both moved the diff the wrong way.
  */
 
 typedef struct {
@@ -62,18 +67,20 @@ extern int func_0216FF2C(unsigned char command, int profileID, unsigned long ip,
                          unsigned long *data, int len);
 extern int func_021719A4(int error);
 
+typedef enum { Z0 } ZeroE;
+
 int func_0217273C(void)
 {
     unsigned long senddata[16];
-    int result;
+    ZeroE result;
     NodeInfo tmpNewNodeInfo;
     unsigned char linkProgress;
     NodeInfo *pNodeInfo;
     NodeInfo *pNew;
 
-    result = 0;
-    pNew = &tmpNewNodeInfo;
+    result = Z0;
     tmpNewNodeInfo = func_02175F3C()->newNodeInfo;
+    pNew = &tmpNewNodeInfo;
     if (func_02175F3C()->linkProgress < func_02176978() - 1) {
         linkProgress = func_02176978() - 1 - func_02175F3C()->linkProgress;
         func_02175F4C(0x10);

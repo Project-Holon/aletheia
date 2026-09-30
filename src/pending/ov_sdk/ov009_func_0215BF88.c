@@ -27,6 +27,21 @@
  *           order of p/mode (function scope, block scope, first, last) and a
  *           300-compile permuter run are inert.
  *
+ * wave8:    re-confirmed 34-byte residue is the pure p/mode r3<->ip swap (34
+ *           sites, all uses of both webs; the add, the `and`, every `[r3]`
+ *           load and the loop-tail `add r3,r3,r5`).  All inert again:
+ *           `u8`/`u16`/`long`/`unsigned long` mode, const pointee, `p = p;`
+ *           (block and in the comma), `s = s;`, `result = result;`,
+ *           `mode = mode;`, redundant `p = s+0xf0;` in the block, mask operand
+ *           order, `if (!mode)`, `mode` function-scope first/last, `p`/`mode`
+ *           declaration adjacency, `mode = dhcp_mode; mode &= 2;`, `&s[0xf0]`,
+ *           `s[0xef]==.. && (p=..,1)` (predication lost), and removing the
+ *           `mode` local so case 6 tests the field directly (868 B, 678 diff:
+ *           the explicit local is what makes the compiler hoist it).  Only
+ *           `p = p + *p + 1` moved it, to 39.  This is a caller-saved colour
+ *           tie the front end resolves against the source order; no source
+ *           lever found.
+ *
  * sdk:      dhcp_analyze_response (libcps.TWL.HYB.a network.o)
  * notes:    the option-pointer bump is predicated into the `&&` chain by the
  *           vendor front end.  Reachable from C: put the bump INSIDE the

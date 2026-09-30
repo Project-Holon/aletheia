@@ -18,7 +18,35 @@
  *
  * U63 (measured 2026-09-30): the parked body still compiles to 1028 bytes of
  * the 3908-byte extent (241 differing instruction slots); the per-case guard
- * conditions and argument expressions are still absent.  Parked as a partial.
+ * conditions and argument expressions are still absent. Parked as a partial.
+ *
+ * W8 (measured 2026-10-01): the 5 `DWCi_HandleMatchCommandError` sites were
+ * unresolved because TWO `symbols:` lines carried that name, 0x021719A4 and
+ * 0x021779A4; the 0x021779A4 line (a different, contested ov014 address) was
+ * shadowing the real one. The vendor object targets 0x021719A4 at all five
+ * sites, so the 0x021779A4 line was removed and all 204 relocation sites now
+ * resolve (was 199/204). The body is unchanged, so this is still a partial.
+ *
+ * The exact spec is available: `python tools/sdkobj.py 0x0216D57C --region
+ * ov009` prints the vendor object's own listing (0 concrete mismatches of
+ * 3195 concrete bytes, i.e. byte-identical to the image) with every PC24
+ * target resolved, plus the DWARF prototype, the complete local list and
+ * struct layouts. True callee names the placeholder func_ names map to:
+ *   func_0209C00C = _ll_udiv
+ *   func_02176870 = DWCi_ClearMeshMakingTempInfo
+ *   func_0219EFD0 = ServerBrowserThink
+ *   func_0219ED4C = ServerBrowserFree
+ *   func_0219F024 = ServerBrowserState
+ *   func_0216D540 = DWCi_SendStateChanged
+ *   func_0219A4A4 = NNThink
+ *   func_0219922C = NNFreeNegotiateList
+ *   func_02172DE8 = DWCi_ResumeMatch
+ *   func_02175C64 = DWCi_RequestSuspendMatchProcess
+ *   func_0217576C = DWCi_SendServerPolling
+ *   func_021732F8 = DWCi_ProcessMatchSynTimeout
+ * DWARF locals (reverse declaration order): pNodeInfo(r6), connection(r0),
+ * i(r5), info(r0), noResponseHosts(r6), mc(r5), idx(r0), node(r6),
+ * sbError(r0), result(r0), sbInterval(r5); param fullSpec(r5).
  *
  * sdk:      DWCi_MatchProcess (libdwcmatch.TWL.HYB.a dwc_match.o)
  *
@@ -75,7 +103,6 @@
  *   DWCi_GetGT2NumConnection         0x02176960 arm
  *   DWCi_GetGT2NumConnection         0x02176978 arm
  *   DWCi_GetResvDenyReasonString     0x021769E0 arm
- *   DWCi_HandleMatchCommandError     0x021779A4 arm
  *   gpIsBuddy                        0x021861A8 arm
  *   gt2Think                         0x02195AF0 arm
  *   qr2_think                        0x0219B1E8 arm

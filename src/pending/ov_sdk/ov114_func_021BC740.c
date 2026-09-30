@@ -8,6 +8,14 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF (near miss: register allocation and frame spill slots, see notes)
+ * blocker:  [sp+0xc] identity: object spills threadInfo_p there (+0x020 str / +0x1A8 ldr)
+ *           and keeps endFlag in lr/ip in registers; this source spills volatile endFlag
+ *           there and keeps threadInfo_p in sl. Tried `NHTTPThreadInfo *volatile` +
+ *           non-volatile endFlag -> 468 B / 367 B diff (worse, endFlag needs to stay in a
+ *           register, not be a volatile stack slot). fp/sb roles are swapped (&tmpbuf vs
+ *           recvbyte) and the object reuses sb as the constant 1 inside the loop, entering
+ *           it 8 B later; the whole inner-loop colouring follows from the spill decision.
+ *           Floor 142 B over 24674 decl/qualifier permutations.
  * notes:    121/121 instructions, 484/484 bytes, 142 concrete bytes differ. All 10
  *           relocations resolve; there are no unresolved absolutes, and all 9 bl call sites
  *           are byte-identical to the object. The remainder is register/frame shape only:

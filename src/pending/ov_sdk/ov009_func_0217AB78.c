@@ -32,14 +32,25 @@
  *   DWCnetcheckauthparam, g_021A274C/2754/275C/2768/276C/2774 and the constants
  *   40000 (/2 for the first-stage timeout), 302, -23302, 20000, 180000, 120000.
  *
- * blocker: REGISTER COLOURING.  compiled 3400 vs 3184 (was 1696), 828 differing
- *   lines, 114/118 relocations resolved.  The first divergence is +000C: image
- *   `mov r7, #0` | ours `mov r6, #0` - the zero-initialised buffer pointers
- *   (data r7, url r8, wait sb in the image) land in different registers, and the
- *   whole body shifts by that colouring.  The pool order and the constant
- *   rematerialisation (-4 from -3 via `sub`, 20000 from 40000 via `lsr`) are the
- *   other measured residues.  Do not sweep pins: the row is a 4.0.0.1025 stamp and
- *   the corrected U21-U30 finding says body, not compiler.
+ * blocker: STRUCTURE + REGISTER COLOURING.  compiled 3408 vs 3184 (SIZE, +224
+ *   reachable bytes), 2912 concrete bytes differ, 114/118 relocations resolved.
+ *   Lever applied: declared url before data and renamed interval->wait_sec to
+ *   the DWARF spellings gave -33 concrete mismatches (2945->2912) but +8 bytes.
+ *   The +216 means a whole extra block is emitted; the duplicated shared tails
+ *   (stage2 vs preauth, the auth/`auth_r`/auth3 copies) are the prime suspect -
+ *   the image cross-jumps those, this transcription spells each out.
+ *   sdkobj 0x0217AB78 --region ov009 --brief gives the true DWARF local set and
+ *   registers, which the current declaration list does not match:
+ *     url r7, data r8, wait r9/sb, alloc r5, free r6, httpretcodei r10/sl,
+ *     wait_sec r11/fp, wait_len r10, data_len r11, bodywayport r10, body302 r11,
+ *     upper locals ... url_len [fb+8], retcode [fb+32], calinfo [fb+56],
+ *     authresult [fb+204], DWC_netcheck_wifiinfo [fb+36], httpretcode r0.
+ *   So the real names are url/data/wait (url FIRST - image `mov r7,#0` is url,
+ *   then `mov r8,r7` is data), `wait_sec` (not `wait_sec`), and two extra body
+ *   pointers `bodywayport`/`body302`.  The invented locals here (buf, st,
+ *   m2..m5, t20000) are not in the DWARF and rotate the colouring; the image
+ *   prologue materialises -2..-5 and folds 40000/2 in-place.  Do not sweep pins:
+ *   the row is a 4.0.0.1025 stamp; the corrected U21-U30 finding says body.
  *
  * symbols:
  *   DWC_Http_Create                  0x0217956c arm
@@ -167,13 +178,13 @@ static void DWCi_Netcheck_Thread(void)
 {
     void *(*alloc)(unsigned long, long);
     void (*freefn)(unsigned long, void *, long);
-    char *data = 0;
     char *url = 0;
+    char *data = 0;
     char *wait = 0;
     int wait_len;
     int url_len;
     int data_len;
-    int interval;
+    int wait_sec;
     int httpretcodei;
     char *httpretcode;
     u8 calinfo[0x94];
@@ -466,14 +477,14 @@ res2:                                     /* 0x217b3a4 */
         if (DWC_Http_GetBase64DecodedResult((u8 *)DWChttp.http, g_021A2774, wait, url_len + 1) < 0)
             goto err9;
         wait[0] = 0;
-        interval = atoi(wait) * 0x3e8;
+        wait_sec = atoi(wait) * 0x3e8;
         if (errno == 0x22)
             goto err9;
     } else {
-        interval = 0;
+        wait_sec = 0;
     }
-    if (interval > 180000)
-        interval = 180000;
+    if (wait_sec > 180000)
+        wait_sec = 180000;
     DWC_Http_Destroy((u8 *)DWChttp.http);
     *(int *)((u8 *)DWChttp.nc + 0x1004) = m5;
     DWChttp.p00 = (int)data;
@@ -518,7 +529,7 @@ parse3:                                   /* 0x217b69c */
         goto err4;
     strncpy((char *)buf, (char *)url_len, strlen((char *)url_len) + 1);
     DWC_Http_Destroy((u8 *)DWChttp.http);
-    OS_Sleep(interval);
+    OS_Sleep(wait_sec);
     goto loop;
 
 auth_r:                                     /* 0x217b120 */

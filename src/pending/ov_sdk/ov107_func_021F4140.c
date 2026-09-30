@@ -36,6 +36,9 @@
  *   out: union/struct-member forms for bsendBuff (CSE the pool loads, 352 B),
  *   a local status pointer (allocates r9/sb), lastAddr = data (70 B),
  *   inverted or >= branches (68-77 B), pointer-typed fields (216-360 B).
+ *   Wave 8: also tried the no-code self-assignment lever (`lastAddr = lastAddr;`
+ *   after the add) - no movement, still 63 B; and DWARF confirms the only
+ *   declared local is `lastAddr`, so named-local levers are unsupported.
  *
  * symbols:
  *   sUnlockFunc    0x021F6EF4  data

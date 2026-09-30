@@ -55,7 +55,15 @@
  *   `expectLen` zeroed as `unsigned long`, and `expectLen = 0;` moved after the
  *   two pointer guards.  The pool load and the spill are one independent
  *   instruction pair and this front end will not rotate them into the image's
- *   order from any statement position.
+ * order from any statement position.
+ *
+ * wave8: tried the const-pointer hoist lever from
+ * docs/idioms/a-load-scheduled-above-an-unrelated-store-reads-through-a-const-pointer.md
+ * on the field read (`const WCMSysState *` local over &g_021AA7D4, and an
+ * inline `((const WCMSysState *)&g_021AA7D4)->wcmw` cast at the guard); both
+ * still 18 bytes, schedule unchanged.  The lever needs a pointer parameter;
+ * it does not reach a load through a global object.  blocker: the `ldr sb`
+ * address load and the `str r1,[sp]` expectLen spill will not swap.
  */
 
 typedef struct WCMWork {

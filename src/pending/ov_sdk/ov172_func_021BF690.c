@@ -18,6 +18,11 @@
  *           (original `asr`, not `lsr`, on the peek shift).  Needs register
  *           pinning through local declaration order and forcing the refill
  *           duplication; not reached in this pass.
+ *           wave8 retry: aliasing global as first-declared local pointer
+ *           `BitState *bc = &bcode2;` did NOT pin bcode2 to r4 (went r7) and
+ *           regressed to 884 B/746 sites; moving the `v` declaration to last
+ *           was byte-identical.  Allocator pushes the two long-lived values
+ *           (bcode2, v) to r8/sl by use density, not declaration order.
  *
  * sdk:      hloadbit (libssp.TWL.HYB.a jpegdec.o)
  *

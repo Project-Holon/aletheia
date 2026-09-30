@@ -32,6 +32,12 @@
  *          anneal (plateau at 8, seed 2).  Region hints `ov107` added to the
  *          MBi_/MB_ symbols so the contested overlay labels (ov043/ov051
  *          thumb) do not stop the permuter; 18/18 relocations still resolve.
+ *          w8: still 8 B.  New spellings tried and all flat at 8: typed
+ *          unsigned-long temps (t1/t2), u8*-arithmetic temps, u32*-index
+ *          temps, (u8*)buf casts, and a u32 upd / widened upd+1; swapping the
+ *          two buffer-offset stores regressed to 12 B.  Residue is exactly
+ *          the scratch tie-break: at the first temp the allocator hands
+ *          buf+0x1e8 to r7 (dead game_reg) in the original but to r3 here.
  *
  * sdk:      MB_RegisterFile (libmb.TWL.HYB.a(mb_fileinfo.o))
  *

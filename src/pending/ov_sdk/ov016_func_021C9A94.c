@@ -8,7 +8,12 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
- * w10 lane1: field-wise AREA copies (l,t,t+=,w,h in four orderings) stay at 620 B / 604 B, never 636 B; the duplicate t store is not produced by any spelling tried.
+ * w8 scan: `volatile AREA a` + `a.t = <src>.t + i*29` reproduces the original 636-byte size,
+ * the AREA copy schedule (l,t then w,h pairs) and the four dead t stores; register allocation
+ * now matches. Residue 120 B: (a) original loads t before l in the A_YES/A_NO copies and reuses
+ * the copy's t for the add, ours reloads t; (b) original uses the truncating `lsl; add ...,lsr #16`
+ * pair where ours folds to `add r1,r1,r5`; (c) loop2/loop3 counter lives in r2 in the original, r1 here.
+ * Parked at the deadline, not a toolchain blocker.
  *
  * symbols:
  *   DWCi_R_SCR                       0x021DAA7C  data
@@ -110,7 +115,7 @@ typedef struct {
     RECT           R_BUTTON[3];       /* 0x60 */
     RECT           R_FOCUS[6];        /* 0x78 */
 } SCENESETLIST_RODATA;
-extern const SCENESETLIST_RODATA scenesetlist_rodata;
+extern SCENESETLIST_RODATA scenesetlist_rodata;
 
 extern bool DWCi_TPlCheckTrigger(RECT *r);
 extern bool DWCi_TPlCheckATrigger(AREA *a);
@@ -119,7 +124,7 @@ extern RECT DWCi_R_SCR;
 
 int isPush(void)
 {
-    AREA a;
+    volatile AREA a;
     int cell;
     int i;
 
@@ -129,7 +134,7 @@ int isPush(void)
     a = scenesetlist_rodata.A_EDIT;
     for (i = 0; i < 4; i++, cell++) {
         if (cell != 2 && cell != 6) {
-            if (DWCi_TPlCheckATrigger(&a))
+            if (DWCi_TPlCheckATrigger((AREA *)&a))
                 return scenesetlist_rodata.CLM2FCS_TBL[cell];
         }
         a.t += 29;
@@ -138,12 +143,12 @@ int isPush(void)
     for (i = 0; i < 4; i++, cell++) {
         if (cell == 2) {
             a = scenesetlist_rodata.A_YES;
-            a.t += i * 29;
-            if (DWCi_TPlCheckATrigger(&a))
+            a.t = scenesetlist_rodata.A_YES.t + i * 29;
+            if (DWCi_TPlCheckATrigger((AREA *)&a))
                 return 2;
             a = scenesetlist_rodata.A_NO;
-            a.t += i * 29;
-            if (DWCi_TPlCheckATrigger(&a))
+            a.t = scenesetlist_rodata.A_NO.t + i * 29;
+            if (DWCi_TPlCheckATrigger((AREA *)&a))
                 return 3;
             break;
         }
@@ -152,12 +157,12 @@ int isPush(void)
     for (i = 0; i < 4; i++, cell++) {
         if (cell == 6) {
             a = scenesetlist_rodata.A_YES;
-            a.t += i * 29;
-            if (DWCi_TPlCheckATrigger(&a))
+            a.t = scenesetlist_rodata.A_YES.t + i * 29;
+            if (DWCi_TPlCheckATrigger((AREA *)&a))
                 return 7;
             a = scenesetlist_rodata.A_NO;
-            a.t += i * 29;
-            if (DWCi_TPlCheckATrigger(&a))
+            a.t = scenesetlist_rodata.A_NO.t + i * 29;
+            if (DWCi_TPlCheckATrigger((AREA *)&a))
                 return 8;
             break;
         }

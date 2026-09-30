@@ -38,6 +38,20 @@
  * msg parameter in a local (788/504).  This is the 1.1p1 register allocator's
  * rematerialisation policy, not a source or witness problem.
  *
+ * lane W8 (2026-09-30, deadline hit): re-confirmed 788/796, 504 concrete, 26/32
+ *           relocs.  Whole 8-byte gap is exactly the `ms` slot: image frame
+ *           0x24 with 9-word push {r4-r8,sb,sl,fp,lr}; ours 0x20 with a dummy
+ *           padding r3 -> 10-word push.  Image slot order is dark 0x10, ms
+ *           0x14, obj 0x18, EFF 0x1c (reloading ms at +01E8 via `ldr r0,[sp,
+ *           #0x14]`); ours has obj 0x14, EFF 0x18 and keeps ms in fp (`mov fp,
+ *           r0` at +0064).  Measured this wave: holding ms in a `u32` local and
+ *           casting at the call is byte-identical to the `u16 *` spelling
+ *           (788/504) -- the allocator still keeps it in fp and only realigns
+ *           with r3.  Forcing the spill by declaration order/env/type resists
+ *           under 1.1p1 (see W7 list).  blocker unchanged: image spills the ms
+ *           return to [sp+0x14]; this allocator hoists it into a callee-saved
+ *           register instead.
+ *
  * sdk:      DWCi_WINlInitEx (libdwcutil.TWL.HYB.a window.o)
  *
  * symbols:
