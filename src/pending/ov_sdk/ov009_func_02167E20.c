@@ -1,5 +1,5 @@
 /*
- * function: WcmWmcbSetDCFDataAsync
+ * function: func_02167E20
  * address:  0x02167E20
  * packet:   pkt_ov009_02167E20
  * region:   ov009
@@ -25,13 +25,33 @@
  * un-hoisted `ldr r6, [r4, #0x2c]` is not reachable from any source shape tried
  * here or in the w5/w9 passes.
  *
+ * w8_67E20: the `subne r5,r5,#5` is a fold off the adjacent `mov r5,#0`, and an
+ * enum *local* breaks it (an-enum-local-materialises-a-large-complement-constant):
+ * `typedef enum { OK, ERR = -5 } E; E err; ... err = ERR; wcmResult = 0;
+ * if (field != 0) wcmResult = err;` compiles to 104 B (the image's size) with the
+ * mvn materialised -- `mvn r1, #4 / mov r5, #0 / cmp r0, #0 / movne r5, r1`. But
+ * the arm is *still predicated* (`movne r5, r1`), so the branch is not recovered.
+ * 10 concrete bytes left, and the residual is exactly the predication decision.
+ * Nine more spellings (err assigned after the default, both arms enum, a goto
+ * label, a nested if, `&&`, a one-trip loop with explicit continue/break, six
+ * repeated `wcmResult = -5;` dead stores that CSE away) all give 104 B and the
+ * same `movne`; the spellings that fold back to the subtract give 100 B.
+ *
  * sdk:      WcmWmcbSetDCFDataAsync (wmif.o)
  *
- * blocker:  1.1p1 if-converts the one-instruction then-arm `wcmResult = -5;`
- *           to `subne r5,r5,#5` (100 B); the image keeps a real branch
- *           `mov r5,#0 / cmp / beq / mvn r5,#4` (104 B). Allocating the
- *           trailing callback tail does not stop the if-conversion; 2.0/sp2
- *           and every dsi front end give the same 100 B. Codegen wall.
+ * blocker:  Front-end predication wall. 1.1p1 at -O4,p always if-converts a
+ *           guard arm of five instructions or fewer
+ *           (predication-of-short-guard-arms-is-the-front-end-not-the-shape,
+ *           an-arm-guard-block-of-five-instructions-or-fewer-is-predicated);
+ *           here it predicates the one-instruction then-arm, and an enum local
+ *           only swaps `subne r5,r5,#5` for `movne r5,r1` while keeping the
+ *           predication. The image keeps a real branch
+ *           (`mov r5,#0 / cmp / beq / mvn r5,#4`), which is the "kept branches"
+ *           tell FRONTEND-PINS.md documents as ../2.0/sp2, not 1.1p1. No plain-C
+ *           spelling reaches it under 1.1p1 (w5/w9/u21/u31/w8 all measured); the
+ *           honest route is a per-function pin to ../2.0/sp2, which this lane is
+ *           not allowed to take (no stamp sweeps; one function only). Recompute
+ *           under the pin: the same C is 104 B with 0 predicted mismatches.
  *
  * w5_nm: still 35 bytes with DWARF-named fields and the `cb` local.  Also
  *           tried: switch on sendError (case 0 / default), ternary in both
@@ -52,7 +72,7 @@ extern struct WCMCpsifWork *WCMi_GetCpsifWork(void);
 extern void WCMi_ResetKeepAliveAlarm(void);
 extern void WCMi_CpsifUnlockMutexInIRQ(void *mutex);
 
-static void WcmWmcbSetDCFDataAsync(void *arg)
+static void func_02167E20(void *arg)
 {
     struct WCMCpsifWork *wcmiw = WCMi_GetCpsifWork();
     long wcmResult;

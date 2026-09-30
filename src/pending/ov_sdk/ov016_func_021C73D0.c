@@ -9,28 +9,29 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker: front-end behaviour difference, 8 bytes.  lane03 (2026-09-30) applied
- *           the hoist the old note described: `int k = MemSsea->cur * 3;` with
- *           adr[k+2]/adr[k+1]/adr[k], and `adr` as `unsigned char *` (the object
- *           loads ldrb; this TU's -char signed gives ldrsb).  That drops the body
- *           from 748/601 to 696/535 (compiled 696 vs image 704).  The remaining
- *           8 bytes and two instruction forms are a front-end difference, not a
- *           source difference:  (a) the else arm is `popeq {r3,r4,r5,r6,r7,pc};
- *           b Ldefault` in the object, but 1.1p1 gives `bne Ldefault;
- *           pop {r3,r4,r5,r6,r7,pc}` (it predicates the `if (p == 0) return;`
- *           head as `movs r6,r0; popeq`, then reorders `ldr r7` ahead of
- *           `mov r4,#1` and adds a second compare), and (b) the object has a
- *           dead `pop {r3,r4,r5,r6,r7,pc}` at 0x021C7418 between the jump table
- *           and case 0x10, which 1.1p1 never emits (a `default: return;` arm does
- *           not produce it either).  Earlier measured form:
- *           (a) the else arm: `popeq {r3,r4,r5,r6,r7,pc}; b Ldefault` in the
- *           object, but `bne Ldefault; pop {r3,r4,r5,r6,r7,pc}` here
- *           (the `if (p == 0) return;` at the top of the body does predicate --
- *           `movs r6,r0; popeq` -- but then reorders `ldr r7` ahead of
- *           `mov r4,#1` and adds a second compare), and
- *           (b) the dead `pop {r3,r4,r5,r6,r7,pc}` at 0x021C7418 between the jump
- *           table and case 0x10, which 1.1p1 never emits (a `default: return;`
- *           arm does not produce it either).
+ * blocker: front-end behaviour difference, ~8 bytes + 1 dead instruction.
+ *          lane03 (2026-09-30) applied the adr-hoist (`k=cur*3`,
+ *          `unsigned char *adr`), dropping to 535 concrete bytes.
+ *          lane08 (2026-09-30) confirmed the two residual sites are the
+ *          front end's choices, not a source shape:
+ *           (a) else arm polarity: the object predicates the void return and
+ *               branches the Ldefault path (`popeq {r3,r4,r5,r6,r7,pc};
+ *               b Ldefault`), but 1.1p1 always emits the mirror
+ *               (`bne Ldefault; pop {r3,r4,r5,r6,r7,pc}`).  Tried and
+ *               rejected: separate `if (p==0) return;` (merges to a bottom
+ *               `ble` block, 696 B); `else if (p==0) return;` (same merge);
+ *               `else if (p!=0) goto Ldefault; else return;`; `if (p>0)
+ *               goto Lswitch; if (p==0) return; goto Ldefault;`.
+ *               The closest is `if (p<=0){ if(p==0) return; goto Ldefault; }
+ *               switch(...)` (700 B, correct `bgt` at 0x1C), which still
+ *               yields the mirror `bne; pop` in place of aspect (a).
+ *           (b) a dead `pop {r3,r4,r5,r6,r7,pc}` at 0x021C7418 between the
+ *               switch jump table and case 0x10, which 1.1p1 never emits
+ *               (4 of the 8 remaining bytes).  A `default: return;` arm does
+ *               not produce it either.
+ *          Everything else (26/26 relocations, all other bytes) reproduces
+ *          once the 4-byte dead pop is accounted for; the gap is purely the
+ *          two codegen choices above.
  *
  * sdk:      input (libdwcutil.TWL.HYB.a(sceneseteditaddr))
  *
@@ -86,8 +87,12 @@ static void input(void)
     int k;
 
     p = DWCi_KB10lGet();
-    if (p > 0)
+    if (p <= 0)
     {
+        if (p == 0)
+            return;
+        goto Ldefault;
+    }
     switch (p)
     {
         case 0x10:
@@ -135,12 +140,6 @@ static void input(void)
             return;
         default:
             break;
-    }
-    }
-    else
-    {
-        if (p == 0)
-            return;
     }
 
 Ldefault:

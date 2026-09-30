@@ -9,47 +9,54 @@
  * isa:      thumb
  * status:   DIFF
  *
- * w9_nm2:   still DIFF (173 to 182 B), not improved. Tried a BTAUTO struct for the
- *           global (alloc pointer at +4, mem +0x54, work +0x40/+0x5c, maxap +0x70),
- *           dropping the `t` local (the compiler folds 0xd0 + 0xc0 into 0x190 and
- *           hoists 0x24d0/0xc0), and three local declaration orders. The object
- *           keeps maxap in r6 and t in r7 with no frame; ours spills maxap to
- *           [sp] and materialises 0xc0 and the 0x24d0 pool word early.
- *
  * sdk:      InitAtermApcNetwork (libdwcutil.TWL.HYB.a(atermset.o))
  *
- * T6: pin corrected to ../2.0/sp1p2 (atermset.o, the object SetFrameData
- * 0x021B9FE0 already pins). Under it this function drops from 188 B / 164
- * concrete diffs (dsi/1.1p1) to 160 B / 117 (image 164 B). Residue, in order:
- * (a) the object keeps maxap in r6 and t = maxap*0xd0 in r7, this build swaps
- * them (maxap r7, t r6) - visible from +0002; (b) both `& -32` masks: the
- * object materialises -0x20 as `movs r1,#0x1f / adds r0,r1,#0 / subs r0,#0x3f`
- * and uses `ands`, this build folds each to `movs r3,#0x1f / bics`; that fold
- * is exactly the 4-byte size gap. Tried: four local declaration orders,
- * `& -32`/`& -0x20`/`& 0xFFFFFFE0`/`& 0xffffffe0u`/`& (int)0xffffffe0u`, an
- * `int mask = -32;` local used by both masks, `int t` declared mid-block,
- * unsigned int t` - all byte-identical at 160 B.
+ * wave8 (2026-09-30).  Best body is 160 B / 117 concrete (image 164 B); the
+ * two residues below are unchanged from lane U10 and are the whole gap.
  *
- * lane U10 (2026-09-30), pin ../2.0/sp1p2 recorded in the compiler field.
- * Re-measured 160 B / 117 diffs (image 164).  10 local declaration orders
- * (loop_flag/retv/ev/t in every position, `long t`, t declared mid-block, t in
- * a nested block) are all 160/117; R7 order 160/119.  The two residues are
- * independent and both in the first block:
- *  (a) PROLOGUE, +0002: image `adds r6, r0, #0` keeps maxap in r6 and the
- *      maxap*0xd0 temp in r7; ours swaps them (`adds r7, r0, #0`, t in r6).
- *      Dropping the `t` local fixes the prologue exactly (maxap r6) and leaves
- *      168 B / 140: the front end then folds maxap*0xd0 + maxap*0xc0 into
- *      0x190*maxap (`movs r0,#0x19 / lsls r0,r0,#4 / muls`), which the image
- *      does not do (it keeps `movs r0,#0xd0 / adds r7,r6,#0 / muls r7,r0,r7`).
- *      So `t` must stay a declared local for the multiply, and a declared
- *      local takes r6 before the parameter does.  Reordering the multiply's
- *      operands and passing `t` in the first expression do not move it.
- *  (b) MASKS, +0030: image materialises -0x20 out of the live 0x1f
- *      (`movs r1,#0x1f / adds r2,r0,r1 / adds r0,r1,#0 / subs r0,#0x3f /
- *      adds r3,r2,#0 / ands r3,r0`) and reuses r1 for the second mask; ours
- *      recognises `& -32` and folds each to `movs r3,#0x1f / bics`, two
- *      instructions fewer, which is the 4-byte size gap.  `& -32`, `& ~0x1f`,
- *      `& 0xFFFFFFE0`, `& 0xffffffe0u`, an int mask local: identical.
+ * NEW EVIDENCE this lane: the vendor atermset.o DWARF (scratch/laneU55/objs/
+ * atermset.o) pins the source shape exactly.  InitAtermApcNetwork (decl_line
+ * 206, atermapc.c) has EXACTLY THREE DWARF entities: the parameter maxap
+ * (DW_OP_reg6), loop_flag (line 207, DW_OP_reg4) and retv (line 208,
+ * DW_OP_reg5).  There is NO `t` and NO `ev` local; the `maxap * 0xd0` value in
+ * r7 is a compiler CSE temp, and it is live across lines 212 and 217.  The
+ * object's relocations are all `.bss + 0` (the section base 0x021DCFD0); the
+ * members touched are gMaxApList +0x70, atermapc_work +0x54, apc_work +0x40,
+ * ap_list +0x5c, gAtermAlloc +0x4 (symbol names from the object's own symbol
+ * table).  atermset.o's .comment is `Metrowerks C/C++ for ARM 3.0.0.126`,
+ * i.e. ../2.0/sp1p2 (docs/FRONTEND-PINS.md), so the pin is right.
+ *
+ * blocker: (a) LINEAR-COMBINATION FOLD.  The image keeps two multiplies,
+ * `t = 0xd0*maxap` (r7) then `0xc0*maxap` (r0).  With no `t` local this build
+ * folds `maxap*0xd0 + 0x24d0 + maxap*0xc0` at -O4,p into
+ * `movs r0,#0x19 / lsls r0,r0,#4 / muls` (0x190*maxap) and then RE-computes
+ * `maxap*0xd0` for line 217 (168 B).  Blocking the fold with a named `t`, an
+ * unsigned/int cast on one factor, `sizeof(...)`, or an enum constant yields
+ * the two muls but the allocator then gives r6 to the temp and r7 to the
+ * parameter, the reverse of the image (160 B).
+ * Spellings measured and rejected: `maxap*0xd0+0x24d0+maxap*0xc0` (fold),
+ * `(unsigned)maxap*0xc0`, `(unsigned long)`, `(int)(...)`, `0xc0u`, `0xc0L`,
+ * `(char*)0 + ...` (CCERR), parenthesised groups, both operands swapped,
+ * `sizeof(struct of 0xd0/0xc0)`, enum-typed sizes, 10 declaration orders of
+ * loop_flag/retv/ev/t, a shadow `maxap` local with the parameter renamed.
+ * All ten ../2.0 subdirs give 168/141; ../1.2 and dsi give 168-192.
+ * (b) MASK.  The image materialises -0x20 out of the live 0x1f
+ * (`movs r1,#0x1f / adds r0,r1,#0 / subs r0,#0x3f`) and uses `ands`; this
+ * build recognises `& ~0x1f`/`& -32` and folds each mask to
+ * `movs rN,#0x1f / bics` (two instructions fewer, the 4-byte size gap).
+ * `& -32`, `& ~0x1f`, `& -0x20`, `& (int)0xffffffe0`, `& ~0x1fu`,
+ * `& (unsigned long)-32`, `& 0 - 32` are all byte-identical.  APC_Init in the
+ * same object (0x021B95EC, matched EXACT under sp1p2) uses the same
+ * `& ~0x1F` and DOES fold to bics, so the fold is genuine front-end
+ * behaviour, not a source spelling this lane failed to find.  The only body
+ * that reproduces the materialised mask is not reachable without also fixing
+ * (a); the two are coupled through the scratch register that holds 0x1f.
+ *
+ * NOTE: the header from lane T6/U10 gave the compiler as ../2.0/sp1p2 and
+ * said 188 B/164 under dsi/1.1p1.  The correct body no longer depends on the
+ * pin for its size (all 2.0 subdirs are identical here); the residues are a
+ * front-end difference that no bundled build reproduces.
+ *
  * symbols:
  *   func_021B970C  0x021B970C  thumb  ov016
  *   func_021B95EC  0x021B95EC  thumb  ov016
@@ -80,7 +87,7 @@ int func_021B97A8(int maxap)
 	if (g_021DCFD0[21] == 0)
 		return -1;
 	g_021DCFD0[16] = (g_021DCFD0[21] + 0x1f) & -32;
-	g_021DCFD0[23] = (g_021DCFD0[16] + (t + 0x2490) + 0x1f) & -32;
+	g_021DCFD0[23] = (g_021DCFD0[16] + t + 0x2490 + 0x1f) & -32;
 	if (func_021B95EC(func_021B976C, (void *)g_021DCFD0[16], t + 0x2490) == 0)
 		return -2;
 	do {

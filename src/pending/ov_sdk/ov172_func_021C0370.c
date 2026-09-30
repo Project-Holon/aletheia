@@ -44,6 +44,15 @@
  * `lsl r0, r0, #0x10` / `lsr r0, r0, #0x10`.  First divergence +0010
  * image `ldrb r3, [r0, r1]` | ours `ldrb r1, [r0, r1]`.
  *
+ * wave8 (2026-09-30): re-confirmed 7 concrete B, unchanged. Added spellings: the
+ * 32-bit-context forms `word = (unsigned short)((src[cur+1]<<8)&0xff00) | (unsigned short)src[cur];`
+ * and `(unsigned short)(word | src[cur])`, the separate `unsigned short hi/lo` locals, and the
+ * one-statement `word = ((src[cur+1]<<8)&0xff00) | src[cur];` (the last is 76 B / worse). Every
+ * spelling mwcc accepts canonicalises to the same node and folds the LE orr to `zext16(byte|word)`;
+ * the image keeps the two u16 conversions distinct (`zext16(word)` as the orr's plain operand and
+ * `byte<<16` folded into the shifted slot). Image loads the byte into r3, ours into r1: a node/
+ * allocator identity residue, not an unspelled body. No new general lever found.
+ *
  * sdk:      GetWord (exifdec.o)
  *
  * symbols:

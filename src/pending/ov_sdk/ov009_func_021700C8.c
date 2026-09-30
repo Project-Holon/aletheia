@@ -29,6 +29,20 @@
  * command ahead of the id copy changes the prologue, 46 to 54 B). The pool
  * base stays in r0 with len * 4 in r1; the object has ip and r0.
  *
+ * w8_thislane: 10 more iterations, all DIFF 20 B (or worse), on the register
+ * rotation only. Rejected: `const`+`*const` on `data` (20), a `n = len * 4;`
+ * named local placed before the id copy and used for the field (20), the same
+ * before the 0x5a store (53), `len = len;` / `command = command;` self-
+ * assignments at the copy (20), `4 * len` and `len << 2` operand spellings
+ * (20), `__builtin_memcpy(...,5)` (73), a 5-iteration copy loop (78), memberwise
+ * id copies (33/40), an array-indexed extern (36). Every spelling keeps the
+ * d_021A2188 base in r0 and len*4 in r1; the object's ip/r0 is a front-end
+ * allocation order, not reachable from the C. Declaration order is inert (no
+ * DWARF locals). status: DIFF, best 20 B.
+ * blocker: the d_021A2188 base is coloured r0 by dsi/1.1p1 where the image has
+ *   ip (len*4 then r1 vs the image's r0); instruction stream identical, every
+ *   cross 1.1p1 build gives 20 B, siblings 24 B. No C lever found.
+ *
  * symbols:
  *   d_021A2188  0x021A2188  data  a1
  *   MIi_CpuCopy32  0x02082A90  arm

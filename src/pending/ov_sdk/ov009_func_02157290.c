@@ -33,6 +33,15 @@
  * (int/unsigned/long/unsigned long) is inert at 10; char forms are worse.
  * Residue: instruction placement / register tie-break, not a body shape.
  *
+ * wave 8 (2026-09-30): retried with side levers, each made it worse or inert:
+ * moved the reason store to a second statement / first store (16 and 37,
+ * the first flips the two pool loads so the store base lands in r1); a named
+ * and an unsigned-long zero `z` assigned just before v1c and reused by the
+ * loops (16, folds back to r5); deferring the `had_ip` bool behind a named
+ * `myip` temp so the zero web starts late (188, recolours the whole body).
+ * The 10-byte residue stands: the front end always gives the myip load delay
+ * slot to the pooled zero, not to `str r0,[r2,#0x4c]`.
+ *
  * sdk:      reset_network_vars (libcps.TWL.HYB.a network.o)
  *
  * symbols:

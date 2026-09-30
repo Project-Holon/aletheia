@@ -9,20 +9,26 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker:  codegen, register allocation only.  Size matches (792 B); ~260
+ * blocker:  codegen, register allocation only.  Size matches (792 B); 258
  *           concrete bytes differ, all in the handshake loop (case 0x16).
  *           The whole prologue, make_plaintext gate, and outer switch match
  *           byte for byte once `s` is declared before `len`/`type` (that
  *           pins the vendor's type/s=r5, len=r6), `sub` is `unsigned int`
  *           (else buf leaves sl), and the sub-record length expression is
- *           parenthesised `((s[1] << 16) + (s[2] << 8)) + s[3]`.
+ *           parenthesised `((s[2] << 8) + (s[1] << 16)) + s[3]` -- s2-first,
+ *           per docs/idioms/the-accumulator-of-a-commutative-chain-is-its-
+ *           second-operand.md (the inner accumulator holds the source's
+ *           second operand; s1-first was 260 bytes, this is 258).
  *           Residue: the vendor keeps the sub-record length sub=r8 with its
- *           +4 temp=r7; ours is the mirror (sub=r7, temp=r8), so the loop
- *           head schedules s[2] first and reads the record type with
- *           `ldrb r0,[r5,#-4]` after the pointer advance instead of
- *           `ldrb r0,[r5]` before it.  Declaration order (sub first/last,
- *           s first), `sub` as int/unsigned/long and a named sub+4 temp
- *           were all tried; the r7/r8 swap survives.
+ *           trailing temp=r7 (`add r7,r8,#4`) and loads the record type
+ *           `ldrb r0,[r5]` *before* the pointer advance; ours is the mirror
+ *           (acc r0, temps r1/r3, sub=r7, temp=r8) so the type is read with
+ *           `ldrb r0,[r5,#-4]` after `add r5,r5,#4`.  The whole handshake
+ *           switch layout then follows.  Declaration order (sub first/last,
+ *           s first), `sub` as int/unsigned/long, block-scope `sub`, named
+ *           byte locals, a named `rec` for the type (796 B) and a named
+ *           sub+4 `tot` were all tried; the r0/r1/r3/r7 vs r3/r7/r1/r8
+ *           colouring survives.
  *
  * sdk:      parse_record_in_buf (libssl.TWL.HYB.a(ssl.o))
  *
@@ -43,6 +49,15 @@
  *           type with `ldrb r0,[r5,-4]` after the advance instead of `ldrb r0,[r5]` before it.
  *           Measured inert this lane: nothing new applies (no memcpy/memset intrinsic in the
  *           divergent region, no pooled zero, no volatile). Parked.
+ *
+ * lane W8 (2026-09-30): inner operand order corrected to `((s[2] << 8) + (s[1] << 16)) + s[3]`
+ *           per the-accumulator-of-a-commutative-chain-is-its-second-operand: the image's inner
+ *           accumulator r3 holds s[1]<<16 while `add` folds s[2]<<8, i.e. the source's second
+ *           operand.  That fixed the inner add shape and dropped 260 -> 258 concrete bytes.
+ *           Remaining tie: image colours the sub expr r3/r7/r1 with sub=r8; we get r0/r1/r3 with
+ *           sub=r7, so the record-type load sinks below the pointer advance.  Tried this lane
+ *           (all inert or worse): sub declared first, block-scope `sub`, named byte locals,
+ *           named type local `rec` (796 B), named sub+4 `tot`, outer `s[3] + (...)`. Parked.
  */
 
 struct _CPSSslConnection {
@@ -120,7 +135,7 @@ static void parse_record_in_buf(struct _CPSSslConnection *con, unsigned char *bu
             break;
         }
         do {
-            sub = ((s[1] << 16) + (s[2] << 8)) + s[3];
+            sub = ((s[2] << 8) + (s[1] << 16)) + s[3];
             if (sub > len) {
                 con->state = 9;
                 break;

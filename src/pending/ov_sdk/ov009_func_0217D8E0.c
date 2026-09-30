@@ -8,6 +8,18 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * blocker:  front-end register allocation, not source shape. 1.1p1 resolves the
+ *      4->5 argument rotation (incoming divisor r1, dest r2, remainder r3 ->
+ *      outgoing r2, r3, [sp]) with ONE scratch: str r3,[sp] first frees r3, so
+ *      dest goes straight to r3 and only divisor needs ip (mov ip,r1; mov r3,r2;
+ *      ldr r1,[r0],#4; mov r2,ip). The vendor parks BOTH incoming pointers first
+ *      (mov lr,r1; mov ip,r2; str r3,[sp]; ...; mov r2,lr; mov r3,ip) and pays
+ *      one extra mov. The same object does emit the lr park when an earlier
+ *      computation keeps the incoming args live across it (WCMi_Notify,
+ *      src/matched/ov_sdk/ov009_func_021659B4.c); here the only earlier work is
+ *      the len load, which schedules after the stack store. Vendor one-liner and
+ *      all spellings tried (w2/w4/w6/w7/w9/u31, const/locals/casts/order here)
+ *      give 32 B.
  * u21: the defining object gslargeint.o is .comment 4.0.0.1025, a stamp no local build writes.
  *      Object listing (tools/sdkobj.py) = the image instruction for instruction, including the
  *      DWARF parameter registers (src1 r0, divisor r14, dest r12): the vendor keeps the divisor in

@@ -7,9 +7,22 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF (near miss, 162 B; 17/17 relocations resolved, literal pool identical
- *                 in content and order, code identical to +0x5C; three coupled register
- *                 allocation differences from +0x60, 388 vs 380 B compiled)
+ * status:   DIFF (near miss, 148 B; 17/17 relocations resolved, literal pool identical
+ *                 in content and order, code identical to +0xA4; residue is the +0xA8
+ *                 register trio (mss-0x28/rwin/zero) and the use_dhcp constant hoist,
+ *                 388 vs 380 B compiled)
+ *
+ * blocker:  +0xA8 register trio.  Original: rwin in r7, mss-0x28 in r4, the g_021A82BC
+ *           zero in r3, so the then-arm of the use_dhcp test carries the hoisted `mov
+ *           r2,#1` and comes to five instructions and is predicated.  This build keeps
+ *           r4 for rwin and r3 for mss-0x28, so the zero takes r2 and the `1` is
+ *           rematerialised in each arm; the then-arm is six instructions, branches, and
+ *           the function is eight bytes long.  Making lan_buflen volatile fixes the
+ *           +0x60 lan_buf select (the object reloads cps_config->lan_buflen at +0x70,
+ *           this build now does too) and drops the near miss from 162 to 148 concrete
+ *           bytes; the +0xA8 tie itself is not reachable from the spellings tried
+ *           (named mss-0x28/rwin locals, an in-place mss -= 0x28, a shared `one`
+ *           local for the hoisted 1).
  *
  * sdk:      SOCLi_StartupCPS (libsoc.TWL.HYB.a(socl_startup.o))
  *
@@ -75,6 +88,15 @@
  * each arm every time, so the then-arm stays six instructions and misses the
  * five-instruction predication threshold; the +0x60 lan_buf select and the
  * +0xA8 register trio are unchanged.
+ *
+ * lane W8 (2026-09-30).  Found the general lever for the +0x60 select: making
+ * `CPSConfig.lan_buflen` volatile forces the object's own reload of the field
+ * at +0x70 (the original does not forward the value it just stored), which
+ * removes that whole coupled symptom and drops the near miss from 162 to 148
+ * concrete bytes.  The remaining +0xA8 tie is the mss-0x28/rwin/zero coloring;
+ * named mss-0x28 and rwin locals, an in-place `mss -= 0x28`, and a shared `one`
+ * local for the hoisted `1` were all measured and leave 148 (or regress to 162).
+ * See docs/idioms/volatile-on-a-just-stored-field-forces-the-objects-reload.md.
  */
 
 typedef unsigned char u8;
@@ -92,7 +114,7 @@ typedef struct
     int (*link_is_on)(void);
     u64 random_seed;
     u8 *lan_buf;
-    u32 lan_buflen;
+    volatile u32 lan_buflen;
     u32 mymss;
     u32 requested_ip;
     u32 yield_wait;
@@ -193,16 +215,9 @@ static void SOCLi_StartupCPS(void)
     } else if (mss < 0x240) {
         mss = 0x240;
     }
-    {
-        long rwin = socl_config->rwin;
-
-        if (rwin == 0) {
-            rwin = 0x10C0;
-        }
-        g_021A1CFC[1] = (u16)rwin;
-        g_021A1CFC[2] = (u16)((mss - 0x28) * 2);
-        cps_config->mymss = (u32)(mss - 0x28);
-    }
+    g_021A1CFC[1] = (u16)(socl_config->rwin != 0 ? socl_config->rwin : 0x10C0);
+    g_021A1CFC[2] = (u16)((mss - 0x28) * 2);
+    cps_config->mymss = (u32)(mss - 0x28);
     g_021A82BC = 0;
     if (socl_config->use_dhcp == 0) {
         g_021AA440.dhcpState = 0;

@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF   (parked; not EXACT/MATCH)
+ * blocker:  dsi/1.1p1 pools the shared `0` (return 0 + f1/f2 stores) into
+ *           callee-saved r4 at +0014, rolling every register +1 (134 concrete,
+ *           296/296).  Documented front-end wall; no source lever reached it.
+ *           ../2.0/base fixes the allocation but leaves a 4-byte tail residue.
  *
  * DWC_AddMatchKeyInt (dwc_match.o): resolve/create the match-key slot at
  * 0x021AAA40 (12-byte stride: f0 key id, f1 flag, f2 u16, f4 string ptr,
@@ -48,6 +52,21 @@
  * stores before the f0 store, decl order.  The hoisted zero is the only
  * thing standing between the draft and EXACT on this row and its twin
  * 0x0216CA04.
+ *
+ * lane W8 (2026-09-30): re-confirmed under dsi/1.1p1.  This is exactly the
+ * documented front-end wall of docs/idioms/a-repeated-small-constant-takes-a-
+ * callee-saved-register.md: the shared `0` (the `return 0` at +005C and the
+ * f1/f2 stores) is pooled into callee-saved r4 at +0014, crossing two calls,
+ * which steals the first callee-saved slot and shifts every register +1.  The
+ * idiom's own correction says the only known lever is a 2.0 pin.  Measured
+ * this wave and no effect on the roll: an enum-typed zero for the stores
+ * (docs/idioms/an-enum-typed-zero-keeps-its-own-web-where-a-u32-zero-is-
+ * folded.md), assigned both immediately before the stores and first at entry.
+ * Cross-check (informational, lead from the twin): under ../2.0/base the whole
+ * allocation matches the image (index->r4, no pooled zero) but the size is 300
+ * vs 296 -- the twin's one-redundant-copy tail residue (49 concrete) -- so no
+ * in-tree compiler reaches EXACT and the row is parked for the object's front
+ * end, not a source shape.
  *
  * symbols:
  *   g_021AAA40     0x021AAA40  data  ov009

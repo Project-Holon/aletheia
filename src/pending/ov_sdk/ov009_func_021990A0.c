@@ -32,6 +32,15 @@
  * constant is materialised from the live r0 == 1, so the mvn is a 4.0.0.1025
  * codegen decision, not a source shape.
  *
+ * lane W8 (2026-09-30): the mvn IS reachable from source.  Typing the high bound as an enum
+ *      local (`typedef enum { HIGH_MAX = 0x7fffffff } HighMax; HighMax hi = HIGH_MAX;`) stops
+ *      mwcc folding it and emits the exact `mvn r1, #0x80000000` (a bare enum constant or an
+ *      int local still folds to the `sub`).  Remaining blocker is argument order: the enum
+ *      local is materialised BEFORE the low literal, `mvn r1; mov r0`, where the image emits
+ *      `mov r0, #1; mvn r1` (6 bytes).  With both args as enum locals the order is right but
+ *      the compiler re-derives 0x7fffffff from the adjacent r0 == 1 again (`sub`).  See
+ *      docs/idioms/an-enum-local-materialises-a-large-complement-constant.md.
+ *
  * sdk:      GetClientUniqueID (natify.o)
  *
  * w4_nm tried: K&R and unsigned prototypes, 0x7fffffffu, ~0x80000000, ~0u>>1, long

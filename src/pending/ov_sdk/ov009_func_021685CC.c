@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * blocker:  276/276 bytes, 18 concrete bytes; the dsi/1.1p1 list scheduler
+ *           hoists the mul-lo pool load into the slot the image gives to the
+ *           x-store address load (+0x98..+0xA8).  Same instruction multiset
+ *           and same pool words in the same order; no source order moves it.
  *
  * sdk:      DWCi_GetMathRand32 (libdwcmatch.TWL.HYB.a(dwc_common.o))
  *
@@ -15,28 +19,22 @@
  *   OS_GetMacAddress  0x02087C6C  arm
  *   OS_GetTick        0x020870D0  arm
  *   g_021AA848        0x021AA848  data
+ *   g_021AA848_x      0x021AA848  data
  *
- * notes: the Rand32 half matches the image exactly. Residue: the image keeps
- * ctx in r6, &seed in r4, max in r5 and reloads the ctx literal (second pool
- * word) for the x stm; ours allocates ctx r4, &seed r5, max r6 and has one
- * pool word. About 20 spellings tried.
- *
- * lane U22 (2026-09-30): the register file above is set by the ORDER of the
- * three stores in MATH_InitRand32.  Written mul, add, x the front end
- * reproduces the image's whole head byte for byte -- ctx r6, &seed r4, max r5,
- * `add r4,sp,#0` / `mov r0,r4` around OS_GetMacAddress and every 64-bit seed
- * step identical to +0088 (measured: only the tail differs).  What is left:
- * the image emits the x block copy FIRST and with a REMATERIALISED ctx
- * literal (ldr r0,pool_021686D0; ldm r4,{r2,r3}; stm r0,{r2,r3}), then mul
- * lo/hi and add lo/hi via r6; the mul-first source keeps our x copy last and
- * reuses r6 for the stm, which is 8 bytes short (268 of 276).  Written x
- * first the instruction order matches the image but the register file rolls
- * back to ctx r4 / &seed r5 / max r6.  So the two halves are each reachable
- * from a different statement order and not both at once; a second ctx literal
- * plus a stm through it is what the image wants.
- *
- * `unsigned char seed[8]`, a pointer-seed helper and a plain (non-inline)
- * helper were measured: no configuration moves the tail.
+ * notes: the image's pool carries 0x021AA848 twice, and the two words are used
+ * by different statements: r6 (word 0xd0) for the x==0/mul==0/add==0 checks,
+ * the mul/add stores and MATH_Rand32, and a fresh r0 (word 0xd4) for the
+ * `rand->x = seed` block copy only (docs/idioms/
+ * a-duplicated-pool-word-is-a-second-extern-name-for-the-same-address.md).
+ * Hand-inlining MATH_InitRand32 with a second extern on the x store only gives
+ * the exact size (276) and every register home the image has (ctx r6, max r5,
+ * &seed r4, zero r7, and the 64-bit seed step byte for byte through +0x90).
+ * Residue is +0x98..+0xA8: the image loads the x base into r0 then the seed
+ * and stm, then loads the mul constants; 1.1p1 hoists the mul-lo load above
+ * the ldm/stm and so the base lands in r1.  Statement order (x first/mid/last),
+ * an inlined mul/add setter, a two-pointer inline helper, a u64* binding and
+ * named constant locals all measure the same 18 bytes.  See
+ * docs/notes/func_021685CC.c.txt.
  */
 
 typedef unsigned char u8;
@@ -50,15 +48,9 @@ typedef struct {
 } MATHRandContext32;
 
 extern MATHRandContext32 g_021AA848;
+extern MATHRandContext32 g_021AA848_x;
 extern void OS_GetMacAddress(u8 *macAddress);
 extern u64 OS_GetTick(void);
-
-static inline void MATH_InitRand32(MATHRandContext32 *rand, u64 seed)
-{
-    rand->x = seed;
-    rand->mul = 0x5D588B656C078965ULL;
-    rand->add = 0x0000000000269EC3ULL;
-}
 
 static inline u32 MATH_Rand32(MATHRandContext32 *rand, u32 max)
 {
@@ -77,7 +69,9 @@ u32 func_021685CC(u32 max)
     if (g_021AA848.x == 0 && g_021AA848.mul == 0 && g_021AA848.add == 0) {
         OS_GetMacAddress((u8 *)&seed);
         seed = ((seed >> 24) & 0xFFFFFF) | (OS_GetTick() << 24);
-        MATH_InitRand32(&g_021AA848, seed);
+        g_021AA848_x.x = seed;
+        g_021AA848.mul = 0x5D588B656C078965ULL;
+        g_021AA848.add = 0x0000000000269EC3ULL;
     }
     return MATH_Rand32(&g_021AA848, max);
 }

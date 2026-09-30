@@ -17,6 +17,16 @@
  * chain; this build does the lpkey/copy branch first, needs no frame at all and
  * computes both SWAP16 chains after it. The extra live value that forces the
  * object's spill is the structural gap.
+ *
+ * blocker: the vendor DWARF (tools/sdkobj.py SetFrameData --region ov016) pins
+ * the object's allocation exactly: lpframe r6, size r7, dwsum r5, psum r4, and
+ * id homed at [fb+4]. Ours keeps id in r7 and rematerialises `psum` from
+ * `lpframe` after the call, so it never reaches the object's 5-live-value
+ * pressure and no frame is emitted. Forcing id to memory (volatile) blows up
+ * to 202 B with a different prologue; reordering the six DWARF locals, the
+ * psum two-step vs single-step advance, and the psum-first spelling all stay
+ * at 186 B. See docs/notes/vendor-debug-line-gives-statement-grouping.md and
+ * docs/sessions/2026-09-29/reports/w5_s1.md (14 psum/lpb/lps spellings tried).
  * symbols:
  *   func_021BAC20  0x021bac20  thumb  ov016
  *   func_02092344  0x02092344  arm

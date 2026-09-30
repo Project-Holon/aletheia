@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF (near miss, 21 concrete bytes, prologue scheduling only)
+ * status:   EXACT
  *
  * wave7: sdkobj confirms the object is Metrowerks 4.0.0.1024 -> dsi/1.1p1 and its
  *        322-byte listing is byte-identical to the image, with DWARF locals
@@ -77,8 +77,6 @@ typedef struct {
 } BitState;
 
 extern BitState g_021C88F0;
-extern short g_021C8D1C[];
-extern short g_021C8C1C[];
 extern short g_021C8B1C[];
 extern unsigned char g_021C959C[];
 extern void func_02082AC0(unsigned long data, void *destp, unsigned long size);
@@ -93,7 +91,7 @@ int func_021BE468(unsigned char *a, unsigned long length, int option)
 
     g_021C88F0.esc = 0;
     g_021C88F0.bits = 0;
-    g_021C8C1C[0x40] = g_021C8D1C[0] = g_021C8B1C[0] = 0;
+    g_021C8B1C[0] = g_021C8B1C[0xC0] = g_021C8B1C[0x100] = 0;
     func_02082AC0(0, g_021C959C, 0x1000);
     g_021C88F0.length = length;
     if (length <= 2) return 0;

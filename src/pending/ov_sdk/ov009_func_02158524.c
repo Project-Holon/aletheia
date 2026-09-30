@@ -17,6 +17,19 @@
  *
  * near miss (w2_s1): 46 bytes differ, schedule and register naming only: original loads the two pool bases (netvars, then OSi_ThreadInfo) before the first strh and keeps soc/icmp in r6/r5; 30+ statement orders and the chained-assignment forms tried.
  *
+ * w8: recovered the vendor object's own DWARF via tools/sdkobj.py send_ping --region ov009
+ *     (sdk/TwlWiFi/lib/ARM9-TS/Rom/libcps.TWL.HYB.a(network.o)). Its .debug_line gives the
+ *     original statement order: 1229 icmp=soc->sndbuf.data, 1230 icmp+0x22=8, 1231 icmp+0x26=
+ *     OSi_ThreadInfo[1], 1232 icmp+0x24=0, 1233 soc->local_port=seq=wfailed.ping_seq, 1234
+ *     icmp+0x28/ping_seq++, 1235 checksum store, 1236 send_ip. Its .debug_info lists exactly ONE
+ *     local (unsigned char *icmp) and declares wfailed as `unsigned char`, OSi_ThreadInfo as `int`.
+ *     Ordering to the vendor line order flips the literal-pool emission (OSi_ThreadInfo first)
+ *     because 1.1p1 materialises the first-referenced constant; the image keeps netvars first.
+ *     `const` on OSi_ThreadInfo hoists its base above the first strh but also flips the pair.
+ * blocker: 46 B are pure 1.1p1 instruction scheduling of two pc-relative constant-base loads
+ *     across the first strh (vendor hoists both bases; ours sinks the second) plus the seq home
+ *     (vendor lr, ours ip). DWARF order reproduced gets the pool words right but not the schedule.
+ *
  * sdk:      send_ping (libcps.TWL.HYB.a(network.o))
  *
  * symbols:
@@ -54,10 +67,11 @@ extern unsigned long g_02150FEC[];
 
 void func_02158524(unsigned char *pattern, unsigned long len, struct Soc *soc)
 {
-	unsigned char *icmp = soc->sndbuf.data;
+	unsigned char *icmp;
 	unsigned short seq;
 	unsigned short ck;
 
+	icmp = soc->sndbuf.data;
 	*(unsigned short *)(icmp + 0x22) = 8;
 	seq = g_021A826C.ping_seq;
 	*(unsigned short *)(icmp + 0x26) = g_02150FEC[1];

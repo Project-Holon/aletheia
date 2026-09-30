@@ -83,6 +83,19 @@
  *   python tools/match.py one --src src/pending/ov_sdk/ov009_func_0216CA04.c \
  *       --func func_0216CA04 --addr 0x0216CA04 --region ov009 --arm \
  *       --lang c99 --cc ../2.0/base
+ *
+ * lane W8 (2026-09-30).  Re-confirmed both pins on the current source, no
+ * spelling changes.  Under the wave brief's dsi/1.1p1 it stays 300 B / 133
+ * concrete diffs and the whole gap is the allocator's global-CSE of the
+ * shared zero into a callee-saved register (mov r4,#0 at +0014, reused by the
+ * +005C return and the +00A0 strh), which rolls keyID/keyString/valueSrc/index
+ * up one register.  That is the documented front-end wall
+ * docs/idioms/a-repeated-small-constant-takes-a-callee-saved-register.md
+ * (the twin 0x0216C8DC parks on the same wall).  Under ../2.0/base the
+ * allocation is the image's from +0004 to +0x2C and the lone residue is the
+ * tail base copy at +00FC, unchanged from the T5/U10 notes; ../2.0/sp2
+ * measures the same 304 B / 42.  Parked: the C is right, both front ends put
+ * one extra/scheduling instruction in the tail that no source lever reaches.
  */
 
 typedef unsigned char u8;

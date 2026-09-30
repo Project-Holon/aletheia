@@ -20,6 +20,14 @@
  * U26: as taskEnd0 - a `MEMSTEP *m`/`void *cell` local bound before the store, the assignment in
  * the argument and a comma statement all leave the 12-byte window at +0060 unchanged.
  *
+ * w8: re-swept the +0068..+0074 permutation. Inert (still exactly the same 12 B): a one-trip
+ * `for (i = 4; i < 5; i++)` (the front end folds it back to the direct call), `MEMSTEP *m`,
+ * `MEMSTEP *const m`, `void *cell` (bound before or after), `void *const cell`, nested-block
+ * `int x = 176;` / shadowed `x`, `x = 176` in the argument, comma spelling, index spelled
+ * `x - 177`, `register int x`. `const STEP_BSS step_bss` and a nested shadowed `x` are far
+ * worse (72/87 B). The store-first schedule is robust; the only ordering that hoists `str x`
+ * after `ldr MemStep` is the loop form, and no single-cell source shape reaches it.
+ *
  * symbols:
  *   CELL_IDX                         0x021DA914  data
  *   C_POS                            0x021DA932  data

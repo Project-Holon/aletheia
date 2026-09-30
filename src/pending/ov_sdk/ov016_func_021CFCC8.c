@@ -10,7 +10,11 @@
  * status:   DIFF
  * blocker:  3 lines: the store of work (str r2, [sp]) is scheduled after the MemSet load in the
  *           recompile, before it in the image. Types, block scope, assignment in the argument, static
- *           MemSet and the permuter (seed 10701) all flat. Notes: docs/notes/pkt_ov016_021CF3B0.c.txt
+ *   MemSet and the permuter (seed 10701) all flat. Notes: docs/notes/pkt_ov016_021CF3B0.c.txt
+ *
+ * U27 (wave 8): a named `DWCMemMap *map = &MemSet->map` local (load hoisted into the
+ *   assignment statement) is flat at the same 9 bytes; `extern MEMSET * const MemSet` collapses
+ *   the function to 324 B / 211 diffs.  The store-definition/arg-load tie at +012C..+0134 stands.
  *
  * U26: `volatile void *work`, `void * volatile work`, a `void **wp = &work` local (assigning
  * through it, and passing `*wp`) and the volatile-pointer-cast store were all measured: each

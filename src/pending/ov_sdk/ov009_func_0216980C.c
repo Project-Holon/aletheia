@@ -8,19 +8,25 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
- * blocker:  86 concrete bytes, first at +0004; compiled 184 vs image 180. The object hoists the
- *           g_021AA860 base load (ldr r4,[pc]) ahead of the zero constant and keeps ret in r5, then
- *           lowers the `return ret` from the func_02186108 guard as a branch to a shared epilogue;
- *           1.1p1 materialises ret=0 first, renames ret to r4 in the tail and inlines an early pop.
- *           Ruled out this wave: w10 v1 (buddyIdx before ret), v2 (declaration initialisers), v3
- *           (ctl local), v4 (int ret) all 86 B; v5 (single-return nesting) 119 B. The defining
- *           object is 4.0.0.1025 and the divergence is scheduler/regalloc from the first
- *           instruction, not a spelling.
+ * blocker:  size now exact (180), 51 concrete bytes, first at +0004. Writing the
+ *           func_02186108 guard's early `return ret` as `goto end` (per
+ *           docs/idioms/an-early-return-branching-to-a-shared-epilogue-is-a-goto.md)
+ *           removed the if-converted `movne/popne` and recovered the 180-byte size.
+ *           Two residues remain, both scheduler/regalloc, not spelling (>=10 shapes
+ *           measured this wave):
+ *             (1) prologue order. image `ldr r4,[pc]; mov r5,#0; ldr r2,[r4,#0xc];
+ *                 mov r6,r0; mov r7,r1; str r5,[sp]`; ours `mov r5,#0; ldr r4,[pc];
+ *                 str r5,[sp]; ldr r2,[r4,#0xc]; mov r6,r0; mov r7,r1` — the zero and
+ *                 its store are scheduled around the base/field loads.
+ *             (2) the `profileid>0 && buddyIdx!=-1` arm: image lays the else first
+ *                 (`ble else; ldr r1,[sp]; cmn r1,#1; bne call; else: mov r5,#0; b end`)
+ *                 and keeps `mov r5,#0` after the call; ours branches to the else
+ *                 (`beq else`) with the else last and materialises ret=0 before the call.
+ *           Ruled out: nested if (172B, merges both ret=0), goto-call / success-goto
+ *           (164B, swaps r6/r7 and profileid into r1), A||B. No unresolved byte.
  *
- * u21: the defining object is .comment 4.0.0.1025, a stamp no local build writes. The image hoists
- *      the negotiate-list pool load to +0004 and keeps the list pointer in r4 across the whole
- *      function; 1.1p1 zeroes the stack word first and is 4 bytes longer (184 vs 180). First
- *      divergence +0004 image `ldr r4, [pc, #0xa4]` | ours `mov r5, #0`.
+ * u21: the defining object is .comment 4.0.0.1025; per the brief the stamp is not a blocker
+ *      and this is plain source-level scheduler residue.
  * u1: family check done - ../2.0/base + ../2.0/sp1p2 192 B / 113 B, ../1.2/sp3 208 B. Hoist order plus branch layout.
  *
  * sdk:      DWCi_GetFriendBuddyStatus (libdwcmatch.TWL.HYB.a(dwc_friend.o))
@@ -79,7 +85,7 @@ int func_0216980C(void *friendData, BuddyStatus *status)
 	profileid = func_020598EC(func_0216A39C(), friendData);
 	if (profileid > 0) {
 		if (func_02186108(g_021AA860.ctl->connection, profileid, &buddyIdx) != 0)
-			return ret;
+			goto end;
 	}
 	if (profileid > 0 && buddyIdx != -1) {
 		ret = 0;
@@ -87,5 +93,6 @@ int func_0216980C(void *friendData, BuddyStatus *status)
 			ret = 1;
 	} else
 		ret = 0;
+end:
 	return ret;
 }

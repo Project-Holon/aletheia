@@ -35,6 +35,18 @@
  * swapped).  Both use the same push set and the same scratch registers, so
  * this is one colouring tie, not pressure.
  *
+ * Wave8 (this lane): sdkobj --brief confirms the DWARF local list is
+ * crbuf,ybuf,pYuyv,y,x,yuyv = reverse of our declaration order, so the
+ * declaration order is already right.  Tried, all still 35 B: `const` on the
+ * source parameter, `const void *src` with the dead-parameter reuse idiom
+ * (loop word stored back over `width` so it takes r1), swapping the pYuyv/ybuf
+ * assignment order.  A named middle base `cbuf = ybuf + y; crbuf = cbuf + y;`
+ * (declared last) is 43 B and recolours lr into the middle store.  No lever
+ * moved the r1/r4/r8 rotation, so park.  The only remaining axis is the exact
+ * IR shape the front end saw (the out2 masked half is scheduled before the
+ * first store in the image, after it here) -- not an ordering/`const`/type
+ * change reachable from the six DWARF locals.
+ *
  * sdk:      SSP_YUV422ToYUV888 (jpegenc.o)
  *
  * symbols:

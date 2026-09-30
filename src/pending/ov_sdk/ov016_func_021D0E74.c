@@ -63,8 +63,8 @@ extern u8 g_021DA948[6];
 
 void func_021D0E74(ScanCbT *prm)
 {
-    BssDescT *info;
     int i;
+    BssDescT *info;
 
     for (i = 0; i < prm->bssDescCount; i++) {
         info = prm->bssDesc[i];

@@ -49,6 +49,20 @@
  * r5 with the copy to r0 (5 B out).  The 2-instruction residue is the if-converted select's
  * destination register, not a statement shape.
  *
+ * wave8: confirmed the residue is the if-converted select's DESTINATION
+ * register, not a statement shape.  This pass (20+ spellings: direct `? 1 : 0`
+ * and `? B_TRUE : B_FALSE` returns, if/else returns and assignments in both arm
+ * orders and both senses, enum-constant ternary and enum-typed locals, u8/int
+ * return types, `static`, `int r = f(); r = r ? 1 : 0;` dying-local, `!= 0`,
+ * `!!`) all land in one of two classes: keep r5=0/r4=1 and coalesce the select
+ * into r5 with the trailing `mov r0,r5` (5 B), or flip the constants (0->r4,
+ * 1->r5, 15 B).  Only `int r = 0; if (c) r = 1; return r;` keeps the object's
+ * r5=0/r4=1 colouring, and that is the shape whose result coalesces.  The
+ * vendor build writes both predicated moves straight into r0
+ * (`moveq r0,r5; movne r0,r4`); 1.1p1 coalesces the result onto the live zero
+ * constant.  No C-level lever moves it.  See
+ * docs/idioms/an-if-converted-selects-destination-register-is-the-front-ends.md
+ *
  * symbols:
  *   DWCi_MOV_WH_StateInInitialize    0x021D36D0  arm  ov016
  *   g_021DE660                       0x021DE660  data

@@ -1,5 +1,5 @@
 /*
- * function: WcmWmcbScanEx
+ * function: func_021671C0
  * address:  0x021671C0
  * packet:   pkt_ov009_021671C0
  * region:   ov009
@@ -7,20 +7,15 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
  *
- * blocker:  the image has an inlined `clz r0,r0` reached from the
- *           `cb->channelList` bit scan (0x0216732C, feeding
- *           WCMi_GetNextScanChannel); dsi/1.1p1 maps no C spelling of a
- *           count-leading-zeros to the ARM `clz` instruction (see
- *           docs/idioms/a-clz-means-a-hand-written-asm-body-not-an-intrinsic.md),
- *           so no plain C body can emit that pair, and this is not a MATCH
- *           (a concrete byte, not a wildcarded relocation).  The honest
- *           options are an `asm void` transcription or leaving these bytes.
- *           This draft still reproduces the three-level dispatch, the
- *           callback/register allocation (cb r4, wcmw r8, i sb) and every
- *           call; the residual is the clz pair plus a `for`-loop pre-check
- *           the image does not emit (compiled 636 vs 648 bytes).
+ * The `clz r0,r0; rsb r0,r0,#0x20` bit scan is an inline-asm `clz32` (the
+ * idiom doc "a clz means hand-written asm" is about the BODY being asm; a
+ * `static inline` wrapper inlines the bare `clz` for free, as in
+ * ov013_func_021B11E8.c).  The trailing wmResult switch must be NESTED in
+ * errcode case 0: every other errcode returns, so it is semantically the
+ * same, and nesting is what puts that switch ahead of the errcode case 1
+ * and default blocks.
  *
  * sdk:      WcmWmcbScanEx (libwcm.TWL.HYB.a(wmif.o))
  *
@@ -102,11 +97,16 @@ extern long WM_StartScanEx(void (*callback)(void *), WMScanExParam *param);
 extern long WM_EndScan(void (*callback)(void *));
 extern void WcmWmReset(void);
 extern void WcmWmcbEndScan(void *arg);
-extern int __cntlzw(int);
 
-static void WcmWmcbScanEx(void *arg);
+static inline unsigned long clz32(unsigned long x)
+{
+    asm { clz x, x }
+    return x;
+}
 
-static void WcmWmcbScanEx(void *arg)
+static void func_021671C0(void *arg);
+
+static void func_021671C0(void *arg)
 {
     unsigned long channels;
     WCMWork *wcmw;
@@ -141,10 +141,10 @@ static void WcmWmcbScanEx(void *arg)
                 }
             }
             wcmw->scanExParam.channelList =
-                (1 << WCMi_GetNextScanChannel(32 - __cntlzw(cb->channelList))) >> 1;
+                (1 << WCMi_GetNextScanChannel(32 - clz32(cb->channelList))) >> 1;
             DC_StoreRange(wcmw->scanExParam.scanBufPtr, wcmw->scanExParam.scanBufSize);
             wcmw->notifyCount++;
-            wmResult = WM_StartScanEx(WcmWmcbScanEx, &wcmw->scanExParam);
+            wmResult = WM_StartScanEx(func_021671C0, &wcmw->scanExParam);
             break;
         case 7:
             wmResult = WM_EndScan(WcmWmcbEndScan);
@@ -154,6 +154,19 @@ static void WcmWmcbScanEx(void *arg)
             return;
         default:
             break;
+        }
+        switch (wmResult) {
+        case 2:
+            return;
+        case 8:
+            WCMi_SetPhase(0xc);
+            WCMi_Notify(1, 0, 0, 0x395);
+            return;
+        case 3:
+        default:
+            WCMi_SetPhase(0xb);
+            WCMi_Notify(7, 0, 0, 0x39e);
+            return;
         }
         break;
     case 1:
@@ -165,19 +178,6 @@ static void WcmWmcbScanEx(void *arg)
     default:
         WCMi_SetPhase(0xb);
         WCMi_Notify(7, 0, 0, 0x3af);
-        return;
-    }
-    switch (wmResult) {
-    case 2:
-        return;
-    case 8:
-        WCMi_SetPhase(0xc);
-        WCMi_Notify(1, 0, 0, 0x395);
-        return;
-    case 3:
-    default:
-        WCMi_SetPhase(0xb);
-        WCMi_Notify(7, 0, 0, 0x39e);
         return;
     }
 }

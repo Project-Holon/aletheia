@@ -16,6 +16,16 @@
  *
  * u1: four more declaration permutations (m last / m first / m_i first / m folded into the char declarator) all stay at 21 B (two rise to 32 B). The four-register mirror is not declaration-driven.
  *
+ * w8: the surviving 12 B is a pure zero-temp/loop-2-scratch colour swap (image
+ *     zero r0 / scratch r3). Inert at 12: compound `j +=`, a named sum temp
+ *     (coalesced), `while`/`do-while`, `i += 1`, enum-typed zero local,
+ *     `unsigned char z = 0` named zero used for the reset, `(unsigned char)0`,
+ *     separate loop-1/loop-2 counters, `void *key` cast spellings, and
+ *     `k=k; j=j; i=i; m=m; m_i=m_i;` self-assignments at the loop head / pre-loop.
+ *     Same-width-4-reg colour tie, not source-steerable by these shapes.
+ *     (The arm9 sibling CRYPTO_RC4Init, same vendor algorithm, is EXACT but has
+ *     a key_len clamp and a `==` wrap, so its colouring does not transfer.)
+ *
  * w9_nm: 21 B, register assignment only. Residue (lane S7, re-measured): the whole
  * output is one mirrored pair swap -- image keeps the table pointer `m` in r4 and
  * the loaded byte m_i in lr (with the k-zero temp in r0 and the accumulator

@@ -8,14 +8,23 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
- * notes:    near miss, 20 instructions differ by register colouring only: the image holds 0x38 in r5, s_tbl in r6 and the constant 3 in r7; this spelling gives r6, r7, r5. Case order, the cross-jumped per-case duplicates and the mla address for case 6 all match.
  *
- * lane05 (2026-09-30): the defining object dwc_gdb.o carries stamp
- *   `Metrowerks C/C++ for ARM 4.0.0.1025` (tools/sdkobj.py), which no tree under
- *   tools/mwccarm writes, so the whole-body {r5,r6,r7} rotation is a toolchain
- *   wall. Re-measured 336/336, 22 diffs; a local for the entity base, for the
- *   state constant, and `work`-pointer forms all change the instruction stream
- *   (336-328 B) without producing the image colouring.
+ * 336/336 bytes, 13/13 relocs resolved, 22 concrete bytes differ by register
+ * colouring only.  Image holds s_tbl in r6, work stride 0x38 in r5, the state
+ * constant 3 in r7; this spelling gives s_tbl r7, 0x38 r6, 3 r5.  Instruction
+ * order, case order, the cross-jumped per-case duplicates and the case-6 mla
+ * all match.
+ *
+ * blocker: pure callee-saved colouring of the hoisted s_tbl base vs the hoisted
+ *   array-stride constant 0x38 (a {r5,r6,r7} rotation; r4 = work base is
+ *   stable).  Levers measured this lane, all 336 B unless noted:
+ *     - state/process declared enum-typed (vendor DWARF): no change;
+ *     - a per-case `Work *work = &array[idx]` local: 320 B, stream changes;
+ *     - a `DWCiGdbEntity *tbl` local: 328 B, stream changes;
+ *     - a separate `extern g_021E534C[]` array symbol: 328 B, changes case 6;
+ *     - `int st = 3;` declaration-initialiser local: folded, no change.
+ *   The vendor object's DWARF lists no function locals (subprogram has no
+ *   children), so the rotation is not driven by a source local.
  *
  * sdk:      DWC_GdbCancelRequest (libdwcgdb.TWL.HYB.a(dwc_gdb.o))
  *

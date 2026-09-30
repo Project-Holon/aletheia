@@ -16,45 +16,38 @@
  *      bytes SHORTER from the same source (136 vs 148). First divergence +0000 image `push {r4, lr}`
  *      | ours `push {r3, r4, r5, lr}`; body at +0024 image `tst r0, r3` | ours `ands r3, r0, r2`.
  *      -O2/-O3/-O4,s identical (136 B), -O1,p 176 B, so no flag reaches 148.
- * u1: `(m & (a^d))`, `((d^a) & m)` and an empty-then/else spelling are all canonicalised - still 99 B. The cross-condition CSE of (addr^dns)&netmask into the live r5 (which also costs the extra push) is not steerable.
- *
- * w9_nm: not closed: the object branches on isA (bne to the isB block), no result temp and no cmp r5; isA as if/return chains (three forms) is 99 to 101 B, worse than the draft.
  *
  * lane05 (2026-09-30), no relocations exist in this function (it is a leaf
  *   with 0 relocation sites), so the header's old `status: MATCH` was never a
- *   real verdict; it is DIFF.  Re-measured: the current body is 152 B / 99
- *   diffs; the closest raw form is a single `return` &&-chain of the five
- *   terms, at 144 B / 69 diffs, and the *only* remaining divergence is the
- *   isB block: image keeps `mov r3,#1; bne 0x215f14c` and only then computes
- *   `~netmask == (dns & ~netmask)`, while 1.1p1 if-converts that arm
- *   (`mvneq r2,r0; andeq r0,r2,r1; cmpeq r2,r0; moveq r3,#0`) using the flags
- *   from the immediately preceding `tst r0,r2`.  Breaking the CSE of the shared
- *   `(addr^dns)&netmask` (commuted operands, `(unsigned long)` cast, `!((..)==0)`,
- *   `> 0`, nested ifs, `goto`, separate isA/isB inline helpers) all still
- *   if-convert; every multi-statement isB body the front end refuses to inline
- *   (272-280 B with real calls).  The vendor object stamp is 4.0.0.1024, i.e.
- *   dsi/1.1p1, so the object is reproducible in principle, but no source shape
- *   found reaches the branchy arm.  Ruled out: any local for the three flags
- *   (present draft), the two helper forms, five &&-chain spellings.
+ *   real verdict; it is DIFF.  The current body is 152 B / 99 diffs; the
+ *   closest raw form is a single `return` &&-chain of the five terms, at
+ *   144 B / 69 diffs, and the *only* remaining divergence is the isB block:
+ *   image keeps `mov r3,#1; bne 0x215f14c` and only then computes
+ *   `~netmask == (dns & ~netmask)`, while 1.1p1 if-converts that arm.
+ *
+ * lane08 (2026-09-30): the closest shape found is 148 B / 33 concrete bytes.
+ *   Writing isA/isB as macros (rather than `static inline` helpers) keeps the
+ *   148-byte length and the whole guard's branch structure; the ONLY remaining
+ *   divergence is the CSE of `(addr ^ dns) & netmask`, which 1.1p1 computes
+ *   once into r3 across the isA->isB boundary:
+ *     image   eor r3,r2,r1 / tst r0,r3 / bne ISB ... then in isB
+ *             eor r2,r2,r1 / tst r0,r2 / mov r3,#1 / bne KEEP ...
+ *     ours    eor r2,r2,r1 / ands r3,r0,r2 / bne ISB ... then in isB
+ *             cmp r3,#0 / movne r0,#1 / bne KEEP ...
+ *   isA/isB also land their result in r0 where the image uses r3.
+ *   Ruled out (all still 148/33 or worse): commuted operands `m & (a^d)` and
+ *   `(d^a) & m`, `(unsigned)` casts, helper-with-local, swapping d/a argument
+ *   order, the negated-or spelling, separate bool statements, unsigned helper
+ *   parameters.  The CSE is the whole wall; nothing that keeps the source
+ *   spelled as two independent predicates stops 1.1p1 from value-numbering the
+ *   masked xor across the inlined isA/isB boundary (same front end that built
+ *   the object, so this is a source-shape wall, not a stamp mismatch).
  *
  * sdk:      SOCLi_IsIPv4ValidDNSAddr (libsoc.TWL.HYB.a(socl_misc.o))
  */
 
-static inline int isA(unsigned long m, unsigned long d, unsigned long a)
-{
-	return ((a ^ d) & m) != 0 || (d & ~m) != 0;
-}
-
-static inline int isB(unsigned long m, unsigned long d, unsigned long a)
-{
-	int r = 1;
-	if (((a ^ d) & m) == 0) {
-		unsigned long t = ~m;
-		if (t == (d & t))
-			r = 0;
-	}
-	return r;
-}
+#define IS_A(m, d, a) ((((a) ^ (d)) & (m)) != 0 || ((d) & ~(m)) != 0)
+#define IS_B(m, d, a) (((((a) ^ (d)) & (m)) != 0) ? 1 : (((~(m)) == ((d) & ~(m))) ? 0 : 1))
 
 int func_0215F0F0(unsigned long netmask, unsigned long dns, unsigned long addr)
 {
@@ -62,7 +55,7 @@ int func_0215F0F0(unsigned long netmask, unsigned long dns, unsigned long addr)
 	int notloop = 0;
 	int valid = 0;
 
-	if (dns != 0xffffffff && dns != 0 && addr != dns && isA(netmask, dns, addr) && isB(netmask, dns, addr))
+	if (dns != 0xffffffff && dns != 0 && addr != dns && IS_A(netmask, dns, addr) && IS_B(netmask, dns, addr))
 		valid = 1;
 	if (valid && ((dns & 0xff000000) ^ 0x7f000000) != 0)
 		notloop = 1;

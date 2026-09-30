@@ -20,16 +20,15 @@
  *
  * w9_nm: still 11 B: locals ff/zero (top or block), chained zero stores, -1 for 0xFF, stores before or after: the object materialises 0xff in r3 and 0 in r2 before the first store (strb then three str); the compile builds 0xff first in r2.
  *
- * sdk:      IRC_Init (libirc.a irc.o)
- *
- * symbols:
- *   func_0217A60C  0x0217A60C  arm  ov015
- *   func_0217A7AC  0x0217A7AC  arm  ov015
- *   func_02179F48  0x02179F48  arm  ov015
- *   func_0217A594  0x0217A594  arm  ov015
- *   g_0217ABD8     0x0217ABD8  data
- *   g_0217AAB0     0x0217AAB0  data
- *   g_0217ABA8     0x0217ABA8  data
+ * w10_nm: the 64-bit idiom (docs/idioms/a-64-bit-zero-store-picks-r2.md) is the only lever that
+ *           moved the residue: writing g_0217ABA8[2..3] as one `*(unsigned long long *) = 0`
+ *           puts the zero in r2 (not r1) and drops the diff from 11 to 8 B. The remaining 8 B are
+ *           a pure two-instruction swap: object has `mov r2,#0` at +002C then `strb r3` at +0030;
+ *           1.1p1 has `strb r2` at +002C (0xFF still in r2) then `mov r2,#0` at +0030. So the zero
+ *           web must overlap the strb (forcing 0xFF to r3) but the allocator rematerialises the
+ *           constant at its first use, below the strb. Enum-typed zero (`typedef enum {Z0} E`),
+ *           enum-typed store targets and assigning the zero first all still fold to the same
+ *           11 B. Blocked on making the zero non-rematerialisable without a call/callee-save.
  *
  * w8_nm tried: all 24 orders of the four stores, each with and without the
  * DWARF local `size` for the IRCi_Read result: none under 11 B.

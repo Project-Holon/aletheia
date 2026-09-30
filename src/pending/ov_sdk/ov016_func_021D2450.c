@@ -9,8 +9,8 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker:  near miss (792 vs 796 compiled). 245 concrete bytes differing when this
- *           lane picked it up, 99 now.  Two source-shape levers landed:
+ * blocker:  near miss (776 vs 796 compiled), 51 concrete bytes differ.  Two
+ *           source-shape levers landed earlier and are kept:
  *           (1) case 2 must read the work pointer into a named local *before*
  *               OS_DisableInterrupts (`DWCi_MOV_WPB_WORK *w = g_021DE65C;`), or the
  *               1.1p1 allocator defers the global load to after the call, spilling
@@ -21,22 +21,26 @@
  *           (2) case 10's arms are inverted in the image: `if (GetState() != 2)
  *               KickChild(); else { ... }` - the KickChild arm is the fallthrough
  *               and the beq jumps forward into the body.  Both arms now match.
- *           Residue, 34 lines, two causes, both lowering/colouring:
- *           (a) +029C: our 0x1b144/0x1b140 pair is associated (g+0x144)+0x1b000 and
- *               keeps g alive in r0; the image computes (g+0x1b000) once into r0 and
- *               reuses it for load and store at #0x144/#0x140.  Spelling the two
- *               accesses as ((u32 *)((char *)g + 0x1b000))[0x51]/[0x50] reproduces
- *               the image's association exactly (measured: scratch/t27/gen4/w3.c,
- *               776/51) but then only the base/value registers r0/r1 are swapped,
- *               and the size moves to -20, so it is not filed.
+ *           Residue, two causes, both lowering/colouring:
+ *           (a) +029C case 12: the image computes base = (g+0x1b000) once into r0
+ *               and reuses it for the load and the store at #0x144 / #0x140,
+ *               reloading g before each of the two word checks.  Writing each
+ *               check as its own block-scoped base local
+ *                 { u32 *p = (u32 *)g_021DE65C; p = (u32 *)((char *)p + 0x1b000);
+ *                   if (p[0x51]) p[0x51] = 0; }
+ *               reproduces the association, the load-before-store reuse and the
+ *               per-check g reload exactly; only the register numbering differs
+ *               (our base lands in r1 / value in r0; the image base r0 / value
+ *               r1), a pure colouring tie that the shared-pointer-local idiom
+ *               does not settle.
  *           (b) +02D0 case 13: the image lowers `switch (userInfo->f0)` over
  *               {1,2,9} as a range tree - cmp #8/bgt, popge, cmp #2/popgt,
  *               cmp #1/poplt, cmpne #2/beq - one shared ChangeState(7); 1.1p1
- *               emits a linear chain (cmp #1, cmpne #2, beq, cmp #9, popne).
- *               16 variants of the case body (case order, no-default, u16/int
- *               local, s16/u16 field, cast, if/|| spellings, explicit range and
- *               nested-if trees) leave the chain untouched; the tree is 28 bytes
- *               larger and is the whole remaining size gap.
+ *               emits a linear chain (cmp #1, cmpne #2, beq, cmp #9, popne),
+ *               20 bytes shorter.  16 variants of the case body (case order,
+ *               no-default, u16/int local, s16/u16 field, cast, if/|| spellings,
+ *               explicit range and nested-if trees) leave the chain untouched;
+ *               this is the whole remaining size gap.
  *           dwc_mov_mbp.o carries .comment 4.0.0.1025 (1.1p1 is 1024, 1.2 is
  *           1026), so both residues may be front-end, not source.
  *
@@ -183,10 +187,20 @@ static void ParentStateCallback(u16 child_aid, u32 status, void *arg)
             DWCi_MOV_MBP_ChangeState(5);
         else
             DWCi_MOV_MBP_ChangeState(0);
-        if (*(u32 *)((char *)g_021DE65C + 0x1b144))
-            *(u32 *)((char *)g_021DE65C + 0x1b144) = 0;
-        if (*(u32 *)((char *)g_021DE65C + 0x1b140))
-            *(u32 *)((char *)g_021DE65C + 0x1b140) = 0;
+        {
+            u32 *p = (u32 *)g_021DE65C;
+
+            p = (u32 *)((char *)p + 0x1b000);
+            if (p[0x51])
+                p[0x51] = 0;
+        }
+        {
+            u32 *p = (u32 *)g_021DE65C;
+
+            p = (u32 *)((char *)p + 0x1b000);
+            if (p[0x50])
+                p[0x50] = 0;
+        }
         break;
     }
     case 13:

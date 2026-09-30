@@ -18,7 +18,12 @@
  *           loop spellings, while/do-while, a fresh loop variable, separate
  *           i/j, long/enum/register/unsigned i, i=0 hoisted before the stores,
  *           a named enum zero, explicit byte temporaries, p-reuse, and a
- *           2000-compile permuter anneal (plateau at 10). DWARF confirms the
+ *           2000-compile permuter anneal (plateau at 10). w8 also: a no-code
+ *           `i = i;` self-assignment at the live-range boundary (idiom
+ *           a-no-code-self-assignment-*), an enum-typed counter, and
+ *           reusing `p` as the second base with pHeader declared first
+ *           (that one costs 24 B — pHeader drops to r5, so the dedicated
+ *           buf local is required). Floor stays 10 B. DWARF confirms the
  *           vendor's i is r12 (int) for the whole function. Needs an allocator
  *           that re-materialises the second zero into ip, which no source
  *           spelling tried reaches.

@@ -64,3 +64,26 @@ docs/idioms/a-loop-carried-value-in-a-callees-argument-register-names-the-arity.
 apply: a register that is *loaded immediately before a guard* and survives the
 guard into the call is a real argument, because a leftover would have been the
 callee's own earlier value, not a fresh load.
+
+## Second instance, and it unblocked a lane that had been closed as a wall
+
+Found in: src/matched/ov_sdk/ov016_func_021D0CEC.c (0x021D0CEC), dsi/1.1p1
+-O4,p, ARM.  The guard `if (g->task != 0)` followed by `func_021D7744(0)`
+would not compile into the image's `ldr r1, [r0, #0xb90]` / `cmp r1, #0`
+(one-argument spelling gives `ldr r0, [r0, #0xb90]` / `cmp r0, #0`, a 2-byte
+residue).  The callee `func_021D7744` is a 12-byte veneer to 0x021D7750, whose
+body opens `mov r4, r1` / `ldrb r1, [r4, #0x11]` and passes r4 on: it takes the
+task pointer as a second argument.  The image keeps the loaded value in r1
+because the call passes it again, un-reloaded:
+
+```c
+if (g_021DE654->task != 0)
+    func_021D7744(0, g_021DE654->task);
+```
+
+EXACT, 220 bytes, 9/9 relocs.  `task` must be plain `void *`: a `volatile`
+member forces the second argument to re-load.  Before declaring a
+guard-load-folds-into-its-dying-base residue unreachable (as
+docs/idioms/a-guard-load-that-folds-into-its-dying-base-register-is-not-a-source-shape.md
+had), read the guarded callee -- a veneer costs two instructions and hides
+which registers it consumes.

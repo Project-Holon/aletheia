@@ -8,18 +8,37 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
- * notes: SIZE-EXACT (272 B) with the per-bit test inverted so the zero-store is
- * the THEN arm -- mwcc then predicates the store (strbeq) where the if/else
- * spelling branches and costs 8 bytes.  Ours 272 B, 2/2 relocs resolved.
- * Residue: 71 bytes, a register permutation only, instruction for instruction
- * identical -- image keeps `bit` in r1 and the loaded ks pointer in r0
- * (`+0028 mov r1, r0` / `+003C ldr r0, [r4, #4]`), ours keeps bit in r0
- * (`+0028 mov r0, r0`) and the ks pointer in r2 (`+003C ldr r2, [r4, #4]`),
- * with the rest rotated the same way (r6/r7 loop temps vs r5/r6).
- *   * +0028 mov r1, r0     | mov r0, r0
- *   * +003C ldr r0, [r4, #4] | ldr r2, [r4, #4]
- * A local `struct keystate *ks = g_021DE688.ks` hoisted to the top re-allocates
- * the whole body (252 B, 182 diffs), so the shape above is kept.
+ * notes: SIZE-EXACT (272 B), 2/2 relocs resolved, 54 concrete bytes out.
+ * The instruction stream is identical instruction-for-instruction; the whole
+ * residue is the front end's colouring of the caller-saved scratch register
+ * set {r0,r1,r2} in the key-mask block at +0028..+0078:
+ *   image   bit repr r1, ks pointer r0, mask temp r2
+ *   ours    bit repr r0, ks pointer r2, mask temp r1
+ * plus one scheduling slot: the release `cont` read at +0068 uses the trg
+ * statement's cached ks pointer in the image (which then reloads ks at +006C
+ * only for the store base), ours reloads ks first and reads cont through it.
+ * A second scheduling slot remains at +00E0: the image interleaves the
+ * count=40 store (L164) between the repeat arm's ks load and its ldrh (both
+ * L163); ours sinks it past the whole RMW.
+ *
+ * The vendor object (stamp 4.0.0.1025) is byte-identical to the image, and its
+ * .debug_line fixes the source statement order: line 144 is the single mask
+ * block, 147 trg, 148 release, 149 cont+repeat, 152 for, 153 mask, 154 if,
+ * 157/158/159 the ==40 arm, 162/163/164 the ==47 arm -- where line 163 (the
+ * repeat OR) PRECEDES line 164 (count=40). Spelling the ==47 arm in that
+ * vendor order (`repeat |= mask;` then `count[i] = 40;`) recolours the whole
+ * loop onto the image's r5=40 / r6,r7 temps and took the file from 71 to 54
+ * concrete bytes; the reverse order rotates them (r7=40 / r5,r6). See
+ * docs/idioms/a-swapped-store-and-rmw-in-one-arm-recolours-the-whole-loop.md.
+ *
+ * blocker: the +0028 block colouring is a 4.0.0.1025-vs-1.1p1 front-end
+ * difference. bit/i/input are the only DWARF locals (order input, i, bit), so
+ * no named-temporary lever exists; six declaration orders, a named mask local,
+ * a self-assignment of bit and of input, a second u16 local for the masked
+ * value, casts on either statement, and operand/associativity respellings of
+ * the mask all compile to the same 54. A 4.0.0.1025 vendor object is not a
+ * blocker per the wave brief in general, but this specific scratch rotation is
+ * not reachable from 1.1p1 source.
  *
  * sdk:      readKey (libdwcutil.TWL.HYB.a input.o)
  *
@@ -65,8 +84,8 @@ void func_021D657C(void)
             if (g_021DE690[i] == 40) {
                 g_021DE688.ks->repeat |= (unsigned short)(1 << i);
             } else if (g_021DE690[i] == 47) {
-                g_021DE690[i] = 40;
                 g_021DE688.ks->repeat |= (unsigned short)(1 << i);
+                g_021DE690[i] = 40;
             }
         }
     }

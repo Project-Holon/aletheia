@@ -7,17 +7,19 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
- * notes: DIFF.  U16 pass: const-qualifying the three read-only tables
- *        (`extern const u16 g_021DAA74[]/g_021DAA76[]/g_021DAA70[]`) collapses
+ * status:   EXACT
+ * notes: EXACT.  Two passes: const-qualifying the three read-only tables
+ *        (`extern const u16 g_021DAA74[]/g_021DAA76[]/g_021DAA70[]`) collapsed
  *        the +D0..+0104 argument-setup residue (33 differing bytes -> 10).
- *        Residue now: the two field stores at +00AC..+00B4: image
+ *        The last residue was the +00AC..+00B4 field-run order: image stores
  *        `str r5,[r5,#0x18]` (cv->self) before `add r0,r0,r4,lsl #3` /
- *        `str r0,[r5,#0x1c]` (cv->font); ours emits font first because the
- *        source has `cv->font = ...` before `cv->self = cv`.  Swapping the two
- *        source statements reproduces the image's store order but recolours
- *        the block (the MemFont value moves to r1, the constant 1 to r0), 21
- *        bytes out.  Both statements carry a str, so it is not a folding rule.
+ *        `str r0,[r5,#0x1c]` (cv->font).  Writing the source self-first put
+ *        cv->self in place but recoloured the block (g into r1, the constant
+ *        1 into r0), 21 bytes.  Binding the loaded global pointer to a named
+ *        local -- `char *base = g_021DE680;` before `cv->self = cv;`, then
+ *        `cv->font = base + font * 8;` -- keeps the self store first and the
+ *        add base in r0.  See
+ *        docs/idioms/a-named-local-for-the-loaded-global-base-settles-a-field-store-run.md.
  *
  * sdk:      DWCi_FNTlFormBgEx (libdwcutil.TWL.HYB.a font.o)
  *
@@ -80,8 +82,9 @@ void *func_021D5A58(int lcd, int font)
         *(volatile u16 *)0x04000008 = (*(volatile u16 *)0x04000008 & 0x43) | 0xC00;
     }
     func_02068FC4(cv, cv->buf, w, h, 4);
-    cv->font = g_021DE680 + font * 8;
+    char *base = g_021DE680;
     cv->self = cv;
+    cv->font = base + font * 8;
     cv->f20 = 1;
     cv->f24 = 1;
     if (lcd == 1)

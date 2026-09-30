@@ -26,6 +26,14 @@
  *   spelling still emits `b <shared pop>` in those three slots; only the shared target moves
  *   (0x21675b8 / 0x2167670 / 0x2167698). 552 bytes == 552 bytes, 12 concrete bytes = the
  *   three 4-byte slots.
+ * measured (wave8): `{ return; }` braces, a dead `break;` after each `return;`, phase case 11
+ *   `break;` / default `return;` (and the inverse) with a trailing `return;` after the inner
+ *   switch, and moving the empty arms to the front of their switch -- all still emit
+ *   `b <shared pop>` in the three slots. Moving the phase empty arms first also reallocates
+ *   the table (360 concrete bytes) with the shared target at 0x216758c; no spelling yields
+ *   the image's per-slot `pop`. Consistent with the prior finding: a shallow, non-nested
+ *   probe inlines the two empty-arm pops, so it is dsi/1.1p1 cross-jumping the empty returns
+ *   across the errcode>state>phase nesting that keeps one epilogue.
  * sdk:      WcmWmcbConnect (libwcm.TWL.HYB.a(wmif.o))
  *
  * symbols:

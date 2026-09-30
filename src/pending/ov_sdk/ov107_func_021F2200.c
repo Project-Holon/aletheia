@@ -9,20 +9,26 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker:  size-exact (1216) but 1018 concrete bytes differ, all codegen.
- *           (1) the object keeps `&g_021F6FA0` in sb (r9) for the whole run
- *           and re-loads the pointee from [sb]; 1.1p1 loads the pool address
- *           into r5 instead, shifting every other value. (2) the object draws
- *           the switch on fileid as a 12-entry table (cmp #0xb); a plain
- *           {8,9,10,11}/default switch narrows to `sub #8; cmp #3` with a
- *           4-entry table, and spelling out the 0..7 empty cases makes 1.1p1
- *           emit a fresh early return block instead of routing them to the
- *           function's single 0x26AC epilogue the object uses. Same register-
- *           allocation wall as ParentStateCallback (0x021D2450): every body
- *           reconstructs cleanly, the allocator will not pick the object's
- *           registers. mb_parent.o is .comment 4.0.0.1024 (= 1.1p1) so this is
- *           source shape, not build, but the object's avoidance of r8/sb and
- *           its table reach were not reproduced in the spellings tried.
+ * blocker:  register allocation, not source shape. The vendor source is in
+ *           tree at sdk/TwlSDK/build/libraries/mb/common/src/mb_parent.c
+ *           (MBi_CommParentRecvDataPerChild, ~line 542), so the body is
+ *           known. Two shape leads from it were applied and verified against
+ *           the image:
+ *           (1) the switch is on hd.type with the vendor enum arms
+ *               FILEREQ=7, ACCEPT_FILEINFO=8, CONTINUE=9, STOPREQ=10,
+ *               BOOTREQ_ACCEPTED=11 (empty); the 12-entry `cmp #0xb` table
+ *               and its slot->body map now match byte for byte. The old
+ *               switch(fileid) 0..15 spelling was a 16-entry table.
+ *           (2) MBCommChildBlockHeader is 4-byte aligned in the object (hd
+ *               slot at sp+0x20, not sp+0x1e); one u32 member fixes it.
+ *           What remains is the allocator: the object keeps &g_021F6FA0 in
+ *           sb (r9) and p_data in r5, child in r6, state in r4, fileid in r8;
+ *           1.1p1 picks r5 for the base and r7 for p_data, child in r4, state
+ *           in r8. Compiled 1192 vs 1216 (24 short) with ~1006 concrete bytes
+ *           differing, all codegen. Every body reconstructs; the vendor
+ *           pointer-field spelling (pPwork->field) rather than the raw-offset
+ *           casts in this file is the likely route to the object's colouring.
+ *           Same wall as ParentStateCallback (0x021D2450).
  *
  * sdk:      MBi_CommParentRecvDataPerChild (libmb.TWL.HYB.a(mb_parent.o))
  *
@@ -43,7 +49,8 @@ typedef struct {
     u8 fileid;
     u8 unk1;
     u16 f2;
-    u8 pad[0x10];
+    u32 unk4;
+    u8 pad[0x0c];
 } MBCommChildBlockHeader;
 
 typedef struct {
@@ -74,20 +81,7 @@ static void MBi_CommParentRecvDataPerChild(void *arg, u16 child)
     fileid = hd.fileid;
     state = ((int *)(g_021F6FA0 + 0x14E8))[child - 1];
     switch (fileid) {
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-    case 7:
-    case 12:
-    case 13:
-    case 14:
-    case 15:
-        return;
-    case 8: {
+    case 7: {
         u8 fid;
         u8 entry_num;
         u8 i;
@@ -160,7 +154,7 @@ static void MBi_CommParentRecvDataPerChild(void *arg, u16 child)
         }
         return;
     }
-    case 9: {
+    case 8: {
         u8 fid;
 
         if (state == 5) {
@@ -178,7 +172,7 @@ static void MBi_CommParentRecvDataPerChild(void *arg, u16 child)
         MBi_CommChangeParentState(child, 6, 0);
         return;
     }
-    case 10: {
+    case 9: {
         u8 fid;
 
         if (state != 6)
@@ -192,7 +186,7 @@ static void MBi_CommParentRecvDataPerChild(void *arg, u16 child)
         g_021F6EEC |= 1 << fid;
         return;
     }
-    case 11: {
+    case 10: {
         u8 fid;
 
         if (state == 6) {
@@ -211,6 +205,7 @@ static void MBi_CommParentRecvDataPerChild(void *arg, u16 child)
         MBi_CommChangeParentState(child, 8, 0);
         return;
     }
+    case 11:
     default:
         return;
     }

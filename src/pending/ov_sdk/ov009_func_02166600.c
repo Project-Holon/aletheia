@@ -8,6 +8,15 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF (near miss: copyDest assignment hoisted above the compares, registers shifted)
+ * blocker:  1.1p1 store-motion hoists the shared case-1/default `copyDest = sendBuf`
+ *           (`mov r6,r1`) above both compares and drops the image's fall-through `b`.
+ *           The image keeps the block after the chain as the fall-through of the
+ *           `cmp r0,#2 / beq case2` (cmp r0,#1 / beq <that block> / cmp r0,#2 /
+ *           beq <case 2> / mov r6,r1 / b <join>).  Not a body-shape gap: with the
+ *           default arm removed (copyDest left unset) the register allocation and
+ *           byte-swap come out exactly right at 132 B, the only residue being the
+ *           extra `b <join>` the compiler inserts for the now-unassigned unknown
+ *           path; restoring the default store re-triggers the hoist.
  * u21: the defining object cpsif.o is .comment 4.0.0.1024 -> dsi/1.1p1. The image lowers
  *      `case 1:` + `default:` as cmp r0,#1 / beq <default body> / cmp r0,#2 / beq <case 2>, with the
  *      default body as the fall-through and a single `mov r6,r1`; 1.1p1 hoists that store above both
@@ -20,8 +29,14 @@
  *        the shared case-1/default `mov r6,r1` above both compares and drops the image's
  *        trailing `b`.  Every switch ordering (case/default permutations and if-chains) and
  *        the pin are invariant, so this is a canonicalisation wall, not a body-shape gap.
- *
- * w9_nm: the object tests deviceId == 1 first, then == 2, then falls into the default mov r6,r1 without hoisting it; every switch spelling hoists mov r6,r1 above the compares (case 1 split from default, default alone, assignment before the switch, default last). The byte swap also differs: use ((len & 0xff) << 8) | ((len & 0xff00) >> 8) for the object's lsl 24 / lsr 16 form. Best 84 B with default listed first.
+ * w9_nm: the object tests deviceId == 1 first, then == 2, then falls into the default mov r6,r1 without hoisting it; every switch spelling hoists mov r6,r1 above the compares (case 1 split from default, default alone, assignment before the switch, default last).
+ * wave8: exhaustively re-probed the split.  Separate case-1/default arms (cross-jump
+ *        candidate), if/else-if/else with the assignment duplicated in both arms,
+ *        default-before-case-2 / default-after-case-2 / case-2-first source orders, an
+ *        aliasing local for one arm, a void* cast on one arm, and a use of the old
+ *        copyDest before the default store all compile to the SAME hoisted 124 B / 94
+ *        concrete bytes.  The no-default control confirms the fix is a control-flow
+ *        (store-motion) lever, not register colouring.
  *
  * sdk:      WCMi_MergeToBuffer (libwcm.TWL.HYB.a cpsif.o)
  *

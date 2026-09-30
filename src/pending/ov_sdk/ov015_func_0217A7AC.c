@@ -9,6 +9,17 @@
  * isa:      arm
  * status:   DIFF
  *
+ * Lane 08 (2026-09-30): 320/320 bytes, 6 concrete bytes.  One further source
+ *   fix over lane 04: moving the `if ((unsigned int)size > 0xB5) size = 0;`
+ *   clamp ABOVE the `i = 0;` / `g.send = 0;` block makes the clamp's zero
+ *   rematerialise as `movhi r4, #0` instead of reusing the `i`/`send` zero in
+ *   r5, closing the `movhi r4, r5` byte (8 -> 6).  Clause order matters: with
+ *   the clamp after the zero-init the compiler CSEs the two zeroes.
+ *   blocker: residue is register colouring only -- the image keeps the second
+ *   byte-xor loop's counter in r5; dsi/1.1p1 keeps it in r1.  A fresh loop
+ *   variable, a while/do-while form, plain relational vs ternary, and moving
+ *   `recv` before `send` were all measured inert (stayed 6).
+ *
  * Lane 04 (2026-09-30): 320/320 bytes, 18 concrete bytes.  Four source fixes
  *   read off the image and verified by compile:
  *   - the two loops are `for (; (i < size) ? 1 : 0; i++)`; the plain relational
@@ -84,11 +95,11 @@ int func_0217A7AC(u8 *buf)
     func_0217A718(&g_0217AC90b);
     func_0217A5B4();
     size = buf[0];
-    i = 0;
-    g_0217AC90b.send = 0;
-    g_0217AC90b.recv = buf;
     if ((unsigned int)size > 0xB5)
         size = 0;
+    i = 0;
+    g_0217AC90.send = 0;
+    g_0217AC90.recv = buf;
     buf[0] = 0;
     if (size != 0) {
         for (; (i < size) ? 1 : 0; i++) {

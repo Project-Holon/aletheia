@@ -41,7 +41,19 @@
  * two-cycle cx<->i: image colours the locals first (i r4, dx r5) and the
  * modified parameter last (cx r6); every spelling that keeps cx as a live
  * parameter gives cx r4 / i r6.  First divergence +0004 image `movs r6, r3`
- * | ours `movs r4, r3`.
+ *  | ours `movs r4, r3`.
+ *
+ * Lane wave8 (2026-09-30): re-measured live at the pin: 172 B, 10 concrete bytes, all
+ *        five sites are the one cx<->i 2-cycle.  Confirmed from the vendor object (sdkobj +
+ *        its DWARF): image colours locals first (i r4, dx r5) and the parameter last
+ *        (cx r6) -- reverse of our first-definition order.  New levers measured, all still
+ *        10: self-assignments `cx = cx;` / `dx = dx;` / `i = i;` at their live-range
+ *        boundaries (the `a-no-code-self-assignment-reorders-the-register-colouring`
+ *        lever) are inert here; `int i = 0; int dx = 0;` / `i = 0; dx = 0;` before the
+ *        guard emit the zeroes early (83 B, not sunk); `cx = cx - 1` / `i = i + 1` spelled
+ *        out are inert; declaring `func_021BF610` in the same TU (matching the vendor's
+ *        object context) is inert.  Blocker: mwcc 1.1p1 colours the entry-tested parameter
+ *        before the later locals; no source lever among ~220 measured spellings moves it.
  *
  * symbols:
  *   func_021BF610  0x021BF610  arm  ov172

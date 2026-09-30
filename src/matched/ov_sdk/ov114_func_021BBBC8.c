@@ -7,8 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
- * notes: DIFF, 186 bytes. Locals in reverse DWARF order fix the stack slots and r7/r8; the shared valueend return (bge) matches. Residue: prologue scheduling (image moves r0 to sl first and stores the stack arg later), and the len compare loads (image: ldr r1 labelend, ldr r0 len, add r1, cmp r1,r0; ours uses r0/r2).
+ * status:   EXACT
+ * notes: EXACT. `volatile int len` forces the per-iteration len reload (image reloads len for the valueend call after the compare); `const Res *res_p` (and on the callee prototypes) schedules the len load before the stack-argument store, matching the image. Levers: a-re-read-loop-bound-is-a-volatile-field and a-const-source-pointer-pulls-field-loads-up-next-to-the-call-result.
  *
  * sdk:      NHTTPi_getHeaderValue (libnhttp.TWL.HYB.a nhttp_response.o)
  *
@@ -19,14 +19,14 @@
  */
 
 typedef struct {
-    int len;
+    volatile int len;
 } Res;
 
-extern int func_021BAFA0(Res *res, int pos, int limit, int *colon, int *rcsize);
-extern int func_021BB12C(Res *res, int pos, int limit, char *str, char extdeli);
-extern int func_021BB0BC(Res *res, int pos, int limit);
+extern int func_021BAFA0(const Res *res, int pos, int limit, int *colon, int *rcsize);
+extern int func_021BB12C(const Res *res, int pos, int limit, char *str, char extdeli);
+extern int func_021BB0BC(const Res *res, int pos, int limit);
 
-int func_021BBBC8(Res *res_p, char *label_p, int *pos_p)
+int func_021BBBC8(const Res *res_p, char *label_p, int *pos_p)
 {
     int linetop;
     int nextlinetop;

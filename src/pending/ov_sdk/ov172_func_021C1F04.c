@@ -8,6 +8,18 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * blocker:  three-register allocation tie {width,pRgb,x} = {r5,r6,r7}: the
+ *           image colours them r5/r6/r7 and ours r6/r7/r5.  Size, the whole
+ *           constant setup and every other byte are exact.  This front end
+ *           (1.1p1) ignores BOTH levers that the idiom index offers for such
+ *           a tie: all 5 declaration-order permutations tried this lane and
+ *           all 40 no-code self-assignments (`v = v;` at each anchor for each
+ *           of width/image_width/x/pRgb/y/crbuf/bb/j) leave the diff at
+ *           exactly 37 bytes.  The BUG: `add r4, r3, r8` vs `add r4, r8, r3`
+ *           (crbuf = ybuf + y + y) is the same tie seen through the
+ *           commutative operand canonicalisation.  Refs:
+ *           docs/idioms/a-no-code-self-assignment-reorders-the-register-colouring.md,
+ *           docs/idioms/declaration-order-decides-which-register-a-local-gets.md.
  *
  * sdk:      SSP_RGB555ToYUV888 (libssp.TWL.HYB.a jpegenc.o)
  *

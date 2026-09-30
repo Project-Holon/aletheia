@@ -12,16 +12,20 @@
  * SDK: TwlDWC/lib/ARM9-TS/Rom/libdwcutil.TWL.HYB.a(atermset.o).
  * Object stamped Metrowerks 3.0.0.126 -> ../2.0/sp1p2.
  *
- * blocker: 952/996 bytes under ../2.0/sp1p2 -O4,p -thumb.  All callee and
- *   global relocations resolve once the data symbols are attested; the
- *   residual is the AutoProfile zero-fill.  The original emits the MWCC
- *   large-aggregate idiom (2x-unrolled stm of zeroed registers with a loop
- *   counter in ip, ~8 stm) while a plain `for` zero loop and `memset()` both
- *   come out ~40 bytes shorter; `(WS11G_PROFILE_DATA){0}` instead spills a
- *   596-byte stack temporary (frame 0x280 vs the original 0x2c).  Frame and
- *   most locals are otherwise right.  Several data globals (0x021DD490,
+ * blocker: 952/996 bytes under the documented front-end pin ../2.0/sp1p2
+ *   -O4,p -thumb (docs/FRONTEND-PINS.md pins this whole ov016 libdwcutil
+ *   atermset.o object, stamp 3.0.0.126, to that front end).  Confirmed: under
+ *   the wave-mandated dsi/1.1p1 the same body is 882/996.  The 44-byte residual
+ *   is the 596-byte g_021DD224 zero-fill: the image emits the MWCC
+ *   large-aggregate literal-zero idiom (r0-r3 all 0, 0x12 x 2-unrolled
+ *   `stm r7!,{r0,r1,r2,r3}` with the counter staged through ip, then a final
+ *   `stm` + `str r0,[r7]`), whereas the plain `for` u32 loop compiles to a
+ *   149-iteration `stm r1!,{r0}` loop and `memset()` is 948 (4 bytes shorter
+ *   still); `(WS11G_PROFILE_DATA){0}` spills a 596-byte stack temporary (frame
+ *   0x280).  The prologue is also `push {r3,...}`/frame 0x28 against the
+ *   image's `push {r4-r7,lr}`/0x2c.  Seven data globals (0x021DD490,
  *   0x021DDD04, 0x021DD020, 0x021DD4A0, 0x021DD4A8, 0x021DD224, 0x021DD310)
- *   still need an outside witness, so the verdict can not reach MATCH.
+ *   still lack an outside witness, so the verdict cannot reach MATCH either.
  *
  * symbols:
  *   OS_Sleep          0x02085a38 arm

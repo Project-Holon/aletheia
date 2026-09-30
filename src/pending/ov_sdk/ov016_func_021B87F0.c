@@ -8,6 +8,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * blocker:  two residues, both front-end colouring on an sp1p2 object, not
+ *           source-reachable by the idiom levers: (1) +00EA, case 19's
+ *           jump-table halfword -- every 2.0 front end threads the empty
+ *           `case 19: break;` to the shared exit (0xb6 -> 0x21b896c) while
+ *           the object keeps a distinct block (0x2c -> the `b` at
+ *           0x21b88e2); (2) +0116..+0122, the empty ssidLength loop's r0/r1
+ *           role swap (object len r1 / i r0; ours len r0 / i r1) with every
+ *           instruction otherwise identical. See the Wave 8 note below.
  *
  * sdk:      AOSSi_WLANConnect (libdwcutil.TWL.HYB.a(aosslink.o))
  *
@@ -47,8 +55,20 @@
  * `unsigned i` (7 bytes).  Image `movs r4, r5` | ours `lsls r6, r6, #2` at the case-19 table
  * entry (image 0x2c -> the b at 0x21b88e2, ours 0xb6 -> the shared exit at 0x21b896c) and the
  * ssidLength loop's r0/r1 roles (image len r1 / i r0, ours len r0 / i r1) are front-end
- * colouring on a 3.0.0.126-stamped object.  Pin scan: ../2.0/base 464/6 == ../2.0/sp1p2;
- * every dsi build 448/200.
+ *   colouring on a 3.0.0.126-stamped object.  Pin scan: ../2.0/base 464/6 == ../2.0/sp1p2;
+ *   every dsi build 448/200.
+ *
+ * Wave 8 (this lane) re-attacked both residues and they held.  Source levers tried, all
+ * flat at 464 bytes / 6 concrete: `case 18` with its own explicit `break` in each arm;
+ * `case 19: goto lstest;` (still threaded through the single `b`); a named `u16 ssid_len`
+ * local declared after `i` and loaded before the loop; `i = 0;` split out in front of the
+ * loop; the loop as a `while` with `i++` in the body; the bound written on the left
+ * (`ssidLength > i`); plus `tools/permute.py --mode hill --budget 160` (55 mutations, 158
+ * compiles, best still 6).  A compiler probe over every 2.0 front end (base, sp1, sp1p2,
+ * sp1p5..sp2p4) gives the same 464/6 for all, so the residue is not a stamp mismatch.  The
+ * two bytes at +00EA are the front end's jump-table threading of an empty arm and the four
+ * at +0116..+0122 are a caller-saved r0/r1 tie from the empty loop's preheader, neither of
+ * which the idiom index has a lever for; parked rather than guessed at.
  */
 
 typedef unsigned char u8;

@@ -36,6 +36,25 @@
  * `goto`-shaped arms and a one-case `switch`.  This front end predicates the
  * arm from every one of them, so the cap is confirmed on a wider base.
  *
+ * lane W8 (2026-09-30).  Four NEW levers from the idiom index, all still fold to
+ * 260/264 at +0x90:
+ *   - explicit `goto tail;` out of the guard arm to a shared tail label
+ *     (docs/idioms/a-shared-exit-block-is-written-out-in-each-arm.md third
+ *     spelling) -- the `bne`-over-`b` shape the image has; still if-converted.
+ *   - a dead `recv_pipe->consumed += 0;` sixth statement inside the arm, hoping
+ *     it counts before DCE -- removed before if-conversion, no effect.
+ *   - the `a-factored-tail` lever: the whole `if (result >= 0)` tail block
+ *     duplicated into the guard arm (and again into the guard's else and after
+ *     the outer if/else).  mwccarm did NOT cross-jump it at -O4,p: 324 compiled
+ *     bytes (two copies written out), so the duplicated tail pushes the function
+ *     size up without disabling predication.
+ *   - a two-case `switch (flag_noconsume) { case 0: ...; break; case 1: break; }`
+ *     (docs/idioms/a-two-case-switch-reproduces-branch-form-where-if-return-if-converts.md)
+ *     -- still predicated.
+ *   `volatile long consumed` no longer stops predication of a 3-instruction arm
+ *   here: the field RMW is fully if-converted to `ldreq/addeq/streq`.  The cap is
+ *   a front-end whole-function pin residue, as the note concluded; parked.
+ *
  * sdk:      SOCLi_CopyCPSBuffer (libsoc.TWL.HYB.a(socl_read.o))
  *
  * symbols:

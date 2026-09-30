@@ -25,9 +25,29 @@
  * vendor order and aChar first, which gives 11 B) leave it unchanged, so this is
  * a colouring artefact of the 4.0.0.1025 front end, not a statement-order one.
  *
+ * u1 (wave8): re-transcribed the actual vendor source (scratch/U2/gs/.../gsDebug.c:
+ * `const char* theInStream`, const aRowWidth/aReplaceChar/aTextOffSet, aChar
+ * block-scoped with (unsigned char) cast, sprintf then if/else then
+ * `theOutStream += 2`): still 9 B, r6/r7 pair. The `const` on the source
+ * parameter (const-on-a-read-only-source-parameter idiom) does NOT move it.
+ * Also flat at 9 B: unsigned char* aTextOutStream; the loop-carried pointer
+ * routed through a second local with a plain copy back (the
+ * arithmetic-loop-carried-definition idiom, both loop-local and function-scope
+ * forms -- the coalescer merges them back); aChar as int. Worse: bare
+ * aTextOutStream assigned after the memset (23 B), aTextOutStream declared
+ * mid-block after the memset (23 B); moving the memset below the pointer's
+ * init loses a relocation (152 B / 115).
+ *
  * sdk:      HexEncode16 (gsdebug.o)
  *
  * near miss: HexEncode16: 172 bytes. Only diff is a register swap: original aTextOutStream=r6, aChar=r7; 1.1p1 gives aChar=r6, aTextOutStream=r7 (8 instrs). Tried all declaration orders, initializers, block-scoped aChar, int aChar, several isprint forms, ternary stores.
+ * blocker:  9 concrete bytes, a pure r6/r7 colouring tie between the long-lived
+ *           aTextOutStream (image r6, ours r7) and aChar (image r7, ours r6).
+ *           Every opcode and both extents match. Declaration order (6),
+ *           block-scope, const source parameter, an explicit copy-back for the
+ *           loop-carried pointer, pointer/char/width types, and the true vendor
+ *           spelling all land at 9. Needs the 4.0.0.1025 front end's allocator
+ *           priority or a source shape not yet hit.
  *
  * symbols:
  *   func_020923B0                  0x020923B0  arm
@@ -41,24 +61,27 @@ extern int func_02084F40(char *dst, char *fmt, ...);
 extern unsigned short g_020A61DC[];
 extern char g_021A3710[];
 
-void func_0217D280(char *theInStream, char *theOutStream, unsigned int theInLen)
+void func_0217D280(const char *theInStream, char *theOutStream, unsigned int theInLen)
 {
-    char *aTextOutStream = theOutStream + 41;
-    unsigned int aWriteBit = theInLen & 1;
-    unsigned char aChar;
+    const int aRowWidth = 64;
+    const char aReplaceChar = '.';
+    const int aTextOffSet = 41;
+    char *aTextOutStream = (theOutStream + aTextOffSet);
+    const unsigned int aWriteBit = theInLen & 1;
 
-    func_020923B0(theOutStream, ' ', 64);
+    func_020923B0(theOutStream, ' ', aRowWidth);
     while (theInLen--) {
-        aChar = *theInStream++;
+        unsigned char aChar = (unsigned char)(*theInStream++);
+
         func_02084F40(theOutStream, g_021A3710, aChar);
-        theOutStream += 2;
         if ((aChar >= 0x80) ? 0 : (g_020A61DC[aChar] & 0x10))
-            *aTextOutStream++ = aChar;
+            *(aTextOutStream++) = (char)aChar;
         else
-            *aTextOutStream++ = '.';
+            *(aTextOutStream++) = aReplaceChar;
+        theOutStream += 2;
         if ((theInLen & 1) == aWriteBit)
             *theOutStream++ = ' ';
     }
     *theOutStream = ' ';
-    *aTextOutStream = 0;
+    *(aTextOutStream) = '\0';
 }

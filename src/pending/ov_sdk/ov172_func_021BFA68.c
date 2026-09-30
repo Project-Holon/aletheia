@@ -9,17 +9,21 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker:  codegen / register allocation.  The four loops, their guards,
- *           table indices and the RGB555 pack all reproduce semantically and
- *           the 9 data relocations are correct, but the compiler assigns the
- *           persistent counters to different callee-saved registers and
- *           spills two extra words, so the frame is 0x34 (original 0x2c) and
- *           the body is 1424 bytes (original 1372; 1336 code + 36 pool).
- *           The original keeps z/e in callee-saved r9/r7 (r5 in case 6) with
- *           each case's outer counter in its own stack slot, and even emits a
- *           redundant re-store of the stack argument dy at entry.  Reaching
- *           EXACT needs the original block-scoped locals rewritten verbatim;
- *           this body is semantically verified against the listing.
+ * blocker:  codegen / global register colouring, not semantics.  The body now
+ *           reproduces case for case (same instructions, same order, the
+ *           coalesced `mov zero; str counter` case inits, the per-case index
+ *           sums in the original's left-to-right evaluation order, and the
+ *           redundant dy self-store) but the allocator colours the three
+ *           long-lived callee-saved values of each case differently and spills
+ *           case 4's `m`, so the frame is 0x30 (original 0x2c), the prologue
+ *           also saves r3, and the body is 1412 B (original 1372; 1336 code +
+ *           36 pool).  Original colours per case: case3 z=sb j=r8 off=r7
+ *           i=[sp+0x1c]; case4 e=r7 j=sb off=r8 m=lr n=[sp+0x24]; case5 like
+ *           case4 with s=[sp+4] t=[sp+0x20]; case6 e=r5 j=r7 off=r6 d2=fp
+ *           c=[sp] s=[sp+8].  Compiled is a cyclic permutation of
+ *           {r7,r8,sb} with `m` spilled to [sp+0x2c].  Fixing this needs the
+ *           original block-scoped locals' declaration order/scope verbatim;
+ *           semantic, verified against the listing.
  *
  * sdk:      writeblock (libssp.TWL.HYB.a jpegdec.o)
  *
@@ -74,8 +78,7 @@ void func_021BFA68(u8 *d, int x, int y, int dx, int dy)
 
     switch (bcode2.f04 * 2 + bcode2.f14) {
     case 3:
-        i = 0;
-        z = 0;
+        i = z = 0;
         for (; i < 8; i++) {
             if (y + i >= dy)
                 return;
@@ -96,8 +99,8 @@ void func_021BFA68(u8 *d, int x, int y, int dx, int dy)
         break;
 
     case 4:
-        e = 0;
-        for (n = 0; n < bcode2.f14; n++) {
+        n = e = 0;
+        for (; n < bcode2.f14; n++) {
             for (m = 0; m < 8; m++) {
                 if (y + m >= dy)
                     break;
@@ -105,7 +108,7 @@ void func_021BFA68(u8 *d, int x, int y, int dx, int dy)
                 for (j = 0; j < 8; j++, e++) {
                     if (x + n * 8 + j >= dx)
                         break;
-                    idx = m * 8 + n * 4 + (j >> 1);
+                    idx = (j >> 1) + n * 4 + m * 8;
                     yp = limits + draw_block[e];
                     v = ((yp[(Cbgtab[dcr[idx]] + Crgtab[dcb[idx]]) >> 16] & 0xf8) << 2)
                         | ((yp[Crrtab[dcb[idx]]] & 0xf8) >> 3)
@@ -120,8 +123,8 @@ void func_021BFA68(u8 *d, int x, int y, int dx, int dy)
         break;
 
     case 5:
-        e = 0;
-        for (t = 0; t < bcode2.f04; t++) {
+        t = e = 0;
+        for (; t < bcode2.f04; t++) {
             for (s = 0; s < 8; s++) {
                 if (s + y + t * 8 >= dy)
                     break;
@@ -129,7 +132,7 @@ void func_021BFA68(u8 *d, int x, int y, int dx, int dy)
                 for (j = 0; j < 8; j++, e++) {
                     if (x + j >= dx)
                         break;
-                    idx = t * 32 + (s >> 1) * 8 + j;
+                    idx = j + (s >> 1) * 8 + t * 32;
                     yp = limits + draw_block[e];
                     v = ((yp[(Cbgtab[dcr[idx]] + Crgtab[dcb[idx]]) >> 16] & 0xf8) << 2)
                         | ((yp[Crrtab[dcb[idx]]] & 0xf8) >> 3)
@@ -144,8 +147,8 @@ void func_021BFA68(u8 *d, int x, int y, int dx, int dy)
         break;
 
     case 6:
-        e = 0;
-        for (c = 0; c < bcode2.f04; c++) {
+        c = e = 0;
+        for (; c < bcode2.f04; c++) {
             for (d2 = 0; d2 < bcode2.f14; d2++) {
                 for (s = 0; s < 8; s++) {
                     if (s + y + c * 8 >= dy)
@@ -154,7 +157,7 @@ void func_021BFA68(u8 *d, int x, int y, int dx, int dy)
                     for (j = 0; j < 8; j++, e++) {
                         if (x + d2 * 8 + j >= dx)
                             break;
-                        idx = c * 32 + (j >> 1) + d2 * 4 + (s >> 1) * 8;
+                        idx = (j >> 1) + d2 * 4 + (s >> 1) * 8 + c * 32;
                         yp = limits + draw_block[e];
                         v = ((yp[(Cbgtab[dcb[idx]] + Crgtab[dcr[idx]]) >> 16] & 0xf8) << 2)
                             | ((yp[Crrtab[dcr[idx]]] & 0xf8) >> 3)

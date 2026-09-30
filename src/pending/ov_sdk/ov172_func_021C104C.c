@@ -24,18 +24,24 @@
  *      "declaration reordering" doubt above is now settled: stop re-ordering.
  *      The rotation of the DWARF order (code r9, si r2, kk r8, jj r3, ii r7)
  *      is not reachable from any order of these five lines.
- *  (2) The eight ABS32 pool sites (+01E8..+0204, dc0_tbl/dc1_tbl/ac0_tbl/
- *      ac1_tbl at 021C8500/8520/86C0/8600, base and +0x10) stay unresolved
- *      ("021C8500 ... has no witness outside 021C104C..021C1254"), so 6 of
- *      14 relocations resolve.  Dropping the ov172 token, and renaming the
- *      symbols to g_021C8500/func_021C8500, all fail identically (the name
- *      must stay whatever the C extern is called; the failure is the missing
- *      witness).  Cause: 021C8500 is inside ov172's image (range
- *      021B6100..021C88E0) but asm/overlays/ov172.s has no object START there
- *      (the 021C7C64..021C88E0 tail is a raw .word/.byte blob), so
- *      attest_sole_ref_overlay_data refuses.  That is a layout gap in the
- *      listing, not a source problem; the row cannot reach EXACT until the
- *      overlay listing is taught the table starts.
+ *  (2) CORRECTED by lane W8: the eight ABS32 table sites are NOT unwitnessed.
+ *      The vendor member jpegenc.o defines dc0_tbl/dc1_tbl/ac0_tbl/ac1_tbl as
+ *      named local PROGBITS objects; the eight pool words already name them
+ *      and the ROM word at each site equals the declared address, so
+ *      attest_sole_ref_overlay_self() accepts all eight (verified directly:
+ *      (021C1228->021C8500) (021C122C->021C8520) (021C1230->021C86C0)
+ *      (021C1234->021C8600) (021C1238->021C8510) (021C123C->021C8530)
+ *      (021C1240->021C86D0) (021C1244->021C8610) all return sole-ref/self).
+ *      sole-ref/data and template are the wrong classes here: the tables are
+ *      interior to a byte run (no object start) and the vendor symbol is
+ *      named, not @N.  The "raw blob" wall is not the blocker.
+ *
+ *  (3) The actual blocker is CODEGEN: our compile emits the pool at +01E8,
+ *      the original at +01DC, i.e. 12 bytes of extra code before the pool
+ *      (function is 520 vs the SDK row's 508).  The harness compares the
+ *      520-byte extent, so the shifted relocation sites read the wrong ROM
+ *      words and every ABS32 stays wildcarded.  Fix the 12-byte codegen
+ *      difference and the self witnesses resolve.
  *
  * sdk:      Yos_JpegEncoderHuffmanEncoderBuildTable (libssp.TWL.HYB.a jpegenc.o)
  *
@@ -74,8 +80,8 @@ extern u8 dc1_tbl[28];
 extern u8 ac0_tbl[178];
 extern u8 ac1_tbl[178];
 
-static void Yos_JpegEncoderHuffmanEncoderBuildTable(Yos_JpegEncoderHuffmanEncoderBuildTableWork *pWork,
-                                                    huffman_structure *hf, u32 idx)
+static void func_021C104C(Yos_JpegEncoderHuffmanEncoderBuildTableWork *pWork,
+                          huffman_structure *hf, u32 idx)
 {
     u16 code = 0;
     u32 si;

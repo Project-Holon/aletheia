@@ -46,6 +46,24 @@
  *           the final `switch (wmResult)` can also see a call result, which
  *           is not true of any wlStatus arm here.
  *
+ *           Re-measured 2026-09-30 (wave 8): the image's case-8 guard-fail
+ *           body does `mov r0, #3` (SetPhase literal 3), NOT the loaded
+ *           field; `WCMi_SetPhase(wlStatus)` there compiles to
+ *           `and r0, r5, #0xff` and is a genuine second residue, so the body
+ *           now passes the literal `3`.  The case-8 store to 0x1310 is also
+ *           spelled differently from the image: the image computes
+ *           `r0 = wcmw + 0x1300; strh [r0, #0x10]` once and reuses it, while
+ *           `*(u16 *)((char*)wcmw + 0x1310) |= 0x24` recomputes
+ *           `wcmw + 0x310 + 0x1000` at the store.  See
+ *           `a-repeated-constant-pools-only-within-one-block...`: the
+ *           1.1p1 pooler works per basic block, so a constant whose uses span
+ *           distinct switch arms is rematerialised per arm; the image's r5 is
+ *           kept because its source's uses were in one block (or a variable
+ *           whose value the front end could not fold).  `../2.0/sp2` compiles
+ *           700 bytes (56 short), so this is not a pin reachable by that
+ *           spelling either.  Residue: the whole switch body (register r5 for
+ *           wlStatus) plus the case-8 0x1310 store spelling.
+ *
  *
  * sdk:      WcmWmcbReset (libwcm.TWL.HYB.a(wmif.o))
  *
@@ -120,7 +138,7 @@ static void WcmWmcbReset(void *arg)
         *(unsigned short *)((char *)wcmw + 0x22ea) = 0;
         if (wlStatus != 0x12 ||
             (*(unsigned short *)((char *)wcmw + 0x1310) & 0x24) == 0x24) {
-            WCMi_SetPhase(wlStatus);
+            WCMi_SetPhase(3);
             WCMi_Notify(1, (char *)wcmw + 0x12e0, (void *)wlStatus, 0x574);
             return;
         }

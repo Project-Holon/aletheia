@@ -56,6 +56,17 @@
  *           still stand and are what took it to 1196. No new lever applies: the divergent
  *           regions are the switch arms' copy/spacing code, not intrinsic, zero-pool or
  *           alias-sensitive. Parked as the 4.0.0.1024/1025-class allocation rotation.
+ *
+ * lane wave8 (2026-09-30): confirmed the mirror is an allocator colouring tie, not
+ *           source shape.  A named local for the dereference (`p = *ps; s = p + 1;
+ *           type = *p;`, at block scope and at function scope, first/last among the
+ *           declarations) reaches 1196 B / 626 concrete: it moves the *ps temporary
+ *           off r1 into the callee-saved pool, but the allocator gives &s=r4 and
+ *           *ps=r5 while the image has *ps=r4 and &s=r5 -- the same pair swap, and
+ *           level/seq/mode stay r8/r7/r6 vs the image's r7/r6/r8.  Declaration order,
+ *           block scope and initialiser-vs-bare spelling do not move the parameter
+ *           rotation.  Reading `type` before `s` is worse (950 B), so the body order
+ *           is right.  The draft body is kept at its faithful 628-byte form.
  */
 
 struct _CPSSslConnection {

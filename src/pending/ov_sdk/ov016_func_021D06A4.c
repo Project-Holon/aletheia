@@ -8,7 +8,11 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
- * blocker:  12 bytes: in the else arm the original loads MemStep->cell[4] before it stores x = 152; 1.1p1 stores x first. The loop forms (taskBegin0..3, taskEnd1..3) match. Notes: docs/notes/pkt_ov016_021D0040.c.txt
+ * blocker:  12 bytes in the else arm's four-instruction scheduler window at +0060.
+ *           Original: ldr MemStep / str x / ldr cell / sub idx. 1.1p1: str x /
+ *           ldr MemStep / sub idx / ldr cell. The taken arm and every other
+ *           instruction match. taskBegin4 (0x021D04BC) carries the identical
+ *           window. Notes: docs/notes/pkt_ov016_021D0040.c.txt
  *
  * w5_nm: also tried `x = 152` inside the call argument, the `<= 152` arm
  *           first, an early return from the `> 152` arm, the literal 152 in the
@@ -26,6 +30,13 @@
  * four-instruction window schedules differently - the taken arm and every
  * other instruction match. Sweep: 12 concrete diffs at -O4,p/-O4,s/-O4/-O3/
  * -O2 for all nine pins.
+ * w8_nm: applied docs/idioms/a-load-scheduled-above-an-unrelated-store-reads-through-a-const-pointer.md
+ *        (const on step_bss, const STEP_BSS, MEMSTEP *const, const MEMSTEP *), plus a
+ *        `void *cell`/`MEMSTEP *m` named local, the index as an enum/`0-1`/`~0` local,
+ *        a `const int` end value, volatile x, and both `(cell)[4]`/`*(cell+4)` spellings:
+ *        every one is 12 concrete bytes (const on step_bss overshoots to 67). No
+ *        source shape moves the four-instruction window; scheduler tie.
+ *
  * U26: the matched siblings in this packet keep the same `x = N;` before the call and match
  * (taskEnd1..3 are loop forms); the single-cell else arm stays on the 12-byte window under a
  * `MEMSTEP *m`/`void *cell` local bound before the store, the assignment as the 3rd argument and
