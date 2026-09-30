@@ -1,0 +1,61 @@
+/*
+ * function: func_021B9B20
+ * address: 0x021B9B20
+ * packet: pkt_ov110_021B9B20
+ * region: ov110
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02049238 0x02049238 arm
+ *   func_02030EAC 0x02030EAC arm
+ *   func_021BCA30 0x021BCA30 thumb ov110
+ *   func_0204B1CC 0x0204B1CC arm
+ *   func_0204ADA4 0x0204ADA4 arm
+ *   func_0204A8D4 0x0204A8D4 arm
+ *   func_0204AFD8 0x0204AFD8 arm
+ *   func_0204A5AC 0x0204A5AC arm
+ *   func_020450C8 0x020450C8 arm
+ *   func_0203F9B4 0x0203F9B4 arm
+ *   func_020307B0 0x020307B0 arm
+ */
+typedef unsigned char u8;
+extern void func_02049238(void *);
+extern void func_02030EAC(void *);
+extern void func_021BCA30(void *);
+extern void func_0204B1CC(void *);
+extern void func_0204ADA4(unsigned int);
+extern void func_0204A8D4(unsigned int);
+extern void func_0204AFD8(unsigned int);
+extern void func_0204A5AC(void);
+extern void func_020450C8(void);
+extern void func_0203F9B4(void);
+extern void func_020307B0(void *);
+void func_021B9B20(u8 *p) {
+    int i, j;
+    if (p) {
+        func_02049238(*(void **)(p+0x8C));
+        for (i=0; i<4; ++i) {
+            void *r = *(void **)(p+8+i*4);
+            if (r) func_02030EAC(r);
+        }
+        func_02030EAC(*(void **)p);
+        func_02030EAC(*(void **)(p+4));
+        func_021BCA30(*(void **)(p+0x64));
+        func_0204B1CC(*(void **)(p+0x20));
+        for (j=0; j<2; ++j) {
+            u8 *r = p+j*12;
+            func_0204ADA4(*(unsigned int *)(r+0x24));
+            func_0204A8D4(*(unsigned int *)(r+0x28));
+            func_0204AFD8(*(unsigned int *)(r+0x2C));
+            func_0204ADA4(*(unsigned int *)(r+0x3C));
+            func_0204A8D4(*(unsigned int *)(r+0x40));
+            func_0204AFD8(*(unsigned int *)(r+0x44));
+        }
+        func_0204A5AC();
+        func_020450C8();
+        func_0203F9B4();
+        func_020307B0(p);
+    }
+}

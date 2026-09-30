@@ -1,0 +1,75 @@
+/*
+ * function: func_021B8F00
+ * address: 0x021B8F00
+ * packet: pkt_ov103_021B8F00
+ * region: ov103
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 unsigned division helper rederived from ARM runtime target; no other calls; 2 scoped ov103/neighbour source search no twin; 3 int sum and all-const/source mutable pointers unchanged53, original loop guard signed, pointer parameters cannot narrow; 4 allocation/scheduling idioms read, two declaration/assignment variants worsened; 5 fresh idiom list and neighbours, no stack-object residue; types permuter300 completed, volatile-add(cx) rejected and removed, safe expanded fields reduce53 to17. Next: inline helper scope for initial field loads, not another permuter.
+ * residue: 17 concrete bytes in initial field loads/spills and ip assignment, 158 compiled bytes versus160 listing extent (2 bytes padding); whole body after +0x36 matches.
+ * symbols:
+ *   _u32_div_f 0x0209C2B0 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct 
+{
+  int x;
+  int y;
+} Pair;
+inline static u16 difference(u32 a, u32 b)
+{
+  if (a > b)
+    return a - b;
+  else
+    return b - a;
+}
+
+inline static int magnitude(int a)
+{
+  return (a < 0) ? (-a) : (a);
+}
+
+u8 func_021B8F00(const Pair *a, Pair *b, const Pair *c, Pair *d)
+{
+  int ax = a->x;
+  int ay = a->y;
+  int cx = c->x;
+  int cy = c->y;
+  u32 v;
+  u32 t;
+  int i;
+  int x;
+  int y;
+  int z;
+  int w;
+  u16 delta;
+  u32 sum;
+  sum = 0;
+  for (i = 1; i < 10; i++)
+  {
+    x = b[i].x - a->x;
+    y = b[i].y - a->y;
+    z = d[i].x - cx;
+    w = d[i].y - c->y;
+    v = magnitude(x) + magnitude(y);
+    t = magnitude(z) + magnitude(w);
+    delta = difference(v, t);
+    if (delta == 0)
+      sum += 100;
+    else
+      if (delta == 1)
+      sum += 80;
+    else
+      if (delta == 2)
+      sum += 50;
+    else
+      if ((delta >= 3) && (delta <= 5))
+      sum += 30;
+  }
+
+  return ((u32) sum) / 9u;
+}

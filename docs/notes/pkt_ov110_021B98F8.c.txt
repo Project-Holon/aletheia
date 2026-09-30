@@ -1,0 +1,43 @@
+/*
+ * function: func_021B98F8
+ * address: 0x021B98F8
+ * packet: pkt_ov110_021B98F8
+ * region: ov110
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 n/a no callees; 2 ov110 021B99D8 caller takes four arguments, no parser twin; 3 u16 n and const src unchanged; 4 byte-pointer and integer-address casts unchanged; 5 idioms relisted and ov110 neighbours reread, n/a no stack aggregate. Next: inline halfword reader before pointer advance; no sweep run.
+ * residual: count read folds adds/ldrh to ldrh immediate, displacing the subsequent code by two bytes.
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+u32 func_021B98F8(u8 *p, u32 src, u16 *dst, u32 index) {
+    u32 count = 0;
+    while (*(u16 *)src != 65535) {
+        u32 value = *(u16 *)src;
+        if (value == 65534) {
+            u32 n;
+            u32 i;
+            n = *(u16 *)((u32)src + 2);
+            src += 4;
+            for (i=0; i<n; ++i) {
+                u32 v = *(u16 *)(src+i*2);
+                if (p[0x1D6E + (v >> 3)] & (1 << (v & 7))) {
+                    dst[index++] = v;
+                    ++count;
+                    break;
+                }
+            }
+            src += n*2;
+        } else {
+            if (p[0x1D6E + (value >> 3)] & (1 << (value & 7))) {
+                dst[index++] = value;
+                ++count;
+            }
+            src += 2;
+        }
+    }
+    return count;
+}

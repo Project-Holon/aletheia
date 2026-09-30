@@ -1,0 +1,50 @@
+/*
+ * function: func_021B8FA0
+ * address: 0x021B8FA0
+ * packet: pkt_ov103_021B8FA0
+ * region: ov103
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * checks: 1 own callee sources rederived arities/returns; caller shifts require u8/u16 externs; 2 same-overlay and neighbour search finds no twin; 3 u16 counter adds 4 bytes, prototype corrections unchanged; 4 scope/order hypotheses failed; 5 pointer-out local uses the correct sp-relative form; types permuter300 exposed expanded bound, volatile additions rejected.
+ * resolved: wave22 R1 EXACT 192 bytes, source src/matched/ov/ov103_func_021B8FA0.c. Use g*h directly in the loop condition, not a cached count; operand order settles the remaining two load bytes. Permuter volatile-add(k) was rejected; it is unnecessary.
+ * symbols:
+ *   func_0204A380 0x0204A380 arm
+ *   func_02062B30 0x02062B30 arm
+ *   func_0204169C 0x0204169C arm
+ *   func_0204162C 0x0204162C arm
+ *   func_020410D0 0x020410D0 arm
+ *   func_020413B0 0x020413B0 arm
+ *   func_020409B4 0x020409B4 arm
+ *   func_020307B0 0x020307B0 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+extern void *func_0204A380(unsigned,unsigned,unsigned,u16);
+extern int func_02062B30(void *,u8 **);
+extern u8 func_0204169C(u8);
+extern unsigned func_0204162C(u8);
+extern void func_020410D0(u8,unsigned,unsigned,unsigned,u8,void *,u8,u8,u8,u8);
+extern void func_020413B0(u8,u8,u8,u8,u8,u8);
+extern void func_020409B4(u8);
+extern void func_020307B0(void *);
+void func_021B8FA0(int a,int b,int c,int d,u8 e,u8 f,u8 g,u8 h,u8 i,u8 j,u8 k,u8 l,u8 m,int n,u16 o) {
+ void *handle;
+ int t;
+ u8 *data;
+ u16 *p;
+ int count;
+ handle=func_0204A380(a,b,n,(u16)((o&0x7fff)|0x8000));
+ func_02062B30(handle,&data);
+ if(d && !func_0204169C(c)) {
+  count=h*g;p=(u16 *)(data+12);
+  for(t=0;t<(g*h);t++)p[t]+=(u16)d;
+ }
+ if(func_0204162C(c)) {
+  func_020410D0(c,i,j,k,l,data+12,e,f,g,h);
+  func_020413B0(c,i,j,k,l,m);
+  func_020409B4(c);
+ }
+ func_020307B0(handle);
+}

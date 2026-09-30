@@ -1,0 +1,35 @@
+/*
+ * function: func_021B8A6C
+ * address: 0x021B8A6C
+ * packet: pkt_ov106_021B8A6C
+ * region: ov106
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0204B454 0x0204B454 arm
+ *   func_0204B404 0x0204B404 arm
+ *   func_0204B3DC 0x0204B3DC arm
+ */
+typedef unsigned char u8;
+typedef signed short s16;
+typedef unsigned short u16;
+typedef struct {s16 x,y;} Pair;
+extern void func_0204B454(void *,Pair *,u16);
+extern void func_0204B404(void *,Pair *,u16);
+extern void func_0204B3DC(void *,int);
+void func_021B8A6C(u8 *p,int delta) {
+    Pair pos;
+    int offsets[2];
+    int i;
+    offsets[0]=-delta;
+    offsets[1]=-delta;
+    for(i=0;i<2;i++) {
+        func_0204B454(*(void **)((u8 *)((unsigned int *)p+i)+8),&pos,i);
+        pos.y=offsets[i]+*(s16 *)((u8 *)((s16 *)p+i)+16);
+        func_0204B404(*(void **)((u8 *)((unsigned int *)p+i)+8),&pos,i);
+        if(pos.y>-16 && pos.y<208) func_0204B3DC(*(void **)((u8 *)((unsigned int *)p+i)+8),1);
+        else func_0204B3DC(*(void **)((u8 *)((unsigned int *)p+i)+8),0);
+    }
+}

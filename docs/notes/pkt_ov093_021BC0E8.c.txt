@@ -1,0 +1,87 @@
+/*
+ * function: func_021BC0E8
+ * address: 0x021BC0E8
+ * packet: pkt_ov093_021BC0E8
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 296 bytes against 312, 264 concrete bytes differ; all 9 relocations resolved.
+ * Original p/e occupy r4/r5, index is spilled at sp+0xc, type at sp+8,
+ * action at sp+4, lock values at sp+0x10/sp+0x18, and result at sp+0x20.
+ * Current C keeps the index/type/entry in registers and uses a smaller frame.
+ * The inline accuracy setter restores the best safe 264-byte residue.
+ * Permuter300's 312-byte candidate changes void to u32 and returns type,
+ * which is unset for n=0; it also narrows lock u32 to u16 and reads entry c
+ * before C6350 instead of afterward. Reject all three behavior changes.
+ * checks: 1 BC948 own source takes 3 and returns u16, BC8EC takes 3, CC8D8 returns u32; 2 BC568/BBFA8 establish 16-byte E and indexed records; 3 n:u8 compiled 296 bytes with no size improvement, full-width integer ENTRY compiled unchanged, restore n:u32 and preserve full-width indices/locks; 4 subscripted-fields, integer-address and inline-allocation idioms read; 5 directory and current twins refreshed, new C6350 own u8 return compiled unchanged, best inline setter restored and compiled; no address-taken stack aggregate in residue; optional permuter300 --types rejected signature/uninitialized-return, lock narrowing and field-read hoist; next lever is safe inline-helper live-range shape.
+ * symbols:
+ *   func_021BC948 0x021BC948 thumb ov093
+ *   func_021D8454 0x021D8454 thumb ov093
+ *   func_021CC8D8 0x021CC8D8 thumb ov093
+ *   func_021BC8EC 0x021BC8EC thumb ov093
+ *   func_021CC95C 0x021CC95C thumb ov093
+ *   func_021C6350 0x021C6350 thumb ov093
+ *   func_021BC874 0x021BC874 thumb ov093
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct { u32 a:4; u32 b:3; u32 action:16; u32 rest:9; } B;
+typedef struct { u8 *a; B b; u32 c; u8 d,f; u16 pad; } E;
+extern u16 func_021BC948(u8 *, u8 *, int);
+extern u32 func_021D8454(B *);
+extern u32 func_021CC8D8(void *, int);
+extern int func_021BC8EC(u8 *, u32, u8 *);
+extern void func_021CC95C(void *, u32, int);
+extern u8 func_021C6350(u8 *, u8 *);
+extern void func_021BC874(E *, u32);
+static inline u16 action(E *e)
+{
+    if (e->b.a == 1) return e->b.action;
+    return 0;
+}
+static inline void set_accuracy(E *e, u16 v)
+{
+    e->c = (v & 0x1fff) | (e->c & 0xffffe000);
+}
+static inline u32 pack(u16 low, u8 a, u8 b, u8 c)
+{
+    return (low & 0x1fff) | ((u16)(a << 13)) | (((u32)b & 63) << 16) | ((u32)(u16)(c << 13) << 9);
+}
+static inline void update(E *e, int result)
+{
+    u16 low = (u16)(e->c & 0x1fff);
+    u8 a = (e->c >> 13) & 7;
+    u8 c = (e->c >> 22) & 7;
+    e->c = pack(low, a, result, c);
+}
+#define ENTRY(i) ((E *)((u32)e + 16 * (i)))
+void func_021BC0E8(u8 *p, E *e, u32 n)
+{
+    u32 i;
+    u32 type;
+    u16 value;
+    u32 lock;
+    int result;
+    E *q;
+    for (i = 0; i < n; i++) {
+        q = ENTRY(i);
+        set_accuracy(q, func_021BC948(p, ENTRY(i)->a, 1));
+        type = func_021D8454(&q->b);
+        if (type == 1) {
+            value = action(q);
+            lock = func_021CC8D8(p + 0x1d74, 1076);
+            result = func_021BC8EC(p, value, ENTRY(i)->a);
+            update(ENTRY(i), result);
+            func_021CC95C(p + 0x1d74, lock, 1079);
+        }
+        if (type == 1 || type == 5) {
+            lock = func_021CC8D8(p + 0x1d74, 1087);
+            ENTRY(i)->c = ((func_021C6350(p, ENTRY(i)->a) & 7) << 13) | (ENTRY(i)->c & 0xffff1fff);
+            func_021CC95C(p + 0x1d74, lock, 1090);
+        }
+    }
+    func_021BC874(e, n);
+}

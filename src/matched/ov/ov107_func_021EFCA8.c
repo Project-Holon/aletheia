@@ -1,0 +1,37 @@
+/*
+ * function: func_021EFCA8
+ * address: 0x021EFCA8
+ * packet: pkt_ov107_021EFCA8
+ * region: ov107
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021F0DDC 0x021F0DDC thumb ov107
+ *   func_021F0AE4 0x021F0AE4 thumb ov107
+ *   func_021F0D28 0x021F0D28 thumb ov107
+ *   func_0208459C 0x0208459C arm
+ *   func_02179570 0x02179570 thumb ov014
+ *   d_021F6EA0 0x021F6EA0 data ov107 a4
+ *   func_021EFC10 0x021EFC10 thumb ov107
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+extern unsigned func_021F0DDC(void);
+extern void func_021F0AE4(unsigned);
+extern u16 func_021F0D28(void);
+extern void func_0208459C(int,int);
+extern int func_02179570(int);
+extern u8 d_021F6EA0[];
+extern int func_021EFC10(void);
+void func_021EFCA8(u8 *p) {
+ unsigned v=func_021F0DDC();
+ if(v==1) func_021F0AE4(v);
+ while(func_021F0D28()!=0&&func_021F0D28()!=5) func_0208459C(1,1);
+ if(*(int *)(p+28)==1) {
+ *(int *)(d_021F6EA0+8)=0;
+ while(func_02179570((int)func_021EFC10)) func_0208459C(1,1);
+ while(*(int *)(d_021F6EA0+8)==0) func_0208459C(1,1);
+ }
+}
