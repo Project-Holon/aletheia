@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * w10 lane1: also flat at 9 B: named DWCMemMap local in a block, (void *) cast on the work argument, (DWCMemMap *)MemSet spelling, work routed through a block-local temp, comma expression after the call.
  * blocker:  3 lines: the store of work (str r2, [sp]) is scheduled after the MemSet load in the
  *           recompile, before it in the image. Types, block scope, assignment in the argument, static
  *   MemSet and the permuter (seed 10701) all flat. Notes: docs/notes/pkt_ov016_021CF3B0.c.txt

@@ -30,6 +30,12 @@
  *           switch with `p` live into the tail - see v2.c/  v6.c in
  *           scratch/a2/laneU42/; that form's only residue is the len/p swap.
  *
+ * L7 note: the image hoists &c (r5) and the constant 1 (r4) out of the WHOLE outer loop (before
+ *           the outer loop top, keeping r4/r5 live so 0x30/0x20 are not CSE'd into them); every
+ *           spelling here hoists them only to the inner-loop preheader after the inner guard.
+ *           Also inert: inner `j <= i`, while, do-while (256 B diff, 436 B), count-down, `for`/`while`
+ *           outer, `p` set before the guard.
+ *
  * symbols:
  *   CPSi_sha1_init    0x02163C9C  arm
  *   CPSi_sha1_calc    0x02163CF0  arm

@@ -27,6 +27,8 @@
  *           vendor's i is r12 (int) for the whole function. Needs an allocator
  *           that re-materialises the second zero into ip, which no source
  *           spelling tried reaches.
+ * lane 6 (wave 10): named hi/lo/u16 byte temporaries (declared before or after i, five shapes) are inert, still 10 B.
+ *
  * sdk:      IRCi_Send (libirc.a irc.o)
  *
  * symbols:

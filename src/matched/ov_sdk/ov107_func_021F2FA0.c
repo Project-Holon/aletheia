@@ -7,27 +7,17 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
- * blocker: body is byte-exact (1324/1324, 0 concrete bytes).  Two spelling
- *          fixes closed the old +0x04D4 tail: the debugger-autoload tail is the
- *          vendor's three statements (sdk/TwlSDK/build/libraries/mb/common/src/
- *          mb_fileinfo.c:413-419)
- *          `u8 *dst2 = (u8 *)p_cache->p_buf; dst2 += ((u32)&_start_AutoloadDoneCallback
- *          - BUFROM(main_ram_address)); *(u32 *)dst2 = 0xE12FFF1E;` (a single
- *          folded pointer expression gives the wrong r0/r1/r2/r3 colouring),
- *          and `_start_AutoloadDoneCallback` (0x02004EA8) must be declared a
- *          function (arm), not data, so its ABS32 pool word at +0x0524 resolves.
- *
- *          Still MATCH, not EXACT: the +0x0140 call to CARDi_GetOwnSignature
- *          0x020773D0.  That address is an unlabelled two-instruction function
- *          `ldr r0,[pc,#0]; bx lr` sitting inside pool_020773CC in asm/arm9/
- *          main.s, so disasm.py never traced it: no func_ label, no
- *          layout/symbols_sdk.json row, no runtime_arm9 entry, no caller
- *          outside 021F2FA0..021F34CC.  Every attestation class refuses, so the
- *          site stays wildcarded: status MATCH, not EXACT/EXACT*.  It would
- *          close if 0x020773D0 were matched (the `matched` class) or labelled
- *          (sole-ref/code), both outside this lane.  Do not re-spell the body.
+ * notes:    the debugger-autoload tail is three statements:
+ *          `u8 *dst2; ... dst2 = (u8 *)p_cache->p_buf; dst2 += ((u32)&_start_AutoloadDoneCallback
+ *          - BUFROM(main_ram_address)); *(u32 *)dst2 = 0xE12FFF1E;` (one folded pointer
+ *          expression gives the wrong r0..r3 colouring; dst2 is declared at the top of
+ *          its block because the pinned build rejects mid-block declarations).
+ *          `_start_AutoloadDoneCallback` (0x02004EA8) is declared a function so its
+ *          ABS32 pool word resolves.  The +0x0140 callee CARDi_GetOwnSignature
+ *          (0x020773D0, a getter returning g_0215086C) is filed as
+ *          src/matched/arm9/func_020773D0.c, which made all 43 relocations resolve.
  *
  * sdk:      MB_ReadSegment (libmb.TWL.HYB.a mb_fileinfo.o)
  *
@@ -296,6 +286,8 @@ int MB_ReadSegment(FSFile *file, void *buf, u32 len)
         if (is_own_binary) {
             FS_CloseFile(own_bin);
             if (ret) {
+                u8 *dst2;
+
                 info.target = BUFROM(main_rom_offset);
                 info.src = (u8 *)(BUFROM(main_ram_address) - info.target);
                 info.dst = (u8 *)((u32)p_cache->p_buf - info.target);
@@ -308,7 +300,7 @@ int MB_ReadSegment(FSFile *file, void *buf, u32 len)
                     MBi_ReadSegmentHeader(&info, w[0], w[0] + w[1], 0);
                     p_map++;
                 }
-                u8 *dst2 = (u8 *)p_cache->p_buf;
+                dst2 = (u8 *)p_cache->p_buf;
                 dst2 += ((u32)&_start_AutoloadDoneCallback - BUFROM(main_ram_address));
                 *(u32 *)dst2 = 0xE12FFF1E;
             }

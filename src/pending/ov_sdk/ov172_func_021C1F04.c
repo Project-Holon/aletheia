@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * w10 lane1: permuter (7500 compiles) found 'rr before gg' + commuted sum (34 B, no gain on the r5/r6/r7 tie); the register tie itself never moved.
  * blocker:  three-register allocation tie {width,pRgb,x} = {r5,r6,r7}: the
  *           image colours them r5/r6/r7 and ours r6/r7/r5.  Size, the whole
  *           constant setup and every other byte are exact.  This front end

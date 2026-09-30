@@ -41,6 +41,12 @@
  *      the compiler re-derives 0x7fffffff from the adjacent r0 == 1 again (`sub`).  See
  *      docs/idioms/an-enum-local-materialises-a-large-complement-constant.md.
  *
+ * lane4 (w10): more enum-local spellings measured, none reach both instructions:
+ *   `LowOne lo; HighMax hi;` (both enum locals, either declaration order) -> right
+ *   order but `sub` (3 B); `int lo = 1; HighMax hi` in a block -> `mvn` first then
+ *   `mov` (6 B); `HighMax hi` hoisted to function scope -> hi pinned in r5 (47 B);
+ *   `(int)(HighMax)HIGH_MAX` and `(LowOne)1, (HighMax)` casts -> fold back to `sub`.
+ *
  * sdk:      GetClientUniqueID (natify.o)
  *
  * w4_nm tried: K&R and unsigned prototypes, 0x7fffffffu, ~0x80000000, ~0u>>1, long

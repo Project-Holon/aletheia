@@ -54,6 +54,18 @@
  *   locals, &strTemp[0], a local char *s and swapping the buffer name in all
  *   measured the same hoist.
  *
+ * follow-up (2026-09-30, single-function pass): still 3240/3240, 708 concrete.
+ *   The hoist is count driven, not shape driven: at 1.1p1 the &buffer hoist
+ *   (fp, placed after the first `bgt`) beats the constant 1 by a wide margin.
+ *   Measured flat: err local (constant-propagated), enum 1, static const 1, extern
+ *   int 1 (adds a load), &buffer[0]/(char *)&buffer/buffer+0 spellings, dropping
+ *   3 buffer uses from case 1, adding up to 6 dead-path `return 1` uses.  1 only
+ *   takes fp when ~30 extra real uses are added (then it copies 0 into sl and the
+ *   layout breaks).  Every other dsi/1.x, 1.6 and ../2.0, ../1.2 pin was swept:
+ *   1.1/1.2/1.3 families give the same 708, 1.6 gives 792, 2.0 gives 3180 B,
+ *   1.2 sp2 3412 B, 1.2 sp3/sp4 3272 B.  Consistent with a 4.0.0.1025 allocator
+ *   difference (no such compiler on this machine).
+ *
  * blocker:  size is exact at 3240/3240; 708 concrete bytes remain and they are
  *           the object's fp-flag / per-use &strTemp allocation against
  *           1.1p1's &strTemp-in-fp / per-arm constants, plus the case-local

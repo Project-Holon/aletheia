@@ -18,6 +18,12 @@
  *           one.  w7: re-measured, not re-spelled; the fix would need the
  *           front end to hoist the 64-bit add-half zero across the branch.
  *
+ * lane 6 (wave 10): still 188 B. Image has TWO separate zero webs (r6 hoisted above the seed branch
+ *           for the u64 add-high word, then r4 born after the last config read for the getpnt/putpnt/
+ *           flag01/thread-arg zeros); ours merges them into one early web. Measured no better: all six
+ *           store orders in MATH_InitRand32, seed as a named u64 local (two shapes), a `u32 zero = 0`
+ *           declaration initialiser feeding the stores (188), chained or swapped getpnt/putpnt (187).
+ *
  * sdk:      CPS_Startup (libcps.TWL.HYB.a network.o)
  * symbols:
  *   func_02004EB0                    0x02004eb0 arm

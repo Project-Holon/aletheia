@@ -25,23 +25,18 @@
  *   jpeg_exif_data_structure{ifd[5],app1_length,thumb_compressed_data,
  *     thumb_compressed_length} = 0x48
  *
- * Divergence (blocker): size-exact at 3496 bytes and all 31 relocation sites now
- * resolve (write_exif_ifd_tables added to symbols: and the contested ov172 token
- * dropped from g_021CB728/g_021CAE90), but 279 concrete bytes over 122
- * instructions in 10 clusters still differ, all of them register assignment.
- * First order difference is +0x204:
+ * Divergence (blocker): size-exact at 3496 bytes, all 31 relocations resolve, 22 concrete
+ * bytes in one cluster still differ, at +0x204 (after the 0x0128 tag block):
  *   image ldrsh r1,[sb,#4] / add r1,r1,#1 / strh r1,[sb,#4] / ldr r1,[pc] / ldr r1,[r1,#0xc] / cmp
  *   ours  ldr r1,[pc] / ldrsh r2,[sb,#4] / ldr r1,[r1,#0xc] / cmp / add r1,r2,#1 / strh r1,[sb,#4]
- * i.e. the original keeps the tag-3 count0++ together ahead of the
- * g_021CADF0.fieldC test while ours interleaves the pool load into it and has
- * to keep the counter in r2.  Every later cluster is a rotation of the same
- * register set (r0/r1/sl/fp/r3) inside the 27 per-tag `entry` blocks.
- * `-O4,p` is the only flag set that is close (all seven pins D279; -O4/-O4,s
- * D2634, -O2 D2593), so pin and flags are not the lever.
- * Fixed this lane: tag 0x0213 short_data was 1, the image's literal at
- * 0x021C4B6C is 0x00000213 and it stores r7 (loaded as 2 at 0x021C4088), so
- * `s->fieldA` is 2 (verified).  Next lever: recover exifenc.c verbatim or find
- * the source form that keeps the tag-3 counter in r1.
+ * i.e. the image keeps the count0++ ahead of the g_021CADF0.fieldC test while ours
+ * hoists the pool and field loads above it. The same count++ / if pair at count2 (+0x698)
+ * already matches. Tried with no change: count++ spellings, volatile on either side,
+ * local copies of the test value, a pointer local for g_021CADF0, moving the ++ up inside
+ * the tag block, block-scoped entry locals.
+ * Fixed this lane (279 -> 22 bytes): func_02082EA4 argument order (src,dst) in the
+ * 0xA000 and tag 0x0002 blocks, the makernote entry string copy length is s->count (was a
+ * literal 0), no tmp temp for tag 0xA002, sum operand order in the else branch.
  *
  * symbols:
  *   g_021CAE48 0x021CAE48 data ov172
@@ -148,7 +143,6 @@ s16 func_021C3DF4(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u32 t
   struct SlotManager *sb = &g_021CAE48;
   struct Slot *s;
   s16 cfg_encode_exif_;
-  u32 tmp;
   sb->ptr0 = g_021CB728;
   sb->count0 = 0;
   sb->field8 = 0;
@@ -347,7 +341,7 @@ s16 func_021C3DF4(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u32 t
   s->fieldC = 0;
   s->field10 = 0;
   s->field14 = 0;
-  func_02082EA4(s->field18, g_021C88B4, 4);
+  func_02082EA4(g_021C88B4, s->field18, 4);
   s->field54 = 0;
   sb->count1++;
   s = &sb->ptrC[sb->count1];
@@ -360,9 +354,8 @@ s16 func_021C3DF4(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u32 t
   s->field10 = 0;
   s->field14 = 0;
   s->field54 = 0;
-  tmp = sb->count1;
   sb->count1++;
-  s = &sb->ptrC[tmp];
+  s = &sb->ptrC[sb->count1];
   s->tag = 0xA002;
   s->type = 4;
   s->count = 1;
@@ -394,7 +387,7 @@ s16 func_021C3DF4(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u32 t
   s->fieldC = g_021CAE90.fieldC;
   s->field10 = g_021CAE90.field10;
   s->field14 = g_021CAE90.field14;
-  func_0208CB10(s->str, g_021CAEC6, 0);
+  func_0208CB10(s->str, g_021CAEC6, s->count);
   s->field54 = 0;
   sb->count2++;
   if (g_021CADF0.field18 != 0)
@@ -447,7 +440,7 @@ s16 func_021C3DF4(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u32 t
   s->fieldC = 0;
   s->field10 = 0;
   s->field14 = 0;
-  func_02082EA4(s->field18, g_021C88B4, 4);
+  func_02082EA4(g_021C88B4, s->field18, 4);
   s->field54 = 0;
   sb->count3++;
   s = &sb->ptr24[sb->count3];
@@ -575,7 +568,7 @@ s16 func_021C3DF4(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u32 t
     sb->count0++;
     if (sb->count2 != 0)
     {
-      if (((g_021CADF0.field18 + g_021CAE90.count) + g_021CADF0.field10) != 0)
+      if (((g_021CAE90.count + g_021CADF0.field18) + g_021CADF0.field10) != 0)
       {
         struct Slot *m = &sb->ptrC[4];
         m->tag = 0x927C;

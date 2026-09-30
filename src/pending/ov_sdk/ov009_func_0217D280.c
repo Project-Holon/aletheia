@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * w10 lane1: 24-permutation declaration-order sweep of {aReplaceChar, aTextOutStream, aWriteBit, aChar} (function-scope aChar) and a 300-compile permuter run: best stays 9 B (r6/r7 tie).
  * u21: the defining object gsdebug.o is .comment 4.0.0.1025. The upstream nitrocaster/GameSpy
  *      HexEncode16 spelling (const aRowWidth/aReplaceChar/aTextOffSet locals, aChar declared in the
  *      loop with its (unsigned char) cast, `*(aTextOutStream++) = (char)aChar`, isgraph through

@@ -11,6 +11,11 @@
  *
  * sdk:      scanFirst (libdwcutil.TWL.HYB.a usbap.o)
  *
+ * wave10 lane2: the DWARF homes prm at [fb+0] (the image stores it into the r3 pad slot of
+ * the prologue push and reloads it per iteration, i=fp, info=r7, j=r6).  A `ScanCbT *volatile`
+ * copy of prm forces a spill but gives 364 B (image 344): extra sub sp and reloads.  The
+ * spill is a register-pressure decision of the 1025 build, not a source qualifier.
+ *
  * symbols:
  *   DC_InvalidateRange  0x020862B8  arm
  *   memcmp  0x020923F0  arm

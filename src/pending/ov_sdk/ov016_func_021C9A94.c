@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * w10 lane1: field-wise AREA copies (l,t,t+=,w,h in four orderings) stay at 620 B / 604 B, never 636 B; the duplicate t store is not produced by any spelling tried.
  *
  * symbols:
  *   DWCi_R_SCR                       0x021DAA7C  data

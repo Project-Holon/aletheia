@@ -10,6 +10,10 @@
  * status:   DIFF
  * blocker:  148 lines: prologue copy scheduling of the three 5-byte initialisers (the keyboard.o disp residue), and @20862/@20864/@20866 have no witness outside this function. Notes: docs/notes/pkt_ov016_021BF74C.c.txt
  *
+ * wave10 lane2: replacing the three KB10_N5 struct assignments with memcpy(N_x, &str, 5)
+ * through libc/string.h (the lever that closed gsUdpConnAttemptCB) is worse here: 616 B vs 640,
+ * the locals move into a different register web.  Not the spelling; stays a DIFF.
+ *
  * symbols:
  *   DWCi_CEINlSet                    0x021D52D4  arm
  *   DWCi_CEINlSetExCell              0x021D5394  arm

@@ -19,6 +19,14 @@
  *           `ldrbeq r0, [ip, #-1]`; the add and the load are the same two
  *           instructions in either order, only the destination differs.
  *
+ * lane4 (w10): a separate pointer `p = s + 0xf0` set inside the `&&` chain as
+ *           `(p = s + 0xf0, s[0xef] == 0x63)` (s kept as the un-bumped base, all
+ *           option reads through p) puts the `ldrbeq [r5,#0xef]` before the
+ *           predicated `add` exactly as the image does: 41 -> 34 bytes.  What is
+ *           left is only the r3/ip swap of p and mode (34 sites).  Declaration
+ *           order of p/mode (function scope, block scope, first, last) and a
+ *           300-compile permuter run are inert.
+ *
  * sdk:      dhcp_analyze_response (libcps.TWL.HYB.a network.o)
  * notes:    the option-pointer bump is predicated into the `&&` chain by the
  *           vendor front end.  Reachable from C: put the bump INSIDE the
@@ -98,6 +106,7 @@ extern void func_0215B064(u32 len);
 int func_0215BF88(u32 id, int retry)
 {
     u8 *s;
+    u8 *p;
     u8 *end;
     u32 len;
     u32 start;
@@ -120,32 +129,32 @@ int func_0215BF88(u32 id, int retry)
             end = s + len;
             result = 3;
             u32 mode;
-            if (s[0xec] == 0x63 && s[0xed] == 0x82 && s[0xee] == 0x53 && (s += 0xf0, s[-1] == 0x63)) {
+            if (s[0xec] == 0x63 && s[0xed] == 0x82 && s[0xee] == 0x53 && (p = s + 0xf0, s[0xef] == 0x63)) {
                 mode = g_021A826C.dhcp_mode & 2;
-                while (s < end && (c = *s++) != 0xff) {
+                while (p < end && (c = *p++) != 0xff) {
                     if (c == 0)
                         continue;
                     switch (c) {
                     case 1:
-                        g_021A826C.netmask = G32(s + 1);
+                        g_021A826C.netmask = G32(p + 1);
                         break;
                     case 3:
-                        g_021A826C.gateway = G32(s + 1);
+                        g_021A826C.gateway = G32(p + 1);
                         break;
                     case 6:
                         if (mode == 0) {
-                            if (s[0] < 8)
+                            if (p[0] < 8)
                                 g_021A826C.dns[1] = 0;
                             else
-                                g_021A826C.dns[1] = G32(s + 5);
-                            g_021A826C.dns[0] = G32(s + 1);
+                                g_021A826C.dns[1] = G32(p + 5);
+                            g_021A826C.dns[0] = G32(p + 1);
                         }
                         break;
                     case 0x33:
-                        g_021A826C.lease_time = G32(s + 1);
+                        g_021A826C.lease_time = G32(p + 1);
                         break;
                     case 0x35:
-                        switch (s[1]) {
+                        switch (p[1]) {
                         case 2:
                             result = 1;
                             g_021A826C.offered_myip = myip_tmp;
@@ -157,10 +166,10 @@ int func_0215BF88(u32 id, int retry)
                         }
                         break;
                     case 0x36:
-                        g_021A826C.dhcp_server = G32(s + 1);
+                        g_021A826C.dhcp_server = G32(p + 1);
                         break;
                     }
-                    s += *s + 1;
+                    p += *p + 1;
                 }
             }
         }

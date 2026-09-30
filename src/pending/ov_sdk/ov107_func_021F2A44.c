@@ -29,6 +29,10 @@
  * found this wave; the declared/statement-order and named-base-local attempts
  * in the blocker above still stand as the search of record.  Compiler wall.
  *
+ * lane 6 (wave 10): still 12 B. Also measured, all no better: a typed MBFI struct overlay for the
+ *           card_addr/pl reads (52-54 B), a named idx local at nine declaration positions (12 B,
+ *           inert), a named base pointer (264 B) and an `MBC *m = mbc` local (314 B).
+ *
  * sdk:      MBi_CommParentSendBlock (libmb.TWL.HYB.a(mb_parent.o))
  *
  * symbols:

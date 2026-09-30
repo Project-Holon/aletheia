@@ -7,9 +7,18 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
  *
  * sdk:      DWCi_SendMatchSynPacket (libdwcmatch.TWL.HYB.a dwc_match.o)
+ *
+ * notes: levers: the packed words are `((x << 16) & 0xffff0000) | y` (the image keeps the
+ *        redundant mask: sub r2,r4,#0x10000 / and r5,r2,r5 lsl 16); the byte stores go
+ *        through a block-scoped `u8 *senddata = (u8 *)pSendBuf` (DWARF has that local);
+ *        the loop body writes `pSendBuf[sendCount++]` six times (postincrement keeps the
+ *        per-store `add rX, sendCount, #k` form instead of a strength-reduced pointer);
+ *        the tick is read into a local before the DWCi_GetMatchCnt() store; the
+ *        declaration order (buf, pNodeInfo, clientCount, i, pSendBuf, sendCount, sendSize)
+ *        decides the i/sendCount registers.
  *
  * symbols:
  *   DWCi_TempNewNodeInfo_IsValid     0x02176554 arm
@@ -65,13 +74,13 @@ extern unsigned long long OS_GetTick(void);
 
 void DWCi_SendMatchSynPacket(u8 aid, u16 type)
 {
-    struct DWCstNodeInfo * pNodeInfo;
-    int sendCount;
-    int clientCount;
-    u32 * pSendBuf;
-    int sendSize;
     u8 buf[8];
+    struct DWCstNodeInfo * pNodeInfo;
+    int clientCount;
     u8 i;
+    u32 * pSendBuf;
+    int sendCount;
+    int sendSize;
 
     sendSize = 4;
     pSendBuf = (u32 *)buf;
@@ -89,16 +98,19 @@ void DWCi_SendMatchSynPacket(u8 aid, u16 type)
             return;
         pSendBuf[0] = 0;
         pNodeInfo = &DWCi_GetMatchCnt()->myNode;
-        pSendBuf[1] = (pNodeInfo->f17 << 16) | pNodeInfo->f16;
+        pSendBuf[1] = ((pNodeInfo->f17 << 16) & 0xffff0000) | pNodeInfo->f16;
         pSendBuf[2] = pNodeInfo->f0;
         pSendBuf[3] = pNodeInfo->f4;
         pSendBuf[4] = pNodeInfo->f8;
-        pSendBuf[5] = (pNodeInfo->f_c << 16) | pNodeInfo->f_e;
+        pSendBuf[5] = ((pNodeInfo->f_c << 16) & 0xffff0000) | pNodeInfo->f_e;
         pSendBuf[6] = pNodeInfo->f_24;
         break;
     case 3:
-        buf[0] = DWCi_GetMatchCnt()->f_630;
-        buf[1] = DWCi_GetMatchCnt()->f_630 >> 8;
+        {
+            u8 *senddata = (u8 *)pSendBuf;
+            senddata[0] = DWCi_GetMatchCnt()->f_630;
+            senddata[1] = DWCi_GetMatchCnt()->f_630 >> 8;
+        }
         break;
     case 4:
         if (DWCi_TempNewNodeInfo_IsValid() == 0 ||
@@ -109,10 +121,13 @@ void DWCi_SendMatchSynPacket(u8 aid, u16 type)
         else
             clientCount = DWCi_NodeInfoList_GetCount() - 1;
         if (clientCount == 0) {
-            buf[0] = 0;
-            buf[1] = 0;
-            buf[2] = 0;
-            buf[3] = 0;
+            {
+                u8 *senddata = (u8 *)pSendBuf;
+                senddata[0] = 0;
+                senddata[1] = 0;
+                senddata[2] = 0;
+                senddata[3] = 0;
+            }
             pSendBuf[1] = DWCi_GetMatchCnt()->f_7c8;
             sendSize = 8;
             break;
@@ -125,21 +140,23 @@ void DWCi_SendMatchSynPacket(u8 aid, u16 type)
         sendCount = 1;
         for (i = 0; i < clientCount; i++) {
             pNodeInfo = DWCi_NodeInfoList_GetNodeInfoForIndex(i + 1);
-            pSendBuf[sendCount] = (pNodeInfo->f17 << 16) | pNodeInfo->f16;
-            pSendBuf[sendCount + 1] = pNodeInfo->f0;
-            pSendBuf[sendCount + 2] = pNodeInfo->f4;
-            pSendBuf[sendCount + 3] = pNodeInfo->f8;
-            pSendBuf[sendCount + 4] = (pNodeInfo->f_c << 16) | pNodeInfo->f_e;
-            pSendBuf[sendCount + 5] = pNodeInfo->f_24;
-            sendCount += 6;
+            pSendBuf[sendCount++] = ((pNodeInfo->f17 << 16) & 0xffff0000) | pNodeInfo->f16;
+            pSendBuf[sendCount++] = pNodeInfo->f0;
+            pSendBuf[sendCount++] = pNodeInfo->f4;
+            pSendBuf[sendCount++] = pNodeInfo->f8;
+            pSendBuf[sendCount++] = ((pNodeInfo->f_c << 16) & 0xffff0000) | pNodeInfo->f_e;
+            pSendBuf[sendCount++] = pNodeInfo->f_24;
         }
         pSendBuf[sendCount] = DWCi_GetMatchCnt()->f_7c8;
         break;
     fourElse:
-        buf[0] = 0;
-        buf[1] = 0;
-        buf[2] = 0;
-        buf[3] = 0;
+        {
+            u8 *senddata = (u8 *)pSendBuf;
+            senddata[0] = 0;
+            senddata[1] = 0;
+            senddata[2] = 0;
+            senddata[3] = 0;
+        }
         sendSize = 8;
         pSendBuf[1] = DWCi_GetMatchCnt()->f_7c8;
         break;
@@ -147,5 +164,8 @@ void DWCi_SendMatchSynPacket(u8 aid, u16 type)
     DWCi_SendReliable(type, aid, pSendBuf, sendSize);
     if (pSendBuf != (u32 *)buf)
         DWC_Free(4, pSendBuf, 0);
-    DWCi_GetMatchCnt()->f_658 = OS_GetTick();
+    {
+        unsigned long long tick = OS_GetTick();
+        DWCi_GetMatchCnt()->f_658 = tick;
+    }
 }

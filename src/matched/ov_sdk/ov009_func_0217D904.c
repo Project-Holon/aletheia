@@ -7,9 +7,14 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
  *
  * sdk:      gsiLargeIntDiv (gslargeint.o)
+ *
+ * lane 6 (wave 10): EXACT. The 5-byte residue closed by hoisting the divisor's top word into a
+ *           named local declared before dlen (`unsigned int w; unsigned int dlen = divisorLen - 1;
+ *           w = divisorData[dlen];`): the word temporary is then created first and takes the
+ *           lower register, dlen the next. The residue note below is historical.
  *
  * lane U43 (2026-09-30): ported from the vendor's own source,
  *           scratch/U2/gs/src/GameSpy/common/gsLargeInt.c gsiLargeIntDiv.
@@ -122,8 +127,10 @@ int func_0217D904(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLarg
     }
 
     {
+        unsigned int w;
         unsigned int dlen = divisorLen - 1;
-        while ((divisorData[dlen] & (1 << (unsigned int)divisorHighBit)) == 0 && divisorHighBit >= 0)
+        w = divisorData[dlen];
+        while ((w & (1 << divisorHighBit)) == 0 && divisorHighBit >= 0)
             divisorHighBit--;
         if (divisorHighBit == -1) {
             func_0217D3F8(5);

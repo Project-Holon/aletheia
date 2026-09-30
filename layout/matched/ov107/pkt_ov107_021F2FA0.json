@@ -1,0 +1,35 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "ov107",
+ "shard": "pkt_ov107_021F2FA0",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "MB_ReadSegment",
+   "address": "0x021F2FA0",
+   "kind": "sdk",
+   "region": "ov107",
+   "source": "src/matched/ov_sdk/ov107_func_021F2FA0.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021F6D10",
+     "self:0x021F6D28",
+     "self:0x021F6E50",
+     "self:0x021F6E54"
+    ],
+    "sdk": [
+     "0x021F34CC",
+     "0x021F636C",
+     "0x021F6380"
+    ]
+   }
+  }
+ ]
+}
