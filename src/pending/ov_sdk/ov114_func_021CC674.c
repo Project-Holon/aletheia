@@ -14,7 +14,20 @@
  * symbols:
  *   g_021CF930  0x021CF930  data  ov114
  *
- * notes: DIFF, 16 lines. Control flow and every instruction shape match; residue is (1) target keeps 0xff in fp (pushes r3/fp) where this build uses sl, (2) target schedules ldm {d,top} after the two terminator byte stores, (3) target sets hi=0 as movle after cmp. Declaration order was hill-climbed.
+ * notes: DIFF, 39 concrete bytes.  Control flow and every instruction shape
+ *        match.  lane13 (2026-09-30): the vendor object crypto_bobj1.o is
+ *        .comment 4.0.0.1024 (dsi/1.1p1), so this is a source wall, not a
+ *        front-end one.  Assigning `tab = g_021CF930[window]` BEFORE
+ *        `mask = (1 << window) - 1` reproduces the image's early register
+ *        pair exactly (image `lsl r2, r1, r6` + `ldr r3, [pc]`; was the
+ *        reverse, r3/r2), 16 -> 12 mismatched instructions.  Residue, three
+ *        scheduler/coloring ties: (1) target schedules the ldm {d,top} AFTER
+ *        the two terminator byte stores, this build hoists it above them;
+ *        (2) target if-converts `hi = 0` to `movle ip, r4` after `cmp r3,#1`,
+ *        this build emits an unconditional `mov ip, r4` before the cmp;
+ *        (3) target keeps 0xff in fp (and so saves r3/fp), this build reuses
+ *        sl for it.  Declaration/statement/ternary orders and a do/while
+ *        spelling of the cnt>=256 loop were all measured and are worse.
  */
 
 typedef unsigned int BN_ULONG;
@@ -57,8 +70,8 @@ int func_021CC674(unsigned char *str, const BIGNUM *e, int window)
     int ret;
     if (window > 6)
         window = 6;
-    mask = (1 << window) - 1;
     tab = g_021CF930[window];
+    mask = (1 << window) - 1;
     bitsh = 0;
     n = ((e->top << 5) + window - 1) / window;
     n = n * 2 + 2;

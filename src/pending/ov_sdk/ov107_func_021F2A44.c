@@ -22,6 +22,13 @@
  *           plateau here; declaration/statement order, a named base local
  *           and a pinned segment_no local all fail to move the transient.
  *
+ * lane W7 (2026-09-30): re-measured 632/632, 10/10 relocations, 12 concrete
+ * bytes at +0128..+0148.  The base `mbc + C[0x525]*0x5d4` lands in r2 (and the
+ * following two adds swap) against the image's r6; the mla result register and
+ * the two independent adds are the only difference.  No new source shape was
+ * found this wave; the declared/statement-order and named-base-local attempts
+ * in the blocker above still stand as the search of record.  Compiler wall.
+ *
  * sdk:      MBi_CommParentSendBlock (libmb.TWL.HYB.a(mb_parent.o))
  *
  * symbols:

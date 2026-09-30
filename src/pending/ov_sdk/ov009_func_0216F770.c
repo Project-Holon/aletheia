@@ -9,7 +9,11 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker:  reconstruction is complete and the right size (868), but the
+ * blocker:  the defining vendor object is stamped 4.0.0.1025, which no
+ *           tools/mwccarm build writes (sdkobj.py), so dsi/1.1p1 (1024) can at
+ *           best be a near miss.  reconstruction is complete and the right size
+ *           (868, but via permuter scaffolding that adds a 16-byte home area the
+ *           image does not have), but the
  *           whole body is emitted through a different callee-saved register
  *           map, so almost every instruction differs while the control flow,
  *           the 9-byte basicFields prefix (8,0xa,0x32..0x38), the

@@ -7,7 +7,20 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   DIFF
+ *
+ * lane03 (2026-09-30): re-verified under the wave-7 command; it is DIFF, not MATCH -- 0
+ * relocation sites and 7 concrete bytes differ, all in the little-endian arm.  The
+ * compiler is exactly 4.0.0.1024 (1.1p1), so this is a codegen gap and not a stamp
+ * issue: the image narrows BOTH orr operands into separate temps (`lsl r1,r0,#16;
+ * lsl r0,r3,#16; lsr r1,r1,#16; orr r0,r1,r0,lsr #16`, low byte in r3), while every
+ * source spelling 1.1p1 accepts folds one operand and masks the result (`orr r0,r1,
+ * r0,lsr #16; lsl r0,r0,#16; lsr r0,r0,#16`, low byte in r1).  The adjacent GetLong
+ * (0x021C03C0, EXACT) and the one-arm gti2UShortFromBuffer (0x02195E80, EXACT) confirm
+ * the BE arm is right; only the LE arm's operand narrowing differs.  ~120 spellings
+ * tried this lane (casts on either/both operands, high-first/low-first, int/u16/int
+ * temporaries, volatile src, masks, +=/|, two- and three-statement forms) plus
+ * tools/permute.py and tools/permuter.py hill runs; none move the 7 bytes.
  *
  * w9_nm: 27 B -> 7 B: `word = (unsigned short)src[cur] | word;` in the little-endian arm makes
  * the big-endian arm byte-identical (branches, not predication, in both arms). Left: the

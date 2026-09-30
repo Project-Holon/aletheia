@@ -29,12 +29,19 @@
  * index.  `rrrrssss` is a real vendor local (`orr r1, r7, r5, lsl #4`, the
  * ssss|zerorun<<4 code used for both mEhufco and mEhufsi).
  *
- * Residue (parked, not a source shape): the image keeps du in r6 and index in
- * r4, ours keeps du in r4 and index in r6 - every other instruction is the
- * same operation with the two registers exchanged.  Seven declaration
- * permutations of the pair and of the whole declaration block all land on
- * 484/33-35, so this is the two-simultaneously-live-values tie, the same
- * class as 021B87F0 / 021C84BC.
+ * Lane 04 (2026-09-30): the declaration block was in DWARF order (rrrrssss
+ *   first); DWARF lists locals in reverse source order, so writing them in
+ *   SOURCE order (index, ssss, zerorun, bits, du, diff, value, rrrrssss) is
+ *   the faithful spelling and drops the diff from 58 to 46.  With it phase 1
+ *   gets the image's value=r7 and du=r6.
+ *
+ * Residue (parked, register allocation only, 46 concrete bytes): phase 2 still
+ *   swaps index and the `ac + 0x700` table temporary - image index=r4 /
+ *   temp=r7, ours index=r7 / temp=r4 - and phase 1 schedules a few
+ *   mutually-independent instructions in the other order (`add r6` vs `subs`,
+ *   `movpl/rsbmi/mvnmi`).  No declaration order (15 measured), loop spelling,
+ *   or fresh phase-2 variable moves it; it is the same
+ *   two-simultaneously-live-values tie as 021B87F0 / 021C84BC.
  *
  * symbols:
  *   Yos_BitWrite                    0x021C0C3C  arm  ov172
@@ -67,14 +74,14 @@ static int Yos_JpegEncoderComponentSequential(huffman_structure *dc, huffman_str
                                               component_structure *component, u8 *dst,
                                               u32 *ptr, u32 col, u32 row)
 {
-    unsigned long rrrrssss;
-    int value;
-    long diff;
-    short *du;
-    long bits;
-    unsigned long zerorun;
-    unsigned long ssss;
     unsigned long index;
+    unsigned long ssss;
+    unsigned long zerorun;
+    long bits;
+    short *du;
+    long diff;
+    int value;
+    unsigned long rrrrssss;
 
     du = component->mCofficients + (row * component->mCols + col) * 64;
     value = du[0];

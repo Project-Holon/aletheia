@@ -66,6 +66,13 @@
  * 1.2, 1.2p1, 1.2p2, 1.3, 1.3p1, 1.6sp1, 1.6sp2) reports the same
  * 2-byte residue, so the version is not the discriminator either.
  *
+ * lane05 (2026-09-30): the sweep above could not have used the true front end,
+ *   because the defining object usbap.o carries stamp
+ *   `Metrowerks C/C++ for ARM 4.0.0.1025` (tools/sdkobj.py), which no tree under
+ *   tools/mwccarm writes. Re-measured 220/220 with the same +0094/+0098 pair
+ *   (`ldr r1,[r0,#0xb90]; cmp r1,#0` vs `ldr r0,[r0,#0xb90]; cmp r0,#0`), all 9
+ *   relocations resolved. This is a toolchain wall, not a source-shape one.
+ *
  * sdk:      DWCi_USBAPlEnd (libdwcutil.TWL.HYB.a usbap.o)
  *
  * vendor DWARF of usbap.o (Metrowerks 4.0.0.1025):

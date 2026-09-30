@@ -54,6 +54,13 @@
  *   locals, &strTemp[0], a local char *s and swapping the buffer name in all
  *   measured the same hoist.
  *
+ * blocker:  size is exact at 3240/3240; 708 concrete bytes remain and they are
+ *           the object's fp-flag / per-use &strTemp allocation against
+ *           1.1p1's &strTemp-in-fp / per-arm constants, plus the case-local
+ *           arg-pointer colours (r10/r4/r3/r6 vs r4).  The residue is a
+ *           front-end allocation difference, not source shape; every call
+ *           site, struct offset and error arm already lines up.
+ *
  * symbols:
  *   gpiValueForKey                0x02193418 arm ov009
  *   gpiSetError                   0x02193710 arm ov009

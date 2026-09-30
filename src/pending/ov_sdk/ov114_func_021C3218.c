@@ -9,6 +9,13 @@
  * isa:      arm
  * status:   DIFF
  *
+ * blocker: wave7: `sdkobj 0x021C3218 --region ov114` reports the defining object
+ *          is Metrowerks 4.0.0.1025 and **no tools/mwccarm build writes that
+ *          stamp**, so dsi/1.1p1 cannot reproduce the 1564-byte vendor body.
+ *          The rewrite below (628 B) is a partial transcription, not the vendor
+ *          source; the open GameSpy text at scratch/u39/gs/ghttpPost.c:1254 is a
+ *          different revision of the function and does not compile to the image.
+ *
  * blocker: partial rewrite.  The state->pos == -1 gate, the data->type branch
  *          (0 / 3 / else), the four-byte-aligned gsiSafeStrcpyA append, the
  *          encryptor-vs-ghiTrySendThenBuffer send split and the final

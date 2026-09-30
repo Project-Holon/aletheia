@@ -7,7 +7,18 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   DIFF
+ * blocker:  measures DIFF (96/96, 35 concrete bytes), not MATCH: the whole loop
+ *           body is one register rotation.  sdkobj confirms the vendor object is
+ *           Metrowerks 4.0.0.1024 -> dsi/1.1p1 and its listing is byte-identical
+ *           to the image, so the residue is a source shape this front end has
+ *           not been given.  All body arithmetic instructions match opcode for
+ *           opcode; the image homes the shared `ybuf + y` loop-invariant in r4
+ *           (callee-saved) and the loaded yuyv in r1 (the dead `width` home),
+ *           ours does the reverse (temp r1, yuyv r8) and the middle store's
+ *           base/index are swapped.  Wave7 tried &ybuf[y+y], ybuf+(y<<1),
+ *           2*y, (ybuf+y)+y, ybuf+(y+y), a named cb/yy temp, *(ybuf+y+x),
+ *           crbuf-y+x, x!=y and while forms: none below 35.
  *
  * w9_nm: still 35 B. Tried: explicit cbbuf pointer (base + y, then + y), DWARF declaration order, size split (y = w*h; y >>= 1), while form, three result locals computed then stored, post-increment split. The object keeps yuyv in r1 (the width register), the Cb base in r4, and computes the third pair's masked half before the first store.
  *

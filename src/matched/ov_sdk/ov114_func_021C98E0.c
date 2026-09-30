@@ -7,11 +7,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
  *
- * near miss: 20-byte key copy loop matches except that r0/r1 are swapped in the two ldrb/strb pairs
- * (4 instructions differ; no other byte differs). The original is the compiler struct-copy expansion.
- * The copy is written as an explicit 2x unrolled byte loop here.
+ * The 20-byte key copy is the compiler's 2x unrolled byte loop.  The r0/r1
+ * assignment of the two byte temporaries is fixed by declaring the parameter
+ * const (the compiler then keeps the loaded pair in r0=hi, r1=lo, matching
+ * the image) and by interleaving the source-store advance (`s += 2`)
+ * between the two destination stores.
  *
  * sdk:      DWCi_EncValidateKey (dwc_encsession.o)
  *
@@ -39,7 +41,7 @@ extern Session g_021CF7AC;
 extern unsigned long func_0209477C(const char *s);
 extern char *func_02094860(char *dst, const char *src, unsigned long n);
 
-int func_021C98E0(char *gamename, char *secretkey, unsigned long key1, unsigned long key2, unsigned long key3, unsigned long key4)
+int func_021C98E0(char *gamename, const char *secretkey, unsigned long key1, unsigned long key2, unsigned long key3, unsigned long key4)
 {
     int bitcount = 0;
     int i;
@@ -71,10 +73,12 @@ int func_021C98E0(char *gamename, char *secretkey, unsigned long key1, unsigned 
         unsigned char *d = g_021CF7AC.secretkey;
         unsigned char *s = (unsigned char *)secretkey;
         for (n = 10; n != 0; n--) {
-            unsigned char x1 = s[1];
-            unsigned char x0 = s[0];
-            s += 2;
+            unsigned char x0;
+            unsigned char x1;
+            x1 = s[1];
+            x0 = s[0];
             d[1] = x1;
+            s += 2;
             d[0] = x0;
             d += 2;
         }

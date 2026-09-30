@@ -7,30 +7,22 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
  *
  * sdk:      NHTTPi_setReqQueue (libnhttp.TWL.HYB.a nhttp_list.o)
  *
  * symbols:
  *   NHTTPi_alloc  0x021ba820 arm
  *
- * blocker:  register allocation -- identical body, but the running counter
- *           `id` lands in r6 while the original keeps it in r4 (the first
- *           callee-saved register) across the NHTTPi_alloc call; 148/152
- *           bytes, 46 concrete bytes differ.
- *
- * w8_nm:    storing list_p->field_0x08 before the increment puts listInfo_p,
- *           req_p and id in r6, r5, r4 as in the object (46 B -> 17 B). Left:
- *           the object reloads idRequest into r2 and stores list_p->id after
- *           the increment. Explicit reload spellings (`= x + 1`, `+= 1`,
- *           `++`, `x++` in the assignment, chained assignment) and moving the
- *           req/-1 stores around did not reproduce it (17 to 46 B).
- *
- * w9_nm2:   unchanged, 17 B. The object's order is ldr id; ldr r2 (reload);
- *           mvn; add; str; then str id into list_p->field_0x08. Any form that
- *           stores field_0x08 after the increment (id load, ++ / += 1 / = x + 1 /
- *           1 + x / post-increment, then the store; req and -1 stores hoisted
- *           or sunk) moves id to r6 and req_p to r4 (36 to 48 B).
+ * The object loads idRequest twice: once into r4 for the returned `id`, then a
+ * fresh r2 for the increment, and only then stores list_p->field_0x08 = id. Any
+ * spelling that stores field_0x08 before the increment (the natural order)
+ * schedules the store above the reload; any spelling that hoists the increment
+ * above the store lets -O4 CSE the two reads into one. Declaring the list
+ * counter `volatile` is what keeps both the reload and the object's order:
+ * `id = listInfo_p->idRequest; listInfo_p->idRequest++; list_p->id = id; ...`
+ * is byte-exact (see docs/idioms/a-re-read-of-a-field-just-stored-is-one-
+ * volatile-read-not-a-volatile-field.md).
  */
 
 typedef unsigned char u8;
@@ -46,7 +38,7 @@ struct _NHTTPi_REQLIST {
 
 struct _NHTTPListInfo {
     struct _NHTTPi_REQLIST *field_0x00;
-    int field_0x04;
+    volatile int field_0x04;
 };
 
 struct _NHTTPReq;
@@ -72,8 +64,8 @@ int NHTTPi_setReqQueue(struct _NHTTPListInfo *listInfo_p, struct _NHTTPReq *req_
             listInfo_p->field_0x00->field_0x00 = list_p;
         }
         id = listInfo_p->field_0x04;
-        list_p->field_0x08 = id;
         listInfo_p->field_0x04++;
+        list_p->field_0x08 = id;
         list_p->field_0x0c = req_p;
         list_p->field_0x10 = -1;
         if (listInfo_p->field_0x04 < 0)

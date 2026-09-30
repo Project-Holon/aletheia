@@ -27,6 +27,17 @@
  *           in fp/ip instead of the image's byte-store order.  147 of the
  *           lines are one instruction shifted.
  *
+ * lane W7 (2026-09-30): re-measured 788/796, 26/32 relocations, 504 concrete
+ * bytes.  The whole 8-byte gap is the unresolved `ms` spill: the image stores
+ * ms to [sp+0x14] and reloads it, giving a 0x24 frame with a 9-register push;
+ * this build keeps ms live in a callee-saved register (fp), so the frame is
+ * 0x20 and the push carries a padding r3, and every later offset shifts.
+ * Measured and rejected this wave: `u16 * volatile ms` (800/553), an `ms[1]`
+ * array (788/504, scalarised), an address-taken `u16 **pms` (784/581), a
+ * `hundred`/`volatile hundred` 0x100 local (788/504, 792/552), and keeping the
+ * msg parameter in a local (788/504).  This is the 1.1p1 register allocator's
+ * rematerialisation policy, not a source or witness problem.
+ *
  * sdk:      DWCi_WINlInitEx (libdwcutil.TWL.HYB.a window.o)
  *
  * symbols:

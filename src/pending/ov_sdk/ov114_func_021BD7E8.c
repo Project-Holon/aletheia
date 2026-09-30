@@ -9,6 +9,15 @@
  * isa:      arm
  * status:   DIFF
  *
+ * wave7: sdkobj confirms the object is Metrowerks 4.0.0.1024 -> dsi/1.1p1 and
+ *        its DWARF local list (reverse source order) is sysInfo_p, reqInfo_p,
+ *        req_p(r8), mutexInfo_p, bgnEndInfo_p(r9), connection_p, threadInfo_p,
+ *        commBuf_p, urlLength(r10), sendStatus, isMultipartForm(r1),
+ *        datalist_p(r2), postResult, a_encodingType, stat(r7).  Writing exactly
+ *        that order and using the DWARF's commBuf_p at the SocSend/memclr sites
+ *        was measured this wave: 46 (order only) and 89 (commBuf_p used), so the
+ *        residue really is the allocator tie below, not the declaration set.
+ *
  * blocker: codegen, 46 bytes wrong.  Size and control flow are exact.  Two
  *          independent residues, both allocator-level:
  *          (1) the global r6<->r7 callee-saved swap of the two pointer

@@ -7,7 +7,18 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   DIFF
+ *
+ * blocker:  5 concrete bytes (2 instructions), correct size 120/120.  The
+ *           vendor object dwc_mov_wh.o is .comment 4.0.0.1025, for which no
+ *           tools/mwccarm build maps (1.1p1 is 1024); every emitted instruction
+ *           matches except the if-converted boolean select at +0068, where the
+ *           object writes the result into r0 (`moveq r0,r5; movne r0,r4`) and
+ *           1.1p1 coalesces it into the r5 zero constant (`movne r5,r4; mov
+ *           r0,r5`).  Both orderings are reachable only by flipping the 0/1
+ *           constant registers.  The function has no local in the vendor DWARF,
+ *           so it is a direct return; ~30 spellings re-tried this pass, and a
+ *           400-candidate permuter run found no single mutation that improves it.
  *
  * w9_nm: still 5 B. Also tried: the ternary with no local, one/zero locals selected by a ternary, result from a local then a ternary, early return of r or 1.
  *

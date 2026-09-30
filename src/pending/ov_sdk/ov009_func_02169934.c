@@ -26,6 +26,13 @@
  *           instruction.  Tried: named vs inline `(int)param`, declaration-order
  *           permutations, pointer-arithmetic matches; none rotates the triple.
  *
+ * lane05 (2026-09-30): the defining object dwc_friend.o carries stamp
+ *   `Metrowerks C/C++ for ARM 4.0.0.1025` (checked with tools/sdkobj.py), which
+ *   no tree under tools/mwccarm writes -- so this is a toolchain wall, not a
+ *   spelling one.  Re-confirmed: 636/636 with the residual 21-byte rotation
+ *   (image r6=friend-list offset, r7=j, r5=matchoff; ours r7/r5/r6); declaration
+ *   orders, unsigned/long j and named temporaries all still 636/21.
+ *
  * symbols:
  *   DWC_GetFriendDataType            0x020591cc arm
  *   DWCi_RefreshFriendListForth      0x021695f0 arm

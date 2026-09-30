@@ -7,7 +7,17 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   DIFF
+ *
+ * wave7 (lane02): re-measured live: 172 B, 10 concrete bytes DIFF, not MATCH.  The residue is a
+ *        single cx<->i register swap (image cx=r6/i=r4; ours cx=r4/i=r6) with dx=r5 and all
+ *        instruction shapes identical.  gem-dec.o .comment is 4.0.0.1024 = dsi/1.1p1, so the pin
+ *        is right and the object is the ROM, but all nine dsi front ends at -O4,p, every flag
+ *        set, and ~120 body spellings (decl order/scope/init, for/while/do, unsigned, param
+ *        copies, guards, operand order) compile to `movs r4, r3`; the image's `movs r6, r3`
+ *        cannot be produced from this tree.  -O4/-O3/-O2 change size (168 B) so the pin -O4,p
+ *        is correct.  Blocker: front-end register-allocation order (parameter coloured before
+ *        its locals); no source lever found.  See docs/notes/lane_t9_ov172_sdk_rows.md.
  *
  * sdk:      get_matrix_sub (jpegdec.o)
  *

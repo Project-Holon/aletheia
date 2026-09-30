@@ -9,6 +9,21 @@
  * isa:      arm
  * status:   DIFF
  *
+ * lane W7 (2026-09-30): re-measured 1764/1908, 37/37 relocations, 1505
+ * concrete bytes -- the draft's structure diverges from the top, so the
+ * residue is not a near miss.  Disassembly walk (0x021CD210..0x021CD984)
+ * confirms the shape: BN_MONT_CTX_new/BN_MONT_CTX_set_word at [sp+0x14];
+ * callback = ctx->depth (ctx+0x10c) into [sp+0x10]; CRYPTOi__BN_gen_exp_bits
+ * returns the windowed-exponent header (p[0..1] len, p[2] window, p[3] count;
+ * see the EXACT sibling ov114_func_021CC530.c) and ctx->tos is bumped for it;
+ * then aa is a fresh ctx->bn BIGNUM, and val[] is built with
+ * CRYPTOi__bn_mul_normal / bn_from_montgomery_words.  The draft's
+ * `bits=(bitsbuf[2]<<8)|bitsbuf[3]` and
+ * `window=(bitsbuf[2]+0x3f)/bitsbuf[2]` misread that header, and the windowed
+ * loop's table size, sqr chain and callback accounting need rewriting from
+ * the listing.  This is real decomp work still outstanding, not a witness
+ * problem.
+ *
  * sdk:      CRYPTOi__BN_mod_exp_mont (libcrypto.TWL.HYB.a crypto_bobj1.o)
  *
  * symbols:

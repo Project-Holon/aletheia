@@ -7,7 +7,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   DIFF
+ *
+ * blocker: 12 concrete bytes, one scratch/zero register pair mirrored (image
+ *          r0 = k-reset zero, r3 = loop-2 scratch; this build the reverse). See
+ *          the residue note below.  Every declaration order tried is inert; the
+ *          swap is not source-steerable under dsi/1.1p1.
+ *
  * u1: four more declaration permutations (m last / m first / m_i first / m folded into the char declarator) all stay at 21 B (two rise to 32 B). The four-register mirror is not declaration-driven.
  *
  * w9_nm: 21 B, register assignment only. Residue (lane S7, re-measured): the whole

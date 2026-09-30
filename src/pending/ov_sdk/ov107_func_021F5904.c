@@ -69,6 +69,14 @@
  *   d_021F6F90  0x021F6F90  data
  *   mbi_life_mp 0x021F6E58  data
  *
+ * lane W7 (2026-09-30): re-measured 472/472, 9/9 relocations, 9 concrete
+ * bytes at +010C/+0110/+011C.  Re-tested the hoisted-cursor spellings (plain
+ * `u16 *c = mbi_life_mp.gname`, while-loop, `for(...; i++, c++)`, and named
+ * `u16 *n = c + 1`): all land in the 33-byte rotated basin.  Re-tested moving
+ * `i++` ahead of the writeback in the in-loop-read body (for, while(1) and
+ * do-while forms): 1.1p1 still emits store-then-add, so the 9-byte residue is
+ * the scheduler, not the source.  Compiler wall, unchanged.
+ *
  * re-check with:
  *   python tools/match.py one --src src/pending/ov_sdk/ov107_func_021F5904.c \
  *       --func MB_Init --addr 0x021F5904 --region ov107 --cc 1.1p1 \

@@ -8,6 +8,15 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * blocker:  86 concrete bytes, first at +0004; compiled 184 vs image 180. The object hoists the
+ *           g_021AA860 base load (ldr r4,[pc]) ahead of the zero constant and keeps ret in r5, then
+ *           lowers the `return ret` from the func_02186108 guard as a branch to a shared epilogue;
+ *           1.1p1 materialises ret=0 first, renames ret to r4 in the tail and inlines an early pop.
+ *           Ruled out this wave: w10 v1 (buddyIdx before ret), v2 (declaration initialisers), v3
+ *           (ctl local), v4 (int ret) all 86 B; v5 (single-return nesting) 119 B. The defining
+ *           object is 4.0.0.1025 and the divergence is scheduler/regalloc from the first
+ *           instruction, not a spelling.
+ *
  * u21: the defining object is .comment 4.0.0.1025, a stamp no local build writes. The image hoists
  *      the negotiate-list pool load to +0004 and keeps the list pointer in r4 across the whole
  *      function; 1.1p1 zeroes the stack word first and is 4 bytes longer (184 vs 180). First

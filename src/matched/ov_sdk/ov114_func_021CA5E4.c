@@ -7,8 +7,15 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
- * blocker:  32 mismatched words, register allocation only: original keeps data in r4, tag and dlen temp in lr, len in r12; here data lands in lr, temps in r4; ~35 variants (declaration orders, dlen CSE forms) tried
+ * status:   EXACT
+ * note:     Lane wave7 (2026-09-30): EXACT from the object listing.  The DWARF
+ *          local list is l(r6), len(r12), dlen(r5), data(r4) (reverse source
+ *          order), and the vendor's long-form parse hoists `data++` out of the
+ *          do/while: `data++; do { len = (*data & 0x7f) + (len << 7); } while
+ *          (--l);`.  With the increment inside the loop this front end keeps
+ *          the reload in the loop (180 B, 80 concrete bytes); hoisted, the load
+ *          is loop-invariant and CSE'd into `lr`, giving the image's 4
+ *          instruction loop and 184/184.
  *
  * sdk:      ASN1Skip (libcrypto.TWL.HYB.a(sign.o))
  *
@@ -38,8 +45,8 @@ int func_021CA5E4(unsigned char **datap, unsigned int *dlenp, unsigned char type
 			return 0;
 		dlen -= l;
 		if (lenp != 0) {
+			data++;
 			do {
-				data++;
 				len = (*data & 0x7f) + (len << 7);
 			} while (--l);
 		} else {

@@ -7,9 +7,21 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   DIFF
  *
  * notes:    w9_nm2: DIFF 10 B (was 16). A dedicated local buf = g_0217ABD8 assigned after the copy loop (declared before pHeader) puts i in ip and the pointers in r6/r5; the final call keeps the pool word. Left: object stores sumLo before sumHi (scheduler swaps; tried order, masks, byte pointer, locals) and loop 2 counter is r1 not ip (tried i=0 hoists).
+ * blocker:  10 concrete bytes, one allocator tie-break in the second loop.
+ *           The image keeps the XOR counter i in r12/ip and therefore stores
+ *           sumLo/sumHi in source order; mwcc here colours the fresh zero of
+ *           the second loop r1 (freeing r1 first, so the two strb swap) and
+ *           everything downstream moves. Verified unchanged by: plain/ternary
+ *           loop spellings, while/do-while, a fresh loop variable, separate
+ *           i/j, long/enum/register/unsigned i, i=0 hoisted before the stores,
+ *           a named enum zero, explicit byte temporaries, p-reuse, and a
+ *           2000-compile permuter anneal (plateau at 10). DWARF confirms the
+ *           vendor's i is r12 (int) for the whole function. Needs an allocator
+ *           that re-materialises the second zero into ip, which no source
+ *           spelling tried reaches.
  * sdk:      IRCi_Send (libirc.a irc.o)
  *
  * symbols:

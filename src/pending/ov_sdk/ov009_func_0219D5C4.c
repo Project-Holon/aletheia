@@ -8,6 +8,11 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * blocker:  wave7: `sdkobj 0x0219D5C4 --region ov009` reports the defining object
+ *           is Metrowerks 4.0.0.1025 and **no tools/mwccarm build writes that
+ *           stamp**, so dsi/1.1p1 cannot reproduce it by construction; the
+ *           residue below is consistent with that version gap, not with a
+ *           source shape we can reach from 1.1p1.
  *
  * Blocker: register colouring is rotated by one slot.  The compiled code is
  * the same length (672 B) and instruction-for-instruction the same shape, but

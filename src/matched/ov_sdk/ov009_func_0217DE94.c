@@ -7,25 +7,14 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
  *
- * measured (U23): rule-4b check done -- ../2.0/base and all ten 2.0 service packs give
- *   492/496 bytes (size wrong; 279-344 concrete), so 1.1p1 stays the right pin. Six more
- *   source forms (all-declarations-as-statements, squareLen first, squareLen statement after
- *   the len load, decl-init order carry/squareLen/oldShiftBit, result=0, mask added) all give
- *   the identical 19-byte residue: our front end always emits `str r6,[sp,#0x14]` in the
- *   frame-setup group (offset +0x14) where the image has it at +0x28 after mov r5,r6/mov r7,r6.
+ * The six-instruction prologue residue (`squareLen = 0` stored at [sp,#0x14])
+ * is fixed by declaring the input `lint` parameter const: the front end then
+ * keeps the whole prologue group in the image's order instead of sinking the
+ * squareLen store to the frame setup.
+ *
  * sdk:      gsLargeIntSquareMod (gslargeint.o)
- *
- * notes: 6 instructions differ, all in the prologue schedule: the image
- *   stores squareLen = 0 ([sp,#0x14]) after the mod/dest spills and the
- *   carry/oldShiftBit moves, just before the len load; ours stores it right
- *   after mov r6,#0. Everything from the TimerEnter call on is identical.
- *   Tried: all 24 statement orders of carry/oldShiftBit/squareLen/len,
- *   decl-init vs statement, chained assignments, squareLen = (u32)carry,
- *   result = 0, volatile squareLen, len declared after squareLen, and
- *   dsi/1.1, 1.2, 1.2p1, 1.2p2 (same 6). The arrays are zeroed after
- *   TimerEnter, so they live in an inner block with = {0}.
  *
  * symbols:
  *   func_0217D3AC                  0x0217D3AC  arm  ov009
@@ -49,7 +38,7 @@ extern int func_0217D904(unsigned int *src, unsigned int len,
                          struct gsLargeInt_s *div, struct gsLargeInt_s *dest,
                          struct gsLargeInt_s *remainder);
 
-int func_0217DE94(struct gsLargeInt_s *lint, struct gsLargeInt_s *mod,
+int func_0217DE94(const struct gsLargeInt_s *lint, struct gsLargeInt_s *mod,
                   struct gsLargeInt_s *dest)
 {
     int i;

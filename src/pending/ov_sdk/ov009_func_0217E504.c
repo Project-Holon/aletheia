@@ -9,9 +9,16 @@
  * isa:      arm
  * status:   DIFF
  *
+ * status:   DIFF.  Now 704/704, 149 concrete bytes (was 184).  The defining
+ *           vendor object is stamped 4.0.0.1025, which no tools/mwccarm build
+ *           writes (sdkobj.py); dsi/1.1p1 (1024) is the closest.  The residue
+ *           is the prologue register SET, not a body shape: the DWARF of the
+ *           vendor object homes x=r7, y=r5, m=r4, temp=r8; 1024 picks y=r7,
+ *           x=r8, temp=r6.  A declaration-order sweep is inert.
+ *
  * RESIDUE (lane U34, re-confirmed): 704/704, 184 concrete bytes, then 149
- *           after the logB_r declaration reorder noted below.  Tested this
- *           lane against the GameSpy upstream (scratch/U2/gs/.../gsLargeInt.c,
+ *           after the logB_r declaration reorder noted below (applied).  Tested
+ *           this lane against the GameSpy upstream (scratch/U2/gs/.../gsLargeInt.c,
  *           gsiLargeIntMultM, NEWMULTM branch):
  *             - vendor body verbatim, `memset(temp, 0, sizeof(temp))`
  *               -> 636 bytes (memset is a CALL under 1.1p1; the image clears
@@ -74,6 +81,7 @@ int func_0217E504(struct gsLargeInt_s *x, struct gsLargeInt_s *y,
                   struct gsLargeInt_s *m, unsigned int modPrime,
                   struct gsLargeInt_s *dest)
 {
+    unsigned int logB_r = m->mLength;
     unsigned int tempLen = 0;
     unsigned int temp[128] = {0};
     unsigned int *lasttnptr;
@@ -83,7 +91,6 @@ int func_0217E504(struct gsLargeInt_s *x, struct gsLargeInt_s *y,
     unsigned int *tiptr;
     unsigned long long carry;
     unsigned int mi;
-    unsigned int logB_r = m->mLength;
 
     if (!func_0217D750(x->mData, x->mLength, y->mData, y->mLength, temp, &tempLen, 128))
         return 0;

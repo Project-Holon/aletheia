@@ -17,6 +17,15 @@
  * near miss (w4_s4): 16 B short. Original splits cases 0x69 and 0x6a..0x6c into a compare
  * tree (0x69 alone, then range test 0x6a..0x6c linear); mine emits a second jump table
  * for 0x69..0x6c. Everything above the 0x68 split is identical.
+ *
+ * blocker:  the 0x69..0x6c dispatch.  The image builds a compare tree (0x69 a
+ *           lone node, 0x6a..0x6c a linear chain) where 1.1p1 builds a second
+ *           pc-relative table for the four dense values; the function is 200 B
+ *           against 216 and 75 concrete bytes differ, all downstream of the
+ *           dispatch.  w7: re-measured; moving case 105 into its own block,
+ *           after 108, around case 104, splitting 105 from 106-108 and
+ *           reversing the label order all still table 0x69..0x6c, so the
+ *           run-length heuristic cannot be moved from the source.
  */
 
 extern void func_02059F54(int error, int errorCode);

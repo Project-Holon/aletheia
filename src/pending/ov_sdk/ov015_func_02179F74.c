@@ -7,7 +7,16 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   DIFF
+ * blocker:  11 bytes (6 sites) at +0024..+003C, all in the final FF/zero store block. The object
+ *           materialises both immediates before the first store (mov r3,#0xff; ldr r0,&ABA8;
+ *           mov r2,#0; strb r3,[r1,#1]; str r2,[r0,...] x3) and colours 0xFF->r3, 0->r2; 1.1p1
+ *           sinks the zero past the strb, reuses the dead r1 for it, and builds 0xFF in r2.
+ *           Ruled out this wave: w10 permuter (seed 1, budget 300, hill) flat at 11 B; v1 chained
+ *           zero stores 13 B; v2 FF-store-last 24 B; v3 reorder+FF-first 14 B; plus the 24 store
+ *           permutations already recorded below (all 80 B/6 sites). Pin-invariant on 12 pins
+ *           (docs/notes/lane_t20_ov107_ov015_ov175_residues.md), so it is the front end's
+ *           scheduler, not a spelling.
  *
  * w9_nm: still 11 B: locals ff/zero (top or block), chained zero stores, -1 for 0xFF, stores before or after: the object materialises 0xff in r3 and 0 in r2 before the first store (strb then three str); the compile builds 0xff first in r2.
  *

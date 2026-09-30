@@ -9,17 +9,20 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker: two residues, measured.  The tail's `adr[MemSsea->cur * 3 + k]`
- *           expressions are re-materialised once per store (this front end
- *           reloads MemSsea and recomputes cur*3 because the store through the
- *           char* may alias the global); hoisting the index into a named local
- *           (`int k = MemSsea->cur * 3;`, used as adr[k+2]/adr[k+1]/adr[k]) and
- *           making adr `unsigned char *` (the object loads with ldrb, this TU's
- *           -char signed gives ldrsb) takes the body from 748/601 to 696/535.
- *           Written as `if (p <= 0) { if (p == 0) return; } else { switch (p) {} }`
- *           it reaches 700 bytes with the image's own `cmp r6,#0 / bgt / ...`
- *           head.  Remaining 4 bytes and two instruction forms both come from the
- *           4.0.0.1025 front end:
+ * blocker: front-end behaviour difference, 8 bytes.  lane03 (2026-09-30) applied
+ *           the hoist the old note described: `int k = MemSsea->cur * 3;` with
+ *           adr[k+2]/adr[k+1]/adr[k], and `adr` as `unsigned char *` (the object
+ *           loads ldrb; this TU's -char signed gives ldrsb).  That drops the body
+ *           from 748/601 to 696/535 (compiled 696 vs image 704).  The remaining
+ *           8 bytes and two instruction forms are a front-end difference, not a
+ *           source difference:  (a) the else arm is `popeq {r3,r4,r5,r6,r7,pc};
+ *           b Ldefault` in the object, but 1.1p1 gives `bne Ldefault;
+ *           pop {r3,r4,r5,r6,r7,pc}` (it predicates the `if (p == 0) return;`
+ *           head as `movs r6,r0; popeq`, then reorders `ldr r7` ahead of
+ *           `mov r4,#1` and adds a second compare), and (b) the object has a
+ *           dead `pop {r3,r4,r5,r6,r7,pc}` at 0x021C7418 between the jump table
+ *           and case 0x10, which 1.1p1 never emits (a `default: return;` arm does
+ *           not produce it either).  Earlier measured form:
  *           (a) the else arm: `popeq {r3,r4,r5,r6,r7,pc}; b Ldefault` in the
  *           object, but `bne Ldefault; pop {r3,r4,r5,r6,r7,pc}` here
  *           (the `if (p == 0) return;` at the top of the body does predicate --
@@ -79,7 +82,8 @@ extern void endScene(void);
 static void input(void)
 {
     int p;
-    char *adr;
+    unsigned char *adr;
+    int k;
 
     p = DWCi_KB10lGet();
     if (p > 0)
@@ -143,25 +147,26 @@ Ldefault:
     if (MemSsea->cur == 3 && isOver(0x1a))
         goto Lend;
     DWCi_SNDlPlay(1);
-    adr = (char *)MemSsea + 8;
-    if (adr[MemSsea->cur * 3 + 2] == 0)
+    adr = (unsigned char *)MemSsea + 8;
+    k = MemSsea->cur * 3;
+    if (adr[k + 2] == 0)
     {
-        adr[MemSsea->cur * 3 + 2] = p;
+        adr[k + 2] = p;
     }
     else
     {
-        if (adr[MemSsea->cur * 3 + 1] == 0)
+        if (adr[k + 1] == 0)
         {
-            adr[MemSsea->cur * 3 + 1] = adr[MemSsea->cur * 3 + 2];
-            adr[MemSsea->cur * 3 + 2] = p;
+            adr[k + 1] = adr[k + 2];
+            adr[k + 2] = p;
             if (!isOver(0x1a))
                 goto L7628;
         }
         else
         {
-            adr[MemSsea->cur * 3] = adr[MemSsea->cur * 3 + 1];
-            adr[MemSsea->cur * 3 + 1] = adr[MemSsea->cur * 3 + 2];
-            adr[MemSsea->cur * 3 + 2] = p;
+            adr[k] = adr[k + 1];
+            adr[k + 1] = adr[k + 2];
+            adr[k + 2] = p;
         }
         if (MemSsea->cur < 3)
             MemSsea->cur++;

@@ -24,21 +24,29 @@
  *          every permutation) and named p1/p2 temporaries all leave the
  *          choice unchanged.  DWARF locals are enabled(r4), i(r5),
  *          fileID(r10), mdfi(r9) only.
+ *          w7: re-measured 8 B.  Also ruled out: reassigning game_reg or buf
+ *          for the temps (with/without pressure from a later buf reassign),
+ *          void-star, u8-star and char-star parameter types on game_reg and
+ *          buf, distinct u8-star/void-star/u32 temp locals, folded/unfolded
+ *          offset spellings and operand order, plus a 5000-compile permuter
+ *          anneal (plateau at 8, seed 2).  Region hints `ov107` added to the
+ *          MBi_/MB_ symbols so the contested overlay labels (ov043/ov051
+ *          thumb) do not stop the permuter; 18/18 relocations still resolve.
  *
  * sdk:      MB_RegisterFile (libmb.TWL.HYB.a(mb_fileinfo.o))
  *
  * symbols:
  *   OS_DisableInterrupts     0x02087988  arm
- *   MBi_IsStarted            0x021F6314  arm
+ *   MBi_IsStarted            0x021F6314  arm  ov107
  *   OS_RestoreInterrupts     0x0208799C  arm
  *   MBi_MakeDownloadFileInfo 0x021F37BC  arm  ov107
  *   MI_CpuCopy8              0x02082D44  arm
- *   MBi_MakeBlockInfoTable   0x021F398C  arm
- *   MBi_MakeGameInfo         0x021F3D04  arm
- *   MB_AddGameInfo           0x021F3F34  arm
- *   MBi_IsTaskAvailable      0x021F6610  arm
- *   MBi_InitTaskInfo         0x021F662C  arm
- *   MBi_InitTaskThread       0x021F6590  arm
+ *   MBi_MakeBlockInfoTable   0x021F398C  arm  ov107
+ *   MBi_MakeGameInfo         0x021F3D04  arm  ov107
+ *   MB_AddGameInfo           0x021F3F34  arm  ov107
+ *   MBi_IsTaskAvailable      0x021F6610  arm  ov107
+ *   MBi_InitTaskInfo         0x021F662C  arm  ov107
+ *   MBi_InitTaskThread       0x021F6590  arm  ov107
  *   mbc                      0x021F6FA0  data
  *   update                   0x021F6EF0  data
  */
@@ -137,3 +145,4 @@ int MB_RegisterFile(struct MBGameRegistry *game_reg, void *buf)
     OS_RestoreInterrupts(enabled);
     return 1;
 }
+

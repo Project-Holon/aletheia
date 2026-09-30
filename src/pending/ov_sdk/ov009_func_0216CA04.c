@@ -8,6 +8,12 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * blocker:  one redundant instruction at +00FC (4 bytes; every one of the 42 concrete diffs is a
+ *           pool displacement that moved with it). Image `mov r0,r7 / ldr r1,[r8,r4]`; ours
+ *           `mov r0,r8 / ldr r1,[r0,r4] / mov r0,r7`. This front end hoists a copy of the keyString
+ *           base into r0 and folds the last load onto it. Pin is ../2.0/base (all ten 2.0 subtrees
+ *           304 B/42; all nine dsi front ends 300 B/133; object stamp 4.0.0.1025). 19 spellings in
+ *           the notes below, all 304/42. Re-checked this wave under ../2.0/base: 42 concrete.
  *
  * sdk:      DWC_AddMatchKeyString (libdwcmatch.TWL.HYB.a dwc_match.o)
  *

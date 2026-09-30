@@ -66,6 +66,12 @@
  * unique best.  Residue unchanged and already named: the GSIDebug raw-dump call
  * schedules `sendCount++` before the format pointer (see
  * docs/idioms/a-varargs-counter-increment-is-scheduled-before-a-later-format-pointer.md).
+ *
+ * lane W7 (2026-09-30): re-measured 364/364, 13/13 relocations, 21 concrete
+ * bytes.  Re-tested the counter as a `cnt` temp with the increment before the
+ * call (368/117), after the call (368/119) and passing `g_021ADFC8 + 1` then
+ * incrementing (368/71); all are worse and change the size, confirming the
+ * image's push-then-writeback order is the mwcc argument scheduler.
  */
 
 extern int func_0217EC90(int sock, char *buffer, int bufferLen, int flags);

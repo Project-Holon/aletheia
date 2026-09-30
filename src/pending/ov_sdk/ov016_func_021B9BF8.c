@@ -9,6 +9,12 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * blocker:  wave7: `sdkobj 0x021B9BF8 --region ov016` reports the defining object
+ *           is Metrowerks 3.0.0.126 and **no tools/mwccarm build writes that
+ *           stamp**; dsi/1.1p1 is not that compiler, so the 8-byte loop-tail /
+ *           MAC-copy residue below is unlikely to be a source-shape problem
+ *           under the required toolchain.
+ *
  * sdk:      ScanAP (libdwcutil.TWL.HYB.a(atermset.o))
  *
  * blocker:  lattice reconstructed (the 20-entry event switch with cases 0..19,

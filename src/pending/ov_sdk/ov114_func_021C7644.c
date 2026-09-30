@@ -1,4 +1,4 @@
-/*
+﻿/*
  * function: DWCi_Ndi_response_list
  * address:  0x021C7644
  * packet:   pkt_ov114_021C7644
@@ -19,6 +19,14 @@
  *           Result 724 vs 640 bytes.  Callee-saved mapping now matches the
  *           image (state=r6, bgn=r7, pfi=r8, tempBuf=sl) after declaring
  *           state before bgn.
+ *
+ * w11: routed every early `return isComplete;` through one `goto done;`
+ *           (the image's single shared epilogue at 0x021C78B4) instead of
+ *           letting each site duplicate it: 652 vs 640 bytes, 412 concrete
+ *           bytes.  One structural residue remains and it is the described
+ *           4.0.0.1025 scheduling: the `bodyLen > 0 && size > 0` guard is
+ *           predicated in the image (ldrgt/movgt/strgt/cmpgt/ble) but
+ *           branched here, which shifts the whole first third.
  *
  * sdk:      DWCi_Ndi_response_list (libdwcnd.TWL.HYB.a dwci_nd.o)
  *
@@ -115,10 +123,10 @@ int DWCi_Ndi_response_list(void *res, tagDWCi_Ndi_HTTPREQ *hrq)
                     }
                     if (state == 5) {
                         if (p - 1 - bgn > 8)
-                            return isComplete;
+                            goto done;
                         decordedLen = DWCi_Ndi_strToInt(body + bgn, p - 1 - bgn);
                         if (decordedLen < 0)
-                            return isComplete;
+                            goto done;
                         pfi->size = decordedLen;
                     }
                     isComplete = state >= 5;
@@ -129,13 +137,13 @@ int DWCi_Ndi_response_list(void *res, tagDWCi_Ndi_HTTPREQ *hrq)
                     switch (state) {
                     case 0:
                         if (p - bgn > 0x20)
-                            return isComplete;
+                            goto done;
                         DWCi_Ndi_memcpy(pfi, body + bgn, p - bgn);
                         break;
                     case 1:
                         decordedLen = DWCi_Ndi_getDecodeLenBASE64(p - bgn);
                         if (decordedLen > 0x66)
-                            return isComplete;
+                            goto done;
                         decordedLen = DWCi_Ndi_decodeBASE64(tempBuf, body + bgn, p - bgn);
                         if (decordedLen > 0x66)
                             decordedLen = 0x66;
@@ -144,25 +152,25 @@ int DWCi_Ndi_response_list(void *res, tagDWCi_Ndi_HTTPREQ *hrq)
                         break;
                     case 2:
                         if (p - bgn > 0xa)
-                            return isComplete;
+                            goto done;
                         DWCi_Ndi_memcpy(pfi->param1, body + bgn, p - bgn);
                         break;
                     case 3:
                         if (p - bgn > 0xa)
-                            return isComplete;
+                            goto done;
                         DWCi_Ndi_memcpy(pfi->param2, body + bgn, p - bgn);
                         break;
                     case 4:
                         if (p - bgn > 0xa)
-                            return isComplete;
+                            goto done;
                         DWCi_Ndi_memcpy(pfi->param3, body + bgn, p - bgn);
                         break;
                     case 5:
                         if (p - bgn > 8)
-                            return isComplete;
+                            goto done;
                         decordedLen = DWCi_Ndi_strToInt(body + bgn, p - bgn);
                         if (decordedLen < 0)
-                            return isComplete;
+                            goto done;
                         pfi->size = decordedLen;
                         break;
                     }
@@ -175,5 +183,6 @@ int DWCi_Ndi_response_list(void *res, tagDWCi_Ndi_HTTPREQ *hrq)
             ;
         }
     }
+    done:;
     return isComplete;
 }

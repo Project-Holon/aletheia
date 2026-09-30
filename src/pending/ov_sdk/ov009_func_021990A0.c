@@ -25,6 +25,13 @@
  * immediate) at 52 B / 3 B. The 4.0.0.1025 object alone materialises the bound
  * with `mvn r1, #0x80000000`. The rest of the row is byte-exact.
  *
+ * lane W7 (2026-09-30): re-measured 52/52, 4/4 relocations, 3 concrete bytes
+ * (`sub r1,r0,#0x80000002` vs `mvn r1,#0x80000000`).  Both permuters were run
+ * briefly on this 3-byte row: permute.py reported 0 available mutations, and
+ * permuter.py tried 32 single-mutation candidates with no improvement.  The
+ * constant is materialised from the live r0 == 1, so the mvn is a 4.0.0.1025
+ * codegen decision, not a source shape.
+ *
  * sdk:      GetClientUniqueID (natify.o)
  *
  * w4_nm tried: K&R and unsigned prototypes, 0x7fffffffu, ~0x80000000, ~0u>>1, long

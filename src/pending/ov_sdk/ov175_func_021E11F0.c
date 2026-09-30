@@ -10,6 +10,13 @@
  * status:   DIFF
  * notes:    near miss, 20 instructions differ by register colouring only: the image holds 0x38 in r5, s_tbl in r6 and the constant 3 in r7; this spelling gives r6, r7, r5. Case order, the cross-jumped per-case duplicates and the mla address for case 6 all match.
  *
+ * lane05 (2026-09-30): the defining object dwc_gdb.o carries stamp
+ *   `Metrowerks C/C++ for ARM 4.0.0.1025` (tools/sdkobj.py), which no tree under
+ *   tools/mwccarm writes, so the whole-body {r5,r6,r7} rotation is a toolchain
+ *   wall. Re-measured 336/336, 22 diffs; a local for the entity base, for the
+ *   state constant, and `work`-pointer forms all change the instruction stream
+ *   (336-328 B) without producing the image colouring.
+ *
  * sdk:      DWC_GdbCancelRequest (libdwcgdb.TWL.HYB.a(dwc_gdb.o))
  *
  * symbols:

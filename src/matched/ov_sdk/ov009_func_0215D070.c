@@ -7,23 +7,15 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
- * u21: the defining object socl_create.o is .comment 4.0.0.1024 -> dsi/1.1p1. Every instruction
- *      matches except the flag select: the image emits the single predicated `movne r1, r5`,
- *      reusing the constant 1 still sitting in r5 from the command flag, while 1.1p1 emits
- *      `moveq r5, r1 / mov r1, r5` and so is 4 bytes long (184 vs 180). Twelve spellings (nested
- *      if, &&, ternary, `!= 0`, the bare masked value, long/unsigned flag, hoisted b) either keep
- *      the two-instruction select or collapse the block to 164/168 B. First divergence +005C
- *      image `movne r1, r5` | ours `moveq r5, r1`.
- * u1: eight more flag spellings (if/if, `&&` into flag=1, ternary, `(int)(ac&1)`, `!!`, an `ac` temp, `if (flag)`) - the `moveq r5,r1` / `mov r1,r5` select survives all of them; the `flag = 1` and `&&` forms collapse the block to 164 B. Residue is the image's predicated `movne r1, r5` (reusing the 1 already in r5).
+ * status:   EXACT
  *
- * blocker:  codegen, 4 bytes long (184 vs 180).  Every instruction matches
- *           except the `flag` boolean at +0058: the original emits the
- *           single `movne r1, r5` (r5 already holds 1 for the command flag),
- *           while this source (`flag = (ac & 1) != 0`) makes the compiler
- *           emit `moveq r5, r1; mov r1, r5`.  The r5-held 1 is the only
- *           difference; tried `flag = 1` in nested and `&&` forms (both
- *           shrink to 164) and the ternary spelling (no change).
+ * The flag select was the whole residue: `flag = (socket->field_ac & 1) != 0`
+ * made 1.1p1 emit `moveq r5, r1 / mov r1, r5` (184 B), while the image has the
+ * single predicated `movne r1, r5` reusing the constant 1 already in r5.  The
+ * vendor object is .comment 4.0.0.1024 -> dsi/1.1p1, so this is source-level:
+ * an explicit inner `if (..) flag = 1; else flag = 0;` keeps flag's zero-init
+ * as its own `mov r1, #0` and lets each arm move a constant, so the select
+ * collapses to the one predicated move and the function is exactly 180 B.
  *
  * sdk:      SOCL_CreateSocket (socl_create.o)
  *
@@ -77,8 +69,12 @@ int SOCL_CreateSocket(struct SOCLSocketParam *param)
     {
         int flag = 0;
 
-        if (socket != 0)
-            flag = (socket->field_ac & 1) != 0;
+        if (socket != 0) {
+            if (socket->field_ac & 1)
+                flag = 1;
+            else
+                flag = 0;
+        }
         if (flag != 0) {
             int b = (socket->field_af == 0 || socket->field_af == 4);
 

@@ -11,6 +11,12 @@
  *
  * w9_nm: 148 B object vs 144 B: the object keeps the st != 0 arm as popne / mov / strb / pop, this compile if-converts it (moveq / strbeq). Tried: early-return spellings of the arm (three), the inline setSt helper, a block local, an explicit return after the store: always predicated.
  *
+ * lane W7 (2026-09-30): re-measured 144/148, 6/6 relocations, 87 concrete
+ * bytes.  The if-conversion is not source-reachable: volatile store, store
+ * via a fresh unsigned char*, an `int eq = (prm[0]==2)` local and an inverted
+ * else all recompile to the identical predicated `moveq/strbeq` 144 B.  Stays
+ * capped on the compiler axis.
+ *
  * sdk:      cbWm (libdwcutil.TWL.HYB.a usbap.o)
  *
  * T6: this row matches at -O1 (148 B EXACT in all nine pins) and is 144 B at

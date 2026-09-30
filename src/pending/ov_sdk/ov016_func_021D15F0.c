@@ -9,6 +9,13 @@
  * isa:      arm
  * status:   MATCH
  *
+ * lane W7 (2026-09-30): re-measured 184/192, 8/9 relocations, 130 concrete
+ * bytes.  Two independent blockers: the fp-select if-conversion (identical
+ * to func_021D0DE0's, the missing 8 bytes) and the unresolved g_021DAA00
+ * ABS32 (data, no witness outside 021D15F0..021D16A8).  Neither is a source
+ * shape this front end accepts; the object's held-zero rematerialisation is
+ * the compiler difference.
+ *
  * sdk:      taskMove (libdwcutil.TWL.HYB.a window.o)
  *
  * T6: 184 B vs 192. The object branches on the type test (`cmp r0,#5 /

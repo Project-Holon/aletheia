@@ -12,7 +12,11 @@
  * sdk:      WCM_InitEx (libwcm.TWL.HYB.a system.o)
  *
  * near miss: 364 B both; only the +0x18..+0x28 schedule differs (original loads
- * the 0x021AA7D4 pool word before `mov r1,#0`, ours after).
+ * the 0x021AA7D4 pool word before `mov r1,#0`, ours after).  wave7: sdkobj
+ * confirms the object is Metrowerks 4.0.0.1024 -> dsi/1.1p1, so this residue is
+ * a shape this front end has not been given (the DWARF locals are exactly
+ * expectLen [fb+0], e r5, matching the source); wave7 re-measured declaration
+ * swap, `if (wcmw)` and the guard-before-init forms, all still 18.
  *
  * symbols:
  *   OS_DisableInterrupts 0x02087988 arm

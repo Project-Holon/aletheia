@@ -9,6 +9,14 @@
  * isa:      arm
  * status:   DIFF (near miss: register allocation, see notes)
  * notes:    config r5 vs r4; the u64 add-hi zero is hoisted into r6 before the OS_GetTick branch in the target, CSEd late into r4 here
+ * blocker:  188 concrete bytes, size 536/536: one early register choice
+ *           cascades.  The image keeps config in r4 and the context in r5 and
+ *           materialises the u64 add high zero into r6 (a callee-saved reg,
+ *           since the value is live across the conditional OS_GetTick) before
+ *           the seed test; 1.1p1 lets the context take r6 and sinks the zero
+ *           into r4/r0 after the call, shifting almost every later operand by
+ *           one.  w7: re-measured, not re-spelled; the fix would need the
+ *           front end to hoist the 64-bit add-half zero across the branch.
  *
  * sdk:      CPS_Startup (libcps.TWL.HYB.a network.o)
  * symbols:

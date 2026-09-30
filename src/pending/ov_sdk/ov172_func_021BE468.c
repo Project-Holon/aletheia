@@ -9,6 +9,17 @@
  * isa:      arm
  * status:   DIFF (near miss, 21 concrete bytes, prologue scheduling only)
  *
+ * wave7: sdkobj confirms the object is Metrowerks 4.0.0.1024 -> dsi/1.1p1 and its
+ *        322-byte listing is byte-identical to the image, with DWARF locals
+ *        result(r0), b(r0), s(r0), p([fb+0]) (reverse source: p, s, b, result),
+ *        which the draft already matches.  The residue is confined to the three
+ *        table clears: the image materialises each pointer immediately before
+ *        its own strh and assigns r3=D, r0=C, r2=B, ours hoists the three ldrs
+ *        (r0, r2, r3) and sinks the B store past the MIi_CpuClearFast argument
+ *        setup.  The 6 chain permutations and 5 other clear-block spellings
+ *        already measured here stay at 21-31; wave7 found no source shape for
+ *        the interleave under 1.1p1.
+ *
  * sdk:      Mel_JPEGDecodeExif (libssp.TWL.HYB.a jpegdec.o)
  *
  * symbols:

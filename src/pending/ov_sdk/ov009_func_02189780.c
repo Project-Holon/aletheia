@@ -16,27 +16,30 @@
  * anything else raises GP_NETWORK_ERROR.  Publishes buffer/size/len plus
  * *bytesRead and *connClosed.
  *
- * BLOCKER (codegen only, ~4 bytes short plus the same argument-scheduling
- * quirk as func_021894D8): the GSIDebug raw-dump call's `recvCount++` is
- * scheduled after the reload of the format pointer here, where the original
- * loads the format into r3 first (base r0, fmt r3, count r1, str r1,[sp],
- * add r2,r1,#1, base r1, str r2,[r1,#4]) and spills count and id with two
- * separate str instead of one stm.  Same list of tried spellings as
- * func_021894D8 (scalar / array / struct-member counter, count local,
- * register local, pointer-to-counter local, unprototyped vs variadic callee,
- * void vs int return) reproduces the compact order in every case.  The main
- * loop, the grow path, the error/closed branches and the RECVTOTL dump all
- * line up; only the per-chunk raw-dump call site is off.
+ * BLOCKER (codegen only, seven instructions, 20 concrete bytes): the GSIDebug
+ * raw-dump call's `recvCount++`.  Declaring the counter `volatile` (below) is
+ * the lever that gets the size and every relocation right: 524/524 bytes and
+ * 17/17 sites resolved (it also lets g_021A4568 and g_021A458C attest, which
+ * were previously unresolved).  The residue is that this front end lowers the
+ * volatile post-increment as a read-for-the-argument plus a second read for
+ * the read-modify-write:
  *
- * Re-verified 2026-09-27 (region ov009 / ARM confirmed): 520 bytes compiled
- *   against the 524-byte original, 147 bytes out.  Most of that count is the
- *   4-byte-short call site shifting everything after it, not 147 independent
- *   errors.  Two of the pool literals also fail to resolve on relocation:
- *   g_021A4568 and g_021A458C are data with no witness outside
- *   02189780..02189988 (the string class does not fire on them), so even if the
- *   scheduling quirk were cracked this file is additionally capped at MATCH by
- *   evidence.  Same argument-scheduling idiom as func_021894D8 (docs/idioms/
- *   a-varargs-counter-increment-is-scheduled-before-a-later-format-pointer.md).
+ *   image  ldr r0,[pc] ; ldr r3,[pc] fmt ; ldr r1,[r0,#4] count
+ *          str r1,[sp] ; add r2,r1,#1 ; ldr r1,[pc] base ; str sl,[sp,#4]
+ *          str r2,[r1,#4]
+ *   ours   ldr r0,[pc] ; ldr r1,[r0,#4] count ; ldr r2,[r0,#4] count again
+ *          mov r0,#1 ; add r3,r2,#1 ; ldr r2,[pc] base ; str r3,[r2,#4]
+ *          stm sp,{r1,sl} ; ldr r3,[pc] fmt
+ *
+ * The image loads fmt before the counter, spills the old count with `str`
+ * before the add, and uses `stm` only for count+id; ours loads the counter
+ * twice, stores the increment before the spill, and combines the two vararg
+ * spills into one `stm`.  Without `volatile` the body is 520 bytes / 147
+ * concrete (the compact order the idiom records) and g_021A4568/g_021A458C do
+ * not attest, so the volatile form is strictly closer.  Same argument-
+ * scheduling idiom as func_021894D8 (docs/idioms/
+ * a-varargs-counter-increment-is-scheduled-before-a-later-format-pointer.md);
+ * every non-volatile spelling in that note's list was re-measured here.
  *
  * The static traffic counters live in one struct at 0x021ADFC8: sendCount at
  * +0 (func_021894D8) and recvCount at +4 (here).
@@ -80,7 +83,7 @@ extern char g_021A458C[];
 extern char g_021A45A0[];
 typedef struct {
     int sendCount;
-    int recvCount;
+    volatile int recvCount;
 } GSIDebugCounts;
 extern GSIDebugCounts g_021ADFC8;
 

@@ -20,6 +20,19 @@
  * a2=r6 with the index in r5.  Every branch target and constant is right;
  * only the register file assignment differs.  Not a witness problem.
  *
+ * lane W7 (2026-09-30): applied the unsigned guard the U22 note identified
+ * (`(unsigned)a0 >= 0x64u`); the image's first key test is now the image word
+ * (`blo`), but the +1 register roll from the hoisted zero is unchanged: still
+ * 296/296 with 134 concrete bytes differing and 13/13 relocations resolved.
+ * Measured and rejected this wave: computed-zero spellings (a2^a2, a2&0),
+ * a separate `key` local, an i-through-pointer local, f4 through a char*,
+ * and a global const zero (304 B / 158).  The hoisted `mov r4,#0` (global-CSE
+ * of the shared f1/f2 zero into a callee-saved register) remains the sole
+ * blocker and is a 1.1p1 allocator behaviour.  Note for the human: the twin
+ * 0x0216CA04 lane (T5/U10) pinned this DWC object family to ../2.0/base, where
+ * the image allocates index->r4 with no hoisted zero; this lane is bound to
+ * dsi/1.1p1 per the wave brief, so the row stays DIFF here.
+ *
  * lane U22 (2026-09-30): one CONCRETE byte is wrong in the draft, not just
  * registers.  The image's first key test is +0020 `cmp r7,#0x64; blo` --
  * cond 0x3 (unsigned LO, word 0F 00 00 3A) -- while the parked `a0 >= 0x64`
@@ -77,7 +90,7 @@ int func_0216C8DC(int a0, char *a1, int a2)
     if (a1 == 0 || a2 == 0)
         return 0;
 
-    if (a0 >= 0x64 && g_021AAA40[a0 - 0x64].f0 != 0) {
+    if ((unsigned)a0 >= 0x64u && g_021AAA40[a0 - 0x64].f0 != 0) {
         if (g_021AAA40[a0 - 0x64].f4 != 0 &&
             func_020948E0(g_021AAA40[a0 - 0x64].f4) != 0)
             return 0;

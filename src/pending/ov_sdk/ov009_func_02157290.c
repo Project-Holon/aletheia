@@ -18,17 +18,19 @@
  *           unsigned char had_ip, enum-typed zeros, struct vs cast access,
  *           if-body instead of early return.
  *
- * lane U41 (2026-09-30).  Re-measured 256/256 with 16 concrete bytes: the whole
- * residue is the placement of ONE instruction.  The image puts the reason store
- * in the myip load-delay slot and materialises the ternary's 0 late:
- *   image  +0010 `str r0, [r2, #0x4c]` ... +0030 `mov r5, #0`
- *   ours   +0010 `mov r5, #0`        ... +003c `str r0, [r2, #0x4c]`
+ * lane U41 (2026-09-30).  256/256.  Residue is now 10 concrete bytes / 3
+ * instructions, down from 16.  The improvement: the reason store moved from
+ * the second slot to just before the v1c store in source order, which makes
+ * the scheduler place it at +0034 instead of the block head.  The image still
+ * puts the reason store in the myip load-delay slot and materialises the
+ * ternary's 0 late:
+ *   image  +0010 `str r0, [r2, #0x4c]` ... +0030 `mov r5, #0` +0034 `mov r3, #1`
+ *   ours   +0010 `mov r5, #0`          ... +0030 `mov r3, #1` +0034 `str r0, [r2, #0x4c]`
  * `mov r5,#0` (the pooled zero for the had_ip conditional move) is hoisted to
- * the block head by this front end and never sinks; 27 spellings measured this
- * wave, every one 16 diffs or worse: had_ip as !=/!!/ternary/&1/unsigned char/
- * set-if, the reason store first/middle/last, a separate `ipv = g_...myip`
- * local, chain assignments, `0u/0L/0UL`, a volatile reason store, local
- * declaration order, four parameter types, a nested block around the store.
+ * the block head by this front end and never sinks.  A position sweep of the
+ * reason store among the six zero stores (7 slots) is monotone: slot 5 (just
+ * before v1c) is the best at 10, slots 4/6 at 12, slot 0 at 16.  had_ip type
+ * (int/unsigned/long/unsigned long) is inert at 10; char forms are worse.
  * Residue: instruction placement / register tie-break, not a body shape.
  *
  * sdk:      reset_network_vars (libcps.TWL.HYB.a network.o)
@@ -85,12 +87,12 @@ void func_02157290(int reason)
 	int had_ip;
 
 	had_ip = g_021A826C.myip != 0;
-	g_021A826C.noip_reason = reason;
 	g_021A826C.myip = 0;
 	g_021A826C.netmask = 0;
 	g_021A826C.v2c = 0;
 	g_021A826C.v70 = 0;
 	g_021A826C.v74 = 0;
+	g_021A826C.noip_reason = reason;
 	g_021A826C.v1c = 0;
 	if (!had_ip)
 		return;

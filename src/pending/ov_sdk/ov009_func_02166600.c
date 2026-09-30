@@ -15,6 +15,11 @@
  *      image `cmp r0, #1` | ours `mov r6, r1`. Every switch spelling (case order, default alone,
  *      default first) hoists the store.
  * u1: re-measured, unchanged at 120 B vs 128 B.
+ * wave7 (lane02): settled byte-swap spelling ((len & 0xff) << 8) | ((len & 0xff00) >> 8)
+ *        reaches 124/128; the concrete residue is unchanged at 94 bytes.  1.1p1 still hoists
+ *        the shared case-1/default `mov r6,r1` above both compares and drops the image's
+ *        trailing `b`.  Every switch ordering (case/default permutations and if-chains) and
+ *        the pin are invariant, so this is a canonicalisation wall, not a body-shape gap.
  *
  * w9_nm: the object tests deviceId == 1 first, then == 2, then falls into the default mov r6,r1 without hoisting it; every switch spelling hoists mov r6,r1 above the compares (case 1 split from default, default alone, assignment before the switch, default last). The byte swap also differs: use ((len & 0xff) << 8) | ((len & 0xff00) >> 8) for the object's lsl 24 / lsr 16 form. Best 84 B with default listed first.
  *
@@ -40,7 +45,7 @@ unsigned long func_02166600(unsigned char deviceId, unsigned short *sendBuf, voi
         break;
     case 2: {
         unsigned short len = (unsigned short)totalLen;
-        sendBuf[6] = (unsigned short)(((unsigned char)len << 8) | (len >> 8));
+        sendBuf[6] = (unsigned short)(((len & 0xff) << 8) | ((len & 0xff00) >> 8));
         copyDest = sendBuf + 7;
         totalLen += 0xE;
         break;
