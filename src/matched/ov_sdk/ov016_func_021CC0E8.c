@@ -8,15 +8,13 @@
  * lang:     c99
  * isa:      arm
  * status:   EXACT
- *
- * EXACT at 288 bytes, 23/23 relocations.  The park's 2-instruction residue at
- * +00B8..+00C0 (image `add ip, r5, #1 / ldrsb r3, [r1, r3] / mov r2, r4`, the
- * parked source `mov r2, r4 / ldrsb r3, [r1, r3] / add ip, r5, #1`) closes on
- * the table's qualifier: the language table read `g_021DA724[DWCi_Language()]`
- * is `extern const s8 g_021DA724[7]`, and the const table lets the front end
- * order the fifth argument's `idx + 1` above the table load.  The body is
- * otherwise unchanged; the same lever closed 0x021CBDF8 (the `g_021DA72C`
- * cell-coordinate table) in this region.
+ * notes: EXACT at 288 bytes, 23/23 relocations.  The park's 2-line residue
+ *        (+00B8/+00C0: the image computes the last call argument `add ip, r5,
+ *        #1` before the `mov r2, r4` third argument, the park after it)
+ *        closes on the message-index table: declaring it `extern const s8
+ *        g_021DA724[7]` instead of plain s8 makes the front end read it as a
+ *        const table and the last argument's add is scheduled first.  The
+ *        function name, `lang` local and all statements are unchanged.
  *
  * sdk:      button (libdwcutil.TWL.HYB.a scenesetselectap)
  * symbols:

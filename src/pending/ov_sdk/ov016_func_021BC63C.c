@@ -8,6 +8,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * U16 pass: the eight-store prefix (two of them duplicates) is now the six the
+ * image wants, in the image's order - DAT.gMaxBssIdList, BSS.gAtermApState=7,
+ * BSS.gAtermNotify, BSS.gAtermAlloc, BSS.gAtermFree, DAT.gThreadStackSize -
+ * which takes the object from 236 bytes / 195 differing to 232 bytes (size
+ * exact) / 18 differing.  Residue: the image loads both bases first
+ * (`ldr r5,[pc]` DAT then `ldr r0,[pc]` BSS at +001A/+001C) and stores maxap
+ * second; mwcc 2.0/sp1p2 (the object's 3.0.0.126 stamp) sinks that store to
+ * the end of the run: image `+0020 str r1,[r5,#0x10]` | ours
+ * `+002C str r1,[r5,#0x10]`.  Statement order, a volatile member and the
+ * 2.0/base|sp1 trees do not move it.
  *
  * sdk:      ATERMi_ApConfigStart (libdwcutil.TWL.HYB.a(atermset.o))
  *
@@ -111,8 +121,6 @@ int func_021BC63C(int prio, int maxap, void (*notify)(struct _ATERMApConfigState
 
     if (BSS.gAtermApState >= 1 && BSS.gAtermApState <= 5)
         return -10;
-    BSS.gAtermNotify = notify;
-    BSS.gAtermAlloc = alloc;
     DAT.gMaxBssIdList = maxap;
     BSS.gAtermApState = 7;
     BSS.gAtermNotify = notify;

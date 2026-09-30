@@ -8,7 +8,16 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
- * notes: DIFF, 3 stores reordered (cv->self store vs font store scheduling) plus argument setup order for the 8-arg call at +D0. Everything else identical.
+ * notes: DIFF.  U16 pass: const-qualifying the three read-only tables
+ *        (`extern const u16 g_021DAA74[]/g_021DAA76[]/g_021DAA70[]`) collapses
+ *        the +D0..+0104 argument-setup residue (33 differing bytes -> 10).
+ *        Residue now: the two field stores at +00AC..+00B4: image
+ *        `str r5,[r5,#0x18]` (cv->self) before `add r0,r0,r4,lsl #3` /
+ *        `str r0,[r5,#0x1c]` (cv->font); ours emits font first because the
+ *        source has `cv->font = ...` before `cv->self = cv`.  Swapping the two
+ *        source statements reproduces the image's store order but recolours
+ *        the block (the MemFont value moves to r1, the constant 1 to r0), 21
+ *        bytes out.  Both statements carry a str, so it is not a folding rule.
  *
  * sdk:      DWCi_FNTlFormBgEx (libdwcutil.TWL.HYB.a font.o)
  *
@@ -40,9 +49,9 @@ struct canvas {
 };
 
 extern char *g_021DE680;
-extern u16 g_021DAA74[];
-extern u16 g_021DAA76[];
-extern u16 g_021DAA70[];
+extern const u16 g_021DAA74[];
+extern const u16 g_021DAA76[];
+extern const u16 g_021DAA70[];
 
 extern void *func_021D6414(unsigned long size, int align);
 extern void func_02068FC4();
