@@ -1,0 +1,31 @@
+/*
+ * function: func_021BFE54
+ * address: 0x021BFE54
+ * packet: pkt_ov099_021BFE54
+ * region: ov099
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * symbols:
+ *   func_020399A8 0x020399A8 arm
+ *   func_02039CB4 0x02039CB4 arm
+ *   func_020399EC 0x020399EC arm
+ *   func_0203C554 0x0203C554 arm
+ *   func_021BA8EC 0x021BA8EC thumb ov099
+ */
+extern int func_020399A8(void);
+extern int func_02039CB4(unsigned,unsigned,unsigned);
+extern int func_020399EC(void);
+extern void func_0203C554(int);
+extern void func_021BA8EC(char *);
+int func_021BFE54(char *p, int ret) {
+    if (func_02039CB4(func_020399A8(),21,10) || func_020399EC()!=2) {
+        func_0203C554(1);
+        *(int *)(p+0x1f0)=-1;
+        *(int *)(p+0x1e0)=20;
+        func_021BA8EC(p);
+        *(int *)(p+0x1cc)=57;
+    }
+    return ret;
+}

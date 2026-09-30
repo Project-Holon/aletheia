@@ -1,0 +1,41 @@
+/*
+ * function: func_021BEDA0
+ * address: 0x021BEDA0
+ * packet: pkt_ov099_021BEDA0
+ * region: ov099
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_020452E8 0x020452E8 arm
+ *   func_02049B40 0x02049B40 arm
+ *   func_021BA8BC 0x021BA8BC thumb ov099
+ *   func_020450F0 0x020450F0 arm
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_02045334 0x02045334 arm
+ *   func_0201F73C 0x0201F73C thumb
+ */
+typedef unsigned short u16;
+extern void func_020452E8(void *);
+extern void func_02049B40(int, int, int, int, int, int);
+extern void *func_021BA8BC(void *);
+extern void *func_020450F0(int, int, int, int, int, int, int);
+extern void *func_02045770(void *);
+extern void func_02043B5C(void *, int);
+extern void func_02045334(void *);
+extern void func_0201F73C(void *, int, u16, int);
+void func_021BEDA0(char *p)
+{
+    if (*(void **)(p + 0x194)) func_020452E8(*(void **)(p + 0x194));
+    func_02049B40(0x17, 5, 0, 0x1e0, 0x20, 0x21);
+    *(void **)(p + 0x198) = func_021BA8BC(*(void **)(p + 0x198));
+    *(void **)(p + 0x194) = func_020450F0(3, 1, 1, 0x1c, 2, 0xf, 1);
+    *(void **)(p + 0x198) = func_020450F0(2, 1, 1, 0x1c, 2, 0xf, 1);
+    func_02043B5C(func_02045770(*(void **)(p + 0x194)), 0xff);
+    func_02045334(*(void **)(p + 0x194));
+    func_02043B5C(func_02045770(*(void **)(p + 0x198)), 0xff);
+    func_02045334(*(void **)(p + 0x198));
+    func_0201F73C(*(void **)(p + 0x198), 1, *(int *)(p + 0x1334), 0xe);
+}

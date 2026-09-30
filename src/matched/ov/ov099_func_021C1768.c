@@ -1,0 +1,44 @@
+/*
+ * function: func_021C1768
+ * address: 0x021C1768
+ * packet: pkt_ov099_021C1768
+ * region: ov099
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * follower: two zero alignment bytes at 0x021C17D2.
+ * symbols:
+ *   func_021BA928 0x021BA928 thumb ov099
+ *   func_021BA858 0x021BA858 thumb ov099
+ *   func_021BAAB8 0x021BAAB8 thumb ov099
+ *   func_021BC090 0x021BC090 thumb ov099
+ *   func_021BA8EC 0x021BA8EC thumb ov099
+ *   func_0203C554 0x0203C554 arm
+ */
+extern int func_021BA928(char *, int);
+extern int func_021BA858(char *);
+extern void func_021BAAB8(char *, int, int);
+extern void func_021BC090(char *);
+extern void func_021BA8EC(char *);
+extern void func_0203C554(int);
+int func_021C1768(char *p, int ret)
+{
+    int choice;
+    if (func_021BA928(p, ret) == 0) return ret;
+    choice = func_021BA858(p);
+    if (choice == -1) return ret;
+    if (choice == 0) {
+        func_021BAAB8(p, 76, 0);
+        func_021BC090(p);
+        *(unsigned short *)(p + 0x244) = 1;
+        *(int *)(p + 0x1cc) = 41;
+        *(int *)(p + 0x1e0) = 30;
+    } else {
+        func_021BA8EC(p);
+        func_0203C554(1);
+        *(int *)(p + 0x1e0) = 20;
+        *(int *)(p + 0x1cc) = 57;
+    }
+    return ret;
+}

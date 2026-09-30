@@ -1,0 +1,53 @@
+/*
+ * function: func_021BFFE0
+ * address: 0x021BFFE0
+ * packet: pkt_ov099_021BFFE0
+ * region: ov099
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * symbols:
+ *   func_021B97F4 0x021B97F4 thumb ov099
+ *   func_021BE2A8 0x021BE2A8 thumb ov099
+ *   func_021B9AE0 0x021B9AE0 thumb ov099
+ *   func_021BA8EC 0x021BA8EC thumb ov099
+ *   func_021C18C8 0x021C18C8 thumb ov099
+ *   func_0203C554 0x0203C554 arm
+ *   func_021BDD0C 0x021BDD0C thumb ov099
+ *   func_021B96CC 0x021B96CC thumb ov099
+ *   func_021BE4F0 0x021BE4F0 thumb ov099
+ *   func_021C19A8 0x021C19A8 thumb ov099
+ *   func_021BAEDC 0x021BAEDC thumb ov099
+ *   func_021C2408 0x021C2408 thumb ov099
+ */
+extern int func_021B97F4(char *);
+extern void *func_021BE2A8(char *,int);
+extern void func_021B9AE0(char *,void *);
+extern void func_021BA8EC(char *);
+extern void func_021C18C8(char *,int,unsigned);
+extern void func_0203C554(int);
+extern void func_021BDD0C(char *,int);
+extern int func_021B96CC(char *);
+extern int func_021BE4F0(char *,int);
+extern void func_021C19A8(char *);
+extern void func_021BAEDC(char *);
+extern void func_021C2408(char *);
+int func_021BFFE0(char *p,int ret) {
+    if(++*(int *)(p+0x1e0)<=240)return ret;
+    func_021B9AE0(p+0x274,func_021BE2A8(p,func_021B97F4(p+0x274)));
+    func_021BA8EC(p);
+    func_021C18C8(p,1,2);
+    func_0203C554(1);
+    func_021BDD0C(p,0);
+    if(!func_021B96CC(p+0x274)){
+        *(int *)(p+0x1cc)=func_021BE4F0(p,0);
+    } else {
+        func_021C19A8(p);
+        func_021BAEDC(p);
+        *(int *)(p+0x1f0)=-1;
+        *(int *)(p+0x1cc)=11;
+        func_021C2408(p);
+    }
+    return ret;
+}

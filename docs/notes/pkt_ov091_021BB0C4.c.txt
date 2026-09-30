@@ -1,0 +1,60 @@
+/*
+ * function: func_021BB0C4
+ * address: 0x021BB0C4
+ * packet: pkt_ov091_021BB0C4
+ * region: ov091
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residue: 220 bytes, two concrete bytes at +0046/+0048: zero spill uses r0 instead of r1.
+ * unresolved: func_0204B09C arm9 has no outside witness; verified leaf C is in pkt_ov091_021BA6A0.
+ * checks: 1 02045780 reads r0/r1 and stores a byte; 0204B09C reads three args and signed point halfwords (BA6A0 blocker C); 2 BA6A0/BB1A0 confirm tables and arities; 3 unsigned/short/long/u8 zero all remain 2 bytes, const p gives 32, u16 d gives 179; 4 enum-zero/narrow-flag/commutative/declaration idioms read, permuter 300 --types best DIFF 2; 5 refreshed full idiom list and BA6A0/BB1A0/D218, Pt array and two declaration variants remain 2 bytes. Next hypothesis: use caller's wider aggregate point scratch like BA6A0 Rect.
+ * symbols:
+ *   func_02045780 0x02045780 arm
+ *   func_0204B09C 0x0204B09C arm
+ *   func_020410D0 0x020410D0 arm
+ *   func_020413B0 0x020413B0 arm
+ *   func_02045374 0x02045374 arm
+ *   func_02041B6C 0x02041B6C arm
+ *   d_021BEC74 0x021BEC74 data ov091 a1
+ *   d_021BEC75 0x021BEC75 data ov091 a1
+ *   d_021BEC6C 0x021BEC6C data ov091 a1
+ *   d_021BEC6D 0x021BEC6D data ov091 a1
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct { short x,y; } Pt;
+extern void func_02045780(u32,u8);
+extern void func_0204B09C(u32,u32,Pt *);
+extern void func_020410D0(u32,u8,u32,u32,u8,void *,u8,u8,u8,u8);
+extern void func_020413B0(u32,u8,u32,u32,u8,u8);
+extern void func_02045374(u32);
+extern void func_02041B6C(u32);
+extern const u8 d_021BEC74[],d_021BEC75[],d_021BEC6C[],d_021BEC6D[];
+#define W(k) (*(u32 *)(s+(k)))
+void func_021BB0C4(u8 *p,u8 *s,int d)
+{
+    int i=s[4];
+    int x=d_021BEC74[i*2];
+    int y=d_021BEC75[i*2];
+    Pt pt;
+    enum Zero {ZERO,ONE} zero;
+    enum Selector {SEL_ZERO,SEL_ONE} selector;
+    if (i % 2 == 0) d=-d;
+    func_02045780(W(0x20),d+(x+16));
+    pt.x=-(x+d)*8;
+    pt.y=-y*8;
+    zero=0;
+    func_0204B09C(W(0x24),zero,&pt);
+    if (s[4] != 0) zero=1;
+    selector=s[4] != 0;
+    x+=16;
+    d=(unsigned)x+d;
+    func_020410D0(2,d,y,16,6,*(u8 **)(p+0x15c)+12,d_021BEC6C[selector*2],d_021BEC6D[zero*2],32,32);
+    func_020413B0(2,d,y,16,6,5);
+    func_02045374(W(0x20));
+    func_02041B6C(1);
+    func_02041B6C(2);
+}
