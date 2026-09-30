@@ -1,0 +1,61 @@
+/*
+ * function: func_021BD194
+ * address: 0x021BD194
+ * packet: pkt_ov110_021BD194
+ * region: ov110
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_020275E4 0x020275E4 thumb
+ *   func_02027614 0x02027614 thumb
+ *   func_02027618 0x02027618 thumb
+ *   func_0202761C 0x0202761C thumb
+ *   func_02027620 0x02027620 thumb
+ *   func_020490F4 0x020490F4 arm
+ *   func_0204AC18 0x0204AC18 arm
+ *   func_0204A6C8 0x0204A6C8 arm
+ *   func_0204AF28 0x0204AF28 arm
+ *   func_02049238 0x02049238 arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_021BAC40 0x021BAC40 thumb ov110
+ *   func_0204B294 0x0204B294 arm
+ *   func_0204B92C 0x0204B92C arm
+ *   func_0204B3DC 0x0204B3DC arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef struct { u16 x,y,z; u8 a,b; } Params;
+extern void *func_020275E4(void);
+extern int func_02027614(void);
+extern int func_02027618(void);
+extern int func_0202761C(int);
+extern int func_02027620(int);
+extern void *func_020490F4(void *,unsigned);
+extern void *func_0204AC18(void *,int,int,int,int,int,u16);
+extern void *func_0204A6C8(void *,int,int,int,u16);
+extern void *func_0204AF28(void *,int,int,u16);
+extern void func_02049238(void *);
+extern void func_02082BCC(void *,int,unsigned);
+extern void *func_021BAC40(void *);
+extern void *func_0204B294(void *,void *,void *,void *,Params *,int,u16);
+extern void func_0204B92C(void *,int);
+extern void func_0204B3DC(void *,int);
+void func_021BD194(u8 *p) {
+    void *h;
+    int a;
+    Params t;
+    h=func_020490F4(func_020275E4(),42);
+    *(void **)(p+0x1c)=func_0204AC18(h,func_02027614(),0,384,0,3,42);
+    *(void **)(p+0x20)=func_0204A6C8(h,func_02027618(),0,0,42);
+    a=func_0202761C(1);
+    *(void **)(p+0x24)=func_0204AF28(h,a,func_02027620(1),42);
+    func_02049238(h);
+    func_02082BCC(&t,0,8);
+    t.x=232; t.y=168; t.z=1; t.a=0; t.b=3;
+    *(void **)(p+0x28)=func_0204B294(func_021BAC40(*(void **)p),*(void **)(p+0x20),*(void **)(p+0x1c),*(void **)(p+0x24),&t,0,42);
+    func_0204B92C(*(void **)(p+0x28),1);
+    func_0204B3DC(*(void **)(p+0x28),0);
+    *(int *)(p+0x2c)=0;
+}

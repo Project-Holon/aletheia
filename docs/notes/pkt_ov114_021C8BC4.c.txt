@@ -1,0 +1,51 @@
+/*
+ * function: func_021C8BC4
+ * address: 0x021C8BC4
+ * packet: pkt_ov114_021C8BC4
+ * region: ov114
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: arm
+ * status: DIFF
+ * residual: 4 concrete bytes, loop byte values r1/r2 swapped
+ * checks: 1 matched neighbours and show confirm 2/5/0 args; 2 same calls as 887C, no byte-loop twin; 3 const source, u8/int locals compiled, countdown unsigned, widths no cure; 4 declaration-order and aggregate-copy tried; 5 refreshed idioms and live neighbours, n/a no stack object in best C
+ * symbols:
+ * d_021D3D28 0x021D3D28 data a4
+ * d_021D3D2C 0x021D3D2C data a4
+ * d_021CF538 0x021CF538 data a4
+ * d_021D3D40 0x021D3D40 data a4
+ * func_021C9EE4 0x021C9EE4 arm ov114
+ * func_021CA470 0x021CA470 arm ov114
+ * func_021CA1B4 0x021CA1B4 arm ov114
+ * d_021CF634 0x021CF634 data a4
+ */
+extern unsigned int *d_021D3D28;
+extern unsigned int d_021D3D2C[], d_021CF538[], d_021D3D40[];
+extern void func_021C9EE4(void *, void *);
+extern int func_021CA470(void *, unsigned int, void *, unsigned int, unsigned int);
+extern void func_021CA1B4(void);
+typedef unsigned char u8;
+typedef struct { u8 a,b; } Pair;
+extern unsigned int d_021CF634[];
+void func_021C8BC4(Pair *p, unsigned int x)
+{
+    unsigned int i;
+    Pair *q = (Pair *)d_021D3D40;
+    d_021D3D2C[0x72] = x;
+    for (i=4; i!=0; i--) {
+        int b,a;
+        b = p->b;
+        a = (p++)->a;
+        q->b = b;
+        q->a = a;
+        q++;
+    }
+    func_021C9EE4(d_021D3D28, d_021CF538);
+    if (func_021CA470(d_021CF634, d_021D3D2C[2], d_021D3D40, 8, 0) == 0) {
+        d_021D3D2C[0] = 14;
+        return;
+    }
+    d_021D3D2C[0] = 24;
+    d_021D3D2C[1] = -13;
+    func_021CA1B4();
+}

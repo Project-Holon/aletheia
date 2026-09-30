@@ -1,0 +1,43 @@
+/*
+ * function: func_021BBCF0
+ * address: 0x021BBCF0
+ * packet: pkt_ov110_021BBCF0
+ * region: ov110
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * extent: two bytes of zero alignment padding after the return.
+ * symbols:
+ *   func_0202CA0C 0x0202CA0C thumb
+ *   func_02030EAC 0x02030EAC arm
+ *   func_02020D3C 0x02020D3C thumb
+ *   func_0204B3B4 0x0204B3B4 arm
+ *   func_02045C04 0x02045C04 arm
+ *   func_02045808 0x02045808 arm
+ *   func_020452E8 0x020452E8 arm
+ *   func_020307B0 0x020307B0 arm
+ */
+typedef unsigned char u8;
+extern void func_0202CA0C(void *);
+extern void func_02030EAC(void *);
+extern void func_02020D3C(void *);
+extern void func_0204B3B4(void *);
+extern void func_02045C04(void *);
+extern void func_02045808(void *);
+extern void func_020452E8(void *);
+extern void func_020307B0(void *);
+void func_021BBCF0(u8 *p)
+{
+    func_0202CA0C(*(void **)(p + 0x1b4));
+    if (*(void **)(p + 0x1b0)) func_02030EAC(*(void **)(p + 0x1b0));
+    if (*(void **)(p + 0x1a4)) func_02030EAC(*(void **)(p + 0x1a4));
+    if (*(void **)(p + 0x34)) func_02020D3C(*(void **)(p + 0x34));
+    if (*(void **)(p + 0x14)) func_0204B3B4(*(void **)(p + 0x14));
+    if (*(void **)(p + 0x18)) func_0204B3B4(*(void **)(p + 0x18));
+    if (*(void **)(p + 0x2c)) func_02045C04(*(void **)(p + 0x2c));
+    if (*(void **)(p + 0x30)) func_02045808(*(void **)(p + 0x30));
+    func_020452E8(*(void **)(p + 0xc));
+    func_020452E8(*(void **)(p + 0x10));
+    func_020307B0(p);
+}

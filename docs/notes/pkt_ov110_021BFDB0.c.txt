@@ -1,0 +1,34 @@
+/*
+ * function: func_021BFDB0
+ * address: 0x021BFDB0
+ * packet: pkt_ov110_021BFDB0
+ * region: ov110
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 sprite callee has 3 arguments; 2 ov110 sprite twins reviewed; 3 const p unchanged, unsigned divides and s16 clamps; 4 shared-tail and cast-buffer idioms reviewed; 5 neighbours reread, declared Vec2 matches addressing. Best r1: 116 bytes, 72 bytes wrong; next hypothesis mixed cross-jumped clamps.
+ * symbols:
+ *   _u32_div_f 0x0209C2B0 arm
+ *   func_0204B404 0x0204B404 arm
+ */
+typedef unsigned char u8;
+typedef signed short s16;
+typedef struct { s16 x,y; } Vec2;
+extern void func_0204B404(void *,const Vec2 *,unsigned);
+void func_021BFDB0(u8 *p,unsigned a,unsigned n) {
+    Vec2 pos;
+    s16 lo,hi;
+    pos.x=244;
+    if(a==0) pos.y=18;
+    else if(a==n) pos.y=149;
+    else if(n==0) pos.y=18;
+    else {
+        lo=132*a/(n+1)+18;
+        hi=132*(a+1)/(n+1)+17;
+        pos.y=(lo+hi)/2;
+        if(pos.y<18) pos.y=18;
+        else if(pos.y>149) pos.y=149;
+    }
+    func_0204B404(*(void **)(p+28),&pos,0);
+}

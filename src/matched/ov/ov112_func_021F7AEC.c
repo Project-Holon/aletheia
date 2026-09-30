@@ -1,0 +1,47 @@
+/*
+ * function: func_021F7AEC
+ * address: 0x021F7AEC
+ * packet: pkt_ov112_021F7AEC
+ * region: ov112
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * extent: two-byte zero padding before 021F7BA8.
+ * symbols:
+ *   func_021F9DC0 0x021F9DC0 thumb ov132
+ *   func_021F9EDC 0x021F9EDC thumb ov132
+ *   func_021F9F74 0x021F9F74 thumb ov132
+ *   func_021F5450 0x021F5450 thumb ov112
+ *   func_021F5464 0x021F5464 thumb ov112
+ *   func_0207C9D0 0x0207C9D0 arm
+ *   func_021F4EA4 0x021F4EA4 thumb ov112
+ */
+typedef struct { int x, y, z; } Vec;
+typedef struct { short count, pad; int index, a, b; } Tail;
+extern int func_021F9DC0(int);
+extern int func_021F9EDC(int, int);
+extern void func_021F9F74(int, int, Vec *);
+extern char *func_021F5450(char *, int);
+extern Vec *func_021F5464(char *);
+extern void func_0207C9D0(Vec *, Vec *, Vec *);
+extern void func_021F4EA4(int, int, Vec *);
+void func_021F7AEC(char *p, char *q) {
+    Tail *t = (Tail *)(q + 0xf0);
+    int a = func_021F9DC0(*(int *)(p + 4));
+    char *r = func_021F5450(*(char **)(q + 0x58), *(int *)(q + 0xf4));
+    Vec v;
+    t->a = func_021F9EDC(a, 0x35);
+    if (*(int *)(q + 8) == 1 && *(int *)r == 1) {
+        func_021F4EA4(*(int *)(p + 0x10), *(int *)(q + 0x84 + t->index * 4), &v);
+        v.x /= 16;
+        v.y = (0xc0000 - v.y) / 16;
+        v.z += 0x1000;
+    } else {
+        func_0207C9D0((Vec *)(q + 0x18), func_021F5464(*(char **)(q + 0x58)), &v);
+        v.x /= 16;
+        v.y = (0xc0000 - v.y) / 16;
+        v.z -= 0x1c000;
+    }
+    func_021F9F74(t->a, 0, &v);
+}

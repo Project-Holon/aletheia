@@ -1,0 +1,48 @@
+/*
+ * function: func_021C0AC8
+ * address: 0x021C0AC8
+ * packet: pkt_ov110_021C0AC8
+ * region: ov110
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 func_02027778 reads two args, earlier third removed; 2 ov107_func_021F1930 confirms 20-byte descriptor and 12-byte records; 3 u16 heap parameter and enum/int one checked, no close; 4 zero-copy and local-stack idioms checked; 5 fresh idiom scan and aggregate-local idiom read. Permuter candidate rejected: drops records flags stores and calls before desc.d store. Table has no outside data witness with alignment-only hint.
+ * symbols:
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_02045808 0x02045808 arm
+ *   func_02027778 0x02027778 thumb
+ *   data_021C3C94 0x021C3C94 data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef struct { void *s; u16 color; u16 pad; unsigned flags; } Record;
+typedef struct { unsigned heap; u8 count; u8 pad[3]; Record *records; unsigned mode; u8 a,b,c,d; } Descriptor;
+extern const u8 data_021C3C94[];
+extern void *func_02045EC0(void *,unsigned);
+extern void func_02045808(void *);
+extern void *func_02027778(Descriptor *,void *);
+void *func_021C0AC8(void *p,void *bank,u16 heap) {
+    Descriptor desc;
+    int one;
+    Record records[3];
+    void *out;
+    unsigned i=0,j=i;
+    for(;i<3;i++) {
+        records[i].s=func_02045EC0(bank,data_021C3C94[i]);
+        records[i].color=0x39e3;
+        records[i].flags=j;
+    }
+    one=1;
+    desc.heap=heap;
+    desc.records=records;
+    desc.a=32;
+    desc.b=24;
+    desc.c=13;
+    desc.count=3;
+    desc.mode=one;
+    desc.d=3;
+    out=func_02027778(&desc,p);
+    for(;j<3;j++) func_02045808(records[j].s);
+    return out;
+}

@@ -1,0 +1,35 @@
+/*
+ * function: func_021BC068
+ * address: 0x021BC068
+ * packet: pkt_ov110_021BC068
+ * region: ov110
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * extent: two bytes of zero alignment padding after the return.
+ * symbols:
+ *   func_02049B68 0x02049B68 arm
+ *   func_02049F78 0x02049F78 arm
+ *   func_02082A60 0x02082A60 arm
+ *   func_020862F0 0x020862F0 arm
+ *   func_020307B0 0x020307B0 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+extern void func_02049B68(void *, int, int, int, int, u16);
+extern void *func_02049F78(void *, int, void **, u16);
+extern void func_02082A60(const void *, void *, int);
+extern void func_020862F0(void *, unsigned);
+extern void func_020307B0(void *);
+void func_021BC068(u8 *p, void *a)
+{
+    u8 *data;
+    void *handle;
+    func_02049B68(a, 3, 0, 0, 448, 42);
+    func_02049B68(a, 4, 4, 0, 160, 42);
+    handle = func_02049F78(a, 6, (void **)&data, 42);
+    func_02082A60(*(void **)(data + 0xc), p + 0x58, 320);
+    func_020862F0(p + 0x58, 320);
+    func_020307B0(handle);
+}

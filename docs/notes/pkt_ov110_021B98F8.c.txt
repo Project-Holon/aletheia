@@ -7,24 +7,33 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 n/a no callees; 2 ov110 021B99D8 caller takes four arguments, no parser twin; 3 u16 n and const src unchanged; 4 byte-pointer and integer-address casts unchanged; 5 idioms relisted and ov110 neighbours reread, n/a no stack aggregate. Next: inline halfword reader before pointer advance; no sweep run.
- * residual: count read folds adds/ldrh to ldrh immediate, displacing the subsequent code by two bytes.
+ * checks: 1 n/a no callees; 2 ov110 021B98A0 and 021B99D8 confirm four arguments, no full twin; 3 const u16 source pointer compiled unchanged; 4 nested-pointer and running-cursor idioms read; 5 idioms relisted and ov110 callers reread, stack-object check n/a no stack aggregate. Inline read16, split cursor advances and u16 pointer increments stayed 164 B/123 out. 300-budget --types permuter's valid named bit/address/byte temporaries gave 164 B/37 out; one confirmed it. No hand sweep. Next lever: count-address materialisation and inner-loop index allocation.
+ * residual: 164 bytes compiled, 37 concrete bytes differ in marker-count load and inner-loop register allocation; no relocation blockers.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 u32 func_021B98F8(u8 *p, u32 src, u16 *dst, u32 index) {
     u32 count = 0;
+    u32 tmp;
+    int tmp1;
+    int tmp4;
+    u16 *tmp3;
+    u8 tmp2;
     while (*(u16 *)src != 65535) {
         u32 value = *(u16 *)src;
         if (value == 65534) {
             u32 n;
             u32 i;
-            n = *(u16 *)((u32)src + 2);
+            tmp = (u32)src;
+            tmp3 = (u16 *)(tmp + 2);
+            n = *tmp3;
             src += 4;
             for (i=0; i<n; ++i) {
                 u32 v = *(u16 *)(src+i*2);
-                if (p[0x1D6E + (v >> 3)] & (1 << (v & 7))) {
+                tmp4 = 0x1D6E + (v >> 3);
+                tmp2 = p[tmp4];
+                if (tmp2 & (1 << (v & 7))) {
                     dst[index++] = v;
                     ++count;
                     break;
@@ -32,7 +41,8 @@ u32 func_021B98F8(u8 *p, u32 src, u16 *dst, u32 index) {
             }
             src += n*2;
         } else {
-            if (p[0x1D6E + (value >> 3)] & (1 << (value & 7))) {
+            tmp1 = 1 << (value & 7);
+            if (p[0x1D6E + (value >> 3)] & tmp1) {
                 dst[index++] = value;
                 ++count;
             }

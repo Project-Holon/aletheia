@@ -8,7 +8,7 @@
  * isa: thumb
  * status: DIFF
  * residue: five bytes at +0x2C..0x30; flag zero uses r0 after bank spill instead of r1 before it
- * checks: 1 func_0201F02C reads 3 args; others byte-correct; 2 arm9 units fix F02C and EF6C unsigned prototypes, no full twin; 3 const p and unsigned/u8 flag compiled, five-byte residue unchanged; 4 narrow-flag and stored-zero idioms read, u8 flag no change; 5 idiom list and ov10 siblings refreshed, scalar spills only so stack-object check inapplicable. Next targeted check: block-local flag initialization.
+ * checks: 1 own ARM9 units confirm F02C three args and EF6C five unsigned args; ov105 getter unit confirms int returns, matched callers confirm other arities; 2 ov105 021B7EEC/021B7F78 and ov104 021B8030 reread, no full flag twin; 3 unsigned bank and u16 flag compiled unchanged at five bytes; 4 local-declared-at-first-use, narrow-flag and second-zero idioms read; 5 idioms relisted and sibling callers refreshed, stack-object check n/a scalar spills only. Block-local flag initializer and enum flag unchanged; 300-budget --types permuter stayed five bytes. No sweep. Next lever: zero initializer's dependence on bank-result lifetime.
  * symbols:
  *   func_021B7CA0 0x021B7CA0 thumb ov105
  *   func_021B7CA4 0x021B7CA4 thumb ov105

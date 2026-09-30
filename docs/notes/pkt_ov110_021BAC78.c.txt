@@ -1,0 +1,54 @@
+/*
+ * function: func_021BAC78
+ * address: 0x021BAC78
+ * packet: pkt_ov110_021BAC78
+ * region: ov110
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residue: 18 concrete bytes; flag truncation sinks past interrupt-disable call.
+ * checks: 1 allocator seven arguments, return used; IRQ zero/one args; 2 ov111 twins confirm eight-byte position; 3 const q and wide sixth argument no change; 4 merged-halfword inline and ternary idioms no change; 5 reread ov110/ov111 twins and idioms, stack struct addressing already agrees. No sweep proposed.
+ * symbols:
+ *   func_02087988 0x02087988 arm
+ *   func_0208799C 0x0208799C arm
+ *   func_0204B294 0x0204B294 arm
+ *   func_0204B92C 0x0204B92C arm
+ *   func_0204B954 0x0204B954 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct { u16 a,b,c; u8 d,e; } Request;
+extern u32 func_02087988(void);
+extern u32 func_0208799C(u32);
+extern void *func_0204B294(u32,u32,u32,u32,Request *,u32,u16);
+extern void func_0204B92C(void *,u32);
+extern void func_0204B954(void *,u32);
+typedef enum { FLAG_OFF, FLAG_ON } Flag;
+static inline Flag get_flag(int kind) { return kind==2 ? FLAG_ON : FLAG_OFF; }
+static inline void *create(u8 *p,const u32 *q,Request *req,u16 flag) {
+    u32 irq;
+    void *result;
+    irq=func_02087988();
+    result=func_0204B294(*(u32 *)(p+0x20),q[1],q[0],q[2],req,flag,42);
+    func_0208799C(irq);
+    return result;
+}
+void *func_021BAC78(u8 *p,const u32 *q,u16 a,u16 b,int d,int kind) {
+    Request req;
+    int flag;
+    void *result;
+    req.a=a;
+    req.b=b;
+    req.d=d;
+    req.e=0;
+    req.c=0;
+    flag=get_flag(kind);
+    result=create(p,q,&req,flag);
+    if(result) {
+        func_0204B92C(result,1);
+        func_0204B954(result,4096);
+    }
+    return result;
+}

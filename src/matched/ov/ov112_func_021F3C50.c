@@ -1,0 +1,56 @@
+/*
+ * function: func_021F3C50
+ * address: 0x021F3C50
+ * packet: pkt_ov112_021F3C50
+ * region: ov112
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * extent: two-byte padding at 0x021F3CA2.
+ * symbols:
+ *   func_021F7160 0x021F7160 thumb ov112
+ *   func_021F51E8 0x021F51E8 thumb ov112
+ *   func_021F6CB0 0x021F6CB0 thumb ov112
+ *   func_021F6E74 0x021F6E74 thumb ov112
+ *   func_021F75A0 0x021F75A0 thumb ov112
+ *   func_021F51F4 0x021F51F4 thumb ov112
+ *   func_021F718C 0x021F718C thumb ov112
+ *   func_021F6F8C 0x021F6F8C thumb ov112
+ *   func_021F4280 0x021F4280 thumb ov112
+ *   func_02047964 0x02047964 arm
+ *   func_020479D8 0x020479D8 arm
+ *   func_0204F7DC 0x0204F7DC arm
+ *   func_02047970 0x02047970 arm
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+extern void func_021F7160(u32);
+extern void func_021F51E8(u8 *);
+extern void func_021F6CB0(u32);
+extern void func_021F6E74(u32);
+extern void func_021F75A0(u32);
+extern void func_021F51F4(u32);
+extern void func_021F718C(u32);
+extern void func_021F6F8C(u32);
+extern void func_021F4280(u8 *);
+extern void func_02047964(void);
+extern void func_020479D8(void);
+extern void func_0204F7DC(u32,u32,int);
+extern void func_02047970(void);
+void func_021F3C50(u8 *p)
+{
+    func_021F7160(*(u32 *)(p+0x2c));
+    func_021F51E8(*(u8 **)(p+0x20));
+    func_021F6CB0(*(u32 *)(p+0x40));
+    func_02047964();
+    func_020479D8();
+    func_021F6E74(*(u32 *)(p+0x40));
+    func_021F75A0(*(u32 *)(p+0x2c));
+    func_021F51F4(*(u32 *)(p+0x20));
+    func_021F718C(*(u32 *)(p+0x2c));
+    func_021F6F8C(*(u32 *)(p+0x28));
+    func_0204F7DC(*(u32 *)(p+0x1c),*(u32 *)(p+0x18),0);
+    func_021F4280(p);
+    func_02047970();
+}

@@ -7,8 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 n/a no callees; 2 ov110 twins only share bit stores, no parser twin; 3 u16 n adds truncation, const src unchanged; 4 byte-pointer and integer-address casts unchanged; 5 idioms relisted and ov110 neighbours reread, n/a no stack aggregate. Next: inline halfword reader before pointer advance; no sweep run.
- * residual: count read folds adds/ldrh to ldrh immediate, displacing the subsequent code by two bytes.
+ * checks: 1 n/a no callees; 2 ov110 021B98A0/021B99D8 parser callers checked, no full twin; 3 const u16 source pointer compiled unchanged; 4 nested-pointer and running-cursor idioms read; 5 idioms relisted and ov110 callers reread, stack-object check n/a no stack aggregate. Inline read16, split cursor advances and u16 pointer increments all stayed 136 B/109 out. 300-budget --types permuter's valid --n-before-bit-store mutation gave 140 B/37 out; one confirmed it. No hand sweep. Next lever: count-address materialisation, without changing inner-loop scheduling.
+ * residual: 140 bytes compiled, 37 concrete bytes differ in the marker-count load and inner-loop scheduling; no relocation blockers.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -25,8 +25,8 @@ u32 func_021B9814(u8 *p, u32 src, u32 count, u16 *dst) {
                 u32 v = *(u16 *)src;
                 u8 bit = (u8)(1 << (v & 7));
                 src += 2;
-                p[0x1D6E + (v >> 3)] |= bit;
                 --n;
+                p[0x1D6E + (v >> 3)] |= bit;
             }
             *dst = *(u16 *)(src-2);
         } else {

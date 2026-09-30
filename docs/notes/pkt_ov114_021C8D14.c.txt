@@ -1,0 +1,47 @@
+/*
+ * function: func_021C8D14
+ * address: 0x021C8D14
+ * packet: pkt_ov114_021C8D14
+ * region: ov114
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: arm
+ * status: DIFF
+ * checks: 1 prototypes from ov114 twins, no call residue; 2 8770 twin also residual; 3 const Pair source and integer mode compiled, no rescue; 4 Pair aggregate and u64 copy compiled, worse; 5 fresh idiom scan and 8770 re-read, array destination reduces to 12-byte DIFF; permuter 300 no improvement on prior 15-byte baseline.
+ * residual: 12 concrete bytes, same 140-byte size; initial two-word copy scheduling.
+
+ * symbols:
+ *   d_021D3D38 0x021D3D38 data a4
+ *   d_021D3D28 0x021D3D28 data a4
+ *   d_021D3D40 0x021D3D40 data a4
+ *   d_021D3D2C 0x021D3D2C data a4
+ *   d_021CF538 0x021CF538 data a4
+ *   d_021CF674 0x021CF674 data a4
+ *   func_021C9EE4 0x021C9EE4 arm ov114
+ *   func_021CA470 0x021CA470 arm ov114
+ *   func_021CA1B4 0x021CA1B4 arm ov114
+ */
+typedef struct { unsigned a, b; } Pair;
+extern const Pair d_021D3D38;
+extern unsigned d_021D3D40[];
+extern unsigned d_021D3D28;
+extern unsigned d_021D3D2C[], d_021CF538[], d_021CF674[];
+extern void func_021C9EE4(void *, void *);
+extern int func_021CA470(void *, unsigned, void *, unsigned, unsigned);
+extern void func_021CA1B4(void);
+void func_021C8D14(void)
+{
+    unsigned a = d_021D3D38.a;
+    unsigned b = d_021D3D38.b;
+    void *mode = (void *)d_021D3D28;
+    d_021D3D40[0] = a;
+    d_021D3D40[1] = b;
+    func_021C9EE4(mode, d_021CF538);
+    if (func_021CA470(d_021CF674, d_021D3D2C[2], d_021D3D40, 8, 0) == 0) {
+        d_021D3D2C[0] = 18;
+        return;
+    }
+    d_021D3D2C[0] = 24;
+    d_021D3D2C[1] = -13;
+    func_021CA1B4();
+}

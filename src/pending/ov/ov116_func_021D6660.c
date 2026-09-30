@@ -1,0 +1,67 @@
+/*
+ * function: func_021D6660
+ * address: 0x021D6660
+ * packet: pkt_ov116_021D6660
+ * region: ov116
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: MATCH
+ * blocker: ARM9 02012EF0 and 02012EFC lack an outside code witness.
+ * blocker: 0x02012EF0 verified EXACT in 12EF0-r1.log (Thumb, dsi/1.1p1 -O4,p).
+ *   extern int func_020071CC(void *,int);
+ *   int func_02012EF0(void **p) { return func_020071CC(*p,58); }
+ * blocker: 0x02012EFC verified EXACT in 12EFC-r1.log (Thumb, dsi/1.1p1 -O4,p).
+ *   extern int func_020071CC(void *,int);
+ *   int func_02012EFC(void **p) { return func_020071CC(*p,59); }
+ * symbols:
+ *   func_02034AC4 0x02034AC4 arm
+ *   ov_id 0x00000072 data
+ *   func_0203064C 0x0203064C arm
+ *   func_0203159C 0x0203159C arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_02012EFC 0x02012EFC thumb
+ *   func_02012EF0 0x02012EF0 thumb
+ *   func_02008B08 0x02008B08 thumb
+ *   func_021D6998 0x021D6998 thumb ov116
+ *   func_021D6B50 0x021D6B50 thumb ov116
+ *   func_021D70D8 0x021D70D8 thumb ov116
+ */
+typedef unsigned char u8;
+extern u8 ov_id[];
+extern void func_02034AC4(void *);
+extern void func_0203064C(int,int,int);
+extern u8 *func_0203159C(void *,int,int);
+extern void func_02082BCC(void *,int,unsigned);
+extern void *func_020120F4(void *);
+extern void *func_02012EBC(void *);
+extern int func_02008B08(void *);
+extern int func_0201283C(void *);
+extern int func_02012944(void *);
+extern int func_02012EFC(void *);
+extern int func_02012EF0(void *);
+extern void func_021D6998(void *);
+extern void func_021D6B50(void *,int);
+extern void func_021D70D8(void *);
+int func_021D6660(void *ctx,int unused,u8 *q) {
+    u8 *p;
+    void *save;
+    func_02034AC4(ov_id);
+    func_0203064C(1,125,0x18000);
+    p=func_0203159C(ctx,0x185c,125);
+    func_02082BCC(p,0,0x185c);
+    *(u8 **)p=q;
+    *(int *)(q+8)=1;
+    save=func_020120F4(*(void **)(*(u8 **)p+4));
+    q=func_02012EBC(save);
+    *(void **)(p+0x1844)=save;
+    *(int *)(p+0x1848)=func_02008B08(q);
+    *(int *)(p+0x184c)=func_0201283C(save);
+    *(int *)(p+0x1850)=func_02012944(save);
+    *(int *)(p+0x1854)=func_02012EFC(save);
+    *(int *)(p+0x1858)=func_02012EF0(save);
+    func_021D6998(p+0xb74);
+    func_021D6B50(p+0x1610,125);
+    func_021D70D8(p+0x182c);
+    return 1;
+}

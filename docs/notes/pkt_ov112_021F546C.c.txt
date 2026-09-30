@@ -1,0 +1,53 @@
+/*
+ * function: func_021F546C
+ * address: 0x021F546C
+ * packet: pkt_ov112_021F546C
+ * region: ov112
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 n/a no callees; 2 no ov112 twin; 3 const Input, enum/long/unsigned index and integer base compiled, no size improvement; 4 aggregate copy/index idioms read, no rescue; 5 idioms and neighbours rechecked, no local stack aggregate.
+ * residue: compiled 170 vs original 172; 153 concrete bytes differ after missing index copy shifts remaining layout.
+ */
+typedef unsigned short u16;
+typedef struct { int x,y,z; } Vec;
+typedef struct { Vec a,b,c,d; u16 e,f; } Input;
+typedef struct { int pad[5]; int enabled; Vec a,b,c,d; u16 e,f; } Slot;
+void func_021F546C(unsigned mode, const Input *in, char *p)
+{
+    long index;
+    int x,y;
+    Slot *s;
+    if (mode >= 7) {
+        index = mode-7;
+        s = (Slot *)(p + index*56);
+        s->enabled=1;
+        s->a=in->a;
+        s->b=in->b;
+        s->e=in->e;
+        s->f=in->f;
+        s->c=in->c;
+        s->d=in->d;
+        return;
+    }
+    if (mode == 4) {
+        y=in->b.y;
+        x=in->b.x;
+        *(int *)(p+524)=x;
+        *(int *)(p+528)=y;
+        *(int *)(p+532)=0;
+        *(int *)(p+548)=1;
+        return;
+    }
+    if (mode == 5) {
+        y=in->b.y;
+        x=in->b.x;
+        *(int *)(p+536)=x;
+        *(int *)(p+540)=y;
+        *(int *)(p+544)=0;
+        *(int *)(p+552)=1;
+    }
+}
+
+

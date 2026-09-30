@@ -1,0 +1,44 @@
+/*
+ * function: func_021C05B0
+ * address: 0x021C05B0
+ * packet: pkt_ov110_021C05B0
+ * region: ov110
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * lang: c99
+ * status: DIFF
+ * checks: 1 callees use one argument; register mismatch begins in zero-store loop, not argument setup; 2 ov110 callers provide no body twin; 3 int/u8/enum zero tried, two _Bool attempts CCERR; 4 zero-copy idioms and initializer spelling do not close; 5 fresh idiom scan and neighbours inspected, no stack aggregate. Permuter candidate rejected: uninitialized tmp pointer and stores i instead of zero.
+ * symbols:
+ *   func_021B6284 0x021B6284 thumb ov067
+ *   func_021C0AB4 0x021C0AB4 thumb ov110
+ *   func_021C0C18 0x021C0C18 thumb ov110
+ *   func_021C07E8 0x021C07E8 thumb ov110
+ *   func_021C16B0 0x021C16B0 thumb ov110
+ *   func_020355D8 0x020355D8 arm
+ */
+extern void func_0201C6EC(void *);
+extern void func_021B6284(void *);
+extern void func_021C0AB4(void *);
+extern void func_02027FD8(void *);
+extern void func_021C0C18(void *);
+extern void func_021C07E8(void *);
+extern void func_021C16B0(void *);
+extern void func_020355D8(int);
+void func_021C05B0(char *p) {
+    unsigned char i;
+    int z;
+    func_0201C6EC(*(void **)(p+0x5c));
+    z=0;
+    i=0;
+    for(;i<4;i++) *(int *)(p+0x7c+i*4)=z;
+    *(int *)(p+0x4c)=z;
+    func_021B6284(p+0xc);
+    func_021C0AB4(p);
+    func_02027FD8(*(void **)(p+0x64));
+    func_021C0C18(p);
+    func_021C07E8(p+0x24);
+    func_021C16B0(*(void **)(p+0x50));
+    if (*(int *)(p+0xa8)) z=1;
+    func_020355D8(z);
+}

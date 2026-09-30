@@ -1,0 +1,48 @@
+/*
+ * function: func_021BFE60
+ * address: 0x021BFE60
+ * packet: pkt_ov110_021BFE60
+ * region: ov110
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 func_021BFD94 returns unsigned, two arguments; corrected return unchanged; 2 no loop twin; 3 int lo worse, int counter with s16 increment unchanged; 4 declaration-order and block-local idioms reviewed; 5 neighbours and idioms reread, declared Vec2 matches stack addressing. Best 112 bytes, 11 bytes wrong: r4/r5 swap; next hypothesis nested loop locals.
+ * symbols:
+ *   func_021BFD94 0x021BFD94 thumb ov110
+ *   _u32_div_f 0x0209C2B0 arm
+ */
+typedef unsigned char u8;
+typedef signed short s16;
+typedef struct { s16 x,y; } Vec2;
+extern unsigned func_021BFD94(u8 *,Vec2 *);
+unsigned func_021BFE60(u8 *p,unsigned n) {
+    s16 lo;
+    int i;
+    unsigned result;
+    Vec2 pos;
+    s16 hi,y;
+    func_021BFD94(p,&pos);
+    if(n==0) goto zero;
+    else {
+        y=pos.y;
+        do {
+        if(y==18) {result=0;goto end;}
+        else if(y==149) result=n;
+        else {
+            for(i=0;i<=n;i=(s16)(i+1)) {
+                lo=132*(unsigned)i/(n+1)+18;
+                hi=132*(unsigned)(i+1)/(n+1)+17;
+                if(lo>hi) hi=lo;
+                if(lo<=y && y<=hi) {result=i;break;}
+            }
+        }
+        goto end;
+        } while(0);
+        goto zero;
+    }
+    goto end;
+zero: result=0;
+end:
+    return result;
+}
