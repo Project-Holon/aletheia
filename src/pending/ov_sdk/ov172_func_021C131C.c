@@ -7,20 +7,38 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
- *
- * blocker: codegen. Closest draft is byte-identical in shape/logic (476 vs
- *   484 bytes) but mwcc spills the `du` pointer (str [sp] / ldr [sp]) and
- *   assigns the row*mCols+col offset to r7 instead of r8, so du[0] lands in
- *   r6 not r7.  Tried: separate `offset` local (r7, still spills), `du[0]`
- *   vs `mCofficients[offset*64]` (loses the ldm r2,{r4,r5}), and computing
- *   du via `du += offset*64` (still r7).  Original keeps du=r6, value=r7.
+ * status:   DIFF (size-exact 484/484, 33 concrete bytes, one register exchange)
  *
  * sdk:      Yos_JpegEncoderComponentSequential (libssp.TWL.HYB.a jpegenc.o)
  *
+ * Lane U57 (2026-09-30): rewritten against the vendor object's own DWARF and
+ * instruction listing.  476/282 -> 484/33 with three fixes:
+ *   - the object has NO `offset` local.  `row*mCols + col` is spelled inline,
+ *     `du = component->mCofficients + (row * component->mCols + col) * 64;`;
+ *     with a named `offset` mwcc keeps it in r7 and never materialises du.
+ *   - `value` is read TWICE from `du[JpegZigZagInputOrderCodes[index]]`, once
+ *     in the zero test and again inside the else arm (the image reloads zz[]
+ *     and the halfword at +0x108/+0x114 - three instructions, the 8 bytes the
+ *     old draft was short).
+ *   - the arms are SWAPPED in the vendor's source: `if (du[...] != 0) { big }
+ *     else { zerorun++; }`.  With the small arm first mwcc if-converts it to
+ *     `addeq r5,r5,#1` plus a branch; with the big arm first the small arm is
+ *     left as the loop-tail block at +0x14b8, which is the image's shape.
+ * Declarations and types are the object's DWARF, which lists locals in reverse
+ * source order: rrrrssss, value(int), diff, du(short *), bits, zerorun, ssss,
+ * index.  `rrrrssss` is a real vendor local (`orr r1, r7, r5, lsl #4`, the
+ * ssss|zerorun<<4 code used for both mEhufco and mEhufsi).
+ *
+ * Residue (parked, not a source shape): the image keeps du in r6 and index in
+ * r4, ours keeps du in r4 and index in r6 - every other instruction is the
+ * same operation with the two registers exchanged.  Seven declaration
+ * permutations of the pair and of the whole declaration block all land on
+ * 484/33-35, so this is the two-simultaneously-live-values tie, the same
+ * class as 021B87F0 / 021C84BC.
+ *
  * symbols:
  *   Yos_BitWrite                    0x021C0C3C  arm  ov172
- *   JpegZigZagInputOrderCodes       0x021C85BC  data  ov172
+ *   JpegZigZagInputOrderCodes       0x021C85BC  data
  */
 
 typedef unsigned char u8;
@@ -49,17 +67,16 @@ static int Yos_JpegEncoderComponentSequential(huffman_structure *dc, huffman_str
                                               component_structure *component, u8 *dst,
                                               u32 *ptr, u32 col, u32 row)
 {
+    unsigned long rrrrssss;
+    int value;
     long diff;
-    long value;
     short *du;
-    u32 bits;
-    u32 zerorun;
-    u32 ssss;
-    u32 index;
-    u32 offset;
+    long bits;
+    unsigned long zerorun;
+    unsigned long ssss;
+    unsigned long index;
 
-    offset = row * component->mCols + col;
-    du = component->mCofficients + offset * 64;
+    du = component->mCofficients + (row * component->mCols + col) * 64;
     value = du[0];
     diff = value - component->mLastDcValue;
     component->mLastDcValue = value;
@@ -83,15 +100,13 @@ static int Yos_JpegEncoderComponentSequential(huffman_structure *dc, huffman_str
     zerorun = 0;
     index = 1;
     for (; index < 64; index++) {
-        value = du[JpegZigZagInputOrderCodes[index]];
-        if (value == 0) {
-            zerorun++;
-        } else {
+        if (du[JpegZigZagInputOrderCodes[index]] != 0) {
             while (zerorun >= 16) {
                 if (!Yos_BitWrite(dst, ptr, ac->mEhufco[0xF0], ac->mEhufsi[0xF0]))
                     return 0;
                 zerorun -= 16;
             }
+            value = du[JpegZigZagInputOrderCodes[index]];
             if (value < 0) {
                 value = -value;
                 bits = ~value;
@@ -100,14 +115,16 @@ static int Yos_JpegEncoderComponentSequential(huffman_structure *dc, huffman_str
             }
             for (ssss = 0; value != 0; ssss++)
                 value >>= 1;
-            if (!Yos_BitWrite(dst, ptr, ac->mEhufco[ssss | (zerorun << 4)],
-                              ac->mEhufsi[ssss | (zerorun << 4)]))
+            rrrrssss = ssss | (zerorun << 4);
+            if (!Yos_BitWrite(dst, ptr, ac->mEhufco[rrrrssss], ac->mEhufsi[rrrrssss]))
                 return 0;
             if (ssss != 0) {
                 if (!Yos_BitWrite(dst, ptr, bits, ssss))
                     return 0;
             }
             zerorun = 0;
+        } else {
+            zerorun++;
         }
     }
     if (zerorun != 0) {
