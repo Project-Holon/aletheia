@@ -1,0 +1,95 @@
+func_0215D92C @ 0x0215D92C, packet pkt_ov009_0215D92C, ov009.
+= SOCLi_CopyCPSBuffer (libsoc.TWL.HYB.a(socl_read.o)).
+DIFF at 101 concrete bytes out of the 264-byte listing, but the functional
+residue is ONE branch shape, 4 bytes, at +0x0090; every one of the other 101
+is downstream alignment caused by the 4-byte gap.
+
+The stored src/pending/ov_sdk/ov009_func_0215D92C.c (dsi/1.1p1, -O4,p)
+matches the image on every line except the received-=result guard arm:
+compiled is 260 bytes against a 264-byte listing.
+
+WHAT IT IS
+----------
+SOCLi_CopyCPSBuffer(socket, buffer, buffer_len, *remote_port, *remote_ip).
+Sets up cpsbuffer + cpsbuffer_len, resolves the locally-unreachable
+remote_port/remote_ip/his_ip/his_port, then on a full (cpsbuffer == 0)
+buffer runs SOCLi_GetRecvBuffer result = -0x1c and clears `state` bits 1..2,
+then writes his_port/his_ip back through remote_port/remote_ip and publishes
+my_port if local_port == 0.  On success it accumulates
+`socket->recv_pipe->consumed += result` when flag_noconsume == 0.
+
+Vendor structs (sdk/TwlDWC/include/nitroWiFi/socl.h): SOCLSocket has
+recv_pipe at +0xa0, state at +0xac, flag_block +0xae, flag_mode +0xaf,
+local_port +0xb0, remote_port +0xb2, remote_ip +0xb4.  SOCLiSocketRecvCommandPipe
+has consumed (long) at +0xf8, consumed_min +0xfc, flag_noconsume (s8) +0xfe.
+`sdkobj.py 0x0215D92C --region ov009`: object vs image 0 concrete mismatches
+on 252 concrete object bytes, vendor 4.0.0.1024 -> dsi/1.1p1; the branch form
+below really is the vendor build's output.
+
+WHAT THE C IS
+-------------
+The C stored in src/pending/ov_sdk/ov009_func_0215D92C.c.  Key lever that
+closes the else-arm: `result = cpsbuffer_len == 0 ? 0 : -0x1c;` -- the
+0/`-0x1c` ternary in that polarity is what makes 1.1p1 emit
+`mov r5,#0; cmp r0,#0; ldrsh r0,[sb,#0xac]; mvnne r5,#0x1b` byte-for-byte
+(matching `mvnne`, not the `subne r5,r5,#0x1c` every sequential spelling
+folds to).  The +0x84 local recv_pipe and the +0xAC `&&` tail match exactly.
+
+WHAT IS LEFT
+------------
++0x0090 .. +0x009C, 5 instructions, `flag_noconsume == 0` guard on the
+`recv_pipe->consumed += result` update:
+
+   original                         dsi/1.1p1, -O4,p
+   bne #0x215d9ec (= skip to tail)  ldreq r0, [r1, #0xf8]
+   ldr r0, [r1, #0xf8]              addeq r0, r0, r5
+   add r0, r0, r5                   streq r0, [r1, #0xf8]
+   str r0, [r1, #0xf8]              b #0x215d9e8
+   b #0x215d9ec
+
+The image KEEPS the branch over a 3-instruction guard body closed by a tail
+branch.  dsi/1.1p1 (and 1.2, 1.2p1, 1.2p2, 1.3) -O4,p unconditionally
+if-converts any guard arm of 5 instructions or fewer (see
+docs/idioms/an-arm-guard-block-of-five-instructions-or-fewer-is-predicated.md);
+the block here is 3 instructions, so there is no C shape at those front ends
+that leaves the branch.  The family lane (../1.2/sp2: 272/125, ../2.0/sp2:
+268/61, ../2.0/sp2p2: 268/61, all verified this session) keeps the guard
+branch but instead emits a branch for the image's predicated `&&` tail chain
+and mis-orders the else-arm constant select, so no build we have reproduces
+the full function: the original mixes a 2.0-style kept branch (-p forbids
+predication there) with 1.1p1-style predicated tail and *mvnne* select.
+
+SEARCHES DONE (this session, 2026-09-30)
+----------------------------------------
+~30 C spellings of the guard arm at dsi/1.1p1, every one if-converted to
+ldreq/addeq/streq/b (260/101): plain if, braced if, `!` inverted test,
+if/else with empty else, semicolon body, switch(flag){case: ...}, goto
+label + tail branch, while/do-while, `||` and `&&` predicates,
+ternary-as-statement, `.f / ->f` volatile field, int vs long vs s32 field,
+double-deref socket->recv_pipe->, function-scope binding of recv_pipe
+(*after* MI_CpuCopy, as the image's +0x84 load requires), addr-taken casts,
+`volatile long` field, bitwise `& 0xff` coercion.  Adding a call to the arm
+restores the branch (probe a_call: bne + body, but 272 bytes/108 diffs) --
+the only lever that flips if-conversion is a call or a sixth instruction.
+
+sp2-family cross (../2.0/sp2) of else-arm spelling x tail spelling:
+tern/0-first vs seq/if/if-else x && chain vs two separate ifs.  Best is
+seq + separate-if tail: 264 bytes, 16 concrete bytes (subne-select residue
+plus the his_port/remote_ip issue reorder in the tail).  All others 23-64.
+The sp2 branch for the && chain costs +4 bytes (8 instrs, beq#0x215da14) and
+can be separated into the +0xC8 block only by two-if spelling, which then
+loads his_port before testing remote_ip -- neither matches the && chain the
+image uses (ldr remote_ip, cmpne r1, then the two predicated stores).
+
+CONCLUSION
+----------
+No pinned front end emits byte-identical output for this function: 1.1p1
+(and every 4.0-family build) can only predicate the +0x90 guard; the 2.0
+family can only branch it and then branches the tail.  This is the
+"front-end whole-function pin" residue class, not a C lever.  Kept in
+src/pending with status DIFF, the else-arm lever (ternary 0:-0x1c) applied
+so the DIFF is the single 4-byte guard shape; 260/264 bytes, 101 concrete
+bytes differ, blocker is the mixed predication policy.
+Do not re-attempt without a source reading that gives the guard arm a call
+or a sixth IR operation, or a front end between 4.0.x and 2.0.0.79 that
+keeps short branches but still predicates the && tail.

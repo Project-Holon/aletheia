@@ -7,16 +7,19 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * sdk:      scSubmitReport (libdwcgssc.TWL.HYB.a(scimain.o))
  *
- * NEAR MISS (200 vs 212 B): the mChecksum zero-fill is an unrolled 4-byte strb loop in the object; the rolled for loop here does not reproduce it.
+ * The mChecksum zero-fill is a hand-unrolled 4-byte strb loop over an UNSIGNED
+ * counter, declared before the cursor: signed n folds the exit test into
+ * `cmp n,#0` + `bgt` and reverses the two scratch registers.  See
+ * docs/idioms/an-unsigned-counter-keeps-the-subs-bne-of-a-countdown-loop.md.
  *
  * symbols:
- *   func_02184938  0x02184938  arm  ov175
- *   func_0218497C  0x0218497C  arm  ov175
- *   func_02184A34  0x02184A34  arm  ov175
+ *   func_02184938  0x02184938  arm  ov009
+ *   func_0218497C  0x0218497C  arm  ov009
+ *   func_02184A34  0x02184A34  arm  ov009
  *   func_021E0DB8  0x021E0DB8  arm  ov175
  */
 
@@ -59,11 +62,12 @@ extern int func_021E0DB8(void *ws, unsigned int gameId, char *sessionId, char *c
 int func_021DFBB8(void *theInterface, void *theReport, int isAuthoritative, void *theCertificate,
                   void *thePrivateData, void *theCallback, unsigned int theTimeoutMs, void *theUserData)
 {
+    unsigned int n;
+    unsigned char *p;
     GSMD5_CTX md5;
     struct SCIReportHeader *header;
     struct SCIReport *aReport;
     struct SCInterface *anInterface;
-    int i;
 
     anInterface = theInterface;
     if (anInterface == 0)
@@ -72,8 +76,15 @@ int func_021DFBB8(void *theInterface, void *theReport, int isAuthoritative, void
         return 3;
     aReport = theReport;
     header = aReport->mData;
-    for (i = 0; i < 16; i++)
-        header->mChecksum[i] = 0;
+    p = header->mChecksum;
+    n = 4;
+    do {
+        p[0] = 0;
+        p[1] = 0;
+        p[2] = 0;
+        p[3] = 0;
+        p += 4;
+    } while (--n);
     func_02184938(&md5);
     func_0218497C(&md5, (unsigned char *)aReport->mData, aReport->mLength);
     func_02184A34(header->mChecksum, &md5);

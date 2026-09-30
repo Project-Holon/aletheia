@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   DIFF
  *
  * sdk:      AOSSi_WLANConnect (libdwcutil.TWL.HYB.a(aosslink.o))
  *
@@ -30,16 +30,22 @@
  *   g_021DCE60           0x021DCE60  data
  *   g_021DCE60_b         0x021DCE60  data
  *
- * notes: DIFF, near miss. Control flow, switch table and pool words match; residue is
- * register allocation: the object keeps conParam in r7 and reloads the bssdesc pool word
- * per call, ours hoists &connect_bssdesc into r6 and spills conParam to the stack
- * (460 vs 464 bytes). Declaration order, flags and compiler family do not change it.
+ * notes: DIFF, 464 vs 464 bytes, 6 bytes off.
+ *   Control flow, switch table (case 4/8/18/19), pool words and register
+ *   allocation now match byte-for-byte. Residue: (1) the msg19 switch-table
+ *   halfword (object 0x2C = case 18 tail, ours 0xB6 = loop test); (2) the
+ *   empty ssidLength loop - only the post-increment condition form survives
+ *   -O4,p dead-loop elimination, and its compiled shape inserts a temp copy
+ *   (adds r1,r0,#0) before the compare, shifting the ldrh register, the
+ *   compare and the back-edge by 2 bytes.
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
 typedef unsigned long long u64;
+
+typedef enum { WEP_OFF = 0, WEP_ON = 1 } wep_state;
 
 typedef struct OSiAlarm {
     void (*handler)(void *);
@@ -110,69 +116,74 @@ int func_021B87F0(wlla_connect_param *conParam, wlla_link_stat *linkStat)
     int loop_flag;
     int ret_code;
     int connect_retry_count;
-    int connect_lock;
     u32 link_status;
     u32 connect_option;
-    u8 wep_id;
+    wep_state wep_id;
     int i;
 
+    wlla_connect_param *cp = conParam;
     loop_flag = 1;
     ret_code = -1;
-    wep_id = 0;
-    connect_lock = 0;
-    if (conParam->AuthAlgo == 0) {
+    wep_id = WEP_OFF;
+    if (cp->AuthAlgo == 0) {
         connect_option = 0x80000;
-    } else if (conParam->AuthAlgo == 1) {
+    } else if (cp->AuthAlgo == 1) {
         connect_option = 0xC0000;
     }
     connect_option |= 0x30000;
 
     MI_CpuFill8(g_021DCF20, 0, 96);
-    if (conParam->keyLen == 5) {
+    if (cp->keyLen == 5) {
         g_021DCF20[0] = 1;
-    } else if (conParam->keyLen == 13) {
+    } else if (cp->keyLen == 13) {
         g_021DCF20[0] = 2;
-    } else if (conParam->keyLen == 16) {
+    } else if (cp->keyLen == 16) {
         g_021DCF20[0] = 3;
     } else {
         return -1;
     }
     g_021DCF20[1] = wep_id;
-    MI_CpuCopy8(conParam->key, &g_021DCF20[wep_id * 20 + 2], conParam->keyLen);
+    MI_CpuCopy8(cp->key, &g_021DCF20[wep_id * 20 + 2], cp->keyLen);
+
+    u32 gbase = (u32)&g_021DCE60;
 
     WCM_ClearApList();
-    if (func_021B8D40(0, conParam->ssid, conParam->ssidLen, 0x30BFFE)) {
+    if (func_021B8D40(0, cp->ssid, cp->ssidLen, 0x30BFFE)) {
         connect_retry_count = 0;
         OS_CreateAlarm(&alarm);
         OS_SetAlarm(&alarm, 0x3FEC42, func_021B84D0, (void *)0x12);
-        while (loop_flag) {
+        goto lstest;
+        lreceive:
             OS_ReceiveMessage(&g_021DCE40, &msg, 1);
             switch ((int)msg) {
+            case 4:
+            case 8:
+                break;
             case 18:
-                if (connect_lock == 0)
+                if (wep_id == WEP_OFF)
                     loop_flag = 0;
                 break;
             case 19:
                 break;
             case 5:
-                if (connect_lock == 0) {
-                    OS_CancelAlarm(&alarm);
-                    if (func_021B8CFC(&g_021DCE60, 1) != 1) {
+                if (wep_id != WEP_OFF)
+                    break;
+                OS_CancelAlarm(&alarm);
+                if (func_021B8CFC((WMBssDesc *)gbase, 1) != 1) {
+                    loop_flag = 0;
+                } else {
+                    func_021B8488(conParam, &g_021DCE60);
+                    for (i = 0; i++ < g_021DCE60_b.ssidLength; )
+                        ;
+                    if (func_021B8EFC((WMBssDesc *)gbase, g_021DCF20, connect_option) == 0)
                         loop_flag = 0;
-                    } else {
-                        func_021B8488(conParam, &g_021DCE60);
-                        for (i = 0; i < g_021DCE60_b.ssidLength; i++)
-                            ;
-                        if (func_021B8EFC(&g_021DCE60, g_021DCF20, connect_option) == 0)
-                            loop_flag = 0;
-                        else
-                            connect_lock = 1;
-                    }
+                    else
+                        wep_id = WEP_ON;
                 }
                 break;
             case 10:
                 func_021B8488(conParam, &g_021DCE60);
-                if (func_021B8EFC(&g_021DCE60, g_021DCF20, connect_option) == 0)
+                if (func_021B8EFC((WMBssDesc *)gbase, g_021DCF20, connect_option) == 0)
                     loop_flag = 0;
                 break;
             case 12:
@@ -181,9 +192,10 @@ int func_021B87F0(wlla_connect_param *conParam, wlla_link_stat *linkStat)
                 break;
             case 13:
                 connect_retry_count++;
-                if (connect_retry_count >= 3) {
-                    loop_flag = 0;
-                } else if (func_021B8EFC(&g_021DCE60, g_021DCF20, connect_option) == 0) {
+                if (connect_retry_count < 3) {
+                    if (func_021B8EFC((WMBssDesc *)gbase, g_021DCF20, connect_option) == 0)
+                        loop_flag = 0;
+                } else {
                     loop_flag = 0;
                 }
                 break;
@@ -191,7 +203,9 @@ int func_021B87F0(wlla_connect_param *conParam, wlla_link_stat *linkStat)
                 loop_flag = 0;
                 break;
             }
-        }
+        lstest:
+            if (loop_flag != 0)
+                goto lreceive;
         OS_CancelAlarm(&alarm);
         do {
         } while (OS_ReceiveMessage(&g_021DCE40, &msg, 0) == 1);

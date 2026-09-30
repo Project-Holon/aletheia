@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * sdk:      DWCi_FNTlFormEx (libdwcutil.TWL.HYB.a(font.o))
  *
@@ -22,6 +22,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
+
+typedef int bool;
 
 typedef struct {
     u8 pad[7];
@@ -76,25 +78,26 @@ extern void *DWCi_OVRlAlloc(int lcd, int num, int head, int *name);
 extern u32 NNSi_G2dCalcRequiredOBJ(int w, int h);
 extern void NNS_G2dCharCanvasInitForOBJ1D(Canvas *cnv, void *base, int w, int h, int fmt);
 
-void *func_021D5950(int lcd, int width, int height, int head, u32 *obj, int font)
+void *func_021D5950(int lcd, int width, int height, bool head, int *obj, int font)
 {
     Canvas *cnv;
     u8 *base;
     int name;
+    Font *fp;
+
     cnv = DWCi_QUElPopBack(g_021DE680->unused);
     cnv->width = width;
     cnv->height = height;
     cnv->buf = DWCi_OVRlAlloc(lcd, width * height, head, &name);
     cnv->name = name;
     *obj = NNSi_G2dCalcRequiredOBJ(width, height);
-    base = (u8 *)0x6600000;
-    if (lcd != 1)
-        base = (u8 *)0x6400000;
+    base = (u8 *)(lcd == 1 ? 0x6600000 : 0x6400000);
     base += name * 128;
     NNS_G2dCharCanvasInitForOBJ1D(cnv, base, width, height, 4);
     cnv->pFmt->pfnClear(cnv, 0);
+    fp = &g_021DE680->font[font];
     cnv->text.pCanvas = cnv;
-    cnv->text.pFont = &g_021DE680->font[font];
+    cnv->text.pFont = fp;
     cnv->text.hSpace = 1;
     cnv->text.vSpace = 1;
     return cnv;
