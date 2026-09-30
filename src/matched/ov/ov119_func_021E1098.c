@@ -1,0 +1,22 @@
+/*
+ * function: func_021E1098
+ * address: 0x021E1098
+ * packet: pkt_ov119_021E1098
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0202F038 0x0202F038 thumb
+ *   func_020456F8 0x020456F8 arm
+ *   func_02041B6C 0x02041B6C arm
+ *   func_0201F7A8 0x0201F7A8 thumb
+ *   func_020452E8 0x020452E8 arm
+ */
+extern void func_0202F038(int);
+extern void func_020456F8(int);
+extern void func_02041B6C(int);
+extern void func_0201F7A8(int,int);
+extern void func_020452E8(int);
+void func_021E1098(char *p) { if(*(int *)(p+0x5f0)) {func_0202F038(*(int *)(p+0x5f0));*(int *)(p+0x5f0)=0;} if(*(int *)(p+0x71c)) {func_020456F8(*(int *)(p+0x71c));func_02041B6C(6);func_0201F7A8(*(int *)(p+0x71c),2);func_020452E8(*(int *)(p+0x71c));*(int *)(p+0x71c)=0;} }

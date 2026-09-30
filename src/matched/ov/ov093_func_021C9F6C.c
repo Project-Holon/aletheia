@@ -1,0 +1,90 @@
+/*
+ * function: func_021C9F6C
+ * address: 0x021C9F6C
+ * packet: pkt_ov093_021C9F6C
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021B9934 0x021B9934 thumb ov093
+ *   func_021C64B4 0x021C64B4 thumb ov093
+ *   func_021CA0B8 0x021CA0B8 thumb ov093
+ *   func_021CA0C8 0x021CA0C8 thumb ov093
+ *   func_021CA0D8 0x021CA0D8 thumb ov093
+ *   func_021CA0E8 0x021CA0E8 thumb ov093
+ *   func_021CA0F8 0x021CA0F8 thumb ov093
+ *   func_021CA108 0x021CA108 thumb ov093
+ *   func_021C5718 0x021C5718 thumb ov093
+ *   func_021BF83C 0x021BF83C thumb ov093
+ *   func_021BF3D8 0x021BF3D8 thumb ov093
+ *   func_021BF4AC 0x021BF4AC thumb ov093
+ *   func_021BF8D4 0x021BF8D4 thumb ov093
+ *   func_021CA118 0x021CA118 thumb ov093
+ *   func_021BD1E0 0x021BD1E0 thumb ov093
+ *   func_021BD200 0x021BD200 thumb ov093
+ *   func_021C091C 0x021C091C thumb ov093
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct Out { u16 h0,h2,h4; u8 b6,pad7; u32 w8,wc,w10; };
+struct State { u16 h0; u8 b2,b3,b4; u8 flag:1; u8 rest:7; };
+extern int func_021B9934(char *, int);
+extern void func_021C64B4(u8 *, u16, u8 *, struct Out *);
+extern void func_021CA0B8(void *);
+extern void func_021CA0C8(void *);
+extern void func_021CA0D8(void *, u8 *);
+extern void func_021CA0E8(void *, int);
+extern void func_021CA0F8(void *);
+extern int func_021CA108(void *);
+extern void func_021C5718(u8 *, u8 *, u32);
+extern void func_021BF83C(u8 *, u16 *, u8 *, int);
+extern void func_021BF3D8(u8 *, int, u8 *, int, void *);
+extern void func_021BF4AC(u8 *, u8 *, u8 *, void *, void *);
+extern void func_021BF8D4(u8 *, u16 *, u8 *, int);
+extern int func_021CA118(void *);
+extern void func_021BD1E0(struct State *);
+extern void func_021BD200(struct State *, u8 *, u8 *, int);
+extern void func_021C091C(u8 *, u8 *, u8 *, u8 *, u32, u32);
+u8 func_021C9F6C(u8 *p, u8 *q)
+{
+    u8 work[28];
+    struct Out *out = (struct Out *)(work + 8);
+    u16 *saved;
+    u8 *a = (u8 *)func_021B9934(*(char **)(p + 8), q[4]);
+    u8 *b = (u8 *)func_021B9934(*(char **)(p + 8), q[5]);
+    struct State *state;
+    u32 flag;
+    func_021C64B4(p, *(u16 *)(q + 6), a, out);
+    func_021CA0B8(*(void **)(p + 0x860));
+    func_021CA0C8(*(void **)(p + 0x868));
+    func_021CA0D8(*(void **)(p + 0x868), b);
+    func_021CA0E8(*(void **)(p + 0x868), 1);
+    func_021CA0F8(*(void **)(p + 0x868));
+    if (func_021CA108(*(void **)(p + 0x868))) {
+        func_021C5718(p, a, ((u16 *)work)[4]);
+        return 0;
+    }
+    func_021BF83C(p, (u16 *)out, a, *(int *)(p + 0x868));
+    func_021BF3D8(p, (int)out, a, *(int *)(p + 0x868), p + 0x1f88);
+    func_021BF4AC(p, (u8 *)out, a, *(void **)(p + 0x868), p + 0x1f88);
+    func_021BF8D4(p, (u16 *)out, a, *(int *)(p + 0x868));
+    if (func_021CA118(*(void **)(p + 0x868))) return 0;
+    state = *(struct State **)(p + 0x4a8);
+    saved = (u16 *)work;
+    saved[0] = *(u16 *)state;
+    saved[1] = *(u16 *)((u8 *)state + 2);
+    saved[2] = *(u16 *)((u8 *)state + 4);
+    func_021BD1E0(state);
+    func_021BD200(*(struct State **)(p + 0x4a8), p, a, *(int *)(p + 0x868));
+    (*(struct State **)(p + 0x4a8))->b4 = 1;
+    func_021C091C(p, (u8 *)out, a, *(u8 **)(p + 0x868), (u32)(p + 0x1f88), 1);
+    state = *(struct State **)(p + 0x4a8);
+    flag = state->flag;
+    *(u16 *)state = saved[0];
+    *(u16 *)((u8 *)state + 2) = saved[1];
+    *(u16 *)((u8 *)state + 4) = saved[2];
+    return flag;
+}

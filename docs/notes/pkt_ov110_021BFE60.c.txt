@@ -7,6 +7,10 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * resolved: wave24 R1, src/matched/ov/ov110_func_021BFE60.c is EXACT.
+ *   Nested lo/hi alone leaves 11 bytes; explicit (int)i at the unsigned
+ *   result assignment fixes r4/r5. One types permuter used 52 candidates;
+ *   final native source independently compiled EXACT. Historical best below.
  * checks: 1 func_021BFD94 returns unsigned, two arguments; corrected return unchanged; 2 no loop twin; 3 int lo worse, int counter with s16 increment unchanged; 4 declaration-order and block-local idioms reviewed; 5 neighbours and idioms reread, declared Vec2 matches stack addressing. Best 112 bytes, 11 bytes wrong: r4/r5 swap; next hypothesis nested loop locals.
  * symbols:
  *   func_021BFD94 0x021BFD94 thumb ov110

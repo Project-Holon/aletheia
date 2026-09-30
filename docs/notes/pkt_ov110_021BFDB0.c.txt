@@ -7,6 +7,11 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * resolved: wave24 R1, src/matched/ov/ov110_func_021BFDB0.c is EXACT.
+ *   Mixed low label plus repeated high/low stores shrank 72 to 32; write
+ *   lower clamp as <18 with the upper test nested in else to close the diff.
+ *   One types permuter consumed 300 candidates on the interim 32-byte diff.
+ *   Historical best below; current matched source holds the exact spelling.
  * checks: 1 sprite callee has 3 arguments; 2 ov110 sprite twins reviewed; 3 const p unchanged, unsigned divides and s16 clamps; 4 shared-tail and cast-buffer idioms reviewed; 5 neighbours reread, declared Vec2 matches addressing. Best r1: 116 bytes, 72 bytes wrong; next hypothesis mixed cross-jumped clamps.
  * symbols:
  *   _u32_div_f 0x0209C2B0 arm

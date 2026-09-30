@@ -1,0 +1,111 @@
+/*
+ * function: func_021C9068
+ * address: 0x021C9068
+ * packet: pkt_ov093_021C9068
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 callee files/callers confirm arity; B9934 u8 argument matches
+ *   explicit narrowing, 9168 is a Thumb veneer with four registers and a
+ *   stack pointer argument; 2 8E58/8FA4/8918 establish packed header and
+ *   u8 return; no exact body twin; 3 const Ent versus mutable and const
+ *   Context versus mutable no change; int versus u32 arg no change;
+ *   u8 result no change, dispatcher passes wide int so no narrowing accepted;
+ *   4 read loop-invariant, bitfield, scope and stack-struct idioms; explicit
+ *   work local hoists before outer loop, inline work expressions avoid it;
+ *   5 refreshed 444 idioms and matched 8/9 neighbours, no new twin or lever.
+ * residual: 256/256 bytes, all 13 sites resolved, 18 concrete bytes out:
+ *   entry arg spill at +0x0c..+0x14 and address/flag scheduling +0x70..+0x76.
+ * permuter: one --budget 300 --types pass, expand(work x3) was the only
+ *   improvement (64 to 18); match.py agreed. No signature narrowing,
+ *   uninitialised reads, volatile or changed control flow accepted.
+ * lever: scalar declaration order fixes spills; inline &p->work prevents
+ *   its address and msg address from hoisting outside the outer loop.
+ * symbols:
+ *   func_021B9934 0x021B9934 thumb ov093
+ *   func_021C5A1C 0x021C5A1C thumb ov093
+ *   func_021C5A34 0x021C5A34 thumb ov093
+ *   func_021D5B7C 0x021D5B7C thumb ov093
+ *   func_021C56A8 0x021C56A8 thumb ov093
+ *   func_021C5620 0x021C5620 thumb ov093
+ *   func_021C9168 0x021C9168 thumb ov093
+ *   func_021C99A0 0x021C99A0 thumb ov093
+ *   func_021C8810 0x021C8810 thumb ov093
+ *   func_021C195C 0x021C195C thumb ov093
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct Slot { u32 kind : 3; u32 rest : 29; };
+struct Msg {
+    u16 a; u16 kind : 8; u16 n : 7; u16 flag : 1;
+    u8 data[0x1c]; u32 w20;
+};
+typedef struct {
+    u32 pad : 8; u32 idx : 5; u32 mid : 10; u32 fl : 1; u32 top : 8;
+    int value;
+    u8 targets[12];
+    u8 count;
+    u8 flag;
+    u8 gap[2];
+    struct Msg msg;
+} Ent;
+struct Context {
+    u8 gap0[8];
+    char *base;
+    u8 gapc[0x1ae4 - 12];
+    struct Msg work;
+};
+extern int func_021B9934(char *, u8);
+extern void func_021C5A1C(u8 *, u8 *);
+extern void func_021C5A34(u8 *, u8 *);
+extern int func_021D5B7C(void *);
+extern int func_021C56A8(u8 *, int *);
+extern void func_021C5620(u8 *, u8 *, int, struct Slot *);
+extern int func_021C9168(int, struct Slot, u8 *, int, struct Msg *);
+extern int func_021C99A0(void *, const struct Msg *);
+extern void func_021C8810(struct Msg *);
+extern void func_021C195C(u8 *, u8 *, u32);
+
+u8 func_021C9068(const struct Context *p, Ent *e, int arg)
+{
+    const struct Msg *msg;
+    u8 *first;
+    u8 result;
+    unsigned i;
+    u8 *a;
+    int value;
+    int k;
+    struct Slot slot;
+    first = (u8 *)func_021B9934(p->base, e->idx);
+    result = 0;
+    if (e->fl) func_021C5A1C((u8 *)p, first);
+    for (i = 0; i < e->count; i++) {
+        a = (u8 *)func_021B9934(p->base, e->targets[i]);
+        if (func_021D5B7C(a)) {
+          value = e->value;
+          k = func_021C56A8(a, &value);
+          if (k) {
+          msg = &e->msg;
+          result = 1;
+          do {
+            func_021C5620((u8 *)p, a, k, &slot);
+            if (!e->flag) {
+                if (func_021C9168(k, slot, a, arg, (struct Msg *)&p->work)) {
+                    func_021C99A0((void *)p, &p->work);
+                    func_021C8810((struct Msg *)&p->work);
+                }
+            } else {
+                func_021C99A0((void *)p, msg);
+            }
+            if (k == 0x13) func_021C195C((u8 *)p, a, 0);
+            k = func_021C56A8(a, &value);
+          } while (k);
+          }
+        }
+    }
+    if (e->fl) func_021C5A34((u8 *)p, first);
+    return result;
+}

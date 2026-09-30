@@ -1,0 +1,25 @@
+/*
+ * function: func_021DD3D4
+ * address: 0x021DD3D4
+ * packet: pkt_ov119_021DD3D4
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 84/84 bytes; 10 concrete bytes differ, first-loop counter and constant registers swapped.
+ * runs: 4 iterations, 3 checks; stopped after two principled non-shrinking changes.
+ * checks: 1 n/a no callees or argument setup; 2 ov119 DD1B8/DD2F4 share offsets but no search twin; 3 const p no change, short first counter grows 4 bytes; 4 declaration/reuse idioms no change, long first counter no change; 5 refreshed idioms and ov119 neighbours, no new twin, n/a stack-object check because no stack object. Next targeted idea: dead n parameter reused as first counter.
+ * symbols:
+ */
+typedef unsigned short u16;
+int func_021DD3D4(const char *p,int n,int a,int b)
+{
+    const char *q;
+    int j;
+    long i;
+    q=p+n*12;
+    for(i=0;i<3;i++) {if(*(int *)(q+0xfa4+i*4)==a && *(int *)(q+0xfbc+i*4)==b)return -1;}
+    for(j=0;j<3;j++){if(*(int *)(q+0xfa4+j*4)==-1)return j;}
+    return 2;
+}

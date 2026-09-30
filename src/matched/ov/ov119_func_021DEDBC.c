@@ -1,0 +1,30 @@
+/*
+ * function: func_021DEDBC
+ * address: 0x021DEDBC
+ * packet: pkt_ov119_021DEDBC
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_020399A8 0x020399A8 arm
+ *   func_0203D3A8 0x0203D3A8 arm
+ *   func_021D8A24 0x021D8A24 thumb ov119
+ *   func_021D8E84 0x021D8E84 thumb ov119
+ *   func_021DED74 0x021DED74 thumb ov119
+ */
+typedef unsigned char u8;
+extern unsigned func_020399A8(void);
+extern int func_0203D3A8(unsigned,unsigned,unsigned,void *);
+extern int func_021D8A24(void *);
+extern void func_021D8E84(void *,int);
+extern void func_021DED74(void *);
+void func_021DEDBC(void *p) {
+ unsigned h=func_020399A8();
+ u8 b;
+ if(func_021D8A24(p)) {
+  b=1;
+  if(func_0203D3A8(h,0xc0a,1,&b)) {func_021D8E84(p,(int)func_021DED74);return;}
+ } else {func_021D8E84(p,(int)func_021DED74);}
+}

@@ -1,0 +1,33 @@
+/*
+ * function: func_021E2F34
+ * address: 0x021E2F34
+ * packet: pkt_ov119_021E2F34
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02050B80 0x02050B80 arm
+ *   func_02030734 0x02030734 arm
+ *   func_02050C04 0x02050C04 arm
+ *   d_021E81C0 0x021E81C0 data a4
+ */
+typedef unsigned short u16;
+extern char d_021E81C0[];
+extern void func_02050B80(u16);
+extern void *func_02030734(u16,int,int,void *,int);
+extern void *func_02050C04(void *,int,int,u16);
+void func_021E2F34(char *p) {
+    int i,flag;
+    func_02050B80(*(u16 *)(p+0xba));
+    *(void **)(p+0xb4)=0;
+    for(i=0;i<9;i++) {
+        ((void **)p)[9+i]=func_02030734(*(u16 *)(p+0xba),0x4800,1,d_021E81C0,0x201);
+        switch(i) {
+        case 0: case 1: case 2: case 5: case 6: case 8: flag=0; break;
+        case 3: case 4: case 7: default: flag=1; break;
+        }
+        ((void **)p)[i]=func_02050C04(((void **)p)[9+i],0x4800,flag,*(u16 *)(p+0xba));
+    }
+}

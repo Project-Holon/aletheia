@@ -1,0 +1,25 @@
+/*
+ * unit: yes
+ * function: func_021EAE24, func_021EAE34
+ * address: 0x021EAE24
+ * packet: pkt_ov093_021EAE24
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021EE23C 0x021EE23C thumb ov093
+ *   func_021EE25C 0x021EE25C thumb ov093
+ */
+typedef unsigned char u8;
+extern void func_021EE23C(void *);
+extern int func_021EE25C(void *);
+void func_021EAE24(u8 *p)
+{
+    func_021EE23C(*(void **)(p+0x17c));
+}
+int func_021EAE34(u8 *p)
+{
+    return func_021EE25C(*(void **)(p+0x17c));
+}

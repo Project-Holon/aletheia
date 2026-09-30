@@ -1,0 +1,86 @@
+/*
+ * function: func_021CA5CC
+ * address: 0x021CA5CC
+ * packet: pkt_ov093_021CA5CC
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 244 compiled bytes versus 248; first count spill/load and
+ * counter-zero scheduling remain different. Every relocation resolves.
+ * checks: 1 callee arities from matched bodies; 2 same-overlay callers and
+ * C3810 normalization twin read; 3 u8/enum/aggregate count tested, const p
+ * compiled unchanged (first const attempt CCERR, then valid casts);
+ * 4 buffer/loop/count idioms read; 5 fresh idiom listing and neighbours
+ * checked; no new twin covers the initial count reload.
+ * permuter: 300 candidates; best copy(i->i_) guards on old i after increment
+ * and changes loop behavior, so rejected. No valid improvement.
+ * next: investigate original count object or inline return representation;
+ * do not force the extra reload with a volatile local.
+ * symbols:
+ *   func_021B8D8C 0x021B8D8C thumb ov093
+ *   func_021C7F68 0x021C7F68 thumb ov093
+ *   func_021B9934 0x021B9934 thumb ov093
+ *   func_021D5BDC 0x021D5BDC thumb ov093
+ *   func_021C5418 0x021C5418 thumb ov093
+ *   func_021D69AC 0x021D69AC thumb ov093
+ *   func_0203EFC8 0x0203EFC8 arm
+ *   func_021C6F34 0x021C6F34 thumb ov093
+ *   func_021D62C4 0x021D62C4 thumb ov093
+ *   func_021C5620 0x021C5620 thumb ov093
+ *   func_021CD64C 0x021CD64C thumb ov093
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct Cmd { u32 a:8; u32 id:5; u32 b:19; };
+extern int func_021B8D8C(void *, void *, u8);
+extern int func_021C7F68(void *, u16, u8 *);
+extern int func_021B9934(char *, int);
+extern int func_021D5BDC(u8 *, u32);
+extern int func_021C5418(u8 *, u8 *, int);
+extern u8 func_021D69AC(u8 *, int);
+extern int func_0203EFC8(const void *, const void *, u32);
+extern int func_021C6F34(u8 *, u8 *, int);
+extern int func_021D62C4(u8 *, int);
+extern void func_021C5620(u8 *, u8 *, int, void *);
+extern void func_021CD64C(void *, u32, ...);
+int func_021CA5CC(const u8 *p, const struct Cmd *q)
+{
+    u8 buf[8];
+    u32 n;
+    u8 i;
+    u8 *a;
+    int changed;
+    u8 t;
+    n = func_021C7F68((u8 *)p, func_021B8D8C(*(void **)(p + 4), *(void **)(p + 8), q->id) | 0x800, buf);
+    i = 0;
+    if (i >= n) goto done;
+loop:
+    {
+        a = (u8 *)func_021B9934(*(char **)(p + 8), buf[i]);
+        changed = 0;
+        if (func_021D5BDC(a, 3)) {
+            func_021C5418((u8 *)p, a, 3);
+            t = func_021D69AC(a, 4);
+            if (!(t && (t = (u8)(t - 1)) < 24)) t = 31;
+            if (t != 31) func_0203EFC8(p, a, 1);
+            changed = 1;
+        }
+        if (func_021C6F34((u8 *)p, a, 1)) changed = 1;
+        if (func_021D62C4(a, 30)) {
+            func_021C5620((u8 *)p, a, 30, 0);
+            changed = 1;
+        }
+        if (func_021D62C4(a, 32)) {
+            func_021C5620((u8 *)p, a, 32, 0);
+            changed = 1;
+        }
+        if (changed) func_021CD64C(*(void **)(p + 12), 0x5b, 0x43b, buf[i], 0xffff0000);
+    }
+    i++;
+    if (i < n) goto loop;
+done:
+    return 1;
+}

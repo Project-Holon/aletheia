@@ -1,0 +1,52 @@
+/*
+ * function: func_021DFF40
+ * address: 0x021DFF40
+ * packet: pkt_ov119_021DFF40
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 no unused live arguments; func_0201F02C show reads r0-r2, other prototypes from matched callers; 2 neighbours 021D9AD8/021E15F8/021E2984 share callees but no exact twin; 3 const p and unsigned argument unchanged at 19 bytes (initial const compile CCERR until call casts); 4 enum one restores frame, enum offset/integer-base worsen, word-index unchanged; 5 refreshed idiom list and neighbours, no stack object residue; next check inline accessor boundaries, no sweep.
+ * residual: 160 bytes, 19 concrete bytes differ at +0x5e..+0x72.
+ * Original keeps r4=0x834 across func_02045CAC and derives later offsets;
+ * C mutates r4 to 0x73c early and reloads the 0x724 base.
+ * runs: 4 iterations; 4 checks (including one CCERR).
+ * symbols:
+ *   func_021D8AA8 0x021D8AA8 thumb ov119
+ *   func_021D8FA4 0x021D8FA4 thumb ov119
+ *   func_0201EEF4 0x0201EEF4 thumb
+ *   func_0201F02C 0x0201F02C thumb
+ *   func_02045CAC 0x02045CAC arm
+ *   func_0201F250 0x0201F250 thumb
+ *   func_021E0FF4 0x021E0FF4 thumb ov119
+ *   func_021D8E84 0x021D8E84 thumb ov119
+ *   func_021DFFE0 0x021DFFE0 thumb ov119
+ */
+extern int func_021D8AA8(void *);
+extern int func_021D8FA4(void *,int);
+extern void func_0201EEF4(int,int,int);
+extern void func_0201F02C(int,int,int);
+extern void func_02045CAC(int,int,unsigned);
+extern void func_0201F250(int,int,int);
+extern void func_021E0FF4(void *,int,int);
+extern void func_021D8E84(void *,int);
+extern void func_021DFFE0(void *);
+void func_021DFF40(char *p)
+{
+    int v;
+    enum { One = 1 } one;
+    if(*(int *)(p+0xf2c)<200) return;
+    if(func_021D8AA8(p)) v=func_021D8FA4(p,0);
+    else v=func_021D8FA4(p,1);
+    one=1;
+    func_0201EEF4(*(int *)(p+0x724),one,v);
+    func_0201F02C(*(int *)(p+0x724),0,*(int *)(p+0x834));
+    if(*(int *)(p+0x118c)!=7 && *(int *)(p+0x118c)!=8) {
+        if(((unsigned char *)p)[0x11ee]) func_02045CAC(*(int *)(p+0x720),0x84,*(unsigned *)(p+0x73c));
+        else func_02045CAC(*(int *)(p+0x720),0x31,*(unsigned *)(p+0x73c));
+        func_0201F250(*(int *)(p+0x724),*(int *)(p+0x738),*(int *)(p+0x73c));
+        func_021E0FF4(p,one,0);
+    }
+    func_021D8E84(p,(int)func_021DFFE0);
+}

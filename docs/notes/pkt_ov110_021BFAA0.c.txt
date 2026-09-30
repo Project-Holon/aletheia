@@ -7,6 +7,10 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * resolved: wave24 R1, src/matched/ov/ov110_func_021BFAA0.c is EXACT.
+ *   Outside tmp initializer must combine masked load and plane OR; splitting
+ *   tmp |= wnd changes constant folding. SDK BOOL/int substitutions alone
+ *   unchanged. No permuter consumed. Historical best below.
  * checks: 1 blend and transition prototypes copied from ov110 twins; 2 021BB870 gives both; 3 enum plane/effect/window and signed display parameters unchanged; 4 SDK hardware inline idiom reviewed; 5 neighbours and idioms reread, no stack object besides arguments. 180 versus 184 bytes, 129 bytes wrong; next hypothesis SDK BOOL int and inline wrapper binding.
  * volatile: 0x021BFAD0 WININ, 0x021BFAF2 DISPCNT, 0x021BFB00 WINOUT, 0x021BFB1E DISPCNT reads.
  * symbols:

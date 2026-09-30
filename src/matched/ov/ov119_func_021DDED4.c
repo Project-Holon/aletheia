@@ -1,0 +1,31 @@
+/*
+ * function: func_021DDED4
+ * address: 0x021DDED4
+ * packet: pkt_ov119_021DDED4
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_020279E8 0x020279E8 thumb
+ *   func_02027A04 0x02027A04 thumb
+ *   func_021E12F8 0x021E12F8 thumb ov119
+ *   func_021E1098 0x021E1098 thumb ov119
+ *   func_021D8E84 0x021D8E84 thumb ov119
+ *   func_021DDE4C 0x021DDE4C thumb ov119
+ *   func_021DDE90 0x021DDE90 thumb ov119
+ */
+
+extern int func_020279E8(int);
+extern int func_02027A04(int);
+extern void func_021E12F8(void *);
+extern void func_021E1098(void *);
+extern void func_021D8E84(void *,int);
+extern void func_021DDE4C(void *);
+extern void func_021DDE90(void *);
+
+void func_021DDED4(unsigned char *p)
+{
+    int v; if(func_020279E8(*(int *)(p+0x64c))==0)return;v=func_02027A04(*(int *)(p+0x64c));func_021E12F8(p);func_021E1098(p);*(int *)(p+0x64c)=0;switch(v){case 0:func_021D8E84(p,(int)func_021DDE4C);return;case 1:func_021D8E84(p,(int)func_021DDE90);return;}
+}

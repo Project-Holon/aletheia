@@ -1,0 +1,24 @@
+/*
+ * function: func_021DC370
+ * address: 0x021DC370
+ * packet: pkt_ov119_021DC370
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021E12AC 0x021E12AC thumb ov119
+ *   func_020362DC 0x020362DC arm
+ *   func_02035C60 0x02035C60 arm
+ *   func_020355D8 0x020355D8 arm
+ *   func_021E1098 0x021E1098 thumb ov119
+ *   func_021E6700 0x021E6700 thumb ov119
+ *   func_021D8E84 0x021D8E84 thumb ov119
+ *   func_021DBE70 0x021DBE70 thumb ov119
+ *   func_021E4E64 0x021E4E64 thumb ov119
+ */
+extern int func_021E12AC(void *);extern int func_020362DC(void);extern int func_02035C60(void);extern void func_020355D8(int);extern void func_021E1098(void *);extern void func_021E6700(void *);extern void func_021D8E84(void *,int);extern void func_021DBE70(void);extern void func_021E4E64(int,void *,int);
+static inline int poll_a(void) {int r=func_020362DC();if(r)func_020355D8(0);return r;}
+static inline int poll_b(void) {int r=func_02035C60();if(r)func_020355D8(1);return r;}
+void func_021DC370(char *p) {int hit=0;if(func_021E12AC(p)) {if(poll_a()) {func_020355D8(0);hit=1;}if(poll_b()){hit=1;func_020355D8(1);}if(hit){func_021E1098(p);func_021E6700(p);func_021D8E84(p,(int)func_021DBE70);*(short *)(p+0x1080)=-1;func_021E4E64(*(int *)(p+0x828),p,1);}}}

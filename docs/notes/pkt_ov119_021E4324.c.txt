@@ -1,0 +1,42 @@
+/*
+ * function: func_021E4324
+ * address: 0x021E4324
+ * packet: pkt_ov119_021E4324
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 184 bytes, seven concrete bytes differ: entry heap-offset and n webs swap r5/r6.
+ * checks: 1 02048F60 forwards r0-r2 and returns allocation; 42B4 takes p; no missing argument; 2 no allocation twin in ov119, 41A0 and 43DC confirm pointers; 3 unsigned n, separate int amount and int allocation heap argument no change; 4 redundant-truncation idiom fixes length, block-scope amount no change; 5 neighbours reread, no new twin; no stack aggregate/spill residue. Next: two targeted declaration positions for a separate heap-offset local.
+ * symbols:
+ *   func_02048F60 0x02048F60 arm
+ *   func_021E42B4 0x021E42B4 thumb ov119
+ */
+extern char *func_02048F60(int, int, int);
+extern void func_021E42B4(char *);
+void func_021E4324(char *p, unsigned n)
+{
+    int i;
+    unsigned short *q;
+    *(char **)(p + 0x1174) = func_02048F60(102, 14, *(unsigned short *)(p + 0x5f4));
+    *(char **)(p + 0x1178) = func_02048F60(102, 15, *(unsigned short *)(p + 0x5f4));
+    *(char **)(p + 0x117c) = func_02048F60(102, 25, *(unsigned short *)(p + 0x5f4));
+    *(char **)(p + 0x1180) = func_02048F60(102, 26, *(unsigned short *)(p + 0x5f4));
+    {
+    int amount;
+    amount = (unsigned short)n;
+    for (i = 0; i < 768; i++) {
+        q = (unsigned short *)(*(char **)(p + 0x1174) + i * 2 + 0x24);
+        *q += (unsigned short)amount;
+        q = (unsigned short *)(*(char **)(p + 0x1178) + i * 2 + 0x24);
+        *q += (unsigned short)amount;
+        q = (unsigned short *)(*(char **)(p + 0x117c) + i * 2 + 0x24);
+        *q += (unsigned short)amount;
+        q = (unsigned short *)(*(char **)(p + 0x1180) + i * 2 + 0x24);
+        *q += (unsigned short)amount;
+    }
+    }
+    *(short *)(p + 0x107c) = *(int *)(p + 0x63c) - 80;
+    func_021E42B4(p);
+}

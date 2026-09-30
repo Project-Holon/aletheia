@@ -1,0 +1,35 @@
+/*
+ * function: func_021D52D4
+ * address: 0x021D52D4
+ * packet: pkt_ov120_021D52D4
+ * region: ov120
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02028230 0x02028230 thumb
+ *   func_02028148 0x02028148 thumb
+ *   func_02041B6C 0x02041B6C arm
+ *   func_021D69F4 0x021D69F4 thumb ov120
+ *   func_021D4244 0x021D4244 thumb ov120
+ *   func_021D51D4 0x021D51D4 thumb ov120
+ */
+typedef unsigned char u8;
+extern int func_02028230(void *);
+extern void func_02028148(void *);
+extern void func_02041B6C(int);
+extern void func_021D69F4(void *, void *, int);
+extern void func_021D4244(int, int, int);
+extern void func_021D51D4(void);
+void func_021D52D4(u8 *p)
+{
+    if (func_02028230(*(void **)(p + 0x34))) {
+        func_02028148(*(void **)(p + 0x34));
+        *(int *)(p + 0x34) = 0;
+        *(int *)(p + 0x148) = -1;
+        func_021D69F4(*(void **)(p + 0x3c), 0, 9);
+        func_02041B6C(5);
+        func_021D4244((int)p, (int)func_021D51D4, 0x6ba);
+    }
+}

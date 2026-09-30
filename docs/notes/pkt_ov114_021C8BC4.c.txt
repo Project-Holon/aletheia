@@ -8,7 +8,10 @@
  * isa: arm
  * status: DIFF
  * residual: 4 concrete bytes, loop byte values r1/r2 swapped
- * checks: 1 matched neighbours and show confirm 2/5/0 args; 2 same calls as 887C, no byte-loop twin; 3 const source, u8/int locals compiled, countdown unsigned, widths no cure; 4 declaration-order and aggregate-copy tried; 5 refreshed idioms and live neighbours, n/a no stack object in best C
+ * retry: wave24 R1, 3 targeted changes (inline Pair assignment, explicit int
+ *   cast, Pair local) did not shrink 4; one --budget 300 --types permuter
+ *   compiled 300 candidates and found no improvement. Do not rerun.
+ * checks: 1 ov114 matched callers confirm 2/5/0 args; 2 same calls as 887C, no byte-loop twin; 3 prior const source, u8/int locals, unsigned countdown widths no cure; explicit int cast retry unchanged; 4 declaration-order, aggregate-copy and small pair copy reviewed; 5 refreshed idioms and live neighbours, n/a no stack object in best C.
  * symbols:
  * d_021D3D28 0x021D3D28 data a4
  * d_021D3D2C 0x021D3D2C data a4
