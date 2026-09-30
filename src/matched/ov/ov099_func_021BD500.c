@@ -1,0 +1,34 @@
+/*
+ * function: func_021BD500
+ * address: 0x021BD500
+ * packet: pkt_ov099_021BD500
+ * region: ov099
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021BA928 0x021BA928 thumb ov099
+ *   func_020362DC 0x020362DC arm
+ *   func_021BA8EC 0x021BA8EC thumb ov099
+ *   func_021BCBBC 0x021BCBBC thumb ov099
+ *   func_021BBEB4 0x021BBEB4 thumb ov099
+ */
+typedef unsigned char u8;
+extern int func_021BA928(char *p, int result);
+extern int func_020362DC(void);
+extern void func_021BA8EC(void *p);
+extern int func_021BCBBC(int a, int b, int *out);
+extern void func_021BBEB4(char *p, int a, u8 b, int c);
+int func_021BD500(char *p, int result)
+{
+    int out;
+    if (func_021BA928(p, result) == 0) return result;
+    if (func_020362DC() != 0) {
+        func_021BA8EC(p);
+        func_021BCBBC(*(int *)(p + 0x1348), *(int *)(p + 0xcc), &out);
+        func_021BBEB4(p, out, *(u8 *)(*(u8 **)(p + 0x248) + 0x48), 3);
+        *(int *)(p + 0x1cc) = 0x6d;
+    }
+    return result;
+}

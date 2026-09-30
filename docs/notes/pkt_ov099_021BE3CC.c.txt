@@ -1,0 +1,54 @@
+/*
+ * function: func_021BE3CC
+ * address: 0x021BE3CC
+ * packet: pkt_ov099_021BE3CC
+ * region: ov099
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residue: 8 concrete bytes differ, only four loop-invariant spill-slot offsets.
+ * lever: u16 x/y pins home stores; row zero before base and palette shift
+ *   restores register choices and scheduling. Further reorder variants capped.
+ * checks: 1 callee bodies confirm one layer arg, four tile-write args, u8 final
+ *   layer and u16 tile; 2 no pre-wave twin in ov099/ov100, verified callers agree;
+ *   3 u16 x/y shrank diff, int palette no change, const p worsened to 20, signed
+ *   tileY/width and unsigned callee x/y leave 8; 4 spill-order idioms apply but
+ *   reorder budget exhausted; 5 idioms relisted and pre-wave neighbours reread,
+ *   no stack object exists so struct-local addressing idiom does not apply.
+ * next: block scope or invariant declaration order; no sweep performed.
+ * symbols:
+ *   func_021BE4EC 0x021BE4EC thumb ov099
+ *   func_02042FB0 0x02042FB0 arm
+ *   func_02041B6C 0x02041B6C arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern int func_021BE4EC(int layer);
+extern void func_02042FB0(int layer, unsigned x, unsigned y, u16 tile);
+extern void func_02041B6C(u8 layer);
+void func_021BE3CC(char *p, int layer, u16 x, u16 y, u32 pos)
+{
+    u16 *tiles;
+    int row, column;
+    int tileY;
+    int width;
+    u16 *base;
+    int palette;
+    u16 *cursor;
+    tiles = (u16 *)(*(char **)(p + 4) + 12);
+    palette = func_021BE4EC(layer);
+    tileY = (pos >> 4) * 2;
+    width = (u32)*(u16 *)*(char **)(p + 4) >> 3;
+    row = 0;
+    base = tiles + (pos & 15) * 2;
+    palette <<= 12;
+    for (; row < 2; row++) {
+        cursor = base + (tileY + row) * width;
+        for (column = 0; column < 2; column++) {
+            func_02042FB0(layer, column + x, row + y, cursor[column] + palette);
+        }
+    }
+    func_02041B6C(layer);
+}
