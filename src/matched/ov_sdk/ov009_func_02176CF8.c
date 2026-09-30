@@ -18,6 +18,18 @@
  *   DWC_Free        0x0205A1B0  arm
  *   MIi_CpuCopy32   0x02082A90  arm
  *   g_021AB178      0x021AB178  data
+ *   g_021AB178_head 0x021AB178  data
+ *
+ * The image carries TWO literal-pool words for the queue info: r3 for the
+ * count/head field reads and r6 for the `target` cursor.  mwccarm emits one
+ * pool word per (symbol, addend), so two words for one address means the
+ * source reached it through two names.  Declaring a second extern
+ * (`g_021AB178_head`) at the same address for `target = &...` reproduces both
+ * words and closes the whole 188-byte diff in one step; with one name the
+ * compiler CSEs them into r6 and the function is 8 bytes short.
+ *
+ * Verified with:
+ *   python tools/match.py one --src src/matched/ov_sdk/ov009_func_02176CF8.c  *       --func func_02176CF8 --addr 0x02176CF8 --region ov009 --arm --lang c99 --cc 1.1p1 --diff
  */
 
 typedef struct SendQueue {
@@ -36,11 +48,12 @@ extern void *DWC_Alloc(int kind, int size);
 extern void DWC_Free(int kind, void *p, int size);
 extern void MIi_CpuCopy32(void *src, void *dst, int size);
 extern QueueInfo g_021AB178;
+extern SendQueue *g_021AB178_head;
 
 int func_02176CF8(void *connection, unsigned char *buffer, int size)
 {
     SendQueue *it;
-    SendQueue **target = &g_021AB178.head;
+    SendQueue **target = &g_021AB178_head;
     QueueInfo *q = &g_021AB178;
 
     if (q->total + size > 0x8000)

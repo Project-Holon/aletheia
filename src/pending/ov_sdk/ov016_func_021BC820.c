@@ -11,6 +11,16 @@
  *
  * sdk:      DWCi_ANIMElInitEx (libdwcutil.TWL.HYB.a(anime.o))
  *
+ * T6: size-exact, 204 B both sides, 73 concrete diffs. First diff +0000:
+ * object `push {r4,r5,r6,lr} / mov r6,r0 (color) / mov r4,#0`, this build
+ * `push {r3,r4,r5,r6,r7,lr} / mov r4,r0 / mov r7,#0` - one register too many.
+ * Consequence: the object reads pal = g_021D9FF8[color] early (into lr, right
+ * after the obj store, +0040) and this build sinks it past the w0 store. That
+ * early pal load is what frees the extra register. Tried: declaration order
+ * swapped, pal assigned before the obj call and right after the color store,
+ * all four obj accesses through `g_021DE504->obj` with no `o` local, `o`
+ * cached from the obj assignment: 73 to 133 concrete diffs, size stays 204,
+ * and all nine pins give 73.
  * symbols:
  *   func_021D6414  0x021D6414  arm  ov016
  *   func_021D5368  0x021D5368  arm  ov016

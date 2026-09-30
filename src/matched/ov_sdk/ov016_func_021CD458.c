@@ -7,9 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
- *
- * note:     MATCH (not EXACT): the callee func_020589C4 (DWCi_BACKUPlGetWifi, ARM9 0x020589C4, a bx-lr getter) has no SDK catalog row and no other attesting class; bytes are identical.
+ * status:   EXACT
  *
  * sdk:      endScene2 (libdwcutil.TWL.HYB.a scenesettest.o)
  *

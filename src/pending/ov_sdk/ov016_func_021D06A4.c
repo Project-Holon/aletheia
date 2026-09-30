@@ -20,6 +20,12 @@
  *
  * w9_nm: 12 B: const-qualified MemStep (in the macro cast, the struct member, or cell[]) and a MEMSTEP *const local do not move the cell load above the x = 152 store; block cell local, cell hoisted to the top, early-return arm order: 53 to 90 B.
  *
+ * T6: 12 B, first at +0060. Object `ldr r0,[r4,#4] / str r2,[sp,#4] /
+ * ldr r0,[r0,#0x10] / sub r1,r2,#0x99`; this build `str r2,[sp,#4] /
+ * ldr r0,[r4,#4] / sub r1,r2,#0x99 / ldr r0,[r0,#0x10]`. Only the else arm's
+ * four-instruction window schedules differently - the taken arm and every
+ * other instruction match. Sweep: 12 concrete diffs at -O4,p/-O4,s/-O4/-O3/
+ * -O2 for all nine pins.
  * symbols:
  *   CELL_IDX                         0x021DA914  data
  *   C_POS                            0x021DA932  data

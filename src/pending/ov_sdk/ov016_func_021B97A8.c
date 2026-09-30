@@ -18,6 +18,17 @@
  *
  * sdk:      InitAtermApcNetwork (libdwcutil.TWL.HYB.a(atermset.o))
  *
+ * T6: pin corrected to ../2.0/sp1p2 (atermset.o, the object SetFrameData
+ * 0x021B9FE0 already pins). Under it this function drops from 188 B / 164
+ * concrete diffs (dsi/1.1p1) to 160 B / 117 (image 164 B). Residue, in order:
+ * (a) the object keeps maxap in r6 and t = maxap*0xd0 in r7, this build swaps
+ * them (maxap r7, t r6) - visible from +0002; (b) both `& -32` masks: the
+ * object materialises -0x20 as `movs r1,#0x1f / adds r0,r1,#0 / subs r0,#0x3f`
+ * and uses `ands`, this build folds each to `movs r3,#0x1f / bics`; that fold
+ * is exactly the 4-byte size gap. Tried: four local declaration orders,
+ * `& -32`/`& -0x20`/`& 0xFFFFFFE0`/`& 0xffffffe0u`/`& (int)0xffffffe0u`, an
+ * `int mask = -32;` local used by both masks, `int t` declared mid-block,
+ * `unsigned int t` - all byte-identical at 160 B.
  * symbols:
  *   func_021B970C  0x021B970C  thumb  ov016
  *   func_021B95EC  0x021B95EC  thumb  ov016

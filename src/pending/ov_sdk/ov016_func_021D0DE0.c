@@ -13,6 +13,14 @@
  *
  * sdk:      cbWm (libdwcutil.TWL.HYB.a usbap.o)
  *
+ * T6: this row matches at -O1 (148 B EXACT in all nine pins) and is 144 B at
+ * -O4,p in all nine. The residue is one if-conversion: the object keeps the
+ * `st != 0` arm as `cmp r0,#2 / popne {r3,pc} / mov r0,#2 / strb r0,[r1,#0xb94]
+ * / pop {r3,pc}`, this build predicates it (`moveq r0,#2 / strbeq`). -O1 is
+ * out of scope for the project, so the row is capped on the compiler axis;
+ * on the source axis five spellings (early return, store then return, nested
+ * braces, goto to one shared set-label, volatile st) all compile to the same
+ * predicated 144 B.
  * symbols:
  *   func_021D0FCC  0x021D0FCC  arm  ov016
  *   func_021D0E74  0x021D0E74  arm  ov016

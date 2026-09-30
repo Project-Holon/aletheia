@@ -23,6 +23,15 @@
  * senses, r = 1 then clear, if/else assignment, the call result in a local,
  * cc 1.1, 1.2, 1.2p1, 1.3.
  *
+ * T6: still 5 B - the select's destination register. Object `moveq r0,r5 /
+ * movne r0,r4`; this build `movne r5,r4 / mov r0,r5` (the result coalesces
+ * into the r5 zero constant). 14 spellings re-run: if/return without else in
+ * both senses, if/else returns, `r = c ? 1 : 0;` at declaration and after the
+ * stores, `(c != 0)`, one/zero locals, `if (c) r = 1; else r = 0;` - every one
+ * either flips the constant assignment to r4=0/r5=1 or keeps the result in
+ * r5. Only `int r = 0; if (c) r = 1; return r;` keeps the object's r5=0/r4=1
+ * ordering, and that is the shape whose result coalesces. A sweep over all
+ * nine pins x seven flag sets x inline/ipa variants is D5 in every cell.
  * symbols:
  *   DWCi_MOV_WH_StateInInitialize    0x021D36D0  arm  ov016
  *   g_021DE660                       0x021DE660  data

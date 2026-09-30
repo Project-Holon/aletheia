@@ -11,6 +11,15 @@
  *
  * sdk:      taskMove (libdwcutil.TWL.HYB.a window.o)
  *
+ * T6: 184 B vs 192. The object branches on the type test (`cmp r0,#5 /
+ * bne / ldr r1,[pc,A] / b / ldr r1,[pc,B]`) while this build if-converts the
+ * function-pointer select (`movne r1,...`), and that branch is the missing
+ * 8 bytes; the object also keeps the 0 constant in r4 (needed across the
+ * GetPosition call) where this build rematerialises immediates. Tried the
+ * select as a `void (*fn)(void *)` local via ternary and via if/else in both
+ * senses, as `void *` and as `unsigned long` with a cast at the call, as a
+ * leading `fn = B` plus one if, as a switch, and with the call duplicated in
+ * each arm: every spelling re-folds to 180 B, and no pin/flag cell matches.
  * symbols:
  *   func_021D5250  0x021D5250  arm  ov016
  *   func_021D1868  0x021D1868  arm  ov016

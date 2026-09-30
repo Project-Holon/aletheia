@@ -11,6 +11,12 @@
  *
  * sdk:      SetFrameData (libdwcutil.TWL.HYB.a(atermset.o))
  *
+ * T6: 186 B vs 196. The object runs a real frame (`sub sp,#8`) that spills
+ * id to [sp,#4] and reloads the fifth parameter lpkey from [sp,#0x20], and it
+ * interleaves the eight ELEMENTHEADER byte stores with the FullLength SWAP16
+ * chain; this build does the lpkey/copy branch first, needs no frame at all and
+ * computes both SWAP16 chains after it. The extra live value that forces the
+ * object's spill is the structural gap.
  * symbols:
  *   func_021BAC20  0x021bac20  thumb  ov016
  *   func_02092344  0x02092344  arm

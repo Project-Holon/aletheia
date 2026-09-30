@@ -13,6 +13,10 @@
  *
  * w9_nm: same 12 B as taskEnd0 (the object loads MemStep->cell[4] before storing x = 176); the taskEnd0 spellings do not change it.
  *
+ * T6: as taskEnd0 (same 12 B window). Object `ldr r0,[r4,#4] /
+ * str r2,[sp,#4] / ldr r0,[r0,#0x10] / sub r1,r2,#0xb1`; this build
+ * `str r2,[sp,#4] / ldr r0,[r4,#4] / sub r1,r2,#0xb1 / ldr r0,[r0,#0x10]`.
+ * Sweep: 12 concrete diffs at every -O4/-O3/-O2 cell of all nine pins.
  * symbols:
  *   CELL_IDX                         0x021DA914  data
  *   C_POS                            0x021DA932  data
