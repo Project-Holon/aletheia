@@ -11,12 +11,24 @@
  *
  * sdk:      create_key_block (ssl.o)
  *
- * blocker:  436 bytes vs 440.  Two residues: (1) the f32==4 / f32==5 size
- *           selection is laid out branch-first in the image (beq to the ==4
- *           block, predicated ver==5 block falls through) but this form emits
- *           the predicated block first then a branch; (2) register allocation:
- *           image len=sb(r9) p=fp(r11), compiled p=sb(r9) len=fp(r11).  The
- *           loop body, sha1/md5 chain and rc4_init tail otherwise line up.
+ * blocker:  444 bytes vs 440 (U42).  SOLVED since the first draft: the size
+ *           selection is a `switch (con->f32)` with `case 4` / `case 5` (a
+ *           nested if emits a real branch for the ==5 arm, mwcc if-converts
+ *           a switch arm into the predicated moveq/streq block at 0x21612E4).
+ *           The loop is a `for` rotated by the compiler; `p` must NOT be live
+ *           into the post-loop tail (spell `(unsigned char *)con + 0x74` out
+ *           in the f454 block) or the len/p register pair swaps to
+ *           p=sb(r9)/len=fp(r11) instead of the image's len=sb/p=fp.
+ *           Residue now: the inner j-loop's address/constant hoists.  Image
+ *           0x2161368 `add r5, sp, #8` (&c) and 0x216136C `mov r4, #1` sit
+ *           BEFORE the sha1_init call; here they land after the
+ *           `strb r0, [sp, #8]` (compiled 0x2161388).  Everything above
+ *           0x2161368 is byte-identical.  A `do { } while` + explicit
+ *           `if (0 < len)` entry guard (v16 in scratch/a2/laneU42/) is the
+ *           closest form: 25 instructions identical, 278 concrete bytes.
+ *           Size-exact alternative (440 bytes, 225 bytes out) is the same
+ *           switch with `p` live into the tail - see v2.c/  v6.c in
+ *           scratch/a2/laneU42/; that form's only residue is the len/p swap.
  *
  * symbols:
  *   CPSi_sha1_init    0x02163C9C  arm
@@ -59,20 +71,23 @@ static void create_key_block(struct _CPSSslConnection *con)
     int size1, size2, size3;
     int len;
 
-    if (con->f32 != 4) {
-        if (con->f32 == 5) {
-            size1 = 0x14;
-            size2 = 0x10;
-            size3 = 0;
-        }
-    } else {
+    switch (con->f32) {
+    case 4:
         size1 = 0x10;
         size2 = 0x10;
         size3 = 0;
+        break;
+    case 5:
+        size1 = 0x14;
+        size2 = 0x10;
+        size3 = 0;
+        break;
     }
     len = (size1 + size2 + size3) * 2;
-    p = (unsigned char *)con + 0x74;
-    for (i = 0; i * 16 < len; i++) {
+    i = 0;
+    if (0 < len) {
+        do {
+        p = (unsigned char *)con + 0x74;
         CPSi_sha1_init((char *)con + 0x348);
         c = 'A' + i;
         for (j = 0; j < i + 1; j++)
@@ -85,17 +100,19 @@ static void create_key_block(struct _CPSSslConnection *con)
         CPSi_md5_calc((char *)con + 0x3fc, con, 0x30);
         CPSi_md5_calc((char *)con + 0x3fc, tmp, 0x14);
         CPSi_md5_result((char *)con + 0x3fc, p + i * 16);
+        i++;
+        } while (i * 16 < len);
     }
     if (con->f454 != 0) {
-        con->f1d4 = p;
-        con->f1d8 = p + size1 * 2;
-        con->fbc = p + size1;
-        con->fc0 = p + size1 * 2 + size2;
+        con->f1d4 = (unsigned char *)con + 0x74;
+        con->f1d8 = (unsigned char *)con + 0x74 + size1 * 2;
+        con->fbc = (unsigned char *)con + 0x74 + size1;
+        con->fc0 = (unsigned char *)con + 0x74 + size1 * 2 + size2;
     } else {
-        con->fbc = p;
-        con->fc0 = p + size1 * 2;
-        con->f1d4 = p + size1;
-        con->f1d8 = p + size1 * 2 + size2;
+        con->fbc = (unsigned char *)con + 0x74;
+        con->fc0 = (unsigned char *)con + 0x74 + size1 * 2;
+        con->f1d4 = (unsigned char *)con + 0x74 + size1;
+        con->f1d8 = (unsigned char *)con + 0x74 + size1 * 2 + size2;
     }
     CPSi_rc4_init((char *)con + 0x1e0, (unsigned char *)con->f1d8, 0x10);
     CPSi_rc4_init((char *)con + 0xc8, (unsigned char *)con->fc0, 0x10);

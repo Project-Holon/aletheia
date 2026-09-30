@@ -26,6 +26,16 @@
  *            from plain C (see note); needs a front end that mixes 1.1p1 tail
  *            predication with a kept 3-instruction guard branch.
  *
+ * lane U41 (2026-09-30).  Re-measured: still 260 compiled against 264, first
+ * difference `image beq #0x215d9ec over ldr/add/str/b | ours ldreq/addeq/streq/b`
+ * at +0x90, exactly the if-conversion the note names; everything downstream
+ * shifts by four.  Seven further spellings measured, all identical (260/264,
+ * 101 bytes): `volatile long consumed` field, `*(volatile long *)&...consumed
+ * += result`, braced body, `result + consumed` operand order, a named `c`
+ * local, `while (..==0) { ...; break; }`, a `long *pc = &consumed` pointer,
+ * `goto`-shaped arms and a one-case `switch`.  This front end predicates the
+ * arm from every one of them, so the cap is confirmed on a wider base.
+ *
  * sdk:      SOCLi_CopyCPSBuffer (libsoc.TWL.HYB.a(socl_read.o))
  *
  * symbols:

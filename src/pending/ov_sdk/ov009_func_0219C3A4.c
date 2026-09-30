@@ -71,6 +71,17 @@
  * gsDebugFormat argument setup).  Not pursued: it would trade a strong
  * refused class for a weak one and mean rewriting the body.
  *
+ * lane U41 (2026-09-30).  Re-measured MATCH: 432/432, 399 concrete bytes equal,
+ * 8 of 9 relocations resolved, only +0198/@13818 unresolved.  Re-tested the two
+ * candidate re-spellings that would move the site onto a named extern so the
+ * template rule is bypassed: six explicit `natNegBytes[k] = g_021A1B64[k];`
+ * assignments compile 432 bytes with 45 concrete diffs (the loop base stays in
+ * r2 and the id arrive in r8 in the image), and `memcpy(natNegBytes,
+ * g_021A1B64, 6)` gives 75.  Both are far from the initialiser form's 0, so the
+ * template rule is the only route and its uniqueness prong is defeated by the
+ * NNMagicData twin at 0x021A5A7C, which no libdwcgsqr2 slot outside this range
+ * claims.  Residue named; no shard written.
+ *
  * How the other data absolutes stand, for the record:
  *   - g_021A7858 (the vendor's @14807) resolves as `sole-ref/self`.
  *   - g_021ACEF8 and g_021ACEFC (__GSIACResult and __GSIACGamename, i.e. the

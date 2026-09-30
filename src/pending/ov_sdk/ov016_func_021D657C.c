@@ -8,7 +8,18 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
- * notes: DIFF, whole-function register allocation shift. Mask derives as (x ^ 0x2FFF) & 0x2FFF (image uses r1 lsr #12 of 0x02FFFFA8); target keeps the fold pointer in r4, bit in ip, i in r3, hoists 0x28 in r5; this source puts the fold pointer in lr and i in r2. Structure (trg/release/repeat updates, count loop 40/47) matches.
+ * notes: SIZE-EXACT (272 B) with the per-bit test inverted so the zero-store is
+ * the THEN arm -- mwcc then predicates the store (strbeq) where the if/else
+ * spelling branches and costs 8 bytes.  Ours 272 B, 2/2 relocs resolved.
+ * Residue: 71 bytes, a register permutation only, instruction for instruction
+ * identical -- image keeps `bit` in r1 and the loaded ks pointer in r0
+ * (`+0028 mov r1, r0` / `+003C ldr r0, [r4, #4]`), ours keeps bit in r0
+ * (`+0028 mov r0, r0`) and the ks pointer in r2 (`+003C ldr r2, [r4, #4]`),
+ * with the rest rotated the same way (r6/r7 loop temps vs r5/r6).
+ *   * +0028 mov r1, r0     | mov r0, r0
+ *   * +003C ldr r0, [r4, #4] | ldr r2, [r4, #4]
+ * A local `struct keystate *ks = g_021DE688.ks` hoisted to the top re-allocates
+ * the whole body (252 B, 182 diffs), so the shape above is kept.
  *
  * sdk:      readKey (libdwcutil.TWL.HYB.a input.o)
  *
@@ -47,7 +58,9 @@ void func_021D657C(void)
     g_021DE688.ks->cont = bit;
     g_021DE688.ks->repeat = g_021DE688.ks->trg;
     for (i = 0; i < 14; i++) {
-        if (bit & (unsigned short)(1 << i)) {
+        if (!(bit & (unsigned short)(1 << i))) {
+            g_021DE690[i] = 0;
+        } else {
             g_021DE690[i]++;
             if (g_021DE690[i] == 40) {
                 g_021DE688.ks->repeat |= (unsigned short)(1 << i);
@@ -55,8 +68,6 @@ void func_021D657C(void)
                 g_021DE690[i] = 40;
                 g_021DE688.ks->repeat |= (unsigned short)(1 << i);
             }
-        } else {
-            g_021DE690[i] = 0;
         }
     }
 }

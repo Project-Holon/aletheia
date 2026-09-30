@@ -11,18 +11,35 @@
  *
  * sdk:      gsiLargeIntDiv (gslargeint.o)
  *
- * DIFF (lane w2_o2, rewritten from the object; the earlier lane's draft used
- * `int len`, the DWARF says unsigned int, which is where the bls compare comes
- * from). What still differs: (1) stack order: the object has scopy at sp+0x10
- * and quotient at sp+0x210 with scopy zeroed right after
- * gsiLargeIntTimerEnter and quotient zeroed only after the memcpy of src; under
- * 1.1p1 a later-declared (or inner-block) aggregate always lands lower, so the
- * two init points and the two slots cannot both be had (flat declarations give
- * the slots but hoist both zero loops; nested blocks give the init points and
- * swap the slots; a compound-literal assignment spills a 0x400 temp; mixed
- * declarations are a c99 syntax error here). (2) register colouring follows:
- * parameters land in r8/sb/r5/r6 instead of r5/r4/r8/sb. (3) divisorLen - 1
- * from the high-bit loop is kept live in the object and recomputed here.
+ * lane U43 (2026-09-30): ported from the vendor's own source,
+ *           scratch/U2/gs/src/GameSpy/common/gsLargeInt.c gsiLargeIntDiv.
+ *           Size is now the image's 928 B (was 936 = SIZE) and 5 concrete
+ *           bytes differ.  The port's tells, all measured:
+ *             - `gsLargeInt_t quotient;` is declared BEFORE
+ *               `l_word scopy[128]`; under 1.1p1 a later-declared aggregate
+ *               lands lower, so this puts scopy at sp+0x10 and quotient at
+ *               sp+0x210 exactly as the image has them (the parked draft
+ *               had the two slots swapped and a 936-byte frame).
+ *             - `l_word scopyLen = len;` as its own local (the strip loop
+ *               decrements scopyLen, not the `len` parameter).
+ *             - memset(scopy, 0, sizeof(scopy)) before the oversize check,
+ *               memset(&quotient, 0, sizeof(quotient)) right after the
+ *               memcpy - both arrive as the inlined stm zero loops only with
+ *               memcpy/memset declared through a header literally named
+ *               string.h (a local extern prototype emits real calls and
+ *               costs 44 bytes).
+ *             - `divisorLen - 1` must be held in a live local
+ *               (`unsigned int dlen = divisorLen - 1;`) across the
+ *               high-bit loop: written inline it is rematerialised after the
+ *               loop and the row is 932 B.
+ *           Residue (5 bytes, +01A0/+01A4/+01B4/+01E8): the allocator's
+ *           choice of which of the two live temporaries takes the lower
+ *           register - image `sub r2, sb, #1` / `ldr r1, [r8, r2, lsl #2]`
+ *           (dlen in r2, loaded word in r1), ours `sub r1, sb, #1` /
+ *           `ldr r2, [r8, r1, lsl #2]`.  `int dlen`, a function-scope dlen,
+ *           a swapped mask expression, `(int)dlen * 32` and moving the add
+ *           after readIndex/readLength were all measured and all keep the
+ *           same exchange.
  *
  * symbols:
  *   func_0217D3AC                  0x0217D3AC  arm ov009
@@ -38,126 +55,131 @@ typedef struct gsLargeInt_s {
     unsigned int mData[64];
 } gsLargeInt_t;
 
-extern void *memcpy(void *dst, const void *src, unsigned int n);
-extern void *memset(void *dst, int c, unsigned int n);
+#include "../../matched/arm9_sdk/libc/string.h"
 extern void func_0217D3AC(int id);
 extern void func_0217D3F8(int id);
-extern int func_0217D448(unsigned int *data1, unsigned int len1, unsigned int *data2, unsigned int len2);
-extern int func_0217DCA4(unsigned int *src, unsigned int length, unsigned int *divisor, unsigned int dlen, int divisorHighBit, unsigned int *quotient);
+extern int func_0217D448(const unsigned int *data1, unsigned int len1, const unsigned int *data2, unsigned int len2);
+extern int func_0217DCA4(unsigned int *src, unsigned int length, const unsigned int *divisor, unsigned int dlen, int divisorHighBit, unsigned int *quotient);
 
 int func_0217D904(unsigned int *src, unsigned int len, gsLargeInt_t *div, gsLargeInt_t *dest, gsLargeInt_t *remainder)
 {
-    int result;
+    int result = 0;
     int divisorHighBit = 31;
-    int readIndex;
-    int readLength;
-    unsigned int *divisorData = div->mData;
+
+    int readIndex = 0;
+    int readLength = 0;
+
+    gsLargeInt_t quotient;
+
+    unsigned int scopy[128];
+    unsigned int scopyLen = len;
+
+    const unsigned int *divisorData = div->mData;
     unsigned int divisorLen = div->mLength;
-    unsigned int scopyLen;
+
     int endLoop = 0;
-    unsigned int quotientTemp;
 
     func_0217D3AC(5);
-    {
-        unsigned int scopy[128] = {0};
 
-        if (len > 64 && dest != 0)
+    memset(scopy, 0, sizeof(scopy));
+
+    if (scopyLen > 64 && dest != 0)
+        return 0;
+
+    while (scopyLen > 0 && src[scopyLen - 1] == 0)
+        scopyLen--;
+    while (divisorLen > 0 && divisorData[divisorLen - 1] == 0)
+        divisorLen--;
+
+    memcpy(scopy, src, scopyLen * sizeof(unsigned int));
+    memset(&quotient, 0, sizeof(quotient));
+
+    if (scopyLen == 0 || divisorLen == 0) {
+        if (dest) {
+            dest->mData[0] = 0;
+            dest->mLength = 0;
+        }
+        if (remainder) {
+            remainder->mData[0] = 0;
+            remainder->mLength = 0;
+        }
+        func_0217D3F8(5);
+        if (divisorLen == 0)
             return 0;
+        else
+            return 1;
+    }
 
-        while (len > 0 && src[len - 1] == 0)
-            len--;
-        while (divisorLen > 0 && divisorData[divisorLen - 1] == 0)
-            divisorLen--;
+    if (func_0217D448(scopy, scopyLen, divisorData, divisorLen) == -1) {
+        if (dest) {
+            dest->mLength = 0;
+            dest->mData[0] = 0;
+        }
+        remainder->mLength = scopyLen;
+        memcpy(remainder->mData, scopy, scopyLen * sizeof(unsigned int));
+        func_0217D3F8(5);
+        return 1;
+    }
 
-        scopyLen = len * 4;
-        memcpy(scopy, src, scopyLen);
-        {
-            gsLargeInt_t quotient = {0};
+    {
+        unsigned int dlen = divisorLen - 1;
+        while ((divisorData[dlen] & (1 << (unsigned int)divisorHighBit)) == 0 && divisorHighBit >= 0)
+            divisorHighBit--;
+        if (divisorHighBit == -1) {
+            func_0217D3F8(5);
+            return 0;
+        }
+        divisorHighBit += dlen * 32;
+    }
 
-            if (len == 0 || divisorLen == 0) {
-                if (dest) {
-                    dest->mData[0] = 0;
-                    dest->mLength = 0;
-                }
-                if (remainder) {
-                    remainder->mData[0] = 0;
-                    remainder->mLength = 0;
-                }
-                func_0217D3F8(5);
-                return (divisorLen != 0) ? 1 : 0;
+    readIndex = (int)(scopyLen - divisorLen);
+    readLength = (int)divisorLen;
+
+    do {
+        result = func_0217D448(&scopy[readIndex], (unsigned int)readLength, divisorData, divisorLen);
+        if (result == -1) {
+            if (readIndex > 0) {
+                readIndex--;
+                readLength++;
+            } else {
+                endLoop = 1;
             }
-
-            result = func_0217D448(scopy, len, divisorData, divisorLen);
-            if (result == -1) {
-                if (dest) {
-                    dest->mLength = 0;
-                    dest->mData[0] = 0;
-                }
-                remainder->mLength = len;
-                memcpy(remainder->mData, scopy, scopyLen);
-                func_0217D3F8(5);
-                return 1;
-            }
-
-            while (!(divisorData[divisorLen - 1] & (1 << divisorHighBit)) && divisorHighBit >= 0)
-                divisorHighBit--;
-            if (divisorHighBit == -1) {
+        } else if (result == 0) {
+            memset(&scopy[readIndex], 0, readLength * sizeof(unsigned int));
+            quotient.mData[readIndex] += 1;
+            if (quotient.mLength < (unsigned int)(readIndex + readLength))
+                quotient.mLength = (unsigned int)(readIndex + readLength);
+            readIndex -= readLength;
+            readLength = 1;
+            if (readIndex < 0)
+                endLoop = 1;
+        } else {
+            unsigned int quotientTemp = 0;
+            if (func_0217DCA4(&scopy[readIndex], (unsigned int)readLength, divisorData, divisorLen, (unsigned int)divisorHighBit, &quotientTemp) == 0) {
                 func_0217D3F8(5);
                 return 0;
             }
-
-            readLength = divisorLen;
-            divisorHighBit += (divisorLen - 1) * 32;
-            readIndex = len - divisorLen;
-
-            while (!endLoop) {
-                result = func_0217D448(&scopy[readIndex], readLength, divisorData, divisorLen);
-                if (result == -1) {
-                    if (readIndex > 0) {
-                        readIndex--;
-                        readLength++;
-                    } else {
-                        endLoop = 1;
-                    }
-                } else if (result == 0) {
-                    memset(&scopy[readIndex], 0, readLength * 4);
-                    quotient.mData[readIndex]++;
-                    if (quotient.mLength < readIndex + readLength)
-                        quotient.mLength = readIndex + readLength;
-                    readIndex -= readLength;
-                    readLength = 1;
-                    if (readIndex < 0)
-                        endLoop = 1;
-                } else {
-                    quotientTemp = 0;
-                    result = func_0217DCA4(&scopy[readIndex], readLength, divisorData, divisorLen, divisorHighBit, &quotientTemp);
-                    if (result == 0) {
-                        func_0217D3F8(5);
-                        return 0;
-                    }
-                    quotient.mData[readIndex] += quotientTemp;
-                    if (quotient.mLength < readIndex + readLength)
-                        quotient.mLength = readIndex + readLength;
-                    while (scopy[readIndex + readLength - 1] == 0 && readLength > 1)
-                        readLength--;
-                    while (scopy[readIndex + readLength - 1] == 0 && readIndex > 1)
-                        readIndex--;
-                }
-            }
-
-            if (readIndex < 0) {
-                remainder->mData[0] = 0;
-                remainder->mLength = 0;
-            } else {
-                memcpy(remainder->mData, &scopy[readIndex], readLength * 4);
-                remainder->mLength = readLength;
-            }
-
-            if (dest) {
-                memcpy(dest->mData, quotient.mData, quotient.mLength * 4);
-                dest->mLength = quotient.mLength;
-            }
+            quotient.mData[readIndex] = (unsigned int)(quotient.mData[readIndex] + quotientTemp);
+            if (quotient.mLength < (unsigned int)(readIndex + readLength))
+                quotient.mLength = (unsigned int)(readIndex + readLength);
+            while (scopy[readIndex + readLength - 1] == 0 && readLength > 1)
+                readLength--;
+            while (scopy[readIndex + readLength - 1] == 0 && readIndex > 1)
+                readIndex--;
         }
+    } while (endLoop == 0);
+
+    if (readIndex >= 0) {
+        memcpy(remainder->mData, &scopy[readIndex], readLength * sizeof(unsigned int));
+        remainder->mLength = (unsigned int)readLength;
+    } else {
+        remainder->mData[0] = 0;
+        remainder->mLength = 0;
+    }
+
+    if (dest) {
+        memcpy(dest->mData, quotient.mData, quotient.mLength * sizeof(unsigned int));
+        dest->mLength = quotient.mLength;
     }
     func_0217D3F8(5);
     return 1;

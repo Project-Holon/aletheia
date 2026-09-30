@@ -37,6 +37,16 @@
  *   only cap is the argument-scheduling quirk.  Not promotable to MATCH (real
  *   bytes differ), so it stays parked.
  *
+ * lane U41 (2026-09-30).  Re-measured: still 364/364 with the same 21 bytes at
+ * +0118..+0138, 13/13 relocations resolved.  Six more spellings measured, all
+ * 21 diffs: `int c = g_021ADFC8++;` passed as the argument, the pre-increment
+ * split into two statements, `c = ...` in a later statement, `(int)` and
+ * `(unsigned)` casts on the post-increment, and the increment moved after the
+ * call (that one is 34).  Residue unchanged and named: the argument scheduler
+ * picks r3 for the counter and computes `count + 1` into r2 before the vararg
+ * store, where the image keeps the counter in r2 and increments it in place
+ * after `stm sp, {r2, r6}`.
+ *
  * symbols:
  *   func_0217EC90  0x0217EC90  arm  ov009
  *   func_0217ED54  0x0217ED54  arm  ov009

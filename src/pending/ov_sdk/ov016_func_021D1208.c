@@ -11,15 +11,21 @@
  *
  * blocker:  whole function reconstructed (prologue GUI setup, per-type
  *           button loop, font/canvas formation, window-plane setup, blend
- *           register, taskV/taskMove selection).  12 bytes short and 567
- *           concrete bytes differ because the register allocator keeps
- *           `dark` in fp where the image spills it to [sp+0x10]; the image
- *           also hoists the DWCiMsgCmn pool word to r4 and the EFF source
- *           word to r5, ours defers DWCiMsgCmn to r5.  Tried: dark as
- *           int/bool, EFF as element writes / struct copy / for-loop /
- *           memcpy, a named EFF src pointer, a named DWCiMsgCmn pointer,
- *           EFF copy before vs after the first call; none moved the fp
- *           assignment.  EFF source @20595 declared as extern u8[6].
+ *           register, taskV/taskMove selection).  Now 788 of 796 bytes and
+ *           504 concrete (was 784/567): the image spills `dark` to a WORD
+ *           slot at [sp+0x10] and reloads it at +0x98 and +0x28C, so `dark`
+ *           is read through a volatile int local (`volatile int d = dark;`,
+ *           used for both `g_021DE658->dark = d;` and `if (d)`); that drops
+ *           the whole function into the image's spilling shape.  `volatile
+ *           u8`, `volatile bool`, a volatile `bool dark` parameter and a
+ *           plain `int dark` parameter all measure 788/504 or worse
+ *           (volatile param 804/518), so the remaining 8 bytes are elsewhere.
+ *           Residue, 196 diff lines: the frame is still 0x20 against 0x24 and
+ *           our push carries a padding r3 the image does not need (image push
+ *           {r4..fp,lr}, ours {r3,r4..fp,lr}); the image hoists the DWCiMsgCmn
+ *           pool word to r4 and the EFF source word to r5, and `dark` lands
+ *           in fp/ip instead of the image's byte-store order.  147 of the
+ *           lines are one instruction shifted.
  *
  * sdk:      DWCi_WINlInitEx (libdwcutil.TWL.HYB.a window.o)
  *
@@ -105,6 +111,7 @@ void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num)
     int obj;
     u16 *ms;
     int i;
+    volatile int d = dark;
 
     EFF[0] = g_021DAA58[0];
     EFF[1] = g_021DAA58[1];
@@ -117,7 +124,7 @@ void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num)
     g_021DE658 = (MemWinT *)DWCi_HEAPlAllocEx(0x20, 4);
     g_021DE658->type = type;
     g_021DE658->input = -2;
-    g_021DE658->dark = dark;
+    g_021DE658->dark = d;
     G2x_SetBlendBrightness_(0x04000050, 0x1f, 0);
 
     g_021DE658->cellWin = DWCi_CEINlSetExCell(0, g_021DA9A0[type], 0);
@@ -143,7 +150,7 @@ void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num)
     disp(0xc0);
     *(volatile u32 *)0x04000000 = (*(volatile u32 *)0x04000000 & ~0xE000) | 0x6000;
 
-    if (dark)
+    if (d)
         g_021DE658->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskV, 0, 0x78);
     else
         g_021DE658->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskMove, 0, 0x78);

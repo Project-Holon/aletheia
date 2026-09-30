@@ -30,6 +30,28 @@
  *   ours keeps 0 in fp and rematerialises &buf (`add r0, sp, #0xc`).  Ours needs one
  *   more callee-saved register than the image (r3 padding in the push).
  *
+ * U44 (measured 2026-09-30, all four verified by compile in scratch/U44/, none of
+ *   them was folded into the body below because each one moves the extent):
+ *   the `ptype` 8/16-level debug calls use the wrong pool word.  The image's pool
+ *   entry at 0x0219CDB0 is 0x021A7A38 (member data local @14962) and it is loaded
+ *   by the `+04E8 ldr r3,[pc,#0x100]` in case 8; case 10 loads 0x021A7A58
+ *   (`+0508 ldr r3,[pc,#0xe4]`), and only SEND uses 0x021A7A74.  So case 8 is
+ *   gsDebugFormat(3,0,0x10,g_021A7A38), case 10 is ...g_021A7A58.  Adding the
+ *   missing g_021A7A38 (plus its symbols: line) takes the pool from 17 to the
+ *   image's 18 words.
+ *   Case 6's two unaligned four-byte copies are memcpy(dst,src,4)/memcpy(&i,query,4)
+ *   through the house string.h (`#include "../../matched/arm9_sdk/libc/string.h"`).
+ *   The second one matters for the frame, not just the codegen: memcpy(&i,...) is
+ *   what gives `i` a memory home at [fb+12], and with it the build produces the
+ *   image's `push {r4,r5,r6,r7,r8,sb,sl,fp,lr}` and `sub sp,sp,#0x18c` (the build
+ *   below pushes r3 with a 0x188 frame, i.e. it is one 4-byte local short).  With
+ *   that fix the prologue and every `str r1,[sp,#0x588]` match; `query += 7;
+ *   len -= 7;` must also sit before the qr_add_packet_header call, not after.
+ *   Residue after all four: image r7=sender/r6=query/r8=len, this build keeps
+ *   r6=sender/r8=query/r7=len (a 3-cycle), and the code region grows to 0x5d0
+ *   against the image's 0x5b4 (1560 bytes against 1532, 319 diff rows).
+ *   Scratch copies: scratch/U44/vB.c, vC.c, vD.c (vD carries all four fixes).
+ *
  * symbols:
  *   func_0217D254  0x0217D254  arm  ov009
  *   func_020923F0  0x020923F0  arm

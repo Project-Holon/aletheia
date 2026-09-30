@@ -33,6 +33,18 @@
  * -O4,p at 380 bytes / 24 concrete bytes is the unique best (1.6sp1/sp2 give 30).
  * Residue already named in the blocker above (the two schedule swaps in the id
  * set-up); no new spelling was spent on it this wave.
+ *
+ * lane U41 (2026-09-30).  Re-measured: still 380 compiled / 380 extent with 24
+ * concrete bytes, three one-slot schedule swaps:
+ *   +0008  image `ldr r2, [pc, #0x164]` | ours `mov r1, #0`
+ *   +006c  image `orr r7, r7, fp, lsr #16` | ours `str r6, [r2, #0x78]`
+ *   +007c  image `mov sl, r0` | ours `str r4, [r2, #0x7c]`
+ * Eleven more spellings measured, all 24 diffs: `retries = 0;` before `ip = 0;`,
+ * the two id stores first, a split id[i] pair, `ask_this` before the ids,
+ * `ip = 0, retries = 0;` comma, the initialisers moved into the declarations,
+ * `retries` declared `long`, `0u`, and the loop counter fixed in the `for`
+ * header.  The 5/5 pool words and all 7 relocations resolve; this is the list
+ * scheduler's slot tie-break, not a body shape.
  */
 
 typedef struct {

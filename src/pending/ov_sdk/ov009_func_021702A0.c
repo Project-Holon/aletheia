@@ -9,12 +9,52 @@
  * isa:     arm
  * status:  DIFF
  *
- * blocker: partial reconstruction.  The prologue, the switch on the
- *          state/command field and, per case, the real ordered callee
- *          sequence taken from the listing are transcribed.  The per-case
- *          guarding conditions and argument expressions are not yet
- *          reproduced, so the body is a genuine partial, not a match.
- *          Vendor extent 4396 bytes.
+ * blocker: no byte of this body is verified.  It compiles 852 bytes with
+ *          push {r3, r4, r5, lr} where the image has
+ *          push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr} + sub sp, sp, #0x170:
+ *          the frame is wrong from +0000, the first differing byte, and the
+ *          draft's case numbers are the jump-table index rather than the
+ *          command values, so nothing in it is structure the image confirms
+ *          (717 concrete byte(s) differ, 204 mismatching rows).  The whole
+ *          function has to be written: 1099 instructions, 228 bl, 22 case
+ *          blocks of 100-750 bytes each (command 2 alone is
+ *          0x021703F4..0x021706DC, 744 bytes).  That is transcription, not
+ *          discovery - the vendor object
+ *          sdk/TwlDWC/lib/ARM9-TS/Rom/libdwcmatch.TWL.HYB.a (dwc_match.o) is
+ *          byte-identical to the image over all 4396 bytes (0 concrete
+ *          mismatches of 3712, 228 relocation fields) and
+ *          `python tools/sdkobj.py 0x021702A0 --region ov009` prints its
+ *          object-vs-image listing plus the DWARF prototype, the six register
+ *          params, every local with its frame offset (senddata ulong[65] at
+ *          [fb+108], DWCstNodeInfo peerNodeInfo at [fb+68], SOCSockAddrIn
+ *          remoteaddr at [fb+20]) and the real prototypes of all 47 callees.
+ *          Upstream lever dead: dwc_match.c is Nintendo DWC, not GameSpy, and
+ *          neither sdk/TwlDWC/ nor vendor/*.zip ships .c for this library (the
+ *          GameSpy clone in scratch/U2/gs holds no DWC match source).  The pin
+ *          is right (dsi/1.1p1, rule 4e); the budget was the bound.
+ *
+ *          Dispatcher, measured off the object listing:
+ *            if (command == 0x53) { suspend = 1; goto 0x021711F4; }
+ *            else if (command > 0x53) -> the 0x54/0x55/0x70/0x82/0x83 chain
+ *            else if (command == 0x40) goto 0x02171094;
+ *            else switch (command) over 0..0x10, table at 0x02170354:
+ *              0:D 1:D 2:0x021703F4 3:0x021706DC 4:0x02170920 5:0x021709B0
+ *              6:0x02170AF4 7:0x02170B94 8:0x02170C98 9:0x02170DBC
+ *              A:0x02170D58 B:0x02170EF0 C:D D:0x02170F50 E,F:0x02170FC4
+ *              10:0x02170FE8      (D = the shared tail 0x021713BC)
+ *            0x41..0x51 -> D; 0x52 -> 0x021710E4; 0x54 -> 0x02171274;
+ *            0x55 -> 0x021712D0; 0x70 -> 0x021712D8; 0x82 -> 0x021712EC;
+ *            0x83 -> 0x021713B4, which is DWCi_ProcessMatchPollingPacket(data)
+ *            and falls through into the tail.
+ *          The shared tail at 0x021713BC is `return 1`, not `return 0`; the
+ *          only `return 0` in the function is at 0x021706D0.
+ *
+ *          Frame, from the DWARF locals matched against the image: fb == sp,
+ *          `unsigned long senddata[65]` at fb+0x6C is the top of the 0x170
+ *          frame (0x6C+0x104 = 0x170), `DWCstNodeInfo peerNodeInfo` at
+ *          fb+0x1C and again at fb+0x44 (both filled by MI_CpuFill8(p,0,0x28)),
+ *          `SOCSockAddrIn remoteaddr` at fb+0x14; the image's stores to
+ *          [sp,#0x6c], [sp,#0x44] and [sp,#0x1c] confirm the three offsets.
  *
  * sdk:      DWCi_ProcessRecvMatchCommand (libdwcmatch.TWL.HYB.a dwc_match.o)
  *

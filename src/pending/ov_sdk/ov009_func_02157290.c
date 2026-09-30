@@ -18,6 +18,19 @@
  *           unsigned char had_ip, enum-typed zeros, struct vs cast access,
  *           if-body instead of early return.
  *
+ * lane U41 (2026-09-30).  Re-measured 256/256 with 16 concrete bytes: the whole
+ * residue is the placement of ONE instruction.  The image puts the reason store
+ * in the myip load-delay slot and materialises the ternary's 0 late:
+ *   image  +0010 `str r0, [r2, #0x4c]` ... +0030 `mov r5, #0`
+ *   ours   +0010 `mov r5, #0`        ... +003c `str r0, [r2, #0x4c]`
+ * `mov r5,#0` (the pooled zero for the had_ip conditional move) is hoisted to
+ * the block head by this front end and never sinks; 27 spellings measured this
+ * wave, every one 16 diffs or worse: had_ip as !=/!!/ternary/&1/unsigned char/
+ * set-if, the reason store first/middle/last, a separate `ipv = g_...myip`
+ * local, chain assignments, `0u/0L/0UL`, a volatile reason store, local
+ * declaration order, four parameter types, a nested block around the store.
+ * Residue: instruction placement / register tie-break, not a body shape.
+ *
  * sdk:      reset_network_vars (libcps.TWL.HYB.a network.o)
  *
  * symbols:

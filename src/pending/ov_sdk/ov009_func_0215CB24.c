@@ -65,6 +65,16 @@
  * 162 concrete bytes; 1.1p1 -O4,p stays the reference.  Residue already named in
  * full above (the +0x60 lan_buf select, the +0xA8 register trio and the +0xDC
  * predication threshold).  This row is the allocator wall of the slice.
+ *
+ * lane U41 (2026-09-30).  Re-measured: still 388 compiled / 380 extent, 162
+ * concrete bytes, first difference `image ldr r7,[pc,#0x140] | ours ldr
+ * r7,[pc,#0x148]` at +0004 (the +8 pool shift).  Five more spellings measured,
+ * all 388 / 162: the shared literal 1 hoisted into a `u32 one = 1` local used
+ * in both arms, that local assigned by a statement, `use_dhcp != 0` with the two
+ * arms swapped (166), and a trailing no-op.  The `1` is rematerialised inside
+ * each arm every time, so the then-arm stays six instructions and misses the
+ * five-instruction predication threshold; the +0x60 lan_buf select and the
+ * +0xA8 register trio are unchanged.
  */
 
 typedef unsigned char u8;

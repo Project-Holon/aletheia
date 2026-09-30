@@ -9,18 +9,43 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker:  codegen residue, 756 B == 756 B, the whole difference is the
- *           placement of one instruction.  The image materialises the
- *           `wlStatus = 3` seed in the entry block, before the
- *           `bl WCMi_GetSystemWork` (`0x021679CC mov r5, #3`), so r5 is live
- *           across the call; dsi/1.1p1 sinks it to the first use (the case
- *           5/6 `WCMi_SetPhase(wlStatus)` at +0x210) and rematerialises the
- *           constant there.  The two-column diff is that one 4-byte move and
- *           the resulting +4 shift through the body and literal pool (the
- *           branch opcodes themselves line up).  Tried:  declaration order,
- *           `unsigned short wlStatus = 3` initializer, `register`,
- *           assignment before vs after the call, `int` type; all fold or
- *           sink the same way.
+ * blocker:  the wlStatus seed.  Re-measured 2026-09-30 (lane U52).
+ *
+ *           FIRST: the guard's shape matters more than the seed.  With the
+ *           parked `if (((WMCallback *)arg)->errcode != 0) { ...; return; }`
+ *           1.1p1 lays the guard body out FIRST and inverts the branch
+ *           (`cmp r1,#0; beq +0x44`), which shifts the whole body: 594
+ *           concrete bytes, and the "one 4-byte move" claim in the previous
+ *           header is wrong for that spelling.  Spelled as
+ *           `if (...) { goto fail; }` with `fail:` on a labelled tail at the
+ *           end of the function, the layout matches the image exactly
+ *           (`bne #0x2167c6c` to the guard block at the end, main body
+ *           fallthrough) and the residue drops to 386 bytes, all of it the
+ *           seed below.  That spelling is now in the body.
+ *
+ *           Residue (386 concrete bytes, all one instruction): the image
+ *           materialises the `wlStatus = 3` seed in the entry block before
+ *           `bl WCMi_GetSystemWork` (`+000C mov r5, #3`, r5 = wlStatus live
+ *           across the call, DWARF confirms `unsigned short wlStatus r5`),
+ *           and every arm that needs it does `mov r0, r5`.  1.1p1 refuses to
+ *           allocate the register: it rematerialises `mov r0, #3` at the
+ *           case 5/6, 7 and 9/12 arms and sinks a single `mov r5, #3` into
+ *           the case 10 block (the only arm with two uses, so the only one
+ *           where the register pays).  Size stays 756 because the two
+ *           spellings cost the same.
+ *
+ *           Tried this lane: `unsigned short wlStatus = 3;` initialiser in
+ *           four declaration orders (and with the other locals before and
+ *           after it), the seed as a statement before the call, `register`,
+ *           `int`, and replacing the variable with the literal 3 in every
+ *           arm (to trigger the repeated-constant pool) - all byte-identical
+ *           to one of the two shapes above; the constant is always folded or
+ *           rematerialised.  The template for the seed is WcmWmcbCommon
+ *           (0x02166F24, matched) whose `wmResult = 0x14;` before the call
+ *           DOES keep r5 - but there the register is forced anyway because
+ *           the final `switch (wmResult)` can also see a call result, which
+ *           is not true of any wlStatus arm here.
+ *
  *
  * sdk:      WcmWmcbReset (libwcm.TWL.HYB.a(wmif.o))
  *
@@ -76,9 +101,7 @@ static void WcmWmcbReset(void *arg)
     wcmw = WCMi_GetSystemWork();
     wlStatus = 3;
     if (((WMCallback *)arg)->errcode != 0) {
-        WCMi_SetPhase(0xb);
-        WCMi_Notify(7, 0, 0, 0x5a7);
-        return;
+        goto fail;
     }
     wcmw->resetting = 0;
     wcmw->field22E8 = 0;
@@ -147,4 +170,7 @@ static void WcmWmcbReset(void *arg)
         WCMi_Notify(7, 0, (void *)wcmw->phase, 0x5a0);
         return;
     }
+fail:
+    WCMi_SetPhase(0xb);
+    WCMi_Notify(7, 0, 0, 0x5a7);
 }
