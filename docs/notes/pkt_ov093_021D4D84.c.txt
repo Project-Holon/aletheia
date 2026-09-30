@@ -1,0 +1,92 @@
+/*
+ * function: func_021D4D84
+ * address: 0x021D4D84
+ * packet: pkt_ov093_021D4D84
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 allocator own source u32 heap/size and F90 u32 return corrected; 2 no constructor twin sharing d_021F3AA4; 3 a u8 and unsigned limit no change, w only forwarded and allocated p modified so const not applicable; 4 constant-live-range/unsigned-suffix/inline-field idioms read, no closure; 5 neighbors re-read, no stack aggregate residue. 300-types permuter prefers worse 376-byte candidate and reorders low-field store past a call; rejected.
+ * residual: 372 versus 376 bytes, 214 concrete bytes differ; size constant held in r6 and reused for item clamp, 0x9e reused for far byte offsets. Next hypothesis: full struct fields for far offsets and a separate inline item clamp.
+ * symbols:
+ *   func_02030734 0x02030734 arm
+ *   d_021F3AA4 0x021F3AA4 data a4
+ *   func_02017E1C 0x02017E1C thumb
+ *   func_02019C90 0x02019C90 thumb
+ *   func_021D4EFC 0x021D4EFC thumb ov093
+ *   func_021D4F84 0x021D4F84 thumb ov093
+ *   func_021D53C0 0x021D53C0 thumb ov093
+ *   func_021D63B8 0x021D63B8 thumb ov093
+ *   func_02017F90 0x02017F90 thumb
+ *   func_021D7D18 0x021D7D18 thumb ov093
+ *   func_02082BCC 0x02082BCC arm
+ *   func_021D67F4 0x021D67F4 thumb ov093
+ *   func_021D6DC4 0x021D6DC4 thumb ov093
+ */
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+struct Obj {
+    void *w; u32 f4,f8; u16 fC,fE,f10,f12,f14,f16;
+    u8 f18,f19,f1A; u8 low:5,b5:1,b6:1,b7:1;
+    u8 rest[0x1f8 - 0x1c];
+};
+extern u8 d_021F3AA4[];
+extern u8 *func_02030734(u32,u32,int,const char *,u16);
+extern u32 func_02017E1C(void *,u32,u32);
+extern u32 func_02019C90(u16,u16,u32);
+extern void func_021D4EFC(void *,void *,u32,u32);
+extern int func_021D4F84(u8 *,void *,int);
+extern void func_021D53C0(char *);
+extern void func_021D63B8(void *,int);
+extern u32 func_02017F90(void *);
+extern u32 func_021D7D18(int);
+extern void func_02082BCC(void *,u8,u32);
+extern void func_021D67F4(void *);
+extern void func_021D6DC4(void *);
+struct Obj *func_021D4D84(void *w, u8 a, u32 heap)
+{
+    struct Obj *p;
+    u32 k;
+    p = (struct Obj *)func_02030734(heap,sizeof(struct Obj),1,(const char *)d_021F3AA4,0xe3);
+    p->f19 = a;
+    p->fC = func_02017E1C(w,5,0);
+    p->w = w;
+    p->f10 = func_02017E1C(w,0xa0,0);
+    p->fE = func_02017E1C(w,0xa1,0);
+    p->f12 = func_02017E1C(w,6,0);
+    if (p->f12 > 0x272U) p->f12 = 0;
+    p->f14 = 0;
+    p->b5 = 0;
+    p->f4 = 0;
+    p->b6 = 0;
+    p->b7 = 0;
+    p->low = (u8)func_02017E1C(w,0x6f,0);
+    p->f16 = func_02017E1C(w,10,0);
+    p->f18 = func_02017E1C(w,0x9e,0);
+    p->f1A = func_02019C90(p->fC,p->low,1);
+    func_021D4EFC(p,w,1,1);
+    ((u8 *)p)[0x140] = func_021D4F84((u8 *)p,w,1);
+    ((u8 *)p)[0x143] = 0;
+    func_021D53C0((char *)p + 0xfc);
+    func_021D63B8(p,1);
+    k = func_02017F90(w);
+    if (k != 0) {
+        *(u32 *)((u8 *)p + k * 4 + 0x1c) = func_021D7D18(k);
+        ((u8 *)p + 0xac)[k] = 0;
+    }
+    *(u16 *)((u8 *)p + 0x148) = 10000;
+    *(u16 *)((u8 *)p + 0x146) = 0;
+    *(u16 *)((u8 *)p + 0x1f2) = 0;
+    *(u16 *)((u8 *)p + 0x14a) = 0;
+    *(u16 *)((u8 *)p + 0x14c) = 0;
+    ((u8 *)p)[0x144] = 0x11;
+    *(u16 *)((u8 *)p + 0x14e) = 0;
+    *(u16 *)((u8 *)p + 0x1f4) = 0;
+    ((u8 *)p)[0x1f6] = 0x1f;
+    ((u8 *)p)[0x142] = 0;
+    func_02082BCC((u8 *)p + 0x153,0,2);
+    func_02082BCC((u8 *)p + 0x155,0,2);
+    func_021D67F4(p);
+    func_021D6DC4(p);
+    return p;
+}

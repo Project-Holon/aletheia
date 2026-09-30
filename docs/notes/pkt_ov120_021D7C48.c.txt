@@ -1,0 +1,52 @@
+/*
+ * function: func_021D7C48
+ * address: 0x021D7C48
+ * packet: pkt_ov120_021D7C48
+ * region: ov120
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residue: 132 compiled bytes versus 140 extent; 107 concrete bytes differ.
+ * checks: 1 callees shown: 450F0 seven args, byte stack args; 45CAC three, wide ID; 1C7A4 five; 2 ov120 and ov121 twins read, wide 450F0 plus casts unchanged; 3 u16 and s16 ID no improvement; mutable object is written, const inapplicable; 4 slot-member form 111 bytes out, existing named-element idiom covers list twins; 5 refreshed idioms and ov119/120/121 neighbours, inline create_slot 120 bytes out; no stack object; next investigate full object array typing and allocator inline argument binding.
+ * symbols:
+ *   func_020450F0 0x020450F0 arm
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_02045CAC 0x02045CAC arm
+ *   func_02045334 0x02045334 arm
+ *   func_02045374 0x02045374 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+extern void *func_020450F0(u8,u8,u8,u8,u8,u8,u8);
+extern void *func_02045770(void *);
+extern void func_02043B5C(void *,int);
+extern void func_02045CAC(void *,int,int);
+extern void func_0201C7A4(void *,int,int,int,int);
+extern void func_02045334(void *);
+extern void func_02045374(void *);
+int func_021D7C48(char *p,int n,int a,int b,int c,int d)
+{
+    int i;
+    void *q;
+    char *t;
+    void **slot;
+    int offset;
+    for(i=0;i<12;i++) {
+        offset=4*i;
+        t=p+offset;
+        if(!*(void **)(t+0x38)) {
+            slot=(void **)(p+0x38);
+            q=func_020450F0(d,a,b,c,2,11,1);
+            *(void **)((char *)slot+offset)=q;
+            func_02043B5C(func_02045770(q),0);
+            func_02045CAC(*(void **)(p+0xc),n,*(int *)(p+0x18));
+            func_0201C7A4(func_02045770(q),2,2,*(int *)(p+0x18),*(int *)(p+0x14));
+            func_02045334(q);
+            func_02045374(q);
+            return i;
+        }
+    }
+    return 0;
+}

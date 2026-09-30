@@ -1,0 +1,37 @@
+/*
+ * function: func_021DAAA4
+ * address: 0x021DAAA4
+ * packet: pkt_ov121_021DAAA4
+ * region: ov121
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 172 bytes compiled, 118 concrete bytes differ; extraction and weight scheduling/register allocation.
+ * checks: 1 own arm9 callee source confirms four arguments and signed int return, corrected prototype compiled; 2 no twin in ov106/ov120/ov121/ov122; 3 int weight gives 168 bytes/151 differs, s16 restored; 4 inline helper same 118 differs, reordered locals 125, mutable table same 118; 5 repeated idiom listing and neighbour searches no twin, stack inputs confirmed u8/u16, no stack object. Next: separate scalar channel interpolation inline helpers.
+ * symbols:
+ *   d_020A1B38 0x020A1B38 data a4
+ *   func_02061CA4 0x02061CA4 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+extern s16 d_020A1B38[];
+extern int func_02061CA4(void *,unsigned,unsigned,int);
+static inline u16 blend(u16 first,u16 last,s16 weight)
+{
+    u8 green=(u8)((first&0x3e0)>>5);
+    u16 end=last;
+    u8 red=(u8)(first&31);
+    u8 blue=(u8)((first&0x7c00)>>10);
+    u8 eb=(u8)((end&0x7c00)>>10);
+    blue=(u8)(blue+(((eb-blue)*weight)>>12));
+    red=(u8)(red+((((u8)(end&31)-red)*weight)>>12));
+    green=(u8)(green+((((u8)((end&0x3e0)>>5)-green)*weight)>>12));
+    return (u16)((blue<<10)|(green<<5)|red);
+}
+void func_021DAAA4(void *p,u16 *out,int angle,int slot,u8 index,u16 first,u16 last)
+{
+    *out=blend(first,last,(s16)((d_020A1B38[(angle>>4)*2+1]+4096)/2));
+    func_02061CA4(p,slot*32+index*2,(unsigned)out,2);
+}

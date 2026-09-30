@@ -1,0 +1,42 @@
+/*
+ * function: func_021D4A64
+ * address: 0x021D4A64
+ * packet: pkt_ov122_021D4A64
+ * region: ov122
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   d_021D575C 0x021D575C data a4
+ *   d_021D5890 0x021D5890 data a4
+ *   d_021D5720 0x021D5720 data a4
+ *   d_021D5718 0x021D5718 data a4
+ *   d_021D5728 0x021D5728 data a4
+ *   func_021D4630 0x021D4630 thumb ov122
+ *   func_021D4C50 0x021D4C50 thumb ov122
+ *   func_021D4FE4 0x021D4FE4 thumb ov122
+ *   func_021D4384 0x021D4384 thumb ov122
+ *   func_021D5004 0x021D5004 thumb ov122
+ *   func_021D4244 0x021D4244 thumb ov122
+ *   func_02051B84 0x02051B84 arm
+ */
+typedef struct Pair { int a, b; } Pair;
+extern const Pair d_021D575C;
+extern int d_021D5890[], d_021D5720[], d_021D5718[], d_021D5728[];
+extern void func_021D4630(void);
+extern int func_021D4C50(void);
+extern void func_021D4FE4(void);
+extern void func_021D4384(int, Pair *, void *, void *, void *, void *);
+extern void func_021D5004(void *);
+extern void func_021D4244(void *, void *, int);
+extern void *func_02051B84(void *, int, int, int);
+void func_021D4A64(char *p)
+{
+    Pair pair = d_021D575C;
+    func_021D4384(2, &pair, p, d_021D5890, d_021D5720, d_021D5718);
+    *(void **)(p + 0x40) = func_02051B84(d_021D5728, (int)func_021D4630, (int)p, *(unsigned short *)(p + 0xc));
+    *(void **)(p + 4) = func_021D4C50;
+    func_021D5004(p);
+    func_021D4244(p, func_021D4FE4, 0x31b);
+}

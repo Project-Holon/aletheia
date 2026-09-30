@@ -1,0 +1,20 @@
+/*
+ * function: func_021D87FC
+ * address: 0x021D87FC
+ * packet: pkt_ov125_021D87FC
+ * region: ov125
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: arm
+ * status: EXACT
+ * symbols:
+ *   func_021D7A10 0x021D7A10 arm ov125
+ */
+typedef struct { unsigned short a,b; unsigned words[2]; int value; unsigned tail[3]; } Packet;
+extern int func_021D7A10(int, const void *, int, int);
+int func_021D87FC(int value, int n) {
+ Packet p = {0};
+ p.value = value;
+ p.a = 3; p.tail[1] = 0; p.tail[2] = 0; p.b = 0;
+ return func_021D7A10(0x55f1, &p, n, -1);
+}

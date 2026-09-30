@@ -8,12 +8,20 @@
  * isa: thumb
  * status: DIFF
  * residual: 184 bytes, seven concrete bytes differ: entry heap-offset and n webs swap r5/r6.
+ * runs: 8 prior one attempts + 1 retry heapOffset-before-i iteration +
+ * 1 own-callee unsigned-signature check + 300 permuter candidates.
+ * None changes seven bytes out.
+ * stop: third carried principled non-shrinking change. Second targeted
+ * heapOffset declaration position remains untried beyond carried budget.
+ * retry-checks: own matched ARM9 02048F60 has three args and pointer return,
+ * own matched ov119 42B4 takes p; no missing argument, new twin or stack
+ * aggregate. p is mutated so read-only const parameter is inapplicable.
  * checks: 1 02048F60 forwards r0-r2 and returns allocation; 42B4 takes p; no missing argument; 2 no allocation twin in ov119, 41A0 and 43DC confirm pointers; 3 unsigned n, separate int amount and int allocation heap argument no change; 4 redundant-truncation idiom fixes length, block-scope amount no change; 5 neighbours reread, no new twin; no stack aggregate/spill residue. Next: two targeted declaration positions for a separate heap-offset local.
  * symbols:
  *   func_02048F60 0x02048F60 arm
  *   func_021E42B4 0x021E42B4 thumb ov119
  */
-extern char *func_02048F60(int, int, int);
+extern char *func_02048F60(unsigned, unsigned, unsigned);
 extern void func_021E42B4(char *);
 void func_021E4324(char *p, unsigned n)
 {

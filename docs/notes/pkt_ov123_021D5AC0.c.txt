@@ -1,0 +1,30 @@
+/*
+ * function: func_021D5AC0
+ * address: 0x021D5AC0
+ * packet: pkt_ov123_021D5AC0
+ * region: ov123
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residue: 76 compiled versus 80 original bytes; 46 concrete bytes differ.
+ * residue: missing branch stub at 0x021D5AE6 for empty case 3 shifts all later code by two bytes and removes pool alignment.
+ * checks: 1 show 0200F7DC forces r0=1 and tail-forwards; no visible argument consumed; 2 same-overlay and sibling searches found allocator sharing global, no dispatch twin; 3 unsigned state compiled no change; 4 empty-arm and shared-tail idioms read, repeated stores yielded 124 bytes and dead unused assignment no change; 5 fresh full idiom listing and matched allocator reread, no new dispatch twin or fitting lever; stack-object check n/a because there is no stack object.
+ * budget: 3 iterations, 3 targeted check compiles; stop after two non-improving changes. Next targeted hypothesis: empty arm block preservation with a source-level inlined operation, no permutation sweep.
+ * symbols:
+ *   func_0200F7DC 0x0200F7DC thumb
+ *   g_021DAC20 0x021DAC20 data ov123 a4
+ */
+extern char *g_021DAC20;
+extern void func_0200F7DC(void);
+void func_021D5AC0(int unused,unsigned int state)
+{
+    switch(state) {
+    case 0: case 1: case 2: case 4: case 5: case 7: default: break;
+    case 3: break;
+    case 6: *(int *)(g_021DAC20+0xc8)=1; break;
+    case 8: func_0200F7DC(); break;
+    }
+    *(int *)(g_021DAC20+0xb0)=1;
+    *(int *)(g_021DAC20+0xb4)=state;
+}

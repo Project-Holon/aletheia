@@ -1,0 +1,27 @@
+/*
+ * function: func_021D8A38
+ * address: 0x021D8A38
+ * packet: pkt_ov123_021D8A38
+ * region: ov123
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021D6EE0 0x021D6EE0 thumb ov123
+ *   func_021D706C 0x021D706C thumb ov123
+ *   func_020362DC 0x020362DC arm
+ *   func_02035C60 0x02035C60 arm
+ */
+extern void func_021D6EE0(char *, int, int);
+extern void func_021D706C(void);
+extern int func_020362DC(void);
+extern int func_02035C60(void);
+extern void func_020061E4(int);
+void func_021D8A38(char *p)
+{
+    if (*(int *)(p+0x64) % 110 == 0) func_020061E4(0x659);
+    ++*(int *)(p+0x64);
+    if (func_020362DC() || func_02035C60())
+        func_021D6EE0(p, (int)func_021D706C, 0x88e);
+}

@@ -1,0 +1,61 @@
+/*
+ * function: func_021D99A4
+ * address: 0x021D99A4
+ * packet: pkt_ov121_021D99A4
+ * region: ov121
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * lever: u16 c/d in the function and drawing callee preserve spill and reload order;
+ *        heap also stays u16 in both allocation callees to reload each call.
+ * symbols:
+ *   func_02030734 0x02030734 arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_020457B0 0x020457B0 arm
+ *   func_020450F0 0x020450F0 arm
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_02045334 0x02045334 arm
+ *   func_02045374 0x02045374 arm
+ *   func_02045730 0x02045730 arm
+ *   func_020409B4 0x020409B4 arm
+ *   d_021DFBA0 0x021DFBA0 data a1
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern const char d_021DFBA0[];
+extern void *func_02030734(u16, u32, int, const char *, u32);
+extern void func_02082BCC(void *, int, u32);
+extern void *func_020457B0(u32, u16);
+extern void *func_020450F0(u8, u16, u16, u8, u8, u8, u8);
+extern void *func_02045770(void *);
+extern void func_02043B5C(void *, u8);
+extern void func_02045334(void *);
+extern void func_02045374(void *);
+extern u32 func_02045730(void *);
+extern void func_020409B4(u32);
+void *func_021D99A4(u32 a, u32 b, u16 c, u16 d, u8 e, u8 f, u8 g, u32 h, u16 heap)
+{
+    u8 *p;
+    void *q;
+    p = func_02030734(heap, 0x28, 0, d_021DFBA0, 0x55);
+    func_02082BCC(p, 0, 0x28);
+    *(u32 *)(p + 8) = h;
+    *(u16 *)(p + 0x14) = b;
+    *(u16 *)(p + 0x16) = 0x440;
+    *(u32 *)(p + 0x24) = a;
+    *(void **)(p + 0x10) = func_020457B0(0x200, heap);
+    q = func_020450F0(b, c, d, e, f, g, 1);
+    *(void **)(p + 0xc) = q;
+    *(void **)p = q;
+    p[4] = 0;
+    func_02043B5C(func_02045770(q), *(u16 *)(p + 0x16) & 31);
+    if (*(u32 *)(p + 0x24) == 0) {
+        func_02045334(*(void **)(p + 0xc));
+        func_02045374(*(void **)(p + 0xc));
+        func_020409B4(func_02045730(*(void **)(p + 0xc)));
+    }
+    return p;
+}

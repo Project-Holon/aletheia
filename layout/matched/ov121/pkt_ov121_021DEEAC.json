@@ -1,0 +1,36 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "ov121",
+ "shard": "pkt_ov121_021DEEAC",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "ov121_func_021DEEAC",
+   "address": "0x021DEEAC",
+   "kind": "game_unit",
+   "region": "ov121",
+   "source": "src/matched/ov/ov121_func_021DEEAC.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "functions": [
+    "func_021DEEAC",
+    "func_021DEEBC",
+    "func_021DEEC0",
+    "func_021DEEC4",
+    "func_021DEED0",
+    "func_021DEED8",
+    "func_021DEEEC"
+   ],
+   "evidence": {
+    "sole-ref": [
+     "data:0x021DFC00"
+    ]
+   }
+  }
+ ]
+}

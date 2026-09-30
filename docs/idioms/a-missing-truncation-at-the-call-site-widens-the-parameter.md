@@ -5,7 +5,7 @@ site that passes a wider value, so an original whose call site has no such pair
 is telling you the real prototype takes `int`/`u32`, even when the callee's body
 only ever stores the value as a halfword.
 
-Found in: src/matched/sub_02045874.c (0x02045874), src/matched/sub_020457B0.c (0x020457B0)
+Found in: src/matched/sub_02045874.c (0x02045874), src/matched/sub_020457B0.c (0x020457B0), src/matched/ov/ov093_func_021E0998.c (0x021E0998).
 
 The callee, 0x020457B0, uses its first parameter twice: once shifted left by
 one and once stored with `strh`. Both uses are consistent with `u16`, and

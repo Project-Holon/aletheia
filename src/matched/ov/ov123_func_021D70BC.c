@@ -1,0 +1,38 @@
+/*
+ * function: func_021D70BC
+ * address: 0x021D70BC
+ * packet: pkt_ov123_021D70BC
+ * region: ov123
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   d_021DA844 0x021DA844 data a4
+ *   func_021D584C 0x021D584C thumb ov123
+ *   func_021D5950 0x021D5950 thumb ov123
+ *   func_021D5960 0x021D5960 thumb ov123
+ *   func_021D6EE0 0x021D6EE0 thumb ov123
+ *   func_021D7088 0x021D7088 thumb ov123
+ *   func_021D706C 0x021D706C thumb ov123
+ */
+typedef struct { int x[8]; } Table;
+extern const Table d_021DA844;
+extern void func_021D584C(char *);
+extern int func_021D5950(char *,int);
+extern void func_021D5960(char *,int,int);
+extern void func_021D6EE0(char *,int,int);
+extern void func_021D7088(char *);
+extern void func_021D706C(char *);
+void func_021D70BC(char *p)
+{
+    Table t=d_021DA844;
+    if (*(unsigned char *)(p+0xa8)) {
+        func_021D584C(*(char **)(p+0x18));
+        func_021D5950(*(char **)(p+0x18),t.x[*(unsigned char *)(p+0xa8)]);
+        func_021D5960(*(char **)(p+0x18),1,8);
+        func_021D6EE0(p,(int)func_021D7088,0x1f0);
+    } else {
+        func_021D6EE0(p,(int)func_021D706C,0x1f3);
+    }
+}

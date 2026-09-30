@@ -1,0 +1,27 @@
+/*
+ * function: func_021D7260
+ * address: 0x021D7260
+ * packet: pkt_ov120_021D7260
+ * region: ov120
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * extent: two bytes of zero alignment padding after the return.
+ * symbols:
+ *   func_0204B3B4 0x0204B3B4 arm
+ *   func_021D71B8 0x021D71B8 thumb ov120
+ */
+typedef unsigned char u8;
+extern void func_0204B3B4(void *);
+extern void func_021D71B8(u8 *, void *, int);
+void func_021D7260(u8 *p, void *q)
+{
+    int i;
+    if (q) {
+        if (*(void **)(p + 0x160)) func_0204B3B4(*(void **)(p + 0x160));
+        for (i = 5; i > 0; i--) *(void **)(p + 0x14c + i * 4) = *(void **)(p + 0x148 + i * 4);
+        *(void **)(p + 0x14c) = 0;
+        func_021D71B8(p, q, 0);
+    }
+}

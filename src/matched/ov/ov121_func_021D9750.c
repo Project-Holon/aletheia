@@ -1,0 +1,34 @@
+/*
+ * function: func_021D9750
+ * address: 0x021D9750
+ * packet: pkt_ov121_021D9750
+ * region: ov121
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02040588 0x02040588 arm
+ *   func_0203FC28 0x0203FC28 arm
+ *   func_02050B80 0x02050B80 arm
+ *   func_021D98F4 0x021D98F4 thumb ov121
+ *   d_021DF598 0x021DF598 data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef struct { int a,b,c,d; } Config;
+extern const Config d_021DF598;
+extern void func_02040588(int,int);
+extern void func_0203FC28(Config *);
+extern void func_02050B80(u16);
+extern void func_021D98F4(void *,u16);
+void func_021D9750(u8 *p)
+{
+    Config c;
+    func_02040588(0,0);
+    c=d_021DF598;
+    c.d=1;
+    func_0203FC28(&c);
+    func_021D98F4(p+12,*(u16 *)(p+24));
+    func_02050B80(*(u16 *)(p+24));
+}

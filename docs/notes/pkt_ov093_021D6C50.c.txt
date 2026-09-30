@@ -1,0 +1,75 @@
+/*
+ * function: func_021D6C50
+ * address: 0x021D6C50
+ * packet: pkt_ov093_021D6C50
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 copy helper reads r0 source/r1 destination/r2 length; 51DC reads four args;
+ *   2 646C/6580 share flag and memset shapes, no whole-copy twin;
+ *   3 const b compiled unchanged; signed int counter and u16 saved match original widths;
+ *   4 aggregate loop and struct-field idioms read; Work spelling unchanged;
+ *   5 fresh idiom directory and 646C/6580 reread, no new lever; no stack object residue.
+ * residue: same 260-byte size, 12 concrete bytes at +0x72..+0x7e; records base
+ *   rematerializes from 0x38 + 0xcc before/after copy versus 0x1f2 - 0xee after it.
+ * permuter: one --budget 300 --types pass, 300 compiles, best unchanged at 12;
+ *   no mutation accepted. All value/index/address types preserve original behavior.
+ * symbols:
+ *   func_02082D44 0x02082D44 arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_021D51DC 0x021D51DC thumb ov093
+ *   d_021F3B8C 0x021F3B8C data a4
+ *   d_021F3BC4 0x021F3BC4 data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct { u32 words[0x3b]; } Head;
+typedef struct { u32 words[0x7e]; } Whole;
+typedef struct { u8 pad[0x1b]; u8 low:5, flag:1, high:2; } Flags;
+typedef struct { u8 pad[6]; u16 f6; u8 tail[6]; } Record;
+typedef struct {
+    u32 f0;
+    u8 pad04[0x17];
+    u8 low:5, flag:1, high:2;
+    u8 pad1c[0xe8];
+    Record records[4];
+    u8 pad13c[0xb6];
+    u16 f1f2;
+    u32 f1f4;
+} Work;
+extern Head d_021F3BC4;
+extern u8 d_021F3B8C[0x38];
+extern void func_02082D44(const void *, void *, u32);
+extern void func_02082BCC(void *, u8, u32);
+extern void func_021D51DC(void *, u16, int, int);
+int func_021D6C50(Work *a, const Work *b)
+{
+    u16 saved;
+    int i;
+    u8 *records;
+    if (!a->flag && !b->flag && b->f1f2 == 0) {
+    func_02082D44(a->records, d_021F3B8C, 0x38);
+    d_021F3BC4 = *(Head *)a;
+    saved = a->f1f2;
+    *(Whole *)a = *(Whole *)b;
+    *(Head *)a = d_021F3BC4;
+    a->f1f2 = saved;
+    func_02082D44(d_021F3B8C, a->records, 0x38);
+    records = (u8 *)a->records;
+    for (i = 0; i < 4; i++) func_021D51DC(records + i * 14, b->records[i].f6, 5, 0);
+    func_02082BCC((u8 *)a + 0x153, 0, 2);
+    func_02082BCC((u8 *)a + 0x155, 0, 2);
+    *(u16 *)((u8 *)a + 0x148) = 10000;
+    *(u16 *)((u8 *)a + 0x146) = 0;
+    *(u16 *)((u8 *)a + 0x14a) = 0;
+    *(u16 *)((u8 *)a + 0x14c) = 0;
+    ((u8 *)a)[0x144] = 17;
+    *(u16 *)((u8 *)a + 0x14e) = 0;
+    a->flag = 1;
+    return 1;
+    }
+    return 0;
+}

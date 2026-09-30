@@ -1,0 +1,43 @@
+/*
+ * function: func_021D6548
+ * address: 0x021D6548
+ * packet: pkt_ov123_021D6548
+ * region: ov123
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residue: 9 concrete bytes; scanline value and common hardware base swap r4/r5.
+ * checks: 1 func_0207E3D0 reads r0-r2, three args; 2 no ov123 twin; 3 const p stays 9, u16 v adds unsigned-compare byte; 4 SDK getter signed int, initializer and BG3 offset inline stay 9; 5 fresh ov122/ov123/ov124 search and idiom listing find no twin, structured fields stay 9; no stack object residue. Next targeted axis: inline GX_GetVCount or declaration placement, no sweep run.
+ * symbols:
+ *   func_0207E3D0 0x0207E3D0 arm
+ *   d_021DAA88 0x021DAA88 data a2
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+struct State { u8 pad_0[0x43c6]; s16 shift; s16 offsets[192]; u8 pad_4548[20]; int count; };
+extern const u16 d_021DAA88[];
+extern void func_0207E3D0(const void *, unsigned int, unsigned int);
+static inline void G2_SetBG3Offset(int hOffset, int vOffset)
+{
+    *(unsigned int *)0x0400001c = ((hOffset << 0) & 511) | ((vOffset << 16) & 0x01ff0000);
+}
+void func_021D6548(void *unused, const struct State *p)
+{
+    int v = *(u16 *)0x04000006;
+    int n;
+    int i;
+    i = (v + (p->shift + 1)) % 192;
+    if (*(u16 *)0x04000004 & 2) {
+        G2_SetBG3Offset(p->offsets[i], 0);
+        n = p->count;
+        if (n >= 192) { func_0207E3D0(d_021DAA88, 322, 2); return; }
+        if (n == 0) { func_0207E3D0(d_021DAA88+9, 322, 2); return; }
+        if (v > 200) { func_0207E3D0(d_021DAA88, 322, 2); return; }
+        if (n > v) { func_0207E3D0(d_021DAA88, 322, 2); return; }
+        n = v - n;
+        if ((unsigned int)n < 10 && n >= 0) { func_0207E3D0(d_021DAA88+n, 322, 2); return; }
+        func_0207E3D0(d_021DAA88+9, 322, 2);
+    }
+}

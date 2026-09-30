@@ -1,0 +1,46 @@
+/*
+ * function: func_021D94C4
+ * address: 0x021D94C4
+ * packet: pkt_ov121_021D94C4
+ * region: ov121
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0202D6F4 0x0202D6F4 thumb
+ *   func_0202D214 0x0202D214 thumb
+ *   func_020307B0 0x020307B0 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+extern void *func_0202D6F4(void **,int,int,u16);
+extern void func_0202D214(void *,u16);
+extern void func_020307B0(void *);
+unsigned func_021D94C4(int id,int heap)
+{
+    unsigned result=48;
+    int found=0;
+    int row,col,bit;
+    void *object;
+    void *allocation;
+    u8 *table;
+    heap=(heap&32767)|32768;
+    allocation=func_0202D6F4(&object,id,0,heap);
+    func_0202D214(object,heap);
+    for(row=11;row>=0;row--) {
+        for(col=0;col<12;col++) {
+            unsigned *p=(unsigned *)(*(u8 **)((u8 *)object+20)+(row*12+col)*32);
+            for(bit=7;bit>=0;bit--) {
+                if(p[bit]) {
+                    unsigned index=row*8+bit;
+                    if(result<index) result=index;
+                    found=1;
+                }
+            }
+        }
+        if(found) break;
+    }
+    func_020307B0(allocation);
+    return result;
+}

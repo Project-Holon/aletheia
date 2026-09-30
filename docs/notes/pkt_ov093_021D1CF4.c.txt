@@ -1,0 +1,92 @@
+/*
+ * function: func_021D1CF4
+ * address: 0x021D1CF4
+ * packet: pkt_ov093_021D1CF4
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residue: compiled 240/256 bytes, 113 concrete bytes differ. The message
+ * branches cross-jump EAF18/EAF50 early, displacing the tail by 14 bytes.
+ * checks: 1 no argument-register residue, matched-caller prototypes and
+ * EA488 show confirms four args; 2 refreshed ov093 D1 callers show no twin;
+ * 3 const params and u8 id compiled unchanged; 4 shared-bl-tail and identical
+ * calls idioms read, else-if unchanged, fallback goto worsens 150 bytes;
+ * 5 no stack object; push-only frame and entry allocation match.
+ * next: inline message wrapper or block-local message temporary; no sweeps.
+ * Permuter not required: 16-byte size delta, no follower.
+ * symbols:
+ *   func_021B9920 0x021B9920 thumb ov093
+ *   func_021D5440 0x021D5440 thumb ov093
+ *   func_021B8CE8 0x021B8CE8 thumb ov093
+ *   func_021D1DF4 0x021D1DF4 thumb ov093
+ *   func_021EAF18 0x021EAF18 thumb ov093
+ *   func_021B9F70 0x021B9F70 thumb ov093
+ *   func_021EAF50 0x021EAF50 thumb ov093
+ *   func_021EA614 0x021EA614 thumb ov093
+ *   func_021EA710 0x021EA710 thumb ov093
+ *   func_021B8BEC 0x021B8BEC thumb ov093
+ *   func_021EA488 0x021EA488 thumb ov093
+ *   func_021EA4C4 0x021EA4C4 thumb ov093
+ *   func_021CDECC 0x021CDECC thumb ov093
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+extern u8 *func_021B9920(void *, int, int);
+extern u8 func_021D5440(void *);
+extern int func_021B8CE8(void *, u8, int);
+extern int func_021D1DF4(void *);
+extern void func_021EAF18(void *, int, int);
+extern int func_021B9F70(void *, int);
+extern void func_021EAF50(void *, int);
+extern void func_021EA614(void *, void *);
+extern int func_021EA710(void *);
+extern u8 func_021B8BEC(u8 *, u32, u8);
+extern void func_021EA488(void *, int, int, int);
+extern int func_021EA4C4(void *);
+extern void func_021CDECC(void *);
+int func_021D1CF4(u8 *p, int *state, const u32 *params)
+{
+    u8 a = params[0];
+    u8 b = params[1];
+    u8 flag = params[3];
+    u8 id;
+    switch (*state) {
+    case 0:
+        if (flag != 0) {
+            id = func_021D5440(func_021B9920(*(void **)(p + 4), a, b));
+            if (func_021B8CE8(*(void **)p, p[0x1A6], a) == 0) {
+                if (p[0x1A6] == a) {
+                    func_021EAF18(p + 0x58, 1, func_021D1DF4(p));
+                } else {
+                    func_021EAF18(p + 0x58, 1, 0x11);
+                    func_021EAF50(p + 0x58, a);
+                }
+            } else if (func_021B9F70(*(void **)p, a) != 0) {
+                func_021EAF18(p + 0x58, 1, 0xE);
+                func_021EAF50(p + 0x58, a);
+            } else {
+                func_021EAF18(p + 0x58, 1, 0x11);
+                func_021EAF50(p + 0x58, a);
+            }
+            func_021EAF50(p + 0x58, id);
+            func_021EA614(*(void **)(p + 0x54), p + 0x58);
+        }
+        (*state)++;
+        break;
+    case 1:
+        if (func_021EA710(*(void **)(p + 0x54)) != 0) {
+            func_021EA488(*(void **)(p + 0x54), func_021B8BEC(*(u8 **)p, a, b), a, b);
+            (*state)++;
+        }
+        break;
+    case 2:
+        if (func_021EA4C4(*(void **)(p + 0x54)) != 0) {
+            func_021CDECC(p);
+            return 1;
+        }
+        break;
+    }
+    return 0;
+}

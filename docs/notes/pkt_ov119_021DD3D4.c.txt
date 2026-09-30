@@ -7,8 +7,11 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * residual: 84/84 bytes; 10 concrete bytes differ, first-loop counter and constant registers swapped.
- * runs: 4 iterations, 3 checks; stopped after two principled non-shrinking changes.
+ * residual: Superseded by EXACT src/matched/ov/ov119_func_021DD3D4.c.
+ * runs: prior 7 one attempts; retry 1 dead-parameter test (15 bytes out),
+ * 29 permuter candidates, and 1 cleaned final one EXACT; shard verify separate.
+ * lever: expand(q x3) from the 300-budget types permuter gives EXACT;
+ * spelling p+n*12 at each read preserves behavior and fixes register webs.
  * checks: 1 n/a no callees or argument setup; 2 ov119 DD1B8/DD2F4 share offsets but no search twin; 3 const p no change, short first counter grows 4 bytes; 4 declaration/reuse idioms no change, long first counter no change; 5 refreshed idioms and ov119 neighbours, no new twin, n/a stack-object check because no stack object. Next targeted idea: dead n parameter reused as first counter.
  * symbols:
  */

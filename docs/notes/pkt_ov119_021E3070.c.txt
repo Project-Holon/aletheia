@@ -8,7 +8,12 @@
  * isa: thumb
  * status: DIFF
  * residual: 124/124 bytes, four concrete bytes at +0x10 and +0x3a: zero copy and call argument are rematerialized as movs instead of adds.
- * checks: 1 shown 02050C04 and 02051230 both take four, ARM9 matched 02050C04 confirms int return and four int parameters; 2 exact twin 021E2F34 confirms four arguments and table, no other ov119 twin; 3 u16 j worsens to 128/124 and enum callee argument leaves four bytes; 4 enum j worsens, long i leaves four bytes, enum i do loop worsens to 128/124; 5 idioms relisted and matched neighbours reread, no addressable stack object (only spill at sp+4), struct-local idiom inapplicable. Next targeted possibility is declaration initializers in a post-call block, no sweep performed.
+ * retry: Wave 25 post-call block declaration initializers do not change the
+ * four bytes. One 300-budget --types permuter exhausted without improvement.
+ * runs: 8 prior one attempts + 1 retry iteration + 1 callee-signature check
+ * + 300 permuter candidates. Signature corrections preserve four bytes out.
+ * stop: third carried principled non-shrinking change. No second permuter.
+ * checks: 1 matched ARM9 02050C04 and 02051230 confirm four arguments, 02030734 has five with u16 stack tag; own-source unsigned and pointer prototypes tested unchanged; 2 exact twin 021E2F34 and current ov119 callers reread; 3 prior u16 j and enum callee argument failed, p is written through so read-only const pointer is inapplicable; 4 post-call declaration initializer block unchanged, second-zero idiom read; 5 idioms and neighbours refreshed, no addressable stack object (only spill at sp+4). No scripted sweeps; future enum-typed retained zero is untested beyond carried budget.
  * symbols:
  *   func_02050B80 0x02050B80 arm
  *   func_02030734 0x02030734 arm
@@ -19,11 +24,11 @@
  */
 typedef unsigned short u16;
 extern char d_021E81C0[];
-extern void func_02050B80(u16);
-extern void *func_02030734(u16,int,int,void *,int);
+extern void func_02050B80(unsigned);
+extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern void *func_02050C04(void *,int,int,int);
 extern void *func_0205121C(int,int,u16);
-extern void func_02051230(void *,void *,int,int);
+extern void func_02051230(void *,unsigned,unsigned,unsigned);
 void func_021E3070(char *p) {
     long i;
     int j;
@@ -36,5 +41,5 @@ void func_021E3070(char *p) {
         ((void **)p)[i]=func_02050C04(((void **)p)[9+i],0x4800,j,*(u16 *)(p+0xba));
     }
     t=func_0205121C(0x68,10,*(u16 *)(p+0xba));
-    for(;j<6;j++) func_02051230(((void **)p)[j],t,1,0);
+    for(;j<6;j++) func_02051230(((void **)p)[j],(unsigned)t,1,0);
 }
