@@ -28,6 +28,11 @@
  *   func_0215C8B4            0x0215C8B4  arm  ov009
  *   g_021A826C               0x021A826C  data
  *   g_021A82DC               0x021A82DC  data
+ *
+ * lane T5 (2026-09-30).  Pin sweep (all 9 dsi compilers x 4 flag sets): 1.1p1
+ * -O4,p at 380 bytes / 24 concrete bytes is the unique best (1.6sp1/sp2 give 30).
+ * Residue already named in the blocker above (the two schedule swaps in the id
+ * set-up); no new spelling was spent on it this wave.
  */
 
 typedef struct {

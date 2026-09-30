@@ -7,7 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF (236 vs 244 B: object keeps two literal-pool loads of the queue info, r3 for total+head and r6 for target; compiler merges them into r6, or keeps q live across calls)
+ * status:   DIFF (capped - see residue)
+ *
+ * residue (lane T3, 2026-09-30, measured): compiled 236 vs 244 (-8). First diff +0004 image `ldr r3, [pc, #0xe0]` | ours `ldr r6, [pc, #0xdc]` (two literal-pool loads of the queue info merged into one). Pin/flag sweep (9x7) best -O4,p at 188 diffs; -O4,s/-O4 are 90 (worse). Not re-spelled (budget).
  *
  * sdk:      DWCi_InsertReliableQueue (libdwcmatch.TWL.HYB.a dwc_reliable.o)
  *

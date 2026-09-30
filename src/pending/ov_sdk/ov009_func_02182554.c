@@ -7,7 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   DIFF (capped - see residue)
+ *
+ * residue (lane T3, 2026-09-30, measured): compiled 224 vs 232 (-8). First diff +0050 image `ldr r3, [r6]` | ours `ldr r2, [r6]`: the image re-reads *pos into a fresh r3 and tests buffer[*pos] through [r8,r3], ours CSEs *pos into r2 and reads through the computed strStart pointer [r4]. Downstream the image also keeps a rotated-loop entry test (`bne` body entry then a same-flags `beq` exit) that ours does not emit. Pin/flag sweep (9x7) best -O4,p at 78 diffs; every other flag worse (101-239). Not re-spelled (budget).
  *
  * sdk:      gsiXmlUtilParseString (gsxml)
  *

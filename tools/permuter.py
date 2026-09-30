@@ -1627,6 +1627,9 @@ def main(argv=None):
     if best.labels:
         print("mutations " + " ; ".join(best.labels))
     if args.out:
+        out_dir = os.path.dirname(os.path.abspath(args.out))
+        if out_dir:
+            os.makedirs(out_dir, exist_ok=True)
         with open(args.out, "w", encoding="utf-8") as fh:
             fh.write(best.text)
         print("wrote %s" % args.out)

@@ -30,6 +30,21 @@
  *   g_021AAA41                   0x021AAA41 data
  *   g_021AAA42                   0x021AAA42 data
  *   g_021AAA48                   0x021AAA48 data
+ *
+ * lane T5 (2026-09-30).  PIN LEVER: the DWC object was built with a 2.0-tree
+ * compiler, not dsi/1.1p1.  Under `--cc 2.0/base` (also 2.0/sp1, 2.0/sp1p2) the
+ * whole register allocation matches the image from +0004 to +0x2C
+ * (movs r6,r1 / mov r5,r2 / mov r7,r0 / cmp r7,#0x64 / sub r2,r7,#0x64 /
+ * mul r3,r2,r0) and the residue drops from 133 to 42 concrete bytes; every dsi
+ * compiler and every flag set tried gives 133.  Residue under 2.0/base is a
+ * single redundant instruction in the tail argument set-up, 304 vs 300 bytes:
+ *   +00FC  image `mov r0, r7` then `ldr r1, [r8, r4]`  | ours `mov r0, r8`
+ *          then `ldr r1, [r0, r4]` then `mov r0, r7`   (one extra register copy,
+ *          and the 12-word pool shifts +4 from +0114 on).
+ * Measured flat under 2.0/base: explicit struct-member spelling of the tail two
+ * statements, an element-pointer local (&g_021AAA40[index]) in three positions,
+ * the call before the value store, a keyString local, and an all-element-pointer
+ * body (8 spellings) - 42, 42, 50, 55, 103, 131, 140, 147 bytes.
  */
 
 typedef unsigned char u8;

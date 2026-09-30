@@ -72,3 +72,124 @@
 | ov172 | 0x021C131C | Yos_JpegEncoderComponentSequential | 476/484 | DIFF | structure: -8 bytes | +0010 mla r8, r6, r5, r7 | mla r7, r6, r5, r7 | 1.1p1 |
 | ov172 | 0x021C1AE4 | SSPi_JpegEncoderDoSign | 732/680 | DIFF | structure: +52 bytes | +0008 ldr r2, [pc, #0x28c] | ldr r2, [pc, #0x2c0] | 1.1p1 |
 | ov172 | 0x021C20B0 | Yos_JPEGEncode | 2512/2592 | DIFF | structure: -80 bytes | +0000 push {r4, r5, r6, r7, r8, sb, sl, fp, lr} | push {r3, r4, r5, r6, r7, r8, sb, sl, fp, lr} | 1.1p1 |
+
+## Concrete byte count per row
+
+The `bytes` column above is compiled/listing extent; this is how many of those bytes actually differ (the harness's `concrete` count, relocation fields excluded).
+
+| overlay | address | function | concrete bytes | class |
+|---|---|---|---|---|
+| ov009 | 0x02157290 | func_02157290 | 16 | size-exact: allocation or scheduling |
+| ov009 | 0x0215C910 | func_0215C910 | 24 | size-exact: allocation or scheduling |
+| ov009 | 0x0215D92C | func_0215D92C | 101 | structure: -4 bytes |
+| ov009 | 0x0215d070 | SOCL_CreateSocket | 78 | structure: +4 bytes |
+| ov009 | 0x021602B8 | cert_item | 714 | structure: -4 bytes |
+| ov009 | 0x021612C8 | create_key_block | 318 | structure: -4 bytes |
+| ov009 | 0x02161C80 | parse_record_in_buf | 260 | size-exact: allocation or scheduling |
+| ov009 | 0x02163438 | CPSi_md5_calc | 76 | size-exact: allocation or scheduling |
+| ov009 | 0x02163628 | func_02163628 | 142 | size-exact: allocation or scheduling |
+| ov009 | 0x02163CF0 | CPSi_sha1_calc | 90 | size-exact: allocation or scheduling |
+| ov009 | 0x021671C0 | WcmWmcbScanEx | 372 | structure: -12 bytes |
+| ov009 | 0x021674BC | WcmWmcbConnect | 12 | size-exact: allocation or scheduling |
+| ov009 | 0x021679C0 | WcmWmcbReset | 594 | size-exact: allocation or scheduling |
+| ov009 | 0x02167E20 | WcmWmcbSetDCFDataAsync | 35 | structure: -4 bytes |
+| ov009 | 0x02168AD4 | DWCi_FriendProcess | 428 | structure: +4 bytes |
+| ov009 | 0x02169934 | DWCi_GPProfileSearchCallback | 21 | size-exact: allocation or scheduling |
+| ov009 | 0x0216D57C | DWCi_MatchProcess | 841 | structure: -2880 bytes |
+| ov009 | 0x0216F770 | func_0216F770 | 372 | size-exact: allocation or scheduling |
+| ov009 | 0x021702A0 | DWCi_ProcessRecvMatchCommand | 717 | structure: -3544 bytes |
+| ov009 | 0x02173064 | DWCi_SendMatchSynPacket | 463 | structure: -36 bytes |
+| ov009 | 0x021732F8 | DWCi_ProcessMatchSynTimeout | 106 | structure: -4 bytes |
+| ov009 | 0x0217AB78 | DWCi_Netcheck_Thread | 1511 | structure: -1488 bytes |
+| ov009 | 0x02181C2C | func_02181C2C | 9 | size-exact: allocation or scheduling |
+| ov009 | 0x02182554 | func_02182554 | 78 | structure: -8 bytes |
+| ov009 | 0x02195EC4 | gti2ConnectionError | 44 | structure: +4 bytes |
+| ov009 | 0x02197458 | gti2BeginReliableMessage | 14 | size-exact: allocation or scheduling |
+| ov009 | 0x0219C3A4 | func_0219C3A4 | 0 | witness missing |
+| ov016 | 0x021B9BF8 | ScanAP | 494 | structure: -44 bytes |
+| ov016 | 0x021BA804 | AutoConfigThreadEx | 801 | structure: -44 bytes |
+| ov016 | 0x021C00A8 | disp | 457 | structure: -16 bytes |
+| ov016 | 0x021C1210 | taskFramework | 416 | structure: -36 bytes |
+| ov016 | 0x021C2610 | drawInfo | 141 | structure: -24 bytes |
+| ov016 | 0x021C687C | input | 318 | structure: +4 bytes |
+| ov016 | 0x021C73D0 | input | 601 | structure: +44 bytes |
+| ov016 | 0x021C7D80 | drawMessage | 479 | structure: +4 bytes |
+| ov016 | 0x021CD458 | func_021CD458 | 0 | witness missing |
+| ov016 | 0x021CFCC8 | write | 9 | size-exact: allocation or scheduling |
+| ov016 | 0x021D04BC | taskBegin4 | 12 | size-exact: allocation or scheduling |
+| ov016 | 0x021D06A4 | taskEnd0 | 12 | size-exact: allocation or scheduling |
+| ov016 | 0x021D1208 | DWCi_WINlInitEx | 567 | structure: -12 bytes |
+| ov016 | 0x021D2450 | ParentStateCallback | 245 | structure: -4 bytes |
+| ov107 | 0x021F2200 | MBi_CommParentRecvDataPerChild | 1018 | size-exact: allocation or scheduling |
+| ov107 | 0x021F2A44 | MBi_CommParentSendBlock | 12 | size-exact: allocation or scheduling |
+| ov107 | 0x021F3544 | MB_RegisterFile | 8 | size-exact: allocation or scheduling |
+| ov107 | 0x021F4140 | MBi_SendFixedBeacon | 63 | size-exact: allocation or scheduling |
+| ov107 | 0x021F42D4 | MBi_SendVolatBeacon | 401 | structure: -12 bytes |
+| ov107 | 0x021F46C8 | MBi_ParentCallback | 1178 | structure: -4 bytes |
+| ov107 | 0x021F4EFC | MBi_ChildCallback | 1473 | structure: -744 bytes |
+| ov107 | 0x021F5904 | MB_Init | 9 | size-exact: allocation or scheduling |
+| ov114 | 0x021BACFC | NHTTPi_setReqQueue | 17 | size-exact: allocation or scheduling |
+| ov114 | 0x021BBA14 | NHTTPi_CancelRequestAsync | 66 | structure: -4 bytes |
+| ov114 | 0x021BD7E8 | NHTTPi_ThreadSendProc | 46 | size-exact: allocation or scheduling |
+| ov114 | 0x021C07B8 | func_021C07B8 | 26 | size-exact: allocation or scheduling |
+| ov114 | 0x021C2C28 | func_021C2C28 | 48 | size-exact: allocation or scheduling |
+| ov114 | 0x021C3218 | ghiPostStateDoPosting | 537 | structure: -936 bytes |
+| ov114 | 0x021C68BC | req_callback | 513 | structure: +16 bytes |
+| ov114 | 0x021C7644 | DWCi_Ndi_response_list | 507 | structure: +84 bytes |
+| ov114 | 0x021CA5E4 | func_021CA5E4 | 80 | structure: -4 bytes |
+| ov114 | 0x021CB3B4 | func_021CB3B4 | 48 | size-exact: allocation or scheduling |
+| ov114 | 0x021CD210 | CRYPTOi__BN_mod_exp_mont | 1505 | structure: -144 bytes |
+| ov172 | 0x021BE5C4 | func_021BE5C4 | 2098 | structure: -104 bytes |
+| ov172 | 0x021BF690 | func_021BF690 | 658 | structure: -88 bytes |
+| ov172 | 0x021BFA68 | func_021BFA68 | 1129 | structure: +52 bytes |
+| ov172 | 0x021C0D04 | Yos_JpegEncoderForwardDct | 717 | structure: +8 bytes |
+| ov172 | 0x021C104C | Yos_JpegEncoderHuffmanEncoderBuildTable | 241 | structure: +12 bytes |
+| ov172 | 0x021C131C | Yos_JpegEncoderComponentSequential | 282 | structure: -8 bytes |
+| ov172 | 0x021C1AE4 | SSPi_JpegEncoderDoSign | 568 | structure: +52 bytes |
+| ov172 | 0x021C20B0 | Yos_JPEGEncode | 2209 | structure: -80 bytes |
+
+## The pin and flag lever, measured shut
+
+Brief rule 4 says to change the pin or the flags before re-spelling a size-exact body. That was done exhaustively for all 68 rows: every row was swept across the nine bundled dsi front ends (1.1, 1.1p1, 1.2, 1.2p1, 1.2p2, 1.3, 1.3p1, 1.6sp1, 1.6sp2) crossed with the harness's flag matrix, under its own region, ISA and lang — 4284 configurations, **no EXACT and no new MATCH** anywhere. The only MATCH verdicts the sweep produced are the two already-known witness-missing rows, and they are MATCH under every front end (a witness gap is not a codegen property).
+
+At the vendor's own flag set (-O4,p), the parked pin is already the minimiser for 61 of the 64 rows whose parked front end is in the sweep set. For 3 rows a different front end shaves the concrete count at -O4,p, and every one of those wins is 1-2 bytes under 1.6sp1/1.6sp2 while the vendor object is stamped 1.1p1 or ../2.0/sp1p2 — a different compiler is not the build compiler, so none of them is a promotion. (The other 4 rows: 2 are pinned to `../2.0/sp1p2`, outside the sweep set, and the 2 MATCH rows have no concrete count to minimise.)
+
+- `ov016` 0x021D1208 DWCi_WINlInitEx — parked pin 1.1p1 gives 567 concrete, 1.6sp1/1.6sp2 gives 565 (size 784/796 unchanged)
+- `ov114` 0x021CD210 CRYPTOi__BN_mod_exp_mont — parked pin 1.1p1 gives 1505 concrete, 1.6sp1/1.6sp2 gives 1504 (size 1764/1908 unchanged)
+- `ov172` 0x021C20B0 Yos_JPEGEncode — parked pin 1.1p1 gives 2209 concrete, 1.6sp1/1.6sp2 gives 2207 (size 2512/2592 unchanged)
+
+Other flag sets (-O4,s, -O4, -O3, -O2, -O1, -O0, -inline off/all, -ipa function) lower the raw concrete count for 22 rows, but none of them is the vendor's build configuration, none reaches EXACT, and each one changes the emitted size as well — recorded in `scratch/S2/sweep_base.json`, not actionable.
+
+The 25 size-exact rows were then swept a second time with `--extra`, which adds the `-inline off`, `-inline all`, `-ipa function` and `-O4,s -inline off` variants: 2475 configurations on those rows (900 beyond the base matrix), again **no EXACT and no new MATCH**. A size-exact row in this set that the sweep cannot move is capped by body shape, not by the pin (results in `scratch/S2/sweep_extra.json`).
+
+
+## Measurement cross-check
+
+Every row was measured twice by different paths: `match.py one` under the row's own pin (the residue column above) and the sweep's own cell for that same pin. The two agree on the emitted size for 66 of 68 rows and on the concrete count for the ones they share; the two exceptions (`ov016` 0x021B9BF8 and 0x021BA804) are pinned to `../2.0/sp1p2`, a front end outside `dsi/` that the sweep does not cover, and were measured directly. No row timed out and no row failed to compile.
+
+
+## Rows skipped as already modified in the working tree
+
+`git status --porcelain` shows a live modification on these 4 named rows, so they were left untouched and are NOT counted in the 68 measured rows above:
+
+- `src/pending/ov_sdk/ov009_func_02174FE8.c`
+- `src/pending/ov_sdk/ov009_func_0217E078.c`
+- `src/pending/ov_sdk/ov016_func_021D0CEC.c`
+- `src/pending/ov_sdk/ov107_func_021F2FA0.c`
+
+## Promotions
+
+None. No named-but-unclassified row is EXACT or EXACT* under its own pin, under any other dsi front end, or under any flag variant in the sweep, so there was nothing to copy into `src/matched/ov_sdk/` and no shard to write. The two MATCH rows (`ov009` 0x0219C3A4, `ov016` 0x021CD458) are one witness away from EXACT* but the target addresses their wildcarded relocations need (0x021A1B64 natNegBytes template, 0x020589C4 DWCi_BACKUPlGetWifi) have no shard, no catalog row and no listing-attested object start; a case-insensitive search of `layout/` finds neither.
+
+
+## Reading the structure class
+
+`structure: +N/-N bytes` is not one condition. Of the 41 structure rows, 5 are genuine **partial reconstructions** — the parked prose for each of them already says so, and the size gap is the code that is not written yet, not a codegen quarrel. The remaining 36 have a gap of at most 144 bytes (most under 64), which is the generated-code shape the parked prose describes: branch order, literal-pool order, one hoisted or sunk instruction, or a callee-saved register rotation. Only the second group is a codegen wall; the first group is unfinished work that no pin or spelling change can close.
+
+| overlay | address | function | bytes | missing |
+|---|---|---|---|---|
+| ov009 | 0x021702A0 | DWCi_ProcessRecvMatchCommand | 852/4396 | 3544 |
+| ov009 | 0x0216D57C | DWCi_MatchProcess | 1028/3908 | 2880 |
+| ov009 | 0x0217AB78 | DWCi_Netcheck_Thread | 1696/3184 | 1488 |
+| ov114 | 0x021C3218 | ghiPostStateDoPosting | 628/1564 | 936 |
+| ov107 | 0x021F4EFC | MBi_ChildCallback | 1720/2464 | 744 |

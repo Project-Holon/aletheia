@@ -22,6 +22,17 @@
  *   loop shaped as while (*pos < len && strchr(...) == 0)). Tried: c var vs block
  *   var vs int, no c var, pointer temp first/after, &buffer[*pos], two ifs,
  *   declaration order, mLen store first.
+ *
+ * lane T5 (2026-09-30).  Pin sweep (all 9 dsi compilers x -O4,p/-O4,s/-inline off
+ * /-ipa function): 1.1p1 -O4,p is the unique best, 7 concrete bytes, unchanged by
+ * every other pin.  Residue is one register pair swapped over seven instructions
+ * (+0038..+0088): image keeps the character in r3 and `buffer + *pos` in r2, this
+ * build has them the other way round
+ *   +0038  image `ldrsb r3, [sl, r0]`  | ours `ldrsb r2, [sl, r0]`.
+ * Measured flat: `&buffer[*pos]` as the mData operand, a named `char *` pointer
+ * local in three declaration positions, an `int idx = *pos` local, mLen written
+ * before mData, the guard split into two ifs, and a `char *` cast on the base
+ * (that one re-colours the entry block, 67 bytes).
  */
 
 typedef struct GSIXmlString {

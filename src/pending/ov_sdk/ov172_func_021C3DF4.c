@@ -25,24 +25,27 @@
  *   jpeg_exif_data_structure{ifd[5],app1_length,thumb_compressed_data,
  *     thumb_compressed_length} = 0x48
  *
- * Divergence (blocker): compiled 3500 bytes vs original 3496.  The prologue
- * through +0x204 is register-identical (+0x08 in the pool displacement only);
- * the first order difference is +0x204, where the original does the tag-4
- * count0++ (ldrsh/add/strh) before loading g_021CADF0.fieldC, while this C
- * schedules the fieldC load first.  The net extra instruction is at +0x5F4:
- * `mov r2,r6` -- the compiler used r2 for the PixelXDimension width value and
- * then has to rematerialise 0 into r2 for the `func_0208CB10(str, g_021CAEC6,
- * 0)` call.  In the original the width load goes to r0, so r2 stays 0 and no
- * move is needed.  Root cause is a register-allocation difference, not a
- * missing statement; the 27 per-tag `entry` blocks (matching the DWARF lexical
- * blocks) and the array-form `jifd[i]` manager both compile identically.
- * Changing the exact C spelling of the config/width temporaries did not move
- * the allocation.  Next lever: recover exifenc.c verbatim (SDK source not in
- * the tree) or find the source form that keeps width in r0.
+ * Divergence (blocker): size-exact at 3496 bytes and all 31 relocation sites now
+ * resolve (write_exif_ifd_tables added to symbols: and the contested ov172 token
+ * dropped from g_021CB728/g_021CAE90), but 279 concrete bytes over 122
+ * instructions in 10 clusters still differ, all of them register assignment.
+ * First order difference is +0x204:
+ *   image ldrsh r1,[sb,#4] / add r1,r1,#1 / strh r1,[sb,#4] / ldr r1,[pc] / ldr r1,[r1,#0xc] / cmp
+ *   ours  ldr r1,[pc] / ldrsh r2,[sb,#4] / ldr r1,[r1,#0xc] / cmp / add r1,r2,#1 / strh r1,[sb,#4]
+ * i.e. the original keeps the tag-3 count0++ together ahead of the
+ * g_021CADF0.fieldC test while ours interleaves the pool load into it and has
+ * to keep the counter in r2.  Every later cluster is a rotation of the same
+ * register set (r0/r1/sl/fp/r3) inside the 27 per-tag `entry` blocks.
+ * `-O4,p` is the only flag set that is close (all seven pins D279; -O4/-O4,s
+ * D2634, -O2 D2593), so pin and flags are not the lever.
+ * Fixed this lane: tag 0x0213 short_data was 1, the image's literal at
+ * 0x021C4B6C is 0x00000213 and it stores r7 (loaded as 2 at 0x021C4088), so
+ * `s->fieldA` is 2 (verified).  Next lever: recover exifenc.c verbatim or find
+ * the source form that keeps the tag-3 counter in r1.
  *
  * symbols:
  *   g_021CAE48 0x021CAE48 data ov172
- *   g_021CB728 0x021CB728 data ov172
+ *   g_021CB728 0x021CB728 data
  *   g_021CC070 0x021CC070 data ov172
  *   g_021CAEE8 0x021CAEE8 data ov172
  *   g_021CB308 0x021CB308 data ov172
@@ -54,10 +57,11 @@
  *   g_021CAE14 0x021CAE14 data ov172
  *   g_021C88AC 0x021C88AC data ov172
  *   g_021C88B4 0x021C88B4 data ov172
- *   g_021CAE90 0x021CAE90 data ov172
+ *   g_021CAE90 0x021CAE90 data
  *   g_021CAEC6 0x021CAEC6 data ov172
  *   g_021C88BC 0x021C88BC data ov172
  *   g_021C88C0 0x021C88C0 data ov172
+ *   write_exif_ifd_tables 0x021C3A28 arm ov172
  */
 typedef unsigned char u8;
 typedef signed char s8;
@@ -261,7 +265,7 @@ s16 func_021C3DF4(s16 width, s16 height, u16 encode_option, u8 *thumb_src, u32 t
   s->type = 3;
   s->count = 1;
   s->field8 = 0;
-  s->fieldA = 1;
+  s->fieldA = 2;
   s->fieldC = 0;
   s->field10 = 0;
   s->field14 = 0;

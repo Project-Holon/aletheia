@@ -40,6 +40,17 @@
  * ptype spelling, switch(ptype), compilers 1.1/1.2/1.2p1. g_021AE4A7 and
  * g_021AE4AB are data+0xf and data+0x13 (interior of the static buffer),
  * referenced through g_021AE498 + 15 / + 19.
+ *
+ * lane T14 (2026-09-30): `cookie` is unsigned in the object.  NN_NTOHL's
+ * >>24 and the fused (x>>8)&0xff<<8 rematerialisation are `lsr` in the
+ * image and were `asr` here; declaring the field unsigned fixed +02B8 and
+ * +02C4 (88 -> 86 concrete bytes, 41 -> 39 rows) and is the correct field
+ * type.  Residue after that: the three-way register rotation r1/r3/r2
+ * (flags base / g_021AE4A7 / ptype) at +0134..+018C plus the store/load
+ * order that follows it at +01A8/+01F8/+0238; a local `char *buf =
+ * g_021AE498`, a local `NatifyFlags *f`, a local for porttype, `saddrlen`
+ * first and a flattening of the memcpy block all measured worse or
+ * byte-identical.
  */
 
 #include "../../matched/arm9_sdk/libc/string.h"
@@ -63,7 +74,7 @@ typedef struct _NatNegPacket {
     unsigned char magic[6];                          /* 0x00 */
     unsigned char version;                           /* 0x06 */
     unsigned char packettype;                        /* 0x07 */
-    int cookie;                                      /* 0x08 */
+    unsigned int cookie;                             /* 0x08 */
     union {
         InitPacket Init;
         unsigned char raw[64];

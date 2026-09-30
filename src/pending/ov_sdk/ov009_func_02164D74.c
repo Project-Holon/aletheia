@@ -15,9 +15,9 @@
  * the 0x021AA7D4 pool word before `mov r1,#0`, ours after).
  *
  * symbols:
- *   OS_DisableInterrupts 02087988 arm
- *   OS_RestoreInterrupts 0208799C arm
- *   MI_CpuFill8          02082BCC arm
+ *   OS_DisableInterrupts 0x02087988 arm
+ *   OS_RestoreInterrupts 0x0208799C arm
+ *   MI_CpuFill8          0x02082BCC arm
  *   func_02165B68        0x02165B68 arm ov009
  *   func_02164F38        0x02164F38 arm ov009
  *   func_021658F8        0x021658F8 arm ov009
@@ -28,6 +28,22 @@
  *   func_02087208        0x02087208 arm
  *   func_02087254        0x02087254 arm
  *   g_021AA7D4           0x021AA7D4 data ov009
+ *
+ * lane T5 (2026-09-30).  HEADER REPAIR: the `symbols:` block used bare hex
+ * addresses (`OS_DisableInterrupts 02087988 arm`), which SYMBOL_RE rejects, so the
+ * whole block was dropped (`symbols_lines` empty) and the one ABS32 stayed
+ * wildcarded.  With `0x` addresses the sites go 18 of 18 resolved, the ABS32
+ * g_021AA7D4 resolving as sole-ref - the row's ceiling is now EXACT rather than
+ * MATCH.  The instruction residue is unchanged at 18 concrete bytes.
+ * Pin sweep (all 9 dsi compilers x 4 flag sets): 1.1p1 -O4,p is the unique best.
+ * Residue is a six-instruction schedule rotation at +0018..+0028, same 364 bytes:
+ *   +0018  image `ldr sb, [pc, #0x148]`  | ours `mov r1, #0`
+ *   +0028  image `str r1, [sp]`          | ours `mov r5, r0`
+ * i.e. the image loads the 0x021AA7D4 pool word first and sinks the spill of
+ * expectLen below the wcmw load, this build materialises the zero and spills it
+ * immediately.  Measured worse: `long expectLen = 0;` as a declaration
+ * initialiser (396/345), `expectLen` before the OS_DisableInterrupts call (396),
+ * both as declaration initialisers (400).
  */
 
 typedef struct WCMWork {

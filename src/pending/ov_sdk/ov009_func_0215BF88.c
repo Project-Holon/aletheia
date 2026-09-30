@@ -7,8 +7,25 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF (near miss: register allocation after the option loop setup)
- * notes:    the target hoists the CPSDhcpMode & 2 load out of the option loop with no named local (CPSDhcpMode is a separate global in the original TU); the explicit local here moves s+0xf0 from r3 to ip, 237 bytes of register-only residue
+ * status:   DIFF (65 bytes; size now exact at 880)
+ * notes:    the 0x35 arm is a switch on s[1] with case 2 / case 5, not
+ *           if/else-if: the if/else-if spelling (which it had) makes the
+ *           compiler predicate the ==2 arm inline and branch over it, costing
+ *           the image's out-of-line arm and one instruction -- 240 bytes and
+ *           -4 on the extent.  With the switch the extent is 880 and the
+ *           residue is 65 bytes, all of it the tie between the option pointer
+ *           (s += 0xf0) and the `dhcp_mode & 2` mask: image keeps the pointer
+ *           in r3 and the mask in ip, this compile swaps them, and the swap
+ *           drags the scheduling with it -- image `addeq r3, r5, #0xf0` (the
+ *           address add predicated into the && chain, before the last
+ *           `cmpeq r0, #0x63`) where this compile emits an unconditional
+ *           `add ip, r5, #0xf0` after the `bne`.  `mode` must stay a named
+ *           local (writing `g_021A826C.dhcp_mode & 2` inline in case 6 drops
+ *           the whole allocation: 868 bytes, 678 out).  Tried and inert:
+ *           mode at function scope, mode as a declaration initialiser, mode
+ *           before vs after `s += 0xf0`, `s = s + 0xf0`, a named `opt`
+ *           pointer local (888 bytes), swapping the case order, else-if
+ *           nesting, store-before-result, `int` for `u32` mode.
  *
  * sdk:      dhcp_analyze_response (libcps.TWL.HYB.a network.o)
  * symbols:
@@ -112,12 +129,15 @@ int func_0215BF88(u32 id, int retry)
                         g_021A826C.lease_time = G32(s + 1);
                         break;
                     case 0x35:
-                        if (s[1] == 2) {
+                        switch (s[1]) {
+                        case 2:
                             result = 1;
                             g_021A826C.offered_myip = myip_tmp;
-                        } else if (s[1] == 5) {
+                            break;
+                        case 5:
                             result = 2;
                             g_021A826C.myip = myip_tmp;
+                            break;
                         }
                         break;
                     case 0x36:

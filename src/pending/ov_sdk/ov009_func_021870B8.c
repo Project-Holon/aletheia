@@ -498,10 +498,10 @@ static int gpiProcessRecvBuddyMessage(void **connection, char *input)
             }
 
             if (gpiValueForKey(buffer, g_021A4390, intValue, 0x10))
-                buddyStatus->ip = ((atoi(intValue) << 24) & 0xff000000) |
-                                 ((atoi(intValue) << 8) & 0xff0000) |
-                                 ((atoi(intValue) >> 24) & 0xff) |
-                                 ((atoi(intValue) >> 8) & 0xff00);
+                buddyStatus->ip = (((unsigned int)atoi(intValue) >> 24) & 0xff) |
+                                 (((unsigned int)atoi(intValue) >> 8) & 0xff00) |
+                                 (((unsigned int)atoi(intValue) << 8) & 0xff0000) |
+                                 (((unsigned int)atoi(intValue) << 24) & 0xff000000);
             else
                 buddyStatus->ip = 0;
 

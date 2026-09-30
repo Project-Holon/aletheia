@@ -11,34 +11,26 @@
  *
  * sdk:      ScanAP (libdwcutil.TWL.HYB.a(atermset.o))
  *
- * blocker: codegen on the frame/loop shape, no external evidence missing.
- *          atermset.o's .comment is Metrowerks C/C++ for ARM 3.0.0.126; the
- *          bundled ../2.0/sp1p2 front end writes that stamp and this object
- *          compiles under it (sibling AutoConfigThread 0x021BABE8 in this
- *          same object is EXACT with --cc ../2.0/sp1p2), so this function is
- *          NOT provenance-blocked, only hard.  This body is a genuine
- *          reconstruction from the object DWARF + full disassembly: it
- *          compiles 616 bytes vs the original 660, and bytes 0x00..0xE4
- *          already follow the original instruction-for-instruction with only
- *          a uniform -4 stack-slot shift (original frame sub sp,#0x70 with
- *          pOldList at fb+8; this source wants sub sp,#0x68 with pOldList at
- *          fb+4, i.e. one 4-byte stack temp short).  From 0xE4 the case-5
- *          body and the loop/branch layout diverge.  Next pass: recover the
- *          source that reserves the extra outgoing/8-byte arg slot and the
- *          original while-loop inversion; the switch table itself is already
- *          reproduced.
- *
- * stack map recovered from the listing (original):
- *   fb+0 out arg, fb+4 copy-loop pointer temp, fb+8 pOldList, fb+0xc
- *   pBssList, fb+0x10 BssListSize, fb+0x14 n, fb+0x18 i, fb+0x1c retry,
- *   fb+0x20 ApNo, fb+0x24 OSiAlarm alarm (44 B), fb+0x50 apBSSID[32].
- *
- * switch (AtermApc_GetEvent()) targets, read from the halfword table at
- * 0x021B9CA8: {1,2,3,6,7,9,0xB..0x11}->0x021B9CFE loop_flag=0;
- * 0xA->0x021B9CFA; 0x13->0x021B9CD0; 4,8,0x12->0x021B9D00 (no-op);
- * 5->0x021B9CD4 (APC_GetAPList refresh); 0 handled before the switch.
+ * blocker:  lattice reconstructed (the 20-entry event switch with cases 0..19,
+ *           BssListSize as one expression, retv = -1 first, i = 0 after
+ *           wmbssdesc = ap_list, the 6-byte MAC struct copy); it now reaches
+ *           652 of 660 bytes and 187 diff lines, up from the older parked body's
+ *           616 of 660 and 268 lines.  Frame (sub sp,#0x70) and every switch
+ *           slot match.  Two residues, probably one cause:
+ *           (1) the loop tail: the image increments retry through its stack slot
+ *           and re-reads it for the bound test (ldr/adds/str/ldr/cmp), this
+ *           front end keeps retry in a register, which is the missing 8 bytes
+ *           and also moves the two break branches that chain onto the
+ *           canceled-check in the image.
+ *           (2) the found block's copy into gAPMac: the image computes
+ *           pBssid+0x28 twice (byte 0 through one register, bytes 1..5 through a
+ *           copy held in another with [r0,#k]); a loop unrolled by the front end
+ *           kills n and moves (1) with it.
+ *           Full residue in docs/notes/lane_t17_ov016_rows26_33.md.
  *
  * symbols:
+ *   atermset_bss                   0x021DCFD0  data
+ *   atermset_data                  0x021DAB58  data
  *   Calloc                         0x021BC5A0  thumb
  *   GetTickCount                   0x021BC584  thumb
  *   APC_SearchStart                0x021B93F0  thumb
@@ -66,6 +58,10 @@ typedef unsigned short u16;
 typedef unsigned long u32;
 
 typedef struct {
+    u8 mac[6];
+} MACADDR;
+
+typedef struct {
     void (*handler)(void *);
     void *arg;
     u32 tag;
@@ -74,20 +70,24 @@ typedef struct {
     void *next;
     unsigned long long period;
     unsigned long long start;
-} OSiAlarm;
+} OSAlarm;
 
 typedef struct {
-    u32 length;
-    u8 ssid[32];
+    u32 SsidLength;
+    u8 Ssid[32];
     u8 pad04[4];
+} _NDIS_802_11_SSID;
+
+typedef struct {
+    _NDIS_802_11_SSID Ssid;
     u8 MacAddress[6];
     u16 Privacy;
-} _WLAN_BSSID;
+} WLAN_BSSID;
 
 typedef struct {
     u32 NumberOfItems;
-    _WLAN_BSSID Bssid[1];
-} _BSSID_LIST;
+    WLAN_BSSID Bssid[1];
+} BSSID_LIST;
 
 typedef struct {
     u16 length;
@@ -95,7 +95,7 @@ typedef struct {
     u8 bssid[6];
     u16 ssidLength;
     u8 ssid[32];
-    u16 capaInfo;
+    u16 capainfo;
     u8 rest[192 - 0x2e];
 } WMBssDesc;
 
@@ -148,15 +148,15 @@ extern ATERMSET_DATA atermset_data;
 extern void *Calloc(u32 nmemb, u32 size);
 extern u32 GetTickCount(void);
 extern int APC_SearchStart(u8 *bssid, u8 *essid, int essid_len, u32 option);
-extern void OS_CreateAlarm(OSiAlarm *alarm);
-extern void OS_SetAlarm(OSiAlarm *alarm, unsigned long long tick,
+extern void OS_CreateAlarm(OSAlarm *alarm);
+extern void OS_SetAlarm(OSAlarm *alarm, unsigned long long tick,
                         void (*handler)(void *), void *arg);
 extern void OS_Sleep(u32 msec);
 extern int AtermApc_GetEvent(void);
 extern int APC_GetAPList(WMBssDesc *buf, int list_max);
-extern void OS_CancelAlarm(OSiAlarm *alarm);
+extern void OS_CancelAlarm(OSAlarm *alarm);
 extern void memcpy(void *dst, const void *src, u32 len);
-extern int CheckAccessPoint(_BSSID_LIST *pNewList, _BSSID_LIST *pOldList, u32 *ApNo);
+extern int CheckAccessPoint(BSSID_LIST *pNewList, BSSID_LIST *pOldList, u32 *ApNo);
 extern void strcpy(char *dst, const char *src);
 extern int PutMac(char *lpwrite, char *lps);
 extern void SendNotify(void);
@@ -168,149 +168,135 @@ extern u8 gAPMac[6];
 
 int ScanAP(void)
 {
-    char apBSSID[32];
-    OSiAlarm alarm;
-    u32 ApNo;
+    int retv;
     int retry;
     int i;
     int n;
-    u32 BssListSize;
-    _BSSID_LIST *pBssList;
-    _BSSID_LIST *pOldList;
+    unsigned long ApNo;
+    unsigned long BssListSize;
+    BSSID_LIST *pBssList;
+    BSSID_LIST *pOldList;
+    WLAN_BSSID *pBssid;
+    char apBSSID[32];
+    int loop_flag;
+    OSAlarm alarm;
+    int ap_count;
     int nfound;
     WMBssDesc *wmbssdesc;
-    _WLAN_BSSID *pBssid;
-    int ap_count;
-    int loop_flag;
-    int retv;
 
     retv = -1;
     pOldList = 0;
     ApNo = 0;
-    ap_count = 0;
-    BssListSize = atermset_bss.gMaxApList * 0x30 + 0x34;
+    BssListSize = sizeof(BSSID_LIST) + atermset_bss.gMaxApList * sizeof(WLAN_BSSID);
     pBssList = Calloc(1, BssListSize);
     if (pBssList == 0)
-        goto cleanup;
+        goto end;
     pOldList = Calloc(1, BssListSize);
     if (pOldList == 0)
-        goto cleanup;
-
-    retry = 0;
-    while (retry < 30 && atermset_bss.bAtermApCanceled == 0) {
-        int event;
+        goto end;
+    for (retry = 0; retry < 30 && !atermset_bss.bAtermApCanceled; retry++) {
         if (GetTickCount() >= atermset_data.gAtermApTimeout)
             break;
-        if (APC_SearchStart(0, 0, 0, 0x30bffe) == 0) {
+        if (APC_SearchStart(0, 0, 0, 0x30BFFE) == 0) {
             retv = -2;
-            goto cleanup;
+            goto end;
         }
         OS_CreateAlarm(&alarm);
-        OS_SetAlarm(&alarm, 0xffb10, alarmCallback, (void *)0x13);
+        OS_SetAlarm(&alarm, 0xFFB10, alarmCallback, (void *)0x13);
         loop_flag = 1;
         ap_count = 0;
-        for (;;) {
+        while (loop_flag) {
             OS_Sleep(10);
             if (GetTickCount() >= atermset_data.gAtermApTimeout)
                 break;
-            if (atermset_bss.bAtermApCanceled != 0)
+            if (atermset_bss.bAtermApCanceled)
                 break;
-            event = AtermApc_GetEvent();
-            if (event == 0)
-                goto check_flag;
-            for (;;) {
-                if (event > 0x13) {
-                    loop_flag = 0;
-                } else {
-                    switch (event) {
-                    case 1: case 2: case 3: case 6: case 7: case 9:
-                    case 0x0b: case 0x0c: case 0x0d: case 0x0e:
-                    case 0x0f: case 0x10: case 0x11:
-                    case 0x0a:
-                    case 0x13:
-                        loop_flag = 0;
-                        break;
-                    case 5:
-                        n = APC_GetAPList(atermset_bss.ap_list,
-                                          atermset_bss.gMaxApList);
-                        if (n > ap_count) {
-                            ap_count = n;
-                            OS_CancelAlarm(&alarm);
-                            OS_SetAlarm(&alarm, 0xffb10, alarmCallback, (void *)0x13);
-                        }
-                        break;
-                    case 4: case 8: case 0x12:
-                        break;
-                    }
-                }
-                event = AtermApc_GetEvent();
-                if (event == 0)
+            while ((nfound = AtermApc_GetEvent()) != 0) {
+                switch (nfound) {
+                case 4:
+                case 8:
+                case 18:
                     break;
+                case 19:
+                    loop_flag = 0;
+                    break;
+                case 5:
+                    nfound = APC_GetAPList(atermset_bss.ap_list, atermset_bss.gMaxApList);
+                    if (nfound > ap_count) {
+                        ap_count = nfound;
+                        OS_CancelAlarm(&alarm);
+                        OS_SetAlarm(&alarm, 0xFFB10, alarmCallback, (void *)0x13);
+                    }
+                    break;
+                case 10:
+                    loop_flag = 0;
+                    break;
+                case 1:
+                case 2:
+                case 3:
+                case 6:
+                case 7:
+                case 9:
+                case 11:
+                case 12:
+                case 13:
+                case 14:
+                case 15:
+                case 16:
+                case 17:
+                default:
+                    loop_flag = 0;
+                    break;
+                }
             }
-        check_flag:
-            if (loop_flag != 0)
-                continue;
-            break;
         }
         OS_CancelAlarm(&alarm);
         while (AtermApc_GetEvent() != 0)
             ;
-        if (atermset_bss.bAtermApCanceled != 0)
-            goto end;
+        if (atermset_bss.bAtermApCanceled)
+            break;
         n = 0;
         if (ap_count >= atermset_bss.gMaxApList) {
-            retv = n - 6;
-            goto cleanup;
+            retv = -6;
+            goto end;
         }
-        i = n;
         wmbssdesc = atermset_bss.ap_list;
-        for (; i < ap_count; i++) {
-            int k;
-            memcpy(pBssList->Bssid[i].ssid, wmbssdesc->ssid, 32);
-            pBssList->Bssid[i].length = wmbssdesc->ssidLength;
-            pBssList->Bssid[i].ssid[wmbssdesc->ssidLength] = 0;
-            pBssList->Bssid[i].Privacy = (wmbssdesc->capaInfo & 0x10) ? 1 : 0;
-            for (k = 0; k < 6; k++)
-                pBssList->Bssid[i].MacAddress[k] = wmbssdesc->bssid[k];
-            wmbssdesc++;
-            n++;
+        i = 0;
+        if (ap_count > 0) {
+            for (; i < ap_count; i++) {
+                memcpy(pBssList->Bssid[n].Ssid.Ssid, wmbssdesc->ssid, 32);
+                pBssList->Bssid[n].Ssid.SsidLength = wmbssdesc->ssidLength;
+                pBssList->Bssid[n].Ssid.Ssid[wmbssdesc->ssidLength] = 0;
+                pBssList->Bssid[n].Privacy = (wmbssdesc->capainfo & 0x10) ? 1 : 0;
+                *(MACADDR *)pBssList->Bssid[n].MacAddress = *(MACADDR *)wmbssdesc->bssid;
+                wmbssdesc++;
+                n++;
+            }
         }
         pBssList->NumberOfItems = ap_count;
-        if (atermset_bss.gAtermApState == 1)
-            goto update;
-        if (CheckAccessPoint(pBssList, pOldList, &ApNo) == 0)
-            goto update;
-        pBssid = &pBssList->Bssid[ApNo];
-        atermset_bss.gAPId = ApNo;
-        strcpy((char *)gAPSSID, (char *)pBssid + 4);
-        {
-            int k;
-            for (k = 0; k < 6; k++)
-                gAPMac[k] = pBssid->MacAddress[k];
+        if (atermset_bss.gAtermApState != 1 && CheckAccessPoint(pBssList, pOldList, &ApNo)) {
+            pBssid = &pBssList->Bssid[ApNo];
+            atermset_bss.gAPId = ApNo;
+            strcpy((char *)gAPSSID, (char *)pBssid->Ssid.Ssid);
+            for (n = 0; n < 6; n++)
+                gAPMac[n] = pBssid->MacAddress[n];
+            PutMac(apBSSID, (char *)gAPMac);
+            break;
         }
-        PutMac(apBSSID, (char *)gAPMac);
-        goto end;
-    update:
         memcpy(pOldList, pBssList, BssListSize);
         atermset_bss.gAtermApState = 2;
         SendNotify();
-        retry++;
     }
-
-end:
-    if (retry < 30 && GetTickCount() <= atermset_data.gAtermApTimeout) {
-        if (atermset_bss.bAtermApCanceled != 0) {
-            retv = -8;
-            goto cleanup;
-        }
+    if (retry >= 30 || GetTickCount() > atermset_data.gAtermApTimeout)
+        retv = -3;
+    else if (atermset_bss.bAtermApCanceled)
+        retv = -8;
+    else
         retv = 1;
-        goto cleanup;
-    }
-    retv = -3;
-cleanup:
-    if (pBssList != 0)
+end:
+    if (pBssList)
         Free(pBssList);
-    if (pOldList != 0)
+    if (pOldList)
         Free(pOldList);
     return retv;
 }

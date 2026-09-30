@@ -19,6 +19,17 @@
  *   inet_addr           0x0217ED38  arm  ov009
  *   SOC_GetHostByName   0x0215F650  arm  ov009
  *   __ctype_mapC        0x020A61DC  data
+ *
+ * lane T5 (2026-09-30).  Pin sweep (all 9 dsi compilers x 4 flag sets): no
+ * configuration reaches 324 bytes; 1.1p1 -O4,p at 328/189 concrete bytes is best
+ * (-O4,s gives 308/173, also 4 bytes short, different stream).
+ * The 4 bytes are one extra `mov r2, #0`: the image reuses the live zero that
+ * `srcIP = 0` already holds (r4) for the GT2_ISDIGIT clamp (`movhs r0, r4` at
+ * +0084), this build materialises a fresh zero in r2 in the loop preheader
+ * (+0074 `mov r2, #0`, then `movhs r0, r2`), which also pushes `check` from the
+ * image's r2 into r3 and takes `host = 0` / `stackHost[len] = 0` off the image's
+ * r5 onto r4.  Named residue: the clamp's zero is not textually the `srcIP = 0`
+ * value (a fresh literal), so the allocator gives it its own register.
  */
 
 typedef unsigned char u8;

@@ -50,6 +50,12 @@
  *   g_021A4504     0x021A4504  data ov009
  *   g_021A4528     0x021A4528  data ov009
  *   g_021ADFC8     0x021ADFC8  data ov009 a4
+ *
+ * lane T5 (2026-09-30).  Pin sweep (all 9 dsi compilers x 4 flag sets): no
+ * configuration moves the 21 bytes at +0118..+0138; 1.1p1 -O4,p at 364/21 is the
+ * unique best.  Residue unchanged and already named: the GSIDebug raw-dump call
+ * schedules `sendCount++` before the format pointer (see
+ * docs/idioms/a-varargs-counter-increment-is-scheduled-before-a-later-format-pointer.md).
  */
 
 extern int func_0217EC90(int sock, char *buffer, int bufferLen, int flags);

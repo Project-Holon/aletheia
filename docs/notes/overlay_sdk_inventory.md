@@ -1,6 +1,6 @@
 # Overlay SDK inventory
 
-Catalog: 3225 functions, 586188 bytes across 17 overlays. Matched by live shard verdict: 3040 functions, 467702 bytes (79.7870%). Open: 185 functions, 118486 bytes, of which 170 (116418 bytes) are parked in `src/pending/ov_sdk/`.
+Catalog: 3225 functions, 586188 bytes across 17 overlays. Matched by live shard verdict: 3058 functions, 470198 bytes (80.2128%). Open: 167 functions, 115990 bytes, of which 167 (115990 bytes) are parked in `src/pending/ov_sdk/`.
 
 Per-function sizes are the SDK catalog's own `size` field. Byte totals here can differ
 slightly from `tools/ovstats.py`, which sizes each function from the listing extent.
@@ -39,11 +39,10 @@ slightly from `tools/ovstats.py`, which sizes each function from the listing ext
 | ov009 | 0x021732F8 | DWCi_ProcessMatchSynTimeout | 564 | TwlDWC/libdwcmatch.TWL.HYB.a | dwc_match.o | - | parked |
 | ov009 | 0x0217CF5C | gsCryptRSAVerifySignedHash | 556 | TwlDWC/libdwcgscommon.TWL.HYB.a | gscrypt.o | - | parked |
 | ov009 | 0x021674BC | WcmWmcbConnect | 552 | TwlWiFi_base/libwcm.TWL.HYB.a | wmif.o | - | parked |
-| ov009 | 0x02160A7C | rcv_certificate | 544 | TwlWiFi_base/libssl.TWL.HYB.a | ssl.o | - | open |
+| ov009 | 0x02160A7C | rcv_certificate | 544 | TwlWiFi_base/libssl.TWL.HYB.a | ssl.o | - | parked |
 | ov009 | 0x021573C4 | CPS_Startup | 536 | TwlWiFi/libcps.TWL.HYB.a | network.o | - | parked |
 | ov009 | 0x02189780 | gpiRecvToBuffer | 524 | TwlDWC/libdwcgsgp.TWL.HYB.a | gpibuffer.o | - | parked |
 | ov009 | 0x0217DE94 | gsLargeIntSquareMod | 484 | TwlDWC/libdwcgscommon.TWL.HYB.a | gslargeint.o | - | parked |
-| ov009 | 0x0219E9F4 | ListCallback | 464 | TwlDWC/libdwcgsserverbrowsing.TWL.HYB.a | sb_serverbrowsin | - | parked |
 | ov009 | 0x021612C8 | create_key_block | 440 | TwlWiFi_base/libssl.TWL.HYB.a | ssl.o | - | parked |
 | ov009 | 0x02180C94 | gsUdpConnAttemptCB | 436 | TwlDWC/libdwcgscommon.TWL.HYB.a | gsudpengine.o | - | parked |
 | ov009 | 0x0219C3A4 | qr_process_client_message | 432 | TwlDWC/libdwcgsqr2.TWL.HYB.a | qr2.o | - | parked |
@@ -73,8 +72,6 @@ slightly from `tools/ovstats.py`, which sizes each function from the listing ext
 | ov009 | 0x021A153C | ProcessIncomingData | 228 | TwlDWC/libdwcgsserverbrowsing.TWL.HYB.a | sb_serverlist.o | - | parked |
 | ov009 | 0x02195278 | gti2SendFilterCallback | 200 | TwlDWC/libdwcgsgt2.TWL.HYB.a | gt2callback.o | - | parked |
 | ov009 | 0x0219B73C | get_sockaddrin | 192 | TwlDWC/libdwcgsqr2.TWL.HYB.a | qr2.o | - | parked |
-| ov009 | 0x02163438 | CPSi_md5_calc | 184 | TwlWiFi_base/libssl.TWL.HYB.a | md5.o | - | parked |
-| ov009 | 0x02163CF0 | CPSi_sha1_calc | 184 | TwlWiFi_base/libssl.TWL.HYB.a | sha1.o | - | parked |
 | ov009 | 0x021A174C | SBSendNatNegotiateCookieToServer | 184 | TwlDWC/libdwcgsserverbrowsing.TWL.HYB.a | sb_serverlist.o | - | parked |
 | ov009 | 0x02158524 | send_ping | 180 | TwlWiFi/libcps.TWL.HYB.a | network.o | - | parked |
 | ov009 | 0x0215D070 | SOCL_CreateSocket | 180 | TwlDWC/libsoc.TWL.HYB.a | socl_create.o | - | parked |
@@ -88,11 +85,6 @@ slightly from `tools/ovstats.py`, which sizes each function from the listing ext
 | ov009 | 0x02166600 | WCMi_MergeToBuffer | 128 | TwlWiFi_base/libwcm.TWL.HYB.a | cpsif.o | - | parked |
 | ov009 | 0x02163E40 | CPSi_rc4_init | 120 | TwlWiFi_base/libssl.TWL.HYB.a | arc4.o | - | parked |
 | ov009 | 0x02167E20 | WcmWmcbSetDCFDataAsync | 104 | TwlWiFi_base/libwcm.TWL.HYB.a | wmif.o | - | parked |
-| ov009 | 0x0216CB30 | DWC_GetMatchIntValue | 96 | TwlDWC/libdwcmatch.TWL.HYB.a | dwc_match.o | - | open |
-| ov009 | 0x02194890 | TeamOpInt | 96 | TwlDWC/libdwcgsgstats.TWL.HYB.a | gstats.o | - | open |
-| ov009 | 0x02194954 | TeamOpInt | 96 | TwlDWC/libdwcgsgstats.TWL.HYB.a | gstats.o | - | open |
-| ov009 | 0x021949B4 | TeamOpInt | 96 | TwlDWC/libdwcgsgstats.TWL.HYB.a | gstats.o | - | open |
-| ov009 | 0x02194A78 | TeamOpString | 96 | TwlDWC/libdwcgsgstats.TWL.HYB.a | gstats.o | - | open |
 | ov009 | 0x021990A0 | GetClientUniqueID | 52 | TwlDWC/libdwcgsnatneg.TWL.HYB.a | natneg.o | - | parked |
 | ov009 | 0x0215E2C0 | SOCLi_GetWriteBufferFreeSize | 36 | TwlDWC/libsoc.TWL.HYB.a | socl_write.o | - | parked |
 | ov009 | 0x0217D8E0 | gsLargeIntDiv | 36 | TwlDWC/libdwcgscommon.TWL.HYB.a | gslargeint.o | - | parked |
@@ -128,21 +120,12 @@ slightly from `tools/ovstats.py`, which sizes each function from the listing ext
 | ov016 | 0x021B9FE0 | SetFrameData | 194 | TwlDWC/libdwcutil.TWL.HYB.a | atermset.o | - | parked |
 | ov016 | 0x021C78A0 | drawAddress | 192 | TwlDWC/libdwcutil.TWL.HYB.a | sceneseteditaddr | - | parked |
 | ov016 | 0x021D15F0 | taskMove | 192 | TwlDWC/libdwcutil.TWL.HYB.a | window.o | - | parked |
-| ov016 | 0x021CAEBC | endScene2 | 188 | TwlDWC/libdwcutil.TWL.HYB.a | scenesetrakubutt | - | open |
 | ov016 | 0x021B97A8 | InitAtermApcNetwork | 164 | TwlDWC/libdwcutil.TWL.HYB.a | atermset.o | - | parked |
 | ov016 | 0x021CD458 | endScene2 | 156 | TwlDWC/libdwcutil.TWL.HYB.a | scenesettest.o | - | parked |
 | ov016 | 0x021D04BC | taskBegin4 | 156 | TwlDWC/libdwcutil.TWL.HYB.a | step.o | - | parked |
 | ov016 | 0x021D0DE0 | cbWm | 148 | TwlDWC/libdwcutil.TWL.HYB.a | usbap.o | - | parked |
-| ov016 | 0x021CAB68 | checkRaku | 144 | TwlDWC/libdwcutil.TWL.HYB.a | scenesetrakubutt | - | open |
 | ov016 | 0x021D06A4 | taskEnd0 | 144 | TwlDWC/libdwcutil.TWL.HYB.a | step.o | - | parked |
-| ov016 | 0x021C5028 | endScene1 | 120 | TwlDWC/libdwcutil.TWL.HYB.a | scenesetaosscomp | - | open |
-| ov016 | 0x021CB21C | endScene1 | 120 | TwlDWC/libdwcutil.TWL.HYB.a | scenesetaosscomp | - | open |
 | ov016 | 0x021D3638 | DWCi_MOV_WH_Initialize | 120 | TwlDWC/libdwcutil.TWL.HYB.a | dwc_mov_wh.o | - | parked |
-| ov016 | 0x021C33EC | initGraphics | 104 | TwlDWC/libdwcutil.TWL.HYB.a | sceneoptmovcompl | - | open |
-| ov016 | 0x021C3610 | initGraphics | 104 | TwlDWC/libdwcutil.TWL.HYB.a | sceneoptmovcompl | - | open |
-| ov016 | 0x021C38EC | procInit | 104 | TwlDWC/libdwcutil.TWL.HYB.a | sceneoptmovconfi | - | open |
-| ov016 | 0x021C39F8 | button | 80 | TwlDWC/libdwcutil.TWL.HYB.a | sceneoptmovconfi | - | open |
-| ov016 | 0x021CDEC0 | button | 80 | TwlDWC/libdwcutil.TWL.HYB.a | sceneoptmovconfi | - | open |
 | ov107 | 0x021F4EFC | MBi_ChildCallback | 2464 | TwlSDK/libmb.TWL.HYB.a | mb_wm_base.o | - | parked |
 | ov107 | 0x021F46C8 | MBi_ParentCallback | 2004 | TwlSDK/libmb.TWL.HYB.a | mb_wm_base.o | - | parked |
 | ov107 | 0x021F2FA0 | MB_ReadSegment | 1324 | TwlSDK/libmb.TWL.HYB.a | mb_fileinfo.o | - | parked |
@@ -175,7 +158,6 @@ slightly from `tools/ovstats.py`, which sizes each function from the listing ext
 | ov114 | 0x021CA5E4 | ASN1Skip | 184 | TwlSDK/libcrypto.TWL.HYB.a | sign.o | - | parked |
 | ov114 | 0x021BACFC | NHTTPi_setReqQueue | 152 | TwlWiFi_base/libnhttp.TWL.HYB.a | nhttp_list.o | - | parked |
 | ov114 | 0x021BBA14 | NHTTPi_CancelRequestAsync | 152 | TwlWiFi_base/libnhttp.TWL.HYB.a | nhttp_request.o | - | parked |
-| ov114 | 0x021BA988 | NHTTPi_CleanupAsync | 140 | TwlWiFi_base/libnhttp.TWL.HYB.a | nhttp_bgnend.o | - | parked |
 | ov172 | 0x021C3DF4 | jpeg_encode_main | 3496 | TwlSDK/libssp.TWL.HYB.a | exifenc.o | - | parked |
 | ov172 | 0x021C20B0 | Yos_JPEGEncode | 2592 | TwlSDK/libssp.TWL.HYB.a | jpegenc.o | - | parked |
 | ov172 | 0x021BE5C4 | Mel_JPEGDecode | 2548 | TwlSDK/libssp.TWL.HYB.a | jpegdec.o | - | parked |

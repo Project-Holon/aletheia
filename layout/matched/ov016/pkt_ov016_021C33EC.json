@@ -9,10 +9,10 @@
   {
    "name": "func_021C33EC",
    "address": "0x021C33EC",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
-   "source": "src/matched/ov/ov016_func_021C33EC.c",
-   "compiler": "dsi/dsi/1.1p1",
+   "source": "src/matched/ov_sdk/ov016_func_021C33EC.c",
+   "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",

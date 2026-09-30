@@ -9,17 +9,17 @@
   {
    "name": "func_021CAB68",
    "address": "0x021CAB68",
-   "kind": "game",
+   "kind": "sdk",
    "region": "ov016",
-   "source": "src/matched/ov/ov016_func_021CAB68.c",
-   "compiler": "dsi/dsi/1.1p1",
+   "source": "src/matched/ov_sdk/ov016_func_021CAB68.c",
+   "compiler": "dsi/1.1p1",
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE5F8"
+     "data:0x021DE5F8"
     ],
     "sdk": [
      "0x021CAA08",

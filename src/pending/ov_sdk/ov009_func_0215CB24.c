@@ -59,6 +59,12 @@
  *
  * The object names its 0x021AA450 base SOCLiCPSConfig; this build reaches the same
  * address as &g_021AA440.cps, so the two ABS32 pool words carry equal values.
+ *
+ * lane T5 (2026-09-30).  Pin sweep (all 9 dsi compilers x 4 flag sets, plus all
+ * 11 1.2/2.0 trees x -O4,p): no configuration reaches 380 bytes and none beats
+ * 162 concrete bytes; 1.1p1 -O4,p stays the reference.  Residue already named in
+ * full above (the +0x60 lan_buf select, the +0xA8 register trio and the +0xDC
+ * predication threshold).  This row is the allocator wall of the slice.
  */
 
 typedef unsigned char u8;

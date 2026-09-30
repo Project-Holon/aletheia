@@ -20,6 +20,22 @@
  *           grouped local declarations were tried (DWARF order is worse,
  *           714 B); `sub_seq`/`cert_date` naming did not move the params.
  *
+ * lane T14 (2026-09-30): two fixes, size now 1196 = image, 714 -> 628
+ *           concrete bytes (245 -> 228 rows).  (1) case 2, both seq arms:
+ *           the object lays the `mode == 2` stores out *before* the
+ *           `mode == 0` copy, so the arms are written `if (mode == 2) ...
+ *           else if (mode == 0) ...` (mutually exclusive, semantics
+ *           unchanged): -49 B.  (2) case 6: `object[i]` was loaded twice
+ *           (strlen + memcmp); the object holds it in one register, so a
+ *           `char *obj = (char *)object[i];` local is right: -37 B, and
+ *           that is what made the size land on 1196.  Residue left: the
+ *           parameter mirror (image level=r7, seq=r6, mode=r8, *ps=r4,
+ *           &s=r5; ours r8/r7/r6/r1/r4) and, as a consequence, the branch
+ *           *direction* in the two case-2 arms (image `cmp mode,#0 / beq
+ *           copy-block`, ours `cmp mode,#2 / two streq / beq exit / cmp
+ *           mode,#0 / bne exit`) plus the case-6 jump-table body order at
+ *           +0244.
+ *
  * sdk:      cert_item (libssl.TWL.HYB.a(ssl.o))
  *
  * symbols:
@@ -77,6 +93,7 @@ static int cert_item(struct _CPSSslConnection *con, unsigned char **ps,
     int i;
     unsigned char type;
     char *iconnection;
+    char *obj;
 
     iconnection = (char *)con;
     s = *ps + 1;
@@ -94,28 +111,28 @@ static int cert_item(struct _CPSSslConnection *con, unsigned char **ps,
                 s++;
                 len--;
             }
-            if (mode == 0) {
+            if (mode == 2) {
+                con->f484 = len;
+                con->f488 = s;
+            } else if (mode == 0) {
                 if (len <= 0x100) {
                     MI_CpuCopy8(s, iconnection + 0x494, len);
                     con->f594 = len;
                 }
-            } else if (mode == 2) {
-                con->f484 = len;
-                con->f488 = s;
             }
         } else if (seq == 1) {
             while (*s == 0) {
                 s++;
                 len--;
             }
-            if (mode == 0) {
+            if (mode == 2) {
+                con->f48c = len;
+                con->f490 = s;
+            } else if (mode == 0) {
                 if (len <= 8) {
                     MI_CpuCopy8(s, iconnection + 0x598, len);
                     con->f5a0 = len;
                 }
-            } else if (mode == 2) {
-                con->f48c = len;
-                con->f490 = s;
             }
         }
         break;
@@ -135,7 +152,8 @@ static int cert_item(struct _CPSSslConnection *con, unsigned char **ps,
         break;
     case 6:
         for (i = 0; i < 6; i++) {
-            if (memcmp(s, object[i], strlen((char *)object[i])) == 0) {
+            obj = (char *)object[i];
+            if (memcmp(s, obj, strlen(obj)) == 0) {
                 switch (i) {
                 case 1:
                 case 2:

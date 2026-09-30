@@ -11,12 +11,24 @@
  *
  * sdk:      gpiProcessRecvBuddyStatusInfo (libdwcgsgp.TWL.HYB.a gpibuddy.o)
  *
- * residue:  full body, all 103 relocations resolve, 2204/2264 bytes.  The
- *   60-byte gap is exit sharing: the original branches the
- *   `profile->unk20 != 0 || profile->unk2c != 0` early `return 0` and the four
- *   `gpiSetErrorString; return 1` arms to shared epilogues, while mwcc here
- *   predicated them inline (`addne sp; movne r0; popne`).  The four-`atoi`
- *   IP pack is `(a<<24)|(b<<16)|(c>>24)|((d>>8)<<8)` as the original emits it.
+ * residue: 2260/2264 bytes (-4), one instruction out; every earlier site is now
+ *   byte-exact.  Three source shapes were the whole 60-byte gap:
+ *   1. the four-atoi pack is a masked-shift chain written in the term order
+ *      `(u32)atoi>>24 & 0xff | (u32)atoi>>8 & 0xff00 | (u32)atoi<<8 & 0xff0000 |
+ *      (u32)atoi<<24 & 0xff000000`.  The (unsigned int) casts are required (the
+ *      image uses lsr) and the term order fixes which atoi result feeds which
+ *      register (1st <<24, 2nd <<8, 3rd >>24, 4th >>8).  Three occurrences.
+ *   2. the unk20/unk2c guard shares the function's return 0, so it has to be the
+ *      inverted `if (unk20 == 0 && unk2c == 0) { ...body... }` plus one trailing
+ *      `return 0`; a bare `if (...) return 0;` is predicated, not branched.
+ *   3. for the `unk8 == 0` if/else, writing the gpiRemoveBuddyStatus arm first and
+ *      the numBuddies++ arm in the else makes 1.1p1 predicate the short arm and
+ *      jump over the call arm with one beq - the image's shape.
+ *   Remaining: the exit of the callback.fn != 0 arm.  Image `bl gpiAddCallback;
+ *   cmp r0,#0; addne sp,#0x14; addne sp,#0x400; popne {...}` falls into the shared
+ *   `mov r0,#0; add sp;...; pop`; ours emits `bl gpiAddCallback; add sp,#0x14; add
+ *   sp,#0x400; pop`, duplicating the epilogue instead of routing the arm through
+ *   the zero exit.
  *
  * symbols:
  *   gsiTimeNitro                  0x02184098 arm ov009
@@ -163,8 +175,7 @@ static int gpiProcessRecvBuddyStatusInfo(void **connection, char *input)
         gpiSetErrorString(connection, g_021A42BC);
         return 1;
     }
-    if (profile->unk20 != 0 || profile->unk2c != 0)
-        return 0;
+    if (profile->unk20 == 0 && profile->unk2c == 0) {
 
     if (profile->unkc == 0) {
         profile->unkc = (GPIBuddyStatusInfo *)gsimalloc(0x3c);
@@ -173,12 +184,12 @@ static int gpiProcessRecvBuddyStatusInfo(void **connection, char *input)
             return 1;
         }
         memset(profile->unkc, 0, 0x3c);
-        if (profile->unk8 == 0) {
-            profile->unkc->unk0 = iconnection->numBuddies++;
-        } else {
+        if (profile->unk8 != 0) {
             profile->unkc->unk0 = *(int *)profile->unk8;
             gpiRemoveBuddyStatus((void *)profile->unk8);
             profile->unk8 = 0;
+        } else {
+            profile->unkc->unk0 = iconnection->numBuddies++;
         }
         flag = 1;
         profile->unkc->unk38 = ArrayNew(8, 1, gpiStatusInfoKeyFree);
@@ -194,19 +205,25 @@ static int gpiProcessRecvBuddyStatusInfo(void **connection, char *input)
     buddyStatus->unk4 = atoi(buffer);
 
     PARSE_KEY(g_021A43C0);
-    buddyStatus->unk1c = (atoi(buffer) << 24) | (atoi(buffer) << 16) |
-                         (atoi(buffer) >> 24) | ((atoi(buffer) >> 8) << 8);
+    buddyStatus->unk1c = (((unsigned int)atoi(buffer) >> 24) & 0xff) |
+                         (((unsigned int)atoi(buffer) >> 8) & 0xff00) |
+                         (((unsigned int)atoi(buffer) << 8) & 0xff0000) |
+                         (((unsigned int)atoi(buffer) << 24) & 0xff000000);
 
     PARSE_KEY(g_021A43C8);
     buddyStatus->unk20 = (unsigned short)atoi(buffer);
 
     PARSE_KEY(g_021A43D0);
-    buddyStatus->unk24 = (atoi(buffer) << 24) | (atoi(buffer) << 16) |
-                         (atoi(buffer) >> 24) | ((atoi(buffer) >> 8) << 8);
+    buddyStatus->unk24 = (((unsigned int)atoi(buffer) >> 24) & 0xff) |
+                         (((unsigned int)atoi(buffer) >> 8) & 0xff00) |
+                         (((unsigned int)atoi(buffer) << 8) & 0xff0000) |
+                         (((unsigned int)atoi(buffer) << 24) & 0xff000000);
 
     PARSE_KEY(g_021A43DC);
-    buddyStatus->unk28 = (atoi(buffer) << 24) | (atoi(buffer) << 16) |
-                         (atoi(buffer) >> 24) | ((atoi(buffer) >> 8) << 8);
+    buddyStatus->unk28 = (((unsigned int)atoi(buffer) >> 24) & 0xff) |
+                         (((unsigned int)atoi(buffer) >> 8) & 0xff00) |
+                         (((unsigned int)atoi(buffer) << 8) & 0xff0000) |
+                         (((unsigned int)atoi(buffer) << 24) & 0xff000000);
 
     PARSE_KEY(g_021A43E8);
     buddyStatus->unk2c = (unsigned short)atoi(buffer);
@@ -254,6 +271,7 @@ static int gpiProcessRecvBuddyStatusInfo(void **connection, char *input)
         anArg->buddyIndex = buddyStatus->unk0;
         anArg->profileid = profileid;
         return gpiAddCallback(connection, callback, anArg, 0, 0);
+    }
     }
     return 0;
 }

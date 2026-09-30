@@ -9,7 +9,18 @@
  * isa:      arm
  * status:   MATCH
  *
- * w9_nm: 21 B, register assignment only (m in r4 vs lr; temps r3/r0). Tried DWARF and reverse declaration orders, a separate counter for the second loop, m assigned before or after the ctx stores, explicit u8 casts on j and k.
+ * w9_nm: 21 B, register assignment only. Residue (lane S7, re-measured): the whole
+ * output is one mirrored pair swap -- image keeps the table pointer `m` in r4 and
+ * the loaded byte m_i in lr (with the k-zero temp in r0 and the accumulator
+ * chain in r3); this compile has m in lr, m_i in r4, the k-zero temp in r3 and
+ * the chain in r0. All 21 bytes are those four register numbers. Tried here:
+ * declaration order (forward and reverse), `m` declared last, declaration
+ * initialiser (`unsigned char *m = ctx->m;`), `m = &ctx->m[0]`, no `m` local at
+ * all (93 out), `ctx->x = ctx->y = 0;` chained (23 out), `j += ...`, `k++`,
+ * `j`/`k` assigned separately, `int i` vs `unsigned int i` (34 out),
+ * `m = m;`/`m_i = m_i;` self-assignments at the loop head and after the load
+ * (no move). Declaration order is inert; the pointer/m_i tie is not steerable
+ * from the source shapes tried so far.
  *
  * sdk:      CPSi_rc4_init (libssl.TWL.HYB.a(arc4.o))
  *

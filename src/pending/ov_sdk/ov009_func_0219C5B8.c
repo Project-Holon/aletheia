@@ -19,6 +19,22 @@
  * notes: DIFF, register allocation only: the image keeps i in r5 and
  * numDuplicates in r0, this source swaps them (17 differing lines, same
  * instructions otherwise). About 30 attempts at declaration and init order.
+ *
+ * lane T5 (2026-09-30).  Pin sweep (all 9 dsi compilers x 4 flag sets): no
+ * configuration moves the 46 bytes; 1.1p1 -O4,p at 364/46 is the unique best.
+ * Named residue: the two loop-carried counters swap.  Image r5 = i, r0 =
+ * numDuplicates, and the image's `numDuplicates = 0` is a COPY of i's zero
+ * (`mov r0, r5` at +0024, placed before `firstFreeIndex = -1` at +002C); this
+ * build has i in r0 (the for-header's `i = 0` gets its own register because the
+ * pre-loop `i = 0` is already in r5 -> r5 becomes numDuplicates) and moves
+ * `mov r0, r5` down to +004C.
+ *   +0058  image `addeq r2, sl, r5, lsl #4` | ours `addeq r2, sl, r0, lsl #4`
+ *   +0070  image `add r5, r5, #1`           | ours `add r0, r0, #1`
+ *   +0088  image `addeq r0, r0, #1`         | ours `addeq r5, r5, #1`
+ * Measured: 13 spellings (empty for-header init, `numDuplicates = i` as a
+ * statement and as a declaration initialiser, `numDuplicates` moved after the
+ * func_0217F264 call, `firstFreeIndex = -1` as a declaration initialiser) - 46 is
+ * the floor; the empty for-init alone moves the zero to +0008 and costs 53.
  */
 
 typedef struct SOCInAddr {
