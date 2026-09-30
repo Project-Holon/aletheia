@@ -1,0 +1,92 @@
+qr2.o @13818 (0x021A1B64) - a vendor template with a named twin, 2026-09-30
+=======================================================================
+qr_process_client_message 0x0219C3A4 (ov009, ARM, 399 concrete bytes) is
+byte-exact and parked at MATCH in src/pending/ov_sdk/ov009_func_0219C3A4.c.
+Eight of its nine relocations resolve; the one that does not is worth writing
+down, because it is a shape that will recur for every `@N` the gamespy/natneg
+objects carry.
+
+THE SITE
+--------
+  +0198  ABS32 @13818 -> 0x021A1B64
+  +019C  ABS32 @14807 -> 0x021A7858        (named g_021A7858, sole-ref/self)
+  +01A0  ABS32 __GSIACResult    -> 0x021ACEF8   (sole-ref/data)
+  +01A4  ABS32 __GSIACGamename  -> 0x021ACEFC   (sole-ref/data)
+
+@13818 is a local anonymous object of qr2.o, 6 bytes, PROGBITS, alignment 1:
+FD FC 1E 66 6A B2, the Nintendo NAT-negotiation magic.  The C is the obvious
+one - `unsigned char natNegBytes[6] = {0xFD,0xFC,0x1E,0x66,0x6A,0xB2};` - and
+it is byte-exact: the image hoists six `ldrb` off the template before the
+gsDebugFormat call and schedules the six `strb` around that call's argument
+setup, which is what an initialised local array produces.
+
+WHY THE `template` CLASS REFUSES IT
+-----------------------------------
+qr2.o is located with 0 concrete mismatches, so `attest_template()` runs, and
+it fails on both prongs:
+
+  (a) uniqueness.  `_template_hits()` over the ov009 image returns
+      ['021A1B64', '021A5A7C'].  The second occurrence is not another
+      anonymous template: 0x021A5A7C is the head of the named global
+      NNMagicData - the same six bytes immediately followed by the string
+      "NNFreeNegotiateL..." - so the pattern is not unique in the overlay.
+
+  (b) elimination.  Prong (b) would accept the site if every OTHER occurrence
+      were claimed by a different local `@K` of the same archive, relocated at
+      a slot outside the compared range.  `_template_claims()` returns [].
+      The nine pool words naming 0x021A5A7C:
+
+        0x0216E5AC  libdwcmatch.TWL.HYB.a   dwc_match.o  DWCi_GT2UnrecMsgCb
+        0x02198E58  libdwcgsnatneg.TWL.HYB.a natify.o     Think
+        0x021992A4  libdwcgsnatneg.TWL.HYB.a natneg.o      CheckMagic
+        0x021994D4  libdwcgsnatneg.TWL.HYB.a natneg.o      SendReportPacket
+        0x02199718  libdwcgsnatneg.TWL.HYB.a natneg.o      SendPreinitPacket
+        0x02199A64  libdwcgsnatneg.TWL.HYB.a natneg.o      SendInitPackets
+        0x02199BDC  libdwcgsnatneg.TWL.HYB.a natneg.o      SendPingPacket
+        0x0219A618  libdwcgsnatneg.TWL.HYB.a natneg.o      SendConnectAck
+        0x0219CD84  libdwcgsqr2.TWL.HYB.a    qr2.o         qr2_parse_queryA
+
+      Eight are other archives (one libdwcmatch, seven libdwcgsnatneg), and
+      the ninth - our own - relocates against the UNDEFINED global NNMagicData
+      (shndx 0, not a local `@K`), so it claims nothing.  Note the shape: a named twin in another archive
+      can never satisfy prong (b), because the rule only looks inside the
+      archive of the object under test.
+
+WHY NOTHING ELSE REACHES 0x021A1B64
+-----------------------------------
+One word in every listing of every region names 0x021A1B64: this function's
+own pool word at 0x0219C53C, which is inside the compared range
+0x0219C3A4..0x0219C554, so `literal` discards it.  `evidence().pool_words` has
+no entry at all.  `attest_string`, `attest_data_table` and `attest_matched`
+all refuse, and `attest_sole_ref_overlay_data` refuses too:
+`_overlay_start_attested("ov009", 0x021A1B64, ...)` is False - the address sits
+inside the long zero `.word` run that starts at 0x021A1974 with no label and no
+`.org` before it, and layout/data_objects.txt carries no row for it.  (An
+earlier guess in that file's header named 0x021A1A64 as the second occurrence;
+it is not - that is the 256-byte gstats.o template from match.py's self-test.
+The real twin is 0x021A5A7C.)
+
+WHAT WAS NOT TRIED, AND WHY
+---------------------------
+Re-spelling the local as a copy from a declared extern
+(`memcpy(natNegBytes, g_..., 6)` with `g_... 0x021A1B64 data`) does resolve
+the site - `attest()` returns `('sole-ref', 1, 0x021A1B64, 'self')` - because
+the ROM word at +0198 already names the address.  Two reasons it is not the
+answer:
+
+  * `sole-ref/self` is the weakest class there is: its whole content is that
+    the word under comparison agrees with the word being written.  Trading the
+    `template` rule (vendor object + image, refused only on uniqueness) for
+    self-agreement is a loss, and it would need recording in the shard as
+    `evidence: {"sole-ref": ["self:0x021A1B64"]}`.
+  * it is not byte-identical.  The memcpy form diffs in 75 concrete bytes:
+    qrec moves to r8, the six `ldrb` land in a different register set, and the
+    six `strb` come out in source order rather than interleaved with the
+    gsDebugFormat setup.  Recovering the original register allocation from a
+    re-spelled source is body rewriting, which is exactly what a witness hunt
+    is not for.
+
+Version stamp, for the record: qr2.o is Metrowerks C/C++ for ARM 4.0.0.1025 and
+no tools/mwccarm build writes that stamp, yet sdkobj locate() reports 0 concrete
+mismatches of 399 and all 399 reproduce under dsi/1.1p1 -O4,p.  The stamp is
+not what holds this file.

@@ -7,16 +7,27 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
- * notes:    every concrete byte matches (940 of 940); the two data words
- *           (SSPiDecodeSignCheckMode, bcode2) have no witness outside the function,
- *           hence MATCH and not EXACT.  Recovered forms: the option-to-DSP mask is a
- *           parenthesised OR of three `(opt & m) ? m : 0` terms in the order 1, 4, 0x10;
- *           the tag loops use an unsigned counter; the second entry-count check adds 2
- *           to offset before the multiply test; the tail is one `if (both halves) {...
- *           return 1;} return 0;`; locals declared offset, registrationNumber, moff,
- *           i, tag.
+ * notes:    all 940 bytes reproduced (905 concrete + the 35 bytes of the 11
+ *           relocation fields) and all 11 sites resolve, so EXACT.
+ *
+ *           Witnesses for the two data words: both bcode2 (0x021C88F0) and
+ *           SSPiDecodeSignCheckMode (0x021CADA4) live in ov172's own bss
+ *           (0x021C88E0..0x021CC540), so the site's own window already fixes
+ *           which overlay they are and the original image's pool words at
+ *           +0x03A8 / +0x039C already hold those addresses (sole-ref/self).
+ *           bcode2's `symbols:` line deliberately carries NO overlay hint:
+ *           ov114 starts an object at 0x021C88F0 too, so an ov172 hint there is
+ *           contested (audit finding 6) and only the site window may choose.
+ *
+ *           Recovered forms: the option-to-DSP mask is a parenthesised OR of
+ *           three `(opt & m) ? m : 0` terms in the order 1, 4, 0x10; the tag
+ *           loops use an unsigned counter; the second entry-count check adds 2
+ *           to offset before the multiply test; the tail is one `if (both
+ *           halves) { ... return 1;} return 0;`; locals declared offset,
+ *           registrationNumber, moff, i, tag.  bcode2 is reached only through
+ *           its +0x1c int, so the struct is spelled to put err at +0x1c.
  *
  * sdk:      SSP_StartJpegDecoder (libssp.TWL.HYB.a jpegdec.o)
  *
@@ -29,7 +40,7 @@
  *   Mel_JPEGDecodeExif      0x021BE468  arm  ov172
  *   Mel_JPEGDecode          0x021BE5C4  arm  ov172
  *   SSPiDecodeSignCheckMode 0x021CADA4  data ov172
- *   bcode2                  0x021C88F0  data ov172
+ *   bcode2                  0x021C88F0  data
  */
 
 typedef struct {

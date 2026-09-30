@@ -8,6 +8,19 @@
  * lang:     c99
  * isa:      arm
  * status:   MATCH
+ * blocker:  +0198 ABS32 @13818 -> 0x021A1B64, the vendor object's six-byte
+ *           initializer template of natNegBytes.  Exactly one word in the
+ *           whole image names 0x021A1B64 and it is this function's own pool
+ *           word at +0198 (0x0219C53C), inside the compared range
+ *           0219C3A4..0219C554, so `literal` discards its only witness and
+ *           every other address-based class refuses too: no label, no
+ *           string, no data table, no EXACT entry, and the ov009 listing
+ *           attests no object start at 0x021A1B64 (`starts` from
+ *           asm/overlays/ov009.s holds it neither as a d_/g_/tbl_/pool_ label
+ *           nor as the first datum of a run; layout/data_objects.txt has no
+ *           row).  The vendor-object `template` class is the only rule that
+ *           could witness it from outside the range, and it refuses on both
+ *           prongs -- see below.
  *
  * sdk:      qr_process_client_message (libdwcgsqr2.TWL.HYB.a qr2.o)
  *
@@ -22,13 +35,48 @@
  *   g_021ACEF8     0x021ACEF8  data
  *   g_021ACEFC     0x021ACEFC  data
  *
- * MATCH: every byte equal, one relocation without a witness.
- *   - @13818 (0x021A1B64), the initializer template of natNegBytes: the
- *     six bytes FD FC 1E 66 6A B2 recur in the image (0x021A1A64 and
- *     NNMagicData at 0x021A5A7C), so the template class does not fire.
- *   - func_0219BA54 (NatNegProgressCallback) now attests as sdk (w5_nm:
- *     seed, catalog row and stub ov009_func_0219BA54.c); @13818 is the only
- *     unresolved site left.
+ * MATCH: all 399 concrete bytes equal, one relocation without a witness.
+ * Eight of the nine sites resolve; only @13818 does not.
+ *
+ * Why `template` refuses @13818 (qr2.o, the local @N of the ABS32 at +0198,
+ * six bytes FD FC 1E 66 6A B2, section alignment 1):
+ *   (a) uniqueness fails.  The image holds those six bytes at two 1-aligned
+ *       addresses of ov009: 0x021A1B64, our own template, and 0x021A5A7C,
+ *       which is the head of the named global NNMagicData (the same six
+ *       bytes, then "NNFreeNegotiateL...").  `_template_hits()` returns
+ *       ['021A1B64', '021A5A7C'], so the pattern is not unique in ov009.
+ *   (b) elimination finds no claim.  `_template_claims()` scans every row of
+ *       libdwcgsqr2.TWL.HYB.a in ov009, located with 0 mismatches, for a
+ *       slot outside 0219C3A4..0219C554 that relocates a local `@K` of six
+ *       equal bytes onto the other occurrence; it returns [].  The nine pool
+ *       words that name 0x021A5A7C are 0x0216E5AC (libdwcmatch.TWL.HYB.a),
+ *       seven in libdwcgsnatneg.TWL.HYB.a (natify.o/natneg.o: 0x02198E58,
+ *       0x021992A4, 0x021994D4, 0x02199718, 0x02199A64, 0x02199BDC,
+ *       0x0219A618) and 0x0219CD84 -- the last is in our own archive, but
+ *       qr2_parse_queryA relocates that slot against the UNDEFINED global
+ *       NNMagicData, not against a local template, so it is no claim.
+ * So the constant has a named twin in the same overlay and the class that
+ * was built for exactly this object declines.  Not a version-stamp residue:
+ * the vendor object is Metrowerks 4.0.0.1025 and no tools/mwccarm build
+ * writes that stamp, yet sdkobj locate() reports 0 concrete mismatches of
+ * 399 concrete bytes and all 399 reproduce here.
+ *
+ * The one spelling that would move the verdict is naming the object instead
+ * of initialising the local from it (`memcpy(natNegBytes, g_..., 6)` against
+ * an extern declared 0x021A1B64).  That routes the site to attest() instead
+ * of the vendor rule, where it resolves only as `sole-ref/self` -- the ROM
+ * word at the site agreeing with itself, the weakest class -- and it is not
+ * byte-identical: the memcpy form diffs in 75 concrete bytes (qrec moves to
+ * r8, the six stores land in source order instead of around the
+ * gsDebugFormat argument setup).  Not pursued: it would trade a strong
+ * refused class for a weak one and mean rewriting the body.
+ *
+ * How the other data absolutes stand, for the record:
+ *   - g_021A7858 (the vendor's @14807) resolves as `sole-ref/self`.
+ *   - g_021ACEF8 and g_021ACEFC (__GSIACResult and __GSIACGamename, i.e. the
+ *     start and start+4 of one global, as the catalog suggests) resolve as
+ *     `sole-ref/data`: the ov009 listing attests an object start at both, so
+ *     they are the strongest of the three.
  */
 
 #include "../../matched/arm9_sdk/libc/string.h" /* "../arm9_sdk/libc/string.h" once under src/matched */

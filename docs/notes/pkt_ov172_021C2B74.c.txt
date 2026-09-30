@@ -1,0 +1,68 @@
+pkt_ov172_021C2B74, SSP_StartJpegEncoder (0x021C2B74, ARM, 360 bytes, 4
+call sites, 2 pool words), libssp.TWL.HYB.a jpegenc.o, stamp 4.0.0.1024 ->
+dsi/1.1p1.  Closed EXACT.
+
+The file arrived claiming MATCH with "only unresolved absolutes" outstanding.
+That was wrong: the harness resolves all six relocations from the header's
+`symbols:` block, and the real verdict was DIFF at 173 concrete bytes with the
+compiled function four bytes *longer*.  Both absolutes (ABS32
+SSP_YUV422ToYUV888, SSP_RGB555ToYUV888) were already attested and needed no
+supplier hunting; `sdkobj.py` printing them `[open-sdk]` is not a relocation
+blocker.  Worth checking `match.py one` before believing a header's `status:`.
+
+Measurements, 1.1s per compile, dsi/1.1p1 -O4,p:
+
+  switch `case 4:` / `default:` as two arms of their own   364 bytes, 173 out
+  switch `case 4:` fallen through into `default:`          360 bytes,  99 out
+  + tail as `thumb ? pThumbWork : 0` in the call           360 bytes,  80 out
+  + `pThumbWork = wrk; wrk += 0x12c00;` before the call    360 bytes,   0 out
+
+Three separate levers, in that order, each worth exactly one thing:
+
+1. Arm merge (173 -> 99, and -4 bytes of size).  Two arms assigning the same
+   value are not merged by this front end; the default is predicated into the
+   compare chain and `case 4` becomes an out-of-line block that needs a `b`.
+   Filed as docs/idioms/two-cases-with-one-body-are-written-as-case-then-default.md.
+
+2. The tail select (99 -> 80).  `if (!thumb) pThumbWork = 0;` written as a
+   statement and `thumb ? pThumbWork : 0` written into the call both if-convert
+   to the same `cmp` / `moveq` / `str`, and the only difference is a register
+   permutation of the whole function -- but the statement form also moves the
+   `cmp` below the preceding store, which rotates `sb`/`sl` and costs ~19 bytes
+   across the body.  Nearest existing idiom is
+   docs/idioms/a-constant-argument-selected-into-a-local-if-converts-where-a-call-in-each-arm-does-not.md;
+   the new part is that the choice recolours the function, not just the tail.
+
+3. The hoist (80 -> 0).  The image defines `pThumbWork` and steps `wrk` *above*
+   the resample call.  Written after it, both are sunk below, `r4` is free
+   across the call, the 7th-argument temporary takes `r4` instead of `r9`, and
+   the whole thumbnail block is recoloured.  Filed as
+   docs/idioms/a-copy-and-a-pointer-step-hoisted-above-a-call-are-written-before-it.md.
+
+What did not move it, all measured:
+
+  declaration order of the four locals, all 24            80..95, never below 80
+  the same 24 crossed with the struct pointer type        CCERR (see below)
+  `pThumbWork` declared without its `= 0`                 255..266
+  `thumb_size` declared without its `= 0`                 255..292
+  `thumb_size = (unsigned long)pThumbWork;` (copy the
+    first zero, per a-second-zero-must-be-spelled-as-a-copy-of-the-first)
+                                                           80, no change
+  hoisting only `pThumbWork = wrk`, leaving `wrk +=` after  60
+  naming the address in a local before the two statements   0 (also exact)
+  `struct SSPiJpegThumbnailWork *` for pThumbWork          364 bytes, 4 over
+
+The declaration-order sweep is the one to distrust.  Reverse-DWARF order
+(`dwarf-lists-locals-in-reverse-declaration-order.md` gives convFunc, pThumbWork,
+thumb_size, thumb) scores 80 and is what the file keeps, but no order reaches
+0, which is the signature of a sweep run against the wrong baseline: the missing
+axis was statement order across the call, not register order.  The order the
+prologue settles on is confirmed by the DWARF itself -- src r7, dst r6, limit
+fp, wrk r5, convFunc r8, thumb sl/r10, thumb_size and thumb_quality sb/r9 --
+and matching it exactly is what levers 2 and 3 buy.
+
+The DWARF's pointee type for `pThumbWork` is `struct SSPiJpegThumbnailWork *`,
+but the struct is not in sdk/TwlSDK/include, so declaring it needs casts on
+every pointer expression and costs four bytes of code.  Left as
+`unsigned char *`; the pointee is invisible in the output, the arithmetic is
+byte-scaled either way.

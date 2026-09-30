@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * sdk:      SSP_StartJpegEncoder (jpegenc.o)
  *
@@ -39,24 +39,20 @@ unsigned long func_021C2B74(void *src, unsigned char *dst, unsigned long limit, 
         convFunc = func_021C2050;
         break;
     case 4:
-        convFunc = func_021C1F04;
-        break;
     default:
         convFunc = func_021C1F04;
         break;
     }
     if (thumb) {
         unsigned long thumb_quality = quality;
-        func_021C1D8C(src, width, height, wrk + 0x9600, 160, 120, option);
         pThumbWork = wrk;
         wrk += 0x12c00;
+        func_021C1D8C(src, width, height, pThumbWork + 0x9600, 160, 120, option);
         if (quality > 70)
             thumb_quality = 70;
         thumb_size = func_021C20B0(pThumbWork + 0x9600, pThumbWork, 0x9600, wrk, 160, 120, thumb_quality, 3, 1, 0, 0, convFunc);
         if (thumb_size == 0)
             return 0;
     }
-    if (!thumb)
-        pThumbWork = 0;
-    return func_021C20B0(src, dst, limit, wrk, width, height, quality, sampling, 0, pThumbWork, thumb_size, convFunc);
+    return func_021C20B0(src, dst, limit, wrk, width, height, quality, sampling, 0, thumb ? pThumbWork : 0, thumb_size, convFunc);
 }
