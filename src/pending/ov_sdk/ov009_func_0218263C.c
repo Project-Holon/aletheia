@@ -7,7 +7,15 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT (filed; see src/matched/ov_sdk/ov009_func_0218263C.c)
+ *
+ * CLOSED BY LANE U34.  This pending copy is kept as the starting point only.
+ * The parked draft here hoisted `charsToRemove` out of the loop; the vendor's
+ * `int charsToRemove = 0;` INSIDE the loop, plus its initialised locals
+ * (`char ch = ' ';`, `int i = 0;`, `unsigned int mask = 0xFF000000;`) and the
+ * `buffer[readPos++] = ...` post-increment form, is what flips the r4/r5/r6
+ * rotation the old header called a wall.  The filed source and its shard
+ * layout/matched/ov009/pkt_ov009_0218263C.json are the deliverable.
  *
  * sdk:      gsiXmlUtilDecodeString (gsxml.o, static)
  *

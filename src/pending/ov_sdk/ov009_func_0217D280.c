@@ -8,7 +8,22 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * u21: the defining object gsdebug.o is .comment 4.0.0.1025. The upstream nitrocaster/GameSpy
+ *      HexEncode16 spelling (const aRowWidth/aReplaceChar/aTextOffSet locals, aChar declared in the
+ *      loop with its (unsigned char) cast, `*(aTextOutStream++) = (char)aChar`, isgraph through
+ *      __ctype_mapC) reproduces the entire 172-byte object except the r6/r7 pair: the image gives
+ *      the long-lived aTextOutStream r6 and the byte aChar r7, 1.1p1 the other way round. First
+ *      divergence +001C image `add r6, sb, #0x29` | ours `add r7, sb, #0x29`; 9 bytes, all register
+ *      numbers. ../2.0/sp1p2 reproduces our 9 B exactly, ../2.0/base 105 B.
  * u1: all six declaration orders compiled - aTextOutStream always takes r7 whenever it is declared before aChar (aChar first gives 11 B). ../2.0/sp1p2 reproduces our 9 B exactly, ../2.0/base 105 B. The vendor allocator hands the long-lived pointer the LOWER of the pair.
+ *
+ * u31: the vendor gsDebug.c source was re-spelled verbatim (const aRowWidth /
+ * aReplaceChar / aTextOffSet, `unsigned char aChar = (unsigned char)(*theInStream++)`
+ * block-scoped in the loop, memset through func_020923B0, and `theOutStream += 2`
+ * AFTER the isgraph if/else instead of before): still 172 B with the same 9 B,
+ * the aTextOutStream/aChar r6/r7 swap. Two declaration-order sweeps (incl. the
+ * vendor order and aChar first, which gives 11 B) leave it unchanged, so this is
+ * a colouring artefact of the 4.0.0.1025 front end, not a statement-order one.
  *
  * sdk:      HexEncode16 (gsdebug.o)
  *

@@ -20,6 +20,23 @@
  * ctx in r6, &seed in r4, max in r5 and reloads the ctx literal (second pool
  * word) for the x stm; ours allocates ctx r4, &seed r5, max r6 and has one
  * pool word. About 20 spellings tried.
+ *
+ * lane U22 (2026-09-30): the register file above is set by the ORDER of the
+ * three stores in MATH_InitRand32.  Written mul, add, x the front end
+ * reproduces the image's whole head byte for byte -- ctx r6, &seed r4, max r5,
+ * `add r4,sp,#0` / `mov r0,r4` around OS_GetMacAddress and every 64-bit seed
+ * step identical to +0088 (measured: only the tail differs).  What is left:
+ * the image emits the x block copy FIRST and with a REMATERIALISED ctx
+ * literal (ldr r0,pool_021686D0; ldm r4,{r2,r3}; stm r0,{r2,r3}), then mul
+ * lo/hi and add lo/hi via r6; the mul-first source keeps our x copy last and
+ * reuses r6 for the stm, which is 8 bytes short (268 of 276).  Written x
+ * first the instruction order matches the image but the register file rolls
+ * back to ctx r4 / &seed r5 / max r6.  So the two halves are each reachable
+ * from a different statement order and not both at once; a second ctx literal
+ * plus a stm through it is what the image wants.
+ *
+ * `unsigned char seed[8]`, a pointer-seed helper and a plain (non-inline)
+ * helper were measured: no configuration moves the tail.
  */
 
 typedef unsigned char u8;

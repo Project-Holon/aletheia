@@ -12,6 +12,9 @@
  *
  * near miss (w3_s4): 112 bytes differ, register allocation of the swap temporaries. Original holds cookie in r5 with temps r4/r8/r3/r6 and loads the six constants into r7/r6/r5/r4/lr/fp after the swap has started; mine keeps cookie in r4. Interleaved stores, pointer-increment stores, array initializer (becomes a ldr/str copy loop) tried.
  *
+ * u32: CLOSED this wave as src/matched/ov_sdk/ov009_func_021A174C.c (EXACT, 184 bytes,
+ *      shard layout/matched/ov009/pkt_ov009_021A174C.json).  Pending copy kept for reference: the fix was the vendor body from GameSpy sb_serverlist.c: indexed byte stores for the six natneg magic bytes, SOC_HtoNl(cookie) and a 4-byte memcpy under the string.h prototype.
+ *
  * sdk:      SBSendNatNegotiateCookieToServer (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  *
  * symbols:

@@ -8,6 +8,14 @@
  * lang:     c99
  * isa:      arm
  * status:   MATCH
+ * u21: the defining object socl_misc.o is .comment 4.0.0.1024 -> dsi/1.1p1, so the front end is
+ *      right and this is a codegen-shape wall, not a spelling one. The image is branch codegen: the
+ *      `(netmask & (dns ^ addr)) || (dns & ~netmask)` test recomputes the xor at L12C instead of
+ *      CSE-ing it, and the flag stores stay `cmp r3,#0 / movne r4,#1`. 1.1p1 CSEs the masked xor
+ *      into one live register and cascades conditional execution over the whole middle, which is 12
+ *      bytes SHORTER from the same source (136 vs 148). First divergence +0000 image `push {r4, lr}`
+ *      | ours `push {r3, r4, r5, lr}`; body at +0024 image `tst r0, r3` | ours `ands r3, r0, r2`.
+ *      -O2/-O3/-O4,s identical (136 B), -O1,p 176 B, so no flag reaches 148.
  * u1: `(m & (a^d))`, `((d^a) & m)` and an empty-then/else spelling are all canonicalised - still 99 B. The cross-condition CSE of (addr^dns)&netmask into the live r5 (which also costs the extra push) is not steerable.
  *
  * w9_nm: not closed: the object branches on isA (bne to the isB block), no result temp and no cmp r5; isA as if/return chains (three forms) is 99 to 101 B, worse than the draft.

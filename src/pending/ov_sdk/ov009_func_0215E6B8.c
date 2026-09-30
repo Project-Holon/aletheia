@@ -8,6 +8,13 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * u21: the defining object socl_shutdown.o is .comment 4.0.0.1024 -> dsi/1.1p1, and its DWARF
+ *      confirms the image allocation (parameter `s` -> r4; locals result, command, send_pipe,
+ *      socket). Two things remain: the image's pipe guard is a real branch into a shared
+ *      `return 0` tail (ldrne r1,[r5,#0x10c] / cmpne r1,#0 / beq 0x215e758 / `mov r0,#0` / pop)
+ *      where 1.1p1 predicates it (`moveq r0,#0` / `popeq`), and `s` is transposed (image r4,
+ *      ours r5) which cascades. First divergence +0004 image `mov r4, r0` | ours `mov r5, r0`.
+ *      184 -> 164 B; 172 B needs both.
  * u1: NEW and useful - `volatile short flags;` reproduces the image's four separate ldrsh reads and makes the size EXACTLY 172 B (was 164); volatile + three bool spellings all land on 172 B / 126. The inverted guard (`if (pipe != 0 && pipe->queue != 0) { ... } return 0;`, the shared-exit idiom) additionally restores the image's real branch at the pipe guard (168 B). What remains: s in r5 (image r4, DWARF agrees with the image) and the bool home (image predicated `movne r1,#1`, ours r0 select + branch).
  *
  * sdk:      SOCL_Shutdown (libsoc.TWL.HYB.a(socl_shutdown.o))

@@ -9,6 +9,28 @@
  * isa:      arm
  * status:   DIFF
  *
+ * RESIDUE (lane U34, re-confirmed): 704/704, 184 concrete bytes, then 149
+ *           after the logB_r declaration reorder noted below.  Tested this
+ *           lane against the GameSpy upstream (scratch/U2/gs/.../gsLargeInt.c,
+ *           gsiLargeIntMultM, NEWMULTM branch):
+ *             - vendor body verbatim, `memset(temp, 0, sizeof(temp))`
+ *               -> 636 bytes (memset is a CALL under 1.1p1; the image clears
+ *               temp with an inline stm loop, so the source used `= {0}`).
+ *             - vendor body + `temp[128] = {0}` + __builtin__clear
+ *               -> 696 bytes / 455 (vendor's carry-propagation `for` is 8
+ *               bytes short of the image's `while` form).
+ *             - vendor statement order inside the loop (carry = 0 first)
+ *               -> 704 / 184, inert.
+ *             - `unsigned int logB_r = m->mLength;` moved to the FIRST
+ *               declaration, before tempLen/temp -> 704 / 149.  This is
+ *               progress: the image's order is logB_r (+0x28), tempLen=0
+ *               (+0x38), temp clear (+0x44), which a `= {0}` on temp cannot
+ *               give unless logB_r is declared first.
+ *           Remaining 149: prologue homing order.  Image homes y (r5) then
+ *           m (r4) then x (r7); this build homes m (r4) then y (r7) and puts
+ *           x in r8 - a different register SET, not a rotation.  First
+ * divergence: image `mov r5, r1` | ours `mov r4, r2`.
+ *
  * sdk:      gsiLargeIntMultM (gslargeint.o)
  *
  * notes: the prologue, Mult call, memset of the tail and the whole

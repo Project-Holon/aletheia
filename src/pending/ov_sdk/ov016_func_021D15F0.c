@@ -20,6 +20,13 @@
  * senses, as `void *` and as `unsigned long` with a cast at the call, as a
  * leading `fn = B` plus one if, as a switch, and with the call duplicated in
  * each arm: every spelling re-folds to 180 B, and no pin/flag cell matches.
+ * U26: the object's `mov r4,#0` is the constant 0 held in a callee-saved register across the
+ * func_021D5250 call (it is `mov r1,r4` for the idx argument and `mov r0,r4`/`mov r2,r4` for the
+ * two zero arguments of func_021D7680).  Spelling that zero as a live local (`int z = 0;`, `z`
+ * for all three) is folded straight back to immediate 0 by 1.1p1 - same 184 B / 130 diffs - so
+ * the difference is mwcc 4.0.0.1025's rematerialisation policy, not a source shape.  Referencing
+ * the same 0 through a helper or a cast does not survive either.
+ *
  * symbols:
  *   func_021D5250  0x021D5250  arm  ov016
  *   func_021D1868  0x021D1868  arm  ov016

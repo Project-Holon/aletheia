@@ -28,10 +28,31 @@
  *      rematerialises &buffer per use; 1.1p1 hoists &buffer into fp and emits
  *      `mov #1` per arm.  The missing `mov fp,#1` shifts all later code by 4
  *      bytes, which is most of the residual diff.
- *   3. 1025 inlines the 28-byte buddyStatus zero fill as a 7x4 strb loop; 1.1p1
- *      calls memset (0x020923B0), so that one site is a call and not a fill.
+ *   3. FIXED by lane U35: the 28-byte buddyStatus zero fill.  The object inlines
+ *      it as a strb block; the parked claim that 1.1p1 "calls memset, so that
+ *      site is a call" was a declaration-site artifact, not a front-end one.
+ *      mwccarm only treats memset as an intrinsic when it is declared by a
+ *      header named string.h; declared in the .c file it is a call.  Including
+ *      src/matched/arm9_sdk/libc/string.h (same trick as gsLargeIntPowerMod
+ *      0x0217E078) removes the memset relocation and pays 24 of the 28 bytes.
  *   4. Case-local arg pointers land in r10/r4/r3/r6 in the original and in r4
  *      here, and the two compilers fold the |ip|/|p| masks differently.
+ *   5. FIXED by lane U35: the last 4 bytes.  The GPI_BM_STATUS callback arg was
+ *      filled profileid, date, buddyIndex; the object fills it profileid,
+ *      buddyIndex, date (upstream's order), which splits the adjacent stores
+ *      `stm r3, {r5, r7}` into `str r5, [r3]` / `str r7, [r3, #4]` around the
+ *      buddyIndex load.  Swapping the two statements makes the body exactly
+ *      3240 bytes.
+ *
+ * lane U35 (2026-09-30): 3240/3240 bytes, 708 concrete bytes out, 117/122
+ *   relocations resolved (the five unresolved are data witnesses for
+ *   g_021A42B0/g_021A42E0/g_021A437C/g_021A4398/g_021A43A4, which the harness
+ *   cannot corroborate outside 021870B8..02187D5C).  Residue after 3 and 5:
+ *   the object keeps a 0/1 flag in fp (`mov fp, #1` at 0x011C, `mov fp, #0` at
+ *   0x0724) and rematerialises &strTemp (`add r0, sp, #0x150`) per use, where
+ *   1.1p1 hoists &strTemp into fp and rematerialises the constants.  Per-case
+ *   locals, &strTemp[0], a local char *s and swapping the buffer name in all
+ *   measured the same hoist.
  *
  * symbols:
  *   gpiValueForKey                0x02193418 arm ov009
@@ -235,7 +256,7 @@ extern void gpiRemoveBuddyStatusInfo(void *buddyStatusInfo);
 extern unsigned long gsiSafeStrcpyA(char *dst, char *src, unsigned long size);
 extern int gpiSendBuddyMessage(void **connection, int profileid, int type,
                                char *message, int sendOption, void *peerOp);
-extern void *memset(void *dst, int val, unsigned long n);
+#include "../../matched/arm9_sdk/libc/string.h"
 
 extern char g_021A4278[];             /* "\bm\"  */
 extern char g_021A4280[];             /* "Unexpected data was received ..." */
@@ -524,8 +545,8 @@ static int gpiProcessRecvBuddyMessage(void **connection, char *input)
                     return 1;
                 }
                 arg->profileid = profileid;
-                arg->date = date;
                 arg->buddyIndex = buddyStatus->buddyIndex;
+                arg->date = date;
                 {
                     int __result__ = gpiAddCallback(connection, callback, arg, 0, 5);
                     if (__result__ != 0)

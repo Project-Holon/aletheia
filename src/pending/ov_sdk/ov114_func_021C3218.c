@@ -15,6 +15,15 @@
  *          per-post-type dispatch are all transcribed from the listing.  The
  *          exact GHIPostData field roles and the multipart header byte values
  *          are approximate; this body does not reproduce the vendor bytes.
+ *          ACTIONABLE: this function exists verbatim in the open GameSpy
+ *          source already cloned into the tree -- scratch/u39/gs/ghttpPost.c
+ *          line 1254 `static GHIPostingResult ghiPostStateDoPosting
+ *          (GHIPostState *state, GHIConnection *connection, GHTTPBool first,
+ *          GHTTPBool last)`, with `char buffer[2048]`, the GHIDimeHeader local,
+ *          GHI_MULTIPART_BOUNDARY_FIRST/NORMAL, and the four
+ *          ghiPost*StateDoPosting siblings called from the tail dispatch.
+ *          Rewrite from that text rather than from the disassembly: that is
+ *          the rule-4d upstream lever.
  *
  * sdk:      ghiPostStateDoPosting (libdwcgsghttp.TWL.HYB.a ghttppost.o)
  *

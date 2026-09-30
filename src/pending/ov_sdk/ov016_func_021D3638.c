@@ -32,6 +32,12 @@
  * r5. Only `int r = 0; if (c) r = 1; return r;` keeps the object's r5=0/r4=1
  * ordering, and that is the shape whose result coalesces. A sweep over all
  * nine pins x seven flag sets x inline/ipa variants is D5 in every cell.
+ * U26: 8 further tail spellings (bare ternary, assignment-ternary, `!= 0`, `!!`, if/else in both
+ * senses, braced single-arm if, do/while(0), temp local, `return c ? 1 : r` with r == 0) - every
+ * one either flips the constants (0 to r4, 1 to r5, 15 B out) or keeps the result coalesced into
+ * r5 with the copy to r0 (5 B out).  The 2-instruction residue is the if-converted select's
+ * destination register, not a statement shape.
+ *
  * symbols:
  *   DWCi_MOV_WH_StateInInitialize    0x021D36D0  arm  ov016
  *   g_021DE660                       0x021DE660  data

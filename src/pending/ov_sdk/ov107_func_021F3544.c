@@ -31,7 +31,7 @@
  *   OS_DisableInterrupts     0x02087988  arm
  *   MBi_IsStarted            0x021F6314  arm
  *   OS_RestoreInterrupts     0x0208799C  arm
- *   MBi_MakeDownloadFileInfo 0x021F37BC  arm
+ *   MBi_MakeDownloadFileInfo 0x021F37BC  arm  ov107
  *   MI_CpuCopy8              0x02082D44  arm
  *   MBi_MakeBlockInfoTable   0x021F398C  arm
  *   MBi_MakeGameInfo         0x021F3D04  arm

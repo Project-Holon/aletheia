@@ -9,6 +9,12 @@
  * isa:      arm
  * status:   DIFF
  *
+ * measured (U23): rule-4b check done -- ../2.0/base and all ten 2.0 service packs give
+ *   492/496 bytes (size wrong; 279-344 concrete), so 1.1p1 stays the right pin. Six more
+ *   source forms (all-declarations-as-statements, squareLen first, squareLen statement after
+ *   the len load, decl-init order carry/squareLen/oldShiftBit, result=0, mask added) all give
+ *   the identical 19-byte residue: our front end always emits `str r6,[sp,#0x14]` in the
+ *   frame-setup group (offset +0x14) where the image has it at +0x28 after mov r5,r6/mov r7,r6.
  * sdk:      gsLargeIntSquareMod (gslargeint.o)
  *
  * notes: 6 instructions differ, all in the prologue schedule: the image

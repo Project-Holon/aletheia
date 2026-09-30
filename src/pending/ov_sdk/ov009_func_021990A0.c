@@ -8,9 +8,22 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF (one instruction: mvn r1,#0x80000000 vs compiled sub r1,r0,#0x80000002)
+ * u21: the defining object natneg.o is .comment 4.0.0.1025. The object materialises the second
+ *      argument with `mvn r1, #0x80000000`; 1.1p1 rematerialises 0x7fffffff from the r0 == 1 it has
+ *      just built for the first argument, `sub r1, r0, #0x80000002` (same value, 3 bytes differ).
+ *      Ten more spellings (named locals, casts, long/unsigned, arithmetic and complement forms)
+ *      all keep the subtraction. First divergence +0020 image `mvn r1, #0x80000000` |
+ *      ours `sub r1, r0, #0x80000002`. Size already exact at 52 B.
  * u1: family check done - ../2.0/base + ../2.0/sp1p2 56 B / 23 B; ../1.2/sp3 DOES emit `mvn r1,#0x80000000` but in its own stmdb/ldm codegen family (68 B), so it is not the build. Parked: the constant-from-register peephole.
  *
  * w9_nm: not retried (w8 covered every build and -opt switch).
+ *
+ * u31: five more spellings of the high bound -- (1 << 31) - 1, 0x80000000u - 1,
+ * a named `int id` temp with the store and return split, the assignment-expression
+ * return `return g.clientID = f(...)`, and an explicit (int) cast -- all keep
+ * `sub r1, r0, #0x80000002` (1 - 0x80000002, both the value and an encodable
+ * immediate) at 52 B / 3 B. The 4.0.0.1025 object alone materialises the bound
+ * with `mvn r1, #0x80000000`. The rest of the row is byte-exact.
  *
  * sdk:      GetClientUniqueID (natify.o)
  *

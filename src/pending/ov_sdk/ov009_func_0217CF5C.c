@@ -10,6 +10,10 @@
  * status:   DIFF
  * notes:    draft; residue: the image loads sigLen once into r2 (this spelling reloads it for memcpy) and keeps i+1 as its own value for the length compares ((i+1)+0x22, (i+1)+0x23) where this spelling folds to i+0x23. The md5Header/sha1Header initializer templates (vendor @13305, @13307) have no overlay attestation class, so MATCH* is the ceiling in an overlay.
  *
+ * measured (U23): the public upstream gsCrypt.c spelling was compiled as written (i++ then
+ *   `i + sizeof(md5Header) + GS_CRYPT_MD5_HASHSIZE`, memcmp(&packet[i], ...), i += sizeof())
+ *   and is not better: 564 bytes / 344 concrete, first divergence +0x08, same as the draft.
+ *   The image's i+1 form is what the draft already has.
  * sdk:      gsCryptRSAVerifySignedHash (libdwcgscommon.TWL.HYB.a(gscrypt.o))
  *
  * symbols:

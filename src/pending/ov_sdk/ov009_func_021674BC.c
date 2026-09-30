@@ -21,6 +21,11 @@
  *           nested (errcode>state>phase) context, not the arm, that defeats
  *           it.  Everything else (all 552 bytes) is byte-identical.
  *
+ * measured (U23): arm-shape sweep (state case 6 as `break`, phase case 11/default split into
+ *   two arms, default listed first, brace-wrapped empty arm, case 6 moved first) -- every
+ *   spelling still emits `b <shared pop>` in those three slots; only the shared target moves
+ *   (0x21675b8 / 0x2167670 / 0x2167698). 552 bytes == 552 bytes, 12 concrete bytes = the
+ *   three 4-byte slots.
  * sdk:      WcmWmcbConnect (libwcm.TWL.HYB.a(wmif.o))
  *
  * symbols:

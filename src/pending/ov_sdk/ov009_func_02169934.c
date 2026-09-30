@@ -9,6 +9,9 @@
  * isa:      arm
  * status:   DIFF
  *
+ * measured (U23): rule-4b check done -- all eleven ../2.0/* trees give 672 bytes / 442
+ *   concrete (dsi/1.1p1 is 636/21), so 1.1p1 is right and the residue is 21 concrete bytes:
+ *   the {r5,r6,r7} rotation only (+0x30 mul r6 vs mul r7 and 20 more).
  * sdk:      DWCi_GPProfileSearchCallback (libdwcmatch.TWL.HYB.a dwc_friend.o)
  *
  * blocker:  register allocation, 19 bytes.  Full body; all 15 relocations

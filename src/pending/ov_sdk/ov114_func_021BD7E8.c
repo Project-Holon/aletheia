@@ -9,17 +9,28 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker: codegen, 57 bytes wrong.  Size and control flow are exact; the
- *          residue is a global r6<->r7 callee-saved swap of two pointer
- *          groups: {sysInfo_p, threadInfo_p} vs {mutexInfo_p, connection_p,
- *          stat}.  Every differing instruction is the same opcode with r6
- *          and r7 exchanged (plus the knock-on `mov r0,#0` vs `str r5` and
- *          the pool displacements).  Declaration order of the two groups was
- *          tried in several permutations (sysInfo first/last, mutex first,
- *          stat first/last, typed vs void* pointers) and does not move it.
- *          Next pass: the original likely holds one extra long-lived value
- *          that pins the group assignment; find it (the DWARF `commBuf_p`
- *          slot is the candidate).
+ * blocker: codegen, 46 bytes wrong.  Size and control flow are exact.  Two
+ *          independent residues, both allocator-level:
+ *          (1) the global r6<->r7 callee-saved swap of the two pointer
+ *              chains {sysInfo_p, threadInfo_p} and {mutexInfo_p,
+ *              connection_p, stat}.  Every differing instruction is the same
+ *              opcode with r6/r7 exchanged.  Declaration order does not move
+ *              it: adding the DWARF's `char *commBuf_p` local (used for the
+ *              two SocSend/memclr sites) is byte-neutral, as are sysInfo_p
+ *              first, sysInfo_p last, and a reversed declaration list.
+ *          (2) the constant 0.  The vendor build materialises `mov r5,#0`
+ *              once at +000C and reuses r5 for sendBufwp=0 (+0078),
+ *              sendStatus=0 (+0080) and the tail sendBufwp=0 (+0350); ours
+ *              pools only the +0350 use and rematerialises r0=0 at +0078.
+ *              Same class as ov114 0x021CB3B4, where the pool WAS recovered
+ *              by raising the literal count: the vendor pools a constant when
+ *              the same store appears in sibling branches (there the shared
+ *              `a->neg = 0` had to be written out twice, once per branch,
+ *              giving three zero literals in the region).  Here the pool
+ *              spans three statements in three regions, so that lever has no
+ *              branch to duplicate into; no spelling tried moves it.
+ *          Next pass: recover the vendor ordering by finding which source
+ *          statement creates the long-lived zero.
  *
  * sdk:      NHTTPi_ThreadSendProc (libnhttp.TWL.HYB.a(nhttp_thread.o))
  *

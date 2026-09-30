@@ -12,6 +12,13 @@
  *           recompile, before it in the image. Types, block scope, assignment in the argument, static
  *           MemSet and the permuter (seed 10701) all flat. Notes: docs/notes/pkt_ov016_021CF3B0.c.txt
  *
+ * U26: `volatile void *work`, `void * volatile work`, a `void **wp = &work` local (assigning
+ * through it, and passing `*wp`) and the volatile-pointer-cast store were all measured: each
+ * moves `work` to a different slot (frame sp #0x14 -> #0x18) and is far worse (340 to 344 B,
+ * 42 to 260 diffs).  The 9-byte residue stays the scheduler's store-definition/arg-load tie at
+ * +012C..+0134; every declaration order, a mid-block initialiser, a map/array local pair and a
+ * TSKlChangeFunc-style split leave it flat.
+ *
  * symbols:
  *   DWCi_AUTH_GetNewWiFiInfo         0x02058BC0  arm
  *   DWCi_BACKUPlConvMaskAddr         0x0205883C  arm

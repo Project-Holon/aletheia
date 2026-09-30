@@ -38,6 +38,17 @@
  *   -O4,p dead-loop elimination, and its compiled shape inserts a temp copy
  *   (adds r1,r0,#0) before the compare, shifting the ldrh register, the
  *   compare and the back-edge by 2 bytes.
+ *
+ * Lane U37 re-measured both residues with 8 further spellings, all flat at 6 concrete bytes /
+ * 464 exact: case 18 with an explicit break in each arm, case 19 written before case 18,
+ * `case 19:;`, an `if (...) { loop_flag = 0; break; }` arm, an added `int len`/`u32 len` local,
+ * a plain `i < len` for (this one drops the frame to 460 and breaks the whole function: the
+ * `(i < X) ? 1 : 0` test is what stops -O4,p dead-loop elimination), a flipped compare and an
+ * `unsigned i` (7 bytes).  Image `movs r4, r5` | ours `lsls r6, r6, #2` at the case-19 table
+ * entry (image 0x2c -> the b at 0x21b88e2, ours 0xb6 -> the shared exit at 0x21b896c) and the
+ * ssidLength loop's r0/r1 roles (image len r1 / i r0, ours len r0 / i r1) are front-end
+ * colouring on a 3.0.0.126-stamped object.  Pin scan: ../2.0/base 464/6 == ../2.0/sp1p2;
+ * every dsi build 448/200.
  */
 
 typedef unsigned char u8;

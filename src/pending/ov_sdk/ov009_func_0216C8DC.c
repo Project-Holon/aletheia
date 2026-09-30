@@ -20,6 +20,22 @@
  * a2=r6 with the index in r5.  Every branch target and constant is right;
  * only the register file assignment differs.  Not a witness problem.
  *
+ * lane U22 (2026-09-30): one CONCRETE byte is wrong in the draft, not just
+ * registers.  The image's first key test is +0020 `cmp r7,#0x64; blo` --
+ * cond 0x3 (unsigned LO, word 0F 00 00 3A) -- while the parked `a0 >= 0x64`
+ * on a signed int emits cond 0xB (`blt`, word 0F 00 00 BA).  Spelling the
+ * guard `(unsigned)a0 >= 0x64u` produces the image's word, so the original
+ * keys off an unsigned comparison.  The rest is the +1 register roll: ours
+ * materialises a shared zero into the callee-saved r4 at +0014 (the image
+ * rematerialises `mov r2,#0` at the stores) and that live zero pushes
+ * keyID->r8, keyString->r7, valueSrc->r6 with index->r5, against the image's
+ * r7/r6/r5 with index->r4.  Measured and not moving the roll: u8 return and
+ * u8 params, int* valueSrc, inline indexing (`g[a0-0x64]`), unsigned index,
+ * `(u8)0`/`(u16)0` typed zero stores, swap of the two zero stores, zero
+ * stores before the f0 store, decl order.  The hoisted zero is the only
+ * thing standing between the draft and EXACT on this row and its twin
+ * 0x0216CA04.
+ *
  * symbols:
  *   g_021AAA40     0x021AAA40  data  ov009
  *   func_02173AD8  0x02173AD8  arm  ov009

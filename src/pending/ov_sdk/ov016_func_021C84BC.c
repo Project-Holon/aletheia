@@ -34,6 +34,18 @@
  * hoists the sub and swaps r1/r2. Inline setters, macros, non-volatile registers and a pointer
  * walk all measured (docs/notes/pkt_ov016_021C8F20.c.txt); permuter seed 9204 flat.
  *
+ * Lane U37: the six tail writes as raw-address struct casts,
+ *   typedef struct { unsigned short priority : 2; unsigned short rest : 14; } BgCnt;
+ *   ((BgCnt *)0x04001008)->priority = 3;   (then 0x0400100A=3, 0x04000008=3, 0x0400000A=2,
+ *                                           0x0400000C=3, 0x0400000E=2)
+ * (the spelling of docs/idioms/a-nearby-absolute-address-is-synthesized-from-the-loaded-base.md)
+ * take the residue from 17 to 14 concrete bytes at 508 exact.  Residue left: image
+ * `ldr r1, [pc, #0xa8]` | ours `ldr r3, [pc, #0xa8]` - the image keeps the 0x04001008 pool base
+ * in r1 with MemSsl in r2 and issues `sub r2, r1, #0x1000` at +0170 (ours hoists it to +0154 and
+ * swaps r3/r1); then `sub r1, r4, #2` lands 0xc bytes early.  Variant best-of table (1.1p1):
+ * raw struct casts / image order 14, interleaved DC-DB 15, DB group first 22, DC group repeated
+ * 49.  Pin scan: 1.1p1 508/17, 1.1 508/17, 1.2 508/17, 1.6sp1 508/21, ../2.0/base 532/125.
+ *
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(scenesetlist.o), symbol initGraphics (name and prototype from the
  * vendor object DWARF). The object is stamped Metrowerks C/C++ for ARM 4.0.0.1025, which
  * no tools/mwccarm build writes, so it stays on the default dsi/1.1p1.

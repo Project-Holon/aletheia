@@ -19,6 +19,22 @@
  * order permutations for the locals, `register`/type changes on the success
  * flag, and inlining vs. naming the `ip` temp do not move the rotation.
  *
+ * RESIDUE (lane U34): 672/672, 140 concrete bytes / 78 instruction sites, all
+ *           a pure register rename, re-confirmed against the GameSpy upstream
+ *           (scratch/U2/gs/.../sb_queryengine.c, QEStartQuery).  Two vendor
+ *           spellings measured inert this lane on top of the ones above:
+ *           (a) scoping `challengeNBO`/`ip`/`pos`/`i` inside the
+ *           `engine->queryversion == 1` block instead of at function scope
+ *           (the vendor declares `int pos = 0;` and `int i;` inside their
+ *           blocks) -> still 672/140; (b) the vendor's local declaration
+ *           order `queryBuffer[256], queryLen, querySuccess, saddr` -> still
+ *           672/140.  The image homes `querySuccess` (r4) BEFORE the two
+ *           parameters (server r5, engine r6); this build homes the
+ *           parameters first (server r4, engine r5) and puts querySuccess in
+ *           sb.  That is the whole residue: image `mov r8, #0` / `mov r5, r1`
+ *           / `mov r6, r0` / `mov r4, r8` | ours `mov r7, #0` / `mov r4, r1`
+ *           / `mov r5, r0` / `mov sb, r7`.
+ *
  * sdk:      QEStartQuery (libdwcgsserverbrowsing.TWL.HYB.a sb_queryengine.o)
  * symbols:
  *   current_time     0x0217f264  arm

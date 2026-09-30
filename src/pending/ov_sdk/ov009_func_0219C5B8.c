@@ -9,6 +9,9 @@
  * isa:      arm
  * status:   DIFF
  *
+ * u32: CLOSED this wave as src/matched/ov_sdk/ov009_func_0219C5B8.c (EXACT, 364 bytes,
+ *      shard layout/matched/ov009/pkt_ov009_0219C5B8.json).  Pending copy kept for reference: the fix was the vendor body from GameSpy qr2.c: declaration initialisers in the vendor order (i, now, firstFreeIndex, numDuplicates) and an empty for-init.
+ *
  * sdk:      qr2_process_ip_verify (libdwcgsqr2.TWL.HYB.a qr2.o)
  *
  * symbols:

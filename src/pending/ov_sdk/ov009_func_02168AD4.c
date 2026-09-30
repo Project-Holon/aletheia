@@ -17,6 +17,15 @@
  *           in r6 and the shared zero in r7, the reverse of the image
  *           (state r4, zero r5), which cascades into the two counting loops
  *           and costs 4 bytes.  Needs a declaration/init-order nudge.
+ *           Re-tested (lane U34) and inert at 684 bytes / 428: `FriendState
+ *           *state` declared first, `int i, j, pidcnt;` on one line, and
+ *           `state` declared but assigned on its own later statement.  Note
+ *           this build is not a pure rotation of the image - image {state r4,
+ *           zero r5, singleton-loaded-at-+8}, ours {state sb, zero r6} - and
+ *           the two stores at +0x80 are emitted in the reverse order
+ *           (image `str r0,[r4,#4]` then `str r5,[r4]`; ours `str r6,[sb]`
+ *           then `str r0,[sb,#4]`).  First divergence: image `ldr r4, [pc,
+ *           #0x28c]` | ours `ldr sb, [pc, #0x290]`.
  *
  * symbols:
  *   DWCi_IsError                    0x02059F38 arm

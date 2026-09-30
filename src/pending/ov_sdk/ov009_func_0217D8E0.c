@@ -8,11 +8,25 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * u21: the defining object gslargeint.o is .comment 4.0.0.1025, a stamp no local build writes.
+ *      Object listing (tools/sdkobj.py) = the image instruction for instruction, including the
+ *      DWARF parameter registers (src1 r0, divisor r14, dest r12): the vendor keeps the divisor in
+ *      lr and copies dest to ip (mov lr,r1 / mov ip,r2 / mov r2,lr / mov r3,ip) and pays one extra
+ *      instruction for it (36 vs 32). 1.1p1 copies dest straight to r3 and parks the divisor in
+ *      ip, which is the whole 17-byte diff. First divergence +0004 image `mov lr, r1` |
+ *      ours `str r3, [sp]`. ../2.0/base and ../2.0/sp1p2 both 32 B / 17 B.
  * u1: family check done - ../2.0/base and ../2.0/sp1p2 give the identical 32 B / 17 B; ../1.2/sp3 44 B. Residue stands: the vendor's 4-move lr/ip argument shuffle before the len load.
  *
  * near miss (w2_s1): 17 bytes differ (36 vs 32); four argument-evaluation forms with local temporaries tried, all compile to the same 8-instruction body without the lr/ip shuffle.
  *
  * w9_nm: not moved: the parameter DWARF says divisor lives in r14 and dest in r12 (a vendor register shuffle). No new spelling tried beyond w4 to w7; the wall is the parallel-move order (mov lr,r1 / mov ip,r2 before the stack store).
+ *
+ * u31: the vendor one-liner from gslargeint.c (callee named gsiLargeIntDiv as the
+ * object labels it, the object's own non-const signatures) compiles byte-for-byte
+ * to the parked draft: 32 B / 17 B. So do locals in either order, &src1->mData[0],
+ * a `const` src1, and a length-only local. The image's extra `mov lr, r1` (its
+ * argument move sequencer saves both r1 and r2 before the length load) is a
+ * 4.0.0.1025 codegen artefact; ../2.0/* builds agree with 1.1p1 at 32 B.
  *
  * sdk:      gsLargeIntDiv (gslargeint.o)
  *

@@ -7,7 +7,19 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF (41 bytes; size exact at 880)
+ * status:   DIFF
+ *
+ * RESIDUE (lane U34): 41 concrete bytes, 34 sites, size exact at 880.  The
+ *           image uses r3 for the bumped `s` and ip for the `mode` mask; this
+ *           build is the mirror (s=ip, mode=r3) - both live only in the
+ *           caller-saved pool.  Re-tested and inert on the 41-byte residue:
+ *           `mode` declared inside the QR2-style inner block vs at function
+ *           scope.  First divergence: image `ldrbeq r0, [r5, #0xef]` then
+ *           `addeq r3, r5, #0xf0` | ours `addeq ip, r5, #0xf0` then
+ *           `ldrbeq r0, [ip, #-1]`; the add and the load are the same two
+ *           instructions in either order, only the destination differs.
+ *
+ * sdk:      dhcp_analyze_response (libcps.TWL.HYB.a network.o)
  * notes:    the option-pointer bump is predicated into the `&&` chain by the
  *           vendor front end.  Reachable from C: put the bump INSIDE the
  *           condition as a comma expression,

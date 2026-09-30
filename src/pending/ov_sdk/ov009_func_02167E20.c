@@ -8,9 +8,22 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * u21: the defining object wmif.o is .comment 4.0.0.1024 -> dsi/1.1p1, so the front end is right
+ *      and this is a body wall: 1.1p1 if-converts the one-statement then-arm into `subne r5,r5,#5`
+ *      (100 B) where the image keeps `mov r5,#0 / cmp r0,#0 / beq 0x2167e68 / mvn r5,#4` (104 B).
+ *      First divergence +003C image `cmp r0, #0` | ours `ldr r6, [r4, #0x2c]` (the callback load
+ *      also hoists above the compare).
  * u1: re-measured, unchanged at 100 B vs 104 B; the one-statement then-arm is still if-converted and the [r4,#0x2c] load still hoists above the compare.
  *
  * w9_nm: unchanged at 100 B vs 104 B: the constant spelled ~4, if/else, an extra add-zero statement in the arm, and a volatile result local (108 B) all keep the arm if-converted.
+ *
+ * u31: six more arm shapes -- if/else with the zero arm spelled out, the ternary
+ * in both senses, `if (f != 0 && (wcmResult = -5)) ;`, a named long temp for -5,
+ * and a `wcmResult = wcmResult;` self-assign blocker -- all still if-convert the
+ * arm at -O4,p. if/else and the ternary move the -5 into r6 before the compare and
+ * make it worse (37 B). The image's real branch (beq + mvn r5, #4) with the
+ * un-hoisted `ldr r6, [r4, #0x2c]` is not reachable from any source shape tried
+ * here or in the w5/w9 passes.
  *
  * sdk:      WcmWmcbSetDCFDataAsync (wmif.o)
  *

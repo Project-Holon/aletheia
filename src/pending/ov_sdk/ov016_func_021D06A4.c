@@ -26,6 +26,11 @@
  * four-instruction window schedules differently - the taken arm and every
  * other instruction match. Sweep: 12 concrete diffs at -O4,p/-O4,s/-O4/-O3/
  * -O2 for all nine pins.
+ * U26: the matched siblings in this packet keep the same `x = N;` before the call and match
+ * (taskEnd1..3 are loop forms); the single-cell else arm stays on the 12-byte window under a
+ * `MEMSTEP *m`/`void *cell` local bound before the store, the assignment as the 3rd argument and
+ * a comma statement.  Scheduler tie on the four-instruction window.
+ *
  * symbols:
  *   CELL_IDX                         0x021DA914  data
  *   C_POS                            0x021DA932  data

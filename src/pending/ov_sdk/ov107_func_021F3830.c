@@ -45,9 +45,9 @@ extern void func_02088234(void);
 
 void func_021F3830(const RomHeader *hdr, enum SegType *list, SegInfo *seg, u32 *child_recv)
 {
-    u32 load_last_addr;
     int reload_flag;
     int error_flag;
+    u32 load_last_addr;
     const RomRegion *romRegp;
 
     switch (*list) {

@@ -9,15 +9,23 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker: rewritten from the vendor listing: all 1324 bytes line up and one block
- *          differs, a register rotation in the final four-instruction sequence that
- *          stores 0xE12FFF1E (image: r1,r2,r3,r0 for main_ram_address, the callback
- *          address, p_buf and the constant; this build r0..r3).  Recovered: nested
- *          if/else with `rest >= n` (else `rest = 0`), per-branch mainBuf/mainSize/
- *          mainTop/base locals in the two read paths, direct BUFROM field reads,
- *          `file` reassigned to own_bin, a frame of ret/is_own_binary/bak_pos in that
- *          order, and the segment-map loop reading through a u32 pointer so the
- *          length is reloaded (ldm).
+ * blocker: SOLVED as a spelling problem -- the body in
+ *          src/matched/ov_sdk/ov107_func_021F2FA0.c is byte-exact (0 concrete
+ *          bytes, 1324/1324).  The old 10-byte residue at +0x04D4 was the
+ *          debugger-autoload tail: it is the vendor's three statements
+ *          (sdk/TwlSDK/build/libraries/mb/common/src/mb_fileinfo.c:413-419)
+ *          `u8 *dst2 = (u8 *)p_cache->p_buf; dst2 += ((u32)&_start_AutoloadDoneCallback
+ *          - BUFROM(main_ram_address)); *(u32 *)dst2 = 0xE12FFF1E;` -- a single
+ *          folded pointer expression cannot produce the image's r1/r2/r3/r0
+ *          colouring.  Second fix: declare `_start_AutoloadDoneCallback` (0x02004EA8)
+ *          as `arm`, not `data`, or its ABS32 pool word at +0x0524 stays wildcarded.
+ *
+ *          Remaining and unfixable from this row: the +0x0140 call to
+ *          CARDi_GetOwnSignature 0x020773D0.  In this ROM that address holds an
+ *          unmatched game function (func_020773D0) with no layout/symbols_sdk.json
+ *          row, no runtime_arm9 entry and no caller outside this function, so
+ *          attest() has no witness and the site stays wildcarded: status MATCH,
+ *          not EXACT/EXACT*.  Do not re-spell the body for it.
  *
  * sdk:      MB_ReadSegment (libmb.TWL.HYB.a mb_fileinfo.o)
  *

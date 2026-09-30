@@ -15,6 +15,9 @@
  *
  * near miss (w3_s4): 4 bytes differ, the last two eors of the oddmode expression have their operands swapped (original: eor r0,r0,r2; eor r8,r0,r1). All five terms reordered in left and right chains (about 400 forms); best is the committed right-nested D ^ (E ^ (A ^ (B ^ C))).
  *
+ * u32: CLOSED this wave as src/matched/ov_sdk/ov009_func_0219FE44.c (EXACT, 236 bytes,
+ *      shard layout/matched/ov009/pkt_ov009_0219FE44.json).  Pending copy kept for reference: the fix was the vendor macro CALCULATEODDMODE spelled exactly as upstream (flat left-assoc chain) with (char)(33 + rand() % 93).
+ *
  * sdk:      SetupListChallenge (libdwcgsserverbrowsing.TWL.HYB.a(sb_serverlist.o))
  *
  * symbols:

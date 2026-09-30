@@ -9,6 +9,8 @@
  * isa:      arm
  * status:   DIFF
  *
+ * measured (U23): rule-4b check done -- all eleven ../2.0/* trees give 388 bytes / 221
+ *   concrete against the image's 380, so 1.1p1 (384/177 on the same source) stays right.
  * sdk:      DWCi_PostProcessSVConnectionFullmesh (libdwcmatch.TWL.HYB.a dwc_match.o)
  *
  * symbols:

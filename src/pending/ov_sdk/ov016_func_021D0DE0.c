@@ -21,6 +21,12 @@
  * on the source axis five spellings (early return, store then return, nested
  * braces, goto to one shared set-label, volatile st) all compile to the same
  * predicated 144 B.
+ * U26 re-measured: `-O1,p` is EXACT (148/148, 0 diffs) with 1.1p1 and with 1.1/1.2/../2.0/base;
+ * `-O4,p` is 144 B / 87.  Object-mate evidence says the object build is -O4,p and not -O1:
+ * usbap.o's func_021D0CEC is 220 B / 2 diffs at -O4,p against 228 B / 147 at -O1, and
+ * func_021D0E74 is 332 / 286 against 368 / 272.  So the -O1 cell is a coincidence and the row
+ * stays capped on the compiler axis (out of scope), as T6 recorded.
+ *
  * symbols:
  *   func_021D0FCC  0x021D0FCC  arm  ov016
  *   func_021D0E74  0x021D0E74  arm  ov016

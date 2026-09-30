@@ -23,6 +23,27 @@
  * (no move). Declaration order is inert; the pointer/m_i tie is not steerable
  * from the source shapes tried so far.
  *
+ * u31: 21 -> 12 concrete bytes, one declaration change. The defining object's
+ * DWARF names locals m_i, k, j, m, i; declaring `unsigned char m_i;` FIRST and
+ * then `unsigned char *m = ctx->m;` (then j, k, int i) is what flips the pair:
+ * m lands in r4 and m_i in lr -- the image's own map (m=r4, m_i=lr, j=r5, k=r6,
+ * i=r7, k-reset zero=r0). Before this every statement was a mirrored r4/lr swap.
+ * 23 declaration orders were compiled; only m_i,m,j,k,i reproduces the map.
+ * `m` as a plain statement (`unsigned char *m; ... m = ctx->m;`) is equivalent.
+ *
+ * REMAINING RESIDUE (12 B), one scratch/constant pair mirrored, image | ours:
+ *   +0030 mov r0, r6   (k-reset zero)   | mov r3, r6
+ *   +003C add r3, r6, #1                | add r0, r6, #1
+ *   +0040 and r6, r3, #0xff             | and r6, r0, #0xff
+ *   +0044 add r3, lr, ip                | add r0, lr, ip
+ *   +005C movge r6, r0                  | movge r6, r3
+ *   +0060 strb r3, [r4, r7]             | strb r0, [r4, r7]
+ * The image hands r3 (the register freed by loop 1's index i) to the loop-2
+ * scratch and keeps the reset zero in r0; 1.1p1 does the reverse. Inert against
+ * six spellings of the reset (if, if/else, ternary, named zero local, int cast,
+ * k = k else), a named sum temp, a separate loop-1 index, and the m initialiser
+ * vs statement form. ../2.0/sp1p2 also reaches exactly 12.
+ *
  * sdk:      CPSi_rc4_init (libssl.TWL.HYB.a(arc4.o))
  *
  * symbols:
@@ -37,11 +58,12 @@ typedef struct {
 
 void func_02163E40(CPSRc4Ctx *ctx, unsigned char *key, int len)
 {
+	unsigned char m_i;
+	unsigned char *m = ctx->m;
+	unsigned char j;
+	unsigned char k;
 	int i;
-	unsigned char *m;
-	unsigned char m_i, j, k;
 
-	m = ctx->m;
 	ctx->x = 0;
 	ctx->y = 0;
 	for (i = 0; i < 256; i++) {

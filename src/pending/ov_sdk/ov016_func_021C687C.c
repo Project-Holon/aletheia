@@ -10,6 +10,21 @@
  * status:   DIFF
  * blocker:  switch dispatch order: the original tests the 0x80..0x83 cluster first (cmp 0x83 / bgt, cmp 0x80 / blt to the zero test); 1.1p1 tests case 0 first. Every case body is byte-identical. Notes: docs/notes/pkt_ov016_021C6588.c.txt
  *
+ * U26 (case order IS a lever here, and it is the source order of the CLUSTER
+ * members, not the position of case 0): mwcc's compare chain walks the cluster
+ * in the order the cases appear in the source, and the group/body layout that
+ * follows changes the object size.  The parked 0,0x80,0x82,0x83 order gives
+ * 404 B / 318 concrete bytes; 0x83,0x80,0x82 with case 0 anywhere (default
+ * last) gives **400 B (size-exact) / 209** - the best cell found.  All 120
+ * orderings of the five blocks were measured; 0x83,0x80,0x82 is optimal and the
+ * cluster order 0x82,0x80,0x83 / 0x80,0x83,0x82 / 0x80,0x82,0x83 are all worse
+ * (301 to 319).  Residue is then the two dispatch groups' ORDER alone: the
+ * image runs the range test first and the `cmp r4,#0` singleton last, 1.1p1
+ * always emits the singleton first, whatever the source order (cmp r4,#0 /
+ * bgt cluster / beq post-switch / b default), so the image's 192-byte dispatch
+ * head is ours with the two groups swapped.  Flat across all nine pins; not a
+ * case-order or case-set question (case 0x81 folded into the default changes
+ * nothing but the size).
  * symbols:
  *   DWCi_CEINlSetExObj               0x021D5368  arm
  *   DWCi_CMNlLoadResource            0x021BD1D4  arm
@@ -198,9 +213,17 @@ static void input(void)
 {
     int c = DWCi_KBlGet();
 
-    switch (c) {
-    case 0:
-        break;
+    switch (c) {    case 0x83:
+        if (isCorrect()) {
+            DWCi_SNDlPlay(6);
+            MemSse->choose = 1;
+        } else {
+            MemSse->choose = 2;
+            DWCi_SNDlPlay(9);
+        }
+        G2_SetOBJEffect(MemSse->caret, 0x200, 0);
+        DWCi_ChangeScene(endScene);
+        return;
     case 0x80:
         if (MemSse->pos == 0)
             break;
@@ -216,17 +239,8 @@ static void input(void)
         MemSse->choose = 0;
         DWCi_ChangeScene(endScene);
         return;
-    case 0x83:
-        if (isCorrect()) {
-            DWCi_SNDlPlay(6);
-            MemSse->choose = 1;
-        } else {
-            MemSse->choose = 2;
-            DWCi_SNDlPlay(9);
-        }
-        G2_SetOBJEffect(MemSse->caret, 0x200, 0);
-        DWCi_ChangeScene(endScene);
-        return;
+    case 0:
+        break;
     default:
         if (MemSse->pos == 32)
             break;

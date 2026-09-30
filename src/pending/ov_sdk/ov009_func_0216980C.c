@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * u21: the defining object is .comment 4.0.0.1025, a stamp no local build writes. The image hoists
+ *      the negotiate-list pool load to +0004 and keeps the list pointer in r4 across the whole
+ *      function; 1.1p1 zeroes the stack word first and is 4 bytes longer (184 vs 180). First
+ *      divergence +0004 image `ldr r4, [pc, #0xa4]` | ours `mov r5, #0`.
  * u1: family check done - ../2.0/base + ../2.0/sp1p2 192 B / 113 B, ../1.2/sp3 208 B. Hoist order plus branch layout.
  *
  * sdk:      DWCi_GetFriendBuddyStatus (libdwcmatch.TWL.HYB.a(dwc_friend.o))

@@ -8,6 +8,13 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * u21: the defining object socl_create.o is .comment 4.0.0.1024 -> dsi/1.1p1. Every instruction
+ *      matches except the flag select: the image emits the single predicated `movne r1, r5`,
+ *      reusing the constant 1 still sitting in r5 from the command flag, while 1.1p1 emits
+ *      `moveq r5, r1 / mov r1, r5` and so is 4 bytes long (184 vs 180). Twelve spellings (nested
+ *      if, &&, ternary, `!= 0`, the bare masked value, long/unsigned flag, hoisted b) either keep
+ *      the two-instruction select or collapse the block to 164/168 B. First divergence +005C
+ *      image `movne r1, r5` | ours `moveq r5, r1`.
  * u1: eight more flag spellings (if/if, `&&` into flag=1, ternary, `(int)(ac&1)`, `!!`, an `ac` temp, `if (flag)`) - the `moveq r5,r1` / `mov r1,r5` select survives all of them; the `flag = 1` and `&&` forms collapse the block to 164 B. Residue is the image's predicated `movne r1, r5` (reusing the 1 already in r5).
  *
  * blocker:  codegen, 4 bytes long (184 vs 180).  Every instruction matches

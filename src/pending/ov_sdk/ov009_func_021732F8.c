@@ -23,6 +23,10 @@
  *          The vendor object is stamped 4.0.0.1025; the fold looks like a
  *          1024-vs-1025 difference in the inliner's displacement folding.
  *
+ * measured (U23): the 1025 stamp makes ../2.0/* the permitted check, and it does split the
+ *   address -- ../2.0/base emits `add r0,r0,#0x154 ; ldrb r4,[r0,#0x416]` -- but at 568
+ *   bytes (image 564) with 416 concrete diffs, i.e. the whole allocation differs there, and
+ *   all eleven 2.0 trees are byte-identical to each other. dsi/1.1p1 keeps the 560-byte fold.
  * sdk:      DWCi_ProcessMatchSynTimeout (libdwcmatch.TWL.HYB.a dwc_match.o)
  *
  * symbols:

@@ -8,6 +8,11 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * u21: the defining object network.o is .comment 4.0.0.1024 -> dsi/1.1p1 and the size is already
+ *      exact (180 B). The 46 concrete bytes are instruction ORDER in the prologue: the image loads
+ *      both pool bases (wfailed, OSi_ThreadInfo) and the second OSi_ThreadInfo word before the
+ *      first strh, 1.1p1 schedules the store first. First divergence +0018
+ *      image `ldr r2, [pc, #0x90]` | ours `strh r4, [r5, #0x22]`.
  * u1: re-measured, unchanged (180 B, 46 concrete B).
  *
  * near miss (w2_s1): 46 bytes differ, schedule and register naming only: original loads the two pool bases (netvars, then OSi_ThreadInfo) before the first strh and keeps soc/icmp in r6/r5; 30+ statement orders and the chained-assignment forms tried.

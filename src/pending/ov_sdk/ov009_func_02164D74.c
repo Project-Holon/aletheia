@@ -39,11 +39,19 @@
  * Residue is a six-instruction schedule rotation at +0018..+0028, same 364 bytes:
  *   +0018  image `ldr sb, [pc, #0x148]`  | ours `mov r1, #0`
  *   +0028  image `str r1, [sp]`          | ours `mov r5, r0`
- * i.e. the image loads the 0x021AA7D4 pool word first and sinks the spill of
- * expectLen below the wcmw load, this build materialises the zero and spills it
- * immediately.  Measured worse: `long expectLen = 0;` as a declaration
- * initialiser (396/345), `expectLen` before the OS_DisableInterrupts call (396),
- * both as declaration initialisers (400).
+ *   i.e. the image loads the 0x021AA7D4 pool word first and sinks the spill of
+ *   expectLen below the wcmw load, this build materialises the zero and spills it
+ *   immediately.  Measured worse: `long expectLen = 0;` as a declaration
+ *   initialiser (396/345), `expectLen` before the OS_DisableInterrupts call (396),
+ *   both as declaration initialisers (400).  lane U22 adds nine more shapes, all
+ *   at exactly 18: `expectLen = 0;` sunk to just before MI_CpuFill8 (70), after
+ *   the first wcmw guard (28), a comma expression `e = ..., expectLen = 0;`,
+ *   swapped local declaration order, `if (g_021AA7D4.wcmw)` without `!= 0`,
+ *   both locals as declaration initialisers, a volatile-cast read of `wcmw`,
+ *   `expectLen` zeroed as `unsigned long`, and `expectLen = 0;` moved after the
+ *   two pointer guards.  The pool load and the spill are one independent
+ *   instruction pair and this front end will not rotate them into the image's
+ *   order from any statement position.
  */
 
 typedef struct WCMWork {
