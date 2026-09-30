@@ -7,7 +7,31 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
+ *
+ * Two things close the 99 B of register-allocation diff this file carried
+ * while it sat at MATCH with all eight relocations already resolved.
+ *
+ * `const` on the second parameter is the whole of the first 98. The object
+ * issues `ldrh r1,[r6,#2]` (param->send) as the *second* instruction of the
+ * function, above both `strb` stores into `socket->f_af`/`f_ae`, and sinks
+ * `add r5,r7,#0xbc` below them. Without the qualifier mwcc treats the two
+ * pointers as possibly aliasing, keeps the load where the source order puts
+ * it, and then colours the whole function one register down: r5 = param,
+ * r6 = socket, r4 = ptr, r7 = rpipe, against the object's r6 = param,
+ * r7 = socket, r5 = ptr, r4 = pipe. The qualifier is what lets the load
+ * hoist, and the hoist is what fixes the colouring -- same shape as
+ * docs/idioms/a-load-scheduled-above-an-unrelated-store-reads-through-a-const-pointer.md.
+ * The callee's third parameter has to be spelled `const void *` for the same
+ * reason: `param->pipe1` and `param->pipe2` are four-byte arrays, and passing
+ * them to a `void *` is the error that first shows the qualifier is real.
+ *
+ * The last byte is a struct offset, not code: `spipe->f10a` is at +0x10a, so
+ * the run between the u16 at +0xfc and it is 0xc bytes, not 0xa. The 0xf8
+ * command pipe behind that header is the one
+ * src/matched/ov_sdk/ov009_func_0215D3C8.c already pins (queue +0x00,
+ * thread +0x20, mutex +0xe0), which is why +0x10c and +0x110 land on the two
+ * word stores that follow.
  *
  * sdk:      SOCLi_InitSocket (libsoc.TWL.HYB.a(socl_create.o))
  *
@@ -39,7 +63,7 @@ typedef struct {
 typedef struct {
 	char pad0[0xfc];
 	unsigned short f0fc;
-	char pad1[0xa];
+	char pad1[0xc];
 	unsigned short f10a;
 	int f10c;
 	int f110;
@@ -69,11 +93,11 @@ typedef struct Sock {
 	signed char f_af;
 } Sock;
 
-extern unsigned char *func_0215D3C8(unsigned char *ptr, void *pipe, void *param);
+extern unsigned char *func_0215D3C8(unsigned char *ptr, void *pipe, const void *param);
 extern unsigned char *func_0215D3A0(unsigned char *ptr, Buf *buf, unsigned long size);
 extern Sock *g_021AA44C;
 
-unsigned char *func_0215D2A8(Sock *socket, Param *param)
+unsigned char *func_0215D2A8(Sock *socket, const Param *param)
 {
 	unsigned char *ptr = (unsigned char *)socket + 0xbc;
 

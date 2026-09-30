@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   EXACT
  *
  * sdk:      WcmAllocApList (aplist.o)
  *
@@ -42,8 +42,9 @@ extern struct WCMWork *func_021657C8(void);
 
 struct WCMApList *func_02165DCC(void)
 {
-    long i;
     unsigned long maxBlock;
+    long i;
+    struct WCMApList *pList;
     struct WCMApList *p;
     struct WCMApListHeader *pHeader;
     struct WCMWork *w;
@@ -62,10 +63,15 @@ struct WCMApList *func_02165DCC(void)
     if (maxBlock <= pHeader->count)
         return 0;
 
-    for (i = 0; i < maxBlock; i++) {
-        p = (struct WCMApList *)(pHeader + 1) + i;
-        if (p->state == 0)
-            break;
+    i = 0;
+    if (i < maxBlock) {
+        pList = (struct WCMApList *)(pHeader + 1);
+        do {
+            p = pList + i;
+            if (p->state == 0)
+                break;
+            i++;
+        } while (i < maxBlock);
     }
     if (i < maxBlock) {
         p->state = 1;
