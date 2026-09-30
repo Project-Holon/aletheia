@@ -1,0 +1,120 @@
+func_0216C8DC @ 0x0216C8DC (ov009, ARM, 296 bytes) -- DIFF, one hoisted zero
+================================================================================
+
+DWC_AddMatchKeyInt (sdk/TwlDWC/lib/ARM9-TS/Rom/libdwcmatch.TWL.HYB.a,
+dwc_match.o).  Vendor .comment stamp 4.0.0.1025: no tools/mwccarm build writes
+that stamp, so the object came from a front end newer than dsi/1.1p1
+(4.0.0.1024), which is the pinned tree.  Size is exact (296 = 296, 13/13
+relocations) and every branch target and store is right; the whole residue is
+one `mov r4,#0` at +0x14 and the register rotation it causes.
+
+TYPES TAKEN FROM DWARF (this part is new and is right)
+------------------------------------------------------
+sdkobj DWC_AddMatchKeyInt gives
+
+    unsigned char DWC_AddMatchKeyInt(unsigned char keyID, char *keyString,
+                                     int *valueSrc);   /* variable int index */
+
+and sdkobj DWCi_GetNewMatchKey (0x02173AD8) gives
+
+    static unsigned char DWCi_GetNewMatchKey(void);
+
+`unsigned char keyID` is what makes the guard `cmp r7,#0x64 / blo` (the old
+`int a0` spelling emitted `blt`, a real difference, not a register one), and
+the u8 return of DWCi_GetNewMatchKey is what removes the `ands r8,r0,#0xff`
+that an `extern int func_02173AD8(void)` declaration inserts at the
+reassignment.  `int *valueSrc` is stored into the u32 f8 slot as an address.
+
+THE RESIDUE (image | ours, first differing instruction)
+-------------------------------------------------------
+  +0014  image `moveq r0,#0`            | ours `mov r4,#0`
+  +0018  image `popeq {r4,r5,r6,r7,r8,pc}` | ours `moveq r0,#0`
+  +001C  image `cmp r7,#0x64`           | ours `popeq {...}`
+  ... every following instruction is the same with the register file rotated:
+        image a0=keyID r7, keyString r6, valueSrc r5, index r4, zero in r2
+              (materialised late at +0x8C, `mov r2,#0`, rematerialised for
+              every `return 0` as `mov r0,#0`)
+        ours  keyID r8, keyString r7, valueSrc r6, index r5, and the 0 lives
+              in r4 for the whole function (`mov r0,r4` at +0x60 and +0xE4,
+              `strb r4,...`/`strh r4,...` at +0x90/+0x9C).
+
+Cause: this front end CSEs the literal 0 used by the two field stores and by
+the two `return 0` sites that sit after calls into one callee-saved register,
+so the zero has to be materialised in the prologue; the vendor's compiler
+rematerialised it at each site instead.  Nothing source-level moves it:
+f1/f2 zeroed as `0`, `0u`, `(u8)0`/`(u16)0`, chained `f1 = f2 = 0`, a
+`struct Key *k` pointer, and all three CC alternate checks the brief allows
+for a size-exact row (../2.0/base 300, ../2.0/sp1p2 300, ../1.2/sp3 312 --
+all wrong size) land on the same 296/134 with `mov r4,#0` still at +0x14.
+
+symbols:
+  g_021AAA40     0x021AAA40  data  ov009
+  func_02173AD8  0x02173AD8  arm  ov009
+  func_020948E0  0x020948E0  arm
+  func_0205A1B0  0x0205A1B0  arm
+  func_0209477C  0x0209477C  arm
+  func_0205A16C  0x0205A16C  arm
+  func_02094798  0x02094798  arm
+  func_0216EB68  0x0216EB68  arm  ov009
+  func_0219D158  0x0219D158  arm  ov009
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+struct Key {
+    u8  f0;
+    u8  f1;
+    u16 f2;
+    u32 f4;
+    u32 f8;
+};
+
+extern struct Key g_021AAA40[];
+extern unsigned char func_02173AD8(void);
+extern int  func_020948E0(u32 p);
+extern void func_0205A1B0(int a0);
+extern int  func_0209477C(char *s);
+extern void *func_0205A16C(int a0, int a1);
+extern void func_02094798(void *dst, char *src);
+extern void func_0216EB68(int a0, int a1);
+extern void func_0219D158(int a0, void *a1);
+
+unsigned char func_0216C8DC(unsigned char keyID, char *keyString, int *valueSrc)
+{
+    int index;
+
+    if (keyString == 0 || valueSrc == 0)
+        return 0;
+
+    if (keyID >= 0x64 && g_021AAA40[keyID - 0x64].f0 != 0) {
+        if (g_021AAA40[keyID - 0x64].f4 != 0 &&
+            func_020948E0(g_021AAA40[keyID - 0x64].f4) != 0)
+            return 0;
+    } else {
+        keyID = func_02173AD8();
+        if (keyID == 0)
+            return 0;
+    }
+
+    index = keyID - 0x64;
+    g_021AAA40[index].f0 = keyID;
+    g_021AAA40[index].f1 = 0;
+    g_021AAA40[index].f2 = 0;
+    if (g_021AAA40[index].f4 != 0)
+        func_0205A1B0(4);
+    g_021AAA40[index].f4 = (u32)func_0205A16C(4, func_0209477C(keyString) + 1);
+    if (g_021AAA40[index].f4 == 0) {
+        func_0216EB68(9, (int)0xFFFEC77F);
+        return 0;
+    }
+    func_02094798((void *)g_021AAA40[index].f4, keyString);
+    g_021AAA40[index].f8 = (u32)valueSrc;
+    func_0219D158(keyID, (void *)g_021AAA40[index].f4);
+    return keyID;
+}
+
+Verified with:
+  python tools/match.py one --src <file> --func func_0216C8DC \
+      --addr 0x0216C8DC --region ov009 --arm --cc 1.1p1 --lang c99 --diff
+  296/296 bytes, 134 concrete bytes differ (register rotation only).

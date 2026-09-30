@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * u1: family check done - ../2.0/base + ../2.0/sp1p2 160 B / 24 B, ../1.2/sp3 168 B. A pure register rotation over 20 otherwise identical instructions.
  *
  * DWCi_MakeMatchCommandControl: fills a match command block. Same size, 20 bytes
  * differ: a pure register rotation in the 5-byte identifier copy (original puts the

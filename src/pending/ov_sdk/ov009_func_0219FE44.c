@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF (capped - see residue)
+ * u1: two more left-nested spellings of the same grouping and a tail-moved variant - all reassociate (38-45 B) and break the schedule before +007C; the committed right-nested form stays the best (4 B). ../2.0/* 30 B, ../1.2/sp3 238 B.
  *
  * residue (lane T3, 2026-09-30, measured): 4 concrete bytes: the last two eors of the oddmode chain. +007C image `eor r0, r0, r2` | ours `eor r0, r2, r0`; +0080 image `eor r8, r0, r1` | ours `eor r8, r1, r0`. Pin/flag sweep (9 pins x 7 flag sets) best -O4,p at 4 diffs, every other cell worse (D176-D251). Three body shapes tried: flat left-assoc chain (38 diffs), named a/b/c/d/e left-nested tree (4 diffs = identical to committed), sequential compound-assign (40 diffs). CW canonicalises the XOR tree, so the accumulator/operand order is not reachable from the source: capped, register allocation.
  * extra (lane T3, second pass): extra spellings (lane T3, second pass): ten more inline trees, all worse than the committed 4-diff form - left-nested ((C^(D^E))^B)^A 38, D^E^C^B^A 38, (D^E)^(C^(B^E)) 43, (D^E)^((C^B)^A) 39, ((D^E)^(C^B))^A 35, (C^(D^E))^(B^A) 44, D^((E^C)^B)^A 132, flat D^E^C^B^A 38, A^(B^C^D^E) 33. First divergence is +007C `eor r0, r0, r2` | ours `eor r0, r2, r0` and +0080 `eor r8, r0, r1` | ours `eor r8, r1, r0`: the image's accumulator is the Rn slot of the last two eors, ours puts the fresh term there. Capped.

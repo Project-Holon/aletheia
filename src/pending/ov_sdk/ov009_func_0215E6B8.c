@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * u1: NEW and useful - `volatile short flags;` reproduces the image's four separate ldrsh reads and makes the size EXACTLY 172 B (was 164); volatile + three bool spellings all land on 172 B / 126. The inverted guard (`if (pipe != 0 && pipe->queue != 0) { ... } return 0;`, the shared-exit idiom) additionally restores the image's real branch at the pipe guard (168 B). What remains: s in r5 (image r4, DWARF agrees with the image) and the bool home (image predicated `movne r1,#1`, ours r0 select + branch).
  *
  * sdk:      SOCL_Shutdown (libsoc.TWL.HYB.a(socl_shutdown.o))
  * vendor:   sdkobj.py SOCL_Shutdown -- .comment "4.0.0.1024" resolves to

@@ -1,0 +1,104 @@
+func_021685CC @ 0x021685CC (ov009, ARM, 276 bytes) -- DIFF, 18 bytes, one
+list-scheduling tie-break after the two-name split was found.
+================================================================================
+
+DWCi_GetMathRand32 (sdk/TwlDWC/lib/ARM9-TS/Rom/libdwcmatch.TWL.HYB.a,
+dwc_common.o).  Vendor .comment stamp is 4.0.0.1025: no tools/mwccarm build
+writes that stamp (sdkobj says so), so the vendor built this object with a
+front end slightly newer than dsi/1.1p1 (4.0.0.1024), which is the tree the
+row is pinned to.
+
+THE LEVER FOUND (two names, and where they go)
+----------------------------------------------
+The image's literal pool carries 0x021AA848 TWICE (0x100 and 0x104), and the
+two words are used by *different* statements:
+
+  ldr r6, [pc, #0xf0]     ; word 0x100  -- the x==0 && mul==0 && add==0 checks
+                                          and the mul/add stores (both use r6)
+  ldr r0, [pc, #0x68]     ; word 0x104  -- the `rand->x = seed` store ONLY
+  ldr r1, [pc, #0x3c]     ; word 0x100  -- the MATH_Rand32 pointer
+
+So the split is: the x store names the context through a second extern, the
+checks, the mul/add stores and MATH_Rand32 use the first.  Hand-inlining
+MATH_InitRand32 with the second name on the x store only --
+
+    g_021AA848_x.x = seed;                      /* second name */
+    g_021AA848.mul = 0x5D588B656C078965ULL;    /* first name */
+    g_021AA848.add = 0x0000000000269EC3ULL;
+
+-- takes the row from 268 bytes / 108 concrete bytes out to 276 bytes (exact)
+with every register home right (r6 = ctx, r5 = max, r4 = &seed at fb+0) and
+18 concrete bytes left.  Putting the second name on the MATH_Rand32 call
+instead (the obvious reading) gives 272 bytes: one `ldr` short, because the
+compiler then reuses r6 for the x store.  Both spellings of the constants
+(`0x...ULL` and two `*(u32 *)((char *)&g + n)` stores) and a `u64 *px`
+pointer for the x store all measure the same 18.
+
+REMAINING RESIDUE (18 concrete bytes, +0x98..+0xA8)
+---------------------------------------------------
+  +0094  image `ldr r0,[pc]` (word 0x104, the x-store address)
+         ours  `ldr r0,[pc]` (word 0x104, the mul-lo constant 0x6C078965)
+  +0098  image `ldm r4,{r2,r3}`          | ours `ldr r1,[pc]` (word 0x108, x address)
+  +009C  image `stm r0,{r2,r3}`          | ours `ldm r4,{r2,r3}`
+  +00A0  image `ldr r0,[pc]` (mul lo)    | ours `stm r1,{r2,r3}`
+  +00A4  image `ldr r1,[pc]` (mul hi)    | ours `str r0,[r6,#8]` (mul lo)
+  +00A8  image `str r0,[r6,#8]`          | ours `ldr r1,[pc]` (mul hi)
+
+Same instruction multiset, same size, same pool words in the same order; the
+dsi/1.1p1 list scheduler hoists the mul-lo load into the slot the image gives
+to the x-store address load, then emits the mul-lo store one slot early.  No
+source order tried moves it: x store first/last in the block, the mul/add
+assignments through an inlined helper, the mul/add written as two u32 stores,
+and a `u64 *px` binding all land on exactly these 18 bytes.  Widths are fixed
+by DWARF (unsigned long max, unsigned long long seed at fb+0), so the
+masked-local width axis does not apply here either.
+
+symbols:
+  OS_GetMacAddress   0x02087C6C  arm
+  OS_GetTick         0x020870D0  arm
+  g_021AA848         0x021AA848  data
+  g_021AA848_x       0x021AA848  data
+
+typedef unsigned char u8;
+typedef unsigned long u32;
+typedef unsigned long long u64;
+
+typedef struct {
+    u64 x;
+    u64 mul;
+    u64 add;
+} MATHRandContext32;
+
+extern MATHRandContext32 g_021AA848;
+extern MATHRandContext32 g_021AA848_x;
+extern void OS_GetMacAddress(u8 *macAddress);
+extern u64 OS_GetTick(void);
+
+static inline u32 MATH_Rand32(MATHRandContext32 *rand, u32 max)
+{
+    u64 x = rand->x;
+    x = rand->mul * x + rand->add;
+    rand->x = x;
+    if (max == 0)
+        return (u32)(x >> 32);
+    return (u32)(((x >> 32) * max) >> 32);
+}
+
+u32 func_021685CC(u32 max)
+{
+    u64 seed;
+
+    if (g_021AA848.x == 0 && g_021AA848.mul == 0 && g_021AA848.add == 0) {
+        OS_GetMacAddress((u8 *)&seed);
+        seed = ((seed >> 24) & 0xFFFFFF) | (OS_GetTick() << 24);
+        g_021AA848_x.x = seed;
+        g_021AA848.mul = 0x5D588B656C078965ULL;
+        g_021AA848.add = 0x0000000000269EC3ULL;
+    }
+    return MATH_Rand32(&g_021AA848, max);
+}
+
+Verified with:
+  python tools/match.py one --src <file> --func func_021685CC \
+      --addr 0x021685CC --region ov009 --arm --cc 1.1p1 --lang c99 --diff
+  276/276 bytes, 18 concrete bytes differ (the window above).

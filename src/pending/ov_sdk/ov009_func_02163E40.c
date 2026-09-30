@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   MATCH
+ * u1: four more declaration permutations (m last / m first / m_i first / m folded into the char declarator) all stay at 21 B (two rise to 32 B). The four-register mirror is not declaration-driven.
  *
  * w9_nm: 21 B, register assignment only. Residue (lane S7, re-measured): the whole
  * output is one mirrored pair swap -- image keeps the table pointer `m` in r4 and

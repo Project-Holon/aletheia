@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * u1: re-measured, unchanged (180 B, 46 concrete B).
  *
  * near miss (w2_s1): 46 bytes differ, schedule and register naming only: original loads the two pool bases (netvars, then OSi_ThreadInfo) before the first strh and keeps soc/icmp in r6/r5; 30+ statement orders and the chained-assignment forms tried.
  *

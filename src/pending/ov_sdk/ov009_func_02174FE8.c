@@ -11,14 +11,26 @@
  *
  * sdk:      DWCi_NNCompletedCallback (libdwcmatch.TWL.HYB.a dwc_match.o)
  *
- * blocker:  register allocation only, compiled 1000 vs image 1008.  Body rewritten
- *           from the vendor listing (structured, no gotos): the non-QR2 and QR2 tails,
- *           status test order 2/1/3, CancelPreConnectedClientProcess takes the profile
- *           id, port swap through an int local.  Left: the image keeps result in r6 and
- *           the shared zero in r7 (and status in r5), this build has them swapped, which
- *           cascades through every zero store; the image also picks the status value
- *           with a branch where this build emits conditional moves, and computes -1 for
- *           the gt2Connect length as (0x18 register) - 0x19.
+ * blocker:  register rename only, size exact at 1008 bytes (65 concrete bytes differ,
+ *           49 sites).  The size gap that used to sit here was a body-shape bug, not
+ *           allocation: `status = (f_61c == 0xe) ? 0xf : 6; DWCi_SetMatchStatus(status);`
+ *           if-converts to moveq/movne and comes out 8 bytes short.  Writing the call
+ *           into both arms (`if (..) DWCi_SetMatchStatus(0xf); else DWCi_SetMatchStatus(6);`)
+ *           gives the image's single tail-merged bl with the bne/mov/b/mov join --
+ *           see docs/idioms/a-constant-argument-selected-into-a-local-if-converts-where-a-call-in-each-arm-does-not.md.
+ *           DWARF of dwc_match.o (4.0.0.1025) gives the real signature -- three named
+ *           params (enum result r6, SOCSockAddrIn *remoteaddr r5, void *userdata r4) with
+ *           an unnamed second argument, locals pNodeInfo/nnInfo (r0), gt2Result (r4),
+ *           nnResult (r5), nnError (r0), pidStr[24] at [fb+16].
+ *           Left: the image keeps `result` in r6 and the shared constant zero in r7;
+ *           this build has those two swapped (zero r6, result r7), which cascades into
+ *           49 sites (the pidStr address also lands in r5 instead of r6 at +00CC, and
+ *           -1 for the gt2Connect length is `r4 - 0x19` instead of `r5 - 0x19`).
+ *           Measured and inert: every declaration order, pidStr first/last, a named zero
+ *           local (int / unsigned / enum-typed, first or last), `result = result;`,
+ *           `res = result;` forwarding, a nameless second parameter.  This is the
+ *           4.0.0.1025 "one register higher / one local takes the free slot" allocator
+ *           signature of docs/notes/lane_U4_ov009_sdk_rows45_59.md -- park as that class.
  *
  * symbols:
  *   DWCi_GetMatchCnt                 0x02175f3c arm
@@ -144,10 +156,9 @@ void DWCi_NNCompletedCallback(int result, int unused, struct SOCSockAddrIn *remo
         MC->f_5fc = 0;
         MC->f_600 = 0;
         if (MC->f_61c == 0xe)
-            status = 0xf;
+            DWCi_SetMatchStatus(0xf);
         else
-            status = 6;
-        DWCi_SetMatchStatus(status);
+            DWCi_SetMatchStatus(6);
         MC->f_c = 0;
         DWCi_MakeGT2ConnectString(pidStr, 0x18);
         {

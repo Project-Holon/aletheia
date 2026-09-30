@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * u1: family check done - ../2.0/base + ../2.0/sp1p2 192 B / 113 B, ../1.2/sp3 208 B. Hoist order plus branch layout.
  *
  * sdk:      DWCi_GetFriendBuddyStatus (libdwcmatch.TWL.HYB.a(dwc_friend.o))
  *

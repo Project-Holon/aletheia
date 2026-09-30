@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF (one instruction: mvn r1,#0x80000000 vs compiled sub r1,r0,#0x80000002)
+ * u1: family check done - ../2.0/base + ../2.0/sp1p2 56 B / 23 B; ../1.2/sp3 DOES emit `mvn r1,#0x80000000` but in its own stmdb/ldm codegen family (68 B), so it is not the build. Parked: the constant-from-register peephole.
  *
  * w9_nm: not retried (w8 covered every build and -opt switch).
  *

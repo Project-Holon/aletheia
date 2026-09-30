@@ -3,7 +3,7 @@
  * address:  0x021B97A8
  * packet:   pkt_ov016_021B97A8
  * region:   ov016
- * compiler: 1.1p1
+ * compiler: ../2.0/sp1p2
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
@@ -28,7 +28,28 @@
  * is exactly the 4-byte size gap. Tried: four local declaration orders,
  * `& -32`/`& -0x20`/`& 0xFFFFFFE0`/`& 0xffffffe0u`/`& (int)0xffffffe0u`, an
  * `int mask = -32;` local used by both masks, `int t` declared mid-block,
- * `unsigned int t` - all byte-identical at 160 B.
+ * unsigned int t` - all byte-identical at 160 B.
+ *
+ * lane U10 (2026-09-30), pin ../2.0/sp1p2 recorded in the compiler field.
+ * Re-measured 160 B / 117 diffs (image 164).  10 local declaration orders
+ * (loop_flag/retv/ev/t in every position, `long t`, t declared mid-block, t in
+ * a nested block) are all 160/117; R7 order 160/119.  The two residues are
+ * independent and both in the first block:
+ *  (a) PROLOGUE, +0002: image `adds r6, r0, #0` keeps maxap in r6 and the
+ *      maxap*0xd0 temp in r7; ours swaps them (`adds r7, r0, #0`, t in r6).
+ *      Dropping the `t` local fixes the prologue exactly (maxap r6) and leaves
+ *      168 B / 140: the front end then folds maxap*0xd0 + maxap*0xc0 into
+ *      0x190*maxap (`movs r0,#0x19 / lsls r0,r0,#4 / muls`), which the image
+ *      does not do (it keeps `movs r0,#0xd0 / adds r7,r6,#0 / muls r7,r0,r7`).
+ *      So `t` must stay a declared local for the multiply, and a declared
+ *      local takes r6 before the parameter does.  Reordering the multiply's
+ *      operands and passing `t` in the first expression do not move it.
+ *  (b) MASKS, +0030: image materialises -0x20 out of the live 0x1f
+ *      (`movs r1,#0x1f / adds r2,r0,r1 / adds r0,r1,#0 / subs r0,#0x3f /
+ *      adds r3,r2,#0 / ands r3,r0`) and reuses r1 for the second mask; ours
+ *      recognises `& -32` and folds each to `movs r3,#0x1f / bics`, two
+ *      instructions fewer, which is the 4-byte size gap.  `& -32`, `& ~0x1f`,
+ *      `& 0xFFFFFFE0`, `& 0xffffffe0u`, an int mask local: identical.
  * symbols:
  *   func_021B970C  0x021B970C  thumb  ov016
  *   func_021B95EC  0x021B95EC  thumb  ov016

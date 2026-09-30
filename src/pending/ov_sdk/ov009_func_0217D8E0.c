@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * u1: family check done - ../2.0/base and ../2.0/sp1p2 give the identical 32 B / 17 B; ../1.2/sp3 44 B. Residue stands: the vendor's 4-move lr/ip argument shuffle before the len load.
  *
  * near miss (w2_s1): 17 bytes differ (36 vs 32); four argument-evaluation forms with local temporaries tried, all compile to the same 8-instruction body without the lr/ip shuffle.
  *

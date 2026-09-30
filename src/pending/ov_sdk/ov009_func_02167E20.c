@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * u1: re-measured, unchanged at 100 B vs 104 B; the one-statement then-arm is still if-converted and the [r4,#0x2c] load still hoists above the compare.
  *
  * w9_nm: unchanged at 100 B vs 104 B: the constant spelled ~4, if/else, an extra add-zero statement in the arm, and a volatile result local (108 B) all keep the arm if-converted.
  *

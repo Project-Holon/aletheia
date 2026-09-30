@@ -7,25 +7,30 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF (65 bytes; size now exact at 880)
- * notes:    the 0x35 arm is a switch on s[1] with case 2 / case 5, not
- *           if/else-if: the if/else-if spelling (which it had) makes the
- *           compiler predicate the ==2 arm inline and branch over it, costing
- *           the image's out-of-line arm and one instruction -- 240 bytes and
- *           -4 on the extent.  With the switch the extent is 880 and the
- *           residue is 65 bytes, all of it the tie between the option pointer
- *           (s += 0xf0) and the `dhcp_mode & 2` mask: image keeps the pointer
- *           in r3 and the mask in ip, this compile swaps them, and the swap
- *           drags the scheduling with it -- image `addeq r3, r5, #0xf0` (the
- *           address add predicated into the && chain, before the last
- *           `cmpeq r0, #0x63`) where this compile emits an unconditional
- *           `add ip, r5, #0xf0` after the `bne`.  `mode` must stay a named
- *           local (writing `g_021A826C.dhcp_mode & 2` inline in case 6 drops
- *           the whole allocation: 868 bytes, 678 out).  Tried and inert:
- *           mode at function scope, mode as a declaration initialiser, mode
- *           before vs after `s += 0xf0`, `s = s + 0xf0`, a named `opt`
- *           pointer local (888 bytes), swapping the case order, else-if
- *           nesting, store-before-result, `int` for `u32` mode.
+ * status:   DIFF (41 bytes; size exact at 880)
+ * notes:    the option-pointer bump is predicated into the `&&` chain by the
+ *           vendor front end.  Reachable from C: put the bump INSIDE the
+ *           condition as a comma expression,
+ *
+ *               if (s[0xec] == 0x63 && s[0xed] == 0x82 && s[0xee] == 0x53 &&
+ *                   (s += 0xf0, s[-1] == 0x63)) { mode = ...; ... }
+ *
+ *           which took the residue from 65 to 41 bytes (was: unconditional
+ *           `add ip, r5, #0xf0` after the `bne`).  `s[-1] == 0x63` after the
+ *           bump is the same byte as the old `s[0xef] == 0x63`, so the
+ *           semantics are unchanged.
+ *           Residue (34 sites, 41 bytes): the option pointer and the `mode`
+ *           mask are one register apart, mirrored.  Image `addeq r3, r5, #0xf0`
+ *           (pointer r3) + `and ip, r0, #2` (mask ip) + `ldrbeq r0, [r5, #0xef]`
+ *           (load off the OLD base, before the add); ours `addeq ip, r5, #0xf0`
+ *           + `ldrbeq r0, [ip, #-1]` (folded onto the NEW base) + `and r3, r0,
+ *           #2`.  Every use of the pointer (and every field load off it) follows
+ *           the swap.  Inert on the 41-byte residue: `mode` at function scope,
+ *           in the inner block, as a declaration initialiser, `int` vs `u32`,
+ *           `s = s + 0xf0` inside the comma, `(s += 0xf0, 1)` as a trailing
+ *           term, `(s += 0xf0) != 0 && s[-1] == 0x63`, `(s[-1] == 0x63, s +=
+ *           0xf0)` (drops the predication, 491), a named `u8 *opt = s` mirror
+ *           (65), and `(s += 0xf0)` alone (884).
  *
  * sdk:      dhcp_analyze_response (libcps.TWL.HYB.a network.o)
  * symbols:
@@ -102,9 +107,8 @@ int func_0215BF88(u32 id, int retry)
             myip_tmp = G32(s + 0x10);
             end = s + len;
             result = 3;
-            if (s[0xec] == 0x63 && s[0xed] == 0x82 && s[0xee] == 0x53 && s[0xef] == 0x63) {
-                u32 mode;
-                s += 0xf0;
+            u32 mode;
+            if (s[0xec] == 0x63 && s[0xed] == 0x82 && s[0xee] == 0x53 && (s += 0xf0, s[-1] == 0x63)) {
                 mode = g_021A826C.dhcp_mode & 2;
                 while (s < end && (c = *s++) != 0xff) {
                     if (c == 0)

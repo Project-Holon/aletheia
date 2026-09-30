@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * u1: family check done - ../2.0/base + ../2.0/sp1p2 byte-identical (112 B), ../1.2/sp3 115 B. Swap-temporary allocation.
  *
  * near miss (w3_s4): 112 bytes differ, register allocation of the swap temporaries. Original holds cookie in r5 with temps r4/r8/r3/r6 and loads the six constants into r7/r6/r5/r4/lr/fp after the swap has started; mine keeps cookie in r4. Interleaved stores, pointer-increment stores, array initializer (becomes a ldr/str copy loop) tried.
  *

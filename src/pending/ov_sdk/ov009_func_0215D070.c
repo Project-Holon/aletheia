@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * u1: eight more flag spellings (if/if, `&&` into flag=1, ternary, `(int)(ac&1)`, `!!`, an `ac` temp, `if (flag)`) - the `moveq r5,r1` / `mov r1,r5` select survives all of them; the `flag = 1` and `&&` forms collapse the block to 164 B. Residue is the image's predicated `movne r1, r5` (reusing the 1 already in r5).
  *
  * blocker:  codegen, 4 bytes long (184 vs 180).  Every instruction matches
  *           except the `flag` boolean at +0058: the original emits the

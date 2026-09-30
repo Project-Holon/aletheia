@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * u1: all six declaration orders compiled - aTextOutStream always takes r7 whenever it is declared before aChar (aChar first gives 11 B). ../2.0/sp1p2 reproduces our 9 B exactly, ../2.0/base 105 B. The vendor allocator hands the long-lived pointer the LOWER of the pair.
  *
  * sdk:      HexEncode16 (gsdebug.o)
  *

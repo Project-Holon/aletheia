@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   MATCH
+ * u1: `(m & (a^d))`, `((d^a) & m)` and an empty-then/else spelling are all canonicalised - still 99 B. The cross-condition CSE of (addr^dns)&netmask into the live r5 (which also costs the extra push) is not steerable.
  *
  * w9_nm: not closed: the object branches on isA (bne to the isB block), no result temp and no cmp r5; isA as if/return chains (three forms) is 99 to 101 B, worse than the draft.
  *
