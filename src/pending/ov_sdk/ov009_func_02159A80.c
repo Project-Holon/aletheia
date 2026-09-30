@@ -38,6 +38,20 @@
  * and the branch bodies use different address forms in the object (branch 2
  * reloads start through soc+0x70 + fp), which points at an undeclared
  * pointer or macro for the loop-top reads.
+ *
+ * U63 (measured): 820/1282 concrete bytes, size exact 1384.  The divergence
+ * opens at +0A8, where the image SPILLS `enabled` to [fb+0] (`str r0, [sp]`)
+ * and keeps `soc + ci*12` in sl across the inner loop (back edge 0x118); this
+ * build keeps `enabled` in fp, `ci*12` in sb and rematerialises soc+ci*12
+ * into r0 (back edge 0x10C).  Everything downstream is that one allocation
+ * choice.  U63 tried, all inert: every declaration position/order sampled for
+ * the ten locals (75 orders, 820-860), `dup` reused as the window end (818),
+ * a fresh `wend` local (818), a per-iteration `CPSSocRcvBuf *chunk` (917,
+ * size 1360), `chunks = soc->chunks` + chunks[ci] (1200/1416), do/while inner
+ * loop (820), and `enabled` typed u8/u16/volatile/unsigned long
+ * (821/1384, 300/1388 shifted, 806/1356, 820/1384).  Only the parked body
+ * keeps the size at 1384, so the residue is the allocator's spill choice,
+ * not the source's shape.
  */
 
 typedef unsigned char u8;

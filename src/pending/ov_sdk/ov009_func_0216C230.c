@@ -53,6 +53,17 @@
  *   DWCi_IsServerChangeEnabled                0x02175FC8  arm   ov009
  *   g_021AA878                                0x021AA878  data
  *   g_021AA8A0                                0x021AA8A0  data
+
+ * lane U62 (2026-09-30): 1368/1368, 326 concrete (100 sites), unchanged. Two independent
+ *           residues: (a) the long-lived pair - `i` (DWARF `i r6`; here r5) and the module
+ *           pointer &g_021AA878 (image r5, here r6) - is exchanged from +0150, which also
+ *           makes the image store `streq r6` (i, == 0) into g_021AA8A0[conninfo->index] where
+ *           this build rematerialises `moveq r2, #0`; (b) the image re-reads the byte f365 in
+ *           the second arm of `== 3 || == 2` (`ldrbne r0, [r1, #0x365]`) where this build
+ *           reuses the first load (`cmpne r0, #2`). Measured this lane: forcing the re-read
+ *           with `*(volatile u8 *)&...f365` in either or both operands is much worse
+ *           (1372 bytes / 781 concrete), so the vendor's re-read is not a volatile cast.
+ *           Parked.
  */
 
 typedef unsigned char u8;

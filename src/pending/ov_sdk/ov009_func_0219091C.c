@@ -76,6 +76,10 @@
  * The parked 232-byte fragment this file used to hold was a FABRICATED stub
  * (its struct names and code shape were invented); it has been discarded.
  *
+ * U63 (measured): compiles to 2728 bytes of the 9460-byte extent today (631
+ * of 2365 instruction slots differ, 119 of 158 relocation sites resolved);
+ * STAGE 2b and STAGE 3 above are still absent, so the row stays parked.
+ *
  * symbols:
  *   func_0218998C  gpiSendFromBuffer        0x0218998C  arm  ov009
  *   func_02193488  gpiCheckSocketConnect    0x02193488  arm  ov009

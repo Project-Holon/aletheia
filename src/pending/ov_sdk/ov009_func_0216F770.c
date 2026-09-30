@@ -43,6 +43,29 @@
  *   d_021A20AC     0x021A20AC  data
  *   d_021A20D4     0x021A20D4  data
  *   d_021A20E0     0x021A20E0  data
+
+ * lane U62 (2026-09-30) - body-level corrections measured, not closed. The current file's
+ *           868 bytes come from the permuter scaffolding (`volatile` param + `if (1)` + pad
+ *           locals); that scaffolding adds the `push {r0, r1, r2, r3}` home area the image does
+ *           not have (16 bytes), so 868 here is not the vendor's 868.
+ *           Drops measured: volatile off -> 852 bytes / 655 concrete; also dropping `if (1)`,
+ *           pad/pad1, and the `6 + 3` pair changes nothing (852/655). Size must grow 16 bytes
+ *           with REAL code, not with a home area.
+ *           From the vendor object's own listing (tools/sdkobj.py 0x0216F770): three concrete
+ *           body differences against this source's clean form, all real:
+ *             (1) `mov r9, #1` at +0060 is `sbBlock`'s async argument. The `mov r9, #8` at
+ *                 +0008 belongs to `basicFields[0] = 8` only - r9 is then reused, which it
+ *                 could not be if sbBlock were still 8. So the source's sbBlock is 1, not 8.
+ *                 (Setting `sbBlock = 1` measured 872 bytes / 605 concrete with the scaffolding
+ *                 still in place - 4 bytes over, and still the permuter allocation.)
+ *             (2) +002C `mov r10, #6` then +0058 `add r7, r10, #3`: the vendor's `n = 6` is a
+ *                 real local, live enough that `n + 3` is not folded (ours emits `mov rX, #9`).
+ *             (3) +030C/+0310 `mov r4, r0` / `mov r5, r1`: both halves of OS_GetTick() are kept
+ *                 in callee-saved registers across the DWCi_GetMatchCnt() call, i.e. a real
+ *                 `unsigned long long tick` local, which this source's single-expression store
+ *                 does not reproduce.
+ *           The clean body is 16 bytes short of the image; these three account for 3 of the 4
+ *           instructions. Next lane: build the clean body with (1)+(2)+(3) and find the fourth.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

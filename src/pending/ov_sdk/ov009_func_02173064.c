@@ -9,14 +9,6 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker: register allocation, compiled 624 vs 660.  The control flow,
- *          switch arms, packing and allocation/free calls all reproduce the
- *          original, but mwccarm 1.1p1 keeps `sendSize` in r6 and `pSendBuf`
- *          in r5 with only 8 saved registers, while the vendor object keeps
- *          `sendSize` in fp (r11), `pSendBuf` in r6 and `i` in r5.  The extra
- *          live callee-saved value (and the r3 alignment push) never appears
- *          under 1.1p1 regardless of declaration order tried.
- *
  * sdk:      DWCi_SendMatchSynPacket (libdwcmatch.TWL.HYB.a dwc_match.o)
  *
  * symbols:
@@ -78,7 +70,6 @@ void DWCi_SendMatchSynPacket(u8 aid, u16 type)
     int clientCount;
     u32 * pSendBuf;
     int sendSize;
-    unsigned long long tick;
     u8 buf[8];
     u8 i;
 
@@ -89,7 +80,7 @@ void DWCi_SendMatchSynPacket(u8 aid, u16 type)
     case 2:
         if (DWCi_TempNewNodeInfo_IsValid() != 0 &&
             aid == DWCi_GetMatchCnt()->myNode.f16) {
-            buf[0] = 1;
+            pSendBuf[0] = 1;
             break;
         }
         sendSize = 0x1c;
@@ -97,14 +88,13 @@ void DWCi_SendMatchSynPacket(u8 aid, u16 type)
         if (pSendBuf == 0)
             return;
         pSendBuf[0] = 0;
-        pSendBuf[1] = (DWCi_GetMatchCnt()->myNode.f17 << 16) |
-                      DWCi_GetMatchCnt()->myNode.f16;
-        pSendBuf[2] = DWCi_GetMatchCnt()->myNode.f0;
-        pSendBuf[3] = DWCi_GetMatchCnt()->myNode.f4;
-        pSendBuf[4] = DWCi_GetMatchCnt()->myNode.f8;
-        pSendBuf[5] = (DWCi_GetMatchCnt()->myNode.f_c << 16) |
-                      DWCi_GetMatchCnt()->myNode.f_e;
-        pSendBuf[6] = DWCi_GetMatchCnt()->myNode.f_24;
+        pNodeInfo = &DWCi_GetMatchCnt()->myNode;
+        pSendBuf[1] = (pNodeInfo->f17 << 16) | pNodeInfo->f16;
+        pSendBuf[2] = pNodeInfo->f0;
+        pSendBuf[3] = pNodeInfo->f4;
+        pSendBuf[4] = pNodeInfo->f8;
+        pSendBuf[5] = (pNodeInfo->f_c << 16) | pNodeInfo->f_e;
+        pSendBuf[6] = pNodeInfo->f_24;
         break;
     case 3:
         buf[0] = DWCi_GetMatchCnt()->f_630;
@@ -123,8 +113,8 @@ void DWCi_SendMatchSynPacket(u8 aid, u16 type)
             buf[1] = 0;
             buf[2] = 0;
             buf[3] = 0;
-            sendSize = 8;
             pSendBuf[1] = DWCi_GetMatchCnt()->f_7c8;
+            sendSize = 8;
             break;
         }
         sendSize = clientCount * 0x18 + 8;
@@ -157,6 +147,5 @@ void DWCi_SendMatchSynPacket(u8 aid, u16 type)
     DWCi_SendReliable(type, aid, pSendBuf, sendSize);
     if (pSendBuf != (u32 *)buf)
         DWC_Free(4, pSendBuf, 0);
-    tick = OS_GetTick();
-    DWCi_GetMatchCnt()->f_658 = tick;
+    DWCi_GetMatchCnt()->f_658 = OS_GetTick();
 }

@@ -47,6 +47,15 @@
  *   make_dn        0x021601CC  arm  ov009
  *   parse_time     0x02160238  arm  ov009
  *   object         0x021A1D48  data
+
+ * lane U62 (2026-09-30): 1196/1196, 628 concrete (228 sites), unchanged. First divergence
+ *           +000C `ldr r4, [fp]` | ours `ldr r1, [fp]`; the whole parameter map is rotated
+ *           (image *ps into r4 and level/seq/mode into r7/r6/r8 where this draft has the
+ *           parameters one slot apart), so every arm's scratch registers and all branch
+ *           displacements follow. T14's two body fixes (case 2 arm order, case 6 `obj` local)
+ *           still stand and are what took it to 1196. No new lever applies: the divergent
+ *           regions are the switch arms' copy/spacing code, not intrinsic, zero-pool or
+ *           alias-sensitive. Parked as the 4.0.0.1024/1025-class allocation rotation.
  */
 
 struct _CPSSslConnection {

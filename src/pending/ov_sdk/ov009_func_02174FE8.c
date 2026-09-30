@@ -49,6 +49,15 @@
  *   DWCi_CancelPreConnectedClientProcess 0x02172124 arm
  *   DWCi_DoNatNegotiationAsync       0x0216fe34 arm
  *   DWCi_HandleNNError               0x02173ef8 arm
+
+ * lane U62 (2026-09-30): 1008/1008, 65 concrete (49 sites), unchanged. The residue is exactly
+ *           one exchange: `result`(r0) saved to r6, shared zero to r7 in the image; r7/r6 here.
+ *           Everything else - frame (sp+0x10 pidStr, sp+0 stack args), every immediate, the
+ *           gt2Connect argument block - agrees. Measured inert this lane (+8 variants):
+ *           64-bit clear via `*(unsigned long long *)&MC->f_600 = 0;` (65), f_600 split into two
+ *           32-bit stores (744), chained `MC->f_5fc = MC->f_600 = (MC->f_5f8 = 0);` (770/1028),
+ *           enum-typed parameter and gt2Result (65), named zero local (65). Parked as the
+ *           4.0.0.1025 allocator signature.
  */
 
 typedef unsigned char u8;

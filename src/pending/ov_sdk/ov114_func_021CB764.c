@@ -15,7 +15,14 @@
  *   func_021CADAC  0x021CADAC  arm  ov114
  *   func_021CAC8C  0x021CAC8C  arm  ov114
  *
- * notes: DIFF, 44 lines, register permutation only (code shape identical). Target: max r4, min r5, b r6, a r7, r r8, zero sb; this build gives max/min the top registers. Declaring i as long (not int) gets to 23 lines with only max/min swapped; declaration order, register keyword, dif form and a->top<b->top guard do not move it.
+ * notes: DIFF, 23 lines / 24 concrete bytes (down from 44 lines): `long i` plus hoisting
+ * `if (a->top < b->top) return 0;` ahead of the loads. Residue is a single exchange:
+ * max holds r5 and min r4 here, r4/r5 in the object, so every use of the pair differs
+ * (`ldr r5,[r6,#4] | ldr r4,[r6,#4]` at +000C). 22 further spellings inert -- declaration
+ * and assignment order (`min` first, `int min, max`), hoist/no-hoist, comma form, named
+ * temp, min-after-wexpand, `long`/`unsigned` max/min, carry types, split register decls,
+ * BN_ULONG max/min -- all land on the same exchange; the `long i` change is what buys the
+ * other 20 bytes.
  */
 
 typedef unsigned int BN_ULONG;
@@ -46,12 +53,12 @@ int func_021CB764(BIGNUM *r, const BIGNUM *a, const BIGNUM *b)
 {
     int max, min;
     register BN_ULONG t1, t2, *ap, *bp, *rp;
-    int i, carry;
+    long i, carry;
 
+    if (a->top < b->top)
+        return 0;
     max = a->top;
     min = b->top;
-    if (max < min)
-        return 0;
     if (bn_wexpand(r, max) == 0)
         return 0;
 

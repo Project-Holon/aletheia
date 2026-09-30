@@ -16,6 +16,10 @@
  *          reproduced, so the body is a genuine partial, not a match.
  *          Vendor extent 3908 bytes.
  *
+ * U63 (measured 2026-09-30): the parked body still compiles to 1028 bytes of
+ * the 3908-byte extent (241 differing instruction slots); the per-case guard
+ * conditions and argument expressions are still absent.  Parked as a partial.
+ *
  * sdk:      DWCi_MatchProcess (libdwcmatch.TWL.HYB.a dwc_match.o)
  *
  * symbols:

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF (near miss, 31 concrete bytes, prologue scheduling only)
+ * status:   DIFF (near miss, 21 concrete bytes, prologue scheduling only)
  *
  * sdk:      Mel_JPEGDecodeExif (libssp.TWL.HYB.a jpegdec.o)
  *
@@ -40,6 +40,21 @@
  * (6), the call moved before/inside the clears, `bits = 0` moved after the clears, three spellings
  * of the call arguments, a comma-joined clear statement, and two local declaration orders.
  * Declaration order is confirmed by DWARF (locals listed result, b, s, p = reverse source order).
+ *
+ * Lane U67 (2026-09-30): the three clears are a *chained assignment*
+ *   `g_021C8C1C[0x40] = g_021C8D1C[0] = g_021C8B1C[0] = 0;`
+ * That single change fixed the parameter home-copies (+0x14..+0x1C now `mov r8,r0` / `mov r6,r2` /
+ * `mov r7,r1` exactly as the image) and keeps the correct literal pool and store order; 31 -> 21
+ * concrete bytes.  Measured over all 6 chain permutations (21/22/23/23/24 diffs; only the
+ * `C1C = D1C = B1C` order gives the image's pool D,C,B *and* store order D,C,B — and only the chained
+ * form reproduces the image's home-copy order at all; the same order written as three statements
+ * gives the right pool/stores but the copies come out option,length,a for 31).
+ * Remaining 21 bytes, all inside the clear block at +0x20..+0x44: the image materialises each
+ * pointer immediately before its own `strh` (ldr r3/sth, ldr r0/sth, ldr r2/sth, then the call's
+ * `mov r0,r5` / `mov r2,#0x1000`), ours issues the three `ldr`s first and sinks the second and third
+ * `strh` past the call-argument setup.  Register rotation is a consequence: image r3,r0,r2 | ours
+ * r0,r2,r3.  `bits = 0` before vs after the chain, parenthesised/cast forms of the chain and the
+ * esc/bits store order do not move it.
  */
 
 typedef struct {
@@ -67,9 +82,7 @@ int func_021BE468(unsigned char *a, unsigned long length, int option)
 
     g_021C88F0.esc = 0;
     g_021C88F0.bits = 0;
-    g_021C8C1C[0x40] = 0;
-    g_021C8B1C[0] = 0;
-    g_021C8D1C[0] = 0;
+    g_021C8C1C[0x40] = g_021C8D1C[0] = g_021C8B1C[0] = 0;
     func_02082AC0(0, g_021C959C, 0x1000);
     g_021C88F0.length = length;
     if (length <= 2) return 0;

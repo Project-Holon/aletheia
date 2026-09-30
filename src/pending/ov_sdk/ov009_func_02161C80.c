@@ -36,6 +36,13 @@
  *   rcv_finished             0x02161678  arm  ov009
  *   update_digest            0x02161C54  arm  ov009
  *   CPSiFree                 0x021A82B0  data
+
+ * lane U62 (2026-09-30): re-measured 792/792 bytes, 260 concrete (87 sites), unchanged.
+ *           Divergence is still codegen-only: the handshake loop's `sub`/`+4` temp pair is
+ *           r8/r7 in the image and r7/r8 here, so the loop head reads s[2] first and the record
+ *           type with `ldrb r0,[r5,-4]` after the advance instead of `ldrb r0,[r5]` before it.
+ *           Measured inert this lane: nothing new applies (no memcpy/memset intrinsic in the
+ *           divergent region, no pooled zero, no volatile). Parked.
  */
 
 struct _CPSSslConnection {

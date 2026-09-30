@@ -25,6 +25,18 @@
  *           typedefs, and 4000 permuter compiles (best 116 bytes, by adding temporaries
  *           the vendor does not have).
  *
+ * U63 (measured): 142/1592 concrete bytes with the size exact at 1652; every
+ * differing slot is the same instruction carrying a different register.  The
+ * image is a=r5 b=r6 c=r10 d=r8 e=r9 w=r7 with r4 and fp as its two fresh
+ * temporaries; this build is c=r7, d=r4, w=r8 with sl and fp as its two -- so
+ * {c, d, w, temp} is a 4-way permutation of {r7, r4, r8, sl} and the two
+ * forms of the same instruction sequence are otherwise identical, including
+ * the 4 x 5 stage structure and the fed-in w[15]/R(0..3) tail.  U63 tried 30
+ * orderings of the six setup statements (the five state loads and
+ * long_from_char): every one of them changes the emitted size to 1656 or
+ * 1660, so the parked order is the only size-exact one and the residue is
+ * allocation, not statement order or declaration order.
+ *
  * symbols:
  *   long_from_char   0x021635E0  arm  ov009
  *   R                0x02163558  arm  ov009

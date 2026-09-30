@@ -51,6 +51,19 @@
  * g_021AE498`, a local `NatifyFlags *f`, a local for porttype, `saddrlen`
  * first and a flattening of the memcpy block all measured worse or
  * byte-identical.
+
+ * lane U62 (2026-09-30): 1128/1128, 86 concrete (39 sites). Upstream NATify.c in the GameSpy
+ *           clone (scratch/U2/gs/src/GameSpy/natneg/NATify.c) confirms this source's shape and
+ *           declaration order (length, ptype, p, saddr, saddrlen = the DWARF print order
+ *           reversed) and the object's listing is byte-identical to the image, including the
+ *           three-memcpy form (21 then 4 at data+15 then 2 at data+19) that the draft already
+ *           has. The whole 39-site cascade follows one register: the 21-byte memcpy's inline
+ *           counter is r3 in the image and r9(sb) here. Image consequence: r3 is then reused
+ *           for the data+0xf constant, the flags base gets r1, and the byte temps r2/r8/lr/ip;
+ *           here the counter took the just-died r9 (`length`), the flags base took r3 and the
+ *           constant r2, shifting cases 2/3 (+01F8..+0264) as well. No source lever found:
+ *           declaration order and the memcpy spelling are already the vendor's. Parked as the
+ *           two-simultaneously-live-temporaries class.
  */
 
 #include "../../matched/arm9_sdk/libc/string.h"

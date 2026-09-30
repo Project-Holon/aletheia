@@ -9,15 +9,25 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker: dwcutil sceneseteditaddr object is stamped Metrowerks C/C++ for ARM
- *          4.0.0.1025, which no tools/mwccarm build writes (dsi/1.1p1 ==
- *          4.0.0.1024).  Body is otherwise fully reconstructed and matches
- *          704-byte-aligned control flow; two residual codegen diffs remain:
- *          (a) the p==0 early return compiles as `bne Ldefault; pop` here but
- *          is the predicated `popeq {..,pc}; b Ldefault` in the object, and
- *          (b) the object carries a dead `pop {r3,r4,r5,r6,r7,pc}` at
- *          0x021C7418 (between the jump table and case 0x10) that 1.1p1 never
- *          emits.  Both point at the unavailable 1025 front end.
+ * blocker: two residues, measured.  The tail's `adr[MemSsea->cur * 3 + k]`
+ *           expressions are re-materialised once per store (this front end
+ *           reloads MemSsea and recomputes cur*3 because the store through the
+ *           char* may alias the global); hoisting the index into a named local
+ *           (`int k = MemSsea->cur * 3;`, used as adr[k+2]/adr[k+1]/adr[k]) and
+ *           making adr `unsigned char *` (the object loads with ldrb, this TU's
+ *           -char signed gives ldrsb) takes the body from 748/601 to 696/535.
+ *           Written as `if (p <= 0) { if (p == 0) return; } else { switch (p) {} }`
+ *           it reaches 700 bytes with the image's own `cmp r6,#0 / bgt / ...`
+ *           head.  Remaining 4 bytes and two instruction forms both come from the
+ *           4.0.0.1025 front end:
+ *           (a) the else arm: `popeq {r3,r4,r5,r6,r7,pc}; b Ldefault` in the
+ *           object, but `bne Ldefault; pop {r3,r4,r5,r6,r7,pc}` here
+ *           (the `if (p == 0) return;` at the top of the body does predicate --
+ *           `movs r6,r0; popeq` -- but then reorders `ldr r7` ahead of
+ *           `mov r4,#1` and adds a second compare), and
+ *           (b) the dead `pop {r3,r4,r5,r6,r7,pc}` at 0x021C7418 between the jump
+ *           table and case 0x10, which 1.1p1 never emits (a `default: return;`
+ *           arm does not produce it either).
  *
  * sdk:      input (libdwcutil.TWL.HYB.a(sceneseteditaddr))
  *

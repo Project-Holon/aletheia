@@ -21,9 +21,20 @@
  *   keyboard_str_20916               0x021DA0F0  data
  *   keyboard_str_20918               0x021DA0E0  data
  *
- * Blocker: DIFF, 4 bytes short: the 5-byte initialiser copies and line * 12 are scheduled
- * differently in the prologue (0x18 frame in the original, 0x1c here). Notes in
- * docs/notes/pkt_ov016_021BD8D8.c.txt (permuter seed 9803 flat).
+ * Blocker: DIFF, 4 bytes short.  The prologue's frame is 0x20 here against the
+ * image's 0x18 because the front end spills TWO extra frame words (sp+8, sp+0xc,
+ * each staging a single initialiser byte) on top of the two the image also has
+ * (sp+0 prio, sp+4 ix).  With the arrays pushed down to 0x10 the three 5-byte
+ * buffers land at 0x10/0x15/0x1a instead of 0x8/0xd/0x12.  Measured: all 36
+ * declaration-order x assignment-order permutations of the three
+ * `*(KB_N5 *)X = keyboard_str_NNNNN` copies; declaration order is inert, assignment
+ * order is not, and the best (N_BTN,N_SKEY,N_KEY) gives 644 bytes / frame 0x1c /
+ * 382 differing bytes.  A rolled `for (k=0;k<5;k++) N_X[k]=p[k];` gives the image's
+ * 0x18 frame but rolls the copies (600 bytes).  Byte-wise spellings via a
+ * `const unsigned char *p` and via `keyboard_str_NNNNN.v[i]` compile to the same
+ * 652/0x20.  The frame can only reach 0x18 by removing a spill, which this
+ * front end will not do for the unrolled three-copy sequence.
+ * Notes in docs/notes/pkt_ov016_021BD8D8.c.txt (permuter seed 9803 flat).
  *
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(keyboard.o), symbol disp (name and prototype from the
  * vendor object DWARF). The object is stamped Metrowerks C/C++ for ARM 4.0.0.1025, which
