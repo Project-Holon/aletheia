@@ -1,0 +1,36 @@
+/*
+ * function: func_021B7C20
+ * address: 0x021B7C20
+ * packet: pkt_ov102_021B7C20
+ * region: ov102
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ * func_02082BCC 0x02082BCC arm
+ * func_0201DD60 0x0201DD60 thumb
+ * func_0201D7EC 0x0201D7EC thumb
+ * func_0201C440 0x0201C440 thumb
+ * func_02045B38 0x02045B38 arm
+ * func_0201EC64 0x0201EC64 thumb
+ * func_02049B40 0x02049B40 arm
+ */
+typedef unsigned short u16;
+extern void func_02082BCC(void *,int,unsigned);
+extern void func_0201DD60(void);
+extern unsigned func_0201D7EC(int,int,int,int,unsigned);
+extern unsigned func_0201C440(unsigned);
+extern unsigned func_02045B38(unsigned,unsigned,unsigned,unsigned);
+extern unsigned func_0201EC64(unsigned);
+extern void func_02049B40(unsigned,unsigned,unsigned,unsigned,unsigned,u16);
+void func_021B7C20(unsigned *p,u16 heap) {
+ func_02082BCC(p,0,0x10);
+ func_0201DD60();
+ p[0]=func_0201D7EC(0x17,0,0,0,heap);
+ p[2]=func_0201C440(heap);
+ p[1]=func_02045B38(0,2,0x31,heap);
+ p[3]=func_0201EC64(heap);
+ func_02049B40(0x17,5,4,0,0x20,heap);
+ func_02049B40(0x17,5,0,0,0x20,heap);
+}

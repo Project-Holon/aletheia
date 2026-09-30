@@ -1,0 +1,107 @@
+/*
+ * function: func_021B9460
+ * address: 0x021B9460
+ * packet: pkt_ov093_021B9460
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 BA178 and D4D84 shown to read 3 arguments; 2 no matched twin declares those callees, own 969C confirms common accessors and B9B54/9634 sources reread; 3 const a with u16 k worsened 468/306 to 472/324; 4 block scope shrank 472 to 468 bytes, two declaration-order variants and temporary extraction failed; 5 idioms relisted and ov093 neighbours reread, no local stack aggregate. Single --types permuter 300 output rejected for assignment after break and u8 scaled-offset truncation; safe port compiled unchanged. Next hypothesis enum second-loop counter to preserve its duplicated guard.
+ * residual: 468/468 bytes, 306 concrete bytes differ, 21/21 relocations resolved. Final copied B9B54 own-source prototype confirmed unchanged in scratchpad/production-01a0ef95/w21-B3/9460-final.log; safe mutation port log 9460-port.log.
+ * symbols:
+ *   func_021BA178 0x021BA178 thumb ov093
+ *   func_0201AA18 0x0201AA18 thumb
+ *   data_021EFCF0 0x021EFCF0 data ov093 a1
+ *   func_0201AB28 0x0201AB28 thumb
+ *   func_021D4D84 0x021D4D84 thumb ov093
+ *   func_021B9B54 0x021B9B54 thumb ov093
+ *   func_021B9634 0x021B9634 thumb ov093
+ *   func_021D59B4 0x021D59B4 thumb ov093
+ *   func_021D5848 0x021D5848 thumb ov093
+ *   func_021B86B8 0x021B86B8 thumb ov093
+ *   func_021D5444 0x021D5444 thumb ov093
+ *   func_02017E1C 0x02017E1C thumb
+ *   func_020173F0 0x020173F0 thumb
+ *   func_021B9B60 0x021B9B60 thumb ov093
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern const u8 data_021EFCF0[4];
+extern void *func_021BA178(void *, int, int);
+extern int func_0201AA18(void *);
+extern void *func_0201AB28(void *, int);
+extern void *func_021D4D84(void *, u8, int);
+struct Q1 { u32 items[6]; u8 count; };
+extern void func_021B9B54(struct Q1 *, u32);
+extern int func_021B9634(void *);
+extern int func_021D59B4(void *, int);
+extern void func_021D5848(void *, u32);
+extern void *func_021B86B8(void *);
+extern u16 func_021D5444(void *);
+extern int func_02017E1C(void *, int, int);
+extern void *func_020173F0(u16, u16, int, int, u16);
+extern void func_021B9B60(void *);
+void func_021B9460(u8 *a, u8 *b, u8 k)
+{
+    void *list;
+    u32 n;
+    u8 start;
+    int last;
+    u8 *base;
+    int offset;
+    list = func_021BA178(b, k, *(int *)(a + 0xe4));
+    base = a + 4;
+    offset = k * 0x1c;
+    n = func_0201AA18(list);
+    start = data_021EFCF0[k];
+    *(void **)(a + k * 4 + 0x74) = list;
+    {
+    u32 i;
+    u8 slot = start;
+    for (i = 0; i < n; i++) {
+        *(void **)(a + slot * 4 + 0x84) = func_021D4D84(func_0201AB28(list, i), slot, 0x12);
+        func_021B9B54((struct Q1 *)(base + offset), *(u32 *)(a + slot * 4 + 0x84));
+        slot++;
+    }
+    }
+    last = func_021B9634(list);
+    if (last > 0) {
+        int i;
+        u8 slot = start;
+        for (i = 0; i < last; i++) {
+            if (func_021D59B4(*(void **)(a + slot * 4 + 0x84), 0x11) == 0x95)
+                func_021D5848(*(void **)(a + slot * 4 + 0x84), (u32)func_0201AB28(list, last));
+            slot++;
+        }
+    }
+    if (func_021B86B8(b) == 0 && k == 1) {
+        u32 i;
+        void *m;
+        for (i = 0; i < n; i++) {
+            m = *(void **)(a + start * 4 + 0x84);
+            if (func_021D5444(m) == 0x23b && func_021D59B4(m, 0x11) == 0x95) {
+                u16 result, species;
+                u8 count, j;
+                void *other;
+                result = 0;
+                other = func_021BA178(b, 0, *(int *)(a + 0xe4));
+                count = func_0201AA18(other);
+                for (j = 0; j < count; j++) {
+                    species = (u16)func_02017E1C(func_0201AB28(other, j), 5, 0);
+                    if (species == 0xf3) { result = 0xf4; break; }
+                    if (species == 0xf4) { result = 0xf5; break; }
+                    if (species == 0xf5) { result = 0xf3; break; }
+                }
+                if (result != 0) {
+                    if (*(void **)(b + 0x2c0) == 0)
+                        *(void **)(b + 0x2c0) = func_020173F0(result, func_021D59B4(m, 0xf), 0, 0, *(u16 *)(b + 0x468));
+                    func_021D5848(m, *(u32 *)(b + 0x2c0));
+                }
+            }
+            start++;
+        }
+    }
+    func_021B9B60(base + offset);
+}
