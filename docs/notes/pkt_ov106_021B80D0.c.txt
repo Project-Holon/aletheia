@@ -1,0 +1,78 @@
+/*
+ * function: func_021B80D0
+ * address: 0x021B80D0
+ * packet: pkt_ov106_021B80D0
+ * region: ov106
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 full 87B0 body proves 12 inputs; 40618 forwards legacy fourth to complete three-input 42360 body; 2 no matched/pending ov106 twin for 80D0; 3 u32 versus int layer inputs and const descriptor each remain 564/20, byte inputs worsen; 4 fitting clamp and narrow-home idioms reread; prior iteration clamp/enum worsened and shared order cap 2 exhausted; 5 fresh directory and 8AD0/8648 reread give no further legal lever; next sweep would vary clamp type but types permuter already exhausted.
+ * residual: 564/564, 20 concrete bytes: prologue spill interleave and clamp polarity/destination. One types permuter compiled 300 including baseline; best 564/14 adds use(b), changes loop and narrows b. Retain full-word baseline: original forwards b unchanged to 450F0; mutant has no full-input-domain narrowing proof.
+ * note: 02040618's legacy fourth input is only forwarded to 02042360, whose complete three-input body never reads it. Original calls supply only three live arguments.
+ * symbols:
+ *   fill 0x02082BCC arm
+ *   func_021B8D8C 0x021B8D8C thumb ov106
+ *   func_0201D7EC 0x0201D7EC thumb
+ *   func_0201EC64 0x0201EC64 thumb
+ *   func_021B8AD0 0x021B8AD0 thumb ov106
+ *   func_020490F4 0x020490F4 arm
+ *   func_0201BC3C 0x0201BC3C thumb
+ *   func_0204ACEC 0x0204ACEC arm
+ *   func_02049238 0x02049238 arm
+ *   func_021B87B0 0x021B87B0 thumb ov106
+ *   func_020450F0 0x020450F0 arm
+ *   func_02040618 0x02040618 arm
+ *   func_021B8524 0x021B8524 thumb ov106
+ *   func_021B8648 0x021B8648 thumb ov106
+ *   func_020056A0 0x020056A0 thumb
+ *   func_021B8690 0x021B8690 thumb ov106
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+extern void fill(void *,int,u32);
+extern u32 func_021B8D8C(const u8 *);
+extern u32 func_0201D7EC(int,int,int,int,u32),func_0201EC64(u32);
+extern void func_021B8AD0(u8 *,u8 *,u16);
+extern u32 func_020490F4(u32,u32);
+extern int func_0201BC3C(void);
+extern u32 func_0204ACEC(u32,u32,u32,u32,u16);
+extern void func_02049238(u32);
+extern void func_021B87B0(u8 *,const u8 *,u32,u32,u32,u32,u32,u32,u8 *,s16,s16,u16);
+extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
+extern void func_02040618(u32,u32,int);
+extern void func_021B8524(u8 *),func_021B8648(u8 *);
+extern u32 func_020056A0(u32,u32,u32);
+extern void func_021B8690(void);
+void func_021B80D0(u8 *p,u32 a,u32 b,u32 c,u8 d,u8 *e,u32 f,u32 g,const u8 *h,u16 heap) {
+    u32 arc,i;
+    fill(p,0,0x59c);
+    *(u8 **)(p+0x54c)=e;
+    p[0x548]=a;p[0x549]=b;p[0x54a]=c;p[0x54b]=d;
+    *(const u8 **)(p+0x550)=h;
+    *(u16 *)(p+0x554)=func_021B8D8C(h);
+    *(u32 *)(p+0x570)=func_0201D7EC(23,0,0,1,heap);
+    *(u32 *)(p+0x574)=g;
+    *(u32 *)(p+0x588)=func_0201EC64(heap);
+    func_021B8AD0(p+8,e,heap);
+    arc=func_020490F4(7,heap);
+    *(u32 *)p=func_0204ACEC(arc,func_0201BC3C(),0,32,heap);
+    *(u32 *)(p+4)=func_0204ACEC(arc,func_0201BC3C(),1,32,heap);
+    func_02049238(arc);
+    for(i=0;i<func_021B8D8C(h);i++)
+        func_021B87B0(p+0x188+i*32,h+4+i*16,f,*(u32 *)p,*(u32 *)(p+4),*(u32 *)(p+0x574),*(u32 *)(p+0x570),*(u32 *)(p+0x588),p+8,i*24+82,i*24-112,heap);
+    *(u32 *)(p+0x568)=func_020450F0(b,0,0,32,32,14,1);
+    *(u32 *)(p+0x56c)=func_020450F0(d,0,0,32,32,14,1);
+    *(s16 *)(p+0x564)=-40;*(s16 *)(p+0x566)=24;
+    func_02040618(p[0x548],3,*(s16 *)(p+0x564));
+    func_02040618(p[0x549],3,*(s16 *)(p+0x564));
+    func_02040618(p[0x54a],3,*(s16 *)(p+0x566));
+    func_02040618(p[0x54b],3,*(s16 *)(p+0x566));
+    *(s16 *)(p+0x556)=0;*(s16 *)(p+0x558)=0;
+    *(s16 *)(p+0x55a)=*(u16 *)(p+0x554)*24-288;
+    *(s16 *)(p+0x55a)=*(s16 *)(p+0x55a)>0?*(s16 *)(p+0x55a):0;
+    func_021B8524(p);func_021B8648(p);
+    *(u32 *)(p+0x58c)=func_020056A0((u32)func_021B8690,(u32)p,0);
+}
