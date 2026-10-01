@@ -43,3 +43,4 @@ int func_021BCD64(int a0)
     func_020312F8(ov088_id, d_021BD574, 0);
     return 1;
 }
+Filed: EXACT, src/matched/ov/ov088_func_021BCD64.c (2026-10-01, after 0x020312F8 joined OVERLAY_ID_CONSUMERS).
