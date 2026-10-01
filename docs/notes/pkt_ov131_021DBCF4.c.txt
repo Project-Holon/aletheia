@@ -1,0 +1,95 @@
+/*
+ * function: func_021DBCF4
+ * address: 0x021DBCF4
+ * packet: pkt_ov131_021DBCF4
+ * region: ov131
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own callee arities/observed ABBC return proven; 2 BAD0 and
+ *   BCA4/BC3C record twins read; 3 const p unchanged, signed offset27,
+ *   u16 size320B/186 rejected; 4 stack-order/loop/index idioms read;
+ *   5 full idiom listing and neighboring/pending131 sources reread,
+ *   no new prototype; no stack aggregate. Two handwritten scheduling
+ *   variants exhausted. Single300types permuter safely validated:
+ *   312B/15 concrete, all9 relocations resolved, only spill slots differ.
+ * semantic: complete matched DC/E4 getters load u16 width/height, so
+ *   width/8<=8191, remainder/8 in0..7, stride<=262112. Row/column bounds
+ *   are bytes (even when reread after upload calls), counters<=255;
+ *   block counter0..3. Scalar products/sums fit int; pixel and destination
+ *   addresses use u32 wrap rather than out-of-object pointer arithmetic.
+ *   Every scalar is assigned before use, including size on each column.
+ *   Offset<=255*(255*256+262112)=83484960 and block*stride<=786336;
+ *   their sum fits int. Thus the signed offset local has no overflow.
+ *   AB84 initializes all nine buffer words; complete637B4 returns word1/2.
+ * interface: ABBC's own void body leaves r0 from its final637B4 call;
+ *   this caller saves that payload, passes it to the uploader, and adds256.
+ *   Declare its observed full-word return without editing ARM9.
+ * symbols:
+ *   func_020437D4 0x020437D4 arm
+ *   func_020437EC 0x020437EC arm
+ *   func_020862F0 0x020862F0 arm
+ *   func_020437DC 0x020437DC arm
+ *   func_020437E4 0x020437E4 arm
+ *   func_0204ABBC 0x0204ABBC arm
+ *   func_0207E780 0x0207E780 arm
+ *   func_0207E804 0x0207E804 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef unsigned long ul;
+typedef struct {void *pixels;u16 width,height,depth,kind;} Bmp;
+typedef void (*Upload)(const void *,ul,ul);
+extern void *func_020437D4(const Bmp *);
+extern u16 func_020437DC(const Bmp *);
+extern u16 func_020437E4(const Bmp *);
+extern u32 func_020437EC(const Bmp *);
+extern void func_020862F0(void *,ul);
+extern u32 func_0204ABBC(u32,u32);
+extern void func_0207E780(const void *,ul,ul);
+extern void func_0207E804(const void *,ul,ul);
+void func_021DBCF4(const u8 *p)
+{
+    void *pixels;
+    u32 dest;
+    Upload upload;
+    int height;
+    int size;
+    int last;
+    int stride;
+    int width;
+    int offset;
+    int col;
+    u8 block;
+    int row;
+    pixels=func_020437D4(*(const Bmp **)p);
+    func_020862F0(pixels,func_020437EC(*(const Bmp **)p));
+    if(*(u32 *)(p+16)==0) upload=func_0207E780;
+    else upload=func_0207E804;
+    width=func_020437DC(*(const Bmp **)p)/8;
+    height=(func_020437E4(*(const Bmp **)p)/8)%4;
+    last=(func_020437DC(*(const Bmp **)p)%64)/8*32;
+    if(last==0) last=256;
+    offset=0;
+    row=0;
+    if(row<p[35]) {
+        stride=width*32;
+        do {
+        for(col=0;col<p[34];col++) {
+            if(col==p[34]-1) size=last;
+            else size=256;
+            dest=func_0204ABBC(*(u32 *)(((u32)p+(u32)(row*p[34]+col)*4U)+20U),*(u32 *)(p+16));
+            for(block=0;block<4;block++) {
+                if(row==p[35]-1 && height!=0 && block>=height) continue;
+                upload((const void *)((u32)pixels+(offset+(u32)block*(u32)(width*32))),dest,size);
+                do {dest+=256U;} while(0);
+            }
+            offset+=(u32)size;
+        }
+        offset+=(u32)(width*32);
+        row++;
+        } while(row<p[35]);
+    }
+}

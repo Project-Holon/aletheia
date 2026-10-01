@@ -1,0 +1,173 @@
+/*
+ * function: func_021C11F0
+ * address: 0x021C11F0
+ * packet: pkt_ov093_021C11F0
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF (704 bytes; 56 concrete bytes differ; 33/33 references resolved)
+ * checks: 1 full own bodies and original outgoing slots retain ABI (parent-approved partial aggregate); 2 no complete twin, C11A4 supplies eight full arguments; 3 const d 56, long i/j 700B/592, count/flag widths previously counted; 4 spill/scope/flag/scalar-width idioms read, scheduling cap reached; 5 fresh unfiltered listing and own neighbours reread, declared-struct lever lacks stack scratch object. Permuter300 --types flat56; next hypothesis would be a signed32 enum count/flag, not a declaration permutation. Normal streak3 since best06,7 runs since first nonshrinking03; run09 is a confirmed rejected over-budget third scheduling variant; two permitted variants are consumed for all resumptions/retries. Parked/check/permuter input is best06 only.
+ *
+ * ABI: all eight arguments copied from matched func_021C11A4. Parameters c
+ * and f are unused in the original. The fifth and sixth words are pointers
+ * carried as u32 by that caller; casts preserve the full pointer payload.
+ * C0C38/C0CB4 original bodies and own matched C0CE8 fill every output entry
+ * below their returned counts. Each count is cast to u8 at 122E/12B6/12FC;
+ * signed loop counters therefore stay in 0..255 and their index scaling is
+ * safe. No bound of three or success assumption is introduced. C0D70 sums
+ * u16 entries; the subtracts at 1292/1296 are reproduced with u32 wrap.
+ * C4104's own fifth argument is S{int a;u8 b}. Its full body reads only a
+ * word and b byte; C5840 gets count1 &s (one int read), C59C4 gets count1
+ * &s.b (one byte read), C4218 receives the two fields as scalars. Original
+ * 125A sp0 holds the int,1260 ldrb/1264 sp4 holds a zero-extended byte,
+ * 1266 sp8 holds the pointer. Flatten those three slots as int,u8,pointer;
+ * no padding is read by this callee or its forwarding targets. Parent
+ * audited and approved this canonical partial-aggregate exception.
+ * C1198 r1 is loaded as a whole word at1358; its full own body only writes
+ * its low byte (strb at119E). C1828 r1 is the full14B0 result from stack28
+ * at13A4; its body stores b's low byte to Rec.e and forwards the original
+ * scalar to CD4B0. Original has no caller truncation at either call, so
+ * retain their full-word parameters per the observed-width exception.
+ * C5798's own source lists six parameters, but this original caller supplies
+ * two more stack words (byte_021F3B20 and g&1); retain all eight arguments.
+ *
+ * symbols:
+ *   func_021D5440 0x021D5440 thumb ov093
+ *   func_021D6D7C 0x021D6D7C thumb ov093
+ *   func_021D5FC0 0x021D5FC0 thumb ov093
+ *   func_021C14B0 0x021C14B0 thumb ov093
+ *   func_021C14C0 0x021C14C0 thumb ov093
+ *   func_021C14D0 0x021C14D0 thumb ov093
+ *   func_021C0D70 0x021C0D70 thumb ov093
+ *   func_021C0C38 0x021C0C38 thumb ov093
+ *   func_021C0CB4 0x021C0CB4 thumb ov093
+ *   func_021C0CE8 0x021C0CE8 thumb ov093
+ *   func_021C4104 0x021C4104 thumb ov093
+ *   func_021C1184 0x021C1184 thumb ov093
+ *   func_021C1194 0x021C1194 thumb ov093
+ *   func_021C1198 0x021C1198 thumb ov093
+ *   func_021C15E8 0x021C15E8 thumb ov093
+ *   func_021C1788 0x021C1788 thumb ov093
+ *   func_021C5798 0x021C5798 thumb ov093
+ *   func_021C5840 0x021C5840 thumb ov093
+ *   func_021C59C4 0x021C59C4 thumb ov093
+ *   func_021C1828 0x021C1828 thumb ov093
+ *   func_021C16F8 0x021C16F8 thumb ov093
+ *   func_021C1CCC 0x021C1CCC thumb ov093
+ *   func_021C1DCC 0x021C1DCC thumb ov093
+ *   func_021C1880 0x021C1880 thumb ov093
+ *   func_021C4218 0x021C4218 thumb ov093
+ *   func_021C4F64 0x021C4F64 thumb ov093
+ *   byte_021F3B20 0x021F3B20 data a1
+ *   obj_021F3B20 0x021F3B20 data a4
+ *   byte_021F3B23 0x021F3B23 data a1
+ *   half_021F3B26 0x021F3B26 data a2
+ *   word_021F3B2C 0x021F3B2C data a4
+ *   ptr_021F3B38 0x021F3B38 data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef union { u32 raw; struct { u32 bit : 1; u32 rest : 31; } bits; } Flag;
+struct Data { u8 pad[12]; int first; };
+extern struct Data obj_021F3B20;
+struct Q;
+extern u8 byte_021F3B20[], byte_021F3B23[];
+extern u16 half_021F3B26[];
+extern int word_021F3B2C[];
+extern u8 *ptr_021F3B38[];
+extern u8 func_021D5440(u8 *);
+extern int func_021D6D7C(u8 *);
+extern void func_021D5FC0(u8 *, int);
+extern u32 func_021C14B0(u8 *, u8);
+extern void func_021C14C0(void *, u8 *, u16, int);
+extern void func_021C14D0(void *, u8 *, u16, int);
+extern u32 func_021C0D70(u8 *);
+extern int func_021C0C38(u8 *, u8 *, u8 **, u16 *, int *, u8 *);
+extern int func_021C0CB4(u8 *, u8 *, u8 **);
+extern int func_021C0CE8(u8 *, const struct Q *, u32 *, u16 *, u32 *, u8 *, u8 *);
+extern u16 func_021C4104(u8 *, u32, u8 *, u16, int, u8, u16 *);
+extern int func_021C1184(u8 *);
+extern int func_021C1194(u8 *);
+extern void func_021C1198(u8 *, int);
+extern void func_021C15E8(u8 *, u8 *, u8 *, u16 *);
+extern void func_021C1788(u8 *, u32, u8 *, u32, u32 *);
+extern void func_021C5798(u8 *, u16 *, u32, int *, u8 **, u16 *, u8 *, int);
+extern void func_021C5840(u8 *, u32, int *, u8 **, int);
+extern void func_021C59C4(u8 *, u32, u8 **, u8 *, int);
+extern void func_021C1828(u8 *, u32, u8 *, u8 *, u8 *, u16);
+extern void func_021C16F8(u8 *, u8 *, int);
+extern void func_021C1CCC(u8 *, u8 *, u8 *, u8 *);
+extern void func_021C1DCC(u8 *, u8 *, u32, u8 *, u32);
+extern void func_021C1880(u8 *, u8 *, u32, u32, u32, int);
+extern void func_021C4218(u8 *, u8 *, u8 *, u8 *, u32, u32, u32, u32);
+extern int func_021C4F64(u8 *, u8 *);
+
+u32 func_021C11F0(u8 *p, u32 b, u32 c, u8 *d, u32 a, u32 e, u32 f, u32 g)
+{
+    u32 result;
+    u32 tag;
+    int first;
+    int count;
+    int i;
+    tag = func_021C14B0(p + 0x1AB8, func_021D5440((u8 *)b));
+    result = func_021C0D70(d);
+    first = (u8)func_021C0C38(p, d, ptr_021F3B38, half_021F3B26,
+                                word_021F3B2C, byte_021F3B20);
+    for (i = 0; i < first; i++) {
+        if (func_021D6D7C(ptr_021F3B38[i])) {
+            u16 value;
+            value = func_021C4104(p, b, ptr_021F3B38[i], half_021F3B26[i],
+                                  word_021F3B2C[i], byte_021F3B20[i], (u16 *)a);
+            func_021C14C0(*(void **)(p + 0x860), ptr_021F3B38[i], value, 1);
+            result -= (u32)half_021F3B26[i] - value;
+        }
+    }
+    if (func_021C1184((u8 *)e)) {
+        int all = (u8)func_021C0CB4(p, d, ptr_021F3B38);
+        for (i = 0; i < all; i++) {
+            func_021C15E8(p, (u8 *)b, ptr_021F3B38[i], (u16 *)a);
+        }
+    }
+    ((u8 *)e)[1]++;
+    {
+        int flag;
+        count = (u8)func_021C0CE8(p, (const struct Q *)d,
+                                (u32 *)ptr_021F3B38, half_021F3B26,
+                                (u32 *)word_021F3B2C, byte_021F3B20, byte_021F3B23);
+        if (count == 0) return result;
+        func_021C1788(p, a, (u8 *)b, count, (u32 *)ptr_021F3B38);
+        flag = ((const Flag *)&g)->bits.bit;
+        func_021C5798(p, (u16 *)a, count, word_021F3B2C,
+                      ptr_021F3B38, half_021F3B26, byte_021F3B20, flag);
+        if (func_021C1194((u8 *)e) == 0) {
+            func_021C5840(p, count, word_021F3B2C, ptr_021F3B38, flag);
+        } else {
+            func_021C1198((u8 *)e, obj_021F3B20.first);
+        }
+        func_021C59C4(p, count, ptr_021F3B38, byte_021F3B20, flag);
+        for (i = 0; i < count; i++) {
+            func_021C14D0(*(void **)(p + 0x860), ptr_021F3B38[i], half_021F3B26[i], 0);
+            func_021C1828(p, tag, (u8 *)b, ptr_021F3B38[i], (u8 *)a, half_021F3B26[i]);
+            func_021D5FC0(ptr_021F3B38[i], 2);
+        }
+        for (i = 0; i < count; i++) {
+            if (byte_021F3B23[i]) func_021C16F8(p, ptr_021F3B38[i], byte_021F3B23[i]);
+        }
+        {
+            int j;
+            for (j = 0; j < count; j++) {
+                func_021C1CCC(p, (u8 *)a, (u8 *)b, ptr_021F3B38[j]);
+                func_021C1DCC(p, (u8 *)a, b, ptr_021F3B38[j], half_021F3B26[j]);
+                func_021C1880(p, (u8 *)a, b, (u32)ptr_021F3B38[j], half_021F3B26[j], 0);
+                func_021C4218(p, (u8 *)b, ptr_021F3B38[j], (u8 *)a, word_021F3B2C[j],
+                              half_021F3B26[j], byte_021F3B20[j], 0);
+            }
+        }
+        for (i = 0; i < count; i++) func_021C4F64(p, ptr_021F3B38[i]);
+        func_021C4F64(p, (u8 *)b);
+    }
+    return result;
+}
