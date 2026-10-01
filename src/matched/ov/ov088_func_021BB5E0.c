@@ -1,0 +1,36 @@
+/*
+ * function: func_021BB5E0
+ * address:  0x021BB5E0
+ * packet:   pkt_ov088_021BB5E0
+ * region:   ov088
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Moves menu sprite idx (array at +0x1C) to row y, keeping its x.
+ *
+ * symbols:
+ *   func_0204B454  0x0204B454  arm
+ *   func_0204B404  0x0204B404  arm
+ */
+
+typedef signed short s16;
+typedef unsigned int u32;
+
+typedef struct {
+    s16 x;
+    s16 y;
+} Pos;
+
+extern void func_0204B454(void *obj, Pos *pos, int a);
+extern void func_0204B404(void *obj, Pos *pos, int a);
+
+void func_021BB5E0(char *p, u32 idx, s16 y)
+{
+    Pos pos;
+    func_0204B454(((void **)(p + 0x1c))[idx], &pos, 0);
+    pos.y = y;
+    func_0204B404(((void **)(p + 0x1c))[idx], &pos, 0);
+}
