@@ -1,0 +1,39 @@
+/*
+ * function: func_0217B064
+ * address: 0x0217B064
+ * packet: pkt_ov176_0217B064
+ * region: ov176
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0204E720 0x0204E720 arm
+ *   func_0204E804 0x0204E804 arm
+ *   func_02005E30 0x02005E30 thumb
+ *   func_021E8AA0 0x021E8AA0 thumb ov177
+ *   func_0217B00C 0x0217B00C thumb ov176
+ *   func_02034714 0x02034714 arm
+ *   d_0217E5E0 0x0217E5E0 data a1
+ */
+extern void func_0204E720(int,int,int,int);
+extern int func_0204E804(void);
+extern void func_02005E30(int);
+extern void func_021E8AA0(void *,void *);
+extern void func_0217B00C(void *);
+extern void func_02034714(const char *,int,const char *);
+extern const char d_0217E5E0[];
+void func_0217B064(void *a,int *state,char *p)
+{
+    int mode;
+    switch(*state){
+    case 0:
+        if(*(int *)(*(char **)(p+0x28)+8)==0){func_02005E30(6);mode=12;}else mode=3;
+        func_0204E720(mode,0,16,0);
+        *state=1;
+        break;
+    case 1: if(!func_0204E804()) *state=2; break;
+    case 2: func_021E8AA0(a,func_0217B00C); break;
+    default: func_02034714(d_0217E5E0,0,d_0217E5E0); break;
+    }
+}

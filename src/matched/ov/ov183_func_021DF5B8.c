@@ -1,0 +1,38 @@
+/*
+ * function: func_021DF5B8
+ * address: 0x021DF5B8
+ * packet: pkt_ov183_021DF5B8
+ * region: ov183
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * trailing: two zero alignment bytes at 0x021DF61E
+ * lever: padded struct array members prevent caching the element cursor across calls.
+ * symbols:
+ *   func_0204AFD8 0x0204AFD8 arm
+ *   func_0204ADA4 0x0204ADA4 arm
+ *   func_0204A8D4 0x0204A8D4 arm
+ *   func_0204B3B4 0x0204B3B4 arm
+ */
+typedef unsigned short u16;
+struct W { char pad[0x18]; u16 handles[5][6]; char gap[4]; void *objects[5][6]; };
+extern void func_0204AFD8(unsigned int);
+extern void func_0204ADA4(unsigned int);
+extern void func_0204A8D4(unsigned int);
+extern void func_0204B3B4(void *);
+void func_021DF5B8(char *p)
+{
+    int i, j;
+    func_0204AFD8(*(u16 *)(p + 0x16));
+    func_0204ADA4(*(u16 *)(p + 0x14));
+    for (i = 0; i < 5; i++) {
+        for (j = 0; j < 6; j++) {
+            if (((struct W *)p)->objects[i][j] != 0) {
+                func_0204A8D4(((struct W *)p)->handles[i][j]);
+                func_0204B3B4(((struct W *)p)->objects[i][j]);
+                ((struct W *)p)->objects[i][j] = 0;
+            }
+        }
+    }
+}

@@ -1,0 +1,134 @@
+/*
+ * function: func_022050F0
+ * address: 0x022050F0
+ * packet: pkt_ov094_022050F0
+ * region: ov094
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 02049F34 reads four args, 0201EEF4 three; matched callers
+ *   fix remaining prototypes and caller truncations; 2 reread ov094 02205340
+ *   and 02206728, their colors/width/height agree; 3 u32 selected and const
+ *   desc each compiled 592/220 (two total); 4 guarded-do/named-base and
+ *   declared-stack idioms applied; safe permuter temp port 592/220 (one);
+ *   5 fresh full idiom listing and those matched neighbors reread.
+ * residual: 592 versus 592 bytes, 220 concrete differences: q/off spill
+ *   slots swapped and choice-table/limit scheduling. A94C's ROM pool slot
+ *   is original +0248, compiled +024C; no ov hint, so not an ARM9 blocker.
+ * budget: eight iterations; first nonshrink r3, position six; best r5,
+ *   three consecutive nonimproving r6-r8; two reordering variants used.
+ *   Post-check compiles 1=0,2=0,3=2,4=1,5=0; one types permuter budget300.
+ * permuter: best 592/54 rejected: tmp=m50 moved before state[3] write,
+ *   unlike original +0192 store then +0194 load; possible alias changes
+ *   behavior. Porting both temps with original read order stays 592/220.
+ * symbols:
+ *   func_0201DE00 0x0201DE00 thumb
+ *   func_020457B0 0x020457B0 arm
+ *   func_0201EC64 0x0201EC64 thumb
+ *   func_0201DD78 0x0201DD78 thumb
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_0201EEF4 0x0201EEF4 thumb
+ *   func_0201F250 0x0201F250 thumb
+ *   func_02204C98 0x02204C98 thumb ov094
+ *   func_0201C7A4 0x0201C7A4 thumb
+ *   func_02045808 0x02045808 arm
+ *   func_0201ED04 0x0201ED04 thumb
+ *   func_02049F34 0x02049F34 arm
+ *   func_020215BC 0x020215BC thumb
+ *   func_020307B0 0x020307B0 arm
+ *   d_0220A7FC 0x0220A7FC data a4
+ *   d_0220A94C 0x0220A94C data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct { int x, y; } Point;
+typedef struct { u8 kind : 2; u8 active : 1; u8 spare : 5; } ByteFlags;
+typedef struct { u8 kind : 2; u8 active : 1; u8 spare : 5; u8 pad1[3]; short enabled; u16 pad6; int text; } Item;
+typedef struct { char pad[0x6c]; u32 low : 2; u32 selection : 8; } Flags;
+extern const Point d_0220A7FC[2][6];
+extern const int d_0220A94C[2][3][15];
+extern void func_0201DE00(u8 *, u8 *, u8 *);
+extern void *func_020457B0(u32, u16);
+extern int func_0201EC64(u16);
+extern void func_0201DD78(int, int, int);
+extern void *func_02045EC0(void *, u32);
+extern void func_0201EEF4(int, int, int);
+extern void func_0201F250(int, void *, void *);
+extern void func_02204C98(void *, int, int *, int *);
+extern void func_0201C7A4(int, short, short, void *, int);
+extern void func_02045808(void *);
+extern void func_0201ED04(int);
+extern void *func_02049F34(int, int, void **, u16);
+extern void func_020215BC(void *, void *, int, u16, u32);
+extern void func_020307B0(void *);
+static inline void SetSelection(Flags *m, u8 value)
+{
+    m->selection = value;
+}
+void func_022050F0(char *m, int *state, const char *desc)
+{
+    int count, mode;
+    int i, n, limit;
+    void *v, *w, *res;
+    int h;
+    const Point *table;
+    const int (*choices)[3][15];
+    u32 selected;
+    const char *q;
+    int off;
+    int width, height;
+    void *out;
+    u8 colors[3];
+    int tmp;
+    void *tmp1;
+    count = *(int *)(m + 0x50) == 2 ? 6 : 4;
+    mode = *(int *)(m + 0x50) == 2 ? 1 : 0;
+    func_0201DE00(&colors[2], &colors[1], &colors[0]);
+    v = func_020457B0(12, (*(u16 *)(m + 0x240) & 0x7fff) | 0x8000);
+    h = func_0201EC64((*(u16 *)(m + 0x240) & 0x7fff) | 0x8000);
+    func_0201DD78(1, 2, 0);
+    i = 0;
+    if (i < count) {
+        table = d_0220A7FC[mode];
+        do {
+        off = i * 12;
+        q = desc + off;
+        if (*(short *)(q + 4) != 0) {
+            w = func_02045EC0(*(void **)(m + 0x5c), ((ByteFlags *)desc)[off].kind + 3);
+            func_0201EEF4(h, 0, *(int *)(q + 8));
+            func_0201F250(h, v, w);
+            func_02204C98(v, *(int *)(m + 0x224), &width, &height);
+            func_0201C7A4(*(int *)(m + 0x22c), table[i].x - width / 2, table[i].y, v, *(int *)(m + 0x224));
+            func_02045808(w);
+        }
+        *(u8 *)(m + i + 0x25a) = ((ByteFlags *)desc)[off].active;
+        i++;
+        } while (i < count);
+    }
+    *(u8 *)(m + i + 0x25a) = 1;
+    func_0201DD78(colors[2], colors[1], colors[0]);
+    func_0201ED04(h);
+    func_02045808(v);
+    choices = d_0220A94C;
+    n = (*(u8 *)(desc + 0x48) - 2) / 2;
+    desc += 0x49;
+    selected = *(u8 *)desc;
+    SetSelection((Flags *)m, selected);
+    state[3] = choices[mode][n][selected];
+    tmp = *(int *)(m + 0x50);
+    limit = tmp == 2 ? 3 : 2;
+    for (i = 0; i < limit; i++) {
+        res = func_02049F34(11, 0xd3, &out, (*(u16 *)(m + 0x240) & 0x7fff) | 0x8000);
+        func_020215BC(*(void **)(m + 0x64), ((void **)out)[3], 1, (i << 4) + 0x70, 0x20);
+        func_020307B0(res);
+    }
+    limit *= 2;
+    for (; i < limit; i++) {
+        tmp1 = func_02049F34(11, 0xd4, &out, (*(u16 *)(m + 0x240) & 0x7fff) | 0x8000);
+        res = tmp1;
+        func_020215BC(*(void **)(m + 0x64), ((void **)out)[3], 1, (i << 4) + 0x70, 0x20);
+        func_020307B0(res);
+    }
+}

@@ -1,0 +1,36 @@
+/*
+ * function: func_021D9A50
+ * address: 0x021D9A50
+ * packet: pkt_ov175_021D9A50
+ * region: ov175
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02082BCC 0x02082BCC arm
+ *   func_02012EBC 0x02012EBC thumb
+ *   func_0200BAC8 0x0200BAC8 thumb
+ *   func_0200BAF4 0x0200BAF4 thumb
+ *   func_0201A948 0x0201A948 thumb
+ *   func_0201A918 0x0201A918 thumb
+ *   func_02082D44 0x02082D44 arm
+ *   func_020307B0 0x020307B0 arm
+ */
+extern void func_02082BCC(void *, int, int);
+extern void *func_02012EBC(void *);
+extern void *func_0200BAC8(void *);
+extern void *func_0200BAF4(void *, int);
+extern void *func_0201A948(void *);
+extern int func_0201A918(void *);
+extern void func_02082D44(const void *, void *, int);
+extern void func_020307B0(void *);
+void func_021D9A50(char *dest, char *ctx)
+{
+    void *records;
+    func_02082BCC(dest, 0, 212);
+    records = func_0200BAF4(func_0200BAC8(func_02012EBC(**(void ***)(*(char **)(ctx + 0x104) + 8))), 87);
+    func_02082D44(records, dest + 212, func_0201A918(func_0201A948(dest + 212)));
+    func_020307B0(records);
+    *(int *)(dest + 0x44) = 100;
+}

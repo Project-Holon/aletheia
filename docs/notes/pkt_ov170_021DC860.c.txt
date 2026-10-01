@@ -6,12 +6,17 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
- * checks: 1 allocation reads three args, result r0 used; 2 no ov169/170/171 twin; 3 enum bound worsens, u16 bound still four byte register residue; 4 small-constant and enum-zero idioms read, u8 base fixed 255 materialization; 5 final idiom list and neighbours checked, no stack-object residue. Next: prove valid box-count domain before using a bound assigned only in the 8/16 arms.
- * Best: 158 bytes, four concrete bytes differ at +40/+42/+46/+4e;
- * the box count is loaded into r6 instead of r0. All relocations resolve.
- * Original leaves r6 unset for counts other than 8/16/24; this candidate
- * initializes the bound from the count, preserving defined C.
+ * status: EXACT*
+ * domain: initialized storage count is 8/16/24: ARM9 02007464 writes 8 at
+ *   020074C0-020074C2; 020074D8/020076B4/020076D0 add 8 only while count
+ *   != 24. The D0 guard at 0200774C-0200774E dominates store 02007764.
+ *   020076A4 reads byte +0x3DD. All seven offset pools audited; 0200752C
+ *   and 020075B0 only read this field. Full contexts saved in lane scratch.
+ *   Thus non-24 count always assigns max in the 8/16 arms before any use.
+ * extent: 158 bytes code; +0x9E 00 00 alignment padding, next labelled
+ *   function 021DC900 starts at +0xA0. No follower or unit.
+ * checks: prior C1-C5 retained; C3 two compiles exhausted before wave29.
+ *   Valid wave29 result supersedes residual; see matched source and R1 report.
  * symbols:
  *   func_0203064C 0x0203064C arm
  *   func_0203159C 0x0203159C arm
@@ -47,7 +52,6 @@ int func_021DC860(void *manager, int unused, void **context)
     p[0x17] = 255;
     *(int *)(p+0x28) = 11;
     if ((u8)p[0x15] != 24) {
-        max = p[0x15];
         if ((u8)p[0x15] == 8) max = B8;
         else if ((u8)p[0x15] == 16) max = B16;
         for (i=0;i<max;i++) {

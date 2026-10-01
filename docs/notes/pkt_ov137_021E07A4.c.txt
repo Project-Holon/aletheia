@@ -8,8 +8,16 @@
  * isa: thumb
  * status: DIFF
  * residual: 164 bytes, four concrete bytes differ at +6/+8: ldr count and movs r7 swap.
- * runs: 4 iterations, check 3 two compiles (CCERR then DIFF), others read-only.
- * checks: 1 callees use 4/3/3 args and void results, no argument residue; 2 own matched B38/BC0 and pending 09C0 agree, no twin caller; 3 const p CCERR without casts then five-byte DIFF with casts, cap exhausted; 4 padded array idiom fixes 132-byte body residue, initializer variants leave entry schedule; 5 directory and same-overlay callees reread, no new twin; next hypothesis struct-typed outer parameter with count member (not compiled).
+ * runs: 6 cumulative iterations (4 prior + 2 wave29), C3 2/2 exhausted.
+ * budget: first nonshrink iteration 4; terminal nonshrinking streak 3,
+ *   so iteration exhausted. Two manual declaration/order variants remain
+ *   consumed from wave28. First types pass now spent: budget300, unchanged4.
+ * wave29: typed outer count member and outer Block member both unchanged4.
+ * checks: 1 callees rederived again from own B38/BC0 sources and 09C0 show,
+ *   4/3/3 args; 2 refreshed ov137 matched neighbours, no twin; 3 prior const p
+ *   CCERR then five-byte DIFF cap2/2 retained; 4 loop-member/const idioms read;
+ *   5 idiom directory and neighbours refreshed, no stack object. No permitted
+ *   principled next variant identified; need independent scheduling evidence.
  * symbols:
  *   func_021E09C0 0x021E09C0 thumb ov137
  *   func_021E0B38 0x021E0B38 thumb ov137

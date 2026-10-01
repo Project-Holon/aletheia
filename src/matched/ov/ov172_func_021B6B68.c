@@ -1,0 +1,57 @@
+/*
+ * function: func_021B6B68
+ * address: 0x021B6B68
+ * packet: pkt_ov172_021B6B68
+ * region: ov172
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * lever: declare step,value,index,delta; loads remain value,index,step.
+ * symbols:
+ *   d_021C4D20 0x021C4D20 data a4
+ *   d_021C4D10 0x021C4D10 data a1
+ */
+typedef unsigned char u8;
+typedef signed char s8;
+typedef signed short s16;
+extern const int d_021C4D20[];
+extern const s8 d_021C4D10[];
+s16 func_021B6B68(u8 code, const char *p)
+{
+  int step;
+  int value;
+  int index;
+  int delta;
+  value = *((s16 *) p);
+  index = *((s8 *) (p + 2));
+  step = d_021C4D20[index];
+  delta = step >> 3;
+  if (code & 4)
+    delta += step;
+  if (code & 2)
+    delta += step >> 1;
+  if (code & 1)
+    delta += step >> 2;
+  if (code & 8)
+  {
+    value -= delta;
+    if (value < (-32767))
+      value = -32767;
+  }
+  else
+  {
+    value += delta;
+    if (value > 32767)
+      value = 32767;
+  }
+  index += d_021C4D10[code];
+  if (index < 0)
+    index = 0;
+  else
+    if (index > 88)
+    index = 88;
+  *((s16 *) p) = (s16) value;
+  *((s8 *) (p + 2)) = index;
+  return (s16) value;
+}

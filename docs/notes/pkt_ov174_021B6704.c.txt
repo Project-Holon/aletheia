@@ -1,0 +1,35 @@
+/*
+ * function: func_021B6704
+ * address: 0x021B6704
+ * packet: pkt_ov174_021B6704
+ * region: ov174
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 getter u8, setter 3 args and signed halfword reads, other callees 2/1 args; 2 ov173 twins use u16[2]; 3 table nonconst and signed point unchanged; 4 record table unchanged, flat table 76 bytes worse; 5 declared point struct unchanged; next named x/y scratch temporaries (not swept).
+ * symbols:
+ *   func_021B7360 0x021B7360 thumb ov174
+ *   func_0204B404 0x0204B404 arm
+ *   func_0204B3DC 0x0204B3DC arm
+ *   func_0204B9A0 0x0204B9A0 arm
+ *   d_021B7380 0x021B7380 data a1
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+extern u8 func_021B7360(void *);
+extern void func_0204B404(void *,u16 *,int);
+extern void func_0204B3DC(void *,unsigned);
+extern void func_0204B9A0(void *);
+extern const u8 d_021B7380[][2];
+void func_021B6704(u8 *p,int index)
+{
+    u16 point[2];
+    unsigned width;
+    width=func_021B7360(*(void **)(p+28+index*4))/2;
+    point[0]=(d_021B7380[index][0]*8+80)+width;
+    point[1]=d_021B7380[index][1]*8+16;
+    func_0204B404(*(void **)(p+84),point,0);
+    func_0204B3DC(*(void **)(p+84),1);
+    func_0204B9A0(*(void **)(p+84));
+}

@@ -1,0 +1,60 @@
+/*
+ * function: func_021E8568
+ * address: 0x021E8568
+ * packet: pkt_ov177_021E8568
+ * region: ov177
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 seven entry arguments; 02045730 returns byte forwarded to 020409B4; 2 no allocator twin in ov177/176; 3 c/d narrow and heap narrow probes leave prologue or add truncation; 4 narrow-home idiom a/b probe unchanged at 10 bytes; 5 fresh idiom directory and matched ov177 neighbours no allocator twin; next probe inline setup helper, not a width sweep.
+ * residual: 10 concrete bytes at prologue +0006..+000E; all 14 relocations resolve; 192-byte output.
+ * symbols:
+ *   func_02030734 0x02030734 arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_0201C440 0x0201C440 thumb
+ *   func_020457B0 0x020457B0 arm
+ *   func_020450F0 0x020450F0 arm
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_02045334 0x02045334 arm
+ *   func_02045374 0x02045374 arm
+ *   func_02045730 0x02045730 arm
+ *   func_020409B4 0x020409B4 arm
+ *   func_0203101C 0x0203101C arm
+ *   func_0201F73C 0x0201F73C thumb
+ *   d_021E8DD4 0x021E8DD4 data a4
+ */
+extern char *func_02030734(int,int,int,void *,int);
+extern void func_02082BCC(void *,int,int);
+extern void *func_0201C440(int);
+extern void *func_020457B0(int,int);
+extern void *func_020450F0(unsigned char,int,int,int,int,unsigned char,int);
+extern unsigned func_02045770(void *);
+extern void func_02043B5C(unsigned,unsigned char);
+extern void func_02045334(void *);
+extern void func_02045374(void *);
+extern unsigned char func_02045730(void *);
+extern void func_020409B4(unsigned);
+extern void *func_0203101C(int,int,int,int);
+extern void func_0201F73C(void *,unsigned,unsigned short,unsigned char);
+extern unsigned char d_021E8DD4[];
+char *func_021E8568(unsigned short a,unsigned short b,unsigned short c,unsigned short d,unsigned unused,void *e,int heap)
+{
+ char *p;
+ void *desc;
+ p=func_02030734(heap,0x40,0,d_021E8DD4,0x5E);
+ func_02082BCC(p,0,0x40);
+ *(unsigned short *)(p+0x1C)=15;*(void **)(p+4)=e;
+ *(void **)(p+0x28)=func_0201C440(heap);
+ *(unsigned *)(p+0x2C)=3;*(unsigned short *)(p+0x1E)=heap;
+ *(void **)(p+0x18)=func_020457B0(0x300,heap);
+ *(void **)(p+0x14)=func_020450F0(a,1,0x13,0x1E,4,b,1);
+ *(void **)(p+0x20)=*(void **)(p+0x14);*(unsigned char *)(p+0x24)=0;
+ func_02043B5C(func_02045770(*(void **)(p+0x14)),*(unsigned short *)(p+0x1C));
+ desc=*(void **)(p+0x14);
+ func_02045334(desc);func_02045374(desc);func_020409B4(func_02045730(desc));
+ *(void **)(p+0xC)=func_0203101C(heap,heap,1,0x20);
+ func_0201F73C(*(void **)(p+0x14),0,d,c);
+ return p;
+}

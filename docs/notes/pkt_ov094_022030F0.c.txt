@@ -1,0 +1,139 @@
+/*
+ * function: func_022030F0
+ * address: 0x022030F0
+ * packet: pkt_ov094_022030F0
+ * region: ov094
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 724/732 bytes, 336 concrete mismatches; 26/28 relocations resolved; frame, invalid-exit branches and table pool ordering differ. Rejected mutant reads tmp at invalid label after branches that bypass its assignment.
+ * checks: 1 06140 six arguments, 21848 eight, 21D6D54 own ov093 byte-bit reader; 2 no table twin in ov093/094/095; 3 const p 724B/403 diff, enabled int 724B/336 diff; 4 shared-exit and table-field idioms read; 5 648C/6578/6908 reread, no stack object; next hypothesis duplicated invalid-store exits and table argument bindings.
+ * budgets: 5 iteration compiles; consecutive nonshrink 3 from r3 through r5; C1/C2/C3/C4/C5=0/0/2/0/0; once types permuter 300; reject uninitialized tmp mutant without adoption or rerun; no remaining C3 budget.
+ * symbols:
+ *   func_02021ED8 0x02021ED8 thumb
+ *   func_020362DC 0x020362DC arm
+ *   func_021F8168 0x021F8168 thumb ov094
+ *   func_02021848 0x02021848 thumb
+ *   func_02206B74 0x02206B74 thumb ov094
+ *   func_02204B0C 0x02204B0C thumb ov094
+ *   func_02035C08 0x02035C08 arm
+ *   func_021D6D54 0x021D6D54 thumb ov093
+ *   func_02206140 0x02206140 thumb ov094
+ *   func_0203630C 0x0203630C arm
+ *   func_02206BAC 0x02206BAC thumb ov094
+ *   func_02206908 0x02206908 thumb ov094
+ *   func_02206B90 0x02206B90 thumb ov094
+ *   func_02206B58 0x02206B58 thumb ov094
+ *   func_02206578 0x02206578 thumb ov094
+ *   d_0220A380 0x0220A380 data ov094 a1
+ *   d_0220AE98 0x0220AE98 data ov094 a4
+ *   d_0220A3A8 0x0220A3A8 data a4
+ *   d_0220A39C 0x0220A39C data ov094 a4
+ *   d_0220AEA4 0x0220AEA4 data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+typedef struct { u32 b0:1, lo:18, mode:2, hi:10, top:1; } F68;
+typedef struct { u32 b0:1, b1:1, rest:30; } F6c;
+typedef struct { char pad[0x242]; u8 history[3][8]; u8 enabled[8]; u8 cancel[8]; } Fields;
+struct R5 { u8 pad[0x1b]; u8 a:5, b:1, c:2; };
+typedef struct Main Main;
+typedef struct PalAnmObj PalAnmObj;
+typedef struct { u8 pad[3]; u8 mode[4]; u8 pad07[0x1c-7]; void *touch0; void *field20; int *ids0; void *touch1; void *field2c; int *ids1; } InputTable;
+extern u32 func_02021ED8(const char *);
+extern int func_020362DC(void);
+extern void func_021F8168(void);
+extern int func_02021848(PalAnmObj *, u16, u16, s16, u8, u8, u16, void *);
+extern void func_02206B74(char *);
+extern void func_02204B0C(Main *, int);
+extern int func_02035C08(const void *);
+extern int func_021D6D54(struct R5 *);
+extern int func_02206140(char *, char *, int, void *, int, int);
+extern u32 func_0203630C(void);
+extern void func_02206BAC(char *);
+extern int func_02206908(char *, char *, int);
+extern void func_02206B90(char *);
+extern void func_02206B58(char *);
+extern int func_02206578(char *, int, int);
+extern const InputTable d_0220A380;
+extern char d_0220AE98[], d_0220AEA4[];
+extern const int d_0220A3A8[], d_0220A39C[];
+int func_022030F0(char *p, u8 *outbyte, int *out)
+{
+    int selected;
+    int touch;
+    int flag;
+    int result;
+    int keys;
+    int enabled;
+    if (((F68 *)(p + 0x68))->b0 || func_02021ED8(*(char **)(p + 0x64)) || ((F68 *)(p + 0x68))->top) return 0;
+    if (func_020362DC() & 8) func_021F8168();
+    if (*(int *)(p + 0x70) != -1) {
+        selected = *(int *)(p + 0x70) & 0xffff7fff;
+        if (selected < 5) {
+            if (selected < 4 && *(int *)(p + 0x220) == 1) *(int *)(p + 0x70) = 7;
+            *out = *(int *)(p + 0x70);
+            *outbyte = d_0220A380.mode[((F68 *)(p + 0x68))->mode];
+            *(int *)(p + 0x70) = -1;
+            ((F6c *)(p + 0x6c))->b1 = 0;
+            func_02021848(*(PalAnmObj **)(p + 0x64), 2, 0x3e00, 0, 0, 0, 0, *(void **)p);
+            func_02021848(*(PalAnmObj **)(p + 0x64), 8, 0x700, 0, 0, 0, 0, *(void **)p);
+            return 1;
+        } else {
+            *(u32 *)(p + 0x68) &= 0xfffffe1f;
+            ((Fields *)((u8 (*)[8])p + *(int *)(p + 0x27c)))->history[0][*(int *)(p + 0x58)] = 0;
+            ((F6c *)(p + 0x6c))->b1 = 0;
+            func_02206B74((char *)p);
+            func_02204B0C((Main *)p, selected);
+            *(int *)(p + 0x70) = -1;
+            return 0;
+        }
+    }
+    if (*(int *)(p + 0x220) == 1) {
+        touch = func_02035C08(d_0220A380.touch1);
+        flag = func_021D6D54(*(struct R5 **)(p + ((F68 *)(p + 0x68))->mode * 4 + 0x2a4));
+        selected = func_02206140((char *)p, d_0220AE98, d_0220A3A8[((F68 *)(p + 0x68))->mode], 0, touch, flag);
+    } else {
+        touch = func_02035C08(d_0220A380.touch0);
+        flag = func_021D6D54(*(struct R5 **)(p + ((F68 *)(p + 0x68))->mode * 4 + 0x2a4));
+        selected = func_02206140((char *)p, d_0220AEA4, d_0220A39C[((F68 *)(p + 0x68))->mode], (void *)&d_0220A380, touch, flag);
+    }
+    if (selected != -1) {
+        keys = func_0203630C();
+        enabled = ((Fields *)(p + selected))->enabled[0];
+        if (enabled == 0 && !(keys & 0x200)) {
+            if (((Fields *)(p + selected))->cancel[0]) func_02206BAC((char *)p);
+            goto invalid;
+        }
+        if (selected > 4 && enabled == 0) goto invalid;
+        if (selected < 4 && (keys & 0x200) &&
+                 (func_021D6D54(*(struct R5 **)(p + ((F68 *)(p + 0x68))->mode * 4 + 0x2a4)) == 1 || *(int *)(p + 0x220) == 1)) goto invalid;
+        if (selected < 4 && (keys & 0x200) && ((Fields *)(p + selected))->cancel[0] == 0) goto invalid;
+    }
+    goto filtered;
+invalid:
+    selected = -1;
+filtered:
+    if (selected != -1) {
+        if (*(int *)(p + 0x220) == 1) {
+            result = func_02206908((char *)p, d_0220AE98, selected);
+            if (result == 0 && ((F6c *)(p + 0x6c))->b1 == 0) {
+                ((Fields *)((u8 (*)[8])p + *(int *)(p + 0x27c)))->history[0][*(int *)(p + 0x58)] = selected;
+                func_02206B90((char *)p);
+            } else if (result == 1 && ((F6c *)(p + 0x6c))->b1 == 0) func_02206B58((char *)p);
+            selected = func_02206578((char *)p, selected, d_0220A380.ids1[selected]);
+        } else {
+            result = func_02206908((char *)p, d_0220AEA4, selected);
+            if (result == 0 && ((F6c *)(p + 0x6c))->b1 == 0) {
+                ((Fields *)((u8 (*)[8])p + *(int *)(p + 0x27c)))->history[0][*(int *)(p + 0x58)] = selected;
+                func_02206B90((char *)p);
+            } else if (result == 1 && ((F6c *)(p + 0x6c))->b1 == 0) func_02206B58((char *)p);
+            selected = func_02206578((char *)p, selected, d_0220A380.ids0[selected]);
+        }
+    }
+    if (selected != -1) return 1;
+    return 0;
+}

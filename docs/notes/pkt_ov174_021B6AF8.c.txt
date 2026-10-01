@@ -1,0 +1,38 @@
+/*
+ * function: func_021B6AF8
+ * address: 0x021B6AF8
+ * packet: pkt_ov174_021B6AF8
+ * region: ov174
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 residue before first call, no missing live argument; 2 ov173 7378 has same 3-arg formatter, no exact twin; 3 u16 row adds truncation, integer base unchanged; 4 named row unchanged, char base CCERR; 5 typed context and re-read neighbours unchanged; no stack object; next inline helper for row lookup (not swept).
+ * symbols:
+ *   func_021B6704 0x021B6704 thumb ov174
+ *   func_021B68F8 0x021B68F8 thumb ov174
+ *   func_021B6A04 0x021B6A04 thumb ov174
+ *   func_0201ED04 0x0201ED04 thumb
+ *   func_0201F02C 0x0201F02C thumb
+ *   func_0201EC64 0x0201EC64 thumb
+ *   func_02012944 0x02012944 thumb
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+extern void func_021B6704(u8 *,int),func_021B68F8(u8 *,int),func_021B6A04(u8 *,unsigned);
+extern void func_0201ED04(void *),func_0201F02C(void *,unsigned,void *);
+extern void *func_0201EC64(unsigned),*func_02012944(void *);
+void func_021B6AF8(u8 *p)
+{
+ u8 *desc; u8 index,code; void *res;
+ desc=*(u8 **)(p+64)+*(u8 *)(p+137)*4;
+ index=desc[1];code=*(u16 *)(desc+2);
+ *(u8 *)(p+136)=index;
+ func_021B6704(p,index);
+ if(index<2) func_021B68F8(p,1);else func_021B68F8(p,0);
+ if(*(void **)(p+116)) func_0201ED04(*(void **)(p+116));
+ *(void **)(p+116)=func_0201EC64(*(u16 *)p);
+ res=func_02012944(*(void **)(*(u8 **)(p+48)+4));
+ func_0201F02C(*(void **)(p+116),0,res);
+ func_021B6A04(p,code);
+}

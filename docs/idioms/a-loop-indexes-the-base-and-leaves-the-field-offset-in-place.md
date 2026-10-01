@@ -1,13 +1,16 @@
 # In a loop, an indexed field access indexes the base and keeps the field offset out of the pointer
 
-summary: `p->slots[i]` in a loop compiles as `base + i * stride` and then a
-fixed field offset, so folding the offset into the pointer in the C text
+summary: `p->slots[i]`, or a block-local `slot = p + i * stride` followed by
+`*(T *)(slot + off)`, indexes the base before the fixed field offset in a
+loop, so folding the offset into the pointer in the C text
 (`*(T *)(p + off + i * stride)`) moves that add onto the loop-invariant base and
 loses the shape.
 
 Found in: `src/matched/ov216_func_021BC6B4.c` (0x021BC6B4),
 `src/matched/ov215_func_021F5E68.c` (0x021F5E68),
-`src/matched/ov204_func_021BF00C.c` (0x021BF00C)
+`src/matched/ov204_func_021BF00C.c` (0x021BF00C),
+`src/matched/ov/ov183_func_021DE780.c` (0x021DE780),
+`src/matched/ov/ov183_func_021DE084.c` (0x021DE084)
 
 A loop over a fixed-offset array member of a big struct emits the base plus the
 scaled index first, and leaves the member offset as a separate constant:
@@ -32,7 +35,22 @@ for (i = 0; i < 6; i++)
 struct S { char pad[0x38]; void *slots[6]; };
 for (i = 0; i < 6; i++)
     f(p->slots[i], 0);
+
+/* raw-offset form: keep the field in the load */
+for (i = 0; i < 18; i++) {
+    char *slot = p + i * 4;
+    f(*(void **)(slot + 0x1c));
+}
 ```
+
+At 021DE780 the flat access compiled 72 bytes and DIFF; the block-local
+base compiled EXACT* at 62 bytes. The constructor at 021DE084 uses the
+same slot local for its result store and following call. Combined with a
+const input pointer and recomputed spilled base, it reduced a 105-byte
+residue to 20 bytes; assigning the slot after the position stores then
+produced EXACT* at 166 bytes. Declare the local at the block top, and
+assign it where the original computes the address: an initialized
+declaration computes it too early.
 
 The same applies when the member offset is past the `ldr` immediate reach: a
 struct member forces the offset to be materialised once per iteration (a

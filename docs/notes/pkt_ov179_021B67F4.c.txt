@@ -1,0 +1,35 @@
+/*
+ * unit: yes
+ * function: func_021B67F4, func_021B680C, func_021B6830, func_021B6854, func_021B6878
+ * address: 0x021B67F4
+ * packet: pkt_ov179_021B67F4
+ * region: ov179
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 lead u8 truncations proven and follower has no calls; 2 no same/sibling twin; 3 long offset gives 5-byte diff, int cast 20; 4 integer base 20, long source/stores 5; 5 fresh idioms/neighbours, stepped offset 5 and named unsigned next 20; no sweep planned.
+ * volatile: 021B685A SDK hardware register write to 0x04000050.
+ * symbols:
+ *   func_0204047C 0x0204047C arm
+ */
+extern void func_0204047C(unsigned char,unsigned char);
+int func_021B67F4(char *p,int *q) { func_0204047C(q[1],q[2]); return 1; }
+int func_021B680C(char *p,int *q) {
+ long offset;
+ int value;
+ offset=q[1];
+ value=q[2];
+ if(offset==0) offset=0x6024; else offset=0x602C;
+ *(int *)(p+offset)=value; *(int *)(p+(offset+4))=q[3]; return 1;
+}
+int func_021B6830(char *p,int *q) {
+ *(int *)(p+0x6034)=q[1]; *(int *)(p+0x6038)=q[2];
+ *(int *)(p+0x6050)=3; *(int *)(p+0x6054)=5; return 2;
+}
+int func_021B6854(char *p) {
+ *(volatile unsigned short *)0x04000050=0;
+ *(int *)(p+0x6024)=0; *(int *)(p+0x6028)=0;
+ *(int *)(p+0x602C)=0; *(int *)(p+0x6030)=0; return 1;
+}
+int func_021B6878(void) { return 1; }

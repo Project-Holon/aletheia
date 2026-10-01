@@ -1,0 +1,27 @@
+/*
+ * function: func_021E1DA8
+ * address: 0x021E1DA8
+ * packet: pkt_ov183_021E1DA8
+ * region: ov183
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021FE784 0x021FE784 thumb ov186
+ *   func_021FE7B0 0x021FE7B0 thumb ov186
+ *   func_021FD73C 0x021FD73C thumb ov186
+ *   func_021E1E3C 0x021E1E3C thumb ov183
+ */
+extern int func_021FE784(int,int,int,int);
+extern int func_021FE7B0(int);
+extern void func_021FD73C(int,void *);
+extern void func_021E1E3C(void);
+void func_021E1DA8(int a,int *state,char *p)
+{
+    switch (*state) {
+    case 0: func_021FE784(**(int **)(p+0x18),2,3,0); *state=1; break;
+    case 1: if (func_021FE7B0(**(int **)(p+0x18))) *state=2; break;
+    case 2: func_021FD73C(a,func_021E1E3C); break;
+    }
+}

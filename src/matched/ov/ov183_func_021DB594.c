@@ -1,0 +1,51 @@
+/*
+ * function: func_021DB594
+ * address: 0x021DB594
+ * packet: pkt_ov183_021DB594
+ * region: ov183
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * lever: enum mask local materializes one before the call; int mask left nine bytes different
+ * symbols:
+ *   func_021FEE74 0x021FEE74 thumb ov186
+ *   func_021FE794 0x021FE794 thumb ov186
+ *   func_021FE7B0 0x021FE7B0 thumb ov186
+ *   func_021F9BA0 0x021F9BA0 thumb ov186
+ *   func_021FD73C 0x021FD73C thumb ov186
+ *   func_021DB690 0x021DB690 thumb ov183
+ */
+extern void func_021FEE74(int);
+extern void func_021FE794(int,int,int,int,int);
+extern int func_021FE7B0(int *);
+extern void func_021F9BA0(void *);
+extern void func_021FD73C(int *,void *);
+extern void func_021DB690(int *);
+void func_021DB594(int *task, int *state, char *p)
+{
+    switch(*state) {
+    case 0: *state=1; break;
+    case 1:
+        func_021FEE74(*(int *)(*(char **)(p+0x1c)+0x14));
+        *state=2;
+        break;
+    case 2:
+        if((*(int *)(p+0x10))++ !=0) {
+            *(int *)(p+0x10)=0;
+            func_021FE794(*(int *)(*(char **)(p+0x1c)+8),3,3,1,26);
+            *state=3;
+        }
+        break;
+    case 3:
+    {
+        enum { MASK=1 } mask=MASK;
+        if(func_021FE7B0(*(int **)(*(char **)(p+0x1c)+8))&mask) *state=4;
+        break;
+    }
+    case 4:
+        func_021F9BA0(*(void **)(*(char **)(p+0x1c)+0x10));
+        func_021FD73C(task,func_021DB690);
+        break;
+    }
+}

@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * residue: best 152/160 bytes, 144 concrete bytes differ; flag held in lr,
+ * residue: best 160/160 bytes, 114 concrete bytes differ; flag spill restored,
  *   missing two offset spill slots and whole-loop register rotation.
  * checks: 1 n/a no callees; 2 ov170/ov171 neighbours have no twin;
  *   3 u8 flag and integer base each compiled unchanged 148/160, 146 bytes out;
@@ -15,9 +15,15 @@
  *     enum offsets worsen to 176/160, 169 bytes out;
  *   5 fresh directory/neighbour reread no twin, struct-local idiom read but
  *     n/a no addressable stack object. Next targeted test: named selector
- *     offset computed from cursor offset inside loop preheader.
- * budget: 3 iterations, two consecutive nonshrinking changes at runs 2/3;
- *   C1 0, C2 0, C3 2, C4 2, C5 0 compiles. No sweeps.
+ *     offset off+2 now compiled (wave29); copy does not improve it.
+ * budget: 5 cumulative iterations (3 prior + 2 wave29); latest shrink at4,
+ *   then unchanged114 at5, so terminal streak1 and first nonshrink remains2.
+ *   C1 0,C2 0,C3 2/2,C4 2/2,C5 0 retained; no third order variant.
+ * wave29: selector offset off+2 improves144 to114; separate selectorBase
+ *   is unchanged114. First types budget300 spent; best109 rejected for
+ *   void-to-char-pointer signature and uninitialized q read/return.
+ * next: no safe new lever identified; two principled nonshrinks remain,
+ *   but C3/C4, order and types passes may not be repeated.
  * symbols:
  *   d_021DEC94 0x021DEC94 data a4
  */
@@ -35,7 +41,7 @@ void func_021DE76C(unsigned p, int flag)
     base = p;
     off = 0xc5c;
     dst = 0xb3a;
-    indexOff = 0xc5e;
+    indexOff = off + 2;
     n = *(u16 *)(base + *(s8 *)(base + off + 2) * 0xbc + 0xc4);
     i = 0;
     p = *(s8 *)(base + off);

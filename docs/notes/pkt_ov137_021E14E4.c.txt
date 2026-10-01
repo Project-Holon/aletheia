@@ -6,27 +6,39 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
- * residual: 92 bytes, 6 concrete byte differences: loop base r7 and bound r6 swapped against original r6/r7.
- * checks: 1 callee source and show confirm two pointer args, void return; 2 twins 021E0E50 and 021E0980 confirm stride 0xb4/base 0x1a0; 3 const parameter and record-array type each compiled, neither changes 6-byte residue; 4 declaration/initialization and named-element idioms read, two declaration reorder variants already consumed; 5 refreshed idiom directory and matched neighbours, no stack object residue. Next: separately initialized loop-invariant pointer versus bound; no permutation sweep run.
- * runs: 6 iterations, C3 2 targeted compiles, no other check compiles. Best was iteration 5 and C3a/C3b. Two declaration-reorder variants total.
+ * status: EXACT
+ * lever: base declared before i; initialize i and base before loading count.
+ * checks: prior C1-C5 retained; C3 two compiles exhausted before wave29.
+ *   Valid wave29 result supersedes residual; see matched source and R1 report.
  * symbols:
  *   func_021E14CC 0x021E14CC thumb ov137
  */
 extern void func_021E14CC(char *, char *);
-typedef struct { int active, a, b, key; char rest[0xa4]; } Record;
-typedef struct { char pad[0x140]; Record records[1]; } Block;
+typedef struct
+{
+  int active;
+  int a;
+  int b;
+  int key;
+  char rest[0xa4];
+} Record;
+typedef struct
+{
+  char pad[0x140];
+  Record records[1];
+} Block;
 void func_021E14E4(const char *p)
 {
-    int mask = *(int *)(p + 28);
-    int i;
-    const Block *base;
-    int count;
-    count = *(int *)(p + 48);
-    i = 0;
-    base = (const Block *)(p + 0x1a0);
-    for (; i < count; i++) {
-        if (base->records[i].active != 0 && (mask & (1 << base->records[i].key)))
-            func_021E14CC((char *)p, (char *)&base->records[i]);
-    }
+  int mask = *((int *) (p + 28));
+  const Block *base;
+  int i;
+  int count;
+  i = 0;
+  base = (const Block *) (p + 0x1a0);
+  count = *((int *) (p + 48));
+  for (; i < count; i++)
+  {
+    if ((base->records[i].active != 0) && (mask & (1 << base->records[i].key)))
+      func_021E14CC((char *) p, (char *) (&base->records[i]));
+  }
 }

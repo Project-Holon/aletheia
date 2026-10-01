@@ -1,0 +1,65 @@
+/*
+ * function: func_021DC860
+ * address: 0x021DC860
+ * packet: pkt_ov170_021DC860
+ * region: ov170
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * domain: initialized storage count is 8/16/24: ARM9 02007464 writes 8 at
+ *   020074C0-020074C2; 020074D8/020076B4/020076D0 add 8 only while count
+ *   != 24. The D0 guard at 0200774C-0200774E dominates store 02007764.
+ *   020076A4 reads byte +0x3DD. All seven offset pools audited; 0200752C
+ *   and 020075B0 only read this field. Full contexts saved in lane scratch.
+ *   Thus non-24 count always assigns max in the 8/16 arms before any use.
+ * extent: 158 bytes code; +0x9E 00 00 alignment padding, next labelled
+ *   function 021DC900 starts at +0xA0. No follower or unit.
+ * symbols:
+ *   func_0203064C 0x0203064C arm
+ *   func_0203159C 0x0203159C arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_02007698 0x02007698 thumb
+ *   func_020076A4 0x020076A4 thumb
+ *   func_020078C4 0x020078C4 thumb
+ *   func_020076B4 0x020076B4 thumb
+ *   func_02031324 0x02031324 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef enum { B0=0, B8=8, B16=16 } Bound;
+extern void func_0203064C(int,int,int);
+extern void *func_0203159C(void *,unsigned,unsigned);
+extern void func_02082BCC(void *,int,unsigned);
+extern unsigned func_02007698(void *);
+extern u8 func_020076A4(void *);
+extern unsigned func_020078C4(void *,unsigned);
+extern u8 func_020076B4(void *);
+extern void *func_02031324(unsigned);
+int func_021DC860(void *manager, int unused, void **context)
+{
+    u8 *p;
+    u16 max;
+    u16 i;
+    func_0203064C(1,75,0x10000);
+    p = func_0203159C(manager,0x30,75);
+    func_02082BCC(p,0,0x30);
+    *(void ***)p = context;
+    p[0x14] = func_02007698(context[1]);
+    p[0x15] = func_020076A4((*(void ***)p)[1]);
+    p[0x17] = 255;
+    *(int *)(p+0x28) = 11;
+    if ((u8)p[0x15] != 24) {
+        if ((u8)p[0x15] == 8) max = B8;
+        else if ((u8)p[0x15] == 16) max = B16;
+        for (i=0;i<max;i++) {
+            if (func_020078C4((*(void ***)p)[1],i) == 0) break;
+        }
+        if (i == max) p[0x15] = func_020076B4((*(void ***)p)[1]);
+    }
+    p[0x20] = 0;
+    p[0x1f] = 0;
+    p[0x21] = 1;
+    *(void **)(p+4) = func_02031324(75);
+    return 1;
+}

@@ -1,0 +1,94 @@
+/*
+ * function: func_02204698
+ * address: 0x02204698
+ * packet: pkt_ov094_02204698
+ * region: ov094
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own 0204B294 source proves seven arguments, final two u16;
+ *   2 ov094 02201B20/02205E80 twins read, explicit offsets 320/208;
+ *   3 u16 offsets 320/208, const main plus unsigned group 320/222;
+ *   4 inline getter 320/208, cast Pos buffer 320/207, known offset idioms;
+ *   5 fresh idiom directory and ov094 twins reread; declared Pos restored.
+ * residual: 320 vs 308, 207 concrete bytes; three offsets spill versus two.
+ *   Pos A53C/Table A85C slots checked against ROM; hints dropped already.
+ *   Singleton TU split diagnosis found no viable partition; no extra member.
+ * budget: seven iterations, stop streak 3 at r7 (first nonshrinking r5);
+ *   post-stop C1=0 C2=1 C3=2 C4=1 C5=0, plus one TU diagnostic.
+ *   Permuter not required: size delta +12 exceeds near-size criterion.
+ * symbols:
+ *   func_02030734 0x02030734 arm
+ *   func_0204B100 0x0204B100 arm
+ *   func_0204B294 0x0204B294 arm
+ *   func_0204B404 0x0204B404 arm
+ *   func_0204B570 0x0204B570 arm
+ *   func_0204B92C 0x0204B92C arm
+ *   func_0204B878 0x0204B878 arm
+ *   func_02030DA8 0x02030DA8 arm
+ *   func_0220684C 0x0220684C thumb ov094
+ *   func_022047CC 0x022047CC thumb ov094
+ *   func_022047F8 0x022047F8 thumb ov094
+ *   d_0220AEB0 0x0220AEB0 data ov094 a1
+ *   d_0220A53C 0x0220A53C data a2
+ *   d_0220A85C 0x0220A85C data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct { short x, y; } Pair;
+typedef struct { short v[4]; } Pos;
+typedef struct { Pair p[6]; int key[2]; } Table;
+typedef struct { void *main; void *bank; void *entries[6]; } Context;
+typedef struct {
+    void *owner;
+    char pad04[0x64];
+    u32 f0 : 1;
+    u32 state : 3;
+    char pad6c[0x164 - 0x6c];
+    u32 a, b, c;
+    char pad170[0x240 - 0x170];
+    u16 heap;
+} Main;
+extern const char d_0220AEB0[];
+extern const Pos d_0220A53C;
+extern const Table d_0220A85C[];
+extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *func_0204B100(int, u8, u32);
+extern u32 func_0204B294(u32, u32, u32, u32, u32, u16, u16);
+extern void func_0204B404(void *, const Pair *, u32);
+extern void func_0204B570(void *, u32);
+extern void func_0204B92C(void *, u32);
+extern void func_0204B878(void *, u16);
+extern void *func_02030DA8(void *, void *, void *, int);
+extern void func_0220684C(void *, void *, void *);
+extern void func_022047CC(void);
+extern void func_022047F8(void *);
+void func_02204698(Main *m, int group, int variant)
+{
+    u16 key;
+    int i;
+    const Table *t;
+    Context *ctx;
+    Pos pos;
+    ctx = func_02030734((u16)((m->heap & 0x7fff) | 0x8000), 0x20, 0, d_0220AEB0, 0xc53);
+    pos = d_0220A53C;
+    ctx->main = m;
+    ctx->bank = func_0204B100(6, 0, m->heap);
+    t = (const Table *)((char *)d_0220A85C + group * 0x20);
+    key = t->key[variant];
+    for (i = 0; i < 6; i++) {
+        if (t->p[i].x == -1)
+            ctx->entries[i] = 0;
+        else {
+            ctx->entries[i] = (void *)func_0204B294((u32)ctx->bank, *(u32 *)((u32)m + 0x164), m->b, m->c, (u32)&pos, 1, *(u16 *)((u32)m + 0x240));
+            func_0204B404(ctx->entries[i], &t->p[i], 1);
+            func_0204B570(ctx->entries[i], 2);
+            func_0204B92C(ctx->entries[i], 1);
+            func_0204B878(ctx->entries[i], key);
+        }
+    }
+    func_0220684C(m, func_02030DA8(m->owner, (void *)func_022047CC, ctx, 0), (void *)func_022047F8);
+    m->state++;
+}

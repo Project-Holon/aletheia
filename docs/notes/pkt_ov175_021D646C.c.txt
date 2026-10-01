@@ -1,0 +1,37 @@
+/*
+ * function: func_021D646C
+ * address: 0x021D646C
+ * packet: pkt_ov175_021D646C
+ * region: ov175
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * mode: valid selector domain is 0 through 4, as in the original.
+ * checks: 1 show DFD8 reads three args and returns halfword, DFE4 reads four; 2 same-overlay 9D50 long-u32 twin no change (c2a); 3 u16 save no change and rejected as pointer narrowing, const q plus enum flag no change (two compiles); 4 enum constants and long flag no change (two compiles); 5 refreshed idiom listing and 9D50/965C neighbours, no new fitting twin; next untried signedness of index and accessor result.
+ * residue: two bytes at +005C/+005E, zero stored from r0 instead of r2.
+ * symbols:
+ *   func_0200DFD8 0x0200DFD8 thumb
+ *   func_0200DFE4 0x0200DFE4 thumb
+ */
+typedef unsigned long u32;
+extern u32 func_0200DFD8(u32,u32,u32);
+extern void func_0200DFE4(u32,u32,u32,u32);
+int func_021D646C(u32 save,u32 index,const u32 *q)
+{
+    u32 a,b,c;
+    long changed;
+    switch(index) {
+    case 0: a=((u32 *)((u32 *)q[16])[14])[3]; b=((u32 *)((u32 *)q[16])[14])[16]; c=((u32 *)((u32 *)q[16])[14])[15]; break;
+    case 1: a=((u32 *)((u32 *)q[16])[14])[0]; b=((u32 *)((u32 *)q[16])[14])[10]; c=((u32 *)((u32 *)q[16])[14])[9]; break;
+    case 2: a=((u32 *)((u32 *)q[16])[14])[4]; b=((u32 *)((u32 *)q[16])[14])[18]; c=((u32 *)((u32 *)q[16])[14])[17]; break;
+    case 3: a=((u32 *)((u32 *)q[16])[14])[1]; b=((u32 *)((u32 *)q[16])[14])[12]; c=((u32 *)((u32 *)q[16])[14])[11]; break;
+    case 4: a=((u32 *)((u32 *)q[16])[14])[2]; b=((u32 *)((u32 *)q[16])[14])[14]; c=((u32 *)((u32 *)q[16])[14])[13]; break;
+    }
+    changed=0;
+    if(a!=func_0200DFD8(save,index+5,changed) || b!=func_0200DFD8(save,index+5,1) || c!=func_0200DFD8(save,index+5,2)) changed=1;
+    func_0200DFE4(save,index+5,0,a);
+    func_0200DFE4(save,index+5,1,b);
+    func_0200DFE4(save,index+5,2,c);
+    return changed;
+}

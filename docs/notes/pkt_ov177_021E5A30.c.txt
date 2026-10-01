@@ -1,0 +1,44 @@
+/*
+ * function: func_021E5A30
+ * address: 0x021E5A30
+ * packet: pkt_ov177_021E5A30
+ * region: ov177
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 02061CA4 reads four full-width args; phase and color stack widths proven. 2 no ov176/177 color twin. 3 phase nonconst unchanged; int factor 148B diff. 4 all-channel inline 112B diff, red-only 128B. 5 twins/index reread; dead r3 reuse and reversed local declarations unchanged; next probe RGB extraction helper argument ordering.
+ * residual: 172 bytes, 112 concrete bytes differ; symbols resolve, channel/factor allocation and scheduling remain.
+ * symbols:
+ *   d_020A1B38 0x020A1B38 data a2
+ *   func_02061CA4 0x02061CA4 arm
+ */
+extern const short d_020A1B38[];
+extern void func_02061CA4(unsigned, unsigned, const void *, unsigned);
+static inline short get_factor(unsigned short *phase)
+{
+    return (d_020A1B38[(*phase >> 4) * 2 + 1] + 4096) / 2;
+}
+static inline unsigned char interpolate(unsigned char from, unsigned char to, short factor)
+{
+    return from + (((to - from) * factor) >> 12);
+}
+static inline unsigned short blend(unsigned short original, unsigned short target, short factor)
+{
+    unsigned char blue, green, red;
+    red = original & 31;
+    green = (original & 0x3e0) >> 5;
+    blue = (original & 0x7c00) >> 10;
+    blue = interpolate(blue, (target & 0x7c00) >> 10, factor);
+    red = interpolate(red, target & 31, factor);
+    green = interpolate(green, (target & 0x3e0) >> 5, factor);
+    return red | (green << 5) | (blue << 10);
+}
+void func_021E5A30(unsigned kind, unsigned short *out, unsigned short *phase, unsigned unused, unsigned char bank, unsigned char index, unsigned short original, unsigned short target)
+{
+    short factor;
+    factor = get_factor(phase);
+    unused = blend(original, target, factor);
+    *out = unused;
+    func_02061CA4(kind, bank * 32 + index * 2, out, 2);
+}

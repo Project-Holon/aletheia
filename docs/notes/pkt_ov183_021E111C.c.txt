@@ -1,0 +1,73 @@
+/*
+ * function: func_021E111C
+ * address: 0x021E111C
+ * packet: pkt_ov183_021E111C
+ * region: ov183
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 255A0 returns Grid pointer and 257D0 takes it, own sources/show read; 2 no twin, copied const Param shape; 3 u16 xy 29 bytes, enum index/const Object still 15; 4 split call fixes entry, pointer step 63 and Object shape 15; 5 refreshed ov183 twins and idioms, block locals/cast base still 15; next no sweep, named constructor slot alias investigation.
+ * residual: 15 concrete bytes differ; 180/180, all ten relocations resolved.
+ * symbols:
+ *   func_021FC214 0x021FC214 thumb ov186
+ *   d_021E3850 0x021E3850 data a4
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_02043678 0x02043678 arm
+ *   func_0201C7A4 0x0201C7A4 thumb
+ *   func_020255A0 0x020255A0 thumb
+ *   func_020257D0 0x020257D0 thumb
+ *   func_0202597C 0x0202597C thumb
+ *   func_020437AC 0x020437AC arm
+ *   func_02045808 0x02045808 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef struct {void *handle; short x,y; unsigned data,zero; u8 a,b; u16 c; unsigned d;} Descriptor;
+struct Grid;
+struct Sys;
+typedef struct {char f000[0x300]; struct Sys *f300; struct Grid *f304[1];} Object;
+typedef enum {INDEX_0,INDEX_1} Index;
+extern const int d_021E3850[];
+extern int func_021FC214(char *);
+extern int func_02045EC0(int,int);
+extern int func_02043678(int,int,int,u16);
+extern void func_0201C7A4(int,int,int,int,int);
+extern struct Grid *func_020255A0(struct Sys *,const Descriptor *);
+extern void func_020257D0(int);
+extern void func_0202597C(int,int);
+extern void func_020437AC(int);
+extern void func_02045808(int);
+void func_021E111C(const Object *object,Index index,int x,int y)
+{
+    char *p=(char *)object;
+    int source,handle,obj;
+    u8 xx,yy;
+    struct Grid **slots;
+    Descriptor desc;
+    source=func_021FC214(*(char **)(p+0x344));
+    source=func_02045EC0(source,d_021E3850[index]);
+    handle=func_02043678(10,2,32,*(u16 *)(p+0x34c));
+    func_0201C7A4(handle,1,0,source,*(int *)(p+0x310));
+    xx=((u8 *)(p+0x29a))[(index+22)*4];
+    yy=((u8 *)(p+0x298))[(index+22)*4];
+    desc.handle=(void *)handle;
+    desc.x=xx+x;
+    desc.y=yy+y;
+    desc.data=*(int *)(p+0x264);
+    desc.zero=0;
+    desc.a=0;
+    desc.b=0;
+    desc.c=1;
+    desc.d=1;
+    {
+        struct Grid **out=(struct Grid **)(char *)object->f304;
+        struct Grid *grid;
+        grid=func_020255A0(object->f300,&desc);
+        out[index]=grid;
+        func_020257D0((int)grid);
+        func_0202597C((int)out[index],1);
+    }
+    func_020437AC(handle);
+    func_02045808(source);
+}

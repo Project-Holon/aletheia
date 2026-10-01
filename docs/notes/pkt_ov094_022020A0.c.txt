@@ -1,0 +1,109 @@
+/*
+ * function: func_022020A0
+ * address: 0x022020A0
+ * packet: pkt_ov094_022020A0
+ * region: ov094
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 328/340 bytes, 272 concrete mismatches; flags mask and -1 temporaries preserve initialization and aliasing; fresh one agrees with accepted permuter C.
+ * checks: 1 CB0 reads r0; CBC reads r0/r1 and returns buffer; allocator heap truncation observed; 2 025D8 supplies allocator/task signatures, no constructor twin; 3 heap u16 324B, void/const fields 328B; 4 struct-field recompute and narrow-heap idioms read; 5 025D8 reread, no stack object; next hypothesis allocation heap-offset lifetime.
+ * budgets: 4 iteration compiles; consecutive nonshrink 3 from r2 through r4; C1/C2/C3/C4/C5=0/0/2/0/0; once types permuter 300; one accepted-mutant verification; no remaining C3 budget.
+ * symbols:
+ *   func_02030734 0x02030734 arm
+ *   func_02030CB0 0x02030CB0 arm
+ *   func_02030CBC 0x02030CBC arm
+ *   func_02045B38 0x02045B38 arm
+ *   func_02030DA8 0x02030DA8 arm
+ *   func_02202248 0x02202248 thumb ov094
+ *   func_02204BAC 0x02204BAC thumb ov094
+ *   func_0220684C 0x0220684C thumb ov094
+ *   d_0220AEB0 0x0220AEB0 data ov094 a1
+ */
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct {
+    void *owner, *mem;
+    char pad08[0x4c - 8];
+    void *a;
+    int b, c, f58;
+    void *msg;
+    int f60;
+    const char *d;
+    u32 flags;
+    int f6c, selected;
+    char pad74[0x104 - 0x74];
+    int f104, f108, f10c, f110, f114;
+    char pad118[0x1e0 - 0x118];
+    int arr1e0[4];
+    char pad1f0[0x210 - 0x1f0];
+    int arr210[3];
+    int f21c, f220, e;
+    char pad228[0x238 - 0x228];
+    void *task;
+    int h;
+    u16 heap;
+    char pad242[0x250 - 0x242];
+    int f250, f254;
+    char pad258[0x274 - 0x258];
+    int f;
+    char pad278[0x2e0 - 0x278];
+} Work;
+extern char d_0220AEB0[];
+extern void *func_02030734(u16, u32, int, const char *, u16);
+extern u32 func_02030CB0(int);
+extern void *func_02030CBC(int, void *);
+extern void *func_02045B38(u32, u32, u32, u32);
+extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
+extern void func_02202248(Work *);
+extern void func_02204BAC(void *, void *);
+extern void func_0220684C(void *, void *, void (*)(void *, void *));
+Work *func_022020A0(void *a, int b, int c, const char *d, int e, int f, int g, int h, u16 heap)
+{
+    Work *p;
+    int *q;
+    int i;
+    int tmp;
+    int tmp1;
+    int tmp2;
+    if (c) {
+    }
+    p = func_02030734(heap, 0x2e0, 1, d_0220AEB0, 0x39a);
+    p->heap = heap;
+    q = func_02030734(p->heap, func_02030CB0(8), 1, d_0220AEB0, 0x39e);
+    p->mem = q;
+    p->owner = func_02030CBC(8, q);
+    p->a = a;
+    p->e = e;
+    p->b = b;
+    p->c = c;
+    tmp = p->flags;
+    tmp2 = 0xffffe1ff & tmp;
+    p->f = f;
+    p->flags = tmp2 | 0x1e00;
+    p->h = h;
+    p->d = d;
+    p->f104 = -1;
+    do {
+        p->f108 = -1;
+    } while (0);
+    p->f10c = -1;
+    p->f110 = -1;
+    p->f114 = -1;
+    p->f21c = -1;
+    p->f220 = -1;
+    p->f250 = -1;
+    p->f254 = -1;
+    for (i = 0; i < 3; i++) p->arr210[i] = -1;
+    for (i = 0; i < 4; i++) p->arr1e0[i] = -1;
+    tmp1 = -1;
+    p->msg = func_02045B38(0, 2, 0xc, p->heap);
+    p->selected = tmp1;
+    func_02202248(p);
+    q = func_02030734((p->heap & 0x7fff) | 0x8000, 8, 0, d_0220AEB0, 0x3cc);
+    q[0] = (int)p;
+    q[1] = g;
+    func_0220684C(p, func_02030DA8(p->owner, func_02204BAC, q, 0), 0);
+    return p;
+}
