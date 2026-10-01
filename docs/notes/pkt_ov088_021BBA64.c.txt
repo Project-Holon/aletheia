@@ -23,6 +23,15 @@
  * here.  Untried: `y++` / `h -= 2` spellings for y+1 and h-2 (the original
  * reuses y's register r6 for y+1).
  *
+ * Lane P3 (2026-10-01), still 11 bytes: params x/y/w/h swept over
+ * u8/u16/int/u32 and bg over u32/int/u16/u8 (only u8 x..h with u32 or int
+ * bg stays at 11; everything else is 250+); callee a1 u32/u16/int/u8 x a6
+ * u32/u8/u16 x func_02041B6C(u32|u8) (a1/a6 inert, a u8 B6C arg is 22);
+ * callee index int/long/unsigned long/u8 x bg int/u32/long (only matching
+ * signedness pairs stay at 11); local copies `u32 b = bg; u8 yy = y;` no
+ * change; `y++; h -= 2;` before the last three calls is 237 B.  The bg load
+ * still lands after the second `str r4, [sp, #4]`.
+ *
  * symbols:
  *   func_02041300  0x02041300  arm
  *   func_02041B6C  0x02041B6C  arm
