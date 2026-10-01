@@ -1,0 +1,32 @@
+/*
+ * function: func_021D9C00
+ * address: 0x021D9C00
+ * packet: pkt_ov119_021D9C00
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: not attempted: input-state proof missing
+ * checks: no compiler iteration or numbered DIFF checks consumed; semantic
+ * audit of full original, full 9CFC/AF68 callers and 92DC status writer.
+ */
+The 252-byte original loads two unsigned status bytes at p+0x11e0 plus
+indices selected by 0203D1A4(020399A8()). Both statuses equal 1 selects
+9AD8; both equal 4 selects 9BC4. Otherwise it sets message=97 when the
+other status is 4, or message=102 when the local status is 4, then consumes
+r7 as the second argument of 02045CAC at 021D9CC8. The 9CB6→9CBC path
+has no assignment to r7 when neither status is 4 (and they were not both 1).
+Compiling an uninitialized C local there would introduce meaningful UB;
+inventing a default message would change the original behavior.
+9CFC sets both bytes to 1 only on its non-session branch. The session
+branch sends byte 1 through 0203D3A8 and schedules this callback. AF68
+sends byte 2 on its session branch; its non-session branch schedules this
+callback without a local status store. Full 021D92DC copies an arbitrary
+received byte to p+0x11e0+index after checking a session ID. These local
+contexts do not prove that every callback input has both bytes 1 or at
+least one byte 4. 021DD294 forwards to 021E2A1C only for state 3; the full
+matched forwarder releases objects and does not initialize these bytes.
+Future lever: prove the protocol/state invariant from primary senders and
+receive dispatch before introducing C; this is unspent work, not an
+exhausted matching budget. Full primary bodies/search evidence retained in
+scratchpad/overlay-goal-20260930-w41/B10/primary-evidence.txt.

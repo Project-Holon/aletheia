@@ -1,0 +1,29 @@
+/*
+ * function: func_021DA798
+ * address: 0x021DA798
+ * packet: pkt_ov119_021DA798
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: not attempted: input-state proof missing
+ * checks: no compiler iteration or numbered DIFF checks consumed; semantic
+ * audit of full original, full 9670/AD84 callers and 92DC status writer.
+ */
+The 256-byte original compares unsigned bytes p+0x11e0+[local/other].
+Both equal 2 schedule A76C. Otherwise the ordered chain assigns r4:
+other 5→97; local 5→98; other 7→99; local 7→100; other 8→100;
+local 8→99; other 9→97; local 9→101; other 6→97; local 6→111;
+other 3→97; local 3→102. If none applies, 021DA85C→021DA862 consumes
+unassigned r4 as 02045CAC's second argument at 021DA86E. No meaningful C
+message local may be left uninitialized without a proven valid-input bound.
+Full original 9670 sets both bytes to 2 on its non-session branch. Its
+session branch sends one of {2,5,6,7,8}, then schedules this callback.
+AD84 waits for 021E12AC and schedules this callback without storing status.
+Full 92DC copies a received byte unchanged after its session-ID check.
+These contexts do not establish that all received/local states satisfy
+both=2 or at least one in {3,5,6,7,8,9}. No fabricated default, guessed
+initialization or uninitialized C was compiled/filed. Future work is the
+protocol/state proof, not a retry of an exhausted codegen/permuter budget.
+Full primary bodies retained in
+scratchpad/overlay-goal-20260930-w41/B10/primary-evidence.txt.
