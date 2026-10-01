@@ -7,14 +7,15 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * blocker:  relocation witness: callee 0x02060F98 has no outside witness (no label, no sole-ref)
+ * status:   EXACT
+ * witness:  callee 0x02060F98 is witnessed by its ARM9 entry
+ *           (src/matched/arm9/func_02060F98.c, pkt_02060F98).
  *
  * symbols:
  *   d_021A8268  0x021A8268  data  ov009  a4
  *   d_021A1C78  0x021A1C78  data  ov009  a1
  *   d_021A1C7C  0x021A1C7C  data  ov009  a1
- *   func_02060F98  0x02060F98  arm
+ *   func_02060F98  0x02060F98  arm  arm9
  *   func_02087988  0x02087988  arm
  *   func_0208799C  0x0208799C  arm
  *   func_02060E30  0x02060E30  arm
