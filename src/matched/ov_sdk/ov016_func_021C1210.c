@@ -7,20 +7,14 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
  *
- * blocker:  dispatch now EXACT.  Empties `case 1..4: break;`, arms ordered
- *           5,13,20/23,26/29,12,34, and the case-5 body split into
- *           `p = ...; dst = p + 0x1c000; src = GetChildInfo(); Copy(src,dst)`
- *           reproduce the 0..20 table + {23,26,29,34} tree byte for byte.
- *           Remaining: 628 vs 632 and ONE concrete byte at +0260
- *           (`ldr r0,[pc,#0xc]` | `ldr r0,[pc,#8]`).  The original carries
- *           TWO identical `&g_021DE590` pool words (0x1480 and 0x1484), the
- *           `ldr r6,[pc]` at +0014 uses the first and the HEAPlFree ldr the
- *           second; 1.1p1 CSEs all three `&g_021DE590` references into one
- *           word, so the function is one word short and the last PC offset
- *           byte moves.  A distinct alias symbol at the same address was
- *           tried and reallocates r6 to a second pool, so it does NOT help.
+ * notes:    the arm table and the case-5 body are as before.  The image carries the
+ *           address of MemMov (0x021DE590) in two pool words: one feeds r6 for every
+ *           field access, the other is the HEAPlFree argument.  That is two extern
+ *           names for one address (docs/idioms/a-duplicated-pool-word-is-a-second-
+ *           extern-name-for-the-same-address.md): the free call names `MemMovFree`,
+ *           declared at the same address, and the field accesses keep g_021DE590.
  *
  * sdk:      taskFramework (libdwcutil.TWL.HYB.a(move.o))
  *
@@ -32,6 +26,7 @@
  *   DWCi_TSKlDelete    0x021D7724  arm  ov016
  *   DWCi_HEAPlFree_    0x021D6438  arm  ov016
  *   g_021DE590         0x021DE590  data
+ *   MemMovFree         0x021DE590  data
  */
 extern void DWCi_MOVFramework(void);
 extern void DWCi_MOVGetStatus(unsigned char *stt, unsigned char *change_f);
@@ -40,6 +35,7 @@ extern void MIi_CpuCopy16(void *srcp, void *destp, unsigned long size);
 extern void DWCi_TSKlDelete(int kind, void *task);
 extern void DWCi_HEAPlFree_(void **mem);
 extern unsigned char *g_021DE590;
+extern void *MemMovFree;
 
 void taskFramework(void *task)
 {
@@ -124,7 +120,7 @@ void taskFramework(void *task)
 		break;
 	case 34:
 		DWCi_TSKlDelete(0, task);
-		DWCi_HEAPlFree_((void **)&g_021DE590);
+		DWCi_HEAPlFree_(&MemMovFree);
 		break;
 	}
 }

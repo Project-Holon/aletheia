@@ -41,6 +41,12 @@
  *           temporaries (12 B, inert), `card_addr = card_addr;` self-assignment (12 B, inert), and
  *           emitting the pl read before card_addr (32 B). Stop column remains public.
  *
+ * opus (2026-10-01): re-spelled with typed MBiFileInfo[16] at mbc+0x1788 and the
+ *           DWARF scopes (hd/databuf/i/bi outer; card_addr/pl in a block; p_task/
+ *           pi/trg/int i innermost): identical 12 B, so the char-offset spelling
+ *           is not the cause. Also inert or worse: pl before card_addr, const
+ *           locals, and the four operand orders of the card_addr sum. The image
+ *           puts the file base in r6 (mbc's dying register); 1.1p1 uses r2.
  * sdk:      MBi_CommParentSendBlock (libmb.TWL.HYB.a(mb_parent.o))
  *
  * symbols:

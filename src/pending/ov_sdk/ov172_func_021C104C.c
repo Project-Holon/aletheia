@@ -40,6 +40,16 @@
  *   first clear, for<->while, 12k permuter compiles (random+anneal, 5 seeds), one dummy use
  *   (if (v) {}) of each var at ~25 positions (all >= 48).
  *
+ *   lane (w26): 48 concrete bytes, no change.  Image keeps THREE distinct webs across the
+ *   phase-2 clear: code=sb, kk=r8, and the materialised constant-0 in r6; ours lets the
+ *   constant-0 web (r6) merge with kk in phase 2, so kk lands r3(phase1)->r6(phase2) and we
+ *   push 5 callee-saved instead of 6.  Read docs/idioms/reusing-a-loop-variable-across-phases-
+ *   changes-the-allocation.md and a-second-same-typed-local-changes-callee-saved-allocation.md.
+ *   Hoisting `kk = 0` above the first MIi_CpuClearFast (to make kk's web span the early calls)
+ *   compiles to 230 concrete bytes different (scheduling collapses), not a lever.  The residue
+ *   is the front end's tie-break between the constant-0 rematerialisation and kk, not a source
+ *   shape: park.
+ *
  * sdk:      Yos_JpegEncoderHuffmanEncoderBuildTable (libssp.TWL.HYB.a jpegenc.o)
  *
  * symbols:
@@ -85,6 +95,7 @@ static void Yos_JpegEncoderHuffmanEncoderBuildTable(Yos_JpegEncoderHuffmanEncode
     u16 code = 0;
     u32 kk;
     u32 si;
+
 
     MIi_CpuClearFast(0, &hf->mHuffBits[0], 0x428);
 

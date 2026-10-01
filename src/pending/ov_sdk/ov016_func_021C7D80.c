@@ -24,6 +24,13 @@
  *           is the front end's scratch-register/schedule choice (cf.
  *           idioms/a-front-end-hoists-a-base-copy-to-fold-an-argument-load.md).
  *
+ * opus (2026-10-01): DWARF has no `ypos` (or `err`) local, so the original is a
+ *           single DrawStringEx call; the image still evaluates the y argument
+ *           (C_CODE+2, first DWCi_Language call) before x. dsi/1.1p1 evaluates
+ *           the inline form left to right (x first, 3 blocks), so `ypos` stands
+ *           in for the 4.0.0.1025 argument order. Inert: block-scoped ypos,
+ *           ypos declared first, u16 ypos, `(&C_CODE[l])->y`; an x temp or a
+ *           comma form grows the body to 828 B.
  * sdk:      drawMessage (libdwcutil.TWL.HYB.a sceneseterror.o)
  *
  * symbols:

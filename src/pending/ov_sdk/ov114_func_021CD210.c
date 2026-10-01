@@ -9,56 +9,15 @@
  * isa:      arm
  * status:   DIFF
  *
- * lane W8 (2026-10-01): re-measured 1764/1908, 37/37 relocations.  The draft
- * body is wrong from CRYPTOi__BN_gen_exp_bits on; a full listing walk
- * (0x021CD210..0x021CD984) now fixes the real structure.  This is NOT the
- * recp sibling's bit-indexed sliding window -- gen_exp_bits emits a byte
- * STREAM that is walked sequentially.
- *
- * Verified structure (register/stack map from asm/overlays/ov114.s):
- *   [sp+4]=rr  [sp+8]=2n  [sp+0xc]=progress counter(init 0)
- *   [sp+0x10]=callback OBJECT (ctx+0x10c; called via vtable[0])
- *   [sp+0x14]=mont  [sp+0x18]=aa  [sp+0x1c]=count  [sp+0x20]=savedtos
- *   [sp+0x28]=bitsbuf cursor  [sp+0x2c..]=table[] pointer array
- *   r4=n (mont->N.top)   r7=exp (then n0)   r6=m (then accumulator r)
- *
- *   1. odd-m -> BN_is_zero(a)->BN_is_zero(p)->BN_is_one(p) early outs, as
- *      the draft has them.
- *   2. mont = in_mont ?: (BN_MONT_CTX_new + BN_MONT_CTX_set_word(m,ctx)).
- *   3. callback = *(void**)(ctx+0x10c); called callback(0xff, counter) as
- *      r3=*obj; r1=0xff; r2=[sp+0xc]; blx r3.  counter++ each call; on err
- *      callback(0xff,-1).  (Draft's plain `int(*)(int,int)` is wrong.)
- *   4. BN_gen_exp_bits(p,&bitsbuf,0).  ctx->tos++ for its temp bn.
- *      Header per EXACT sibling ov114_func_021CC530.c: p[0..1]=len,
- *      p[2]=window(log), p[3]=count=2^(window-1).  count -> [sp+0x1c].
- *      A sizing term `r5=(unsigned)(p[2]+0x3f)/p[2]` = ceil(64/p[2]) is
- *      computed; bitsbuf += 4.  The draft's bits=(p[2]<<8)|p[3] is bogus --
- *      there is no bit count used as a loop bound.
- *   5. Four ctx->bn slots are taken:  aa(n words),  r(2n),
- *      product scratch d(2n),  val/table storage (sb words), where
- *      sb = count*n + ((p->top*r5*2+7)/8 with CW signed rounding).  All are
- *      bn_wexpand/bn_expand2'd, aborting to err.
- *   6. table[0]=mont_mul(aa,RR); for i=1..count-1
- *      table[i]=mont_mul(table[i-1],table[0]); each table[i] = table[0]+i*n
- *      inside the one storage bn (helpers bn_mul_normal + the equivalent of
- *      bn_from_montgomery_words with (dst,scratch,N.d,n,n0)).  rr is also
- *      mont_mul(aa,RR)'d into r.
- *   7. Main loop walks the encoded stream (no bit indexing):
- *        byte w1=*cursor++, w2=*cursor++;
- *        a run of (0x00,0xff) pairs is skipped; each 0xNN byte adds 0xNN+1
- *        to r5 (a squaring repeat count); the low window index is w1>>1.
- *        r6 = table[w1>>1] via MI_CpuCopy8(src=table, dst=r, n*4).
- *        if r5!=0: callback(0xff,counter); if ctx->flags(ctx+0x108)&0x4000
- *        -> err; square r exactly r5 times; then read the next window and
- *        r = mont_mul(r, table[next>>1]) (window==1 && r5==0 -> multiply by
- *        aa).  ends when (w1==0 && r5==0), i.e. loc_021CD8BC.
- *   8. Tail: zero-fill r to n words in [sp+8]; rr = from_mont(r); if
- *      !(ctx->flags & 0x4000) rr->top=n then bn_fix_top(rr), ret=1.
- *   err: callback(0xff,-1) may clear ret; ctx->tos=savedtos; free mont iff
- *      in_mont==0.
- *
- * So the outstanding work is a faithful rewrite of steps 4-8; the helper
- * prototypes are fine and all 37 relocations already resolve.
+ * rewritten from the vendor listing (2026-10-01): 1904 of 1908 B, 30/30 relocations,
+ *   44 aligned blocks.  BN_gen_exp_bits takes ctx as a 4th argument; the window stream is
+ *   decoded by GET_RUN (pairs, 0x00/0xff runs add 0x100); four BN_CTX_get-style bns
+ *   (table storage, scratch t, accumulator r, product d) at tos..tos+3; table[i] carved at
+ *   stride n; the c==1 && cnt==0 step multiplies by aa straight into rr; the copy size is
+ *   n * sizeof(BN_ULONG) so n*4 is not CSE'd; locals declared so the stack slots match.
+ *   Left: the image pools the 0 for bits/cb/counter/ret into r4 and returns it on the
+ *   even-modulus path (ours stores then reloads), and register colour drift in the
+ *   GET_RUN decode.
  *
  * sdk:      CRYPTOi__BN_mod_exp_mont (libcrypto.TWL.HYB.a crypto_bobj1.o)
  *
@@ -128,11 +87,11 @@ extern int CRYPTOi__BN_set_word(BIGNUM *, BN_ULONG);
 extern BIGNUM *CRYPTOi__BN_copy(BIGNUM *, const BIGNUM *);
 extern BN_MONT_CTX *CRYPTOi__BN_MONT_CTX_new(void);
 extern int CRYPTOi__BN_MONT_CTX_set_word(BN_MONT_CTX *, const BIGNUM *, BN_CTX *);
-extern int CRYPTOi__BN_gen_exp_bits(const BIGNUM *, unsigned char **, int);
+extern int CRYPTOi__BN_gen_exp_bits(const BIGNUM *, unsigned char **, int, BN_CTX *);
 extern int _s32_div_f(int, int);
 extern int CRYPTOi__bn_zexpand(BIGNUM *, int);
 extern int CRYPTOi__BN_mod(BIGNUM *, const BIGNUM *, const BIGNUM *, BN_CTX *);
-extern int CRYPTOi__bn_expand2(BIGNUM *, int);
+extern BIGNUM *CRYPTOi__bn_expand2(BIGNUM *, int);
 extern int CRYPTOi__bn_mul_normal(BN_ULONG *, BN_ULONG *, int, BN_ULONG *, int);
 extern void CRYPTOi__bn_from_montgomery_words(BN_ULONG *, BN_ULONG *, BN_ULONG *, int, BN_ULONG);
 extern void CRYPTOi__bn_sqr_normal(BN_ULONG *, BN_ULONG *, int, BN_ULONG *);
@@ -142,24 +101,42 @@ extern void CRYPTOi__BN_MONT_CTX_free(BN_MONT_CTX *);
 
 #define BN_is_zero(x) (((x)->top == 0) || ((x)->top == 1 && (x)->d[0] == 0))
 #define BN_is_one(x) (((x)->top == 1) && ((x)->d[0] == 1))
+#define bn_wexpand(a, words) (((words) <= (a)->dmax) ? (a) : CRYPTOi__bn_expand2((a), (words)))
+
+typedef struct BN_CB {
+    int (*func)(struct BN_CB *cb, int a, int b);
+} BN_CB;
+
+#define GET_RUN(c, cnt, bits) \
+    c = *bits++; \
+    cnt = *bits++; \
+    if (cnt == 0xff && c == 0) { \
+        while ((c = *bits++, *bits == 0xff) && c == 0) { \
+            cnt += 0x100; \
+            bits++; \
+        } \
+        cnt += *bits++ + 1; \
+    }
 
 int CRYPTOi__BN_mod_exp_mont(BIGNUM *rr, const BIGNUM *a, const BIGNUM *p,
                              const BIGNUM *m, BN_CTX *ctx, BN_MONT_CTX *in_mont)
 {
-    int i, j, bits, ret = 0, wstart, wend, window, wvalue;
-    int start = 1, ts = 0;
-    int n;
+    BN_ULONG *table[16];
+    unsigned char *bits = 0;
+    int ret = 0;
     int savedtos;
-    BIGNUM *d, *r, *aa;
-    BIGNUM *val[16];
-    BN_MONT_CTX *mont = 0;
-    unsigned char *bitsbuf = 0;
-    BN_ULONG valword;
-    int (*callback)(int, int);
+    int count;
+    BIGNUM *aa;
+    BN_MONT_CTX *mont;
+    BN_CB *cb = 0;
+    int counter = 0;
+    int n, sz, i, j, c, cnt, tos;
+    BIGNUM *tbn, *rbn, *vbn, *dbn;
+    BN_ULONG *t, *r, *d, *N, n0;
 
     if ((m->d[0] & 1) == 0)
         return 0;
-
+    savedtos = ctx->tos;
     if (BN_is_zero(a)) {
         CRYPTOi__BN_set_word(rr, 0);
         return 1;
@@ -173,163 +150,117 @@ int CRYPTOi__BN_mod_exp_mont(BIGNUM *rr, const BIGNUM *a, const BIGNUM *p,
         return 1;
     }
 
-    if (in_mont != 0) {
-        mont = in_mont;
-    } else {
+    mont = in_mont;
+    if (mont == 0) {
         mont = CRYPTOi__BN_MONT_CTX_new();
         if (mont == 0)
             goto err;
         if (CRYPTOi__BN_MONT_CTX_set_word(mont, m, ctx) == 0)
             goto err;
     }
-
-    savedtos = ctx->tos;
-    callback = (int (*)(int, int))ctx->depth;
-
-    if (CRYPTOi__BN_gen_exp_bits(p, &bitsbuf, 0) == 0)
+    cb = (BN_CB *)ctx->depth;
+    if (CRYPTOi__BN_gen_exp_bits(p, &bits, 0, ctx) == 0)
         goto err;
-    bits = ((int)bitsbuf[2] << 8) | bitsbuf[3];
-    if (bits == 0) {
-        CRYPTOi__BN_set_word(rr, 1);
-        ret = 1;
-        goto err;
-    }
-
-    window = (bitsbuf[2] + 0x3f) / bitsbuf[2];
-    if (window < 1)
-        window = 1;
-    j = 1 << (window - 1);
+    ctx->tos++;
+    count = bits[3];
+    sz = (bits[2] + 0x3f) / bits[2];
+    bits += 4;
 
     n = mont->N.top;
-    d = &ctx->bn[ctx->tos++];
-    CRYPTOi__BN_set_word(d, 0);
-    r = &ctx->bn[ctx->tos++];
-    CRYPTOi__BN_set_word(r, 0);
-
-    for (i = 0; i < j; i++) {
-        val[i] = &ctx->bn[ctx->tos++];
-        val[i]->d = 0;
-        val[i]->top = 0;
-        val[i]->dmax = 0;
-        val[i]->neg = 0;
-        val[i]->flags = 0;
-    }
-    ts = j;
-    aa = &ctx->bn[ctx->tos++];
-
-    if (CRYPTOi__bn_expand2(val[0], n) == 0)
-        goto err;
-    if (CRYPTOi__bn_expand2(aa, n) == 0)
-        goto err;
-
-    if (a->top != n) {
-        if (a->top > n) {
-            if (CRYPTOi__BN_mod(aa, a, &mont->N, ctx) == 0)
-                goto err;
-        } else {
-            CRYPTOi__bn_zexpand(aa, n);
-            for (i = 0; i < a->top; i++)
-                aa->d[i] = a->d[i];
-        }
-    } else {
-        for (i = 0; i < n; i++)
+    if (a->top == n && a->d[n - 1] < m->d[n - 1]) {
+        aa = (BIGNUM *)a;
+    } else if (a->top < n) {
+        aa = &ctx->bn[ctx->tos++];
+        aa->top = a->top;
+        if (CRYPTOi__bn_zexpand(aa, n) == 0)
+            goto err;
+        for (i = 0; i < a->top; i++)
             aa->d[i] = a->d[i];
-    }
-    aa->top = n;
-
-    /* val[0] = a * R mod N (Montgomery form) via bn_mul by RR then reduce */
-    CRYPTOi__bn_mul_normal(val[0]->d, aa->d, n, mont->RR.d, n);
-    CRYPTOi__bn_from_montgomery_words(val[0]->d, val[0]->d, mont->N.d, n, mont->n0);
-    val[0]->top = 2 * n;
-    CRYPTOi__bn_fix_top(val[0]);
-
-    for (i = 1; i < j; i++) {
-        CRYPTOi__bn_mul_normal(val[i]->d, val[i - 1]->d, n, val[0]->d, n);
-        CRYPTOi__bn_from_montgomery_words(val[i]->d, val[i]->d, mont->N.d, n, mont->n0);
-        val[i]->top = 2 * n;
-        CRYPTOi__bn_fix_top(val[i]);
+    } else {
+        aa = &ctx->bn[ctx->tos++];
+        if (CRYPTOi__BN_mod(aa, a, m, ctx) == 0)
+            goto err;
+        if (CRYPTOi__bn_zexpand(aa, n) == 0)
+            goto err;
     }
 
-    start = 1;
-    wvalue = 0;
-    wstart = bits - 1;
-    wend = 0;
-
-    if (CRYPTOi__BN_set_word(r, 1) == 0)
+    i = count * n + (p->top * sz * 2 + 7) / 4;
+    vbn = &ctx->bn[ctx->tos++];
+    tbn = &ctx->bn[ctx->tos++];
+    rbn = &ctx->bn[ctx->tos++];
+    dbn = &ctx->bn[ctx->tos++];
+    if (bn_wexpand(rr, n) == 0)
         goto err;
-    /* r in Montgomery form */
-    CRYPTOi__bn_mul_normal(r->d, r->d, n, mont->RR.d, n);
-    CRYPTOi__bn_from_montgomery_words(r->d, r->d, mont->N.d, n, mont->n0);
-    r->top = 2 * n;
-    CRYPTOi__bn_fix_top(r);
+    if (bn_wexpand(tbn, n * 4) == 0)
+        goto err;
+    if (bn_wexpand(rbn, n * 2) == 0)
+        goto err;
+    if (bn_wexpand(vbn, i) == 0)
+        goto err;
+    if (bn_wexpand(dbn, n * 2) == 0)
+        goto err;
 
-    for (;;) {
-        valword = (bitsbuf[bitsbuf[0] - 1 - (wstart >> 3)] >> (wstart & 7)) & 1;
-        if (valword == 0) {
-            if (!start) {
-                CRYPTOi__bn_sqr_normal(d->d, r->d, n, val[0]->d);
-                CRYPTOi__bn_from_montgomery_words(r->d, d->d, mont->N.d, n, mont->n0);
-                r->top = 2 * n;
-                CRYPTOi__bn_fix_top(r);
-            }
-            if (wstart == 0)
-                break;
-            wstart--;
-            continue;
+    table[0] = vbn->d;
+    t = tbn->d;
+    r = rbn->d;
+    d = dbn->d;
+    n0 = mont->n0;
+    N = mont->N.d;
+    CRYPTOi__bn_mul_normal(d, aa->d, n, mont->RR.d, n);
+    CRYPTOi__bn_from_montgomery_words(table[0], d, N, n, n0);
+    if (count > 1) {
+        CRYPTOi__bn_sqr_normal(d, table[0], n, t);
+        CRYPTOi__bn_from_montgomery_words(t, d, N, n, n0);
+        for (i = 1; i < count; i++) {
+            table[i] = table[i - 1] + n;
+            CRYPTOi__bn_mul_normal(d, table[i - 1], n, t, n);
+            CRYPTOi__bn_from_montgomery_words(table[i], d, N, n, n0);
         }
-        j = wstart;
-        wvalue = 1;
-        wend = 0;
-        for (i = 1; i < window; i++) {
-            if (wstart - i < 0)
-                break;
-            if (((bitsbuf[bitsbuf[0] - 1 - ((wstart - i) >> 3)] >> ((wstart - i) & 7)) & 1) != 0) {
-                wvalue <<= (i - wend);
-                wvalue |= 1;
-                wend = i;
-            }
-        }
-
-        j = wend + 1;
-        if (!start) {
-            for (i = 0; i < j; i++) {
-                CRYPTOi__bn_sqr_normal(d->d, r->d, n, val[0]->d);
-                CRYPTOi__bn_from_montgomery_words(r->d, d->d, mont->N.d, n, mont->n0);
-                r->top = 2 * n;
-                CRYPTOi__bn_fix_top(r);
-            }
-        }
-
-        if (callback != 0) {
-            callback(0xff, 0);
-        }
-
-        CRYPTOi__bn_mul_normal(d->d, r->d, n, val[wvalue >> 1]->d, n);
-        CRYPTOi__bn_from_montgomery_words(r->d, d->d, mont->N.d, n, mont->n0);
-        r->top = 2 * n;
-        CRYPTOi__bn_fix_top(r);
-
-        wstart -= wend + 1;
-        wvalue = 0;
-        start = 0;
-        if (wstart < 0)
-            break;
     }
 
-    /* convert r back out of Montgomery form */
-    CRYPTOi__bn_from_montgomery_words(rr->d, r->d, mont->N.d, n, mont->n0);
-    rr->top = 2 * n;
+    GET_RUN(c, cnt, bits);
+    MI_CpuCopy8(table[c >> 1], r, n * sizeof(BN_ULONG));
+    while (cnt != 0) {
+        if (cb != 0) {
+            j = cb->func(cb, 0xff, counter);
+            counter++;
+            if (j != 0)
+                goto err;
+        }
+        if (ctx->flags & 0x4000)
+            goto err;
+        for (j = 0; j < cnt; j++) {
+            CRYPTOi__bn_sqr_normal(d, r, n, t);
+            CRYPTOi__bn_from_montgomery_words(r, d, N, n, n0);
+        }
+        GET_RUN(c, cnt, bits);
+        if (c == 0 && cnt == 0)
+            break;
+        if (cnt != 0 || c != 1) {
+            CRYPTOi__bn_mul_normal(d, r, n, table[c >> 1], n);
+            CRYPTOi__bn_from_montgomery_words(r, d, N, n, n0);
+        } else {
+            CRYPTOi__bn_mul_normal(d, r, n, aa->d, n);
+            CRYPTOi__bn_from_montgomery_words(rr->d, d, N, n, n0);
+            goto done;
+        }
+    }
+    for (i = n; i < n * 2; i++)
+        r[i] = 0;
+    CRYPTOi__bn_from_montgomery_words(rr->d, r, N, n, n0);
+done:
+    if (ctx->flags & 0x4000)
+        goto err;
+    rr->top = n;
     CRYPTOi__bn_fix_top(rr);
-    CRYPTOi__BN_copy(rr, rr);
     ret = 1;
-
 err:
-    if (callback != 0) {
-        if (callback(0xff, -1) != 0)
+    if (cb != 0) {
+        if (cb->func(cb, 0xff, -1) != 0)
             ret = 0;
     }
-    ctx->tos = savedtos;
     if (in_mont == 0 && mont != 0)
         CRYPTOi__BN_MONT_CTX_free(mont);
+    ctx->tos = savedtos;
     return ret;
 }

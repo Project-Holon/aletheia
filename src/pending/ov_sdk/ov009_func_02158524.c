@@ -30,6 +30,14 @@
  *     across the first strh (vendor hoists both bases; ours sinks the second) plus the seq home
  *     (vendor lr, ours ip). DWARF order reproduced gets the pool words right but not the schedule.
  *
+ * w8 re-probed-2 (all parked at 46 B unless stated): making g_021A826C `const` AND storing ping_seq
+ *     through a const-stripping cast does NOT let its base win the materialisation race -- still
+ *     OSi first, same as OSi const alone, so the flip is not about the write. A `const unsigned
+ *     long *osi = g_02150FEC` local with `(u16)osi[1]` also leaves 46 B. DWARF order plus
+ *     `soc->local_port = seq = ...` chained = 55 B. Loading OSi[1] into a u16 local *ahead of* the
+ *     0x22 store DOES hoist both bases with netvars first (pool pair correct) but overshoots: the
+ *     netvars value load goes to the very top, 60 B. Decision: pure 1.1p1 pre-RA scheduling.
+ *
  * w8 re-probed (all still 46 concrete B): `const` on g_02150FEC hoists BOTH bases above the
  *     first strh -- the schedule half of the residue -- but materialises OSi_ThreadInfo first,
  *     flipping the pool pair (netvars must stay first). const-read/const-pointer-local of either

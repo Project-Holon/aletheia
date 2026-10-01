@@ -21,8 +21,8 @@
     "sole-ref": [
      "code:0x021B0508",
      "code:0x021B2ED8",
-     "self:0x021B60CC",
-     "self:0x021B60D8"
+     "data:0x021B60CC",
+     "data:0x021B60D8"
     ]
    }
   }

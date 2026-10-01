@@ -58,9 +58,15 @@
  * ybuf[x + y], `((u16 *)((u8 *)ybuf + y))[x]` (340), a while loop (284), and
  * the three store orders (Cb first, Cr first).
  *
- * Wave 8 (2026-10-01): all inert at 37 too — `const u32 width`,
- * `const void *src` + `const u16 *pRgb`, `ybuf` assigned before `pRgb`,
- * `pRgb` declared before `x`, `x` declared last, and reusing the dead
+ * Wave 8 (2026-10-01): swapped the two mask/shift temporaries — `rr` first,
+ * then `gg` (both read `bb` before line 106, so inert) — 37 -> 34 bytes.
+ * It moves the low scratch (r0) to the temp written first and the next (r2)
+ * to the temp written second, and the instruction schedule follows source
+ * order; see docs/idioms/statement-order-of-scratch-temporaries-decides-their-registers.md.
+ * `unsigned long x` instead of `u32 x` (idiom a-long-index...) is 48 (worse).
+ * Inert at 34 too — `const u32 width`, `const void *src` + `const u16 *pRgb`,
+ * `ybuf` assigned before `pRgb`, `pRgb` declared before `x`, `x` declared
+ * last with `u32 x = 0;` as a declaration initialiser, and reusing the dead
  * `height` parameter as the loop index (285, much worse).  The 3-cycle is
  * unforced by any source lever tried across two lanes; see
  * docs/idioms/a-dead-parameter-reused-as-the-index-rotates-the-loop-registers.md
@@ -101,8 +107,8 @@ void func_021C1F04(void *src, u32 width, u32 height, void *dst)
     crbuf = ybuf + y + y;
     for (x = 0; x < y; x++) {
         bb = (x % image_width < width) ? *pRgb : 0;
-        gg = (bb & 0x3e0) >> 2;
         rr = (bb & 0x1f) << 3;
+        gg = (bb & 0x3e0) >> 2;
         bb = (bb & 0x7c00) >> 7;
         ybuf[x] = (u8)((gg * 0x964 + rr * 0x4c9 + bb * 0x1d3 + 0x800) >> 12);
         j = (0x80800 - rr * 0x2b3 - gg * 0x54d + (bb << 11)) >> 12;

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * function: ParentStateCallback
  * address:  0x021D2450
  * packet:   pkt_ov016_021D2450
@@ -7,10 +7,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
  *
- * blocker:  near miss (796 vs 796 compiled - SIZE now EXACT), 14 concrete
- *           bytes differ, all in case 12's two guard loads.  Landed levers:
+ * blocker:  none (EXACT, 796/796 bytes, 20/20 relocations resolved).
+ *           Case 12 in-place pointer increment: `char *p = (char *)g_021DE65C; p += 0x1b000;`
+ *           forces in-place `add r0, r0, #0x1b000` with the loaded values in `r1`, matching
+ *           the image byte-for-byte.
+ *           Other landed levers:
  *           (1) case 2 must read the work pointer into a named local *before*
  *               OS_DisableInterrupts (`DWCi_MOV_WPB_WORK *w = g_021DE65C;`), or the
  *               1.1p1 allocator defers the global load to after the call, spilling
@@ -31,17 +34,6 @@
  *               label of `default:` (`case 0: default: OS_Terminate(); break;`)
  *               to keep a single OS_Terminate epilogue.  This makes the extent
  *               exactly 796.
- *           Residue (a) +029C case 12: the image computes base = (g+0x1b000)
- *           into r0 and loads the guarded word into r1 (`ldr r1,[r0,#0x144]`);
- *           our compile puts the base in r1 and the value in r0 (`ldr
- *           r0,[r1,#0x144]`).  All 10 instructions of the two checks agree
- *           except these register nibbles.  9 spellings (block/single/const
- *           pointer locals, named value temp, byte-pointer, field pointer,
- *           volatile, comma declaration, declared value-first) all leave it in
- *           r0/r1.  This is the same allocator tie documented in
- *           docs/idioms/a-guard-load-that-folds-into-its-dying-base-register-is-not-a-source-shape.md
- *           for the neighbour ov016_func_021D0CEC; record it, it is not a
- *           source shape.
  *
  * sdk:      ParentStateCallback (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  *
@@ -187,18 +179,16 @@ static void ParentStateCallback(u16 child_aid, u32 status, void *arg)
         else
             DWCi_MOV_MBP_ChangeState(0);
         {
-            u32 *p = (u32 *)g_021DE65C;
-
-            p = (u32 *)((char *)p + 0x1b000);
-            if (p[0x51])
-                p[0x51] = 0;
+            char *p = (char *)g_021DE65C;
+            p += 0x1b000;
+            if (*(int *)(p + 0x144))
+                *(int *)(p + 0x144) = 0;
         }
         {
-            u32 *p = (u32 *)g_021DE65C;
-
-            p = (u32 *)((char *)p + 0x1b000);
-            if (p[0x50])
-                p[0x50] = 0;
+            char *p = (char *)g_021DE65C;
+            p += 0x1b000;
+            if (*(int *)(p + 0x140))
+                *(int *)(p + 0x140) = 0;
         }
         break;
     }

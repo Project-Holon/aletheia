@@ -22,11 +22,11 @@
      "data:0x021A25D4",
      "data:0x021A2604",
      "self:0x021A26B4",
-     "self:0x021A26B8",
      "self:0x021A26C4",
      "self:0x021A26C8",
      "self:0x021A26CC",
-     "self:0x021A26D0"
+     "self:0x021A26D0",
+     "string:0x021A26B8"
     ],
     "sdk": [
      "0x0217A344"

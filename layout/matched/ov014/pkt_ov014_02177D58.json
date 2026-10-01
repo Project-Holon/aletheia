@@ -19,7 +19,6 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "code:0x021795D4",
      "data:0x021797A4"
     ],
     "sdk": [

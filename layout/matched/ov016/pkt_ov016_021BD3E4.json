@@ -19,7 +19,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE550"
+     "data:0x021DE550"
     ]
    }
   }

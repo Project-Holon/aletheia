@@ -32,9 +32,18 @@
  *           Wave-8 attempt: reproduced the vendor's declaration scoping
  *           (req_data inside the state==CONNECTED block, its locals inside
  *           the state==REQUESTED block) -- compiled output byte-identical to
- *           before, so scoping is not the lever. Confirmed 1192 vs 1216 (24
- *           short), 1006 concrete bytes differ. The gap is the global
- *           register rotation, not any single statement.
+ *           before, so scoping is not the lever. Also tried the vendor's
+ *           declaration order (state before p_data): byte-identical, 1192 vs
+ *           1216 (24 short), 1006 concrete bytes differ. The gap is the
+ *           global register rotation, not any single statement: the object
+ *           keeps &pPwork in sb and the fileinfo stride 0x5D4 in r7 for the
+ *           whole function (child r6, state r4, p_data r5, type r8), while
+ *           1.1p1 puts &pPwork in r5, child r4, state r8, p_data r7 and
+ *           rematerialises 0x5D4 from the pool at each use. Same wall as
+ *           ParentStateCallback (0x021D2450). Related idiom read and not
+ *           applicable: address-of-a-global-reread-across-an-extern-call-
+ *           cannot-be-cached (the reload is present in both; the register
+ *           chosen for the global's address is the difference).
  *
  * sdk:      MBi_CommParentRecvDataPerChild (libmb.TWL.HYB.a(mb_parent.o))
  *

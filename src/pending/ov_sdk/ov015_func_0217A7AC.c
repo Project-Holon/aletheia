@@ -27,7 +27,8 @@
  *   `return size;` DOES force the counter to r5, but the counter then stays live
  *   across the trailing calls so the +0x0108 IO-pointer load moves r5->r4 and the
  *   return becomes `mov r0,r5`: 4 bytes, still wrong (worse overall).  Also measured
- *   inert (stayed 6): const-zero copy, `register int i`, `i &= 0`, `i = i;` (at the
+ *   inert (stayed 6): const-zero copy, a named zero reused as both the `send`/`buf[0]`
+ *   zero and the second loop initialiser (`i = z;`), `register int i`, `i &= 0`, `i = i;` (at the
  *   merge, in the else arm, after the for-init), `size = size;`/`buf = buf;` at the
  *   merge, `buf[i] = buf[i] ^ 0xAA;`, a `c = buf[i]` temp, and splitting the first
  *   loop's counter into a second variable.

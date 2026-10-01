@@ -79,7 +79,17 @@
  *           residue is the front-end callee-saved set: our allocator ranks &s above
  *           *ps (gives &s=r4) and homes level/seq/mode as r8/r7/r6 against the image's
  *           r7/r6/r8.  This is exactly `docs/idioms/vendor-front-end-parameter-register-set-cannot-be-forced-by-source.md`,
- *           whose canonical instance is the same overlay (ov009_func_0217E504).  Parked.
+  *           whose canonical instance is the same overlay (ov009_func_0217E504).  Parked.
+  *
+  * lane wave8 (2026-10-01 08:28): re-ran; 1196 B / 628 concrete.  Three further levers
+  *           inert at the same counts: `unsigned char **const ps` = 628; a named
+  *           `p = *ps; s = p + 1; type = *p` (block scope) = 626; the same named `p`
+  *           with `s` declared LAST among the locals = 626.  In every case the allocator
+  *           still homes the call-crossing &s=r4 / short-lived *ps=r5 (the mirror) with
+  *           level/seq/mode=r8/r7/r6; the vendor does the reverse (*ps=r4, &s=r5,
+  *           seq/level/mode=r6/r7/r8).  The residue is exactly
+  *           docs/idioms/vendor-front-end-parameter-register-set-cannot-be-forced.md,
+  *           whose canonical instance is the same overlay.  Parked; stopped 08:28.
  */
 
 struct _CPSSslConnection {

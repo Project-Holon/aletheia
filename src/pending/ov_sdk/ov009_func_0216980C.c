@@ -27,6 +27,10 @@
  *           named g pointer) all leave this exact 21-byte residue: it is a scheduler
  *           tie, not a spelling. Ruled out: nested if (172B), goto-call (164B),
  *           A||B, `FriendGlobal *g` local (176B). No unresolved byte.
+ *           Wave 8 reconfirmed with 24 more shapes (copy-zero, decl/assign order,
+ *           named `fd`/`st` parameter locals, positive-guard wrap, late assign,
+ *           uninit neighbour, volatile/u16 cast) - all 21-byte residue, some size
+ *           changes. Filed docs/idioms/a-spilled-zero-init-store-schedules-independently-of-the-guards-loads.md.
  *
  * u21: the defining object is .comment 4.0.0.1025; per the brief the stamp is not a blocker
  *      and this is plain source-level scheduler residue.

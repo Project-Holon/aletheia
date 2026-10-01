@@ -30,10 +30,21 @@
  *           (case5) / e,off,j,d2,c,s (case6) / i,off,j,z (case3).  Case 3 now
  *           colours z=sb j=r8 off=r7 (was r7/sb/r8) and the diff drops to 1083
  *           concrete bytes, but the frame is still 0x30 and `m` still spills:
- *           the original hoists one table base (dcb/dcr) into `lr` out of the
- *           case-3 loops whereas compiled wants `lr` for `limits`, so the
- *           whole case recolours.  A declaration-order/scope sweep is the
- *           remaining lever (see declaration-position-orders-block-scope-colouring).
+ *           the original hoists one table base into `lr` out of the case-3
+ *           loops whereas compiled wants `lr` for `limits`, so the whole case
+ *           recolours.  A declaration-order/scope sweep is the remaining lever
+ *           (see declaration-position-orders-block-scope-colouring).
+ *
+ * retry:    wave8b lane decoded the pools: the case-3 `lr` base the original
+ *           hoists is draw_block (pool @0x021BFFA4 = 0x021C8D9C), not dcb/dcr;
+ *           the original case-4 keeps `m` in `lr` and reloads every table base
+ *           per iteration, whereas compiled holds `limits` live function-wide
+ *           in `lr` and therefore spills `m` to [sp+0x2c] (frame 0x30, push r3).
+ *           Tried and all left size 1412 / m spilled / diff 1082-1112: reversing
+ *           `limits + draw_block[e]` evaluation order, named draw_block/limits
+ *           base pointers in case3, a per-case `lim` pointer in case4, and an
+ *           8-way case-4 declaration-order sweep.  Remaining lever: stop the
+ *           function-wide `limits` base from claiming `lr` so `m` can take it.
  *
  * sdk:      writeblock (libssp.TWL.HYB.a jpegdec.o)
  *

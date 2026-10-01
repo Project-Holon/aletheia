@@ -8,6 +8,21 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ *
+ * lane A (2026-10-01, wave 8).  Two further levers measured against the +0x90
+ * guard, both still fold to ldreq/addeq/streq (260/264, 101 bytes):
+ *   - volatile *pointee* through an in-register pointer
+ *     (`volatile struct SOCLRecvPipe *recv_pipe = socket->recv_pipe;`): the
+ *     pointer does not spill, the flag load and the RMW stay `ldr r0,[r1,#..]`,
+ *     and the arm is still predicated.  So `volatile` on the pointee neither
+ *     changes selection nor blocks predication here.
+ *   - `*(volatile signed char *)&recv_pipe->flag_noconsume` plus a
+ *     `*(volatile long *)&recv_pipe->consumed` RMW cast through the same
+ *     register: identical 260/101.
+ * Confirms the idiom's bracket: only the volatile *local pointer* (which
+ * spills) un-predicates the arm, and it costs +32 bytes (idiom
+ * a-volatile-qualified-local-pointer-spills-and-un-predicates-a-short-arm.md),
+ * so it is diagnostic, not a closing lever.
  * pending:  measured near miss, 260/264 bytes, 101 concrete bytes differ. The only
  *            residue is the +0x90 guard arm: the image keeps `bne #0x215d9ec` over
  *            `ldr r0,[r1,#0xf8] / add r0,r0,r5 / str r0,[r1,#0xf8]` closed by

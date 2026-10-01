@@ -8,6 +8,14 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * blocker:  10 concrete bytes: one callee-saved register SET tie.  Every instruction
+ *           schedule and opcode is identical; the only residue is {cx,i} occupying
+ *           {r4,r6} in the opposite assignment (image cx r6 / i r4; ours cx r4 / i r6,
+ *           dx r5 both).  The 1.1p1 front end homes the entry-tested parameter before
+ *           the later locals; ~230 source spellings do not move it.  Matches
+ *           docs/idioms/vendor-front-end-parameter-register-set-cannot-be-forced.md,
+ *           a-vendor-front-end-homed-parameter-cannot-be-forced-by-source.md and
+ *           sdk-defining-object-dwarf-pins-the-intended-register-homes.md.
  *
  * wave7 (lane02): re-measured live: 172 B, 10 concrete bytes DIFF, not MATCH.  The residue is a
  *        single cx<->i register swap (image cx=r6/i=r4; ours cx=r4/i=r6) with dx=r5 and all

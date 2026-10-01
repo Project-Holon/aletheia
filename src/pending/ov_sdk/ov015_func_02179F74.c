@@ -42,6 +42,14 @@
  *
  * w8_nm tried: all 24 orders of the four stores, each with and without the
  * DWARF local `size` for the IRCi_Read result: none under 11 B.
+ * symbols:
+ *   func_0217A60C  0x0217A60C  arm  ov015
+ *   func_0217A7AC  0x0217A7AC  arm  ov015
+ *   func_02179F48  0x02179F48  arm  ov015
+ *   func_0217A594  0x0217A594  arm  ov015
+ *   g_0217ABD8     0x0217ABD8  data
+ *   g_0217AAB0     0x0217AAB0  data
+ *   g_0217ABA8     0x0217ABA8  data
  */
 
 extern void func_0217A60C(void);

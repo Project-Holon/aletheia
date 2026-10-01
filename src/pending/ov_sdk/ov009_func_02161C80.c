@@ -70,6 +70,19 @@
  *           the 24-bit length's anonymous temp lands in r8 with its +4 temp in r7 while the
  *           record type reads `ldrb r0,[r5]` before `add r5,r5,#4`; no source spelling found
  *           reaches it. Parked with `blocker:`.
+ *
+ * lane W8c (2026-10-01): load-before-guard experiment.  Reading the record type into a
+ *           temp *before* the `sub > len` guard and switching on it (instead of
+ *           `s += 4; switch (s[-4])`) does place `ldrb r0,[r5]` above the forward pointer
+ *           `add r5,r5,#4`, matching the image's load/advance order -- but the named temp
+ *           forces the sub result to r7 (image r8) and the type to r1 (image r0), AND it
+ *           de-predicates the case-2 guard (`cmp r7,#0x26; blo` where the image has
+ *           `cmp r8,#0x26; ldrbge ...; cmpge ...`), costing one instruction: 796 B / 319
+ *           concrete.  Reusing `type` instead of a fresh `rec` gives the same 796/319, so
+ *           the effect is the sequencing, not the name.  The de-predication of the
+ *           `sub >= 0x26 && con->f454 != 0` guard is the residue that makes this a net loss;
+ *           a spelling that keeps the load early AND the guard predicated was not found.
+ *           Best remains 792/258 (the committed body). Parked.
  */
 
 struct _CPSSslConnection {

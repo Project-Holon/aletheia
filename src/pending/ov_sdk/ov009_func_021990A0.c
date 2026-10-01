@@ -66,6 +66,21 @@
  *   materialisation above the `mov`, and no C shape separates the two.  This is the
  *   scheduling tie-break, not the constant materialiser.
  *
+ * lane w12 (2026-10-01): confirmed the w11 tension and narrowed the mechanism to a
+ *   front-end fold keyed on the live r0 == 1, not the scheduler.  A *named* high enum
+ *   local materialises with `mvn` only while r0 does not yet hold 1; but the scheduler
+ *   preserves source order of the two independent local initialisations, and the fold
+ *   fires the moment a low assignment emits `mov r0, #1` before the high local:
+ *     - `HighMax hi; int lo = 1;` (hi first)  -> `mvn r1; mov r0` (6 B, no fold)
+ *     - `int lo = 1; HighMax hi;` (lo first) -> `mvn r1; mov r0` (6 B, no fold, self-assign too)
+ *     - any enum-typed low before hi            -> `mov r0; sub` (3 B, folded)
+ *   So a *named* high local never yields mov-first, and an argument-expression high
+ *   (even enum-typed) never yields mvn.  New dead ends: static-inline wrappers with the
+ *   high param enum-typed and low evaluated last-to-first (mov-first, folds), different
+ *   enum types for low/high, `lo = lo;` / `hi = hi;` no-op self-assignments, and an
+ *   inline helper returning 1 (mvn-first).  blocker unchanged: no C shape gets `mov r0`
+ *   before `mvn r1` while keeping the enum-local materialiser.  Rest of the row byte-exact.
+ *
  * sdk:      GetClientUniqueID (natify.o)
  *
  * w4_nm tried: K&R and unsigned prototypes, 0x7fffffffu, ~0x80000000, ~0u>>1, long

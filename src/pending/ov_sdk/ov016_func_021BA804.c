@@ -12,22 +12,23 @@
  * SDK: TwlDWC/lib/ARM9-TS/Rom/libdwcutil.TWL.HYB.a(atermset.o).
  * Object stamped Metrowerks 3.0.0.126 -> ../2.0/sp1p2.
  *
- * blocker: applied docs/idioms/builtin-clear-inlines-where-memset-calls.md to
- *   the 596-byte g_021DD224 zero-fill.  `__builtin__clear(&g_021DD224,
- *   sizeof(g_021DD224))` now reproduces the image's MWCC large-aggregate
- *   literal-zero idiom exactly (movs r0,#0; movs rN,#0x12; ldr r7;
- *   adds r1/r2/r3,r0; mov ip,rN; 2-unrolled `stm r7!,{r0,r1,r2,r3}` with the
- *   counter staged through ip; final `stm` + `str r0,[r7]`).  Under the object
- *   pin ../2.0/sp1p2 -O4,p -thumb the compiled size rises 952 -> 976 of the
- *   image's 996.  Still DIFF, not a near miss: 815 concrete bytes differ and
- *   20 bytes are missing, and the residual is distributed register
- *   allocation / scheduling (e.g. the prologue schedules `adds r6, zero`
- *   before the two zero stores where the image emits stores first), not the
- *   fill.  Under the wave-mandated dsi/1.1p1 the same body is 902/996 (882
- *   with the plain for-loop), so this object's codegen is the pinned 2.0 front
- *   end.  Seven data globals (0x021DD490, 0x021DDD04, 0x021DD020, 0x021DD4A0,
- *   0x021DD4A8, 0x021DD224, 0x021DD310) also lack an outside witness, so the
- *   verdict cannot reach MATCH either.
+ * blocker: under the wave toolchain dsi/1.1p1 -O4,p -thumb the whole function
+ *   compiles to 902 bytes against the image's 996; the gap is not local.  The
+ *   596-byte g_021DD224 zero-fill is already right
+ *   (docs/idioms/builtin-clear-inlines-where-memset-calls.md:
+ *   `__builtin__clear` gives the movs r0,#0; movs rN,#0x12; ldr r7;
+ *   adds r1/r2/r3,r0; mov ip,rN; 2-unrolled `stm r7!,{r0,r1,r2,r3}`; final
+ *   `stm` + `str r0,[r7]`).  What remains is a whole-function register
+ *   allocation / global-caching divergence under 1.1p1: it caches
+ *   g_021DCFD0 in r4 for the whole body and sock in r6, keeps bfinish in r6,
+ *   and uses a 0x34 frame, whereas the image reloads g_021DCFD0 from a pool
+ *   at every use, keeps bfinish in r6 and sock in r4, and uses a 0x2c frame.
+ *   `volatile` on the globals does not move it (906/996).  The prologue
+ *   emission is likewise reordered (1.1p1 hoists `movs r6,#0` and the zero
+ *   stores ahead of the ASTATE store; the image stores ASTATE last).  Seven
+ *   data globals (0x021DD490, 0x021DDD04, 0x021DD020, 0x021DD4A0, 0x021DD4A8,
+ *   0x021DD224, 0x021DD310) also lack an outside witness, so the verdict
+ *   cannot reach MATCH either.
  *
  * symbols:
  *   OS_Sleep          0x02085a38 arm

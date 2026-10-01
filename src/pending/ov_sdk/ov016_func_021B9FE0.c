@@ -57,11 +57,10 @@ typedef struct _FRAMEHEADER {
 
 extern int func_021BAC20(char *dest, char *src, unsigned long buflen, char *keyptr, unsigned long keylen);
 
-int func_021B9FE0(unsigned char *lpframe, int id, unsigned char *pbody, int size, unsigned char *lpkey)
+int func_021B9FE0(unsigned char *lpframe, int id, unsigned char *pbody, int size, const unsigned char *lpkey)
 {
     FRAMEHEADER *pfh;
     ELEMENTHEADER *peh;
-    unsigned char *lpb;
     unsigned char *lps;
     unsigned char *pend;
     unsigned short *psum;
@@ -83,9 +82,8 @@ int func_021B9FE0(unsigned char *lpframe, int id, unsigned char *pbody, int size
     memset(pfh, 0, 6);
     pfh->FrameID = SWAP16((unsigned short)id);
     pfh->DataLength = SWAP16((unsigned short)size);
-    pend = pend + size;
-    psum = (unsigned short *)pend;
-    for (lps = lpframe; lps < (unsigned char *)psum; lps++)
+    psum = (unsigned short *)(pend + size);
+    for (lps = lpframe; lps != (unsigned char *)psum; lps++)
         dwsum += *lps;
     *psum = SWAP16((unsigned short)dwsum);
     return (unsigned char *)(psum + 1) - lpframe;

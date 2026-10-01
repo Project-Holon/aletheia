@@ -88,7 +88,7 @@ extern void func_02193710(int *connection, int result, int errorString);
 extern int func_02189D78(int *connection, int a1, int a2);
 extern char *func_0217EAB0(int size);
 extern void func_02092344(void *dst, const void *src, int n);
-extern void func_0217D254();
+extern void func_0217D254(int, int, int, char *, int, ...);
 extern void func_0217EAE0(void *p);
 extern char g_021A44DC[];
 extern char g_021A4504[];

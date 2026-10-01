@@ -50,7 +50,7 @@
  *   both as declaration initialisers (400).  lane U22 adds nine more shapes, all
  *   at exactly 18: `expectLen = 0;` sunk to just before MI_CpuFill8 (70), after
  *   the first wcmw guard (28), a comma expression `e = ..., expectLen = 0;`,
- *   swapped local declaration order, `if (g_021AA7D4.wcmw)` without `!= 0`,
+ *   swapped local declaration order, `if (p->wcmw)` without `!= 0`,
  *   both locals as declaration initialisers, a volatile-cast read of `wcmw`,
  *   `expectLen` zeroed as `unsigned long`, and `expectLen = 0;` moved after the
  *   two pointer guards.  The pool load and the spill are one independent
@@ -103,12 +103,13 @@ extern void func_02087254(void *alarm);
 
 long func_02164D74(void *buf, long len, unsigned char deviceId)
 {
+    WCMSysState *p = &g_021AA7D4;
     long expectLen;
     unsigned long e;
 
     e = OS_DisableInterrupts();
     expectLen = 0;
-    if (g_021AA7D4.wcmw != 0) {
+    if (p->wcmw != 0) {
         OS_RestoreInterrupts(e);
         return 1;
     }
@@ -122,7 +123,7 @@ long func_02164D74(void *buf, long len, unsigned char deviceId)
     }
     MI_CpuFill8(buf, 0, len);
     if (deviceId == 0) {
-        deviceId = g_021AA7D4.overridedDeviceId;
+        deviceId = p->overridedDeviceId;
         if (deviceId == 0) {
             deviceId = func_02165B68();
         }
@@ -135,13 +136,13 @@ long func_02164D74(void *buf, long len, unsigned char deviceId)
         OS_RestoreInterrupts(e);
         return 6;
     }
-    g_021AA7D4.wcmw = buf;
+    p->wcmw = buf;
     ((WCMWork *)buf)->phase = 1;
-    g_021AA7D4.wcmw->wmState = 0;
-    g_021AA7D4.wcmw->maxScanTime = 0;
-    g_021AA7D4.wcmw->resetting0 = 0;
-    g_021AA7D4.wcmw->resetting = 0;
-    g_021AA7D4.wcmw->deviceId = deviceId;
+    p->wcmw->wmState = 0;
+    p->wcmw->maxScanTime = 0;
+    p->wcmw->resetting0 = 0;
+    p->wcmw->resetting = 0;
+    p->wcmw->deviceId = deviceId;
     func_021658F8();
     func_02166304();
     if (func_02087058() == 0) {
@@ -150,7 +151,7 @@ long func_02164D74(void *buf, long len, unsigned char deviceId)
     if (func_02087244() == 0) {
         func_02087208();
     }
-    func_02087254(g_021AA7D4.wcmw->alarm);
+    func_02087254(p->wcmw->alarm);
     OS_RestoreInterrupts(e);
     return 0;
 }

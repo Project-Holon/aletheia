@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
  *
  * measured (U23): rule-4b check done -- all eleven ../2.0/* trees give 388 bytes / 221
  *   concrete against the image's 380, so 1.1p1 (384/177 on the same source) stays right.
@@ -22,25 +22,11 @@
  *   func_0216FF2C  0x0216FF2C  arm  ov009
  *   func_021719A4  0x021719A4  arm  ov009
  *
- * Near miss (lane w8): 15 concrete bytes differ, all one callee-saved pair swap.
- * The enum-zero lever (docs/idioms/an-enum-typed-zero-keeps-its-own-web-where-a-u32-zero-is-folded.md)
- * fixed the hoist and the frame (177 -> 15 bytes): `ZeroE result; result = Z0;` and moving
- * `pNew = &tmpNewNodeInfo;` after the struct copy keeps the zero live in a register and
- * pushes r3-r7. blocker: the allocator homes the zero in r5 and pNew in r4; the image has
- * the zero in r4 and pNew in r5 (strb r4/r5 at +0x620,+0x6d9; movne r0,r4/r5; ldrh/ldm
- * [r5]/[r4] at +0xfc,+0x104,+0x128,+0x12c). Also +0x84/+0x88 store order and the +0xe8
- * beq target (+0x18ac vs +0x18a4) follow from that swap. Declaring result last and
- * reordering the senddata[0]/[1] stores both moved the diff the wrong way.
- *
- * Swept (lane w8b), all under 1.1p1 -O4,p, best stays 15: every
- * declaration-order permutation of result/linkProgress/pNew (with pNodeInfo at
- * every slot) gives 15 or 27, never lower; distinct second pointer locals for
- * the reload (pNodeInfo2 / pNew2 / an unused pExtra) give 15; a same-typed
- * second pointer split across the two sends gives 15; `result = Z0;` moved to
- * any statement position gives 15 (base), 29 or 37; self-assignments
- * (`pNew = pNew;`, `result = result;`, `linkProgress = linkProgress;`) give 15;
- * `ZeroE result = Z0;` initialiser-at-declaration gives 27. The r4/r5 pair is
- * an allocator tie that these levers do not reach.
+ * The `flag = result` store sits inside the `cmdState != 0x13` block: the image's
+ * beq at +0xE8 jumps straight to `return 0`, past that store. With the store in
+ * the right block, `int result = 0` (the DWARF type) matches; the earlier
+ * enum-zero workaround and the r4/r5 swap were both side effects of the
+ * misplaced store.
  */
 
 typedef struct {
@@ -77,18 +63,16 @@ extern int func_0216FF2C(unsigned char command, int profileID, unsigned long ip,
                          unsigned long *data, int len);
 extern int func_021719A4(int error);
 
-typedef enum { Z0 } ZeroE;
-
 int func_0217273C(void)
 {
     unsigned long senddata[16];
-    ZeroE result;
+    int result;
     NodeInfo tmpNewNodeInfo;
     unsigned char linkProgress;
     NodeInfo *pNodeInfo;
     NodeInfo *pNew;
 
-    result = Z0;
+    result = 0;
     tmpNewNodeInfo = func_02175F3C()->newNodeInfo;
     pNew = &tmpNewNodeInfo;
     if (func_02175F3C()->linkProgress < func_02176978() - 1) {
@@ -118,7 +102,7 @@ int func_0217273C(void)
         if (func_021719A4(func_0216FF2C(10, pNodeInfo->profileID, pNodeInfo->publicInetAddress,
                                        pNodeInfo->publicQueryPort, senddata, 2)))
             return result;
+        func_02175F3C()->flag = result;
     }
-    func_02175F3C()->flag = result;
     return 0;
 }

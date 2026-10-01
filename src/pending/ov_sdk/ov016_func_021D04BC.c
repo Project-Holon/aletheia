@@ -28,6 +28,14 @@
  * (the a-load-scheduled-above-an-unrelated-store idiom, cast form), and a named
  * `MEMSTEP *base = MemStep;` bound before the store (scheduler sinks it to first use).
  *
+ * lane9: confirmed taskBegin3's matched else arm stores x BEFORE the MemStep load
+ * (0x021D0460 mov/str then ldr r1,[r5,#4]), so the loop forms cannot supply the
+ * base-first schedule taskBegin4/taskEnd0 need. Re-tried the const-idiom shapes:
+ * `extern const STEP_BSS step_bss` (72 B out), `const MEMSTEP *m = MemStep` (12 B,
+ * inert), `(*(const STEP_BSS *)&step_bss).MemStep->cell[4]` (compile abort), a
+ * `void *cell` local bound before the store (23 B out, it loads cell early). The
+ * single-cell else arm's base load is a scheduler tie no source shape reached.
+ *
  * w8: re-swept the +0068..+0074 permutation. Inert (still exactly the same 12 B): a one-trip
  * `for (i = 4; i < 5; i++)` (the front end folds it back to the direct call), `MEMSTEP *m`,
  * `MEMSTEP *const m`, `void *cell` (bound before or after), `void *const cell`, nested-block

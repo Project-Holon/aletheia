@@ -19,11 +19,12 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE56C",
+     "data:0x021DE56C",
      "string:0x021DB04C"
     ],
     "sdk": [
      "0x02177ED8",
+     "0x021C0A2C",
      "0x021C0AA8",
      "0x021C0B7C",
      "0x021C0DE8",

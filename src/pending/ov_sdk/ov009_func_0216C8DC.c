@@ -78,6 +78,14 @@
  * (stores) and `mov r0,#0` (returns); 1.1p1 alone pools them into r4.  Wall
  * unchanged.
  *
+ * lane W8c (2026-10-01): re-verified under dsi/1.1p1, 296/296, 134 concrete,
+ * 13/13 relocs.  Measured this wave and still no effect on the +1 roll: a
+ * chained store `f1 = f2 = 0` (300 B / 239 concrete -- worse) and a
+ * `do { f0/f1/f2 stores } while (0)` block fence (296 B / 134 -- unchanged).
+ * The shared zero at +0014 is 1.1p1 global-CSE across the func_020948E0 call
+ * into callee-saved r4; the image rematerialises `mov r2,#0` at the stores and
+ * `mov r0,#0` per return.  Confirmed wall.
+ *
  * symbols:
  *   g_021AAA40     0x021AAA40  data  ov009
  *   func_02173AD8  0x02173AD8  arm  ov009

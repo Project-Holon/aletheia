@@ -23,13 +23,10 @@
      "data:0x021CF7AC",
      "data:0x021CF7BC",
      "data:0x021CF820",
-     "data:0x021CF84C",
-     "self:0x021CF8D0",
      "self:0x021CF8D8",
-     "self:0x021CF8DC",
-     "self:0x021CF8E4",
-     "self:0x021CF900",
-     "self:0x021CF92C"
+     "self:0x021CF92C",
+     "string:0x021CF84C",
+     "string:0x021CF8DC"
     ],
     "sdk": [
      "0x02084F40",

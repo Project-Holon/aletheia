@@ -11,17 +11,18 @@
  *
  * sdk:      rcv_certificate (libssl.TWL.HYB.a(ssl.o))
  *
- * blocker:  first divergence +0004: image `push {r3, r4, r5, r6, r7, r8, sb, sl,
- *           fp, lr}` | ours `push {r4, r5, r6, r7, r8, sb, sl, fp, lr}`; then
- *           +000C image `ldr r4, [sp, #0x44]` | ours `ldr r1, [sp, #0x44]`.
- *           Compiled 592 bytes against the image's 544.  The vendor object is
- *           byte identical to the image (0 concrete mismatches of 526 bytes),
- *           so this is a body-shape problem, not a boundary problem: the
- *           image keeps `s` in r4 and `con` in sl from the first instruction,
- *           and the leading `push {r0, r1, r2, r3}` (already reproduced) is
- *           the argument home its prologue needs.  See
- *           docs/notes/ov009_rcv_certificate.md for the full field map,
- *           DWARF register assignment and callee addresses.
+ * blocker:  rewritten from the vendor listing: 544 B == 544 B, 53 concrete bytes left
+ *           (was 510).  Fixed: the 24-bit lengths are big-endian
+ *           ((s[0] << 8) + s[1]) << 8) + s[2]; f80c is
+ *           ((year + 2000) << 16) + (month << 8) + day; cert_item failure, f594 < 0x33
+ *           and f5a0 == 0 share one state-9 return; compare_fqdn takes &con->f7b0;
+ *           locals declared in reverse DWARF order; `result &= ~0xff; result |=
+ *           validate_signature(...)` keeps result in r7.  Left: (1) the image clears
+ *           the low byte AFTER the validate_signature call (bic after bl) yet keeps
+ *           result in r7; the one-expression form puts it in r0, the compound form
+ *           bics before the call; (2) parse_mode shares r6 with result0 in the image,
+ *           ours puts it in r3; (3) the f808/f804 stores: ours hoists the f808 store
+ *           above the byte clears.
  *
  * symbols:
  *   RTC_GetDate        0x02088864  arm
@@ -83,28 +84,26 @@ extern int validate_signature(CPSSslConnection *con, SOCLCaInfo *ca);
 static void func_02160A7C(CPSSslConnection *con, unsigned char *s)
 {
     RTCDate date;
-    unsigned char *s2;
-    int level;
-    int parse_mode;
-    int result;
     int result0;
-    int this_certlen;
+    int result;
     int remaining_certlen;
+    int this_certlen;
+    unsigned char *s2;
+    int parse_mode;
+    int level;
 
-    remaining_certlen = (s[2] << 16) + (s[1] << 8) + s[0];
+    remaining_certlen = (((s[0] << 8) + s[1]) << 8) + s[2];
     s += 3;
-    level = 0;
-    parse_mode = 0;
     con->f45c = -1;
     RTC_GetDate(&date);
-    con->f80c = ((date.year + 0x7d0) << 16) + (date.month << 8) + date.day;
+    parse_mode = 0;
+    level = 0;
+    con->f80c = ((date.year + 2000) << 16) + (date.month << 8) + date.day;
     con->f6b0 = 0;
     con->f5a0 = 0;
     con->f594 = 0;
-    s2 = 0;
-    result = 0;
     for (;;) {
-        this_certlen = (s[2] << 16) + (s[1] << 8) + s[0];
+        this_certlen = (((s[0] << 8) + s[1]) << 8) + s[2];
         s += 3;
         remaining_certlen -= this_certlen + 3;
         con->hash_type = -1;
@@ -116,42 +115,36 @@ static void func_02160A7C(CPSSslConnection *con, unsigned char *s)
         con->f7b0 = 0;
         con->f808 = this_certlen;
         con->f804 = s;
-        if (cert_item(con, &s, 0, 0, parse_mode) != 0) {
+        if (cert_item(con, &s, 0, 0, parse_mode) != 0 || (unsigned int)con->f594 < 0x33 ||
+            con->f5a0 == 0) {
             con->state = 9;
             return;
         }
-        if (con->f594 < 0x33) {
-            con->state = 9;
-            return;
+        result = auth_cert(con);
+        if (level == 0 && con->f800 != 0) {
+            if (compare_fqdn(con->f800, (char *)&con->f7b0) != 0)
+                result |= 0x4000;
         }
-        if (con->f5a0 != 0) {
-            result = auth_cert(con);
-            if (level == 0 && con->f800 != 0) {
-                if (compare_fqdn(con->f800, (char *)(con + 1) + 0x7af) != 0)
-                    result |= 0x4000;
+        result0 = result & 0xff;
+        if (result0 == 1 && remaining_certlen != 0) {
+            s2 = s + 3;
+            con->f5ad = 0;
+            if (cert_item(con, &s2, 0, 0, 2) != 0) {
+                con->state = 9;
+                return;
             }
-            result0 = result & 0xff;
-            if (result0 == 1 && remaining_certlen != 0) {
-                s2 = s + 3;
-                con->f5ad = 0;
-                if (cert_item(con, &s2, 0, 0, 2) != 0) {
-                    con->state = 9;
-                    return;
-                }
-            }
-            result = (result & ~0xff) |
-                     validate_signature(con, (SOCLCaInfo *)((char *)con + 0x480));
-            if (con->f810 != 0)
-                result = con->f810(result, con, level);
         }
+        result &= ~0xff;
+        result |= validate_signature(con, (SOCLCaInfo *)((char *)con + 0x480));
+        if (con->f810 != 0)
+            result = con->f810(result, con, level);
         level++;
-        if (result0 == 0)
-            break;
-        if (result != 0)
-            break;
-        if (remaining_certlen == 0)
+        if (result0 == 0 || result != 0 || remaining_certlen == 0)
             break;
         parse_mode = 1;
     }
-    con->state = (result == 0) ? 3 : 9;
+    if (result == 0)
+        con->state = 3;
+    else
+        con->state = 9;
 }

@@ -21,10 +21,10 @@
     "sole-ref": [
      "data:0x021A5A70",
      "data:0x021A5A7C",
-     "self:0x021A5AB4",
-     "self:0x021ACEFC",
-     "self:0x021AE698",
-     "self:0x021AE6C4"
+     "data:0x021ACEFC",
+     "data:0x021AE698",
+     "data:0x021AE6C4",
+     "self:0x021A5AB4"
     ]
    }
   }

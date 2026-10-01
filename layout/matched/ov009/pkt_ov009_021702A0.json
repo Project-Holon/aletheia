@@ -43,7 +43,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA860"
+     "data:0x021AA860"
     ]
    }
   },
@@ -60,7 +60,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA860"
+     "data:0x021AA860"
     ]
    }
   },
@@ -77,7 +77,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA860"
+     "data:0x021AA860"
     ],
     "sdk": [
      "0x0218627C"
@@ -97,7 +97,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA878"
+     "data:0x021AA878"
     ]
    }
   },
@@ -114,7 +114,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA878",
+     "data:0x021AA878",
      "self:0x021AA880"
     ]
    }
@@ -132,7 +132,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA878"
+     "data:0x021AA878"
     ],
     "sdk": [
      "0x0216BCD0"
@@ -152,7 +152,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA878"
+     "data:0x021AA878"
     ]
    }
   },
@@ -169,7 +169,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA878"
+     "data:0x021AA878"
     ]
    }
   },
@@ -186,8 +186,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA878",
-     "self:0x021AA8A0"
+     "data:0x021AA878",
+     "data:0x021AA8A0"
     ]
    }
   },
@@ -204,7 +204,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA8A0"
+     "data:0x021AA8A0"
     ]
    }
   },
@@ -221,7 +221,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA878"
+     "data:0x021AA878"
     ],
     "sdk": [
      "0x02059F38"
@@ -306,7 +306,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AAA20"
+     "data:0x021AAA20"
     ]
    }
   },
@@ -342,6 +342,18 @@
    }
   },
   {
+   "name": "func_021700C8",
+   "address": "0x021700C8",
+   "kind": "sdk",
+   "region": "ov009",
+   "source": "src/matched/ov_sdk/ov009_func_021700C8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT"
+  },
+  {
    "name": "func_02170168",
    "address": "0x02170168",
    "kind": "sdk",
@@ -371,8 +383,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021A2190",
-     "self:0x021A21A0"
+     "self:0x021A21A0",
+     "string:0x021A2190"
     ],
     "sdk": [
      "0x021864CC"
@@ -428,7 +440,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AAA40"
+     "data:0x021AAA40"
     ]
    }
   },
@@ -505,7 +517,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AAA20"
+     "data:0x021AAA20"
     ],
     "sdk": [
      "0x02176A8C"

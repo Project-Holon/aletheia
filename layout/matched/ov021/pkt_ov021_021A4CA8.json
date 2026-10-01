@@ -16,14 +16,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT*",
-   "evidence": {
-    "sole-ref": [
-     "code:0x021A4CF4",
-     "code:0x021A4FA8",
-     "code:0x021A5148"
-    ]
-   }
+   "status": "EXACT*"
   }
  ]
 }

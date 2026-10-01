@@ -43,6 +43,14 @@
  *     all stay 12 B; `const` on the struct overshoots. The two-token rewrite
  *     did not move `ldr MemStep` above `str x`.
  *
+ * w8x: `MEMSTEP *m`/decl-block `MEMSTEP *m = MemStep;` before/after the store, `volatile MEMSTEP *m`
+ *      with a comma-forced load, the literal 152 in the call (store kept), the assignment as the 3rd
+ *      argument, a `void *c` cell local, `volatile` on the step_bss MemStep member, and moving
+ *      `x = 152;` after the call: every shape is 12 B or
+ *      worse (c-local and store-after change the taken arm, 38-53 B). The original's else arm is the
+ *      only site in the packet that wants the MemStep load (A) above the `str x` (C); taskEnd1..3 and
+ *      taskBegin3's loop arms all want C above A and match. Scheduler tie, not a source lever.
+ *
  * U26: the matched siblings in this packet keep the same `x = N;` before the call and match
  * (taskEnd1..3 are loop forms); the single-cell else arm stays on the 12-byte window under a
  * `MEMSTEP *m`/`void *cell` local bound before the store, the assignment as the 3rd argument and
@@ -178,3 +186,4 @@ static void taskEnd0(void *task)
         DWCi_TSKlChangeFunc(task, taskEnd1);
     }
 }
+

@@ -22,23 +22,14 @@
      "data:0x021CF194",
      "data:0x021D3B2C",
      "self:0x021CF14C",
-     "self:0x021CF160",
-     "self:0x021CF168",
-     "self:0x021CF170",
      "self:0x021CF178",
-     "self:0x021CF184",
-     "self:0x021CF18C",
-     "self:0x021CF198",
-     "self:0x021CF1A4",
-     "self:0x021CF1B4",
-     "self:0x021CF1C0",
-     "self:0x021CF1CC",
      "self:0x021CF1D4",
-     "self:0x021CF1D8",
-     "self:0x021CF1E8"
+     "string:0x021CF198",
+     "string:0x021CF1D8"
     ],
     "sdk": [
      "0x02084F40",
+     "0x021BFF7C",
      "0x021C00C0",
      "0x021C25C8"
     ]

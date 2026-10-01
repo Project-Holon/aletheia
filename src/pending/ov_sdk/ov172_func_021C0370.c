@@ -69,6 +69,13 @@
  * with no third use of the masked value to force it out of the shifter operand
  * (80-byte leaf). See also docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md.
  *
+ * wave8 lane D (2026-10-01): 3 further LE-arm spellings, still exactly 7 concrete B:
+ * an `unsigned char lo` local for the low byte, `word = (unsigned short)(word | src[cur]);`
+ * (word on the left), and an `int w = (unsigned short)src[cur] | (unsigned short)word;`
+ * temp. Each canonicalises to the same node. Confirms the closed class
+ * docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md;
+ * no third consumer exists to pull zext16(word) out of the orr shifter slot (80-byte leaf).
+ *
  * blocker:  LE arm's u16-cast selection: image materialises zext16(word) and folds
  *           zext16(byte); 1.1p1 canonicalises both casts into one and folds the word
  *           instead. Not reachable from C (closed idiom); 0 relocs.

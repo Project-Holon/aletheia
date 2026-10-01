@@ -19,11 +19,11 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021A826C",
-     "self:0x021A82FC",
-     "self:0x021A8524",
-     "self:0x021A85E4",
-     "self:0x021A86A4"
+     "data:0x021A826C",
+     "data:0x021A82FC",
+     "data:0x021A8524",
+     "data:0x021A85E4",
+     "data:0x021A86A4"
     ]
    }
   }

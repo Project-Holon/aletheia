@@ -74,6 +74,13 @@
  * cursor makes the compare unsigned/inequality (`bne`/`blo`) where the image
  * keeps a signed `blt`, and measured 7 concrete bytes.  A cursor cannot
  * reproduce a signed integer loop, so the idea is a dead end here.
+ *
+ * Wave 8 second re-lane: an explicit `break;` after case 18 (before case 19) and
+ * `const WMBssDesc g_021DCE60_b` were each measured; the explicit break is flat at
+ * 464/6 and const on the bound's extern blows the size to 476. The case-19 table
+ * slot (object 0x2c -> the shared `b` at 0x21b88e2; ours 0xb6 -> the exit) is the
+ * front end coalescing an empty fallthrough case into the exit; the ssidLength
+ * loop's r0/r1 role swap is a preheader allocator tie. Parked.
  */
 
 typedef unsigned char u8;

@@ -7,33 +7,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
  *
- * blocker:  codegen residue, 552 B == 552 B, 3 concrete mismatches, all the
- *           same shape: an empty `return;` arm of a switch whose body is only
- *           the epilogue.  The image puts a fresh `pop {r4,r5,r6,pc}` in the
- *           jump-table slot itself (state 6 slot 0x02167544, phase-switch
- *           default slot 0x02167574, phase 11 slot 0x02167584); dsi/1.1p1
- *           emits `b <shared pop>` there instead.  Tried:  case orderings
- *           (6 first / 6 last / 8-9 before 7), `break;`+trailing `return;`,
- *           `case 11:`/`default:` split vs grouped, `default:` first, a
- *           non-nested shallow probe reproduces the inline pop, so it is the
- *           nested (errcode>state>phase) context, not the arm, that defeats
- *           it.  Everything else (all 552 bytes) is byte-identical.
- *
- * measured (U23): arm-shape sweep (state case 6 as `break`, phase case 11/default split into
- *   two arms, default listed first, brace-wrapped empty arm, case 6 moved first) -- every
- *   spelling still emits `b <shared pop>` in those three slots; only the shared target moves
- *   (0x21675b8 / 0x2167670 / 0x2167698). 552 bytes == 552 bytes, 12 concrete bytes = the
- *   three 4-byte slots.
- * measured (wave8): `{ return; }` braces, a dead `break;` after each `return;`, phase case 11
- *   `break;` / default `return;` (and the inverse) with a trailing `return;` after the inner
- *   switch, and moving the empty arms to the front of their switch -- all still emit
- *   `b <shared pop>` in the three slots. Moving the phase empty arms first also reallocates
- *   the table (360 concrete bytes) with the shared target at 0x216758c; no spelling yields
- *   the image's per-slot `pop`. Consistent with the prior finding: a shallow, non-nested
- *   probe inlines the two empty-arm pops, so it is dsi/1.1p1 cross-jumping the empty returns
- *   across the errcode>state>phase nesting that keeps one epilogue.
+ * The errcode `default` arm ends in `break;` (falling out of the outer switch to
+ * the function's own epilogue) rather than `return;`; with `return;` dsi/1.1p1
+ * schedules the pooled 0x45e load after both bssDesc adds (8 B). The three empty
+ * returns still go through distinct `goto` labels at the tail so the lone `pop`s
+ * are not tail-merged.
  * sdk:      WcmWmcbConnect (libwcm.TWL.HYB.a(wmif.o))
  *
  * symbols:
@@ -111,8 +91,9 @@ static void WcmWmcbConnect(void *arg)
                 WcmWmReset();
                 return;
             case 11:
+                goto ret11;
             default:
-                return;
+                goto retdef;
             }
         case 7:
             if (wcmw->phase == 0xc) {
@@ -140,7 +121,7 @@ static void WcmWmcbConnect(void *arg)
             WcmWmReset();
             return;
         case 6:
-            return;
+            goto ret6;
         case 0x1a:
             return;
         default:
@@ -167,6 +148,12 @@ static void WcmWmcbConnect(void *arg)
     default:
         WCMi_SetPhase(0xb);
         WCMi_Notify(7, wcmw->bssDesc, 0, 0x45e);
-        return;
+        break;
     }
+    ret6:
+        return;
+    ret11:
+        return;
+    retdef:
+        return;
 }

@@ -19,7 +19,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "data:0x02203F5C"
+     "string:0x02203F5C"
     ]
    }
   }

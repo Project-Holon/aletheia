@@ -35,6 +35,13 @@
  * an inlined mul/add setter, a two-pointer inline helper, a u64* binding and
  * named constant locals all measure the same 18 bytes.  See
  * docs/notes/func_021685CC.c.txt.
+ * opus (2026-10-01): the vendor body calls the inline MATH_InitRand32(&ctx, seed).
+ *           Inlined with &g_021AA848_x it gives the image's instruction order
+ *           (seed copy, then mul/add constants) but no longer keeps &g live in
+ *           r6 across the calls (push r4-r6, 14 blocks); with &g_021AA848 the
+ *           duplicate pool load folds away (268 B). Inert on the current body:
+ *           u64-typed alias, pointer local for the x store, SDK-spelled
+ *           constants, `*(u64 *)&seed`; mul before x is worse.
  */
 
 typedef unsigned char u8;

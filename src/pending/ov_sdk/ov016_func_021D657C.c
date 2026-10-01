@@ -40,6 +40,15 @@
  * blocker per the wave brief in general, but this specific scratch rotation is
  * not reachable from 1.1p1 source.
  *
+ * Wave-8 re-measure (same 54): const/volatile on the input pointer, no named
+ * `input` at all (direct derefs), initialiser-at-declaration, C99 for-scope,
+ * named raw and named u16+int mask locals, mask term swap/paren/NAND/u16-cast
+ * respellings.  Only unsigned `i` (55, blo vs blt) and u8 masks (190+) move it.
+ * This is the allocator tie of
+ * docs/idioms/a-base-pointer-and-its-mask-scratch-swap-as-an-allocator-tie.md:
+ * the long-lived bit/mask accumulator and the object pointer are two scratch
+ * colours the 1024/1025 allocator picks oppositely, with no boundary crossing.
+ *
  * sdk:      readKey (libdwcutil.TWL.HYB.a input.o)
  *
  * symbols:

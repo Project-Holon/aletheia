@@ -207,7 +207,7 @@ static void write(int page)
             MemSet->map.page[i].crc = crc;
         }
     }
-    work = DWCi_HEAPlAllocEx(0x100, 32);
+    *(void *volatile *)&work = DWCi_HEAPlAllocEx(0x100, 32);
     DWCi_BACKUPlWritePage(&MemSet->map, w, work);
     DWCi_HEAPlFree_(&work);
 }

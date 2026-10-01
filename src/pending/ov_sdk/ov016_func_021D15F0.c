@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   MATCH
+ * status:   DIFF
  *
  * lane W7 (2026-09-30): re-measured 184/192, 8/9 relocations, 130 concrete
  * bytes.  Two independent blockers: the fp-select if-conversion (identical

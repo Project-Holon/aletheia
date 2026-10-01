@@ -20,10 +20,7 @@
    "evidence": {
     "sole-ref": [
      "data:0x021CF7A8",
-     "data:0x021CF7AC",
-     "self:0x021CF85C",
-     "self:0x021CF884",
-     "self:0x021CF8A8"
+     "data:0x021CF7AC"
     ],
     "sdk": [
      "0x021C98E0"

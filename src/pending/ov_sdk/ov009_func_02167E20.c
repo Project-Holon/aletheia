@@ -66,6 +66,14 @@
  *           into both arms (112 B, 4 relocs, cross-jump not applied).  Confirms
  *           the existing blocker: this is front-end predication, not a shape wall.
  *
+ * w8_67E20b: two more measured.  A `switch` on the field (case 0 fall-through /
+ *           default wcmResult = -5) is byte-identical to the plain if: 100 B,
+ *           `subne r5,r5,#5`, `ldr r6,[r4,#0x2c]` still hoisted above the cmp.
+ *           Writing the whole callback tail into both arms of the guard (the
+ *           reverse of a-factored-tail) gives 112 B, does NOT cross-jump, and
+ *           duplicates the unlock bl.  Confirms the existing front-end
+ *           predication blocker; the kept `beq`+`mvn` still has no 1.1p1 source.
+ *
  * symbols:
  *   WCMi_GetCpsifWork                0x02166378 arm
  *   WCMi_ResetKeepAliveAlarm         0x02165af4 arm

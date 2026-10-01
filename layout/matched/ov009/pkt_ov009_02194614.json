@@ -20,8 +20,8 @@
    "evidence": {
     "sole-ref": [
      "data:0x021A57C8",
-     "self:0x021A5800",
-     "self:0x021ADFE0"
+     "data:0x021ADFE0",
+     "self:0x021A5800"
     ]
    }
   }

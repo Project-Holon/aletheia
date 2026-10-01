@@ -21,9 +21,7 @@
     "sole-ref": [
      "self:0x021E370C",
      "self:0x021E3858",
-     "self:0x021E385C",
-     "self:0x021E3864",
-     "self:0x021E3870"
+     "string:0x021E385C"
     ]
    }
   }

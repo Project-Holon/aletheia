@@ -33,6 +33,13 @@
  *   - `volatile` on dns/addr (212 B — forces stack homes, wrong).
  *   Every pure-expression spelling is canonicalised; only a memory/sequence
  *   barrier kills the CSE, and there is no frame word to spend on one.  Parked.
+ * wave8 lane (2026-10-01, 08:21 deadline): additional attempts, all 148/33
+ *   unchanged: `> 0` vs `!= 0`; distributed `(a&m)^(d&m)`; swapped AND operand
+ *   order `m&(a^d)`; `(a&m)!=(d&m)` for isA (156, not reduced); `nm=netmask`
+ *   alias local; `const` on all three params; an
+ *   `__asm volatile("" ::: "memory")` barrier between the tests (accepted,
+ *   emitted nothing, 33 unchanged -- a memory clobber cannot break arithmetic
+ *   value-numbering).  Confirms the wall is arithmetic CSE, not memory order.
  *
  * sdk:      SOCLi_IsIPv4ValidDNSAddr (libsoc.TWL.HYB.a(socl_misc.o))
  */

@@ -8,56 +8,38 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
- * blocker:  measures DIFF (96/96, 35 concrete bytes), not MATCH: the whole loop
- *           body is one register rotation.  sdkobj confirms the vendor object is
- *           Metrowerks 4.0.0.1024 -> dsi/1.1p1 and its listing is byte-identical
- *           to the image, so the residue is a source shape this front end has
- *           not been given.  All body arithmetic instructions match opcode for
- *           opcode; the image homes the shared `ybuf + y` loop-invariant in r4
- *           (callee-saved) and the loaded yuyv in r1 (the dead `width` home),
- *           ours does the reverse (temp r1, yuyv r8) and the middle store's
- *           base/index are swapped.  Wave7 tried &ybuf[y+y], ybuf+(y<<1),
- *           2*y, (ybuf+y)+y, ybuf+(y+y), a named cb/yy temp, *(ybuf+y+x),
- *           crbuf-y+x, x!=y and while forms: none below 35.
+ * blocker:  measures DIFF (96/96, 11 concrete bytes), not MATCH.  Wave8
+ *           improved 35 -> 11 with two levers: (1) reverse the third colour
+ *           expression's OR operands to `(yuyv >> 24) | ((yuyv & 0xff000000)
+ *           >> 16)` (35 -> 15; this is what makes the image's `lsr r5,#0x10`
+ *           and `orr r1,r5,r1,lsr #24` fall out), and (2) declare `x` last
+ *           among the scalars (y before x: `yuyv,y,x` order, 15 -> 11; the
+ *           DWARF forward order is yuyv,y,x,pYuyv,ybuf,crbuf).  The whole
+ *           body arithmetic now matches opcode for opcode; the remaining 11
+ *           bytes are a single 3-cycle of {x, anonymous `ybuf + y` base,
+ *           crbuf}: image colours x=r2, base=r4, crbuf=lr, ours x=lr, base=r2,
+ *           crbuf=r4 (so +000C `add r4,r3,ip,lsl#1` vs `add r2,...`, +000C
+ *           middle store `strh r6,[r4,r7]` vs `strh r6,[r7,r2]`, +0050 crbuf
+ *           store, +0054 `cmp r2,ip` vs `cmp lr,ip`).  `y` is already ip in
+ *           both.  Tried this lane, all inert at 11: all 6 scalar declaration
+ *           permutations (x last required; x first = 15), pointer declaration
+ *           position/permutation, `x`/`y`/`yuyv` as `unsigned int`, in-loop and
+ *           preheader no-code self-assignments (`x=x;`,`y=y;`,`crbuf=crbuf;`,
+ *           `ybuf=ybuf;`), the null-pointer counter-increment idiom
+ *           (`x=(unsigned long)((char*)0+x+1)`, `(int)`, `(unsigned char*)`),
+ *           `crbuf = ybuf + (y+y)` (68), `crbuf = ybuf + y*2` (28), named
+ *           middle base, `*(ybuf+y+x)`, `ybuf[x+y]`.  The cycle is an
+ *           allocator tie on the anonymous loop-invariant base, reached only
+ *           from the six DWARF locals; see
+ *           docs/idioms/declaration-order-decides-which-register-a-local-gets.md.
  *
- * w9_nm: still 35 B. Tried: explicit cbbuf pointer (base + y, then + y), DWARF declaration order, size split (y = w*h; y >>= 1), while form, three result locals computed then stored, post-increment split. The object keeps yuyv in r1 (the width register), the Cb base in r4, and computes the third pair's masked half before the first store.
- *
- * Lane U38 (2026-09-30): ten more shapes, none below 35 (named Cb base `cbuf`
- * + `crbuf = cbuf + y` 43, the same declared first 41, `*(ybuf + y + x)` 35,
- * `(ybuf + y)[x]` malformed, DWARF (forward) declaration order 40, 44 for
- * y declared last, block-scoped `yuyv` inside the loop 35, `crbuf += y` 35,
- * combined forms 35).  Exact residue, first divergence +000C:
- *   image `add r4, r3, ip, lsl #1` | ours `add r1, r3, ip, lsl #1`
- * i.e. the loop word gets r1 (the register `width` died in) and the Cb base
- * (dst + 2y) gets r4, with the middle store `strh r8, [r3, r7]` /
- * `strh r6, [r4, r7]` / `strh r1, [lr, r7]`; ours has the Cb base in r1, the
- * word in r8, and the middle store as `strh r6, [r7, r1]` (base/index
- * swapped).  Both use the same push set and the same scratch registers, so
- * this is one colouring tie, not pressure.
- *
- * Wave8 (this lane): sdkobj --brief confirms the DWARF local list is
- * crbuf,ybuf,pYuyv,y,x,yuyv = reverse of our declaration order, so the
- * declaration order is already right.  Tried, all still 35 B: `const` on the
- * source parameter, `const void *src` with the dead-parameter reuse idiom
- * (loop word stored back over `width` so it takes r1), swapping the pYuyv/ybuf
- * assignment order.  A named middle base `cbuf = ybuf + y; crbuf = cbuf + y;`
- * (declared last) is 43 B and recolours lr into the middle store.  No lever
- * moved the r1/r4/r8 rotation, so park.  The only remaining axis is the exact
- * IR shape the front end saw (the out2 masked half is scheduled before the
- * first store in the image, after it here) -- not an ordering/`const`/type
- * change reachable from the six DWARF locals.
- *
- * Wave8 second pass (this lane): 6 statement orderings of the three stores
- * (35/37/37/38/40/40, current best), 12 middle-expression spellings
- * (`ybuf[y+x]`, `ybuf[x+y]`, `*(ybuf+y+x)`, `(ybuf+y)[x]`, char-pointer and
- * `crbuf[x-y]` forms: all >=35, current 35), parameter reassignment
- * (`width = *pYuyv++` / `height = ...` used in place of `yuyv`, plus a
- * `yuyv = width` alias: still 35 -- the front end does not honour the
- * dead-parameter reuse idiom here), named middle base with all declaration
- * positions/orders (41/43), and moving the pYuyv/ybuf and crbuf/y
- * computation order (35-79).  None lowers the count; the residue is the
- * single preheader colouring of `ybuf + y` (r4 in image, r1 here), which
- * cascades into the yuyv home and the middle store's base/index encoding.
+ * opus (2026-10-01): also inert at 11: `&ybuf[y] + y`, `crbuf = ybuf + y; crbuf += y;`,
+ *           x/y and init-statement reorders; `&ybuf[y + y]` 100 B; crbuf as the
+ *           middle plane with `crbuf[y + x]` for the third is worse.
+ * w9_nm / prior waves: 35 B residue (whole-body rotation), see history below.
+ *           The first divergence was +000C `add r4,r3,ip,lsl#1` (image) vs
+ *           `add r1,...` (ours); the third-expression operand reversal was the
+ *           unlocking lever.
  *
  * sdk:      SSP_YUV422ToYUV888 (jpegenc.o)
  *
@@ -68,8 +50,8 @@
 void func_021C2050(void *src, unsigned long width, unsigned long height, void *dst)
 {
     unsigned long yuyv;
-    unsigned long x;
     unsigned long y;
+    unsigned long x;
     unsigned long *pYuyv;
     unsigned short *ybuf;
     unsigned short *crbuf;
@@ -81,7 +63,7 @@ void func_021C2050(void *src, unsigned long width, unsigned long height, void *d
     for (x = 0; x < y; x++) {
         yuyv = *pYuyv++;
         ybuf[x] = (yuyv & 0xff) | ((yuyv & 0xff0000) >> 8);
-        ybuf[y + x] = ((yuyv & 0xff00) >> 8) | (yuyv & 0xff00);
-        crbuf[x] = ((yuyv & 0xff000000) >> 16) | (yuyv >> 24);
+        ybuf[y + x] = (yuyv & 0xff00) | ((yuyv & 0xff00) >> 8);
+        crbuf[x] = (yuyv >> 24) | ((yuyv & 0xff000000) >> 16);
     }
 }

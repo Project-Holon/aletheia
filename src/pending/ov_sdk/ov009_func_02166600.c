@@ -42,6 +42,11 @@
  *        value is a live-parameter register copy, so it rematerialises at entry where
  *        a pool load (see two-cases-with-one-body) would not.  Filed
  *        docs/idioms/a-shared-register-copy-arm-is-hoisted-above-the-compare-chain.md.
+ * wave8c: explicit `goto shared` from both `case 1` and `default` (120 B), a plain
+ *        if/else-if/else with the store duplicated (124 B), and `case 2:`+`default:`
+ *        only (116 B) all still hoist/shorten. Reconfirmed the pre-set `mov r6,r1`
+ *        is a value-level PRE of a rematerialisable parameter copy, unreachable from
+ *        any control-flow spelling. Parked.
  *
  * sdk:      WCMi_MergeToBuffer (libwcm.TWL.HYB.a cpsif.o)
  *

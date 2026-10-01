@@ -46,6 +46,17 @@
  * 16/17/37.  DWARF confirms `had_ip` is `int` and the reason store is at
  * +0x10 while `mov r5,#0` is at +0x30.
  *
+ * wave 8 lane DIFF (2nd pass): reason store as the 2nd statement = 16
+ * (compiled order mov r5 /cmp/mov r1/str, so the zero still wins +0010);
+ * reason store first = 37 (r1 becomes the store base and the second pool
+ * load folds away).  A named `unsigned long z = 0` placed just before v1c
+ * and reused by all three loop stores folds straight back to r5: still 10.
+ * `int had_ip = ...` as a declaration initialiser: still 10.  The residue is
+ * this front end hoisting the loop-invariant zero (`mov r5,#0`, the boolean's
+ * pooled false and the loops' shared zero) to the block head; the image keeps
+ * it at +0x30 next to `mov r3,#1`, so no body spelling moves it.  Same
+ * allocator/hoist boundary as docs/idioms/a-hoisted-loop-invariant-zero-takes-the-freshly-dead-register-from-the-scratch.md.
+ *
  * sdk:      reset_network_vars (libcps.TWL.HYB.a network.o)
  *
  * symbols:

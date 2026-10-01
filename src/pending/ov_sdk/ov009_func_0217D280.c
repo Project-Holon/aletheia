@@ -56,7 +56,24 @@
  * sdk:      HexEncode16 (gsdebug.o)
  *
  * near miss: HexEncode16: 172 bytes. Only diff is a register swap: original aTextOutStream=r6, aChar=r7; 1.1p1 gives aChar=r6, aTextOutStream=r7 (8 instrs). Tried all declaration orders, initializers, block-scoped aChar, int aChar, several isprint forms, ternary stores.
- * blocker:  9 concrete bytes, a pure r6/r7 colouring tie between the long-lived
+ * wave8 aletheia: re-measured. Best stays the signed spelling (6 B); restored as
+ *           the parked body. New probes all flat/worse: unsigned load through a
+ *           cast pointer `*(const unsigned char*)theInStream++` still ldrsb (6 B);
+ *           `(unsigned char)aChar` in the condition materialises the mask (86 B);
+ *           a second `unsigned char ua` + signed `char aChar = ua` adds a web and
+ *           shifts allocation (106 B, r5/r7); unsigned-char cursor type and a
+ *           no-code self-assignment are inert (9 B). Confirms the idiom
+ *           `a-byte-locals-signedness-flips-its-callee-saved-colour`: the image
+ *           wants unsigned codegen (ldrb/movhs) AND the signed-char allocator
+ *           priority, which 1.1p1 gives one or the other of, never both.
+ * opus (2026-10-01): DWARF types are `unsigned char aChar` and `unsigned int
+ *           aWriteBit`. Making aWriteBit signed (`const int`/`long`) with the
+ *           unsigned aChar fixes aTextOutStream to r6 and keeps every opcode
+ *           (ldrb/movhs), but moves the tie to aWriteBit/aChar (image r5/r7, ours
+ *           r7/r5): 7 B. `%` vs `&`, aChar at function scope, and assigning
+ *           aTextOutStream after the memset are inert. Object stamp is
+ *           4.0.0.1025, so this is likely that front end's allocator order.
+ * blocker:  6 concrete bytes, a pure r6/r7 colouring tie between the long-lived
  *           aTextOutStream (image r6, ours r7) and aChar (image r7, ours r6).
  *           Every opcode and both extents match. Declaration order (6),
  *           block-scope, const source parameter, an explicit copy-back for the
@@ -86,7 +103,7 @@ void func_0217D280(const char *theInStream, char *theOutStream, unsigned int the
 
     func_020923B0(theOutStream, ' ', aRowWidth);
     while (theInLen--) {
-        unsigned char aChar = (unsigned char)(*theInStream++);
+        char aChar = (*theInStream++);
 
         func_02084F40(theOutStream, g_021A3710, aChar);
         if ((aChar >= 0x80) ? 0 : (g_020A61DC[aChar] & 0x10))

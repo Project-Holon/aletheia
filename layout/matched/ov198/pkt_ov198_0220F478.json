@@ -19,7 +19,6 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "code:0x0220B7AC",
      "code:0x0220E22C",
      "code:0x02210420",
      "self:0x0221221C"
