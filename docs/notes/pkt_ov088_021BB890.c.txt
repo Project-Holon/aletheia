@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT (filed, see Lane Q1 below)
  * checks:   1 func_021BB840 takes 2 (p, s8 top), func_021BB810 takes 4 (reads r3), both as in the twin; 2 twin ov088_func_021BA230.c (same two callees, prototypes copied); 3 d as s8 no change, const char *p no change, local widths swept (old as int loaded (u8) is what put h/old in the right slots; nv int, nv/cur/n int no change); 4 a-truncated-load-into-an-int-local (nv int: store sinks further), function-scope-versus-block-scope (nv in the else block: n/nv slots swap back), const-pointer idiom no change; 5 idioms re-listed, no ov088 neighbour covers it; permuter --types 300: no candidate beats baseline (bytes-out 10)
  *
  * Moves the menu cursor at +0x128 by d rows through the row list at
@@ -34,6 +34,15 @@
  * unchanged, nv/n slots swap: 14 B), `volatile int old` (no change) and
  * `volatile u8 nv` (133 B).  Computing y before nv costs 168 B.  None moves
  * the nv spill store above the old reload.
+ *
+ * Lane Q1 (2026-10-01): EXACT, filed as src/matched/ov/ov088_func_021BB890.c.
+ * Closing lever is a pair: `u8 old` (assigned without the cast) together
+ * with `extern void func_021BB810(void *, u8, int, int)`.  Alone, u8/u16
+ * old is 21 B (slot/schedule shift) and a u8/u16 prototype with int old is
+ * 250 B (340 B, truncation at the call); u32 prototype 10 B.  Together the
+ * nv spill store lands before the old reload.  Also measured, all still
+ * 10 B: a label (with and without goto) after the nv load, nv load in its
+ * own block, y in its own block, nv assigned inside a dead `if` comma.
  *
  * symbols:
  *   func_021BB840  0x021BB840  thumb  ov088

@@ -51,3 +51,26 @@ int func_021B6878(void) { return 1; }
  * int offset (e.g. an extra live value across the branch), or a 2-field struct
  * array indexed by (q[1] != 0) with the base constant folded.
  */
+
+/*
+ * func_021B680C, lane Q3 (2026-10-01), ~25 compiles: EXACT (36 bytes),
+ * filed as src/matched/ov/ov179_func_021B680C.c (pkt_ov179_021B680C).
+ * Closing lever: write both stores into EACH arm instead of selecting
+ * the offset into a local and storing once after the if/else
+ * (docs/idioms/a-constant-argument-selected-into-a-local-if-converts-
+ * where-a-call-in-each-arm-does-not.md, and a-factored-tail-lets-the-
+ * compiler-predicate-the-arms.md).  Cross-jumping merges the two arms
+ * into the single tail and recovers o+4 as adds r1,o,#4; str [r0,r1]
+ * without either the if-conversion or the [p+o,#4] fold.  The plain
+ * constant spelling (p + 0x6024 / 0x6028 and p + 0x602C / 0x6030), an
+ * int or long `o` assigned per arm, all give EXACT.
+ * Measured and not closing (single store after the select):
+ *  - long o + second-lever pairs, all 5: separate char *t = p + o for
+ *    the first store; o += 4 then volatile store; w = q[3] temporary;
+ *    goto layout; char *r = p copy for the base; (u8 *)p on either or
+ *    both stores; o + (long)&((int *)0)[1] null-pointer step.
+ *  - int-typed second offset, all 20: int o2 = o (copy) + 4; (int)p + ...;
+ *    (int)(char *)(o + 4); goto-join with int o; u8 * casts with int o.
+ *    Ternary select with int o: 22.
+ *  - early return in the then-arm with duplicated stores: 36.
+ */

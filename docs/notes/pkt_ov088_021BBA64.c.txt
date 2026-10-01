@@ -57,3 +57,28 @@ void func_021BBA64(u8 x, u8 y, u8 w, u8 h, u32 bg)
     func_02041300(bg, 5, x + 1, y + 1, w - 2, h - 2, 1);
     func_02041B6C(bg);
 }
+
+Lane Q2 (2026-10-01): EXACT, src/matched/ov/ov088_func_021BBA64.c.  Lever:
+declare bg narrow (u8; s8 and u16 also work) and read it once as a whole
+word through its address, `u32 layer = *(u32 *)&bg;`, passing `layer` to
+all ten calls.  The punned read is a memory load the scheduler keeps ahead
+of the outgoing stack-argument stores, so `ldr r5, [sp, #0x38]` leads the
+body; with a u32/int/long/void * parameter the same read folds back into
+the parameter and is sunk below `str r4, [sp, #4]`.  Reading through the
+address at every call instead of once is 282 B.  Measured before that
+(all 11 B unless noted): `-opt noschedule` and every other -opt sub-option
+are ignored; -proc does change the schedule (generic hoists the load, but
+also Y), so it is the scheduler; all nine dsi compilers, c++ and the sweep
+matrix give 11; w and h as u8/s8/u16/s16/int/u32 (32 combos stay at 11);
+x+w-1 / y+h-1 / x+1 / y+1 operand orders (4 combos at 11, rest worse);
+bg as void * / const void * / enum / unsigned long / struct / union
+(struct and union 282 B); a 6th unused parameter; `register`, const and
+volatile local copies; identity expressions on bg in the first call
+(folded); dead uses (`(void)(bg == 0)`, `if (bg) {}`); labels, do/while(0)
+and one-trip loops around the copy; a static inline Draw() with all 120
+parameter orders (240 at 11); per-call macro temporaries; locals for the
+derived edges at the top (102 B or worse); wide callee a2..a5 with
+explicit (u8) casts (240+ B); permuter anneal 600 and random --types 3000
+(no candidate under 11).  The tell: none of the copies, volatile included,
+moved the load, and a narrow bg did (as ldrb), so the load had to be a
+narrow-typed memory access spelled as a word read.
