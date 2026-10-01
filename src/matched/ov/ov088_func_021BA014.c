@@ -7,20 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- *
- * blocker:  byte-correct (one: MATCH). Unresolved sites:
- *   - overlay ids 0x79, 0xC7, 0xA8, 0x6B, 0x58 are ABS32 words passed in r0 to
- *     func_020312F8, which is not in match.py OVERLAY_ID_CONSUMERS
- *     (func_020312F8 forwards r0 to sub_020314DC, which stores it at +0x14 as
- *     the next process's overlay id); 0x10 resolves as literal.
- *   - d_021DF538 (ov121) and d_021F6D78 (ov107) process templates: the ovNNN
- *     hint is contested and no overlay_id site loads that overlay (same cause);
- *     no witness without the hint either.
- *   - func_021BC0E4, func_021BC0FC, func_021BC114: unlabelled ov088 tail-call
- *     stubs, each func_020312F8(0x58 pooled id, d_021BD818/d_021BD824, 0/1/2);
- *     not filed because each would itself cap at MATCH on the pooled 0x58.
- *   Twin: src/pending/ov/ov088_func_021B9874.c (same blocker).
+ * status:   EXACT
  *
  * symbols:
  *   func_020315D4  0x020315D4  arm
@@ -33,12 +20,12 @@
  *   func_02082BCC  0x02082BCC  arm
  *   func_020312F8  0x020312F8  arm
  *   d_021BDA00     0x021BDA00  data  ov088  a1
- *   d_021DF538     0x021DF538  data  a4
+ *   d_021DF538     0x021DF538  data  ov121  a4
  *   d_02213C4C     0x02213C4C  data  a4
  *   d_0209DEF0     0x0209DEF0  data  a4
  *   d_021D77AC     0x021D77AC  data  ov016  a4
  *   d_02184904     0x02184904  data  ov168  a4
- *   d_021F6D78     0x021F6D78  data  a4
+ *   d_021F6D78     0x021F6D78  data  ov107  a4
  *   d_021BD574     0x021BD574  data  a4
  *   ov121_id       0x00000079  data
  *   ov199_id       0x000000C7  data

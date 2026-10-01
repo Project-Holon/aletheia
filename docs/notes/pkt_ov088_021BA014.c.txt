@@ -20,3 +20,4 @@ resolve.  The 10 open sites are all tooling refusals, not byte diffs:
 Unblock: add 0x020312F8 (id in r0) to OVERLAY_ID_CONSUMERS, and add
 0x021BC0E4/0x021BC0FC/0x021BC114 to layout/function_starts.txt (both outside
 lane scope).
+Filed: EXACT, src/matched/ov/ov088_func_021BA014.c (2026-10-01, after 0x020312F8 joined OVERLAY_ID_CONSUMERS).
