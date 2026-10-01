@@ -305,6 +305,32 @@
    }
   },
   {
+   "name": "disp",
+   "address": "0x021BE844",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021BE844.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x021DA0B8",
+     "data:0x021DA0C0",
+     "data:0x021DA0F8",
+     "data:0x021DE55C",
+     "self:0x021DA0E0",
+     "self:0x021DA0E8",
+     "self:0x021DA0F0"
+    ],
+    "sdk": [
+     "0x0207C994"
+    ]
+   }
+  },
+  {
    "name": "changePage",
    "address": "0x021BEAD4",
    "kind": "sdk",

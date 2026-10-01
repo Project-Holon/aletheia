@@ -1,0 +1,38 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "ov009",
+ "shard": "pkt_ov009_0215CB24",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "SOCLi_StartupCPS",
+   "address": "0x0215CB24",
+   "kind": "sdk",
+   "region": "ov009",
+   "source": "src/matched/ov_sdk/ov009_func_0215CB24.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x021A1CFC",
+     "data:0x021A82BC",
+     "data:0x021AA450"
+    ],
+    "sdk": [
+     "0x021573C4",
+     "0x021576C8",
+     "0x02157C28",
+     "0x0215CCA0",
+     "0x0215CD0C",
+     "0x0215CD24",
+     "0x0215F1D4"
+    ]
+   }
+  }
+ ]
+}

@@ -19,7 +19,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE644"
+     "data:0x021DE644"
     ]
    }
   },
@@ -36,7 +36,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE644"
+     "data:0x021DE644"
     ]
    }
   },
@@ -53,7 +53,7 @@
    "status": "EXACT*",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE644"
+     "data:0x021DE644"
     ],
     "sdk": [
      "0x021CFEA0"
@@ -73,7 +73,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE644"
+     "data:0x021DE644"
     ]
    }
   },
@@ -90,7 +90,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE644"
+     "data:0x021DE644"
     ]
    }
   },
@@ -107,7 +107,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE644"
+     "data:0x021DE644"
     ]
    }
   },
@@ -124,7 +124,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE644"
+     "data:0x021DE644"
     ]
    }
   },
@@ -141,7 +141,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE644"
+     "data:0x021DE644"
     ]
    }
   },
@@ -158,7 +158,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE644"
+     "data:0x021DE644"
     ],
     "sdk": [
      "0x02084F40"
@@ -178,7 +178,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE644"
+     "data:0x021DE644"
     ],
     "sdk": [
      "0x02084F40"
@@ -198,7 +198,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE644"
+     "data:0x021DE644"
     ],
     "sdk": [
      "0x02084F40"
@@ -218,7 +218,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE644"
+     "data:0x021DE644"
     ],
     "sdk": [
      "0x02084F40"
@@ -238,7 +238,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE644"
+     "data:0x021DE644"
     ],
     "sdk": [
      "0x02084F40"
@@ -258,8 +258,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DA910",
-     "self:0x021DE644"
+     "data:0x021DE644",
+     "self:0x021DA910"
     ],
     "sdk": [
      "0x0205883C"
@@ -279,7 +279,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE644"
+     "data:0x021DE644"
     ],
     "sdk": [
      "0x020587F8"
@@ -299,7 +299,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE644"
+     "data:0x021DE644"
     ]
    }
   },
@@ -316,7 +316,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE644"
+     "data:0x021DE644"
     ]
    }
   },
@@ -333,7 +333,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE644"
+     "data:0x021DE644"
     ]
    }
   },
@@ -350,7 +350,27 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE644"
+     "data:0x021DE644"
+    ]
+   }
+  },
+  {
+   "name": "write",
+   "address": "0x021CFCC8",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021CFCC8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x021DE644"
+    ],
+    "sdk": [
+     "0x02058784"
     ]
    }
   },
