@@ -284,8 +284,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "compared_bytes": 24
+   "status": "EXACT"
   },
   {
    "name": "DWC_GetLastError",
@@ -321,12 +320,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "self:0x02146AA4"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "CARDi_CommandBegin",
@@ -415,7 +409,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*",
+   "status": "EXACT",
    "evidence": {
     "sdk": [
      "0x0205A148",

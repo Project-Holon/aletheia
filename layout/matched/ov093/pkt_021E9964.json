@@ -45,12 +45,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x021ED1B0"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "func_021EA428",
@@ -125,12 +120,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x021ECE60"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "func_021EA768",
@@ -176,7 +166,12 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "code:0x021EDAB0"
+    ]
+   }
   },
   {
    "name": "func_021EA798",
@@ -239,12 +234,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x021ED590"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "func_021EA8E4",
@@ -273,12 +263,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x0689B5CC"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "func_021EAE04",

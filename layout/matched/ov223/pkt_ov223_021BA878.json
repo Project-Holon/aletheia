@@ -20,12 +20,7 @@
    "functions": [
     "func_021BA878",
     "func_021BA8BC"
-   ],
-   "evidence": {
-    "sdk": [
-     "0x0207D63C"
-    ]
-   }
+   ]
   }
  ]
 }

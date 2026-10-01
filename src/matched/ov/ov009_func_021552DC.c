@@ -9,15 +9,15 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Returns three less the word the ARM veneer at 0x0205CCD8 returns.
+ * Returns three less the word the ARM tail-call function at 0x0205CCD8 returns.
  *
  * symbols:
- *   veneer_0205CCD8  0x0205CCD8  arm
+ *   func_0205CCD8  0x0205CCD8  arm
  */
 
-extern int veneer_0205CCD8(void);
+extern int func_0205CCD8(void);
 
 int func_021552DC(void)
 {
-    return 3 - veneer_0205CCD8();
+    return 3 - func_0205CCD8();
 }

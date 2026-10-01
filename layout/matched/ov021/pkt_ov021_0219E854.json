@@ -39,13 +39,7 @@
     "func_0219E920",
     "func_0219E928",
     "func_0219E930"
-   ],
-   "evidence": {
-    "sole-ref": [
-     "code:0x0219EB18",
-     "code:0x0219ED8C"
-    ]
-   }
+   ]
   }
  ]
 }

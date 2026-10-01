@@ -13,6 +13,7 @@
  * function: sub_0200F7C0, sub_0200F7DC, sub_0200F7E8, sub_0200F7F4
  *
  * symbols:
+ *   sub_0200F7E8  0x0200F7E8  thumb
  *   sub_0200F7B8       0x0200F7B8  thumb
  *   sub_0200F7C0_Obj   0x0214617C  data
  *   sub_0200F7C0_Flags 0x021461BC  data

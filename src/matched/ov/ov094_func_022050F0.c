@@ -1,0 +1,136 @@
+/*
+ * function: func_022050F0
+ * address:  0x022050F0
+ * packet:   pkt_ov094_022050F0
+ * region:   ov094
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ * symbols:
+ *   func_0201DE00  0x0201DE00  thumb
+ *   func_020457B0  0x020457B0  arm
+ *   func_0201EC64  0x0201EC64  thumb
+ *   func_0201DD78  0x0201DD78  thumb
+ *   func_02045EC0  0x02045EC0  arm
+ *   func_0201EEF4  0x0201EEF4  thumb
+ *   func_0201F250  0x0201F250  thumb
+ *   func_02204C98  0x02204C98  thumb  ov094
+ *   func_0201C7A4  0x0201C7A4  thumb
+ *   func_02045808  0x02045808  arm
+ *   func_0201ED04  0x0201ED04  thumb
+ *   func_02049F34  0x02049F34  arm
+ *   func_020215BC  0x020215BC  thumb
+ *   func_020307B0  0x020307B0  arm
+ *   d_0220A7FC     0x0220A7FC  data
+ *   d_0220A94C     0x0220A94C  data
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct Entry {
+    u8 kind : 2;
+    u8 flag : 1;
+    u8 pad0 : 5;
+    u8 pad1[3];
+    short show;
+    short pad6;
+    u32 text;
+} Entry;
+
+typedef struct Info {
+    Entry e[6];
+    u8 b48;
+    u8 b49;
+} Info;
+
+typedef struct Bits6C {
+    u32 lo : 2;
+    u32 x : 8;
+    u32 hi : 22;
+} Bits6C;
+
+typedef struct Out {
+    u32 pad[3];
+    int fc;
+} Out;
+
+typedef struct Res {
+    u32 pad[3];
+    u16 *fc;
+} Res;
+
+extern void func_0201DE00(u8 *, u8 *, u8 *);
+extern void *func_020457B0(u32, u16);
+extern int func_0201EC64(int);
+extern void func_0201DD78(u32, u32, u32);
+extern void *func_02045EC0(void *, u32);
+extern void func_0201EEF4(u32, u32, u32);
+extern void func_0201F250(int, void *, void *);
+extern void func_02204C98(void *a, int b, int *w, int *h);
+extern void func_0201C7A4(int, short, short, void *, int);
+extern void func_02045808(void *);
+extern void func_0201ED04(int);
+extern void *func_02049F34(u32 arc, u32 file, Res **out, u16 heap);
+extern void func_020215BC(int, u16 *, int, int, u16);
+extern void func_020307B0(void *);
+
+extern const int d_0220A7FC[2][6][2];
+extern const int d_0220A94C[2][3][15];
+
+void func_022050F0(char *s, Out *out, const Info *p)
+{
+    int n;
+    int k;
+    int i;
+    int m;
+    int idx;
+    void *v;
+    int h;
+    void *w;
+    void *r;
+    int ww;
+    int hh;
+    Res *res;
+    u8 c[3];
+
+    n = (*(int *)(s + 0x50) == 2) ? 6 : 4;
+    k = (*(int *)(s + 0x50) == 2) ? 1 : 0;
+    func_0201DE00(&c[2], &c[1], &c[0]);
+    v = func_020457B0(12, (u16)((*(u16 *)(s + 0x240) & 0x7fff) | 0x8000));
+    h = func_0201EC64((u16)((*(u16 *)(s + 0x240) & 0x7fff) | 0x8000));
+    func_0201DD78(1, 2, 0);
+    for (i = 0; i < n; i++) {
+        if (p->e[i].show != 0) {
+            w = func_02045EC0(*(void **)(s + 0x5c), p->e[i].kind + 3);
+            func_0201EEF4(h, 0, p->e[i].text);
+            func_0201F250(h, v, w);
+            func_02204C98(v, *(int *)(s + 0x224), &ww, &hh);
+            func_0201C7A4(*(int *)(s + 0x22c), d_0220A7FC[k][i][0] - ww / 2, d_0220A7FC[k][i][1], v, *(int *)(s + 0x224));
+            func_02045808(w);
+        }
+        (s + i)[0x25a] = p->e[i].flag;
+    }
+    (s + i)[0x25a] = 1;
+    func_0201DD78(c[2], c[1], c[0]);
+    func_0201ED04(h);
+    func_02045808(v);
+    idx = (p->b48 - 2) / 2;
+    ((Bits6C *)(s + 0x6c))->x = p->b49;
+    out->fc = d_0220A94C[k][idx][p->b49];
+    m = 3;
+    if (*(int *)(s + 0x50) != 2)
+        m = 2;
+    for (i = 0; i < m; i++) {
+        r = func_02049F34(11, 0xd3, &res, (u16)((*(u16 *)(s + 0x240) & 0x7fff) | 0x8000));
+        func_020215BC(*(int *)(s + 0x64), res->fc, 1, (u16)(i * 16 + 0x70), 0x20);
+        func_020307B0(r);
+    }
+    for (m *= 2; i < m; i++) {
+        r = func_02049F34(11, 0xd4, &res, (u16)((*(u16 *)(s + 0x240) & 0x7fff) | 0x8000));
+        func_020215BC(*(int *)(s + 0x64), res->fc, 1, (u16)(i * 16 + 0x70), 0x20);
+        func_020307B0(r);
+    }
+}

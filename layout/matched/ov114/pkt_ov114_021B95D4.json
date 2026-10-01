@@ -16,7 +16,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT*",
+   "status": "EXACT",
    "evidence": {
     "sole-ref": [
      "data:0x021CE280",
@@ -31,7 +31,6 @@
      "data:0x021CE304"
     ],
     "sdk": [
-     "0x0208D80C",
      "0x021BE8E8"
     ]
    }

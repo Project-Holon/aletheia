@@ -65,7 +65,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE62C"
+     "data:0x021DE62C"
     ],
     "sdk": [
      "0x021CE2D4"
@@ -102,7 +102,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE62C"
+     "data:0x021DE62C"
     ],
     "sdk": [
      "0x021CE364"
@@ -122,7 +122,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE62C"
+     "data:0x021DE62C"
     ],
     "sdk": [
      "0x021CBC90",
@@ -162,7 +162,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE62C"
+     "data:0x021DE62C"
     ],
     "sdk": [
      "0x021CE604"
@@ -182,7 +182,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE62C"
+     "data:0x021DE62C"
     ],
     "sdk": [
      "0x021CE2D4",

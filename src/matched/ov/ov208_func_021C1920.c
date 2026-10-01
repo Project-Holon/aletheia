@@ -37,7 +37,7 @@ extern u8   func_021C0D5C(u16 *heap, u8 *p, int key, u8 x, u8 y);
 extern void func_0204B3DC(u32 obj, int on);
 extern void func_021C1D30(u16 *heap, u8 *p, int key);
 extern void func_021C2238(u16 *heap, u8 *p, int key);
-extern u16  func_021BC3BC(int key);
+extern u16  func_021BC3BC(char *p);
 extern void func_021BDAAC(void *s, u32 mode, u32 kind, u32 flag);
 extern void func_021BDBA0(void *s);
 extern void func_021BDC48(void *s, u32 on);
@@ -81,7 +81,7 @@ void func_021C1920(u16 *heap, u8 *p, int key, int mode)
                 func_021C1D30(heap, p, key);
                 func_021C2238(heap, p, key);
             }
-            func_021BDAAC(s, 1, 1, func_021BC3BC(key) > 1);
+            func_021BDAAC(s, 1, 1, func_021BC3BC((char *)key) > 1);
         }
         break;
     case 3:
@@ -115,7 +115,7 @@ void func_021C1920(u16 *heap, u8 *p, int key, int mode)
             W(0x74) = 3;
             func_0204B3DC(W(0xcc), 0);
             func_0204B3DC(W(0xd0), 0);
-            wide = func_021BC3BC(key) > 1 ? 1 : 0;
+            wide = func_021BC3BC((char *)key) > 1 ? 1 : 0;
             func_021BDAAC(s, 0, 1, wide);
             func_021BDC14(s, func_02012BF8(func_021BC3A4(key), 0x12));
         }

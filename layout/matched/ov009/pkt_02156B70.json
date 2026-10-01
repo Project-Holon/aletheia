@@ -19,7 +19,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021A8264"
+     "data:0x021A8264"
     ]
    }
   },
@@ -36,8 +36,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA480",
-     "self:0x021AA484"
+     "data:0x021AA480",
+     "data:0x021AA484"
     ]
    }
   },
@@ -138,7 +138,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AA860"
+     "data:0x021AA860"
     ]
    }
   },
@@ -155,7 +155,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021AB180"
+     "data:0x021AB180"
     ]
    }
   },
@@ -172,7 +172,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021ACEF4"
+     "data:0x021ACEF4"
     ]
    }
   },

@@ -19,7 +19,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE5D8"
+     "data:0x021DE5D8"
     ],
     "sdk": [
      "0x021C519C",
@@ -43,10 +43,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE5D8"
-    ],
-    "sdk": [
-     "0x0207C958"
+     "data:0x021DE5D8"
     ]
    }
   },
@@ -63,9 +60,9 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
+     "data:0x021DE5D8",
      "self:0x021DA51C",
-     "self:0x021DA51E",
-     "self:0x021DE5D8"
+     "self:0x021DA51E"
     ]
    }
   },
@@ -79,7 +76,12 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x021C5550"
+    ]
+   }
   },
   {
    "name": "input",
@@ -94,11 +96,12 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DA524",
-     "self:0x021DAA7C",
-     "self:0x021DE5D8"
+     "data:0x021DA524",
+     "data:0x021DAA7C",
+     "data:0x021DE5D8"
     ],
     "sdk": [
+     "0x021C62D8",
      "0x021C641C",
      "0x021C6488"
     ]
@@ -117,11 +120,10 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE5D8"
+     "data:0x021DE5D8"
     ],
     "sdk": [
-     "0x0207C958",
-     "0x0207C994",
+     "0x021C60EC",
      "0x021C61A4",
      "0x021CE984"
     ]
@@ -140,10 +142,9 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE5D8"
+     "data:0x021DE5D8"
     ],
     "sdk": [
-     "0x0207C958",
      "0x021C5B24",
      "0x021C6508",
      "0x021C6534"
@@ -180,7 +181,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE5D8"
+     "data:0x021DE5D8"
     ],
     "sdk": [
      "0x021C5BBC"
@@ -200,8 +201,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE5D8",
-     "self:0x021DE5DC"
+     "data:0x021DE5D8",
+     "data:0x021DE5DC"
     ],
     "sdk": [
      "0x021C6588",
@@ -226,10 +227,9 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE5D8"
+     "data:0x021DE5D8"
     ],
     "sdk": [
-     "0x0207C958",
      "0x021C5E40",
      "0x021C5FA8"
     ]
@@ -248,7 +248,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE5D8"
+     "data:0x021DE5D8"
     ]
    }
   },
@@ -265,10 +265,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE5D8"
-    ],
-    "sdk": [
-     "0x0207C994"
+     "data:0x021DE5D8"
     ]
    }
   },
@@ -285,11 +282,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE5D8"
-    ],
-    "sdk": [
-     "0x0207C958",
-     "0x0207C994"
+     "data:0x021DE5D8"
     ]
    }
   },
@@ -306,11 +299,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE5D8"
-    ],
-    "sdk": [
-     "0x0207C958",
-     "0x0207C994"
+     "data:0x021DE5D8"
     ]
    }
   },
@@ -327,10 +316,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE5D8"
-    ],
-    "sdk": [
-     "0x0207C994"
+     "data:0x021DE5D8"
     ]
    }
   },
@@ -347,10 +333,10 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DA54C",
-     "self:0x021DA54E",
-     "self:0x021DA550",
-     "self:0x021DE5D8"
+     "data:0x021DA54C",
+     "data:0x021DA54E",
+     "data:0x021DA550",
+     "data:0x021DE5D8"
     ]
    }
   },
@@ -367,7 +353,10 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE5D8"
+     "data:0x021DE5D8"
+    ],
+    "sdk": [
+     "0x021C60EC"
     ]
    }
   },
@@ -384,7 +373,10 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE5D8"
+     "data:0x021DE5D8"
+    ],
+    "sdk": [
+     "0x021C60EC"
     ]
    }
   },
@@ -401,8 +393,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DA518",
-     "self:0x021DE5D8"
+     "data:0x021DE5D8",
+     "self:0x021DA518"
     ]
    }
   },

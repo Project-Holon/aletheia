@@ -19,7 +19,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE5B8"
+     "data:0x021DE5B8"
     ],
     "sdk": [
      "0x021C3AD0"
@@ -56,7 +56,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE5CC"
+     "data:0x021DE5CC"
     ],
     "sdk": [
      "0x021C4D04"
@@ -193,7 +193,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE628"
+     "data:0x021DE628"
     ],
     "sdk": [
      "0x021CDF98"

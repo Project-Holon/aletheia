@@ -16,10 +16,10 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT*",
+   "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021A826C"
+     "data:0x021A826C"
     ],
     "sdk": [
      "0x0215B5C4"

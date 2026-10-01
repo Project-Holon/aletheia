@@ -20,40 +20,7 @@
    "evidence": {
     "sole-ref": [
      "self:0x021E32C4",
-     "self:0x021E32C8",
-     "self:0x021E32E0",
-     "self:0x021E32FC",
-     "self:0x021E3318",
-     "self:0x021E3338",
-     "self:0x021E3354",
-     "self:0x021E3370",
-     "self:0x021E3390",
-     "self:0x021E33B0",
-     "self:0x021E33D0",
-     "self:0x021E33E8",
-     "self:0x021E3400",
-     "self:0x021E3418",
-     "self:0x021E3430",
-     "self:0x021E3448",
-     "self:0x021E3460",
-     "self:0x021E347C",
-     "self:0x021E348C",
-     "self:0x021E34A4",
-     "self:0x021E34C0",
-     "self:0x021E34D4",
-     "self:0x021E34F0",
-     "self:0x021E3508",
-     "self:0x021E3520",
-     "self:0x021E3538",
-     "self:0x021E3550",
-     "self:0x021E356C",
-     "self:0x021E3584",
-     "self:0x021E359C",
-     "self:0x021E35B4",
-     "self:0x021E35CC",
-     "self:0x021E35E4",
-     "self:0x021E3600",
-     "self:0x021E3618"
+     "string:0x021E32C8"
     ]
    }
   }

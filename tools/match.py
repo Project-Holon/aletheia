@@ -614,8 +614,8 @@ def next_listing_label(addr, region):
 #            `@N` initializer; the declared address holds the member's
 #            template bytes, and no other aligned address of the ARM9 static
 #            module (or, for an overlay row, of that overlay) does, or every
-#            other such address is another template of the archive relocated
-#            at a located row's slot outside the range.  See
+#            other such address is another template of the archive (or a named
+#            global) relocated at a located row's slot outside the range.  See
 #            attest_template().  (A `.bss` section symbol may also be named,
 #            attest_section_rel(); that adds no class.)
 #
@@ -3744,6 +3744,22 @@ OVERLAY_ID_CONSUMERS = {
     # descriptor and calls func_02034AC4(a1) with it unchanged, so the id
     # arrives in r1.  Read from the matched source 2026-09-27.
     0x020124AC: ("func_020124AC", 1, "src/matched/arm9/func_020124AC.c"),
+    # The task-chain loaders (read from the matched sources 2026-10-01).
+    # func_02014728.c (EXACT) stores its r2 as task word [2]; the task
+    # callback func_02014698.c (EXACT) passes args[2] as func_020120B4's r1
+    # (an entry above).
+    0x02014728: ("func_02014728", 2, "src/matched/arm9/func_02014728.c"),
+    # func_02014840.c (EXACT) stores its r2 as task word [2]; its callback
+    # func_020147B0.c (EXACT), case 0, passes f08 as func_02014728's r2.
+    0x02014840: ("func_02014840", 2, "src/matched/arm9/func_02014840.c"),
+    # func_020146F8.c (EXACT) stores its r2 as task word [2]; its callback
+    # func_02014628.c (EXACT), case 1, passes p[2] as func_02014728's r2.
+    0x020146F8: ("func_020146F8", 2, "src/matched/arm9/func_020146F8.c"),
+    # src/matched/ov/ov021_func_021BB990.c (EXACT): calls func_02034AC4(a)
+    # with its r0 unchanged.  The key is an overlay address: ov217 also has
+    # a function at 0x021BB990, but it takes a struct pointer in r0
+    # (ldr r1, [r0, #0x20]), so no ov217 call passes an overlay id there.
+    0x021BB990: ("func_021BB990", 0, "src/matched/ov/ov021_func_021BB990.c"),
 }
 
 _OVERLAY_IDS = {}
@@ -4062,6 +4078,19 @@ def attest_overlay_id(fb, st, value, sites, place):
 #             occurrence, another template claims the declared address, two
 #             templates claim one address, a claim of `@N` itself points
 #             elsewhere, or any occurrence stays unclaimed.
+#             NAMED-GLOBAL CLAIMS (2026-10-01).  An occurrence may also be
+#             claimed by a named global: a row of ANY archive in the same
+#             region, located with 0 mismatches, relocates (ABS32, addend 0)
+#             a global or undefined symbol with a non-`@` name at a slot
+#             outside the compared range, and the image word at that slot is
+#             the occurrence.  A named global and a member's local `@N` are
+#             distinct objects in the link, so that copy cannot be `@N`.
+#             Refused when such a claim points at the declared address, or
+#             a named global and a template claim the same occurrence.  Dry
+#             run over all 479 non-unique template sites of the SDK table:
+#             the only verdict this changes is qr_process_client_message's
+#             @13818 (ov009 0x021A1B64; the twin 0x021A5A7C is NNMagicData,
+#             named by eight located natneg.o/dwc_match.o slots).
 #   .bss      (attest_section_rel())  a `symbols:` line may name `.bss`
 #             (the section symbol mwccarm writes for a function-local
 #             static) with the address of the object's .bss base.  Accepted
@@ -4401,6 +4430,43 @@ def _template_claims(vf, pattern, reg_name, lo, hi):
     return out
 
 
+def _template_named_claims(hits, reg_name, lo, hi):
+    """[(("global", name), image word)] for every slot outside [lo, hi) at
+    which a row of ANY archive in region `reg_name`, located with 0
+    mismatches, relocates (ABS32, addend 0) a global or undefined symbol with
+    a non-`@` name, and the image word there is one of `hits`.  A named
+    global is a different object from any member's local `@N`."""
+    key = ("tnamed", reg_name, tuple(sorted(hits)), lo, hi)
+    if key in _VENDOR:
+        return _VENDOR[key]
+    so = _sdkobj()
+    want = set(hits)
+    out = []
+    for row in so.sdk_table():
+        if row["region"] != reg_name:
+            continue
+        other = vendor_function(row["address"], reg_name, overlays=True)
+        if other is None:
+            continue
+        syms = other["view"].syms
+        for off, (rt, si, add) in sorted(other["relocs"].items()):
+            site = row["address"] + off
+            if rt != R_ARM_ABS32 or (add or 0) != 0 or si >= len(syms):
+                continue
+            if lo <= site < hi:
+                continue
+            sname, _val, _size, _typ, bind, shndx = syms[si]
+            if not sname or ANON_NAME_RE.match(sname):
+                continue
+            if bind == 0 and shndx != 0:
+                continue            # a defined local: not a named global
+            word = _region_word(reg_name, site)
+            if word in want:
+                out.append((("global", sname), word))
+    _VENDOR[key] = out
+    return out
+
+
 def _template_by_elimination(vf, name, pattern, hits, addr, reg_name, lo,
                              hi):
     """True when the other aligned occurrences of `pattern` are each claimed
@@ -4421,6 +4487,12 @@ def _template_by_elimination(vf, name, pattern, hits, addr, reg_name, lo,
             return False            # another template claims our address
         if owner.setdefault(word, tkey) != tkey:
             return False            # two templates at one address
+    for gkey, word in _template_named_claims(hits, reg_name, lo, hi):
+        if word == addr:
+            return False            # a named global claims our address
+        prev = owner.setdefault(word, gkey)
+        if prev != gkey and prev[0] != "global":
+            return False            # a template and a named global, one address
     others = set(hits) - {addr}
     return bool(others) and others == set(owner)
 
@@ -4489,8 +4561,8 @@ def attest_template(place, off, addr, addend, ours=None, region=None,
         return None
     return ("template", len(hits) - 1, addr,
             "%s (%d bytes) of %s: %d aligned copies in %s; every other copy "
-            "is another template of the archive, relocated at a located "
-            "row's slot outside this range" % (name, len(body), member,
+            "is another template of the archive or a named global, relocated "
+            "at a located row's slot outside this range" % (name, len(body), member,
                                                len(hits), where))
 
 
@@ -6641,12 +6713,11 @@ SDK_PXI_INITFIFO = 0x020884A4    # PXI_InitFifo
 # layout/symbols_sdk.json entirely, for the negative case.
 
 # A Thumb entry point nothing labels: its only witness anywhere is the pool
-# word at 0x02005208 (sub_02005610, the tail-call thunk inside
-# unit_0200560C), so the `literal` class attests the ADDRESS while the image
-# says nothing at all about the instruction set at it.  This is the case where
-# a declared ISA has to be trusted, and noted.  (Was NitroMain, 0x02005124,
-# until layout/function_starts.txt seeded it on 2026-10-01.)
-ISA_UNEVIDENCED = 0x02005610
+# word 0x020057A1 at 0x020057BC, so the `literal` class attests the ADDRESS
+# while the image says nothing at all about the instruction set at it.  This
+# is the case where a declared ISA has to be trusted, and noted.  (Was
+# NitroMain 0x02005124, then sub_02005610; the 2026-10-01 seeds labelled both.)
+ISA_UNEVIDENCED = 0x020057A0
 
 # "box_savedata.c": ten NUL bytes separate it from the terminator of
 # "save_control.c", which is more alignment than the string class used to
@@ -6773,7 +6844,7 @@ OV_CODE_SOLE_REGION = "ov009"
 OV_CODE_SOLE_LO, OV_CODE_SOLE_HI = 0x0200F734, 0x0200F7B8
 # 0x0215E334: a callee of src/pending/func_02012704.c that neither ov009 nor
 # ov010 labels.
-OV_CODE_UNLABELLED = 0x0215E334
+OV_CODE_UNLABELLED = 0x0215E000   # was 0x0215E334 until the 2026-10-01 seeds labelled it
 # 0x02155244: labelled Thumb in BOTH ov009 and ov010, the ambiguity case.
 OV_CODE_TWICE = 0x02155244
 # 0x0216FEDC: ov010 data (ov009 has code there) that the listing's block
@@ -8288,6 +8359,14 @@ def cmd_selftest(args):
                 "compared range, the other copy is unclaimed: refused",
            attest_template(evlo, 0x184, 0x021CE1B8, 0, region="ov114",
                            lo=evlo, hi=cblo + 0x238), None)
+    qplo = 0x0219C3A4                           # ov009 qr_process_client_message
+    _check(res, "template/ov (b): @13818 of qr2.o at 0x021A1B64; the twin "
+                "0x021A5A7C is the named global NNMagicData",
+           cls(attest_template(qplo, 0x198, 0x021A1B64, 0, region="ov009")),
+           "template")
+    _check(res, "template/ov (b): @13818 declared at NNMagicData's copy is "
+                "refused",
+           attest_template(qplo, 0x198, 0x021A5A7C, 0, region="ov009"), None)
     _check(res, "template/ov: the right row named in the wrong overlay "
                 "(ov009) is refused",
            attest_template(evlo, 0x184, 0x021CE1B8, 0, region="ov009"), None)

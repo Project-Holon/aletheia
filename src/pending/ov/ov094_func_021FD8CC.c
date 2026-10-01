@@ -24,6 +24,11 @@
  * in r7, and rematerialises a fresh zero (r3) in the else arm. Declaring `s`
  * after `v`, `a`, `b` fixed s/active (r5/r4). Tried: if/else vs ternary
  * index, a named zero local, one-expression MUL (worse, 23..92 bytes).
+ * Lane G1-18 also tried (no gain): int a/b with u16 casts, b declared
+ * before a, a static inline MUL, the index as an int local, moving the
+ * `= 0` stores first in each arm, inlining the a/b expressions (worse).
+ * Caller func_021FD1CC (same lane) shows s is a 0x60 object: 3x3 matrix,
+ * pos at 0x24, counters from 0x30.
  */
 typedef signed short s16;
 typedef unsigned short u16;

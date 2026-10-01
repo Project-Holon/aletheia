@@ -19,8 +19,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021A200C",
-     "self:0x021AA860"
+     "data:0x021AA860",
+     "self:0x021A200C"
     ],
     "sdk": [
      "0x02185D04"

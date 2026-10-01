@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021B6100  0x021B6100  thumb ov070
- *   func_021B63BC  0x021B63BC  thumb
+ *   func_021B63BC  0x021B63BC  thumb  ov133
  *   func_021B6294  0x021B6294  thumb
  *   func_021FD904  0x021FD904  thumb
  *   func_021FD52C  0x021FD52C  thumb ov132

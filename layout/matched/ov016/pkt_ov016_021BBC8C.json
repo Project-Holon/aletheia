@@ -40,8 +40,7 @@
      "self:0x021DABD8"
     ],
     "sdk": [
-     "0x021BC4D4",
-     "0x021BC544"
+     "0x021BC4D4"
     ]
    }
   },
@@ -58,8 +57,7 @@
    "status": "EXACT",
    "evidence": {
     "sdk": [
-     "0x021BC500",
-     "0x021BC544"
+     "0x021BC500"
     ]
    }
   },

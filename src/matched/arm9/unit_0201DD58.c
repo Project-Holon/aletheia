@@ -29,6 +29,9 @@
  * Verified with:
  *   python tools/match.py tu --src src/matched/unit_0201DD58.c \
  *       --addr 0x0201DD58 --thumb
+ *
+ * symbols:
+ *   func_0201DD68  0x0201DD68  thumb
  */
 
 typedef unsigned char  u8;

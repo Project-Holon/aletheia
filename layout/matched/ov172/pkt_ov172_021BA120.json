@@ -22,12 +22,7 @@
     "func_021BA158",
     "func_021BA15C",
     "func_021BA170"
-   ],
-   "evidence": {
-    "sdk": [
-     "0x0208B4B8"
-    ]
-   }
+   ]
   }
  ]
 }

@@ -9,6 +9,10 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * 2026-10-01: body is right; the original keeps the 0203CF10 result in r2 and
+ * copies it to r1 for the call (2 bytes longer), ours keeps it in r1.  Tried
+ * nested ifs, declaration order, a const id local, an Ent/Sub struct.
+ *
  * symbols:
  *   func_0203CF10  0x0203CF10  arm
  *   func_021CEE78  0x021CEE78  thumb  ov021

@@ -1,0 +1,130 @@
+/*
+ * function: func_02208DAC
+ * address: 0x02208DAC
+ * packet: pkt_ov094_02208DAC
+ * region: ov094
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * lever: const Arg * lets the side load schedule above the pos zero stores;
+ *   pos is initialised in an inner block (a top-level initializer is
+ *   emitted at function entry); the stack locals are declared arc, heap,
+ *   base so they land at 0x1c, 0x18, 0x14.
+ * symbols:
+ *   func_02030734 0x02030734 arm
+ *   func_020490F4 0x020490F4 arm
+ *   func_0204B100 0x0204B100 arm
+ *   func_0204A6C8 0x0204A6C8 arm
+ *   func_0204AF28 0x0204AF28 arm
+ *   func_0204ABF0 0x0204ABF0 arm
+ *   func_021F86E0 0x021F86E0 thumb ov094
+ *   func_0204AEF4 0x0204AEF4 arm
+ *   func_020216D4 0x020216D4 thumb
+ *   func_0204B294 0x0204B294 arm
+ *   func_0204B454 0x0204B454 arm
+ *   func_0204B92C 0x0204B92C arm
+ *   func_0204B878 0x0204B878 arm
+ *   func_021F86D4 0x021F86D4 thumb ov094
+ *   func_02030DA8 0x02030DA8 arm
+ *   func_021F896C 0x021F896C thumb ov094
+ *   func_02049238 0x02049238 arm
+ *   func_020061E4 0x020061E4 thumb
+ *   func_022090B4 0x022090B4 thumb ov094
+ *   func_02209214 0x02209214 thumb ov094
+ *   d_0220AED0 0x0220AED0 data a4
+ *   d_0220AB6C 0x0220AB6C data a4
+ *   d_0220AB7C 0x0220AB7C data a4
+ */
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef short s16;
+typedef struct { s16 x, y, z, w; } Pos;
+typedef struct { s16 x, y; } Vec2;
+typedef struct { void *h; int goal, home, step, frame, wait; Vec2 pos; } Entry;
+typedef struct {
+    u32 h0, h4, h8, hc;
+    Entry e[7];
+    int state, active, sound;
+    u16 heap;
+} Work;
+typedef struct { int side; int idx[6]; } Arg;
+typedef struct { s16 x0, y0, x1, y1; } Origin;
+extern const char d_0220AED0[];
+extern const Origin d_0220AB6C[];
+extern const u32 d_0220AB7C[][5];
+extern void *func_02030734(u16, u32, int, const char *, u16);
+extern u32 func_020490F4(u32, u16);
+extern u32 func_0204B100(int, int, u16);
+extern u32 func_0204A6C8(u32, u32, u32, u32, u16);
+extern u32 func_0204AF28(u32, u32, u32, u16);
+extern u32 func_0204ABF0(u32, u32, u32, u32, u16);
+extern void *func_021F86E0(void);
+extern u32 func_0204AEF4(u32, int);
+extern void func_020216D4(void *, u32, u32, u32);
+extern void *func_0204B294(u32, u32, u32, u32, Pos *, u16, u16);
+extern void func_0204B454(void *, Vec2 *, int);
+extern void func_0204B92C(void *, int);
+extern void func_0204B878(void *, u16);
+extern void *func_021F86D4(void);
+extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
+extern void func_021F896C(void *, void (*)(void *), int);
+extern void func_02049238(u32);
+extern void func_020061E4(int);
+extern void func_022090B4(void *, void *);
+extern void func_02209214(void *);
+Work *func_02208DAC(const Arg *arg, u32 heapId)
+{
+    u32 arc;
+    int heap;
+    int base;
+    Work *w;
+    Work **ctx;
+    int i;
+
+    heap = (heapId & 0x7fff) | 0x8000;
+    w = func_02030734(heap, 0xe4, 1, d_0220AED0, 0x7a);
+    arc = func_020490F4(0xb, heap);
+    w->heap = heap;
+    w->h0 = func_0204B100(7, 0, w->heap);
+    w->h4 = func_0204A6C8(arc, 0xbd, 0, 0, w->heap);
+    w->h8 = func_0204AF28(arc, 0xbf, 0xc0, w->heap);
+    w->hc = func_0204ABF0(arc, 0xbe, 0, 0xc0, w->heap);
+    func_020216D4(func_021F86E0(), 2, (u16)(func_0204AEF4(w->hc, 0) >> 1), 0x20);
+    {
+    Pos pos = {0, 0, 0, 0};
+    int side = arg->side;
+    base = d_0220AB6C[side].x0;
+    pos.x = base + (side == 0 ? 0x80 : -0x80);
+    pos.y = d_0220AB6C[arg->side].y0;
+    for (i = 0; i < 6; i++) {
+        w->e[i].h = func_0204B294(w->h0, w->h4, w->hc, w->h8, &pos, 0, w->heap);
+        func_0204B454(w->e[i].h, &w->e[i].pos, 0);
+        func_0204B92C(w->e[i].h, 1);
+        func_0204B878(w->e[i].h, d_0220AB7C[arg->side][arg->idx[i]]);
+        w->e[i].frame = d_0220AB7C[2][arg->idx[i]];
+        w->e[i].wait = (i + 1) * 6;
+        w->e[i].home = base;
+        w->e[i].goal = base + (i + 1) * (arg->side == 0 ? -2 : 2);
+        w->e[i].step = arg->side == 0 ? -12 : 12;
+        base += arg->side == 0 ? 15 : -15;
+    }
+    pos.x = d_0220AB6C[arg->side].x1 + (arg->side == 0 ? 0x80 : -0x80);
+    pos.y = d_0220AB6C[arg->side].y1;
+    w->e[i].h = func_0204B294(w->h0, w->h4, w->hc, w->h8, &pos, 0, w->heap);
+    func_0204B454(w->e[i].h, &w->e[i].pos, 0);
+    func_0204B92C(w->e[i].h, 1);
+    func_0204B878(w->e[i].h, d_0220AB7C[arg->side][4]);
+    w->e[i].frame = d_0220AB7C[arg->side][4];
+    w->e[i].wait = 0;
+    w->e[i].home = w->e[i].goal = d_0220AB6C[arg->side].x1;
+    w->e[i].step = arg->side == 0 ? -0x10 : 0x10;
+    ctx = func_02030734(heap, 4, 0, d_0220AED0, 0xec);
+    *ctx = w;
+    func_021F896C(func_02030DA8(func_021F86D4(), func_022090B4, ctx, 0), func_02209214, 0);
+    w->active = 1;
+    func_02049238(arc);
+    func_020061E4(0x570);
+    return w;
+    }
+}

@@ -19,10 +19,13 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DAAB4",
-     "self:0x021DC040",
-     "self:0x021DCE20",
-     "self:0x021DCE2C"
+     "data:0x021DAAB4",
+     "data:0x021DC040",
+     "data:0x021DCE20",
+     "data:0x021DCE2C"
+    ],
+    "sdk": [
+     "0x021B62C0"
     ]
    }
   },
@@ -39,11 +42,11 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021D77C4",
-     "self:0x021DAAB4",
-     "self:0x021DC040",
-     "self:0x021DC044",
-     "self:0x021DC060"
+     "data:0x021DAAB4",
+     "data:0x021DC040",
+     "data:0x021DC044",
+     "data:0x021DC060",
+     "self:0x021D77C4"
     ],
     "sdk": [
      "0x021B6CD8",
@@ -58,9 +61,6 @@
      "0x021B81EC",
      "0x021B824C",
      "0x021B8260",
-     "0x021B82E4",
-     "0x021B830C",
-     "0x021B834C",
      "0x021B8678",
      "0x021B87F0"
     ]
@@ -91,7 +91,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DC040"
+     "data:0x021DC040"
     ]
    }
   },
@@ -108,10 +108,10 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DC040",
-     "self:0x021DC060",
-     "self:0x021DC064",
-     "self:0x021DCDA0"
+     "data:0x021DC040",
+     "data:0x021DC060",
+     "data:0x021DC064",
+     "data:0x021DCDA0"
     ]
    }
   },
@@ -128,7 +128,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DC040"
+     "data:0x021DC040"
     ]
    }
   },
@@ -145,7 +145,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DC040"
+     "data:0x021DC040"
     ]
    }
   },
@@ -162,16 +162,14 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DC040",
-     "self:0x021DC708",
-     "self:0x021DC838",
-     "self:0x021DC968",
-     "self:0x021DC9D8"
+     "data:0x021DC040",
+     "data:0x021DC708",
+     "data:0x021DC838",
+     "data:0x021DC968",
+     "data:0x021DC9D8"
     ],
     "sdk": [
-     "0x021B6F84",
-     "0x021B8230",
-     "0x021B8364"
+     "0x021B6F84"
     ]
    }
   },
@@ -201,9 +199,6 @@
    "evidence": {
     "sole-ref": [
      "string:0x021DAB14"
-    ],
-    "sdk": [
-     "0x021B8364"
     ]
    }
   },
@@ -221,10 +216,6 @@
    "evidence": {
     "sole-ref": [
      "string:0x021DAB14"
-    ],
-    "sdk": [
-     "0x021B8230",
-     "0x021B8364"
     ]
    }
   },
@@ -238,14 +229,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sdk": [
-     "0x021B8230",
-     "0x021B830C",
-     "0x021B8378"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "AOSS_StatusExclusion",
@@ -260,7 +244,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DAAB4"
+     "data:0x021DAAB4"
     ],
     "sdk": [
      "0x021B89C8"
@@ -283,8 +267,7 @@
      "0x021B7164",
      "0x021B7240",
      "0x021B7318",
-     "0x021B73BC",
-     "0x021B834C"
+     "0x021B73BC"
     ]
    }
   },
@@ -301,13 +284,11 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DC040",
-     "self:0x021DC080"
+     "data:0x021DC040",
+     "data:0x021DC080"
     ],
     "sdk": [
-     "0x021B7540",
-     "0x021B796C",
-     "0x021B834C"
+     "0x021B7540"
     ]
    }
   },
@@ -324,13 +305,12 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DC040",
-     "self:0x021DC080",
-     "self:0x021DC700"
+     "data:0x021DC040",
+     "data:0x021DC080",
+     "data:0x021DC700"
     ],
     "sdk": [
-     "0x021B785C",
-     "0x021B834C"
+     "0x021B785C"
     ]
    }
   },
@@ -344,12 +324,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT*",
-   "evidence": {
-    "sdk": [
-     "0x021B834C"
-    ]
-   }
+   "status": "EXACT*"
   },
   {
    "name": "DecodePacket",
@@ -364,15 +339,11 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCDA0"
+     "data:0x021DCDA0"
     ],
     "sdk": [
      "0x021B74B0",
-     "0x021B7E78",
-     "0x021B8230",
-     "0x021B830C",
-     "0x021B834C",
-     "0x021B8364"
+     "0x021B7E78"
     ]
    }
   },
@@ -389,7 +360,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCDA0"
+     "data:0x021DCDA0"
     ]
    }
   },
@@ -403,13 +374,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sdk": [
-     "0x021B834C",
-     "0x021B8364"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "GetProductInfo",
@@ -421,15 +386,13 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT*",
+   "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DC040"
+     "data:0x021DC040"
     ],
     "sdk": [
-     "0x021B75FC",
-     "0x021B8230",
-     "0x021B834C"
+     "0x021B75FC"
     ]
    }
   },
@@ -443,7 +406,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT"
+   "status": "EXACT*"
   },
   {
    "name": "GetWEPData",
@@ -455,13 +418,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT*",
-   "evidence": {
-    "sdk": [
-     "0x021B8230",
-     "0x021B834C"
-    ]
-   }
+   "status": "EXACT*"
   },
   {
    "name": "GetWPAData",
@@ -473,13 +430,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sdk": [
-     "0x021B8230",
-     "0x021B834C"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "GetBssidData",
@@ -491,13 +442,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sdk": [
-     "0x021B8230",
-     "0x021B834C"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "GetSecurityData",
@@ -512,14 +457,13 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DAAB0",
-     "self:0x021DC040"
+     "data:0x021DC040",
+     "self:0x021DAAB0"
     ],
     "sdk": [
      "0x021B7620",
      "0x021B7774",
-     "0x021B782C",
-     "0x021B834C"
+     "0x021B782C"
     ]
    }
   },
@@ -555,13 +499,11 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DC040",
-     "self:0x021DCDA0"
+     "data:0x021DC040",
+     "data:0x021DCDA0"
     ],
     "sdk": [
-     "0x021B7C5C",
-     "0x021B8230",
-     "0x021B830C"
+     "0x021B7C5C"
     ]
    }
   },
@@ -578,12 +520,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DC040"
-    ],
-    "sdk": [
-     "0x021B8230",
-     "0x021B82E4",
-     "0x021B830C"
+     "data:0x021DC040"
     ]
    }
   },
@@ -600,11 +537,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DC040"
-    ],
-    "sdk": [
-     "0x021B8230",
-     "0x021B8364"
+     "data:0x021DC040"
     ]
    }
   },
@@ -621,13 +554,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DC040",
-     "self:0x021DC060"
-    ],
-    "sdk": [
-     "0x021B8230",
-     "0x021B82E4",
-     "0x021B830C"
+     "data:0x021DC040",
+     "data:0x021DC060"
     ]
    }
   },
@@ -644,12 +572,10 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCDA0"
+     "data:0x021DCDA0"
     ],
     "sdk": [
-     "0x021B7DFC",
-     "0x021B8230",
-     "0x021B830C"
+     "0x021B7DFC"
     ]
    }
   },
@@ -663,13 +589,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT*",
-   "evidence": {
-    "sdk": [
-     "0x021B8230",
-     "0x021B830C"
-    ]
-   }
+   "status": "EXACT*"
   },
   {
    "name": "SendPacketUDP",
@@ -684,13 +604,11 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DC040",
-     "self:0x021DC060"
+     "data:0x021DC040",
+     "data:0x021DC060"
     ],
     "sdk": [
-     "0x021B82B4",
-     "0x021B82E4",
-     "0x021B830C"
+     "0x021B82B4"
     ]
    }
   },
@@ -707,15 +625,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCDA8",
-     "self:0x021DCDAA"
-    ],
-    "sdk": [
-     "0x021B7F00",
-     "0x021B7F64",
-     "0x021B7FD0",
-     "0x021B8230",
-     "0x021B8378"
+     "data:0x021DCDA8",
+     "data:0x021DCDAA"
     ]
    }
   },
@@ -732,14 +643,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCDA8",
-     "self:0x021DCDAA"
-    ],
-    "sdk": [
-     "0x021B7F00",
-     "0x021B7F64",
-     "0x021B7FD0",
-     "0x021B8230"
+     "data:0x021DCDA8",
+     "data:0x021DCDAA"
     ]
    }
   },
@@ -797,7 +702,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DC300"
+     "data:0x021DC300"
     ],
     "sdk": [
      "0x021B7FF8"
@@ -886,12 +791,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT*",
-   "evidence": {
-    "sdk": [
-     "0x021B8230"
-    ]
-   }
+   "status": "EXACT*"
   },
   {
    "name": "AOSS_SetIPAddr",
@@ -906,12 +806,9 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021A82BC",
-     "self:0x021DAAB4",
-     "self:0x021DAABC"
-    ],
-    "sdk": [
-     "0x021B82E4"
+     "data:0x021A82BC",
+     "data:0x021DAAB4",
+     "data:0x021DAABC"
     ]
    }
   },
@@ -1029,7 +926,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DC040"
+     "data:0x021DC040"
     ]
    }
   },
@@ -1075,9 +972,9 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCE20",
-     "self:0x021DCE30",
-     "self:0x021DCE40"
+     "data:0x021DCE20",
+     "data:0x021DCE40",
+     "self:0x021DCE30"
     ],
     "sdk": [
      "0x021B84BC",
@@ -1098,8 +995,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCE20",
-     "self:0x021DCE40"
+     "data:0x021DCE20",
+     "data:0x021DCE40"
     ],
     "sdk": [
      "0x021B8EA4"
@@ -1119,7 +1016,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCE40"
+     "data:0x021DCE40"
     ],
     "sdk": [
      "0x021B8E6C"
@@ -1139,11 +1036,12 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCE20",
-     "self:0x021DCE40"
+     "data:0x021DCE20",
+     "data:0x021DCE40"
     ],
     "sdk": [
      "0x021B83FC",
+     "0x021B84D0",
      "0x021B8CFC",
      "0x021B8E30"
     ]

@@ -20,12 +20,7 @@
    "functions": [
     "func_021E2BD0",
     "func_021E2C34"
-   ],
-   "evidence": {
-    "sole-ref": [
-     "code:0x021E3A40"
-    ]
-   }
+   ]
   }
  ]
 }

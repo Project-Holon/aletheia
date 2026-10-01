@@ -12,6 +12,7 @@
  * extent: unit includes tail-call stub 0x021D4BDC and return stub 0x021D4BF0;
  *   two zero padding bytes at 0x021D4BF2 follow the intended code.
  * symbols:
+ *   func_021D4B74  0x021D4B74  thumb  ov122
  *   func_02178118 0x02178118 thumb ov014
  *   func_021D4B30 0x021D4B30 thumb ov122
  *   func_021D4244 0x021D4244 thumb ov122

@@ -19,7 +19,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021F6F90"
+     "data:0x021F6F90"
     ],
     "sdk": [
      "0x021F5EA0",

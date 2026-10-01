@@ -1,5 +1,5 @@
 /*
- * function: DWC_EnableHotspot
+ * function: DWCi_GetChildInfo
  * address:  0x021D4138
  * packet:   pkt_ov016_021D4138
  * region:   ov016
@@ -9,16 +9,17 @@
  * isa:      arm
  * status:   EXACT
  *
+ * sdk:      DWCi_GetChildInfo (libdwcutil.TWL.HYB.a dwc_moveid.o)
+ *
  * symbols:
  *   MB_CommGetChildUser          0x021F1B64  arm
 */
 
-extern void MB_CommGetChildUser(void);
+typedef struct MBUserInfo MBUserInfo;
 
-asm void DWC_EnableHotspot(void)
+extern MBUserInfo *MB_CommGetChildUser(unsigned short aid);
+
+MBUserInfo *DWCi_GetChildInfo(void)
 {
-	ldr ip, =MB_CommGetChildUser
-	mov r0, #1
-	bx ip
+    return MB_CommGetChildUser(1);
 }
-

@@ -19,12 +19,7 @@
    "status": "EXACT",
    "functions": [
     "func_021CF214"
-   ],
-   "evidence": {
-    "sole-ref": [
-     "code:0x021CF110"
-    ]
-   }
+   ]
   }
  ]
 }

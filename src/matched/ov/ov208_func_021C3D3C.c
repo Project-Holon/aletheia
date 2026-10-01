@@ -107,7 +107,7 @@ extern void ov208_func_021C7E74(u16 *heap, u8 *p, int key);
 extern int  func_0201600C(u32 obj);
 extern void ov208_func_021BC6D8(u32 fade);
 extern int  ov208_func_021BDAD0(void *s);
-extern u16  ov208_func_021BC3BC(int key);
+extern u16  ov208_func_021BC3BC(char *p);
 extern void ov208_func_021BDAAC(void *s, u32 mode, u32 kind, u32 flag);
 extern void ov208_func_021BDAD4(void *s, int v);
 extern void ov208_func_021BDBB8(void *s, u32 kind);
@@ -217,7 +217,7 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, u8 *p, int key)
             *seq = 4;
             ov208_func_021BC6D8(W(0x6ac));
             if (ov208_func_021BDAD0(scene) != 2) {
-                ov208_func_021BDAAC(scene, 0, 3, ov208_func_021BC3BC(key) > 1);
+                ov208_func_021BDAAC(scene, 0, 3, ov208_func_021BC3BC((char *)key) > 1);
                 ov208_func_021BDAD4(scene, 0);
             } else {
                 ov208_func_021BDBB8(scene, 3);

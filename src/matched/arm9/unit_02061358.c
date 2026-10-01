@@ -1,5 +1,6 @@
 /*
- * function: func_02061358
+ * function: func_02061358, func_02061370, func_02061378, func_02061380,
+ *           func_02061388
  * address:  0x02061358
  * packet:   pkt_0206123C
  * region:   arm9

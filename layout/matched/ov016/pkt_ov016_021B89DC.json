@@ -19,7 +19,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCF80"
+     "data:0x021DCF80"
     ],
     "sdk": [
      "0x02164EE0"
@@ -39,7 +39,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCF80"
+     "data:0x021DCF80"
     ],
     "sdk": [
      "0x021B89DC"
@@ -71,7 +71,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCF80",
+     "data:0x021DCF80",
      "self:0x021DCFA8",
      "self:0x021DCFB0"
     ]
@@ -90,7 +90,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCF80"
+     "data:0x021DCF80"
     ]
    }
   },
@@ -107,7 +107,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCF80"
+     "data:0x021DCF80"
     ]
    }
   },
@@ -124,7 +124,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCF80"
+     "data:0x021DCF80"
     ]
    }
   },
@@ -141,7 +141,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCF80"
+     "data:0x021DCF80"
     ]
    }
   },
@@ -158,7 +158,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCF80"
+     "data:0x021DCF80"
     ],
     "sdk": [
      "0x021B89DC"

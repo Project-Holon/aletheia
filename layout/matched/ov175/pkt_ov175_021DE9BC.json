@@ -20,14 +20,8 @@
    "evidence": {
     "sole-ref": [
      "data:0x021E3DF8",
-     "data:0x021E3EFC",
-     "data:0x021E3F04",
      "data:0x021E3F1C",
-     "self:0x021E3F0C",
-     "self:0x021E3F14",
-     "self:0x021E3F20",
-     "self:0x021E3F30",
-     "self:0x021E3F3C"
+     "string:0x021E3F20"
     ],
     "sdk": [
      "0x021DE26C"

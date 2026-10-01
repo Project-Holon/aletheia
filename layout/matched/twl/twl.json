@@ -200,12 +200,7 @@
    "lang": "c",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c",
-   "status": "EXACT",
-   "evidence": {
-    "sdk": [
-     "0x02082E74"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "func_027032E0",

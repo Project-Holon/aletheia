@@ -191,6 +191,7 @@ class Region:
         self.veneers = {}                           # address -> (size, target)
         self.conflicts = []
         self.declared = {}                          # start -> end, data
+        self.far_branch = []                        # (lo, hi): bl is a far branch inside
 
     def contains(self, addr):
         return self.base <= addr < self.end
@@ -400,8 +401,18 @@ class Analyser:
 
                 if mnem in CALL_MNEMONICS:
                     tgt = self._branch_target(insn)
-                    if tgt is not None:
-                        flips = mnem.startswith("blx")
+                    flips = mnem.startswith("blx")
+                    far = (tgt is not None and thumb and not flips
+                           and any(lo <= addr < hi and lo <= tgt < hi
+                                   for lo, hi in r.far_branch))
+                    if far:
+                        # A Thumb `bl` from inside a listed function to
+                        # another point inside it is a far branch, not a
+                        # call (layout/far_branch_functions.txt): the
+                        # target is a label and nothing falls through.
+                        self.add_seed(tgt, thumb, is_func=False)
+                        stop = True
+                    elif tgt is not None:
                         self.add_seed(tgt, (not thumb) if flips else thumb,
                                       is_func=True)
                 elif mnem in BRANCH_MNEMONICS:
@@ -1380,6 +1391,37 @@ def load_declared_data(layout_dir, region):
     return out
 
 
+FAR_BRANCH_FUNCTIONS = "far_branch_functions.txt"
+
+
+def load_far_branch_functions(layout_dir, region_name):
+    """(lo, hi) ranges of functions whose Thumb `bl` reach their own body.
+
+    Same three-plus-comment format as function_starts.txt:
+
+        overlay_021  0x021CA5C4  0x021CB6D0  # evidence
+
+    A Thumb `bl` from inside [lo, hi) to inside [lo, hi) is traced as a
+    far branch (label, no fall-through) instead of a call (function start).
+    """
+    path = os.path.join(layout_dir, FAR_BRANCH_FUNCTIONS)
+    if not os.path.isfile(path):
+        return []
+    out = []
+    with open(path, "r", encoding="utf-8") as fh:
+        for lineno, raw in enumerate(fh, 1):
+            line = raw.split("#", 1)[0].strip()
+            if not line:
+                continue
+            parts = line.split()
+            if len(parts) != 3:
+                raise DisasmError("%s:%d: want 'region lo hi'" % (path, lineno))
+            if parts[0] != region_name:
+                continue
+            out.append((int(parts[1], 16), int(parts[2], 16)))
+    return out
+
+
 def load_function_starts(layout_dir, region_name):
     """Extra entry points for one region, from the committed override list.
 
@@ -1436,6 +1478,7 @@ def build_arm9_regions(layout, extract_dir, layout_dir="layout"):
              % (st["bss_start"], st["bss_end"]))
     regions.append(main)
     main.declared = load_declared_data(layout_dir, main)
+    main.far_branch = load_far_branch_functions(layout_dir, main.name)
 
     for al in a9["autoloads"]:
         data = image[al["src_offset"]:al["src_offset"] + al["code_size"]]
@@ -1493,6 +1536,7 @@ def build_overlay_region(layout, extract_dir, ov_id, layout_dir="layout"):
     reg = Region("overlay_%03d" % ov_id, base, data,
                  "extract/" + o["decompressed_file"], seeds=seeds, note=note)
     reg.declared = load_declared_data(layout_dir, reg)
+    reg.far_branch = load_far_branch_functions(layout_dir, reg.name)
     return reg
 
 

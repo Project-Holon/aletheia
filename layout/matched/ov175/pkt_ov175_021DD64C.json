@@ -16,29 +16,7 @@
    "lang": "c99",
    "isa": "arm",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "self:0x021E3730",
-     "self:0x021E3738",
-     "self:0x021E374C",
-     "self:0x021E375C",
-     "self:0x021E3770",
-     "self:0x021E3784",
-     "self:0x021E3798",
-     "self:0x021E37A8",
-     "self:0x021E37B8",
-     "self:0x021E37C8",
-     "self:0x021E37DC",
-     "self:0x021E37EC",
-     "self:0x021E3800",
-     "self:0x021E3810",
-     "self:0x021E381C",
-     "self:0x021E3828",
-     "self:0x021E3838",
-     "self:0x021E3844"
-    ]
-   }
+   "status": "EXACT"
   }
  ]
 }

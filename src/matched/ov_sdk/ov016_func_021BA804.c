@@ -4,13 +4,22 @@
  * packet:   pkt_ov016_021BA804
  * region:   ov016
  * compiler: ../2.0/sp1p2
- * flags:    -O4,p
+ * flags:    -O4,p -ipa file
  * lang:     c99
  * isa:      thumb
  * status:   EXACT
  *
  * SDK: TwlDWC/lib/ARM9-TS/Rom/libdwcutil.TWL.HYB.a(atermset.o).
  * Object stamped Metrowerks 3.0.0.126 -> ../2.0/sp1p2.
+ *
+ * CLOSED 2026-10-01 (user-approved build setting): atermset.o was built with `-O4,p -ipa file`.
+ *   The Debug/Release libdwcutil archives show the real text at the code-less lines 643-647:
+ *   `} else { if (g_021DAB58.bDebug) OS_Printf(fmt, eid); }` with OS_Printf compiling to
+ *   nothing in Rom. That source is EXACT under -ipa file and replaces the earlier redundant
+ *   `if (bAtermApCanceled) break;` stand-in. The trailing g_AutoConfigThreadEx_entry pointer
+ *   models the object's address-taking use (thread entry), without which -ipa file drops
+ *   the static. All 55 other matched atermset.o functions stay EXACT under -ipa file.
+ *   Earlier lane notes below are history.
  *
  * lane 06 (2026-10-01): 843 -> 3 B under the header's ../2.0/sp1p2 (the earlier
  *   blocker text measured 1.1p1). What closed it: the sibling ATERMSET_BSS/ATERMSET_DATA
@@ -145,6 +154,9 @@ typedef struct {
 
 extern ATERMSET_BSS g_021DCFD0;
 extern unsigned char btAutoResult;
+/* OS_Printf compiles to nothing in the Rom (FINALROM) build. */
+#define OS_Printf(fmt, arg) ((void)0)
+
 extern ATERMSET_DATA g_021DAB58;
 extern u8 g_021DD490[16];
 extern u8 g_021DDD04[2048];
@@ -286,9 +298,11 @@ static int AutoConfigThreadEx(void)
                         g_021DCFD0.gAtermApState = 5;
                         g_021DAB58.gAtermApTimeout = -1;
                         SendNotify();
+                    } else {
+                        if (g_021DAB58.bDebug)
+                            OS_Printf("eid %d
+", eid);
                     }
-                    if (g_021DCFD0.bAtermApCanceled)
-                        break;
                     break;
                 }
             }
@@ -358,3 +372,7 @@ static int AutoConfigThreadEx(void)
         ret = -8;
     return ret;
 }
+
+/* atermset.o takes this static's address (the thread entry passed to
+ * OS_CreateThread); without an address-taking use, -ipa file drops it. */
+void *g_AutoConfigThreadEx_entry = (void *)AutoConfigThreadEx;

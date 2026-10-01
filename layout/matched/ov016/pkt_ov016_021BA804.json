@@ -219,7 +219,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT*",
+   "status": "EXACT",
    "evidence": {
     "sole-ref": [
      "data:0x021DCFD0",
@@ -504,7 +504,7 @@
    "compiler": "dsi/../2.0/sp1p2",
    "lang": "c99",
    "isa": "thumb",
-   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -ipa file -thumb -lang c99",
    "status": "EXACT",
    "evidence": {
     "sole-ref": [

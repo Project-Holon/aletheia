@@ -94,7 +94,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE5BC"
+     "data:0x021DE5BC"
     ],
     "sdk": [
      "0x021C3CA8"

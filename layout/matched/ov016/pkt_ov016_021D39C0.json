@@ -19,7 +19,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE660"
+     "data:0x021DE660"
     ]
    }
   },
@@ -36,10 +36,10 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
+     "data:0x021DE660",
      "self:0x021DBD8C",
-     "self:0x021DBDB4",
      "self:0x021DBDBC",
-     "self:0x021DE660"
+     "string:0x021DBDB4"
     ]
    }
   },
@@ -56,7 +56,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE660"
+     "data:0x021DE660"
     ],
     "sdk": [
      "0x021D2B14"
@@ -76,7 +76,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE660"
+     "data:0x021DE660"
     ],
     "sdk": [
      "0x02090BC4",
@@ -109,10 +109,9 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE660"
+     "data:0x021DE660"
     ],
     "sdk": [
-     "0x0208F644",
      "0x021D2C0C"
     ]
    }
@@ -131,9 +130,9 @@
    "evidence": {
     "sole-ref": [
      "data:0x021DBE18",
+     "data:0x021DE660",
      "self:0x021DBDC0",
-     "self:0x021DBDEC",
-     "self:0x021DE660"
+     "self:0x021DBDEC"
     ],
     "sdk": [
      "0x021D2D6C"
@@ -153,7 +152,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE660"
+     "data:0x021DE660"
     ],
     "sdk": [
      "0x021D2E00"
@@ -174,8 +173,8 @@
    "evidence": {
     "sole-ref": [
      "data:0x021DBE18",
-     "self:0x021DBE38",
-     "self:0x021DE660"
+     "data:0x021DE660",
+     "self:0x021DBE38"
     ],
     "sdk": [
      "0x021D2F50"
@@ -212,8 +211,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DBE68",
-     "self:0x021DE660"
+     "data:0x021DE660",
+     "self:0x021DBE68"
     ],
     "sdk": [
      "0x021D3040"
@@ -367,7 +366,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE660"
+     "data:0x021DE660"
     ]
    }
   },
@@ -384,6 +383,7 @@
    "status": "EXACT",
    "evidence": {
     "sdk": [
+     "0x021D33E0",
      "0x021D34C0"
     ]
    }
@@ -401,8 +401,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DBEC0",
-     "self:0x021DE660"
+     "data:0x021DE660",
+     "self:0x021DBEC0"
     ]
    }
   },
@@ -431,8 +431,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DBED8",
-     "self:0x021DE660"
+     "data:0x021DE660",
+     "self:0x021DBED8"
     ]
    }
   },
@@ -449,7 +449,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE660"
+     "data:0x021DE660"
     ]
    }
   },
@@ -495,10 +495,10 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
+     "data:0x021DE660",
      "self:0x021DBE90",
      "self:0x021DBEA8",
-     "self:0x021DBEF0",
-     "self:0x021DE660"
+     "self:0x021DBEF0"
     ],
     "sdk": [
      "0x021D2A64"
@@ -518,9 +518,9 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
+     "data:0x021DE660",
      "self:0x021DBF0C",
-     "self:0x021DBF3C",
-     "self:0x021DE660"
+     "self:0x021DBF3C"
     ]
    }
   },
@@ -554,9 +554,9 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
+     "data:0x021DE660",
      "self:0x021DBF70",
-     "self:0x021DBF94",
-     "self:0x021DE660"
+     "self:0x021DBF94"
     ],
     "sdk": [
      "0x021D2F8C",

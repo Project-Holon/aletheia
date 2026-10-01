@@ -31,7 +31,7 @@ typedef struct Rec {
     u16 f38;            /* 0x38 */
 } Rec;
 
- func_02165F74(Rec *r)
+u16 func_02165F74(Rec *r)
 {
     if (r->type == 0x14)
         return r->f34.h;

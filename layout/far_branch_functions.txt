@@ -1,0 +1,18 @@
+# Functions whose Thumb `bl` instructions branch inside their own body.
+#
+# Columns: region  lo  hi   (hi exclusive; everything after '#' is a comment)
+#
+# mwcc emits a Thumb `bl` as a long unconditional branch when a jump inside a
+# large function is out of `b` range.  tools/disasm.py would otherwise read
+# every such target as a function start and cut the function into fragments
+# that no C can match on their own.  Inside a listed range, a Thumb `bl` to
+# another point of the same range is traced as a branch: the target becomes a
+# label, nothing falls through.  A row belongs here only when the range is one
+# function (its own push at lo, its pop/pool at the end) and its body really
+# reaches those targets by `bl`; name the evidence.
+
+# ov021: one 4.4 KB switch-driven function (push {r3-r7,lr}; sub sp,#0xf0 at
+# 0x021CA5C4; add sp,#0xf0; pop at 0x021CB6CC; pool from 0x021CB6D0).  91
+# Thumb bl sites inside it target 51 points inside it, which the listing had
+# labelled as 51 separate functions (wave A1, lane 15).
+overlay_021  0x021CA5C4  0x021CB6D0   # bl at 0x021CAB22 -> 0x021CB6CA (shared epilogue), etc.

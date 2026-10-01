@@ -10,6 +10,7 @@
  * status: EXACT
  * followers: 021DFEA0,021DFEAC,021DFEB8 are pooled tail-call stubs; parent cleared ownership.
  * symbols:
+ *   func_021DFE6C  0x021DFE6C  thumb  ov137
  *   func_021E1634 0x021E1634 thumb ov137
  *   func_02062B30 0x02062B30 arm
  *   func_02040AE0 0x02040AE0 arm
