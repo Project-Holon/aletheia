@@ -7,8 +7,18 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 85E8 veneer->7BDC reads no args, void prototype compiled unchanged; 2 pending74D8 has similar shadow XOR but is DIFF, no EXACT twin; 3 unsigned XOR locals and long live locals both 9 bytes; 4 declaration variant unchanged, aggregate-copy idiom already applied; 5 fresh idiom listing and ov12 neighbours yielded no new twin, no stack-object residue. Next targeted spelling would be a typed record shadow-pair helper.
- * Residue: 160 bytes, all five relocations resolved; 9 concrete bytes differ in shadow/live register rotation and load scheduling at +48..+66.
+ * checks: 1 85E8 veneer->7BDC reads no args, matched7374 confirms int return; ARM9 3F1FC takes pointer+u32, caller uses r0 after call so keeps int return; 2 pending74D8 has similar shadow XOR but is DIFF, no EXACT twin; 3 unsigned XOR locals and long live locals both 9 bytes; 4 declaration variant unchanged, aggregate-copy idiom already applied; 5 fresh idiom listing and ov12 neighbours yielded no new twin, no stack-object residue.
+ * Residue: 160 bytes, all five relocations resolved; 7 concrete bytes differ in shadow0/live0 register rotation and load scheduling at +48..+60.
+ * retry-budget: prior 4 iterations + 3 checks; wave26 R1 1x4 typed-record/helper
+ *           sweep (first two scratch layouts invalid: copied 196-byte range from
+ *           +12 overlaps shadow tail at +196, corrected union still worse),
+ *           one 300-candidate types permuter, one fresh acceptance compile,
+ *           1x3 pair-expression/raw-inline/dead-max sweep (9/10/7 bytes).
+ * lever: permuter expand(live0 x2) plus temp(tmp=(u16 *)(r+204)) reduces 9 to 7,
+ *           confirmed by one; no reads before assignment, no narrowed addresses,
+ *           no volatile or signature changes. No stores/calls intervene between
+ *           equivalent +4 loads; destination +196 cannot alias +4.
+ *           Numbered checks re-audited without new compiles; no reset of budgets.
  * symbols:
  *   func_021D85E8 0x021D85E8 arm ov125
  *   func_0203F1FC 0x0203F1FC arm
@@ -30,6 +40,7 @@ int func_021D7414(int a, Copy *out, int max)
     char *r;
     long live0, live1;
     unsigned int shadow0, shadow1;
+    u16 *tmp;
     p = func_021D85E8() + 4;
     n = *(int *)p;
     if (n > max) {
@@ -45,13 +56,14 @@ int func_021D7414(int a, Copy *out, int max)
         shadow1 = *(unsigned int *)(r + 200);
         live0 = *(unsigned int *)(r + 4);
         live1 = *(unsigned int *)(r + 8);
-        shadow0 ^= live0;
+        shadow0 ^= *(unsigned int *)(r + 4);
         shadow1 ^= live1;
         shadow1 |= shadow0;
         if (shadow1 != 0) {
-            *(int *)(r + 196) = live0;
+            *(int *)(r + 196) = *(unsigned int *)(r + 4);
             *(int *)(r + 200) = live1;
-            *(u16 *)(r + 204) = func_0203F1FC(r + 140, 56);
+            tmp = (u16 *)(r + 204);
+            *tmp = func_0203F1FC(r + 140, 56);
         }
         out[i] = *(Copy *)(r + 12);
     }

@@ -1,0 +1,17 @@
+/*
+ * function: func_021FD3F0
+ * address: 0x021FD3F0
+ * packet: pkt_ov132_021FD3F0
+ * region: ov132
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residue: 14 compiled versus 16 instruction bytes; 11 concrete compared bytes differ.
+ * checks: 1 n/a no callees or argument setup; 2 D3D8 twin same multiply colouring, no exact field twin; 3 u8 index/integer base and long index (two compiles) unchanged; 4 named offset and inline indexed fields (two compiles) unchanged; 5 refreshed idioms/neighbours no further fit, no stack aggregate; next array-record type when allocation proves layout
+ */
+void *func_021FD3F0(long i,unsigned int p)
+{
+    *(int *)(p+i*0x30+0x64)=0;
+    return *(void **)(p+i*0x30+0x7c);
+}

@@ -1,0 +1,52 @@
+/*
+ * function: func_021D9E44
+ * address: 0x021D9E44
+ * packet: pkt_ov131_021D9E44
+ * region: ov131
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02041570 0x02041570 arm
+ *   func_02045334 0x02045334 arm
+ *   func_02045374 0x02045374 arm
+ *   func_02045730 0x02045730 arm
+ *   func_020409B4 0x020409B4 arm
+ *   func_02040AE0 0x02040AE0 arm
+ *   func_02041B6C 0x02041B6C arm
+ *   func_020410D0 0x020410D0 arm
+ *   func_0204B3DC 0x0204B3DC arm
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+extern void func_02041570(u32,u32);
+extern void func_02045334(void *);
+extern void func_02045374(void *);
+extern u32 func_02045730(void *);
+extern void func_020409B4(u32);
+extern void func_02040AE0(u32,void *,u32);
+extern void func_02041B6C(u32);
+extern void func_020410D0(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
+extern void func_0204B3DC(void *,int);
+void func_021D9E44(u8 *a,u8 *p)
+{
+    u8 i;
+    void *cell;
+    i=0;
+    func_02041570(4,0);
+    for(;i<=7;i++) {
+        cell=*(void **)(p+0x5c+i*4);
+        func_02045334(cell);
+        func_02045374(cell);
+        func_020409B4(func_02045730(cell));
+    }
+    func_02040AE0(6,*(u8 **)(p+0x3c)+12,*((u32 *)(*(u8 **)(p+0x3c)+8)));
+    func_02041B6C(6);
+    func_020410D0(5,0,0,32,3,*(u32 *)(p+0x4c)+12,0,0,32,32);
+    func_02041B6C(5);
+    func_0204B3DC(*(void **)(p+0x90),1);
+    func_0204B3DC(*(void **)(p+0x94),0);
+    func_0204B3DC(*(void **)(a+0x198),0);
+    func_0204B3DC(*(void **)(a+0x19c),0);
+}

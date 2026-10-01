@@ -15,7 +15,13 @@
  *           stored only, no read-only load to move with const;
  *         4 narrow-prologue and inline-wrapper idioms read; allocator wrapper no change;
  *         5 idioms listed again, matched ov120/ov121 neighbours reread; no stack
- *           aggregate residue. Next unrun search: allocator local/type shape.
+ *           aggregate residue. Wave26 R1 retry: integer allocation local, reuse
+ *           of dead c for q, and u8* inline allocator result all stay DIFF 8.
+ *           One 300-budget types permuter stays 8; no winning mutation.
+ * retry-budget: prior 3 iterations + 4 checks; wave26 1x3 named allocator/local
+ *           sweep + one 300-candidate types permuter. Carry prior nonshrinking
+ *           window; numbered checks were read/audited again without new compiles.
+ *           No concrete remaining allocator/local hypothesis; do not repeat it.
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm

@@ -1,0 +1,32 @@
+/*
+ * function: func_021DBEA4
+ * address: 0x021DBEA4
+ * packet: pkt_ov131_021DBEA4
+ * region: ov131
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * volatile: hardware register read at 021DBEB4
+ * symbols:
+ *   func_0204AF28 0x0204AF28 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern int func_0204AF28(u32, u32, u32, u32);
+int func_021DBEA4(u8 *p, int screen, u32 owner)
+{
+    int mode;
+    u32 bits;
+    bits = *(volatile u32 *)(screen == 0 ? 0x04000000 : 0x04001000) & 0x00300010;
+    switch (bits) {
+    case 0x00200010: mode = 0; break;
+    case 0x00100010: mode = 1; break;
+    case 0x10: mode = 2; break;
+    default: mode = 0; break;
+    }
+    if (*(int *)(p + 8 + mode * 4) != -1) return mode;
+    *(int *)(p + 8 + mode * 4) = func_0204AF28(owner, 0x4d, 0x80, *(u16 *)(p + 4));
+    return mode;
+}

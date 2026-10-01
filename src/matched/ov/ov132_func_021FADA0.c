@@ -1,0 +1,36 @@
+/*
+ * function: func_021FADA0
+ * address: 0x021FADA0
+ * packet: pkt_ov132_021FADA0
+ * region: ov132
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02030734 0x02030734 arm
+ *   func_02030DA8 0x02030DA8 arm
+ *   func_020307B0 0x020307B0 arm
+ *   func_020604AC 0x020604AC arm
+ *   d_021FDCEC 0x021FDCEC data ov132 a4
+ */
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern char d_021FDCEC[];
+extern void *func_02030734(u32, u32, int, const char *, u16);
+extern void *func_02030DA8(void *, u32, u32, u32);
+extern void func_020307B0(void *);
+extern void func_020604AC(void *, void *);
+void *func_021FADA0(char *p, u32 fn, u32 arg, u32 key)
+{
+    char *q;
+    q = func_02030734(*(u16 *)p, 16, 0, d_021FDCEC, 0x115);
+    *(void **)(q + 12) = func_02030DA8(*(void **)(p + 4), fn, arg, key);
+    if (*(void **)(q + 12) != 0) {
+        *(u32 *)(q + 8) = arg;
+        func_020604AC(p + 0x38, q);
+        return q;
+    }
+    func_020307B0(q);
+    return 0;
+}

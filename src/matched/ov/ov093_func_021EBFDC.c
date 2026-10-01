@@ -1,0 +1,84 @@
+/*
+ * function: func_021EBFDC
+ * address: 0x021EBFDC
+ * packet: pkt_ov093_021EBFDC
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021BA020 0x021BA020 thumb ov093
+ *   func_021F7F58 0x021F7F58 thumb ov094
+ *   func_021ED798 0x021ED798 thumb ov093
+ *   func_021ED814 0x021ED814 thumb ov093
+ *   func_021F7A28 0x021F7A28 thumb ov094
+ *   func_021EB584 0x021EB584 thumb ov093
+ *   func_021F7EB4 0x021F7EB4 thumb ov094
+ *   func_021B86B8 0x021B86B8 thumb ov093
+ *   func_021EE104 0x021EE104 thumb ov093
+ *   func_021F823C 0x021F823C thumb ov094
+ *   func_021EEE24 0x021EEE24 thumb ov093
+ *   func_021ECEB8 0x021ECEB8 thumb ov093
+ *   func_021ECF68 0x021ECF68 thumb ov093
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct S { int h, x, y, dx, dy; u8 state, cnt; };
+extern u16 func_021BA020(char *, int);
+extern void func_021F7F58(int, u32, u32, u32, u32);
+extern void func_021ED798(u8 *);
+extern int func_021ED814(struct S *);
+extern void func_021F7A28(int, u32);
+extern void func_021EB584(int);
+extern int func_021F7EB4(void);
+extern void *func_021B86B8(void ***);
+extern void func_021EE104(u8 *, u32 *, u16, u32, u32);
+extern void func_021F823C(u32 *);
+extern void func_021EEE24(u32, u16, u32, ...);
+extern void func_021ECEB8(u8 *, u32, u16, u32);
+extern int func_021ECF68(u8 *);
+int func_021EBFDC(u8 *p, int *state, u16 i)
+{
+    u8 *b = p + 0xf0;
+    int msg;
+    u32 buf[7];
+    switch (*state) {
+    case 0:
+        b[1] = 9;
+        func_021F7F58(func_021BA020(*(char **)(p + 0x134), i), b[1], 0, 0, 0);
+        func_021ED798(p + 0x154);
+        (*state)++;
+        break;
+    case 1:
+        if (func_021ED814((struct S *)(p + 0x154))) {
+            func_021F7A28(b[1], 0x237);
+            func_021EB584(2);
+            (*state)++;
+        }
+        break;
+    case 2:
+        if (!func_021F7EB4()) {
+            if ((int)func_021B86B8(*(void ****)(p + 0x134)) != 3) msg = 7;
+            else msg = 8;
+            func_021EE104(p, buf, i, 4, 1);
+            func_021F823C(buf);
+            func_021EEE24(*(u32 *)(p + 0x34), msg, 1, i);
+            func_021ECEB8(p, *(u32 *)(p + 0x34), 0x50, 0);
+            (*state)++;
+        }
+        break;
+    case 3:
+        if (func_021ECF68(p)) {
+            func_021F7A28(b[1], 0x238);
+            func_021ED798(p + 0x154);
+            (*state)++;
+        }
+        break;
+    case 4:
+        if (func_021ED814((struct S *)(p + 0x154)) && !func_021F7EB4()) return 1;
+        break;
+    }
+    return 0;
+}

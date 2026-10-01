@@ -1,0 +1,42 @@
+/*
+ * function: func_021FD84C
+ * address: 0x021FD84C
+ * packet: pkt_ov132_021FD84C
+ * region: ov132
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residue: 3 concrete bytes differ at +0x28,+0x2a,+0x2c: high product uses r1 not r2. Compiled 118 code bytes vs extent 120 including padding.
+ * checks: 1 random takes no args, returns u32; context callee four args confirmed; 2 no same-overlay shuffle twin; 3 u8 inline random return reduces 15 to 3 bytes, bound parameter/int swap temp unchanged (2 compiles); 4 random multiply-high and inline spelling idioms used, inline swap/guard no rescue (2 compiles); 5 fresh idiom listing and ov131/132/133 neighbours no twin; declared stack storage already right, explicit u32 intermediate unchanged (1 compile). Next hypothesis: inline random-result local/parameter width, not a permutation sweep.
+ * symbols:
+ *   func_0203F0A8 0x0203F0A8 arm
+ *   func_021FCEA8 0x021FCEA8 thumb ov132
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef unsigned long long u64;
+extern u32 func_0203F0A8(void);
+extern void func_021FCEA8(u8 *, int, int, int);
+static inline u8 random4(void)
+{
+    return ((u64)func_0203F0A8() * 4) >> 32;
+}
+void func_021FD84C(u8 *p)
+{
+    u8 slots[4];
+    u8 i, j, n;
+    int result = 0;
+    for (i = 0; i < 4; i++) slots[i] = i;
+    for (n = 0; n < 10; n++) {
+        for (i = 0; i < 4; i++) {
+            int t;
+            j = random4();
+            t = slots[i];
+            slots[i] = slots[j];
+            slots[j] = t;
+        }
+    }
+    for (i = 0; i < 4; i++) result += slots[i] << (i * 4);
+    func_021FCEA8(p, 1, result, 255);
+}

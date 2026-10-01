@@ -1,0 +1,32 @@
+/*
+ * function: func_021F9F74
+ * address: 0x021F9F74
+ * packet: pkt_ov132_021F9F74
+ * region: ov132
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * blocker: 19 concrete bytes differ, vector-load scheduling after the handle store.
+ * checks: 1 own 020515B4 takes one pointer; caller uses live r0 so int return retained; 2 no same-overlay twin found, 9FB4/9FD0 confirm record offsets; 3 aggregate copy gave 34-byte DIFF and raw far-offset inline setter gave 19-byte DIFF (2 compiles); 4 vector inline idiom with nested destination struct gave 19-byte DIFF in both targeted variants (2 compiles); 5 idioms and ov132 neighbours reread, no new twin, no stack object so stack-local idiom inapplicable. Next: source vector struct type and alias evidence, no permutations.
+ * symbols:
+ *   func_020515B4 0x020515B4 arm
+ */
+extern int func_020515B4(void *);
+typedef struct { int x, y, z; } Vec;
+typedef struct { int a; Vec v; } Part;
+typedef struct { char pad[0x4808]; Part part[4]; } Obj;
+static inline void set(Vec *p, int x, int y, int z)
+{
+    p->x = x;
+    p->y = y;
+    p->z = z;
+}
+void func_021F9F74(char *p, unsigned i, const int *v)
+{
+    int a = func_020515B4(*(void **)(p + 0x4804));
+    if (a == 0 || i < 4) {
+        ((Obj *)p)->part[i].a = a;
+        set(&((Obj *)p)->part[i].v, v[0], v[1], v[2]);
+    }
+}

@@ -1,0 +1,40 @@
+/*
+ * function: func_021C8DA0, func_021C8E24
+ * unit: yes
+ * address: 0x021C8DA0
+ * packet: pkt_ov128_021C8DA0
+ * region: ov128
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0216BFD4 0x0216BFD4 thumb ov010
+ *   func_02045924 0x02045924 arm
+ *   func_021C8F88 0x021C8F88 thumb ov128
+ * extent: includes the eight-byte forwarding follower at 0x021C8E24.
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+extern void *func_02012EBC(void *);
+extern void *func_0200C0F0(void *);
+extern void *func_0201283C(const void *);
+extern unsigned func_02009864(void *,int,int);
+extern char *func_0216BFD4(int,int,u32,u32,int,int,void *);
+extern void func_02045924(void *,int);
+char *func_021C8DA0(void *unused,char *q,int mode,int heap) {
+ void *v;void *base;int idx;char *ret;unsigned kind;
+ v=func_0200C0F0(func_02012EBC(*(void **)(q+4)));
+ base=func_0201283C(*(void **)(q+4));idx=*(u8 *)(q+24+*(signed char *)(q+11));
+ kind=func_02009864(base,idx,9);
+ if(mode==1 || kind==2) ret=func_0216BFD4(heap,4,65535,0,7,0,v);
+ else ret=func_0216BFD4(heap,4,func_02009864(base,idx,8),0,7,0,v);
+ if(*(int *)(q+100)==1) {func_02045924(*(void **)(ret+32),*(int *)(q+96));*(int *)(q+100)=0;}
+ return ret;
+}
+extern void func_021C8F88(void *,void *,void *,int);
+void func_021C8E24(void *p,void *q,void *r,int s) {
+ func_021C8F88(p,q,r,s);
+}

@@ -1,0 +1,38 @@
+/*
+ * function: func_021C4494
+ * address: 0x021C4494
+ * packet: pkt_ov127_021C4494
+ * region: ov127
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * extent: two zero alignment bytes at 0x021C4512 follow the return.
+ * symbols:
+ *   func_021C447C 0x021C447C thumb ov127
+ *   func_0204AF28 0x0204AF28 arm
+ *   func_0204A6C8 0x0204A6C8 arm
+ *   func_0204AC18 0x0204AC18 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern int func_021C447C(void *, int);
+extern u32 func_0204AF28(u32, u32, u32, u16);
+extern u32 func_0204A6C8(u32, u32, u32, u32, u16);
+extern u32 func_0204AC18(u32, u32, u32, u32, u16, u16, u16);
+void func_021C4494(u8 *p, u32 a, u32 heap)
+{
+    int i;
+    i = 16;
+    if (func_021C447C(p, 16) == 1) {
+        *(u32 *)(p + 816) = i;
+    } else {
+        i = 17;
+        if (func_021C447C(p, 17) == 1)
+        *(u32 *)(p + 816) = i;
+    }
+    *(u32 *)(p + 744) = func_0204AF28(*(u32 *)(p + 760), 9, 8, heap);
+    *(u32 *)(p + 736) = func_0204A6C8(*(u32 *)(p + 760), 11, 0, a, heap);
+    *(u32 *)(p + 740) = func_0204AC18(*(u32 *)(p + 760), 10, a, 320, 0, 1, heap);
+}
