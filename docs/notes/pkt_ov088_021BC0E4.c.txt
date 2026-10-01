@@ -1,0 +1,38 @@
+/*
+ * function: func_021BC0E4
+ * address:  0x021BC0E4
+ * packet:   pkt_ov088_021BC0E4
+ * region:   ov088
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   MATCH
+ *
+ * Unlabelled tail-call stub after func_021BC0C8 (function_starts seed):
+ * ldr r0,=ov088_id; ldr r1,=d_021BD818; ldr r3,=func_020312F8; movs r2,#0; bx r3.
+ * Byte-correct, all concrete bytes agree; every site resolves except the
+ * pooled overlay id ov088_id (0x58), declared `data a1`.  Same tool
+ * refusal as func_021B9874 (docs/notes/pkt_ov088_021B9874.c.txt): the only
+ * class reaching a pooled overlay id is `overlay_id`, which needs the call
+ * to be an OVERLAY_ID_CONSUMERS entry, and func_020312F8 (EXACT,
+ * src/matched/arm9/func_020312F8.c) is not in that table.  A literal
+ * (void *)0x58 would go EXACT but breaks the house convention for overlay
+ * ids, so not used.  Unblock: add 0x020312F8 (id in r0) to
+ * OVERLAY_ID_CONSUMERS in tools/match.py; then this file files as-is.
+ * Measured 2026-10-01 (lane P4).
+ *
+ * symbols:
+ *   func_020312F8  0x020312F8  arm
+ *   d_021BD818     0x021BD818  data  a4
+ *   ov088_id       0x00000058  data  a1
+ */
+
+extern void func_020312F8(void *a, void *b, int c);
+extern char d_021BD818[];
+extern char ov088_id[];
+
+void func_021BC0E4(void)
+{
+    func_020312F8(ov088_id, d_021BD818, 0);
+}
