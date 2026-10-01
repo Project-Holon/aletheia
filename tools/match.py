@@ -3732,6 +3732,11 @@ OVERLAY_ID_CONSUMERS = {
     # Not matched; read from the listing (asm/arm9/src/013_0202EC44.s,
     # 0x020312CC..0x020312F0): mov r4, r0 ... mov r1, r4; bl func_020314F4.
     0x020312CC: ("func_020312CC", 0, "listing 0x020312CC..0x020312F0"),
+    # src/matched/arm9/func_020312F8.c (EXACT): the deferred form of
+    # func_020312CC.  It hands its r0 to sub_020314DC (EXACT), which stores
+    # it at g_02146990+0x14; func_020313EC.c (EXACT) later passes that field
+    # as func_02031538's r0.
+    0x020312F8: ("func_020312F8", 0, "src/matched/arm9/func_020312F8.c"),
     # src/matched/arm9/func_020120B4.c (EXACT): func_02031348(p->f8, id, a, b)
     # with the caller's r1 passed through.
     0x020120B4: ("func_020120B4", 1, "src/matched/arm9/func_020120B4.c"),
