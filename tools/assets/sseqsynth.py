@@ -260,7 +260,14 @@ class SynthError(Exception):
 def get_track_starts(data, data_offset):
     """Same header convention as sseq2midi.py's get_tracks(): track 0 opens
     with AllocTrack then a run of OpenTrack commands naming every other
-    track's start offset. Returns {track_no: start_offset}."""
+    track's start offset. Returns {track_no: start_offset}, file-absolute.
+
+    OpenTrack, Jump and Call offsets are relative to the sequence payload
+    (data_offset, 0x1C in every SSEQ), not to the file: in all 940 sequences
+    of the game's SDAT, all 2016 OpenTrack targets follow a track end (0xFF)
+    or a return (0xFD) under that reading, and 9 do under the file-absolute
+    one. sseq.py keeps the on-disk value in ev["offset"]; the interpreter
+    adds data_offset."""
     open_tracks = {}
     pos = data_offset
     header_end = data_offset
@@ -274,7 +281,7 @@ def get_track_starts(data, data_offset):
             pos = new_pos
             continue
         if ev["op"] == "OpenTrack":
-            open_tracks[ev["track_no"]] = ev["offset"]
+            open_tracks[ev["track_no"]] = data_offset + ev["offset"]
             header_end = new_pos
             pos = new_pos
             continue
@@ -283,7 +290,7 @@ def get_track_starts(data, data_offset):
     return open_tracks
 
 
-def run_track(data, start_pc):
+def run_track(data, start_pc, data_offset):
     """Execute one track's bytecode as real control flow (Jump/Call/Return),
     per the mission brief. Returns (notes, tempo_events, end_tick) where
     notes is a list of dicts and tempo_events a list of (tick, bpm)."""
@@ -378,7 +385,7 @@ def get_tracks(seq):
     starts = get_track_starts(seq.data, seq.data_offset)
     tracks = {}
     for tno, start in starts.items():
-        notes, tempo_events, end_tick = run_track(seq.data, start)
+        notes, tempo_events, end_tick = run_track(seq.data, start, seq.data_offset)
         tracks[tno] = {"notes": notes, "tempo_events": tempo_events, "end_tick": end_tick}
     return tracks
 

@@ -141,7 +141,7 @@ def get_tracks(seq):
             header_end = ev["end"]
             continue
         if ev["op"] == "OpenTrack":
-            open_tracks[ev["track_no"]] = ev["offset"]
+            open_tracks[ev["track_no"]] = seq.data_offset + ev["offset"]
             header_end = ev["end"]
             continue
         break  # first non-header event: header_end is now correct
@@ -156,7 +156,7 @@ def get_tracks(seq):
     return tracks
 
 
-def unroll_loop(track_events, track_start):
+def unroll_loop(track_events, track_start, data_offset):
     """Find a backward Jump within this track's own event list (a Jump
     whose target offset is >= track_start and < the Jump's own position --
     i.e. a loop back into earlier material in this same track, not a
@@ -165,13 +165,13 @@ def unroll_loop(track_events, track_start):
     original event list unchanged."""
     jump_idx = None
     for i, ev in enumerate(track_events):
-        if ev["op"] == "Jump" and track_start <= ev["offset"] < ev["start"]:
+        if ev["op"] == "Jump" and track_start <= data_offset + ev["offset"] < ev["start"]:
             jump_idx = i
             break
     if jump_idx is None:
         return track_events
     jump_ev = track_events[jump_idx]
-    loop_target = jump_ev["offset"]
+    loop_target = data_offset + jump_ev["offset"]  # payload-relative on disk
     intro = [e for e in track_events if e["start"] < loop_target]
     loop_body = [e for e in track_events if loop_target <= e["start"] < jump_ev["start"]]
     return intro + loop_body + loop_body + [{"op": "TrackEnd"}]
@@ -264,7 +264,7 @@ def build_midi(seq, sbnk_obj=None, default_bpm=120):
     stats = {"tracks": [], "tempo_bpm": None}
     midi_tracks = []
     for track in tracks:
-        events = unroll_loop(track["events"], track["start"])
+        events = unroll_loop(track["events"], track["start"], seq.data_offset)
         # peek for a drum instrument to pin the channel before simulating
         is_drum = False
         if sbnk_obj is not None:
