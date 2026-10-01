@@ -7,8 +7,10 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * residue: 32 concrete bytes; original branches to bottom test and stores heap before index loads; this spelling tests at top and schedules index first.
- * checks: 1 show confirms 88D8 returns count and writes u32 start, F81C takes two, F878 takes four but original explicitly supplies heap as fifth; 2 no matching twin beyond 88D8 and table callers; 3 u16 count/return and signed start/goto each 46 bytes (2 compiles); 4 enum count/u16 argument 46, explicit break/u16 argument 32 (2 compiles); 5 refreshed idioms and ov134/135/136 neighbours, declared stack struct idiom not applicable because scalar out value, cached menu/goto 46 (1 compile); next targeted hypothesis: inline loop helper affecting rotation.
+ * residue: 22 concrete bytes; original branches to bottom test and stores heap before index loads; this spelling tests at top and schedules heap store later.
+ * checks: 1 own matched 88D8 returns count and writes u32 start, own F81C takes two, own F878 takes four but original explicitly supplies heap as fifth; 2 no matching twin beyond 88D8 and table callers; 3 u16 count/return and signed start/goto each 46 bytes (2 compiles, cap consumed); 4 enum count/u16 argument 46, explicit break/u16 argument 32 (2 compiles, cap consumed); 5 refreshed idioms and ov134/135/136 neighbours, declared stack struct idiom not applicable because scalar out value, cached menu/goto 46 (1 compile). Retry inline loop helper worsened 32 to 59; once-only 300 types permuter supplied valid pre-guard menu load and sum temporary, validated one at 22 bytes. No next sweep within carried budget.
+ * retry: wave28 high; cumulative iterations 5, checks 5; nonshrinking streak 3 from position 3 (three runs), permuter does not reset it; 300 compiles including baseline exhausted, one validation compile.
+ * behavior: start is assigned from a u8 table field by 88D8; count is a difference of u8 entries, so successful indices stay below 256 and the int cast preserves values. menu load remains after allocation and is refreshed each iteration; the final extra ordinary read has no side effect.
  * symbols:
  *   func_021F88D8 0x021F88D8 thumb ov135
  *   tbl_022030E8 0x022030E8 data a2
@@ -21,14 +23,20 @@ extern void func_0201F878(void *table, void *msg, u32 b, u32 tag, u32 heap);
 extern const u16 tbl_022030E8[];
 int func_021F8908(void **menu, void *msg, u32 id)
 {
-    u32 start;
+    u32 tmp;
     int i;
     int count;
+    u32 start;
+    void *tmp1;
+    void *tmp2;
     count = func_021F88D8(id, &start);
     *menu = func_0201F81C(count, 0x48);
     for (i = 0; ; i++) {
+        tmp2 = *menu;
+        tmp1 = tmp2;
         if (i >= count) break;
-        func_0201F878(*menu, msg, tbl_022030E8[start + i], start + i + 1, 0x48);
+        tmp = start + i;
+        func_0201F878(tmp1, msg, tbl_022030E8[(int)start + i], tmp + 1, 0x48);
     }
     return count;
 }

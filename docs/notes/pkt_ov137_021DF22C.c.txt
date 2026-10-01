@@ -7,7 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 both callees read two arguments, no stack arguments; 2 no table twin, matched 021E19C0 uses char*,int; 3 const Obj worsened 26 to 29, u16 degrees unchanged; 4 enum step and table const removal unchanged, declaration order and stack-struct idioms read; 5 idioms and ov136/137/138 neighbours refreshed, no new twin, stack object already declared struct. Next: inline table lookup helper with explicit row/column locals, no sweep performed.
+ * checks: 1 both callees read two arguments, no stack arguments, rederived from own matched 021E19C0 and 021E15DC show; 2 no table twin; 3 const Obj worsened 26 to 29, u16 degrees unchanged (2 compiles, cap consumed); 4 enum step and table const removal unchanged (2 compiles, cap consumed), declaration order and stack-struct idioms read; 5 idioms and ov136/137/138 neighbours refreshed, no new twin, stack object already declared struct. Retry inline lookup with row/column locals unchanged; once-only 300 types permuter unchanged; no next sweep within carried budget.
+ * retry: wave28 high; one unchanged iteration; cumulative iterations 7, checks 4; nonshrinking streak 3 from position 5 (three runs); permuter 300 compiles including baseline, exhausted.
  * residual: 116 bytes compiled, 26 concrete bytes differ, chiefly r4/r5/r6 rotation and early table load scheduling.
  * symbols:
  *   d_021E1FDC 0x021E1FDC data a2

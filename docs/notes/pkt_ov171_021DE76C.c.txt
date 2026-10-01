@@ -1,0 +1,56 @@
+/*
+ * function: func_021DE76C
+ * address: 0x021DE76C
+ * packet: pkt_ov171_021DE76C
+ * region: ov171
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residue: best 152/160 bytes, 144 concrete bytes differ; flag held in lr,
+ *   missing two offset spill slots and whole-loop register rotation.
+ * checks: 1 n/a no callees; 2 ov170/ov171 neighbours have no twin;
+ *   3 u8 flag and integer base each compiled unchanged 148/160, 146 bytes out;
+ *   4 dead incoming r0 reused as cursor improves to 152/160, 144 bytes out,
+ *     enum offsets worsen to 176/160, 169 bytes out;
+ *   5 fresh directory/neighbour reread no twin, struct-local idiom read but
+ *     n/a no addressable stack object. Next targeted test: named selector
+ *     offset computed from cursor offset inside loop preheader.
+ * budget: 3 iterations, two consecutive nonshrinking changes at runs 2/3;
+ *   C1 0, C2 0, C3 2, C4 2, C5 0 compiles. No sweeps.
+ * symbols:
+ *   d_021DEC94 0x021DEC94 data a4
+ */
+typedef signed char s8;
+typedef unsigned char u8;
+typedef unsigned short u16;
+extern const char d_021DEC94[];
+void func_021DE76C(unsigned p, int flag)
+{
+    u16 i;
+    unsigned n;
+    unsigned base;
+    int off, dst, indexOff;
+    char *q;
+    base = p;
+    off = 0xc5c;
+    dst = 0xb3a;
+    indexOff = 0xc5e;
+    n = *(u16 *)(base + *(s8 *)(base + off + 2) * 0xbc + 0xc4);
+    i = 0;
+    p = *(s8 *)(base + off);
+    for (; i < n; ++i) {
+        if (flag == 1) {
+            q = (char *)(base + p);
+            p = (u16)(p + 1);
+            *(u8 *)(q + 0xb34) = *(u16 *)(d_021DEC94 + n * 24 + i * 4 - 22);
+            *(u8 *)(q + dst) = *(u8 *)(q + 0xb34);
+            if (p >= *(u16 *)(base + *(s8 *)(base + indexOff) * 0xbc + 0xc4))
+                p = 0;
+        } else {
+            *(u8 *)(base + i + 0xb34) = 0;
+            *(u8 *)(base + i + dst) = 0;
+        }
+        n = *(u16 *)(base + *(s8 *)(base + indexOff) * 0xbc + 0xc4);
+    }
+}

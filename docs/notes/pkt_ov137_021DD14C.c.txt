@@ -7,7 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 func_0207E51C reads 3 arguments; 2 ov137_021DE6EC confirms void(void *,int,int), no table twin; 3 signed state fields unchanged, unsigned index with mutable table worsened 56 to 59; 4 Pair table produces same 56-byte residue, declaration-order and const-table idioms read; 5 idiom directory and ov136/ov137 neighbours reread, no closer twin, no stack object; next targeted hypothesis long index, not a sweep.
+ * checks: 1 func_0207E51C reads 3 arguments; 2 ov137_021DE6EC confirms void(void *,int,int), no table twin; 3 signed state fields unchanged, unsigned index with mutable table worsened 56 to 59 (2 compiles, cap consumed); 4 Pair table produces same 56-byte residue, declaration-order and const-table idioms read; 5 idiom directory and ov136/ov137 neighbours reread, no closer twin, no stack object. Retry long index unchanged; once-only 300 types permuter best adds volatile int *v and temporaries, rejected; no next sweep within carried budget.
+ * retry: wave28 high; one unchanged iteration; cumulative iterations 4, checks 4; nonshrinking streak 3 from position 2 (three runs); permuter 300 compiles including baseline, exhausted; rejected volatile mutant 88 compiled bytes/34 differing bytes.
  * residual: 88 bytes, 56 concrete bytes differ; index/count registers swap and second table load is CSE'd, shifting branch targets.
  * symbols:
  * func_0207E51C 0x0207E51C arm

@@ -1,0 +1,44 @@
+/*
+ * function: func_021B6BF8
+ * address: 0x021B6BF8
+ * packet: pkt_ov173_021B6BF8
+ * region: ov173
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residue: best 138 bytes versus 140 extent; 16 concrete bytes differ, register rotation index/font/x.
+ * domain: all nine direct calls in asm/overlays/ov173.s pass align 0/1/2 in the first stack argument. Sites: 021B6CE2=2, 021B6D00=0, 021B6D36=0, 021B6D90=0, 021B6E24=0, 021B6F88=1, 021B7242=1, 021B728C=1, 021B72B8=0. For 6E24, r7 copies zero r4 at 6DC4 and remains invariant across the loop; for 6F88, r4 is set to 1 at 6F5E.
+ * default-path: original 021B6C12 branches directly to 021B6C62 without defining r7, then passes inherited r7 as x at 021B6C78. This has no defined coordinate outside the observed align domain; the C requires align in 0..2 and deliberately retains the actually compiled uninitialized-default spelling. No source/note body changed or compile added at evidence closeout.
+ * retry-budget: 6 iterations used, zero declaration-reorder variants; terminal nonshrinking streak 2 (runs 5 unchanged 16 bytes, 6 worse 38 bytes). C3 diagnostics 2/2 exhausted; C1/C2/C4/C5 added no compiles and do not reset that streak. Best note body is iteration 5's compiled spelling, not final C3b's u16 x variant.
+ * checks: 1 callee sources/show establish 3/1/1/6 arguments and narrow stacked y; 2 no ov173 twin; 3 index u8 unchanged (16 bytes), x u16 worse (31 bytes), cap 2/2; 4 masked-local-width and narrow-spill idioms read, no further probe; 5 refreshed idioms/neighbours, no twin, stack-object check n/a because residue is scalar registers. Next hypothesis: separate width-result local or signed narrow x.
+ * symbols:
+ *   func_0201D304 0x0201D304 thumb
+ *   func_02045738 0x02045738 arm
+ *   func_02045770 0x02045770 arm
+ *   func_0201C7D0 0x0201C7D0 thumb
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+extern u32 func_0201D304(void *, u32, u32);
+extern u8 func_02045738(void *);
+extern void *func_02045770(void *);
+extern u32 func_0201C7D0(void *, s16, s16, void *, u8, u16);
+u32 func_021B6BF8(char *p, int index, u8 font, u16 w, int align, u8 y)
+{
+    u8 x;
+    switch (align) {
+    case 0: x = 0; break;
+    case 1:
+        x = (u8)func_0201D304(*(void **)(p + 0x4c), font, 0);
+        x = (u8)((u8)(func_02045738(*(void **)(p + index * 4 + 4)) * 8) - x);
+        break;
+    case 2:
+        x = (u8)func_0201D304(*(void **)(p + 0x4c), font, 0);
+        x = (u8)(((int)(u8)(func_02045738(*(void **)(p + index * 4 + 4)) * 8) - x) / 2);
+        break;
+    }
+    return func_0201C7D0(func_02045770(*(void **)(p + index * 4 + 4)), x, y, *(void **)(p + 0x4c), font, w);
+}

@@ -1,0 +1,40 @@
+/*
+ * function: func_021DD330
+ * address: 0x021DD330
+ * packet: pkt_ov170_021DD330
+ * region: ov170
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021DD2D0 0x021DD2D0 thumb ov170
+ *   func_021EDAB0 0x021EDAB0 thumb ov170
+ *   func_0201747C 0x0201747C thumb
+ *   func_0201AB28 0x0201AB28 thumb
+ *   func_020185F4 0x020185F4 thumb
+ *   func_020075B0 0x020075B0 thumb
+ *   func_0201AB48 0x0201AB48 thumb
+ *   func_020307B0 0x020307B0 arm
+ */
+extern void *func_021DD2D0(void ***,int,unsigned);
+extern void func_021EDAB0(void *,int);
+extern void *func_0201747C(void *,unsigned);
+extern void *func_0201AB28(void *,unsigned);
+extern void *func_020185F4(void *);
+extern int func_020075B0(void *,unsigned,unsigned,void *);
+extern void func_0201AB48(void *,unsigned,void *);
+extern void func_020307B0(void *);
+void func_021DD330(unsigned char *p,unsigned short *q,unsigned short *t)
+{
+    unsigned box;
+    unsigned short slot;
+    void *m;
+    if (q[0] == 0x24) box=p[0x17]; else box=p[0x14];
+    m=func_0201747C(func_021DD2D0((void ***)p,box,q[2]),0x804c);
+    slot=t[2]-30;
+    func_020075B0((*(void ***)p)[1],box,q[2],func_020185F4(func_0201AB28((*(void ***)p)[2],slot)));
+    func_0201AB48((*(void ***)p)[2],slot,m);
+    func_020307B0(m);
+    func_021EDAB0(p,box);
+}

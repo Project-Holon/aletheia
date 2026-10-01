@@ -1,0 +1,45 @@
+/*
+ * function: func_021B6B68
+ * address: 0x021B6B68
+ * packet: pkt_ov172_021B6B68
+ * region: ov172
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 n/a no callees; 2 encoder 021B6ADC confirms signed tables but no decoder twin; 3 s16 value worsened to 80 bytes, const p retained 14; 4 declaration-order idiom fits but both reorder variants consumed; 5 index reread and matched encoder checked, no stack object; next would reorder value/index after step, prohibited third ordering variant.
+ * Residual: 14 concrete bytes differ, consistent r3/r4 value/index swap.
+ * Iterations 3; check 3 compiles 2; others 0.
+ * symbols:
+ *   d_021C4D20 0x021C4D20 data a4
+ *   d_021C4D10 0x021C4D10 data a1
+ */
+typedef unsigned char u8;
+typedef signed char s8;
+typedef signed short s16;
+extern const int d_021C4D20[];
+extern const s8 d_021C4D10[];
+s16 func_021B6B68(u8 code, const char *p)
+{
+    int step, index, value, delta;
+    value = *(s16 *)p;
+    index = *(s8 *)(p + 2);
+    step = d_021C4D20[index];
+    delta = step >> 3;
+    if (code & 4) delta += step;
+    if (code & 2) delta += step >> 1;
+    if (code & 1) delta += step >> 2;
+    if (code & 8) {
+        value -= delta;
+        if (value < -32767) value = -32767;
+    } else {
+        value += delta;
+        if (value > 32767) value = 32767;
+    }
+    index += d_021C4D10[code];
+    if (index < 0) index = 0;
+    else if (index > 88) index = 88;
+    *(s16 *)p = (s16)value;
+    *(s8 *)(p + 2) = index;
+    return (s16)value;
+}

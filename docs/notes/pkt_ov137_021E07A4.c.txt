@@ -1,0 +1,45 @@
+/*
+ * function: func_021E07A4
+ * address: 0x021E07A4
+ * packet: pkt_ov137_021E07A4
+ * region: ov137
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 164 bytes, four concrete bytes differ at +6/+8: ldr count and movs r7 swap.
+ * runs: 4 iterations, check 3 two compiles (CCERR then DIFF), others read-only.
+ * checks: 1 callees use 4/3/3 args and void results, no argument residue; 2 own matched B38/BC0 and pending 09C0 agree, no twin caller; 3 const p CCERR without casts then five-byte DIFF with casts, cap exhausted; 4 padded array idiom fixes 132-byte body residue, initializer variants leave entry schedule; 5 directory and same-overlay callees reread, no new twin; next hypothesis struct-typed outer parameter with count member (not compiled).
+ * symbols:
+ *   func_021E09C0 0x021E09C0 thumb ov137
+ *   func_021E0B38 0x021E0B38 thumb ov137
+ *   func_021E0BC0 0x021E0BC0 thumb ov137
+ */
+typedef unsigned short u16;
+extern void func_021E09C0(char *,int *,int,int);
+extern void func_021E0B38(char *,char *,int);
+extern void func_021E0BC0(char *,char *,int);
+typedef struct { int active; char rest[0xb0]; } RecordA;
+typedef struct { int active; char rest[0x78]; } RecordB;
+typedef struct { int active; char rest[0x64]; } RecordC;
+typedef struct {
+    char pad[0x140];
+    RecordA a[5];
+    RecordB b[5];
+    RecordC c[5];
+} Block;
+void func_021E07A4(char *p)
+{
+    int count;
+    int i=0;
+    Block *base=(Block *)(p+0x1a0);
+    count=*(int *)(p+0x30);
+    for (;i<count;i++) {
+        if (base->a[i].active)
+            func_021E09C0((char *)&base->a[i],(int *)(p+0x110),*(u16 *)(p+0x60+i*2)<<12,*(int *)(p+0x5c));
+        if (base->b[i].active)
+            func_021E0B38(p,(char *)&base->b[i],*(int *)(p+0x5c));
+        if (base->c[i].active)
+            func_021E0BC0(p,(char *)&base->c[i],i);
+    }
+}

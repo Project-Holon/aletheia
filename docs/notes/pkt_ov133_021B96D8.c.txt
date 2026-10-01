@@ -7,7 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 callees read expected arguments; 2 ov133/132/134 no twin beyond 94C0 index local; 3 block u16 index and Slot pointer unchanged (2 compiles); 4 stack-order and block-scope idioms read, two order variants consumed; 5 refreshed idioms/neighbours no new twin; next probe inline index accessor.
+ * checks: 1 callees rederived from matched ov133 callers, ov112 5450 and A628/A604 show; 2 ov133/132/134 no twin beyond 94C0 index local; 3 block u16 index and Slot pointer unchanged (2 compiles, cap consumed); 4 stack-order and block-scope idioms read, two order variants consumed; 5 refreshed idioms/neighbours no new twin. Retry inline body helper unchanged; once-only 300 types permuter unchanged. No next sweep within carried budget.
+ * retry: wave28 high; one iteration unchanged at 7 bytes; cumulative iterations 5, checks 2; nonshrinking streak 3 from position 3 (three runs); permuter 300 compiles including baseline, exhausted.
  * residual: Seven byte differences only: index and slot spill homes swapped at sp+0/sp+4.
  * symbols:
  *   func_0200A628 0x0200A628 thumb

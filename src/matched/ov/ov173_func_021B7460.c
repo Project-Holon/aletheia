@@ -1,0 +1,53 @@
+/*
+ * function: func_021B7460
+ * address: 0x021B7460
+ * packet: pkt_ov173_021B7460
+ * region: ov173
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_0201F73C 0x0201F73C thumb
+ *   func_021B7378 0x021B7378 thumb ov173
+ *   func_02012FFC 0x02012FFC thumb
+ *   func_0201CD10 0x0201CD10 thumb
+ *   func_02045334 0x02045334 arm
+ *   func_02045374 0x02045374 arm
+ *   func_02045730 0x02045730 arm
+ *   func_020409B4 0x020409B4 arm
+ *   func_021B74F8 0x021B74F8 thumb ov173
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+extern void *func_02045770(void *);
+extern void func_02043B5C(void *, u8);
+extern void func_0201F73C(void *, int, int, int);
+extern void func_021B7378(char *, u32);
+extern int func_02012FFC(void);
+extern void *func_0201CD10(u32, s16, s16, u32, u32, int, u32, u32, u32, u16, u32);
+extern void func_02045334(void *);
+extern void func_02045374(void *);
+extern u8 func_02045730(void *);
+extern void func_020409B4(u32);
+extern int func_021B74F8(u32);
+void func_021B7460(char *p, u32 kind)
+{
+    u32 zero;
+    int speed;
+    void *q;
+    func_02043B5C(func_02045770(*(void **)(p + 0x20)), 15);
+    zero = 0;
+    func_0201F73C(*(void **)(p + 0x20), 0, 1, 13);
+    func_021B7378(p, kind);
+    speed = func_02012FFC();
+    *(void **)(p + 0x6c) = func_0201CD10(*(u32 *)(p + 0x20), 0, 0, *(u32 *)(p + 0x4c), *(u32 *)(p + 0x60), speed, *(u32 *)(p + 0x64), zero, 0x4f, 0xffff, (u32)func_021B74F8);
+    q = *(void **)(p + 0x20);
+    func_02045334(q);
+    func_02045374(q);
+    func_020409B4(func_02045730(q));
+}

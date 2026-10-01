@@ -1,0 +1,25 @@
+/*
+ * function: func_021E06E0
+ * address: 0x021E06E0
+ * packet: pkt_ov137_021E06E0
+ * region: ov137
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02047E88 0x02047E88 arm
+ *   d_021E1E60 0x021E1E60 data a4
+ *   d_021E1E70 0x021E1E70 data a4
+ *   d_021E212C 0x021E212C data a4
+ */
+extern int func_02047E88(void *,const void *);
+extern const char d_021E1E60[],d_021E1E70[],d_021E212C[];
+void func_021E06E0(char *p)
+{
+    int i;
+    char *q=p+0x1a0;
+    *(int *)(q+0x938)=func_02047E88(*(void **)(p+0xaf4),d_021E1E60);
+    *(int *)(q+0x93c)=func_02047E88(*(void **)(p+0xaf4),d_021E1E70);
+    for (i=0;i<5;i++) *(int *)(q+0x940+i*4)=func_02047E88(*(void **)(p+0xaf4),d_021E212C+i*16);
+}

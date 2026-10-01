@@ -8,7 +8,8 @@
  * isa: thumb
  * status: DIFF
  * residue: 80 compiled versus 84 extent bytes, 42 concrete differing bytes.
- * checks: 1 own 0201CCE4 source confirms ten arguments and narrow final pair; 02012FFC show returns signed byte; 2 ov136 47C4 twin u32 prototype and int-return 12FFC no change (1 compile); 3 nested const input and s8 return/int tick no change (2 compiles); 4 const descriptor / subblock / inline-wrapper idioms read, none explains missing repeated p+8 load; 5 refreshed idioms and ov135 02202878 / ov136 47C4 twins, no local stack object and no new lever; next probe inline accessor preserving separate argument loads.
+ * checks: 1 own 0201CCE4 source confirms ten arguments and narrow final pair; caller consumes r0, retaining u32 return; 02012FFC show returns signed byte; 2 ov136 47C4 twin u32 prototype and int-return 12FFC no change (1 compile); 3 nested const input and s8 return/int tick no change (2 compiles, cap consumed); 4 const descriptor / subblock / inline-wrapper and struct-field idioms read, none explains missing repeated p+8 load; 5 refreshed idioms and ov135 02202878 / ov136 47C4 twins, no local stack object and no new lever. Retry inline launch wrapper and separate field accessors each unchanged at 42; once-only 300 types permuter's best adds return obj to void function, rejected. No next sweep within carried budget.
+ * retry: wave28 high; two unchanged iterations; cumulative iterations 6, checks 3; nonshrinking streak 3 from position 2 (five runs); permuter 300 compiles including baseline, exhausted; rejected signature mutant 82 compiled bytes/40 differing bytes.
  * symbols:
  *   func_02045770 0x02045770 arm
  *   func_02043B5C 0x02043B5C arm

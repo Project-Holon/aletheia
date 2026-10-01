@@ -1,0 +1,32 @@
+/*
+ * function: func_021EC94C
+ * address: 0x021EC94C
+ * packet: pkt_ov170_021EC94C
+ * region: ov170
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   _ffix 0x0209C494 arm
+ *   func_0204B570 0x0204B570 arm
+ *   func_0204B5AC 0x0204B5AC arm
+ *   func_0204B588 0x0204B588 arm
+ */
+extern void func_0204B570(void *, int);
+extern void func_0204B5AC(void *, int *);
+extern void func_0204B588(void *, unsigned short *);
+void func_021EC94C(char *p)
+{
+    int pair[2];
+    unsigned short shape[2];
+    *(float *)(p + 8) = 4096.0f;
+    p[7] = 0;
+    func_0204B570(*(void **)p, 1);
+    pair[0] = (int)*(float *)(p + 8);
+    pair[1] = (int)*(float *)(p + 8);
+    func_0204B5AC(*(void **)p, pair);
+    shape[0] = 0;
+    shape[1] = 8;
+    func_0204B588(*(void **)p, shape);
+}

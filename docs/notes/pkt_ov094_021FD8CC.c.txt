@@ -1,0 +1,82 @@
+/*
+ * function: func_021FD8CC
+ * address: 0x021FD8CC
+ * packet: pkt_ov094_021FD8CC
+ * region: ov094
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 296/292 bytes, 73 concrete bytes differ; angle/index/zero registers.
+ * checks: 1 getter arity1, matrix transform arity3, setters arity2 verified;
+ *   2 FDA28 shares helpers, no closer twin; 3 u16 b and const a compiled,
+ *   both unchanged; 4 named scaled index compiled unchanged, two declaration
+ *   variants exhausted; 5 idioms refreshed, FDA28 reread, Vec already direct
+ *   and frame slots match; next hypothesis dead b reused as shared zero.
+ * permuter: once, --budget 300 --types, no improvement; no mutants adopted.
+ * budget: 9 iteration runs; final nonshrinking streak3, position7 from r3;
+ *   C3=2/C4=1 targeted compiles; C1/C2/C5 inspection only.
+ * symbols:
+ *   func_02051A34 0x02051A34 arm
+ *   func_02051838 0x02051838 arm
+ *   func_0207BC08 0x0207BC08 arm
+ *   func_021FE1B8 0x021FE1B8 thumb ov094
+ *   _ll_mul 0x0209C054 arm
+ *   d_020A1B38 0x020A1B38 data a2
+ */
+typedef unsigned short u16;
+typedef short s16;
+typedef struct { int x, y, z; } Vec;
+typedef struct {
+    int matrix[12];
+    int f30, f34;
+    int f38, f3c, f40, f44;
+    int f48, f4c, f50, f54, f58, f5c;
+} State;
+extern State *func_02051A34(void *);
+extern void func_02051838(void *, const Vec *);
+extern void func_0207BC08(const Vec *, const void *, Vec *);
+extern void func_021FE1B8(Vec *, const Vec *);
+extern const s16 d_020A1B38[];
+#define MUL(a,b) ((int)(((long long)(a) * (b) + 0x800) >> 12))
+
+void func_021FD8CC(void *a, unsigned b)
+{
+    Vec v;
+    u16 ang2;
+    u16 ang;
+    int idx;
+    State *s = func_02051A34(a);
+
+    if (s->f48 == 0 || b == 0) return;
+    if (s->f4c == 3) {
+        if (s->f50 != 0) {
+            s->f50--;
+            return;
+        }
+        s->f58 += 12;
+        s->f54 += s->f58;
+        s->f50 = s->f54 >> 12;
+    }
+    s->f48--;
+    s->f38 += s->f40;
+    s->f3c += s->f44;
+    ang = (u16)((s->f38 >> 12) + 0xc000);
+    ang2 = (u16)((s->f3c >> 12) + 0xc000);
+    idx = (ang >> 4) * 2;
+    v.x = d_020A1B38[idx];
+    v.x = MUL(v.x, s->f30);
+    v.x += s->f30;
+    if (s->f4c == 6) {
+        v.z = d_020A1B38[(ang2 >> 4) * 2 + 1];
+        v.z = MUL(v.z, s->f34);
+        v.y = 0;
+    } else {
+        v.y = d_020A1B38[s->f4c == 5 ? (ang2 >> 4) * 2 + 1 : idx + 1];
+        v.y = MUL(v.y, s->f34);
+        v.z = 0;
+    }
+    func_0207BC08(&v, s, &v);
+    if (s->f5c != 0) func_021FE1B8(&v, 0);
+    func_02051838(a, &v);
+}

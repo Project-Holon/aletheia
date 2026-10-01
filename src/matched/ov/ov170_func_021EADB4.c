@@ -1,0 +1,35 @@
+/*
+ * function: func_021EADB4
+ * address: 0x021EADB4
+ * packet: pkt_ov170_021EADB4
+ * region: ov170
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * symbols:
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_0201EEA4 0x0201EEA4 thumb
+ *   func_021EAC28 0x021EAC28 thumb ov170
+ *   func_021EAAE4 0x021EAAE4 thumb ov170
+ *   func_021EABA0 0x021EABA0 thumb ov170
+ */
+#define WORK(p) (*(char **)((p)+0x2C))
+typedef struct { unsigned value; unsigned char pad[14]; unsigned char low:7; unsigned char flag:1; } Entry;
+extern void *func_02045770(void *);
+extern void func_02043B5C(void *,unsigned);
+extern void func_0201EEA4(void *,unsigned,unsigned);
+extern void func_021EAC28(unsigned char *,int,void *,unsigned,int,int,unsigned,unsigned short);
+extern void func_021EAAE4(unsigned char *,unsigned);
+extern void func_021EABA0(void **);
+void func_021EADB4(unsigned char *w,Entry *e,unsigned i) {
+ void **windows;
+ windows=(void **)(w+0x94);
+ func_02043B5C(func_02045770(windows[i*2]),0);
+ if(!e->flag) {
+  func_0201EEA4(*(void **)(w+0x84),0,e->value);
+  func_021EAC28(w,i,*(void **)(w+0x80),0,0,0,*(unsigned *)(w+0x78),0x440);
+ } else { func_021EAAE4(w,i); return; }
+ func_021EABA0(windows+i*2);
+}

@@ -1,0 +1,32 @@
+/*
+ * function: func_021EDAB0
+ * address: 0x021EDAB0
+ * packet: pkt_ov170_021EDAB0
+ * region: ov170
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02049E34 0x02049E34 arm
+ *   func_02082D44 0x02082D44 arm
+ *   func_020307B0 0x020307B0 arm
+ *   func_021DEDCC 0x021DEDCC thumb ov170
+ *   func_021EDBE8 0x021EDBE8 thumb ov170
+ *   func_021EDC0C 0x021EDC0C thumb ov170
+ */
+extern void *func_02049E34(unsigned, unsigned, unsigned, void **, unsigned short);
+extern void func_02082D44(const void *, void *, unsigned);
+extern void func_020307B0(void *);
+extern int func_021DEDCC(unsigned char *, int);
+extern void func_021EDBE8(char *, unsigned char *, int, unsigned, unsigned);
+extern void func_021EDC0C(char *, int, unsigned char *);
+void func_021EDAB0(char *p, int i)
+{
+    void *t;
+    void *q = func_02049E34(0x74, 0x47, 1, &t, 0x4c);
+    func_02082D44(*(void **)((char *)t + 0x14), *(char **)(p + 0x2c) + 0x3e70 + i * 0x400, 0x400);
+    func_020307B0(q);
+    func_021EDBE8(p, (unsigned char *)(*(char **)(p + 0x2c) + 0x3e70 + i * 0x400), func_021DEDCC((unsigned char *)p, i), 8, 0x400);
+    func_021EDC0C(p, i, (unsigned char *)(*(char **)(p + 0x2c) + 0x3e70 + i * 0x400));
+}
