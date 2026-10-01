@@ -7,10 +7,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
  *
- * DIFF: same prologue spill-order difference as func_0216BFD4 (str r0,[sp,#4] early); the rest
- * is byte-identical.
+ * The heap id is a u16, as in func_0216BFD4; that keeps its entry spill
+ * at the front of the prologue.
  *
  * symbols:
  *   func_02030734  0x02030734  arm
@@ -21,14 +21,14 @@
  *   d_02172A60     0x02172A60  data  ov010  a1
  */
 
-extern int func_02030734(int, int, int, char *, int);
+extern int func_02030734(unsigned short, int, int, char *, int);
 extern void func_02082BCC(void *, int, int);
-extern int func_020457B0(int, int);
+extern int func_020457B0(int, unsigned short);
 extern void func_02045838(int, int);
 extern int func_02017E1C(int, int, int);
 extern char d_02172A60[];
 
-int *func_0216C028(int a0, int a1, int a2, int a3, int s0)
+int *func_0216C028(unsigned short a0, int a1, int a2, int a3, int s0)
 {
     int *p = (int *)func_02030734(a0, 0x2c, 0, d_02172A60, 0x59);
     func_02082BCC(p, 0, 0x2c);
