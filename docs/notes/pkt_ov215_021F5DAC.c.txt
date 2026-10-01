@@ -1,0 +1,60 @@
+/*
+ * function: func_021F5DAC
+ * address: 0x021F5DAC
+ * packet: pkt_ov215_021F5DAC
+ * region: ov215
+ * compiler: 1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * lang: c99
+ * status: DIFF
+ * checks: 1 own 4B294 seven args/u16 stack inputs, integer fifth arg c1a unchanged; 64FC forwards r0; 2 no ov214/215/216 twin, ARM9 request-builder callers reviewed; 3 const p and allocation-backed struct p both 41 bytes out (two compiles); 4 matching loop/table/zero idioms reviewed, scheduling cap 2/2 consumed; 5 fresh complete idiom listing and matched neighbours reviewed, no new twin; next probe enum zero or inline array-result assignment needs a new authorized retry budget.
+ * Return ABI: 4B294 own source void, caller stores r0 and forwards it to 4B92C.
+ * Residue: table base held in r7, zero r6; original zero r7 and output address r6 before 64FC. All nine relocations resolve.
+ * symbols:
+ *   func_020490F4 0x020490F4 arm
+ *   func_0204AC18 0x0204AC18 arm
+ *   func_0204A6C8 0x0204A6C8 arm
+ *   func_0204AF28 0x0204AF28 arm
+ *   func_02049238 0x02049238 arm
+ *   func_0204B294 0x0204B294 arm
+ *   func_0204B92C 0x0204B92C arm
+ *   func_021F64FC 0x021F64FC thumb ov215
+ *   table 0x021F7124 data ov215
+ */
+
+extern unsigned int func_020490F4(void *, unsigned int);
+extern int func_0204AC18(unsigned int, unsigned int, unsigned int, unsigned int, unsigned short, unsigned short, unsigned short);
+extern int func_0204A6C8(unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
+extern int func_0204AF28(unsigned int, unsigned int, unsigned int, unsigned int);
+extern void func_02049238(unsigned int);
+extern unsigned int func_021F64FC(unsigned int);
+extern unsigned int func_0204B294(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short, unsigned short);
+extern void func_0204B92C(unsigned int, unsigned int);
+extern const unsigned int table[][2];
+struct Context {
+    unsigned short heap;
+    unsigned short pad2;
+    unsigned int owner;
+    char pad8[36];
+    unsigned int resource1,resource2,resource3;
+    unsigned int objects[6];
+    char tail[60];
+};
+
+void func_021F5DAC(int unused, struct Context *p)
+{
+    unsigned char i;
+    unsigned int h = func_020490F4((void *)189, p->heap);
+    p->resource2 = func_0204AC18(h, 3, 0, 0, 0, 1, p->heap);
+    p->resource1 = func_0204A6C8(h, 2, 0, 0, p->heap);
+    p->resource3 = func_0204AF28(h, 1, 0, p->heap);
+    func_02049238(h);
+    for (i = 0; i < 6; i++)
+    {
+        struct Context *out = (struct Context *)((char *)p + i * 4);
+        unsigned int o = func_0204B294(func_021F64FC(p->owner), p->resource1, p->resource2, p->resource3, (unsigned int)table[i], 0, p->heap);
+        out->objects[0] = o;
+        func_0204B92C(o, 0);
+    }
+}

@@ -7,10 +7,12 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 copied 02043B5C's pointer/u8 prototype, still 4 B; 2 ov206 AFC4 and ov208 C0788 are related window loops, no exact twin; 3 enum counter 86 B, enum callee 4 B during iteration, then u8 counter 21 B and const p 12 B (two check compiles); 4 enum-zero and hoisted-zero idioms read, no matching lever; 5 fresh directory and ov20 neighbours re-read, stack struct addressing already matches, no new twin. Next probe: signed short first-loop counter, not tried.
+ * checks: 1 own 02043B5C pointer/u8 and five other callee bodies re-derived, best4; 2 ov206 AFC4 and ov208 C0788 related window loops, no exact twin; 3 carried u8 counter21 and const p12 exhaust two C3 compiles; 4 enum-zero and hoisted-zero idioms read, shared order1 retained; 5 fresh directory/neighbours and declared-struct local idiom read, stack addressing matches. Wave32 I5 signed-short counter worsens32/168; terminal streak3. First types300 flat4, no winner adopted.
+ * budget: I1..I5 DIFF5,4,86,4,32; first nonshrink I3, terminal streak3 (restoring best I4 is not an improvement). C1=1, C3=2, order=1; no reset or more iteration.
+ * scoring: permuter omits site region and masks the data relocation; retained baseline-object replay with ov206 resolves6/6. Full evidence/tool correction in Wave32 R1 region-callee-proof.txt; no second pass authorized.
  * Residue: 164 bytes compiled, 4 concrete bytes differ. At +0x54
  * and +0x82 the original copies the live zero with adds; C rematerialises
- * movs #0. All relocations resolve. Best source is one-5.log.
+ * movs #0. All relocations resolve on the retained best source (Wave31 one-5.log); no changed-signature or volatile mutant adopted.
  * symbols:
  *   func_0204A39C 0x0204A39C arm
  *   func_02049B68 0x02049B68 arm

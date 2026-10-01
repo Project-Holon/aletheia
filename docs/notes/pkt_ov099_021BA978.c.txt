@@ -1,0 +1,97 @@
+/*
+ * function: func_021BA978
+ * address: 0x021BA978
+ * packet: pkt_ov099_021BA978
+ * region: ov099
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 full callee and forwarding bodies prove retained visible inputs, CCE4 live r0 return and F73C caller-side u16 truncation; F73C fourth unsigned parameter stayed DIFF138/320 (1 C1 compile); 2 fresh ov099/ARM9 own-body headers, BAAB8/BCECC callers and BA928/B050 neighbors supplied no rescue; 3 long flag and long resource each stayed DIFF138/320 (2/2 compiles); mutable p cannot safely be const; 4 enum/shared constant and raw-offset idioms read, tile14 extraction already tried without improvement; 5 fresh idiom list and matched neighbors reread; mode spill rather than stack object remains; next scheduling/extraction probe forbidden by consumed 2/2 manual-variant cap.
+ * residual: DIFF138/320: mode lives in r7 instead of original stack spill; resource spills, and shared tile14 register synthesis differs.
+ * budgets: 5 iteration compiles, final nonshrinking streak 3; C1 1, C3 2; manual scheduling/order variants 2/2; once-only types permuter tool-reported 300 compiles.
+ * evidence: scratchpad/overlay-goal-20260930-w32/B8/021BA978-c3b.log; 021BA978-permuter.log
+ * rejected-mutants: Permuter score132 rejected: temp/decl-order mutant hoists mutable p+f4 load across func_02045CAC without alias proof. Score134 return-type mutant also rejected: changes void signature. Neither adopted or separately compiled.
+ * symbols:
+ *   func_02012FFC 0x02012FFC thumb
+ *   func_021BA8D4 0x021BA8D4 thumb ov099
+ *   func_021BA8BC 0x021BA8BC thumb ov099
+ *   func_0201C6B4 0x0201C6B4 thumb
+ *   func_0201C6EC 0x0201C6EC thumb
+ *   func_0201CE48 0x0201CE48 thumb
+ *   func_020450F0 0x020450F0 arm
+ *   func_02045CAC 0x02045CAC arm
+ *   func_0201F250 0x0201F250 thumb
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_0201F73C 0x0201F73C thumb
+ *   func_0201C7A4 0x0201C7A4 thumb
+ *   func_0201CCE4 0x0201CCE4 thumb
+ *   func_02028470 0x02028470 thumb
+ *   func_02045334 0x02045334 arm
+ *   func_02045374 0x02045374 arm
+ *   func_02041B6C 0x02041B6C arm
+ * prototype-evidence: CCE4's legacy void forwarding body leaves r0 live;
+ *   this caller stores that result at +1bc. F73C's third input is visibly
+ *   truncated to u16. Other arities/types follow callee bodies and units.
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed short s16;
+struct S;
+struct PrintSys;
+struct Rec3;
+struct Descriptor;
+struct CharBuf;
+struct Cfg;
+struct MsgBank;
+struct WordSet;
+extern signed char func_02012FFC(void);
+extern void func_021BA8D4(struct S *);
+extern int func_021BA8BC(void *);
+extern u32 func_0201C6B4(const struct PrintSys *);
+extern void func_0201C6EC(struct PrintSys *);
+extern void func_0201CE48(struct Rec3 *);
+extern u32 func_020450F0(u32, u32, u32, u32, u8, u8, u8);
+extern void func_02045CAC(struct MsgBank *, u32, void *);
+extern void func_0201F250(struct WordSet *, void *, void *);
+extern struct CharBuf *func_02045770(struct Descriptor *);
+extern void func_02043B5C(struct CharBuf *, u8);
+extern void func_0201F73C(void *, int, u16, u32);
+extern void func_0201C7A4(void *, s16, s16, void *, void *);
+extern u32 func_0201CCE4(u32, u32, u32, u32, u32, u32, u32, u32, u16, u16);
+extern void func_02028470(u8 *, u32);
+extern void func_02045334(struct Cfg *);
+extern void func_02045374(struct Cfg *);
+extern void func_02041B6C(u32);
+void func_021BA978(char *p, long resource, long flag, unsigned long mode)
+{
+    u32 v;
+    long tile;
+    func_02012FFC();
+    func_021BA8D4((struct S *)p);
+    *(int *)(p + 0x190) = func_021BA8BC(*(void **)(p + 0x190));
+    if (func_0201C6B4(*(struct PrintSys **)(p + 0x1b8)) == 0)
+        func_0201C6EC(*(struct PrintSys **)(p + 0x1b8));
+    if (*(struct Rec3 **)(p + 0x1bc) != 0) {
+        func_0201CE48(*(struct Rec3 **)(p + 0x1bc));
+        *(struct Rec3 **)(p + 0x1bc) = 0;
+    }
+    *(u32 *)(p + 0x190) = func_020450F0(2, 2, 19, 27, 4, 15, 1);
+    func_02045CAC(*(flag != 0 ? (struct MsgBank **)(p + 0xe4) : (struct MsgBank **)(p + 0xe0)), resource, *(void **)(p + 0xf0));
+    func_0201F250(*(struct WordSet **)(p + 0xdc), *(void **)(p + 0xf4), *(void **)(p + 0xf0));
+    func_02043B5C(func_02045770(*(struct Descriptor **)(p + 0x190)), 255);
+    tile = 14;
+    func_0201F73C(*(void **)(p + 0x190), 1, *(u32 *)(p + 0x1334), tile);
+    if (mode == 0) {
+        func_0201C7A4(func_02045770(*(struct Descriptor **)(p + 0x190)), 0, 0, *(void **)(p + 0xf4), *(void **)(p + 0xe8));
+    } else {
+        v = func_02012FFC();
+        *(u32 *)(p + 0x1bc) = func_0201CCE4(*(u32 *)(p + 0x190), 0, 0, *(u32 *)(p + 0xf4), *(u32 *)(p + 0xe8), v, *(u32 *)(p + (tile << 5)), 2, 33, 15);
+        func_02028470((u8 *)(p + 0x26c), 2);
+    }
+    func_02045334(*(struct Cfg **)(p + 0x190));
+    func_02045374(*(struct Cfg **)(p + 0x190));
+    func_02041B6C(2);
+}

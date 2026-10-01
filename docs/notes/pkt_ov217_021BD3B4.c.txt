@@ -1,0 +1,57 @@
+/*
+ * function: func_021BD3B4
+ * address: 0x021BD3B4
+ * packet: pkt_ov217_021BD3B4
+ * region: ov217
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own callee bodies confirm arities 2/2/1 and full word arguments; 2 no ov217 twin; 3 const p unchanged after one CCERR correction, u16 counter worse; 4 enum/inline/struct-local idioms read, duplicate offset CSE remains; 5 fresh idiom listing and BD370 re-read, no new twin; next probe inline accessors (manual order cap exhausted).
+ * symbols:
+ *   d_021C31BC 0x021C31BC data a4
+ *   func_021BC708 0x021BC708 thumb ov217
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+struct Param { void *bmp; s16 x,y; u32 f8,fc; u8 f10,f11; u16 f12; u32 f14; };
+struct Entry { s16 x,y; u32 resource,fc; u8 a,b; u16 c; u32 d; };
+struct Sys;
+struct Grid;
+typedef enum { OFFSET_BASE=320 } Offset;
+typedef enum { STORE_BASE=320 } StoreOffset;
+typedef enum { HIDE_BASE=320 } HideOffset;
+typedef enum { UPLOAD_BASE=320 } UploadOffset;
+extern const struct Entry d_021C31BC[];
+extern u32 func_021BC708(void *,u32);
+extern struct Grid *func_020255A0(struct Sys *,const struct Param *);
+extern void func_02025774(u8 *,u32);
+extern void func_020257D0(struct Grid *);
+void func_021BD3B4(const u8 *p)
+{
+    struct Param arg;
+    const struct Entry *q;
+    int i;
+    const u8 *dest;
+    Offset sys;
+    StoreOffset store;
+    HideOffset hide;
+    UploadOffset upload;
+    sys=OFFSET_BASE; sys-=20;
+    store=STORE_BASE; store-=16;
+    hide=HIDE_BASE; hide-=16;
+    upload=UPLOAD_BASE; upload-=16;
+    for(i=0;i<4;i++) {
+        dest=p+i*4;
+        arg.bmp=*(void **)(dest+320);
+        q=&d_021C31BC[i];
+        arg.x=q->x; arg.y=q->y;
+        arg.f8=func_021BC708((void *)p,q->resource);
+        arg.fc=q->fc; arg.f10=q->a; arg.f11=q->b; arg.f12=q->c; arg.f14=q->d;
+        *(struct Grid **)(dest+store)=func_020255A0(*(struct Sys **)(p+sys),&arg);
+        func_02025774(*(u8 **)(dest+hide),0);
+        func_020257D0(*(struct Grid **)(dest+upload));
+    }
+}

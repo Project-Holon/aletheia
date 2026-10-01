@@ -7,8 +7,11 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own ov067 constructor prototypes and ov203 DF30 getter forwarder verified; 2 scoped ov203/204 twins absent for configuration; 3 unsigned f8 no change, f4/f0 signedness iteration unchanged; 4 stack-vec store-order idiom read, two shared order variants used; 5 fresh idiom directory and neighbours, declared-struct idiom read, stack address matches; next order sweep forbidden by cap
+ * checks: 1 own ov067 constructor prototypes and complete ov203 DF30/E620 getter forwarding verified; 2 scoped ov203/204 configuration twins absent; 3 carried unsigned f8 unchanged6, Wave32 const p worsens24 (C3 now2/2); 4 stack-vec store-order idiom read, two shared order variants exhausted; 5 fresh idiom directory and neighbours, declared-struct idiom read, stack address matches. Wave32 I6 enum f4 unchanged6, terminal streak3; first types300 flat6, no winner adopted.
+ * budget: I1..I6 DIFF21,15,6,6,6,6; first nonshrink I4, terminal streak3. C1=1, C3=2, order=2; no reset. Best C retained, all14 relocations resolve with explicit ov203.
+ * scoring: permuter omits site region and masks three data relocations; read-only retained-object replay with ov203 resolves14/14. Full evidence and tool correction in Wave32 R1 region-callee-proof.txt; no second pass authorized.
  * volatile: 021BFA50 rereads the byte stored at 021BFA4E.
+ * forwarding: DF30 adjusts r0 by4 and tails to E0F0 (ldr r0,[r0]; bx lr); E620 loads r0+24 and tails to ARM9 0201160C (ldr r0,[r0,#16]; bx lr). Both are one full-word input; resource stays visible in r2 to ov0676208 even if unused there. The original truncates both629C coordinates to u8.
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_021BF9D0 0x021BF9D0 thumb ov203

@@ -1,0 +1,80 @@
+/*
+ * function: func_021BAC24
+ * address: 0x021BAC24
+ * packet: pkt_ov099_021BAC24
+ * region: ov099
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0201C6EC 0x0201C6EC thumb
+ *   func_0201DD68 0x0201DD68 thumb
+ *   func_0201F81C 0x0201F81C thumb
+ *   func_0201F878 0x0201F878 thumb
+ *   func_021BA8BC 0x021BA8BC thumb ov099
+ *   func_020450F0 0x020450F0 arm
+ *   func_02045374 0x02045374 arm
+ *   func_0201F73C 0x0201F73C thumb
+ *   func_0201FF30 0x0201FF30 thumb
+ *   func_0201C6B4 0x0201C6B4 thumb
+ *   func_0201C4E4 0x0201C4E4 thumb
+ *   func_02020CF8 0x02020CF8 thumb
+ *   func_02041B6C 0x02041B6C arm
+ * prototype-evidence: visibly supplied fifth F878 and second 20CF8 inputs
+ *   are retained despite legacy bodies not reading them; caller truncations
+ *   fix 450F0 x/y/width/height and F73C tile parameters as u8/u16.
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct { u32 a, b; } Pair;
+typedef struct { u32 w[13]; } Desc;
+struct PrintSys;
+struct Slot;
+struct Cfg;
+struct Obj;
+extern void func_0201C6EC(struct PrintSys *);
+extern void func_0201DD68(void);
+extern struct Slot *func_0201F81C(u32, u32);
+extern void func_0201F878(struct Slot *, u32, u32, u32, u32);
+extern int func_021BA8BC(void *);
+extern u32 func_020450F0(u32, u8, u8, u8, u8, u8, u8);
+extern void func_02045374(struct Cfg *);
+extern void func_0201F73C(void *, int, u16, int);
+extern struct Obj *func_0201FF30(Desc *, u16, u16, u32);
+extern u32 func_0201C6B4(const struct PrintSys *);
+extern u32 func_0201C4E4(struct PrintSys *);
+extern void func_02020CF8(struct Obj *, u32);
+extern void func_02041B6C(u32);
+void func_021BAC24(char *p, Desc *out, Pair *items, int count, int kind, u32 width)
+{
+    int i;
+    int y;
+    func_0201C6EC(*(struct PrintSys **)(p + 0x1b4));
+    func_0201DD68();
+    *(struct Slot **)(p + 0xb8) = func_0201F81C(count, 0x21);
+    for (i = 0; i < count; i++)
+        func_0201F878(*(struct Slot **)(p + 0xb8), *(u32 *)(p + 0xe0), items[i].a, items[i].b, 0x21);
+    *(int *)(p + 0x1a4) = func_021BA8BC(*(void **)(p + 0x1a4));
+    y = 5;
+    if (kind == 5)
+        y = 13;
+    *(u32 *)(p + 0x1a4) = func_020450F0(2, 31 - width, y, width, (u32)count * 2, 15, 1);
+    func_02045374(*(struct Cfg **)(p + 0x1a4));
+    func_0201F73C(*(void **)(p + 0x1a4), 2, *(u32 *)(p + 0x1330), 14);
+    out->w[0] = *(u32 *)(p + 0xb8);
+    out->w[3] = *(u32 *)(p + 0x1a4);
+    out->w[11] = *(u32 *)(p + 0x1b4);
+    out->w[10] = (u32)(p + 0x1ac);
+    out->w[12] = *(u32 *)(p + 0xe8);
+    out->w[7] = (u32)p;
+    *(struct Obj **)(p + 0xbc) = func_0201FF30(out, 0, *(u16 *)(p + 0x234 + kind * 2), 0x21);
+    if (func_0201C6B4(*(struct PrintSys **)(p + 0x1b4)) == 0) {
+        do {
+            func_0201C4E4(*(struct PrintSys **)(p + 0x1b4));
+        } while (func_0201C6B4(*(struct PrintSys **)(p + 0x1b4)) == 0);
+    }
+    func_02020CF8(*(struct Obj **)(p + 0xbc), 0x21);
+    func_02041B6C(2);
+}

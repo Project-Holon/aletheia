@@ -1,0 +1,38 @@
+/*
+ * function: func_021C01C0
+ * address: 0x021C01C0
+ * packet: pkt_ov210_021C01C0
+ * region: ov210
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02035C08 0x02035C08 arm
+ *   func_020355D8 0x020355D8 arm
+ *   func_020362DC 0x020362DC arm
+ *   func_020355C4 0x020355C4 arm
+ *   func_021B940C 0x021B940C thumb ov067
+ *   d_021C0B24 0x021C0B24 data a4
+ */
+extern const unsigned d_021C0B24[];
+extern int func_02035C08(const void *);
+extern void func_020355D8(unsigned char);
+extern unsigned func_020362DC(void);
+extern unsigned char func_020355C4(void);
+extern void func_021B940C(void *);
+int func_021C01C0(char *ctx)
+{
+    int result = func_02035C08(d_021C0B24);
+    if (result != -1) { func_020355D8(1); return result; }
+    if (func_020362DC() & 2) { func_020355D8(0); return 8; }
+    if (func_020362DC() & 8) { func_020355D8(0); return 8; }
+    if (func_020362DC() & 4) {
+        if (func_020355C4() == 1) {
+            func_020355D8(0);
+            func_021B940C(*(void **)(ctx + 0x1e0));
+        }
+        return 9;
+    }
+    return result;
+}

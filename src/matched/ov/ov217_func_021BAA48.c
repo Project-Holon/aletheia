@@ -1,0 +1,39 @@
+/*
+ * function: func_021BAA48
+ * address: 0x021BAA48
+ * packet: pkt_ov217_021BAA48
+ * region: ov217
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021BA3D8 0x021BA3D8 thumb ov217
+ *   func_021BA3D0 0x021BA3D0 thumb ov217
+ *   func_0204B294 0x0204B294 arm
+ *   func_0204B3DC 0x0204B3DC arm
+ *   d_021C2EFC 0x021C2EFC data a4
+ * B294's returned r0 is stored and passed to B3DC in the original.
+ */
+typedef unsigned short u16;
+struct Vec {short x,y,z;unsigned char a,b;};
+struct Entry {struct Vec vec;unsigned first,second,third,fourth;u16 arg,pad;};
+struct Obj;
+extern const struct Entry d_021C2EFC;
+extern unsigned func_021BA3D8(void *,unsigned);
+extern unsigned func_021BA3D0(void *,unsigned);
+extern unsigned func_0204B294(unsigned,unsigned,unsigned,unsigned,unsigned,u16,u16);
+extern void func_0204B3DC(struct Obj *,unsigned);
+void func_021BAA48(char *p)
+{
+    struct Vec vec;
+    unsigned first,second,third,fourth;
+    vec.x=d_021C2EFC.vec.x;vec.y=d_021C2EFC.vec.y;vec.z=d_021C2EFC.vec.z;
+    vec.a=d_021C2EFC.vec.a;vec.b=d_021C2EFC.vec.b;
+    first=func_021BA3D8(p,d_021C2EFC.first);
+    second=func_021BA3D0(p,d_021C2EFC.second);
+    third=func_021BA3D0(p,d_021C2EFC.third);
+    fourth=func_021BA3D0(p,d_021C2EFC.fourth);
+    *(unsigned *)(p+0x7c)=func_0204B294(first,second,third,fourth,(unsigned)&vec,d_021C2EFC.arg,*(u16 *)(p+4));
+    func_0204B3DC(*(struct Obj **)(p+0x7c),0);
+}

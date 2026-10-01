@@ -54,12 +54,20 @@ register allocation: **a literal pool word holding a value too small to be an
 address is a symbol, not a number.** The function that loads it is short of a
 declaration, not short of a source shape.
 
-Attest a proved overlay-ID argument as `overlay_id`, rather than `literal`.
+Declare a proved overlay-ID argument with the `data` symbol kind. The resolver
+attests it as `overlay_id`, rather than `literal`; `overlay_id` is an evidence
+class, not a kind accepted in the source header's `symbols:` block.
 The load/unload consumers at 0x02034AC4 and 0x02034A5C prove that the pooled
-0xBC value names overlay 188. With `ov188_id 0x000000BC overlay_id`, both
+0xBC value names overlay 188. With `ov188_id 0x000000BC data a1`, both
 0x0200BA58 and 0x0200BA68 reproduce all sixteen bytes and resolve both
 relocations as EXACT in isolated scratch checks. The literal class cannot
 use a pool word inside its own range as an outside witness, but the proved
 ID consumer supplies the distinct overlay-ID attestation. Their overlay
 caller can still remain MATCH because the ARM9 leaves lack filed code-start
 witnesses; retain verified scratch C in the caller header for the ARM9 owner.
+
+The same header distinction was independently measured in
+`src/matched/ov/ov212_func_021C8FA8.c` and
+`src/matched/ov/ov216_func_021BBE18.c`: the unsupported `overlay_id` kind left
+the ID sites unresolved, while `data a1` resolved them through their proved
+load/unload consumers and changed MATCH to EXACT without changing the C body.

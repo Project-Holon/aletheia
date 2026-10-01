@@ -1,0 +1,48 @@
+/*
+ * function: func_021C9244
+ * address: 0x021C9244
+ * packet: pkt_ov212_021C9244
+ * region: ov212
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 32 concrete bytes differ; compiled 66 versus extent 68.
+ * behavior: original mode outside 0/1 reaches 021C927C without setting r4;
+ * 021C9282 returns that unset register. Best C keeps defined fallback 9.
+ * equivalence: only modes 0/1 reproduce original behavior; validity of that
+ * domain is unproved. This initialized safe baseline was compiled (r1,
+ * DIFF32); it is not an uninitialized sketch or an uncompiled replacement.
+ * checks: 1 full CA1C/CA78/307B0 bodies establish pointer return/2 args/free;
+ * 2 ov208 CA1C twins and ov212 92EC CA78 twin confirm calls; 9184 has a
+ * defined default assignment, unlike this original; 3 const q DIFF32;
+ * enum probe failed function selection (ov212_func_ instead of func_),
+ * consuming second C3 invocation, no verdict claimed and no budget reset;
+ * 4 constant-after-switch and switch-return-local idioms require defined
+ * all-path values, no fitting safe spelling for unset default r4;
+ * 5 fresh unfiltered idiom listing and matched 9184/91C4 plus sibling
+ * ov208 3CC and live pending 92EC reread, no defined-value rescue.
+ * next: no sweep; seek evidence that excludes invalid modes rather than
+ * reproduce an uninitialized C local. No undefined variant was compiled.
+ * symbols:
+ *   func_0200CA1C 0x0200CA1C thumb
+ *   func_0200CA78 0x0200CA78 thumb
+ *   func_020307B0 0x020307B0 arm
+ */
+struct Blk37;
+extern void *func_0200CA1C(void *);
+extern void func_0200CA78(struct Blk37 *,unsigned);
+extern void func_020307B0(void *);
+int func_021C9244(char *p)
+{
+    struct Blk37 *save=func_0200CA1C(*(void **)*(char **)p);
+    char *q=*(char **)(p+40);
+    int result=9;
+    func_0200CA78(save,(*(unsigned short **)(q+8))[*(unsigned short *)(q+14)]);
+    switch(*(int *)(q+16)){
+    case 0:*(unsigned short *)(*(char **)p+14)=1;result=9;break;
+    case 1:*(unsigned short *)(*(char **)p+14)=0;result=3;break;
+    }
+    func_020307B0(*(void **)(p+40));
+    return result;
+}

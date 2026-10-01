@@ -1,0 +1,27 @@
+/*
+ * function: func_021C0608,func_021C065C
+ * unit: yes
+ * address: 0x021C0608
+ * packet: pkt_ov210_021C0608
+ * region: ov210
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * trailing: unit aligns the bx-lr follower at 021C065C after zero pad
+ * 021C065A; two additional zero alignment bytes at 021C065E follow the unit.
+ * symbols:
+ *   func_021BEC60 0x021BEC60 thumb ov210
+ *   func_021BCEF0 0x021BCEF0 thumb ov210
+ *   func_021BF7B0 0x021BF7B0 thumb ov210
+ */
+extern void func_021BEC60(char *,void *,unsigned);
+extern int func_021BCEF0(char *,int);
+extern void func_021BF7B0(char *,int,int,int);
+void func_021C0608(char *p,int index,void *data,int value,int flag)
+{
+    func_021BEC60(p,data,(*(unsigned *)(p+484+index*4)));
+    if(index==func_021BCEF0(p,(unsigned char)(*(char **)(*(char **)p+8))[3]))func_021BF7B0(p,0,value,flag);
+    if(index==func_021BCEF0(p,(unsigned char)(*(char **)(*(char **)p+8))[4]))func_021BF7B0(p,1,value,flag);
+}
+void func_021C065C(void){}

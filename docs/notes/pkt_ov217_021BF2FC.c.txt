@@ -1,0 +1,52 @@
+/*
+ * function: func_021BF2FC
+ * address: 0x021BF2FC
+ * packet: pkt_ov217_021BF2FC
+ * region: ov217
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 full F810/C0F78 bodies confirm live inputs, EFA4 six-input own source; 2 same/sibling overlay twins lack safe default evidence; 3 signed id unchanged, const p CCERR, u16 id unchanged; 4 switch-join idiom needs assigned arms, no safe undefined-default fix; 5 fresh idiom directory/neighbours, no twin, frame exact except +2 initialization; next domain proof for field 0x2cc, never uninitialized sweep.
+ * Original defaults at 021BF318/021BF32E reach 021BF336 with incoming r5, not a defined message id.
+ * Safe candidate initializes id; never use an uninitialized matching mutant.
+ * symbols:
+ *   func_021BF810 0x021BF810 thumb ov217
+ *   func_021C0F78 0x021C0F78 thumb ov217
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_020457B0 0x020457B0 arm
+ *   func_02045808 0x02045808 arm
+ *   func_0201EFA4 0x0201EFA4 thumb
+ *   func_0201F250 0x0201F250 thumb
+ */
+typedef unsigned short u16;
+struct MsgBank; struct U16Vec; struct WordSet;
+extern unsigned func_021BF810(char *);
+extern unsigned func_021C0F78(unsigned,struct U16Vec *);
+extern void *func_02045EC0(struct MsgBank *,unsigned);
+extern struct U16Vec *func_020457B0(unsigned,unsigned);
+extern void func_02045808(struct U16Vec *);
+extern void func_0201EFA4(struct WordSet *,unsigned,unsigned,unsigned,unsigned,unsigned);
+extern void func_0201F250(struct WordSet *,void *,void *);
+void func_021BF2FC(char *p)
+{
+    u16 id;
+    unsigned index;
+    struct U16Vec *a,*buf;
+    struct WordSet *words;
+    id=0;
+    if (*(unsigned *)(p+0x3c8)!=0) {
+        switch (*(unsigned *)(p+0x2cc)) { case 0:id=15;break; case 1:id=17;break; }
+    } else {
+        switch (*(unsigned *)(p+0x2cc)) { case 0:id=16;break; case 1:id=18;break; }
+    }
+    index=func_021BF810(p);
+    words=*(struct WordSet **)(p+24);
+    a=func_02045EC0(*(struct MsgBank **)(p+12),id);
+    buf=func_020457B0(128,*(u16 *)(p+4));
+    func_0201EFA4(words,0,index,6,1,1);
+    func_0201F250(words,buf,a);
+    func_021C0F78(*(unsigned *)(p+0x35c),buf);
+    func_02045808(a);
+    func_02045808(buf);
+}

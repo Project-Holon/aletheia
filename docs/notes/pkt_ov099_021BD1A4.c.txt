@@ -1,0 +1,106 @@
+/*
+ * function: func_021BD1A4
+ * address: 0x021BD1A4
+ * packet: pkt_ov099_021BD1A4
+ * region: ov099
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * residual: 372/372 bytes, 18 concrete bytes differ solely in the r5/r6 exchange; all 20 relocations resolved.
+ * checks: 1 own/matched callee arities preserve every original input, no argument-register discrepancy; 2 fresh BBA4C and BC2C0/BD0F0 twins confirm declarations, no caller twin; 3 unsigned n gives 376 B/221 out, u16 zero unchanged 18, p writes and full-width v rule out const/narrow parameter; 4 enum zero and declaration-initializer order unchanged 18, shared order/extraction cap 2/2; 5 fresh full idiom listing and matched neighbours, correct halfword stack slots; once-only 300 types permuter best remains 18, no mutant adopted.
+ * budget: iteration 4, consecutive nonshrinking 3, first nonshrinking i2 and 3 runs since; checks 1=0,2=0,3=2,4=2,5=0; permuter 300 consumed; no new order/extraction or width sweep is available in those checks.
+ * prototypes: BCB70 matched caller declares void but this original tests its live R0 result.
+ * symbols:
+ *   func_02045770 0x02045770 arm
+ *   func_0201C6C4 0x0201C6C4 thumb
+ *   func_02045334 0x02045334 arm
+ *   func_020200CC 0x020200CC thumb
+ *   func_020202FC 0x020202FC thumb
+ *   func_02012934 0x02012934 thumb
+ *   func_021BBA4C 0x021BBA4C thumb ov099
+ *   func_021BBDD0 0x021BBDD0 thumb ov099
+ *   func_0203D378 0x0203D378 arm
+ *   func_021BCB70 0x021BCB70 thumb ov099
+ *   func_021BCBBC 0x021BCBBC thumb ov099
+ *   func_021BAAB8 0x021BAAB8 thumb ov099
+ *   func_021BC0C4 0x021BC0C4 thumb ov099
+ *   func_0201AC2C 0x0201AC2C thumb
+ *   func_021BA8EC 0x021BA8EC thumb ov099
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void *func_02045770(void *);
+extern u32 func_0201C6C4(void *, void *);
+extern void func_02045334(void *);
+extern int func_020200CC(void *);
+extern void func_020202FC(void *, u16 *, u16 *);
+extern u32 func_02012934(const void *);
+extern void func_021BBA4C(char *, void *);
+extern void func_021BBDD0(char *, int);
+extern u32 func_0203D378(void);
+extern int func_021BCB70(int, int, int *);
+extern int func_021BCBBC(int, int, int *);
+extern void func_021BAAB8(char *, int, int);
+extern void func_021BC0C4(char *);
+extern void func_0201AC2C(const void *, void *);
+extern void func_021BA8EC(char *);
+int func_021BD1A4(char *p, int v)
+{
+    int n;
+    int zero = 0;
+    void *q = *(void **)(p + 0x1b8);
+    u16 a, b;
+    int out;
+    void *src;
+    if (*(u8 *)(p + 0x1b0) != 0 &&
+        func_0201C6C4(q, func_02045770(*(void **)(p + 0x1ac))) == 0) {
+        func_02045334(*(void **)(p + 0x1ac));
+        *(u8 *)(p + 0x1b0) = 0;
+    }
+    n = func_020200CC(*(void **)(p + 0xbc));
+    func_020202FC(*(void **)(p + 0xbc), &a, &b);
+    if (b != *(u8 *)(p + 0x1354)) {
+        *(u8 *)(p + 0x1354) = b;
+        if (b == 0) {
+            func_021BBA4C(p, (void *)func_02012934(*(void **)(p + 0xc4)));
+            func_021BBDD0(p, 1);
+        } else {
+            func_021BBA4C(p, *(void **)(p + 0xcc));
+            func_021BBDD0(p, 0);
+        }
+    }
+    if (func_0203D378() == 0) zero = 1;
+    switch (n) {
+    case -1:
+        return v;
+    case -2:
+        return v;
+    case 0:
+        if (func_021BCB70(*(int *)(p + 0x1348), *(int *)(p + 0xc4), &out) != 0) {
+            func_021BAAB8(p, 0x68, 0);
+            *(u32 *)(p + 0x1cc) = 0x6b;
+            func_021BC0C4(p);
+            return v;
+        }
+        src = (void *)func_02012934(*(void **)(p + 0xc4));
+        goto copy;
+    case 1:
+        if (func_021BCBBC(*(int *)(p + 0x1348), *(int *)(p + 0xcc), &out) != 0) {
+            func_021BAAB8(p, 0x68, 0);
+            *(u32 *)(p + 0x1cc) = 0x6c;
+            func_021BC0C4(p);
+            return v;
+        }
+        src = *(void **)(p + 0xcc);
+    copy:
+        func_0201AC2C(src, *(void **)(*(char **)(p + 0x248) + zero * 4 + 0x14));
+        *(u32 *)(p + 0x1cc) = 0x67;
+        break;
+    }
+    func_021BC0C4(p);
+    func_021BA8EC(p);
+    return v;
+}

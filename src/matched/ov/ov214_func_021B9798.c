@@ -1,0 +1,69 @@
+/*
+ * function: func_021B9798
+ * address: 0x021B9798
+ * packet: pkt_ov214_021B9798
+ * region: ov214
+ * compiler: 1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021BAF30 0x021BAF30 thumb ov214
+ *   func_021BA43C 0x021BA43C thumb ov214
+ *   func_021BA39C 0x021BA39C thumb ov214
+ *   func_021BA018 0x021BA018 thumb ov214
+ *   func_021BAE10 0x021BAE10 thumb ov214
+ *   func_021BAC3C 0x021BAC3C thumb ov214
+ *   func_02045C04 0x02045C04 arm
+ *   func_02030EAC 0x02030EAC arm
+ *   func_0201C6EC 0x0201C6EC thumb
+ *   func_0201C4C0 0x0201C4C0 thumb
+ *   func_0201D83C 0x0201D83C thumb
+ *   func_021BB220 0x021BB220 thumb ov214
+ *   func_020315D4 0x020315D4 arm
+ *   func_020306F0 0x020306F0 arm
+ *   func_02034A5C 0x02034A5C arm
+ *   ov067_id 0x00000043 data
+ */
+struct Rec;
+extern const char ov067_id[];
+extern void func_021BAF30(int unused,char *p);
+extern void func_021BA43C(int unused,char *p);
+extern void func_021BA39C(int unused,char *p);
+extern void func_021BA018(int unused,char *p);
+extern void func_021BAE10(int unused,char *p);
+extern void func_021BAC3C(int unused,char *p);
+extern void func_02045C04(struct Rec *p);
+extern void func_02030EAC(unsigned p);
+extern void func_0201C6EC(int p);
+extern void func_0201C4C0(int p);
+extern void func_0201D83C(void *p);
+extern void func_021BB220(char *p);
+extern void func_020315D4(void *p);
+extern void func_020306F0(void *heap);
+extern void func_02034A5C(void *id);
+int func_021B9798(void *owner,int unused,int state,char *p)
+{
+    func_021BAF30(state,p);
+    func_021BA43C(state,p);
+    func_021BA39C(state,p);
+    func_021BA018(state,p);
+    func_021BAE10(state,p);
+    func_021BAC3C(state,p);
+    func_02045C04(*(struct Rec **)(p+0x58));
+    func_02030EAC(*(unsigned *)(p+0x4C));
+    func_0201C6EC(*(int *)(p+0x18));
+    func_0201C4C0(*(int *)(p+0x18));
+    func_0201C6EC(*(int *)(p+0x14));
+    func_0201C4C0(*(int *)(p+0x14));
+    func_0201C6EC(*(int *)(p+0x10));
+    func_0201C4C0(*(int *)(p+0x10));
+    func_0201C6EC(*(int *)(p+0xC));
+    func_0201C4C0(*(int *)(p+0xC));
+    func_0201D83C(*(void **)(p+8));
+    func_021BB220(*(char **)(p+4));
+    func_020315D4(owner);
+    func_020306F0((void *)117);
+    func_02034A5C((void *)ov067_id);
+    return 1;
+}

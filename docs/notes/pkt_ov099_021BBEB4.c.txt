@@ -1,0 +1,85 @@
+/*
+ * function: func_021BBEB4
+ * address: 0x021BBEB4
+ * packet: pkt_ov099_021BBEB4
+ * region: ov099
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * Visible r1 heap input retained for 0200AE3C; its matched body forwards live r1 into 020457B0.
+ * checks: 1 own callee bodies/caller inputs checked, 21/21 relocations resolve; 2 BB050 and own BA4C twins read; 3 u32 mask/color and wide color extern gives 428/389, restored u16 color best 436/369; const p invalid because p is written; 4 width, ternary and window-address idioms read, manual extraction cap 2 consumed; 5 fresh full directory and BB050/BA4C neighbours reread, no new lever; next named per-row pointer blocked by manual cap.
+ * Budget: 5 iterations; first nonshrinking i3, consecutive i3-i5=3; C3=2 compiles, other checks=0; types permuter once budget300.
+ * Residual: 436/440 bytes, 369 concrete bytes differ. Mode/field-base register swap, ternary polarity, missing index spill and extra color truncations.
+ * Permuter best 440/440 with165 concrete differences rejected: volatile-add(off), declaration after statement and early field loads across calls. No mutant adopted.
+ * symbols:
+ *   func_021BA8BC 0x021BA8BC thumb ov099
+ *   func_020450F0 0x020450F0 arm
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_020456F8 0x020456F8 arm
+ *   func_02045374 0x02045374 arm
+ *   func_0201F73C 0x0201F73C thumb
+ *   func_0201DD68 0x0201DD68 thumb
+ *   func_0201A4D4 0x0201A4D4 thumb
+ *   func_0200AE3C 0x0200AE3C thumb
+ *   func_0201C7A4 0x0201C7A4 thumb
+ *   func_02045808 0x02045808 arm
+ *   func_02045CAC 0x02045CAC arm
+ *   func_0201C7D0 0x0201C7D0 thumb
+ *   func_02045334 0x02045334 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+extern void *func_021BA8BC(void *);
+extern void *func_020450F0(u32,u32,u32,u32,u32,u8,u8);
+extern void *func_02045770(void *);
+extern void func_02043B5C(void *,u8);
+extern void func_020456F8(void *);
+extern void func_02045374(void *);
+extern void func_0201F73C(void *,int,u16,int);
+extern void func_0201DD68(void);
+extern u8 *func_0201A4D4(u8 *,u32,u16,u32);
+extern void *func_0200AE3C(void *,u32);
+extern void func_0201C7A4(void *,s16,s16,void *,void *);
+extern void func_02045808(void *);
+extern void func_02045CAC(void *,u32,void *);
+extern void func_0201C7D0(void *,s16,s16,void *,void *,u16);
+extern void func_02045334(void *);
+void func_021BBEB4(char *p,int mask,int flag,int mode)
+{
+    int base,i,off,idx;
+    u16 color;
+    void *s;
+    base=4;
+    if (flag==1) flag=1; else flag=0;
+    *(void **)(p+0x19c)=func_021BA8BC(*(void **)(p+0x19c));
+    *(void **)(p+0x19c)=func_020450F0(2,2,5,26,mode==1?12:16,15,1);
+    func_02043B5C(func_02045770(*(void **)(p+0x19c)),255);
+    func_020456F8(*(void **)(p+0x19c));
+    func_02045374(*(void **)(p+0x19c));
+    func_0201F73C(*(void **)(p+0x19c),1,*(u32 *)(p+0x1334),14);
+    func_0201DD68();
+    *(u8 **)(p+0x1344)=func_0201A4D4(*(u8 **)(p+0x1348),*(u32 *)(p+0xdc),0x21,flag);
+    if (mode==0) {
+        s=func_0200AE3C(*(void **)(p+0x1348),0x21);
+        func_0201C7A4(func_02045770(*(void **)(p+0x19c)),0,0,s,*(void **)(p+0xe8));
+        func_02045808(s);
+    } else if (mode!=1) {
+        func_02045CAC(*(void **)(p+0xe0),mode==2?0x66:0x67,*(void **)(p+0xf0));
+        func_0201C7A4(func_02045770(*(void **)(p+0x19c)),0,0,*(void **)(p+0xf0),*(void **)(p+0xe8));
+    }
+    if (mode==1) base=0;
+    for (i=0;i<6;i++) {
+        color=(mask&(1<<i))?0x41:0x11;
+        idx=i*4;
+        off=(base+i*2)*8;
+        color=color<<6;
+        func_0201C7D0(func_02045770(*(void **)(p+0x19c)),0,off,*(void **)(*(char **)(p+0x1344)+idx+4),*(void **)(p+0xe8),color);
+        func_0201C7D0(func_02045770(*(void **)(p+0x19c)),0x70,off,*(void **)(*(char **)(p+0x1344)+idx+0x1c),*(void **)(p+0xe8),color);
+    }
+    func_02045334(*(void **)(p+0x19c));
+}
