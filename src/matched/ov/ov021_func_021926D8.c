@@ -32,7 +32,7 @@ typedef struct U {
 } U;
 
 extern u32 func_020362DC(void);
-extern void func_0203630C(u32 a);
+extern u32 func_0203630C(void);
 extern u32 func_02045770(u32 a);
 extern void func_021928F8(u32 *sub, u32 a, u32 b);
 extern void func_02045334(u32 a);
@@ -40,7 +40,7 @@ extern void func_02045334(u32 a);
 int func_021926D8(U *u)
 {
     u32 v = func_020362DC();
-    func_0203630C(v);
+    func_0203630C();
     if (v & 3)
         return 1;
     func_021928F8(u->sub, func_02045770(u->f00), u->f0c);

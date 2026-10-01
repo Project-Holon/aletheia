@@ -1,0 +1,32 @@
+/*
+ * function: func_021A1590
+ * address:  0x021A1590
+ * packet:   pkt_ov021_021A1590
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021EFF2C  0x021EFF2C  thumb  ov035
+ *   func_02034A5C  0x02034A5C  arm
+ *   abs_id_23      0x00000023  data
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef unsigned int   u32;
+
+extern unsigned char abs_id_23[];
+extern void func_021EFF2C(u32);
+extern void func_02034A5C(const void *);
+
+void func_021A1590(u32 *p)
+{
+    func_021EFF2C(p[8]);
+    func_02034A5C(abs_id_23);
+}

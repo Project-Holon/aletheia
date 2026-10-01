@@ -1,0 +1,71 @@
+/*
+ * function: func_021AC0A0
+ * address:  0x021AC0A0
+ * packet:   pkt_ov021_021AC0A0
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * symbols:
+ *   func_021AC134  0x021AC134  thumb  ov021
+ *   func_021AC140  0x021AC140  thumb  ov021
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+typedef signed char    s8;
+
+typedef struct V3 { int x, y, z; } V3;
+typedef struct Obj Obj;
+typedef struct Mgr Mgr;
+typedef void (*ObjCb)(Obj *o, void *work);
+typedef struct ObjFuncs { ObjCb f0; ObjCb init; ObjCb exit; ObjCb f_c4; ObjCb f_c8; } ObjFuncs;
+struct Obj {
+    u32 active;
+    u32 f4;
+    u32 f8;
+    V3 pos;
+    u8 work[0xa0];
+    ObjFuncs funcs;
+    Mgr *mgr;
+    void *fd0;
+};
+struct Mgr { u32 count; u32 f4; Obj *objs; u32 heap; };
+
+extern void func_02082BCC(void *p, int v, int n);
+extern void *func_02030DA8(u32 heap, void (*cb)(void), void *arg, u32 pri);
+extern void func_021AC134(void);
+extern void func_021AC140(Obj *o);
+
+Obj *func_021AC0A0(Mgr *m, const ObjFuncs *funcs, const V3 *pos, u32 f4, u32 f8, u32 pri)
+{
+    u32 i = 0;
+    Obj *o = m->objs;
+
+    do {
+        if (o->active == 0) {
+            func_02082BCC(o, 0, sizeof(Obj));
+            o->active = 1;
+            o->funcs = *funcs;
+            o->f4 = f4;
+            o->f8 = f8;
+            if (pos != 0)
+                o->pos = *pos;
+            o->mgr = m;
+            o->fd0 = func_02030DA8(m->heap, func_021AC134, o, pri);
+            break;
+        }
+        i++;
+        o++;
+    } while (i < m->count);
+    if (i < m->count) {
+        func_021AC140(o);
+        return o;
+    }
+    return 0;
+}

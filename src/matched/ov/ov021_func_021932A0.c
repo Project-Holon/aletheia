@@ -1,0 +1,34 @@
+/*
+ * function: func_021932A0
+ * address:  0x021932A0
+ * packet:   pkt_ov021_021932A0
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * symbols:
+ *   func_02013080  0x02013080  thumb  arm9
+ *   func_0201CE8C  0x0201CE8C  thumb  arm9
+ *   func_0201CEB8  0x0201CEB8  thumb  arm9
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef short          s16;
+
+extern u32 func_02013080(u32 a);
+extern void func_0201CE8C(u32 a, u32 b);
+extern void func_0201CEB8(u32 a);
+
+void func_021932A0(u32 a, int f)
+{
+    if (f == 1)
+        func_0201CE8C(a, func_02013080(2));
+    else
+        func_0201CEB8(a);
+}
