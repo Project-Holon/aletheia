@@ -1,0 +1,59 @@
+/*
+ * function: func_021E6AB0
+ * address: 0x021E6AB0
+ * packet: pkt_ov119_021E6AB0
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * lever: split temporary for first loop base and second loop index; 10-byte
+ *         register swap without them. Permuter budget 300, 271 compiles.
+ * output: 0204B454 and its full getter chain write both coordinate halfwords.
+ * symbols:
+ *   func_0204B454 0x0204B454 arm
+ *   func_0204B404 0x0204B404 arm
+ *   func_0204B84C 0x0204B84C arm
+ *   func_0204047C 0x0204047C arm
+ */
+typedef struct { short x,y; } Pt;
+extern void func_0204B454(void *,Pt *,unsigned int);
+extern void func_0204B404(void *,const Pt *,unsigned int);
+extern void func_0204B84C(void *,unsigned int);
+extern void func_0204047C(int,unsigned short);
+void func_021E6AB0(const char *p)
+{
+    int i,j;
+    Pt a,b,c;
+    int tmp;
+    const char *tmp1;
+    for(i=0;i<8;i++) {
+        tmp1=p+i*4;
+        tmp1=tmp1+0x10cc;
+        func_0204B454(*(void **)tmp1,&a,1);
+        if(i/4) {
+            a.x-=128;
+            func_0204B84C(*(void **)(p+i*4+0x10cc),3);
+        } else a.x+=128;
+        func_0204B404(*(void **)(p+i*4+0x10cc),&a,1);
+    }
+    for(i=0;i<3;i++) {
+        if(*(void **)(p+i*4+0x1008)) {
+            func_0204B454(*(void **)(p+i*4+0x1008),&b,1);
+            b.x+=128;
+            tmp=i;
+            tmp=tmp*4;
+            func_0204B404(*(void **)(p+tmp+0x1008),&b,1);
+        }
+    }
+    for(j=0;j<3;j++) {
+        if(*(void **)(p+j*4+0x1014)) {
+            func_0204B454(*(void **)(p+j*4+0x1014),&c,1);
+            c.x-=128;
+            func_0204B404(*(void **)(p+j*4+0x1014),&c,1);
+            func_0204B84C(*(void **)(p+j*4+0x1014),3);
+        }
+    }
+    func_0204047C(4,2);
+    func_0204047C(5,3);
+}

@@ -1,0 +1,64 @@
+/*
+ * function: func_021E5C64
+ * address: 0x021E5C64
+ * packet: pkt_ov119_021E5C64
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 seven 450F0 inputs, x/y u8 truncations, 40618 trailing input unused through full 42360; 2 E4420/E0EF4 and resource twins; 3 const p worsens to 172 out, signed counter with unsigned comparison unchanged 159; 4 enum-offset and stack idioms read; 5 current idiom listing and E4420/E0EF4 neighbors reread, declared-struct storage read. Next hypothesis: offset array with explicit stack storage; normal iteration exhausted.
+ * budget: 4 iteration compiles; 3 consecutive nonshrinking since r2; check3 2 compile sweep; one 300-compile permuter exhausted (8s). No reset on retry.
+ * residual: 288/288 bytes, 159 concrete bytes differ; original keeps base in r7 and four distinct offset spills, C merges two equal 730 offsets. Permuter's 29-byte best uses volatile(b); rejected.
+ * interface: 02040618 fourth input is unused through 02042360, whose
+ * full matched body reads only r0-r2. 020450F0 a/b narrowed at this site.
+ * symbols:
+ *   func_02040588 0x02040588 arm
+ *   func_020490F4 0x020490F4 arm
+ *   func_02049990 0x02049990 arm
+ *   func_02041B6C 0x02041B6C arm
+ *   func_02040618 0x02040618 arm
+ *   func_02049238 0x02049238 arm
+ *   func_0201DD78 0x0201DD78 thumb
+ *   func_020450F0 0x020450F0 arm
+ *   func_02045CAC 0x02045CAC arm
+ *   func_02045770 0x02045770 arm
+ *   func_0201C7A4 0x0201C7A4 thumb
+ *   func_02045374 0x02045374 arm
+ *   func_02045334 0x02045334 arm
+ *   d_021E81D4 0x021E81D4 data a4
+ */
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned char u8;
+typedef enum {BASE=0x750} Off;
+typedef struct Pair {int x,y;} Pair;
+extern const Pair d_021E81D4[];
+extern void func_02040588(u32,u32),func_02041B6C(u32),func_02040618(u32,u32,u32);
+extern void *func_020490F4(void *,u32);
+extern void func_02049990(void *,u32,int,int,u16,int,int,u32),func_02049238(void *);
+extern void func_0201DD78(int,int,int);
+extern u32 func_020450F0(u32,u8,u8,u32,u8,u8,u8);
+extern void func_02045CAC(int,int,int);
+extern void *func_02045770(int);
+extern void func_0201C7A4(void *,s16,s16,void *,void *),func_02045374(void *),func_02045334(void *);
+void func_021E5C64(char *p)
+{
+ unsigned i;
+ void *v;
+ Off base;int a,b,c,d;
+ func_02040588(4,0);func_02040588(6,0);
+ v=func_020490F4((void *)0x66,*(u16 *)(p+0x5f4));
+ func_02049990(v,16,4,0,*(u32 *)(p+0x870),0,0,*(u16 *)(p+0x5f4));
+ func_02041B6C(4);func_02040618(4,0,-4);func_02040618(6,0,-4);func_02049238(v);
+ func_0201DD78(1,2,15);
+ base=BASE;a=base;a-=0x30;b=base;b-=0x20;c=base;c-=0x28;d=base;d-=0x20;
+ for(i=0;i<26;i++) {
+  *(u32 *)(p+i*4+base)=func_020450F0(6,d_021E81D4[i].x,d_021E81D4[i].y,2,2,14,0);
+  func_02045CAC(*(int *)(p+a),i+0x35,*(int *)(p+b));
+  func_0201C7A4(func_02045770(*(int *)(p+i*4+base)),0,0,*(void **)(p+d),*(void **)(p+c));
+  func_02045374(*(void **)(p+i*4+base));func_02045334(*(void **)(p+i*4+base));
+ }
+ func_02041B6C(6);func_02040588(4,1);func_02040588(6,1);
+}

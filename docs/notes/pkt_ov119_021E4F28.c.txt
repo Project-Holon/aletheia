@@ -1,0 +1,130 @@
+/*
+ * function: func_021E4F28
+ * address: 0x021E4F28
+ * packet: pkt_ov119_021E4F28
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 368 bytes, 294 concrete bytes differ; all 8 relocations resolved.
+ * caps: iteration 5; stopped after r3-r5 nonshrinking from r2; scheduling variants 2 used; permuter 300 used once.
+ * checks: 1 own bodies prove arity (F6B4 p,n,column; B404 pointer,s16 pair,u32); 2 ov119 twins confirm pair shape, none has this nested loop; 3 const p r5 unchanged, s16 row check3 gives 368/298 (safe 0..12); 4 cast-buffer, dead-store and div/mod idioms applied; 5 refreshed idioms and E69C0/E6440/E665C neighbours, raw buffer retained.
+ * run-counts: iteration 5; check3 1; permuter 300; validation 1. No historical caps.
+ * output: all four coordinate halfwords assigned before any reads/calls; B404 consumes signed pair at points+4.
+ * interface: own ARM9 B800 body u32 flag and B404 const Vec2/u32; raw pointer passes identical 32-bit address, no narrowing.
+ * lever: raw byte buffer preserves r6 coordinate addressing; surviving residual hoists its address before outer loop and row bases before division.
+ * semantic-gap: full-word p+0x634 and p+0x63C lack primary-writer bounded-domain proof; n-=p634, (n-2)/6*160 and adjust additions still risk signed overflow. DIFF is not accepted C.
+ * next: prove those domains or preserve original word ADD/SUB/MUL through unsigned arithmetic before future acceptance; only then consider typed owner struct on a fresh justified retry. No repeated permuter/declaration variants; no retry selected this wave.
+ * symbols:
+ *   func_021E5158 0x021E5158 thumb ov119
+ *   func_021DF6B4 0x021DF6B4 thumb ov119
+ *   func_020355C4 0x020355C4 arm
+ *   func_0204B800 0x0204B800 arm
+ *   func_0204B404 0x0204B404 arm
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef short s16;
+typedef unsigned short u16;
+typedef struct
+{
+  u16 x;
+  u16 y;
+} Pt;
+extern int func_021E5158(int);
+extern int func_021DF6B4(char *, int, int);
+extern u8 func_020355C4(void);
+extern void func_0204B800(void *, u32);
+extern void func_0204B404(void *, const void *, u32);
+void func_021E4F28(char *p)
+{
+  int base;
+  int n;
+  int slot;
+  int adjust;
+  int off3;
+  int div;
+  int rem;
+  char *q;
+  int x;
+  int off1;
+  int off2;
+  int column;
+  s16 row;
+  u8 priority;
+  char *row4;
+  char *row1;
+  int ypos;
+  u8 points[8];
+  Pt *pt;
+  char *tmp;
+  adjust = 0;
+  n = *((s16 *) (p + 0x1080));
+  for (row = 0; row < 12; row++, n++)
+  {
+    slot = func_021E5158((*((s16 *) (p + 0x1080))) + row);
+    if (n >= (*((int *) (p + 0x634))))
+    {
+      n -= *((int *) (p + 0x634));
+      adjust = *((int *) (p + 0x63C));
+    }
+    column = 0;
+    div = ((n - 2) / 6) * 160;
+    rem = (((n - 2) % 6) * 24) + 20;
+    row4 = p + (slot * 20);
+    priority = 28 - row;
+    off1 = 0xDCC + 2;
+    off2 = 0xDCC;
+    off2 = 0xEBC;
+    row1 = p + (slot * 5);
+    base = (((n - 2) / 6) * 160) + rem;
+    base = ((((n - 2) / 6) * 160) + rem) + 96;
+    off3 = 0xAC0;
+    off3 = 0xBB0;
+    pt = (Pt *) points;
+    for (; column < 5; column++)
+    {
+      ypos = column * 24;
+      ypos = column * 24;
+      ypos = ypos + 32;
+      if (n == 0)
+        x = 28;
+      else
+        if (n == 1)
+        x = 60;
+      else
+        x = base;
+      pt[1].x = adjust + (x - (*((s16 *) (p + 0x107C))));
+      pt[1].y = ypos;
+      pt[0].x = pt[1].x;
+      pt[0].y = pt[1].y;
+      if (func_021DF6B4(p, n, column) && (func_020355C4() == 1))
+      {
+        pt[1].y = ((s16) pt[1].y) - 8;
+        tmp = row4 + (column * 4);
+        q = tmp;
+        func_0204B800(*((void **) (q + 0xAC0)), 11);
+      }
+      else
+      {
+        do
+        {
+          q = row4 + (column * 4);
+          func_0204B800(*((void **) ((row4 + (column * 4)) + 0xAC0)), priority);
+        }
+        while (0);
+      }
+      func_0204B404(*((void **) (q + 0xAC0)), points + 4, 1);
+      if (*((u8 *) ((row1 + column) + off2)))
+      {
+        *((u16 *) (q + 0xDCC)) = pt[0].x;
+        *((u16 *) (q + off1)) = pt[0].y;
+      }
+      pt[1].y = ypos + 3;
+      func_0204B404(*((void **) (q + off3)), points + 4, 1);
+    }
+
+  }
+
+}

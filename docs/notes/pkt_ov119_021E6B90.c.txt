@@ -1,0 +1,66 @@
+/*
+ * function: func_021E6B90
+ * address: 0x021E6B90
+ * packet: pkt_ov119_021E6B90
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own 02049740 sixth u16 and 02049990 eighth u16; fifth narrowed by original, 02040618 legacy fourth unread by full 02042360; 2 ov119 3E80/3F30/DE2C4 and own 3FCA0 template; 3 int base improves34 to2, zero int no change (2 compiles); 4 literal zeros and defaulting inline wrapper both DIFF2 (2 compiles); 5 fresh directory and ov119 neighbours reread, no new fitting idiom; next hypothesis none within exhausted checks.
+ * budget: iteration4 stopped at3 consecutive nonshrinking changes; check3=2/2, check4=2/2; scheduling1/2; one permuter300, no improvement. Best log 6B90-check4a.log; wrapper equal result check4b.
+ * residual: 296/296 bytes, all16 relocations resolved; +00BA movs r3,#0 vs adds r3,r7,#0. Both produce zero; this is not a branch shift.
+ * symbols:
+ *   func_0201F5DC 0x0201F5DC thumb
+ *   func_020490F4 0x020490F4 arm
+ *   func_02049740 0x02049740 arm
+ *   func_02049990 0x02049990 arm
+ *   func_020403F4 0x020403F4 arm
+ *   func_0203FCA0 0x0203FCA0 arm
+ *   func_02040618 0x02040618 arm
+ *   func_0204047C 0x0204047C arm
+ *   func_02049238 0x02049238 arm
+ *   func_020435F4 0x020435F4 arm
+ *   func_021E6AB0 0x021E6AB0 thumb ov119
+ *   d_021E7E44 0x021E7E44 data a4
+ */
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+typedef enum { Z0 } Zero;
+typedef struct { u32 a,b,bufSize,d; u8 e,f,g,h; u32 i; u8 j,k,l,m; u32 n; } BgTemplate;
+extern const BgTemplate d_021E7E44;
+extern void *func_0201F5DC(void *,u32,u32,u32);
+extern void *func_020490F4(void *,u32);
+extern u32 func_02049740(u32,u32,u32,u32,u32,u16);
+extern u32 func_02049990(u32,u32,u32,u32,u16,u32,u32,u16);
+extern void func_020403F4(int);
+extern void func_0203FCA0(u32,const BgTemplate *,u32);
+extern void func_02040618(u32,u32,u32);
+extern void func_0204047C(int,u16);
+extern void func_02049238(void *);
+extern void func_020435F4(u32);
+extern void func_021E6AB0(const char *);
+void func_021E6B90(int p)
+{
+    BgTemplate t;
+    u32 v;
+    int zero=0;
+    *(void **)(p+0x644)=func_0201F5DC((void *)6,15,0,*(u16 *)(p+0x5f4));
+    v=(u32)func_020490F4((void *)0x66,*(u16 *)(p+0x5f4));
+    *(u32 *)(p+0x870)=func_02049740((u32)v,13,5,0,0,*(u16 *)(p+0x5f4));
+    func_02049990((u32)v,7,4,0,*(u32 *)(p+0x870),0,0,*(u16 *)(p+0x5f4));
+    func_02049990((u32)v,7,5,0,*(u32 *)(p+0x870),0,0,*(u16 *)(p+0x5f4));
+    t=d_021E7E44;
+    func_020403F4(7);
+    func_0203FCA0(7,&t,0);
+    func_02049990((u32)v,8,7,0,*(u32 *)(p+0x870),0,0,*(u16 *)(p+0x5f4));
+    func_02040618(4,0,-128);
+    func_02040618(7,0,0);
+    func_0204047C(4,3);
+    func_02049990((u32)v,11,2,0,*(u32 *)(p+0x86c),0,0,*(u16 *)(p+0x5f4));
+    func_02049238((void *)v);
+    *(short *)(p+0x11de)=0;
+    func_021E6AB0((const char *)p);
+    func_020435F4(31);
+}

@@ -1,0 +1,63 @@
+/*
+ * function: func_021E5F14
+ * address: 0x021E5F14
+ * packet: pkt_ov119_021E5F14
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * interface: x is narrowed to u8 at 021E5FE4/021E5FEC although ov067's callee declares u16.
+ * initialization: ov067 func_021B6208 reads only the seven words and bytes 1c..1e initialized below.
+ * domain: call 021E1F20 loads side from the 0/1 slot initialized at 021E1E20/021E1E2C; call 021E2406 sets side=0 at 021E2400. Thus side*128+108 is 108 or 236.
+ * symbols:
+ *   func_0204B3DC 0x0204B3DC arm
+ *   func_020276B4 0x020276B4 thumb
+ *   func_020276B8 0x020276B8 thumb
+ *   func_020276BC 0x020276BC thumb
+ *   func_020276C0 0x020276C0 thumb
+ *   func_021E6008 0x021E6008 thumb ov119
+ *   func_021B6208 0x021B6208 thumb ov067
+ *   func_021B629C 0x021B629C thumb ov067
+ */
+typedef unsigned short u16;
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef struct { int f0; u32 f4; int f8,fC,f10,f14,f18; u8 b1c,b1d,b1e; } In;
+extern u32 func_0201B25C(void *);
+extern void func_0204B3DC(int,u32);
+extern u32 func_020275E4(void);
+extern u32 func_020276B4(void);
+extern u32 func_020276B8(void);
+extern u32 func_020276BC(u32);
+extern u32 func_020276C0(u32);
+extern void func_021E6008(char *,int,int);
+extern void func_021B6208(void *,In *,int,u16);
+extern int func_021B629C(void *,int,u8,u16,u8,u16);
+void func_021E5F14(char *p, int side, int flag, void *mon)
+{
+    char *q = p + 0x964;
+    In in;
+    u32 a = func_0201B25C(mon);
+    if (*(int *)(q+0x10)) {
+        if (!a) func_0204B3DC(*(int *)(q+0x10),0);
+        else func_0204B3DC(*(int *)(q+0x10),1);
+        return;
+    }
+    if (!a) {
+        if (!flag) func_021E6008(p,side,(int)mon);
+        return;
+    }
+    if (flag) { in.f0 = 0; in.b1c = 0; }
+    else { in.f0 = 1; in.b1c = 11; }
+    in.f4 = 0;
+    in.f8 = func_020275E4();
+    in.fC = func_020276B4();
+    in.f10 = func_020276B8();
+    in.f14 = func_020276BC(2);
+    in.f18 = func_020276C0(2);
+    in.b1d = 0; in.b1e = 1;
+    func_021B6208(q,&in,*(int *)(p+0x9c4),*(u16 *)(p+0x5f4));
+    if (flag) *(int *)(q+0x10) = func_021B629C(q,*(int *)(p+0x9c4),244,104,0,*(u16 *)(p+0x5f4));
+    else *(int *)(q+0x10) = func_021B629C(q,*(int *)(p+0x9c4),side*128+108,24,0,*(u16 *)(p+0x5f4));
+}

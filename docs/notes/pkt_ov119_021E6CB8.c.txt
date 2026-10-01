@@ -1,0 +1,67 @@
+/*
+ * function: func_021E6CB8
+ * address: 0x021E6CB8
+ * packet: pkt_ov119_021E6CB8
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own AC18 seven args with three u16 stack slots, AF28 four args, A6C8 five, B294 r0 consumed and fifth full-word address forwarded unchanged to CFDC; 2 ov119 58A0/6334/68F4/6FD4 confirms Create eight-byte shape; 3 Obj heap field 300B worse, const char base 308B/63diff (2 compiles); 4 counter-copy/offset-zero/struct-local/selfassignment idioms read; 5 fresh full directory and matched neighbours reread, no new fitting idiom; next hypothesis preserve separate zero/index web, not another exhausted type sweep.
+ * budget: iteration6 stopped at3 consecutive nonshrinking changes after r3 improvement; first nonshrinking r2, counted5 through r6; check3=2/2; scheduling2/2 including safe-subset port; one permuter300 plus1 safe-subset confirmation, no rerun authorized.
+ * initialization: Table copies all16 halfwords from 021E7E64; Create x/y/z/a/b all stored before B294. Getter j is initialized zero before first loop and incremented only in second loop.
+ * interface: B294 own void wrapper leaves CFDC pointer result in r0; caller stores it. Its fifth payload forwards unchanged to CFDC request pointer; no narrowing or arithmetic.
+ * residual: 308/308 bytes, all9 relocations resolved, DIFF42. Permuter40 changed A6C8 argument j (constant0) to i; rejected. Safe address/temp/selfassignment subset confirmed42 in 6CB8-confirm.log.
+ * symbols:
+ *   func_020490F4 0x020490F4 arm
+ *   func_0204AC18 0x0204AC18 arm
+ *   func_0204AF28 0x0204AF28 arm
+ *   func_02043678 0x02043678 arm
+ *   func_0204A6C8 0x0204A6C8 arm
+ *   func_0204B294 0x0204B294 arm
+ *   func_0204B3DC 0x0204B3DC arm
+ *   func_02049238 0x02049238 arm
+ *   d_021E7E64 0x021E7E64 data a2
+ */
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+typedef struct { short x,y; } Pt;
+typedef struct { Pt pos[8]; } Table;
+typedef struct { short x,y,z; u8 a,b; } Create;
+extern const Table d_021E7E64;
+extern void *func_020490F4(void *,u32);
+extern int func_0204AC18(u32,u32,u32,u32,u16,u16,u16);
+extern int func_0204AF28(u32,u32,u32,u32);
+extern void *func_02043678(u32,u32,u32,u32);
+extern int func_0204A6C8(u32,u32,u32,u32,u16);
+extern int func_0204B294(u32,u32,u32,u32,Create *,u16,u16);
+extern void func_0204B3DC(int,u32);
+extern void func_02049238(void *);
+void func_021E6CB8(const char *p)
+{
+    Table t=d_021E7E64;
+    Create c;
+    u32 v;
+    int i,j;
+    u16 *heap;
+    const char *tmp;
+    v=(u32)func_020490F4((void *)0x66,*(u16 *)(p+0x5f4));
+    v=v;
+    i=0;
+    tmp=p+0x5f4;
+    *(int *)(p+0x10ec)=func_0204AC18(v,0,1,0x1c0,i,1,*(u16 *)(p+0x5f4));
+    *(int *)(p+0x10f0)=func_0204AF28(v,2,1,*(u16 *)tmp);
+    j=i;
+    heap=(u16 *)(p+0x5f4);
+    for(;i<8;i++) {
+        *(void **)(p+i*4+0x10f4)=func_02043678(16,6,32,*(u16 *)(p+0x5f4));
+        *(int *)(p+i*4+0x1114)=func_0204A6C8(v,3,j,1,*(u16 *)(p+0x5f4));
+    }
+    for(;j<8;j++) {
+        c.x=t.pos[j].x;c.y=t.pos[j].y;c.z=0;c.a=0;c.b=1;
+        *(int *)(p+j*4+0x10cc)=func_0204B294(*(u32 *)(p+0x9c4),*(u32 *)(p+j*4+0x1114),*(u32 *)(p+0x10ec),*(u32 *)(p+0x10f0),&c,1,*(u16 *)(p+0x5f4));
+        func_0204B3DC(*(int *)(p+j*4+0x10cc),1);
+    }
+    func_02049238((void *)v);
+}

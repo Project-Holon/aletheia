@@ -1,0 +1,83 @@
+/*
+ * function: func_021E67E0
+ * address: 0x021E67E0
+ * packet: pkt_ov119_021E67E0
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 B294 full body forwards fifth word unchanged to CFDC; B878 is u16 and B3DC/B92C are u32; 2 ov119 68B4 unsigned store-index twin worsened to 228/206; 3 const p compiled 208/181 before permuter; 4 declared struct and address-shape idioms inspected, no further scheduling variant; 5 fresh idiom listing and ov119/ov067 neighbours inspected, no new twin.
+ * budget: 4 iterations, stopped at 3 consecutive nonshrinking; checks 2/3 one compile each; permuter --budget 300 --types once; candidate one verified compile. No counter reset.
+ * residual: compiled 212 bytes, original 212; 122 concrete byte differences; all 7 relocation sites resolved.
+ * initialization: all eight meaningful Create bytes assigned before both creation calls; generated address/result temporaries are initialized before each use. No volatile or narrowed address/index temporaries.
+ * domain: sole direct call 021DF8B6 forwards side from 021DF8A0; its direct callers 021D93CC and 021DF844 set r2=1 and r2=0. Thus observed side=0/1, x=8/214, indices=0..3, byte offsets=0..12. No arbitrary-input claim or extra DIFF compile.
+ * interface: B294 fifth payload is the original eight-byte Create address, forwarded without narrowing; caller consumes its r0 result despite own void declaration.
+ * symbols:
+ *   func_0204B294 0x0204B294 arm
+ *   func_0204B92C 0x0204B92C arm
+ *   func_0204B3DC 0x0204B3DC arm
+ *   func_0204B878 0x0204B878 arm
+ */
+typedef unsigned short u16;
+typedef unsigned char u8;
+typedef struct
+{
+  short x;
+  short y;
+  short z;
+  u8 a;
+  u8 b;
+} Create;
+extern int func_0204B294(int, int, int, int, Create *, u16, u16);
+extern void func_0204B92C(int, unsigned int);
+extern void func_0204B3DC(int, unsigned int);
+extern void func_0204B878(int, u16);
+void func_021E67E0(const char *p, int n, int side)
+{
+  int i;
+  Create c;
+  int tmp;
+  const char *tmp1;
+  int tmp2;
+  const char *tmp3;
+  int *tmp4;
+  const char *p_;
+  int tmp5;
+  c.x = (side * 206) + 8;
+  c.y = 160;
+  c.z = 4;
+  if (1)
+  {
+    c.a = 1;
+    tmp2 = side * 2;
+  }
+  c.b = 0;
+  i = tmp2;
+  if (side)
+  {
+  }
+  tmp1 = p + (i * 4);
+  if (!(*((int *) ((p + (i * 4)) + 0x10ac))))
+  {
+    tmp3 = (p + 0x10ac) + (i * 4);
+    tmp5 = func_0204B294(*((int *) (p + 0x9c4)), *((int *) (p + 0x898)), *((int *) (p + 0x884)), *((int *) (p + 0x8b4)), &c, 0, *((u16 *) (p + 0x5f4)));
+    *((int *) tmp3) = tmp5;
+    func_0204B92C(*((int *) ((p + 0x10ac) + (i * 4))), 1);
+  }
+  func_0204B3DC(*((int *) (tmp1 + 0x10ac)), 1);
+  p_ = p;
+  i++;
+  if (!(*((int *) ((p_ + (i * 4)) + 0x10ac))))
+  {
+    c.a = 0;
+    c.z = n;
+    tmp = *((int *) (p_ + 0x8b4));
+    tmp4 = (int *) ((p_ + 0x10ac) + (i * 4));
+    *tmp4 = func_0204B294(*((int *) (p_ + 0x9c4)), *((int *) (p_ + 0x898)), *((int *) (p_ + 0x884)), tmp, &c, 0, *((u16 *) (p_ + 0x5f4)));
+    func_0204B92C(*((int *) ((p_ + 0x10ac) + (i * 4))), 1);
+    func_0204B3DC(*((int *) ((p_ + 0x10ac) + (i * 4))), 1);
+  }
+  else
+    func_0204B878(*((int *) ((p_ + (i * 4)) + 0x10ac)), n);
+}
