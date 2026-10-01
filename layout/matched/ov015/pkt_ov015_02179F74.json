@@ -1,0 +1,33 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "ov015",
+ "shard": "pkt_ov015_02179F74",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "func_02179F74",
+   "address": "0x02179F74",
+   "kind": "sdk",
+   "region": "ov015",
+   "source": "src/matched/ov_sdk/ov015_func_02179F74.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x0217AAB0",
+     "data:0x0217ABA8",
+     "data:0x0217ABD8"
+    ],
+    "sdk": [
+     "0x0217A594",
+     "0x0217A60C"
+    ]
+   }
+  }
+ ]
+}

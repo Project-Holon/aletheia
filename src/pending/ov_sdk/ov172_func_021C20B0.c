@@ -69,6 +69,12 @@
  *   ptr/cx/cy, j/x/y) and let mwcc place the cursors/offsets as temps.
  *   Inlining chroma_cols as cx/samplingx inline made it strictly worse
  *   (2608 B, 2131 diff), so the temp shape comes from expression structure.
+ *   2026-10-01: listing shows every Component/ybuf address is wrk + an integer
+ *   sum (C1 = wrk + (cx*cy<<7 + 0x2b40), ofs = that + cc*cr<<8), and ybuf etc.
+ *   are rematerialised as wrk + spilled-offset, so ofs/ofs2/ofs3/chroma are CSE
+ *   temps. DWARF-only locals with inline sums (chained C1/C2 mCols/mRows) give
+ *   cx r7/cy r6 and the image's temp shape but chroma lands at 0x34 not 0x2c
+ *   and the frame shifts: 1974-2116 B, so this body (693 B) is kept.
  *
  * sdk:      Yos_JPEGEncode (libssp.TWL.HYB.a jpegenc.o)
  *

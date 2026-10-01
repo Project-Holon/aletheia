@@ -31,6 +31,13 @@
  *           in for the 4.0.0.1025 argument order. Inert: block-scoped ypos,
  *           ypos declared first, u16 ypos, `(&C_CODE[l])->y`; an x temp or a
  *           comma form grows the body to 828 B.
+ * lane03 (2026-10-01): stand-in locals gone: `err` is ErrorCode read in each
+ *           test (CSE'd to one load) and the y temp is `id` (dead after
+ *           DWCi_MSGlGet); locals declared in DWARF order. Our DWARF now equals
+ *           the object's (tmpbuf/buf/prm slots, id r5). Still 19 B, the same
+ *           DrawStringEx tail: ours copies y to r2 first and reuses r6 for the
+ *           x index; the image keeps r6 and indexes in r3. Inert: a getx()
+ *           inline (828 B), (u16)/(int) casts on a single-call y.
  * sdk:      drawMessage (libdwcutil.TWL.HYB.a sceneseterror.o)
  *
  * symbols:
@@ -78,101 +85,98 @@ extern struct tagCOORD C_CODE[];
 
 void drawMessage(void)
 {
-    int err;
-    u16 buf[8];
-    int prm;
-    char tmpbuf[8];
-    int id;
-    void *canv;
     u16 *msg;
-    int ypos;
+    void *canv;
+    int id;
+    int prm;
+    u16 buf[8];
+    char tmpbuf[8];
 
     id = 0;
     DWCi_GetParam2_(0, &prm);
-    err = ErrorCode;
-    if (-20099 <= err)
+    if (-20099 <= ErrorCode)
         id = 0;
-    else if (-20100 <= err)
+    else if (-20100 <= ErrorCode)
         id = 2;
-    else if (-20101 <= err)
+    else if (-20101 <= ErrorCode)
         id = 0x13;
-    else if (-20107 <= err)
+    else if (-20107 <= ErrorCode)
         id = 2;
-    else if (-20108 <= err)
+    else if (-20108 <= ErrorCode)
         id = 0x12;
-    else if (-20109 <= err)
+    else if (-20109 <= ErrorCode)
         id = 2;
-    else if (-20110 <= err)
+    else if (-20110 <= ErrorCode)
         id = 3;
-    else if (-20999 <= err)
+    else if (-20999 <= ErrorCode)
         id = 2;
-    else if (-22999 <= err)
+    else if (-22999 <= ErrorCode)
         id = 0;
-    else if (-23999 <= err)
+    else if (-23999 <= ErrorCode)
         id = 0x13;
-    else if (-49999 <= err)
+    else if (-49999 <= ErrorCode)
         id = 0;
-    else if (-50002 <= err)
+    else if (-50002 <= ErrorCode)
         id = 7;
-    else if (-50003 <= err)
+    else if (-50003 <= ErrorCode)
         id = 5;
-    else if (-50098 <= err)
+    else if (-50098 <= ErrorCode)
         id = 0;
-    else if (-50099 <= err) {
+    else if (-50099 <= ErrorCode) {
         if (prm == 2)
             id = 5;
         else
             id = 7;
     }
-    else if (-51098 <= err)
+    else if (-51098 <= ErrorCode)
         id = 0;
-    else if (-51099 <= err) {
+    else if (-51099 <= ErrorCode) {
         if (prm == 2)
             id = 5;
         else
             id = 8;
     }
-    else if (-51102 <= err)
+    else if (-51102 <= ErrorCode)
         id = 9;
-    else if (-51103 <= err)
+    else if (-51103 <= ErrorCode)
         id = 5;
-    else if (-51199 <= err)
+    else if (-51199 <= ErrorCode)
         id = 0;
-    else if (-51299 <= err)
+    else if (-51299 <= ErrorCode)
         id = 0x14;
-    else if (-51302 <= err)
+    else if (-51302 <= ErrorCode)
         id = 0x15;
-    else if (-51303 <= err)
+    else if (-51303 <= ErrorCode)
         id = 4;
-    else if (-51999 <= err)
+    else if (-51999 <= ErrorCode)
         id = 0;
-    else if (-52002 <= err)
+    else if (-52002 <= ErrorCode)
         id = 0xa;
-    else if (-52003 <= err)
+    else if (-52003 <= ErrorCode)
         id = 0x16;
-    else if (-52099 <= err)
+    else if (-52099 <= ErrorCode)
         id = 0;
-    else if (-52103 <= err)
+    else if (-52103 <= ErrorCode)
         id = 0xb;
-    else if (-52199 <= err)
+    else if (-52199 <= ErrorCode)
         id = 0;
-    else if (-52203 <= err)
+    else if (-52203 <= ErrorCode)
         id = 0xb;
-    else if (-52299 <= err)
+    else if (-52299 <= ErrorCode)
         id = 0;
-    else if (-52399 <= err)
+    else if (-52399 <= ErrorCode)
         id = 2;
-    else if (-52999 <= err)
+    else if (-52999 <= ErrorCode)
         id = 0;
-    else if (-53299 <= err)
+    else if (-53299 <= ErrorCode)
         id = 2;
 
     canv = DWCi_FNTlFormBgEx(0, FONT_TBL[DWCi_Language()]);
     msg = DWCi_MSGlGet((void *)DWCiMsgCmn, id);
     OS_SNPrintf(tmpbuf, 8, d_021DB57C, -ErrorCode);
     DWCi_STRlConvertStringAsciiToUnicode(buf, tmpbuf, 8);
-    ypos = C_CODE[DWCi_Language()].y;
-    DWCi_FNTlDrawStringEx(canv, C_CODE[DWCi_Language()].x, ypos, 2, 10, buf, 0);
+    id = C_CODE[DWCi_Language()].y;
+    DWCi_FNTlDrawStringEx(canv, C_CODE[DWCi_Language()].x, id, 2, 10, buf, 0);
     DWCi_FNTlDrawRect(canv, 0xd, 0x3c, 0xe6, 0x5e, 2, DWCi_CMNlFontFlag(), msg);
     DWCi_FNTlRenewBg(canv);
 }

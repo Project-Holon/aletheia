@@ -39,6 +39,9 @@
  *   func_021D0CB8  0x021D0CB8  arm  ov016
  *   func_02088234  0x02088234  arm
  *   g_021DE654     0x021DE654  data
+ * lane 09 (2026-10-01): MemUsb is local data in usbap.o; defining it as a TU static
+ *   (resolves as .bss) leaves the arm predicated; a one-case switch on apiid and a zero-byte
+ *   asm statement also still predicate it. 144 B / 87.
  */
 
 extern void func_0208F698();

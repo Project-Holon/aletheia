@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * lane01 (2026-10-01): DWARF locals are only p_parm, p_com, enabled, i, c, p_parent (no d/ch).
+ *   Measured worse: indexed dest `p_parm->gname[0x200 + i]` (not strength-reduced, 472-480 B,
+ *   rotated), `*c++ = *mbi_life_mp.gname++` (476 B), static inline copy helpers holding d/ch
+ *   (inline locals stay off the DWARF) land in the same two basins (11-33 B). Kept 9 B body.
  *
  * SDK: TwlSDK/libmb.TWL.HYB.a(mb_wm_base.o).
  *

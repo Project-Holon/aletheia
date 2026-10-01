@@ -59,6 +59,12 @@
  *   g_021A458C     0x021A458C  data ov009
  *   g_021A45A0     0x021A45A0  data ov009
  *   g_021ADFC8     0x021ADFC8  data ov009 a4
+ * lane 05 (2026-10-01): the vendor object is C++ (the counter relocation is
+ * the mangled function-local static _ZZ11gpiSendData...E9sendCount, recvCount
+ * at +4) and stamped 4.0.0.1025.  --lang c++ on the non-volatile body is
+ * byte-identical to c99 (520 B), so the language is not the lever.  Same
+ * conservative stack-vs-global store ordering as isPush (021C9A94, also
+ * 1025): the image keeps the arg-slot store before the global increment.
  */
 
 typedef struct {

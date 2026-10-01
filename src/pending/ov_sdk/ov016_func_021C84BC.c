@@ -50,6 +50,12 @@
  * raw struct casts / image order 14, interleaved DC-DB 15, DB group first 22, DC group repeated
  * 49.  Pin scan: 1.1p1 508/17, 1.1 508/17, 1.2 508/17, 1.6sp1 508/21, ../2.0/base 532/125.
  *
+ * lane04 (2026-10-01): measured 37 under the brief's command (the 14 above is
+ * not reproduced by this body). New and inert: scenesetlist.o's .bss as
+ * separate zero-initialised file statics (Focus, RetScene, FocusClm, Pos,
+ * MemSsl) instead of one struct (same 37, same +0144 block); the inline
+ * G2/G2S setter spelling measures 38.
+ *
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(scenesetlist.o), symbol initGraphics (name and prototype from the
  * vendor object DWARF). The object is stamped Metrowerks C/C++ for ARM 4.0.0.1025, which
  * no tools/mwccarm build writes, so it stays on the default dsi/1.1p1.
@@ -58,7 +64,7 @@
  *   python tools/match.py one --src src/pending/ov016_func_021C84BC.c \
  *       --func func_021C84BC --addr 0x021C84BC --region ov016 --cc 1.1p1 --arm
  */
-typedef _Bool bool;
+typedef unsigned char bool;
 
 typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
 typedef struct tagAREA { unsigned short l, t, w, h; } AREA;

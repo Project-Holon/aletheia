@@ -31,6 +31,14 @@
  *           `u32 zero = 0` feeding getpnt/putpnt/flag01/thread-arg is still 188 B. Filed
  *           docs/idioms/const-settles-the-source-parameter-pair-but-hoists-its-loads-past-aliasing-stores.md.
  *
+ * 2026-10-01 (lane02): 188 -> 160 B. The seed is an if/else with
+ *   MATH_InitRand32 in each arm (no `zero` local): the add-high zero is now
+ *   hoisted above the seed branch at +0x28 as in the image, but 1.1p1 still
+ *   pools it together with the late getpnt/putpnt/flag01/thread-arg zeros
+ *   (one web in r4, config r5) where the image has two webs (r6 early, r4
+ *   born after the last config read). Flat: arm order, braces, chained
+ *   getpnt/putpnt kept (161 split), SDK-spelled mul/add constants.
+ *
  * sdk:      CPS_Startup (libcps.TWL.HYB.a network.o)
  * symbols:
  *   func_02004EB0                    0x02004eb0 arm
@@ -152,9 +160,11 @@ extern void func_0215BBB0(void *arg);
 
 void func_021573C4(CPSConfig *config)
 {
-    u32 zero = 0;
     func_02004EB0(g_020050AC);
-    MATH_InitRand32(&g_021A826C.rand, config->random_seed ? config->random_seed : OS_GetTick());
+    if (config->random_seed == 0)
+        MATH_InitRand32(&g_021A826C.rand, OS_GetTick());
+    else
+        MATH_InitRand32(&g_021A826C.rand, config->random_seed);
     if (config->alloc != 0 && config->free != 0) {
         g_021A826C.alloc = config->alloc;
         g_021A826C.free = config->free;
@@ -170,8 +180,7 @@ void func_021573C4(CPSConfig *config)
     g_021A826C.link_is_on = config->link_is_on ? config->link_is_on : func_021573BC;
     g_021A826C.wlan_buf = config->lan_buf;
     g_021A826C.wlan_buflen = config->lan_buflen;
-    g_021A826C.wlan_getpnt = 0;
-    g_021A826C.wlan_putpnt = 0;
+    g_021A826C.wlan_getpnt = g_021A826C.wlan_putpnt = 0;
     g_021A826C.eport = (u16)(MATH_Rand32(&g_021A826C.rand, 0xf88) + 0x400);
     WCM_GetMacAddress(g_021A82D4);
     g_021A826C.flag01 = 0;

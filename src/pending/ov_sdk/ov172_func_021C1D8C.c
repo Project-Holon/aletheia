@@ -32,6 +32,15 @@
  * src to fp and spills the real (not redundant) pointer dst to [sp+8], which
  * drops the inner-loop temporaries into r6/r7 instead of r0/r3/ip. Parked.
  *
+ * 2026-10-01 lane08: the image computes ofs-row/src-row/dst-row AFTER the
+ *   inner-loop guard (0x98..0xB4), so they are inner-body invariants hoisted
+ *   into the preheader, and `lsr r0,r1,#4` (DWARF ofs r0) is repeated in each
+ *   branch.  Body with no srcP/dstP, `ofs = loopSrcW >> 4;` in each branch
+ *   and `srcWidth * (loopSrcH >> 4)` / `loopDstH * dstWidth` inline gives
+ *   that placement (388/233) but still homes srcP/dstP in r1/r0 and spills
+ *   dst; image puts them in sb/r8.  Also the image sums `(u>>1)+(bak>>1)+
+ *   (v>>1)` and ORs `y | (sum&mask | bak<<24>>8)`.  Kept the 230 B body.
+ *
  * sdk:      SSP_JpegEncoderResample (libssp.TWL.HYB.a jpegenc.o)
  *
  * Lane U57 (2026-09-30): the object's DWARF lists exactly eleven locals

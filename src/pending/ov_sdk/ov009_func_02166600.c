@@ -54,6 +54,9 @@
  *   MI_CpuCopy  0x02082EA4  arm
  *
  * Merges a frame header and body into the send buffer; device 2 prefixes a byte-swapped length word.
+ * lane 05 (2026-10-01): new and inert: an empty `case 1: break;` with case 2
+ * doing `sendBuf += 7` and a single `copyDest = sendBuf` after the switch
+ * (coalesces sendBuf into r6, same 124/94).
  */
 
 extern void MI_CpuCopy(void *src, void *dst, unsigned long size);

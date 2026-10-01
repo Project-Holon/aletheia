@@ -31,6 +31,9 @@
  * +012C..+0134; every declaration order, a mid-block initialiser, a map/array local pair and a
  * TSKlChangeFunc-style split leave it flat.
  *
+ * lane 06 (2026-10-01): the file held the volatile-cast store (42 B, 340 B, a U26 negative);
+ *   restored the plain `work = DWCi_HEAPlAllocEx(0x100, 32);` body (9 B, 336 B). Tie unchanged.
+ *
  * symbols:
  *   DWCi_AUTH_GetNewWiFiInfo         0x02058BC0  arm
  *   DWCi_BACKUPlConvMaskAddr         0x0205883C  arm
@@ -207,7 +210,7 @@ static void write(int page)
             MemSet->map.page[i].crc = crc;
         }
     }
-    *(void *volatile *)&work = DWCi_HEAPlAllocEx(0x100, 32);
+    work = DWCi_HEAPlAllocEx(0x100, 32);
     DWCi_BACKUPlWritePage(&MemSet->map, w, work);
     DWCi_HEAPlFree_(&work);
 }

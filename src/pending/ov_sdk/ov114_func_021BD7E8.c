@@ -60,6 +60,10 @@
  *        three zeros live in three distant regions, so there is no sibling
  *        branch to duplicate into.
  *
+ * lane03 (2026-10-01): `int sendStatus = 0;` as a declaration initialiser
+ *        (for the entry `mov r5,#0`) makes sendStatus long-lived: 844 B. No
+ *        DWARF local is homed in r5, so the image's r5 is a pooled constant.
+ *
  * sdk:      NHTTPi_ThreadSendProc (libnhttp.TWL.HYB.a(nhttp_thread.o))
  *
  * symbols:

@@ -106,6 +106,14 @@
  * and then moving keyID into r0, where the image addresses straight off r8.
  * Filed as docs/idioms/a-front-end-hoists-a-base-copy-to-fold-an-argument-load.md.
  * No new source lever; parked unchanged.
+ *
+ * lane03 (2026-10-01): the dsi/1.1p1 shared-zero hoist is a USE COUNT: the body
+ * has five literal zeros (four `return 0` and the KEYF2 strh). Replacing any
+ * one of the five with a non-zero literal drops the hoist and leaves 1 B (the
+ * altered literal itself), so the 1.1p1 body is right and needs one fewer
+ * zero literal. Measured inert: `return keyID` on the new-key path (173 B, the
+ * image has `moveq r0,#0`), a shared `fail:` label for any one return (296 B,
+ * 1.1p1 does not duplicate the return block), enum-typed/(E) zero on the strh.
  */
 
 typedef unsigned char u8;

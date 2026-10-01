@@ -72,6 +72,10 @@
  * hoists around the inlined rand32 epilogue, i.e. the same scheduler
  * slot tie-break the idiom says no C shape reaches.  No new spelling spent;
  * 380/24 unchanged, all 7 relocations resolve.
+ * lane 05 (2026-10-01): still 380/24.  New and inert: rand32 spelled as the
+ * SDK's MATH_Rand32 if/else (max == 0 ? x>>32 : ...), moving ip/retries
+ * around the id draws (97 when ip follows them), a `for (server...)` id
+ * loop (not unrolled, 368/large).
  */
 
 typedef struct {

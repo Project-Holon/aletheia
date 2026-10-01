@@ -7,6 +7,29 @@
  "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
  "functions": [
   {
+   "name": "DWCi_KBlInit",
+   "address": "0x021BD8D8",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021BD8D8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x021DE55C",
+     "self:0x021DA09C",
+     "self:0x021DAE74",
+     "string:0x021DA0A0"
+    ],
+    "sdk": [
+     "0x021BDCAC"
+    ]
+   }
+  },
+  {
    "name": "DWCi_KBlEnd",
    "address": "0x021BDC24",
    "kind": "sdk",
@@ -19,7 +42,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE55C"
+     "data:0x021DE55C"
     ],
     "sdk": [
      "0x021BF0D8"
@@ -39,7 +62,10 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE55C"
+     "data:0x021DE55C"
+    ],
+    "sdk": [
+     "0x021BDD24"
     ]
    }
   },
@@ -56,7 +82,10 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE55C"
+     "data:0x021DE55C"
+    ],
+    "sdk": [
+     "0x021BDD9C"
     ]
    }
   },
@@ -73,7 +102,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE55C"
+     "data:0x021DE55C"
     ],
     "sdk": [
      "0x021BDE14"
@@ -93,7 +122,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE55C"
+     "data:0x021DE55C"
     ],
     "sdk": [
      "0x021BDE8C"
@@ -113,7 +142,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE55C"
+     "data:0x021DE55C"
     ],
     "sdk": [
      "0x021BDF08"
@@ -133,15 +162,15 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DA0AA",
-     "self:0x021DA0AE",
-     "self:0x021DA0B8",
-     "self:0x021DA0C0",
-     "self:0x021DA0D0",
-     "self:0x021DA0F8",
-     "self:0x021DAA7C",
-     "self:0x021DAE80",
-     "self:0x021DE55C"
+     "data:0x021DA0AA",
+     "data:0x021DA0AE",
+     "data:0x021DA0B8",
+     "data:0x021DA0C0",
+     "data:0x021DA0D0",
+     "data:0x021DA0F8",
+     "data:0x021DAA7C",
+     "data:0x021DAE80",
+     "data:0x021DE55C"
     ]
    }
   },
@@ -158,19 +187,19 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DA09E",
-     "self:0x021DA0AA",
-     "self:0x021DA0AE",
-     "self:0x021DA0B2",
-     "self:0x021DA0B8",
-     "self:0x021DA0C0",
-     "self:0x021DA0C4",
-     "self:0x021DA0D0",
-     "self:0x021DA0D4",
-     "self:0x021DA0F8",
-     "self:0x021DAA7C",
-     "self:0x021DAE68",
-     "self:0x021DE55C"
+     "data:0x021DA09E",
+     "data:0x021DA0AA",
+     "data:0x021DA0AE",
+     "data:0x021DA0B2",
+     "data:0x021DA0B8",
+     "data:0x021DA0C0",
+     "data:0x021DA0C4",
+     "data:0x021DA0D0",
+     "data:0x021DA0D4",
+     "data:0x021DA0F8",
+     "data:0x021DAA7C",
+     "data:0x021DAE68",
+     "data:0x021DE55C"
     ]
    }
   },
@@ -187,7 +216,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE55C"
+     "data:0x021DE55C"
     ]
    }
   },
@@ -204,7 +233,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE55C"
+     "data:0x021DE55C"
     ]
    }
   },
@@ -221,14 +250,14 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DA0AA",
-     "self:0x021DA0AE",
-     "self:0x021DA0B8",
-     "self:0x021DA0C0",
-     "self:0x021DA0D0",
-     "self:0x021DA0F8",
-     "self:0x021DAA7C",
-     "self:0x021DE55C"
+     "data:0x021DA0AA",
+     "data:0x021DA0AE",
+     "data:0x021DA0B8",
+     "data:0x021DA0C0",
+     "data:0x021DA0D0",
+     "data:0x021DA0F8",
+     "data:0x021DAA7C",
+     "data:0x021DE55C"
     ],
     "sdk": [
      "0x021BE5CC"
@@ -248,7 +277,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE55C"
+     "data:0x021DE55C"
     ]
    }
   },
@@ -265,10 +294,10 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DA09E",
-     "self:0x021DA0B2",
-     "self:0x021DAE68",
-     "self:0x021DE55C"
+     "data:0x021DA09E",
+     "data:0x021DA0B2",
+     "data:0x021DAE68",
+     "data:0x021DE55C"
     ],
     "sdk": [
      "0x021BECFC"
@@ -288,8 +317,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DA0F8",
-     "self:0x021DE55C"
+     "data:0x021DA0F8",
+     "data:0x021DE55C"
     ]
    }
   },
@@ -306,9 +335,9 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
+     "data:0x021DE55C",
      "self:0x021DA098",
-     "self:0x021DA09A",
-     "self:0x021DE55C"
+     "self:0x021DA09A"
     ]
    }
   },
@@ -325,9 +354,9 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
+     "data:0x021DE55C",
      "self:0x021DA1B4",
-     "self:0x021DA1B6",
-     "self:0x021DE55C"
+     "self:0x021DA1B6"
     ]
    }
   },
@@ -344,8 +373,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DA288",
-     "self:0x021DE55C"
+     "data:0x021DE55C",
+     "self:0x021DA288"
     ]
    }
   },
@@ -362,7 +391,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE55C"
+     "data:0x021DE55C"
     ],
     "sdk": [
      "0x021BF140"
@@ -382,7 +411,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE55C"
+     "data:0x021DE55C"
     ],
     "sdk": [
      "0x021BF19C"
@@ -402,7 +431,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE55C"
+     "data:0x021DE55C"
     ],
     "sdk": [
      "0x021BF1F8"
@@ -422,7 +451,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE55C"
+     "data:0x021DE55C"
     ],
     "sdk": [
      "0x021BF254"
@@ -442,7 +471,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE55C"
+     "data:0x021DE55C"
     ],
     "sdk": [
      "0x021BF2B0"
@@ -462,7 +491,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE55C"
+     "data:0x021DE55C"
     ]
    }
   }

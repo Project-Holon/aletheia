@@ -26,6 +26,9 @@
  *           initialiser template literals (@18/@20 here; vendor @13305/@13307)
  *           have no overlay attestation class, so only 8/10 relocs resolve and
  *           MATCH* is the ceiling even if the size ties.
+ *           2026-10-01: u32 as unsigned int (DWARF type), sizeof(u32) scale,
+ *           int-cast compare, merged guards (sigLen||hashLen gives 556 B but
+ *           a shared return block, same r1 reload): sigLen load never CSEs.
  * notes:    body is the exact upstream GameSpy gsCrypt.c spelling
  *           (scratch/U2/gs/src/GameSpy/common/gsCrypt.c:438).
  *

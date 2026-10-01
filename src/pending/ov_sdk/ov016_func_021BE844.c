@@ -52,6 +52,15 @@
  * frame 0x18, but it keeps fifteen extra `strb r6` zero stores (704 B), which
  * the original does not have. No source-only lever removes the spills.
  *
+ * 2026-10-01 lane08: the templates are 0x021DA0E8 {12,12,12,11,0} (N_KEY),
+ *   0x021DA0F0 {1,1,1,1,0} (N_SKEY), 0x021DA0E0 {0,0,0,0,2} (N_BTN), so the
+ *   real source is plain array initialisers.  Spelled that way with
+ *   `@20914/@20916/@20918` symbols it compiles byte-identical to the struct
+ *   copies (652 B, frame 0x20, 465) and the tool cannot pin @20916/@20918
+ *   (their bytes are not unique in ov016), so the extern copies are kept.
+ *   The image loads N_KEY[4] first (`ldrb r5,[r4,#4]` at +0x10); 1.1p1 always
+ *   copies bytes 0..4 in order.
+ *
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(keyboard.o), symbol disp (name and prototype from the
  * vendor object DWARF). The object is stamped Metrowerks C/C++ for ARM 4.0.0.1025, which
  * no tools/mwccarm build writes, so it stays on the default dsi/1.1p1.

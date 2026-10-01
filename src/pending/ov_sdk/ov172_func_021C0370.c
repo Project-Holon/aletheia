@@ -76,6 +76,12 @@
  * docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md;
  * no third consumer exists to pull zext16(word) out of the orr shifter slot (80-byte leaf).
  *
+ * lane04 (2026-10-01): still 7. New: the GetLong (0x021C03C0) shape
+ * `word = src[cur]; word |= (src[cur+1] << 8) & 0xff00;` in the LE arm (48 B:
+ * both arms fold into one predicated body, with or without per-arm returns),
+ * `word = src[cur]; word = (...) | word;` (76 B), `word = src[cur] | word`
+ * after the mask (7), `return (u16)(src[cur] | word)` (7).
+ *
  * blocker:  LE arm's u16-cast selection: image materialises zext16(word) and folds
  *           zext16(byte); 1.1p1 canonicalises both casts into one and folds the word
  *           instead. Not reachable from C (closed idiom); 0 relocs.

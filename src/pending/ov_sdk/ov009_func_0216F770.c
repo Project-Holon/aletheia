@@ -9,31 +9,21 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker:  clean body now compiles to the exact 868 bytes with no home area,
- *           but 212 concrete bytes still differ, all from a remaining register
- *           rotation in the switch-arm / retry-loop region (case 2 loads the
- *           ratio into r0 and uses `cmn r0,#1` where the image materialises
- *           `mvn r0,#1; cmp r1,r0`; the func_0219EED4 argument stores fuse to
- *           `stm` where the image emits `str`+`stmib`).  The path is open and
- *           closing fast (372 -> 212 in this lane) but not closed.
- *           the defining vendor object is stamped 4.0.0.1025, which no
- *           tools/mwccarm build writes (sdkobj.py), so dsi/1.1p1 (1024) can at
- *           best be a near miss.  reconstruction is complete and the right size
- *           (868, but via permuter scaffolding that adds a 16-byte home area the
- *           image does not have), but the
- *           whole body is emitted through a different callee-saved register
- *           map, so almost every instruction differs while the control flow,
- *           the 9-byte basicFields prefix (8,0xa,0x32..0x38), the
- *           stGameMatchKeys append loop, the 0x61c switch (cases 2 / 3,4,0x16
- *           / 9,10,11 / 12 / default) and the ServerBrowserLimitUpdateA retry
- *           loop all trace to the original.  The source-level tell that is
- *           still missing is the `6 + 3` numBasicFields pair: the original
- *           keeps 6 live in sl and emits `add r7,sl,#3`, i.e. 6 is a real
- *           local reused as the retry counter, not a folded literal.  Format
- *           strings are declared as extern data symbols (d_021A20xx) rather
- *           than literals; they resolve.  permuter.py anneal 350 only closes
- *           the size with scaffolding (pad/pad1, volatile, if(1)); the clean
- *           form is 852 bytes.
+ * 2026-10-01 (lane 05): rebuilt from the vendor listing, 868/868 bytes and
+ *           6 concrete bytes (was 212 via permuter scaffolding).  Fixes: the
+ *           ratio tests are -2 then -1 (not -1 then 0) with a signed rand
+ *           compare; s_bInNNThink+0xc is a char * static passed as the
+ *           SNPrintf argument; cases 3/4/0x16 and 9-11 print profileID (the
+ *           parameter, still in r4) with fmt d_021A209C/d_021A20A4;
+ *           searchHostType is set only in case 2; sbBlock/sbError are enums
+ *           (DWARF); a real u64 tick across DWCi_GetMatchCnt; the key loop
+ *           stores then increments; declarations in DWARF order.  Stand-in:
+ *           the enum `n` (6 before the byte stores, then the retry counter)
+ *           is not in the DWARF but is what keeps `mov sl,#6; add r7,sl,#3`
+ *           and the do-while counter (an int folds both away; a 6-trip
+ *           unrollable loop is not unrolled by 1.1p1).  Residue: the three
+ *           DWCi_GetDefaultMatchFilter argument loads (image ldr r1 / ldrb r2
+ *           / ldrb r3, ours ldrb r3 first); const members inert.
  *
  * sdk:      DWCi_SBUpdateAsync (libdwcmatch.TWL.HYB.a(dwc_match.o))
  *
@@ -55,168 +45,142 @@
  *   d_021A20D4     0x021A20D4  data
  *   d_021A20E0     0x021A20E0  data
 
- * lane U62 (2026-09-30) - body-level corrections measured, not closed. The current file's
- *           868 bytes come from the permuter scaffolding (`volatile` param + `if (1)` + pad
- *           locals); that scaffolding adds the `push {r0, r1, r2, r3}` home area the image does
- *           not have (16 bytes), so 868 here is not the vendor's 868.
- *           Drops measured: volatile off -> 852 bytes / 655 concrete; also dropping `if (1)`,
- *           pad/pad1, and the `6 + 3` pair changes nothing (852/655). Size must grow 16 bytes
- *           with REAL code, not with a home area.
- *           From the vendor object's own listing (tools/sdkobj.py 0x0216F770): three concrete
- *           body differences against this source's clean form, all real:
- *             (1) `mov r9, #1` at +0060 is `sbBlock`'s async argument. The `mov r9, #8` at
- *                 +0008 belongs to `basicFields[0] = 8` only - r9 is then reused, which it
- *                 could not be if sbBlock were still 8. So the source's sbBlock is 1, not 8.
- *                 (Setting `sbBlock = 1` measured 872 bytes / 605 concrete with the scaffolding
- *                 still in place - 4 bytes over, and still the permuter allocation.)
- *             (2) +002C `mov r10, #6` then +0058 `add r7, r10, #3`: the vendor's `n = 6` is a
- *                 real local, live enough that `n + 3` is not folded (ours emits `mov rX, #9`).
- *             (3) +030C/+0310 `mov r4, r0` / `mov r5, r1`: both halves of OS_GetTick() are kept
- *                 in callee-saved registers across the DWCi_GetMatchCnt() call, i.e. a real
- *                 `unsigned long long tick` local, which this source's single-expression store
- *                 does not reproduce.
- *           The clean body is 16 bytes short of the image; these three account for 3 of the 4
- *           instructions. Next lane: build the clean body with (1)+(2)+(3) and find the fourth.
- *
- * lane wave8 (2026-09-30) - DIFF, measured. Re-ran the declaration-order / register-
- *           colouring lever: dropping `volatile` from the profileID parameter (which is
- *           what forces the `push {r0,r1,r2,r3}` home area the image does not have)
- *           makes the match WORSE, not better: 852 bytes / 655 concrete vs the
- *           scaffolding form's 868 / 372. The scaffolding home area is load-bearing for
- *           the byte count (16 of the 868 bytes) and for keeping the register map close,
- *           so it stays. EXACT here needs the whole callee-saved map rebuilt from the
- *           clean body ((1) sbBlock=1, (2) `n` a live local so `n+3` is not folded,
- *           (3) a real `u64 tick` local across the GetMatchCnt call) plus the fourth
- *           missing instruction, and all of that is a body-wide recolour no declaration
- *           reorder closes. Parked honestly at 868/372.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
 typedef unsigned long long u64;
-typedef enum { N_ZERO = 0, N_SIX = 6, N_ONE = 1 } EFld;
-extern char *func_02175F3C(void);
+typedef enum { E0 = 0, E6 = 6 } EFld;
+typedef enum { SBFalse, SBTrue } SBBool;
+typedef enum { sbe_noError, sbe_socketError, sbe_dnsError, sbe_connectError, sbe_dataError, sbe_allocError, sbe_paramError, sbe_duplicateUpdateError } SBError;
+
+typedef struct {
+    u8 keyID;
+    u8 pad[11];
+} DWCstGameMatchKeyData;
+
+typedef struct {
+    u8 pad0[0x15];
+    u8 qr2MatchType;            /* 0x015 */
+    u8 pad16;
+    u8 qr2NumEntry;             /* 0x017 */
+    u8 pad18[0x5e0 - 0x18];
+    void *sbObj;                /* 0x5e0 */
+    u8 pad5e4[0x5f0 - 0x5e4];
+    u64 sbUpdateTick;           /* 0x5f0 */
+    u8 pad5f8[0x61c - 0x5f8];
+    int state;                  /* 0x61c */
+    u8 pad620[0x678 - 0x620];
+    int profileID;              /* 0x678 */
+    int reqProfileID;           /* 0x67c */
+    u8 pad680[0x790 - 0x680];
+    int gameID;                 /* 0x790 */
+    u8 pad794[0x7a8 - 0x794];
+    u8 friendToggle;            /* 0x7a8 */
+    u8 pad7a9[3];
+    int sbUpdateCount;          /* 0x7ac */
+} DWCstMatchControl;
+
+typedef struct {
+    int pad[3];
+    char *addFilter;            /* +0xc */
+} NNThinkStatics;
+
+extern DWCstMatchControl *func_02175F3C(void);
 extern u32 func_021685CC(u32 max);
 extern int func_0216FAD4(char *filter, int profileID, u8 numEntry, u8 matchType, u8 hostState);
 extern void func_0219F00C(void *sb);
-extern int func_0219EED4(void *sb, int async, int disconnectOnComplete, u8 *basicFields, int numBasicFields, char *serverFilter, int maxServers);
-extern int OS_SNPrintf(char *dst, u32 len, char *fmt, ...);
+extern SBError func_0219EED4(void *sb, SBBool async, SBBool disconnectOnComplete, u8 *basicFields, int numBasicFields, char *serverFilter, int maxServers);
+extern int OS_SNPrintf(char *dst, u32 len, const char *fmt, ...);
 extern u64 OS_GetTick(void);
-extern u8 stGameMatchKeys[];
+extern DWCstGameMatchKeyData stGameMatchKeys[154];
 extern int s_anybodyServerSearchRatio;
-extern int s_bInNNThink;
+extern NNThinkStatics s_bInNNThink;
 extern char d_021A2090[];
 extern char d_021A209C[];
 extern char d_021A20A4[];
 extern char d_021A20AC[];
 extern char d_021A20D4[];
 extern char d_021A20E0[];
-static int func_0216F770(u8 profileID)
+
+static SBError func_0216F770(int profileID)
 {
-  char filter[511];
-  u8 basicFields[204];
-  EFld n = N_SIX;
-  int sbError;
-  int numBasicFields;
-  int sbBlock;
-  u8 searchHostType;
-  int i;
-  int len;
-  basicFields[0] = 8;
-  basicFields[1] = 0xa;
-  basicFields[2] = 0x32;
-  basicFields[3] = 0x33;
-  basicFields[4] = 0x34;
-  basicFields[5] = 0x35;
-  basicFields[6] = 0x36;
-  basicFields[7] = 0x37;
-  basicFields[8] = 0x38;
-  searchHostType = profileID;
-  numBasicFields = n + 3;
-  i = 0;
-  sbBlock = 1;
-  if (((*((u8 *) (func_02175F3C() + 0x15))) == 0) || ((*((u8 *) (func_02175F3C() + 0x15))) == 1))
-  {
-    for (i = 0; i < 0x9a; i++)
-    {
-      u8 v = stGameMatchKeys[i * 0xc];
-      if (v != 0)
-        basicFields[numBasicFields++] = v;
-    }
+    char filter[511];
+    u8 basicFields[204];
+    int len;
+    int numBasicFields;
+    int i;
+    SBError sbError;
+    SBBool sbBlock;
+    u8 searchHostType;
+    EFld n;
 
-  }
-  switch (*((int *) (func_02175F3C() + 0x61c)))
-  {
+    n = E6;
+    basicFields[0] = 8;
+    basicFields[1] = 0xa;
+    basicFields[2] = 0x32;
+    basicFields[3] = 0x33;
+    basicFields[4] = 0x34;
+    basicFields[5] = 0x35;
+    basicFields[6] = 0x36;
+    basicFields[7] = 0x37;
+    basicFields[8] = 0x38;
+    numBasicFields = n + 3;
+    sbBlock = SBTrue;
+    if (func_02175F3C()->qr2MatchType == 0 || func_02175F3C()->qr2MatchType == 1) {
+        for (i = 0; i < 154; i++) {
+            if (stGameMatchKeys[i].keyID) {
+                basicFields[numBasicFields] = stGameMatchKeys[i].keyID;
+                numBasicFields++;
+            }
+        }
+    }
+    switch (func_02175F3C()->state) {
     case 2:
-      if (s_anybodyServerSearchRatio == (-1))
-    {
-      searchHostType = ((*((u8 *) (func_02175F3C() + 0x7a8))) == 1) ? (2) : (3);
-      *((u8 *) (func_02175F3C() + 0x7a8)) = 0;
-    }
-    else
-      if (s_anybodyServerSearchRatio == 0)
-    {
-      searchHostType = ((*((u8 *) (func_02175F3C() + 0x7a8))) != 0) ? (2) : (0);
-      *((u8 *) (func_02175F3C() + 0x7a8)) ^= 1;
-    }
-    else
-    {
-      searchHostType = (func_021685CC(100) < ((u32) s_anybodyServerSearchRatio)) ? (2) : (0);
-    }
-      len = func_0216FAD4(filter, *((int *) (func_02175F3C() + 0x678)), *((u8 *) (func_02175F3C() + 0x17)), *((u8 *) (func_02175F3C() + 0x15)), searchHostType);
-      if ((*((int *) (((char *) (&s_bInNNThink)) + 0xc))) != 0)
-    {
-      OS_SNPrintf(filter + len, 0x1ff - len, d_021A2090);
-      filter[0x1fe] = 0;
-    }
-      *((int *) (func_02175F3C() + 0x7ac)) = (*((int *) (func_02175F3C() + 0x7ac))) + 1;
-      break;
-
+        if (s_anybodyServerSearchRatio == -2) {
+            searchHostType = (u8)(func_02175F3C()->friendToggle == 1 ? 2 : 3);
+            func_02175F3C()->friendToggle = 0;
+        } else if (s_anybodyServerSearchRatio == -1) {
+            searchHostType = (u8)(func_02175F3C()->friendToggle ? 2 : 0);
+            func_02175F3C()->friendToggle ^= 1;
+        } else {
+            searchHostType = (u8)((int)func_021685CC(100) < s_anybodyServerSearchRatio ? 2 : 0);
+        }
+        len = func_0216FAD4(filter, func_02175F3C()->profileID, func_02175F3C()->qr2NumEntry, func_02175F3C()->qr2MatchType, searchHostType);
+        if (s_bInNNThink.addFilter) {
+            OS_SNPrintf(filter + len, 511 - len, d_021A2090, s_bInNNThink.addFilter);
+            filter[510] = 0;
+        }
+        func_02175F3C()->sbUpdateCount++;
+        break;
     case 3:
-
     case 4:
-
     case 0x16:
-      OS_SNPrintf(filter, 0x1ff, d_021A209C, d_021A20A4, searchHostType);
-      *((int *) (func_02175F3C() + 0x67c)) = searchHostType;
-      break;
-
+        OS_SNPrintf(filter, 511, d_021A209C, d_021A20A4, profileID);
+        func_02175F3C()->reqProfileID = profileID;
+        break;
     case 9:
-
     case 10:
-
     case 11:
-      OS_SNPrintf(filter, 0x1ff, d_021A20E0, d_021A20AC, searchHostType);
-      sbBlock = 0;
-      break;
-
+        OS_SNPrintf(filter, 511, d_021A209C, d_021A20A4, profileID);
+        sbBlock = SBFalse;
+        break;
     case 12:
-      OS_SNPrintf(filter, 0x1ff, d_021A20AC, d_021A20D4, *((int *) (func_02175F3C() + 0x790)), d_021A20E0, 2, d_021A20A4, *((int *) (func_02175F3C() + 0x678)));
-      break;
+        OS_SNPrintf(filter, 511, d_021A20AC, d_021A20D4, func_02175F3C()->gameID, d_021A20E0, 2, d_021A20A4, func_02175F3C()->profileID);
+        break;
+    }
 
-    default:
-      break;
-
-  }
-
-  func_0219F00C((void *) (*((int *) (func_02175F3C() + 0x5e0))));
-  n = 0;
-  do
-  {
-    sbError = func_0219EED4((void *) (*((int *) (func_02175F3C() + 0x5e0))), sbBlock, 0, basicFields, numBasicFields, filter, ((*((int *) (func_02175F3C() + 0x61c))) == 0x16) ? (1) : (6));
-    if (sbError == 0)
-      break;
-    if (sbError != 2)
-      break;
-    n++;
-  }
-  while (n < 1);
-  if (sbError == 0)
-  {
-    u64 tick = OS_GetTick();
-    *((u64 *) (func_02175F3C() + 0x5f0)) = tick + 0xefb5f7;
-  }
-  return sbError;
+    func_0219F00C(func_02175F3C()->sbObj);
+    n = E0;
+    do {
+        sbError = func_0219EED4(func_02175F3C()->sbObj, sbBlock, SBFalse, basicFields, numBasicFields, filter, func_02175F3C()->state == 0x16 ? 1 : 6);
+        if (sbError == 0 || sbError != 2)
+            break;
+        n++;
+    } while (n < 1);
+    if (sbError == 0) {
+        u64 tick = OS_GetTick();
+        func_02175F3C()->sbUpdateTick = tick + 0xefb5f7;
+    }
+    return sbError;
 }
-
-

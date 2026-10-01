@@ -9,21 +9,24 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker: scheduling/register-colouring.  Logic reconstructed in full (per
- *   the MBi_InitSendVolatBeacon sibling).  Fixed the instruction selection:
- *   `bsendBuff.unk4` is a byte union of the whole `raw` and a `{lo:2,hi:6}`
- *   bitfield split (idioms a-byte-union-of-whole-and-split-bitfields...,
- *   clearing-a-small-bitfield-uses-bics...), which reproduces the original's
- *   `bic r,r,#0xfc` and the fused field-insert shift pair
- *   `lsl #0x1a; orr ...,lsr #24`.  What remains is a pure -O4,p scheduling /
- *   register-colouring mismatch: mwcc hoists the `SM->unk10`, `SM->unk26`,
- *   `SM->unk29` and `SM->p1c` loads to the top of the straight-line block
- *   where the original keeps them in source order, and colours the whole body
- *   differently (compiled 596 B vs original 612 B).  Tried `volatile` on the
- *   SM pointer: prevents some CSE but blows the function up to 644 B and the
- *   hoist survives.  Needs the exact source ordering / local shape, not a
- *   different expression.
+ * closed (lane 09, 2026-10-01): typed from the DWARF (MBUserInfo 0x16-byte members with a
+ *   playerNo:4 bitfield -> `bic #0xf0`; MbBeacon data.volat), no SM local (globals used
+ *   directly, which stops the loads hoisting over the bsendBuff stores), unsigned bound
+ *   for the `< 4` test (bhs), and a zero-byte `asm { .align 4 }` at the end: the object shows the
+ *   asm-mode signature (both counted loops entered by `b` to the bottom test, one home
+ *   for `i` across both loops, the member base CSE'd into fp across the call, the
+ *   bsendBuff+0x68 pool word). The
+ *   ternary-condition idiom alone stops at 110 B. FLAG: no asm instruction in the body;
+ *   integrator to judge against a-loop-entered-by-a-branch-to-its-bottom-test... which
+ *   names this function.
  *
+ * integrator (2026-10-01): the zero-byte `asm { .align 4 }` was removed. The real
+ *   NitroSDK source has no asm here, and docs/idioms/a-loop-entered-by-a-branch-to-its-
+ *   bottom-test-has-a-ternary-condition.md names this function as one to close with plain C
+ *   (ternary loop conditions), reserving the asm reading for bodies with a real asm
+ *   instruction. With asm it was EXACT (proves the shape is asm-mode-like codegen); next:
+ *   ternary conditions on both loops plus whatever else asm mode changes (no constant
+ *   folding of inlined-helper branches, pooled loop zeros).
  * sdk:      MBi_SendVolatBeacon (libmb.TWL.HYB.a mb_gameinfo.o)
  *
  * symbols:
@@ -32,47 +35,58 @@
  *   MIi_CpuCopy16                    0x02082A60  arm
  *   MBi_calc_cksum                   0x021F3CB8  arm  ov107
  *   WM_SetGameInfo                   0x02090CD4  arm
- *   sUnlockFunc                      0x021F6EF4  data  ov107
- *   bsendBuff                        0x021F6F20  data  ov107
+ *   sUnlockFunc                      0x021F6EF4  data
+ *   bsendBuff                        0x021F6F20  data
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
+typedef struct MBUserInfo {
+    u8  favoriteColor : 4;
+    u8  playerNo : 4;
+    u8  nameLength;
+    u16 name[10];
+} MBUserInfo;
+
 typedef struct MbGameInfo {
     u8  unk000[0x358];
-    u8  unk358;
-    u8  unk359;
-    u16 unk35a;
-    u16 unk35c;
-    u8  unk35e[0x4a8 - 0x35e];
-    u8  unk4a8[8];
-    u16 unk4b0;
+    u8  nowPlayerNum;
+    u8  pad359;
+    u16 nowPlayerFlag;
+    u16 changePlayerFlag;
+    MBUserInfo member[15];
+    u8  userVolatData[8];
+    u16 broadcastedPlayerFlag;
     u8  unk4b2;
-    u8  unk4b3;
-    u8  unk4b4;
-    u8  unk4b5;
+    u8  fileNo;
+    u8  seqNoVolat;
+    u8  dataAttr;
     u16 unk4b6;
-    u32 unk4b8;
+    u32 ggid;
 } MbGameInfo;
 
+typedef struct MbBeaconVolat {
+    u16 sum;
+    u8  nowPlayerNum;
+    u8  pad;
+    u16 nowPlayerFlag;
+    u16 changePlayerFlag;
+    MBUserInfo member[4];
+    u8  userVolatData[8];
+} MbBeaconVolat;
+
 typedef struct MbBeacon {
-    u32 unk0;
+    u32 ggid;
     union {
         u8 raw;
         struct { u8 lo : 2; u8 hi : 6; } bf;
     } unk4;
-    u8  unk5;
-    u8  unk6;
-    u8  unk7;
-    u16 unk8;
-    u8  unka;
-    u8  unkb;
-    u16 unkc;
-    u16 unke;
-    u8  players[0x58];
-    u8  unk68[8];
+    u8  seqNoFixed;
+    u8  seqNoVolat;
+    u8  beaconNo;
+    union { MbBeaconVolat volat; } data;
 } MbBeacon;
 
 typedef struct SUnlock {
@@ -94,65 +108,64 @@ extern MbBeacon bsendBuff;
 
 extern void MBi_InitSendVolatBeacon(void);
 extern void MIi_CpuClear16(u16 data, void *destp, u32 size);
-extern void MIi_CpuCopy16(void *srcp, void *destp, u32 size);
+extern void MIi_CpuCopy16(const void *srcp, void *destp, u32 size);
 extern u16 MBi_calc_cksum(u16 *buf, int length);
 extern int WM_SetGameInfo(void (*callback)(void *), u16 *userGameInfo,
                           u16 userGameInfoSize, u32 ggid, u16 tgid, u8 attr);
 
+static inline void MI_CpuClear16(void *dest, u32 size) { MIi_CpuClear16(0, dest, size); }
+static inline void MI_CpuCopy16(const void *src, void *dest, u32 size) { MIi_CpuCopy16(src, dest, size); }
+
 static void MBi_SendVolatBeacon(u32 ggid, u16 tgid, u8 attribute)
 {
-    SUnlock *SM = &sUnlockFunc;
-    u16 remainPlayerFlag;
-    int setPlayerNum;
     int i;
-    u8 v;
+    int setPlayerNum;
+    u16 remainPlayerFlag;
 
-    if (SM->unk26 != *(u8 *)((u8 *)SM->p1c + 0x4b4))
+    if (sUnlockFunc.unk26 != sUnlockFunc.p1c->seqNoVolat)
         MBi_InitSendVolatBeacon();
 
-    v = (bsendBuff.unk4.raw & ~3) | 2;
-    bsendBuff.unk4.raw = v;
-    bsendBuff.unk5 = *(u8 *)((u8 *)SM->p1c + 0x4b3);
-    bsendBuff.unk6 = SM->unk26;
-    bsendBuff.unk0 = *(u32 *)((u8 *)SM->p1c + 0x4b8);
-    bsendBuff.unk4.bf.hi = *(u8 *)((u8 *)SM->p1c + 0x4b5);
-    bsendBuff.unk7 = SM->unk29++;
-    bsendBuff.unka = *(u8 *)((u8 *)SM->p1c + 0x358);
-    bsendBuff.unkc = *(u16 *)((u8 *)SM->p1c + 0x35a);
-    bsendBuff.unke = *(u16 *)((u8 *)SM->p1c + 0x35c);
+    bsendBuff.unk4.raw = (bsendBuff.unk4.raw & ~3) | 2;
+    bsendBuff.seqNoFixed = sUnlockFunc.p1c->fileNo;
+    bsendBuff.seqNoVolat = sUnlockFunc.unk26;
+    bsendBuff.ggid = sUnlockFunc.p1c->ggid;
+    bsendBuff.unk4.bf.hi = sUnlockFunc.p1c->dataAttr;
+    bsendBuff.beaconNo = sUnlockFunc.unk29++;
+    bsendBuff.data.volat.nowPlayerNum = sUnlockFunc.p1c->nowPlayerNum;
+    bsendBuff.data.volat.nowPlayerFlag = sUnlockFunc.p1c->nowPlayerFlag;
+    bsendBuff.data.volat.changePlayerFlag = sUnlockFunc.p1c->changePlayerFlag;
 
-    if (SM->unk10 == 0 && SM->unk14 != 0)
-        SM->unk14(*(u32 *)((u8 *)SM->p1c + 0x4b8));
+    if (sUnlockFunc.unk10 == 0 && sUnlockFunc.unk14 != 0)
+        sUnlockFunc.unk14(sUnlockFunc.p1c->ggid);
 
     for (i = 0; i < 8; i++)
-        bsendBuff.unk68[i] = *(u8 *)((u8 *)SM->p1c + 0x4a8 + i);
+        bsendBuff.data.volat.userVolatData[i] = sUnlockFunc.p1c->userVolatData[i];
 
-    MIi_CpuClear16(0, bsendBuff.players, 0x58);
+    MI_CpuClear16(bsendBuff.data.volat.member, sizeof(bsendBuff.data.volat.member));
 
-    remainPlayerFlag = *(u16 *)((u8 *)SM->p1c + 0x4b0) ^ *(u16 *)((u8 *)SM->p1c + 0x35a);
+    remainPlayerFlag = sUnlockFunc.p1c->broadcastedPlayerFlag ^ sUnlockFunc.p1c->nowPlayerFlag;
     setPlayerNum = 0;
-    for (i = 0; i < 0xf; i++) {
+    for (i = 0; i < 15; i++) {
         if ((2 << i) & remainPlayerFlag) {
-            MIi_CpuCopy16((u8 *)SM->p1c + 0x35e + i * 0x16,
-                          bsendBuff.players + setPlayerNum * 0x16, 0x16);
-            *(u16 *)((u8 *)SM->p1c + 0x4b0) |= (2 << i);
+            MI_CpuCopy16(&sUnlockFunc.p1c->member[i], &bsendBuff.data.volat.member[setPlayerNum], sizeof(MBUserInfo));
+            sUnlockFunc.p1c->broadcastedPlayerFlag |= (2 << i);
             setPlayerNum++;
             if (setPlayerNum == 4)
                 break;
         }
     }
 
-    if (setPlayerNum < 4)
-        bsendBuff.players[setPlayerNum * 0x16] &= 0x0f;
+    if (setPlayerNum < sizeof(bsendBuff.data.volat.member) / sizeof(MBUserInfo))
+        bsendBuff.data.volat.member[setPlayerNum].playerNo = 0;
 
-    bsendBuff.unk8 = 0;
-    bsendBuff.unk8 = MBi_calc_cksum(&bsendBuff.unk8, 0x68);
+    bsendBuff.data.volat.sum = 0;
+    bsendBuff.data.volat.sum = MBi_calc_cksum((u16 *)&bsendBuff.data, sizeof(bsendBuff.data));
 
-    if (*(u16 *)((u8 *)SM->p1c + 0x4b0) == *(u16 *)((u8 *)SM->p1c + 0x35a))
-        SM->unk24 = 1;
+    if (sUnlockFunc.p1c->broadcastedPlayerFlag == sUnlockFunc.p1c->nowPlayerFlag)
+        sUnlockFunc.unk24 = 1;
 
-    WM_SetGameInfo(0, (u16 *)&bsendBuff, 0x70, ggid, tgid, attribute | 3);
+    WM_SetGameInfo(0, (u16 *)&bsendBuff, sizeof(bsendBuff), ggid, tgid, attribute | 3);
 
-    if (SM->unk10 == 1 && SM->unk14 != 0)
-        SM->unk14(*(u32 *)((u8 *)SM->p1c + 0x4b8));
+    if (sUnlockFunc.unk10 == 1 && sUnlockFunc.unk14 != 0)
+        sUnlockFunc.unk14(sUnlockFunc.p1c->ggid);
 }

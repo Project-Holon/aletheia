@@ -8,6 +8,8 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * lane07 (2026-10-01): OpenSSL's `& BN_MASK2` on every t1/t2 expression is inert (24 B),
+ *   and with it `int i, carry` is still 51 B.
  *
  * sdk:      CRYPTOi__BN_usub (crypto_bobj1.o)
  *

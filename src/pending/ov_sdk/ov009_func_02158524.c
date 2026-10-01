@@ -44,20 +44,28 @@
  *     base, a named local for the loaded OSi word, and moving the netvars store earlier all fail
  *     to hoist without flipping the pair; DWARF statement order gives 56 B (OSi first, load sunk).
  *
+ * lane03 (2026-10-01): network.o's symbol table has
+ *     `_ZZ9send_pingPhmP7_CPSSocE7pingseq`, a FUNCTION-LOCAL `static u16 pingseq`
+ *     at .bss+8 (the "wfailed" relocation is the .bss section base). As a
+ *     local static whose address is never taken it cannot alias the icmp
+ *     stores, so 1.1p1 hoists its load and increment above them exactly as the
+ *     image does; no `seq`/`ck` stand-ins remain (DWARF: icmp only; the byte
+ *     swap is a static inline, a macro would call the checksum twice).
+ *     46 B -> 2 B. Residue: our .bss holds only pingseq, so it sits at +0 and
+ *     the two halfword accesses use #0 where the image uses #8; the .bss
+ *     relocation stays wildcarded (the vendor `.bss` route is ARM9-only).
+ *     File-scope copies of the five leading statics (wfailed, ip_conflict,
+ *     ipid, mymss, eport) are always laid out after a function static, and
+ *     file-scope or struct-member pingseq loses the no-alias hoist (184 B).
+ *
  * sdk:      send_ping (libcps.TWL.HYB.a(network.o))
  *
  * symbols:
  *   func_02157700  0x02157700  arm  ov009
  *   func_02157808  0x02157808  arm  ov009
  *   func_0215832C  0x0215832C  arm  ov009
- *   g_021A826C  0x021A826C  data
  *   g_02150FEC  0x02150FEC  data
  */
-
-struct NetVars {
-	unsigned char pad0[8];
-	unsigned short ping_seq;
-};
 
 struct SocBuf {
 	unsigned long len;
@@ -76,24 +84,24 @@ struct Soc {
 extern unsigned long func_02157700(unsigned char *s, unsigned long len, unsigned long sum);
 extern unsigned short func_02157808(unsigned short sum);
 extern void func_0215832C(unsigned char *hdr, unsigned long hdr_len, unsigned char *body, unsigned long body_len, unsigned long ip_to, unsigned char proto);
-extern struct NetVars g_021A826C;
 extern unsigned long g_02150FEC[];
+
+static inline unsigned short SWAP16(unsigned short v)
+{
+	return (v >> 8) | (v << 8);
+}
 
 void func_02158524(unsigned char *pattern, unsigned long len, struct Soc *soc)
 {
+	static unsigned short pingseq;
 	unsigned char *icmp;
-	unsigned short seq;
-	unsigned short ck;
 
 	icmp = soc->sndbuf.data;
 	*(unsigned short *)(icmp + 0x22) = 8;
-	seq = g_021A826C.ping_seq;
 	*(unsigned short *)(icmp + 0x26) = g_02150FEC[1];
-	soc->local_port = seq;
 	*(unsigned short *)(icmp + 0x24) = 0;
-	g_021A826C.ping_seq = seq + 1;
-	*(unsigned short *)(icmp + 0x28) = seq;
-	ck = func_02157808((unsigned short)func_02157700(pattern, len, func_02157700(icmp + 0x22, 8, 0)));
-	*(unsigned short *)(icmp + 0x24) = (ck >> 8) | (ck << 8);
+	soc->local_port = pingseq;
+	*(unsigned short *)(icmp + 0x28) = pingseq++;
+	*(unsigned short *)(icmp + 0x24) = SWAP16(func_02157808((unsigned short)func_02157700(pattern, len, func_02157700(icmp + 0x22, 8, 0))));
 	func_0215832C(icmp + 0x22, 8, pattern, len, soc->remote_ip, 1);
 }

@@ -37,6 +37,10 @@
  *           baseline order at 10 B). Making the second zero a dependency of a live value (`z=0; i=z;`,
  *           `i=size-size;`, `i=(unsigned char)(sum&0)`) is inert. Loop2 with a plain/while/do-while condition
  *           changes size; only the ternary bottom-test condition reproduces the shape. Floor remains 10 B.
+ * 2026-10-01: DWARF has no buf. Without it (one sIrcBuf symbol, `&sIrcBuf[4]`,
+ *           p reused as loop-2 base, or loop 2 as an inline helper with its own
+ *           buf/size/i) loop 1's i leaves ip or pHeader/p swap r5/r6; best stays
+ *           this body at 10 B.
  *
  * sdk:      IRCi_Send (libirc.a irc.o)
  *

@@ -8,6 +8,8 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * lane07 (2026-10-01): `do { } while (0);` and an empty static inline call padding the
+ *   then-arm (before or after the store) are both inert: 100 B, arm still predicated.
  * u21: the defining object wmif.o is .comment 4.0.0.1024 -> dsi/1.1p1, so the front end is right
  *      and this is a body wall: 1.1p1 if-converts the one-statement then-arm into `subne r5,r5,#5`
  *      (100 B) where the image keeps `mov r5,#0 / cmp r0,#0 / beq 0x2167e68 / mvn r5,#4` (104 B).

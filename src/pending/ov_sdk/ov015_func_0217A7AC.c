@@ -8,6 +8,11 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * lane01 (2026-10-01): DWARF types `size` as unsigned char and the return as unsigned char
+ *   (int here is a stand-in). With u8 size/return every clamp position (after the load, before
+ *   or after `i = 0`, between send/recv, after `buf[0] = 0`, ternary at the load) and both
+ *   declaration orders measure 324 B: either the clamp zero CSEs with i (extra `mov r0,#0`)
+ *   or the send/recv stmib splits and buf moves to r5. Int body kept (6 B).
  *
  * Lane 08 (2026-09-30): 320/320 bytes, 6 concrete bytes.  One further source
  *   fix over lane 04: moving the `if ((unsigned int)size > 0xB5) size = 0;`

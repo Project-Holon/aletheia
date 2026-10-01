@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF (one instruction: mvn r1,#0x80000000 vs compiled sub r1,r0,#0x80000002)
+ * lane07 (2026-10-01): the vendor reaches clientID through the natneg.o static anchor
+ *   (negotiateList+0x14); a function-scope `static int clientid` only changes the addressing
+ *   (`[r4]`), the high bound is still `sub r1,r0,#0x80000002`.
  * u21: the defining object natneg.o is .comment 4.0.0.1025. The object materialises the second
  *      argument with `mvn r1, #0x80000000`; 1.1p1 rematerialises 0x7fffffff from the r0 == 1 it has
  *      just built for the first argument, `sub r1, r0, #0x80000002` (same value, 3 bytes differ).

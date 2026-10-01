@@ -12,23 +12,18 @@
  * SDK: TwlDWC/lib/ARM9-TS/Rom/libdwcutil.TWL.HYB.a(atermset.o).
  * Object stamped Metrowerks 3.0.0.126 -> ../2.0/sp1p2.
  *
- * blocker: under the wave toolchain dsi/1.1p1 -O4,p -thumb the whole function
- *   compiles to 902 bytes against the image's 996; the gap is not local.  The
- *   596-byte g_021DD224 zero-fill is already right
- *   (docs/idioms/builtin-clear-inlines-where-memset-calls.md:
- *   `__builtin__clear` gives the movs r0,#0; movs rN,#0x12; ldr r7;
- *   adds r1/r2/r3,r0; mov ip,rN; 2-unrolled `stm r7!,{r0,r1,r2,r3}`; final
- *   `stm` + `str r0,[r7]`).  What remains is a whole-function register
- *   allocation / global-caching divergence under 1.1p1: it caches
- *   g_021DCFD0 in r4 for the whole body and sock in r6, keeps bfinish in r6,
- *   and uses a 0x34 frame, whereas the image reloads g_021DCFD0 from a pool
- *   at every use, keeps bfinish in r6 and sock in r4, and uses a 0x2c frame.
- *   `volatile` on the globals does not move it (906/996).  The prologue
- *   emission is likewise reordered (1.1p1 hoists `movs r6,#0` and the zero
- *   stores ahead of the ASTATE store; the image stores ASTATE last).  Seven
- *   data globals (0x021DD490, 0x021DDD04, 0x021DD020, 0x021DD4A0, 0x021DD4A8,
- *   0x021DD224, 0x021DD310) also lack an outside witness, so the verdict
- *   cannot reach MATCH either.
+ * lane 06 (2026-10-01): 843 -> 3 B under the header's ../2.0/sp1p2 (the earlier
+ *   blocker text measured 1.1p1). What closed it: the sibling ATERMSET_BSS/ATERMSET_DATA
+ *   layouts instead of raw offsets; SOC_Socket(2, 2, 0); __builtin__clear of `server`
+ *   before the field stores; memcpy(aKeySource, lpe, 8) through string.h (the countdown
+ *   byte loop); GetMacEncKey called with (aMacEncKey, &target) through an unprototyped
+ *   declaration (the image sets r1 before the call); bfinish = 0 as a statement after
+ *   iretry; the AutoProfile check as if/else stores; and two second names: the
+ *   SetSingleElement argument is `&btAutoResult` (its own pool word at the same address
+ *   as the .bss base) and the Ssid test reads g_021DD310[0x14] (pool word AutoProfile+0xec,
+ *   index 0x14; every AutoProfile spelling folds to +0x100/#0). Residue: three Thumb
+ *   branch-island targets (+010E, +011A, +01B0 jump to the `b` at +01FC, image +01EA);
+ *   case-6 spelled with gotos, &&/if-else, nested ifs and else-if all pick +01FC.
  *
  * symbols:
  *   OS_Sleep          0x02085a38 arm
@@ -53,6 +48,7 @@
  *   APC_GetState      0x021b96a8 thumb
  *   StoreNetParam     0x021ba67c thumb
  *   g_021DCFD0        0x021dcfd0 data
+ *   btAutoResult      0x021dcfd0 data
  *   g_021DAB58        0x021dab58 data
  *   g_021DD490        0x021dd490 data
  *   g_021DDD04        0x021ddd04 data
@@ -63,6 +59,8 @@
  *   g_021DD224        0x021dd224 data
  *   g_021DD310        0x021dd310 data
  */
+#include "../../matched/arm9_sdk/libc/string.h"
+
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
@@ -91,15 +89,55 @@ typedef struct {
     u32 tpc;
 } WS11G_PROFILE_DATA;
 
+struct WCMConfig;
+
+typedef struct {
+    unsigned char             btAutoResult;
+    void                   *(*gAtermAlloc)(unsigned long size);
+    struct WCMConfig         *apci_IWConfig;
+    void                    (*gAtermFree)(void *ptr);
+    int                       bAtermApCanceled;
+    int                       cbFrameData;
+    int                       gAPId;
+    int                       AutoPhase;
+    int                       bApConnect;
+    int                       bSO_Startup;
+    unsigned char            *apci_Wep;
+    int                       apci_state;
+    unsigned long long       *gThreadStack;
+    int                       cbElementData;
+    int                       gAtermApState;
+} ATERMSET_BSS;
+
+typedef struct {
+    unsigned char *lpElementData;
+    int            bDebug;
+    unsigned long  gThreadStackSize;
+    unsigned long  gAtermApTimeout;
+    int            gMaxBssIdList;
+} ATERMSET_DATA;
+
+extern ATERMSET_BSS g_021DCFD0;
+extern unsigned char btAutoResult;
+extern ATERMSET_DATA g_021DAB58;
+extern u8 g_021DD490[16];
+extern u8 g_021DDD04[2048];
+extern int g_021DD020;
+extern u8 g_021DD504[2048];
+extern u8 g_021DD4A0[8];
+extern u8 g_021DD4A8[8];
+extern WS11G_PROFILE_DATA g_021DD224;
+extern signed char g_021DD310[];
+
 extern void OS_Sleep(u32 msec);
 extern int ScanAP(void);
 extern void SendNotify(void);
 extern int ConnectAP(void);
-extern int SOC_Socket(int type);
+extern int SOC_Socket(int pf, int type, int protocol);
 extern int SOC_Bind(int s, void *sockAddr);
 extern u32 GetTickCount(void);
-extern void SOC_Close(int s);
-extern int GetMacEncKey(u8 *lpkey);
+extern int SOC_Close(int s);
+extern int GetMacEncKey();
 extern int SOC_RecvFrom(int s, void *buf, int len, int flags, void *sockFrom);
 extern int IsSearchCommand(u8 *lpframe, int *pdual);
 extern int SetSearchRes(u8 *lpframe);
@@ -113,57 +151,40 @@ extern int GetWLanSetElement(u8 *lpelement);
 extern int APC_GetState(void);
 extern int StoreNetParam(void);
 
-extern char g_021DCFD0[];
-extern char g_021DAB58[];
-extern u8 g_021DD490[16];
-extern u8 g_021DDD04[2048];
-extern int g_021DD020;
-extern u8 g_021DD504[2048];
-extern u8 g_021DD4A0[32];
-extern u8 g_021DD4A8[32];
-extern WS11G_PROFILE_DATA g_021DD224;
-extern char g_021DD310[];
-
-#define ASTATE (*(int *)(g_021DCFD0 + 0x1C))
-#define ARESULT (*(int *)(g_021DCFD0 + 0x14))
-#define AFIELD34 (*(int *)(g_021DCFD0 + 0x34))
-#define AFLAG10 (*(int *)(g_021DCFD0 + 0x10))
-#define ATIMEOUT (*(int *)(g_021DAB58 + 0xC))
-#define BTDUALCFG (*(int *)(g_021DCFD0 + 0x38))
-#define BTAR (*(u8 *)(g_021DCFD0 + 0x0))
-
-int AutoConfigThreadEx(void)
+static int AutoConfigThreadEx(void)
 {
     int sock = 0;
     int ret;
-    int iretry;
-    int esize;
-    int eid;
-    unsigned long dw;
-    unsigned long dwSendTick;
-    struct SOCSockAddrIn target;
     struct SOCSockAddrIn server;
-    int bfinish = 0;
-    u8 *lpe;
+    struct SOCSockAddrIn target;
     int n;
+    unsigned long dwSendTick;
+    u8 *lpe;
+    int eid;
+    int esize;
+    int iretry;
+    int bfinish;
+    unsigned long dw;
+    int state;
 
     ret = -5;
     dwSendTick = 0;
     iretry = 0;
-    ASTATE = 1;
+    bfinish = 0;
+    g_021DCFD0.AutoPhase = 1;
 
-    while (!bfinish && AFLAG10 == 0) {
+    while (!bfinish && g_021DCFD0.bAtermApCanceled == 0) {
         OS_Sleep(500);
-        switch (ASTATE) {
+        switch (g_021DCFD0.AutoPhase) {
         case 1:
             ret = ScanAP();
             if (ret != 1) {
                 bfinish = 1;
                 break;
             }
-            BTDUALCFG = 3;
+            g_021DCFD0.gAtermApState = 3;
             SendNotify();
-            ASTATE = 2;
+            g_021DCFD0.AutoPhase = 2;
             break;
         case 2:
             ret = ConnectAP();
@@ -171,16 +192,17 @@ int AutoConfigThreadEx(void)
                 bfinish = 1;
                 break;
             }
-            ASTATE = 3;
+            g_021DCFD0.AutoPhase = 3;
             break;
         case 3:
-            sock = SOC_Socket(2);
+            sock = SOC_Socket(2, 2, 0);
             if (sock < 0) {
                 ret = -2;
                 bfinish = 1;
                 break;
             }
-            server.len = 8;
+            __builtin__clear(&server, sizeof(server));
+            server.len = sizeof(server);
             server.family = 2;
             server.port = 486;
             server.addr.addr = 0;
@@ -190,34 +212,34 @@ int AutoConfigThreadEx(void)
                 bfinish = 1;
                 break;
             }
-            ASTATE = 4;
+            g_021DCFD0.AutoPhase = 4;
             break;
         case 4:
-            if (GetTickCount() >= (u32)ATIMEOUT) {
+            if (GetTickCount() >= g_021DAB58.gAtermApTimeout) {
                 SOC_Close(sock);
                 ret = -3;
                 bfinish = 1;
                 break;
             }
-            target.len = 8;
-            GetMacEncKey(g_021DD490);
+            target.len = sizeof(target);
+            GetMacEncKey(g_021DD490, &target);
             if (SOC_RecvFrom(sock, g_021DDD04, 0x800, 4, &target) <= 0)
                 break;
             if (!IsSearchCommand(g_021DDD04, &g_021DD020))
                 break;
-            ATIMEOUT = GetTickCount() + 30000;
-            ASTATE = 5;
-            BTDUALCFG = 4;
+            g_021DAB58.gAtermApTimeout = GetTickCount() + 30000;
+            g_021DCFD0.AutoPhase = 5;
+            g_021DCFD0.gAtermApState = 4;
             SendNotify();
             break;
         case 5:
-            ARESULT = SetSearchRes(g_021DDD04);
-            SendFrame(sock, &target, g_021DDD04, ARESULT);
+            g_021DCFD0.cbFrameData = SetSearchRes(g_021DDD04);
+            SendFrame(sock, &target, g_021DDD04, g_021DCFD0.cbFrameData);
             dwSendTick = GetTickCount();
-            ASTATE = 6;
+            g_021DCFD0.AutoPhase = 6;
             break;
         case 6:
-            if (GetTickCount() >= (u32)ATIMEOUT) {
+            if (GetTickCount() >= g_021DAB58.gAtermApTimeout) {
                 SOC_Close(sock);
                 ret = -4;
                 bfinish = 1;
@@ -231,41 +253,39 @@ int AutoConfigThreadEx(void)
             if (eid != 257)
                 break;
             dw = GetTickCount();
-            for (n = 0; n < 8; n++)
-                g_021DD4A0[n] = lpe[n];
+            memcpy(g_021DD4A0, lpe, 8);
             MD5Encode(g_021DD4A8, (u8 *)&dw, 4);
             iretry = 0;
-            ASTATE = 7;
-            BTDUALCFG = 5;
-            ATIMEOUT = -1;
+            g_021DCFD0.AutoPhase = 7;
+            g_021DCFD0.gAtermApState = 5;
+            g_021DAB58.gAtermApTimeout = -1;
             SendNotify();
             break;
         retry6:
             if (GetTickCount() < dwSendTick + 1000)
                 break;
-            ASTATE = 5;
+            g_021DCFD0.AutoPhase = 5;
             break;
         case 7:
-            AFIELD34 = SetSingleElement(g_021DD504, 258, g_021DD4A8, 8);
-            ARESULT = SetFrameData(g_021DDD04, 4, g_021DD504, AFIELD34, g_021DD490);
-            SendFrame(sock, &target, g_021DDD04, ARESULT);
+            g_021DCFD0.cbElementData = SetSingleElement(g_021DD504, 258, g_021DD4A8, 8);
+            g_021DCFD0.cbFrameData = SetFrameData(g_021DDD04, 4, g_021DD504, g_021DCFD0.cbElementData, g_021DD490);
+            SendFrame(sock, &target, g_021DDD04, g_021DCFD0.cbFrameData);
             dwSendTick = GetTickCount();
             __builtin__clear(&g_021DD224, sizeof(g_021DD224));
-            ASTATE = 8;
+            g_021DCFD0.AutoPhase = 8;
             break;
         case 8:
-            if (SOC_RecvFrom(sock, g_021DDD04, 0x800, 4, &target) <= 0)
-                goto retry8;
-            AFIELD34 = GetCommandElement(g_021DDD04, 5, g_021DD504, g_021DD4A0);
-            if (AFIELD34 == 0)
-                goto retry8;
-            if (!GetWLanSetElement(g_021DD504))
-                goto retry8;
-            BTAR = (*(signed char *)(g_021DD310 + 0x14) != 0) ? 1 : 0;
-            iretry = 0;
-            ASTATE = 9;
-            break;
-        retry8:
+            if (SOC_RecvFrom(sock, g_021DDD04, 0x800, 4, &target) > 0
+                && (g_021DCFD0.cbElementData = GetCommandElement(g_021DDD04, 5, g_021DD504, g_021DD4A0)) != 0
+                && GetWLanSetElement(g_021DD504)) {
+                if (g_021DD310[0x14] != 0)
+                    g_021DCFD0.btAutoResult = 1;
+                else
+                    g_021DCFD0.btAutoResult = 0;
+                iretry = 0;
+                g_021DCFD0.AutoPhase = 9;
+                break;
+            }
             if (GetTickCount() < dwSendTick + 1000)
                 break;
             if (++iretry >= 10) {
@@ -274,20 +294,21 @@ int AutoConfigThreadEx(void)
                 bfinish = 1;
                 break;
             }
-            ASTATE = 7;
+            g_021DCFD0.AutoPhase = 7;
             break;
         case 9:
-            AFIELD34 = SetSingleElement(g_021DD504, 769, (u8 *)g_021DCFD0, 1);
-            ARESULT = SetFrameData(g_021DDD04, 6, g_021DD504, AFIELD34, g_021DD4A0);
-            if (APC_GetState() != 7) {
+            g_021DCFD0.cbElementData = SetSingleElement(g_021DD504, 769, &btAutoResult, 1);
+            g_021DCFD0.cbFrameData = SetFrameData(g_021DDD04, 6, g_021DD504, g_021DCFD0.cbElementData, g_021DD4A0);
+            state = APC_GetState();
+            if (state != 7) {
                 dwSendTick = GetTickCount() + 1000;
                 iretry = 10;
-                ASTATE = 10;
+                g_021DCFD0.AutoPhase = 10;
                 break;
             }
-            SendFrame(sock, &target, g_021DDD04, ARESULT);
+            SendFrame(sock, &target, g_021DDD04, g_021DCFD0.cbFrameData);
             dwSendTick = GetTickCount();
-            ASTATE = 10;
+            g_021DCFD0.AutoPhase = 10;
             break;
         case 10:
             if (GetTickCount() < dwSendTick + 1000)
@@ -297,15 +318,13 @@ int AutoConfigThreadEx(void)
                 ret = StoreNetParam();
                 break;
             }
-            ASTATE = 9;
-            break;
-        default:
+            g_021DCFD0.AutoPhase = 9;
             break;
         }
     }
     if (sock != 0)
         SOC_Close(sock);
-    if (AFLAG10 != 0)
+    if (g_021DCFD0.bAtermApCanceled != 0)
         ret = -8;
     return ret;
 }

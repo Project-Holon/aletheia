@@ -11,30 +11,19 @@
  *
  * sdk:      GetAPP1 (libssp exifdec.o, static)
  *
- * BLOCKER (codegen + evidence): dsi/1.1p1 builds this at 1916 bytes against
- * the 1908-byte object, with 976 concrete bytes differing.  The prologue now
- * matches exactly (push without r3, frame 0x24, cur in r8, 0xffff kept in r4)
- * after three source levers, all read off the DWARF local list:
- *   1. there is NO `p` local -- the source reuses `cur` as the walking
- *      pointer (its live ranges split across phases, so the allocator gives
- *      it different colours).  Removing `p` freed the callee-saved register
- *      that had forced `push {r3}` and spilled the 0xffff constant.
- *   2. there is NO `w` local -- the ValueOffset/`p-count` select is written
- *      directly as the field assignment expression, not via a temp.
- *   3. declarations follow the DWARF reverse order (AppLen, len, Endian, tag,
- *      type, count, ValueOffset, next, exif, maker, inter, thumb), which is
- *      also the stack-slot order.
- * The first IFD0 walk is byte-identical.  Remaining divergence starts at the
- * Exif-IFD walk: `tag`/`len` are colour-swapped (compiled tag=r7,len=r4; the
- * object has tag=r4,len=r7), which then rotates count/ValueOffset through the
- * MakerNote and thumbnail walks.  Swapping the tag/len declaration order is
- * neutral here, so the cause is the phases reusing variable identities (see
- * docs/idioms/reusing-a-loop-variable-across-phases-changes-the-allocation.md).
- * EVIDENCE cap: the two ABS32 sites g_021CADB0 (SSPiDateTime) and g_021CADC4
- * (SSPiSoftwareBuffer) have no witness outside 021C0440..021C0BC0, so 35 of 37
- * relocations resolve and the best verdict is MATCH even if the body becomes
- * byte-exact.  GetLong (0x021C03C0) is already EXACT; GetWord (0x021C0370)
- * resolves as sole-ref code today.
+ * 2026-10-01 (lane 05): 1908/1908 bytes, 16 concrete (was 1916/976), all
+ * 37 relocations resolve.  Closed by control flow read off the listing: the
+ * IFD scheduler is a top-tested `while (maker|inter|next != 0xffff)` with
+ * the option/soi_addr tail AFTER the loop (the image enters it with
+ * `b <cond>`), and the MakerNote walk is nested under
+ * `if (tag == 0x1000 && type == 7 && ValueOffset == 0x1c)` with
+ * `maker = 0xffff` after it, not two `continue`s.  Residue: (1) Exif-IFD
+ * walk colours len/tag swapped (image len=r7 tag=r4; tag/len declaration
+ * swap, `&&` merge and a for-loop are inert); (2) in the 0x1001/0x1002 size
+ * checks the image adds the stored u16 offset from r1 (`add r0,r0,r1`)
+ * where 1.1p1 refolds it as `add r0,r1,r0,lsr #16`; a ValueOffset
+ * reassignment, `(u16)` casts, a `type` temp and operand swaps are inert.
+ * Earlier levers kept: no `p`/`w` locals, DWARF declaration order.
  *
  * Reconstructed from the DWARF of the defining object (param/local names and
  * registers) plus the object disassembly.  Parses the Exif APP1 payload at
@@ -173,18 +162,8 @@ s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
         len--;
     }
 
-    for (;;) {
-        if (maker_ifd_offset == 0xffff && inter_ifd_offset == 0xffff &&
-            next_ifd_offset == 0xffff) {
-            if (option & 1) {
-                if (thumb_ifd_offset == 0xffffffff)
-                    return 2;
-                *soi_addr = thumb_ifd_offset + 0xc;
-                return 0;
-            }
-            *soi_addr = AppLen + 4;
-            return 1;
-        }
+    while (maker_ifd_offset != 0xffff || inter_ifd_offset != 0xffff ||
+           next_ifd_offset != 0xffff) {
 
         if (maker_ifd_offset < inter_ifd_offset &&
             maker_ifd_offset < next_ifd_offset) {
@@ -198,18 +177,10 @@ s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
             count = func_021C03C0(src, maker_ifd_offset + 0x16, Endian);
             cur = maker_ifd_offset + 0x1a;
 
-            if (tag != 0x1000 || type != 7 || ValueOffset != 0x1c) {
-                maker_ifd_offset = 0xffff;
-                continue;
-            }
-
+            if (tag == 0x1000 && type == 7 && ValueOffset == 0x1c) {
             len = len - 1;
             if ((u32)len * 12 + cur >= src_size)
                 return 2;
-            if (len == 0) {
-                maker_ifd_offset = 0xffff;
-                continue;
-            }
 
             while (len != 0) {
                 tag = func_021C0370(src, cur, Endian);
@@ -239,6 +210,7 @@ s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
                 }
 
                 len--;
+            }
             }
 
             maker_ifd_offset = 0xffff;
@@ -297,4 +269,13 @@ s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
 
         return 2;
     }
+
+    if (option & 1) {
+        if (thumb_ifd_offset == 0xffffffff)
+            return 2;
+        *soi_addr = thumb_ifd_offset + 0xc;
+        return 0;
+    }
+    *soi_addr = AppLen + 4;
+    return 1;
 }

@@ -8,6 +8,8 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * lane01 (2026-10-01): `short` / `signed char` c and a three-case switch with `c == 0` handled in
+ *   default are worse (pivot-first chain or no range check at all). Draft body kept (20 B).
  * blocker:  switch dispatch block scheduling. Source is now written as the
  *   image's own shape: an explicit `if (c > 0x83) goto append;` then
  *   `if (c < 0x80) { if (c == 0) goto tail; goto append; }` then a switch over

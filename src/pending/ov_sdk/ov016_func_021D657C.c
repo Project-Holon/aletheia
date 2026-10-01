@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
- * notes: SIZE-EXACT (272 B), 2/2 relocs resolved, 54 concrete bytes out.
+ * notes: SIZE-EXACT (272 B), 2/2 relocs resolved, 40 concrete bytes out (was 54).
  * The instruction stream is identical instruction-for-instruction; the whole
  * residue is the front end's colouring of the caller-saved scratch register
  * set {r0,r1,r2} in the key-mask block at +0028..+0078:
@@ -49,11 +49,18 @@
  * the long-lived bit/mask accumulator and the object pointer are two scratch
  * colours the 1024/1025 allocator picks oppositely, with no boundary crossing.
  *
+ * lane04 (2026-10-01): 54 -> 40. The vendor relocation names
+ * `_ZZ7readKeyvE5count`, a function-local static: `static unsigned char
+ * count[14];` inside the function (named reloc, resolves) removes the +00E0
+ * count=40 slot. Left: the +0028..+0078 scratch colouring and the +0068
+ * cont-read slot. A file-static ks pointer (MemInput) and the reverse ==47 arm
+ * order (66) do not help.
+ *
  * sdk:      readKey (libdwcutil.TWL.HYB.a input.o)
  *
  * symbols:
  *   g_021DE688     0x021DE688 data
- *   g_021DE690     0x021DE690 data
+ *   _ZZ13func_021D657CvE5count 0x021DE690 data
  */
 
 struct keystate {
@@ -70,10 +77,10 @@ struct keyfold {
 };
 
 extern struct keyfold g_021DE688;
-extern unsigned char g_021DE690[14];
 
 void func_021D657C(void)
 {
+    static unsigned char count[14];
     unsigned short *input;
     int i;
     unsigned short bit;
@@ -87,14 +94,14 @@ void func_021D657C(void)
     g_021DE688.ks->repeat = g_021DE688.ks->trg;
     for (i = 0; i < 14; i++) {
         if (!(bit & (unsigned short)(1 << i))) {
-            g_021DE690[i] = 0;
+            count[i] = 0;
         } else {
-            g_021DE690[i]++;
-            if (g_021DE690[i] == 40) {
+            count[i]++;
+            if (count[i] == 40) {
                 g_021DE688.ks->repeat |= (unsigned short)(1 << i);
-            } else if (g_021DE690[i] == 47) {
+            } else if (count[i] == 47) {
                 g_021DE688.ks->repeat |= (unsigned short)(1 << i);
-                g_021DE690[i] = 40;
+                count[i] = 40;
             }
         }
     }

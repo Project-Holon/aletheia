@@ -50,6 +50,13 @@
  *   is the front end's tie-break between the constant-0 rematerialisation and kk, not a source
  *   shape: park.
  *
+ * lane07 (2026-10-01): 48 -> 45.  `kk = 0;` moved above the phase-2 MIi_CpuClearFast
+ *   (the image materialises kk = 0 in r8 and passes it as the clear's 0, `mov r8,#0; mov
+ *   r0,r8`), so phase-2 kk is callee-saved.  Remaining: the image keeps kk in r8 in all three
+ *   phases (one allocator value) with code in sb; ours splits kk (r3 / r6 / r3) and gives code
+ *   r8.  Also `kk = 0` above the phase-1 clear puts phase-1 kk in sb (6 regs, 48 B, code
+ *   still r8); DWARF declaration order (ii, jj, kk, si, code) swaps hf/pWork homes (83 B).
+ *
  * sdk:      Yos_JpegEncoderHuffmanEncoderBuildTable (libssp.TWL.HYB.a jpegenc.o)
  *
  * symbols:
@@ -123,8 +130,8 @@ static void Yos_JpegEncoderHuffmanEncoderBuildTable(Yos_JpegEncoderHuffmanEncode
         ii++;
     }
 
-    MIi_CpuClearFast(0, pWork->mHuffCode, 0x400);
     kk = 0;
+    MIi_CpuClearFast(0, pWork->mHuffCode, 0x400);
     si = pWork->mHuffSize[0];
     while ((pWork->mHuffSize[kk] != 0) ? 1 : 0) {
         while ((pWork->mHuffSize[kk] == si) ? 1 : 0) {

@@ -1,0 +1,53 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "ov009",
+ "shard": "pkt_ov009_0219C7C0",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "qr2_parse_queryA",
+   "address": "0x0219C7C0",
+   "kind": "sdk",
+   "region": "ov009",
+   "source": "src/matched/ov_sdk/ov009_func_0219C7C0.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x021A5A7C",
+     "data:0x021A6600",
+     "self:0x021A7874",
+     "self:0x021A788C",
+     "self:0x021A78B4",
+     "self:0x021A78F0",
+     "self:0x021A791C",
+     "self:0x021A7944",
+     "self:0x021A7960",
+     "self:0x021A7988",
+     "self:0x021A79A8",
+     "self:0x021A79D8",
+     "self:0x021A79F4",
+     "self:0x021A7A14",
+     "self:0x021A7A38",
+     "self:0x021A7A58",
+     "self:0x021A7A74"
+    ],
+    "sdk": [
+     "0x0208CF34",
+     "0x0219BAB4",
+     "0x0219BB54",
+     "0x0219C154",
+     "0x0219C3A4",
+     "0x0219C554",
+     "0x0219C5B8",
+     "0x0219C724"
+    ]
+   }
+  }
+ ]
+}

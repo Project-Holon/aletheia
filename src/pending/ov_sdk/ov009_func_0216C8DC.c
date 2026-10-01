@@ -86,6 +86,13 @@
  * into callee-saved r4; the image rematerialises `mov r2,#0` at the stores and
  * `mov r0,#0` per return.  Confirmed wall.
  *
+ * 2026-10-01 (lane02): 134 -> 132 B. Body retyped from DWARF (u8 keyID and
+ *   return, int *valueSrc, strcmp(keyString-field, keyString) and
+ *   DWC_Free(4, ptr) with their real second arguments). The pooled zero is
+ *   still the whole residue. Measured: dropping one zero store still pools,
+ *   dropping both stops it (the returns alone never pool); int return and
+ *   split NULL guards do not help.
+ *
  * symbols:
  *   g_021AAA40     0x021AAA40  data  ov009
  *   func_02173AD8  0x02173AD8  arm  ov009
@@ -100,56 +107,54 @@
 
 typedef unsigned char u8;
 typedef unsigned short u16;
-typedef unsigned int u32;
+typedef unsigned long u32;
 
-struct Key {
-    u8  f0;
-    u8  f1;
-    u16 f2;
-    u32 f4;
-    u32 f8;
+struct DWCstGameMatchKeyData {
+    u8 keyID;
+    u8 isStr;
+    u16 pad;
+    char *keyString;
+    void *value;
 };
 
-extern struct Key g_021AAA40[];
-extern int  func_02173AD8(void);
-extern int  func_020948E0(u32 p);
-extern void func_0205A1B0(int a0);
-extern int  func_0209477C(char *s);
-extern void *func_0205A16C(int a0, int a1);
-extern void func_02094798(void *dst, char *src);
-extern void func_0216EB68(int a0, int a1);
-extern void func_0219D158(int a0, void *a1);
+extern struct DWCstGameMatchKeyData g_021AAA40[154];
 
-int func_0216C8DC(int a0, char *a1, int a2)
+extern int func_020948E0(const char *s1, const char *s2);
+extern u8 func_02173AD8(void);
+extern void func_0205A1B0(int name, void *ptr);
+extern u32 func_0209477C(const char *s);
+extern void *func_0205A16C(int name, u32 size);
+extern void func_0216EB68(int error, int errorCode);
+extern char *func_02094798(char *dst, const char *src);
+extern void func_0219D158(int keyid, char *key);
+
+u8 func_0216C8DC(u8 keyID, char *keyString, int *valueSrc)
 {
-    int i;
+    int index;
 
-    if (a1 == 0 || a2 == 0)
+    if (keyString == 0 || valueSrc == 0)
         return 0;
-
-    if ((unsigned)a0 >= 0x64u && g_021AAA40[a0 - 0x64].f0 != 0) {
-        if (g_021AAA40[a0 - 0x64].f4 != 0 &&
-            func_020948E0(g_021AAA40[a0 - 0x64].f4) != 0)
+    if (keyID >= 0x64 && g_021AAA40[keyID - 0x64].keyID != 0) {
+        if (g_021AAA40[keyID - 0x64].keyString != 0 && func_020948E0(g_021AAA40[keyID - 0x64].keyString, keyString) != 0)
             return 0;
     } else {
-        a0 = func_02173AD8();
-        if (a0 == 0)
+        keyID = func_02173AD8();
+        if (keyID == 0)
             return 0;
     }
-
-    i = a0 - 0x64;
-    g_021AAA40[i].f0 = a0;
-    g_021AAA40[i].f1 = 0;
-    g_021AAA40[i].f2 = 0;
-    if (g_021AAA40[i].f4 != 0)
-        func_0205A1B0(4);
-    g_021AAA40[i].f4 = (u32)func_0205A16C(4, func_0209477C(a1) + 1);
-    if (g_021AAA40[i].f4 == 0) {
-        func_0216EB68(9, (int)0xFFFEC77F);
+    index = keyID - 0x64;
+    g_021AAA40[index].keyID = keyID;
+    g_021AAA40[index].isStr = 0;
+    g_021AAA40[index].pad = 0;
+    if (g_021AAA40[index].keyString != 0)
+        func_0205A1B0(4, g_021AAA40[index].keyString);
+    g_021AAA40[index].keyString = func_0205A16C(4, func_0209477C(keyString) + 1);
+    if (g_021AAA40[index].keyString == 0) {
+        func_0216EB68(9, -80001);
         return 0;
     }
-    func_02094798((void *)g_021AAA40[i].f4, a1);
-    g_021AAA40[i].f8 = a2;
-    func_0219D158(a0, (void *)g_021AAA40[i].f4);
-    return a0;
+    func_02094798(g_021AAA40[index].keyString, keyString);
+    g_021AAA40[index].value = valueSrc;
+    func_0219D158(keyID, g_021AAA40[index].keyString);
+    return keyID;
 }

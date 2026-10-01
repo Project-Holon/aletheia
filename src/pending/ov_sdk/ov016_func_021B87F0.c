@@ -81,6 +81,11 @@
  * slot (object 0x2c -> the shared `b` at 0x21b88e2; ours 0xb6 -> the exit) is the
  * front end coalescing an empty fallthrough case into the exit; the ssidLength
  * loop's r0/r1 role swap is a preheader allocator tie. Parked.
+ *
+ * 2026-10-01 (lane02): DWARF lists an unused `int connect_lock` and u8 wep_id.
+ *   Plain empty-loop bodies (`(void)0;`, `{}`, a dead `connect_lock = 0;`,
+ *   bound through g_021DCE60) are all deleted by 2.0 (460 B); only the
+ *   `?1:0` / `(len > i) ? 1 : 0` spellings keep the loop, both 6 B. Unchanged.
  */
 
 typedef unsigned char u8;

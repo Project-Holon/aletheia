@@ -1,5 +1,5 @@
 /*
- * function: DWCi_WINlInitEx
+ * function: func_021D1208
  * address:  0x021D1208
  * packet:   pkt_ov016_021D1208
  * region:   ov016

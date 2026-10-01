@@ -42,6 +42,11 @@
  *           duplicate pool load folds away (268 B). Inert on the current body:
  *           u64-typed alias, pointer local for the x store, SDK-spelled
  *           constants, `*(u64 *)&seed`; mul before x is worse.
+ * 2026-10-01 lane08: inline MATH_InitRand32(&g, seed) gives the image's
+ *   order (stm, then constants) but stores x through the CSE'd base (268 B);
+ *   the image is that plus a fresh pool load for x only.  Inert (18): split
+ *   inline setters, int-cast/u64* x-store pointers, goto label between x and
+ *   mul.  A memcpy-style inline copy is worse (272 B).
  */
 
 typedef unsigned char u8;

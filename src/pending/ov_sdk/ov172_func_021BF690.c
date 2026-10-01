@@ -9,6 +9,19 @@
  * isa:      arm
  * status:   DIFF
  *
+ * 2026-10-01 (lane02): 964 B / 726 -> 984/984 B / 434 concrete. Size closed by:
+ *   (1) the 9-bit walk caches bits/byte in locals `s`/`t` (DWARF names; the
+ *   image keeps them in lr/r4 and stores bits each pass); (2) `bcode2.bits
+ *   -= 9` after the 9-bit peek; (3) the post-walk checks are one inline
+ *   `if (k > 16 || v+k < 0 || v+k+0x46 >= 0x1800) {err; return 0;}` and each
+ *   case ends `val = jw[idx]; break;` (cross-jumped tail, default returns
+ *   val); (4) the first section (p1/p2 set, 8-bit refill, fast path) goes
+ *   through a `BitState *bc = &bcode2` pointer while the err stores name
+ *   bcode2 (the image reloads &bcode2 for err while r4 holds the base), a
+ *   stand-in for what is likely an inline helper's pointer parameter. Residue:
+ *   colouring (v lr vs r5, pooled 1 vs 0 in r3) and loop 2 still reloads.
+ *   Moving loop 2 onto bc as well regressed (976/768).
+ *
  * blocker:  wave8 second retry: 964 of 984 (was 896).  Two real levers
  *           landed: (1) bcode2.byte is signed (`asr`, not `lsr`, on the peek
  *           shift) and (2) the switch arms now write the bounds check + err
@@ -82,38 +95,41 @@ int func_021BF690(u8 *b, int *p, int n)
     int idx;
     int val;
     int k;
+    int s;
+    int t;
+    BitState *bc = &bcode2;
 
     v = ntbl[n];
-    bcode2.p1 = jw + v;
-    bcode2.p2 = jw + v;
+    bc->p1 = jw + v;
+    bc->p2 = jw + v;
 
-    if (bcode2.bits < 8) {
-        bcode2.byte <<= 8;
+    if (bc->bits < 8) {
+        bc->byte <<= 8;
         i = *p;
-        if ((u32)(i + 1) >= bcode2.limit)
+        if ((u32)(i + 1) >= bc->limit)
             return 0;
         *p = i + 1;
         c = b[i];
-        bcode2.esc = 0;
+        bc->esc = 0;
         if (c == 0xff) {
             (*p)++;
             c = 0xff;
-            bcode2.esc = 1;
+            bc->esc = 1;
         }
-        bcode2.bits += 8;
-        bcode2.byte |= c;
+        bc->bits += 8;
+        bc->byte |= c;
     }
 
-    bits = bcode2.bits;
-    idx = v + 0xae + ((bcode2.byte >> (bits - 8)) & 0xff);
+    bits = bc->bits;
+    idx = v + 0xae + ((bc->byte >> (bits - 8)) & 0xff);
     if (idx < 0 || idx >= 0x1800) {
         bcode2.err = 1;
         return 0;
     }
     val = jw[idx];
     if (val != 0) {
-        bcode2.bits = bits - val;
-        idx = v + 0x1ae + ((bcode2.byte >> (bits - 8)) & 0xff);
+        bc->bits = bits - val;
+        idx = v + 0x1ae + ((bc->byte >> (bits - 8)) & 0xff);
         if (idx < 0 || idx >= 0x1800) {
             bcode2.err = 1;
             return 0;
@@ -138,49 +154,48 @@ int func_021BF690(u8 *b, int *p, int n)
         bcode2.byte |= c;
     }
 
-    bits = bcode2.bits;
-    val = (bcode2.byte >> (bits - 9)) & 0x1ff;
-    bcode2.bits = bits - 9;
+    val = (bcode2.byte >> (bcode2.bits - 9)) & 0x1ff;
+    bcode2.bits -= 9;
     if (v + 0x1a >= 0x1800) {
         bcode2.err = 1;
         return 0;
     }
     k = 9;
     if (val > ((s32 *)bcode2.p2)[0x1a]) {
-        while (1) {
-            if (bcode2.bits == 0) {
+        s = bcode2.bits;
+        t = bcode2.byte;
+        do {
+            if (s == 0) {
                 i = *p;
                 if ((u32)(i + 1) >= bcode2.limit)
                     return 0;
                 *p = i + 1;
-                c = b[i];
-                bcode2.byte = c;
+                t = b[i];
+                bcode2.byte = t;
                 bcode2.esc = 0;
-                if (c == 0xff) {
+                if (t == 0xff) {
                     (*p)++;
                     bcode2.byte = 0xff;
+                    t = 0xff;
                     bcode2.esc = 1;
                 }
-                bcode2.bits = 8;
+                s = 8;
             }
-            val = (val << 1) | ((bcode2.byte >> (bcode2.bits - 1)) & 1);
+            val = (val << 1) | ((t >> (s - 1)) & 1);
             k++;
+            s--;
+            bcode2.bits = s;
             if (v + 0x11 + k >= 0x1800) {
                 bcode2.err = 1;
                 return 0;
             }
-            bcode2.bits--;
-            if (val <= ((s32 *)bcode2.p2)[k + 0x11])
-                break;
-        }
+        } while (val > ((s32 *)bcode2.p2)[k + 0x11]);
     }
 
-    if (k > 0x10)
-        goto err;
-    if (v + k < 0)
-        goto err;
-    if (v + k + 0x46 >= 0x1800)
-        goto err;
+    if (k > 0x10 || v + k < 0 || v + k + 0x46 >= 0x1800) {
+        bcode2.err = 1;
+        return 0;
+    }
 
     switch (n) {
     case 0:
@@ -190,6 +205,7 @@ int func_021BF690(u8 *b, int *p, int n)
             bcode2.err = 1;
             return 0;
         }
+        val = jw[idx];
         break;
     case 1:
         idx = val + ((s16 *)bcode2.p1)[k + 0x46]
@@ -198,6 +214,7 @@ int func_021BF690(u8 *b, int *p, int n)
             bcode2.err = 1;
             return 0;
         }
+        val = jw[idx];
         break;
     case 2:
         idx = val + ((s16 *)bcode2.p1)[k + 0x46]
@@ -206,6 +223,7 @@ int func_021BF690(u8 *b, int *p, int n)
             bcode2.err = 1;
             return 0;
         }
+        val = jw[idx];
         break;
     case 3:
         idx = val + ((s16 *)bcode2.p1)[k + 0x46]
@@ -214,16 +232,11 @@ int func_021BF690(u8 *b, int *p, int n)
             bcode2.err = 1;
             return 0;
         }
+        val = jw[idx];
         break;
-    default:
-        return val;
     }
 
-    return jw[idx];
-
-err:
-    bcode2.err = 1;
-    return 0;
+    return val;
 }
 
 

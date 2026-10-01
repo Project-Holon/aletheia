@@ -42,6 +42,13 @@
  * Verified with:
  *   python tools/match.py one --src src/pending/ov016_func_021C9A94.c \
  *       --func isPush --addr 0x021C9A94 --region ov016 --cc 1.1p1 --arm
+ * lane 05 (2026-10-01): new and inert/worse: non-volatile `a` with
+ * `a.t += (u16)(i * 29)` (620/409, DSE drops the first t store and the copy
+ * loads all four fields first); the same through a static inline
+ * setArea(AREA *, const AREA *, u16) (identical, and 652/366 with a volatile
+ * pointer).  The image's paired copy (l,t store before w,h load) plus the
+ * kept dead t store look like 4.0.0.1025's conservative store/load ordering
+ * between a stack local and global data; volatile is the nearest emulation.
  */
 typedef _Bool bool;
 

@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * lane01 (2026-10-01): also inert at 10 B: K&R parameter list, static inline helpers for the
+ *   bound test / mask / shift-in, if/else arms swapped, `dx = 1 << cx; dx--;`. `const` on the
+ *   bcode2 table recolours everything (worse).
  * blocker:  10 concrete bytes: one callee-saved register SET tie.  Every instruction
  *           schedule and opcode is identical; the only residue is {cx,i} occupying
  *           {r4,r6} in the opposite assignment (image cx r6 / i r4; ours cx r4 / i r6,

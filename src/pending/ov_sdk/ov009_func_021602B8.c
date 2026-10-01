@@ -90,6 +90,10 @@
   *           seq/level/mode=r6/r7/r8).  The residue is exactly
   *           docs/idioms/vendor-front-end-parameter-register-set-cannot-be-forced.md,
   *           whose canonical instance is the same overlay.  Parked; stopped 08:28.
+ * lane 09 (2026-10-01): DWARF-faithful locals (no iconnection/obj stand-ins, sub_seq and
+ *           cert_date block-scoped, declared s,type,len,end,i) = 1192 B / 665 (worse, kept
+ *           the 628 body); `object` as a TU static (it is local data in ssl.o) inert at 628;
+ *           a zero-byte asm statement (no-split mode) inert on the parameter homes.
  */
 
 struct _CPSSslConnection {

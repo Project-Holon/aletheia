@@ -46,6 +46,26 @@
  *           8-way case-4 declaration-order sweep.  Remaining lever: stop the
  *           function-wide `limits` base from claiming `lr` so `m` can take it.
  *
+ * 2026-10-01 (lane03): REWRITTEN to the DWARF. writeblock has exactly seven
+ *           function-scope locals (rr, z, t, s, n, m, e; no block locals), so
+ *           the per-case blocks were stand-ins. The four cases are copies with
+ *           one role per name: n row, m column, z draw_block counter, e byte
+ *           offset, s horizontal block, t vertical block. rr is reused: the
+ *           chroma index, then the packed pixel (case 3: the draw_block
+ *           sample, then the pixel; that makes the case-3 loop hoist
+ *           draw_block into lr as the image does). An index spelled as an
+ *           expression is strength-reduced (+200 B), and an inline helper
+ *           hoists limits instead. G is `Crgtab[dcb] + Cbgtab[dcr]`. Case 5/6
+ *           offsets reuse the guard's sum `n + (y + t * 8)`. Case 6 uses the
+ *           same tables as case 3 (the old "swap" note was wrong). Now 1372/1372
+ *           B, every loop, frame slot and DWARF home as the image (e r7, m r8,
+ *           z r9, n/t/s at sp+1c/20/24, rr r0); 113 concrete (was 1083).
+ *           Residue: in each pixel body the image schedules the R chain
+ *           (dcb, Crrtab) before the B chain (dcr, Cbbtab), ours the reverse,
+ *           so r4/r5 trade places and the dcb/dcr pool words swap; plus the
+ *           bcode2/dy prologue order. All six R/G/B term orders measured, RGB
+ *           and GRB best. The four Cxxtab words stay wildcarded (no witness).
+ *
  * sdk:      writeblock (libssp.TWL.HYB.a jpegdec.o)
  *
  * YCbCr block merge + colour convert.  Four near-identical 8x8 loops,
@@ -93,119 +113,94 @@ extern s32 Cbgtab[256];
 
 void func_021BFA68(u8 *d, int x, int y, int dx, int dy)
 {
+    int e, m, n, s, t, z, rr;
+
     switch (bcode2.f04 * 2 + bcode2.f14) {
-    case 3: {
-        int i, off, j, z, v;
-        u8 *yp;
-
-        i = z = 0;
-        for (; i < 8; i++) {
-            if (y + i >= dy)
+    case 3:
+        for (n = z = 0; n < 8; n++) {
+            if (y + n >= dy)
                 return;
-            off = 2 * (dx * (y + i) + x);
-            for (j = 0; j < 8; j++, z++) {
-                if (x + j >= dx)
+            e = 2 * (dx * (y + n) + x);
+            for (m = 0; m < 8; m++, z++, e += 2) {
+                if (x + m >= dx)
                     break;
-                yp = limits + draw_block[z];
-                v = ((yp[(Cbgtab[dcr[z]] + Crgtab[dcb[z]]) >> 16] & 0xf8) << 2)
-                    | ((yp[Crrtab[dcb[z]]] & 0xf8) >> 3)
-                    | ((yp[Cbbtab[dcr[z]]] & 0xf8) << 7)
-                    | 0x8000;
-                d[off] = v;
-                d[off + 1] = v >> 8;
-                off += 2;
+                rr = draw_block[z];
+                rr = ((limits[rr + Crrtab[dcb[z]]] & 0xf8) >> 3)
+                   | ((limits[rr + ((Crgtab[dcb[z]] + Cbgtab[dcr[z]]) >> 16)] & 0xf8) << 2)
+                   | ((limits[rr + Cbbtab[dcr[z]]] & 0xf8) << 7)
+                   | 0x8000;
+                d[e] = rr;
+                d[e + 1] = rr >> 8;
             }
         }
         break;
-    }
 
-    case 4: {
-        int e, off, j, m, n, idx, v;
-        u8 *yp;
-
-        n = e = 0;
-        for (; n < bcode2.f14; n++) {
-            for (m = 0; m < 8; m++) {
-                if (y + m >= dy)
+    case 4:
+        for (s = z = 0; s < bcode2.f14; s++) {
+            for (n = 0; n < 8; n++) {
+                if (y + n >= dy)
                     break;
-                off = 2 * (dx * (y + m) + x + n * 8);
-                for (j = 0; j < 8; j++, e++) {
-                    if (x + n * 8 + j >= dx)
+                e = 2 * (dx * (y + n) + x + s * 8);
+                for (m = 0; m < 8; m++, z++) {
+                    if (m + (x + s * 8) >= dx)
                         break;
-                    idx = (j >> 1) + n * 4 + m * 8;
-                    yp = limits + draw_block[e];
-                    v = ((yp[(Cbgtab[dcr[idx]] + Crgtab[dcb[idx]]) >> 16] & 0xf8) << 2)
-                        | ((yp[Crrtab[dcb[idx]]] & 0xf8) >> 3)
-                        | ((yp[Cbbtab[dcr[idx]]] & 0xf8) << 7)
-                        | 0x8000;
-                    d[off] = v;
-                    d[off + 1] = v >> 8;
-                    off += 2;
+                    rr = (m >> 1) + s * 4 + n * 8;
+                    rr = ((limits[draw_block[z] + Crrtab[dcb[rr]]] & 0xf8) >> 3)
+                       | ((limits[draw_block[z] + ((Crgtab[dcb[rr]] + Cbgtab[dcr[rr]]) >> 16)] & 0xf8) << 2)
+                       | ((limits[draw_block[z] + Cbbtab[dcr[rr]]] & 0xf8) << 7)
+                       | 0x8000;
+                    d[e] = rr;
+                    d[e + 1] = rr >> 8;
+                    e += 2;
                 }
             }
         }
         break;
-    }
 
-    case 5: {
-        int e, off, j, s, t, idx, v;
-        u8 *yp;
-
-        t = e = 0;
-        for (; t < bcode2.f04; t++) {
-            for (s = 0; s < 8; s++) {
-                if (s + y + t * 8 >= dy)
+    case 5:
+        for (t = z = 0; t < bcode2.f04; t++) {
+            for (n = 0; n < 8; n++) {
+                if (n + (y + t * 8) >= dy)
                     break;
-                off = 2 * (dx * (s + y + t * 8) + x);
-                for (j = 0; j < 8; j++, e++) {
-                    if (x + j >= dx)
+                e = 2 * (dx * (n + (y + t * 8)) + x);
+                for (m = 0; m < 8; m++, z++) {
+                    if (x + m >= dx)
                         break;
-                    idx = j + (s >> 1) * 8 + t * 32;
-                    yp = limits + draw_block[e];
-                    v = ((yp[(Cbgtab[dcr[idx]] + Crgtab[dcb[idx]]) >> 16] & 0xf8) << 2)
-                        | ((yp[Crrtab[dcb[idx]]] & 0xf8) >> 3)
-                        | ((yp[Cbbtab[dcr[idx]]] & 0xf8) << 7)
-                        | 0x8000;
-                    d[off] = v;
-                    d[off + 1] = v >> 8;
-                    off += 2;
+                    rr = m + (n >> 1) * 8 + t * 32;
+                    rr = ((limits[draw_block[z] + Crrtab[dcb[rr]]] & 0xf8) >> 3)
+                       | ((limits[draw_block[z] + ((Crgtab[dcb[rr]] + Cbgtab[dcr[rr]]) >> 16)] & 0xf8) << 2)
+                       | ((limits[draw_block[z] + Cbbtab[dcr[rr]]] & 0xf8) << 7)
+                       | 0x8000;
+                    d[e] = rr;
+                    d[e + 1] = rr >> 8;
+                    e += 2;
                 }
             }
         }
         break;
-    }
 
-    case 6: {
-        int c, e, off, j, d2, s, idx, v;
-        u8 *yp;
-
-        c = e = 0;
-        for (; c < bcode2.f04; c++) {
-            for (d2 = 0; d2 < bcode2.f14; d2++) {
-                for (s = 0; s < 8; s++) {
-                    if (s + y + c * 8 >= dy)
+    case 6:
+        for (t = z = 0; t < bcode2.f04; t++) {
+            for (s = 0; s < bcode2.f14; s++) {
+                for (n = 0; n < 8; n++) {
+                    if (n + (y + t * 8) >= dy)
                         break;
-                    off = 2 * (dx * (s + y + c * 8) + x + d2 * 8);
-                    for (j = 0; j < 8; j++, e++) {
-                        if (x + d2 * 8 + j >= dx)
+                    e = 2 * (dx * (n + (y + t * 8)) + x + s * 8);
+                    for (m = 0; m < 8; m++, z++) {
+                        if (m + (x + s * 8) >= dx)
                             break;
-                        idx = (j >> 1) + d2 * 4 + (s >> 1) * 8 + c * 32;
-                        yp = limits + draw_block[e];
-                        v = ((yp[(Cbgtab[dcb[idx]] + Crgtab[dcr[idx]]) >> 16] & 0xf8) << 2)
-                            | ((yp[Crrtab[dcr[idx]]] & 0xf8) >> 3)
-                            | ((yp[Cbbtab[dcb[idx]]] & 0xf8) << 7)
-                            | 0x8000;
-                        d[off] = v;
-                        d[off + 1] = v >> 8;
-                        off += 2;
+                        rr = (m >> 1) + s * 4 + (n >> 1) * 8 + t * 32;
+                        rr = ((limits[draw_block[z] + Crrtab[dcb[rr]]] & 0xf8) >> 3)
+                           | ((limits[draw_block[z] + ((Crgtab[dcb[rr]] + Cbgtab[dcr[rr]]) >> 16)] & 0xf8) << 2)
+                           | ((limits[draw_block[z] + Cbbtab[dcr[rr]]] & 0xf8) << 7)
+                           | 0x8000;
+                        d[e] = rr;
+                        d[e + 1] = rr >> 8;
+                        e += 2;
                     }
                 }
             }
         }
-        break;
-    }
-
-    default:
         break;
     }
 }

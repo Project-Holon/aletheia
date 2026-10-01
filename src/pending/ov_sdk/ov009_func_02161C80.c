@@ -9,7 +9,7 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker:  codegen, register allocation only.  Size matches (792 B); 258
+ * blocker:  (pre-2026-10-01, superseded below) 258
  *           concrete bytes differ, all in the handshake loop (case 0x16).
  *           The whole prologue, make_plaintext gate, and outer switch match
  *           byte for byte once `s` is declared before `len`/`type` (that
@@ -29,6 +29,17 @@
  *           byte locals, a named `rec` for the type (796 B) and a named
  *           sub+4 `tot` were all tried; the r0/r1/r3/r7 vs r3/r7/r1/r8
  *           colouring survives.
+ *
+ * 2026-10-01 (lane02): 258 -> 22 B. Three real fixes: (1) inner case order
+ *   is 1, 0x10, 2, 0xb, 0xd, 0xe, 0x14 (image block order); (2) case 2 was
+ *   inverted: the image calls rcv_server_hello when `sub >= 0x26 &&
+ *   f454 == 0` (predicated ldrbge/cmpge/strbne); (3) `sub` is signed `int`
+ *   (`ldrbge`, signed ge) and the record type is read into `type` before the
+ *   guard, then `switch (type)`. Residue: sub r7 / sub+4 r8 / s[3] r0 / type
+ *   r1 where the image has sub r8 / sub+4 r7 / s[3] r1 / type r0. Flat:
+ *   type read before or after the sub expression, sum orders, `long` and
+ *   block-scope sub, tail statement orders (`4 + sub`, len before s,
+ *   `sub += 4`).
  *
  * sdk:      parse_record_in_buf (libssl.TWL.HYB.a(ssl.o))
  *
@@ -119,7 +130,7 @@ static void parse_record_in_buf(struct _CPSSslConnection *con, unsigned char *bu
     unsigned char *s;
     unsigned long len;
     unsigned char type;
-    unsigned int sub;
+    int sub;
 
     if (con->state == 9) {
         CPSiFree(buf);
@@ -161,23 +172,30 @@ static void parse_record_in_buf(struct _CPSSslConnection *con, unsigned char *bu
         }
         do {
             sub = ((s[2] << 8) + (s[1] << 16)) + s[3];
+            type = s[0];
             if (sub > len) {
                 con->state = 9;
                 break;
             }
             s += 4;
-            switch (s[-4]) {
+            switch (type) {
             case 1:
                 if (con->f454 != 0 && con->state == 0)
                     client_hello(con, s);
                 else
                     con->state = 9;
                 break;
-            case 2:
-                if (sub >= 0x26 && con->f454 != 0)
+            case 0x10:
+                if (con->f454 == 0)
                     con->state = 9;
                 else
+                    rcv_client_key_exchange(con, s);
+                break;
+            case 2:
+                if (sub >= 0x26 && con->f454 == 0)
                     rcv_server_hello(con, s);
+                else
+                    con->state = 9;
                 break;
             case 0xb:
                 if (con->state == 2 && con->f454 == 0) {
@@ -198,12 +216,6 @@ static void parse_record_in_buf(struct _CPSSslConnection *con, unsigned char *bu
                     con->state = 4;
                 else
                     con->state = 9;
-                break;
-            case 0x10:
-                if (con->f454 == 0)
-                    con->state = 9;
-                else
-                    rcv_client_key_exchange(con, s);
                 break;
             case 0x14:
                 rcv_finished(con, s);

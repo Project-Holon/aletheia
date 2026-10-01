@@ -114,6 +114,26 @@
    }
   },
   {
+   "name": "taskBegin4",
+   "address": "0x021D04BC",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021D04BC.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x021DE64C"
+    ],
+    "sdk": [
+     "0x021D0558"
+    ]
+   }
+  },
+  {
    "name": "taskBegin5",
    "address": "0x021D0558",
    "kind": "sdk",

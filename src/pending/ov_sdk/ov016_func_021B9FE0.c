@@ -38,6 +38,11 @@
  *   func_021BAC20  0x021bac20  thumb  ov016
  *   func_02092344  0x02092344  arm
  *   memcpy  0x02092344  arm
+ * lane 05 (2026-10-01): the image's sum loop tests `lps < psum` (bhs/blo),
+ * not `!=`; spelled that way now, same 192/105.  The DWARF-faithful shape
+ * (psum = lpframe before the branch, lpb = (u8 *)psum + 6, psum = lpb + size)
+ * copy-propagates psum away under 1.1p1 (186 B, no frame); pend declaration
+ * position is inert.  Object stamp is 3.0.0.126, not a 4.0 build.
  */
 
 #include "../../matched/arm9_sdk/libc/string.h"
@@ -83,7 +88,7 @@ int func_021B9FE0(unsigned char *lpframe, int id, unsigned char *pbody, int size
     pfh->FrameID = SWAP16((unsigned short)id);
     pfh->DataLength = SWAP16((unsigned short)size);
     psum = (unsigned short *)(pend + size);
-    for (lps = lpframe; lps != (unsigned char *)psum; lps++)
+    for (lps = lpframe; lps < (unsigned char *)psum; lps++)
         dwsum += *lps;
     *psum = SWAP16((unsigned short)dwsum);
     return (unsigned char *)(psum + 1) - lpframe;

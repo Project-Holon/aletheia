@@ -53,6 +53,11 @@
  *   strictly worse (68-76 B).  No source shape reaches cur=r4/data=r0.
  *
  *   Wave 8b: filed docs/idioms/a-dying-pointer-loads-scratch-colour-can-be-an-allocator-tie.md.
+ * 2026-10-01 lane08: 63 B.  SDK-shaped body (lastAddr initialised at its
+ *   declaration and never reassigned, `(u8)(lastAddr - data)` stored to the
+ *   length, MI_CpuClear16/MI_CpuCopy16 inline wrappers reading the length
+ *   back) is byte-identical to this one.  Every pair (cur/data, the else-arm
+ *   u8 temp r1/r2, bsendBuff/sUnlockFunc r8/r7) is colour-reversed.
  *
  * symbols:
  *   sUnlockFunc    0x021F6EF4  data

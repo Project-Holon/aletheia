@@ -103,6 +103,10 @@
  * Verified with:
  *   python tools/match.py one --src src/pending/ov_sdk/ov016_func_021C00A8.c \
  *       --func disp --addr 0x021C00A8 --region ov016 --cc 1.1p1 --arm --lang c99
+ * lane 09 (2026-10-01): DWARF declaration order (N_KEY, N_SKEY, N_BTN, ix, i; matches the
+ *   @20862 < @20864 < @20866 numbering) without the volatile reads, and C_KEY/C_SKEY/C_BTN as
+ *   their own symbols (the image pool names them), both give 455 B: the template copy
+ *   prologue schedules differently. Kept the 347 B body.
  */
 typedef _Bool bool;
 

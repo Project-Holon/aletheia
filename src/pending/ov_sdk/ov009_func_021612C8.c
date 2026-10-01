@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * lane01 (2026-10-01): the image's `add fp, sl, #0x74` sits AFTER the outer guard, so it is a
+ *   hoisted in-loop invariant, not `p` set before the loop (that form puts it before the guard,
+ *   444 B); spelling the md5 dest as `con + 0x74 + i * 16` with no p in the loop drops the hoist
+ *   entirely (424 B). Draft body kept.
  *
  * sdk:      create_key_block (ssl.o)
  *

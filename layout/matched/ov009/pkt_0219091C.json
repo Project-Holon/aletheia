@@ -22,6 +22,9 @@
      "self:0x021AD000",
      "self:0x021AD008",
      "self:0x021AD020"
+    ],
+    "sdk": [
+     "0x0217D188"
     ]
    }
   },
@@ -67,9 +70,9 @@
    "status": "EXACT*",
    "evidence": {
     "sole-ref": [
-     "self:0x021A3740",
      "self:0x021A375C",
-     "self:0x021A3784"
+     "self:0x021A3784",
+     "string:0x021A3740"
     ],
     "sdk": [
      "0x0215F854"
@@ -154,9 +157,9 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "data:0x021A19FC",
      "self:0x021A19FE",
-     "self:0x021A1A02"
+     "self:0x021A1A02",
+     "string:0x021A19FC"
     ],
     "sdk": [
      "0x0217F7D0"
@@ -176,9 +179,9 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "data:0x021A19FC",
      "self:0x021A19FE",
-     "self:0x021A1A02"
+     "self:0x021A1A02",
+     "string:0x021A19FC"
     ]
    }
   },
@@ -251,6 +254,26 @@
    }
   },
   {
+   "name": "func_021894D8",
+   "address": "0x021894D8",
+   "kind": "sdk",
+   "region": "ov009",
+   "source": "src/matched/ov_sdk/ov009_func_021894D8.c",
+   "compiler": "dsi/dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x021ADFC8",
+     "self:0x021A4504",
+     "self:0x021A4528",
+     "string:0x021A44DC"
+    ]
+   }
+  },
+  {
    "name": "func_0218998C",
    "address": "0x0218998C",
    "kind": "sdk",
@@ -304,7 +327,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "data:0x021A5280"
+     "string:0x021A5280"
     ]
    }
   },

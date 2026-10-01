@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * lane07 (2026-10-01): DWARF has no `dgram` local (result, his_ip, his_port, my_port,
+ *   cpsbuffer_len, cpsbuffer, recv_pipe, enable).  Spelled the mode test as the sibling's
+ *   `isStream()` inline, recv_pipe at function scope in DWARF order, and the RMW as an
+ *   inline consume(recv_pipe, result): all still 260/264, the arm is still predicated.
  *
  * lane A (2026-10-01, wave 8).  Two further levers measured against the +0x90
  * guard, both still fold to ldreq/addeq/streq (260/264, 101 bytes):
@@ -102,10 +106,19 @@ extern unsigned char *func_0215DA34(struct SOCLSocket *socket, long *buffer_len,
 				    unsigned short *remote_port, unsigned long *remote_ip);
 extern void func_02082EA4(void *srcp, void *destp, unsigned long size);
 
+static inline int isStream(signed char m)
+{
+	int r = 1;
+	if (m != 0 && m != 4)
+		r = 0;
+	return r;
+}
+
 static int func_0215D92C(struct SOCLSocket *socket, void *buffer, int buffer_len, unsigned short *remote_port,
 			 unsigned long *remote_ip)
 {
 	unsigned long enable;
+	struct SOCLRecvPipe *recv_pipe;
 	unsigned char *cpsbuffer;
 	long cpsbuffer_len;
 	unsigned short my_port;
@@ -120,21 +133,14 @@ static int func_0215D92C(struct SOCLSocket *socket, void *buffer, int buffer_len
 		if (result == 0) {
 			result = -6;
 		} else {
-			int dgram = 1;
-
 			if (buffer_len > result)
 				buffer_len = result;
-			if (socket->flag_mode != 0 && socket->flag_mode != 4)
-				dgram = 0;
-			if (dgram != 0)
+			if (isStream(socket->flag_mode))
 				result = buffer_len;
 			func_02082EA4(cpsbuffer, buffer, buffer_len);
-			{
-				struct SOCLRecvPipe *recv_pipe = socket->recv_pipe;
-
-				if (recv_pipe->flag_noconsume == 0)
-					recv_pipe->consumed += result;
-			}
+			recv_pipe = socket->recv_pipe;
+			if (recv_pipe->flag_noconsume == 0)
+				recv_pipe->consumed += result;
 		}
 	} else {
 		result = cpsbuffer_len == 0 ? 0 : -0x1c;

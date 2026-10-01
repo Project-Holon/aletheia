@@ -42,6 +42,12 @@
  *        (3) target keeps 0xff in fp (and so saves r3/fp), this build reuses
  *        sl for it.  Declaration/statement/ternary orders and a do/while
  *        spelling of the cnt>=256 loop were all measured and are worse.
+ * 2026-10-01 lane08: 27 -> 25.  `if (top <= 1) hi = 0; else hi = *dp++;`
+ *        gives the image's movle/ldrgt pair (residue 2 closed; `if (>1) else`
+ *        is 35).  Left: `ldr lo,[d]` scheduled after the cmp (every order of
+ *        the d/top/lo/dp assignments is 25), the `add p` / `strb str[n]` pair,
+ *        and 0xff in fp (image keeps sl live across the 256-loop, so the
+ *        frame saves r3/fp).
  */
 
 typedef unsigned int BN_ULONG;
@@ -97,8 +103,9 @@ int func_021CC674(unsigned char *str, BIGNUM *e, int window)
     top = e->top;
     lo = d[0];
     dp = d + 1;
-    hi = 0;
-    if (top > 1)
+    if (top <= 1)
+        hi = 0;
+    else
         hi = *dp++;
     w = lo;
     p -= 2;

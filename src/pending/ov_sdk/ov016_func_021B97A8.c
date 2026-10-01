@@ -1,5 +1,5 @@
 /*
- * function: func_021B97A8
+ * function: InitAtermApcNetwork
  * address:  0x021B97A8
  * packet:   pkt_ov016_021B97A8
  * region:   ov016
@@ -40,57 +40,112 @@
  * choice (fold vs. CSE); 33 concrete bytes, register colouring only, plus the
  * one pool datum byte above.  Status DIFF, not EXACT.
  *
+ * 2026-10-01 (lane03): rewritten on the sibling FreeAtermApcNetwork's atermset_bss struct
+ * with vendor names. `APC_WORK_SIZE(n) + 64 + maxap * sizeof(struct WMBssDesc)` (unsigned
+ * sizeof, WMBssDesc is 0xc0) stops the linear-combination fold: +0000..+002E now match the
+ * image (two muls, maxap*0xd0 CSE'd in r7, 0x24d0 and 0x2490 pooled). do/while loop as in
+ * the image. Residue (160 B vs 164 B): the image holds 0x1f in r1 for both `+31` adds and
+ * derives -32 from it (`subs #0x3f`), with the base in r6; 2.0 adds 0x1f in place and
+ * derives -32 off loop_flag. Vendor stamp is 3.0.0.126, no build in the tree.
+ * No `am` mask local (not in the DWARF): plain `& ~31` gives bics, 111 B; the
+ * enum local (107 B) or enum locals for both 31 and -32 (hoisted to entry, 69 B
+ * at 164 B but every register off) are stand-ins.
+ *
  * symbols:
- *   func_021B970C  0x021B970C  thumb  ov016
- *   func_021B95EC  0x021B95EC  thumb  ov016
- *   func_02085A38  0x02085A38  arm
- *   func_021B9734  0x021B9734  thumb  ov016
- *   func_021B976C  0x021B976C  thumb  ov016
- *   g_021DCFD0  0x021DCFD0  data
+ *   AtermApc_InitEventBuf  0x021B970C  thumb  ov016
+ *   APC_Init  0x021B95EC  thumb  ov016
+ *   OS_Sleep  0x02085A38  arm
+ *   AtermApc_GetEvent  0x021B9734  thumb  ov016
+ *   AtermApc_callback  0x021B976C  thumb  ov016
+ *   atermset_bss  0x021DCFD0  data
  */
 
-extern void func_021B970C(void);
-extern int func_021B95EC(void (*cb)(int), void *work, int size);
-extern void func_02085A38(unsigned long msec);
-extern int func_021B9734(void);
-extern void func_021B976C(int event);
-extern int g_021DCFD0[];
+typedef unsigned char u8;
+typedef unsigned long u32;
+struct WMBssDesc { u8 data[0xc0]; };
+struct WCMConfig;
+struct _ATERMApConfigState;
 
-typedef enum { ALIGN_MASK = -32 } AlignMask;
+typedef struct {
+    unsigned char             btAutoResult;
+    void                   *(*gAtermAlloc)(unsigned long size);
+    struct WCMConfig         *apci_IWConfig;
+    void                    (*gAtermFree)(void *ptr);
+    int                       bAtermApCanceled;
+    int                       cbFrameData;
+    int                       gAPId;
+    int                       AutoPhase;
+    int                       bApConnect;
+    int                       bSO_Startup;
+    unsigned char            *apci_Wep;
+    int                       apci_state;
+    unsigned long long       *gThreadStack;
+    int                       cbElementData;
+    int                       gAtermApState;
+    unsigned char            *apci_IWBuffer;
+    unsigned char            *apc_work;
+    unsigned char            *apci_bssid_ptr;
+    unsigned char            *apci_essid_ptr;
+    struct WMBssDesc         *apci_wmbssdesc;
+    int                       bDualCfg;
+    unsigned char            *atermapc_work;
+    unsigned long             apci_connect_option;
+    struct WMBssDesc         *ap_list;
+    unsigned long             apci_search_option;
+    int                       gAtermThreadId;
+    int                       event_set_ptr;
+    int                       event_get_ptr;
+    int                       gMaxApList;
+    int                       bInitAtermApNetwork;
+    int                       gAtermApResult;
+    void                    (*gAtermNotify)(struct _ATERMApConfigState *state);
+    void                    (*apci_user_callback)(int event, void *arg);
+} ATERMSET_BSS;
 
-int func_021B97A8(int maxap)
+extern ATERMSET_BSS atermset_bss;
+
+extern void AtermApc_InitEventBuf(void);
+extern int APC_Init(void (*user_callback)(int, void *), void *workbuffer, int work_size);
+extern void OS_Sleep(unsigned long msec);
+extern int AtermApc_GetEvent(void);
+extern void AtermApc_callback(int event);
+
+#define APC_WORK_SIZE(n) ((n) * 0xd0 + 0x2490)
+
+int InitAtermApcNetwork(int maxap)
 {
-	int loop_flag;
-	int retv;
-	int ev;
-	AlignMask am = ALIGN_MASK;
-	loop_flag = 1;
-	g_021DCFD0[28] = maxap;
-	func_021B970C();
-	g_021DCFD0[21] = ((int (*)(int))g_021DCFD0[1])(maxap * 0xd0 + 0x24d0 + maxap * 0xc0);
-	if (g_021DCFD0[21] == 0)
-		return -1;
-	g_021DCFD0[16] = (g_021DCFD0[21] + 0x1f) & am;
-	g_021DCFD0[23] = (g_021DCFD0[16] + maxap * 0xd0 + 0x1c00 + 0x1f) & am;
-	if (func_021B95EC(func_021B976C, (void *)g_021DCFD0[16], maxap * 0xd0 + 0x1c00) == 0)
-		return -2;
-	do {
-		func_02085A38(10);
-		while ((ev = func_021B9734()) != 0) {
-			switch (ev) {
-			case 4:
-			case 5:
-				break;
-			case 6:
-				loop_flag = 0;
-				retv = 1;
-				break;
-			default:
-				loop_flag = 0;
-				retv = -2;
-				break;
-			}
-		}
-	} while (loop_flag);
-	return retv;
+    int loop_flag;
+    int retv;
+
+    loop_flag = 1;
+    atermset_bss.gMaxApList = maxap;
+    AtermApc_InitEventBuf();
+    atermset_bss.atermapc_work = atermset_bss.gAtermAlloc(APC_WORK_SIZE(maxap) + 64 + maxap * sizeof(struct WMBssDesc));
+    if (atermset_bss.atermapc_work == 0)
+        return -1;
+    atermset_bss.apc_work = (u8 *)(((u32)atermset_bss.atermapc_work + 31) & ~31);
+    atermset_bss.ap_list = (struct WMBssDesc *)(((u32)atermset_bss.apc_work + APC_WORK_SIZE(maxap) + 31) & ~31);
+    if (APC_Init((void (*)(int, void *))AtermApc_callback, atermset_bss.apc_work, APC_WORK_SIZE(maxap)) == 0)
+        return -2;
+    do {
+        int event;
+
+        OS_Sleep(10);
+        while ((event = AtermApc_GetEvent()) != 0) {
+            switch (event) {
+            case 4:
+            case 5:
+                break;
+            case 6:
+                loop_flag = 0;
+                retv = 1;
+                break;
+            default:
+                loop_flag = 0;
+                retv = -2;
+                break;
+            }
+        }
+    } while (loop_flag);
+    return retv;
 }

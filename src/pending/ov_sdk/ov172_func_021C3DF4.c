@@ -8,6 +8,9 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * lane01 (2026-10-01): DWARF locals are jexif (r9), cfg_encode_exif (r8) and 28 block `entry`
+ *   locals; cfg_encode_gray_scale / cfg_input_width / cfg_input_height / cfg_encode_exif_ are
+ *   stand-ins. Dropping all four (width/height used directly) is inert: still 22 B.
  *
  * SDK provenance (read from sdk/TwlSDK/lib/ARM9-TS/{Release,Rom}/libssp.TWL.HYB.a
  * (exifenc.o), whose jpeg_encode_main is byte-identical to this ROM function
