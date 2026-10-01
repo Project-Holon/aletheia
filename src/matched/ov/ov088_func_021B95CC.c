@@ -7,12 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- *
- * Byte-correct. Only blocker: func_0201160C (arm9, thumb, unlabelled getter,
- * 0x0201160C..0x02011610, 4 bytes inside the labelled arm9 unit_02011590 run;
- * Ilias's leaf). Its verified body (bytes 00 69 70 47):
- *     u32 func_0201160C(u32 *p) { return p[4]; }   // ldr r0,[r0,#0x10]; bx lr
+ * status:   EXACT
  *
  * symbols:
  *   func_0204E720  0x0204E720  arm
