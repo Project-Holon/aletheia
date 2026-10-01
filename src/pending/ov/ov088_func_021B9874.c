@@ -9,11 +9,29 @@
  * isa:      thumb
  * status:   MATCH
  *
- * Byte-correct. Blockers: ov088_id/ov168_id (0x58, 0xA8) are overlay ids passed
- * to func_020312F8, which is not in match.py OVERLAY_ID_CONSUMERS; and
- * 0x02184904 (ov009 window, mid-function there, no label in any listing) has no
- * witness outside the range. d_021BD66C/d_021BD974 resolve as sole-ref/data
- * once the ovNNN token is dropped.
+ * Byte-correct (72 bytes, all concrete bytes agree).  6 of 8 sites
+ * resolve; the 2 open ones are a tool refusal, not a byte diff.
+ *
+ * Measured 2026-10-01 (lane L3):
+ *   - d_02184904 is not ov009 data: it is the descriptor handed to the
+ *     loader together with ov168_id (0xA8 = 168), so it lives in the
+ *     overlay being loaded.  With the `ov168` hint it resolves as
+ *     sole-ref/data (docs/idioms/a-loaded-overlay-descriptor-needs-the-
+ *     loaders-id-as-its-data-hint.md).  Fixed below.
+ *   - ov088_id (0x58) and ov168_id (0xA8), declared `data a1`, still
+ *     refuse: the only class that reaches a pooled overlay id is
+ *     `overlay_id`, and it needs the first call after the load to be an
+ *     OVERLAY_ID_CONSUMERS entry.  The call here is func_020312F8 (EXACT,
+ *     src/matched/arm9/func_020312F8.c), which forwards r0 as r1 of
+ *     sub_020314DC(g_02146990, id, desc, arg); neither 0x020312F8 nor
+ *     0x020314DC is in the table (its proc-system sibling 0x020312CC ->
+ *     0x020314F4 is).  sole-ref/self refuses because 0x58 and 0xA8 are not
+ *     in a data section; no other class starts an object there.
+ *   - Same blocker as func_02183C50 (ov168), noted in
+ *     docs/notes/recursive-match-unblocker-ov209-021A-B.c.txt.
+ *   - Unblock needs a tools/match.py change (add 0x020312F8 with id
+ *     register 0, after reading sub_020314DC to confirm it reaches
+ *     FS_LoadOverlay).  Lanes may not edit tools/, so this stays MATCH.
  *
  * symbols:
  *   func_020315D4  0x020315D4  arm
@@ -21,9 +39,9 @@
  *   func_020312F8  0x020312F8  arm
  *   d_021BD66C     0x021BD66C  data  a4
  *   d_021BD974     0x021BD974  data  a4
- *   d_02184904     0x02184904  data  a4
- *   ov088_id       0x00000058  data
- *   ov168_id       0x000000A8  data
+ *   d_02184904     0x02184904  data  a4  ov168
+ *   ov088_id       0x00000058  data  a1
+ *   ov168_id       0x000000A8  data  a1
  */
 
 typedef unsigned int u32;
