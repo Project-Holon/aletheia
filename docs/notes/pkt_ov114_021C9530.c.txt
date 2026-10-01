@@ -1,0 +1,56 @@
+/*
+ * function: func_021C9530
+ * address: 0x021C9530
+ * packet: pkt_ov114_021C9530
+ * region: ov114
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: arm
+ * status: DIFF
+ * checks: 1 memcpy 3 args, A470 5 args, caller/own-file arities agree; 2 86B8/94A0/9744 twins retain globals/aggregate copy; 3 u16/u8 inputs and plain source pointers unchanged at 244/170, full-width const restored; 4 aggregate/pool-field/const idioms leave pooled-interior-address and alias scheduling residue; 5 fresh full idiom listing and neighbours, no new lever; order/extraction 2/2 exhausted. Global storage type was an unsupported future idea, with no concrete matched-twin declaration/body proof for a behavior-equivalent change; it does not justify a retry or cap reset.
+ * residual: 244 versus 260 bytes, 170 concrete mismatches, all 11 relocations resolved.
+ * budgets: iteration 4, three nonshrinks from run 2 against best concrete score; check 3 two compiles including final-text restore. Best witnessed spelling is 16 bytes short, outside near-size permuter rule.
+ * symbols:
+ *   d_021D4098 0x021D4098 data a4
+ *   d_021D4084 0x021D4084 data a4
+ *   d_021D3EFC 0x021D3EFC data a4
+ *   d_021CF6D4 0x021CF6D4 data a4
+ *   d_021CF754 0x021CF754 data a4
+ *   func_02092344 0x02092344 arm
+ *   func_021C9EE4 0x021C9EE4 arm ov114
+ *   func_021CA470 0x021CA470 arm ov114
+ *   func_021CA1B4 0x021CA1B4 arm ov114
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct { u32 a,b; } Pair;
+typedef struct { u32 buf[60]; u8 first,second,third,gap[5]; Pair pair; u32 buf2[32]; u32 value; } Block;
+extern Block d_021D4098;
+extern u32 d_021D4084[];
+extern void *d_021D3EFC[];
+extern u32 d_021CF6D4[],d_021CF754[];
+extern void *func_02092344(void *,const void *,u32);
+extern void func_021C9EE4(void *,void *);
+extern int func_021CA470(void *,u32,void *,u32,u32);
+extern void func_021CA1B4(void);
+void func_021C9530(u32 a,u32 b,u32 c,const void *p,const void *q,u32 v)
+{
+    Block *block=(Block *)(d_021D3EFC+1);
+    func_02092344(block->buf,p,240);
+    block->first=a-1;
+    block->second=b-1;
+    block->third=c;
+    block->pair=*(Pair *)(d_021D4084+3);
+    func_02092344(block->buf2,q,128);
+    block->value=v;
+    d_021D4098=*block;
+    func_021C9EE4(d_021D3EFC[0],d_021CF6D4);
+    if(func_021CA470(d_021CF754,d_021D4084[2],&d_021D4098,388,0)==0) {
+        d_021D4084[0]=6;
+        return;
+    }
+    d_021D4084[0]=12;
+    d_021D4084[1]=-5;
+    func_021CA1B4();
+}

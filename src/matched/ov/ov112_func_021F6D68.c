@@ -1,0 +1,75 @@
+/*
+ * function: func_021F6D68
+ * address: 0x021F6D68
+ * packet: pkt_ov112_021F6D68
+ * region: ov112
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * ABI: B294 leaves live r0 which the original stores and passes to B3DC despite its legacy void declaration.
+ * symbols:
+ *   func_021F9E18 0x021F9E18 thumb ov132
+ *   func_021F9DA0 0x021F9DA0 thumb ov132
+ *   func_021F9DA4 0x021F9DA4 thumb ov132
+ *   func_021F9E04 0x021F9E04 thumb ov132
+ *   func_021F8044 0x021F8044 thumb ov112
+ *   func_0204B294 0x0204B294 arm
+ *   func_0204B3DC 0x0204B3DC arm
+ *   func_0204B3B4 0x0204B3B4 arm
+ *   func_0204B404 0x0204B404 arm
+ *   _fflt 0x0209BDBC arm
+ *   _ffltu 0x0209BE04 arm
+ *   _fdiv 0x0209CE10 arm
+ *   _fsub 0x0209CB8C arm
+ *   _ffix 0x0209C494 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct { short x,y; } Point;
+typedef struct { Point pos; u16 x,y,z; u8 a,b; } Desc;
+typedef struct { int x,y,z; } Vec;
+extern int func_021F9E18(char *);
+extern char *func_021F9DA0(void *);
+extern char *func_021F9DA4(void *,int);
+extern u16 func_021F9E04(void *);
+extern void func_021F8044(void *,void *,Vec *);
+extern void *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
+extern void func_0204B3DC(void *,u32);
+extern void func_0204B3B4(void *);
+extern void func_0204B404(void *,const Point *,u32);
+void func_021F6D68(char *p)
+{
+    Vec v;
+    Desc d;
+    void *a;
+    char *ctx;
+    char *model;
+    u16 n;
+    if(*(int *)(p+136)==0 && func_021F9E18(*(char **)(p+4))!=4) {
+        *(int *)(p+136)=1;
+        d.x=128;
+        d.y=96;
+        d.z=0;
+        d.a=0;
+        d.b=2;
+        a=func_0204B294(*(u32 *)(p+168),*(u32 *)(p+176),*(u32 *)(p+172),*(u32 *)(p+180),(u32)&d.x,0,*(u16 *)p);
+        *(void **)(p+164)=a;
+        func_0204B3DC(a,1);
+    }
+    if(*(int *)(p+136)==1) {
+        if(func_021F9E18(*(char **)(p+4))==4) {
+            func_0204B3B4(*(void **)(p+164));
+            *(int *)(p+136)=0;
+            return;
+        }
+        ctx=func_021F9DA0(*(void **)(p+4));
+        model=func_021F9DA4(*(void **)(p+4),func_021F9E18(*(char **)(p+4)));
+        n=func_021F9E04(*(void **)(p+4));
+        func_021F8044(ctx,model,&v);
+        d.pos.x=(short)((float)v.x/4096.0f-(float)(unsigned)n);
+        d.pos.y=(short)((float)v.y/4096.0f-32.0f);
+        func_0204B404(*(void **)(p+164),&d.pos,0);
+    }
+}

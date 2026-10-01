@@ -1,0 +1,79 @@
+/*
+ * function: func_021F68BC
+ * address: 0x021F68BC
+ * packet: pkt_ov112_021F68BC
+ * region: ov112
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 full own callee bodies prove five input slots, live r0 returns, narrow archive heaps and full loader heap; 2 no ov112/ov111/ov113 twin; 3 enum and int mode unchanged, narrow mode lacks caller proof and const destination is invalid; 4 home-store and pointer-add idioms read; 5 directory and 67E0/69E4/6D68 neighbours re-read, no new twin; next hypothesis requires full caller mode domain.
+ * residual: DIFF274, 296/296 bytes, 18/18 sites resolved; missing mode reload at +0x0e shifts following code. Four iteration runs ended at three consecutive nongains; two scheduling variants consumed; check3 one compile; once-only types300 exhausted.
+ * rejected: permuter DIFF206 reads p+0x2c before original size store, then adds size4 twice to the block pointers. Diagnostic only; not ported or recompiled.
+ * ABI: entry r3 mode is preserved full32 for both unsigned >=4 tests; byte store does not prove a narrow parameter. Entry stack heap remains u32 for loaders/allocator, archive calls alone visibly truncate16. C6D8 returns u32 address; 49238 legacy asm reads entry r0, so its extern takes the archive pointer. 30734 fifth tag is u16; scalar260 supplies exactly the original slot bits.
+ * behavior: dist is assigned and destroyed under identical full32 mode>=4 guards; size arithmetic wraps u32, allocation precedes header/block writes, and copies preserve member4/3/5 order. No volatile, uninitialized read, narrowed address or invented struct extent.
+ * symbols:
+ *   func_0200C52C 0x0200C52C thumb
+ *   func_0200C6D8 0x0200C6D8 thumb
+ *   func_0200C6DC 0x0200C6DC thumb
+ *   func_0204913C 0x0204913C arm
+ *   sub_020490F4 0x020490F4 arm
+ *   func_0204A39C 0x0204A39C arm
+ *   func_020493D4 0x020493D4 arm
+ *   sub_02030734 0x02030734 arm
+ *   func_0204932C 0x0204932C arm
+ *   func_02049238 0x02049238 arm
+ *   func_0200C5A4 0x0200C5A4 thumb
+ *   data_021F83E4 0x021F83E4 data a1
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void *func_0200C52C(void *,u32);
+extern u32 func_0200C6D8(void *);
+extern u32 func_0200C6DC(void *);
+extern void *func_0204913C(void *,u32,u16);
+extern void *sub_020490F4(void *,u16);
+extern void *func_0204A39C(void *,int,int,u32,u32 *);
+extern u32 func_020493D4(void *,u32);
+extern void *sub_02030734(u32,u32,int,const char *,u16);
+extern void func_0204932C(void *,u32,void *);
+extern void func_02049238(void *);
+extern void func_0200C5A4(void *);
+extern const char data_021F83E4[];
+void func_021F68BC(u8 *p,u32 unused,void *sys,u32 kind,u32 heap)
+{
+    void *dist;
+    void *arc;
+    u32 base,size4,size3,size5;
+    u8 *buf,*next;
+    p[0]=kind;
+    if((u32)kind>=4) {
+        dist=func_0200C52C(sys,heap);
+        base=func_0200C6D8(dist);
+        arc=func_0204913C((void *)base,func_0200C6DC(dist),(heap&0x7fff)|0x8000);
+    } else {
+        arc=sub_020490F4((void *)((u32)kind+111),(heap&0x7fff)|0x8000);
+    }
+    *(void **)(p+4)=func_0204A39C(arc,0,0,heap,(u32 *)(p+0x20));
+    *(void **)(p+8)=func_0204A39C(arc,1,0,heap,(u32 *)(p+0x24));
+    *(void **)(p+0xc)=func_0204A39C(arc,2,0,heap,(u32 *)(p+0x28));
+    size4=func_020493D4(arc,4);
+    size3=func_020493D4(arc,3);
+    size5=func_020493D4(arc,5);
+    *(u32 *)(p+0x2c)=size4+12+size3+size5;
+    buf=sub_02030734(heap,*(u32 *)(p+0x2c),1,data_021F83E4,260);
+    *(void **)(p+0x10)=buf;
+    next=buf+12+size4;
+    *(void **)(p+0x18)=next;
+    *(void **)(p+0x1c)=(void *)(size3+(u32)next);
+    *(void **)(p+0x14)=buf+12;
+    *(u32 *)buf=size4;
+    *(u32 *)(buf+4)=size3;
+    *(u32 *)(buf+8)=size5;
+    func_0204932C(arc,4,*(void **)(p+0x14));
+    func_0204932C(arc,3,*(void **)(p+0x18));
+    func_0204932C(arc,5,*(void **)(p+0x1c));
+    func_02049238(arc);
+    if((u32)kind>=4) func_0200C5A4(dist);
+}
