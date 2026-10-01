@@ -9,20 +9,16 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf, the only blocker of ov093 func_021CDDDC (ov094 code loaded
- * alongside ov093).
+ * Tail call to func_02209318 with the handle at 0x1b0 of the global work block.
  *
  * symbols:
- *   data_0220AF20  0x0220AF20  data
- *   func_02209318  0x02209318  thumb
+ *   d_0220AF20  0x0220AF20  data  ov094
+ *   func_02209318 0x02209318 thumb ov094
  */
-typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
-typedef signed char s8; typedef signed short s16; typedef signed int s32;
-
-extern u8 *data_0220AF20;
-extern void func_02209318(int a, int b, int c);
+extern char *d_0220AF20;
+extern void func_02209318(void *, int, int);
 
 void func_021F84E8(int a, int b)
 {
-    func_02209318(*(int *)(data_0220AF20 + 0x1b0), a, b);
+    func_02209318(*(void **)(d_0220AF20 + 0x1b0), a, b);
 }

@@ -1,0 +1,33 @@
+/*
+ * function: func_021BB260
+ * address:  0x021BB260
+ * packet:   pkt_ov021_021BB260
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021AB75C  0x021AB75C  thumb  ov021
+ */
+
+typedef struct {
+    char pad[0xC];
+    void *fC;
+    int pad10;
+    int f14;
+} Obj;
+
+extern void func_021AB75C(void *a, int b);
+
+void func_021BB260(Obj *p, int b)
+{
+    if (b != 0) {
+        p->f14 = 0;
+    } else {
+        p->f14 = 1;
+    }
+    func_021AB75C(p->fC, b);
+}

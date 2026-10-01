@@ -1,0 +1,33 @@
+/*
+ * function: func_021BABB4
+ * address:  0x021BABB4
+ * packet:   pkt_ov021_021BABB4
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * symbols:
+ *   func_021B8220  0x021B8220  thumb  ov021
+ *   func_021B82F0  0x021B82F0  thumb  ov021
+ *   func_021B833C  0x021B833C  thumb  ov021
+ *   func_021BB014  0x021BB014  thumb  ov021
+ */
+
+extern void *func_021B8220(void *p);
+extern int func_021B82F0(void *a);
+extern int func_021B833C(void *a);
+extern void func_021BB014(void *p, void *a, int c);
+
+void func_021BABB4(void *p)
+{
+    void *a = func_021B8220(p);
+    int b = func_021B82F0(a);
+    int c = func_021B833C(a);
+
+    if (b == 1) {
+        func_021BB014(p, a, c);
+    }
+}

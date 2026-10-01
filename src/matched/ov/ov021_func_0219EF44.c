@@ -1,0 +1,34 @@
+/*
+ * function: func_0219EF44
+ * address:  0x0219EF44
+ * packet:   pkt_ov021_0219EF44
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02030734  0x02030734  arm
+ *   func_0219EF14  0x0219EF14  thumb  ov021
+ *   d_021DDE08     0x021DDE08  data
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef unsigned int   u32;
+
+extern char d_021DDE08[];
+
+extern void *func_02030734(u16, u32, int, const char *, u16);
+extern void func_0219EF14(u8 *p);
+
+u8 *func_0219EF44(u32 heap)
+{
+    u8 *p = (u8 *)func_02030734((u16)heap, 0x38, 1, d_021DDE08, 0xC0);
+    func_0219EF14(p + 8);
+    return p;
+}

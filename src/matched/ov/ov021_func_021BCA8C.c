@@ -1,0 +1,31 @@
+/*
+ * function: func_021BCA8C
+ * address:  0x021BCA8C
+ * packet:   pkt_ov021_021BCA8C
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ */
+
+typedef unsigned short u16;
+
+typedef struct {
+    char pad[0x44];
+    u16 h44;
+    u16 h46;
+} Obj;
+
+extern int func_02013E4C(int a);
+
+int func_021BCA8C(Obj *p)
+{
+    int a = func_02013E4C(p->h44);
+
+    if (a != func_02013E4C(p->h46)) {
+        return 1;
+    }
+    return 0;
+}

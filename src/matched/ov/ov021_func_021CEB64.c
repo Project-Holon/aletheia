@@ -1,0 +1,29 @@
+/*
+ * function: func_021CEB64
+ * address:  0x021CEB64
+ * packet:   pkt_ov021_021CEB64
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021909BC  0x021909BC  thumb  ov021
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern void func_021909BC(u32 h);
+
+void func_021CEB64(u8 *p)
+{
+    if (*(u32 *)(p + 0x140) != 0) {
+        func_021909BC(*(u32 *)(p + 0x140));
+        *(u32 *)(p + 0x140) = 0;
+        p[0x40e] = 0;
+    }
+}

@@ -6636,10 +6636,12 @@ SDK_PXI_INITFIFO = 0x020884A4    # PXI_InitFifo
 # layout/symbols_sdk.json entirely, for the negative case.
 
 # A Thumb entry point nothing labels: its only witness anywhere is the pool
-# word at 0x020049F8, so the `literal` class attests the ADDRESS while the
-# image says nothing at all about the instruction set at it.  This is the case
-# where a declared ISA has to be trusted, and noted.
-ISA_UNEVIDENCED = 0x02005124
+# word at 0x02005208 (sub_02005610, the tail-call thunk inside
+# unit_0200560C), so the `literal` class attests the ADDRESS while the image
+# says nothing at all about the instruction set at it.  This is the case where
+# a declared ISA has to be trusted, and noted.  (Was NitroMain, 0x02005124,
+# until layout/function_starts.txt seeded it on 2026-10-01.)
+ISA_UNEVIDENCED = 0x02005610
 
 # "box_savedata.c": ten NUL bytes separate it from the terminator of
 # "save_control.c", which is more alignment than the string class used to
@@ -6694,17 +6696,17 @@ SOLE_REF_INTERIOR = 0x0209D900
 SOLE_REF_CODE = 0x02096670
 
 # --- sole-ref/code, sole-ref/string (widened 2026-09-21) -------------------
-# 0x02005230 is a real func_ label (Thumb) with no in-region call
+# 0x02005DA4 is a real func_ label (Thumb) with no in-region call
 # (evidence().calls has no entry for it) and no cross-region branch either
 # (xregion_calls() agrees): the `label` class has no witness at all, and
 # nothing pools it either, so `attest()` used to refuse it outright.  It is
 # the pure sole-ref/code case: a traced function start, carried on the
 # layout alone.
-SOLE_REF_CODE_LABEL = 0x02005230
+SOLE_REF_CODE_LABEL = 0x02005DA4   # was 0x02005230 until NitroMain (its caller) was traced
 # one halfword past the label above: still inside the function's own first
 # instruction, not itself a label start.  sole-ref/code must refuse an
 # address that is merely interior to a traced function.
-SOLE_REF_CODE_NONLABEL = 0x02005232
+SOLE_REF_CODE_NONLABEL = 0x02005DA6
 # "mail.c" (0x020A716C) and "wifilist.c" (0x020A7198): both immediately
 # follow a static table rather than a string (see
 # docs/idioms/a-string-after-a-data-table-has-no-witness.md), so

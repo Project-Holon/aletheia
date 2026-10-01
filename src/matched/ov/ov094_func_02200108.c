@@ -1,0 +1,50 @@
+/*
+ * function: func_02200108
+ * address:  0x02200108
+ * packet:   pkt_ov094_02200108
+ * region:   ov094
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_022019F4  0x022019F4  thumb  ov094
+ *   func_020172AC  0x020172AC  thumb
+ *   func_02016078  0x02016078  thumb
+ */
+
+typedef struct {
+    int w[9];
+} Rec;
+
+typedef struct {
+    void *h;                /* 0x00 */
+    Rec rec;                /* 0x04 */
+    char pad28[0x0c];
+    int k34;                /* 0x34 */
+    char pad38[0x24];
+} Entry;
+
+typedef struct {
+    int pad00;              /* 0x000 */
+    void *obj;              /* 0x004 */
+    Entry e[14];            /* 0x008 */
+} Work;
+
+extern int func_022019F4(Work *w, int key);
+extern void func_020172AC(void *obj, int k);
+extern void func_02016078(void *obj, void *h, int v);
+
+void func_02200108(Work *w, int key, int v)
+{
+    int idx = func_022019F4(w, key);
+
+    if (idx == -1)
+        return;
+    if (w->e[idx].h == 0)
+        return;
+    func_020172AC(w->obj, w->e[idx].k34);
+    func_02016078(w->obj, w->e[idx].h, v);
+}

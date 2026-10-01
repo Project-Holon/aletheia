@@ -9,24 +9,22 @@
  * isa:      thumb
  * status:   EXACT
  *
- * Unlabelled leaf, filed for the caller ov093 func_021D284C (lane S16).
- * Sets bit 26 of the word at 0x1EC of the work object at d_0220AF20.
+ * Sets flag bit 26 of the word at 0x1ec of the global work block.
  *
  * symbols:
- *   d_0220AF20     0x0220AF20  data   ov094
+ *   d_0220AF20  0x0220AF20  data  ov094
  */
-typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
-
 typedef struct {
-    char pad[0x1EC];
-    u32 lo : 26;
-    u32 flag : 1;
-    u32 hi : 5;
+    char pad[0x1ec];
+    unsigned m : 8;
+    unsigned lo : 10;
+    unsigned v : 8;
+    unsigned b26 : 1;
 } Work;
 
 extern Work *d_0220AF20;
 
-void func_021F88BC(u32 v)
+void func_021F88BC(int a)
 {
-    d_0220AF20->flag = v;
+    d_0220AF20->b26 = a;
 }

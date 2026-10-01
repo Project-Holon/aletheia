@@ -977,3 +977,25 @@ overlay_009  0x0215DB0C  arm   # SOCLi_ReadCallBack (socl_read.o, 336 B); SOCLi_
 overlay_009  0x0215CCA0  arm   # SOCLi_SetMyIP (socl_startup.o, 108 B); SOCLi_StartupCPS 0x0215CB24 +0x168 ABS32, image word at 0x0215CC8C
 overlay_009  0x021601CC  arm   # make_dn (ssl.o, 108 B); cert_item 0x021602B8 +0x2CC and +0x30C PC24 bl (0x02160584, 0x021605C4)
 overlay_114  0x021C5724  arm   # DWCi_SVLTokenWaitThread (dwc_nd.o, 420 B); DWC_NdInitAsync 0x021C5928 +0x18C ABS32, image word at 0x021C5AB4
+
+# NitroMain, the game's main(): crt0 reaches it only through the pool word
+# 0x02005125 at 0x020049F8 (ldr then bx in _start), so nothing in the trace
+# names it.  Seeding it also traces its two raw-word callees: func_0200560C
+# (an empty hook, bl at 0x02005172) and func_02047990 (the G3 swap-buffers
+# flush, blx at 0x02005176).
+arm9_main  0x02005124  thumb   # pool word 0x02005125 at 0x020049F8, loaded by crt0 _start
+
+# Three ARM tail-call thunks between func_020335xx pools: each loads a word
+# out of the object at *0x02146994 (+0x208, +0x208, +0x204) as the fourth
+# argument and branches to its target through ip.  No arm9 code calls them;
+# their callers are Thumb blx in ov228.
+arm9_main  0x02033494  arm     # blx from ov228 at 0x021DFE36 (raw words in that listing)
+arm9_main  0x020334B0  arm     # blx from ov228 at 0x021DFE52 (raw words in that listing)
+arm9_main  0x020334CC  arm     # blx from ov228 at 0x021DFC76 and 0x021DFC86 (func_021DFC20)
+overlay_009  0x021573B8  arm     # empty_func, libcps network.o static leaf (vendor symtab); pool word 0x021573B8 at ov009 0x0215759C in CPS_Startup (func_021573C4)
+overlay_009  0x021573BC  arm     # default_link_is_on, libcps network.o static leaf (vendor symtab); pool word 0x021573BC at ov009 0x021575A4 in CPS_Startup (func_021573C4)
+
+# The time_icon power callback: func_0202F768 calls it (func_0202F788(0)) and
+# the pool word 0x0202F789 at 0x0202F784 registers it, but disasm.py had no
+# traced branch into it and carried it as .word data.
+arm9_main  0x0202F788  thumb   # call from func_0202F768; pool word 0x0202F789 at 0x0202F784

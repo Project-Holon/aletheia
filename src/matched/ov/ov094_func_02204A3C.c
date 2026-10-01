@@ -1,0 +1,31 @@
+/*
+ * function: func_02204A3C
+ * address:  0x02204A3C
+ * packet:   pkt_ov094_02204A3C
+ * region:   ov094
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_022023D0  0x022023D0  thumb  ov094
+ *   func_02021ED8  0x02021ED8  thumb
+ *   func_0220687C  0x0220687C  thumb  ov094
+ */
+typedef struct Bits { unsigned lo:15; unsigned mode:2; unsigned hi:15; } Bits;
+extern int func_02021ED8(void *h);
+extern int func_0204E804(void);
+extern void func_022023D0(void *p);
+extern void func_0220687C(void *p, void *a);
+
+void func_02204A3C(void *a, char **s)
+{
+    if (func_02021ED8(*(void **)(*s + 0x64)) != 0)
+        return;
+    if (func_0204E804() != 0)
+        return;
+    if (((Bits *)(*s + 0x68))->mode == 1)
+        func_022023D0(*s);
+    func_0220687C(*s, a);
+}

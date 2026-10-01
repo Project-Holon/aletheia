@@ -1,0 +1,30 @@
+/*
+ * function: func_021FBAD8
+ * address:  0x021FBAD8
+ * packet:   pkt_ov094_021FBAD8
+ * region:   ov094
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Script command: mode 5 calls func_02006210, any other func_020061F8.
+ *
+ * symbols:
+ *   func_0201134C 0x0201134C thumb
+ *   func_02006210 0x02006210 thumb
+ *   func_020061F8 0x020061F8 thumb
+ */
+extern int func_0201134C(void *);
+extern void func_02006210(void);
+extern void func_020061F8(void);
+
+int func_021FBAD8(void *a, char *s)
+{
+    if (func_0201134C(a) == 5)
+        func_02006210();
+    else
+        func_020061F8();
+    return *(int *)(s + 0x23c);
+}

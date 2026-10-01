@@ -1,0 +1,28 @@
+/*
+ * function: func_021A0338
+ * address:  0x021A0338
+ * packet:   pkt_ov021_021A0338
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef signed short   s16;
+typedef unsigned int   u32;
+
+void func_021A0338(u8 *p, u32 id, u32 c, u8 d)
+{
+    if (id != 0x0FFFFFFF) {
+        p[0] = 1;
+        *(u16 *)(p + 2) = id;
+        p[1] = d;
+    }
+    *(u32 *)(p + 8) = c;
+}

@@ -1,0 +1,42 @@
+/*
+ * function: func_021BD94C
+ * address:  0x021BD94C
+ * packet:   pkt_ov021_021BD94C
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+
+typedef struct {
+    char pad[8];
+    void *f8;
+    char pad2[0x14];
+    u16 h20;
+    char pad3[0x23];
+    u8 b45;
+    char pad4[2];
+    int f48;
+} Inner;
+
+typedef struct {
+    char pad[8];
+    Inner *f8;
+} Obj;
+
+extern int func_02012A30(void *a);
+extern void func_02029D44(int a, void *b, int c, int d);
+
+void func_021BD94C(Obj *p)
+{
+    Inner *q = p->f8;
+    void *r = q->f8;
+
+    func_02029D44(func_02012A30(r), r, q->h20, q->b45);
+    q->f48 = 1;
+}
