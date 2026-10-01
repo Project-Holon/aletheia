@@ -53,6 +53,15 @@
  * `unsigned short id[2] = { rand32(...), rand32(...) };` disables the
  * cross-call interleaving and blows up to 97.  Residue unchanged; all 7
  * relocations resolve.
+ *
+ * lane W8.2 (2026-10-01).  Three more spellings, all still exactly these three
+ * one-slot schedule swaps at 380/24: `rand32` rewritten to compute both the
+ * LCG x and the return into named temps before the `context->x` store (the
+ * store-operands-first lever) stays 24; `const char *name` on the read-only
+ * source parameter (the const-source-pointer tie lever) stays 24; `const` on
+ * the read-only extern `g_021A82DC[2]` blows up to 384/159.  Reverted to the
+ * 24-byte state.  This is the list scheduler's slot tie-break, not a body
+ * shape: all 7 relocations resolve and every instruction opcode is right.
  */
 
 typedef struct {

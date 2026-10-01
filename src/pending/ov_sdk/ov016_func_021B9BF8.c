@@ -9,6 +9,17 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * blocker:  `volatile int retry` (declared after ApNo) reproduces the image's
+ *           stack-based loop tail ldr/adds/str/ldr/cmp in form and slot
+ *           ([sp,#0x1c]); see docs/idioms/a-re-read-loop-bound-is-a-volatile-field.md.
+ *           Still 652/660 (SIZE, 355 concrete): the remaining 8 bytes are the
+ *           gAPMac copy.  Image unrolls the 6-byte copy into two base
+ *           computations (byte 0 via one reg, bytes 1..5 via a second copy with
+ *           [r0,#k]); a `for(n<6)` loop is 16 B short, `*(MACADDR*)gAPMac =
+ *           *(MACADDR*)pBssid->MacAddress` overshoots by 8 B (668) because the
+ *           front end recomputes the source base for all six bytes.  A shape
+ *           between the two (base rematerialised exactly twice) is unresolved.
+ *
  * blocker:  under the pinned front end (tools/mwccarm/mwccarm/2.0/sp1p2, run
  *           with --thumb) this body reproduces 652 of 660 bytes, 355 concrete
  *           bytes differ.  The missing 8 bytes are the loop tail: the image
@@ -180,10 +191,10 @@ extern u8 gAPMac[6];
 int ScanAP(void)
 {
     int retv;
-    int retry;
     int i;
     int n;
     unsigned long ApNo;
+    volatile int retry;
     unsigned long BssListSize;
     BSSID_LIST *pBssList;
     BSSID_LIST *pOldList;

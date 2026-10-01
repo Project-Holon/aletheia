@@ -7,42 +7,14 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
- * blocker:  wave8: dsi/1.1p1 compiles 672/672 with 5/5 relocs; the only residue
- *           is a one-slot rotation of the callee-saved register file (140 B /
- *           78 sites), all instuction-shape identical.  sdkobj DWARF confirms
- *           the image homes querySuccess in r4 ahead of the params (server r5,
- *           engine r6); our build homes the params first and pushes
- *           querySuccess to sb.  This lane measured inert: all top-level
- *           declaration orders of queryBuffer/queryLen/querySuccess/saddr, the
- *           vendor order, moving `ip` from function scope to the inner block
- *           (and removing it), and block-scoping challengeNBO/pos/i.
- *
- * Blocker: register colouring is rotated by one slot.  The compiled code is
- * the same length (672 B) and instruction-for-instruction the same shape, but
- * the allocator colours `server` to r4 / `engine` to r5 (zero constants to
- * r6/r7, queryBuffer to r8, the success flag to sb) while the original has the
- * success flag in r4, `server` r5, `engine` r6, zero constants r7/r8 and
- * queryBuffer in sb.  Every mismatching instruction is a pure register rename
- * (78 instruction sites, 140 bytes).  Emitted from the object; declaration
- * order permutations for the locals, `register`/type changes on the success
- * flag, and inlining vs. naming the `ip` temp do not move the rotation.
- *
- * RESIDUE (lane U34): 672/672, 140 concrete bytes / 78 instruction sites, all
- *           a pure register rename, re-confirmed against the GameSpy upstream
- *           (scratch/U2/gs/.../sb_queryengine.c, QEStartQuery).  Two vendor
- *           spellings measured inert this lane on top of the ones above:
- *           (a) scoping `challengeNBO`/`ip`/`pos`/`i` inside the
- *           `engine->queryversion == 1` block instead of at function scope
- *           (the vendor declares `int pos = 0;` and `int i;` inside their
- *           blocks) -> still 672/140; (b) the vendor's local declaration
- *           order `queryBuffer[256], queryLen, querySuccess, saddr` -> still
- *           672/140.  The image homes `querySuccess` (r4) BEFORE the two
- *           parameters (server r5, engine r6); this build homes the
- *           parameters first (server r4, engine r5) and puts querySuccess in
- *           sb.  That is the whole residue: image `mov r8, #0` / `mov r5, r1`
- *           / `mov r6, r0` / `mov r4, r8` | ours `mov r7, #0` / `mov r4, r1`
- *           / `mov r5, r0` / `mov sb, r7`.
+ * status:   EXACT
+ * note:     wave8: the 140 B / 78-site one-slot callee-saved rotation was the
+ *           vendor's `pos` accumulation.  Writing the QR2 header as
+ *           `pos = 0; queryBuffer[pos] = ...; pos++;` (instead of constant
+ *           indices plus `pos = 7;`) and evaluating `challengeNBO` before the
+ *           buffer writes reproduces the image's home of querySuccess in r4
+ *           ahead of the params, and its store order.  See
+ *           docs/idioms/a-pos-accumulation-settles-a-callee-saved-rotation.md.
  *
  * sdk:      QEStartQuery (libdwcgsserverbrowsing.TWL.HYB.a sb_queryengine.o)
  * symbols:
@@ -130,15 +102,16 @@ static void QEStartQuery(struct _SBQueryEngine *engine, struct _SBServer *server
         }
 
         ip = server->field20;
-        queryBuffer[0] = 0xfe;
-        queryBuffer[1] = 0xfd;
-        queryBuffer[2] = 0;
-        __memcpy(&queryBuffer[3], server->challenge, 4);
         challengeNBO = ((ip >> 24) & 0xff) |
                        ((ip >> 8) & 0xff00) |
                        ((ip << 8) & 0xff0000) |
                        ((ip << 24) & 0xff000000);
-        pos = 7;
+        pos = 0;
+        queryBuffer[pos] = 0xfe; pos++;
+        queryBuffer[pos] = 0xfd; pos++;
+        queryBuffer[pos] = 0; pos++;
+        __memcpy(&queryBuffer[pos], server->challenge, 4);
+        pos += 4;
         if (challengeNBO != 0)
         {
             __memcpy(&queryBuffer[pos], &challengeNBO, 4);

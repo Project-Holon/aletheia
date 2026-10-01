@@ -77,6 +77,15 @@
  *           The r5/r6 residue is the module base taking r6 (image r5) so the dying
  *           `i` falls to r8 (image r6): a genuine allocator tie, not reachable by any
  *           declaration-order or naming spelling tried so far.  Parked.
+ *
+ * lane W8b (2026-10-01): two more levers measured, both inert.  Spelling the
+ *           g_021AA8A0 store as `= i` (to keep the zeroed `i` live in r6, image
+ *           `streq r6`) is absorbed by constant propagation: 1368/1368, 326
+ *           concrete, byte-identical to `= 0`.  The f365 reload was re-examined
+ *           against idioms; `a-two-value-byte-test-kept-as-two-compares-is-a-switch`
+ *           covers the compare chain but not the `ldrbne` re-read, and the two
+ *           reads share one base r1, so no aliasing lvalue explains it - it is the
+ *           4.0.0.1025 vendor front end's reload, not a source shape.  Parked.
  */
 
 typedef unsigned char u8;

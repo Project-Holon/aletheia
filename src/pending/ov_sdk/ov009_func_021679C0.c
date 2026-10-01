@@ -9,60 +9,37 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker:  the wlStatus seed.  Re-measured 2026-09-30 (lane U52).
+ * blocker:  19 concrete bytes, all in the case-8 body, byte-identical size
+ *           (756).  Everything else, including the wlStatus=3 seed in r5
+ *           (`+000C mov r5,#3` across `bl WCMi_GetSystemWork`) and the
+ *           case-8 guard-fail tail at `+01A0`, now matches.
  *
- *           FIRST: the guard's shape matters more than the seed.  With the
- *           parked `if (((WMCallback *)arg)->errcode != 0) { ...; return; }`
- *           1.1p1 lays the guard body out FIRST and inverts the branch
- *           (`cmp r1,#0; beq +0x44`), which shifts the whole body: 594
- *           concrete bytes, and the "one 4-byte move" claim in the previous
- *           header is wrong for that spelling.  Spelled as
- *           `if (...) { goto fail; }` with `fail:` on a labelled tail at the
- *           end of the function, the layout matches the image exactly
- *           (`bne #0x2167c6c` to the guard block at the end, main body
- *           fallthrough) and the residue drops to 386 bytes, all of it the
- *           seed below.  That spelling is now in the body.
+ *           Re-measured 2026-10-01 (wave 8, lane DIFF ov009).
  *
- *           Residue (386 concrete bytes, all one instruction): the image
- *           materialises the `wlStatus = 3` seed in the entry block before
- *           `bl WCMi_GetSystemWork` (`+000C mov r5, #3`, r5 = wlStatus live
- *           across the call, DWARF confirms `unsigned short wlStatus r5`),
- *           and every arm that needs it does `mov r0, r5`.  1.1p1 refuses to
- *           allocate the register: it rematerialises `mov r0, #3` at the
- *           case 5/6, 7 and 9/12 arms and sinks a single `mov r5, #3` into
- *           the case 10 block (the only arm with two uses, so the only one
- *           where the register pays).  Size stays 756 because the two
- *           spellings cost the same.
+ *           Fixed this lane: the wlStatus seed keeps r5 as soon as the case-8
+ *           guard is spelled as `if (wlStatus != 0x12) goto fail8;` with the
+ *           fail body on a labelled tail, instead of an inline `{ ...; return; }`
+ *           (which 1.1p1 lays out body-first).  Also passing the bssDesc
+ *           pointer as the struct member `wcmw->bssDesc` (offset 0x12e0) rather
+ *           than `(char *)wcmw + 0x12e0` stopped 1.1p1 from strength-reducing
+ *           `wcmw + 0x2e0` into r4 (+0118 `add r4,r4,#0x2e0`), which had been
+ *           saving 2 instructions (748 vs 756).  The case-8 store is a local
+ *           `p = (unsigned short *)((char *)wcmw + 0x1300); v = p[8];` reused
+ *           for both the `(v & 0x24) == 0x24` test and `p[8] = v | 0x24`, and
+ *           the guard-fail passes the literal `3` to WCMi_SetPhase.
  *
- *           Tried this lane: `unsigned short wlStatus = 3;` initialiser in
- *           four declaration orders (and with the other locals before and
- *           after it), the seed as a statement before the call, `register`,
- *           `int`, and replacing the variable with the literal 3 in every
- *           arm (to trigger the repeated-constant pool) - all byte-identical
- *           to one of the two shapes above; the constant is always folded or
- *           rematerialised.  The template for the seed is WcmWmcbCommon
- *           (0x02166F24, matched) whose `wmResult = 0x14;` before the call
- *           DOES keep r5 - but there the register is forced anyway because
- *           the final `switch (wmResult)` can also see a call result, which
- *           is not true of any wlStatus arm here.
- *
- *           Re-measured 2026-09-30 (wave 8): the image's case-8 guard-fail
- *           body does `mov r0, #3` (SetPhase literal 3), NOT the loaded
- *           field; `WCMi_SetPhase(wlStatus)` there compiles to
- *           `and r0, r5, #0xff` and is a genuine second residue, so the body
- *           now passes the literal `3`.  The case-8 store to 0x1310 is also
- *           spelled differently from the image: the image computes
- *           `r0 = wcmw + 0x1300; strh [r0, #0x10]` once and reuses it, while
- *           `*(u16 *)((char*)wcmw + 0x1310) |= 0x24` recomputes
- *           `wcmw + 0x310 + 0x1000` at the store.  See
- *           `a-repeated-constant-pools-only-within-one-block...`: the
- *           1.1p1 pooler works per basic block, so a constant whose uses span
- *           distinct switch arms is rematerialised per arm; the image's r5 is
- *           kept because its source's uses were in one block (or a variable
- *           whose value the front end could not fold).  `../2.0/sp2` compiles
- *           700 bytes (56 short), so this is not a pin reachable by that
- *           spelling either.  Residue: the whole switch body (register r5 for
- *           wlStatus) plus the case-8 0x1310 store spelling.
+ *           Residue: pure register naming in the `p[8]` sequence.  The image
+ *           has base in r0 and the AND scratch in r3 (`add r0,r4,#0x1300;
+ *           ldrh r2,[r0,#0x10]; and r3,r2,#0x24; ... orr r2,r2,#0x24;
+ *           strh r2,[r0,#0x10]`); 1.1p1 puts base in r3 and the scratch in r0
+ *           (`add r3,r4,#0x1300; ldrh r2,[r3,#0x10]; and r0,r2,#0x24; ...
+ *           orr r0,r2,#0x24; strh r0,[r3,#0x10]`), i.e. an r0<->r3 swap.
+ *           Plus one scheduling swap at +0184: the image does `ldr r3,[pc];
+ *           mov r2,r5; add r1,r0,#0x1000`, 1.1p1 does `add r1,r0,#0x1000;
+ *           ldr r3,[pc]; mov r2,r5`.  Tried this lane: `p`/`v` declaration
+ *           order both ways, `p[8] |= 0x24` (worse, 22 B), and `(char*)wcmw +
+ *           0x12e0` (748 B).  The seed rematerialisation noted in the old
+ *           header is gone once the guard has the goto-tail shape.
  *
  *
  * sdk:      WcmWmcbReset (libwcm.TWL.HYB.a(wmif.o))
@@ -133,17 +110,22 @@ static void WcmWmcbReset(void *arg)
         WCMi_SetPhase(wlStatus);
         WCMi_Notify(0, 0, 0, 0x542);
         return;
-    case 8:
+    case 8: {
+        unsigned short v;
+        unsigned short *p;
+
         wlStatus = *(unsigned short *)((char *)wcmw + 0x22ea);
         *(unsigned short *)((char *)wcmw + 0x22ea) = 0;
-        if (wlStatus != 0x12 ||
-            (*(unsigned short *)((char *)wcmw + 0x1310) & 0x24) == 0x24) {
-            WCMi_SetPhase(3);
-            WCMi_Notify(1, (char *)wcmw + 0x12e0, (void *)wlStatus, 0x574);
-            return;
+        if (wlStatus != 0x12) {
+            goto fail8;
         }
-        *(unsigned short *)((char *)wcmw + 0x1310) |= 0x24;
-        wmResult = WM_StartConnectEx(WcmWmcbConnect, (char *)wcmw + 0x12e0, 0,
+        p = (unsigned short *)((char *)wcmw + 0x1300);
+        v = p[8];
+        if ((v & 0x24) == 0x24) {
+            goto fail8;
+        }
+        p[8] = v | 0x24;
+        wmResult = WM_StartConnectEx(WcmWmcbConnect, wcmw->bssDesc, 0,
                                      (wcmw->option & 0x30000) == 0x30000 ? 0 : 1,
                                      (wcmw->option & 0xc0000) == 0xc0000 ? 1 : 0);
         switch (wmResult) {
@@ -151,22 +133,27 @@ static void WcmWmcbReset(void *arg)
             return;
         case 8:
             WCMi_SetPhase(0xc);
-            WCMi_Notify(1, (char *)wcmw + 0x12e0, (void *)wlStatus, 0x563);
+            WCMi_Notify(1, wcmw->bssDesc, (void *)wlStatus, 0x563);
             return;
         case 3:
         default:
             WCMi_SetPhase(0xb);
-            WCMi_Notify(7, (char *)wcmw + 0x12e0, (void *)wlStatus, 0x56c);
+            WCMi_Notify(7, wcmw->bssDesc, (void *)wlStatus, 0x56c);
             return;
         }
+    fail8:
+        WCMi_SetPhase(3);
+        WCMi_Notify(1, wcmw->bssDesc, (void *)wlStatus, 0x574);
+        return;
+    }
     case 9:
     case 12:
         WCMi_SetPhase(wlStatus);
-        WCMi_Notify(0, (char *)wcmw + 0x12e0, (void *)1, 0x57c);
+        WCMi_Notify(0, wcmw->bssDesc, (void *)1, 0x57c);
         return;
     case 10:
         WCMi_SetPhase(wlStatus);
-        WCMi_Notify(0, (char *)wcmw + 0x12e0, 0, wlStatus + 0x580);
+        WCMi_Notify(0, wcmw->bssDesc, 0, wlStatus + 0x580);
         return;
     case 13:
         wmResult = WM_PowerOff(WcmWmcbCommon);

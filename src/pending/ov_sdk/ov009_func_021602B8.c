@@ -67,6 +67,19 @@
  *           block scope and initialiser-vs-bare spelling do not move the parameter
  *           rotation.  Reading `type` before `s` is worse (950 B), so the body order
  *           is right.  The draft body is kept at its faithful 628-byte form.
+ *
+ * lane wave8 (2026-10-01): exhausted the DWARF lead.  `sdkobj` gives the vendor's
+ *           locals as cert_date, sub_seq, i, end, len, type, s, and its register map
+ *           as con=r9 ps=r11 level=r7 seq=r6 mode=r8 cert_date=r0 sub_seq=r0 i=r5
+ *           end=r10 len=r4 type=r10 s=[fb+4]; the image prologue confirms *ps in r4
+ *           and &s in r5.  Two levers tried: (1) a distinct `sub_seq` local for case 3
+ *           (the one DWARF local the draft lacked) is fully coalesced by 1.1p1 to the
+ *           same code, 1196 B / 628 concrete, no change; (2) `extern unsigned char
+ *           *const object[]` (read-only extern-table tie idiom) is inert, 628.  The
+ *           residue is the front-end callee-saved set: our allocator ranks &s above
+ *           *ps (gives &s=r4) and homes level/seq/mode as r8/r7/r6 against the image's
+ *           r7/r6/r8.  This is exactly `docs/idioms/vendor-front-end-parameter-register-set-cannot-be-forced-by-source.md`,
+ *           whose canonical instance is the same overlay (ov009_func_0217E504).  Parked.
  */
 
 struct _CPSSslConnection {

@@ -15,11 +15,18 @@
  *            204 concrete mismatching rows (~717 bytes) of 369 compared rows,
  *            6 unresolved (2x DWCi_HandleMatchCommandError @0x21779A4 has no
  *            witness outside the range -- contested ov009/ov014).
- *          IMPORTANT: the compared range is only 021702A0..021705F4 (852 B),
- *          NOT the 4396 B of the object -- a mid-function `func_` label at
- *          0x021705F4 cuts the extent (see idiom
- *          a-bl-target-inside-a-function-cuts-its-extent).  The image's real
- *          prologue is `push {r3,r4,r5,r6,r7,r8,sb,sl,fp,lr}` +
+ *          CORRECTION (wave8, 2026-10-01): the compared range is only
+ *          021702A0..021705F4 (852 B) because `match.py one` compares exactly
+ *          the COMPILED length (`target_bytes(addr, len(fb.data))`), not the
+ *          original extent -- not because a mid-function label cuts it.  The
+ *          listing extent is the full 0x021702A0..0x021713CC (4396 B) and
+ *          0x021705F4 is live code (`ldr r0,[r4]`), not a `func_` label.
+ *          See docs/idioms/a-short-draft-self-limits-the-compared-range-to-
+ *          its-own-size.md.  So the only route to a byte check is a body that
+ *          compiles to all 4396 B; the skeleton self-limits and can at best be
+ *          EXACT* over its own prefix (which manifest --verify rejects).
+ *          The image's real prologue is `push {r3,r4,r5,r6,r7,r8,sb,sl,fp,lr}`
+ *          +
  *          `sub sp,sp,#0x170` with data/len read at [sp,#0x198]/[sp,#0x19c];
  *          the draft compiles `push {r3,r4,r5,lr}` with no frame, so it is
  *          wrong from +0000.  Case bodies are bare call skeleton (no argument

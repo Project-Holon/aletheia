@@ -8,7 +8,20 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
- * blocker:  switch dispatch order: the original tests the 0x80..0x83 cluster first (cmp 0x83 / bgt, cmp 0x80 / blt to the zero test); 1.1p1 tests case 0 first. Every case body is byte-identical. Notes: docs/notes/pkt_ov016_021C6588.c.txt
+ * blocker:  switch dispatch block scheduling. Source is now written as the
+ *   image's own shape: an explicit `if (c > 0x83) goto append;` then
+ *   `if (c < 0x80) { if (c == 0) goto tail; goto append; }` then a switch over
+ *   {0x80,0x82,0x83} with default goto append. This reproduces the image's
+ *   cluster-first compare chain and every case body to the byte: 400 B size
+ *   exact, only 20 concrete bytes differ, all inside the dispatch head.
+ *   Residue: 1.1p1 merges the `c<0x80` test with the switch's first `cmp #0x80`
+ *   but inlines the zero block on the taken side (`bge cluster / low / cluster:
+ *   beq case80`), while the image emits the whole chain contiguous and puts the
+ *   zero block out of line after it (`cmp #0x80 / blt low / beq case80 / ... /
+ *   b default / low: cmp #0 / beq tail`). The two are the same CFG with the
+ *   true/false blocks swapped; no source spelling tried flips which block is
+ *   inlined (goto-low, if/else, inline forms all measured).  Plain switch over
+ *   {0,0x80,0x82,0x83}: 209 B out (singleton first). Notes: docs/notes/pkt_ov016_021C6588.c.txt
  *
  * U26 (case order IS a lever here, and it is the source order of the CLUSTER
  * members, not the position of case 0): mwcc's compare chain walks the cluster
@@ -211,25 +224,21 @@ static inline void G2_SetOBJPriority(GXOamAttr *oam, int priority)
 {
     oam->attr2 = (unsigned short)((oam->attr2 & ~0xC00) | (priority << 10));
 }
-
 static void input(void)
 {
     int c = DWCi_KBlGet();
 
-    switch (c) {    case 0x83:
-        if (isCorrect()) {
-            DWCi_SNDlPlay(6);
-            MemSse->choose = 1;
-        } else {
-            MemSse->choose = 2;
-            DWCi_SNDlPlay(9);
-        }
-        G2_SetOBJEffect(MemSse->caret, 0x200, 0);
-        DWCi_ChangeScene(endScene);
-        return;
+    if (c > 0x83)
+        goto append;
+    if (c < 0x80) {
+        if (c == 0)
+            goto tail;
+        goto append;
+    }
+    switch (c) {
     case 0x80:
         if (MemSse->pos == 0)
-            break;
+            goto tail;
         DWCi_SNDlPlay(3);
         MemSse->pos--;
         MemSse->ssid[MemSse->pos] = 0;
@@ -242,19 +251,31 @@ static void input(void)
         MemSse->choose = 0;
         DWCi_ChangeScene(endScene);
         return;
-    case 0:
-        break;
+    case 0x83:
+        if (isCorrect()) {
+            DWCi_SNDlPlay(6);
+            MemSse->choose = 1;
+        } else {
+            MemSse->choose = 2;
+            DWCi_SNDlPlay(9);
+        }
+        G2_SetOBJEffect(MemSse->caret, 0x200, 0);
+        DWCi_ChangeScene(endScene);
+        return;
     default:
-        if (MemSse->pos == 32)
-            break;
-        DWCi_SNDlPlay(1);
-        MemSse->ssid[MemSse->pos] = c;
-        MemSse->pos++;
-        DWCi_KBlSetErase(1);
-        if (MemSse->pos == 32)
-            DWCi_KBlSetInput(0);
-        break;
+        goto append;
     }
+    goto tail;
+append:
+    if (MemSse->pos == 32)
+        goto tail;
+    DWCi_SNDlPlay(1);
+    MemSse->ssid[MemSse->pos] = c;
+    MemSse->pos++;
+    DWCi_KBlSetErase(1);
+    if (MemSse->pos == 32)
+        DWCi_KBlSetInput(0);
+tail:
     drawSsid();
     dispCaret();
 }

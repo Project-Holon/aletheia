@@ -33,6 +33,14 @@
  *           card_addr/pl reads (52-54 B), a named idx local at nine declaration positions (12 B,
  *           inert), a named base pointer (264 B) and an `MBC *m = mbc` local (314 B).
  *
+ * wave 8 (2026-10-01): confirmed the residue is a pure allocator tie, not a source shape. The
+ *           defining-object DWARF (scratch/u70/obj_021F2A44.txt) homes `card_addr` in r6 and has
+ *           NO base/local temporary, so the mla base temp coalescing into r6 is the tie. Measured
+ *           and all worse or inert: reassigning the base into card_addr via a pointer cast (290 B),
+ *           a raw `(u32)mbc + C[0x525]*0x5d4` base in card_addr (36 B), named `srcoff`/`segtbl`
+ *           temporaries (12 B, inert), `card_addr = card_addr;` self-assignment (12 B, inert), and
+ *           emitting the pl read before card_addr (32 B). Stop column remains public.
+ *
  * sdk:      MBi_CommParentSendBlock (libmb.TWL.HYB.a(mb_parent.o))
  *
  * symbols:

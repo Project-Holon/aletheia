@@ -55,6 +55,20 @@
  *        object context) is inert.  Blocker: mwcc 1.1p1 colours the entry-tested parameter
  *        before the later locals; no source lever among ~220 measured spellings moves it.
  *
+ * Lane wave8 (2) 2026-10-01: extracted the exact vendor object (Release libssp.TWL.HYB.a
+ *        jpegdec.o, .comment 4.0.0.1024) and confirmed get_matrix_sub is byte-identical to the
+ *        image; its DWARF homes s r9, p r8, ax r7, cx r6, dx r5, i r4 (decl_line 1819 params,
+ *        1821 locals).  The allocator colours the whole {cx,dx,i} group with the entry-tested
+ *        parameter first (cx r4) then locals ascending (dx r5, i r6); the vendor colours the
+ *        group in first-definition order to *descending* registers (cx r6, dx r5, i r4).
+ *        Tested live at the pin, all still 10 B: `int i, dx;` (14), param-copy `int cx; cx=n;`
+ *        with decl idcx/IdxCx/cxdi/cxid (10-14), no-mutation bound `for(i=0;i<cx-1;i++)` (10),
+ *        `n=cx-1` (11), while/do i=0 before/after cx-- (10), `cx>i` (10).  Byte-typed counter
+ *        `unsigned char/signed char/short i` overshoots (38-56 B).  Blocker unchanged and
+ *        matches docs/idioms/a-vendor-front-end-homed-parameter-cannot-be-forced-by-source.md
+ *        and vendor-front-end-parameter-register-set-cannot-be-forced.md: the 1.1p1 front end
+ *        homes the entry-tested parameter at r4; no source spelling rotates the group.
+ *
  * symbols:
  *   func_021BF610  0x021BF610  arm  ov172
  *   g_021C88F0     0x021C88F0  data

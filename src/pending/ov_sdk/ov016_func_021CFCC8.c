@@ -17,6 +17,13 @@
  *   assignment statement) is flat at the same 9 bytes; `extern MEMSET * const MemSet` collapses
  *   the function to 324 B / 211 diffs.  The store-definition/arg-load tie at +012C..+0134 stands.
  *
+ * U28 (wave 8, still DIFF 9 B): fresh negatives — an intermediate alloc temp (340 B),
+ *   comma/inline-assignment, a nested `const DWCMemMap *map = &MemSet->map` local, a
+ *   `DWCMemMap * const map` local, a `(DWCMemMap *)(const void *)` argument cast,
+ *   `(void *)work` + `(void **)&work`, an extra comma-zero statement and
+ *   `(void *)(work = ...)` are each flat at 9 B (or worse).  The scheduler still sinks the
+ *   `work` home store below the MemSet load at +012C..+0134; not reproducible from source.
+ *
  * U26: `volatile void *work`, `void * volatile work`, a `void **wp = &work` local (assigning
  * through it, and passing `*wp`) and the volatile-pointer-cast store were all measured: each
  * moves `work` to a different slot (frame sp #0x14 -> #0x18) and is far worse (340 to 344 B,

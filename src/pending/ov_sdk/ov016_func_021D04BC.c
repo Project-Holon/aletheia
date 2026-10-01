@@ -20,6 +20,14 @@
  * U26: as taskEnd0 - a `MEMSTEP *m`/`void *cell` local bound before the store, the assignment in
  * the argument and a comma statement all leave the 12-byte window at +0060 unchanged.
  *
+ * lane8: re-read the matched loop sibling taskBegin3: its else arm actually issues
+ * `str x` (0x98) BEFORE `ldr MemStep`, so the "only the loop form hoists" premise is
+ * false; the single-cell object's `ldr MemStep` before `str x` is a genuine hoist with
+ * no loop to blame. New inert spellings this lane (all still exactly 12 B): the load
+ * read through a const-qualified pointer type `(*(MEMSTEP * const *)&step_bss.MemStep)`
+ * (the a-load-scheduled-above-an-unrelated-store idiom, cast form), and a named
+ * `MEMSTEP *base = MemStep;` bound before the store (scheduler sinks it to first use).
+ *
  * w8: re-swept the +0068..+0074 permutation. Inert (still exactly the same 12 B): a one-trip
  * `for (i = 4; i < 5; i++)` (the front end folds it back to the direct call), `MEMSTEP *m`,
  * `MEMSTEP *const m`, `void *cell` (bound before or after), `void *const cell`, nested-block

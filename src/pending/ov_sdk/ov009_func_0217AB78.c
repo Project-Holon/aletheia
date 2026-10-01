@@ -32,8 +32,15 @@
  *   DWCnetcheckauthparam, g_021A274C/2754/275C/2768/276C/2774 and the constants
  *   40000 (/2 for the first-stage timeout), 302, -23302, 20000, 180000, 120000.
  *
- * blocker: STRUCTURE + REGISTER COLOURING.  compiled 3408 vs 3184 (SIZE, +224
- *   reachable bytes), 2912 concrete bytes differ, 114/118 relocations resolved.
+ * blocker: STRUCTURE + REGISTER COLOURING.  compiled 2988 vs 3184 (SIZE, -196
+ *   reachable bytes), 2546 concrete bytes differ, 104/104 relocations resolved.
+ *   Wave-8 progress: the `preauth:` setup block and the `auth3:` parse tail were
+ *   spurious duplicates (image has only 4 DWC_Http_Create / 4 Add_PostBase64Item
+ *   / 4 FinishHeader / 2 GetCalInfo / 3 ParseResult sites; `preauth` and `auth3`
+ *   added a 5th/4th), and stage2's `nc->0x1118==0` arm jumps to `parse_auth`
+ *   (0x217af70), not to a setup.  Removing them cut 3408->2988 and 2912->2546.
+ *   The remaining -196 is real image code the transcription still lacks (its
+ *   tail/parse structure), plus the register colouring below.
  *   Lever applied: declared url before data and renamed interval->wait_sec to
  *   the DWARF spellings gave -33 concrete mismatches (2945->2912) but +8 bytes.
  *   The +216 means a whole extra block is emitted; the duplicated shared tails
@@ -251,7 +258,7 @@ res_ok:                                   /* 0x217ad48 */
 stage2:                                   /* 0x217ad5c */
     DWChttp.f14 = 1;
     if (*(int *)((u8 *)DWChttp.nc + 0x1118) == 0)
-        goto preauth;                     /* 0x217af70 */
+        goto parse_auth;                  /* 0x217af70 */
     *(int *)((u8 *)DWChttp.nc + 0x1004) = -6;
     DWC_Http_Destroy((u8 *)DWChttp.http);
     DWChttp.p00 = DWCauthhttpparam;
@@ -531,106 +538,6 @@ parse3:                                   /* 0x217b69c */
     DWC_Http_Destroy((u8 *)DWChttp.http);
     OS_Sleep(wait_sec);
     goto loop;
-
-auth_r:                                     /* 0x217b120 */
-    if (httpretcodei != 0xc8) {
-        *(int *)((u8 *)DWChttp.nc + 0x1004) = m4;
-        DWChttp.p00 = DWCauthhttpparam;
-        DWChttp.p04 = 0;
-        DWChttp.p08 = 0x1000;
-        DWChttp.p0c = (int)alloc;
-        DWChttp.p10 = (int)freefn;
-        DWChttp.p18 = 20000;
-        if (strcmp((char *)DWCauthhttpparam, g_021A270C) != 0)
-            DWChttp.p14 = 1;
-        if (DWC_Http_Create((u8 *)DWChttp.http, (void *)DWCnetcheckhttpparam) != 0)
-            goto err1;
-        if (DWC_Auth_GetCalInfoFromNVRAM(calinfo) != 0) {
-            if (DWC_Auth_SetCalInfoToHttp((u8 *)DWChttp.http, calinfo, 1) == 0)
-                goto err8;
-        } else {
-            goto err8;
-        }
-        if (DWC_Http_Add_PostBase64Item((u8 *)DWChttp.http, g_021A272C, g_021A2734, 7) != 0)
-            goto err8;
-        buf = (u8 *)*(int *)((u8 *)DWChttp.nc + 0x1118);
-        if (DWC_Http_Add_PostBase64Item((u8 *)DWChttp.http, g_021A273C, (char *)buf,
-                                        strlen((char *)buf)) == 0)
-            goto auth2;
-        DWC_Http_Destroy((u8 *)DWChttp.http);
-        DWCi_Netcheck_SetError(8);
-        goto out;
-    }
-auth2:
-    freefn(0, *(void **)((u8 *)DWChttp.nc + 0x1118), 0);
-    *(int *)((u8 *)DWChttp.nc + 0x1118) = 0;
-    if (DWC_Http_FinishHeader((u8 *)DWChttp.http) != 0)
-        goto err1;
-    DWC_Http_StartThread((u8 *)DWChttp.http, OS_GetThreadPriority(OSi_ThreadInfo) - 1);
-    if (*(int *)((u8 *)DWChttp.http + 0x1be0) != 0 && !OS_IsThreadTerminated((u8 *)DWChttp.http + 0x1f74))
-        OS_JoinThread((u8 *)DWChttp.http + 0x1f74);
-    st = *(int *)((u8 *)DWChttp.http + 0x1020);
-    if (st == 2) {
-        *(int *)((u8 *)DWChttp.nc + 0x1004) = -1;
-    } else if (st != 8) {
-        DWC_Http_Destroy((u8 *)DWChttp.http);
-        DWCi_Netcheck_SetError(3);
-        goto out;
-    }
-    DWC_Http_Destroy((u8 *)DWChttp.http);
-    DWCi_Netcheck_SetError(3);
-    goto out;
-
-preauth:                                  /* 0x217af70 -> 0x217b144 ((u8 *)DWChttp.nc->0x1118 == 0) */
-    *(int *)((u8 *)DWChttp.nc + 0x1004) = m4;
-    DWChttp.p00 = DWCauthhttpparam;
-    DWChttp.p04 = 0;
-    DWChttp.p08 = 0x1000;
-    DWChttp.p0c = (int)alloc;
-    DWChttp.p10 = (int)freefn;
-    DWChttp.p18 = 20000;
-    if (strcmp((char *)DWCauthhttpparam, g_021A270C) != 0)
-        DWChttp.p14 = 1;
-    if (DWC_Http_Create((u8 *)DWChttp.http, (void *)DWCnetcheckhttpparam) != 0)
-        goto err1;
-    if (DWC_Auth_GetCalInfoFromNVRAM(calinfo) != 0) {
-        if (DWC_Auth_SetCalInfoToHttp((u8 *)DWChttp.http, calinfo, 1) == 0)
-            goto err8;
-    } else {
-        goto err8;
-    }
-    if (DWC_Http_Add_PostBase64Item((u8 *)DWChttp.http, g_021A272C, g_021A2734, 7) != 0)
-        goto err8;
-    buf = (u8 *)*(int *)((u8 *)DWChttp.nc + 0x1118);
-    if (DWC_Http_Add_PostBase64Item((u8 *)DWChttp.http, g_021A273C, (char *)buf,
-                                    strlen((char *)buf)) == 0)
-        goto auth3;
-    DWC_Http_Destroy((u8 *)DWChttp.http);
-    DWCi_Netcheck_SetError(8);
-    goto out;
-
-auth3:
-    freefn(0, *(void **)((u8 *)DWChttp.nc + 0x1118), 0);
-    *(int *)((u8 *)DWChttp.nc + 0x1118) = 0;
-    if (DWC_Http_FinishHeader((u8 *)DWChttp.http) != 0)
-        goto err1;
-    DWC_Http_StartThread((u8 *)DWChttp.http, OS_GetThreadPriority(OSi_ThreadInfo) - 1);
-    if (*(int *)((u8 *)DWChttp.http + 0x1be0) != 0 && !OS_IsThreadTerminated((u8 *)DWChttp.http + 0x1f74))
-        OS_JoinThread((u8 *)DWChttp.http + 0x1f74);
-    if (DWC_Http_ParseResult((u8 *)DWChttp.http, 0) != 1)
-        goto err2;
-    url_len = *(int *)((u8 *)DWChttp.http + 0x1a44);
-    if (url_len != 0) {
-        buf = (u8 *)alloc(0, strlen((char *)url_len) + 1);
-        *(int *)((u8 *)DWChttp.nc + 0x1114) = (int)buf;
-        if (buf == 0)
-            goto err4;
-        strncpy((char *)buf, (char *)url_len, strlen((char *)url_len) + 1);
-        goto wifi;
-    }
-    DWC_Http_Destroy((u8 *)DWChttp.http);
-    DWCi_Netcheck_SetError(4);
-    goto out;
 
 err1:
     DWC_Http_Destroy((u8 *)DWChttp.http);

@@ -30,6 +30,12 @@
  *     across the first strh (vendor hoists both bases; ours sinks the second) plus the seq home
  *     (vendor lr, ours ip). DWARF order reproduced gets the pool words right but not the schedule.
  *
+ * w8 re-probed (all still 46 concrete B): `const` on g_02150FEC hoists BOTH bases above the
+ *     first strh -- the schedule half of the residue -- but materialises OSi_ThreadInfo first,
+ *     flipping the pool pair (netvars must stay first). const-read/const-pointer-local of either
+ *     base, a named local for the loaded OSi word, and moving the netvars store earlier all fail
+ *     to hoist without flipping the pair; DWARF statement order gives 56 B (OSi first, load sunk).
+ *
  * sdk:      send_ping (libcps.TWL.HYB.a(network.o))
  *
  * symbols:

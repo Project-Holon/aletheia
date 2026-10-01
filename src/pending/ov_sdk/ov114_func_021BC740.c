@@ -16,6 +16,14 @@
  *           recvbyte) and the object reuses sb as the constant 1 inside the loop, entering
  *           it 8 B later; the whole inner-loop colouring follows from the spill decision.
  *           Floor 142 B over 24674 decl/qualifier permutations.
+ *           DWARF of the defining object (scratch/lt28/sdkobj_021BC740.txt) homes the
+ *           variables: totalRecvbyte r8, connectFlag [fb+8], endFlag r14, recvbyte r11,
+ *           i r12, tmpbuf [fb+16], res_p r7, req_p r6, mutexInfo_p r5, bgnEndInfo_p r4,
+ *           commBuf_p r0, threadInfo_p r0. So the true source has NO tmp_p and a named
+ *           commBuf_p; endFlag really is lr and i really is ip. Removing tmp_p/volatile to
+ *           match the DWARF changed the allocator's frame (sp+0x208, tmpbuf at sp+8, no
+ *           threadInfo spill) -> 456 B / 346 diff; adding commBuf_p alone gave 166 B. The
+ *           142 B floor is the closest source approximation but is not the true shape.
  * notes:    121/121 instructions, 484/484 bytes, 142 concrete bytes differ. All 10
  *           relocations resolve; there are no unresolved absolutes, and all 9 bl call sites
  *           are byte-identical to the object. The remainder is register/frame shape only:

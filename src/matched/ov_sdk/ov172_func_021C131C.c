@@ -7,8 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF (size-exact 484/484, 46 concrete bytes, one register exchange)
- * blocker:  phase-2 `index`/`ac+0x700` table-temp swap (image index=r4/temp=r7,
+ * status:   EXACT
+ * 
  *           ours index=r7/temp=r4).  Wave 8 (2026-09-30) retried: const on the
  *           read-only JpegZigZagInputOrderCodes extern (->480B), const on dc/ac
  *           params (46B, no change), swapped `zerorun=0;index=1;` order (49B),
@@ -87,20 +87,24 @@ static int Yos_JpegEncoderComponentSequential(huffman_structure *dc, huffman_str
     long diff;
     int value;
     unsigned long rrrrssss;
+    unsigned long inner_tmp;
 
     du = component->mCofficients + (row * component->mCols + col) * 64;
     value = du[0];
     diff = value - component->mLastDcValue;
     component->mLastDcValue = value;
 
-    if (diff < 0) {
+    if (diff >= 0) {
+        value = diff;
+    } else {
         diff = -diff;
         value = ~diff;
-    } else {
-        value = diff;
     }
-    for (index = 0; diff != 0; index++)
+    index = 0;
+    while (diff != 0) {
+        index++;
         diff >>= 1;
+    }
 
     if (!Yos_BitWrite(dst, ptr, dc->mEhufco[index], dc->mEhufsi[index]))
         return 0;
@@ -110,28 +114,27 @@ static int Yos_JpegEncoderComponentSequential(huffman_structure *dc, huffman_str
     }
 
     zerorun = 0;
-    index = 1;
-    for (; index < 64; index++) {
-        if (du[JpegZigZagInputOrderCodes[index]] != 0) {
+    for (ssss = 1; ssss < 64; ssss++) {
+        if (du[JpegZigZagInputOrderCodes[ssss]] != 0) {
             while (zerorun >= 16) {
                 if (!Yos_BitWrite(dst, ptr, ac->mEhufco[0xF0], ac->mEhufsi[0xF0]))
                     return 0;
                 zerorun -= 16;
             }
-            value = du[JpegZigZagInputOrderCodes[index]];
-            if (value < 0) {
+            value = du[JpegZigZagInputOrderCodes[ssss]];
+            if (value >= 0) {
+                bits = value;
+            } else {
                 value = -value;
                 bits = ~value;
-            } else {
-                bits = value;
             }
-            for (ssss = 0; value != 0; ssss++)
+            for (inner_tmp = 0; value != 0; inner_tmp++)
                 value >>= 1;
-            rrrrssss = ssss | (zerorun << 4);
+            rrrrssss = inner_tmp | (zerorun << 4);
             if (!Yos_BitWrite(dst, ptr, ac->mEhufco[rrrrssss], ac->mEhufsi[rrrrssss]))
                 return 0;
-            if (ssss != 0) {
-                if (!Yos_BitWrite(dst, ptr, bits, ssss))
+            if (inner_tmp != 0) {
+                if (!Yos_BitWrite(dst, ptr, bits, inner_tmp))
                     return 0;
             }
             zerorun = 0;

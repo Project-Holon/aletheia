@@ -9,52 +9,41 @@
  * isa:      arm
  * status:   DIFF
  *
- * status:   DIFF.  Now 704/704, 149 concrete bytes (was 184).  The defining
- *           vendor object is stamped 4.0.0.1025, which no tools/mwccarm build
- *           writes (sdkobj.py); dsi/1.1p1 (1024) is the closest.  The residue
- *           is the prologue register SET, not a body shape: the DWARF of the
- *           vendor object homes x=r7, y=r5, m=r4, temp=r8; 1024 picks y=r7,
- *           x=r8, temp=r6.  A declaration-order sweep is inert.
+ * status:   DIFF.  704/704, 107 concrete bytes.  The prologue, Mult call,
+ *           memset of the tail, Montgomery loop entry and the whole
+ *           Compare/Sub/memcpy/clear epilogue are now byte-identical.  The
+ *           residue is a register rotation inside the Montgomery inner loop.
  *
- * RESIDUE (lane U34, re-confirmed): 704/704, 184 concrete bytes, then 149
- *           after the logB_r declaration reorder noted below (applied).  Tested
- *           this lane against the GameSpy upstream (scratch/U2/gs/.../gsLargeInt.c,
- *           gsiLargeIntMultM, NEWMULTM branch):
- *             - vendor body verbatim, `memset(temp, 0, sizeof(temp))`
- *               -> 636 bytes (memset is a CALL under 1.1p1; the image clears
- *               temp with an inline stm loop, so the source used `= {0}`).
- *             - vendor body + `temp[128] = {0}` + __builtin__clear
- *               -> 696 bytes / 455 (vendor's carry-propagation `for` is 8
- *               bytes short of the image's `while` form).
- *             - vendor statement order inside the loop (carry = 0 first)
- *               -> 704 / 184, inert.
- *             - `unsigned int logB_r = m->mLength;` moved to the FIRST
- *               declaration, before tempLen/temp -> 704 / 149.  This is
- *               progress: the image's order is logB_r (+0x28), tempLen=0
- *               (+0x38), temp clear (+0x44), which a `= {0}` on temp cannot
- *               give unless logB_r is declared first.
- *           Remaining 149: prologue homing order.  Image homes y (r5) then
- *           m (r4) then x (r7); this build homes m (r4) then y (r7) and puts
- *           x in r8 - a different register SET, not a rotation.  First
- *           divergence: image `mov r5, r1` | ours `mov r4, r2`.
+ * blocker:  the 64-bit multiply-add in the inner loop.  Image colours
+ *           mi=sb, carry-lo=sl, tiptr=r7, zero=r8; this build colours
+ *           mi=sl, carry-lo=r7, tiptr=r8, zero=sb -- a cyclic rotation of
+ *           exactly {r7,r8,sb,sl}.  Same opcodes, same schedule, same
+ *           instruction count; only the four-register assignment differs.  It
+ *           is an allocator tie (see the new idiom
+ *           `const-on-a-readonly-struct-parameter-recolours-the-register-set`),
+ *           not a body shape.
  *
- * WAVE8 (inert, re-confirmed 149): moving the `temp[128]` declaration to
- *           after all pointer locals, and a same-typed local
- *           `struct gsLargeInt_s *yp = y;` (copy-propagated away) both leave
- *           149 exactly.  The register SET is the vendor front end's
- *           allocator, not a source-order lever.  See idiom
- *           `vendor-front-end-parameter-register-set-cannot-be-forced`.
+ * WHAT FIXED 149 -> 107 (WAVE8): `const` on the modulus parameter.  Upstream
+ *           `gsiLargeIntMultM` declares `const gsLargeInt_t *mod`, and the
+ *           vendor object was built from that source.  Making `m` const (and
+ *           `func_0217D640`'s `src1`/`src2` and `lastnptr`/`nptr` const to
+ *           accept it) recolours the parameter SET: the prologue now homes
+ *           y=r5, m=r4, x=r7, temp=r8 exactly as the image, and everything
+ *           through +00E4 matches.  This overturns the earlier "the register
+ *           SET cannot be forced" claim for the *prologue*; it CAN, and the
+ *           lever is `const` on the read-only struct parameter.
+ *
+ * REMAINING 107 (tried, inert): statement order in the inner loop
+ *           (`tiptr = tptr;` before/after `carry = 0;` -> 107/108); `mi` as
+ *           `unsigned long long`, `const unsigned int`, declared at function
+ *           top or inside the outer loop, or as an initialiser; operand order
+ *           `mi**nptr + *tiptr`, `*tiptr + mi**nptr`, `prod` local; `const`
+ *           `modPrime`; `temp[128]` declared last; `const` x and/or y (all
+ *           worse: 124/159).  The 107 is the inner-loop rotation alone.
  *
  * sdk:      gsiLargeIntMultM (gslargeint.o)
  *
- * notes: the prologue, Mult call, memset of the tail and the whole
- *   Compare/Sub/memcpy/clear epilogue line up (bar a 3-instruction Sub
- *   argument schedule). The residue is the Montgomery inner loop: the image
- *   colours tiptr r7, carry sl, mi sb, zero-hi r8, and keeps the post-loop
- *   carry in sl with hi in r3; ours gives r8, r7, sl, sb and copies the
- *   carry to r1 after the loop. Tried: carry += form, (u32)carry add,
- *   (carry >> 32) inside the propagation loop, while/for/comma loop forms.
- *   The image zeroes temp with an inline stm loop: __builtin__clear gives
+ * notes: the image zeroes temp with an inline stm loop: __builtin__clear gives
  *   exactly that (memset is a call under every dsi build). The memcpy source
  *   is spelled (unsigned int *)temp + logB_r: &temp[logB_r] lets mwcc reuse
  *   the Compare pointer, which the image does not.
@@ -72,29 +61,29 @@ struct gsLargeInt_s {
     unsigned int mData[64];
 };
 
-extern int func_0217D750(unsigned int *data1, unsigned int length1,
-                         unsigned int *data2, unsigned int length2,
+extern int func_0217D750(const unsigned int *data1, unsigned int length1,
+                         const unsigned int *data2, unsigned int length2,
                          unsigned int *dest, unsigned int *lenout,
                          unsigned int maxlen);
 extern int func_0217D448(const unsigned int *a, unsigned int n,
                          const unsigned int *b, unsigned int m);
-extern int func_0217D640(unsigned int *src1, unsigned int length1,
-                         unsigned int *src2, unsigned int length2,
+extern int func_0217D640(const unsigned int *src1, unsigned int length1,
+                         const unsigned int *src2, unsigned int length2,
                          unsigned int *dest, unsigned int *lenout);
 extern void *memset(void *d, int c, unsigned int n);
 extern void *memcpy(void *d, const void *s, unsigned int n);
 
 int func_0217E504(struct gsLargeInt_s *x, struct gsLargeInt_s *y,
-                  struct gsLargeInt_s *m, unsigned int modPrime,
+                  const struct gsLargeInt_s *m, unsigned int modPrime,
                   struct gsLargeInt_s *dest)
 {
     unsigned int logB_r = m->mLength;
     unsigned int tempLen = 0;
     unsigned int temp[128] = {0};
     unsigned int *lasttnptr;
-    unsigned int *lastnptr;
+    const unsigned int *lastnptr;
     unsigned int *tptr;
-    unsigned int *nptr;
+    const unsigned int *nptr;
     unsigned int *tiptr;
     unsigned long long carry;
     unsigned int mi;
@@ -112,8 +101,8 @@ int func_0217E504(struct gsLargeInt_s *x, struct gsLargeInt_s *y,
 
     for (tptr = temp; tptr <= lasttnptr; tptr++) {
         mi = (unsigned int)((unsigned long long)modPrime * *tptr);
-        carry = 0;
         tiptr = tptr;
+        carry = 0;
         for (nptr = m->mData; nptr <= lastnptr; nptr++) {
             carry = (unsigned long long)mi * *nptr + *tiptr + (carry >> 32);
             *tiptr++ = (unsigned int)carry;

@@ -16,7 +16,21 @@
  *           (docs/idioms/const-on-a-read-only-source-parameter-settles-a-register-tie.md)
  *           -> no change (388/230).  Combined with the eight declaration
  *           orders already tried by lane U57, this is a genuine allocator tie
- *           with no source lever found.
+ *           with no source shape found.
+ *
+ * Lane W8 (2026-10-01): re-derived from the ov172 listing (the shared window
+ * means plain `show` at 0x021C1D8C resolves ov016, so use --region ov172).
+ * Every source lever still lands on 388 B / 230 concrete bytes, all failing at
+ * +0x0010 (`mov r6,r0` vs `mov fp,r0`): forward and reverse DWARF declaration
+ * orders with the row index inlined (no srcP/dstP locals) -> 388/253 and
+ * 388/237; pointer-local copies `s = src; d = dst;` (plain and `const`, s/d in
+ * either declaration order), which the coalescer propagates away -> 388/230;
+ * `const` on dst as well as src -> 388/230; a named `rowOfs` local for the dst
+ * base -> 388/250.  The tie is exactly the one in
+ * docs/idioms/a-spilled-pointer-parameter-tie-is-the-front-ends-not-a-source-shape.md:
+ * the vendor DWARF homes the two parameters `src r6, dst r11(fp)`; ours homes
+ * src to fp and spills the real (not redundant) pointer dst to [sp+8], which
+ * drops the inner-loop temporaries into r6/r7 instead of r0/r3/ip. Parked.
  *
  * sdk:      SSP_JpegEncoderResample (libssp.TWL.HYB.a jpegenc.o)
  *

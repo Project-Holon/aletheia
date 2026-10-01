@@ -25,6 +25,16 @@
  *           original block-scoped locals' declaration order/scope verbatim;
  *           semantic, verified against the listing.
  *
+ * retry:    wave8 lane re-attempted the scope lever: moved every case's locals
+ *           into per-case blocks with order e,off,j,m,n (case4) / e,off,j,s,t
+ *           (case5) / e,off,j,d2,c,s (case6) / i,off,j,z (case3).  Case 3 now
+ *           colours z=sb j=r8 off=r7 (was r7/sb/r8) and the diff drops to 1083
+ *           concrete bytes, but the frame is still 0x30 and `m` still spills:
+ *           the original hoists one table base (dcb/dcr) into `lr` out of the
+ *           case-3 loops whereas compiled wants `lr` for `limits`, so the
+ *           whole case recolours.  A declaration-order/scope sweep is the
+ *           remaining lever (see declaration-position-orders-block-scope-colouring).
+ *
  * sdk:      writeblock (libssp.TWL.HYB.a jpegdec.o)
  *
  * YCbCr block merge + colour convert.  Four near-identical 8x8 loops,
@@ -72,12 +82,11 @@ extern s32 Cbgtab[256];
 
 void func_021BFA68(u8 *d, int x, int y, int dx, int dy)
 {
-    int n, m, t, s, c, d2, z, e, off, j, i, idx;
-    u8 *yp;
-    int v;
-
     switch (bcode2.f04 * 2 + bcode2.f14) {
-    case 3:
+    case 3: {
+        int i, off, j, z, v;
+        u8 *yp;
+
         i = z = 0;
         for (; i < 8; i++) {
             if (y + i >= dy)
@@ -97,8 +106,12 @@ void func_021BFA68(u8 *d, int x, int y, int dx, int dy)
             }
         }
         break;
+    }
 
-    case 4:
+    case 4: {
+        int e, off, j, m, n, idx, v;
+        u8 *yp;
+
         n = e = 0;
         for (; n < bcode2.f14; n++) {
             for (m = 0; m < 8; m++) {
@@ -121,8 +134,12 @@ void func_021BFA68(u8 *d, int x, int y, int dx, int dy)
             }
         }
         break;
+    }
 
-    case 5:
+    case 5: {
+        int e, off, j, s, t, idx, v;
+        u8 *yp;
+
         t = e = 0;
         for (; t < bcode2.f04; t++) {
             for (s = 0; s < 8; s++) {
@@ -145,8 +162,12 @@ void func_021BFA68(u8 *d, int x, int y, int dx, int dy)
             }
         }
         break;
+    }
 
-    case 6:
+    case 6: {
+        int c, e, off, j, d2, s, idx, v;
+        u8 *yp;
+
         c = e = 0;
         for (; c < bcode2.f04; c++) {
             for (d2 = 0; d2 < bcode2.f14; d2++) {
@@ -171,6 +192,7 @@ void func_021BFA68(u8 *d, int x, int y, int dx, int dy)
             }
         }
         break;
+    }
 
     default:
         break;

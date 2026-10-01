@@ -39,6 +39,20 @@
  * mid-block after the memset (23 B); moving the memset below the pointer's
  * init loses a relocation (152 B / 115).
  *
+ * u1 (wave8, DIFF): the 9 B tie is a signedness-sensitive colouring artefact.
+ * Declaring the byte local `char aChar = (*theInStream++);` (signed, no cast)
+ * reproduces the image's callee-saved assignment exactly (aTextOutStream=r6,
+ * aChar=r7) and drops the diff to 6 B; the residue is then only the load and
+ * the predicate codes (`ldrsb` vs `ldrb`, `movge/lsllt/ldrhlt/andlt` vs
+ * `movhs/lsllo/ldrhlo/andlo`). Every route that recovers unsigned semantics on
+ * the signed web re-flips the pair: `(unsigned char)aChar` casts 103 B,
+ * `(const unsigned char *)theInStream++` keeps `ldrsb`, `unsigned char`
+ * restored is back to 9 B (aChar=r6), `int`/`unsigned short`/`register`,
+ * `signed char *aTextOutStream`, decoupled declaration/definition of
+ * aTextOutStream, and `-char unsigned` (9 B, same as unsigned char) are all
+ * flat or worse. So the image wants unsigned-char codegen (ldrb/movhs) *and*
+ * the signed-char allocator priority; 1.1p1 gives one or the other, never both.
+ *
  * sdk:      HexEncode16 (gsdebug.o)
  *
  * near miss: HexEncode16: 172 bytes. Only diff is a register swap: original aTextOutStream=r6, aChar=r7; 1.1p1 gives aChar=r6, aTextOutStream=r7 (8 instrs). Tried all declaration orders, initializers, block-scoped aChar, int aChar, several isprint forms, ternary stores.

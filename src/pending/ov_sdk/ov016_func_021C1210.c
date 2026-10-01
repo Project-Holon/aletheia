@@ -9,25 +9,18 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker:  dispatch only. Original lowers the switch as a 0..20 jump table
- *           (21 `b` entries at +0084..+00D8) with the "gap 3" outliers
- *           23/26/29/34 kept out in a tree rooted at `cmp r0,#0x1a`
- *           (`bgt`/`bge` then `cmp #0x14`); 596 vs 632 bytes.
- *           1.1p1 will not make that split.  Giving the source a label for
- *           every table entry (empty `case 0..4,6..11,14..19: break;`, per
- *           the density-from-zero rule) makes 1.1p1 absorb the gap-3 outliers
- *           into the run: one WIDE table 0..29 (`cmp r0,#0x1d; bgt` +
- *           `cmp r0,#0; addge pc`), 616 B; filling all of 0..20 yields a
- *           single table 0..34 (`cmp r0,#0x22; addls pc`), 612 B.  1.1p1's
- *           dense-run threshold extends across a gap of 3; the original
- *           stops the run at 20.  Writing the outliers as an if-chain after
- *           the switch gives the right 0..20 table but routes the empty arms
- *           through the ifs (608 B, recoloured).  Reordering the source arms
- *           does not move the dispatch.
- *
- *           This is a source-shape dead end at 1.1p1: the whole value set is
- *           {0..20,23,26,29,34} and no grouping/ordering of it makes 1.1p1
- *           emit a 0..20 table plus a 23/26/29/34 tree.
+ * blocker:  dispatch now EXACT.  Empties `case 1..4: break;`, arms ordered
+ *           5,13,20/23,26/29,12,34, and the case-5 body split into
+ *           `p = ...; dst = p + 0x1c000; src = GetChildInfo(); Copy(src,dst)`
+ *           reproduce the 0..20 table + {23,26,29,34} tree byte for byte.
+ *           Remaining: 628 vs 632 and ONE concrete byte at +0260
+ *           (`ldr r0,[pc,#0xc]` | `ldr r0,[pc,#8]`).  The original carries
+ *           TWO identical `&g_021DE590` pool words (0x1480 and 0x1484), the
+ *           `ldr r6,[pc]` at +0014 uses the first and the HEAPlFree ldr the
+ *           second; 1.1p1 CSEs all three `&g_021DE590` references into one
+ *           word, so the function is one word short and the last PC offset
+ *           byte moves.  A distinct alias symbol at the same address was
+ *           tried and reallocates r6 to a second pool, so it does NOT help.
  *
  * sdk:      taskFramework (libdwcutil.TWL.HYB.a(move.o))
  *
@@ -66,26 +59,25 @@ void taskFramework(void *task)
 	}
 	DWCi_MOVGetStatus((unsigned char *)&state, &change);
 	switch (state) {
+	case 1:
+	case 2:
+	case 3:
+	case 4:
+		break;
 	case 5:
 		if (change != 0) {
+			char *dst;
+			void *src;
 			p = g_021DE590 + 0x2280;
-			MIi_CpuCopy16(DWCi_GetChildInfo(), (char *)p + 0x1c000, 0x16);
+			dst = (char *)p + 0x1c000;
+			src = DWCi_GetChildInfo();
+			MIi_CpuCopy16(src, dst, 0x16);
 			func = *(void (**)(int))(g_021DE590 + 0x1e298);
 			if (func == 0) {
 				g_021DE590[0x1e2a0] = 1;
 				return;
 			}
 			func(0);
-		}
-		break;
-	case 12:
-		if (change != 0) {
-			func = *(void (**)(int))(g_021DE590 + 0x1e298);
-			if (func == 0) {
-				g_021DE590[0x1e2a0] = 1;
-				return;
-			}
-			func(2);
 		}
 		break;
 	case 13:
@@ -118,6 +110,16 @@ void taskFramework(void *task)
 				return;
 			}
 			func(4);
+		}
+		break;
+	case 12:
+		if (change != 0) {
+			func = *(void (**)(int))(g_021DE590 + 0x1e298);
+			if (func == 0) {
+				g_021DE590[0x1e2a0] = 1;
+				return;
+			}
+			func(2);
 		}
 		break;
 	case 34:

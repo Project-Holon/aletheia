@@ -53,6 +53,26 @@
  * `byte<<16` folded into the shifted slot). Image loads the byte into r3, ours into r1: a node/
  * allocator identity residue, not an unspelled body. No new general lever found.
  *
+ * lane wave8 (2026-10-01): 42 more LE-arm spellings, still exactly 7 concrete B.
+ * Tried: both operand orders in every form, explicit `(unsigned short)`/`(short)`
+ * casts on one/both operands, a separate `int`/`u16` hi local, an outer
+ * `(unsigned short)(...)` over the OR, `(unsigned char)` and `(unsigned short)`
+ * byte casts, and the sibling 0x021C3A28 `(short)`-cast idiom
+ * (docs/idioms/a-short-cast-makes-a-masked-byte-shift-unwidened.md). Every spelling
+ * mwcc accepts canonicalises `(u16)word | (u16)byte` into `(u16)(word | byte)`, so it
+ * folds the *word* cast into the orr and re-truncates the result; the image keeps the
+ * word cast materialised (`lsl r1,r0,#16; lsr r1,r1,#16`) and folds the *byte*
+ * (`lsl r0,r3,#16; orr r0,r1,r0,lsr #16`). This is the documented closed class
+ * docs/idioms/a-materialised-shift-temporary-is-not-reachable-from-c-or-from-flags.md:
+ * same instruction count, same registers, only which operand receives the standalone
+ * cast pair differs -- an instruction-selection/allocator tie below the source text,
+ * with no third use of the masked value to force it out of the shifter operand
+ * (80-byte leaf). See also docs/idioms/the-accumulator-of-a-commutative-chain-is-its-second-operand.md.
+ *
+ * blocker:  LE arm's u16-cast selection: image materialises zext16(word) and folds
+ *           zext16(byte); 1.1p1 canonicalises both casts into one and folds the word
+ *           instead. Not reachable from C (closed idiom); 0 relocs.
+ *
  * sdk:      GetWord (exifdec.o)
  *
  * symbols:

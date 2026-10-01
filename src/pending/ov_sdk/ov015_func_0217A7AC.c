@@ -19,6 +19,18 @@
  *   byte-xor loop's counter in r5; dsi/1.1p1 keeps it in r1.  A fresh loop
  *   variable, a while/do-while form, plain relational vs ternary, and moving
  *   `recv` before `send` were all measured inert (stayed 6).
+ *   Wave-8 follow-up: this is the documented freshly-dead-register boundary
+ *   (docs/idioms/a-hoisted-loop-invariant-zero-takes-the-freshly-dead-register-from-the-scratch.md).
+ *   At the loop merge the then-path leaves r5 freshly dead (last use `cmp r5,r4`) and
+ *   the else-path leaves r1 freshly dead (`strh r2,[r1]`); dsi colours the second
+ *   loop's new zero r1, the image colours it r5.  `return i;` instead of
+ *   `return size;` DOES force the counter to r5, but the counter then stays live
+ *   across the trailing calls so the +0x0108 IO-pointer load moves r5->r4 and the
+ *   return becomes `mov r0,r5`: 4 bytes, still wrong (worse overall).  Also measured
+ *   inert (stayed 6): const-zero copy, `register int i`, `i &= 0`, `i = i;` (at the
+ *   merge, in the else arm, after the for-init), `size = size;`/`buf = buf;` at the
+ *   merge, `buf[i] = buf[i] ^ 0xAA;`, a `c = buf[i]` temp, and splitting the first
+ *   loop's counter into a second variable.
  *
  * Lane 04 (2026-09-30): 320/320 bytes, 18 concrete bytes.  Four source fixes
  *   read off the image and verified by compile:

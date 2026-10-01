@@ -28,6 +28,10 @@
  *           that re-materialises the second zero into ip, which no source
  *           spelling tried reaches.
  * lane 6 (wave 10): named hi/lo/u16 byte temporaries (declared before or after i, five shapes) are inert, still 10 B.
+ * lane 7 (wave 8): a full sweep of all 120 declaration orders of {p,sum,i,buf,pHeader} is inert (best stays the
+ *           baseline order at 10 B). Making the second zero a dependency of a live value (`z=0; i=z;`,
+ *           `i=size-size;`, `i=(unsigned char)(sum&0)`) is inert. Loop2 with a plain/while/do-while condition
+ *           changes size; only the ternary bottom-test condition reproduces the shape. Floor remains 10 B.
  *
  * sdk:      IRCi_Send (libirc.a irc.o)
  *

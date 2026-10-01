@@ -49,6 +49,18 @@
  * the {c,d,w,temp} permutation over {r7,r8,r10,r4}; no source spelling found
  * this lane moves it.
  *
+ * Wave 8 (measured): baseline reconfirmed, size exact at 1652, 142 concrete,
+ * every differing slot a register field.  The image colours the six persistent
+ * webs a,b,c,d,e,w = r5,r6,sl,r8,sb,r7 with r4/fp as its two scratch temps;
+ * this build has a,b,c,d,e,w = r5,r6,r7,r4,sb,r8 with sl/fp as the scratches,
+ * i.e. one cyclic shift that lets d seize r4 and pushes the rotate temp up to
+ * sl/fp.  Tried this lane, all still 142: long_from_char moved before the five
+ * state loads (SIZE 1656), `u32 a..e;` declared before `u32 w[16];`,
+ * `const u8 *m`, and `register u32 a..e;`.  This is the front-end allocator tie
+ * the DWARF homes pin but no C spelling reaches (see
+ * docs/idioms/sdk-defining-object-dwarf-pins-the-intended-register-homes.md and
+ * a-spilled-pointer-parameter-tie-is-the-front-ends-not-a-source-shape.md).
+ *
  * symbols:
  *   long_from_char   0x021635E0  arm  ov009
  *   R                0x02163558  arm  ov009

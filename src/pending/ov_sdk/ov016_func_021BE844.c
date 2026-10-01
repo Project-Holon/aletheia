@@ -40,6 +40,18 @@
  * `KB_N5 N_KEY = keyboard_str_20914;` is rejected by dsi/1.1p1 (CCERR, abort).
  * No source lever found that removes the early N_SKEY byte spill.
  *
+ * Wave8b re-sweep, all measured at dsi/1.1p1 -O4,p c99/arm: 36 declaration x
+ * assignment permutations, byte-element copies (`N_X[k]=s.v[k]`, all six wrap
+ * orders incl. 4-first), copies through a `const unsigned char *p`, a comma
+ * declaration, a single 15-byte buffer, a `static inline` copy5 helper over
+ * `u8*` and over `KB_N5*`, and `KB_N5` struct locals all give 652 B / frame
+ * 0x20. The two sp+8/sp+0xc word spills stage exactly str2[4] and str3[0],
+ * i.e. a register-allocation shortfall in the batch of fifteen byte loads; the
+ * image interleaves the fifteen loads/stores so no byte ever needs a slot.
+ * `unsigned char N_X[5] = {0};` for all three is the only spelling that reaches
+ * frame 0x18, but it keeps fifteen extra `strb r6` zero stores (704 B), which
+ * the original does not have. No source-only lever removes the spills.
+ *
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(keyboard.o), symbol disp (name and prototype from the
  * vendor object DWARF). The object is stamped Metrowerks C/C++ for ARM 4.0.0.1025, which
  * no tools/mwccarm build writes, so it stays on the default dsi/1.1p1.

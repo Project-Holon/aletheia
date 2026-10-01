@@ -32,6 +32,11 @@
  *          Everything else (26/26 relocations, all other bytes) reproduces
  *          once the 4-byte dead pop is accounted for; the gap is purely the
  *          two codegen choices above.
+ *          lane_w8 (2026-10-01) re-confirmed: the natural
+ *          `if (p>0){switch} else if(p==0) return;` and its explicit
+ *          `else { goto Ldefault; }` form both compile to `ble Lelse`
+ *          (696 B), a step further from the object than this 700 B form;
+ *          only the `if (p<=0){...}` inversion keeps the object's `bgt`.
  *
  * sdk:      input (libdwcutil.TWL.HYB.a(sceneseteditaddr))
  *

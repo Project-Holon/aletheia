@@ -41,6 +41,25 @@
  *          Next pass: recover the vendor ordering by finding which source
  *          statement creates the long-lived zero.
  *
+ * wave8: the zero is the root, and it is not reachable by any spelling tried.
+ *        Ours splits the literal 0 into three webs: r0 (early sendBufwp=0 +
+ *        sendStatus=0), r5 (final sendBufwp=0), r6 (a_encodingType=0 + the
+ *        inner sendBufwp=0 + socSend flags).  The vendor merges the whole
+ *        budget into two: r5 (early sendBufwp + sendStatus + final sendBufwp)
+ *        and sl (a_encodingType + inner + flags).  Measured neutral at 46:
+ *        a named `int z=0` (and `register int z=0`) used for all three zero
+ *        sites, because constant propagation folds z straight back to the old
+ *        webs; declaring a_encodingType as the DWARF's `enum` type; swapping
+ *        the sendBufwp/sendStatus statement order; `sendBufwp = sendStatus`;
+ *        connection_p/threadInfo_p and bgnEndInfo_p/mutexInfo_p declaration
+ *        swaps; stat first/last; `const` on sysInfo_p/mutexInfo_p/reqInfo_p.
+ *        Moving the final sendBufwp=0 above the SocSend guard is 149.  The
+ *        r6<->r7 swap is downstream of this (stat lands in r6 because
+ *        threadInfo_p is r7).  Same class as 0x021CB3B4, whose pool was
+ *        recovered by *raising* the literal count in one region; here the
+ *        three zeros live in three distant regions, so there is no sibling
+ *        branch to duplicate into.
+ *
  * sdk:      NHTTPi_ThreadSendProc (libnhttp.TWL.HYB.a(nhttp_thread.o))
  *
  * symbols:

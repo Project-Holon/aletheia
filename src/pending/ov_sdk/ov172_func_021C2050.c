@@ -47,6 +47,18 @@
  * first store in the image, after it here) -- not an ordering/`const`/type
  * change reachable from the six DWARF locals.
  *
+ * Wave8 second pass (this lane): 6 statement orderings of the three stores
+ * (35/37/37/38/40/40, current best), 12 middle-expression spellings
+ * (`ybuf[y+x]`, `ybuf[x+y]`, `*(ybuf+y+x)`, `(ybuf+y)[x]`, char-pointer and
+ * `crbuf[x-y]` forms: all >=35, current 35), parameter reassignment
+ * (`width = *pYuyv++` / `height = ...` used in place of `yuyv`, plus a
+ * `yuyv = width` alias: still 35 -- the front end does not honour the
+ * dead-parameter reuse idiom here), named middle base with all declaration
+ * positions/orders (41/43), and moving the pYuyv/ybuf and crbuf/y
+ * computation order (35-79).  None lowers the count; the residue is the
+ * single preheader colouring of `ybuf + y` (r4 in image, r1 here), which
+ * cascades into the yuyv home and the middle store's base/index encoding.
+ *
  * sdk:      SSP_YUV422ToYUV888 (jpegenc.o)
  *
  * symbols:

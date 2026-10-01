@@ -64,6 +64,16 @@
  *           32-bit stores (744), chained `MC->f_5fc = MC->f_600 = (MC->f_5f8 = 0);` (770/1028),
  *           enum-typed parameter and gt2Result (65), named zero local (65). Parked as the
  *           4.0.0.1025 allocator signature.
+ *
+ * lane U62 wave8 (2026-10-01): 1008/1008, 63 concrete, still only the result(r6)/shared-zero(r7)
+ *           exchange. Re-measured inert at the post-gt2Result source: `const int result` (63),
+ *           `enum`-typed `result` param via typedef (63), `int status = 0;` (63), `int gt2Result = 0;`
+ *           (63), DWARF-shaped `void *userdata` 4th param with a coalesced `nnInfo` local (63).
+ *           Enum-typed named zero local (`typedef enum {Z0} ZeroEnum; ZeroEnum z; z = Z0;` at entry,
+ *           used for the eight r7 store/arg sites) went to 1016 bytes / 749 concrete (adds a fresh
+ *           web + worse colour), so the pooled constant is a literal, not a declaration initialiser.
+ *           Nothing here reads as a source bug; the two live-at-entry webs (parameter `result`,
+ *           constant 0) are ordered param-last by dsi/1.1p1 and param-first by the 4.0.0.1025 build.
  */
 
 typedef unsigned char u8;

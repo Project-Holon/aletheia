@@ -69,6 +69,11 @@
  * two bytes at +00EA are the front end's jump-table threading of an empty arm and the four
  * at +0116..+0122 are a caller-saved r0/r1 tie from the empty loop's preheader, neither of
  * which the idiom index has a lever for; parked rather than guessed at.
+ *
+ * Wave 8 re-lane (cursor idea): rewriting the ssidLength loop as a `char *`
+ * cursor makes the compare unsigned/inequality (`bne`/`blo`) where the image
+ * keeps a signed `blt`, and measured 7 concrete bytes.  A cursor cannot
+ * reproduce a signed integer loop, so the idea is a dead end here.
  */
 
 typedef unsigned char u8;

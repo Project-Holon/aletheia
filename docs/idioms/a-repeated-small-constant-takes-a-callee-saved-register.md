@@ -72,3 +72,26 @@ This is the mirror image of
 which is the case where the original *does* want the shared register. There
 the pooling is evidence for a variable; here it is a front-end difference and
 the function is not reachable from C under `-O4,p`.
+
+## The tie is lost to a stack-buffer address, not just to a plain local
+
+A second instance reverses which value wins: when the repeated small constant
+competes with the address of a large stack buffer that is passed to many calls,
+1.1p1 hoists the **address** into `fp` and rematerialises the constant, while
+the vendor object (4.0.0.1025) does the reverse.  In
+`src/pending/ov_sdk/ov009_func_021870B8.c` (3240 B, 708 concrete bytes) the
+object emits `mov fp,#1` once before the switch and `mov r0,fp` at every error
+return, and reaches the buffer as `add r2,sp,#0x150` per use; 1.1p1 emits
+`add fp,sp,#0x150` once (even though the same address is already live in `r7`)
+and rematerialises `1` at each site.  The constant is used ~36 times and the
+address ~20, and 1.1p1 still prefers the address, because it prices the
+three-operand `add` above the `mov #imm`.
+
+This is *not* the misplaced-brace case in
+`a-repeated-constant-pools-only-within-one-block-so-a-hoist-residue-is-a-misplaced-brace.md`:
+the constant's and the address's uses span the same set of switch arms, so no
+single statement can be moved into another block to split them.  Adding 6 dead
+`return 1` uses, or dropping 3 case-1 buffer uses, did not move it; only ~30
+extra real uses of `1` make it take `fp`, at which point the allocation (and the
+frame layout) breaks anyway.  Swept flat across every dsi/1.x, 1.6 and 2.0 pin.
+Park such a row; the residue is the front end's tie-break, not a source shape.

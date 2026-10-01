@@ -96,6 +96,16 @@
  * tail base copy at +00FC, unchanged from the T5/U10 notes; ../2.0/sp2
  * measures the same 304 B / 42.  Parked: the C is right, both front ends put
  * one extra/scheduling instruction in the tail that no source lever reaches.
+ *
+ * lane W8 #2 (2026-10-01).  Re-verified on the current source under both pins:
+ * dsi/1.1p1 -> 300 B / 133 concrete (the shared-zero hoist, idiom
+ * docs/idioms/a-repeated-small-constant-takes-a-callee-saved-register.md);
+ * ../2.0/base -> 304 B / 42 concrete, every one a pool displacement from the
+ * single +00FC `mov r0,r8`.  The +00FC copy is our front end materialising the
+ * g_021AAA40 base in r0 to address the call's keyString load (`ldr r1,[r0,r4]`)
+ * and then moving keyID into r0, where the image addresses straight off r8.
+ * Filed as docs/idioms/a-front-end-hoists-a-base-copy-to-fold-an-argument-load.md.
+ * No new source lever; parked unchanged.
  */
 
 typedef unsigned char u8;

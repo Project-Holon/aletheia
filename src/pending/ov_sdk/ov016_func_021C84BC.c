@@ -1,5 +1,6 @@
 /*
- * function: initGraphics
+ * function: func_021C84BC
+ * sdk:      initGraphics (libdwcutil.TWL.HYB.a(scenesetlist.o))
  * address:  0x021C84BC
  * packet:   pkt_ov016_021C8F20
  * region:   ov016
@@ -29,10 +30,13 @@
  *   scenesetlist_str_21708           0x021DB5AC  data
  *   scenesetlist_str_21709           0x021DB5C4  data
  *
- * Blocker: DIFF, 17 lines in the last six register writes only: the original computes
- * 0x04000008 as 0x04001008 - 0x1000 just before its use and keeps MemSsl in r2; this draft
- * hoists the sub and swaps r1/r2. Inline setters, macros, non-volatile registers and a pointer
- * walk all measured (docs/notes/pkt_ov016_021C8F20.c.txt); permuter seed 9204 flat.
+ * Blocker: DIFF, 14 concrete bytes in the last six register writes only. File is the raw-address
+ * struct-cast spelling below (best measured; the inline-setter spelling is 17). The original
+ * computes 0x04000008 as 0x04001008 - 0x1000 just before its use and keeps the 0x04001008 pool
+ * base in r1 with MemSsl in r2; this draft puts the pool base in r3, MemSsl in r1, hoists the
+ * sub to +0154 and swaps r1/r2. Inline setters, macros, non-volatile registers, a pointer walk,
+ * a const/named base pointer and a per-store derived local all measured (docs/notes/
+ * pkt_ov016_021C8F20.c.txt); permuter seed 9204 flat. Unresolved: pure allocator/scheduler tie.
  *
  * Lane U37: the six tail writes as raw-address struct casts,
  *   typedef struct { unsigned short priority : 2; unsigned short rest : 14; } BgCnt;
@@ -52,13 +56,15 @@
  *
  * Verified with:
  *   python tools/match.py one --src src/pending/ov016_func_021C84BC.c \
- *       --func initGraphics --addr 0x021C84BC --region ov016 --cc 1.1p1 --arm
+ *       --func func_021C84BC --addr 0x021C84BC --region ov016 --cc 1.1p1 --arm
  */
 typedef _Bool bool;
 
 typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
 typedef struct tagAREA { unsigned short l, t, w, h; } AREA;
 typedef struct { unsigned long attr01; unsigned short attr2; unsigned short _3; } GXOamAttr;
+
+typedef struct { unsigned short priority : 2; unsigned short rest : 14; } BgCnt;
 
 typedef struct NCFGApInfo {
     unsigned char  ispId[32];         /* 0x00 */
@@ -187,7 +193,7 @@ static inline void G2S_SetBG1Priority(int priority)
     REG_BG(0x0400100A) = (unsigned short)((REG_BG(0x0400100A) & ~3) | priority);
 }
 
-void initGraphics(void)
+void func_021C84BC(void)
 {
     NAME23 SCR_BACK = scenesetlist_str_20617;
     NAME21 PLLT = scenesetlist_str_20619;
@@ -208,10 +214,10 @@ void initGraphics(void)
     scenesetlist_bss.MemSsl->pltt[0] = DWCi_ARClReadEx(n, 0, 4);
     n = DWCi_Char(PLLT_PUSH.s);
     scenesetlist_bss.MemSsl->pltt[1] = DWCi_ARClReadEx(n, 0, 4);
-    G2S_SetBG0Priority(3);
-    G2S_SetBG1Priority(3);
-    G2_SetBG0Priority(3);
-    G2_SetBG1Priority(2);
-    G2_SetBG2Priority(3);
-    G2_SetBG3Priority(2);
+    ((BgCnt *)0x04001008)->priority = 3;
+    ((BgCnt *)0x0400100A)->priority = 3;
+    ((BgCnt *)0x04000008)->priority = 3;
+    ((BgCnt *)0x0400000A)->priority = 2;
+    ((BgCnt *)0x0400000C)->priority = 3;
+    ((BgCnt *)0x0400000E)->priority = 2;
 }

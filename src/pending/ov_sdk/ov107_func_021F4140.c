@@ -39,6 +39,20 @@
  *   Wave 8: also tried the no-code self-assignment lever (`lastAddr = lastAddr;`
  *   after the add) - no movement, still 63 B; and DWARF confirms the only
  *   declared local is `lastAddr`, so named-local levers are unsupported.
+ *   Wave 8b: the two loads `cur`/`data` neither cross the Clear16/Copy16 calls
+ *   nor the branch join (both die at +0018/+003C), so the r4(callee)/r0(scratch)
+ *   assignment is a front-end allocator tie, not a live-range fact.  Swept the
+ *   general levers and all land on the identical 63 B unless noted: named
+ *   pointer locals for cur/data (63), a named local for `data + 0x62` (63),
+ *   init-at-declaration of lastAddr (63), unsigned int/long for lastAddr (63),
+ *   no-code self-assignment (63); inlining `cur + 0x358` in the condition (63)
+ *   or `data + 0x62` (63); pointer-typed lastAddr (63).  Moving the single
+ *   local's assignment to the *intermediate* value (`lastAddr = cur;` then
+ *   `lastAddr + 0x358` in the condition) only re-homes the tie (data -> r7,
+ *   local -> r0, 64 B).  Compare-polarity and operand-order spellings measure
+ *   strictly worse (68-76 B).  No source shape reaches cur=r4/data=r0.
+ *
+ *   Wave 8b: filed docs/idioms/a-dying-pointer-loads-scratch-colour-can-be-an-allocator-tie.md.
  *
  * symbols:
  *   sUnlockFunc    0x021F6EF4  data

@@ -27,6 +27,31 @@
  * sites, so the 0x021779A4 line was removed and all 204 relocation sites now
  * resolve (was 199/204). The body is unchanged, so this is still a partial.
  *
+ * W8b (2026-10-01, 15-min lane): the parked body is a placeholder call
+ * sequence, NOT the real control flow, so it cannot be nudged to EXACT; the
+ * real function needs a from-scratch rewrite from the vendor listing
+ * (`python tools/sdkobj.py 0x0216D57C --region ov009`), which is ~1300
+ * instructions / 3908 bytes extent / 3195 concrete bytes. Structural map now
+ * established from that listing (state field is mc->0x61C, NOT mc->0x15):
+ *
+ *   entry:   ret=1 (r4), zero (r7); early-out if !GetMatchCnt() || IsError();
+ *            fullSpec==0 -> qr2_think(mc->0x10)/gt2Think(mc->0x04); then
+ *            if (mc->0x61C==0) return; switch(mc->0x61C) dense 0..0x16:
+ *     idx:   0,1          -> default 0x216E0F4
+ *            2            -> 0x216DCB4   3,5,22 -> 0x216D8A4
+ *            4            -> 0x216D684   7      -> 0x216D97C
+ *            10           -> 0x216DDB4   11     -> 0x216DE7C
+ *            12           -> 0x216DFC8   13     -> 0x216E05C
+ *            15           -> 0x216DB28   17     -> 0x216DC1C
+ *            others       -> 0x216E0F4
+ *   Each case is 150-550 bytes of tick arithmetic (64-bit OS_GetTick diff
+ *   via _ll_udiv, shift 6 / udiv by pool divisor) and null-guarded reads of
+ *   distinct mc offsets (0x5e4,0x608/0x60c,0x638/0x63c/0x640,0x644,
+ *   0x648/0x64c,0x670/0x674,0x6d8/0x6d9,0x760/0x764,0x768/0x76c,0x798,
+ *   0x7ac,0x7b6). sbInterval = (case==2 && mc->0x5e4==1) || mc->0x7ac<=1
+ *   ? 0xFA0 : <pool>; SBUpdateAsync(mc->0x67C) -> HandleSBError(result).
+ *   Status: DIFF, blocker = full body not yet rewritten.
+ *
  * The exact spec is available: `python tools/sdkobj.py 0x0216D57C --region
  * ov009` prints the vendor object's own listing (0 concrete mismatches of
  * 3195 concrete bytes, i.e. byte-identical to the image) with every PC24

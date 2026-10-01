@@ -37,6 +37,11 @@
  *        copyDest before the default store all compile to the SAME hoisted 124 B / 94
  *        concrete bytes.  The no-default control confirms the fix is a control-flow
  *        (store-motion) lever, not register colouring.
+ * wave8b: one-trip `for(;;) { switch } break;` wrapper, `if (id == 1 || id != 2)`
+ *        chain, and a cast on the stored value all still hoist to 124 B.  The arm's
+ *        value is a live-parameter register copy, so it rematerialises at entry where
+ *        a pool load (see two-cases-with-one-body) would not.  Filed
+ *        docs/idioms/a-shared-register-copy-arm-is-hoisted-above-the-compare-chain.md.
  *
  * sdk:      WCMi_MergeToBuffer (libwcm.TWL.HYB.a cpsif.o)
  *

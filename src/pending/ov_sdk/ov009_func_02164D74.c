@@ -62,8 +62,13 @@
  * on the field read (`const WCMSysState *` local over &g_021AA7D4, and an
  * inline `((const WCMSysState *)&g_021AA7D4)->wcmw` cast at the guard); both
  * still 18 bytes, schedule unchanged.  The lever needs a pointer parameter;
- * it does not reach a load through a global object.  blocker: the `ldr sb`
- * address load and the `str r1,[sp]` expectLen spill will not swap.
+ * it does not reach a load through a global object.  Also tried: caching the
+ * read in a `WCMWork *wcmw` local before and after `expectLen = 0`, and a
+ * non-const named `WCMSysState *p = &g_021AA7D4` with the guard written
+ * `p->wcmw`; all three still emit exactly `mov r1,#0; ldr sb; str r1,[sp];
+ * ldr r2,[sb,#4]; mov r5,r0` (18 concrete bytes), i.e. the front end never
+ * hoists the address load above the zero materialisation.  blocker: the
+ * `ldr sb` address load and the `str r1,[sp]` expectLen spill will not swap.
  */
 
 typedef struct WCMWork {

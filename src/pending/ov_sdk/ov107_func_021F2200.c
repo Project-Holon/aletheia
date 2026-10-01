@@ -29,6 +29,12 @@
  *           pointer-field spelling (pPwork->field) rather than the raw-offset
  *           casts in this file is the likely route to the object's colouring.
  *           Same wall as ParentStateCallback (0x021D2450).
+ *           Wave-8 attempt: reproduced the vendor's declaration scoping
+ *           (req_data inside the state==CONNECTED block, its locals inside
+ *           the state==REQUESTED block) -- compiled output byte-identical to
+ *           before, so scoping is not the lever. Confirmed 1192 vs 1216 (24
+ *           short), 1006 concrete bytes differ. The gap is the global
+ *           register rotation, not any single statement.
  *
  * sdk:      MBi_CommParentRecvDataPerChild (libmb.TWL.HYB.a(mb_parent.o))
  *
@@ -68,7 +74,6 @@ extern u16 MBi_calc_nextsendblock(u32 next_block, u32 next_block_req);
 static void MBi_CommParentRecvDataPerChild(void *arg, u16 child)
 {
     MBCommChildBlockHeader hd;
-    MBCommRequestData req_data;
     u8 *p_data;
     int state;
     u8 fileid;
@@ -82,13 +87,11 @@ static void MBi_CommParentRecvDataPerChild(void *arg, u16 child)
     state = ((int *)(g_021F6FA0 + 0x14E8))[child - 1];
     switch (fileid) {
     case 7: {
-        u8 fid;
-        u8 entry_num;
-        u8 i;
-
         if (p_data == 0)
             return;
         if (state == 2) {
+            MBCommRequestData req_data;
+
             MI_CpuCopy8(p_data, &req_data, 0x1d);
             ((int *)(g_021F6FA0 + 0x14A8))[child - 1] = *(int *)&req_data;
             *(u16 *)(g_021F6FA0 + 0x148A + (child - 1) * 2) =
@@ -102,8 +105,10 @@ static void MBi_CommParentRecvDataPerChild(void *arg, u16 child)
         }
         if (state != 0xa)
             return;
-        fid = p_data[0x1c];
-        entry_num = 0;
+        {
+        u8 fid = p_data[0x1c];
+        u8 entry_num = 0;
+        u8 i;
         if (fid < 0x10) {
             if (g_021F6FA0[fid * 0x5D4 + 0x1D52] != 0) {
                 void *ptr = *(void **)(g_021F6FA0 + fid * 0x5D4 + 0x1D40);
@@ -153,6 +158,7 @@ static void MBi_CommParentRecvDataPerChild(void *arg, u16 child)
             }
         }
         return;
+        }
     }
     case 8: {
         u8 fid;

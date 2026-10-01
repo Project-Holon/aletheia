@@ -8,7 +8,16 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
- * blocker:  148 lines: prologue copy scheduling of the three 5-byte initialisers (the keyboard.o disp residue), and @20862/@20864/@20866 have no witness outside this function. Notes: docs/notes/pkt_ov016_021BF74C.c.txt
+ * blocker:  wave12: reading each loop bound as `*(volatile unsigned char *)&N_x[line]`
+ *           forces the vendor's per-iteration reload, yielding compiled 636 (padded 640)
+ *           with the three template slots now at +025C/+0260/+0264 exactly matching the
+ *           vendor's @20862/@20866/@20864. +025C (@20862, {3,3,3,1,0}) resolves. The other
+ *           two fail because our template-pool emission order is by first use
+ *           (KEY,SKEY,BTN) while the vendor's rodata order is KEY,BTN,SKEY
+ *           (@20866@0x448={0,0,0,0,2}=BTN, @20864@0x458={0,0,0,2,0}=SKEY); swapping the
+ *           declarations does not change the emitted order and swapping the loop order
+ *           would change the code. Need to force BTN's initialiser to be the second
+ *           emitted template. 7/9 relocs, 345 bytes differ. Notes: docs/notes/pkt_ov016_021BF74C.c.txt
  *
  * wave8 witness lane: the vendor relocs at disp+0x25C/0x260/0x264 are @20862/@20866/@20864
  * (Rom libdwcutil.TWL.HYB.a, keyboard10.o), i.e. local 5-byte initialiser templates, not
@@ -67,6 +76,9 @@
  *   keyboard10_str_20862             0x021DA450  data
  *   keyboard10_str_20864             0x021DA458  data
  *   keyboard10_str_20866             0x021DA448  data
+ *   @20862                           0x021DA450  data
+ *   @20864                           0x021DA458  data
+ *   @20866                           0x021DA448  data
  *   moveFocus                        0x021C0480  arm
  *   taskEnd0                         0x021C0528  arm
  *   taskEnd1                         0x021C0588  arm
@@ -238,24 +250,25 @@ static inline void G2_SetOBJPriority(GXOamAttr *oam, int priority)
 static void disp(int line, int y)
 {
     unsigned char N_KEY[5] = { 3, 3, 3, 1, 0 };
-    unsigned char N_SKEY[5] = { 0, 0, 0, 2, 0 };
     unsigned char N_BTN[5] = { 0, 0, 0, 0, 2 };
+    unsigned char N_SKEY[5] = { 0, 0, 0, 2, 0 };
     int ix;
     int i;
 
     ix = line * 3;
-    for (i = 0; i < N_KEY[line]; i++, ix++) {
+    for (i = 0; i < *(volatile unsigned char *)&N_KEY[line]; i++, ix++) {
         G2_SetOBJEffect(MemKb10->key[ix], 0, 0);
         G2_SetOBJPosition(MemKb10->key[ix], keyboard10_rodata.C_KEY[ix].x, y);
     }
     if (line < 4)
         DWCi_FNTlDisp(MemKb10->canv[line], keyboard10_rodata.C_KEY[line * 3].x, y, MemKb10->cellCanv[line], 2);
-    for (i = 0; i < N_SKEY[line]; i++) {
+    for (i = 0; i < *(volatile unsigned char *)&N_SKEY[line]; i++) {
         G2_SetOBJEffect(MemKb10->skey[i], 0, 0);
         G2_SetOBJPosition(MemKb10->skey[i], keyboard10_rodata.C_SKEY[i].x, y);
     }
-    for (i = 0; i < N_BTN[line]; i++) {
+    for (i = 0; i < *(volatile unsigned char *)&N_BTN[line]; i++) {
         DWCi_CELLlSetEffect(MemKb10->button[i], -1, 0, 0);
         DWCi_CELLlSetPosition(MemKb10->button[i], -1, keyboard10_rodata.C_BTN[i].x, y);
     }
 }
+

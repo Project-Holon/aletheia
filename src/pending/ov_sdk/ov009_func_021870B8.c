@@ -66,6 +66,16 @@
  *   1.2 sp2 3412 B, 1.2 sp3/sp4 3272 B.  Consistent with a 4.0.0.1025 allocator
  *   difference (no such compiler on this machine).
  *
+ * lane wave8 (2026-10-01, 02:32 stop): re-verified 3240/3240, 708 concrete,
+ *   122/122 relocations.  Added nothing: re-read the diff, the tie is exactly
+ *   as described — the object pools the constant 1 in fp for the switch region
+ *   (mov fp,#1 at +0x11C, mov r0,fp at every error return) and rematerialises
+ *   &buffer as `add rX,sp,#0x150`; 1.1p1 pools &buffer in fp and rematerialises
+ *   1.  Not a misplaced brace: the constant's and the address's uses span the
+ *   same set of switch arms, so no single use can be moved to a different
+ *   block to split them.  Parked; see the 00:15 note for the full spelling
+ *   sweep.
+ *
  * lane wave8 (2026-10-01, 00:15 stop): re-verified 3240/3240, 708 concrete,
  *   122/122 relocations resolved.  Confirmed the residue is one allocation tie,
  *   not per-arm shape: the object emits `mov sl,#0` then `mov fp,#1` before the

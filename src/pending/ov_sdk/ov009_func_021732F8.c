@@ -10,18 +10,25 @@
  * status:   DIFF
  *
  * blocker: codegen, 4 bytes short (560 vs 564).  Everything matches except the
- *          aid read.  The original at 0x021734B8 is
+ *          aid read.  The original at 0x021734B4 is
  *            bl DWCi_GetMatchCnt ; add r0, r0, #0x154 ; ldrb r5, [r0, #0x416]
  *          (0x154 + 0x416 = 0x56a: an inner object's base offset kept apart from
- *          its field offset).  dsi/1.1p1 folds the pair into a single
+ *          its field offset).  dsi/1.1p1 folds the contiguous pair into a single
  *          `ldrb r5, [r0, #0x56a]` for every spelling tried: flat `->f_56a`,
- *          a nested struct member, `*(u8*)((char*)cnt + 0x56a)`, a
- *          `volatile` cast, and a `static inline` helper taking the inner
- *          object (the helper's call site does produce the `add #0x154`, but
- *          the inliner then folds the field into it).  A non-`inline` static
- *          helper is not inlined here, so its call site is +4 bytes (568).
- *          The vendor object is stamped 4.0.0.1025; the fold looks like a
- *          1024-vs-1025 difference in the inliner's displacement folding.
+ *          a nested-struct member at 0x154, `*(u8*)((char*)cnt + 0x56a)`, a
+ *          `volatile` cast, and a static/inline helper (inlined or not).
+ *
+ *          Direct evidence 2026-10-01: the split IS a genuine separate function.
+ *          The original branches at 0x021734D4 (the `bne` inside the aid send)
+ *          to 0x02173518, the exact shared tail `mov r0,#1; pop`, i.e. the aid
+ *          send's `bne` exits the *outer* function.  Only a real callee sees
+ *          that tail.  But giving it a body (static or extern, DWCs_SendMatch-
+ *          SynToAid) also moves the branch-target pool and recolours the whole
+ *          prologue/loop (r4<->r5, never this function's 560-byte layout), so
+ *          the two functions must be emitted together as one dwc_match.o unit.
+ *          The 1.1p1 inliner folds a contiguous object+field offset
+ *          (0x154 inner base + 0x416 field) into 0x56a in every case; only a
+ *          separate compilation unit / the 1025-strength inliner splits it.
  *
  * measured (U23): the 1025 stamp makes ../2.0/* the permitted check, and it does split the
  *   address -- ../2.0/base emits `add r0,r0,#0x154 ; ldrb r4,[r0,#0x416]` -- but at 568
@@ -46,6 +53,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
+
+struct DWCstMatchControl;
 
 struct DWCstMatchControl
 {
@@ -82,6 +91,7 @@ extern int DWCi_CancelPreConnectedClientProcess(int profileID);
 extern void DWCi_ServerSynTimeoutExec(void);
 extern struct DWCstNodeInfo * DWCi_NodeInfoList_GetNodeInfoForIndex(int index);
 extern void DWCi_SendMatchSynPacket(u8 aid, u16 type);
+
 extern void DWCi_SendTypeMatchAck(void);
 extern void DWCi_PostProcessConnection(int type);
 
@@ -128,7 +138,7 @@ int DWCi_ProcessMatchSynTimeout(void)
                     continue;
                 DWCi_SendMatchSynPacket(node->f16, 2);
             }
-            aid = DWCi_GetMatchCnt()->f_56a;
+            aid = (u8)(DWCi_GetMatchCnt()->f_56a + 0);
             if (!(DWCi_GetMatchCnt()->f_650 & (1 << aid)))
                 DWCi_SendMatchSynPacket(aid, 2);
         }

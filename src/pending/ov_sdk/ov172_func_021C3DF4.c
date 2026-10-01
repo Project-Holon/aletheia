@@ -44,6 +44,9 @@
  * r1 for the g_021CADF0 pool load; ours takes r1 for the pool addr and sinks count0 into r2), not a
  * memory reorder, so no ordering barrier can move it.  The structurally identical count0++ at
  * +0x40C4 (tag 0x0132) matches because its slot pointer sits in r5, leaving r1 free.
+ * Wave-8 second lane tried additionally, all no change (22 B): `*(volatile s16 *)&sb->count0 += 1`,
+ * `*(volatile u32 *)&g_021CADF0.fieldC` in the if, a function-scope `struct UnkObj *jexif = &g_021CADF0`
+ * (both uses), and prefix `++sb->count0`.
  * Fixed this lane (279 -> 22 bytes): func_02082EA4 argument order (src,dst) in the
  * 0xA000 and tag 0x0002 blocks, the makernote entry string copy length is s->count (was a
  * literal 0), no tmp temp for tag 0xA002, sum operand order in the else branch.

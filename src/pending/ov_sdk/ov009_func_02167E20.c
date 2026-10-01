@@ -60,6 +60,12 @@
  *           break-out while, and the callback tail written into both arms
  *           (57 bytes, not cross-jumped).  The then-arm is always if-converted.
  *
+ * w8b_nm: six more shapes measured, all 100 B with the same `subne` predication:
+ *           volatile field compare, `int` result, `goto` join, `0 - 5`, callback
+ *           load hoisted before the guard (96 B), and the whole tail duplicated
+ *           into both arms (112 B, 4 relocs, cross-jump not applied).  Confirms
+ *           the existing blocker: this is front-end predication, not a shape wall.
+ *
  * symbols:
  *   WCMi_GetCpsifWork                0x02166378 arm
  *   WCMi_ResetKeepAliveAlarm         0x02165af4 arm

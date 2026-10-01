@@ -14,6 +14,14 @@
  * the copy's t for the add, ours reloads t; (b) original uses the truncating `lsl; add ...,lsr #16`
  * pair where ours folds to `add r1,r1,r5`; (c) loop2/loop3 counter lives in r2 in the original, r1 here.
  * Parked at the deadline, not a toolchain blocker.
+ * w8b follow-up: replacing `a = <src>` with five explicit per-field stores in order
+ * t,l,w,h + `a.t = <src>.t + (u16)(i*29)` DOES reproduce the original t-before-l load
+ * order, the single-t-load reuse, and the `lsl #16 / add ...,lsr #16` truncation pair,
+ * but recouples the whole block's register colours (product r0 vs r5, counter r1 vs r2,
+ * 628 B / 330 B diff). A `u16 d = i*29` intermediate does not help (644 B). The prior
+ * struct-copy shape keeps the exact 636 B size, the mul-before-loads schedule and the
+ * r5/r0 product/shift colours; its only deltas are the l/t load order + redundant t
+ * reload and the missing truncation pair.
  *
  * symbols:
  *   DWCi_R_SCR                       0x021DAA7C  data

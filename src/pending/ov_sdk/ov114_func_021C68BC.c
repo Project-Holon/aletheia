@@ -20,6 +20,20 @@
  *           order both ways; allocation does not follow it (541/533).
  *           Idiom used: an-early-return-branching-to-a-shared-epilogue-is-a-goto.
  *
+ *           Wave 8 re-check: the vendor DWARF (sdkobj_021C68BC.txt) pins
+ *           res r8, event r10, arg r4, pos r9, result r9, n r8, serverError r7,
+ *           callback r6, reason r5, threadEvent [fb+0]; our build assigns
+ *           res r7, event r6, arg r5, serverError r8, callback r9, reason r10.
+ *           The image reuses a dead parameter register: `mov sl,fp` writes
+ *           pos=0 over event's sl, and sl is reused for the loop's `matched`
+ *           temp, so the rotation is a whole-body allocator tie, not the loop.
+ *           Also tried, all worse or inert: event/result/reason as an enum
+ *           (648/398 unchanged), an explicit `if (event==3) goto end;`
+ *           (656B/439), full reverse declaration order (644/489), swapping
+ *           reason/callback declaration (644/500).  The best (398) is the
+ *           DWARF-order source already here.  Matches
+ *           sdk-defining-object-dwarf-pins-the-intended-register-homes.
+ *
  * sdk:      req_callback (libdwcnd.TWL.HYB.a dwci_nd.o)
  *
  * symbols:

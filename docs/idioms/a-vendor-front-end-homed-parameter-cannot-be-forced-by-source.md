@@ -30,3 +30,31 @@ recomputable from a value (`lpframe`) that stays live, so no C shape makes the
 front end keep it. The same residue parks `scanFirst` (usbap.o); see
 `docs/notes/vendor-debug-line-gives-statement-grouping.md` and
 `docs/sessions/2026-09-29/reports/w5_s1.md`.
+
+## Refinement (wave 8): a nonzero-offset alias does force the frame
+
+The frame can be recovered, if not the exact colouring, by adding a second
+named pointer set **before** the branch and consumed **after** the call, with a
+**nonzero** offset so it cannot copy-propagate into `lpframe`:
+
+```c
+psum = (unsigned short *)lpframe;
+pend = (unsigned char *)psum + 6;   /* distinct SSA value, live across the call */
+if (lpkey) { func_021BAC20(...); size += 8; } else { memcpy(...); }
+pfh = (FRAMEHEADER *)lpframe;
+memset(pfh, 0, 6);
+...
+pend = pend + size;
+psum = (unsigned short *)pend;
+```
+
+That reaches the object's five live values and emits `sub sp,#8` with `id`
+homed at `[sp,#4]` (192 B vs 196, 105 differing bytes). Writing
+`pend = (unsigned char *)psum` with no offset copy-propagates away (184 B, no
+frame) — and so does every offset-0 alias tried, including an
+`unsigned long`-spelled one and a `volatile`-qualified one. The residual diff
+is that the vendor's extra register holds `lpframe` itself (offset 0), so its
+early move is `adds r4,r6,#0` and the `+6` lands in the end two adds, while
+ours must carry `+6` in the live value (`adds r7,r5,#6`); that one offset
+difference recolours the whole body. The missed coalesce is still the front
+end's, but a distinct live pointer is the lever that gets the frame back.

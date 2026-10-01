@@ -8,12 +8,15 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
- * blocker:  register-allocator spill-vs-rematerialise tie at +0A8: image
- *           spills `enabled` to [sp] and keeps both soc+ci*12 (sl) and ci*12
- *           (fp); this build keeps enabled in fp and rematerialises soc+ci*12
- *           (sb holds ci*12), 820 bytes cascade. w8 lane re-tested a
- *           block-scope chunk pointer local (917 B, size 1360) and a named
- *           `wend = disconp+len` local (823 B); neither flips the spill.
+ * blocker:  8 concrete bytes: a sl/sb role swap.  The `char *e = (char *)soc +
+ *           ci*12` base local (the same idiom as the EXACT neighbour
+ *           ov009_func_02159A30 / push_rwin_chunks) now reproduces the image's
+ *           whole body incl. the `enabled` spill and `soc+ci*12` hoist, at
+ *           size 1384.  Only the two callee-saved homes are transposed: image
+ *           wend=disconp+len in sb and e=soc+ci*12 in sl; this build has
+ *           wend in sl and e in sb.  Declaration order of `e`/`wend`
+ *           (before/after each other, function vs block scope) and a named
+ *           `wend` local do not flip it - allocator tie, not a source shape.
  *
  * sdk:      dt_ack (libcps.TWL.HYB.a network.o, static)
  *
@@ -139,6 +142,8 @@ void func_02159A80(u8 *iphdr, u8 *tcphdr, u32 len)
     u32 dup;
     u32 disconp;
     u32 reorder_nextp;
+    u32 wend;
+    char *e;
     long ci;
 
     dup = 0;
@@ -173,11 +178,14 @@ void func_02159A80(u8 *iphdr, u8 *tcphdr, u32 len)
                         len = soc->rcvbuf.size - disconp;
                     if (len != 0)
                     {
+                        wend = disconp + len;
                         for (ci = 0; ci < 4; ci++)
                         {
+                            e = (char *)soc + ci * 12;
+
                             for (;;)
                             {
-                                if (soc->chunks[ci].start == 0)
+                                if (((CPSSocRcvBuf *)(e + 0x70))->start == 0)
                                 {
                                     func_02082EA4(TCPDATA(tcphdr), soc->rcvbuf.data + disconp, len);
                                     soc->chunks[ci].start = disconp;
@@ -186,7 +194,7 @@ void func_02159A80(u8 *iphdr, u8 *tcphdr, u32 len)
                                     func_0215993C(soc);
                                     goto done;
                                 }
-                                reorder_nextp = soc->chunks[ci].start + soc->chunks[ci].len;
+                                reorder_nextp = ((CPSSocRcvBuf *)(e + 0x70))->start + ((CPSSocRcvBuf *)(e + 0x70))->len;
                                 if (disconp < soc->chunks[ci].start && soc->chunks[ci].start <= disconp + len)
                                 {
                                     func_02082EA4(TCPDATA(tcphdr), soc->rcvbuf.data + disconp, soc->chunks[ci].start - disconp);

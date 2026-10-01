@@ -54,6 +54,21 @@
  *   ofs2/ofs3; chroma_cols/chroma_rows/luma_size/blocks are real locals and
  *   Component stores are ordered group 0,2,1; declare cx before cy; sampling
  *   is a switch; huffman_structure is 0x830 bytes (mEhufsi[264]).
+ *   Lane 3 (DWARF, new): `python tools/sdkobj.py 0x021C20B0 --brief` prints
+ *   the defining object's DWARF local list (printed order = reverse
+ *   declaration): pBuildTableWork, Component, dqttbl, crbuf, cbbuf, ybuf,
+ *   QuantizeTable, samplingy, samplingx, mcu_rows, mcu_cols, ptr, cy, cx, y,
+ *   x, j. The image's named locals are exactly those frame homes: samplingy
+ *   0x1c, samplingx 0x20, mcu_rows 0x24, mcu_cols 0x28, ptr 0x40, cx r7,
+ *   cy r6. chroma_cols, chroma_rows, luma_size, blocks, ofs, ofs2, ofs3 are
+ *   NOT DWARF locals -- they are unnamed compiler temporaries, and the slots
+ *   the image has for them (0x2c..0x3c) cannot be reproduced by declaring
+ *   them (any declaration/order gives chroma 0x38). The object names
+ *   crbuf/cbbuf/ybuf where this file uses dcY/acY/dcC/acC. Next step: rebuild
+ *   the setup from the DWARF-named set only (ybuf/crbuf/cbbuf pointers,
+ *   ptr/cx/cy, j/x/y) and let mwcc place the cursors/offsets as temps.
+ *   Inlining chroma_cols as cx/samplingx inline made it strictly worse
+ *   (2608 B, 2131 diff), so the temp shape comes from expression structure.
  *
  * sdk:      Yos_JPEGEncode (libssp.TWL.HYB.a jpegenc.o)
  *

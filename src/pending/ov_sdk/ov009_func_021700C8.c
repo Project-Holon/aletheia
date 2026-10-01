@@ -43,6 +43,19 @@
  *   ip (len*4 then r1 vs the image's r0); instruction stream identical, every
  *   cross 1.1p1 build gives 20 B, siblings 24 B. No C lever found.
  *
+ * w8_tool: pulled the real DWARF out of the vendor archive
+ *   sdk/TwlDWC/lib/ARM9-TS/Rom/libdwcmatch.TWL.HYB.a(dwc_match.o) (pyelftools,
+ *   relocate_dwarf_sections=False). Signature is static
+ *   `void DWCi_EncodeBinaryMsgCommand(struct DWCstBinaryMessage *message,
+ *   unsigned char command, unsigned long *data, int len)` with message r5,
+ *   command r4, data r0, len r6 -- matches this file's parameter homes exactly.
+ *   DWCstBinaryMessageHeader (20 B): identifier@0, version@4 (word), command@8,
+ *   size@9, qr2Port@0xa, qr2IP@0xc, profileID@0x10; DWCstBinaryMessage is
+ *   header + unsigned long data[32] @0x14. The 5-byte copy is forced (image
+ *   reads identifier plus version's low byte then overwrites the word at +4),
+ *   so the code shape is already pinned; the residue is purely the front end's
+ *   choice of ip for the constant-pool base. No source-level lever moves it.
+ *
  * symbols:
  *   d_021A2188  0x021A2188  data  a1
  *   MIi_CpuCopy32  0x02082A90  arm

@@ -68,6 +68,16 @@
  * in-tree compiler reaches EXACT and the row is parked for the object's front
  * end, not a source shape.
  *
+ * lane W8b (2026-10-01): re-verified under dsi/1.1p1: identical 296/296, 134
+ * concrete, 13/13 relocs.  Re-read the zero idioms; all the named-local zero
+ * idioms (a-zero-stored-passed-and-returned-is-a-named-local,
+ * a-returned-zero-keeps-r0-out-of-the-rotation,
+ * a-repeated-constant-pools-only-within-one-block...) move the benchmark in
+ * the opposite direction -- they force a pooled named zero -- and none
+ * suppresses 1.1p1's callee-saved hoist.  The image rematerialises `mov r2,#0`
+ * (stores) and `mov r0,#0` (returns); 1.1p1 alone pools them into r4.  Wall
+ * unchanged.
+ *
  * symbols:
  *   g_021AAA40     0x021AAA40  data  ov009
  *   func_02173AD8  0x02173AD8  arm  ov009

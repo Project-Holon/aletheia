@@ -28,6 +28,15 @@
  *           0x58/info 0x68) but leave the allocation unchanged at 141 bytes:
  *           the allocator still gives &tmpbuf to sb and 20 to r8, whereas the
  *           image gives &tmpbuf to sl and 20 to sb, so &buf lands in r4 not r8.
+ *           This lane additionally measured: pointer-local aliases
+ *           (pbuf/ptmp over the arrays) -> 496 B / 362 bytes; a named
+ *           `int len = 20` in place of the literal -> 504 B / 141 bytes
+ *           (inert).  The original keeps the branch-shared sp-relative
+ *           buffer addresses live across the if/else (else path reuses
+ *           sl/sb/r8; if path rematerialises into r5/r4) while 1.1p1
+ *           rematerialises them on both paths and packs &buf onto id's r4;
+ *           no source spelling tried by U27/U37/U46/U55/U65 or this lane
+ *           moves the first-block triple off sb/r8/r4.
  *
  * symbols:
  *   DWCi_FNTlFormBgEx                    0x021D5A58  arm

@@ -12,20 +12,22 @@
  * SDK: TwlDWC/lib/ARM9-TS/Rom/libdwcutil.TWL.HYB.a(atermset.o).
  * Object stamped Metrowerks 3.0.0.126 -> ../2.0/sp1p2.
  *
- * blocker: 952/996 bytes under the documented front-end pin ../2.0/sp1p2
- *   -O4,p -thumb (docs/FRONTEND-PINS.md pins this whole ov016 libdwcutil
- *   atermset.o object, stamp 3.0.0.126, to that front end).  Confirmed: under
- *   the wave-mandated dsi/1.1p1 the same body is 882/996.  The 44-byte residual
- *   is the 596-byte g_021DD224 zero-fill: the image emits the MWCC
- *   large-aggregate literal-zero idiom (r0-r3 all 0, 0x12 x 2-unrolled
- *   `stm r7!,{r0,r1,r2,r3}` with the counter staged through ip, then a final
- *   `stm` + `str r0,[r7]`), whereas the plain `for` u32 loop compiles to a
- *   149-iteration `stm r1!,{r0}` loop and `memset()` is 948 (4 bytes shorter
- *   still); `(WS11G_PROFILE_DATA){0}` spills a 596-byte stack temporary (frame
- *   0x280).  The prologue is also `push {r3,...}`/frame 0x28 against the
- *   image's `push {r4-r7,lr}`/0x2c.  Seven data globals (0x021DD490,
- *   0x021DDD04, 0x021DD020, 0x021DD4A0, 0x021DD4A8, 0x021DD224, 0x021DD310)
- *   still lack an outside witness, so the verdict cannot reach MATCH either.
+ * blocker: applied docs/idioms/builtin-clear-inlines-where-memset-calls.md to
+ *   the 596-byte g_021DD224 zero-fill.  `__builtin__clear(&g_021DD224,
+ *   sizeof(g_021DD224))` now reproduces the image's MWCC large-aggregate
+ *   literal-zero idiom exactly (movs r0,#0; movs rN,#0x12; ldr r7;
+ *   adds r1/r2/r3,r0; mov ip,rN; 2-unrolled `stm r7!,{r0,r1,r2,r3}` with the
+ *   counter staged through ip; final `stm` + `str r0,[r7]`).  Under the object
+ *   pin ../2.0/sp1p2 -O4,p -thumb the compiled size rises 952 -> 976 of the
+ *   image's 996.  Still DIFF, not a near miss: 815 concrete bytes differ and
+ *   20 bytes are missing, and the residual is distributed register
+ *   allocation / scheduling (e.g. the prologue schedules `adds r6, zero`
+ *   before the two zero stores where the image emits stores first), not the
+ *   fill.  Under the wave-mandated dsi/1.1p1 the same body is 902/996 (882
+ *   with the plain for-loop), so this object's codegen is the pinned 2.0 front
+ *   end.  Seven data globals (0x021DD490, 0x021DDD04, 0x021DD020, 0x021DD4A0,
+ *   0x021DD4A8, 0x021DD224, 0x021DD310) also lack an outside witness, so the
+ *   verdict cannot reach MATCH either.
  *
  * symbols:
  *   OS_Sleep          0x02085a38 arm
@@ -247,8 +249,7 @@ int AutoConfigThreadEx(void)
             ARESULT = SetFrameData(g_021DDD04, 4, g_021DD504, AFIELD34, g_021DD490);
             SendFrame(sock, &target, g_021DDD04, ARESULT);
             dwSendTick = GetTickCount();
-            for (n = 0; n < (int)(sizeof(WS11G_PROFILE_DATA) / 4); n++)
-                ((u32 *)&g_021DD224)[n] = 0;
+            __builtin__clear(&g_021DD224, sizeof(g_021DD224));
             ASTATE = 8;
             break;
         case 8:

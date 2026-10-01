@@ -26,6 +26,15 @@
  *     (The arm9 sibling CRYPTO_RC4Init, same vendor algorithm, is EXACT but has
  *     a key_len clamp and a `==` wrap, so its colouring does not transfer.)
  *
+ * w8b: still 12 B. New inert levers: `k=0;j=0;` vs `j=k=0;`, `for(i=0,k=0;...)`,
+ *      `for(i=0,j=0,k=0;...)`, `for(i=k;...)`, named `zero` local spelled as a
+ *      copy of k (`zero=k;`) in three declaration slots, a `kk=key[k]` reorder
+ *      (19 B), reset moved after the swap (26 B), enum-typed KZERO (12 B),
+ *      `const unsigned char *key` (12 B), `if((k=..)>=len)`, `k &= 0`. The pair
+ *      is the hoisted k-reset zero (image r0) vs the loop-2 scratch (image r3):
+ *      the freshly-dead loop-1 index register goes to whichever web the
+ *      allocator colours first, and no source shape reached here moves it.
+ *
  * w9_nm: 21 B, register assignment only. Residue (lane S7, re-measured): the whole
  * output is one mirrored pair swap -- image keeps the table pointer `m` in r4 and
  * the loaded byte m_i in lr (with the k-zero temp in r0 and the accumulator

@@ -7,32 +7,19 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
  *
  * sdk:      gpiProcessSearch (TwlDWC/libdwcgsgp.TWL.HYB.a gpisearch.o)
  *
- * blocker:  codegen, not the C.  Size is now exact (9460 bytes, 389 relocation
- *           sites) and only 14 concrete bytes differ, all one register swap:
- *           the image keeps `loop` in r8 and the rematerialised GPITrue /
- *           namespace-index scratch in r9/sb; 1.1p1 keeps `loop` in sb and the
- *           scratch in r8.  Every site of the swap is on that single pair
- *           (+0x2c/0x30 loop init, +0x90/0x98 GPITrue arg, +0x10c and the
- *           namespace `i` loop at +0x8e4..0x8f8, +0xaa4, +0xb04 data->remove,
- *           and the +0x24b4..0x24c8 outer-loop tail).  Insertion-point sweeps
- *           of `loop`'s declaration among the other locals (front, before/after
- *           `done`, end) all reproduce the same 14 bytes, so it is not the
- *           declaration-order colouring lever.
- *
- *           Two earlier blockers are now resolved and verified against the
- *           image: the inlined 28-byte GPUniqueMatch zeroing is
- *           `__builtin__clear` (idiom builtin-clear-inlines-where-memset-calls),
- *           which reproduces the object's byte-store loop at 0x21927ac exactly;
- *           and `arg->profile` in the GPI_SEARCH_PROFILE_LIST response must
- *           rematerialise `operation->data` (2 extra loads at +0x22c0) rather
- *           than reuse the cached `data` local, which closed the previous
- *           8-byte size gap.  Ruled out: struct layout (all offsets are
- *           DWARF-exact), callee/string addresses (all resolve), and the 0xb
- *           request/response cases (transcribed from the object's relocations).
+ * levers:   GPIBool is `enum _GPIBool` in the vendor DWARF, not `int`; the
+ *           enum type is what keeps `loop` in r8 and the GPITrue /
+ *           namespace-index scratch in r9/sb (idiom
+ *           an-enum-type-keeps-values-out-of-constant-folding).  The `symbols:`
+ *           block must have no blank `*` line inside it: read_header() ends the
+ *           block at the first line that is not a symbol, so the data half was
+ *           silently dropped and every g_ site wildcarded.  The g_0x0219xxxx
+ *           names are pool addresses; their declared addresses are the pool
+ *           *values* in asm/overlays/ov009.s (0x021A53xx..0x021A5xxx).
  *
  * Full-body reconstruction of gpiProcessSearch.  Types, struct offsets and
  * source line numbers are taken from the DWARF of the vendor member
@@ -68,93 +55,92 @@
  *   func_02094B20  0x02094B20  arm
  *   memset        0x020923B0  arm
  *   func_020964E0  0x020964E0  arm
- *
- *   g_02191848                               0x02191848  data
- *   g_0219184C                               0x0219184C  data
- *   g_02191850                               0x02191850  data
- *   g_02191854                               0x02191854  data
- *   g_02191858                               0x02191858  data
- *   g_0219185C                               0x0219185C  data
- *   g_02191860                               0x02191860  data
- *   g_02191864                               0x02191864  data
- *   g_02191868                               0x02191868  data
- *   g_0219186C                               0x0219186C  data
- *   g_02191870                               0x02191870  data
- *   g_02191874                               0x02191874  data
- *   g_02191878                               0x02191878  data
- *   g_0219187C                               0x0219187C  data
- *   g_02191880                               0x02191880  data
- *   g_02191884                               0x02191884  data
- *   g_02191888                               0x02191888  data
- *   g_0219188C                               0x0219188C  data
- *   g_02191890                               0x02191890  data
- *   g_02191894                               0x02191894  data
- *   g_02191898                               0x02191898  data
- *   g_0219189C                               0x0219189C  data
- *   g_021918A0                               0x021918A0  data
- *   g_021918A4                               0x021918A4  data
- *   g_021918A8                               0x021918A8  data
- *   g_021918AC                               0x021918AC  data
- *   g_021918B0                               0x021918B0  data
- *   g_021918B4                               0x021918B4  data
- *   g_021918B8                               0x021918B8  data
- *   g_021918BC                               0x021918BC  data
- *   g_021918C0                               0x021918C0  data
- *   g_021918C4                               0x021918C4  data
- *   g_021918C8                               0x021918C8  data
- *   g_021918CC                               0x021918CC  data
- *   g_021918D0                               0x021918D0  data
- *   g_021918D4                               0x021918D4  data
- *   g_021918D8                               0x021918D8  data
- *   g_021918DC                               0x021918DC  data
- *   g_021918E0                               0x021918E0  data
- *   g_021918E4                               0x021918E4  data
- *   g_021918EC                               0x021918EC  data
- *   g_021918F0                               0x021918F0  data
- *   g_021918F4                               0x021918F4  data
- *   g_021918F8                               0x021918F8  data
- *   g_021918FC                               0x021918FC  data
- *   g_02191900                               0x02191900  data
- *   g_02191904                               0x02191904  data
- *   g_02191908                               0x02191908  data
- *   g_0219190C                               0x0219190C  data
- *   g_02191910                               0x02191910  data
- *   g_02191914                               0x02191914  data
- *   g_02191918                               0x02191918  data
- *   g_0219191C                               0x0219191C  data
- *   g_02192A94                               0x02192A94  data
- *   g_02192A98                               0x02192A98  data
- *   g_02192A9C                               0x02192A9C  data
- *   g_02192AA0                               0x02192AA0  data
- *   g_02192AA4                               0x02192AA4  data
- *   g_02192AA8                               0x02192AA8  data
- *   g_02192AAC                               0x02192AAC  data
- *   g_02192AB0                               0x02192AB0  data
- *   g_02192AB4                               0x02192AB4  data
- *   g_02192AB8                               0x02192AB8  data
- *   g_02192ABC                               0x02192ABC  data
- *   g_02192AC0                               0x02192AC0  data
- *   g_02192AC4                               0x02192AC4  data
- *   g_02192AC8                               0x02192AC8  data
- *   g_02192ACC                               0x02192ACC  data
- *   g_02192AD0                               0x02192AD0  data
- *   g_02192AD4                               0x02192AD4  data
- *   g_02192AD8                               0x02192AD8  data
- *   g_02192ADC                               0x02192ADC  data
- *   g_02192AE0                               0x02192AE0  data
- *   g_02192AE4                               0x02192AE4  data
- *   g_02192DFC                               0x02192DFC  data
- *   g_02192E00                               0x02192E00  data
- *   g_02192E04                               0x02192E04  data
- *   g_02192E08                               0x02192E08  data
- *   g_02192E0C                               0x02192E0C  data
+ *   g_02191848                               0x021A5358  data
+ *   g_0219184C                               0x021A5370  data
+ *   g_02191850                               0x021A5374  data
+ *   g_02191854                               0x021A53A0  data
+ *   g_02191858                               0x021A53AC  data
+ *   g_0219185C                               0x021A53B8  data
+ *   g_02191860                               0x021A53C4  data
+ *   g_02191864                               0x021A53D4  data
+ *   g_02191868                               0x021A53E0  data
+ *   g_0219186C                               0x021A53E8  data
+ *   g_02191870                               0x021A53F8  data
+ *   g_02191874                               0x021A5400  data
+ *   g_02191878                               0x021A540C  data
+ *   g_0219187C                               0x021A5418  data
+ *   g_02191880                               0x021A5424  data
+ *   g_02191884                               0x021A542C  data
+ *   g_02191888                               0x021A543C  data
+ *   g_0219188C                               0x021A544C  data
+ *   g_02191890                               0x021A5454  data
+ *   g_02191894                               0x021A545C  data
+ *   g_02191898                               0x021A5468  data
+ *   g_0219189C                               0x021A5474  data
+ *   g_021918A0                               0x021A5480  data
+ *   g_021918A4                               0x021A5488  data
+ *   g_021918A8                               0x021A5494  data
+ *   g_021918AC                               0x021A54A0  data
+ *   g_021918B0                               0x021A54A8  data
+ *   g_021918B4                               0x021A54B4  data
+ *   g_021918B8                               0x021A54C4  data
+ *   g_021918BC                               0x021A54D0  data
+ *   g_021918C0                               0x021A54D8  data
+ *   g_021918C4                               0x021A54DC  data
+ *   g_021918C8                               0x021A54EC  data
+ *   g_021918CC                               0x021A54FC  data
+ *   g_021918D0                               0x021A550C  data
+ *   g_021918D4                               0x021A5520  data
+ *   g_021918D8                               0x021A5530  data
+ *   g_021918DC                               0x021ACEFC  data
+ *   g_021918E0                               0x021A553C  data
+ *   g_021918E4                               0x021A5544  data
+ *   g_021918EC                               0x021A5570  data
+ *   g_021918F0                               0x021A5578  data
+ *   g_021918F4                               0x021A5580  data
+ *   g_021918F8                               0x021A5584  data
+ *   g_021918FC                               0x021A5280  data
+ *   g_02191900                               0x021A5588  data
+ *   g_02191904                               0x021A5590  data
+ *   g_02191908                               0x021A559C  data
+ *   g_0219190C                               0x021A55A8  data
+ *   g_02191910                               0x021A55B4  data
+ *   g_02191914                               0x021A55C0  data
+ *   g_02191918                               0x021A55C8  data
+ *   g_0219191C                               0x021A55F0  data
+ *   g_02192A94                               0x021A55F4  data
+ *   g_02192A98                               0x021A55F8  data
+ *   g_02192A9C                               0x021A5600  data
+ *   g_02192AA0                               0x021A5608  data
+ *   g_02192AA4                               0x021A560C  data
+ *   g_02192AA8                               0x021A5614  data
+ *   g_02192AAC                               0x021A5620  data
+ *   g_02192AB0                               0x021A5624  data
+ *   g_02192AB4                               0x021A562C  data
+ *   g_02192AB8                               0x021A5630  data
+ *   g_02192ABC                               0x021A5638  data
+ *   g_02192AC0                               0x021A5640  data
+ *   g_02192AC4                               0x021A5644  data
+ *   g_02192AC8                               0x021A564C  data
+ *   g_02192ACC                               0x021A5654  data
+ *   g_02192AD0                               0x021A5660  data
+ *   g_02192AD4                               0x021A5590  data
+ *   g_02192AD8                               0x021A55C8  data
+ *   g_02192ADC                               0x021A5280  data
+ *   g_02192AE0                               0x021A5668  data
+ *   g_02192AE4                               0x021A5588  data
+ *   g_02192DFC                               0x021A566C  data
+ *   g_02192E00                               0x021A5674  data
+ *   g_02192E04                               0x021A5680  data
+ *   g_02192E08                               0x021A5688  data
+ *   g_02192E0C                               0x021A5690  data
  */
 
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-typedef int GPIBool;
+typedef enum { _GPIFalse = 0, _GPITrue = 1 } GPIBool;
 typedef int GPResult;
 typedef int GPEnum;
 typedef int GPErrorCode;

@@ -25,6 +25,24 @@
  *           counter into a distinct `k` merely regained 2 bytes, no colour
  *           change.  Needs a lever that pins `state` to r4.
  *
+ *           Wave 8 findings: the global is a `FriendState` object in the
+ *           sibling dwc_friend.o function (DWCi_UpdateFriendReq:
+ *           `extern FriendState s_bNeedCloseStatsConnection;`).  Spelling it
+ *           that way and accessing `s_bNeedCloseStatsConnection.field`
+ *           directly (or `#define state (&...)`) cuts the diff 397 -> 393/392
+ *           and moves the base from r6 to r5 (zero moves r5 -> r6), but the
+ *           image wants base r4 / zero r5.  The residual tie: loop-1 index
+ *           `i` always grabs r4 and pushes the base up one (r6 with the
+ *           pointer local, r5 with the direct-object form); the plain `int i`
+ *           outranks the global-base pointer.  Measured inert: declaration
+ *           order of state/i/j/k/pidcnt (each earlier int below state shifts
+ *           state up: 1st->r6, 3rd->r7, 4th->r8), const/volatile/register on
+ *           state, loop-scoped `for (int ...)`, sibling-style `i=0; for(;;i++)`,
+ *           unsigned counters, reusing `i` for loop 2 (worse, r7).  The extra
+ *           4 bytes are loop-2's `mov r7,#0` for `j`, which the image instead
+ *           coalesces with the loop-1 zero source in r7; freeing r7 there
+ *           needs the base off r4/r5 first.
+ *
  * symbols:
  *   DWCi_IsError                    0x02059F38 arm
  *   DWCi_GPProcess                  0x02169210 arm ov009

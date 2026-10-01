@@ -8,22 +8,25 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
- * blocker:  size now exact (180), 51 concrete bytes, first at +0004. Writing the
- *           func_02186108 guard's early `return ret` as `goto end` (per
- *           docs/idioms/an-early-return-branching-to-a-shared-epilogue-is-a-goto.md)
- *           removed the if-converted `movne/popne` and recovered the 180-byte size.
- *           Two residues remain, both scheduler/regalloc, not spelling (>=10 shapes
- *           measured this wave):
- *             (1) prologue order. image `ldr r4,[pc]; mov r5,#0; ldr r2,[r4,#0xc];
- *                 mov r6,r0; mov r7,r1; str r5,[sp]`; ours `mov r5,#0; ldr r4,[pc];
- *                 str r5,[sp]; ldr r2,[r4,#0xc]; mov r6,r0; mov r7,r1` — the zero and
- *                 its store are scheduled around the base/field loads.
- *             (2) the `profileid>0 && buddyIdx!=-1` arm: image lays the else first
- *                 (`ble else; ldr r1,[sp]; cmn r1,#1; bne call; else: mov r5,#0; b end`)
- *                 and keeps `mov r5,#0` after the call; ours branches to the else
- *                 (`beq else`) with the else last and materialises ret=0 before the call.
- *           Ruled out: nested if (172B, merges both ret=0), goto-call / success-goto
- *           (164B, swaps r6/r7 and profileid into r1), A||B. No unresolved byte.
+ * blocker:  size exact (180), 21 concrete bytes, first at +0004. This lane cut the
+ *           residue from 51 to 21 with two source levers (see
+ *           docs/idioms/write-the-complemented-compound-condition-so-the-short-else-is-the-fall-through.md):
+ *             (a) the `profileid>0 && buddyIdx!=-1` exit is now written as
+ *                 `if (!(...)) { ret = 0; } else { int res = <call>; ret = 0; if (res == 0) ret = 1; }`,
+ *                 which puts the short else first with `bne` to the call (the image's
+ *                 layout) instead of `beq` to a trailing else, and lets the callee
+ *                 result land in a named local so the post-call `mov r5,#0` schedules
+ *                 exactly where the image has it (+009C). The whole else/call arm is
+ *                 now byte-identical.
+ *           The remaining 21 bytes are one prologue scheduler tie: image
+ *           `ldr r4,[pc]; mov r5,#0; ldr r2,[r4,#0xc]; mov r6,r0; mov r7,r1; str r5,[sp]`
+ *           vs ours `mov r5,#0; ldr r4,[pc]; str r5,[sp]; ldr r2,[r4,#0xc]; mov r6,r0; mov r7,r1`.
+ *           The single `mov r5,#0` (shared zero of `ret` and `buddyIdx`) and its
+ *           `str r5,[sp]` are scheduled around the base/field loads. ~20 measured
+ *           shapes this wave (decl/init orderings, split guards, `buddyIdx = ret`,
+ *           named g pointer) all leave this exact 21-byte residue: it is a scheduler
+ *           tie, not a spelling. Ruled out: nested if (172B), goto-call (164B),
+ *           A||B, `FriendGlobal *g` local (176B). No unresolved byte.
  *
  * u21: the defining object is .comment 4.0.0.1025; per the brief the stamp is not a blocker
  *      and this is plain source-level scheduler residue.
@@ -75,11 +78,9 @@ extern int func_02185FD4(void **connection, int index, BuddyStatus *status);
 
 int func_0216980C(void *friendData, BuddyStatus *status)
 {
-	unsigned char ret;
+	unsigned char ret = 0;
+	int buddyIdx = 0;
 	int profileid;
-	int buddyIdx;
-	ret = 0;
-	buddyIdx = 0;
 	if (g_021AA860.ctl == 0 || !func_0216AA70())
 		return 0;
 	profileid = func_020598EC(func_0216A39C(), friendData);
@@ -87,12 +88,14 @@ int func_0216980C(void *friendData, BuddyStatus *status)
 		if (func_02186108(g_021AA860.ctl->connection, profileid, &buddyIdx) != 0)
 			goto end;
 	}
-	if (profileid > 0 && buddyIdx != -1) {
+	if (!(profileid > 0 && buddyIdx != -1)) {
 		ret = 0;
-		if (func_02185FD4(g_021AA860.ctl->connection, buddyIdx, status) == 0)
+	} else {
+		int res = func_02185FD4(g_021AA860.ctl->connection, buddyIdx, status);
+		ret = 0;
+		if (res == 0)
 			ret = 1;
-	} else
-		ret = 0;
+	}
 end:
 	return ret;
 }

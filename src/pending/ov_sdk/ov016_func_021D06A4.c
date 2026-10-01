@@ -36,6 +36,12 @@
  *        a `const int` end value, volatile x, and both `(cell)[4]`/`*(cell+4)` spellings:
  *        every one is 12 concrete bytes (const on step_bss overshoots to 67). No
  *        source shape moves the four-instruction window; scheduler tie.
+ * W8: re-ran the loop forms from the hint (`for (i=4;i<5;i++)` in the else arm,
+ *     `x = 152` inside the loop, loop over both arms, C_POS[i].y bound) - all
+ *     unroll to the same straight-line 12-byte window. `MEMSTEP *const m` /
+ *     `MEMSTEP * const MemStep` member / `const MEMSTEP *` / `void *const c`
+ *     all stay 12 B; `const` on the struct overshoots. The two-token rewrite
+ *     did not move `ldr MemStep` above `str x`.
  *
  * U26: the matched siblings in this packet keep the same `x = N;` before the call and match
  * (taskEnd1..3 are loop forms); the single-cell else arm stays on the 12-byte window under a

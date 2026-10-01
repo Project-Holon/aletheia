@@ -8,6 +8,14 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * blocker:  caller-saved colour tie: the option pointer `p` and the `mode`
+ *           mask are r3/ip in the image but ip/r3 here; both are allocatable
+ *           and neither crosses a call or join, so the front end's tie-break
+ *           is not reachable from C.  34 sites, 34 concrete bytes, size exact.
+ *           vendor DWARF of the defining object lists neither `p` nor `mode`
+ *           (locals: c, myip_tmp, result, start, len, end, s), so both are
+ *           front-end temporaries; naming them is our reconstruction and is
+ *           what fixes the colour.  No source lever moves it.
  *
  * RESIDUE (lane U34): 41 concrete bytes, 34 sites, size exact at 880.  The
  *           image uses r3 for the bumped `s` and ip for the `mode` mask; this

@@ -8,22 +8,27 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
- * blocker:  scheduler/colouring tie-break at -O4,p, 39 concrete bytes.  The
- *           target keeps the `ldm sb,{d,top}` below the two terminator byte
- *           stores, if-converts `hi = 0` to `movle ip,r4` after `cmp r3,#1`,
- *           and holds 0xff in fp; this build hoists the ldm, emits an
- *           unconditional `mov ip,r4` before the cmp, and holds 0xff in sl
- *           (so the frame loses one word).  All three are register/schedule
- *           consequences of the same liveness, not separate C errors:
- *           `hi = top > 1 ? *dp++ : 0;` and the if/else spelling both fold to
- *           47 bytes (worse) at this front end.
+ * blocker:  scheduler/colouring tie-break at -O4,p, 27 concrete bytes.  The
+ *           `const` on the BIGNUM* parameter was the ldm-hoist lever (per
+ *           `a-load-scheduled-above-an-unrelated-store-reads-through-a-const-
+ *           pointer`): dropping it sank `ldm sb,{d,top}` below the two
+ *           terminator byte stores and took 39 -> 27 bytes.  Residue: (1) the
+ *           scheduler sinks `add r1,r7,r0` (p) below `strb r4,[r7,r0]`, the
+ *           target computes it first; (2) target if-converts the initial
+ *           `hi = 0` to `movle ip,r4` after `cmp r3,#1`, this build emits an
+ *           unconditional `mov ip,r4` before the cmp (if/else and ternary both
+ *           measured worse: 35/47 bytes); (3) target holds 0xff in fp, this
+ *           build reuses the dead sl for it, so the frame loses the r3/fp
+ *           word (push 10 -> 8).  (2) and (3) are register/liveness ties; the
+ *           two loop-site `hi = 0` copies already match with the if form.
  *
  * sdk:      CRYPTOi__BN_gen_exp_string (crypto_bobj1.o)
  *
  * symbols:
  *   g_021CF930  0x021CF930  data  ov114
  *
- * notes: DIFF, 39 concrete bytes.  Control flow and every instruction shape
+ * notes: DIFF, 27 concrete bytes (wave8: 39 -> 27 by removing `const` from the
+ *        BIGNUM* parameter).  Control flow and every instruction shape
  *        match.  lane13 (2026-09-30): the vendor object crypto_bobj1.o is
  *        .comment 4.0.0.1024 (dsi/1.1p1), so this is a source wall, not a
  *        front-end one.  Assigning `tab = g_021CF930[window]` BEFORE
@@ -60,7 +65,7 @@ typedef struct
 
 extern unsigned char *g_021CF930[7];
 
-int func_021CC674(unsigned char *str, const BIGNUM *e, int window)
+int func_021CC674(unsigned char *str, BIGNUM *e, int window)
 {
     unsigned char *tab;
     unsigned char *p;
@@ -84,8 +89,8 @@ int func_021CC674(unsigned char *str, const BIGNUM *e, int window)
     bitsh = 0;
     n = ((e->top << 5) + window - 1) / window;
     n = n * 2 + 2;
-    str[n] = 0;
     p = str + n;
+    str[n] = 0;
     p[-1] = 0;
 
     d = e->d;

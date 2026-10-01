@@ -31,6 +31,16 @@
  * [r5]/[r4] at +0xfc,+0x104,+0x128,+0x12c). Also +0x84/+0x88 store order and the +0xe8
  * beq target (+0x18ac vs +0x18a4) follow from that swap. Declaring result last and
  * reordering the senddata[0]/[1] stores both moved the diff the wrong way.
+ *
+ * Swept (lane w8b), all under 1.1p1 -O4,p, best stays 15: every
+ * declaration-order permutation of result/linkProgress/pNew (with pNodeInfo at
+ * every slot) gives 15 or 27, never lower; distinct second pointer locals for
+ * the reload (pNodeInfo2 / pNew2 / an unused pExtra) give 15; a same-typed
+ * second pointer split across the two sends gives 15; `result = Z0;` moved to
+ * any statement position gives 15 (base), 29 or 37; self-assignments
+ * (`pNew = pNew;`, `result = result;`, `linkProgress = linkProgress;`) give 15;
+ * `ZeroE result = Z0;` initialiser-at-declaration gives 27. The r4/r5 pair is
+ * an allocator tie that these levers do not reach.
  */
 
 typedef struct {

@@ -97,6 +97,17 @@
  * named mss-0x28 and rwin locals, an in-place `mss -= 0x28`, and a shared `one`
  * local for the hoisted `1` were all measured and leave 148 (or regress to 162).
  * See docs/idioms/volatile-on-a-just-stored-field-forces-the-objects-reload.md.
+ *
+ * lane W8b (2026-10-01).  Confirmed 148 / 388 (17/17 relocs).  Further spellings
+ * measured, all 148: `const SOCLConfig *socl_config` and a `const SOCLConfig *`
+ * field on g_021A1CD8 (the docs/idioms/const-on-a-read-only-source-parameter
+ * lever, which does not fire because the base is a global load, not a
+ * parameter); a named `use_dhcp` local; a named `mode1 = 1` local used in both
+ * arms; reordering the `g_021A1CFC[1]`/`[2]` stores; an `rwin` local assigned at
+ * the top of the function (245, worse).  Everything still hinges on the object
+ * keeping `rwin` in r7 (freeing r4 for `mss-0x28` and r3 for the shared zero),
+ * which lets the `1` hoist into r2; this front end puts `rwin` in r4 instead and
+ * rematerialises the `1`.  Genuine allocator tie, unchanged.
  */
 
 typedef unsigned char u8;

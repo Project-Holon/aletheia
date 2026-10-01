@@ -26,13 +26,22 @@
  *   keyboard_data                    0x021DAE68  data
  *   taskStart0                       0x021BDCAC  arm
  *
- * Blocker: DIFF. Prologue now matches with the local order buf,a,num,k,j,i,ix
- * (a at sp+0x18). Residue is from the button loop on: the original keeps the
- * lcd zero in a callee-saved reg (sl) and rematerialises 0x480 per FNTlDrawRect
- * call, hoisting only the shared 2; 1.1p1 hoists 0x480 into fp and spills the
- * zero to sp+0x10, costing frame 0x24 vs 0x20. CN_BTN 0x021DA09C also has no
- * witness outside the range. Notes in docs/notes/pkt_ov016_021BD8D8.c.txt
- * (permuter seed 9804 flat).
+ * Blocker: DIFF. Residue is an allocator tie over the whole button/canvas
+ * region, not a source shape. Compiled is 876 B vs the original's 844: the
+ * image reserves a scratch frame word with `push {r3,...}` + `sub sp,#0x20`,
+ * 1.1p1 drops r3 and uses `sub sp,#0x24` (same total 72 B, different split).
+ * The image keeps the lcd zero in sl and rematerialises `mov rX,#0x480` per
+ * FNTlDrawRect call; 1.1p1 instead hoists 0x480 into fp, gives sl to the button
+ * priority 3, and spills the live lcd zero to [sp,#0x10]. This is the tie in
+ * docs/idioms/a-hoisted-loop-invariant-zero-takes-the-freshly-dead-register-from-the-scratch.md
+ * (the loop-invariant constant vs the freed scratch register, both the only
+ * free callee-saved colour) crossed with
+ * docs/idioms/a-repeated-small-constant-takes-a-callee-saved-register.md (the
+ * rematerialise-vs-pool front-end difference). Tried: local order
+ * buf,a,num,k,j,i,ix (fixes the early prologue), named-zero / named-flag
+ * spellings, reordering the zeros -- none recolours the button loop. Notes in
+ * docs/notes/pkt_ov016_021BD8D8.c.txt. CN_BTN 0x021DA09C also has no witness
+ * outside the range (ABS32, `~` wildcard).
  *
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(keyboard.o), symbol DWCi_KBlInit (name and prototype from the
  * vendor object DWARF). The object is stamped Metrowerks C/C++ for ARM 4.0.0.1025, which

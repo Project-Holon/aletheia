@@ -38,6 +38,12 @@
  *          two buffer-offset stores regressed to 12 B.  Residue is exactly
  *          the scratch tie-break: at the first temp the allocator hands
  *          buf+0x1e8 to r7 (dead game_reg) in the original but to r3 here.
+ *          w8b: const on the read-only game_reg parameter, a single named
+ *          u32 b = (u32)buf feeding all three stores, and a block-scoped
+ *          named ta/tb = buf+off pair all recompile to 632 B and stay at
+ *          exactly 8; this is the allocator tie of
+ *          docs/idioms/a-dying-pointer-loads-scratch-colour-can-be-an-allocator-tie.md
+ *          (same mb_fileinfo.o/mb_gameinfo.o family as 021F4140).
  *
  * sdk:      MB_RegisterFile (libmb.TWL.HYB.a(mb_fileinfo.o))
  *

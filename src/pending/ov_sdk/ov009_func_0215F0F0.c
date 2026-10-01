@@ -8,40 +8,31 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
- * u21: the defining object socl_misc.o is .comment 4.0.0.1024 -> dsi/1.1p1, so the front end is
- *      right and this is a codegen-shape wall, not a spelling one. The image is branch codegen: the
- *      `(netmask & (dns ^ addr)) || (dns & ~netmask)` test recomputes the xor at L12C instead of
- *      CSE-ing it, and the flag stores stay `cmp r3,#0 / movne r4,#1`. 1.1p1 CSEs the masked xor
- *      into one live register and cascades conditional execution over the whole middle, which is 12
- *      bytes SHORTER from the same source (136 vs 148). First divergence +0000 image `push {r4, lr}`
- *      | ours `push {r3, r4, r5, lr}`; body at +0024 image `tst r0, r3` | ours `ands r3, r0, r2`.
- *      -O2/-O3/-O4,s identical (136 B), -O1,p 176 B, so no flag reaches 148.
+ * blocker:  1.1p1 value-numbers `(addr ^ dns) & netmask` (CSE) across the
+ *           inlined isA/isB boundary and materialises its boolean once in a
+ *           callee-saved reg (`ands r3, r0, r2` then `cmp r3,#0` in isB),
+ *           whereas the image tests isA with `tst r0, r3` (no value) and then
+ *           RECOMPUTES `eor r2, r2, r1` in isB because r3 was clobbered by the
+ *           intervening `mvn`.  The recompute falls out for free once the
+ *           boolean is not shared; the whole wall is stopping the front end
+ *           from sharing it.
  *
- * lane05 (2026-09-30), no relocations exist in this function (it is a leaf
- *   with 0 relocation sites), so the header's old `status: MATCH` was never a
- *   real verdict; it is DIFF.  The current body is 152 B / 99 diffs; the
- *   closest raw form is a single `return` &&-chain of the five terms, at
- *   144 B / 69 diffs, and the *only* remaining divergence is the isB block:
- *   image keeps `mov r3,#1; bne 0x215f14c` and only then computes
- *   `~netmask == (dns & ~netmask)`, while 1.1p1 if-converts that arm.
- *
- * lane08 (2026-09-30): the closest shape found is 148 B / 33 concrete bytes.
- *   Writing isA/isB as macros (rather than `static inline` helpers) keeps the
- *   148-byte length and the whole guard's branch structure; the ONLY remaining
- *   divergence is the CSE of `(addr ^ dns) & netmask`, which 1.1p1 computes
- *   once into r3 across the isA->isB boundary:
- *     image   eor r3,r2,r1 / tst r0,r3 / bne ISB ... then in isB
- *             eor r2,r2,r1 / tst r0,r2 / mov r3,#1 / bne KEEP ...
- *     ours    eor r2,r2,r1 / ands r3,r0,r2 / bne ISB ... then in isB
- *             cmp r3,#0 / movne r0,#1 / bne KEEP ...
- *   isA/isB also land their result in r0 where the image uses r3.
- *   Ruled out (all still 148/33 or worse): commuted operands `m & (a^d)` and
- *   `(d^a) & m`, `(unsigned)` casts, helper-with-local, swapping d/a argument
- *   order, the negated-or spelling, separate bool statements, unsigned helper
- *   parameters.  The CSE is the whole wall; nothing that keeps the source
- *   spelled as two independent predicates stops 1.1p1 from value-numbering the
- *   masked xor across the inlined isA/isB boundary (same front end that built
- *   the object, so this is a source-shape wall, not a stamp mismatch).
+ * lane05 (2026-09-30), no relocations exist in this function (leaf, 0 sites).
+ * lane08 (2026-09-30): closest shape 148 B / 33 bytes.  isA/isB as macros keeps
+ *   the 148-byte length and the whole guard's branch structure; the only
+ *   divergence is the CSE above.  Ruled out (all 148/33 or worse): commuted
+ *   operands, casts, helper-with-local, swapped d/a order, negated-or,
+ *   separate bool statements, unsigned helper params.
+ * wave8 (2026-10-01): re-confirmed 148/33.  Also tried, all no better:
+ *   - nested `if (A||B){ if(C) ok=1; else ok=...; if(ok) valid=1; }` and an
+ *     `int ok` local (identical 33);
+ *   - bare-integer vs `!= 0` on either/both tests (identical 33);
+ *   - GNU statement-expression macro computing the xor into its own `__xa`
+ *     local (34 — commutes the `ands` operands, CSE unchanged);
+ *   - inner `unsigned long x = addr ^ dns;` then `x & netmask` (33);
+ *   - `volatile` on dns/addr (212 B — forces stack homes, wrong).
+ *   Every pure-expression spelling is canonicalised; only a memory/sequence
+ *   barrier kills the CSE, and there is no frame word to spend on one.  Parked.
  *
  * sdk:      SOCLi_IsIPv4ValidDNSAddr (libsoc.TWL.HYB.a(socl_misc.o))
  */

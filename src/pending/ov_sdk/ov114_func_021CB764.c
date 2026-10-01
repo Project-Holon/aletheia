@@ -31,6 +31,14 @@
  *
  * blocker: max allocated r5 (object r4), min r4 (object r5); every load/assign/decl
  * order spelling lands on the same exchange of the whole 332-byte body.
+ * Wave-8 sweep (permanent negative result, do not re-run): 192 spellings crossing
+ * decl order, `int max=a->top,min=b->top` initialiser, `register` on/off, `long`
+ * i/carry order, assign order and `a<b`/`b>a` guard all leave int at 24; only the
+ * type moves it (unsigned 152, long 51). 122 more spellings over the three
+ * declaration statements (max/min, `BN_ULONG t1,t2,*ap,*bp,*rp`, `long i,carry`)
+ * in every order, plus t1/t2 and ap/bp swaps, are also 24; swapping t1/t2 is 37.
+ * The r4/r5 tie is therefore a global value-number/colouring choice, not a source
+ * declaration-order lever.
  */
 
 typedef unsigned int BN_ULONG;

@@ -58,6 +58,14 @@
  * ybuf[x + y], `((u16 *)((u8 *)ybuf + y))[x]` (340), a while loop (284), and
  * the three store orders (Cb first, Cr first).
  *
+ * Wave 8 (2026-10-01): all inert at 37 too — `const u32 width`,
+ * `const void *src` + `const u16 *pRgb`, `ybuf` assigned before `pRgb`,
+ * `pRgb` declared before `x`, `x` declared last, and reusing the dead
+ * `height` parameter as the loop index (285, much worse).  The 3-cycle is
+ * unforced by any source lever tried across two lanes; see
+ * docs/idioms/a-dead-parameter-reused-as-the-index-rotates-the-loop-registers.md
+ * (its shape matches, but this function's index is a genuine fresh local).
+ *
  * symbols:
  *   _u32_div_f  0x0209C2B0  arm
  *

@@ -18,6 +18,15 @@
  *   scratch/U44/vD.c (all four U44 fixes below) re-compiles to 1560 bytes /
  *   1061 concrete, i.e. worse, so it is not the lever.  No <=8-byte residue
  *   to permute; the rotation is the blocker.
+ *   Re-checked 2026-10-01: the frame split is allocator-only, not a source
+ *   defect -- image 9 saved (36) + 0x18c (396) = build 10 saved (40) + 0x188
+ *   (392) = 432 bytes of stack either way, so the missing int is the allocator
+ *   spending r3 on a saved home.  The `s = s;` colouring lever (idiom
+ *   a-no-code-self-assignment-reorders-the-register-colouring) was tried with
+ *   self-assignments of query/len/sender at entry: compiled away, still 1504
+ *   B / 1034 concrete, inert for whole-function-live parameters.  The 8 strings
+ *   are not `@N` initializer templates (they are named data), so the `template`
+ *   class does not reach them either.
  *
  * sdk:      qr2_parse_queryA (libdwcgsqr2.TWL.HYB.a qr2.o)
  *

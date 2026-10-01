@@ -58,6 +58,18 @@
  *           sub=r7, so the record-type load sinks below the pointer advance.  Tried this lane
  *           (all inert or worse): sub declared first, block-scope `sub`, named byte locals,
  *           named type local `rec` (796 B), named sub+4 `tot`, outer `s[3] + (...)`. Parked.
+ *
+ * lane W8b (2026-10-01): re-measured 792/792, 258 concrete, unchanged (best).  `sdkobj
+ *           parse_record_in_buf` DWARF lists only con=r9, buf=r10, len=r6, type=r5, s=r5 --
+ *           there is NO `sub` local at all, so the image's r8 sub-record length is an
+ *           anonymous/expression temp, not a named local.  Tried this lane (measurements):
+ *           inline the length expression at every use instead of naming `sub` (loads blow
+ *           up, 469); `unsigned long sub` recolours buf off sl onto r8 and spends sl on the
+ *           f5ac-zero (216 but structurally wrong); `unsigned short` 405; `int`/`long` 258;
+ *           8 function-scope declaration orders 258/282.  The single remaining lever is how
+ *           the 24-bit length's anonymous temp lands in r8 with its +4 temp in r7 while the
+ *           record type reads `ldrb r0,[r5]` before `add r5,r5,#4`; no source spelling found
+ *           reaches it. Parked with `blocker:`.
  */
 
 struct _CPSSslConnection {

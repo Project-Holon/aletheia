@@ -9,40 +9,39 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker:  near miss (776 vs 796 compiled), 51 concrete bytes differ.  Two
- *           source-shape levers landed earlier and are kept:
+ * blocker:  near miss (796 vs 796 compiled - SIZE now EXACT), 14 concrete
+ *           bytes differ, all in case 12's two guard loads.  Landed levers:
  *           (1) case 2 must read the work pointer into a named local *before*
  *               OS_DisableInterrupts (`DWCi_MOV_WPB_WORK *w = g_021DE65C;`), or the
  *               1.1p1 allocator defers the global load to after the call, spilling
  *               the work pointer out of the callee-saved set and shifting every
  *               register in the function down one (push {r3,r4..r7,lr} + r7/r6/r3
- *               instead of the image's push {r4..r8,lr} + r8/r7/r6).  The prologue
- *               and 26 further instructions now match.
+ *               instead of the image's push {r4..r8,lr} + r8/r7/r6).
  *           (2) case 10's arms are inverted in the image: `if (GetState() != 2)
  *               KickChild(); else { ... }` - the KickChild arm is the fallthrough
- *               and the beq jumps forward into the body.  Both arms now match.
- *           Residue, two causes, both lowering/colouring:
- *           (a) +029C case 12: the image computes base = (g+0x1b000) once into r0
- *               and reuses it for the load and the store at #0x144 / #0x140,
- *               reloading g before each of the two word checks.  Writing each
- *               check as its own block-scoped base local
- *                 { u32 *p = (u32 *)g_021DE65C; p = (u32 *)((char *)p + 0x1b000);
- *                   if (p[0x51]) p[0x51] = 0; }
- *               reproduces the association, the load-before-store reuse and the
- *               per-check g reload exactly; only the register numbering differs
- *               (our base lands in r1 / value in r0; the image base r0 / value
- *               r1), a pure colouring tie that the shared-pointer-local idiom
- *               does not settle.
- *           (b) +02D0 case 13: the image lowers `switch (userInfo->f0)` over
- *               {1,2,9} as a range tree - cmp #8/bgt, popge, cmp #2/popgt,
- *               cmp #1/poplt, cmpne #2/beq - one shared ChangeState(7); 1.1p1
- *               emits a linear chain (cmp #1, cmpne #2, beq, cmp #9, popne),
- *               20 bytes shorter.  16 variants of the case body (case order,
- *               no-default, u16/int local, s16/u16 field, cast, if/|| spellings,
- *               explicit range and nested-if trees) leave the chain untouched;
- *               this is the whole remaining size gap.
- *           dwc_mov_mbp.o carries .comment 4.0.0.1025 (1.1p1 is 1024, 1.2 is
- *           1026), so both residues may be front-end, not source.
+ *               and the beq jumps forward into the body.
+ *           (3) case 13's range tree: the image lowers `switch (userInfo->f0)`
+ *               over {1,2,9} as a two-node decision tree (cmp #8/bgt, popge,
+ *               cmp #2/popgt, cmp #1/poplt, cmpne #2/beq).  1.1p1 emits it only
+ *               when an *empty* `case 8:` is also present in the switch, which
+ *               adds the second label the split needs; the empty arm shares the
+ *               `default: break`.  Without it 1.1p1 emits a 20-byte-shorter
+ *               linear chain.  Adding the empty label broke the case0/default
+ *               tail merge, so `case 0:` must also be spelled as the leading
+ *               label of `default:` (`case 0: default: OS_Terminate(); break;`)
+ *               to keep a single OS_Terminate epilogue.  This makes the extent
+ *               exactly 796.
+ *           Residue (a) +029C case 12: the image computes base = (g+0x1b000)
+ *           into r0 and loads the guarded word into r1 (`ldr r1,[r0,#0x144]`);
+ *           our compile puts the base in r1 and the value in r0 (`ldr
+ *           r0,[r1,#0x144]`).  All 10 instructions of the two checks agree
+ *           except these register nibbles.  9 spellings (block/single/const
+ *           pointer locals, named value temp, byte-pointer, field pointer,
+ *           volatile, comma declaration, declared value-first) all leave it in
+ *           r0/r1.  This is the same allocator tie documented in
+ *           docs/idioms/a-guard-load-that-folds-into-its-dying-base-register-is-not-a-source-shape.md
+ *           for the neighbour ov016_func_021D0CEC; record it, it is not a
+ *           source shape.
  *
  * sdk:      ParentStateCallback (libdwcutil.TWL.HYB.a(dwc_mov_mbp.o))
  *
@@ -205,6 +204,8 @@ static void ParentStateCallback(u16 child_aid, u32 status, void *arg)
     }
     case 13:
         switch (userInfo->f0) {
+        case 8:
+            break;
         case 9:
         case 1:
         case 2:
@@ -215,8 +216,6 @@ static void ParentStateCallback(u16 child_aid, u32 status, void *arg)
         }
         break;
     case 0:
-        OS_Terminate();
-        break;
     default:
         OS_Terminate();
         break;

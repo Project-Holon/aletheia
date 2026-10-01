@@ -68,6 +68,20 @@
  *           constant r2, shifting cases 2/3 (+01F8..+0264) as well. No source lever found:
  *           declaration order and the memcpy spelling are already the vendor's. Parked as the
  *           two-simultaneously-live-temporaries class.
+ *
+ * lane W8 (2026-10-01): confirmed the residue is exactly the inline-memcpy countdown counter's
+ *           colour at +011C (ptype==2 branch): image `mov r3,#0xa` / `subs r3,r3,#1`, draft
+ *           `mov sb,#0xa` / `subs sb,sb,#1`. The ptype==11 branch already uses sb in BOTH, so the
+ *           two source-identical copies colour differently only because of surrounding liveness;
+ *           r3 being free in the draft lets the flags-base load take r3 (image keeps it in r1),
+ *           rotating data+0xf (r3<->r2), porttype (r1<->r2) and the three switch arms. Measured no
+ *           better: branch swap (637), switch(ptype) (701), inline g[7] (105), uint/int/enum
+ *           ptype (88), named porttype local (86), p-before-ptype (86), cast dest (86), swap the
+ *           4/2-byte sub-copies (182), unsigned length (89), forcing length live past the copy
+ *           (763). A compiler-generated memcpy counter is not a value the source owns, so the
+ *           rotation/declaration-order family cannot reach it (same boundary as
+ *           docs/idioms/a-hoisted-loop-invariant-zero-takes-the-freshly-dead-register-from-the-scratch.md).
+ *           blocker: allocator tie on the compiler-generated inline-memcpy counter, no source lever.
  */
 
 #include "../../matched/arm9_sdk/libc/string.h"

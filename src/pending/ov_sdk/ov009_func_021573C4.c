@@ -24,6 +24,13 @@
  *           store orders in MATH_InitRand32, seed as a named u64 local (two shapes), a `u32 zero = 0`
  *           declaration initialiser feeding the stores (188), chained or swapped getpnt/putpnt (187).
  *
+ * wave 8: still 188 B. `const CPSConfig *config` DOES settle the register pair to the image's
+ *           config r4 / context r5 (the first three prologue instructions match byte for byte) but its
+ *           alias freedom then hoists the whole config field-load block above the context stores, so
+ *           the size grows to 540 and 358 B differ. `volatile CPSConfig *config` is 464 B. A named
+ *           `u32 zero = 0` feeding getpnt/putpnt/flag01/thread-arg is still 188 B. Filed
+ *           docs/idioms/const-settles-the-source-parameter-pair-but-hoists-its-loads-past-aliasing-stores.md.
+ *
  * sdk:      CPS_Startup (libcps.TWL.HYB.a network.o)
  * symbols:
  *   func_02004EB0                    0x02004eb0 arm
@@ -145,6 +152,7 @@ extern void func_0215BBB0(void *arg);
 
 void func_021573C4(CPSConfig *config)
 {
+    u32 zero = 0;
     func_02004EB0(g_020050AC);
     MATH_InitRand32(&g_021A826C.rand, config->random_seed ? config->random_seed : OS_GetTick());
     if (config->alloc != 0 && config->free != 0) {

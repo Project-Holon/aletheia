@@ -33,11 +33,19 @@
  *             frame is fixed by huffcode@0x14E + 0x202 = 0x350.
  *           Lever already applied: spelling `u16 huffcode[257];` before
  *           `char huffsize[257];` moved the frame 0x348 -> 0x350 and matched
- *           the entry prologue (2098 -> 2092 differing bytes).  The body still
- *           uses guessed names (marker/seglen/k, width/height) instead of the
- *           DWARF set, so the allocation stays wrong.  Rebuild the declaration
- *           list and the marker-arm temporaries from the DWARF list and the
- *           per-arm register colour, not from the disassembly text.
+ *           the entry prologue (2098 -> 2092 differing bytes).
+ *           Tested this lane: renaming width/height to the DWARF `dx`/`dy`
+ *           and moving `dx = 0; dy = 0; RSTn_work = 0; RSTn_intr = 0;` ahead
+ *           of the bcode2/mtx init.  Compile stayed 2468 bytes and 2092
+ *           differing concrete bytes (same count, different schedule), so the
+ *           2092 is NOT the width/height spelling.  The DWARF has only
+ *           i,j,m,s,q for every block-scoped temporary the body spells
+ *           cursor/T/n/code/si/idx, so the residual is the original's reuse
+ *           of those five registers plus the shared epilogue.  Rebuild the
+ *           declaration list (DWARF printed order is reverse declaration
+ *           order: dx,dy,h,g,i,j,m,p,q,s,x,y,RSTn_intr,RSTn_work,b,
+ *           huffcode,huffsize,result) and fold the marker-arm temporaries
+ *           into i/j/m/s/q, not the disassembly text.
  *           See docs/idioms/draft-sdk-declarations-from-the-object-dwarf.md.
  *
  * sdk:      Mel_JPEGDecode (libssp.TWL.HYB.a jpegdec.o)
@@ -109,8 +117,8 @@ int func_021BE5C4(u8 *d, u8 *a, u32 length, int maxWidth, int maxHeight,
     char huffsize[257];
     int RSTn_work = 0;
     int RSTn_intr = 0;
-    int width = 0;
-    int height = 0;
+    int dx = 0;
+    int dy = 0;
     int p;
     int marker;
     int seglen;
@@ -119,6 +127,10 @@ int func_021BE5C4(u8 *d, u8 *a, u32 length, int maxWidth, int maxHeight,
     int x, y;
     long result;
 
+    dx = 0;
+    dy = 0;
+    RSTn_work = 0;
+    RSTn_intr = 0;
     bcode2.esc = 0;
     bcode2.bits = 0;
     mtx[4][0] = 0;
@@ -151,14 +163,14 @@ int func_021BE5C4(u8 *d, u8 *a, u32 length, int maxWidth, int maxHeight,
             if (a[p + 9] != 0x11 && a[p + 9] != 0x21
                 && a[p + 9] != 0x12 && a[p + 9] != 0x22)
                 return 0;
-            height = (a[p + 4] << 8) | a[p + 3];
-            width = (a[p + 6] << 8) | a[p + 5];
+            dy = (a[p + 4] << 8) | a[p + 3];
+            dx = (a[p + 6] << 8) | a[p + 5];
             bcode2.f14 = a[p + 9] >> 4;
             bcode2.f04 = a[p + 9] & 0xf;
             bcode2.f24 = (a[p + 9] >> 4) * 8;
             bcode2.f28 = (a[p + 9] & 7) * 8;
             p += seglen;
-            if (width > maxWidth || height > maxHeight)
+            if (dx > maxWidth || dy > maxHeight)
                 return 0;
             break;
 
@@ -282,10 +294,10 @@ nextsi:
             if (p + 0xc >= length)
                 return 0;
             p += 0xc;
-            if (height > 0) {
+            if (dy > 0) {
                 do {
                     x = 0;
-                    if (width > 0) {
+                    if (dx > 0) {
                         do {
                             if (RSTn_intr != 0) {
                                 if (--RSTn_work == 0) {
@@ -307,12 +319,12 @@ nextsi:
                             func_021BF15C(dcr, 3);
                             func_021BEFB8(a, mtx[4], &p, 2);
                             func_021BF15C(dcb, 4);
-                            func_021BFA68(d, x, y, width, height);
+                            func_021BFA68(d, x, y, dx, dy);
                             x += bcode2.f24;
-                        } while (x < width);
+                        } while (x < dx);
                     }
                     y += bcode2.f28;
-                } while (y < height);
+                } while (y < dy);
             }
             goto end;
         }
@@ -371,5 +383,5 @@ nextsi:
 end:
     if ((u32)p > length)
         return 0;
-    return width | (height << 16);
+    return dx | (dy << 16);
 }

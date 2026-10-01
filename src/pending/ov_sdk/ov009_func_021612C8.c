@@ -36,6 +36,18 @@
  *           Also inert: inner `j <= i`, while, do-while (256 B diff, 436 B), count-down, `for`/`while`
  *           outer, `p` set before the guard.
  *
+ * L7 follow-up (wave 8): re-verified. Baseline unnamed &c/1 gives the image's colours exactly
+ *           (i->r7, i+1->r6, &c->r5, 1->r4, p->fp) but places `add r5,sp,#8; mov r4,#1` at the
+ *           inner preheader (+0088/+008C here) instead of the outer preheader (+0064/+0068). That
+ *           frees r5/r4 for the 0x30/0x20 constants in the sha1/md5 chain (`mov r5,#0x30; mov r2,r5`),
+ *           which is the whole +4 size and most of the 278-byte diff. Naming `cp=&c;` before
+ *           sha1_init DOES hoist the address but to r8, forcing i->r6, i+1->r5 (recolour, 286 B).
+ *           Naming `n=1;` too does not help: the constant folds and rematerialises back at the
+ *           inner preheader regardless. Assigning `c='A'+i` before sha1_init moves the store above
+ *           the call (`add r1,r7,#0x41; strb r1,[sp,#8]` before `bl`), not the hoist (274 B, still
+ *           444). So the lever must hoist an unnamed inner-loop invariant to the OUTER preheader
+ *           without naming it as a competing local; not found.
+ *
  * symbols:
  *   CPSi_sha1_init    0x02163C9C  arm
  *   CPSi_sha1_calc    0x02163CF0  arm
@@ -97,7 +109,7 @@ static void create_key_block(struct _CPSSslConnection *con)
         CPSi_sha1_init((char *)con + 0x348);
         c = 'A' + i;
         for (j = 0; j < i + 1; j++)
-            CPSi_sha1_calc((char *)con + 0x348, cp, 1);
+            CPSi_sha1_calc((char *)con + 0x348, &c, 1);
         CPSi_sha1_calc((char *)con + 0x348, con, 0x30);
         CPSi_sha1_calc((char *)con + 0x348, (char *)con + 0x54, 0x20);
         CPSi_sha1_calc((char *)con + 0x348, (char *)con + 0x34, 0x20);

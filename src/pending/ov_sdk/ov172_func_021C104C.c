@@ -8,6 +8,10 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * blocker:  register allocation: image uses 6 callee-saved (r4,r5,r6,r7,r8,sb) with
+ *   code=sb and kk=r8 for all three phases; ours uses 5 (code=r8; kk splits r3->r6
+ *   across phases). Same 508 B size, pool aligned at +01DC, all 14 relocs resolve.
+ *   45 concrete bytes, all register-colouring in the loop bodies/prologue.
  *
  * lane4 (w10): LOOP SHAPE SOLVED.  The image keeps every loop unrotated (`b` to the
  *   bottom test, no peeled guard).  Writing each loop condition as `(cond) ? 1 : 0`

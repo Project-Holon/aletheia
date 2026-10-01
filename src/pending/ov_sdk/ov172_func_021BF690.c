@@ -9,7 +9,18 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker:  full reconstruction; compiled 896 of 984 bytes.  The two refill
+ * blocker:  wave8 second retry: 964 of 984 (was 896).  Two real levers
+ *           landed: (1) bcode2.byte is signed (`asr`, not `lsr`, on the peek
+ *           shift) and (2) the switch arms now write the bounds check + err
+ *           return out inline in each case with only the *success* load
+ *           shared (`break;` then one `return jw[idx];`), matching the
+ *           original's per-arm err copies.  Still 20 B short and the
+ *           callee-saved assignment is unresolved (this C gets v=r8,
+ *           bcode2=sl; original holds v=r5, bcode2=r4/reloded r3).  The
+ *           remaining shortfall is the allocator merging the per-arm err
+ *           blocks / sharing more than the original.  Not EXACT.
+ *
+ * old-blocker:  full reconstruction; compiled 896 of 984 bytes.  The two refill
  *           sites (bits<8 at the top, bits<9 in the 9-bit walk) are emitted
  *           as two separate straight-line copies in the original but the
  *           front end here cross-jumps/merges them, and the callee-saved
@@ -47,7 +58,7 @@ typedef signed int s32;
 typedef signed short s16;
 
 typedef struct {
-    u32 byte;      /* +0x00 current byte register */
+    s32 byte;      /* +0x00 current byte register */
     u32 pad04;     /* +0x04 */
     u32 limit;     /* +0x08 input size */
     u32 esc;       /* +0x0c escape flag */
@@ -175,27 +186,46 @@ int func_021BF690(u8 *b, int *p, int n)
     case 0:
         idx = val + ((s16 *)bcode2.p1)[k + 0x46]
               - ((s32 *)bcode2.p2)[k] + 0x14;
+        if (idx < 0 || idx >= 0x1800) {
+            bcode2.err = 1;
+            return 0;
+        }
         break;
     case 1:
         idx = val + ((s16 *)bcode2.p1)[k + 0x46]
               - ((s32 *)bcode2.p2)[k] + 0x38;
+        if (idx < 0 || idx >= 0x1800) {
+            bcode2.err = 1;
+            return 0;
+        }
         break;
     case 2:
         idx = val + ((s16 *)bcode2.p1)[k + 0x46]
               - ((s32 *)bcode2.p2)[k] + 0x14c;
+        if (idx < 0 || idx >= 0x1800) {
+            bcode2.err = 1;
+            return 0;
+        }
         break;
     case 3:
         idx = val + ((s16 *)bcode2.p1)[k + 0x46]
               - ((s32 *)bcode2.p2)[k] + 0x170;
+        if (idx < 0 || idx >= 0x1800) {
+            bcode2.err = 1;
+            return 0;
+        }
         break;
     default:
         return val;
     }
-    if (idx < 0 || idx >= 0x1800)
-        goto err;
+
     return jw[idx];
 
 err:
     bcode2.err = 1;
     return 0;
 }
+
+
+
+

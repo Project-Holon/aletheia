@@ -63,6 +63,11 @@
  * constant.  No C-level lever moves it.  See
  * docs/idioms/an-if-converted-selects-destination-register-is-the-front-ends.md
  *
+ * w8 (this lane): 3 further tail spellings, all the same two classes.  A
+ * `switch (call) { case 0: r = 0; break; default: r = 1; }` emitted the exact
+ * 5-B coalesced form as the committed shape, and `r = call ? 1 : r;` (r == 0
+ * false arm) flipped the constants to r4=0/r5=1 for 15 B.  No new lever.
+ *
  * symbols:
  *   DWCi_MOV_WH_StateInInitialize    0x021D36D0  arm  ov016
  *   g_021DE660                       0x021DE660  data

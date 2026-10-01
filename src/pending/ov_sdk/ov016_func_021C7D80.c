@@ -9,19 +9,20 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker:  Error->id arm chain, frame layout (tmpbuf sp+0x10 / prm sp+0x18 /
- *           buf sp+0x1c) and every threshold constant reproduce; the compared
- *           ErrorCode value lands in r0 where the original keeps it in r1
- *           (threshold temp r1 vs r0), so every chain compare differs by
- *           register only.  Tried: direct `ErrorCode`, `int err` local first
- *           and last, signed/unsigned field types.  Tail also evaluates the
- *           two `C_CODE[DWCi_Language()]` arguments in the opposite order
- *           (original computes .x first into r6, then .y into r1).  Looks
- *           like an allocator/eval-order divergence, not source shape.
- *           Wave8 also tried: direct ErrorCode re-spelling so the global is
- *           CSE'd rather than held in a named local, and extern int
- *           ErrorCode[]; err = ErrorCode[0]; - both byte-identical to the
- *           named-local build, so the load-dest r0 is not reachable this way.
+ * blocker:  Wave8 fixed the whole -50xxx threshold cluster and the prm-2000
+ *           arm: the image pools base -49999 (not -50063) and derives every
+ *           sibling by `sub`, so lines 104-112 are -49999/-50002/-50003/
+ *           -50098/-50099 and the `prm-2000` arm is the constant -51999.
+ *           With those, plus if/else instead of `?:` in the two prm arms and
+ *           a named `ypos` for the second C_CODE lookup, 479 concrete bytes
+ *           drop to 19.  Remaining residual is the DrawStringEx tail only:
+ *           the image keeps y in r6 and uses r3 for the second language index
+ *           (`lsl r3,r0,#2` ... `mov r2,r6` last), ours frees r6 early
+ *           (`mov r2,r6; lsl r6,r0,#2`) and schedules `mov r0,r8` one slot
+ *           earlier.  Tried inline both arg orders, u16/int/block/top locals
+ *           for x and y, named lang, const C_CODE - all inert or worse; this
+ *           is the front end's scratch-register/schedule choice (cf.
+ *           idioms/a-front-end-hoists-a-base-copy-to-fold-an-argument-load.md).
  *
  * sdk:      drawMessage (libdwcutil.TWL.HYB.a sceneseterror.o)
  *
@@ -77,6 +78,7 @@ void drawMessage(void)
     int id;
     void *canv;
     u16 *msg;
+    int ypos;
 
     id = 0;
     DWCi_GetParam2_(0, &prm);
@@ -101,20 +103,28 @@ void drawMessage(void)
         id = 0;
     else if (-23999 <= err)
         id = 0x13;
-    else if (-50063 <= err)
+    else if (-49999 <= err)
         id = 0;
-    else if (-50066 <= err)
+    else if (-50002 <= err)
         id = 7;
-    else if (-50067 <= err)
+    else if (-50003 <= err)
         id = 5;
-    else if (-50162 <= err)
+    else if (-50098 <= err)
         id = 0;
-    else if (-50163 <= err)
-        id = (prm == 2) ? 5 : 7;
+    else if (-50099 <= err) {
+        if (prm == 2)
+            id = 5;
+        else
+            id = 7;
+    }
     else if (-51098 <= err)
         id = 0;
-    else if (-51099 <= err)
-        id = (prm == 2) ? 5 : 8;
+    else if (-51099 <= err) {
+        if (prm == 2)
+            id = 5;
+        else
+            id = 8;
+    }
     else if (-51102 <= err)
         id = 9;
     else if (-51103 <= err)
@@ -127,7 +137,7 @@ void drawMessage(void)
         id = 0x15;
     else if (-51303 <= err)
         id = 4;
-    else if (prm - 2000 <= err)
+    else if (-51999 <= err)
         id = 0;
     else if (-52002 <= err)
         id = 0xa;
@@ -154,8 +164,8 @@ void drawMessage(void)
     msg = DWCi_MSGlGet((void *)DWCiMsgCmn, id);
     OS_SNPrintf(tmpbuf, 8, d_021DB57C, -ErrorCode);
     DWCi_STRlConvertStringAsciiToUnicode(buf, tmpbuf, 8);
-    DWCi_FNTlDrawStringEx(canv, C_CODE[DWCi_Language()].y, C_CODE[DWCi_Language()].x, 2, 10,
-                          buf, 0);
+    ypos = C_CODE[DWCi_Language()].y;
+    DWCi_FNTlDrawStringEx(canv, C_CODE[DWCi_Language()].x, ypos, 2, 10, buf, 0);
     DWCi_FNTlDrawRect(canv, 0xd, 0x3c, 0xe6, 0x5e, 2, DWCi_CMNlFontFlag(), msg);
     DWCi_FNTlRenewBg(canv);
 }

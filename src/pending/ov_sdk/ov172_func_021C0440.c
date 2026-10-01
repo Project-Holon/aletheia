@@ -11,23 +11,30 @@
  *
  * sdk:      GetAPP1 (libssp exifdec.o, static)
  *
- * BLOCKER (codegen + evidence): dsi/1.1p1 builds this at 1924 bytes against
- * the 1908-byte object, with 1294 concrete bytes differing -- register
- * allocation and stack-slot order diverge early (cur lands in r4 instead of
- * r8, and the extra `w` temporary widens the frame to 0x28).  Root cause of
- * the rotation: the `= 0xffff` declaration initialiser is parked in a stack
- * slot and reloaded (`str r4,[sp,#0xc]; ldr r1,[sp,#0xc]`) in the compiled
- * output, freeing r4 for cur; the original keeps 0xffff in r4, copies it to
- * r5 (maker) and gives cur r8.  Splitting the declaration from the
- * initialisation and reordering the six spilled locals (AppLen, len, next,
- * exif, inter, thumb) moved the exif slot but did not free the constant back
- * into r4 (1289 vs 1294 bytes).  Even if the body were brought byte-for-byte
- * into codegen agreement it could not pass EXACT: the two ABS32 sites
- * g_021CADB0 (SSPiDateTime) and g_021CADC4
- * (SSPiSoftwareBuffer) have no witness anywhere outside 021C0440..021C0BC4,
- * so 35 of 37 relocations resolve and the best verdict is MATCH.  GetLong
- * (0x021C03C0) is already EXACT; GetWord (0x021C0370) resolves as sole-ref
- * code today.
+ * BLOCKER (codegen + evidence): dsi/1.1p1 builds this at 1916 bytes against
+ * the 1908-byte object, with 976 concrete bytes differing.  The prologue now
+ * matches exactly (push without r3, frame 0x24, cur in r8, 0xffff kept in r4)
+ * after three source levers, all read off the DWARF local list:
+ *   1. there is NO `p` local -- the source reuses `cur` as the walking
+ *      pointer (its live ranges split across phases, so the allocator gives
+ *      it different colours).  Removing `p` freed the callee-saved register
+ *      that had forced `push {r3}` and spilled the 0xffff constant.
+ *   2. there is NO `w` local -- the ValueOffset/`p-count` select is written
+ *      directly as the field assignment expression, not via a temp.
+ *   3. declarations follow the DWARF reverse order (AppLen, len, Endian, tag,
+ *      type, count, ValueOffset, next, exif, maker, inter, thumb), which is
+ *      also the stack-slot order.
+ * The first IFD0 walk is byte-identical.  Remaining divergence starts at the
+ * Exif-IFD walk: `tag`/`len` are colour-swapped (compiled tag=r7,len=r4; the
+ * object has tag=r4,len=r7), which then rotates count/ValueOffset through the
+ * MakerNote and thumbnail walks.  Swapping the tag/len declaration order is
+ * neutral here, so the cause is the phases reusing variable identities (see
+ * docs/idioms/reusing-a-loop-variable-across-phases-changes-the-allocation.md).
+ * EVIDENCE cap: the two ABS32 sites g_021CADB0 (SSPiDateTime) and g_021CADC4
+ * (SSPiSoftwareBuffer) have no witness outside 021C0440..021C0BC0, so 35 of 37
+ * relocations resolve and the best verdict is MATCH even if the body becomes
+ * byte-exact.  GetLong (0x021C03C0) is already EXACT; GetWord (0x021C0370)
+ * resolves as sole-ref code today.
  *
  * Reconstructed from the DWARF of the defining object (param/local names and
  * registers) plus the object disassembly.  Parses the Exif APP1 payload at
@@ -69,20 +76,18 @@ extern char g_021CADC4[30];
 
 s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
 {
-    u32 exif_ifd_offset = 0xffff;
-    u32 inter_ifd_offset = 0xffff;
-    u32 maker_ifd_offset = 0xffff;
-    u32 next_ifd_offset;
-    u32 thumb_ifd_offset;
-    u32 count;
-    u32 ValueOffset;
-    u32 p;
-    u32 w;
-    u16 tag;
-    u16 type;
     u16 AppLen;
     u16 len;
     s16 Endian;
+    u16 tag;
+    u16 type;
+    u32 count;
+    u32 ValueOffset;
+    u32 next_ifd_offset;
+    u32 exif_ifd_offset = 0xffff;
+    u32 maker_ifd_offset = 0xffff;
+    u32 inter_ifd_offset = 0xffff;
+    u32 thumb_ifd_offset;
 
     if (cur + 18 >= src_size)
         return 2;
@@ -105,16 +110,16 @@ s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
     }
 
     len = func_021C0370(src, cur + 0x10, Endian);
-    p = cur + 0x12;
-    if ((u32)len * 12 + p + 4 >= src_size)
+    cur += 0x12;
+    if ((u32)len * 12 + cur + 4 >= src_size)
         return 2;
 
     while (len != 0) {
-        tag = func_021C0370(src, p, Endian);
-        type = func_021C0370(src, p + 2, Endian);
-        count = func_021C03C0(src, p + 4, Endian);
-        ValueOffset = func_021C03C0(src, p + 8, Endian);
-        p += 12;
+        tag = func_021C0370(src, cur, Endian);
+        type = func_021C0370(src, cur + 2, Endian);
+        count = func_021C03C0(src, cur + 4, Endian);
+        ValueOffset = func_021C03C0(src, cur + 8, Endian);
+        cur += 12;
 
         if (tag == 0x8769)
             exif_ifd_offset = ValueOffset;
@@ -122,7 +127,7 @@ s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
         if (tag == 0x132) {
             if (ValueOffset + 0x20 >= src_size)
                 return 2;
-            MI_CpuCopy(src + ValueOffset + 0xc, g_021CADB0, 0x14);
+            MI_CpuCopy(src + (ValueOffset + 0xc), g_021CADB0, 0x14);
         }
 
         if (tag == 0x131) {
@@ -130,33 +135,33 @@ s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
                 count = 0x1e;
             if (ValueOffset + 0xc + count >= src_size)
                 return 2;
-            MI_CpuCopy(src + ValueOffset + 0xc, g_021CADC4, count);
+            MI_CpuCopy(src + (ValueOffset + 0xc), g_021CADC4, count);
             g_021CAD9C.h4 = count;
         }
 
         len--;
     }
 
-    next_ifd_offset = func_021C03C0(src, p, Endian);
+    next_ifd_offset = func_021C03C0(src, cur, Endian);
     if (next_ifd_offset == 0)
         next_ifd_offset = 0xffff;
+
+    thumb_ifd_offset = 0xffffffff;
 
     if (exif_ifd_offset + 0xe >= src_size)
         return 2;
 
-    thumb_ifd_offset = 0xffffffff;
-
     len = func_021C0370(src, exif_ifd_offset + 0xc, Endian);
-    p = exif_ifd_offset + 0xe;
-    if ((u32)len * 12 + p >= src_size)
+    cur = exif_ifd_offset + 0xe;
+    if ((u32)len * 12 + cur >= src_size)
         return 2;
 
     while (len != 0) {
-        tag = func_021C0370(src, p, Endian);
-        type = func_021C0370(src, p + 2, Endian);
-        count = func_021C03C0(src, p + 4, Endian);
-        ValueOffset = func_021C03C0(src, p + 8, Endian);
-        p += 12;
+        tag = func_021C0370(src, cur, Endian);
+        type = func_021C0370(src, cur + 2, Endian);
+        count = func_021C03C0(src, cur + 4, Endian);
+        ValueOffset = func_021C03C0(src, cur + 8, Endian);
+        cur += 12;
 
         if (tag == 0x927c) {
             if (count > 4)
@@ -191,7 +196,7 @@ s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
             type = func_021C0370(src, maker_ifd_offset + 0x10, Endian);
             ValueOffset = func_021C03C0(src, maker_ifd_offset + 0x12, Endian);
             count = func_021C03C0(src, maker_ifd_offset + 0x16, Endian);
-            p = maker_ifd_offset + 0x1a;
+            cur = maker_ifd_offset + 0x1a;
 
             if (tag != 0x1000 || type != 7 || ValueOffset != 0x1c) {
                 maker_ifd_offset = 0xffff;
@@ -199,7 +204,7 @@ s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
             }
 
             len = len - 1;
-            if ((u32)len * 12 + p >= src_size)
+            if ((u32)len * 12 + cur >= src_size)
                 return 2;
             if (len == 0) {
                 maker_ifd_offset = 0xffff;
@@ -207,19 +212,15 @@ s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
             }
 
             while (len != 0) {
-                tag = func_021C0370(src, p, Endian);
-                type = func_021C0370(src, p + 2, Endian);
-                count = func_021C03C0(src, p + 4, Endian);
-                ValueOffset = func_021C03C0(src, p + 8, Endian);
-                p += 12;
+                tag = func_021C0370(src, cur, Endian);
+                type = func_021C0370(src, cur + 2, Endian);
+                count = func_021C03C0(src, cur + 4, Endian);
+                ValueOffset = func_021C03C0(src, cur + 8, Endian);
+                cur += 12;
 
                 if (tag == 0x1001) {
-                    if (count <= 4)
-                        w = p - count;
-                    else
-                        w = ValueOffset;
-                    w &= 0xffff;
-                    g_021CAD9C.f10 = w;
+                    g_021CAD9C.f10 =
+                        ((count <= 4) ? (cur - count) : ValueOffset) & 0xffff;
                     g_021CAD9C.h0 = count;
                     if (g_021CAD9C.h0 + g_021CAD9C.f10 >= src_size) {
                         g_021CAD9C.f10 = 0;
@@ -227,12 +228,8 @@ s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
                         return 2;
                     }
                 } else if (tag == 0x1002) {
-                    if (count <= 4)
-                        w = p - count;
-                    else
-                        w = ValueOffset;
-                    w &= 0xffff;
-                    g_021CAD9C.f0c = w;
+                    g_021CAD9C.f0c =
+                        ((count <= 4) ? (cur - count) : ValueOffset) & 0xffff;
                     g_021CAD9C.h2 = count;
                     if (g_021CAD9C.h2 + g_021CAD9C.f0c >= src_size) {
                         g_021CAD9C.f0c = 0;
@@ -254,16 +251,16 @@ s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
                 return 2;
 
             len = func_021C0370(src, inter_ifd_offset + 0xc, Endian);
-            p = inter_ifd_offset + 0xe;
-            if ((u32)len * 12 + p >= src_size)
+            cur = inter_ifd_offset + 0xe;
+            if ((u32)len * 12 + cur >= src_size)
                 return 2;
 
             while (len != 0) {
-                tag = func_021C0370(src, p, Endian);
-                type = func_021C0370(src, p + 2, Endian);
-                count = func_021C03C0(src, p + 4, Endian);
-                ValueOffset = func_021C03C0(src, p + 8, Endian);
-                p += 12;
+                tag = func_021C0370(src, cur, Endian);
+                type = func_021C0370(src, cur + 2, Endian);
+                count = func_021C03C0(src, cur + 4, Endian);
+                ValueOffset = func_021C03C0(src, cur + 8, Endian);
+                cur += 12;
                 len--;
             }
 
@@ -277,16 +274,16 @@ s16 GetAPP1(u8 *src, u32 src_size, u32 cur, long *soi_addr, int option)
                 return 2;
 
             len = func_021C0370(src, next_ifd_offset + 0xc, Endian);
-            p = next_ifd_offset + 0xe;
-            if ((u32)len * 12 + p >= src_size)
+            cur = next_ifd_offset + 0xe;
+            if ((u32)len * 12 + cur >= src_size)
                 return 2;
 
             while (len != 0) {
-                tag = func_021C0370(src, p, Endian);
-                type = func_021C0370(src, p + 2, Endian);
-                count = func_021C03C0(src, p + 4, Endian);
-                ValueOffset = func_021C03C0(src, p + 8, Endian);
-                p += 12;
+                tag = func_021C0370(src, cur, Endian);
+                type = func_021C0370(src, cur + 2, Endian);
+                count = func_021C03C0(src, cur + 4, Endian);
+                ValueOffset = func_021C03C0(src, cur + 8, Endian);
+                cur += 12;
                 if (tag == 0x201) {
                     thumb_ifd_offset = ValueOffset;
                     break;

@@ -8,6 +8,14 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * blocker:  vendor front end (4.0.0.1025) homes the `prm` parameter (str r0,[sp]) and
+ *           keeps the loop counter `i` in fp; dsi/1.1p1 keeps prm in fp and i in r7.  332
+ *           vs 344 B, all 12 missing bytes are the home store + two reloads.  Documented
+ *           unforceable in docs/idioms/a-vendor-front-end-homed-parameter-cannot-be-forced-by-source.md
+ *           (names this exact scanFirst).  This lane re-tried decl-swap (i/info), a named
+ *           nonzero-offset live alias ((u8*)prm+0x10 -> frame appears but body recolours,
+ *           336 B), and the prior volatile/copy/BLOCK levers; none reproduce the vendor's
+ *           colouring.  Frame IS recoverable, exact bytes are not.
  *
  * sdk:      scanFirst (libdwcutil.TWL.HYB.a usbap.o)
  *

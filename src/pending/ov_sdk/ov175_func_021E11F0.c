@@ -25,6 +25,14 @@
  *     - `int st = 3;` declaration-initialiser local: folded, no change.
  *   The vendor object's DWARF lists no function locals (subprogram has no
  *   children), so the rotation is not driven by a source local.
+ *   Wave-8 lane re-measured: `const` on the three read-only string externs
+ *   (g_021E4548/60/7C): no change; a named `DWCiGdbWork *work = g_021E5334.work`
+ *   local: 336 B but W's pool load reschedules after the stride mov (32 bytes,
+ *   E stays r7); `int process = g_021E5334.process;` local: 328 B, dispatch
+ *   collapses; `state = state + 1`: 332 B. The residue is the allocator's
+ *   colouring order of {E, stride 0x38, constant 3} over r5/r6/r7 (W pinned to
+ *   r4); original colours S->r5,E->r6,K->r7 (K last), this spelling K->r5,
+ *   S->r6,E->r7 (K first). Not reachable by any measured source lever.
  *
  * sdk:      DWC_GdbCancelRequest (libdwcgdb.TWL.HYB.a(dwc_gdb.o))
  *

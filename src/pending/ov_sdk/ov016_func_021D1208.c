@@ -7,7 +7,24 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF (near miss, 784 of 796 bytes)
+ * status:   DIFF (near miss, 788 of 796 bytes)
+ *
+ * lane W8b (2026-10-01, deadline hit): re-confirmed 788/796, 504 concrete,
+ *           26/32 relocs.  Whole standing gap is the front end's fp-priority:
+ *           ours homes the MSGlGetEx result `ms` to fp (`mov fp,r0` at +0064)
+ *           and copies `msg` to ip (`mov ip,r0`), giving a 0x20 frame plus a
+ *           dummy padding r3; the image homes `msg` to fp transiently (+002C)
+ *           and spills `ms` to [sp+0x14] (+0064), giving frame 0x24 and no
+ *           padding.  With `volatile int d = dark;` dark is already on the
+ *           stack at [sp+0x10] exactly as DWARF says; only `ms` differs.
+ *           Measured inert this wave (all 788/504, 26/32): a one-member
+ *           `struct { u16 *p; } msloc` wrapper (scalarised, ms still fp),
+ *           the reverse-DWARF declaration order EFF,ms,obj,i, declaring ms
+ *           at its assignment site (C99), and declaration order permutations.
+ *           `void *msg` param is a compile error at the MSGlGetEx call.
+ *           This is the 1024-vs-1025 allocator tie documented by
+ *           vendor-front-end-parameter-register-set-cannot-be-forced.md and
+ *           a-spilled-pointer-parameter-tie-is-the-front-ends-not-a-source-shape.md.
  *
  * blocker:  whole function reconstructed (prologue GUI setup, per-type
  *           button loop, font/canvas formation, window-plane setup, blend
@@ -130,11 +147,10 @@ extern u16 g_021DA9E6[];
 extern u16 g_021DA9E8[];
 extern u16 g_021DA9AC[4];
 
-void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num)
+void func_021D1208(int msg, int type, bool dark, int n, int num)
 {
     u8 EFF[6];
     int obj;
-    u16 *ms;
     int i;
     volatile int d = dark;
 
@@ -145,7 +161,7 @@ void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num)
     EFF[4] = g_021DAA58[4];
     EFF[5] = g_021DAA58[5];
 
-    ms = DWCi_MSGlGetEx(g_021DE598, msg, n, num);
+    u16 *ms = DWCi_MSGlGetEx(g_021DE598, msg, n, num);
     g_021DE658 = (MemWinT *)DWCi_HEAPlAllocEx(0x20, 4);
     g_021DE658->type = type;
     g_021DE658->input = -2;
@@ -180,4 +196,9 @@ void DWCi_WINlInitEx(int msg, int type, bool dark, int n, int num)
     else
         g_021DE658->task = DWCi_TSKlForm(1, (void (*)(void *, void *))taskMove, 0, 0x78);
 }
+
+
+
+
+
 

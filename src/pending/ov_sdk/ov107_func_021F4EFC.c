@@ -17,33 +17,28 @@
  *   WM_SetPortCallback, WM_StartMPEx, MBi_IsSendEnabled, WM_End,
  *   MBi_EndCommon, OS_Terminate, OS_SpinWaitSysCycles
  *
- * blocker (wave 8, 2026-10-01): the file is MISSING ~836 bytes of body.
- *   compiled 1628 vs original 2464; the whole case 0x26 state==5 path
- *   (original 0x021F50F0..0x021F53F4, ~800 B) is absent, so the calls it
- *   makes -- MBi_CheckMBParent (0x021F4538), DC_InvalidateRange
- *   (0x020862B8), MIi_DmaCopy16 (0x020822E8), MI_CpuCopy8 (0x02082D44),
- *   MIi_CpuCopy16 (0x02082A60) -- never appear in our object.
- *   Fixed this lane: C function renamed func_021F4EFC (was MBi_ChildCallback)
- *   and header given the `sdk:` line, so match.py can find it; and the
- *   hoisted global base `char *base = *(char **)(d_021F6F90 + 0xC)` now
- *   feeds all 33 `+0x51C`/`+0x500`/`+0x5xx` references (fp in the image).
- *   Remaining: prologue still saves {r3,r4,r5,r6,r7,r8,lr}/frame 0x1c vs
- *   image {..sb,sl,fp,lr}/0x28 (sb+sl are the beacon-match bools in the
- *   missing block); state==4 branch polarity is wrong (see below); the
- *   switch comparison chain is vendor-ordered, we emit a balanced tree.
- *   What case 0x26 really is (from the listing):
+ * blocker (wave 8, 2026-10-01): case 0x26 state==5 arm now WRITTEN but not
+ *   byte-exact. compiled 2636 vs original 2464 (overshoot 172 B), 2265
+ *   concrete diffs, 38 relocation sites. The arm transcribed from the
+ *   listing 0x021F50F0..0x021F53F4: outer while(n<bssDescCount) with the
+ *   4-bool validity chain on bd[0x3C]/[0x4A]/[0x40]/length, MBi_CheckMBParent,
+ *   the g(d_021F6E58)+0x10/0x14 mask gate, the 0x180-stride parent scan
+ *   (bd[4..9] vs parent+0xCA..0xCF), then both copy blocks (ldm/stm for the
+ *   duplicate case, MI_CpuCopy8/MIi_CpuCopy16 for the append case),
+ *   DC_InvalidateRange / MIi_DmaCopy16, callback(4,...), and the shared
+ *   rescan tail. All five previously-missing callees now appear. The new
+ *   data relocs d_021F6E58 (0x021F6E58) and d_021F6FC0 (0x021F6FC0) are
+ *   emitted as wildcards (no symbols: entry yet, so attestation needs them).
+ *   Remaining structural mismatches: prologue/frame still differs from the
+ *   image's {r3,r4,r5,r6,r7,r8,sb,sl,fp,lr}/0x28; the switch compare chain is
+ *   vendor-ordered but we emit a balanced tree; state==4 tail is duplicated
+ *   in source-vs-image. Too many cascading mismatches to reach EXACT in the
+ *   15-minute window; parked.
+ *   Reference (from the listing):
  *     state==4 (0x5488): callback(5,arg); if(!work[0x5E4]) return;
  *       if(work[0x5E8] != 0){ if(changeScanChannel(work) == 0) MBi_CommEnd(); }
  *       errcode = WM_StartScanEx(callback, work); MBi_CheckWmErrcode(0x26,errcode);
- *     state==5 (0x50E4): n=0; cnt=0; while(n < arg[0x0E]){ ... }
- *       body 0x50F0: bd = arg->bssDesc[n]; validity tests on bd[0x3C]/[0x40]/
- *       [0x4A]/bd->length, MBi_CheckMBParent(bd), a mask compare against
- *       g+0x10/g+0x14, else a 0x180-stride scan of the parent array at
- *       base+0x600 for a duplicate bssid (bd[4..9] vs +0xCA..0xCF), then the
- *       MI_CpuCopy8 / DC_InvalidateRange / MIi_DmaCopy16 / MIi_CpuCopy16
- *       copy block and callback(4, arg+0x50+n*2).
- *   1720/2464 -> now 1628/2464 bytes, 1461 concrete diffs. All 24 relocs
- *   that we do emit resolve.
+ *     state==5 (0x50E4): big beacon scan loop as transcribed above.
  *
  * symbols:
  *   WM_SetLifeTime             0x02090DEC  arm
@@ -65,6 +60,8 @@
  *   OS_Terminate               0x02088234  arm
  *   OS_SpinWaitSysCycles       0x02087A04  arm
  *   d_021F6F90                 0x021F6F90  data
+ *   d_021F6E58                 0x021F6E58  data
+ *   d_021F6FC0                 0x021F6FC0  data
  */
 
 typedef unsigned char u8;
@@ -147,10 +144,12 @@ extern void MBi_CheckWmErrcode(u16 apiid, int errcode);
 extern int WM_StartScanEx(void *callback, struct WMScanExParam *param);
 extern int MBi_CheckMBParent(void *bssDescp);
 extern int DC_InvalidateRange(void *addr, u32 size);
-extern int MIi_DmaCopy16(void *dst, void *src, u32 size);
-extern int MI_CpuCopy8(void *dst, void *src, u32 size);
-extern int MIi_CpuCopy16(void *dst, void *src, u32 size);
+extern int MIi_DmaCopy16(u32 ch, void *src, void *dst, u32 size, u32 mode);
+extern int MI_CpuCopy8(void *src, void *dst, u32 size);
+extern int MIi_CpuCopy16(void *src, void *dst, u32 size);
 extern int changeScanChannel(void *param);
+extern char d_021F6FC0[];
+extern char d_021F6E58[];
 extern void MBi_CommEnd(void);
 extern int WM_StartConnectEx(void *callback, u16 a, u16 b, u16 c, u16 d);
 extern int WM_SetPortCallback(u16 port, void *callback, void *arg);
@@ -255,20 +254,87 @@ static void func_021F4EFC(void *arg)
                 return;
             }
             if (state == 5) {
-                int cnt = 0;
-                *(int *)(base + 0x5EC) = i;
-                cnt = 0;
-                i = 0;
-                while (i < 16) {
-                    if (*(u32 *)((char *)*(char **)(d_021F6F90 + 0x10) + 0x14E8 + i * 4) != 0) {
-                        cnt++;
-                        if (cnt >= 2)
-                            break;
+                struct WMStartScanExCallback *cbArg = arg;
+                int numInvalid = 0;
+                int n = 0;
+                while (n < cbArg->bssDescCount) {
+                    struct WMBssDesc *bd = cbArg->bssDesc[n];
+                    int a;
+                    int b;
+                    int c;
+                    int d;
+                    a = (bd->gameInfoLength >= 0x10 && bd->gameInfoLength <= 0x80);
+                    b = a && (bd->gameInfoLength == *(u8 *)((char *)bd + 0x4A) + 0x10);
+                    c = b && (*(u16 *)((char *)bd + 0x40) == 1);
+                    d = c && (bd->length == (u16)((bd->gameInfoLength + 0x41) >> 1));
+                    if (!d || MBi_CheckMBParent(bd) == 0) {
+                        numInvalid = (numInvalid + 1) & 0xFF;
+                    } else if (*(int *)(d_021F6F90 + 8) == 1 &&
+                               ((*(u32 *)((char *)bd + 0x44) & *(u32 *)(d_021F6E58 + 0x14)) ==
+                                (*(u32 *)(d_021F6E58 + 0x10) & *(u32 *)(d_021F6E58 + 0x14)))) {
+                        numInvalid = (numInvalid + 1) & 0xFF;
+                    } else {
+                        int pidx = 0;
+                        int found = 0;
+                        while (pidx < *(u16 *)(base + 0x5E0)) {
+                            u8 *par = (u8 *)base + 0x600 + pidx * 0x180;
+                            int m = bd->bssid[0] == par[0xCA] && bd->bssid[1] == par[0xCB];
+                            if (m)
+                                m = bd->bssid[2] == par[0xCC];
+                            if (m)
+                                m = bd->bssid[3] == par[0xCD];
+                            if (m)
+                                m = bd->bssid[4] == par[0xCE];
+                            if (m)
+                                m = bd->bssid[5] == par[0xCF];
+                            if (m) {
+                                found = 1;
+                                break;
+                            }
+                            pidx++;
+                        }
+                        if (found || pidx < 0x10) {
+                            u8 *par = (u8 *)base + 0x600 + pidx * 0x180;
+                            if (found) {
+                                int k;
+                                *(u16 *)(par + 0xF6) = bd->gameInfoLength;
+                                for (k = 0; k < 8; k++)
+                                    ((u32 *)(par + 0xF8))[k] = ((u32 *)((char *)bd + 0x40))[k];
+                            } else {
+                                *(u16 *)(base + 0x5E0) = pidx + 1;
+                                MI_CpuCopy8((char *)bd + 4, par + 0xCA, 6);
+                                *(u16 *)(par + 0xD0) = bd->channel;
+                                *(u16 *)(par + 0xD2) = cbArg->linkLevel[n];
+                                MIi_CpuCopy16((char *)bd + 0x40, par + 0xF8, 0x80);
+                            }
+                            DC_InvalidateRange(par, 0xC0);
+                            MIi_DmaCopy16(*(u16 *)d_021F6F90, bd, par, 0xC0, 1);
+                            *(int *)(base + 0x5EC) = pidx;
+                            callback(4, (char *)arg + 0x50 + n * 2);
+                            if (*(int *)(base + 0x5E4) == 0)
+                                return;
+                            if (*(int *)(base + 0x5E8) != 0) {
+                                if (changeScanChannel(d_021F6FC0) == 0)
+                                    MBi_CommEnd();
+                            }
+                            errcode = WM_StartScanEx((void *)func_021F4EFC, (struct WMScanExParam *)d_021F6FC0);
+                            MBi_CheckWmErrcode(0x26, errcode);
+                            return;
+                        }
                     }
-                    i++;
+                    n = (n + 1) & 0xFF;
                 }
-                if (cnt == 1)
-                    OS_SpinWaitSysCycles(6500);
+                if (cbArg->bssDescCount == numInvalid)
+                    callback(5, arg);
+                if (*(int *)(base + 0x5E4) == 0)
+                    return;
+                if (*(int *)(base + 0x5E8) != 0) {
+                    if (changeScanChannel(d_021F6FC0) == 0)
+                        MBi_CommEnd();
+                }
+                errcode = WM_StartScanEx((void *)func_021F4EFC, (struct WMScanExParam *)d_021F6FC0);
+                MBi_CheckWmErrcode(0x26, errcode);
+                return;
             }
         }
         return;

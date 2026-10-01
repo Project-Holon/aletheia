@@ -9,7 +9,14 @@
  * isa:      arm
  * status:   DIFF
  *
- * blocker:  the defining vendor object is stamped 4.0.0.1025, which no
+ * blocker:  clean body now compiles to the exact 868 bytes with no home area,
+ *           but 212 concrete bytes still differ, all from a remaining register
+ *           rotation in the switch-arm / retry-loop region (case 2 loads the
+ *           ratio into r0 and uses `cmn r0,#1` where the image materialises
+ *           `mvn r0,#1; cmp r1,r0`; the func_0219EED4 argument stores fuse to
+ *           `stm` where the image emits `str`+`stmib`).  The path is open and
+ *           closing fast (372 -> 212 in this lane) but not closed.
+ *           the defining vendor object is stamped 4.0.0.1025, which no
  *           tools/mwccarm build writes (sdkobj.py), so dsi/1.1p1 (1024) can at
  *           best be a near miss.  reconstruction is complete and the right size
  *           (868, but via permuter scaffolding that adds a 16-byte home area the
@@ -87,6 +94,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
 typedef unsigned long long u64;
+typedef enum { N_ZERO = 0, N_SIX = 6, N_ONE = 1 } EFld;
 extern char *func_02175F3C(void);
 extern u32 func_021685CC(u32 max);
 extern int func_0216FAD4(char *filter, int profileID, u8 numEntry, u8 matchType, u8 hostState);
@@ -103,26 +111,20 @@ extern char d_021A20A4[];
 extern char d_021A20AC[];
 extern char d_021A20D4[];
 extern char d_021A20E0[];
-static int func_0216F770(volatile int profileID)
+static int func_0216F770(u8 profileID)
 {
   char filter[511];
   u8 basicFields[204];
+  EFld n = N_SIX;
   int sbError;
+  int numBasicFields;
   int sbBlock;
   u8 searchHostType;
   int i;
-  int n;
-  int numBasicFields;
   int len;
-  u8 pad;
-  u16 pad1;
-  sbBlock = 8;
   basicFields[0] = 8;
-  if (1)
-  {
-    basicFields[1] = 0xa;
-    basicFields[2] = 0x32;
-  }
+  basicFields[1] = 0xa;
+  basicFields[2] = 0x32;
   basicFields[3] = 0x33;
   basicFields[4] = 0x34;
   basicFields[5] = 0x35;
@@ -130,9 +132,9 @@ static int func_0216F770(volatile int profileID)
   basicFields[7] = 0x37;
   basicFields[8] = 0x38;
   searchHostType = profileID;
-  n = 6;
   numBasicFields = n + 3;
   i = 0;
+  sbBlock = 1;
   if (((*((u8 *) (func_02175F3C() + 0x15))) == 0) || ((*((u8 *) (func_02175F3C() + 0x15))) == 1))
   {
     for (i = 0; i < 0x9a; i++)
@@ -211,7 +213,8 @@ static int func_0216F770(volatile int profileID)
   while (n < 1);
   if (sbError == 0)
   {
-    *((u64 *) (func_02175F3C() + 0x5f0)) = OS_GetTick() + 0xefb5f7;
+    u64 tick = OS_GetTick();
+    *((u64 *) (func_02175F3C() + 0x5f0)) = tick + 0xefb5f7;
   }
   return sbError;
 }

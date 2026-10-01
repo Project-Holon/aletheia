@@ -40,7 +40,11 @@
  * loops (16, folds back to r5); deferring the `had_ip` bool behind a named
  * `myip` temp so the zero web starts late (188, recolours the whole body).
  * The 10-byte residue stands: the front end always gives the myip load delay
- * slot to the pooled zero, not to `str r0,[r2,#0x4c]`.
+ * slot to the pooled zero, not to `str r0,[r2,#0x4c]`.  wave 8 lane DIFF:
+ * also inert at 10 (const parameter, if/else and no-else had_ip, `!!myip`,
+ * raw-offset and volatile reason store); slot-0 / slot-1 / reason-first are
+ * 16/17/37.  DWARF confirms `had_ip` is `int` and the reason store is at
+ * +0x10 while `mov r5,#0` is at +0x30.
  *
  * sdk:      reset_network_vars (libcps.TWL.HYB.a network.o)
  *

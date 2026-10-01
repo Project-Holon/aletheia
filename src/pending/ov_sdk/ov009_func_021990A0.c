@@ -14,7 +14,8 @@
  *      Ten more spellings (named locals, casts, long/unsigned, arithmetic and complement forms)
  *      all keep the subtraction. First divergence +0020 image `mvn r1, #0x80000000` |
  *      ours `sub r1, r0, #0x80000002`. Size already exact at 52 B.
- * u1: family check done - ../2.0/base + ../2.0/sp1p2 56 B / 23 B; ../1.2/sp3 DOES emit `mvn r1,#0x80000000` but in its own stmdb/ldm codegen family (68 B), so it is not the build. Parked: the constant-from-register peephole.
+ * u1: family check done - ../2.0/base + ../2.0/sp1p2 56 B / 23 B; ../1.2/sp3 DOES emit `mvn r1,#0x80000000`
+ *     but in its own stmdb/ldm codegen family (68 B), so it is not the build. Parked: the constant-from-register peephole.
  *
  * w9_nm: not retried (w8 covered every build and -opt switch).
  *
@@ -46,6 +47,24 @@
  *   order but `sub` (3 B); `int lo = 1; HighMax hi` in a block -> `mvn` first then
  *   `mov` (6 B); `HighMax hi` hoisted to function scope -> hi pinned in r5 (47 B);
  *   `(int)(HighMax)HIGH_MAX` and `(LowOne)1, (HighMax)` casts -> fold back to `sub`.
+ *
+ * lane w11 (2026-10-01): swept the missing shape exhaustively under dsi/1.1p1 -O4,p.
+ *   The two requirements are mutually exclusive in this backend: materialising the
+ *   high enum local stops the fold but is always scheduled into r1 BEFORE the low
+ *   `mov r0, #1`; any low value the compiler can see is 1 (literal, int/const/enum
+ *   local, split assign, ternary, 2-1, block-scoped) is materialised into r0 first
+ *   and then the high bound is rebuilt as `sub r1, r0, #0x80000002`.  Measured dead
+ *   ends: prototype second parameter typed enum (`int low, HighMax high`), both
+ *   parameters enum, same-enum `{LOW_ONE=1, HIGH_MAX}` as prototype types, enum-by-
+ *   cast at both argument sites, compound literal `(HighMax){HIGH_MAX}`, `register`
+ *   enum local, `const` enum local, uninitialised-then-assigned enum local, struct
+ *   member, comma form `(hi, 1)`, `(int)hi` at the use, `static` enum local, and
+ *   the low arg as a local `int lo = 1` (every declaration/assignment order).  The
+ *   one shape that keeps `mvn` (single enum-local high) is `mvn r1; mov r0`, 6 B.
+ *   blocker: the 4.0.0.1025 scheduler emits the high bound with `mvn` AFTER the low
+ *   `mov`; 1.1p1 either rematerialises `sub` from the live r0 or hoists the enum
+ *   materialisation above the `mov`, and no C shape separates the two.  This is the
+ *   scheduling tie-break, not the constant materialiser.
  *
  * sdk:      GetClientUniqueID (natify.o)
  *
