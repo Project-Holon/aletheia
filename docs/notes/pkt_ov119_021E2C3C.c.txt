@@ -1,0 +1,31 @@
+/*
+ * function: func_021E2C3C
+ * address: 0x021E2C3C
+ * packet: pkt_ov119_021E2C3C
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: UNCOMPILED
+ * checks: semantic rejection of one EXACT experiment; no accepted C body;
+ * output-channel proof remains missing, no DIFF iteration/check budget used.
+ * experiments: wave42 B10 one matching compile, EXACT 308 bytes, rejected.
+ * The getter func_02011610 tests the animation object's word at +0x28
+ * (02011612..02011616); on zero it returns at 02011634..02011636 without
+ * writing the supplied vector. On nonzero it writes all three words at
+ * 02011628..0201162E. This caller ignores the result at 021E2D1A and
+ * 021E2D3E and unconditionally hands those stack vectors to func_02051838
+ * at 021E2D26/021E2D4A. That matched callee reads all three components.
+ * The caller only guards emitter pointers +0xA0/+0xA4 of *(p+0xC),
+ * which does not itself prove the corresponding animation +0x98/+0x9C
+ * has its +0x28 channel enabled. Constructor 02011510 calls 020116E0,
+ * whose +0x28 value is taken from archive member header byte 6.
+ * Known local initializers 021E2D70 load archive 0x67 members 0x36/0x37;
+ * a complete primary resource/channel and object-lifetime proof is needed,
+ * including all paths that can replace those animation pointers.
+ * Do not initialize the vectors with invented defaults to force a match,
+ * or retain a meaningful uninitialized C object. No accepted C is filed.
+ * Full EXACT log and rejected candidate: wave42 B10 scratch, 2C3C-r01.log
+ * and 2C3C-rejected.c; this note's UNCOMPILED means no accepted C body,
+ * not zero experiment compiles. No compiler flag variants were used.
+ */

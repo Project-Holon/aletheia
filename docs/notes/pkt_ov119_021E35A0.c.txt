@@ -1,0 +1,88 @@
+/*
+ * function: func_021E35A0
+ * address: 0x021E35A0
+ * packet: pkt_ov119_021E35A0
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 020173B4 reads only r0, 02017270 returns consumed r0;
+ * 2 no twin in four B overlays, matched 36A8 forwards five full words;
+ * 3 const Context p worsened 115 to117 bytes, u32 index/flag no change;
+ * 4 enum far-offset temporary worsened 260/115 to268/123;
+ * 5 reread neighbours and idiom directory; declared-stack-struct idiom
+ * does not address the remaining far-offset rematerialization. No next sweep:
+ * both manual scheduling/temporary variants and check3's two compiles used.
+ * budget: 7 iteration runs; last three r05-r07 nonshrinking after r04 best;
+ * 2 check3 compiles; permuter300 once (300 compiles), no scripted sweeps.
+ * residual: 260/264 bytes, 115 concrete bytes differ; far-offset 0x840
+ * rematerialized instead of retained in r7 across call and +4 store.
+ * Two table relocations 021E7B00/021E7B0C unresolved in this shifted layout;
+ * no overlay hints are present, ROM slots name the intended tables.
+ * Permuter best 264/264,74 bytes changed void return to return index;
+ * rejected as a signature mutant, no winner accepted or compiler rerun.
+ * prototype: 020173B4 overwrites incoming r1-r3 before its only call,
+ * forwarding target 02015F2C reads only values explicitly supplied there.
+ * Only r0 is supplied at 021E3668; legacy unused trailing parameters omitted.
+ * 02017270 return is consumed by the store at 021E3652, overriding void
+ * in its own source because its tail call leaves the result in r0.
+ * arithmetic: vector x table starts at 0x10000; unsigned negation preserves
+ * the listing's rsbs wrap without signed-overflow assumptions.
+ * symbols:
+ *   d_021E7B00 0x021E7B00 data a4
+ *   d_021E7B0C 0x021E7B0C data a4
+ *   func_02017E1C 0x02017E1C thumb
+ *   func_0201ADE4 0x0201ADE4 thumb
+ *   func_0201AE1C 0x0201AE1C thumb
+ *   func_0201AE14 0x0201AE14 thumb
+ *   func_0215642C 0x0215642C thumb ov009
+ *   func_02017270 0x02017270 thumb
+ *   func_020173B4 0x020173B4 thumb
+ *   func_02015CAC 0x02015CAC thumb
+ *   func_02015FF0 0x02015FF0 thumb
+ *   func_021E33FC 0x021E33FC thumb ov119
+ */
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct {int x,y,z;} Vec;
+typedef struct {u32 value[4];} Words;
+typedef struct {char pad[0x840];void *f840;void *f844[4];char pad854[0x938];int f118c;} Context;
+extern const Vec d_021E7B00;
+extern const Words d_021E7B0C;
+extern u32 func_02017E1C(void *,u32,void *);
+extern void *func_0201ADE4(u16,u16,u32);
+extern u32 func_0201AE1C(void *,int);
+extern void func_0201AE14(void *);
+extern void func_0215642C(int);
+extern void *func_02017270(void *,void *,int,int,int,int);
+extern int func_020173B4(int);
+extern void func_02015CAC(void *,u32 *);
+extern void func_02015FF0(char *,int);
+extern void func_021E33FC(void *,Vec *,int,void *);
+void func_021E35A0(Context *p,int index,int flag,void *mon,int flip)
+{
+    Vec v=d_021E7B00;
+    Words w=d_021E7B0C;
+    void *sprite;
+    if(flip) {
+        u16 species=func_02017E1C(mon,5,0);
+        u16 form=func_02017E1C(mon,0x6f,0);
+        void *data=func_0201ADE4(species,form,*(u16 *)((char *)p+0x5f4));
+        u32 result=func_0201AE1C(data,0x22);
+        func_0201AE14(data);
+        if(!result) v.x=(int)(0u-(u32)v.x);
+    }
+    if(p->f118c==2) func_0215642C(1);
+    if(flag) {
+        sprite=func_02017270(p->f840,mon,0,w.value[index],0xfffe4000u,0);
+    } else {
+        sprite=func_02017270(p->f840,mon,1,w.value[index],0xfffe4000u,0);
+    }
+    p->f844[index]=sprite;
+    if(p->f118c==2) func_0215642C(0);
+    func_020173B4((int)p->f844[index]);
+    func_02015CAC(p->f844[index],(u32 *)&v);
+    func_02015FF0(p->f844[index],1);
+    func_021E33FC(p->f844[index],&v,flag,mon);
+}

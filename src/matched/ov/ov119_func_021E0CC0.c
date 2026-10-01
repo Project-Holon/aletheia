@@ -1,0 +1,72 @@
+/*
+ * function: func_021E0CC0
+ * address: 0x021E0CC0
+ * packet: pkt_ov119_021E0CC0
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_020221A4 0x020221A4 thumb
+ *   func_0203FB44 0x0203FB44 arm
+ *   func_02043534 0x02043534 arm
+ *   func_020435F4 0x020435F4 arm
+ *   func_0204B1CC 0x0204B1CC arm
+ *   func_0204B100 0x0204B100 arm
+ *   func_021E106C 0x021E106C thumb ov119
+ *   func_021E57A4 0x021E57A4 thumb ov119
+ *   func_021E53CC 0x021E53CC thumb ov119
+ *   func_021E57E8 0x021E57E8 thumb ov119
+ *   func_021E5680 0x021E5680 thumb ov119
+ *   func_021E58A0 0x021E58A0 thumb ov119
+ *   func_021E467C 0x021E467C thumb ov119
+ *   func_021E4420 0x021E4420 thumb ov119
+ *   func_021E3E80 0x021E3E80 thumb ov119
+ *   func_021E3FE4 0x021E3FE4 thumb ov119
+ *   func_021E3F74 0x021E3F74 thumb ov119
+ *   func_021E3208 0x021E3208 thumb ov119
+ *   func_021E3C20 0x021E3C20 thumb ov119
+ *   func_0203D34C 0x0203D34C arm
+ *   func_021D8E84 0x021D8E84 thumb ov119
+ *   func_021DACE4 0x021DACE4 thumb ov119
+ */
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern int func_020221A4(void);
+extern void func_0203FB44(int,u16,u16);
+extern void func_02043534(int),func_020435F4(int);
+extern void func_0204B1CC(void *);
+extern void *func_0204B100(int,int,int);
+extern void func_021E106C(void *);
+extern void func_021E57A4(int);
+extern void func_021E53CC(void *);
+extern void func_021E57E8(int);
+extern void func_021E5680(void *);
+extern void func_021E58A0(int);
+extern void func_021E467C(void *),func_021E4420(void *);
+extern void func_021E3E80(char *);
+extern void func_021E3FE4(void *),func_021E3F74(void *);
+extern void func_021E3208(void *,int);
+extern void func_021E3C20(void *);
+extern void func_0203D34C(int,int);
+extern void func_021D8E84(void *,int);
+extern void func_021DACE4(void *);
+void func_021E0CC0(char *p)
+{
+    if(*(int *)(p+0xf2c)>=6 && func_020221A4()) {
+        if(*(u32 *)(p+0x644)) func_0203FB44(6,*(u32 *)(p+0x644),(u16)(*(u32 *)(p+0x644)>>16));
+        *(int *)(p+0x644)=0;
+        func_02043534(0);func_020435F4(0);
+        func_0204B1CC(*(void **)(p+0x9c4));
+        *(void **)(p+0x9c4)=func_0204B100(0x154,0,*(u16 *)(p+0x5f4));
+        func_021E106C(p);func_021E57A4((int)p);func_021E53CC(p);
+        func_021E57E8(0);func_021E5680(p);func_021E58A0((int)p);
+        func_021E467C(p);func_021E4420(p);func_021E3E80(p);
+        func_021E3FE4(p);func_021E3F74(p);func_021E3208(p,0);
+        func_02043534(31);func_020435F4(30);func_021E3C20(p);
+        func_0203D34C(1,*(u16 *)(p+0x5f4));
+        *(unsigned char *)(p+0x11fa)=0;
+        func_021D8E84(p,(int)func_021DACE4);
+    }
+}

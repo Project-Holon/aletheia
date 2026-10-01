@@ -1,0 +1,73 @@
+/*
+ * function: func_021DD90C
+ * address: 0x021DD90C
+ * packet: pkt_ov119_021DD90C
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 matched callee bodies give arities; caller truncates allocator
+ * second input to u8, corrected extern/u8 argument compiled without improvement;
+ * 2 no matched ov119 twin using allocator, pending 021E1B14 read;
+ * 3 char/struct base and int/u32/pointer result tried, const forbidden by writes;
+ * 4 Pair and named-result idioms read, no applicable further spelling;
+ * 5 refreshed idiom list and pending neighbour, stack Pair declaration correct.
+ * residual: 50 concrete bytes; same size 208. Result kept in r7 instead of
+ * spilling to sp+0x10; destination address is not hoisted before allocation.
+ * budget: 6 iterations, 3 consecutive nonshrinking since run4; 2 check3 + 1 check1;
+ * permuter: one budget300/types pass, no improvement (best50).
+ * symbols:
+ *   d_021E76FC 0x021E76FC data a4
+ *   func_021D8AA8 0x021D8AA8 thumb ov119
+ *   func_020452E8 0x020452E8 arm
+ *   func_020450F0 0x020450F0 arm
+ *   func_0201DD78 0x0201DD78 thumb
+ *   func_02045CAC 0x02045CAC arm
+ *   func_02045770 0x02045770 arm
+ *   func_0201C7A4 0x0201C7A4 thumb
+ *   func_02045334 0x02045334 arm
+ *   func_02045374 0x02045374 arm
+ *   func_02041B6C 0x02041B6C arm
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef signed short s16;
+typedef struct Pair {int v[2];} Pair;
+extern const Pair d_021E76FC;
+extern int func_021D8AA8(void *);
+extern void func_020452E8(void *);
+extern u32 func_020450F0(u32,u8,u32,u32,u8,u8,u8);
+extern void func_0201DD78(int,int,int);
+extern void func_02045CAC(int,int,int);
+extern void *func_02045770(int);
+extern void func_0201C7A4(void *,s16,s16,void *,void *);
+extern void func_02045334(void *);
+extern void func_02045374(void *);
+extern void func_02041B6C(int);
+typedef struct State {
+    char pad[0x5bc];
+    u32 window[2];
+    char gap[0xb];
+} State;
+void func_021DD90C(State *p,int side,int msg,int force)
+{
+    Pair table=d_021E76FC;
+    int window;
+    if(force==0) {
+        if((u8)((char *)p+side)[0x11e8]==3 || (u8)((char *)p)[0x11ea]==0 || func_021D8AA8(p)==0)
+            return;
+    }
+    if(*(void **)((char *)p+side*4+0x5bc)!=0)
+        func_020452E8(*(void **)((char *)p+side*4+0x5bc));
+    window=func_020450F0(3,table.v[side],16,12,2,5,0);
+    p->window[side]=window;
+    func_0201DD78(5,6,0);
+    msg+=0x72;
+    func_02045CAC(*(int *)((char *)p+0x720),msg,*(int *)((char *)p+0x730));
+    func_0201C7A4(func_02045770(window),0,0,*(void **)((char *)p+0x730),*(void **)((char *)p+0x728));
+    func_02045334((void *)window);
+    func_02045374((void *)window);
+    func_02041B6C(3);
+    ((char *)p+side)[0x11e8]=3;
+}

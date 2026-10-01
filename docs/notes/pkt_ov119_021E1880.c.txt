@@ -1,0 +1,43 @@
+/*
+ * function: func_021E1880
+ * address: 0x021E1880
+ * packet: pkt_ov119_021E1880
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 204/204 bytes, 4 concrete bytes differ at +4,+14,+20,+24: original table-copy source r6, compiled r4; entire loop and all relocations match.
+ * runs: 4 iteration (three consecutive nonshrinking edits, counted window 3); check3 2; permuter once budget300 no improvement. No sweeps; declaration-order variants 1/2.
+ * checks: 1 no argument skew; 0201EFA4 six args from unit_0201ED04 and 0201C7A4 five with s16 coordinates from ov119_021E17E8; 2 021E17E8/021E1778/021E194C share callees but no table-copy twin; 3 const char *p and signed long counter both compiled unchanged at DIFF4; 4 aggregate/declaration-order/dying-pointer-copy idioms read, none fixes residue; 5 idiom list refreshed and 021E1778/021E194C reread, no new twin; struct-vs-array storage already compiled unchanged. Next hypothetical sweep would vary aggregate copy helper shape, not run under exhausted iteration cap.
+ * arithmetic: y plus i*16 uses unsigned wrapping before the s16 call conversion, preserving original low-halfword behavior for all y.
+ * symbols:
+ *   d_021E7984 0x021E7984 data a4
+ *   func_02045CAC 0x02045CAC arm
+ *   func_02045770 0x02045770 arm
+ *   func_02017E1C 0x02017E1C thumb
+ *   func_0201EFA4 0x0201EFA4 thumb
+ *   func_0201F250 0x0201F250 thumb
+ *   func_0201C7A4 0x0201C7A4 thumb
+ */
+typedef signed short s16;
+typedef struct {int v[5];} Five;
+extern Five d_021E7984;
+extern void func_02045CAC(int,int,int);
+extern void *func_02045770(int);
+extern int func_02017E1C(int,int,int);
+extern void func_0201EFA4(int,int,int,int,int,int);
+extern void func_0201F250(int,int,int);
+extern void func_0201C7A4(void *,s16,s16,void *,void *);
+void func_021E1880(int a,int b,int x,int y,const char *p)
+{
+    long i;
+    int t[5];
+    *(Five *)t=d_021E7984;
+    for(i=0;i<5;i++) {
+        func_02045CAC(*(int *)(p+0x720),40,*(int *)(p+0x734));
+        func_0201EFA4(*(int *)(p+0x724),0,func_02017E1C(a,t[i],0),3,1,1);
+        func_0201F250(*(int *)(p+0x724),*(int *)(p+0x730),*(int *)(p+0x734));
+        func_0201C7A4(func_02045770(b),x,(unsigned)y+(unsigned)i*16,*(void **)(p+0x730),*(void **)(p+0x728));
+    }
+}
