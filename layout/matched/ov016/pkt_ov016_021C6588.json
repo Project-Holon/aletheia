@@ -19,8 +19,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DA5A8",
-     "self:0x021DE5E0"
+     "data:0x021DE5E0",
+     "self:0x021DA5A8"
     ],
     "sdk": [
      "0x021C66A8",
@@ -59,6 +59,27 @@
    "status": "EXACT"
   },
   {
+   "name": "input",
+   "address": "0x021C687C",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021C687C.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x021DE5E0"
+    ],
+    "sdk": [
+     "0x021C6A10",
+     "0x021C6E90"
+    ]
+   }
+  },
+  {
    "name": "endScene1",
    "address": "0x021C6A2C",
    "kind": "sdk",
@@ -71,7 +92,8 @@
    "status": "EXACT",
    "evidence": {
     "sdk": [
-     "0x021BDC24"
+     "0x021BDC24",
+     "0x021C6A5C"
     ]
    }
   },
@@ -88,8 +110,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DA5C4",
-     "self:0x021DE5E0"
+     "data:0x021DE5E0",
+     "self:0x021DA5C4"
     ],
     "sdk": [
      "0x021BDC90",
@@ -112,7 +134,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE5E0"
+     "data:0x021DE5E0"
     ],
     "sdk": [
      "0x021C50D4",
@@ -134,8 +156,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DA5B2",
-     "self:0x021DE5E0"
+     "data:0x021DE5E0",
+     "self:0x021DA5B2"
     ]
    }
   },
@@ -152,9 +174,9 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
+     "data:0x021DE5E0",
      "self:0x021DA5AC",
-     "self:0x021DA5B2",
-     "self:0x021DE5E0"
+     "self:0x021DA5B2"
     ]
    }
   },
@@ -171,7 +193,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE5E0"
+     "data:0x021DE5E0"
     ],
     "sdk": [
      "0x021C6DE4"
@@ -191,8 +213,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DB450",
-     "self:0x021DE5E0"
+     "data:0x021DE5E0",
+     "self:0x021DB450"
     ],
     "sdk": [
      "0x021C67CC",
@@ -213,7 +235,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE5E0"
+     "data:0x021DE5E0"
     ]
    }
   },
@@ -247,7 +269,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DE5E0"
+     "data:0x021DE5E0"
     ],
     "sdk": [
      "0x021C67CC"

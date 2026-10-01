@@ -1,0 +1,40 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "ov016",
+ "shard": "pkt_ov016_021D1208",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "func_021D1208",
+   "address": "0x021D1208",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021D1208.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x021DA9C8",
+     "data:0x021DE598",
+     "data:0x021DE658",
+     "self:0x021DA9A0",
+     "self:0x021DA9A6",
+     "self:0x021DA9AC",
+     "self:0x021DA9E6",
+     "self:0x021DA9E8",
+     "self:0x021DAA58"
+    ],
+    "sdk": [
+     "0x021D1598",
+     "0x021D15F0",
+     "0x021D61F4"
+    ]
+   }
+  }
+ ]
+}

@@ -359,14 +359,16 @@ def render_arm9(a, anchors):
 
 
 def render_overlays(a, anchors):
-    funcs = overlay_functions()
+    # Tiles and totals from one pass over the listings and shards (ovstats.overlay_rows
+    # with funcs_out), so a session writing shards meanwhile cannot make them disagree.
+    funcs = []
+    rows = ovstats.overlay_rows(funcs_out=funcs)
     drawn = sum(f["code_bytes"] for f in funcs)
     matched = sum(f["code_bytes"] for f in funcs if f["cls"] == "matched")
     mfuncs = len([f for f in funcs if f["cls"] == "matched"])
     # Denominator is game code only: each listing's header code minus the catalogued SDK
     # symbol bytes (ovstats does the same split).  SDK and matched-SDK blocks are drawn but
     # never counted as game work.
-    rows = ovstats.overlay_rows()
     game = sum(r["game_bytes"] for r in rows)
     matched_game = sum(r["matched_bytes"] for r in rows)
     matched_sdk = sum(r["matched_sdk_bytes"] for r in rows)

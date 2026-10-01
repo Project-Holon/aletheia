@@ -1,0 +1,38 @@
+{
+ "tool": "tools/match.py",
+ "version": 2,
+ "note": "matched function inventory for one work packet: addresses, names and compiler configuration only, no game bytes",
+ "region": "ov009",
+ "shard": "pkt_ov009_021870B8",
+ "base_flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc",
+ "functions": [
+  {
+   "name": "gpiProcessRecvBuddyMessage",
+   "address": "0x021870B8",
+   "kind": "sdk",
+   "region": "ov009",
+   "source": "src/matched/ov_sdk/ov009_func_021870B8.c",
+   "compiler": "dsi/1.1p1",
+   "lang": "c99",
+   "isa": "arm",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "self:0x021A42B0",
+     "self:0x021A42E0",
+     "self:0x021A437C",
+     "self:0x021A4398",
+     "self:0x021A43A4",
+     "self:0x021A43A8",
+     "string:0x021A42B4",
+     "string:0x021A4380",
+     "string:0x021A439C"
+    ],
+    "sdk": [
+     "0x021900EC"
+    ]
+   }
+  }
+ ]
+}

@@ -28789,6 +28789,30 @@
    "siblings": 109
   },
   {
+   "address": 34960312,
+   "name": "empty_func",
+   "lib": "TwlWiFi/libcps.TWL.HYB.a",
+   "object": "network.o",
+   "region": "ov009",
+   "thumb": false,
+   "size": 4,
+   "concrete": 4,
+   "dupes": 1,
+   "siblings": 109
+  },
+  {
+   "address": 34960316,
+   "name": "default_link_is_on",
+   "lib": "TwlWiFi/libcps.TWL.HYB.a",
+   "object": "network.o",
+   "region": "ov009",
+   "thumb": false,
+   "size": 8,
+   "concrete": 8,
+   "dupes": 1,
+   "siblings": 109
+  },
+  {
    "address": 34960324,
    "name": "CPS_Startup",
    "lib": "TwlWiFi/libcps.TWL.HYB.a",

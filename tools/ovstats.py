@@ -193,7 +193,15 @@ def function_code_bytes(path, addrs):
     return out
 
 
-def overlay_rows():
+def overlay_rows(funcs_out=None):
+    """One row of figures per overlay listing.
+
+    With ``funcs_out`` (a list), also append one tile per traced function, built
+    from the same labels, instruction sizes, SDK set and matched set as the row.
+    coveragemap.py draws from that list, so its tiles and these totals come from a
+    single read of each listing and shard set and cannot disagree when another
+    session writes shards while the map is being generated.
+    """
     rows = []
     for path in sorted(glob.glob(os.path.join(ROOT, "asm", "overlays", "ov*.s"))):
         overlay = os.path.basename(path)[:-2]
@@ -246,6 +254,19 @@ def overlay_rows():
             else:
                 row["matched_bytes"] += code[a]
                 row["matched_funcs"] += 1
+        if funcs_out is not None:
+            seen = set()
+            for a, name in labels:
+                if a in seen or code[a] <= 0:
+                    continue
+                seen.add(a)
+                exact = a in matched
+                if a in sdk:
+                    cls = "matched_sdk" if exact else "sdk"
+                else:
+                    cls = "matched" if exact else "open"
+                funcs_out.append({"addr": a, "name": name, "code_bytes": code[a], "region": overlay,
+                                  "cls": cls, "sole_ref": False})
         rows.append(row)
     return rows
 
