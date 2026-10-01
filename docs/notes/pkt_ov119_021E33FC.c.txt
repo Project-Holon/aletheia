@@ -1,0 +1,126 @@
+/*
+ * function: func_021E33FC
+ * address: 0x021E33FC
+ * packet: pkt_ov119_021E33FC
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 420 bytes, 44 concrete bytes differ. Output pointer local
+ *   materializes at +011E before the fallback, shifting its leading calls;
+ *   the fallback float value is r5 instead of original r4.
+ * blocker: ARM9 02015F04 Thumb at original +0124 has no outside witness;
+ *   compiled call is +0126. No owner C is embedded.
+ * checks: 1 full matched getter/accessor interfaces and original registers;
+ *   2 no same-overlay rounding twin; 3 const input and s16 h no change;
+ *   4 float macro/soft-add idioms fixed repeated table loads, no copy lever;
+ *   5 reread idioms and neighbours, declared Vec gives correct stack slots.
+ * budgets: 5 iterations; r03 nonshrinking1 then r04 shrank; r05
+ *   nonshrinking1; two manual declaration/temporary variants used;
+ *   check3 two compiles, no sweeps; stopped iteration for no distinct lever.
+ *   Once-only budget300 types permuter: 300 compiles; safe best DIFF44
+ *   verified by one. No signature, volatile or uninitialized mutant accepted.
+ * lever: field macro rounds reload table values; float conditional arms
+ *   retain the original sign branch. Required permuter copy/pointer/split
+ *   mutations preserve initialized flag, address-only output, bounded scale.
+ * arithmetic: i is initialized zero and bounded below 4; i*28 <=84.
+ *   Original four table rows at 021E7B9C contain finite component floats
+ *   with magnitude below 7; multiply by 4096 and half-unit rounding fit int.
+ *   Matched 02015F14 returns s16: fallback negation is in -32767..32768;
+ *   float scaling by .33 then 4096 remains below 45 million, fitting int.
+ *   Every path initializes all three output words before 02015C78.
+ * symbols:
+ *   func_02017E1C 0x02017E1C thumb
+ *   func_02017F00 0x02017F00 thumb
+ *   func_02015F04 0x02015F04 thumb
+ *   func_02015F14 0x02015F14 thumb
+ *   func_02015C78 0x02015C78 thumb
+ *   d_021E7B9C 0x021E7B9C data a4
+ *   _fgr 0x0209BBB0 arm
+ *   _fmul 0x0209C77C arm
+ *   _fflt 0x0209BDBC arm
+ *   _fadd 0x0209C95C arm
+ *   _fsub 0x0209CB8C arm
+ *   _ffix 0x0209C494 arm
+ */
+#define roundfx(v) ((int)((v)>0 ? (v)*4096.0f+0.5f : (v)*4096.0f-0.5f))
+typedef unsigned char u8;
+typedef signed short s16;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct
+{
+  int x;
+  int y;
+  int z;
+} Vec;
+typedef struct
+{
+  u32 a;
+  u32 b;
+  u32 c;
+  u32 d;
+  float x;
+  float y;
+  float z;
+} Entry;
+extern Entry d_021E7B9C[];
+extern u32 func_02017E1C(void *, u32, u32);
+extern u8 func_02017F00(void *);
+extern u16 func_02015F04(void *);
+extern s16 func_02015F14(void *);
+extern void func_02015C78(void *, u32 *);
+inline static int roundfxvalue(float v)
+{
+  float t = v;
+  return roundfx(t);
+}
+
+void func_021E33FC(void *p, const Vec *input, int k, void *mon)
+{
+  int flag = 0;
+  u32 a;
+  u32 b;
+  u32 c;
+  int found;
+  Vec out;
+  u8 i;
+  float scale;
+  s16 h;
+  int flag_;
+  u32 *tmp;
+  a = func_02017E1C(mon, 5, 0);
+  b = func_02017E1C(mon, 111, 0);
+  c = func_02017F00(mon);
+  if (k == 0)
+    flag = 1;
+  flag_ = flag;
+  found = 0;
+  for (i = 0; i < 4; i++)
+  {
+    if ((((a == d_021E7B9C[i].a) && (b == d_021E7B9C[i].b)) && ((d_021E7B9C[i].c == 3) || (c == d_021E7B9C[i].c))) && ((d_021E7B9C[i].d == 2) || (flag_ == d_021E7B9C[i].d)))
+    {
+      out.x = roundfx(d_021E7B9C[i].x);
+      if (input->x >= 0)
+        out.x = -out.x;
+      out.y = roundfx(d_021E7B9C[i].y);
+      out.z = roundfx(d_021E7B9C[i].z);
+      found = 1;
+      break;
+    }
+  }
+
+  tmp = (u32 *) (&out);
+  if (!found)
+  {
+    func_02015F04(p);
+    h = func_02015F14(p);
+    scale = (input->x < 0) ? ((float) h) : ((float) (-h));
+    scale = scale * 0.33f;
+    out.x = roundfxvalue(scale);
+    out.y = 0;
+    out.z = 0;
+  }
+  func_02015C78(p, tmp);
+}

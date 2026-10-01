@@ -1,0 +1,46 @@
+/*
+ * function: func_021D949C
+ * address: 0x021D949C
+ * packet: pkt_ov131_021D949C
+ * region: ov131
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * extent: two zero alignment bytes at 021D9566 follow the 202-byte body.
+ * proof: index is ldrb at 021D94DA, hence 0..255; index*8+316
+ * is at most 2356 and has no signed overflow. No selector bound assumed.
+ * symbols:
+ *   func_020450F0 0x020450F0 arm
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_02045770 0x02045770 arm
+ *   func_0201C724 0x0201C724 thumb
+ *   func_02045808 0x02045808 arm
+ *   func_021DBF2C 0x021DBF2C thumb ov131
+ *   func_021DBF94 0x021DBF94 thumb ov131
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
+extern void *func_02045EC0(void *,u32);
+extern void *func_02045770(void *);
+extern void func_0201C724(void *,u32,u32,u32,u32,u32,u16);
+extern void func_02045808(void *);
+extern u32 func_021DBF2C(u32,u32);
+extern u32 func_021DBF94(u32);
+void func_021D949C(u8 *a,u8 *p)
+{
+    u8 index;
+    void *text;
+    *(u32 *)(p+0x20)=func_020450F0(4,5,7,22,2,14,1);
+    *(u32 *)(p+0x24)=func_020450F0(4,1,16,30,4,14,1);
+    index=(p+p[0x59]*8)[0x13c];
+    text=func_02045EC0(*(void **)(p+0x50),func_021DBF2C(index,3));
+    func_0201C724(*(void **)(a+0x84),(u32)func_02045770(*(void **)(p+0x20)),1,1,(u32)text,*(u32 *)(a+0x80),1088);
+    func_02045808(text);
+    text=func_02045EC0(*(void **)(p+0x50),func_021DBF94(index));
+    func_0201C724(*(void **)(a+0x84),(u32)func_02045770(*(void **)(p+0x24)),1,1,(u32)text,*(u32 *)(a+0x80),1088);
+    func_02045808(text);
+    *(u32 *)(p+8)=1;
+}

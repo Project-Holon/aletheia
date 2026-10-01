@@ -1,0 +1,63 @@
+/*
+ * function: func_021D6810
+ * address: 0x021D6810
+ * packet: pkt_ov131_021D6810
+ * region: ov131
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 0204B294 owner arity7 full words/u16 stack and allocator return
+ *   checked; 0204B3DC owner arity2/u32 flag checked; 2 own 4FBC twin
+ *   fixes far struct field/descriptor shape, no table twin; 3 const ctx
+ *   worse 218 out, signed z byte cast-u8 unchanged 198 out; 4 declared
+ *   struct/dead-offset and field-table idioms read, no second base lever;
+ *   5 current ov131 neighbours and idiom names reread, no new table twin.
+ * residual: 312/316 bytes, 198 concrete bytes differ. Shared table base
+ *   replaces original two field bases beginning 021D6872. 5 iterations,
+ *   last 3 consecutive nonshrinks; check3 2/2; no ordering variants/sweeps.
+ *   Once-only types300 ran; best added return i to void function and moved
+ *   a.z=0 after its consumer, rejected without acceptance compile as a
+ *   signature/uninitialized-field mutant. Do not repeat it.
+ * interface: 0204B294 uses its full-word owner/indices/payload and u16
+ *   stack arguments from its own matched source. Return is consumed here;
+ *   its terminal allocator 0204CFDC returns the pointer in r0.
+ * semantics: each descriptor field initialized before consumption. Loop
+ *   counter starts at zero, increments as a byte, and stops at eight;
+ *   all counter arithmetic is bounded by that body's primary guard.
+ * symbols:
+ *   func_0204B294 0x0204B294 arm
+ *   func_0204B3DC 0x0204B3DC arm
+ *   d_021DC158 0x021DC158 data a1
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct Desc {u16 x,y,z;u8 kind,flag;};
+struct Tables {u8 x[8],z[8];};
+struct Output {u8 prefix[32];void *one;void *many[8];void *last[2];};
+struct Context {u8 prefix[0x174];u32 bank;};
+extern void *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
+extern void func_0204B3DC(void *,u32);
+extern struct Tables d_021DC158;
+void func_021D6810(struct Context *ctx,struct Output *q)
+{
+    u8 *p=(u8 *)ctx;
+    struct Desc a,b,c,d;
+    u8 i;
+    a.x=168;a.y=8;a.kind=10;a.flag=1;a.z=0;
+    q->one=func_0204B294(ctx->bank,*(u32 *)(p+208),*(u32 *)(p+156),*(u32 *)(p+260),(u32)&a,0,*(u16 *)p);
+    func_0204B3DC(q->one,0);
+    b.y=128;b.kind=10;b.flag=1;
+    for(i=0;i<8;i++){
+        b.x=d_021DC158.x[i];b.z=d_021DC158.z[i];
+        q->many[i]=func_0204B294(ctx->bank,*(u32 *)(p+212),*(u32 *)(p+160),*(u32 *)(p+264),(u32)&b,0,*(u16 *)p);
+        func_0204B3DC(q->many[i],1);
+    }
+    c.x=236;c.y=26;c.kind=10;c.flag=1;c.z=0;
+    q->last[0]=func_0204B294(ctx->bank,*(u32 *)(p+240),*(u32 *)(p+188),*(u32 *)(p+288),(u32)&c,0,*(u16 *)p);
+    func_0204B3DC(q->last[0],0);
+    d.x=241;d.y=31;d.kind=10;d.flag=1;d.z=0;
+    q->last[1]=func_0204B294(ctx->bank,*(u32 *)(p+244),*(u32 *)(p+192),*(u32 *)(p+292),(u32)&d,0,*(u16 *)p);
+    func_0204B3DC(q->last[1],0);
+}
