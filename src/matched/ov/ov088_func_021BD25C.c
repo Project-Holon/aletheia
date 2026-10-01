@@ -3,15 +3,14 @@
  * address:  0x021BD25C
  * packet:   pkt_ov088_021BD25C
  * region:   ov088
- * compiler: 1.1p1
+ * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
- * Blocker: site +002C (func_020351F8, arm) has no witness outside the
- * compared range and is not in layout/symbols_sdk.json; every other byte is
- * right. Needs a second caller or an SDK table entry.
+ * func_020351F8 (arm) resolves through the matched entry
+ * src/matched/arm9/sub_020351F8.c.
  *
  * symbols:
  *   func_02030734  0x02030734  arm
