@@ -1,0 +1,33 @@
+/*
+ * function: func_021BB858
+ * address:  0x021BB858
+ * packet:   pkt_ov088_021BB858
+ * region:   ov088
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * Shifts the six sprites at +0x1c..+0x30 vertically by d.
+ *
+ * symbols:
+ *   func_0204B454  0x0204B454  arm
+ *   func_0204B404  0x0204B404  arm
+ */
+
+typedef short s16;
+typedef unsigned int u32;
+typedef struct { s16 x; s16 y; } Pos;
+extern int func_0204B454(int, Pos *, int);
+extern int func_0204B404(int, Pos *, int);
+void func_021BB858(char *p, int d)
+{
+    u32 i;
+    Pos pos;
+    for (i = 0; i < 6; i++) {
+        func_0204B454(*(int *)((p + i * 4) + 0x1c), &pos, 0);
+        pos.y += (s16)d;
+        func_0204B404(*(int *)((p + i * 4) + 0x1c), &pos, 0);
+    }
+}
