@@ -3,24 +3,15 @@
  * address:  0x0216CA04
  * packet:   pkt_ov009_0216CA04
  * region:   ov009
- * compiler: ../2.0/base
+ * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
- * blocker:  one redundant instruction at +00FC (4 bytes; every one of the 42 concrete diffs is a
- *           pool displacement that moved with it). Image `mov r0,r7 / ldr r1,[r8,r4]`; ours
- *           `mov r0,r8 / ldr r1,[r0,r4] / mov r0,r7`. This front end hoists a copy of the keyString
- *           base into r0 and folds the last load onto it. Pin is ../2.0/base (all ten 2.0 subtrees
- *           304 B/42; all nine dsi front ends 300 B/133; object stamp 4.0.0.1025). 19 spellings in
- *           the notes below, all 304/42. Re-checked this wave under ../2.0/base: 42 concrete.
+ * status:   EXACT
  *
  * sdk:      DWC_AddMatchKeyString (libdwcmatch.TWL.HYB.a dwc_match.o)
  *
- * notes:    near miss, one register-allocation residue: the image never hoists a zero
- *           constant (returns are mov r0,#0, the strh zero is mov r2,#0, index in r4,
- *           keyID r7, keyString r6, valueSrc r5); this source hoists r4=0 after the
- *           first test and shifts every register by one. About 20 attempts.
+ * notes:    closed by DWC_Free's hidden third argument (size 0), see the w4 note.
  *
  * symbols:
  *   func_020948E0                0x020948E0 arm
@@ -114,6 +105,25 @@
  * zero literal. Measured inert: `return keyID` on the new-key path (173 B, the
  * image has `moveq r0,#0`), a shared `fail:` label for any one return (296 B,
  * 1.1p1 does not duplicate the return block), enum-typed/(E) zero on the strh.
+ *
+ * w3 lane16 (2026-10-01): 1.1p1 is the object's compiler (six dwc_match.o
+ * siblings EXACT on 1.1p1, five of them DIFF on ../2.0/base). The 1.1p1 hoist
+ * counts BLOCKS holding a zero, not uses: 5 blocks hoist, 4 do not (6 uses in
+ * 4 blocks: no hoist; a second zero in an existing block: still hoists).
+ * Compare zeros do not count. Inert: house string.h strlen/strcpy (+strcmp),
+ * void *value field, casts/enum/static const/inline/local for each zero site,
+ * (u16)/0L/(char)/!1/keyID-keyID (all fold early), braces, nesting, else-if,
+ * ternary condition, test after the if/else. goto-sharing two returns drops
+ * the hoist (strcmp-fail -> new-key return: 300 B / 21 B, layout only) but
+ * 1.1p1 never predicates or duplicates a shared return, so the image's five
+ * private zero sites need a fifth zero that is not a literal at pool time.
+ *
+ * w4 (2026-10-01): EXACT on dsi/1.1p1 (the ../2.0/base pin was wrong). Closed
+ * by a hidden call argument: DWC_Free takes a third `u32 size` (as in the
+ * matched arm9 callers, e.g. func_0205A200) and the call passes 0. That zero
+ * argument shares r2 with the KEYF2 strh zero, which stops 1.1p1 from hoisting
+ * a shared zero into r4 (toy test: any zero use reachable from the strh in a
+ * scratch register breaks the hoist). The image leaves r2 = 0 live into the call.
  */
 
 typedef unsigned char u8;
@@ -138,7 +148,7 @@ extern struct DWCstGameMatchKeyData g_021AAA40[154];
 
 extern int func_020948E0(const char *s1, const char *s2);
 extern u8 func_02173AD8(void);
-extern void func_0205A1B0(int name, void *ptr);
+extern void func_0205A1B0(int name, void *ptr, u32 size);
 extern u32 func_0209477C(const char *s);
 extern void *func_0205A16C(int name, u32 size);
 extern void func_0216EB68(int error, int errorCode);
@@ -164,7 +174,7 @@ u8 func_0216CA04(u8 keyID, char *keyString, char *valueSrc)
     KEYF1(index) = 1;
     KEYF2(index) = 0;
     if (KEYSTR(index) != 0)
-        func_0205A1B0(4, KEYSTR(index));
+        func_0205A1B0(4, KEYSTR(index), 0);
     KEYSTR(index) = func_0205A16C(4, func_0209477C(keyString) + 1);
     if (KEYSTR(index) == 0) {
         func_0216EB68(9, -80001);

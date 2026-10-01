@@ -19,8 +19,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCFD0",
-     "self:0x021DD050"
+     "data:0x021DCFD0",
+     "data:0x021DD050"
     ],
     "sdk": [
      "0x02164EE0"
@@ -40,7 +40,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCFD0"
+     "data:0x021DCFD0"
     ],
     "sdk": [
      "0x021B9038"
@@ -60,12 +60,9 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCFD0",
+     "data:0x021DCFD0",
      "self:0x021DD488",
      "self:0x021DD4C0"
-    ],
-    "sdk": [
-     "0x021B9344"
     ]
    }
   },
@@ -82,7 +79,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCFD0"
+     "data:0x021DCFD0"
     ]
    }
   },
@@ -99,10 +96,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCFD0"
-    ],
-    "sdk": [
-     "0x021B9344"
+     "data:0x021DCFD0"
     ]
    }
   },
@@ -119,10 +113,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCFD0"
-    ],
-    "sdk": [
-     "0x021B9344"
+     "data:0x021DCFD0"
     ]
    }
   },
@@ -139,8 +130,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCFD0",
-     "self:0x021DD050"
+     "data:0x021DCFD0",
+     "data:0x021DD050"
     ],
     "sdk": [
      "0x021B9038"
@@ -160,7 +151,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCFD0"
+     "data:0x021DCFD0"
     ]
    }
   },
@@ -177,8 +168,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCFD0",
-     "self:0x021DD064"
+     "data:0x021DCFD0",
+     "data:0x021DD064"
     ]
    }
   },
@@ -195,8 +186,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCFD0",
-     "self:0x021DD064"
+     "data:0x021DCFD0",
+     "data:0x021DD064"
     ]
    }
   },
@@ -213,8 +204,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCFD0",
-     "self:0x021DD054"
+     "data:0x021DCFD0",
+     "data:0x021DD054"
     ]
    }
   },
@@ -231,8 +222,8 @@
    "status": "EXACT*",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCFD0",
-     "self:0x021DD054"
+     "data:0x021DCFD0",
+     "data:0x021DD054"
     ]
    }
   },
@@ -249,8 +240,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCFD0",
-     "self:0x021DD054"
+     "data:0x021DCFD0",
+     "data:0x021DD054"
     ]
    }
   },
@@ -264,7 +255,12 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT"
+   "status": "EXACT",
+   "evidence": {
+    "sdk": [
+     "0x021B976C"
+    ]
+   }
   },
   {
    "name": "FreeAtermApcNetwork",
@@ -279,11 +275,10 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCFD0"
+     "data:0x021DCFD0"
     ],
     "sdk": [
-     "0x021B9510",
-     "0x021B9734"
+     "0x021B9510"
     ]
    }
   },
@@ -300,13 +295,12 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DAB58",
-     "self:0x021DAB6C",
-     "self:0x021DCFD0"
+     "data:0x021DAB58",
+     "data:0x021DCFD0",
+     "self:0x021DAB6C"
     ],
     "sdk": [
-     "0x021B9568",
-     "0x021B9734"
+     "0x021B9568"
     ]
    }
   },
@@ -323,11 +317,10 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCFD0"
+     "data:0x021DCFD0"
     ],
     "sdk": [
-     "0x021B94D8",
-     "0x021B9734"
+     "0x021B94D8"
     ]
    }
   },
@@ -411,12 +404,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT*",
-   "evidence": {
-    "sdk": [
-     "0x021B9F5C"
-    ]
-   }
+   "status": "EXACT*"
   },
   {
    "name": "SetElementData",
@@ -452,12 +440,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sdk": [
-     "0x021B9F5C"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "GetCommandElement",
@@ -489,10 +472,10 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
+     "data:0x021DAB58",
+     "data:0x021DCFD0",
+     "data:0x021DD478",
      "self:0x021D77C8",
-     "self:0x021DAB58",
-     "self:0x021DCFD0",
-     "self:0x021DD478",
      "self:0x021DD504"
     ],
     "sdk": [
@@ -513,6 +496,45 @@
    "status": "EXACT"
   },
   {
+   "name": "AutoConfigThreadEx",
+   "address": "0x021BA804",
+   "kind": "sdk",
+   "region": "ov016",
+   "source": "src/matched/ov_sdk/ov016_func_021BA804.c",
+   "compiler": "dsi/../2.0/sp1p2",
+   "lang": "c99",
+   "isa": "thumb",
+   "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
+   "status": "EXACT",
+   "evidence": {
+    "sole-ref": [
+     "data:0x021DAB58",
+     "data:0x021DCFD0",
+     "data:0x021DD504",
+     "self:0x021DD020",
+     "self:0x021DD224",
+     "self:0x021DD310",
+     "self:0x021DD490",
+     "self:0x021DD4A0",
+     "self:0x021DD4A8",
+     "self:0x021DDD04"
+    ],
+    "sdk": [
+     "0x021B98A4",
+     "0x021B9BF8",
+     "0x021B9FAC",
+     "0x021BA104",
+     "0x021BA12C",
+     "0x021BA200",
+     "0x021BA250",
+     "0x021BA2F8",
+     "0x021BA3F4",
+     "0x021BA67C",
+     "0x021BC55C"
+    ]
+   }
+  },
+  {
    "name": "AutoConfigThread",
    "address": "0x021BABE8",
    "kind": "sdk",
@@ -525,8 +547,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DAB58",
-     "self:0x021DCFD0"
+     "data:0x021DAB58",
+     "data:0x021DCFD0"
     ],
     "sdk": [
      "0x021B99C8",
@@ -568,12 +590,7 @@
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sdk": [
-     "0x021BC5D4"
-    ]
-   }
+   "status": "EXACT"
   },
   {
    "name": "ATERMi_ApConfigEnd",
@@ -588,8 +605,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCFD0",
-     "self:0x021DD07C"
+     "data:0x021DCFD0",
+     "data:0x021DD07C"
     ],
     "sdk": [
      "0x021B984C"
@@ -609,8 +626,8 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DAB58",
-     "self:0x021DCFD0"
+     "data:0x021DAB58",
+     "data:0x021DCFD0"
     ]
    }
   },
@@ -627,7 +644,7 @@
    "status": "EXACT",
    "evidence": {
     "sole-ref": [
-     "self:0x021DCFD0"
+     "data:0x021DCFD0"
     ],
     "sdk": [
      "0x021BC7B8"

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
  *
  * blocker:  codegen / global register colouring, not semantics.  The body now
  *           reproduces case for case (same instructions, same order, the
@@ -76,12 +76,42 @@
  * from three bytes of limits[] offset by draw_block[] plus a colour table.
  * Cases 3/4/5 take red from dcb and blue from dcr; case 6 swaps them.
  *
+ * 2026-10-01 (lane 14): still 113 B.  Pool order is the scheduled first-use
+ *   order; G spelled `Cbgtab[dcr] + Crgtab[dcb]` gives the image's pool order but
+ *   rescheduled the bodies (398 B; with the six R/G/B term orders 124..405 B).
+ *   Inert at 113: the object's data defined in the file (dcb/dcr/draw_block
+ *   globals, limits/Cxx tables as statics, and bcode2 as the 4-byte global it is
+ *   in jpegdec.o with the f04/f14 words as neighbouring 4-byte globals laid out
+ *   at +4/+0x14), `limits[X + base]` index order, switch operand order.
+ *
+ * 2026-10-01 (w3 lane19): still 113 B. Vendor .o symtab: bcode2+4 is yblock,
+ *   bcode2+0x14 is xblock (4-byte .bss group), and the limits pool word is
+ *   limits+0x100 (source biases the index by 256); 1.1p1 never folds that
+ *   bias into the pool (`limits[256 + i]`, `(limits + 256)[i]`, `&limits[256]`,
+ *   2-D: all keep `ldrb [rX, #0x100]`, 1420 B). Renaming dcb/dcr and the four
+ *   tables (mirror) compiles identically, so names/decl order are not the tie.
+ *   G = `Cbgtab[dcr] + Crgtab[dcb]` with OR order B,G,R (or G,B,R) gives the
+ *   image's load order and pool order (9/9 relocs) but combines (G|B) then R:
+ *   124 B. const tables, per-term `limits[X + Y]` order, mask/shift spellings
+ *   and OR parenthesisation (reassociated) measured flat or worse.
+ *
+ * 2026-10-01 (w4): EXACT. Decoded the vendor .debug_line: line 2059 (before
+ *   the switch) loads limits+0x100, so the source has a top-level pointer
+ *   local `lim = limits + 256` that copy propagation removes from DWARF (it
+ *   also fixes the prologue order). Per pixel the line table shows separate
+ *   statements: chroma index into rr, R kept in rr, G and B as single-use
+ *   locals forward-substituted into the pack `rr = (rr >> 3) | (g << 2) |
+ *   (b << 7) | 0x8000` (only their shared loads keep their own line).
+ *   Chroma samples are read into locals cb/cr before rr is reused for R.
+ *   g, b, cb, cr and lim all vanish from DWARF, as the image's seven-local
+ *   list requires. G is `Cbgtab[cr] + Crgtab[cb]`.
+ *
  * symbols:
  *   bcode2      0x021C88F0  data
  *   draw_block  0x021C8D9C  data
  *   dcb         0x021C891C  data
  *   dcr         0x021C899C  data
- *   limits      0x021C802C  data
+ *   limits      0x021C7F2C  data
  *   Crrtab      0x021C752C  data
  *   Crgtab      0x021C7B2C  data
  *   Cbbtab      0x021C732C  data
@@ -114,6 +144,8 @@ extern s32 Cbgtab[256];
 void func_021BFA68(u8 *d, int x, int y, int dx, int dy)
 {
     int e, m, n, s, t, z, rr;
+    int g, b, cb, cr;
+    u8 *lim = limits + 256;
 
     switch (bcode2.f04 * 2 + bcode2.f14) {
     case 3:
@@ -124,11 +156,12 @@ void func_021BFA68(u8 *d, int x, int y, int dx, int dy)
             for (m = 0; m < 8; m++, z++, e += 2) {
                 if (x + m >= dx)
                     break;
-                rr = draw_block[z];
-                rr = ((limits[rr + Crrtab[dcb[z]]] & 0xf8) >> 3)
-                   | ((limits[rr + ((Crgtab[dcb[z]] + Cbgtab[dcr[z]]) >> 16)] & 0xf8) << 2)
-                   | ((limits[rr + Cbbtab[dcr[z]]] & 0xf8) << 7)
-                   | 0x8000;
+                cb = dcb[z];
+                cr = dcr[z];
+                rr = lim[draw_block[z] + Crrtab[cb]] & 0xf8;
+                g = lim[draw_block[z] + ((Cbgtab[cr] + Crgtab[cb]) >> 16)] & 0xf8;
+                b = lim[draw_block[z] + Cbbtab[cr]] & 0xf8;
+                rr = (rr >> 3) | (g << 2) | (b << 7) | 0x8000;
                 d[e] = rr;
                 d[e + 1] = rr >> 8;
             }
@@ -141,17 +174,18 @@ void func_021BFA68(u8 *d, int x, int y, int dx, int dy)
                 if (y + n >= dy)
                     break;
                 e = 2 * (dx * (y + n) + x + s * 8);
-                for (m = 0; m < 8; m++, z++) {
+                for (m = 0; m < 8; m++, z++, e += 2) {
                     if (m + (x + s * 8) >= dx)
                         break;
                     rr = (m >> 1) + s * 4 + n * 8;
-                    rr = ((limits[draw_block[z] + Crrtab[dcb[rr]]] & 0xf8) >> 3)
-                       | ((limits[draw_block[z] + ((Crgtab[dcb[rr]] + Cbgtab[dcr[rr]]) >> 16)] & 0xf8) << 2)
-                       | ((limits[draw_block[z] + Cbbtab[dcr[rr]]] & 0xf8) << 7)
-                       | 0x8000;
+                    cb = dcb[rr];
+                    cr = dcr[rr];
+                    rr = lim[draw_block[z] + Crrtab[cb]] & 0xf8;
+                    g = lim[draw_block[z] + ((Cbgtab[cr] + Crgtab[cb]) >> 16)] & 0xf8;
+                    b = lim[draw_block[z] + Cbbtab[cr]] & 0xf8;
+                    rr = (rr >> 3) | (g << 2) | (b << 7) | 0x8000;
                     d[e] = rr;
                     d[e + 1] = rr >> 8;
-                    e += 2;
                 }
             }
         }
@@ -163,17 +197,18 @@ void func_021BFA68(u8 *d, int x, int y, int dx, int dy)
                 if (n + (y + t * 8) >= dy)
                     break;
                 e = 2 * (dx * (n + (y + t * 8)) + x);
-                for (m = 0; m < 8; m++, z++) {
+                for (m = 0; m < 8; m++, z++, e += 2) {
                     if (x + m >= dx)
                         break;
                     rr = m + (n >> 1) * 8 + t * 32;
-                    rr = ((limits[draw_block[z] + Crrtab[dcb[rr]]] & 0xf8) >> 3)
-                       | ((limits[draw_block[z] + ((Crgtab[dcb[rr]] + Cbgtab[dcr[rr]]) >> 16)] & 0xf8) << 2)
-                       | ((limits[draw_block[z] + Cbbtab[dcr[rr]]] & 0xf8) << 7)
-                       | 0x8000;
+                    cb = dcb[rr];
+                    cr = dcr[rr];
+                    rr = lim[draw_block[z] + Crrtab[cb]] & 0xf8;
+                    g = lim[draw_block[z] + ((Cbgtab[cr] + Crgtab[cb]) >> 16)] & 0xf8;
+                    b = lim[draw_block[z] + Cbbtab[cr]] & 0xf8;
+                    rr = (rr >> 3) | (g << 2) | (b << 7) | 0x8000;
                     d[e] = rr;
                     d[e + 1] = rr >> 8;
-                    e += 2;
                 }
             }
         }
@@ -186,17 +221,18 @@ void func_021BFA68(u8 *d, int x, int y, int dx, int dy)
                     if (n + (y + t * 8) >= dy)
                         break;
                     e = 2 * (dx * (n + (y + t * 8)) + x + s * 8);
-                    for (m = 0; m < 8; m++, z++) {
+                    for (m = 0; m < 8; m++, z++, e += 2) {
                         if (m + (x + s * 8) >= dx)
                             break;
                         rr = (m >> 1) + s * 4 + (n >> 1) * 8 + t * 32;
-                        rr = ((limits[draw_block[z] + Crrtab[dcb[rr]]] & 0xf8) >> 3)
-                           | ((limits[draw_block[z] + ((Crgtab[dcb[rr]] + Cbgtab[dcr[rr]]) >> 16)] & 0xf8) << 2)
-                           | ((limits[draw_block[z] + Cbbtab[dcr[rr]]] & 0xf8) << 7)
-                           | 0x8000;
+                        cb = dcb[rr];
+                        cr = dcr[rr];
+                        rr = lim[draw_block[z] + Crrtab[cb]] & 0xf8;
+                        g = lim[draw_block[z] + ((Cbgtab[cr] + Crgtab[cb]) >> 16)] & 0xf8;
+                        b = lim[draw_block[z] + Cbbtab[cr]] & 0xf8;
+                        rr = (rr >> 3) | (g << 2) | (b << 7) | 0x8000;
                         d[e] = rr;
                         d[e + 1] = rr >> 8;
-                        e += 2;
                     }
                 }
             }

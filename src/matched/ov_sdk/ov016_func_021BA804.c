@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
  *
  * SDK: TwlDWC/lib/ARM9-TS/Rom/libdwcutil.TWL.HYB.a(atermset.o).
  * Object stamped Metrowerks 3.0.0.126 -> ../2.0/sp1p2.
@@ -24,6 +24,32 @@
  *   index 0x14; every AutoProfile spelling folds to +0x100/#0). Residue: three Thumb
  *   branch-island targets (+010E, +011A, +01B0 jump to the `b` at +01FC, image +01EA);
  *   case-6 spelled with gotos, &&/if-else, nested ifs and else-if all pick +01FC.
+ * lane09 wave2 (2026-10-01): still 3 B. Measured: the far conditional branches reuse
+ *   only a fixer-made island (`bcc skip; b L`), never a plain `break` b (removing the
+ *   retry6 test makes the eid test invert into its own island at +01B2, which case 4
+ *   then reuses; retry6 written before the eid test makes the eid island the shared one).
+ *   Islands appear to be made last-branch-first, so ours makes retry6's +01FC first; the
+ *   image's +01EA must have been an island when the case-4/eid branches were fixed.
+ *   Inert here: case-4 failures as `continue`, eid as `if (eid == 257) {..} break/continue`,
+ *   retry6 as `if (>=) AutoPhase = 5;`.
+ * lane03 wave3 (2026-10-01): still 3 B. New evidence: atermset.o carries a
+ *   DWARF2 .debug_line (parse it with the object's relocations): case 4 breaks
+ *   right after SendNotify (603), case 6's b at +01EA is a separate `break`
+ *   at 648, five lines after the eid-if's SendNotify (642), and the retry
+ *   test/AutoPhase=5/break are 651/653/655. Body reshaped to that (n as the
+ *   DWARF local, nested ifs, break after the eid-if, `if (>=) {..} break;`),
+ *   same 3 B. Far-branch survey of matched Thumb code: every far Bcc that
+ *   lands on a non-island `b` lands on a cross-jumped hop (a join that held
+ *   real code when jumps were threaded). Measured inert (sp1p2, 40+ shapes):
+ *   switch(eid) forms, else/empty-else/else-break arms, continue variants,
+ *   do/while(0), labels, debug-flag ifs, inline-constant ifs, &&-merged
+ *   tests, separate file statics, -g; all 2.0 builds give the same 3 B.
+ * wave4 (2026-10-01): EXACT. The fixer reuses only a `b L` that starts its
+ *   own basic block; the image's +01EA is one because the join after the
+ *   eid-if (source lines 643-647 emit no code) held a conditional test
+ *   when jumps were threaded, so the eid bne kept targeting it, and the
+ *   test (both arms break) was dropped later. Any condition gives the same
+ *   bytes (bfinish, eid == 257 tested too); the original one is unknown.
  *
  * symbols:
  *   OS_Sleep          0x02085a38 arm
@@ -223,14 +249,16 @@ static int AutoConfigThreadEx(void)
             }
             target.len = sizeof(target);
             GetMacEncKey(g_021DD490, &target);
-            if (SOC_RecvFrom(sock, g_021DDD04, 0x800, 4, &target) <= 0)
-                break;
-            if (!IsSearchCommand(g_021DDD04, &g_021DD020))
-                break;
-            g_021DAB58.gAtermApTimeout = GetTickCount() + 30000;
-            g_021DCFD0.AutoPhase = 5;
-            g_021DCFD0.gAtermApState = 4;
-            SendNotify();
+            n = SOC_RecvFrom(sock, g_021DDD04, 0x800, 4, &target);
+            if (n > 0) {
+                if (IsSearchCommand(g_021DDD04, &g_021DD020)) {
+                    g_021DAB58.gAtermApTimeout = GetTickCount() + 30000;
+                    g_021DCFD0.AutoPhase = 5;
+                    g_021DCFD0.gAtermApState = 4;
+                    SendNotify();
+                    break;
+                }
+            }
             break;
         case 5:
             g_021DCFD0.cbFrameData = SetSearchRes(g_021DDD04);
@@ -245,26 +273,28 @@ static int AutoConfigThreadEx(void)
                 bfinish = 1;
                 break;
             }
-            if (SOC_RecvFrom(sock, g_021DDD04, 0x800, 4, &target) <= 0)
-                goto retry6;
-            if (!GetCommandElement(g_021DDD04, 3, g_021DD504, g_021DD490))
-                goto retry6;
-            lpe = GetFirstElement(g_021DD504, &eid, &esize);
-            if (eid != 257)
-                break;
-            dw = GetTickCount();
-            memcpy(g_021DD4A0, lpe, 8);
-            MD5Encode(g_021DD4A8, (u8 *)&dw, 4);
-            iretry = 0;
-            g_021DCFD0.AutoPhase = 7;
-            g_021DCFD0.gAtermApState = 5;
-            g_021DAB58.gAtermApTimeout = -1;
-            SendNotify();
-            break;
-        retry6:
-            if (GetTickCount() < dwSendTick + 1000)
-                break;
-            g_021DCFD0.AutoPhase = 5;
+            n = SOC_RecvFrom(sock, g_021DDD04, 0x800, 4, &target);
+            if (n > 0) {
+                if (GetCommandElement(g_021DDD04, 3, g_021DD504, g_021DD490)) {
+                    lpe = GetFirstElement(g_021DD504, &eid, &esize);
+                    if (eid == 257) {
+                        dw = GetTickCount();
+                        memcpy(g_021DD4A0, lpe, 8);
+                        MD5Encode(g_021DD4A8, (u8 *)&dw, 4);
+                        iretry = 0;
+                        g_021DCFD0.AutoPhase = 7;
+                        g_021DCFD0.gAtermApState = 5;
+                        g_021DAB58.gAtermApTimeout = -1;
+                        SendNotify();
+                    }
+                    if (g_021DCFD0.bAtermApCanceled)
+                        break;
+                    break;
+                }
+            }
+            if (GetTickCount() >= dwSendTick + 1000) {
+                g_021DCFD0.AutoPhase = 5;
+            }
             break;
         case 7:
             g_021DCFD0.cbElementData = SetSingleElement(g_021DD504, 258, g_021DD4A8, 8);

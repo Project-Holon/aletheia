@@ -43,6 +43,27 @@
  * (psum = lpframe before the branch, lpb = (u8 *)psum + 6, psum = lpb + size)
  * copy-propagates psum away under 1.1p1 (186 B, no frame); pend declaration
  * position is inert.  Object stamp is 3.0.0.126, not a 4.0 build.
+ * w3 lane20 (2026-10-01): measured with --cc ../2.0/sp1p2 (192 B, same body).
+ * DWARF-faithful lpb/psum shape is 186 B under every dsi build (1.1p1..1.6sp1)
+ * and every 2.0 sp; 1.2/base..sp2p3 give 192 B but worse bytes. New and still
+ * copy-propagated (186 B): pfh set before the branch with lpb = (u8 *)(pfh + 1),
+ * call dest from psum, `lpb = lpframe; lpb += 6`, psum assigned in both arms,
+ * `register` psum. `* volatile psum` 206 B. No build here keeps the r4 copy.
+ * w4 (2026-10-01): ../2.0/sp1p2 writes stamp 3.0.0.126 exactly. Vendor DWARF
+ * decl lines: pfh 146, peh 147, lpb 148, lps 149, psum 150, dwsum 151; the
+ * r4 = r6 copy is tagged line 148, lpb+6 is line 164, psum = lpb + size 165.
+ * The copy is removed by live-range splitting, not IR propagation: with
+ * `#pragma opt_lifetimes off` the DWARF-faithful body (psum =
+ * (unsigned short *)lpframe at its declaration, dwsum = 0 at its declaration,
+ * lpb = (unsigned char *)psum + sizeof(FRAMEHEADER); psum = (unsigned short *)
+ * (lpb + size)) is EXACT* (scratch lanes4/l9fe0/lt_fin.c); the lpb-initialised
+ * spelling stays 92 off even with the pragma. Not applied: the pragma breaks
+ * 5 of 53 matched atermset.o siblings (021B93F0, 021B9A2C, 021BA250,
+ * 021BA3F4, 021BB290), so it is not the object's build setting. Inert without
+ * the pragma: opt_propagation/opt_common_subs/etc. pragmas alone, identity
+ * initialisers (+0, -0, (long), (long long), &p[0], &pfh->FrameID), copy in
+ * one arm, `psum = psum;` in an arm, nested assignment. optimization_level 2
+ * reproduces everything but the loop guard. Body kept: 192 B, 110 B off.
  */
 
 #include "../../matched/arm9_sdk/libc/string.h"

@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   DIFF
+ * status:   EXACT
  *
  * symbols:
  *   DWCi_ARClReadEx                  0x021D4B68  arm
@@ -30,47 +30,30 @@
  *   scenesetlist_str_21708           0x021DB5AC  data
  *   scenesetlist_str_21709           0x021DB5C4  data
  *
- * Blocker: DIFF, 14 concrete bytes in the last six register writes only. File is the raw-address
- * struct-cast spelling below (best measured; the inline-setter spelling is 17). The original
- * computes 0x04000008 as 0x04001008 - 0x1000 just before its use and keeps the 0x04001008 pool
- * base in r1 with MemSsl in r2; this draft puts the pool base in r3, MemSsl in r1, hoists the
- * sub to +0154 and swaps r1/r2. Inline setters, macros, non-volatile registers, a pointer walk,
- * a const/named base pointer and a per-store derived local all measured (docs/notes/
- * pkt_ov016_021C8F20.c.txt); permuter seed 9204 flat. Unresolved: pure allocator/scheduler tie.
- *
- * Lane U37: the six tail writes as raw-address struct casts,
- *   typedef struct { unsigned short priority : 2; unsigned short rest : 14; } BgCnt;
- *   ((BgCnt *)0x04001008)->priority = 3;   (then 0x0400100A=3, 0x04000008=3, 0x0400000A=2,
- *                                           0x0400000C=3, 0x0400000E=2)
- * (the spelling of docs/idioms/a-nearby-absolute-address-is-synthesized-from-the-loaded-base.md)
- * take the residue from 17 to 14 concrete bytes at 508 exact.  Residue left: image
- * `ldr r1, [pc, #0xa8]` | ours `ldr r3, [pc, #0xa8]` - the image keeps the 0x04001008 pool base
- * in r1 with MemSsl in r2 and issues `sub r2, r1, #0x1000` at +0170 (ours hoists it to +0154 and
- * swaps r3/r1); then `sub r1, r4, #2` lands 0xc bytes early.  Variant best-of table (1.1p1):
- * raw struct casts / image order 14, interleaved DC-DB 15, DB group first 22, DC group repeated
- * 49.  Pin scan: 1.1p1 508/17, 1.1 508/17, 1.2 508/17, 1.6sp1 508/21, ../2.0/base 532/125.
- *
- * lane04 (2026-10-01): measured 37 under the brief's command (the 14 above is
- * not reproduced by this body). New and inert: scenesetlist.o's .bss as
- * separate zero-initialised file statics (Focus, RetScene, FocusClm, Pos,
- * MemSsl) instead of one struct (same 37, same +0144 block); the inline
- * G2/G2S setter spelling measures 38.
+ * EXACT (2026-10-01, wave 4): the six priority writes go through an inline setter
+ * that reads the register into a local first, `u16 v = *reg; *reg = (u16)((v & ~3) | p);`.
+ * Every spelling without that temporary (macros, struct casts, inline setters without a
+ * local, all measured in earlier waves) leaves 1.1p1 computing 0x04000008 = base - 0x1000
+ * right after the pool load and hoisting it into the first ldrh stall. Probing showed the
+ * eager/lazy placement of that derived address flips on function size (two extra calls or
+ * one extra store anywhere before the tail also made it lazy); the inline's local adds
+ * the IR weight without emitting code, so the derived address is formed at its use as in
+ * the image. Inline locals do not appear in the caller DWARF, consistent with the vendor
+ * listing showing only n and the three arrays.
  *
  * SDK: TwlDWC libdwcutil.TWL.HYB.a(scenesetlist.o), symbol initGraphics (name and prototype from the
  * vendor object DWARF). The object is stamped Metrowerks C/C++ for ARM 4.0.0.1025, which
  * no tools/mwccarm build writes, so it stays on the default dsi/1.1p1.
  *
  * Verified with:
- *   python tools/match.py one --src src/pending/ov016_func_021C84BC.c \
- *       --func func_021C84BC --addr 0x021C84BC --region ov016 --cc 1.1p1 --arm
+ *   python tools/match.py one --src src/pending/ov_sdk/ov016_func_021C84BC.c \
+ *       --func func_021C84BC --addr 0x021C84BC --region ov016 --lang c99 --arm
  */
 typedef unsigned char bool;
 
 typedef struct tagRECT { unsigned short l, t, r, b; } RECT;
 typedef struct tagAREA { unsigned short l, t, w, h; } AREA;
 typedef struct { unsigned long attr01; unsigned short attr2; unsigned short _3; } GXOamAttr;
-
-typedef struct { unsigned short priority : 2; unsigned short rest : 14; } BgCnt;
 
 typedef struct NCFGApInfo {
     unsigned char  ispId[32];         /* 0x00 */
@@ -174,29 +157,10 @@ extern const NAME22 scenesetlist_str_20621;
 
 #define REG_BG(a) (*(volatile unsigned short *)(a))
 
-static inline void G2_SetBG0Priority(int priority)
+static inline void SetBGPriority(volatile unsigned short *reg, int priority)
 {
-    REG_BG(0x04000008) = (unsigned short)((REG_BG(0x04000008) & ~3) | priority);
-}
-static inline void G2_SetBG1Priority(int priority)
-{
-    REG_BG(0x0400000A) = (unsigned short)((REG_BG(0x0400000A) & ~3) | priority);
-}
-static inline void G2_SetBG2Priority(int priority)
-{
-    REG_BG(0x0400000C) = (unsigned short)((REG_BG(0x0400000C) & ~3) | priority);
-}
-static inline void G2_SetBG3Priority(int priority)
-{
-    REG_BG(0x0400000E) = (unsigned short)((REG_BG(0x0400000E) & ~3) | priority);
-}
-static inline void G2S_SetBG0Priority(int priority)
-{
-    REG_BG(0x04001008) = (unsigned short)((REG_BG(0x04001008) & ~3) | priority);
-}
-static inline void G2S_SetBG1Priority(int priority)
-{
-    REG_BG(0x0400100A) = (unsigned short)((REG_BG(0x0400100A) & ~3) | priority);
+    unsigned short v = *reg;
+    *reg = (unsigned short)((v & ~3) | priority);
 }
 
 void func_021C84BC(void)
@@ -220,10 +184,10 @@ void func_021C84BC(void)
     scenesetlist_bss.MemSsl->pltt[0] = DWCi_ARClReadEx(n, 0, 4);
     n = DWCi_Char(PLLT_PUSH.s);
     scenesetlist_bss.MemSsl->pltt[1] = DWCi_ARClReadEx(n, 0, 4);
-    ((BgCnt *)0x04001008)->priority = 3;
-    ((BgCnt *)0x0400100A)->priority = 3;
-    ((BgCnt *)0x04000008)->priority = 3;
-    ((BgCnt *)0x0400000A)->priority = 2;
-    ((BgCnt *)0x0400000C)->priority = 3;
-    ((BgCnt *)0x0400000E)->priority = 2;
+    SetBGPriority((volatile unsigned short *)0x04001008, 3);
+    SetBGPriority((volatile unsigned short *)0x0400100A, 3);
+    SetBGPriority((volatile unsigned short *)0x04000008, 3);
+    SetBGPriority((volatile unsigned short *)0x0400000A, 2);
+    SetBGPriority((volatile unsigned short *)0x0400000C, 3);
+    SetBGPriority((volatile unsigned short *)0x0400000E, 2);
 }

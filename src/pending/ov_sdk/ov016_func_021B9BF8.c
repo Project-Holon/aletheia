@@ -9,27 +9,35 @@
  * isa:      thumb
  * status:   DIFF
  *
- * blocker:  `volatile int retry` (declared after ApNo) reproduces the image's
- *           stack-based loop tail ldr/adds/str/ldr/cmp in form and slot
- *           ([sp,#0x1c]); see docs/idioms/a-re-read-loop-bound-is-a-volatile-field.md.
- *           Still 652/660 (SIZE, 355 concrete): the remaining 8 bytes are the
- *           gAPMac copy.  Image unrolls the 6-byte copy into two base
- *           computations (byte 0 via one reg, bytes 1..5 via a second copy with
- *           [r0,#k]); a `for(n<6)` loop is 16 B short, `*(MACADDR*)gAPMac =
- *           *(MACADDR*)pBssid->MacAddress` overshoots by 8 B (668) because the
- *           front end recomputes the source base for all six bytes.  A shape
- *           between the two (base rematerialised exactly twice) is unresolved.
+ * note 2026-10-01 (w3 lane07): locals now in DWARF declaration order
+ *           (retv, retry, i, n, ApNo, ...); `volatile` on retry is not needed,
+ *           same 652/660, 355 concrete.  Real residue is one cause: the vendor
+ *           object keeps the dead induction variable n (n = 0, n++ stores at
+ *           [sp,#0x14], VN loads for i = n and retv = n - 6) although nothing
+ *           reads it after the first loop, and the gAPMac copy is a base held
+ *           in a register: `{u8 *mac = pBssid->MacAddress; gAPMac[0] = mac[0];
+ *           ... gAPMac[5] = mac[5];}`.  That copy alone makes this front end
+ *           delete n (frame 0x6c); any zero-code use of n is folded away.  With
+ *           `#pragma opt_dead_assignments off` that body is EXACT 660/660, but
+ *           the same pragma breaks 4 of 52 matched atermset.o siblings
+ *           (Encode 021BC4D4, 021BA3F4, 021BAC20, 021BADD8), so it is not the
+ *           object's build setting; not applied.  Pragma-free alternative with a
+ *           store use of n (`ApNo = n;` after the copy) is 664/660, 157 concrete.
  *
- * blocker:  under the pinned front end (tools/mwccarm/mwccarm/2.0/sp1p2, run
- *           with --thumb) this body reproduces 652 of 660 bytes, 355 concrete
- *           bytes differ.  The missing 8 bytes are the loop tail: the image
- *           increments `retry` through its stack slot and re-reads it for the
- *           bound (`ldr/adds/str/ldr/cmp`), this front end keeps it in a
- *           register.  Separately the found block's copy into `gAPMac` is
- *           spelled differently (image computes `pBssid+0x28` twice).  The
- *           wave7 stamp claim (3.0.0.126) is retired: the pin above is a real
- *           2.0/sp1p2 build and reaches 652/660, so this is a source-shape
- *           residue, not a toolchain mismatch.
+ * note 2026-10-01 (w4): vendor .debug_line + DWARF decl lines: `int i, n;` on
+ *           one line (512), n = 0 at 618, n++ alone at 634 (last loop stmt),
+ *           i init/guard/wmbssdesc++/i++/test all on the for line 627, found-
+ *           block copy is one line (643).  `memcpy(gAPMac, pBssid->MacAddress,
+ *           6)` through house string.h (intrinsic) gives the image's copy shape
+ *           exactly; with the pragma that body is EXACT too.  sp1p2 stamps
+ *           3.0.0.126 = vendor stamp, and base..sp2p4 all drop n, so it is
+ *           source.  Measured inert (n still deleted, 652): (void)n, (void)&n,
+ *           dead pointer to n, dead local t = n, empty inline taking n,
+ *           if/switch/goto/while/do on n, if (0) call(n), empty counting loop
+ *           bounded by n, i = n, MAC via pBssid = &Bssid[n] or pNew pointer,
+ *           for-header forms, 60 unused locals, function 400 calls bigger,
+ *           -g; 13 other opt_ pragmas (only opt_dead_assignments keeps n).
+ *           Every use that keeps n costs code (>= 664).  Open.
  *
  * sdk:      ScanAP (libdwcutil.TWL.HYB.a(atermset.o))
  *
@@ -191,10 +199,10 @@ extern u8 gAPMac[6];
 int ScanAP(void)
 {
     int retv;
+    int retry;
     int i;
     int n;
     unsigned long ApNo;
-    volatile int retry;
     unsigned long BssListSize;
     BSSID_LIST *pBssList;
     BSSID_LIST *pOldList;
