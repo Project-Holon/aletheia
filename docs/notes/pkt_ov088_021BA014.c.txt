@@ -1,0 +1,22 @@
+func_021BA014 (ov088, Thumb, 256 bytes, dsi/1.1p1 -O4,p): still MATCH.
+Draft: src/pending/ov/ov088_func_021BA014.c (unchanged).
+
+Re-measured 2026-10-01 (lane P1): byte-correct, 15 of 25 relocation sites
+resolve.  The 10 open sites are all tooling refusals, not byte diffs:
+  - ABS32 overlay ids 0x79 (ov121), 0xC7 (ov199), 0xA8 (ov168), 0x6B (ov107),
+    0x58 (ov088): the consumer func_020312F8 is not in match.py
+    OVERLAY_ID_CONSUMERS (it forwards r0 to sub_020314DC).  Same blocker as
+    func_021B9874 (docs/notes/pkt_ov088_021B9874.c.txt).  0x10 resolves as
+    literal.
+  - ABS32 d_021DF538 (ov121) and d_021F6D78 (ov107): no witness, because no
+    overlay_id site loads those overlays (same cause).
+  - THM_CALL func_021BC0E4 / func_021BC0FC / func_021BC114: the listing has
+    no label at these addresses (they appear as .word data after
+    func_021BC0C8 in asm/overlays/ov088.s), so the ov088 hint on the
+    symbols: line finds no witness.  Each is a 12-byte tail-call stub
+    `ldr r0,=0x58; ldr r1,=d_021BD818/d_021BD824; movs r2,#0/1/2;
+    ldr r3,=func_020312F8; bx r3`; filing them would also cap at MATCH on
+    the pooled 0x58.
+Unblock: add 0x020312F8 (id in r0) to OVERLAY_ID_CONSUMERS, and add
+0x021BC0E4/0x021BC0FC/0x021BC114 to layout/function_starts.txt (both outside
+lane scope).
