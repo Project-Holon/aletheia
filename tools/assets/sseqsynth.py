@@ -352,7 +352,7 @@ def run_track(data, start_pc, data_offset):
             tempo_events.append((tick, ev["value"]))
             pc = new_pc
         elif op == "Jump":
-            target = ev["offset"]
+            target = data_offset + ev["offset"]
             if target > pc:
                 pc = target
             else:
@@ -365,7 +365,7 @@ def run_track(data, start_pc, data_offset):
             if len(call_stack) >= MAX_CALL_DEPTH:
                 break
             call_stack.append(new_pc)
-            pc = ev["offset"]
+            pc = data_offset + ev["offset"]
         elif op == "Return":
             if not call_stack:
                 break
