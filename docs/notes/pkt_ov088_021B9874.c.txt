@@ -89,3 +89,4 @@ int func_021B9874(int a0, int a1, int a2, int *a3)
  *     shard's status is trusted from the cache, and a shard whose only
  *     entry falls below EXACT is deleted.
  */
+Filed: EXACT, src/matched/ov/ov088_func_021B9874.c (2026-10-01, after 0x020312F8 joined OVERLAY_ID_CONSUMERS).
