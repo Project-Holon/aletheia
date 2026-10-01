@@ -1,0 +1,57 @@
+/*
+ * function: func_0220E340
+ * address: 0x0220E340
+ * packet: pkt_ov198_0220E340
+ * region: ov198
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own matched resource sources/BA68/BC3C units and 185F4 identity show arities 2/5/4/1 and result forwarding; 2 EXACT E460/E3F0/E518 twins confirm heap widths and member prototypes, no same-loop twin; 3 long owner and char destination base stay 9/176 (u16 counter narrowing proven); 4 two no-code self-assignment idiom probes remain 9; 5 fresh idiom list, new E584/E5FC twins and ov197 C27C/C304 agree, no stack aggregate or spills. Next: structured output-array base or lifetime splitting; no sweeps run.
+ * symbols:
+ *   func_020490F4 0x020490F4 arm
+ *   func_0204A6C8 0x0204A6C8 arm
+ *   func_0204ACEC 0x0204ACEC arm
+ *   func_0204AF28 0x0204AF28 arm
+ *   func_02049238 0x02049238 arm
+ *   func_020185F4 0x020185F4 thumb
+ *   func_0201BA68 0x0201BA68 thumb
+ *   func_0201BABC 0x0201BABC thumb
+ *   func_0201BC3C 0x0201BC3C thumb
+ *   func_0201BC78 0x0201BC78 thumb
+ *   func_0201BCEC 0x0201BCEC thumb
+ */
+typedef unsigned short u16;
+extern void *func_020490F4(void *, u16);
+extern int func_0204A6C8(unsigned, unsigned, unsigned, unsigned, u16);
+extern int func_0204ACEC(unsigned, unsigned, unsigned, unsigned, u16);
+extern int func_0204AF28(unsigned, unsigned, unsigned, u16);
+extern void func_02049238(void *);
+extern void *func_020185F4(void *);
+extern unsigned func_0201BA68(void *);
+extern unsigned func_0201BABC(unsigned, unsigned, unsigned, unsigned);
+extern int func_0201BC3C(void);
+extern int func_0201BC78(void);
+extern int func_0201BCEC(void);
+void func_0220E340(char *p)
+{
+    char *dest;
+    unsigned long owner;
+    u16 i;
+    unsigned member;
+    int first;
+    owner = (unsigned)func_020490F4((void *)7, (*(u16 *)(*(char **)p + 16) & 0x7fff) | 0x8000);
+    dest = p + 0x24a4;
+    dest = dest;
+    for (i = 0; i < 6; i++) {
+        if (*(u16 *)(p + i * 76 + 8) != 0)
+            member = func_0201BA68(func_020185F4(*(void **)(p + i * 76 + 4)));
+        else
+            member = func_0201BABC(0, 0, 0, 0);
+        *(int *)(dest + i * 4) = func_0204A6C8((unsigned)owner, member, 0, 1, *(u16 *)(*(char **)p + 16));
+    }
+    *(int *)(p + 0x250c) = func_0204ACEC((unsigned)owner, func_0201BC3C(), 1, 0, *(u16 *)(*(char **)p + 16));
+    first = func_0201BC78();
+    *(int *)(p + 0x2524) = func_0204AF28((unsigned)owner, first, func_0201BCEC(), *(u16 *)(*(char **)p + 16));
+    func_02049238((void *)owner);
+}

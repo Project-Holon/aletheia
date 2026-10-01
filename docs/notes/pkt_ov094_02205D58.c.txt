@@ -1,0 +1,74 @@
+/*
+ * function: func_02205D58
+ * address: 0x02205D58
+ * packet: pkt_ov094_02205D58
+ * region: ov094
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 B294=7, B404=3, B92C=2, B878=2 from own sources/matched callers; call sites exact.
+ * checks: 2 E80 twin dead offset stores and table alignment; 3 u16 base 51B DIFF, const p unchanged 48B (2/2).
+ * checks: 4 spill/local-order, shift-cast and scratch scheduling idioms read; 5 directory refreshed, E80 and newly filed B90 reread, struct-storage idiom read.
+ * residual: 216/216B, 48 concrete bytes in initial register choices and row/offset scheduling; body +64 onward exact.
+ * budget: 10 iterations; first nonshrinker r3, 8 runs since, final streak 3; order variants 2/2. Checks compiles 0,0,2,0,0.
+ * permuter: once --budget 300 --types; best 43B rejected: volatile-add(o1) impermissible. No mutant adopted.
+ * next: struct-typed row/base scheduling hypothesis subject to carried caps; no further iteration authorized.
+ * symbols:
+ *   d_0220A392 0x0220A392 data ov094 a2
+ *   func_0204B294 0x0204B294 arm
+ *   func_0204B404 0x0204B404 arm
+ *   func_0204B92C 0x0204B92C arm
+ *   func_0204B878 0x0204B878 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef short s16;
+typedef struct Point { s16 x, y; } Point;
+typedef enum Step { STEP_LEFT = -8, STEP_RIGHT = 16 } Step;
+static inline s16 narrowStep(int value) { return value; }
+extern const u16 d_0220A392[];
+extern void *func_0204B294(u32, u32, u32, u32, const void *, u16, u16);
+extern void func_0204B404(void *, s16 *, int);
+extern void func_0204B92C(void *, int);
+extern void func_0204B878(void *, u16);
+void func_02205D58(char *p, int side)
+{
+    Point v;
+    char *e;
+    Step step;
+    s16 delta;
+    int base;
+    int i;
+    int o1, o2, o3;
+    char *row;
+    if (side == 1) {
+        e = p + 0x14c;
+        v.x = 148;
+        v.y = 48;
+        step = -8;
+        base = 4;
+    } else {
+        e = p + 0x11c;
+        v.x = 88;
+        v.y = 136;
+        step = 16;
+        base = 0;
+    }
+    delta = narrowStep(step);
+    o1 = 0x118;
+    o1 = 0x104;
+    o2 = 0x118;
+    o2 = 0x108;
+    row = p + side * 0x48;
+    o3 = 0x118;
+    o3 = 0x10c;
+    for (i = 0; i < 6; i++) {
+        *(void **)(e + i * 8) = func_0204B294(*(u32 *)(p + 0x118), *(u32 *)(p + o1), *(u32 *)(p + o2), *(u32 *)(p + o3), d_0220A392, 1, *(u16 *)(p + 0x240));
+        func_0204B404(*(void **)(e + i * 8), &v.x, 1);
+        func_0204B92C(*(void **)(e + i * 8), 1);
+        func_0204B878(*(void **)(e + i * 8), base + *(u8 *)(row + i * 12 + 0x75));
+        v.x += delta;
+    }
+}

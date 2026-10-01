@@ -1,0 +1,26 @@
+/*
+ * function: func_0220B000
+ * address: 0x0220B000
+ * packet: pkt_ov196_0220B000
+ * region: ov196
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0204B404 0x0204B404 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef struct {u16 x,y;} Pos;
+extern void func_0204B404(int, const Pos *, int);
+void func_0220B000(int *p, u8 *q)
+{
+    Pos pos;
+    u8 h=q[3]/2;
+    u8 w=q[2]/2;
+    pos.x=q[0]-w;pos.y=q[1]-h;func_0204B404(p[0],&pos,1);
+    pos.x=q[0]-w;pos.y=q[1]+h;func_0204B404(p[1],&pos,1);
+    pos.x=q[0]+w;pos.y=q[1]-h;func_0204B404(p[2],&pos,1);
+    pos.x=q[0]+w;pos.y=q[1]+h;func_0204B404(p[3],&pos,1);
+}

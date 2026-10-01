@@ -7,7 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 residue before first call, no missing live argument; 2 ov173 7378 has same 3-arg formatter, no exact twin; 3 u16 row adds truncation, integer base unchanged; 4 named row unchanged, char base CCERR; 5 typed context and re-read neighbours unchanged; no stack object; next inline helper for row lookup (not swept).
+ * checks: 1 all callees freshly rederived, residue before first call and no missing live argument; 2 ov173 7378 has same 3-arg formatter, no exact twin; 3 u16 row adds truncation, integer base unchanged (2/2 carried); 4 named row unchanged, char base CCERR (2/2 carried); 5 typed context and freshly reread neighbours/idioms unchanged (2/2 carried), no stack object. High retry inline rowLookup unchanged DIFF5; first types300 used all300 and unchanged. Iterations4/checks6, consecutive nonshrink3, first position2; no further iteration or C3 allowance. Next investigation only with new caller/twin evidence, not another type pass.
+ * residual: five concrete bytes at +000A/+000C/+000E; 100/100, seven relocations resolved. Source computes row scaling after pointer load; image scales first.
  * symbols:
  *   func_021B6704 0x021B6704 thumb ov174
  *   func_021B68F8 0x021B68F8 thumb ov174
@@ -22,10 +23,14 @@ typedef unsigned short u16;
 extern void func_021B6704(u8 *,int),func_021B68F8(u8 *,int),func_021B6A04(u8 *,unsigned);
 extern void func_0201ED04(void *),func_0201F02C(void *,unsigned,void *);
 extern void *func_0201EC64(unsigned),*func_02012944(void *);
+static inline u8 *rowLookup(u8 *p,u8 row)
+{
+    return *(u8 **)(p+64)+row*4;
+}
 void func_021B6AF8(u8 *p)
 {
  u8 *desc; u8 index,code; void *res;
- desc=*(u8 **)(p+64)+*(u8 *)(p+137)*4;
+ desc=rowLookup(p,*(u8 *)(p+137));
  index=desc[1];code=*(u16 *)(desc+2);
  *(u8 *)(p+136)=index;
  func_021B6704(p,index);

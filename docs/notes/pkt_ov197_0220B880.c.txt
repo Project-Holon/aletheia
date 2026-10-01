@@ -1,0 +1,42 @@
+/*
+ * function: func_0220B880
+ * address: 0x0220B880
+ * packet: pkt_ov197_0220B880
+ * region: ov197
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 callee arities checked; DA08 even pool is byte data, data a1 resolves; 2 no scheduling twin; 3 const p CCERR then corrected const p still 9; 4 named index still 9; 5 fresh idioms and ov197/ov198 neighbours no closer twin; next struct context-field scheduling (no sweep).
+ * symbols:
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_0220B78C 0x0220B78C thumb ov197
+ *   func_0220B3EC 0x0220B3EC thumb ov197
+ *   func_0220B814 0x0220B814 thumb ov197
+ *   func_0220B1D4 0x0220B1D4 thumb ov197
+ *   d_0220DA08 0x0220DA08 data a1
+ */
+extern int func_02045770(void *);
+extern void func_02043B5C(int,int);
+extern void func_0220B78C(char *,int);
+extern void func_0220B3EC(char *,int,int,int,int,int,int);
+extern void func_0220B814(char *,unsigned);
+extern void func_0220B1D4(char *,unsigned,unsigned,int,unsigned short);
+extern const unsigned char d_0220DA08[];
+void func_0220B880(char *p)
+{
+    unsigned i,index;
+    int x,y;
+    char *q;
+    for(i=31;i<=34;i++) func_02043B5C(func_02045770(*(void **)(p+0x28+i*8)),0);
+    index=*(unsigned char *)(p+0x533);
+    q=*(char **)p+index*2;
+    x=*(short *)(q+0x30);
+    y=*(short *)(q+0x38)*6;
+    func_0220B78C((char *)p,x+y);
+    func_0220B3EC((char *)p,x+y,0,32,0,0,0);
+    func_0220B814((char *)p,x+y);
+    func_0220B1D4((char *)p,34,31,0,0x3c40);
+    *(const void **)(p+0x59c)=d_0220DA08;
+}

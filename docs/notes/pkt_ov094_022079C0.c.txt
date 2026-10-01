@@ -1,0 +1,104 @@
+/*
+ * function: func_022079C0
+ * address: 0x022079C0
+ * packet: pkt_ov094_022079C0
+ * region: ov094
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 396/396 bytes, seven concrete bytes; odd-index sp+8 and scaled
+ *   index sp+4 are exchanged against the image's sp+4 and sp+8.
+ * checks: 1 matched 02201F98/02204A88 prove B404(void*,s16*,int), all sites;
+ *   2 neighbours 02207960/022087C4/02208870 agree on int index and Pt shape;
+ *   3 const extra and long odd each compiled, unchanged seven bytes (2/2);
+ *   4 declared-struct/spilled-local idioms read, reusing odd*=4 unchanged (1/2);
+ *   5 full idiom directory reread, latest 02208B10 confirms vector/callee;
+ *   next hypothesis would be inline-helper spill ownership, not a type sweep.
+ * budget: four iterations, three consecutive nonshrinking; two declaration
+ *   variants consumed; C3=2 C4=1 C1/C2/C5=0 compiles; other checks read-only.
+ * permuter: once --budget 300 --types, 300 compiles/27s; baseline=best DIFF
+ *   seven bytes, no mutations adopted; output is the normalized baseline.
+ * lever: native aggregate assignment reproduces all copies and frame; AAD8
+ *   names the six-point array, AAC0 the small pair, resolving all ten relocs.
+ * symbols:
+ *   func_0204B404 0x0204B404 arm
+ *   d_0220AAD0 0x0220AAD0 data a2
+ *   d_0220AAD8 0x0220AAD8 data a2
+ *   d_0220AAC0 0x0220AAC0 data a2
+ *   d_0220AB0C 0x0220AB0C data a2
+ *   d_0220AB2C 0x0220AB2C data a2
+ */
+typedef signed short s16;
+typedef struct { s16 x, y; } Pt;
+typedef struct { Pt p[2]; } Pair2;
+typedef struct { Pt p[6]; } Pair6;
+typedef struct { Pt p[8]; } Pair8;
+typedef struct { Pair2 a, b; Pt pos; } Small;
+typedef struct {
+    void *f00, *f04, *f08, *f0c, *f10, *f14;
+    char p18[0x28];
+    int f40;
+    char p44[0x3c];
+} E;
+typedef struct { char pad[0x40]; E e[8]; } O;
+extern const Pair2 d_0220AAD0;
+extern const Pair6 d_0220AAD8;
+extern const Pair2 d_0220AAC0;
+extern const Pair8 d_0220AB0C;
+extern const Pair8 d_0220AB2C;
+extern void func_0204B404(void *, s16 *, int);
+void func_022079C0(O *o, int idx, const Pt *extra)
+{
+    Pair6 t6;
+    Pair8 t2;
+    Pair8 t3;
+    Small s;
+    int x, y;
+    int odd;
+    int offset;
+    s.b = d_0220AAD0;
+    s.a = d_0220AAC0;
+    t6 = d_0220AAD8;
+    t2 = d_0220AB0C;
+    t3 = d_0220AB2C;
+    if (o->e[idx].f40 == 2) {
+        x = t2.p[idx].x;
+        y = t2.p[idx].y;
+    } else if (o->e[idx].f40 == 3) {
+        x = t3.p[idx].x;
+        y = t3.p[idx].y;
+    } else {
+        x = t6.p[idx].x;
+        y = t6.p[idx].y;
+    }
+    if (extra != 0) {
+        x += extra->x;
+        y += extra->y;
+    }
+    s.pos.x = x;
+    s.pos.y = y;
+    func_0204B404(o->e[idx].f00, &s.pos.x, 0);
+    odd = idx & 1;
+    if (odd == 0 && o->e[idx].f40 == 0) {
+        s.pos.x = x + 16;
+        s.pos.y = y + 13;
+        func_0204B404(o->e[idx].f04, &s.pos.x, 0);
+    } else if (odd == 0 && o->e[idx].f40 != 1) {
+        s.pos.x = x + 16;
+        s.pos.y = y + 7;
+        func_0204B404(o->e[idx].f04, &s.pos.x, 0);
+    }
+    odd *= 4;
+    s.pos.x = x + *(s16 *)((char *)&s.b + odd);
+    s.pos.y = y + *(s16 *)((char *)&s.b + 2 + odd);
+    func_0204B404(o->e[idx].f08, &s.pos.x, 0);
+    s.pos.x = x + *(s16 *)((char *)&s.a + odd);
+    s.pos.y = y + *(s16 *)((char *)&s.a + 2 + odd);
+    func_0204B404(o->e[idx].f14, &s.pos.x, 0);
+    if (o->e[idx].f10 != 0) {
+        s.pos.x = x + 8;
+        s.pos.y = y + 21;
+        func_0204B404(o->e[idx].f10, &s.pos.x, 0);
+    }
+}

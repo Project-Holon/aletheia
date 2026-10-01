@@ -1,0 +1,42 @@
+/*
+ * function: func_0220B928
+ * address: 0x0220B928
+ * packet: pkt_ov197_0220B928
+ * region: ov197
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 seven callees own prototypes checked, CCE4 10 args and return used; 2 B904 same family no twin; 3 const p 42 versus integer p 65; 4 enum zero compiled unchanged during iteration; 5 fresh idioms and ov197/ov198 neighbours no twin; next observed context struct to prevent cached pointer (no sweep).
+ * symbols:
+ *   func_0201DD78 0x0201DD78 thumb
+ *   func_02012FFC 0x02012FFC thumb
+ *   func_0201CCE4 0x0201CCE4 thumb
+ *   func_02045334 0x02045334 arm
+ *   func_02045374 0x02045374 arm
+ *   func_02045730 0x02045730 arm
+ *   func_02041B6C 0x02041B6C arm
+ */
+typedef unsigned short u16;
+extern void func_0201DD78(unsigned,unsigned,unsigned);
+extern int func_02012FFC(void);
+extern int func_0201CCE4(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,u16,u16);
+extern void func_02045334(void *);
+extern void func_02045374(void *);
+extern unsigned char func_02045730(void *);
+extern void func_02041B6C(unsigned);
+void func_0220B928(const char *p)
+{
+    int font;
+    void *desc;
+    func_0201DD78(1,2,0);
+    font=func_02012FFC();
+    {
+    enum { ZERO=0 } zero=ZERO;
+    *(int *)(p+0x1c)=func_0201CCE4(*(unsigned *)(p+0x24),0,zero,*(unsigned *)(p+0x14),*(unsigned *)(*(char **)p+4),font,*(unsigned *)(p+4),10,*(u16 *)(*(char **)p+0xc),15);
+    }
+    desc=*(void **)(p+0x24);
+    func_02045334(desc);
+    func_02045374(desc);
+    func_02041B6C(func_02045730(desc));
+}

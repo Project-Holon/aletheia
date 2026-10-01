@@ -1,0 +1,55 @@
+/*
+ * function: func_0220EFD8
+ * address: 0x0220EFD8
+ * packet: pkt_ov198_0220EFD8
+ * region: ov198
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 E7CC takes 2, E974/E9A0/EA30 take 3; 2 EBCC twin Pair(s16,s16), corrected E9A0 char*,u8*,Pair* compiled unchanged; 3 unsigned i unchanged, const Record* shrank 12 to 8; 4 pair-copy inline unchanged, explicit fields worse; 5 fresh idiom inventory and E7CC/F2DC reread, Pair array/block initializer unchanged; next four-byte-aligned union storage
+ * residual: 8 concrete bytes differ at original size 136; saved spelling compiled in 0220EFD8-c2a.log.
+ * refresh: final matched EBCC and E9A0 read after their move race; same Pair shape and E9A0 prototype, no new lever.
+ * symbols:
+ *   func_022110D4 0x022110D4 thumb ov198
+ *   func_0220E7CC 0x0220E7CC thumb ov198
+ *   func_0220E974 0x0220E974 thumb ov198
+ *   func_0220E9A0 0x0220E9A0 thumb ov198
+ *   func_0220EA30 0x0220EA30 thumb ov198
+ *   func_0220F060 0x0220F060 thumb ov198
+ *   d_02211D34 0x02211D34 data a2
+ *   d_02211D4C 0x02211D4C data a2
+ *   d_02211D80 0x02211D80 data a2
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef struct {short x,y;} Pair;
+typedef struct {u8 bytes[76];} Record;
+struct Bits {u8 low:3;u8 kind:4;u8 high:1;};
+extern const Pair d_02211D34[];
+extern const Pair d_02211D4C[];
+extern const Pair d_02211D80[];
+extern int func_022110D4(u8 *,int);
+extern void func_0220E7CC(u8 *,unsigned);
+extern void func_0220E974(unsigned,u8 *,const Pair *);
+extern void func_0220E9A0(char *,u8 *,Pair *);
+extern void func_0220EA30(u16,u8 *,Pair *);
+extern void func_0220F060(u8 *);
+void func_0220EFD8(const Record *records)
+{
+    u8 *p=(u8 *)records;
+    int i;
+    u8 *rec;
+    i=func_022110D4(p,(*(u8 **)p)[0x20]);
+    rec=p+4+i*0x4c;
+    {
+    Pair pair=d_02211D34[7];
+    func_0220E7CC(*(u8 **)(p+i*4+0x1ed8),(unsigned)&pair);
+    func_0220E974(((struct Bits *)(rec+0x17))->kind,*(u8 **)((char *)p+i*4+0x1ef0),d_02211D4C);
+    func_0220E9A0((char *)p,rec,(Pair *)d_02211D80);
+    pair.x+=8;
+    pair.y+=8;
+    func_0220EA30(*(u16 *)(rec+0x1a),*(u8 **)((const u8 *)p+i*4+0x1ebc),&pair);
+    func_0220F060(p);
+    }
+}

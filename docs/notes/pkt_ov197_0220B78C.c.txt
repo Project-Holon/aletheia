@@ -1,0 +1,42 @@
+/*
+ * function: func_0220B78C
+ * address: 0x0220B78C
+ * packet: pkt_ov197_0220B78C
+ * region: ov197
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 callees' read arities and widths confirmed by full show; 2 ov197/ov198 twins use identical raw table offsets; 3 u16 i and const p/u8 row compiled unchanged (2/2); 4 named struct-array spelling unchanged, second attempt failed CLI before compile (2/2); 5 fresh idiom list and B814/BB98/C42C neighbours, padded struct-array compiled unchanged (1/2); next try integer-address association, no sweep run.
+ * symbols:
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_0201EF40 0x0201EF40 thumb
+ *   func_0201F250 0x0201F250 thumb
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_0201C724 0x0201C724 thumb
+ *   func_02045808 0x02045808 arm
+ */
+extern int func_02045EC0(int,int);
+extern void func_0201EF40(int,int,unsigned short);
+extern void func_0201F250(int,int,int);
+extern int func_02045770(int);
+extern void func_02043B5C(int,int);
+extern void func_0201C724(int,int,short,short,int,int,unsigned short);
+extern void func_02045808(int);
+void func_0220B78C(char *p,unsigned i)
+{
+    int handle=*(int *)(p+0x120);
+    int text=func_02045EC0(*(int *)(p+0xc),9);
+    int font;
+    int surface;
+    char *row=p+((unsigned char *)p)[0x533]*0x90;
+    func_0201EF40(*(int *)(p+0x10),0,*(unsigned short *)(row+i*4+0x150));
+    func_0201F250(*(int *)(p+0x10),*(int *)(p+0x14),text);
+    func_02043B5C(func_02045770(handle),0);
+    font=*(int *)(p+0x18);
+    surface=func_02045770(*(int *)(p+0x120));
+    func_0201C724(font,surface,0,0,*(int *)(p+0x14),*(int *)(*(char **)p+4),0x3c40);
+    p[0x124]=1;
+    func_02045808(text);
+}

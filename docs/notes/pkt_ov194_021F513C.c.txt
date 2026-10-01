@@ -1,0 +1,43 @@
+/*
+ * function: func_021F513C
+ * address: 0x021F513C
+ * packet: pkt_ov194_021F513C
+ * region: ov194
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 owned callee reads six args with void return, prototype correct;
+ * 2 no twin across ov193/194/195, owned 51A4 reread;
+ * 3 x u16, width u16, step unsigned compiled unchanged at 19-byte residue;
+ * 4 declaration ordering exhausted two variants; enum step unchanged;
+ * 5 fresh idiom listing and neighbours reread; stack-object idiom n/a because
+ * both scalar address slots now match, residue is spill scheduling/registers.
+ * Residue: 102-byte body versus 104-byte extent (last two bytes zero padding),
+ * 19 concrete differing bytes: width/endX r5/r6 and early x spill.
+ * Next hypothesis: block scope for the inner bound (no further permutation).
+ * symbols:
+ *   func_021F51A4 0x021F51A4 thumb ov194
+ */
+extern void func_021F51A4(const char *, char *, unsigned *, unsigned *, unsigned, unsigned);
+typedef enum { STEP_ZERO = 0 } Step;
+void func_021F513C(const char *src, int width, int x, int y, int w, int h, char *dst)
+{
+    unsigned target = (unsigned)dst;
+    unsigned inOffset;
+    unsigned outOffset = 0;
+    int endY = y + h;
+    int i, endX;
+    Step step = (Step)(width * 4);
+    int row;
+    row = y;
+    if (row >= endY) return;
+    do {
+        endX = x + w;
+        for (i = x; i < endX; i++) {
+            inOffset = i * 4 + row * step * 8;
+            func_021F51A4(src, (char *)target, &inOffset, &outOffset, 4, step);
+        }
+        row++;
+    } while (row < endY);
+}

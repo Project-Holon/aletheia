@@ -1,0 +1,41 @@
+/*
+ * function: func_0220C2F8
+ * address: 0x0220C2F8
+ * packet: pkt_ov198_0220C2F8
+ * region: ov198
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * lever: u16 value and u8 width/return preserve stack-store scheduling.
+ * symbols:
+ *   func_022110D4 0x022110D4 thumb ov198
+ *   func_0202D01C 0x0202D01C thumb
+ *   func_0202D034 0x0202D034 thumb
+ *   func_02045770 0x02045770 arm
+ *   func_02043AF4 0x02043AF4 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+extern int func_022110D4(u8 *,int);
+extern u8 func_0202D01C(u32,u32,u32);
+extern int func_0202D034(u32,u32);
+extern u32 func_02045770(void *);
+extern void func_02043AF4(u32,u16,s16,u32,u8,u8);
+void func_0220C2F8(u8 *p,int slot,int index,u16 value,u8 extra)
+{
+    char *elem=(char *)(p+4)+func_022110D4(p,index)*0x4C;
+    u8 color=1;
+    u8 width=func_0202D01C(*(u16 *)(elem+0x10),*(u16 *)(elem+0x12),48);
+    switch(func_0202D034(*(u16 *)(elem+0x10),*(u16 *)(elem+0x12))) {
+    case 3: return;
+    case 0: color=1; break;
+    case 1: color=3; break;
+    case 2: color=5; break;
+    }
+    func_02043AF4(func_02045770(*(void **)(p+0x1F70+slot*8)),value,extra+3,width,1,color);
+    color++;
+    func_02043AF4(func_02045770(*(void **)(p+0x1F70+slot*8)),value,extra+4,width,1,color);
+}

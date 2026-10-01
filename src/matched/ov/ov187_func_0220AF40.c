@@ -1,0 +1,37 @@
+/*
+ * packet: pkt_ov187_0220AF40
+ * function: func_0220AF40
+ * address: 0x0220AF40
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * region: ov187
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0203064C 0x0203064C arm
+ *   func_0203159C 0x0203159C arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_0200B400 0x0200B400 thumb
+ *   func_0220B008 0x0220B008 thumb ov187
+ *   func_0220B0F8 0x0220B0F8 thumb ov187
+ *   d_0220B2A0 0x0220B2A0 data a4
+ */
+extern void func_0203064C(unsigned, unsigned, unsigned);
+extern char *func_0203159C(unsigned, unsigned, unsigned);
+extern void *func_02082BCC(void *, int, unsigned);
+extern void func_0200B400(unsigned);
+extern void func_0220B008(void *, unsigned, unsigned, unsigned);
+extern void func_0220B0F8(char *, unsigned);
+extern const char d_0220B2A0[];
+int func_0220AF40(unsigned a, unsigned unused, unsigned mode)
+{
+    char *p;
+    func_0203064C(1, 0x59, 0x12000);
+    p = func_0203159C(a, 0x17f4, 0x59);
+    func_02082BCC(p, 0, 0x17f4);
+    *(unsigned *)(p + 0x17f0) = mode;
+    func_0200B400(0x59);
+    func_0220B008(p, (unsigned)d_0220B2A0, (unsigned)p, 0x59);
+    func_0220B0F8(p, 0);
+    return 1;
+}

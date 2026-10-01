@@ -6,21 +6,23 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
- * mode: valid selector domain is 0 through 4, as in the original.
- * checks: 1 show DFD8 reads three args and returns halfword, DFE4 reads four; 2 same-overlay 9D50 long-u32 twin no change (c2a); 3 u16 save no change and rejected as pointer narrowing, const q plus enum flag no change (two compiles); 4 enum constants and long flag no change (two compiles); 5 refreshed idiom listing and 9D50/965C neighbours, no new fitting twin; next untried signedness of index and accessor result.
- * residue: two bytes at +005C/+005E, zero stored from r0 instead of r2.
+ * status: pending
+ * mode: defined safe draft, uncompiled and unverified. Selector-domain proof is unavailable; this is not accepted matching C. The guard returns zero without accesses for selectors outside 0..4 and does not claim equivalence to original out-of-range behavior.
+ * checks: 1 full DFD8 and DFE4 control flow read: three/four args, unsigned-halfword getter, signed-clamp setter/full-width index; 2 same-overlay 9D50 long-u32 twin no change (one carried); 3 pointer narrowing rejected and const q/enum unchanged (2/2 carried); 4 enum/long flag unchanged (2/2 carried); 5 fresh fitting idioms/neighbours no twin. Prior unproved switch-only diagnostic: high full-width signed index unchanged DIFF2 and first types300 all300 unchanged. I5/C5, streak3, first position3 remain exhausted. No compilation of this safety guard authorized.
+ * diagnostic: prior uninitialized sketch compiled184/184 with two bytes at +005C/+005E (zero stored from r0 instead of r2); original 021D6476 bhi skips a/b/c loads and then uses incoming r5/r6/r7, so that byte score never proves a C selector-domain precondition. Prior exact text retained in scratchpad/overlay-goal-20260930-w30/R1/646C-unproved-DIFF2-diagnostic.c.txt.
+ * domain: no identified ov175 direct callers, ARM9/cross-region calls, or literal 021D646C/646D address-taking words in loaded regions. Same-address calls at ov093 021C4FE2/021D2368 target a different one-pointer function; complete contexts saved/read. Computed or untraced references remain possible, so 0..4 is not proved. Evidence: scratchpad/overlay-goal-20260930-w30/R1/646C-selector-refs.json and 646C-selector-contexts.json.
  * symbols:
  *   func_0200DFD8 0x0200DFD8 thumb
  *   func_0200DFE4 0x0200DFE4 thumb
  */
 typedef unsigned long u32;
-extern u32 func_0200DFD8(u32,u32,u32);
-extern void func_0200DFE4(u32,u32,u32,u32);
-int func_021D646C(u32 save,u32 index,const u32 *q)
+extern u32 func_0200DFD8(u32,long,u32);
+extern void func_0200DFE4(u32,long,u32,u32);
+int func_021D646C(u32 save,long index,const u32 *q)
 {
     u32 a,b,c;
     long changed;
+    if((u32)index>4) return 0;
     switch(index) {
     case 0: a=((u32 *)((u32 *)q[16])[14])[3]; b=((u32 *)((u32 *)q[16])[14])[16]; c=((u32 *)((u32 *)q[16])[14])[15]; break;
     case 1: a=((u32 *)((u32 *)q[16])[14])[0]; b=((u32 *)((u32 *)q[16])[14])[10]; c=((u32 *)((u32 *)q[16])[14])[9]; break;

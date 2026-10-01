@@ -1,0 +1,42 @@
+/*
+ * packet: pkt_ov186_02200188
+ * function: func_02200188
+ * address: 0x02200188
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * region: ov186
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 D064 own source takes pointer/u16, width probe no change; 2 no ov185-187 twin; 3 same counter no change, signed counters 25 bytes; 4 nested block gives 18 bytes, dead parameter gives 143; 5 refreshed idioms and reread neighbours, no new twin; next probe nested loop-counter scope.
+ * symbols:
+ *   func_0200D064 0x0200D064 thumb
+ *   func_02030734 0x02030734 arm
+ *   func_02082BCC 0x02082BCC arm
+ *   d_02200C94 0x02200C94 data a2
+ *   d_02200D9C 0x02200D9C data a1
+ */
+extern int func_0200D064(void *, unsigned short);
+extern void *func_02030734(unsigned short, unsigned, int, const char *, unsigned short);
+extern void *func_02082BCC(void *, int, unsigned);
+extern const unsigned short d_02200C94[];
+extern const char d_02200D9C[];
+unsigned short *func_02200188(void *p, unsigned index, unsigned short *table, unsigned *out, unsigned short heap)
+{
+    unsigned end, start;
+    unsigned short *dst;
+    int filled;
+    {
+    int count, bytes;
+    end = d_02200C94[index + 1];
+    count = 0;
+    start = d_02200C94[index];
+    for (filled = start; filled < end; filled++) if (func_0200D064(p, table[filled])) count++;
+    bytes = count * 2;
+    dst = func_02030734(heap, bytes, 0, d_02200D9C, 0x3c3);
+    filled = 0;
+    func_02082BCC(dst, 0, bytes);
+    }
+    for (; start < end; start++) if (func_0200D064(p, table[start])) dst[filled++] = table[start];
+    if (out) *out = filled;
+    return dst;
+}

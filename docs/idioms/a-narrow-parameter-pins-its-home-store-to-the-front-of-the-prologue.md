@@ -1,10 +1,10 @@
 # A narrow parameter pins its home store to the front of the prologue
 
-summary: narrowing a parameter to u16 or s16 moves its home store to the front of the prologue, ahead of the other parameter copies.
+summary: a narrow parameter can move its home store before the other parameter copies; confirm the width from body and call-site narrowing, and preserve live full-word forwarding.
 
-**Summary:** when a spilled parameter's home store sits *before* the
-callee-saved register copies instead of after them, the parameter is a narrow
-type (`u8`/`u16`), not `u32`.
+**Summary:** a spilled parameter's home store before the callee-saved register
+copies can suggest a narrow type (`u8`/`u16`). Store order alone does not prove
+the width; original body and call-site behavior must permit the narrowing.
 
 ## The diff
 
@@ -42,7 +42,8 @@ free to schedule that store anywhere in the prologue that r3 is still live.
   before anything can clobber r3, which puts it at the front — and the prologue
   comes out in *first-use* order.
 
-So the ordering in the image tells you the type directly. In `func_0201DA24`
+Home-store order suggests a width only when body and call-site narrowing
+permit it; preserve live full-word forwarding. In `func_0201DA24`
 the original's order is first-use order (the heap id feeds the allocator call
 immediately; `a` and `b` are read only at the very end), and that is exactly
 what the narrow parameter produces.
@@ -52,10 +53,10 @@ what the narrow parameter produces.
 Read the prologue's order against the order the parameters are first *used* in
 the body:
 
-- home store **last**, prologue in declaration order → the parameter is
-  register-width.
-- home store **first**, prologue in first-use order → the parameter is `u8` or
-  `u16`.
+- home store **last**, prologue in declaration order → investigate a
+  register-width parameter.
+- home store **first**, prologue in first-use order → investigate `u8` or
+  `u16`, checking every live use before changing the signature.
 
 The instruction multiset is identical either way, so this never shows up as a
 size difference — only as a handful of bytes in the prologue, which is easy to
@@ -74,23 +75,16 @@ and are in fact two different ones.
 
 ## Finding it mechanically
 
-`tools/permuter.py` closes this in a couple of hundred compiles, but **only
-with `--types`**: the `type` mutation is the one non-value-preserving mutation
-in the set and is off by default.
-
-```
-python3 tools/permuter.py --src f.c --func F --addr 0xADDR --thumb \
-    --mode hill --budget 800 --jobs 8 --types
-
-baseline  DIFF   asm=200   bytes-out=9    size=128/128
-    205  EXACT  asm=0     bytes-out=0    size=128/128  <- type:p(heap:u32->u8)
-```
+The canonical big-lane procedure permits one `tools/permuter.py --types`
+pass with budget 300. Type changes are not value-preserving automatically;
+inspect each winner against the original live uses before adopting it. The
+historical font example closed at candidate 205 with `heap:u32->u8`.
 
 Note that `--explain` printed an **empty** register-substitution map on the
 baseline. That correctly said the residue was not an allocation tie — but it is
 not a reason to stop, because this lever is a type change and not a register
-one. An empty map plus a small bytes-out count is a cue to run the hill climb
-*with* `--types`.
+one. An empty map plus a small bytes-out count is a cue to consider the
+canonical once-only `--types` pass if its budget remains available.
 
 ## Evidence
 

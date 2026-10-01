@@ -1,0 +1,42 @@
+/*
+ * function: func_0220E1D4
+ * address: 0x0220E1D4
+ * packet: pkt_ov198_0220E1D4
+ * region: ov198
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 matched unit_0201ED04 proves EEF4/EF34 three args and F250 dst pointer; 2 C8F0 struct fields and integer row base give 16/88; 3 integer parameter and long index 18->16, no narrow/spill parameter evidence; 4 int-base/element and pointer-member idioms remain 16-18; 5 fresh idiom list plus ov198/ov197/ov199 neighbours, scalar spill not address-passed aggregate (stack-struct idiom read). Next: nested array-base inline shape to retain p+4 across allocation; no sweeps run.
+ * symbols:
+ *   func_022110D4 0x022110D4 thumb ov198
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_0201EEF4 0x0201EEF4 thumb
+ *   func_0201EF34 0x0201EF34 thumb
+ *   func_0201F250 0x0201F250 thumb
+ *   func_02045808 0x02045808 arm
+ */
+typedef unsigned char u8;
+typedef struct { int value; u8 rest[72]; } Row;
+struct WordSet;
+struct MsgBank;
+typedef struct { u8 *global; Row rows[6]; u8 pad1cc[0x1ea0-0x1cc]; struct MsgBank *bank; struct WordSet *words; void *dest; } Context;
+extern int func_022110D4(u8 *, int);
+extern void *func_02045EC0(struct MsgBank *, unsigned int);
+extern void func_0201EEF4(struct WordSet *, unsigned, void *);
+extern void func_0201EF34(struct WordSet *, unsigned, unsigned);
+extern void func_0201F250(struct WordSet *, void *, void *);
+extern void func_02045808(void *);
+void func_0220E1D4(Context *p)
+{
+    long i;
+    unsigned int base;
+    void *t;
+    i = func_022110D4((u8 *)p, p->global[32]) * 76;
+    base = (unsigned int)p->rows;
+    t = func_02045EC0(p->bank, 105);
+    func_0201EEF4(p->words, 0, *(void **)(base+i));
+    func_0201EF34(p->words, 1, 373);
+    func_0201F250(p->words, p->dest, t);
+    func_02045808(t);
+}

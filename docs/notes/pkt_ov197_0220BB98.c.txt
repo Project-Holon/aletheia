@@ -1,0 +1,24 @@
+/*
+ * function: func_0220BB98
+ * address: 0x0220BB98
+ * packet: pkt_ov197_0220BB98
+ * region: ov197
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 n/a no calls; 2 C574/C618 callers prove full-width n; 3 const p 13, u16 n 49; 4 Row[36][2] lookup 38, parameter reassignment already retained; 5 fresh idioms and ov197/ov198 neighbours no twin; next typed object member row shape (no sweep).
+ */
+unsigned func_0220BB98(const char *p,unsigned n)
+{
+    unsigned index=*(unsigned char *)(p+0x533);
+    unsigned result;
+    const char *slot;
+    n+=*(short *)(*(char **)p+0x38+index*2)*6;
+    n*=4;
+    p+=index*0x90;
+    slot=p+n;
+    result=*(unsigned short *)(slot+0x150);
+    if(result!=0 && *(unsigned short *)(slot+0x152)!=0) return result;
+    return 0;
+}

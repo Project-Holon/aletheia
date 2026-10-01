@@ -7,8 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 seven entry arguments; 02045730 returns byte forwarded to 020409B4; 2 no allocator twin in ov177/176; 3 c/d narrow and heap narrow probes leave prologue or add truncation; 4 narrow-home idiom a/b probe unchanged at 10 bytes; 5 fresh idiom directory and matched ov177 neighbours no allocator twin; next probe inline setup helper, not a width sweep.
- * residual: 10 concrete bytes at prologue +0006..+000E; all 14 relocations resolve; 192-byte output.
+ * checks: 1 seven entry args and all callees freshly rederived; 45730 returns byte forwarded to 409B4 (two carried compiles); 2 ov177/176 allocator twins preserve5 allocator args, no entry-home twin; 3 narrow probes exhausted2/2; carried d ushort was semantically restrictive, repaired entry and F73C d to full word using original 021E8614 load/021E861A call with no narrowing, while c remains byte-forwarded at 021E8612/18; 4 narrow-home a/b probe carried1; 5 freshly reread idioms and 84F8/8A3C neighbours, no new lever. High inline setup plus required full-width d repair shrank10 to8; first types300 all300 unchanged. Iterations5/checks5, nonshrink0, first position3 remains; further iteration requires a distinct proven lever, no C3 reset or second types pass.
+ * residual: eight concrete bytes at prologue +0004..+000A; all 14 relocations resolve; 192-byte output. Valid repair opens iteration room but mandatory types search found no better spelling; parked with no new evidence-backed lever.
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
@@ -37,14 +37,20 @@ extern void func_02045374(void *);
 extern unsigned char func_02045730(void *);
 extern void func_020409B4(unsigned);
 extern void *func_0203101C(int,int,int,int);
-extern void func_0201F73C(void *,unsigned,unsigned short,unsigned char);
+extern void func_0201F73C(void *,unsigned,unsigned,unsigned char);
 extern unsigned char d_021E8DD4[];
-char *func_021E8568(unsigned short a,unsigned short b,unsigned short c,unsigned short d,unsigned unused,void *e,int heap)
+static inline char *setup(int heap)
+{
+    char *p;
+    p=func_02030734(heap,0x40,0,d_021E8DD4,0x5E);
+    func_02082BCC(p,0,0x40);
+    return p;
+}
+char *func_021E8568(unsigned short a,unsigned short b,unsigned short c,unsigned d,unsigned unused,void *e,int heap)
 {
  char *p;
  void *desc;
- p=func_02030734(heap,0x40,0,d_021E8DD4,0x5E);
- func_02082BCC(p,0,0x40);
+ p=setup(heap);
  *(unsigned short *)(p+0x1C)=15;*(void **)(p+4)=e;
  *(void **)(p+0x28)=func_0201C440(heap);
  *(unsigned *)(p+0x2C)=3;*(unsigned short *)(p+0x1E)=heap;

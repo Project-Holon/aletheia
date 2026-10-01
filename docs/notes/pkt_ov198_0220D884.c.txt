@@ -1,0 +1,57 @@
+/*
+ * function: func_0220D884
+ * address: 0x0220D884
+ * packet: pkt_ov198_0220D884
+ * region: ov198
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 show confirms 020276C4 reads only r0 (legacy own C has three unused parameters), BEB8 reads five, D920/D988 two with caller u8 narrowing; 2 BE2C is sole filed caller, no same-body twin or data witness; 3 long index DIFF25, const elem plus integer read DIFF144, budget 2/2; 4 record-array idiom probe DIFF149, best bitfield retains ldrb; 5 fresh unfiltered idiom listing and BE2C/D090 own neighbours read, second declaration-order variant DIFF25, no stack aggregate; next hypothetical probe: block-scoped pointer/index (not run)
+ * residual: DIFF25 at same 156-byte size; r6/r7 record offset and element colours swapped, byte flag lacks original base copy, last record load rebuilds base. Data02211AFF sole-ref resolves in best source.
+ * symbols:
+ *   data_02211AFF 0x02211AFF data a1
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_022110D4 0x022110D4 thumb ov198
+ *   func_0220BEB8 0x0220BEB8 thumb ov198
+ *   func_0220D920 0x0220D920 thumb ov198
+ *   func_0220D988 0x0220D988 thumb ov198
+ *   func_020276C4 0x020276C4 thumb
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef short s16;
+typedef unsigned int u32;
+extern const u8 data_02211AFF[];
+extern u32 func_02045770(void *);
+extern void func_02043B5C(void *, u8);
+extern int func_022110D4(u8 *, int);
+extern void func_0220BEB8(char *, int, u16, u32, u8);
+extern void func_0220D920(char *, u8);
+extern void func_0220D988(char *, u8);
+extern int func_020276C4(int);
+struct Flags { u8 pad[0x17]; u8 low:7; u8 high:1; };
+void func_0220D884(char *p)
+{
+    s16 i;
+    char *slot;
+    char *elem;
+    int index;
+    *(const u8 **)(p + 0x253C) = data_02211AFF;
+    for (i = 0; i < 6; i++) {
+        slot = p + i * 8;
+        func_02043B5C((void *)func_02045770(*(void **)(slot + 0x1F70)), 0);
+        index = func_022110D4((u8 *)p, i);
+        elem = p + index * 0x4C;
+        if (*(u16 *)(elem + 8) == 0)
+            *(u8 *)(slot + 0x1F74) = 1;
+        else {
+            func_0220BEB8(p, i, (u16)i, 0x20, 7);
+            if (((struct Flags *)(elem + 4))->high == 0)
+                func_0220D920(p, (u8)i);
+            if (func_020276C4(*(int *)(p + 4 + index * 0x4C)) == 8)
+                func_0220D988(p, (u8)i);
+        }
+    }
+}

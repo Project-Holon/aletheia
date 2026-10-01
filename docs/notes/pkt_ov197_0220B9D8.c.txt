@@ -1,0 +1,27 @@
+/*
+ * function: func_0220B9D8
+ * address: 0x0220B9D8
+ * packet: pkt_ov197_0220B9D8
+ * region: ov197
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 unsigned division helper correctly declared; 2 BB78/C574/C618 no twin; 3 u16 i 27, unsigned long i 4; 4 long-index idiom no rescue and two reorders already consumed; 5 fresh idioms and ov197/ov198 neighbours no twin; next enum counter scheduling (no sweep).
+ * symbols:
+ *   _u32_div_f 0x0209C2B0 arm
+ */
+void func_0220B9D8(const char *p)
+{
+    unsigned index=*(unsigned char *)(p+0x533);
+    unsigned i;
+    const char *row=p+index*0x90;
+    int value=*(unsigned short *)(p+0x540);
+    for(i=0;i<36;i++) {
+        if(value==*(unsigned short *)(row+i*4+0x150)) {
+            *(unsigned short *)(*(char **)p+index*2+0x30)=i%6u;
+            *(unsigned short *)(*(char **)p+*(unsigned char *)(p+0x533)*2+0x38)=i/6u;
+            return;
+        }
+    }
+}

@@ -1,0 +1,27 @@
+/*
+ * function: func_021F2884
+ * address: 0x021F2884
+ * packet: pkt_ov194_021F2884
+ * region: ov194
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 callbacks take two pointers, no stack args; 2 ov194 35A8 calls only when either mode is 3; 3 unsigned modes compiled, unchanged one branch byte; 4 direct Pair copy fixed nine bytes, existing pair idiom; 5 refreshed idioms and owned neighbours, declared-struct local already used. Original default uses unset callback/bounds; guarded valid C retained. No further sweep.
+ * symbols:
+ *   func_021F2F8C 0x021F2F8C thumb ov194
+ *   func_021F2F60 0x021F2F60 thumb ov194
+ */
+typedef struct {int x,y;} Pair;
+extern int func_021F2F8C(int *,int *);extern int func_021F2F60(int *,int *);
+void func_021F2884(Pair *p,unsigned oldmode,unsigned newmode) {
+ int (*from)(int *,int *);int (*to)(int *,int *);
+ int width,height,result;Pair xy;
+ if(oldmode==3) {from=func_021F2F8C;to=func_021F2F60;width=13;height=5;}
+ else if(newmode==3) {from=func_021F2F60;to=func_021F2F8C;width=11;height=4;}
+ else return;
+ result=from(&p->x,0);
+ for(xy.y=0;xy.y<=height;xy.y++)
+ for(xy.x=0;xy.x<=width;xy.x++)
+ if(to(&xy.x,0)==result) {*p=xy;return;}
+}

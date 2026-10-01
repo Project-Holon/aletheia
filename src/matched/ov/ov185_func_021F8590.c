@@ -1,0 +1,48 @@
+/*
+ * function: func_021F8590
+ * address: 0x021F8590
+ * packet: pkt_ov185_021F8590
+ * region: ov185
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021FF88C 0x021FF88C thumb ov186
+ *   func_021F9C6C 0x021F9C6C thumb ov186
+ *   func_021FD71C 0x021FD71C thumb ov186
+ *   func_021FD72C 0x021FD72C thumb ov186
+ *   func_021FD854 0x021FD854 thumb ov186
+ *   func_0201C4E4 0x0201C4E4 thumb
+ *   func_021FC830 0x021FC830 thumb ov186
+ *   func_021FD6B0 0x021FD6B0 thumb ov186
+ *   func_021FD1BC 0x021FD1BC thumb ov186
+ *   func_021F3C50 0x021F3C50 thumb ov112
+ */
+extern int func_021FF88C(char *);
+extern void func_021F9C6C(char *);
+extern void func_021FD71C(char *);
+extern int func_021FD72C(int *);
+extern void func_021FD854(char *);
+extern void func_0201C4E4(int);
+extern int func_021FC830(char *);
+extern int func_021FD6B0(char *);
+extern void func_021FD1BC(char *);
+extern void func_021F3C50(char *);
+int func_021F8590(int a,int b,int c,char *p)
+{
+    int i;
+    if (func_021FF88C(*(char **)(*(char **)(p+52)+20))==2) {
+        func_021F9C6C(*(char **)(*(char **)(p+52)+16));
+        return 1;
+    }
+    func_021FD71C(*(char **)(p+36));
+    if (func_021FD72C(*(int **)(p+36))) return 1;
+    for (i=0;i<2;i++) func_021FD854(*(char **)(p+i*4+56));
+    func_0201C4E4(*(int *)(p+44));
+    if (*(char **)(p+28)) func_021FC830(*(char **)(p+28));
+    if (*(char **)(p+16)) func_021FD6B0(*(char **)(p+16));
+    if (*(char **)(p+4)) func_021FD1BC(*(char **)(p+4));
+    if (*(char **)(p+20)) func_021F3C50(*(char **)(p+20));
+    return 0;
+}

@@ -6,9 +6,9 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
- * checks: 1 255A0 returns Grid pointer and 257D0 takes it, own sources/show read; 2 no twin, copied const Param shape; 3 u16 xy 29 bytes, enum index/const Object still 15; 4 split call fixes entry, pointer step 63 and Object shape 15; 5 refreshed ov183 twins and idioms, block locals/cast base still 15; next no sweep, named constructor slot alias investigation.
- * residual: 15 concrete bytes differ; 180/180, all ten relocations resolved.
+ * status: EXACT
+ * checks: 1 all ten callees freshly rederived from their own sources or matched callers; 2 no twin, copied const Param shape; 3 u16 xy 29 bytes, enum index/const Object still 15 (2/2 carried); 4 split call fixes entry, pointer step 63 and Object shape 15 (2/2 carried); 5 refreshed ov183 twins and idioms, block locals/cast base still 15 (2/2 carried). High retry slot=&out[index] before constructor, then store/reload through slot reached EXACT; types pass unnecessary. Superseded by src/matched/ov/ov183_func_021E111C.c.
+ * lever: named slot preserves output base before constructor; direct out[index] sinks it. EXACT180/180, all ten relocations resolved.
  * symbols:
  *   func_021FC214 0x021FC214 thumb ov186
  *   d_021E3850 0x021E3850 data a4
@@ -62,11 +62,13 @@ void func_021E111C(const Object *object,Index index,int x,int y)
     desc.d=1;
     {
         struct Grid **out=(struct Grid **)(char *)object->f304;
+        struct Grid **slot;
         struct Grid *grid;
+        slot=&out[index];
         grid=func_020255A0(object->f300,&desc);
-        out[index]=grid;
+        *slot=grid;
         func_020257D0((int)grid);
-        func_0202597C((int)out[index],1);
+        func_0202597C((int)*slot,1);
     }
     func_020437AC(handle);
     func_02045808(source);

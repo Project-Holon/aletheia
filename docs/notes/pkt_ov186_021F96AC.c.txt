@@ -1,0 +1,53 @@
+/*
+ * function: func_021F96AC,func_021F9728
+ * address: 0x021F96AC
+ * packet: pkt_ov186_021F96AC
+ * region: ov186
+ * unit: yes
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 getter one arg, fill three; 2 own twins962C/966C/9868 give no far-field twin;
+ * 3 enum compound offset 48B, unsigned 74B (2/2); 4 store scheduling44B/base local48B (2/2);
+ * 5 refreshed idiom listing and matched185/186 neighbours: no new matching far-field twin;
+ * next hypothesis const ctx/source not compiled: C3 exhausted. Best c4a44B register/schedule residue.
+ * symbols:
+ *   func_021FC4DC 0x021FC4DC thumb ov186
+ *   func_02082BCC 0x02082BCC arm
+ * Extent includes empty follower021F9728; zeros021F9726 and021F972A are alignment.
+ */
+extern int func_021FC4DC(int);
+extern void func_02082BCC(void *,int,int);
+typedef enum { work_offset=0x17c0 } Offset;
+void func_021F96AC(int *out,int *source,int *ctx,int type)
+{
+    Offset offset;
+    out[7]=((int *)source[6])[2];
+    offset=work_offset;
+    out[10]=((int *)source[6])[2]+offset;
+    if(type==1) {
+        out[0]=ctx[2];
+        *(int *)(((int *)source[6])[2]+(offset+4))=out[0];
+        func_02082BCC((void *)out[10],0,4);
+    } else if(type==6) {
+        int a=ctx[5],b=ctx[6];
+        out[0]=3;
+        out[8]=a;
+        out[9]=b;
+        offset+=4;
+        *(int *)(((int *)source[6])[2]+offset)=3;
+        func_02082BCC((void *)out[10],0,4);
+    } else if(type==2) {
+        out[0]=*(int *)(((int *)source[6])[2]+(offset+4));
+        out[1]=1;
+    }
+    out[4]=source[1];
+    out[2]=source[3];
+    out[5]=source[2];
+    out[3]=func_021FC4DC(source[0]);
+    out[6]=source[5];
+}
+void func_021F9728(void)
+{
+}

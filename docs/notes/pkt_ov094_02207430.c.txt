@@ -1,0 +1,111 @@
+/*
+ * function: func_02207430
+ * address: 0x02207430
+ * packet: pkt_ov094_02207430
+ * region: ov094
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own ARM9 AC18/ADA4/A6C8/AF28/B294/B92C/B3DC read, B294 r0-result return exception; 2 matched 02201B20/05B90/09318 resource twins read; 3 u32 mode no change 860/662 (one); 4 masked-width/stack-struct/inline and shared member idioms read; 5 fresh 0220778C/07288/06EB4 read and full idiom directory refreshed; next early parity scope and separate branch field addresses.
+ * residual: 860/860 bytes, 662 concrete differences, 25/25 resolved; frame 5c versus original 60 plus push r3; parity spills too early and h54 calls merge.
+ * permuter: one 300 types pass; volatile-add(a) 657-byte mutant rejected; baseline unchanged. Case 4 safe return is a deliberate unsupported-domain difference, never an EXACT claim.
+ * domain: sole original caller 02206BC8 supplies modes 0..3; image case 4 bypasses ID initialization; this safe draft returns on unsupported mode 4 rather than reading uninitialized IDs.
+ * symbols:
+ *   func_0204ADA4 0x0204ADA4 arm
+ *   func_0204AC18 0x0204AC18 arm
+ *   func_021F86E0 0x021F86E0 thumb ov094
+ *   func_0204AEF4 0x0204AEF4 arm
+ *   func_020216D4 0x020216D4 thumb
+ *   func_0204A6C8 0x0204A6C8 arm
+ *   func_0204AF28 0x0204AF28 arm
+ *   func_0204B294 0x0204B294 arm
+ *   func_021F8710 0x021F8710 thumb ov094
+ *   func_0204B92C 0x0204B92C arm
+ *   func_0204B3DC 0x0204B3DC arm
+ *   d_0220AAC8 0x0220AAC8 data a2
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct Obj Obj;
+typedef struct PalAnmSlot PalAnmSlot;
+typedef struct { Obj *h40, *h44, *h48, *h4c, *h50, *h54; int h58, h5c, h60, h64, h68, h6c, h70, h74, h78, h7c; char tail[0x40]; } Row;
+typedef struct { int h0, h4; char pad8[0x10]; int h18[6], h30, h34, h38, h3c; Row rows[8]; char pad440[8]; u16 heap; } W;
+typedef struct { u16 x, y, z; u8 priority, flags; } Cfg;
+extern const Cfg d_0220AAC8;
+extern void func_0204ADA4(u32);
+extern int func_0204AC18(u32, u32, u32, u16, u16, u16, u16);
+extern void *func_021F86E0(void);
+extern u32 func_0204AEF4(int, int);
+extern void func_020216D4(PalAnmSlot *, u32, u16, u32);
+extern int func_0204A6C8(u32, u32, u32, u32, u16);
+extern int func_0204AF28(u32, u32, u32, u32);
+extern Obj *func_0204B294(u32, u32, u32, u32, u32, u16, u16);
+extern int func_021F8710(void);
+extern void func_0204B92C(Obj *, u32);
+extern void func_0204B3DC(Obj *, u32);
+void func_02207430(W *p, u32 mode, int i)
+{
+    int a, b, c, j, id, priority;
+    void *pal;
+    Cfg cfg;
+    switch (mode) {
+    case 0: case 1: default: {
+        u32 odd = i & 1;
+        a = odd ? 0xa5 : 0xa8;
+        b = odd ? 0xa6 : 0xa9;
+        c = odd ? 0xa7 : 0xaa;
+        break;
+    }
+    case 2: case 3: {
+        u32 odd = i & 1;
+        a = odd ? 0xab : 0xae;
+        b = odd ? 0xac : 0xaf;
+        c = odd ? 0xad : 0xb0;
+        break;
+    }
+    case 4:
+        return;
+    }
+    if (mode == 3) {
+        j = i;
+        if (i >= 2) j = i - 2;
+        id = (i < 4) ? 0xa2 : 0xa3;
+        func_0204ADA4(p->h18[j]);
+        p->h18[j] = func_0204AC18(p->h4, id, 0, j << 5, 0, 1, p->heap);
+        pal = func_021F86E0();
+        func_020216D4(pal, 2, func_0204AEF4(p->h18[j], 0) >> 1, 32);
+    }
+    p->rows[i].h58 = func_0204A6C8(p->h4, a, 0, 0, p->heap);
+    p->rows[i].h5c = func_0204AF28(p->h4, b, c, p->heap);
+    p->rows[i].h60 = func_0204A6C8(p->h4, 0xba, 0, 0, p->heap);
+    p->rows[i].h64 = func_0204AF28(p->h4, 0xbb, 0xbc, p->heap);
+    p->rows[i].h68 = func_0204A6C8(p->h4, 0xb1, 0, 0, p->heap);
+    p->rows[i].h6c = func_0204AF28(p->h4, 0xb2, 0xb3, p->heap);
+    p->rows[i].h70 = func_0204A6C8(p->h4, 0xb4, 0, 0, p->heap);
+    p->rows[i].h74 = func_0204AF28(p->h4, 0xb5, 0xb3, p->heap);
+    if (!(i & 1)) {
+        p->rows[i].h78 = func_0204A6C8(p->h4, 0xb7, 0, 0, p->heap);
+        p->rows[i].h7c = func_0204AF28(p->h4, 0xb8, 0xb9, p->heap);
+    }
+    cfg = d_0220AAC8;
+    j = i;
+    if (i >= 2) j = i - 2;
+    priority = 3 * (7 - i);
+    cfg.priority = priority + 2;
+    p->rows[i].h40 = func_0204B294(p->h0, p->rows[i].h58, p->h18[j], p->rows[i].h5c, (u32)&cfg, 0, p->heap);
+    cfg.priority = priority + 1;
+    p->rows[i].h44 = func_0204B294(p->h0, p->rows[i].h60, p->h18[j], p->rows[i].h64, (u32)&cfg, 0, p->heap);
+    p->rows[i].h48 = func_0204B294(p->h0, p->rows[i].h68, p->h18[j], p->rows[i].h6c, (u32)&cfg, 0, p->heap);
+    if (func_021F8710() == 3 && i >= 4)
+        p->rows[i].h54 = func_0204B294(p->h0, p->h30, p->h3c, p->h34, (u32)&cfg, 0, p->heap);
+    else
+        p->rows[i].h54 = func_0204B294(p->h0, p->h30, p->h38, p->h34, (u32)&cfg, 0, p->heap);
+    func_0204B92C(p->rows[i].h54, 1);
+    cfg.priority = priority;
+    p->rows[i].h4c = func_0204B294(p->h0, p->rows[i].h70, p->h18[j], p->rows[i].h74, (u32)&cfg, 0, p->heap);
+    func_0204B3DC(p->rows[i].h4c, 0);
+    if (!(i & 1) && mode != 2 && mode != 3)
+        p->rows[i].h50 = func_0204B294(p->h0, p->rows[i].h78, p->h18[j], p->rows[i].h7c, (u32)&cfg, 0, p->heap);
+}

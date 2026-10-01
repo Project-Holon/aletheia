@@ -1,0 +1,26 @@
+/*
+ * function: func_021FCF54
+ * address: 0x021FCF54
+ * packet: pkt_ov186_021FCF54
+ * region: ov186
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * extent: 80-byte scrolling follower filed as ov186_func_021FCF90.c.
+ * lever: width-first multiply preserves the stack load and register order.
+ * symbols:
+ *   func_020437D4 0x020437D4 arm
+ *   func_02082A90 0x02082A90 arm
+ */
+extern char *func_020437D4(int);
+extern void func_02082A90(void *,const void *,unsigned);
+void func_021FCF54(int dest,int src,int dx,int dy,unsigned short sx,unsigned short sy,unsigned short width,unsigned short height)
+{
+    char *d,*s;
+    int doff,soff;
+    d=func_020437D4(dest);s=func_020437D4(src);
+    doff=width*dy+dx;
+    soff=width*sy+sx;
+    func_02082A90(d+doff*32,s+soff*32,width*height*32);
+}

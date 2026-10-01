@@ -6,8 +6,8 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
- * checks: 1 getter u8, setter 3 args and signed halfword reads, other callees 2/1 args; 2 ov173 twins use u16[2]; 3 table nonconst and signed point unchanged; 4 record table unchanged, flat table 76 bytes worse; 5 declared point struct unchanged; next named x/y scratch temporaries (not swept).
+ * status: EXACT
+ * checks: 1 getter u8, setter 3 args and signed halfword reads, other callees 2/1 args freshly rederived; 2 ov173 twins use u16[2]; 3 table nonconst and signed point unchanged (2/2 carried); 4 record table unchanged, flat table 76 bytes worse (2/2 carried); 5 declared point struct unchanged (2 attempts carried). High retry named x/y unchanged; first types300 found split-assign(width) at candidate114; one validated EXACT. Superseded by src/matched/ov/ov174_func_021B6704.c.
  * symbols:
  *   func_021B7360 0x021B7360 thumb ov174
  *   func_0204B404 0x0204B404 arm
@@ -26,9 +26,13 @@ void func_021B6704(u8 *p,int index)
 {
     u16 point[2];
     unsigned width;
-    width=func_021B7360(*(void **)(p+28+index*4))/2;
-    point[0]=(d_021B7380[index][0]*8+80)+width;
-    point[1]=d_021B7380[index][1]*8+16;
+    unsigned x,y;
+    width=func_021B7360(*(void **)(p+28+index*4));
+    width=width/2;
+    x=(d_021B7380[index][0]*8+80)+width;
+    point[0]=x;
+    y=d_021B7380[index][1]*8+16;
+    point[1]=y;
     func_0204B404(*(void **)(p+84),point,0);
     func_0204B3DC(*(void **)(p+84),1);
     func_0204B9A0(*(void **)(p+84));

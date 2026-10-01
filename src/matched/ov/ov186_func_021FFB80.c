@@ -1,0 +1,32 @@
+/*
+ * packet: pkt_ov186_021FFB80
+ * function: func_021FFB80
+ * address: 0x021FFB80
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * region: ov186
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02012E40 0x02012E40 thumb
+ *   func_021D7124 0x021D7124 thumb ov125
+ *   func_021D6770 0x021D6770 thumb ov125
+ *   func_02156DE0 0x02156DE0 thumb ov009
+ */
+extern int func_02012E40(void *);
+extern void func_021D7124(char *, int, int, int);
+extern void func_021D6770(char *);
+extern void func_02156DE0(int, int);
+int func_021FFB80(char *p, int b, int kind, int d)
+{
+    if (func_02012E40(*(void **)(p + 0x5e0))) return 1;
+    func_021D7124(p, b, kind, d);
+    if (kind == 3 || kind == 6) {
+        if (*(int *)(p + 0x5a4)) {
+            func_021D6770(p);
+            *(int *)(p + 0x5a4) = 0;
+        }
+        func_02156DE0(0, 0);
+    }
+    return 0;
+}

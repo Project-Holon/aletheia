@@ -1,0 +1,115 @@
+/*
+ * function: func_02209540
+ * address: 0x02209540
+ * packet: pkt_ov094_02209540
+ * region: ov094
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own matched callees: B878 takes object/u16, B3DC object/u32, tick returns u64; 2 matched 094BC/09500 give int index, timer fields and helper; 3 u32 index 411 differences, u16 114 rejected as unsupported narrowing, const m inappropriate for the state writer; 4 int cast on off2's second use prevents address CSE, u32 off4 fixes state/offset slot scheduling; 5 fresh idiom listing and neighbors read, one/two HidePair inline levels both retain seven differences; next hypothesis is a distinct caller/inline offset home without declaration reordering.
+ * residual: 516/516 bytes, seven differing bytes exchange off0/off2 homes
+ *   at sp+0x14 and sp+0x18. All 23 relocations resolve.
+ * lever: inline Activate restores the 0x54 frame and dead pointer stores;
+ *   mixed signed/unsigned offsets plus the off2 use-site cast prevent CSE.
+ * budget: 10 iterations, first nonshrink r3/run-position8, final streak3;
+ *   two reorder variants exhausted; C1=0,C2=0,C3=2,C4=2,C5=2 compiles.
+ * permuter: once --types --budget300, 300 compiles, best unchanged DIFF7;
+ *   output is only reformatted baseline, no mutation or invalid C adopted.
+ * symbols:
+ *   func_020870D0 0x020870D0 arm
+ *   _ll_udiv 0x0209C00C arm
+ *   func_0204B878 0x0204B878 arm
+ *   func_0204B3DC 0x0204B3DC arm
+ *   d_0220ABB8 0x0220ABB8 data a4
+ */
+typedef unsigned long long u64;
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef struct { int v[2]; } Pair;
+typedef enum { OFFSET_ZERO } Offset;
+typedef enum { OFFSET_ONE } Offset1;
+typedef enum { OFFSET_TWO } Offset2;
+typedef enum { OFFSET_THREE } Offset3;
+typedef enum { OFFSET_FOUR } Offset4;
+typedef enum { OFFSET_FIVE } Offset5;
+typedef enum { COLOR_ZERO, COLOR_ONE } Color;
+typedef enum { INDEX_ZERO, INDEX_ONE } Index;
+extern const Pair d_0220ABB8;
+extern u64 func_020870D0(void);
+extern void func_0204B878(void *, u16);
+extern void func_0204B3DC(void *, u32);
+static inline u32 ByteOffset(u32 i)
+{
+    return i * 28;
+}
+static inline void Activate(char *m, int i, int member, int digit, int *state)
+{
+    char *p;
+    u32 off;
+    p = m;
+    p = m + member;
+    off = (u32)i * 28;
+    func_0204B3DC(*(void **)(p + off), 1);
+    func_0204B878(*(void **)(p + off), digit + 3 + state[i]);
+}
+void func_02209540(char *m, Index i)
+{
+    Pair limits = d_0220ABB8;
+    Color color;
+    int remaining;
+    char *p0;
+    int minutes, seconds, tensMin, onesMin, tensSec, onesSec;
+    int *state;
+    Offset off0;
+    color = i == 0 ? COLOR_ZERO : COLOR_ONE;
+    remaining = ((int *)(m + 0x4c))[i] - (int)(((func_020870D0() - ((u64 *)(m + 0x54))[i]) << 6) / 33514000ULL);
+    off0 = i * 28;
+    p0 = m;
+    p0 = m + 8;
+    if (*(void **)(p0 + off0) == 0) return;
+    if (remaining < 0) remaining = 0;
+    minutes = remaining / 60;
+    seconds = remaining % 60;
+    tensMin = minutes / 10;
+    onesMin = minutes % 10;
+    tensSec = seconds / 10;
+    onesSec = seconds % 10;
+    if (remaining == limits.v[i])
+        ((int *)(m + 0x64))[i] = 13;
+    state = (int *)(m + 0x64);
+    func_0204B878(*(void **)(p0 + off0), state[i] + color);
+    if (tensMin == 0) {
+        func_0204B3DC(*(void **)(m + off0 + 12), 0);
+    } else {
+        Activate(m, i, 12, tensMin, state);
+    }
+    if (tensMin == 0 && onesMin == 0) {
+        u32 off2 = ByteOffset(i);
+        func_0204B3DC(*(void **)(m + off2 + 16), 0);
+        func_0204B3DC(*(void **)(m + (int)off2 + 20), 0);
+    } else {
+        char *p2, *p3;
+        u32 off3;
+        u32 off4;
+        int *s;
+        off3 = ByteOffset(i);
+        p2 = m;
+        p2 = m + 16;
+        func_0204B3DC(*(void **)(p2 + off3), 1);
+        p3 = m;
+        p3 = m + 20;
+        func_0204B3DC(*(void **)(p3 + off3), 1);
+        s = (int *)m;
+        s = (int *)(m + 0x64);
+        off4 = i * 4;
+        func_0204B878(*(void **)(p2 + off3), onesMin + 3 + *(int *)((char *)s + off4));
+        func_0204B878(*(void **)(p3 + off3), *(int *)((char *)s + off4) + 2);
+    }
+    if (tensMin == 0 && onesMin == 0 && tensSec == 0) {
+        func_0204B3DC(*(void **)(m + off0 + 24), 0);
+    } else {
+        Activate(m, i, 24, tensSec, state);
+    }
+    func_0204B878(*(void **)(m + off0 + 28), onesSec + 3 + state[i]);
+}

@@ -1,0 +1,31 @@
+/*
+ * function: func_021FE3E4
+ * address: 0x021FE3E4
+ * packet: pkt_ov186_021FE3E4
+ * region: ov186
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 signed division helper reads two args; 2 only own E2F8 twin; 3 const pointer and Motion pointer unchanged (26); 4 short Scale worse54 and int Scale worse85; 5 fresh idiom listing and ov184/185/186 neighbour search, no new twin; no stack object; next hypothesis table row type.
+ * symbols:
+ *   d_020A1B38 0x020A1B38 data a2
+ */
+extern const short d_020A1B38[];
+static inline short Cos(unsigned short angle) { return d_020A1B38[(angle >> 4) * 2 + 1]; }
+static inline short Sin(unsigned short angle) { return d_020A1B38[(angle >> 4) * 2]; }
+int func_021FE3E4(char *p, int *out, int step)
+{
+    unsigned short angle = *(unsigned short *)(p + 0x12) + 0xFFFF * step / *(int *)(p + 0x14);
+    int x = ((Cos(angle) * *(unsigned short *)(p + 0x10)) >> 12);
+    int y = ((Sin(angle) * *(unsigned short *)(p + 0x10)) >> 12);
+    x += *(int *)p;
+    y += *(int *)(p + 4);
+    *(int *)((char *)p + 8) = x;
+    *(int *)((char *)p + 12) = y;
+    if (out) {
+        out[0] = x;
+        out[1] = y;
+    }
+    return step == *(int *)(p + 0x14);
+}

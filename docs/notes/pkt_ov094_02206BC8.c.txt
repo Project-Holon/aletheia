@@ -1,0 +1,139 @@
+/*
+ * function: func_02206BC8
+ * address: 0x02206BC8
+ * packet: pkt_ov094_02206BC8
+ * region: ov094
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own ARM9 sources and matched ov094 callers audited, getters shown; 2 02207960 and 02205B90 twins read; 3 raw u16 storage 620/124 then u16 inline setter 600/110 (two total); 4 vector setter/inline stack idioms, loop-wrapper 612/124 worse (one); 5 fresh 0220778C/07288/06EB4 plus stack-object idiom read; next inline snapshot locals with unsigned home slots.
+ * residual: 600/608 bytes, 110 concrete differences, 38/38 resolved. Original snapshots the two unsigned point fields at sp24/sp28 before the loop; setter folds those homes away.
+ * permuter: one 300 types pass; size-first u8 index mutant 608/434 rejected, valid 600/110 baseline retained; no volatile or uninitialized reads accepted.
+ * symbols:
+ *   func_02030734 0x02030734 arm
+ *   func_020490F4 0x020490F4 arm
+ *   func_0204B100 0x0204B100 arm
+ *   func_0204ABF0 0x0204ABF0 arm
+ *   func_021F86E0 0x021F86E0 thumb ov094
+ *   func_0204AEF4 0x0204AEF4 arm
+ *   func_020216D4 0x020216D4 thumb
+ *   func_020275E4 0x020275E4 thumb
+ *   func_020276B8 0x020276B8 thumb
+ *   func_020276BC 0x020276BC thumb
+ *   func_020276C0 0x020276C0 thumb
+ *   func_020276B4 0x020276B4 thumb
+ *   func_0204A6C8 0x0204A6C8 arm
+ *   func_0204AF28 0x0204AF28 arm
+ *   func_02022004 0x02022004 thumb
+ *   func_02049238 0x02049238 arm
+ *   func_02049E74 0x02049E74 arm
+ *   func_02005C44 0x02005C44 thumb
+ *   func_021F86D4 0x021F86D4 thumb ov094
+ *   func_02030DA8 0x02030DA8 arm
+ *   func_02208BFC 0x02208BFC thumb ov094
+ *   func_021F8710 0x021F8710 thumb ov094
+ *   func_02207430 0x02207430 thumb ov094
+ *   func_022079C0 0x022079C0 thumb ov094
+ *   d_0220AEC0 0x0220AEC0 data a4 ov094
+ *   d_0220AABC 0x0220AABC data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct Node Node;
+typedef struct Ctx Ctx;
+typedef struct PalAnmSlot PalAnmSlot;
+typedef struct { char pad[0x40]; int mode; char pad44[0x3c]; } Row;
+typedef struct W { int h0; void *h4, *context; Node *task; void *h10; int h14, h18[6], h30, h34, h38, h3c; Row rows[8]; u32 flags, f444; u16 heap; } W;
+typedef struct { W *owner; int state, mask, count; } State;
+typedef struct { short x, y; } Pt;
+typedef struct { u16 x, y; } UPt;
+typedef struct { UPt base; Pt cur; } Pair;
+typedef struct { char pad[0x14]; int f14; } Out;
+extern void *func_02030734(u16, u32, int, const char *, u16);
+extern const char d_0220AEC0[];
+extern const UPt d_0220AABC;
+extern void *func_020490F4(void *, u16);
+extern int func_0204B100(int, int, u16);
+extern int func_0204ABF0(u32, u32, u32, u16, u16);
+extern void *func_021F86E0(void);
+extern u32 func_0204AEF4(int, int);
+extern void func_020216D4(PalAnmSlot *, u32, u16, u32);
+extern u32 func_020275E4(void);
+extern u32 func_020276B8(void);
+extern u32 func_020276BC(u32);
+extern u32 func_020276C0(u32);
+extern u32 func_020276B4(void);
+extern int func_0204A6C8(u32, u32, u32, u32, u16);
+extern int func_0204AF28(u32, u32, u32, u32);
+extern void func_02022004(u32, u32, u16, u32, u32);
+extern void func_02049238(u32);
+extern void *func_02049E74(u32, u32, u32, Out **, u16);
+extern u32 func_02005C44(void);
+extern void *func_021F86D4(void);
+extern Node *func_02030DA8(Ctx *, u32, u32, u32);
+extern void func_02208BFC(void *, State *);
+extern int func_021F8710(void);
+extern void func_02207430(W *, int, int);
+extern void func_022079C0(char *, int, Pt *);
+static inline void setpt(Pt *p, u16 x, u16 y)
+{
+    p->x = x;
+    p->y = y;
+}
+W *func_02206BC8(void *context, u16 heap)
+{
+    W *p;
+    void *group, *pal;
+    Out *out;
+    State *state;
+    int i, end, mode = 1;
+    Pair v;
+    p = func_02030734(heap, 0x44c, 1, d_0220AEC0, 0x14b);
+    p->heap = heap;
+    p->h4 = func_020490F4((void *)11, p->heap);
+    p->h0 = func_0204B100(40, 0, p->heap);
+    for (i = 0; i < 6; i++) {
+        p->h18[i] = func_0204ABF0((u32)p->h4, 0xa2, 0, i << 5, p->heap);
+        pal = func_021F86E0();
+        func_020216D4(pal, 2, func_0204AEF4(p->h18[i], 0) >> 1, 32);
+    }
+    group = func_020490F4((void *)func_020275E4(), (p->heap & 0x7fff) | 0x8000);
+    p->h30 = func_0204A6C8((u32)group, func_020276B8(), 0, 0, p->heap);
+    p->h34 = func_0204AF28((u32)group, func_020276BC(1), func_020276C0(1), p->heap);
+    p->h38 = func_0204ABF0((u32)group, func_020276B4(), 0, 0x100, p->heap);
+    p->h3c = func_0204ABF0((u32)group, func_020276B4(), 0, 0x120, p->heap);
+    pal = func_021F86E0();
+    func_020216D4(pal, 2, func_0204AEF4(p->h38, 0) >> 1, 32);
+    pal = func_021F86E0();
+    func_020216D4(pal, 2, func_0204AEF4(p->h3c, 0) >> 1, 32);
+    func_02022004((u32)func_021F86E0(), 2, 0x200, 8, 0);
+    func_02049238((u32)group);
+    p->h10 = func_02049E74((u32)p->h4, 0xa4, 0, &out, p->heap);
+    p->h14 = out->f14;
+    p->context = context;
+    p->f444 = func_02005C44();
+    state = func_02030734(heap, 16, 1, d_0220AEC0, 0x185);
+    state->owner = p;
+    p->task = func_02030DA8(func_021F86D4(), (u32)func_02208BFC, (u32)state, 0);
+    switch (func_021F8710()) {
+    case 0: i = 0; end = 1; mode = 0; break;
+    case 1: i = 2; end = 5; mode = 1; break;
+    case 2: default: i = 2; end = 7; mode = 2; break;
+    case 3: i = 2; end = 7; mode = 3; break;
+    }
+    if (i <= end) {
+        v.base = d_0220AABC;
+        do {
+            setpt(&v.cur, v.base.x, v.base.y);
+            if (i & 1)
+                v.cur.x *= -1;
+            func_02207430(p, mode, i);
+            p->rows[i].mode = mode;
+            func_022079C0((char *)p, i, &v.cur);
+            i++;
+        } while (i <= end);
+    }
+    return p;
+}

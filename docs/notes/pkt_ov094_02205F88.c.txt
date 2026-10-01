@@ -1,0 +1,117 @@
+/*
+ * function: func_02205F88
+ * address: 0x02205F88
+ * packet: pkt_ov094_02205F88
+ * region: ov094
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 prototypes from own ARM9 units/callees and ov094 callers; all 26 sites resolved, arguments exact.
+ * checks: 2 E80/6728 and pending 8550 twins read, Struct36 output confirmed in unit_0204B764.
+ * checks: 3 const p ->27B, unsigned i ->7B (2/2); fixed 0..3 loop proves width experiment preserves values.
+ * checks: 4 commutative/pointer-add idioms: chained pointer ->34B, named tile ->9B (2/2).
+ * checks: 5 directory refreshed and E80 reread; declared-struct/cast-buffer idiom read, frame already exact.
+ * residual: 416/416B, 6 concrete bytes: adds r2,r7,r2 versus adds r2,r2,r7 at +13c,+154,+16c.
+ * budget: 4 iterations; first nonshrinker r2, 3 runs since and streak 3. Checks compiles 0,0,2,2,0.
+ * permuter: once --budget 300 --types, 300 candidates, no improvement; best remains 6B, no mutant adopted.
+ * next: integer/pointer base helper operand ordering, subject to consumed iteration/C3/C4 caps; no further iteration authorized.
+ * symbols:
+ *   d_0220A392 0x0220A392 data ov094 a2
+ *   func_0204B294 0x0204B294 arm
+ *   func_0204B404 0x0204B404 arm
+ *   func_0204B92C 0x0204B92C arm
+ *   func_0204B878 0x0204B878 arm
+ *   func_020457B0 0x020457B0 arm
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_0201EC64 0x0201EC64 thumb
+ *   func_02043678 0x02043678 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_0201DE00 0x0201DE00 thumb
+ *   func_0201DD78 0x0201DD78 thumb
+ *   func_0201EF34 0x0201EF34 thumb
+ *   func_0201F250 0x0201F250 thumb
+ *   func_02204C98 0x02204C98 thumb ov094
+ *   func_0201C7A4 0x0201C7A4 thumb
+ *   func_020437D4 0x020437D4 arm
+ *   func_0204B7C8 0x0204B7C8 arm
+ *   func_02082A60 0x02082A60 arm
+ *   func_02045808 0x02045808 arm
+ *   func_0201ED04 0x0201ED04 thumb
+ *   func_020437AC 0x020437AC arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef short s16;
+typedef struct Struct36 { int w[9]; } Struct36;
+typedef struct Point { s16 x, y; } Point;
+extern const u16 d_0220A392[];
+extern void *func_0204B294(u32, u32, u32, u32, const void *, u16, u16);
+extern void func_0204B404(void *, s16 *, int);
+extern void func_0204B92C(void *, int);
+extern void func_0204B878(void *, u16);
+extern void *func_020457B0(u32, u32);
+extern void *func_02045EC0(void *, u32);
+extern void *func_0201EC64(u32);
+extern void *func_02043678(u32, u32, u32, u32);
+extern void func_02043B5C(void *, u8);
+extern void func_0201DE00(u8 *, u8 *, u8 *);
+extern void func_0201DD78(u32, u32, u32);
+extern void func_0201EF34(void *, u32, u32);
+extern void func_0201F250(void *, void *, void *);
+extern void func_02204C98(void *, int, int *, int *);
+extern void func_0201C7A4(void *, s16, s16, void *, void *);
+extern void *func_020437D4(const void *);
+extern void func_0204B7C8(const char *, Struct36 *);
+extern void func_02082A60(const void *, void *, u32);
+extern void func_02045808(void *);
+extern void func_0201ED04(void *);
+extern void func_020437AC(void *);
+void func_02205F88(char *p)
+{
+    Struct36 buf;
+    Point v;
+    int width, height;
+    u8 c[3];
+    void *a, *b, *window, *text;
+    char *pixels;
+    int i;
+    int off, len, stride, second, third;
+    off = 0x104;
+    *(void **)(p + 0x21c) = func_0204B294(*(u32 *)(p + 0x218), *(u32 *)(p + off), *(u32 *)(p + off + 4), *(u32 *)(p + off + 8), d_0220A392, 1, *(u16 *)(p + 0x240));
+    v.x = 128;
+    v.y = 80;
+    func_0204B404(*(void **)(p + 0x21c), &v.x, 1);
+    func_0204B92C(*(void **)(p + 0x21c), 1);
+    func_0204B878(*(void **)(p + 0x21c), 20);
+    a = func_020457B0(16, *(u16 *)(p + 0x240));
+    b = func_02045EC0(*(void **)(p + 0x5c), 0);
+    i = 0;
+    window = func_0201EC64(*(u16 *)(p + 0x240));
+    text = func_02043678(14, 4, 32, *(u16 *)(p + 0x240));
+    func_02043B5C(text, 0);
+    func_0201DE00(&c[2], &c[1], &c[0]);
+    func_0201DD78(14, 10, 0);
+    func_0201EF34(window, 0, 165);
+    func_0201F250(window, a, b);
+    func_02204C98(a, *(int *)(p + 0x224), &width, &height);
+    func_0201C7A4(text, 56 - width / 2, 8, a, *(void **)(p + 0x224));
+    func_0201DD78(c[2], c[1], c[0]);
+    pixels = func_020437D4(text);
+    func_0204B7C8(*(void **)(p + 0x21c), &buf);
+    len = off - 4;
+    stride = off;
+    stride = off + 0xbc;
+    second = off - 4;
+    third = off + 0x7c;
+    for (; i < 4; i++) {
+        func_02082A60(pixels + i * stride, (void *)(buf.w[2] + (0x06600000 + ((i * 8 + 0xcd) << 5))), len);
+        func_02082A60(pixels + (i * stride + second), (void *)(buf.w[2] + (0x06600000 + ((i * 4 + 0xed) << 5))), 0x80);
+        func_02082A60(pixels + (i * stride + third), (void *)(buf.w[2] + (0x06600000 + ((i * 2 + 0xfd) << 5))), 0x40);
+    }
+    func_02045808(a);
+    func_02045808(b);
+    func_0201ED04(window);
+    func_020437AC(text);
+}
