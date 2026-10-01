@@ -1,0 +1,34 @@
+/*
+ * function: func_021C6230
+ * address: 0x021C6230
+ * packet: pkt_ov136_021C6230
+ * region: ov136
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residue: 80 compiled versus 84 extent bytes, 42 concrete differing bytes.
+ * checks: 1 own 0201CCE4 source confirms ten arguments and narrow final pair; 02012FFC show returns signed byte; 2 ov136 47C4 twin u32 prototype and int-return 12FFC no change (1 compile); 3 nested const input and s8 return/int tick no change (2 compiles); 4 const descriptor / subblock / inline-wrapper idioms read, none explains missing repeated p+8 load; 5 refreshed idioms and ov135 02202878 / ov136 47C4 twins, no local stack object and no new lever; next probe inline accessor preserving separate argument loads.
+ * symbols:
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed char s8;
+extern void *func_02045770(void *);
+extern void func_02043B5C(void *, u8);
+extern s8 func_02012FFC(void);
+extern u32 func_0201CCE4(u32, u32, u32, u32, u32, u32, u32, u32, u16, u16);
+void func_021C6230(const u8 *p)
+{
+    void *obj;
+    int tick;
+    u32 result;
+    obj = *(void **)(*(const u8 **)(p + 8) + 0xa8);
+    func_02043B5C(func_02045770(obj), 15);
+    tick = func_02012FFC();
+    result = func_0201CCE4((u32)obj, 0, 0, *(u32 *)(*(const u8 **)(p + 8) + 0x1d8), *(u32 *)(p + 0x18), tick, *(u32 *)(*(const u8 **)(p + 8) + 0x1cc), 0, 102, 15);
+    *(u32 *)(*(u8 **)(p + 8) + 0x1c8) = result;
+}

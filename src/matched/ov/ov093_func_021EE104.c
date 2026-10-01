@@ -1,0 +1,60 @@
+/*
+ * function: func_021EE104
+ * address: 0x021EE104
+ * packet: pkt_ov093_021EE104
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * tail: 021EE1FE..021EE200 is zero alignment padding.
+ * symbols:
+ *   func_02082BCC 0x02082BCC arm
+ *   func_021B9AF8 0x021B9AF8 thumb ov093
+ *   func_021B9B94 0x021B9B94 thumb ov093
+ *   func_021B9C00 0x021B9C00 thumb ov093
+ *   func_021D5B68 0x021D5B68 thumb ov093
+ *   func_021D62A8 0x021D62A8 thumb ov093
+ *   func_021D5B7C 0x021D5B7C thumb ov093
+ */
+typedef unsigned char u8;
+typedef signed char s8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void func_02082BCC(void *, u8, u32);
+extern void *func_021B9AF8(void *, int);
+extern int func_021B9B94(void *);
+extern void *func_021B9C00(void *, u8);
+extern int func_021D5B68(void *);
+extern int func_021D62A8(void *);
+extern int func_021D5B7C(void *);
+void func_021EE104(u8 *p, u32 *out, u32 a, u32 b, u32 flag)
+{
+    void *groups[2] = {0, 0};
+    int counts[2] = {0, 0};
+    int i;
+    int side;
+    s8 slot;
+    void *entry;
+    func_02082BCC(out, 0, 28);
+    groups[0] = func_021B9AF8(*(void **)(p + 0x138), a);
+    counts[0] = func_021B9B94(groups[0]);
+    if (b < 4) {
+        groups[1] = func_021B9AF8(*(void **)(p + 0x138), b);
+        counts[1] = func_021B9B94(groups[1]);
+        if (counts[0] > 3) counts[0] = 3;
+        if (counts[1] > 3) counts[1] = 3;
+    }
+    out[0] = flag;
+    for (i = 0; i < 6; i++) {
+        if (i < counts[0] + counts[1]) {
+            if (i < counts[0]) { side = 0; slot = i; }
+            else { side = 1; slot = i - counts[0]; }
+            entry = func_021B9C00(groups[side], (u8)slot);
+            if (func_021D5B68(entry)) out[side * 3 + slot + 1] = 2;
+            else if (func_021D62A8(entry)) out[side * 3 + slot + 1] = 3;
+            else if (!func_021D5B7C(entry)) out[side * 3 + slot + 1] = 0;
+            else out[side * 3 + slot + 1] = 1;
+        }
+    }
+}

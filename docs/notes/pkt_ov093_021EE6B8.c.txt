@@ -1,0 +1,98 @@
+/*
+ * function: func_021EE6B8
+ * address: 0x021EE6B8
+ * packet: pkt_ov093_021EE6B8
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residue: 376/376 bytes, 251 concrete bytes differ. Cursor array local fixes
+ * the frame and r4/r5 base/index but guard operands, buffer base/offset spill
+ * order and kind-3 address rematerialisation remain. The cursor header load
+ * is repeated after the initial guard; original reuses its loaded value.
+ * checks: 1 setters 021D845C/021D8470 each read one pointer; memcpy takes
+ * three arguments, confirmed matched EE9E4 and EE8F4; 2 EE830 confirms the
+ * size:31/done:1 word; EE8F4 and EE9E4 share packet decoding, no exact twin;
+ * 3 slot u16 and unsigned-long i each remain 376/251, slot u32 iteration
+ * gives 376/257; const p inappropriate because done and cursor are mutated;
+ * 4 read cursor, array element, struct base, dead retest and const idioms;
+ * 5 refreshed directory and reread EE9E4; no new twin. Next hypothesis:
+ * read-only data member qualification or inline buffer accessor, not a sweep.
+ * runs: 5 iterations + 2 check-3 + permuter 300 (all fresh), no CCERR.
+ * permuter: best 376/182 rejected: volatile-add(i), plus len:int and cursor
+ * temporaries; no candidate adopted. Original counter lives in a stack slot
+ * without evidence of volatility, so forcing volatile would be invalid.
+ * symbols:
+ *   func_021D845C 0x021D845C thumb ov093
+ *   func_021D8470 0x021D8470 thumb ov093
+ *   func_02082D44 0x02082D44 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct {
+    u8 *data;
+    u32 size : 31;
+    u32 done : 1;
+    u32 cursor[4];
+    u32 buffer[4][16];
+} S;
+extern void func_021D845C(u32 *);
+extern void func_021D8470(u32 *);
+extern void func_02082D44(const void *, void *, u32);
+u32 *func_021EE6B8(S *p, u8 slot, u8 *count, u8 *flag)
+{
+    u8 n;
+    int kind;
+    int h;
+    u32 i;
+    u8 target;
+    u8 len;
+    u32 *result;
+    u32 *cursor;
+    if (p->done) {
+        func_021D8470(p->buffer[slot]);
+        *count = 1;
+        *flag = 0;
+        return p->buffer[slot];
+    }
+    cursor = p->cursor;
+    while (cursor[slot] < p->size) {
+        h = p->data[cursor[slot]];
+        n = h & 15;
+        kind = (h >> 4) & 7;
+        *flag = (h >> 7) & 1;
+        cursor[slot]++;
+        if (cursor[slot] > p->size) break;
+        if (kind == 1) {
+            result = 0;
+            if (n == 0 || n > 4) break;
+            for (i = 0; i < n; i++) {
+                h = p->data[cursor[slot]++];
+                target = (h >> 5) & 7;
+                len = h & 31;
+                if (cursor[slot] >= p->size) break;
+                if (target != slot) cursor[slot] += len * 4;
+                else {
+                    func_02082D44(p->data + cursor[slot], p->buffer[slot], len * 4);
+                    result = p->buffer[slot];
+                    cursor[slot] += len * 4;
+                    *count = len;
+                }
+            }
+            if (result) return result;
+        } else if (kind == 3) {
+            func_021D845C(p->buffer[slot]);
+            *count = 1;
+            *flag = 0;
+            return p->buffer[slot];
+        } else if (kind != 2) break;
+        if (cursor[slot] >= p->size) break;
+    }
+    p->done = 1;
+    func_021D8470(p->buffer[slot]);
+    *count = 1;
+    *flag = 0;
+    return p->buffer[slot];
+}

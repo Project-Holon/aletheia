@@ -1,0 +1,39 @@
+/*
+ * function: func_021DEA0C
+ * address: 0x021DEA0C
+ * packet: pkt_ov137_021DEA0C
+ * region: ov137
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   d_021E217C 0x021E217C data a4
+ *   func_021E0570 0x021E0570 thumb ov137
+ *   func_021E07A4 0x021E07A4 thumb ov137
+ *   func_021DF864 0x021DF864 thumb ov137
+ *   func_021DEA68 0x021DEA68 thumb ov137
+ *   func_02030D28 0x02030D28 arm
+ */
+typedef unsigned char u8;
+extern int (*const d_021E217C[])(void *);
+extern void func_021E0570(void *);
+extern void func_021E07A4(void *);
+extern void func_021DF864(void *);
+extern void func_021DEA68(void *);
+extern void func_02030D28(void *);
+extern int func_020221A4(void);
+extern int func_0200FB24(void);
+int func_021DEA0C(int a, int b, int c, u8 *p)
+{
+    int result;
+    do { result = d_021E217C[*(int *)p](p); } while (result == 1);
+    if (result == 2) return 1;
+    func_021E0570(p);
+    func_021E07A4(p);
+    func_021DF864(p);
+    func_021DEA68(p);
+    func_02030D28(*(void **)(p + 0xd98));
+    if (func_020221A4() && func_0200FB24()) return 1;
+    return 0;
+}

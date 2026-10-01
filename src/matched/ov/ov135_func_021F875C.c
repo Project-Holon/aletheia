@@ -1,0 +1,42 @@
+/*
+ * function: func_021F875C
+ * address: 0x021F875C
+ * packet: pkt_ov135_021F875C
+ * region: ov135
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * lever: u16 arrays at 0xEF0 and 0xF04 preserve base/index load scheduling; raw offset casts differ by 8 bytes.
+ * symbols:
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_021F86A8 0x021F86A8 thumb ov135
+ *   d_02202ED8 0x02202ED8 data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct { u8 pad[0xEF0]; u16 a[10]; u16 b[10]; } Work;
+typedef struct { u32 w[4]; u16 count, rows; u32 rest[8]; } Menu;
+extern const Menu d_02202ED8;
+extern void *func_02045770(void *win);
+extern void func_02043B5C(void *bmp, u32 color);
+extern int func_021F86A8(void **menu, void *msg, void *endmsg, u16 *list, u32 unused4, u32 unused5, u32 kind, void *bag);
+extern void func_0201F73C(void *win, int a, int b, int c);
+extern void *func_0201FF30(Menu *src, u16 a, u16 b, u32 heap);
+void *func_021F875C(Work *p, void **menu, void *win, void *endmsg, void *msg, u8 *cfg, void *bag)
+{
+    int kind;
+    int count;
+    Menu src;
+    func_02043B5C(func_02045770(win), 15);
+    kind = *(u16 *)(cfg + 6) + *(u16 *)(cfg + 4);
+    count = func_021F86A8(menu, msg, endmsg, *(u16 **)(cfg + 0x18), *(u32 *)(cfg + 0x14), *(u32 *)(cfg + 0x1C), kind, bag);
+    src = d_02202ED8;
+    src.count = count;
+    src.w[0] = (u32)*menu;
+    src.w[3] = (u32)win;
+    func_0201F73C(win, 0, 31, 11);
+    return func_0201FF30(&src, p->a[kind], p->b[kind], 0x48);
+}

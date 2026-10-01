@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: EXACT*
- * unfiled: larger followers 021FD3D8 and 021FD3F0 remain DIFF notes.
+ * followers: larger leaves 021FD3D8 and 021FD3F0 filed separately.
  * symbols:
  *   func_020307B0 0x020307B0 arm
  *   func_02030734 0x02030734 arm

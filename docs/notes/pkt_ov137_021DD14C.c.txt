@@ -1,0 +1,37 @@
+/*
+ * function: func_021DD14C
+ * address: 0x021DD14C
+ * packet: pkt_ov137_021DD14C
+ * region: ov137
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 func_0207E51C reads 3 arguments; 2 ov137_021DE6EC confirms void(void *,int,int), no table twin; 3 signed state fields unchanged, unsigned index with mutable table worsened 56 to 59; 4 Pair table produces same 56-byte residue, declaration-order and const-table idioms read; 5 idiom directory and ov136/ov137 neighbours reread, no closer twin, no stack object; next targeted hypothesis long index, not a sweep.
+ * residual: 88 bytes, 56 concrete bytes differ; index/count registers swap and second table load is CSE'd, shifting branch targets.
+ * symbols:
+ * func_0207E51C 0x0207E51C arm
+ * d_021E1AEE 0x021E1AEE data a1
+ * d_021E1AEF 0x021E1AEF data a1
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef struct { u8 count,frame; } Pair;
+extern const Pair d_021E1AEE[];
+extern void func_0207E51C(void *,int,int);
+void func_021DD14C(int unused,u8 *p)
+{
+    int *v=(int *)(p+24);
+    int i;
+    if(v[0]) {
+        i=v[1];
+        if(v[2]>d_021E1AEE[i].count) {
+            v[1]=i+1;
+            v[2]=0;
+            if(d_021E1AEE[v[1]].count==255) v[1]=0;
+            func_0207E51C((u8 *)*(u32 *)((u8 *)v[4]+12)+(d_021E1AEE[v[1]].frame<<5),0,32);
+            return;
+        }
+        *(u32 *)(p+32)+=1;
+    }
+}

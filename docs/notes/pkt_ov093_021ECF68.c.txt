@@ -1,0 +1,126 @@
+/*
+ * function: func_021ECF68
+ * address: 0x021ECF68
+ * packet: pkt_ov093_021ECF68
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 matched callee/caller arities and r0 returns agree; 2 ov093 ED158/ED8E8 and new EC8C4 give no countdown twin; 3 int/u16 timer both 428 bytes/53 out, const pointee invalid because p is written; 4 two isolated volatile-read probes gave 432/90 and 428/53, removed; 5 idiom directory and neighbours re-read, no stack object (push r3 is alignment); next hypothesis is an inline u16 countdown helper.
+ * residual: 428/432 bytes, 53 concrete bytes; case 5 load at 021ED0F0 merges into case 4 at 021ED0B4 and subs/add scheduling swaps at 021ED0B6/021ED0B8.
+ * permuter: --budget 300 --types, 300 compiles/14s; size-first best 432/432, 217 out rejected because tmp2 assignment precedes case 3 and is skipped on direct dispatch. Valid baseline retained.
+ * correction: case 5 decrements the halfword at 0x14a into 0x148; r2/r5 spellings are inferior, r2 wrote the wrong destination.
+ * symbols:
+ *   func_021ED7C8 0x021ED7C8 thumb ov093
+ *   func_021ED814 0x021ED814 thumb ov093
+ *   func_021B86C0 0x021B86C0 thumb ov093
+ *   func_0203630C 0x0203630C arm
+ *   func_02035C38 0x02035C38 arm
+ *   func_020362DC 0x020362DC arm
+ *   func_02035C60 0x02035C60 arm
+ *   func_0201CE20 0x0201CE20 thumb
+ *   func_0201CE30 0x0201CE30 thumb
+ *   func_0201CE38 0x0201CE38 thumb
+ *   func_0201CE48 0x0201CE48 thumb
+ *   func_0201CE8C 0x0201CE8C thumb
+ *   func_0201CEB8 0x0201CEB8 thumb
+ *   func_0201CED4 0x0201CED4 thumb
+ *   func_0201DD68 0x0201DD68 thumb
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void func_021ED7C8(void *, int);
+extern int func_021ED814(void *);
+extern u8 func_021B86C0(void *);
+extern u32 func_0203630C(void);
+extern u32 func_02035C38(void);
+extern u32 func_020362DC(void);
+extern u32 func_02035C60(void);
+extern void func_0201CE20(void *);
+extern u32 func_0201CE30(void *);
+extern void func_0201CE38(void *);
+extern void func_0201CE48(void *);
+extern void func_0201CE8C(void *, int);
+extern void func_0201CEB8(void *);
+extern u32 func_0201CED4(void *);
+extern signed char func_02013080(u32);
+extern void func_0201DD68(void);
+extern void func_020061E4(int);
+extern int func_02006254(int);
+int func_021ECF68(u8 *p)
+{
+    u16 timer;
+    switch (p[0x13f]) {
+    case 0:
+        func_021ED7C8(p + 0x154, p[0x13e]);
+        p[0x13f]++;
+    case 1:
+        if (func_021ED814(p + 0x154) == 0) break;
+        if (p[0x13e]) {
+            p[0x13f] = 6;
+            break;
+        }
+        if (*(void **)(p + 0x30) != 0) func_0201CE20(*(void **)(p + 0x30));
+        p[0x13f]++;
+    case 2:
+        if (*(void **)(p + 0x30) != 0) {
+            if (func_021B86C0(*(void **)(p + 0x134)) == 0) {
+                if ((func_0203630C() & 3) || func_02035C38()) {
+                    if (func_0201CED4(*(void **)(p + 0x30)) == 0) {
+                        func_0201CE8C(*(void **)(p + 0x30), func_02013080(2));
+                    }
+                } else {
+                    if (func_0201CED4(*(void **)(p + 0x30)) != 0) func_0201CEB8(*(void **)(p + 0x30));
+                }
+            }
+            *(u32 *)(p + 0x144) = func_0201CE30(*(void **)(p + 0x30));
+            if (*(u32 *)(p + 0x144) != 0) {
+                if (func_021B86C0(*(void **)(p + 0x134)) == 0) p[0x13f] = 3;
+                else p[0x13f] = 4;
+                if (*(u32 *)(p + 0x144) == 2) {
+                    *(u16 *)(p + 0x148) = *(u16 *)(p + 0x14c);
+                    p[0x141] = 1;
+                }
+            }
+        } else {
+            p[0x13f] = 6;
+        }
+        break;
+    case 3:
+        if ((func_020362DC() & 3) || func_02035C60()) *(u16 *)(p + 0x148) = 0;
+        if (*(u16 *)(p + 0x148) != 0) (*(u16 *)(p + 0x148))--;
+        else p[0x13f] = 5;
+        break;
+    case 4:
+        if (*(u16 *)(p + 0x148) != 0) (*(u16 *)(p + 0x148))--;
+        else p[0x13f] = 5;
+        break;
+    case 5:
+        if (*(u32 *)(p + 0x144) == 2) {
+            func_0201DD68();
+            func_0201CE48(*(void **)(p + 0x30));
+            *(void **)(p + 0x30) = 0;
+            p[0x13f] = 6;
+        } else {
+            func_0201CE38(*(void **)(p + 0x30));
+            func_020061E4(0x547);
+            p[0x13f] = 2;
+            timer = *(u16 *)(p + 0x14a);
+            timer--;
+            *(u16 *)(p + 0x148) = timer;
+        }
+        break;
+    case 6:
+        if (func_02006254(0x547) == 0) {
+            p[0x13f] = 7;
+            return 1;
+        }
+        break;
+    case 7:
+    default:
+        return 1;
+    }
+    return 0;
+}

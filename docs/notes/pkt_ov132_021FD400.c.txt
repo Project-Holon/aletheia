@@ -8,7 +8,7 @@
  * isa: thumb
  * status: DIFF
  * residue: 4 concrete bytes; adds r2,#0x7c exchanges order with adds r1,r6,r7.
- * checks: 1 MI_CpuCopy8 reads r0-r2, all arguments present; 2 D22C/D350 twins fix arity but no same loop; 3 int n and int copy-size (two compiles total) unchanged; 4 integer destination base unchanged; 5 refreshed idioms/neighbours no further scheduling fit, no stack aggregate; next inline-copy-wrapper spelling
+ * checks: 1 MI_CpuCopy8 reads r0-r2, all arguments present; 2 D22C/D350 twins fix arity but no same loop; 3 int n and int copy-size (two prior compiles total) unchanged; 4 integer destination base unchanged; 5 wave 27 refreshed idioms/neighbours no further scheduling fit, no stack aggregate; copy wrapper, wrapper adding 0x7c, and wrapper taking base/offset all leave DIFF 4; first 300/types pass best DIFF 4, no mutations accepted. Next requires new scheduling evidence, not another types pass.
  * symbols:
  *   func_02082D44 0x02082D44 arm
  *   func_0203996C 0x0203996C arm

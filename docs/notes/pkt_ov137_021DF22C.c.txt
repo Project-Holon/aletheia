@@ -1,0 +1,44 @@
+/*
+ * function: func_021DF22C
+ * address: 0x021DF22C
+ * packet: pkt_ov137_021DF22C
+ * region: ov137
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 both callees read two arguments, no stack arguments; 2 no table twin, matched 021E19C0 uses char*,int; 3 const Obj worsened 26 to 29, u16 degrees unchanged; 4 enum step and table const removal unchanged, declaration order and stack-struct idioms read; 5 idioms and ov136/137/138 neighbours refreshed, no new twin, stack object already declared struct. Next: inline table lookup helper with explicit row/column locals, no sweep performed.
+ * residual: 116 bytes compiled, 26 concrete bytes differ, chiefly r4/r5/r6 rotation and early table load scheduling.
+ * symbols:
+ *   d_021E1FDC 0x021E1FDC data a2
+ *   func_021E19C0 0x021E19C0 thumb ov137
+ *   func_021E15DC 0x021E15DC thumb ov137
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef enum { STEP_ZERO, STEP_MAX = 16384 } Step;
+typedef struct { u8 pad[40]; u8 *selected; int index, count; } Obj;
+extern u16 d_021E1FDC[][5];
+extern void func_021E19C0(char *, int);
+extern void func_021E15DC(int *, int);
+int func_021DF22C(Obj *obj)
+{
+    u8 *p = (u8 *)obj;
+    int target, delta, current;
+    Step step;
+    u16 degrees;
+    struct { int value; } angle;
+    current = *(int *)(obj->selected + 0x1c);
+    degrees = d_021E1FDC[obj->count][obj->index];
+    step = 16384;
+    target = degrees << 12;
+    angle.value = current;
+    delta = target - current;
+    if (delta < 0) delta = target + 1474560 - current;
+    if (delta <= 65536) step >>= 1;
+    if (delta < step) step = delta;
+    func_021E19C0((char *)p, step);
+    func_021E15DC(&angle.value, step);
+    if (angle.value / 4096 == target / 4096) *(int *)p = 31;
+    return 0;
+}

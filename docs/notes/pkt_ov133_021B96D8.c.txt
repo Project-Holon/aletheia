@@ -1,0 +1,53 @@
+/*
+ * function: func_021B96D8
+ * address: 0x021B96D8
+ * packet: pkt_ov133_021B96D8
+ * region: ov133
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 callees read expected arguments; 2 ov133/132/134 no twin beyond 94C0 index local; 3 block u16 index and Slot pointer unchanged (2 compiles); 4 stack-order and block-scope idioms read, two order variants consumed; 5 refreshed idioms/neighbours no new twin; next probe inline index accessor.
+ * residual: Seven byte differences only: index and slot spill homes swapped at sp+0/sp+4.
+ * symbols:
+ *   func_0200A628 0x0200A628 thumb
+ *   func_0200A604 0x0200A604 thumb
+ *   func_021BA184 0x021BA184 thumb ov133
+ *   func_021BA258 0x021BA258 thumb ov133
+ *   func_021BA20C 0x021BA20C thumb ov133
+ *   func_021BA208 0x021BA208 thumb ov133
+ *   func_021F5450 0x021F5450 thumb ov112
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef struct { u8 index, pad; u16 id; s16 value; } Slot;
+extern u8 *func_0200A628(void *);
+extern void func_0200A604(void *);
+extern u8 *func_021BA184(void *);
+extern int func_021BA258(u8 *);
+extern u8 *func_021BA20C(u8 *);
+extern u8 *func_021BA208(u8 *);
+extern u8 *func_021F5450(u8 *, int);
+void func_021B96D8(u8 *p)
+{
+    u8 *table = func_0200A628(*(void **)(*(u8 **)(p + 4) + 8));
+    u8 *e;
+    u8 i = 0;
+    Slot *slot;
+    func_0200A604(*(void **)(*(u8 **)(p + 4) + 8));
+    e = func_021BA184(*(void **)(p + 0x1824));
+    while (e && i < 8) {
+        u16 index;
+        index = func_021BA258(e);
+        func_021F5450(*(u8 **)(p + 0x1880), index);
+        slot = (Slot *)(table + i * 6);
+        slot->index = index;
+        slot->id = *(u16 *)func_021BA20C(e);
+        slot->value = *(s16 *)(*(u8 **)(*(u8 **)(p + 4) + 4) + index * 6 + 0x16);
+        *(u16 *)(*(u8 **)(*(u8 **)(p + 4) + 4) + index * 6 + 0x14) = *(u16 *)func_021BA20C(e);
+        *(u8 *)(*(u8 **)(*(u8 **)(p + 4) + 4) + index * 6 + 0x18) = i;
+        e = func_021BA208(e);
+        i++;
+    }
+}

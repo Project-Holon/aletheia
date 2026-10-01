@@ -1,0 +1,46 @@
+/*
+ * function: func_021F9024
+ * address: 0x021F9024
+ * packet: pkt_ov135_021F9024
+ * region: ov135
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021D5C70 0x021D5C70 thumb ov115
+ *   func_021C8658 0x021C8658 arm ov114
+ *   func_0216AD50 0x0216AD50 arm ov009
+ *   func_0205CC20 0x0205CC20 arm
+ */
+typedef unsigned char u8;
+typedef signed short s16;
+extern int func_021D5C70(void *);
+extern void func_021C8658(void);
+extern void func_0216AD50(void);
+extern void func_0205CC20(void);
+int func_021F9024(u8 *p, void *dialog)
+{
+    switch (*(s16 *)(p + 0xf88)) {
+    case 0:
+        (*(s16 *)(p + 0xf88))++;
+        break;
+    case 1:
+        if (func_021D5C70(dialog)) (*(s16 *)(p + 0xf88))++;
+        break;
+    case 2:
+        (*(s16 *)(p + 0xf88))++;
+        break;
+    case 3:
+        func_021C8658();
+        func_0216AD50();
+        func_0205CC20();
+        (*(s16 *)(p + 0xf88))++;
+        break;
+    default:
+        (*(s16 *)(p + 0xf8a))++;
+        if (*(s16 *)(p + 0xf8a) > 60) return 1;
+        break;
+    }
+    return 0;
+}

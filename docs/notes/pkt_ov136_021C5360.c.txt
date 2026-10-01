@@ -1,0 +1,57 @@
+/*
+ * function: func_021C5360
+ * address: 0x021C5360
+ * packet: pkt_ov136_021C5360
+ * region: ov136
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residue: 188 compiled / 192 extent, 40 concrete bytes differ; dying-base store at +0096 shifts tail. ARM9 02024450 also lacks outside witness.
+ * checks: 1 show confirms 02045730 return feeds 020409B4, chain corrected; 2 ov136 52F8/47C4 twins confirm chain and 4184 leaf C; 3 const p CCERR then corrected compile worse at 111 differences; 4 struct-field/raw inline/named pointer/integer-pointer probes unchanged; 5 refreshed idioms/neighbours, 5F80 narrow args confirmed; no stack-object residue (call args only); next full object type for store scheduling.
+ * symbols:
+ *   func_02024450 0x02024450 thumb
+ *   func_0202DC48 0x0202DC48 thumb
+ *   func_02045770 0x02045770 arm
+ *   func_0201C724 0x0201C724 thumb
+ *   func_02045334 0x02045334 arm
+ *   func_02045374 0x02045374 arm
+ *   func_02045730 0x02045730 arm
+ *   func_020409B4 0x020409B4 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+extern int func_02024450(void *);
+extern void func_0202DC48(void *,void *,void *,u8);
+extern void *func_02045770(void *);
+extern void func_0201C724(void *,void *,int,int,int,int,int);
+extern void func_02045334(void *);
+extern void func_02045374(void *);
+extern void *func_02045730(void *);
+extern void func_020409B4(void *);
+void func_021C5360(u8 *p)
+{
+    int i;
+    void *a;
+    for(i=0;i<3;i++) {
+        if(func_02024450(*(u8 **)(p+28)+22+i*8))
+            func_0202DC48(*(void **)(p+0x148),*(void **)(p+72+i*4),*(u8 **)(p+28)+22+i*8,i);
+    }
+    if(*(u16 *)(*(u8 **)(p+28)+50)!=65535) {
+        *(u16 *)(p+0x14c)=6;
+        *(u16 *)(p+0x14e)=0;
+        *(u16 *)(p+0x150)=*(u16 *)(*(u8 **)(p+28)+50);
+        func_0202DC48(*(void **)(p+0x148),*(void **)(p+84),(void *)(p+0x14c),3);
+    }
+    if(p[11]==0) {
+        u8 *flag;
+        a=*(void **)(p+152);
+        func_0201C724(a,func_02045770(*(void **)(p+136)),0,2,*(int *)(*(u8 **)(p+28)+12),*(int *)(p+36),1088);
+        flag=(u8 *)((unsigned)p+140);
+        a=*(void **)(p+88);
+        *flag=1;
+        func_02045334(a);
+        func_02045374(a);
+        func_020409B4(func_02045730(a));
+    }
+}

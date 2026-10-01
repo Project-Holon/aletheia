@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * superseded: wave 27 u32 draw local inside random4 is EXACT* in src/matched/ov/ov132_func_021FD84C.c; prior evidence retained below.
  * residue: 3 concrete bytes differ at +0x28,+0x2a,+0x2c: high product uses r1 not r2. Compiled 118 code bytes vs extent 120 including padding.
  * checks: 1 random takes no args, returns u32; context callee four args confirmed; 2 no same-overlay shuffle twin; 3 u8 inline random return reduces 15 to 3 bytes, bound parameter/int swap temp unchanged (2 compiles); 4 random multiply-high and inline spelling idioms used, inline swap/guard no rescue (2 compiles); 5 fresh idiom listing and ov131/132/133 neighbours no twin; declared stack storage already right, explicit u32 intermediate unchanged (1 compile). Next hypothesis: inline random-result local/parameter width, not a permutation sweep.
  * symbols:
