@@ -8,12 +8,19 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 full own callee bodies confirm 3/6/3/1/8 argument arities and u16 print coordinates; 2 ov067 6B2C twin confirms widths, no ov218 twin; 3 const p and u16 font both compiled unchanged 81B; 4 enum kind compiled unchanged 81B; 5 fresh unfiltered idiom listing and owned B78/C00 plus ov067 twin reread, no new lever; struct-local idiom inapplicable because no aggregate scratch object. Next candidate: parameter reuse, with shared scheduling cap already exhausted.
- * Iterations i1..i5: 81/83/81/141/81 concrete bytes; 148/152/148/152/148 sizes.
- * Conservative stop against best delta after i4/i5; order variants i3
- * named slot and i5 declaration reorder consume 2/2 across all checks.
- * Original retains index in r7 and spills kind to sp+18; this C retains
- * kind in r7 and reloads index from its argument slot, changing the frame.
+ * checks: 1 full own callee bodies confirm 3/6/3/1/8 argument arities and u16 print coordinates; 2 ov067 6B2C twin confirms widths, no ov218 twin; 3 const p and u16 font unchanged 81B (2/2); 4 enum kind unchanged 81B (1/2); 5 refreshed idioms/neighbours and enum idiom read, no aggregate scratch object.
+ * Wave34: first high/types budget300 spent; raw DIFF70 caches p+1C
+ *   before 0201F250 and is rejected without complete alias-separation proof.
+ * I6 enum index reduces DIFF81 to DIFF6 at identical 148B; all six sites
+ *   resolve. Fixed compiler uses -enum int; fifth input remains a full-word
+ *   stack load. slot/kind remain signed int, no restricted enum-value domain
+ *   or narrowing is assumed, and every callee prototype/order is unchanged.
+ *   Residue +12/+14/+16: kind spill precedes amount/message constants.
+ * I7 enum amount, I8 enum kind, I9 enum font each stay DIFF6/148B;
+ *   retain I6 alone. Enum locals/parameter stay full32; no ABI narrowing.
+ * Iterations I1..I9: 81/83/81/141/81/6/6/6/6 concrete bytes.
+ * budget: first nongain I2 remains; since-first 8; I6 resets streak on gain,
+ *   I7..I9 reach streak3, stop. C3 2/2, C4 1/2; order/extraction 2/2.
  * symbols:
  *   func_02045CAC 0x02045CAC arm
  *   func_0201EFA4 0x0201EFA4 thumb
@@ -24,6 +31,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
+enum Index { INDEX_ZERO=0 };
 struct MsgBank;
 struct WordSet;
 struct StrObj;
@@ -32,7 +40,7 @@ extern void func_0201EFA4(struct WordSet *, u32, u32, u32, u32, u32);
 extern void func_0201F250(struct WordSet *, void *, void *);
 extern u32 func_0201D2C8(struct StrObj *);
 extern void func_021B6AE4(u8 *, u32, u16, u16, u32, u32, u16, u32);
-void func_021B9AE4(char *p, u8 *print, u32 bitmap, u32 font, int index)
+void func_021B9AE4(char *p, u8 *print, u32 bitmap, u32 font, enum Index index)
 {
     int kind;
     int amount;

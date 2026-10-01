@@ -12,15 +12,17 @@
  *   3 const p gives 52-byte DIFF, int y gives 53, neither restores pair;
  *   4 narrowing/inline/bitfield idioms read, direct and inline casts flat;
  *   5 fresh unfiltered idiom directory and ov216/217/218 neighbour search,
- *     0F48/0F5C/0EA4/BD0C4 read, no new matching twin. Next diagnostic:
- *     prove an inline coordinate helper's type before any additional probe.
+ *     0F48/0F5C/0EA4/BD0C4 read, no new matching twin.
  * residual: best run r3 compiles 124 versus original 128 bytes, 45 concrete
  *   bytes differ. Original 021C0FC6 lsls r2,#16 and 021C0FCE asrs r2,#16
  *   redundantly narrow the byte read at 021C0FBE; compiler removes this pair.
  *   All eight sites resolve. Color's right-associated OR reproduces entry.
- * budget: five iterations; stop after r4/r5 are two nonshrinking changes;
- *   C3 two compiles, other final checks read-only; order/extraction cap two
- *   used by named y and inline wrapper; no volatile or flags changes.
+ * Wave34: first high/types budget300 spent; raw DIFF34 hoists p[6]
+ *   across 021C1090 and is rejected without complete forwarded-alias proof.
+ *   I6 signed bitfield gives DIFF80/152B and reads uninitialized padding;
+ *   rejected. Retain the valid r3 spelling above.
+ * budget: I6 total; first nongain I4; since-first 3; streak3, stop.
+ *   C3 2/2; other checks read-only; order/extraction 2/2 unchanged.
  * symbols:
  *   func_02045770 0x02045770 arm
  *   func_02043B5C 0x02043B5C arm

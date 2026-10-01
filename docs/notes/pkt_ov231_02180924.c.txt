@@ -7,7 +7,10 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 timer returns u64, SPI wait consumes no argument; 2 no same-region return twin; 3 bitfield 37/108 rejected uninitialized padding read, byte buffer 14/92; 4 inline halfword struct best 3/96, hardware aggregate 14/92; 5 fresh idioms and SPI neighbours read, no rescue; next: aggregate return model, order/extraction cap 2 exhausted.
+ * checks: 1 fresh full OS_GetTick returns u64, own SPI wait body consumes no argument; 2 matched SPI neighbours re-read, no return twin; 3 prior bitfield37/108 rejected uninitialized padding read and byte buffer14/92 (2/2); 4 prior inline halfword struct3/96 and hardware aggregate14/92 (1/2); 5 fresh directory/aggregate-return idioms; next requires new initialized aggregate proof, no automatic scheduling/types retry.
+ * retry: wave34 gpt-6.1-sol/high; once-only types budget300 consumed, baseline included; no winning mutations; safe initialized Pair C below retained, single SPI read/full pointer/u64 arithmetic; final explicit-region DIFF3/96, 5/5 resolved.
+ * budgets: iterations4 total (wave33=3, wave34 unchanged diagnostic=1); first nongain2, runs-since-first3, consecutive nongain3 STOP; manual order/extraction2/2; C1=0 C2=0 C3=2 C4=1 C5=0; sweeps0; types300 used once.
+ * evidence: scratchpad/overlay-goal-20260930-w34/R2/permuter-02180924.log and final-02180924.log; no behavior-changing winner accepted, no C/shard filed.
  * volatile: SPI data register 040001A2 written at 02180960 and read at 0218096C.
  * symbols:
  *   func_020870D0 0x020870D0 arm

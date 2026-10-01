@@ -7,8 +7,12 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 full 40618/4B404 bodies prove 3 inputs; 2 own 9C4C/9D38 and ARM9 callers confirm Vec2/signatures; 3 int callee arguments and char p unchanged (2 runs); 4 dying-pointer allocator tie and stack-Vec idioms read, no evidenced fix; 5 refreshed idioms/neighbours and cast byte-buffer unchanged (1 run). Next: typed table-base pointer local; no sweep run.
+ * checks: 1 full 40618/4B404 bodies prove 3 inputs; 2 own 9C4C/9D38 and ARM9 callers confirm Vec2/signatures; 3 int callee arguments and char p unchanged (2 runs); 4 dying-pointer allocator tie and stack-Vec idioms read, no evidenced fix; 5 refreshed idioms/neighbours and cast byte-buffer unchanged (1 run).
  * residue: 4 bytes at +24/+28/+2C/+2E swap r1/r2 table base and first coordinate; 76 bytes and all 4 relocations resolved.
+ * Wave34: first high/types budget300 spent, unchanged DIFF4/76B;
+ *   I6 typed table pointer remains DIFF4/76B; retain prior spelling.
+ * budget: I6 total, first nongain I4, since-first 3, streak3, stop;
+ *   C3 2/2, C5 1/2; order/extraction was 0/2, now 1/2 for named table.
  * symbols:
  *   func_02040618 0x02040618 arm
  *   func_0204B404 0x0204B404 arm

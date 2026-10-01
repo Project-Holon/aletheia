@@ -15,7 +15,11 @@
  * 5 fresh idiom list and 4FC8/50EC neighbours read, const p unchanged.
  * residual: 17 concrete bytes differ, 120-byte layout, all 7 relocations
  * resolved; original loads/narrows heap before table, C schedules table first.
- * next: investigate typed context field; shared scheduling cap exhausted.
+ * Wave34: first high/types budget300 spent; unchanged DIFF17/120B.
+ *   I5 typed heap/context and I6 restored const context each DIFF100/128B;
+ *   both nongains; retain the prior valid DIFF17 spelling.
+ * budget: I6 total, first nongain I2, since-first 5, streak3, stop;
+ *   C3 2/2, C4 2/2, C5 1/2; order/extraction 2/2 unchanged.
  * symbols:
  *   func_02184968 0x02184968 thumb ov219
  *   func_02045B38 0x02045B38 arm

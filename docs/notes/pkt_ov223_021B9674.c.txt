@@ -8,7 +8,10 @@
  * flags: -O4,p
  * lang: c99
  * status: DIFF
- * checks: 1 355D8 word caller visibly not truncated, own u8 widened; 2 singleton unit read; 3 const p no change (1/2); 4 enum zero/shared-exit idioms read; 5 fresh directory/neighbour read; next case0 dead assignment probe, order cap exhausted.
+ * checks: 1 fresh full callee bodies confirm preserved inputs and 355D8 word caller untruncated; 2 matched same-overlay state neighbours re-read; 3 prior const p no change (1/2), no reset; 4 enum zero/shared-exit/dead-assignment idioms re-read; 5 fresh directory/neighbours; next requires new behavior-safe structural evidence, no automatic scheduling/types retry.
+ * retry: wave34 gpt-6.1-sol/high; once-only types budget300 consumed, baseline included; best21/108 rejected because switch labels skip tmp/tmp3 initialization; safe C below retained, final explicit-region DIFF53/104, 5/5 resolved.
+ * budgets: iterations6 total (wave33=5, wave34 unchanged diagnostic=1); first nongain4, runs-since-first3, consecutive nongain3 STOP; manual order/extraction2/2; C1=0 C2=0 C3=1 C4=0 C5=0; sweeps0; types300 used once.
+ * evidence: scratchpad/overlay-goal-20260930-w34/R2/permuter-021B9674.log and final-021B9674.log; no behavior-changing winner accepted, no C/shard filed.
  * symbols:
  *   func_0204E720 0x0204E720 arm
  *   func_020355D8 0x020355D8 arm

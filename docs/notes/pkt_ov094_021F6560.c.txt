@@ -1,0 +1,159 @@
+/*
+ * function: func_021F6560
+ * address: 0x021F6560
+ * packet: pkt_ov094_021F6560
+ * region: ov094
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * Residual: 824/824 bytes, 18 concrete bytes differ, all stack-slot offsets.
+ * Budget: iteration 5; consecutive nonshrinking 3; position from first 3;
+ * manual order/extraction variants 2/2 (r2 reuse j, r3 declaration move).
+ * checks: 1 twin call ABI and shown 0207DCF8 one-arg reader agree, no call residue; 2 exact 021F6B04 twin adapted to 0xbc two-view layout and 0x44 table stride; 3 u16 i 836/654, unsigned i 824/21 (2/2), iteration u16 j 840/506 and const Table 828/712 rejected; 4 loop-reuse and spill/declaration/scope idioms read, manual cap exhausted; 5 fresh full idiom directory and twin reread, no local aggregate/add-sp object; next hypothesis named row/column pointers deferred by manual cap; permuter once budget300 --types baseline/best DIFF824/18, no mutations/improvement.
+ * symbols:
+ *   sub_02030734 0x02030734 arm
+ *   func_02048F60 0x02048F60 arm
+ *   func_02046DB8 0x02046DB8 arm
+ *   func_02046FF8 0x02046FF8 arm
+ *   func_02047400 0x02047400 arm
+ *   func_02047564 0x02047564 arm
+ *   func_0204767C 0x0204767C arm
+ *   func_020477A4 0x020477A4 arm
+ *   func_0207ADC4 0x0207ADC4 arm
+ *   func_02046F48 0x02046F48 arm
+ *   func_0206E964 0x0206E964 arm
+ *   func_0207DCF8 0x0207DCF8 arm
+ *   sub_020307B0 0x020307B0 arm
+ *   d_0220AC40 0x0220AC40 data ov094 a1
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct { int kind, a, b, c; } Ent;
+typedef struct { int header; int v[4][4]; } Table;
+typedef struct {
+    void *f0;
+    int n;
+    Ent *f8[2];
+    void **f10;
+    void **f14[2];
+    void *f1c[2];
+    void *f24[2];
+    int f2c, f30, f34;
+    int f38, f3c, f40;
+    int matrix44[9];
+    int f68, f6c, f70;
+    int f74, f78, f7c;
+    int matrix80[9];
+    void **fa4;
+    void **fa8;
+    u8 fac, fad;
+    u8 pad[10];
+    u16 heap;
+    u16 padba;
+} Obj;
+extern const char d_0220AC40[];
+extern void *sub_02030734(u32, u32, int, const char *, u16);
+extern void *func_02048F60(u32, u32, u32);
+extern void *func_02046DB8(u32, u32);
+extern int func_02046FF8(int *);
+extern void *func_02047400(void *, u32, void *);
+extern void *func_02047564(void *, const void *, int);
+extern void *func_0204767C(void *, void **, u16);
+extern u32 func_020477A4(void *, u16);
+extern void func_0207ADC4(int *);
+extern void *func_02046F48(void *);
+extern u8 *func_0206E964(void *);
+extern void func_0207DCF8(void *);
+extern void sub_020307B0(void *);
+Obj *func_021F6560(int mode, int group, int variant, u16 heap)
+{
+    int j;
+    Obj *o;
+    Table *table;
+    int i;
+    int k;
+    int bytes;
+    o = sub_02030734(heap, 0xbc, 1, d_0220AC40, 0x63);
+    table = func_02048F60(0x98, 2, (u16)((heap & 0x7fff) | 0x8000));
+    o->heap = heap;
+    if (mode == 3)
+        o->f0 = func_02046DB8(11, 0x56);
+    else if (table[group].v[0][variant] != -1)
+        o->f0 = func_02046DB8(11, table[group].v[0][variant]);
+    else
+        o->f0 = func_02046DB8(11, table[group].v[0][0]);
+    func_02046FF8(o->f0);
+    o->n = 0;
+    for (i = 1; i < 4; i++)
+        if (table[group].v[i][variant] != -1) o->n++;
+    o->f1c[0] = func_02047400(o->f0, 0, o->f0);
+    o->f1c[1] = func_02047400(o->f0, 0, o->f0);
+    j = 0;
+    if (mode == 3) {
+        o->n = 1;
+        o->f10 = sub_02030734(o->heap, 4, 0, d_0220AC40, 0x93);
+        o->f10[0] = func_02046DB8(11, 0x57);
+        for (j = 0; j < 2; j++) {
+            o->f14[j] = sub_02030734(o->heap, 4, 0, d_0220AC40, 0x98);
+            o->f8[j] = sub_02030734(o->heap, 16, 1, d_0220AC40, 0x99);
+            o->f14[j][0] = func_02047564(o->f1c[j], o->f10[0], 0);
+            o->f8[j][0].kind = 1;
+            o->f24[j] = func_0204767C(o->f1c[j], o->f14[j], o->n);
+            func_020477A4(o->f24[j], 0);
+        }
+    } else if (o->n != 0) {
+        o->f10 = sub_02030734(o->heap, o->n * 4, 0, d_0220AC40, 0xa7);
+        for (j = 0; j < 2; j++) {
+            o->f14[j] = sub_02030734(o->heap, o->n * 4, 0, d_0220AC40, 0xab);
+            o->f8[j] = sub_02030734(o->heap, o->n * 16, 1, d_0220AC40, 0xac);
+        }
+        j = 0;
+        for (i = 1; i < 4; i++) {
+            if (table[group].v[i][variant] != -1) {
+                o->f10[j] = func_02046DB8(11, table[group].v[i][variant]);
+                for (k = 0; k < 2; k++) {
+                    o->f14[k][j] = func_02047564(o->f1c[k], o->f10[j], 0);
+                    o->f8[k][j].kind = 0;
+                }
+                j++;
+            }
+        }
+        for (i = 0; i < 2; i++) {
+            o->f24[i] = func_0204767C(o->f1c[i], o->f14[i], o->n);
+            for (j = 0; j < o->n; j++) func_020477A4(o->f24[i], j);
+        }
+    } else {
+        o->f24[0] = func_0204767C(o->f1c[0], 0, 0);
+        o->f24[1] = func_0204767C(o->f1c[1], 0, 0);
+    }
+    bytes = *(u16 *)(func_0206E964(func_02046F48(o->f0)) + 0x30) * 8;
+    o->fa4 = sub_02030734(o->heap, 4, 0, d_0220AC40, 0xd6);
+    o->fa8 = sub_02030734(o->heap, 4, 0, d_0220AC40, 0xd7);
+    *o->fa4 = o->f0;
+    *o->fa8 = sub_02030734(o->heap, bytes, 0, d_0220AC40, 0xda);
+    o->fac = 0;
+    o->fad = 1;
+    o->f2c = 0;
+    o->f30 = 0;
+    o->f34 = 0x572f;
+    o->f38 = 0x1000;
+    o->f3c = 0x1000;
+    o->f40 = 0x1000;
+    func_0207ADC4(o->matrix44);
+    o->f68 = 0;
+    o->f6c = 0;
+    o->f70 = -0xcb7d;
+    o->f74 = 0x1000;
+    o->f78 = 0x1000;
+    o->f7c = 0x1000;
+    func_0207ADC4(o->matrix80);
+    if (mode == 3) {
+        o->f34 = 0xa000;
+        o->f70 = -0xf000;
+    }
+    func_0207DCF8(&table[group]);
+    sub_020307B0(table);
+    return o;
+}

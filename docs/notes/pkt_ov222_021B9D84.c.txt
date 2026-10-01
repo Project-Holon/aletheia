@@ -8,7 +8,11 @@
  * isa: thumb
  * status: DIFF
  * prototype evidence: 40618 legacy trailing r3 omitted: full body forwards only into 42360, whose full body reads r0-r2 only; original loads no r3 at either call.
- * checks: 1 full 40618/42360 and B404 bodies confirm arity/width; 2 ov221/222 twins confirm Vec2/out pointer and three arguments; 3 const p stays 4B, const scalar table grows to 17B; 4 cast buffer and named x stay 4B; 5 fresh directory, 9D38/9DD0 neighbors and named table pointer stay 4B. Next: typed byte-container table, not an order sweep; shared extraction probes 2/2.
+ * checks: 1 full 40618/42360 and B404 bodies confirm arity/width; 2 ov221/222 twins confirm Vec2/out pointer and three arguments; 3 const p stays 4B, const scalar table grows to 17B; 4 cast buffer and named x stay 4B; 5 fresh directory, 9D38/9DD0 neighbors and named table pointer stay 4B.
+ * Wave34: first high/types budget300 spent, unchanged DIFF4/76B;
+ *   I5 typed byte-container table stays DIFF4/76B; retain prior spelling.
+ * budget: I5 total, first nongain I3, since-first 3, streak3, stop;
+ *   C3 2/2, C4 2/2, C5 1/2; order/extraction 2/2 unchanged.
  * symbols:
  *   func_02040618 0x02040618 arm
  *   func_0204B404 0x0204B404 arm

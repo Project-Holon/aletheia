@@ -8,7 +8,10 @@
  * flags: -O4,p
  * lang: c99
  * status: DIFF
- * checks: 1 callee prototypes read; 2 fresh 9C90 confirms full count/u16 index; 3 long count/index no change (2/2); 4 shared-pointer and width idioms read; 5 fresh directory/neighbour read; next block-local type probe, order cap exhausted.
+ * checks: 1 fresh own callee bodies preserve full returns/inputs; 2 matched 9C90/9914 twins confirm full count and u16 wrapping index; 3 prior long count/index no change (2/2), no reset; 4 shared-pointer/long-index/block-local idioms re-read; 5 fresh directory/neighbours; next requires new behavior-safe structural evidence, no automatic scheduling/types retry.
+ * retry: wave34 gpt-6.1-sol/high; once-only types budget300 consumed, baseline included; no winning mutations, safe C below retained; final explicit-region DIFF6/160, 10/10 resolved, count/index r4/r5 swap.
+ * budgets: iterations6 total (wave33=5, wave34 unchanged diagnostic=1); first nongain4, runs-since-first3, consecutive nongain3 STOP; manual order/extraction2/2; C1=0 C2=0 C3=2 C4=0 C5=0; sweeps0; types300 used once.
+ * evidence: scratchpad/overlay-goal-20260930-w34/R2/permuter-021B9854.log and final-021B9854.log; permuter overlay data site unresolved1 versus one resolved10/10; no tool edits or C/shard filed.
  * symbols:
  *   func_02047E88 0x02047E88 arm
  *   setup 0x021BC7AC data a4

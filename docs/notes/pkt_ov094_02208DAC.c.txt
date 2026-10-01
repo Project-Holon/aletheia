@@ -1,0 +1,214 @@
+/*
+ * function: func_02208DAC
+ * address: 0x02208DAC
+ * packet: pkt_ov094_02208DAC
+ * region: ov094
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 seven-argument B294 forwarding and four-argument task bodies verified; pointer payload c1a unchanged; 2 matched ov094 02209318/02201B20/02209224 twins; 3 const Input restored scheduling, u16 heap/int heapId/s16 shift/long i unchanged; 4 stack-init/base idioms reused and data hints dropped c4a; 5 fresh idiom list and neighbours reread, struct storage idiom inspected; shared order cap 2/2 exhausted, no further scheduling sweep.
+ * residual: 700 bytes, 312 concrete differences, all 32 relocations resolved.
+ * budgets: 7 iterations, stop at r5-r7 three consecutive nongains; checks C1=1,C2=0,C3=1,C4=1,C5=0; one types permuter budget300 and one validation.
+ * behavior: permuter off u16 is 0..168; shift s16 is -128..128; i is assigned zero before every use and tmp before its use; recomputation and loop conversion preserve call/store order. No volatile or added return/signature.
+ * evidence: ARM9 B294 retains seven inputs and live r0 return; heap truncation matches caller setup; ARM9 task four arguments forwarded/stored unchanged. Owner files untouched.
+ * symbols:
+ *   func_02030734 0x02030734 arm
+ *   func_020490F4 0x020490F4 arm
+ *   func_0204B100 0x0204B100 arm
+ *   func_0204A6C8 0x0204A6C8 arm
+ *   func_0204AF28 0x0204AF28 arm
+ *   func_0204ABF0 0x0204ABF0 arm
+ *   func_021F86E0 0x021F86E0 thumb ov094
+ *   func_0204AEF4 0x0204AEF4 arm
+ *   func_020216D4 0x020216D4 thumb
+ *   func_0204B294 0x0204B294 arm
+ *   func_0204B454 0x0204B454 arm
+ *   func_0204B92C 0x0204B92C arm
+ *   func_0204B878 0x0204B878 arm
+ *   func_021F86D4 0x021F86D4 thumb ov094
+ *   func_02030DA8 0x02030DA8 arm
+ *   func_021F896C 0x021F896C thumb ov094
+ *   func_02049238 0x02049238 arm
+ *   func_020061E4 0x020061E4 thumb
+ *   func_022090B4 0x022090B4 thumb ov094
+ *   func_02209214 0x02209214 thumb ov094
+ *   d_0220AED0 0x0220AED0 data a1
+ *   d_0220AB6C 0x0220AB6C data a2
+ *   d_0220AB7C 0x0220AB7C data a4
+ */
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef short s16;
+typedef struct
+{
+  s16 x;
+  s16 y;
+  s16 z;
+  s16 rest;
+} Pos;
+typedef struct
+{
+  u32 h;
+  int goal;
+  int home;
+  int step;
+  int frame;
+  int wait;
+  s16 x;
+  s16 y;
+} Entry;
+typedef struct
+{
+  char pad[16];
+  Entry item;
+} EntryBase;
+typedef struct
+{
+  u32 bank;
+  u32 pal;
+  u32 cell;
+  u32 anim;
+  Entry entries[7];
+  int state;
+  int active;
+  int sound;
+  u16 heap;
+} Work;
+typedef struct
+{
+  int side;
+  int index[6];
+} Input;
+extern const char d_0220AED0[];
+extern const s16 d_0220AB6C[2][4];
+extern const int d_0220AB7C[3][5];
+extern void *func_02030734(u16, u32, int, const char *, u16);
+extern void *func_020490F4(void *, u16);
+extern u32 func_0204B100(int, unsigned char, u32);
+extern int func_0204A6C8(u32, u32, u32, u32, u16);
+extern int func_0204AF28(u32, u32, u32, u16);
+extern int func_0204ABF0(u32, u32, u32, u32, u16);
+extern void *func_021F86E0(void);
+extern u32 func_0204AEF4(u32, int);
+extern void func_020216D4(void *, u32, u32, u32);
+extern u32 func_0204B294(u32, u32, u32, u32, u32, u16, u16);
+extern void func_0204B454(u32, s16 *, u32);
+extern void func_0204B92C(u32, u32);
+extern void func_0204B878(u32, u16);
+extern void *func_021F86D4(void);
+extern void *func_02030DA8(void *, void (*)(void *, void *), void *, u32);
+extern void func_021F896C(void *, void (*)(void *), int);
+extern void func_02049238(u32);
+extern void func_020061E4(u32);
+extern void func_022090B4(void *, void *);
+extern void func_02209214(void *);
+Work *func_02208DAC(const Input *input, u32 heap)
+{
+  u32 heapId;
+  u32 archive;
+  Work *p;
+  void *slots;
+  void *task;
+  Work **ctx;
+  int x;
+  int i;
+  s16 shift;
+  u16 off;
+  int negative12;
+  int negative15;
+  EntryBase *e;
+  char *out;
+  char *tmp;
+  heapId = (heap & 0x7fff) | 0x8000;
+  p = func_02030734(heapId, 0xe4, 1, d_0220AED0, 0x7a);
+  archive = (u32) func_020490F4((void *) 11, heapId);
+  p->heap = heapId;
+  p->bank = func_0204B100(7, 0, p->heap);
+  p->pal = func_0204A6C8(archive, 0xbd, 0, 0, p->heap);
+  p->cell = func_0204AF28(archive, 0xbf, 0xc0, p->heap);
+  p->anim = func_0204ABF0(archive, 0xbe, 0, 0xc0, p->heap);
+  slots = func_021F86E0();
+  func_020216D4(slots, 2, (u16) (func_0204AEF4(p->anim, 0) >> 1), 32);
+  {
+    Pos pos = {0, 0, 0, 0};
+    x = d_0220AB6C[input->side][0];
+    if (input->side == 0)
+      shift = 128;
+    else
+      shift = -128;
+    pos.x = x + shift;
+    pos.y = d_0220AB6C[input->side][1];
+    negative12 = -2;
+    negative12 -= 10;
+    negative15 = -2;
+    negative15 -= 13;
+    out = (char *) p;
+    out += 0x28;
+    {
+      i = 0;
+      while (i < 6)
+      {
+        off = i * 28;
+        do
+        {
+          tmp = (char *) p;
+        }
+        while (0);
+        e = (EntryBase *) (tmp + (i * 28));
+        e->item.h = func_0204B294(p->bank, p->pal, p->anim, p->cell, (u32) (&pos), 0, p->heap);
+        func_0204B454(e->item.h, (s16 *) (out + off), 0);
+        func_0204B92C(e->item.h, 1);
+        func_0204B878(e->item.h, d_0220AB7C[input->side][input->index[i]]);
+        e->item.frame = d_0220AB7C[2][input->index[i]];
+        e->item.wait = 6 * (i + 1);
+        e->item.home = x;
+        if (input->side == 0)
+          shift = -2;
+        else
+          shift = 2;
+        e->item.goal = x + ((i + 1) * shift);
+        if (input->side == 0)
+          e->item.step = negative12;
+        else
+          e->item.step = 12;
+        if (input->side == 0)
+          shift = 15;
+        else
+          shift = negative15;
+        x += shift;
+        i++;
+      }
+
+    }
+    if (input->side == 0)
+      shift = 128;
+    else
+      shift = -128;
+    pos.x = d_0220AB6C[input->side][2] + shift;
+    pos.y = d_0220AB6C[input->side][3];
+    off = i * 28;
+    e = (EntryBase *) (((char *) p) + (i * 28));
+    e->item.h = func_0204B294(p->bank, p->pal, p->anim, p->cell, (u32) (&pos), 0, p->heap);
+    func_0204B454(e->item.h, (s16 *) (out + off), 0);
+    func_0204B92C(e->item.h, 1);
+    func_0204B878(e->item.h, d_0220AB7C[input->side][4]);
+    e->item.frame = d_0220AB7C[input->side][4];
+    e->item.wait = 0;
+    e->item.goal = d_0220AB6C[input->side][2];
+    e->item.home = e->item.goal;
+    if (input->side == 0)
+      shift = -16;
+    else
+      shift = 16;
+    e->item.step = shift;
+    ctx = func_02030734(heapId, 4, 0, d_0220AED0, 0xec);
+    *ctx = p;
+    task = func_02030DA8(func_021F86D4(), func_022090B4, ctx, 0);
+    func_021F896C(task, func_02209214, 0);
+    p->active = 1;
+    func_02049238(archive);
+    func_020061E4(0x570);
+    return p;
+  }
+}

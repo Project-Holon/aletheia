@@ -1,0 +1,64 @@
+/*
+ * function: func_021B8624
+ * address: 0x021B8624
+ * packet: pkt_ov102_021B8624
+ * region: ov102
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own full callees read arities 1/1/1/6/1 and rectangle stack arguments u8; 2 matched 021B8724 supplies the row/palette types; 3 u32 win gives 204/212 121 out, const p gives 208/212 107 out (two compiles); 4 ternary/u8/byte-color/spill idioms read; 5 fresh unfiltered idiom listing and 8724/86F8/ov1038074/8FA0 reread, no new lever; next would be struct-typed state, with order/extraction cap exhausted.
+ * budget: eight iterations; first nonshrinking i2, seven runs since it, final streak three; order/extraction variants two of two used; C1/C2/C4/C5 zero compiles, C3 two of two; once-only types permuter 300 candidates exhausted.
+ * residual: 208/212 bytes, 107 concrete bytes out; five of five relocations resolved. Permuter best 212/212 85 out adds volatile to palette0, inserts tmp/tmp2 assignments after a break before case 1 (unassigned reads), and uses preincrement tmp2 for the timer test; rejected, no mutant adopted.
+ * note: As in matched 021B8724, palette selection is defined for indices zero and one; the image leaves palette registers unassigned for other indices.
+ * symbols:
+ * func_02051C88 0x02051C88 arm
+ * func_020061E4 0x020061E4 thumb
+ * func_02045730 0x02045730 arm
+ * func_020413B0 0x020413B0 arm
+ * func_020409B4 0x020409B4 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern int func_02051C88(void *);
+extern void func_020061E4(int);
+extern u32 func_02045730(void *);
+extern void func_020413B0(u32,u8,u8,u8,u8,u8);
+extern void func_020409B4(u32);
+void func_021B8624(const u8 *p)
+{
+    int win;
+    u8 a,b,c,d;
+    u8 palette1,palette0;
+    u8 blink;
+    u16 *row;
+    switch(*(u16 *)(p+0x34)) {
+    case 0:
+        *(u16 *)(p+0x32)=0;
+        if(func_02051C88(*(void **)p) && *(u32 *)(p+0x38)) {
+            func_020061E4(1352);
+            *(u16 *)(p+0x36)=0;
+            *(u16 *)(p+0x34)=1;
+        }
+        break;
+    case 1:
+        blink=(u8)((*(u16 *)(p+0x36)/4)%2);
+        win=func_02045730(*(void **)(p+4+*(u16 *)(p+0x30)*4));
+        row=(u16 *)(*(u8 **)(p+0x28)+*(u16 *)(p+0x30)*12);
+        a=row[1]; b=row[2]; c=row[3]; d=row[4];
+        switch(*(u16 *)(p+0x30)) {
+        case 0: palette1=12; palette0=11; break;
+        case 1: palette1=9; palette0=4; break;
+        }
+        if (blink == 0) func_020413B0(win,a,b,c,d,palette0);
+        else func_020413B0(win,a,b,c,d,palette1);
+        func_020409B4(win);
+        (*(u16 *)(p+0x36))++;
+        if(*(u16 *)(p+0x36)>=16) {
+            *(u16 *)(p+0x32)=1;
+            *(u16 *)(p+0x34)=0;
+        }
+        break;
+    }
+}

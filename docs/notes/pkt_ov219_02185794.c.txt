@@ -7,8 +7,12 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 full callee/accessor bodies confirm live arity and widths; 2 ov219/ov220 twins absent; 3 const p CCERR then corrected cast gives 39-byte DIFF (2/2); 4 branch/goto and switch shared-tail probes give 60-byte DIFF (2/2); 5 idiom inventory and matched 85824/85D64 reread, no branch twin; next: duplicate terminal loop in each arm.
+ * checks: 1 full callee/accessor bodies confirm live arity and widths; 2 ov219/ov220 twins absent; 3 const p CCERR then corrected cast gives 39-byte DIFF (2/2); 4 branch/goto and switch shared-tail probes give 60-byte DIFF (2/2); 5 idiom inventory and matched 85824/85D64 reread, no branch twin.
  * residual: best r2 has 25 concrete byte differences at identical 144-byte size; branch layout only; all 10 relocations resolved.
+ * Wave34: first high/types budget300 spent, unchanged DIFF25/144B;
+ *   I5 duplicated terminal loop DIFF108/188B, nongain; retain r2.
+ * budget: I5 total, first nongain I3, since-first 3, streak3, stop;
+ *   C3 2/2, C4 2/2, order/extraction 2/2 unchanged.
  * symbols:
  *   func_02048AFC 0x02048AFC arm
  *   func_02048B44 0x02048B44 arm
