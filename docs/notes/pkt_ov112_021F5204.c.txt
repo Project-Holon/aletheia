@@ -1,0 +1,74 @@
+/*
+ * function: func_021F5204
+ * address: 0x021F5204
+ * packet: pkt_ov112_021F5204
+ * region: ov112
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 280 versus 300 bytes; 171 concrete bytes differ; all seven sites resolve.
+ * budget: six iterations; run 4 begins nonshrinking count, runs 4-6 exhaust three consecutive nonshrinks; order/extraction 2/2.
+ * checks: 1 611C takes seven; 535C forwards live vector r1 to two-arg 624C; 62DC/6290 read r0 only; 2 5164 allocates 4456, eight 556-byte slots, no matching initializer twin; 3 const b no change, enum i 284/261 out and s16 i 298/270 out, 2/2 check compiles; 4 dead-store and frame idioms read, scalar base spills still coalesce, no extra ordering allowance; 5 fresh directory and 5164/5330/neighbours reread, no new lever; no further ordering sweep permitted.
+ * permuter: once types budget300 including baseline; best300/236 out verified, semantically valid but farther than native280/171 out, retained in scratch only.
+ * prototype: 535C visibly receives the stack vector in r1 despite its one-argument matched definition.
+ * symbols:
+ *   func_021F5518 0x021F5518 thumb ov112
+ *   func_021F611C 0x021F611C thumb ov112
+ *   func_021F62DC 0x021F62DC thumb ov112
+ *   func_021F535C 0x021F535C thumb ov112
+ *   func_021F6290 0x021F6290 thumb ov112
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+extern void func_021F5518(u8 *,u32 *,u32);
+extern char *func_021F611C(char *,u32,u32,u32,u32,u32,u32);
+extern void func_021F62DC(int);
+extern void func_021F535C(int *,int *);
+extern void func_021F6290(int);
+u8 *func_021F5204(int p,const u8 *b,int c)
+{
+    int i;
+    int j;
+    u8 *slot;
+    u32 stats[9];
+    int scale[3];
+    char *second;
+    int primaryBase,secondaryBase,objectBase,secondaryOffset,objectOffset;
+    for(i=0;i<8;i++) if(*(u32 *)(p+i*556+8)==0) break;
+    slot=(u8 *)(p+8+i*556);
+    *(u32 *)slot=1;
+    func_021F5518((u8 *)b,stats,0);
+    primaryBase=p;
+    primaryBase=p+20;
+    *(char **)(primaryBase+i*556)=func_021F611C(*(char **)(p+4),0,0,0,(u32)stats,(u32)slot,0);
+    if(c==1) {
+        func_021F5518((u8 *)b,stats,1);
+        secondaryBase=p;
+        secondaryBase=p+24;
+        secondaryOffset=i*556;
+        second=func_021F611C(*(char **)(p+4),0,0,0,(u32)stats,(u32)slot,0);
+        *(char **)(secondaryBase+secondaryOffset)=second;
+        func_021F62DC((int)second);
+    } else *(u32 *)(p+i*556+24)=0;
+    *(u32 *)(p+i*556+12)=1;
+    objectBase=p;
+    objectBase=p+16;
+    objectOffset=i*556;
+    *(u32 *)(objectBase+objectOffset)=*(u32 *)(primaryBase+i*556);
+    scale[0]=65536;
+    scale[1]=65536;
+    scale[2]=4096;
+    for(j=0;j<9;j++) *(u32 *)(p+i*556+j*56+28)=0;
+    *(u32 *)(p+i*556+556)=0;
+    *(u32 *)(p+i*556+560)=0;
+    *(u32 *)(p+i*556+532)=0;
+    *(u32 *)(p+i*556+536)=0;
+    *(u32 *)(p+i*556+540)=0;
+    *(u32 *)(p+i*556+544)=0;
+    *(u32 *)(p+i*556+548)=0;
+    *(u32 *)(p+i*556+552)=0;
+    func_021F535C((int *)(p+i*556+8),scale);
+    func_021F6290(*(int *)(p+i*556+16));
+    return (u8 *)(p+i*556+8);
+}

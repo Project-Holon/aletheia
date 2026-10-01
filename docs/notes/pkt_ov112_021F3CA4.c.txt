@@ -1,0 +1,132 @@
+/*
+ * function: func_021F3CA4
+ * address: 0x021F3CA4
+ * packet: pkt_ov112_021F3CA4
+ * region: ov112
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 twelve-arg48A24,u16heap;40618 forwards three args; 2 ov056/ov111 camera twins signed args; 3 int camera,three/one and const p:524B418diff best; 4 exact SDK BOOL/int inlines;enum call/helper unchanged,order cap2/2; 5 fresh full idioms and own/ov111 neighbours,declared stack structs correct; once types300 rejected reordered calls and cached heap across call. Next: no further order sweep permitted.
+ * volatile: DISP3DCNT 0x04000060 reads 021F3D0E/14/22; DISPCNT 04000000 at3E3C;
+ *           WINOUT 0400004A at021F3E4C/60.
+ * ABI: 02040618 fourth legacy parameter is unread, including forwarding target02042360.
+ *      02046440 heap is zero-extended here, without the own-file s16 conversion.
+ * symbols:
+ *   func_02046440 0x02046440 arm
+ *   func_0204044C 0x0204044C arm
+ *   func_02046BE0 0x02046BE0 arm
+ *   func_02048A24 0x02048A24 arm
+ *   func_02048AD0 0x02048AD0 arm
+ *   func_0207DCF8 0x0207DCF8 arm
+ *   func_0204EBD4 0x0204EBD4 arm
+ *   func_0204ED70 0x0204ED70 arm
+ *   func_021F3EAC 0x021F3EAC thumb ov112
+ *   func_02040618 0x02040618 arm
+ *   func_020490F4 0x020490F4 arm
+ *   func_02049BDC 0x02049BDC arm
+ *   func_02049658 0x02049658 arm
+ *   func_020498F4 0x020498F4 arm
+ *   func_020409B4 0x020409B4 arm
+ *   func_02049238 0x02049238 arm
+ *   func_0207D63C 0x0207D63C arm
+ *   d_021F81AC 0x021F81AC data a4
+ *   d_021F81B8 0x021F81B8 data a4
+ *   d_021F81A0 0x021F81A0 data a4
+ *   d_021F81C4 0x021F81C4 data a4
+ *   d_021F8274 0x021F8274 data a4
+ *   d_021F8258 0x021F8258 data a4
+ *   d_021F8214 0x021F8214 data a4
+ *   d_021F81D4 0x021F81D4 data a4
+ *   d_021F81F4 0x021F81F4 data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef int BOOL;
+typedef struct { u32 x,y,z; } Vec3;
+typedef struct { u32 w[7]; } Blob28;
+typedef struct { u32 w[3]; } Blk3;
+extern Vec3 d_021F81AC,d_021F81B8,d_021F81A0;
+extern const u16 d_021F81C4[];
+extern const Blob28 d_021F8274;
+extern const Blk3 d_021F8258;
+extern const u32 d_021F8214[],d_021F81D4[],d_021F81F4[];
+extern void func_02046440(u32,u32,u32,u32,u16,u32,void (*)(void));
+extern void func_0204044C(int);
+extern void func_02046BE0(int,int);
+extern u32 *func_02048A24(int,int,int,int,int,int,int,int,Vec3 *,Vec3 *,Vec3 *,u16);
+extern void func_02048AD0(void *);
+extern void func_0207DCF8(const u16 *);
+extern void *func_0204EBD4(u8 *,void *);
+extern void func_0204ED70(u8 *,Blk3 *);
+extern void func_021F3EAC(const void *,u32,u32);
+extern void func_02040618(u32,u32,u32);
+extern void *func_020490F4(void *,u32);
+extern void func_02049BDC(u32,u32,u32,u32,u32,u32,u16);
+extern void func_02049658(u32,u32,u32,u32,u32,u32,u16);
+extern void func_020498F4(u32,u32,u32,u32,u32,u32,u16);
+extern void func_020409B4(u32);
+extern void func_02049238(void *);
+extern void func_0207D63C(void *,int,int,int,int);
+#define DISP3D (*(volatile u16 *)0x04000060)
+#define WINOUT (*(volatile u16 *)0x0400004A)
+static inline void AntiAlias(BOOL enable) {
+    if(enable) DISP3D=(u16)((DISP3D&~0x3000)|16);
+    else DISP3D&=(u16)~0x3010;
+}
+static inline void AlphaBlend(BOOL enable) {
+    if(enable) DISP3D=(u16)((DISP3D&~0x3000)|8);
+    else DISP3D&=(u16)~0x3008;
+}
+static inline void VisibleWnd(int window) {
+    *(volatile u32 *)0x04000000=(*(volatile u32 *)0x04000000&~0xE000)|(window<<13);
+}
+static inline void OBJInside(int wnd,BOOL effect) {
+    u32 tmp=(WINOUT&~0x3F00)|((u32)wnd<<8);
+    if(effect) tmp|=0x20<<8;
+    WINOUT=(u16)tmp;
+}
+static inline void Outside(int wnd,BOOL effect) {
+    u32 tmp=(WINOUT&~0x3F)|(u32)wnd;
+    if(effect) tmp|=0x20;
+    WINOUT=(u16)tmp;
+}
+void func_021F3CA4(const u8 *p)
+{
+    Blob28 a;
+    Blk3 b;
+    void *t;
+    func_02046440(0,2,0,4,0,*(u16 *)p,0);
+    func_0204044C(3);
+    func_02046BE0(0,1);
+    *(u32 **)(p+24)=func_02048A24(2,0xC000,0,0,0x10000,0x1000,0x3E8000,0,&d_021F81AC,&d_021F81B8,&d_021F81A0,*(u16 *)p);
+    func_02048AD0(*(void **)(p+24));
+    func_0207DCF8(d_021F81C4);
+    DISP3D&=(u16)~0x3020;
+    AntiAlias(1);
+    AlphaBlend(1);
+    func_02046BE0(0,0);
+    a=d_021F8274;
+    b=d_021F8258;
+    *(void **)(p+28)=func_0204EBD4((u8 *)&a,(void *)(u32)*(u16 *)p);
+    func_0204ED70(*(u8 **)(p+28),&b);
+    func_021F3EAC(d_021F8214,1,0);
+    func_021F3EAC(d_021F81D4,2,0);
+    func_021F3EAC(d_021F81F4,3,0);
+    func_02040618(2,3,224);
+    t=func_020490F4((void *)47,*(u16 *)p);
+    func_02049BDC((u32)t,3,0,0,0,32,*(u16 *)p);
+    func_02049658((u32)t,9,2,0,0,0,*(u16 *)p);
+    func_020498F4((u32)t,15,2,0,0,0,*(u16 *)p);
+    func_02049BDC((u32)t,2,0,32,32,32,*(u16 *)p);
+    func_02049658((u32)t,8,3,0,0,0,*(u16 *)p);
+    func_020498F4((u32)t,14,3,0,0,0,*(u16 *)p);
+    func_020409B4(2);
+    func_020409B4(3);
+    func_02049238(t);
+    func_0207D63C((void *)0x04000050,8,1,0,10);
+    VisibleWnd(4);
+    OBJInside(23,1);
+    Outside(31,1);
+}
