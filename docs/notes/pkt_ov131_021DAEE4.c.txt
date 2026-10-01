@@ -1,0 +1,170 @@
+/*
+ * function: func_021DAEE4
+ * address: 0x021DAEE4
+ * packet: pkt_ov131_021DAEE4
+ * region: ov131
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 604B DIFF12, address/load scratch-colour groups +20..26 and
+ *   +B4..BA; 28/29 relocations, ARM9 F72C unresolved at+156. Original
+ *   F72C is a12-byte r1-to-r0 tail forwarder to020212E4; owner C prohibited.
+ * runs: 5 iteration, consecutive nonshrinks3,3 since first nonshrink;
+ *   manual variants2/2, check3 compiles2/2, types pass300 incl baseline.
+ * checks: 1 own B4684/B6143/B6883 and full-word F72C return retained;
+ *   2 B140 twin confirms controller/interface, actual reload follows6064;
+ *   3 s16 selected DIFF12, u16 value DIFF265, writable a/b not const sources;
+ *   4 full directory and existing width/goto/allocator idioms read;
+ *   5 fresh A998/ABCC/B140/A7A4 and sibling130/132 search, no new lever;
+ *   once-only types300 baseline/best DIFF12, no mutation, no next sweep.
+ * width: B02E copies full17E88 result; B032 LSLS#16/B038 LSRS#16 discard
+ *   high16 before B03A F72C, no other local-result use. This admits u16
+ *   value independently of target declarations, but worsens scheduling;
+ *   best retains full u32 value and full int F72C result. Selected u16
+ *   is assigned only LDRB values0..255; no narrower signed-byte domain.
+ * semantics: independent key polls and all branch effects retained.
+ *   Selectors remain u8 full0..255, so selector*24 <=6120 and +54<=309;
+ *   no menu bound. BA54 unconditionally writes both point halfwords.
+ *   2F72C r0/r1/r2 setup retained, including caller-visible pointer,
+ *   u16 argument truncation, and full r0 result forwarded to B688.
+ *   362DC returns full payload; caller consumes it as u32 scalar.
+ * symbols:
+ *   func_020362DC 0x020362DC arm
+ *   func_021DB468 0x021DB468 thumb ov131
+ *   func_021DBA78 0x021DBA78 thumb ov131
+ *   func_021DB614 0x021DB614 thumb ov131
+ *   func_021DB688 0x021DB688 thumb ov131
+ *   func_021DB3F0 0x021DB3F0 thumb ov131
+ *   func_021D6064 0x021D6064 thumb ov131
+ *   func_021DBA54 0x021DBA54 thumb ov131
+ *   func_02017E88 0x02017E88 thumb
+ *   func_0202F72C 0x0202F72C thumb
+ *   func_020061E4 0x020061E4 thumb
+ *   func_0204B878 0x0204B878 arm
+ *   func_0204B3DC 0x0204B3DC arm
+ *   func_0204B404 0x0204B404 arm
+ *   func_0204B9A0 0x0204B9A0 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+struct Obj;
+struct Actor;
+struct Vec2 { s16 x,y; };
+extern u32 func_020362DC(void);
+extern void func_021DB468(u8 *,u8 *,u8,int);
+extern void func_021DBA78(u8 *,int);
+extern void func_021DB614(void *,u8 *,int);
+extern void func_021DB688(u8 *,u8 *,int);
+extern void func_021DB3F0(u8 *,u8 *);
+extern void *func_021D6064(u8 *);
+extern void func_021DBA54(u8 *,u8 *);
+extern u32 func_02017E88(void *,u32,u32);
+extern int func_0202F72C(void *,u16,u16);
+extern void func_020061E4(u32);
+extern void func_0204B878(struct Obj *,u16);
+extern void func_0204B3DC(struct Obj *,u32);
+extern void func_0204B404(struct Obj *,const struct Vec2 *,u32);
+extern void func_0204B9A0(struct Actor *);
+int func_021DAEE4(u8 *a,u8 *b)
+{
+    struct Vec2 point;
+    int result;
+    u16 selected;
+    void *record;
+    u32 value;
+    if (a[28]==1 && func_020362DC()!=0) {
+        a[28]=0;
+        if (*(int *)(b+24)==0) {
+            selected=b[41];
+            b[42]=5;
+            func_021DB468(a,b,selected,0);
+        }
+    }
+    if (func_020362DC()==2) {
+        if (*(int *)(b+24)==0) {
+            a[28]=0;
+            *(int *)(a+84)=1;
+            (*(u8 **)(a+8))[18]=1;
+            *(int *)(a+80)=2;
+            func_0204B878(*(struct Obj **)(a+404),9);
+            *(void **)(a+416)=*(void **)(a+404);
+            func_020061E4(1361);
+            return 1;
+        }
+        a[28]=0;
+        func_021DBA78(b+176+b[42]*24,0);
+        func_021DB468(a,b,b[41],0);
+        func_0204B3DC(*(struct Obj **)(b+156),0);
+        b[41]=b[42];
+        selected=b[41];
+        b[42]=5;
+        *(int *)(b+24)=0;
+        func_021DB468(a,b,selected,0);
+        func_0204B878(*(struct Obj **)(a+404),9);
+        func_021DB614(a,b,0);
+        func_020061E4(1361);
+        goto out;
+    } else {
+        if (*(int *)(b+24)!=0) {
+            if (func_020362DC()!=1) goto out;
+            a[28]=0;
+            *(int *)(a+84)=1;
+            (*(u8 **)(a+8))[17]=b[42];
+            (*(u8 **)(a+8))[18]=0;
+            *(int *)(b+32)=1;
+            *(int *)(b+36)=1;
+            *(int *)(a+416)=0;
+            func_020061E4(1356);
+            goto out;
+        }
+        if (func_020362DC()==1) {
+            a[28]=0;
+            if (b[41]<4) {
+                record=func_021D6064(a);
+                value=func_02017E88(record,b[41]+54,0);
+                result=func_0202F72C(*(void **)(*(u8 **)(a+8)+8),value,*(u16 *)a);
+                if (result==0 || *(int *)(a+20)==1) {
+                    if (*(u16 *)(*(u8 **)(a+8)+20)==0) {
+                        *(int *)(a+84)=1;
+                        (*(u8 **)(a+8))[18]=0;
+                        (*(u8 **)(a+8))[17]=b[41];
+                        *(int *)(b+32)=1;
+                        *(int *)(a+416)=0;
+                    } else {
+                        *(int *)(b+24)=1;
+                        selected=b[41];
+                        b[42]=selected;
+                        func_021DBA78(b+176+selected*24,2);
+                        b[41]=4;
+                        func_021DB468(a,b,b[41],0);
+                        func_021DBA54(b+176+b[42]*24,(u8 *)&point);
+                        func_0204B404(*(struct Obj **)(b+156),&point,0);
+                        func_0204B3DC(*(struct Obj **)(b+156),1);
+                        func_0204B9A0(*(struct Actor **)(b+156));
+                        func_021DB614(a,b,1);
+                    }
+                    goto sound;
+                }
+                func_021DB688(a,b,result);
+                goto done;
+            }
+            *(int *)(a+84)=1;
+            (*(u8 **)(a+8))[18]=1;
+            *(int *)(b+32)=1;
+            *(int *)(a+416)=0;
+sound:
+            func_020061E4(1356);
+done:
+            return 1;
+        }
+        if (func_020362DC()==64 || func_020362DC()==128) {
+            func_021DB3F0(a,b);
+            return 1;
+        }
+    }
+out:
+    return 0;
+}

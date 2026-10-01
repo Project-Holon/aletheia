@@ -1,0 +1,91 @@
+/*
+ * function: func_021DD68C
+ * address: 0x021DD68C
+ * packet: pkt_ov119_021DD68C
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 640 bytes, 29/29 relocation sites, 37 concrete bytes (r01).
+ * budget: 4 iteration runs; r02/r03/r04 do not improve best; scheduling 2/2;
+ * check3 2/2; no sweeps; one 300-candidate --types permuter (no improvement).
+ * checks: 1 own matched callee bodies fix arity/width, no mismatch; 2 current ov119 E1B14/E0EF4/E4420 read; 3 unsigned-long msg and x each 37 B, const p invalid because p stores window pointers; 4 Pair/row/long-index idioms read; 5 fresh complete idiom list and those neighbours reread, stack pair/frame already exact; next base-association spelling requires exhausted scheduling budget.
+ * arithmetic: i is 0..1; word message additions and x*8/+4 wrap u32,
+ * then coordinates convert to s16 exactly as the original shift pairs.
+ * No allocation success or selector range is assumed.
+ * symbols:
+ *   d_021E7704 0x021E7704 data a4
+ *   func_020275E4 0x020275E4 thumb
+ *   func_02049B40 0x02049B40 arm
+ *   func_020452E8 0x020452E8 arm
+ *   func_020450F0 0x020450F0 arm
+ *   func_0201DD78 0x0201DD78 thumb
+ *   func_02045CAC 0x02045CAC arm
+ *   func_02045770 0x02045770 arm
+ *   func_0201C7A4 0x0201C7A4 thumb
+ *   func_02045334 0x02045334 arm
+ *   func_02045374 0x02045374 arm
+ *   func_0201F02C 0x0201F02C thumb
+ *   func_0201F250 0x0201F250 thumb
+ *   func_02041B6C 0x02041B6C arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef short s16;
+typedef struct {u32 v[2];} Pair;
+extern const Pair d_021E7704;
+extern u32 func_020275E4(void);
+extern void func_02049B40(u32,u32,u32,u32,u32,u16);
+extern void func_020452E8(void *);
+extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
+extern void func_0201DD78(u32,u32,u32);
+extern void func_02045CAC(void *,u32,void *);
+extern void *func_02045770(void *);
+extern void func_0201C7A4(void *,s16,s16,void *,void *);
+extern void func_02045334(void *),func_02045374(void *);
+extern void func_0201F02C(void *,u32,void *),func_0201F250(void *,void *,void *);
+extern void func_02041B6C(u32);
+#define W(o) (*(u32 *)(p+(o)))
+#define P(o) (*(void **)(p+(o)))
+void func_021DD68C(char *p)
+{
+    Pair pos=d_021E7704;
+    Pair names=*(Pair *)(p+0x830);
+    void *window;
+    int i;
+    u32 msg,x;
+    func_02049B40(func_020275E4(),31,0,416,32,*(u16 *)(p+0x5f4));
+    if(P(0x5d4)) {func_020452E8(P(0x5d4));func_020452E8(P(0x5d8));}
+    window=(void *)func_020450F0(3,0,0,32,2,13,0);
+    P(0x5d4)=window;
+    func_0201DD78(14,15,0);
+    if(W(0x118c)==3 && W(0x1050)!=0xffffffffu) {
+        func_02045CAC(P(0x720),133,P(0x730));
+        func_0201C7A4(func_02045770(window),8,2,P(0x730),P(0x728));
+        func_02045CAC(P(0x720),W(0x1050)+123u,P(0x730));
+        func_0201C7A4(func_02045770(window),136,2,P(0x730),P(0x728));
+    }
+    func_02045334(window);func_02045374(window);
+    window=(void *)func_020450F0(3,0,3,32,8,5,0);
+    P(0x5d8)=window;
+    for(i=0;i<2;i++) {
+        if(names.v[i]) {
+            if(W(0x118c)==3 && W(0x1048+i*4)!=0xffffffffu) msg=117;
+            else msg=128;
+            func_0201DD78(1,2,0);
+            func_02045CAC(P(0x720),msg,P(0x734));
+            func_0201F02C(P(0x724),0,(void *)names.v[i]);
+            func_0201F250(P(0x724),P(0x730),P(0x734));
+            x=pos.v[i]*8u;
+            func_0201C7A4(func_02045770(window),x,2,P(0x730),P(0x728));
+            if(W(0x118c)==3 && W(0x1048+i*4)!=0xffffffffu) {
+                func_0201DD78(3,4,0);
+                func_02045CAC(P(0x720),W(0x1048+i*4)+118u,P(0x730));
+                func_0201C7A4(func_02045770(window),x+4u,34,P(0x730),P(0x728));
+            }
+        }
+    }
+    func_02045334(window);func_02045374(window);func_02041B6C(3);
+}

@@ -1,0 +1,87 @@
+/*
+ * function: func_021E24E8
+ * address: 0x021E24E8
+ * packet: pkt_ov119_021E24E8
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 all16 sites resolved with own body/caller arities; 2 twin272C; 3 enum row428B/375,short row412B/64,mutable p not const; 4 long-index/zero/stack-object idioms read; 5 fresh full directory and272C; next: explicit original zero-web spelling, no scheduling cap left.
+ * budget: historical0; iteration6 stopped3 nonshrinks r04..r06; check3 two compiles; once300 --types baseline/best408B/27; scheduling variants2 total; no validation or verification compiles.
+ * residual: best408B/27 concrete,16/16 sites; long row/u32flag matches r06.
+ * domain: local row starts0 and reaches1; item starts0 and reaches2.
+ * initialization: both name words copied before indexed use; flag assigned before reads.
+ * arithmetic: bounded local products/subtraction fit signed32; external words are copied unchanged.
+ * symbols:
+ *   func_021E6CB8 0x021E6CB8 thumb ov119
+ *   func_0201DD78 0x0201DD78 thumb
+ *   func_02045CAC 0x02045CAC arm
+ *   func_0201F02C 0x0201F02C thumb
+ *   func_0201F250 0x0201F250 thumb
+ *   func_0201C7A4 0x0201C7A4 thumb
+ *   func_02017E1C 0x02017E1C thumb
+ *   func_021E6334 0x021E6334 thumb ov119
+ *   func_021D8ADC 0x021D8ADC thumb ov119
+ *   func_021E1430 0x021E1430 thumb ov119
+ *   func_021E1670 0x021E1670 thumb ov119
+ *   func_021E15F8 0x021E15F8 thumb ov119
+ *   func_021E6E7C 0x021E6E7C thumb ov119
+ */
+typedef unsigned int u32;
+struct WordSet;
+struct MsgBank;
+extern void func_021E6CB8(char *);
+extern void func_0201DD78(u32,u32,u32);
+extern void func_02045CAC(struct MsgBank *,u32,void *);
+extern void func_0201F02C(struct WordSet *,u32,void *);
+extern void func_0201F250(struct WordSet *,void *,void *);
+extern void func_0201C7A4(void *,short,short,int,int);
+extern u32 func_02017E1C(void *,u32,u32);
+extern void func_021E6334(char *,int,int,void *,int,u32);
+extern int func_021D8ADC(void *);
+extern void func_021E1430(void *,void *,int,int,int,int,char *);
+extern void func_021E1670(void *,void *,int,int,char *,int,int);
+extern void func_021E15F8(void *,void *,int,int,char *);
+extern void func_021E6E7C(int);
+void func_021E24E8(char *p)
+{
+    void *names[2];
+    long row;
+    int item;
+    u32 flag;
+    void *mon;
+    char *source,*dest,*entry;
+    func_021E6CB8(p);
+    names[0]=*(void **)(p+0x834);
+    names[1]=*(void **)(p+0x830);
+    item=0;
+    func_0201DD78(15,2,0);
+    row=item;
+    for(;item<2;item++) {
+        func_02045CAC(*(struct MsgBank **)(p+0x720),128,*(void **)(p+0x734));
+        func_0201F02C(*(struct WordSet **)(p+0x724),row,names[item]);
+        func_0201F250(*(struct WordSet **)(p+0x724),*(void **)(p+0x730),*(void **)(p+0x734));
+        func_0201C7A4(*(void **)(p+0x10f4+item*16),row,row,*(int *)(p+0x730),*(int *)(p+0x728));
+    }
+    func_0201DD78(15,2,row);
+    for(;row<2;row++) {
+        func_0201DD78(1,2,0);
+        source=p+(1-row)*12;
+        dest=p+row*16;
+        for(item=0;item<3;item++) {
+            mon=*(void **)(source+0xfd8+item*4);
+            if(*(int *)(source+0xfa4+item*4)!=-1) {
+                flag=func_02017E1C(mon,76,0);
+                func_021E6334(p,row,item,mon,0,1);
+                func_021E1430(mon,*(void **)(dest+0x10f8+item*4),0,0,flag,func_021D8ADC(p),p);
+                if(!flag) {
+                    entry=dest+item*4;
+                    func_021E1670(mon,*(void **)(entry+0x10f8),56,16,p,0,func_021D8ADC(p));
+                    func_021E15F8(mon,*(void **)(entry+0x10f8),0,16,p);
+                }
+            }
+        }
+    }
+    func_021E6E7C((int)p);
+}

@@ -1,0 +1,205 @@
+/*
+ * function: func_021DB52C
+ * address: 0x021DB52C
+ * packet: pkt_ov119_021DB52C
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 640 B, 14 concrete byte differences, all 23 relocations
+ * resolved; forward search counter/old/value register rotation only.
+ * budget: carried0; current7 one calls (4 iteration including one
+ * postcompile ISA-symbol refusal, 2 check3, 1 permuter validation);
+ * manual variants2 used; consecutive nonshrinking1/runs-from-first1;
+ * once300 --types permuter used (300 compiles), no sweeps/TU/verifies.
+ * lever: validated permuter temp(tmp=I(0x630)) preserves the full-word
+ * load and all effects; 16->14 bytes. No further manual reorder pass.
+ * checks: 1 full 3633C forwarding chain takes no input, E4E0C initializes out and own arities retained; 2 own matched DD018/B4EC/B7AC/E4E0C and twin DBE70/data const audited; 3 signed-short old and signed-long i compiled DIFF640/16, mutable p cannot const; 4 full-width address/counter/const/long-index/scheduling idioms read; 5 full500 idiom listing and DBE70 refreshed, frame is callee out rather than aggregate residue; next declaration/load-order sweep forbidden by manual cap2.
+ * semantics: signed forward-bound guard keeps int counter increments
+ * in range; reverse counter reaches -1 safely; signed halfword updates
+ * promote safely then truncate. All word +/- and address scaling wrap
+ * through u32 without manufacturing a selector/index domain.
+ * symbols:
+ *   func_0203633C 0x0203633C arm
+ *   func_020355D8 0x020355D8 arm
+ *   func_020061E4 0x020061E4 thumb
+ *   func_021E4E0C 0x021E4E0C thumb ov119
+ *   func_021DD018 0x021DD018 thumb ov119
+ *   func_021DB4EC 0x021DB4EC thumb ov119
+ *   func_021DB4B4 0x021DB4B4 thumb ov119
+ *   func_021DB7AC 0x021DB7AC thumb ov119
+ *   d_021E7FE0 0x021E7FE0 data ov119 a4
+ * proof: E4E0C stores its output before every return. Word arithmetic
+ * wraps through unsigned spelling; comparisons remain signed. Table
+ * addressing scales the complete word index, including negative values.
+ */
+#define I(o) (*(int *)(p + (o)))
+#define U(o) (*(u32 *)(p + (o)))
+#define H(o) (*(short *)(p + (o)))
+#define T(i) (*(const int *)((u32)d_021E7FE0 + ((u32)(i) << 2)))
+typedef unsigned int u32;
+typedef unsigned short u16;
+extern u32 func_0203633C(void);
+extern void func_020355D8(int);
+extern void func_020061E4(int);
+extern int func_021E4E0C(char *, int *);
+extern void func_021DD018(char *, int);
+extern int func_021DB4EC(char *, int);
+extern int func_021DB4B4(int);
+extern void func_021DB7AC(char *, int, int);
+extern const int d_021E7FE0[];
+void func_021DB52C(char *p)
+{
+  int changed = 0;
+  u32 keys = func_0203633C();
+  int i;
+  int bound;
+  int value;
+  int out;
+  int old;
+  const int *table;
+  int tmp;
+  if (I(0xF60) != 0)
+    return;
+  if (keys & 0x100)
+  {
+    func_020355D8(0);
+    tmp = I(0x630);
+    bound = tmp;
+    i = 0;
+    bound = (int) (((u32) bound) + 1U);
+    if (bound > 0)
+    {
+      old = H(0x107C);
+      table = d_021E7FE0;
+      do
+      {
+        value = *((const int *) (((u32) table) + (((u32) i) << 2)));
+        if (value > old)
+        {
+          H(0x107C) = value;
+          changed = 1;
+          break;
+        }
+        i++;
+      }
+      while (i < bound);
+    }
+    if (!changed)
+    {
+      H(0x107C) = d_021E7FE0[0];
+      changed = 1;
+    }
+    func_021DD018(p, changed);
+  }
+  else
+    if (keys & 0x200)
+  {
+    func_020355D8(0);
+    for (i = I(0x630); i >= 0; i--)
+    {
+      value = T(i);
+      if (value < H(0x107C))
+      {
+        H(0x107C) = value;
+        changed = 1;
+        break;
+      }
+    }
+
+    if (!changed)
+    {
+      H(0x107C) = T(I(0x630));
+      changed = 1;
+    }
+    func_021DD018(p, changed);
+  }
+  else
+    if (func_0203633C() == 0x40)
+  {
+    func_020355D8(0);
+    if (!func_021E4E0C(p, &out))
+      I(0xF74) = out;
+    U(0xF78)--;
+    if (I(0xF78) < 0)
+    {
+      if (I(0xF74) < 2)
+        I(0xF78) = 2;
+      else
+        I(0xF78) = 4;
+    }
+    H(0x1080)--;
+    changed = 1;
+  }
+  else
+    if (func_0203633C() == 0x80)
+  {
+    func_020355D8(0);
+    if (!func_021E4E0C(p, &out))
+      I(0xF74) = out;
+    U(0xF78)++;
+    if (I(0xF74) < 2)
+    {
+      if (I(0xF78) >= 3)
+        I(0xF78) = 0;
+    }
+    else
+      if (I(0xF78) >= 5)
+      I(0xF78) = 0;
+    H(0x1080)--;
+    changed = 1;
+  }
+  else
+    if (func_0203633C() == 0x10)
+  {
+    func_020355D8(0);
+    H(0x1080)--;
+    changed = 1;
+    if (!func_021E4E0C(p, &out))
+      I(0xF74) = out;
+    else
+    {
+      U(0xF74)++;
+      if (!func_021DB4EC(p, I(0xF74)))
+      {
+        H(0x107C) = ((u32) func_021DB4B4((int) (U(0xF74) + 1U))) - 0x100U;
+        H(0x1080) = -1;
+      }
+    }
+    if (I(0xF74) >= I(0x634))
+      I(0xF74) = 0;
+    if ((I(0xF74) < 2) && (I(0xF78) >= 3))
+      I(0xF78) = 2;
+  }
+  else
+    if (func_0203633C() == 0x20)
+  {
+    func_020355D8(0);
+    H(0x1080)++;
+    changed = 1;
+    if (!func_021E4E0C(p, &out))
+      I(0xF74) = out;
+    else
+    {
+      U(0xF74)--;
+      if (I(0xF74) < 0)
+        U(0xF74) = U(0x634) - 1U;
+      if (!func_021DB4EC(p, I(0xF74)))
+      {
+        H(0x107C) = func_021DB4B4(I(0xF74));
+        H(0x1080) = -1;
+      }
+    }
+    if (I(0xF74) < 0)
+      U(0xF74) = U(0x634) - 1U;
+    if ((I(0xF74) < 2) && (I(0xF78) >= 3))
+      I(0xF78) = 2;
+  }
+  if (changed)
+  {
+    I(0x1084) = 1;
+    func_020061E4(0x548);
+    func_021DB7AC(p, 0, 1);
+  }
+}
