@@ -1,0 +1,85 @@
+/*
+ * function: func_021C1D1C
+ * address: 0x021C1D1C
+ * packet: pkt_ov099_021C1D1C
+ * region: ov099
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 600/600 bytes; 302 concrete bytes differ; all 29 relocations resolve.
+ * checks: 1 full callee bodies confirm ABI, no shifted call arguments; 2 BE2DC/BEDA0/BB050 twins checked; 3 short counters 612/526, const p 600/302; 4 row/window/spill idioms read, shared order cap 2/2 consumed; 5 unfiltered idioms and current neighbours reread, no applicable new twin; once-only types permuter 300 best 600/258 rejected signature and alias changes.
+ * budgets: iteration 4, nonshrinking streak 3, runs from first nonshrinking 3; manual order/extraction 2/2; C3 2/2; other checks 0; types search consumed 300 including baseline.
+ * prototype: 450F0 x/y narrowed at each call, hence u8 extern inputs.
+ * symbols:
+ *   func_02049B68 0x02049B68 arm
+ *   func_02049740 0x02049740 arm
+ *   func_02049658 0x02049658 arm
+ *   func_02049990 0x02049990 arm
+ *   func_02049EF4 0x02049EF4 arm
+ *   func_021C1FE8 0x021C1FE8 thumb ov099
+ *   func_02049B40 0x02049B40 arm
+ *   func_020450F0 0x020450F0 arm
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_02045334 0x02045334 arm
+ *   func_02045374 0x02045374 arm
+ *   func_020409B4 0x020409B4 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct {
+    char pad[0x8f8];
+    u32 main[8];
+    u32 sub[8][2];
+} Windows;
+extern void func_02049B68(u32, u32, u32, u32, u32, u16);
+extern u32 func_02049740(u32, u32, u32, u32, u32, u16);
+extern void func_02049658(u32, u32, u32, u32, u32, u32, u16);
+extern u32 func_02049990(u32, u32, u32, u32, u16, u32, u32, u16);
+extern void *func_02049EF4(u32, u32, u32, u32, u16);
+extern void func_021C1FE8(void *, int);
+extern void func_02049B40(u32, u32, u32, u32, u32, u16);
+extern u32 func_020450F0(u32, u8, u8, u32, u8, u8, u8);
+extern void *func_02045770(void *);
+extern void func_02043B5C(void *, u8);
+extern void func_02045334(void *);
+extern void func_02045374(void *);
+extern void func_020409B4(u32);
+void func_021C1D1C(char *p, u32 archive, int heap)
+{
+    int i, j;
+    u32 row, col;
+    func_02049B68(archive, 6, 4, i = 0, 0x100, heap);
+    *(u32 *)(p + 0x9a8) = func_02049740(archive, 14, 4, 0, 0, heap);
+    func_02049658(archive, 15, 6, 0x80, 0, 0, heap);
+    func_02049990(archive, 22, 4, 0, *(u32 *)(p + 0x9a8), 0, 0, heap);
+    *(void **)(p + 0x8b4) = func_02049EF4(archive, 23, 0, (u32)(p + 0x8b8), heap);
+    func_021C1FE8(*(void **)(p + 0x8b8), 0x80);
+    *(void **)(p + 0x8bc) = func_02049EF4(archive, 25, 0, (u32)(p + 0x8c0), heap);
+    func_021C1FE8(*(void **)(p + 0x8c0), 0x80);
+    func_02049B40(23, 5, 4, 0x1e0, 0x20, heap);
+    for (; i < 8; ++i) {
+        row = (i % 4) * 6;
+        col = (i / 4) * 16;
+        ((Windows *)p)->main[i] = func_020450F0(7, col + 4, row + 1, 9, 3, 15, 1);
+        func_02043B5C(func_02045770((void *)((Windows *)p)->main[i]), 0);
+        func_02045334((void *)((Windows *)p)->main[i]);
+        for (j = 0; j < 2; ++j) {
+            ((Windows *)p)->sub[i][j] = func_020450F0(5, col + 1 + j * 12, row + 1, 2, 3, 15, 1);
+            func_02043B5C(func_02045770((void *)((Windows *)p)->sub[i][j]), 0);
+            func_02045334((void *)((Windows *)p)->sub[i][j]);
+        }
+    }
+    *(u32 *)(p + 0x958) = func_020450F0(7, 1, 1, 30, 2, 15, 1);
+    func_02043B5C(func_02045770(*(void **)(p + 0x958)), 0);
+    func_02045374(*(void **)(p + 0x958));
+    func_02045334(*(void **)(p + 0x958));
+    *(u32 *)(p + 0x95c) = func_020450F0(7, 1, 5, 30, 17, 15, 1);
+    func_02043B5C(func_02045770(*(void **)(p + 0x95c)), 0);
+    func_02045374(*(void **)(p + 0x95c));
+    func_02045334(*(void **)(p + 0x95c));
+    func_020409B4(4);
+    func_020409B4(7);
+}

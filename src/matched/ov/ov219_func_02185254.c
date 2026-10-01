@@ -1,0 +1,50 @@
+/*
+ * function: func_02185254
+ * address: 0x02185254
+ * packet: pkt_ov219_02185254
+ * region: ov219
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * prototype: original truncates heap before 020457B0, and stack bytes before 02184D30; extern narrow widths preserve those visible operations.
+ * symbols:
+ *   func_020457B0 0x020457B0 arm
+ *   func_02045808 0x02045808 arm
+ *   func_0201F73C 0x0201F73C thumb
+ *   func_02045334 0x02045334 arm
+ *   func_02045374 0x02045374 arm
+ *   func_02041B6C 0x02041B6C arm
+ *   func_02045730 0x02045730 arm
+ *   func_02184968 0x02184968 thumb ov219
+ *   func_02184D30 0x02184D30 thumb ov219
+ *   func_02185C84 0x02185C84 thumb ov219
+ *   d_02185DCB 0x02185DCB data a1
+ */
+typedef unsigned short u16;
+typedef unsigned char u8;
+extern const u8 d_02185DCB[];
+extern void *func_020457B0(unsigned,u16);
+extern void func_02045808(void *),func_0201F73C(void *,int,int,int);
+extern void func_02045334(void *),func_02045374(void *),func_02041B6C(unsigned);
+extern u8 func_02045730(void *);
+extern void *func_02184968(const u8 *,int);
+extern void func_02184D30(void *,void *,void *,void *,u8,u8);
+extern int func_02185C84(unsigned,unsigned,void *,void *,unsigned);
+void func_02185254(char *p,unsigned key,unsigned member)
+{
+    void *first,*second,*object;
+    first=func_020457B0(64,*(unsigned *)p);
+    second=func_020457B0(64,*(unsigned *)p);
+    *(void **)(p+0xC040)=func_02184968(d_02185DCB,1);
+    func_02185C84(key,member,first,second,*(unsigned *)p);
+    if(member!=0) func_02184D30(p,p+0xC044,*(void **)(p+0xC040),second,0,16);
+    func_02184D30(p,p+0xC044,*(void **)(p+0xC040),first,0,0);
+    func_02045808(second);
+    func_02045808(first);
+    func_0201F73C(*(void **)(p+0xC040),0,34,7);
+    object=*(void **)(p+0xC040);
+    func_02045334(object);
+    func_02045374(object);
+    func_02041B6C(func_02045730(object));
+}

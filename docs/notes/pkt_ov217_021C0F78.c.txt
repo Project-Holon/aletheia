@@ -1,0 +1,66 @@
+/*
+ * function: func_021C0F78
+ * address: 0x021C0F78
+ * packet: pkt_ov217_021C0F78
+ * region: ov217
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own C7D0 takes six, y is s16, all live inputs preserved;
+ *   2 own ov217 BD0C4 twin confirms six arguments and color spelling;
+ *   3 const p gives 52-byte DIFF, int y gives 53, neither restores pair;
+ *   4 narrowing/inline/bitfield idioms read, direct and inline casts flat;
+ *   5 fresh unfiltered idiom directory and ov216/217/218 neighbour search,
+ *     0F48/0F5C/0EA4/BD0C4 read, no new matching twin. Next diagnostic:
+ *     prove an inline coordinate helper's type before any additional probe.
+ * residual: best run r3 compiles 124 versus original 128 bytes, 45 concrete
+ *   bytes differ. Original 021C0FC6 lsls r2,#16 and 021C0FCE asrs r2,#16
+ *   redundantly narrow the byte read at 021C0FBE; compiler removes this pair.
+ *   All eight sites resolve. Color's right-associated OR reproduces entry.
+ * budget: five iterations; stop after r4/r5 are two nonshrinking changes;
+ *   C3 two compiles, other final checks read-only; order/extraction cap two
+ *   used by named y and inline wrapper; no volatile or flags changes.
+ * symbols:
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_021C1090 0x021C1090 thumb ov217
+ *   func_0201C7D0 0x0201C7D0 thumb
+ *   func_02045334 0x02045334 arm
+ *   func_02045374 0x02045374 arm
+ *   func_02045730 0x02045730 arm
+ *   func_02041B6C 0x02041B6C arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef short s16;
+typedef unsigned int u32;
+enum Coordinate { COORD_ZERO=0 };
+struct Descriptor;
+struct CharBuf;
+extern void *func_02045770(struct Descriptor *);
+extern void func_02043B5C(struct CharBuf *,u8);
+extern int func_021C1090(u8 *,void *);
+extern void func_0201C7D0(void *,s16,s16,void *,void *,u16);
+extern void func_02045334(struct Descriptor *);
+extern void func_02045374(struct Descriptor *);
+extern u8 func_02045730(struct Descriptor *);
+extern void func_02041B6C(u32);
+void func_021C0F78(u8 *p,void *text)
+{
+    u16 color=(p[0xa]&31)|(((p[8]&31)<<10)|((p[9]&31)<<5));
+    struct CharBuf *buffer=func_02045770(*(struct Descriptor **)(p+0x18));
+    int x;
+    enum Coordinate y;
+    func_02043B5C(buffer,p[0xa]);
+    if (*(int *)(p+0xc)!=0) x=p[5]+func_021C1090(p,text);
+    else x=p[5];
+    y=(enum Coordinate)p[6];
+    func_0201C7D0(buffer,x,y,text,*(void **)(p+0x10),color);
+    if (*(int *)(p+0x1c)!=0) {
+        struct Descriptor *d=*(struct Descriptor **)(p+0x18);
+        func_02045334(d);
+        func_02045374(d);
+        func_02041B6C(func_02045730(d));
+    }
+}

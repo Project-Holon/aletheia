@@ -1,0 +1,43 @@
+/*
+ * function: func_021B9788, func_021B9820
+ * unit: yes
+ * trailing: parent-cleared Thumb empty stub 021B9820; 021B9822 is zero alignment.
+ * address: 0x021B9788
+ * packet: pkt_ov224_021B9788
+ * region: ov224
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0204E804 0x0204E804 arm
+ *   func_0204E720 0x0204E720 arm
+ *   func_020362DC 0x020362DC arm
+ *   func_020355D8 0x020355D8 arm
+ *   func_02035D20 0x02035D20 arm
+ *   func_0201C4E4 0x0201C4E4 thumb
+ *   func_021B9A44 0x021B9A44 thumb ov224
+ */
+extern int func_0204E804(void),func_020362DC(void);
+extern void func_0204E720(int,int,int,int),func_020355D8(int);
+extern int func_02035D20(int *,int *);
+extern void func_0201C4E4(void *),func_021B9A44(void *);
+int func_021B9788(void *a,unsigned *state,int b,char *p)
+{
+    int x,y,flag;
+    switch(*state) {
+    case 0: *state=1; break;
+    case 1: if(!func_0204E804()) *state=2; break;
+    case 2:
+        flag=0;
+        if(func_020362DC()&3) { func_020355D8(0); flag=1; }
+        else if(func_02035D20(&x,&y)) { func_020355D8(1); flag=1; }
+        if(flag) { *state=3; func_0204E720(3,0,16,0); }
+        break;
+    case 3: if(!func_0204E804()) *state=4; break;
+    case 4: return 1;
+    }
+    func_0201C4E4(*(void **)(p+16)); func_021B9A44(*(void **)(p+8));
+    return 0;
+}
+void func_021B9820(void) {}

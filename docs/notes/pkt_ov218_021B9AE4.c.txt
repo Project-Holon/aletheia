@@ -1,0 +1,49 @@
+/*
+ * function: func_021B9AE4
+ * address: 0x021B9AE4
+ * packet: pkt_ov218_021B9AE4
+ * region: ov218
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 full own callee bodies confirm 3/6/3/1/8 argument arities and u16 print coordinates; 2 ov067 6B2C twin confirms widths, no ov218 twin; 3 const p and u16 font both compiled unchanged 81B; 4 enum kind compiled unchanged 81B; 5 fresh unfiltered idiom listing and owned B78/C00 plus ov067 twin reread, no new lever; struct-local idiom inapplicable because no aggregate scratch object. Next candidate: parameter reuse, with shared scheduling cap already exhausted.
+ * Iterations i1..i5: 81/83/81/141/81 concrete bytes; 148/152/148/152/148 sizes.
+ * Conservative stop against best delta after i4/i5; order variants i3
+ * named slot and i5 declaration reorder consume 2/2 across all checks.
+ * Original retains index in r7 and spills kind to sp+18; this C retains
+ * kind in r7 and reloads index from its argument slot, changing the frame.
+ * symbols:
+ *   func_02045CAC 0x02045CAC arm
+ *   func_0201EFA4 0x0201EFA4 thumb
+ *   func_0201F250 0x0201F250 thumb
+ *   func_0201D2C8 0x0201D2C8 thumb
+ *   func_021B6AE4 0x021B6AE4 thumb ov067
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct MsgBank;
+struct WordSet;
+struct StrObj;
+extern void func_02045CAC(struct MsgBank *, u32, void *);
+extern void func_0201EFA4(struct WordSet *, u32, u32, u32, u32, u32);
+extern void func_0201F250(struct WordSet *, void *, void *);
+extern u32 func_0201D2C8(struct StrObj *);
+extern void func_021B6AE4(u8 *, u32, u16, u16, u32, u32, u16, u32);
+void func_021B9AE4(char *p, u8 *print, u32 bitmap, u32 font, int index)
+{
+    int kind;
+    int amount;
+    int slot = index;
+    kind = 131 - slot;
+    amount = 12;
+    func_02045CAC(*(struct MsgBank **)(p + 8), kind == 2 ? 240 : 237, *(void **)(p + 0x18));
+    func_0201EFA4(*(struct WordSet **)(p + 0x14), 2, kind, 3, 0, 1);
+    func_0201F250(*(struct WordSet **)(p + 0x14), *(void **)(p + 0x1c), *(void **)(p + 0x18));
+    func_021B6AE4(print, bitmap, 0, 12, *(u32 *)(p + 0x1c), font, 0x39e0, 0);
+    if (func_0201D2C8(((struct StrObj **)(p + 0x2c))[slot]) > 1)
+        amount = 4;
+    func_021B6AE4(print, bitmap, 30, amount, ((u32 *)(p + 0x2c))[slot], font, 0x39e0, 0);
+}

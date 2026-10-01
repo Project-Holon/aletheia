@@ -1,0 +1,124 @@
+/*
+ * function: func_021C0AEC
+ * address: 0x021C0AEC
+ * packet: pkt_ov099_021C0AEC
+ * region: ov099
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 matched getter/forwarder bodies and explicit BE900 input audited, CB00 established argless; 2 C0554/C17F4/C0E60/C10A8 and ov098 search supply no closing twin; 3 full-width long ret DIFF338/404 unchanged, other u32 iteration unchanged, const p invalid because stores; 4 enum-offset and field-recompute idioms read, manual cap2 exhausted; 5 fresh unfiltered directory and neighbours read; stack residue is scalar spills, struct-local idiom read. Next: field-lvalue shape with independently evidenced object bounds.
+ * residual: 338 concrete bytes, 404/400; release helper adds a spill and offsets differ. Also ARM9 0203CB00 has no outside-range witness; no ARM9 retry/overlay leaf filed. Iteration4 stop streak3, first nonshrink r2 position3/20; C1=0 C2=0 C3=1 C4=0 C5=0 manual=2. types300 best DIFF314 rejected: q_ copies q before assignment, tmp/tmp2 assignments sit after break and uses become uninitialized.
+ * prototype-evidence: C23B8's full tail target 56860 returns the indexed
+ *   record; BDD48/54 and C27E0 read that record. BE900's body is empty, but
+ *   original explicitly loads p into r0 before its call, so input is retained.
+ * symbols:
+ *   func_020200CC 0x020200CC thumb
+ *   func_021B97F4 0x021B97F4 thumb ov099
+ *   func_021BE2A8 0x021BE2A8 thumb ov099
+ *   func_0203CB00 0x0203CB00 arm
+ *   func_021BA8BC 0x021BA8BC thumb ov099
+ *   func_0202020C 0x0202020C thumb
+ *   func_0201F868 0x0201F868 thumb
+ *   func_021B9AE0 0x021B9AE0 thumb ov099
+ *   func_021BE900 0x021BE900 thumb ov099
+ *   func_020061E4 0x020061E4 thumb
+ *   func_021BA874 0x021BA874 thumb ov099
+ *   func_021BAAB8 0x021BAAB8 thumb ov099
+ *   func_021C23B8 0x021C23B8 thumb ov099
+ *   func_021BDD48 0x021BDD48 thumb ov099
+ *   func_021C27E0 0x021C27E0 thumb ov099
+ *   func_021BDD54 0x021BDD54 thumb ov099
+ *   func_021C08F8 0x021C08F8 thumb ov099
+ *   func_021BA8EC 0x021BA8EC thumb ov099
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef enum { K274=0x274, K1a4=0x1a4 } Off;
+struct W; struct Work; struct S; struct Obj;
+extern int func_020200CC(struct Obj *);
+extern u8 func_021B97F4(struct W *);
+extern void *func_021BE2A8(char *, int);
+extern int func_0203CB00(void);
+extern int func_021BA8BC(void *);
+extern void func_0202020C(struct Obj *, u16 *, u16 *);
+extern void func_0201F868(void *);
+extern void func_021B9AE0(char *, void *);
+extern void func_021BE900(char *);
+extern void func_020061E4(u32);
+extern void func_021BA874(struct Work *, int);
+extern void func_021BAAB8(char *, int, int);
+extern struct S *func_021C23B8(int);
+extern u8 func_021BDD48(int, struct S *);
+extern int func_021C27E0(struct S *);
+extern u8 func_021BDD54(int, struct S *);
+extern int func_021C08F8(char *);
+extern void func_021BA8EC(char *);
+static inline void release(char *p, Off o) {
+    Off t;
+    t=o;
+    t-=0xd0;
+    *(int *)(p+t)=func_021BA8BC(*(void **)(p+(o-0xd0)));
+}
+int func_021C0AEC(char *p, int ret)
+{
+    Off off;
+    int changed;
+    void *q;
+    int n, choice;
+    struct S *state;
+    int other;
+    changed=0;
+    choice=func_020200CC(*(struct Obj **)(p+0xbc));
+    off=K274;
+    n=func_021B97F4((struct W *)(p+off));
+    q=func_021BE2A8(p,n);
+    if(func_0203CB00()){
+        release(p,off);
+        func_0202020C(*(struct Obj **)(p+0xbc),0,0);
+        func_0201F868(*(void **)(p+0xb8));
+        if(q)func_021B9AE0(p+off,q);
+        func_021BE900(p);
+        return ret;
+    }
+    switch(choice){
+    case -1:
+        if(q==0){
+            func_0202020C(*(struct Obj **)(p+0xbc),0,0);
+            func_021BA874((struct Work *)p,n-1);
+            func_021BAAB8(p,13,0);
+            off-=0xa8;
+            *(int *)(p+off)=0x15;
+            changed=1;
+        }else{
+            state=func_021C23B8(n-1);
+            func_021BDD48((int)p,state);
+            changed=func_021C27E0(state);
+            other=func_021BDD54((int)p,state);
+            if(other==func_021BDD54((int)p,(struct S *)(p+(off-0x28))) && changed==func_021C27E0((struct S *)(p+(off-0x28)))) return ret;
+            func_021BA874((struct Work *)p,n-1);
+            func_021BAAB8(p,13,0);
+            *(int *)(p+0x1cc)=0x15;
+            changed=1;
+        }
+        break;
+    case -2:
+        func_020061E4(0x551);
+        off-=0xa8;
+        *(int *)(p+off)=11;
+        break;
+    default:
+        func_020061E4(0x54c);
+        if(choice==1){off-=0xa8;*(int *)(p+off)=11;func_021C08F8(p);}
+        else if(choice==2){off-=0xa8;*(int *)(p+off)=0x2e;}
+        break;
+    }
+    if(changed==0)func_021BA8EC(p);
+    off=K1a4;
+    *(int *)(p+off)=func_021BA8BC(*(void **)(p+off));
+    func_0202020C(*(struct Obj **)(p+0xbc),0,0);
+    func_0201F868(*(void **)(p+0xb8));
+    if(q){off+=0xd0;func_021B9AE0(p+off,q);}
+    return ret;
+}

@@ -1,0 +1,45 @@
+/*
+ * function: func_021BA7A4
+ * address: 0x021BA7A4
+ * packet: pkt_ov218_021BA7A4
+ * region: ov218
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * volatile: BG0CNT04000008 masked A7B2-A7BA; DISP3DCNT04000060 re-read for each distinct mask A7BE-A7F0; VIEWPORT04000580 written A80E.
+ * prototype: 46A94 index narrowed to u8 per A812/A816; its own wide prototype cannot observe caller truncation.
+ * single-lever: explicit BG0CNT assignment preserves bics rather than narrowing a compound mask; alpha enable clears only overflow bits before setting bit 3.
+ * symbols:
+ *   func_020434DC 0x020434DC arm
+ *   func_0207DC44 0x0207DC44 arm
+ *   func_0207DD24 0x0207DD24 arm
+ *   func_02046A94 0x02046A94 arm
+ *   func_02046BE0 0x02046BE0 arm
+ *   d_021BAED8 0x021BAED8 data a2
+ */
+typedef enum { FogMode0 = 0 } FogMode;
+typedef enum { FogSlope0 = 0 } FogSlope;
+extern const unsigned short d_021BAED8[];
+extern void func_020434DC(unsigned, unsigned);
+extern void func_0207DC44(int, FogMode, FogSlope, int);
+extern void func_0207DD24(unsigned short, int, int, int, int);
+extern void func_02046A94(unsigned char, const unsigned short *);
+extern void func_02046BE0(unsigned, unsigned);
+void func_021BA7A4(void)
+{
+    unsigned i;
+    func_020434DC(1, 1);
+    *(volatile unsigned short *)0x04000008 = *(volatile unsigned short *)0x04000008 & ~3;
+    *(volatile unsigned short *)0x04000060 = (*(volatile unsigned short *)0x04000060 & ~(2 | 0x3000)) | 2;
+    *(volatile unsigned short *)0x04000060 &= ~(0x10 | 0x3000);
+    *(volatile unsigned short *)0x04000060 &= ~(4 | 0x3000);
+    *(volatile unsigned short *)0x04000060 = (*(volatile unsigned short *)0x04000060 & ~0x3000) | 8;
+    *(volatile unsigned short *)0x04000060 &= ~(0x20 | 0x3000);
+    func_0207DC44(0, 0, 0, 0);
+    func_0207DD24(0, 0, 0x7fff, 63, 0);
+    *(volatile unsigned *)0x04000580 = 0xbfff0000;
+    for (i = 0; i < 4; i++)
+        func_02046A94(i, &d_021BAED8[i * 4]);
+    func_02046BE0(0, 0);
+}

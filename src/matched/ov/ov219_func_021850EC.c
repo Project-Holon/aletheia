@@ -1,0 +1,38 @@
+/*
+ * function: func_021850EC
+ * address: 0x021850EC
+ * packet: pkt_ov219_021850EC
+ * region: ov219
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * prototype: 45B38 third/fourth original inputs explicitly narrowed u16;
+ * 1F878 retains original fifth stack heap input absent from legacy source.
+ * symbols:
+ *   func_02184968 0x02184968 thumb ov219
+ *   func_02045B38 0x02045B38 arm
+ *   func_0201F81C 0x0201F81C thumb
+ *   func_0201F878 0x0201F878 thumb
+ *   func_02045C04 0x02045C04 arm
+ *   func_02184FC8 0x02184FC8 thumb ov219
+ */
+typedef unsigned short u16;
+struct Src;struct Descriptor;struct MsgBank;struct Rec;struct Slot;
+typedef struct {const void *str;unsigned param;} BmpMenuWork;
+extern struct Descriptor *func_02184968(const unsigned char *,int);
+extern struct MsgBank *func_02045B38(unsigned,unsigned,u16,u16);
+extern BmpMenuWork *func_0201F81C(unsigned,unsigned);
+extern void func_0201F878(struct Slot *,unsigned,unsigned,unsigned,u16);
+extern void func_02045C04(struct Rec *),func_02184FC8(char *,const struct Src *,unsigned);
+void func_021850EC(char *p,const unsigned char *descriptor,const struct Src *cfg,unsigned file,const unsigned char *ids,unsigned count)
+{
+    struct MsgBank *bank;
+    unsigned i;
+    *(struct Descriptor **)(p+0xc018)=func_02184968(descriptor,1);
+    bank=func_02045B38(0,2,file,*(unsigned *)p);
+    *(BmpMenuWork **)(p+0xc050)=func_0201F81C(130,*(unsigned *)p);
+    for(i=0;i<count;i++)func_0201F878(*(struct Slot **)(p+0xc050),(unsigned)bank,ids[i],ids[i],(u16)*(unsigned *)p);
+    func_02045C04((struct Rec *)bank);
+    func_02184FC8(p,cfg,count);
+}

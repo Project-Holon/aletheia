@@ -1,0 +1,46 @@
+/*
+ * function: func_02185794
+ * address: 0x02185794
+ * packet: pkt_ov219_02185794
+ * region: ov219
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 full callee/accessor bodies confirm live arity and widths; 2 ov219/ov220 twins absent; 3 const p CCERR then corrected cast gives 39-byte DIFF (2/2); 4 branch/goto and switch shared-tail probes give 60-byte DIFF (2/2); 5 idiom inventory and matched 85824/85D64 reread, no branch twin; next: duplicate terminal loop in each arm.
+ * residual: best r2 has 25 concrete byte differences at identical 144-byte size; branch layout only; all 10 relocations resolved.
+ * symbols:
+ *   func_02048AFC 0x02048AFC arm
+ *   func_02048B44 0x02048B44 arm
+ *   func_02048B80 0x02048B80 arm
+ *   func_02048B94 0x02048B94 arm
+ *   func_02048B60 0x02048B60 arm
+ *   func_02048B6C 0x02048B6C arm
+ *   func_02185AC8 0x02185AC8 thumb ov219
+ *   d_02185E0C 0x02185E0C data a4
+ *   d_02185DF4 0x02185DF4 data a4
+ *   d_020A1C78 0x020A1C78 data a2
+ */
+typedef struct {int x,y,z;} Vec;
+typedef struct {char pad0[48];short x,y;} Config;
+extern Vec d_02185E0C,d_02185DF4;
+extern Config d_020A1C78;
+extern void func_02048AFC(void *,const Vec *),func_02048B44(void *,const Vec *),func_02048B80(void *,unsigned),func_02048B94(void *,unsigned),func_02048B60(void *,const unsigned *),func_02048B6C(void *,const unsigned *);
+extern int func_02185AC8(char *);
+void func_02185794(char *p)
+{
+    unsigned near,far;
+    near=0;far=409600;
+    func_02048AFC(*(void **)(p+0xC36C),&d_02185E0C);
+    func_02048B44(*(void **)(p+0xC36C),&d_02185DF4);
+    func_02048B80(*(void **)(p+0xC36C),d_020A1C78.x);
+    func_02048B94(*(void **)(p+0xC36C),d_020A1C78.y);
+    func_02048B60(*(void **)(p+0xC36C),&near);
+    func_02048B6C(*(void **)(p+0xC36C),&far);
+    if(*(unsigned short *)(p+0xC31C)!=0) {
+        if(*(int *)(p+0xC33C)==0) *(unsigned short *)(p+0xC30C)=0;
+        else if(*(int *)(p+0xC33C)==220) *(unsigned short *)(p+0xC30C)=0;
+        else *(unsigned short *)(p+0xC30C)=1;
+    } else *(unsigned short *)(p+0xC30C)=1;
+    while(func_02185AC8(p)!=1) {}
+}

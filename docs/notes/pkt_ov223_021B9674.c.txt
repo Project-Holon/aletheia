@@ -1,0 +1,43 @@
+/*
+ * function: func_021B9674
+ * address: 0x021B9674
+ * region: ov223
+ * isa: thumb
+ * packet: pkt_ov223_021B9674
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * status: DIFF
+ * checks: 1 355D8 word caller visibly not truncated, own u8 widened; 2 singleton unit read; 3 const p no change (1/2); 4 enum zero/shared-exit idioms read; 5 fresh directory/neighbour read; next case0 dead assignment probe, order cap exhausted.
+ * symbols:
+ *   func_0204E720 0x0204E720 arm
+ *   func_020355D8 0x020355D8 arm
+ *   func_0204E6F4 0x0204E6F4 arm
+ *   func_020315D4 0x020315D4 arm
+ *   func_020306F0 0x020306F0 arm
+ * 355D8 widened: original word input has no u8 truncation.
+ */
+typedef unsigned int u32;
+typedef unsigned short u16;
+extern void func_0204E720(u32,int,int,int);
+extern void func_020355D8(u32);
+extern void func_0204E6F4(int);
+extern void func_020315D4(void *);
+extern void func_020306F0(void *);
+int func_021B9674(void *a,int b,int c,char *p)
+{
+    enum Zero { ZERO=0 } zero=ZERO;
+    func_0204E720(12,16,16,0);
+    func_020355D8(*(u32 *)(p+8));
+    func_0204E6F4(*(int *)(p+2164));
+    switch(*(int *)(p+552)) {
+    case 0: goto reset;
+    case 1: ***(u16 ***)(p+4)=1; break;
+    case 2: ***(u16 ***)(p+4)=2; break;
+    default: reset: ***(u16 ***)(p+4)=zero; break;
+    }
+    *(u32 *)(*(char **)(p+4)+4)=*(u32 *)(p+552);
+    func_020315D4(a);
+    func_020306F0((void *)135);
+    return 1;
+}

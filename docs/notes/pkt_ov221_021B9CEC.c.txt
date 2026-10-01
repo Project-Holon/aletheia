@@ -1,0 +1,33 @@
+/*
+ * function: func_021B9CEC
+ * address: 0x021B9CEC
+ * packet: pkt_ov221_021B9CEC
+ * region: ov221
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 full 40618/4B404 bodies prove 3 inputs; 2 own 9C4C/9D38 and ARM9 callers confirm Vec2/signatures; 3 int callee arguments and char p unchanged (2 runs); 4 dying-pointer allocator tie and stack-Vec idioms read, no evidenced fix; 5 refreshed idioms/neighbours and cast byte-buffer unchanged (1 run). Next: typed table-base pointer local; no sweep run.
+ * residue: 4 bytes at +24/+28/+2C/+2E swap r1/r2 table base and first coordinate; 76 bytes and all 4 relocations resolved.
+ * symbols:
+ *   func_02040618 0x02040618 arm
+ *   func_0204B404 0x0204B404 arm
+ *   d_021BA140 0x021BA140 data a2
+ */
+struct Obj;
+struct Vec2 { short x,y; };
+extern short d_021BA140[2];
+extern void func_02040618(int,int,int);
+extern void func_0204B404(struct Obj *,const struct Vec2 *,unsigned);
+void func_021B9CEC(char *p)
+{
+    if(*(unsigned *)(*(unsigned char **)(p+4)+4)==0) {
+        unsigned char pair[4];
+        func_02040618(1,3,0x40);
+        func_02040618(2,3,0x40);
+        *(short *)pair=d_021BA140[0];
+        *(short *)(pair+2)=d_021BA140[1]-64;
+        func_0204B404(*(struct Obj **)(p+0x54),(const struct Vec2 *)pair,0);
+        p[0x44]=0;
+    }
+}

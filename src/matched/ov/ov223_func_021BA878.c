@@ -1,0 +1,32 @@
+/*
+ * function: func_021BA878,func_021BA8BC
+ * unit: yes
+ * address: 0x021BA878
+ * packet: pkt_ov223_021BA878
+ * region: ov223
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0204B688 0x0204B688 arm
+ *   func_0207D63C 0x0207D63C arm
+ */
+typedef unsigned char u8;
+extern void func_0204B688(void *,unsigned);
+extern void func_0207D63C(unsigned,int,int,int,int);
+void func_021BA878(char *p)
+{
+    u8 i;
+    int alpha;
+    for(i=0;i<3;i++) func_0204B688(*(void **)(p+i*148+108),1);
+    *(int *)(p+528)=0;
+    *(int *)(p+532)=1;
+    alpha=*(int *)(p+528);
+    func_0207D63C(0x04001050,0,63,alpha,16-alpha);
+}
+int func_021BA8BC(char *p)
+{
+    if(*(int *)(p+532)==0) return 1;
+    return 0;
+}

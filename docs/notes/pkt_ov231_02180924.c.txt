@@ -1,0 +1,39 @@
+/*
+ * function: func_02180924
+ * address: 0x02180924
+ * packet: pkt_ov231_02180924
+ * region: ov231
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 timer returns u64, SPI wait consumes no argument; 2 no same-region return twin; 3 bitfield 37/108 rejected uninitialized padding read, byte buffer 14/92; 4 inline halfword struct best 3/96, hardware aggregate 14/92; 5 fresh idioms and SPI neighbours read, no rescue; next: aggregate return model, order/extraction cap 2 exhausted.
+ * volatile: SPI data register 040001A2 written at 02180960 and read at 0218096C.
+ * symbols:
+ *   func_020870D0 0x020870D0 arm
+ *   func_02180904 0x02180904 thumb ov231
+ *   _ull_mul 0x0209C054 arm
+ *   _ll_udiv 0x0209C00C arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned long long u64;
+typedef struct { u16 value; } Pair;
+extern u64 func_020870D0(void);
+extern void func_02180904(void);
+static inline Pair spi_read(void)
+{
+    Pair result;
+    result.value=*(volatile u16 *)0x040001A2;
+    return result;
+}
+u8 func_02180924(u8 *p)
+{
+    u64 start;
+    start=func_020870D0();
+    while((func_020870D0()-start)*64000/33514<50) ;
+    *(volatile u16 *)0x040001A2=**(u8 **)(p+4);
+    *(u8 **)(p+4)+=1;
+    func_02180904();
+    return spi_read().value;
+}

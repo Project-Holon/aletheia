@@ -1,0 +1,48 @@
+/*
+ * function: func_021B9A28
+ * address: 0x021B9A28
+ * packet: pkt_ov225_021B9A28
+ * region: ov225
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02082BCC 0x02082BCC arm
+ *   func_0203F8F4 0x0203F8F4 arm
+ *   func_02045088 0x02045088 arm
+ *   func_0203FC28 0x0203FC28 arm
+ *   func_0203FCA0 0x0203FCA0 arm
+ *   func_020414AC 0x020414AC arm
+ *   func_02040588 0x02040588 arm
+ *   config 0x021BBDF0 data ov225
+ *   table 0x021BBE4C data ov225
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+struct Record { u32 id; u32 bg[8]; u32 kind; u32 visible; };
+extern u32 config[];
+extern struct Record table[];
+extern void func_02082BCC(void *, u32, u32);
+extern void func_0203F8F4(u32);
+extern void func_02045088(u32);
+extern void func_0203FC28(void *);
+extern void func_0203FCA0(u8, const void *, u8);
+extern void func_020414AC(u8);
+extern void func_02040588(u8, u8);
+void func_021B9A28(void *p, u32 heap)
+{
+    u32 i = 0;
+    func_02082BCC(p, 0, 4);
+    func_0203F8F4(heap);
+    func_02045088(heap);
+    func_0203FC28(config);
+    for (; i < 4; i++) {
+        struct Record *r = &table[i];
+        u32 id = r->id;
+        func_0203FCA0(id, r->bg, r->kind);
+        func_020414AC(id);
+        func_02040588(id, r->visible);
+    }
+}
