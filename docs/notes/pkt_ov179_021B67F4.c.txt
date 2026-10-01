@@ -33,3 +33,21 @@ int func_021B6854(char *p) {
  *(int *)(p+0x602C)=0; *(int *)(p+0x6030)=0; return 1;
 }
 int func_021B6878(void) { return 1; }
+
+/*
+ * func_021B680C, lane P7 (2026-10-01), ~40 compiles, still DIFF at 5 bytes.
+ * Two forms each get one half right, never both:
+ *  - `long o` (any of: o += 4, long o2 = o + 4, p + 4 + o, (o + 4) + p,
+ *    sizeof(int), unsigned long, long *q): prologue/branch exact
+ *    (o stays in r2, bne/ldr/b/ldr), but the second store folds to
+ *    adds r0,r0,r2; str r1,[r0,#4] instead of adds r1,r2,#4; str r3,[r0,r1].
+ *  - any int-typed offset for the second store (int o, (int)(o + 4),
+ *    int o2 = o + 4, o += 4 on int/unsigned, &p[o + 4], (int)p + ...): the
+ *    tail is exact (adds r1,o,#4; str [r0,r1]), but the if/else is
+ *    if-converted: push {r3,r4}; ldr r4,=0x602C hoisted above cmp; beq; 20 out.
+ *  - switch on q[1]: 19 out; o | 4: 34; int index ((int *)p)[o]: 36;
+ *    short/u16 o: 35.  Every dsi compiler 1.1 .. 1.6sp2 gives the same 5/20.
+ * Untried: a register-pressure lever that blocks the hoist while keeping the
+ * int offset (e.g. an extra live value across the branch), or a 2-field struct
+ * array indexed by (q[1] != 0) with the base constant folded.
+ */
