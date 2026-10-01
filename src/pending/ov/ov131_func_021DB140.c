@@ -1,0 +1,155 @@
+/*
+ * function: func_021DB140
+ * address: 0x021DB140
+ * packet: pkt_ov131_021DB140
+ * region: ov131
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: MATCH
+ * blocker: ARM9 0x0202F72C thumb, +0x13A THM_CALL unresolved (no
+ *   outside witness); complete 12-byte tail forwarder to 0x020212E4.
+ *   Owner C prohibited. Original caller supplies r0 pointer, narrowed r1
+ *   and halfword r2; all three are retained, r0 return consumed.
+ * interface: C08 returns -1 or 0..4 for this five-record list (full
+ *   C08/BBC/ADC bodies and nonwriting A70/AA4 predicates, retained evidence).
+ *   BA14 writes every four-byte record; the sixth first byte is the sentinel.
+ *   BA54 stores both output halfwords before returning. Only sentinel byte
+ *   touch[5][0] is read; no other bytes of its partial record are consumed.
+ * arithmetic: loop i is initialized zero and guarded <5; selected index
+ *   admitted after -1 rejection is 0..4, so index+54 and index*24 are safe.
+ *   Secondary record selector is an ldrb, 0..255, product <=6120. No menu
+ *   domain, default output value, volatile or narrowed full-word result.
+ * symbols:
+ *   func_0204B878 0x0204B878 arm
+ *   func_020061E4 0x020061E4 thumb
+ *   func_021DBA78 0x021DBA78 thumb ov131
+ *   func_021DB468 0x021DB468 thumb ov131
+ *   func_021D9EE8 0x021D9EE8 thumb ov131
+ *   func_0204B3DC 0x0204B3DC arm
+ *   func_021DB614 0x021DB614 thumb ov131
+ *   func_021DBA14 0x021DBA14 thumb ov131
+ *   func_02035C08 0x02035C08 arm
+ *   func_021D6064 0x021D6064 thumb ov131
+ *   func_02017E88 0x02017E88 thumb
+ *   func_0202F72C 0x0202F72C thumb
+ *   func_021DBA54 0x021DBA54 thumb ov131
+ *   func_0204B404 0x0204B404 arm
+ *   func_0204B9A0 0x0204B9A0 arm
+ *   func_021DB688 0x021DB688 thumb ov131
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct Actor;
+extern void func_0204B878(void *,u16);
+extern void func_020061E4(u32);
+extern void func_021DBA78(u8 *,int);
+extern void func_021DB468(u8 *,u8 *,u8,int);
+extern void func_021D9EE8(u8 *,u8 *);
+extern void func_0204B3DC(void *,int);
+extern void func_021DB614(void *,u8 *,int);
+extern void func_021DBA14(u8 *,u8 *);
+extern int func_02035C08(u8 *);
+extern void *func_021D6064(u8 *);
+extern int func_02017E88(void *,int,int);
+extern int func_0202F72C(void *,u16,u16);
+extern void func_021DBA54(u8 *,u8 *);
+extern void func_0204B404(void *,u8 *,int);
+extern void func_0204B9A0(struct Actor *);
+extern void func_021DB688(u8 *,u8 *,int);
+
+void func_021DB140(u8 *a,u8 *b)
+{
+    u8 i;
+    int index,result;
+    u16 point[2];
+    u8 touch[6][4];
+    if (*(int *)(a+36)==7) {
+        if (*(int *)(b+24)==0) {
+            *(int *)(a+84)=1;
+            (*(u8 **)(a+8))[18]=1;
+            *(int *)(a+80)=2;
+            func_0204B878(*(void **)(a+404),9);
+            *(void **)(a+416)=*(void **)(a+404);
+            func_020061E4(1361);
+            return;
+        }
+        a[28]=1;
+        func_021DBA78(b+176+b[42]*24,0);
+        func_021DB468(a,b,b[41],0);
+        func_0204B3DC(*(void **)(b+156),0);
+        b[42]=5;
+        *(int *)(b+24)=0;
+        if (b[43]==5) {
+            func_021DB468(a,b,4,0);
+            func_021D9EE8(a,b);
+        } else {
+            b[41]=255;
+            func_021DB468(a,b,255,0);
+        }
+        func_021DB614(a,b,0);
+        func_020061E4(1361);
+        return;
+    }
+    for (i=0;i<5;i++) func_021DBA14(b+176+i*24,touch[i]);
+    touch[5][0]=255;
+    index=func_02035C08(touch[0]);
+    if (index==-1) return;
+    if (*(int *)(b+24)==0) {
+        if (index<4) {
+            if (func_02017E88(func_021D6064(a),index+54,0)==0) return;
+            result=func_0202F72C(*(void **)(*(u8 **)(a+8)+8),func_02017E88(func_021D6064(a),index+54,0),*(u16 *)a);
+            if (result==0 || *(int *)(a+20)==1) {
+                if (*(u16 *)(*(u8 **)(a+8)+20)==0) {
+                    *(int *)(a+84)=1;
+                    (*(u8 **)(a+8))[18]=0;
+                    (*(u8 **)(a+8))[17]=index;
+                    *(int *)(b+32)=1;
+                    *(int *)(a+416)=0;
+                    func_020061E4(1356);
+                    func_021DB468(a,b,index,0);
+                    func_021DBA78(b+176+index*24,2);
+                    return;
+                }
+                a[28]=1;
+                *(int *)(b+24)=1;
+                func_021DB468(a,b,index,0);
+                b[42]=index;
+                func_021DBA78(b+176+index*24,2);
+                b[41]=4;
+                func_021DB468(a,b,b[41],0);
+                func_021DBA54(b+176+b[42]*24,(u8 *)point);
+                func_0204B404(*(void **)(b+156),(u8 *)point,0);
+                func_0204B3DC(*(void **)(b+156),1);
+                func_0204B9A0(*(struct Actor **)(b+156));
+                func_021DB614(a,b,1);
+                func_020061E4(1356);
+                return;
+            }
+            func_021DB468(a,b,index,0);
+            b[42]=index;
+            func_021DBA78(b+176+index*24,2);
+            func_021DB688(a,b,result);
+            return;
+        }
+        func_021DB468(a,b,index,0);
+        a[28]=1;
+        *(int *)(a+84)=1;
+        (*(u8 **)(a+8))[18]=1;
+        *(int *)(b+32)=1;
+        *(int *)(a+416)=0;
+        func_020061E4(1356);
+        return;
+    }
+    if (index==4) {
+        a[28]=1;
+        *(int *)(a+84)=1;
+        (*(u8 **)(a+8))[17]=b[42];
+        (*(u8 **)(a+8))[18]=0;
+        *(int *)(b+32)=1;
+        *(int *)(b+36)=1;
+        *(int *)(a+416)=0;
+        func_020061E4(1356);
+    }
+}

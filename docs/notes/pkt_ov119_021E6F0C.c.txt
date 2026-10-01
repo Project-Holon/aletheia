@@ -1,0 +1,67 @@
+/*
+ * function: func_021E6F0C
+ * address: 0x021E6F0C
+ * packet: pkt_ov119_021E6F0C
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own 49EF4 takes five incl u16 stack heap; 41090 six incl u8 sizes; 2 no 49EF4 twin, same-archive 3E80/DE2C4 read; 3 unsigned long counter and const p each still 12B, cap 2 used; 4 long-index and allocator-tie idioms read, no closure; 5 fresh idiom listing and 3E80/DE2C4 read, stack-storage idiom read but no stack-offset residue; no declaration sweep remains (2 scheduling variants used).
+ * Best: 188 compiled bytes, 10/10 sites resolved, 12 concrete bytes differ:
+ * loop counter/data address r2/r3 exchange and +64/+66 setup order.
+ * Runs: 5 iteration, consecutive nonshrinking 3 starting run3, then
+ * 2 check3 compiles. No sweep/CCERR; permuter skipped because extent
+ * contains unlabelled, separately matched follower 021E6FC8.
+ * Output proof: 02030734's null path reaches the nonreturning original
+ * 020882C8 loop. Boot 0200545C seeds 020A6C58 through 02048CEC;
+ * archive 102 names a/1/0/2. Both members 5/6 are uncompressed 804-byte
+ * NSCR files with one NRCS block at +16, size 788, body data size 768.
+ * 02062B64/02062B30 assign a valid screen body on the fixed-ROM path;
+ * no output default or selector range is assumed (all nonzero select 6).
+ * Loop unsigned long is target32bit; size>>1 is at most 0x7fffffff,
+ * increment never wraps. Address multiply/add are u32 modulo 2^32.
+ * Halfword sums are at most 131070 then truncate modulo 65536.
+ * follower: 021E6FC8 already has its own matched source and shard.
+ * symbols:
+ *   func_020490F4 0x020490F4 arm
+ *   func_02049EF4 0x02049EF4 arm
+ *   func_02041090 0x02041090 arm
+ *   func_020307B0 0x020307B0 arm
+ *   func_0204047C 0x0204047C arm
+ *   func_02049238 0x02049238 arm
+ *   func_02041B6C 0x02041B6C arm
+ */
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void *func_020490F4(u32,u32);
+extern void *func_02049EF4(u32,u32,u32,u32,u16);
+extern void func_02041090(u32,u32,u32,u32,unsigned char,unsigned char);
+extern void func_020307B0(void *);
+extern void func_0204047C(int,u16);
+extern void func_02049238(void *);
+extern void func_02041B6C(u32);
+void func_021E6F0C(const char *p,int n)
+{
+    void *arc;
+    void *buf;
+    char *screen;
+    unsigned long i;
+    u32 tiles;
+    u32 heapOffset=0x5f4;
+    arc=func_020490F4(102,*(u16 *)(p+heapOffset));
+    if(n==0) buf=func_02049EF4((u32)arc,5,0,(u32)&screen,*(u16 *)(p+heapOffset));
+    else buf=func_02049EF4((u32)arc,6,0,(u32)&screen,*(u16 *)(p+heapOffset));
+    tiles=(u32)(screen+12);
+    for(i=0;i<(*(u32 *)(screen+8)>>1);i++)
+        *(u16 *)(tiles+(u32)i*2) += (u16)*(u32 *)(p+0x86c);
+    if(n==0) func_02041090(1,tiles,0,0,16,24);
+    else func_02041090(1,(u32)(screen+12),16,0,16,24);
+    func_020307B0(buf);
+    func_0204047C(3,2);
+    func_0204047C(2,3);
+    func_0204047C(1,1);
+    func_0204047C(0,0);
+    func_02049238(arc);
+    func_02041B6C(1);
+}
