@@ -1,0 +1,78 @@
+/*
+ * function: func_021D5B5C
+ * address: 0x021D5B5C
+ * packet: pkt_ov115_021D5B5C
+ * region: ov115
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: safe best DIFF198/200,141 concrete unequal bytes, all15 resolved.
+ * checks: 1 full callee/forwarding bodies and full5FA0 show confirm arity;
+ * 2 full5ED8/5CCC/5A9C twins; 3 u8 locals DIFF198/141, char pointer
+ * experiment CCERR (2/2 cap), const p unsupported because p is written;
+ * 4 masked-width/narrow-flag/guard-allocation idioms; 5 fresh unfiltered
+ * complete idiom ls and full5CCC/5ED8 neighbours. No proven next lever.
+ * budgets: iteration4; first nonshrink2, consecutive3 STOP; check3=2;
+ * one scheduling variant plus measured restoration of original placement;
+ * types permuter once300 including baseline; best200/72 rejected because
+ * it hoists p+50 before45CAC, crossing a mutating call. Added return and
+ * volatile mutants remain scratch. No narrowed input/index or flag changes.
+ * safe source: restored tested check3-width spelling. Full32-bit p+50
+ * retained; narrowing would change zero tests for values such as256.
+ * evidence: 0201CCE4 is declared with its allocation return because this
+ * caller stores r0; original truncates 0201F73C argument3 to u16.
+ * symbols:
+ *   func_02045CAC 0x02045CAC arm
+ *   func_021D5FA0 0x021D5FA0 thumb ov115
+ *   func_020450F0 0x020450F0 arm
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_0201DD78 0x0201DD78 thumb
+ *   func_02028470 0x02028470 thumb
+ *   func_0201CE48 0x0201CE48 thumb
+ *   func_02012FFC 0x02012FFC thumb
+ *   func_0201CCE4 0x0201CCE4 thumb
+ *   func_0201F73C 0x0201F73C thumb
+ *   func_02045334 0x02045334 arm
+ *   func_02045374 0x02045374 arm
+ *   func_02041B6C 0x02041B6C arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void func_02045CAC(void *,u32,void *);
+extern u32 func_021D5FA0(u32);
+extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
+extern void *func_02045770(void *);
+extern void func_02043B5C(void *,u8);
+extern void func_0201DD78(u32,u32,u32);
+extern void func_02028470(u8 *,u32);
+extern void func_0201CE48(void *);
+extern signed char func_02012FFC(void);
+extern void *func_0201CCE4(u32,u32,u32,u32,u32,u32,u32,u32,u16,u16);
+extern void func_0201F73C(void *,int,u16,int);
+extern void func_02045334(void *),func_02045374(void *);
+extern void func_02041B6C(u32);
+void func_021D5B5C(u8 *p,u32 a,int b)
+{
+    u8 row=1;
+    u8 kind=2;
+    void *w;
+    func_02045CAC((void *)a,b,*(void **)(p+0x28));
+    if(*(u32 *)(p+0x50)!=0) row=19;
+    if(*(void **)(p+0x2c)==0) {
+        *(void **)(p+0x2c)=(void *)func_020450F0(func_021D5FA0(*(u32 *)(p+0x50)),1,row,30,4,11,1);
+    }
+    w=*(void **)(p+0x2c);
+    func_02043B5C(func_02045770(w),15);
+    func_0201DD78(1,2,15);
+    if(*(u32 *)(p+0x50)==0) kind=6;
+    func_02028470(p+0x3c,kind);
+    if(*(void **)(p+0x38)!=0) func_0201CE48(*(void **)(p+0x38));
+    *(void **)(p+0x38)=func_0201CCE4((u32)w,0,0,*(u32 *)(p+0x28),*(u32 *)(p+0x24),func_02012FFC(),*(u32 *)(p+0x44),2,*(u16 *)(p+0x4c),15);
+    func_0201F73C(w,1,*(u32 *)p,12);
+    func_02045334(w);
+    func_02045374(w);
+    func_02041B6C(func_021D5FA0(*(u32 *)(p+0x50)));
+}
