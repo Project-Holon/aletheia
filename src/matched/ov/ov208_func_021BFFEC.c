@@ -1,0 +1,38 @@
+/*
+ * function: func_021BFFEC
+ * address: 0x021BFFEC
+ * packet: pkt_ov208_021BFFEC
+ * region: ov208
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021C239C 0x021C239C thumb ov208
+ *   func_021C2304 0x021C2304 thumb ov208
+ *   func_021C231C 0x021C231C thumb ov208
+ *   func_021C232C 0x021C232C thumb ov208
+ *   func_021BC4F4 0x021BC4F4 thumb ov208
+ *   func_021BC6BC 0x021BC6BC thumb ov208
+ */
+typedef unsigned char u8;
+extern void func_021C239C(char *);
+extern void func_021C2304(char *);
+extern void func_021C231C(char *);
+extern void func_021C232C(char *);
+extern void func_021BC4F4(int, unsigned);
+extern void func_021BC6BC(void *);
+void func_021BFFEC(void *unused, char *p)
+{
+    switch (*(u8 *)(p + 0x414)) {
+    case 1: func_021C239C(p); func_021C2304(p); break;
+    case 2: func_021C231C(p); func_021C232C(p); break;
+    case 3:
+        func_021C239C(p);
+        func_021C231C(p);
+        func_021BC4F4(0, *(unsigned *)(p + 0x418));
+        break;
+    }
+    *(u8 *)(p + 0x414) = 0;
+    func_021BC6BC(*(void **)(p + 0x420));
+}

@@ -1,0 +1,50 @@
+/*
+ * function: func_021BCF98
+ * address: 0x021BCF98
+ * packet: pkt_ov208_021BCF98
+ * region: ov208
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02082BCC 0x02082BCC arm
+ *   func_0203F8F4 0x0203F8F4 arm
+ *   func_02045088 0x02045088 arm
+ *   func_0203FC28 0x0203FC28 arm
+ *   func_0203FCA0 0x0203FCA0 arm
+ *   func_020414AC 0x020414AC arm
+ *   func_02040588 0x02040588 arm
+ *   d_021C8138 0x021C8138 data a4
+ *   d_021C81B4 0x021C81B4 data a4
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+struct BgTemplate;
+typedef struct {u32 bg,tmpl[8],type,on;} BgEntry;
+extern const u32 d_021C8138[];
+extern const BgEntry d_021C81B4[];
+extern void func_02082BCC(void *,int,int);
+extern void func_0203F8F4(u32);
+extern void func_02045088(u32);
+extern void func_0203FC28(const void *);
+extern void func_0203FCA0(u8,const struct BgTemplate *,u8);
+extern void func_020414AC(u8);
+extern void func_02040588(u8,u8);
+void func_021BCF98(void *p,u32 heap)
+{
+    u32 i=0;
+    const BgEntry *row;
+    u32 bg;
+    func_02082BCC(p,0,4);
+    func_0203F8F4(heap);
+    func_02045088(heap);
+    func_0203FC28(d_021C8138);
+    for(;i<8;i++) {
+        row=&d_021C81B4[i];
+        bg=row->bg;
+        func_0203FCA0(bg,(const struct BgTemplate *)row->tmpl,row->type);
+        func_020414AC(bg);
+        func_02040588(bg,row->on);
+    }
+}

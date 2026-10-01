@@ -1,0 +1,44 @@
+/*
+ * function: func_021BC008
+ * address: 0x021BC008
+ * packet: pkt_ov206_021BC008
+ * region: ov206
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 callees take one pointer (ARM9 own C/show); 2 ov205 teardown twin confirms prototypes, no full twin; 3 const p unchanged 156B/138 wrong, unsigned i 144B/139 wrong; 4 enum offsets 158B/145 wrong, struct-offset idioms read; 5 fresh idiom directory and ov205 neighbour reread, stack slots are scalar offsets not a stack object (struct-local idiom read). Next: offset source field grouping; two order/extraction variants consumed, no sweep.
+ * runs: five iterations; r4/r5 two nonshrinking; C3 two compiles; best r3/C3a 156 bytes, 138 concrete mismatches, 12 short versus extent (4 bytes are follower).
+ * follower: 0x021BC0AC movs r0,#167; bx lr, unclaimed; ov088 equal-address source is distinct.
+ * symbols:
+ *   func_02045808 0x02045808 arm
+ *   func_02045C04 0x02045C04 arm
+ *   func_02049238 0x02049238 arm
+ */
+typedef unsigned char u8;
+typedef enum Offset { OFFSET_ZERO=0 } Offset;
+struct State { char pad[0x1b8]; int a,b,c; void *last[7]; void *middle[35]; void *extra; void *first[16]; };
+extern void func_02045808(void *);
+extern void func_02045C04(void *);
+extern void func_02049238(void *);
+extern void func_0201AE14(void *);
+void func_021BC008(const struct State *p)
+{
+    u8 i;
+    int offset,aoff,boff,coff;
+    for(i=0;i<16;i++) func_02045808(p->first[i]);
+    if(p->extra) func_0201AE14(p->extra);
+    offset=0x1e0;
+    coff=offset-0x20;
+    boff=offset-0x24;
+    aoff=offset-0x28;
+    for(i=0;i<35;i++) {
+        switch(i) {
+        case 1: if(*(int *)((unsigned)p+aoff)) continue; break;
+        case 2: if(*(int *)((unsigned)p+boff)) continue; break;
+        case 3: if(*(int *)((unsigned)p+coff)) continue; break;
+        }
+        func_02045C04(*(void **)((unsigned)p+offset+i*4));
+    }
+    for(i=0;i<7;i++) func_02049238(p->last[i]);
+}

@@ -1,0 +1,66 @@
+/*
+ * function: func_021BCE10
+ * address: 0x021BCE10
+ * packet: pkt_ov208_021BCE10
+ * region: ov208
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * volatile: hardware 04000050/04001050 writes at 021BCE36/021BCE3C and 04000000/04001000 read-write at 021BCE40-021BCE4E.
+ * symbols:
+ *   func_02030734 0x02030734 arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_0204335C 0x0204335C arm
+ *   func_020433E0 0x020433E0 arm
+ *   func_0204363C 0x0204363C arm
+ *   func_0204361C 0x0204361C arm
+ *   func_020434CC 0x020434CC arm
+ *   func_02043588 0x02043588 arm
+ *   func_0201DD60 0x0201DD60 thumb
+ *   func_021BCF98 0x021BCF98 thumb ov208
+ *   func_021BD03C 0x021BD03C thumb ov208
+ *   func_021BCF58 0x021BCF58 thumb ov208
+ *   func_020056A0 0x020056A0 thumb
+ *   func_021BCF84 0x021BCF84 thumb ov208
+ *   d_021C8DC0 0x021C8DC0 data a1
+ *   d_021C8184 0x021C8184 data a4
+ */
+extern const char d_021C8DC0[];
+extern const unsigned d_021C8184[];
+extern void *func_02030734(unsigned,unsigned,int,const char *,unsigned short);
+extern void func_02082BCC(void *,int,int);
+extern void func_0204335C(unsigned);
+extern void func_020433E0(const void *);
+extern void func_0204363C(unsigned);
+extern void func_0204361C(void);
+extern void func_020434CC(void);
+extern void func_02043588(void);
+extern void func_0201DD60(void);
+extern void func_021BCF98(void *,unsigned);
+extern void func_021BD03C(unsigned char *,int,int);
+extern void func_021BCF58(void *,int);
+extern void func_021BCF84(void *,void *);
+extern void *func_020056A0(unsigned,unsigned,unsigned);
+char *func_021BCE10(unsigned display,unsigned heap,int threeD)
+{
+    char *p=func_02030734(heap,20,0,d_021C8DC0,0x1db);
+    func_02082BCC(p,0,20);
+    *(volatile unsigned short *)0x04000050=0;
+    *(volatile unsigned short *)0x04001050=0;
+    *(volatile unsigned *)0x04000000 &= ~0xe000;
+    *(volatile unsigned *)0x04001000 &= ~0xe000;
+    func_0204335C(0);
+    func_020433E0(d_021C8184);
+    func_0204363C(display);
+    func_0204361C();
+    func_020434CC();
+    func_02043588();
+    func_0201DD60();
+    *(int *)(p+0x10)=0;
+    func_021BCF98(p,heap);
+    func_021BD03C((unsigned char *)p+4,(int)d_021C8184,heap);
+    if(threeD)func_021BCF58(p,heap);
+    *(void **)(p+0xc)=func_020056A0((unsigned)func_021BCF84,(unsigned)p,0);
+    return p;
+}

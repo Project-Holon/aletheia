@@ -1,0 +1,105 @@
+/*
+ * function: func_021F6D70
+ * address: 0x021F6D70
+ * packet: pkt_ov097_021F6D70
+ * region: ov097
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * blocker: 29 concrete bytes differ at original/compiled 376-byte extent; second-print font spill and third-print owner spill/sum scheduling remain.
+ * checks: 1 own EFA4 pointer plus five u32 args correction compiled unchanged at 29; 2 pending 021F6CE4 and matched 021F6A98 read; 3 s16 print x compiled at 29, const pointer variant CCERR (both check slots consumed); 4 inline print/extra wrapper idioms read and iteration wrapper worsened diff; 5 fresh full idiom listing and neighbours read, declared-struct-local idiom read, no local stack object; next sweep none (shared manual-order cap exhausted).
+ * budget: 6 iteration runs, stopped at 3 consecutive nonshrinking from i4; checks 1/2/3/4/5 compiles 1/0/2/0/0; manual-order variants 2/2; once-only types permuter budget 300 best 29, no winner adopted, mutants audited before rejection.
+ * symbols:
+ *   func_020457B0 0x020457B0 arm
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_02045770 0x02045770 arm
+ *   func_02045738 0x02045738 arm
+ *   func_02045808 0x02045808 arm
+ *   func_0201EFA4 0x0201EFA4 thumb
+ *   func_0201F250 0x0201F250 thumb
+ *   func_0201C724 0x0201C724 thumb
+ *   func_02017E1C 0x02017E1C thumb
+ *   func_02017F00 0x02017F00 thumb
+ *   func_0201D304 0x0201D304 thumb
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef short s16;
+typedef unsigned int u32;
+extern void *func_020457B0(u32, u32);
+extern void *func_02045EC0(void *, u32);
+extern void *func_02045770(void *);
+extern u8 func_02045738(void *);
+extern void func_02045808(void *);
+extern void func_0201EFA4(void *, u32, u32, u32, u32, u32);
+extern void func_0201F250(void *, void *, void *);
+extern void func_0201C724(void *, u32, u32, u32, u32, u32, u16);
+extern u32 func_02017E1C(void *, u32, u32);
+extern u8 func_02017F00(void *);
+extern u32 func_0201D304(void *, u32, u32);
+static inline void print_text(int p, u32 windows, u32 dirty, int i, void *s, int x, u16 color)
+{
+    void *owner = *(void **)(p + 0x1c);
+    func_0201C724(owner, (u32)func_02045770(*(void **)(windows + i * 8)), x, 0x20, (u32)s, *(u32 *)(p + 0x10), color);
+    *(u8 *)(dirty + i * 8) = 1;
+}
+static inline void print_left(int p, u32 windows, u32 dirty, int i, void *s, int center)
+{
+    u32 font = *(u32 *)(p + 0x10);
+    s16 x = (s16)(center - func_0201D304(s, font, 0));
+    void *owner = *(void **)(p + 0x1c);
+    func_0201C724(owner, (u32)func_02045770(*(void **)(windows + i * 8)), x, 0x20, (u32)s, font, 0x3dc0);
+    *(u8 *)(dirty + i * 8) = 1;
+}
+static inline u8 print_heading(int p, u32 windows, u32 dirty, int i, void *s, u32 w)
+{
+    u8 center;
+    void *owner;
+    center = 0x5c - (w >> 1);
+    owner = *(void **)(p + 0x1c);
+    func_0201C724(owner, (u32)func_02045770(*(void **)(windows + i * 8)), center, 0x20, (u32)s, *(u32 *)(p + 0x10), 0x3dc0);
+    *(u8 *)(dirty + i * 8) = 1;
+    return center;
+}
+static inline void print_left_wrapped(int p, u32 windows, u32 dirty, int i, void *s, int center)
+{
+    print_left(p, windows, dirty, i, s, center);
+}
+static inline void print_sum(int p, u32 windows, u32 dirty, int i, void *s, u32 center, u32 w)
+{
+    void *owner = *(void **)(p + 0x1c);
+    func_0201C724(owner, (u32)func_02045770(*(void **)(windows + i * 8)), (s16)(center + w), 0x20, (u32)s, *(u32 *)(p + 0x10), 0x3dc0);
+    *(u8 *)(dirty + i * 8) = 1;
+}
+void func_021F6D70(int p, int i)
+{
+    u32 windows, dirty, mons, mi;
+    void *t, *s;
+    u32 w;
+    u8 center;
+    t = func_020457B0(0x20, 0x8071);
+    s = func_02045EC0(*(void **)(p + 0x14), 0xc);
+    w = (u8)func_0201D304(s, *(u32 *)(p + 0x10), 0);
+    windows = p;
+    windows = p + 0x20;
+    dirty = p;
+    dirty = p + 0x24;
+    center = print_heading(p, windows, dirty, i, s, w);
+    func_02045808(s);
+    s = func_02045EC0(*(void **)(p + 0x14), 0xd);
+    mons = p;
+    mons = p + 0xf8;
+    mi = i * 4;
+    func_0201EFA4(*(void **)(p + 0x18), 0, func_02017E1C(*(void **)(mons + mi), 0xa0, 0), 3, 0, 1);
+    func_0201F250(*(void **)(p + 0x18), t, s);
+    print_left(p, windows, dirty, i, t, center);
+    func_02045808(s);
+    s = func_02045EC0(*(void **)(p + 0x14), 0xd);
+    func_0201EFA4(*(void **)(p + 0x18), 0, func_02017E1C(*(void **)(mons + mi), 0xa1, 0), 3, 0, 1);
+    func_0201F250(*(void **)(p + 0x18), t, s);
+    print_sum(p, windows, dirty, i, t, center, w);
+    func_02045808(s);
+    func_02045808(t);
+}

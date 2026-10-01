@@ -1,0 +1,85 @@
+/*
+ * function: func_021F6F88
+ * address: 0x021F6F88
+ * packet: pkt_ov097_021F6F88
+ * region: ov097
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * lever: integer object base plus a separate twice-assigned destination
+ * address recreates its spill and shared index; merged icon is u16.
+ * symbols:
+ *   func_020490F4 0x020490F4 arm
+ *   func_020185F4 0x020185F4 thumb
+ *   func_0201BA68 0x0201BA68 thumb
+ *   func_0201BABC 0x0201BABC thumb
+ *   func_0204A6C8 0x0204A6C8 arm
+ *   func_0201BC3C 0x0201BC3C thumb
+ *   func_0204ACEC 0x0204ACEC arm
+ *   func_0201BC78 0x0201BC78 thumb
+ *   func_0201BCEC 0x0201BCEC thumb
+ *   func_0204AF28 0x0204AF28 arm
+ *   func_02049238 0x02049238 arm
+ *   func_020275E4 0x020275E4 thumb
+ *   func_0204ABF0 0x0204ABF0 arm
+ *   func_0202775C 0x0202775C thumb
+ *   func_02027758 0x02027758 thumb
+ *   func_02027760 0x02027760 thumb
+ *   func_02027764 0x02027764 thumb
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern u32 func_020490F4(u32, u32);
+extern void *func_020185F4(void *);
+extern u32 func_0201BA68(void *);
+extern u32 func_0201BABC(u32, u32, u32, u32);
+extern int func_0204A6C8(u32, u32, u32, u32, u16);
+extern int func_0201BC3C(void);
+extern int func_0204ACEC(u32, u32, u32, u32, u16);
+extern int func_0201BC78(void);
+extern int func_0201BCEC(void);
+extern int func_0204AF28(u32, u32, u32, u32);
+extern void func_02049238(u32);
+extern u32 func_020275E4(void);
+extern int func_0204ABF0(u32, u32, u32, u32, u16);
+extern int func_0202775C(int);
+extern int func_02027758(void);
+extern int func_02027760(int);
+extern int func_02027764(int);
+void func_021F6F88(int p)
+{
+    u32 h, h2, a, b;
+    u16 i, icon;
+    u32 icons;
+    h = func_020490F4(7, 0x8071);
+    icons = p;
+    icons = p + 0xb4;
+    for (i = 0; i < 6; i++) {
+        if (*(void **)(p + i * 4 + 0xf8) != 0)
+            icon = func_0201BA68(func_020185F4(*(void **)(p + i * 4 + 0xf8)));
+        else
+            icon = func_0201BABC(0, 0, 0, 0);
+        *(int *)(icons + i * 4) = func_0204A6C8(h, icon, 0, 0, 0x71);
+    }
+    *(int *)(p + 0xd8) = func_0204ACEC(h, func_0201BC3C(), 0, 0, 0x71);
+    a = func_0201BC78();
+    b = func_0201BCEC();
+    *(int *)(p + 0xe8) = func_0204AF28(h, a, b, 0x71);
+    func_02049238(h);
+    h2 = func_020490F4(func_020275E4(), 0x8071);
+    *(int *)(p + 0xd0) = func_0204A6C8(h2, 0xc, 0, 0, 0x71);
+    *(int *)(p + 0xe0) = func_0204ABF0(h2, 0xb, 0, 0x60, 0x71);
+    *(int *)(p + 0xf0) = func_0204AF28(h2, 0xf, 0x12, 0x71);
+    *(int *)(p + 0xcc) = func_0204A6C8(h2, 0x41, 0, 0, 0x71);
+    *(int *)(p + 0xdc) = func_0204ABF0(h2, 0x42, 0, 0x80, 0x71);
+    *(int *)(p + 0xec) = func_0204AF28(h2, 0x45, 0x48, 0x71);
+    *(int *)(p + 0xd4) = func_0204A6C8(h2, func_0202775C(2), 0, 0, 0x71);
+    *(int *)(p + 0xe4) = func_0204ABF0(h2, func_02027758(), 0, 0xa0, 0x71);
+    a = func_02027760(2);
+    b = func_02027764(2);
+    *(int *)(p + 0xf4) = func_0204AF28(h2, a, b, 0x71);
+    func_02049238(h2);
+}

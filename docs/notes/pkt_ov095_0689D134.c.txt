@@ -1,0 +1,34 @@
+/*
+ * function: func_0689D134
+ * address: 0x0689D134
+ * packet: pkt_ov095_0689D134
+ * region: ov095
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 46-byte valid body versus 40-byte original lead; 40 differing bytes.
+ * checks: 1 D0FC body reads r0 only, void(u8*) and label resolves; 2 latest ov095 callers reveal no closer twin; 3 u16 i worsens to 50/44, enum byte-count unchanged 46/40 (2 compiles); 4 inline-copy/declaration/enum idioms read, two scheduling variants spent; 5 full fresh idiom listing and D4F0/D544 neighbours re-read, no rescue. Next hypothesis would be original byte-copy helper lowering, not more ordering variants.
+ * budget: 5 iterations; r3/r4/r5 three nonshrinking, builtin r5 rejected as nonexistent callee; manual ordering/extraction cap 2 consumed. Permuter skipped because extent contains unlabelled followers.
+ * followers: parent-cleared D15C,D174,D184,D1A0,D1BC,D1D4 left unattempted because lead DIFF; D0FC conditional blocker not filed because existing label resolves.
+ * symbols:
+ *   func_0689D0FC 0x0689D0FC thumb ov095
+ */
+typedef unsigned char u8;
+extern void func_0689D0FC(u8 *);
+void func_0689D134(u8 *p)
+{
+    unsigned int i;
+    enum { COPY_BYTES = 0x31 } n;
+    u8 *src;
+    u8 *dst;
+    for (i = 3; i != 0; i--) {
+        dst = p + i * 0x31;
+        src = dst - 0x31;
+        n = COPY_BYTES;
+        do {
+            *dst++ = *src++;
+        } while (--n != 0);
+    }
+    func_0689D0FC(p);
+}

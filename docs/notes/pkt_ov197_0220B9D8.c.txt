@@ -7,7 +7,10 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 unsigned division helper correctly declared; 2 BB78/C574/C618 no twin; 3 u16 i 27, unsigned long i 4; 4 long-index idiom no rescue and two reorders already consumed; 5 fresh idioms and ov197/ov198 neighbours no twin; next enum counter scheduling (no sweep).
+ * wave31: Enum counter worsened79/88; best unsigned counter retained4/84; types300 no improvement; C3 remains2/2. No further iteration or order variants.
+ * cumulative: 7 iterations; first nonshrink2; terminal streak3; prior numbered check/order caps retained.
+ * residual: 4 concrete bytes; all fresh full outputs and individual process exits in wave31/R1.
+ * checks: 1 unsigned division helper correctly declared; 2 BB78/C574/C618 no twin; 3 u16 i 27, unsigned long i 4; 4 long-index idiom no rescue and two reorders already consumed; 5 fresh idioms and ov197/ov198 neighbours no twin; historical checks carried without reset.
  * symbols:
  *   _u32_div_f 0x0209C2B0 arm
  */

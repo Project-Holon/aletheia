@@ -7,7 +7,10 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own matched resource sources/BA68/BC3C units and 185F4 identity show arities 2/5/4/1 and result forwarding; 2 EXACT E460/E3F0/E518 twins confirm heap widths and member prototypes, no same-loop twin; 3 long owner and char destination base stay 9/176 (u16 counter narrowing proven); 4 two no-code self-assignment idiom probes remain 9; 5 fresh idiom list, new E584/E5FC twins and ov197 C27C/C304 agree, no stack aggregate or spills. Next: structured output-array base or lifetime splitting; no sweeps run.
+ * wave31: Typed six-handle output base unchanged9/176; types300 no improvement; C3/C4 remain2/2. No further iteration or order variants.
+ * cumulative: 6 iterations; first nonshrink2; terminal streak3; prior numbered check/order caps retained.
+ * residual: 9 concrete bytes; all fresh full outputs and individual process exits in wave31/R1.
+ * checks: 1 own matched resource sources/BA68/BC3C units and 185F4 identity show arities 2/5/4/1 and result forwarding; 2 EXACT E460/E3F0/E518 twins confirm heap widths and member prototypes, no same-loop twin; 3 long owner and char destination base stay 9/176 (u16 counter narrowing proven); 4 two no-code self-assignment idiom probes remain 9; 5 fresh idiom list, new E584/E5FC twins and ov197 C27C/C304 agree, no stack aggregate or spills. Historical checks carried without reset.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_0204A6C8 0x0204A6C8 arm

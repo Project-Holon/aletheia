@@ -1,0 +1,41 @@
+/*
+ * function: func_021C34A4
+ * address: 0x021C34A4
+ * packet: pkt_ov208_021C34A4
+ * region: ov208
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * symbols:
+ *   func_0204B3DC 0x0204B3DC arm
+ *   func_021C32FC 0x021C32FC thumb ov208
+ *   func_021C2FEC 0x021C2FEC thumb ov208
+ *   func_021C2E6C 0x021C2E6C thumb ov208
+ *   func_021C3280 0x021C3280 thumb ov208
+ *   func_021C3480 0x021C3480 thumb ov208
+ *   func_021C3678 0x021C3678 thumb ov208
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct Obj;
+extern void func_0204B3DC(struct Obj *p,u32 v);
+extern void func_021C32FC(u16 *heap,u8 *p,int key);
+extern void func_021C2FEC(u16 *heap,u8 *p,int key,int slot);
+extern void func_021C2E6C(u16 *heap,u8 *p,int key,int slot);
+extern void func_021C3280(u16 *heap,u8 *p,int key);
+extern void func_021C3480(u16 *heap,u8 *p,int key);
+extern void func_021C3678(u16 *heap,u8 *p,int key);
+void func_021C34A4(u16 *heap,u8 *p,int key)
+{
+    if(*(struct Obj **)(p+*(int *)(p+0x5c)*4+0x54))
+        func_0204B3DC(*(struct Obj **)(p+*(int *)(p+0x5c)*4+0x54),0);
+    *(int *)(p+0x5c)=(*(int *)(p+0x5c)+1)%2;
+    func_021C32FC(heap,p,key);
+    func_021C2FEC(heap,p,key,*(int *)(p+0x5c));
+    func_021C2E6C(heap,p,key,*(int *)(p+0x5c));
+    func_021C3280(heap,p,key);
+    func_021C3480(heap,p,key);
+    func_021C3678(heap,p,key);
+}

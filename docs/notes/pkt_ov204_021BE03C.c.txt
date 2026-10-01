@@ -1,0 +1,47 @@
+/*
+ * function: func_021BE03C
+ * address: 0x021BE03C
+ * packet: pkt_ov204_021BE03C
+ * region: ov204
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own 46440 seven args and 48A24 twelve args, u16 heaps widened for original full stack stores, B60/B6C two args; 2 scoped ov203/204 and sibling ov202/205 only DFA4 twin; 3 u16 angle no change, u16 heap and signed clips iteration unchanged; 4 constant-pair idiom and SDK fx32 macro read, scalar address reinterpretation unsupported; 5 fresh idiom directory and neighbours, declared-struct idiom read, two scalar slots already correct; next pointer-constant experiment lacks address semantics
+ * symbols:
+ *   func_02046440 0x02046440 arm
+ *   func_02048A24 0x02048A24 arm
+ *   func_02048B6C 0x02048B6C arm
+ *   func_02048B60 0x02048B60 arm
+ *   func_02048BC4 0x02048BC4 arm
+ *   func_02048C58 0x02048C58 arm
+ *   func_021BDB70 0x021BDB70 thumb ov204
+ *   d_021BFD68 0x021BFD68 data a4
+ *   d_021BFD5C 0x021BFD5C data a4
+ *   d_021BFD74 0x021BFD74 data a4
+ *   d_020A1EB8 0x020A1EB8 data a2
+ *   d_021BFD54 0x021BFD54 data a4
+ */
+struct Vec3 { unsigned x, y, z; }; struct Light; struct LightSet; struct LightSlot;
+extern void func_02046440(unsigned, unsigned, unsigned, unsigned, unsigned short, unsigned, void (*)(void));
+extern unsigned *func_02048A24(unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, struct Vec3 *, struct Vec3 *, struct Vec3 *, unsigned);
+extern void func_02048B6C(struct Light *, const unsigned *);
+extern void func_02048B60(struct Light *, const unsigned *);
+extern struct LightSlot *func_02048BC4(const struct LightSet *, unsigned);
+extern void func_02048C58(struct LightSlot *);
+extern void func_021BDB70(void);
+extern struct Vec3 d_021BFD68, d_021BFD5C, d_021BFD74;
+extern const short d_020A1EB8[];
+extern const struct LightSet d_021BFD54;
+void func_021BE03C(char *p, unsigned heap)
+{
+    unsigned far_clip, near_clip;
+    func_02046440(0, 2, 0, 2, 0, heap, func_021BDB70);
+    *(unsigned **)p = func_02048A24(0, d_020A1EB8[6], d_020A1EB8[7], 0x155, 0, 0x1000, 0x400000, 0, &d_021BFD68, &d_021BFD5C, &d_021BFD74, heap);
+    far_clip = 0x800000;
+    near_clip = 0x19A;
+    func_02048B6C(*(struct Light **)p, &far_clip);
+    func_02048B60(*(struct Light **)p, &near_clip);
+    *(struct LightSlot **)(p + 4) = func_02048BC4(&d_021BFD54, heap);
+    func_02048C58(*(struct LightSlot **)(p + 4));
+}

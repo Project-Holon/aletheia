@@ -7,7 +7,10 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 callees' read arities and widths confirmed by full show; 2 ov197/ov198 twins use identical raw table offsets; 3 u16 i and const p/u8 row compiled unchanged (2/2); 4 named struct-array spelling unchanged, second attempt failed CLI before compile (2/2); 5 fresh idiom list and B814/BB98/C42C neighbours, padded struct-array compiled unchanged (1/2); next try integer-address association, no sweep run.
+ * wave31: Full-word address association unchanged4/136; types300 no improvement; C3/C4 remain2/2. No further iteration or order variants.
+ * cumulative: 5 iterations; first nonshrink3; terminal streak3; prior numbered check/order caps retained.
+ * residual: 4 concrete bytes; all fresh full outputs and individual process exits in wave31/R1.
+ * checks: 1 callees' read arities and widths confirmed by full show; 2 ov197/ov198 twins use identical raw table offsets; 3 u16 i and const p/u8 row compiled unchanged (2/2); 4 named struct-array spelling unchanged, second attempt failed CLI before compile (2/2); 5 fresh idiom list and B814/BB98/C42C neighbours, padded struct-array compiled unchanged (1/2); historical checks carried without reset.
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
  *   func_0201EF40 0x0201EF40 thumb

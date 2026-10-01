@@ -54,8 +54,12 @@ register allocation: **a literal pool word holding a value too small to be an
 address is a symbol, not a number.** The function that loads it is short of a
 declaration, not short of a source shape.
 
-What this costs is attestation. 0x000000BC appears in no other literal pool in
-the 3.9 MB image, so the `literal` class discards its only witness under the
-honesty rule, and no cut helps because shrinking the range to the one function
-keeps that function's own pool word inside it. Both functions reproduce every
-concrete byte and stay at MATCH; they are parked in `src/pending/`.
+Attest a proved overlay-ID argument as `overlay_id`, rather than `literal`.
+The load/unload consumers at 0x02034AC4 and 0x02034A5C prove that the pooled
+0xBC value names overlay 188. With `ov188_id 0x000000BC overlay_id`, both
+0x0200BA58 and 0x0200BA68 reproduce all sixteen bytes and resolve both
+relocations as EXACT in isolated scratch checks. The literal class cannot
+use a pool word inside its own range as an outside witness, but the proved
+ID consumer supplies the distinct overlay-ID attestation. Their overlay
+caller can still remain MATCH because the ARM9 leaves lack filed code-start
+witnesses; retain verified scratch C in the caller header for the ARM9 owner.

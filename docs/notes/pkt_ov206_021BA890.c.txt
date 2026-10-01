@@ -1,0 +1,50 @@
+/*
+ * function: func_021BA890
+ * address: 0x021BA890
+ * packet: pkt_ov206_021BA890
+ * region: ov206
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 copied 02043B5C's pointer/u8 prototype, still 4 B; 2 ov206 AFC4 and ov208 C0788 are related window loops, no exact twin; 3 enum counter 86 B, enum callee 4 B during iteration, then u8 counter 21 B and const p 12 B (two check compiles); 4 enum-zero and hoisted-zero idioms read, no matching lever; 5 fresh directory and ov20 neighbours re-read, stack struct addressing already matches, no new twin. Next probe: signed short first-loop counter, not tried.
+ * Residue: 164 bytes compiled, 4 concrete bytes differ. At +0x54
+ * and +0x82 the original copies the live zero with adds; C rematerialises
+ * movs #0. All relocations resolve. Best source is one-5.log.
+ * symbols:
+ *   func_0204A39C 0x0204A39C arm
+ *   func_02049B68 0x02049B68 arm
+ *   func_020450F0 0x020450F0 arm
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   d_021BC174 0x021BC174 data ov206 a1
+ */
+typedef struct { unsigned char bytes[16]; } Layout;
+struct CharBuf;
+extern const Layout d_021BC174;
+extern int func_0204A39C(int,int,int,unsigned short,int *);
+extern void func_02049B68(int,int,int,int,int,unsigned short);
+extern int func_020450F0(int,int,int,int,int,int,int);
+extern struct CharBuf *func_02045770(int);
+extern void func_02043B5C(struct CharBuf *,unsigned char);
+void func_021BA890(char *p)
+{
+    Layout layout;
+    int out;
+    int flags=0;
+    int i;
+    int j;
+    *(int *)(p+0x2b0)=func_0204A39C(*(int *)(p+0x1c8),0,0,*(unsigned short *)p,&out);
+    if(*(int *)(p+0x1c)) flags=4;
+    func_02049B68(*(int *)(p+0x1cc),5,flags,96,32,*(unsigned short *)p);
+    layout=d_021BC174;
+    i=0;
+    j=i;
+    for(;i<4;i++) {
+        char *slot=p+i*4;
+        unsigned char *row=layout.bytes+i*4;
+        *(int *)(slot+0x6c)=func_020450F0(*(unsigned char *)(p+0x4c),row[0],row[1],row[2],row[3],3,1);
+        func_02043B5C(func_02045770(*(int *)(slot+0x6c)),j);
+    }
+    for(;j<4;j++) *(int *)(p+j*4+0x7c)=1;
+}

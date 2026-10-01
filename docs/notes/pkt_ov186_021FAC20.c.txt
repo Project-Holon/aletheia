@@ -3,18 +3,22 @@
  * address: 0x021FAC20
  * packet: pkt_ov186_021FAC20
  * region: ov186
- * status: DIFF
- * checks: 1 assembly confirms 02045874 reads one pointer; FB3BC has nine args with u16 ninth; FC124 copies 12 bytes; 2 FADB8/FB378 pointer-return and signed prototypes unchanged (c2a); 3 const arg unchanged (c3a), wide heap 133B/188 bytes (c3b); 4 typed struct unchanged (c1a), int heap local 98B/196 bytes (c4a), u16 local 5B/192 bytes (c4b); 5 fresh unfiltered idioms listing and FADB8/ov183 E0840 reread, declared-struct-local idiom read, three-word info confirmed; next hypothesis explicit typed descriptor parameter, no sweep run.
- * residual: 5 concrete bytes at +0038..+003C: heap load uses r0, heap store precedes arg pointer load instead of r1 then arg load then heap store.
- * runs: 4 iterations, 6 checks (1=1,2=1,3=2,4=2,5=0), no CCERR; fixed dsi/1.1p1 -O4,p Thumb ov186.
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * lever: 02045874 takes the source and heap, forwarding r1 unchanged to its allocator.
+ * evidence: matched arm9/sub_02045874.c; original 021FAC58 loads heap into r1,
+ * then loads source into r0 at021FAC5A before storing heap and calling021FAC62.
+ * checks: carried historical checks retained; superseded by independently validated Wave31 match.
  * symbols:
  *   func_02034714 0x02034714 arm
  *   func_02082BCC 0x02082BCC arm
  *   func_02045874 0x02045874 arm
- *   func_021FB7B0 0x021FB7B0 thumb
- *   func_021FC124 0x021FC124 thumb
- *   func_021FC20C 0x021FC20C thumb
- *   func_021FB3BC 0x021FB3BC thumb
+ *   func_021FB7B0 0x021FB7B0 thumb ov186
+ *   func_021FC124 0x021FC124 thumb ov186
+ *   func_021FC20C 0x021FC20C thumb ov186
+ *   func_021FB3BC 0x021FB3BC thumb ov186
  *   d_02200D18 0x02200D18 data a1
  */
 typedef struct { unsigned short x,y,z; unsigned char flag,pad; } Config;
@@ -27,7 +31,7 @@ typedef struct {
 } Fields;
 extern void func_02034714(void *, int, void *);
 extern void func_02082BCC(void *, int, unsigned);
-extern void *func_02045874(const void *);
+extern void *func_02045874(const void *, unsigned);
 extern unsigned func_021FB7B0(unsigned, int);
 extern void func_021FC124(void *, unsigned, void *);
 extern unsigned func_021FC20C(void *);
@@ -51,7 +55,7 @@ void func_021FAC20(Fields *ctx, unsigned object, unsigned a, unsigned b, void *o
     ctx->heap = heap_value;
     ctx->a = a;
     ctx->b = b;
-    ctx->work = (unsigned)func_02045874(work);
+    ctx->work = (unsigned)func_02045874(work, heap_value);
     func_02082BCC(&config, 0, 8);
     config.x = func_021FB7B0(ctx->object, 0);
     config.y = func_021FB7B0(ctx->object, 1);

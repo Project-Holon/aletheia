@@ -7,7 +7,10 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 E7CC takes 2, E974/E9A0/EA30 take 3; 2 EBCC twin Pair(s16,s16), corrected E9A0 char*,u8*,Pair* compiled unchanged; 3 unsigned i unchanged, const Record* shrank 12 to 8; 4 pair-copy inline unchanged, explicit fields worse; 5 fresh idiom inventory and E7CC/F2DC reread, Pair array/block initializer unchanged; next four-byte-aligned union storage
+ * wave31: Four-aligned union unchanged8/136; best Pair retained; types300 no improvement; C3/C4/C5 remain2/2. No further iteration or order variants.
+ * cumulative: 7 iterations; first nonshrink2; terminal streak3; prior numbered check/order caps retained.
+ * residual: 8 concrete bytes; all fresh full outputs and individual process exits in wave31/R1.
+ * checks: 1 E7CC takes 2, E974/E9A0/EA30 take 3; 2 EBCC twin Pair(s16,s16), corrected E9A0 char*,u8*,Pair* compiled unchanged; 3 unsigned i unchanged, const Record* shrank 12 to 8; 4 pair-copy inline unchanged, explicit fields worse; 5 fresh idiom inventory and E7CC/F2DC reread, Pair array/block initializer unchanged; historical checks carried without reset.
  * residual: 8 concrete bytes differ at original size 136; saved spelling compiled in 0220EFD8-c2a.log.
  * refresh: final matched EBCC and E9A0 read after their move race; same Pair shape and E9A0 prototype, no new lever.
  * symbols:
