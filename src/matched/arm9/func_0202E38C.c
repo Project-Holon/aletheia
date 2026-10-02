@@ -40,8 +40,8 @@ extern u32 sub_02045770(u32 a);
 extern void sub_02043B5C(u32 a, u32 b);
 extern void sub_02045334(u32 a);
 extern void sub_020456F8(u32 a);
-extern void sub_02045730(u32 a);
-extern void sub_020409B4(void);
+extern u32 sub_02045730(u32 a);
+extern void sub_020409B4(u32 index);
 extern void sub_0204B3DC(u32 a, u32 b);
 
 void func_0202E38C(struct Obj0202E38C *obj, u32 a1)
@@ -54,8 +54,7 @@ void func_0202E38C(struct Obj0202E38C *obj, u32 a1)
         sub_02045334(obj->f00);
         h = obj->f00;
         sub_020456F8(h);
-        sub_02045730(h);
-        sub_020409B4();
+        sub_020409B4(sub_02045730(h));
     }
     for (i = 0; i < 2; i++) {
         sub_0204B3DC(obj->f08[i], 0);

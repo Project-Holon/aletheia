@@ -26,12 +26,12 @@ typedef unsigned int  u32;
 
 extern u8 *g_021469DC;
 extern void func_0203AD80(u32 a, u32 b, u32 c, u32 d);
-extern u32 func_0203778C(void);
+extern u32 func_0203778C(u32 p);
 
 int func_0203C2B0(int a)
 {
     if (a != -1) {
-        if (func_0203778C() == 0)
+        if (func_0203778C((u32)a) == 0)
             return 0;
     }
 

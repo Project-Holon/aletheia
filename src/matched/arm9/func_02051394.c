@@ -49,8 +49,8 @@ typedef unsigned int u32;
 extern u32 *g_02146A88;
 extern void func_020528A8(u32 a);
 extern void func_020528BC(u32 a);
-extern void func_020528D0(u32 a);
-extern void func_02052984(u32 a);
+extern int  func_020528D0(u32 o, u32 alloc);
+extern int  func_02052984(u32 o, u32 alloc);
 
 void func_02051394(u32 *p)
 {
@@ -64,14 +64,14 @@ void func_02051394(u32 *p)
     if (a == 0)
         func_020528BC(v);
     else
-        func_02052984(v);
+        func_02052984(v, a);
 
     a = p[7];
     v = p[0];
     if (a == 0)
         func_020528A8(v);
     else
-        func_020528D0(v);
+        func_020528D0(v, a);
 
     g_02146A88[0x11] = 0;
 }

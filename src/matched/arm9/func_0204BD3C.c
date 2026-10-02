@@ -12,13 +12,13 @@
  * blocker:  02063138 has no witness outside this range
  */
 
-extern void func_02063138(void *p, int a, int b);
-void func_0204BD3C(char *p, int a, int b)
+extern unsigned int func_02063138(void *p, int a, int b, int which);
+void func_0204BD3C(char *p, int a, int b, int which)
 {
     if (b == 0) {
         *(int *)(p + 0x1c) = 0;
         return;
     }
-    func_02063138(p, a, b);
+    func_02063138(p, a, b, which);
     *(int *)(p + 0x1c) = 1;
 }

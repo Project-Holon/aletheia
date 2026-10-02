@@ -53,12 +53,12 @@ struct Block {
     s16 f0a;
 };
 
-extern void          func_02047788(void);
-extern struct Owner *func_0204755C(void);
+extern void         *func_02047788(void *p);
+extern struct Owner *func_0204755C(void *p);
 extern void          func_0206DDA4(u32 a, void *b, u32 c);
 extern int           func_02047C04(void *p);
 
-int func_02047B4C(void)
+int func_02047B4C(void *a0)
 {
     struct Block blk;
     u32 buf[3];
@@ -68,8 +68,7 @@ int func_02047B4C(void)
     int ret;
 
     ret = 1;
-    func_02047788();
-    p = (char *)func_0204755C()->rec;
+    p = (char *)func_0204755C(func_02047788(a0))->rec;
     r = (struct Rec *)(p != 0 ? p + 0x14 : 0);
 
     blk.f00 = r->f18;

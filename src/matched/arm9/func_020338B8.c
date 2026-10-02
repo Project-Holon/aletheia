@@ -14,15 +14,16 @@
  *   func_02084F10   0x02084F10  arm
  */
 
+typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 g_02146998;
-extern void func_02075EAC(void);
+extern void func_02075EAC(u16 lock_id);
 extern void func_02084F10(u32 a);
 
-void func_020338B8(u32 a, u32 b, void (*cb)(u32))
+void func_020338B8(u16 a, u32 b, void (*cb)(u32))
 {
-    func_02075EAC();
+    func_02075EAC(a);
     func_02084F10(a);
     g_02146998 = 0;
     if (cb != 0) {

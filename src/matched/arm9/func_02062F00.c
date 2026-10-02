@@ -17,11 +17,11 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_02062D08(void *p);
+extern u32 func_02062D08(void *p, u32 i);
 
-int func_02062F00(void *s)
+int func_02062F00(void *s, u32 i)
 {
-    u32 r = func_02062D08(s);
+    u32 r = func_02062D08(s, i);
 
     if (r != 0) {
         *(u32 *)((u8 *)s + 0x10) = 0;

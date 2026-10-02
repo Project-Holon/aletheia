@@ -15,11 +15,11 @@
 
 typedef unsigned int u32;
 
-extern int *func_0203A67C(void);
+extern int *func_0203A67C(u32 cmd);
 
 int func_0203A70C(u32 idx)
 {
-    int *p = func_0203A67C();
+    int *p = func_0203A67C(idx);
     if (p != 0) {
         char *base = (char *)*p;
         u32 off = ((idx << 24) >> 21);

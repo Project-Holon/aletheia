@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_0203B688(int a0, int a1, int a2, int a3){ int t0 = func_0203B344(); int t1 = func_0203AD80((int)*(int *)((char *)(0x21469DC)), (int)0x203B5D4, (int)t0, (int)0x2e0); return t1; }
+int func_0203B688(int a0, int a1, int a2, int a3){ int t0 = func_0203B344((int)a0); int t1 = func_0203AD80((int)*(int *)((char *)(0x21469DC)), (int)0x203B5D4, (int)t0, (int)0x2e0); return t1; }

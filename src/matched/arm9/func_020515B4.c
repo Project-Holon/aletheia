@@ -21,9 +21,9 @@
 
 typedef unsigned int u32;
 
-extern int func_02052634(u32 a);
+extern int func_02052634(u32 a, int b, int c);
 
-void func_020515B4(void *p)
+void func_020515B4(void *p, int b, int c)
 {
-    *(u32 *)((char *)p + 8) = func_02052634(*(u32 *)p);
+    *(u32 *)((char *)p + 8) = func_02052634(*(u32 *)p, b, c);
 }

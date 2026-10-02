@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  * symbols:
  *   g_02146A88      0x02146A88  data
  *
@@ -16,16 +16,15 @@
  * file's call site now resolves through the `matched` class.  No change to
  * the C was needed.
  *
- * EXACT*: every byte is identical; the inferred extent runs to 0x02051620
- * because the follower at 0x02051610 has no label in layout/function_starts.txt
- * (not this file's problem to fix - reported, not edited).
+ * EXACT: every byte is identical and the listing extent is now 72 bytes
+ * (it once ran on to 0x02051620 for want of a label at 0x02051610).
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_020515CC.c \
  *       --func func_020515CC --addr 0x020515CC --cc 1.1p1 --arm
  */
 
-extern int func_020525A0(void *p);
+extern int func_020525A0(void *p, int b, void (*fn)(void *));
 extern int *g_02146A88;
 int func_020515CC(int *p, int a, int b, int c)
 {
@@ -33,7 +32,7 @@ int func_020515CC(int *p, int a, int b, int c)
     if (*(int *)((char *)*(int *)p + 8) >= 0x18)
         return -1;
     g_02146A88[0x10] = c;
-    r = func_020525A0((void *)p[0]);
+    r = func_020525A0((void *)p[0], a, (void (*)(void *))b);
     g_02146A88[0x10] = 0;
     p[2] = r;
     return r;

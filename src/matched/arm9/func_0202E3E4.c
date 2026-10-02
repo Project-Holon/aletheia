@@ -36,8 +36,8 @@ struct Obj0202E3E4 {
 
 extern void sub_02045374(u32 a);
 extern void sub_020456F8(u32 a);
-extern void sub_02045730(u32 a);
-extern void sub_02041B6C(void);
+extern u32 sub_02045730(u32 a);
+extern void sub_02041B6C(u32 bit);
 extern void sub_0204B3DC(u32 a, u32 b);
 
 void func_0202E3E4(struct Obj0202E3E4 *obj, u32 a1)
@@ -49,8 +49,7 @@ void func_0202E3E4(struct Obj0202E3E4 *obj, u32 a1)
         sub_02045374(obj->f00);
     else
         sub_020456F8(obj->f00);
-    sub_02045730(obj->f00);
-    sub_02041B6C();
+    sub_02041B6C(sub_02045730(obj->f00));
     for (i = 0; i < 2; i++) {
         if (obj->f20[i] != 0)
             sub_0204B3DC(obj->f08[i], a1);

@@ -55,8 +55,8 @@ extern struct Ctx *g_02146A5C;
 
 extern void  func_020307B0(void *p);
 extern u32   func_0206DB24(void);
-extern void  func_0206DB60(void);
-extern void  func_02030BC8(void);
+extern void *func_0206DB60(void);
+extern int   func_02030BC8(u32 idx);
 
 void func_02046788(void)
 {
@@ -66,8 +66,7 @@ void func_02046788(void)
         func_020307B0(g_02146A5C->unk_14);
 
     if (func_0206DB24() == 1) {
-        func_0206DB60();
-        func_02030BC8();
+        func_02030BC8((u32)func_0206DB60());
     }
 
     func_020307B0(g_02146A5C);

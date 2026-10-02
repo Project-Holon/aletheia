@@ -24,7 +24,7 @@
  */
 
 extern void func_02036FD8(void);
-extern void func_02036E80(void);
+extern void func_02036E80(unsigned char *p);
 extern int g_021469C8[];
 
 void func_020370C8(void)
@@ -32,6 +32,6 @@ void func_020370C8(void)
     func_02036FD8();
     if (g_021469C8[1] == 0)
         return;
-    func_02036E80();
+    func_02036E80((unsigned char *)g_021469C8[1]);
     g_021469C8[1] = 0;
 }

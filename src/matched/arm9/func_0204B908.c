@@ -10,5 +10,5 @@
  * status:   EXACT
  */
 
-extern void func_0204D478();
-void func_0204B908(int a0, int a1, int a2, int a3){ func_0204D478((int)(a0 + 0x68)); }
+extern void *func_0204D478(int a0, int a1);
+void func_0204B908(int a0, int a1, int a2, int a3){ func_0204D478((int)(a0 + 0x68), (int)a1); }

@@ -30,21 +30,21 @@
  *       --func func_0202E474 --addr 0x0202E474 --cc 1.1p1 --thumb
  */
 
-extern int   func_02012EBC(void);
+extern int   func_02012EBC(int a0);
 extern void *func_02030734(int a0, int a1, int a2, int a3, int a4);
 extern int   func_0200873C(int a0);
 extern int   func_02012944(int a0);
 extern int   func_02012924(int a0);
 extern int   func_0201292C(int a0);
 extern void  func_02082D44(void *src, void *dst, int n);
-extern void  func_020127A4(int a0);
-extern int   func_02012B28(void);
+extern void *func_020127A4(int a0);
+extern int   func_02012B28(void *p);
 
 extern char data_020A77C4[];
 
 void *func_0202E474(int a0, int a1, int a2, int a3)
 {
-    int   v = func_02012EBC();
+    int   v = func_02012EBC(a0);
     char *p = func_02030734(a3, 0x3c, 1, (int)data_020A77C4, 0x37);
 
     *(int *)p = a0;
@@ -56,7 +56,6 @@ void *func_0202E474(int a0, int a1, int a2, int a3)
         func_02082D44((void *)a1, p + 0x14, 0x18);
     }
     *(int *)(p + 0x2c) = a2;
-    func_020127A4(a0);
-    *(int *)(p + 0x30) = func_02012B28() == 1;
+    *(int *)(p + 0x30) = func_02012B28(func_020127A4(a0)) == 1;
     return p;
 }

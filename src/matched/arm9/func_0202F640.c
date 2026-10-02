@@ -17,14 +17,14 @@
 
 typedef unsigned int u32;
 
-extern u32  func_02017DBC(void);
+extern u32  func_02017DBC(u32 a);
 extern u32  func_0202F498(u32 a, u32 b);
 extern void func_02017E64(u32 a, u32 b, u32 c);
 extern void func_02017DE4(u32 a, u32 b);
 
 void func_0202F640(u32 a, u32 b)
 {
-    u32 r = func_02017DBC();
+    u32 r = func_02017DBC(a);
 
     if (func_0202F498(a, b) == 1) {
         switch (b) {

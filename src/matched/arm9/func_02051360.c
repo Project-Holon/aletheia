@@ -16,10 +16,10 @@
 
 typedef unsigned short u16;
 
-extern void func_02051230(void *p);
+extern void func_02051230(void *p, unsigned int a1, unsigned int a2, unsigned int a3);
 
-void func_02051360(void *p)
+void func_02051360(void *p, unsigned int a1, unsigned int a2, unsigned int a3)
 {
-    func_02051230(p);
+    func_02051230(p, a1, a2, a3);
     *(u16 *)((char *)p + 50) = (u16)((*(u16 *)((char *)p + 50) & ~1) | 1);
 }

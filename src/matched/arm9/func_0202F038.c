@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_020437AC   0x020437AC  arm
@@ -36,7 +36,7 @@ extern void func_02043B5C(u32 a, u32 b);
 extern void func_02045334(u32 a);
 extern void func_020452E8(u32 a);
 extern void func_02030EAC(u32 a);
-extern void func_02031194(void);
+extern void func_02031194(u32 n);
 
 void func_0202F038(u8 *p)
 {
@@ -59,5 +59,5 @@ void func_0202F038(u8 *p)
     }
 
     if (*(u32 *)(p + 4) != 0)
-        func_02031194();
+        func_02031194(*(u32 *)(p + 4));
 }

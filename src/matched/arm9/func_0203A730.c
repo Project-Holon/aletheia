@@ -25,11 +25,11 @@
 
 typedef unsigned int u32;
 
-extern u32 *func_0203A67C(void);
+extern u32 *func_0203A67C(u32 cmd);
 
-u32 func_0203A730(void)
+u32 func_0203A730(u32 cmd)
 {
-    u32 *p = func_0203A67C();
+    u32 *p = func_0203A67C(cmd);
 
     return p != 0 ? p[2] : 0;
 }

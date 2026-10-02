@@ -46,7 +46,7 @@ extern u32  func_02045760(u32 a);
 extern u32  func_02045740(u32 a);
 extern u32  func_02045778(u32 a);
 extern u32  func_020450F0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern void func_02045374(void);
+extern void func_02045374(u32 cfg);
 extern void func_02041B6C(u32 a);
 extern u32  func_02030DA8(u32 a, u32 b, u32 c, u32 d);
 
@@ -68,10 +68,8 @@ void func_0202EF98(u8 *p, u32 a1, u32 a2, u8 a3, u8 a4)
     v2 = func_02045740(a2);
     v4 = func_02045778(a2);
 
-    *(u32 *)(p + 8) = func_020450F0(v0, (u8)((v6 + v7) - 2),
-                                   (u8)((v3 + v2) - 2), 2, 2, v4, 1);
-
-    func_02045374();
+    func_02045374(*(u32 *)(p + 8) = func_020450F0(v0, (u8)((v6 + v7) - 2),
+                                   (u8)((v3 + v2) - 2), 2, 2, v4, 1));
     func_02041B6C(func_02045730(*(u32 *)(p + 8)));
 
     *(u32 *)(p + 4) = 0;

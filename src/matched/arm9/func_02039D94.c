@@ -62,7 +62,7 @@ extern u32 func_02039CD8(u8 *e);
 extern u32 func_0203A2F0(u16 mask, u32 idx);
 extern u16 func_0203A28C(u16 mask, u32 idx, u32 set);
 extern u32 func_0203D378(void);
-extern u32 func_0203D394(void);
+extern u32 func_0203D394(u8 *e);
 extern u32 func_0203D4D0(u8 *e, u32 a, u32 b, u32 c, void *d, u32 e2, u32 f, u32 g2);
 extern u32 func_0203D3A8(u8 *e, u32 a, u32 b, void *q);
 extern u32 func_0203D650(void);
@@ -106,7 +106,7 @@ void func_02039D94(void)
     for (i = 0; i < 9; i++) {
         u8 *p;
         p = func_0203996C(func_020395E0(i));
-        if (func_0203D394() == 0)
+        if (func_0203D394(p) == 0)
             continue;
         if (p[0x49] == 0)
             continue;

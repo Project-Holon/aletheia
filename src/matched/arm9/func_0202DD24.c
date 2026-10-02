@@ -70,7 +70,7 @@ extern void func_02043814(u32 a, u32 b);
 extern void func_02045334(void *h);
 extern void func_02045374(void *h);
 extern u32  func_02045730(void *h);
-extern void func_02041B6C(void);
+extern void func_02041B6C(u32 bit);
 extern void func_0204B454(void *a, struct Pt *p, u16 v);
 extern void func_0204B404(void *a, struct Pt *p, u16 v);
 extern u16  func_0204B898(void *a);
@@ -96,8 +96,7 @@ void func_0202DD24(struct PmsDraw *p, u32 i, u32 j)
     h = dst->handle;
     func_02045334(h);
     func_02045374(h);
-    func_02045730(h);
-    func_02041B6C();
+    func_02041B6C(func_02045730(h));
 
     for (k = 0; k < 2; k++) {
         v = sub_0202E430(func_02045730(src->handle));

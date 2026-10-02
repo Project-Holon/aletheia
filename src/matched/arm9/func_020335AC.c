@@ -21,13 +21,13 @@
 
 typedef unsigned int u32;
 
-extern u32 func_020336B8(u32 a, u32 b, u32 c);
+extern u32 func_020336B8(u32 a, u32 b, u32 c, void *d);
 extern u32 func_020337B8(u32 a, u32 *b, u32 c);
 
 u32 func_020335AC(u32 a, u32 b, u32 c, u32 d)
 {
     u32 v;
-    u32 h = func_020336B8(a, b, c);
+    u32 h = func_020336B8(a, b, c, (void *)d);
 
     while (func_020337B8(h, &v, d) == 0) {
         ;

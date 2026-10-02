@@ -40,8 +40,8 @@
 
 extern void *func_0203D798(void);
 extern void *func_0203D788(void);
-extern void  func_02039338(void);
-extern int   func_02039160(void);
+extern unsigned short func_02039338(void);
+extern int   func_02039160(unsigned int mode);
 extern void  func_02037D98(int a);
 extern void  func_02037E60(void);
 
@@ -53,8 +53,7 @@ void func_02038340(void)
     p = func_0203D788();
     if (((int (*)(void))*(unsigned int *)(*(unsigned int *)((char *)p + 0x340) + 0x70))() == 0)
         return;
-    func_02039338();
-    if (func_02039160() == 0)
+    if (func_02039160(func_02039338()) == 0)
         return;
     func_02037D98(1);
     func_02037E60();

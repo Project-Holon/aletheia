@@ -35,8 +35,8 @@
  */
 
 extern int func_0203D788(void);
-extern void func_0203996C(int i);
-extern int func_020399B8(void);
+extern unsigned char *func_0203996C(int i);
+extern int func_020399B8(unsigned char *p);
 
 int func_020399EC(void)
 {
@@ -46,8 +46,7 @@ int func_020399EC(void)
     if (func_0203D788() != 0) {
         c = 0;
         for (i = 0; i < 8; i++) {
-            func_0203996C(i);
-            if (func_020399B8() != 0)
+            if (func_020399B8(func_0203996C(i)) != 0)
                 c++;
         }
     } else {

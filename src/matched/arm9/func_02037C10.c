@@ -57,7 +57,7 @@ struct Net {
 extern struct Net *lbl_021469D0;
 extern struct Ctx *func_0203D788(void);
 extern struct Oth *func_0203D798(void);
-extern void func_020370F4(void);
+extern u32  func_020370F4(u32 a);
 extern int  func_020393D0(void);
 extern void func_02037F48(void);
 extern void func_0203802C(void);
@@ -83,10 +83,9 @@ int func_02037C10(void)
     }
 
     {
-        void (*h)(void) = (void (*)(void))c->f340[0x84 / 4];
+        u32 (*h)(void) = (u32 (*)(void))c->f340[0x84 / 4];
         if (h != 0) {
-            h();
-            func_020370F4();
+            func_020370F4(h());
         }
     }
 

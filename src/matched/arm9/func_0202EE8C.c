@@ -50,7 +50,7 @@ typedef unsigned int   u32;
 
 extern u8   unk_0202F0A5[];
 extern void *func_020311B8(u32 a, u8 *tag, u32 size, u32 flags);
-extern u8   *func_02031290(void);
+extern u8   *func_02031290(void *p);
 extern void func_0202EECC(u8 *p, void *a1, u8 a2, u8 a3, u16 a4);
 
 u8 *func_0202EE8C(u32 a, void *b, u8 c, u8 d, u16 e)
@@ -59,7 +59,7 @@ u8 *func_0202EE8C(u32 a, void *b, u8 c, u8 d, u16 e)
     u8 *r;
 
     v = func_020311B8(a, unk_0202F0A5, 0x1c, 0);
-    r = func_02031290();
+    r = func_02031290(v);
     func_0202EECC(r, b, c, d, e);
     *(u32 *)(r + 4) = (u32)v;
     *(u32 *)r = 0;
