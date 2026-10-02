@@ -23,7 +23,7 @@ typedef signed char s8; typedef signed short s16; typedef signed int s32;
 extern void func_021CF3F8(u8 *p);
 extern u8 func_021B86C0(u8 **p);
 extern void func_021EA7FC(u32 w);
-extern u32 func_021EA814(u32 w);
+extern int func_021EA814(u32 *p);
 extern u32 func_021F7EB4(void);
 extern void func_021CE0E0(u8 *p);
 
@@ -41,7 +41,7 @@ u32 func_021CF2F0(u8 *p, s32 *st)
         }
         break;
     case 1:
-        if (func_021EA814(*(u32 *)(p + 0x54)) != 0) {
+        if (func_021EA814(*(u32 **)(p + 0x54)) != 0) {
             *st = *st + 1;
         }
         break;

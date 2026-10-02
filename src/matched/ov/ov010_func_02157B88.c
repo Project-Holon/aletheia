@@ -20,12 +20,13 @@
 
 typedef unsigned char u8;
 typedef unsigned short u16;
+typedef unsigned int u32;
 
 typedef struct { int a; u16 b; } Loc;
 
 extern int func_020399A8();
 extern int func_0203D3A8();
-extern int func_0203F1FC();
+extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void func_02039C68();
 extern void func_02157960();
 extern void func_02157AF0();
@@ -36,7 +37,7 @@ void func_02157B88(int *p)
     if (b[0x676] == 1) {
         Loc l;
         int *s = *(int **)(b + 0x664);
-        l.b = func_0203F1FC(s[1], s[0]);
+        l.b = func_0203F1FC((const u8 *)s[1], s[0]);
         l.a = *(int *)(b + 0x668);
         if (func_0203D3A8(func_020399A8(), (u16)((p[0] << 8) + 1), 8, &l) == 0)
             return;

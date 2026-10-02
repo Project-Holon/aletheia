@@ -25,7 +25,7 @@ extern void *func_021B86B8(void *);
 extern unsigned int func_021D826C(void *);
 extern int func_021D8270(void *, int, unsigned int);
 
-void func_021BA54C(char *p)
+int func_021BA54C(char *p)
 {
     int v;
 
@@ -44,4 +44,5 @@ void func_021BA54C(char *p)
         v = *(int *)(p + 0x444);
     }
     *(int *)(*(char **)p + 0x8c) = v;
+    return v;
 }

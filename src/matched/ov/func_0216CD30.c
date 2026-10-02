@@ -22,7 +22,7 @@ typedef unsigned int u32;
 
 extern int func_02030DA4();
 extern int func_020307B0();
-extern int func_02049238();
+extern void func_02049238(void *arc);
 extern int func_0216D4E4();
 
 void func_0216CD30(int a0, int a1)
@@ -37,7 +37,7 @@ a0 = *(int *)((char *)t4 + 0x1c);
     a0 = func_020307B0(a0);
 loc_0216CD40:
 a0 = *(int *)((char *)t4 + 0x10);
-    a0 = func_02049238(a0);
+    func_02049238((void *)a0);
 loc_0216CD46:
 a0 = t4 + 0;
 a1 = 0x10;

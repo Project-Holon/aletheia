@@ -24,7 +24,7 @@ typedef unsigned int u32;
 
 extern int func_0203CD98(void);
 extern void func_02082D44(void *, void *, u32);
-extern u32 func_0203F1FC(void *, u32);
+extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void func_0203F328(void *, u32, u32);
 extern void func_02157960(void *, void (*)(void), int);
 extern void func_021579AC(void);
@@ -39,7 +39,7 @@ void func_021579B0(u8 *p)
         } else {
             p[0x674] = 1;
             func_02082D44(p + 0x7C, *(void **)(p + 0xC), *(u32 *)(p + 8));
-            if (*(u16 *)(p + 0x672) != func_0203F1FC(*(void **)(p + 0xC), *(u32 *)(p + 8)))
+            if (*(u16 *)(p + 0x672) != func_0203F1FC(*(const u8 **)(p + 0xC), *(u32 *)(p + 8)))
                 p[0x674] = 2;
             func_0203F328(*(void **)(p + 0xC), *(u32 *)(p + 8), *(u32 *)(p + 0x668));
         }

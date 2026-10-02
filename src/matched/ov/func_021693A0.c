@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02049238();
+extern void func_02049238(void *arc);
 
 void func_021693A0(int a0)
 {
@@ -27,7 +27,7 @@ t4 = a0 + 0;
 a0 = *(int *)((char *)t4 + 0x10);
     if (a0 == 0) goto loc_021693B2;
 loc_021693AA:
-    a0 = func_02049238(a0);
+    func_02049238((void *)a0);
 loc_021693AE:
 a0 = 0;
 *(int *)((char *)t4 + 0x10) = a0;

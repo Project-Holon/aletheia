@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02049238  0x02049238  arm
@@ -18,7 +18,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02049238();
+extern void func_02049238(void *arc);
 extern int func_020307B0();
 
 int func_021623BC(int a0)
@@ -27,13 +27,13 @@ int func_021623BC(int a0)
 
 t4 = a0 + 0;
 a0 = *(int *)((char *)t4 + 4);
-    a0 = func_02049238(a0);
+    func_02049238((void *)a0);
 loc_021623C6:
 a0 = *(int *)((char *)t4 + 8);
-    a0 = func_02049238(a0);
+    func_02049238((void *)a0);
 loc_021623CC:
 a0 = *(int *)((char *)t4 + 0xc);
-    a0 = func_02049238(a0);
+    func_02049238((void *)a0);
 loc_021623D2:
 a0 = t4 + 0;
     a0 = func_020307B0(a0);

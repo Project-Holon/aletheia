@@ -19,7 +19,7 @@
 extern int func_0202E940();
 extern int func_020490F4();
 extern void func_0202E9AC();
-extern void func_02049238();
+extern void func_02049238(void *arc);
 
 void func_021B8B24(int p)
 {
@@ -28,5 +28,5 @@ void func_021B8B24(int p)
         func_0202E940(0x10, 0x10, 0xFFFE, *(unsigned short *)((char *)p + 0x544));
     h = func_020490F4(0x58, *(unsigned short *)((char *)p + 0x544));
     func_0202E9AC(*(int *)((char *)p + 0x850), h, 0x15, 0x10, 0x20);
-    func_02049238(h);
+    func_02049238((void *)h);
 }
