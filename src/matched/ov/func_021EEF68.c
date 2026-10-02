@@ -17,9 +17,9 @@
 
 
 
-extern void func_021EE408(int);
-void func_021EEF68(int a, int b)
+extern void func_021EE408(char *p, int v);
+void func_021EEF68(char *a, int b)
 {
     if (b != 0x21)
-        func_021EE408(a);
+        func_021EE408(a, b);
 }

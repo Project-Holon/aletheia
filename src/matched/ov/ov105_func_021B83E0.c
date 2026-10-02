@@ -13,7 +13,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
-extern void func_0204B3DC(u32);
+extern void func_0204B3DC(u32, u32);
 typedef struct { u32 objects[3]; u8 pad[0x24]; u8 digits[3]; u8 pad1; int state[3]; } Display;
 void func_021B83E0(Display *p, int i)
 {
@@ -27,6 +27,6 @@ void func_021B83E0(Display *p, int i)
             return;
         }
         p->state[i] = 1;
-        func_0204B3DC(p->objects[i]);
+        func_0204B3DC(p->objects[i], 1);
     }
 }

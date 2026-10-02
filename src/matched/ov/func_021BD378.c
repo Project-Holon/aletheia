@@ -15,10 +15,11 @@
  */
 
 extern int func_021BD404(int, int);
-extern void func_021BD7FC(int, int);
+struct Obj;
+extern void func_021BD7FC(struct Obj **p, unsigned int v);
 
 void func_021BD378(int a, int b, int c)
 {
-    func_021BD7FC(func_021BD404(a, b), c);
+    func_021BD7FC((struct Obj **)func_021BD404(a, b), c);
 }
 

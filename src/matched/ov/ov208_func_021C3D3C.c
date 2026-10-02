@@ -126,7 +126,7 @@ extern void ov208_func_021BC6F8(u32 fade);
 extern void ov208_func_021BE854(void *icon);
 extern void ov208_func_021BDAE8(void *s, int v);
 extern void ov208_func_021C7EF8(u16 *heap, u8 *p, int key);
-extern void ov208_func_021BC508(int sub, u32 blend);
+extern void ov208_func_021BC508(int flag, int *p);
 extern void ov208_func_021C51A0(u8 *mdl, u32 sys);
 extern void ov208_func_021C4FDC(u16 *heap, u8 *p, int key);
 extern void ov208_func_021BCF6C(void *s);
@@ -303,8 +303,8 @@ int ov208_func_021C3D3C(void *proc, int *seq, u16 *heap, u8 *p, int key)
     case 8:
         *seq = 9;
         ov208_func_021C7EF8(heap, p, key);
-        ov208_func_021BC508(0, W(0x6a4));
-        ov208_func_021BC508(1, W(0x6a8));
+        ov208_func_021BC508(0, (int *)W(0x6a4));
+        ov208_func_021BC508(1, (int *)W(0x6a8));
         break;
     case 9:
         for (i = 0; i < 4; i++)

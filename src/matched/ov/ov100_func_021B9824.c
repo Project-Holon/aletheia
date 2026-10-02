@@ -11,9 +11,8 @@
  * symbols:
  *   func_02080D24 0x02080D24 arm
  */
-extern unsigned func_02080D24(void);
+extern unsigned char func_02080D24(unsigned x);
 void func_021B9824(int a,int b)
 {
- *(unsigned *)(a+0x2e8) |= 1 << b;
- if(func_02080D24()>=2) *(int *)(a+0x2ec)=1;
+ if(func_02080D24(*(unsigned *)(a+0x2e8) |= 1 << b)>=2) *(int *)(a+0x2ec)=1;
 }

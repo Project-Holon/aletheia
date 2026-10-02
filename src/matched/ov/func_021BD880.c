@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Re-verified 2026-09-27 (DIFF fixer lane): the +8 store in the image is a
  * full word, `str r1,[r4,#8]`, not `strh`: the zero-extended u16 is written
@@ -21,7 +21,7 @@
  */
 
 
-extern void func_0204B878(int);
+extern void func_0204B878(int, unsigned short);
 extern void func_020061E4(int);
 
 void func_021BD880(char *p)
@@ -30,7 +30,7 @@ void func_021BD880(char *p)
     int v = *(int *)p;
 
     *(int *)(p + 8) = h;
-    func_0204B878(v);
+    func_0204B878(v, h);
     if (*(int *)(p + 0x30) != 0)
         func_020061E4(*(int *)(p + 0x30));
 }

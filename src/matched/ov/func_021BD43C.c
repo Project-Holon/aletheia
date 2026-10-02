@@ -22,9 +22,9 @@
  * byte-exact.
  */
 
-extern void func_021BD404(void);
+extern void *func_021BD404(void *mgr, int key);
 
-void func_021BD43C(void)
+void *func_021BD43C(void *mgr, int key)
 {
-    func_021BD404();
+    return func_021BD404(mgr, key);
 }

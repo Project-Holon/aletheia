@@ -15,11 +15,11 @@
  * Ignore the two known tags, otherwise run the update.
  */
 
-extern void func_021EE408(void *);
+extern void func_021EE408(char *p, int v);
 
 void func_021EEDD0(void *a, int tag)
 {
     if (tag != 0x22 && tag != 0x23)
-        func_021EE408(a);
+        func_021EE408(a, tag);
 }
 

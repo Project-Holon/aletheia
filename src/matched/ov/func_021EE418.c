@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_021EE408  0x021EE408  thumb  ov170
@@ -17,10 +17,10 @@
  */
 
 
-extern void func_021EE408(char *);
+extern void func_021EE408(char *p, int v);
 extern void func_021EC000(int, int, int);
-void func_021EE418(char *p)
+void func_021EE418(char *p, int v)
 {
-    func_021EE408(p);
+    func_021EE408(p, v);
     func_021EC000(*(int *)(p + 0x2c), 4, 1);
 }
