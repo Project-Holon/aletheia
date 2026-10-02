@@ -12,6 +12,11 @@
  * 2026-10-01: same ops and size; the original loads pos[2] once, computes
  * both bounds, stores out->b before loading pos[0], and stores out->a after
  * it. Local/ordering variants tried keep a reload or a different colour.
+ * 2026-10-02: also inert: struct-copy *out = r (initialiser or fields),
+ * long/V3-struct pos, z/x locals at top (scheduler then hoists both loads),
+ * lo kept in a local stored after the x load (CW sinks the subs to its
+ * store). Storing a after the pos[0] load needs a source order the
+ * scheduler cannot produce from any of these.
  */
 
 typedef struct {

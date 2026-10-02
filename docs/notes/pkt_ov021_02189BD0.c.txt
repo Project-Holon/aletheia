@@ -391,3 +391,9 @@ int func_02189BD0(void *sys, u8 *pos, int *outA, int *outB)
         return 0;
     return r;
 }
+
+2026-10-01, wave A2 lane 01: closed, EXACT*.  The 0x28 slot is a u16 out
+local for func_021CD440(pos, &id) (two arguments, not one); sp+0x28 is then
+CSE-d as both that argument and the in.f0 base and hoisted above the beq.
+func_02162A54 filed as an ov010 witness (src/matched/ov/ov010_func_02162A54.c).
+Source: src/matched/ov/ov021_func_02189BD0.c.

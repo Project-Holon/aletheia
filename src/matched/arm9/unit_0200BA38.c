@@ -40,7 +40,8 @@
  * func_0200BA68, eight bytes of tail call each.  Both reproduce every
  * instruction but hold their argument in a pool word rather than in a `movs`,
  * and 0xBC fits a `movs` immediate, so the argument cannot be an integer
- * literal.  See src/pending/unit_0200BA58.c, where they are parked. *
+ * literal.  Both are now matched on their own: src/matched/arm9/
+ * func_0200BA58.c and func_0200BA68.c. *
  * symbols:
  *   func_0203F1FC  0x0203F1FC  arm
  */

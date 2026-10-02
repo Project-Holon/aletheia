@@ -11,6 +11,15 @@
  *
  * 2026-10-01: control flow and both early-return blocks match. Residue: original computes off = h0*0x48 first (r3, spilled to [sp]) then loads h6, x14, and passes base+off via an extra 'adds r0, r3, #0'; this C computes x and y first. Tried statement and declaration orders, an Elem array index, off before the bound check.
  *
+ * 2026-10-02 (lane 20): same residue as func_021B8250 (pending), which has the
+ * identical mul/spill/copy shape, so one fix closes both. New measurements:
+ * the multiply is sunk by the scheduler, not the front end (an int-typed sum
+ * `(u8 *)(off + (u32)base)` at both calls keeps i copied early and reaches
+ * 128 B with only 11 differing lines, but then base is spilled and off kept in
+ * r7, the reverse of the image; `(u32)base + off` sinks again). Inert:
+ * __restrict on func_021B8250's out, an off[1] array, an inline At(base, off)
+ * helper, an inline helper taking the index or the whole tail as arguments.
+ *
  * symbols:
  *   func_021B9278  0x021B9278  thumb ov021
  *   func_021B9280  0x021B9280  thumb ov021

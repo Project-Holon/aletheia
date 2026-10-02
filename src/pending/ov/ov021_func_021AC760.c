@@ -15,6 +15,8 @@
  * which pushes c onto the stack (str r2, [sp, #8]) and adds r3 to the push;
  * this C folds the 2 (a local int k = 2 is propagated too). Stack order
  * tmp@0xc, s@0x10, v@0x34 now matches.
+ * 2026-10-02: also inert (same 70-line diff): k typed u8/u16/s16/s8/u32/
+ * const int, and k * 0x1000 / 0x1000 * k in place of k << 12.
  *
  * symbols:
  *   d_021D90EC  0x021D90EC  data

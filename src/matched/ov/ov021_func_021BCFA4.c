@@ -1,0 +1,33 @@
+/*
+ * function: func_021BCFA4
+ * address:  0x021BCFA4
+ * packet:   pkt_ov021_021BCFA4
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02082BCC  0x02082BCC  arm
+ *   func_020120F4  0x020120F4  thumb
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct { u32 f0; u32 f4; u32 pad8[8]; int f28; u32 pad2C[6]; u16 f44; u16 f46; u32 f48; u32 f4C; } X;
+extern void func_02082BCC(void *, int, int);
+extern u32 func_020120F4(u32 a);
+void func_021BCFA4(X *x, u32 b)
+{
+    func_02082BCC(x, 0, 0x154);
+    x->f0 = b;
+    x->f4 = func_020120F4(b);
+    x->f28 = -1;
+    x->f4C = 0;
+    x->f48 = 0;
+    x->f44 = 0x1AB;
+    x->f46 = 0x1AB;
+}

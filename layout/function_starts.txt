@@ -2548,3 +2548,8 @@ overlay_225 0x021BBBF0  thumb   # referenced by ov225_func_021BBA74.c
 arm9_main   0x02059858  arm     # veneer target; disasm then labels veneer_0205984C itself
 arm9_main   0x0205984C  arm     # tail call to DWCi_Acc_IsDirty, src/matched/arm9/func_0205984C.c (compiler tail call, same dwc object run)
 arm9_main   0x0205CCD8  arm     # tail call to ov009 WCM_GetLinkLevel, src/matched/arm9/func_0205CCD8.c; called from ov009 func_021552DC and func_021F4EB4
+
+# ov001 Thumb tail-call thunk (ldr r3,[pc]; bx r3; .word func_0215466C+1) after
+# func_0215466C's pool; ov021 func_021B4CDC stores its address (pool word
+# 0x02154695) as a callback for overlay 1.
+overlay_001  0x02154694  thumb   # pool word 0x02154695 in ov021 func_021B4CDC

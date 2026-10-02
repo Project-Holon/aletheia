@@ -9,92 +9,109 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * 2026-10-01 (wave A2 lane 15): adopted this 22-byte spelling from the note
+ * (the pending draft was a 64-byte one). Tested inert: y loaded first/last,
+ * z0 zero local, chained zero stores, macro FX_Mul, out as a distinct type,
+ * vadd/addv inline adds, `a.y = y` restore at each later statement.
+ * Finding: `a.y = y; a.y = 0; b = *q;` gives the image colouring (y r7, zero
+ * r6, table r4) because the zero is then live across the q copy, but the
+ * compiler drops the dead `a.y = y` store (193 bytes). The original keeps
+ * that store and still has the zero live across the copy.
+ *
+ * DIFF, same size (244 B), 22 bytes differ (lane R1; was 33 after lane B8/R3).
+ * Lane R1: the permuter (--types) bound both table values to s16 temporaries,
+ * the first loaded before the `a.y = y` restore and the second after the
+ * out.y FX_Mul (its raw output had `s16 tmp = ...` mid-block, a CCERR; the
+ * declaration is hoisted here). That gives push {r3-r7,lr}, the restore store
+ * at +0x52 and the whole schedule; every remaining byte is register naming
+ * plus one instruction:
+ *   original: y -> r7, pooled zero -> r6, table base -> r4, c -> r4:r5
+ *   this C:   y -> r6, pooled zero -> r4, table base -> r7, c -> r5:r6
+ * and at +0xD0 the original has `adds r1, r7, #0` where this has
+ * `ldr r1, [sp, #0x24]`. Reading of that copy: it is the a.y reload replaced
+ * by the register still holding y (r7 is never reused after the restore in
+ * the original); here y's register is reused by c, so the reload stays. So
+ * the whole residue is which register y gets.
+ * Lane R1 also tried on this spelling: `out.y += y` / `out.y = out.y + y` /
+ * `y + out.y` (49: y in r4 live to the end, final add `adds r1, r1, r4`, 2
+ * bytes short); `out.y = out.y + a.y` 22; y as u32/int, c as int, tmps as s32,
+ * a named `const s16 *` table pointer (set before the loads or at the top):
+ * all 22. A second permuter pass (--types, 300) from this spelling: 22.
+ * Earlier lanes (on the 33 spelling, see git history of this note): every
+ * declaration order of obj/y/c, a.y = y placed after each later statement,
+ * inline VecAdd, re-reading p->0x14 for the restore, y as long/unsigned long.
+ * checks: 1 func_0218E124 (u32,u32) as in matched 021BA4FC, VEC_Subtract/
+ * Normalize arity from 021AB890; 2 twins 021ABC5C/021BA4FC/021AB890 give
+ * types, no shared shape for the y restore; 3 const p/q: 64 -> 33 (kept),
+ * lane R1 widths of y/c/table temps: no change; 4 FX_Mul inline idiom
+ * applied; 5 n/a (no later neighbour in lane R1 shares the shape).
+ *
  * symbols:
- *   func_021AB760  0x021AB760  thumb
- *   func_0218E124  0x0218E124  thumb
- *   VEC_Subtract  0x0207CA00  arm
- *   VEC_Normalize  0x0207CCA4  arm
- *   _ll_mul  0x0209C054  arm
- *   func_0218EC90  0x0218EC90  thumb
- *   func_0218ECF4  0x0218ECF4  thumb
- *   d_020A1B38  0x020A1B38  data  a4
+ *   func_021AB760  0x021AB760  thumb  ov021
+ *   func_0218E124  0x0218E124  thumb  ov021
+ *   func_0207CA00  0x0207CA00  arm
+ *   func_0207CCA4  0x0207CCA4  arm
+ *   _ll_mul        0x0209C054  arm
+ *   tbl_020A1B38   0x020A1B38  data  a2
+ *   func_0218EC90  0x0218EC90  thumb  ov021
+ *   func_0218ECF4  0x0218ECF4  thumb  ov021
+ * Addresses are Black-image addresses.
  */
 
-typedef long long s64;
-typedef int fx32;
-typedef short fx16;
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+typedef int            s32;
 
-typedef struct {
-    fx32 x;
-    fx32 y;
-    fx32 z;
-} V;
+typedef struct Vec { s32 x, y, z; } Vec;
 
-typedef struct {
-    int pad[4];
-    V p;
-    int f1c;
-    fx32 f20;
-} S;
+extern u32 func_021AB760(u32 a);
+extern u32 func_0218E124(u32 a, u32 b);
+extern void func_0207CA00(const Vec *a, const Vec *b, Vec *out);
+extern void func_0207CCA4(const Vec *v, Vec *out);
+extern void func_0218EC90(u32 a, Vec *v);
+extern void func_0218ECF4(u32 a, Vec *v);
+extern s16 tbl_020A1B38[];
 
-extern int func_021AB760(int a);
-extern void func_0218E124(int h, int b);
-extern void VEC_Subtract(const V *a, const V *b, V *out);
-extern void VEC_Normalize(const V *a, V *out);
-extern void func_0218EC90(int h, V *v);
-extern void func_0218ECF4(int h, V *v);
-extern const fx16 d_020A1B38[];
-
-static inline fx32 FX_Mul(fx32 a, fx32 b)
+static inline s32 FX_Mul(s32 a, s32 b)
 {
-    return (fx32)(((s64)a * b + 0x800) >> 12);
+    return (s32)(((long long)a * b + 0x800LL) >> 12);
 }
 
-static inline fx16 FX_SinIdx(int idx)
+void func_021AB908(u32 a0, const u8 *p, const Vec *q)
 {
-    return d_020A1B38[idx * 2];
-}
+    Vec b;
+    Vec a;
+    Vec n;
+    Vec out;
+    u32 obj;
+    s32 y;
+    s32 c;
+    s16 t0;
+    s16 t1;
 
-static inline fx16 FX_CosIdx(int idx)
-{
-    return d_020A1B38[idx * 2 + 1];
-}
-
-/*
- * 2026-10-01: DIFF, register colouring only. Body, call order, stack layout
- * and the FX_Mul/FX_SinIdx/FX_CosIdx inline shape match; the image keeps y in
- * r7, zero in r6 and the table base in r4 (5 callee-saved regs) and stores
- * pos.y late; this source uses 4 regs. Moving `pos.y = y` later gives the
- * right param registers but recolours y/zero/table.
- */
-void func_021AB908(int a, S *s, V *v)
-{
-    int h = func_021AB760(a);
-    V dir;
-    V pos;
-    V n;
-    V out;
-    fx32 y;
-    fx32 c;
-
-    func_0218E124(h, 2);
-    pos.x = s->p.x;
-    pos.y = s->p.y;
-    pos.z = s->p.z;
-    dir = *v;
-    y = pos.y;
-    pos.y = 0;
-    dir.y = 0;
-    VEC_Subtract(&dir, &pos, &dir);
-    VEC_Normalize(&dir, &n);
-    pos.y = y;
-    out.y = FX_Mul(FX_SinIdx(s->f1c >> 4), s->f20);
-    c = FX_Mul(FX_CosIdx(s->f1c >> 4), s->f20);
+    obj = func_021AB760(a0);
+    func_0218E124(obj, 2);
+    a.x = *(const s32 *)(p + 0x10);
+    y = *(const s32 *)(p + 0x14);
+    a.z = *(const s32 *)(p + 0x18);
+    a.y = y;
+    b = *q;
+    a.y = 0;
+    b.y = 0;
+    func_0207CA00(&b, &a, &b);
+    func_0207CCA4(&b, &n);
+    t0 = tbl_020A1B38[(*(const s32 *)(p + 0x1c) >> 4) * 2];
+    a.y = y;
+    out.y = FX_Mul(t0, *(const s32 *)(p + 0x20));
+    t1 = tbl_020A1B38[(*(const s32 *)(p + 0x1c) >> 4) * 2 + 1];
+    c = FX_Mul(t1, *(const s32 *)(p + 0x20));
     out.x = FX_Mul(n.x, c);
     out.z = FX_Mul(n.z, c);
-    out.x += pos.x;
-    out.y += pos.y;
-    out.z += pos.z;
-    func_0218EC90(h, &pos);
-    func_0218ECF4(h, &out);
+    out.x += a.x;
+    out.y += a.y;
+    out.z += a.z;
+    func_0218EC90(obj, &a);
+    func_0218ECF4(obj, &out);
 }

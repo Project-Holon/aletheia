@@ -1,0 +1,51 @@
+/*
+ * function: func_021D310C
+ * address:  0x021D310C
+ * packet:   pkt_ov021_021D310C
+ * region:   ov021
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * abs_id_e1 is FS_OVERLAY_ID(ov225) (overlay_id).  d_021BBDE4 is ov225's
+ * proc table (Thumb entries 0x021B95A1, 0x021B96BD, 0x021B9661), handed
+ * to the proc loader with ov225's id; it resolves as sole-ref/data in
+ * ov225 through the loaded-overlay exception to the own-window rule
+ * (attest_xwin_loaded(), 2026-10-02).  No overlay listing labels
+ * 0x021BBDE4 as a function; ov114 has ARM code there.
+ *
+ * symbols:
+ *   func_020146F8  0x020146F8  thumb
+ *   func_02012374  0x02012374  thumb
+ *   func_021D3164  0x021D3164  thumb  ov021
+ *   func_020307B0  0x020307B0  arm
+ *   abs_id_e1      0x000000E1  data
+ *   d_021BBDE4    0x021BBDE4  data  ov225  a4
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned int u32;
+
+extern u32 func_020146F8(u32 a, u32 b, const void *c, const char *d, u32 e);
+extern unsigned char abs_id_e1[];
+extern void func_02012374(u32 a, u32 b);
+extern void func_021D3164(u32 *p);
+extern void func_020307B0(u32 p);
+extern char d_021BBDE4[];
+
+u32 func_021D310C(u32 a, u32 *st, u32 *p)
+{
+    switch (st[0]) {
+    case 0:
+        func_02012374(a, func_020146F8(p[0], p[1], abs_id_e1, d_021BBDE4, p[2]));
+        st[0]++;
+        break;
+    case 1:
+        func_021D3164(p);
+        func_020307B0(p[2]);
+        return 1;
+    }
+    return 0;
+}

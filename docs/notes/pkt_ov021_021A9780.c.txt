@@ -8,3 +8,7 @@ else (including 96B8's 4-5 spelling of -1 and both 021A9CAC arguments) matches.
 Tried: u16/u8/int/u32 species and level, (u64) casts, s32 pow, splitting id into two u32
 words, inlining the last getter. Permuter seed 11503 (9780, 10 bytes best) and 11504
 (96B8, 10 bytes best): no improvement.
+
+2026-10-02 wave A2 lane 14: func_021A96B8 is EXACT (src/matched/ov/ov021_func_021A96B8.c) with the
+Unit parameter declared `const struct Unit *u` (also in the func_021A9D30 prototype). The same
+const lever is the first thing to try on func_021A9780.

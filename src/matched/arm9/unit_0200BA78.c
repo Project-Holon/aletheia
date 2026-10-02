@@ -28,8 +28,9 @@
  * The range stops at 0x0200BAC8 because of func_0200BAC8, an eight-byte tail
  * call whose pool word names 0x020271CC and which nothing else in the image
  * branches to or holds a pointer to, so the `label` and `literal` classes are
- * both empty and no cut helps.  Its source is parked in
- * src/pending/unit_0200BA58.c with the other two. *
+ * both empty and no cut helps.  It is now matched on its own, as are the
+ * other two: src/matched/arm9/func_0200BAC8.c, func_0200BA58.c and
+ * func_0200BA68.c. *
  * symbols:
  *   MI_CpuFill8    0x02082BCC  arm
  *   func_02045B38  0x02045B38  arm

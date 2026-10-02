@@ -139,3 +139,8 @@ void func_021D14C4(Out *out, int slot, Grid *grid, V3 *pos, int size, int base)
     out[slot].attr = rec->attr;
     out[slot].height = base + func_0207C768(-(d + (tx + tz)), ny);
 }
+
+closed 2026-10-02 (lane A2-13): EXACT, filed as src/matched/ov/ov021_func_021D14C4.c.
+The three blockers above were: the normal table read through an s16 pointer
+cast (keeps z, y, x loads above the stores), a const height table, and a
+volatile tile pointer (reload of the norm halfword after the type test).

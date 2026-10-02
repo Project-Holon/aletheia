@@ -3165,6 +3165,53 @@ def self_hint_accepted(addr, region_hint, loaded_ids):
     return bool(m) and int(m.group(1)) in loaded_ids
 
 
+def _xwin_hint_candidate(addr, region_hint, site_region):
+    """True when the own-window rule refuses a hint naming another overlay.
+
+    _overlay_pool() refuses a `symbols:` hint for an address inside the
+    site's own overlay window, because two overlays sharing a window are
+    never resident together.  attest_xwin_loaded() narrows that refusal.
+    """
+    return (region_hint is not None and site_region is not None
+            and region_hint != site_region
+            and OVERLAY_NAME_RE.match(region_hint) is not None
+            and _own_window(site_region, addr)
+            and region_hint in overlay_windows(addr))
+
+
+def attest_xwin_loaded(addr, align, lo, hi, region_hint, site_region,
+                       loaded_ids):
+    """sole-ref/data in another overlay of the site's own window, or None.
+
+    The own-window rule says code of ovA cannot mean ovB's byte at an
+    address both windows hold, since the two are never resident together.
+    One case defeats that premise: the function hands the address to the
+    loader of ovB together with ovB's id, so the address is used after ovB
+    replaces ovA.  ov021 func_021D310C does exactly this:
+    func_020146F8(p0, p1, FS_OVERLAY_ID(ov225), &ov225 0x021BBDE4, p2)
+    stores the id and the pointer side by side as task words [2] and [3]
+    (src/matched/arm9/func_020146F8.c), and the callback passes both on
+    to func_02014728 (func_02014628.c, case 1), the proc loader chain;
+    0x021BBDE4 is a table of three ov225 Thumb entries (0x021B95A1,
+    0x021B96BD, 0x021B9661), the proc's init/main/exit.
+
+    Accepted only when all hold: the hint names an overlay sharing the
+    site's window (_xwin_hint_candidate()); the function itself attests
+    that overlay's id through an `overlay_id` site (`loaded_ids`, as for
+    self_hint_accepted()); and the hinted overlay alone, fixed by the hint,
+    passes attest_sole_ref_overlay_data() (data there, an attested object
+    start, the declared alignment, the hint uncontested by a third
+    overlay).  Without the loaded id the refusal stands.
+    """
+    if not _xwin_hint_candidate(addr, region_hint, site_region):
+        return None
+    m = re.match(r"ov(\d+)$", region_hint)
+    if not m or int(m.group(1)) not in loaded_ids:
+        return None
+    return attest_sole_ref_overlay_data(addr, align, lo, hi, region_hint,
+                                        None)
+
+
 def attest_sole_ref_overlay_data(addr, align=None, lo=0, hi=0,
                                  region_hint=None, site_region=None):
     """`sole-ref/data` for an overlay address.  (class, n, site, "data")/None.
@@ -3704,9 +3751,11 @@ def attest(addr, kind, lo, hi, src=None, region_hint=None, align=None,
 # from spinning.
 OVERLAY_ID_WALK = 24
 
-# Callee address -> (name, register the overlay id arrives in, how verified).
-# Every entry was verified by reading the code; the register column is the
-# one the id travels in, which is not always the first argument.
+# Callee address -> (name, register the overlay id arrives in, how verified
+# [, overlay]).  Every entry was verified by reading the code; the register
+# column is the one the id travels in, which is not always the first
+# argument.  The optional fourth element scopes an entry at an overlay
+# address to that overlay's function (see _consumer_of()).
 OVERLAY_ID_CONSUMERS = {
     # TwlSDK fs_overlay.o, layout/symbols_sdk.txt: FS_LoadOverlay(target, id)
     # and FS_UnloadOverlay(target, id) take the FSOverlayID second.
@@ -3755,11 +3804,25 @@ OVERLAY_ID_CONSUMERS = {
     # func_020146F8.c (EXACT) stores its r2 as task word [2]; its callback
     # func_02014628.c (EXACT), case 1, passes p[2] as func_02014728's r2.
     0x020146F8: ("func_020146F8", 2, "src/matched/arm9/func_020146F8.c"),
+    # func_02014808.c (EXACT) is func_02014840's twin: stores its r2 as task
+    # word [2]; its callback func_02014758.c (EXACT*), case 0, passes f08 as
+    # func_020146F8's r2 (an entry above).  Read 2026-10-02.
+    0x02014808: ("func_02014808", 2, "src/matched/arm9/func_02014808.c"),
     # src/matched/ov/ov021_func_021BB990.c (EXACT): calls func_02034AC4(a)
     # with its r0 unchanged.  The key is an overlay address: ov217 also has
     # a function at 0x021BB990, but it takes a struct pointer in r0
     # (ldr r1, [r0, #0x20]), so no ov217 call passes an overlay id there.
     0x021BB990: ("func_021BB990", 0, "src/matched/ov/ov021_func_021BB990.c"),
+    # src/matched/ov/ov021_func_021CF564.c (EXACT*): func_021CF564(r, id)
+    # calls func_02034AC4(id), then stores id in r->ids[r->n++].  Bytes
+    # (ov021 021CF564..021CF57C): `adds r4, r1, #0; adds r5, r0, #0; adds
+    # r0, r4, #0; blx 0x02034AC4`, so the id arrives in r1 and reaches
+    # sub_02034AC4's r0 (an entry above) unmodified.  ov016, ov093 and
+    # ov114 also span 0x021CF564, so the entry is qualified to ov021: it
+    # fires only for a site whose target resolved in ov021 (selftest
+    # "overlay_id: func_021CF564 ...").  Read 2026-10-02.
+    0x021CF564: ("func_021CF564", 1, "src/matched/ov/ov021_func_021CF564.c",
+                 "ov021"),
 }
 
 _OVERLAY_IDS = {}
@@ -3872,10 +3935,22 @@ def _pc_load(fb, j):
 
 
 def _consumer_of(site):
-    """The OVERLAY_ID_CONSUMERS entry a resolved site names, or None."""
+    """The OVERLAY_ID_CONSUMERS entry a resolved site names, or None.
+
+    An entry with a fourth element is overlay-qualified: it names a function
+    at an overlay address that other overlays also occupy, so it applies
+    only when the site's target was resolved in that overlay (Site.tregion:
+    the symbols: line's region hint, else the region of the code under
+    test).  A site resolved in any other region, or with no region at all,
+    does not name the consumer.
+    """
     if site is None or not site.resolved or site.value is None:
         return None
-    return OVERLAY_ID_CONSUMERS.get(site.value & ~1)
+    ent = OVERLAY_ID_CONSUMERS.get(site.value & ~1)
+    if ent is not None and len(ent) > 3 and ent[3] is not None:
+        if getattr(site, "tregion", None) != ent[3]:
+            return None
+    return ent
 
 
 def _copy_source(fb, j):
@@ -4612,7 +4687,8 @@ class Site:
     """One relocation site after an attempt to resolve it."""
 
     __slots__ = ("off", "rtype", "name", "addend", "resolved", "value",
-                 "cls", "witnesses", "witness", "reason", "note", "subkind")
+                 "cls", "witnesses", "witness", "reason", "note", "subkind",
+                 "tregion")
 
     def __init__(self, off, rtype, name, addend):
         self.off = off
@@ -4627,6 +4703,10 @@ class Site:
         self.reason = ""
         self.note = ""
         self.subkind = ""       # set only for a "sole-ref" site; see attest()
+        # The region the target was resolved in: the symbols: line's region
+        # hint, else the region of the code under test (the own-window rule).
+        # Only overlay-qualified OVERLAY_ID_CONSUMERS entries read it.
+        self.tregion = None
 
     def describe(self):
         what = "%s %s" % (RELOC_NAMES.get(self.rtype, "r%d" % self.rtype),
@@ -4893,6 +4973,7 @@ def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
     sites = []
     ovid_later = []
     self_later = []
+    xwin_later = []
     for off, rtype, name, addend in fb.relocs:
         st = Site(off, rtype, name, addend)
         sites.append(st)
@@ -4902,6 +4983,7 @@ def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
             target = place + fb.locals[name]
             kind = "thumb" if fb.thumb else "arm"
             st.cls = "local"
+            st.tregion = region
         elif (name in getattr(fb, "secs", {})
               and not (name in SECTION_NAMES and name in decls)
               and not (name in SECTION_NAMES
@@ -4965,6 +5047,7 @@ def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
                     st.note = "declared %s, no image evidence for the ISA" % kind
             region_hint = decls[name].region if name in decls else None
             align = decls[name].align if name in decls else None
+            st.tregion = region_hint if region_hint is not None else region
             # For an ABS32 data site, the word this resolution is about to
             # write is fully determined here; `sole-ref/self` needs it, and
             # the site's link-time address, to check that the original image
@@ -4987,6 +5070,11 @@ def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
             if proof is None and rtype == R_ARM_ABS32 and kind == "data":
                 # Retried as `overlay_id` once every other site is known.
                 ovid_later.append((st, (target + addend) & 0xFFFFFFFF))
+            if (proof is None and rtype == R_ARM_ABS32 and kind == "data"
+                    and _xwin_hint_candidate(target, region_hint, region)):
+                # Decided after the `overlay_id` pass: attest_xwin_loaded().
+                xwin_later.append((st, region_hint, align,
+                                   (target + addend) & 0xFFFFFFFF))
             if proof is None:
                 st.reason = ("%08X (%s, from %s) has no witness outside "
                              "%08X..%08X" % (target, kind, origin, lo, hi))
@@ -5073,6 +5161,24 @@ def resolve_relocations(fb, place, decls, size=None, src=None, region=None):
         st.subkind = proof[3]
         st.reason = ""
         st.note = "%s hint: this function loads %s (overlay_id)" % (hint, hint)
+        struct.pack_into("<I", data, st.off, val)
+        st.value = val
+        st.resolved = True
+        width = RELOC_MASK.get(R_ARM_ABS32, RELOC_DEFAULT)[1]
+        for k in range(st.off, min(st.off + width, len(mask))):
+            mask[k] = 1
+
+    # A hint naming another overlay in the site's own window stands only
+    # when this function loads that overlay (attest_xwin_loaded()).
+    for st, hint, align, val in xwin_later:
+        proof = attest_xwin_loaded(val, align, lo, hi, hint, region, loaded)
+        if proof is None:
+            continue
+        st.cls, st.witnesses, st.witness = proof[:3]
+        st.subkind = proof[3]
+        st.reason = ""
+        st.note = ("%s hint in %s's own window: this function loads %s "
+                   "(overlay_id)" % (hint, region, hint))
         struct.pack_into("<I", data, st.off, val)
         st.value = val
         st.resolved = True
@@ -6986,6 +7092,53 @@ def _resolve_ovid(value, callee=OVID_LOADER, code=OVID_THUNK, id_off=8,
     return st.resolved, st.cls
 
 
+# The byte shape of ov021 func_021CF580 (2026-10-02): `push {r4, lr};
+# ldr r1, [pc, #0x10]; adds r4, r0, #0; bl func_021CF564; ldr r1, [pc,
+# #0xc]; adds r0, r4, #0; bl func_021CF564; pop {r4, pc}`, then the pool
+# words 0x4B and 0x4D.  func_021CF564 takes the id in r1 and is an
+# overlay-qualified (ov021) OVERLAY_ID_CONSUMERS entry.
+OVID_CF580 = bytes.fromhex("10B5 0449 041C 00F0 00F8 0349 201C 00F0 00F8"
+                           " 10BD 0000 0000 0000 0000")
+OVID_CF580_PLACE = 0x021CF580
+
+
+def _resolve_cf580(region="ov021", hint=None, retag=None):
+    """(resolved, class) of both id sites of the func_021CF580 shape.
+
+    `region` is the region the code is compared in and `hint` the region
+    token on func_021CF564's symbols: line.  With `retag`, the resolved call
+    sites' target region is overwritten before the overlay_id class is
+    re-run on the first id site, so the call bytes stay identical and only
+    the region the bl resolved in changes."""
+    data = OVID_CF580
+    mask = bytearray(b"\x01" * len(data))
+    for o in (0x14, 0x18):
+        mask[o:o + 4] = b"\x00\x00\x00\x00"
+    for o in (6, 0xE):
+        mask[o:o + 4] = b"\x00\x00\x00\x00"
+    fb = FuncBytes("cf580_selftest", bytes(data), mask, True, ".text",
+                   [(6, R_ARM_THM_CALL, "func_021CF564", -4),
+                    (0xE, R_ARM_THM_CALL, "func_021CF564", -4),
+                    (0x14, R_ARM_ABS32, "cf580_id_4b", 0),
+                    (0x18, R_ARM_ABS32, "cf580_id_4d", 0)])
+    decls = {"func_021CF564": Decl("func_021CF564", 0x021CF564, "thumb",
+                                   "header", hint),
+             "cf580_id_4b": Decl("cf580_id_4b", 0x4B, "data", "header"),
+             "cf580_id_4d": Decl("cf580_id_4d", 0x4D, "data", "header")}
+    sites = resolve_relocations(fb, OVID_CF580_PLACE, decls, region=region)
+    ids = [x for x in sites if x.name.startswith("cf580_id")]
+    if retag is not None:
+        calls = [x for x in sites if x.rtype == R_ARM_THM_CALL]
+        if not all(x.resolved for x in calls):
+            return "calls unresolved"
+        for x in calls:
+            x.tregion = retag
+        proof = attest_overlay_id(fb, Site(0x14, R_ARM_ABS32, "x", 0), 0x4B,
+                                  sites, OVID_CF580_PLACE)
+        return proof[0] if proof else None
+    return [(x.resolved, x.cls) for x in ids]
+
+
 _OVID_SRC = """\
 /*
  * selftest fixture, compiled from a string; not part of the tree.
@@ -8260,6 +8413,55 @@ def cmd_selftest(args):
                id_off=0x44, callee_off=0x48), (False, ""))
     _check(res, "overlay_id: func_020124AC takes the id in r1",
            OVERLAY_ID_CONSUMERS[0x020124AC][1], 1)
+    # func_021CF564, an ov021-qualified consumer (2026-10-02).
+    _check(res, "overlay_id: func_021CF564 (ov021) takes the id in r1 and "
+                "is qualified to ov021",
+           OVERLAY_ID_CONSUMERS[0x021CF564][1:4:2], (1, "ov021"))
+    _check(res, "overlay_id: func_021CF580's ids 0x4B/0x4D reach "
+                "func_021CF564 in ov021 and resolve",
+           _resolve_cf580(), [(True, "overlay_id"), (True, "overlay_id")])
+    _check(res, "overlay_id: func_021CF564 with an explicit ov021 hint "
+                "also resolves",
+           _resolve_cf580(hint="ov021"),
+           [(True, "overlay_id"), (True, "overlay_id")])
+    _check(res, "overlay_id: the same bytes with the bl resolved in ov021 "
+                "name the consumer",
+           _resolve_cf580(retag="ov021"), "overlay_id")
+    _check(res, "overlay_id: the same bytes with the bl resolved in ov093 "
+                "(which also spans 0x021CF564) do not name the consumer",
+           _resolve_cf580(retag="ov093"), None)
+    _check(res, "overlay_id: a bl at 0x021CF564 resolved with no region "
+                "does not name the ov021 consumer",
+           _resolve_cf580(retag=""), None)
+    _check(res, "overlay_id: func_021CF580's shape compared in ov114 "
+                "(another overlay at 0x021CF564) does not resolve its ids",
+           _resolve_cf580(region="ov114"),
+           [(False, ""), (False, "")])
+    # A hint naming another overlay in the site's own window (2026-10-02):
+    # ov021 func_021D310C passes ov225's id (0xE1) and ov225's proc table
+    # at 0x021BBDE4 to the proc loader.  Both overlays span 0x021BBDE4.
+    _xw = (0x021BBDE4, 4, 0x021D310C, 0x021D3164)
+    _check(res, "xwin: an ov225 hint in ov021's window resolves when the "
+                "function loads ov225",
+           (attest_xwin_loaded(*(_xw + ("ov225", "ov021", set([225]))))
+            or (None,))[0], "sole-ref")
+    _check(res, "xwin: the same hint is refused when the function loads no "
+                "overlay",
+           attest_xwin_loaded(*(_xw + ("ov225", "ov021", set()))), None)
+    _check(res, "xwin: the same hint is refused when the function loads a "
+                "different overlay",
+           attest_xwin_loaded(*(_xw + ("ov225", "ov021", set([224])))),
+           None)
+    _check(res, "xwin: without the loaded id the own-window rule still "
+                "refuses the hint",
+           _overlay_pool(0x021BBDE4, "ov225", "ov021"), ([], False))
+    _check(res, "xwin: a hint naming the site's own overlay is not this "
+                "rule's case",
+           attest_xwin_loaded(*(_xw + ("ov021", "ov021", set([21])))), None)
+    _check(res, "xwin: an ov225 hint whose address is ov225 code is refused "
+                "even when ov225 is loaded",
+           attest_xwin_loaded(0x021B95A0, 4, 0x021D310C, 0x021D3164,
+                              "ov225", "ov021", set([225])), None)
 
     # --- vendor-object rules: linker, template, section-relative .bss -----
     fslo, fshi = 0x02078D34, 0x02078EB0          # FS_LoadOverlayInfo

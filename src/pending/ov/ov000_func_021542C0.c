@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   MATCH*
  *
  * Stage machine on *mode (25 states), same family as ov003 func_021542C0.
  * Pooled small words 0x7B/0x10/0x73/0xAA are linker overlay ids

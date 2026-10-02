@@ -34,6 +34,13 @@ extern void func_0218ED64(int h, u16 v);
  * func_0207C768 result in r3, loads h38/h3a, then stores it to x's slot;
  * here the store comes before the two loads (separate statement and
  * assignment-in-expression both tried).
+ * 2026-10-02: d escapes to func_021ABBA0, so the store keeps its source
+ * position relative to the two loads. With t = FX_Div(..) first, then
+ * lo = s->h38; hi = s->h3a; and (x = t) as the right multiply operand,
+ * the registers match and only the store sits after the subs (3 lines).
+ * Any spelling that puts the store before the subs (statement, comma,
+ * left operand) swaps t/hi colours (r2/r3). Inert: array/struct x,y,
+ * inline lerp, restrict, operand orders, declaration orders, u16 lo/hi.
  */
 void func_021ABD08(int a, S *s, int c)
 {

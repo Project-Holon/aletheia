@@ -403,3 +403,11 @@ int func_021B88DC(Ov021Mover *p, int dir, int d)
     }
     return 0;
 }
+
+CLOSED 2026-10-02 (share-A lane A2-09): EXACT, filed as
+src/matched/ov/ov021_func_021B88DC.c (shard layout/matched/ov021/pkt_ov021_021B88DC.json).
+The draft above was right apart from arm 93D4 and the slot order in arms 9404/9434:
+flag = 0 after the 9404 call through a local, a sequential-if e2 probe in arm 93D4,
+separate row/e locals per half in arms 9404/9434, and the two spilled 8674-path lengths
+of arm 9434 as block-level locals with the second half's declared first. See
+docs/idioms/a-flag-zeroed-after-a-nested-argument-call-frees-a-callee-saved-register-for-a-long-lived-local.md.
