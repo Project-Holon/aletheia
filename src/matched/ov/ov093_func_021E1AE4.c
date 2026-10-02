@@ -7,12 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- *
- * Blocker: func_0201C1E8 (arm9 leaf, Ilias's) has no witness outside this
- * function. Verified C for the leaf (match.py one --thumb, no --region):
- *   extern int func_0201BD28(int, int);   // symbols: func_0201BD28 0x0201BD28 thumb
- *   int func_0201C1E8(int a) { return func_0201BD28(a, 2); }
+ * status:   EXACT*
  *
  * symbols:
  *   func_021D5440  0x021D5440  thumb  ov093

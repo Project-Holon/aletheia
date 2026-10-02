@@ -1,0 +1,31 @@
+/*
+ * function: func_021E625C
+ * address: 0x021E625C
+ * packet: pkt_ov119_021E625C
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0204B3B4 0x0204B3B4 arm
+ *   func_021B6284 0x021B6284 thumb ov067
+ */
+extern void func_0204B3B4(int);
+extern void func_021B6284(void *p);
+
+void func_021E625C(void *p)
+{
+    char *q = (char *)p + 0x98c;
+    int i;
+    for (i = 0; i < 8; i++) {
+        if (*(int *)(q + i * 4 + 0x14)) {
+            func_0204B3B4(*(int *)(q + i * 4 + 0x14));
+            *(int *)(q + i * 4 + 0x14) = 0;
+        }
+    }
+    if (*(int *)(q + 0x10)) {
+        func_021B6284(q);
+        *(int *)(q + 0x10) = 0;
+    }
+}

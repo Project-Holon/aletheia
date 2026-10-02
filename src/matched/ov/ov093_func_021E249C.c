@@ -1,0 +1,37 @@
+/*
+ * function: func_021E249C
+ * address:  0x021E249C
+ * packet:   pkt_ov093_021E249C
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021D775C  0x021D775C  thumb  ov093
+ *   func_021C88A4  0x021C88A4  thumb  ov093
+ *   func_021C88C8  0x021C88C8  thumb  ov093
+ */
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+typedef signed char s8; typedef signed short s16; typedef signed int s32;
+
+extern int func_021D775C(int key);
+extern u8 *func_021C88A4(int a, int k, int b);
+extern void func_021C88C8(int a, void *p);
+
+void func_021E249C(int u, int a, int b)
+{
+    u8 *s;
+
+    if (b == func_021D775C(2)) {
+        if (func_021D775C(0x51) == 0) {
+            s = func_021C88A4(a, 0xb, b);
+            *(int *)(s + 4) = 0x19;
+            s[0x14] = 1;
+            s[8] = b;
+            func_021C88C8(a, s);
+        }
+    }
+}

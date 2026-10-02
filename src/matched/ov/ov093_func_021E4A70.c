@@ -1,0 +1,59 @@
+/*
+ * function: func_021E4A70
+ * address:  0x021E4A70
+ * packet:   pkt_ov093_021E4A70
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT*
+ *
+ * symbols:
+ *   func_021D775C  0x021D775C  thumb  ov093
+ *   func_021C88A4  0x021C88A4  thumb  ov093
+ *   func_021C88C8  0x021C88C8  thumb  ov093
+ *   func_021C83CC  0x021C83CC  thumb  ov093
+ */
+typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
+typedef signed char s8; typedef signed short s16; typedef signed int s32;
+
+extern int func_021D775C(int key);
+extern u8 *func_021C88A4(int a, int k, int b);
+extern void func_021C88C8(int a, void *p);
+extern u32 func_021C83CC(int a);
+
+void func_021E4A70(int u, int a, int b)
+{
+    u8 k;
+    u32 w;
+    enum { E_ONE = 1 } e;
+    int t;
+    u8 *s;
+
+    if (b == func_021D775C(3)) {
+        k = func_021D775C(6);
+        w = func_021C83CC(a);
+        e = E_ONE;
+        s = func_021C88A4(a, 0xe, b);
+        s[0xf] = e;
+        s[0x10] = k;
+        *(int *)(s + 4) = e;
+        t = e - 3;
+        s[0xc] = t;
+        *(u32 *)(s + 8) = w;
+        s[0xe] = 1;
+        func_021C88C8(a, s);
+        s = func_021C88A4(a, 0xe, b);
+        s[0xf] = e;
+        s[0x10] = k;
+        *(int *)(s + 4) = 3;
+        s[0xc] = t;
+        *(u32 *)(s + 8) = w;
+        s[0xe] = 1;
+        func_021C88C8(a, s);
+        s = func_021C88A4(a, 0x13, b);
+        s[4] = b;
+        func_021C88C8(a, s);
+    }
+}

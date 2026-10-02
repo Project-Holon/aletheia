@@ -1,0 +1,62 @@
+/*
+ * function: func_021E6B90
+ * address: 0x021E6B90
+ * packet: pkt_ov119_021E6B90
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0201F5DC 0x0201F5DC thumb
+ *   func_020490F4 0x020490F4 arm
+ *   func_02049740 0x02049740 arm
+ *   func_02049990 0x02049990 arm
+ *   func_020403F4 0x020403F4 arm
+ *   func_0203FCA0 0x0203FCA0 arm
+ *   func_02040618 0x02040618 arm
+ *   func_0204047C 0x0204047C arm
+ *   func_02049238 0x02049238 arm
+ *   func_021E6AB0 0x021E6AB0 thumb ov119
+ *   func_020435F4 0x020435F4 arm
+ *   d_021E7E44 0x021E7E44 data a4
+ */
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct BgTemplate {
+    u32 w[8];
+};
+extern const struct BgTemplate d_021E7E44;
+extern void *func_0201F5DC(int, u32, u32, u32);
+extern void *func_020490F4(unsigned int id, u16 heap);
+extern u32 func_02049740(void *h, u32 id, u32 layer, u32 ofs, u32 size, u32 heap);
+extern void func_02049990(void *, u32, u32, u32, u16, u32, u32, u16);
+extern void func_020403F4(int);
+extern void func_0203FCA0(u32 bgId, const struct BgTemplate *tmpl, u32 type);
+extern void func_02040618(int, int, int);
+extern void func_0204047C(int, int);
+extern void func_02049238(void *);
+extern void func_021E6AB0(const char *p);
+extern void func_020435F4(int);
+void func_021E6B90(char *p)
+{
+    void *h;
+    struct BgTemplate t;
+    *(void **)(p + 0x644) = func_0201F5DC(6, 15, 0, *(u16 *)(p + 0x5f4));
+    h = func_020490F4(0x66, *(u16 *)(p + 0x5f4));
+    *(u32 *)(p + 0x870) = func_02049740(h, 13, 5, 0, 0, *(u16 *)(p + 0x5f4));
+    func_02049990(h, 7, 4, 0, (u16)*(u32 *)(p + 0x870), 0, 0, *(u16 *)(p + 0x5f4));
+    func_02049990(h, 7, 5, 0, (u16)*(u32 *)(p + 0x870), 0, 0, *(u16 *)(p + 0x5f4));
+    t = d_021E7E44;
+    func_020403F4(7);
+    func_0203FCA0(7, &t, 0);
+    func_02049990(h, 8, 7, 0, (u16)*(u32 *)(p + 0x870), 0, 0, *(u16 *)(p + 0x5f4));
+    func_02040618(4, 0, -0x80);
+    func_02040618(7, 0, 0);
+    func_0204047C(4, 3);
+    func_02049990(h, 11, 2, 0, (u16)*(u32 *)(p + 0x86c), 0, 0, *(u16 *)(p + 0x5f4));
+    func_02049238(h);
+    *(u16 *)(p + 0x11de) = 0;
+    func_021E6AB0(p);
+    func_020435F4(0x1f);
+}
