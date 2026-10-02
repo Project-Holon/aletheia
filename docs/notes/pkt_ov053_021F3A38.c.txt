@@ -1,0 +1,31 @@
+/*
+ * function: func_021F3A38
+ * address: 0x021F3A38
+ * packet: pkt_ov053_021F3A38
+ * region: ov053
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * residue: +0x1A adds r1,r1,r0 versus adds r1,r0,r1; one concrete byte.
+ * budget: 3 iteration runs, stopped after two nonshrinking changes;
+ *         2 ordering variants used; check3 2/2 used; no permuter.
+ * checks: 1 original 02005728 reads only r0, unsigned bound/result; no stack inputs;
+ *         2 no matched sibling caller, 021F3978 fills int arrays at +30/+44;
+ *         3 unsigned and long result locals compiled, same one-byte DIFF;
+ *         4 commutative-operand idiom read, named result/operand swap did not fix;
+ *         5 refreshed idioms and sibling sources, no newer twin; stack-object n/a (none).
+ * next: compound arithmetic statement needs fresh evidence; no ordering variants remain.
+ * symbols:
+ *   func_02005728 0x02005728 thumb
+ */
+
+extern unsigned func_02005728(unsigned);
+
+void func_021F3A38(char *a, int i)
+{
+    long r;
+    r = func_02005728(((int *)(a + 0x44))[i] - ((int *)(a + 0x30))[i] + 1);
+    ((int *)(a + 0x1c))[i] = ((int *)(a + 0x30))[i] + r;
+}

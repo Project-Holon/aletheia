@@ -1,0 +1,21 @@
+/*
+ * function: func_021B66B8
+ * address: 0x021B66B8
+ * packet: pkt_ov070_021B66B8
+ * region: ov070
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02035D20 0x02035D20 arm
+ */
+extern int func_02035D20(unsigned int *, unsigned int *);
+int func_021B66B8(void)
+{
+    unsigned int x;
+    unsigned int y;
+    if (func_02035D20(&x, &y) == 1 && x >= 0xE0 && x <= 0xF7 && y >= 0xA8 && y <= 0xBF) return 1;
+    return 0;
+}

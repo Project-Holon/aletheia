@@ -8,7 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks:   1 no callees; 2 no twin; 3 const tables (pulls the ldrb up, matches original) and const struct pointer tried, stores then come out [4] before [0]; 4 none fits; 5 n/a
+ * prior checks: 1 no callees; 2 no twin; 3 const tables (pulls the ldrb up, matches original) and const struct pointer tried, stores then come out [4] before [0]; 4 none fits; 5 n/a
+ * checks:   1 no callees; 2 ov055 caller 021F43D8 truncates i to u16, no initializer twin; 3 int index unchanged, u16/const tables unchanged, nonconst tables worsen 4 to 11 bytes; 4 struct-field-store idiom and named table locals unchanged; 5 refreshed ov054/055/056 and idiom searches found no new twin, n/a stack-local idiom because no stack object. Next unrun hypothesis: inline field setter, but scheduling cap exhausted.
+ * budgets: W57 3 iteration runs (two nonshrinking changes), check3 1, check4 1; scheduling variants 2/2, no permuter. Prior note already tried const tables, const struct pointer and source-order swaps; prior counts unknown and carried as unknown/exhausted. W57 history.json [] omitted this note; five redundant compiles occurred before discovery. Do not repeat these checks.
  *
  * Unlabelled leaf (not handed; found while working func_021F43D8, which
  * resolves it as sole-ref/code so it is not a blocker). Fills an 8-byte slot

@@ -1,0 +1,38 @@
+/*
+ * function: func_021F3BAC
+ * address: 0x021F3BAC
+ * packet: pkt_ov064_021F3BAC
+ * region: ov064
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 matched callee 021BE6E8 takes four int args and returns int; accessor return chain named; 2 ov064 384C/3BD8 and ov065 37DC confirm chain/types, no predicate twin; 3 enum and u16 locals each unchanged four-byte swap; 4 enum Boolean and named constant argument idioms read, passing existing zero/flag locals unchanged; 5 fresh idiom listing and matched neighbours reread, stack-object check n/a because no stack object. Next hypothesis: _Bool local type; scheduling variants exhausted.
+ * Residue: compiled 42 bytes versus listing extent 44 (two zero padding bytes); four concrete bytes differ: original +14 movs r4,#0 then +16 movs r5,#1, compiled reversed. All relocations resolve.
+ * Budget: iteration 3, scheduling 2/2, check3 2/2, check4 1/2; no permuter.
+ * symbols:
+ *   func_020124E4 0x020124E4 thumb
+ *   func_0201210C 0x0201210C thumb
+ *   func_02188D2C 0x02188D2C thumb ov021
+ *   func_021BE6E8 0x021BE6E8 thumb ov021
+ */
+extern void *func_020124E4(void *p);
+extern void *func_0201210C(void *p);
+extern int func_02188D2C(void *p);
+extern int func_021BE6E8(int a, int b, int c, int d);
+
+int func_021F3BAC(void *p)
+{
+    unsigned short zero;
+    unsigned short flag;
+    int v;
+    int s;
+    s = func_02188D2C(func_0201210C(func_020124E4(p)));
+    flag = 1;
+    zero = 0;
+    v = func_021BE6E8(s, zero, flag, zero);
+    if (v < 0x5000)
+        flag = zero;
+    return flag;
+}

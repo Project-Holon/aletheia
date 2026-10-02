@@ -1,0 +1,115 @@
+/*
+ * function: func_021D958C
+ * address: 0x021D958C
+ * packet: pkt_ov129_021D958C
+ * region: ov129
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 matched callees and full B878/DA158/9320/9564 bodies confirm arities; 2 matched 93D4 and pending 8FA0 confirm Record fields; 3 const Record baseline compiled 464/468; separate unsigned-address semantic repair now 460/468, 420 differing bytes, all 19 relocs resolved; 4 const-array-index and separated-guard idioms read; 5 idiom directory and ov129 neighbours reread, no fresh correction; next sweep none (main/reorder caps reached).
+ * budget: 6 iteration compiles including 1 CCERR; 3 consecutive nonshrinking changes; 2 manual reorder variants used; checks 1/2/4/5 read-only, check 3 used 1 of 2 compiles; 1 emitted-baseline compile; once-300 permuter exhausted, no sweeps; 1 separate semantic-repair validation; do not reset across retries.
+ * bounds: B8 original 85C0 allocates 0x34C but can copy 36 incoming bytes to +330 without guards (021D8624..8634), so counts and index +188 are not bounded by 12. Runtime record loads/stores use unsigned 32-bit address arithmetic, and unsigned i preserves i+1 wrapping; guarded index<=11 path retained.
+ * residual: -8 bytes; first guard folds beq+b into bne, and record-index scheduling keeps an element pointer instead of the original scaled offset. Pre-repair emitted baseline agreed with fixed one. Permuter best 468/468, 287 differing bytes rejected: tmp assigned before case label is bypassed; tmp2.state changes a local copy instead of the required p[i].state store.
+ * symbols:
+ *   func_020061E4 0x020061E4 thumb
+ *   func_021D93D4 0x021D93D4 thumb ov129
+ *   func_021D9320 0x021D9320 thumb ov129
+ *   func_021D9348 0x021D9348 thumb ov129
+ *   func_021D8AF4 0x021D8AF4 thumb ov129
+ *   func_021DA158 0x021DA158 thumb ov129
+ *   func_0204B878 0x0204B878 arm
+ *   func_021D9E48 0x021D9E48 thumb ov129
+ *   func_021D9E98 0x021D9E98 thumb ov129
+ *   func_021D9EE8 0x021D9EE8 thumb ov129
+ *   func_021D9564 0x021D9564 thumb ov129
+ *   _u32_div_f 0x0209C2B0 arm
+ */
+typedef unsigned short u16;
+typedef struct { int state,value,flag,handle; char rest[12]; } Record;
+extern void func_020061E4(unsigned);
+extern void func_021D93D4(char *);
+extern int func_021D9320(char *);
+extern void func_021D9348(char *);
+extern void func_021D8AF4(char *,int);
+extern unsigned func_021DA158(int,int);
+extern void func_0204B878(int,u16);
+extern void func_021D9E48(char *,int,int);
+extern void func_021D9E98(char *,int);
+extern void func_021D9EE8(char *,int,int);
+extern void func_021D9564(char *,int);
+void func_021D958C(unsigned index,int flag,const Record *p)
+{
+    char *q;
+    unsigned i;
+    int value,next;
+    switch(*(int *)((char *)p+0x22c)) {
+    case 1:
+    if(*(int *)((char *)p+0x2fc)!=1) *(int *)((char *)p+0x2fc)=1;
+    if(flag==0) {
+    if(index<=11) {
+        q=(char *)p+index*28;
+        if(*(int *)(q+8)==1) {
+            *(int *)((char *)p+0x31c)=2;
+            *(unsigned *)((char *)p+0x320)=index;
+        } else {
+            *(int *)((char *)p+0x31c)=1;
+            *(int *)((char *)p+0x320)=*(int *)(q+4);
+        }
+        func_020061E4(1352);
+        return;
+    } else if(index==22) {
+        *(u16 *)((char *)p+0x1b8)=0; *(u16 *)((char *)p+0x1ba)=2;
+        func_020061E4(1363);
+        func_021D93D4((char *)p);
+        return;
+    } else if(index==23) {
+        *(u16 *)((char *)p+0x1b8)=3; *(u16 *)((char *)p+0x1ba)=2;
+        if(func_021D9320((char *)p)!=0) {
+            func_021D9348((char *)p);
+            func_020061E4(1357);
+            return;
+        } else {
+            func_021D8AF4((char *)p,4);
+            return;
+        }
+    } else if(index>=12 && index<=21) {
+        if(*(int *)((char *)p+0x240)==0) goto done;
+        func_020061E4(1356);
+        i=*(int *)((char *)p+0x188);
+        ((Record *)((unsigned)p+i*28))->state=index-11;
+        func_0204B878(((const Record *)((unsigned)p+i*28))->handle,func_021DA158(index-11,((const Record *)((unsigned)p+i*28))->flag));
+        func_021D9E48((char *)p,1,1);
+        func_021D9E98((char *)p,index-12);
+        func_021D9E48((char *)p,1,0);
+        func_021D9E48((char *)p,2,1);
+        func_021D9EE8((char *)p,index-12,2);
+        func_0204B878(*(int *)((char *)p+0x1cc),3);
+        value=((const Record *)((unsigned)p+i*28))->value;
+        if(i+1==*(int *)((char *)p+0x23c)) {
+            *(int *)((char *)p+0x31c)=1;
+            *(int *)((char *)p+0x320)=0;
+            *(int *)((char *)p+0x324)=0;
+        } else {
+            next=((const Record *)((unsigned)p+(i+1)*28))->value;
+            if(value!=next) {
+                *(int *)((char *)p+0x31c)=1;
+                *(int *)((char *)p+0x320)=next;
+                *(int *)((char *)p+0x324)=0;
+            } else {
+                *(int *)((char *)p+0x31c)=2;
+                *(int *)((char *)p+0x320)=i+1;
+            }
+        }
+        func_021D9564((char *)p,index);
+        return;
+    } else {
+        *(u16 *)((char *)p+0x1b8)=(index-12)%5;
+        *(u16 *)((char *)p+0x1ba)=(index-12)/5;
+    }
+    }
+    }
+done:
+    return;
+}

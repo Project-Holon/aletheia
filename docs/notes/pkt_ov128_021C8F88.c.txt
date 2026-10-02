@@ -1,0 +1,91 @@
+/*
+ * function: func_021C8F88
+ * address: 0x021C8F88
+ * packet: pkt_ov128_021C8F88
+ * region: ov128
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 callee bodies read all named arguments, 02045738 returns u8 (no byte change); 2 U16Vec result spelling no change, 128/127/129 neighbours give no digit twin; 3 long counter unchanged, s16 counter 464 B/130 differences, const Query parameter unchanged during iteration; 4 register/declaration/long-index idioms read, scheduling variants exhausted; 5 idiom directory and matched neighbours refreshed, aggregate-copy slots already exact.
+ * residual: 460/460 B, 22 bytes solely r4/r5 exchange (text versus constant/copy/loop counter), all 23 relocations resolved.
+ * heap: The observed call path is 021C8E56 movs r3,#52, 021C8E58 calls 021C8E24, whose 021C8E26 call forwards r3 unchanged to this function; both allocator calls receive that u16-range value.
+ * budget: 6 iterations, 3 consecutive nonshrinking (r4-r6), 3 runs from first nonshrink; schedule variants 2/2; checks 1=1/2, 2=1/2, 3=2/2, 4=0/2, 5=0/2; sweeps 0/3; once-300 permuter exhausted, baseline confirmed by one.
+ * symbols:
+ *   func_021C63AC 0x021C63AC thumb ov128
+ *   func_020457B0 0x020457B0 arm
+ *   func_0205994C 0x0205994C arm
+ *   func_02045CAC 0x02045CAC arm
+ *   func_021B6AE4 0x021B6AE4 thumb ov067
+ *   func_021CA4B4 0x021CA4B4 thumb ov128
+ *   func_02045738 0x02045738 arm
+ *   func_0204581C 0x0204581C arm
+ *   func_02045AFC 0x02045AFC arm
+ *   func_02045808 0x02045808 arm
+ *   func_02049EF4 0x02049EF4 arm
+ *   _ll_udiv 0x0209C00C arm
+ *   _ull_mod 0x0209C018 arm
+ *   d_021CA674 0x021CA674 data a2
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef unsigned long long u64;
+typedef struct { u16 digits[10]; } Digits;
+typedef struct { u8 pad[4]; void *data; } Query;
+struct U16Vec;
+extern const Digits d_021CA674;
+extern void func_021C63AC(void *, u32 *, u32, u32, u8, u8, u8, u8, u32, u8);
+extern struct U16Vec *func_020457B0(u32, u16);
+extern void *func_0201283C(void *);
+extern void *func_02009860(void *);
+extern u64 func_0205994C(void *);
+extern void func_02045CAC(void *, u32, void *);
+extern void func_021B6AE4(u8 *, u32, u16, u16, u32, u32, u16, u32);
+extern void func_021CA4B4(void *);
+extern u8 func_02045738(void *);
+extern void func_0204581C(void *);
+extern void func_02045AFC(void *, u16);
+extern void func_02045808(void *);
+extern void *func_02049EF4(u32, u32, u32, u32, u16);
+void func_021C8F88(u8 *p, const Query *q, u8 *r, u16 heap)
+{
+    struct U16Vec *text;
+    int i;
+    struct U16Vec *spare;
+    u64 value;
+    u32 bmp, font;
+    int width;
+    int gap;
+    Digits digits;
+    func_021C63AC(r, (u32 *)p, 3, 2, 10, 30, 8, 10, 1, 0);
+    func_021C63AC(r, (u32 *)(p + 8), 3, 9, 6, 14, 2, 10, 241, 0);
+    text = func_020457B0(192, heap);
+    spare = func_020457B0(128, heap);
+    value = func_0205994C(func_02009860(func_0201283C(q->data)));
+    if (value != 0) {
+        func_02045CAC(*(void **)(r + 4), 53, text);
+        func_021B6AE4(p, *(u32 *)(r + 52), 4, 0, (u32)text, *(u32 *)(r + 0x17c), 0x440, 0);
+        func_021CA4B4(*(void **)p);
+        font = *(u32 *)(r + 0x17c);
+        bmp = *(u32 *)(r + 52);
+        digits = d_021CA674;
+        gap = 0;
+        width = func_02045738(*(void **)(p + 8));
+        for (i = 1; i <= 12; i++) {
+            func_0204581C(text);
+            func_02045AFC(text, digits.digits[(u32)(value % 10ULL)]);
+            func_021B6AE4(p + 8, bmp, (width - i) * 8 - gap + 1, 0, (u32)text, font, 0x3c40, 0);
+            if (i % 4 == 0) gap += 8;
+            value /= 10ULL;
+        }
+        func_021CA4B4(*(void **)(p + 8));
+    } else {
+        func_02045CAC(*(void **)(r + 4), 54, text);
+        func_021B6AE4(p, *(u32 *)(r + 52), 4, 0, (u32)text, *(u32 *)(r + 0x17c), 0x440, 0);
+        func_021CA4B4(*(void **)p);
+    }
+    func_02045808(text);
+    func_02045808(spare);
+    *(void **)(p + 16) = func_02049EF4(*(u32 *)(r + 8), 6, 0, (u32)(p + 20), heap);
+}

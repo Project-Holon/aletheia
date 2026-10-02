@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_021B9944
+ * function: func_021B9944, func_021B9950, func_021B995C, func_021B9964
  * address:  0x021B9944
  * packet:   pkt_ov068_021B9944
  * region:   ov068

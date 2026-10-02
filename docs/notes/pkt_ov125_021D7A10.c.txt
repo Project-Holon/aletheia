@@ -1,0 +1,92 @@
+/*
+ * function: func_021D7A10
+ * address: 0x021D7A10
+ * packet: pkt_ov125_021D7A10
+ * region: ov125
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: arm
+ * status: DIFF
+ * residual: 440/444 bytes; missing add r5, sp, #0 at +0x10c, then byte-copy register shift; 146 concrete bytes differ, 13/13 relocations resolved.
+ * semantics: unrestricted size addition and payload length subtraction use unsigned 32-bit operations before casting to int, preserving the original ARM word wrapping without a fabricated input-range constraint.
+ * budget: manual 5, first nonshrinking run 3, consecutive nonshrinking 3; iteration closed; checks 3=2/2, 4=1/2; no sweeps; permuter once-300 consumed; emitted-baseline diagnostic 1.
+ * checks: 1 callee arities/return inputs verified, no missing argument; 2 ov125 matched callers confirm four full-word parameters, no copy twin; 3 const payload already present, long length unchanged, unsigned wrapping preserves same DIFF440/444 and146 (2/2); 4 stack/aggregate idioms read, union unchanged (1/2); 5 idiom directory and ov125 matched neighbours re-read, peer 824C has same stack-copy issue; no evidence-backed next sweep. Permuter emitted fixed-one baseline agrees 440/444 and 146; once-300 best rejected: u8 length, uninitialized packet read, allocation hoisted before length assignment; internal unresolved=1 score not accepted. Final wrap validation: B2/7a10-check3-wrap.log, terminal exit1,13/13 relocations resolved.
+ * symbols:
+ *   d_021D9E40 0x021D9E40 data a4
+ *   func_021D7CAC 0x021D7CAC arm ov125
+ *   func_021D7CC0 0x021D7CC0 arm ov125
+ *   func_021D7808 0x021D7808 arm ov125
+ *   func_021D89EC 0x021D89EC arm ov125
+ *   func_021D891C 0x021D891C arm ov125
+ *   func_021D7C7C 0x021D7C7C arm ov125
+ *   func_021D7D30 0x021D7D30 arm ov125
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct { u8 byte[4]; } FourBytes;
+typedef struct { u32 words[78]; } Copy312;
+extern u32 d_021D9E40[];
+extern void func_021D7CAC(void);
+extern void func_021D7CC0(void);
+extern void func_021D7808(void);
+extern int func_021D89EC(int);
+extern int func_021D891C(int);
+extern char *func_021D7C7C(u32);
+extern int func_021D7D30(void);
+extern void func_02092344(void *, const void *, int);
+int func_021D7A10(int id, const void *payload, int flags, int size)
+{
+    char *packet;
+    int length;
+    func_021D7CAC();
+    switch (d_021D9E40[0x13c/4]) {
+    case 0: case 2: case 3: case 4: case 5: case 6:
+        func_021D7CC0();
+        d_021D9E40[0x13c/4] = 9;
+        d_021D9E40[0x250/4] = 1;
+        return 0;
+    case 7: case 8: case 9:
+        func_021D7808();
+        break;
+    case 1: break;
+    }
+    func_021D7CC0();
+    d_021D9E40[0x25c/4] = func_021D89EC(id);
+    if (d_021D9E40[0x25c/4] == -1u) {
+        d_021D9E40[0x13c/4] = 9;
+        d_021D9E40[0x250/4] = 2;
+        return 0;
+    }
+    d_021D9E40[0x260/4] = flags;
+    if (size != -1) length = (int)((u32)size + 0x140u);
+    else {
+        length = func_021D891C(id);
+        if (length == -1) {
+            d_021D9E40[0x13c/4] = 9;
+            d_021D9E40[0x250/4] = 2;
+            return 0;
+        }
+    }
+    packet = func_021D7C7C(length);
+    d_021D9E40[0x258/4] = (u32)packet;
+    if (!packet) return 0;
+    d_021D9E40[0x254/4] = length;
+    *(FourBytes *)packet = *(FourBytes *)&length;
+    packet = (char *)d_021D9E40[0x258/4];
+    *(u16 *)(packet + 4) = id;
+    *(Copy312 *)(packet + 8) = *(Copy312 *)d_021D9E40;
+    *(u16 *)(packet + 6) = 0;
+    func_02092344(packet + 0x140, payload, (int)((u32)length - 0x140u));
+    d_021D9E40[0x13c/4] = 2;
+    func_021D7CAC();
+    if (!func_021D7D30()) {
+        d_021D9E40[0x13c/4] = 9;
+        d_021D9E40[0x250/4] = 6;
+        func_021D7CC0();
+        return 0;
+    }
+    func_021D7CC0();
+    return 1;
+}

@@ -1,0 +1,30 @@
+/*
+ * function: func_021B619C
+ * address: 0x021B619C
+ * packet: pkt_ov070_021B619C
+ * region: ov070
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 02020FE4 reads r0/r1/r2, incoming r2 named; signed divide requires int result; 2 ov070 7B08/7B80/BB260 callers supply three arguments, no body twin; 3 unsigned b and long half unchanged in two compiles; 4 multiply/division idioms do not explain extra move; 5 refreshed idiom names and 7B08 caller, no stack object; next hypothesis is front-end signed quotient allocation, no sweep authorized.
+ * Original forwards its incoming r2 as the record getter's id.
+ * Best result: 24 compiled bytes vs 28 extent, five differing bytes;
+ * original asrs r1,r1,#1; adds r0,r1,#0; muls r0,r4,r0, but C
+ * folds quotient into r0 and omits the move. Two nonshrinking changes
+ * ended iteration at 3 runs. Check 3 used its two compiles. No permuter.
+ * Signed quotient is multiplied as unsigned32 and converted back to its
+ * signed payload; no input bounds prove signed multiplication safe.
+ * One semantic-validation compile retains the same DIFF (24 bytes, five
+ * differing bytes). Total six one invocations: three iteration, two
+ * check3, one semantic validation; prior stopped budgets remain stopped.
+ * symbols:
+ *   func_02020FE4 0x02020FE4 thumb
+ */
+typedef unsigned short u16;
+extern int func_02020FE4(u16, unsigned int, unsigned int);
+int func_021B619C(int a, int b, unsigned int id)
+{
+    return (int)((unsigned int)(func_02020FE4((u16)a, 0, id) / 2) * (unsigned int)b);
+}

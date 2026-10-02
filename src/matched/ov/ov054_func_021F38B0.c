@@ -1,0 +1,24 @@
+/*
+ * function: func_021F38B0
+ * address: 0x021F38B0
+ * packet: pkt_ov054_021F38B0
+ * region: ov054
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT*
+ * symbols:
+ *   func_02188C80 0x02188C80 thumb ov021
+ *   func_020120F4 0x020120F4 thumb
+ *   func_02012EC4 0x02012EC4 thumb
+ *   func_0200B3A4 0x0200B3A4 thumb
+ *   func_021C4E20 0x021C4E20 thumb ov021
+ */
+
+extern int func_02188C80(int);
+extern int func_020120F4(int);
+extern int func_02012EC4(int);
+extern int *func_0200B3A4(int,int);
+extern int func_021C4E20(void *);
+void func_021F38B0(char *p,int a) { int *q=func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(a))),11); int i; for(i=0;i<2;i++) { int offset=4*i; int v=func_021C4E20(*(void **)(p+8+offset)); *(int *)((char *)q+offset)=v>>12; } }

@@ -1,0 +1,168 @@
+/*
+ * function: func_021D8FA0
+ * address: 0x021D8FA0
+ * packet: pkt_ov129_021D8FA0
+ * region: ov129
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 original DA158 reads two words and returns r0, 9E48/9E98/9EE8 arities3/2/3 retained; 2 no full twin, 93D4 record-array shape rejected for unknown runtime domain; 3 Flag/unsigned i 836/644, const p 836/652 rejected (2 calls spent); 4 enum-offset and unsigned-address idioms read, no safe bounded array proof; 5 fresh full idiom listing and 93D4/9E48/9E98/9EE8 neighbours reread, no further scheduling variant (cap2 spent); P300 once best adds return next to void and is rejected; next hypothesis needs producer/caller domain evidence, not another permuter.
+ * budget: 8 iteration calls, first nonshrinker r3 (6 iteration calls r3..r8); scheduling2; check3=2; check5=0; no sweeps; P300 spent. r6 raw-address repair included in8; two later semantic repair validations and one AST baseline validation recorded separately, no reset. r8 shrank2 bytes, but no new evidenced scheduling lever remained; stop was conservative. Later modular/rawfields repairs each nonshrinking.
+ * residual: final fixed one 840/836 bytes, 714 concrete bytes differ; frame0x48 versus0x44 and extra spills/register choices. 25/26 relocations resolved; d_021DA75C sole-ref moves to+2E8 with size shift and is unresolved, not an unmatched callee.
+ * bounds: 85C0 nonzero argument copies nine unchecked words to+330; 89C4 sums counts into+23C. Physical12-record allocation does not bound index188 or i+1. Signed cursor1B8/1BA initialized0 but full callback domain not proved; both table reads and record fields use unsigned32 raw addresses, cursor/count updates preserve modular32 arithmetic.
+ * symbols:
+ *   func_020362DC 0x020362DC arm
+ *   func_0203633C 0x0203633C arm
+ *   func_020061E4 0x020061E4 thumb
+ *   func_021D9E98 0x021D9E98 thumb ov129
+ *   func_021D93D4 0x021D93D4 thumb ov129
+ *   func_021D9320 0x021D9320 thumb ov129
+ *   func_021D9348 0x021D9348 thumb ov129
+ *   func_021D8AF4 0x021D8AF4 thumb ov129
+ *   func_021D9E48 0x021D9E48 thumb ov129
+ *   func_021D9EE8 0x021D9EE8 thumb ov129
+ *   func_021DA158 0x021DA158 thumb ov129
+ *   func_0204B878 0x0204B878 arm
+ *   d_021DA75C 0x021DA75C data a4
+ */
+typedef unsigned short u16;
+typedef short s16;
+typedef struct { int rows[3][5]; } Table;
+typedef struct { int state,value,flag; void *handle; char tail[12]; } Record;
+typedef enum { RECORD_ZERO=0 } Offset;
+typedef enum { UNCHANGED=0, CHANGED=1 } Flag;
+extern const Table d_021DA75C;
+extern unsigned func_020362DC(void);
+extern unsigned func_0203633C(void);
+extern void func_020061E4(unsigned);
+extern void func_021D9E98(char *,int);
+extern void func_021D93D4(void *);
+extern int func_021D9320(char *);
+extern void func_021D9348(char *);
+extern void func_021D8AF4(char *,int);
+extern void func_021D9E48(char *,int,int);
+extern void func_021D9EE8(char *,int,int);
+extern unsigned func_021DA158(int,int);
+extern void func_0204B878(void *,u16);
+void func_021D8FA0(char *p)
+{
+    Table t=d_021DA75C;
+    Flag changed=UNCHANGED;
+    int n=*(int *)((unsigned)&t+(unsigned)*(s16 *)(p+0x1ba)*20+(unsigned)*(s16 *)(p+0x1b8)*4);
+    unsigned i;
+    int v,next;
+    Offset off;
+    char *q;
+    if(*(int *)(p+0x2fc)==1 && func_020362DC()!=0) {
+        *(int *)(p+0x2fc)=changed;
+        func_021D9E98((char *)p,n);
+        if((unsigned)n-10<=1) {
+            if(*(int *)(p+0x1a4)!=2) *(int *)(p+0x1a4)=2;
+        } else {
+            if(*(int *)(p+0x1a4)!=1) *(int *)(p+0x1a4)=1;
+        }
+        return;
+    }
+    if(func_0203633C()&0x40) {
+        if(*(s16 *)(p+0x1ba)>0) (*(s16 *)(p+0x1ba))--;
+        else *(s16 *)(p+0x1ba)=2;
+        changed=1;
+    } else if(func_0203633C()&0x80) {
+        (*(s16 *)(p+0x1ba))++;
+        *(s16 *)(p+0x1ba)=*(s16 *)(p+0x1ba)%3;
+        changed=1;
+    } else if(func_0203633C()&0x10) {
+        if(n==10) *(s16 *)(p+0x1b8)=3;
+        else if(n==11) *(s16 *)(p+0x1b8)=0;
+        else {
+            (*(s16 *)(p+0x1b8))++;
+            *(s16 *)(p+0x1b8)=*(s16 *)(p+0x1b8)%5;
+        }
+        changed=1;
+    } else if(func_0203633C()&0x20) {
+        if(n==10) *(s16 *)(p+0x1b8)=3;
+        else if(n==11) *(s16 *)(p+0x1b8)=0;
+        else if(*(s16 *)(p+0x1b8)>0) (*(s16 *)(p+0x1b8))--;
+        else *(s16 *)(p+0x1b8)=4;
+        changed=1;
+    } else if(func_020362DC()&1) {
+        if(n==10) {
+            func_021D93D4((char *)p);
+            func_020061E4(0x553);
+        } else if(n==11) {
+            if(func_021D9320((char *)p)) {
+                func_021D9348((char *)p);
+                func_020061E4(0x54d);
+            } else func_021D8AF4((char *)p,4);
+        } else {
+            if(*(int *)(p+0x240)==0) return;
+            i=*(int *)(p+0x188);
+            off=(Offset)((unsigned)i*28);
+            *(int *)((unsigned)p+(unsigned)off)=(unsigned)n+1;
+            func_021D9E48((char *)p,1,0);
+            func_021D9E48((char *)p,2,1);
+            func_021D9EE8((char *)p,n,2);
+            func_0204B878(*(void **)((unsigned)p+(unsigned)off+12),func_021DA158(*(int *)((unsigned)p+(unsigned)off),*(int *)((unsigned)p+(unsigned)off+8)));
+            func_0204B878(*(void **)(p+0x1cc),3);
+            v=*(int *)((unsigned)p+(unsigned)off+4);
+            if(i+1==*(int *)(p+0x23c)) {
+                *(int *)(p+0x31c)=1;
+                *(int *)(p+0x320)=0;
+                *(s16 *)(p+0x1b8)=3;
+                *(s16 *)(p+0x1ba)=2;
+                changed=1;
+            } else {
+                next=*(int *)((unsigned)p+((unsigned)i+1)*28+4);
+                if(v!=next) {
+                    *(int *)(p+0x31c)=1;
+                    *(int *)(p+0x320)=next;
+                } else {
+                    *(int *)(p+0x31c)=2;
+                    *(int *)(p+0x320)=i+1;
+                }
+                func_020061E4(0x54c);
+            }
+        }
+    } else if(func_020362DC()&2) {
+        func_021D93D4((char *)p);
+        func_020061E4(0x553);
+    } else if(func_0203633C()&0x200) {
+        if(*(int *)(p+0x188)==0) *(unsigned *)(p+0x188)=*(unsigned *)(p+0x23c)-1;
+        else (*(unsigned *)(p+0x188))--;
+        i=*(int *)(p+0x188);
+        q=(char *)((unsigned)p+(unsigned)i*28);
+        if(*(int *)((unsigned)q+8)==1) {
+            *(int *)(p+0x31c)=2;
+            *(int *)(p+0x320)=i;
+        } else {
+            *(int *)(p+0x31c)=1;
+            *(int *)(p+0x320)=*(int *)((unsigned)q+4);
+            *(int *)(p+0x324)=1;
+        }
+        func_020061E4(0x54c);
+    } else if(func_0203633C()&0x100) {
+        if(*(unsigned *)(p+0x188)==*(unsigned *)(p+0x23c)-1) *(int *)(p+0x188)=0;
+        else (*(unsigned *)(p+0x188))++;
+        i=*(int *)(p+0x188);
+        q=(char *)((unsigned)p+(unsigned)i*28);
+        if(*(int *)((unsigned)q+8)==1) {
+            *(int *)(p+0x31c)=2;
+            *(int *)(p+0x320)=i;
+        } else {
+            *(int *)(p+0x31c)=1;
+            *(int *)(p+0x320)=*(int *)((unsigned)q+4);
+        }
+        func_020061E4(0x54c);
+    }
+    if(changed==1) {
+        func_020061E4(0x548);
+        n=*(int *)((unsigned)&t+(unsigned)*(s16 *)(p+0x1ba)*20+(unsigned)*(s16 *)(p+0x1b8)*4);
+        func_021D9E98((char *)p,n);
+        if((unsigned)n-10<=1) {
+            if(*(int *)(p+0x1a4)!=2) *(int *)(p+0x1a4)=2;
+        } else {
+            if(*(int *)(p+0x1a4)!=1) *(int *)(p+0x1a4)=1;
+        }
+    }
+}

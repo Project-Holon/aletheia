@@ -1,0 +1,111 @@
+/*
+ * function: func_021C5C8C
+ * address: 0x021C5C8C
+ * packet: pkt_ov127_021C5C8C
+ * region: ov127
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: original/compiled 392 B, 37 concrete bytes out; prologue scheduling and spill offsets.
+ * checks: 1 own callees 5E14 takes2/returns0..3, 5E2C takes7, 020410D0 takes10; 2 ov127 twin search only wrapper5B98; 3 layer u8 unchanged45out, y int/mode int worse98out, const pointer inapplicable integer source; 4 frame/local-order, narrow flag, missing-truncation idioms read; 5 idiom directory relisted and matched5E14/5E2C reread, signed out[2] agrees original ldrsh. Next hypothesis block-scoped narrow flags, scheduling cap prevents further manual variants.
+ * budgets: history empty; 4 ordinary one runs + 2 check3 + emitted-baseline one + winner one + once-only permuter300; no sweeps. Check3 exhausted2/2, permuter exhausted; checks1/2/4/5 readonly. Runs2/4 used2 scheduling variants; run6 accidentally split mode declaration, third scheduling variant, root notified and no further manual variants made. Last ordinary run4 improved to392B/45out; consecutive nonshrinking count0; conservatively carry all4 ordinary runs against20-run window, no reset. Scheduling category capped.
+ * permuter: baseline392B/45out reproduced; best392B/37out validated fixed one, exit1. Mutations decl-order(chunkH,leftH), block(if1,3), split-assign(chunkH), copy(h), decl-order(destX,chunkW); reviewed behavior, no volatile/uninitialized reads/type or signature changes.
+ * symbols:
+ *   func_021C5E14 0x021C5E14 thumb ov127
+ *   func_021C5E2C 0x021C5E2C thumb ov127
+ *   func_020410D0 0x020410D0 arm
+ */
+typedef unsigned char u8;
+typedef signed char s8;
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef signed short s16;
+extern s8 func_021C5E14(u32, u32);
+extern char *func_021C5E2C(char *, u8, u8, u32, int, int, s16 *);
+extern void func_020410D0(u32, u32, u32, u32, u8, const void *, u8, int, int, int);
+void func_021C5C8C(void *unused, u8 layer, u8 x, u8 y, u8 w, u8 h, u32 source, u8 sx, int sy, int width, int height)
+{
+  s8 chunkH;
+  s8 leftH;
+  s8 mode;
+  s8 innerDest;
+  s8 leftW;
+  s8 sourceX;
+  s8 chunkW;
+  u8 usedRow;
+  u8 usedH;
+  int blockY;
+  s16 out[2];
+  s8 innerW;
+  s8 innerX;
+  s8 destX;
+  s8 row;
+  u8 offsetY;
+  int blockX;
+  char *data;
+  u8 h_;
+  mode = func_021C5E14(width, height);
+  h_ = h;
+  if (mode == 0)
+  {
+    func_020410D0(layer, x, y, w, h, (void *) source, sx, sy, width, height);
+    return;
+  }
+  leftH = (s8) h_;
+  if (leftH <= 0)
+    return;
+  if (1)
+  {
+    leftW = (s8) w;
+    sourceX = (s8) sx;
+    destX = (s8) x;
+  }
+  do
+  {
+    blockY = sy % 32;
+    if ((blockY + leftH) <= 32)
+    {
+      chunkH = leftH;
+      leftH = 0;
+    }
+    else
+    {
+      chunkH = 32;
+      chunkH = chunkH - blockY;
+      leftH -= chunkH;
+    }
+    row = (s8) (sy >> 5);
+    innerW = leftW;
+    innerX = sourceX;
+    innerDest = destX;
+    if (leftW > 0)
+    {
+      usedRow = row;
+      usedH = chunkH;
+      offsetY = blockY;
+      do
+      {
+        blockX = innerX % 32;
+        if ((blockX + innerW) <= 32)
+        {
+          chunkW = innerW;
+          innerW = 0;
+        }
+        else
+        {
+          chunkW = 32 - blockX;
+          innerW -= chunkW;
+        }
+        data = func_021C5E2C((char *) source, (s8) (innerX / 32), usedRow, mode, width, height, out);
+        func_020410D0(layer, (u8) innerDest, y, (u8) chunkW, usedH, data, blockX, offsetY, (u8) out[0], (u8) out[1]);
+        innerX += chunkW;
+        innerDest += chunkW;
+      }
+      while (innerW > 0);
+    }
+    sy = (u8) (sy + ((u8) chunkH));
+    y += (u8) chunkH;
+  }
+  while (leftH > 0);
+}

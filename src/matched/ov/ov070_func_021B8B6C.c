@@ -1,0 +1,19 @@
+/*
+ * function: func_021B8B6C
+ * address: 0x021B8B6C
+ * packet: pkt_ov070_021B8B6C
+ * region: ov070
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0202EA20 0x0202EA20 thumb
+ */
+struct Obj0202EA20;
+extern void func_0202EA20(struct Obj0202EA20 *p);
+void func_021B8B6C(char *p)
+{
+    func_0202EA20(*(struct Obj0202EA20 **)(p + 0x850));
+}

@@ -1,0 +1,110 @@
+/*
+ * function: func_021D824C
+ * address: 0x021D824C
+ * packet: pkt_ov125_021D824C
+ * region: ov125
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: arm
+ * status: DIFF
+ * blocker: 492 bytes, 16 concrete bytes out; all18 relocations resolve.
+ * Stack-header address r8 is hoisted before GetTick instead of after the
+ * initial division; scalar value reads use [r8] instead of [sp,#8].
+ * This also swaps thread r8/r7 and the zero-register initialization.
+ * Scalar/header direct views with delayed pointer fix scalar reads but
+ * hoist the address before udiv, yielding18 bytes out; best16 kept below.
+ * checks: 1 own bodies show CreateThread6 word args, GetTick0/u64, Start/Destroy1, lock/unlock0, wait1, callback81EC ignores entry arg; 2 matched7D30 fixes thread prototypes and80E0/7874 fix tick/lock/wait, B2 verified80E0+81EC unit resolves callback; 3 Length.value unsigned32 unchanged22 bytes, count unsigned matches original blo and no narrowing justified; 4 struct/buffer/CSE idioms read, raw scalar views plus delayed copy pointer gave18 not16; 5 current directory and matched neighbours reread, B2 confirms related scalar/copy storage residue; next sweep none, iteration and manual variants stopped, once300 consumed.
+ * budget: 6 iterations, first nonshrinking4, consecutive3 through6;
+ * one check3 emitted baseline compile; once300 completed in16s and improved
+ * 22 to16; one fixedone validation confirmed16/all18 relocs; one check4
+ * compile gave18. Conservatively two manual scheduling variants consumed
+ * (winner named word-index temporary, delayed copy pointer); no sweeps.
+ * behavior: u32 Length.value preserves all32 header bits, all-ones sentinel,
+ * equality with unsigned count, and wrapping subtract4. No fabricated
+ * initialization, volatile, signature/domain narrowing, or stale blocker.
+ * symbols:
+ *   d_021D9E40 0x021D9E40 data a4
+ *   d_021D9E40_thread 0x021D9E40 data a4
+ *   d_021DA18C 0x021DA18C data a4
+ *   func_021D81EC 0x021D81EC arm ov125
+ *   OS_GetTick 0x020870D0 arm
+ *   _ll_udiv 0x0209C00C arm
+ *   func_020853C0 0x020853C0 arm
+ *   func_02085868 0x02085868 arm
+ *   func_020855BC 0x020855BC arm
+ *   func_021D7CAC 0x021D7CAC arm ov125
+ *   func_021D7CC0 0x021D7CC0 arm ov125
+ *   func_021D8438 0x021D8438 arm ov125
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef unsigned long long u64;
+typedef struct { u8 bytes[4]; } Bytes;
+typedef union { u32 value; Bytes bytes; } Length;
+extern u32 d_021D9E40[];
+extern u8 d_021D9E40_thread[];
+extern u8 d_021DA18C[];
+extern u64 OS_GetTick(void);
+extern void func_021D81EC(void *);
+extern void func_020853C0(void *,void (*)(void *),int,void *,int,u32);
+extern void func_02085868(void *);
+extern void func_020855BC(void *);
+extern void func_021D7CAC(void);
+extern void func_021D7CC0(void);
+extern void func_021D8438(int);
+int func_021D824C(void)
+{
+    u8 buffer[4];
+    Length *length = (Length *)buffer;
+    u32 count = 0;
+    u32 start;
+    u64 tick;
+    int result;
+    int tmp;
+    ((Length *)buffer)->value = -1;
+    tick = OS_GetTick();
+    func_020853C0(d_021DA18C,func_021D81EC,0,d_021D9E40_thread,0x800,d_021D9E40[0x270/4]);
+    d_021D9E40[0x40c/4] = -6;
+    d_021D9E40[0x410/4] = 0;
+    d_021D9E40[0x414/4] = 0;
+    func_02085868(d_021DA18C);
+    start = tick/0x7fd88;
+    for (;;) {
+        if (d_021D9E40[0x24c/4] != 0 && (int)((OS_GetTick()/0x7fd88)-start) >= (int)d_021D9E40[0x24c/4]) {
+            d_021D9E40[0x250/4] = 12;
+            func_020855BC(d_021DA18C);
+            return 0;
+        }
+        if (d_021D9E40[0x414/4] == 0) continue;
+        result = d_021D9E40[0x40c/4];
+        if (result != -6) {
+            if (result <= 0) {
+                d_021D9E40[0x250/4] = 9;
+                func_020855BC(d_021DA18C);
+                return 0;
+            }
+            count += result;
+            if (count >= 4 && length->value == -1)
+                length->bytes = *(Bytes *)d_021D9E40[0x260/4];
+            if (count == length->value && length->value != -1) {
+                d_021D9E40[0x25c/4] = length->value - 4;
+                break;
+            }
+            tmp = 0x410/4;
+            d_021D9E40[tmp] = count;
+        }
+        func_021D7CAC();
+        if (d_021D9E40[0x268/4] == 1) {
+            d_021D9E40[0x250/4] = 13;
+            func_021D7CC0();
+            func_020855BC(d_021DA18C);
+            return 0;
+        }
+        func_021D7CC0();
+        d_021D9E40[0x414/4] = 0;
+        func_021D8438(1);
+    }
+    func_020855BC(d_021DA18C);
+    return 1;
+}

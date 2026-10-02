@@ -1,0 +1,82 @@
+/*
+ * function: func_021C40BC
+ * address: 0x021C40BC
+ * packet: pkt_ov127_021C40BC
+ * region: ov127
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * blocker: 246/256 bytes, 178 concrete bytes out. Indexed base remains live
+ * across calls; original keeps the unsigned stride in a stack slot and
+ * recomputes the base. This changes register colors and omits 10 bytes.
+ * domain: 4354 is identity bx lr, and caller 5680 takes selector7 from
+ * 49A4 without a range check. No supported 18-entry bound: use unsigned
+ * 32-bit multiply/add before casting the computed address. View describes
+ * individual proven offsets 20,24,32,392, never an indexed fixed array.
+ * heap: incoming u32 is explicitly truncated at 40FC/4104 before each
+ * call. Canonical callee final u16 formal retains this caller conversion;
+ * u32 formal plus explicit cast instead hoists one common conversion.
+ * prototype: B908 uses only r0/r1 via D478; B294 return r0 is consumed
+ * despite its owned ARM9 C being void. No ARM9 source was changed.
+ * checks: 1 own listings confirm 4604/4354/4550 take 1, B294 takes 7 with final stack halfwords, B84C takes 2 with caller byte truncation, B908 reads only 2; 2 3EE0 allocates820 and initializes stride20 records, 4380 shares fields but no mapper bound; 3 unsigned i unchanged in iteration, const View*p improves180 to178 bytes out; 4 field-two-spellings unchanged and named unsigned stride unchanged; 5 idiom directory and matched neighbours reread, no supported indexed-array domain; next sweep none, iteration stopped and optional once300 consumed.
+ * budget: 10 normal compiles including initial2 and semantic8; first
+ * nonshrinking run3, final consecutive3 runs8-10, 8 runs from first.
+ * Checks3/4 use one compile each; one scheduling temporary variant; no sweeps.
+ * Optional once300 outside mandatory <=8 size delta: baseline246/178;
+ * scorer best256/193 uses volatile-add(n), rejected without adoption or
+ * validation. Search completed exit1; do not repeat it.
+ * symbols:
+ *   func_021C4604 0x021C4604 thumb ov127
+ *   func_021C4354 0x021C4354 thumb ov127
+ *   func_021C4550 0x021C4550 thumb ov127
+ *   func_0204B294 0x0204B294 arm
+ *   func_0204B84C 0x0204B84C arm
+ *   func_0204B908 0x0204B908 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct { short x,y,z; u8 a,b; } Request;
+typedef struct { u32 mode,handle,owner,a,b; } Entry;
+typedef struct { u32 a,b,items,count; Entry entry; u8 gap[340]; Entry extra; } View;
+extern u8 *func_021C4604(u8 *);
+extern int func_021C4354(int);
+extern int func_021C4550(int *);
+extern void *func_0204B294(u32,u32,u32,u32,Request *,u16,u16);
+extern void func_0204B84C(void *,u8);
+extern void func_0204B908(void *,int);
+u8 *func_021C40BC(const View *p, const short *src, int n, u32 heap)
+{
+    Request req;
+    u8 *q;
+    u32 i;
+    u32 offset;
+    q = func_021C4604((u8 *)p);
+    i = func_021C4354(n);
+    req.x = src[0];
+    req.y = src[1];
+    req.z = 0;
+    req.a = src[2];
+    req.b = src[3];
+    offset = i*20;
+    *(void **)(q+4) = func_0204B294(p->a,((View *)((u32)p+offset))->entry.handle,((View *)((u32)p+offset))->entry.owner,((View *)((u32)p+offset))->extra.b,&req,0,heap);
+    func_0204B84C(*(void **)(q+4),src[3]);
+    if (*(u32 *)((u32)p+offset+32) == 1) func_0204B908(*(void **)(q+4),6);
+    else func_0204B908(*(void **)(q+4),1);
+    *(u32 *)(q+12) = 9;
+    *(u16 *)(q+20) = 0;
+    *(u32 *)(q+16) = 1;
+    *(u32 *)q = (u32)p+16+offset;
+    if (func_021C4550((int *)((u8 *)p+0x2e0))) {
+        req.x = src[0];
+        req.y = src[1];
+        req.z = 0;
+        req.a = *(u32 *)((u8 *)p+0x2f0);
+        req.b = 0;
+        *(void **)(q+8) = func_0204B294(p->a,*(u32 *)((u8 *)p+0x2e0),*(u32 *)((u8 *)p+0x2e4),*(u32 *)((u8 *)p+0x2e8),&req,0,heap);
+        func_0204B84C(*(void **)(q+8),src[3]);
+    } else *(void **)(q+8) = 0;
+    return q;
+}

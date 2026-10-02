@@ -1,0 +1,76 @@
+/*
+ * function: func_021C9628
+ * address: 0x021C9628
+ * packet: pkt_ov128_021C9628
+ * region: ov128
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 interfaces preserved; 2 no twin; 3 s16 x/y and u8 heap;
+ *   4 row/index and table/window hypotheses; 5 idioms/neighbours refreshed.
+ * Best safe spelling: 264 B, 211 concrete bytes differ; all 9 relocations resolve.
+ * Witness: scratchpad/overlay-goal-20261001-w57/B7/9628-r4.log.
+ * Original spills heap at sp+0x1c; compiler holds it in r7, rematerializes
+ * table bases, and produces a frame four bytes smaller. No ARM9 blocker.
+ * Check 1: matched 9E10/9E6C/63AC and original 9ED0/9EF4 interfaces read.
+ * Retain unread outgoing heap/table arguments. Original 9694 truncates the
+ * fourth 63AC argument to u8, justifying this caller's narrower prototype.
+ * Check 2: no same-overlay matched twin found.
+ * Check 3: s16 x/y produced 272 B/209 DIFF; u8 heap gave 264 B/211.
+ * Both width variants exhausted (2/2). q is passed to mutable callees.
+ * Check 4: row/index spelling below unchanged; explicit table/window
+ * pointers worsened to 264 B/223 (9628-check4.log). Scheduling variants 2/2.
+ * Read declaration-order, narrow-flag, window-pointer and stack-struct
+ * idioms; live spills do not support an addressable stack object.
+ * Check 5: refreshed idiom index and matched 95CC/9E6C/6438 evidence.
+ * Runs: 4 iteration + check3a + check3b + check4 + once-300 permuter.
+ * Nonshrinking iteration budget exhausted; sweeps 0/3; check4 compiles 1/2.
+ * Permuter baseline agrees at 264 B/211. Its 264 B/135 mutant changed void
+ * return/signature and inserted dummy control flow; rejected, not adopted.
+ * No second permuter is permitted. Fresh interface/struct evidence only.
+ * symbols:
+ *   func_021C9E10 0x021C9E10 thumb ov128
+ *   func_021C9E6C 0x021C9E6C thumb ov128
+ *   func_021C63AC 0x021C63AC thumb ov128
+ *   func_021C9ED0 0x021C9ED0 thumb ov128
+ *   func_021C9EF4 0x021C9EF4 thumb ov128
+ *   d_021CA564 0x021CA564 data a2
+ *   d_021CA538 0x021CA538 data a4
+ *   d_021CA7E0 0x021CA7E0 data a4
+ *   d_021CA521 0x021CA521 data a1
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+extern const s16 d_021CA564[][3];
+extern const u32 d_021CA538[],d_021CA7E0[];
+extern const u8 d_021CA521[];
+extern void func_021C9E10(u8 *,u8 *,u32);
+extern void func_021C9E6C(u8 *,void *);
+extern void func_021C63AC(void *,u32 *,u32,u8,u8,u8,u8,u8,u32,u8);
+extern void func_021C9ED0(void *,void *,const s16 *,u32,u32);
+extern void func_021C9EF4(void *,void *,int,u8,u32,u32);
+void func_021C9628(u8 *p,void *unused,u8 *q,u32 heap)
+{
+    int i,j,k,x,y;
+    const s16 *row;
+    func_021C9E10(p+0xf8,q,heap);
+    func_021C9E6C(p,q);
+    for(k=0;k<2;k++) {
+        row=d_021CA564[k];
+        y=row[1]; if(y<0)y=-y;
+        x=row[0]; if(x<0)x=-x;
+        func_021C63AC(q,(u32 *)(p+0x118+k*8),3,x+2,y+1,26,18,10,0,0);
+    }
+    for(i=0;i<3;i++) {
+        func_021C9ED0(p+20+i*0x4c,q,d_021CA564[i],d_021CA538[i],heap);
+        for(j=0;j<8;j++) {
+            func_021C9EF4(p+20+i*0x4c,q,j,d_021CA521[j],d_021CA7E0[j],heap);
+            *(void **)(p+0x20+j*4)=p+0x118;
+            *(void **)(p+0x6c+j*4)=p+0x120;
+            *(void **)(p+0xb8+j*4)=p+0x120;
+        }
+    }
+}

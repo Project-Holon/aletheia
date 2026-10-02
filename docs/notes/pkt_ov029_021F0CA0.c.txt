@@ -12,11 +12,19 @@
  * inputs and 10-byte records; 3 unsigned full-width then caller narrow types
  * unchanged; 4 enum zero reduced 12 to 9 bytes, logical record order to 2;
  * 5 idioms and ov029 callers refreshed, sibling ov028/ov030 no twin; no
- * stack object. Next hypothesis: store f4 before f0, but shared scheduling
- * cap exhausted (enum temporary plus logical order). No sweep performed.
+ * stack object. W57 R1 refreshed ov029 callers and relevant idioms; the
+ * once-only --budget 300 --types permuter did not improve the baseline.
+ * Further manual store ordering is barred by the shared scheduling cap.
  * budget: 3 iteration runs (two nonshrinking), check3 2/2, check4 2/2;
- * 7 matching compiles total, no permuter. Best 24 bytes, DIFF 2.
+ * scheduling 2/2; W56 7 matching compiles; W57 one 300-candidate permuter
+ * (29 CCERR, 271 DIFF including baseline) plus 2 fixed one validations.
+ * All budgets carried; permuter exhausted. Best 24 bytes, DIFF 2.
  * residue: +0x0C and +0x0E strh r4,[r0,#4] / strh r2,[r0] swapped.
+ * evidence: 021F0298/021F0300 use 10-byte records and u16,u8,u8 inputs.
+ * All fields below are initialized, with no invented bounds or UB.
+ * search: scratchpad/overlay-goal-20261001-w57/R1/permuter.log;
+ * candidate sources/scores and all 51 terminal compiler exits retained
+ * beside it. Best output is the unchanged baseline; no mutant accepted.
  */
 typedef struct { unsigned short f0, f2, f4, f6; unsigned char f8, f9; } Record;
 typedef enum { Zero } ZeroValue;
