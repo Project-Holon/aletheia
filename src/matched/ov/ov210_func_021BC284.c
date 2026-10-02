@@ -18,12 +18,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern void func_020315D4(void);
+extern void func_020315D4(void *p);
 extern void func_020306F0(u32);
 
-u32 func_021BC284(void)
+u32 func_021BC284(void *p)
 {
-    func_020315D4();
+    func_020315D4(p);
     func_020306F0(0x7b);
     return 1;
 }

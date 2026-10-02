@@ -14,12 +14,12 @@
  *   func_020306F0  0x020306F0  arm
  */
 
-extern void func_020315D4(void);
+extern void func_020315D4(void *p);
 extern void func_020306F0(int);
 
-int func_021B6148(void)
+int func_021B6148(void *p)
 {
-    func_020315D4();
+    func_020315D4(p);
     func_020306F0(0x8d);
     return 1;
 }
