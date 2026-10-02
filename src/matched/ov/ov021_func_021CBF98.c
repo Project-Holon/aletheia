@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 extern u32 func_020056EC(u32 max);
 extern u32 _u32_div_f(u32 a, u32 b);
 
-u16 func_021CBF98(void)
+u16 func_021CBF98(void *ctx)
 {
     return func_020056EC(0xffffffff) / 0xffff;
 }

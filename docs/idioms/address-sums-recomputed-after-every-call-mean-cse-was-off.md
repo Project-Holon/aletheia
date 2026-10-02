@@ -32,3 +32,23 @@ association, extra locals, thousands of extra statements or branches, switch,
 static locals, function pointers, struct copies, varargs, bit-fields, float,
 division, long long. The pragma changes codegen, so a lane cannot file it
 without a decision from the user.
+
+Update (2026-10-02, after the user approved the pragma for this function):
+
+* Scope is per function. The EXACT neighbour func_022050F0 in the same
+  likely file keeps `i * 12` and `p + i * 12` in spill slots and reuses them
+  after calls, which CSE off cannot do. Use `#pragma opt_common_subs off`
+  before the function and `#pragma opt_common_subs reset` after it.
+* CSE off alone was not enough there. The image also kept the copies that
+  propagation leaves dead: adding `#pragma opt_dead_assignments off` (or
+  `#pragma opt_propagation off`, same output) took it to byte-identical.
+  That second pragma needs its own user decision.
+* With dead copies kept, local spellings matter again that are inert under
+  normal settings: u8 colour locals assigned b, g, r and passed r, g, b
+  recolour the whole body (the call result stays in r0, which moves the
+  callee-saved picture, spill slot order and which temp spills), and a
+  `const` pointer parameter moves a `q + i` add above the stack-argument
+  stores of the next call. Re-measure every lever once the pragmas are on.
+* Measured as no help: opt_lifetimes off, optimization_level 0 to 3,
+  global_optimizer off, optimize_for_size, opt_dead_code off,
+  opt_strength_reduction off, scheduling off.

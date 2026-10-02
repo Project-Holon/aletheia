@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
  * note (2026-10-01): DIFF. Control flow, call order, argument values, hoisted
  *   offset constants and the address-taken frame block (t1 0xf8, t2 0xd8, buf 0xb4,
  *   w/h, cd/pd, c) all line up; the loop needs the (i < 4) ? 1 : 0 test to keep the
@@ -59,8 +59,36 @@
  *   extra locals, 3000 extra statements, 1500 extra branches, switch, static
  *   local, function pointer, struct copy/return, varargs, bit-field, float,
  *   division, long long. `asm { nop }` disables it but also constant
- *   propagation (offsets go to the pool), so not that either. The pragma is a
- *   codegen pragma (banned by the lane rules): user decision needed.
+ *   propagation (offsets go to the pool), so not that either. The pragma is
+ *   user-approved 2026-10-02.
+ * note (2026-10-02, lane A2 pragma): neighbour check. The CSE-off pattern is
+ *   per-function, not per-file: the EXACT next function func_022050F0 (same
+ *   Work struct, same print callees, normal settings) keeps i*12 at sp+0x14
+ *   and p+i*12 at sp+0x10 and reuses both after calls (ldr r2,[sp,#0x10] at
+ *   0x022051B4 after blx 0x02045EC0; ldr r0,[sp,#0x14] at 0x02205212 after
+ *   blx 0x02045808), which CSE off cannot produce. So the pragma is scoped
+ *   to this function (opt_common_subs off ... reset).
+ *   Result: CSE off alone leaves 309 bytes. The image also needs
+ *   `#pragma opt_propagation off` (user-approved 2026-10-02). `#pragma
+ *   opt_dead_assignments off` in its place gives byte-identical output, so
+ *   which of the two the original used cannot be recovered. Both are scoped
+ *   to this function with reset after it: the neighbour evidence above
+ *   (022050F0 compiled with normal settings) shows the settings are
+ *   per-function.
+ *   What closes the rest once both pragmas are on: (1) the colour channels
+ *   as u8 locals assigned b, g, r and passed r, g, b (keeps col in r0, the
+ *   image's r2-first order, and with it q r6 / i*8 r7, the 0x224/0x22c hoist
+ *   slot order and the w/2 spill in the third print); (2) `const Slots *q`
+ *   (q + i formed before the stack-argument stores of both func_0201EFA4
+ *   calls); (3) the enum VRAM_BASE local of the EXACT sibling func_02205F88
+ *   for the 0x06600000 + buf operand order. Measured inert or worse:
+ *   opt_lifetimes off (alone 713, with CSE off no change), optimization_level
+ *   0..3, global_optimizer off, optimize_for_size, opt_dead_code off,
+ *   opt_strength_reduction off, scheduling off, declaration order of every
+ *   register local, colour/EFA4/02049F34 prototypes (incl. unprototyped),
+ *   the EFA4 third-argument spelling, inline heap/arc, loop-condition forms.
+ *   The last relocation, func_020275EC, resolved once arm9 0x020275EC was
+ *   seeded as a Thumb leaf (src/matched/arm9/func_020275EC.c, EXACT).
  * symbols:
  *   d_0220A5B0  0x0220A5B0  data
  *   d_0220A5D0  0x0220A5D0  data
@@ -145,7 +173,10 @@ typedef struct Work {
     u8 f262[4];         /* 0x262 */
 } Work;
 
-void func_02204CC0(Work *p, Slots *q)
+
+#pragma opt_common_subs off
+#pragma opt_propagation off
+void func_02204CC0(Work *p, const Slots *q)
 {
     PosTab t1 = d_0220A5B0;
     PosTab t2 = d_0220A5D0;
@@ -160,7 +191,6 @@ void func_02204CC0(Work *p, Slots *q)
     void *str2;
     void *m2;
     void *m1;
-    void *obj;
     u16 heap;
     int i;
     Struct36 buf;
@@ -170,6 +200,8 @@ void func_02204CC0(Work *p, Slots *q)
     void *pd;
     u8 c[3];
     int col;
+    u8 cr, cg, cb;
+    enum { VRAM_BASE = 0x06600000 } vram;
 
     str1 = func_020457B0(0x10, p->heap);
     m0 = func_02045EC0(p->msgdata, 0);
@@ -182,33 +214,36 @@ void func_02204CC0(Work *p, Slots *q)
         if (q->id[i] != 0) {
             k = func_0201BD28(q->id[i], 0);
             file = d_0220A5F0[k];
-            obj = func_0204B294((u32)p->sys, p->res[i], p->r1f0, p->r1f4, d_0220A392, 1, p->heap);
-            p->obj[(int)(u32)i] = obj;
-            func_0204B404(p->obj[(int)(u32)i], &d_0220A3C4[(int)(u32)i], 1);
+            p->obj[i] = func_0204B294((u32)p->sys, p->res[i], p->r1f0, p->r1f4, d_0220A392, 1, p->heap);
+            func_0204B404(p->obj[i], &d_0220A3C4[i], 1);
             heap = (p->heap & 0x7fff) | 0x8000;
             arc = func_020275E4();
             chr = func_02049E34(arc, func_020275F8(k), 0, &cd, heap);
-            func_0204B6F4(p->obj[(u32)i], func_020275EC(k), 1);
-            func_0204B7C8(p->obj[(u32)(int)(u32)i], &buf);
-            func_02082A60(*(void **)((char *)cd + 0x14), (void *)(0x06600000 + buf.w[2]), 0x100);
+            func_0204B6F4(p->obj[i], func_020275EC(k), 1);
+            func_0204B7C8(p->obj[i], &buf);
+            vram = VRAM_BASE;
+            func_02082A60(*(void **)((char *)cd + 0x14), (void *)(vram + buf.w[2]), 0x100);
             func_020307B0(chr);
             func_0201DE00(&c[2], &c[1], &c[0]);
             func_0201DD78(1, 2, 0);
-            func_0201EF34(font, 0, q->id[(u32)i]);
+            func_0201EF34(font, 0, q->id[i]);
             func_0201F250(font, str1, m0);
             func_02204C98(str1, p->fnt, &w, &h);
-            func_0201C7A4(p->win, d_0220A4AC[i].x - w / 2, (&d_0220A4AC[i].x)[1], str1, p->fnt);
+            func_0201C7A4(p->win, d_0220A4AC[i].x - w / 2, d_0220A4AC[i].y, str1, p->fnt);
             func_0201EFA4(font, 0, q->a[i], 2, 1, 1);
-            func_0201EFA4(font, 1, q->b[(u32)i], 2, 1, 1);
+            func_0201EFA4(font, 1, q->b[i], 2, 1, 1);
             func_0201F250(font, str2, m2);
-            col = func_02205768(q->a[(int)(u32)i], q->b[(int)(u32)i]);
-            func_0201DD78((u8)((col >> 10) & 0x1f), (u8)((col >> 5) & 0x1f), (u8)(col & 0x1f));
-            func_0201C7A4(p->win, t1.v[i].x, (&t1.v[i].x)[1], m1, p->fnt);
+            col = func_02205768(q->a[i], q->b[i]);
+            cb = (u8)(col & 0x1f);
+            cg = (u8)((col >> 5) & 0x1f);
+            cr = (u8)((col >> 10) & 0x1f);
+            func_0201DD78(cr, cg, cb);
+            func_0201C7A4(p->win, t1.v[i].x, t1.v[i].y, m1, p->fnt);
             func_02204C98(str2, p->fnt, &w, &h);
-            func_0201C7A4(p->win, t2.v[i].x - w / 2, (&t2.v[i].x)[1], str2, p->fnt);
+            func_0201C7A4(p->win, t2.v[i].x - w / 2, t2.v[i].y, str2, p->fnt);
             func_0201DD78(c[2], c[1], c[0]);
-            p->f25a[i] = q->a[(u32)(int)(u32)i] != 0;
-            p->f262[(u32)i] = q->id[(int)(u32)i] != 0;
+            p->f25a[i] = q->a[i] != 0;
+            p->f262[i] = q->id[i] != 0;
         } else {
             file = 0xc1;
         }
@@ -228,3 +263,5 @@ void func_02204CC0(Work *p, Slots *q)
     func_02045808(m2);
     func_02045808(str2);
 }
+#pragma opt_propagation reset
+#pragma opt_common_subs reset

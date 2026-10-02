@@ -2566,3 +2566,6 @@ overlay_004  0x021542C0  thumb   # pool word 0x021542C1 at ov021 0x021B4CD8 (fun
 # ov010 leaves with no lr-saving prologue, called only from ov021.
 overlay_010  0x02167AB0  thumb   # tail call to ARM func_0203CBAC (&0x02172014, 0, arg); bl from ov021 at 0x021CB4F4 (raw, func_021CA5C4)
 overlay_010  0x02167CF4  thumb   # "ldr r2, [pc]; strb r1, [r0, r2]; bx lr" (w[0x725] = v); bl from ov021 at 0x021CB596 (raw, func_021CA5C4)
+# arm9 Thumb byte-table leaves (ldr r1, =table; ldrb r0, [r1, r0]; bx lr) with no lr-saving prologue.
+arm9_main   0x020275EC  thumb   # "ldrb r0, [d_0209FCF8 + r0]"; bl from ov094 at 0x02204EAE (func_02204CC0) (+9 more in ov070/119/131/170/173)
+arm9_main   0x02027604  thumb   # "ldrb r0, [d_0209FCEC + r0]"; bl from ov070 0x021B95D6, ov131 0x021DA534, ov198 0x0220E92E
