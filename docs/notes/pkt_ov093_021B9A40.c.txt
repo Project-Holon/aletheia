@@ -1,3 +1,21 @@
+/*
+ * region: ov093
+ * address: 0x021B9A40
+ * packet: pkt_ov093_021B9A40
+ * status: EXACT
+ * checks: resolved by fresh enum result lever with byte return; prior variants preserved below.
+ */
+Resolved at EXACT in wave50 S11: src/matched/ov/ov093_func_021B9A40.c.
+packet: pkt_ov093_021B9A40
+checks: prior variants below retained; enum-result lever is fresh, no prior spelling repeated.
+The successful C uses enum BOOL result, sets FALSE/TRUE in the x<12 if/else,
+then returns result through unsigned char. The enum local preserves zero-first
+arms while the byte return keeps the original lsls/lsrs #24 pair.
+Evidence: scratchpad/overlay-goal-20261001-w50/S11/021B9A40-r1.log (EXACT, 16 bytes);
+tu-021B9A00-r1.log also EXACT across the 3-function contiguous run.
+Existing idiom: docs/idioms/an-enum-boolean-return-keeps-the-zero-arm-first.md.
+
+Prior residual evidence follows:
 func_021B9A40 (ov093, Thumb, 16 bytes), tree_ov093 lane, 2026-09-28
 
 Original:

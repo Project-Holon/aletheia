@@ -5,11 +5,14 @@
  * region: ov010
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
  * blocker: 17 concrete bytes differ; compiled 42 versus listed 48 bytes.
- * checks: 1 no calls in this leaf, incoming fifth slot is ldrh; 2 caller 0215B214 declares five inputs with trailing u16s, tested these widths, signed index worsened branch; 3 const Ctx and u16 index each retain 17-byte residue (two compiles); 4 nested payload inline helper and raw first store retain same residue; 5 re-listed idioms and ov010/ov021 neighbours, no closing twin, no stack object; next hypothesis is enum index or different payload lvalue, no sweep run.
- * budgets: iteration 3 (two nonshrinking changes), check2 1, check3 2, check4 1, check1/5 read-only; total 7. No permuter.
+ * checks: 1 no calls, fifth slot read ldrh; 2 own caller 0215B214 passes full int index without truncation and trailing u16s; u32 index/raw wrapping record address compiled c99 DIFF17/42 in remaining check2 slot; 3 prior const Ctx and u16 index both DIFF17, cap spent; 4 prior nested payload helper/raw first store same residue; 5 fresh idiom listing and ov010/ov021 neighbours give no closing twin, no stack object. No new scheduling variant or sweep.
+ * budgets: carried iteration3 closed(two nonshrinks), check2 1/2, check3 2/2, check4 1/2, check1/5 readonly, total7; incremental check2 1=>2/2,total8. Once300 --types permuter now spent; no reset.
+ * permuter: best DIFF11/46 rejected: type:ret-var(r) changes void to Rec* and returns uninitialized r when either guard fails. Keep verified DIFF17/42. Logs scratchpad/overlay-goal-20261001-w50/R1/a74-check2-r8.log and perm-a74.log, terminal exits1.
+ * domain: full unsigned comparison against n and modulo32 record address preserve all index bits; no array-size or initialized-record assumption.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -22,11 +25,11 @@ static inline void set(Payload *p, u16 b, u16 d)
     p->f = d;
     p->g = b << 4;
 }
-void func_02162A74(const Ctx *c, u16 i, u16 a, u16 b, u16 d)
+void func_02162A74(const Ctx *c, u32 i, u16 a, u16 b, u16 d)
 {
     Rec *r;
     if (c->n >= i && c->r != 0) {
-        r = &c->r[i];
+        r = (Rec *)((u32)c->r + i * 20u);
         if (r->d == 0) {
             *(u32 *)((u8 *)r + 8) = a;
             set(&r->data, b, d);

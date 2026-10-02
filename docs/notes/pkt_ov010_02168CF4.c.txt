@@ -5,6 +5,7 @@
  * region: ov010
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
  * Best fixed-flag run 8: 58 bytes versus 60, 15 concrete bytes differ.
@@ -13,8 +14,11 @@
  * Enum offset plus parenthesized deltas improves 56/39 to 58/15; plain
  * raw or struct fields choose 0x124, losing the original offset schedule.
  * checks: 1 0201210C reads one pointer; 021681C8 reads r0-r3 and both stack words; 2 no ov010 twin, pending callee and matched E910 prototypes read; 3 unsigned kind and const forwarding each compiled, no change; 4 enum offset and parenthesized deltas compiled, 60/31 then 58/15; 5 ov021 CBD08 twin has u8 kind/count but this caller's word loads lack truncation, retain full widths; no stack object, struct-local check n/a. Next hypothesis would be narrower kind/count externs, but their truncations contradict this caller; no sweep authorized.
- * budget: iteration 4, check3 2/2, check4 2/2, scheduling variants 2/2;
- * checks 1/2/5 read-only, no permuter, no failed CLI/compiler attempts.
+ * budget: carried iteration4, check3 2/2, check4 2/2, scheduling2/2;
+ * checks1/2/5 readonly. Incremental once300 --types permuter spent, no reset.
+ * permuter: c99 baseline/best unchanged DIFF15/58; terminal exit1,
+ * scratchpad/overlay-goal-20261001-w50/R1/perm-cf4.log. Fresh callee evidence
+ * preserves r0-r3 plus both outgoing words; no assumed input widths.
  * symbols:
  *   func_0201210C 0x0201210C thumb
  *   func_021681C8 0x021681C8 thumb ov010

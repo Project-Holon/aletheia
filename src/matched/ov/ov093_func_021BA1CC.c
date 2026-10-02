@@ -1,0 +1,23 @@
+/*
+ * function: func_021BA1CC
+ * address: 0x021BA1CC
+ * packet: pkt_ov093_021BA1CC
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT*
+ * extent: trailing two bytes are alignment padding at 0x021BA1E2.
+ * interface: r1/r2 remain live from entry as index and delta.
+ * symbols:
+ *   sub_02008DAC 0x02008DAC thumb
+ */
+typedef unsigned int u32;
+struct Sub02008C20Obj;
+extern u32 sub_02008DAC(struct Sub02008C20Obj *, int, u32);
+void func_021BA1CC(char **p, int i, u32 delta)
+{
+    if (*(unsigned char *)(*p + 0x23) == 0)
+        sub_02008DAC(*(struct Sub02008C20Obj **)(*p + 0x6c), i, delta);
+}

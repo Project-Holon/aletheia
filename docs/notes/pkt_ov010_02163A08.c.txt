@@ -5,11 +5,13 @@
  * region: ov010
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
  * blocker: six concrete register bytes differ, x/y colour r5/r6 is swapped; compiled 54 versus listed 56 (two-byte alignment).
  * checks: 1 getters 0216D91C/0216D924 read only r0 and return a byte; 2 02163D04 confirms one-argument u32 getters, no rectangle twin; 3 u16 coordinates and const source each retain six-byte swap (two compiles); 4 typed rectangle versus halfword array retains same swap; 5 re-listed idioms and ov010/ov021 neighbours, distinct width/height locals already inert, no stack object; next hypothesis is inline clamp or parameter-local reassignment, no sweep run.
- * budgets: iteration 3 (two nonshrinking changes), check3 2, check4 1, check1/2/5 read-only; one scheduling variant (distinct locals); total 6. No permuter.
+ * budgets: carried iteration3 closed(two nonshrinks), check3 2/2, check4 1/2, check1/2/5 readonly, scheduling1/2,total6. Incremental once300 --types permuter spent; no manual/check/iteration reset.
+ * permuter: c99 baseline and best both DIFF6/54, no closing mutation; terminal exit1, scratchpad/overlay-goal-20261001-w50/R1/perm-a08.log. Fresh getter bodies read one pointer and return ldrb; own matched caller 02163C04 forwards full word coordinates, low16 output stores do not prove a caller-domain restriction.
  * symbols:
  *   func_0216D91C 0x0216D91C thumb ov010
  *   func_0216D924 0x0216D924 thumb ov010

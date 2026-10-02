@@ -5,12 +5,14 @@
  * region: ov010
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
- * status: MATCH
- * blocker: THM_CALL func_02014184 at +0x14 has no outside witness;
- * ARM9 unlabelled Thumb leaf, label/sole-ref-code refuses, owned by Ilias.
- * split: 14 image references (1 inside); none provides the missing traced
- * function-start witness. tu --suggest-split leaves caller OUT, no viable cut.
+ * status: EXACT
+ * evidence: owner commit f860957 supplies the matched ARM9 Thumb02014184
+ * witness. Recheck the caller against that witness; no owner C compiled.
+ * prototype: owner's u16 id is widened to int here because original r1
+ * is passed unchanged without narrowing. Remaining payloads retain 32 bits.
+ * prior: wave49 one MATCH; tu --suggest-split left caller OUT.
  * symbols:
  *   func_02014184 0x02014184 thumb
  */
