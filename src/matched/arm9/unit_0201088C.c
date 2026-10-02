@@ -34,8 +34,11 @@
  * 0x021DF696 both `bl` it.  It carries no label because it has no prologue
  * (disasm.py only labels a function that saves lr), so it is written here as
  * the tail call it is - a void function whose body is one call to the ARM
- * function 0x020307B0, which is what puts the pool word and the `bx r3` there
- * and what makes the unit's extent end at 0x0201093C.
+ * function 0x020307B0 with the object passed through in r0, which is what
+ * puts the pool word and the `bx r3` there and what makes the unit's extent
+ * end at 0x0201093C.  Since then seeded as a start in
+ * layout/function_starts.txt (both callers set r0 to the object at +0xEF8 /
+ * their own field before the bl), so the listing labels it func_02010934.
  *
  * Both constructors end with the same two statements: the SDK debug
  * allocator func_02030734(heap, 0x14, 1, "net_save.c", line) - 0x020A725C is
@@ -75,7 +78,7 @@ extern u32  func_020399A8(void);
 extern void func_02039C68(u32 ctx, u32 id, u32 size);
 extern void func_02010888(void *p, u32 v);
 extern void func_0201093C(void);
-extern void func_020307B0(void);
+extern void func_020307B0(struct Sub0201088CObj *p);
 extern u32  func_0200FB24(void);
 extern void func_02012E08(u32 v);
 
@@ -117,7 +120,7 @@ u32 func_02010904(struct Sub0201088CObj *p)
     return 0;
 }
 
-void func_02010934(void)
+void func_02010934(struct Sub0201088CObj *p)
 {
-    func_020307B0();
+    func_020307B0(p);
 }

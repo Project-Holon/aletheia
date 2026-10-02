@@ -2590,3 +2590,7 @@ overlay_010  0x0216E474  thumb   # "movs r0, #0x5a; lsls r0, #2; bx lr" (0x168);
 overlay_010  0x0216E47C  thumb   # tail call MIi_CpuClear32(-1, p, 0x168) via pool word at 0x0216E48C; pointer word 0x0216E47D at arm9 0x0209DC94
 # G3D joint-scale table entry with no prologue, named only by the table at 0x020A8290.
 arm9_main   0x02070CD8  arm     # flags & 4 ? r[0] |= 1 : copy 3 words to r[1..3]; r[0] |= 0x18; table word 0x02070CD8 at 0x020A829C
+# Tail-call stubs with no lr-saving prologue, called only from other overlays.
+overlay_067  0x021B65B4  thumb   # p->[8] = 0; p->[0] = -1; tail call func_021B6548(p, a1, 1) via pool word at 0x021B65C4; bl from ov119 at 0x021D898C (func_021D8980, next to bl 0x021B6558/0x021B6548, both ov067-only starts)
+arm9_main   0x02010934  thumb   # tail call ARM func_020307B0(p) via pool word at 0x02010938; bl from ov119 at 0x021E0C5C (func_021E0C44) and ov137 at 0x021DF696; already written in unit_0201088C.c
+arm9_main   0x02061C30  arm     # tail call func_02061B5C(&0x02146B80) via pool words at 0x02061C3C/0x02061C40 (ldr ip; ldr r0; bx ip); blx from ov131 at 0x021D48E8 (func_021D48E4); already matched as src/matched/arm9/func_02061C30.c
