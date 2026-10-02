@@ -1,0 +1,68 @@
+/*
+ * function: func_021BF2FC
+ * address:  0x021BF2FC
+ * packet:   pkt_ov217_021BF2FC
+ * region:   ov217
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021BF810 0x021BF810 thumb ov217
+ *   func_021C0F78 0x021C0F78 thumb ov217
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_020457B0 0x020457B0 arm
+ *   func_02045808 0x02045808 arm
+ *   func_0201EFA4 0x0201EFA4 thumb
+ *   func_0201F250 0x0201F250 thumb
+ *
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+extern u32 func_021BF810(void *p);
+extern void func_021C0F78(u32 a, void *b);
+extern void *func_02045EC0(void *bank, u32 index);
+extern void *func_020457B0(u32 size, u32 heap);
+extern void func_02045808(void *p);
+extern void func_0201EFA4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void func_0201F250(void *a, void *b, void *c);
+void func_021BF2FC(char *p)
+{
+    u32 k;
+    u32 x;
+    void *a, *b;
+    void *c;
+    if (*(u32 *)(p + 0x3c8) != 0) {
+        switch (*(u32 *)(p + 0x2cc)) {
+        case 0:
+            k = 0xf;
+            break;
+        case 1:
+            k = 0x11;
+            break;
+        }
+    } else {
+        switch (*(u32 *)(p + 0x2cc)) {
+        case 0:
+            k = 0x10;
+            break;
+        case 1:
+            k = 0x12;
+            break;
+        }
+    }
+    x = func_021BF810(p);
+    c = *(void **)(p + 0x18);
+    a = func_02045EC0(*(void **)(p + 0xc), k);
+    b = func_020457B0(0x80, *(u16 *)(p + 4));
+    func_0201EFA4(c, 0, x, 6, 1, 1);
+    func_0201F250(c, b, a);
+    func_021C0F78(*(u32 *)(p + 0x35c), b);
+    func_02045808(a);
+    func_02045808(b);
+}

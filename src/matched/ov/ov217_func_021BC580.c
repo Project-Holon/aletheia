@@ -1,0 +1,24 @@
+/*
+ * function: func_021BC580
+ * address: 0x021BC580
+ * packet: pkt_ov217_021BC580
+ * region: ov217
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ *
+ * symbols:
+ *   func_021C29F8 0x021C29F8 thumb ov217
+ *   d_021C326C 0x021C326C data a4
+ *   d_021C3270 0x021C3270 data a4
+ */
+struct Ent { unsigned int a; unsigned short b; unsigned short pad; unsigned int c[3]; };
+extern const struct Ent d_021C326C[];
+extern void func_021C29F8(int p, unsigned int a, unsigned int b);
+
+void func_021BC580(char *p, int i)
+{
+    func_021C29F8(*(int *)(p + 0x9c + i * 4), d_021C326C[i].a, d_021C326C[i].b);
+}

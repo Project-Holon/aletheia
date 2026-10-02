@@ -34,7 +34,7 @@ extern u32 func_021B97B8(void *);
 extern u32 func_021B97BC(u8 *);
 extern u32 func_021B97F8(u32);
 extern u32 func_021B9824(u32);
-extern void func_021B99EC(u32);
+extern void func_021B99EC(const void *p);
 extern void func_021B9854(void *);
 extern void func_021B96C8(void *, int *, int);
 int func_021B9620(void *unused, u32 *state, u32 unused2, u32 *p)
@@ -50,7 +50,7 @@ int func_021B9620(void *unused, u32 *state, u32 unused2, u32 *p)
     case 3: next = func_021B9824((u32)p); break;
     case 4: return 1;
     }
-    func_021B99EC((u32)p);
+    func_021B99EC(p);
     func_021B9854(p);
     if (*state != next)
         func_021B96C8(p, (int *)state, next);

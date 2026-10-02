@@ -13,6 +13,9 @@
  *           keeps n in lr and recomputes n-1 each iteration, the compiler
  *           hoists n-1 into lr once.  Tried for()/while()/bound-in-local
  *           spellings, all hoist; 132 vs 140 bytes.
+ *
+ * 2026-10-02 (C1 lane 05): also tried guard + do/while with a local m = n - 1 - i; still hoists n - 1
+ * into lr (132 bytes, 115 bytes differ).
  */
 
 typedef unsigned char u8;

@@ -1,0 +1,30 @@
+/*
+ * function: func_021BA5F8
+ * address:  0x021BA5F8
+ * packet:   pkt_ov217_021BA5F8
+ * region:   ov217
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   d_021C2ED8  0x021C2ED8  data  a4
+ */
+
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+extern u32 func_02045B38(int, int, u16, u16);
+extern u32 d_021C2ED8[];
+
+void func_021BA5F8(char *self)
+{
+    int i = 0;
+    do {
+        int o = i * 4;
+        *(u32 *)(self + o + 0xc) = func_02045B38(0, 2, *(u32 *)((char *)d_021C2ED8 + o), *(u16 *)(self + 4));
+        i++;
+    } while (i < 2);
+}

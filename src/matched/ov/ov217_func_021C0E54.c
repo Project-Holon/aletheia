@@ -22,9 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_021C0EC0(void);
+struct Ring;
 
-void func_021C0E54(void)
+extern u32 func_021C0EC0(struct Ring *r);
+
+u32 func_021C0E54(struct Ring *r)
 {
-    func_021C0EC0();
+    return func_021C0EC0(r);
 }

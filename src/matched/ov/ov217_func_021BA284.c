@@ -1,0 +1,31 @@
+/*
+ * function: func_021BA284
+ * address:  0x021BA284
+ * packet:   pkt_ov217_021BA284
+ * region:   ov217
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ */
+
+extern void func_020413B0(int, int, int, int, int, int);
+extern void func_020409B4(int);
+
+void func_021BA284(int sel)
+{
+    int a, b, c, d, e, f;
+    switch (sel) {
+    case 0:
+        a = 2; b = 3; c = 5; d = 0x1a; e = 5; f = 0xa;
+        break;
+    case 1:
+        a = 2; b = 3; c = 0xc; d = 0x1a; e = 5; f = 0xa;
+        break;
+    default:
+        return;
+    }
+    func_020413B0(a, b, c, d, e, f);
+    func_020409B4(a);
+}

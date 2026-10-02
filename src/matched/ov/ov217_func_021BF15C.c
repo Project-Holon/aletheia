@@ -1,0 +1,80 @@
+/*
+ * function: func_021BF15C
+ * address:  0x021BF15C
+ * packet:   pkt_ov217_021BF15C
+ * region:   ov217
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021BF76C 0x021BF76C thumb ov217
+ *   func_021BF810 0x021BF810 thumb ov217
+ *   func_021BF7F4 0x021BF7F4 thumb ov217
+ *   func_021BF854 0x021BF854 thumb ov217
+ *   func_021C0FF8 0x021C0FF8 thumb ov217
+ *   func_021C0F78 0x021C0F78 thumb ov217
+ *   func_021C11C8 0x021C11C8 thumb ov217
+ *   func_021C11DC 0x021C11DC thumb ov217
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_020457B0 0x020457B0 arm
+ *   func_02045808 0x02045808 arm
+ *   func_0201EFA4 0x0201EFA4 thumb
+ *   func_0201EE0C 0x0201EE0C thumb
+ *   func_0201F250 0x0201F250 thumb
+ *
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+extern u32 func_021BF76C(void *p);
+extern u32 func_021BF810(void *p);
+extern u32 func_021BF7F4(void *p);
+extern u32 func_021BF854(void *p);
+extern void func_021C0FF8(u32 a, u32 b);
+extern void func_021C0F78(u32 a, void *b);
+extern u32 func_021C11C8(u32 o, u8 k);
+extern u32 func_021C11DC(u32 o, u8 k);
+extern void *func_02045EC0(void *bank, u32 index);
+extern void *func_020457B0(u32 size, u32 heap);
+extern void func_02045808(void *p);
+extern void func_0201EFA4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void func_0201EE0C(void *a, u32 b, void *c, u32 d, u32 e, u32 f);
+extern void func_0201F250(void *a, void *b, void *c);
+void func_021BF15C(char *p)
+{
+    u32 t = *(u32 *)(p + 0x354);
+    u32 o = func_021BF76C(p);
+    u32 k;
+    u32 a, b, c;
+    void *x, *y, *z;
+    if (*(u32 *)(p + 0x3c8) == 0 || *(u32 *)(p + 0x3d0) == 1) {
+        func_021C0FF8(t, 0);
+        return;
+    }
+    if (func_021BF810(p) == 0) {
+        func_021C0FF8(t, 0);
+        return;
+    }
+    k = func_021BF7F4(p);
+    a = func_021C11C8(o, (u8)k);
+    b = func_021BF854(p);
+    c = func_021C11DC(o, (u8)k);
+    x = func_02045EC0(*(void **)(p + 0xc), 0xd);
+    y = func_02045EC0(*(void **)(p + 0x14), k);
+    z = func_020457B0(0x80, *(u16 *)(p + 4));
+    func_0201EFA4(*(void **)(p + 0x18), 0, a + 1, 2, 1, 1);
+    func_0201EE0C(*(void **)(p + 0x18), 1, y, 0, 1, 2);
+    func_0201EFA4(*(void **)(p + 0x18), 2, b, 5, 1, 1);
+    func_0201EFA4(*(void **)(p + 0x18), 3, c, 3, 1, 1);
+    func_0201F250(*(void **)(p + 0x18), z, x);
+    func_021C0F78(t, z);
+    func_021C0FF8(t, 1);
+    func_02045808(x);
+    func_02045808(z);
+    func_02045808(y);
+}
