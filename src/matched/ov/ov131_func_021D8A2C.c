@@ -6,10 +6,9 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
- * note (2026-10-02): control flow and calls match; only residue is the allocator hoisting constant 0 into r7
- *   (the original rematerialises 0 and hoists constant 1 into r7 inside the else arm). Inert so far: u8 cast on
- *   the a[0x1c] store, local one, dropping individual zero uses (hoist persists with only 2 zero uses).
+ * status: EXACT
+ * note (2026-10-02): the p+0x64 store precedes the p+0x58 store; with source order 58/64/68 the
+ *   allocator hoists constant 0 into r7 instead.
  * symbols:
  *   func_021D8E24 0x021D8E24 thumb ov131
  *   func_020362DC 0x020362DC arm
@@ -47,8 +46,8 @@ void func_021D8A2C(u8 *a,u8 *p)
             func_021D8EA8(a,p);
             a[0x1c]=0;
         } else {
-            p[0x58]=(u8)index;
             *(u32 *)(p+0x64)=1;
+            p[0x58]=(u8)index;
             *(u32 *)(p+0x68)=1;
             p[0x59]=func_021D9428(p,(u8)index);
             func_021D5A9C(a,0);
