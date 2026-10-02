@@ -31,6 +31,15 @@ really reads that register. A callee's C often declares parameters its
 original code never touches (an unused `c, d`, or a value overwritten before
 use). Such rows are kind `phantom`, and the caller is fine.
 
+The definition can also be too short in the other direction: void, or
+declaring fewer parameters than its code reads. The callee may also not be
+matched at all. A broader check covers this. For every call, including tail
+calls, it takes the registers the callee's original code reads and flags any
+that the C call does not supply, whatever the definition says. These rows
+end in `[broader check]`, and their detail says `callee definition too
+short` or `callee not matched`. In this check anything undecidable counts as
+not read, so these rows never rest on a guess.
+
 ```
 python tools/regargs.py                          report on the whole tree
 python tools/regargs.py --file src/matched/ov/ov021_func_021C2EDC.c
@@ -42,8 +51,9 @@ python tools/regargs.py selftest
 
 `--file` reports the call sites in the named files plus every call to a
 definition those files contain. The whole tree is indexed either way, so a
-`--file` run takes about 20 s. A full scan takes about 3 minutes, because it
-reads every definition's original code for the unread-parameter rows. Both need
+`--file` run takes 20 to 50 s, depending on machine load. A full scan takes
+about 4 minutes, because it reads every definition's and every callee's
+original code. Both need
 `extract/`, because they read the original bytes.
 
 ## Reading a row
@@ -74,7 +84,14 @@ The `detail` column starts with the register(s) and where the value came from:
   first. It is still the same value.
 - `callee's original code reads r1`: checked on the callee's bytes. The read
   is followed through copies, spills, and calls the callee passes the
-  register on to (three levels deep).
+  register on to (up to twelve levels deep). The ISA at each level comes
+  from the definition's `isa:` or `symbols:` row, then from the call
+  instruction, then from the listing. A store to an outgoing stack-argument
+  slot counts as a read.
+- `callee definition too short (... declares N params)` / `callee not
+  matched` `[broader check]`: the callee's code reads a register that its
+  definition does not declare. Fix the callee's definition and prototypes as
+  well as the call.
 - `callee's original code never reads r2 (phantom parameter ...; was a/high)`:
   a phantom row.
 - `callee does NOT use param N`: only when the callee's bytes could not be
@@ -149,9 +166,10 @@ ones are:
 - values copied through any memory other than the caller's own stack slots;
 - the hidden struct-return pointer in r0 (no matched definition needs it
   today);
-- callee reads lean towards "read". Past three nested calls, at an
-  unresolved register jump, or when a value is only stored to memory, the
-  register counts as read. A phantom verdict is therefore safe, but some
-  phantoms are missed;
+- for phantom verdicts, callee reads lean towards "read". Past twelve
+  nested calls, in a call cycle, at an unresolved register jump, or when a
+  value is only stored to memory, the register counts as read. A phantom
+  verdict is therefore safe, but some phantoms are missed. The broader
+  check leans the other way, so it misses reads it cannot prove;
 - thunks are recognised only in the exact `g();` body shape with no
   parameters.

@@ -41,11 +41,25 @@ How it works
    ORIGINAL entry, which of r0-r3 does it read before writing them, on any
    path?  A copy or a spill only moves the value (the copy is followed); a
    value passed on to a call or tail call counts only if that inner callee
-   reads it in turn, followed READS_DEPTH levels deep; at a return, r0 (r1
+   reads it in turn, followed READS_MAX_DEPTH levels deep; at a return, r0 (r1
    for a 64-bit result) counts when the function returns a value.  A row
    whose registers the callee never reads is kind phantom: the callee's C
    declares a parameter its original code ignores, and the caller is fine.
-5. A definition matched as `void f(void) { g(); }` whose original reaches g
+   The ISA of every function followed is its definition's isa: line or
+   symbols: row when there is one, else the state the call switches to (bl
+   keeps it, blx #imm flips it, bx/blx reg take bit 0), else the listing
+   label; an unmatched callee in another overlay is placed by the region
+   other files' symbols: rows tag its address with, else by the one overlay
+   listing with a label there.  A store of an incoming register to a stack
+   slot the function never loads back is an outgoing stack argument (or an
+   escaping local) and counts as a read.
+5. The broader check (BROAD_TAG rows): for every call and tail call, the
+   registers the callee's original code reads (strictly: anything
+   undecidable counts as not read) that the C call does not supply and the
+   callee's definition does not declare either, because the definition is
+   too short, void, unprototyped, or missing.  Kinds a, b and set as above;
+   the detail says "callee definition too short" or "callee not matched".
+6. A definition matched as `void f(void) { g(); }` whose original reaches g
    with r0-r3 still holding f's own incoming values is a thunk: one row
    naming the registers forwarded, which of them g reads, and whether g's
    return passes back through f.
@@ -119,8 +133,13 @@ Remaining blind spots
   confidence without a trace: the dataflow does not follow the outgoing
   argument area.  The same holds for a call with no bl site in the original
   (tail-merged, veneered, or the extent is unknown).
-- Callee reads err on the side of "read", so a phantom verdict is safe and
-  a missed phantom is the failure mode: beyond READS_DEPTH nested calls, at
+- The broader check reads strictly, so it misses a read it cannot prove
+  (through an unresolved jump, a call cycle, or past the depth cap), and
+  it sees only calls written in the caller's own body, not those inside an
+  inline helper.
+- Callee reads for phantom verdicts err on the side of "read", so a phantom
+  verdict is safe and a missed phantom is the failure mode: beyond
+  READS_MAX_DEPTH nested calls, in a call cycle, at
   an unresolved register jump, and for a function whose bytes run off the
   end of its extent, every argument counts as read; a store of the value
   to memory counts as a read even when nothing loads it back; a spill to a
@@ -131,6 +150,7 @@ Remaining blind spots
 """
 import argparse
 import collections
+import glob
 import os
 import re
 import sys
@@ -632,6 +652,7 @@ class Index:
         self.files = []
         self.defs = {}           # (region, name) -> def
         self.by_addr = {}        # (region, addr & ~1) -> def
+        self.sym_region = {}     # addr & ~1 -> Counter of regions symbols: rows tag it with
         paths = []
         base = os.path.join(root, *MATCHED.split("/"))
         for dp, _dn, fn in os.walk(base):
@@ -658,7 +679,15 @@ class Index:
                     d["addr"] = int(h["address"], 16)
                 else:
                     d["addr"] = h["syms"].get(d["name"], (addr_of_name(d["name"]),))[0]
-                d["thumb"] = (h["isa"] or "thumb").startswith("thumb")
+                # the ISA as the source states it: the header's isa: line for the file's own
+                # function, the symbols: row for any other definition it carries
+                if d["name"] == h["function"] and h["isa"]:
+                    d["isa"] = "thumb" if h["isa"].startswith("thumb") else "arm"
+                elif d["name"] in h["syms"]:
+                    d["isa"] = h["syms"][d["name"]][1]
+                else:
+                    d["isa"] = None
+                d["thumb"] = (d["isa"] or "thumb") == "thumb"
                 key = (region, d["name"])
                 if key not in self.defs or d["name"] == h["function"]:
                     self.defs[key] = d
@@ -666,6 +695,9 @@ class Index:
                     ak = (region, d["addr"] & ~1)
                     if ak not in self.by_addr or d["name"] == h["function"]:
                         self.by_addr[ak] = d
+            for _nm, (a, _isa, reg) in h["syms"].items():
+                if reg:
+                    self.sym_region.setdefault(a & ~1, collections.Counter())[reg] += 1
             macros = set(re.findall(r"(?m)^[ \t]*#[ \t]*define[ \t]+([A-Za-z_]\w*)", text))
             self.files.append(dict(path=path, h=h, region=region, defs=defs, protos=protos,
                                    types=types, macros=macros, stripped=stripped))
@@ -916,7 +948,7 @@ def _effects(insns, ret64):
                         e.kind = "store_other"
             elif mn.startswith("stm"):
                 e.kind = "store_other"
-        if "sp" in wn:
+        if "sp" in wn and e.kind != "nop":
             e.writes = wn | {"sp"}
         succ.append([x for x in s if x < n])
         eff.append(e)
@@ -1028,7 +1060,7 @@ def analyze(insns, ret64=lambda t: False):
 # the scan
 # ---------------------------------------------------------------------------
 
-READS_DEPTH = 3      # callees followed below a function when deciding what it reads
+READS_MAX_DEPTH = 12     # nested callees followed when deciding what a function reads
 
 
 class Scanner:
@@ -1046,28 +1078,42 @@ class Scanner:
             self._M = match
         return self._M
 
-    def func_insns(self, region, addr, thumb):
-        key = (region, addr)
+    def func_insns(self, region, addr, thumb, isa_known=False):
+        """(insns, thumb, data, base) of the original function at addr, or None.
+
+        The ISA is the listing label's unless isa_known says the caller already
+        knows it (a definition's isa: or symbols: row, or the state a call
+        instruction switches to), which wins over the listing.  Without a
+        label at addr the extent runs to the next listing label."""
+        addr &= ~1
+        key = (region, addr, bool(thumb) if isa_known else None)
         if key in self._ins:
             return self._ins[key]
         res = None
         M = self.M()
         try:
             size, th = M.target_extent(addr, region)
-            if th is not None:
+            if not isa_known:
                 thumb = th
-            if size is None and th is not None:
-                # the last function of a listing has no next label: read to the
-                # region's end (capped); only code reachable from the entry counts
-                r = M.find_region(addr, region)
-                size = min(r.base + len(r.data) - addr, 0x1000)
-            if size and size <= 0x4000:
-                _n, data = M.target_bytes(addr, size, region=region)
-                res = (list(md(thumb).disasm(data, addr)), thumb, data, addr)
+            if thumb is not None:
+                if size is None and th is not None:
+                    # the last function of a listing has no next label: read to the
+                    # region's end (capped); only code reachable from the entry counts
+                    r = M.find_region(addr, region)
+                    size = min(r.base + len(r.data) - addr, 0x1000)
+                elif size is None:
+                    nxt = M.next_listing_label(addr, region)
+                    size = (nxt - addr) if nxt else None
+                if size and size <= 0x4000:
+                    _n, data = M.target_bytes(addr, size, region=region)
+                    res = (list(md(thumb).disasm(data, addr)), thumb, data, addr)
         except (SystemExit, Exception):
             res = None
         self._ins[key] = res
         return res
+
+    def caller_insns(self, d):
+        return self.func_insns(d["region"], d["addr"], d["thumb"], isa_known=d.get("isa") is not None)
 
     def ret64(self, region):
         def f(t):
@@ -1075,16 +1121,17 @@ class Scanner:
             return bool(d and d.get("ret64"))
         return f
 
-    def analysis(self, region, addr, insns):
-        key = (region, addr)
+    def analysis(self, region, addr, fi):
+        key = (region, addr, fi[1])
         if key not in self._an:
-            self._an[key] = analyze(insns, self.ret64(region))
+            self._an[key] = analyze(fi[0], self.ret64(region))
         return self._an[key]
 
     def jump_target(self, insns, i, data, base, thumb, region):
         """For a register jump or call (`bx ip`, `blx r3`, `mov pc, ip`): the
         address the register was loaded with from a literal pool within the
-        last few instructions, or None.  `ldr ip, =g; bx ip` is a tail call."""
+        last few instructions, or None.  `ldr ip, =g; bx ip` is a tail call.
+        Bit 0 of the value is kept: it is the ISA a bx/blx switches to."""
         _c, CA = _capstone()
         ins = insns[i]
         bm = base_mnemonic(ins.mnemonic)
@@ -1124,11 +1171,11 @@ class Scanner:
         return None
 
     def call_sites(self, caller, callee_addr):
-        fi = self.func_insns(caller["region"], caller["addr"], caller["thumb"]) if caller.get("addr") else None
+        fi = self.caller_insns(caller) if caller.get("addr") else None
         if not fi:
             return None
         insns, thumb, data, base = fi
-        IN = self.analysis(caller["region"], caller["addr"], insns)
+        IN = self.analysis(caller["region"], caller["addr"], fi)
         out = []
         for i, ins in enumerate(insns):
             mn = ins.mnemonic
@@ -1146,74 +1193,156 @@ class Scanner:
                     out.append((ins.address, mn + "-via-ldr", IN[i]))
         return out
 
+    def all_call_sites(self, caller):
+        """{target address: [(site address, mnemonic, IN state)]} for every call,
+        tail call and pool-loaded register jump in the caller's original."""
+        fi = self.caller_insns(caller) if caller.get("addr") else None
+        if not fi:
+            return None
+        insns, thumb, data, base = fi
+        IN = self.analysis(caller["region"], caller["addr"], fi)
+        idx = set(ins.address for ins in insns)
+        out = collections.defaultdict(list)
+        for i, ins in enumerate(insns):
+            if IN[i] is None:
+                continue
+            mn = ins.mnemonic
+            bm = base_mnemonic(mn)
+            t = None
+            if bm in ("bl", "blx"):
+                t = branch_target(ins)
+                if t is None:
+                    t = self.jump_target(insns, i, data, base, thumb, caller["region"])
+            elif mn in BRANCHES and mn not in ("cbz", "cbnz"):
+                t = branch_target(ins)
+                if t in idx:
+                    t = None
+            elif bm in ("bx", "mov"):
+                t = self.jump_target(insns, i, data, base, thumb, caller["region"])
+            if t is not None:
+                out[t & ~1].append((ins.address, mn, IN[i]))
+        return out
+
     # ------------------------------------------------------------ callee side
 
-    def locate(self, addr, region_hint):
-        """(region, thumb) of the function that starts at addr, or None."""
+    def locate(self, addr, region_hint, thumb_hint=None):
+        """(region, thumb) of the function that starts at addr, or None.
+
+        The ISA, at every level of a follow: a matched definition's isa: or
+        symbols: row first, then the state the call switches to (bl keeps it,
+        blx #imm flips it, bx/blx reg take bit 0 of the address), then the
+        listing label."""
         if addr is None:
             return None
+        addr &= ~1
         d = self.ix.def_at(region_hint, addr)
-        cands = ([d["region"]] if d else []) + [region_hint] + STATIC_REGIONS
+        isa = None
+        if d is not None and d.get("isa"):
+            isa = d["isa"] == "thumb"
+        elif thumb_hint is not None:
+            isa = bool(thumb_hint)
+        # an unmatched callee in another overlay (ov043 calling ov021's func_02188D2C):
+        # the region other files' symbols: rows tag the address with, else the one
+        # overlay whose listing has a label there
+        tagged = [r for r, _n in self.ix.sym_region.get(addr, collections.Counter()).most_common()]
+        cands = ([d["region"]] if d else []) + [region_hint] + STATIC_REGIONS + tagged
         for r in dict.fromkeys(cands):
             try:
-                _size, th = self.M().target_extent(addr & ~1, r)
+                _size, th = self.M().target_extent(addr, r)
             except (SystemExit, Exception):
                 continue
             if th is not None:
-                return r, th
+                return r, (th if isa is None else isa)
+        owners = self.label_owners(addr)
+        if len(owners) == 1:
+            return owners[0][0], (owners[0][1] if isa is None else isa)
+        if isa is not None:
+            return (d["region"] if d else region_hint), isa
         return None
 
-    def reads(self, region, addr, depth=0):
+    _LABELS = None
+
+    def label_owners(self, addr):
+        """[(overlay, thumb)] whose listing has a function label at addr."""
+        if Scanner._LABELS is None:
+            labels = collections.defaultdict(list)
+            M = self.M()
+            for p in sorted(glob.glob(os.path.join(ROOT, "asm", "overlays", "ov*.s"))):
+                r = os.path.splitext(os.path.basename(p))[0]
+                if not re.match(r"^ov\d+$", r):
+                    continue
+                try:
+                    for a, th in M.scan_listing(r).items():
+                        if th is not None:
+                            labels[a].append((r, th))
+                except (SystemExit, Exception):
+                    continue
+            Scanner._LABELS = labels
+        return Scanner._LABELS.get(addr & ~1, [])
+
+    def reads(self, region, addr, depth=0, thumb=None, strict=False):
         """The argument registers r0-r3 a function's original code reads before
-        writing them, on any path from its entry, or None when unknown.
+        writing them, on any path from its entry.
 
         A read is any use of a register whose value is still the incoming
-        r0-r3 (also after copies and spill reloads), except: a copy or a stack
-        spill (the value is followed instead), a push, and the arguments of a
-        call or tail call, which count only if that callee reads them in turn
-        (followed READS_DEPTH levels deep, beyond that every argument counts).
-        At a return, r0 (and r1 for a 64-bit result) counts when the function
-        returns a value or its definition is unknown."""
-        key = (region, addr, depth)
+        r0-r3 (also after copies and spill reloads), except: a copy or a
+        stack spill that is loaded back (the value is followed instead), a
+        push, and the arguments of a call or tail call, which count only if
+        that callee reads them in turn (followed READS_MAX_DEPTH levels deep).
+        A store to a stack slot the function never loads back is an outgoing
+        stack argument (or a local whose address escapes) and counts as a
+        read.  At a return, r0 (and r1 for a 64-bit result) counts when the
+        function returns a value.
+
+        Two modes for what cannot be decided (no bytes, an unresolved jump, a
+        cycle, the depth cap, a callee without a definition at its return):
+        by default it counts as read and an unknown function gives None (safe
+        for phantom verdicts); strict=True counts it as not read (safe for the
+        broader passthrough check, which must not invent rows)."""
+        unknown = set() if strict else None
+        if addr is None:
+            return unknown
+        if thumb is None and addr & 1:
+            thumb = True
+        addr &= ~1
+        key = (region, addr, thumb, strict)
         if key in self._reads:
             return self._reads[key]
-        if key in self._busy:
-            return None
-        loc = self.locate(addr, region)
-        fi = self.func_insns(loc[0], addr, loc[1]) if loc else None
+        if key in self._busy or depth > READS_MAX_DEPTH:
+            return unknown
+        loc = self.locate(addr, region, thumb)
+        fi = self.func_insns(loc[0], addr, loc[1], isa_known=True) if loc else None
         if not fi or not fi[0]:
-            self._reads[key] = None
-            return None
-        region = loc[0]
+            self._reads[key] = unknown
+            return unknown
         self._busy.add(key)
         try:
-            res = self._reads_of(region, addr, fi, depth)
+            res = self._reads_of(loc[0], addr, fi, depth, strict)
         finally:
             self._busy.discard(key)
         self._reads[key] = res
         return res
 
-    def _reads_of(self, region, addr, fi, depth):
+    def _reads_of(self, region, addr, fi, depth, strict):
         insns, thumb, data, base = fi
-        IN = self.analysis(region, addr, insns)
+        IN = self.analysis(region, addr, fi)
         succ, eff, _computed = _effects(insns, self.ret64(region))
         n = len(insns)
         idx = {ins.address: i for i, ins in enumerate(insns)}
         d = self.ix.def_at(region, addr)
-        if d is None or not d["void"]:
-            ret_regs = ("r0", "r1") if d is not None and d.get("ret64") else ("r0",)
+        if d is not None:
+            ret_regs = () if d["void"] else (("r0", "r1") if d.get("ret64") else ("r0",))
         else:
-            ret_regs = ()
+            ret_regs = () if strict else ("r0",)
         esc = eff[0].lo
+        reloaded = set(e.slot for e in eff if e.kind == "ldsp")
         read = set()
 
         def ent(st, r):
             return set(o[1] for o in st.get(r, ()) if o[0] == "entry" and o[1] in ARGR)
 
-        def pass_args(st, t):
-            tr = None
-            if t is not None and depth < READS_DEPTH:
-                tr = self.reads(region, t, depth + 1)
+        def pass_args(st, t, t_thumb):
+            tr = self.reads(region, t, depth + 1, t_thumb, strict) if t is not None else (set() if strict else None)
             for r in ARGR:
                 if tr is None or r in tr:
                     read.update(ent(st, r))
@@ -1227,13 +1356,18 @@ class Scanner:
             bm = base_mnemonic(mn)
             if i == n - 1 and succ[i] == [] and e.kind not in ("nop",) and not (
                     bm in ("b", "bx") or bm in POPS or "pc" in e.writes):
-                return None                   # runs off the end of the bytes read: unknown
-            if e.kind == "copy" or (e.kind == "stsp" and esc is None) or bm == "push" \
-                    or (bm in ("stmdb", "stmfd") and "sp!" in ins.op_str):
+                return read if strict else None    # runs off the end of the bytes read
+            if e.kind == "stsp":
+                if esc is None and e.slot in reloaded:
+                    continue                       # a spill: the reload is followed
+                read.update(ent(st, e.src))        # an outgoing stack argument
+                continue
+            if e.kind == "copy" or bm == "push" or (bm in ("stmdb", "stmfd") and "sp!" in ins.op_str):
                 continue
             if e.kind == "call":
                 if e.target is None:
-                    pass_args(st, self.jump_target(insns, i, data, base, thumb, region))
+                    t = self.jump_target(insns, i, data, base, thumb, region)
+                    pass_args(st, t, None if t is None else bool(t & 1))
                     try:
                         rd, _w = ins.regs_access()
                     except Exception:
@@ -1242,12 +1376,13 @@ class Scanner:
                         if r in TRACK and r not in ARGR:
                             read.update(ent(st, r))
                 else:
-                    pass_args(st, e.target)
+                    # bl keeps the state, blx #imm switches it
+                    pass_args(st, e.target, thumb if bm == "bl" else not thumb)
                 continue
             if mn in BRANCHES and mn not in ("cbz", "cbnz"):
                 t = branch_target(ins)
                 if t is not None and t not in idx:
-                    pass_args(st, t)            # a tail call
+                    pass_args(st, t, thumb)        # a tail call
                 continue
             if (bm == "bx" and ins.op_str == "lr") or (bm in POPS and "pc" in ins.op_str) \
                     or (bm == "mov" and ins.op_str.replace(" ", "") == "pc,lr") \
@@ -1256,8 +1391,10 @@ class Scanner:
                     read.update(ent(st, r))
                 continue
             if bm == "bx" or (bm == "mov" and ins.op_str.startswith("pc,")):
-                # `ldr ip, =g; bx ip`: a tail call; an unresolved jump passes everything
-                pass_args(st, self.jump_target(insns, i, data, base, thumb, region))
+                # `ldr ip, =g; bx ip`: a tail call; bx takes the ISA from bit 0,
+                # mov pc stays in the current state
+                t = self.jump_target(insns, i, data, base, thumb, region)
+                pass_args(st, t, None if t is None else (bool(t & 1) if bm == "bx" else thumb))
                 continue
             try:
                 rd, _w = ins.regs_access()
@@ -1277,11 +1414,11 @@ class Scanner:
         d = self.ix.def_at(loc[0], addr)
         if d is not None:
             return not d["void"]
-        fi = self.func_insns(loc[0], addr, loc[1])
+        fi = self.func_insns(loc[0], addr, loc[1], isa_known=True)
         if not fi or not fi[0]:
             return None
         insns = fi[0]
-        IN = self.analysis(loc[0], addr, insns)
+        IN = self.analysis(loc[0], addr & ~1, fi)
         seen = False
         for i, ins in enumerate(insns):
             if IN[i] is None:
@@ -1452,6 +1589,105 @@ def find_thunks(ix, sc, scope=None):
     return out
 
 
+BROAD_TAG = "[broader check]"
+
+
+def broad_rows(ix, sc, scope, thunks, callers_of):
+    """Rows for registers a callee's ORIGINAL code reads that the C call does
+    not supply, beyond what the callee's definition declares (a definition
+    that is void, too short, unprototyped, or missing altogether).  The
+    declared-but-unpassed parameters are the main scan's rows; this adds what
+    a too-short definition hides.  Callee reads are strict here: anything
+    undecidable counts as not read, so no row rests on a guess."""
+    out = []
+    callers = []
+    for fi in ix.files:
+        for d in fi["defs"]:
+            if d["asm"] or not d.get("addr") or re.search(r"\binline\b|__inline", d["ret"]):
+                continue
+            callers.append((fi, d))
+    if scope is not None:
+        keep = set((fi["path"], d["name"]) for fi, d in callers if fi["path"] in scope)
+        for key, lst in callers_of.items():
+            cd = ix.defs[key]
+            if cd["file"] in scope:
+                keep.update((f["path"], dd["name"]) for f, dd, _c in lst)
+        callers = [(fi, d) for fi, d in callers if (fi["path"], d["name"]) in keep]
+    for fi, d in callers:
+        calls = find_calls(d["body"])
+        if not calls:
+            continue
+        bytarget = collections.defaultdict(list)
+        for c in calls:
+            cd = ix.resolve(fi, c["name"])
+            if cd is not None and cd.get("addr"):
+                bytarget[cd["addr"] & ~1].append((c, cd))
+                continue
+            sym = fi["h"]["syms"].get(c["name"])
+            a = sym[0] if sym else (addr_of_name(c["name"]) if ADDR_NAME.match(c["name"]) else None)
+            if a is not None:
+                bytarget[a & ~1].append((c, None))
+        if not bytarget:
+            continue
+        tk = thunks.get((fi["path"], d["name"]))
+        sites = None
+        for taddr, cl in bytarget.items():
+            if tk and (tk["target"] & ~1) == taddr:
+                continue
+            cd = cl[0][1]
+            if cd is not None and cd["var"]:
+                continue
+            hint = None
+            if cd is None:
+                sym = fi["h"]["syms"].get(cl[0][0]["name"])
+                if sym:
+                    hint = sym[1] == "thumb"
+            creads = sc.reads(cd["region"] if cd else d["region"], taddr, thumb=hint, strict=True)
+            if not creads:
+                continue
+            declared = cd["words"] if cd is not None and cd["n"] is not None else 0
+            if sites is None:
+                sites = sc.all_call_sites(d) or {}
+            ss = sites.get(taddr, [])
+            if not ss:
+                continue
+            cl_sorted = sorted(cl, key=lambda x: x[0]["pos"])
+            paired = len(ss) == len(cl_sorted)
+            for n_c, (c, _cd) in enumerate(cl_sorted):
+                if cd is not None:
+                    lay = cd["layout"]
+                    supplied = sum(w for _f, w in lay[:c["k"]]) + max(0, c["k"] - len(lay))
+                else:
+                    supplied = c["k"]
+                for r in sorted(creads):
+                    w = int(r[1:])
+                    if w < supplied or w < declared:
+                        continue                  # passed, or a declared parameter (main scan)
+                    use = [ss[n_c]] if paired else ss
+                    opr = {r: frozenset().union(*[st[2].get(r, frozenset()) for st in use])}
+                    kind, conf, detail = classify(ix, d, [r], opr, False)
+                    if not paired and len(ss) > 1:
+                        detail += " [union over %d bl sites]" % len(ss)
+                    detail += "; callee's original code reads %s, the C call passes %d" % (r, c["k"])
+                    if cd is None:
+                        detail += "; callee not matched"
+                    elif cd["n"] is None:
+                        detail += "; callee definition is unprototyped ()"
+                    else:
+                        detail += "; callee definition too short (%s declares %d params%s)" % (
+                            cd["name"], cd["n"], ", void" if cd["n"] == 0 else "")
+                    if cd is not None and c["name"] != cd["name"]:
+                        detail += "; defined as %s (resolved by address)" % cd["name"]
+                    detail += " " + BROAD_TAG
+                    out.append(dict(caller_file=fi["path"], caller_func=d["name"], callee=c["name"],
+                                    callee_def=cd["name"] if cd else c["name"],
+                                    callee_def_file=cd["file"] if cd else "-", kind=kind, detail=detail,
+                                    confidence=conf, region=d["region"], area=area_of(fi["path"]),
+                                    sdk=is_sdk(fi["path"]) or bool(cd and is_sdk(cd["file"])), arg=w, reg=r,
+                                    pos=c["pos"]))
+    return out
+
+
 def scan(ix, files=None):
     """Rows for the whole tree, or only those touching the given repo-relative files."""
     sc = Scanner(ix)
@@ -1606,6 +1842,9 @@ def scan(ix, files=None):
                          kind="reverse", detail=detail, confidence=conf, region=cd["region"],
                          area=area_of(cd["file"]), sdk=is_sdk(cd["file"]), arg=kmax, reg=None, pos=0))
 
+    # the broader check: every call, whatever the callee's definition says
+    rows.extend(broad_rows(ix, sc, scope, th, callers_of))
+
     # definitions whose original code never reads some declared register parameter
     for fi in ix.files:
         if scope is not None and fi["path"] not in scope:
@@ -1747,6 +1986,9 @@ SELFTEST_PIN_ADDR = "47c17a6ebf82db2cb7a86fe617b3afbd8a307335"
 # 967be270c, the commit that added this tool: func_02062F90 still called
 # func_02062D4C(p) and func_021A3D50's callers still passed two of four
 SELFTEST_PIN_KINDS = "967be270c6cc4ec55e2fee77b99794a03e9eacc5"
+# 3e0a7c135: ov217 func_021C11DC, ov043 func_021F42A8 and ov019 func_0217FE44
+# before OV's lanes named the values they pass
+SELFTEST_PIN_BROAD = "3e0a7c135467390473f1ca7b0e1b7c42eda3ff12"
 
 
 def _git_show(rev, path):
@@ -1884,6 +2126,45 @@ def selftest():
     res.append((len(hit) == 1 and hit[0]["kind"] == "thunk" and hit[0]["confidence"] == "high"
                 and "reads r0;" in hit[0]["detail"] and "returns a value" in hit[0]["detail"],
                 "func_0200A350 is a thunk: forwards r0-r2 by tail call, func_0200A3FC reads r0 and returns a value"))
+
+    # round 3: the ISA at every level of a follow, outgoing stack arguments, the broader check
+    sc = Scanner(ix)
+    loc = sc.locate(0x020307B0, "arm9", thumb_hint=True)
+    res.append((loc == ("arm9", False),
+                "sub_020307B0 is ARM even when reached with a Thumb hint (its isa: line wins) [got %s]" % (loc,)))
+    got = sc.reads("arm9", 0x02028604)
+    res.append((got == {"r0"}, "func_02028604 reads only r0 (its blx into ARM sub_020307B0 decodes as ARM) [got %s]"
+                % (sorted(got) if got is not None else None)))
+    got = sc.reads("ov021", 0x0218E260)
+    res.append((got == {"r0", "r1"}, "func_0218E260 reads b: it stores r1 to [sp] as func_0204944C's fifth argument "
+                "[got %s]" % (sorted(got) if got is not None else None)))
+    f8 = "src/matched/ov/ov217_func_021C11DC.c"
+    f9 = "src/matched/ov/ov043_func_021F42A8.c"
+    f10 = "src/matched/ov/ov019_func_0217FE44.c"
+    pinned3 = dict(pinned2)
+    for p in (f8, f9, f10):
+        t = _git_show(SELFTEST_PIN_BROAD, p)
+        if t is None:
+            res.append((True, "skip: %s not readable at %s, broad cases not run" % (p, SELFTEST_PIN_BROAD[:9])))
+            return res
+        pinned3[p] = t
+    ix = Index(overrides=pinned3)
+    rows = scan(ix, [f8, f9, f10])
+
+    def one(caller, callee, reg):
+        return [r for r in rows if r["caller_func"] == caller and r["callee"] == callee and r["reg"] == reg]
+    hit = one("func_021C11DC", "func_021C1AC0", "r1")
+    res.append((len(hit) == 1 and hit[0]["kind"] == "a" and hit[0]["confidence"] == "high"
+                and BROAD_TAG in hit[0]["detail"] and "definition too short" in hit[0]["detail"],
+                "ov217 func_021C11DC forwards r1 to func_021C1AC0, whose definition is too short (broader check)"))
+    hit = one("func_021F42A8", "func_02188D2C", "r0") + one("func_021F42A8", "func_0218EC5C", "r0")
+    res.append((len(hit) == 2 and all(r["kind"] == "b" and r["confidence"] == "high" and BROAD_TAG in r["detail"]
+                                      for r in hit),
+                "ov043 func_021F42A8 passes results to unmatched func_02188D2C and func_0218EC5C (b, broader check)"))
+    hit = one("func_0217FE44", "func_021A3074", "r0")
+    res.append((len(hit) == 1 and hit[0]["kind"] == "b" and hit[0]["confidence"] == "high"
+                and "02188CB4" in hit[0]["detail"],
+                "ov019 func_0217FE44 chains func_02188CB4's result into func_021A3074 (b, high)"))
     return res
 
 
