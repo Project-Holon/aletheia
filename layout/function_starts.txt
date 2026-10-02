@@ -2569,3 +2569,22 @@ overlay_010  0x02167CF4  thumb   # "ldr r2, [pc]; strb r1, [r0, r2]; bx lr" (w[0
 # arm9 Thumb byte-table leaves (ldr r1, =table; ldrb r0, [r1, r0]; bx lr) with no lr-saving prologue.
 arm9_main   0x020275EC  thumb   # "ldrb r0, [d_0209FCF8 + r0]"; bl from ov094 at 0x02204EAE (func_02204CC0) (+9 more in ov070/119/131/170/173)
 arm9_main   0x02027604  thumb   # "ldrb r0, [d_0209FCEC + r0]"; bl from ov070 0x021B95D6, ov131 0x021DA534, ov198 0x0220E92E
+# Save-table size/init leaves with no lr-saving prologue, reached only through
+# Thumb pointer words in the (size, init, id) table at 0x0209DB94-0x0209DD60.
+arm9_main   0x02009ED4  thumb   # "ldr r0, =0xA94; bx lr"; pointer word 0x02009ED5 at 0x0209DBC4
+arm9_main   0x02024934  thumb   # "movs r0, #0xa8; bx lr"; pointer word 0x02024935 at 0x0209DC00
+arm9_main   0x0200E090  thumb   # "movs r0, #0x85; lsls r0, #4; bx lr" (0x850); pointer word 0x0200E091 at 0x0209DD08
+arm9_main   0x0200EA14  thumb   # "movs r0, #0x5b; lsls r0, #2; bx lr" (0x16C); pointer word 0x0200EA15 at 0x0209DD44
+arm9_main   0x0200EA2C  thumb   # tail call MI_CpuFill8(p, 0, 0x16C) via pool word at 0x0200EA38; pointer word 0x0200EA2D at 0x0209DD48
+arm9_main   0x0200ED38  thumb   # "movs r0, #0xfc; bx lr"; pointer word 0x0200ED39 at 0x0209DD5C
+arm9_main   0x0200ED3C  thumb   # tail call MI_CpuFill8(p, 0, 0xFC) via pool word at 0x0200ED44; pointer word 0x0200ED3D at 0x0209DD60
+# ARM heap-allocator vtable stubs (frame/unit/expanded heap alloc and free)
+# with no prologue, named only by the allocator table at 0x020A16F8-0x020A1714.
+arm9_main   0x0206127C  arm     # push block onto the free list at +0x24; ARM pool word 0x0206127C at 0x020612F4 (tail call from table entry 0x020612E8 at 0x020A16FC)
+arm9_main   0x0206128C  arm     # tail call func_02060CA0(h->[4], size, h->[8]); table word 0x0206128C at 0x020A1708
+arm9_main   0x020612A0  arm     # tail call func_02060E30(h->[4], p); table word 0x020612A0 at 0x020A170C
+arm9_main   0x020612B0  arm     # tail call func_02061124(h->[4], size, h->[8]); table word 0x020612B0 at 0x020A1700
+arm9_main   0x020612C4  arm     # "bx lr" (empty free); table word 0x020612C4 at 0x020A1704
+# ov010 save-table pair: size and init leaves, Thumb pointer words in the arm9 save table.
+overlay_010  0x0216E474  thumb   # "movs r0, #0x5a; lsls r0, #2; bx lr" (0x168); pointer word 0x0216E475 at arm9 0x0209DC90
+overlay_010  0x0216E47C  thumb   # tail call MIi_CpuClear32(-1, p, 0x168) via pool word at 0x0216E48C; pointer word 0x0216E47D at arm9 0x0209DC94
