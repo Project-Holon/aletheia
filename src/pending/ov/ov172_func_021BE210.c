@@ -1,0 +1,92 @@
+/*
+ * function: func_021BE210
+ * address: 0x021BE210
+ * packet: pkt_ov172_021BE210
+ * region: ov172
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * note 2026-10-02: 36 bytes differ, only the placement of the third-call arg load (ldr r2,[sp]); original loads it after the 8-byte table copies, ours hoists it above them. Tried: struct-local, pointer-to-struct local, block-init, volatile arg, const-less externs.
+ * note 2026-10-02 (relaunch): callee prototypes now copied from their matched
+ *   definitions (func_021B8BA4/8B8C/8B94 take (int unused, char *base, int i);
+ *   func_0204B404 takes const struct Vec2 *; arg is int). Still 36 bytes. Also
+ *   inert: per-byte array stores, *(struct B4 *) cast stores, &arg through a
+ *   pointer local. Worse: memcpy intrinsic (177), copy loops (139), moving
+ *   a = arg after the p+8 test or splitting it into an else arm (158-187).
+ *   In the original the [sp] reload behaves as if it may alias the byte stores
+ *   (ldr r1,[r5,r4] and ldr r2,[sp] both stay after the copies, in source order);
+ *   ours treats [sp] as a private spill slot and fills the ldrb/strb stall with it.
+ * symbols:
+ *   func_021BE05C 0x021BE05C thumb ov172
+ *   func_021B8BA4 0x021B8BA4 thumb ov172
+ *   func_021B8B8C 0x021B8B8C thumb ov172
+ *   func_021B8B94 0x021B8B94 thumb ov172
+ *   func_02008510 0x02008510 thumb
+ *   func_0201D304 0x0201D304 thumb
+ *   func_02045808 0x02045808 arm
+ *   func_0204B404 0x0204B404 arm
+ *   func_0204B3DC 0x0204B3DC arm
+ *   func_0204B9A0 0x0204B9A0 arm
+ *   d_021C7048 0x021C7048 data a1
+ *   d_021C704C 0x021C704C data a1
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed short s16;
+struct B4 { u8 b[4]; };
+struct Vec2 { s16 x; s16 y; };
+struct Obj;
+struct StrObj;
+struct U16Vec;
+extern const struct B4 d_021C7048;
+extern const struct B4 d_021C704C;
+extern int func_021BE05C(void *p);
+extern u32 func_021B8BA4(int unused, char *base, int i);
+extern u32 func_021B8B8C(int unused, char *base, int i);
+extern char *func_021B8B94(int unused, char *base, int i);
+extern struct StrObj *func_02008510(char *a, u32 b);
+extern u32 func_0201D304(struct StrObj *s, u32 a, u32 b);
+extern void func_02045808(struct StrObj *vec);
+extern void func_0204B404(struct Obj *p, const struct Vec2 *delta, u32 which);
+extern void func_0204B3DC(struct Obj *p, u32 v);
+extern void func_0204B9A0(struct Obj *a);
+void func_021BE210(u8 *p, int arg)
+{
+    struct B4 ta;
+    struct B4 tb;
+    struct Vec2 pt;
+    struct StrObj *s;
+    u32 w;
+    int a;
+    int r;
+    r = func_021BE05C(p);
+    a = arg;
+    if (*(u32 *)(p + 8) == 3) {
+        return;
+    }
+    if (r == 1) {
+        if (a == 0) {
+            a = 2;
+        } else {
+            a = 3;
+        }
+    }
+    if (func_021B8BA4((int)p, *(char **)(p + 0x1e4), arg) != 1) {
+        return;
+    }
+    if (func_021B8B8C((int)p, *(char **)(p + 0x1e4), arg) != 1) {
+        return;
+    }
+    ta = d_021C704C;
+    tb = d_021C7048;
+    s = func_02008510(func_021B8B94((int)p, *(char **)(p + 0x1e4), arg), *(u16 *)p);
+    w = (u8)func_0201D304(s, *(u32 *)(p + 0x1c8), 0);
+    func_02045808(s);
+    pt.x = ta.b[a] + (w >> 1);
+    pt.y = tb.b[a];
+    func_0204B404(*(struct Obj **)(p + 0x1b0), &pt, 0);
+    func_0204B3DC(*(struct Obj **)(p + 0x1b0), 1);
+    func_0204B9A0(*(struct Obj **)(p + 0x1b0));
+}

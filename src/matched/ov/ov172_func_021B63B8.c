@@ -5,17 +5,9 @@
  * region: ov172
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
- * status: MATCH
- * blocker: ARM9 func_020351F8 at site +0x0008 has no outside witness.
- * Verified scratch C for 0x020351F8: EXACT, ARM, dsi/1.1p1 -O4,p.
- * blocker:
- *   extern void *g_021469BC;
- *   extern void func_020351EC(void *, int, int);
- *   void func_020351F8(int a, int b) {
- *       func_020351EC(g_021469BC, a, b);
- *   }
- *   symbols: g_021469BC 0x021469BC data a4; func_020351EC 0x020351EC arm
+ * status: EXACT
  * symbols:
  *   func_020351F8 0x020351F8 arm
  *   func_02085D3C 0x02085D3C arm
