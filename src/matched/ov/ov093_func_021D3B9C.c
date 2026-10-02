@@ -1,0 +1,23 @@
+/*
+ * function: func_021D3B9C
+ * address: 0x021D3B9C
+ * packet: pkt_ov093_021D3B9C
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT*
+ * extent: trailing 2-byte alignment padding.
+ * ABI: narrow extern arguments follow explicit caller truncation.
+ * symbols:
+ *   func_021EFB34 0x021EFB34 thumb ov093
+ */
+typedef unsigned char u8;
+struct S;
+extern void func_021EFB34(struct S *, u8);
+int func_021D3B9C(char *p, int unused, unsigned int *a)
+{
+    func_021EFB34(*(struct S **)(p + 0x34), a[0]);
+    return 1;
+}

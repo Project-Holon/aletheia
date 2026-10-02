@@ -1,0 +1,24 @@
+/*
+ * function: func_021CD9B0
+ * address: 0x021CD9B0
+ * packet: pkt_ov093_021CD9B0
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * Prototype: 021CDA0C stores its r1 payload unchanged at +0x28; caller
+ * passes a callback address. Pointer replaces legacy u32 for that payload.
+ * symbols:
+ *   func_021D3F88 0x021D3F88 thumb ov093
+ *   func_021CDA0C 0x021CDA0C thumb ov093
+ *   func_021CDA18 0x021CDA18 thumb ov093
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void func_021D3F88(u8 *);
+extern void func_021CDA0C(u8 *,int (*)(u8 *));
+extern int func_021CDA18(u8 *);
+void func_021CD9B0(u8 *p) { func_021D3F88(p+0x18); func_021CDA0C(p,func_021CDA18); }

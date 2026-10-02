@@ -1,0 +1,25 @@
+/*
+ * function: func_021D5B7C
+ * address: 0x021D5B7C
+ * packet: pkt_ov093_021D5B7C
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT*
+ * extent: follower 021D5BA4 is already filed in pkt_021D5BA4.
+ * symbols:
+ *   func_02017E1C 0x02017E1C thumb
+ *   func_021D5B68 0x021D5B68 thumb ov093
+ */
+extern int func_02017E1C(void *, int, int);
+extern int func_021D5B68(void *);
+int func_021D5B7C(void **p)
+{
+    int ok;
+    ok = 0;
+    if (func_02017E1C(*p, 0x4c, 0)) return ok;
+    if (func_021D5B68(p) == 0) ok = 1;
+    return ok;
+}
