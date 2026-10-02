@@ -21,7 +21,7 @@
 typedef unsigned char u8;
 
 extern int d_021DDA60;
-extern int func_021867C4(int);
+extern int *func_021867C4(int a, int id);
 extern void *func_02030734(int, int, int, void *, int);
 extern void func_02193F6C(void *);
 extern int func_020490F4(int, int);
@@ -33,7 +33,7 @@ void func_02193C08(char *p, int heap)
 
     if (*(int *)(p + 0xc) == 0) {
         i = 0;
-        *(int *)(p + 0xc) = func_021867C4(0);
+        *(int *)(p + 0xc) = (int)func_021867C4(0, heap);
         *(void **)(p + 4) = func_02030734(heap, 0x320, 1, &d_021DDA60, 0x39e);
         for (i = 0; i < 10; i++) {
             func_02193F6C((char *)*(int *)(p + 4) + i * 0x50);

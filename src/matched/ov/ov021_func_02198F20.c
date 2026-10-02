@@ -31,8 +31,8 @@ typedef signed char    s8;
 extern u32 func_0216D6D4(u32);
 extern u32 func_0216D7A8(u32, u32);
 extern u32 func_0216D67C(u32);
-extern u32 func_0216D520();
-extern u32 func_0219C9DC();
+extern u32 func_0216D520(u32 p);
+extern u32 func_0219C9DC(u32 p);
 extern u32 func_020508EC(u32, u32, u16 *);
 extern u32 func_0216D7CC(u32);
 
@@ -44,9 +44,7 @@ int func_02198F20(u32 a)
     func_0216D6D4(a);
     r = func_0216D7A8(a, 0);
     if (r != 0xFFFF) {
-        func_0216D67C(a);
-        func_0216D520();
-        if (func_020508EC(func_0219C9DC(), (u16)r, &out) == 1) {
+        if (func_020508EC(func_0219C9DC(func_0216D520(func_0216D67C(a))), (u16)r, &out) == 1) {
             func_0216D7CC(a);
             return 1;
         }

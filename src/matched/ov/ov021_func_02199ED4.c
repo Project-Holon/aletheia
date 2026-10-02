@@ -37,8 +37,8 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_0216D67C(u32);
-extern u32 func_0216D520();
-extern u32 func_0219C9DC();
+extern u32 func_0216D520(u32 p);
+extern u32 func_0219C9DC(u32 p);
 extern u32 func_0216D7A8(u32, u32);
 extern u32 func_020508EC(u32, u32, u16 *);
 extern u32 func_0216D5E0(u32, u32);
@@ -51,9 +51,7 @@ int func_02199ED4(u32 a)
     u32 r;
     u16 out;
 
-    func_0216D67C(a);
-    func_0216D520();
-    s = func_0219C9DC();
+    s = func_0219C9DC(func_0216D520(func_0216D67C(a)));
     r = func_0216D7A8(a, 0);
     if (r != 0xFFFF) {
         if (func_020508EC(s, (u16)r, &out) == 0) {

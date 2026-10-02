@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * State step: picks the next handler from the state word and a status query.
  *
@@ -31,14 +31,13 @@ extern void func_02196034(u8 *p, void *fn, u32 n);
 extern void func_02196E04(void);
 extern void func_02196804(void);
 extern void func_02196C68(void);
-extern void func_0200BAC8(void *p);
-extern u32 func_0200BBA8(void);
+extern void *func_0200BAC8(void *p);
+extern u32 func_0200BBA8(void *a);
 
 void func_02196ACC(u8 *p)
 {
     if (*(u32 *)(p + 8) == 5) {
-        func_0200BAC8(*(void **)(*(u8 **)(p + 0x2E4) + 0x4C));
-        if (func_0200BBA8() != 0) {
+        if (func_0200BBA8(func_0200BAC8(*(void **)(*(u8 **)(p + 0x2E4) + 0x4C))) != 0) {
             func_02196034(p, func_02196E04, 0x443);
         } else {
             func_02196034(p, func_02196804, 0x446);

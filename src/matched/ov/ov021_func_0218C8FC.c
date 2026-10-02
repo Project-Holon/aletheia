@@ -13,11 +13,11 @@
  *   func_0218C43C  0x0218C43C  thumb  ov021
  */
 
-int func_0218C43C(unsigned char *p);
+int func_0218C43C(unsigned char *p, int i);
 
-int func_0218C8FC(unsigned char *p)
+int func_0218C8FC(unsigned char *p, int i)
 {
     if (p == 0)
         return 0;
-    return func_0218C43C(p + 0xC);
+    return func_0218C43C(p + 0xC, i);
 }

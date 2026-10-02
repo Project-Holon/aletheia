@@ -15,9 +15,9 @@
  * attests as `matched`.
  */
 
-void func_021626B8(void);
+int func_021626B8(char *a0, int a1);
 
-void func_0218AECC(void)
+int func_0218AECC(char *a0, int a1)
 {
-    func_021626B8();
+    return func_021626B8(a0, a1);
 }

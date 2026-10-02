@@ -34,8 +34,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u8 *func_0216E3C4(u32);
 extern u16 *func_0216D6F0(u32);
-extern void func_0216D910(u32);
-extern u32 func_0219C9DC(void);
+extern u32 func_0216D910(u32);
+extern u32 func_0219C9DC(u32 p);
 extern void func_0205082C(u32, u32, u32);
 extern void func_0205085C(u32, u32, u32);
 
@@ -46,8 +46,7 @@ void func_0219F0B0(u32 a, u32 b, u32 c)
     if (func_0216E3C4(a)[2] == 1) {
         q = func_0216D6F0(a);
         if (*q != 0xFFFF) {
-            func_0216D910(a);
-            r = func_0219C9DC();
+            r = func_0219C9DC(func_0216D910(a));
             func_0205082C(r, *q, b);
             func_0205085C(r, *q, c);
         }

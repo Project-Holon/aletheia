@@ -16,7 +16,7 @@
  *   d_021D75C4     0x021D75C4  data ov021 a2
  */
 
-extern int func_0219C4AC(int, int);
+extern int func_0219C4AC(int, int, int, int);
 extern unsigned short func_020500F0(int, void *, int);
 extern unsigned short d_021D8064[];
 extern unsigned short d_021D75C4[];
@@ -34,7 +34,7 @@ unsigned short func_0219D3F0(int *o, int a1, int a2, int a3, int a4, int a5)
     } s;
 
     if (a5 == -1) {
-        return (unsigned short)func_0219C4AC(o[1], a4);
+        return (unsigned short)func_0219C4AC(o[1], a4, a2, a3);
     }
     s.w0 = a4;
     s.b4 = 0;

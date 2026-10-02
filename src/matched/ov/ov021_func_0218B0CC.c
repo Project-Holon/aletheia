@@ -31,7 +31,7 @@ extern void *func_021A3074(void *a);
 extern void func_0219E2F4(void *a, int *b);
 extern int func_02162598(void *a, int *b);
 extern void *func_021625CC(void *a, u16 b);
-extern int func_021626EC(void);
+extern int func_021626EC(void *p);
 extern int func_0218AEAC(void *a);
 extern void func_0218B2A8(char *p, int a, int *b);
 extern int func_0218B2E8(char *p, void *x, int a, int *b);
@@ -47,7 +47,7 @@ int func_0218B0CC(char *p, void *unused, void *x)
     if (r4 == 0xFFFF)
         return 0;
     r6 = func_021625CC(*(void **)(p + 0xC), r4);
-    if (func_021626EC() == 1 || func_0218AEAC(r6) == 0)
+    if (func_021626EC(r6) == 1 || func_0218AEAC(r6) == 0)
         return 0;
     func_0218B2A8(p, r4, buf);
     return func_0218B2E8(p, x, r4, buf);

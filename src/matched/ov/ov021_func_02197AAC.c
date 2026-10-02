@@ -30,8 +30,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_0201283C(u32);
-extern void func_0201058C(void);
+extern void *func_0201283C(u32);
+extern u32 func_0201058C(void *key);
 extern void func_02027974(u32);
 extern void func_02028178(u32);
 extern void func_02040618(u32, u32, u32);
@@ -51,8 +51,7 @@ u32 func_02197AAC(u32 r0, u32 r1, u32 r2, u8 *a)
 
     cb = *(void (**)(u8 *))a;
     ret = 1;
-    func_0201283C(*(u32 *)(a + 0x30));
-    func_0201058C();
+    func_0201058C(func_0201283C(*(u32 *)(a + 0x30)));
     if (cb != 0) {
         cb(a);
         ret = 0;

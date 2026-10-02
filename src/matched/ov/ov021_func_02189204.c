@@ -46,8 +46,8 @@ extern void func_0219C554(u32 a, u32 b, u32 c);
 extern void func_0219C680(u32 a);
 extern u32 func_02013CC8(u32 a);
 extern u32 func_02013CE0(u32 a);
-extern void func_02012138(u32 a);
-extern u32 func_0217C0A8(void);
+extern void *func_02012138(u32 a);
+extern u32 func_0217C0A8(void *a0);
 extern void func_02012944(u32 a);
 extern u32 func_02008550(void);
 extern u32 func_021A31A4(u32 a, u32 b);
@@ -74,8 +74,7 @@ void func_02189204(u8 *a)
     func_0219C680(*(u32 *)(a + 0x38));
     x = *(u16 *)(a + 0xD8);
     if (func_02013CC8(x) == 0 && func_02013CE0(x) == 0) {
-        func_02012138(*(u32 *)(a + 4));
-        t = func_0217C0A8();
+        t = func_0217C0A8(func_02012138(*(u32 *)(a + 4)));
     } else {
         func_02012944(h);
         t = func_02008550();

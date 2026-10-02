@@ -15,9 +15,9 @@
  * now resolves via `matched`.
  */
 
-void func_02193D08(void);
+int func_02193D08(unsigned char *p);
 
-void func_021938F4(void)
+int func_021938F4(unsigned char *p)
 {
-    func_02193D08();
+    return func_02193D08(p);
 }

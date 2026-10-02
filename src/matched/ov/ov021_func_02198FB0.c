@@ -33,7 +33,7 @@ extern u32 *func_0216D6D4(u32);
 extern u32 *d_021DDBD4;
 extern void func_0216D8C0(u32, Vec *);
 extern u32 func_0219BF48(u32);
-extern u32 func_021D04C4();
+extern u32 func_021D04C4(u32 a);
 extern u32 func_021AC154(u32);
 extern u32 func_0219BF3C(u32, u32);
 extern u32 func_0216D568(u32, u32);
@@ -52,7 +52,7 @@ int func_02198FB0(u32 a)
         func_0216D8C0(a, &v);
         r = func_0219BF48(a);
         if (r != 0) {
-            if (func_021D04C4() == 1) {
+            if (func_021D04C4(r) == 1) {
                 func_021AC154(r);
                 func_0219BF3C(a, 0);
             }

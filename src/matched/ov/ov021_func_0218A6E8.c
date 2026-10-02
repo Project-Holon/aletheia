@@ -19,8 +19,8 @@
  *   func_021F2AD4  0x021F2AD4  thumb  ov029
  */
 
-extern void func_02188CCC(void *p);
-extern void *func_021A1358(void);
+extern void *func_02188CCC(void *p);
+extern void *func_021A1358(void *p);
 extern void *func_020120F4(void *p);
 extern void *func_02012A30(void *p);
 extern void func_02028A70(void *p);
@@ -31,8 +31,7 @@ void func_0218A6E8(void *sys, void *q)
 {
     void *r;
 
-    func_02188CCC(q);
-    r = func_021A1358();
+    r = func_021A1358(func_02188CCC(q));
     if (r == 0) {
         func_02028A70(func_02012A30(func_020120F4(sys)));
         return;

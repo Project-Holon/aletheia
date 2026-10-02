@@ -13,12 +13,12 @@
  *   func_0218C3B0  0x0218C3B0  thumb  ov021
  */
 
-void func_0218C3B0(unsigned char *p);
+void func_0218C3B0(unsigned char *p, int i, int c);
 
-void func_0218C88C(unsigned char *p, int v)
+void func_0218C88C(unsigned char *p, int v, int c)
 {
     if (p != 0) {
         *(int *)(p + 4) = v;
-        func_0218C3B0(p + 0xC);
+        func_0218C3B0(p + 0xC, v, c);
     }
 }
