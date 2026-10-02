@@ -6,12 +6,9 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
- * note 2026-10-02 (lane B2-08): size matches (600 bytes), control flow and calls match.
- *   Only the stack layout of the four Moves (u16[5]) copies differs: original has
- *   branch-A source at sp+0x34, branch-B source at sp+0x3e, branch-B loop copy at
- *   sp+0x48, branch-A loop copy at sp+0x52; ours puts the two source copies swapped.
- *   Renaming/reordering/block-scoping the declarations does not move them.
+ * status: EXACT
+ * note 2026-10-02 (lane R4): the two Moves copies per branch come from an inline helper
+ *   taking the struct by value (argument temp + parameter copy), which sets the slot order.
  * symbols:
  *   func_0203064C 0x0203064C arm
  *   func_0203159C 0x0203159C arm
@@ -54,21 +51,23 @@ extern void func_020307B0(void *);
 extern int func_020173E8(void);
 extern void func_02017550(void *);
 extern u8 func_02005728(u32);
-extern void func_02017600(void *,u16,u32,u32,u32);
+typedef unsigned long long u64;
+extern void func_02017600(void *obj,u16 species,u16 level,u64 id);
 extern void func_02017E64(void *,u32,const void *);
 extern void *func_020124F4(u16);
 extern void func_020355D8(u32);
 extern int func_021D4240(char *);
 extern const char d_021DC80C[];
 extern const Moves d_021DC138,d_021DC144;
+static inline void SetA(void *p, Moves m) { func_02017E40(p,0x8e,&m); }
+static inline void SetB(void *p, Moves m) { func_02017E64(p,0x8e,&m); }
 int func_021D6324(u32 heap,int *st,u8 *obj,char *d) {
     switch(*st) {
     case 0: {
         u8 *c=obj;
         u8 *o;
         u8 i;
-        Moves mb,md,ma,mc;
-        func_0203064C(1,0x42,0x50000);
+                func_0203064C(1,0x42,0x50000);
         o=func_0203159C((void *)heap,0x264,0x42);
         func_02082BCC(o,0,0x264);
         *(u16 *)o=0x42;
@@ -80,11 +79,9 @@ int func_021D6324(u32 heap,int *st,u8 *obj,char *d) {
                 void *pt;
                 party=func_0201A920(1);
                 func_0201A954(party,6);
-                mc=d_021DC138;
                 for(i=0;i<5;i++) {
                     pt=func_020173F0(i+3,10,-1,0,1);
-                    mb=mc;
-                    func_02017E40(pt,0x8e,&mb);
+                    SetA(pt,d_021DC138);
                     func_02017E40(pt,0x9a,0);
                     func_0201A98C(party,pt);
                     func_020307B0(pt);
@@ -103,14 +100,13 @@ int func_021D6324(u32 heap,int *st,u8 *obj,char *d) {
                 c[0xe]=0x1e;
                 c[0xf]=0xff;
                 for(i=0;i<c[0xe];i++) {
-                    ma=d_021DC144;
-                    md=ma;
-                    off=i*func_020173E8();
+                    n=func_020173E8();
                     base=*(u8 **)c;
+                    off=i*n;
                     func_02017550(base+off);
                     if(func_02005728(3)!=0) {
-                        func_02017600(base+off,i+1,0x32,-1,-1);
-                        func_02017E64(base+off,0x8e,&md);
+                        func_02017600(base+off,i+1,0x32,(u64)-1);
+                        SetB(base+off,d_021DC144);
                         func_02017E64(base+off,0x9a,0);
                         if(c[0xf]==0xff) c[0xf]=i;
                     }

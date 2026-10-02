@@ -6,11 +6,9 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
- * note 2026-10-02 (lane B2-08): 324 bytes, flow matches. Left: original stores a copy of
- *   the loop counter (adds r0,r4,#0) at p[0x94+i] and reuses that r0 for the three stores
- *   after the loop (p[0x99], p[0x9a], p[0x90], value 4); a separate u8/u32/enum copy j
- *   is either coalesced into i (becomes i-1) or masked. Constant 4 gives a fresh movs.
+ * status: EXACT
+ * note 2026-10-02 (lane R4): the loop stores 0 (the copy of r4 before the loop is the
+ *   zero already in r4), not the counter; the three post-loop stores are 0 too.
  * symbols:
  *   func_02035CB8 0x02035CB8 arm
  *   func_02035C60 0x02035C60 arm
@@ -48,10 +46,10 @@ void func_021D7460(u8 *a,u8 *p) {
                 func_021D77E8(p+0x78,x,y);
                 func_021D77E8(p+0x80,x,y);
                 func_021D77E8(p+0x88,x,y);
-                for(i=0;i<5;i++) p[0x94+i]=i;
-                p[0x99]=4;
-                p[0x9a]=4;
-                *(u32 *)(p+0x90)=4;
+                for(i=0;i<5;i++) p[0x94+i]=0;
+                p[0x99]=0;
+                p[0x9a]=0;
+                *(u32 *)(p+0x90)=0;
             } else if(g==1 && *(u32 *)(p+0x6c)==1) {
                 func_021D75A4(a,p);
             }
