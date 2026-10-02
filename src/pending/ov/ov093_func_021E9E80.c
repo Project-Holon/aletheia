@@ -9,6 +9,8 @@
  * status: MATCH*
  * blocker: seven Thumb veneers at 021E9FAC..021EA01C have off-image
  *   targets (06899CA5 etc.) and no outside code witness.
+ * note: 2026-10-02 (wave B2 lane 05) re-verified: still MATCH*; only the veneer calls stay unresolved
+ *   (callers are all inside this function, targets are off-image; veneers are not compiled C).
  * extent: lead is 300 bytes; seven 16-byte Thumb veneers follow.
  * symbols:
  *   func_021E9FAC 0x021E9FAC thumb ov093

@@ -9,6 +9,8 @@
  * status: MATCH*
  * blocker: six Thumb veneers at 021EAD44/54/64/74/84/94 have
  *   off-image targets (06899CA5 etc.), so sole-ref/code cannot attest them.
+ * note: 2026-10-02 (wave B2 lane 05) re-verified: still MATCH*; only the veneer calls stay unresolved
+ *   (callers are all inside this function, targets are off-image; veneers are not compiled C).
  * extent: six veneers at 021EAD44..021EADA4, then six tail stubs
  *   021EADA4/ADB4/ADC4/ADD4/ADE4/ADF4. No C unit may span veneers.
  * symbols:
