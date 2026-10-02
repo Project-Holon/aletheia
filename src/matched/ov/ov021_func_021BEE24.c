@@ -22,8 +22,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void func_02188CB4(void *p);
-extern u32 func_021A3050(void);
+extern void *func_02188CB4(void *p);
+extern u32 func_021A3050(void *p);
 extern void func_021BED44(void *a, void *b);
 extern void func_021BEDA4(void *a, void *b);
 extern void func_021BEC84(void *a, void *b);
@@ -31,8 +31,7 @@ extern void func_021BECE4(void *a, void *b);
 
 void func_021BEE24(void *a, void *b)
 {
-    func_02188CB4(b);
-    switch (func_021A3050()) {
+    switch (func_021A3050(func_02188CB4(b))) {
     case 2:
     default:
         func_021BED44(a, b);

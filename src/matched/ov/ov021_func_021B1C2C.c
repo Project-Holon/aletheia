@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_0215A5F4  0x0215A5F4  thumb  ov010
@@ -22,7 +22,7 @@
 typedef signed short s16;
 
 int func_0215A5F4(int b);
-int *func_02158F58(void);
+int *func_02158F58(int a);
 s16 *func_02159AE8(int a, int b);
 int func_02159B10(int a, int b);
 int func_02188C7C(int a);
@@ -39,8 +39,7 @@ int func_021B1C2C(int a, int b)
     int r4;
     int r0;
 
-    func_0215A5F4(b);
-    r7 = func_02158F58()[1];
+    r7 = func_02158F58(func_0215A5F4(b))[1];
     s8 = func_02159AE8(a, b);
     r6 = func_02159AE8(a, b);
     sc = func_02159B10(a, b);

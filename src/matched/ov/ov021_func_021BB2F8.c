@@ -22,7 +22,7 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern int func_020490A8(int);
+extern int func_020490A8(int a, u32 b);
 extern void *func_02030734(u16, int, int, void *, int);
 extern void func_02048F4C(void *, int, u32);
 extern void func_021BB278(u32, void *, u32);
@@ -31,7 +31,7 @@ extern int d_021DE2D0;
 
 void func_021BB2F8(u32 a, u32 b, u32 c)
 {
-    int n = func_020490A8(0x6d);
+    int n = func_020490A8(0x6d, b);
     void *p = func_02030734(((u16)c & 0x7FFF) | 0x8000, n, 1, &d_021DE2D0, 0xdd);
 
     func_02048F4C(p, 0x6d, b);

@@ -19,7 +19,7 @@
 
 typedef void (*Handler)(void *p);
 
-extern void *func_02188C80(void);
+extern void *func_02188C80(void *p);
 extern void *func_020120F4(void *p);
 extern void *func_02012EC4(void *p);
 extern int func_0200B3AC(void *p);
@@ -29,7 +29,7 @@ void func_021BE258(void *p)
 {
     int i;
 
-    i = func_0200B3AC(func_02012EC4(func_020120F4(func_02188C80())));
+    i = func_0200B3AC(func_02012EC4(func_020120F4(func_02188C80(p))));
     if (i != -1 && d_021D9E74[i] != 0)
         d_021D9E74[i](p);
 }

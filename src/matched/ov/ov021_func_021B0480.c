@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02159190  0x02159190  thumb  ov010
@@ -23,21 +23,23 @@
 typedef unsigned int u32;
 
 extern u32 func_02159190(u32);
-extern void func_0215A61C(u32);
-extern void func_02191008(void);
+extern u32 func_0215A61C(u32);
+extern int func_02191008(u32 a);
 extern u32 func_0215A630(u32);
-extern void func_0202F038(void);
+extern void func_0202F038(void *p);
 extern void func_0215A624(u32, u32);
 extern void func_0215A614(u32, u32);
 extern void func_02159168(u32);
 
 void func_021B0480(u32 a)
 {
+    u32 t;
+
     if (func_02159190(1)) {
-        func_0215A61C(a);
-        func_02191008();
-        if (func_0215A630(a)) {
-            func_0202F038();
+        func_02191008(func_0215A61C(a));
+        t = func_0215A630(a);
+        if (t) {
+            func_0202F038((void *)t);
             func_0215A624(a, 0);
         }
         func_0215A614(a, 0);

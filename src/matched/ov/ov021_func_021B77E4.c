@@ -20,7 +20,7 @@ typedef unsigned char u8;
 
 struct Ent { u8 pad00[0xB3]; u8 fB3; };
 
-extern int func_0200A0E4(void *a);
+extern int func_0200A0E4(void *p, void *a);
 extern int func_0200A104(void *a, void *b);
 extern int func_0200A000(void *a, void *b, struct Ent *c);
 
@@ -28,7 +28,7 @@ struct Ent *func_021B77E4(void *a, void *b, struct Ent *c)
 {
     u8 v;
 
-    if (func_0200A0E4(a) == 0)
+    if (func_0200A0E4(a, b) == 0)
         return 0;
     if (func_0200A104(a, b) == 1)
         return 0;

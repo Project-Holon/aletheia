@@ -20,7 +20,7 @@
 
 extern int func_02159190(int);
 extern int func_0215A61C(void *);
-extern void func_021915B4(void);
+extern int func_021915B4(int a);
 extern void func_0215A614(void *, int);
 extern void func_02159168(int);
 
@@ -28,8 +28,7 @@ void func_021B10A4(void *p)
 {
     int n = 3;
     if (func_02159190(3) != 0) {
-        func_0215A61C(p);
-        func_021915B4();
+        func_021915B4(func_0215A61C(p));
         func_0215A614(p, 0);
         func_02159168(n);
     }

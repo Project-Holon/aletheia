@@ -20,10 +20,10 @@
  *   d_021D9D98     0x021D9D98  data  ov021  a4
  */
 
-extern void func_02188C80(void);
-extern void func_020120F4(void);
-extern void func_02012EC4(void);
-extern int func_0200B3AC(void);
+extern void *func_02188C80(void *p);
+extern void *func_020120F4(void *p);
+extern void *func_02012EC4(void *p);
+extern int func_0200B3AC(void *p);
 extern void func_02034A5C(void *);
 
 extern void (*d_021D9BE0[])(void *);
@@ -33,10 +33,7 @@ void func_021BE218(void *arg)
 {
     int i;
 
-    func_02188C80();
-    func_020120F4();
-    func_02012EC4();
-    i = func_0200B3AC();
+    i = func_0200B3AC(func_02012EC4(func_020120F4(func_02188C80(arg))));
     if (i != -1) {
         if (d_021D9BE0[i] != 0) {
             d_021D9BE0[i](arg);

@@ -16,13 +16,12 @@
  */
 
 extern int func_021A3074(int x);
-extern int func_0216D454(void);
+extern int func_0216D454(int a0);
 extern int func_0216D5A0(int x);
 
 int func_021AE4E0(int *p)
 {
-    func_021A3074(p[0x34 / 4]);
-    if (func_0216D454() == 0)
+    if (func_0216D454(func_021A3074(p[0x34 / 4])) == 0)
         return 0;
     p[0] = 3;
     switch (func_0216D5A0(p[2])) {

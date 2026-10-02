@@ -41,7 +41,7 @@ extern u8 d_021D9238[];
 extern int d_021D9240[];
 
 extern int func_021ABE14(int a);
-extern int func_02188CFC(void);
+extern unsigned int func_02188CFC(u8 *p);
 extern int func_021ABEA0(int a, int b);
 extern void *func_02082BCC(void *p, u8 v, unsigned n);
 extern int func_02188C7C(int a);
@@ -55,7 +55,7 @@ u8 func_021ADAAC(int a, int b, int c, int d, int e, int f)
     L l;
 
     t = func_021ABE14(b);
-    if (func_02188CFC() != 0) {
+    if (func_02188CFC((u8 *)t) != 0) {
         return 0;
     }
     k = d_021D9238[f];

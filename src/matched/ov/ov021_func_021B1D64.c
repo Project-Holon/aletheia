@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_0215A5F4(u32);
-extern u32 *func_02158F58();
+extern u32 *func_02158F58(u32);
 extern u32 func_02188D38(u32);
 extern int func_02159B10(u32, u32);
 extern u32 func_02188CB4(u32);
@@ -46,8 +46,7 @@ int func_021B1D64(u32 a, u32 b)
     int zero;
     u32 w;
 
-    func_0215A5F4(b);
-    x = func_02158F58()[1];
+    x = func_02158F58(func_0215A5F4(b))[1];
     y = func_02188D38(x);
     neg = func_02159B10(a, b);
     p = func_02159B10(a, b);

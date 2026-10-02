@@ -20,7 +20,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern char *func_02020D0C(void);
+extern char *func_02020D0C(void *p);
 extern void func_020202FC(u32 a, u16 *b, u16 *c);
 extern void func_0204B404(u32 a, u16 *b, u32 c);
 extern void func_021B4264(char *w, u32 a);
@@ -32,7 +32,7 @@ void func_021B468C(u32 a, u32 idx)
     char *w;
     char *t;
 
-    w = func_02020D0C();
+    w = func_02020D0C((void *)a);
     func_020202FC(a, &v[1], &v[0]);
     v[2] = 0xAC;
     v[3] = v[0] * 16 + 0x16;

@@ -24,7 +24,7 @@ typedef unsigned short u16;
 
 extern u32 func_021ABE24(u32);
 extern u32 func_02046E24(u32, u32);
-extern void func_02046FF8(void);
+extern int func_02046FF8(int *self);
 extern u32 func_02047400(u32, u32, u32);
 extern u32 func_0204767C(u32, u32, u32);
 extern u32 d_021D9A6C[];
@@ -36,7 +36,7 @@ void func_021BB4BC(u32 *p)
 
     for (i = 0; i < 4; i++) {
         p[1 + i] = func_02046E24(h, d_021D9A6C[i]);
-        func_02046FF8();
+        func_02046FF8((int *)p[1 + i]);
         p[5 + i] = func_02047400(p[1 + i], 0, p[1 + i]);
         p[9 + i] = func_0204767C(p[5 + i], 0, 0);
     }

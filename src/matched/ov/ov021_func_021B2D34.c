@@ -21,7 +21,7 @@
  * Addresses are Black-image addresses.
  */
 
-extern unsigned short *func_02159AE8();
+extern unsigned short *func_02159AE8(int a0, int a1);
 extern int func_02159B10(int a, int b);
 extern int func_0215A5DC(int a);
 extern int func_0201210C(int a);
@@ -32,7 +32,7 @@ extern int func_0218BACC(int a, int b);
 
 int func_021B2D34(int a, int b)
 {
-    unsigned short *out = func_02159AE8();
+    unsigned short *out = func_02159AE8(a, b);
     int f = func_02159B10(a, b);
     int x = func_02159B10(a, b);
     int y = func_02159B10(a, b);

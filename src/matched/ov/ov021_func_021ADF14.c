@@ -26,7 +26,7 @@ extern u16 d_021DE120;
 
 extern int func_021ABE24(int a);
 extern int func_02046E24(int a, int b);
-extern void func_02046FF8(void);
+extern int func_02046FF8(int *self);
 extern int func_02047400(int a, int b, int c);
 extern int func_02047564(int a, int b, int c);
 extern int func_0204767C(int a, int *b, int c);
@@ -36,8 +36,7 @@ void func_021ADF14(int *p)
 {
     int r5 = func_021ABE24(p[0]);
 
-    p[1] = func_02046E24(r5, 0x54);
-    func_02046FF8();
+    func_02046FF8((int *)(p[1] = func_02046E24(r5, 0x54)));
     p[2] = func_02046E24(r5, d_021DE120);
     p[5] = func_02047400(p[1], 0, p[1]);
     p[4] = func_02047564(p[5], p[2], 0);

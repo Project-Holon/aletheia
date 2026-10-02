@@ -22,9 +22,9 @@
 typedef signed short s16;
 
 int func_0215A5F4(int b);
-int *func_02158F58(void);
-void func_02188CB4(int a);
-int func_021A3074(void);
+int *func_02158F58(int a);
+int func_02188CB4(int a);
+int func_021A3074(int p);
 s16 *func_02159AE8(int a, int b);
 s16 func_0216D83C(int a);
 s16 func_0216D86C(int a);
@@ -35,9 +35,7 @@ int func_021B17B4(int a, int b)
     s16 *r6;
     s16 *r4;
 
-    func_0215A5F4(b);
-    func_02188CB4(func_02158F58()[1]);
-    r5 = func_021A3074();
+    r5 = func_021A3074(func_02188CB4(func_02158F58(func_0215A5F4(b))[1]));
     r6 = func_02159AE8(a, b);
     r4 = func_02159AE8(a, b);
     *r6 = func_0216D83C(r5);

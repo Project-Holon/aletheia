@@ -20,7 +20,7 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-void func_021BD0A0(void *p);
+void func_021BD0A0(void *p, int v);
 void func_021BD0A8(void *p);
 void func_021BD0C8(void *p);
 extern void func_02040588(int a, int b);
@@ -28,7 +28,7 @@ void func_021BC92C(void *p);
 
 void func_021BCB9C(void *p, int keep)
 {
-    func_021BD0A0(p);
+    func_021BD0A0(p, keep);
     func_021BD0A8(p);
     func_021BD0C8(p);
     if (keep == 0) {

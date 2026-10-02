@@ -45,24 +45,21 @@ typedef struct P {
 extern u8 func_021ABE28(int a);
 extern void func_021AD82C(void *a, void *b, int c);
 extern int func_02046E24(int a, int b);
-extern void func_02046FF8(void);
+extern int func_02046FF8(int *self);
 
 void func_021AD8DC(P *a, Desc *d, int c)
 {
     int r7;
 
     r7 = func_021ABE28(a->f0);
-    a->f8 = func_02046E24(c, d->h4 + r7);
-    func_02046FF8();
+    func_02046FF8((int *)(a->f8 = func_02046E24(c, d->h4 + r7)));
     a->f18 = func_02046E24(c, d->h6 + r7);
     func_021AD82C((char *)a + 0x28, a, 0);
     r7 += d->mid;
-    a->fc = func_02046E24(c, d->h4 + r7);
-    func_02046FF8();
+    func_02046FF8((int *)(a->fc = func_02046E24(c, d->h4 + r7)));
     a->f1c = func_02046E24(c, d->h6 + r7);
     func_021AD82C((char *)a + 0x40, a, 1);
-    a->f10 = func_02046E24(c, d->h4);
-    func_02046FF8();
+    func_02046FF8((int *)(a->f10 = func_02046E24(c, d->h4)));
     a->f20 = func_02046E24(c, d->h6);
     func_021AD82C((char *)a + 0x58, a, 2);
 }

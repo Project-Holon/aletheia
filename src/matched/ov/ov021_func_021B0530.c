@@ -39,7 +39,7 @@ extern u32 func_02158F7C(u32);
 extern void func_02045CAC(u32, u32, u32);
 extern void func_0201F250(u32, u32, u32);
 extern u32 func_0215A61C(u32);
-extern void func_02191164(void);
+extern void func_02191164(void *p);
 extern void func_02191184(u32, u32, u32, u32);
 
 int func_021B0530(u32 a, u32 b)
@@ -56,7 +56,7 @@ int func_021B0530(u32 a, u32 b)
     func_02045CAC(y, x, w);
     func_0201F250(z, s, w);
     y = func_0215A61C(b);
-    func_02191164();
+    func_02191164((void *)y);
     func_02191184(y, 0, 0, s);
     return 0;
 }

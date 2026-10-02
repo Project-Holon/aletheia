@@ -27,9 +27,9 @@ typedef struct {
 } Ctx;
 
 extern int func_0215A5F4();
-extern int func_0215A5E4();
-extern int func_02012EBC();
-extern int func_0200C0F0();
+extern int func_0215A5E4(int a0);
+extern int func_02012EBC(int p);
+extern int func_0200C0F0(int sys);
 extern int func_02158F74();
 extern int func_0200C1C4();
 extern int func_0201EFA4();
@@ -42,9 +42,7 @@ int func_021AFC88(Ctx *a0, int a1)
     u8 *p;
     int b;
 
-    func_0215A5E4(a1);
-    func_02012EBC();
-    h = func_0200C0F0();
+    h = func_0200C0F0(func_02012EBC(func_0215A5E4(a1)));
     r = func_02158F74(t);
     p = a0->cur;
     b = *p;

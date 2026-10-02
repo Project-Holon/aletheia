@@ -34,7 +34,7 @@ typedef struct {
     u32 v;
 } Ent;
 
-extern char *func_02020D0C(void);
+extern char *func_02020D0C(void *p);
 extern int func_02007F68(u32 a, u32 b, u32 c, u32 d);
 extern u32 func_0201D304(u32 a, u32 b, u32 c);
 extern u32 func_02045770(u32 a);
@@ -43,13 +43,13 @@ extern void func_021B44CC(u32 a, u32 b, int c, int d, u32 e, u32 f, u16 g);
 extern void func_0201EFA4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void func_0201F250(u32 a, u32 b, u32 c);
 
-void func_021B45A0(u32 unused, int a, u8 b)
+void func_021B45A0(u32 ctx, int a, u8 b)
 {
     char *w;
     u32 lo;
     int hi;
 
-    w = func_02020D0C();
+    w = func_02020D0C((void *)ctx);
     if (a != -2) {
         if (func_02007F68(*(u32 *)(w + 0x10), ((Ent *)(w + 0x20))[a].id, 1, *(u16 *)(w + 4)) != 0) {
             lo = func_0201D304(*(u32 *)(w + 0x1A0), *(u32 *)(w + 8), 0);
