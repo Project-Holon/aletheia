@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * symbols:
  *   func_02012138  0x02012138  thumb
  *   func_020120F8  0x020120F8  thumb
@@ -54,8 +54,8 @@ extern u32   func_0201214C(struct IcaAnime *p);
 extern u32   func_02158318(struct IcaAnime *p);
 extern u32   func_02035390(void);
 extern u32   func_020353B0(void);
-extern void  func_0200921C(void *h);
-extern u32   func_020090E0(void);
+extern void *func_0200921C(void *h);
+extern u8    func_020090E0(void *obj);
 
 u32 func_02012164(struct IcaAnime *p)
 {
@@ -69,8 +69,7 @@ u32 func_02012164(struct IcaAnime *p)
      && func_0201214C(p) == 1
      && func_02158318(p) == 1
      && !(func_02035390() == 1 && func_020353B0() == 1)) {
-        func_0200921C(p->f1c);
-        if (func_020090E0() != 0) {
+        if (func_020090E0(func_0200921C(p->f1c)) != 0) {
             return 1;
         }
     }

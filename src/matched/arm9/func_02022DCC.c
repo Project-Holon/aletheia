@@ -27,7 +27,7 @@
 
 typedef unsigned int u32;
 
-extern void func_02023CFC(void *a0, u32 a1);
+extern void func_02023CFC(void *table, void *val, u32 idx);
 extern void func_02023D18(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
 extern void func_02023D60(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5,
                           u32 a6);
@@ -36,10 +36,10 @@ extern void func_02023D40(void *a0, u32 a1, u32 a2, u32 a3);
 void func_02022DCC(u32 a0, void *a1, u32 a2)
 {
     if (a0 == 0) {
-        func_02023CFC(a1, 0);
+        func_02023CFC(a1, (void *)0, a2);
         return;
     }
-    func_02023CFC(a1, 1);
+    func_02023CFC(a1, (void *)1, a2);
     func_02023D18(a1, 0x3f, 0, 0, a2);
     func_02023D60(a1, 0, 0, 0, 0, 0, a2);
     func_02023D40(a1, 0x20, 0, a2);

@@ -71,9 +71,9 @@ extern void *g_02146248;
 extern void  func_02011FB8(void *p, u32 a, u32 b);
 extern u32   func_0215FA00(void *p, u32 a);
 extern void  func_02012108(void *p, u32 v);
-extern void  func_020120F4(void *p);
-extern void  func_02012F08(void);
-extern s32   func_0200C258(void);
+extern void *func_020120F4(void *p);
+extern void *func_02012F08(void *sys);
+extern s32   func_0200C258(void *p);
 extern void  func_02011D40(void);
 extern void  func_02011D28(void);
 extern void  func_02011D60(void);
@@ -117,9 +117,7 @@ u32 func_02011D9C(void *a0, u32 a1, u32 a2)
     func_02011FB8(p, 3, a2);
     func_02012108(p, func_0215FA00(p, a2));
     if ((base + off) % 0x12af != 0) {
-        func_020120F4(p);
-        func_02012F08();
-        n = func_0200C258();
+        n = func_0200C258(func_02012F08(func_020120F4(p)));
         for (i = 0; i < n; i++)
             func_02011D40();
     }

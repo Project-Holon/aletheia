@@ -10,4 +10,4 @@
  * status:   EXACT
  */
 
-int func_02012BF8(int a0, int a1, int a2, int a3){ int t0, t1, t2; t0 = func_02012EC0(); t1 = func_0200C404((int)t0); t2 = func_0200C44C((int)t1, (int)((a1 + 0) + 0)); return t2; }
+int func_02012BF8(int a0, int a1){ int t0, t1, t2; t0 = func_02012EC0(a0); t1 = func_0200C404((int)t0); t2 = func_0200C44C((int)t1, (int)((a1 + 0) + 0)); return t2; }

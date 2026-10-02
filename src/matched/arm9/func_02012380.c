@@ -24,7 +24,7 @@
 
 extern void *sub_02012104(void *p);
 extern void  sub_02012108(void *p, int x);
-extern int   sub_02012304(void);
+extern int   sub_02012304(void *v);
 extern void  sub_02012314(void *v);
 extern int   sub_020124F0(void *v);
 
@@ -37,7 +37,7 @@ int func_02012380(void *p)
         v = sub_02012104(p);
         if (v == 0)
             return 0;
-        switch (sub_02012304()) {
+        switch (sub_02012304(v)) {
         case 0:
             return 0;
         case 1:

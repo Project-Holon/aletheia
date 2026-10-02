@@ -19,8 +19,8 @@
  *
  * ica_anime.c: the third constructor (line 0x90 of "ica_anime.c").  The
  * object is 0x38 bytes and the four-argument initialiser gets the heap back
- * as its last argument, which is where r3 = r5 comes from.  func_020116C0 is
- * called with no argument of its own: r0 still holds the allocator's result.
+ * as its last argument, which is where r3 = r5 comes from.  func_020116C0 gets
+ * the object straight from the allocator, which is why no move precedes it.
  *
  * The tail is the pair every one of these constructors ends with -
  * func_02011770(p, p->f0c) and func_0201183C(p, 0).
@@ -52,7 +52,7 @@ struct IcaAnime {
 extern u8 sIcaAnimeFile;
 
 extern void  *func_02030734(u32 heap, u32 size, u32 align, u8 *file, u32 line);
-extern void   func_020116C0(void);
+extern void   func_020116C0(struct IcaAnime *p);
 extern void   func_020116E0(struct IcaAnime *p, u32 a1, u32 a2, u32 heap);
 extern void   func_02011770(struct IcaAnime *p, u32 v);
 extern void   func_0201183C(struct IcaAnime *p, s32 v);
@@ -62,7 +62,7 @@ void *func_020114D0(u32 heap, u32 a1, u32 a2)
     struct IcaAnime *p;
 
     p = func_02030734(heap, 0x38, 0, &sIcaAnimeFile, 0x90);
-    func_020116C0();
+    func_020116C0(p);
     func_020116E0(p, a1, a2, heap);
     func_02011770(p, p->f0c);
     func_0201183C(p, 0);

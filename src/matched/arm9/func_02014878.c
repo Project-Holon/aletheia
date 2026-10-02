@@ -51,7 +51,7 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern void func_020120B4(u32 a0, u32 a1, void *a2, u32 a3);
-extern u32  func_020120F0(void);
+extern u32  func_020120F0(u32 ctx);
 extern u8   ov091_id[];
 extern u8   ov131_id[];
 
@@ -65,7 +65,7 @@ u32 func_02014878(u32 a0, u32 *mode, u32 *p)
         *mode = 1;
         break;
     case 1:
-        if (func_020120F0() != 0)
+        if (func_020120F0(v) != 0)
             break;
         *mode = 2;
         break;
@@ -86,7 +86,7 @@ u32 func_02014878(u32 a0, u32 *mode, u32 *p)
         *mode = 4;
         break;
     case 4:
-        if (func_020120F0() != 0)
+        if (func_020120F0(v) != 0)
             break;
         *(u32 *)(p[2] + 0x3c) = *(u8 *)(p[3] + 0xf);
         *mode = 0;

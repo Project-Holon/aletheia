@@ -11,13 +11,14 @@
  * blocker:  0200D2D8 - not matched yet; this call at 0x0200D29A is the only branch to it in the image, so matching 0x0200D2D8 (pkt_0200D2D8) would convert the site to the `matched` class.  All 24 bytes right.
  */
 
+typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_0200D2D8(void);
+extern u16 func_0200D2D8(void *a0);
 
-int func_0200D298(void)
+int func_0200D298(void *a0)
 {
-    u32 v = func_0200D2D8();
+    u32 v = func_0200D2D8(a0);
 
     if (v >= 0x27a)
         return 1;

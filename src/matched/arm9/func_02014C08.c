@@ -48,7 +48,7 @@
  */
 extern void func_020649D4(char *member, int value);
 extern void func_02016374(char *w);
-extern void func_020169E8(char *self);
+extern void func_020169E8(char *self, char *entry);
 
 typedef struct B1 { unsigned int b0 : 1; } B1;
 
@@ -63,7 +63,7 @@ void func_02014C08(char *self)
             func_020649D4((char *)(*(int *)(*(int *)(self + 0x14) + i * 4) + 0x34),
                           *(int *)(*(int *)(*(int *)(self + 0x14) + i * 4) + 0x174));
         if (((*(unsigned int *)(*(int *)(*(int *)(self + 0x14) + i * 4) + 0x140) << 0x13) >> 0x1f) != 0)
-            func_020169E8(self);
+            func_020169E8(self, (char *)(*(int *)(*(int *)(self + 0x14) + i * 4)));
         if (((B1 *)(*(int *)(*(int *)(self + 0x14) + i * 4) + 0x144))->b0 == 1) {
             func_02016374((char *)(*(int *)(*(int *)(self + 0x14) + i * 4)));
             func_020649D4((char *)(*(int *)(*(int *)(self + 0x14) + i * 4) + 0x34), 0);

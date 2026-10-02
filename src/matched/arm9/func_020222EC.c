@@ -69,14 +69,14 @@ struct G {
 
 extern struct G g_021467A4;
 
-extern u16  func_02022608(void);
+extern u16  func_02022608(struct G *g);
 extern void func_02022670(struct Sub *s);
 extern void func_020226A0(struct G *g);
 
 void func_020222EC(struct G *p)
 {
     p->f14C = 0;
-    p->f150 = func_02022608();
+    p->f150 = func_02022608(p);
     if (p->f0C != 0) {
         func_02022670(&p->f14);
         if (p->f14.f28 == 0)

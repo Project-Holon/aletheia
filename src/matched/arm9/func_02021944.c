@@ -10,7 +10,9 @@
  * status:   EXACT
  */
 
+typedef unsigned char  u8;
 typedef unsigned short u16;
+typedef unsigned int   u32;
 
 struct S02021944 {
     char pad[0x11a];
@@ -18,11 +20,11 @@ struct S02021944 {
     u16 hi : 2;
 };
 
-extern int func_02021930(int a0);
+extern u8 func_02021930(u32 val, int bit);
 
 void func_02021944(struct S02021944 *p, int a1)
 {
-    if (func_02021930(p->lo) == 1)
+    if (func_02021930(p->lo, a1) == 1)
         return;
     p->lo |= 1 << a1;
 }

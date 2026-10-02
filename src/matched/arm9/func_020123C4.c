@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  */
 
-int func_020123C4(int a0, int a1, int a2, int a3){ int t0; t0 = func_02012104(); if ((unsigned int)(t0) != (unsigned int)(0)) {  return 1; } else {  return 0; } }
+int func_020123C4(int a0){ int t0; t0 = func_02012104(a0); if ((unsigned int)(t0) != (unsigned int)(0)) {  return 1; } else {  return 0; } }

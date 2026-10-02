@@ -14,12 +14,10 @@
  *   func_0207D534  0x0207D534  arm
  *
  * Selects one of two hardware register addresses (0x0400006C, 0x0400106C:
- * the two DS display engines' BLDCNT-adjacent blend registers) from its
- * first argument and passes it straight to func_0207D534.  The second
- * argument is never read: every caller in this packet passes a colour
- * value here that this function ignores entirely
- * (docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-
- * leftovers.md).
+ * the master brightness registers of the two DS display engines) from its
+ * first argument and passes it to func_0207D534 together with the second
+ * argument, the brightness level, which stays in r1 untouched (an argument
+ * passed through a register must be named in the C).
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_020222CC.c \
@@ -28,13 +26,13 @@
 
 typedef unsigned int u32;
 
-extern void func_0207D534(u32 addr);
+extern void func_0207D534(u32 reg, int brightness);
 
-void func_020222CC(u32 which, u32 unused)
+void func_020222CC(u32 which, int brightness)
 {
     if (which == 0) {
-        func_0207D534(0x0400006C);
+        func_0207D534(0x0400006C, brightness);
     } else {
-        func_0207D534(0x0400106C);
+        func_0207D534(0x0400106C, brightness);
     }
 }

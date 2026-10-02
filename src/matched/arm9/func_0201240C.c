@@ -31,7 +31,7 @@ typedef unsigned int u32;
 
 extern u32  func_020124E4(void *o);
 extern void func_020120B4(u32 a, u32 b, u32 c, u32 d);
-extern int  func_020120F0(void);
+extern int  func_020120F0(void *ctx);
 
 int func_0201240C(void *o, u32 *state, u32 *item)
 {
@@ -43,7 +43,7 @@ int func_0201240C(void *o, u32 *state, u32 *item)
         *state = *state + 1;
         break;
     case 1:
-        if (func_020120F0() == 0)
+        if (func_020120F0((void *)v) == 0)
             return 1;
         break;
     }

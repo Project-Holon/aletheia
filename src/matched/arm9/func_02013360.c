@@ -52,7 +52,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32  func_0200873C(u32 a);
-extern u32  func_0200C0E8(void);
+extern u32  func_0200C0E8(u32 sys);
 extern u32  func_0200C258(u32 a);
 extern u32  func_0200CA1C(void *a);
 extern u32  func_02012924(void *a);
@@ -101,7 +101,7 @@ void func_02013360(u8 *o, void *a1, const void *a2)
     *(u32 *)(o + 0x70) = func_02012F20(a1);
     *(u32 *)(o + 0x6c) = func_02012F2C(a1);
     t = func_02012EBC(a1);
-    u = func_0200C0E8();
+    u = func_0200C0E8(t);
     *(u32 *)(o + 0x5c) = func_0200873C(t);
     *(o + 0x80) = (u8)func_0200C258(u);
     func_02082D44(a2, o + 8, 0x10);

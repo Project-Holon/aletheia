@@ -36,7 +36,7 @@
 
 typedef unsigned int u32;
 
-extern int   func_02005CE0(void);
+extern int   func_02005CE0(void *arg);
 extern void  func_02005D14(void);
 extern int   func_02005924(u32 a);
 extern void *sub_0200590C(void);
@@ -49,7 +49,7 @@ void *func_02005D34(u32 a0, u32 a1)
     int   zero;
 
     zero = 0;
-    if (func_02005CE0() == 0) {
+    if (func_02005CE0((void *)a0) == 0) {
         return 0;
     }
     func_02005D14();

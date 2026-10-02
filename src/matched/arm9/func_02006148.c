@@ -27,7 +27,7 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u8 *func_0207430C(void);
+extern u8 *func_0207430C(int index);
 
 int func_02006148(u32 a0)
 {
@@ -40,5 +40,5 @@ int func_02006148(u32 a0)
 fail:
     return 1;
 ok:
-    return func_0207430C()[5] - 1;
+    return func_0207430C(a0)[5] - 1;
 }

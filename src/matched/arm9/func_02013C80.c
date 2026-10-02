@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  */
 
-int func_02013C80(int a0, int a1, int a2, int a3){ int t0, t1; t0 = func_02013A94(); t1 = func_02013C9C((int)t0); if ((unsigned int)(t1) != (unsigned int)(~0)) {  return 1; } else {  return 0; } }
+int func_02013C80(int a0){ int t0, t1; t0 = func_02013A94(a0); t1 = func_02013C9C((int)t0); if ((unsigned int)(t1) != (unsigned int)(~0)) {  return 1; } else {  return 0; } }

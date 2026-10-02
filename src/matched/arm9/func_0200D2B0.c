@@ -15,11 +15,11 @@
 
 typedef unsigned int u32;
 
-extern u32 func_0200D310(void);
+extern int func_0200D310(void *a0, int a1);
 
-int func_0200D2B0(void)
+int func_0200D2B0(void *a0, int a1)
 {
-    u32 v = func_0200D310();
+    u32 v = func_0200D310(a0, a1);
 
     if (v >= 0x96)
         return 1;

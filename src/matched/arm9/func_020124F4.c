@@ -116,8 +116,8 @@ extern u32   func_02008468(void);
 extern void *func_02012944(void *p);
 extern void *func_02008730(u32 h);
 extern void *memcpy(void *dst, const void *src, u32 n);
-extern u32   func_0216237C(int heap);
-extern void  func_021623DC(void);
+extern void *func_0216237C(int heap);
+extern void  func_021623DC(void *p);
 extern u32   func_02012FE4(u32 h);
 extern u32   func_02159B48(int heap);
 extern u32   func_020071CC(u32 h, u32 id);
@@ -145,6 +145,7 @@ void *func_020124F4(u16 heap)
     int i;
     u32 n;
     void *src;
+    void *obj;
 
     p = func_02030734(heap, 0x6B0, 1, g_020A728C, 0xAD);
     *(u32 *)p = func_020070A4();
@@ -167,8 +168,8 @@ void *func_020124F4(u16 heap)
     src = func_02012944(p);
     memcpy(func_02008730(*(u32 *)p), src, n);
 
-    *(u32 *)(p + 0x158) = func_0216237C(heap);
-    func_021623DC();
+    *(void **)(p + 0x158) = obj = func_0216237C(heap);
+    func_021623DC(obj);
     *(u32 *)(p + 0x1AC) = func_02012FE4(*(u32 *)p);
     *(u32 *)(p + 0x1B0) = func_02159B48(heap);
     *(u32 *)(p + 0x1A8) = func_0216CC58(heap, 0x40, func_020071CC(*(u32 *)p, 0x33));

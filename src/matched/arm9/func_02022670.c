@@ -44,13 +44,13 @@ struct Screen {
     void *f2C;
 };
 
-extern void func_0202223C(void *win);
+extern void func_0202223C(void *win, u32 color);
 extern void func_02022224(void *win);
 
 void func_02022670(struct Screen *s)
 {
     if (s->f28 == 1 && (s->f24 == 0x7FFF || s->f24 == 0) && s->f2C == 0) {
-        func_0202223C(s->f10);
+        func_0202223C(s->f10, s->f24);
         func_02022224(s->f10);
     }
 }

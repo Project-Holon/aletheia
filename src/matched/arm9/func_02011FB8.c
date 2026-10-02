@@ -14,7 +14,7 @@
  *   func_020267BC     0x020267BC  thumb
  *   func_02021438     0x02021438  thumb
  *
- * The object goes through func_02011F28 with r0 untouched, then one field
+ * The object goes through func_02011F28 with r0-r2 untouched, then one field
  * destructor and a global call.
  *
  * blocker:  label.  Two calls with no outside witness: 0x02011F28 at +0x04
@@ -47,13 +47,13 @@ struct IcaAnime {
     u32 f2c;        /* +0x2C */
 };
 
-extern void func_02011F28(struct IcaAnime *p);
+extern void func_02011F28(struct IcaAnime *p, u16 id, u32 a2);
 extern void func_020267BC(u32 v);
 extern void func_02021438(void);
 
-void func_02011FB8(struct IcaAnime *p)
+void func_02011FB8(struct IcaAnime *p, u16 id, u32 a2)
 {
-    func_02011F28(p);
+    func_02011F28(p, id, a2);
     func_020267BC(p->f1c);
     func_02021438();
 }

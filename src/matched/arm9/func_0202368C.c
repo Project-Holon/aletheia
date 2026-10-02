@@ -44,7 +44,7 @@ typedef struct Ctx {
     u32 h34;
 } Ctx;
 
-extern u32 func_0202290C(s32 a, s32 b);
+extern u32 func_0202290C(s32 a, s32 b, s32 c);
 extern void func_02022CEC(Ctx *ctx, u32 flag, u32 a2, u32 a3);
 extern void func_0202384C(Ctx *ctx);
 extern void func_020056A0(void *cb, Ctx *ctx, u32 v);
@@ -66,7 +66,7 @@ void func_0202368C(Ctx *ctx, const Par *par, u32 a2, u32 a3,
     s32 w;
     s32 h;
 
-    t = func_0202290C(par->f0, par->f2);
+    t = func_0202290C(par->f0, par->f2, a2);
     func_02022CEC(ctx, par->f8, s5, s8);
     ctx->c = par->f0 << 7;
     ctx->h30 = s6;

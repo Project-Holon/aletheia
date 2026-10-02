@@ -27,8 +27,8 @@ struct Obj;
 extern char *g_02146940;
 
 extern int  func_0203CD98(void);
-extern void func_02012FCC(void);
-extern s32  func_0200864C(void);
+extern void *func_02012FCC(u32 game);
+extern u16  func_0200864C(void *pt);
 extern void func_020272EC(s32 a);
 extern void func_02026824(struct Obj *o);
 
@@ -46,8 +46,7 @@ void func_02026728(void)
         return;
     }
     if (*(u32 *)p != 0) {
-        func_02012FCC();
-        v = func_0200864C();
+        v = func_0200864C(func_02012FCC(*(u32 *)p));
         if (*(u16 *)(p + 0xbb0) != v) {
             switch (v) {
             case 0xa:

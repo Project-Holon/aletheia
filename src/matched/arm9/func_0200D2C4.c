@@ -7,11 +7,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  */
 
-extern unsigned int func_0200D368(void);
-int func_0200D2C4(void)
+extern unsigned short func_0200D368(void *p, unsigned int heap);
+int func_0200D2C4(void *p, unsigned int heap)
 {
-    return func_0200D368() >= 0x96;
+    return func_0200D368(p, heap) >= 0x96;
 }
