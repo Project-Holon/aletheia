@@ -8,9 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 EFF48 output u32*, EFEEC int* and accessor pointer payloads copied from own files; 2 000C allocation proves Obj size/fields, no caller twin; 3 enabled u32 no change, flag widths/enum tried; 4 enum guard and repeated bound dead-store idioms applied; 5 neighbours/directory reread, explicit Rec best aggregate worsened 172 to 213.
- * residual: DIFF 1072/1072, 161 concrete bytes, all 24 relocations resolved. Best fields/sys/map/old-record spill positions and bestKind live register are wrong; sound tail now agrees.
+ * checks: 1 rederived own callees/primary matched callers, EFF48 three args/u32 out, EFEEC two args/int record, sound two/four args; 2 fresh 000C D4 allocation/EFF48/05A4 const data, no full twin; 3 u8 bestKind worsens1080/539, int bestKind unchanged161; const p/width enabled inapplicable stores preserve full word; 4 enum-zero and stack/dead-store idioms; 5 fresh 0124/05A4/neighbours/full directory; two scheduling variants exhausted.
+ * residual: DIFF 1072/1072, 161 concrete bytes; all 24 relocations resolved. Earlier kind initialization/declaration grouping and enum-kind schedule variants1076/807; enum kind at original site unchanged161; sound tail still agrees.
  * permuter: once, budget 300, types, jobs 1; baseline 172 agreed. Safe decl-order(score<->allowSound) plus temp(func_02013E7C(tile)) gave 161, confirmed by one and ported.
+ * next: best-record versus map/sys/old-record spill slots and bestKind zero register web remain.
  * symbols:
  *   func_02024ABC 0x02024ABC thumb
  *   func_02188C80 0x02188C80 thumb ov021

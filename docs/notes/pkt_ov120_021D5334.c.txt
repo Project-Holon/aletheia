@@ -8,11 +8,12 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 6E70 reads r1 pointer and unsigned r2; 2822C is Thumb; 2 4D28/57B0 callers and own callees checked; 3 unsigned changed/pos no improvement, writable p has no const lever; 4 switch-index, enum-offset and const-source idioms read, manual order cap exhausted; 5 directory and 4D28/6AEC/83DC/933C neighbours refreshed.
- * residual: 1068 versus 1060 bytes; 333 concrete bytes differ, chiefly touch-switch constant/register lifetime; sole unresolved overlay leaf 021D6E70 remains unfiled while this caller is DIFF.
+ * checks: 1 all own/caller arities rederived; 355C4/355D8 u8 and 35CB8 u32 outputs corrected; 2 4D28/57B0 twins reread; 3 unsigned changed unchanged at110; 4 enum offset plus independent post-call raw offsets reduced110 to34; destructive enum update worsened329; two scheduling variants used; 5 idiom directory and 4D28/7814 neighbours refreshed.
+ * residual: 1060 versus1060 bytes, 34 concrete bytes differ around touch-switch offset/register lifetime; sole unresolved overlay leaf021D6E70 remains unfiled while caller is DIFF.
  * data: original 88D8 is +8 into the 88D0 touch object attested by 4D28; first rectangle plus terminator occupy two words.
  * search: 300 permuter compiles once. Macro-free one baseline 333/1068/1 unresolved disagreed with emitted baseline 328/1068/3 unresolved; output adds volatile busy and is rejected. No accepted search mutant.
- * runs: 5 iterations + 2 checks + 1 macro-free baseline + permuter300.
+ * runs: prior5 iterations+2 checks+1 macro-free+permuter300; wave59 retry6 iterations+1 check3+2 check4+1 macro-free AST baseline. Earlier search mutant rejected, no repeated permuter.
+ * baseline: fresh macro-free AST-emitted best spelling agrees with fixed one: DIFF1060/34 concrete bytes,84 of85 relocation sites resolved. Prior search's emission discrepancy does not apply to this spelling.
  * symbols:
  *   func_021D6988 0x021D6988 thumb ov120
  *   func_021D7AF4 0x021D7AF4 thumb ov120
@@ -58,6 +59,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
+typedef enum {Field356=356} FieldOffset;
 extern u8 *func_021D6988(void *);
 extern int func_021D7AF4(char *);
 extern int func_021B6498(u8 *);
@@ -88,13 +90,13 @@ extern void func_021D7D3C(void *);
 extern void func_021D51D4(void);
 extern void func_021D52D4(void);
 extern void func_021D5208(void);
-extern int func_020355C4(void);
-extern int func_020362DC(void);
-extern void func_020355D8(int);
+extern u8 func_020355C4(void);
+extern u32 func_020362DC(void);
+extern void func_020355D8(u8);
 extern u32 func_0203633C(void);
 extern u32 func_02035C08(const void *);
 extern int func_02035BA4(const void *);
-extern int func_02035CB8(int *,int *);
+extern u32 func_02035CB8(u32 *,u32 *);
 extern void func_02040588(u32,u32);
 extern void func_020061E4(int);
 extern void func_0202822C(void *,int);
@@ -109,8 +111,10 @@ void func_021D5334(u8 *p)
     int changed=0;
     int status=0;
     u8 *q=func_021D6988(P(60));
-    int busy,i,result,x,y;
+    int busy,i,result;
+    u32 x,y;
     u32 pos;
+    FieldOffset offset;
     if(func_021D7AF4(P(64))==0) return;
         if(func_021B6498(q)==0) {
             busy=func_021D702C(P(60),&status);
@@ -181,10 +185,10 @@ void func_021D5334(u8 *p)
             case 2:if(S(336)<3) break;
             case 1:
             case 0:
-                if(S(336)<2) break;
-                func_020355D8(1);W(356)=changed+6;func_021D69F4(P(60),0,changed+6);
-                func_021D6A9C(P(60),S(356));W(328)=W(344)+W(356)-6;
-                func_021D6E70(P(60),(int *)(p+336),changed);
+                if(*(int *)((u32)p+336)<2) break;
+                func_020355D8(1);offset=Field356;W(offset)=changed+6;func_021D69F4(P(60),0,changed+6);
+                func_021D6A9C(P(60),S(offset));W(offset-28)=W(offset-12)+W(offset)-6;
+                func_021D6E70(P(60),(int *)(p+(offset-20)),changed);
                 func_021D733C(P(60),(int)(W(344)+W(356)-6),S(336));
                 func_020061E4(0x54c);func_021D5318(p);
                 func_021D4244((int)p,(int)func_021D51D4,0x78b);return;
@@ -210,5 +214,3 @@ void func_021D5334(u8 *p)
             func_021D4244((int)p,(int)func_021D5208,0x7ad);
         }
 }
-
-

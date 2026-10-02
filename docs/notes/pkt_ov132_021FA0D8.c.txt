@@ -1,0 +1,67 @@
+/*
+ * function: func_021FA0D8
+ * address: 0x021FA0D8
+ * packet: pkt_ov132_021FA0D8
+ * region: ov132
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own callee prototypes and scalar signed runtime ABI agree; 2 A4AC byte choices confirms arrays/counters, no closer twin; 3 const ctx no change, unsigned/long round both 5 bytes, enum adds guard; 4 spill/declaration/struct idioms fit current storage; 5 directory and A4AC/A3A8 reread; permuter300 emitted baseline DIFF5 (414 bytes), best unchanged.
+ * residue: round and row-times-12 spill slots exchange sp+4/sp+8 at +B0/D4/DC/114/118; compiled body 414, original extent 416 includes 2 alignment bytes.
+ * next: declaration-order budget exhausted; a distinct round loop counter or inline helper may alter spill lifetimes.
+ * division: retain scalar signed runtime helper on the admitted zero-total path.
+ * symbols:
+ *   func_0215725C 0x0215725C thumb ov010
+ *   func_02005728 0x02005728 thumb
+ *   func_021FA3A8 0x021FA3A8 thumb ov132
+ *   _s32_div_f 0x0209C0A4 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+extern u8 func_0215725C(u8 *,int);
+extern unsigned func_02005728(unsigned);
+extern int _s32_div_f(int,int);
+extern void func_021FA3A8(char *,u8 *,unsigned);
+void func_021FA0D8(char *p,const char *ctx)
+{
+    u16 total=0;
+    u8 bag[60];
+    u8 weights[4];
+    u8 counts[4]={0,0,0,0};
+    u8 row,col;
+    unsigned long round;
+    u8 n=0,i,j,k;
+    for(i=0;i<4;i++) {
+        weights[i]=func_0215725C(*(u8 **)(ctx+20),i);
+        total+=weights[i];
+    }
+    for(i=0;i<4;i++) {
+        counts[i]=_s32_div_f(60*weights[i],total);
+        n+=counts[i];
+    }
+    while(n<60) { counts[func_02005728(4)]++; n++; }
+    {
+        u8 pos=0;
+        for(i=0;i<4;i++) for(j=0;j<counts[i];j++) {bag[pos]=i;pos++;}
+    }
+    for(round=0;round<3;round=(u8)(round+1)) for(i=0;i<60;i++) {
+        j=func_02005728(60);
+        k=bag[i];
+        bag[i]=bag[j];
+        bag[j]=k;
+    }
+    for(row=0;row<5;row++) for(col=0;col<12;col++) {
+        u8 idx=col+row*12;
+        *(u8 *)(p+idx*8+0x20a)=col+2;
+        *(u8 *)(p+idx*8+0x20b)=row;
+        *(u8 *)(p+idx*8+0x206)=bag[idx];
+        *(u8 *)(p+idx*8+0x205)=func_02005728(60)+1;
+        *(u8 *)(p+idx*8+0x204)=255;
+        if(col<2) func_021FA3A8(p,(u8 *)p+0x204+idx*8,3);
+        else if(col<4) func_021FA3A8(p,(u8 *)p+0x204+idx*8,2);
+        else if(col<6) func_021FA3A8(p,(u8 *)p+0x204+idx*8,1);
+        else func_021FA3A8(p,(u8 *)p+0x204+idx*8,0);
+    }
+}

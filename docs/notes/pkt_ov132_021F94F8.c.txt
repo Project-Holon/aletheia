@@ -1,0 +1,55 @@
+/*
+ * function: func_021F94F8
+ * address:  0x021F94F8
+ * packet:   pkt_ov132_021F94F8
+ * region:   ov132
+ * compiler: 1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks: 1 FA558 takes 3, FA56C takes u8; 2 no ov132 twin; 3 wide j worsens, unsigned/enum callee zero unchanged; 4 zero-copy and enum-zero idioms tried; 5 neighbours reread, scalar spill only.
+ * blocker: 212/212, 4 bytes: copied zero in r4 and first-loop r2 become movs zero; permuter 300 baseline agrees, no improvement.
+ * symbols:
+ *   func_021FA558 0x021FA558 thumb ov132
+ *   func_021FA56C 0x021FA56C thumb ov132
+ */
+typedef unsigned char u8;
+typedef enum { ZERO } Zero;
+extern void func_021FA558(char *, int, Zero);
+extern void func_021FA56C(char *, u8);
+void func_021F94F8(char *p)
+{
+    u8 count, i, j, selected, index;
+    if (*(int *)(p + 0xEC) != 1) return;
+    count = 0;
+    i = 0;
+    j = count;
+    for (; i < 4; i++) func_021FA558(*(char **)(p + 0xB8), i, j);
+    func_021FA56C(*(char **)(p + 0xB8), 255);
+    *(u8 *)(p + 0xF1) = 4;
+    *(u8 *)(p + 0xF2) = 4;
+    for (; j < 4; j = (u8)(j + 1)) {
+        if (*(int *)(p + 0x94 + j * 4) != 0) {
+            selected = j;
+            count = (u8)(count + 1);
+        }
+    }
+    index = *(u8 *)(p + 0x11C);
+    if (index < 4) {
+        *(u8 *)(p + 0xF1) = index;
+        func_021FA558(*(char **)(p + 0xB8), index, 1);
+    } else if ((index = *(u8 *)(p + 0xF0)) < 4) {
+        *(u8 *)(p + 0xF1) = index;
+        func_021FA558(*(char **)(p + 0xB8), index, 1);
+    } else if (count == 1) {
+        *(u8 *)(p + 0xF2) = selected;
+        func_021FA56C(*(char **)(p + 0xB8), selected);
+    } else {
+        for (j = 0; j < 4; j = (u8)(j + 1)) {
+            if (*(u8 *)(p + 0xF3 + j) == 0)
+                func_021FA558(*(char **)(p + 0xB8), j, 1);
+        }
+    }
+    *(int *)(p + 0xEC) = 0;
+}

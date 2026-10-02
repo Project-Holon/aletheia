@@ -8,9 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 wide BE674 parameters and u16 F3DE4 animation index improve 578 to 574 bytes; 2 matched 3A34/404C/4610 confirm Work and audio flow; 3 u16 k worsens, u32 volume worsens; 4 spill-order/stack-struct/index idioms read; 5 same-overlay neighbours and idioms refreshed. Next: separate tail animation handle lifetime from the selector's spill.
+ * checks: 1 own/shared signatures rederived, BE674 j widened and F3E04 index u16; 2 3A34/4610 confirm Work, case6 byte is slot21F0 not cur21EC; 3 const a0 flat4 after casts (first CCERR counted); 4 index pinning235 then correct field4; 5 neighbours/idioms refreshed. Permuter temp(z)+expand(k) validated at2 with78/78 relocs.
  * runs: 3 iteration + 3 checks
- * residual: 574 concrete bytes; 1140/1128 (delta +12); stack k/animation slots, table field views and tail colours; d_021F4CF4 sole-reference remains unresolved.
+ * residual: R3 best1128/1128,2 concrete bytes,78/78 relocs; initial BE674 r2 uses j in r6 instead of reloading k fromsp8. Source has valid initialized tileZ and no volatile. Keeping initial k restores four-byte hold-store/arg-setup swap.
+ * retry: Wave59 R3: 10 fixed-flag runs plus permuter300 (baseline4; AST unresolved4 vs one0; candidate one2/0 validated).
  * symbols:
  *   func_020124E4 0x020124E4 thumb
  *   func_0201210C 0x0201210C thumb
@@ -75,11 +76,11 @@ extern u32 func_02188C80(void *);
 extern u32 func_020120F4(u32);
 extern u32 func_02012A30(u32);
 extern int func_02006148(u32);
-extern void *func_021BE674(int,int,int,int);
+extern void *func_021BE674(int,int,u32,int);
 extern u32 func_02012EC4(u32);
 extern void *func_0200B3A4(u32,u32);
 extern u32 func_02011428(u32,u32,u16,void *,u32);
-extern void func_021F3E04(void *,u8,u8,int);
+extern void func_021F3E04(void *,u8,u16,int);
 extern int func_021BE6B0(void *,int);
 extern void func_020061E4(u32);
 extern int func_021F3DE4(void *,u8,u16);
@@ -109,27 +110,28 @@ extern int func_0207CBD0(const Vec *);
 extern u32 d_021F4C38[];
 extern Vec d_021F4CF4;
 extern const Tile d_021F4C58[];
-int func_021F41A8(void *a0,u32 *state)
+int func_021F41A8(const void *a0,u32 *state)
 {
  void *sys,*o,*model;
  int h,j;
  Work *s;
  u32 w;
  int sound;
+ void *anim;
  u8 k,b;
  int id;
  Vec pos,v1,v2,delta;
- void *anim;
  int frame,next,limit;
  u8 volume;
- sys=func_0201210C(func_020124E4(a0));
+ u32 tileZ;
+ sys=func_0201210C(func_020124E4((void *)a0));
  h=func_02188D2C(sys);
  s=func_021897BC(sys,1);
  w=func_02012A30(func_020120F4(func_02188C80(sys)));
  sound=func_02006148(0x6db);
  j=(u8)(s->sel>>1);
  k=j;
- o=func_021BE674(h,0,k,0);
+ o=func_021BE674(h,0,j,0);
  func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(sys))),2);
  switch(*state) {
  case 0:
@@ -142,7 +144,7 @@ int func_021F41A8(void *a0,u32 *state)
  case 1:
   if(func_021F3DE4((void *)h,k,0)<0xf000) break;
   func_021BE6B0(o,1);
-  func_02158780(a0,13,0,0,0x8015);
+  func_02158780((void *)a0,13,0,0,0x8015);
   ++*state;
   break;
  case 2:
@@ -187,15 +189,17 @@ int func_021F41A8(void *a0,u32 *state)
   func_021BE6B0(o,1);
   q=func_02188CB4(sys);
   pos=d_021F4CF4;
-  pos.x=((u32)d_021F4C58[s->cur[j]].x<<16)+0x8000;
-  pos.z=((u32)(d_021F4C58[s->cur[j]].z-2)<<16)+0x8000;
+  id=(u8)s->slot[j];
+  pos.x=((u32)d_021F4C58[id].x<<16)+0x8000;
+  tileZ=d_021F4C58[id].z;
+  pos.z=((tileZ-2)<<16)+0x8000;
   func_021A3044(q,&pos);
   s->active=0;
   ++*state;
   break;
  }
  case 7:
-  func_02158780(a0,14,0,0,0x8015);
+  func_02158780((void *)a0,14,0,0,0x8015);
   ++*state;
   break;
  case 8:
@@ -257,5 +261,4 @@ int func_021F41A8(void *a0,u32 *state)
  func_02072F34(func_02006138(sound),volume);
  return 0;
 }
-
 

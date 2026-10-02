@@ -1,0 +1,188 @@
+/*
+ * function: func_021D6B40
+ * address: 0x021D6B40
+ * packet: pkt_ov125_021D6B40
+ * region: ov125
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 callee files/units checked; 7700 twelve-byte getter reads no input, narrow heap setters copied, status returns full words; 2 683C/7064/7154 twins read; 3 unsigned out inert140, enum index149 reverted; 4 enum Boolean preserves second compare, error switch preserves compare chain, shared-tail/frame idioms read; ordering variants exhausted (2), next hypothesis common result label after 885C; 5 full idiom directory and neighbours refreshed, no new twin; permuter 300 best1136/652 rejected volatile-add(result) and baseline disagreement136/2wild versus fixed140/0wild.
+ * residual: 1132 versus1136, 140 concrete bytes; result/data slots4/8 swapped from8/4, inner result store/tail is two bytes earlier. Macro-free fixed baseline agrees best source1132/140; all50 relocation sites resolved.
+ * symbols:
+ *   func_021D7700 0x021D7700 thumb ov125
+ *   func_021D75C0 0x021D75C0 thumb ov125
+ *   func_021D7154 0x021D7154 thumb ov125
+ *   func_021D860C 0x021D860C arm ov125
+ *   func_021D8654 0x021D8654 arm ov125
+ *   func_021D8694 0x021D8694 arm ov125
+ *   func_021D8754 0x021D8754 arm ov125
+ *   func_021D879C 0x021D879C arm ov125
+ *   func_021D885C 0x021D885C arm ov125
+ *   func_021D87FC 0x021D87FC arm ov125
+ *   func_021D88BC 0x021D88BC arm ov125
+ *   func_021D88F0 0x021D88F0 arm ov125
+ *   func_021B9800 0x021B9800 thumb ov114
+ *   func_021B98A0 0x021B98A0 thumb ov114
+ *   func_021B98D8 0x021B98D8 thumb ov114
+ *   func_021B98F8 0x021B98F8 thumb ov114
+ *   func_021B9748 0x021B9748 thumb ov114
+ *   func_021B99DC 0x021B99DC thumb ov114
+ *   func_021B9790 0x021B9790 thumb ov114
+ *   func_021B99B8 0x021B99B8 thumb ov114
+ *   func_021B9774 0x021B9774 thumb ov114
+ *   func_021B9838 0x021B9838 thumb ov114
+ *   func_021B97F4 0x021B97F4 thumb ov114
+ *   func_021B99F0 0x021B99F0 thumb ov114
+ *   func_021B9A14 0x021B9A14 thumb ov114
+ *   func_021B99F4 0x021B99F4 thumb ov114
+ *   func_02034714 0x02034714 arm
+ *   func_02012944 0x02012944 thumb
+ *   func_02012EBC 0x02012EBC thumb
+ *   func_0200853C 0x0200853C thumb
+ *   func_0200B784 0x0200B784 thumb
+ *   func_0200B91C 0x0200B91C thumb
+ *   func_0200BA44 0x0200BA44 thumb
+ *   func_02082D44 0x02082D44 arm
+ *   func_02045F5C 0x02045F5C arm
+ *   d_021D8D28 0x021D8D28 data a4
+ *   d_020A7370 0x020A7370 data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef enum { ZERO,ONE } Status;
+extern char *func_021D7700(void);
+extern void func_021D75C0(void);
+extern int func_021D7154(int,int,int *,int *);
+extern int func_021D860C(const void *,int);
+extern int func_021D8654(int,int);
+extern int func_021D8694(const void *,const void *,int,int);
+extern int func_021D8754(void *,int);
+extern int func_021D879C(int,int);
+extern int func_021D885C(int,int);
+extern int func_021D87FC(int,int);
+extern int func_021D88BC(int,int,int,int);
+extern int func_021D88F0(int,int,int);
+extern u8 *func_021B9800(u16,int,int);
+extern void func_021B98A0(u8 *,u16,int,int);
+extern void func_021B98D8(u8 *,int,int);
+extern int func_021B98F8(u8 *);
+extern int func_021B9748(u8 *);
+extern int func_021B99DC(u8 *);
+extern int func_021B9790(u8 *);
+extern void func_021B99B8(u8 *);
+extern void func_021B9774(u8 *);
+extern void func_021B9838(u8 *);
+extern u8 *func_021B97F4(u8 *);
+extern u8 func_021B99F0(u8 *);
+extern char *func_021B9A14(u8 *,int);
+extern u32 func_021B99F4(u8 *,int);
+extern void func_02034714(const char *,int,const char *);
+extern int func_02012944(void *);
+extern void func_02012EBC(void *);
+extern int func_0200853C(int);
+extern void func_0200B784(u16,int *,int *);
+extern void *func_0200B91C(void);
+extern void func_0200BA44(void *);
+extern void func_02082D44(const void *,void *,u32);
+extern void func_02045F5C(void *,u32,u16 *,u32);
+extern const char d_021D8D28[];
+extern void *d_020A7370;
+#define W(k) (*(int *)(p+(k)))
+#define B(k) (*(u8 *)(p+(k)))
+#define H(k) (*(u16 *)(p+(k)))
+#define P(k) (*(u8 **)(p+(k)))
+int func_021D6B40(char *p,u32 *out)
+{
+    const char *data;
+    u32 result=0;
+    Status ok;
+    u8 *received;
+    int n,m,n2,m2,outer,inner,i,a,b;
+    const char *entry;
+    *out=0;
+    switch(W(0x3d8)) {
+    case 0x5208:a=func_021D860C(p+0x174,W(0x3ac));goto save;
+    case 0x5209:a=func_021D8654(H(0x3a4),W(0x3ac));goto save;
+    case 0x55f0:
+        switch(B(0x402)) {
+        case 0:
+            data=func_021D7700();
+            if(W(0x404)) func_02034714(d_021D8D28,0,d_021D8D28);
+            P(0x404)=func_021B9800(W(0x13c),func_0200853C(func_02012944(*(void **)p)),W(0x494));
+            func_021B98A0(P(0x404),W(0x13c),0x540,3);
+            func_0200B784(*(const u16 *)(data+0xa6),&n,&m);
+            B(0x490)=0;
+            for(i=0;i<n;i++) {
+                entry=data+i*676;
+                func_021B98D8(P(0x404),(int)(data+0xd00+i*676),112*(*(const u16 *)(entry+0xcfe)));
+                B(0x490)+=(u8)*(const u16 *)(entry+0xcfe);
+            }
+            if(!func_021B98F8(P(0x404))) func_02034714(d_021D8D28,0,d_021D8D28);
+            ok=(func_021B9748(P(0x404))==0);
+            if(!ok) func_02034714(d_021D8D28,0,d_021D8D28);
+            B(0x402)++;break;
+        case 1:
+            a=func_021B99DC(P(0x404));b=func_021B9790(P(0x404));
+            if(a!=200 && b!=15) {
+                a=func_021B99DC(P(0x404));
+                switch(a) {
+                case 400:B(0x493)=150;break;
+                case 401:B(0x493)=151;break;
+                case 408:B(0x493)=152;break;
+                default:B(0x493)=153;break;
+                }
+                func_021B99B8(P(0x404));func_021B9774(P(0x404));func_021B9838(P(0x404));P(0x404)=0;
+                *out=1;return 1;
+            }
+            if(b==0) {
+                received=func_021B97F4(P(0x404));
+                if(!func_021B99F0(received)) {
+                    B(0x492)=0;
+                    func_02082D44(func_021B9A14(received,B(0x490)),p+0x40a,128);
+                    for(i=0;i<B(0x490);i++) W(0x48c)=func_021B99F4(received,i);
+                    B(0x402)++;
+                } else {
+                    data=func_021D7700();
+                    if(B(0x403)==1) B(0x492)=1;
+                    func_0200B784(*(const u16 *)(data+0xa6),&n2,&m2);
+                    for(i=0;i<B(0x490);i++) {
+                        W(0x48c)=func_021B99F4(received,i);
+                        if(W(0x48c) && !B(0x403)) {
+                            if(!func_021D7154((int)p,i,&outer,&inner)) break;
+                            entry=data+0xd00+outer*676+inner*112;
+                            func_02045F5C(d_020A7370,*(const u16 *)(entry+6),(u16 *)(entry+50),11);
+                            W(0x5a0)=1;
+                        }
+                    }
+                    if(!B(0x403)) {
+                        func_0200BA44(func_0200B91C());B(0x402)=0;B(0x403)++;
+                    } else B(0x402)++;
+                }
+                func_021B99B8(P(0x404));func_021B9838(P(0x404));P(0x404)=0;
+            } else if(b!=15 && P(0x404)) {
+                func_021B99B8(P(0x404));func_021B9774(P(0x404));func_021B9838(P(0x404));P(0x404)=0;
+                return 1;
+            } else return 0;
+            break;
+        case 2:func_02012EBC(*(void **)p);func_021D75C0();B(0x402)++;break;
+        case 3:a=func_021D8694(*(void **)(p+0x174),p+0x40a,128,W(0x3ac));goto save;
+        }break;
+    case 0x55f1:
+        switch(W(0x3e0)) {
+        case 0:a=func_021D8754(p+0x174,W(0x3ac));save:result=a;break;
+        case 1:a=func_021D879C(100,W(0x3ac));goto save;
+        case 2:a=func_021D885C(100,W(0x3ac));goto save;
+        case 3:a=func_021D87FC(100,W(0x3ac));goto save;
+        }break;
+    case 0x55f2:a=func_021D88BC(W(0x3a4),W(0x3a8),100,W(0x3ac));goto save;
+    case 0x55f3:a=func_021D88F0(W(0x3a4),W(0x3a8),W(0x3ac));goto save;
+    default:func_02034714(d_021D8D28,0,d_021D8D28);break;
+    }
+    if(result==1) W(0x3dc)=W(0x3d8);
+    return result;
+}
+
+

@@ -8,8 +8,13 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 show 021B9190/91BC/91D0 confirms signed-byte returns and three arguments; 2 021B8C4C/8DF0 confirm Ent and bitfields; 3 const Ent no change; 4 pointer-sum/char-cast indexed forms no change; 5 idioms and same-overlay neighbours refreshed. Next: isolate the second f1c[r].f4 load's base-plus-four from the scaled index.
- * runs: 5 iteration + 2 checks + permuter(300); baseline 1328/1328 and 5 bytes, best unchanged.
+ * checks: 1 own callees and 02051C88 caller confirm arities; 2 8C4C/8DF0
+ * confirm Ent and bitfields; 3 signed long r retained five bytes; 4 typed
+ * shifted bases, integer addition and array-member view did not improve;
+ * 5 idioms relisted and matched neighbours reread. Next: callee inline
+ * source shape for the redundant ready/table test, not further ordering.
+ * retry: wave59 R1, seven fixed runs; best unchanged at five bytes.
+ * Earlier wave58 permuter300 baseline/best five bytes; not repeated.
  * residual: 5 concrete bytes, size delta 0; offsets 0134..013A fold base+4 into the indexed field load; all 27 relocations resolved.
  * symbols:
  *   func_0201C6B4 0x0201C6B4 thumb
@@ -181,5 +186,4 @@ int func_021B8460(struct S *s)
  s->f69--;
  return 1;
 }
-
 

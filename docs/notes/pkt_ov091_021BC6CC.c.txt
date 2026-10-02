@@ -7,9 +7,10 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: EXACT
  * checks: 1 seven-argument C724 and scalar stack widths read; 2 own ARM9 C724/D304/18328 and ov091 callees read; 3 u8 flag retained5 out, u32 width with explicit truncation gave20 out; 4 scoped spill locals and narrowed coordinate extern restore instruction order; 5 neighbours and struct-local idiom re-read; permuter300 baseline10 out, verified winner5 out; next lever is flag/width spill allocation.
- * residual: 1376/1376 bytes, five concrete bytes differ: flag uses sp14 instead ofsp1c and case0 width uses sp1c instead ofsp14. Permuter's three mutations are ported without volatile.
+ * retry: wave59 declaring case0 flag before width restores the spill slots;
+ * all 1376 bytes match in one run, shard verified.
  * symbols:
  *   func_020450F0 0x020450F0 arm
  *   func_02045770 0x02045770 arm
@@ -103,10 +104,10 @@ void func_021BC6CC(u8 *p)
     u32 q,result,off;
     switch(p[0xe]) {
     case 0: {
-        u16 width;
+        u8 flag;
         u32 delta,buf,tmp,text;
         int y;
-        u8 flag;
+        u16 width;
         flag=0;
         W(0x130)=func_020450F0(0,1,1,14,12,14,1);
         func_0201F73C(W(0x130),1,1,12);

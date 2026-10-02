@@ -8,9 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 F930 fifth parameter u16 and BE700/6CC widths checked; F900 caller visibly passes config and type; 2 3FC0/3FD8/4000 and ov021 parameter bodies read; 3 int/u8 k and u32 h checked, h no change; 4 far-offset enum improves frame but worsens bytes; 5 stack-struct idiom and neighbours refreshed. Next: typed config and grouped table views with original stack offsets.
+ * checks: 1 matched ov021/ov010 bodies and own callers rederived; F900 r1/r2 remain visible caller arguments; 2 37E0/3FC0/4000 refreshed, no complete twin; 3 declared 68-byte config struct flat1257; 4 declaration order flat, raw metadata field arithmetic1263, enum far1350 rejected; 5 fresh idioms and declared-stack-struct read.
  * runs: 4 iteration + 1 check + 1 macro-free baseline + permuter(300); volatile-add(row) output rejected; AST baseline wildcards differ (1249 vs one 1257), no result accepted.
- * residual: 1257 concrete bytes; 1628/1632 (delta -4); frame 0x100 vs 0xE8 and pooled metadata accesses; 15 unresolved sites.
+ * residual: R3 best1628/1632 (-4),1257 concrete bytes,92/107 relocs; frame0x100 vs0xE8 and pooled metadata accesses. Earlier permuter300 spent; no rerun.
+ * retry: Wave59 R3: 4 fixed-flag runs; earlier permuter300 remains spent.
  * symbols:
  *   func_020124E4 0x020124E4 thumb
  *   func_0201210C 0x0201210C thumb
@@ -290,5 +291,4 @@ int func_021F3884(void *a0,u32 *state)
  }
  return 0;
 }
-
 

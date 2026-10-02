@@ -8,9 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 two-argument forwarders retain live inputs; 2 neighbour 021885BC confirms fields, no full twin; 3 pointer a unchanged, unsigned count/bound and enum count failed; 4 sentinel and high-multiply idioms applied; 5 reread neighbour and struct-local idiom, frame/spills remain.
- * residual: 824 bytes, 160 concrete bytes differ; permuter baseline 164, output 160, fixed one recheck agrees.
- * next: main-loop field type and lifetime split; const p inapplicable because p is mutated.
+ * checks: 1 own 885BC fixes integer handle, D5448/B8DE4 u8 returns, A310 show one arg, forwarder live r1/result retained; 2 885BC Obj fields no full twin; 3 u64 helper return unchanged36, u32 draw improves33, const p/a inapplicable mutable object/integer handle; 4 named pointers restore 24B frame, enum/high-multiply idioms; 5 fresh 885BC and full idiom directory; two scheduling variants exhausted.
+ * residual: DIFF 824/824, 33 concrete bytes; all 20 relocations resolved. Named mask/entry pointers improve160 to36; u32 draw improves33. Prior permuter300 recorded, not repeated in retry.
+ * next: field-base pointer register colours and pre-guard hoisting; random-helper high-half zero materialises late.
  * prototype: 021B8CE8 second parameter widened from u8: 0218848E passes full r4 without truncation.
  * prototype: tail forwarders retain caller-visible result and r1 input.
  * symbols:
@@ -47,26 +47,26 @@ typedef struct
 extern int func_0218A2FC(u8 *, int);
 extern void func_0218A310(u8 *);
 extern void func_0218A324(u8 *);
-extern void func_021885BC(u8 *, u8 *);
+extern void func_021885BC(int, u8 *);
 extern int func_0218A378(u8 *, int, int);
 extern int func_0218A384(u8 *, int, int);
 extern int func_021D5B68(int);
-extern int func_021D5448(int);
+extern u8 func_021D5448(int);
 extern u16 func_021D54C0(int, int);
-extern int func_021B8DE4(int, int);
+extern u8 func_021B8DE4(int, int);
 extern int func_021B8CE8(int, int, int);
 extern int func_021B9A6C(int, int);
 extern u32 func_0203F0A8(void);
 extern u64 func_020870D0(void);
 inline static u32 draw_below(u32 n)
 {
-  u64 draw = func_0203F0A8();
+  u32 draw = func_0203F0A8();
   if (n != 0)
-    draw = (draw * n) >> 32;
+    draw = ((u64)draw * n) >> 32;
   return draw;
 }
 
-int func_02188284(u8 *a, u8 *p)
+int func_02188284(int a, u8 *p)
 {
   int limit;
   int count;
@@ -81,6 +81,8 @@ int func_02188284(u8 *a, u8 *p)
   u64 tick;
   u32 mask;
   int entry;
+  u32 *maskPtr;
+  u8 *entryPtr;
   limit = ((*((int *) (p + 0x98))) == 1) ? (4) : (6);
   if (!(p[0x44] & 16))
     p[0x95] = 0;
@@ -108,9 +110,11 @@ int func_02188284(u8 *a, u8 *p)
       p[1] = 0;
       *((u32 *) (p + 0x3c)) = *((u32 *) (p + 0x40));
     }
-    while ((*((u32 *) (p + 0x3c))) != 0)
+    maskPtr = (u32 *)(p + 0x3c);
+    entryPtr = p + 0x45;
+    while (*maskPtr != 0)
     {
-      if ((*((u32 *) (p + 0x3c))) & 1)
+      if ((*maskPtr) & 1)
       {
         if (!(p[0x44] & 16))
           p[0] = 0;
@@ -122,10 +126,10 @@ int func_02188284(u8 *a, u8 *p)
         if (p[0x44] & 16)
           return 1;
       }
-      entry = p[0x45] + 1;
-      mask = (*((u32 *) (p + 0x3c))) >> 1;
-      p[0x45] = entry;
-      *((u32 *) (p + 0x3c)) = mask;
+      entry = *entryPtr + 1;
+      mask = (*maskPtr) >> 1;
+      *entryPtr = entry;
+      *maskPtr = mask;
       p[1] = 0;
     }
 
@@ -199,7 +203,6 @@ int func_02188284(u8 *a, u8 *p)
     p[0x47] = (p[0x47] & 1) + 2;
   return 0;
 }
-
 
 
 

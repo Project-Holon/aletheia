@@ -8,8 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 D5778 u8/2 args, C62D8 5 args/out h+b, veneers sole-ref; 2 no full twin; 3 const action compiled, wide move adds 12 bytes; 4 stack-local and const idioms read; 5 fresh directory and matched CCE0/C62D8 read.
- * residual: 1180/1184, 362 concrete bytes; frame4c correct, move/finalMove register swap and spill slots remain. Permuter300 baseline agrees, best rejected for changed return, volatile and tmp5 read before assignment.
+ * checks: 1 own-source arities rederived, BE550 retains caller-loaded r3, veneers read; 2 CCE0/C62D8 no full twin; 3 u8 slot/prototypes worse1176, u32 flags and const a unchanged312; 4 struct-local/const idioms; 5 fresh neighbours and idioms reread. Two scheduling variants exhausted; next is Result cast-buffer versus scalar spill scopes.
+ * residual: 1180/1184,312 concrete bytes; original move/finalMove register roles restored by delaying finalMove after category call; spill offsets and folded far-field pool remain. Prior Permuter300 baseline agreed but unsafe best rejected, not repeated.
  * symbols:
  *   func_021D5C08 0x021D5C08 thumb ov093
  *   func_021BD1E0 0x021BD1E0 thumb ov093
@@ -118,15 +118,16 @@ extern void func_021BFF60(u8 *, u8 *, int);
 extern void func_021BE994(u8 *, u8 *, u32, u32);
 extern void func_021E0394(u8 *, u32);
 extern void func_021BE400(u8 *, u32);
-void func_021BDE98(u8 *p, u8 *a, const Action *action, u32 value)
+void func_021BDE98(u8 *p, u8 *a, Action *action, u32 value)
 {
     Result r;
-    u32 slot, originalState;
+    u32 originalState;
     u8 f25, f26, redirected, called;
     u32 category;
     u8 flag;
     u32 resultValue, slotValue, monId;
-    u16 finalMove, move, override;
+    u32 slot;
+    u16 move, finalMove, override;
     originalState = func_021D5C08(a);
     func_021BD1E0(*(void **)(p + 0x4a8));
     func_021BE518(*(void **)(p + 0x4b0));
@@ -138,8 +139,8 @@ void func_021BDE98(u8 *p, u8 *a, const Action *action, u32 value)
         func_021D82D0((Action *)action, override, slot);
     }
     move = (u16)action->id;
-    finalMove = move;
     category = func_021D5778(a, move);
+    finalMove = move;
     slot = (u8)action->slot;
     called = 0;
     r.result = 0;

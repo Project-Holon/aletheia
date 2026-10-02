@@ -1,6 +1,5 @@
 /*
- * function: func_021EE894,func_021EEEAC
- * unit: yes
+ * function: func_021EE894
  * address: 0x021EE894
  * packet: pkt_ov107_021EE894
  * region: ov107
@@ -8,11 +7,11 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 matched callees and 021F1008..1078 show confirm arities/live-r0 forwarding; 2 ov107 EF79C/EFA14/EFFB0 share protocols, no main twin; 3 signed W equals unsigned W (1572/917), const p inapplicable because p is written; 4 explicit if/else worsens to 1576/1132, duplicate failure calls worsen to 1572/1001; 5 neighbours and idiom directory reread, File frame remains correct.
- * residual: TU 1572 versus 1568, 917 concrete bytes; most body instructions agree but branch islands and cases 25..29 order differ; eight sites unresolved (1008,1010,1040,1050,1064,11E8,EFE3C).
- * search: permutation skipped because handed extent includes unlabelled tail stub 021EEEAC (in this attempted unit); two ordering variants exhausted.
- * next: original physical case order places 27,28,29 before 25,26; try this source order in a fresh retry budget, preserving each case body.
- * extent: 021EEEAC is an eight-byte tail-call stub to ARM9 0204A648; unowned 021EEEB4 starts after handed range.
+ * checks: 1 arities rederived from own matched bodies/callers and 1008..1078/11E8/EFE3C show; 15B0 leaves live r0 forwarded, F19E4 r1 stays visible caller input; 2 EF79C/EFFB0/EEEAC refreshed; 3 unsigned W909 vs signed, u32 result flat909; p written so const inappropriate; 4 noted case27..29 reorder1002 rejected; 5 fresh idioms and File-stack/branch-island checks.
+ * residual: R3 main1564 versus actual1560 (+4); listing target1568 includes existing EEEAC stub. 909 concrete bytes,118/126 relocs; unresolved overlay readers 1008,1010,1040,1050,1064,11E8,EFE3C.
+ * search: R3 first permuter300 spent; emitted macro-free baseline909 agrees one. Size-first best1568/1050 is worse than909 and rejected; extent still includes the already matched 8-byte stub, despite compiling only main.
+ * retry: Wave59 R3: 4 fixed-flag runs plus permuter300; single retry completed.
+ * extent: 021EEEAC already matched separately by pkt_ov107_021EEEAC; file only main, no duplicate unit/stub. Unowned EEEB4 begins after handed1568 bytes.
  * symbols:
  *   func_021F0E6C 0x021F0E6C thumb ov107
  *   func_021EFC1C 0x021EFC1C thumb ov107
@@ -114,13 +113,13 @@ extern int func_021F1040(void *),func_021F1010(void *);
 extern void *func_021F15B0(void *);
 extern void func_0204A600(void *),func_0204A648(void *);
 #define P(k) (*(void **)(p+(k)))
-#define W(k) (*(int *)(p+(k)))
+#define W(k) (*(u32 *)(p+(k)))
 #define H(k) (*(u16 *)(p+(k)))
 #define O P(12)
 #define M P(104)
 #define SAVE (*(void **)((u8 *)P(8)+4))
 int func_021EE894(u8 *p) {
- File file; void *name; int result;
+ File file; void *name; u32 result;
  func_021F0E6C(O);
  if(W(16)==1 && W(32)!=2 && W(32)!=3) {
   W(24)=func_02012E40(SAVE);
@@ -221,4 +220,3 @@ failure:func_021EFC1C(p,3);func_021F1704(M,8,func_02012FFC());func_021F1028(O);W
  }
  func_0204A600(func_021F15B0(M));return 0;
 }
-void func_021EEEAC(void *p) {func_0204A648(p);}

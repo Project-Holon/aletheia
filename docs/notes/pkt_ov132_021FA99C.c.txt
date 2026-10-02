@@ -1,0 +1,69 @@
+/*
+ * function: func_021FA99C
+ * address: 0x021FA99C
+ * packet: pkt_ov132_021FA99C
+ * region: ov132
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 all own/SDK callee bodies confirm arity, ABBC live-r0 return exception; 2 no shared-callee ov132 twin, A7E0 source caller read; 3 const p, signed y and long height no change (36 bytes); 4 enum/declaration/operand and stack-struct idioms read; 5 directory and matched A7E0/AAF4 reread; permuter300 baseline DIFF36, split-assign(dst) best35 independently fixed-one confirmed.
+ * residue: size284/284, 35 bytes: prologue slot/zero scheduling plus src/x/y/line/height and hoisted row-offset spill slots; dst split assignment fixes +42 operand order.
+ * next: declaration order budget exhausted; a source-level aggregate of adjacent dimension locals might pin their storage.
+ * ABI: ABBC tail forwards mode and leaves VRAM offset in r0, consumed here despite void own declaration.
+ * symbols:
+ *   func_0204A1BC 0x0204A1BC arm
+ *   func_0206E964 0x0206E964 arm
+ *   func_0204ABBC 0x0204ABBC arm
+ *   func_020862F0 0x020862F0 arm
+ *   func_0207E5D0 0x0207E5D0 arm
+ *   func_0207E804 0x0207E804 arm
+ *   func_020307B0 0x020307B0 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef enum { ZERO, FOUR=4, EIGHT=8 } Dim;
+extern int func_0204A1BC(int,int,int,int);
+extern u8 *func_0206E964(u8 *);
+extern u32 func_0204ABBC(u32,u32);
+extern void func_020862F0(void *,unsigned long),func_0207E5D0(const void *,unsigned long,unsigned long),func_0207E804(const void *,unsigned long,unsigned long),func_020307B0(void *);
+void func_021FA99C(const u8 *p,unsigned slot,int resource,int type)
+{
+    int blob;
+    u32 charSize,palSize,dst;
+    u8 block;
+    unsigned long height;
+    u8 line;
+    u32 y=0,x;
+    u8 *src;
+    u8 *tex;
+    u32 palOffset;
+    u8 col;
+    blob=func_0204A1BC(45,resource,y,*(u16 *)p);
+    tex=func_0206E964((u8 *)blob);
+    src=tex+*(u32 *)(tex+20);
+    palOffset=*(u32 *)(tex+0x38);
+    charSize=*(u16 *)(tex+12)*8;
+    palSize=*(u16 *)(tex+0x30)*8;
+    dst=func_0204ABBC(*(u32 *)(p+0x28),1);
+    dst+=(slot<<11);
+    func_020862F0(tex+palOffset,palSize);
+    func_0207E5D0(tex+palOffset,slot*32,palSize);
+    func_020862F0(src,charSize);
+    switch(type) {
+    case 34: x=2; y=2; type=FOUR; height=FOUR; break;
+    case 35: x=2; type=FOUR; height=EIGHT; break;
+    case 50: x=0; type=EIGHT; y=2; height=FOUR; break;
+    default: x=2; y=2; type=FOUR; height=FOUR; break;
+    }
+    for(block=0;block<(u32)height;block++) {
+        for(line=0;line<8;line++) {
+            for(col=0;col<(u32)type;col++) {
+                func_0207E804(src+(col*4+((block*32)*type+line*type*4)),dst+(line*4+(((col+x)<<5)+((block+y)<<8))),4);
+            }
+        }
+    }
+    func_020307B0((void *)blob);
+}

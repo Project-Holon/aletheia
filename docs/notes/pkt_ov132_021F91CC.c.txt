@@ -1,0 +1,64 @@
+/*
+ * function: func_021F91CC
+ * address: 0x021F91CC
+ * packet: pkt_ov132_021F91CC
+ * region: ov132
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: WIP
+ * checks: 1 ABI matched ARM9 0202EA40 four args; 2 matched ov132879C and neighbours; 3 s16 factor worse, long unchanged; 4 channel-shift/scoping/enum-zero idioms; 5 full idiom listing/neighbours, scalar spills. Best DIFF256/256166; 8 runs +300 permuter; unsafe s8 product repaired to int and clean port agrees.
+ * symbols:
+ *   d_020A1B38 0x020A1B38 data a2
+ *   func_02061CA4 0x02061CA4 arm
+ */
+typedef unsigned char u8;
+typedef signed char s8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef enum 
+{
+  PHASE_ZERO
+} Phase;
+extern const s16 d_020A1B38[];
+extern void func_02061CA4(int, int, const void *, unsigned int);
+void func_021F91CC(u8 *p)
+{
+  int factor;
+  u8 i;
+  u16 tmp;
+  u16 tmp1;
+  s8 *tmp2;
+  u8 *tmp3;
+  int tmp4;
+  if (((*((u16 *) (p + 0x168))) + 0x160) >= 65536)
+    *((u16 *) (p + 0x168)) = (*((u16 *) (p + 0x168))) - 0xFEA0;
+  else
+    *((u16 *) (p + 0x168)) = (*((u16 *) (p + 0x168))) + 0x160;
+  factor = (d_020A1B38[((*((u16 *) (p + 0x168))) >> 4) * 2] + 4096) / 2;
+  for (i = 0; i < 16; i++)
+  {
+    s16 color;
+    int red;
+    int green;
+    int blue;
+    color = *((u16 *) ((p + 0x16A) + (i * 2)));
+    tmp = (color & 0x7C00) >> 10;
+    blue = ((u8) tmp) + ((s8) (((*((s8 *) ((p + 0x1AA) + i))) * factor) >> 12));
+    tmp4 = (*((s8 *) ((p + 0x18A) + i))) * factor;
+    red = ((u8) (color & 31)) + ((s8) (tmp4 >> 12));
+    tmp3 = p + 0x19A;
+    if (1)
+    {
+      tmp1 = color & 0x3E0;
+    }
+    tmp3 = tmp3 + i;
+    tmp2 = (s8 *) tmp3;
+    green = ((u8) (tmp1 >> 5)) + ((s8) (((*tmp2) * factor) >> 12));
+    *((u16 *) ((p + 0x1BA) + (i * 2))) = (blue << 10) | (red | ((((u8) (tmp1 >> 5)) + ((s8) (((*tmp2) * factor) >> 12))) << 5));
+  }
+
+  func_02061CA4(31, 0, p + 0x1BA, 32);
+}
+

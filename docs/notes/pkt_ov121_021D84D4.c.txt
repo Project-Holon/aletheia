@@ -8,13 +8,13 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own 173F0/17588 u64 ABI and 186C8 six arguments checked; 08550 return corrected to u8; 2 7814/6AEC/933C and own ARM9 callers checked; 3 const desc and u16 level/year gave no improvement; 4 declared-struct scratch and const-source/u16-stack idioms read, manual order cap exhausted; 5 directory and 83DC/94C4/8C1C neighbours refreshed.
- * residual: compiled1868 versus lead1864, 1135 concrete bytes against handed2004; stack frame64 instead68, shared failure block and clamp lifetime differ; table 021DF4FC is sole unresolved data witness at shifted pool site.
+ * checks: 1 all own/caller arities rederived, allocator tag slot widened to u32 from original full-word store; 20E60 caller visibly narrows u16; 2 7814/81B0 and ARM9 forwarding bodies refreshed; 3 signed random unchanged1301, mutable desc worsened1292; 4 named zero/clamp restored frame but worsened1290, unsigned raw Work move access worsened1023; 5 directory, stack-object idiom, 7814/94C4/8C1C neighbours refreshed.
+ * residual: best compiled1864 versus lead1864, 949 concrete bytes against handed2004; frame64 rather than68, switch failure/default trampoline and clamp lifetime differ; table021DF4F2 now unresolved at shifted first pool.
  * follower: lead ends021D8C1C; 140-byte hardware function021D8C1C is already filed and sharded. Permuter skipped because the listing extent includes this unlabelled follower, rather than the lead alone.
  * interfaces: 185F0/185F4/084F4 are bare bx-lr bodies; caller passes an address in r0 and consumes it after the call. B294 legacy void forwards CFDC result in r0, consumed here; Point payload copies unchanged through B294/CFDC. 2D7C8 own body reads only a0, unused trailing legacy inputs omitted.
- * widths: original narrows species at 8680/8722 but loads level word without truncation at 867C/8768; level extern widened to u32; 4B6F4 palette argument visibly narrows to u8.
+ * widths: 173F0 fifth tag slot is stored as a full word without call-site narrowing; extern widened u32. Species and20E60 item visibly narrow u16; level remains full word. 4B6F4 palette visibly narrows u8.
  * source: resource branches2/3 use zero in r6, not earlier palette. Work combines observed IV6, move4, Point8 and pointer output slots. D8 zero with desc55 outside0..2 leaves original random stack words unset; draft preserves that path without inventing values.
- * runs: 7 iterations + 2 checks, no permuter.
+ * runs: prior7 iterations+2 checks; wave59 retry5 iterations+1 check4+1 check3; permuter remains skipped for existing140-byte unlabelled follower.
  * symbols:
  *   func_02082BCC 0x02082BCC arm
  *   func_02049F34 0x02049F34 arm
@@ -71,16 +71,16 @@ typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef struct {s16 x,y,z;u8 a,b;} Point;
 typedef struct {u8 iv[6];u16 move[4];Point point;void *resdesc;} Work;
-extern void func_02082BCC(void *,int,u32);
+extern void func_02082BCC(void *,int,int);
 extern void *func_02049F34(u32,u32,u32,u32);
-extern void func_02082D44(const void *,void *,u32);
+extern void func_02082D44(const void *,void *,int);
 extern void func_020307B0(void *);
 extern void *func_021D6C58(void *,int);
 extern void func_0204B6F4(void *,u8,u32);
 extern u32 func_020056EC(u32);
 extern void *func_02012944(void *);
 extern u32 func_02008530(const void *);
-extern void *func_020173F0(u16,u32,u64,u16);
+extern void *func_020173F0(u16,u32,u64,u32);
 extern u32 func_020186C8(u32,u16,int,int,int,int);
 extern void func_02017588(void *,u16,u32,u64,u32,u64);
 extern void func_02017E40(void *,u32,u32);
@@ -104,7 +104,7 @@ extern u32 func_0202D9A4(u32,u32,u32,u32,u16);
 extern int func_0202D934(int,void *,int,int,u16);
 extern unsigned func_021D94C4(int,int);
 extern void func_02049238(void *);
-extern void *func_020490F4(u32,u32);
+extern void *func_020490F4(u32,u16);
 extern u32 func_02020E60(u16,u32);
 extern u32 func_0204ABF0(void *,u32,u32,u32,u16);
 extern int func_0204AF28(void *,u32,u32,u32);
@@ -129,7 +129,7 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
     u8 *base;
     int i,selector;
     Work work;
-    void *arc;
+    u32 arc;
     u32 month;
     u16 year;
     int ability,gender;
@@ -222,28 +222,28 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
     failed:
         func_020307B0(allocated);mon=0;
     image:
-        arc=(void *)func_0202D7C8(heap);
+        arc=func_0202D7C8(heap);
         O(12)=func_0202D8D0((int)arc,func_020185F4(mon),0,0,448,heap);
         O(20)=func_0202D9A4((u32)func_020185F4(mon),0,2,0,heap);
         O(16)=func_0202D934((int)arc,func_020185F4(mon),0,0,heap);
         OH(296)=func_021D94C4((int)func_020185F4(mon),heap)-48;
         if(*(s16 *)(out+296)>48) OH(296)=48;
         else if(*(s16 *)(out+296)<0) OH(296)=0;
-        func_02049238(arc);func_020307B0(mon);
+        func_02049238((void *)arc);func_020307B0(mon);
         break;
     case 2:
-        arc=func_020490F4(25,heap);
-        O(12)=func_0204ABF0(arc,func_02020E60(D(0),2),0,448,heap);
-        O(20)=func_0204AF28(arc,1,0,heap);
-        O(16)=func_0204A6C8(arc,func_02020E60(D(0),1),0,0,heap);
-        func_02049238(arc);OH(298)=4;OH(296)=8;
+        arc=(u32)func_020490F4(25,heap);
+        O(12)=func_0204ABF0((void *)arc,func_02020E60(D(0),2),0,448,heap);
+        O(20)=func_0204AF28((void *)arc,1,0,heap);
+        O(16)=func_0204A6C8((void *)arc,func_02020E60(D(0),1),0,0,heap);
+        func_02049238((void *)arc);OH(298)=4;OH(296)=8;
         break;
     case 3:
-        arc=func_020490F4(34,heap);
-        O(12)=func_0204ABF0(arc,3,0,448,heap);
-        O(20)=func_0204AF28(arc,33,36,heap);
-        O(16)=func_0204A6C8(arc,12,0,0,heap);
-        func_02049238(arc);OH(296)=8;
+        arc=(u32)func_020490F4(34,heap);
+        O(12)=func_0204ABF0((void *)arc,3,0,448,heap);
+        O(20)=func_0204AF28((void *)arc,33,36,heap);
+        O(16)=func_0204A6C8((void *)arc,12,0,0,heap);
+        func_02049238((void *)arc);OH(296)=8;
         break;
     }
     if(desc[714]) {
@@ -257,5 +257,3 @@ void func_021D84D4(u8 *out,void *owner,const u8 *desc,void *save,void *list,void
     func_0204B3DC((void *)O(4),0);
     if(desc[714]) func_0204B688((void *)O(4),1);
 }
-
-

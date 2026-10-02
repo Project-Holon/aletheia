@@ -7,9 +7,10 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * checks: 1 allocator u32/u16 ABI and RTC four-word output verified; 2 no constructor twin; 3 const Save unchanged, enum allocation extent keeps far offsets; 4 explicit bitfield cast unchanged, grouped unsigned offsets improve; 5 directory and neighbours reread, declared RTC object retained; permuter 300 best uses forbidden volatile (rejected), emitted baseline differs by four wildcard bytes.
- * blocker: 680 vs 688 bytes; 296 concrete bytes differ. Frame/register scheduling, loop row recomputation and tail differ.
+ * status: EXACT
+ * checks: retry rederived allocator, RTC, callback and final seven-argument call signatures; prior permuter 300 retained.
+ * match: unsigned 88U*i and signed 88*i keep both row computations; a block slot pointer fixes the inner loop colouring; u32 allocation length fixes the final instruction schedule.
+ * ABI: 3159C stores the allocation but leaves r0 live, used here as the State pointer. RTC copies four words.
  * symbols:
  *   func_0203064C 0x0203064C arm
  *   func_0203159C 0x0203159C arm
@@ -35,9 +36,9 @@ typedef struct {u32 x,y,z,week;} Options;
 typedef struct {u32 a,b;u8 *config;u32 c,d;} Save;
 typedef struct {u16 heap,pad;void *task;Save *save;void *scene,*actors;} State;
 typedef enum {ConfigSize=432} AllocSize;
-extern void func_0203064C(int,int,int);
+extern void func_0203064C(void *,u32,u32);
 extern State *func_0203159C(void *,u32,u32);
-extern void func_02034AC4(u32);
+extern int func_02034AC4(int);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void func_0203F4E4(Options *);
 extern u16 func_02045A98(void);
@@ -45,13 +46,13 @@ extern u32 func_0203630C(void);
 extern void *func_020056A0(u32,u32,u32);
 extern void func_021F3A4C(void *,State *),func_021F3A54(u8 *);
 extern void *func_021F3AF0(u8 *,u16),*func_021F4284(u8 *,u32,u32,u32,u16);
-extern void func_0202208C(int,int,int,int,int,int,u16);
+extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
 extern char ov132_id[];
 extern const char d_021F836C[];
 int func_021F36C0(void *owner,int unused,const Save *save)
 {
- State *p;u8 *cfg;u8 i,j;Options options;AllocSize length;
- func_0203064C(1,74,1<<19);
+ State *p;u8 *cfg;u8 i,j;Options options;u32 length;
+ func_0203064C((void *)1,74,1<<19);
  p=func_0203159C(owner,20,74);p->heap=74;
  if(save==0){
   func_02034AC4((u32)ov132_id);
@@ -79,9 +80,10 @@ int func_021F36C0(void *owner,int unused,const Save *save)
   *(u16 *)(cfg+4)=643;*(u16 *)(cfg+0x5C)=643;*(u16 *)(cfg+0xB4)=643;*(u16 *)(cfg+0x10C)=643;
   for(i=0;i<4;i++){
    u8 *q;
-   q=cfg+88*i;
+   q=cfg+88U*i;
    *(u16 *)(q+12)=0x30C8;*(u16 *)(q+14)=0x30EC;*(u16 *)(q+16)=0x30FC;*(u16 *)(q+18)=0x30CA;*(u16 *)(q+20)=0xFF11+i;*(u16 *)(q+22)=0;
-   for(j=0;j<8;j++){*(u16 *)(q+28+8*j)=255;*(u16 *)(q+30+8*j)=0;*(u8 *)(q+32+8*j)=10;}
+   for(j=0;j<8;j++){u8 *slot;slot=q+8*j;*(u16 *)(slot+28)=255;*(u16 *)(slot+30)=0;*(u8 *)(slot+32)=10;}
+   q=cfg+88*i;
    *(u16 *)(q+28)=11;*(u16 *)(q+30)=0;q[32]=7;
    *(u16 *)(q+36)=11;*(u16 *)(q+38)=0;q[40]=8;
    *(u16 *)(q+44)=11;*(u16 *)(q+46)=0;q[48]=6;

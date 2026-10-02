@@ -1,0 +1,226 @@
+/*
+ * function: func_021DD24C
+ * address: 0x021DD24C
+ * packet: pkt_ov121_021DD24C
+ * region: ov121
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own callee/unit arities; 180F4 widened for absent truncation, 185F0/185F4 retain live r0, 2D7C8 unused trailing inputs omitted; 2 DAC18/DBDF4/DA3EC twins read; 3 const record/ctx inert, const q 1553->1550, form/gender bytes inert; 4 cast scratch buffer and shared done tail, final 1844/1519; 5 idioms refreshed and neighbours reread, no new twin; permuter 300 best1445 rejected month=month before assignment; emitted baseline fixed one agrees1844/1519 (scorer1515 has two extra wildcards).
+ * residual: original frame110 with record in sp10, compiled104 retains record r7 and spills ui; table 021DFA14 unresolved/no outside witness. No caller leaves filed while DIFF.
+ * symbols:
+ *   func_02030734 0x02030734 arm
+ *   func_020307B0 0x020307B0 arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_020457B0 0x020457B0 arm
+ *   func_02045994 0x02045994 arm
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_02045808 0x02045808 arm
+ *   func_0201EFA4 0x0201EFA4 thumb
+ *   func_0201F250 0x0201F250 thumb
+ *   func_021DBDF4 0x021DBDF4 thumb ov121
+ *   func_021DA338 0x021DA338 thumb ov121
+ *   func_021DA3EC 0x021DA3EC thumb ov121
+ *   func_021DC024 0x021DC024 thumb ov121
+ *   func_020056EC 0x020056EC thumb
+ *   func_02012944 0x02012944 thumb
+ *   func_02008530 0x02008530 thumb
+ *   func_020084F4 0x020084F4 thumb
+ *   func_02008550 0x02008550 thumb
+ *   func_020173F0 0x020173F0 thumb
+ *   func_02017588 0x02017588 thumb
+ *   func_020186C8 0x020186C8 thumb
+ *   func_02017E40 0x02017E40 thumb
+ *   func_02017FA8 0x02017FA8 thumb
+ *   func_0201808C 0x0201808C thumb
+ *   func_020180F4 0x020180F4 thumb
+ *   func_02018A00 0x02018A00 thumb
+ *   func_02045A98 0x02045A98 arm
+ *   func_020185F0 0x020185F0 thumb
+ *   func_020185F4 0x020185F4 thumb
+ *   func_0202F2AC 0x0202F2AC thumb
+ *   func_020185C4 0x020185C4 thumb
+ *   func_02017E1C 0x02017E1C thumb
+ *   func_02017EAC 0x02017EAC thumb
+ *   func_0202D7C8 0x0202D7C8 thumb
+ *   func_0202D060 0x0202D060 thumb
+ *   func_0202D0D4 0x0202D0D4 thumb
+ *   func_02049F78 0x02049F78 arm
+ *   func_0202D6F4 0x0202D6F4 thumb
+ *   func_02049238 0x02049238 arm
+ *   d_021DFBB0 0x021DFBB0 data a4
+ *   d_021DFA14 0x021DFA14 data a4
+ *   d_021DF8C0 0x021DF8C0 data a4
+ *   d_0209DF08 0x0209DF08 data
+ *   d_0209DF0C 0x0209DF0C data
+ *   d_020A7370 0x020A7370 data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef unsigned long long u64;
+typedef struct { u32 w[51]; } Record;
+typedef struct { u32 w[9]; } Desc;
+typedef struct { u32 w[30]; } Table;
+typedef struct { u8 iv[6];u16 move[4]; } Values;
+extern void *func_02030734(u16,int,int,const char *,int);
+extern void func_020307B0(void *);
+extern void func_02082BCC(void *,int,int);
+extern void *func_020457B0(u32,u16);
+extern void func_02045994(void *,const u16 *,u32);
+extern void *func_02045EC0(void *,u16);
+extern void func_02045808(void *);
+extern void func_0201EFA4(void *,int,u32,int,int,int);
+extern void func_0201F250(void *,void *,void *);
+extern void func_021DBDF4(char *,const Record *,char *,u16);
+extern void *func_021DA338(char *,u16);
+extern void func_021DA3EC(char *,char *,void *);
+extern int func_021DC024(void *);
+extern u32 func_020056EC(int);
+extern void *func_02012944(void *);
+extern u32 func_02008530(void *);
+extern void *func_020084F4(void *);
+extern u8 func_02008550(void *);
+extern void *func_020173F0(u16,u16,u64,u16);
+extern void func_02017588(void *,u16,u32,u64,u32,u64);
+extern u32 func_020186C8(u32,u16,int,int,int,int);
+extern void func_02017E40(void *,u32,u32);
+extern u32 func_02017FA8(void *);
+extern u32 func_0201808C(void *,u32);
+extern void func_020180F4(void *,u32);
+extern void func_02018A00(void *,u32,u32);
+extern u16 func_02045A98(void);
+extern void *func_020185F0(void *);
+extern void *func_020185F4(void *);
+extern void func_0202F2AC(void *,u32,u32,u32,u32);
+extern void func_020185C4(void *);
+extern u32 func_02017E1C(void *,u32,u32);
+extern u32 func_02017EAC(void *);
+extern void *func_0202D7C8(u16);
+extern u32 func_0202D060(void);
+extern u32 func_0202D0D4(u32,u32,u32,u32,u32,u32,u32);
+extern void *func_02049F78(void *,u16,void **,u16);
+extern u32 func_0202D6F4(void *,void *,u32,u32);
+extern void func_02049238(void *);
+extern const char d_021DFBB0[];
+extern const Table d_021DFA14;
+extern const u32 d_021DF8C0[15];
+extern u8 d_0209DF08,d_0209DF0C;
+extern void *d_020A7370;
+#define OW(k) (*(u32 *)(out+(k)))
+#define OP(k) (*(void **)(out+(k)))
+#define OH(k) (*(u16 *)(out+(k)))
+#define QW(k) (*(const u32 *)(q+(k)))
+#define QH(k) (*(const u16 *)(q+(k)))
+#define QB(k) (*(const u8 *)(q+(k)))
+#define CP(k) (*(void **)(ctx+(k)))
+char *func_021DD24C(const Record *record,const char *ctx,void *ui,u16 heap)
+{
+    char *out;
+    const char *q;
+    Desc d;
+    Table table;
+    u8 values[16];
+    Values *vp=(Values *)values;
+    u32 tag,iv,species,choice,j;
+    u8 form,gender;
+    u16 level;
+    u64 rnd,id;
+    int flags,i,date;
+    void *other,*mon,*usemon,*arc,*tmp;
+    u32 loc,t0,t1,t2,t3,t4,t5;
+    u16 year;
+    u8 month,day;
+    out=func_02030734(heap,0x148,0,d_021DFBB0,0xdd4);
+    func_02082BCC(out,0,0x148);
+    OH(0x118)=heap;OP(0x120)=(void *)record;OP(0x11c)=(void *)ctx;OP(0x124)=ui;
+    func_02082BCC(&d,0,36);
+    d.w[0]=0;d.w[2]=(u32)CP(0xb8);d.w[3]=(u32)CP(0xbc);
+    d.w[4]=(u32)CP(0xc4);d.w[5]=(u32)CP(0xc8);d.w[6]=(u32)CP(0xcc);d.w[7]=(u32)CP(0xc0);d.w[8]=(u32)ui;
+    func_021DBDF4(out,record,(char *)&d,heap);
+    table=d_021DFA14;
+    tag=(heap&0x7fff)|0x8000;
+    table.w[8]=(u32)func_020457B0(37,tag);
+    func_02045994((void *)table.w[8],(u16 *)((char *)OP(0x120)+0x60),36);
+    q=OP(0x120);
+    if(QB(0xb4)&2) choice=QB(0xb2)+0x19d;
+    else choice=QB(0xb2)+0x9d;
+    table.w[14]=(u32)func_02045EC0(CP(0xc0),choice);
+    table.w[26]=(u32)func_020457B0(128,heap);
+    flags=*(int *)((char *)OP(0x120)+0xac);
+    other=func_02045EC0(CP(0xc0),0x9a);
+    func_0201EFA4(CP(0xcc),0,(u16)(flags>>16),4,1,1);
+    func_0201EFA4(CP(0xcc),1,(u8)(flags>>8),2,0,1);
+    func_0201EFA4(CP(0xcc),2,(u8)flags,2,0,1);
+    func_0201F250(CP(0xcc),(void *)table.w[26],other);
+    OP(0x144)=func_021DA338(*(char **)ctx,heap);
+    func_021DA3EC(OP(0x144),(char *)&table,CP(0xc8));
+    func_02045808((void *)table.w[8]);func_02045808((void *)table.w[14]);func_02045808((void *)table.w[26]);func_02045808(other);
+    if(func_021DC024(out)!=1) goto done;
+    q=OP(0x120);ui=OP(0x124);
+    level=QB(0x5b);id=QW(0);species=QH(0x1a);form=QB(0x35);gender=QB(0x36);
+    vp->iv[0]=QB(0x43);vp->iv[1]=QB(0x44);vp->iv[2]=QB(0x45);vp->iv[3]=QB(0x47);vp->iv[4]=QB(0x48);vp->iv[5]=QB(0x46);
+    vp->move[0]=QH(0x12);vp->move[1]=QH(0x14);vp->move[2]=QH(0x16);vp->move[3]=QH(0x18);
+    if(QB(0xb3)!=1 || species>0x289 || !species || level>100 || QH(0x10)>0x272) {usemon=0;goto finish;}
+    if(!level) level=(u16)(func_020056EC(100)+1);
+    if(!QW(0)) id=func_02008530(func_02012944(ui));
+    if(form==255) form=2;
+    for(i=0;i<6;i++) if(vp->iv[i]==255) vp->iv[i]=func_020056EC(32);
+    mon=func_020173F0(species,level,id,tag);
+    iv=(vp->iv[0]&31)|((vp->iv[1]&31)<<5)|((vp->iv[2]&31)<<10)|((vp->iv[3]&31)<<15)|((vp->iv[4]&31)<<20)|((vp->iv[5]&31)<<25);
+    if(gender==4) gender=(u8)func_020056EC(3);
+    switch(gender) {case 0:choice=0;break;case 1:choice=1;break;case 2:choice=0;break;case 3:choice=2;break;default:goto discard;}
+    if(QW(8)) rnd=QW(8);
+    else if(!QB(0x37)) rnd=func_020186C8(id,species,QB(0x1c),form,choice,0);
+    else if(QB(0x37)==1) rnd=func_020186C8(id,species,QB(0x1c),form,choice,2);
+    else if(QB(0x37)==2) rnd=func_020186C8(id,species,QB(0x1c),form,choice,1);
+    func_02017588(mon,QH(0x1a),level,id,iv,rnd);
+    func_02017E40(mon,6,QH(0x10));func_02017FA8(mon);
+    for(i=0;i<4;i++) {
+        u32 move=vp->move[i];
+        if(move && move<0x230 && func_0201808C(mon,move)==0xffff) func_020180F4(mon,move);
+    }
+    if(!QW(8) && gender==2) func_02018A00(mon,species,QB(0x1c));
+    func_02017E40(mon,111,QB(0x1c));
+    if(QH(0xe) && QH(0xe)<=25) func_02017E40(mon,152,QH(0xe));
+    else func_02017E40(mon,152,4);
+    if(QB(0x3c)) func_02017E40(mon,153,QB(0x3c));
+    func_02017E40(mon,19,QB(0x3d));func_02017E40(mon,20,QB(0x3e));func_02017E40(mon,21,QB(0x3f));
+    func_02017E40(mon,22,QB(0x40));func_02017E40(mon,23,QB(0x41));func_02017E40(mon,24,QB(0x41));
+    for(j=0;j<15;j++) if(QH(0xc)&(1<<j)) func_02017E40(mon,d_021DF8C0[j],1);
+    if(QW(4)) func_02017E40(mon,119,QW(4));else func_02017E40(mon,119,d_0209DF08);
+    if(QB(0x1d)) func_02017E40(mon,12,QB(0x1d));else func_02017E40(mon,12,d_0209DF0C);
+    if(!QH(0x1e)) goto discard;
+    if(QH(0x1e)!=func_02045A98()) func_02017E40(mon,116,(u32)(q+0x1e));
+    choice=QB(0x34);if(choice==255) choice=(u8)func_020056EC(25);
+    func_02017E40(mon,112,choice);func_02017E40(mon,149,QH(0x38));func_02017E40(mon,150,QH(0x3a));
+    if(!QH(0x4a)) goto discard;
+    if(QH(0x4a)==func_02045A98()) func_02017E40(mon,142,(u32)func_020084F4(func_02012944(ui)));
+    else func_02017E40(mon,142,(u32)(q+0x4a));
+    choice=QB(0x5a);if(choice>2) choice=func_02008550(func_02012944(ui));
+    func_02017E40(mon,154,choice);
+    if(QB(0x5c)) {
+        func_02017E40(mon,76,1);tmp=func_02045EC0(d_020A7370,0x28a);
+        func_02017E40(mon,115,(u32)tmp);func_02045808(tmp);func_02017E40(mon,9,10);
+    }
+    date=QW(0xac);year=(u16)(date>>16);month=(u8)(date>>8);day=(u8)date;
+    if(QB(0x5c)) loc=QH(0x38);else loc=QH(0x3a);
+    func_0202F2AC(func_020185F0(mon),loc,year-2000,month,day);
+    func_020185C4(mon);
+    if(func_02017E1C(mon,3,0)) {discard:func_020307B0(mon);usemon=0;}else usemon=mon;
+finish:
+    arc=func_0202D7C8(tag);
+    OH(0xe4)=QH(0x1a);OH(0xe6)=QB(0x1c);OW(0xe0)=QB(0x5c);
+    t0=func_0202D060();t1=func_02017E1C(usemon,5,0);t2=func_02017E1C(usemon,111,0);t3=func_02017E1C(usemon,110,0);
+    t4=func_02017EAC(usemon);t5=func_02017E1C(usemon,76,0);
+    choice=func_0202D0D4(t0,t1,t2,t3,t4,0,t5);
+    OP(0x13c)=func_02049F78(arc,choice,(void **)(out+0x140),OH(0x118));
+    OW(0x134)=func_0202D6F4(out+0x138,func_020185F4(usemon),0,OH(0x118));
+    func_020307B0(usemon);func_02049238(arc);
+done:
+    return out;
+}
+
+

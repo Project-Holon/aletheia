@@ -8,8 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 CBA40 3 args, CD64C/CD568 varargs, callback 5 argument setup; 2 matched CCE0 fixes arg u8; 3 arg u8/condition u32 unchanged780/726, const a/direct callback worse784/720; 4 table-field idiom read; 5 fresh idioms and matched CCE0/CBA40 reread.
- * residual: 780/768,726 concrete bytes; frame40/pushr3 vs44/pushr4, condition and spill scheduling; data021EFDE4 lacks outside witness. Original slot6 skips assigning state/monId; kept safe initial defaults, not uninitialized reads. One extern table, callback at field+4.
+ * checks: 1 arities rederived, B9090 second arg widened because original has no truncation, CBA30 fixed veneer; 2 CCE0 confirms narrow parameters; 3 slot u32 worse437, const a CCERR; 4 enum and table-field idioms; 5 fresh CCE0/CBA40 and struct-local idiom read. Permuter300 baseline764/309 agrees, unsafe use(pos) removed from output; clean port768/386.
+ * residual: 768/768,386 concrete bytes; state/lock spill pair and table callback addressing. Original condition/state/monId stores all occur only when slot!=6; artificial defaults removed, enum initial then conditional u8 copy reproduces truncation. data021EFDE4 lacks outside witness at full size; at764 it resolves sole-ref. Two manual scheduling variants exhausted.
  * symbols:
  *   func_021D5440 0x021D5440 thumb ov093
  *   func_021B8DDC 0x021B8DDC thumb ov093
@@ -37,11 +37,23 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
+typedef enum 
+{
+  COND_ZERO,
+  COND_ONE,
+  COND_TWO
+} Condition;
 typedef int (*Callback)(u8 *, u8 *, u16, u32, u32);
-typedef struct { u16 id; u8 mode, exact; Callback call; } Entry;
+typedef struct 
+{
+  u16 id;
+  u8 mode;
+  u8 exact;
+  Callback call;
+} Entry;
 extern const Entry data_021EFDE4[];
 extern u8 func_021D5440(u8 *);
-extern int func_021B8DDC(u8);
+extern u8 func_021B8DDC(u32);
 extern char *func_021B9AEC(char *, int);
 extern int func_021B99B8(void *, u32);
 extern u8 *func_021B9BF0(void *, u8);
@@ -50,7 +62,7 @@ extern u32 func_021B8588(void *);
 extern void func_021CD64C(void *, u8, ...);
 extern u32 func_021D805C(u32, u32);
 extern int func_021CBA40(u8 *, void *, u16);
-extern void func_021B9090(u8 *, u8, u32);
+extern void func_021B9090(u8 *, u32, u32);
 extern u8 func_021B8FF4(u8 *);
 extern void func_021BA1B4(void *, int);
 extern void func_021CD4B0(void *, u32, ...);
@@ -62,95 +74,143 @@ extern void func_021BA250(char *, u8 *, int);
 extern void func_021CC95C(void *, u32, int);
 int func_021CB730(u8 *p, u8 *a, u16 move, u8 arg, u8 slot)
 {
-    u32 allowed, mark, result, state, lock;
-    u8 *mon;
-    u32 condition;
-    u32 monId;
-    int side;
-    char *party;
-    u32 n;
-    u32 pos;
-    u32 i;
-    const Entry *e;
-    side = func_021B8DDC(func_021D5440(a));
-    mon = 0;
-    condition = 0;
-    state = 6;
-    monId = 0;
-    if (slot != 6) {
-        party = func_021B9AEC(*(char **)(p + 8), side);
-        n = func_021B99B8(*(void **)(p + 4), side);
-        mon = func_021B9BF0(party, slot);
-        monId = func_021D5440(mon);
-        state = func_021CBA30(p + 0x1ab8, monId);
-        if (slot >= n) condition = 2;
-        if (func_021B8588(*(void **)(p + 4)) == 3 && condition == 2 && slot < 3) condition = 1;
+  u32 n;
+  char *party;
+  int side;
+  u32 monId;
+  Condition initial;
+  u8 condition;
+  u8 *mon;
+  u32 state;
+  u32 result;
+  u32 lock;
+  u32 mark;
+  u32 pos;
+  u32 allowed;
+  u32 i;
+  const Entry *e;
+  u8 *tmp;
+  u8 *tmp1;
+  (void) (&pos);
+  side = func_021B8DDC(func_021D5440(a));
+  mon = 0;
+  initial = 0;
+  if (slot != 6)
+  {
+    party = func_021B9AEC(*((char **) (p + 8)), side);
+    n = func_021B99B8(*((void **) (p + 4)), side);
+    mon = func_021B9BF0(party, slot);
+    monId = func_021D5440(mon);
+    state = func_021CBA30(p + 0x1ab8, monId);
+    if (slot >= n)
+      initial = 2;
+    condition = (u8) initial;
+    if (((func_021B8588(*((void **) (p + 4))) == 3) && (condition == 2)) && (slot < 3))
+      condition = 1;
+  }
+  if ((*((u32 *) (p + 24))) != 1)
+  {
+    func_021CD64C(*((void **) (p + 12)), 0x5a, 0x21, side, move, 0xffff0000);
+    if (func_021D805C(move, 15) == 4)
+    {
+      if (func_021CBA40(p, a, move))
+        func_021B9090(*((u8 **) (p + 4)), side, move);
+      return 0;
     }
-    if (*(u32 *)(p + 24) != 1) {
-        func_021CD64C(*(void **)(p + 12), 0x5a, 0x21, side, move, 0xffff0000);
-        if (func_021D805C(move, 15) == 4) {
-            if (func_021CBA40(p, a, move)) func_021B9090(*(u8 **)(p + 4), side, move);
-            return 0;
+    if (func_021D805C(move, 7) == 3)
+    {
+      func_021B9090(*((u8 **) (p + 4)), side, move);
+      return 1;
+    }
+  }
+  else
+  {
+    func_021CD64C(*((void **) (p + 12)), 0x5a, 0x24, side, monId, move, 0xffff0000);
+    if (side == func_021B8FF4(*((u8 **) (p + 4))))
+      func_021BA1B4(*((void **) (p + 4)), 0x6f);
+  }
+  allowed = ((condition == 0) && (state != 6)) ? (1) : (0);
+  if (!allowed)
+  {
+    for (i = 0; i < 23; i++)
+    {
+      e = data_021EFDE4;
+      e = e + i;
+      if ((e->exact && (move == e->id)) || ((!e->exact) && func_021D805C(move, e->id)))
+      {
+        if (e->mode == 0)
+        {
+          allowed = 1;
+          break;
         }
-        if (func_021D805C(move, 7) == 3) {
-            func_021B9090(*(u8 **)(p + 4), side, move);
-            return 1;
+        if (((e->mode == 1) && (condition < 2)) && (state != 6))
+        {
+          allowed = 1;
+          break;
         }
-    } else {
-        func_021CD64C(*(void **)(p + 12), 0x5a, 0x24, side, monId, move, 0xffff0000);
-        if (side == func_021B8FF4(*(u8 **)(p + 4))) func_021BA1B4(*(void **)(p + 4), 0x6f);
+      }
     }
-    allowed = condition == 0 && state != 6 ? 1 : 0;
-    if (!allowed) {
-        for (i = 0; i < 23; i++) {
-            e = data_021EFDE4 + i;
-            if ((e->exact && move == e->id) || (!e->exact && func_021D805C(move, e->id))) {
-                if (e->mode == 0) { allowed = 1; break; }
-                if (e->mode == 1 && condition < 2 && state != 6) { allowed = 1; break; }
-            }
-        }
-    }
-    if (!allowed) {
-        func_021CD64C(*(void **)(p + 12), 0x5a, 0xc4, 0xffff0000);
-        return 0;
-    }
-    if (*(u32 *)(p + 24) == 1) {
-        if (state != 6) func_021CD4B0(*(void **)(p + 12), 0x4d, state, 0x282);
-        for (i = 0; i < 23; i++) {
-            e = data_021EFDE4 + i;
-            if (e->exact && move == e->id) {
-                result = 0;
-                if (!func_021C8338(p, monId)) {
-                    pos = func_021CD4FC(*(void **)(p + 12), 0x4d);
-                    result = e->call(p, mon, move, 0, arg);
-                    if (result == 1) {
-                        func_021CD568(*(void **)(p + 12), pos, 0x4d, state, 0x25e);
-                        func_021CD4B0(*(void **)(p + 12), 0x4c, 0x236);
-                        return 0;
-                    }
-                }
-                if (result == 0) func_021CD64C(*(void **)(p + 12), 0x5a, 0x44, 0xffff0000);
-                func_021CD4B0(*(void **)(p + 12), 0x4c, 0x236);
-                return 0;
-            }
-        }
-    }
-    mark = 0;
-    pos = func_021CD4FC(*(void **)(p + 12), 0x4d);
-    lock = func_021CC8D8(p + 0x1d74, 1217);
-    for (i = 0; i < 23; i++) {
-        e = data_021EFDE4 + i;
-        result = func_021D805C(move, e->id);
-        if (result && e->call(p, mon, move, result, arg)) mark = 1;
-    }
-    if (mark) {
-        func_021CD568(*(void **)(p + 12), pos, 0x4d, state, (u16)(state != 6 ? 0x25e : 0x292));
-        if (*(u32 *)(p + 24) != 1) {
-            func_021B9090(*(u8 **)(p + 4), side, move);
-            func_021BA250(*(char **)(p + 4), mon, move);
-        }
-    } else func_021CD64C(*(void **)(p + 12), 0x5a, 0x44, 0xffff0000);
-    func_021CC95C(p + 0x1d74, lock, 1246);
-    func_021CD4B0(*(void **)(p + 12), 0x4c, 0x236);
+
+  }
+  tmp = p + 24;
+  if (!allowed)
+  {
+    func_021CD64C(*((void **) (p + 12)), 0x5a, 0xc4, 0xffff0000);
     return 0;
+  }
+  if ((*((u32 *) tmp)) == 1)
+  {
+    if (state != 6)
+      func_021CD4B0(*((void **) (p + 12)), 0x4d, state, 0x282);
+    for (i = 0; i < 23; i++)
+    {
+      e = i + data_021EFDE4;
+      if (e->exact && (move == e->id))
+      {
+        result = 0;
+        if (!func_021C8338(p, monId))
+        {
+          pos = func_021CD4FC(*((void **) (p + 12)), 0x4d);
+          result = e->call(p, mon, move, 0, arg);
+          if (result == 1)
+          {
+            func_021CD568(*((void **) (p + 12)), pos, 0x4d, state, 0x25e);
+            func_021CD4B0(*((void **) (p + 12)), 0x4c, 0x236);
+            return 0;
+          }
+        }
+        if (result == 0)
+          func_021CD64C(*((void **) (p + 12)), 0x5a, 0x44, 0xffff0000);
+        func_021CD4B0(*((void **) (p + 12)), 0x4c, 0x236);
+        return 0;
+      }
+    }
+
+  }
+  mark = 0;
+  pos = func_021CD4FC(*((void **) (p + 12)), 0x4d);
+  lock = func_021CC8D8(p + 0x1d74, 1217);
+  for (i = 0; i < 23; i++)
+  {
+    e = data_021EFDE4 + i;
+    result = func_021D805C(move, e->id);
+    if (result && e->call(p, mon, move, result, arg))
+      mark = 1;
+  }
+
+  tmp1 = p + 0x1d74;
+  if (mark)
+  {
+    func_021CD568(*((void **) (p + 12)), pos, 0x4d, state, (u16) ((state != 6) ? (0x25e) : (0x292)));
+    if ((*((u32 *) (p + 24))) != 1)
+    {
+      func_021B9090(*((u8 **) (p + 4)), side, move);
+      func_021BA250(*((char **) (p + 4)), mon, move);
+    }
+  }
+  else
+    func_021CD64C(*((void **) (p + 12)), 0x5a, 0x44, 0xffff0000);
+  func_021CC95C(tmp1, lock, 1246);
+  func_021CD4B0(*((void **) (p + 12)), 0x4c, 0x236);
+  return 0;
 }

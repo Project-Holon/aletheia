@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own ARM9 arities checked; 02021F64 reads only low halfword of fifth slot, original outgoing str supplies ldrh colour. 2 ov116 caller and ov120 archive twins checked. 3 int heap unchanged, u16 index worsened; source const and weight u8 unchanged. 4 narrow-spill/masked-local/shift idioms read. 5 idiom directory and neighbours refreshed. Permuter baseline DIFF 24/584 agrees; 300 candidates gives valid DIFF 10/584, one confirms. No further order variants permitted.
+ * checks: 1 wave59 rederived every callee from full ARM9 files/SDK headers and matched callers; 02021F64 fifth slot reads low halfword only. 2 ov116 D7B70 and ov120 archive twins reread. 3 u16 heap removed required truncation and worsened; final callee int signedness unchanged, long heap with int weight worsened. 4 narrow-stack-reload and byte-count spill idioms read. 5 directory and neighbours refreshed. Earlier permuter 300 baseline 24/best 10 confirmed, not repeated.
+ * retry: wave59 R1 four compiles; best remains 584 B/10 concrete bytes. Next lever is SDK/archive inline spelling around final heap reload, not further declaration reordering.
  * residual: final 02049B40 outgoing stack stores and heap reload scheduling, 10 bytes; all 25 relocations resolved.
  * symbols:
  *   func_020490F4 0x020490F4 arm

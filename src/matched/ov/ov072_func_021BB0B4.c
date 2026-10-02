@@ -1,0 +1,20 @@
+/*
+ * function: func_021BB0B4
+ * address: 0x021BB0B4
+ * packet: pkt_ov072_021BB0B4
+ * region: ov072
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * checks: 1 n/a no callees; 2 ov072_func_021BAFA8.c gives Anim and Vec layout; 3 signed Anim/Vec same residue, first variant corrected field offsets; 4 enum one improves 32 to 11 wrong bytes; 5 neighbours and idioms reread, named x plus enum assignment improves to 4 wrong bytes; next would be arithmetic/store scheduling.
+ * retry: const Vec source parameters restore the active-store ordering;
+ * wave59 matches all 40 bytes in one run.
+ */
+typedef unsigned int u32;
+typedef struct { int x,y; } Vec;
+typedef struct { unsigned short f00,n; short f04,f06,f08,f0a; int done,active,cur,to,from; Vec pos,dst,src; } Anim;
+typedef enum { OFF, ON } Flag;
+void func_021BB0B4(Anim *p,int v,const Vec *a,const Vec *b) { int x; Flag one; p->to=v; p->from=p->cur; one=ON; x=a->x; p->active=one; p->src.x=x-0x80; p->src.y=a->y-0x60; p->dst.x=b->x-0x80; p->dst.y=b->y-0x60; }
+

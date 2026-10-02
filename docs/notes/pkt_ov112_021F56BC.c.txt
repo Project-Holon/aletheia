@@ -8,8 +8,12 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 matrix SDK two-input routines and full 5EDC thirteen-input body verified; 2 no renderer twin in ov111/112/113; 3 const List, decode const/u16/u32 and flip u8/u32 compared; 4 SDK enum texparam, nested inline FX_Mul and bitfield reads tried; 5 stack-object idiom/neighbours/directory reread, packet depth at +4 and vectors at +8; macro-free emitted baseline agrees; permuter 300 best rejected (volatile pos and added return x).
+ * checks: 1 all SDK/caller arities rederived, B67C returns int and C768 takes two u32 words; full5EDC uses thirteen inputs; 2 ov111/112/113 no renderer twin; 3 mutable List restored early store order but worsened2092/1890, SDK fx32 fields unchanged2088/1849; 4 SDK texparam body is already verbatim and nested FX32_CAST unchanged; 5 idiom directory, stack-object idiom and neighbours refreshed; prior permuter300 retained.
  * blocker: 2088 vs 2080 bytes; 1849 concrete bytes differ. Frame is 32 bytes larger, allocations/scheduling and scalar/aggregate stores diverge; three camera data sites remain unwitnessed.
+ * runs: wave59 retry4 iterations (including one CCERR)+2 check3+1 check4+1 macro-free emitted baseline; no second permuter.
+ * search: fresh macro-free AST-emitted baseline is DIFF2088/1849 with57 of60 sites resolved, agreeing with fixed one; earlier300-budget best still rejected for volatile pos and added return x.
+ * interfaces: ADE8/B5C0 legacy own void(void) asm reads input r0 and writes output r1; retained two address inputs. D7C4 five, B51C three, CA00 three, B67C two, BE14 three, D8FC one, AF38 three and B60 two verified in own SDK bodies/headers or matched ov112 caller. 660C own four-input body copied; 65EC complete no-input body verified.
+ * attempts: loading decoded payload inside each arm plus scalar position stores worsened2116/1933; integer decode address unchanged; long SDK fields initially needed explicit int-pointer casts (CCERR), corrected check3 variant unchanged. Three consecutive nonshrinking iterations stopped the retry.
  * extent: Original 2080 bytes ends at 021F5EDC, next renderer helper is a separately labelled function. No leaf filed while caller differs.
  * volatile: geometry command registers repeatedly written at 021F56C8-021F56DA, 021F58EC-021F590A, 021F597C-021F5982, 021F59E8, 021F5A5C, 021F5EAE, 021F5EC6.
  * symbols:
@@ -70,9 +74,10 @@ extern const M43 d_02148B98;
 extern const M44 d_02148B54;
 extern const s16 d_020A1B38[];
 extern void func_0207D7C4(const Vec *,const Vec *,const Vec *,int,M43 *);
-extern void func_0207B67C(const M43 *,M43 *),func_02082B60(const M43 *,M33 *),func_0207ADE8(const M33 *,M44 *),func_0207B5C0(const M43 *,M44 *),func_0207BE14(const M44 *,const M44 *,M44 *);
+extern int func_0207B67C(const M43 *,M43 *);
+extern void func_02082B60(const M43 *,M33 *),func_0207ADE8(const M33 *,M44 *),func_0207B5C0(const M43 *,M44 *),func_0207BE14(const M44 *,const M44 *,M44 *);
 extern void func_021F660C(const int *,const int *,u32 *,u32 *);
-extern int func_0207C768(int,int);
+extern u32 func_0207C768(u32,u32);
 extern void func_0207D8FC(const M44 *),func_0207D888(int,int),func_0207AF38(M33 *,int,int),func_0207B51C(const Vec *,const M33 *,Vec *),func_0207CA00(const Vec *,const Vec *,Vec *);
 extern void func_021F65EC(void);
 extern void func_021F5EDC(u8 *,u32,u32,u32,u32,u32,u32,Frame *,Frame *,int,int,int *,u8);

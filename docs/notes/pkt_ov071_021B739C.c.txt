@@ -8,9 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 AE8 second argument int corrected, A08 reads two; 2 matched 7EE0 supplies menu flow and common prototypes, 7BFC/7AC4/7BB4 checked; 3 u32 state and u8 selectors no improvement; 4 byte-colour/struct-stack idioms read, nested switch worsens; 5 neighbours and idioms refreshed. Next: state and D pointer allocation tie, menu table typing.
+ * checks: 1 own callee signatures rederived, 761EC returns u8; A08 reads r0/r1 and forwards two args; 2 7EE0/7AC4/7BB4 and ov011 readers refreshed; 3 u8 sel/next flat720; c/d are mutated, no readonly const parameter; 4 explicit state7/8 if arms flat; 5 new idiom listing and byte-colour/stack neighbours refreshed.
  * runs: 4 iteration + 1 arity check + permuter(300); emitted baseline 1152 bytes; volatile-add(state) output rejected.
- * residual: 720 concrete bytes; 1152/1160 (delta -8); state/D r5/r6 swap and control-flow merging; 9 unresolved sites.
+ * residual: R3 1152/1160 (-8),720 concrete bytes,51/60 relocs; state/D r5/r6 allocation swap and merged branches persist. Earlier permuter300 spent; no rerun.
+ * retry: Wave59 R3: 3 fixed-flag runs; earlier permuter300 remains spent.
  * symbols:
  *   func_02012138 0x02012138 thumb
  *   func_02158344 0x02158344 thumb ov010
@@ -68,7 +69,7 @@ extern void func_020355D8(int);
 extern void func_020061E4(u32);
 extern int func_02175B14(u8 *);
 extern void func_02175B4C(u8 *,u8 *);
-extern int func_021761EC(u8 *);
+extern u8 func_021761EC(u8 *);
 extern int func_02173E2C(u8 *,Record *);
 extern void func_021B6B98(void *,void *,int,int,int);
 extern void func_021B6BEC(void *,void *,int,int,int);
@@ -82,7 +83,8 @@ int func_021B739C(int a,int *state,C *c,D *d)
 {
  u8 *r;
  int keys,res,t;
- u32 i,sel,next;
+ u32 i;
+ u8 sel,next;
  r=func_02158344(func_02012138(*c->f0));
  func_021B7AC4(d,c); func_021B7AE8(d,*c->f8);func_021B7BB4(c,d);func_021B7BF0(d);
  if(c->f2e==1 && *state==3) return 1;
@@ -149,7 +151,10 @@ int func_021B739C(int a,int *state,C *c,D *d)
   break;
  case 7:case 8:
   if(func_021B7A08(c->f4,d)!=1) break;
-  if(*state!=7 && (*state!=8 || (func_02035C60()==0 && !(func_020362DC()&3)))) break;
+  if(*state==7) {
+  } else if(*state==8) {
+   if(func_02035C60()==0 && !(func_020362DC()&3)) break;
+  } else break;
   if(*state==7 && r!=0 && func_02175B14(r+0x1ac)==0) break;
   func_021B7A14(d);func_020061E4(0x547);
   if(*state==7) {if(r!=0) func_02175B4C(r,r+0x1ac);d->f81=1;}
@@ -166,5 +171,4 @@ int func_021B739C(int a,int *state,C *c,D *d)
  }
  return 0;
 }
-
 

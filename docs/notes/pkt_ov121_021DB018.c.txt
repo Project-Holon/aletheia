@@ -1,0 +1,133 @@
+/*
+ * function: func_021DB018
+ * address: 0x021DB018
+ * packet: pkt_ov121_021DB018
+ * region: ov121
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * residue: DIFF 976/976, 177 concrete bytes; no unresolved call/data blocker.
+ * checks: 1 own ARM9/caller prototypes account for all 43 relocations; DCF54 reads char pointer, arc, int, int, u8, u16 and B294 consumes the eight-byte Record; 2 matched ov121 D694C/D6AEC/DCF54 and DB938 confirm resources and union cell; 3 short loop counters worsened size, const p produced CCERR then 241 differing bytes after casts; 4 declaration/register reuse, aggregate assignment and stack-struct idioms read; 5 refreshed unfiltered idioms and ov121/ov122 neighbours including DB938, C734 and D83DC; no rescuing twin. Permuter: one 300-run pass, searched const-p check spelling; emitted baseline agrees at 241; fixed mutant 239 rejected against best 177. Remaining lever: second-loop index versus zero register allocation; no further sweep.
+ * symbols:
+ *   func_020490F4 0x020490F4 arm
+ *   func_02049B68 0x02049B68 arm
+ *   func_02049658 0x02049658 arm
+ *   func_020498F4 0x020498F4 arm
+ *   func_020409B4 0x020409B4 arm
+ *   func_02049238 0x02049238 arm
+ *   func_02040C14 0x02040C14 arm
+ *   func_0204ACEC 0x0204ACEC arm
+ *   func_020450F0 0x020450F0 arm
+ *   func_02045374 0x02045374 arm
+ *   func_0204AC18 0x0204AC18 arm
+ *   func_0204AF28 0x0204AF28 arm
+ *   func_0204A6C8 0x0204A6C8 arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_0204B294 0x0204B294 arm
+ *   func_0204B3DC 0x0204B3DC arm
+ *   func_0204B92C 0x0204B92C arm
+ *   func_0204B604 0x0204B604 arm
+ *   func_02040588 0x02040588 arm
+ *   func_0201F5BC 0x0201F5BC thumb
+ *   func_0201BC3C 0x0201BC3C thumb
+ *   func_021D99A4 0x021D99A4 thumb ov121
+ *   func_021DCF54 0x021DCF54 thumb ov121
+ *   data_021DF86E 0x021DF86E data a2
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed short s16;
+typedef union {u16 h[4];u8 b[8];} Cell;
+typedef struct {s16 x,y,z;u8 a,b;} Record;
+extern const Cell data_021DF86E[];
+extern void *func_020490F4(u32,u16);
+extern void func_02049B68(void *,u32,u32,u32,u32,u16);
+extern void func_02049658(void *,u32,u32,u32,u32,u32,u16);
+extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
+extern void func_020409B4(u32);
+extern void func_02049238(void *);
+extern void func_02040C14(u32,u32,u32,u32);
+extern void func_0201F5BC(u32,u32,u32,u32,u16);
+extern int func_0201BC3C(void);
+extern int func_0204ACEC(void *,u32,u32,u32,u16);
+extern void *func_020450F0(u8,u16,u16,u8,u8,u8,u8);
+extern void func_02045374(void *);
+extern void *func_021D99A4(u32,u32,u16,u16,u8,u8,u8,u32,u16);
+extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16);
+extern int func_0204AF28(void *,u32,u32,u32);
+extern int func_0204A6C8(void *,u32,u32,u32,u16);
+extern void func_021DCF54(char *,void *,int,int,u8,u16);
+extern void func_02082BCC(void *,int,int);
+extern void *func_0204B294(u32,u32,u32,u32,Record *,u16,u16);
+extern void func_0204B3DC(void *,u32);
+extern void func_0204B92C(void *,u32);
+extern void func_0204B604(void *,u32,u32);
+extern void func_02040588(u32,u32);
+void func_021DB018(char *p,u16 heap)
+{
+    int i;
+    void *arc;
+    Cell cell;
+    Record point;
+    int j;
+    arc=func_020490F4(34,heap);
+    func_02049B68(arc,1,0,0,320,heap);
+    func_02049658(arc,10,3,0,0,0,heap);
+    func_020498F4(arc,17,3,0,0,0,heap);
+    func_02049658(arc,10,1,0,0,0,heap);
+    func_020498F4(arc,19,1,0,0,0,heap);
+    func_020409B4(3);
+    func_02049B68(arc,1,4,0,320,heap);
+    func_02049658(arc,10,7,0,0,0,heap);
+    func_020498F4(arc,18,7,0,0,0,heap);
+    func_02049238(arc);
+    arc=func_020490F4(23,heap);
+    func_02049B68(arc,5,0,480,32,heap);
+    func_02049B68(arc,5,4,480,32,heap);
+    func_02049238(arc);
+    func_02040C14(1,0,1,0);
+    func_02040C14(2,0,1,0);
+    func_0201F5BC(0,1,13,0,heap);
+    arc=func_020490F4(7,heap);
+    *(int *)(p+0xba8)=func_0204ACEC(arc,func_0201BC3C(),0,384,heap);
+    func_02049238(arc);
+    for(i=0;i<8;i++) {
+        if(i>=4) {
+            cell=data_021DF86E[i-4];
+            cell.b[0]+=32;cell.b[2]+=32;
+        } else {
+            cell=data_021DF86E[i];
+        }
+        *(void **)(p+i*4+0xb08)=func_020450F0(2,cell.b[2],cell.b[3],10,2,15,0);
+        func_02045374(*(void **)(p+i*4+0xb08));
+        func_020409B4(2);
+    }
+    *(void **)(p+0xab4)=func_021D99A4(0,1,13,22,6,2,3,*(u32 *)(p+20),heap);
+    arc=func_020490F4(34,heap);
+    *(int *)(p+0xb04)=func_0204AC18(arc,0,0,0,0,6,heap);
+    *(int *)(p+0xb00)=func_0204AF28(arc,32,35,heap);
+    *(int *)(p+0xafc)=func_0204A6C8(arc,9,0,0,heap);
+    func_021DCF54(p+0xbae,arc,0,0,1,heap);
+    func_021DCF54(p+0xc0e,arc,0,2,3,heap);
+    func_02049238(arc);
+    func_02082BCC(&point,0,8);
+    point.x=0;point.y=24;point.b=1;point.a=1;
+    *(void **)(p+0xaec)=func_0204B294(*(u32 *)(p+8),*(u32 *)(p+0xafc),*(u32 *)(p+0xb04),*(u32 *)(p+0xb00),&point,0,heap);
+    point.z=2;
+    *(void **)(p+0xaf0)=func_0204B294(*(u32 *)(p+8),*(u32 *)(p+0xafc),*(u32 *)(p+0xb04),*(u32 *)(p+0xb00),&point,0,heap);
+    func_0204B3DC(*(void **)(p+0xaf0),0);
+    point.a=0;
+    for(j=0;j<2;j++) {
+        if(j==0) {point.x=16;point.y=16;} else {point.x=240;point.y=16;}
+        point.z=9;
+        *(void **)(p+j*4+0xaf4)=func_0204B294(*(u32 *)(p+8),*(u32 *)(p+0xafc),*(u32 *)(p+0xb04),*(u32 *)(p+0xb00),&point,0,heap);
+        func_0204B92C(*(void **)(p+j*4+0xaf4),1);
+        func_0204B3DC(*(void **)(p+j*4+0xaf4),0);
+        if(j==0) func_0204B604(*(void **)(p+j*4+0xaf4),1,1);
+        else func_0204B604(*(void **)(p+j*4+0xaf4),1,0);
+    }
+    func_02040588(2,1);
+}

@@ -8,8 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 BB6AC takes three parameters with Vec12 and word out; 2 ov072 callees/twins read; 3 u8 moved retained 1100B/32 out; 4 initialized Pos restores address-first zero stores; 5 scoped locals leave wrong stack slots; permuter300 emitted baseline 1100B/32 out, same-size best318 out rejected.
- * residual: 1100/1104 bytes, 32 concrete bytes out: local initializer scope changes the stack-object offsets.
+ * checks: 1 rederived own callees, BB6AC Vec12/word out, B0B4 two-word const Pos; BA3EC live result/BA5AC live r0 override forwarders; 2 fresh BA69C/BA3BC, no full twin; 3 u32 moved unchanged32, const a/p inapplicable 995C/object writes; 4 struct stack/scope and initialized-array address-first idioms; 5 fresh own neighbours and full idiom directory; next all point locals in use-site blocks (two scheduling variants exhausted).
+ * residual: DIFF 1100/1104, 32 concrete bytes; all 65 relocations resolved. Flat compound-literal variant1104/1013, explicit zeros restore all offsets but1096/1026; enum moved unchanged32. Prior permuter300 recorded, not repeated.
+ * next: all point locals in later use-site blocks may preserve original initializer placement and reverse stack-object order.
  * symbols:
  *   func_021BA040 0x021BA040 thumb ov072
  *   func_021BB0E0 0x021BB0E0 thumb ov072

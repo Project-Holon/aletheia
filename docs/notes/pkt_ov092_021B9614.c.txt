@@ -8,9 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 31348 four args: overlay id r1/descriptor r2 (ov170 DF288 and ARM9 314F4), corrected late; 2 no full twin; 3 u8 flag and const s/enum each tested; 4 enum constants and loader descriptor idioms read; 5 fresh idiom directory and matched B9C34/B9CA4/B9AA0/DF288 read.
- * residual: final corrected body1032/1024,519 concrete bytes,70/73 relocs; early return layout, later loop spills remain. Descriptor hints ov207/194/195 are justified by pooled loader ids and three-callback tables but do not attest.
+ * checks: 1 own ov092 bodies and ARM9 callers rederive loader31348 four args in id/descriptor order; 2 9C34/9C80/9CA4/9AA0 refreshed, no full twin; 3 const s with explicit mutable API casts improves519 to517; 4 wrapping switch in busy!=1 gives1028/941, rejected; 5 idiom listing and distinct-return-label guidance refreshed.
+ * residual: R3 best1032/1024 (+8),517 concrete bytes,70/73 relocs; return layout/loop spills and three unattested descriptors remain. Prior permuter300 spent before loader correction; no rerun.
  * search: permuter300 spent before loader order correction; byte baseline507 agreed, reloc baseline4 unresolved vs one3. Best722 had tmp/tmp1 assigned before case labels (unreachable); reject. Earlier1020/507 and1032/437 spellings had swapped loader args; do not restore.
+ * retry: Wave59 R3: 2 fixed-flag runs; previous permuter300 remains spent.
  * symbols:
  *   func_02031330 0x02031330 arm
  *   func_02012934 0x02012934 thumb
@@ -143,7 +144,7 @@ extern u8 func_02012984(void *);
 extern u32 func_0201B2B0(void *, void *, u32, u32, u8, u32 *, u16);
 extern void *func_02030734(u32, u32, int, const u8 *, u16);
 extern void func_020307B0(void *);
-int func_021B9614(void *unused, u32 *step, u8 *s, u8 *r)
+int func_021B9614(void *unused, u32 *step, const u8 *s, u8 *r)
 {
     u32 busy;
     void *party;
@@ -165,13 +166,13 @@ int func_021B9614(void *unused, u32 *step, u8 *s, u8 *r)
         (*(u16 *)((u8 *)(r)+( 56))) = 0;
         (*(u16 *)((u8 *)(r)+( 58))) = 0;
         if ((*(u32 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 0))) <= 1) {
-            func_021B9A14(r, s);
+            func_021B9A14(r, (u8 *)s);
             func_0201AC2C((*(void **)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 36))), party);
             func_0201B038(party);
             func_0201B170(party);
             if ((*(u32 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 140))) == 1) func_021B9AA0(party);
-            func_021B9C34(s, party, func_021B9C80((u32)(*(void **)((u8 *)(s)+( 4))) + 8, (*(u16 *)((u8 *)(r)+( 60)))));
-            func_021B9CA4(s, party);
+            func_021B9C34((u8 *)s, party, func_021B9C80((u32)(*(void **)((u8 *)(s)+( 4))) + 8, (*(u16 *)((u8 *)(r)+( 60)))));
+            func_021B9CA4((u8 *)s, party);
             amount = (*(u32 *)((u8 *)((*(void **)((u8 *)(s)+( 4))))+( 136)));
             if (amount > 0) func_0200C278(func_02012F08((*(void **)((u8 *)(s)+( 0)))), amount);
             else if (amount < 0) func_0200C29C(func_02012F08((*(void **)((u8 *)(s)+( 0)))), -amount);

@@ -8,8 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 BBAF8 takes three parameters; 2 matched ov091 prototypes and adjacent 16B tables checked; 3 u8 flag retained 1508B/122 out; 4 enum zero placement did not restore its web; 5 declared Four locals are four bytes low; permuter96 baseline122 out, volatile n reached concrete-correct MATCH and was rejected.
- * residual: 1508/1508 bytes, 122 concrete bytes out: n stays in r7 instead of spilling, zero fails to stay live, frame36 instead of40. The volatile-n candidate is prohibited; this C has no volatile.
+ * checks: 1 arities rederived from matched ov091 bodies and 8180/9788/BA0A8 callers; BBAF8 is three; B99E4 caller truncates index to u8; 2 no full twin, B99E4/B9E20 refreshed; 3 u32 flag flat122; 4 enum-zero-before-first-read and scalar-struct n each flat; 5 idiom directory and stack/zero neighbours refreshed.
+ * residual: R3 1508/1508,122 concrete bytes,86/86 relocs; n/zero register web and frame36 vs40 persist. Earlier permuter96 spent; no rerun.
+ * retry: Wave59 R3: 4 fixed-flag runs; previous search retained.
  * symbols:
  *   func_021B8F68 0x021B8F68 thumb ov091
  *   func_021B8FC4 0x021B8FC4 thumb ov091
@@ -167,7 +168,7 @@ void func_021B916C(u8 *p)
     Four a,b;
     u32 old,n;
     int r,level;
-    u8 flag;
+    u32 flag;
     u8 i;
     u8 *q;
     enum { ZERO=0 } zero;

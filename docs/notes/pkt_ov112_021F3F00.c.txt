@@ -7,9 +7,9 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * checks: 1 760C live result and 80B0 two inputs verified; 2 no initializer twin, pending 80B0 agrees; 3 u8/u16 flags and u32 mask tested, Context fields verified; 4 pair-copy/struct/address idioms read, safe permuter mutations ported; 5 neighbours and stack-object idiom reread; permuter 300 best 456/464, 216 bytes differs, offset 4*i bounded by four.
- * blocker: 456 vs 464 bytes; 216 concrete bytes differ. Frame/register scheduling and final loop remain; d_021F8240 has no witness at reordered pool slot.
+ * status: EXACT
+ * checks: retry rederived all callees; prior permuter 300 retained. Original table pool is 8240,8234,824C; declaration order restores it and all three resolve.
+ * match: u32 offset and integer row address retain the spilled row and live index; vectors follow frame order; second loop reuses the earlier j as mask and mask as index; final mask advances before i.
  * ABI: 760C leaves a live result used by this caller despite its own void declaration.
  * symbols:
  *   func_021F5164 0x021F5164 thumb ov112
@@ -66,9 +66,9 @@ extern const Vec d_021F824C;
 extern void *func_021F5164(u32);
 extern void *func_021F48C0(u32, int, u16);
 extern void *func_021F709C(u16, void *, void *, void *, void *);
-extern void *func_021F760C(void *, u8 *);
+extern void *func_021F760C(u8 *, u8 *);
 extern void func_021F5438(void *, int);
-extern void func_021F80B0(void *, void *);
+extern void func_021F80B0(int, int);
 extern int func_021F8154(int, int *, int);
 extern void *func_021F6BD8(u16, void *);
 extern void *func_021F6E78(void *, int);
@@ -78,19 +78,19 @@ extern void func_021F8084(void *, void *, Vec *);
 extern void func_021F6EF4(void *, void *, Vec *);
 void func_021F3F00(Context *p)
 {
-  u16 offset;
+  u32 offset;
+  Vec pos = d_021F8240;
   Vec scale = d_021F8234;
   int z[4];
   Vec temp;
   Vec base;
   u8 i;
-  u8 j;
   u8 mask;
-  unsigned short flags;
+  u8 j;
+  int flags;
   int current;
   void *q;
   u8 *row;
-  Vec pos = d_021F8240;
   int tmp1;
   void *tmp;
   current = 5 << 16;
@@ -108,7 +108,7 @@ void func_021F3F00(Context *p)
     if (1)
     {
       *((void **) (row + 0x30)) = q;
-      func_021F80B0(p->render, q);
+      func_021F80B0((int)p->render, (int)q);
       func_021F8154((int) p->render, *((int **) (row + 0x30)), 1);
     }
   }
@@ -123,12 +123,11 @@ void func_021F3F00(Context *p)
     }
   }
 
-  mask = 1;
-  for (j = 0; j < 4; j++, mask <<= 1)
+  for (j = 1, mask = 0; mask < 4; j <<= 1, mask++)
   {
-    if (flags & mask)
+    if (flags & j)
     {
-      z[j] = current;
+      z[mask] = current;
       current += 30 << 12;
     }
   }
@@ -138,10 +137,10 @@ void func_021F3F00(Context *p)
   tmp = func_021F6BD8(p->heap, 0);
   p->effect = tmp;
   base = d_021F824C;
-  for (; i < 4; i++, mask <<= 1)
+  for (; i < 4; mask <<= 1, i++)
   {
     offset = 4 * i;
-    row = ((u8 *) p) + offset;
+    row = (u8 *)(((u32)p) + offset);
     scale.x = func_021F40D0(p, i, *((u16 *) ((*((u8 **) (row + 8))) + 8)));
     if (p->cfg->flags & mask)
     {

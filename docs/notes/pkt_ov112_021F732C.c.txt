@@ -9,8 +9,9 @@
  * isa: thumb
  * status: DIFF
  * residual: same-size 628 B, 54 concrete bytes; row index/r pointer colours, invariant constant spill order, z-expression scheduling.
- * checks: 1 forwarders and full targets prove return/width ABI; 2 7204/6A80 twins checked; 3 const p/q compiled unchanged, u16 angle/end worse; 4 declared matrix/vector locals and row arrays reduced residue; 5 idioms and matched neighbours reread.
+ * checks: 1 wave59 rederived 5450/545C, full 4B24/4B30 forwarding targets, 4E8C/4ED4/4EB4/4E6C callers and SDK vector signatures; 4ED4 original truncates its third input. 2 7204/6A80/7E2C/760C twins reread. 3 long i unchanged, u8 flip and long mapped worsened. 4 typed Record pointer and unsigned constant suffixes unchanged; named long byte offset worsened. 5 unfiltered directory and neighbours refreshed; declared-struct, long-index, masked-width and unsigned-hoist idioms read.
  * retry: permuter --budget 300 --types baseline DIFF 55, best DIFF 54 confirmed by fixed one; harmless expression temporaries retained.
+ * retry-wave59: seven compiles, best remains628 B/54 concrete bytes. Earlier permuter300 not repeated. tmp3 declaration moved to block top with unchanged fixed verdict. Next lever is SDK rotation inline source structure, not more ordering variants.
  * ABI: 4B24/4B30 are tail forwarders; caller consumes their r0 result.
  * symbols:
  *   func_021F5450 0x021F5450 thumb ov112
@@ -83,6 +84,7 @@ void func_021F732C(u8 *p, Row *q)
   u8 *tmp1;
   Vec *tmp2;
   int tmp4;
+  int *tmp3;
   for (i = 0; i < 9; i++)
   {
     mapped = i;
@@ -144,7 +146,7 @@ void func_021F732C(u8 *p, Row *q)
   }
 
   func_021F545C(*((u8 **) (((u8 *) q) + 0x58)));
-  int *tmp3 = (int *) (((u8 *) q) + 24);
+  tmp3 = (int *) (((u8 *) q) + 24);
   pos.x = (*tmp3) / 16;
   pos.y = (0xc0000 - (*((int *) (((u8 *) q) + 28)))) / 16;
   pos.z = 50;

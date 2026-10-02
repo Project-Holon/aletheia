@@ -7,12 +7,13 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: EXACT
  * checks: 1 n/a no callees; 2 ov072_func_021BAFA8.c gives Anim and Vec layout; 3 signed Anim/Vec same residue, first variant corrected field offsets; 4 enum one improves 32 to 11 wrong bytes; 5 neighbours and idioms reread, named x plus enum assignment improves to 4 wrong bytes; next would be arithmetic/store scheduling.
- * residue: 40 bytes, 4 concrete bytes differ at +0x0C/+0x0E: original stores active before subtracting 0x80, compiler subtracts first.
+ * retry: wave59 const Vec source parameters restore active-store ordering;
+ * all 40 bytes match in one run, shard verified.
  */
 typedef unsigned int u32;
 typedef struct { int x,y; } Vec;
 typedef struct { unsigned short f00,n; short f04,f06,f08,f0a; int done,active,cur,to,from; Vec pos,dst,src; } Anim;
 typedef enum { OFF, ON } Flag;
-void func_021BB0B4(Anim *p,int v,Vec *a,Vec *b) { int x; Flag one; p->to=v; p->from=p->cur; one=ON; x=a->x; p->active=one; p->src.x=x-0x80; p->src.y=a->y-0x60; p->dst.x=b->x-0x80; p->dst.y=b->y-0x60; }
+void func_021BB0B4(Anim *p,int v,const Vec *a,const Vec *b) { int x; Flag one; p->to=v; p->from=p->cur; one=ON; x=a->x; p->active=one; p->src.x=x-0x80; p->src.y=a->y-0x60; p->dst.x=b->x-0x80; p->dst.y=b->y-0x60; }
