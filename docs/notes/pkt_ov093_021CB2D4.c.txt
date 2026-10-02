@@ -1,0 +1,151 @@
+/*
+ * function: func_021CB2D4
+ * address: 0x021CB2D4
+ * packet: pkt_ov093_021CB2D4
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 verified all call interfaces; D59B4 reads r1 despite stale one-argument pending declaration, CB55C consumes four arguments, 02018480 forwards two full words; 2 own matched getters and C5308 caller checked, no algorithm twin; 3 u8 count with unsigned comparisons increased residue to 24 bytes, u8 id retained 10 (2/2); 4 declaration/scope spill and byte-count idioms read; 5 fresh unfiltered idiom listing and C5308/D7FF8 neighbours reread, no new twin; no further manual scheduling sweep permitted (2/2).
+ * residual: original/compiled 648 bytes; 10 concrete bytes differ in outer i/id sp+0x0c versus sp+0x10 and str/ldr order at +0x188/+0x18a. 35/36 relocations resolved; ARM9 02018480 at +0x1ea lacks an outside witness, owner Ilias; no blocker C or overlay leaves filed.
+ * budget: carried zero; iteration 4, consecutive nonshrinking 1 and 1 run from first nonshrinking; manual scheduling 2/2; checks compile counts 0,0,2,0,0; sweeps 0/3; once-only permuter 300/300 consumed, no improvement; TU/verification 0. Normal iteration stopped at manual cap; do not repeat width checks or permuter.
+ * evidence: scratchpad/overlay-goal-20261001-w48/B1, terminal one01 through one04-helper/check3a-count/check3b-id and permuter logs. Explicit _u32_div_f at 0209C2B0 ARM preserves zero eligible domain; helper repair compiled identically. Original truncations copied for B9C00/B9BF0/D6E0C and CB55C arguments; ID u8 proven by own matched D5440. No invented defaults or party-count cap.
+ * symbols:
+ *   func_021D7EB4 0x021D7EB4 thumb ov093
+ *   func_021B9B94 0x021B9B94 thumb ov093
+ *   func_021B86B8 0x021B86B8 thumb ov093
+ *   func_02082BCC 0x02082BCC arm
+ *   func_021B9C00 0x021B9C00 thumb ov093
+ *   func_021D5B68 0x021D5B68 thumb ov093
+ *   func_021D5B40 0x021D5B40 thumb ov093
+ *   func_021D6E04 0x021D6E04 thumb ov093
+ *   func_021D6E0C 0x021D6E0C thumb ov093
+ *   func_021B9934 0x021B9934 thumb ov093
+ *   func_021D5440 0x021D5440 thumb ov093
+ *   func_021B871C 0x021B871C thumb ov093
+ *   func_021D5844 0x021D5844 thumb ov093
+ *   func_021D59B4 0x021D59B4 thumb ov093
+ *   func_021CB55C 0x021CB55C thumb ov093
+ *   func_02018480 0x02018480 thumb
+ *   func_02017E1C 0x02017E1C thumb
+ *   func_02008564 0x02008564 thumb
+ *   func_021D7B10 0x021D7B10 thumb ov093
+ *   func_02011168 0x02011168 thumb
+ *   func_021B9BF0 0x021B9BF0 thumb ov093
+ *   func_021CB5F0 0x021CB5F0 thumb ov093
+ *   _u32_div_f 0x0209C2B0 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct Record { u32 amount; u8 flagged; u8 bytes[7]; };
+extern u32 func_021D7EB4(void *);
+extern u8 func_021B9B94(void *);
+extern void *func_021B86B8(void ***);
+extern void func_02082BCC(void *, u8, u32);
+extern u32 func_021B9C00(void *, u8);
+extern int func_021D5B68(void *);
+extern u16 func_021D5B40(void *);
+extern u8 func_021D6E04(u8 *);
+extern u8 func_021D6E0C(u8 *, u8);
+extern int func_021B9934(char *, int);
+extern u8 func_021D5440(u8 *);
+extern int func_021B871C(char *);
+extern u32 func_021D5844(u32 *);
+extern int func_021D59B4(void *, int);
+extern u32 func_021CB55C(void *, u32, u16, u16);
+extern int func_02018480(void *, const void *);
+extern u32 func_02017E1C(void *, u32, u32);
+extern u8 func_02008564(const void *);
+extern u32 func_021D7B10(u32, u32);
+extern u32 func_02011168(u32);
+extern u32 func_021B9BF0(void *, u8);
+extern void func_021CB5F0(u32 *, u8 *, u8 *);
+extern u32 _u32_div_f(u32, u32);
+
+void func_021CB2D4(u8 *p, char *g, u8 *a, struct Record *q)
+{
+    u16 i;
+    u8 j;
+    u16 special;
+    u8 eligible;
+    u32 amount;
+    u32 count;
+    u32 share;
+    u16 level;
+    u8 id;
+    u32 form;
+    u16 otherLevel;
+    u32 owner;
+    u32 record;
+    u32 foreignId;
+    int n;
+    u8 *m;
+    struct Record *r;
+
+    amount = func_021D7EB4(a);
+    count = func_021B9B94(g);
+    special = 0;
+    if ((u32)func_021B86B8(*(void ****)(p + 4)) == 1)
+        amount = amount * 15 / 10;
+    for (i = 0; i < 6; i++) func_02082BCC(q + i, 0, 12);
+    for (i = 0; i < count; i++) {
+        m = (u8 *)func_021B9C00(g, i);
+        if (!func_021D5B68(m) && func_021D5B40(m) == 216) special++;
+    }
+    if (special != 0) {
+        u32 specialShare;
+        specialShare = amount >> 1;
+        amount -= specialShare;
+        specialShare /= special;
+        if (specialShare == 0) specialShare = 1;
+        for (i = 0; i < count; i++) {
+            m = (u8 *)func_021B9C00(g, i);
+            if (!func_021D5B68(m) && func_021D5B40(m) == 216) q[i].amount = specialShare;
+        }
+    }
+    n = func_021D6E04(a);
+    eligible = 0;
+    for (i = 0; i < n; i++) {
+        m = (u8 *)func_021B9934(*(char **)(p + 8), func_021D6E0C(a, i));
+        if (!func_021D5B68(m)) eligible++;
+    }
+    share = _u32_div_f(amount, eligible);
+    if (share == 0) share = 1;
+    for (i = 0; i < count; i++) {
+        m = (u8 *)func_021B9C00(g, i);
+        if (!func_021D5B68(m)) {
+            id = func_021D5440(m);
+            for (j = 0; j < (u32)n; j = (u8)(j + 1)) {
+                if (id == func_021D6E0C(a, j)) q[i].amount += share;
+            }
+        }
+    }
+    for (i = 0; i < count; i++) {
+        r = q + i;
+        if (r->amount != 0) {
+            owner = func_021B871C(*(char **)(p + 4));
+            m = (u8 *)func_021B9C00(g, i);
+            record = func_021D5844((u32 *)m);
+            level = func_021D59B4(m, 15);
+            otherLevel = func_021D59B4(a, 15);
+            r->amount = func_021CB55C(m, r->amount, level, otherLevel);
+            if (!func_02018480((void *)record, (void *)owner)) {
+                foreignId = func_02017E1C((void *)record, 12, 0);
+                form = func_02008564((void *)owner);
+                r->amount = func_021D7B10(r->amount, foreignId != form ? 0x1b33 : 0x1800);
+                r->flagged = 1;
+            }
+            if (func_021D5B40(m) == 231) {
+                r->amount = func_021D7B10(r->amount, 0x1800);
+                r->flagged = 1;
+            }
+            r->amount = func_02011168(r->amount);
+        }
+    }
+    for (i = 0; i < count; i++) {
+        if (q[i].amount != 0)
+            func_021CB5F0((u32 *)func_021B9BF0(g, i), a, (u8 *)(q + i));
+    }
+}

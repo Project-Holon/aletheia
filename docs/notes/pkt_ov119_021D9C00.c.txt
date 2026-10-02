@@ -8,7 +8,7 @@
  * isa: thumb
  * status: not attempted: input-state proof missing
  * checks: no compiler iteration or numbered DIFF checks consumed; semantic
- * audit of full original, full 9CFC/AF68 callers and 92DC status writer.
+ * audit of full original, full 9CFC/AF68 callers, 92DC status writer and CD38 callback dispatcher; all matching budgets remain zero.
  */
 The 252-byte original loads two unsigned status bytes at p+0x11e0 plus
 indices selected by 0203D1A4(020399A8()). Both statuses equal 1 selects
@@ -26,7 +26,17 @@ received byte to p+0x11e0+index after checking a session ID. These local
 contexts do not prove that every callback input has both bytes 1 or at
 least one byte 4. 021DD294 forwards to 021E2A1C only for state 3; the full
 matched forwarder releases objects and does not initialize these bytes.
+Fresh wave 48 full 021DCD38 dispatcher evidence does not supply a stable
+message through r7 either: CD38 saves incoming r7, loads the callback into
+r4, supplies only r0=p and invokes blx r4 at 021DCD5A; its first subsequent
+r7 assignment is 021DCD6C. The callee's meaningful r7 read therefore cannot
+be represented by a declared C message input without a primary protocol
+proof or an implementation boundary that preserves the incoming register.
 Future lever: prove the protocol/state invariant from primary senders and
 receive dispatch before introducing C; this is unspent work, not an
 exhausted matching budget. Full primary bodies/search evidence retained in
 scratchpad/overlay-goal-20260930-w41/B10/primary-evidence.txt.
+Fresh complete show logs and interface audit:
+scratchpad/overlay-goal-20261001-w48/B1/show-D9C00.log,
+receive-92DC.log and dispatch-CD38-full.log. No fabricated default,
+compiler call, permuter pass or ARM9 implementation was introduced.
