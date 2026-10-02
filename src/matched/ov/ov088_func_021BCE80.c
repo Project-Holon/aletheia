@@ -39,8 +39,8 @@ extern char ov228_id[];
 
 extern int func_021BD188(u8 *);
 extern u8 *func_0202EE30(void *owner, void *a1, u8 a2, u8 a3, u16 heap);
-extern void func_02045730(void *);
-extern void func_020409B4(void);
+extern u8 func_02045730(void *);
+extern void func_020409B4(u32 index);
 extern void func_02005654(void (*fn)(void), int a);
 extern void func_021BCE70(void);
 extern void *func_020070A4(void);
@@ -61,8 +61,7 @@ void func_021BCE80(u8 *p)
 
     if (func_021BD188(p) == 0) {
         d_021BDA20 = func_0202EE30(0, *(void **)(p + 0x1c), 0xf, 0x10, 0x81);
-        func_02045730(*(void **)(p + 0x1c));
-        func_020409B4();
+        func_020409B4(func_02045730(*(void **)(p + 0x1c)));
         func_02005654(func_021BCE70, 0);
         r = func_020070A4();
         func_02034AC4((u32)ov228_id);

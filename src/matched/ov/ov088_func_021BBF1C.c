@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * EXACT*: extent runs long; the follower at 0x021BBF98 is an unlabelled
  * tail-call stub (function_starts seed).
@@ -37,8 +37,8 @@ extern u32 func_0201CCE4(u32 a0, u32 a1, u32 a2, u32 a3, u32 a5, u32 a6, u32 a7,
                          u32 a8, u16 a9, u16 a10);
 extern void func_02045334(void *win);
 extern void func_02045374(void *win);
-extern u32 func_02045730(void *win);
-extern void func_02041B6C(void);
+extern unsigned char func_02045730(void *win);
+extern void func_02041B6C(u32 bit);
 
 void func_021BBF1C(char *p, u32 a1)
 {
@@ -53,6 +53,5 @@ void func_021BBF1C(char *p, u32 a1)
     h = *(void **)(p + 0xe8);
     func_02045334(h);
     func_02045374(h);
-    func_02045730(h);
-    func_02041B6C();
+    func_02041B6C(func_02045730(h));
 }

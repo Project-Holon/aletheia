@@ -31,8 +31,8 @@
  *   func_021BA9B0  0x021BA9B0  thumb  ov088
  */
 
-extern void func_02009448(int);
-extern int func_020092EC(void);
+extern void *func_02009448(int);
+extern unsigned char func_020092EC(const void *obj);
 extern void func_0200C2F0(int, int, int);
 extern void func_02043534(int);
 extern void func_020435F4(int);
@@ -54,8 +54,7 @@ extern void func_021BA9B0(void *);
 int func_021BA114(int *p)
 {
     unsigned short z;
-    func_02009448(p[0]);
-    if (func_020092EC() == 1)
+    if (func_020092EC(func_02009448(p[0])) == 1)
         func_0200C2F0(p[2], 2, 2);
     z = 0;
     func_02043534(0);

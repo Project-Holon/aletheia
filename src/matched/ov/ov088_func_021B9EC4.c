@@ -39,7 +39,7 @@ extern char d_021BD508[];
 extern int func_020490F4(int, int);
 extern void func_0204A48C(void *, void *, int);
 extern int func_0204B100(int, int, int);
-extern void func_0204B270(void);
+extern void func_0204B270(void *bank);
 extern int func_0204A6C8(int, int, int, int, int);
 extern int func_0204ABF0(int, int, int, int, int);
 extern int func_0204AF28(int, int, int, int);
@@ -55,7 +55,7 @@ void func_021B9EC4(int *p, int heap)
     h = func_020490F4(0x1a, heap);
     func_0204A48C(d_020A1448, d_021BD508, heap);
     p[0] = func_0204B100(0x40, 0, heap);
-    func_0204B270();
+    func_0204B270((void *)p[0]);
     p[12] = func_0204A6C8(h, 5, 1, 1, heap);
     p[11] = func_0204ABF0(h, 4, 1, 0, heap);
     p[13] = func_0204AF28(h, 6, 7, heap);
