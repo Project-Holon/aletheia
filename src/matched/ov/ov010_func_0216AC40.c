@@ -31,7 +31,7 @@ typedef struct {
 } Bits;
 
 extern int func_0215A5DC();
-extern int func_0201210C();
+extern int func_0201210C(int a);
 extern void func_02012138();
 extern int func_0215A5CC();
 extern u8 *func_021664CC();
@@ -46,7 +46,7 @@ int func_0216AC40(int a0, int a1)
     int key;
 
     w = func_0215A5DC(a1);
-    h = func_0201210C();
+    h = func_0201210C(w);
     func_02012138(w);
     e = func_021664CC(func_0215A5CC(a1), w, &key);
     if (e != 0) {

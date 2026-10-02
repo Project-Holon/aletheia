@@ -36,9 +36,9 @@ loc_02164982:
 a0 = t4 + 0;
     a0 = func_0215A5DC(a0);
 loc_02164988:
-    a0 = func_0201210C();
+    a0 = func_0201210C(a0);
 loc_0216498C:
-    a0 = func_021F558C();
+    a0 = func_021F558C(a0);
 loc_02164990:
 a0 = 0;
     return a0;}

@@ -19,7 +19,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 
 extern int func_021867C4(int, int);
-extern u16 *func_0218682C(void);
+extern u16 *func_0218682C(int h);
 extern void func_02186804(int);
 
 void func_02161F14(u16 *out, u8 *in, int c)
@@ -28,7 +28,7 @@ void func_02161F14(u16 *out, u8 *in, int c)
     u16 *q;
     if (*(u16 *)(in + 2) == 1) {
         h = func_021867C4(in[9], (u16)((c & 0x7FFF) | 0x8000));
-        q = func_0218682C();
+        q = func_0218682C(h);
         out[0] = q[0x24 / 2];
         out[1] = q[8 / 2];
         func_02186804(h);

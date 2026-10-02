@@ -36,7 +36,7 @@ a0 = a2 + 0;
 t4 = a1 + 0;
     a0 = func_02012AC8(a0);
 loc_021645A8:
-    a0 = func_02013E04();
+    a0 = func_02013E04(a0);
 loc_021645AC:
     if (a0 != 0) goto loc_021645B4;
 loc_021645B0:

@@ -42,8 +42,7 @@ int func_0215F33C(int a, int b)
     u8 *base;
     int h;
     int r;
-    func_0215A5E4(b);
-    r = func_02012844();
+    r = func_02012844(func_0215A5E4(b));
     base = (u8 *)func_0215911C(x);
     h = *(u16 *)(base + (u16)func_0215F608(base, y, w) * 8 + 6);
     func_02162788(r, z, func_0215A480(h));

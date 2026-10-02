@@ -17,16 +17,16 @@
 typedef unsigned char u8;
 
 extern int func_0203D1B4(void);
-extern int func_02173D88(void);
-extern int func_02173DBC(void);
+extern int func_02173D88(int a);
+extern int func_02173DBC(int a);
 
 void func_02172FF0(u8 *w)
 {
     if (func_0203D1B4() > 1) {
-        if (w[0x282D] != 0 && func_02173D88() == 1) {
+        if (w[0x282D] != 0 && func_02173D88(w[0x282D]) == 1) {
             w[0x282D] = 0;
         }
-        if (w[0x282C] != 0 && func_02173DBC() == 1) {
+        if (w[0x282C] != 0 && func_02173DBC(w[0x282C]) == 1) {
             w[0x282C] = 0;
         }
     } else {

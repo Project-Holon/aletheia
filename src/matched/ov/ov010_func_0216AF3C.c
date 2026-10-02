@@ -27,36 +27,37 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215A5DC();
+extern int func_0215A5DC(int a0);
 extern int func_0215A5E4();
-extern int func_02012EBC();
-extern int func_0200E0B0();
+extern int func_02012EBC(int p);
+extern int func_0200E0B0(int p);
 extern int func_02012138();
-extern int func_02158344();
+extern int func_02158344(int a0);
 extern int func_02012FB0();
 extern int func_0217688C();
 
-void func_0216AF3C(int a0, int a1)
+void func_0216AF3C(int a0)
 {
+    int a1;
     int t4;
     int t5;
 
 t5 = a0 + 0;
-    a0 = func_0215A5DC();
+    a0 = func_0215A5DC(a0);
 loc_0216AF44:
 t4 = a0 + 0;
 a0 = t5 + 0;
     a0 = func_0215A5E4(a0);
 loc_0216AF4C:
 t5 = a0 + 0;
-    a0 = func_02012EBC();
+    a0 = func_02012EBC(a0);
 loc_0216AF52:
-    a0 = func_0200E0B0();
+    a0 = func_0200E0B0(a0);
 loc_0216AF56:
 a0 = t4 + 0;
     a0 = func_02012138(a0);
 loc_0216AF5C:
-    a0 = func_02158344();
+    a0 = func_02158344(a0);
 loc_0216AF60:
 t4 = a0 + 0;
     if (t4 == 0) goto loc_0216AF72;

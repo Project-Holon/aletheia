@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Three chained arm9 probes; a non-zero result from the last reads as
  * success.
@@ -23,14 +23,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_020120F4(void);
+extern int func_020120F4(void *);
 extern int func_02012EBC(int);
 extern int func_0200C404(int);
 extern int func_0200C468(int);
 
-int func_0215FF34(void)
+int func_0215FF34(void *sys)
 {
-    if (func_0200C468(func_0200C404(func_02012EBC(func_020120F4()))) != 0)
+    if (func_0200C468(func_0200C404(func_02012EBC(func_020120F4(sys)))) != 0)
         return 1;
 
     return 0;

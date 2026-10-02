@@ -19,14 +19,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02159AE8();
+extern int func_02159AE8(int a0, int a1);
 extern int func_0202EB44();
 
-int func_0215F214(int a0)
+int func_0215F214(int a0, int a1)
 {
     int t4;
 
-    a0 = func_02159AE8();
+    a0 = func_02159AE8(a0, a1);
 loc_0215F21A:
 t4 = a0 + 0;
     a0 = func_0202EB44();

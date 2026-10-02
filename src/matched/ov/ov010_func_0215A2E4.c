@@ -21,18 +21,18 @@
  */
 
 extern void *func_02030734(int, int, int, void *, int);
-extern int func_020120F4(void);
-extern int func_02012934(void);
+extern int func_020120F4(int);
+extern int func_02012934(int);
 extern int func_0201AA18(int);
 extern int func_020122C0(int, int, void (*)(void), int);
-extern int *func_020124E8(void);
+extern int *func_020124E8(int);
 extern void func_0215A370(void);
 extern int d_021728CC;
 
 int func_0215A2E4(int a, int b, int c, int d, int e, int f, unsigned short g)
 {
-    int t8 = func_020120F4();
-    int t12 = func_02012934();
+    int t8 = func_020120F4(a);
+    int t12 = func_02012934(t8);
     char *p = (char *)func_02030734(4, 0x98, 1, &d_021728CC, 0x11d);
     int r;
     int *q;
@@ -47,7 +47,7 @@ int func_0215A2E4(int a, int b, int c, int d, int e, int f, unsigned short g)
     *(int *)(p + 0x20) = 0;
     *(int *)(p + 8) = t8;
     r = func_020122C0(a, 0, func_0215A370, 0x14);
-    q = func_020124E8();
+    q = func_020124E8(r);
     q[0] = a;
     q[1] = b;
     q[2] = (int)p;

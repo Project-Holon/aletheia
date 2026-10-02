@@ -45,12 +45,12 @@ loc_0216F1EE:
 a0 = *(int *)((char *)t5 + 4);
     a0 = func_02012944(a0);
 loc_0216F1F4:
-    a0 = func_02008554();
+    a0 = func_02008554(a0);
 loc_0216F1F8:
 a1 = *(int *)((char *)t4 + 0x1c);
     if (a1 == a0) goto loc_0216F202;
 loc_0216F1FE:
-    a0 = func_02027174();
+    a0 = func_02027174(a0);
 loc_0216F202:
 a0 = *(int *)((char *)t4 + 0x18);
 a0 = *(int *)((char *)a0 + 0x10);

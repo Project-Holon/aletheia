@@ -13,9 +13,12 @@
  *   func_021B8C20  0x021B8C20  thumb  ov093
  */
 
-void func_021B8C20(int);
+typedef unsigned char u8;
+typedef unsigned int u32;
 
-void func_021B8C50(char **p)
+u8 func_021B8C20(int kind, u32 flags, u32 v);
+
+u8 func_021B8C50(char **p, u32 v, int k)
 {
-    func_021B8C20(*(int *)(*p + 4));
+    return func_021B8C20(*(int *)(*p + 4), v, k);
 }

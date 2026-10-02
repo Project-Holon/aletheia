@@ -21,8 +21,8 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 extern int func_021B8D8C(void *p, void *a, u8 b);
 extern void func_021EA40C(void *w, int v);
 extern int func_021EA428(void *w);
-extern int func_021B9934(void *p, u8 i);
-extern void func_021D646C(void);
+extern u8 *func_021B9934(void *p, u8 i);
+extern void func_021D646C(void *p);
 
 int func_021D2320(u8 *p, int *st, u32 *c)
 {
@@ -33,8 +33,7 @@ int func_021D2320(u8 *p, int *st, u32 *c)
         break;
     case 1:
         if (func_021EA428(*(void **)(p + 0x54))) {
-            func_021B9934(*(void **)(p + 4), *c);
-            func_021D646C();
+            func_021D646C(func_021B9934(*(void **)(p + 4), *c));
             return 1;
         }
         break;

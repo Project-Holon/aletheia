@@ -31,11 +31,11 @@ void *func_020122C0(void *p, int a, void (*cb)(void), int n);
 void *func_020124E8(void *p);
 int func_020120F4(void *p);
 int func_02012944(int x);
-void func_02012ED0(int x);
+u8 *func_02012ED0(int x);
 void func_0201213C(void *p, int v);
 void *func_0215F630(int x);
 void func_0215F64C(void);
-void func_021666A4(void);
+void func_021666A4(int a0);
 
 void *func_0215F6E8(void *p)
 {
@@ -46,8 +46,7 @@ void *func_0215F6E8(void *p)
     r6[0] = (int)p;
     r6[1] = (int)func_0215F630(r4);
     r6[2] = func_02012944(r4);
-    func_02012ED0(r4);
-    func_021666A4();
+    func_021666A4((int)func_02012ED0(r4));
     func_0201213C(p, 0);
     return r7;
 }

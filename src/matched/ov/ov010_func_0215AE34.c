@@ -50,9 +50,8 @@ int func_0215AE34(int a0, int a1)
     func_02159F28(p, x, y);
     if (flag != 0) {
         q = func_02012974(p);
-        func_020127A4(p);
-        r = func_02012AC8();
-        s = func_02013B44();
+        r = func_02012AC8(func_020127A4(p));
+        s = func_02013B44(r);
         t = func_0215A5CC(a1);
         func_02159B94(q, s, r, t);
         func_02159CC4(q, v0, t);

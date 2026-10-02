@@ -27,7 +27,7 @@ extern int func_02020D0C(int);
 extern void func_020202EC(int, unsigned short *);
 extern int func_02159190(int);
 extern int func_0215A61C(int);
-extern void func_02191164(void);
+extern void func_02191164(int);
 extern void func_02191184(int, int, int, int);
 
 void func_0215A9C0(int a)
@@ -40,7 +40,7 @@ void func_0215A9C0(int a)
     if (q->k[h] != 0) {
         if (func_02159190(1) != 0) {
             int t = func_0215A61C(r);
-            func_02191164();
+            func_02191164(t);
             func_02191184(t, 0, 0, q->k[h]);
         } else if (func_02159190(2) == 0) {
             func_02159190(3);

@@ -32,7 +32,7 @@ void func_0216372C(int a0, int a1)
 
 t5 = a0 + 0;
 t4 = a1 + 0;
-    a0 = func_021636A8();
+    a0 = func_021636A8(a0, a1);
 loc_02163736:
     if (a0 != 1) goto loc_0216375A;
 loc_0216373A:

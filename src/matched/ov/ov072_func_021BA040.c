@@ -10,12 +10,12 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021B6498  0x021B6498  thumb  ov173
+ *   func_021B6498  0x021B6498  thumb  ov067
  */
 
-void func_021B6498(int);
+int func_021B6498(unsigned char *p);
 
-void func_021BA040(int *p)
+int func_021BA040(int *p)
 {
-    func_021B6498(p[3]);
+    return func_021B6498((unsigned char *)p[3]);
 }

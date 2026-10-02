@@ -20,8 +20,8 @@
  */
 
 int func_02026478(int a);
-void func_02012EBC(void);
-void func_0200BE48(void);
+int func_02012EBC(int p);
+int func_0200BE48(int sys);
 int func_021736D8(void);
 void func_02175648(int a, void *b);
 int func_020399A8(void);
@@ -33,8 +33,7 @@ int func_02173CB0(int *a, int b)
     int buf[4];
 
     v = func_02026478(a[1]);
-    func_02012EBC();
-    func_0200BE48();
+    func_0200BE48(func_02012EBC(v));
     if (func_021736D8() == 0) {
         return 1;
     }

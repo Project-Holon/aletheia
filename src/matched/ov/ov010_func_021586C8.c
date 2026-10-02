@@ -18,7 +18,7 @@
  *   func_02008500  0x02008500  thumb
  */
 
-extern char *func_02158344(void);
+extern char *func_02158344(int);
 extern int func_02026478(int);
 extern int func_02175B14(void *);
 extern int func_02176230(void *, void *);
@@ -27,7 +27,7 @@ extern void func_02008500(int, int);
 
 int func_021586C8(int a, int b)
 {
-    char *q = func_02158344();
+    char *q = func_02158344(a);
     int r = func_02026478(a);
     if (q == 0 || func_02175B14(q + 0x1AC) == 0)
         return 0;

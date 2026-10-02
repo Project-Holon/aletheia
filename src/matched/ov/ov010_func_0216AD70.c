@@ -39,8 +39,8 @@ extern int func_02159B10();
 extern u16 *func_02159AE8();
 extern int func_0215A5DC();
 extern int func_0215A5E4();
-extern int func_02012EBC();
-extern int func_0200E0B0();
+extern int func_02012EBC(int p);
+extern int func_0200E0B0(int p);
 extern int func_02012138();
 extern int func_021767A0();
 extern int func_02012FB0();
@@ -62,7 +62,7 @@ int func_0216AD70(int a0, int a1)
     out = func_02159AE8(a0, a1);
     x = func_0215A5DC(a1);
     y = func_0215A5E4(a1);
-    func_0200E0B0(func_02012EBC());
+    func_0200E0B0(func_02012EBC(y));
     t = func_02012138(x);
     switch (kind) {
     case 0:

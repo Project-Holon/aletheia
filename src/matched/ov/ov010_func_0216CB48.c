@@ -66,16 +66,16 @@ typedef struct Work {
 
 extern void *func_020120F4(void *p);
 extern void *func_0201210C(void *p);
-extern void *func_02188C54(void);
+extern void *func_02188C54(void *p);
 extern void *sub_020122C0(void *owner, int a, void (*cb)(void), u32 size);
 extern Work *sub_020124E8(void *d);
 extern void *func_02012964(void *p);
-extern void *func_0216DEE0(void);
+extern void *func_0216DEE0(void *a0);
 extern void *func_0216DE94(void *p, int a);
 extern void  func_0216D88C(void *a, VecFx32 *out);
 extern void *func_021B0A40(void *a, VecFx32 *pos);
 extern void *func_02188C58(void *p);
-extern void *func_0218EC2C(void);
+extern void *func_0218EC2C(void *p);
 extern void  func_021B09D8(VecFx32 *pos, VecFx32 *out, void *a, void *b, void *c);
 extern void *func_02012EBC(void *p);
 extern void *func_020071CC(void *sys, u32 id);
@@ -103,16 +103,16 @@ void *func_0216CB48(void *owner, int idx, u8 arg)
 
     sys = func_020120F4(owner);
     anm = func_0201210C(owner);
-    ctx = func_02188C54();
+    ctx = func_02188C54(anm);
     task = sub_020122C0(owner, 0, func_0216CAF4, sizeof(Work));
     w = sub_020124E8(task);
     w->owner = owner;
     mdl = func_02012964(sys);
-    m2 = func_0216DEE0();
+    m2 = func_0216DEE0(mdl);
     func_0216D88C(func_0216DE94(mdl, arg), &w->pos);
     mdl = func_021B0A40(m2, &w->pos);
     cam = func_02188C58(anm);
-    func_021B09D8(&w->pos, &ofs, func_0218EC2C(), cam, mdl);
+    func_021B09D8(&w->pos, &ofs, func_0218EC2C(cam), cam, mdl);
     w->pos.x += ofs.x;
     w->pos.y += ofs.y;
     w->pos.z += ofs.z;

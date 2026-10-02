@@ -32,24 +32,22 @@ typedef struct Blk {
 } Blk;
 
 int func_02026478(int a);
-void func_02012EBC(void);
-int func_0200E0B0(void);
-void func_0216749C(int a, Blk *b, int c, int d, u8 *e);
-int func_021673C4(int a);
-int func_021673A8(int a);
+void *func_02012EBC(int p);
+void *func_0200E0B0(void *p);
+void func_0216749C(void *a, Blk *b, int c, int d, u8 *e);
+int func_021673C4(void *a);
+int func_021673A8(void *a);
 int func_02039338(void);
 
 void func_02174D5C(int *p, const u8 *q)
 {
     Blk *b;
-    int x;
+    void *x;
     int t;
     u8 buf[4];
 
     b = (Blk *)((u8 *)p + 0x880);
-    func_02026478(p[1]);
-    func_02012EBC();
-    x = func_0200E0B0();
+    x = func_0200E0B0(func_02012EBC(func_02026478(p[1])));
     func_0216749C(x, b, 0x14, q[0], buf);
     b->a = buf[0];
     b->b = func_021673C4(x);

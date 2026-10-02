@@ -21,9 +21,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_020124E4();
-extern void func_02012138();
-extern int func_02158344();
+extern int func_020124E4(int p);
+extern int func_02012138(int p);
+extern int func_02158344(int a0);
 extern int func_02176850();
 extern int func_02176870();
 
@@ -32,9 +32,7 @@ int func_0216B280(int a0, int *state, u8 **work)
     int r;
     u16 *p;
 
-    func_020124E4();
-    func_02012138();
-    r = func_02158344();
+    r = func_02158344(func_02012138(func_020124E4(a0)));
     if (r == 0) {
         p = *(u16 **)work;
         if (p != 0)

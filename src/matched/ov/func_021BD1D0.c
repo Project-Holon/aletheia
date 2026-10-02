@@ -22,11 +22,13 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
+extern u8 *func_021BCA08(u8 *p, u8 x);
+
 /* 021BD1D0  guard on a callee's pointer result, then set a byte */
-void func_021BD1D0(void)
+void func_021BD1D0(u8 *p, u8 n)
 {
-    u8 *p = (u8 *)func_021BCA08();
-    if (p != 0)
-        p[0xd] = 1;
+    u8 *e = func_021BCA08(p, n);
+    if (e != 0)
+        e[0xd] = 1;
 }
 

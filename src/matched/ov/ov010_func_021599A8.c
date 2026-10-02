@@ -32,8 +32,8 @@ typedef unsigned short u16;
 extern int func_0215A5E4(int);
 extern int func_0215A5F4(int);
 extern int func_0215A5DC(int);
-extern void func_0201210C(int);
-extern int func_02188CCC(void);
+extern int func_0201210C(int);
+extern int func_02188CCC(int);
 extern int func_02012E40(int);
 extern int func_02012DD0(int);
 extern int func_021A0F90(int);
@@ -41,7 +41,7 @@ extern int func_021A153C(int);
 extern void func_021A1548(int);
 extern u16 *func_02159AE8(int, int);
 extern int func_021590FC(int);
-extern void func_021D11D8(void);
+extern void func_021D11D8(int);
 extern void func_021D1194(int);
 extern void func_021590F4(int, int);
 
@@ -51,8 +51,7 @@ int func_021599A8(int a, int b)
     int s0 = func_0215A5F4(b);
     int h;
     int ret;
-    func_0201210C(func_0215A5DC(b));
-    h = func_02188CCC();
+    h = func_02188CCC(func_0201210C(func_0215A5DC(b)));
     if (func_02012E40(s4) == 0) {
         ret = 1;
         if (func_021A0F90(h) == 7) {
@@ -79,7 +78,7 @@ int func_021599A8(int a, int b)
     }
     if (ret == 1) {
         int t = func_021590FC(s0);
-        func_021D11D8();
+        func_021D11D8(t);
         func_021D1194(t);
         func_021590F4(s0, 0);
     }

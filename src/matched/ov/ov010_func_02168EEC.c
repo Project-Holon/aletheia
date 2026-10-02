@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02012EBC  0x02012EBC  thumb
@@ -23,7 +23,7 @@ extern int func_02012EBC(int);
 extern int *func_02008B14(int);
 extern void func_0203F49C(int *, int *);
 extern int func_02168F54(int *, int *, int *, int *, int *);
-extern void func_02008BE0(int *);
+extern void func_02008BE0(int *, unsigned int);
 extern void func_02169068(int, int, int *);
 extern void func_02169004(int, int);
 
@@ -42,7 +42,7 @@ void func_02168EEC(int a)
     if (x == 0 && y != 0)
         return;
     if (x != 0) {
-        func_02008BE0(p);
+        func_02008BE0(p, x);
         func_02169068(a, x, B);
     }
     if (y != 0)

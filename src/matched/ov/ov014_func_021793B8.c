@@ -25,7 +25,7 @@ typedef int BOOL;
 
 extern u8 *g_021797A8;
 
-extern void func_0217814C(void);
+extern void func_0217814C(int err);
 extern int func_020902D8(void *info, int arg, void *buf);
 
 BOOL func_021793B8(int arg)
@@ -38,7 +38,7 @@ BOOL func_021793B8(int arg)
     if (r == 5)
         return 0;
     if (r != 0) {
-        func_0217814C();
+        func_0217814C(r);
         return 0;
     }
     return 1;

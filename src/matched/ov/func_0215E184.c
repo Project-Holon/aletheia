@@ -25,7 +25,7 @@ typedef unsigned int u32;
 
 extern int func_0215A5F4();
 extern int func_0215A5E4();
-extern int func_02012F80();
+extern int func_02012F80(int a0);
 extern int func_02156BAC();
 extern int func_02156BCC();
 extern int func_021FD910();
@@ -41,7 +41,7 @@ loc_0215E18E:
 a0 = t4 + 0;
     a0 = func_0215A5E4(a0);
 loc_0215E194:
-    a0 = func_02012F80();
+    a0 = func_02012F80(a0);
 loc_0215E198:
 t4 = a0 + 0;
 a0 = *(int *)((char *)t4);

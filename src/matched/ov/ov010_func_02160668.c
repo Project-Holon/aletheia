@@ -33,9 +33,7 @@ int func_02160668(int *a0, int *a1)
 {
     int x;
 
-    func_020120F4(a1[1]);
-    func_02012EBC();
-    x = func_0200C404();
+    x = func_0200C404(func_02012EBC(func_020120F4(a1[1])));
     switch (a1[7]) {
     case 0:
         if (func_0200C468(x) == 0) {

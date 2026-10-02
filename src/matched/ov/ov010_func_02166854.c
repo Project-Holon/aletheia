@@ -43,9 +43,9 @@ struct Task {
 
 extern void *func_020122C0(void *a, int b, void *fn, int size);
 extern struct Task *func_020124E8(void *task);
-extern void func_020120F4(void *a);
-extern void func_02012EBC();
-extern void *func_02009470();
+extern void *func_020120F4(void *a);
+extern void *func_02012EBC(void *p);
+extern void *func_02009470(void *sys);
 extern int func_02009794(void *o, int i);
 extern int func_020095C8(void *o);
 extern int func_0200973C(void *o, int i);
@@ -67,9 +67,7 @@ void *func_02166854(void *a, u8 b, u32 c, u32 d, u32 e)
     t->f124 = e;
     t->f11c = c;
     t->f120 = d;
-    func_020120F4(a);
-    func_02012EBC();
-    o = func_02009470();
+    o = func_02009470(func_02012EBC(func_020120F4(a)));
     for (i = 1; i < 0xE9; i++) {
         j = i - 1;
         if (func_02009794(o, i))

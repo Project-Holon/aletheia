@@ -42,7 +42,7 @@ a1 = t6 + 0;
     a0 = func_02159B10(a0, a1);
 loc_0215AD66:
 t5 = a0 + 0;
-    a0 = func_02159F84();
+    a0 = func_02159F84(a0);
 loc_0215AD6C:
     if (a0 != 1) goto loc_0215AD78;
 loc_0215AD70:

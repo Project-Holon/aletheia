@@ -44,12 +44,12 @@ loc_0216B542:
 a0 = t4 + 0;
     a0 = func_0215A5E4(a0);
 loc_0216B548:
-    a0 = func_02012EBC();
+    a0 = func_02012EBC(a0);
 loc_0216B54C:
-    a0 = func_0200C0F0();
+    a0 = func_0200C0F0(a0);
 loc_0216B550:
 t5 = a0 + 0;
-    a0 = func_0200C224();
+    a0 = func_0200C224(a0);
 loc_0216B556:
 t4 = a0 + 0;
     if (t4 < 5) goto loc_0216B560;

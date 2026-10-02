@@ -30,8 +30,8 @@ typedef struct Hd {
 } Hd;
 
 int func_02026478(int a);
-void func_020127A4(void);
-int func_02012AC8(void);
+void *func_020127A4(int a);
+u16 func_02012AC8(void *p);
 int func_0216786C(int a, Hd *b);
 u8 func_02012FB0(int a);
 
@@ -44,8 +44,7 @@ int func_021752DC(u8 *p)
     Hd *h;
 
     ctx = func_02026478(*(int *)(p + 4));
-    func_020127A4();
-    v = func_02012AC8();
+    v = func_02012AC8(func_020127A4(ctx));
     h = (Hd *)(p + 0x70);
     r = func_0216786C(*(int *)(p + 8), h);
     if (h->f14 != v) {

@@ -37,7 +37,7 @@ extern void func_02030EAC(void *a);
 extern void func_0201CE48(void *a);
 extern void func_02045808(void *a);
 extern void func_021B9A18(void *a);
-extern void func_021B71FC(void);
+extern void func_021B71FC(void *a);
 extern void func_021B718C(void *a);
 extern void func_021B9BA0(void *a);
 extern void func_021B9B3C(void *a);
@@ -61,7 +61,7 @@ int func_021B94CC(void *a, void *b, char *c, char *d)
         func_02045808(*(void **)(d + 0x290));
     func_021B9A18(d);
     if (*(void **)(d + 0x310) != 0)
-        func_021B71FC();
+        func_021B71FC(*(void **)(d + 0x310));
     func_021B718C(*(void **)(d + 0x30c));
     func_021B9BA0(d);
     func_021B9B3C(d);

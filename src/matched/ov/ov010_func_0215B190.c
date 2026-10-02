@@ -38,7 +38,7 @@ extern int func_020072A4();
 int func_0215B190(int a0, int a1)
 {
     int p = func_0215A5E4(a1);
-    int q = func_0201296C();
+    int q = func_0201296C(p);
     u16 *out = (u16 *)func_02159AE8(a0, a1);
     int t, r;
     if (func_020142E8(q, 0x97B) != 0) {
@@ -50,8 +50,7 @@ int func_0215B190(int a0, int a1)
             break;
         case 1:
         case 2:
-            func_020073D8(t, 8, 0);
-            if (func_0200ECB4() == 0) {
+            if (func_0200ECB4(func_020073D8(t, 8, 0)) == 0) {
                 *out = 0;
             } else {
                 *out = 1;

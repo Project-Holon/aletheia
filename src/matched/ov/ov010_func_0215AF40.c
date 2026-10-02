@@ -34,8 +34,7 @@ int func_0215AF40(int a0, int a1)
     int v;
     int k, x;
     u16 *out;
-    func_0215A5E4(a1);
-    v = func_0200CA1C();
+    v = func_0200CA1C(func_0215A5E4(a1));
     k = func_02159B10(a0, a1);
     x = func_02159B10(a0, a1);
     out = (u16 *)func_02159AE8(a0, a1);

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02197DA0  0x02197DA0  thumb
@@ -26,7 +26,7 @@ int func_02161B74(int a0)
     int t4;
 
 t4 = a0 + 0;
-    a0 = func_02197DA0();
+    a0 = func_02197DA0(a0);
 loc_02161B7C:
     if (a0 != 1) goto loc_02161B8A;
 loc_02161B80:

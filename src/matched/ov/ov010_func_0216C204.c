@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * symbols:
  *   func_020122C0  0x020122C0  thumb
@@ -23,7 +23,7 @@
 typedef struct B32 { int w[8]; } B32;
 
 extern int func_020122C0(int, int, void *, int);
-extern int *func_020124E8(void);
+extern int *func_020124E8(int task);
 extern int func_02188C58(int);
 extern int func_02188D38(int);
 extern int func_0218FE80(int);
@@ -34,7 +34,7 @@ extern B32 d_02172528;
 int func_0216C204(int a, int b)
 {
     int r = func_020122C0(a, 0, (void *)func_0216C0E8, 0x64);
-    int *p = func_020124E8();
+    int *p = func_020124E8(r);
     p[0] = a;
     p[1] = b;
     p[4] = 0;

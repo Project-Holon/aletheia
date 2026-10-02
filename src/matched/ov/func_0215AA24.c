@@ -26,9 +26,9 @@ int func_0215AA24(int a0)
     int t4;
 
 t4 = a0 + 0;
-    a0 = func_0215A5F4();
+    a0 = func_0215A5F4(a0);
 loc_0215AA2C:
-    a0 = func_0215909C();
+    a0 = func_0215909C(a0);
 loc_0215AA30:
 *(int *)((char *)t4 + 0x1c) = a0;
     return a0;}

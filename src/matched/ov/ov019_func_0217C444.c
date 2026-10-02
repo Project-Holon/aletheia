@@ -7,15 +7,15 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * symbols:
  *   func_0217F378  0x0217F378  thumb
  */
 
-void func_0217F378(void);
+void func_0217F378(void *p);
 
-int func_0217C444(void)
+int func_0217C444(void *p)
 {
-    func_0217F378();
+    func_0217F378(p);
     return 1;
 }

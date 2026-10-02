@@ -19,12 +19,12 @@ typedef unsigned short u16;
 
 typedef struct { u16 f : 3; u16 g : 13; } Fh;
 
-extern u8 *func_02158344(void);
+extern u8 *func_02158344(int);
 extern int func_02012B58(int);
 
 int func_021584A4(int unused, int a, int mode)
 {
-    u8 *q = func_02158344();
+    u8 *q = func_02158344(unused);
     int n;
     int cur;
     if (q == 0)

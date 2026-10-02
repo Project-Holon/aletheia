@@ -28,11 +28,11 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void *func_021C4BA4(void *a, void *b);
+extern void *func_021C4BA4(void *a, void *b, int c);
 
-void *func_021B9CF8(char *p, u32 *q)
+void *func_021B9CF8(char *p, u32 *q, int c)
 {
-    void *v = func_021C4BA4((void *)*q, *(void **)(p + 0x58C));
+    void *v = func_021C4BA4((void *)*q, *(void **)(p + 0x58C), c);
     int i;
 
     if (v != 0) {

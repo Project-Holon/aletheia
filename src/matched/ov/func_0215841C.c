@@ -19,10 +19,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern unsigned func_02012B80(void);
+extern unsigned func_02012B80(void *p);
 
-int func_0215841C(void)
+int func_0215841C(void *p)
 {
-    return (u8)func_02012B80();
+    return (u8)func_02012B80(p);
 }
 

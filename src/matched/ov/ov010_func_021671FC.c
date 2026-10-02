@@ -54,8 +54,8 @@ extern void func_0201F250(int a, void *b, void *c);
 extern void func_0201F31C(int a);
 extern void func_02190758(int a, int b, int c, void *d);
 extern int func_021907C0(int a);
-extern void func_02045730();
-extern void func_020409B4();
+extern unsigned char func_02045730(void *p);
+extern void func_020409B4(u32 index);
 extern void func_02045808(void *a);
 
 void func_021671FC(struct O *o)
@@ -78,9 +78,7 @@ void func_021671FC(struct O *o)
     func_0201F250(o->f1c, r6, r4);
     func_0201F31C(o->f1c);
     func_02190758(o->f14, 8, 0, r6);
-    func_021907C0(o->f14);
-    func_02045730();
-    func_020409B4();
+    func_020409B4(func_02045730((void *)func_021907C0(o->f14)));
     func_02045808(r4);
     func_02045808(r6);
 }

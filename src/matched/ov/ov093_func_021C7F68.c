@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Named by the parked ov093 file func_021D85F4.c.  Builds a candidate list in
  * a local buffer and copies the accepted entries to `out`.  EXACT*: the
@@ -28,7 +28,7 @@ typedef unsigned int u32;
 
 extern int func_021B8778(int a, int b, u8 *buf);
 extern int func_021B98A4(int a, u8 b);
-extern int func_021D5B68(void);
+extern int func_021D5B68(void *p);
 extern int func_021D5440(int a);
 
 int func_021C7F68(int *p, int b, u8 *out)
@@ -40,7 +40,7 @@ int func_021C7F68(int *p, int b, u8 *out)
 
     for (i = 0, j = 0; i < n; i++) {
         int x = func_021B98A4(p[2], buf[i]);
-        int ok = (x != 0) ? (func_021D5B68() == 0) : 0;
+        int ok = (x != 0) ? (func_021D5B68((void *)x) == 0) : 0;
 
         if (ok)
             out[j++] = (u8)func_021D5440(x);

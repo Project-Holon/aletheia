@@ -16,9 +16,9 @@
  * branch, so the pool relocation cannot be witnessed.  All bytes correct.
  */
 
-void func_02013158(int *);
+int func_02013158(char *base, int m);
 
-void func_021BA1A8(int **p)
+int func_021BA1A8(char **p, int m)
 {
-    func_02013158(*p);
+    return func_02013158(*p, m);
 }

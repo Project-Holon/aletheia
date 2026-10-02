@@ -36,7 +36,7 @@ extern int *func_0216F7BC();
 void func_0216117C(int *a0, int a1)
 {
     int h = func_020120F4(*(int *)a0[6]);
-    u32 v = *func_020127A4();
+    u32 v = *func_020127A4(h);
     int f = 1;
     int s;
     int *r;

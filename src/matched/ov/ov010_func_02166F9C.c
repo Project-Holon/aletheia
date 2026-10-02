@@ -23,9 +23,9 @@
 
 extern int func_021BE8D4(int a, int b, int c, int d);
 extern void func_02012374(void *a, int b);
-extern int func_020144DC(void);
+extern int func_020144DC(int a0, int a1);
 extern void func_020120B4(int a, void *b, void *c, int d);
-extern int func_020145CC(void);
+extern void *func_020145CC(void *a0);
 extern int func_021BE92C(int a, int b, int c, int d, int e, int f, int g);
 extern void func_020307B0(int a);
 extern char ov_id_D9[];
@@ -41,7 +41,7 @@ int func_02166F9C(void *a, int *st, int *p)
         *st = 1;
         break;
     case 1:
-        func_02012374(a, func_020144DC());
+        func_02012374(a, func_020144DC(p0, p1));
         *st = 2;
         break;
     case 2:
@@ -49,7 +49,7 @@ int func_02166F9C(void *a, int *st, int *p)
         *st = 3;
         break;
     case 3:
-        func_02012374(a, func_020145CC());
+        func_02012374(a, (int)func_020145CC((void *)p0));
         *st = 4;
         break;
     case 4:

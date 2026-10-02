@@ -29,7 +29,7 @@ void func_021B86E8(int unused, P *p)
     extern int func_020450F0(int, int, int, int, int, int, int);
     extern void func_02045334(int);
     extern void func_02045374(int);
-    extern void func_020409B4(void);
+    extern void func_020409B4(unsigned int index);
     int i;
 
     p->h[0] = func_020450F0(0, 2, 0, 0x1c, 3, 0xd, 1);
@@ -42,5 +42,5 @@ void func_021B86E8(int unused, P *p)
         p->e[i].h = p->h[i];
         p->e[i].on = 0;
     }
-    func_020409B4();
+    func_020409B4(0);
 }

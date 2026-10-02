@@ -37,7 +37,7 @@ int func_0216B91C(int a0, int a1, int a2)
 t7 = a0 + 0;
 t5 = a1 + 0;
 t4 = a2 + 0;
-    a0 = func_0200E394();
+    a0 = func_0200E394(a0);
 loc_0216B928:
 t6 = a0 + 0;
 a0 = t7 + 0;

@@ -15,8 +15,8 @@
  *   func_021BB5A4  0x021BB5A4  thumb  ov070
  */
 
-void func_021B80BC(void)
+void func_021B80BC(void *p)
 {
-    void func_021BB5A4(void);
-    func_021BB5A4();
+    void func_021BB5A4(void *p);
+    func_021BB5A4(p);
 }

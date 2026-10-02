@@ -43,7 +43,7 @@ extern void *func_02012934(void *);
 extern void *func_0201AB28(void *, int);
 extern u32 func_021F675C(void *, int);
 extern void *func_020122C0(void *, int, void *, int);
-extern Ctx *func_020124E8(void);
+extern Ctx *func_020124E8(void *);
 extern void func_02082BCC(void *, int, int);
 extern S *func_02030734(int, int, int, const char *, int);
 extern void func_0215897C(void *, void *);
@@ -64,7 +64,7 @@ int func_0215D468(void *a, void *b)
     g = func_02012F44(q);
     k = func_021F675C(func_0201AB28(func_02012934(q), f), 4);
     r = func_020122C0(h, 0, (void *)func_0215DEF0, 4);
-    c = func_020124E8();
+    c = func_020124E8(r);
     func_02082BCC(c, 0, 4);
     c->p = func_02030734(4, 0xc, 1, d_02172914, 0xd7);
     c->p->f4 = k;

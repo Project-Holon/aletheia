@@ -30,8 +30,8 @@ typedef unsigned long long u64;
 
 extern int func_0215A5F4();
 extern int func_0215A5E4();
-extern int func_02012EBC();
-extern int func_0200C0F0();
+extern int func_02012EBC(int p);
+extern int func_0200C0F0(int sys);
 extern void func_0200E394();
 extern int func_02159B10();
 extern void func_0200C334(int, u8);
@@ -51,9 +51,8 @@ int func_0216B63C(int a0, int a1)
     u64 t;
 
     func_0215A5F4(a1);
-    func_0215A5E4(a1);
-    w = func_02012EBC();
-    h = func_0200C0F0();
+    w = func_02012EBC(func_0215A5E4(a1));
+    h = func_0200C0F0(w);
     func_0200E394(w);
     k = func_02159B10(a0, a1);
     s[0] = func_02159B10(a0, a1);

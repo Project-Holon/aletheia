@@ -21,16 +21,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_0202A230(void *, int);
-extern int func_0202A3FC(void);
+extern u32 func_0202A230(void *a, u32 idx);
+extern u8 func_0202A3FC(u32 key);
 
 int func_0216EDFC(void *a0)
 {
     int r = 1;
     int v;
 
-    func_0202A230(a0, 1);
-    v = func_0202A3FC();
+    v = func_0202A3FC(func_0202A230(a0, 1));
 
     if (v == 0xC || v == 9)
         return 0;

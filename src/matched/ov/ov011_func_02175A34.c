@@ -24,8 +24,8 @@ extern int func_02173DA0(void *a, u8 *b, int i);
 extern int func_02173EEC(void *a, u8 *b);
 extern int func_021741E8(void *a, u8 *b);
 extern int func_02173F74(void *a, u8 *b);
-extern int func_021742EC(void);
-extern int func_021742A8(void);
+extern int func_021742EC(int a);
+extern int func_021742A8(int a);
 
 void func_02175A34(void *a, u8 *b)
 {
@@ -45,10 +45,10 @@ void func_02175A34(void *a, u8 *b)
     if (b[0x19c] == 1 && func_02173F74(a, b) == 1) {
         b[0x19c] = 2;
     }
-    if (b[0x19f] != 0 && func_021742EC() == 1) {
+    if (b[0x19f] != 0 && func_021742EC(b[0x19f]) == 1) {
         b[0x19f] = 0;
     }
-    if (b[0x1a0] != 0 && func_021742A8() == 1) {
+    if (b[0x1a0] != 0 && func_021742A8(b[0x1a0]) == 1) {
         b[0x1a0] = 0;
     }
 }

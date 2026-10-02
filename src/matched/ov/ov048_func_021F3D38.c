@@ -16,14 +16,14 @@
  *   func_0201433C  0x0201433C  thumb
  */
 
-extern void func_021F472C(int);
+extern void func_021F472C(int a, int b);
 extern void func_021F3A50(int *, int, int);
 extern int func_0201296C(int);
 extern void func_0201433C(int, int);
 
-void func_021F3D38(int *p, int unused, int b, int *c)
+void func_021F3D38(int *p, int a, int b, int *c)
 {
-    func_021F472C(p[5]);
+    func_021F472C(p[5], a);
     if (b == 8)
         func_021F3A50(p, b, c[1]);
     else

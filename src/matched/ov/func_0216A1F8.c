@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02188CB4  0x02188CB4  thumb
@@ -25,15 +25,16 @@ extern int func_021A3208();
 extern int func_021A2F48();
 extern int func_021A2F54();
 
-void func_0216A1F8(int a0, int a1)
+void func_0216A1F8(int a0)
 {
+    int a1;
     int t4;
 
 a0 = *(int *)((char *)a0 + 8);
     a0 = func_02188CB4(a0);
 loc_0216A200:
 t4 = a0 + 0;
-    a0 = func_021A3208();
+    a0 = func_021A3208(a0);
 loc_0216A206:
     if (a0 != 1) goto loc_0216A218;
 loc_0216A20A:

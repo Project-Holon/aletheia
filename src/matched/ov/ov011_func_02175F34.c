@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * note:     the unlabelled 2-instruction leaf at 0x02175FB4 (ldrb r0,[r0,#0x10]; bx lr) follows.
  *
@@ -41,7 +41,7 @@ typedef struct {
 extern int    func_02026478(void *p);
 extern Half8 *func_021583CC(int sv, int i);
 extern int    func_021583EC(int a, int i);
-extern int    func_0200855C(void);
+extern u8     func_0200855C(int obj);
 extern int    func_02008530(int a);
 extern int    func_021584F4(int a, int b);
 extern void   func_02175EFC(void *w, void *p, u8 i);
@@ -60,7 +60,7 @@ void func_02175F34(void *w, Ent *tbl, u32 arg, int idx)
     if (e->f10 != 1) {
         src = func_021583CC(sv, idx);
         t = func_021583EC(sv, idx);
-        u = func_0200855C();
+        u = func_0200855C(t);
         flag = func_021584F4(u, func_02008530(t)) == 0x15;
         *(Half8 *)e = *src;
         e->f11 = flag;

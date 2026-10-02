@@ -21,8 +21,8 @@
 
 typedef unsigned short u16;
 
-extern void func_0215A5F4(void *p);
-extern void **func_02158FB4(void);
+extern void *func_0215A5F4(void *p);
+extern void **func_02158FB4(void *p);
 extern u16 *func_02159AE8(void *a, void *b);
 extern void **func_02030734(int heap, int size, int clear, const char *site, int line);
 extern const char d_0217294C[];
@@ -35,8 +35,7 @@ int func_0215F1C8(void *a, void *b)
     u16 *w;
     void **p;
 
-    func_0215A5F4(b);
-    slot = func_02158FB4();
+    slot = func_02158FB4(func_0215A5F4(b));
     w = func_02159AE8(a, b);
     p = func_02030734(4, 4, 1, d_0217294C, 0x63);
     *slot = p;

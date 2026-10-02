@@ -38,7 +38,7 @@ extern int func_02159B10();
 extern int func_02012FB0();
 extern int func_0216662C();
 extern int func_0201210C();
-extern int func_02188CB4();
+extern int func_02188CB4(int p);
 extern int func_02012138();
 extern void func_021A3038();
 extern void func_021767F0();
@@ -68,7 +68,7 @@ int func_0216AE10(int a0, int a1)
     v = func_02012FB0(c);
     if (kind == 1 && func_0216662C(v) != 0) {
         x = func_0201210C(b);
-        y = func_02188CB4();
+        y = func_02188CB4(x);
         s = func_02012138(b);
         func_021A3038(y, q);
         func_021767F0(s, c, buf);

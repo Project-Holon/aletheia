@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * symbols:
  *   func_02012944  0x02012944  thumb
@@ -38,8 +38,8 @@ extern void *func_021CA210(Obj *o);
 extern u16 func_02008550(void *a);
 extern void *func_0201AB28(void *list, int i);
 extern u16 func_02017E1C(void *a, int b, int c);
-extern void func_021CA234(Obj *o);
-extern u16 func_021CA2CC(void);
+extern u16 func_021CA234(u8 *p);
+extern u16 func_021CA2CC(u16 v);
 
 void func_02167B44(Obj *o, void *a1)
 {
@@ -52,6 +52,5 @@ void func_02167B44(Obj *o, void *a1)
     o->h668 = func_02008550(t);
     for (i = 0; i < 2; i++)
         o->h66a[i] = func_02017E1C(func_0201AB28(list, o->b1e[i]), 5, 0);
-    func_021CA234(o);
-    o->h66e = func_021CA2CC();
+    o->h66e = func_021CA2CC(func_021CA234((u8 *)o));
 }

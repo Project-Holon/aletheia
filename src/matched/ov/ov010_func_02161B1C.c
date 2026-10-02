@@ -30,20 +30,19 @@ extern const char d_021713FC[];
 extern const char d_021713F4[];
 extern const char d_021713EC[];
 
-extern void func_02188CB4(void);
-extern void *func_021A3074(void);
-extern int func_0216D5F8(void);
+extern void *func_02188CB4(void *p);
+extern void *func_021A3074(void *p);
+extern u16 func_0216D5F8(void *p);
 extern void func_0216D4B4(void *a);
 extern int func_02197D3C(void *a, const char *b);
 
-int func_02161B1C(void)
+int func_02161B1C(void *a)
 {
     const char *s;
     void *p;
 
-    func_02188CB4();
-    p = func_021A3074();
-    switch (func_0216D5F8()) {
+    p = func_021A3074(func_02188CB4(a));
+    switch (func_0216D5F8(p)) {
     case 0:
         s = d_02171404;
         break;

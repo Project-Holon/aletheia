@@ -19,8 +19,8 @@
 
 extern void *func_02030734(int, int, int, void *, int);
 extern int func_02158F54(int);
-extern int func_020120F4(void);
-extern int func_02012964(void);
+extern int func_020120F4(int);
+extern int func_02012964(int);
 extern int d_021728E0;
 
 void *func_0215A514(int a, int heap)
@@ -29,8 +29,8 @@ void *func_0215A514(int a, int heap)
 
     p[0] = a;
     p[1] = func_02158F54(a);
-    p[2] = func_020120F4();
-    p[3] = func_02012964();
+    p[2] = func_020120F4(p[1]);
+    p[3] = func_02012964(p[2]);
     *((char *)p + 0x104) = 7;
     return p;
 }

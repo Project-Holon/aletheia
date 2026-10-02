@@ -32,7 +32,7 @@ typedef void (*Cb)(int);
 extern u8 *g_021797A8;
 
 extern void func_02178138(int state);
-extern void func_0217814C(void);
+extern void func_0217814C(int err);
 extern void func_02179188(void);
 extern void func_021791EC(void);
 extern int func_0208EAC8(void (*f)(void));
@@ -42,16 +42,19 @@ void func_021791F8(u16 *arg)
 {
     Cb cb;
 
+    int r;
+
     if (arg[1] != 0) {
-        func_0217814C();
+        func_0217814C(arg[1]);
         func_02178138(10);
         cb = *(Cb *)(g_021797A8 + 0x1E64);
         if (cb != 0)
             cb(0);
         return;
     }
-    if (func_0208EAC8(func_02179188) != 0) {
-        func_0217814C();
+    r = func_0208EAC8(func_02179188);
+    if (r != 0) {
+        func_0217814C(r);
         func_02178138(10);
         cb = *(Cb *)(g_021797A8 + 0x1E64);
         if (cb != 0)

@@ -17,19 +17,19 @@
  *   func_021BE6B8  0x021BE6B8  thumb
  */
 
-extern int func_02188D2C(void);
+extern int func_02188D2C(int a);
 extern void func_021BE4B4(int a, int b, int c, int d);
 extern void func_021BE700(int a, int b, int c, unsigned short d, int e);
 extern int func_021BE674(int a, int b, int c, unsigned short d);
 extern void func_021BE6B8(int a, int b);
 
-void func_021F37B8(void)
+void func_021F37B8(int a)
 {
     int r6;
     int i;
     int j;
 
-    r6 = func_02188D2C();
+    r6 = func_02188D2C(a);
     func_021BE4B4(r6, 0, 1, 0);
     for (i = 0; i < 2; i++)
         func_021BE700(r6, 0, 1, i, 1);

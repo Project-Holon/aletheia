@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * The DWC copy of WH_Initialize's WM start: WM_Initialize (0208F370) or, when
  * the flag is set, WM_InitializeForListening (0208F380), on the work block
@@ -31,7 +31,7 @@ typedef int BOOL;
 extern u8 *g_021797A8;
 
 extern void func_02178138(int state);
-extern void func_0217814C(void);
+extern void func_0217814C(int err);
 extern void func_021791F8(void *arg);
 extern int func_0208F370(void *buf, void (*cb)(void *), int dma);
 extern int func_0208F380(void *buf, void (*cb)(void *), int dma, int x);
@@ -46,7 +46,7 @@ BOOL func_021791A0(int a, int flag)
     else
         r = func_0208F380(g_021797A8 + 0x40, func_021791F8, 2, 0);
     if (r != 2) {
-        func_0217814C();
+        func_0217814C(r);
         func_02178138(10);
         return 0;
     }

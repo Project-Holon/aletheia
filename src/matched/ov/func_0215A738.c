@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02197DAC  0x02197DAC  thumb
@@ -36,7 +36,7 @@ a0 = a0 + t6;
 a0 = *(int *)((char *)a0 + 0x14);
     if (a0 == 0) goto loc_0215A756;
 loc_0215A74C:
-    a0 = func_02197DAC();
+    a0 = func_02197DAC(a0);
 loc_0215A750:
 a0 = *(int *)((char *)t5 + 0x20);
 a0 = a0 + t6;

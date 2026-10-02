@@ -39,9 +39,9 @@ t5 = a0 + 0;
 a0 = t6 + 0;
     a0 = func_0215A5E4(a0);
 loc_0215AA9C:
-    a0 = func_02012EBC();
+    a0 = func_02012EBC(a0);
 loc_0215AAA0:
-    a0 = func_0200873C();
+    a0 = func_0200873C(a0);
 loc_0215AAA4:
 t4 = a0 + 0;
 a0 = t5 + 0;

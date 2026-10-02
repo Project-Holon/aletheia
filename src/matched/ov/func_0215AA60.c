@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * blocked:  listing 48 compiled 46
  *
  * symbols:
@@ -35,12 +35,12 @@ int func_0215AA60(int a0, int a1)
 a0 = a1 + 0;
     a0 = func_0215A5E4(a0);
 loc_0215AA68:
-    a0 = func_02012EBC();
+    a0 = func_02012EBC(a0);
 loc_0215AA6C:
-    a0 = func_0200873C();
+    a0 = func_0200873C(a0);
 loc_0215AA70:
 t4 = a0 + 0;
-    a0 = func_020083E4();
+    a0 = func_020083E4(a0);
 loc_0215AA76:
 a1 = a0 + 0;
     if (a1 != 0) goto loc_0215AA7E;

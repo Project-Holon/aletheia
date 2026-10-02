@@ -24,8 +24,8 @@ typedef unsigned int u32;
 
 extern int func_0215A5F4();
 extern int func_0215A5DC();
-extern int func_020120F4();
-extern int func_02012F50();
+extern int func_020120F4(int a);
+extern int func_02012F50(int base);
 extern int func_02159AE8();
 extern int func_021D0DB0();
 
@@ -37,8 +37,7 @@ int func_0216A674(int a0, int a1)
 
     func_0215A5F4(a1);
     r7 = func_0215A5DC(a1);
-    func_020120F4();
-    r6 = (int *)func_02012F50();
+    r6 = (int *)func_02012F50(func_020120F4(r7));
     l0 = func_02159AE8(a0, a1);
     func_021D0DB0(r7, *r6, l0, func_02159AE8(a0, a1));
     return 0;

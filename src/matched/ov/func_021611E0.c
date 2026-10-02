@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_020120F4  0x020120F4  thumb
@@ -37,7 +37,7 @@ t4 = a1 + 0;
 a0 = *(int *)((char *)a0);
     a0 = func_020120F4(a0);
 loc_021611EE:
-    a0 = func_02012A30();
+    a0 = func_02012A30(a0);
 loc_021611F2:
 t6 = a0 + 0;
 a0 = *(int *)((char *)t5 + 0x18);

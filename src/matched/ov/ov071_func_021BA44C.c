@@ -29,7 +29,7 @@ typedef struct {
 extern int func_020450F0(int a, int b, int c, int d, int e, int f, int g);
 extern void func_02045334(int a);
 extern void func_02045374(int a);
-extern void func_020409B4(void);
+extern void func_020409B4(unsigned int index);
 
 void func_021BA44C(int a, S *p)
 {
@@ -48,5 +48,5 @@ void func_021BA44C(int a, S *p)
         p->e[i].h = p->h[i];
         p->e[i].on = 0;
     }
-    func_020409B4();
+    func_020409B4(0);
 }

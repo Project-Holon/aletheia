@@ -40,7 +40,7 @@ typedef struct Obj {
     u16 f4a;
 } Obj;
 
-int func_02012A30(void);
+int func_02012A30(const void *p);
 void func_02012374(void *a, int b);
 void func_02029D44(int a, int b, u16 c, u8 d);
 void func_02029D7C(int a, int b);
@@ -58,7 +58,7 @@ int func_02184894(void *a, int *state, Obj *o)
     int f0 = o->f00;
     int f4 = o->f04;
     int f8 = o->f08;
-    int h = func_02012A30();
+    int h = func_02012A30((const void *)f4);
 
     switch (*state) {
     case 0:

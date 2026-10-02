@@ -40,8 +40,8 @@ struct T {
 extern u8 func_021B8BEC(u8 *s, u32 k, u8 n);
 extern void func_021B68D8(u8 *s, struct T *t);
 extern int func_021B9114(u8 *s);
-extern u32 func_02012EBC(u32 a);
-extern u32 func_02007B44(void);
+extern void *func_02012EBC(void *sys);
+extern u32 func_02007B44(void *sys);
 extern u32 func_02007B20(u16 a);
 extern void func_02007C20(u32 a, u32 b);
 extern u8 func_021B997C(u8 *s, int k);
@@ -59,8 +59,7 @@ void func_021B6848(u8 *s, struct T *t)
     s[0x46d] = func_021B8BEC(s, k, 0);
     func_021B68D8(s, t);
     if (func_021B9114(s) == 0) {
-        func_02012EBC(t->f58);
-        v = func_02007B44();
+        v = func_02007B44(func_02012EBC((void *)t->f58));
         *(u32 *)(s + 0x3e0) = func_02007B20(*(u16 *)(s + 0x468));
         func_02007C20(*(u32 *)(s + 0x3e0), v);
         (*(struct P **)s)->f44[0] = func_021B997C(s, i);

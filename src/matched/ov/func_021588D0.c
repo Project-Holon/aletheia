@@ -24,8 +24,8 @@ extern int func_02012AC8();
 int func_021588D0(int a0)
 {
 
-    a0 = func_020120F8();
+    a0 = func_020120F8(a0);
 loc_021588D6:
-    a0 = func_02012AC8();
+    a0 = func_02012AC8(a0);
 loc_021588DA:
     return a0;}

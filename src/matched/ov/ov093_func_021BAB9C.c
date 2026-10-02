@@ -15,7 +15,7 @@
  */
 
 extern void func_021BB724(int, int, int, int);
-extern int func_021BB798(void);
+extern int func_021BB798(unsigned char *p);
 
 int func_021BAB9C(int a)
 {
@@ -27,7 +27,7 @@ int func_021BAB9C(int a)
             *(unsigned char *)(p + 0xed) = 2;
         }
     } else {
-        if (func_021BB798() != 0)
+        if (func_021BB798((unsigned char *)p) != 0)
             return 1;
     }
     return 0;

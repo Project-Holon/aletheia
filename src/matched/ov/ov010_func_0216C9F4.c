@@ -25,11 +25,11 @@
  *   func_021BE92C  0x021BE92C  thumb  ov021
  */
 
-extern int func_02161824(int);
+extern int func_02161824(int, int);
 extern void func_02012374(int, int);
 extern int func_02029BCC(int, int);
-extern void func_02188CE8(int);
-extern void func_021AAABC(void);
+extern int func_02188CE8(int);
+extern void func_021AAABC(int);
 extern int func_02189A08(int);
 extern void func_021CF498(int, int, int);
 extern int func_020144DC(int, int);
@@ -45,7 +45,7 @@ int func_0216C9F4(int a, int *st, int *o)
     int y = o[1];
     switch (*st) {
     case 0:
-        func_02012374(a, func_02161824(x));
+        func_02012374(a, func_02161824(x, y));
         (*st)++;
         break;
     case 1:
@@ -53,8 +53,7 @@ int func_0216C9F4(int a, int *st, int *o)
         (*st)++;
         break;
     case 2:
-        func_02188CE8(y);
-        func_021AAABC();
+        func_021AAABC(func_02188CE8(y));
         func_021CF498(func_02189A08(o[1]), a, 9);
         (*st)++;
         break;

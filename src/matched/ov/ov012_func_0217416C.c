@@ -28,7 +28,7 @@ typedef int (*Fn)(int, u8 *, int, int, int, int *, u8 *);
 
 extern void func_0217F074(u8 *p);
 extern void func_021734A8(u8 *p, int which, int v);
-extern void func_02012374(int v);
+extern void func_02012374(int a, int b);
 extern u8 d_0217549C[];
 extern u8 d_0217549D[];
 extern u8 d_02175498[];
@@ -57,7 +57,7 @@ int func_0217416C(int a, int *b, int *c)
         int r;
         r = (*(Fn *)(d_02175498 + r4->f4 * 8))(first, base, c[1], r4->f8, a, &loc, &r4->fc);
         if (loc != 0) {
-            func_02012374(a);
+            func_02012374(a, loc);
         } else if (r == 1) {
             (*b)++;
         }

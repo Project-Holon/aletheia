@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * blocked:  listing 72 compiled 70
  *
  * symbols:
@@ -25,8 +25,8 @@ typedef unsigned int u32;
 
 extern int func_0215A5F4();
 extern int func_0215A5E4();
-extern int func_02012F80();
-extern int func_02156BAC();
+extern int func_02012F80(int a0);
+extern void func_02156BAC(int a0);
 extern int func_02156BCC();
 extern int func_021FCE00();
 
@@ -41,13 +41,13 @@ loc_0215E072:
 a0 = t4 + 0;
     a0 = func_0215A5E4(a0);
 loc_0215E078:
-    a0 = func_02012F80();
+    a0 = func_02012F80(a0);
 loc_0215E07C:
 t4 = a0 + 0;
 a0 = *(int *)((char *)t4);
     if (a0 == 0) goto loc_0215E096;
 loc_0215E084:
-    a0 = func_02156BAC();
+    func_02156BAC(a0);
 loc_0215E088:
 a0 = *(int *)((char *)t4);
     a0 = func_02156BCC(a0);

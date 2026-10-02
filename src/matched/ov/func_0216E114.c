@@ -7,7 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
+ * blocked:  listing 76 compiled 74
  *
  * symbols:
  *   func_0216D67C  0x0216D67C  thumb  ov010
@@ -40,9 +41,9 @@ int func_0216E114(int a0, int a1)
     int t4;
 
 t4 = a0 + 0;
-    a0 = func_0216D67C();
+    a0 = func_0216D67C(a0);
 loc_0216E11C:
-    a0 = func_0216D948();
+    a0 = func_0216D948(a0);
 loc_0216E120:
     if (a0 == 0) goto loc_0216E15C;
 loc_0216E124:

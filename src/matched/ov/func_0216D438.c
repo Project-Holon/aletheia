@@ -28,7 +28,7 @@ void func_0216D438(int a0, int a1)
     int t4;
 
 t4 = a0 + 0;
-    a0 = func_0216D7C0();
+    a0 = func_0216D7C0(a0, a1);
 loc_0216D440:
 a0 = t4 + 0;
 a1 = 0;

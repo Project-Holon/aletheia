@@ -26,7 +26,7 @@ u32 func_0209CE10(u32 a, u32 b);
 u32 func_0209C77C(u32 a, u32 b);
 u32 func_0209C95C(u32 a, u32 b);
 u32 func_0209CB8C(u32 a, u32 b);
-u32 func_0209C494(void);
+u32 func_0209C494(u32 x);
 void func_0207D658(u32 a, u32 b, u32 c);
 
 void func_02187B38(char *o, int st)
@@ -39,13 +39,13 @@ void func_02187B38(char *o, int st)
         b = func_0209CE10(a, b);
         b = func_0209C77C(0x41800000, b);
         b = func_0209C95C(0xC1800000, b);
-        func_0207D658(0x04000050, 8, func_0209C494());
+        func_0207D658(0x04000050, 8, func_0209C494(b));
     } else if (st == 4) {
         a = func_0209BE04(*(u32 *)(o + 0x18));
         b = func_0209BE04(*(u32 *)(o + 0x1c));
         b = func_0209CE10(a, b);
         b = func_0209C77C(0x41800000, b);
         b = func_0209CB8C(0, b);
-        func_0207D658(0x04000050, 8, func_0209C494());
+        func_0207D658(0x04000050, 8, func_0209C494(b));
     }
 }

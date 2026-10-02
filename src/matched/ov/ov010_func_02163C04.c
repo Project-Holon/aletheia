@@ -19,7 +19,7 @@
 
 typedef short s16;
 
-extern int func_0216D83C(void);
+extern int func_0216D83C(void *p);
 extern int func_0216D86C(int a);
 extern int func_0216D804(int a);
 extern int func_0216D81C(int a);
@@ -30,7 +30,7 @@ int func_02163C04(int a, int x, int y, int flag)
     s16 r[4];
     int t;
 
-    t = func_0216D83C();
+    t = func_0216D83C((void *)a);
     func_02163A08(a, t, func_0216D86C(a), r);
     if (r[0] <= x && r[2] >= x && r[1] <= y && r[3] >= y)
         return 1;

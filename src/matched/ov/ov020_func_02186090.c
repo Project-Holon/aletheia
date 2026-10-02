@@ -7,14 +7,16 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * symbols:
  *   func_0216D588  0x0216D588  thumb
  */
 
-int func_0216D588(void);
+typedef unsigned short u16;
 
-int func_02186090(void)
+u16 func_0216D588(void *p);
+
+int func_02186090(void *p)
 {
-    return func_0216D588() - 0x80;
+    return func_0216D588(p) - 0x80;
 }

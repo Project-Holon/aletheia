@@ -10,7 +10,7 @@
  * status:   EXACT
  *
  * symbols:
- *   func_021C5A4C  0x021C5A4C  thumb  ov093
+ *   func_021C5A4C  0x021C5A4C  thumb  ov127
  *
  * Tail call on the pointer 0x598 bytes in.
  */

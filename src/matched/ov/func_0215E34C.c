@@ -17,12 +17,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02012A38();
+extern int func_02012A38(int a0);
 
-int func_0215E34C(int a0, int a1)
+int func_0215E34C(int a0)
 {
+    int a1;
 
-    a0 = func_02012A38();
+    a0 = func_02012A38(a0);
 loc_0215E352:
 a1 = 0;
 *(int *)((char *)a0 + 0xc) = a1;

@@ -33,12 +33,12 @@ int func_0216B9D8(int a0)
     int t5;
 
 t4 = a0 + 0;
-    a0 = func_0200E394();
+    a0 = func_0200E394(a0);
 loc_0216B9E0:
 a0 = t4 + 0;
     a0 = func_0200C0E8(a0);
 loc_0216B9E6:
-    a0 = func_0200C32C();
+    a0 = func_0200C32C(a0);
 loc_0216B9EA:
 t5 = a0 + 0;
 a0 = t4 + 0;

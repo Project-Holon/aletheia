@@ -25,8 +25,8 @@ typedef unsigned int u32;
 extern int func_0201296C(void *a);
 extern int func_02012F08(void *a);
 extern int func_02012944(void *a);
-extern int func_02012EBC(void *a);
-extern u32 func_02009470(void);
+extern void *func_02012EBC(void *a);
+extern u32 func_02009470(void *sys);
 extern u32 func_02009590(u32 a, int b, int c);
 extern int func_020142E8(int a, u32 b);
 extern int func_0216BF9C(int a, int b, int c);
@@ -38,8 +38,7 @@ int func_02166CD0(void *a, u32 msg)
     int r6 = func_02012944(a);
     u32 t;
     int res;
-    func_02012EBC(a);
-    t = func_02009470();
+    t = func_02009470(func_02012EBC(a));
     switch (msg) {
     case 0xF000:
         return func_0216BF9C(r0, 1, r6);

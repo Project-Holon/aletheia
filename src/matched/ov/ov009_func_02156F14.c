@@ -24,7 +24,7 @@ typedef struct {
 extern Obj *d_021A8268;
 extern void func_02060C94(u32 heap);
 extern void func_020307B0(u32 p);
-extern void func_020306F0(void);
+extern void func_020306F0(u32 heap);
 void func_02156F14(void)
 {
     if (d_021A8268->fC != 0) {
@@ -33,7 +33,7 @@ void func_02156F14(void)
         d_021A8268->f8 = 0;
         d_021A8268->fC = 0;
         if (d_021A8268->f20 != 0) {
-            func_020306F0();
+            func_020306F0(d_021A8268->f20);
             d_021A8268->f20 = 0;
         }
     }

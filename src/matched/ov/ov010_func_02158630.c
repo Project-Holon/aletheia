@@ -17,22 +17,21 @@
  *   func_02158590  0x02158590  thumb
  */
 
-extern int func_02158344(void);
+extern int func_02158344(int);
 extern int func_02175B14(int);
 extern int func_02176258(int);
 extern int func_02026478(int);
-extern int func_02158590(void);
+extern int func_02158590(int);
 
 int func_02158630(int a)
 {
-    int q = func_02158344();
+    int q = func_02158344(a);
     if (q == 0)
         return 0;
     if (func_02175B14(q + 0x1AC) == 1) {
         if (func_02176258(q) == 1)
             return 2;
-        func_02026478(a);
-        if (func_02158590() == 0)
+        if (func_02158590(func_02026478(a)) == 0)
             return 1;
         return 3;
     }

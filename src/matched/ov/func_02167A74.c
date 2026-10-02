@@ -25,8 +25,10 @@ extern int func_02188BE8();
 extern int func_02188C7C();
 extern int func_02194284();
 
-int func_02167A74(int a0, int a1, int a2, int a3)
+void func_02167A74(int a0, int a1)
 {
+    int a2;
+    int a3;
     int t4;
     int t5;
 
@@ -34,12 +36,12 @@ t4 = a1 + 0;
 a1 = *(int *)((char *)t4 + 4);
     if (a1 != 0) goto loc_02167AAE;
 loc_02167A7E:
-    a0 = func_0201210C();
+    a0 = func_0201210C(a0);
 loc_02167A82:
 t5 = a0 + 0;
     if (t5 == 0) goto loc_02167AAE;
 loc_02167A86:
-    a0 = func_02188BE8();
+    a0 = func_02188BE8(a0);
 loc_02167A8A:
     if (a0 == 0) goto loc_02167AAE;
 loc_02167A8E:
@@ -60,4 +62,4 @@ a3 = *(u8 *)((char *)a3);
 loc_02167AAC:
 *(int *)((char *)t4 + 4) = a0;
 loc_02167AAE:
-    return a0;}
+    return;}

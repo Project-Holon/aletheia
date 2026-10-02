@@ -28,7 +28,7 @@ a0 = a0 + 0x84;
 a0 = *(int *)((char *)a0);
     if (a0 == 0) goto loc_0216DFC2;
 loc_0216DFB8:
-    a0 = func_02030EAC();
+    a0 = func_02030EAC(a0);
 loc_0216DFBC:
 a0 = 0;
 t4 = t4 + 0x84;

@@ -24,6 +24,7 @@
 
 typedef unsigned char u8;
 typedef unsigned short u16;
+typedef unsigned int u32;
 
 typedef struct {
     int a;
@@ -40,21 +41,25 @@ typedef struct {
 extern void func_02082C60();
 extern int func_0216D7E4();
 extern int func_0216D7DC();
-extern int func_021AB0F0();
+extern u16 func_021AB0F0(u32 attr);
 extern int func_021AB0F8();
 extern int func_0216E3C4();
-extern void func_0216D67C();
-extern void func_0216D534();
-extern int func_02188CD0();
-extern int func_021ABE28();
+extern int func_0216D67C(int a0);
+extern u32 func_0216D534(void *p);
+extern u32 func_02188CD0(u8 *p);
+extern u8 func_021ABE28(u8 *p);
 
 void func_021631C0(int a, S *s)
 {
+    int b;
+    u32 h;
+
     func_02082C60(s, 0, 0x1c);
     s->a = func_0216D7E4(a);
-    s->b = func_0216D7DC(a);
-    if (s->b != -1) {
-        s->d = func_021AB0F0();
+    b = func_0216D7DC(a);
+    s->b = b;
+    if (b != -1) {
+        s->d = func_021AB0F0(b);
         s->f = func_021AB0F8(s->b);
     }
     if (s->a != -1) {
@@ -62,8 +67,7 @@ void func_021631C0(int a, S *s)
         s->e = func_021AB0F8(s->a);
     }
     s->g = func_0216E3C4(a);
-    func_0216D67C(a);
-    func_0216D534();
-    s->h = func_02188CD0();
-    s->i = func_021ABE28();
+    h = func_02188CD0((u8 *)func_0216D534((void *)func_0216D67C(a)));
+    s->h = h;
+    s->i = func_021ABE28((u8 *)h);
 }

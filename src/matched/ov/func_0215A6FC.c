@@ -38,7 +38,7 @@ a0 = a0 + t6;
 a0 = *(int *)((char *)a0 + 0x14);
     if (a0 == 0) goto loc_0215A72E;
 loc_0215A710:
-    a0 = func_02197DA0();
+    a0 = func_02197DA0(a0);
 loc_0215A714:
     if (a0 != 1) goto loc_0215A72C;
 loc_0215A718:

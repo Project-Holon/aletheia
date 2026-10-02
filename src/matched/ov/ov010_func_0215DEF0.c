@@ -23,8 +23,8 @@ typedef unsigned int u32;
 
 typedef struct { u32 f0; } Ctx;
 
-extern void *func_020124E4(void);
-extern void func_020120F4(void);
+extern void *func_020124E4(void *);
+extern void *func_020120F4(void *);
 extern void func_0201210C(void *);
 extern void func_020120B4(void *, int, const char *, u32);
 extern int func_020120F0(void *);
@@ -33,8 +33,8 @@ extern const char d_02172724[];
 
 int func_0215DEF0(void *a, u32 *st, u32 *c)
 {
-    void *h = func_020124E4();
-    func_020120F4();
+    void *h = func_020124E4(a);
+    func_020120F4(h);
     func_0201210C(h);
     switch (*st) {
     case 0:

@@ -14,9 +14,11 @@
  *   func_0209C2B0 0x0209C2B0 arm
  */
 
-extern void func_0209C2B0(int);
+typedef unsigned int u32;
 
-void func_021F0D58(void)
+extern u32 func_0209C2B0(u32 a, u32 b);
+
+u32 func_021F0D58(void *unused, u32 d)
 {
-    func_0209C2B0(0x8000);
+    return func_0209C2B0(0x8000, d);
 }

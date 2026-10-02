@@ -31,10 +31,10 @@ typedef unsigned int u32;
 
 extern void func_0216EB98();
 extern int func_020122C0(int a, int b, void (*fn)(), int c);
-extern int *func_020124E8(void);
+extern int *func_020124E8(int task);
 extern int func_02188CE8(int a);
-extern void func_020120F4(int a);
-extern int func_02012F2C(void);
+extern int func_020120F4(int a);
+extern int func_02012F2C(int p);
 extern int func_02013090(int a);
 extern void func_021AA5CC(int a, int b, int c, int d, int e, int f, int g);
 extern void func_0216EE20(u16 id, int col);
@@ -42,7 +42,7 @@ extern void func_02008DF0(int a, int b);
 extern void func_0216F02C(int *t, int a, int b);
 extern void func_02013144(int a, int b);
 extern void func_021CF748(int a, int b, int c, int d);
-extern void func_021AAABC(void);
+extern void func_021AAABC(int s);
 
 int func_0216E818(int a0, int a1, int a2, int a3, int a4, int a5, int a6)
 {
@@ -53,10 +53,9 @@ int func_0216E818(int a0, int a1, int a2, int a3, int a4, int a5, int a6)
     int x;
 
     h = func_020122C0(a0, 0, func_0216EB98, 0x28);
-    t = func_020124E8();
+    t = func_020124E8(h);
     v = func_02188CE8(a1);
-    func_020120F4(a0);
-    w = func_02012F2C();
+    w = func_02012F2C(func_020120F4(a0));
     x = func_02013090(4);
     func_021AA5CC(v, x, a2, a3, a4, a5, 4);
     func_0216EE20(a4, 0);
@@ -69,7 +68,6 @@ int func_0216E818(int a0, int a1, int a2, int a3, int a4, int a5, int a6)
         t[6] = 1;
     }
     func_021CF748(a4, a1, (int)t + 0x24, t[2] + 0x18);
-    func_02188CE8(a1);
-    func_021AAABC();
+    func_021AAABC(func_02188CE8(a1));
     return h;
 }

@@ -26,10 +26,10 @@ extern int func_02008BD0();
 int func_02169138(int a0)
 {
 
-    a0 = func_02012EBC();
+    a0 = func_02012EBC(a0);
 loc_0216913E:
-    a0 = func_02008B14();
+    a0 = func_02008B14(a0);
 loc_02169142:
-    a0 = func_02008BD0();
+    a0 = func_02008BD0(a0);
 loc_02169146:
     return a0;}

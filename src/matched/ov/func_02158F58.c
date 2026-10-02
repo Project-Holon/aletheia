@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02158E54  0x02158E54  thumb  ov010
@@ -19,8 +19,9 @@ typedef unsigned int u32;
 
 extern int func_02158E54();
 
-int func_02158F58(int a0, int a1)
+int func_02158F58(int a0)
 {
+    int a1;
     int t4;
 
 t4 = a0 + 0;

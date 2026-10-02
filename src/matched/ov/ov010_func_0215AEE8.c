@@ -36,8 +36,7 @@ int func_0215AEE8(int a0, int a1)
     int v0;
     int k;
     int m, n, o;
-    func_0215A5E4(a1);
-    v0 = func_0200CA1C();
+    v0 = func_0200CA1C(func_0215A5E4(a1));
     k = func_0215A5CC(a1);
     m = func_02159B10(a0, a1);
     o = func_02159B10(a0, a1);

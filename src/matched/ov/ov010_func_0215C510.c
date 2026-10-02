@@ -25,7 +25,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *func_02012934(void *a);
-extern int func_0201AA14(void);
+extern int func_0201AA14(void *a);
 extern int func_0201AA18(void *a);
 extern void *func_0215C40C(void *a, void *b);
 extern void func_0201A98C(void *a, void *b);
@@ -39,7 +39,7 @@ int func_0215C510(void *a, void *b)
     void *r5;
 
     r6 = func_02012934(a);
-    if (func_0201AA14() <= func_0201AA18(r6))
+    if (func_0201AA14(r6) <= func_0201AA18(r6))
         return 0;
     r5 = func_0215C40C(a, b);
     func_0201A98C(r6, r5);

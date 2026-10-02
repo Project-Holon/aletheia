@@ -7,7 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
+ * blocked:  listing 60 compiled 58
  *
  * symbols:
  *   func_0215A5E4  0x0215A5E4  thumb  ov010
@@ -41,9 +42,9 @@ t5 = a0 + 0;
 a0 = t6 + 0;
     a0 = func_0215A5E4(a0);
 loc_0216BF44:
-    a0 = func_02012EBC();
+    a0 = func_02012EBC(a0);
 loc_0216BF48:
-    a0 = func_0200D418();
+    a0 = func_0200D418(a0);
 loc_0216BF4C:
 t7 = a0 + 0;
 a0 = t5 + 0;

@@ -16,14 +16,14 @@
  *   func_021F36F8  0x021F36F8  thumb  ov051
  */
 
-int func_021F3718(void)
+int func_021F3718(int a)
 {
-    void *func_021F36F8(void);
-    return *(int *)((char *)func_021F36F8() + 8);
+    void *func_021F36F8(int a);
+    return *(int *)((char *)func_021F36F8(a) + 8);
 }
 
-int func_021F3724(void)
+int func_021F3724(int a)
 {
-    void *func_021F36F8(void);
-    return *(int *)((char *)func_021F36F8() + 4);
+    void *func_021F36F8(int a);
+    return *(int *)((char *)func_021F36F8(a) + 4);
 }

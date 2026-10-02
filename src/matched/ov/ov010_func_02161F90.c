@@ -24,7 +24,7 @@ typedef unsigned short u16;
 
 extern u8 *func_02161DC4(char *, int, int);
 extern int func_021867C4(int, int);
-extern u16 *func_0218682C(void);
+extern u16 *func_0218682C(int h);
 extern void func_02186804(int);
 extern void func_02186520(u16 *, int, u8 *);
 extern void func_02161E78(u8 *);
@@ -38,7 +38,7 @@ void func_02161F90(int unused, u16 *x, char *y, int z, u16 w, u16 v)
 
     r4 = func_02161DC4(y, w, 1);
     h = func_021867C4(w, v);
-    q = func_0218682C();
+    q = func_0218682C(h);
     if (x[1] == 0)
         r4[2] = q[3];
     else

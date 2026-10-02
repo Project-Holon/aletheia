@@ -7,7 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
+ * blocked:  listing 16 compiled 14
  *
  * symbols:
  *   func_0219C624  0x0219C624  thumb
@@ -25,6 +26,6 @@ int func_0216CD78(int a0, int a1)
 a1 = *(int *)((char *)a0 + 0x24);
     if (a1 == 0) goto loc_0216CD84;
 loc_0216CD80:
-    a0 = func_0219C624();
+    a0 = func_0219C624(a0);
 loc_0216CD84:
     return a0;}

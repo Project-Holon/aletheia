@@ -44,8 +44,9 @@ T *func_02160D6C(int *a0, int a1)
 
     p = func_02030734(4, 0x10, 0, d_02172978, 0x49b);
     func_02082BCC(p, 0, 0x10);
-    p->a = func_020120F4(*(int *)a0[6]);
-    p->b = func_0200CA1C();
+    s = func_020120F4(*(int *)a0[6]);
+    p->a = s;
+    p->b = func_0200CA1C(s);
     p->c = func_02012944(p->a);
     s = func_02012A30(p->a);
     func_02029DBC(s, func_02012134(*(int *)a0[6]));

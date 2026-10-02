@@ -28,17 +28,17 @@ typedef unsigned int   u32;
 
 extern int func_020124E4(void *a);
 extern void func_02012374(void *a, u32 b);
-extern u32  func_021F5550(void);
+extern u32  func_021F5550(int a);
 extern int func_02159168(int a, int b);
 extern void func_02034A5C(void *a);
 extern u8 ov_id_52[];
 
 int func_021649E8(void *a, int *st)
 {
-    func_020124E4(a);
+    int r = func_020124E4(a);
     switch (*st) {
     case 0:
-        func_02012374(a, func_021F5550());
+        func_02012374(a, func_021F5550(r));
         (*st)++;
         break;
     case 1:

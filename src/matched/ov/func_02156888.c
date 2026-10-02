@@ -23,14 +23,14 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *func_02158768(u32, int, int, int);
-extern void *func_021589D0(void);
+extern void *func_021589D0(void *h);
 extern void func_02012374(void *, void *);
 
 void func_02156888(void *a0, void *a1, int a2)
 {
     void *r4 = func_02158768(*(u32 *)a1, a2, 0, 0x15);
 
-    func_021589D0();
+    func_021589D0(r4);
     func_02012374(a0, r4);
 }
 

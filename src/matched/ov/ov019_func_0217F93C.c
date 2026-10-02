@@ -12,10 +12,10 @@
  *   func_0217F9DC  0x0217F9DC  thumb
  */
 
-void func_0217F9DC(void);
+void func_0217F9DC(int x, int y);
 
-void func_0217F93C(int x)
+void func_0217F93C(int x, int y)
 {
     if (x != 0)
-        func_0217F9DC();
+        func_0217F9DC(x, y);
 }

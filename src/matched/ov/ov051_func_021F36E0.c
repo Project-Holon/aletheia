@@ -16,14 +16,14 @@
  *   func_021F36C0  0x021F36C0  thumb  ov051
  */
 
-int func_021F36E0(void)
+int func_021F36E0(int a)
 {
-    void *func_021F36C0(void);
-    return *(int *)((char *)func_021F36C0() + 8);
+    void *func_021F36C0(int a);
+    return *(int *)((char *)func_021F36C0(a) + 8);
 }
 
-int func_021F36EC(void)
+int func_021F36EC(int a)
 {
-    void *func_021F36C0(void);
-    return *(int *)((char *)func_021F36C0() + 4);
+    void *func_021F36C0(int a);
+    return *(int *)((char *)func_021F36C0(a) + 4);
 }

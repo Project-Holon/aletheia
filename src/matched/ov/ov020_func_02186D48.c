@@ -63,7 +63,7 @@ extern int func_02188C7C(int a);
 extern int func_020127F0(int a);
 extern void func_021A3460(int o, s16 *x, s16 *y, s16 *z);
 extern int func_0216DDC0(int a, int x, int y, int z);
-extern int func_02186090(void);
+extern int func_02186090(void *p);
 extern int func_0216D588(int a);
 extern void func_02193904(int a);
 extern int func_0219390C(int a, int b);
@@ -113,7 +113,7 @@ int func_02186D48(int a0, int a1)
     func_021A3460(d, &v[2], &v[1], &v[0]);
     obj = func_0216DDC0(w, v[2], v[0], 0);
     if (obj != 0) {
-        cur = func_02186090();
+        cur = func_02186090((void *)obj);
         st = func_0216D588(obj);
         func_02193904(m);
         sub = func_0219390C(m, cur);

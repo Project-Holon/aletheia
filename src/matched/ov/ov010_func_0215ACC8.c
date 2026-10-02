@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_0215A5E4  0x0215A5E4  thumb  ov010
@@ -19,7 +19,7 @@
  */
 
 extern int func_0215A5E4(int);
-extern int func_02012EBC(void);
+extern int func_02012EBC(int);
 extern unsigned short *func_02159AE8(int, int);
 extern int func_020071EC(int);
 extern int func_020071E4(int);
@@ -34,8 +34,7 @@ int func_0215ACC8(int a, int b)
     unsigned s2;
     unsigned s1;
 
-    func_0215A5E4(b);
-    r4 = func_02012EBC();
+    r4 = func_02012EBC(func_0215A5E4(b));
     r7 = func_02159AE8(a, b);
     m = func_02159AE8(a, b);
     r5 = func_02159AE8(a, b);

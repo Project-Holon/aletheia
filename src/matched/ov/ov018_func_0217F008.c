@@ -36,7 +36,7 @@ typedef struct {
 extern int func_020120F4(int);
 extern int func_02012B58(int);
 extern void func_02082BCC(void *, int, int);
-extern int func_02080D24(void);
+extern int func_02080D24(unsigned int x);
 extern int func_0217F5A0(char *);
 extern int func_021758C8(char *);
 extern T *func_02175B34(char *);
@@ -59,7 +59,7 @@ void func_0217F008(char *p, char *q)
     n = func_02012B58(h);
     o->a = ((Bf *)(q + 0x86))->lo;
     o->b = *(u8 *)(q + 0x8fb);
-    o->c = func_02080D24();
+    o->c = func_02080D24(o->b);
     o->d = *(u8 *)(q + 0x910);
     o->e = func_0217F5A0(q + 0x1ac);
     o->f = func_021758C8(q + 0x1ac);

@@ -27,7 +27,7 @@ int func_0215F228(int a0, int a1)
 a0 = a1 + 0;
     a0 = func_0215A5DC(a0);
 loc_0215F230:
-    a0 = func_020121CC();
+    a0 = func_020121CC(a0);
 loc_0215F234:
 a0 = 1;
     return a0;}

@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0200CA1C();
+extern int func_0200CA1C(int a);
 extern int func_0201AA18();
 extern int func_0201AB28();
 extern int func_02017E1C();
@@ -39,7 +39,7 @@ void func_0216A390(int a0, int a1)
     int v;
     int w;
 
-    l4 = func_0200CA1C();
+    l4 = func_0200CA1C(a0);
     found = 0;
     n = func_0201AA18(a1);
     for (i = 0; i < n; i++) {

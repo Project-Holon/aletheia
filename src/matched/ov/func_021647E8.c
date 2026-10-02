@@ -17,9 +17,9 @@
  * listing: no prologue, and its only caller is func_0202C794 in arm9.
  */
 
-extern void func_0216481C(void *arg);
+extern unsigned char func_0216481C(void *arg, unsigned int b);
 
-void func_021647E8(void *arg)
+unsigned char func_021647E8(void *arg, unsigned int b)
 {
-    func_0216481C(arg);
+    return func_0216481C(arg, b);
 }

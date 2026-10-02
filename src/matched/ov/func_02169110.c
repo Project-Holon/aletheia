@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02012EBC  0x02012EBC  thumb
@@ -24,9 +24,9 @@ extern int func_02008B14();
 int func_02169110(int a0)
 {
 
-    a0 = func_02012EBC();
+    a0 = func_02012EBC(a0);
 loc_02169116:
-    a0 = func_02008B14();
+    a0 = func_02008B14(a0);
 loc_0216911A:
 a0 = *(int *)((char *)a0 + 0x18);
     return a0;}

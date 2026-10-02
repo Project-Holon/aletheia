@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Same slot overwrite, keyed off the second index helper and the
  * caller's second argument.
@@ -22,13 +22,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u16 *func_02159AE8(void *);
+extern u16 *func_02159AE8(void *, void *);
 extern int func_02159B10(void *, void *);
 extern int func_020056EC(int);
 
 int func_0215AABC(void *a0, void *a1)
 {
-    u16 *p = func_02159AE8(a0);
+    u16 *p = func_02159AE8(a0, a1);
 
     *p = (u16)func_020056EC(func_02159B10(a0, a1));
 

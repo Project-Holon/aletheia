@@ -35,17 +35,17 @@ a0 = 0;
 a0 = *(int *)((char *)t4 + 0x2c);
     if (a0 == 0) goto loc_02158F2A;
 loc_02158F26:
-    a0 = func_0201ED04();
+    a0 = func_0201ED04(a0);
 loc_02158F2A:
 a0 = *(int *)((char *)t4 + 0x30);
     if (a0 == 0) goto loc_02158F34;
 loc_02158F30:
-    a0 = func_02045808();
+    a0 = func_02045808(a0);
 loc_02158F34:
 a0 = *(int *)((char *)t4 + 0x34);
     if (a0 == 0) goto loc_02158F3E;
 loc_02158F3A:
-    a0 = func_02045808();
+    a0 = func_02045808(a0);
 loc_02158F3E:
 a0 = 0x52;
 a0 = a0 << 2;

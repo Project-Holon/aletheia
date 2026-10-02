@@ -37,8 +37,8 @@ extern int func_02158F74(int);
 extern int func_02159B10(int, int);
 extern int func_0215A5CC(int);
 extern void func_021A3460(int, s16 *, s16 *, s16 *);
-extern void func_0216DDC0(int, int, int, int);
-extern int func_02186090(void);
+extern void *func_0216DDC0(int, int, int, int);
+extern int func_02186090(void *p);
 extern void func_02193B68(int, int, int, int, int);
 
 int func_02186CC4(int a0, int a1)
@@ -61,7 +61,6 @@ int func_02186CC4(int a0, int a1)
     r5 = func_02159B10(a0, a1);
     r4 = func_0215A5CC(a1);
     func_021A3460(b, &v[2], &v[1], &v[0]);
-    func_0216DDC0(c, v[2], v[0], 0);
-    func_02193B68(a, r6, func_02186090(), r5, r4);
+    func_02193B68(a, r6, func_02186090(func_0216DDC0(c, v[2], v[0], 0)), r5, r4);
     return 0;
 }

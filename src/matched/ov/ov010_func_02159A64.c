@@ -33,10 +33,10 @@ extern int func_0215A5E4(int);
 extern int func_0215A5F4(int);
 extern int func_0215A5DC(int);
 extern int func_0201210C(int);
-extern int func_02188C84(void);
+extern int func_02188C84(int);
 extern int func_02188CCC(int);
 extern int func_021D1164(int, int);
-extern void func_021D11B0(void);
+extern void func_021D11B0(int);
 extern int func_021A0F90(int);
 extern void func_021A1524(int);
 extern void func_021A1530(int);
@@ -53,10 +53,10 @@ int func_02159A64(int a, int b)
     int s4 = func_0215A5E4(b);
     int x, y, z, t;
     x = func_0201210C(func_0215A5DC(b));
-    y = func_02188C84();
+    y = func_02188C84(x);
     z = func_02188CCC(x);
     t = func_021D1164(y, x);
-    func_021D11B0();
+    func_021D11B0(t);
     if (func_021A0F90(z) == 7) {
         func_021A1524(z);
         func_021A1530(z);

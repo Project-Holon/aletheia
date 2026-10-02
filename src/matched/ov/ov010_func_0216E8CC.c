@@ -22,10 +22,10 @@ typedef unsigned short u16;
 
 extern void func_0216EB98();
 extern int func_020122C0(int a, int b, void (*fn)(), int c);
-extern int *func_020124E8(void);
+extern int *func_020124E8(int task);
 extern void func_0216F02C(int *t, int a, int b);
 extern int func_02188CE8(int a);
-extern void func_021AAABC(void);
+extern void func_021AAABC(int s);
 
 int func_0216E8CC(int a0, int a1, int a2)
 {
@@ -33,13 +33,12 @@ int func_0216E8CC(int a0, int a1, int a2)
     int *t;
 
     h = func_020122C0(a0, 0, func_0216EB98, 0x28);
-    t = func_020124E8();
+    t = func_020124E8(h);
     func_0216F02C(t, a0, a2);
     t[5] = 0;
     t[6] = 1;
     t[8] = 1;
     t[9] = 9;
-    func_02188CE8(a1);
-    func_021AAABC();
+    func_021AAABC(func_02188CE8(a1));
     return h;
 }

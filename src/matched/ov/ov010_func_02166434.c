@@ -29,8 +29,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_020120F4(void);
-extern void *func_02012EBC(void);
+extern void *func_020120F4(void *p);
+extern void *func_02012EBC(void *p);
 extern void *func_0200E0B0(void *p);
 extern void *func_02012138(void *p);
 extern int func_021767A0(void *a, void *b);
@@ -53,8 +53,8 @@ int func_02166434(void *a, u32 *out0, u32 *out1)
     void *r;
     struct Rec *rec;
 
-    t = func_020120F4();
-    sav = func_0200E0B0(func_02012EBC());
+    t = func_020120F4(a);
+    sav = func_0200E0B0(func_02012EBC(t));
     r = func_02012138(a);
     if (func_021767A0(r, t) == 4) {
         *out0 = func_021673C4(sav);

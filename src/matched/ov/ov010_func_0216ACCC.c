@@ -27,15 +27,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02159B10();
+extern int func_02159B10(int a0, int a1);
 extern int func_02159AE8();
 extern int func_0215A5E4();
-extern int func_02012EBC();
-extern int func_0200E0B0();
+extern int func_02012EBC(int p);
+extern int func_0200E0B0(int p);
 extern int func_0216AED0();
-extern int func_0217C294();
+extern int func_0217C294(int a0);
 extern int func_0216628C();
-extern int func_0216AF3C();
+extern void func_0216AF3C(int a0);
 
 int func_0216ACCC(int a0, int a1)
 {
@@ -46,7 +46,7 @@ int func_0216ACCC(int a0, int a1)
 
 t4 = a0 + 0;
 t5 = a1 + 0;
-    a0 = func_02159B10();
+    a0 = func_02159B10(a0, a1);
 loc_0216ACD6:
 t7 = a0 + 0;
 a0 = t4 + 0;
@@ -57,9 +57,9 @@ t4 = a0 + 0;
 a0 = t5 + 0;
     a0 = func_0215A5E4(a0);
 loc_0216ACE8:
-    a0 = func_02012EBC();
+    a0 = func_02012EBC(a0);
 loc_0216ACEC:
-    a0 = func_0200E0B0();
+    a0 = func_0200E0B0(a0);
 loc_0216ACF0:
 t6 = a0 + 0;
 a0 = t5 + 0;
@@ -68,7 +68,7 @@ a1 = t7 + 0;
 loc_0216ACFA:
     if (a0 == 0) goto loc_0216AD14;
 loc_0216ACFE:
-    a0 = func_0217C294();
+    a0 = func_0217C294(a0);
 loc_0216AD02:
 a1 = a0 + 0;
 a0 = t6 + 0;
@@ -76,7 +76,7 @@ a0 = t6 + 0;
 loc_0216AD0A:
 *(u16 *)((char *)t4) = a0;
 a0 = t5 + 0;
-    a0 = func_0216AF3C(a0);
+    func_0216AF3C(a0);
 loc_0216AD12:
     goto loc_0216AD18;
 loc_0216AD14:

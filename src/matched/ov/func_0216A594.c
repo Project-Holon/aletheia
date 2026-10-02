@@ -44,9 +44,9 @@ loc_0216A5A0:
 a0 = t6 + 0;
     a0 = func_0215A5DC(a0);
 loc_0216A5A6:
-    a0 = func_020120F4();
+    a0 = func_020120F4(a0);
 loc_0216A5AA:
-    a0 = func_02012F50();
+    a0 = func_02012F50(a0);
 loc_0216A5AE:
 t4 = a0 + 0;
 a0 = t5 + 0;

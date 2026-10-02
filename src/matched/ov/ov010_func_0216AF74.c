@@ -28,7 +28,7 @@ typedef unsigned int u32;
 
 extern int func_020120F4();
 extern int func_020122C0();
-extern u8 *func_020124E8();
+extern u8 *func_020124E8(int p);
 extern void func_02082BCC();
 extern int func_020173EC();
 extern int func_0203F1FC();
@@ -45,7 +45,7 @@ int func_0216AF74(int a0, int a1, int a2, int a3, int a4, u16 a5)
 
     h = func_020120F4(a0);
     r = func_020122C0(a0, 0, func_0216B004, 0x3C);
-    p = func_020124E8();
+    p = func_020124E8(r);
     func_02082BCC(p, 0, 0x3C);
     *(int *)p = a1;
     *(int *)(p + 0x28) = a4;

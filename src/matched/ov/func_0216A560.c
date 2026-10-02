@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * blocked:  listing 52 compiled 50
  *
  * symbols:
@@ -44,9 +44,9 @@ a0 = t4 + 0;
     a0 = func_0215A5DC(a0);
 loc_0216A572:
 t4 = a0 + 0;
-    a0 = func_020120F4();
+    a0 = func_020120F4(a0);
 loc_0216A578:
-    a0 = func_02012F50();
+    a0 = func_02012F50(a0);
 loc_0216A57C:
 a1 = a0 + 0;
 a1 = *(int *)((char *)a1);

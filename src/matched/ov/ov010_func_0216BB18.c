@@ -22,19 +22,19 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 
-extern int func_0200C0F0();
+extern int func_0200C0F0(int sys);
 extern int func_0200C32C();
 extern u64 func_0200C37C();
 extern u64 func_0203F524();
 extern void func_020891E0();
 
-int func_0216BB18(void)
+int func_0216BB18(int sys)
 {
     u32 a[7];
     int r4;
     u64 t;
 
-    r4 = func_0200C0F0();
+    r4 = func_0200C0F0(sys);
     if (func_0200C32C(r4) == 0) {
         return 0;
     }

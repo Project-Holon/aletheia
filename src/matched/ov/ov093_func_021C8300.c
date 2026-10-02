@@ -13,9 +13,12 @@
  *   func_021B9010  0x021B9010  thumb  ov093
  */
 
-void func_021B9010(int);
+typedef unsigned char u8;
+typedef unsigned int u32;
 
-void func_021C8300(int *p)
+extern u32 func_021B9010(u8 *p, u8 k);
+
+u32 func_021C8300(int *p, u8 k)
 {
-    func_021B9010(p[1]);
+    return func_021B9010((u8 *)p[1], k);
 }

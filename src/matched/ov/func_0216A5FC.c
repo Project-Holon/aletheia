@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_0215A5F4  0x0215A5F4  thumb  ov010
@@ -45,7 +45,7 @@ loc_0216A608:
 a0 = t4 + 0;
     a0 = func_0215A5DC(a0);
 loc_0216A60E:
-    a0 = func_020120F4();
+    a0 = func_020120F4(a0);
 loc_0216A612:
 t6 = a0 + 0;
 a0 = t5 + 0;
@@ -56,9 +56,9 @@ t4 = a0 + 0;
 a0 = t6 + 0;
     a0 = func_02012EBC(a0);
 loc_0216A624:
-    a0 = func_02008C58();
+    a0 = func_02008C58(a0);
 loc_0216A628:
-    a0 = func_02008E78();
+    a0 = func_02008E78(a0);
 loc_0216A62C:
 *(u16 *)((char *)t4) = a0;
 a0 = 0;

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_021BA2EC   0x021BA2EC  thumb
@@ -20,10 +20,10 @@
  *       --func func_021BA2EC --addr 0x021BA2EC --region ov016 --cc dsi/1.1p1 --thumb
  */
 
-extern void func_02087C6C(void);
+extern void func_02087C6C(unsigned char *mac);
 
-int func_021BA2EC(void)
+int func_021BA2EC(unsigned char *mac)
 {
-    func_02087C6C();
+    func_02087C6C(mac);
     return 1;
 }

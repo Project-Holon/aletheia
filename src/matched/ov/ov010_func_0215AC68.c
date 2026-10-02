@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02159B10  0x02159B10  thumb  ov010
@@ -26,9 +26,9 @@ typedef struct {
     int d;
 } V4;
 
-extern int func_02159B10(int);
+extern int func_02159B10(int, int);
 extern int func_0215A5E4(int);
-extern int func_02012F08(void);
+extern int func_02012F08(int);
 extern void func_0200C248(int, int);
 extern void func_0203F4E4(V4 *);
 extern int func_02012F5C(int);
@@ -37,10 +37,10 @@ extern void func_02008A7C(int, int, int, int, int);
 int func_0215AC68(int a, int b)
 {
     V4 v;
-    int r4 = func_02159B10(a);
+    int r4 = func_02159B10(a, b);
     int r5 = func_0215A5E4(b);
 
-    func_0200C248(func_02012F08(), r4);
+    func_0200C248(func_02012F08(r5), r4);
     func_0203F4E4(&v);
     func_02008A7C(func_02012F5C(r5), r4, v.a, v.b, v.c);
     return 0;

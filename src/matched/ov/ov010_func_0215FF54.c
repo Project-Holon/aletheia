@@ -40,7 +40,7 @@ extern int func_020122C0();
 extern u32 *func_020124E8();
 extern void func_02082BCC();
 extern u32 *func_02030734();
-extern void func_02188C7C();
+extern int func_02188C7C();
 extern void func_0216D9A0();
 extern void func_020355D8();
 extern void func_0216025C();
@@ -55,10 +55,8 @@ int func_0215FF54(int a0, int a1, u16 a2)
     int r5;
     u32 *p;
 
-    func_020120F4(a0);
-    func_02012EBC();
-    sp8 = func_0200C404();
-    if (func_0200C468() == 1) {
+    sp8 = func_0200C404(func_02012EBC(func_020120F4(a0)));
+    if (func_0200C468(sp8) == 1) {
         r5 = func_020122C0(a0, 0, func_0216025C, 0x20);
     } else {
         r5 = func_020122C0(a0, 0, func_02160018, 0x20);
@@ -80,8 +78,7 @@ int func_0215FF54(int a0, int a1, u16 a2)
         ((u32 *)p[4])[6] = (u32)func_021606D0;
         ((u32 *)p[4])[8] = (u32)p;
     }
-    func_02188C7C(p[2]);
-    func_0216D9A0();
+    func_0216D9A0(func_02188C7C(p[2]));
     func_020355D8(0);
     return r5;
 }

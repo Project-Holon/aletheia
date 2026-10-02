@@ -31,17 +31,17 @@ typedef unsigned int   u32;
 extern void *func_0201210C(int a);
 extern int   func_02012138(int a);
 extern int   func_0215870C(int a, int b);
-extern void  func_02188C7C(void);
+extern u32   func_02188C7C(u8 *p);
 extern void  func_02188BF8(void *a);
-extern void  func_02188CB4(void *a);
-extern int   func_021A2F54(void);
-extern int   func_021A34F8(void);
+extern u32   func_02188CB4(u8 *p);
+extern int   func_021A2F54(u8 *p);
+extern int   func_021A34F8(u8 *p);
 
 int func_021645E0(void *unused, int *st, int *w)
 {
     int r;
-    void *h = func_0201210C(w[0]);
-    func_02188C7C();
+    u8 *h = func_0201210C(w[0]);
+    func_02188C7C(h);
     switch (*st) {
     case 0:
         r = func_02012138(w[0]);
@@ -53,14 +53,12 @@ int func_021645E0(void *unused, int *st, int *w)
         (*st)++;
         /* fall through */
     case 1:
-        func_02188CB4(h);
-        if (func_021A2F54() == 1) {
+        if (func_021A2F54((u8 *)func_02188CB4(h)) == 1) {
             (*st)++;
         }
         break;
     case 2:
-        func_02188CB4(h);
-        if (func_021A34F8() == 1) {
+        if (func_021A34F8((u8 *)func_02188CB4(h)) == 1) {
             return 1;
         }
         break;

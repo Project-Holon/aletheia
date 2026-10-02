@@ -14,11 +14,10 @@
  *   func_021B9A5C  0x021B9A5C  thumb  ov093
  */
 
-void func_021B9A40(void);
-void func_021B9A5C(void);
+unsigned char func_021B9A40(unsigned int x);
+unsigned char func_021B9A5C(unsigned int x);
 
-void func_021B9A50(void)
+unsigned char func_021B9A50(unsigned int x)
 {
-    func_021B9A40();
-    func_021B9A5C();
+    return func_021B9A5C(func_021B9A40(x));
 }

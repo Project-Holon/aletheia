@@ -39,7 +39,7 @@ void func_021632F0(int a0, int a1)
     int t4;
     int t5;
 t5 = a0 + 0;
-    a0 = func_021640B0();
+    a0 = func_021640B0(a0);
 loc_021632FA:
 a1 = 2;
 a0 = t5 + 0;

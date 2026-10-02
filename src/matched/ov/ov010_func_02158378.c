@@ -20,16 +20,15 @@ typedef unsigned char u8;
 
 typedef struct { u8 a : 4; u8 f : 2; u8 b : 2; } Fl;
 
-extern u8 *func_02158344(void);
+extern u8 *func_02158344(void *);
 extern int func_02026478(void *);
-extern int func_02012B58(void);
+extern int func_02012B58(int);
 
 int func_02158378(void *p)
 {
-    u8 *q = func_02158344();
+    u8 *q = func_02158344(p);
     if (q == 0) {
-        func_02026478(p);
-        return func_02012B58();
+        return func_02012B58(func_02026478(p));
     }
     return q[0x911];
 }

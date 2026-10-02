@@ -26,9 +26,9 @@ int func_021636A8(int a0, int a1)
     int t4;
 
 t4 = a1 + 0;
-    a0 = func_0216D67C();
+    a0 = func_0216D67C(a0);
 loc_021636B0:
-    a0 = func_0216D98C();
+    a0 = func_0216D98C(a0);
 loc_021636B4:
     if (a0 == 0) goto loc_021636C0;
 loc_021636B8:

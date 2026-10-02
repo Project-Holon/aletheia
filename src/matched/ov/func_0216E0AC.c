@@ -39,7 +39,7 @@ void func_0216E0AC(int a0, int a1, int a2)
 
 t5 = a0 + 0;
 t4 = a1 + 0;
-    a0 = func_0216D67C();
+    a0 = func_0216D67C(a0);
 loc_0216E0B6:
 t6 = a0 + 0;
 a0 = t5 + 0;

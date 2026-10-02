@@ -35,7 +35,7 @@ int func_02163090(int a0, int a1)
     int t5;
 
 t5 = a0 + 0;
-    a0 = func_0216DA5C();
+    a0 = func_0216DA5C(a0);
 loc_02163098:
     if (a0 != 0) goto loc_021630F0;
 loc_0216309C:

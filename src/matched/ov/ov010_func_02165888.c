@@ -20,7 +20,7 @@
 
 extern void func_0203F4CC(int *);
 extern int func_02026CA0(int *);
-extern int func_02026C1C(void);
+extern void *func_02026C1C(int n);
 extern int func_02165960(int, int, int, int);
 extern void func_02026CE0(int);
 
@@ -42,7 +42,7 @@ int func_02165888(int a0)
         if (k == 0x1e) {
             break;
         }
-        r = func_02165960(a0, func_02026C1C(), h, 0);
+        r = func_02165960(a0, (int)func_02026C1C(k), h, 0);
         if (r == 0x1e) {
             break;
         }

@@ -26,7 +26,7 @@ int func_0216CCB0(int a0)
     int t4;
 
 t4 = a0 + 0;
-    a0 = func_0216E290();
+    a0 = func_0216E290(a0);
 loc_0216CCB8:
 a0 = *(int *)((char *)t4 + 0x44);
     a0 = func_020307B0(a0);

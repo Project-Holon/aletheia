@@ -16,7 +16,7 @@
  *   func_0204B878  0x0204B878  arm
  */
 
-extern int func_021BA400(void *o);
+extern int func_021BA400(void *o, int k);
 extern void func_021BA438(void *o, int v);
 extern void func_020061E4(int v);
 extern void func_0204B878(int a, int b);
@@ -25,14 +25,14 @@ void func_021BA2D8(char *o, int k)
 {
     switch (k) {
     case 0:
-        if (func_021BA400(o) != 0) {
+        if (func_021BA400(o, k) != 0) {
             func_020061E4(0x548);
             func_0204B878(*(int *)(o + 0x12C), 12);
             func_021BA438(o, *(unsigned short *)(o + 0x160));
         }
         break;
     case 1:
-        if (func_021BA400(o) != 0) {
+        if (func_021BA400(o, k) != 0) {
             func_020061E4(0x548);
             func_0204B878(*(int *)(o + 0x130), 13);
             func_021BA438(o, *(unsigned short *)(o + 0x160));

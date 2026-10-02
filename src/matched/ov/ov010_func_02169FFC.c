@@ -71,8 +71,8 @@ extern void func_0201C6FC(void *a0, void *a1, u32 a2, u32 a3, void *a4, u32 a5);
 extern void func_02045808(void *p);
 extern void func_02045334(void *p);
 extern void func_02045374(void *p);
-extern void func_02045730(void *p);
-extern void func_02041B6C(void);
+extern u8 func_02045730(void *p);
+extern void func_02041B6C(u32 bit);
 
 void func_02169FFC(Work *w, u32 msg)
 {
@@ -94,6 +94,5 @@ void func_02169FFC(Work *w, u32 msg)
     p = w->f18->f08;
     func_02045334(p);
     func_02045374(p);
-    func_02045730(p);
-    func_02041B6C();
+    func_02041B6C(func_02045730(p));
 }

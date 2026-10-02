@@ -30,8 +30,8 @@ extern void *func_0215A5E4(void *);
 extern void *func_0215A5DC(void *);
 extern void *func_0201210C(void *);
 extern void func_02012934(void *);
-extern void func_02012EBC(void *);
-extern void func_0200BDB0(void);
+extern void *func_02012EBC(void *);
+extern void *func_0200BDB0(void *);
 extern void *func_0215D2A4(void *, void *, u32);
 extern void func_0215897C(void *, void *);
 
@@ -43,8 +43,7 @@ int func_0215CF00(void *a, void *b)
     void *h = func_0215A5DC(b);
     void *s = func_0201210C(h);
     func_02012934(p);
-    func_02012EBC(p);
-    func_0200BDB0();
+    func_0200BDB0(func_02012EBC(p));
     func_0215897C(t, func_0215D2A4(h, s, v));
     return 1;
 }

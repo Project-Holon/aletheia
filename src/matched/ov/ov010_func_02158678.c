@@ -18,14 +18,14 @@ typedef unsigned char u8;
 
 typedef struct { u8 a : 5; u8 f : 1; u8 b : 2; } Fl;
 
-extern u8 *func_02158344(void);
+extern u8 *func_02158344(void *);
 extern int func_02175B14(void *);
 
-int func_02158678(void)
+int func_02158678(void *p)
 {
     int n = 0;
     u8 i;
-    u8 *q = func_02158344();
+    u8 *q = func_02158344(p);
     if (q == 0)
         return n;
     if (func_02175B14(q + 0x1AC) == 0)

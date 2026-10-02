@@ -17,9 +17,9 @@
  * docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md).
  */
 
-void func_021B9934(int);
+int func_021B9934(char *p, int i);
 
-void func_021C7CF4(int *p)
+int func_021C7CF4(int *p, int i)
 {
-    func_021B9934(p[2]);
+    return func_021B9934((char *)p[2], i);
 }

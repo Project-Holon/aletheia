@@ -28,13 +28,13 @@ typedef unsigned int u32;
 
 extern void func_0216E68C();
 extern int func_020122C0(int a, int b, void (*fn)(), int c);
-extern u32 *func_020124E8(void);
+extern u32 *func_020124E8(int task);
 extern void func_0216EE40(int a, int b);
-extern void func_020120F4(int a);
-extern int func_02012F2C(void);
+extern int func_020120F4(int a);
+extern int func_02012F2C(int p);
 extern void func_02008DF0(int a, int b);
-extern void func_02188CE8(int a);
-extern void func_021AAABC(void);
+extern int func_02188CE8(int a);
+extern void func_021AAABC(int s);
 
 int func_0216E7C8(int a0, int a1, int a2, int a3, int a4)
 {
@@ -42,15 +42,13 @@ int func_0216E7C8(int a0, int a1, int a2, int a3, int a4)
     u32 *t;
 
     h = func_020122C0(a0, 0, func_0216E68C, 0x10);
-    t = func_020124E8();
+    t = func_020124E8(h);
     t[0] = a0;
     t[1] = a2;
     t[2] = a3;
     t[3] = a4;
     func_0216EE40(a2, 0);
-    func_020120F4(a0);
-    func_02008DF0(func_02012F2C(), 5);
-    func_02188CE8(a1);
-    func_021AAABC();
+    func_02008DF0(func_02012F2C(func_020120F4(a0)), 5);
+    func_021AAABC(func_02188CE8(a1));
     return h;
 }

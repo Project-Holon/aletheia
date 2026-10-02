@@ -37,8 +37,8 @@ extern int func_020127F0(int);
 extern int func_02188CB4(int);
 extern int func_02188C7C(int);
 extern void func_021A3460(int, s16 *, s16 *, s16 *);
-extern void func_0216DDC0(int, int, int, int);
-extern int func_02186090(void);
+extern void *func_0216DDC0(int, int, int, int);
+extern int func_02186090(void *p);
 extern int func_02193BE4(int, int);
 extern void func_02193BC4(int, int);
 extern void func_021869B0(int);
@@ -59,8 +59,7 @@ int func_02186C44(int a0, int a1)
     c = func_02188CB4(s[1]);
     d = func_02188C7C(s[1]);
     func_021A3460(c, &v[2], &v[1], &v[0]);
-    func_0216DDC0(d, v[2], v[0], 0);
-    e = func_02186090();
+    e = func_02186090(func_0216DDC0(d, v[2], v[0], 0));
     if (func_02193BE4(a, e) != 0) {
         func_02193BC4(a, e);
         func_021869B0(b);

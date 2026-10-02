@@ -38,8 +38,8 @@ extern int func_02158F74(int);
 extern u16 *func_02159AE8(int, int);
 extern int func_02159B10(int, int);
 extern void func_021A3460(int, s16 *, s16 *, s16 *);
-extern void func_0216DDC0(int, int, int, int);
-extern int func_02186090(void);
+extern void *func_0216DDC0(int, int, int, int);
+extern int func_02186090(void *p);
 extern int func_0219391C(int);
 
 int func_02187000(int a0, int a1)
@@ -62,8 +62,7 @@ int func_02187000(int a0, int a1)
     r4 = func_02159AE8(a0, a1);
     r5 = func_02159B10(a0, a1);
     func_021A3460(b, &v[2], &v[1], &v[0]);
-    func_0216DDC0(c, v[2], v[0], 0);
-    r6 = func_02186090();
+    r6 = func_02186090(func_0216DDC0(c, v[2], v[0], 0));
     r5 = (u16)(r5 - 1);
     if (func_0219391C(a) == 0)
         *r4 = r5 + (r6 * 4 + 1);

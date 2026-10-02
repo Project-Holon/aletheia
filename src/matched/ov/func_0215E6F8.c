@@ -20,7 +20,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_02012EBC();
-extern int func_0200D418();
+extern int func_0200D418(int a0);
 extern int func_0200D488();
 
 int func_0215E6F8(int a0, int a1)
@@ -30,7 +30,7 @@ int func_0215E6F8(int a0, int a1)
 
     a0 = func_02012EBC(a0);
 loc_0215E6FE:
-    a0 = func_0200D418();
+    a0 = func_0200D418(a0);
 loc_0215E702:
 a1 = 0;
 t5 = a0 + 0;

@@ -40,16 +40,16 @@ int func_0216B8B8(int a0, int a1)
 
 t5 = a0 + 0;
 t4 = a1 + 0;
-    a0 = func_0200E394();
+    a0 = func_0200E394(a0);
 loc_0216B8C2:
 t6 = a0 + 0;
 a0 = t5 + 0;
     a0 = func_0200C0E8(a0);
 loc_0216B8CA:
-    a0 = func_0200C32C();
+    a0 = func_0200C32C(a0);
 loc_0216B8CE:
 t7 = a0 + 0;
-    a0 = func_0216BB70();
+    a0 = func_0216BB70(a0);
 loc_0216B8D4:
 a0 = a0 << 0x18;
 a0 = (unsigned)a0 >> 0x18;

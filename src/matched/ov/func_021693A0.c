@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02049238  0x02049238  arm
@@ -27,7 +27,7 @@ t4 = a0 + 0;
 a0 = *(int *)((char *)t4 + 0x10);
     if (a0 == 0) goto loc_021693B2;
 loc_021693AA:
-    a0 = func_02049238();
+    a0 = func_02049238(a0);
 loc_021693AE:
 a0 = 0;
 *(int *)((char *)t4 + 0x10) = a0;

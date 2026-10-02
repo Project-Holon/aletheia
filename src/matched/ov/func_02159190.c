@@ -32,10 +32,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_02159198(void *);
+extern int func_02159198(int);
 
-void func_02159190(void *a0, unsigned a1, unsigned a2, unsigned a3)
+int func_02159190(int a0)
 {
 
-    func_02159198(a0);
+    return func_02159198(a0);
 }

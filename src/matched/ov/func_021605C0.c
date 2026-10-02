@@ -53,13 +53,13 @@ a0 = *(int *)((char *)t4 + 8);
 loc_021605E2:
     if (a0 == 0) goto loc_021605EA;
 loc_021605E6:
-    a0 = func_02190344();
+    a0 = func_02190344(a0);
 loc_021605EA:
 a0 = *(int *)((char *)t4 + 4);
     a0 = func_020120F4(a0);
 loc_021605F0:
 t6 = a0 + 0;
-    a0 = func_02012C0C();
+    a0 = func_02012C0C(a0);
 loc_021605F6:
 a2 = a0 + 0;
 a0 = 0x15;

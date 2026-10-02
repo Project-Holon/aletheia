@@ -70,16 +70,16 @@ extern void func_02174DF4(u8 *);
 extern int func_021752DC(u8 *);
 extern int func_02173984(u8 *, u8 *);
 extern int func_02012E40(int);
-extern void func_02012EBC(int);
-extern int func_0200BE48(void);
+extern void *func_02012EBC(int);
+extern void *func_0200BE48(void *);
 extern int func_021756D0(u16);
-extern void func_0200BE84(int, u8 *);
+extern void func_0200BE84(void *, u8 *);
 
 void func_02174978(u8 *s)
 {
     int h;
     int n;
-    int w;
+    void *w;
 
     h = func_02026478(*(int *)(s + 4));
     if (func_0203D378() == 1) {
@@ -119,8 +119,7 @@ void func_02174978(u8 *s)
         s[0x900] = 0;
     }
     if (func_02012E40(h) == 0 && ((Bits *)(s + 0x8f8))->b0 == 1) {
-        func_02012EBC(h);
-        w = func_0200BE48();
+        w = func_0200BE48(func_02012EBC(h));
         if (func_021756D0(*(u16 *)(s + 0x8f4)) == 0) {
             *(u16 *)(s + 0x8f4) = 0x11;
         }

@@ -29,7 +29,7 @@ struct O {
 };
 
 extern void *func_02030734(int, int, int, const char *, int);
-extern int func_02158DB0(void);
+extern int func_02158DB0(int);
 extern int func_0201EC74(int, int, int);
 extern int func_020457B0(int, int);
 extern int func_0215A514(void *, int);
@@ -48,7 +48,7 @@ int *func_02158E7C(u16 a, int b, int c, u16 d, int e, int f)
     p[2] = 0;
     p[8] = e;
     p[10] = f;
-    p[9] = func_02158DB0();
+    p[9] = func_02158DB0(f);
     if (p[9] == 0) {
         p[11] = func_0201EC74(0x1C, 0x40, a);
         p[12] = func_020457B0(0x500, a);

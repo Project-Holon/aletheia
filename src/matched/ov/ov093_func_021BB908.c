@@ -21,9 +21,9 @@
  * the call site resolves as matched, verdict promoted to EXACT.
 */
 
-void func_021B91E4(int);
+void func_021B91E4(void *p, int add);
 
-void func_021BB908(int *p)
+void func_021BB908(int *p, int add)
 {
-    func_021B91E4(p[3]);
+    func_021B91E4((void *)p[3], add);
 }

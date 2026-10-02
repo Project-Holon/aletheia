@@ -31,7 +31,7 @@ extern int func_0216AED0();
 extern int func_0216AF1C();
 extern int func_0215A5F4();
 extern int func_0215A5DC();
-extern int func_0201210C();
+extern int func_0201210C(int a);
 extern int func_0216AF74();
 extern void func_0215897C();
 
@@ -55,7 +55,7 @@ int func_0216ABD8(int a0, int a1)
         if (q != 0) {
             s = func_0215A5F4(a1);
             t = func_0215A5DC(a1);
-            func_0215897C(s, func_0216AF74(t, func_0201210C(), q, *pb, p, 4));
+            func_0215897C(s, func_0216AF74(t, func_0201210C(t), q, *pb, p, 4));
         }
     }
     return 1;

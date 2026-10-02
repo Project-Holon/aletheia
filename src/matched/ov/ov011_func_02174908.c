@@ -19,22 +19,19 @@
  */
 
 int func_02026478(int a);
-int func_020399A8(void);
-int func_0203D1A4(void);
-void func_020127A4(int a);
-void func_02012AC8(void);
-int func_02013D9C(void);
+void *func_020399A8(void);
+unsigned int func_0203D1A4(void *p);
+void *func_020127A4(int a);
+unsigned short func_02012AC8(void *p);
+unsigned int func_02013D9C(unsigned int id);
 
 void func_02174908(int a, int b, int c, unsigned char *d)
 {
     int h;
 
     h = func_02026478(*(int *)(d + 4));
-    func_020399A8();
-    if (a != func_0203D1A4() && ((unsigned)(*(unsigned short *)(d + 0x86) << 29) >> 29) == a) {
-        func_020127A4(h);
-        func_02012AC8();
-        if (func_02013D9C() != 0) {
+    if (a != func_0203D1A4(func_020399A8()) && ((unsigned)(*(unsigned short *)(d + 0x86) << 29) >> 29) == a) {
+        if (func_02013D9C(func_02012AC8(func_020127A4(h))) != 0) {
             d[0x8F8] |= 4;
         }
     }

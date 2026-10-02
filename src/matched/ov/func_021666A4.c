@@ -27,7 +27,7 @@ t4 = a0 + 0;
 a0 = *(int *)((char *)t4);
     if (a0 == 0) goto loc_021666B6;
 loc_021666AE:
-    a0 = func_020307B0();
+    a0 = func_020307B0(a0);
 loc_021666B2:
 a0 = 0;
 *(int *)((char *)t4) = a0;

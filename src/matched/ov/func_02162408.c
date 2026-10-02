@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_021623DC  0x021623DC  thumb  ov010
@@ -32,7 +32,7 @@ int func_02162408(int a0, int a1, int a2)
 t5 = a0 + 0;
 t4 = a1 + 0;
 t6 = a2 + 0;
-    a0 = func_021623DC();
+    a0 = func_021623DC(a0);
 loc_02162414:
 a0 = t5 + 0;
 a1 = t4 + 0;

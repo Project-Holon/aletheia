@@ -56,20 +56,20 @@ typedef struct {
     u32 f10;
 } Ctx;
 
-extern void *func_020120F4(void);
+extern void *func_020120F4(void *);
 extern u32 func_02012934(void *);
 extern u32 func_0200CA1C(void *);
 extern u32 func_0200CA38(u32);
 extern void *func_02030734(int, int, int, const char *, int);
 extern u8 func_0201AA18(u32);
 extern void *func_020122C0(void *, int, void *, int);
-extern Ctx *func_020124E8(void);
+extern Ctx *func_020124E8(void *);
 extern int func_0215D1E4(void *, u32 *, Ctx *);
 extern const char d_02172900[];
 
 void *func_0215D2A4(void *a, u32 b, u32 c)
 {
-    void *r7 = func_020120F4();
+    void *r7 = func_020120F4(a);
     u32 v = func_02012934(r7);
     u32 w = func_0200CA1C(r7);
     A *x = func_02030734(4, 0x98, 0, d_02172900, 0x22B);
@@ -91,7 +91,7 @@ void *func_0215D2A4(void *a, u32 b, u32 c)
     y->f0f = 0;
     y->f18 = func_0200CA38(w);
     h = func_020122C0(a, 0, (void *)func_0215D1E4, 0x14);
-    ctx = func_020124E8();
+    ctx = func_020124E8(h);
     ctx->f0 = a;
     ctx->f4 = b;
     ctx->f8 = x;

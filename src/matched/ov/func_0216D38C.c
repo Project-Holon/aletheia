@@ -7,7 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
+ * blocked:  listing 28 compiled 26
  *
  * symbols:
  *   func_0216D28C  0x0216D28C  thumb  ov010
@@ -28,7 +29,7 @@ void func_0216D38C(int a0)
     int t4;
 
 t4 = a0 + 0;
-    a0 = func_0216D28C();
+    a0 = func_0216D28C(a0);
 loc_0216D394:
 a0 = t4 + 0;
     a0 = func_0216DA30(a0);
