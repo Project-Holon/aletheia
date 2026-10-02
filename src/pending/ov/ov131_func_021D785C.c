@@ -31,6 +31,17 @@
  *   forms, ((void**)q)[1], struct q, static inline per-object helper,
  *   Vec assigned instead of initialised. func_02015D80 witness is now filed
  *   (src/matched/arm9/func_02015D80.c), so only the 4 bytes remain.
+ * note 2026-10-02 (lane R5): still 4 bytes (+0xAA/+0xAC). Prototypes now
+ *   copied from the matched definitions (Vec of u32, 02015D80(u8 *,u16),
+ *   02015D30/CDC(void *,u32 *)) and the third parameter that caller
+ *   021D6A38 passes in r2 is named; all inert for the swap. Measured: the
+ *   swap is a scheduling effect (order correct at -O1, swapped from -O2) and
+ *   appears only while &d is live across group 2 (passing &a/&b/&c to
+ *   func_021D7A1C instead gives the original order in both groups). Inert:
+ *   block-scoped result local (initialised, chained, pointer-to-slot), store
+ *   then FD4 on the void * slot, int/char * result type, q+4 pointer local,
+ *   Vec *v[3] pointer array for b/c/d (same bytes, same swap), a two-pass
+ *   loop (not unrolled, 240 bytes).
  * symbols:
  *   d_021DC1F8 0x021DC1F8 data ov131 a4
  *   d_021DC240 0x021DC240 data ov131 a4
@@ -49,7 +60,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned short u16;
-typedef struct { int x,y,z; } Vec;
+typedef struct { u32 x,y,z; } Vec;
 extern const Vec d_021DC1F8,d_021DC240,d_021DC180,d_021DC1C8;
 extern void *func_021D60A4(void *);
 extern void func_021D7A44(void *,int,int *,int *);
@@ -57,13 +68,13 @@ extern void func_021D79A8(void *,void *,int);
 extern void func_021D7A1C(void *,void *,Vec *);
 extern void *func_02017270(void *,void *,u32,u32,u32,u32);
 extern void func_02015FD4(char *,int);
-extern void func_02015D80(void *,u16);
-extern void func_02015D30(void *,int *);
+extern void func_02015D80(u8 *,u16);
+extern void func_02015D30(void *,u32 *);
 extern int func_020173B4(void *);
-extern void func_02015CDC(void *,int *);
+extern void func_02015CDC(void *,u32 *);
 extern void func_02015EB0(void *);
 extern void func_02015EA0(void *);
-void func_021D785C(u8 *p,u8 *q)
+void func_021D785C(u8 *p,u8 *q,void *mon)
 {
     Vec a=d_021DC1F8;
     Vec b=d_021DC240;
@@ -73,13 +84,13 @@ void func_021D785C(u8 *p,u8 *q)
     func_021D7A44((void *)p,(int)q,(int *)&a,(int *)&b);
     *(void **)q=func_02017270(*(void **)(p+0x78),m,0,0xd8000,0x48000,0);
     func_02015FD4(*(char **)q,2);
-    func_02015D80(*(void **)q,0xd555);
+    func_02015D80(*(u8 **)q,0xd555);
     func_02015D30(*(void **)q,&b.x);
     func_020173B4(*(void **)q);
     func_02015CDC(*(void **)q,&a.x);
     *(void **)(q+4)=func_02017270(*(void **)(p+0x78),m,1,0xd8000,0x48000,0);
     func_02015FD4(*(char **)(q+4),2);
-    func_02015D80(*(void **)(q+4),0xd555);
+    func_02015D80(*(u8 **)(q+4),0xd555);
     func_02015D30(*(void **)(q+4),&c.x);
     func_020173B4(*(void **)(q+4));
     func_02015CDC(*(void **)(q+4),&a.x);
