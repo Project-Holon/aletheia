@@ -1,5 +1,7 @@
 # Branch-to-branch stubs before a call are tail-merged call arms
 
+summary: Making the call and storing its result in each comparison-tree arm lets the compiler merge their identical tails, leaving branch stubs and a later field reload; selecting a local before one shared call produces different register and branch scheduling.
+
 Shape: a nested compare tree (for example a 3-way max) whose leaves are
 `adds r0, rX` or nothing, with lone `b` stubs that jump to another `b` or to a
 shared `adds r0, r2` block, followed by one constant load and one call whose

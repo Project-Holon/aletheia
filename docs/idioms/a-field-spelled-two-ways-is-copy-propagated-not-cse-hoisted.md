@@ -1,5 +1,7 @@
 # A field spelled two ways is copy-propagated, not CSE-hoisted
 
+summary: Spelling a reused field once as a struct member and once as a raw offset prevents CSE from hoisting its load ahead of an independent index operand; copy propagation still supplies the later call argument.
+
 Shape: two independent loads feeding one address add come out in the
 opposite order to the obvious C, and every operand order, local and cast
 leaves them unchanged.

@@ -1,5 +1,7 @@
 # A self-move after a call is an add of a zero-valued local
 
+summary: Adding a local that holds zero to a call result can survive register coalescing as a self-move; a literal addition of zero folds away before code generation.
+
 Seen in ov021 func_02191830 (Thumb, -O4,p). The original keeps one
 `adds r0, r0, #0` right after a call's result arrives in r0, while a sibling
 value computed as `call() + 2` has none.

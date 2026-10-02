@@ -1,5 +1,7 @@
 # An unused frame word under a sign-extension spill is a field passed to an earlier call
 
+summary: Passing a field expression to an earlier call, while retaining its local for a later 64-bit multiply loop, can keep a separate dead low-word spill slot beneath the hoisted sign-extension word.
+
 Shape: a Thumb function with an `FX_Mul`-style inline (`(long long)a * b`) in a
 loop. The compiler hoists `b >> 31` (the high word of the sign-extended
 multiplier) into a stack slot. In the image there is one frame word just
