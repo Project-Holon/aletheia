@@ -19,7 +19,7 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_021D9EA0(void);
+extern void func_021D9EA0(u32);
 extern void func_02034A5C(u32 v);
 extern u8 ov175_id[];
 extern u8 ov114_id[];
@@ -29,7 +29,7 @@ void func_021E5A44(void **pp)
 {
     if (*pp == 0)
         return;
-    func_021D9EA0();
+    func_021D9EA0((u32)*pp);
     func_02034A5C((u32)ov175_id);
     func_02034A5C((u32)ov114_id);
     func_02034A5C((u32)ov067_id);

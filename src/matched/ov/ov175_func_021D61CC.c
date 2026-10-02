@@ -21,7 +21,7 @@
  */
 typedef unsigned int u32;
 
-extern void func_021D9EA0(void);
+extern void func_021D9EA0(u32);
 extern void func_021E8AA8(void *a);
 
 void func_021D61CC(void *a, u32 **pp, char *p)
@@ -29,7 +29,7 @@ void func_021D61CC(void *a, u32 **pp, char *p)
     if (*pp != 0)
         return;
     if (*(u32 *)(p + 0x30) != 0) {
-        func_021D9EA0();
+        func_021D9EA0(*(u32 *)(p + 0x30));
         *(u32 *)(p + 0x30) = 0;
     }
     func_021E8AA8(a);
