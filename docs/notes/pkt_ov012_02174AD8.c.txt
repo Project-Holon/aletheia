@@ -10,7 +10,15 @@
  * status: DIFF
  * Best: r4 log, 48 bytes, DIFF 6; offset load after guard instead of before.
  * checks: 1 matched ov010 func_02157450 reads all 4 args, returns task, no prototype shift; 2 no other ov010/ov012 caller twin, sibling state wrappers match guard; 3 const source no change (r3 DIFF7), Source field pointer DIFF12 (c3a), dead fifth Offset parameter DIFF7 (c3b), check budget 2/2; 4 enum offset and block placement improve DIFF12 to 7 to 6, relevant enum/const/dead-parameter/initializer idioms read; 5 fresh idiom list and ov012 02174284/02174B08/02174B40 read, no new twin, no stack object residue. Next hypothesis: initializer placement, unrun; no permutation sweep permitted.
- * Budget: history empty; iteration 5/10; declaration/temporary placement variants 2/2; check3 2/2; all other required checks read-only; no sweeps, no CCERRs. r1 raw offset DIFF12, r2 outer enum DIFF7, r3 const DIFF7, r4 inner enum DIFF6, r5 pointer locals/outer enum DIFF7.
+ * Budget: wave54 iteration 5/10; declaration/temporary placement 2/2;
+ * check3 2/2; no manual cap reset. Wave55 big retry's once-300 permuter
+ * consumed 300 compiles, best unchanged DIFF48/6, no winning mutations.
+ * Fresh check: matched ov010 func_02157450 takes four inputs and returns
+ * the task. This caller names all four; r3 passes the Rec pointer unchanged.
+ * Read-only initializer/enum review found no evidence authorizing a new
+ * manual placement experiment. Check1/2/5 re-read; no same-region new twin,
+ * no stack object residue, no blocker leaves. Existing check3 remains 2/2.
+ * Retry evidence: scratchpad/overlay-goal-20261001-w55/R1/perm-02174AD8.log.
  * Evidence: scratchpad/overlay-goal-20261001-w54/S22/02174AD8-r4.log.
  * Original 02174AE0 ldr r6,[pc,#0x20] precedes 02174AE2 cmp and 02174AE4 bne; compiled best puts the same offset load after those two instructions. All other instructions and the callee relocation resolve identically. No volatile, invented initialization, or constrained input domain.
  * symbols:

@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_021808C4  0x021808C4  thumb
+ *   func_021808C4  0x021808C4  thumb ov018
  */
 
 void func_021808C4(int id, void *dst);

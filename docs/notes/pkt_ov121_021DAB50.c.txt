@@ -1,0 +1,40 @@
+/*
+ * function: func_021DAB50
+ * address: 0x021DAB50
+ * packet: pkt_ov121_021DAB50
+ * region: ov121
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 200 bytes, 124 concrete bytes differ; coefficient narrowing and channel scheduling/registers.
+ * checks: 1 readonly 02061CA4 body reads all four argument registers; 2 related 021DAAA4 note has same blend, no exact ov120/ov121/ov122 twin; 3 int weight and const palette parameters in iteration no improvement, const table targeted compile stays 124; 4 channel-shift and narrow-type idioms read, direct loop variant worsens; 5 repeated idiom listing and neighbours give no twin, no stack object residue. Next: per-channel scalar interpolation helper, without another ordering sweep.
+ * budget: 4 iteration runs, first nonshrinking run 2, three consecutive nonshrinking; check3 1/2; ordering variant 1/2; permuter 300 used once, only volatile-add(last) candidate rejected.
+ * symbols:
+ *   d_020A1B38 0x020A1B38 data a4
+ *   func_02061CA4 0x02061CA4 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+extern const s16 d_020A1B38[];
+extern int func_02061CA4(void *,unsigned,unsigned,int);
+static inline u16 blend(u16 first,u16 last,s16 weight)
+{
+    u8 green=(u8)((first&0x3e0)>>5);
+    u16 end=last;
+    u8 red=(u8)(first&31);
+    u8 blue=(u8)((first&0x7c00)>>10);
+    u8 eb=(u8)((end&0x7c00)>>10);
+    blue=(u8)(blue+(((eb-blue)*weight)>>12));
+    red=(u8)(red+((((u8)(end&31)-red)*weight)>>12));
+    green=(u8)(green+((((u8)((end&0x3e0)>>5)-green)*weight)>>12));
+    return (u16)((blue<<10)|(green<<5)|red);
+}
+void func_021DAB50(void *p,u16 *out,int angle,int slot,const u16 *first,const u16 *last)
+{
+    s16 weight=(s16)((d_020A1B38[(angle>>4)*2+1]+4096)/2);
+    int i;
+    for(i=0;i<16;i++) out[i]=blend(first[i],last[i],weight);
+    func_02061CA4(p,slot*32,(unsigned)out,32);
+}

@@ -1,0 +1,64 @@
+/*
+ * function: func_021D8118
+ * address: 0x021D8118
+ * packet: pkt_ov120_021D8118
+ * region: ov120
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own callee sources confirm allocator seven args and reader arities, return chains named; 2 ov120 7A74/7F5C allocator twins and 81E0 caller read; 3 unsigned n unchanged (first-four u8 and explicit cast variants also unchanged); 4 seven-argument inline wrapper unchanged; 5 refreshed idiom directory and neighbors, no stack object residue.
+ * residual: DIFF, 198 versus 200 bytes, 171 concrete bytes differ; allocator multiply/narrow sequence hoists and reuses r1=6 rather than materializing r0=6 after three stack stores.
+ * budget: 4 iteration runs, three consecutive nonshrinking changes; checks 3=1/2, 4=1/2; zero sweeps; once-300-types permuter consumed. Best permuter candidate moved p+18 read across calls; rejected without alias proof. Next hypothesis would be a distinct inline allocator interface or evidence-backed arithmetic type, not a repeated permutation.
+ * symbols:
+ *   func_020450F0 0x020450F0 arm
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_0204581C 0x0204581C arm
+ *   func_02045CAC 0x02045CAC arm
+ *   func_02045334 0x02045334 arm
+ *   func_02045374 0x02045374 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef short s16;
+extern void *func_020450F0(u32,u32,u32,u32,u8,u8,u8);
+extern void *func_02045770(void *);
+extern void func_02043B5C(void *,int);
+extern void func_0204581C(void *);
+extern void func_0201F02C(void *,u32,void *);
+extern u32 func_02008534(void *);
+extern u32 func_0200856C(void *);
+extern void func_0201EFA4(void *,u32,u32,u32,u32,u32);
+extern void func_0201F048(void *,u32,u32);
+extern void func_02045CAC(void *,u16,void *);
+extern void func_0201F250(void *,void *,void *);
+extern void func_0201DD78(int,int,int);
+extern void func_0201C7A4(void *,s16,s16,void *,void *);
+extern void func_02045334(void *);
+extern void func_02045374(void *);
+static inline void *alloc(u8 a,u8 b,u8 c,u8 d,u8 e,u8 f,u8 g)
+{
+    return func_020450F0(a,b,c,d,e,f,g);
+}
+int func_021D8118(char *p,void *r,u32 n)
+{
+    void **t=(void **)(p+0x6c);
+    void *q;
+    if(!t[n]) t[n]=alloc(1,6,n*6+1,24,4,11,1);
+    q=t[n];
+    func_02043B5C(func_02045770(q),0);
+    func_0204581C(*(void **)(p+0x20));
+    func_0204581C(*(void **)(p+0x18));
+    func_0201F02C(*(void **)(p+0x10),0,r);
+    func_0201EFA4(*(void **)(p+0x10),1,func_02008534(r),5,2,1);
+    func_0201F048(*(void **)(p+0x10),2,func_0200856C(r));
+    func_02045CAC(*(void **)(p+0xc),28,*(void **)(p+0x20));
+    func_0201F250(*(void **)(p+0x10),*(void **)(p+0x18),*(void **)(p+0x20));
+    func_0201DD78(15,2,0);
+    func_0201C7A4(func_02045770(q),0,0,*(void **)(p+0x18),*(void **)(p+0x14));
+    func_02045334(q);
+    func_02045374(q);
+    return 0;
+}

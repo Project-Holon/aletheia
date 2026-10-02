@@ -1,0 +1,71 @@
+/*
+ * function: func_021D57B0
+ * address: 0x021D57B0
+ * packet: pkt_ov120_021D57B0
+ * region: ov120
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021D79F4 0x021D79F4 thumb ov120
+ *   func_020355C4 0x020355C4 arm
+ *   func_021D69F4 0x021D69F4 thumb ov120
+ *   func_021D7D3C 0x021D7D3C thumb ov120
+ *   func_021D6BB0 0x021D6BB0 thumb ov120
+ *   func_021D81E0 0x021D81E0 thumb ov120
+ *   func_021D82A8 0x021D82A8 thumb ov120
+ *   func_021D72A0 0x021D72A0 thumb ov120
+ *   func_021D6D10 0x021D6D10 thumb ov120
+ *   func_021D7ECC 0x021D7ECC thumb ov120
+ *   func_021D733C 0x021D733C thumb ov120
+ *   func_021D4244 0x021D4244 thumb ov120
+ *   func_021D5758 0x021D5758 thumb ov120
+ *   func_021D5334 0x021D5334 thumb ov120
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+extern void *func_02012F14(void **);
+extern int func_02009E8C(void *);
+extern void func_021D79F4(void *, int);
+extern int func_020355C4(void);
+extern void func_021D69F4(void *, void *, int);
+extern void func_021D7D3C(void *);
+extern void func_021D6BB0(u8 *, int);
+extern void func_021D81E0(char *, void *);
+extern void func_021D82A8(void *, void *, int);
+extern void func_021D72A0(void *, void *, int);
+extern void func_021D6D10(void *, void *, int);
+extern void *func_021D7ECC(char *, u16);
+extern void func_021D733C(void *, int, int);
+extern void func_021D4244(int, int, int);
+extern void func_021D5758(u8 *);
+extern void func_021D5334(void);
+void func_021D57B0(u8 *p)
+{
+    int flag = 1;
+    int n = func_02009E8C(func_02012F14(*(void ***)(p + 0x2c)));
+    *(int *)(p + 0x138) = flag;
+    if (n == 0) {
+        func_021D79F4(*(void **)(p + 0x40), 0x1d);
+        *(int *)(p + 0x14) = 0x78;
+        func_021D4244((int)p, (int)func_021D5758, 0x7e7);
+        return;
+    }
+    *(int *)(p + 0x150) = n;
+    func_021D79F4(*(void **)(p + 0x40), 0x13);
+    if (func_020355C4() == 0)
+        func_021D69F4(*(void **)(p + 0x3c), 0, *(int *)(p + 0x164));
+    else
+        func_021D69F4(*(void **)(p + 0x3c), 0, 9);
+    func_021D7D3C(*(void **)(p + 0x40));
+    if (n <= 3) flag = 0;
+    func_021D6BB0(*(u8 **)(p + 0x3c), flag);
+    func_021D81E0(*(char **)(p + 0x40), *(void **)(p + 0x2c));
+    func_021D82A8(*(void **)(p + 0x40), *(void **)(p + 0x2c), *(int *)(p + 0x158) - 2);
+    func_021D72A0(*(void **)(p + 0x3c), *(void **)(p + 0x2c), *(int *)(p + 0x158) - 2);
+    func_021D6D10(*(void **)(p + 0x3c), *(void **)(p + 0x2c), *(int *)(p + 0x158) - 2);
+    *(void **)(p + 0x34) = func_021D7ECC(*(char **)(p + 0x40), 0x2c);
+    func_021D733C(*(void **)(p + 0x3c), *(int *)(p + 0x158) + *(int *)(p + 0x164) - 6, *(int *)(p + 0x150));
+    func_021D4244((int)p, (int)func_021D5334, 0x815);
+}

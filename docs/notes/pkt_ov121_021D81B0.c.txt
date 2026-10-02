@@ -1,0 +1,12 @@
+/*
+ * address: 0x021D81B0
+ * function: func_021D81B0
+ * packet: pkt_ov121_021D81B0
+ * region: ov121
+ * status: EXACT
+ * checks: fixed-flag one r3 EXACT; descriptor type correction r2 MATCH, sole blocker 021D83CC then filed.
+ */
+Exact source: src/matched/ov/ov121_func_021D81B0.c.
+The seven descriptor halfwords are s16: case 2 writes -1 and -2.
+Using u16 for them produced 456 bytes instead of 464; s16 restored all concrete bytes without casts or scheduling changes.
+Only the callback pool relocation to func_021D83CC remained at MATCH. Its separately granted, verified 16-byte ov121 leaf resolved the unchanged caller.

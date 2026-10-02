@@ -1,0 +1,27 @@
+/*
+ * function: func_0217F1E8
+ * address: 0x0217F1E8
+ * packet: pkt_ov018_0217F1E8
+ * region: ov018
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT*
+ * extent: Two bytes of alignment padding at 0x0217F212.
+ * symbols:
+ *   func_020120F4 0x020120F4 thumb
+ *   func_02012B70 0x02012B70 thumb
+ */
+typedef unsigned char u8;
+extern void *func_020120F4(const void *);
+extern u8 func_02012B70(const void *);
+int func_0217F1E8(u8 *p)
+{
+    if (func_02012B70(func_020120F4(*(void **)p)) == 1) {
+        switch (*(int *)(p + 0xdc)) {
+        case 2: case 3: case 4: return 1;
+        }
+    }
+    return 0;
+}

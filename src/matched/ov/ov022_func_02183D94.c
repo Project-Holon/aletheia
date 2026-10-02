@@ -1,0 +1,22 @@
+/*
+ * function: func_02183D94
+ * address: 0x02183D94
+ * packet: pkt_ov022_02183D94
+ * region: ov022
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * Callee's filed definition says void; original caller reads r0 at
+ * 02183DA2, and ov012 callee leaves func_0203D3F8 result live.
+ * symbols:
+ *   func_02173E68 0x02173E68 thumb ov012
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+extern int func_02173E68(u32);
+void func_02183D94(u8 *p)
+{
+    if (p[17] != 255 && func_02173E68(p[17]) == 1) p[17] = 255;
+}

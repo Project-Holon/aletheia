@@ -1,0 +1,110 @@
+/*
+ * function: func_021DA4DC
+ * address: 0x021DA4DC
+ * packet: pkt_ov121_021DA4DC
+ * region: ov121
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 444 bytes, 30 concrete bytes differ; two byte-field update loads and outgoing menu arguments scheduled late.
+ * checks: 1 nine menu inputs established by own 021DA1BC and original outgoing slots; fifth narrowed to u8, sixth/seventh wide words; 2 related exact 021D83DC has different descriptor/frame, no same-template twin; 3 const parameter removes alias reload and worsens to 328, u16 heap retained; 4 const scheduling and aggregate assignment idioms read; 5 repeated idiom listing and neighbours, declared Records/Position reproduce stack addresses. Next: descriptor accessor types preserving reload, without further ordering variants.
+ * budget: 6 iteration runs; first nonshrinking run 3, two consecutive flat runs 5/6, no further evidence-backed iteration; check3 1/2; ordering variants 2/2 exhausted; permuter 300 used once, no improvement.
+ * interfaces: menu fourth argument ldrh needs no extra truncation; fifth explicitly truncates to u8. Sixth and seventh outgoing words have no truncation although own callee declares u16, so caller extern retains full width.
+ * symbols:
+ *   func_02030734 0x02030734 arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_02045874 0x02045874 arm
+ *   func_02045808 0x02045808 arm
+ *   func_0204B404 0x0204B404 arm
+ *   func_0204B3DC 0x0204B3DC arm
+ *   func_0204B878 0x0204B878 arm
+ *   func_0204B92C 0x0204B92C arm
+ *   func_021DA1BC 0x021DA1BC thumb ov121
+ *   d_021DFBA0 0x021DFBA0 data a1
+ *   d_021DF7C0 0x021DF7C0 data a4
+ *   d_021DF76C 0x021DF76C data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+typedef struct {u8 x,y,a,b;u32 w4;void *handle;u32 wc;s16 d,e;u16 f,g;} Record;
+typedef struct {Record rows[4];} Records;
+typedef struct {s16 x,y;} Position;
+typedef struct {int x,y;} TablePair;
+extern const char d_021DFBA0[];
+extern const Records d_021DF7C0;
+extern const TablePair d_021DF76C[];
+extern void *func_02030734(u16,u32,int,const char *,u32);
+extern void func_02082BCC(void *,int,u32);
+extern void *func_02045EC0(u32,u32);
+extern void *func_02045874(u32,u16);
+extern void func_02045808(void *);
+extern void *func_021DA1BC(void *,const char *,u32,int,u8,u32,u32,int,u16);
+extern void func_0204B404(void *,Position *,int);
+extern void func_0204B3DC(void *,int);
+extern void func_0204B878(void *,u32);
+extern void func_0204B92C(void *,int);
+static inline void offset_record(Record *v,const u8 *p)
+{
+    v->y+=(u8)*(s16 *)(p+0x2c);
+    v->x+=(u8)*(s16 *)(p+0x2e);
+}
+static inline void *make_menu(Records *cfg,u32 n,const u8 *p,u16 heap)
+{
+    return func_021DA1BC(0,(const char *)cfg,n,*(u16 *)(p+0x24),*(u16 *)(p+0x26),*(u32 *)(p+8),*(u32 *)p,*(u32 *)(p+4),heap);
+}
+void *func_021DA4DC(u8 *p,u16 heap)
+{
+    Records cfg;
+    Position pos;
+    u8 *out;
+    u32 i;
+    u16 resourceheap;
+    Record *v;
+    out=func_02030734(heap,100,0,d_021DFBA0,0x4e7);
+    func_02082BCC(out,0,100);
+    *(u32 *)(out+12)=*(u32 *)(p+0x20);
+    *(u32 *)(out+4)=*(u32 *)(p+12);
+    *(u16 *)(out+0x26)=*(u16 *)(p+0x26);
+    *(u16 *)(out+0x2a)=*(u16 *)(p+0x28);
+    *(u16 *)(out+0x2c)=*(u16 *)(p+0x2a);
+    *(u16 *)(out+0x28)=*(u16 *)(p+0x24);
+    *(u32 *)(out+0x34)=*(u32 *)(p+0x34);
+    *(u32 *)(out+0x38)=*(u32 *)(p+0x38);
+    *(s16 *)(out+0x2e)=*(s16 *)(p+0x2c);
+    *(u16 *)(out+0x30)=*(u16 *)(p+0x30);
+    *(u32 *)(out+0x60)=*(u32 *)(p+0x3c);
+    if(*(u32 **)(p+0x3c)) {
+        *(u32 *)(out+8)=**(u32 **)(p+0x3c);
+        *(u32 *)(out+8)=*(u32 *)(out+8)>*(u32 *)(out+12)-1 ? *(u32 *)(out+12)-1:*(u32 *)(out+8);
+    }
+    for(i=0;i<*(u32 *)(out+12);i++)
+        *(u16 *)(out+0x12+i*2)=*(u16 *)((0x05000000+*(u16 *)(p+0x2a)*32)+(i+10)*2);
+    *(u16 *)(out+0x22)=((u16 *)0x0500001e)[*(u16 *)(p+0x2a)*16];
+    cfg=d_021DF7C0;
+    i=0;
+    if(i<*(u32 *)(out+12)) {
+      resourceheap=(heap&0x7fff)|0x8000;
+      do {
+        v=&cfg.rows[i];
+        offset_record(v,p);
+        if(*(u32 *)p) v->handle=func_02045EC0(*(u32 *)p,*(u32 *)(p+16+i*4));
+        else v->handle=func_02045874(*(u32 *)(p+16+i*4),resourceheap);
+        i++;
+      } while(i<*(u32 *)(out+12));
+    }
+    *(void **)out=make_menu(&cfg,*(u32 *)(out+12),p,heap);
+    for(i=0;i<*(u32 *)(out+12);i++) {
+        if(cfg.rows[i].handle) func_02045808(cfg.rows[i].handle);
+    }
+    pos.x=d_021DF76C[*(u32 *)(out+8)].x;
+    pos.y=d_021DF76C[*(u32 *)(out+8)].y+*(s16 *)(p+0x2c)*8;
+    func_0204B404(*(void **)(out+4),&pos,0);
+    func_0204B3DC(*(void **)(out+4),1);
+    func_0204B878(*(void **)(out+4),*(u16 *)(out+0x30));
+    func_0204B92C(*(void **)(out+4),1);
+    return out;
+}

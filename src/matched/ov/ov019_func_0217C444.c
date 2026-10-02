@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT*
  * symbols:
- *   func_0217F378  0x0217F378  thumb
+ *   func_0217F378  0x0217F378  thumb ov019
  */
 
 void func_0217F378(void *p);

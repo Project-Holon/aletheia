@@ -1,0 +1,12 @@
+/*
+ * address: 0x021D7EAC
+ * function: func_021D7EAC
+ * packet: pkt_ov121_021D7EAC
+ * region: ov121
+ * status: EXACT
+ * checks: fixed-flag one r2 EXACT; loader and ov115 descriptor listing establish cross-overlay data witness.
+ */
+Exact source: src/matched/ov/ov121_func_021D7EAC.c.
+Use switch(result) with cases 1 and 2 sharing the arm: result == 1 || result == 2 compiled to a range test, shortened the function to 520 bytes, and hoisted the p+944 access. The switch restores the original separate comparisons and 532-byte layout.
+The pooled 115 is ov115_id, not an immediate. func_020312CC loads overlay 115 before using the descriptor at 021D6338; ov115's listing places callback 021D4BFD in that descriptor. Keep its data ov115 hint.
+The original caller passes p+956 to func_0200A350 and tests its r0 result. Its legacy void(void) declaration does not describe this caller's live argument and return chain; this owned extern preserves both without editing ARM9.

@@ -1,0 +1,92 @@
+/*
+ * function: func_021D5E88
+ * address: 0x021D5E88
+ * packet: pkt_ov120_021D5E88
+ * region: ov120
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * interface: arg is a full-word pointer, as matched caller 021D5C60 supplies.
+ * interface: 021D6100 gets p explicitly loaded despite its legacy void(void).
+ * volatile: hardware 0x04001000 read/written at 0x021D5EC4/0x021D5ECA.
+ * symbols:
+ *   func_02030734 0x02030734 arm
+ *   func_02034AC4 0x02034AC4 arm
+ *   func_02043534 0x02043534 arm
+ *   func_020435F4 0x020435F4 arm
+ *   func_0204363C 0x0204363C arm
+ *   func_0207D46C 0x0207D46C arm
+ *   func_0203F8F4 0x0203F8F4 arm
+ *   func_0204A48C 0x0204A48C arm
+ *   func_0204B100 0x0204B100 arm
+ *   func_020433E0 0x020433E0 arm
+ *   func_0203FC28 0x0203FC28 arm
+ *   func_021D6100 0x021D6100 thumb ov120
+ *   func_021D6568 0x021D6568 thumb ov120
+ *   func_021D6530 0x021D6530 thumb ov120
+ *   func_020056A0 0x020056A0 thumb
+ *   func_021D69A0 0x021D69A0 thumb ov120
+ *   func_021D692C 0x021D692C thumb ov120
+ *   d_021D8BC8 0x021D8BC8 data a1
+ *   ov_id 0x00000043 data
+ *   d_021D8B98 0x021D8B98 data a4
+ *   d_021D8974 0x021D8974 data a4
+ *   d_021D8B60 0x021D8B60 data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct DispConfig { u32 a,b,c,d; };
+struct DispVram;
+extern const char d_021D8BC8[];
+extern const u8 ov_id[];
+extern const struct DispVram d_021D8B98;
+extern const u32 d_021D8974[];
+extern struct DispConfig d_021D8B60;
+extern void *func_02030734(u32,u32,int,const char *,u16);
+extern int func_02034AC4(const void *);
+extern void func_02043534(u32);
+extern void func_020435F4(u32);
+extern void func_0204363C(int);
+extern void func_0207D46C(void);
+extern void func_0203F8F4(u16);
+extern void func_0204A48C(const void *,const void *,u32);
+extern void *func_0204B100(int,u32,u32);
+extern void func_020433E0(const struct DispVram *);
+extern void func_0203FC28(struct DispConfig *);
+extern void func_021D6100(u8 *);
+extern void func_021D6568(u8 *);
+extern void func_021D6530(void *,u8 *);
+extern void *func_020056A0(void (*)(void *,u8 *),void *,int);
+extern void func_021D69A0(u8 *);
+extern void func_021D692C(u8 *,int);
+u8 *func_021D5E88(u32 heap,void *arg)
+{
+    u8 *p;
+    p=func_02030734(heap,0x164,1,d_021D8BC8,258);
+    *(u16 *)(p+0xf4)=heap;
+    *(void **)(p+0x118)=arg;
+    func_02034AC4(ov_id);
+    func_02043534(0);
+    func_020435F4(0);
+    func_0204363C(1);
+    *(volatile u32 *)0x04001000|=0x10000;
+    func_0207D46C();
+    func_0203F8F4(*(u16 *)(p+0xf4));
+    func_0204A48C(d_021D8974,&d_021D8B98,*(u16 *)(p+0xf4));
+    *(void **)(p+0x10)=func_0204B100(64,0,*(u16 *)(p+0xf4));
+    func_020433E0(&d_021D8B98);
+    func_0203FC28(&d_021D8B60);
+    func_021D6100(p);
+    func_021D6568(p);
+    *(void **)(p+0x14)=func_020056A0(func_021D6530,p,0);
+    *(void **)(p+0x124)=func_02030734(*(u16 *)(p+0xf4),0x200,0,d_021D8BC8,280);
+    *(void **)(p+0x128)=func_02030734(*(u16 *)(p+0xf4),0x200,0,d_021D8BC8,281);
+    func_021D69A0(p);
+    func_021D692C(p,0);
+    func_020435F4(31);
+    func_02043534(31);
+    return p;
+}

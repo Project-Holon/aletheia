@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   EXACT
  * symbols:
- *   func_0217F9DC  0x0217F9DC  thumb
+ *   func_0217F9DC  0x0217F9DC  thumb ov019
  */
 
 void func_0217F9DC(int x, int y);

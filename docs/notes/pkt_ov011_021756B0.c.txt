@@ -11,7 +11,16 @@
  * checks: 1 n/a no callees or forwarded arguments; 2 no same-table twin, neighbouring 021756D0 has identical rotation residue; 3 mutable table no change, enum counter with unsigned bound 36B/29-byte DIFF; 4 enum and while-loop idioms read, enum iteration 36B/29-byte DIFF and goto 32B/27-byte DIFF; 5 idiom names and ov011 neighbours re-read, no stack object. Next hypothesis would be an evidence-backed original source type or loop-front-end shape; no sweep performed.
  * Best: run1 below, 32 compiled bytes, 27 concrete bytes differ, ABS32 table resolved sole-ref.
  * Original initial movs r3,#0; ldr r2,=table; b test is folded to ldr r2; movs r3; loop body.
- * Budgets: iteration 3 (two nonshrinking changes); check3 2/2; scheduling 0; no permuter.
+ * Budgets: iteration 3 stopped (two nonshrinking changes); check3 2/2;
+ * scheduling 0. Wave55 big retry preserves all manual caps; once-300
+ * permuter consumed 300 compiles, best unchanged DIFF32/27, no mutations.
+ * Fresh check: no callees; same-region caller 02175FB8 passes its u16 load
+ * widened to u32, with no extra incoming register used by this leaf.
+ * Current original evidence: movs r3,#0; ldr r2,table; b to cmp r3,#162;
+ * prior best folds that initial branch and moves the table load before zero.
+ * Permuter reported its baseline table unresolved although archived fixed-
+ * region one resolves sole-ref; no improved spelling or repeated pass.
+ * Retry evidence: scratchpad/overlay-goal-20261001-w55/R1/perm-021756B0.log.
  * symbols:
  *   d_02176B08 0x02176B08 data ov011 a2
  */

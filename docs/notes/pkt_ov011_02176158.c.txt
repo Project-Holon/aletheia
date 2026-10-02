@@ -8,6 +8,13 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * Superseded: wave55 matched src/matched/ov/ov011_func_02176158.c is EXACT.
+ * Its once-300 permuter stopped at 74 compiles. Split offset arithmetic
+ * and a named memset pointer preserve index r4/offset r5; all inputs and
+ * memory operations are unchanged. Fixed-region one validates EXACT60/0.
+ * Historical DIFF source below remains for evidence, never retry it.
+ * Carry: iteration3 stopped; check3 2/2, check4 1/2, scheduling2/2;
+ * once-only permuter is spent. No manual iteration/check budget reset.
  * residual: 60 bytes, 9 concrete bytes differ; index r5/offset r4 rather
  * than original index r4/offset r5. All relocations resolve.
  * checks: 1 callee has three loaded inputs and int return; memset standard

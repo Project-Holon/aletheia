@@ -1,0 +1,174 @@
+/*
+ * function: func_021C8FA8
+ * address: 0x021C8FA8
+ * packet: pkt_ov114_021C8FA8
+ * region: ov114
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: arm
+ * lang: c99
+ * status: DIFF
+ * checks: 1 own Process/GetResponse/GetLastError/Shutdown/97E0 interfaces read;
+ * 2 matched 8F2C/941C and same-region callers confirm state/data, no twin;
+ * 3 const response and enum state compiled flat at 1044/40;
+ * 4 aggregate-copy/pointer/const idioms read, inline copy helper flat;
+ * 5 fresh unfiltered idiom listing and 8F2C/941C neighbours reread, no lever.
+ * residual: 1044 bytes, all 34 relocations resolve; 40 concrete bytes differ.
+ * budget: iterations 6, three consecutive nongains i4-i6; scheduling 2/2;
+ * checks c3 2/2 and c4 1/2 (no further scheduling allowed); permuter once300.
+ * permuter: AST emitter hoists the body-local macro below to file scope;
+ * its baseline 1036/814 does not equal fixed one 1044/40. Do not reuse that
+ * output: best has volatile and reads an added local before assignment.
+ * next: no reset or repeat of these budgets; explicitly expand the macro
+ * in a scratch copy before any future distinct evidence-backed analysis.
+ * symbols:
+ *   d_021D4084 0x021D4084 data a4
+ *   d_021D421C 0x021D421C data a1
+ *   DWCi_EncSessionProcess 0x021CA0A0 arm ov114
+ *   DWCi_EncSessionShutdown 0x021CA1B4 arm ov114
+ *   DWCi_EncSessionGetResponse 0x021CA228 arm ov114
+ *   DWC_GetLastErrorEx 0x02059E38 arm
+ *   func_021C97E0 0x021C97E0 arm ov114
+ *   func_02092344 0x02092344 arm
+ */
+typedef unsigned char u8;
+typedef unsigned long u32;
+typedef struct { u8 code,sub; } Hdr;
+typedef struct { Hdr h[4]; } Payload;
+typedef enum { STATE_IDLE=0,STATE_END=12 } State;
+typedef struct {
+    State state;
+    int result;
+    u8 pad[0x198-8];
+    Hdr hdr;
+    u8 pad19a[2];
+    u8 *buf;
+} Ctx;
+extern Ctx d_021D4084;
+extern Hdr d_021D421C;
+extern int DWCi_EncSessionProcess(void);
+extern void DWCi_EncSessionShutdown(void);
+extern u32 DWCi_EncSessionGetResponse(u32 *);
+extern int DWC_GetLastErrorEx(int *,int *);
+extern int func_021C97E0(unsigned);
+extern void func_02092344(void *,const void *,u32);
+static inline void copyHdr(Hdr *out,const Hdr *in)
+{
+    *out=*in;
+}
+void func_021C8FA8(void)
+{
+    u32 len;
+    int code,type;
+    const u8 *resp;
+    Ctx *ctx;
+    ctx=&d_021D4084;
+#define d_021D4084 (*ctx)
+    switch(d_021D4084.state) {
+    case 2:
+        switch(DWCi_EncSessionProcess()) {
+        case 1:
+            d_021D4084.state=12;
+            DWC_GetLastErrorEx(&code,&type);
+            d_021D4084.result=func_021C97E0(type);
+            DWCi_EncSessionShutdown(); return;
+        case 8:
+            d_021D4084.state=12;
+            copyHdr(&d_021D421C,(const Hdr *)DWCi_EncSessionGetResponse(&len));
+            if(len!=0) d_021D4084.result=d_021D4084.hdr.code;
+            else d_021D4084.result=-2;
+            DWCi_EncSessionShutdown(); return;
+        }
+        return;
+    case 4:
+        switch(DWCi_EncSessionProcess()) {
+        case 1:
+            d_021D4084.state=12;
+            DWC_GetLastErrorEx(&code,&type);
+            d_021D4084.result=func_021C97E0(type);
+            DWCi_EncSessionShutdown(); return;
+        case 8:
+            d_021D4084.state=12;
+            resp=(u8 *)DWCi_EncSessionGetResponse(&len);
+            func_02092344(d_021D4084.buf,resp,0xa8c);
+            if(len==0xa8c) d_021D4084.result=0;
+            else {
+                switch(d_021D4084.buf[0]) {
+                case 2: d_021D4084.result=-3; break;
+                case 5: d_021D4084.result=-2; break;
+                default: d_021D4084.result=-5; break;
+                }
+            }
+            DWCi_EncSessionShutdown(); return;
+        }
+        return;
+    case 6:
+        switch(DWCi_EncSessionProcess()) {
+        case 1:
+            d_021D4084.state=12;
+            DWC_GetLastErrorEx(&code,&type);
+            d_021D4084.result=func_021C97E0(type);
+            DWCi_EncSessionShutdown(); return;
+        case 8:
+            d_021D4084.state=12;
+            copyHdr(&d_021D421C,(const Hdr *)DWCi_EncSessionGetResponse(&len));
+            switch(d_021D4084.hdr.code) {
+            case 1: d_021D4084.result=0; break;
+            case 2: d_021D4084.result=-3; break;
+            case 4: d_021D4084.result=-1; break;
+            case 5: d_021D4084.result=-2; break;
+            default: d_021D4084.result=-5; break;
+            }
+            DWCi_EncSessionShutdown(); return;
+        }
+        return;
+    case 8:
+        switch(DWCi_EncSessionProcess()) {
+        case 1:
+            d_021D4084.state=12;
+            DWC_GetLastErrorEx(&code,&type);
+            d_021D4084.result=func_021C97E0(type);
+            DWCi_EncSessionShutdown(); return;
+        case 8:
+            d_021D4084.state=12;
+            copyHdr(&d_021D421C,(const Hdr *)DWCi_EncSessionGetResponse(&len));
+            switch(d_021D4084.hdr.code) {
+            case 1: d_021D4084.result=0; break;
+            case 3: d_021D4084.result=1; break;
+            case 4: d_021D4084.result=2; break;
+            case 5: d_021D4084.result=-2; break;
+            default: d_021D4084.result=-5; break;
+            }
+            DWCi_EncSessionShutdown(); return;
+        }
+        return;
+    case 10:
+        switch(DWCi_EncSessionProcess()) {
+        case 1:
+            d_021D4084.state=12;
+            DWC_GetLastErrorEx(&code,&type);
+            d_021D4084.result=func_021C97E0(type);
+            DWCi_EncSessionShutdown(); return;
+        case 8:
+            d_021D4084.state=12;
+            resp=(u8 *)DWCi_EncSessionGetResponse(&len);
+            *(Payload *)d_021D4084.buf=*(Payload *)resp;
+            if(len==8) d_021D4084.result=0;
+            else {
+                switch(d_021D4084.buf[0]) {
+                case 1: d_021D4084.result=0; break;
+                case 3: d_021D4084.result=1; break;
+                case 4: d_021D4084.result=2; break;
+                case 5: d_021D4084.result=-2; break;
+                default: d_021D4084.result=-5; break;
+                }
+            }
+            DWCi_EncSessionShutdown(); return;
+        }
+        return;
+    case 3: case 5: case 7: case 9: case 11:
+        d_021D4084.state=12; d_021D4084.result=-4;
+        DWCi_EncSessionShutdown(); return;
+    case 0: case 1: case 12: break;
+    }
+}

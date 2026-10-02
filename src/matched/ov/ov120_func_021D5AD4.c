@@ -1,0 +1,86 @@
+/*
+ * function: func_021D5AD4
+ * address: 0x021D5AD4
+ * packet: pkt_ov120_021D5AD4
+ * region: ov120
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021D6988 0x021D6988 thumb ov120
+ *   func_021D7AF4 0x021D7AF4 thumb ov120
+ *   func_021D79F4 0x021D79F4 thumb ov120
+ *   func_021B6498 0x021B6498 thumb ov067
+ *   func_020362DC 0x020362DC arm
+ *   func_020355C4 0x020355C4 arm
+ *   func_020355D8 0x020355D8 arm
+ *   func_021D69F4 0x021D69F4 thumb ov120
+ *   func_021D593C 0x021D593C thumb ov120
+ *   func_021D4244 0x021D4244 thumb ov120
+ *   func_021D5980 0x021D5980 thumb ov120
+ *   func_021D5A84 0x021D5A84 thumb ov120
+ *   func_021D7C10 0x021D7C10 thumb ov120
+ *   func_021B63D0 0x021B63D0 thumb ov067
+ *   func_021B6448 0x021B6448 thumb ov067
+ */
+typedef unsigned char u8;
+extern u8 *func_021D6988(void *);
+extern int func_021D7AF4(void *);
+extern void func_021D79F4(void *, int);
+extern int func_021B6498(u8 *);
+extern int func_020362DC(void);
+extern int func_020355C4(void);
+extern void func_020355D8(int);
+extern void func_021D69F4(void *, void *, int);
+extern int func_021D593C(u8 *, int);
+extern void func_021D4244(int, int, int);
+extern void func_021D5980(u8 *);
+extern void func_021D5A84(u8 *);
+extern void func_020061E4(int);
+extern void func_021D7C10(int);
+extern void func_021B63D0(u8 *);
+extern int func_021B6448(u8 *);
+void func_021D5AD4(u8 *p)
+{
+    int changed = 0;
+    u8 *q = func_021D6988(*(void **)(p + 0x3c));
+    if (func_021D7AF4(*(void **)(p + 0x40))) {
+        if (func_021B6498(q) == 0) {
+            if (func_020362DC() != 0 && func_020355C4() == 1) {
+                func_021D69F4(*(void **)(p + 0x3c), 0, *(int *)(p + 0x15c));
+                func_020355D8(changed);
+                return;
+            }
+            if (func_020362DC() == 1) {
+                if (*(int *)(p + 0x184) == 0) {
+                    func_021D593C(p, *(int *)(p + 0x15c));
+                    func_021D4244((int)p, (int)func_021D5980, 0x8f4);
+                    return;
+                }
+                func_020061E4(0x551);
+            }
+            if (func_020362DC() == 0x40) {
+                changed = 1;
+                func_020061E4(0x548);
+                *(int *)(p + 0x15c) = 0;
+            }
+            if (func_020362DC() == 0x80) {
+                changed = 1;
+                func_020061E4(0x548);
+                *(int *)(p + 0x15c) = 1;
+            }
+            if (changed)
+                func_021D69F4(*(void **)(p + 0x3c), 0, *(int *)(p + 0x15c));
+            func_021D7C10(*(int *)(p + 0x40));
+        }
+        func_021B63D0(func_021D6988(*(void **)(p + 0x3c)));
+        if (func_021B6448(func_021D6988(*(void **)(p + 0x3c))) == 1) {
+            *(int *)(p + 0x14) = 1;
+            func_021D79F4(*(void **)(p + 0x40), 0x2a);
+            if (func_020355C4() == 1)
+                func_021D69F4(*(void **)(p + 0x3c), 0, 9);
+            func_021D4244((int)p, (int)func_021D5A84, 0x916);
+        }
+    }
+}

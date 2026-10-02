@@ -1,0 +1,102 @@
+/*
+ * function: func_021D4B48
+ * address: 0x021D4B48
+ * packet: pkt_ov120_021D4B48
+ * region: ov120
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021D7AF4 0x021D7AF4 thumb ov120
+ *   func_0203CD98 0x0203CD98 arm
+ *   func_021D8590 0x021D8590 thumb ov120
+ *   func_021D505C 0x021D505C thumb ov120
+ *   func_021D4988 0x021D4988 thumb ov120
+ *   func_021D4A20 0x021D4A20 thumb ov120
+ *   func_021D4244 0x021D4244 thumb ov120
+ *   func_0203D644 0x0203D644 arm
+ *   func_02009CA8 0x02009CA8 thumb
+ *   func_021D4F70 0x021D4F70 thumb ov120
+ *   func_02082D44 0x02082D44 arm
+ *   func_0216C8DC 0x0216C8DC arm ov009
+ *   func_0208D7E0 0x0208D7E0 arm
+ *   func_0215580C 0x0215580C thumb ov009
+ *   func_0203C35C 0x0203C35C arm
+ *   func_02156BC4 0x02156BC4 thumb ov009
+ *   func_0203C9AC 0x0203C9AC arm
+ *   d_021D8B40 0x021D8B40 data a2
+ *   d_021D8B50 0x021D8B50 data a1
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct { u32 value; u8 kind; u8 pad; u16 detail; u32 tail; } Record;
+extern int func_021D7AF4(void *);
+extern int func_0203CD98(void);
+extern void func_021D8590(u8 *, int, int);
+extern void func_021D505C(int, int, int);
+extern void func_021D4988(int);
+extern int func_021D4A20(int, u8 *);
+extern void func_021D4244(int, int, int);
+extern void func_0203D644(int);
+extern void func_02009CA8(u32, u32 *);
+extern void *func_021D4F70(void *, int);
+extern u32 func_02008530(void *);
+extern void func_02082D44(const void *, void *, u32);
+extern u8 func_0216C8DC(u32, void *, void *);
+extern int func_0208D7E0(char *, const char *, ...);
+extern int func_0215580C(int, int, int, int);
+extern void func_0203C35C(void);
+extern void func_02156BC4(int);
+extern void func_0203C9AC(int, u32, u32, u32);
+extern const u16 d_021D8B40[];
+extern const char d_021D8B50[];
+void func_021D4B48(u8 *p)
+{
+    u32 values[8];
+    void *q;
+    int i;
+    Record *r;
+    if (func_021D7AF4(*(void **)(p + 0x40))) {
+        if (func_0203CD98() == 0) {
+            func_021D8590(*(u8 **)(p + 0x40), (int)func_021D505C, (int)p);
+            func_021D4244((int)p, (int)func_021D4988, 0x3ea);
+            return;
+        }
+        func_0203D644(0);
+        func_02009CA8(*(u32 *)(p + 0x44), values);
+        values[0] = *(u32 *)(p + 0x14c);
+        values[1] = *(u32 *)(p + 0x138);
+        values[2] = *(u32 *)(p + 0x144);
+        values[3] = *(u32 *)(p + 0x13c);
+        values[4] = *(u32 *)(p + 0x140);
+        values[5] = 0x20015;
+        values[6] = 1;
+        values[7] = 0;
+        if (*(u32 *)(p + 0x138) == 1) {
+            if (*(int *)(p + 0x148) == -1)
+                values[2] = 4;
+            else {
+                q = func_021D4F70(*(void **)(p + 0x2c), *(int *)(p + 0x148));
+                values[7] = func_02008530(q);
+                *(u32 *)(p + 0x18) = func_02008530(q);
+            }
+        }
+        for (i = 0; i < 8; i++) {
+            r = (Record *)(p + 0x58) + i;
+            func_02082D44(d_021D8B40 + i, &r->detail, 2);
+            r->value = values[i];
+            r->kind = func_0216C8DC(r->kind, &r->detail, r);
+        }
+        func_0208D7E0((char *)p + 0xb8, d_021D8B50, *(u32 *)(p + 0x138), 1);
+        if (func_0215580C((int)p + 0xb8, 2, (int)func_021D4A20, (int)p)) {
+            func_0203C35C();
+            func_02156BC4(0);
+            func_021D8590(*(u8 **)(p + 0x40), (int)func_021D505C, (int)p);
+            func_021D4244((int)p, (int)func_021D4988, 0x41d);
+            return;
+        }
+        func_0203C9AC(0, 0, 0, 0x3f1);
+    }
+}
