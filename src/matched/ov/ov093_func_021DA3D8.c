@@ -7,12 +7,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH
- * blocker: 0x0201C1E8 ARM9 Thumb unlabelled leaf, Ilias's. Verified
- *   EXACT by blocker_C1E8_r1.log, fixed compiler/flags, no --region:
- *   extern int func_0201BD28(int, int); symbols: 0x0201BD28 thumb
- *   int func_0201C1E8(int a) { return func_0201BD28(a, 2); }
- *   The caller passes its u16 move argument, preserving call-site width.
+ * status: EXACT
  * symbols:
  *   func_021D775C 0x021D775C thumb ov093
  *   func_021C7D54 0x021C7D54 thumb ov093

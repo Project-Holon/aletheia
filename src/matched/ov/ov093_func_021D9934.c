@@ -8,12 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- * blocker:  func_0201C1E8 (arm9 thumb, no witness): an unlabelled arm9 leaf, Ilias's.
- *           Verified C (one, no --region, --thumb, cc dsi/1.1p1, -O4,p: EXACT):
- *             typedef unsigned int u32;
- *             extern u32 sub_0201BD28(void *p, u32 id);   (symbols: sub_0201BD28 0x0201BD28 thumb)
- *             u32 sub_0201C1E8(void *p) { return sub_0201BD28(p, 2); }
+ * status:   EXACT
  *
  * symbols:
  *   func_021D775C  0x021D775C  thumb  ov093

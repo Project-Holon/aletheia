@@ -8,13 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
- *
- * BLOCKER: func_0201C1E8 (arm9 unlabelled tail-call stub, Ilias's) has no
- * witness outside this range; every other byte is identical. Verified C for
- * the arm9 leaf (match.py one --thumb, no --region, EXACT):
- *     int func_0201BD28(int a, int b);   // symbols: func_0201BD28 0x0201BD28 thumb
- *     int func_0201C1E8(int a) { return func_0201BD28(a, 2); }
+ * status:   EXACT
  *
  * symbols:
  *   func_021D775C  0x021D775C  thumb  ov093
