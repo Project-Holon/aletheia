@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_020222A8, func_020222AA
+ * function: func_020222A8
  * address:  0x020222A8
  * packet:   pkt_020222A8
  * region:   arm9

@@ -153,6 +153,11 @@ REG_LR = _cs_const("ARM_REG_LR")
 
 UNK, CODE, DATA = 0, 1, 2
 
+# Thumb `push` of a contiguous tail of the argument registers ({r3}, {r2,r3},
+# {r1-r3}, {r0-r3}): the first instruction of a variadic function, which spills
+# its register arguments next to the stacked ones before the lr-saving push.
+VARARG_PUSHES = frozenset([0xB408, 0xB40C, 0xB40E, 0xB40F])
+
 # ARM condition suffixes, needed to tell a conditional call ("bllt") from a
 # plain branch ("blt"): both start with "bl".
 CONDS = ("eq", "ne", "cs", "hs", "cc", "lo", "mi", "pl", "vs", "vc",
@@ -540,7 +545,17 @@ class Analyser:
                 continue
             if self._has_prologue(off, True) and self.validate(
                     r.base + off, True):
-                self.add_seed(r.base + off, True, is_func=True)
+                # A variadic function opens with `push {r0-r3}` (or a tail of
+                # the argument registers) and only then saves lr, so the
+                # prologue found here is its second instruction.  Seed the
+                # function at the argument push; seeding here would split it
+                # into a 2-byte head and a headless body (ov021 0x021C6744).
+                entry = off
+                if off >= 2 and r.kind[off - 2] == UNK:
+                    prev = struct.unpack_from("<H", r.data, off - 2)[0]
+                    if prev in VARARG_PUSHES:
+                        entry = off - 2
+                self.add_seed(r.base + entry, True, is_func=True)
                 added += 1
                 self.trace()
         return added

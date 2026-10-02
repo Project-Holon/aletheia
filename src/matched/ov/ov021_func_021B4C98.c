@@ -16,7 +16,7 @@
  *   func_0201210C  0x0201210C  thumb
  *   func_020124AC  0x020124AC  thumb
  *   abs_id_4       0x00000004  data
- *   func_021542C0  0x021542C0  thumb  ov000
+ *   func_021542C0  0x021542C0  thumb  ov004
  * Addresses are Black-image addresses.
  */
 

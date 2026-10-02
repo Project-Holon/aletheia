@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * Handed as 0x021740AE; the function starts at the push {r0-r3} at 0x021740AC.
  *

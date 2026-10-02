@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Handed at 0x0689B7AA (the second label after `push {r0-r3}` at 0x0689B7A8).
  * The fifth argument is read through &c ((&c)[2], the first stack slot):

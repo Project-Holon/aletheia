@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * The handed address 0x0689C366 is the second label after the `push {r0-r3}`
  * at 0x0689C364; the function is filed from the push.
