@@ -1,0 +1,126 @@
+/*
+ * function: func_021BD5D8
+ * address:  0x021BD5D8
+ * packet:   pkt_ov172_021BD5D8
+ * region:   ov172
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ *
+ * 2026-10-02: 66 bytes differ, all in the tail after func_0204B270: the WININ/WINOUT
+ * (0x04000048/4A) read-modify-write sequences. The original keeps 0x1f and 0x20 as
+ * unfolded values (x|0x1f|0x20, 0x13|0x20 not merged) materialised late; enum-typed
+ * locals reproduce the non-folding but schedule the constant loads early.
+ * Literal-only spelling folds to 0x33 and hoists 0x40 into r6 (142 bytes off).
+ *
+ * symbols:
+ *   func_021BD820  0x021BD820  thumb  ov172
+ *   d_021C7050     0x021C7050  data
+ *   d_021C7060     0x021C7060  data
+ *   d_021C7080     0x021C7080  data
+ *   d_021C70A0     0x021C70A0  data
+ *   d_021C70C0     0x021C70C0  data
+ *   d_021C70E0     0x021C70E0  data
+ *   d_021C7100     0x021C7100  data
+ *   d_021C7120     0x021C7120  data
+ *   d_020A1448     0x020A1448  data
+ *   func_0207E008  0x0207E008  arm
+ *   func_0207E100  0x0207E100  arm
+ *   func_02082BCC  0x02082BCC  arm
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+
+#define REG16(a) (*(volatile u16 *)(a))
+#define REG32(a) (*(volatile u32 *)(a))
+
+enum Bits { BITS_NONE };
+struct Cfg28 { u32 w[7]; };
+struct BgTemplate;
+struct DispConfig;
+struct DispVram;
+
+extern struct DispConfig d_021C7050;
+extern struct BgTemplate d_021C7060, d_021C7080, d_021C70A0, d_021C70C0, d_021C70E0, d_021C7100;
+extern struct DispVram d_021C7120;
+extern const struct Cfg28 d_020A1448;
+
+extern void func_0204361C(void);
+extern void func_020434CC(void);
+extern void func_02043588(void);
+extern void func_0202223C(u32 a, u32 color);
+extern u32  func_02022224(u32 a);
+extern void func_020433E0(const struct DispVram *c);
+extern void func_0203F8F4(u16 heapId);
+extern void sub_02045088(u16 heapId);
+extern void func_0203FC28(struct DispConfig *cfg);
+extern void func_021BD820(const struct BgTemplate *tmpl, u32 bgId, u32 type);
+extern void *func_0207E008(void);
+extern void *func_0207E100(void);
+extern void func_02082BCC(void *dst, int fill, u32 size);
+extern void sub_02040588(u32 which, u32 enable);
+extern void sub_0204A48C(const struct Cfg28 *cfg, const struct DispVram *arg, u32 heapId);
+extern void sub_020434DC(u32 mask, u32 enable);
+extern void sub_02043598(u32 mask, u32 enable);
+extern void *sub_0204B100(int count, u8 flag, u32 heapId);
+extern void sub_0204B270(void *bank);
+
+void func_021BD5D8(char *ctx)
+{
+    struct Cfg28 cfg;
+    u32 size;
+
+    func_0204361C();
+    func_020434CC();
+    func_02043588();
+    REG32(0x04000000) &= 0xffffe0ff;
+    REG32(0x04001000) &= 0xffffe0ff;
+    func_0202223C(0, 0);
+    func_0202223C(1, 0);
+    func_02022224(0);
+    func_02022224(1);
+    REG16(0x04000050) = 0;
+    REG16(0x04001050) = 0;
+    REG16(0x04000304) |= 0x8000;
+    func_020433E0(&d_021C7120);
+    func_0203F8F4(*(u16 *)ctx);
+    sub_02045088(*(u16 *)ctx);
+    func_0203FC28(&d_021C7050);
+    func_021BD820(&d_021C70A0, 0, 0);
+    func_021BD820(&d_021C7100, 1, 0);
+    func_021BD820(&d_021C70C0, 4, 0);
+    func_021BD820(&d_021C70E0, 5, 0);
+    func_021BD820(&d_021C7080, 6, 0);
+    func_021BD820(&d_021C7060, 7, 0);
+    REG16(0x0400000C) = (REG16(0x0400000C) & 0x43) | 0x4484;
+    REG16(0x0400000E) = (REG16(0x0400000E) & 0x43) | 0x4a84;
+    size = 0x18000;
+    func_02082BCC(func_0207E008(), 0, size);
+    func_02082BCC(func_0207E100(), 0, size);
+    REG16(0x0400000C) = (REG16(0x0400000C) & ~3) | 1;
+    REG16(0x0400000E) = (REG16(0x0400000E) & ~3) | 2;
+    sub_02040588(2, 1);
+    sub_02040588(3, 1);
+    cfg = d_020A1448;
+    sub_0204A48C(&cfg, &d_021C7120, *(u16 *)ctx);
+    sub_020434DC(0x10, 1);
+    sub_02043598(0x10, 1);
+    *(void **)(ctx + 0x1ac) = sub_0204B100(0x40, 0, *(u16 *)ctx);
+    sub_0204B270(0);
+    REG32(0x04000000) = (REG32(0x04000000) & 0xffff1fff) | 0x6000;
+    {
+    enum Bits a = 0x1f;
+    enum Bits b = 0x20;
+    REG16(0x04000048) = (REG16(0x04000048) & ~0x3f) | b | a;
+    REG16(0x04000048) = (REG16(0x04000048) & 0xffffc0ff) | (a << 8) | (b << 8);
+    REG16(0x0400004A) = (REG16(0x0400004A) & ~0x3f) | 0x13 | b;
+    REG16(0x04000040) = 0xff;
+    REG16(0x04000044) = 0xc0;
+    REG16(0x04000042) = b << 10;
+    REG16(0x04000046) = 0xc0;
+    }
+}

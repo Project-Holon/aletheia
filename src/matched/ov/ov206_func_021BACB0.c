@@ -1,0 +1,96 @@
+/*
+ * function: func_021BACB0
+ * address: 0x021BACB0
+ * packet: pkt_ov206_021BACB0
+ * region: ov206
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021BA960 0x021BA960 thumb
+ *   func_021BAA08 0x021BAA08 thumb
+ *   func_021BAF7C 0x021BAF7C thumb
+ *   func_0201AF80 0x0201AF80 thumb
+ *   func_020307B0 0x020307B0 arm
+ *   func_0201EC64 0x0201EC64 thumb
+ *   func_0201EFA4 0x0201EFA4 thumb
+ *   func_0201ED04 0x0201ED04 thumb
+ *   d_021BC110 0x021BC110 data a2
+ *   d_021BC11C 0x021BC11C data a2
+ */
+extern const unsigned short d_021BC110[];
+extern const unsigned short d_021BC11C[];
+extern void func_021BA960(int,int,int,int,int,unsigned short,unsigned short,unsigned short,int,int);
+extern void func_021BAA08(int,int,int,int,int,int,unsigned short,unsigned short,unsigned short,int,int);
+extern void func_021BAF7C(char *);
+extern unsigned short *func_0201AF80(int, int);
+extern void func_020307B0(void *);
+extern int func_0201EC64(int);
+extern void func_0201EFA4(int, int, int, int, int, int);
+extern void func_0201ED04(int);
+
+#define H(o) (*(unsigned short *)(p + (o)))
+#define W(o) (*(int *)(p + (o)))
+
+void func_021BACB0(char *p, int idx)
+{
+    int t0 = W(0x1e0);
+    int a30 = ((int *)(p + (idx + 5) * 4))[0x78];
+    int a2c = ((int *)(p + (idx + 0xb) * 4))[0x78];
+    int a28 = ((int *)(p + (idx + 0x11) * 4))[0x78];
+    int a24 = ((int *)(p + (idx + 0x17) * 4))[0x78];
+    int a20 = ((int *)(p + (idx + 0x1d) * 4))[0x78];
+    unsigned short cur = H(0xc);
+    unsigned short c;
+    int h;
+    int fl;
+    unsigned char i;
+
+    if (cur == 0x1e7 && H(0xe) != 0) {
+        cur = 0x1ee;
+    } else if (cur == 0x1ec && H(0xe) != 0) {
+        cur = 0x1ef;
+    }
+    if (W(0x18) != 2) {
+        func_021BAA08(H(0), W(0x6c), t0, W(0x2c), W(0x28), 0x90, 0, 5, 0x3c40, 2, 0);
+    }
+    c = H(0xc);
+    if (W(4) == 0) {
+        unsigned short *tab = func_0201AF80(H(0), 0);
+        c = tab[H(0xc)];
+        func_020307B0(tab);
+    }
+    if (c != 0x3e7) {
+        h = func_0201EC64(H(0));
+        if (idx == 0) {
+            func_0201EFA4(h, 0, c, 3, 2, 0);
+        } else {
+            func_0201EFA4(h, 0, c, 3, 2, 1);
+        }
+        func_021BA960(H(0), W(0x70), W(0x2c), W(0x28), W(0x270), 8, 5, 0x440, 0, h);
+        func_0201ED04(h);
+    } else {
+        func_021BA960(H(0), W(0x70), W(0x2c), W(0x28), W(0x274), 8, 5, 0x440, 0, 0);
+    }
+    c = 0;
+    func_021BAA08(H(0), W(0x70), a20, W(0x2c), W(0x28), H(0xc), 0x30, 5, 0x440, 0, 0);
+    if (W(8) != 0) c = H(0xc);
+    func_021BAA08(H(0), W(0x70), a30, W(0x2c), W(0x28), c, 0, 0x16, 0x440, 2, 0);
+    func_021BA960(H(0), W(0x74), W(0x2c), W(0x28), ((int *)(p + (idx + 4) * 4))[0x9c], 0, 4, 0x440, 0, 0);
+    func_021BA960(H(0), W(0x74), W(0x2c), W(0x28), ((int *)(p + (idx + 0xa) * 4))[0x9c], 0, 0x14, 0x440, 0, 0);
+    c = 0;
+    if (W(8) != 0) c = cur;
+    func_021BAA08(H(0), W(0x74), a2c, W(0x2c), W(0x28), c, d_021BC110[idx], 4, 0x440, 1, 0);
+    c = 0;
+    if (W(8) != 0) c = cur;
+    func_021BAA08(H(0), W(0x74), a28, W(0x2c), W(0x28), c, d_021BC11C[idx], 0x14, 0x440, 1, 0);
+    c = 0;
+    if (W(8) != 0) c = H(0xc);
+    func_021BAA08(H(0), W(0x78), a24, W(0x2c), W(0x28), c, 4, 5, 0x3c40, 0, 0);
+    for (i = 0; i < 4; i++) {
+        ((int *)(p + i * 4))[0x1f] = 0;
+    }
+    func_021BAF7C(p);
+}

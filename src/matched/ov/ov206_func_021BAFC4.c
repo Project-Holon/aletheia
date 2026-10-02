@@ -1,22 +1,17 @@
 /*
  * function: func_021BAFC4
  * address:  0x021BAFC4
- * packet:   pkt_021BAFC4
+ * packet:   pkt_ov206_021BAFC4
  * region:   ov206
  * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT*
  *
- * Near miss, 286 compiled vs 288 original, and exactly one instruction off:
- * at +0xEA the original moves the shared zero register into r3
- * (`adds r3, r4, #0`) for the fourth argument of the fifth func_020439A0
- * call, while mwcc rematerialises it as `movs r3, #0`.  Every byte of the
- * other 143 instructions is identical, including both func_020450F0 calls,
- * the six func_020439A0 calls and the trailing func_020437AC.  Passing the
- * zero through a named local (used once or many times) does not move the
- * allocator off the rematerialised form; there is no C shape left to try.
+ * The shared zero is an enum-typed local initialised at declaration (not folded to
+ * a literal), which yields the `adds r3, r4, #0` copy for the fourth argument of
+ * the fifth func_020439A0 call.
  *
  * symbols:
  *   func_020437AC  0x020437AC  arm
@@ -27,6 +22,8 @@
  *
  * Addresses are Black-image addresses.
  */
+
+typedef enum { ZERO } Zero;
 
 typedef struct {
     unsigned short f0;
@@ -45,7 +42,7 @@ extern void func_020437AC(int);
 
 void func_021BAFC4(Ent *e)
 {
-    int z = 0;
+    Zero z = ZERO;
     int s = func_0204384C(0x9f, 0x19, z, e->f0);
     int q;
 
