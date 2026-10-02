@@ -7,7 +7,7 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: EXACT
  * checks: 1 getter returns pointer, initializer takes actor/out and
  * initializes all 12 bytes; 2 E51C/E544 twins close with named u32 base,
  * but that spelling sinks this caller's arithmetic after the call;
@@ -17,8 +17,9 @@
  * i*12 cannot overflow: E4EC returns 30 unless E4FA compares equal to 1,
  * then returns E4B0's halfword at E4CA or fallback 30, i <=65535.
  * Context shape: matched CC58 allocates 0x48, stores its third input at
- * +0x2c. No Vec array bounds assumed. Next: primary save-block storage
- * witness for a typed Vec index; ordering variants exhausted 2/2.
+ * +0x2c. No Vec array bounds assumed. Closed by the unused once300
+ * permuter: tmp=func_0216D67C(a), then unsigned tmp->raw44+i*12.
+ * Explicit-region one EXACT; manual ordering variants exhausted 2/2.
  * Raw unsigned address scaling does not assume the returned index is
  * inside an allocated Vec array. 0216D88C initializes all 12 output bytes:
  * its own matched body unconditionally assigns Actor.pos at +0x44.
@@ -33,4 +34,4 @@ typedef struct { char pad00[44]; unsigned int raw44; } Context;
 extern int func_0216E4EC(void *);
 extern Context *func_0216D67C(void *);
 extern void func_0216D88C(const void *,Vec *);
-void func_0216E57C(void *a) { int i; Vec *p; Vec v; i=func_0216E4EC(a); if(i!=30) { p=(Vec *)(func_0216D67C(a)->raw44+i*12); func_0216D88C(a,&v); *p=v; } }
+void func_0216E57C(void *a) { int i; Vec *p; Vec v; Context *tmp; i=func_0216E4EC(a); if(i!=30) { tmp=func_0216D67C(a); p=(Vec *)(tmp->raw44+i*12); func_0216D88C(a,&v); *p=v; } }

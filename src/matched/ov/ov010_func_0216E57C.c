@@ -1,0 +1,52 @@
+/*
+ * function: func_0216E57C
+ * address: 0x0216E57C
+ * packet: pkt_ov010_0216E57C
+ * region: ov010
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * lever: binding the getter's pointer result to tmp restores the base
+ * load before the stride, while retaining the unsigned raw address sum.
+ * Context shape: matched CC58 allocates 0x48 and stores input c at +44.
+ * E4EC returns 30 unless E4FA compares equal to 1, then returns E4B0's
+ * halfword or 30. Thus i <=65535 and i*12 <=786420; no Vec array bound
+ * is assumed. D88C unconditionally initializes all 12 bytes of v.
+ * symbols:
+ *   func_0216E4EC 0x0216E4EC thumb ov010
+ *   func_0216D67C 0x0216D67C thumb ov010
+ *   func_0216D88C 0x0216D88C thumb ov010
+ */
+
+typedef struct
+{
+    int x;
+    int y;
+    int z;
+} Vec;
+typedef struct
+{
+    char pad00[44];
+    unsigned int raw44;
+} Context;
+extern int func_0216E4EC(void *);
+extern Context *func_0216D67C(void *);
+extern void func_0216D88C(const void *, Vec *);
+
+void func_0216E57C(void *a)
+{
+    int i;
+    Vec *p;
+    Vec v;
+    Context *tmp;
+    i = func_0216E4EC(a);
+    if (i != 30)
+    {
+        tmp = func_0216D67C(a);
+        p = (Vec *) (tmp->raw44 + (i * 12));
+        func_0216D88C(a, &v);
+        *p = v;
+    }
+}

@@ -7,17 +7,18 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: EXACT
  * checks: 1 no calls or argument-register omission; 2 no table twin in
  * ov010 matched/pending; 3 unsigned/unsigned-long index both 12-byte DIFF;
  * 4 const already present, named element pointer 36-byte DIFF/56-byte body,
  * array representation 12-byte DIFF; 5 refreshed idiom list/neighbours,
- * no new twin, no stack object. Next: table base/constant representation;
- * no further declaration/scheduling variants permitted (2/2 used).
+ * no new twin, no stack object. Closed by the unused once300 permuter:
+ * declarations x,y,i restore all registers; explicit-region one EXACT.
+ * Manual ordering variants remain exhausted (2/2), no budget reset.
  * symbols:
  *   d_02172A70 0x02172A70 data a2
  */
 
 typedef unsigned short u16;
 extern const u16 d_02172A70[][4];
-int func_0216E4B0(int a,int b) { unsigned long i; int x,y; i=0; do { x=d_02172A70[i][0]; y=d_02172A70[i][1]; if(x==a && y==b) return d_02172A70[i][2]; i++; } while(x!=65535 && y!=65535); return 30; }
+int func_0216E4B0(int a,int b) { int x,y; unsigned long i; i=0; do { x=d_02172A70[i][0]; y=d_02172A70[i][1]; if(x==a && y==b) return d_02172A70[i][2]; i++; } while(x!=65535 && y!=65535); return 30; }
