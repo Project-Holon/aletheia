@@ -53,13 +53,13 @@ int func_02186C44(int a0, int a1)
     int e;
     s16 v[3];
 
-    s = func_02158F58(func_0215A5F4((void *)a1));
+    s = func_02158F58((int)func_0215A5F4((void *)a1));
     a = func_0218DC70(func_02188C98(s[1]));
-    b = func_020127F0(func_0215A5E4((void *)a1));
-    c = func_02188CB4(s[1]);
-    d = func_02188C7C(s[1]);
-    func_021A3460(c, &v[2], &v[1], &v[0]);
-    e = func_02186090(func_0216DDC0(d, v[2], v[0], 0));
+    b = func_020127F0((int)func_0215A5E4((void *)a1));
+    c = func_02188CB4((unsigned char *)s[1]);
+    d = func_02188C7C((unsigned char *)s[1]);
+    func_021A3460((int)c, &v[2], &v[1], &v[0]);
+    e = func_02186090(func_0216DDC0((int)d, v[2], v[0], 0));
     if (func_02193BE4(a, e) != 0) {
         func_02193BC4(a, e);
         func_021869B0(b);

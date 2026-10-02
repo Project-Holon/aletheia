@@ -99,24 +99,24 @@ int func_02186D48(int a0, int a1)
 
     m = func_0215A5F4((void *)a1);
     b = func_0215A5E4((void *)a1);
-    c = func_020127C4(b);
+    c = func_020127C4((int)b);
     kind = func_02159B10(a0, a1);
     out = func_02159AE8((void *)a0, (void *)a1);
     if (kind == 3) {
         *out = func_02186278(c, 0);
     } else {
-    ent = func_02158F58(m);
-    m = func_0218DC70(func_02188C98(ent->f4));
-    d = func_02188CB4(ent->f4);
-    w = func_02188C7C(ent->f4);
-    s = func_020127F0(b);
-    func_021A3460(d, &v[2], &v[1], &v[0]);
-    obj = func_0216DDC0(w, v[2], v[0], 0);
+    ent = func_02158F58((int)m);
+    m = (void *)func_0218DC70(func_02188C98(ent->f4));
+    d = func_02188CB4((unsigned char *)ent->f4);
+    w = func_02188C7C((unsigned char *)ent->f4);
+    s = func_020127F0((int)b);
+    func_021A3460((int)d, &v[2], &v[1], &v[0]);
+    obj = func_0216DDC0((int)w, v[2], v[0], 0);
     if (obj != 0) {
         cur = func_02186090((void *)obj);
         st = func_0216D588(obj);
-        func_02193904(m);
-        sub = func_0219390C(m, cur);
+        func_02193904((int)m);
+        sub = func_0219390C((int)m, cur);
         if (sub != 0) {
             rec = func_02193C00(sub);
             id = func_02193C04(sub);
@@ -141,7 +141,7 @@ int func_02186D48(int a0, int a1)
         *out = func_021869B8(s);
         break;
     case 6:
-        if (func_021938F4(m) == 0)
+        if (func_021938F4((int)m) == 0)
             *out = 0;
         else
             *out = 1;
@@ -156,7 +156,7 @@ int func_02186D48(int a0, int a1)
         *out = cur;
         break;
     case 10:
-        *out = func_02193BE4(m, cur);
+        *out = func_02193BE4((int)m, cur);
         break;
     case 11:
         *out = st;

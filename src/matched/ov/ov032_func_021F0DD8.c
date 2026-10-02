@@ -1,7 +1,7 @@
 /*
  * function: func_021F0DD8
  * address:  0x021F0DD8
- * packet:   pkt_021F0DD8
+ * packet:   pkt_ov032_021F0DD8
  * region:   ov032
  * compiler: dsi/1.1p1
  * flags:    -O4,p

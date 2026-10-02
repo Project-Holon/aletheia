@@ -54,19 +54,19 @@ int func_02187000(int a0, int a1)
     s16 v[3];
 
     r6 = func_0215A5F4((void *)a1);
-    s = func_02158F58(r6);
+    s = func_02158F58((int)r6);
     a = func_0218DC70(func_02188C98(s[1]));
-    b = func_02188CB4(s[1]);
-    c = func_02188C7C(s[1]);
-    func_02158F74(r6);
+    b = func_02188CB4((unsigned char *)s[1]);
+    c = func_02188C7C((unsigned char *)s[1]);
+    func_02158F74((int)r6);
     r4 = func_02159AE8((void *)a0, (void *)a1);
     r5 = func_02159B10(a0, a1);
-    func_021A3460(b, &v[2], &v[1], &v[0]);
-    r6 = func_02186090(func_0216DDC0(c, v[2], v[0], 0));
+    func_021A3460((int)b, &v[2], &v[1], &v[0]);
+    r6 = (void *)func_02186090(func_0216DDC0((int)c, v[2], v[0], 0));
     r5 = (u16)(r5 - 1);
     if (func_0219391C(a) == 0)
-        *r4 = r5 + (r6 * 4 + 1);
+        *r4 = r5 + ((int)r6 * 4 + 1);
     else
-        *r4 = r5 + (r6 * 4 + 9);
+        *r4 = r5 + ((int)r6 * 4 + 9);
     return 0;
 }
