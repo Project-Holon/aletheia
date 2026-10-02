@@ -234,65 +234,65 @@
    "index": 28,
    "file": "asm/arm9/src/028_0206EA00.s",
    "base": 34007552,
-   "size": 25200,
+   "size": 24884,
    "functions": 180,
-   "code_bytes": 24364
+   "code_bytes": 24268
   },
   {
    "index": 29,
-   "file": "asm/arm9/src/029_02074C70.s",
-   "base": 34032752,
-   "size": 22004,
+   "file": "asm/arm9/src/029_02074B34.s",
+   "base": 34032436,
+   "size": 22272,
    "functions": 180,
-   "code_bytes": 20360
+   "code_bytes": 20472
   },
   {
    "index": 30,
-   "file": "asm/arm9/src/030_0207A264.s",
-   "base": 34054756,
-   "size": 21348,
+   "file": "asm/arm9/src/030_0207A234.s",
+   "base": 34054708,
+   "size": 21372,
    "functions": 180,
-   "code_bytes": 19822
+   "code_bytes": 19850
   },
   {
    "index": 31,
-   "file": "asm/arm9/src/031_0207F5C8.s",
-   "base": 34076104,
-   "size": 22324,
+   "file": "asm/arm9/src/031_0207F5B0.s",
+   "base": 34076080,
+   "size": 22332,
    "functions": 180,
-   "code_bytes": 19154
+   "code_bytes": 19162
   },
   {
    "index": 32,
-   "file": "asm/arm9/src/032_02084CFC.s",
-   "base": 34098428,
-   "size": 13624,
+   "file": "asm/arm9/src/032_02084CEC.s",
+   "base": 34098412,
+   "size": 13436,
    "functions": 180,
-   "code_bytes": 12324
+   "code_bytes": 12148
   },
   {
    "index": 33,
-   "file": "asm/arm9/src/033_02088234.s",
-   "base": 34112052,
-   "size": 18220,
+   "file": "asm/arm9/src/033_02088168.s",
+   "base": 34111848,
+   "size": 18396,
    "functions": 180,
-   "code_bytes": 15576
+   "code_bytes": 15744
   },
   {
    "index": 34,
-   "file": "asm/arm9/src/034_0208C960.s",
-   "base": 34130272,
-   "size": 37324,
+   "file": "asm/arm9/src/034_0208C944.s",
+   "base": 34130244,
+   "size": 37216,
    "functions": 180,
-   "code_bytes": 34274
+   "code_bytes": 34166
   },
   {
    "index": 35,
-   "file": "asm/arm9/src/035_02095B2C.s",
-   "base": 34167596,
-   "size": 82772,
-   "functions": 89,
-   "code_bytes": 27832
+   "file": "asm/arm9/src/035_02095AA4.s",
+   "base": 34167460,
+   "size": 82908,
+   "functions": 90,
+   "code_bytes": 27960
   }
  ]
 }

@@ -17,7 +17,7 @@ and data runs are not counted as matched or as work.
 
 ## ARM9 main binary
 
-410,382 game bytes, 5,146 functions, byte-matching. SDK: 1,205 of 1,205 functions matched (132,824 of 132,824 bytes).
+410,446 game bytes, 5,147 functions, byte-matching. SDK: 1,205 of 1,205 functions matched (132,824 of 132,824 bytes).
 
 ![ARM9 coverage map](docs/coverage_map.svg)
 

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  * symbols:
  *   func_0206DDA4  0x0206DDA4  arm
  *
@@ -34,11 +34,9 @@
  * 0x02070C64 and again at 0x02070CB8), so the second `*(u32 *)a` is required;
  * caching it in the local across the fan-out drops the reload.
  *
- * The `*` is the unlabelled follower at 0x02070CD8, not a byte difference:
- * show --addr 0x02070C5C reports a 188-byte extent because the leaf at
- * 0x02070CD8 (a flags-and-vector writer, 64 bytes, ending `bx lr` at
- * 0x02070D14) saves no lr and so carries no auto-label.  Seeding 0x02070CD8
- * into layout/function_starts.txt would drop the star.
+ * The former `*` was the unlabelled follower at 0x02070CD8 (a 64-byte leaf
+ * that saves no lr), now seeded in layout/function_starts.txt and matched
+ * in src/matched/arm9/func_02070CD8.c; the extent is 124 bytes and EXACT.
  */
 typedef unsigned char u8;
 typedef unsigned int  u32;
