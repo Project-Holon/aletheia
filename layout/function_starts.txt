@@ -2555,3 +2555,14 @@ arm9_main   0x0205CCD8  arm     # tail call to ov009 WCM_GetLinkLevel, src/match
 # func_0215466C's pool; ov021 func_021B4CDC stores its address (pool word
 # 0x02154695) as a callback for overlay 1.
 overlay_001  0x02154694  thumb   # pool word 0x02154695 in ov021 func_021B4CDC
+
+# ov007 and ov004 Thumb tail-call thunks (adds r2, r1, #0; ldm r2, {r1, r2};
+# ldr r3, [pc]; bx r3; .word func_021542CC+1), byte-identical in both overlays
+# and the twin of the ov006 seed at 0x02154C20.  Only ov021 pool words hold
+# their addresses, as callbacks passed with the overlay id.
+overlay_007  0x021542C0  thumb   # pool word 0x021542C1 at ov021 0x021CB23C (func_021CA5C4, passed to func_020124AC with the ov007 id)
+overlay_004  0x021542C0  thumb   # pool word 0x021542C1 at ov021 0x021B4CD8 (func_021B4C98, overlay id 4)
+
+# ov010 leaves with no lr-saving prologue, called only from ov021.
+overlay_010  0x02167AB0  thumb   # tail call to ARM func_0203CBAC (&0x02172014, 0, arg); bl from ov021 at 0x021CB4F4 (raw, func_021CA5C4)
+overlay_010  0x02167CF4  thumb   # "ldr r2, [pc]; strb r1, [r0, r2]; bx lr" (w[0x725] = v); bl from ov021 at 0x021CB596 (raw, func_021CA5C4)

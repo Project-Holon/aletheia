@@ -3128,7 +3128,7 @@ def _overlay_start_attested(name, addr, lo, hi, fixed):
     return False
 
 
-def _hint_contested(addr, region_hint):
+def _hint_contested(addr, region_hint, skip=None):
     """True when a `symbols:` overlay hint cannot choose at `addr`.
 
     A hint is the source's own unchecked claim. It is refused when another
@@ -3137,11 +3137,16 @@ def _hint_contested(addr, region_hint):
     written for (audit 2026-09-23, finding 6). Applied to the overlay
     sole-ref/data sub-kind outright, and to sole-ref/self through
     self_hint_accepted() (seed round 10b).
+
+    `skip` names one more overlay whose starts do not contest.  Only
+    attest_xwin_loaded() passes it (the site's own overlay): see there.
     """
     if region_hint is None:
         return False
     for other in overlay_windows(addr):
-        if other != region_hint and addr in overlay_data_structure(other)[2]:
+        if other in (region_hint, skip):
+            continue
+        if addr in overlay_data_structure(other)[2]:
             return True
     return False
 
@@ -3202,6 +3207,14 @@ def attest_xwin_loaded(addr, align, lo, hi, region_hint, site_region,
     passes attest_sole_ref_overlay_data() (data there, an attested object
     start, the declared alignment, the hint uncontested by a third
     overlay).  Without the loaded id the refusal stands.
+
+    "Third" excludes the site's own overlay: an object start there (an
+    ov021 pool constant holding the same address, say) is exactly what the
+    own-window rule already set aside, since the site's overlay is no longer
+    resident when the address is used.  ov021 func_021CA5C4 hands ov214's
+    proc table 0x021BB474 to the loader with id 0xD6 while ov021 has a start
+    at the same address.  Any other overlay with a start there still
+    contests (gA2, 2026-10-02).
     """
     if not _xwin_hint_candidate(addr, region_hint, site_region):
         return None
@@ -3209,11 +3222,12 @@ def attest_xwin_loaded(addr, align, lo, hi, region_hint, site_region,
     if not m or int(m.group(1)) not in loaded_ids:
         return None
     return attest_sole_ref_overlay_data(addr, align, lo, hi, region_hint,
-                                        None)
+                                        None, contest_skip=site_region)
 
 
 def attest_sole_ref_overlay_data(addr, align=None, lo=0, hi=0,
-                                 region_hint=None, site_region=None):
+                                 region_hint=None, site_region=None,
+                                 contest_skip=None):
     """`sole-ref/data` for an overlay address.  (class, n, site, "data")/None.
 
     The same three conditions as attest_sole_ref_data(), each read from the
@@ -3228,13 +3242,15 @@ def attest_sole_ref_overlay_data(addr, align=None, lo=0, hi=0,
     hold DATA at the address: a start in one overlay is no evidence while
     another overlapping overlay also has data there, because nothing says
     which of the two the pool word was written for.
+
+    `contest_skip` is for attest_xwin_loaded() only (_hint_contested()).
     """
     if _is_arm9_address(addr):
         return None                     # ARM9: attest_sole_ref_data()'s job
     pool, fixed = _overlay_pool(addr, region_hint, site_region)
     if not pool:
         return None
-    if _hint_contested(addr, region_hint):
+    if _hint_contested(addr, region_hint, contest_skip):
         return None
     a = SOLE_REF_DEFAULT_ALIGN if align is None else align
     if a > 1 and (addr % a):
@@ -8462,6 +8478,26 @@ def cmd_selftest(args):
                 "even when ov225 is loaded",
            attest_xwin_loaded(0x021B95A0, 4, 0x021D310C, 0x021D3164,
                               "ov225", "ov021", set([225])), None)
+    # The third-overlay contest leaves out the site's own overlay (gA2,
+    # 2026-10-02): ov021 func_021CA5C4 hands ov214's proc table 0x021BB474
+    # to the loader with id 0xD6, and ov021 itself has a start there.
+    _xw2 = (4, 0x021CA5C4, 0x021CB6DC)
+    _check(res, "xwin: a start in the site's own overlay does not contest "
+                "the hint (ov214 0x021BB474 from ov021)",
+           (attest_xwin_loaded(0x021BB474,
+                               *(_xw2 + ("ov214", "ov021", set([214]))))
+            or (None,))[0], "sole-ref")
+    _check(res, "xwin: the own-overlay start still contests outside this "
+                "rule",
+           _hint_contested(0x021BB474, "ov214"), True)
+    _check(res, "xwin: a third overlay with a start there still contests "
+                "(ov016 0x021B6174, ov101 start)",
+           attest_xwin_loaded(0x021B6174, *(_xw2 + ("ov016", "ov021",
+                                                      set([16])))), None)
+    _check(res, "xwin: a third overlay still contests when the site's own "
+                "overlay also has a start (ov214 0x021BB3CC, ov072 start)",
+           attest_xwin_loaded(0x021BB3CC, *(_xw2 + ("ov214", "ov021",
+                                                      set([214])))), None)
 
     # --- vendor-object rules: linker, template, section-relative .bss -----
     fslo, fshi = 0x02078D34, 0x02078EB0          # FS_LoadOverlayInfo
