@@ -20,13 +20,18 @@
  *   mov  r0, r4
  *   bl   #0x0206419C
  *   pop  {r4, pc}
+ *
+ * Sets a cell animation's sequence: seq arrives in r1 and is forwarded
+ * untouched to func_02062FF0, then the animation is restarted.  The SDK
+ * table's name ENV_SetResourceSet for this address sits in the rejected
+ * list of layout/symbols_sdk.json, so the name is suspect.
  */
 
-extern void func_02062FF0(void *p);
-extern void func_0206419C(void *p);
+extern void func_02062FF0(void *anim, void *seq);
+extern void func_0206419C(void *anim);
 
-void ENV_SetResourceSet(void *p)
+void ENV_SetResourceSet(void *anim, void *seq)
 {
-    func_02062FF0(p);
-    func_0206419C(p);
+    func_02062FF0(anim, seq);
+    func_0206419C(anim);
 }
