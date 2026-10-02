@@ -1,0 +1,27 @@
+/*
+ * function: func_021E017C
+ * address: 0x021E017C
+ * packet: pkt_ov119_021E017C
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02012EBC 0x02012EBC thumb
+ *   func_02009470 0x02009470 thumb
+ *   sub_02009454 0x02009454 thumb
+ *   func_02082D44 0x02082D44 arm
+ *   func_020307B0 0x020307B0 arm
+ */
+extern void *func_02012EBC(void *);
+extern void *func_02009470(void *);
+extern unsigned sub_02009454(void);
+extern void func_02082D44(void *, void *, int);
+extern void func_020307B0(void *);
+void func_021E017C(void *sys, void *buf)
+{
+    void *src = func_02009470(func_02012EBC(sys));
+    func_02082D44(buf, src, sub_02009454());
+    func_020307B0(buf);
+}

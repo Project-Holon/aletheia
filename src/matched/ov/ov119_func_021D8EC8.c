@@ -1,0 +1,23 @@
+/*
+ * function: func_021D8EC8
+ * address: 0x021D8EC8
+ * packet: pkt_ov119_021D8EC8
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_020399A8 0x020399A8 arm
+ *   func_0203D1A4 0x0203D1A4 arm
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+extern void *func_020399A8(void);
+extern u32 func_0203D1A4(void *);
+u32 func_021D8EC8(u32 a, u32 b)
+{
+    if (a == func_0203D1A4(func_020399A8()))
+        return b + 0x10;
+    return b + 0x2e6;
+}

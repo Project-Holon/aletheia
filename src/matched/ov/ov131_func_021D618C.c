@@ -1,0 +1,18 @@
+/*
+ * function: func_021D618C
+ * address: 0x021D618C
+ * packet: pkt_ov131_021D618C
+ * region: ov131
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * symbols:
+ *   func_02045770 0x02045770 arm
+ *   func_021D614C 0x021D614C thumb ov131
+ */
+extern unsigned int func_02045770(unsigned int);
+extern void func_021D614C(unsigned char *,int,int,int,unsigned short,unsigned short);
+void func_021D618C(unsigned char *p,unsigned int a,int b,int c,unsigned short d,unsigned short e) {
+ func_021D614C(p,(int)func_02045770(a),b,c,d,e);
+}

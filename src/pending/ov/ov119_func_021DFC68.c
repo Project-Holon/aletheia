@@ -15,6 +15,9 @@
  * dsi/1.1p1 assigns r1/r2 instead. Every instruction from the main block
  * (offset 0x26) on is identical. Reached from the root's last guard.
  *
+ * 2026-10-02 (lane B2-05): also tried an unused 2nd parameter, declaration orders, k/m merging,
+ * pointer-typed counter, u32 counter, nested if shape, swapped compare order: still the same 8 bytes.
+ *
  * symbols:
  *   func_02015C30    0x02015C30  thumb
  *   func_02015C48    0x02015C48  thumb
