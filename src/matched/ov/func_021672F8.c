@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02012EC0  0x02012EC0  thumb
@@ -19,18 +19,23 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02012EC0();
-extern int func_0200C0E8();
+struct Big;
+
+extern void *func_02012EC0(struct Big *p);
+extern void *func_0200C0E8(void *sys);
 extern int func_0200C1C4();
 
 int func_021672F8(int a0)
 {
+    void *big;
+    void *sys;
+
 
 a0 = *(int *)((char *)a0 + 8);
-    a0 = func_02012EC0(a0);
+    big = func_02012EC0((struct Big *)a0);
 loc_02167300:
-    a0 = func_0200C0E8(a0);
+    sys = func_0200C0E8(big);
 loc_02167304:
-    a0 = func_0200C1C4(a0);
+    a0 = func_0200C1C4(sys);
 loc_02167308:
     return a0;}

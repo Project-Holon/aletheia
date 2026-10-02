@@ -17,8 +17,10 @@
  *   func_020355D8 0x020355D8 arm
  *   func_021F1A1C 0x021F1A1C thumb ov194
  */
+
+typedef unsigned int u32;
 typedef struct {int x,y;} Pair;
-extern unsigned func_020362DC(void);
+extern u32 func_020362DC(void);
 extern int func_021F2828(char *,int,int *);
 extern int func_020355C4(void);
 extern int func_021F2818(char *,int,int);

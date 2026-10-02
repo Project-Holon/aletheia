@@ -50,7 +50,7 @@ extern int func_02188C5C(u32 a);
 extern int func_0219E348(int a);
 extern int func_02188CD0(u32 a);
 extern int func_02188C58(u32 a);
-extern int func_02188CB4(u32 a);
+extern void *func_02188CB4(unsigned char *p);
 extern void func_021A2F6C(int a);
 extern void func_0216DB4C(int a, int b);
 extern void func_0216DC98(int a, int b);
@@ -72,7 +72,7 @@ W *func_021F36C0(int unused, u32 sys, int c, int d)
     p->f14 = func_02188CD0(sys);
     p->f18 = func_02188C58(sys);
     if (d != 0) {
-        p->fC = func_02188CB4(sys);
+        p->fC = func_02188CB4((void *)sys);
         func_021A2F6C(p->fC);
     } else {
         p->fC = 0;

@@ -50,12 +50,12 @@ extern const char d_021DE234[];
 extern const u16 d_021D98D0[];
 
 extern void *func_0215A5E4(void *vm);
-extern u16 *func_02159AE8(void *, void *);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_0215E2B8(Rec *r, void *h, u32 k, u32 x);
 extern u16 func_021B5190(u16 *list, int n, u16 v);
 extern u32 func_02012984(void *);
 extern u32 func_02005728(u32 range);
-extern void *func_020490F4(u32 a, u32 b);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049238(void *h);
 extern void *func_02030734(u32 heap, u32 size, u32 flags, const char *file, u32 line);
 extern void func_020307B0(void *p);

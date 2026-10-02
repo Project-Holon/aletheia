@@ -33,8 +33,8 @@ typedef struct {
 } Rec;
 
 extern int func_02159B10(void *, void *);
-extern u16 *func_02159AE8(void *, void *);
-extern void *func_0215A5E4(void *);
+extern u16 *func_02159AE8(void *a0, void *a1);
+extern void *func_0215A5E4(void *a0);
 extern void *func_02012F44(void *);
 extern Rec *func_0200A750(void *, int);
 

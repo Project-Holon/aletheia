@@ -32,7 +32,7 @@ typedef struct U {
 } U;
 
 extern u32 func_020362DC(void);
-extern u32 func_0203630C(void);
+extern unsigned int func_0203630C(void);
 extern u32 func_02045770(u32 a);
 extern void func_021928F8(u32 *sub, u32 a, u32 b);
 extern void func_02045334(u32 a);

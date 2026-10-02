@@ -52,7 +52,7 @@ void func_02175208(u8 *p);
 int func_02175214(u8 *p);
 int func_02174D98(int v);
 int func_02174DF0(u8 *p);
-int func_02012934(int a);
+void *func_02012934(void *p);
 void func_0201AC2C(int h, int v);
 void func_0201A2A8(int a, int v);
 int func_020399A8(void);

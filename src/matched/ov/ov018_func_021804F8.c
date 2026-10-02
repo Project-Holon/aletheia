@@ -20,7 +20,7 @@
 
 typedef unsigned short u16;
 
-int func_0201210C(void *p);
+void *func_0201210C(void *p);
 void *func_020122C0(void *p, int a, void *cb, int n);
 void *func_020124E8(void *p);
 void func_02082BCC(void *p, int v, int n);
@@ -29,7 +29,7 @@ int func_02180538(void);
 
 void *func_021804F8(void *p, int a)
 {
-    int v = func_0201210C(p);
+    void *v = func_0201210C(p);
     void *r = func_020122C0(p, 0, func_02180538, 0x138);
     u16 *q = func_020124E8(r);
 

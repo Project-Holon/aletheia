@@ -20,7 +20,7 @@
  *   func_02026454  0x02026454  thumb
  */
 
-extern void func_0215A5F4(void *p);
+extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *p);
 extern void *func_0215A5E4(void *p);
 extern void *func_02012138(void *p);

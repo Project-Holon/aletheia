@@ -24,28 +24,39 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void func_02188CCC();
-extern int func_020122C0();
+struct Desc;
+struct Ctx;
+struct Big;
+
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern void func_0201232C();
 extern u32 *func_020124E8();
-extern int func_020120F4();
-extern int func_02012EBC();
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
 extern void func_0215FA54();
 
-int func_0215FBF4(int a0, int a1, int a2, int a3)
+/* record behind the descriptor: owner, its context, the context's head */
+struct Rec {
+    int   owner;
+    void *ctx;
+    void *head;
+};
+
+struct Desc *func_0215FBF4(int a0, int a1, struct Desc *a2, int a3)
 {
-    u32 *p;
-    int t;
+    struct Rec *p;
+    void *ctx;
 
     func_02188CCC(a1);
     if (a3 != 0) {
-        a2 = func_020122C0(a0, 0, func_0215FA54, 0x34);
+        a2 = func_020122C0((void *)a0, 0, (void *)func_0215FA54, 0x34);
     } else {
         func_0201232C(a2, func_0215FA54, 0x34);
     }
-    p = func_020124E8(a2);
-    t = func_020120F4(a0);
-    p[1] = t;
-    p[2] = func_02012EBC(t);
-    p[0] = a0;
+    p = (struct Rec *)func_020124E8(a2);
+    ctx = func_020120F4((const struct Ctx *)a0);
+    p->ctx = ctx;
+    p->head = func_02012EBC((struct Big *)ctx);
+    p->owner = a0;
     return a2;
 }

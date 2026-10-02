@@ -19,7 +19,7 @@
 
 typedef unsigned int u32;
 
-u32 func_021A3960(u32 x);
+void *func_021A3960(unsigned char *p);
 int func_0216D7DC(u32 h);
 int func_021A5318(u32 *p, u32 m);
 int func_021AB0F0(int x);

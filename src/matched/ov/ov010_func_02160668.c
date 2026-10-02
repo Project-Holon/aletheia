@@ -22,18 +22,21 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_020120F4();
-extern int func_02012EBC();
-extern int func_0200C404();
+struct Ctx;
+struct Big;
+
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200C404(void *sys);
 extern int func_0200C468();
 extern void func_021605C0();
 extern int func_021C5334();
 
 int func_02160668(int *a0, int *a1)
 {
-    int x;
+    void *x;
 
-    x = func_0200C404(func_02012EBC(func_020120F4(a1[1])));
+    x = func_0200C404(func_02012EBC((struct Big *)func_020120F4((const struct Ctx *)a1[1])));
     switch (a1[7]) {
     case 0:
         if (func_0200C468(x) == 0) {

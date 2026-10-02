@@ -14,7 +14,9 @@
  *   func_0203D3F8  0x0203D3F8  arm
  */
 
-extern int func_020399A8();
+struct Entry;
+
+extern struct Entry *func_020399A8(void);
 extern int func_0203D3F8();
 
 void func_02174E20(void)

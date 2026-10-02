@@ -20,7 +20,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 
-extern int func_020399A8();
+struct Entry;
+
+extern struct Entry *func_020399A8(void);
 extern int func_02039CB4();
 extern int func_0203D3F8();
 extern void func_02157960();

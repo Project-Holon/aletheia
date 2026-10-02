@@ -36,7 +36,9 @@
 typedef unsigned short u16;
 
 typedef struct V3 {
-    int x, y, z;
+    int y;
+    void *x;
+    void *z;
 } V3;
 
 typedef struct S {
@@ -47,7 +49,7 @@ typedef struct S {
     V3 b;
 } S;
 
-extern void *func_0215A5F4(int);
+extern void *func_0215A5F4(void *p);
 extern int *func_02158F58(void *);
 extern int func_02159B10(void *, int);
 extern int func_02158F78(void *);
@@ -58,8 +60,8 @@ extern void *func_0215A5EC(int);
 extern void *func_0216DE94(void *, int);
 extern S *func_0215A63C(int);
 extern void func_02082BCC(void *p, int v, int n);
-extern int func_02188CB4(int);
-extern int func_021A3074(int);
+extern void *func_02188CB4(unsigned char *p);
+extern void *func_021A3074(unsigned char *p);
 extern void func_0216D88C(void *, V3 *);
 extern int func_021B0A40(int, V3 *);
 extern void func_021B0B08(int, int);
@@ -73,11 +75,13 @@ int func_021B0EF4(void *a, int b)
     void *o;
     int *q;
     int k0, k1, k2, m, r, flag;
-    int x, y, z;
+    int y;
+    void *x;
+    void *z;
     S *s;
     V3 v;
 
-    o = func_0215A5F4(b);
+    o = func_0215A5F4((void *)b);
     q = func_02158F58(o);
     k0 = func_02159B10(a, b);
     k1 = func_02159B10(a, b);
@@ -96,7 +100,7 @@ int func_021B0EF4(void *a, int b)
     s->id = k2;
     x = func_02188CB4(q[1]);
     y = (int)func_0215A5EC(b);
-    z = func_021A3074(x);
+    z = func_021A3074((void *)x);
     func_0216D88C(func_0216DE94((void *)y, s->id), &v);
     r = func_021B0A40(z, &v);
     if (r != 1) {

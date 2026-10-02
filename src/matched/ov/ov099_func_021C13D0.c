@@ -21,7 +21,7 @@ extern u8 func_021BDD48(char *, void *);
 extern int func_021BDD54(char *, void *);
 extern unsigned func_021BCBD8(char *, int);
 extern int func_020399A8(void);
-extern int func_0203D3A8(int, int, u16, void *);
+extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *d);
 int func_021C13D0(char *p, int ret)
 {
     Request request;

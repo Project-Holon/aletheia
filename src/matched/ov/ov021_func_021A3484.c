@@ -25,7 +25,7 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021A3960();
+extern void *func_021A3960(unsigned char *p);
 extern int func_02188CFC();
 extern int func_021641E8();
 extern int func_021641F8();
@@ -38,7 +38,7 @@ void func_021A3484(u32 *a, u32 b, s32 *c)
     s32 t1;
     s32 t2;
     s32 t3;
-    u32 h = func_021A3960(a[1]);
+    void *h = func_021A3960(a[1]);
 
     if (func_02188CFC(a[0]) == 0) {
         s32 t;

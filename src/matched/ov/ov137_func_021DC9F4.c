@@ -25,7 +25,7 @@ extern void *func_02030734(u16,u32,int,const void *,int);
 extern void func_02082BCC(void *,int,u32);
 extern void func_02012944(void *);
 extern void *func_0200CA1C(void *);
-extern u32 func_02012934(void *);
+extern void *func_02012934(void *p);
 extern int func_0201AA18(void *);
 extern u32 func_0200CA38(void *);
 extern void func_02031348(void *,int,const void *,void *);

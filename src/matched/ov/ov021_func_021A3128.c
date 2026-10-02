@@ -29,7 +29,7 @@ extern int func_02188CFC();
 extern u32 func_02188C98();
 extern u32 func_02188C5C();
 extern void func_021A3364();
-extern u32 func_021A3074();
+extern void *func_021A3074(unsigned char *p);
 extern u32 func_021AB0D4();
 extern void func_0219E664();
 extern u32 func_021BB3C4();
@@ -46,7 +46,7 @@ u32 func_021A3128(u32 *a, u32 b)
         func_021A3364(a, b, d);
         r = func_021AB0D4(h, d);
     } else if (func_02188CFC(a[0]) == 1) {
-        u32 t = func_021A3074(a);
+        void *t = func_021A3074(a);
         u32 h = func_02188C5C(a[0]);
 
         func_0219E664(t, b, c);

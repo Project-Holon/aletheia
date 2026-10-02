@@ -28,37 +28,40 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215A5E4();
-extern int func_0215A5F4();
-extern int func_0215A5DC();
+struct Desc;
+
+extern void *func_0215A5E4(void *a0);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
 extern int func_02159B10();
-extern int func_020122C0();
-extern int *func_020124E8(int p);
-extern int func_0201210C(int a);
-extern int func_02188C7C(int p);
-extern int func_0216DE94();
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern int *func_020124E8(struct Desc *p);
+extern void *func_0201210C(void *p);
+extern void *func_02188C7C(unsigned char *p);
+extern void *func_0216DE94(void *map, u32 id);
 extern void func_0216D88C();
 extern void func_0215897C();
 extern int func_0216A8F0();
 
 int func_0216A884(int a0, int a1)
 {
-    int l0;
-    int r4;
+    void *l0;
+    void *r4;
     int r6;
-    int r7;
+    struct Desc *r7;
+    void *m;
     int *r5;
 
-    func_0215A5E4(a1);
-    l0 = func_0215A5F4(a1);
-    r4 = func_0215A5DC(a1);
+    func_0215A5E4((void *)a1);
+    l0 = func_0215A5F4((void *)a1);
+    r4 = func_0215A5DC((void *)a1);
     r6 = func_02159B10(a0, a1);
-    r7 = func_020122C0(r4, 0, func_0216A8F0, 0x14);
+    r7 = func_020122C0((void *)r4, 0, (void *)func_0216A8F0, 0x14);
     r5 = func_020124E8(r7);
     r5[0] = 0;
-    r4 = func_0216DE94(func_02188C7C(func_0201210C(r4)), r6);
-    func_0216D88C(r4, r5 + 2);
-    r5[1] = r4;
+    m = func_0216DE94((void *)func_02188C7C(func_0201210C((void *)r4)), r6);
+    func_0216D88C(m, r5 + 2);
+    ((void **)r5)[1] = m;
     func_0215897C(l0, r7);
     return 1;
 }

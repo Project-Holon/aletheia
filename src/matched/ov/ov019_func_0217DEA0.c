@@ -27,13 +27,14 @@
 
 typedef unsigned char u8;
 typedef short s16;
+typedef unsigned int u32;
 
 typedef struct {
     u8 pad00[0x2d];
     u8 f2d;
 } Obj;
 
-extern void *func_02188CB4(int a);
+extern void *func_02188CB4(unsigned char *p);
 extern int func_0217BB20(void *ctx);
 extern void func_0217F074(void *ctx);
 extern int func_0217F060(u8 v);
@@ -43,7 +44,7 @@ extern int func_0217B8E4(void *ctx, int v);
 extern void func_0217BAF0(void *ctx, int a, int v);
 extern int func_0217FEF4(void *w);
 extern int func_0217FF14(int a);
-extern unsigned func_020362DC(void);
+extern u32 func_020362DC(void);
 extern void func_021A3460(void *a, s16 *x, s16 *y, s16 *z);
 extern int func_021679A4(int a0, int a1, int a2, int a3, int *a4, int *a5);
 
@@ -56,7 +57,7 @@ int func_0217DEA0(void *ctx, Obj *obj, int a2, u8 *state)
     int k;
     s16 v[3];
 
-    a = func_02188CB4(a2);
+    a = func_02188CB4((void *)a2);
     if (func_0217BB20(ctx) == 1) {
         func_0217F074(ctx);
         return 1;

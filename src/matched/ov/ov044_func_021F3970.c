@@ -24,34 +24,34 @@
 
 typedef unsigned int u32;
 
-extern u32 func_0201210C(void *a);
+extern void *func_0201210C(void *a);
 extern void *func_02188D2C(u32 a);
 extern int *func_021897BC(u32 a, int b);
 extern u32 func_02188C58(u32 a);
 extern int func_0218EC5C(u32 a);
 extern void func_0218EC54(u32 a);
 extern int *func_021BE480(void *p, int i, int j);
-extern u32 func_02188CB4(u32 a);
+extern void *func_02188CB4(unsigned char *p);
 extern void func_021A3038(u32 a, int *v);
 extern void func_021A3044(u32 a, int *v);
 
 void func_021F3970(void *a)
 {
-    u32 s;
+    void *s;
     void *r;
     int *p;
     u32 h;
-    u32 c;
+    void *c;
     int v[3];
 
-    s = func_0201210C(a);
+    s = func_0201210C((void *)a);
     r = func_02188D2C(s);
     p = func_021897BC(s, 1);
     h = func_02188C58(s);
     p[3] = func_0218EC5C(h);
     func_0218EC54(h);
     func_021BE480(r, 0, 0)[1] = -0x50000;
-    c = func_02188CB4(s);
+    c = func_02188CB4((void *)s);
     func_021A3038(c, v);
     v[1] = -0x50000;
     func_021A3044(c, v);

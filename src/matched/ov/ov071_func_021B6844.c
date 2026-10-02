@@ -40,7 +40,7 @@ void func_021B6844(int *p)
     int func_0204B100(int, int, int);
     void func_0204B270(int);
     int func_02025318(int, int, int);
-    int func_02025538(int, int);
+    void *func_02025538(unsigned int a0, void *a1);
 
     s = d_020A1448;
     s.b8 = 4;

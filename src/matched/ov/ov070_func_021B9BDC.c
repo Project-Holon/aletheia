@@ -31,7 +31,7 @@ extern int func_020450F0(int, int, int, int, int, int, int);
 extern void func_021B9BA0(char *);
 extern void func_020456F8(int);
 extern void func_02045374(int);
-extern int func_020490F4(int, u16);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_0204AF28(int, int, int, u16);
 extern void func_02049238(int);
 extern void func_02045CAC(u32, u32, u32);
@@ -41,7 +41,7 @@ extern void func_021B9850(char *);
 
 void func_021B9BDC(char *p)
 {
-    int bg;
+    void *bg;
 
     *(int *)(p + 0x774) = func_020450F0(3, 0x12, 9, 0xc, 3, 3, 1);
     func_021B9BA0(p);

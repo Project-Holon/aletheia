@@ -23,7 +23,7 @@ extern void func_021E67C4(void *,int);
 extern void func_021DF8A0(void *,int,int);
 extern int func_021D8A24(void *);
 extern unsigned func_020399A8(void);
-extern int func_0203D3A8(unsigned,unsigned,unsigned,void *);
+extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *d);
 void func_021DF7F0(void *p)
 {
     unsigned x,y;

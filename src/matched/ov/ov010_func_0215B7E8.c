@@ -14,12 +14,12 @@
  *   func_0215B4DC 0x0215B4DC thumb ov010
  */
 typedef unsigned short u16;
-extern u16 *func_02159AE8(int,int);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_02159B10(int,int);
 extern int func_0215B4DC(int,int,int);
 int func_0215B7E8(int a,int b)
 {
-    u16 *out = func_02159AE8(a,b);
+    u16 *out = func_02159AE8((void *)a,(void *)b);
     int k = func_02159B10(a,b);
     if (func_0215B4DC(b,k,0x4C) != 0) *out = 0x28A; else *out = func_0215B4DC(b,k,5);
     return 0;

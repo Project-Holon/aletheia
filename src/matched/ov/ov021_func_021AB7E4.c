@@ -22,7 +22,7 @@ typedef struct {
 } S;
 
 extern void *func_02030734(int heap, int size, int clear, const char *file, int line);
-extern int func_020490F4(int a, int b);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern char d_021DE000[];
 extern const int d_021D8EEC[];
 

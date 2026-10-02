@@ -23,7 +23,7 @@ extern const Config d_021B827C,d_021B8298;
 extern int func_021B61FC(int);
 extern void func_0204A48C(Config *,int,int);
 extern int func_0204B100(int,int,int);
-extern int func_02025538(int,int);
+extern void *func_02025538(unsigned int a0, void *a1);
 extern void func_021B74C8(int *);
 extern void func_020434DC(unsigned,unsigned);
 extern void func_02043598(unsigned,unsigned);
@@ -36,7 +36,7 @@ void func_021B7318(char *p,int mode) {
         func_0204A48C(&cfg,func_021B61FC(mode),141);
     }
     *(int *)(p+0x9044)=func_0204B100(249,0,141);
-    *(int *)(p+0x911c)=func_02025538(141,*(int *)(p+0x9044));
+    *(int *)(p+0x911c)=func_02025538(141,*(void **)(p+0x9044));
     func_021B74C8((int *)p);
     func_020434DC(16,1); func_02043598(16,1);
 }

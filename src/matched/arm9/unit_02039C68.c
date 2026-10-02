@@ -41,7 +41,7 @@ struct Link {
     u8 unk49;
 };
 
-extern u32 func_020395EC(struct Link *p);
+extern int func_020395EC(struct Link *p);
 
 void sub_02039C68(struct Link *p, u32 lo, u32 hi)
 {

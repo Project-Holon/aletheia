@@ -10,8 +10,8 @@
  * status:   EXACT
  */
 
-extern void *func_020071CC(int a, int b);
-void *func_0200E394(int a0)
+extern void *func_020071CC(void *sys, unsigned int id);
+void *func_0200E394(void *a0)
 {
     return func_020071CC(a0, 0x3f);
 }

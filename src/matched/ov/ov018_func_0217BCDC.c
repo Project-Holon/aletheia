@@ -36,17 +36,17 @@ extern int func_02012944(int);
 extern int func_02008550(int);
 extern int func_02012B58(int);
 extern int func_02175598(u8 *, int);
-extern int func_0201210C(void *);
-extern int func_02188CB4(int);
+extern void *func_0201210C(void *p);
+extern void *func_02188CB4(unsigned char *p);
 extern void func_021A3220(int, u16);
-extern int func_021A3074(int);
+extern void *func_021A3074(unsigned char *p);
 extern void func_0216D8C0(int, Vec *);
 extern void func_021A322C(int);
 
 void func_0217BCDC(u8 *p, void *a1, int id, u8 kind, u8 flag)
 {
     int res;
-    int obj;
+    void *obj;
     int x;
     int y = func_020120F4(a1);
     Vec v = { 0, 0, 0 };
@@ -79,7 +79,7 @@ void func_0217BCDC(u8 *p, void *a1, int id, u8 kind, u8 flag)
     }
     obj = func_02188CB4(func_0201210C(a1));
     func_021A3220(obj, res);
-    func_0216D8C0(func_021A3074(obj), &v);
+    func_0216D8C0(func_021A3074((void *)obj), &v);
     if (id == 0)
         func_021A322C(obj);
 }

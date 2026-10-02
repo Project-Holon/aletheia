@@ -62,7 +62,7 @@ extern void func_02039C68(int a, int b, int c);
 extern int func_02039CB4(int a, int b, int c);
 extern int func_0217F1EC(u8 *a);
 extern void *func_02030734(int heap, int size, int clear, void *file, int line);
-extern int func_02012934(int a);
+extern void *func_02012934(void *p);
 extern int func_02012EBC(int a);
 extern int func_02012F2C(int a);
 extern void func_0217422C(u8 *a, int b, void *c);

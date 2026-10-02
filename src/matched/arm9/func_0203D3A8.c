@@ -29,12 +29,14 @@
 
 typedef unsigned int u32;
 
-extern void *func_0203D798(void);
-extern u32   func_020395EC(u32 a);
-extern void  func_02038C18(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+struct Entry;
 
-void func_0203D3A8(u32 a, u32 b, u32 c, u32 d)
+extern void *func_0203D798(void);
+extern int func_020395EC(struct Entry *a);
+extern int   func_02038C18(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+
+int func_0203D3A8(struct Entry *a, u32 b, u32 c, u32 d)
 {
     func_0203D798();
-    func_02038C18(b, d, c, 0, func_020395EC(a), 0xff, 0);
+    return func_02038C18(b, d, c, 0, func_020395EC(a), 0xff, 0);
 }

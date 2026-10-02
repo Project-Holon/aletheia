@@ -22,22 +22,22 @@
  *   func_021C90D0  0x021C90D0  thumb
  */
 
-extern int func_02188CB4(int a);
-extern int func_021A3074(int a);
-extern int func_0216D3CC(int a);
+extern void *func_02188CB4(unsigned char *p);
+extern void *func_021A3074(unsigned char *p);
+extern int func_0216D3CC(void *a);
 extern int func_02197E7C(int a, int b);
-extern void func_0216D410(int a, int b);
+extern void func_0216D410(void *a, int b);
 extern void func_020061E4(int a);
-extern int func_0216D454(int a);
-extern void func_0216D480(int a);
+extern int func_0216D454(void *a);
+extern void func_0216D480(void *a);
 extern void func_021C90AC(int a);
 extern int func_021C90D0(int a);
 
 int func_021F3AB4(int a, int *s, int *t)
 {
-    int r6;
+    void *r6;
 
-    r6 = func_021A3074(func_02188CB4(*(int *)(t[3] + 8)));
+    r6 = func_021A3074(func_02188CB4(*(void **)(t[3] + 8)));
     switch (*s) {
     case 0:
         if (func_0216D3CC(r6) == 1) {

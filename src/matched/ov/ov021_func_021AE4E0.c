@@ -15,7 +15,7 @@
  *   func_0216D5A0  0x0216D5A0  thumb  ov010
  */
 
-extern int func_021A3074(int x);
+extern void *func_021A3074(unsigned char *p);
 extern int func_0216D454(int a0);
 extern int func_0216D5A0(int x);
 

@@ -15,7 +15,7 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_020490F4(void *, u16);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_0204A6C8(u32, u32, u32, u32, u16);
 extern int func_0204AC18(u32, u32, u32, u32, u16, u16, u16);
 extern int func_0204AF28(u32, u32, u32, u32);

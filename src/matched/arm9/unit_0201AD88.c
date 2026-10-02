@@ -30,7 +30,7 @@
 
 typedef unsigned int u32;
 
-extern void *func_020490F4(u32 size, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void *g_0214652C;
 
 void sub_0201AD88(u32 heap)

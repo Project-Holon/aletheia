@@ -17,25 +17,28 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02046F48();
+struct Tagged;
 
-int func_02169A68(int a0)
+extern void *func_02046F48(struct Tagged *p);
+
+void *func_02169A68(int a0)
 {
     int t4;
+    void *p;
 
 t4 = a0 + 0;
 a0 = a0 + 0x88;
 a0 = *(int *)((char *)a0);
-    a0 = func_02046F48(a0);
+    p = func_02046F48((struct Tagged *)a0);
 loc_02169A74:
-    if (a0 != 0) goto loc_02169A82;
+    if (p != 0) goto loc_02169A82;
 loc_02169A78:
 a0 = t4 + 0;
 a0 = a0 + 0x94;
-a0 = *(int *)((char *)a0);
-    if (a0 != 0) goto loc_02169A86;
+p = *(void **)((char *)a0);
+    if (p != 0) goto loc_02169A86;
 loc_02169A82:
 t4 = t4 + 0x88;
-a0 = *(int *)((char *)t4);
+p = *(void **)((char *)t4);
 loc_02169A86:
-    return a0;}
+    return p;}

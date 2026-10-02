@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * symbols:
  *   func_02087D1C  0x02087D1C  arm
@@ -16,6 +16,17 @@
  * EXACT arm9 shard entry (pkt_02087D1C), so the call resolves via `matched`.
  * Verified EXACT* (listing 144 vs compiled 24 is the multi-function extent;
  * the function's own bytes are exact).
+ *
+ * 2026-10-02: func_02087D1C returns a pointer, but it stays declared
+ * `extern int func_02087D1C();` here.  A declaration-only fix (a pointer
+ * return and a char * receiving local) does not keep the bytes: the
+ * compiler moves the shift chain that builds t5.  A variant that folds the
+ * shift chain into one expression,
+ * `t5 = (unsigned)(*(int *)((char *)a1 + 0xc) << 0x10) >> 0x1c;`, with
+ * `char *p = func_02087D1C();`, does match (EXACT, the same verdict as
+ * this file against the current listings).  It changes code and not just
+ * types, so it is kept outside the tree pending a decision:
+ * docs/notes/func_02165CC0_variantF.c.txt.
  */
 
 typedef unsigned char u8;

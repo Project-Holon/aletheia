@@ -21,7 +21,7 @@ extern unsigned func_02025DE8(void *);
 extern int func_021EF5E8(int);
 extern void func_020260E4(void *, unsigned char);
 extern void func_021EE408(char *, int);
-extern unsigned func_0203633C(void);
+extern unsigned int func_0203633C(void);
 extern void func_021DD238(char *);
 #define WORK(p) (*(char **)((p)+0x2c))
 #define OBJ(p) (*(void **)(WORK(p)+0x70))

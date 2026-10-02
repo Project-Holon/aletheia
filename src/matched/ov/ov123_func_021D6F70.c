@@ -19,7 +19,9 @@
  *   func_021D6F44  0x021D6F44  thumb  ov123
  */
 
-extern int func_020362DC(void);
+typedef unsigned int u32;
+
+extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern void func_02012E08(int);
 extern void func_021D8F58(int);

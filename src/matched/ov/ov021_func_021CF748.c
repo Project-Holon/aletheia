@@ -38,7 +38,7 @@ extern const u8  d_021DB7F6[];
 extern u32  func_0202A230(u32 a, u32 b);
 extern u32  func_0202A3FC(u32 a);
 extern u32  func_0202A3D8(u32 a);
-extern u32  func_02188CB4(u32 x);
+extern void *func_02188CB4(unsigned char *p);
 extern u32  func_021A30C8(u32 a);
 extern u32  func_021AB0F0(u32 a);
 extern u32  func_021AB0F8(u32 a);
@@ -60,7 +60,7 @@ void func_021CF748(u32 a, u32 x, int *out, u16 *out2)
         return;
     }
     {
-        u32 y = func_021A30C8(func_02188CB4(x));
+        u32 y = func_021A30C8(func_02188CB4((void *)x));
         u32 z = func_021AB0F0(y);
 
         if (func_021AB0F8(y) & 2) {

@@ -26,13 +26,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_02188CB4(int);
+extern void *func_02188CB4(unsigned char *p);
 extern int func_021A3208(void *);
 extern int func_021A3244(void *);
 
 int func_0216A244(void *a0)
 {
-    void *v = func_02188CB4(*(int *)((char *)a0 + 8));
+    void *v = func_02188CB4(*(void **)((char *)a0 + 8));
 
     if (func_021A3208(v) == 1)
         return func_021A3244(v);

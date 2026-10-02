@@ -21,16 +21,21 @@
  *   d_02182B90     0x02182B90  data   a4
  */
 
+typedef unsigned char u8;
+
 typedef struct { int x, y, z; } V12;
 
-extern int func_020120F8();
+struct Ctx;
+
+extern u8 *func_020120F8(const struct Ctx *p);
 extern int func_02012AC8();
 extern int func_02012138();
 extern int func_02158344();
 extern int func_02013D5C();
 extern void func_021A3038();
 extern int func_0217B5DC();
-extern int func_0216B340();
+struct Desc;
+extern struct Desc *func_0216B340(int a0, int a1, void *a2, int a3, int a4);
 extern const V12 d_02182B90;
 
 int func_0217B410(int a0, int a1, int a2)
@@ -42,7 +47,7 @@ int func_0217B410(int a0, int a1, int a2)
     V12 pos;
     V12 v;
 
-    h = func_02012AC8(func_020120F8(a1));
+    h = func_02012AC8(func_020120F8((const struct Ctx *)a1));
     w = func_02158344(func_02012138(a1));
     if (func_02013D5C(h) == 0)
         return 0;

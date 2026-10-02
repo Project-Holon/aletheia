@@ -59,7 +59,7 @@ extern HitTbl d_021BB960;
 extern int func_021B61B8(Obj *o);
 extern Item *func_021B616C(Obj *o, int v);
 extern int func_02035BA4(const void *p);
-extern u32 func_0203633C(void);
+extern unsigned int func_0203633C(void);
 extern void func_020061E4(unsigned int id);
 extern void func_0204B878(unsigned a, unsigned b);
 extern void func_021BB260(Obj *o, int val);

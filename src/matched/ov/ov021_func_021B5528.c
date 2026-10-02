@@ -36,9 +36,9 @@ typedef struct {
 } Rec;
 
 extern int func_02159B10();
-extern int func_0215A5F4();
-extern int func_0215A5DC();
-extern int func_021D2D50();
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
+extern void *func_021D2D50(void *a, Rec *src);
 extern void func_0215897C();
 
 int func_021B5528(int a0, int a1)
@@ -51,12 +51,12 @@ int func_021B5528(int a0, int a1)
     int v5 = func_02159B10(a0, a1);
     int v6 = func_02159B10(a0, a1);
     int v7 = func_02159B10(a0, a1);
-    int r;
-    int o;
+    void *r;
+    void *o;
     Rec s;
 
-    r = func_0215A5F4(a1);
-    o = func_0215A5DC(a1);
+    r = func_0215A5F4((void *)a1);
+    o = func_0215A5DC((void *)a1);
     s.h0 = v0;
     s.h2 = v1;
     s.w10 = v2;
@@ -68,6 +68,6 @@ int func_021B5528(int a0, int a1)
     s.h8 = v6;
     s.ha = 0;
     s.hc = v7;
-    func_0215897C(r, func_021D2D50(o, &s));
+    func_0215897C(r, func_021D2D50((void *)o, &s));
     return 1;
 }

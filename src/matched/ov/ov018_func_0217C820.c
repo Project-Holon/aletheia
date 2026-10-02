@@ -51,8 +51,8 @@ typedef struct {
     int z;
 } Vec;
 
-extern int func_02188CB4(int);
-extern int func_021A3074(int);
+extern void *func_02188CB4(unsigned char *p);
+extern void *func_021A3074(unsigned char *p);
 extern void func_0216D410(int, u16);
 extern void func_021A3038(int, Vec *);
 extern void func_021F37B8(int, Vec *);
@@ -65,13 +65,13 @@ extern void func_0216CF2C(int);
 
 int func_0217C820(Rec *r)
 {
-    int fld;
-    int obj;
+    void *fld;
+    void *obj;
     u16 anim;
     Vec v;
 
     fld = func_02188CB4(r->f4);
-    obj = func_021A3074(fld);
+    obj = func_021A3074((void *)fld);
     switch (r->f10) {
     case 0:
         anim = r->f13 == 3 ? 7 : 6;

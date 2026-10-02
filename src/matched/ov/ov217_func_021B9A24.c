@@ -27,7 +27,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct ArcFile;
 struct NitroFileHeader;
-extern void *sub_020490F4(void *, u16);
+extern void *sub_020490F4(unsigned int id, unsigned int heap);
 extern void *func_02049250(struct ArcFile *, u32, u32);
 extern int func_02062A98(struct NitroFileHeader *, void **);
 extern void func_02040E78(u32, void *, u32, u32);

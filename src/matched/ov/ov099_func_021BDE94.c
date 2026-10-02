@@ -35,7 +35,7 @@ typedef unsigned int u32;
 extern void func_02030EAC(void *);
 extern void func_02043534(u32);
 extern void func_020435F4(u32);
-extern void *func_020490F4(void *, u32);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049238(void *);
 extern void *func_0201EC64(u32);
 extern void *func_02045B38(u32, u32, u32, u32);

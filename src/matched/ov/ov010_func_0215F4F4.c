@@ -19,7 +19,7 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 typedef struct Entry { u32 a; u16 b,c; } Entry;
-extern void *func_0215A5F4(void *);
+extern void *func_0215A5F4(void *p);
 extern void *func_02158F54(void *);
 extern void *func_020120F4(void *);
 extern void *func_0201296C(void *);

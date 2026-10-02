@@ -18,7 +18,7 @@ typedef struct {
     int f3520;
 } T_021F0FE0;
 
-extern int func_0203633C(void);
+extern unsigned int func_0203633C(void);
 
 void func_021F0FE0(int a0, T_021F0FE0 *p)
 {

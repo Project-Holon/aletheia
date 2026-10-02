@@ -18,10 +18,12 @@
  *   func_021B7CD0  0x021B7CD0  thumb  ov070
  */
 
+typedef unsigned int u32;
+
 typedef struct Obj Obj;
 
 extern int func_021BADF0(Obj *o);
-extern int func_020362DC(void);
+extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern void func_021B80C4(Obj *o, int v);
 extern void func_021B6100(Obj *o, void *fn);

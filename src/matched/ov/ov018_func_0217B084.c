@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_0216D3CC  0x0216D3CC  thumb  ov010
@@ -30,6 +30,7 @@
  */
 
 typedef unsigned short u16;
+typedef unsigned int u32;
 
 typedef struct {
     int f0;
@@ -47,7 +48,7 @@ extern int func_0216D454();
 extern void func_0216D480();
 extern void func_0216D9A0();
 extern void func_0216D9E4();
-extern int func_02188C7C();
+extern void *func_02188C7C(unsigned char *p);
 extern int func_02188C54();
 extern int func_021904B0();
 extern int func_021907A8();
@@ -55,7 +56,7 @@ extern int func_0219077C();
 extern void func_02190788();
 extern void func_02190740();
 extern void func_02190728();
-extern int func_020362DC();
+extern u32 func_020362DC(void);
 extern void func_02045C04();
 
 int func_0217B084(int a0, int *state, Obj *o)

@@ -24,7 +24,7 @@
 
 typedef unsigned char u8;
 
-int func_0215A5F4(int b);
+void *func_0215A5F4(void *p);
 int func_02158F90(int a);
 int func_021B1E74(int b);
 int func_0215A5EC(int b);
@@ -41,7 +41,7 @@ int func_021B1A44(int a, int b)
     int r6;
     int r7;
 
-    r5 = func_02158F90(func_0215A5F4(b));
+    r5 = func_02158F90(func_0215A5F4((void *)b));
     r6 = func_021B1E74(b);
     r7 = func_0215A5EC(b);
     if (d_021EE71C & 1) {

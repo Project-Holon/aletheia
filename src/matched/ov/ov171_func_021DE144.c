@@ -26,7 +26,7 @@ extern int func_02027618(void);
 extern int func_02027614(void);
 extern int func_0202761C(int);
 extern int func_02027620(int);
-extern u8 *func_020490F4(int, int);
+extern u8 *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_0204A6C8(u8 *, int, int, int, u16);
 extern int func_0204ABF0(u8 *, int, int, int, u16);
 extern int func_0204AF28(u8 *, int, int, int);

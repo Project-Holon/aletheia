@@ -24,7 +24,7 @@ typedef struct {
     u8 pad[0x14];
 } Entry;
 
-extern void *func_0215A5F4(void *);
+extern void *func_0215A5F4(void *p);
 extern void *func_02158F74(void *);
 extern Entry d_021D9984[];
 

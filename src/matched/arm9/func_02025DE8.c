@@ -46,7 +46,7 @@ extern int  func_02025EA4(struct Sound *obj, int *out);
 extern int  func_02025FC8(struct Sound *obj);
 extern u32  func_02025F60(const u8 *ptr, u32 idx, u32 type);
 extern int  func_02026010(struct Sound *obj, u32 dir, u32 sel);
-extern u32  func_0203633C(void);
+extern unsigned int func_0203633C(void);
 extern u32  func_020362DC(void);
 extern void func_020355D8(u8 v);
 

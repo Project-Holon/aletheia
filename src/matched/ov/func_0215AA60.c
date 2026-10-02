@@ -22,25 +22,28 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215A5E4();
-extern int func_02012EBC();
-extern int func_0200873C();
+struct Big;
+struct Sub02008700Obj;
+extern void *func_0215A5E4(void *a0);
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02008700Obj *func_0200873C(void *sys);
 extern int func_020083E4();
 extern int func_020083EC();
 
 int func_0215AA60(int a0, int a1)
 {
-    int t4;
+    void *p;
+    struct Sub02008700Obj *t4;
+    void *v0;
 
 a0 = a1 + 0;
-    a0 = func_0215A5E4(a0);
+    v0 = func_0215A5E4((void *)a0);
 loc_0215AA68:
-    a0 = func_02012EBC(a0);
+    p = func_02012EBC((struct Big *)v0);
 loc_0215AA6C:
-    a0 = func_0200873C(a0);
+    t4 = func_0200873C(p);
 loc_0215AA70:
-t4 = a0 + 0;
-    a0 = func_020083E4(a0);
+    a0 = func_020083E4(t4);
 loc_0215AA76:
 a1 = a0 + 0;
     if (a1 != 0) goto loc_0215AA7E;
@@ -52,8 +55,7 @@ loc_0215AA7E:
 loc_0215AA82:
 a1 = 0;
 loc_0215AA84:
-a0 = t4 + 0;
-    a0 = func_020083EC(a0, a1);
+    a0 = func_020083EC(t4, a1);
 loc_0215AA8A:
 a0 = 0;
     return a0;}

@@ -29,7 +29,7 @@ extern u32 func_021A3990(u32 a);
 extern void *func_020122C0(u32 a, u32 b, void (*fn)(), u32 size);
 extern u32 *func_020124E8(void *task);
 extern void func_02082BCC(void *p, int v, int n);
-extern u32 func_021A3960(u32 a);
+extern void *func_021A3960(unsigned char *p);
 extern void func_021C0E98();
 
 void *func_021C0E4C(u32 a, u16 b, u32 c, u32 d)
@@ -46,6 +46,6 @@ void *func_021C0E4C(u32 a, u16 b, u32 c, u32 d)
     *(u16 *)((u8 *)w + 4) = b;
     *(u16 *)((u8 *)w + 6) = d;
     w[7] = c;
-    w[8] = func_021A3960(t);
+    w[8] = func_021A3960((void *)t);
     return task;
 }

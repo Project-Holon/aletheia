@@ -42,7 +42,7 @@ typedef struct {
 
 extern W *func_02030734(u16 heap, int size, int clear, char *file, int line);
 extern char d_0220AEE0[];
-extern u32 func_020490F4(int id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_0204B100(int a, int b, u16 heap);
 extern int func_0204A6C8(u32 a, int b, int c, int d, u16 e);
 extern int func_0204AF28(u32 a, int b, int c, u16 d);
@@ -55,7 +55,7 @@ extern void func_02049238(u32 h);
 W *func_02209224(u16 heap)
 {
     W *w;
-    u32 a;
+    void *a;
     void *s;
 
     w = func_02030734(heap, 0x78, 1, d_0220AEE0, 0x81);

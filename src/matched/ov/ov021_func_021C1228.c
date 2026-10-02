@@ -33,7 +33,7 @@ typedef struct { int x, y, z; } Vec3;
 extern u8 *func_02030734(u32, u32, u32, u8 *, u32);
 extern u8 d_021DE3AC;
 extern u32 func_021A3068(u32 a);
-extern u32 func_021A3074(u32 a);
+extern void *func_021A3074(unsigned char *p);
 extern u32 func_021A36E0(u32 a);
 extern void func_0216D88C(u32 a, Vec3 *v);
 extern void func_02164208(u32 a, Vec3 *v, u32 c);
@@ -45,7 +45,7 @@ extern void func_021C1988();
 void func_021C1228(u32 a, u16 b, u32 c, u32 d)
 {
     u8 *r;
-    u32 r7;
+    void *r7;
     Vec3 va;
     Vec3 vb;
     int out;
@@ -54,7 +54,7 @@ void func_021C1228(u32 a, u16 b, u32 c, u32 d)
     *(u16 *)(r + 4) = b;
     *(u32 *)(r + 0x3c) = a;
     *(u32 *)(r + 0x40) = func_021A3068(a);
-    r7 = func_021A3074(a);
+    r7 = func_021A3074((void *)a);
     func_0216D88C(r7, &va);
     vb = va;
     func_02164208(*(u16 *)(r + 4), &vb, 0x20000);

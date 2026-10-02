@@ -31,7 +31,7 @@ static inline u8 Ctx_ReadByte(Ctx *s)
     return v;
 }
 
-extern u32 func_0215A5F4(u32 a);
+extern void *func_0215A5F4(void *p);
 extern u32 func_02158F74(u32 a);
 extern u32 func_02159B10(Ctx *a, u32 b);
 
@@ -39,7 +39,7 @@ extern void func_0201F198(u32 a, u32 b, u8 c);
 
 int func_021AFB5C(Ctx *s, u32 b)
 {
-    u32 w = func_02158F74(func_0215A5F4(b));
+    u32 w = func_02158F74(func_0215A5F4((void *)b));
     u8 c = Ctx_ReadByte(s);
 
     func_0201F198(w, c, func_02159B10(s, b));

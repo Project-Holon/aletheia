@@ -74,8 +74,8 @@ typedef volatile unsigned short vu16;
 typedef struct { int a, b, c, d; } BgMode;
 
 extern int func_020124E4(int a);
-extern int func_0201210C(int a);
-extern u32 func_02188C7C(u32 a);
+extern void *func_0201210C(void *p);
+extern void *func_02188C7C(unsigned char *p);
 extern void func_0216D9A0(u32 o);
 extern void func_021C27A4(u8 *p);
 extern void func_021C27C0(u8 *p);
@@ -86,8 +86,8 @@ extern int func_021C2B1C(int a, int *b);
 extern int func_021C2B98(int a, int *b);
 extern int func_021C2B5C(int a, int *b);
 extern void func_021C3198(void);
-extern u32 func_02188CB4(u32 a);
-extern u32 func_021A3074(u32 a);
+extern void *func_02188CB4(unsigned char *p);
+extern void *func_021A3074(unsigned char *p);
 extern void func_0216DAC8(u32 o, int v);
 extern u32 func_0216DE94(u32 a, u32 b);
 extern void func_0216CF2C(u32 a);
@@ -132,7 +132,7 @@ int func_021C1E7C(int a, int *st, u8 *ctx)
 {
     u8 *p;
     int h;
-    u32 sys;
+    void *sys;
     int r1v;
     int r2v;
     u32 s10;
@@ -141,11 +141,11 @@ int func_021C1E7C(int a, int *st, u8 *ctx)
 
     p = *(u8 **)ctx;
     h = func_020124E4(a);
-    sys = func_0201210C(h);
+    sys = func_0201210C((void *)h);
     switch (*st) {
     case 0:
         if (*(u32 *)(ctx + 0x38))
-            func_0216D9A0(func_02188C7C(sys));
+            func_0216D9A0(func_02188C7C((void *)sys));
         func_021C27A4(p);
         func_021C27C0(p);
         if (func_021C2BD4(*(u16 *)(p + 0x66)) == 0)
@@ -155,11 +155,11 @@ int func_021C1E7C(int a, int *st, u8 *ctx)
     case 1:
         (*st)++;
         if (*(u16 *)(p + 0x66) == 0xb || *(u16 *)(p + 0x66) == 0x12) {
-            func_0216DAC8(func_021A3074(func_02188CB4(sys)), 1);
+            func_0216DAC8(func_021A3074(func_02188CB4((void *)sys)), 1);
             break;
         }
         if (*(u16 *)(p + 0x66) == 0x11) {
-            u32 x = func_0216DE94(func_02188C7C(sys), (u16)*(u32 *)(p + 0x9c));
+            u32 x = func_0216DE94(func_02188C7C((void *)sys), (u16)*(u32 *)(p + 0x9c));
             if (x)
                 func_0216CF2C(x);
             break;
@@ -231,7 +231,7 @@ int func_021C1E7C(int a, int *st, u8 *ctx)
         func_021899F8(sys, 0);
         func_021C2484(p, ctx + 4);
         if (func_021C2BD4(*(u16 *)(p + 0x66))) {
-            u32 o = func_021A3074(func_02188CB4(sys));
+            void *o = func_021A3074(func_02188CB4((void *)sys));
             func_0216DAC8(o, 0);
             func_0216D5E0(o, 1);
             func_02189A58(sys, 0);
@@ -263,7 +263,7 @@ int func_021C1E7C(int a, int *st, u8 *ctx)
         func_021C27E8(p);
         func_02189A58(sys, 0);
         if (*(u32 *)(ctx + 0x38))
-            func_0216D9E4(func_02188C7C(sys));
+            func_0216D9E4(func_02188C7C((void *)sys));
         (*st)++;
         break;
     case 11:

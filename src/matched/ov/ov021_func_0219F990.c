@@ -46,7 +46,7 @@ extern u32 func_0216D588(u32);
 extern u32 func_0216D67C(u32);
 extern u32 func_0216D534(u32);
 extern int func_02188CBC(u32);
-extern int func_02188CB4(u32);
+extern void *func_02188CB4(unsigned char *p);
 extern int func_021A3080(int);
 extern int func_0219FADC(u8 *p, u32 b, u8 *c);
 extern void func_0219FAB4(u32, u32, u8 *, Vec *);
@@ -85,7 +85,7 @@ void func_0219F990(u32 a, u8 *p, u32 b)
     clr = (t == 0xfc) ? 1 : 0;
     if (ff != 0) {
         u = func_0216D534(func_0216D67C(a));
-        if (func_02188CBC(u) != 0 && (x = func_02188CB4(u)) != 0) {
+        if (func_02188CBC(u) != 0 && (x = func_02188CB4((void *)u)) != 0) {
             ok = func_021A3080(x) != 0;
         }
     }

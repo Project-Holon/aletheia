@@ -77,7 +77,7 @@ void *func_02012138(void *);
 void *func_020120F4(void *);
 u8 *func_02158344(void *);
 void func_0217553C(u8 *);
-void *func_02188C7C(void *);
+void *func_02188C7C(void *p);
 void func_0216D9A0(void *);
 void *func_02012950(void *, int);
 void func_0201F02C(void *, int, void *);

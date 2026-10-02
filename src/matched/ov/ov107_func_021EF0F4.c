@@ -37,7 +37,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
 struct Placement { u16 x,y,z;u8 f6,f7; };
-extern void *func_020490F4(void *,u32);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(u32,u32,u32,u32,u32,u16);
 extern void func_02049658(u32,u32,u32,u32,u32,u32,u16),func_020498F4(u32,u32,u32,u32,u32,u32,u16),func_02049BDC(u32,u32,u32,u32,u32,u32,u16);
 extern void func_020409B4(u32),func_02049238(void *),func_02040588(u32,u32),func_020413B0(u32,u8,u8,u8,u8,u8);

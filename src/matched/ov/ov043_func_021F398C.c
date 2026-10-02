@@ -32,7 +32,7 @@ typedef struct {
 
 extern E d_021F4490[];
 
-extern u32 func_0201210C(void *a);
+extern void *func_0201210C(void *a);
 extern u32 func_02188C80(u32 a);
 extern int *func_021897BC(u32 a, int b);
 extern u32 func_020120F4(u32 a);
@@ -43,12 +43,12 @@ extern void func_021F3AC0(void);
 
 int func_021F398C(void *a, int b)
 {
-    u32 s;
+    void *s;
     int *q;
     int *p;
     int step;
 
-    s = func_0201210C(a);
+    s = func_0201210C((void *)a);
     q = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(s))), 7);
     p = func_021897BC(s, 1);
     if (b >= 6) {

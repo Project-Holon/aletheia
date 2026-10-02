@@ -21,6 +21,7 @@
  */
 
 typedef unsigned char u8;
+typedef unsigned int u32;
 
 int func_0217BB20(u8 *w);
 void func_0217F074(u8 *w);
@@ -29,7 +30,7 @@ void func_0217F210(u8 *w, int a, int msg);
 int func_0217F1EC(u8 *w);
 int func_02174E20(void);
 int func_02174E64(void);
-int func_020362DC(void);
+u32 func_020362DC(void);
 
 int func_0217E378(u8 *w, void *obj, int a2, u8 *state)
 {

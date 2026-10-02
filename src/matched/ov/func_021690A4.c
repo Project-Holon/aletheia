@@ -18,15 +18,20 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02012EBC();
-extern int func_02008B14();
+struct Big;
+struct Sub02008AECSession;
 
-int func_021690A4(int a0)
+extern void *func_02012EBC(struct Big *p);
+extern struct Sub02008AECSession *func_02008B14(void *sys);
+
+void *func_021690A4(int a0)
 {
+    void *big;
+    struct Sub02008AECSession *s;
 
-    a0 = func_02012EBC(a0);
+
+    big = func_02012EBC((struct Big *)a0);
 loc_021690AA:
-    a0 = func_02008B14(a0);
+    s = func_02008B14(big);
 loc_021690AE:
-a0 = a0 + 4;
-    return a0;}
+    return (char *)s + 4;}

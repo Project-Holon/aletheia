@@ -59,7 +59,7 @@ extern void func_021BE760(u32 p, void *a, int b);
 extern void func_021F3838(u32 a0, int a1, V *a2, u16 *a3, int a4, int a5);
 extern void func_021F38D4(u8 *base, u32 t, int idx);
 extern void func_021BE700(u32 a, int b, u16 c, u16 d, int e);
-extern u32 func_02188CB4(void *a);
+extern void *func_02188CB4(void *a);
 extern void func_021A3038(u32 c, int *v);
 extern int func_021F40D8(int *p);
 extern void func_021F3FA8(u32 a, void *b, u32 c);
@@ -102,7 +102,7 @@ void func_021F36C0(void *a0)
     tmp = d_021F41B8;
     func_021F3838(t, 0xf, &tmp, 0, 0, 0);
     func_021BE700(t, 0, 0xf, 0, 1);
-    func_021A3038(func_02188CB4(a0), vec);
+    func_021A3038(func_02188CB4((void *)a0), vec);
     f = func_021F40D8(vec) != 0 ? 1 : 0;
     func_021F3FA8(t, a0, f);
     *(int *)(x + 0x24) = f;

@@ -67,7 +67,7 @@ extern int func_0204ABF0(u32, u32, u32, u32, u16);
 extern u32 func_0204AEF4(int, int);
 extern void func_020216D4(void *, u32, u32, u32);
 extern u32 func_020275E4(void);
-extern u32 func_020490F4(u32, u32);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32 func_020275FC(u32);
 extern u32 func_02027600(u32);
 extern u32 func_020275E8(void);
@@ -75,7 +75,7 @@ extern u32 func_020275F8(u32);
 extern void func_02049238(u32);
 void func_022033F4(Main *m)
 {
-    u32 arc;
+    void *arc;
     u32 file;
     int i;
 

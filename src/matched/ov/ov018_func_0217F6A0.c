@@ -47,6 +47,7 @@
 
 typedef unsigned char u8;
 typedef unsigned short u16;
+typedef unsigned int u32;
 
 typedef struct {
     int f0;
@@ -58,7 +59,7 @@ typedef struct {
 int func_020124E4(int a0);
 int func_020120F4(int a0);
 int func_02012138(int a0);
-int func_0201210C(int a0);
+void *func_0201210C(void *p);
 u8 *func_02158344(int a0);
 int func_0200FB24(void);
 int func_02012B80(int a0);
@@ -85,7 +86,7 @@ int func_02175FB4(void *p);
 int func_02173C6C(u8 *w, int a1);
 int func_0217BF28(void *p);
 int func_0219077C(int a0);
-int func_020362DC(void);
+u32 func_020362DC(void);
 void func_0201ED04(int a0);
 void func_02190728(int a0);
 void func_02045C04(int a0);
@@ -96,13 +97,13 @@ int func_0217F6A0(int a0, int *state, Ctx *c)
     int s;
     int k;
     u8 *w;
-    int t;
+    void *t;
     int flag;
 
     h = func_020124E4(a0);
     s = func_020120F4(h);
     k = func_02012138(h);
-    t = func_0201210C(h);
+    t = func_0201210C((void *)h);
     flag = 0;
     w = func_02158344(k);
     if (w == 0 && *state > 0 && *state < 5) {

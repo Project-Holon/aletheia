@@ -42,7 +42,7 @@ struct Rec {
     u8  remote;
 };
 
-extern u32 func_020395EC(struct Rec *p);
+extern int func_020395EC(struct Rec *p);
 
 void func_02039C3C(struct Rec *p, u16 tag)
 {

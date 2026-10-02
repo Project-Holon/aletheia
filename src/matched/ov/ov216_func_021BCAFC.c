@@ -25,7 +25,7 @@ extern const struct Block d_021BDC08;
 extern void func_02082BCC(void *,int,int);
 extern void func_0204A48C(const void *,void *,int);
 extern void *func_0204B100(int,int,int);
-extern void *func_0204B034(const void *,int,int);
+extern void *func_0204B034(const void *a0, unsigned int a1, unsigned int heap);
 extern void func_0204B0F4(void *,int);
 extern void func_0204B258(void *,void *);
 extern void func_020434DC(int,int);

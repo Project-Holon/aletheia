@@ -29,7 +29,7 @@ extern void func_02087C88(Config *);
 extern void *func_020120F4(void *);
 extern void *func_02012944(void *);
 extern void func_02008494(void *,void *);
-extern void *func_02012934(void *);
+extern void *func_02012934(void *p);
 extern void *func_0201AB28(void *,int);
 extern u32 func_02017E1C(void *,int,void *);
 extern void func_0203F4E4(Four *);

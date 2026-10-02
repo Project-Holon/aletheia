@@ -56,11 +56,11 @@ typedef struct Work {
 } Work;
 
 extern u32 func_02159B10(u32 a, u32 b);
-extern void func_02159AE8(u32 a, u32 b);
-extern u32 func_0215A5DC(u32 a);
+extern unsigned short *func_02159AE8(void *a0, void *a1);
+extern void *func_0215A5DC(void *a0);
 extern u32 func_020120F4(u32 a);
-extern u32 func_0201210C(u32 a);
-extern u32 func_0215A5F4(u32 a);
+extern void *func_0201210C(void *p);
+extern void *func_0215A5F4(void *p);
 extern Work **func_02158FB4(u32 a);
 extern u32 func_02188C54(u32 a);
 extern u32 func_020127C4(u32 a);
@@ -79,20 +79,20 @@ extern u8 d_021DE210[];
 int func_021B2FD8(u32 a, u32 b)
 {
     u32 v;
-    u32 t;
+    void *t;
     u32 s;
-    u32 x;
+    void *x;
     Work **slot;
     u32 y;
     u32 z;
     Work *w;
 
     v = func_02159B10(a, b);
-    func_02159AE8(a, b);
-    t = func_0215A5DC(b);
+    func_02159AE8((void *)a, (void *)b);
+    t = func_0215A5DC((void *)b);
     s = func_020120F4(t);
-    x = func_0201210C(t);
-    slot = func_02158FB4(func_0215A5F4(b));
+    x = func_0201210C((void *)t);
+    slot = func_02158FB4(func_0215A5F4((void *)b));
     y = func_02188C54(x);
     z = func_020127C4(s);
     w = func_02030734(4, 0x214, 1, d_021DE210, 0xFC);

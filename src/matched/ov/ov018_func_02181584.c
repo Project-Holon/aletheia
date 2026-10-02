@@ -107,7 +107,7 @@ void func_0217F4C4(Ov018Obj *p);
 void func_0217F4D8(Ov018Obj *p, void *);
 int func_0217F508(Ov018Obj *p);
 int func_02175514(void *);
-int func_020362DC(void);
+u32 func_020362DC(void);
 int func_02173B9C(int, int);
 int func_02173AE0(void *, int, int, int);
 void func_021753B8(void *);

@@ -21,22 +21,24 @@
 
 typedef struct { int x, y, z; } V12;
 
+struct Ctx;
+
 extern int func_02012138();
-extern int func_020120F4();
+extern void *func_020120F4(const struct Ctx *p);
 extern int func_02012B70();
 extern int func_02158344();
 extern int func_0217BED4();
-extern int func_02185140();
-extern int func_02185588();
+extern void *func_02185140();
+extern void *func_02185588();
 
-int func_0217CE08(int a0, int a1, int a2, int a3)
+void *func_0217CE08(int a0, int a1, int a2, int a3)
 {
     int h;
-    int c;
+    void *c;
     V12 v;
 
     h = func_02012138(a0);
-    c = func_020120F4(a0);
+    c = func_020120F4((const struct Ctx *)a0);
     func_02158344(h);
     if (func_0217BED4(a2, &v) == 0)
         return 0;

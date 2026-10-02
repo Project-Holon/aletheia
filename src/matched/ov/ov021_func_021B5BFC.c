@@ -25,9 +25,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0215A5E4(u32 a);
+extern void *func_0215A5E4(void *a0);
 extern u32 func_02159B10(u32 a, u32 b);
-extern u32 func_02012934(u32 a);
+extern void *func_02012934(void *p);
 extern int func_0201AA18(u32 a);
 extern u32 func_0201AB28(u32 a, int i);
 extern u32 func_02017E1C(u32 a, int b, int c);
@@ -37,16 +37,16 @@ extern void func_0200C2B0(u32 a, u32 b, u16 *c);
 int func_021B5BFC(u32 a, u32 b)
 {
     u16 buf[6];
-    u32 sav;
+    void *sav;
     u32 r;
-    u32 bag;
+    void *bag;
     u32 mon;
     int i;
     int j;
     int n;
 
-    sav = func_0215A5E4(b);
-    bag = func_02012934(sav);
+    sav = func_0215A5E4((void *)b);
+    bag = func_02012934((void *)sav);
     r = func_02159B10(a, b);
     for (i = 0; i < 6; i++)
         buf[i] = 0;

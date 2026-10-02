@@ -23,39 +23,39 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215A5F4();
-extern int func_0215A5DC();
-extern int func_020120F4();
-extern int func_02012F50();
-extern int func_02168CF4();
+struct Ctx;
+
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012F50(void *base);
+extern void *func_02168CF4();
 extern int func_0215897C();
 
 int func_0216A560(int a0, int a1)
 {
     int t4;
-    int t5;
+    void *p;
+    void *task;
+    void *v0;
+    void *v1;
+    void *v2;
 
 t4 = a1 + 0;
 a0 = t4 + 0;
-    a0 = func_0215A5F4(a0);
+    v0 = func_0215A5F4((void *)a0);
 loc_0216A56A:
-t5 = a0 + 0;
 a0 = t4 + 0;
-    a0 = func_0215A5DC(a0);
+    v1 = func_0215A5DC((void *)a0);
 loc_0216A572:
-t4 = a0 + 0;
-    a0 = func_020120F4(a0);
+    p = func_020120F4((const struct Ctx *)v1);
 loc_0216A578:
-    a0 = func_02012F50(a0);
+    v2 = func_02012F50(p);
 loc_0216A57C:
-a1 = a0 + 0;
-a1 = *(int *)((char *)a1);
-a0 = t4 + 0;
-    a0 = func_02168CF4(a0, a1);
+a1 = *(int *)((char *)v2);
+    task = func_02168CF4(v1, a1);
 loc_0216A586:
-a1 = a0 + 0;
-a0 = t5 + 0;
-    a0 = func_0215897C(a0, a1);
+    a0 = func_0215897C(v0, task);
 loc_0216A58E:
 a0 = 1;
     return a0;}

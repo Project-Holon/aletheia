@@ -19,9 +19,7 @@ typedef unsigned int u32;
 
 
 
-int func_0215A5DC(int a0)
+void *func_0215A5DC(void *a0)
 {
-
-a0 = *(int *)((char *)a0 + 0x20);
-a0 = *(int *)((char *)a0 + 4);
-    return a0;}
+    return *(void **)(*(char **)((char *)a0 + 0x20) + 4);
+}

@@ -38,7 +38,7 @@ extern u16  d_021DDEE0b[2];
 
 extern u8 *func_02030734(int heap, int size, int a, void *file, int line);
 extern int func_021A395C(int p);
-extern int func_021A3960(int p);
+extern void *func_021A3960(unsigned char *p);
 extern int func_0216D5A0(int o);
 extern u16 func_0216D598(int o);
 extern void func_0216E0AC(int o, void *d);
@@ -64,7 +64,7 @@ u8 *func_021A5880(int obj, int heap)
     p = func_02030734(heap, 0x24, 1, &d_021DDF04, 0x1a0);
     *(int *)(p + 0x14) = obj;
     *(int *)(p + 0x18) = func_021A395C(obj);
-    *(int *)(p + 0x1c) = func_021A3960(*(int *)(p + 0x14));
+    *(int *)(p + 0x1c) = func_021A3960(*(void **)(p + 0x14));
     if (func_0216D5A0(*(int *)(p + 0x1c)) != 0x45) {
         d_021DDEE0[1] = func_0216D598(*(int *)(p + 0x1c));
         func_0216E0AC(*(int *)(p + 0x1c), d_021DDEE0b);

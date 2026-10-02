@@ -24,8 +24,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0215A5E4(u32 a);
-extern u32 func_02012934(u32 a);
+extern void *func_0215A5E4(void *a0);
+extern void *func_02012934(void *p);
 extern int func_0201AA18(u32 a);
 extern u32 func_0201AB28(u32 a, int i);
 extern u32 func_02017E1C(u32 a, u32 b, u32 c);
@@ -34,14 +34,14 @@ extern int func_021B5FB4(u32 a);
 
 int func_021B6048(u32 a, u32 b, u32 key, u8 *mask, u32 flag)
 {
-    u32 lst;
+    void *lst;
     int n;
     int i;
     int found;
     int all;
     u32 item;
 
-    lst = func_02012934(func_0215A5E4(b));
+    lst = func_02012934(func_0215A5E4((void *)b));
     n = func_0201AA18(lst);
     found = 0;
     all = 0;

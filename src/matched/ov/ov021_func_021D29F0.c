@@ -36,7 +36,7 @@
 
 typedef unsigned int u32;
 
-extern u32 func_0215A5F4(u32 a);
+extern void *func_0215A5F4(void *p);
 extern u32 *func_02158F58(u32 a);
 extern u32 func_02188C84(u32 a);
 extern u32 func_02188C54(u32 a);
@@ -63,7 +63,7 @@ int func_021D29F0(u32 a, u32 b)
     u32 *q;
     u32 heap, m, msg, win, s;
 
-    q = func_02158F58(func_0215A5F4(b));
+    q = func_02158F58(func_0215A5F4((void *)b));
     heap = func_02188C84(q[1]);
     m = func_02188C54(q[1]);
     if (func_02011330(a)) {

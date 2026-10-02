@@ -20,7 +20,7 @@ typedef unsigned char u8;
 extern int func_021D8A24(void *),func_021D8AA8(void *);
 extern void func_021D8E84(void *,int),func_021D4B88(void *),func_021D6F2C(void *);
 extern unsigned func_020399A8(void);
-extern int func_0203D3A8(unsigned,unsigned,unsigned,void *);
+extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *d);
 void func_021DA700(char *p) {
  u8 b=*(int *)(p+0x10a0);
  if(func_021D8A24(p)) {if(func_0203D3A8(func_020399A8(),0xc03,1,&b)==0) return;}

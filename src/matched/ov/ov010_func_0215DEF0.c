@@ -25,7 +25,7 @@ typedef struct { u32 f0; } Ctx;
 
 extern void *func_020124E4(void *);
 extern void *func_020120F4(void *);
-extern void func_0201210C(void *);
+extern void *func_0201210C(void *p);
 extern void func_020120B4(void *, int, const char *, u32);
 extern int func_020120F0(void *);
 extern void func_020307B0(void *);

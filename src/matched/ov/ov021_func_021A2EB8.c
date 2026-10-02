@@ -35,7 +35,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_021A3994();
-extern u32 func_021A3960();
+extern void *func_021A3960(unsigned char *p);
 extern void func_0216D88C();
 extern void func_02012A90();
 extern u32 func_0216D5F8();
@@ -50,7 +50,7 @@ void func_021A2EB8(u32 *a)
     u8 b[12];
     u8 c[8];
     u32 d = func_021A3994(a[1]);
-    u32 e = func_021A3960(a[1]);
+    void *e = func_021A3960(a[1]);
 
     func_0216D88C(e, b);
     func_02012A90(d, b);

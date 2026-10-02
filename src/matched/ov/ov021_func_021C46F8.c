@@ -26,8 +26,8 @@ extern u32 func_020122C0(u32 a, u32 b, void (*fn)(void), u32 size);
 extern u32 *func_020124E8(u32 t);
 extern void func_02034AC4(const void *a);
 extern unsigned char abs_id_3f[];
-extern u32 func_02188CB4(u32 a);
-extern u32 func_021A3074(u32 a);
+extern void *func_02188CB4(unsigned char *p);
+extern void *func_021A3074(unsigned char *p);
 extern void func_021A305C(u32 a, u32 b);
 extern u32 func_021F36C0(u32 a, u32 b, u32 c, u32 d);
 extern void func_021C4788(void);
@@ -36,11 +36,12 @@ u32 func_021C46F8(u32 a, u32 b, u32 c)
 {
     u32 t = func_020122C0(a, 0, func_021C4788, 4);
     u32 *w = func_020124E8(t);
-    u32 x, y;
+    void *x;
+    void *y;
 
     func_02034AC4(abs_id_3f);
-    x = func_02188CB4(b);
-    y = func_021A3074(x);
+    x = func_02188CB4((void *)b);
+    y = func_021A3074((void *)x);
     func_021A305C(x, c);
     *w = func_021F36C0(a, b, y, 1);
     return t;

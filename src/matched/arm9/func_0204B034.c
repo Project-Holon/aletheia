@@ -38,9 +38,9 @@ extern const char s_clact_c[];
 
 extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
                            u32 line);
-extern void  func_0204BD94(struct Obj *p, u32 a0, u32 a1, u32 a2);
+extern void  func_0204BD94(struct Obj *p, u8 *a0, u32 a1, u32 a2);
 
-struct Obj *func_0204B034(u32 a0, u32 a1, u32 heap)
+struct Obj *func_0204B034(u8 *a0, u32 a1, u32 heap)
 {
     struct Obj *p = (struct Obj *)func_02030734(heap, 0xa0, 0, s_clact_c, 0x633);
 

@@ -26,7 +26,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 struct RtcTime{unsigned hour,minute,second;};
 extern void func_021B63DC(u8 *),func_021B655C(u8 *),func_021B6594(u8 *),func_021B6760(u8 *),func_021B63B0(void);
-extern void *func_020490F4(void *,unsigned),*func_021B6C70(u8 *,int),*func_020056A0(unsigned,unsigned,unsigned);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_021B6C70(u8 *,int),*func_020056A0(unsigned,unsigned,unsigned);
 extern u8 func_02012984(void *),func_02011400(unsigned,unsigned);
 extern void func_0203F4CC(struct RtcTime *),func_0203D34C(unsigned,unsigned);
 void func_021B6100(u8 *p)

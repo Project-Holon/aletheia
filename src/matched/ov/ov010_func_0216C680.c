@@ -19,9 +19,11 @@
  *   func_02045808  0x02045808  arm
  */
 
+typedef unsigned int u32;
+
 extern int func_02191388(int);
 extern void func_021914CC(int);
-extern int func_020362DC(void);
+extern u32 func_020362DC(void);
 extern void func_020061E4(int);
 extern void func_021912D8(int);
 extern int func_021912F8(int);

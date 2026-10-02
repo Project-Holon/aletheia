@@ -48,7 +48,7 @@ extern void func_021ABE30(int, int *, int);
 extern unsigned int func_021F36EC(int a);
 extern int *func_021F36E0(int a);
 extern void func_021F3B44(int *a, int *out, int x, int y);
-extern int func_02188C7C(int a);
+extern void *func_02188C7C(unsigned char *p);
 extern int func_0216DD1C(int it, int *cur, int *v);
 extern int func_0216D588(int a);
 extern void func_021F3B88(int *a, int *out, int c);
@@ -71,7 +71,7 @@ void func_021F3730(int a)
     unsigned int i;
     unsigned int cnt;
     int *e;
-    int it;
+    void *it;
 
     r4 = func_02188C84(a);
     h = func_02012EC4(func_020120F4(func_02188C80(a)));
@@ -97,7 +97,7 @@ void func_021F3730(int a)
     } else {
         i = 0;
         v = 0;
-        it = func_02188C7C(a);
+        it = func_02188C7C((void *)a);
         while (func_0216DD1C(it, &cur, &v)) {
             if (func_0216D588(cur) == 0xfd) {
                 func_021F3B88(q, q + 3 + i * 2, cur);

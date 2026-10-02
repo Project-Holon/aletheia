@@ -45,7 +45,7 @@ extern int func_021D8AA8(void *);
 extern void *func_021D8FA4(void *,int);
 extern int func_021D8A24(void *);
 extern u32 func_020399A8(void);
-extern int func_0203D3A8(u32,u32,u32,void *);
+extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *d);
 extern void func_02039C68(u32,u32,u32);
 extern void func_021D8E84(void *,int);
 extern void func_021E0030(void *);

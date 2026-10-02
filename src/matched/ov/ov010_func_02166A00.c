@@ -20,29 +20,29 @@
  *   func_0215897C  0x0215897C  thumb  ov010
  */
 
-extern int func_0215A5F4(void *b);
-extern int func_0215A5DC(void *b);
+extern void *func_0215A5F4(void *b);
+extern void *func_0215A5DC(void *b);
 extern void *func_020120F4(void *p);
 extern int func_02012F38(int base);
 extern int func_02159B10(void *a, void *b);
-extern int func_02159AE8(void *a, void *b);
+extern unsigned short *func_02159AE8(void *a, void *b);
 extern int func_02166854(int a, int b, int c, int d, int e);
 extern void func_0215897C(int a, int b);
 
 int func_02166A00(void *a, void *b)
 {
-    int r6 = func_0215A5F4(b);
-    int r7 = func_0215A5DC(b);
+    void *r6 = func_0215A5F4((void *)b);
+    void *r7 = func_0215A5DC((void *)b);
     int v1;
-    int v2;
-    int v3;
-    int v4;
+    unsigned short *v2;
+    unsigned short *v3;
+    unsigned short *v4;
     int t;
     func_02012F38((int)func_020120F4((void *)r7));
     v1 = func_02159B10(a, b);
-    v2 = func_02159AE8(a, b);
-    v3 = func_02159AE8(a, b);
-    v4 = func_02159AE8(a, b);
+    v2 = func_02159AE8((void *)a, (void *)b);
+    v3 = func_02159AE8((void *)a, (void *)b);
+    v4 = func_02159AE8((void *)a, (void *)b);
     t = func_02166854(r7, v1, v2, v3, v4);
     if (t == 0)
         return 1;

@@ -19,7 +19,7 @@
  *   func_02049238 0x02049238 arm
  */
 
-extern int func_020490F4(int, int);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(int, int, int, int, int, int);
 extern void func_02040EBC(int, int);
 extern void func_02049658(int, int, int, int, int, int, int);
@@ -28,7 +28,7 @@ extern void func_02049238(int);
 
 void func_021F0228(int a)
 {
-    int h = func_020490F4(0xC4, a);
+    void *h = func_020490F4(0xC4, a);
 
     func_02049B68(h, 2, 4, 0, 0x60, a);
     func_02040EBC(4, 0);

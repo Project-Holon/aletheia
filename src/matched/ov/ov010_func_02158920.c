@@ -20,19 +20,21 @@
  *   func_021588DC  0x021588DC  thumb
  */
 
-extern int func_020122C0(int, int, void *, int);
-extern int *func_020124E8(int);
-extern int func_02158804(int);
-extern int func_02158E7C(int, int, int, int, int, int);
-extern void func_02158F94(int, int);
+struct Desc;
+
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, unsigned int size);
+extern void *func_020124E8(struct Desc *p);
+extern void *func_02158804(int);
+extern int *func_02158E7C(int, int, struct Desc *, int, int, int);
+extern void func_02158F94(void *, int);
 extern int func_021588D0(int);
-extern void func_021589A0(int, int, int);
+extern void func_021589A0(void *, int, int);
 extern void func_021588DC(void);
 
-int func_02158920(int a, int b, int c, int d, int e)
+struct Desc *func_02158920(int a, int b, int c, int d, int e)
 {
-    int h = func_020122C0(a, 0, (void *)func_021588DC, 8);
-    int *w = func_020124E8(h);
+    struct Desc *h = func_020122C0((void *)a, 0, (void *)func_021588DC, 8);
+    void **w = func_020124E8(h);
     w[1] = func_02158804(4);
     w[0] = func_02158E7C(4, a, h, c, e, 0);
     func_02158F94(w[0], d);

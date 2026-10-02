@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_0201210C  0x0201210C  thumb
@@ -20,35 +20,34 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0201210C();
+extern void *func_0201210C(void *p);
 extern int func_02188BE8();
-extern int func_02188C7C();
-extern int func_02194284();
+extern void *func_02188C7C(unsigned char *p);
+extern void *func_02194284(int a, void *b, int heap, int c);
 
 void func_02167A74(int a0, int a1)
 {
     int a2;
     int a3;
     int t4;
-    int t5;
+    void *res;
+    void *v0;
+    void *v1;
 
 t4 = a1 + 0;
 a1 = *(int *)((char *)t4 + 4);
     if (a1 != 0) goto loc_02167AAE;
 loc_02167A7E:
-    a0 = func_0201210C(a0);
+    v0 = func_0201210C((void *)a0);
 loc_02167A82:
-t5 = a0 + 0;
-    if (t5 == 0) goto loc_02167AAE;
+    if (v0 == 0) goto loc_02167AAE;
 loc_02167A86:
-    a0 = func_02188BE8(a0);
+    a0 = func_02188BE8(v0);
 loc_02167A8A:
     if (a0 == 0) goto loc_02167AAE;
 loc_02167A8E:
-a0 = t5 + 0;
-    a0 = func_02188C7C(a0);
+    v1 = func_02188C7C(v0);
 loc_02167A94:
-a1 = a0 + 0;
 a0 = t4 + 0;
 a2 = t4 + 0;
 a3 = t4 + 0;
@@ -58,8 +57,8 @@ a3 = a3 + 0x90;
 a0 = *(u8 *)((char *)a0);
 a2 = *(u16 *)((char *)a2);
 a3 = *(u8 *)((char *)a3);
-    a0 = func_02194284(a0, a1, a2, a3);
+    res = func_02194284(a0, v1, a2, a3);
 loc_02167AAC:
-*(int *)((char *)t4 + 4) = a0;
+*(void **)((char *)t4 + 4) = res;
 loc_02167AAE:
     return;}

@@ -21,7 +21,7 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_0215A5E4(int p);
+extern void *func_0215A5E4(void *a0);
 extern int func_02012944(int p);
 extern void *func_021B6EE0(int a, int b);
 extern void func_0201F02C(int a, int b, int c);
@@ -36,7 +36,7 @@ int func_021B6F88(int a, int b, int c)
     int h;
     int r;
 
-    h = func_02012944(func_0215A5E4(c));
+    h = func_02012944(func_0215A5E4((void *)c));
     m = func_021B6EE0(c, b);
     r = 5;
     func_0201F02C(a, 0, h);

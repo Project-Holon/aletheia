@@ -20,27 +20,29 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02159AE8();
-extern int func_0215A5E4();
-extern int func_02012B38();
+struct BigObj;
+extern u16 *func_02159AE8(void *a0, void *a1);
+extern void *func_0215A5E4(void *a0);
+extern void *func_02012B38(const struct BigObj *p);
 extern int func_02014460();
 
 int func_02159708(int a0, int a1)
 {
-    int t4;
     int t5;
+    void *p;
+    u16 *q;
+    void *v0;
 
 t5 = a1 + 0;
-    a0 = func_02159AE8(a0, a1);
+    q = func_02159AE8((void *)a0, (void *)a1);
 loc_02159710:
-t4 = a0 + 0;
 a0 = t5 + 0;
-    a0 = func_0215A5E4(a0);
+    v0 = func_0215A5E4((void *)a0);
 loc_02159718:
-    a0 = func_02012B38(a0);
+    p = func_02012B38((const struct BigObj *)v0);
 loc_0215971C:
-    a0 = func_02014460(a0);
+    a0 = func_02014460(p);
 loc_02159720:
-*(u16 *)((char *)t4) = a0;
+*q = a0;
 a0 = 0;
     return a0;}

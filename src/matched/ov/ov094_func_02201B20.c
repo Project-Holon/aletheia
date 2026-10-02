@@ -26,7 +26,7 @@ typedef unsigned int u32;
 typedef short s16;
 typedef struct Config { s16 x, y; u32 rest[2]; u32 a, b, last; } Config;
 extern const Config d_0220A368;
-extern u32 func_020490F4(u32, u16);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_0204A6C8(u32, int, int, int, u16);
 extern int func_0204ACEC(u32, u32, u32, u16, u16);
 extern int func_0204AF28(u32, int, int, u16);
@@ -40,7 +40,7 @@ extern void func_02049238(u32);
 int func_02201B20(char *p, u32 archiveId, int a, u32 b, int c, int d, s16 x, s16 y, u32 e, u32 f)
 {
     Config cfg = d_0220A368;
-    u32 archive = func_020490F4(archiveId, (*(u16 *)(p + 0x80) & 0x7fff) | 0x8000);
+    void *archive = func_020490F4(archiveId, (*(u16 *)(p + 0x80) & 0x7fff) | 0x8000);
     int i, off;
     void *slots;
     u32 pal;

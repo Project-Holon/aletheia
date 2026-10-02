@@ -13,8 +13,10 @@
  *   func_020362DC 0x020362DC arm
  *   func_02035C60 0x02035C60 arm
  */
+
+typedef unsigned int u32;
 extern int func_0220D884(char **);
-extern unsigned int func_020362DC(void);
+extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 int func_0220D328(char *p)
 {

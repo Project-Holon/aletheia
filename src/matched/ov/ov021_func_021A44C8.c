@@ -24,7 +24,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_021A3960(u32);
+extern void *func_021A3960(unsigned char *p);
 extern int func_021A5610(u8 *);
 extern int func_021A53BC(u8 *);
 extern int func_021A46F0(u8 *, u32);
@@ -35,10 +35,10 @@ extern int func_021A4698(u8 *, u32, u32);
 
 int func_021A44C8(u8 *p, u32 s)
 {
-    u32 a;
+    void *a;
     int r;
 
-    a = func_021A3960(*(u32 *)(p + 0xc));
+    a = func_021A3960(*(void **)(p + 0xc));
     r = 0;
     if (func_021A5610(p) == 1 || func_021A53BC(p) == 1) {
         return func_021A46F0(p, s);

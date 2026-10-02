@@ -55,7 +55,7 @@ typedef struct {
     u32 f14;
 } Work;
 
-extern u32 func_021A3074(u32 obj);
+extern void *func_021A3074(unsigned char *p);
 extern u16 func_0216D5F8(u32 obj);
 extern int func_0216D83C(u32 obj);
 extern int func_0216D86C(u32 obj);
@@ -81,7 +81,7 @@ extern void func_021A35A0(u32 a, int b);
 
 void func_021C10B4(u32 task, Work *w)
 {
-    u32 obj;
+    void *obj;
     u16 dir;
     u32 r;
     int x;

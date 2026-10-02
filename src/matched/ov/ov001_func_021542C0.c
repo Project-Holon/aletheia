@@ -54,7 +54,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32   func_020120F4(u32 a0);
-extern u32   func_0201210C(u32 a0);
+extern void *func_0201210C(void *p);
 extern u32   func_02005C44(void);
 extern void  func_02005E30(int x);
 extern int   func_02012138(u32 a0);
@@ -103,7 +103,7 @@ u32 func_021542C0(void *obj, u32 *mode, char *args)
 {
     u32 h = F(0x17c);
     u32 v08 = func_020120F4(h);
-    u32 v0c = func_0201210C(h);
+    void *v0c = func_0201210C((void *)h);
     Req *p;
 
     switch (*mode) {

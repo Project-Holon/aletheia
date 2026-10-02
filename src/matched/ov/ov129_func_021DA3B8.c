@@ -15,7 +15,7 @@
  * Addresses are Black-image addresses.
  */
 
-extern void *func_02025538(int, void *);
+extern void *func_02025538(unsigned int a0, void *a1);
 
 void func_021DA3B8(char *p)
 {

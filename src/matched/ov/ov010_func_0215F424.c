@@ -30,8 +30,8 @@ typedef struct Entry {
     u16 f06;
 } Entry;
 
-extern int func_0215A5F4();
-extern int func_0215A5E4();
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5E4(void *a0);
 extern int func_02159B10();
 extern Entry *func_0215911C();
 extern void func_02162774();
@@ -41,14 +41,14 @@ extern int func_02012844();
 
 int func_0215F424(int a0, int a1)
 {
-    int w = func_0215A5F4(a1);
+    void *w = func_0215A5F4((void *)a1);
     int s0 = func_02159B10(a0, a1);
     int s1 = func_02159B10(a0, a1);
     int s2 = func_02159B10(a0, a1);
     int i0 = func_02159B10(a0, a1);
     int i1 = func_02159B10(a0, a1);
     int i2 = func_02159B10(a0, a1);
-    int obj = func_02012844(func_0215A5E4(a1));
+    int obj = func_02012844(func_0215A5E4((void *)a1));
     Entry *t = func_0215911C(w);
     func_02162774(obj, s0, t[i0].f04);
     func_02162774(obj, s1, t[i1].f04);

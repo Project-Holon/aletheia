@@ -20,7 +20,7 @@
  *   func_021B0CEC  0x021B0CEC  thumb
  */
 
-extern void *func_0215A5F4(int);
+extern void *func_0215A5F4(void *p);
 extern void *func_02158F90(void *);
 extern int func_02159B10(int, int);
 extern unsigned short func_0216D588(void *);
@@ -33,7 +33,7 @@ int func_021B0D74(int a, int b)
     void *o;
     int v0, v1, v2, v3;
     unsigned char f;
-    o = func_02158F90(func_0215A5F4(b));
+    o = func_02158F90(func_0215A5F4((void *)b));
     v0 = func_02159B10(a, b);
     v1 = func_02159B10(a, b);
     v2 = func_02159B10(a, b);

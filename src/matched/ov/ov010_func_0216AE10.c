@@ -31,44 +31,45 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215A5F4();
-extern int func_0215A5DC();
-extern int func_0215A5E4();
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0215A5E4(void *a0);
 extern int func_02159B10();
 extern int func_02012FB0();
 extern int func_0216662C();
-extern int func_0201210C();
-extern int func_02188CB4(int p);
+extern void *func_0201210C(void *p);
+extern void *func_02188CB4(unsigned char *p);
 extern int func_02012138();
 extern void func_021A3038();
 extern void func_021767F0();
-extern int func_02184D38();
+extern void *func_02184D38();
 extern int func_021665F0();
-extern int func_0216B3A8();
+struct Desc;
+extern struct Desc *func_0216B3A8(int a0, int a1, int a2);
 extern void func_0215897C();
 
 int func_0216AE10(int a0, int a1)
 {
     int buf[3];
     int q[3];
-    int hd;
-    int b;
-    int c;
+    void *hd;
+    void *b;
+    void *c;
     int kind;
     int v;
-    int x;
-    int y;
-    int r;
+    void *x;
+    void *y;
+    void *r;
     int s;
 
-    hd = func_0215A5F4(a1);
-    b = func_0215A5DC(a1);
-    c = func_0215A5E4(a1);
+    hd = func_0215A5F4((void *)a1);
+    b = func_0215A5DC((void *)a1);
+    c = func_0215A5E4((void *)a1);
     kind = func_02159B10(a0, a1);
     v = func_02012FB0(c);
     if (kind == 1 && func_0216662C(v) != 0) {
-        x = func_0201210C(b);
-        y = func_02188CB4(x);
+        x = func_0201210C((void *)b);
+        y = func_02188CB4((void *)x);
         s = func_02012138(b);
         func_021A3038(y, q);
         func_021767F0(s, c, buf);
@@ -77,7 +78,7 @@ int func_0216AE10(int a0, int a1)
     } else {
         if (kind != 9)
             v = func_021665F0(b, func_02012FB0(c), kind);
-        r = func_0216B3A8(b, kind, v);
+        r = (void *)func_0216B3A8(b, kind, v);
     }
     func_0215897C(hd, r);
     return 1;

@@ -18,12 +18,14 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_020120F4();
+struct Ctx;
+
+extern void *func_020120F4(const struct Ctx *p);
 extern void func_020129B8();
 
 int func_0215FEF4(u32 *a0, u32 *a1)
 {
-    int h = func_020120F4(a1[2]);
+    void *h = func_020120F4((const struct Ctx *)a1[2]);
 
     switch (a0[9]) {
     case 4:

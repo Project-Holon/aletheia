@@ -64,7 +64,7 @@ extern int func_021A3098(u32 obj);
 extern int func_0218B630(void *p, u32 move);
 extern u16 func_021AB0F0(u32 a);
 extern int func_021AB310(u16 a);
-extern u32 func_021A3074(u32 obj);
+extern void *func_021A3074(unsigned char *p);
 extern void func_02164208(u32 dir, Vec *pos, int step);
 extern int func_02163E58(u32 m, Vec *pos, int *h);
 extern int func_02158768(void *sys, u32 msg, int a, u16 id);
@@ -78,7 +78,7 @@ int func_0218AF90(struct FieldInput *p, void *a, u8 *pos)
     Vec w;
     int h;
     u32 attr;
-    u32 m;
+    void *m;
 
     func_0218AE48(p, &v);
     if (func_021BE288(pos, 6))

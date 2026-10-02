@@ -11,10 +11,12 @@
  * symbols:
  *   func_020362DC 0x020362DC arm
  */
+
+typedef unsigned int u32;
 extern int func_0201CE30(void *);
 extern void func_0201CE48(void *);
 extern void func_0201CE38(void *);
-extern int func_020362DC(void);
+extern u32 func_020362DC(void);
 int func_021D7AF4(char *p)
 {
     if (*(void **)(p+0x9c)) {

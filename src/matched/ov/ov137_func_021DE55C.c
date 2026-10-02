@@ -17,10 +17,11 @@
  */
 typedef unsigned short u16;
 typedef signed short s16;
+typedef unsigned int u32;
 extern int func_0201CE30(void *);
-extern unsigned func_0203630C(void);
+extern unsigned int func_0203630C(void);
 extern void func_0201CE5C(void *, int);
-extern unsigned func_020362DC(void);
+extern u32 func_020362DC(void);
 extern void func_0201CE38(void *);
 extern void func_0201CE48(void *);
 int func_021DE55C(char *p) {

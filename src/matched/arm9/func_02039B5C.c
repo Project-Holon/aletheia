@@ -64,7 +64,7 @@ struct Entry;
 
 extern struct Votes *g_021469D4;
 
-extern u32 func_020395EC(u32 link);
+extern int func_020395EC(void *a);
 extern struct Entry *sub_0203996C(u32 idx);
 extern u32 func_020399B8(struct Entry *e);
 extern u32 func_02039160(u16 mode);
@@ -76,7 +76,7 @@ void func_02039B5C(u32 slot, u32 a1, struct Msg *msg, u32 a3, u32 link)
     int i;
     u32 one;
 
-    if (func_020395EC(link) != 0xff) {
+    if (func_020395EC((void *)link) != 0xff) {
         return;
     }
     if (slot == 0xff) {

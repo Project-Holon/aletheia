@@ -18,10 +18,10 @@
  */
 typedef unsigned short u16;
 extern int func_02159B10(void *, void *);
-extern void * func_0215A5DC(void *);
-extern void * func_0215A5E4(void *);
-extern void * func_02012934(void *);
-extern void * func_0201210C(void *);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0215A5E4(void *a0);
+extern void *func_02012934(void *p);
+extern void *func_0201210C(void *p);
 extern unsigned int func_02188D50(unsigned char *);
 extern void func_021C3270(unsigned int *, unsigned int, unsigned int);
 

@@ -24,20 +24,20 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215A5F4();
-extern int func_0215A5DC();
-extern int func_0201210C(int p);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0201210C(void *p);
 extern int func_02159B10();
-extern int func_02188CB4();
+extern void *func_02188CB4(unsigned char *p);
 extern void func_021A3038();
 extern int func_021F39B8();
 extern void func_0215897C();
 
 int func_0216BBD4(int c, int vm)
 {
-    int ws;
-    int p8;
-    int p10;
+    void *ws;
+    void *p8;
+    void *p10;
     int a1;
     int a2;
     int a3;
@@ -50,16 +50,16 @@ int func_0216BBD4(int c, int vm)
     int *y;
     int r;
 
-    ws = func_0215A5F4(vm);
-    p8 = func_0215A5DC(vm);
-    p10 = func_0201210C(p8);
+    ws = func_0215A5F4((void *)vm);
+    p8 = func_0215A5DC((void *)vm);
+    p10 = func_0201210C((void *)p8);
     a1 = func_02159B10(c, vm);
     a2 = func_02159B10(c, vm);
     a3 = func_02159B10(c, vm);
     a4 = func_02159B10(c, vm);
     a5 = func_02159B10(c, vm);
     a6 = func_02159B10(c, vm);
-    func_021A3038(func_02188CB4(p10), buf);
+    func_021A3038(func_02188CB4((void *)p10), buf);
     vec[0] = (a2 << 16) + 0x8000;
     vec[1] = a3 << 15;
     vec[2] = (a4 << 16) + 0x8000;

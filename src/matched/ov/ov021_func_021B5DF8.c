@@ -41,9 +41,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_02159B10(u32 a, u32 b);
-extern u16 *func_02159AE8(u32 a, u32 b);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern u32 func_0215A5CC(u32 a);
-extern u32 func_0215A5E4(u32 a);
+extern void *func_0215A5E4(void *a0);
 extern u32 func_0200CA1C(u32 a);
 extern u32 func_0200CA38(u32 a);
 extern u32 func_0200CF08(u32 a, u32 b);
@@ -67,10 +67,10 @@ int func_021B5DF8(u32 a, u32 b)
     u32 x;
 
     mode = func_02159B10(a, b);
-    o1 = func_02159AE8(a, b);
-    o2 = func_02159AE8(a, b);
+    o1 = func_02159AE8((void *)a, (void *)b);
+    o2 = func_02159AE8((void *)a, (void *)b);
     id = func_0215A5CC(b);
-    w = func_0200CA1C(func_0215A5E4(b));
+    w = func_0200CA1C(func_0215A5E4((void *)b));
     func_0200CA38(w);
     *o1 = 5;
     *o2 = 0;

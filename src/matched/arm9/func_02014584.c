@@ -42,8 +42,8 @@
 
 extern int  func_020120F0(int v);
 extern void func_020120C0(int v);
-extern int  func_0201210C(int v);
-extern int  func_02188BE8(int v);
+extern void *func_0201210C(void *p);
+extern int  func_02188BE8(void *v);
 
 int func_02014584(int a0, int *a1, int *a2)
 {
@@ -57,7 +57,7 @@ int func_02014584(int a0, int *a1, int *a2)
         }
         break;
     case 1:
-        if (func_02188BE8(func_0201210C(v)) != 0) {
+        if (func_02188BE8(func_0201210C((void *)v)) != 0) {
             *a1 = *a1 + 1;
         }
         break;

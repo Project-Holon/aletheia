@@ -22,7 +22,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0200E394(int);
+extern void *func_0200E394(void *a0);
 extern void *func_0200C0E8(int);
 extern u8 func_0200C32C(void *);
 extern int func_0216BB18(int);
@@ -30,7 +30,7 @@ extern int func_0216BBC4(u8);
 u16 func_0216BAE8(int p)
 {
     int index, elapsed, x;
-    func_0200E394(p);
+    func_0200E394((void *)p);
     index = func_0200C32C(func_0200C0E8(p));
     elapsed = func_0216BB18(p);
     x = (int)((u32)func_0216BBC4(index) - (u32)elapsed);

@@ -37,8 +37,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_020120F4(void *);
-extern void *func_0201210C(void *);
-extern void *func_02012934(void *);
+extern void *func_0201210C(void *p);
+extern void *func_02012934(void *p);
 extern void *func_02012EBC(void *);
 extern int func_02019ED4(void *ctx, void *q);
 extern int func_0201A090(void *rules, void *party, u32 *mask);

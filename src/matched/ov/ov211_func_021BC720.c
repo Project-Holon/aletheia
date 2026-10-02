@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02035C38   0x02035C38  arm
@@ -22,7 +22,7 @@ typedef unsigned int   u32;
 
 extern int  func_02035C38(void);
 extern void func_020355D8(int);
-extern int  func_020362DC(void);
+extern u32 func_020362DC(void);
 extern void func_021C93C4(int);
 
 int func_021BC720(char *p)

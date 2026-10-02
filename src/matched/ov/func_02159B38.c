@@ -19,17 +19,20 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215A5E4();
-extern int func_020127A4();
+struct SaveBlock;
+extern void *func_0215A5E4(void *a0);
+extern void *func_020127A4(struct SaveBlock *p);
 extern int func_02012AC8();
 
 int func_02159B38(int a0)
 {
+    void *p;
+    void *v0;
 
-    a0 = func_0215A5E4(a0);
+    v0 = func_0215A5E4((void *)a0);
 loc_02159B3E:
-    a0 = func_020127A4(a0);
+    p = func_020127A4((struct SaveBlock *)v0);
 loc_02159B42:
-    a0 = func_02012AC8(a0);
+    a0 = func_02012AC8(p);
 loc_02159B46:
     return a0;}

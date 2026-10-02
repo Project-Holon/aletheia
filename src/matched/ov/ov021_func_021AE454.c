@@ -18,7 +18,7 @@
 extern int d_021DE138;
 
 void *func_02030734(int a, int b, int c, void *d, int e);
-int func_02188CB4(int x);
+void *func_02188CB4(unsigned char *p);
 
 typedef struct { int w[6]; } S24;
 
@@ -30,6 +30,6 @@ void *func_021AE454(int a, int b, S24 *src, int c)
     *(int *)(p + 0x20) = 0;
     *(int *)(p + 0x24) = c;
     *(int *)(p + 0x30) = b;
-    *(int *)(p + 0x34) = func_02188CB4(b);
+    *(int *)(p + 0x34) = func_02188CB4((void *)b);
     return p;
 }

@@ -71,7 +71,7 @@ typedef struct Flags {
     u32 pad1 : 11;
 } Flags;
 
-extern u32 func_0215A5F4(void *vm);
+extern void *func_0215A5F4(void *vm);
 extern u16 func_02159B10(Ctx *c, void *vm);
 extern u16 *func_02159AE8(Ctx *c, void *vm);
 extern void *func_0215A5E4(void *vm);

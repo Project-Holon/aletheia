@@ -26,7 +26,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-void func_0215A5F4(void *a);
+void *func_0215A5F4(void *a);
 void *func_0215A5E4(void *a);
 void func_020127C4(void *a);
 void *func_020127F0(void *a);

@@ -29,6 +29,7 @@
  */
 
 typedef unsigned char u8;
+typedef unsigned int u32;
 
 typedef struct {
     char pad0[8];
@@ -52,7 +53,7 @@ int func_021B8968(int a, int *b, C *c, u8 *d)
     extern int func_0201C6C4(void *, unsigned);
     extern void func_02045334(void *);
     extern void func_021B8EDC(void *);
-    extern int func_020362DC(void);
+    extern u32 func_020362DC(void);
     extern int func_02035C08(void *);
     extern void func_021B7108(void *);
     extern void func_020355D8(int);

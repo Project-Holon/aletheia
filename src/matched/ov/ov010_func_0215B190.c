@@ -26,23 +26,25 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
 
-extern int func_0215A5E4();
+extern void *func_0215A5E4(void *a0);
 extern int func_0201296C();
-extern int func_02159AE8();
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_020142E8();
-extern int func_02012EBC();
+struct Big;
+extern void *func_02012EBC(struct Big *p);
 extern int func_0200725C();
 extern int func_020073D8();
 extern int func_0200ECB4();
 extern int func_020072A4();
 int func_0215B190(int a0, int a1)
 {
-    int p = func_0215A5E4(a1);
+    void *p = func_0215A5E4((void *)a1);
     int q = func_0201296C(p);
-    u16 *out = (u16 *)func_02159AE8(a0, a1);
-    int t, r;
+    u16 *out = func_02159AE8((void *)a0, (void *)a1);
+    void *t;
+    int r;
     if (func_020142E8(q, 0x97B) != 0) {
-        t = func_02012EBC(p);
+        t = func_02012EBC((struct Big *)p);
         r = func_0200725C(t, 8, 4);
         switch (r) {
         case 0:

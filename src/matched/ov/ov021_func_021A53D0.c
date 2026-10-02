@@ -20,7 +20,7 @@
 
 typedef unsigned int u32;
 
-u32 func_021A3960(u32 x);
+void *func_021A3960(unsigned char *p);
 int func_0216D5F8(u32 h);
 void func_0216D4B4(u32 h);
 void func_0216D5E0(u32 h, int v);
@@ -29,7 +29,7 @@ void func_021A3964(u32 h, int s);
 
 void func_021A53D0(u32 *p)
 {
-    u32 h;
+    void *h;
     int v;
 
     if (p[0] == 3) {

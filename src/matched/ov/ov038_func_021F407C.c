@@ -40,7 +40,7 @@ extern void *func_020124E4(void *p);
 extern void *func_0201210C(void *p);
 extern int func_02188D2C(void *p);
 extern u8 *func_021897BC(void *p, int idx);
-extern u32 func_02188CB4(void *p);
+extern void *func_02188CB4(void *p);
 extern void *func_021BE674(char *base, int i, int j, u16 k);
 extern void func_021BE4B4(char *p, int i, int j, int v);
 extern Vec *func_021BE480(char *p, int i, int j);

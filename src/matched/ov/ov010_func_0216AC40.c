@@ -30,8 +30,8 @@ typedef struct {
     u32 rest : 8;
 } Bits;
 
-extern int func_0215A5DC();
-extern int func_0201210C(int a);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0201210C(void *p);
 extern void func_02012138();
 extern int func_0215A5CC();
 extern u8 *func_021664CC();
@@ -40,13 +40,13 @@ extern void func_020307B0();
 
 int func_0216AC40(int a0, int a1)
 {
-    int w;
-    int h;
+    void *w;
+    void *h;
     u8 *e;
     int key;
 
-    w = func_0215A5DC(a1);
-    h = func_0201210C(w);
+    w = func_0215A5DC((void *)a1);
+    h = func_0201210C((void *)w);
     func_02012138(w);
     e = func_021664CC(func_0215A5CC(a1), w, &key);
     if (e != 0) {

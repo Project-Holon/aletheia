@@ -24,11 +24,11 @@
 
 typedef unsigned int u32;
 
-extern u32 func_0215A5F4(u32 a);
-extern u32 func_0215A5DC(u32 a);
-extern u32 func_0201210C(void);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0201210C(void *p);
 extern int func_02159B10(u32 a, u32 b);
-extern u32 func_02188C7C(u32 a);
+extern void *func_02188C7C(unsigned char *p);
 extern u32 func_0216DE94(u32 a, int b);
 extern void func_0216D88C(u32 a, int *v);
 extern u32 func_021F3970(u32 a, int *v, int *w, int c, int d);
@@ -38,9 +38,9 @@ u32 func_021D2F6C(u32 a, u32 b)
 {
     int v[3];
     int w[3];
-    u32 s10;
-    u32 sc;
-    u32 s14;
+    void *s10;
+    void *sc;
+    void *s14;
     int s18;
     int s8;
     int s4;
@@ -49,8 +49,8 @@ u32 func_021D2F6C(u32 a, u32 b)
     int r4;
     u32 r;
 
-    s10 = func_0215A5F4(b);
-    sc = func_0215A5DC(b);
+    s10 = func_0215A5F4((void *)b);
+    sc = func_0215A5DC((void *)b);
     s14 = func_0201210C();
     s18 = func_02159B10(a, b);
     s8 = func_02159B10(a, b);
@@ -58,7 +58,7 @@ u32 func_021D2F6C(u32 a, u32 b)
     r7 = func_02159B10(a, b);
     r6 = func_02159B10(a, b);
     r4 = func_02159B10(a, b);
-    r = func_0216DE94(func_02188C7C(s14), s18);
+    r = func_0216DE94(func_02188C7C((void *)s14), s18);
     if (r != 0) {
         func_0216D88C(r, v);
     }

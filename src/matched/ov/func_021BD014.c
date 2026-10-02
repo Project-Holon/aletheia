@@ -25,11 +25,11 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern int func_020362DC(void *p);
+extern u32 func_020362DC(void);
 
 int func_021BD014(char *p, int v)
 {
-    if (func_020362DC(p) != 0) {
+    if (func_020362DC() != 0) {
         *(u8 *)(p + 0x1353) = 0x6E;
         *(u32 *)(p + 0x1CC) = 0x8A;
     }

@@ -88,9 +88,9 @@ extern u32 func_020120F4(u32 a);
 extern u32 func_02012844(u32 a);
 extern Rec *func_02162740(u32 a);
 extern int func_02162744(u32 a);
-extern u32 func_0201210C(u32 a);
-extern u32 func_02188C7C(u32 a);
-extern u32 func_02188CB4(u32 a);
+extern void *func_0201210C(void *p);
+extern void *func_02188C7C(unsigned char *p);
+extern void *func_02188CB4(unsigned char *p);
 extern u32 func_02188C9C(u32 a);
 extern int func_02013C60(u16 id);
 extern int func_021A3098(u32 a);
@@ -98,7 +98,7 @@ extern void func_0216E2E8(u32 a, u16 b, Info *c);
 extern void func_021A35FC(u32 o, s16 *z, s16 *y, s16 *x);
 extern u32 func_02188CFC(u32 a);
 extern void func_021A36BC(u32 o, Loc *l);
-extern u32 func_021A3074(u32 a);
+extern void *func_021A3074(unsigned char *p);
 extern u32 func_0201296C(u32 a);
 extern void func_0216D88C(u32 a, V3 *v);
 extern void *func_02162890(u32 c, u32 a, V3 *v);
@@ -117,22 +117,26 @@ int func_021D2750(u32 a)
     Pos pos;
     u32 h, f;
     Rec *list;
-    u32 y, x, o, id;
+    u32 id;
+    void *y;
+    void *o;
+    void *x;
     Rec *e;
     Sub *q;
     int hdl;
     int i;
     int n;
     u8 *p;
-    u32 r4, r5;
+    u32 r5;
+    void *r4;
 
     h = func_020120F4(a);
     f = func_02012844(h);
     list = func_02162740(f);
     n = func_02162744(f);
-    y = func_0201210C(a);
-    x = func_02188C7C(y);
-    o = func_02188CB4(y);
+    y = func_0201210C((void *)a);
+    x = func_02188C7C((void *)y);
+    o = func_02188CB4((void *)y);
     id = func_02188C9C(y);
     if (func_02013C60(id) == 0) {
         return 0;
@@ -166,7 +170,7 @@ int func_021D2750(u32 a)
         }
     }
     if (func_02188CFC(y) == 0) {
-        r4 = func_021A3074(o);
+        r4 = func_021A3074((void *)o);
         r5 = func_0201296C(h);
         func_0216D88C(r4, &v);
         if (func_02162890(f, r5, &v)) {

@@ -29,11 +29,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 *func_02159AE8(u32 a, u32 b);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern u16 func_02159B10(u32 a, u32 b);
-extern u32 func_0215A5F4(u32 a);
-extern u32 func_0215A5DC(u32 a);
-extern u32 func_0201210C(void);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0201210C(void *p);
 extern int func_0215A2E4(int a, int b, int c, u16 *d, u16 *e, int f, unsigned short g);
 extern void func_0215897C(u32 a, u32 b);
 
@@ -43,15 +43,15 @@ int func_021B636C(u32 a, u32 b)
     u16 *t6;
     u16 tc;
     u16 t4;
-    u32 p7;
-    u32 p5;
+    void *p7;
+    void *p5;
 
-    t10 = func_02159AE8(a, b);
-    t6 = func_02159AE8(a, b);
+    t10 = func_02159AE8((void *)a, (void *)b);
+    t6 = func_02159AE8((void *)a, (void *)b);
     tc = func_02159B10(a, b);
     t4 = func_02159B10(a, b);
-    p7 = func_0215A5F4(b);
-    p5 = func_0215A5DC(b);
+    p7 = func_0215A5F4((void *)b);
+    p5 = func_0215A5DC((void *)b);
     func_0215897C(p7, func_0215A2E4(p5, func_0201210C(), tc, t10, t6, t4 == 0, t4));
     return 1;
 }

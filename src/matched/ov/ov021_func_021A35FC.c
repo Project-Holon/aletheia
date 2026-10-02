@@ -19,14 +19,14 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021A3960(u32 x);
+void *func_021A3960(unsigned char *p);
 u16 func_0216D83C(u32 h);
 u16 func_0216D854(u32 h);
 u16 func_0216D86C(u32 h);
 
 void func_021A35FC(u32 *p, u16 *a, u16 *b, u16 *c)
 {
-    u32 h = func_021A3960(p[1]);
+    void *h = func_021A3960(p[1]);
 
     *a = func_0216D83C(h);
     *b = func_0216D854(h);

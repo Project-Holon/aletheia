@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_0215A5DC(u32 a);
+extern void *func_0215A5DC(void *a0);
 extern u32 func_02159B10(u32 a, u32 b);
 extern void *func_020120F4(void *p);
 extern void *func_02012EBC(void *p);
@@ -31,7 +31,7 @@ extern void func_02008DAC(void *p, u32 a, u32 b);
 
 int func_021D2ADC(u32 a, u32 b)
 {
-    u32 x = func_0215A5DC(b);
+    void *x = func_0215A5DC((void *)b);
     u32 k1 = func_02159B10(a, b);
     u32 k2 = func_02159B10(a, b);
 

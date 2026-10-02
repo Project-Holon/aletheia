@@ -15,14 +15,14 @@
  *   func_020498F4 0x020498F4 arm
  *   func_02049238 0x02049238 arm
  */
-extern void *func_020490F4(void *, unsigned);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(unsigned, unsigned, unsigned, unsigned, unsigned, unsigned short);
 extern void func_02049658(unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned short);
 extern void func_020498F4(unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned short);
 extern void func_02049238(unsigned);
 void func_021BF9D0(unsigned short heap)
 {
-    unsigned h = (unsigned)func_020490F4((void *)85, heap);
+    void *h = func_020490F4((void *)85, heap);
     func_02049B68(h, 3, 4, 0, 0, heap);
     func_02049658(h, 9, 6, 0, 0, 0, heap);
     func_020498F4(h, 18, 6, 0, 0, 0, heap);

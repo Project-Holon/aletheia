@@ -21,20 +21,20 @@
  *   func_021854B0  0x021854B0  thumb  ov020
  */
 
-extern int func_0215A5F4();
+extern void *func_0215A5F4(void *p);
 extern int func_02158F54();
-extern int func_0201210C();
+extern void *func_0201210C(void *p);
 extern int func_02011330();
 extern int func_02012104();
 extern int func_02012374();
-extern int func_02188CB4();
-extern int func_021A3074();
-extern int func_021854B0();
+extern void *func_02188CB4(unsigned char *p);
+extern void *func_021A3074(unsigned char *p);
+extern void *func_021854B0();
 
 int func_021AFEFC(int a0, int a1)
 {
     int h;
-    int a;
+    void *a;
     int b;
     int c;
     int d;
@@ -43,14 +43,14 @@ int func_021AFEFC(int a0, int a1)
     int arr[3];
     int w;
 
-    h = func_02158F54(func_0215A5F4(a1));
+    h = func_02158F54(func_0215A5F4((void *)a1));
     a = func_0201210C();
     b = func_02011330(a0);
     c = func_02011330(a0);
     d = func_02011330(a0);
     e = func_02011330(a0);
     f = func_02011330(a0);
-    func_021A3074(func_02188CB4(a));
+    func_021A3074(func_02188CB4((void *)a));
     arr[0] = c << 16;
     arr[1] = d << 16;
     arr[2] = e << 16;

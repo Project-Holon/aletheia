@@ -20,7 +20,7 @@
  */
 typedef unsigned short u16;
 extern unsigned func_02020F08(void);
-extern unsigned func_020490F4(unsigned,u16);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern unsigned func_02020E60(unsigned,unsigned);
 extern void *func_02049E74(unsigned,unsigned,unsigned,void **,u16);
 extern void func_0204A9D0(int,void *);
@@ -30,7 +30,8 @@ extern void func_02049238(unsigned);
 void func_0220C180(char *p,u16 item,unsigned slot,unsigned offset)
 {
     char *q=*(char **)p;
-    unsigned first,second,arc;
+    unsigned first, second;
+    void *arc;
     void *data,*buffer;
     if(*(int *)(q+8)==1) {first=3;second=4;} else {first=1;second=2;}
     arc=func_020490F4(func_02020F08(),(*(u16 *)(q+0xc)&0x7fff)|0x8000);

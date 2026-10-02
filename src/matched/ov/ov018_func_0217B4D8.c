@@ -25,10 +25,10 @@ extern int func_02012138();
 extern u8 *func_02158344();
 extern int func_0203D1B4();
 extern int func_02175BE4();
-extern int func_0217B044();
-extern int func_0217B1DC();
+extern void *func_0217B044(void *a, int b, int c, int d, int e, int f);
+extern void *func_0217B1DC();
 
-int func_0217B4D8(int a0, int a1, int a2, int *a3, int a4, u16 a5)
+void *func_0217B4D8(int a0, int a1, int a2, int *a3, int a4, u16 a5)
 {
     u8 *p;
     int r;
@@ -59,9 +59,9 @@ int func_0217B4D8(int a0, int a1, int a2, int *a3, int a4, u16 a5)
     }
     if (r != 9) {
         if (p == 0 || func_0203D1B4() <= 1 || p[0x902] < 2)
-            return func_0217B044(a0, a1, a2, a4, r, 0);
+            return func_0217B044((void *)a0, a1, a2, a4, r, 0);
         if (func_02175BE4(p + 0x1AC) == 1)
-            return func_0217B044(a0, a1, a2, a4, r, 1);
+            return func_0217B044((void *)a0, a1, a2, a4, r, 1);
         return func_0217B1DC(a0, a1, a2, r);
     }
     return 0;

@@ -43,7 +43,7 @@ extern void *func_020124E4(void *p);
 extern void *func_0201210C(void *p);
 extern int func_02188D2C(void *p);
 extern u8 *func_021897BC(void *p, int idx);
-extern u32 func_02188CB4(void *p);
+extern void *func_02188CB4(void *p);
 extern void func_021BE4B4(int p, int i, int j, int v);
 extern void func_021BE700(int p, int i, int j, int k, int flag);
 extern void func_021BE6CC(int p, int i, int j, int k, int flag);
@@ -59,7 +59,7 @@ int func_021F3DFC(int a0, int *a1)
     void *sys;
     int h;
     u8 *s;
-    u32 q;
+    void *q;
     u8 c;
     KType k;
     int done;

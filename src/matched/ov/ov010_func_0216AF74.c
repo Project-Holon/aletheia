@@ -26,29 +26,33 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_020120F4();
-extern int func_020122C0();
-extern u8 *func_020124E8(int p);
+struct Ctx;
+struct Desc;
+struct Big;
+
+extern void *func_020120F4(const struct Ctx *p);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern u8 *func_020124E8(struct Desc *p);
 extern void func_02082BCC();
 extern int func_020173EC();
 extern u16 func_0203F1FC(const u8 *src, u32 len);
-extern int func_02012EBC();
+extern void *func_02012EBC(struct Big *p);
 extern int func_0200E2BC();
 extern void func_021AA304();
 extern int func_0216B004();
 
-int func_0216AF74(int a0, int a1, int a2, int a3, int a4, u16 a5)
+struct Desc *func_0216AF74(int a0, int a1, int a2, int a3, u16 *a4, u16 a5)
 {
-    int h;
-    int r;
+    void *h;
+    struct Desc *r;
     u8 *p;
 
-    h = func_020120F4(a0);
-    r = func_020122C0(a0, 0, func_0216B004, 0x3C);
+    h = func_020120F4((const struct Ctx *)a0);
+    r = func_020122C0((void *)a0, 0, (void *)func_0216B004, 0x3C);
     p = func_020124E8(r);
     func_02082BCC(p, 0, 0x3C);
     *(int *)p = a1;
-    *(int *)(p + 0x28) = a4;
+    *(u16 **)(p + 0x28) = a4;
     *(u16 *)(p + 0x24) = a5;
     *(int *)(p + 0xC) = a2;
     *(int *)(p + 0x20) = a3;

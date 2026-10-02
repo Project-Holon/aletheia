@@ -20,7 +20,7 @@ extern int func_021E12AC(void *);
 extern int func_021D8A24(void *);
 extern void func_021D8E84(void *,int);
 extern unsigned func_020399A8(void);
-extern int func_0203D3A8(unsigned,unsigned,unsigned,void *);
+extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *d);
 extern void func_021D9C00(void *);
 void func_021DAF68(void *p) {
  unsigned id=func_020399A8();
@@ -28,7 +28,7 @@ void func_021DAF68(void *p) {
  if(func_021E12AC(p)) {
   if(func_021D8A24(p)) {
    b=2;
-   if(func_0203D3A8(id,0xc0f,1,&b)) func_021D8E84(p,(int)func_021D9C00);
+   if(func_0203D3A8((void *)id,0xc0f,1,&b)) func_021D8E84(p,(int)func_021D9C00);
   } else { func_021D8E84(p,(int)func_021D9C00); }
  }
 }

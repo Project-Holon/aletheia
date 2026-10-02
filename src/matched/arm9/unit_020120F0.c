@@ -68,7 +68,7 @@ struct Ctx {
     u8    unk10[8];
     u32   unk18;
     void *unk1C;
-    u32   unk20;
+    void *unk20;
     u32   unk24;
     u32   unk28;
     u32   unk2C;
@@ -103,12 +103,12 @@ void func_02012108(struct Ctx *p, u32 v)
     p->unk18 = v;
 }
 
-u32 func_0201210C(const struct Ctx *p)
+void *func_0201210C(const struct Ctx *p)
 {
     return p->unk20;
 }
 
-void func_02012110(struct Ctx *p, u32 v)
+void func_02012110(struct Ctx *p, void *v)
 {
     p->unk20 = v;
 }

@@ -23,7 +23,7 @@
 
 extern int func_021B61B8();
 extern unsigned short *func_021B616C();
-extern int func_02020F34();
+extern void *func_02020F34(unsigned int item, unsigned int which, unsigned int heap);
 extern void func_021B822C();
 extern int func_021B8F68();
 extern int func_02021014();
@@ -35,7 +35,7 @@ void func_021B8280(int p, unsigned char *q)
 {
     unsigned short *e = func_021B616C(p, func_021B61B8(p));
     if (e != 0 && *e != 0) {
-        int h = func_02020F34(*e, 0, *(unsigned short *)((char *)p + 0x544));
+        void *h = func_02020F34(*e, 0, *(unsigned short *)((char *)p + 0x544));
         unsigned char v = *(int *)((char *)p + 0x80C);
         func_021B822C(p, h, e, q);
         if (func_021B8F68(p, v) == 0 && q[0] != 2) {

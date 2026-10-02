@@ -33,7 +33,7 @@ typedef struct { int x, y, z; } Vec;
 
 extern const Vec d_021D9424;
 
-extern u32 func_0215A5F4(u32);
+extern void *func_0215A5F4(void *p);
 extern u32 func_02159B10(u32, u32);
 extern u32 func_0215A5EC(u32);
 extern u32 func_0216DE94(u32, u32);
@@ -51,9 +51,10 @@ int func_021B229C(u32 a, u32 b)
     Vec pos;
     Vec rot;
     int h;
-    u32 t, k0, k1, k2, k3, o, e, g;
+    u32 k0, k1, k2, k3, o, e, g;
+    void *t;
 
-    t = func_0215A5F4(b);
+    t = func_0215A5F4((void *)b);
     k0 = func_02159B10(a, b);
     k1 = func_02159B10(a, b);
     k2 = func_02159B10(a, b);

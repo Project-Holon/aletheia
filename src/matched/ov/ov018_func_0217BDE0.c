@@ -41,7 +41,7 @@ extern u8 *func_02175B34(u8 *);
 extern int func_02175CF4(u8 *, u8 *);
 extern int func_020120F8(int);
 extern int func_02012AC8(int);
-extern int func_021A3074(int);
+extern void *func_021A3074(unsigned char *p);
 extern void func_0216D828(int, Vec3s *);
 extern int func_02182124(int, u8 *, u8 *);
 
@@ -66,7 +66,7 @@ int func_0217BDE0(int a, u8 *b, int c)
     if (func_02175CF4(b, b + 0x1AC) != 0)
         goto fail;
     n = func_02012AC8(func_020120F8(a));
-    func_0216D828(func_021A3074(c), &v);
+    func_0216D828(func_021A3074((void *)c), &v);
     idx = *(u16 *)(e + 0x14);
     if (n != d_021DB810[idx])
         goto fail;

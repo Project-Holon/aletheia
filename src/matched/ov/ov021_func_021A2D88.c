@@ -28,8 +28,8 @@ extern int d_021DDE90;
 
 void *func_02030734(int a, int b, int c, void *d, int e);
 int func_02188C84(int obj);
-int func_02188CB4(int obj);
-int func_021A3074(int obj);
+void *func_02188CB4(unsigned char *p);
+void *func_021A3074(unsigned char *p);
 void func_0216D5E0(int a, int b);
 void func_021A35E0(int a, int b);
 int func_0216D888(int a);
@@ -39,16 +39,16 @@ void func_02188CAC(int a, void *b);
 void func_021A2D88(int obj, int unused, int y)
 {
     int h;
-    int a;
-    int b;
+    void *a;
+    void *b;
     char *p;
 
     h = func_02188C84(obj);
     p = (char *)func_02030734(h, 0x10, 1, &d_021DDE90, 0x68);
     *(u16 *)p = h;
     *(int *)(p + 4) = obj;
-    a = func_02188CB4(obj);
-    b = func_021A3074(a);
+    a = func_02188CB4((void *)obj);
+    b = func_021A3074((void *)a);
     func_0216D5E0(b, y);
     func_021A35E0(a, h);
     func_02188D40(obj, func_0216D888(b));

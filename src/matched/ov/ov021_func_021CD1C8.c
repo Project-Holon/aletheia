@@ -25,7 +25,7 @@ typedef struct {
 } Holder;
 
 extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern const char d_021DE5D4[];
 
 Holder *func_021CD1C8(u32 heap)

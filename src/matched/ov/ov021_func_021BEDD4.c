@@ -19,7 +19,7 @@
  *   func_021BECB4  0x021BECB4  thumb  ov021
  */
 
-extern int func_02188CB4(int a);
+extern void *func_02188CB4(unsigned char *p);
 extern int func_021A3050(int p);
 extern int func_021BED14(void *a, int b);
 extern int func_021BED74(void *a, int b);
@@ -28,7 +28,7 @@ extern int func_021BECB4(void *a, int b);
 
 int func_021BEDD4(void *a, int b)
 {
-    switch (func_021A3050(func_02188CB4(b))) {
+    switch (func_021A3050(func_02188CB4((void *)b))) {
     case 2:
     default:
         return func_021BED14(a, b);

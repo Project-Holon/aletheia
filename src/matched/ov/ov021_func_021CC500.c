@@ -32,7 +32,7 @@ typedef struct Task {
 } Task;
 
 extern u32 func_020120F4(void);
-extern u32 func_02012934(u32 a);
+extern void *func_02012934(void *p);
 extern u32 func_020122C0(u32 a, u32 b, void *c, u32 d);
 extern Task *func_020124E8(u32 h);
 extern int func_021CC390(u32 a, u32 b, u32 c);
@@ -40,12 +40,12 @@ extern int func_021CC390(u32 a, u32 b, u32 c);
 u32 func_021CC500(u32 a, u32 b, u32 c)
 {
     u32 t;
-    u32 x;
+    void *x;
     u32 h;
     Task *p;
 
     t = func_020120F4();
-    x = func_02012934(t);
+    x = func_02012934((void *)t);
     h = func_020122C0(a, 0, (void *)func_021CC390, 0x5c);
     p = func_020124E8(h);
     p->f0 = a;

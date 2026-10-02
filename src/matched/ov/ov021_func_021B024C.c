@@ -29,8 +29,8 @@ typedef struct {
     u8 *p;
 } Ctx;
 
-extern u32 func_0215A5F4(u32);
-extern u32 func_0215A5E4(u32);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5E4(void *a0);
 extern u32 func_02159B10(Ctx *, u32);
 extern u32 func_02011330(Ctx *);
 extern u32 func_02158FE0(u32, u32, u32);
@@ -41,11 +41,13 @@ extern u32 func_0215A77C(u32, u32, u32, u32, u32, u32, u32, u32, u32);
 int func_021B024C(Ctx *c, u32 b)
 {
     u8 *q;
-    u32 t0, t1, v2, r;
+    u32 v2, r;
+    void *t0;
+    void *t1;
     u8 v0, v1, v3;
 
-    t0 = func_0215A5F4(b);
-    t1 = func_0215A5E4(b);
+    t0 = func_0215A5F4((void *)b);
+    t1 = func_0215A5E4((void *)b);
     v0 = *c->p;
     c->p = c->p + 1;
     v1 = *c->p;

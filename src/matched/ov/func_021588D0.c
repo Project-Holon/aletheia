@@ -18,14 +18,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_020120F8();
+struct Ctx;
+extern u8 *func_020120F8(const struct Ctx *p);
 extern int func_02012AC8();
 
 int func_021588D0(int a0)
 {
+    u8 *p;
 
-    a0 = func_020120F8(a0);
+    p = func_020120F8((const struct Ctx *)a0);
 loc_021588D6:
-    a0 = func_02012AC8(a0);
+    a0 = func_02012AC8(p);
 loc_021588DA:
     return a0;}

@@ -63,7 +63,7 @@ typedef struct Info {
 extern const Point d_0220A50C[][3];
 extern const u16 d_0220A392[];
 extern const char d_0220AEB0[];
-extern u32 func_020490F4(u32, u32);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32 func_0201BC78(void);
 extern u32 func_0201BCEC(void);
 extern u32 func_0201BC3C(void);
@@ -87,7 +87,7 @@ extern void func_02049238(u32);
 void func_022057CC(Main *m, Info *q)
 {
     int n;
-    u32 arc;
+    void *arc;
     int i;
     int k;
     void **r;

@@ -17,14 +17,14 @@
  */
 
 void func_021880A4(int x);
-void func_02012110(int a, int b);
+void func_02012110(void *p, void *v);
 void func_020315D4(int a);
 void func_020306F0(int a);
 
 int func_02187FE8(int a, int unused, int b, int *c)
 {
     func_021880A4(*c);
-    func_02012110(b, 0);
+    func_02012110((void *)b, 0);
     func_020315D4(a);
     func_020306F0(0x96);
     func_020306F0(0x92);

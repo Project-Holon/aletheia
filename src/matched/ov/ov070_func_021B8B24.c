@@ -16,17 +16,22 @@
  *   func_02049238  0x02049238  arm
  */
 
-extern int func_0202E940();
-extern int func_020490F4();
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+struct CodeIn;
+
+extern struct CodeIn *func_0202E940(u16 a0, u16 a1, u32 a2, u16 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_0202E9AC();
 extern void func_02049238(void *arc);
 
 void func_021B8B24(int p)
 {
-    int h;
-    *(int *)((char *)p + 0x850) =
+    void *h;
+    *(struct CodeIn **)((char *)p + 0x850) =
         func_0202E940(0x10, 0x10, 0xFFFE, *(unsigned short *)((char *)p + 0x544));
     h = func_020490F4(0x58, *(unsigned short *)((char *)p + 0x544));
-    func_0202E9AC(*(int *)((char *)p + 0x850), h, 0x15, 0x10, 0x20);
-    func_02049238((void *)h);
+    func_0202E9AC(*(struct CodeIn **)((char *)p + 0x850), h, 0x15, 0x10, 0x20);
+    func_02049238(h);
 }

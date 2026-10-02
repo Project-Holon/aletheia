@@ -40,10 +40,10 @@ typedef struct Rec {
     u32 f4;
 } Rec;
 
-extern u32 func_0215A5F4(u32 a);
-extern u32 func_0215A5DC(u32 a);
-extern u32 func_0215A5E4(u32 a);
-extern u32 func_0201210C(u32 a);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0215A5E4(void *a0);
+extern void *func_0201210C(void *p);
 extern Rec *func_02030734(u32 heap, u32 size, u32 flags, const char *file, u32 line);
 extern u32 func_02014840(u32 sys, u32 x, u32 ovId, const void *proc, void *work, void *cb, void *rec);
 extern void func_0215897C(u32 a, u32 b);
@@ -53,16 +53,16 @@ extern u8 ov107_id[];
 
 int func_021CC570(u32 unused, u32 a)
 {
-    u32 s;
-    u32 sys;
-    u32 v;
-    u32 x;
+    void *s;
+    void *sys;
+    void *v;
+    void *x;
     Rec *r;
 
-    s = func_0215A5F4(a);
-    sys = func_0215A5DC(a);
-    v = func_0215A5E4(a);
-    x = func_0201210C(sys);
+    s = func_0215A5F4((void *)a);
+    sys = func_0215A5DC((void *)a);
+    v = func_0215A5E4((void *)a);
+    x = func_0201210C((void *)sys);
     r = func_02030734(4, 8, 0, d_021DE5A8, 0x44);
     r->f0 = 0;
     r->f4 = v;

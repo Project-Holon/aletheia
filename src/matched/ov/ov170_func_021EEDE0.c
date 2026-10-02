@@ -19,12 +19,14 @@
  *   func_020355D8 0x020355D8 arm
  */
 
+typedef unsigned int u32;
+
 extern unsigned char func_020260E0(void *obj);
 extern void func_020260E4(void *obj, unsigned char sel);
 extern unsigned func_02025DE8(void *obj);
 extern int func_021EF5E8(int p);
 extern void func_021EE408(char *p, int v);
-extern unsigned func_020362DC(void);
+extern u32 func_020362DC(void);
 extern void func_020355D8(int v);
 
 #define WORK(p) (*(char **)((p) + 0x2C))

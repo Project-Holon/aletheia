@@ -31,13 +31,13 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0215A5F4(void *);
-extern void *func_0215A5DC(void *);
-extern u16 *func_02159AE8(void *, void *);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern u32 func_02159B10(void *, void *);
 extern void *func_020120F4(void *);
-extern void *func_0201210C(void *);
-extern void *func_02012934(void *);
+extern void *func_0201210C(void *p);
+extern void *func_02012934(void *p);
 extern void *func_0201AB28(void *party, int i);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern u32 func_02188C84(void *);

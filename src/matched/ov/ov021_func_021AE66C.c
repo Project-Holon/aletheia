@@ -20,7 +20,7 @@
  *   func_0216D410  0x0216D410  thumb  ov010
  */
 
-extern int func_021A3074(int x);
+extern void *func_021A3074(unsigned char *p);
 extern int func_0216D83C(int x);
 extern int func_0216D86C(int x);
 extern int func_021642B4(int a, int b, int c, int d);
@@ -31,7 +31,7 @@ extern void func_0216D410(int a, int b);
 
 int func_021AE66C(int *p)
 {
-    int r4 = func_021A3074(p[0x34 / 4]);
+    void *r4 = func_021A3074(p[0x34 / 4]);
     int r6 = func_0216D83C(r4);
     int r7 = func_0216D86C(r4);
     int t = func_0216D83C(p[2]);

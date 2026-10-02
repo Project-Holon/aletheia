@@ -25,6 +25,7 @@
  */
 
 typedef unsigned char u8;
+typedef unsigned int u32;
 
 typedef struct {
     int f0;
@@ -43,7 +44,7 @@ int func_02174268(u8 *w);
 void *func_0216F7F4(int a, u8 *e, int b);
 int func_0200855C(u8 *a);
 void func_0201F02C(int a, int b, u8 *c);
-int func_020362DC(void);
+u32 func_020362DC(void);
 
 int func_0217EAD8(u8 *w, void *obj, int a2, u8 *state)
 {

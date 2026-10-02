@@ -29,57 +29,61 @@
  *   func_021BB578  0x021BB578  thumb  ov021
  */
 
-extern int func_0215A5F4();
+struct Ctx;
+struct Rec;
+
+extern void *func_0215A5F4(void *p);
 extern int func_02158F54();
-extern int func_0201210C();
+extern void *func_0201210C(void *p);
 extern int func_02011330();
 extern int func_02012104();
 extern int func_02012374();
-extern int func_020120F4();
+extern void *func_020120F4(const struct Ctx *p);
 extern int func_02012844();
 extern int func_0201296C();
-extern int func_02188CB4();
+extern void *func_02188CB4(unsigned char *p);
 extern int func_02188CD0();
 extern int func_021A3038();
-extern int func_021A3074();
-extern int func_0216282C();
+extern void *func_021A3074(unsigned char *p);
+extern struct Rec *func_0216282C(struct Ctx *c, void *a, int *key, int mode);
 extern int func_02162A6C();
-extern int func_02184E40();
+extern void *func_02184E40();
 extern int func_021BB578();
 
 int func_021AFDAC(int a0, int a1)
 {
     int h;
-    int a;
+    void *a;
     int b;
     int c;
     int d;
-    int e;
+    void *e;
     int f;
-    int g;
+    void *g;
     int w;
+    struct Rec *r;
     int out[3];
     int arr[3];
     int buf[3];
 
-    h = func_02158F54(func_0215A5F4(a1));
+    h = func_02158F54(func_0215A5F4((void *)a1));
     a = func_0201210C();
     b = func_02011330(a0);
     c = func_02011330(a0);
     d = func_02011330(a0);
-    e = func_020120F4(h);
+    e = func_020120F4((const struct Ctx *)h);
     f = func_02012844();
     g = func_0201296C(e);
-    func_021A3038(func_02188CB4(a), buf);
-    w = func_0216282C(f, g, buf, 9);
-    if (w != 0)
-        func_02162A6C(w, out);
+    func_021A3038(func_02188CB4((void *)a), buf);
+    r = func_0216282C((struct Ctx *)f, (void *)g, buf, 9);
+    if (r != 0)
+        func_02162A6C(r, out);
     arr[0] = c << 16;
     arr[1] = 0;
     arr[2] = d << 16;
     w = func_02012104(h);
     func_02012374(w, func_02184E40(h, a, out, b, arr));
-    g = func_021A3074(func_02188CB4(a));
+    g = func_021A3074(func_02188CB4((void *)a));
     func_021BB578(func_02188CD0(a), g, 0, 1);
     return 1;
 }

@@ -25,11 +25,11 @@
  */
 
 extern int func_020120F4(int a);
-extern int func_02012934(int a);
+extern void *func_02012934(void *p);
 extern int func_0201AA18(int a);
 extern int func_020122C0(int a, int b, void *cb, int c);
 extern int *func_020124E8(int a);
-extern int func_0201210C(int a);
+extern void *func_0201210C(void *p);
 extern int func_0201AB28(int a, int b);
 extern int func_02012EBC(int a);
 extern int func_0200C0F0(int a);
@@ -52,11 +52,11 @@ int func_021C5AAC(int a, int b, int c, int d)
     h = func_020122C0(a, 0, (void *)func_021C5B58, 0x18);
     p = func_020124E8(h);
     p[0] = a;
-    p[1] = func_0201210C(a);
+    p[1] = func_0201210C((void *)a);
     p[4] = b;
     p[5] = d;
     r6 = func_020120F4(p[0]);
-    e = func_0201AB28(func_02012934(r6), c);
+    e = func_0201AB28(func_02012934((void *)r6), c);
     r6 = func_0200C0F0(func_02012EBC(r6));
     x = func_02017E1C(e, 5, 0);
     y = func_02017E1C(e, 0x6f, 0) | (func_02017E1C(e, 0x6e, 0) << 8);

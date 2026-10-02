@@ -29,10 +29,10 @@
  *   func_021599A8  0x021599A8  thumb  ov010
  */
 
-extern int func_0215A5E4(int);
-extern int func_0215A5F4(int);
-extern int func_0215A5DC(int);
-extern int func_0201210C(int);
+extern void *func_0215A5E4(void *a0);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0201210C(void *p);
 extern int func_02188C84(int);
 extern int func_02188CCC(int);
 extern int func_021D1164(int, int);
@@ -49,10 +49,11 @@ extern int func_021599A8(int, int);
 
 int func_02159A64(int a, int b)
 {
-    int s0 = func_0215A5F4(b);
-    int s4 = func_0215A5E4(b);
-    int x, y, z, t;
-    x = func_0201210C(func_0215A5DC(b));
+    void *s0 = func_0215A5F4((void *)b);
+    void *s4 = func_0215A5E4((void *)b);
+    int y, z, t;
+    void *x;
+    x = func_0201210C(func_0215A5DC((void *)b));
     y = func_02188C84(x);
     z = func_02188CCC(x);
     t = func_021D1164(y, x);

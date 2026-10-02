@@ -47,7 +47,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_020490F4(u32 x, u16 kind);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void  ENV_SetResourceSet_2(void *p);
 
 struct Sub02014CB8Obj {

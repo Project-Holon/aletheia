@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Arc;
-extern void *func_020490F4(void *, u16);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void *func_02049250(struct Arc *, u32, u32);
 extern int func_02062B30(void *, void **);
 extern void func_02041090(u32, u32, u32, u32, u8, u8);

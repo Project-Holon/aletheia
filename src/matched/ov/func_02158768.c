@@ -17,7 +17,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02158920();
+struct Desc;
+extern struct Desc *func_02158920(int a, int b, int c, int d, int e);
 
 int func_02158768(int a0, int a1, int a2, int a3)
 {

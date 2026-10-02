@@ -42,7 +42,7 @@ typedef struct {
     u8 b1e;
 } In;
 
-extern int func_020490F4(int a, u16 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_0204ACEC(int h, u32 a1, u32 a2, u32 a3, u16 a4);
 extern int func_0204AC18(int h, u32 a1, u32 a2, u32 a3, int b, int c, u16 d);
 extern int func_0204A6C8(int h, int b, int c, int d, u16 e);
@@ -52,7 +52,7 @@ extern void func_02049238(int h);
 void func_021B6208(Out *out, In *in, int unused, u16 d)
 {
     int flag;
-    int h;
+    void *h;
 
     flag = in->f4 & 2;
     h = func_020490F4(in->f8, d);

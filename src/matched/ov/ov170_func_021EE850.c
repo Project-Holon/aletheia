@@ -16,9 +16,11 @@
  *   func_021DD238 0x021DD238 thumb
  */
 
+typedef unsigned int u32;
+
 extern unsigned func_02025DE8(void *obj);
-extern unsigned func_020362DC(void);
-extern unsigned func_0203633C(void);
+extern u32 func_020362DC(void);
+extern unsigned int func_0203633C(void);
 extern void func_021DD238(char *p);
 
 unsigned func_021EE850(char *p)

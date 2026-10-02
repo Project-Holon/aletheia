@@ -27,7 +27,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_021A3960(u8 *);
+extern void *func_021A3960(u8 *p);
 extern u32 func_0216D598(u32);
 extern void func_021A3AD8(u8 *, u32);
 extern u32 func_021A398C(u8 *);
@@ -43,7 +43,7 @@ int func_021A3DA0(u8 *p)
 {
     u32 buf[3] = { 0, 0, 0 };
     u32 a;
-    u32 b;
+    void *b;
     u32 o;
 
     a = func_021A398C(p);

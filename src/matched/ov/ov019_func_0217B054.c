@@ -18,7 +18,7 @@
  *   MI_CpuFill8    0x02082BCC  arm
  */
 
-extern void *func_0201210C(void *);
+extern void *func_0201210C(void *p);
 extern void *func_0217AFB0(void *, int, void *);
 extern void *func_02188CE0(void *);
 extern void func_0217F958(void *, void *);

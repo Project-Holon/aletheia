@@ -43,7 +43,7 @@ extern char  g_020A7AF8[];
 extern char  g_020A7B78[];
 extern u8   *func_0203D798(void);
 extern void  func_02034714(char *f, u32 line, char *e);
-extern u32   func_020395EC(u32 a);
+extern int func_020395EC(void *a);
 extern u32   func_02038C18(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 
 typedef struct {
@@ -89,7 +89,7 @@ u32 func_0203AA94(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
     *(u16 *)(s + 0xc) = a2;
     s[0x16] = a1;
     *(u32 *)(s + 8) = a4;
-    *(u32 *)s = func_020395EC(a0);
+    *(u32 *)s = func_020395EC((void *)a0);
     st = (Status *)(s + 0x17);
     st->hi = 1;
     return st->hi;

@@ -16,13 +16,13 @@
  */
 typedef unsigned short u16;
 extern int func_02159B10(int,int);
-extern int func_0215A5E4(int);
+extern void *func_0215A5E4(void *a0);
 extern int func_0201293C(int);
 extern void func_02007A68(int,int);
 int func_0215B084(int a,int b)
 {
     int k = func_02159B10(a,b);
-    int p = func_0201293C(func_0215A5E4(b));
+    int p = func_0201293C(func_0215A5E4((void *)b));
     if ((u16)(k + 0xFFFF) <= 1) func_02007A68(p,k);
     return 0;
 }

@@ -44,8 +44,8 @@ typedef struct {
     V24 v30;
 } Out;
 
-extern int func_0215A5DC();
-extern int func_0201210C();
+extern void *func_0215A5DC(void *a0);
+extern void *func_0201210C(void *p);
 extern int func_02188C58();
 extern int func_02011330();
 extern void func_02048F4C();
@@ -59,7 +59,7 @@ int func_021B542C(int a0, int a1)
     int r6;
     int r4;
 
-    r5 = func_02188C58(func_0201210C(func_0215A5DC(a1)));
+    r5 = func_02188C58(func_0201210C(func_0215A5DC((void *)a1)));
     r6 = func_02011330(a0);
     r4 = func_02011330(a0);
     func_02048F4C(&s, 0xa3, r6);

@@ -25,11 +25,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0215A5F4(u32 p);
+extern void *func_0215A5F4(void *p);
 extern u32 *func_02158F58(u32 p);
 extern u32 func_02188C84(u32 p);
 extern u32 func_02159B10(u32 a, u32 b);
-extern u16 *func_02159AE8(u32 a, u32 b);
+extern u16 *func_02159AE8(void *a0, void *a1);
 typedef struct Ent {
     u32 k;
     u32 v;
@@ -49,10 +49,10 @@ int func_021B70D8(u32 a, u32 b)
     Ent *arr;
     u32 cnt;
 
-    v = func_02188C84(func_02158F58(func_0215A5F4(b))[1]);
+    v = func_02188C84(func_02158F58(func_0215A5F4((void *)b))[1]);
     k = func_02159B10(a, b);
     idx = func_02159B10(a, b);
-    out = func_02159AE8(a, b);
+    out = func_02159AE8((void *)a, (void *)b);
     arr = func_0204A298(0xd0, d_021D99D0[idx], 0, (u16)((v & 0x7fff) | 0x8000), &cnt);
     cnt >>= 3;
     i = 0;

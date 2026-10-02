@@ -36,7 +36,7 @@
 typedef unsigned int u32;
 
 extern void *func_020124E4(void *a);
-extern u32 func_0201210C(void *p);
+extern void *func_0201210C(void *p);
 extern void *func_02188D2C(u32 a);
 extern int *func_021897BC(u32 a, int b);
 extern u32 func_02188C58(u32 a);
@@ -48,7 +48,7 @@ extern int *func_021BE480(void *p, int i, int j);
 extern void *func_021BE674(void *p, int i, int j, int k);
 extern void func_021BE6B0(void *p, int v);
 extern int func_021BE6BC(void *p);
-extern u32 func_02188CB4(u32 a);
+extern void *func_02188CB4(unsigned char *p);
 extern void func_021A3038(u32 a, int *v);
 extern void func_021A3044(u32 a, int *v);
 extern int func_021F390C(int *p);
@@ -56,11 +56,11 @@ extern void func_021F392C(void *p);
 
 int func_021F37F0(void *a, int *b)
 {
-    u32 s;
+    void *s;
     void *r;
     int *w;
     u32 h;
-    u32 c;
+    void *c;
     int v[3];
 
     s = func_0201210C(func_020124E4(a));
@@ -86,7 +86,7 @@ int func_021F37F0(void *a, int *b)
             (*b)++;
         }
         func_021BE480(r, 0, 0)[1] = w[0];
-        c = func_02188CB4(s);
+        c = func_02188CB4((void *)s);
         func_021A3038(c, v);
         v[1] = w[0];
         func_021A3044(c, v);

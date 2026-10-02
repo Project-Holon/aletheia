@@ -38,7 +38,7 @@ extern void func_02040588(u8 which, u32 enable);
 extern void func_0203FCA0(u32 bgId, const void *tmpl, u32 type);
 extern void func_020414EC(u32 i);
 extern void func_020409B4(u32 layer);
-extern u32 func_020490F4(u32 id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void *func_020120F4(void *p);
 extern void *func_02012944(void *p);
 extern int func_02008550(void *p);
@@ -57,7 +57,7 @@ extern const u8 d_021F0608[];
 void func_021F000C(char *p, u32 heap)
 {
     int i;
-    u32 h;
+    void *h;
     u32 r;
 
     for (i = 4; i <= 7; i++)

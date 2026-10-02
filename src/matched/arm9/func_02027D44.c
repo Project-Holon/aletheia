@@ -60,7 +60,7 @@ struct Menu {
 };
 
 extern u32  func_020362DC(void);
-extern u32  func_0203633C(void);
+extern unsigned int func_0203633C(void);
 extern int  func_020355C4(void);
 extern void func_020355D8(u32 a);
 extern void func_02027B30(u32 cell, u32 ctx, u32 sel);

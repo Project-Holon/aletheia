@@ -29,17 +29,17 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_02030734(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
-extern u32   func_020490F4(u32 a0, u32 a1);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32   g_020A7494[];
 
-void *func_02025538(u32 a0, u32 a1)
+void *func_02025538(u32 a0, void *a1)
 {
     u8 *p;
     int i;
 
     p = func_02030734(a0, 0x18, 1, (u32)g_020A7494, 0x73);
     *(u16 *)(p + 4) = a0;
-    *(u32 *)p = a1;
+    *(void **)p = a1;
     for (i = 0; i < 3; i++) {
         *(u32 *)(p + 0xc + i * 4) = -1;
     }

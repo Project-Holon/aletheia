@@ -19,7 +19,7 @@
 extern int func_020399A8(void);
 extern int func_02008468(void);
 extern int func_02012944(int);
-extern int func_0203D3A8(int,int,unsigned short,int);
+extern int func_0203D3A8(void *a, unsigned int b, unsigned short c, unsigned int d);
 extern int func_02039C68(int,int,int);
 extern void func_021B95B8(int,void (*)(void));
 extern void func_021B9CC4(void);
@@ -27,7 +27,7 @@ void func_021B9D6C(int a) {
  int p=func_020399A8();
  int k=func_02008468();
  int v=func_02012944(**(int **)(a+0x244));
- if(func_0203D3A8(p,0xc01,k,v)!=0) {
+ if(func_0203D3A8((void *)p,0xc01,k,v)!=0) {
   func_02039C68(func_020399A8(),0x7b,12);
   func_021B95B8(a,func_021B9CC4);
  }

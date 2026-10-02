@@ -23,8 +23,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0200E394(int a0);
-extern int func_0200C0E8();
+extern void *func_0200E394(void *a0);
+extern void *func_0200C0E8(void *sys);
 extern int func_0200C32C();
 extern void func_0216BB90();
 extern int func_0216BB80();
@@ -38,11 +38,11 @@ u16 func_0216BA88(int c)
     int n;
     u32 lim;
     u32 best;
-    int r7;
+    void *r7;
     int r4;
 
-    r7 = func_0200E394(c);
-    r4 = func_0200C32C(func_0200C0E8(c));
+    r7 = func_0200E394((void *)c);
+    r4 = func_0200C32C(func_0200C0E8((void *)c));
     lim = func_0216BBB4(r4);
     n = (u8)func_0216BB80(r4);
     func_0216BB90(r4, buf);

@@ -59,7 +59,7 @@ extern u8 d_021D8840[];
 extern void *func_02030734(u32 a, u32 b, u32 c, void *d, u32 e);
 extern u8 *func_021A15A4(u8 *p, u32 heap);
 extern void *func_0204B100(u32 a, u32 b, u32 heap);
-extern void *func_0204B034(void *a, u32 b, u32 heap);
+extern void *func_0204B034(void *a, unsigned int a1, unsigned int heap);
 extern void func_0204B258(void *a, void *b);
 extern u32 *func_021A1DB4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u16 h, u16 i);
 extern void func_021A1C1C(void *);

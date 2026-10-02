@@ -16,7 +16,7 @@
  *   func_0202E9AC  0x0202E9AC  thumb
  */
 
-extern void *func_020490F4(int, int);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049238(void *);
 extern int func_0202E940(int, int, int, int);
 extern void func_0202E9AC(int, void *, int, int, int);

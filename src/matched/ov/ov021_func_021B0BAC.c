@@ -55,7 +55,7 @@ typedef struct S {
     V3 b;
 } S;
 
-extern u32 func_0215A5F4(u32);
+extern void *func_0215A5F4(void *p);
 extern u32 func_0215A60C(u32);
 extern u32 *func_02158F58(u32);
 extern u32 func_0215A5EC(u32);
@@ -84,7 +84,8 @@ extern void func_021B0ADC(u32, u32, int, V3 *, u32, int, int);
 
 int func_021B0BAC(u32 b, u16 id, u16 c, u16 d, u16 e, int f)
 {
-    u32 o, s28;
+    u32 s28;
+    void *o;
     u32 *q;
     u32 t, m20, m1c, r7, r18, r5, h;
     int sel;
@@ -93,7 +94,7 @@ int func_021B0BAC(u32 b, u16 id, u16 c, u16 d, u16 e, int f)
     int oa, ob;
 
     sel = e;
-    o = func_0215A5F4(b);
+    o = func_0215A5F4((void *)b);
     s28 = func_0215A60C(b);
     q = func_02158F58(o);
     t = func_0215A5EC(b);

@@ -18,15 +18,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215A5F4();
+extern void *func_0215A5F4(void *p);
 extern int func_02158F58();
 
 int func_0215A5FC(int a0)
 {
+    void *v0;
 
-    a0 = func_0215A5F4(a0);
+    v0 = func_0215A5F4((void *)a0);
 loc_0215A602:
-    a0 = func_02158F58(a0);
+    a0 = func_02158F58(v0);
 loc_0215A606:
 a0 = *(int *)((char *)a0);
     return a0;}

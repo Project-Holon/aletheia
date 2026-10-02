@@ -33,7 +33,7 @@ typedef unsigned short u16;
 typedef struct { int x; int y; int z; } V;
 
 extern void *func_02030734(int heap, int size, int clear, const char *file, int line);
-extern int func_020490F4(int a, int b);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_02188C9C(int a);
 extern int func_02013B38(int a);
 extern int func_02188C80(int a);

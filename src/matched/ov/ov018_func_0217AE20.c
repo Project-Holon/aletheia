@@ -37,6 +37,12 @@
 
 typedef unsigned char u8;
 typedef unsigned short u16;
+typedef unsigned int u32;
+
+struct Ctx;
+struct SaveBlock;
+struct Sub24;
+struct Rec44;
 
 typedef struct {
     int f0;
@@ -73,16 +79,16 @@ typedef struct {
 
 extern int func_02012138();
 extern void *func_02026474();
-extern int func_020120F4();
+extern void *func_020120F4(const struct Ctx *p);
 extern int func_02012E40();
 extern int func_02026454();
-extern int func_020127A4();
+extern void *func_020127A4(struct SaveBlock *p);
 extern int func_02012AC8();
 extern int func_02013D5C();
 extern int func_0200FB24();
 extern int func_02012B70();
 extern int func_02012B58();
-extern int func_02012950();
+extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern void func_0217B968();
 extern void func_0217BBD8();
 extern int func_0217C11C();
@@ -99,14 +105,14 @@ void func_0217AE20(int a0, int a1, int a2)
 {
     int h;
     Obj *p;
-    int ctx;
+    void *ctx;
     int skip;
     int i;
     int r;
 
     h = func_02012138(a1);
     p = func_02026474(h);
-    ctx = func_020120F4(a1);
+    ctx = func_020120F4((const struct Ctx *)a1);
     if (func_02012E40(ctx) == 1)
         return;
     func_0217B968(a0, a1, h, a2);

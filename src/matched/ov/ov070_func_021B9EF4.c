@@ -25,7 +25,7 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern int func_020490F4(int, u16);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_0204AC18(int, int, int, int, int, int, u16);
 extern int func_0204A6C8(int, int, int, int, u16);
 extern int func_0204AF28(int, int, int, u16);
@@ -35,7 +35,7 @@ extern void func_02049238(int);
 
 void func_021B9EF4(char *p)
 {
-    int bg;
+    void *bg;
     int i;
 
     bg = func_020490F4(0x58, *(u16 *)(p + 0x544));

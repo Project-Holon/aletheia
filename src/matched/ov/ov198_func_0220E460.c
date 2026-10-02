@@ -17,7 +17,7 @@
  *   func_02027610 0x02027610 thumb
  */
 typedef unsigned short u16;
-extern void *func_020490F4(void *, u16);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_0204A6C8(unsigned, unsigned, unsigned, unsigned, u16);
 extern int func_0204ABF0(unsigned, unsigned, unsigned, unsigned, u16);
 extern int func_0204AF28(unsigned, unsigned, unsigned, u16);

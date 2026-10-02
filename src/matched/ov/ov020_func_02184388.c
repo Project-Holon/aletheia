@@ -24,7 +24,7 @@
 typedef unsigned char u8;
 
 extern void func_0218403C(u8 *p);
-extern void *func_02188C7C(void *p);
+extern void *func_02188C7C(u8 *p);
 extern void func_0216D9A0(void *map);
 extern void func_0218409C(u8 *p, int a);
 extern int func_021BD648(u8 *p);
@@ -40,7 +40,7 @@ int func_02184388(int a, int *state, u8 *p)
     switch (*state) {
     case 0:
         func_0218403C(p);
-        func_0216D9A0(func_02188C7C(w));
+        func_0216D9A0(func_02188C7C((u8 *)w));
         func_0218409C(p, a);
         func_02012374(a, func_021BD648(p + 0x4c));
         (*state)++;

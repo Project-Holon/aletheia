@@ -21,7 +21,7 @@ int func_02026478(int a);
 int func_020127B8(int a);
 int func_021736D8(void);
 int func_020399A8(void);
-int func_0203D3A8(int a, int b, int c, int d);
+int func_0203D3A8(void *a, unsigned int b, unsigned int c, unsigned int d);
 
 int func_02174374(int *a)
 {

@@ -39,7 +39,7 @@ typedef short s16;
 typedef struct {u16 a,b,c;u8 d,e;} R;
 extern u32 *func_02030734(u32,u32,u32,const char *,u32);
 extern u32 func_02017E1C(void *,u32,u32);
-extern u32 func_020490F4(int,u32);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_020185F4(int);
 extern int func_0201BA68(int);
 extern u32 func_0204A6C8(u32,int,int,int,u16);
@@ -65,7 +65,7 @@ u32 *func_021BD218(u8 *p,void *mon,s16 x,u16 y)
     R a;
     R b;
     u32 *s;
-    u32 h;
+    void *h;
     int species;
     int frame;
     u32 gender;

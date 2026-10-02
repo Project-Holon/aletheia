@@ -16,6 +16,7 @@
  *   func_021B6448  0x021B6448  thumb  ov067
  */
 typedef unsigned char u8;
+typedef unsigned int u32;
 
 typedef struct {
     char pad[0x8ef];
@@ -26,8 +27,8 @@ typedef struct {
 
 extern void func_021B63D0(void *p);
 extern int func_021B6448(void *p);
-extern int func_0203630C(void);
-extern int func_020362DC(void);
+extern unsigned int func_0203630C(void);
+extern u32 func_020362DC(void);
 
 int func_021C1C10(Work *w)
 {

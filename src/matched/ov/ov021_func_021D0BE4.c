@@ -35,8 +35,8 @@ typedef struct Work {
     int f78;
     u8 pad7C[0x80 - 0x7C];
     int f80;
-    int f84;
-    int f88;
+    u8 *f84;
+    u16 *f88;
     int f8C;
 } Work;
 
@@ -46,7 +46,7 @@ extern int func_0200E588(void);
 extern void func_021D0C58(void);
 extern u8 d_0209DF0C;
 
-void *func_021D0BE4(int a, u8 *b, int c)
+void *func_021D0BE4(int a, u8 *b, u16 *c)
 {
     void *task;
     Work *w;
@@ -55,7 +55,7 @@ void *func_021D0BE4(int a, u8 *b, int c)
     w = func_020124E8(task);
     w->f80 = a;
     w->f88 = c;
-    w->f84 = (int)b;
+    w->f84 = b;
     w->f8C = 0;
     w->f00 = 0x2E;
     w->f08 = func_0200E588();

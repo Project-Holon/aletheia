@@ -17,12 +17,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_020124E8();
+struct Obj;
+extern void *func_020124E8(struct Obj *p);
 
 int func_021589D0(int a0)
 {
+    void *p;
 
-    a0 = func_020124E8(a0);
+    p = func_020124E8((struct Obj *)a0);
 loc_021589D6:
-a0 = *(int *)((char *)a0);
+a0 = *(int *)p;
     return a0;}

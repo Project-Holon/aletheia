@@ -14,12 +14,12 @@
  */
 typedef unsigned int u32;
 typedef unsigned short u16;
-extern void *func_020490F4(void *, u32);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_020498F4(u32, u32, u32, u32, u32, u32, u16);
 extern void func_02049238(int);
 void func_021BCA84(void)
 {
-    u32 h = (u32)func_020490F4((void *)159, 0x807b);
+    void *h = func_020490F4((void *)159, 0x807b);
     func_020498F4(h, 93, 0, 0, 0, 0, 123);
     func_020498F4(h, 92, 3, 0, 0, 0, 123);
     func_02049238(h);

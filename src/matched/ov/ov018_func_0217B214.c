@@ -49,13 +49,22 @@
 
 typedef unsigned char u8;
 typedef unsigned short u16;
+typedef unsigned int u32;
+
+struct Obj;
+struct Ctx;
+struct Sub24;
+struct Rec44;
+struct WordSet;
+struct U16Vec;
+struct MsgBank;
 
 typedef struct {
     int f0;
     int f4;
     int f8;
     int fc;
-    int f10;
+    struct WordSet *f10;
     u16 f14;
     u8 f16;
     u8 f17;
@@ -74,21 +83,21 @@ typedef struct {
     u16 h2;
 } Tmp;
 
-extern int func_020124E4();
+extern void *func_020124E4(struct Obj *p);
 extern int func_02012138();
-extern int func_020120F4();
-extern int func_02012944();
-extern int func_02012950();
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012944(void *p);
+extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern int func_02012B58();
-extern int func_0201EC64();
+extern struct WordSet *func_0201EC64(u32 heap);
 extern void func_0201F02C();
 extern void func_0201F250();
 extern void func_0201ED04();
-extern int func_020457B0();
-extern int func_02045EC0();
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
 extern void func_02045808();
 extern void func_02045C04();
-extern int func_020362DC();
+extern u32 func_020362DC(void);
 extern Peer *func_02158344();
 extern int func_021584A4();
 extern int func_0216D3CC();
@@ -98,7 +107,7 @@ extern int func_02175BE4();
 extern void func_02175548();
 extern void func_0217C758();
 extern int func_0217C820();
-extern int func_02188C7C();
+extern void *func_02188C7C(unsigned char *p);
 extern int func_02188C54();
 extern int func_02188D20();
 extern int func_02188C9C();
@@ -112,16 +121,16 @@ extern void func_021BC5A0();
 
 int func_0217B214(int a0, int *state, Obj *o)
 {
-    int w;
+    void *w;
     int h;
-    int ctx;
+    void *ctx;
     Peer *p;
     int t;
-    int a;
-    int b;
+    struct U16Vec *a;
+    void *b;
     Tmp tmp;
 
-    w = func_020124E4(a0);
+    w = func_020124E4((struct Obj *)a0);
     h = func_02012138(w);
     ctx = func_020120F4(w);
     p = func_02158344(h);
@@ -170,9 +179,9 @@ int func_0217B214(int a0, int *state, Obj *o)
             a = func_020457B0(0x100, 0x15);
             func_0201F02C(o->f10, 0, func_02012950(ctx, p->slot));
             if (o->f16 == 1)
-                b = func_02045EC0(o->f8, 0x50);
+                b = func_02045EC0((struct MsgBank *)o->f8, 0x50);
             else
-                b = func_02045EC0(o->f8, 0x51);
+                b = func_02045EC0((struct MsgBank *)o->f8, 0x51);
             func_0201F250(o->f10, a, b);
             func_02190758(o->fc, 0, 0, a);
             func_02045808(b);

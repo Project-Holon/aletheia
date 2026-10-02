@@ -25,14 +25,16 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-typedef struct T { u32 a; u32 b; u32 c; u16 h; } T;
+struct Ctx;
+
+typedef struct T { void *a; void *b; u8 *c; u16 h; } T;
 
 extern T *func_02030734();
 extern u8 d_02172978[];
 extern void func_02082BCC();
-extern int func_020120F4();
-extern int func_0200CA1C();
-extern int func_02012944();
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_0200CA1C(void *a);
+extern u8 *func_02012944(void *p);
 extern int func_02012A30();
 extern int func_02012134();
 extern void func_02029DBC();
@@ -40,13 +42,14 @@ extern void func_02029DBC();
 T *func_02160D6C(int *a0, int a1)
 {
     T *p;
+    void *sys;
     int s;
 
     p = func_02030734(4, 0x10, 0, d_02172978, 0x49b);
     func_02082BCC(p, 0, 0x10);
-    s = func_020120F4(*(int *)a0[6]);
-    p->a = s;
-    p->b = func_0200CA1C(s);
+    sys = func_020120F4((const struct Ctx *)*(int *)a0[6]);
+    p->a = sys;
+    p->b = func_0200CA1C(sys);
     p->c = func_02012944(p->a);
     s = func_02012A30(p->a);
     func_02029DBC(s, func_02012134(*(int *)a0[6]));

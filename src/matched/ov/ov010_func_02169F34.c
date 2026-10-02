@@ -28,7 +28,7 @@ extern void func_0201CE5C(u32 h, int v);
 extern void func_0201CE38(u32 h);
 extern void func_0201CE48(u32 h);
 extern int func_02035C60(void);
-extern u32 func_0203630C(void);
+extern unsigned int func_0203630C(void);
 extern u32 func_020362DC(void);
 extern void func_020061E4(u32 v);
 

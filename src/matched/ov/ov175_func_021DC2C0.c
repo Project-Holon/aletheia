@@ -21,7 +21,7 @@
 typedef unsigned long u32;
 
 extern u32  func_020399A8(void);
-extern void func_0203D3A8(u32 tick, u32 id, u32 len, void *p);
+extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *p);
 
 void func_021DC2C0(u32 ignored, void *p)
 {

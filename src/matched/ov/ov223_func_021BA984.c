@@ -22,7 +22,7 @@
 typedef unsigned short u16;
 typedef unsigned char u8;
 struct Request {u16 x,y,z;u8 a,b;};
-extern void *func_020490F4(unsigned,unsigned);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_0204AC18(void *,unsigned,unsigned,unsigned,u16,u16,u16);
 extern int func_0204A6C8(void *,unsigned,unsigned,unsigned,u16);
 extern int func_0204AF28(void *,unsigned,unsigned,unsigned);

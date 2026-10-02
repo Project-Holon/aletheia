@@ -16,7 +16,7 @@
  */
 typedef unsigned char u8;
 extern unsigned func_020399A8(void);
-extern int func_0203D3A8(unsigned,unsigned,unsigned,void *);
+extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *d);
 extern int func_021D8A24(void *);
 extern void func_021D8E84(void *,int);
 extern void func_021DED74(void *);
@@ -25,6 +25,6 @@ void func_021DEDBC(void *p) {
  u8 b;
  if(func_021D8A24(p)) {
   b=1;
-  if(func_0203D3A8(h,0xc0a,1,&b)) {func_021D8E84(p,(int)func_021DED74);return;}
+  if(func_0203D3A8((void *)h,0xc0a,1,&b)) {func_021D8E84(p,(int)func_021DED74);return;}
  } else {func_021D8E84(p,(int)func_021DED74);}
 }

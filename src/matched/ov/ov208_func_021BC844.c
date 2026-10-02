@@ -41,7 +41,7 @@ struct Ov208Win {
 };
 
 extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
-extern u32  func_020490F4(u32 id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049BDC(u32 h, u32 id, u32 type, u32 ofs, u32 src, u32 size, u16 heap);
 extern u32  func_02049740(u32 h, u32 id, u32 layer, u32 ofs, u32 size, u32 heap);
 extern void func_02049990(u32 h, u32 id, u32 layer, u32 ofs, u32 chrOfs, u32 a5, u32 a6,
@@ -57,7 +57,7 @@ extern const struct Ov208BgArc data_021C80F0[2];
 struct Ov208Win *ov208_func_021BC844(u16 heap, u32 kind, u8 layer, u8 pal, u8 objPal)
 {
     struct Ov208Win *w;
-    u32 h;
+    void *h;
     u32 sub;
     u32 type;
     u32 scr;

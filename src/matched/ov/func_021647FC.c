@@ -17,16 +17,17 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_020490F4();
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 
-int func_021647FC(int a0, int a1)
+void *func_021647FC(int a0, int a1)
 {
     int t4;
+    void *rec;
 
 t4 = a0 + 0;
 a1 = *(u16 *)((char *)t4);
 a0 = 0x61;
-    a0 = func_020490F4(a0, a1);
+    rec = func_020490F4(a0, a1);
 loc_02164808:
-*(int *)((char *)t4 + 8) = a0;
-    return a0;}
+*(void **)((char *)t4 + 8) = rec;
+    return rec;}

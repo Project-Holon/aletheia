@@ -18,13 +18,15 @@
  *   func_0201CE5C 0x0201CE5C thumb
  *   func_0201CE38 0x0201CE38 thumb
  */
+
+typedef unsigned int u32;
 extern unsigned func_0201CE30(void*);
 extern void func_0201CE5C(void*,int);
 extern void func_0201CE38(void*);
-extern unsigned func_0203630C(void);
+extern unsigned int func_0203630C(void);
 extern int func_02035C38(void);
 extern void func_020355D8(unsigned);
-extern unsigned func_020362DC(void);
+extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern void func_020061E4(unsigned);
 int func_021BA190(int unused,char*p)

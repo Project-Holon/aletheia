@@ -33,10 +33,10 @@ struct Ctx {
 };
 
 extern u16 func_0216279C(int mode);
-extern int func_02162F74(struct Rec *r, int key);
+extern int func_02162F74(struct Rec *r, int *key);
 extern u16 *func_020143CC(void *p, int k);
 
-struct Rec *func_0216282C(struct Ctx *c, void *a, int key, int mode)
+struct Rec *func_0216282C(struct Ctx *c, void *a, int *key, int mode)
 {
     struct Rec *r = c->f28;
     u16 v;

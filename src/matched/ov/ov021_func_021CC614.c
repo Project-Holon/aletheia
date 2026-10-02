@@ -35,10 +35,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_02159B10(u32 a, u32 b);
-extern u32 func_0215A5DC(u32 a);
+extern void *func_0215A5DC(void *a0);
 extern u32 func_020120F4(u32 a);
-extern u32 func_0201210C(u32 a);
-extern u32 func_0215A5F4(u32 a);
+extern void *func_0201210C(void *p);
+extern void *func_0215A5F4(void *p);
 extern void func_0216530C(u32 a);
 extern void func_02165534(u32 a);
 extern void func_021653C4(void);
@@ -53,14 +53,14 @@ int func_021CC614(u32 a, u32 b)
 {
     u32 sel;
     u32 v;
-    u32 t;
+    void *t;
 
     sel = func_02159B10(a, b);
     v = func_02159B10(a, b);
-    t = func_0215A5DC(b);
+    t = func_0215A5DC((void *)b);
     func_020120F4(t);
-    func_0201210C(t);
-    func_0215A5F4(b);
+    func_0201210C((void *)t);
+    func_0215A5F4((void *)b);
     switch (sel) {
     case 0:
         func_0216530C(v);

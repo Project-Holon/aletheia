@@ -15,8 +15,10 @@
  *   func_021BCD00 0x021BCD00 thumb ov216
  *   func_021BD6F0 0x021BD6F0 thumb ov216
  */
+
+typedef unsigned int u32;
 extern int func_021B6470(unsigned char *);
-extern unsigned func_020362DC(void);
+extern u32 func_020362DC(void);
 struct Ctx;
 extern unsigned func_02012204(const struct Ctx *);
 extern void func_021BD89C(void *,int);

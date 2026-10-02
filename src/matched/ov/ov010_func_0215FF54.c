@@ -32,15 +32,19 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_020120F4();
-extern int func_02012EBC();
-extern int func_0200C404();
+struct Ctx;
+struct Big;
+struct Desc;
+
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200C404(void *sys);
 extern int func_0200C468();
-extern int func_020122C0();
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern u32 *func_020124E8();
 extern void func_02082BCC();
 extern u32 *func_02030734();
-extern int func_02188C7C();
+extern void *func_02188C7C(unsigned char *p);
 extern void func_0216D9A0();
 extern void func_020355D8();
 extern void func_0216025C();
@@ -49,36 +53,63 @@ extern u8 d_02172960[];
 extern void func_02160668();
 extern void func_021606D0();
 
-int func_0215FF54(int a0, int a1, u16 a2)
-{
-    int sp8;
-    int r5;
-    u32 *p;
+/* the 0x40-byte block hung off the record */
+struct Sub {
+    int          owner;  /* 0x00 */
+    int          field;  /* 0x04 */
+    struct Desc *desc;   /* 0x08 */
+    u32          f0C;
+    u32          f10;
+    void        *fn14;
+    void        *fn18;
+    u32          f1C;
+    void        *rec;    /* 0x20 */
+    u8           pad24[0x40 - 0x24];
+};
 
-    sp8 = func_0200C404(func_02012EBC(func_020120F4(a0)));
+/* the 0x20-byte record behind the descriptor */
+struct Rec {
+    struct Desc *desc;   /* 0x00 */
+    int          owner;  /* 0x04 */
+    int          field;  /* 0x08 */
+    u32          f0C;
+    struct Sub  *sub;    /* 0x10 */
+    u16          id;     /* 0x14 */
+    u16          f16;
+    u32          f18;
+    u32          f1C;
+};
+
+struct Desc *func_0215FF54(int a0, int a1, u16 a2)
+{
+    void *sp8;
+    struct Desc *r5;
+    struct Rec *p;
+
+    sp8 = func_0200C404(func_02012EBC((struct Big *)func_020120F4((const struct Ctx *)a0)));
     if (func_0200C468(sp8) == 1) {
-        r5 = func_020122C0(a0, 0, func_0216025C, 0x20);
+        r5 = func_020122C0((void *)a0, 0, (void *)func_0216025C, 0x20);
     } else {
-        r5 = func_020122C0(a0, 0, func_02160018, 0x20);
+        r5 = func_020122C0((void *)a0, 0, (void *)func_02160018, 0x20);
     }
-    p = func_020124E8(r5);
+    p = (struct Rec *)func_020124E8(r5);
     func_02082BCC(p, 0, 0x20);
-    p[1] = a0;
-    p[0] = r5;
-    p[2] = a1;
-    *(u16 *)((u8 *)p + 0x14) = a2;
-    p[6] = 0;
-    p[4] = (u32)func_02030734(4, 0x40, 0, d_02172960, 0xc2);
-    func_02082BCC(p[4], 0, 0x40);
-    ((u32 *)p[4])[0] = p[1];
-    ((u32 *)p[4])[1] = p[2];
-    ((u32 *)p[4])[2] = r5;
+    p->owner = a0;
+    p->desc = r5;
+    p->field = a1;
+    p->id = a2;
+    p->f18 = 0;
+    p->sub = (struct Sub *)func_02030734(4, 0x40, 0, d_02172960, 0xc2);
+    func_02082BCC(p->sub, 0, 0x40);
+    p->sub->owner = p->owner;
+    p->sub->field = p->field;
+    p->sub->desc = r5;
     if (func_0200C468(sp8) != 1) {
-        ((u32 *)p[4])[5] = (u32)func_02160668;
-        ((u32 *)p[4])[6] = (u32)func_021606D0;
-        ((u32 *)p[4])[8] = (u32)p;
+        p->sub->fn14 = (void *)func_02160668;
+        p->sub->fn18 = (void *)func_021606D0;
+        p->sub->rec = p;
     }
-    func_0216D9A0(func_02188C7C(p[2]));
+    func_0216D9A0(func_02188C7C(p->field));
     func_020355D8(0);
     return r5;
 }

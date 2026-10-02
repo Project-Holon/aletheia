@@ -22,25 +22,27 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
+typedef unsigned long long u64;
 
-extern int func_0215A5E4();
+extern void *func_0215A5E4(void *a0);
 extern int func_0215A5CC();
 extern int func_02159B10();
-extern int func_0200CA1C();
-extern int func_020173F0();
+extern void *func_0200CA1C(void *a);
+extern void *func_020173F0(u32 species, u32 level, u64 id, u32 heap);
 extern int func_0200CFA0();
 extern int func_020307B0();
 
 int func_0215AEE8(int a0, int a1)
 {
-    int v0;
+    void *v0;
     int k;
-    int m, n, o;
-    v0 = func_0200CA1C(func_0215A5E4(a1));
+    int m, o;
+    void *n;
+    v0 = func_0200CA1C((void *)func_0215A5E4((void *)a1));
     k = func_0215A5CC(a1);
     m = func_02159B10(a0, a1);
     o = func_02159B10(a0, a1);
-    n = func_020173F0(o, 1, 0, -1, k);
+    n = func_020173F0(o, 1, 0xFFFFFFFF00000000ULL, k);
     switch (m) {
     case 0:
         func_0200CFA0(v0, n);

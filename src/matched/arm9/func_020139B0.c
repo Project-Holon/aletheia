@@ -90,7 +90,7 @@ extern const char sZonedataFile[];
 
 extern void *func_02030734(u32 heap, u32 size, u32 kind, const char *file,
                            u32 line);
-extern void *func_020490F4(u32 archive_id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void *func_0204A298(u32 archive_id, u32 member, u32 kind, u32 heap,
                            u32 *size_out);
 

@@ -62,7 +62,7 @@ extern void func_0203D1E8(u32 a, int b);
 extern void func_0203D7BC(int a);
 extern int  func_020392B8(void);
 extern u32  func_020399A8(void);
-extern int  func_020362DC(void);
+extern u32 func_020362DC(void);
 extern void func_020061E4(u32 id);
 extern int  memcmp(const void *a, const void *b, u32 n);
 

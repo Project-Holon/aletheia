@@ -36,11 +36,11 @@ typedef unsigned int   u32;
 
 extern u32 func_02188C58(u32 p);
 extern u32 func_02188C5C(u32 p);
-extern u32 func_02188CB4(u32 p);
+extern void *func_02188CB4(unsigned char *p);
 extern u32 func_02188C84(u32 p);
 extern u32 func_021A6D58(u32 p, u32 q);
 extern void func_02188CAC(u32 p, u32 v);
-extern u32 func_021A3074(u32 p);
+extern void *func_021A3074(unsigned char *p);
 extern u32 func_0216D888(u32 p);
 extern void func_02188D40(u32 p, u32 v);
 extern u32 func_02188C80(u32 p);
@@ -54,13 +54,13 @@ extern void func_021A305C(u32 p, u32 v);
 
 void func_021A6CB8(u32 a, u32 b, u32 c)
 {
-    u32 r4;
+    void *r4;
 
     func_02188C58(a);
     func_02188C5C(a);
-    r4 = func_02188CB4(a);
+    r4 = func_02188CB4((void *)a);
     func_02188CAC(a, func_021A6D58(a, func_02188C84(a)));
-    func_02188D40(a, func_0216D888(func_021A3074(r4)));
+    func_02188D40(a, func_0216D888(func_021A3074((void *)r4)));
     func_021A36B0(r4, func_02012AB8(func_020127A4(func_020120F4(func_02188C80(a)))));
     func_021A36D4(r4, b);
     func_021A3044(r4, b);

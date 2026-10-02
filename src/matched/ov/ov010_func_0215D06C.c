@@ -19,10 +19,10 @@
  *   func_02017E1C 0x02017E1C thumb
  */
 typedef unsigned short u16;
-extern u16 * func_02159AE8(void *, void *);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_02159B10(void *, void *);
-extern void * func_0215A5DC(void *);
-extern void * func_0201210C(void *);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0201210C(void *p);
 extern unsigned int func_02188D50(unsigned char *);
 extern int func_021C34F8(unsigned int, unsigned int);
 extern unsigned int func_02017E1C(void *, unsigned int, unsigned int);

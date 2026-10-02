@@ -35,8 +35,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_020362DC(void);
-extern u32 func_0203630C(void);
-extern u32 func_021A3074(u32 a);
+extern unsigned int func_0203630C(void);
+extern void *func_021A3074(unsigned char *p);
 extern u32 func_021A2FA4(u32 a, u32 b);
 extern u32 func_0216D608(u32 a);
 extern u32 func_0216D3CC(u32 a);
@@ -57,7 +57,7 @@ void func_021A7010(u32 a, u32 *b)
     u32 v1c;
     u32 v18;
     u32 v14;
-    u32 v10;
+    void *v10;
     u32 r6;
     u32 r7;
     u32 r4;

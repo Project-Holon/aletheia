@@ -32,7 +32,7 @@ typedef struct {
 extern void *func_020122C0(void *a, u32 b, void (*fn)(), u32 size);
 extern Task *func_020124E8(void *task);
 extern void MI_CpuFill8(void *p, int v, int n);
-extern int func_021A3074(int);
+extern void *func_021A3074(unsigned char *p);
 extern void func_0217B084();
 
 void *func_0217B044(void *a, int b, int c, u16 d, u16 e, int f)
@@ -44,7 +44,7 @@ void *func_0217B044(void *a, int b, int c, u16 d, u16 e, int f)
     p = func_020124E8(t);
     MI_CpuFill8(p, 0, sizeof(Task));
     p->f00 = b;
-    p->f04 = func_021A3074(c);
+    p->f04 = func_021A3074((void *)c);
     p->f16 = d;
     p->f14 = e;
     p->f10 = f;

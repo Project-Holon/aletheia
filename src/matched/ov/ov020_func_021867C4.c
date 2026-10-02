@@ -17,7 +17,7 @@
  */
 
 extern int *func_02030734(int, int, int, void *, int);
-extern int func_020490F4(int, int);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_0204932C(int, int, int *);
 extern int d_02187EB4;
 

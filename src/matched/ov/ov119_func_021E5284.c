@@ -32,7 +32,7 @@ typedef struct BgTemplate { u32 a,b,bufSize,d; u8 e,f,g,h; u32 i; u8 j,k,l,m; u3
 extern const BgTemplate d_021E7E24,d_021E7F44;
 extern void func_021E57E8(int),func_0203FCA0(u32,const BgTemplate *,u32);
 extern void func_02040C14(u32,u32,u32,u32),func_02041300(u32,int,int,int,u8,u8,u8),func_020409B4(u32);
-extern void *func_020490F4(void *,u32);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(void *,int,int,int,int,u32);
 extern void func_02049658(u32,u32,u32,u32,u32,u32,u16),func_020498F4(u32,u32,u32,u32,u32,u32,u16);
 extern void func_02040618(u32,u32,u32),func_02049238(void *);

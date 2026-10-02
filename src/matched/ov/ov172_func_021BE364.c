@@ -23,7 +23,7 @@ extern void func_0203064C(int,int,u32);
 extern u8 *func_0203159C(u32,u32,int);
 extern u8 *func_02030734(int,int,int,void *,int);
 extern u32 func_020124F4(int);
-extern u32 func_0203630C(void);
+extern unsigned int func_0203630C(void);
 extern void func_021BD1AC(u8 *);
 extern u8 d_021C724C[];
 int func_021BE364(u32 obj,int unused,u8 *arg)

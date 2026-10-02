@@ -59,8 +59,8 @@ typedef struct {
     int *flags;
 } Ctx;
 
-extern int func_020362DC(void);
-extern int func_0203630C(void);
+extern u32 func_020362DC(void);
+extern unsigned int func_0203630C(void);
 extern void func_0204B22C(void *h, int v);
 extern void func_02206950(W *p);
 extern void func_022064CC(W *p, u8 (*tab)[4], s8 (*rows)[12]);

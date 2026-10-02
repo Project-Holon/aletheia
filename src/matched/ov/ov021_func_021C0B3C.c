@@ -27,12 +27,12 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0201210C(u32 a);
+extern void *func_0201210C(void *p);
 extern u32 func_02188C84(u32 a);
 extern u32 func_02188C98(u32 a);
 extern u32 func_021C0C94(u32 a);
 extern u32 func_0218DC6C(u32 a);
-extern u32 func_02188CB4(u32 a);
+extern void *func_02188CB4(unsigned char *p);
 extern void func_021A3038(u32 a, int *pos);
 extern u32 *func_0218C584(u32 a, int *rect, u32 n, int *cnt);
 extern void func_0218C6D0(u32 a, u8 *dst);
@@ -41,14 +41,14 @@ extern u32 func_0218C724(u32 a, u32 b);
 
 void func_021C0B3C(u8 *p, u32 a)
 {
-    u32 s;
+    void *s;
     u32 t;
     u32 *r;
     int pos[3];
     int rect[4];
     int cnt;
 
-    s = func_0201210C(a);
+    s = func_0201210C((void *)a);
     t = func_02188C98(s);
     *(u16 *)p = func_02188C84(s);
     *(u32 *)(p + 4) = s;
@@ -59,7 +59,7 @@ void func_021C0B3C(u8 *p, u32 a)
     if (p[0x14] > 6) {
         p[0x14] = 6;
     }
-    func_021A3038(func_02188CB4(*(u32 *)(p + 4)), pos);
+    func_021A3038(func_02188CB4(*(void **)(p + 4)), pos);
     rect[0] = pos[2] - 0x50000;
     rect[1] = pos[2] + 0x50000;
     rect[2] = pos[0] - 0x50000;

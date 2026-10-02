@@ -39,6 +39,8 @@
  *   func_021EA458 0x021EA458 thumb
  */
 
+typedef unsigned int u32;
+
 typedef struct {
     void *top;
     unsigned char pad4[0x13 - 4];
@@ -60,7 +62,7 @@ typedef struct {
 } Obj;
 
 extern int func_021E8F50(Obj *p, int v);
-extern unsigned func_020362DC(void);
+extern u32 func_020362DC(void);
 extern void func_021DD238(Obj *p);
 extern unsigned func_021EF1A4(void);
 extern void func_020260F4(void *obj, int state);

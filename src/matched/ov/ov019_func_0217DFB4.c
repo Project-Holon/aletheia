@@ -34,7 +34,7 @@ typedef struct {
     u8 f2d;
 } Obj;
 
-extern void *func_02188CB4(int a);
+extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(void *p);
 extern int func_0217BB20(void *ctx);
 extern void func_0217F074(void *ctx);
@@ -81,7 +81,7 @@ int func_0217DFB4(void *ctx, Obj *obj, int a2, u8 *state)
         }
         break;
     case 3:
-        h = func_021A3074(func_02188CB4(a2));
+        h = func_021A3074(func_02188CB4((void *)a2));
         if (func_0216D3CC(h) == 1) {
             func_0217FE44(a2, func_0217F060(obj->f2d), &out);
             func_0216D410(h, (out & 1) ? 2 : 3);
@@ -89,7 +89,7 @@ int func_0217DFB4(void *ctx, Obj *obj, int a2, u8 *state)
         }
         break;
     case 4:
-        h = func_021A3074(func_02188CB4(a2));
+        h = func_021A3074(func_02188CB4((void *)a2));
         if (func_0216D454(h) == 1) {
             func_0216D480(h);
             func_0217B8E4(ctx, 0x2d);

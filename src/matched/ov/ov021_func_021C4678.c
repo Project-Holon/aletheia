@@ -21,17 +21,17 @@
 
 typedef unsigned int u32;
 
-extern void *func_0215A5DC(void *);
-extern u32 func_0201210C(u32);
-extern u32 func_02188CB4(u32);
-extern u32 func_021A3074(u32);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0201210C(void *p);
+extern void *func_02188CB4(unsigned char *p);
+extern void *func_021A3074(unsigned char *p);
 extern u32 func_02188CD0(u32);
 extern void func_021C9550(u32, u32);
 
 int func_021C4678(void *a, void *b)
 {
-    u32 g = func_0201210C((u32)func_0215A5DC(b));
-    u32 h = func_021A3074(func_02188CB4(g));
+    void *g = func_0201210C(func_0215A5DC(b));
+    void *h = func_021A3074(func_02188CB4((void *)g));
 
     func_021C9550(h, func_02188CD0(g));
     return 0;

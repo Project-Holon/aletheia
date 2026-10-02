@@ -24,10 +24,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5DC(void *);
+extern void *func_0215A5DC(void *a0);
 extern int func_020120F4(void *);
-extern int func_02012F50(int);
-extern void func_021D0A48(void *, int);
+extern void *func_02012F50(void *base);
+extern void func_021D0A48(void *, void *);
 
 int func_0216A420(void *a0, void *a1)
 {

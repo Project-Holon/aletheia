@@ -50,7 +50,8 @@ typedef unsigned int u32;
 extern const u32 d_020A1448[],d_021BB6F0[];
 extern void func_0201DD68(char *),func_021BA624(char *),func_021BA028(char *),func_021BA668(char *),func_021BA1C8(void),func_021BAA9C(char *),func_021B96EC(char *),func_021B974C(int,int,int,int,int),func_021B95B8(char *,u32);
 extern int func_0201EC74(u32,u32,u32),func_020457B0(u32,u32),func_0201D7EC(int,int,int,int,u32),func_02045B38(u32,u32,u32,u32),func_02049740(u32,u32,u32,u32,u32,u16),func_02049990(u32,u32,u32,u32,u16,u32,u32,u16),func_0201F5DC(int,u32,u32,u32),func_0204B100(int,u8,u32),func_020056A0(u32,u32,u32),func_0201C440(u32),func_02027F60(u16,u16,u32,u32,u16);
-extern void *func_020490F4(void *,u32),*func_02049F78(void *,u32,void **,u32);
+extern void *func_020490F4(unsigned int id, u32 heap);
+extern void *func_02049F78(void *,u32,void **,u32);
 extern void func_02049B68(u32,u32,u32,u32,u32,u16),func_02049238(void *),func_0204E720(u32,int,int,int),func_0204A48C(const void *,u32,u32),func_02043534(int),func_020435F4(int),func_02082D44(const void *,void *,u32),func_020307B0(void *);
 void func_021BA780(char *p) {
  void *owner;

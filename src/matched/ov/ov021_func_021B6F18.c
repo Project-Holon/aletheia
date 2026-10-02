@@ -20,7 +20,7 @@
  * Addresses are Black-image addresses.
  */
 
-extern void *func_02012934(int p);
+extern void *func_02012934(void *p);
 extern void *func_021B6EE0(int a, int b);
 extern int func_0201AA18(void *p);
 extern void func_0201A98C(void *l, void *m);
@@ -33,7 +33,7 @@ void func_021B6F18(int a, int b, int c)
     void *l;
     void *m;
 
-    l = func_02012934(b);
+    l = func_02012934((void *)b);
     m = func_021B6EE0(a, c);
     if (func_0201AA18(l) < 6 && m != 0) {
         func_0201A98C(l, m);

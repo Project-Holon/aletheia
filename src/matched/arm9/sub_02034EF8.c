@@ -67,7 +67,7 @@ extern void sub_020360A8(void);
 extern void sub_02035A60(void);
 extern void sub_0203545C(void);
 extern void sub_020356A0(struct AreaCtx *p);
-extern u32  sub_0203630C(void);
+extern unsigned int sub_0203630C(void);
 extern void sub_02035544(u32 x);
 
 void sub_02034EF8(struct AreaCtx *p)

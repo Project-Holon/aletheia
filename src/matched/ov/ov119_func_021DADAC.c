@@ -27,8 +27,7 @@ extern void func_021D8E84(void *p, int v);
 extern void func_021E1024(void *p);
 extern void func_021E1030(void *p);
 extern unsigned int func_020399A8(void);
-extern int func_0203D3A8(unsigned int a, unsigned int b, unsigned int c,
-                         void *d);
+extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *d);
 extern void func_02039C68(unsigned int a, unsigned int b, unsigned int c);
 extern void func_02045CAC(int a, int b, int c);
 

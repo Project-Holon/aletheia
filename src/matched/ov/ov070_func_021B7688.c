@@ -21,6 +21,7 @@
  */
 
 typedef unsigned short u16;
+typedef unsigned int u32;
 
 typedef struct Obj {
     unsigned char pad000[0x6A8];
@@ -31,7 +32,7 @@ typedef struct Obj {
     u16 f83E;
 } Obj;
 
-extern int func_020362DC(void);
+extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern void func_020414EC(int v);
 extern void func_021B6138(Obj *o);

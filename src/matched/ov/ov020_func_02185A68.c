@@ -34,7 +34,7 @@
 
 void *func_020120F4(void *p);
 void *func_02012844(void *p);
-int func_0201210C(void *p);
+void *func_0201210C(void *p);
 int func_02012B70(void *p);
 int func_02013D5C(int v);
 void *func_02012B38(void *p);

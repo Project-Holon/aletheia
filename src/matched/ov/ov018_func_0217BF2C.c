@@ -28,7 +28,7 @@ typedef struct {
     Sub s;
 } Buf;
 
-extern int func_02188C7C(int);
+extern void *func_02188C7C(unsigned char *p);
 extern int func_02188C9C(int);
 extern void func_0216CE60(int, Buf *, int);
 extern const Buf d_02182B6C;
@@ -36,11 +36,11 @@ extern const Buf d_02182B6C;
 void func_0217BF2C(int a, u16 b, u16 c, int d, u16 e, u16 f, u16 g)
 {
     Buf buf;
-    int h;
+    void *h;
     int k;
     Sub *q;
 
-    h = func_02188C7C(a);
+    h = func_02188C7C((void *)a);
     k = func_02188C9C(a);
     buf = d_02182B6C;
     buf.f00 = g;

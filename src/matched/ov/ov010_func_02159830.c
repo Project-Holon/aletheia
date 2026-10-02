@@ -23,7 +23,7 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
-extern u16 *func_02159AE8(void *, void *);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern u32 func_02159B10(void *, void *);
 extern u64 _u32_div_f(u32, u32);
 int func_02159830(void *a, void *b)

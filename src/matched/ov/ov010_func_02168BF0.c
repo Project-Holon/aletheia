@@ -22,56 +22,60 @@
  */
 
 typedef unsigned int u32;
+typedef unsigned short u16;
+
+struct Desc;
 
 typedef struct {
-    int f0;
-    int f4;
+    void *f0;
+    void *f4;
     int f8;
-    int fc;
+    u16 *fc;
     int f10;
     int f14;
-    int f18;
-    int f1c;
+    void *f18;
+    void *f1c;
     u32 pad[4];
     int f30;
 } R;
 
-extern int func_020120F4(int);
-extern int func_020122C0(int, int, void *, int);
-extern R *func_020124E8(int);
-extern int func_0201210C(int);
-extern int func_02012934(int);
-extern int func_02012EBC(int);
-extern int func_0200BAC8(int);
-extern int func_0200BAF4(int, int);
+extern void *func_020120F4(void *p);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern R *func_020124E8(struct Desc *p);
+extern void *func_0201210C(void *p);
+extern void *func_02012934(void *p);
+extern void *func_02012EBC(void *p);
+extern void *func_0200BAC8(void *p);
+extern void *func_0200BAF4(void *a0, int a1);
 extern void func_02168C74(void);
 
-int func_02168BF0(int a, int b, int c, int d, int e)
+struct Desc *func_02168BF0(int a, int b, int c, int d, u16 *e)
 {
-    int hd;
-    int h;
+    struct Desc *hd;
+    void *h;
     R *p;
-    int v;
-    h = func_020120F4(a);
-    hd = func_020122C0(a, 0, func_02168C74, 0x34);
+    int k;
+    void *v;
+    h = func_020120F4((void *)a);
+    hd = func_020122C0((void *)a, 0, (void *)func_02168C74, 0x34);
     p = func_020124E8(hd);
-    p->f0 = a;
-    p->f4 = func_0201210C(a);
+    p->f0 = (void *)a;
+    p->f4 = func_0201210C((void *)a);
     p->fc = e;
     p->f30 = b;
     if (c == 0x14 || c == 0x15) {
         if (c == 0x14) {
             p->f10 = 0;
-            v = 0x14;
+            k = 0x14;
         } else {
             p->f10 = 1;
-            v = 0x15;
+            k = 0x15;
         }
     } else {
         p->f10 = 0;
-        v = 0x14;
+        k = 0x14;
     }
-    p->f14 = v;
+    p->f14 = k;
     if (d == 0) {
         p->f1c = 0;
         v = func_02012934(h);

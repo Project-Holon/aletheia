@@ -11,7 +11,9 @@
  *   func_020362DC 0x020362DC arm
  *   func_020355D8 0x020355D8 arm
  */
-extern int func_020362DC(void);
+
+typedef unsigned int u32;
+extern u32 func_020362DC(void);
 extern void func_020355D8(int);
 static inline int poll(void)
 {

@@ -14,11 +14,11 @@
  *   func_02014314 0x02014314 thumb
  */
 typedef unsigned short u16;
-extern int func_0215A5E4(int);
+extern void *func_0215A5E4(void *a0);
 extern char *func_0201296C(int);
 extern void func_02014314(char *,int);
 int func_0215B068(int a,int b)
 {
-    func_02014314(func_0201296C(func_0215A5E4(b)), 0x963);
+    func_02014314(func_0201296C(func_0215A5E4((void *)b)), 0x963);
     return 0;
 }

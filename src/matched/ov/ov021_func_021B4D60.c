@@ -70,7 +70,7 @@ extern const u8 d_021EF78C[];
 
 extern void *func_0215A5F4(void *vm);
 extern void *func_0215A5DC(void *vm);
-extern u32 func_02159AE8(void *c, void *vm);
+extern unsigned short *func_02159AE8(void *c, void *vm);
 extern u32 func_02159B10(void *c, void *vm);
 extern void func_0215897C(void *p, void *v);
 extern void *func_020120F4(void *sys);
@@ -80,7 +80,7 @@ extern void *func_0200CA1C(void *p);
 extern u32 func_0200CA38(void *p);
 extern u32 func_0200873C(void *p);
 extern u32 func_0201293C(void *p);
-extern u32 func_02012934(void *p);
+extern void *func_02012934(void *p);
 extern u32 func_0201292C(void *p);
 extern u32 func_02012944(void *p);
 extern void *func_0200BAC8(void *p);
@@ -98,7 +98,7 @@ int func_021B4D60(u32 *c, void *vm)
     void *x;
     void *y;
     void *z;
-    u32 r7;
+    unsigned short *r7;
     u32 kind;
     u32 *h;
     void *s;

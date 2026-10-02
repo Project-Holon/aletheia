@@ -19,7 +19,7 @@
  */
 typedef struct Template { unsigned char prefix[24]; unsigned char zero, count; unsigned short offset; unsigned words[2]; void *ctx; } Template;
 extern const Template d_021C0C70;
-extern void *func_020490F4(void *, unsigned);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void *func_021B7754(void *, unsigned);
 extern void func_021B7A10(void *, void *, unsigned, unsigned, unsigned);
 extern void func_021B7A4C(void *, void *, unsigned, unsigned, unsigned);

@@ -19,13 +19,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_020490F4(u32 id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32 func_02049740(u32 h, u32 id, u32 layer, u32 ofs, u32 size, u32 heap);
 extern void func_02049238(u32 h);
 
 u16 func_021EB1D8(u8 *a, u32 id, u32 b, u32 c)
 {
-    u32 h = func_020490F4(id, (u16)((*(u16 *)(a + 0x13c) & 0x7fff) | 0x8000));
+    void *h = func_020490F4(id, (u16)((*(u16 *)(a + 0x13c) & 0x7fff) | 0x8000));
     u32 r = func_02049740(h, b, c, 0, 0, (u16)((*(u16 *)(a + 0x13c) & 0x7fff) | 0x8000));
 
     func_02049238(h);

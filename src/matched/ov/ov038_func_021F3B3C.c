@@ -73,13 +73,13 @@ extern void *func_020124E4(int a0);
 extern void *func_0201210C(void *w);
 extern int func_02188D2C(void *p);
 extern u8 *func_021897BC(void *p, int idx);
-extern u32 func_02188CB4(void *p);
+extern void *func_02188CB4(void *p);
 extern u32 func_02188C80(void *p);
 extern unsigned int func_020120F4(unsigned int);
 extern unsigned int func_02012EC4(unsigned int);
 extern int *func_0200B3A4(unsigned int, unsigned int);
 extern void *func_021BE674(int base, int i, int j, int k);
-extern u32 func_021A3074(u32 q);
+extern void *func_021A3074(unsigned char *p);
 extern int func_0216D454(u32 t);
 extern int func_0216D3CC(u32 t);
 extern void func_021A3038(u32 q, V3 *v);
@@ -91,7 +91,7 @@ extern void func_021BE6CC(int p, int i, int j, int k, int flag);
 extern void func_021BE6B0(void *s, int b);
 extern int func_021BE6BC(void *p);
 extern int func_021BE6E8(int p, int i, int j, int k);
-extern u32 func_0203630C(void);
+extern unsigned int func_0203630C(void);
 extern void func_020061E4(u32 se);
 extern void func_02006210(void);
 extern void *func_020122C0(void *a, u32 b, void *fn, u32 size);
@@ -109,11 +109,11 @@ int func_021F3B3C(int a0, int *a1)
     void *sys;
     int h;
     u8 *s;
-    u32 q;
+    void *q;
     u8 c;
     KType k;
     void *e;
-    u32 t;
+    void *t;
     V3 *src;
     int mask;
     int dir;
@@ -133,7 +133,7 @@ int func_021F3B3C(int a0, int *a1)
     e = func_021BE674(h, 0, 0x22, k);
     switch (*a1) {
     case 0:
-        t = func_021A3074(q);
+        t = func_021A3074((void *)q);
         if (func_0216D454(t) != 0 && func_0216D3CC(t) != 0) {
             *(int *)(s + 0x1c) = 1;
             func_021A3038(q, (V3 *)(s + 8));
@@ -208,7 +208,7 @@ int func_021F3B3C(int a0, int *a1)
         break;
     }
     if (*(int *)(s + 0x1c) != 0 && *(int *)(s + 0x18) == 0) {
-        t = func_021A3074(q);
+        t = func_021A3074((void *)q);
         if (*(int *)(s + 0x14) == 0) {
             *(int *)(s + 0x14) = func_02197D3C(t, s[6] == 0 ? d_021F4620 : d_021F45F8);
         } else if (func_02197DA0(*(int *)(s + 0x14)) == 1) {

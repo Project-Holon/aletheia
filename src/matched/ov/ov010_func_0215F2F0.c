@@ -13,7 +13,7 @@
  *   func_02159114 0x02159114 thumb ov010
  */
 
-extern void *func_0215A5F4(void *);
+extern void *func_0215A5F4(void *p);
 extern int func_0204A1BC(int,int,int,int);
 extern void func_02159114(void *,int);
 int func_0215F2F0(void *a, void *b) { void *p = func_0215A5F4(b); func_02159114(p,func_0204A1BC(0xd1,0,0,0x8004)); return 0; }

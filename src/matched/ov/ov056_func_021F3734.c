@@ -60,7 +60,7 @@ typedef struct Work {
 } Work;
 
 extern int func_02188C84(int a);
-extern int func_02188CB4(int a);
+extern void *func_02188CB4(unsigned char *p);
 extern int func_02188C58(int a);
 extern int func_02188C98(int a);
 extern u32 func_02188D24(int a);

@@ -23,18 +23,18 @@ typedef unsigned char u8;
 struct Big;
 extern u32 func_021BF740(u8 *);
 extern void *func_02012EBC(struct Big *);
-extern u32 func_0200E394(int);
-extern u32 func_0200E3A0(u32);
+extern void *func_0200E394(void *a0);
+extern void *func_0200E3A0(void *a);
 extern u32 func_021BF7CC(void *);
 extern u32 func_021BF968(u8 *);
 extern u32 func_0200E3A4(const u8 *, int);
 extern u32 func_021C2644(void *, u32, u8);
 u32 func_021BF910(u8 *p)
 {
-    u32 bits;
+    void *bits;
     u32 index;
     u16 n;
-    bits = func_0200E3A0(func_0200E394((int)func_02012EBC((struct Big *)func_021BF740(p))));
+    bits = func_0200E3A0(func_0200E394(func_02012EBC((struct Big *)func_021BF740(p))));
     index = func_021BF7CC(p);
     if (index == 29) return func_021BF968(p);
     n = func_0200E3A4((const u8 *)bits, index);

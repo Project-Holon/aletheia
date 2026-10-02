@@ -17,8 +17,8 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_0215A5F4(void *);
-extern void *func_0215A5DC(void *);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
 struct Desc;
 extern struct Desc *func_020122C0(void *,void *,void *,u32);
 extern int func_021649E8(void *,int *);

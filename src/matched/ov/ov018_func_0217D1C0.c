@@ -71,7 +71,7 @@ int func_0215841C(void *);
 int func_0203D1C0(u8);
 int func_021746AC(u8 *p, u8);
 int func_02158428(u8 *p);
-void *func_0201210C(void *);
+void *func_0201210C(void *p);
 void func_02188CCC(void *);
 void func_02034714(const char *file, int line, const char *msg);
 

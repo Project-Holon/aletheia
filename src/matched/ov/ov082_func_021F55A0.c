@@ -22,7 +22,7 @@
 typedef unsigned int u32;
 
 extern int  func_020124E4(int a);
-extern int  func_0201210C(int a);
+extern void *func_0201210C(void *p);
 extern u32 *func_02189A60(int a);
 extern void func_0204E720(int a, int b, int c, int d);
 extern int  func_0204E804(void);
@@ -31,7 +31,7 @@ extern void func_021F5648(int a, void *p);
 
 int func_021F55A0(int a0, int *st)
 {
-    int obj;
+    void *obj;
     char *w;
     int t;
 

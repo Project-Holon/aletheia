@@ -31,11 +31,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0215A5F4(u32 a);
-extern u32 func_0215A5DC(u32 a);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
 extern void func_0215897C(u32 a, u32 b);
 extern void func_02159144(u32 a);
-extern u32 func_0201210C(u32 a);
+extern void *func_0201210C(void *p);
 extern u32 func_020122C0(u32 a, u32 b, void *c, u32 d);
 extern u32 func_02188C58(u32 a);
 extern u32 func_02188C5C(u32 a);
@@ -48,17 +48,17 @@ extern void func_021B55C8(void);
 
 int func_021B52FC(u32 a, u32 b)
 {
-    u32 r6;
-    u32 r4;
-    u32 r5;
+    void *r6;
+    void *r4;
+    void *r5;
 
-    r6 = func_0215A5DC(b);
-    r4 = func_0201210C(r6);
+    r6 = func_0215A5DC((void *)b);
+    r4 = func_0201210C((void *)r6);
     r5 = func_02188C58(r4);
     func_02159144(0);
     if (func_0218F0F8(r5) != 0) {
         func_0218F0A8(r5);
-        r5 = func_0215A5F4(b);
+        r5 = func_0215A5F4((void *)b);
         func_0215897C(r5, func_020122C0(r6, 0, (void *)func_021B55C8, 0));
         if (func_02188CFC(r4) == 1) {
             func_021BB260(func_02188C5C(r4), 0);

@@ -26,9 +26,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0215A5F4(u32 a);
-extern u32 func_0215A5DC(u32 a);
-extern u32 func_0215A5E4(u32 a);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0215A5E4(void *a0);
 extern void func_0215897C(u32 a, u32 b);
 extern u32 func_02159B10(u32 a, u32 b);
 extern u32 func_02012EBC(u32 a);
@@ -40,13 +40,13 @@ int func_021B4F1C(u32 a, u32 b)
 {
     u32 r7;
     u32 r5;
-    u32 r6;
-    u32 r4;
+    void *r6;
+    void *r4;
 
-    r7 = func_02009210(func_02012EBC(func_0215A5E4(b)));
+    r7 = func_02009210(func_02012EBC(func_0215A5E4((void *)b)));
     r5 = func_02159B10(a, b);
-    r6 = func_0215A5F4(b);
-    r4 = func_0215A5DC(b);
+    r6 = func_0215A5F4((void *)b);
+    r4 = func_0215A5DC((void *)b);
     func_020090D8(r7, 1);
     func_0215897C(r6, func_02168BBC(r4, r5));
     return 1;

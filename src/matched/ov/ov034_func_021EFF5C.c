@@ -20,14 +20,14 @@
 
 extern int func_0201C6B4(int);
 extern int func_020120F4(int);
-extern int func_02012934(int);
+extern void *func_02012934(void *p);
 extern unsigned int func_0201AA18(int);
 extern void func_0204B3DC(int, int);
 
 void func_021EFF5C(int *p)
 {
     unsigned int i;
-    int n;
+    void *n;
 
     if (!(p[0x4A] & 1) && func_0201C6B4(p[2]) == 1) {
         n = func_02012934(func_020120F4(p[0]));

@@ -41,7 +41,7 @@ typedef unsigned int u32;
 
 extern void *func_0203D798(void);
 extern u32   func_0203D394(u32 entry);
-extern u32   func_020395EC(u32 entry);
+extern int func_020395EC(void *a);
 extern u32   func_02039468(u32 a, u32 b);
 extern u32   func_02038C18(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
 
@@ -52,8 +52,8 @@ u32 func_0203D4D0(u32 entry, u32 mask, u32 c, u32 d, u32 e, u32 f, u32 g,
     if (func_0203D394(entry) == 0 && c >= 0x11) {
         return 0;
     }
-    if (g != 0 && func_02039468(c, func_020395EC(entry)) != 0) {
+    if (g != 0 && func_02039468(c, func_020395EC((void *)entry)) != 0) {
         return 0;
     }
-    return func_02038C18(c, e, d, f, func_020395EC(entry), mask, h);
+    return func_02038C18(c, e, d, f, func_020395EC((void *)entry), mask, h);
 }

@@ -64,8 +64,8 @@ extern void func_0218FF00(int);
 extern int func_021BE92C(int, int, int, int, int, int, int);
 extern void func_02012374(int, int);
 extern int func_021C6E48(int);
-extern int func_02188CB4(int);
-extern int func_021A3074(int);
+extern void *func_02188CB4(unsigned char *p);
+extern void *func_021A3074(unsigned char *p);
 extern int func_02188CD0(int);
 extern void func_021AC528(int, int);
 extern void func_0218FF20(int);
@@ -78,7 +78,7 @@ int func_021BFA6C(int task, int *state, Q *q)
     int h;
     int d;
     int r0;
-    int t;
+    void *t;
 
     q0 = q->f0;
     obj = q->f4;
@@ -116,7 +116,7 @@ int func_021BFA6C(int task, int *state, Q *q)
         break;
     case 4:
         if (func_021C6E48(d) != 0) {
-            t = func_021A3074(func_02188CB4(obj));
+            t = func_021A3074(func_02188CB4((void *)obj));
             func_021AC528(t, func_02188CD0(obj));
             (*state)++;
         }

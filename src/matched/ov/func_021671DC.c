@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_0201EC64  0x0201EC64  thumb
@@ -17,15 +17,18 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0201EC64();
+struct WordSet;
 
-int func_021671DC(int a0)
+extern struct WordSet *func_0201EC64(u32 heap);
+
+struct WordSet *func_021671DC(int a0)
 {
     int t4;
+    struct WordSet *ws;
 
 t4 = a0 + 0;
 a0 = *(u16 *)((char *)t4);
-    a0 = func_0201EC64(a0);
+    ws = func_0201EC64(a0);
 loc_021671E6:
-*(int *)((char *)t4 + 0x1c) = a0;
-    return a0;}
+*(struct WordSet **)((char *)t4 + 0x1c) = ws;
+    return ws;}

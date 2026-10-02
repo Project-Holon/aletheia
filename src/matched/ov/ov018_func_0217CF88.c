@@ -22,9 +22,11 @@
  *   func_0217C194  0x0217C194  thumb  ov018
  */
 
-extern int func_0215A5DC();
-extern int func_020120F4();
-extern int func_0201210C();
+struct Ctx;
+
+extern void *func_0215A5DC(void *a0);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_0201210C(void *p);
 extern int func_02012138();
 extern int func_02026454();
 extern int func_02026474();
@@ -35,14 +37,14 @@ extern void func_0217C194();
 
 int func_0217CF88(int a0, int a1)
 {
-    int w;
-    int c;
+    void *w;
+    void *c;
     int h;
     int v;
 
-    w = func_0215A5DC(a1);
-    func_020120F4(w);
-    c = func_0201210C(w);
+    w = func_0215A5DC((void *)a1);
+    func_020120F4((const struct Ctx *)w);
+    c = func_0201210C((void *)w);
     h = func_02012138(w);
     v = 0;
     if (func_02026454(h) == 2)

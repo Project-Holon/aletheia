@@ -22,24 +22,27 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
+
+struct Ctx;
+struct Desc;
 typedef struct { int a, b, c; } V12;
 
-extern int func_020120F4();
-extern int func_020122C0();
-extern u8 *func_020124E8(int p);
+extern void *func_020120F4(const struct Ctx *p);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
+extern u8 *func_020124E8(struct Desc *p);
 extern void func_02082BCC();
 extern int func_02012138();
 extern int func_021767A0();
 extern int func_0216B3EC();
 
-int func_0216B340(int a0, int a1, V12 *a2, int a3, int a4)
+struct Desc *func_0216B340(int a0, int a1, V12 *a2, int a3, int a4)
 {
-    int h;
-    int r;
+    void *h;
+    struct Desc *r;
     u8 *p;
 
-    h = func_020120F4(a0);
-    r = func_020122C0(a0, 0, func_0216B3EC, 0x24);
+    h = func_020120F4((const struct Ctx *)a0);
+    r = func_020122C0((void *)a0, 0, (void *)func_0216B3EC, 0x24);
     p = func_020124E8(r);
     func_02082BCC(p, 0, 0x24);
     *(V12 *)(p + 8) = *a2;

@@ -20,7 +20,7 @@
  */
 
 int func_0218A278(void *sys, unsigned char *pos);
-int func_0201210C(void *p);
+void *func_0201210C(void *p);
 int func_02188D20(int h);
 void func_021BC5BC(int x);
 int func_02189A70(int h);
@@ -29,7 +29,7 @@ void func_0218A6E8(void *p, int h);
 
 int func_0218A240(void *p, unsigned char *pos)
 {
-    int h;
+    void *h;
     int r = func_0218A278(p, pos);
     if (r != 0) {
         h = func_0201210C(p);

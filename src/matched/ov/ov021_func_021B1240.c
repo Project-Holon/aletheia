@@ -18,14 +18,14 @@
 
 typedef unsigned int u32;
 
-extern u32 func_0215A5F4(u32);
+extern void *func_0215A5F4(void *p);
 extern u32 func_02158F78(u32);
 extern u32 func_0215A61C(u32);
 extern u32 func_02191BE8(u32, u32);
 
 int func_021B1240(u32 a, u32 b)
 {
-    u32 x = func_02158F78(func_0215A5F4(b));
+    u32 x = func_02158F78(func_0215A5F4((void *)b));
 
     if (func_02191BE8(func_0215A61C(b), x) == 1) {
         return 1;

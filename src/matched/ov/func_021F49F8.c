@@ -70,7 +70,7 @@ typedef struct {
 
 extern u8 d_02202BE0[];
 
-extern u32 func_020490F4(u32 id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_0204A48C(void *a, u32 b, u32 heap);
 extern u32 func_0204B100(u32 a, u32 b, u32 heap);
 extern u32 func_0204A6C8(u32 arc, u32 id, u32 a, u32 b, u32 heap);
@@ -86,7 +86,7 @@ extern u32 func_0204AC18(u32 arc, u32 id, u32 a, u32 b, u32 c, u32 d, u32 heap);
 
 void func_021F49F8(Obj *p, u32 mode)
 {
-    u32 arc;
+    void *arc;
     void *buf;
     PlttData *pd;
     int i;

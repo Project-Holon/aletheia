@@ -69,7 +69,7 @@ extern Tmpl021A36E4 d_021D89A0;
 
 extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
 extern u32 func_02188C80(u32 a);
-extern u32 func_02188C7C(u32 a);
+extern void *func_02188C7C(unsigned char *p);
 extern void *func_0216DE94(u32 a, u32 b);
 extern int func_02012B34(u32 a);
 extern int func_021A3974(Obj021A36E4 *o);
@@ -85,7 +85,7 @@ extern void func_0216DB80(void *o, int v);
 Obj021A36E4 *func_021A36E4(u32 a, u32 b, const Vec021A36E4 *pos, u32 d, u16 heap)
 {
     Obj021A36E4 *o;
-    u32 m;
+    void *m;
     int k;
     void *h;
 
@@ -95,7 +95,7 @@ Obj021A36E4 *func_021A36E4(u32 a, u32 b, const Vec021A36E4 *pos, u32 d, u16 heap
     o->f4 = func_02188C80(b);
     o->f20 = 9;
     o->f22 = 9;
-    m = func_02188C7C(b);
+    m = func_02188C7C((void *)b);
     o->f1c = func_0216DE94(m, 0xff);
     o->f18 = d;
     k = func_02012B34(o->fc);

@@ -29,7 +29,7 @@
  */
 
 extern unsigned func_02025DE8(void *obj);
-extern unsigned func_0203633C(void);
+extern unsigned int func_0203633C(void);
 extern void func_021DD238(unsigned char *p);
 extern void func_020260E4(void *obj, unsigned char sel);
 extern int func_020077B8(void *a, int b);

@@ -18,7 +18,7 @@
  */
 
 int func_020120F4(int a);
-int func_02012934(int a);
+void *func_02012934(void *p);
 int func_0201AB28(int a, int b);
 int func_02017E1C(int a, int b, int c);
 int func_02017EAC(int a);

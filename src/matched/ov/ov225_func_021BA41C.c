@@ -31,7 +31,7 @@ typedef unsigned int u32;
 struct Obj;
 extern const u8 d_021BBF14[];
 extern u32 func_020275E4(void);
-extern void *func_020490F4(void *,u32);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32 func_02027614(void);
 extern int func_0204AC18(u32,u32,u32,u32,u16,u16,u16);
 extern u32 func_02027618(void);

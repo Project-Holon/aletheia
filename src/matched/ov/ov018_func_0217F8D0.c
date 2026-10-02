@@ -26,7 +26,7 @@ typedef struct {
 } Sys;
 
 u16 *func_02159AE8(void *a0, void *a1);
-int func_0215A5DC(int);
+void *func_0215A5DC(void *a0);
 int func_02012138(int);
 Sys *func_02158344(int);
 int func_02175B8C(void *);
@@ -38,7 +38,7 @@ int func_0217F8D0(void *a0, int a)
     int v;
 
     out = func_02159AE8(a0, (void *)a);
-    s = func_02158344(func_02012138(func_0215A5DC(a)));
+    s = func_02158344(func_02012138(func_0215A5DC((void *)a)));
     if (s != 0 && s->bit93F == 0 && func_02175B8C((u8 *)s + 0x1AC) == 1) {
         v = 1;
     } else {

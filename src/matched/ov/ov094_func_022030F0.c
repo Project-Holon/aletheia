@@ -85,7 +85,7 @@ extern void *const d_0220AE98[];
 extern void *const d_0220AEA4[];
 
 extern int func_02021ED8(int);
-extern int func_020362DC(void);
+extern u32 func_020362DC(void);
 extern void func_021F8168(void);
 extern void func_02021848(int a, int b, u16 c, int d, int e, int f, int g, void *h);
 extern void func_02206B74(Main *m);
@@ -93,7 +93,7 @@ extern void func_02204B0C(Main *m, int c);
 extern int func_02035C08(void *p);
 extern int func_021D6D54(void *p);
 extern int func_02206140(Main *m, const Desc *d, void *t, const u8 *k, int a, int b);
-extern u32 func_0203630C(void);
+extern unsigned int func_0203630C(void);
 extern void func_02206BAC(Main *m);
 extern int func_02206908(Main *m, const Desc *d, int i);
 extern void func_02206B90(Main *m);

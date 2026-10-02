@@ -56,7 +56,7 @@ typedef struct {
 } Req;
 
 extern void func_02082BCC(void *p, int v, int n);
-extern int func_020490F4(int, u16);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_0204AC18(int, int, int, int, int, int, u16);
 extern int func_0204A6C8(int, int, int, int, u16);
 extern int func_0204AF28(int, int, int, u16);
@@ -73,7 +73,7 @@ void func_021B9E38(u32 *o, u32 a1, u32 a2, u8 a3, u8 s0, u8 s1, u32 s2, u16 heap
     Req r;
     Tbl t;
     Rect s;
-    int h;
+    void *h;
 
     func_02082BCC(o, 0, 0x20);
     o[4] = s2;

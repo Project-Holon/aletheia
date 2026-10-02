@@ -24,18 +24,18 @@ typedef unsigned int u32;
 
 extern int func_0200F168(void);
 extern void func_0200F16C(u32 *p);
-extern u32 func_020490F4(int a0, u32 a1);
-extern void func_02049B68(u32 a0, u32 a1, int a2, int a3, int a4, int a5);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void func_02049B68(void *a0, u32 a1, void *a2, int a3, int a4, int a5);
 extern int func_02036F04(int a0);
-extern void func_02049800(u32 a0, u32 a1, int a2, int a3, int a4, int a5, int a6);
-extern void func_02049238(u32 a0);
+extern void func_02049800(void *a0, u32 a1, int a2, int a3, int a4, int a5, int a6);
+extern void func_02049238(void *a0);
 
 void func_02036F24(int a0, int b, int c)
 {
     u32 t[3];
     int q;
     int p;
-    u32 v;
+    void *v;
     int idx;
     int t2;
 

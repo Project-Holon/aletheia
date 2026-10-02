@@ -14,7 +14,7 @@
  *   func_02049238  0x02049238  arm
  */
 
-extern void *func_020490F4(int, int);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049238(void *arc);
 
 void func_021E10DC(char *p)

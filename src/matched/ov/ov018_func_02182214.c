@@ -68,7 +68,7 @@ extern const u16 d_02183998[];
 void *func_020124E4(void *);
 void *func_02012138(void *);
 void *func_020120F4(void *);
-void *func_0201210C(void *);
+void *func_0201210C(void *p);
 u8 *func_02158344(void *);
 int func_0217405C(void *, void *);
 int func_02175CF4(void *, void *);

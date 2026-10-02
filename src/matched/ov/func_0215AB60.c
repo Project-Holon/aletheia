@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_0215A5E4  0x0215A5E4  thumb  ov010
@@ -20,41 +20,37 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215A5E4();
-extern int func_02159AE8();
+extern void *func_0215A5E4(void *a0);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_021690D0();
 extern int func_021690E0();
 
 int func_0215AB60(int a0, int a1)
 {
     int t4;
-    int t5;
-    int t6;
     int t7;
+    u16 *q;
+    u16 *dst;
+    void *v0;
 
 t7 = a1 + 0;
 t4 = a0 + 0;
 a0 = t7 + 0;
-    a0 = func_0215A5E4(a0);
+    v0 = func_0215A5E4((void *)a0);
 loc_0215AB6C:
-t5 = a0 + 0;
 a0 = t4 + 0;
 a1 = t7 + 0;
-    a0 = func_02159AE8(a0, a1);
+    q = func_02159AE8((void *)a0, (void *)a1);
 loc_0215AB76:
-t6 = a0 + 0;
 a0 = t4 + 0;
 a1 = t7 + 0;
-    a0 = func_02159AE8(a0, a1);
+    dst = func_02159AE8((void *)a0, (void *)a1);
 loc_0215AB80:
-t4 = a0 + 0;
-a0 = t5 + 0;
-    a0 = func_021690D0(a0);
+    a0 = func_021690D0(v0);
 loc_0215AB88:
-*(u16 *)((char *)t6) = a0;
-a0 = t5 + 0;
-    a0 = func_021690E0(a0);
+*q = a0;
+    a0 = func_021690E0(v0);
 loc_0215AB90:
-*(u16 *)((char *)t4) = a0;
+*dst = a0;
 a0 = 0;
     return a0;}

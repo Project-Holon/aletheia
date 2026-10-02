@@ -25,9 +25,9 @@
  *   func_021F3F40 0x021F3F40 thumb ov038
  */
 
-extern int func_0201210C(int);
+extern void *func_0201210C(void *p);
 extern unsigned char *func_021897BC(int, int);
-extern int func_02188CB4(int);
+extern void *func_02188CB4(unsigned char *p);
 extern int func_02188C80(int);
 extern int func_020120F4(int);
 extern int func_02012EC4(int);
@@ -43,14 +43,14 @@ int func_021F3A88(int a0, int a1, int a2)
 {
     int o1;
     int o2;
-    int r6;
+    void *r6;
     int r7;
     unsigned char *r4;
 
-    r6 = func_0201210C(a0);
+    r6 = func_0201210C((void *)a0);
     r4 = func_021897BC(r6, 1);
-    r6 = func_02188CB4(r6);
-    r7 = (int)func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(func_0201210C(a0)))), 6);
+    r6 = func_02188CB4((void *)r6);
+    r7 = (int)func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(func_0201210C((void *)a0)))), 6);
     r6 = func_021A3050(r6);
     if (r6 != 0 && r6 != 1)
         return 0;

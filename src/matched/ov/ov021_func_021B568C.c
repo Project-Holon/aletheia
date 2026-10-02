@@ -26,8 +26,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215A5DC();
-extern int func_0201210C();
+extern void *func_0215A5DC(void *a0);
+extern void *func_0201210C(void *p);
 extern int func_02188D24();
 extern int func_02159B10();
 extern void func_021BB990();
@@ -39,7 +39,7 @@ extern u32 g_021F435C[];
 
 int func_021B568C(int a0, int a1)
 {
-    int r4 = func_02188D24(func_0201210C(func_0215A5DC(a1)));
+    int r4 = func_02188D24(func_0201210C(func_0215A5DC((void *)a1)));
 
     switch (func_02159B10(a0, a1)) {
     case 0:

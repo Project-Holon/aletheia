@@ -17,7 +17,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02030734(u16, u32, int, const char *, u16);
-extern void *func_020490F4(void *, u16);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_021C42FC(void *, int, u32);
 extern const char d_021C6100[];
 typedef struct { u32 mode, handle, owner, a, b; } Entry;

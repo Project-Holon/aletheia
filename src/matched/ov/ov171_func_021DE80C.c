@@ -25,7 +25,7 @@ typedef struct Descriptor {
     u16 id;
     u32 extra;
 } Descriptor;
-extern void *func_02025538(u16, void *);
+extern void *func_02025538(unsigned int a0, void *a1);
 extern void *func_02043678(int, int, int, u16);
 extern void *func_020255A0(void *, Descriptor *);
 extern void func_02025774(void *, int);

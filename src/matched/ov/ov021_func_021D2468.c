@@ -33,9 +33,9 @@ typedef struct {
 
 extern Tbl d_021DD6D0;
 
-extern u32 func_0215A5E4(u32 b);
+extern void *func_0215A5E4(void *a0);
 extern u32 func_02159B10(u32 a, u32 b);
-extern u16 *func_02159AE8(u32 a, u32 b);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern void func_02012EBC(u32 a);
 extern u32 func_02008B08(void);
 extern u32 func_021690D0(u32 a);
@@ -46,15 +46,16 @@ extern u32 func_020056EC(u32 a);
 
 int func_021D2468(u32 a, u32 b)
 {
-    u32 x, y, z, v, w, k;
+    u32 y, z, v, w, k;
+    void *x;
     u16 *p6, *p4, *p5;
     Tbl t;
 
-    x = func_0215A5E4(b);
+    x = func_0215A5E4((void *)b);
     y = func_02159B10(a, b);
-    p6 = func_02159AE8(a, b);
-    p4 = func_02159AE8(a, b);
-    p5 = func_02159AE8(a, b);
+    p6 = func_02159AE8((void *)a, (void *)b);
+    p4 = func_02159AE8((void *)a, (void *)b);
+    p5 = func_02159AE8((void *)a, (void *)b);
     t = d_021DD6D0;
     func_02012EBC(x);
     z = func_02008B08();

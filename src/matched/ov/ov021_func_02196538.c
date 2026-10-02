@@ -34,7 +34,7 @@ typedef unsigned int   u32;
 extern void *func_020457B0(u32 size, u32 heap);
 extern void *func_0201D7EC(u32 a, u32 b, u32 c, u32 d, u32 heap);
 extern void *func_02045B38(u32 a, u32 b, u32 c, u32 d);
-extern u32 func_020490F4(u32 id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(u32 h, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern u32 func_02049740(u32 h, u32 id, u32 layer, u32 ofs, u32 size, u32 heap);
 extern void func_02049990(u32 h, u32 id, u32 layer, u32 ofs, u32 chrOfs, u32 a5, u32 a6,
@@ -50,7 +50,7 @@ extern const u16 d_021DDAD4[];
 
 void func_02196538(u8 *p)
 {
-    u32 h;
+    void *h;
     void *res;
     u8 *pal;
 

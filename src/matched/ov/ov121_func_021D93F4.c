@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 typedef struct { short x,y,z; u8 a,b; } Pos;
 extern void func_02082BCC(void *,int,int);
-extern void *func_02025538(u16,int);
+extern void *func_02025538(unsigned int a0, void *a1);
 extern void *func_021DA8CC(Pos *,int,int,void *,u8,int,void *,int,u16);
 extern void func_021DA9EC(void *,int);
 extern void func_021DA9F0(void *,int,int,int);
@@ -34,7 +34,7 @@ void func_021D93F4(u8 *p,const void *q,int n,int k,int x,int y,int z,u16 heap)
     Pos pos;
     func_02082BCC(p,0,12);
     *(const void **)(p+8)=q;
-    *(void **)p=func_02025538(heap,n);
+    *(void **)p=func_02025538(heap,(void *)n);
     func_02082BCC(&pos,0,8);
     pos.x=96; pos.y=169; pos.a=0; pos.b=0;
     *(void **)(p+4)=func_021DA8CC(&pos,8,2,*(void *const *)q,3,0,*(void **)p,k,heap);

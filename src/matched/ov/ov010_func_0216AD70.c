@@ -28,6 +28,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
+struct Big;
+
 typedef struct {
     u32 lo : 11;
     u32 pad : 12;
@@ -36,11 +38,11 @@ typedef struct {
 } Bits;
 
 extern int func_02159B10();
-extern u16 *func_02159AE8();
-extern int func_0215A5DC();
-extern int func_0215A5E4();
-extern int func_02012EBC(int p);
-extern int func_0200E0B0(int p);
+extern u16 *func_02159AE8(void *a0, void *a1);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0215A5E4(void *a0);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200E0B0(void *p);
 extern int func_02012138();
 extern int func_021767A0();
 extern int func_02012FB0();
@@ -52,17 +54,17 @@ int func_0216AD70(int a0, int a1)
 {
     int kind;
     u16 *out;
-    int x;
-    int y;
+    void *x;
+    void *y;
     int t;
     Bits v;
     Bits w;
 
     kind = func_02159B10(a0, a1);
-    out = func_02159AE8(a0, a1);
-    x = func_0215A5DC(a1);
-    y = func_0215A5E4(a1);
-    func_0200E0B0(func_02012EBC(y));
+    out = func_02159AE8((void *)a0, (void *)a1);
+    x = func_0215A5DC((void *)a1);
+    y = func_0215A5E4((void *)a1);
+    func_0200E0B0(func_02012EBC((struct Big *)y));
     t = func_02012138(x);
     switch (kind) {
     case 0:

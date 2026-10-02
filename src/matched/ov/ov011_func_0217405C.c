@@ -20,7 +20,7 @@
 int func_021736D8(void);
 void func_02175D20(char *a);
 int func_020399A8(void);
-int func_0203D3A8(int a, int b, int c, char *d);
+int func_0203D3A8(void *a, unsigned int b, unsigned int c, char *d);
 void func_02175BAC(char *a);
 
 int func_0217405C(char *a, char *b)

@@ -37,7 +37,7 @@ typedef unsigned int   u32;
 extern u32   sub_0202DE9C(u32 engine);
 extern u32   sub_0202DEE0(u32 engine);
 extern u32   sub_0202DF24(u32 engine);
-extern void *func_020490F4(u32 id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32   ENV_SetResourceSet(void *h, u32 a1, u32 engine, u16 a3,
                                 u32 s0, u32 s1, u32 s2);
 extern u32   func_0204A6C8(void *h, u32 a1, u32 a2, u32 engine, u32 s0);

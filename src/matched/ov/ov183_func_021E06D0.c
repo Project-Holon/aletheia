@@ -29,7 +29,7 @@ struct Source { int words[10]; };
 extern void *func_02030734(u16, u32, int, const char *, u16);
 extern void func_02082BCC(void *, int, u32);
 extern int func_021FC20C(int);
-extern void *func_020490F4(int, u16);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_021E1244(char *);
 extern void func_021E1910(char *);
 extern void *func_020056A0(void (*)(void), void *, int);

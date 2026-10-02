@@ -23,7 +23,7 @@
  */
 
 extern int func_020120F4(int);
-extern int func_02012934(int);
+extern void *func_02012934(void *p);
 extern unsigned int func_0201AA18(int);
 extern void func_0204B3B4(int);
 extern void func_0204A8D4(int);
@@ -35,7 +35,7 @@ extern void func_02043598(int, int);
 void func_021F0930(int *p)
 {
     unsigned int i;
-    int n;
+    void *n;
 
     n = func_02012934(func_020120F4(p[0]));
     for (i = 0; i < func_0201AA18(n); i++) {

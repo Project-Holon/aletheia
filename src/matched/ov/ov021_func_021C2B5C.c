@@ -14,8 +14,11 @@
 
 typedef unsigned int u32;
 
-extern int func_020124E4();
-extern u32 func_0201210C(u32);
+struct Obj;
+struct Ctx;
+
+extern void *func_020124E4(struct Obj *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern u32 func_0204E720(u32, u32, u32, u32);
 extern int func_0204E804(void);
 

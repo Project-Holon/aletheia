@@ -22,7 +22,7 @@
  *   func_02159168  0x02159168  thumb  ov010
  */
 
-extern void *func_0215A5F4(void *);
+extern void *func_0215A5F4(void *p);
 extern int func_02159190(int);
 extern int func_0215A61C(void *);
 extern void func_02191B14(void *a);

@@ -46,7 +46,7 @@ struct Ov208Bg {
 
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern u32  func_020275E4(void);
-extern u32  func_020490F4(u32 id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32  func_02027624(void);
 extern void func_02049B68(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern u32  func_02027628(void);
@@ -66,7 +66,7 @@ extern void func_02049238(u32 h);
 void ov208_func_021BD444(struct Ov208Bg *p, u32 channel, u32 objChannel, u32 palOfs,
                          u32 kind, u8 pal, u8 objPal, u32 skip, u32 heap)
 {
-    u32 h;
+    void *h;
 
     func_02082BCC(p, 0, sizeof(*p));
     p->fc = channel;

@@ -102,7 +102,7 @@ struct Ov208Scene {
     struct Ov208Slot slots[10];
 };
 
-extern u32  func_020490F4(u32 a, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32  func_0204AC18(u32 h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 heap);
 extern u32  func_0204A6C8(u32 h, u32 a, u32 b, u32 c, u32 heap);
 extern u32  func_0204AF28(u32 h, u32 a, u32 b, u32 heap);
@@ -119,7 +119,7 @@ void ov208_func_021BE504(struct Ov208Scene *p)
     struct Ov208ActList list;
     struct Ov208ActDesc descs[6];
     struct Ov208ActDesc *d;
-    u32 h;
+    void *h;
     u8 i;
 
     h = func_020490F4(0x9f, p->heap);

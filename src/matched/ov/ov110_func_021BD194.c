@@ -32,7 +32,7 @@ extern int func_02027614(void);
 extern int func_02027618(void);
 extern int func_0202761C(int);
 extern int func_02027620(int);
-extern void *func_020490F4(void *,unsigned);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void *func_0204AC18(void *,int,int,int,int,int,u16);
 extern void *func_0204A6C8(void *,int,int,int,u16);
 extern void *func_0204AF28(void *,int,int,u16);

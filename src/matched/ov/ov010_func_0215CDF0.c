@@ -20,8 +20,8 @@
 
 typedef unsigned int u32;
 
-extern void *func_0215A5DC(void *);
-extern u32 func_02159AE8(void *, void *);
+extern void *func_0215A5DC(void *a0);
+extern unsigned short *func_02159AE8(void *a0, void *a1);
 extern void func_02034AC4(u32);
 extern void func_02034A5C(u32);
 extern void func_021F3768(void *, u32 *);

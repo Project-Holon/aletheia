@@ -24,8 +24,9 @@ typedef unsigned int u32;
 
 typedef struct { int a; u16 b; } Loc;
 
-extern int func_020399A8();
-extern int func_0203D3A8();
+struct Entry;
+extern struct Entry *func_020399A8(void);
+extern int func_0203D3A8(struct Entry *a, u32 b, u32 c, void *d);
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void func_02039C68();
 extern void func_02157960();

@@ -18,7 +18,10 @@
  *   func_0201C4E4 0x0201C4E4 thumb
  *   func_021B9A44 0x021B9A44 thumb ov224
  */
-extern int func_0204E804(void),func_020362DC(void);
+
+typedef unsigned int u32;
+extern int func_0204E804(void);
+extern u32 func_020362DC(void);
 extern void func_0204E720(int,int,int,int),func_020355D8(int);
 extern int func_02035D20(int *,int *);
 extern void func_0201C4E4(void *),func_021B9A44(void *);

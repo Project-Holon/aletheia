@@ -22,7 +22,7 @@
  */
 struct Obj; struct Vec2 { short x,y; };
 extern struct Vec2 d_021BA140;
-extern void *func_020490F4(void *,unsigned);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_0204AC18(unsigned,unsigned,unsigned,unsigned,unsigned short,unsigned short,unsigned short);
 extern int func_0204A6C8(unsigned,unsigned,unsigned,unsigned,unsigned short);
 extern int func_0204AF28(unsigned,unsigned,unsigned,unsigned);

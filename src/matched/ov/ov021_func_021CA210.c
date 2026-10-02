@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int func_0200D884(u32 a, int b, int c);
-extern u32 func_02012934(u32 a);
+extern void *func_02012934(void *p);
 
 u32 func_021CA210(u8 *p)
 {
     if (func_0200D884(*(u32 *)(p + 0x70), 10, 0) == 0)
-        return func_02012934(*(u32 *)(p + 0x6c));
+        return func_02012934(*(void **)(p + 0x6c));
     return *(u32 *)(p + 0x7c8);
 }

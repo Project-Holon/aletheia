@@ -24,7 +24,7 @@ typedef unsigned char  u8;
 typedef unsigned int   u32;
 
 extern void func_020061E4(u32 a);
-extern void *func_02012934(u32 a);
+extern void *func_02012934(void *p);
 extern int func_0201AA1C(void *p);
 extern void func_02045CAC(u32 a, u32 b, u32 c);
 extern void func_02196034(u8 *p, void *fn, u32 n);
@@ -47,7 +47,7 @@ int func_02196974(u32 s, u8 *p)
         break;
     case 1:
     case 6:
-        if (func_0201AA1C(func_02012934(*(u32 *)(p + 0x30))) < 2) {
+        if (func_0201AA1C(func_02012934(*(void **)(p + 0x30))) < 2) {
             func_02045CAC(*(u32 *)(p + 0x28), 0x2C, *(u32 *)(p + 0x38));
             func_02197644(p, 0);
             func_02196034(p, (void *)func_02196944, 0x3EA);

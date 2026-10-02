@@ -47,8 +47,8 @@ struct IcaAnime {
 
 extern u32 func_020120D8(struct IcaAnime *p);
 extern u32 func_02012114(struct IcaAnime *p);
-extern u32 func_0201210C(struct IcaAnime *p);
-extern u32 func_02188BE8(u32 v);   /* overlay-resident */
+extern void *func_0201210C(struct IcaAnime *p);
+extern u32 func_02188BE8(void *v);   /* overlay-resident */
 extern void func_020121CC(struct IcaAnime *p);
 
 void func_0201205C(struct IcaAnime *p)

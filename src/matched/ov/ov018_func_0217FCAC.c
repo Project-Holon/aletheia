@@ -28,7 +28,7 @@ int func_02012138(int x);
 void func_02012374(int x, int y);
 int *func_02158344(int x);
 int func_02167A54(int a, int b);
-int func_02188C7C(int x);
+void *func_02188C7C(unsigned char *p);
 void func_0216D9A0(int x);
 void func_0216D9E4(int x);
 int func_0217FD34(int a, int b, int *c, int d, int e, int f);

@@ -28,7 +28,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_020490F4(u32 id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void *func_020120F4(void *p);
 extern void *func_02012944(void *p);
 extern int func_02008550(void *p);
@@ -53,7 +53,7 @@ typedef struct {
 
 void func_021EFECC(Obj *p)
 {
-    u32 h;
+    void *h;
     int i;
 
     h = func_020490F4(0x1E, p->heap);

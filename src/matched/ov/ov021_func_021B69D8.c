@@ -40,7 +40,7 @@ struct Owner {
     u8 rest[0x50];
 };
 
-extern void *func_0215A5E4(void *);
+extern void *func_0215A5E4(void *a0);
 extern u32 func_02159B10(void *, void *);
 extern void *func_02012EBC(void *);
 extern void *func_0200A8A0(void *);
@@ -49,7 +49,7 @@ extern void func_02087C88(struct Owner *);
 extern int func_0200A940(void *, int, int, void *);
 extern int func_0200A8F8(void *, int);
 extern int func_0200A8C8(void *, int);
-extern void *func_0215A5F4(void *);
+extern void *func_0215A5F4(void *p);
 extern u32 func_02158F74(void *);
 extern void *func_020457B0(int, int);
 extern void func_02045924(void *, int);

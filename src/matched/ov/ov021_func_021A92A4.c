@@ -39,7 +39,7 @@ extern u32 func_020275E4(void);
 extern u32 func_02027624(void);
 extern u32 func_02027628(void);
 extern u32 func_0202762C(void);
-extern u32 func_020490F4(u32 a, u32 b);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(u32 o, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void func_02049658(u32 o, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern u32 func_02049EF4(u32 o, u32 a, u32 b, struct Scr **out, u32 e);
@@ -55,7 +55,7 @@ void func_021A92A4(u32 a, u32 b)
     u32 h;
     int i;
     u16 *d;
-    u32 o;
+    void *o;
 
     o = func_020490F4(func_020275E4(), a);
     func_02049B68(o, func_02027624(), 4, 0x60, 0x20, a);

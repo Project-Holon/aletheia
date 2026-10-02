@@ -95,7 +95,7 @@ extern u32 func_0204AC18(void *arc, u32 id, u32 a, u32 b, u32 c, u32 d, u32 heap
 extern u32 func_0204A6C8(void *arc, u32 id, u32 a, u32 b, u32 heap);
 extern u32 func_0204AF28(void *arc, u32 a, u32 b, u32 heap);
 extern u32 func_020275E4(void);
-extern void *func_020490F4(u32 a, u32 b);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32 func_02027614(void);
 extern u32 func_02027618(void);
 extern u32 func_0202761C(u32);
@@ -103,7 +103,7 @@ extern u32 func_02027620(u32);
 extern void func_02049238(void *h);
 extern void func_020409B4(u32 layer);
 extern u32 func_0204B100(u32 a, u32 b, u32 heap);
-extern u32 func_0204B034(const Bank *desc, u32 n, u32 heap);
+extern void *func_0204B034(const Bank *desc, unsigned int a1, unsigned int heap);
 extern void func_0204B258(u32 bank, u32 p);
 extern u32 func_0204B294(u32, u32, u32, u32, Pos *, u32, u32);
 extern void func_0204B954(u32, int);

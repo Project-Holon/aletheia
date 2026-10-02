@@ -25,8 +25,8 @@ typedef signed char    s8;
 
 typedef struct R { u32 f0; u32 f4; } R;
 
-extern u32 func_0215A5F4(u32 a);
-extern u32 func_0215A5E4(u32 a);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5E4(void *a0);
 extern R *func_02158F58(u32 a);
 extern u32 func_02012F2C(u32 a);
 extern u32 func_02188C9C(u32 a);
@@ -35,8 +35,8 @@ extern void func_02008DF0(u32 a, u32 b);
 
 void func_021AEDAC(u32 a)
 {
-    R *p = func_02158F58(func_0215A5F4(a));
-    u32 q = func_02012F2C(func_0215A5E4(a));
+    R *p = func_02158F58(func_0215A5F4((void *)a));
+    u32 q = func_02012F2C(func_0215A5E4((void *)a));
 
     if (func_02014024(func_02188C9C(p->f4)) != 0)
         func_02008DF0(q, 0x20);

@@ -40,12 +40,12 @@ typedef struct {
     int c3;
 } Req;
 
-extern void func_0215A5DC(void *);
-extern void *func_0215A5E4(void *);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0215A5E4(void *a0);
 extern u16 func_0215A5CC(void *);
-extern void func_02012934(void *);
+extern void *func_02012934(void *p);
 extern void func_02012944(void *);
-extern u16 *func_02159AE8(void *, void *);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern u16 func_02159B10(void *, void *);
 extern u16 func_0215C510(void *, Req *);
 

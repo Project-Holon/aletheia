@@ -21,7 +21,7 @@ extern void func_0203064C(int,int,unsigned);
 extern char *func_0203159C(void *,unsigned,unsigned);
 extern void *func_02030734(unsigned,unsigned,int,const char *,u16);
 extern void *func_0200846C(unsigned);
-extern int func_0203630C(void);
+extern unsigned int func_0203630C(void);
 extern void func_0200854C(void *,int);
 extern void func_021D4240(char *);
 extern const char d_021D4D4C[];

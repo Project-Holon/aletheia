@@ -29,17 +29,17 @@
 
 typedef unsigned short u16;
 
-extern int func_0215A5E4(int);
-extern int func_0215A5F4(int);
-extern int func_0215A5DC(int);
-extern int func_0201210C(int);
+extern void *func_0215A5E4(void *a0);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0201210C(void *p);
 extern int func_02188CCC(int);
 extern int func_02012E40(int);
 extern int func_02012DD0(int);
 extern int func_021A0F90(int);
 extern int func_021A153C(int);
 extern void func_021A1548(int);
-extern u16 *func_02159AE8(int, int);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_021590FC(int);
 extern void func_021D11D8(int);
 extern void func_021D1194(int);
@@ -47,11 +47,11 @@ extern void func_021590F4(int, int);
 
 int func_021599A8(int a, int b)
 {
-    int s4 = func_0215A5E4(b);
-    int s0 = func_0215A5F4(b);
+    void *s4 = func_0215A5E4((void *)b);
+    void *s0 = func_0215A5F4((void *)b);
     int h;
     int ret;
-    h = func_02188CCC(func_0201210C(func_0215A5DC(b)));
+    h = func_02188CCC(func_0201210C(func_0215A5DC((void *)b)));
     if (func_02012E40(s4) == 0) {
         ret = 1;
         if (func_021A0F90(h) == 7) {
@@ -65,11 +65,11 @@ int func_021599A8(int a, int b)
             ret = 0;
             break;
         case 2:
-            *func_02159AE8(a, b) = 1;
+            *func_02159AE8((void *)a, (void *)b) = 1;
             ret = 0;
             break;
         case 3:
-            *func_02159AE8(a, b) = 0;
+            *func_02159AE8((void *)a, (void *)b) = 0;
             ret = 1;
             if (func_021A0F90(h) == 7)
                 func_021A1548(h);

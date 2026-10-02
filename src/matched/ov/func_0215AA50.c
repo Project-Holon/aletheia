@@ -17,14 +17,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02159AE8();
+extern u16 *func_02159AE8(void *a0, void *a1);
 
 int func_0215AA50(int a0, int a1)
 {
+    u16 *q;
 
-    a0 = func_02159AE8(a0, a1);
+    q = func_02159AE8((void *)a0, (void *)a1);
 loc_0215AA56:
 a1 = 0x15;
-*(u16 *)((char *)a0) = a1;
+*q = a1;
 a0 = 0;
     return a0;}

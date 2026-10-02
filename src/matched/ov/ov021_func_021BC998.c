@@ -20,7 +20,7 @@ typedef struct {
 } Obj;
 
 extern int func_021BD090(Obj *p);
-extern void *func_02025538(int a, int b);
+extern void *func_02025538(unsigned int a0, void *a1);
 
 void func_021BC998(Obj *p)
 {

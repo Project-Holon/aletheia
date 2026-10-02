@@ -15,7 +15,7 @@
  *   func_02158DE8 0x02158DE8 thumb ov010
  */
 extern void *func_02011324(void *);
-extern void *func_0215A5DC(void *);
+extern void *func_0215A5DC(void *a0);
 extern int func_02158DE8(int, void *, void *, int);
 extern void func_02011328(void *, int (*)(int, void *, void *, int), void *);
 void func_02158E38(void *a) {

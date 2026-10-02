@@ -89,7 +89,7 @@ extern u32   func_02188C64(void *p);
 extern u32   func_02188C80(void *p);
 extern int   func_02188C84(void *p);
 extern void *func_02188C98(void *p);
-extern u32   func_02188CB4(void *p);
+extern void *func_02188CB4(void *p);
 extern void *func_0218CEE0(void *p);
 extern void  func_02189764(void *p, int a, int b, int c);
 extern u32   func_020120F4(u32 a);

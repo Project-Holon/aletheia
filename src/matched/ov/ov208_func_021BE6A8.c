@@ -13,8 +13,10 @@
  *   func_0203633C 0x0203633C arm
  *   func_021BD3F8 0x021BD3F8 thumb ov208
  */
-extern unsigned func_020362DC(void);
-extern unsigned func_0203633C(void);
+
+typedef unsigned int u32;
+extern u32 func_020362DC(void);
+extern unsigned int func_0203633C(void);
 extern void func_021BD3F8(void *,int);
 void func_021BE6A8(char *p)
 {

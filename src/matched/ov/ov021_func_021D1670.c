@@ -28,29 +28,29 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0215A5F4(u32 a);
-extern u32 func_0215A5DC(u32 a);
-extern u32 func_0215A5E4(u32 a);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0215A5E4(void *a0);
 extern u32 func_02159B10(u32 a, u32 b);
-extern u16 *func_02159AE8(u32 a, u32 b);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern u32 func_02012F8C(u32 a);
 extern u32 func_020092EC(void);
 extern u32 func_020092D8(u32 a);
 
 int func_021D1670(u32 a, u32 b)
 {
-    u32 r7;
+    void *r7;
     u32 r6;
     u16 *r4;
     u32 r5;
 
-    func_0215A5F4(b);
-    func_0215A5DC(b);
-    r7 = func_0215A5E4(b);
+    func_0215A5F4((void *)b);
+    func_0215A5DC((void *)b);
+    r7 = func_0215A5E4((void *)b);
     r6 = func_02159B10(a, b);
     func_02159B10(a, b);
     func_02159B10(a, b);
-    r4 = func_02159AE8(a, b);
+    r4 = func_02159AE8((void *)a, (void *)b);
     r5 = func_02012F8C(r7);
     if (r6 == 0) {
         if (func_020092EC() == 1 && func_020092D8(r5) == 1) {

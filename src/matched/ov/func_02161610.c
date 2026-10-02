@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_020120F4  0x020120F4  thumb
@@ -17,7 +17,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_020120F4();
+struct Ctx;
+
+extern void *func_020120F4(const struct Ctx *p);
 
 int func_02161610(int a0)
 {
@@ -26,7 +28,7 @@ int func_02161610(int a0)
 t4 = a0 + 0;
 a0 = *(int *)((char *)t4 + 0x18);
 a0 = *(int *)((char *)a0);
-    a0 = func_020120F4(a0);
+    func_020120F4((const struct Ctx *)a0);
 loc_0216161C:
 a0 = *(int *)((char *)t4 + 0x68);
     if (a0 != 3) goto loc_0216162A;

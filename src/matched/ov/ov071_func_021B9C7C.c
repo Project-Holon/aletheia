@@ -44,9 +44,9 @@ typedef struct {
 } S;
 
 extern int func_02035CB8(u32 *a, u32 *b);
-extern u32 func_0203630C(void);
+extern unsigned int func_0203630C(void);
 extern u32 func_020362DC(void);
-extern u32 func_0203633C(void);
+extern unsigned int func_0203633C(void);
 extern void func_020355D8(int v);
 extern void func_020061E4(u32 se);
 extern int func_02035C60(void);

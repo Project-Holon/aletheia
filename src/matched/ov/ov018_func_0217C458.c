@@ -22,6 +22,10 @@
 
 typedef unsigned char u8;
 typedef unsigned short u16;
+typedef unsigned int u32;
+
+struct Ctx;
+struct Desc;
 
 typedef struct {
     int w[13];
@@ -39,23 +43,23 @@ typedef struct {
 } Obj;
 
 extern B52 *func_02175B34();
-extern int func_020120F4();
-extern int func_020122C0();
+extern void *func_020120F4(const struct Ctx *p);
+extern struct Desc *func_020122C0(void *owner, void *a, void *b, u32 size);
 extern Obj *func_020124E8();
 extern void func_02082BCC(void *, int, int);
 extern void func_0217F2B4();
 extern void func_02174E14();
 extern void func_0217C4D0();
 
-int func_0217C458(int a0, int a1, int a2, int a3)
+struct Desc *func_0217C458(int a0, int a1, int a2, int a3)
 {
     B52 *src;
     Obj *o;
-    int x;
+    struct Desc *x;
 
     src = func_02175B34(a2 + 0x1AC);
-    func_020120F4(a0);
-    x = func_020122C0(a0, 0, func_0217C4D0, 0x88);
+    func_020120F4((const struct Ctx *)a0);
+    x = func_020122C0((void *)a0, 0, func_0217C4D0, 0x88);
     o = func_020124E8(x);
     func_02082BCC(o, 0, 0x88);
     o->h0 = a3;

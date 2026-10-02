@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02191388  0x02191388  thumb
@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern int func_02191388();
-extern int func_020362DC();
+extern u32 func_020362DC(void);
 extern int func_021912D8();
 extern int func_021912F8();
 extern int func_02045808();

@@ -17,11 +17,11 @@
 
 typedef unsigned short u16;
 
-extern int func_02025538(u16, int);
+extern void *func_02025538(unsigned int a0, void *a1);
 
 void func_021BD38C(char *p)
 {
     int i = 0x47;
     *(int *)(p + (i << 2) + 0x10) =
-        func_02025538(*(u16 *)(p + 8), *(int *)(p + (i << 2)));
+        func_02025538(*(u16 *)(p + 8), *(void **)(p + (i << 2)));
 }

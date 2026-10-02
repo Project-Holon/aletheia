@@ -39,7 +39,7 @@ typedef unsigned int   u32;
 
 typedef struct { int x, y, z; } Vec3;
 
-extern u32 func_021A3074(u32 a);
+extern void *func_021A3074(unsigned char *p);
 extern void func_0216DB4C(u32 a, u32 b);
 extern void func_0216D88C(u32 a, Vec3 *v);
 extern void func_0216D89C(u32 a, Vec3 *v);
@@ -61,7 +61,7 @@ extern void func_020061E4(u32 se);
 
 void func_021C16AC(u8 *p)
 {
-    u32 o;
+    void *o;
     u32 k;
     u32 r7;
     u32 t;
@@ -72,7 +72,7 @@ void func_021C16AC(u8 *p)
     Vec3 a;
     int n;
 
-    o = func_021A3074(*(u32 *)(p + 0x3c));
+    o = func_021A3074(*(void **)(p + 0x3c));
     switch (*(s16 *)(p + 2)) {
     case 0:
         k = 1;

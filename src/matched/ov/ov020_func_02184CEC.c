@@ -21,7 +21,7 @@
 typedef unsigned short u16;
 
 void *func_020120F4(void *p);
-int func_0201210C(void *p);
+void *func_0201210C(void *p);
 u16 func_02012984(void *p);
 u16 func_02188C9C(int x);
 int func_02188CE8(int x);
@@ -30,7 +30,7 @@ void func_021AAAF0(int x, int y);
 void func_02184CEC(int *o, void *p)
 {
     void *a = func_020120F4(p);
-    int b = func_0201210C(p);
+    void *b = func_0201210C(p);
     u16 c = func_02012984(a);
 
     o[0] = (int)p;

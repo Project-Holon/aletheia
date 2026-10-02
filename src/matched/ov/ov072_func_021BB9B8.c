@@ -56,7 +56,7 @@ extern u32 func_0204B100(u32 a, u32 b, u32 heap);
 extern void func_0204B270(u32 a);
 extern void func_020434DC(int a, int b);
 extern void func_02043598(int a, int b);
-extern u32 func_020490F4(u32 id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32 func_0204ABF0(u32 arc, u32 id, u32 a, u32 b, u32 heap);
 extern u32 func_0204A6C8(u32 arc, u32 id, u32 a, u32 b, u32 heap);
 extern u32 func_0204AF28(u32 arc, u32 a, u32 b, u32 heap);
@@ -69,7 +69,7 @@ extern const Tbl d_021BBC0C;
 void func_021BB9B8(Gfx *o, u32 mode, u32 heap)
 {
     int i;
-    u32 h;
+    void *h;
     Tbl t;
     Rect s;
 

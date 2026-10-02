@@ -76,7 +76,7 @@ extern void func_02206B30(Obj *o);
 extern int func_0220648C(Obj *o);
 extern int func_02206578(Obj *o, int i, int v);
 extern int func_02206140(Obj *o, Cmd *c, int x, int y, int k, int z);
-extern u32 func_0203630C(void);
+extern unsigned int func_0203630C(void);
 extern void func_02206BAC(Obj *o);
 extern int func_02206908(Obj *o, Cmd *c, int i);
 

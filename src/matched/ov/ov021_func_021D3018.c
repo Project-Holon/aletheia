@@ -18,19 +18,19 @@
 
 typedef unsigned int u32;
 
-extern u32 func_0215A5DC(u32 a);
+extern void *func_0215A5DC(void *a0);
 extern int func_02159B10(u32 a, u32 b);
 extern void func_021F3A44(u32 a, int *v);
 
 u32 func_021D3018(u32 a, u32 b)
 {
     int v[3];
-    u32 s0;
+    void *s0;
     int r6;
     int r7;
     int z;
 
-    s0 = func_0215A5DC(b);
+    s0 = func_0215A5DC((void *)b);
     r6 = func_02159B10(a, b);
     r7 = func_02159B10(a, b);
     z = func_02159B10(a, b);

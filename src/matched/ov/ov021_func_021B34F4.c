@@ -21,12 +21,13 @@
  */
 
 typedef unsigned char u8;
+typedef unsigned int u32;
 
 extern int func_0201CE30(void *);
 extern void func_0201CE48(void *);
 extern void func_0201CE5C(void *, int);
-extern int func_0203630C(void);
-extern int func_020362DC(void);
+extern unsigned int func_0203630C(void);
+extern u32 func_020362DC(void);
 extern void func_0201CE38(void *);
 extern void func_020061E4(int);
 

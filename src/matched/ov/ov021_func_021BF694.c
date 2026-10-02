@@ -31,9 +31,9 @@ typedef struct { int x, y, z; } Vec;
 extern const Vec d_021DA080;
 
 extern int func_02188C58(int);
-extern int func_02188CB4(int);
+extern void *func_02188CB4(unsigned char *p);
 extern int func_02188D38(int);
-extern int func_021A3074(int);
+extern void *func_021A3074(unsigned char *p);
 extern int func_0218E138(int);
 extern void func_0218E13C(int, int);
 extern void func_0216D8C0(int, Vec *);
@@ -48,7 +48,7 @@ int func_021BF694(int a, int *s, int *q)
 {
     int h = func_02188C58(q[1]);
     Vec rot;
-    int t;
+    void *t;
     int r;
 
     switch (s[0]) {

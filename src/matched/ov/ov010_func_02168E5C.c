@@ -27,7 +27,7 @@ typedef unsigned char u8;
 extern int func_020120F4(int);
 extern int func_020122C0(int, int, void *, int);
 extern int *func_020124E8(int);
-extern int func_0201210C(int);
+extern void *func_0201210C(void *p);
 extern int func_02012944(int);
 extern u8 func_02008550(int);
 extern int func_02012EBC(int);
@@ -40,7 +40,7 @@ int func_02168E5C(int a, int b, int c)
     int h = func_020122C0(a, 0, func_02168EB0, 0x18);
     int *p = func_020124E8(h);
     p[0] = a;
-    p[1] = func_0201210C(a);
+    p[1] = func_0201210C((void *)a);
     *(u8 *)(p + 2) = func_02008550(func_02012944(x));
     p[3] = func_0200E8F8(func_02012EBC(x));
     p[4] = b;

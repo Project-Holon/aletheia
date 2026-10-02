@@ -19,12 +19,12 @@
 
 typedef unsigned int u32;
 
-extern u32 func_020395EC(u32 a);
+extern int func_020395EC(void *a);
 extern void func_02039468(u32 b, u32 r);
 
 void func_0203D578(u32 a, u32 b)
 {
-    u32 r = func_020395EC(a);
+    u32 r = func_020395EC((void *)a);
 
     func_02039468(b, r);
 }

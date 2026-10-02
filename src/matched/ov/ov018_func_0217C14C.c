@@ -29,19 +29,19 @@ typedef struct {
     T t;
 } S;
 
-extern int func_02188C7C();
+extern void *func_02188C7C(unsigned char *p);
 extern int func_02188C9C();
 extern void func_0216CE60();
 extern const S d_021835D4;
 
 void func_0217C14C(int a0, u16 a1, u16 a2, int a3)
 {
-    int v;
+    void *v;
     int c;
     S s;
     T *t;
 
-    v = func_02188C7C(a0);
+    v = func_02188C7C((void *)a0);
     c = func_02188C9C(a0);
     s = d_021835D4;
     t = &s.t;

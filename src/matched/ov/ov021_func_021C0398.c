@@ -35,7 +35,7 @@ typedef unsigned int   u32;
 
 typedef struct { u32 w[8]; } Blk32;
 
-extern u32 func_02188CB4(u32 a);
+extern void *func_02188CB4(unsigned char *p);
 extern u32 func_02188C58(u32 a);
 extern u32 func_02188D38(u32 a);
 extern u32 func_021C7260(u32 a, u32 b, u32 c);
@@ -65,7 +65,7 @@ int func_021C0398(u32 task, int *st, u8 *p)
     u32 e;
 
     obj = *(u32 *)(p + 4);
-    func_02188CB4(obj);
+    func_02188CB4((void *)obj);
     h = func_02188C58(*(u32 *)(p + 4));
     d = func_02188D38(obj);
 

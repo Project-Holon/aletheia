@@ -16,7 +16,7 @@
  *   func_0203521C  0x0203521C  arm
  *   func_02035224  0x02035224  arm
  *
- * sub_020362BC picks one of two pointers out of the record returned by
+ * sub_020362BC picks one of two key masks out of the record returned by
  * func_0203521C, keyed on a one-byte mode tag at +0x3d of its own argument;
  * sub_020362DC is the two-call wrapper that runs func_02035224 first.
  *
@@ -30,12 +30,13 @@
  */
 
 typedef unsigned char u8;
+typedef unsigned int  u32;
 
 struct Rec {
     u8 pad_00[0x1c];
-    void *unk_1c;
+    u32 unk_1c;
     u8 pad_20[0x08];
-    void *unk_28;
+    u32 unk_28;
 };
 
 struct Ctx {
@@ -46,7 +47,7 @@ struct Ctx {
 extern struct Rec *func_0203521C(struct Ctx *ctx);
 extern struct Ctx *func_02035224(void);
 
-void *sub_020362BC(struct Ctx *ctx)
+u32 sub_020362BC(struct Ctx *ctx)
 {
     struct Rec *rec = func_0203521C(ctx);
 
@@ -56,7 +57,7 @@ void *sub_020362BC(struct Ctx *ctx)
     return rec->unk_1c;
 }
 
-void *sub_020362DC(void)
+u32 sub_020362DC(void)
 {
     return sub_020362BC(func_02035224());
 }

@@ -30,7 +30,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_020490F4(u32 id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32 func_0203FA08(u32 a, u32 b, u32 c);
 extern void func_02049658(u32 p, int a, int b, int c, int d, int e, int f);
 extern u16 *func_0204162C(int a);
@@ -42,7 +42,7 @@ extern void func_02049238(u32 h);
 
 void func_021F0378(u32 *p)
 {
-    u32 h;
+    void *h;
     u32 r;
     u16 *pal;
     void *res;

@@ -18,9 +18,9 @@
  *   func_0200723C  0x0200723C  thumb
  */
 
-extern int func_0215A5E4(int);
+extern void *func_0215A5E4(void *a0);
 extern int func_02012EBC(int);
-extern unsigned short *func_02159AE8(int, int);
+extern unsigned short *func_02159AE8(void *a0, void *a1);
 extern int func_020071EC(int);
 extern int func_020071E4(int);
 extern void func_0200723C(int, unsigned *, unsigned *);
@@ -34,10 +34,10 @@ int func_0215ACC8(int a, int b)
     unsigned s2;
     unsigned s1;
 
-    r4 = func_02012EBC(func_0215A5E4(b));
-    r7 = func_02159AE8(a, b);
-    m = func_02159AE8(a, b);
-    r5 = func_02159AE8(a, b);
+    r4 = func_02012EBC(func_0215A5E4((void *)b));
+    r7 = func_02159AE8((void *)a, (void *)b);
+    m = func_02159AE8((void *)a, (void *)b);
+    r5 = func_02159AE8((void *)a, (void *)b);
     s2 = 0;
     s1 = 0;
     *r7 = func_020071EC(r4);

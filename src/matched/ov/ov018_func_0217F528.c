@@ -33,13 +33,13 @@ typedef unsigned short u16;
 
 extern unsigned char d_02183B2C[];
 
-void func_0201210C(int);
+void *func_0201210C(void *p);
 void func_02034714(void *, int, void *);
 void *func_02190708(void *, void *, u16, u16, u16, u16);
 
 void func_0217F528(Ov018Obj *p, int a, int b, int c, int d, int e)
 {
-    func_0201210C(a);
+    func_0201210C((void *)a);
     if (p->f20 != 0) {
         func_02034714(d_02183B2C, 0, d_02183B2C);
     }

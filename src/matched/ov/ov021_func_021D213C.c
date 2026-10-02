@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u32 func_02159B10(u32 a, u32 b);
-extern u16 *func_02159AE8(u32 a, u32 b);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_020249B0(u32 a, u16 b);
 
 int func_021D213C(u32 a, u32 b)
@@ -33,7 +33,7 @@ int func_021D213C(u32 a, u32 b)
     r4 = func_02159B10(a, b);
     s = func_02159B10(a, b);
     r7 = func_02159B10(a, b);
-    p = func_02159AE8(a, b);
+    p = func_02159AE8((void *)a, (void *)b);
     switch (r4) {
     case 1:
         base = 0x5C0;

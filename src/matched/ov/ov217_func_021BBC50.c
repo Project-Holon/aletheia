@@ -22,16 +22,16 @@ typedef unsigned char u8;
 struct Big;
 extern unsigned func_021BC628(u8 *);
 extern void *func_02012EBC(struct Big *);
-extern int func_0200E394(int);
+extern void *func_0200E394(void *a0);
 extern int func_0200E44C(int, int);
 extern const u8 d_021C308A[], d_021C3080[], d_021C30A8[];
 u8 func_021BBC50(u8 *p)
 {
     u8 values[3];
     int i;
-    int data;
+    void *data;
     u8 a, b, c, index;
-    data = func_0200E394((int)func_02012EBC((struct Big *)func_021BC628(p)));
+    data = func_0200E394(func_02012EBC((struct Big *)func_021BC628(p)));
     for (i = 0; i < 3; i++) values[i] = func_0200E44C(data, i);
     a = values[0];
     b = values[1];

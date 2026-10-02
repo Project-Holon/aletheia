@@ -13,7 +13,7 @@
  *   func_0203630C  0x0203630C  arm
  */
 
-void func_0203630C(void);
+unsigned int func_0203630C(void);
 
 void func_021BA3EC(void)
 {

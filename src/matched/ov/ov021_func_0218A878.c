@@ -26,7 +26,7 @@ typedef signed short   s16;
 
 extern int func_02013D5C(u16 v);
 extern int func_021A2FA4(void *p, u32 v);
-extern int func_0217B4D8(void *a, void *b, void *c, u32 d, u16 e, int f);
+extern void *func_0217B4D8(void *a, void *b, void *c, int *a3, int a4, unsigned short a5);
 
 int func_0218A878(u8 *p, void *a, void *b)
 {
@@ -37,5 +37,5 @@ int func_0218A878(u8 *p, void *a, void *b)
     r = func_021A2FA4(*(void **)(p + 0x18), *(u32 *)(p + 0x2C));
     if (r == 9)
         return 0;
-    return func_0217B4D8(a, b, *(void **)(p + 0x18), *(u32 *)(p + 0x34), *(u16 *)(p + 0x24), r);
+    return func_0217B4D8(a, b, *(void **)(p + 0x18), *(void **)(p + 0x34), *(u16 *)(p + 0x24), r);
 }

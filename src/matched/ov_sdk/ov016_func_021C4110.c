@@ -34,7 +34,7 @@ typedef struct MBUserInfo {
 } MBUserInfo;
 
 extern MBUserInfo *func_021C11F8();
-extern int func_021D5A58();
+extern void *func_021D5A58(int lcd, int font);
 extern void func_021C41E0();
 extern void func_02082A48();
 extern void func_02082A60();
@@ -51,7 +51,7 @@ void func_021C4110(void)
 {
     unsigned short buf[11];
     MBUserInfo *info;
-    int bg;
+    void *bg;
 
     info = func_021C11F8();
     bg = func_021D5A58(0, 0);

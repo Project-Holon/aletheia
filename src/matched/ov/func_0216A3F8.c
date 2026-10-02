@@ -21,32 +21,31 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215A5DC();
-extern int func_020120F4();
-extern int func_02012F50();
-extern int func_021D096C();
+struct Ctx;
+
+extern void *func_0215A5DC(void *a0);
+extern void *func_020120F4(const struct Ctx *p);
+extern void *func_02012F50(void *base);
+extern void *func_021D096C(void *a);
 
 int func_0216A3F8(int a0, int a1)
-{
-    int t4;
-    int t5;
+{    void *p;
+    void *v0;
+    void *v1;
 
 a0 = a1 + 0;
-    a0 = func_0215A5DC(a0);
+    v0 = func_0215A5DC((void *)a0);
 loc_0216A400:
-t5 = a0 + 0;
-    a0 = func_020120F4(a0);
+    p = func_020120F4((const struct Ctx *)v0);
 loc_0216A406:
-    a0 = func_02012F50(a0);
+    v1 = func_02012F50(p);
 loc_0216A40A:
-t4 = a0 + 0;
-a0 = *(int *)((char *)t4);
+a0 = *(int *)((char *)v1);
     if (a0 != 0) goto loc_0216A41A;
 loc_0216A412:
-a0 = t5 + 0;
-    a0 = func_021D096C(a0);
+    p = func_021D096C(v0);
 loc_0216A418:
-*(int *)((char *)t4) = a0;
+*(void **)((char *)v1) = p;
 loc_0216A41A:
 a0 = 0;
     return a0;}

@@ -23,12 +23,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215A5F4();
-extern int func_0215A5DC();
+struct Big;
+
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
 extern void *func_020120F4(void *p);
-extern int func_02012EBC();
+extern void *func_02012EBC(struct Big *p);
 extern void *func_02008854(void *p);
-extern int func_02159AE8();
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern u16 func_02008990(void *p);
 
 int func_021CFA88(void *a, void *b)
@@ -37,8 +39,8 @@ int func_021CFA88(void *a, void *b)
     u16 *q;
 
     func_0215A5F4(b);
-    h = func_02008854((void *)func_02012EBC(func_020120F4((void *)func_0215A5DC(b))));
-    q = (u16 *)func_02159AE8(a, b);
+    h = func_02008854(func_02012EBC(func_020120F4((void *)func_0215A5DC(b))));
+    q = func_02159AE8(a, b);
     *q = func_02008990(h);
     return 0;
 }

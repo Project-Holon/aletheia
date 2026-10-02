@@ -23,7 +23,7 @@ typedef struct {
 } Ctx;
 
 extern int func_02159B10();
-extern int func_0215A5F4();
+extern void *func_0215A5F4(void *p);
 extern int func_02158F74();
 
 int func_021AFBEC(Ctx *a0, int a1, int (*fn)())
@@ -34,6 +34,6 @@ int func_021AFBEC(Ctx *a0, int a1, int (*fn)())
 
     a0->cur = p + 1;
     t = func_02159B10(a0, a1);
-    fn(func_02158F74(func_0215A5F4(a1)), b, (u8)t);
+    fn(func_02158F74(func_0215A5F4((void *)a1)), b, (u8)t);
     return 0;
 }

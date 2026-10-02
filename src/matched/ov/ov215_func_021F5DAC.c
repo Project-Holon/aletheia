@@ -23,7 +23,7 @@
  *   func_021F64FC 0x021F64FC thumb ov215
  *   table 0x021F7124 data ov215
  */
-extern unsigned int func_020490F4(void *, unsigned int);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_0204AC18(unsigned int, unsigned int, unsigned int, unsigned int, unsigned short, unsigned short, unsigned short);
 extern int func_0204A6C8(unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
 extern int func_0204AF28(unsigned int, unsigned int, unsigned int, unsigned int);
@@ -44,7 +44,7 @@ struct Context {
 void func_021F5DAC(int unused, struct Context *p)
 {
     unsigned char i;
-    unsigned int h = func_020490F4((void *)189, p->heap);
+    void *h = func_020490F4((void *)189, p->heap);
     char *tmp1;
     unsigned int tmp2;
     int tmp;

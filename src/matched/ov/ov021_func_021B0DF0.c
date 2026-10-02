@@ -22,7 +22,7 @@
 
 typedef unsigned short u16;
 extern u16 func_02159B10(int, int);
-extern int func_0215A5E4(int);
+extern void *func_0215A5E4(void *a0);
 extern char *func_020127A4(int);
 extern int func_02008550(void *);
 extern int func_021B0BAC(int, int, int, int, int, int);
@@ -38,7 +38,7 @@ int func_021B0DF0(int a, int b)
     v3 = func_02159B10(a, b);
     v4 = func_02159B10(a, b);
     v5 = func_02159B10(a, b);
-    if (func_02008550(func_020127A4(func_0215A5E4(b)) + 0x20)) {
+    if (func_02008550(func_020127A4(func_0215A5E4((void *)b)) + 0x20)) {
         v1 = v2;
     }
     if (func_021B0BAC(b, v3, v0, v1, v4, v5) == 1) {

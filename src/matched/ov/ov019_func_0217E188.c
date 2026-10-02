@@ -35,6 +35,7 @@
 
 typedef unsigned char u8;
 typedef short s16;
+typedef unsigned int u32;
 
 typedef struct {
     u8 f00;
@@ -64,7 +65,7 @@ extern void func_0217F074(Ctx *ctx);
 extern void func_0217BA48(Ctx *ctx, int *out);
 extern void func_0217BA6C(Ctx *ctx, int *out);
 extern int func_0217B9CC(Ctx *ctx);
-extern int func_02012934(int a);
+extern void *func_02012934(void *p);
 extern int func_021CC720(int a, int b, int c, int d, int e, int f);
 extern int func_021CC810(int h);
 extern int func_021CC7B4(int h, int *out);
@@ -75,7 +76,7 @@ extern int func_0217B974(int id);
 extern void func_0217F640(Ctx *ctx, int a, int b, int c, int d);
 extern int func_0217F794(Ctx *ctx, int a);
 extern void func_0217F210(Ctx *ctx, int a, int msg);
-extern unsigned func_020362DC(void);
+extern u32 func_020362DC(void);
 extern void func_0217F7B8(Ctx *ctx);
 
 int func_0217E188(Ctx *ctx, Obj *obj, int a2, u8 *state)

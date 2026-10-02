@@ -34,7 +34,7 @@ void func_0203064C(int a, int b, int c);
 void func_02030678(void *a, int b, int c);
 void *func_0203159C(int a, int size, int heap);
 void *func_02188030(int a, int b);
-void func_02012110(int a, void *b);
+void func_02012110(void *p, void *b);
 int func_0201214C(int x);
 int func_02012138(int x);
 int func_02026454(int x);
@@ -58,7 +58,7 @@ int func_02187F00(int a, int *state, int b)
             void **w = (void **)func_0203159C(a, 4, 0x15);
             void *p = func_02188030(b, 0x15);
             *w = p;
-            func_02012110(b, p);
+            func_02012110((void *)b, p);
         }
         (*state)++;
         break;

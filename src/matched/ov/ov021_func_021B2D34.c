@@ -21,10 +21,10 @@
  * Addresses are Black-image addresses.
  */
 
-extern unsigned short *func_02159AE8(int a0, int a1);
+extern unsigned short *func_02159AE8(void *a0, void *a1);
 extern int func_02159B10(int a, int b);
-extern int func_0215A5DC(int a);
-extern int func_0201210C(int a);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0201210C(void *p);
 extern int func_02188C98(int a);
 extern int func_0218DC6C(int a);
 extern int func_0218C7D8(int a, int b, int *c);
@@ -32,14 +32,14 @@ extern int func_0218BACC(int a, int b);
 
 int func_021B2D34(int a, int b)
 {
-    unsigned short *out = func_02159AE8(a, b);
+    unsigned short *out = func_02159AE8((void *)a, (void *)b);
     int f = func_02159B10(a, b);
     int x = func_02159B10(a, b);
     int y = func_02159B10(a, b);
     int h;
     int buf[3];
 
-    h = func_0218DC6C(func_02188C98(func_0201210C(func_0215A5DC(b))));
+    h = func_0218DC6C(func_02188C98(func_0201210C(func_0215A5DC((void *)b))));
     buf[0] = x << 16;
     buf[1] = 0;
     buf[2] = y << 16;

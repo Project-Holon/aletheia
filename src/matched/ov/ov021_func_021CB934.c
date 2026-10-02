@@ -35,11 +35,11 @@ typedef struct {
     u32 arg;
 } Work;
 
-extern u32 func_0215A5F4(u32 a);
+extern void *func_0215A5F4(void *p);
 extern void func_0215A684(u32 a, int b);
 extern int func_0215A690(u32 a);
-extern u32 func_0215A5DC(u32 a);
-extern u32 func_0201210C(u32 a);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0201210C(void *p);
 extern u32 func_02188C54(u32 a);
 extern u32 func_02190BE4(u32 a, u32 b);
 extern int func_02190C78(u32 s);

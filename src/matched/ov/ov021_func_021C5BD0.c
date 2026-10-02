@@ -29,7 +29,7 @@ typedef struct {
 
 void *func_020122C0(void *p, int a, void (*cb)(void), int n);
 void *func_020124E8(void *p);
-extern u32 func_0201210C(u32);
+extern void *func_0201210C(void *p);
 extern u32 func_020120F4(void *p);
 void func_021C5C08(void);
 

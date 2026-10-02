@@ -17,7 +17,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_020490F4(u16 a, int b);
+void *func_020490F4(unsigned int id, unsigned int heap);
 
 void func_021A2978(u8 *p, u16 *q, int c)
 {

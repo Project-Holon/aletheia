@@ -31,7 +31,7 @@ extern u32 func_0201CE30(void *);
 extern void func_0201CE38(void *);
 extern void func_0201CE48(struct Rec3 *);
 extern void func_0201DD68(void);
-extern void *func_020362DC(void);
+extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 int func_021B6A3C(u8 *p)
 {
@@ -57,7 +57,7 @@ int func_021B6A3C(u8 *p)
         } else return 1;
         break;
     case 3:
-        if (((u32)func_020362DC() & 3) || func_02035C60()) *(u16 *)(p + 0x40) = 0;
+        if ((func_020362DC() & 3) || func_02035C60()) *(u16 *)(p + 0x40) = 0;
         if (*(u16 *)(p + 0x40)) (*(u16 *)(p + 0x40))--;
         else p[0x39] = 5;
         break;

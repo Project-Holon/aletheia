@@ -49,7 +49,7 @@ extern void *func_020124E4(void *p);
 extern void *func_0201210C(void *p);
 extern int func_02188D2C(void *p);
 extern u8 *func_021897BC(void *p, int idx);
-extern u32 func_02188CB4(void *p);
+extern void *func_02188CB4(void *p);
 extern u32 func_02188C80(void *p);
 extern unsigned int func_020120F4(unsigned int);
 extern unsigned int func_02012EC4(unsigned int);

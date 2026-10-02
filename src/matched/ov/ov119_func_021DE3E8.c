@@ -30,6 +30,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
+typedef unsigned int u32;
 typedef struct S S;
 typedef struct { char pad[0xfd8]; int obj[2][3]; } State;
 extern void func_02040588(int,int);
@@ -42,9 +43,9 @@ extern int func_02035C08(const void *);
 extern const char d_021E80C4[];
 extern void func_020355D8(u8),func_021E68F4(int,int),func_021DE1B4(State *,int),func_020061E4(int);
 extern u8 func_020355C4(void);
-extern void *func_020362DC(void);
+extern u32 func_020362DC(void);
 extern int func_021DE208(char *);
-static inline int poll(void) { int v=(int)func_020362DC(); if(v)func_020355D8(0); return v; }
+static inline int poll(void) { int v=func_020362DC(); if(v)func_020355D8(0); return v; }
 void func_021DE3E8(char *p)
 {
     int idx;

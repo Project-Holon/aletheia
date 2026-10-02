@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 struct P16 { short x; short z; };
-extern u32 func_02188CB4(u32 a);
+extern void *func_02188CB4(unsigned char *p);
 extern u32 func_02188C80(u32 a);
 extern u32 func_020120F8(u32 a);
 extern void func_021A3038(u32 a, int *v);
@@ -34,11 +34,12 @@ extern struct P16 d_02180718[];
 int func_0217F7E4(u32 arg)
 {
     int v[3];
-    u32 h5, r4;
+    u32 r4;
+    void *h5;
     u32 i;
     int x, z;
 
-    h5 = func_02188CB4(arg);
+    h5 = func_02188CB4((void *)arg);
     r4 = func_020120F8(func_02188C80(arg));
     func_021A3038(h5, v);
     v[0] = (v[0] >> 4) / 4096;

@@ -27,7 +27,7 @@ typedef unsigned char u8;
 
 extern u32 func_02188CCC(void *p);
 extern int func_021A0ED4(u32 a);
-extern u32 func_02188C7C(void *p);
+extern void *func_02188C7C(void *p);
 extern void func_020124E4(void *a);
 extern u32 func_020120F4(void);
 extern void func_0216D9A0(u32 a);
@@ -38,7 +38,7 @@ extern void func_0216D9E4(u32 a);
 
 int func_021945E0(void *a, int b, u8 *c)
 {
-    u32 r6;
+    void *r6;
     u32 r4;
 
     switch (c[0x10]) {

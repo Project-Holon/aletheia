@@ -16,9 +16,9 @@
  *       --func func_0200E3A0 --addr 0x0200E3A0 --thumb --cc 1.1p1
  */
 
-typedef unsigned int u32;
+typedef unsigned char u8;
 
-u32 func_0200E3A0(u32 a)
+void *func_0200E3A0(void *a)
 {
-    return a + 0xd2;
+    return (u8 *)a + 0xd2;
 }

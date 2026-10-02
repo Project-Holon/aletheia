@@ -50,7 +50,7 @@ typedef struct {
     int f10;
 } Cur;
 
-extern int func_0203630C(void);
+extern unsigned int func_0203630C(void);
 extern void func_020355D8(int v);
 extern int func_020355C4(void);
 extern char *func_021BA710(void *p, Cur *c);
@@ -61,7 +61,7 @@ extern int VEC_Mag(const struct Vec3 *v);
 extern void VEC_Normalize(const struct Vec3 *v, struct Vec3 *d);
 extern void func_020520A4(const struct Vec3 *v, int s, struct Vec3 *d);
 extern void func_0204B404(int obj, Pt *pt, int k);
-extern int func_020362DC(void);
+extern u32 func_020362DC(void);
 extern int func_02035D20(u32 *a, u32 *b);
 extern void func_0204B3DC(int obj, int on);
 

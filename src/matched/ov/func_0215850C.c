@@ -25,12 +25,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
+struct BigObj;
+struct Sub24;
+struct Rec44;
 extern int func_02158344();
-extern int func_02012B38();
+extern void *func_02012B38(const struct BigObj *p);
 extern int func_0201444C();
 extern int func_0215841C();
 extern int func_02012B58();
-extern int func_02012950();
+extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern int func_0200855C();
 extern int func_02008530();
 extern int func_021584F4();
@@ -39,14 +42,16 @@ int func_0215850C(int a0, int a1)
 {
     int t4;
     int t5;
+    void *p;
+    struct Rec44 *rec;
 
 t5 = a1 + 0;
     a0 = func_02158344(a0);
 loc_02158514:
 a0 = t5 + 0;
-    a0 = func_02012B38(a0);
+    p = func_02012B38((const struct BigObj *)a0);
 loc_0215851A:
-    a0 = func_0201444C(a0);
+    a0 = func_0201444C(p);
 loc_0215851E:
     if (a0 == 1) goto loc_02158526;
 loc_02158522:
@@ -67,14 +72,12 @@ a0 = 0;
 loc_0215853C:
 a0 = t5 + 0;
 a1 = t4 + 0;
-    a0 = func_02012950(a0, a1);
+    rec = func_02012950((struct Sub24 *)a0, a1);
 loc_02158544:
-t5 = a0 + 0;
-    a0 = func_0200855C(a0);
+    a0 = func_0200855C(rec);
 loc_0215854A:
 t4 = a0 + 0;
-a0 = t5 + 0;
-    a0 = func_02008530(a0);
+    a0 = func_02008530(rec);
 loc_02158552:
 a1 = a0 + 0;
 a0 = t4 + 0;

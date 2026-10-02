@@ -99,7 +99,7 @@ typedef struct {
 extern char str_02203B54[];
 
 extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file, u32 line);
-extern u32 func_020490F4(u32 id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void *func_02007A18(void *save, int box, unsigned slot);
 extern void func_021F6748(void *mon, Info *q);
 extern void func_021F67A8(void *mon, u32 icon, u32 item_spr, u16 *species, u32 slot, u32 arc, Info *info, IconRec *rec);
@@ -121,7 +121,7 @@ void func_021F68A4(Work *p, int box)
 {
     void *storage = p->ctx->storage;
     u16 species[30];
-    u32 arc;
+    void *arc;
     IconRec *icons;
     u16 i;
 

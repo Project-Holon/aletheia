@@ -26,7 +26,7 @@ typedef struct {
 
 void func_021A3898(u32 x, Vec021A5788 *v);
 void func_02164208(int k, Vec021A5788 *v, int s);
-u32 func_021A3960(u32 x);
+void *func_021A3960(unsigned char *p);
 void func_02163E34(u32 h, Vec021A5788 *v, int *out);
 
 void func_021A5788(u32 *p, int k, int *out)

@@ -38,7 +38,7 @@ struct Ov208CellHdr {
 
 extern const u8 data_021C87A0[4][8];
 
-extern u32  func_020490F4(u32 id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32  func_0204AC18(u32 h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 heap);
 extern u32  func_0204A6C8(u32 h, u32 a, u32 b, u32 c, u32 heap);
 extern u32  func_0204AF28(u32 h, u32 a, u32 b, u32 heap);
@@ -56,7 +56,7 @@ extern void func_0204B688(u32 obj, u32 on);
 void ov208_func_021C625C(u16 *heap, u8 *p, int key)
 {
     struct Ov208CellHdr hdr[2];
-    u32 h;
+    void *h;
     u8 i;
     const u8 *t;
     u8 *e;

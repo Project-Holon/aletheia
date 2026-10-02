@@ -24,7 +24,7 @@
  */
 
 int func_0215A5EC(int b);
-int func_0215A5E4(int b);
+void *func_0215A5E4(void *a0);
 int func_02012844(int a);
 int func_02162744(int a);
 int func_020127A4(int a);
@@ -37,7 +37,7 @@ void func_0216DAF8(int a);
 
 int func_021B18E4(int a, int b)
 {
-    int r4;
+    void *r4;
     int r5;
     int r6;
     int s8;
@@ -46,7 +46,7 @@ int func_021B18E4(int a, int b)
     int r0;
 
     s8 = func_0215A5EC(b);
-    r4 = func_0215A5E4(b);
+    r4 = func_0215A5E4((void *)b);
     sc = func_02012844(r4);
     r5 = func_02162744(sc);
     s10 = func_02012AC8(func_020127A4(r4));

@@ -17,7 +17,7 @@
 typedef unsigned int u32;
 extern int func_02035C08(const void *);
 extern int func_021DE960(char *);
-extern u32 func_0203633C(void);
+extern unsigned int func_0203633C(void);
 extern u32 func_020362DC(void);
 extern const char d_021DED24[];
 int func_021DE914(char *p)

@@ -20,20 +20,20 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_0215A5F4(u32);
-extern u32 func_0215A5DC(u32);
-extern u32 func_0201210C(u32);
-extern u16 *func_02159AE8(u32, u32);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0201210C(void *p);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern u32 func_021F37C8(u32);
 
 int func_021B240C(u32 a, u32 b)
 {
-    u32 w;
+    void *w;
     u16 *o;
 
-    func_0215A5F4(b);
-    w = func_0201210C(func_0215A5DC(b));
-    o = func_02159AE8(a, b);
+    func_0215A5F4((void *)b);
+    w = func_0201210C(func_0215A5DC((void *)b));
+    o = func_02159AE8((void *)a, (void *)b);
     if (func_021F37C8(w) != 0) {
         *o = 1;
     } else {

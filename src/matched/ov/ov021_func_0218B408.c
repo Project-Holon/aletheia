@@ -25,7 +25,7 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_02188CB4(void *x);
+extern void *func_02188CB4(void *x);
 extern int func_021A3098(int a);
 extern void *func_02188C98(void *x);
 extern int func_021A2FA4(int a, int b);
@@ -45,7 +45,7 @@ int func_0218B408(char *p, void *a, void *x)
     int t;
     int flag;
     int t2;
-    int v;
+    void *v;
     int buf[3];
 
     v = func_02188CB4(x);

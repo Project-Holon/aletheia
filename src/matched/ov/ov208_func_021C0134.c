@@ -64,10 +64,10 @@ extern const Row7 data_021C8558;
 extern const Row7 data_021C8560;
 extern const Row7 data_021C8568;
 
-extern u32  func_0204B034(const BankDesc *desc, u32 n, u32 heap);
+extern void *func_0204B034(const BankDesc *desc, unsigned int a1, unsigned int heap);
 extern u32  func_0204B100(u32 a, u32 b, u32 heap);
 extern void func_0204B258(u32 bank, u32 p);
-extern u32  func_020490F4(u32 id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32  func_0204AC18(u32 h, int a, u32 b, u32 c, u32 d, u32 e, u32 heap);
 extern u32  func_0204A6C8(u32 h, int a, u32 b, u32 c, u32 heap);
 extern u32  func_0204AF28(u32 h, u32 a, u32 b, u32 heap);
@@ -91,7 +91,7 @@ void func_021C0134(u16 *heap, u8 *p, int key)
     Row7 anim, pri, pal;
     ObjPos pos;
     Pt pt;
-    u32 h;
+    void *h;
     u8 i;
 
     desc = data_021C8580;

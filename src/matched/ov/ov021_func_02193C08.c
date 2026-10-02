@@ -24,7 +24,7 @@ extern int d_021DDA60;
 extern int *func_021867C4(int a, int id);
 extern void *func_02030734(int, int, int, void *, int);
 extern void func_02193F6C(void *);
-extern int func_020490F4(int, int);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_02186830(int, int, int);
 
 void func_02193C08(char *p, int heap)

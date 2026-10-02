@@ -25,7 +25,7 @@ typedef unsigned int u32;
 
 struct Link;
 
-extern u32 func_020395EC(struct Link *p);
+extern int func_020395EC(struct Link *p);
 
 u32 func_0203D1A4(struct Link *p)
 {

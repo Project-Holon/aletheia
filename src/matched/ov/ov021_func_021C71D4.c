@@ -25,23 +25,23 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_02188C84(u32 a);
-extern u32 func_02188CB4(u32 a);
+extern void *func_02188CB4(unsigned char *p);
 extern void *func_021C6C70(u32 heap, u32 n, void *cb);
 extern u8 *func_021C6CCC(void *p);
-extern u32 func_021A3074(u32 a);
+extern void *func_021A3074(unsigned char *p);
 extern u16 func_0216D5F8(u32 a);
 extern void func_021C7418(void);
 
 void *func_021C71D4(u32 a, u32 b, u32 c)
 {
     u32 heap = func_02188C84(a);
-    u32 x = func_02188CB4(a);
+    void *x = func_02188CB4((void *)a);
     void *r = func_021C6C70(heap, 0x10, (void *)func_021C7418);
     u8 *e = func_021C6CCC(r);
-    u32 t;
+    void *t;
 
     *(u32 *)e = a;
-    t = func_021A3074(x);
+    t = func_021A3074((void *)x);
     *(u32 *)(e + 4) = t;
     *(u16 *)(e + 8) = 0;
     *(u16 *)(e + 10) = b;

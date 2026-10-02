@@ -237,7 +237,7 @@ typedef enum {
 
 #define FLAGS(w) ((Flags *)((w) + 0xc))
 
-extern u32 func_0215A5F4(u32 a);
+extern void *func_0215A5F4(void *p);
 extern void func_02158F58(u32 h);
 extern u32 func_02158F54(u32 h);
 extern u32 func_020120F4(u32 a);
@@ -246,7 +246,7 @@ extern u32 func_0201296C(u32 a);
 extern u8 *func_02012ED8(u32 a);
 extern u32 func_020071CC(u32 sys, u32 id);
 extern u32 func_0200D884(u32 h, u32 id, void *out);
-extern u32 func_0201210C(u32 a);
+extern void *func_0201210C(void *p);
 extern u16 func_02011330(void *a);
 extern u16 func_02159B10(void *a, u32 b);
 extern u16 *func_02158FE0(u32 h, u32 a, u32 b);
@@ -256,7 +256,7 @@ extern int func_021CBCC4(u32 a);
 extern void func_02087BCC(u32 a);
 extern void func_0200D85C(u32 h);
 extern u32 func_0200D87C(u32 h);
-extern u32 func_02188CB4(u32 a);
+extern void *func_02188CB4(unsigned char *p);
 extern u32 func_021A3050(u32 a);
 extern void func_021A3038(u32 a, Trip *t);
 extern u32 func_02188C9C(u32 a);
@@ -268,7 +268,7 @@ extern u16 func_0200DAC4(u32 h, u32 i);
 extern u32 func_021C9D30(u32 a);
 extern u32 func_021A30B0(u32 a);
 extern u16 func_021A3190(u32 a, u32 b);
-extern u32 func_02188C7C(u32 a);
+extern void *func_02188C7C(unsigned char *p);
 extern u32 func_0216DE94(u32 a, u32 id);
 extern void func_0216DAC8(u32 o, u32 v);
 extern u16 func_0200DA54(u32 h);
@@ -334,7 +334,7 @@ extern void func_021CA338(u8 *w, u8 alt);
 extern int func_021CBC94(u32 kind);
 extern void *func_0201A354(int a, int b);
 extern void *func_0200BAF4(u32 a, u32 b);
-extern void *func_02012934(u32 a);
+extern void *func_02012934(void *p);
 extern u32 func_02019ED4(void *rules, void *party);
 extern void func_021CA1E4(u8 *w);
 extern u32 func_021CA270(u16 kind);
@@ -407,7 +407,7 @@ int func_021CA5C4(void *a, u32 b)
     u8 t108;
     u8 t324;
     int ret;
-    u32 h;
+    void *h;
     u32 x;
     u32 s4c;
     u32 s48;
@@ -417,7 +417,7 @@ int func_021CA5C4(void *a, u32 b)
     u32 s3c;
     u32 s38;
     u32 s34;
-    u32 s30;
+    void *s30;
     u16 p1;
     u16 p2;
     u16 s28;
@@ -425,7 +425,7 @@ int func_021CA5C4(void *a, u32 b)
     u16 cmd;
 
     ret = 0;
-    h = func_0215A5F4(b);
+    h = func_0215A5F4((void *)b);
     func_02158F58(h);
     x = func_02158F54(h);
     s4c = func_020120F4(x);
@@ -436,7 +436,7 @@ int func_021CA5C4(void *a, u32 b)
     s3c = func_0200D884(s40, 0, 0);
     s38 = func_020071CC(s48, 0x3a);
     s34 = func_020071CC(s48, 0x3b);
-    s30 = func_0201210C(x);
+    s30 = func_0201210C((void *)x);
     cmd = func_02011330(a);
     p1 = func_02159B10(a, b);
     p2 = func_02159B10(a, b);
@@ -460,7 +460,7 @@ int func_021CA5C4(void *a, u32 b)
         *dst = func_0200D87C(s40);
         break;
     case 4: {
-        u32 o = func_02188CB4(s30);
+        void *o = func_02188CB4((void *)s30);
         u32 k = func_021A3050(o);
         int n;
         func_021A3038(o, &t);
@@ -498,10 +498,10 @@ int func_021CA5C4(void *a, u32 b)
         *dst = func_021C9D30(x);
         break;
     case 12:
-        *dst = func_021A3190(func_021A30B0(func_02188CB4(s30)), 0);
+        *dst = func_021A3190(func_021A30B0(func_02188CB4((void *)s30)), 0);
         break;
     case 13: {
-        u32 o = func_0216DE94(func_02188C7C(s30), p1);
+        u32 o = func_0216DE94(func_02188C7C((void *)s30), p1);
         if (o != 0)
             func_0216DAC8(o, p2);
         break;
@@ -560,7 +560,7 @@ int func_021CA5C4(void *a, u32 b)
         break;
     case 23: {
         u32 y = p2 << 16;
-        u32 o = func_0216DE94(func_02188C7C(s30), p1);
+        u32 o = func_0216DE94(func_02188C7C((void *)s30), p1);
         if (o != 0) {
             func_0216D88C(o, &v);
             v.y = y;
@@ -570,20 +570,20 @@ int func_021CA5C4(void *a, u32 b)
         break;
     }
     case 24: {
-        u32 o = func_0216DE94(func_02188C7C(s30), p1);
+        u32 o = func_0216DE94(func_02188C7C((void *)s30), p1);
         if (o != 0)
             func_0216DB4C(o, 0);
         break;
     }
     case 25: {
-        u32 o = func_0216DE94(func_02188C7C(s30), p1);
+        u32 o = func_0216DE94(func_02188C7C((void *)s30), p1);
         *dst = 0;
         if (o != 0)
             *dst = 1;
         break;
     }
     case 26: {
-        u32 o = func_0216DE94(func_02188C7C(s30), p1);
+        u32 o = func_0216DE94(func_02188C7C((void *)s30), p1);
         *dst = 0;
         if (o != 0)
             *dst = func_021CBBA0(o);
@@ -620,41 +620,41 @@ int func_021CA5C4(void *a, u32 b)
         func_021F37C0(s30, 7, data_021DAD70);
         break;
     case 35: {
-        u32 o = func_0216DE94(func_02188C7C(s30), p1);
+        u32 o = func_0216DE94(func_02188C7C((void *)s30), p1);
         if (o != 0)
             func_0216D5E0(o, p2);
         break;
     }
     case 36: {
-        u32 o = func_0216DE94(func_02188C7C(s30), p1);
+        u32 o = func_0216DE94(func_02188C7C((void *)s30), p1);
         if (o != 0)
             func_0216DAF8(o);
         break;
     }
     case 37:
-        func_0215897C(h, func_0216CB48(x, func_0216D63C(func_0216DE94(func_02188C7C(s30), p1), 0), p1));
+        func_0215897C(h, func_0216CB48(x, func_0216D63C(func_0216DE94(func_02188C7C((void *)s30), p1), 0), p1));
         ret = 1;
         break;
     case 38:
         *dst = func_0200DB44(s38, p1);
         break;
     case 39: {
-        u32 o = func_0216D63C(func_0216DE94(func_02188C7C(s30), p1), 0);
+        u32 o = func_0216D63C(func_0216DE94(func_02188C7C((void *)s30), p1), 0);
         *dst = 0;
         if (func_021CBBAC(w, o) == 1)
             *dst = 1;
         break;
     }
     case 40:
-        func_021CBBD0(w, func_0216D63C(func_0216DE94(func_02188C7C(s30), p1), 0), &a40, &b40, &c40);
+        func_021CBBD0(w, func_0216D63C(func_0216DE94(func_02188C7C((void *)s30), p1), 0), &a40, &b40, &c40);
         *dst = a40;
         break;
     case 41:
-        func_021CBBD0(w, func_0216D63C(func_0216DE94(func_02188C7C(s30), p1), 0), &a41, &b41, &c41);
+        func_021CBBD0(w, func_0216D63C(func_0216DE94(func_02188C7C((void *)s30), p1), 0), &a41, &b41, &c41);
         *dst = b41;
         break;
     case 42:
-        func_021CBBD0(w, func_0216D63C(func_0216DE94(func_02188C7C(s30), p1), 0), &a42, &b42, &c42);
+        func_021CBBD0(w, func_0216D63C(func_0216DE94(func_02188C7C((void *)s30), p1), 0), &a42, &b42, &c42);
         *dst = c42;
         break;
     case 43: {
@@ -840,7 +840,7 @@ int func_021CA5C4(void *a, u32 b)
             *dst = 0;
         break;
     case 329:
-        func_021CB9E4(w, s4c, func_02188C7C(s30), s30);
+        func_021CB9E4(w, s4c, func_02188C7C((void *)s30), s30);
         break;
     case 330:
         FLAGS(w)->b8 = p1;
@@ -899,7 +899,7 @@ int func_021CA5C4(void *a, u32 b)
             p4 = func_0200BAF4(func_0200BAC8(s48), 4);
             party = p4;
         } else {
-            party = func_02012934(s4c);
+            party = func_02012934((void *)s4c);
         }
         res = func_02019ED4(rules, party);
         func_020307B0(rules);
@@ -1117,10 +1117,10 @@ int func_021CA5C4(void *a, u32 b)
         func_0200ED54(func_0200ED48(s48), *(u32 *)(w + 0x73c));
         break;
     case 411:
-        *dst = func_021A3190(func_02039338() == 0 ? func_021A30B0(func_02188CB4(s30)) : w[0x749], 0);
+        *dst = func_021A3190(func_02039338() == 0 ? func_021A30B0(func_02188CB4((void *)s30)) : w[0x749], 0);
         break;
     case 412:
-        *dst = func_021A3190(func_02039338() == 0 ? w[0x749] : func_021A30B0(func_02188CB4(s30)), 0);
+        *dst = func_021A3190(func_02039338() == 0 ? w[0x749] : func_021A30B0(func_02188CB4((void *)s30)), 0);
         break;
     case 413:
         func_0200FB38();

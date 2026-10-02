@@ -30,7 +30,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void  *func_020490F4(u32 heapId, u16 sel);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int    func_0204961C(void *handle);
 extern void  *func_02030734(u32 heapId, u32 size, u32 zero,
                             const void *file, u32 line);

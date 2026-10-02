@@ -40,9 +40,9 @@ typedef struct {
 } Work;
 
 extern int func_020124E4(int);
-extern int func_0201210C(int);
+extern void *func_0201210C(void *p);
 extern int func_02012138(int);
-extern int func_02188C7C(int);
+extern void *func_02188C7C(unsigned char *p);
 extern void func_0216D9A0(int);
 extern int func_02188C54(int);
 extern int func_021904B0(int, int);
@@ -52,7 +52,7 @@ extern int func_02190EF0(int);
 extern void func_02190E40(int);
 extern void func_02045C04(int);
 extern int func_02188BE8(int);
-extern int func_02188CB4(int);
+extern void *func_02188CB4(unsigned char *p);
 extern int func_021A3238(int);
 extern void func_0217C658(void *, int, int, int, int, int);
 extern int func_0217C688(void *, int);
@@ -63,10 +63,10 @@ extern void func_0216D9E4(int);
 int func_0217B82C(int a0, int *state, Work *w)
 {
     int sys;
-    int obj;
+    void *obj;
 
     sys = func_020124E4(a0);
-    obj = func_0201210C(sys);
+    obj = func_0201210C((void *)sys);
     func_02012138(sys);
     switch (*state) {
     case 0:
@@ -85,9 +85,9 @@ int func_0217B82C(int a0, int *state, Work *w)
         }
         break;
     case 2:
-        obj = func_0201210C(sys);
+        obj = func_0201210C((void *)sys);
         if (func_02188BE8(obj) == 1) {
-            if (func_021A3238(func_02188CB4(obj)) == 0) {
+            if (func_021A3238(func_02188CB4((void *)obj)) == 0) {
                 func_0217C658(w->f8, sys, obj, 0, 0, 0);
                 (*state)++;
             } else {
@@ -105,7 +105,7 @@ int func_0217B82C(int a0, int *state, Work *w)
         break;
     case 5:
         if (obj != 0 && func_02188BE8(obj) == 1) {
-            func_0216D9E4(func_02188C7C(obj));
+            func_0216D9E4(func_02188C7C((void *)obj));
             return 1;
         }
         break;

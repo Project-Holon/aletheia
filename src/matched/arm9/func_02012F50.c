@@ -17,7 +17,7 @@
  *   func_02012F50  0x02012F50  thumb
  */
 
-int func_02012F50(int base)
+void *func_02012F50(void *base)
 {
-    return base + 0x6A4;
+    return (char *)base + 0x6A4;
 }

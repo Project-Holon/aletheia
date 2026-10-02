@@ -44,7 +44,7 @@ struct Args { u32 w0; u32 w1; u32 w2; u32 w3; u16 key; u16 pad; };
 extern u32   func_02027710(u32 x);
 extern u32   func_02027714(u32 x);
 extern u32   func_020275E4(void);
-extern void *func_020490F4(u32 mode, u16 key);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32   func_0204AF28(void *h, u32 p, u32 q, u16 key);
 extern void  func_02049238(void *h);
 

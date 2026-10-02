@@ -38,8 +38,8 @@ extern void func_021C6DE0(u32 a, u32 b, u32 c);
 extern void func_020061E4(u32 a);
 extern void func_02006148(u32);
 extern int func_02006224(void);
-extern u32 func_02188CB4(u32 a);
-extern u32 func_021A3074(u32 a);
+extern void *func_02188CB4(unsigned char *p);
+extern void *func_021A3074(unsigned char *p);
 extern void func_021A30A4(u32 a, u32 b);
 extern int func_021CD440(u32 field, u16 *out);
 extern u32 func_02184FD4(u32 a, u16 b);
@@ -51,7 +51,8 @@ int func_021D2278(u32 a, int *seq, int *w)
 {
     Vec v;
     u16 id;
-    u32 s, o;
+    u32 s;
+    void *o;
 
     switch (*seq) {
     case 0:
@@ -77,7 +78,7 @@ int func_021D2278(u32 a, int *seq, int *w)
             break;
         }
         o = func_02188CB4(w[1]);
-        func_021A3074(o);
+        func_021A3074((void *)o);
         func_021A30A4(o, 3);
         func_021CD440(w[1], &id);
         func_02012374(a, func_02184FD4(w[0], id));

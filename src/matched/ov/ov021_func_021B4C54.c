@@ -30,22 +30,22 @@ typedef struct {
 } Pair;
 
 extern u8 abs_id_6[];
-extern u32 func_0215A5F4(u32 a);
-extern u32 func_0215A5DC(u32 a);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
 extern void func_0215897C(u32 a, u32 b);
-extern u32 func_0201210C(u32 a);
+extern void *func_0201210C(void *p);
 extern u32 func_020124AC(u32 a, const void *b, void *c, Pair *d);
 extern void func_02154C20(void);
 
 int func_021B4C54(u32 a, u32 b)
 {
     Pair p;
-    u32 r5;
-    u32 r4;
+    void *r5;
+    void *r4;
 
-    r5 = func_0215A5F4(b);
-    r4 = func_0215A5DC(b);
-    p.a = func_0201210C(r4);
+    r5 = func_0215A5F4((void *)b);
+    r4 = func_0215A5DC((void *)b);
+    p.a = func_0201210C((void *)r4);
     p.b = 0;
     func_0215897C(r5, func_020124AC(r4, abs_id_6, (void *)func_02154C20, &p));
     return 1;

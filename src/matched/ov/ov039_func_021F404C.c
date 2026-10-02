@@ -49,7 +49,7 @@ extern unsigned int func_020120F4(unsigned int);
 extern unsigned int func_02012EC4(unsigned int);
 extern void *func_0200B3A4(unsigned int, unsigned int);
 extern u8 *func_021897BC(void *p, int idx);
-extern u32 func_02188CB4(void *p);
+extern void *func_02188CB4(void *p);
 extern int func_021A3050(u32 a);
 extern void func_021A3038(u32 a, Vec *v);
 extern u8 func_021F36C0(int x, int z);
@@ -69,7 +69,7 @@ int func_021F404C(void *a0)
     void *sys;
     void *p;
     u8 *s;
-    u32 x;
+    void *x;
     Vec v;
     u8 n;
     int c;

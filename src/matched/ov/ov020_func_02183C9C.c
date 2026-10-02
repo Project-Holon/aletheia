@@ -60,7 +60,7 @@ extern int   func_02029DF4(u32 a, int b, u32 c);
 extern void *func_020298A0(u32 a, int b, int c, int d);
 extern void  func_02012374(void *obj, void *out);
 extern void *func_020145FC(u32 a);
-extern u32   func_0201210C(u32 a);
+extern void *func_0201210C(void *p);
 extern void *func_021BE92C(u32 a0, u32 a1, int a2, int a3, int a4, int a5, int a6);
 extern u32   func_02188D20(u32 p);
 extern void  func_021BC578(u32 a, int b);
@@ -69,7 +69,7 @@ int func_02183C9C(void *obj, int *state, Arg *arg)
 {
     u32 x = arg->f0;
     u32 t = func_020120F4(x);
-    u32 w;
+    void *w;
 
     func_0201296C(t);
     switch (*state) {
@@ -88,11 +88,11 @@ int func_02183C9C(void *obj, int *state, Arg *arg)
         (*state)++;
         break;
     case 3:
-        func_02012374(obj, func_021BE92C(x, func_0201210C(x), 1, 0, 1, 0, 0));
+        func_02012374(obj, func_021BE92C(x, func_0201210C((void *)x), 1, 0, 1, 0, 0));
         (*state)++;
         break;
     case 4:
-        w = func_0201210C(x);
+        w = func_0201210C((void *)x);
         if (func_02188D20(w) != 0)
             func_021BC578(func_02188D20(w), arg->fC);
         return 1;

@@ -19,7 +19,7 @@
  */
 typedef unsigned short u16;
 struct Context {void *owner;u16 heap,pad6;char gap8[0x54];int slots[6];};
-extern void *func_020490F4(void *,unsigned);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_0204A6C8(unsigned,unsigned,unsigned,unsigned,u16);
 extern int func_0204ABF0(unsigned,unsigned,unsigned,unsigned,u16);
 extern int func_0204AF28(unsigned,unsigned,unsigned,unsigned);

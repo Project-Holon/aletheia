@@ -48,7 +48,7 @@ typedef struct Spec {
 extern void *func_0215A5DC(void *vm);
 extern void *func_0215A5E4(void *vm);
 extern u16 func_0215A5CC(void *vm);
-extern void func_02012934(void *a);
+extern void *func_02012934(void *a);
 extern void func_02012944(void *a);
 extern u16 *func_02159AE8(void *c, void *vm);
 extern u16 func_02159B10(void *c, void *vm);

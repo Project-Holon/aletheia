@@ -85,7 +85,7 @@ extern void func_0202E8CC(int a, int b);
 extern int func_02012EBC(int a);
 extern int func_02008B14(int a);
 extern int func_02012984(int a);
-extern int func_02012934(int a);
+extern void *func_02012934(void *p);
 extern void func_0216AAE4(int a, int b, int c);
 extern void func_0216A358(int a, int b, int c, int d);
 extern void func_02185A68(int a, int b);
@@ -105,7 +105,7 @@ int func_021841C0(int ctx, int *state, u8 **pp)
     int y;
     int z;
     int w;
-    int c;
+    void *c;
     int b;
     int a;
 
@@ -142,7 +142,7 @@ int func_021841C0(int ctx, int *state, u8 **pp)
             func_0202E8CC(y, *(u16 *)(p + 0x4a));
             a = func_02008B14(func_02012EBC(y));
             b = func_02012984(y);
-            c = func_02012934(y);
+            c = func_02012934((void *)y);
             func_0216AAE4(y, c, b);
             a += 0x14;
             func_0216A358(y, c, a, b);

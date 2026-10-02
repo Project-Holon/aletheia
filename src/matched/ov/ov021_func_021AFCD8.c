@@ -19,18 +19,18 @@
  *   func_02184D38  0x02184D38  thumb  ov020
  */
 
-extern int func_0215A5F4();
+extern void *func_0215A5F4(void *p);
 extern int func_02158F54();
-extern int func_0201210C();
+extern void *func_0201210C(void *p);
 extern int func_02011330();
 extern int func_02012104();
 extern int func_02012374();
-extern int func_02184D38();
+extern void *func_02184D38();
 
 int func_021AFCD8(int a0, int a1)
 {
     int h;
-    int a;
+    void *a;
     int b;
     int c;
     int d;
@@ -38,7 +38,7 @@ int func_021AFCD8(int a0, int a1)
     int arr[3];
     int w;
 
-    h = func_02158F54(func_0215A5F4(a1));
+    h = func_02158F54(func_0215A5F4((void *)a1));
     a = func_0201210C();
     b = func_02011330(a0);
     c = func_02011330(a0);

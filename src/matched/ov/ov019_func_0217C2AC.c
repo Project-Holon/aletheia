@@ -74,7 +74,7 @@ void func_0217F360(Ctx *ctx, int a);
 void func_0217F378(Ctx *ctx);
 int func_0217F380(Ctx *ctx, int a);
 int func_0217B8E4(Ctx *ctx, int v);
-int func_02012934(int a);
+void *func_02012934(void *p);
 void func_020120F4(int a);
 int func_0201AA1C(int a);
 int func_0201AAD4(int a);
@@ -82,7 +82,7 @@ int func_0201AA88(int a);
 
 int func_0217C2AC(Ctx *ctx, Obj *obj, int a2, u8 *state)
 {
-    int h;
+    void *h;
     int r;
 
     if (func_0217BB04(ctx) == 1)

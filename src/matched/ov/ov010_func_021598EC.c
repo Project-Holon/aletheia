@@ -20,8 +20,8 @@
  *   func_0215897C  0x0215897C  thumb  ov010
  */
 
-extern int func_0215A5F4(int);
-extern int func_0215A5DC(int);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
 extern int func_020120F4(int);
 extern void func_021B1BE8(int);
 extern int func_02012A30(int);
@@ -31,8 +31,8 @@ extern void func_0215897C(int, int);
 
 int func_021598EC(int a, int b)
 {
-    int x = func_0215A5F4(b);
-    int y = func_0215A5DC(b);
+    void *x = func_0215A5F4((void *)b);
+    void *y = func_0215A5DC((void *)b);
     int h = func_020120F4(y);
     int r = 0;
     func_021B1BE8(b);

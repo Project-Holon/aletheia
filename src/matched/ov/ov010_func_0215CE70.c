@@ -15,7 +15,7 @@
  *   ov037_id 0x00000025 data a1
  */
 extern char ov037_id[];
-extern void * func_0215A5DC(void *);
+extern void *func_0215A5DC(void *a0);
 extern int func_02034AC4(int);
 extern void func_02034A5C(int);
 extern void func_021F3800(void *);

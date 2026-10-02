@@ -13,7 +13,7 @@
  *   func_02159B10 0x02159B10 thumb ov010
  */
 typedef unsigned short u16;
-extern u16 *func_02159AE8(void *, void *);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern unsigned int func_02159B10(void *, void *);
 int func_021597AC(void *a, void *b)
 {

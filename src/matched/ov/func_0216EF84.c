@@ -19,19 +19,22 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_020120F4();
+struct Ctx;
+
+extern void *func_020120F4(const struct Ctx *p);
 extern int func_02012F2C();
 extern int func_02008DF0();
 
 int func_0216EF84(int a0, int a1)
 {
     int t4;
+    void *p;
 
 t4 = *(int *)((char *)a0 + 8);
 a0 = *(int *)((char *)a0);
-    a0 = func_020120F4(a0);
+    p = func_020120F4((const struct Ctx *)a0);
 loc_0216EF8E:
-    a0 = func_02012F2C(a0);
+    a0 = func_02012F2C(p);
 loc_0216EF92:
 a1 = *(int *)((char *)t4);
     if (a1 != 0) goto loc_0216EFA6;

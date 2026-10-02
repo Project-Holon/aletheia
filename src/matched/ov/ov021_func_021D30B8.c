@@ -23,7 +23,7 @@
 typedef unsigned int u32;
 
 extern u32 func_020120F4(void);
-extern u32 func_0201210C(u32 a);
+extern void *func_0201210C(void *p);
 extern u32 func_020122C0(u32 a, u32 b, void *cb, u32 size);
 extern u32 *func_020124E8(u32 task);
 extern u32 *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
@@ -33,12 +33,12 @@ extern char d_021DE698[];
 u32 func_021D30B8(u32 a, u32 b)
 {
     u32 r7;
-    u32 s4;
+    void *s4;
     u32 s8;
     u32 *w;
 
     r7 = func_020120F4();
-    s4 = func_0201210C(a);
+    s4 = func_0201210C((void *)a);
     s8 = func_020122C0(a, 0, func_021D310C, 0x10);
     w = func_020124E8(s8);
     w[0] = a;

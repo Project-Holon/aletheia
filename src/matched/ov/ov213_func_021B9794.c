@@ -19,7 +19,7 @@
 typedef unsigned short u16;
 typedef struct {unsigned a,b,c;} Entry;
 extern const Entry d_021BAF14[];
-extern void *func_020490F4(void *,unsigned);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(void *,unsigned,unsigned,unsigned,unsigned,u16),func_02049658(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16),func_020498F4(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16),func_02049238(void *);
 void func_021B9794(int a,u16 heap,int index)
 {

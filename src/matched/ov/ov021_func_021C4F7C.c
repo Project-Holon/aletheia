@@ -67,7 +67,7 @@ extern void func_0203FCA0(int, const void *, int);
 extern void func_020414AC(int);
 extern void func_02040C14(int, int, int, int);
 extern u32 func_0204B100(u32 a, u32 b, u16 heap);
-extern void *func_020490F4(int, u32);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(void *, int, int, int, int, u32);
 extern u32 func_0204ABF0(void *arc, u32 id, u32 a, u32 b, u16 heap);
 extern u32 func_0204A6C8(void *arc, u32 id, u32 a, u32 b, u16 heap);
@@ -84,13 +84,13 @@ extern u32 func_0201D7EC(u32 a, u32 b, u32 c, u32 d, u16 heap);
 extern u32 func_0201C450(u32 size, u16 heap);
 extern void *func_02012EBC(void *p);
 extern u32 func_0200C40C(void *p);
-extern void func_021C53A0(char *a, u32 b, u32 c, u32 d, u32 e, u32 f, void *g, u16 h);
+extern void func_021C53A0(char *a, const u16 *b, u32 c, u32 d, u32 e, u32 f, void *g, u16 h);
 extern void func_02041B6C(int);
 extern void func_0207D63C(int, int, int, int, int);
 extern void func_02040618(int a, int b, int c);
 extern void func_02040588(int, int);
 
-char *func_021C4F7C(void *a0, int mode, u32 a2, u16 a3, u16 heap)
+char *func_021C4F7C(void *a0, int mode, const u16 *a2, u16 a3, u16 heap)
 {
     Pos pos;
     int x;
@@ -103,7 +103,7 @@ char *func_021C4F7C(void *a0, int mode, u32 a2, u16 a3, u16 heap)
     func_02082BCC(p, 0, 0x88);
     *(u32 *)(p + 0x74) = 0;
     *(u32 *)(p + 0x78) = 25;
-    *(u32 *)(p + 0x7C) = a2;
+    *(const u16 **)(p + 0x7C) = a2;
     func_0203FCA0(1, d_021DAA60, 0);
     func_020414AC(1);
     func_02040C14(1, 0, 1, 0);
@@ -133,7 +133,7 @@ char *func_021C4F7C(void *a0, int mode, u32 a2, u16 a3, u16 heap)
     *(u32 *)(p + 0x64) = func_02045B38(0, 2, 0xAD, heap);
     *(u32 *)(p + 0x68) = func_0201D7EC(0x17, 0, 0, 0, a3);
     *(u32 *)(p + 0x6C) = func_0201C450(0x1000, heap);
-    func_021C53A0(p, *(u32 *)(p + 0x7C), *(u32 *)(p + 0x64), *(u32 *)(p + 0x68),
+    func_021C53A0(p, *(const u16 **)(p + 0x7C), *(u32 *)(p + 0x64), *(u32 *)(p + 0x68),
         *(u32 *)(p + 0x6C), func_0200C40C(func_02012EBC(a0)), p + 0x58, a3);
     func_02041B6C(1);
     func_0207D63C(0x04000050, 2, 1, 12, 4);

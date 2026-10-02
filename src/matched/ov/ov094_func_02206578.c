@@ -33,7 +33,7 @@ typedef struct {
     int fc;
 } Ctx;
 
-extern u32 func_0203630C(void);
+extern unsigned int func_0203630C(void);
 extern Ctx *func_02030734(u16 heap, int size, int clear, char *file, int line);
 extern void *func_02030DA8(void *owner, void *fn, void *p, u32 a3);
 extern void func_0220684C(char *p, void *h, void *cb);

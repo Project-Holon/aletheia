@@ -38,7 +38,7 @@ typedef struct {
     u32   w10;
 } Fx;
 
-extern int func_02188CB4(u32 a);
+extern void *func_02188CB4(unsigned char *p);
 extern int func_02188CD0(u32 a);
 extern void func_021C76C4(Vec *out, float a, float b, float c);
 extern void func_0216D8C0(u32 a, Vec *v);

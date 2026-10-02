@@ -21,22 +21,22 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_0215A5F4(int a);
-extern int func_0215A5DC(int a);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
 extern int func_02159B10(int a, int b);
-extern int func_0201210C(int a);
-extern int func_02188CB4(int a);
-extern int func_02158F50(int a);
+extern void *func_0201210C(void *p);
+extern void *func_02188CB4(unsigned char *p);
+extern void *func_02158F50(void *p);
 extern int func_021C0820(int a, int b, int c);
 extern void func_0215897C(int a, int b);
 
 int func_021B2ADC(int a, int b)
 {
-    int y = func_0215A5DC(b);
-    int x = func_0215A5F4(b);
+    void *y = func_0215A5DC((void *)b);
+    void *x = func_0215A5F4((void *)b);
     int p = func_02159B10(a, b);
 
-    func_02188CB4(func_0201210C(y));
-    func_0215897C(x, func_021C0820(y, func_02158F50(x), (unsigned char)p));
+    func_02188CB4(func_0201210C((void *)y));
+    func_0215897C(x, func_021C0820(y, func_02158F50((void *)x), (unsigned char)p));
     return 1;
 }

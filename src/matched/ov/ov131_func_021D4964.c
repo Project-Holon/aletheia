@@ -28,7 +28,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_020490F4(void *,u32);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(u32,u32,u32,u32,u32,u16);
 extern void func_02049658(u32,u32,u32,u32,u32,u32,u16);
 extern void func_020498F4(u32,u32,u32,u32,u32,u32,u16);
@@ -73,9 +73,11 @@ extern void func_021D8884(u8 *,u8 *,void *);
 #define P(k) (*(void **)(p+(k)))
 void func_021D4964(u8 *p)
 {
-    u32 a,b,x,y;
+    u32 x, y;
+    void *a;
+    void *b;
     u8 i;
-    a=(u32)func_020490F4((void *)78,H);
+    a=func_020490F4((void *)78,H);
     func_02049B68(a,0,0,0,0,H);
     func_02049658(a,8,2,0,0,0,H);
     func_020498F4(a,70,3,0,0,0,H);
@@ -98,7 +100,7 @@ void func_021D4964(u8 *p)
     I(0x11c)=func_0204AF28(a,80,131,H);
     I(0x128)=func_0204AF28(a,82,133,H);
     I(0x12c)=func_0204AF28(a,79,130,H);
-    b=(u32)func_020490F4((void *)func_020275E4(),H);
+    b=func_020490F4((void *)func_020275E4(),H);
     func_02049B68(b,func_02027624(),0,0x120,32,H);
     func_02049658(b,func_02027628(),1,0,0,0,H);
     func_020498F4(b,func_0202762C(),1,0,0,0,H);

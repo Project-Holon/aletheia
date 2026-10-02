@@ -47,7 +47,7 @@ typedef struct {
     u32 fCC;
 } Anim;
 
-extern u32 func_020490F4(u32 a, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_0204A48C(const void *a, u32 b, u32 heap);
 extern const u8 d_020A1448[];
 extern u32 func_0204B100(u32 a, u32 b, u32 heap);
@@ -66,7 +66,7 @@ extern void func_02043598(u32 mask, u32 enable);
 
 void func_021C6D9C(Anim *a, u32 x)
 {
-    u32 h;
+    void *h;
 
     h = func_020490F4(0x28, a->heap);
     func_0204A48C(d_020A1448, x, a->heap);

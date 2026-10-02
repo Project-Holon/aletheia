@@ -30,23 +30,23 @@ typedef struct {
     u8 *cur;
 } Script;
 
-extern u32 func_0215A5F4(u32);
-extern u32 func_0215A5DC(u32);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
 extern u32 func_02158F74(u32);
 extern u32 func_02159B10(Script *, u32);
-extern u32 func_0201210C(u32);
+extern void *func_0201210C(void *p);
 extern u32 func_02188D50(u32);
 extern u32 func_021C34F8(u32, u32);
 extern void func_0201EE84(u32, u32, u32);
 
 int func_021AF9F0(Script *a, u32 b)
 {
-    u32 x = func_02158F74(func_0215A5F4(b));
+    u32 x = func_02158F74(func_0215A5F4((void *)b));
     u8 *p = a->cur;
     u32 v = *p;
     u32 e;
     a->cur = p + 1;
     e = func_02159B10(a, b);
-    func_0201EE84(x, v, func_021C34F8(func_02188D50(func_0201210C(func_0215A5DC(b))), e));
+    func_0201EE84(x, v, func_021C34F8(func_02188D50(func_0201210C(func_0215A5DC((void *)b))), e));
     return 0;
 }

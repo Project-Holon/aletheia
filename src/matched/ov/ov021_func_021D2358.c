@@ -35,7 +35,7 @@ extern u32 func_021C71D4(u32 a, u32 b, u32 c);
 extern void func_021C6DE0(u32 a, u32 b, u32 c);
 extern u32 func_021A01D4(u32 a);
 extern void func_021A01FC(u32 a, u32 b, u32 c, u32 d);
-extern u32 func_02188CB4(u32 a);
+extern void *func_02188CB4(unsigned char *p);
 extern void func_021A30A4(u32 a, u32 b);
 extern u32 func_02184F88(u32 a);
 extern void func_02012374(u32 a, u32 b);

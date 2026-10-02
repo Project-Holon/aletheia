@@ -23,13 +23,13 @@ typedef struct {
     int z;
 } Vec021A56C0;
 
-u32 func_021A3960(u32 x);
+void *func_021A3960(unsigned char *p);
 void func_0216D88C(u32 h, Vec021A56C0 *v);
 void func_02163E58(u32 h, Vec021A56C0 *v, int *lim);
 
 int func_021A56C0(u32 *p)
 {
-    u32 h = func_021A3960(p[3]);
+    void *h = func_021A3960(p[3]);
     Vec021A56C0 v;
     int lim;
 

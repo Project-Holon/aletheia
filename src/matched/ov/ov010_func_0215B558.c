@@ -21,14 +21,14 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef short s16;
 
-extern int func_02159AE8();
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_02159B10();
 extern int func_0215B4AC();
 extern int func_02017E1C(int, int, int);
 int func_0215B558(int a0, int a1)
 {
-    u16 *p = (u16 *)func_02159AE8(a0, a1);
-    u16 *q = (u16 *)func_02159AE8(a0, a1);
+    u16 *p = func_02159AE8((void *)a0, (void *)a1);
+    u16 *q = func_02159AE8((void *)a0, (void *)a1);
     int obj;
     if (func_0215B4AC(a1, func_02159B10(a0, a1), &obj) == 1) {
         *p = func_02017E1C(obj, 0xAE, 0);

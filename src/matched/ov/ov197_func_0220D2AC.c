@@ -17,6 +17,8 @@
  *   func_020362DC 0x020362DC arm
  *   func_0220D8B0 0x0220D8B0 thumb ov197
  */
+
+typedef unsigned int u32;
 struct Rec;
 struct Rec3;
 extern unsigned func_0201CE30(void *);
@@ -24,8 +26,8 @@ extern void func_0201CE5C(struct Rec *, int);
 extern void func_0201CE38(void *);
 extern void func_0201CE48(struct Rec3 *);
 extern int func_02035C60(void);
-extern unsigned func_0203630C(void);
-extern unsigned func_020362DC(void);
+extern unsigned int func_0203630C(void);
+extern u32 func_020362DC(void);
 extern void func_0220D8B0(char **, int);
 int func_0220D2AC(char *p)
 {

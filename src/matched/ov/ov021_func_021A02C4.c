@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 
 extern char d_021DDE28[];
 extern void *func_02030734(u16, u32, int, const char *, u16);
-extern u32 func_020490F4(u32, u32);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 
 u8 *func_021A02C4(u16 heap)
 {

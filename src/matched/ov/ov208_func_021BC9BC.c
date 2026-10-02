@@ -23,7 +23,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32  func_020490F4(u32 id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049BDC(u32 h, u32 id, u32 type, u32 ofs, u32 src, u32 size, u16 heap);
 extern u32  func_02049740(u32 h, u32 id, u32 layer, u32 ofs, u32 size, u32 heap);
 extern void func_02049990(u32 h, u32 id, u32 layer, u32 ofs, u32 chrOfs, u32 a5, u32 a6,
@@ -35,7 +35,7 @@ extern void func_02041B6C(int layer);
 u32 ov208_func_021BC9BC(int skip, u16 heap, u8 layer, u8 count, u8 pal, u8 palOfs, u32 arc,
                         u32 chr, u32 scr, u32 cell, u32 chrOfs)
 {
-    u32 h;
+    void *h;
     u32 type;
 
     type = 0;

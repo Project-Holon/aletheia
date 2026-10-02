@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02159AE8();
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_02159B10();
 extern int func_0215B4AC();
 extern int func_0215B500();
@@ -28,15 +28,14 @@ extern int func_0215B500();
 int func_0215BAB0(int a0, int a1, int a2)
 {
     int v0;
-    int t4;
     int t5;
     int t6;
     int t7;
+    u16 *q;
 t6 = a0 + 0;
 t5 = a1 + 0;
-    a0 = func_02159AE8(a0, a1);
+    q = func_02159AE8((void *)a0, (void *)a1);
 loc_0215BABA:
-t4 = a0 + 0;
 a0 = t6 + 0;
 a1 = t5 + 0;
     a0 = func_02159B10(a0, a1);
@@ -48,7 +47,7 @@ a1 = t5 + 0;
 loc_0215BACE:
 a1 = a0 + 0;
 a0 = 0;
-*(u16 *)((char *)t4) = a0;
+*q = a0;
 a0 = t5 + 0;
 a2 = (int)&v0;
     a0 = func_0215B4AC(a0, a1, a2);
@@ -62,7 +61,7 @@ loc_0215BAE8:
     if (a0 != 1) goto loc_0215BAF0;
 loc_0215BAEC:
 a0 = 1;
-*(u16 *)((char *)t4) = a0;
+*q = a0;
 loc_0215BAF0:
 a0 = 0;
     return a0;

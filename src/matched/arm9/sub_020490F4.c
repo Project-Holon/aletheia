@@ -28,14 +28,14 @@ extern const char sub_020490F4_File[];
 
 extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file,
                            u32 line);
-extern void func_02048DDC(void *rec, void *owner);
+extern void func_02048DDC(void *rec, u32 id);
 extern void func_0204919C(void *rec);
 
-void *sub_020490F4(void *owner, u32 heap)
+void *sub_020490F4(u32 id, u32 heap)
 {
     void *rec = func_02030734(heap, 0x50, 0, sub_020490F4_File, 0x209);
 
-    func_02048DDC(rec, owner);
+    func_02048DDC(rec, id);
     func_0204919C(rec);
     return rec;
 }

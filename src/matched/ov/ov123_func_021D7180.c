@@ -24,8 +24,10 @@
  *   func_021D7130  0x021D7130  thumb  ov123
  */
 
+typedef unsigned int u32;
+
 extern int func_021D580C(int);
-extern int func_020362DC(void);
+extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern void func_021D6EE0(int, int, int);
 extern void func_021D5A60(int);

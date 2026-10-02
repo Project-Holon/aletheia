@@ -21,33 +21,43 @@
  */
 
 typedef unsigned int u32;
+typedef unsigned short u16;
 
-extern int func_020120F4(int);
-extern int func_02012934(int);
+typedef struct {
+    void *f0;
+    void *f4;
+    u32 *f8;
+    void *fC;
+    u16 *f10;
+    u16 *f14;
+} Task;
+
+extern void *func_020120F4(void *p);
+extern void *func_02012934(void *p);
 extern u32 *func_02030734(int, int, int, const char *, int);
 extern void *func_020122C0(int, int, void (*)(void), int);
-extern u32 *func_020124E8(void *);
-extern int func_0201210C(int);
+extern Task *func_020124E8(void *);
+extern void *func_0201210C(void *p);
 extern void func_0215A214(void);
 extern const char d_021728CC[];
 
-void *func_0215A07C(int a, int b, int c)
+void *func_0215A07C(int a, u16 *b, u16 *c)
 {
-    int h = func_02012934(func_020120F4(a));
+    void *h = func_02012934(func_020120F4((void *)a));
     u32 *p = func_02030734(4, 0x98, 1, d_021728CC, 0x40);
     void *r;
-    u32 *q;
-    p[0] = h;
+    Task *q;
+    *(void **)p = h;
     p[0x34 / 4] = 3;
     p[0x38 / 4] = 0;
     p[0x3c / 4] = 0;
     r = func_020122C0(a, 0, func_0215A214, 0x18);
     q = func_020124E8(r);
-    q[0] = a;
-    q[1] = func_0201210C(a);
-    q[2] = (u32)p;
-    q[3] = 0;
-    q[4] = b;
-    q[5] = c;
+    q->f0 = (void *)a;
+    q->f4 = func_0201210C((void *)a);
+    q->f8 = p;
+    q->fC = 0;
+    q->f10 = b;
+    q->f14 = c;
     return r;
 }

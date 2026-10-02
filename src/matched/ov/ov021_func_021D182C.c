@@ -30,7 +30,7 @@ typedef unsigned int   u32;
 
 struct V3 { u32 a, b, c; };
 
-extern u32 func_02188C7C(u32 a);
+extern void *func_02188C7C(unsigned char *p);
 extern u32 func_02188D24(u32 a);
 extern int *func_021BB990(int a, int *d, const int *c);
 extern u32 func_021BBA6C(const void *p);
@@ -39,7 +39,7 @@ extern int d_021DD5F0[];
 
 u8 *func_021D182C(u32 a, u16 b, struct V3 *c, u16 d)
 {
-    u32 t = func_02188C7C(a);
+    void *t = func_02188C7C((void *)a);
     u32 h = func_02188D24(a);
     int *w = func_021BB990(-1, (int *)h, d_021DD5F0);
     u8 *p = (u8 *)func_021BBA6C(w);

@@ -18,17 +18,17 @@
 
 typedef unsigned int u32;
 
-extern u32 func_0215A5F4(u32);
-extern u32 func_0215A5DC(u32);
-extern u32 func_0201210C(u32);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0201210C(void *p);
 extern void func_021B2EBC(u32, u32, u32, u32, u32);
 
 int func_021B2A60(u32 a, u32 b)
 {
-    u32 d;
+    void *d;
 
-    func_0215A5F4(b);
-    d = func_0215A5DC(b);
-    func_021B2EBC(d, func_0201210C(d), 3, 1, 0);
+    func_0215A5F4((void *)b);
+    d = func_0215A5DC((void *)b);
+    func_021B2EBC(d, func_0201210C((void *)d), 3, 1, 0);
     return 0;
 }

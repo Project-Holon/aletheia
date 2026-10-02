@@ -26,7 +26,7 @@
  */
 
 extern int func_02012138(int a);
-extern int func_0201210C(int a);
+extern void *func_0201210C(void *p);
 extern int func_021F05B4(char *p);
 extern void func_020061E4(unsigned int id);
 extern void func_021F3098(char *p);
@@ -38,10 +38,10 @@ extern void func_021F2CD4(void);
 int func_021F29D8(char *p, int a)
 {
     int r = 0;
-    int b;
+    void *b;
 
     func_02012138(*(int *)(p + 0x1c));
-    b = func_0201210C(*(int *)(p + 0x1c));
+    b = func_0201210C(*(void **)(p + 0x1c));
     if (a == 0 || b == 0)
         return 0;
 

@@ -51,10 +51,10 @@ typedef struct Buf24 {
     u32 w[6];
 } Buf24;
 
-extern u32 func_0215A5F4(u32 a);
+extern void *func_0215A5F4(void *p);
 extern Work **func_02158FB4(u32 a);
-extern u32 func_0215A5DC(u32 a);
-extern u32 func_0201210C(u32 a);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0201210C(void *p);
 extern u32 func_02188C58(u32 a);
 extern void func_0218F0A8(u32 a);
 extern int func_0218F0E8(u32 a);
@@ -74,15 +74,15 @@ int func_021B3158(u32 a, u32 b)
 {
     Work **slot;
     Work *w;
-    u32 t;
-    u32 x;
+    void *t;
+    void *x;
     u32 h;
     Buf24 buf;
 
-    slot = func_02158FB4(func_0215A5F4(b));
+    slot = func_02158FB4(func_0215A5F4((void *)b));
     w = *slot;
-    t = func_0215A5DC(b);
-    x = func_0201210C(t);
+    t = func_0215A5DC((void *)b);
+    x = func_0201210C((void *)t);
     h = func_02188C58(x);
     switch (w->state) {
     case 0:

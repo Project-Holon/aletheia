@@ -38,6 +38,8 @@
  *   func_021EA66C 0x021EA66C thumb
  */
 
+typedef unsigned int u32;
+
 typedef struct {
     unsigned char pad0[2];
     unsigned char pad2[0x26];
@@ -62,7 +64,7 @@ typedef struct {
     char *work;
 } Obj;
 
-extern unsigned func_020362DC(void);
+extern u32 func_020362DC(void);
 extern int func_021EA9F4(Obj *p, int v);
 extern unsigned func_021EF194(void);
 extern void func_020260F4(void *obj, int state);

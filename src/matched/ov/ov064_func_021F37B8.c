@@ -33,9 +33,9 @@ typedef struct {
     int c;
 } V3;
 
-extern int func_0201210C(int a);
+extern void *func_0201210C(void *p);
 extern int func_02188D2C(int a);
-extern int func_02188CB4(int a);
+extern void *func_02188CB4(unsigned char *p);
 extern void func_021A3038(int a, V3 *v);
 extern int func_021BE480(int a, unsigned b, int c);
 extern void func_021BE4B4(int a, int b, int c, int d);
@@ -49,13 +49,13 @@ extern int func_021F384C(void *task, int *st);
 void func_021F37B8(int a)
 {
     int i;
-    int sys;
+    void *sys;
     int s;
     V3 v;
 
-    sys = func_0201210C(a);
+    sys = func_0201210C((void *)a);
     s = func_02188D2C(sys);
-    func_021A3038(func_02188CB4(sys), &v);
+    func_021A3038(func_02188CB4((void *)sys), &v);
     *(V3 *)func_021BE480(s, 0, 0) = v;
     func_021BE4B4(s, 0, 0, 0);
     for (i = 0; i < 4; i++) {

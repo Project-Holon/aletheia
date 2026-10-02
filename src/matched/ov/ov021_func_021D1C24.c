@@ -34,8 +34,8 @@ extern void func_02082BCC(void *p, int v, int n);
 extern u32 func_020120F4(u32 a);
 extern void func_02012EBC(void);
 extern u32 func_02007B44(void);
-extern u32 func_02188CB4(u32 a);
-extern u32 func_02012934(u32 a);
+extern void *func_02188CB4(unsigned char *p);
+extern void *func_02012934(void *p);
 extern u32 func_0201AB28(u32 a, u32 b);
 extern u32 func_02188C54(u32 a);
 
@@ -52,7 +52,7 @@ u32 func_021D1C24(u32 a, u32 b, u32 c)
     func_02012EBC();
     p[0] = func_02007B44();
     p[3] = b;
-    p[4] = func_02188CB4(b);
+    p[4] = func_02188CB4((void *)b);
     p[5] = func_0201AB28(func_02012934(p[2]), c);
     p[7] = func_02188C54(p[3]);
     *((u8 *)p + 0x4e) = c;

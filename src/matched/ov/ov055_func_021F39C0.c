@@ -28,8 +28,8 @@
 extern int func_02188C54(int);
 extern int func_02188C80(int);
 extern int func_020120F4(int);
-extern int func_02188CB4(int);
-extern int func_02188C7C(int);
+extern void *func_02188CB4(unsigned char *p);
+extern void *func_02188C7C(unsigned char *p);
 extern int func_02188C9C(int);
 extern int func_021690B4(int);
 extern int func_02188C84(int);
@@ -46,8 +46,8 @@ void func_021F39C0(int a, int b, char *c)
 
     t0 = func_02188C54(b);
     t1 = func_020120F4(func_02188C80(b));
-    *(int *)c = func_02188CB4(b);
-    *(int *)(c + 4) = func_02188C7C(b);
+    *(int *)c = func_02188CB4((void *)b);
+    *(int *)(c + 4) = func_02188C7C((void *)b);
     t2 = func_02188C9C(b);
     t3 = func_021690B4(t1);
     t4 = func_02188C84(b);

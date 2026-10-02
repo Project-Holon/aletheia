@@ -13,7 +13,9 @@
  *   func_02005E30 0x02005E30 thumb
  *   d_021B6A04 0x021B6A04 data a4
  */
-extern unsigned func_020362DC(void);
+
+typedef unsigned int u32;
+extern u32 func_020362DC(void);
 extern int func_02005F38(void);
 extern void func_02005E30(unsigned v);
 extern int (*const d_021B6A04[])(char *);

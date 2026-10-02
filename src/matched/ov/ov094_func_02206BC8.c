@@ -72,7 +72,7 @@ extern const char d_0220AEC0[];
 extern const Pt d_0220AABC;
 
 extern void *func_02030734(u16, u32, int, const char *, u16);
-extern u32 func_020490F4(int id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void *func_0204B100(int, int, u16);
 extern int func_0204ABF0(u32 a, int b, int c, int d, u16 e);
 extern void *func_021F86E0(void);
@@ -103,7 +103,7 @@ Obj *func_02206BC8(int a, u16 heap)
     Pt base;
     Obj *s;
     int i;
-    u32 arc;
+    void *arc;
     Task *t;
     int lo, hi, kind;
 

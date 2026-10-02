@@ -26,21 +26,21 @@ typedef unsigned int   u32;
 extern u32 func_0215A5EC(u32);
 extern u32 func_02159B10(u32, u32);
 extern u32 func_0216DE94(u32, u32);
-extern u32 func_02159AE8(u32, u32);
+extern unsigned short *func_02159AE8(void *a0, void *a1);
 extern u32 func_0219E348(u32);
 extern void func_021B83FC(u32, u32, u32, u32);
 
 int func_021B20B0(u32 a, u32 b)
 {
     u32 h;
-    u32 x;
-    u32 y;
-    u32 z;
+    unsigned short *x;
+    unsigned short *y;
+    unsigned short *z;
 
     h = func_0216DE94(func_0215A5EC(b), func_02159B10(a, b));
-    x = func_02159AE8(a, b);
-    y = func_02159AE8(a, b);
-    z = func_02159AE8(a, b);
+    x = func_02159AE8((void *)a, (void *)b);
+    y = func_02159AE8((void *)a, (void *)b);
+    z = func_02159AE8((void *)a, (void *)b);
     func_021B83FC(func_0219E348(h), x, y, z);
     return 0;
 }

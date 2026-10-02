@@ -65,7 +65,7 @@ extern int func_0204B100(int, int, int);
 extern void func_0204B270(int bank);
 extern void func_020434DC(u32 a, u32 b);
 extern void func_02043598(int, int);
-extern int func_020490F4(int, int);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_0204ABF0(int, int, int, int, int);
 extern int func_0204A6C8(int, int, int, int, int);
 extern int func_0204AF28(int, int, int, int);
@@ -79,7 +79,7 @@ extern void func_0203D34C(u32 a, u32 b);
 void func_021B9E28(int *p, void *res, int heap)
 {
     Local s;
-    int h;
+    void *h;
     int i;
 
     func_02082BCC(p, 0, 0x54);

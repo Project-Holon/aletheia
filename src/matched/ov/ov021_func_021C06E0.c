@@ -34,7 +34,7 @@ typedef unsigned int u32;
 extern u32 d_021DA08C[];
 extern char ov021_id[];
 extern u32 func_020124E4(u32);
-extern u32 func_0201210C(u32);
+extern void *func_0201210C(void *p);
 extern u32 func_02012138(u32);
 extern u32 func_020120F4(u32);
 extern int func_02012B70(u32);
@@ -43,7 +43,7 @@ extern u32 func_020122C0(u32 a, u32 b, void (*fn)(void), u32 c);
 extern void func_0200FB38(void);
 extern u32 func_020146F8(u32 a, u32 b, u32 c, void *d, u32 e);
 extern void func_02012374(u32, u32);
-extern u32 func_02188C7C(u32);
+extern void *func_02188C7C(unsigned char *p);
 extern int func_02188BE8(u32);
 extern void func_0216D9A0(u32);
 extern void func_0216D9E4(u32);
@@ -52,12 +52,12 @@ extern void func_021C0780(void);
 int func_021C06E0(u32 a, int *st)
 {
     u32 h = func_020124E4(a);
-    u32 o = func_0201210C(h);
+    void *o = func_0201210C((void *)h);
     u32 v;
 
     switch (*st) {
     case 0:
-        func_0216D9A0(func_02188C7C(o));
+        func_0216D9A0(func_02188C7C((void *)o));
         if (func_0202647C(func_02012138(h)) == 2) {
             if (func_02012B70(func_020120F4(h)) == 1) {
                 func_0200FB38();
@@ -74,7 +74,7 @@ int func_021C06E0(u32 a, int *st)
         break;
     case 1:
         if (o != 0 && func_02188BE8(o) == 1) {
-            func_0216D9E4(func_02188C7C(o));
+            func_0216D9E4(func_02188C7C((void *)o));
             return 1;
         }
         break;

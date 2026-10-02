@@ -22,7 +22,7 @@
  *   func_02049238  0x02049238  arm
  */
 
-void *func_020490F4(int a, int b);
+void *func_020490F4(unsigned int id, unsigned int heap);
 void *func_02049250(void *x, int i, int b);
 void func_02062A98(void *v, int **o);
 void func_02040E78(int a, int b, int c, int d);

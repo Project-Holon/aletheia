@@ -27,12 +27,12 @@
 
 typedef short s16;
 
-extern int func_0215A5F4(int);
+extern void *func_0215A5F4(void *p);
 extern int *func_02158F58(int a0);
 extern int func_02188C98(int);
 extern int func_0218DC70(int);
-extern int func_02188CB4(int);
-extern int func_02188C7C(int);
+extern void *func_02188CB4(unsigned char *p);
+extern void *func_02188C7C(unsigned char *p);
 extern int func_02158F74(int);
 extern int func_02159B10(int, int);
 extern int func_0215A5CC(int);
@@ -43,16 +43,16 @@ extern void func_02193B68(int, int, int, int, int);
 
 int func_02186CC4(int a0, int a1)
 {
-    int r6;
+    void *r6;
     int *s;
     int a;
-    int b;
-    int c;
+    void *b;
+    void *c;
     int r5;
     int r4;
     s16 v[3];
 
-    r6 = func_0215A5F4(a1);
+    r6 = func_0215A5F4((void *)a1);
     s = func_02158F58(r6);
     a = func_0218DC70(func_02188C98(s[1]));
     b = func_02188CB4(s[1]);

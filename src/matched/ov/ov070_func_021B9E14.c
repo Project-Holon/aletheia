@@ -27,7 +27,7 @@ typedef struct {
 } Rect;
 
 extern void func_021B9DE8(char *);
-extern int func_020490F4(int, unsigned short);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_02020E60(unsigned short, int);
 extern int func_0204AC18(int, int, int, int, int, int, unsigned short);
 extern int func_0204A6C8(int, int, int, int, unsigned short);
@@ -38,7 +38,7 @@ extern void func_0204B3DC(int, int);
 
 void func_021B9E14(char *p, int id)
 {
-    int bg;
+    void *bg;
     Rect r;
     if (*(int *)(p + 0x6A0) != 0) {
         func_021B9DE8(p);

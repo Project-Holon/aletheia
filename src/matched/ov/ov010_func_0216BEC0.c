@@ -22,22 +22,22 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215A5E4(int a0);
-extern int func_02012934(int p);
+extern void *func_0215A5E4(void *a0);
+extern void *func_02012934(void *p);
 extern int func_02159B10();
-extern int func_0201AB28();
+extern void *func_0201AB28(void *p, u32 idx);
 extern int func_0202F488();
 extern void func_0202F630();
 
 int func_0216BEC0(int c, int vm)
 {
-    int r7;
+    void *r7;
     int k;
     int m;
     int t;
-    int obj;
+    void *obj;
 
-    r7 = func_02012934(func_0215A5E4(vm));
+    r7 = func_02012934(func_0215A5E4((void *)vm));
     k = func_02159B10(c, vm);
     m = func_02159B10(c, vm);
     switch (k) {
@@ -57,7 +57,7 @@ int func_0216BEC0(int c, int vm)
     default:
         return 0;
     }
-    obj = func_0201AB28(r7, m);
+    obj = func_0201AB28((void *)r7, m);
     if (func_0202F488(obj, t) == 0) {
         return 0;
     }

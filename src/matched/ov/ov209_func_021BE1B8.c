@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 struct Out { char pad[20]; void *f14; };
 struct Obj;
-extern void *func_020490F4(void *,unsigned);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern unsigned func_0201BABC(unsigned,unsigned,u16,unsigned);
 extern void *func_02049E74(unsigned,unsigned,unsigned,unsigned,u16);
 extern u16 func_0204B7F0(u8 *);

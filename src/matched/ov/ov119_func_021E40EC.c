@@ -18,7 +18,7 @@
  */
 typedef struct { unsigned int w[2]; } Tbl2;
 extern const Tbl2 d_021E7DD0;
-extern void *func_020490F4(unsigned int, unsigned int);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049990(void *, unsigned int, int, int, int, int, int, int);
 extern void func_02040618(int, int, int);
 extern void func_0204B3DC(int, int);

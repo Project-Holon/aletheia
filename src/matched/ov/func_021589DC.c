@@ -18,20 +18,23 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02158F50();
-extern int func_020124E8();
+struct Obj;
+extern void *func_02158F50(void *p);
+extern void *func_020124E8(struct Obj *p);
 
 int func_021589DC(int a0)
 {
+    void *p;
+    void *v0;
 
-    a0 = func_02158F50(a0);
+    v0 = func_02158F50((void *)a0);
 loc_021589E2:
-    if (a0 != 0) goto loc_021589EA;
+    if (v0 != 0) goto loc_021589EA;
 loc_021589E6:
 a0 = 0;
     return a0;
 loc_021589EA:
-    a0 = func_020124E8(a0);
+    p = func_020124E8((struct Obj *)a0);
 loc_021589EE:
-a0 = *(int *)((char *)a0 + 4);
+a0 = *(int *)((char *)p + 4);
     return a0;}

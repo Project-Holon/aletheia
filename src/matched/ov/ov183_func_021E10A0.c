@@ -13,10 +13,10 @@
  *   func_02025538  0x02025538  thumb
  */
 
-extern int func_02025538(int, int);
+extern void *func_02025538(unsigned int a0, void *a1);
 
 void func_021E10A0(char *p)
 {
     *(int *)(p + 0x300) =
-        func_02025538(*(unsigned short *)(p + 0x34c), *(int *)(p + 0x25c));
+        func_02025538(*(unsigned short *)(p + 0x34c), *(void **)(p + 0x25c));
 }

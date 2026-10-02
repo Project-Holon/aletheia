@@ -47,7 +47,7 @@ typedef struct {
     int f8;
 } S;
 
-extern void func_02188CB4(int a);
+extern void *func_02188CB4(unsigned char *p);
 extern int func_02188C6C(int a);
 extern int func_021A1BF4(int a);
 extern void func_021A9350(Buf *buf, int a, int b, int c, int d);

@@ -19,7 +19,7 @@ typedef struct {
     int f9a8;               /* 0x9a8 */
 } Work;
 
-extern void *func_020490F4(int a, int b);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049990(void *o, int a, int b, int c, unsigned short d, int e, int f, int g);
 extern void func_02049238(void *o);
 

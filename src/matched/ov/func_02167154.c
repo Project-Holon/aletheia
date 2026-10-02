@@ -17,18 +17,21 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02045B38();
+struct MsgBank;
 
-int func_02167154(int a0, int a1, int a2, int a3)
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+
+struct MsgBank *func_02167154(int a0, int a1, int a2, int a3)
 {
     int t4;
+    struct MsgBank *bank;
 
 t4 = a0 + 0;
 a3 = *(u16 *)((char *)t4);
 a0 = 0;
 a1 = 3;
 a2 = 0x2f;
-    a0 = func_02045B38(a0, a1, a2, a3);
+    bank = func_02045B38(a0, a1, a2, a3);
 loc_02167164:
-*(int *)((char *)t4 + 0x18) = a0;
-    return a0;}
+*(struct MsgBank **)((char *)t4 + 0x18) = bank;
+    return bank;}

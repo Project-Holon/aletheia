@@ -87,7 +87,7 @@ struct FieldInput {
 typedef struct Cell { u16 x, y, z, w; } Cell;
 
 extern void func_0218A4E0(struct FieldInput *p, void *sys, u8 *pos);
-extern u32 func_021A3074(u32 obj);
+extern void *func_021A3074(unsigned char *p);
 extern void func_0219E634(u32 obj, Cell *c);
 extern int func_0218A738(struct FieldInput *p);
 extern void func_0218A728(void *p);
@@ -105,7 +105,7 @@ extern void func_021A2F6C(u32 obj);
 extern int func_0219F01C(void *sys, u8 *pos, u32 a, u32 m, int ev, u16 id);
 extern u16 func_0216D5F8(u32 obj);
 extern u16 func_02162A5C(void *set, void *flags, const void *where, u16 type);
-extern u32 func_02188CB4(u8 *pos);
+extern void *func_02188CB4(u8 *pos);
 extern int func_0218B310(u32 obj, struct FieldInput *p);
 extern int func_0218B13C(struct FieldInput *p, void *sys, u8 *pos, Cell *c);
 extern int func_0218B24C(struct FieldInput *p, void *sys, u8 *pos);
@@ -127,7 +127,7 @@ int func_0218A278(void *sys, u8 *pos)
     Cell here;
     int cur[2];
     Cell copy;
-    u32 model;
+    void *model;
     int r;
     u32 msg;
 
@@ -140,7 +140,7 @@ int func_0218A278(void *sys, u8 *pos)
     if (in.b2)
         func_0218A728(in.f8);
     if (in.b2) {
-        u32 obj = func_021A3074(in.f18);
+        void *obj = func_021A3074(in.f18);
         void *flags = func_0201296C(in.f8);
 
         func_0219E2F4(obj, cur);
@@ -166,7 +166,7 @@ int func_0218A278(void *sys, u8 *pos)
             u32 kind = func_0216D5B8(target);
 
             if (func_02158D90(kind) == 1) {
-                u32 m = func_021A3074(in.f18);
+                void *m = func_021A3074(in.f18);
 
                 func_021A2F6C(in.f18);
                 return func_0219F01C(sys, pos, kind, m, target, in.f0);

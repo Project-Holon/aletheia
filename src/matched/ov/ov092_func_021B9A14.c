@@ -33,7 +33,7 @@ struct S {
     struct In *f04;
 };
 
-extern void *func_02012934(u32 a);
+extern void *func_02012934(void *p);
 extern int func_0201AA18(void *party);
 extern void *func_0201AB28(void *party, int i);
 extern u32 func_02017E1C(void *mon, u32 id, u32 buf);

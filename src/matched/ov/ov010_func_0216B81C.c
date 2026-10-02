@@ -24,26 +24,28 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215A5E4(int a0);
-extern int func_02012EBC(int p);
-extern int func_0200C0E8(int sys);
+struct Big;
+
+extern void *func_0215A5E4(void *a0);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200C0E8(void *sys);
 extern int func_02159B10();
-extern int func_02159AE8();
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_0200C32C();
-extern void func_0216B8B8();
-extern void func_0216B91C();
+extern int func_0216B8B8(int a0, unsigned short *a1);
+extern int func_0216B91C(int a0, int a1, unsigned short *a2);
 
 int func_0216B81C(int c, int vm)
 {
-    int r6;
-    int t;
+    void *r6;
+    void *t;
     int r5;
-    int r4;
+    u16 *r4;
 
-    r6 = func_02012EBC(func_0215A5E4(vm));
+    r6 = func_02012EBC((struct Big *)func_0215A5E4((void *)vm));
     t = func_0200C0E8(r6);
     r5 = (u8)func_02159B10(c, vm);
-    r4 = func_02159AE8(c, vm);
+    r4 = func_02159AE8((void *)c, (void *)vm);
     if (r5 == func_0200C32C(t)) {
         func_0216B8B8(r6, r4);
     } else {

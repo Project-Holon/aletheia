@@ -27,7 +27,7 @@ typedef unsigned long long u64;
 extern char *d_0220AF20;
 extern u32 d_0220AC70[];
 extern u32 d_0220AC78[];
-extern int func_020362DC(void);
+extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern void func_021F7BEC(void);
 extern void func_021F7998(u32);

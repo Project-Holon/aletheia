@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 u32 func_021A398C(u8 *p);
-u32 func_021A3960(u8 *p);
+void *func_021A3960(u8 *p);
 int func_021A3190(u32 x, int a);
 int func_0216D598(u32 h);
 void func_021A3AD8(u8 *p, int v);
@@ -30,7 +30,7 @@ void func_021A3AD8(u8 *p, int v);
 void func_021A39AC(u8 *p, int a)
 {
     u32 x = func_021A398C(p);
-    u32 h = func_021A3960(p);
+    void *h = func_021A3960(p);
     int v = func_021A3190(x, a);
 
     if (v != func_0216D598(h))

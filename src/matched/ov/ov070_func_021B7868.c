@@ -28,6 +28,8 @@
  *   func_021B8DCC  0x021B8DCC  thumb  ov070
  */
 
+typedef unsigned int u32;
+
 typedef struct Obj {
     unsigned char pad000[0x51C];
     void *f51C;
@@ -43,7 +45,7 @@ typedef struct Obj {
 extern int func_021BADF0(Obj *o);
 extern int func_021B7DF4(Obj *o);
 extern int func_021B8DAC(void);
-extern int func_020362DC(void);
+extern u32 func_020362DC(void);
 extern void func_020355D8(int v);
 extern void func_020061E4(unsigned int id);
 extern void func_021B7DD0(Obj *o);

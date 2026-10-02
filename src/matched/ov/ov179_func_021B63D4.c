@@ -25,7 +25,7 @@ extern void func_020435F4(int);
 extern void func_0204363C(int);
 extern void func_021B615C(void);
 extern void func_021B616C(char *);
-extern void *func_020490F4(unsigned,unsigned);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_021B622C(char *);
 extern void func_021B624C(int *);
 extern void func_021B6290(char *,unsigned,unsigned,unsigned);

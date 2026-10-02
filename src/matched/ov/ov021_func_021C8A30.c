@@ -42,8 +42,8 @@ typedef int (*TaskFn)(void *task, int *state, void *work);
 
 extern void *func_020122C0(void *a, u32 b, TaskFn fn, u32 size);
 extern struct Work8A30 *func_020124E8(void *task);
-extern u32 func_02188CB4(u8 *p);
-extern void *func_021A3074(u32 v);
+extern void *func_02188CB4(u8 *p);
+extern void *func_021A3074(unsigned char *p);
 extern u16 func_0216D5F8(void *p);
 extern int func_021C89BC(void *task, int *state, void *work);
 

@@ -43,6 +43,8 @@
  *   func_021B8F90  0x021B8F90  thumb  ov070
  */
 
+typedef unsigned int u32;
+
 typedef struct Obj Obj;
 
 struct Obj {
@@ -81,7 +83,7 @@ extern void func_0202EA40(void *p);
 extern unsigned int func_021B63F8(Obj *o);
 extern void func_021B6138(Obj *o);
 extern int func_020355C4(void);
-extern unsigned int func_020362DC(void);
+extern u32 func_020362DC(void);
 extern int func_021B61C8(Obj *o);
 extern void func_020061E4(unsigned int se);
 extern void func_021B9850(Obj *o);

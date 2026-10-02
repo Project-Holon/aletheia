@@ -30,19 +30,19 @@ typedef unsigned int   u32;
 
 extern u8 abs_id_01[];
 extern u32 func_02154694(void *a, u32 b);
-extern u32 func_0215A5F4(u32 a);
-extern u32 func_0215A5DC(u32 a);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
 extern void func_0215897C(u32 a, u32 b);
-extern u32 func_0201210C(u32 a);
+extern void *func_0201210C(void *p);
 extern u32 func_020124AC(u32 a, u32 b, u32 (*fn)(void *, u32), u32 c);
 
 int func_021B4CDC(u32 a, u32 b)
 {
-    u32 r5;
-    u32 r4;
+    void *r5;
+    void *r4;
 
-    r5 = func_0215A5F4(b);
-    r4 = func_0215A5DC(b);
-    func_0215897C(r5, func_020124AC(r4, (u32)abs_id_01, func_02154694, func_0201210C(r4)));
+    r5 = func_0215A5F4((void *)b);
+    r4 = func_0215A5DC((void *)b);
+    func_0215897C(r5, func_020124AC(r4, (u32)abs_id_01, func_02154694, func_0201210C((void *)r4)));
     return 1;
 }

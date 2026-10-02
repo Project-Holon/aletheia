@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_0217BB04  0x0217BB04  thumb ov019
@@ -39,6 +39,7 @@
 
 typedef unsigned char u8;
 typedef short s16;
+typedef unsigned int u32;
 
 typedef struct {
     u8 pad[7];
@@ -89,17 +90,17 @@ void func_0217F22C(Ctx *ctx, int a);
 int func_0217F268(Ctx *ctx, int *flag);
 void func_0217F24C(Ctx *ctx);
 int func_02173A48(int a, ...);
-int func_02012934(int a);
+void *func_02012934(void *p);
 void func_020120F4(int a);
 int func_0201AA1C(int a);
 int func_0201AAD4(int a);
 int func_0201AA88(int a);
-int func_020362DC(void);
+u32 func_020362DC(void);
 
 int func_0217C5A8(Ctx *ctx, Obj *obj, int a2, u8 *state)
 {
     int flag;
-    int h;
+    void *h;
 
     if (func_0217BB04(ctx) == 1)
         return 1;

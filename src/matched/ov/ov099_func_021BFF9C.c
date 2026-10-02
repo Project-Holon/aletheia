@@ -14,10 +14,12 @@
  *   func_020362DC 0x020362DC arm
  *   func_0203C554 0x0203C554 arm
  */
+
+typedef unsigned int u32;
 extern int func_021BA928(char *,int);
 extern void func_021BA8EC(char *);
 extern void func_021C18C8(char *,int,unsigned);
-extern int func_020362DC(void);
+extern u32 func_020362DC(void);
 extern void func_0203C554(int);
 int func_021BFF9C(char *p, int ret) {
     if (!func_021BA928(p, ret)) return ret;

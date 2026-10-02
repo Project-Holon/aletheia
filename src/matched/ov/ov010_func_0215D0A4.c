@@ -16,10 +16,10 @@
  *   func_021C341C 0x021C341C thumb ov021
  */
 typedef unsigned short u16;
-extern u16 * func_02159AE8(void *, void *);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_02159B10(void *, void *);
-extern void * func_0215A5DC(void *);
-extern void * func_0201210C(void *);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0201210C(void *p);
 extern unsigned int func_02188D50(unsigned char *);
 extern int func_021C341C(unsigned int *, unsigned int);
 

@@ -66,8 +66,8 @@ extern Tmpl g_02183AF0;
 extern void func_02082BCC(void *, int, int);
 extern int func_020120F4(void *);
 extern int func_02012964(int);
-extern int func_02188CB4(int);
-extern int func_021A3074(int);
+extern void *func_02188CB4(unsigned char *p);
+extern void *func_021A3074(unsigned char *p);
 extern int func_02188C9C(int);
 extern u16 func_0216D598(int);
 extern int func_0216D83C(int);
@@ -82,7 +82,7 @@ void func_0217C758(Rec *r, void *a1, int a2, void *a3, u16 id, u8 kind,
                    u8 flag, u16 idx, int place)
 {
     int sys;
-    int obj;
+    void *obj;
     int zone;
     int x;
     int y;
@@ -98,7 +98,7 @@ void func_0217C758(Rec *r, void *a1, int a2, void *a3, u16 id, u8 kind,
     r->f13 = idx;
     if (place != 0) {
         sys = func_02012964(func_020120F4(a1));
-        obj = func_021A3074(func_02188CB4(a2));
+        obj = func_021A3074(func_02188CB4((void *)a2));
         zone = func_02188C9C(a2);
         d_02183AF0.f2 = func_0216D598(obj);
         d_02183AF0.fC = idx;

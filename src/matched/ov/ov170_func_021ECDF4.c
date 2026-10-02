@@ -35,7 +35,7 @@
  */
 
 extern unsigned func_020275E4(void);
-extern void *func_020490F4(unsigned arc, unsigned heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern unsigned func_020275F8(unsigned char i);
 extern void *func_0204A6C8(void *h, unsigned id, int a, int b, unsigned heap);
 extern unsigned func_020275FC(int k);

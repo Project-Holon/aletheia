@@ -24,23 +24,25 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215A5F4();
-extern int func_0215A5E4(int a0);
-extern int func_02012EBC(int p);
-extern int func_0200E394(int a0);
-extern int func_0200E3A0(int a);
+struct Big;
+
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5E4(void *a0);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200E394(void *a0);
+extern void *func_0200E3A0(void *a);
 extern int func_02159B10();
 extern void func_0200E3E8();
 extern void func_02027100();
 
 int func_0216B7B0(int c, int vm)
 {
-    int r6;
+    void *r6;
     int a;
     int b;
 
-    func_0215A5F4(vm);
-    r6 = func_0200E3A0(func_0200E394(func_02012EBC(func_0215A5E4(vm))));
+    func_0215A5F4((void *)vm);
+    r6 = func_0200E3A0(func_0200E394(func_02012EBC((struct Big *)func_0215A5E4((void *)vm))));
     a = func_02159B10(c, vm);
     b = func_02159B10(c, vm);
     func_0200E3E8(r6, (u8)a, b);

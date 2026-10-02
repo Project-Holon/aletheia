@@ -15,8 +15,10 @@
  *   func_021D8AF4 0x021D8AF4 thumb ov129
  */
 
+typedef unsigned int u32;
+
 extern void func_021DA610(int,int,int,int);
-extern int func_020362DC(void);
+extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern void func_021DA578(int,int,int,int);
 extern void func_021D8AF4(char *,int);

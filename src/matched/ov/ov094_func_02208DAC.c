@@ -54,7 +54,7 @@ extern const char d_0220AED0[];
 extern const Origin d_0220AB6C[];
 extern const u32 d_0220AB7C[][5];
 extern void *func_02030734(u16, u32, int, const char *, u16);
-extern u32 func_020490F4(u32, u16);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32 func_0204B100(int, int, u16);
 extern u32 func_0204A6C8(u32, u32, u32, u32, u16);
 extern u32 func_0204AF28(u32, u32, u32, u16);
@@ -75,7 +75,7 @@ extern void func_022090B4(void *, void *);
 extern void func_02209214(void *);
 Work *func_02208DAC(const Arg *arg, u32 heapId)
 {
-    u32 arc;
+    void *arc;
     int heap;
     int base;
     Work *w;

@@ -50,6 +50,7 @@
  */
 
 typedef unsigned short u16;
+typedef unsigned int u32;
 
 /* 0x28-byte task work, allocated by func_0217CA84 through func_020122C0 */
 typedef struct {
@@ -70,7 +71,7 @@ int func_02026460(void *);
 int func_02026454(void *);
 void func_02026400(void *);
 int func_02012114(void *);
-void *func_0201210C(void *);
+void *func_0201210C(void *p);
 int func_02188BE8(void *);
 void *func_02188C54(void *);
 void *func_021904B0(void *, int);
@@ -81,10 +82,10 @@ int func_02029830(void *, int);
 int func_02005F38(void);
 int func_02029620(void *, int, int);
 int func_02190EF0(void *);
-int func_020362DC(void);
+u32 func_020362DC(void);
 void func_02190E40(void *);
 void func_02045C04(void *);
-void *func_02188CB4(void *);
+void *func_02188CB4(void *p);
 int func_021A3238(void *);
 void func_0217C658(void *, void *, void *, int, int, int);
 int func_0217C688(void *, int);

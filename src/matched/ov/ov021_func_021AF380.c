@@ -30,8 +30,8 @@ typedef struct {
     u32 f8;
 } Rec;
 
-extern u32 func_0215A5DC(u32 a);
-extern u32 func_0215A5F4(u32 a);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0215A5F4(void *p);
 extern u32 func_02159B10(u32 a, u32 b);
 extern u32 func_020122C0(u32 a, u32 b, void *c, u32 d);
 extern Rec *func_020124E8(void);
@@ -40,11 +40,13 @@ extern int func_021AF4E8(u32 a, u32 b, Rec *c);
 
 int func_021AF380(u32 a, u32 b)
 {
-    u32 p, x, u, v, h;
+    u32 u, v, h;
+    void *p;
+    void *x;
     Rec *r;
 
-    p = func_0215A5F4(b);
-    x = func_0215A5DC(b);
+    p = func_0215A5F4((void *)b);
+    x = func_0215A5DC((void *)b);
     u = func_02159B10(a, b);
     v = func_02159B10(a, b);
     h = func_020122C0(x, 0, (void *)func_021AF4E8, 12);

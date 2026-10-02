@@ -122,7 +122,7 @@ extern void func_0203D01C(void);
 extern void func_0203D0DC(void *fn);
 extern void func_0203D17C(u32 a);
 extern int  func_0203D210(void);
-extern int  func_0203D3A8(u32 h, u32 a, u32 b, void *q);
+extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *q);
 extern struct Sys *func_0203D788(void);
 extern void func_0203DA20(void);
 extern void func_0203DC04(void);
@@ -207,7 +207,7 @@ void func_0203DC70(void)
         if (p->f102 != 1)
             return;
         p->f101 = 1;
-        if (func_0203D3A8(func_020399A8(), 9, 0x24, g_021469F0->f90) == 0)
+        if (func_0203D3A8(func_020399A8(), 9, 0x24, (void *)g_021469F0->f90) == 0)
             return;
         func_0203DC68(p, 7);
         break;

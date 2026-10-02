@@ -101,7 +101,7 @@ extern int func_021F4864(u8 v, int r, u8 *out);
 extern void func_02028B50(int a, int b);
 extern void func_02006210(void);
 extern u32 func_02011688(u32 p, Vec *dst, u32 idx);
-extern u32 func_02188CB4(void *p);
+extern void *func_02188CB4(void *p);
 extern void func_021A3044(u32 q, Vec *v);
 extern void func_021F4A18(void *a, Work *s);
 
@@ -193,7 +193,7 @@ void func_021F3A34(int a0, void *a1)
             pos.x += d_021F4CA0[k].x;
             pos.y += d_021F4CA0[k].y;
             pos.z += d_021F4CA0[k].z;
-            func_021A3044(func_02188CB4(a1), &pos);
+            func_021A3044(func_02188CB4((void *)a1), &pos);
         }
     } else {
         func_021F4A18(a1, s);

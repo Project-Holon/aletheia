@@ -47,10 +47,10 @@ typedef struct Ent {
 } Ent;
 
 extern int func_02159B10(u32 a, u32 b);
-extern u16 *func_02159AE8(u32 a, u32 b);
-extern u32 func_0215A5E4(u32 a);
+extern u16 *func_02159AE8(void *a0, void *a1);
+extern void *func_0215A5E4(void *a0);
 extern u32 func_0215A5CC(u32 a);
-extern u32 func_0215A5DC(u32 a);
+extern void *func_0215A5DC(void *a0);
 extern u32 func_02012EBC(u32 a);
 extern void *func_0200A300(u32 a, u32 b, u32 c);
 extern void func_0200A338(void *h);
@@ -68,14 +68,14 @@ extern int func_021B6EB0(u8 *p, int k);
 extern u32 func_02012F08(u32 sv);
 extern u32 func_02012944(u32 sv);
 extern void func_0216BF74(u32 a, u32 b, u32 c);
-extern u32 func_0201210C(u32 a);
+extern void *func_0201210C(void *p);
 extern Ent d_021D9970[];
 
 int func_021B6BDC(u32 a, u32 b)
 {
     int mode;
     u16 *out;
-    u32 sv;
+    void *sv;
     void *h;
     u32 heap;
     u8 *p;
@@ -84,8 +84,8 @@ int func_021B6BDC(u32 a, u32 b)
     u32 x;
 
     mode = func_02159B10(a, b);
-    out = func_02159AE8(a, b);
-    sv = func_0215A5E4(b);
+    out = func_02159AE8((void *)a, (void *)b);
+    sv = func_0215A5E4((void *)b);
     heap = func_0215A5CC(b);
     h = func_0200A300(func_02012EBC(sv), 0, heap);
     p = func_021B7834(h, &x, buf);
@@ -121,10 +121,10 @@ int func_021B6BDC(u32 a, u32 b)
         *out = 0;
         break;
     case 5:
-        *out = func_021B6DE4(func_0201210C(func_0215A5DC(b)), sv);
+        *out = func_021B6DE4(func_0201210C(func_0215A5DC((void *)b)), sv);
         break;
     case 6:
-        *out = func_021B6E0C(func_0201210C(func_0215A5DC(b)));
+        *out = func_021B6E0C(func_0201210C(func_0215A5DC((void *)b)));
         break;
     case 7:
         *out = func_021B6DC0(k, b, sv, p);

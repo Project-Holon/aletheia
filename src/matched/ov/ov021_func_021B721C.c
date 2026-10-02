@@ -30,7 +30,7 @@ typedef unsigned int   u32;
 
 struct Ent { u32 k; u32 v; };
 
-extern u32 func_0215A5F4(u32 p);
+extern void *func_0215A5F4(void *p);
 extern u32 *func_02158F58(u32 p);
 extern u32 func_02158F74(u32 p);
 extern u32 func_02188C84(u32 p);
@@ -42,7 +42,7 @@ extern const u8 d_021D99D0[];
 
 int func_021B721C(u32 a, u32 b)
 {
-    u32 s;
+    void *s;
     u32 v;
     u32 k;
     u32 idx;
@@ -53,7 +53,7 @@ int func_021B721C(u32 a, u32 b)
     u32 cnt;
     u32 i;
 
-    s = func_0215A5F4(b);
+    s = func_0215A5F4((void *)b);
     v = func_02188C84(func_02158F58(s)[1]);
     k = func_02159B10(a, b);
     idx = func_02159B10(a, b);

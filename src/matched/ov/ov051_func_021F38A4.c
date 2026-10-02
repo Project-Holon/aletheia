@@ -28,10 +28,10 @@ extern unsigned int func_021F3724(int a);
 extern int *func_021F3718(int a);
 extern void func_021F3D04(int a, int b);
 extern int func_021F3958(int a, int b, int c);
-extern int func_02188CB4(int a);
+extern void *func_02188CB4(unsigned char *p);
 extern void func_021A3038(int a, int *b);
 extern void func_02164208(int a, int *b, int c);
-extern int func_02188C7C(int a);
+extern void *func_02188C7C(unsigned char *p);
 extern int func_0216DDC0(int a, int b, int c, int d);
 extern int func_0216D588(int a);
 
@@ -49,7 +49,7 @@ int func_021F38A4(int a, int b)
 
     res = 0;
     r4 = func_021F3D6C(a);
-    func_021A3038(func_02188CB4(a), v);
+    func_021A3038(func_02188CB4((void *)a), v);
     func_02164208(b, v, 1 << 16);
     x = (short)(((v[0] >> 4) / 4096));
     y = (short)(((v[2] >> 4) / 4096));
@@ -62,7 +62,7 @@ int func_021F38A4(int a, int b)
                 func_021F3D04(a, i);
             p += 3;
         }
-    h = func_0216DDC0(func_02188C7C(a), x, y, 0);
+    h = func_0216DDC0(func_02188C7C((void *)a), x, y, 0);
     if (h != 0 && func_0216D588(h) == 0xfd)
         res = func_021F3958(a, h, b);
     return res;

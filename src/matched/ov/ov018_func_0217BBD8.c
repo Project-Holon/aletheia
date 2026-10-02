@@ -27,7 +27,7 @@ typedef struct { int x, y, z; } Vec;
 
 extern int func_02188C98(int);
 extern int func_02188C9C(int);
-extern int func_02188CB4(int);
+extern void *func_02188CB4(unsigned char *p);
 extern int func_02013D5C(int);
 extern void func_021A3038(int, Vec *);
 extern int func_0217B94C(Vec *);
@@ -40,7 +40,7 @@ void func_0217BBD8(int a, int b, u8 *c)
 {
     Vec v;
     int n;
-    int h;
+    void *h;
     int buf;
 
     if (c == 0 || a == 0)
@@ -56,7 +56,7 @@ void func_0217BBD8(int a, int b, u8 *c)
         n = 1;
     if (c[0x901] >= n)
         return;
-    h = func_02188CB4(a);
+    h = func_02188CB4((void *)a);
     if (h == 0)
         return;
     func_021A3038(h, &v);

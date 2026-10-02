@@ -17,13 +17,13 @@
 
 typedef unsigned int u32;
 
-extern u32 func_0201210C(u32);
+extern void *func_0201210C(void *p);
 extern u32 func_02188C58(u32);
 extern void func_021B52A4(u32, u32);
 
 int func_021B52E0(u32 *p)
 {
-    u32 w = func_0201210C(p[0]);
+    void *w = func_0201210C(p[0]);
 
     func_021B52A4(w, func_02188C58(w));
     return 1;

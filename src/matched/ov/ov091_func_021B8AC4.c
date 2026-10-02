@@ -40,7 +40,7 @@ typedef unsigned int   u32;
 #define W(o) (*(int *)(p + (o)))
 
 extern u32  func_020362DC(void);
-extern u32  func_0203633C(void);
+extern unsigned int func_0203633C(void);
 extern int  func_0204B3F4(int h);
 extern void func_021B8F68(u8 *p, int v);
 extern void func_021BAFA0(u8 *p, int v, int z);

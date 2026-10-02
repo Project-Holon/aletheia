@@ -25,7 +25,7 @@ extern unsigned int func_021F9B9C(char *);
 extern char *func_0203159C(void *, unsigned int, unsigned int);
 extern void func_02082BCC(void *, int, unsigned int);
 extern void *func_0201C440(unsigned int);
-extern void *func_02025538(unsigned int, unsigned int);
+extern void *func_02025538(unsigned int a0, void *a1);
 extern int func_021FD12C(int, int, unsigned int);
 extern void func_021FD170(int, int, int);
 extern int func_021FD760(int, int, int, unsigned int);
@@ -39,7 +39,7 @@ int func_021DF920(void *obj, int unused, char *q)
     func_02082BCC(p, 0, 0x58);
     *(u16 *)(p + 0x54) = func_021F9B9C(*(char **)(q + 0xC));
     *(void **)(p + 0x48) = func_0201C440(*(u16 *)(p + 0x54));
-    *(void **)(p + 0x44) = func_02025538(*(u16 *)(p + 0x54), *(unsigned int *)(q + 4));
+    *(void **)(p + 0x44) = func_02025538(*(u16 *)(p + 0x54), *(void **)(q + 4));
     *(int *)(p + 0x38) = func_021FD12C(*(int *)(q + 8), *(int *)(p + 0x48), *(u16 *)(p + 0x54));
     func_021FD170(*(int *)(p + 0x38), *(int *)(q + 8), 0x6B);
     for (i = 0; i < 2; i++) {

@@ -27,10 +27,10 @@ typedef unsigned int u32;
 
 typedef struct { u32 a; u32 b; } Arg;
 
-extern void *func_0215A5F4(void *);
-extern void *func_0215A5DC(void *);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
 extern int func_02159B10(void *, void *);
-extern void *func_0201210C(void *);
+extern void *func_0201210C(void *p);
 extern void *func_020124AC(void *, u32, void *, Arg *);
 extern void func_0215897C(void *, void *);
 extern void func_021543BC(void);

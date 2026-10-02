@@ -23,34 +23,65 @@
  *   d_021836B4     0x021836B4  data   a4
  */
 
-extern int func_0204B100();
-extern int func_0204B034();
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+struct GfFont;
+struct Tcbl;
+struct WordSet;
+struct MsgBank;
+struct U16Vec;
+struct Obj;
+struct Bank;
+
+struct State {
+    u8 pad00[0x1C];
+    struct GfFont *font;      /* 0x1C */
+    struct Tcbl *tcbl;        /* 0x20 */
+    struct WordSet *words;    /* 0x24 */
+    int unk28;                /* 0x28 */
+    struct MsgBank *msg2C;    /* 0x2C */
+    struct MsgBank *msg30;    /* 0x30 */
+    u8 pad34[4];
+    struct U16Vec *str38;     /* 0x38 */
+    struct U16Vec *str3C;     /* 0x3C */
+    struct U16Vec *str40;     /* 0x40 */
+    u8 pad44[0x10];
+    struct Bank *bank;        /* 0x54 */
+    struct Obj *obj;          /* 0x58 */
+    u8 pad5C[0x54];
+    void *unkB0;              /* 0xB0 */
+};
+
+extern struct Bank *func_0204B100(int count, u8 flag, u32 heapId);
+extern struct Obj *func_0204B034(unsigned char *a0, unsigned int a1, unsigned int heap);
 extern void func_0204B258();
-extern int func_02025538();
-extern int func_0203101C();
-extern int func_0201D7EC();
-extern int func_0201EC64();
+extern void *func_02025538(unsigned int a0, void *a1);
+extern struct Tcbl *func_0203101C(u32 heap, u16 tag, u32 count, u32 workSize);
+extern struct GfFont *func_0201D7EC(int a0, int a1, int a2, int a3, u32 heapId);
+extern struct WordSet *func_0201EC64(u32 heap);
 extern int func_0201C440();
-extern int func_02045B38();
-extern int func_020457B0();
+extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
+extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern char d_021836B4[];
 
-void func_0217D624(int *o)
+void func_0217D624(struct State *o)
 {
-    int t;
+    struct Obj *t;
 
-    o[0x54 / 4] = func_0204B100(0x29, 5, 0x70);
-    t = func_0204B034(d_021836B4, 1, 0x70);
-    o[0x58 / 4] = t;
-    func_0204B258(o[0x54 / 4], t);
-    o[0xB0 / 4] = func_02025538(0x70, o[0x54 / 4]);
-    o[0x20 / 4] = func_0203101C(0x70, 0x70, 4, 0x20);
-    o[0x1C / 4] = func_0201D7EC(0x17, 0, 0, 0, 0x70);
-    o[0x24 / 4] = func_0201EC64(0x70);
-    o[0x28 / 4] = func_0201C440(0x70);
-    o[0x2C / 4] = func_02045B38(0, 2, 0x2D, 0x70);
-    o[0x30 / 4] = func_02045B38(0, 2, 0x42, 0x70);
-    o[0x38 / 4] = func_020457B0(0x80, 0x70);
-    o[0x3C / 4] = func_020457B0(0x80, 0x70);
-    o[0x40 / 4] = func_020457B0(0x80, 0x70);
+    o->bank = func_0204B100(0x29, 5, 0x70);
+    t = func_0204B034((u32)d_021836B4, 1, 0x70);
+    o->obj = t;
+    func_0204B258(o->bank, t);
+    o->unkB0 = func_02025538(0x70, (u32)o->bank);
+    o->tcbl = func_0203101C(0x70, 0x70, 4, 0x20);
+    o->font = func_0201D7EC(0x17, 0, 0, 0, 0x70);
+    o->words = func_0201EC64(0x70);
+    o->unk28 = func_0201C440(0x70);
+    o->msg2C = func_02045B38(0, 2, 0x2D, 0x70);
+    o->msg30 = func_02045B38(0, 2, 0x42, 0x70);
+    o->str38 = func_020457B0(0x80, 0x70);
+    o->str3C = func_020457B0(0x80, 0x70);
+    o->str40 = func_020457B0(0x80, 0x70);
 }

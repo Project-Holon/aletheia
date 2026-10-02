@@ -74,7 +74,7 @@ extern struct ItemGfxMember item_gfx_member[];
 extern struct ItemGfxMember item_gfx_member_x[];
 
 extern u32   func_0202F170(u32 item);
-extern void *func_020490F4(u32 archive_id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32   func_02049250(void *handle, u32 member, u32 arg);
 extern void *func_02048F60(u32 archive_id, u32 member, u32 heap);
 

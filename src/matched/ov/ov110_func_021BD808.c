@@ -13,7 +13,7 @@
  */
 typedef unsigned char u8;
 extern int func_02035C38(void);
-extern int func_0203630C(void);
+extern unsigned int func_0203630C(void);
 int func_021BD808(u8 *p,void *q) {
  void (*cb)(u8 *,void *);
  if(*(int *)(p+0x70)==1) {

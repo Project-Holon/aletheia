@@ -21,15 +21,17 @@
  *   func_021DD238 0x021DD238 thumb
  */
 
+typedef unsigned int u32;
+
 
 extern unsigned char func_020260E0(void *obj);
 extern unsigned func_02025DE8(void *obj);
 extern int func_021EF5E8(int p);
 extern void func_020260E4(void *obj, unsigned char sel);
 extern void func_021EE408(char *p, int v);
-extern unsigned func_020362DC(void);
+extern u32 func_020362DC(void);
 extern void func_020355D8(int v);
-extern unsigned func_0203633C(void);
+extern unsigned int func_0203633C(void);
 extern void func_021DD238(char *p);
 
 #define WORK(p) (*(char **)((p) + 0x2C))

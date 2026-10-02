@@ -34,7 +34,7 @@ struct Ov208Menu {
     u32 k;
 };
 
-extern u32  func_020490F4(u32 id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32  func_0201BC3C(void);
 extern u32  func_0204ACEC(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
 extern u32  func_0201BC78(void);

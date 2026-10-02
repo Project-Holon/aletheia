@@ -30,7 +30,9 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern int func_020221A4(void),func_020355C4(void),func_020362DC(void),func_02035C08(const void *),func_021B6448(u8 *);
+typedef unsigned int u32;
+extern int func_020221A4(void),func_020355C4(void),func_02035C08(const void *),func_021B6448(u8 *);
+extern u32 func_020362DC(void);
 extern void func_020355D8(int),func_021D9780(char *,int,int),func_02040588(int,int),func_020061E4(int),func_021B63D0(void *),func_0202208C(int,int,int,int,int,int,int),func_021D8E84(void *,int),func_021D9810(char *);
 extern const char d_021E75F0[];
 static inline int poll(void) {int v=func_020362DC();if(v)func_020355D8(0);return v;}

@@ -48,10 +48,10 @@ typedef struct {
 } Rect;
 
 extern int func_020120F4(int);
-extern int func_02012934(int);
+extern void *func_02012934(void *p);
 extern unsigned int func_0201AA18(int);
 extern int func_0204B100(int, int, unsigned);
-extern u32 func_020490F4(u32 id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void *func_0201AB28(int list, u32 i);
 extern void *func_020185F4(void *a);
 extern int func_0201BA68(void *);
@@ -73,10 +73,10 @@ extern const Rect d_021F0A60[2];
 
 void func_021F0724(int *p)
 {
-    int list;
+    void *list;
     unsigned int n;
     unsigned int i;
-    u32 h;
+    void *h;
     u32 t;
     void *e;
     Rect r;

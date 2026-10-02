@@ -15,8 +15,9 @@
  *   func_021BBEB4 0x021BBEB4 thumb ov099
  */
 typedef unsigned char u8;
+typedef unsigned int u32;
 extern int func_021BA928(char *p, int result);
-extern int func_020362DC(void);
+extern u32 func_020362DC(void);
 extern void func_021BA8EC(void *p);
 extern int func_021BCBBC(int a, int b, int *out);
 extern void func_021BBEB4(char *p, int a, u8 b, int c);

@@ -44,9 +44,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0215A5E4(u32 a);
+extern void *func_0215A5E4(void *a0);
 extern u32 func_0215A5CC(u32 a);
-extern void *func_02012934(u32 a);
+extern void *func_02012934(void *p);
 extern void *func_0201293C(u32 a);
 extern void *func_02012944(u32 a);
 extern int func_021B6850(u32 a, u16 b, u16 *c, u16 *d);
@@ -74,7 +74,7 @@ extern u8 d_021DE270[];
 
 void func_021B6708(u32 a, int idx)
 {
-    u32 sv;
+    void *sv;
     void *party;
     u32 heap;
     void *save;
@@ -86,8 +86,8 @@ void func_021B6708(u32 a, int idx)
     void *m;
     u16 pos[2];
 
-    sv = func_0215A5E4(a);
-    party = func_02012934(sv);
+    sv = func_0215A5E4((void *)a);
+    party = func_02012934((void *)sv);
     if (func_021B6850(sv, 0x283, &pos[1], &pos[0]) == 0) {
         return;
     }

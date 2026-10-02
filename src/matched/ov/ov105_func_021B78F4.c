@@ -34,7 +34,7 @@ extern void func_0203FC28(const void *);
 extern void func_0203FCA0(u8,const void *,u8);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,int);
-extern void *func_020490F4(int,int);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(void *,int,int,int,int,int);
 extern void func_02049658(void *,int,int,int,int,int,int);
 extern void func_020498F4(void *,int,int,int,int,int,int);

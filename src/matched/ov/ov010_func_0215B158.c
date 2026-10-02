@@ -17,14 +17,14 @@
  */
 typedef unsigned short u16;
 extern int func_02159B10(int,int);
-extern u16 *func_02159AE8(int,int);
-extern int func_0215A5E4(int);
+extern u16 *func_02159AE8(void *a0, void *a1);
+extern void *func_0215A5E4(void *a0);
 extern int func_02012F08(int);
 extern int func_0200C308(int,int);
 int func_0215B158(int a,int b)
 {
     int k = func_02159B10(a,b);
-    u16 *out = func_02159AE8(a,b);
-    if (func_0200C308(func_02012F08(func_0215A5E4(b)),k) == 3) *out = 1; else *out = 0;
+    u16 *out = func_02159AE8((void *)a,(void *)b);
+    if (func_0200C308(func_02012F08(func_0215A5E4((void *)b)),k) == 3) *out = 1; else *out = 0;
     return 0;
 }

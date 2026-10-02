@@ -27,20 +27,20 @@
  */
 
 typedef unsigned int u32;
-extern u32 func_0201210C(void *);
+extern void *func_0201210C(void *p);
 extern u32 func_02188C80(u32);
 extern u32 func_020120F4(u32);
 extern u32 func_02012EC4(u32);
 extern int func_0200B3A4(u32, u32);
 extern int *func_021897BC(u32, int);
-extern u32 func_02188CB4(u32);
+extern void *func_02188CB4(unsigned char *p);
 extern void func_021A3038(u32, int *);
 extern void *func_020122C0(void *, int, void (*)(void), int);
 extern void func_021F3EFC(void);
 
 void *func_021F3B5C(void *a, int b)
 {
-    u32 x = func_0201210C(a);
+    void *x = func_0201210C(a);
     char *q;
     int *w;
     void *r;
@@ -52,7 +52,7 @@ void *func_021F3B5C(void *a, int b)
     w = (int *)(q + 12);
     ((unsigned char *)w)[3] = 0;
     w[1] = 0x2000;
-    func_021A3038(func_02188CB4(x), v);
+    func_021A3038(func_02188CB4((void *)x), v);
     w[2] = v[1];
     if (b == 2)
         w[1] = w[1] * 0xffffffff;

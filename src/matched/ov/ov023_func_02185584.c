@@ -23,7 +23,7 @@ typedef unsigned char u8;
 extern void func_02082BCC(void *p, int v, int n);
 extern int func_02039338(void);
 extern int func_020399A8(void);
-extern int func_0203D3A8(int a, int b, int c, void *d);
+extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *d);
 extern void func_02186444(char *p, int v);
 extern void func_02185354(char *p);
 
@@ -34,7 +34,7 @@ int func_02185584(char *p, int x)
     func_02082BCC(b, 0, 4);
     b[2] = 0;
     b[0] = func_02039338();
-    if (func_0203D3A8(func_020399A8(), 0x2905, 4, b))
+    if (func_0203D3A8(func_020399A8(), 0x2905, 4, (void *)b))
         func_02186444(p, 7);
     func_02185354(p);
     return x;

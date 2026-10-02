@@ -14,8 +14,8 @@
  *   func_02159204 0x02159204 thumb ov010
  *   func_0215897C 0x0215897C thumb ov010
  */
-extern void *func_0215A5F4(void *);
-extern void *func_0215A5DC(void *);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
 extern void *func_02159204(void *);
 extern void func_0215897C(void *, void *);
 int func_02159934(void *a, void *b)

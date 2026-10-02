@@ -41,7 +41,7 @@ typedef struct W {
     struct { u32 lo:4, b4:1, mid:16, b21:1, b22:1, hi:9; } flags;
 } W;
 typedef struct O O;
-extern int func_020362DC(void);
+extern u32 func_020362DC(void);
 extern int func_021F8710(void);
 extern void func_02208D50(W *, int, int);
 extern int func_02207F6C(int, int, int, int *, int, u16);

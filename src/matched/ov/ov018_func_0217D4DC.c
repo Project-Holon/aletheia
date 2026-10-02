@@ -34,7 +34,7 @@ typedef struct {
 
 void *func_02012138(void *);
 void *func_020120F4(void *);
-int func_0201210C(void *);
+void *func_0201210C(void *p);
 int func_02012B70(void *);
 int func_02158344(void *);
 int func_02158378(void *);
@@ -49,7 +49,7 @@ int func_0217D4DC(Ov018Menu *w, int b, int c)
 {
     void *s1;
     void *s2;
-    int r;
+    void *r;
     int ret;
 
     s1 = func_02012138(w->f0);

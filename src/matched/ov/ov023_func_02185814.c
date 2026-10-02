@@ -18,7 +18,7 @@
  */
 
 extern int  func_0203996C(int a);
-extern int  func_0203D3A8(int h, int a, int b, int c);
+extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, unsigned int d);
 extern void func_02185354(char *p);
 extern void func_021857F4(char *p, int a, int b);
 extern void func_02186444(char *p, int v);

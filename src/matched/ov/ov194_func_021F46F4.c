@@ -24,7 +24,7 @@ struct Tcbl;
 struct Rec;
 extern void sub_020310C4(struct Tcbl *);
 extern unsigned sub_0201CE30(void *);
-extern void *sub_0203630C(void);
+extern unsigned int sub_0203630C(void);
 extern int sub_02035C38(void);
 extern void sub_0201CE5C(struct Rec *, int);
 extern void sub_020355D8(unsigned char);

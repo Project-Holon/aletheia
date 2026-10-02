@@ -22,7 +22,7 @@ extern void func_0204B3B4(void *);
 extern void func_0204A8D4(unsigned);
 extern void func_0204AFD8(unsigned);
 extern void func_0204ADA4(unsigned);
-extern void *func_020490F4(void *, unsigned);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern unsigned func_0204AC18(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
 extern unsigned func_0204A6C8(void *, unsigned, unsigned, unsigned, unsigned);
 extern unsigned func_0204AF28(void *, unsigned, unsigned, unsigned);

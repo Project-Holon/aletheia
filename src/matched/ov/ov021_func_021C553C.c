@@ -35,7 +35,7 @@ typedef unsigned int   u32;
 extern void func_020355D8(int v);
 extern void func_020202EC(void *list, u16 *out);
 extern u32 func_02020350(void *list, int idx);
-extern u32 func_0203633C(void);
+extern unsigned int func_0203633C(void);
 extern u32 func_020362DC(void);
 extern void func_021C5440(char *p, int b, int c, int *d);
 extern void func_021C54C8(char *p, int b, int c, int *d);

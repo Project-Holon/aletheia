@@ -50,7 +50,7 @@ typedef struct Obj {
 } Obj;
 
 extern u32 func_020362DC(void);
-extern u32 func_0203633C(void);
+extern unsigned int func_0203633C(void);
 extern void func_021A90A4(Obj *p, int k);
 extern void func_020061E4(u32 se);
 extern void func_0204B3DC(u32, int);

@@ -110,7 +110,7 @@ extern char str_02183B48[];
 void *func_020124E4(void *);
 void *func_02012138(void *);
 void *func_020120F4(void *);
-void *func_0201210C(void *);
+void *func_0201210C(void *p);
 u32 func_02026454(void *);
 u8 *func_02026474(void *);
 int func_0200FB24(void);

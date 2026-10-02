@@ -19,12 +19,12 @@
  */
 
 extern void *func_020124E4(void *task);
-extern int func_0201210C(void *p);
+extern void *func_0201210C(void *p);
 extern int *func_021897BC(int, int);
 
 int func_021F38D0(void *task)
 {
-    int a;
+    void *a;
     int r;
     a = func_0201210C(func_020124E4(task));
     r = 1;

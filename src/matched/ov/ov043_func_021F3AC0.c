@@ -78,7 +78,7 @@ typedef struct {
 extern E d_021F4490[];
 
 extern void *func_020124E4(void *a);
-extern u32 func_0201210C(void *a);
+extern void *func_0201210C(void *a);
 extern void *func_02188D2C(u32 a);
 extern int *func_021897BC(u32 a, int b);
 extern u32 func_02188C58(u32 a);
@@ -86,8 +86,8 @@ extern u32 func_02188C80(u32 a);
 extern u32 func_020120F4(u32 a);
 extern u32 func_02012EC4(u32 a);
 extern int *func_0200B3A4(u32 a, u32 b);
-extern u32 func_02188C7C(u32 a);
-extern u32 func_02188CB4(u32 a);
+extern void *func_02188C7C(unsigned char *p);
+extern void *func_02188CB4(unsigned char *p);
 extern void func_021A3038(u32 a, Vec *v);
 extern int func_0216DD1C(u32 m, u32 *cur, int *it);
 extern int func_0216D83C(u32 o);
@@ -125,12 +125,12 @@ int func_021F3AC0(void *a, int *b)
     int it;
     u32 cur;
     void *t;
-    u32 s;
+    void *s;
     void *r;
     int *w;
     u32 h;
     int *q;
-    u32 m;
+    void *m;
     int n;
     int i;
     int x;
@@ -151,11 +151,11 @@ int func_021F3AC0(void *a, int *b)
     case 0:
         n = 0;
         it = 0;
-        m = func_02188C7C(s);
+        m = func_02188C7C((void *)s);
         for (i = 0; i < 5; i++) {
             w[17 + i] = 0;
         }
-        func_021A3038(func_02188CB4(s), &pos);
+        func_021A3038(func_02188CB4((void *)s), &pos);
         while (func_0216DD1C(m, &cur, &it) == 1) {
             x = func_0216D83C(cur);
             y = func_0216D86C(cur);

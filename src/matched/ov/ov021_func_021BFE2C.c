@@ -46,8 +46,8 @@
 
 typedef struct { int x, y, z; } Vec;
 
-extern int func_02188CB4(int);
-extern int func_021A3074(int);
+extern void *func_02188CB4(unsigned char *p);
+extern void *func_021A3074(unsigned char *p);
 extern int func_02188CD0(int);
 extern int func_02188C58(int);
 extern int func_0218E138(int);
@@ -65,7 +65,7 @@ extern int func_021C754C(int, int, int *);
 extern int func_02188D38(int);
 extern void func_021C6DE0(int, int, int);
 extern int func_0218C8FC(int, int);
-extern int func_0203630C(void);
+extern unsigned int func_0203630C(void);
 extern void func_0216D410(int, int);
 extern void func_021AC528(int, int);
 extern int func_021C6E48(int);
@@ -80,8 +80,8 @@ extern void func_0218C860(int);
 
 int func_021BFE2C(int task, int *state, int *q)
 {
-    int s;
-    int t;
+    void *s;
+    void *t;
     int u;
     int h;
     int g;
@@ -102,7 +102,7 @@ int func_021BFE2C(int task, int *state, int *q)
     Vec w;
 
     s = func_02188CB4(q[1]);
-    t = func_021A3074(s);
+    t = func_021A3074((void *)s);
     u = func_02188CD0(q[1]);
     h = func_02188C58(q[1]);
 

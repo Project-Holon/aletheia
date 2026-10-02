@@ -16,9 +16,9 @@
  *   func_0200C274 0x0200C274 thumb
  */
 typedef unsigned short u16;
-extern u16 * func_02159AE8(void *, void *);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_02159B10(void *, void *);
-extern void * func_0215A5E4(void *);
+extern void *func_0215A5E4(void *a0);
 extern void * func_020127A4(void *);
 extern void * func_02012F08(void *);
 extern unsigned int func_0200C274(void *);

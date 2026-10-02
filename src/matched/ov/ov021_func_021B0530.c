@@ -28,7 +28,7 @@
 typedef unsigned int u32;
 typedef unsigned char u8;
 
-extern u32 func_0215A5F4(u32);
+extern void *func_0215A5F4(void *p);
 extern u32 func_02158F78(u32);
 extern u32 func_02159B10(u32, u32);
 extern u32 func_02011330(u32);
@@ -44,9 +44,10 @@ extern void func_02191184(u32, u32, u32, u32);
 
 int func_021B0530(u32 a, u32 b)
 {
-    u32 t, s, x, y, z, w;
+    u32 s, x, y, z, w;
+    void *t;
 
-    t = func_0215A5F4(b);
+    t = func_0215A5F4((void *)b);
     s = func_02158F78(t);
     x = func_02159B10(a, b);
     func_021B03E4(b, (u8)func_02011330(a));

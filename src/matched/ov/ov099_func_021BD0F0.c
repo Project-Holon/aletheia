@@ -23,7 +23,7 @@ typedef unsigned long  u32;
 
 extern int func_0203D378(void);
 extern int func_021BCBBC(int a, int b, int *out);
-extern void *func_02012934(u32 a);
+extern void *func_02012934(void *p);
 extern void func_0201AC2C(void *l, void *m);
 extern void func_021BAAB8(char *p, int a, int b);
 
@@ -38,7 +38,7 @@ int func_021BD0F0(char *p, int v)
     }
     if (func_021BCBBC(*(int *)(p + 0x1348), *(int *)(p + 0xCC), &out) != 0
         && *(int *)(p + 0xCC) == 0) {
-        func_0201AC2C(func_02012934(*(u32 *)(p + 0xC4)),
+        func_0201AC2C(func_02012934(*(void **)(p + 0xC4)),
                       *(void **)(*(char **)(p + 0x248) + t * 4 + 0x14));
         *(u32 *)(p + 0x1CC) = 0x67;
     } else {

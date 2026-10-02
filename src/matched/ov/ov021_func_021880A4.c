@@ -18,7 +18,7 @@
 
 void func_020140B4(int h);
 void func_020307B0(void *p);
-void func_02012110(int a, int b);
+void func_02012110(void *p, void *v);
 void func_020371AC(int a, int b);
 
 void func_021880A4(int *p)
@@ -26,6 +26,6 @@ void func_021880A4(int *p)
     int q = p[1];
     func_020140B4(p[3]);
     func_020307B0(p);
-    func_02012110(q, 0);
+    func_02012110((void *)q, 0);
     func_020371AC(0, 0);
 }

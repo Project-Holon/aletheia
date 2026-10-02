@@ -25,16 +25,21 @@ typedef unsigned int u32;
 extern int func_02040588();
 extern int func_02188C54();
 extern int func_02190344();
-extern int func_020120F4();
-extern int func_02012C0C();
-extern int func_021C4F7C();
+struct Ctx;
+struct BigObj;
 
-int func_021605C0(int a0, int a1, int a2, int a3)
+extern void *func_020120F4(const struct Ctx *p);
+extern u8 *func_02012C0C(struct BigObj *p);
+extern char *func_021C4F7C(void *a0, int mode, const unsigned short *a2, unsigned short a3, unsigned short heap);
+
+void func_021605C0(int a0, int a1, int a2, int a3)
 {
     unsigned char fr[4];
     int t4;
     int t5;
-    int t6;
+    void *t6;
+    u8 *name;
+    char *res;
     int o4;
 t4 = a1 + 0;
 t5 = a0 + 0;
@@ -56,20 +61,17 @@ loc_021605E6:
     a0 = func_02190344(a0);
 loc_021605EA:
 a0 = *(int *)((char *)t4 + 4);
-    a0 = func_020120F4(a0);
+    t6 = func_020120F4((const struct Ctx *)a0);
 loc_021605F0:
-t6 = a0 + 0;
-    a0 = func_02012C0C(a0);
+    name = func_02012C0C(t6);
 loc_021605F6:
-a2 = a0 + 0;
 a0 = 0x15;
     o4 = a0;
-a0 = t6 + 0;
 a1 = t5 + 0;
 a3 = 0x50;
-    a0 = func_021C4F7C(a0, a1, a2, a3, o4);
+    res = func_021C4F7C(t6, a1, (u32)name, a3, o4);
 loc_02160606:
-*(int *)((char *)t4 + 0xc) = a0;
+*(char **)((char *)t4 + 0xc) = res;
 loc_02160608:
-    return a0;
+    return;
 }

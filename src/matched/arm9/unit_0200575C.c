@@ -38,7 +38,7 @@ typedef unsigned int u32;
 extern void *sub_0200575C_Table[];
 
 extern void func_02034F5C(void);
-extern u32  func_0203630C(void);
+extern unsigned int func_0203630C(void);
 
 void *sub_0200575C(u32 index)
 {

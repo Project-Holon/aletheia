@@ -43,7 +43,7 @@ extern int func_021C1A44(char *);
 extern void func_021C1AC0(char *);
 extern int func_021BA8BC(void *);
 extern void func_020414AC(u32);
-extern void *func_020490F4(void *, u32);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_021BE53C(char *, void *);
 extern void func_02049238(void *);
 extern void func_020452E8(void *);

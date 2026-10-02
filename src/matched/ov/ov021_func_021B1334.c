@@ -30,7 +30,7 @@
  *   func_021B1240  0x021B1240  thumb
  */
 
-extern void *func_0215A5F4(int);
+extern void *func_0215A5F4(void *p);
 extern int *func_02158F58(void *);
 extern int func_02011330(int);
 extern int func_02188C84(int);
@@ -54,7 +54,7 @@ int func_021B1334(int a, int b)
     int *q, *q2;
     int s0, s1, s2, h, m;
     int x, y, z;
-    o = func_0215A5F4(b);
+    o = func_0215A5F4((void *)b);
     q = func_02158F58(o);
     s0 = func_02011330(a);
     s1 = func_02011330(a);

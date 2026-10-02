@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int            s32;
 
-extern u32  func_020490F4(u32 id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32  func_0201BC3C(void);
 extern u32  func_0204ACEC(u32 h, u32 id, u32 a2, u32 a3, u32 heap);
 extern u32  func_0201BC78(void);
@@ -34,7 +34,7 @@ extern void func_02049238(u32 h);
 
 void ov208_func_021C0B10(u16 *heap, u8 *p, int key)
 {
-    u32 h;
+    void *h;
 
     h = func_020490F4(7, *heap);
     *(u32 *)(p + 0x54) = func_0204ACEC(h, func_0201BC3C(), 1, 0, *heap);

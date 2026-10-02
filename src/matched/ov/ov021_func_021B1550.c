@@ -19,7 +19,9 @@
  *   func_021914CC  0x021914CC  thumb  ov021
  */
 
-int func_020362DC(void);
+typedef unsigned int u32;
+
+u32 func_020362DC(void);
 int func_0215A61C(int a);
 void func_020061E4(int a);
 int func_02159190(int a);

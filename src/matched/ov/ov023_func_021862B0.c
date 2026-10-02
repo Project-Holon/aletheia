@@ -15,8 +15,10 @@
  *   func_0201CE48  0x0201CE48  thumb
  */
 
+typedef unsigned int u32;
+
 extern int func_0201CE30(void *h);
-extern int func_020362DC(void);
+extern u32 func_020362DC(void);
 extern void func_0201CE38(void *h);
 extern void func_0201CE48(void *h);
 

@@ -16,13 +16,13 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_0201210C(const void *);
+extern void *func_0201210C(const void *p);
 extern void *func_020120F4(const void *);
 extern void func_02082BCC(void *, int, int);
 extern u16 func_02188C84(u32);
 extern u32 func_02188C54(u32);
 void func_0216711C(u8 *p, void *sys) {
-    u32 field;
+    void *field;
     field = func_0201210C(sys);
     func_02082BCC(p, 0, 32);
     *(u16 *)p = func_02188C84(field);

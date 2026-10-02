@@ -21,8 +21,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215A5DC();
-extern int func_0215A5F4();
+extern void *func_0215A5DC(void *a0);
+extern void *func_0215A5F4(void *p);
 extern int func_02011330();
 extern int func_02159B38();
 extern int func_021589A0();
@@ -31,17 +31,17 @@ int func_02159570(int a0, int a1, int a2)
 {
     int t4;
     int t5;
-    int t6;
+    void *v0;
+    void *v1;
 
 t5 = a1 + 0;
 t4 = a0 + 0;
 a0 = t5 + 0;
-    a0 = func_0215A5DC(a0);
+    v0 = func_0215A5DC((void *)a0);
 loc_0215957C:
 a0 = t5 + 0;
-    a0 = func_0215A5F4(a0);
+    v1 = func_0215A5F4((void *)a0);
 loc_02159582:
-t6 = a0 + 0;
 a0 = t4 + 0;
     a0 = func_02011330(a0);
 loc_0215958A:
@@ -50,9 +50,8 @@ a0 = t5 + 0;
     a0 = func_02159B38(a0);
 loc_02159592:
 a1 = a0 + 0;
-a0 = t6 + 0;
 a2 = t4 + 0;
-    a0 = func_021589A0(a0, a1, a2);
+    a0 = func_021589A0(v1, a1, a2);
 loc_0215959C:
 a0 = 1;
     return a0;}

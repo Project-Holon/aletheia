@@ -44,7 +44,7 @@ extern char **func_020124E8(int a);
 extern int func_020124E4(int a);
 extern int func_020120F4(int a);
 extern int func_02012944(int a);
-extern int func_0201210C(int a);
+extern void *func_0201210C(void *p);
 extern void *func_02043678(u8 w, u8 h, u32 tileSize, u16 heap);
 extern void func_021C2BE4(char *p, char *a1, char *a2, u32 chrFile, u32 plttFile);
 extern void func_021C2F84(int s, char *p, char *a1, char *a2, u32 c, u32 d);
@@ -76,7 +76,7 @@ int func_021C2D68(int a, int *b)
     t = func_020124E4(a);
     s = func_02012944(func_020120F4(t));
     p = *pp;
-    func_0201210C(t);
+    func_0201210C((void *)t);
     q = (u32 *)(p + 0x9c);
     switch (*b) {
     case 0:

@@ -21,13 +21,14 @@
  *   func_021BFBBC 0x021BFBBC thumb ov099
  */
 typedef unsigned char u8;
+typedef unsigned int u32;
 extern int func_02156A3C(void);
 extern void *func_021C23B8(int);
 extern u8 func_021BDD48(char *, void *);
 extern int func_021BDD54(char *, void *);
 extern void func_021BF280(char *, int);
 extern void func_021C1BEC(char *);
-extern int func_020362DC(void);
+extern u32 func_020362DC(void);
 extern void func_021BAAB8(char *, int, int);
 extern void func_021BA8EC(char *);
 extern void func_021BA874(char *, int);

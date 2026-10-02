@@ -31,6 +31,7 @@
 
 typedef unsigned char u8;
 typedef short s16;
+typedef unsigned int u32;
 
 typedef struct {
     u8 pad[7];
@@ -67,7 +68,7 @@ void func_0217F640(void *ctx, int a, int b, int c, int d);
 int func_0217F794(void *ctx, int a);
 void func_0217F7B8(void *ctx);
 int func_0217EC88(int a);
-int func_020362DC(void);
+u32 func_020362DC(void);
 
 int func_0217C88C(void *ctx, Obj *obj, int a2, u8 *state)
 {

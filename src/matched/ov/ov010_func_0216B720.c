@@ -26,12 +26,14 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215A5F4();
-extern int func_0215A5E4(int a0);
-extern int func_02012EBC(int p);
-extern int func_0200E394(int a0);
+struct Big;
+
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5E4(void *a0);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200E394(void *a0);
 extern int func_02159B10();
-extern int func_02159AE8();
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_0200E4F8();
 extern int func_0200E4B0();
 extern u8 d_0217219C[];
@@ -41,16 +43,16 @@ int func_0216B720(int c, int vm)
 {
     int i;
     int r5;
-    int r6;
+    void *r6;
     int best;
     u16 *dst;
     int out;
     int n;
 
-    func_0215A5F4(vm);
-    r6 = func_0200E394(func_02012EBC(func_0215A5E4(vm)));
+    func_0215A5F4((void *)vm);
+    r6 = func_0200E394(func_02012EBC((struct Big *)func_0215A5E4((void *)vm)));
     r5 = func_02159B10(c, vm);
-    dst = (u16 *)func_02159AE8(c, vm);
+    dst = func_02159AE8((void *)c, (void *)vm);
     n = d_0217219C[r5];
     best = -1;
     for (i = 0; i < n; i++) {

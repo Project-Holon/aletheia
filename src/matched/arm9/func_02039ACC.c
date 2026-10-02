@@ -36,9 +36,9 @@ typedef unsigned int   u32;
 
 extern u32 func_02039160(u32 mode);
 extern u16 func_02039338(void);
-extern u32 func_020395EC(u8 *p);
+extern int func_020395EC(u8 *p);
 extern u8 *func_020399A8(void);
-extern int func_0203D3A8(u8 *p, u32 a, u32 b, void *c);
+extern int func_0203D3A8(u8 *p, unsigned int b, unsigned int c, void *c);
 extern void func_0203D788(void);
 extern u8 *func_0203D798(void);
 extern void func_02087C6C(void *p);

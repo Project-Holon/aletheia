@@ -115,7 +115,7 @@ struct BigObj {
     u8  unk000[0x18C];
     u32 unk18C;
     u32 unk190;
-    u32 unk194;
+    void *unk194;
     u32 unk198;
     u32 unk19C;
     u32 unk1A0;
@@ -156,7 +156,7 @@ u32 func_0201292C(const struct BigObj *p)
     return p->unk190;
 }
 
-u32 func_02012934(const struct BigObj *p)
+void *func_02012934(const struct BigObj *p)
 {
     return p->unk194;
 }

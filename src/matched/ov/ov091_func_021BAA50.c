@@ -34,7 +34,7 @@ typedef struct {
     u8 e;
 } R;
 
-extern u32 func_020490F4(int id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_0201AB28(int base, int idx);
 extern int func_020185F4(int x);
 extern int func_0201BA68(int x);
@@ -47,7 +47,7 @@ extern void func_0204B92C(int a, int b);
 
 void func_021BAA50(u8 *a, u8 *s)
 {
-    u32 h;
+    void *h;
     int t;
     int r;
     R rc;

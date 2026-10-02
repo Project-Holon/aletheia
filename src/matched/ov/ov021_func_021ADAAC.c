@@ -44,7 +44,7 @@ extern int func_021ABE14(int a);
 extern unsigned int func_02188CFC(u8 *p);
 extern int func_021ABEA0(int a, int b);
 extern void *func_02082BCC(void *p, u8 v, unsigned n);
-extern int func_02188C7C(int a);
+extern void *func_02188C7C(unsigned char *p);
 extern u8 func_021ABFA8(int a, void *b, int c, int d, void *e, int f);
 
 u8 func_021ADAAC(int a, int b, int c, int d, int e, int f)
@@ -66,7 +66,7 @@ u8 func_021ADAAC(int a, int b, int c, int d, int e, int f)
     func_02082BCC(&l, 0, 0x28);
     l.f0 = a;
     l.f4 = r;
-    l.f8 = func_02188C7C(t);
+    l.f8 = func_02188C7C((void *)t);
     l.h10 = c;
     l.h12 = d;
     l.f14 = k;

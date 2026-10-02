@@ -14,7 +14,7 @@
  */
 typedef unsigned char u8;
 extern int func_02035C38(void);
-extern int func_0203630C(void);
+extern unsigned int func_0203630C(void);
 int func_021C4538(u8 *p)
 {
     if (p[0xA] == 0) {

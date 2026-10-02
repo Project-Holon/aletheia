@@ -36,7 +36,7 @@ typedef struct {
 extern char d_020A1448[];
 extern char d_021BD508[];
 
-extern int func_020490F4(int, int);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_0204A48C(void *, void *, int);
 extern int func_0204B100(int, int, int);
 extern void func_0204B270(void *bank);
@@ -51,7 +51,7 @@ extern void func_02049238(int);
 void func_021B9EC4(int *p, int heap)
 {
     Local s;
-    int h;
+    void *h;
     h = func_020490F4(0x1a, heap);
     func_0204A48C(d_020A1448, d_021BD508, heap);
     p[0] = func_0204B100(0x40, 0, heap);

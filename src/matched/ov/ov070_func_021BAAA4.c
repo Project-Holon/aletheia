@@ -18,13 +18,13 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern int func_020490F4(int a, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_020499D4(int, int, int, int, int, int, int, int);
 extern void func_02049238(int);
 
 void func_021BAAA4(int p, int mode)
 {
-    int h = func_020490F4(0x58, *(u16 *)(p + 0x544));
+    void *h = func_020490F4(0x58, *(u16 *)(p + 0x544));
 
     if (mode != 2) {
         func_020499D4(h, 0x17, 5, 0, (u16)*(u32 *)(p + 0x800), 0, 0, *(u16 *)(p + 0x544));

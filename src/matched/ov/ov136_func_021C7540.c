@@ -20,7 +20,7 @@ struct Flags { u8 index : 7; u8 flag : 1; };
 extern int func_021C3E00(u8 *);
 extern int func_021C3E04(u8 *, void *);
 extern void func_021C3E24(u8 *);
-extern void *func_02012934(void *);
+extern void *func_02012934(void *p);
 extern void *func_0201292C(void *);
 extern void *func_0201AB28(void *, u32);
 extern int func_02007F1C(void *, u16, int, int);

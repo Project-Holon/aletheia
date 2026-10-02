@@ -15,9 +15,9 @@
  *   func_02048F60  0x02048F60  arm
  */
 
-extern int func_02048F60();
+extern void *func_02048F60(unsigned int archive_id, unsigned int member, unsigned int heap);
 
-int func_0201A354(int a, int b)
+void *func_0201A354(int a, int b)
 {
     return func_02048F60(0x69, a, b);
 }

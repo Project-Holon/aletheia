@@ -33,7 +33,7 @@ typedef struct {
     u32 consumed;
     int flags;
 } State;
-extern void *func_0203630C(void);
+extern unsigned int func_0203630C(void);
 extern void func_0207CA00(const Vec *, const Vec *, Vec *);
 extern float _fflt(int);
 extern int _ffix(float);

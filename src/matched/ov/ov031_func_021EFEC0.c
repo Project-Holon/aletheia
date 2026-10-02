@@ -42,7 +42,7 @@ extern u8 d_021F1038[];
 
 extern void *func_02012138(void *);
 extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
-extern u32 func_020490F4(u32 id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_021F01F0(u32 *p);
 extern void func_021F0250(u32 *p, u32 h);
 extern void func_021F0430(u32 *p);
@@ -66,7 +66,7 @@ u32 *func_021EFEC0(void *a)
 {
     void *s;
     u32 *w;
-    u32 h;
+    void *h;
     u8 *q;
     u32 i;
     u32 tmp;

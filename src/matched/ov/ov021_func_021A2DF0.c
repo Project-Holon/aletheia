@@ -24,16 +24,16 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u8 *func_02188CA4();
-extern u32 func_02188CB4();
-extern u32 func_020362DC();
-extern u32 func_0203630C();
+extern void *func_02188CB4(unsigned char *p);
+extern u32 func_020362DC(void);
+extern unsigned int func_0203630C(void);
 extern int func_021A35BC();
 extern void func_021A35F0();
 
 void func_021A2DF0(u32 a)
 {
     u8 *p = func_02188CA4(a);
-    u32 q = func_02188CB4(a);
+    void *q = func_02188CB4((void *)a);
 
     if (*(u32 *)(p + 0xC) == 0) {
         u32 x = func_020362DC();

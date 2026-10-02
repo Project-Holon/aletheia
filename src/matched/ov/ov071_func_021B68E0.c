@@ -20,13 +20,13 @@
 
 void func_021B68E0(int *p)
 {
-    int func_020490F4(int, int);
+    void *func_020490F4(unsigned int id, unsigned int heap);
     int func_02025470(int, int, int, int, int, int, int);
     int func_0204A6C8(int, int, int, int, int);
     int func_0204AF28(int, int, int, int);
     int func_020254BC(int, int, int, int, int, int, int);
     void func_02049238(int);
-    int tmp;
+    void *tmp;
     int i;
     int flag;
     int *e;

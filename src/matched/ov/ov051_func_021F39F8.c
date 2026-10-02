@@ -21,8 +21,8 @@
  *   func_021C909C  0x021C909C  thumb
  */
 
-extern int func_02188CB4(int a);
-extern int func_021A3074(int a);
+extern void *func_02188CB4(unsigned char *p);
+extern void *func_021A3074(unsigned char *p);
 extern int func_0216D3CC(int a);
 extern int func_02197E7C(int a, int b);
 extern void func_0216D410(int a, int b);
@@ -33,9 +33,9 @@ extern void func_021C909C(int a);
 
 int func_021F39F8(int a, int *s, int *t)
 {
-    int r6;
+    void *r6;
 
-    r6 = func_021A3074(func_02188CB4(*(int *)(t[3] + 8)));
+    r6 = func_021A3074(func_02188CB4(*(void **)(t[3] + 8)));
     switch (*s) {
     case 0:
         if (func_0216D3CC(r6) == 1) {

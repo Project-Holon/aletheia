@@ -62,8 +62,8 @@ typedef struct Obj {
     int f7c;
 } Obj;
 
-extern int func_020490F4(int, u16);
-extern int func_021A3074(int a);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_021A3074(unsigned char *p);
 extern void func_0207ADC4(Mtx33 *m);
 extern u32 func_02008550(int a);
 extern void *func_02046E24(u32 a0, u32 a1);
@@ -76,7 +76,7 @@ extern const Vec d_021F426C;
 
 void func_021F3B10(Obj *o, int a1, int a2, int a3, int idx)
 {
-    int h;
+    void *h;
     int k;
 
     idx = (u32)idx;
@@ -87,7 +87,7 @@ void func_021F3B10(Obj *o, int a1, int a2, int a3, int idx)
     o->f60 = a2;
     o->f78 = d_021F4264[idx];
     o->f64 = a1;
-    o->f68 = func_021A3074(a1);
+    o->f68 = func_021A3074((void *)a1);
     o->pos = d_021F426C;
     o->scale.x = 0x1000;
     o->scale.y = 0x1000;

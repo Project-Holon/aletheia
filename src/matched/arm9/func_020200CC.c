@@ -63,7 +63,7 @@ struct Obj {
 };
 
 extern u32  func_020362DC(void);
-extern u32  func_0203633C(void);
+extern unsigned int func_0203633C(void);
 extern void func_020061E4(u32 id);
 extern u32  func_02020970(struct Obj *o, u8 a, u8 b, u8 c);
 

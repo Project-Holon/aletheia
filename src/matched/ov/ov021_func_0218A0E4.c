@@ -91,7 +91,7 @@ extern int func_0217394C(void *sys);
 extern int func_0218B4B0(struct FieldInput *p, u8 *pos);
 extern u32 func_0216D5B8(int p);
 extern int func_02158D90(u16 v);
-extern u32 func_021A3074(u32 obj);
+extern void *func_021A3074(unsigned char *p);
 extern u32 func_0216D588(int p);
 extern int func_0217AF38(u32 v);
 extern void func_021A2F6C(u32 obj);
@@ -107,7 +107,7 @@ int func_0218A0E4(void *sys, u8 *pos)
     int r;
     int obj;
     u32 k;
-    u32 m;
+    void *m;
 
     a = func_02012138(sys);
     ev = func_02026474(a);

@@ -29,7 +29,7 @@ u8 *func_02158344(int a0);
 void func_0217F2B4(int a0, int a1);
 int func_0217F5A0(void *p);
 void func_0217F4A0(int a0, int a1, int a2, int a3);
-int func_0201210C(int a0);
+void *func_0201210C(void *p);
 int func_0217C458(int a0, int a1, u8 *a2, int a3);
 void func_0217FA1C(int a0);
 void func_0201235C(int a0, int a1);
@@ -67,7 +67,7 @@ int func_0217F95C(int a0, int *state, int a2)
         }
         break;
     case 2:
-        r = func_0217C458(h, func_0201210C(h), w, 0x15);
+        r = func_0217C458(h, func_0201210C((void *)h), w, 0x15);
         func_0217FA1C(a2);
         func_0201235C(a0, r);
         return 0;

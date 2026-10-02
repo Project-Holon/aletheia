@@ -25,18 +25,18 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0215A5E4(u32 a);
-extern u32 func_0215A5F4(u32 a);
+extern void *func_0215A5E4(void *a0);
+extern void *func_0215A5F4(void *p);
 extern u32 func_02158F74(u32 a);
 extern u32 func_02159B10(u32 a, u32 b);
-extern u16 *func_02159AE8(u32 a, u32 b);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern u32 func_02012F08(u32 a);
 extern void func_0200C2D0(u32 a, u32 b, u16 *c);
 extern void func_0201EE60(u32 ws, u32 i, u16 v);
 
 int func_021B5C80(u32 a, u32 b)
 {
-    u32 t;
+    void *t;
     u32 w;
     u32 k;
     u16 *out;
@@ -44,10 +44,10 @@ int func_021B5C80(u32 a, u32 b)
     int n;
     u16 arr[6];
 
-    t = func_0215A5E4(b);
-    w = func_02158F74(func_0215A5F4(b));
+    t = func_0215A5E4((void *)b);
+    w = func_02158F74(func_0215A5F4((void *)b));
     k = func_02159B10(a, b);
-    out = func_02159AE8(a, b);
+    out = func_02159AE8((void *)a, (void *)b);
     func_0200C2D0(func_02012F08(t), k, arr);
     for (i = 0, n = 0; i < 6; i++) {
         if (arr[i] != 0) {

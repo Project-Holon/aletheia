@@ -40,7 +40,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_02155664(void (*)(void));
 extern void func_021BEE64(void);
-extern void *func_020490F4(int,int);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_021C19A8(char *);
 extern void func_021C0290(char *);
 extern void func_02082BCC(void *,int,int);

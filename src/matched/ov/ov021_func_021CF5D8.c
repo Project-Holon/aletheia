@@ -33,7 +33,7 @@ typedef int BOOL;
 
 extern u16 func_02188C9C(u8 *p);
 extern u16 func_02013E40(u32 a);
-extern u32 func_02188CB4(u8 *p);
+extern void *func_02188CB4(u8 *p);
 extern u32 func_021A30C8(u32 ctx);
 extern u16 func_021AB0F0(u32 attr);
 extern u16 func_021AB0F8(u32 attr);

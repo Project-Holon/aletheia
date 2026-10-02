@@ -20,16 +20,16 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_0215A5F4(u32);
+extern void *func_0215A5F4(void *p);
 extern u32 *func_02158F58(u32);
-extern u32 func_02188CB4(u32);
-extern u16 *func_02159AE8(u32, u32);
+extern void *func_02188CB4(unsigned char *p);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern u16 func_021A3238(u32);
 
 int func_021B2040(u32 a, u32 b)
 {
-    u32 x = func_02188CB4(func_02158F58(func_0215A5F4(b))[1]);
-    u16 *o = func_02159AE8(a, b);
+    void *x = func_02188CB4(func_02158F58(func_0215A5F4((void *)b))[1]);
+    u16 *o = func_02159AE8((void *)a, (void *)b);
 
     *o = func_021A3238(x);
     return 0;

@@ -33,13 +33,13 @@ typedef unsigned int u32;
 typedef struct { u32 f0; u32 f4; u32 f8; } S;
 typedef struct { S *p; } Ctx;
 
-extern void *func_0215A5F4(void *);
-extern void *func_0215A5DC(void *);
-extern void *func_0215A5E4(void *);
-extern void func_0201210C(void *);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
+extern void *func_0215A5E4(void *a0);
+extern void *func_0201210C(void *p);
 extern int func_02159B10(void *, void *);
 extern u32 func_02012F44(void *);
-extern void *func_02012934(void *);
+extern void *func_02012934(void *p);
 extern void *func_0201AB28(void *, int);
 extern u32 func_021F675C(void *, int);
 extern void *func_020122C0(void *, int, void *, int);

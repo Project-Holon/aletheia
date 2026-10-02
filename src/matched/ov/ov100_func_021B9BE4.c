@@ -19,7 +19,7 @@
 extern int func_020399A8(void);
 extern int func_02039CB4(int,int,int);
 extern unsigned func_0203D378(void);
-extern int func_0203D3A8(int,int,int,int);
+extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, unsigned int d);
 extern int func_02039C68(int,int,int);
 extern void func_021B95B8(int,void (*)(void));
 extern void func_021B9B7C(void);

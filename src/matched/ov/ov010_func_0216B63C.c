@@ -26,32 +26,35 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
+
+struct Big;
+struct Blk34;
 typedef unsigned long long u64;
 
-extern int func_0215A5F4();
-extern int func_0215A5E4();
-extern int func_02012EBC(int p);
-extern int func_0200C0F0(int sys);
-extern void func_0200E394();
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5E4(void *a0);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200C0F0(void *sys);
+extern void *func_0200E394(void *a0);
 extern int func_02159B10();
-extern void func_0200C334(int, u8);
-extern void func_0200C344(int, u8, u8);
-extern void func_0200C358(int, u8, int);
+extern void func_0200C334(struct Blk34 *p, u8 v);
+extern void func_0200C344(struct Blk34 *p, u8 i, u8 v);
+extern void func_0200C358(struct Blk34 *p, u8 i, int v);
 extern u64 func_0203F524();
 extern void func_0200C384();
 
 int func_0216B63C(int a0, int a1)
 {
-    int h;
+    void *h;
     u16 s[3];
     int i;
-    int w;
+    void *w;
     int k;
     int z;
     u64 t;
 
-    func_0215A5F4(a1);
-    w = func_02012EBC(func_0215A5E4(a1));
+    func_0215A5F4((void *)a1);
+    w = func_02012EBC((struct Big *)func_0215A5E4((void *)a1));
     h = func_0200C0F0(w);
     func_0200E394(w);
     k = func_02159B10(a0, a1);

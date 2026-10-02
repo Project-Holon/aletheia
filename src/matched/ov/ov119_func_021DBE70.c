@@ -61,11 +61,13 @@
  *   func_021B6470 0x021B6470 thumb ov067
  */
 
+typedef unsigned int u32;
+
 extern int func_02035C38(void);
 extern void func_020355D8(int v);
-extern int func_0203630C(void);
+extern unsigned int func_0203630C(void);
 extern int func_020355C4(void);
-extern int func_020362DC(void);
+extern u32 func_020362DC(void);
 extern int func_02035C60(void);
 extern int func_021E4E0C(char *p, int *out);
 extern int func_021DB4EC(char *p, int v);

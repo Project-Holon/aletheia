@@ -28,7 +28,7 @@ extern int d_021DDA28;
 extern int func_02048B78(int a);
 extern void func_02048B88(int a, int *out);
 extern u16 func_0207D184(int a);
-extern int func_020490F4(int a, int heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_0218E18C(char *p, int a);
 extern void func_0218EEFC(int a, int b, int c, u16 heap, char *p);
 

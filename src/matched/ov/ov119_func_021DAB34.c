@@ -19,13 +19,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern int func_021D8A24(void *),func_021D89A8(void *);
 extern unsigned func_020399A8(void);
-extern int func_0203D3A8(unsigned,unsigned,unsigned,void *);
+extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *d);
 extern void func_021D8E84(void *,int),func_021DAB0C(void *);
 void func_021DAB34(char *p) {
  u8 b[2];
  if(func_021D8A24(p)) {
   b[0]=*(int *)(p+0x630);b[1]=func_021D89A8(p);
-  if(func_0203D3A8(func_020399A8(),0xc10,2,b)) {*(int *)(p+0xf2c)=0;func_021D8E84(p,(int)func_021DAB0C);}
+  if(func_0203D3A8(func_020399A8(),0xc10,2,(void *)b)) {*(int *)(p+0xf2c)=0;func_021D8E84(p,(int)func_021DAB0C);}
  } else {
   p[0x11f2]=*(int *)(p+0x630);*(u16 *)(p+0x107e)=*(u8 *)(p+0x11f2)*160+16;
   *(int *)(p+0xf2c)=0;func_021D8E84(p,(int)func_021DAB0C);

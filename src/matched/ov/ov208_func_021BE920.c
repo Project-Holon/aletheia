@@ -42,7 +42,7 @@ struct Ov208Icon {
     u32 f30;
 };
 
-extern u32  func_020490F4(u32 id, u32 heap);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049BDC(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
 extern void func_02049238(u32 h);
 extern u32  func_0204384C(u32 a, u32 b, u32 c, u32 d);
@@ -62,7 +62,7 @@ extern const struct Ov208PalTbl data_021C84F4;
 void ov208_func_021BE920(struct Ov208Icon *p)
 {
     struct Ov208PalTbl pal;
-    u32 h;
+    void *h;
     u32 s;
 
     if (p->fc < 0 || p->fc >= 5)

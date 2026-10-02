@@ -21,11 +21,11 @@
 
 typedef signed short s16;
 
-int func_0215A5F4(int b);
+void *func_0215A5F4(void *p);
 int *func_02158F58(int a);
-s16 *func_02159AE8(int a, int b);
+s16 *func_02159AE8(void *a0, void *a1);
 int func_02159B10(int a, int b);
-int func_02188C7C(int a);
+void *func_02188C7C(unsigned char *p);
 int func_0216DDDC(int a, s16 b, s16 c, int d, int e, int f);
 int func_0216D588(int a);
 
@@ -39,13 +39,13 @@ int func_021B1C2C(int a, int b)
     int r4;
     int r0;
 
-    r7 = func_02158F58(func_0215A5F4(b))[1];
-    s8 = func_02159AE8(a, b);
-    r6 = func_02159AE8(a, b);
+    r7 = func_02158F58(func_0215A5F4((void *)b))[1];
+    s8 = func_02159AE8((void *)a, (void *)b);
+    r6 = func_02159AE8((void *)a, (void *)b);
     sc = func_02159B10(a, b);
     s10 = func_02159B10(a, b);
     r4 = func_02159B10(a, b);
-    r0 = func_0216DDDC(func_02188C7C(r7), sc, r4, s10 << 16, 0x8000, 0);
+    r0 = func_0216DDDC(func_02188C7C((void *)r7), sc, r4, s10 << 16, 0x8000, 0);
     if (r0) {
         *r6 = 1;
         *s8 = func_0216D588(r0);

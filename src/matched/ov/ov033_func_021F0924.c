@@ -84,7 +84,7 @@ extern u32 func_02027614(void);
 extern u32 func_02027618(void);
 extern u32 func_0202761C(u32);
 extern u32 func_02027620(u32);
-extern u32 func_020490F4(u32 a, u32 b);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(u32 o, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern u32 func_02049740(u32, u32, u32, u32, u32, u32);
 extern u32 func_02049EF4(u32 o, u32 a, u32 b, struct Scr **out, u32 e);
@@ -111,7 +111,7 @@ void func_021F0924(Obj *p)
     {
         Local s = {0};
         u32 h;
-        u32 arc;
+        void *arc;
         u16 *d;
         u16 i;
         u16 base;

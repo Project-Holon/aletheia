@@ -99,7 +99,7 @@ extern int func_020355C4(void);
 extern void *func_020056A0(void *callback, void *ctx, int a2);
 extern void func_021A8D40(void *unused, Obj *w);
 extern void *func_0201C440(u16 heap);
-extern void *func_020490F4(int a, int b);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32 func_021A8B18(u32 a, u32 b, u32 c);
 extern void func_021A8874(Obj *p, void *q, u32 r, u32 s);
 extern void func_021A8BB8(Obj *p, void *q, u32 r);

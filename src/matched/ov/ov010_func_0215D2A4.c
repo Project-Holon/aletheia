@@ -57,7 +57,7 @@ typedef struct {
 } Ctx;
 
 extern void *func_020120F4(void *);
-extern u32 func_02012934(void *);
+extern void *func_02012934(void *p);
 extern u32 func_0200CA1C(void *);
 extern u32 func_0200CA38(u32);
 extern void *func_02030734(int, int, int, const char *, int);
@@ -70,7 +70,7 @@ extern const char d_02172900[];
 void *func_0215D2A4(void *a, u32 b, u32 c)
 {
     void *r7 = func_020120F4(a);
-    u32 v = func_02012934(r7);
+    void *v = func_02012934(r7);
     u32 w = func_0200CA1C(r7);
     A *x = func_02030734(4, 0x98, 0, d_02172900, 0x22B);
     B *y;

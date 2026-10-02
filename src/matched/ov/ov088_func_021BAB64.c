@@ -19,7 +19,7 @@
  *   func_02049B40  0x02049B40  arm
  */
 
-extern void *func_020490F4(int, int);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(void *, int, int, int, int, int);
 extern void func_02049658(void *, int, int, int, int, int, int);
 extern void func_020498F4(void *, int, int, int, int, int, int);

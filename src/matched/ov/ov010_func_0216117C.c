@@ -24,7 +24,9 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_020120F4();
+struct Ctx;
+
+extern void *func_020120F4(const struct Ctx *p);
 extern u16 *func_020127A4();
 extern int func_02012A30();
 extern int func_02012134();
@@ -35,7 +37,7 @@ extern int *func_0216F7BC();
 
 void func_0216117C(int *a0, int a1)
 {
-    int h = func_020120F4(*(int *)a0[6]);
+    void *h = func_020120F4((const struct Ctx *)*(int *)a0[6]);
     u32 v = *func_020127A4(h);
     int f = 1;
     int s;

@@ -15,10 +15,12 @@
  *   func_021B940C 0x021B940C thumb ov067
  *   d_021C0B3C 0x021C0B3C data a4
  */
+
+typedef unsigned int u32;
 extern const unsigned d_021C0B3C[];
 extern int func_02035C08(const void *);
 extern void func_020355D8(unsigned char);
-extern unsigned func_020362DC(void);
+extern u32 func_020362DC(void);
 extern unsigned char func_020355C4(void);
 extern void func_021B940C(void *);
 int func_021C014C(char *ctx)

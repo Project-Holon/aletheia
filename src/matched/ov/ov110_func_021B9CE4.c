@@ -50,7 +50,7 @@ typedef unsigned int u32;
 extern void func_0204335C(unsigned);
 extern void func_020434CC(void);
 extern void func_02043588(void);
-extern void *func_020490F4(void *,u32);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_021BA070(u8 *);
 extern void func_021B9F34(u8 *,void *);
 extern u8 *func_021BBC5C(void *,u8 *,void *);

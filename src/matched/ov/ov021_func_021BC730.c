@@ -24,7 +24,7 @@ typedef struct {
 
 extern int d_021D9B78;
 
-extern void *func_0204B034(void *a, int b, int c);
+extern void *func_0204B034(void *a, unsigned int a1, unsigned int heap);
 
 void func_021BC730(Obj *p)
 {

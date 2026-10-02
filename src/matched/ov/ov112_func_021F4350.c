@@ -58,7 +58,7 @@ extern void func_021FCDEC(int,int);
 extern int func_021FCE00(void *,int);
 extern void func_021F4804(u8 *,u32);
 extern u32 func_0200FB24(void);
-extern void *func_020362DC(void);
+extern u32 func_020362DC(void);
 extern int func_02035C08(const Box *);
 extern void func_0204B878(void *,u16);
 extern void func_0204B92C(void *,u32);
@@ -113,7 +113,7 @@ void func_021F4350(u8 *p)
         else if(func_0200FB24()!=0) *(u32 *)(p+4)=7;
         break;
     case 5:
-        if(((u32)func_020362DC()&2)||!func_02035C08(&d_021F8290)) {
+        if((func_020362DC()&2)||!func_02035C08(&d_021F8290)) {
             func_020061E4(1361);
             *(u32 *)(p+4)=6;
             func_0204B878(*(void **)(p+88),9);

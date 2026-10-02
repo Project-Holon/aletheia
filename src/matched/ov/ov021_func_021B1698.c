@@ -18,7 +18,7 @@
  *   func_0215A6DC  0x0215A6DC  thumb  ov010
  */
 
-int func_0215A5F4(int b);
+void *func_0215A5F4(void *p);
 int func_02159B10(int *a, int b);
 int func_0201134C(int *a);
 int func_021B1668(int b, int c);
@@ -31,7 +31,7 @@ int func_021B1698(int *a, int b)
     int r6;
     int r0;
 
-    func_0215A5F4(b);
+    func_0215A5F4((void *)b);
     r7 = func_02159B10(a, b);
     r6 = func_0201134C(a);
     r0 = func_021B1668(b, r7);

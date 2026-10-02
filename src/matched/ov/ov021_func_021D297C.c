@@ -23,7 +23,7 @@ typedef unsigned int u32;
 
 extern void *func_020122C0(void *a, u32 b, void (*fn)(void *, void *), u32 size);
 extern u32 *func_020124E8(void *task);
-extern u32 func_0201210C(void *p);
+extern void *func_0201210C(void *p);
 extern u32 func_02188CCC(u32 a);
 extern void func_021D29A8(void *task, void *work);
 
@@ -32,7 +32,7 @@ void *func_021D297C(void *a)
     void *task = func_020122C0(a, 0, func_021D29A8, 8);
     u32 *w = func_020124E8(task);
 
-    w[0] = func_0201210C(a);
+    w[0] = func_0201210C((void *)a);
     w[1] = func_02188CCC(w[0]);
     return task;
 }

@@ -59,7 +59,7 @@ typedef unsigned int   u32;
 
 extern void func_02034714(const char *file, u32 line, const char *msg);
 extern u8 *func_0203996C(u32 idx);
-extern u32 func_020395EC(void *p);
+extern int func_020395EC(void *p);
 extern u8 *func_0203D798(void);
 extern void func_020307B0(void *p);
 extern void *func_02030734(int a, int b, int c, const char *d, int e);

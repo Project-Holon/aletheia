@@ -41,7 +41,7 @@ typedef struct {
 
 extern void func_021A2F48(u32 a, int b);
 extern int func_021A2F54(u32 a);
-extern u32 func_021A3074(u32 obj);
+extern void *func_021A3074(unsigned char *p);
 extern void func_0216D410(u32 obj, u32 a);
 extern int func_0216D480(u32 obj);
 extern int func_02189A00(u32 a);
@@ -52,7 +52,7 @@ extern void func_021C61EC(void *a, u32 b, u32 c);
 extern void *func_02188CE8(u32 a);
 extern void *func_021A9F40(void *self, u32 v);
 extern void func_02158780(void *a, u32 id, u32 b, u32 c, u32 d);
-extern u32 func_02188C7C(u32 a);
+extern void *func_02188C7C(unsigned char *p);
 extern void func_0216D9E4(u32 o);
 
 int func_021C60B8(void *task, int *state, Work *w)

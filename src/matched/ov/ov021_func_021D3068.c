@@ -20,15 +20,15 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_0215A5F4(u32 a);
-extern u32 func_0215A5DC(u32 a);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5DC(void *a0);
 extern void *func_021F3ADC(u32 a);
 extern void func_0215897C(u32, void *);
 
 int func_021D3068(u32 a, u32 b)
 {
-    u32 x = func_0215A5F4(b);
-    void *t = func_021F3ADC(func_0215A5DC(b));
+    void *x = func_0215A5F4((void *)b);
+    void *t = func_021F3ADC(func_0215A5DC((void *)b));
 
     if (t == 0) {
         return 1;

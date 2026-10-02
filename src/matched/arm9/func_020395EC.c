@@ -27,11 +27,13 @@ extern const u8 str_020A7A68[];
 extern const u8 str_020A7A78[];
 extern void func_02034714(const u8 *file, int line, const u8 *msg);
 extern void func_0203D788(void);
-extern u32 func_0203996C(u32 a);
+struct Entry;
 
-int func_020395EC(u32 a)
+extern struct Entry *func_0203996C(u32 a);
+
+int func_020395EC(struct Entry *a)
 {
-    u32 v;
+    struct Entry *v;
     int i;
 
     func_0203D788();

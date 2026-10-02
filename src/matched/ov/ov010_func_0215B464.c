@@ -15,12 +15,12 @@
  */
 typedef unsigned short u16;
 extern int func_02159B10(int,int);
-extern u16 *func_02159AE8(int,int);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern const u16 d_02171160[];
 int func_0215B464(int a,int b)
 {
     int k = func_02159B10(a,b);
-    u16 *out = func_02159AE8(a,b);
+    u16 *out = func_02159AE8((void *)a,(void *)b);
     *out = d_02171160[k];
     return 0;
 }

@@ -13,8 +13,10 @@
  *   func_020355D8 0x020355D8 arm
  *   func_020061E4 0x020061E4 thumb
  */
+
+typedef unsigned int u32;
 extern int func_02035C60(void);
-extern unsigned func_020362DC(void);
+extern u32 func_020362DC(void);
 extern void func_020355D8(int);
 extern void func_020061E4(unsigned);
 int func_021E2094(char *p)

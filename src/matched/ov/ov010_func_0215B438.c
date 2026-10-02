@@ -15,14 +15,14 @@
  *   func_0216EFA8 0x0216EFA8 thumb ov010
  */
 typedef unsigned short u16;
-extern u16 *func_02159AE8(int,int);
-extern int func_0215A5E4(int);
+extern u16 *func_02159AE8(void *a0, void *a1);
+extern void *func_0215A5E4(void *a0);
 extern int func_02012A44(int);
 extern int func_0216EFA8(int,int);
 int func_0215B438(int a,int b)
 {
-    u16 *out = func_02159AE8(a,b);
+    u16 *out = func_02159AE8((void *)a,(void *)b);
     int z = 0;
-    if (func_0216EFA8(func_02012A44(func_0215A5E4(b)),0) == 1) *out = z; else *out = 1;
+    if (func_0216EFA8(func_02012A44(func_0215A5E4((void *)b)),0) == 1) *out = z; else *out = 1;
     return 0;
 }

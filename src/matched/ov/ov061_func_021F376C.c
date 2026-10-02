@@ -40,7 +40,7 @@ typedef struct {
 } V3;
 
 extern int func_02188D2C(int a);
-extern int func_02188CB4(int a);
+extern void *func_02188CB4(unsigned char *p);
 extern int func_02188C80(int a);
 extern int func_020120F4(int a);
 extern int func_02012844(int a);
@@ -62,14 +62,14 @@ void func_021F376C(int a)
 {
     int *o;
     int s;
-    int g;
+    void *g;
     int h;
     int cur;
     u8 *e;
     V3 v;
 
     s = func_02188D2C(a);
-    g = func_02188CB4(a);
+    g = func_02188CB4((void *)a);
     h = func_02012844(func_020120F4(func_02188C80(a)));
     o = func_021897BC(a, 0);
     cur = func_02188C9C(a);

@@ -19,8 +19,10 @@
  *   func_0217CA1C  0x0217CA1C  thumb  ov018
  */
 
+struct Ctx;
+
 extern int func_02012138();
-extern int func_020120F4();
+extern void *func_020120F4(const struct Ctx *p);
 extern int func_02012B58();
 extern void func_02012B8C();
 extern int func_02158344();
@@ -30,11 +32,11 @@ extern void func_0217CA1C();
 void func_0217CA40(int a0)
 {
     int h;
-    int c;
+    void *c;
     int p;
 
     h = func_02012138(a0);
-    c = func_020120F4(a0);
+    c = func_020120F4((const struct Ctx *)a0);
     p = func_02158344(h);
     if (p != 0) {
         func_02175710(p, func_02012B58(c));

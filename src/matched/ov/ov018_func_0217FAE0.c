@@ -28,8 +28,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 
-u16 *func_02159AE8(void *, int);
-int func_0215A5DC(int);
+u16 *func_02159AE8(void *a0, void *a1);
+void *func_0215A5DC(void *a0);
 int func_02012138(int);
 int func_020120F4(int);
 int func_0215841C(int);
@@ -38,12 +38,12 @@ int func_02012B58(int);
 int func_0217FAE0(void *unused, int a)
 {
     u16 *out;
-    int t;
+    void *t;
     int q;
     int v;
 
-    out = func_02159AE8(unused, a);
-    t = func_0215A5DC(a);
+    out = func_02159AE8(unused, (void *)a);
+    t = func_0215A5DC((void *)a);
     func_02012138(t);
     q = func_020120F4(t);
     if (func_0215841C(q) == func_02012B58(q)) {

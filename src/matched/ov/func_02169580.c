@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02169A68  0x02169A68  thumb  ov010
@@ -18,20 +18,20 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02169A68();
+extern void *func_02169A68(int a0);
 extern int func_02169928();
 
 int func_02169580(int a0, int a1, int a2)
 {
     int t4;
+    void *p;
 
 t4 = a0 + 0;
-    a0 = func_02169A68(a0);
+    p = func_02169A68(a0);
 loc_02169588:
-a2 = a0 + 0;
 a0 = *(int *)((char *)t4 + 0x2c);
 t4 = t4 + 0x84;
 a1 = *(int *)((char *)t4);
-    a0 = func_02169928(a0, a1, a2);
+    a0 = func_02169928(a0, a1, p);
 loc_02169594:
     return a0;}

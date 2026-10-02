@@ -24,10 +24,12 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215A5E4(int a0);
-extern int func_02012EBC(int p);
-extern int func_0200C0E8(int sys);
-extern int func_02159AE8();
+struct Big;
+
+extern void *func_0215A5E4(void *a0);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200C0E8(void *sys);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_0200C32C();
 extern int func_0216BB70();
 extern int func_0216BAE8();
@@ -36,14 +38,14 @@ extern int func_0216BA88();
 int func_0216B86C(int c, int vm)
 {
     u16 *dst;
-    int r6;
-    int r7;
+    void *r6;
+    void *r7;
     int r5;
     u8 k;
 
-    r6 = func_02012EBC(func_0215A5E4(vm));
+    r6 = func_02012EBC((struct Big *)func_0215A5E4((void *)vm));
     r7 = func_0200C0E8(r6);
-    dst = (u16 *)func_02159AE8(c, vm);
+    dst = func_02159AE8((void *)c, (void *)vm);
     k = func_0216BB70(func_0200C32C(r7));
     if (k != 0) {
         if (k == 1) {

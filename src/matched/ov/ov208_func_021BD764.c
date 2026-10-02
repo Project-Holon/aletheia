@@ -14,10 +14,12 @@
  *   func_020355D8 0x020355D8 arm
  *   func_020362DC 0x020362DC arm
  */
+
+typedef unsigned int u32;
 extern unsigned func_0204B3F4(void *);
 extern int func_02035D20(unsigned *,unsigned *);
 extern void func_020355D8(int);
-extern unsigned func_020362DC(void);
+extern u32 func_020362DC(void);
 int func_021BD764(char *p)
 {
     unsigned x,y;

@@ -20,7 +20,9 @@
  *   func_021B8AF4  0x021B8AF4  thumb  ov070
  */
 
-extern int func_020362DC();
+typedef unsigned int u32;
+
+extern u32 func_020362DC(void);
 extern int func_02035C60();
 extern void func_021B80C4();
 extern void func_021B6138();

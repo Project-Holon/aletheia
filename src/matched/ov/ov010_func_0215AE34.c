@@ -27,22 +27,23 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215A5DC();
-extern int func_0215A5E4();
+extern void *func_0215A5DC(void *a0);
+extern void *func_0215A5E4(void *a0);
 extern int func_0215A5CC();
 extern int func_02159B10();
 extern int func_02159F28();
 extern int func_02159B94();
 extern int func_02159CC4();
 extern int func_02012974();
-extern int func_020127A4();
+struct SaveBlock;
+extern void *func_020127A4(struct SaveBlock *p);
 extern int func_02012AC8();
 extern int func_02013B44();
 
 int func_0215AE34(int a0, int a1)
 {
-    int v0 = func_0215A5DC(a1);
-    int p = func_0215A5E4(a1);
+    void *v0 = func_0215A5DC((void *)a1);
+    void *p = func_0215A5E4((void *)a1);
     int x = func_02159B10(a0, a1);
     int y = func_02159B10(a0, a1);
     int flag = func_02159B10(a0, a1);
@@ -50,7 +51,7 @@ int func_0215AE34(int a0, int a1)
     func_02159F28(p, x, y);
     if (flag != 0) {
         q = func_02012974(p);
-        r = func_02012AC8(func_020127A4(p));
+        r = func_02012AC8(func_020127A4((struct SaveBlock *)p));
         s = func_02013B44(r);
         t = func_0215A5CC(a1);
         func_02159B94(q, s, r, t);

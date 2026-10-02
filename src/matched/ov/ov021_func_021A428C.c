@@ -44,7 +44,7 @@ extern T2 d_021D8A2C[];
 
 extern int func_021A3974(u32);
 extern u32 func_021A5318(u8 *, u32);
-extern u32 func_021A3960(u32);
+extern void *func_021A3960(unsigned char *p);
 extern int func_02163E34(u32, int, u32 *);
 extern u16 func_021AB0F8(u32);
 extern void func_020061E4(int);
@@ -71,7 +71,7 @@ int func_021A428C(u8 *o, int unused, int c, int flag, int kind)
         *(u16 *)(o + 0x18) = 0x546;
         *(u16 *)(o + 0x1a) = 0;
     }
-    if (func_02163E34(func_021A3960(*(u32 *)(o + 0xc)), c, &id) == 1) {
+    if (func_02163E34(func_021A3960(*(void **)(o + 0xc)), c, &id) == 1) {
         bits = func_021AB0F8(id);
         if (flag == 0) {
             t = d_021D8A00;

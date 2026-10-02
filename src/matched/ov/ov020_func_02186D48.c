@@ -49,17 +49,17 @@ typedef struct {
     int f4;
 } Ent;
 
-extern int func_0215A5F4(int a);
-extern int func_0215A5E4(int a);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5E4(void *a0);
 extern int func_020127C4(int a);
 extern int func_02159B10(int a0, int a1);
-extern u16 *func_02159AE8(int a0, int a1);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_02186278(int p, int which);
 extern Ent *func_02158F58(int a);
 extern int func_02188C98(int a);
 extern int func_0218DC70(int a);
-extern int func_02188CB4(int a);
-extern int func_02188C7C(int a);
+extern void *func_02188CB4(unsigned char *p);
+extern void *func_02188C7C(unsigned char *p);
 extern int func_020127F0(int a);
 extern void func_021A3460(int o, s16 *x, s16 *y, s16 *z);
 extern int func_0216DDC0(int a, int x, int y, int z);
@@ -85,23 +85,23 @@ int func_02186D48(int a0, int a1)
     int id;
     int *rec;
     int sub;
-    int b;
+    void *b;
     int obj;
     int c;
-    int d;
-    int w;
+    void *d;
+    void *w;
     int kind;
     u16 *out;
     Ent *ent;
-    int m;
+    void *m;
     int s;
     s16 v[3];
 
-    m = func_0215A5F4(a1);
-    b = func_0215A5E4(a1);
+    m = func_0215A5F4((void *)a1);
+    b = func_0215A5E4((void *)a1);
     c = func_020127C4(b);
     kind = func_02159B10(a0, a1);
-    out = func_02159AE8(a0, a1);
+    out = func_02159AE8((void *)a0, (void *)a1);
     if (kind == 3) {
         *out = func_02186278(c, 0);
     } else {

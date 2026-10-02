@@ -41,7 +41,7 @@ struct Sys {
 
 extern struct Sys *gSysState;
 
-extern void *func_020490F4(u32 a, u32 b);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32   func_0203FA08(u32 a, u32 b, u32 c);
 extern void  func_02049B68(void *a, u32 b, u32 c, u32 d, u32 e, u32 f);
 extern void  func_02049658(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);

@@ -35,7 +35,7 @@ typedef struct Q {
 extern int func_02194974(u32 a, void *b);
 extern u32 func_02194984(u32 a, void *b);
 extern u32 func_020362DC(void);
-extern u32 func_0203630C(void);
+extern unsigned int func_0203630C(void);
 extern int func_0201CE30(u32 a);
 
 int func_021919C8(Q *q)

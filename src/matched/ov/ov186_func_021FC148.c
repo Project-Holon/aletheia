@@ -16,7 +16,7 @@
  *   func_021FC344 0x021FC344 thumb ov186
  *   func_021FC36C 0x021FC36C thumb ov186
  */
-extern void *func_020490F4(unsigned,unsigned);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern unsigned func_0204AC18(void *,unsigned,unsigned,unsigned,unsigned,unsigned,unsigned);
 extern void func_02049B68(void *,unsigned,unsigned,unsigned,unsigned,unsigned);
 extern void func_02049238(void *);

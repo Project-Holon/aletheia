@@ -20,9 +20,11 @@
  *   func_021D8E84 0x021D8E84 thumb ov119
  *   func_021DEA24 0x021DEA24 thumb ov119
  */
+
+typedef unsigned int u32;
 extern int func_021DD140(void *);
 extern int func_021E12AC(void *);
-extern int func_020362DC(void);
+extern u32 func_020362DC(void);
 extern void func_020355D8(int);
 extern int func_02035C60(void);
 extern int func_020355C4(void);

@@ -95,7 +95,7 @@ extern void func_021F3744(void *field);
 extern void func_021F3788(void *field);
 extern void *func_021BE92C(void *sys, void *proc, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern void *func_021D2D50(void *sys, Param *p);
-extern u32 func_021A3074(void *q);
+extern void *func_021A3074(void *q);
 extern void func_021A3038(void *q, VecFx32 *v);
 extern void func_021A3044(void *q, const VecFx32 *v);
 extern u32 func_02006148(u32 id);
@@ -110,7 +110,7 @@ int func_0216C2FC(void *evt, u32 *state, Work *w)
     fx32 y;
     int done;
     void *q;
-    u32 a;
+    void *a;
 
     func_02188D2C(w->field);
     switch (*state) {

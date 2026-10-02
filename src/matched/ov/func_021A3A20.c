@@ -23,13 +23,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_0216D598(u32);
+extern u32 func_0216D598(void *);
 extern u32 func_021A31D0(u32);
-extern u32 func_021A3960(u32);
+extern void *func_021A3960(unsigned char *p);
 
 int func_021A3A20(u32 a)
 {
-if (func_021A31D0(func_0216D598(func_021A3960(a))) != 10) {
+if (func_021A31D0(func_0216D598(func_021A3960((void *)a))) != 10) {
     return 1;
 }
 return 0;

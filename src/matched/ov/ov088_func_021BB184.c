@@ -45,7 +45,7 @@ extern char d_021BD5DC[];
 extern char d_021BD5E4[];
 extern char d_021BD5D4[];
 
-extern int func_020490F4(int, int);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_0204A48C(void *, void *, int);
 extern u32 func_02008550(int);
 extern int func_0204B100(int, int, int);
@@ -62,7 +62,7 @@ extern void func_02049238(int);
 void func_021BB184(int *p)
 {
     T28 t;
-    int h;
+    void *h;
     u32 i;
 
     t = d_021BD688;

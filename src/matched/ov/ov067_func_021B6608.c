@@ -43,7 +43,7 @@ typedef struct {
 
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern u32 func_020275E4(void);
-extern void *func_020490F4(u32 a, u32 b);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern u32 func_02027624(void);
 extern void func_02049B68(void *h, u32 a, u32 b, u32 c, u32 d, u32 e);
 extern u32 func_02027628(void);

@@ -37,7 +37,7 @@ typedef unsigned int   u32;
 
 typedef struct { int x, y, z; } V;
 
-extern u32 func_02188CB4(u32 a);
+extern void *func_02188CB4(unsigned char *p);
 extern u32 func_02188C58(u32 a);
 extern u32 func_0218EC2C(u32 a);
 extern void func_02048AD0(u32 l);
@@ -66,10 +66,10 @@ void func_021D1264(u8 *p)
     V eye;
     int x;
     int y;
-    u32 o;
+    void *o;
     u32 cam;
 
-    o = func_02188CB4(*(u32 *)p);
+    o = func_02188CB4(*(void **)p);
     cam = func_0218EC2C(func_02188C58(*(u32 *)p));
     func_02048AD0(cam);
     func_02048B30(cam, &eye);

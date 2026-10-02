@@ -22,13 +22,13 @@ typedef signed short   s16;
 typedef signed char    s8;
 
 extern u32 func_02159B10(u32 a, u32 b);
-extern u16 *func_02159AE8(u32 a, u32 b);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern u16 func_021AF750(u32 a);
 
 int func_021AF6C4(u32 a, u32 b)
 {
     u32 x = func_02159B10(a, b);
 
-    *func_02159AE8(a, b) = func_021AF750(x);
+    *func_02159AE8((void *)a, (void *)b) = func_021AF750(x);
     return 0;
 }

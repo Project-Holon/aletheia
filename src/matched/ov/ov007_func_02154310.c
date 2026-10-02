@@ -31,7 +31,7 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern u32   func_0201210C(u32 a0);
+extern void *func_0201210C(void *p);
 extern int   func_02012138(u32 a0);
 extern int   func_02026454(int x);
 extern void *func_020144DC(u32 a0, u32 a1);
@@ -48,7 +48,7 @@ extern char d_021D83A4[];
 u32 func_02154310(void *obj, u32 *mode, u32 *args)
 {
     u32 h = args[1];
-    u32 x = func_0201210C(h);
+    void *x = func_0201210C((void *)h);
 
     switch (*mode) {
     case 0:

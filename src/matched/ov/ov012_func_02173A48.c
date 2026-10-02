@@ -18,7 +18,7 @@
  */
 
 int func_020399A8(void);
-int func_0203D3A8(int a, int b, int c, void *d);
+int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *d);
 
 int func_02173A48(int a, int b, int c, int d)
 {

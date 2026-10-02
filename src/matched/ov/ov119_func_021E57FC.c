@@ -15,14 +15,14 @@
  *   func_02049238 0x02049238 arm
  */
 typedef unsigned short u16;
-extern int func_020490F4(int, u16);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern int func_0204A6C8(int, int, int, int, u16);
 extern int func_0204AC18(int, int, int, int, u16, u16, u16);
 extern int func_0204AF28(int, int, int, u16);
 extern void func_02049238(int);
 void func_021E57FC(int p)
 {
-    int a;
+    void *a;
     if (*(int *)(p + 0x898) == 0) {
         a = func_020490F4(0x66, *(u16 *)(p + 0x5f4));
         *(int *)(p + 0x898) = func_0204A6C8(a, 0x15, 0, 0, *(u16 *)(p + 0x5f4));

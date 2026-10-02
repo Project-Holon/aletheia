@@ -25,9 +25,9 @@ typedef struct { int w[4]; } T16;
 
 extern T16 d_021F35E0;
 extern int func_0204B100(int, int, unsigned);
-extern int func_0204B034(T16 *, int, unsigned);
+extern void *func_0204B034(T16 *a0, unsigned int a1, unsigned int heap);
 extern void func_0204B258(int, int);
-extern int func_02025538(unsigned, int);
+extern void *func_02025538(unsigned int a0, void *a1);
 extern void func_021F3264(char *);
 extern void func_021F32F8(char *, unsigned char);
 extern void func_02043598(unsigned, unsigned);
@@ -41,7 +41,7 @@ void func_021F2F44(char *p)
     t = d_021F35E0;
     *(int *)(p + 0x12c) = func_0204B034(&t, 1, *(unsigned short *)(p + 0x98));
     func_0204B258(*(int *)(p + 0x128), *(int *)(p + 0x12c));
-    *(int *)(p + 0x124) = func_02025538(*(unsigned short *)(p + 0x98), *(int *)(p + 0x128));
+    *(int *)(p + 0x124) = func_02025538(*(unsigned short *)(p + 0x98), *(void **)(p + 0x128));
     func_021F3264(p);
     for (i = 0; i < 5; i++) {
         func_021F32F8(p, i);

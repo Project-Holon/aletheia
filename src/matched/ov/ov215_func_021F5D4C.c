@@ -17,7 +17,7 @@
  *   func_020409B4 0x020409B4 arm
  */
 
-extern unsigned int func_020490F4(void *, unsigned int);
+extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_02049B68(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
 extern void func_02049658(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
 extern void func_020498F4(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
@@ -26,7 +26,7 @@ extern void func_020409B4(unsigned char);
 
 void func_021F5D4C(int unused, char *p)
 {
-    unsigned int h = func_020490F4((void *)189, *(unsigned short *)p);
+    void *h = func_020490F4((void *)189, *(unsigned short *)p);
     func_02049B68(h, 3, 0, 0, 32, *(unsigned short *)p);
     func_02049658(h, 5, 2, 0, 0, 0, *(unsigned short *)p);
     func_020498F4(h, 4, 2, 0, 0, 0, *(unsigned short *)p);

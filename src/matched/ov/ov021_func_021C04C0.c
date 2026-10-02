@@ -26,7 +26,7 @@
 
 typedef struct { int x, y, z; } Vec;
 
-extern void func_02188CB4(int);
+extern void *func_02188CB4(unsigned char *p);
 extern int func_02188C58(int);
 extern int func_0218E138(int);
 extern void func_0218E13C(int, int);
@@ -49,7 +49,7 @@ int func_021C04C0(int task, int *state, int *q)
     int d;
 
     obj = q[1];
-    func_02188CB4(obj);
+    func_02188CB4((void *)obj);
     h = func_02188C58(obj);
 
     switch (*state) {

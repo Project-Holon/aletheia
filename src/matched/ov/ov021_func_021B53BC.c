@@ -35,8 +35,8 @@ typedef struct {
     u32 w30[6];
 } Out;
 
-extern int func_0215A5DC();
-extern int func_0201210C();
+extern void *func_0215A5DC(void *a0);
+extern void *func_0201210C(void *p);
 extern int func_02188C58();
 extern u16 func_02011330();
 extern u32 func_0201134C();
@@ -47,7 +47,7 @@ int func_021B53BC(int a0, int a1)
     Out o;
     int r4;
 
-    r4 = func_02188C58(func_0201210C(func_0215A5DC(a1)));
+    r4 = func_02188C58(func_0201210C(func_0215A5DC((void *)a1)));
     o.h24 = func_02011330(a0);
     o.h26 = func_02011330(a0);
     o.f28 = func_0201134C(a0);

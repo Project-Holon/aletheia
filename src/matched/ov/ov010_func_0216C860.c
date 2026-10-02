@@ -14,7 +14,7 @@
  *   func_020124E8 0x020124E8 thumb
  *   func_0216C7FC 0x0216C7FC thumb ov010
  */
-extern unsigned int func_0201210C(const void *);
+extern void *func_0201210C(const void *p);
 extern void *func_020122C0(void *,void *,void *,unsigned int);
 extern void **func_020124E8(void *);
 extern int func_0216C7FC(int, int *, int *);

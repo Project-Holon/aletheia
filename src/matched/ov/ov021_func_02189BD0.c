@@ -143,7 +143,7 @@ extern int func_020142E8(void *p, u32 id);
 extern int func_021A2F20(u32 obj, u32 trg, u32 cont, u32 flags);
 extern void *func_02012138(void *sys);
 extern void *func_02158344(void *p);
-extern u32 func_021A3074(u32 obj);
+extern void *func_021A3074(unsigned char *p);
 extern int func_0217BFD8(void *sys, u16 v);
 extern int func_0217CA84(void *sys, int v);
 extern int func_02026454(void *p);
@@ -152,7 +152,8 @@ extern int func_0217C070(void *ev);
 extern int func_0217B810(void *sys, u8 *pos);
 extern int func_0217689C(void *ev, u16 v);
 extern u32 func_02012FB0(void *p);
-extern int func_0216B3A8(void *sys, int v, u32 w);
+struct Desc;
+extern struct Desc *func_0216B3A8(void *sys, int a1, int a2);
 extern int func_021754B4(void *ev, u32 *out);
 extern void func_021A2F6C(u32 obj);
 extern int func_0217FC6C(void *sys, u8 *pos, void *ev, u32 m, u32 out, u16 id);
@@ -203,7 +204,7 @@ int func_02189BD0(void *sys, u8 *pos, int *outA, int *outB)
     u32 flags;
     void *ev;
     void *obj;
-    u32 model;
+    void *model;
 
     *outA = 0;
     *outB = 0;
@@ -302,7 +303,7 @@ int func_02189BD0(void *sys, u8 *pos, int *outA, int *outB)
             u32 kind = func_0216D5B8(target);
 
             if (func_02158D90(kind) == 1) {
-                u32 m = func_021A3074(in.f18);
+                void *m = func_021A3074(in.f18);
 
                 func_021A2F6C(in.f18);
                 *outA = 1;

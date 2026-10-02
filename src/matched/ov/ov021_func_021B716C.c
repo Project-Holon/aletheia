@@ -28,12 +28,12 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0215A5F4(u32 p);
-extern u32 func_0215A5E4(u32 p);
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5E4(void *a0);
 extern u32 *func_02158F58(u32 p);
 extern u32 func_02188C84(u32 p);
 extern u32 func_02159B10(u32 a, u32 b);
-extern u16 *func_02159AE8(u32 a, u32 b);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern u32 func_0201292C(u32 p);
 extern u32 *func_0204A298(u32, u32, u32, u32, u32 *);
 extern int func_02007F68(u32 a, u32 b, u32 c, u32 d);
@@ -42,8 +42,8 @@ extern u8 d_021D99D0[];
 
 int func_021B716C(u32 a, u32 b)
 {
-    u32 s;
-    u32 h;
+    void *s;
+    void *h;
     u32 v;
     u32 idx;
     u16 *out;
@@ -51,11 +51,11 @@ int func_021B716C(u32 a, u32 b)
     u32 cnt;
     u32 i;
 
-    s = func_0215A5F4(b);
-    h = func_0215A5E4(b);
+    s = func_0215A5F4((void *)b);
+    h = func_0215A5E4((void *)b);
     v = func_02188C84(func_02158F58(s)[1]);
     idx = func_02159B10(a, b);
-    out = func_02159AE8(a, b);
+    out = func_02159AE8((void *)a, (void *)b);
     h = func_0201292C(h);
     arr = func_0204A298(0xd0, d_021D99D0[idx], 0, (u16)((v & 0x7fff) | 0x8000), &cnt);
     cnt >>= 3;

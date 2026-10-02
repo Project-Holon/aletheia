@@ -43,13 +43,13 @@ extern u8 d_021D940C[];
 extern u8 d_021D9414[];
 extern u8 d_021D941C[];
 
-extern u32 func_0215A5F4(u32);
+extern void *func_0215A5F4(void *p);
 extern int *func_02158F58(u32);
-extern u32 func_0215A5E4(u32);
-extern void *func_0215A5DC(u32);
+extern void *func_0215A5E4(void *a0);
+extern void *func_0215A5DC(void *a0);
 extern u32 func_02012844(u32);
 extern u32 func_0201296C(u32);
-extern u32 func_02188CB4(int);
+extern void *func_02188CB4(unsigned char *p);
 extern void func_021A3038(u32, V *);
 extern int func_021627C8(u32, u32, V *, int);
 extern int func_021A3050(u32);
@@ -58,27 +58,28 @@ extern void func_0215897C(u32, void *);
 
 int func_021B1E80(void *a, u32 b)
 {
-    u32 o;
+    void *o;
     int q;
-    u32 e;
+    void *e;
     void *d;
     Ids ids;
     int i;
-    u32 h, f, m;
+    u32 h, f;
+    void *m;
     V pos;
     int id;
     int found;
     int k;
     u8 *tbl;
 
-    o = func_0215A5F4(b);
+    o = func_0215A5F4((void *)b);
     q = func_02158F58(o)[1];
-    e = func_0215A5E4(b);
-    d = func_0215A5DC(b);
+    e = func_0215A5E4((void *)b);
+    d = func_0215A5DC((void *)b);
     ids = d_021D93FC;
     h = func_02012844(e);
     f = func_0201296C(e);
-    m = func_02188CB4(q);
+    m = func_02188CB4((void *)q);
     func_021A3038(m, &pos);
     for (i = 0; i < 4; i++) {
         id = ids.v[i];

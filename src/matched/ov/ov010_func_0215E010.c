@@ -30,7 +30,7 @@ struct W {
     u16 *f30;
 };
 
-extern void func_0215A5F4(void *p);
+extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *p);
 extern struct W *func_02012F80(void *p);
 extern int func_021CD688(void *p);

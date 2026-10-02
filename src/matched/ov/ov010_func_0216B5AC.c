@@ -22,25 +22,27 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0215A5F4();
-extern int func_0215A5E4();
-extern int func_02012EBC(int p);
-extern int func_0200C0F0(int sys);
-extern u16 *func_02159AE8();
+struct Big;
+
+extern void *func_0215A5F4(void *p);
+extern void *func_0215A5E4(void *a0);
+extern void *func_02012EBC(struct Big *p);
+extern void *func_0200C0F0(void *sys);
+extern u16 *func_02159AE8(void *a0, void *a1);
 extern u16 func_0200C33C();
 
 int func_0216B5AC(int a0, int a1)
 {
-    int h;
+    void *h;
     u16 *p0;
     u16 *p1;
     u16 *p2;
 
-    func_0215A5F4(a1);
-    h = func_0200C0F0(func_02012EBC(func_0215A5E4(a1)));
-    p0 = func_02159AE8(a0, a1);
-    p1 = func_02159AE8(a0, a1);
-    p2 = func_02159AE8(a0, a1);
+    func_0215A5F4((void *)a1);
+    h = func_0200C0F0(func_02012EBC((struct Big *)func_0215A5E4((void *)a1)));
+    p0 = func_02159AE8((void *)a0, (void *)a1);
+    p1 = func_02159AE8((void *)a0, (void *)a1);
+    p2 = func_02159AE8((void *)a0, (void *)a1);
     *p0 = func_0200C33C(h, 0);
     *p1 = func_0200C33C(h, 1);
     *p2 = func_0200C33C(h, 2);

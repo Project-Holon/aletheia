@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02012138  0x02012138  thumb
@@ -20,8 +20,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
+struct Ctx;
 extern int func_02012138();
-extern int func_020120F4();
+extern void *func_020120F4(const struct Ctx *p);
 extern int func_02012B70();
 extern int func_0202648C();
 
@@ -29,15 +30,16 @@ int func_02158318(int a0)
 {
     int t4;
     int t5;
+    void *p;
 
 t5 = a0 + 0;
     a0 = func_02012138(a0);
 loc_02158320:
 t4 = a0 + 0;
 a0 = t5 + 0;
-    a0 = func_020120F4(a0);
+    p = func_020120F4((const struct Ctx *)a0);
 loc_02158328:
-    a0 = func_02012B70(a0);
+    a0 = func_02012B70(p);
 loc_0215832C:
     if (a0 != 1) goto loc_0215833E;
 loc_02158330:

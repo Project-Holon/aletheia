@@ -28,7 +28,7 @@ typedef signed short   s16;
 
 extern void func_021A3D6C(u8 *, int);
 extern int func_021A3974(u8 *);
-extern u32 func_021A3960(u8 *);
+extern void *func_021A3960(u8 *p);
 extern u32 func_0216D67C(u32);
 extern int func_0216D83C(u32);
 extern int func_0216D86C(u32);
@@ -40,7 +40,7 @@ int func_021A40A8(u8 *p)
 {
     s16 v[2];
     int f;
-    u32 a;
+    void *a;
     u32 b;
 
     func_021A3D6C(p, 8);
