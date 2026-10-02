@@ -17,9 +17,9 @@
  *   func_02085A38  0xfunc_02085A38  arm
  */
 
-extern void func_02085A38(void);
+extern void func_02085A38(unsigned int msec);
 
-void func_0217F2BC(void)
+void func_0217F2BC(unsigned int msec)
 {
-    func_02085A38();
+    func_02085A38(msec);
 }

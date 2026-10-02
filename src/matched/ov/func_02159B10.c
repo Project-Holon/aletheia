@@ -26,12 +26,12 @@ typedef unsigned int u32;
 extern void *func_0215A5E4(void *);
 extern void *func_0215A5F4(void *);
 extern void *func_02011330(void *);
-extern void func_0215901C(void *, void *, void *);
+extern unsigned int func_0215901C(void *, void *, void *);
 
-void func_02159B10(void *a0, void *a1)
+unsigned int func_02159B10(void *a0, void *a1)
 {
     void *v = func_0215A5E4(a1);
 
-    func_0215901C(func_0215A5F4(a1), v, func_02011330(a0));
+    return func_0215901C(func_0215A5F4(a1), v, func_02011330(a0));
 }
 

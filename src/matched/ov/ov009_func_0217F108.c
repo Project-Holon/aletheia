@@ -17,9 +17,9 @@
  *   func_02086028  0xfunc_02086028  arm
  */
 
-extern void func_02086028(void);
+extern void func_02086028(void *mutex);
 
-void func_0217F108(void)
+void func_0217F108(void *mutex)
 {
-    func_02086028();
+    func_02086028(mutex);
 }

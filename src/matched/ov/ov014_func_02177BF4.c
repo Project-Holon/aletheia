@@ -18,9 +18,9 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_02177BAC(void);
+extern void func_02177BAC(unsigned int idx);
 
-void func_02177BF4(void)
+void func_02177BF4(unsigned int idx)
 {
-    func_02177BAC();
+    func_02177BAC(idx);
 }

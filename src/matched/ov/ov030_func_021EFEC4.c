@@ -17,9 +17,9 @@
  *   func_021EFEC0 0x021EFEC0 thumb
  */
 
-extern void func_021EFEC0(void);
+extern void func_021EFEC0(int *p, int v);
 
-void func_021EFEC4(void)
+void func_021EFEC4(int *p, int v)
 {
-    func_021EFEC0();
+    func_021EFEC0(p, v);
 }

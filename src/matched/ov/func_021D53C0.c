@@ -7,16 +7,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * symbols:
  *   func_021D53C8   0x021D53C8  thumb ov093
  *   func_021D53C0   0x021D53C0  thumb ov093
- *
- * Blocking site: the ABS32 pool word at +0004 names 0x021D53C8, which is not a function
- * start in ov093's listing (it is a word inside a literal pool) and has no
- * witness outside this function's own bytes, so the field stays wildcarded and
- * the entry cannot reach EXACT.  Every concrete byte matches.
  *
  * tail-call thunk to func_021D53C8
  */
@@ -28,9 +23,9 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-extern void func_021D53C8(void);
+extern void func_021D53C8(unsigned char *p);
 
-void func_021D53C0(void)
+void func_021D53C0(unsigned char *p)
 {
-    func_021D53C8();
+    func_021D53C8(p);
 }

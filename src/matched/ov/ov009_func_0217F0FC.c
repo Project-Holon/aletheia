@@ -17,9 +17,9 @@
  *   func_02086004  0xfunc_02086004  arm
  */
 
-extern void func_02086004(void);
+extern void func_02086004(void *mutex);
 
-void func_0217F0FC(void)
+void func_0217F0FC(void *mutex)
 {
-    func_02086004();
+    func_02086004(mutex);
 }

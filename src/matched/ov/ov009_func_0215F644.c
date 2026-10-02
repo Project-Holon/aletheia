@@ -17,9 +17,9 @@
  *   func_0215E84C  0xfunc_0215E84C  arm
  */
 
-extern void func_0215E84C(void);
+extern int func_0215E84C(int s);
 
-void func_0215F644(void)
+int func_0215F644(int s)
 {
-    func_0215E84C();
+    return func_0215E84C(s);
 }

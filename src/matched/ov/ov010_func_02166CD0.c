@@ -23,7 +23,7 @@
 typedef unsigned int u32;
 
 extern int func_0201296C(void *a);
-extern int func_02012F08(void *a);
+extern void *func_02012F08(void *a);
 extern int func_02012944(void *a);
 extern void *func_02012EBC(void *a);
 extern u32 func_02009470(void *sys);
@@ -34,7 +34,7 @@ extern int func_0216BF9C(int a, int b, int c);
 int func_02166CD0(void *a, u32 msg)
 {
     int r7 = func_0201296C(a);
-    int r0 = func_02012F08(a);
+    int r0 = (int)func_02012F08(a);
     int r6 = func_02012944(a);
     u32 t;
     int res;

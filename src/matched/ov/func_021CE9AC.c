@@ -20,9 +20,9 @@
  *       --func func_021CE9AC --addr 0x021CE9AC --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern void func_021CEEE8(void);
+extern void func_021CEEE8(int pos);
 
-void func_021CE9AC(void)
+void func_021CE9AC(int pos)
 {
-    func_021CEEE8();
+    func_021CEEE8(pos);
 }

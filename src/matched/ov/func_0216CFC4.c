@@ -33,8 +33,9 @@ extern int func_0216D620();
 extern int func_0216D65C();
 extern int func_0216D668();
 
-int func_0216CFC4(int a0, int a1, int a2)
+int func_0216CFC4(int a0, int a1)
 {
+    int a2;
     int t4;
     int t5;
 

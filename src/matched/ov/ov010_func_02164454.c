@@ -16,11 +16,14 @@
  * as data after the previous function).  One of four byte-identical thunks
  * to func_0215E34C at 0x02164454, 0x0216445C, 0x02164464 and 0x0216446C.
  * Blocker of ov020 func_021841C0 (case 1 of the *(u8 *)(p + 0x30) switch).
+ *
+ * Every ov020 caller passes a second argument (r1), but func_0215E34C
+ * reads only r0, so b stays unused here; its result passes back in r0.
  */
 
-extern void func_0215E34C(int a, int b);
+extern int func_0215E34C(int a0);
 
-void func_02164454(int a, int b)
+int func_02164454(int a, int b)
 {
-    func_0215E34C(a, b);
+    return func_0215E34C(a);
 }

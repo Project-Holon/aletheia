@@ -17,9 +17,9 @@
  *   func_0219569C  0xfunc_0219569C  arm
  */
 
-extern void func_0219569C(void);
+extern int func_0219569C(void *connection, void *callbacks);
 
-void func_02195B2C(void)
+int func_02195B2C(void *connection, void *callbacks)
 {
-    func_0219569C();
+    return func_0219569C(connection, callbacks);
 }

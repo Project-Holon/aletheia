@@ -17,9 +17,9 @@
  *   func_0216EC84  0xfunc_0216EC84  arm
  */
 
-extern void func_0216EC84(void);
+extern void func_0216EC84(unsigned char aid, unsigned short type, unsigned char *data);
 
-void func_0216F008(void)
+void func_0216F008(unsigned char aid, unsigned short type, unsigned char *data)
 {
-    func_0216EC84();
+    func_0216EC84(aid, type, data);
 }

@@ -14,11 +14,14 @@
  *
  * symbols:
  *   func_0215E34C  0x0215E34C  thumb  ov010
+ *
+ * Every ov020 caller passes a second argument (r1), but func_0215E34C
+ * reads only r0, so b stays unused here; its result passes back in r0.
  */
 
-void func_0215E34C(void);
+extern int func_0215E34C(int a0);
 
-void func_0216446C(void)
+int func_0216446C(int a, int b)
 {
-    func_0215E34C();
+    return func_0215E34C(a);
 }

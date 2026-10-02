@@ -40,8 +40,8 @@ extern void func_021D4674(void);
 extern int func_021B8B9C(void *,u8);
 extern int func_021B9F70(void *,u8);
 extern void func_021BA698(void *,u8);
-extern u32 func_02012EBC(u32);
-extern u32 func_02007B44(void);
+extern void *func_02012EBC(void *sys);
+extern u32 *func_02007B44(void *sys);
 extern void *func_02007B20(u16);
 extern u32 func_02007B00(void);
 extern void func_02082D44(const void *,void *,u32);
@@ -65,8 +65,7 @@ int func_021B7BB0(u8 *p,u32 *state)
         if (func_021D4B18(3)) ++*state;
         break;
     case 2:
-        func_02012EBC(*(u32 *)(q + 0x58));
-        if (func_021D450C((u32 *)func_02007B44())) ++*state;
+        if (func_021D450C(func_02007B44(func_02012EBC(*(void **)(q + 0x58))))) ++*state;
         break;
     case 3:
         if (func_021D45FC()) {

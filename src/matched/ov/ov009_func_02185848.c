@@ -17,9 +17,11 @@
  *   func_020923B0  0xfunc_020923B0  arm
  */
 
-extern void func_020923B0(void);
+typedef unsigned int u32;
 
-void func_02185848(void)
+extern void *func_020923B0(void *p, int c, u32 n);
+
+void *func_02185848(void *p, int c, u32 n)
 {
-    func_020923B0();
+    return func_020923B0(p, c, n);
 }

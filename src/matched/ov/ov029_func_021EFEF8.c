@@ -18,11 +18,14 @@
  * resident there when this pool word is used.  Its start is seeded in
  * layout/function_starts.txt from this pointer word, the only reference; it
  * attests as sole-ref/code from ov029's own listing.
+ *
+ * `line`: every caller loads r2 with a constant, but the callee never
+ * reads it, so the thunk takes it and drops it.
  */
 
-extern void func_021EFEE4(void);
+extern void func_021EFEE4(char *p, int v);
 
-void func_021EFEF8(void)
+void func_021EFEF8(char *p, void (*f)(void), int line)
 {
-    func_021EFEE4();
+    func_021EFEE4(p, (int)f);
 }

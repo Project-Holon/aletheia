@@ -17,9 +17,9 @@
  *   func_02198A0C  0xfunc_02198A0C  arm
  */
 
-extern void func_02198A0C(void);
+extern int func_02198A0C(int sock, void *nat);
 
-void func_02198E74(void)
+int func_02198E74(int sock, void *nat)
 {
-    func_02198A0C();
+    return func_02198A0C(sock, nat);
 }

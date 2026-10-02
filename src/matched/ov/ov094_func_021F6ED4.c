@@ -13,9 +13,9 @@
  *   func_021F723C  0x021F723C  thumb  ov094
  */
 
-void func_021F723C(void);
+void func_021F723C(int *p);
 
-void func_021F6ED4(void)
+void func_021F6ED4(int *p)
 {
-    func_021F723C();
+    func_021F723C(p);
 }

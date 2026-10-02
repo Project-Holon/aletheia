@@ -13,13 +13,16 @@
  * target`, which this compiler emits for a tail call to a callee whose
  * address has to come from a pool.
  *
+ * This is SOC_Shutdown(s, how): SOCL_Shutdown reads only s, but every
+ * caller sets how (mov r1, #2 in ov114 and ov125), so it stays.
+ *
  * symbols:
  *   func_0215E6B8  0xfunc_0215E6B8  arm
  */
 
-extern void func_0215E6B8(void);
+extern int func_0215E6B8(int s);
 
-void func_0215F638(void)
+int func_0215F638(int s, int how)
 {
-    func_0215E6B8();
+    return func_0215E6B8(s);
 }

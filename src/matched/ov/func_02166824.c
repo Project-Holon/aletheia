@@ -19,9 +19,9 @@ typedef unsigned int u32;
 
 
 
-int func_02166824(int a0, int a1, int a2)
+int func_02166824(int a0, int a1)
 {
-
+    int a2;
 a2 = *(u8 *)((char *)a0 + 1);
     if ((unsigned)a1 < (unsigned)a2) goto loc_0216682E;
 loc_0216682A:

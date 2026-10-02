@@ -23,9 +23,9 @@ typedef signed char s8;
 typedef signed short s16;
 typedef signed int s32;
 
-extern void func_021B8CFC(void);
+extern unsigned char func_021B8CFC(char *p, int i);
 
-void func_021B8DE4(void)
+unsigned char func_021B8DE4(char *p, int i)
 {
-    func_021B8CFC();
+    return func_021B8CFC(p, i);
 }

@@ -13,9 +13,9 @@
  *   func_021B6994  0x021B6994  thumb  ov093
  */
 
-void func_021B6994(void);
+int func_021B6994(void *pp, unsigned int b);
 
-void func_021B99B8(void)
+int func_021B99B8(void *pp, unsigned int b)
 {
-    func_021B6994();
+    return func_021B6994(pp, b);
 }

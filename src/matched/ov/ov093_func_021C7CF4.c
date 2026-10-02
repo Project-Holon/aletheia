@@ -12,9 +12,8 @@
  * symbols:
  *   func_021B9934  0x021B9934  thumb  ov093
  *
- * Forwarding tail call: only the first argument is passed; the callee's
- * remaining argument register is a leftover (see
- * docs/idioms/a-forwarding-call-passes-one-argument-and-the-rest-are-leftovers.md).
+ * Forwarding tail call: p[2] and the caller's i go to func_021B9934, whose
+ * listing reads both (lsls r1, r1, #2), and its result is returned.
  */
 
 int func_021B9934(char *p, int i);

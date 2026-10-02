@@ -20,9 +20,9 @@
  *       --func func_021B82DC --addr 0x021B82DC --region ov016 --cc dsi/1.1p1 --thumb
  */
 
-extern void func_0215F644(void);
+extern int func_0215F644(int s);
 
-void func_021B82DC(void)
+int func_021B82DC(int s)
 {
-    func_0215F644();
+    return func_0215F644(s);
 }

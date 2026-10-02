@@ -37,7 +37,7 @@ void func_02185A68(int a, int b);
 void func_021857C0(int a, void *b);
 void func_0202735C(int a, int b);
 void func_02168EEC(int a);
-void func_0216446C(int a, int b);
+int func_0216446C(int a, int b);
 
 void func_0218562C(int a)
 {

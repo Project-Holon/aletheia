@@ -19,9 +19,9 @@ typedef unsigned int u32;
 
 
 
-int func_0216D4FC(int a0, int a1)
+int func_0216D4FC(int a0)
 {
-
+    int a1;
 a1 = 6;
 a1 = *(short *)((char *)a0 + a1);
 a1 = a1 + 1;

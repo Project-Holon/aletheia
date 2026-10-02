@@ -99,7 +99,7 @@ extern u32 func_021A3074(void *q);
 extern void func_021A3038(void *q, VecFx32 *v);
 extern void func_021A3044(void *q, const VecFx32 *v);
 extern u32 func_02006148(u32 id);
-extern void func_020061F8(void);
+extern void func_020061F8(int i);
 extern void func_020061E4(u32 se);
 extern void func_02012374(void *evt, void *task);
 
@@ -139,8 +139,7 @@ int func_0216C2FC(void *evt, u32 *state, Work *w)
         }
         if (done != 0) {
             func_02011558(w->anim);
-            func_02006148(1953);
-            func_020061F8();
+            func_020061F8(func_02006148(1953));
             func_020061E4(1775);
             p.f00 = 2;
             p.f02 = 0;

@@ -17,9 +17,9 @@
  *   func_02092344  0xfunc_02092344  arm
  */
 
-extern void func_02092344(void);
+extern void *func_02092344(void *dest, const void *src, unsigned int n);
 
-void func_0218583C(void)
+void *func_0218583C(void *dest, const void *src, unsigned int n)
 {
-    func_02092344();
+    return func_02092344(dest, src, n);
 }

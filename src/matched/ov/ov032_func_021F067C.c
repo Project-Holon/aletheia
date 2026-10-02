@@ -14,9 +14,9 @@
  *   func_021F0E24 0x021F0E24 thumb
  */
 
-extern void func_021F0E24(void);
+extern void func_021F0E24(char *p);
 
-void func_021F067C(void)
+void func_021F067C(char *p)
 {
-    func_021F0E24();
+    func_021F0E24(p);
 }

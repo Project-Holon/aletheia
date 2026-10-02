@@ -33,6 +33,7 @@
  */
 
 typedef unsigned char u8;
+typedef unsigned short u16;
 typedef unsigned int u32;
 
 typedef struct {
@@ -44,8 +45,8 @@ typedef struct {
 } BattleSeq;
 
 extern int func_021D13A4(BattleSeq *s);
-extern void func_021B86DC(void *battle);
-extern void func_021F878C(void);
+extern u16 func_021B86DC(void *battle);
+extern void func_021F878C(u32 a);
 extern int func_021B904C(void *battle, int idx);
 extern int func_021BA1A8(void *battle, int flag);
 extern int func_021B8FF4(void *battle);
@@ -71,8 +72,7 @@ int func_021D1410(BattleSeq *s, int *state)
     switch (*state) {
     case 0:
         if (func_021D13A4(s) == 1) {
-            func_021B86DC(s->battle);
-            func_021F878C();
+            func_021F878C(func_021B86DC(s->battle));
             a = func_021B904C(s->battle, 0);
             b = func_021B904C(s->battle, 1);
             if (a == b) {

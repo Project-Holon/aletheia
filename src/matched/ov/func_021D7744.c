@@ -20,9 +20,9 @@
  *       --func func_021D7744 --addr 0x021D7744 --region ov016 --cc dsi/1.1p1 --arm
  */
 
-extern void func_021D7750(void);
+extern void func_021D7750(unsigned int idx, void *r4);
 
-void func_021D7744(void)
+void func_021D7744(unsigned int idx, void *r4)
 {
-    func_021D7750();
+    func_021D7750(idx, r4);
 }

@@ -23,7 +23,7 @@
  */
 
 extern void func_021B6288();
-extern void func_021B80BC();
+extern void func_021B80BC(void *p);
 extern void func_021B81F4();
 extern void func_021B6138();
 extern void func_020061E4();
@@ -37,7 +37,7 @@ void func_021B8CE4(int p, int u, int a, int b)
 {
     int x;
     func_021B6288(p, u, *(int *)((char *)p + 0x80C), b);
-    func_021B80BC(p);
+    func_021B80BC((void *)p);
     func_021B81F4(p);
     *(int *)((char *)p + 0x818) = 0xFFFF;
     func_021B6138(p);

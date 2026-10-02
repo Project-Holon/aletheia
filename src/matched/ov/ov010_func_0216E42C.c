@@ -15,9 +15,9 @@
  *   func_020142E8  0x020142E8  thumb
  */
 
-extern void func_020142E8();
+extern unsigned int func_020142E8(void *bitmap, int id);
 
-void func_0216E42C()
+unsigned int func_0216E42C(void *bitmap, int id)
 {
-    func_020142E8();
+    return func_020142E8(bitmap, id);
 }

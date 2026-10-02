@@ -17,9 +17,9 @@
  *   func_0217EF50  0xfunc_0217EF50  arm
  */
 
-extern void func_0217EF50(void);
+extern int func_0217EF50(int sock);
 
-void func_02193FE8(void)
+int func_02193FE8(int sock)
 {
-    func_0217EF50();
+    return func_0217EF50(sock);
 }

@@ -13,9 +13,9 @@
  *   func_020307B0  0x020307B0  arm
  */
 
-void func_020307B0(void);
+void func_020307B0(void *p);
 
-void func_021BBB34(void)
+void func_021BBB34(void *p)
 {
-    func_020307B0();
+    func_020307B0(p);
 }

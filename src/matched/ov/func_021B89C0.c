@@ -20,9 +20,9 @@
  *       --func func_021B89C0 --addr 0x021B89C0 --region ov016 --cc dsi/1.1p1 --thumb
  */
 
-extern void func_02085A38(void);
+extern void func_02085A38(unsigned int msec);
 
-void func_021B89C0(void)
+void func_021B89C0(unsigned int msec)
 {
-    func_02085A38();
+    func_02085A38(msec);
 }

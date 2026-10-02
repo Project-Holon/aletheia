@@ -13,9 +13,9 @@
  *   func_02201934  0x02201934  thumb  ov094
  */
 
-void func_02201934(void);
+int func_02201934(void *u, int i, int mode);
 
-void func_021FF468(void)
+int func_021FF468(void *u, int i, int mode)
 {
-    func_02201934();
+    return func_02201934(u, i, mode);
 }

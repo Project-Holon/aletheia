@@ -60,7 +60,7 @@ void func_020127F0(void *a);
 void func_021A3460(int a, s16 *x, s16 *y, s16 *z);
 int func_0216DDC0(int a, int b, int c, int d);
 void func_0216D88C(int a, void *b);
-int func_02186090(int a);
+int func_02186090(void *p);
 int func_0219390C(int a, int b);
 
 void *func_021870C4(void *a0, void *a1)
@@ -107,7 +107,7 @@ void *func_021870C4(void *a0, void *a1)
     func_021A3460(b, &v[2], &v[1], &v[0]);
     d = func_0216DDC0(c, v[2], v[0], 0);
     func_0216D88C(d, o + 0x34);
-    e = func_02186090(d);
+    e = func_02186090((void *)d);
     x = func_0219390C(a, e);
     *(int *)(o + 0x28) = a;
     *(int *)(o + 0x2c) = x;

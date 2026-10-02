@@ -21,9 +21,9 @@
  *   func_020964F4  0x020964F4  arm
  */
 
-extern void func_020964F4(void);
+extern long long func_020964F4(unsigned int a0);
 
-void func_0217F124(void)
+long long func_0217F124(unsigned int a0)
 {
-    func_020964F4();
+    return func_020964F4(a0);
 }

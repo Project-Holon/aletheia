@@ -22,9 +22,9 @@
  *   func_02198020  0x02198020  arm
  */
 
-extern void func_02198020(void);
+extern void func_02198020(int *p, int v);
 
-void func_02195B20(void)
+void func_02195B20(int *p, int v)
 {
-    func_02198020();
+    func_02198020(p, v);
 }

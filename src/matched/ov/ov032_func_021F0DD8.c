@@ -14,9 +14,9 @@
  *   func_020061E4 0x020061E4 thumb
  */
 
-extern void func_020061E4(void);
+extern void func_020061E4(unsigned int a);
 
-void func_021F0DD8(void)
+void func_021F0DD8(unsigned int a)
 {
-    func_020061E4();
+    func_020061E4(a);
 }

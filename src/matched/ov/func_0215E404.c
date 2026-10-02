@@ -19,8 +19,9 @@ typedef unsigned int u32;
 
 extern int func_0200D488();
 
-int func_0215E404(int a0, int a1)
+int func_0215E404(int a0)
 {
+    int a1;
     int t4;
     int t5;
 

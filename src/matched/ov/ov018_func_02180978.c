@@ -12,9 +12,9 @@
  *   func_021808C4  0x021808C4  thumb
  */
 
-void func_021808C4(void);
+void func_021808C4(int id, void *dst);
 
-void func_02180978(void)
+void func_02180978(int id, void *dst)
 {
-    func_021808C4();
+    func_021808C4(id, dst);
 }

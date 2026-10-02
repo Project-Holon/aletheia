@@ -17,9 +17,9 @@
  *   func_02197BA4  0xfunc_02197BA4  arm
  */
 
-extern void func_02197BA4(void);
+extern int func_02197BA4(void *connection, unsigned char *message, int len);
 
-void func_02196C28(void)
+int func_02196C28(void *connection, unsigned char *message, int len)
 {
-    func_02197BA4();
+    return func_02197BA4(connection, message, len);
 }
