@@ -34,7 +34,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_0203F1FC(void *obj, u32 id);
+extern u16 func_0203F1FC(void *obj, u32 id);
 
 void sub_0200E684(void *obj, void *unused)
 {

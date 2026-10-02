@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Reconstructed from the listing (.inst decoded).
  *
@@ -24,10 +24,10 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_02040618();
-u32 func_021BC3B8(u32 a0)
+extern void func_02040618(u32 layer, u32 a, u32 b);
+void func_021BC3B8(u32 a0)
 {
     func_02040618(2, 3, a0);
-    return func_02040618(3, 3, a0);
+    func_02040618(3, 3, a0);
 }
 

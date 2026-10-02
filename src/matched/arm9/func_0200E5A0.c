@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * The two tests share one exit, so they have to be one conjunction with the
  * `return 0` written after it; as two separate `if (...) return 0;` statements
@@ -20,7 +20,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_0203F1FC(void *p, u32 off);
+extern u16 func_0203F1FC(void *p, u32 off);
 
 int func_0200E5A0(void *a0)
 {

@@ -12,11 +12,10 @@
  *   func_02012138  0x02012138  thumb
  *   func_02158468  0x02158468  thumb
  */
-extern void func_02012138(void *a0);
-extern void func_02158468(void);
+extern int func_02012138(void *a0);
+extern int func_02158468(int a0);
 
-void func_0202E83C(void *a0)
+int func_0202E83C(void *a0)
 {
-    func_02012138(a0);
-    func_02158468();
+    return func_02158468(func_02012138(a0));
 }

@@ -13,9 +13,9 @@
  *   func_020313EC  0x020313EC  arm
  */
 
-extern void func_020313EC(void);
+extern unsigned int func_020313EC(void *p);
 
-void func_02031330(void)
+unsigned int func_02031330(void *p)
 {
-    func_020313EC();
+    return func_020313EC(p);
 }

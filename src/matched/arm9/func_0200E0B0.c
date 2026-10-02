@@ -16,9 +16,9 @@
  *   func_020071CC  0x020071CC  thumb
  */
 
-extern void func_020071CC(void *p, int n);
+extern void *func_020071CC(void *p, int n);
 
-void func_0200E0B0(void *p)
+void *func_0200E0B0(void *p)
 {
-    func_020071CC(p, 0x3d);
+    return func_020071CC(p, 0x3d);
 }

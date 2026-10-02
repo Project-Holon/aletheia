@@ -53,6 +53,19 @@ How it works
    listing with a label there.  A store of an incoming register to a stack
    slot the function never loads back is an outgoing stack argument (or an
    escaping local) and counts as a read.
+   Switch tables are data: a Thumb `add pc, rN` (MWCC's halfword table right
+   after it, N+1 entries from the bounding `cmp`) and an ARM `addls pc, pc,
+   rN, lsl #2` (its `b case` table) go to their case targets only, and the
+   Thumb table is not decoded.  Conditional writes are tracked per edge:
+   `movgt r2; bgt L` reaches L with r2 written, `ldrhne r3; ldrheq r3` write
+   r3 on both paths, `ldrne r2; cmpne r2, #0; popeq` leaves r2 written past
+   the popeq, and a read under the condition a register was just written
+   under sees the write.  push and known sp adjustments move the tracked
+   stack slots instead of dropping them, so `push {r0-r3}` keeps each
+   register in its own slot, and taking one slot's address (`add r3, sp,
+   #0x14`) reads that slot only.  A tail jump out of the image, or from DS
+   code into the DSi-only TWL region (ov172 func_021B6724's `ldr pc` veneer),
+   makes the callee undecidable: its rows are low.
 5. The broader check (BROAD_TAG rows): for every call and tail call, the
    registers the callee's original code reads (strictly: anything
    undecidable counts as not read) that the C call does not supply and the
@@ -102,6 +115,12 @@ Usage:
 
 TSV columns: caller_file caller_func callee callee_def_file kind detail
 confidence.
+
+The selftest's tree cases run on src/matched exactly as it was at pinned
+commits (git_snapshot: every .c, callers and callees alike, none from the
+working tree), against the original bytes, so a lane fixing a fixture site
+cannot move a case.  It needs git and extract/, and builds one index per
+pin, so it takes a few minutes.
 
 Remaining blind spots
 ---------------------
@@ -167,6 +186,7 @@ QUALS = set("const volatile register signed unsigned static extern inline __inli
 TAGS = set("struct union enum".split())
 BASE_TYPES = set("void char short int long float double signed unsigned _Bool".split())
 STATIC_REGIONS = ["arm9", "arm9_autoload0_ITCM", "twl"]
+TWL = "twl"
 ARGR = ["r0", "r1", "r2", "r3"]
 
 # ---------------------------------------------------------------------------
@@ -645,8 +665,11 @@ def is_sdk(path):
 # ---------------------------------------------------------------------------
 
 class Index:
-    def __init__(self, root=ROOT, overrides=None):
-        """overrides: {repo-relative path: text} read instead of the working tree."""
+    def __init__(self, root=ROOT, overrides=None, snapshot=None):
+        """overrides: {repo-relative path: text} read instead of the working tree.
+        snapshot: {repo-relative path: text} that IS the tree (every .c under
+        src/matched at some commit, see git_snapshot()); the working tree is
+        not read at all."""
         self.root = root
         overrides = overrides or {}
         self.files = []
@@ -654,11 +677,15 @@ class Index:
         self.by_addr = {}        # (region, addr & ~1) -> def
         self.sym_region = {}     # addr & ~1 -> Counter of regions symbols: rows tag it with
         paths = []
-        base = os.path.join(root, *MATCHED.split("/"))
-        for dp, _dn, fn in os.walk(base):
-            for f in fn:
-                if f.endswith(".c"):
-                    paths.append(os.path.relpath(os.path.join(dp, f), root).replace("\\", "/"))
+        if snapshot is not None:
+            overrides = snapshot
+            paths = list(snapshot)
+        else:
+            base = os.path.join(root, *MATCHED.split("/"))
+            for dp, _dn, fn in os.walk(base):
+                for f in fn:
+                    if f.endswith(".c"):
+                        paths.append(os.path.relpath(os.path.join(dp, f), root).replace("\\", "/"))
         paths.sort()
         for path in paths:
             if path in overrides:
@@ -818,7 +845,8 @@ TRACK = ["r%d" % i for i in range(13)] + ["lr"]
 CONDS = ("eq", "ne", "cs", "cc", "mi", "pl", "vs", "vc", "hi", "ls", "ge", "lt", "gt", "le", "hs", "lo")
 BRANCHES = set(["b", "cbz", "cbnz"] + ["b" + c for c in CONDS])
 POPS = ("pop", "ldm", "ldmia", "ldmfd")
-_COND_BASES = ("blx", "bl", "bx", "pop", "push", "ldmia", "ldmfd", "ldm", "stmdb", "stmfd", "stm", "mov", "ldr", "b")
+_COND_BASES = ("blx", "bl", "bx", "pop", "push", "ldmia", "ldmfd", "ldm", "stmdb", "stmfd", "stm", "mov", "ldr",
+               "add", "b")
 
 
 def base_mnemonic(mn):
@@ -871,19 +899,86 @@ def _sp_mem(ins):
 
 
 class Effect:
-    __slots__ = ("kind", "cond", "dst", "src", "slot", "lo", "target", "text", "addr", "writes")
+    __slots__ = ("kind", "cond", "cc", "setflags", "dst", "src", "slot", "lo", "target", "text", "addr", "writes",
+                 "taken", "spdelta")
+
+
+class Insns(list):
+    """A function's instructions; jt maps the address of a Thumb `add pc, rN`
+    to its switch's case targets (the halfword table after it is data, and is
+    not in the list)."""
+    jt = None
+
+
+_COMPLEMENT = None
+
+
+def complement_cc(cc):
+    """The ARM condition that holds exactly when cc does not (eq <-> ne ...)."""
+    global _COMPLEMENT
+    if _COMPLEMENT is None:
+        _c, CA = _capstone()
+        pairs = [(CA.ARM_CC_EQ, CA.ARM_CC_NE), (CA.ARM_CC_HS, CA.ARM_CC_LO), (CA.ARM_CC_MI, CA.ARM_CC_PL),
+                 (CA.ARM_CC_VS, CA.ARM_CC_VC), (CA.ARM_CC_HI, CA.ARM_CC_LS), (CA.ARM_CC_GE, CA.ARM_CC_LT),
+                 (CA.ARM_CC_GT, CA.ARM_CC_LE)]
+        _COMPLEMENT = {}
+        for a, b in pairs:
+            _COMPLEMENT[a], _COMPLEMENT[b] = b, a
+    return _COMPLEMENT.get(cc)
+
+
+def _switch_bound(insns, i):
+    """N from the `cmp rX, #N` that bounds the switch dispatched at insns[i]."""
+    _c, CA = _capstone()
+    for j in range(i - 1, max(-1, i - 10), -1):
+        p = insns[j]
+        if base_mnemonic(p.mnemonic) == "cmp" and len(p.operands) == 2 and p.operands[1].type == CA.ARM_OP_IMM:
+            return p.operands[1].imm
+        if base_mnemonic(p.mnemonic) in ("bx", "pop"):
+            break                      # a return: past the switch's own setup (a `b default`
+                                       # between the bound check and the dispatch is fine)
+    return None
+
+
+def disasm_function(data, base, thumb):
+    """Disassemble a function, skipping Thumb switch tables: MWCC's `cmp rX, #N;
+    ...; add pc, rM` is followed by N+1 halfword offsets (case = add + 4 +
+    offset), which linear decoding would read as instructions."""
+    out = Insns()
+    out.jt = {}
+    pos = 0
+    while pos < len(data):
+        stop = None
+        for ins in md(thumb).disasm(data[pos:], base + pos):
+            out.append(ins)
+            if thumb and ins.mnemonic == "add" and ins.op_str.startswith("pc, r"):
+                n = _switch_bound(out, len(out) - 1)
+                if n is None or n > 0x400:
+                    continue
+                t0 = ins.address + 2 - base
+                if t0 + 2 * (n + 1) > len(data):
+                    continue
+                offs = [int.from_bytes(data[t0 + 2 * k:t0 + 2 * k + 2], "little", signed=True) for k in range(n + 1)]
+                out.jt[ins.address] = [ins.address + 4 + o for o in offs]
+                stop = t0 + 2 * (n + 1)
+                break
+        if stop is None:
+            break
+        pos = stop
+    return out
 
 
 def _effects(insns, ret64):
     """Per instruction: successor list and transfer description."""
     _c, CA = _capstone()
     idx = {ins.address: i for i, ins in enumerate(insns)}
+    jt = getattr(insns, "jt", None) or {}
     n = len(insns)
     succ, eff, computed = [], [], []
     esc = None                    # lowest escaped sp offset, if the address of a stack slot is taken
     for ins in insns:
         ops = ins.operands
-        if ops and ops[0].type == CA.ARM_OP_REG and regname(ops[0].reg) != "sp":
+        if ops and ops[0].type == CA.ARM_OP_REG and regname(ops[0].reg) not in ("sp", "pc"):
             for op in ops[1:]:
                 if op.type == CA.ARM_OP_REG and regname(op.reg) == "sp":
                     off = 0
@@ -901,8 +996,11 @@ def _effects(insns, ret64):
             wr = []
         wn = set(x for x in (regname(r) for r in wr) if x)
         e = Effect()
-        e.cond, e.addr, e.text = cond, ins.address, "%s %s" % (ins.mnemonic, ins.op_str)
+        e.cond, e.cc, e.addr, e.text = cond, ins.cc, ins.address, "%s %s" % (ins.mnemonic, ins.op_str)
+        e.setflags = bool(getattr(ins, "update_flags", False)) or bm in ("cmp", "cmn", "tst", "teq")
         e.kind, e.writes, e.dst, e.src, e.slot, e.target, e.lo = "other", wn, None, None, None, None, esc
+        e.taken = None
+        e.spdelta = _sp_delta(ins, bm)
         writes_pc = "pc" in wn or (bm in POPS and "pc" in ins.op_str) or (bm == "mov" and ins.op_str.startswith("pc"))
         s = []
         if bm in ("bl", "blx"):
@@ -915,15 +1013,27 @@ def _effects(insns, ret64):
             t = branch_target(ins)
             if t in idx:
                 s.append(idx[t])
+                if cond and idx[t] != i + 1:
+                    e.taken = idx[t]
             if mn != "b" or cond:
                 s.append(i + 1)
+        elif ins.address in jt:
+            # Thumb switch: `add pc, rN` goes to the case targets only
+            s = [idx[t] for t in jt[ins.address] if t in idx]
+            e.writes = set()
+        elif bm == "add" and ins.op_str.startswith("pc, pc,") and _switch_bound(insns, i) is not None:
+            # ARM switch: `addls pc, pc, rN, lsl #2` lands on the table of `b case`
+            # words two instructions on; the fall-through `b default` covers the rest
+            nb = _switch_bound(insns, i)
+            s = ([i + 1] if cond else []) + [i + 2 + k for k in range(nb + 1)]
+            e.kind, e.writes = "nop", set()
         elif bm == "bx" or writes_pc:
             s = [i + 1] if cond else []
             if cond:
                 # a conditional return or jump: the fall-through path did not execute it
                 e.kind, e.writes = "nop", set()
             if bm != "bx" and bm not in POPS and not (bm == "mov" and "lr" in ins.op_str) \
-                    and not (bm == "ldr" and "[sp]" in ins.op_str):
+                    and not (bm == "ldr" and ("[sp]" in ins.op_str or "[pc" in ins.op_str)):
                 computed.append(i)
         else:
             s = [i + 1]
@@ -946,8 +1056,12 @@ def _effects(insns, ret64):
                         e.kind = "clear_slots"
                     else:
                         e.kind = "store_other"
-            elif mn.startswith("stm"):
+            elif mn.startswith("stm") and not (bm in ("stmdb", "stmfd") and "sp!" in ins.op_str):
                 e.kind = "store_other"
+            elif bm == "push" or (bm in ("stmdb", "stmfd") and "sp!" in ins.op_str):
+                # the pushed registers land in stack slots 0, 4, ... of the new sp
+                e.kind = "push"
+                e.src = [regname(op.reg) for op in ops if op.type == CA.ARM_OP_REG and regname(op.reg) != "sp"]
         if "sp" in wn and e.kind != "nop":
             e.writes = wn | {"sp"}
         succ.append([x for x in s if x < n])
@@ -955,14 +1069,119 @@ def _effects(insns, ret64):
     return succ, eff, computed
 
 
+def cond_prior(state, loc, cc):
+    """When loc was last written under condition cc (no flag change since), the
+    value it held before that write; a read under the same cc sees only the
+    new value."""
+    pend = state.get(("cw", loc))
+    if pend is not None and len(pend) == 1:
+        pcc, prior = next(iter(pend))
+        if pcc == cc:
+            return prior
+    return None
+
+
+def refine_edge(state, known):
+    """The state on an edge where condition `known` is known to hold.
+
+    A pending conditional write ("cw") under `known` happened on this edge
+    (only the new value remains); one under its complement did not (only the
+    prior value remains).  A guarded write ("cwg": written under X, then a
+    compare also under X, e.g. `ldrne r2; cmpne r2, #0`) happened when X is
+    known here, since a skipped compare leaves the flags at not-X."""
+    keys = [k for k in state if isinstance(k, tuple) and k[0] in ("cw", "cwg")]
+    if not keys:
+        return state
+    out = dict(state)
+    for k in keys:
+        tag, loc = k
+        pend = state[k]
+        if len(pend) != 1 or loc not in state:
+            continue
+        pcc, prior = next(iter(pend))
+        if pcc == known:
+            new = state[loc] - prior
+            if new:
+                out[loc] = new
+            del out[k]
+        elif tag == "cw" and complement_cc(pcc) == known:
+            out[loc] = prior
+            del out[k]
+    return out
+
+
+def _sp_address(ins):
+    """k when ins computes sp + k into a register other than sp (`add r3, sp, #0x14`,
+    `mov r0, sp`), else None."""
+    _c, CA = _capstone()
+    ops = ins.operands
+    if len(ops) < 2 or ops[0].type != CA.ARM_OP_REG or regname(ops[0].reg) in ("sp", "pc"):
+        return None
+    mn = ins.mnemonic.split(".")[0]
+    if mn not in ("add", "adds", "mov", "movs"):
+        return None
+    if not any(op.type == CA.ARM_OP_REG and regname(op.reg) == "sp" for op in ops[1:]):
+        return None
+    imm = [op.imm for op in ops[1:] if op.type == CA.ARM_OP_IMM]
+    return imm[0] if imm else 0
+
+
+def _sp_delta(ins, bm):
+    """The known change a push / pop / `sub sp` / `add sp` makes to sp, or None."""
+    _c, CA = _capstone()
+    ops = ins.operands
+    regs = [op for op in ops if op.type == CA.ARM_OP_REG and regname(op.reg) != "sp"]
+    if bm == "push" or (bm in ("stmdb", "stmfd") and "sp!" in ins.op_str):
+        return -4 * len(regs)
+    if bm in ("pop", "ldmia", "ldmfd", "ldm") and (bm == "pop" or "sp!" in ins.op_str):
+        return 4 * len(regs)
+    mn = ins.mnemonic.split(".")[0]
+    if mn in ("sub", "add", "subs", "adds") and ops and ops[0].type == CA.ARM_OP_REG and regname(ops[0].reg) == "sp":
+        imm = [op.imm for op in ops if op.type == CA.ARM_OP_IMM]
+        srcs = [op for op in ops[1:] if op.type == CA.ARM_OP_REG]
+        if len(imm) == 1 and all(regname(op.reg) == "sp" for op in srcs):
+            return (-imm[0]) if mn.startswith("sub") else imm[0]
+    return None
+
+
 def _apply(state, e):
+    out = _apply_writes(state, e)
+    if e.kind == "call" or (e.setflags and not e.cond):
+        # the flags changed: pending conditional writes can no longer pair up
+        for k in [k for k in out if isinstance(k, tuple) and k[0] in ("cw", "cwg")]:
+            del out[k]
+    elif e.setflags:
+        # a compare under condition X: writes made under X stay knowable on an
+        # edge where X is known to hold; everything else is lost
+        for k in [k for k in out if isinstance(k, tuple) and k[0] in ("cw", "cwg")]:
+            pend = out[k]
+            keep = len(pend) == 1 and next(iter(pend))[0] == e.cc
+            del out[k]
+            if keep:
+                out[("cwg", k[1])] = pend
+    return out
+
+
+def _apply_writes(state, e):
     out = dict(state)
 
     def put(loc, val):
         if e.cond and loc in state:
+            pend = state.get(("cw", loc))
+            if pend is not None and len(pend) == 1:
+                pcc, prior = next(iter(pend))
+                if complement_cc(pcc) == e.cc:
+                    # `ldrhne r3` then `ldrheq r3`: written on both paths, the old value is gone
+                    out[loc] = (state[loc] - prior) | val
+                    del out[("cw", loc)]
+                    return
             out[loc] = state[loc] | val
+            out[("cw", loc)] = frozenset([(e.cc, state[loc])])
+            out.pop(("cwg", loc), None)
         else:
             out[loc] = val
+            out.pop(("cw", loc), None)
+            out.pop(("cwg", loc), None)
 
     def drop_slots(pred):
         for k in [k for k in out if isinstance(k, int) and pred(k)]:
@@ -1001,7 +1220,23 @@ def _apply(state, e):
         if r in TRACK:
             put(r, frozenset([("ins", e.addr, e.text)]))
     if "sp" in e.writes:
-        drop_slots(lambda k: True)
+        if e.spdelta is None or e.cond:
+            drop_slots(lambda k: True)
+        else:
+            # a known sp change: slots keep their values at shifted offsets
+            moved = {}
+            for k in [k for k in out if isinstance(k, int)]:
+                v = out.pop(k)
+                if k - e.spdelta >= 0:
+                    moved[k - e.spdelta] = v
+            out.update(moved)
+            if e.kind == "push":
+                prologue = "lr" in e.src
+                for n_r, r in enumerate(e.src):
+                    if prologue and r in ARGR:
+                        continue    # `push {r3, lr}`: r3 is alignment padding, its slot a fresh local
+                    if r in state:
+                        out[4 * n_r] = state[r]
     return out
 
 
@@ -1009,7 +1244,14 @@ def _merge(a, b):
     m = {}
     for k in a:
         if k in b:
-            m[k] = a[k] | b[k]
+            v = a[k] | b[k]
+            if isinstance(k, tuple) and len(v) > 1:
+                # conditional-write records under the same condition: one record whose
+                # prior is the union (a loop's iterations differ only in the prior)
+                ccs = set(c for c, _p in v)
+                if len(ccs) == 1:
+                    v = frozenset([(ccs.pop(), frozenset().union(*[p for _c, p in v]))])
+            m[k] = v
     return m
 
 
@@ -1030,13 +1272,21 @@ def analyze(insns, ret64=lambda t: False):
     while True:
         while work:
             i = work.pop()
-            out = _apply(IN[i], eff[i])
+            e = eff[i]
+            out = _apply(IN[i], e)
             for j in succ[i]:
+                if e.cond and (e.taken is not None or e.kind == "nop"):
+                    # the edge tells which way the condition went: `movgt r2; bgt L`
+                    # reaches L with r2 written, the fall-through without
+                    known = e.cc if j == e.taken else complement_cc(e.cc)
+                    out_j = refine_edge(out, known) if known is not None else out
+                else:
+                    out_j = out
                 if IN[j] is None:
-                    IN[j] = out
+                    IN[j] = out_j
                     work.append(j)
                 else:
-                    nw = _merge(IN[j], out)
+                    nw = _merge(IN[j], out_j)
                     if nw != IN[j]:
                         IN[j] = nw
                         work.append(j)
@@ -1070,6 +1320,7 @@ class Scanner:
         self._an = {}
         self._reads = {}
         self._busy = set()
+        self.undecidable = {}    # (region, addr) -> a jump target outside the image
         self._M = None
 
     def M(self):
@@ -1106,7 +1357,7 @@ class Scanner:
                     size = (nxt - addr) if nxt else None
                 if size and size <= 0x4000:
                     _n, data = M.target_bytes(addr, size, region=region)
-                    res = (list(md(thumb).disasm(data, addr)), thumb, data, addr)
+                    res = (disasm_function(data, addr, thumb), thumb, data, addr)
         except (SystemExit, Exception):
             res = None
         self._ins[key] = res
@@ -1338,10 +1589,25 @@ class Scanner:
         reloaded = set(e.slot for e in eff if e.kind == "ldsp")
         read = set()
 
-        def ent(st, r):
-            return set(o[1] for o in st.get(r, ()) if o[0] == "entry" and o[1] in ARGR)
+        cur = [None]
 
-        def pass_args(st, t, t_thumb):
+        def ent(st, r):
+            origins = st.get(r, ())
+            e = cur[0]
+            if e is not None and e.cond:
+                # `ldrne r2, [..]; cmpne r2, #0`: a read under the condition the register
+                # was just written under sees that write, not the incoming value
+                prior = cond_prior(st, r, e.cc)
+                if prior is not None:
+                    origins = origins - prior
+            return set(o[1] for o in origins if o[0] == "entry" and o[1] in ARGR)
+
+        def pass_args(st, t, t_thumb, tail=False):
+            lt0 = self.locate(t, region, t_thumb) if t is not None else None
+            if t is not None and (lt0 is None or (lt0[0] == TWL and region != TWL and tail)):
+                # a jump out of the image, or from DS code into the DSi-only TWL
+                # region (ov172's `ldr pc` veneer to 0x0272FCE0): undecidable
+                self.undecidable.setdefault((region, addr), t)
             tr = self.reads(region, t, depth + 1, t_thumb, strict) if t is not None else (set() if strict else None)
             for r in ARGR:
                 if tr is None or r in tr:
@@ -1350,6 +1616,15 @@ class Scanner:
         for i, ins in enumerate(insns):
             st = IN[i]
             if st is None:
+                continue
+            cur[0] = eff[i]
+            if base_mnemonic(ins.mnemonic) == "ldr" and ins.op_str.startswith("pc, [pc"):
+                # `ldr pc, =g`: a veneer, a tail call to the literal
+                la = (ins.address + 4) & ~3 if thumb else ins.address + 8
+                la += ins.operands[1].mem.disp if len(ins.operands) > 1 else 0
+                off = la - base
+                t = int.from_bytes(data[off:off + 4], "little") if 0 <= off <= len(data) - 4 else None
+                pass_args(st, t, None if t is None else bool(t & 1), tail=True)
                 continue
             e = eff[i]
             mn = ins.mnemonic.split(".")[0]
@@ -1361,6 +1636,14 @@ class Scanner:
                 if esc is None and e.slot in reloaded:
                     continue                       # a spill: the reload is followed
                 read.update(ent(st, e.src))        # an outgoing stack argument
+                continue
+            k_esc = _sp_address(ins)
+            if k_esc is not None:
+                # `add r3, sp, #0x14`: the slot's address escapes, so its value is read
+                # (only that slot: the other pushed registers stay unread)
+                for o in st.get(k_esc, ()):
+                    if o[0] == "entry" and o[1] in ARGR:
+                        read.add(o[1])
                 continue
             if e.kind == "copy" or bm == "push" or (bm in ("stmdb", "stmfd") and "sp!" in ins.op_str):
                 continue
@@ -1382,7 +1665,7 @@ class Scanner:
             if mn in BRANCHES and mn not in ("cbz", "cbnz"):
                 t = branch_target(ins)
                 if t is not None and t not in idx:
-                    pass_args(st, t, thumb)        # a tail call
+                    pass_args(st, t, thumb, tail=True)       # a tail call
                 continue
             if (bm == "bx" and ins.op_str == "lr") or (bm in POPS and "pc" in ins.op_str) \
                     or (bm == "mov" and ins.op_str.replace(" ", "") == "pc,lr") \
@@ -1394,7 +1677,7 @@ class Scanner:
                 # `ldr ip, =g; bx ip`: a tail call; bx takes the ISA from bit 0,
                 # mov pc stays in the current state
                 t = self.jump_target(insns, i, data, base, thumb, region)
-                pass_args(st, t, None if t is None else (bool(t & 1) if bm == "bx" else thumb))
+                pass_args(st, t, None if t is None else (bool(t & 1) if bm == "bx" else thumb), tail=True)
                 continue
             try:
                 rd, _w = ins.regs_access()
@@ -1404,6 +1687,14 @@ class Scanner:
                 if r in TRACK:
                     read.update(ent(st, r))
         return read
+
+    def undecidable_at(self, region, addr):
+        """The out-of-image jump target that makes a function's reads undecidable, or None."""
+        loc = self.locate(addr, region)
+        if loc is None:
+            return None
+        self.reads(loc[0], addr & ~1, thumb=loc[1])
+        return self.undecidable.get((loc[0], addr & ~1))
 
     def returns_value(self, region, addr):
         """True / False / None: does the function leave a value of its own in
@@ -1581,6 +1872,10 @@ def find_thunks(ix, sc, scope=None):
                 detail += "; defined as %s (resolved by address)" % cd["name"]
             if not cd:
                 detail += "; %s is not matched" % name
+            und = sc.undecidable_at(treg, taddr)
+            if und is not None:
+                detail += "; undecidable: %s jumps to 0x%08X, outside the image" % (name, und)
+                conf = "low"
             row = dict(caller_file=fi["path"], caller_func=d["name"], callee=name,
                        callee_def=cd["name"] if cd else name, callee_def_file=cd["file"] if cd else "-",
                        kind="thunk", detail=detail, confidence=conf, region=d["region"],
@@ -1678,6 +1973,10 @@ def broad_rows(ix, sc, scope, thunks, callers_of):
                             cd["name"], cd["n"], ", void" if cd["n"] == 0 else "")
                     if cd is not None and c["name"] != cd["name"]:
                         detail += "; defined as %s (resolved by address)" % cd["name"]
+                    und = sc.undecidable_at(cd["region"] if cd else d["region"], taddr)
+                    if und is not None:
+                        detail += "; undecidable: the callee jumps to 0x%08X, outside the image" % und
+                        conf = "low"
                     detail += " " + BROAD_TAG
                     out.append(dict(caller_file=fi["path"], caller_func=d["name"], callee=c["name"],
                                     callee_def=cd["name"] if cd else c["name"],
@@ -1798,6 +2097,10 @@ def scan(ix, files=None):
                         conf = {"high": "med", "med": "low"}.get(conf, conf)
                     else:
                         detail += "; callee uses param '%s'" % pn
+                    und = sc.undecidable_at(cd["region"], cd["addr"]) if cd.get("addr") and regs else None
+                    if und is not None and kind != "phantom":
+                        detail += "; undecidable: the callee jumps to 0x%08X, outside the image" % und
+                        conf = "low"
                     detail += "; passed %d of %d (%s)" % (c["k"], cd["n"], proto_txt)
                     if proto and proto["void"] and not cd["void"]:
                         detail += "; caller declares callee void, def returns %s" % cd["ret"]
@@ -2003,6 +2306,45 @@ def _git_show(rev, path):
     return r.stdout.decode("utf-8", "replace")
 
 
+def git_snapshot(rev):
+    """{path: text} for every .c under src/matched at commit rev, or None
+    without git.  One `git ls-tree` and one `git cat-file --batch`."""
+    import shutil
+    import subprocess
+    git = shutil.which("git")
+    if not git:
+        return None
+    r = subprocess.run([git, "ls-tree", "-r", "--name-only", rev, "--", MATCHED], cwd=ROOT, capture_output=True)
+    if r.returncode != 0:
+        return None
+    paths = [p for p in r.stdout.decode("utf-8", "replace").splitlines() if p.endswith(".c")]
+    req = "".join("%s:%s\n" % (rev, p) for p in paths).encode("utf-8")
+    r = subprocess.run([git, "cat-file", "--batch"], cwd=ROOT, input=req, capture_output=True)
+    if r.returncode != 0:
+        return None
+    out, buf, pos = {}, r.stdout, 0
+    for p in paths:
+        eol = buf.index(b"\n", pos)
+        head = buf[pos:eol].split()
+        if len(head) < 3 or head[1] != b"blob":
+            return None
+        size = int(head[2])
+        out[p] = buf[eol + 1:eol + 1 + size].decode("utf-8", "replace")
+        pos = eol + 1 + size + 1
+    return out
+
+
+_SNAPSHOTS = {}
+
+
+def _pinned_index(rev):
+    """An Index of src/matched exactly as it was at rev (cached), or None."""
+    if rev not in _SNAPSHOTS:
+        snap = git_snapshot(rev)
+        _SNAPSHOTS[rev] = Index(snapshot=snap) if snap else None
+    return _SNAPSHOTS[rev]
+
+
 def selftest():
     res = []
     base, A, B = 0x02000000, 0x02000100, 0x02000200
@@ -2043,26 +2385,25 @@ def selftest():
     res.append((lay.get("g") == [(0, 2), (2, 1)], "an 8-byte struct by value takes two registers"))
     res.append((lay.get("h") == [(0, 1), (1, 1), (2, 2)], "pointers take one register, long long two"))
 
-    # the real tree, with the fixture sources pinned to SELFTEST_PIN: lanes fix
-    # these very sites, the original bytes they are checked against never change
+    # the real tree.  Every tree case runs on the WHOLE of src/matched as it was
+    # at a pinned commit (git_snapshot), callers and callees alike: the lanes fix
+    # these very sites, and a fix to either side in the working tree must not
+    # move a case.  The original bytes they are checked against never change.
     f1 = "src/matched/ov/ov021_func_021C2EDC.c"
     f2 = "src/matched/ov/ov018_func_0217D890.c"
-    pinned = {}
     f3 = "src/matched/ov/ov171_func_021DC8A8.c"
-    for rev, p in ((SELFTEST_PIN, f1), (SELFTEST_PIN, "src/matched/ov/ov021_func_021C2F50.c"),
-                   (SELFTEST_PIN_KINDS, f2), (SELFTEST_PIN_KINDS, "src/matched/arm9/sub_020409B4.c"),
-                   (SELFTEST_PIN_ADDR, f3), (SELFTEST_PIN_ADDR, "src/matched/arm9/sub_020315D4.c")):
-        t = _git_show(rev, p)
-        if t is None:
-            res.append((True, "skip: %s not readable at %s, tree cases not run" % (p, rev[:9])))
+    pins = {}
+    for rev in (SELFTEST_PIN, SELFTEST_PIN_ADDR, SELFTEST_PIN_KINDS, SELFTEST_PIN_BROAD):
+        try:
+            pins[rev] = _pinned_index(rev)
+        except OSError as exc:
+            res.append((False, "index the tree at %s [%s]" % (rev[:9], exc)))
             return res
-        pinned[p] = t
-    try:
-        ix = Index(overrides=pinned)
-    except OSError as exc:
-        res.append((False, "index the tree [%s]" % exc))
-        return res
-    rows = scan(ix, [f1, f2, f3])
+        if pins[rev] is None:
+            res.append((True, "skip: src/matched not readable at %s (no git?), tree cases not run" % rev[:9]))
+            return res
+
+    rows = scan(pins[SELFTEST_PIN], [f1])
     if not any(r["kind"] != "reverse" and "no bl site" not in r["detail"] for r in rows):
         res.append((True, "skip: original bytes unavailable (no extract/), tree cases not run"))
         return res
@@ -2070,46 +2411,29 @@ def selftest():
     res.append((len(hit) == 1 and hit[0]["kind"] == "a" and hit[0]["confidence"] == "high"
                 and hit[0]["reg"] == "r1" and "does not declare" in hit[0]["detail"],
                 "func_021C2EDC passes its undeclared incoming r1 to func_021C2F50 (a, high)"))
+    hit = [r for r in rows if r["caller_func"] == "func_021C2EDC" and r["callee"] in ("func_021C2EBC", "func_0206E62C")]
+    res.append((not hit, "func_021C2EDC's calls that name every argument give no row"))
+    res.append((len(gate_rows([r for r in rows if r["caller_file"] == f1])) >= 1,
+                "--check on %s fails" % f1))
+
+    rows = scan(pins[SELFTEST_PIN_ADDR], [f3])
+    hit = [r for r in rows if r["caller_func"] == "func_021DC8A8" and r["callee"] == "func_020315D4"]
+    res.append((len(hit) == 1 and hit[0]["kind"] == "a" and hit[0]["confidence"] == "high"
+                and hit[0]["reg"] == "r0" and hit[0]["callee_def"] == "sub_020315D4",
+                "func_021DC8A8's func_020315D4() resolves by address to sub_020315D4 (a, high)"))
+
+    # phantom rows, the unread-parameter reverse row, set rows through `bx ip`, thunks
+    ix = pins[SELFTEST_PIN_KINDS]
+    f4 = "src/matched/arm9/func_02062F90.c"
+    f5 = "src/matched/ov/ov021_func_021A3FC0.c"
+    f6 = "src/matched/ov/func_021A3D50.c"
+    f7 = "src/matched/arm9/func_0200A350.c"
+    rows = scan(ix, [f2, f4, f5, f6, f7])
     # (func_0200523C -> func_02005B24 was the first b fixture; func_02005B24 never reads r0, so it is phantom)
     hit = [r for r in rows if r["caller_func"] == "func_0217D890" and r["callee"] == "func_020409B4"]
     res.append((len(hit) == 2 and all(r["kind"] == "b" and r["confidence"] == "high" and r["reg"] == "r0"
                                       and "sub_02045730" in r["detail"] for r in hit),
                 "func_0217D890 chains sub_02045730's return into func_020409B4, twice (b, high)"))
-    hit = [r for r in rows if r["caller_func"] == "func_021C2EDC" and r["callee"] in ("func_021C2EBC", "func_0206E62C")]
-    res.append((not hit, "func_021C2EDC's calls that name every argument give no row"))
-    hit = [r for r in rows if r["caller_func"] == "func_021DC8A8" and r["callee"] == "func_020315D4"]
-    res.append((len(hit) == 1 and hit[0]["kind"] == "a" and hit[0]["confidence"] == "high"
-                and hit[0]["reg"] == "r0" and hit[0]["callee_def"] == "sub_020315D4",
-                "func_021DC8A8's func_020315D4() resolves by address to sub_020315D4 (a, high)"))
-    res.append((len(gate_rows([r for r in rows if r["caller_file"] == f1])) >= 1,
-                "--check on %s fails" % f1))
-
-    # callee-side reads, from the original bytes alone (the fixing lanes' findings)
-    sc = Scanner(ix)
-    for name, region, want, why in (
-            ("func_0216D3CC", "ov010", {"r0"}, "a1 is overwritten (movs r1, #1) before any read"),
-            ("func_021A3D50", "ov021", {"r0", "r1"}, "c and d are never read"),
-            ("func_021ABEA0", "ov021", {"r0", "r1"}, "really 2 parameters, read through its forward to func_021ABF2C"),
-            ("func_02158F58", "ov010", {"r0"}, "a1 is overwritten (ldr r1, [r4, #0x10]) before any read")):
-        got = sc.reads(region, addr_of_name(name))
-        res.append((got == want, "%s reads %s: %s%s" % (name, ", ".join(sorted(want)), why,
-                                                        "" if got == want else " [got %s]" % got)))
-
-    # phantom rows, the unread-parameter reverse row, set rows through `bx ip`, thunks:
-    # sources pinned to SELFTEST_PIN_KINDS, before the lanes fixed these sites
-    f4 = "src/matched/arm9/func_02062F90.c"
-    f5 = "src/matched/ov/ov021_func_021A3FC0.c"
-    f6 = "src/matched/ov/func_021A3D50.c"
-    f7 = "src/matched/arm9/func_0200A350.c"
-    pinned2 = dict(pinned)
-    for p in (f4, f5, f6, f7):
-        t = _git_show(SELFTEST_PIN_KINDS, p)
-        if t is None:
-            res.append((True, "skip: %s not readable at %s, kind cases not run" % (p, SELFTEST_PIN_KINDS[:9])))
-            return res
-        pinned2[p] = t
-    ix = Index(overrides=pinned2)
-    rows = scan(ix, [f4, f5, f6, f7])
     hit = [r for r in rows if r["caller_func"] == "func_02062F90" and r["callee"] == "func_02062D4C"]
     res.append((len(hit) == 1 and hit[0]["kind"] == "set" and hit[0]["confidence"] == "high" and hit[0]["reg"] == "r1"
                 and "mov r1, #0" in hit[0]["detail"],
@@ -2127,8 +2451,17 @@ def selftest():
                 and "reads r0;" in hit[0]["detail"] and "returns a value" in hit[0]["detail"],
                 "func_0200A350 is a thunk: forwards r0-r2 by tail call, func_0200A3FC reads r0 and returns a value"))
 
-    # round 3: the ISA at every level of a follow, outgoing stack arguments, the broader check
+    # callee-side reads (the fixing lanes' findings), the ISA at every level of a
+    # follow, and outgoing stack arguments; definitions from the same pinned tree
     sc = Scanner(ix)
+    for name, region, want, why in (
+            ("func_0216D3CC", "ov010", {"r0"}, "a1 is overwritten (movs r1, #1) before any read"),
+            ("func_021A3D50", "ov021", {"r0", "r1"}, "c and d are never read"),
+            ("func_021ABEA0", "ov021", {"r0", "r1"}, "really 2 parameters, read through its forward to func_021ABF2C"),
+            ("func_02158F58", "ov010", {"r0"}, "a1 is overwritten (ldr r1, [r4, #0x10]) before any read")):
+        got = sc.reads(region, addr_of_name(name))
+        res.append((got == want, "%s reads %s: %s%s" % (name, ", ".join(sorted(want)), why,
+                                                        "" if got == want else " [got %s]" % got)))
     loc = sc.locate(0x020307B0, "arm9", thumb_hint=True)
     res.append((loc == ("arm9", False),
                 "sub_020307B0 is ARM even when reached with a Thumb hint (its isa: line wins) [got %s]" % (loc,)))
@@ -2138,18 +2471,41 @@ def selftest():
     got = sc.reads("ov021", 0x0218E260)
     res.append((got == {"r0", "r1"}, "func_0218E260 reads b: it stores r1 to [sp] as func_0204944C's fifth argument "
                 "[got %s]" % (sorted(got) if got is not None else None)))
+
+    # round 4, the fixing lanes' false positives (strict reads: what the code is
+    # proved to read): switch tables are data, complementary conditional writes
+    # are one write, a pushed register is read only through its own slot
+    for name, region, want, why in (
+            ("func_0200B078", "arm9", {"r0", "r1"}, "Thumb switch: the halfword table after `add pc, r1` is data"),
+            ("func_021DA390", "ov175", {"r0"}, "Thumb switch table, not `movs r2, r3`"),
+            ("func_021ED814", "ov093", {"r0"}, "Thumb switch table (entries 0x0008 / 0x0010 are not movs)"),
+            ("func_021F9260", "ov094", {"r0", "r1"}, "Thumb switch table"),
+            ("func_0204047C", "arm9", {"r0", "r1"}, "ARM `addls pc, pc, r0, lsl #2` reaches only its table's cases"),
+            ("sub_02043094", "arm9", {"r0", "r1", "r2"}, "ARM switch: r3 is loaded before every use"),
+            ("MI_CpuCopy8", "arm9", {"r0", "r1", "r2"}, "`ldrhne r3` / `ldrheq r3` write r3 on both paths"),
+            ("FX_Atan2Idx", "arm9", {"r0", "r1"}, "`movgt r2` + `bgt`, `movlt r2` + `blt`: r2 written before use"),
+            ("MIi_CpuCopy16", "arm9", {"r0", "r1", "r2"}, "`strhlt r3` reads the r3 `ldrhlt` wrote"),
+            ("sub_020452E8", "arm9", {"r0"}, "`smulbbeq r2` / `lslne r2`: one write"),
+            ("func_0206DB80", "arm9", set(), "`ldrne r2; cmpne r2; popeq`: past popeq, r2 was written"),
+            ("func_021B630C", "ov101", {"r0", "r1"}, "`push {r0-r3}` with only &value taken: r2, r3 unread"),
+            ("sub_0204B454", "arm9", {"r0", "r1", "r2"}, "`push {r3, lr}` padding slot reused as a local: no r3"),
+            ("func_021D57A8", "ov093", {"r0", "r1", "r2"}, "r3 pushed as alignment padding is not a read"),
+            ("func_021B9F90", "ov099", {"r0", "r1", "r2"}, "struct temp in the padding slot: no r3"),
+            ("func_0203F1FC", "arm9", {"r0", "r1"}, "ARM, r3 written on both paths before use")):
+        a = {"MI_CpuCopy8": 0x02082D44, "FX_Atan2Idx": 0x0207CFB8, "MIi_CpuCopy16": 0x02082A60}.get(name) \
+            or addr_of_name(name)
+        got = sc.reads(region, a, strict=True)
+        res.append((got == want, "%s reads %s: %s%s" % (name, ", ".join(sorted(want)) or "nothing", why,
+                                                        "" if got == want else " [got %s]" % sorted(got))))
+    und = sc.undecidable_at("ov172", 0x021B6724)
+    res.append((und == 0x0272FCE0, "ov172 func_021B6724's `ldr pc` veneer into TWL 0x0272FCE0 is undecidable [got %s]"
+                % (None if und is None else "0x%08X" % und)))
+
+    # the broader check
     f8 = "src/matched/ov/ov217_func_021C11DC.c"
     f9 = "src/matched/ov/ov043_func_021F42A8.c"
     f10 = "src/matched/ov/ov019_func_0217FE44.c"
-    pinned3 = dict(pinned2)
-    for p in (f8, f9, f10):
-        t = _git_show(SELFTEST_PIN_BROAD, p)
-        if t is None:
-            res.append((True, "skip: %s not readable at %s, broad cases not run" % (p, SELFTEST_PIN_BROAD[:9])))
-            return res
-        pinned3[p] = t
-    ix = Index(overrides=pinned3)
-    rows = scan(ix, [f8, f9, f10])
+    rows = scan(pins[SELFTEST_PIN_BROAD], [f8, f9, f10])
 
     def one(caller, callee, reg):
         return [r for r in rows if r["caller_func"] == caller and r["callee"] == callee and r["reg"] == reg]

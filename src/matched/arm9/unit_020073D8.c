@@ -67,13 +67,13 @@ struct Sub020073D8Ctrl {
 
 extern const char sub_020073D8_File[];
 
-extern void func_020319A4(void *stream, u32 v);
+extern void *func_020319A4(void *stream, u32 v);
 extern void func_02034714(const char *file, int line, const char *msg);
 
-void sub_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v)
+void *sub_020073D8(struct Sub020073D8Ctrl *ctrl, u32 id, u32 v)
 {
     if (ctrl->unk14[id] == 0) {
         func_02034714(sub_020073D8_File, 0, sub_020073D8_File);
     }
-    func_020319A4(ctrl->unk14[id], v);
+    return func_020319A4(ctrl->unk14[id], v);
 }

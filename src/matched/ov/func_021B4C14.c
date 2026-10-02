@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Emitted from the ov021 instruction shape.
  *
@@ -26,12 +26,12 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_02009CE4(u32);
 extern u32 func_0201283C(u32);
-extern u32 func_02159AE8(u32, u32, u32, u32);
+extern u16 *func_02159AE8(u32 a, u32 b);
 extern u32 func_0215A5E4(u32);
 
-int func_021B4C14(u32 a, u32 b, u32 c, u32 d)
+int func_021B4C14(u32 a, u32 b)
 {
-*(u16 *)((u8 *)(func_02159AE8(a, b, c, d))) = func_02009CE4(func_0201283C(func_0215A5E4(b)));
+*func_02159AE8(a, b) = func_02009CE4(func_0201283C(func_0215A5E4(b)));
 return 0;
 }
 

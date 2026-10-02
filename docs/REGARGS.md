@@ -88,6 +88,13 @@ The `detail` column starts with the register(s) and where the value came from:
   from the definition's `isa:` or `symbols:` row, then from the call
   instruction, then from the listing. A store to an outgoing stack-argument
   slot counts as a read.
+- Switch tables are data, not code. A Thumb `add pc, rN` and an ARM `addls
+  pc, pc, rN, lsl #2` go to their case targets only. Conditional writes
+  that cover both paths (`ldrhne r3` / `ldrheq r3`, `movgt r2` + `bgt`)
+  count as one write. `push {r0-r3}` with one slot's address taken reads
+  that slot only.
+- `undecidable: the callee jumps to 0x...` (row `low`): the callee
+  tail-jumps out of the image, or from DS code into the DSi-only TWL region.
 - `callee definition too short (... declares N params)` / `callee not
   matched` `[broader check]`: the callee's code reads a register that its
   definition does not declare. Fix the callee's definition and prototypes as
