@@ -15,6 +15,12 @@
  *           0x21BE09A vs 0x21BE0BE), shifting case arms by 2-4 bytes.
  *           Tried return-per-arm and break-with-single-return spellings.
  *
+ * 2026-10-02 (wave C2 lane 03): re-checked, still DIFF (the file compiles to
+ * 178 bytes against 180 in the image).  Left residue: in the image the else arm `p[0x2c3]--`
+ * reloads the byte (`ldrb r0,[r4,r0]; subs r1,r0,#1`); the compile reuses the
+ * compare load (`subs r1,r1,#1`) and merges the tails in another order.
+ * Tried a volatile compare read: not a valid fix, dropped.
+ *
  * symbols:
  *   func_020355C4  0x020355C4  arm
  *   func_021BEDE0  0x021BEDE0  thumb ov210

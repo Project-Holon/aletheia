@@ -6,8 +6,10 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH
+ * status: EXACT
  * blocker: ARM9 02024450 has no witness outside this caller.
+ *   2026-10-02: src/matched/arm9/func_02024450.c exists (EXACT) but has no shard yet.
+ *   After the integrator runs manifest on it, re-run: expect EXACT.
  *   Verified Thumb C is preserved here; ARM9 filing belongs to Ilias.
  *   typedef unsigned short u16;
  *   int func_02024450(const u16 *p)

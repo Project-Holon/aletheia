@@ -1,0 +1,27 @@
+/*
+ * function: func_021C4EC4
+ * address:  0x021C4EC4
+ * packet:   pkt_ov136_021C4EC4
+ * region:   ov136
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021C4EC4 0x021C4EC4 thumb
+ *   func_020403F4 0x020403F4 arm
+ *   func_0204363C 0x0204363C arm
+ */
+extern void func_020403F4(int v);
+extern void func_0204363C(int v);
+void func_021C4EC4(void)
+{
+    func_020403F4(4);
+    func_020403F4(3);
+    func_020403F4(2);
+    func_020403F4(1);
+    func_020403F4(0);
+    func_0204363C(1);
+}

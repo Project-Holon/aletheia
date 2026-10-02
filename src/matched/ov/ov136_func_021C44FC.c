@@ -1,0 +1,25 @@
+/*
+ * function: func_021C44FC
+ * address:  0x021C44FC
+ * packet:   pkt_ov136_021C44FC
+ * region:   ov136
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021C44FC 0x021C44FC thumb
+ *   func_02021FD8 0x02021FD8 thumb
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void func_02021FD8(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+void func_021C44FC(u8 *p)
+{
+    func_02021FD8(*(u32 *)(p + 0x38), 0, (u16)(p[0x1b] + 0x21), 1, 0, 0x7FFF);
+    p[0x19] = 0;
+    p[0x18] = 0;
+}

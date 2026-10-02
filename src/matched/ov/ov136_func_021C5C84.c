@@ -1,0 +1,68 @@
+/*
+ * function: func_021C5C84
+ * address: 0x021C5C84
+ * packet: pkt_ov136_021C5C84
+ * region: ov136
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021C5C84 0x021C5C84 thumb
+ *   func_0204B6F4 0x0204B6F4 arm
+ *   func_020413B0 0x020413B0 arm
+ *   func_02041B6C 0x02041B6C arm
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+struct Fade {
+    u8 a : 1;
+    u8 idx : 7;
+    u8 lo : 4;
+    u8 hi : 4;
+    u8 state;
+    u8 count;
+    u8 b4;
+    u8 b5;
+    u8 b6;
+    u8 b7;
+};
+extern void func_0204B6F4(u32, u32, u32);
+extern void func_020413B0(u32, u32, u32, u32, u32, u32);
+extern void func_02041B6C(u32);
+
+int func_021C5C84(u8 *p)
+{
+    struct Fade *s = (struct Fade *)(*(u8 **)(p + 8) + 0x300);
+    switch (s->state) {
+    case 0:
+        if (s->a == 0) {
+            func_0204B6F4(*(u32 *)(*(u8 **)(p + 8) + s->idx * 4 + 0x1F0), s->lo, 1);
+        } else {
+            func_020413B0(s->idx, s->b4, s->b5, s->b6, s->b7, s->lo);
+            func_02041B6C(s->idx);
+        }
+        s->state++;
+        break;
+    case 1:
+        s->count++;
+        if (s->count == 4) {
+            if (s->a == 0) {
+                func_0204B6F4(*(u32 *)(*(u8 **)(p + 8) + s->idx * 4 + 0x1F0), s->hi, 1);
+            } else {
+                func_020413B0(s->idx, s->b4, s->b5, s->b6, s->b7, s->hi);
+                func_02041B6C(s->idx);
+            }
+            s->count = 0;
+            s->state++;
+        }
+        break;
+    case 2:
+        s->count++;
+        if (s->count == 2) {
+            return 0;
+        }
+        break;
+    }
+    return 1;
+}

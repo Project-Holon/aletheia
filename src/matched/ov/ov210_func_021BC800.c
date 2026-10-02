@@ -1,0 +1,34 @@
+/*
+ * function: func_021BC800
+ * address:  0x021BC800
+ * packet:   pkt_ov210_021BC800
+ * region:   ov210
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_020215A0  0x020215A0  thumb
+ *   func_02021540  0x02021540  thumb
+ * Addresses are Black-image addresses.
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+typedef signed char    s8;
+typedef signed int     s32;
+extern void func_020215A0(u32 a, u32 b);
+extern void func_02021540(u32 a);
+
+void func_021BC800(u8 *p)
+{
+    func_020215A0(*(u32 *)(p + 12), 0);
+    func_020215A0(*(u32 *)(p + 12), 1);
+    func_020215A0(*(u32 *)(p + 12), 2);
+    func_020215A0(*(u32 *)(p + 12), 3);
+    func_02021540(*(u32 *)(p + 12));
+}

@@ -13,6 +13,8 @@
  * (0, four of its bytes, and the low byte of b) through 0x020413B0, then flushes
  * with 0x02041B6C(0).  Blocker target of func_021BE010.
  *
+ * 2026-10-02 (wave C2 lane 04): also tried copy-of-b first, p as pointer param,
+ * if-block form and a seven-case switch; all keep r1.
  * PARKED DIFF (3 bytes): the 0x2b0 offset is materialised into r1 where the
  * image uses r2 (the dead `a` parameter register); every spelling still picks
  * r1.  No shard written.

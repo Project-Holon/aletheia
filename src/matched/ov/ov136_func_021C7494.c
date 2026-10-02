@@ -1,0 +1,33 @@
+/*
+ * function: func_021C7494
+ * address:  0x021C7494
+ * packet:   pkt_ov136_021C7494
+ * region:   ov136
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_02031348  0x02031348  arm
+ *   ov091_id 0x0000005B data
+ *   d_021BED00 0x021BED00 data ov091 a4
+ */
+
+typedef unsigned char u8;
+typedef unsigned int u32;
+struct Bf7 {
+    u8 v : 7;
+    u8 w : 1;
+};
+extern const u8 d_021BED00[];
+extern u8 ov091_id[];
+extern void func_02031348(void *, u32, const void *, void *);
+int func_021C7494(u8 *p)
+{
+    u32 v = ((struct Bf7 *)(p + 0x21))->v;
+    *(u32 *)(*(u8 **)(p + 0x10) + 0x3C) = v;
+    func_02031348(*(void **)(p + 0x30), (u32)ov091_id, d_021BED00, *(void **)(p + 0x10));
+    return 0;
+}

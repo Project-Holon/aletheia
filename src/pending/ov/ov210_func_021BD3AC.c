@@ -9,6 +9,13 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * 2026-10-02 (wave C2 lane 03): re-checked, still the same two bytes at
+ * 0x021BD448: the image loads the 0x2bb byte into r1 before `cmp #0x79`.
+ * The path into this compare falls through from `func_021C9460(p[0x2cc])`;
+ * no later call takes the byte as a second argument (checked
+ * 021BED04, 021BED10, 021BFE84).  Next idea: look at the callers' use of
+ * func_021C9460 with a second argument.
+ *
  * symbols:
  *   func_020061E4  0x020061E4  thumb
  *   func_02006210  0x02006210  thumb
