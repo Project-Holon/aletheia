@@ -6,13 +6,11 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
- * note (2026-10-02): every instruction matches; the only residue is the stack-slot permutation of two
- *   spilled locals: the original has t=[sp,#0x24], v2=[sp,#0x20] between v and ws2; here they land lowest
- *   (t=[sp,#0xc], v2=[sp,#0x10]) and C/B/A/s18/ws2 shift up. Other slots follow first-definition order.
- *   Inert: declaration order, block scoping, pointer or integer types of t and v2, ternary for t, extra uses.
- *   Levers found: tile=(u32)func_02045770(..) as a separate local, pal=0x440 reassigned before the 0201C724 call,
- *   x=func_02017E88(..) into a u16 local before 0201EFA4.
+ * status: EXACT
+ * note (2026-10-02): slot order closed by two source facts. (1) func_02017E88's third parameter is
+ *   a buffer pointer (void *), so the 0x9a and 0x8d calls pass the v2 buffer directly with no
+ *   conversion; casting it to u32 lets the compiler share one conversion temp, which moves v2 below
+ *   the named locals. (2) The species argument in the first t arm is a named local; nested, t lands lowest.
  * symbols:
  *   func_021D618C 0x021D618C thumb ov131
  *   func_021D6214 0x021D6214 thumb ov131
@@ -38,7 +36,7 @@ typedef unsigned int u32;
 extern void func_021D618C(u8 *,u32,int,int,u16,u16);
 extern void func_021D6214(u8 *,u32,void *,int,u16,u16,u16);
 extern void *func_0201EC64(u32);
-extern u32 func_02017E88(void *,u32,u32);
+extern u32 func_02017E88(void *,u32,void *);
 extern u32 func_02017EB4(void *);
 extern void func_0201EFA4(void *,u32,u32,u32,u32,u32);
 extern void func_0201ED04(void *);
@@ -67,6 +65,7 @@ void func_021D7F04(u8 *p,u8 *q,void *mon)
     u16 pal;
     u32 tile;
     u16 x;
+    u32 species;
     if(*(u32 *)(p+0x38)==0) {
         func_021D618C(p,*(u32 *)(q+0xc),8,1,1,0x3c40);
         ws=func_0201EC64(*(u16 *)p);
@@ -82,7 +81,7 @@ void func_021D7F04(u8 *p,u8 *q,void *mon)
         }
         func_0201ED04(ws);
         func_021D618C(p,*(u32 *)(q+0x10),10,1,1,0x3c40);
-        if(*(u32 *)(p+0x38)==0) t=func_02045EC0(g_020A7370,func_02017E88(mon,5,0));
+        if(*(u32 *)(p+0x38)==0) {species=func_02017E88(mon,5,0); t=func_02045EC0(g_020A7370,species);}
         else t=func_02045EC0(g_020A7370,0x28a);
         tile=(u32)func_02045770(*(void **)(q+0x10));
         pal=0x440;
@@ -92,10 +91,10 @@ void func_021D7F04(u8 *p,u8 *q,void *mon)
         func_021D618C(p,*(u32 *)(q+0x18),13,1,1,0x3c40);
         v2=func_020457B0(0x20,*(u16 *)p);
         ws2=func_0201EC64(*(u16 *)p);
-        r=func_02017E88(mon,0x9a,(u32)v2);
+        r=func_02017E88(mon,0x9a,v2);
         if(r==0) pal=0x14c0;
         else if(r==1) pal=0xc80;
-        func_02017E88(mon,0x8d,(u32)v2);
+        func_02017E88(mon,0x8d,v2);
         func_0201EE0C(ws2,0,v2,0,1,2);
         func_021D6214(p,*(u32 *)(q+0x18),ws2,14,0x41,1,pal);
         func_0201ED04(ws2);

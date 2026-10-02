@@ -6,9 +6,9 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
- * note (2026-10-02): only residue is edge/seg stack slot swap (orig edge=[sp,#8], seg=[sp,#0xc]).
- *   Declaration-order permutations, seg block-local, if/else vs ternary, int/u32 types are all inert.
+ * status: EXACT
+ * note (2026-10-02): seg is assigned with if/else (a ternary makes it a temp below the named
+ *   locals), and seg is declared before edge (last declared lowest).
  * symbols:
  *   func_020437D4 0x020437D4 arm
  *   func_020437EC 0x020437EC arm
@@ -33,7 +33,7 @@ void func_021DBCF4(u8 *p)
 {
     u8 *dst0;
     int c,r;
-    u32 off,edge,seg;
+    u32 off,seg,edge;
     int rem;
     u32 wt;
     u8 *src;
@@ -50,7 +50,7 @@ void func_021DBCF4(u8 *p)
     off=0;
     for(r=0;r<p[0x23];r++) {
         for(c=0;c<p[0x22];c++) {
-            seg=(c==p[0x22]-1)?edge:256;
+            if(c==p[0x22]-1) seg=edge; else seg=256;
             src=func_0204ABBC(*(void **)(p+0x14+(c+r*p[0x22])*4),*(u32 *)(p+0x10));
             for(k=0;k<4;k++) {
                 if(r==p[0x23]-1 && rem!=0 && k>=rem) continue;
