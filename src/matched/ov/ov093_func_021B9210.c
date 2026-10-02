@@ -1,5 +1,5 @@
 /*
- * function: func_021B9210, func_021B9234
+ * function: func_021B9210
  * address: 0x021B9210
  * packet: pkt_ov093_021B9210
  * region: ov093
@@ -7,12 +7,10 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: EXACT
- * unit: yes
+ * status: EXACT*
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { u8 lo:6; u8 flag:1; u8 hi:1; } Flags;
 u32 func_021B9210(u8 *p) { u32 n; n=*(u32 *)(p+0x434); if(((Flags *)(p+0x473))->flag) { n*=2; if(n>99999) n=99999; } return n; }
-void func_021B9234(u8 *p) { p[0x473]|=64; }
