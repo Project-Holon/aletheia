@@ -18,10 +18,38 @@
  * ldr D) instead of the image's two-arm form, and every later branch shifts by
  * two bytes. Declaration order, block scoping of tbl/span, a ternary and an
  * inline span expression do not move tbl off r4.
+ * 2026-10-01 (lane A2-18): also inert: tbl += round then tbl->lo/hi, a
+ * u16 table with [round*2] indexing, the (u16) span cast inline, lo + rand %
+ * span order, `if (stage >= 6)` arm order, tbl initialised to 0, a local
+ * copy of stage. The image colours round*4 and span before tbl, so tbl takes
+ * stage's freed r6; no source shape tried changes that colouring order.
+ * 2026-10-02 (share-A relaunch): fixed the arithmetic types. 0x0209C0A4 is
+ * _s32_div_f (see src/matched/arm9/func_0200E27C.c), so the modulo is signed:
+ * func_021CBF98 returns u16 (its matched file) and u16 % u16 promotes to int.
+ * Same bytes, but the source now says what the image does. The tbl colour is
+ * unchanged. Every variant keeps the instruction stream and gives tbl r4,
+ * round*4 r5, span r6. Inert: arms as gotos to calc, nested `if (round < N)`
+ * arms, else-if/else rnd structures (no if-conversion but still r4), do/while(0)
+ * with breaks, returns instead of goto end, the random part as a static inline
+ * (with gotos or returns), split per-branch tbl/span locals with calc copies
+ * (cross-jumped back into one), span as u32/int with the cast at the def,
+ * hi/lo in six expression orders, a named rand() result (u16/u32/int), u32/u8 *
+ * tbl with byte offsets, a named off local (single and double assigned), dead
+ * initialisers for span/off, `register`, self-assignments of tbl/stage/round/
+ * span/line/ctx at five points, dead reads `if (x) {}`, a copy of tbl/round/ctx at
+ * calc, the tables as file statics, function statics, one struct or one array
+ * with offsets, narrow param types, super/boss/id types, and all dsi versions
+ * 1.1 to 1.3 (same code). Moves tbl but breaks other bytes: reusing stage as the
+ * table cursor (the whole variable then takes r4, line drops to r3), a use of
+ * span after the division (round*4 r4, tbl r5, span r6), a redundant second
+ * stage test. Closest shape: `tbl = &tbl_X[round]` in each arm with tbl->hi/lo
+ * at calc is 328 bytes with every branch exact (9 bytes out). There the arms load
+ * the base into r1 and calc keeps the row pointer base+off in r4. The image keeps
+ * the base (r6) and round*4 (r4) apart, which is the tbl[round] form.
  *
  * symbols:
  *   func_021CBF98  0x021CBF98  thumb  ov021
- *   _u32_div_f  0x0209C0A4  arm
+ *   _s32_div_f  0x0209C0A4  arm
  *   d_021DB3D0  0x021DB3D0  data  ov021
  *   d_021DB3D8  0x021DB3D8  data  ov021
  *   d_021DB3E4  0x021DB3E4  data  ov021
@@ -38,7 +66,7 @@ typedef struct {
     u16 hi;
 } Range;
 
-extern u32 func_021CBF98(void *ctx);
+extern u16 func_021CBF98(void *ctx);
 extern const Range d_021DB3D0[];
 extern const Range d_021DB3D8[];
 extern const Range d_021DB3E4[];

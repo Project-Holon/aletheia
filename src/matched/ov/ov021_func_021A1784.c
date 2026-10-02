@@ -7,17 +7,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
  *
- * 2026-10-01: 21 bytes left, all in the four fx32 range stores (+0x60..+0x7A).
- * Solved: `in` is const (lets in->f4 and out->f4 loads rise above the out->f0
- * store), the 3-way max is four arms each calling FX_Div(.., 0x4000) into
- * out->fC (tail-merged; this gives the branch-to-branch stubs, the fC reload
- * and the rematerialised 0x1000). Left: the original loads in->w0 before the
- * out->f8 store and keeps (fC<<12)+(w0<<12) unfolded with the f10 store late;
- * every spelling tried folds to (fC+w0)<<12 or loads fC first (plain
- * statements, x/y locals, assignment-in-expression, f14-before-f10, *0x1000,
- * casts, SetRange inline with int/fx32/u16 params in both orders).
+ * Notes: `in` is const (lets in->f4 and out->f4 loads rise above the out->f0
+ * store); the 3-way max is four arms each calling FX_Div(.., 0x4000) into
+ * out->fC (tail-merged). The fx32 range stores use two locals, both computed
+ * before any store, with y declared before x: that keeps (fC<<12)+(w0<<12)
+ * unfolded and gives the late f10 store from r2.
  *
  * symbols:
  *   FX_Div            0x0207C768  arm
@@ -79,15 +75,14 @@ void MTX_Concat33(const MtxFx33 *a, const MtxFx33 *b, MtxFx33 *ab);
 static inline fx16 FX_SinIdx(int idx) { return FX_SinCosTable_[idx * 2]; }
 static inline fx16 FX_CosIdx(int idx) { return FX_SinCosTable_[idx * 2 + 1]; }
 
-static inline void SetRange(fx32 *d, int pos, int size)
-{
-    d[0] = pos << 12;
-    d[1] = (pos << 12) + (size << 12);
-}
+
+
 
 void func_021A1784(Out021A1784 *out, const In021A1784 *in, int unused, const Q021A1784 *q)
 {
     MtxFx33 tmp;
+    fx32 y;
+    fx32 x;
 
     out->f4 = FX_Div(in->f4, q->f14);
     out->f0 = FX_Div(in->f4, q->f0);
@@ -106,8 +101,12 @@ void func_021A1784(Out021A1784 *out, const In021A1784 *in, int unused, const Q02
     out->f0 = FX_Div(out->f0, out->fC);
     out->f4 = FX_Div(out->f4, out->fC);
     out->f8 = FX_Div(out->f8, out->fC);
-    SetRange(&out->f10, in->fC, in->w0);
-    SetRange(&out->f18, in->f10, in->w2);
+    x = in->fC << 12;
+    y = in->f10 << 12;
+    out->f10 = x;
+    out->f14 = x + (in->w0 << 12);
+    out->f18 = y;
+    out->f1C = y + (in->w2 << 12);
     MTX_Identity33_(&out->mtx);
     MTX_RotZ33_(&out->mtx, FX_SinIdx(in->rot >> 4), FX_CosIdx(in->rot >> 4));
     MTX_Scale33_(&tmp, in->f14, in->f18, 0x1000);

@@ -38,7 +38,7 @@ extern void func_021A4ED8(u32, u32, u32);
 extern void func_021A4F04(u32, u32, u32);
 extern void func_021A4F0C(u32, u32, u32);
 extern void func_021A4F50(u32, u32, u32);
-extern void func_021A4F58(u32, u32, u32);
+extern int func_021A4F58(u32, u32, u32);
 
 void func_021A4CF4(u32 a, u32 b, u32 c)
 {

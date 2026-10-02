@@ -2057,6 +2057,7 @@ overlay_021 0x02189A2C  thumb   # referenced by ov021_func_021A0D68.c (+3 more)
 overlay_021 0x02189A58  thumb   # referenced by ov021_func_021BEF8C.c (+1 more)
 overlay_021 0x02189A60  thumb   # referenced by ov082_func_021F5260.c (+3 more)
 overlay_021 0x02189A68  thumb   # referenced by ov055_func_021F39C0.c (+1 more)
+overlay_021 0x0218C02C  thumb   # pool word 0x0218C02D in ov021 table d_021D3D58 (+0x0, +0x18)
 overlay_021 0x0218CEE0  thumb   # referenced by ov043_func_021F36C0.c (+1 more)
 overlay_021 0x0218DC04  thumb   # referenced by ov010_func_021638CC.c
 overlay_021 0x0218DC4C  thumb   # referenced by ov052_func_021F38F0.c
@@ -2095,6 +2096,7 @@ overlay_021 0x02196D88  thumb   # referenced by ov021_func_02196E04.c
 overlay_021 0x02196EC8  thumb   # referenced by ov021_func_02196ECC.c
 overlay_021 0x02196FF0  thumb   # referenced by ov021_func_02196A60.c (+1 more)
 overlay_021 0x021978D4  thumb   # referenced by ov021_func_021978DC.c
+overlay_021 0x0219A24C  thumb   # pool word 0x0219A24D in ov021 data at 0x021D5738
 overlay_021 0x0219B414  thumb   # referenced by ov010_func_02163010.c
 overlay_021 0x0219C9D0  thumb   # referenced by ov021_func_0219C6B8.c
 overlay_021 0x021A0380  thumb   # referenced by ov021_func_021A0380.c (+1 more)

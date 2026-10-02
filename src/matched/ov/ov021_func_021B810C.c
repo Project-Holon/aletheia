@@ -7,18 +7,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
  *
- * 2026-10-02: 272 B, control flow, calls and every block except one match.
- * Residue (10 lines, +002C..+0044): the f2D += table step. The image loads
- * the table byte with ldrb and sign-extends it (lsls/asrs) into a fresh r3,
- * with i in r2, the table base in r0, prev (ldrh r6,[r5]) loaded between the
- * literal and the ldrb, and o->f2E loaded before the strb. A u8 local over an
- * s8 table (below) gives the ldrb+sext and the f2E placement, but colours i
- * r3 / table r2 and loads prev late. Plain u8 or s8 table casts fold into
- * ldrsb (4 B short). Inert: all orders of the d/prev/k/update statements,
- * declaration orders, `(s8)d + o->f2D` (fixes the first three instructions,
- * breaks the add), an inline s8-parameter helper, __restrict o.
+ * The table byte is also func_021B88DC's third argument: the callee's
+ * matched prototype is (p, dir, d), and the image leaves the ldrb value in
+ * r2 untouched up to the call. That extra use keeps the byte live across
+ * the f2D update, so its sign extension lands in a fresh register (r3).
+ * See docs/idioms/a-byte-kept-live-into-a-call-argument-register-pushes-its-sign-extension-to-a-fresh-register.md.
  *
  * symbols:
  *   func_021B91AC  0x021B91AC  thumb  ov021
@@ -67,17 +62,17 @@ typedef struct Sub {
     Owner *f78;
 } Sub;
 
-extern const s8 d_021DE298[];
+extern const u8 d_021DE298[];
 
 extern int func_021B91AC(Sub *p);
-extern u8 func_021B88DC(Sub *p, u16 k);
+extern int func_021B88DC(Sub *p, int dir, int d);
 extern void func_021B977C(Sub *p);
 extern void func_021B91F8(Sub *p, V3 *out);
 extern void func_021B9238(Sub *p, Out *out);
 
 void func_021B810C(Sub *o)
 {
-    u8 res;
+    int res;
     u16 prev;
     u16 k;
     u8 d;
@@ -93,12 +88,12 @@ void func_021B810C(Sub *o)
     o->f34 = 0;
     if (o->f2C == 0)
         return;
-    d = d_021DE298[o->f30];
     prev = o->f0;
     k = o->f2E;
+    d = d_021DE298[o->f30];
     o->f2D += (s8)d;
     if (prev == 1)
-        res = func_021B88DC(o, k);
+        res = func_021B88DC(o, k, d);
     if (res != 0) {
         o->f32 = res;
         o->f33 = o->f30;

@@ -1,4 +1,5 @@
 func_02191830 (ov021, 64 B, thumb): DIFF (62 vs 64 bytes with the closest C).
+Superseded 2026-10-02: the EXACT source is src/matched/ov/ov021_func_02191830.c; this note keeps the older draft.
 Shape: func_0201D304(b, a[2], 0) is called with r3 left over (3 args, r3 = d spilled to [sp]),
 w = result + 2; h = func_0201D42C(b, a[2]); *c = ceil8(w); *d = ceil8(h) with
 `x = v>>3; if (v & 7) x++` and the tested value copied (`adds r2,r4,#0`) while the shift happens

@@ -7,22 +7,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
  *
  * Appends a block of tile columns to the map grid and remaps cell indices.
  *
- * 2026-10-02: same size and ops; prologue, checks and the alloc match.
- * Left: register colour in three places. Copy-back loop: original loads
- * m->tiles before buf[k] (value r1, base r2; ours swapped). m->pos remap:
- * original w in r6, pos in r7 (ours swapped). Ents remap: original keeps
- * w (r6) and e (r7) in registers and spills pos (sp18) and the remainder
- * (sp8), so the product goes to r2 via a copy of nw; ours spills w.
- * First copy loop: original consumes m->w in muls r6,r4,r6, ours copies.
- * Measured inert: declaration order, w/p locals vs direct m-> expressions,
- * operand order of the product, inline Remap helpers (u32/int/u16/pointer),
- * separate loop counters per loop, int vs u32 for k.
- * The index shape m->tiles[j + m->w * i] (vs i * m->w + j) is what puts
- * bw in r7 and bn in r6 as in the original.
+ * Map cells are 4-byte structs (Tile): the cell copies are struct
+ * assignments, which is what gives the copy loops the image's load order
+ * and colours. The block's own cells are plain words (.v store).
  *
  * symbols:
  *   func_02159BF4  0x02159BF4  thumb
@@ -46,6 +37,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 typedef struct {
+    u32 v;
+} Tile;
+
+typedef struct {
     u8 pad0[0x18];
     u32 pos;
     u8 pad1[0x28 - 0x1C];
@@ -57,7 +52,7 @@ typedef struct {
     u16 w;
     u16 h;
     u32 n;
-    u32 *tiles;
+    Tile *tiles;
     u32 pad1;
     Ent *ents;
     u8 pad2[0x2E - 0x28];
@@ -82,9 +77,11 @@ int func_0218CD20(u32 a, Map *m, void *blk)
 {
     u32 *src;
     u32 nn;
-    u32 *buf;
+    Tile *buf;
+    u32 q;
+    u32 p;
     u16 nh;
-    u16 bh;
+    int bh;
     u16 nw;
     u16 bw;
     int bn;
@@ -109,22 +106,24 @@ int func_0218CD20(u32 a, Map *m, void *blk)
     buf = func_02030734((u16)((m->heap & 0x7FFF) | 0x8000), nn * 4, 0, d_021DD9EC, 0x25F);
     for (i = 0; i < m->h; i++) {
         for (j = 0; j < m->w; j++)
-            buf[i * nw + j] = m->tiles[j + m->w * i];
+            buf[i * nw + j] = m->tiles[i * m->w + j];
     }
     for (i = 0; i < bh; i++) {
         for (j = 0; j < bw; j++)
-            buf[i * nw + m->w + j] = src[i * bw + j];
+            buf[i * nw + m->w + j].v = src[i * bw + j];
     }
     for (k = 0; k < nn; k++)
         m->tiles[k] = buf[k];
 
     w = m->w;
-    m->pos = m->pos % w + m->pos / w * nw;
+    p = m->pos;
+    m->pos = p % w + p / w * nw;
     for (i = 0; i < m->nEnts; i++) {
         if (func_0218DD84(&m->ents[i].pos)) {
-            e = &m->ents[i];
             w = m->w;
-            e->pos = e->pos % w + e->pos / w * nw;
+            e = &m->ents[i];
+            q = e->pos;
+            e->pos = q % w + q / w * nw;
         }
     }
     m->w = nw;

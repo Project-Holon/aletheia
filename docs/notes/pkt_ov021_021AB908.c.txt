@@ -1,4 +1,5 @@
 /*
+ * superseded 2026-10-02: the EXACT source is src/matched/ov/ov021_func_021AB908.c; this note keeps the older draft.
  * function: func_021AB908
  * address:  0x021AB908
  * packet:   pkt_ov021_021AB908

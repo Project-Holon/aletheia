@@ -7,13 +7,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
  *
- * 2026-10-02: one colour diff at the dispatch: the original loads t[0] into
- * r4 after the out stores (movs r2,#12 first), ours loads t earlier into r2.
- * Inert: index local (u32/int/reuse i), Fn local, pointer-to-entry, 2-D
- * u32 table, explicit byte offset, out stores via local, decl orders.
- * The unlabelled leaf at 0x0218C02C (clears st[2..5]) sits after the pool.
+ * The table index is narrowed in its own statement (`k = (u8)k;`): the
+ * second definition makes k a two-definition web that is coloured after
+ * the multiply product, so the ldrb lands in r4, the product in r3 and
+ * the t reload in r0 (docs/idioms/a-self-narrowing-cast-statement-
+ * recolours-a-table-index.md). A cast inside the subscript is inert.
  *
  * symbols:
  *   func_0218BCAC  0x0218BCAC  thumb  ov021
@@ -45,6 +45,7 @@ void func_0218BFB4(u8 *a, u32 *out, u32 *st)
     u8 *t;
     u32 h;
     int i;
+    u8 k;
 
     t = func_0218BCAC(st[0]);
     h = func_02047400(st[1], 0, *(u32 *)(a + 0x1D0));
@@ -56,5 +57,7 @@ void func_0218BFB4(u8 *a, u32 *out, u32 *st)
     }
     out[0] = func_0204767C(h, buf, 4);
     out[1] = (u32)st;
-    d_021D3D58[t[0]].fn(a, out);
+    k = t[0];
+    k = (u8)k;
+    d_021D3D58[k].fn(a, out);
 }

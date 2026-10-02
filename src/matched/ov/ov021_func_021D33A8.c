@@ -22,12 +22,13 @@
  * Addresses are Black-image addresses.
  */
 
+typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *sub_02030734(u32, u32, int, const char *, u32);
-extern void func_021D33FC(void *, int, int);
+extern void func_021D33FC(void *, u16, u16);
 
-void *func_021D33A8(u32 heapId, void *a1, void *a2, int a3)
+void *func_021D33A8(u16 heapId, void *a1, void *a2, u16 a3)
 {
     void *p = sub_02030734(heapId, 0xc, 1, (const char *)0x021DE6D4, 0x43);
 

@@ -7,16 +7,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
  *
- * 2026-10-01: semantics and statement order match; residue is allocation.
- * The original keeps the literal 2 live in r6 (used as the func_021ABEA0
- * argument and shifted to 0x2000 for func_0216D55C and the v.z adjust),
- * which pushes c onto the stack (str r2, [sp, #8]) and adds r3 to the push;
- * this C folds the 2 (a local int k = 2 is propagated too). Stack order
- * tmp@0xc, s@0x10, v@0x34 now matches.
- * 2026-10-02: also inert (same 70-line diff): k typed u8/u16/s16/s8/u32/
- * const int, and k * 0x1000 / 0x1000 * k in place of k << 12.
+ * The v.z -= 0x2000 adjust is written in both arms of the if; the
+ * compiler tail-merges the arms and keeps the 2 of 0x2000 in r6
+ * (docs/idioms/a-constant-shifted-in-a-merged-tail-is-a-statement-repeated-in-each-arm.md).
  *
  * symbols:
  *   d_021D90EC  0x021D90EC  data
@@ -67,11 +62,10 @@ void func_021AC760(u32 a, u32 b, u32 c, int d)
     V3 v;
     Arg s;
     int tmp;
-    int k = 2;
 
     if (d >= 8)
         return;
-    s.f0 = func_021ABEA0(a, k);
+    s.f0 = func_021ABEA0(a, 2);
     s.f4 = b;
     s.f20 = d;
     s.h10 = func_0216D588(b);
@@ -80,13 +74,14 @@ void func_021AC760(u32 a, u32 b, u32 c, int d)
     s.fc = func_0216D86C(b);
     func_02164280(s.f8, s.fc, &v);
     v.y = func_0216D8AC(b);
-    if (func_0216D55C(b, k << 12) != 0) {
+    if (func_0216D55C(b, 0x2000) != 0) {
         v.y += 7 * 0x1000;
+        v.z -= 0x2000;
     } else {
         func_02163E58(b, &v, &tmp);
         v.y = tmp + 9 * 0x1000;
+        v.z -= 0x2000;
     }
-    v.z -= k << 12;
     s.pos = v;
     func_021ABFA8(a, d_021D90EC, 0, c, &s, 0);
 }

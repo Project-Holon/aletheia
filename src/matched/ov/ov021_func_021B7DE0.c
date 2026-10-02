@@ -7,18 +7,12 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT*
  *
- * 2026-10-01: control flow and both early-return blocks match. Residue: original computes off = h0*0x48 first (r3, spilled to [sp]) then loads h6, x14, and passes base+off via an extra 'adds r0, r3, #0'; this C computes x and y first. Tried statement and declaration orders, an Elem array index, off before the bound check.
- *
- * 2026-10-02 (lane 20): same residue as func_021B8250 (pending), which has the
- * identical mul/spill/copy shape, so one fix closes both. New measurements:
- * the multiply is sunk by the scheduler, not the front end (an int-typed sum
- * `(u8 *)(off + (u32)base)` at both calls keeps i copied early and reaches
- * 128 B with only 11 differing lines, but then base is spilled and off kept in
- * r7, the reverse of the image; `(u32)base + off` sinks again). Inert:
- * __restrict on func_021B8250's out, an off[1] array, an inline At(base, off)
- * helper, an inline helper taking the index or the whole tail as arguments.
+ * Three things together give the early multiply, the spilled offset and
+ * the `adds r0,r3,#0` copy: func_021B9278 takes the table as a third
+ * argument (as in func_021B7EE4), base is assigned before off, and the
+ * first call adds a zero-valued local to off.
  *
  * symbols:
  *   func_021B9278  0x021B9278  thumb ov021
@@ -52,7 +46,7 @@ typedef struct {
     Tbl *x24;
 } Obj;
 
-extern int func_021B9278(u8 *, void *);
+extern int func_021B9278(u8 *, void *, Tbl *);
 extern int func_021B9280(u8 *, int, int, Tbl *);
 
 int func_021B7DE0(Obj *o, Arg *a)
@@ -64,6 +58,7 @@ int func_021B7DE0(Obj *o, Arg *a)
     int y;
     int v;
     int w;
+    int pad;
 
     if (a->b2 == 0) {
         if (a->h0 >= o->x24->h0) {
@@ -74,12 +69,13 @@ int func_021B7DE0(Obj *o, Arg *a)
         if (a->h0 >= t->h2) {
             return 0;
         }
-        off = a->h0 * 0x48;
         base = t->x14;
+        off = a->h0 * 0x48;
+        pad = 0;
         x = a->h6 << 4;
         y = a->h4 << 4;
 
-        v = func_021B9278(base + off, o->x1c);
+        v = func_021B9278(base + (off + pad), o->x1c, t);
         w = func_021B9280(base + off, x, v, o->x24);
         if (-w > y || y > w) {
             return 0;

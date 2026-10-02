@@ -21,8 +21,46 @@
  *   p/i registers and the per-call recompute, but q still lands in r7 and k in r6.
  *   Also open: func_0201DD78's colour arguments are evaluated r2, r1, r0 in the
  *   image (col kept in r0), ours evaluates r0 first and copies col to r3.
+ * note (2026-10-02, lane A2-06): source now has the casts per call group (the
+ *   recompute pattern of every p/q/i sum matches the image), the obj temporary,
+ *   a Work struct for p, and (&tbl[i].x)[1] for the three y arguments: plain
+ *   .y makes 1.1p1 form tbl + i*8 at the head of the call and spill it (sibling
+ *   022050F0 does that, this image does not); the (&x)[1] spelling reproduces
+ *   the image's x-load, w/2, late y-address order (checked in a loop probe).
+ *   Measured inert for the allocator: block-scoped k/arc/chr/obj, heap inline,
+ *   if/else inverted, x in a local, u8 locals or u8/u32 prototype for the
+ *   colour call, font as a pointer, u32, long or u16, the cast spelling set itself, a
+ *   q copy local, dead q uses. Still open, all allocator: q r7 (image r6), k
+ *   and pltt take r6 (image spills both, k at sp+0x30, pltt at sp+0x3c), the
+ *   second w/2 temp lands in r6 (image spills it to sp+0x68), frame 0x10c vs
+ *   0x118, and the image's t1 call copies i*8 (adds r2, r7, #0). Slot order in
+ *   the image is reverse declaration with font last (sp+0x9c); ours spills font
+ *   right after file. volatile font declared last puts font just under c but
+ *   flips p/i (image p r4, i r5); a 4-byte struct Font gets frame 0x118.
  *   Witness gaps once bytes match: func_020275F8, func_020275EC (arm, no caller
  *   outside this body) and the six d_0220Axxx tables are unresolved relocations.
+ * note (2026-10-02, lane A2 follow-up): cause found, not closable under the
+ *   lane rules. The image is this body compiled with global CSE off: with
+ *   `#pragma opt_common_subs off` above the function, the natural spelling
+ *   (no index casts, no obj temporary, plain tbl[i].y) gives 1072 bytes, frame
+ *   0x118, p r4 / i r5, font at sp+0x9c and every spill and hoist slot of the
+ *   image's prologue, and only 308 bytes differ. The casts, obj and (&x)[1]
+ *   in this draft are stand-ins that emulate CSE-off. The `(i < 4) ? 1 : 0`
+ *   condition is still needed (CSE-off alone still rotates a plain loop: 547).
+ *   Left with the pragma: q r7 / i*8 r6 (image q r6 / i*8 r7), the slot order
+ *   of the 0x224/0x22c hoisted constants (first print group lowest, image
+ *   highest), the w/2 sign temp spilled in the first print (image: third), the
+ *   colour call channels evaluated r0 first (image r2 first; u8 r/g/b locals
+ *   are copy-propagated, inert), and 0x06600000 + buf operand order.
+ *   Measured as NOT disabling the CSE (probes and full body): int/u8/u16/s16/
+ *   u32/long/enum counter, register on params/counter, volatile Slots, void *
+ *   params cast per use, static inline accessor, raw `char *` offsets in every
+ *   form ((s + i * 4) + K, s + (i * 4 + K), ((T *)(s + K))[i]), up to 100
+ *   extra locals, 3000 extra statements, 1500 extra branches, switch, static
+ *   local, function pointer, struct copy/return, varargs, bit-field, float,
+ *   division, long long. `asm { nop }` disables it but also constant
+ *   propagation (offsets go to the pool), so not that either. The pragma is a
+ *   codegen pragma (banned by the lane rules): user decision needed.
  * symbols:
  *   d_0220A5B0  0x0220A5B0  data
  *   d_0220A5D0  0x0220A5D0  data
@@ -83,7 +121,31 @@ extern void func_020215BC(void *, void *, int, u16, u16);
 extern void func_0201ED04(int);
 extern void func_02045808(void *);
 
-void func_02204CC0(char *p, Slots *q)
+typedef struct Work {
+    char pad0[0x50];
+    int mode;           /* 0x50 */
+    char pad54[0x5c - 0x54];
+    void *msgdata;      /* 0x5c */
+    char pad60[0x64 - 0x60];
+    void *bg;           /* 0x64 */
+    char pad68[0x1e0 - 0x68];
+    u32 res[4];         /* 0x1e0 */
+    u32 r1f0;           /* 0x1f0 */
+    u32 r1f4;           /* 0x1f4 */
+    void *sys;          /* 0x1f8 */
+    void *obj[4];       /* 0x1fc */
+    char pad20c[0x224 - 0x20c];
+    void *fnt;          /* 0x224 */
+    char pad228[0x22c - 0x228];
+    void *win;          /* 0x22c */
+    char pad230[0x240 - 0x230];
+    u16 heap;           /* 0x240 */
+    char pad242[0x25a - 0x242];
+    u8 f25a[8];         /* 0x25a */
+    u8 f262[4];         /* 0x262 */
+} Work;
+
+void func_02204CC0(Work *p, Slots *q)
 {
     PosTab t1 = d_0220A5B0;
     PosTab t2 = d_0220A5D0;
@@ -98,6 +160,7 @@ void func_02204CC0(char *p, Slots *q)
     void *str2;
     void *m2;
     void *m1;
+    void *obj;
     u16 heap;
     int i;
     Struct36 buf;
@@ -108,54 +171,55 @@ void func_02204CC0(char *p, Slots *q)
     u8 c[3];
     int col;
 
-    str1 = func_020457B0(0x10, *(u16 *)(p + 0x240));
-    m0 = func_02045EC0(*(void **)(p + 0x5c), 0);
-    m1 = func_02045EC0(*(void **)(p + 0x5c), 1);
-    font = func_0201EC64(*(u16 *)(p + 0x240));
-    str2 = func_020457B0(0x10, *(u16 *)(p + 0x240));
-    m2 = func_02045EC0(*(void **)(p + 0x5c), 2);
-    func_0204B22C(*(void **)(p + 0x1f8), 0);
+    str1 = func_020457B0(0x10, p->heap);
+    m0 = func_02045EC0(p->msgdata, 0);
+    m1 = func_02045EC0(p->msgdata, 1);
+    font = func_0201EC64(p->heap);
+    str2 = func_020457B0(0x10, p->heap);
+    m2 = func_02045EC0(p->msgdata, 2);
+    func_0204B22C(p->sys, 0);
     for (i = 0; (i < 4) ? 1 : 0; i++) {
         if (q->id[i] != 0) {
             k = func_0201BD28(q->id[i], 0);
             file = d_0220A5F0[k];
-            *(void **)(p + i * 4 + 0x1fc) = func_0204B294(*(u32 *)(p + 0x1f8), *(u32 *)(p + i * 4 + 0x1e0), *(u32 *)(p + 0x1f0), *(u32 *)(p + 0x1f4), d_0220A392, 1, *(u16 *)(p + 0x240));
-            func_0204B404(*(void **)(p + i * 4 + 0x1fc), &d_0220A3C4[i], 1);
-            heap = (*(u16 *)(p + 0x240) & 0x7fff) | 0x8000;
+            obj = func_0204B294((u32)p->sys, p->res[i], p->r1f0, p->r1f4, d_0220A392, 1, p->heap);
+            p->obj[(int)(u32)i] = obj;
+            func_0204B404(p->obj[(int)(u32)i], &d_0220A3C4[(int)(u32)i], 1);
+            heap = (p->heap & 0x7fff) | 0x8000;
             arc = func_020275E4();
             chr = func_02049E34(arc, func_020275F8(k), 0, &cd, heap);
-            func_0204B6F4(*(void **)(p + i * 4 + 0x1fc), func_020275EC(k), 1);
-            func_0204B7C8(*(void **)(p + i * 4 + 0x1fc), &buf);
+            func_0204B6F4(p->obj[(u32)i], func_020275EC(k), 1);
+            func_0204B7C8(p->obj[(u32)(int)(u32)i], &buf);
             func_02082A60(*(void **)((char *)cd + 0x14), (void *)(0x06600000 + buf.w[2]), 0x100);
             func_020307B0(chr);
             func_0201DE00(&c[2], &c[1], &c[0]);
             func_0201DD78(1, 2, 0);
-            func_0201EF34(font, 0, q->id[i]);
+            func_0201EF34(font, 0, q->id[(u32)i]);
             func_0201F250(font, str1, m0);
-            func_02204C98(str1, *(void **)(p + 0x224), &w, &h);
-            func_0201C7A4(*(void **)(p + 0x22c), d_0220A4AC[i].x - w / 2, d_0220A4AC[i].y, str1, *(void **)(p + 0x224));
+            func_02204C98(str1, p->fnt, &w, &h);
+            func_0201C7A4(p->win, d_0220A4AC[i].x - w / 2, (&d_0220A4AC[i].x)[1], str1, p->fnt);
             func_0201EFA4(font, 0, q->a[i], 2, 1, 1);
-            func_0201EFA4(font, 1, q->b[i], 2, 1, 1);
+            func_0201EFA4(font, 1, q->b[(u32)i], 2, 1, 1);
             func_0201F250(font, str2, m2);
-            col = func_02205768(q->a[i], q->b[i]);
+            col = func_02205768(q->a[(int)(u32)i], q->b[(int)(u32)i]);
             func_0201DD78((u8)((col >> 10) & 0x1f), (u8)((col >> 5) & 0x1f), (u8)(col & 0x1f));
-            func_0201C7A4(*(void **)(p + 0x22c), t1.v[i].x, t1.v[i].y, m1, *(void **)(p + 0x224));
-            func_02204C98(str2, *(void **)(p + 0x224), &w, &h);
-            func_0201C7A4(*(void **)(p + 0x22c), t2.v[i].x - w / 2, t2.v[i].y, str2, *(void **)(p + 0x224));
+            func_0201C7A4(p->win, t1.v[i].x, (&t1.v[i].x)[1], m1, p->fnt);
+            func_02204C98(str2, p->fnt, &w, &h);
+            func_0201C7A4(p->win, t2.v[i].x - w / 2, (&t2.v[i].x)[1], str2, p->fnt);
             func_0201DD78(c[2], c[1], c[0]);
-            p[0x25a + i] = q->a[i] != 0;
-            p[0x262 + i] = q->id[i] != 0;
+            p->f25a[i] = q->a[(u32)(int)(u32)i] != 0;
+            p->f262[(u32)i] = q->id[(int)(u32)i] != 0;
         } else {
             file = 0xc1;
         }
-        heap = (*(u16 *)(p + 0x240) & 0x7fff) | 0x8000;
+        heap = (p->heap & 0x7fff) | 0x8000;
         pltt = func_02049F34(0xb, file, &pd, heap);
-        func_020215BC(*(void **)(p + 0x64), *(void **)((char *)pd + 0xc), 1, i * 16 + 0x90, 0x20);
+        func_020215BC(p->bg, *(void **)((char *)pd + 0xc), 1, i * 16 + 0x90, 0x20);
         func_020307B0(pltt);
     }
-    p[0x25a + i] = 1;
-    if (*(int *)(p + 0x50) == 2) {
-        p[0x25a + i + 1] = 1;
+    p->f25a[i] = 1;
+    if (p->mode == 2) {
+        p->f25a[i + 1] = 1;
     }
     func_0201ED04(font);
     func_02045808(str1);

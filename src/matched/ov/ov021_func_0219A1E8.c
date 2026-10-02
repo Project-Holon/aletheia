@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT* (extent 104, compiled 100: then an unlabelled 2-byte `bx lr` leaf at 0x0219A24C and 2 bytes padding)
+ * status:   EXACT
  *
  * symbols:
  *   d_021D5074  0x021D5074  data  a4

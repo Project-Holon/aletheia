@@ -7,15 +7,12 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT*
  *
- * 2026-10-02: twin of func_021B7DE0 (same mul/spill/copy residue, see its
- * header). Everything else matches, the tail shifted by 2 B: the image
- * hoists `movs r3,#0x48` and `ldr r7,[r6,#0x34]` into the first struct copy,
- * multiplies off into r3 during the second copy, spills it, and passes
- * `adds r0,r3,#0; adds r0,r7,r0`; this compiler sinks the multiply to the
- * first call. Inert: __restrict out, base before/after either copy, off
- * before *out = a, `(u32)base + off`.
+ * Twin of func_021B7DE0. The first call adds a zero-valued local to off,
+ * which gives the early multiply, the spilled offset and the
+ * `adds r0,r3,#0` copy. `const Mgr *m` lets the base load schedule into the
+ * struct copy (`ldr r7,[r6,#0x34]` between the stores to a).
  *
  * symbols:
  *   func_021B9278  0x021B9278  thumb  ov021
@@ -38,10 +35,10 @@ typedef struct Mgr {
     u32 f4C;
 } Mgr;
 
-extern int func_021B9278(u8 *a, u32 b, Tbl *t);
-extern int func_021B9280(u8 *a, s32 y, s32 v, Tbl *t);
+extern int func_021B9278(u8 *a, u32 b, const Tbl *t);
+extern int func_021B9280(u8 *a, s32 y, s32 v, const Tbl *t);
 
-void func_021B8250(Mgr *m, const Arg *src, Arg *out)
+void func_021B8250(const Mgr *m, const Arg *src, Arg *out)
 {
     Arg a;
     u8 *base;
@@ -50,14 +47,16 @@ void func_021B8250(Mgr *m, const Arg *src, Arg *out)
     s32 y;
     s32 v;
     s32 w;
+    s32 pad;
 
     a = *src;
+    base = m->tbl.f14;
     *out = a;
     off = a.h0 * 0x48;
-    base = m->tbl.f14;
+    pad = 0;
     y = a.h6 << 4;
     x = a.h4 << 4;
-    v = func_021B9278(base + off, m->f4C, &m->tbl);
+    v = func_021B9278(base + (off + pad), m->f4C, &m->tbl);
     w = func_021B9280(base + off, y, v, &m->tbl);
     if (y >= v)
         out->h6 = (v - 1) / 16;
