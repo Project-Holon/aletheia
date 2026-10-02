@@ -24,7 +24,7 @@ typedef signed int     s32;
 
 extern void func_021C16DC(u32, u32);
 
-void func_021C116C(u32 a0, u32 a1)
+void func_021C116C(u32 a0)
 {
     func_021C16DC(a0, 3);
 }

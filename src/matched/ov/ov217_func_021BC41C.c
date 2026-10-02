@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Reconstructed from the listing.
  *
@@ -24,9 +24,9 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021BC40C();
-u32 func_021BC41C(void)
+extern int func_021BC40C(void *p);
+u32 func_021BC41C(void *p)
 {
-    return func_021BC40C() + 168;
+    return func_021BC40C(p) + 168;
 }
 

@@ -16,7 +16,7 @@
  *   func_021BC2CC 0x021BC2CC thumb ov217
  */
 typedef unsigned char u8;
-extern unsigned func_021BC41C(void);
+extern unsigned func_021BC41C(void *);
 extern int func_021BC40C(u8 *);
 extern unsigned func_021BC3D4(void);
 extern unsigned func_021BC3E0(void);
@@ -26,7 +26,7 @@ void func_021BBB60(u8 *p)
     int start, end, step, low, high, low2, high2;
     start = *(int *)(p + 0x34);
     end = start;
-    if ((int)func_021BC41C() < start) end = func_021BC40C(p) + 24;
+    if ((int)func_021BC41C(p) < start) end = func_021BC40C(p) + 24;
     else if (start < 0) end = 144;
     low = func_021BC3D4();
     high = func_021BC3E0();
