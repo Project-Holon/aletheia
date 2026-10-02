@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Blocked: the THM_CALL at +0012 to func_0202C148 has no manifest entry.
  * 0x0202C148 (76 bytes, pkt_0202C148, still open) is byte-correct except an
@@ -29,15 +29,15 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u8  *func_0202C124(void);
-extern void func_0202C118(void);
-extern void func_0202C148(u8 *p, u8 *arg);
+extern u8  *func_0202C124(u32 heap);
+extern void func_0202C118(void *obj);
+extern void func_0202C148(u8 *p, u32 heap);
 
-u8 *func_0202C070(u8 *p)
+u8 *func_0202C070(u32 heap)
 {
-    u8 *r = func_0202C124();
+    u8 *r = func_0202C124(heap);
 
-    func_0202C118();
-    func_0202C148(r, p);
+    func_0202C118(r);
+    func_0202C148(r, heap);
     return r;
 }

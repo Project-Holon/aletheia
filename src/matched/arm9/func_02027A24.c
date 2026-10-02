@@ -75,8 +75,8 @@ extern void *func_02045770(u32 bg);
 extern void  sub_0201C724(u32 owner, u32 a, u32 b, u32 c, u32 d, u32 e, u16 f);
 extern void  func_02045334(u32 bg);
 extern void  func_02045374(u32 bg);
-extern void  func_02045730(u32 bg);
-extern void  func_02041B6C(void);
+extern u8    func_02045730(u32 bg);
+extern void  func_02041B6C(u32 bit);
 
 void func_02027A24(struct Obj *o, struct Cfg *cfg)
 {
@@ -106,7 +106,6 @@ void func_02027A24(struct Obj *o, struct Cfg *cfg)
         bg = o->layers[i];
         func_02045334(bg);
         func_02045374(bg);
-        func_02045730(bg);
-        func_02041B6C();
+        func_02041B6C(func_02045730(bg));
     }
 }

@@ -24,7 +24,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void  *func_020490F4(u32 heapId, u16 sel);
-extern int    func_0204961C(void);
+extern u16    func_0204961C(void *obj);
 extern void  *func_02030734(u32 heapId, u32 size, u32 zero,
                             const void *file, u32 line);
 extern void   func_0204932C(void *h, u32 idx, void *src);
@@ -34,7 +34,7 @@ void func_0202B958(u8 *p)
 {
     u32  id = *(u16 *)p;
     void *h = func_020490F4(0xb9, (u16)((id & 0x7fff) | 0x8000));
-    u8   n = (u8)func_0204961C();
+    u8   n = (u8)func_0204961C(h);
     u32  i;
 
     p[0x268] = n;

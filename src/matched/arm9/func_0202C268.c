@@ -30,7 +30,7 @@ typedef unsigned int  u32;
 
 extern u8   func_0202C240(u8 *p);
 extern u32  sub_0202C244(u8 *p, u32 i);
-extern u32  sub_0202C340(void);
+extern u32  sub_0202C340(u32 p);
 
 u32 func_0202C268(u8 *p, u32 v)
 {
@@ -40,7 +40,7 @@ u32 func_0202C268(u8 *p, u32 v)
     for (i = 0; i < n; i++) {
         u32 r = sub_0202C244(p, (u8)i);
 
-        if (v == sub_0202C340()) {
+        if (v == sub_0202C340(r)) {
             return r;
         }
     }

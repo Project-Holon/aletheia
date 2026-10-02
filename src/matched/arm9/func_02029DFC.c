@@ -16,10 +16,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 
-extern u32 func_02012A30(void);
-extern void func_02028900(u32 a0);
+extern u32   func_02012A30(const void *p);
+extern void *func_02028900(void *p);
 
-void func_02029DFC(void)
+void *func_02029DFC(const void *p)
 {
-    func_02028900(func_02012A30());
+    return func_02028900((void *)func_02012A30(p));
 }

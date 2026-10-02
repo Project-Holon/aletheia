@@ -27,13 +27,13 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern u32  func_0202B374(u32 desc);
+extern u32  func_0202B374(u32 desc, u32 id);
 extern u32  func_02012984(u32 a);
 extern void func_0202B2CC(u32 handle, u32 key);
 
-void func_0202B49C(u8 *p)
+void func_0202B49C(u8 *p, u32 id)
 {
-    u32 r = func_0202B374(*(u32 *)(p + 0x14));
+    u32 r = func_0202B374(*(u32 *)(p + 0x14), id);
 
     *(u32 *)(p + 0x18) = r;
     if (r != 0) {

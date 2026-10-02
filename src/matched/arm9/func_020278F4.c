@@ -37,8 +37,8 @@ extern int  func_0201C6C4(u32 a, u32 b);
 extern u32  func_02045770(u32 p);
 extern void func_02045334(u32 p);
 extern void func_02045374(u32 p);
-extern void func_02045730(u32 p);
-extern void func_02041B6C(void);
+extern u8   func_02045730(u32 p);
+extern void func_02041B6C(u32 bit);
 
 void func_020278F4(u8 *p)
 {
@@ -62,8 +62,7 @@ void func_020278F4(u8 *p)
         u32 v = (*(u32 **)(p + 0x18))[i];
         func_02045334(v);
         func_02045374(v);
-        func_02045730(v);
-        func_02041B6C();
+        func_02041B6C(func_02045730(v));
     }
     *(u32 *)(p + 8) = 0;
 }

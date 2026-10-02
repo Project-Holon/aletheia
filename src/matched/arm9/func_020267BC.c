@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * blocker:  02026D88 label
  *
  * symbols:
@@ -22,8 +22,8 @@ typedef unsigned int   u32;
 extern u32 *g_02146940;
 
 extern void func_02026D88(u32 *p, u32 a0);
-extern void func_02012FCC(u32 a0);
-extern u32  func_0200864C(void);
+extern void *func_02012FCC(void *sys);
+extern u16  func_0200864C(const void *p);
 
 void func_020267BC(u32 a0)
 {
@@ -31,6 +31,6 @@ void func_020267BC(u32 a0)
 
     *p++ = a0;
     func_02026D88(p, a0);
-    func_02012FCC(a0);
-    *(u16 *)((char *)g_02146940 + 0xbb0) = (u16)func_0200864C();
+    *(u16 *)((char *)g_02146940 + 0xbb0) =
+        func_0200864C(func_02012FCC((void *)a0));
 }

@@ -31,7 +31,7 @@ extern void func_02029344(struct T *p, u32 v);
 extern void func_02029354(struct T *p);
 extern void func_02029364(struct T *p);
 extern void func_0202938C(struct T *p);
-extern void func_0202945C(void);
+extern void func_0202945C(struct T *p);
 
 void func_02029040(struct T *p)
 {
@@ -73,7 +73,7 @@ void func_02029040(struct T *p)
         if (p->f0c == p->f08) {
             func_02029354(p);
         } else {
-            func_0202945C();
+            func_0202945C(p);
             func_02029344(p, 1);
             func_02029364(p);
         }

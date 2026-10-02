@@ -25,9 +25,9 @@ typedef unsigned int u32;
 
 struct Obj;
 
-extern u32 func_0202AB5C(u32 v);
+extern void func_0202AB5C(u32 v, u32 a1);
 
-u32 func_0202B7BC(struct Obj *o)
+void func_0202B7BC(struct Obj *o, u32 a1)
 {
-    return func_0202AB5C(*(u32 *)((char *)o + 0x10));
+    func_0202AB5C(*(u32 *)((char *)o + 0x10), a1);
 }

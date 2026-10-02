@@ -31,11 +31,11 @@ typedef struct {
 } Entry;
 
 extern const Entry Data_0209FF88[];
-extern int func_0202B818(void);
+extern int func_0202B818(void *o);
 
 void func_0202B84C(void *a)
 {
-    int v = func_0202B818();
+    int v = func_0202B818(a);
     int i;
 
     for (i = 0; i < 9; i++) {

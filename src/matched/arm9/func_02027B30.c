@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  */
 
 typedef unsigned char u8;
@@ -18,8 +18,8 @@ struct S;
 
 extern void func_02045798(u32 a, u32 b);
 extern void func_02045374(u32 a);
-extern void func_02045730(u32 a);
-extern void func_02041B6C(void);
+extern u8   func_02045730(u32 a);
+extern void func_02041B6C(u32 bit);
 
 void func_02027B30(u32 a0, struct S *s, int mode)
 {
@@ -29,6 +29,5 @@ void func_02027B30(u32 a0, struct S *s, int mode)
         func_02045798(a0, (u8)(*(u16 *)((u8 *)s + 2) + 1));
     }
     func_02045374(a0);
-    func_02045730(a0);
-    func_02041B6C();
+    func_02041B6C(func_02045730(a0));
 }

@@ -73,8 +73,8 @@ extern u32  func_02045770(u32 obj);
 extern u32  func_0201C6C4(u32 a, u32 b);
 extern void func_02045334(u32 obj);
 extern void func_02045374(u32 obj);
-extern void func_02045730(u32 obj);
-extern void func_02041B6C(void);
+extern u8   func_02045730(u32 obj);
+extern void func_02041B6C(u32 bit);
 extern void func_02027B30(u32 obj, u32 ctx, u32 flag);
 extern void func_02027BF4(void *a, void *b, u32 c, u32 d, u32 e, u32 f);
 
@@ -89,8 +89,7 @@ void func_02028178(u8 *p)
             obj = *(u32 *)p;
             func_02045334(obj);
             func_02045374(obj);
-            func_02045730(obj);
-            func_02041B6C();
+            func_02041B6C(func_02045730(obj));
             *(u32 *)(p + 0xc) = 0;
         }
     }

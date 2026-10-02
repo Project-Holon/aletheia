@@ -35,8 +35,8 @@ struct Outer {
 
 extern struct Outer *g_02146940;
 
-extern void  func_02012EBC(u32 a0);
-extern u32   func_0200C0F0(void);
+extern void *func_02012EBC(void *sys);
+extern void *func_0200C0F0(void *sv);
 extern u32   func_02045A98(void);
 extern u16  *func_0200C1F4(u32 a0);
 
@@ -50,8 +50,7 @@ void func_02027198(void)
     int i;
 
     in = &g->in;
-    func_02012EBC(g->f00);
-    t = func_0200C0F0();
+    t = (u32)func_0200C0F0(func_02012EBC((void *)g->f00));
     v = func_02045A98();
     q = func_0200C1F4(t);
     for (i = 0; i < 8; i++) {

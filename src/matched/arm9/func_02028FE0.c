@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  */
 
 typedef unsigned int u32;
@@ -21,7 +21,7 @@ extern void func_02029344(struct T *p, u32 v);
 extern void func_02029364(struct T *p);
 extern void func_02029374(struct T *p);
 extern void func_020293D8(struct T *p);
-extern void func_0202945C(void);
+extern void func_0202945C(struct T *p);
 
 void func_02028FE0(struct T *p)
 {
@@ -43,7 +43,7 @@ void func_02028FE0(struct T *p)
         func_02029344(p, 0xd);
         break;
     case 7:
-        func_0202945C();
+        func_0202945C(p);
         func_02029344(p, 1);
         func_02029364(p);
         break;

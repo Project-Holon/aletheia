@@ -7,14 +7,14 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  */
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
 extern u32  func_0202C2D8(u8 *p);
-extern u32  func_0202C2D0(void);
+extern u32  func_0202C2D0(u32 v);
 extern int  func_0202C29C(u8 *p, u32 v);
 extern void func_0202C2DC(u8 *p);
 extern void func_0202C2C0(u8 *p);
@@ -25,7 +25,7 @@ void func_0202C1D4(u8 *p)
         return;
     }
     *(u32 *)p = 1;
-    if (func_0202C29C(p, func_0202C2D0()) != 1) {
+    if (func_0202C29C(p, func_0202C2D0(1)) != 1) {
         return;
     }
     func_0202C2DC(p);
