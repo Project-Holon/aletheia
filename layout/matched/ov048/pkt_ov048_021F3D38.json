@@ -12,17 +12,11 @@
    "kind": "game",
    "region": "ov048",
    "source": "src/matched/ov/ov048_func_021F3D38.c",
-   "compiler": "dsi/1.1p1",
+   "compiler": "dsi/dsi/1.1p1",
    "lang": "c99",
    "isa": "thumb",
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
-   "status": "EXACT",
-   "evidence": {
-    "sole-ref": [
-     "code:0x021F3A50",
-     "code:0x021F472C"
-    ]
-   }
+   "status": "EXACT"
   }
  ]
 }

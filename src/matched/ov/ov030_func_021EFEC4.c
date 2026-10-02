@@ -1,7 +1,7 @@
 /*
  * function: func_021EFEC4
  * address:  0x021EFEC4
- * packet:   pkt_021EFEC4
+ * packet:   pkt_ov030_021EFEC4
  * region:   ov030
  * compiler: dsi/1.1p1
  * flags:    -O4,p

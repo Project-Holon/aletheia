@@ -1,0 +1,34 @@
+/*
+ * function: func_021F36E8
+ * address: 0x021F36E8
+ * packet: pkt_ov037_021F36E8
+ * region: ov037
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT*
+ * extent: two bytes of alignment padding at 021F3722.
+ * interface: retain r1=3 at 0200B3A4 despite its accessor not reading r1.
+ * symbols:
+ *   func_020120F4 0x020120F4 thumb
+ *   func_02012EC4 0x02012EC4 thumb
+ *   func_0200B3A4 0x0200B3A4 thumb
+ *   func_020127A4 0x020127A4 thumb
+ */
+extern void *func_020120F4(const void *);
+extern void *func_02012EC4(void *);
+extern int *func_0200B3A4(void *, int);
+extern void *func_020127A4(void *);
+void func_021F36E8(void *a, int v)
+{
+    void *save;
+    int *p;
+    save = func_020120F4(a);
+    p = func_0200B3A4(func_02012EC4(save), 3);
+    func_020127A4(save);
+    if (v) p[0] = 1;
+    else p[0] = 0;
+    if (p[0]) *((unsigned char *)p + 4) = 1;
+    else *((unsigned char *)p + 4) = 0;
+}

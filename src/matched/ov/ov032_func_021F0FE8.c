@@ -1,0 +1,25 @@
+/*
+ * function: func_021F0FE8
+ * address: 0x021F0FE8
+ * packet: pkt_ov032_021F0FE8
+ * region: ov032
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT*
+ * symbols:
+ *   func_02165C48 0x02165C48 thumb ov010
+ */
+
+typedef unsigned int u32;
+typedef struct S S;
+extern u32 func_02165C48(S *p);
+int func_021F0FE8(S *p)
+{
+    switch (func_02165C48(p)) {
+    case 21: return 0;
+    case 20: return 1;
+    default: return 2;
+    }
+}

@@ -1,0 +1,33 @@
+/*
+ * function: func_021F0CA0
+ * address: 0x021F0CA0
+ * packet: pkt_ov029_021F0CA0
+ * region: ov029
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 n/a no callees; 2 ov029 021F0298/021F0300 confirm u16,u8,u8
+ * inputs and 10-byte records; 3 unsigned full-width then caller narrow types
+ * unchanged; 4 enum zero reduced 12 to 9 bytes, logical record order to 2;
+ * 5 idioms and ov029 callers refreshed, sibling ov028/ov030 no twin; no
+ * stack object. Next hypothesis: store f4 before f0, but shared scheduling
+ * cap exhausted (enum temporary plus logical order). No sweep performed.
+ * budget: 3 iteration runs (two nonshrinking), check3 2/2, check4 2/2;
+ * 7 matching compiles total, no permuter. Best 24 bytes, DIFF 2.
+ * residue: +0x0C and +0x0E strh r4,[r0,#4] / strh r2,[r0] swapped.
+ */
+typedef struct { unsigned short f0, f2, f4, f6; unsigned char f8, f9; } Record;
+typedef enum { Zero } ZeroValue;
+void func_021F0CA0(Record *p, unsigned short a, unsigned char b, unsigned char c)
+{
+    ZeroValue z;
+    z = Zero;
+    p->f2 = b;
+    p->f0 = b * 2;
+    p->f4 = z;
+    p->f6 = a;
+    p->f8 = c;
+    p->f9 = 1;
+}

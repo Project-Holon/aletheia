@@ -11,7 +11,7 @@
  *
  * symbols:
  *   func_021F067C 0x021F067C thumb
- *   func_021F0E24 0x021F0E24 thumb
+ *   func_021F0E24 0x021F0E24 thumb ov032
  */
 
 extern void func_021F0E24(char *p);

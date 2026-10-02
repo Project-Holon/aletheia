@@ -8,6 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   EXACT*
+ * extent: two zero alignment bytes after the return.
  * symbols:
  *   func_0216D588  0x0216D588  thumb
  */

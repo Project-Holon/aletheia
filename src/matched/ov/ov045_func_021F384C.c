@@ -1,0 +1,34 @@
+/*
+ * function: func_021F384C
+ * address: 0x021F384C
+ * packet: pkt_ov045_021F384C
+ * region: ov045
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02188C80 0x02188C80 thumb ov021
+ *   func_021897BC 0x021897BC thumb ov021
+ *   func_021F39B8 0x021F39B8 thumb ov045
+ */
+typedef unsigned int u32;
+extern u32 func_0201210C(void *);
+extern u32 func_02188C80(u32);
+extern u32 func_020120F4(u32);
+extern u32 func_02012EC4(u32);
+extern int *func_021897BC(char *,int);
+extern int func_021F39B8(void *,int *);
+extern void *func_020122C0(void *,void *,int (*)(void *,int *),u32);
+void *func_021F384C(void *a,int b)
+{
+    u32 p;
+    int *q;
+    p=func_0201210C(a);
+    func_02012EC4(func_020120F4(func_02188C80(p)));
+    q=func_021897BC((char *)p,1);
+    if(b>=3)return 0;
+    *q=b;
+    return func_020122C0(a,0,func_021F39B8,0);
+}

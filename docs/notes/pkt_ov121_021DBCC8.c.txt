@@ -1,0 +1,71 @@
+/*
+ * function: func_021DBCC8
+ * address: 0x021DBCC8
+ * packet: pkt_ov121_021DBCC8
+ * region: ov121
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 original DC02C returns r0+4; DD980 reads r0; DD24C reads r0-r3, matched caller supplies u16 heap; 2 DBC08 twin supplies layout but no a/b bound; 3 full-width u32 a/b unchanged, narrow widths unsupported; 4 raw inline helpers unchanged; 5 fresh ov121 twin search and idiom listing found no rescue; next sweep none, budgets spent.
+ * budget: 4 iteration compiles including excluded apparent EXACT; first nonshrinking run2, 3 consecutive nonshrinking, 3/20 from that run; 2 completed check compiles, 1 tool-failed check invocation, 1 emitted-baseline compile; once-only permuter 300 compiles; original verification1 excluded; no sweeps, one helper allocation variant.
+ * residue: admissible raw-address C compiles232/240 bytes,104 concrete bytes differ,15/15 relocations resolved; loops through+0x7A identical, tail CSE hoists record base and changes slot spills.
+ * bounds: original0200A348 thunk targets0200A400, whose complete leaf returns3/12/0; loop i<12 proven independently per call. Original021DAC18 allocates/clears0xC70, twelve0xDC records begin0x28; 021DAE1C teardown explicitly loops12 slots at0xA7C.
+ * domain: incoming a/b have no proved bound; saved021DBCD0/D2, swap-helper validation does not guard subsequent caller accesses. All unchecked scaling/addition below is unsigned32, before pointer conversion; only zero and proved loop indexes subscript arrays.
+ * search: macro-free AST baseline fixed one agreed DIFF232/104. Permuter best DIFF240/175 rejected: tmp1_1=tmp1 before tmp1 assignment, tmp1_=tmp1_1, then tmp=*tmp1_ reads an uninitialized pointer. It was not installed or rechecked.
+ * evidence: scratchpad/overlay-goal-20261001-w56/B1/bounds-review.md; bounds-*.log; BCC8-run2/3/4 raw logs; BCC8-check3-u32-index-retry.log; BCC8-check4-inline-raw.log; BCC8-permuter-baseline-one.log; BCC8-permuter.log; bcc8-permuter-best.c. Tool-failed check trace is BCC8-check3-u32-index.log (unrelated legacy shard enumeration/open race).
+ * quarantine: prior apparent EXACT source/shard excluded; root will remove literal matched source/shard after all other lane scans are terminal, avoiding enumeration races.
+ * symbols:
+ *   func_021DBEE4 0x021DBEE4 thumb ov121
+ *   func_021DBDF4 0x021DBDF4 thumb ov121
+ *   func_021DD980 0x021DD980 thumb ov121
+ *   func_021DC02C 0x021DC02C thumb ov121
+ *   func_021DD24C 0x021DD24C thumb ov121
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct { u8 raw[0xdc]; } Item;
+typedef struct {
+    u8 pad0[12];
+    void *list;
+    u8 pad10[16];
+    void *ctx;
+    u16 heap;
+    u8 pad26[2];
+    Item items[12];
+    u8 padA78[4];
+    void *slots[12];
+    u8 padAAC[4];
+    void *desc;
+    u8 padAB4[32];
+    int dirty;
+} Obj;
+extern void func_0200A254(void *,u32,u32);
+extern u32 func_0200A348(void *);
+extern int func_0200A0E4(void *,u32);
+extern void func_0200A000(void *,u32,void *);
+extern void func_021DBEE4(Item *);
+extern void func_021DBDF4(Item *,void *,Obj *,u16);
+extern void func_021DD980(void *);
+extern void *func_021DC02C(Item *);
+extern void *func_021DD24C(void *,void *,void *,u16);
+void func_021DBCC8(Obj *o,u32 a,u32 b)
+{
+    u8 buf[0xcc];
+    u32 i;
+    func_0200A254(o->list,a,b);
+    for(i=0;i<func_0200A348(o->list);i++) func_021DBEE4(&o->items[i]);
+    for(i=0;i<func_0200A348(o->list);i++) {
+        if(func_0200A0E4(o->list,i)) {
+            func_0200A000(o->list,i,buf);
+            func_021DBDF4(&o->items[i],buf,o,o->heap);
+        }
+    }
+    func_021DD980(*(void **)((u32)&o->slots[0]+(u32)a*4));
+    func_021DD980(*(void **)((u32)&o->slots[0]+(u32)b*4));
+    *(void **)((u32)&o->slots[0]+(u32)a*4)=func_021DD24C(func_021DC02C((Item *)((u32)&o->items[0]+(u32)a*0xdc)),o->desc,o->ctx,o->heap);
+    *(void **)((u32)&o->slots[0]+(u32)b*4)=func_021DD24C(func_021DC02C((Item *)((u32)&o->items[0]+(u32)b*0xdc)),o->desc,o->ctx,o->heap);
+    o->dirty=1;
+}

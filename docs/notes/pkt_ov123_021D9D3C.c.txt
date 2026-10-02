@@ -1,0 +1,112 @@
+/*
+ * function: func_021D9D3C
+ * address: 0x021D9D3C
+ * packet: pkt_ov123_021D9D3C
+ * region: ov123
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 516/516 bytes, 20 concrete bytes out, 20/20 relocations resolved.
+ * residue: +00D2 reloads total-zero instead of immediate zero; +0118..011E shares total-zero and schedules outer spill; +014C..015A row-base/blend-shift order and scratch colour.
+ * checks: 1 02021F64 own body takes five inputs, reads only low16 of fifth stack slot; u8 fourth extern worsened to22 (1 compile); 2 ov123 021D4884/021D614C and ov124 021D4558 confirm resource-call interfaces but no blend-loop twin; 3 const p first CCERR for discarded qualifiers then explicit mutable destination casts gave20 unchanged (2 compiles); 4 enum zero/loop, narrow flag, scalar-halfword stack, scheduling idioms read; 5 refreshed idiom directory and ov123/ov124 neighbours, no new exact blend twin.
+ * budgets: 6 iteration verdicts +1 infrastructure invocation; first-nonshrinking r2, 6 actual invocations since then, consecutive nonshrinking verdicts3; manual scheduling variants2/2; sweeps0; checks1=1/2,2=0/2,3=2/2,4=0/2,5=0/2; permuter once300 exhausted, emitted baseline20 agreed with fixed one, best20 unchanged.
+ * interface: 02021F64 scalar fifth u16 substitutes its two-byte RGB555 aggregate because complete leaf body reads only low16 and caller ldrh/str supplies same outgoing slot; fourth is signed int per own definition, fed by the original byte-truncated factor local.
+ * infrastructure: iteration r6 exited1 without verdict when root removed ov032 legacy shard between manifest enumeration/open; unchanged retry r7 DIFF22. Never count r6 as a nonshrinking verdict.
+ * evidence: full fixed logs and macro-free permuter source/log in scratchpad/overlay-goal-20261001-w56/B9; no volatile, fabricated initialized fields, or input restrictions.
+ * symbols:
+ *   func_020490F4 0x020490F4 arm
+ *   func_02049B68 0x02049B68 arm
+ *   func_02049658 0x02049658 arm
+ *   func_020498F4 0x020498F4 arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_02049F78 0x02049F78 arm
+ *   func_02082D44 0x02082D44 arm
+ *   func_020307B0 0x020307B0 arm
+ *   func_020862F0 0x020862F0 arm
+ *   func_0207D63C 0x0207D63C arm
+ *   func_02049238 0x02049238 arm
+ *   func_021D9F40 0x021D9F40 thumb ov123
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef enum { C0=0 } Counter;
+typedef enum { FILL_ZERO=0 } Fill;
+typedef enum { OUTER_ZERO=0 } Outer;
+extern void *func_020490F4(u32,u32);
+extern void func_02049B68(void *,u32,u32,u32,u32,u16);
+extern void func_02049658(void *,u32,u32,u32,u32,u32,u16);
+extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
+extern void func_02082BCC(void *,u8,u32);
+extern void *func_02049F78(void *,int,void **,u16);
+extern void func_02082D44(const void *,void *,int);
+extern void func_020307B0(void *);
+extern void func_02021F64(u16 *,u16 *,u32,int,u16);
+extern void func_020862F0(void *,int);
+extern void *func_020056A0(void *,void *,int);
+extern void func_0207D63C(void *,int,int,int,int);
+extern void func_02049238(void *);
+extern void func_021D9F40(void *,char *);
+void func_021D9D3C(const u8 *p)
+{
+    u8 *source, *destination;
+    void *h;
+    int done, blend;
+    Counter total;
+    Outer outer;
+    int col, next;
+    u16 heap;
+    u8 factor;
+    void *buffer, *decoded;
+    u8 *nextrow, *srcrow, *dstrow;
+    h=func_020490F4(145,*(u16 *)(p+0x9e4));
+    total=0;
+    func_02049B68(h,3,4,0,total,*(u16 *)(p+0x9e4));
+    func_02049658(h,4,4,0,total,total,*(u16 *)(p+0x9e4));
+    func_020498F4(h,6,4,0,total,total,*(u16 *)(p+0x9e4));
+    func_02049B68(h,3,0,0,total,*(u16 *)(p+0x9e4));
+    func_02049658(h,4,0,0,total,total,*(u16 *)(p+0x9e4));
+    func_020498F4(h,5,0,0,total,total,*(u16 *)(p+0x9e4));
+    func_02049658(h,4,3,0,total,total,*(u16 *)(p+0x9e4));
+    func_020498F4(h,7,3,0,total,total,*(u16 *)(p+0x9e4));
+    heap=*(u16 *)(p+0x9e4);
+    func_02082BCC((void *)(p+8),FILL_ZERO,0x970);
+    buffer=func_02049F78(h,2,&decoded,heap);
+    func_02082D44(*(void **)((u8 *)decoded+12),(void *)(p+16),0x1e0);
+    func_02082D44(*(void **)((u8 *)decoded+12),(void *)(p+0x1f0),0x1e0);
+    func_020307B0(buffer);
+    outer=OUTER_ZERO;
+    destination=(u8 *)(p+0x1f0);
+    source=(u8 *)(p+16);
+    do {
+        next=outer+1;
+        if(next>=15) next-=15;
+        blend=0;
+        done=0;
+        nextrow=(u8 *)(p+next*32);
+        srcrow=source+outer*32;
+        for(;;) {
+            factor=(u8)(blend>>8);
+            dstrow=destination+total*32;
+            col=4;
+            do {
+                func_02021F64((u16 *)(srcrow+col*2),(u16 *)(dstrow+col*2),1,factor,*(u16 *)(nextrow+col*2+16));
+                col++;
+            } while(col<11);
+            total++;
+            if(done==1) break;
+            blend+=0x600;
+            if(blend<0x1000) continue;
+            blend=0x1000;
+            done=1;
+        }
+        outer++;
+    } while(outer<15);
+    func_020862F0((void *)(p+0x1f0),0x780);
+    *(u32 *)(p+12)=1;
+    *(void **)(p+8)=func_020056A0(func_021D9F40,(void *)(p+8),20);
+    func_0207D63C((void *)0x04000050,1,8,8,16);
+    *(u8 *)(p+0x974)=0;
+    func_02049238(h);
+}

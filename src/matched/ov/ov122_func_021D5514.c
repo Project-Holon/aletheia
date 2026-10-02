@@ -1,0 +1,74 @@
+/*
+ * function: func_021D5514
+ * address: 0x021D5514
+ * packet: pkt_ov122_021D5514
+ * region: ov122
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT*
+ * extent: two-byte zero alignment at 021D55FA, then next labelled function.
+ * symbols:
+ *   func_02027974 0x02027974 thumb
+ *   func_021D5110 0x021D5110 thumb ov122
+ *   func_021D5310 0x021D5310 thumb ov122
+ *   func_0204A600 0x0204A600 arm
+ *   func_0203CD98 0x0203CD98 arm
+ *   func_0201283C 0x0201283C thumb
+ *   func_0201058C 0x0201058C thumb
+ *   func_021D533C 0x021D533C thumb ov122
+ *   func_020310C4 0x020310C4 arm
+ *   func_0201C4E4 0x0201C4E4 thumb
+ *   func_02040618 0x02040618 arm
+ *   func_020221A4 0x020221A4 thumb
+ *   func_020121CC 0x020121CC thumb
+ *   func_02012204 0x02012204 thumb
+ *   func_0202223C 0x0202223C thumb
+ */
+typedef unsigned int u32;
+extern void func_02027974(void *);
+extern void func_021D5110(char *);
+extern void func_021D5310(char *);
+extern void func_0204A600(void);
+extern int func_0203CD98(void);
+extern u32 func_0201283C(const void *);
+extern u32 func_0201058C(void *);
+extern u32 func_021D533C(char *);
+extern void func_020310C4(void *);
+extern u32 func_0201C4E4(void *);
+extern void func_02040618(u32, u32, u32);
+extern u32 func_020221A4(void);
+extern u32 func_020121CC(void *);
+extern u32 func_02012204(const void *);
+extern void func_0202223C(u32, u32);
+int func_021D5514(void *a, void *b, void *c, char *p)
+{
+    int result = 1;
+    if (*(void (**)(char *))p) {
+        (*(void (**)(char *))p)(p);
+        result = 0;
+    }
+    if (*(void **)(p + 0x324)) func_02027974(*(void **)(p + 0x324));
+    if (*(int *)(p + 8) != 1) func_021D5110(p);
+    func_021D5310(p);
+    func_0204A600();
+    if (func_0203CD98()) {
+        *(u32 *)(p + 0x368) = *(u32 *)(p + 0x364);
+        *(u32 *)(p + 0x364) = func_0201058C((void *)func_0201283C(*(void **)(p + 0x350)));
+        *(u32 *)(p + 0x370) = *(u32 *)(p + 0x36c);
+        *(u32 *)(p + 0x36c) = func_021D533C(p);
+    }
+    func_020310C4(*(void **)(p + 0x31c));
+    func_0201C4E4(*(void **)(p + 0x320));
+    func_02040618(4, 3, *(u32 *)(p + 0x358));
+    *(u32 *)(p + 0x358) = *(u32 *)(p + 0x358) - 1;
+    if (func_020221A4() && *(int *)(p + 0x38c) == 0) func_020121CC(*(void **)(p + 0x354));
+    if (func_020221A4() && func_02012204(*(void **)(p + 0x354))) {
+        *(int *)(p + 8) = 2;
+        result = 1;
+        func_0202223C(0, 0);
+        func_0202223C(1, 0);
+    }
+    return result;
+}
