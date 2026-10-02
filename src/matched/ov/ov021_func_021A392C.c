@@ -18,9 +18,9 @@
  *   func_0216D5E0  0x0216D5E0  thumb  ov010
  */
 
-extern int func_0216D5E0(int);
+extern void func_0216D5E0(int, int);
 
-int func_021A392C(void *p)
+void func_021A392C(void *p, int b)
 {
-    return func_0216D5E0(*(int *)((char *)p + 0x1c));
+    func_0216D5E0(*(int *)((char *)p + 0x1c), b);
 }

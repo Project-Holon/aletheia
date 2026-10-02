@@ -32,8 +32,8 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 extern u16 *func_0216D6F0(u32);
-extern void func_0216D910(u32);
-extern u32 func_0219C9DC(void);
+extern u32 func_0216D910(u32);
+extern u32 func_0219C9DC(u32);
 extern void func_02197CCC(u32, s32 *);
 extern void func_0219FFBC(u32, s32 *);
 extern u32 func_02050080(u32);
@@ -54,8 +54,7 @@ void func_0219F3F0(u32 a)
     u32 y;
     q = (u8 *)func_0216D6F0(a);
     if (*(u16 *)q != 0xFFFF) {
-        func_0216D910(a);
-        r = func_0219C9DC();
+        r = func_0219C9DC(func_0216D910(a));
         x = func_0216D678(a);
         if (x >= 10) {
             y = func_0219FFD4(a);

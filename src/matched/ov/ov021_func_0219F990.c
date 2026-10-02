@@ -45,9 +45,9 @@ extern u32 func_0216D590(u32);
 extern u32 func_0216D588(u32);
 extern u32 func_0216D67C(u32);
 extern u32 func_0216D534(u32);
-extern int func_02188CBC(void);
+extern int func_02188CBC(u32);
 extern int func_02188CB4(u32);
-extern int func_021A3080(void);
+extern int func_021A3080(int);
 extern int func_0219FADC(u8 *p, u32 b, u8 *c);
 extern void func_0219FAB4(u32, u32, u8 *, Vec *);
 extern void func_0216D8C0(u32, Vec *);
@@ -67,6 +67,7 @@ void func_0219F990(u32 a, u8 *p, u32 b)
     int ff;
     u32 t;
     u8 m;
+    int x;
 
     ok = 1;
     info = func_0216E3C4(a);
@@ -84,8 +85,8 @@ void func_0219F990(u32 a, u8 *p, u32 b)
     clr = (t == 0xfc) ? 1 : 0;
     if (ff != 0) {
         u = func_0216D534(func_0216D67C(a));
-        if (func_02188CBC() != 0 && func_02188CB4(u) != 0) {
-            ok = func_021A3080() != 0;
+        if (func_02188CBC(u) != 0 && (x = func_02188CB4(u)) != 0) {
+            ok = func_021A3080(x) != 0;
         }
     }
     if (s14 != 0 || (v.y > 0x1800 && info[3] != 11)) {

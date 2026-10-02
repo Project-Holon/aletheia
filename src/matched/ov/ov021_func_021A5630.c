@@ -25,8 +25,8 @@ typedef unsigned int   u32;
 
 extern u32 func_021A3920(u32);
 extern int func_021A5788(u32, u32, u32 *);
-extern void func_021AB0F0(u32);
-extern int func_021A55DC(void);
+extern u16 func_021AB0F0(u32 attr);
+extern int func_021A55DC(int a);
 extern int func_021AB11C(u32);
 extern const u16 d_021D8A24[4];
 
@@ -45,8 +45,7 @@ u32 func_021A5630(u32 a)
     i = 0;
     do {
         if (func_021A5788(a, x, &v) == 1) {
-            func_021AB0F0(v);
-            if (func_021A55DC() == 0) {
+            if (func_021A55DC(func_021AB0F0(v)) == 0) {
                 if (func_021AB11C(v) == 0) {
                     return x;
                 }

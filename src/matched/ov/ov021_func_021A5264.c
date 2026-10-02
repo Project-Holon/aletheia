@@ -39,8 +39,8 @@ extern int func_02163994(u32, int, int, int, u32);
 extern void func_0216D88C(u32, int *);
 extern void func_02164208(u32, int *, u32);
 extern int func_02163E34(u32, int *, int *);
-extern void func_021AB0F0(int);
-extern int func_021AB2DC(void);
+extern u16 func_021AB0F0(u32 attr);
+extern int func_021AB2DC(u16 id);
 extern u32 func_0216D67C(u32);
 extern int func_0216E5B0(u32, int *);
 
@@ -63,8 +63,7 @@ int func_021A5264(u32 a, u32 b, u32 c, int *d)
         *d = -1;
     }
     if (r4 & 2) {
-        func_021AB0F0(*d);
-        if (func_021AB2DC() == 1) {
+        if (func_021AB2DC(func_021AB0F0(*d)) == 1) {
             if (func_0216E5B0(func_0216D67C(b), buf) == 1) {
                 r4 &= ~2;
             }

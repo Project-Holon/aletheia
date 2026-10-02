@@ -25,8 +25,8 @@ typedef unsigned int   u32;
 
 extern int func_0216D598(u32);
 extern u32 func_0216D7A8(u32, u32);
-extern void func_0216D910(u32);
-extern u32 func_0219C9DC(void);
+extern u32 func_0216D910(u32);
+extern u32 func_0219C9DC(u32);
 extern void func_0205085C(u32, u32, u16);
 
 void func_0219FE64(u32 a)
@@ -37,8 +37,7 @@ void func_0219FE64(u32 a)
         z = 0;
         v = func_0216D7A8(a, 0);
         if (v != 0xFFFF) {
-            func_0216D910(a);
-            func_0205085C(func_0219C9DC(), v, z);
+            func_0205085C(func_0219C9DC(func_0216D910(a)), v, z);
         }
     }
 }

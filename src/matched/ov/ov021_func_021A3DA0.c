@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_021A3960  0x021A3960  thumb  ov021
@@ -36,7 +36,7 @@ extern void func_021A3980(u8 *, int);
 extern void func_021A4114(u8 *);
 extern u32 func_021A3AD4(u8 *);
 extern void func_021A3AD0(u8 *, u32);
-extern void func_021AC154(void);
+extern void func_021AC154(u32 a);
 extern void func_0216D8E0(u32, u32 *);
 
 int func_021A3DA0(u8 *p)
@@ -44,6 +44,7 @@ int func_021A3DA0(u8 *p)
     u32 buf[3] = { 0, 0, 0 };
     u32 a;
     u32 b;
+    u32 o;
 
     a = func_021A398C(p);
     b = func_021A3960(p);
@@ -53,8 +54,8 @@ int func_021A3DA0(u8 *p)
     }
     func_021A3980(p, 0);
     func_021A4114(p);
-    if (func_021A3AD4(p)) {
-        func_021AC154();
+    if ((o = func_021A3AD4(p)) != 0) {
+        func_021AC154(o);
         func_021A3AD0(p, 0);
     }
     func_0216D8E0(b, buf);

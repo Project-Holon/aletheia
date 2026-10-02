@@ -17,10 +17,9 @@
 
 typedef unsigned int u32;
 extern u32 func_02188C80(u32);
-extern u32 func_0217CFE4(void);
+extern u32 func_0217CFE4(u32);
 
 void ov021_func_021A13E4(u32 *p)
 {
-    func_02188C80(p[5]);
-    p[8] = func_0217CFE4();
+    p[8] = func_0217CFE4(func_02188C80(p[5]));
 }

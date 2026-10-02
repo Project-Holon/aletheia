@@ -15,9 +15,9 @@
 
 typedef unsigned int u32;
 
-u32 func_021A4140(u32 x);
+u32 func_021A4140(u32 x, u32 heap);
 
-void func_021A35E0(u32 *p)
+void func_021A35E0(u32 *p, u32 heap)
 {
-    p[2] = func_021A4140(p[1]);
+    p[2] = func_021A4140(p[1], heap);
 }

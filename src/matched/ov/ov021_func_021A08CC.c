@@ -27,8 +27,8 @@ typedef signed int     s32;
 typedef struct { s32 x, y, z; } V32;
 
 extern void func_0207CB68(const s16 *a, u32 b, s16 *c);
-extern void func_0207CAA4(const s16 *a, u32 b);
-extern u16 func_0207D184(void);
+extern s32 func_0207CAA4(const s16 *a, u32 b);
+extern u16 func_0207D184(s32 x);
 
 static inline void set(V32 *o, s32 x, s32 y, s32 z)
 {
@@ -44,6 +44,5 @@ void func_021A08CC(s32 *o, const s16 *in, u32 c)
     set((V32 *)o, in[0], in[1], in[2]);
     func_0207CB68(in, c, v);
     set((V32 *)(o + 3), v[0], v[1], v[2]);
-    func_0207CAA4(in, c);
-    *(u16 *)(o + 6) = func_0207D184();
+    *(u16 *)(o + 6) = func_0207D184(func_0207CAA4(in, c));
 }

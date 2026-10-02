@@ -33,8 +33,8 @@ typedef unsigned int   u32;
 typedef signed int     s32;
 
 extern u16 *func_0216D6F0(u32);
-extern void func_0216D910(u32);
-extern u32 func_0219C9DC(void);
+extern u32 func_0216D910(u32);
+extern u32 func_0219C9DC(u32);
 extern u32 func_0216D598(u32);
 extern u32 func_0216D678(u32);
 extern u32 func_0219FFD4(u32);
@@ -60,8 +60,7 @@ void func_0219FB5C(u32 a)
     q = (u8 *)func_0216D6F0(a);
     if (*(u16 *)q == 0xFFFF)
         return;
-    func_0216D910(a);
-    r = func_0219C9DC();
+    r = func_0219C9DC(func_0216D910(a));
     t = func_0216D598(a);
     x = func_0216D678(a);
     if (t == 0xd3 || t == 0xd5 || t == 0x79) {
