@@ -21,7 +21,7 @@
  *   func_021A6DC4  0x021A6DC4  thumb  ov021
  */
 
-extern void *func_0201210C(void);
+extern void *func_0201210C(void *p);
 extern int   func_02188CF0(void *p);
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(void *p);
@@ -31,13 +31,13 @@ extern int   func_021F3908(void *p, int i);
 extern void *func_02188CA4(void *p);
 extern void  func_021A6DC4(void *a, void *b);
 
-void func_021F38C4(int a0, int a1)
+void func_021F38C4(void *a0, int a1)
 {
     void *r6;
     int r4;
     void *p;
 
-    r6 = func_0201210C();
+    r6 = func_0201210C(a0);
     r4 = func_02188CF0(r6);
     p = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(r6))), 9);
     if (a1 < 8 && r4 == 2) {

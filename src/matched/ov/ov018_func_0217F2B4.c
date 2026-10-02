@@ -32,8 +32,8 @@ typedef struct {
     u8 f28;
 } Ov018Obj;
 
-extern void func_0201210C(int a);
-extern void *func_02188C54(void);
+extern int func_0201210C(int a);
+extern void *func_02188C54(int p);
 extern void *func_0201EC74(int a, int b, int heap);
 extern void *func_020457B0(int n, int heap);
 extern void *func_021904B0(void *a, int b);
@@ -42,8 +42,7 @@ void func_0217F2B4(Ov018Obj *p, int a)
 {
     void *r;
 
-    func_0201210C(a);
-    r = func_02188C54();
+    r = func_02188C54(func_0201210C(a));
     if (p->f00 == 0) {
         p->f00 = func_0201EC74(6, 0x20, 4);
         p->f04 = func_020457B0(0x1F0, 4);

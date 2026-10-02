@@ -12,12 +12,15 @@
  * symbols:
  *   (none)
  *
- * Loads the word at [p] and tail-calls the function at 0x0204B3DC with it.
+ * Loads the word at [p] and tail-calls the function at 0x0204B3DC with it and
+ * the second argument.
  */
 
-extern void func_0204B3DC(int);
+struct Obj;
 
-void func_021BD7FC(int *p)
+extern void func_0204B3DC(struct Obj *p, unsigned int v);
+
+void func_021BD7FC(struct Obj **p, unsigned int v)
 {
-    func_0204B3DC(*p);
+    func_0204B3DC(*p, v);
 }

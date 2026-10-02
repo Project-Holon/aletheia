@@ -29,8 +29,8 @@ typedef signed int s32;
 extern void func_02202940(u8 *p);
 extern void sub_020452E8(u32 a);
 extern void sub_020456F8(u32 a);
-extern void unit_02045730(u32 a);
-extern void sub_020409B4(void);
+extern u8 unit_02045730(u32 a);
+extern void sub_020409B4(u32 index);
 
 void func_021FD1E0(u8 *p)
 {
@@ -42,20 +42,17 @@ void func_021FD1E0(u8 *p)
     if (*(u32 *)(p + 0x12fc) == 0) {
         h = *(u32 *)(p + 0xd54);
         sub_020456F8(h);
-        unit_02045730(h);
-        sub_020409B4();
+        sub_020409B4(unit_02045730(h));
         h = *(u32 *)(p + 0xd50);
         sub_020456F8(h);
-        unit_02045730(h);
-        sub_020409B4();
+        sub_020409B4(unit_02045730(h));
         sub_020452E8(*(u32 *)(p + 0xd54));
         sub_020452E8(*(u32 *)(p + 0xd50));
     }
     for (i = 0; i < 0x10; i++) {
         h = *(u32 *)(p + i * 4 + 0xd90);
         sub_020456F8(h);
-        unit_02045730(h);
-        sub_020409B4();
+        sub_020409B4(unit_02045730(h));
         sub_020452E8(*(u32 *)(p + i * 4 + 0xd90));
     }
 }

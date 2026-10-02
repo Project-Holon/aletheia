@@ -16,10 +16,9 @@
  *   func_021BE580  0x021BE580  thumb  ov021
 */
 
-void func_021F39AC(void)
+void func_021F39AC(void *p)
 {
-    void func_02188D2C(void);
-    void func_021BE580(void);
-    func_02188D2C();
-    func_021BE580();
+    void *func_02188D2C(void *p);
+    void func_021BE580(void *p);
+    func_021BE580(func_02188D2C(p));
 }

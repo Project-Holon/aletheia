@@ -24,10 +24,10 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021BC6DC();
+extern u32 func_021BC6DC(void *p);
 u32 func_021BC6F4(u32 a0, u32 a1)
 {
-    if (a1 < func_021BC6DC()) {
+    if (a1 < func_021BC6DC((void *)a0)) {
     return 1;
     }
     return 0;

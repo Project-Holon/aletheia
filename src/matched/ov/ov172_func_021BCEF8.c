@@ -41,8 +41,8 @@ extern u16 func_021BE00C(void *p);
 extern u32 func_021BE03C(void *p);
 extern u32 func_021BE04C(void *p);
 extern void func_020456F8(u32 win);
-extern void func_02045730(u32 win);
-extern void func_02041B6C(void);
+extern u8 func_02045730(u32 win);
+extern void func_02041B6C(u32 bit);
 extern void func_0201F7A8(u32 win, u32 kind);
 extern void func_02028148(u32 p);
 extern u32 func_02045EC0(u32 a, u32 b);
@@ -50,10 +50,10 @@ extern u32 func_02027FEC(u32 a0, struct Prompt *a1, u32 a2, u32 a3, u8 a4, u16 a
 extern void func_02045808(u32 v);
 extern void func_021BD0C4(void *ctx, u8 *st, int msgId);
 
-static inline void func_021BCEF8_show(u32 win)
+static inline u8 func_021BCEF8_show(u32 win)
 {
     func_020456F8(win);
-    func_02045730(win);
+    return func_02045730(win);
 }
 
 void func_021BCEF8(void *ctx, u8 *st)
@@ -72,8 +72,7 @@ void func_021BCEF8(void *ctx, u8 *st)
         if (*(u32 *)(st + 0x18) != 2) {
             struct Prompt p = {0};
 
-            func_021BCEF8_show(*(u32 *)(st + 0x2c));
-            func_02041B6C();
+            func_02041B6C(func_021BCEF8_show(*(u32 *)(st + 0x2c)));
             func_0201F7A8(*(u32 *)(st + 0x2c), 1);
             if (*(u32 *)(st + 0x1c) != 0) {
                 func_02028148(*(u32 *)(st + 0x1c));
@@ -90,8 +89,7 @@ void func_021BCEF8(void *ctx, u8 *st)
         if (*(u32 *)(st + 0x18) != 1) {
             struct Prompt p = {0};
 
-            func_021BCEF8_show(*(u32 *)(st + 0x2c));
-            func_02041B6C();
+            func_02041B6C(func_021BCEF8_show(*(u32 *)(st + 0x2c)));
             func_0201F7A8(*(u32 *)(st + 0x2c), 1);
             if (*(u32 *)(st + 0x1c) != 0) {
                 func_02028148(*(u32 *)(st + 0x1c));

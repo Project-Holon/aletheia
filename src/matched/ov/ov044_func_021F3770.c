@@ -18,7 +18,7 @@
  *   func_021F37F0  0x021F37F0  thumb
  */
 
-extern void *func_0201210C(void);
+extern void *func_0201210C(void *p);
 extern int  *func_021897BC(void *a, int b);
 extern void *func_02188D2C(void *a);
 extern void  func_021BE700(void *p, int i, int j, int k, int flag);
@@ -32,7 +32,7 @@ void func_021F3770(void *a0, int a1)
     void *x;
     int d;
 
-    r6 = func_0201210C();
+    r6 = func_0201210C(a0);
     r4 = func_021897BC(r6, 1);
     r4[4] = a1;
     if (a1) {

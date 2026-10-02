@@ -26,18 +26,21 @@ typedef int s32;
 extern void func_02043B5C(int, int);
 extern void func_0201DD78(int, int, int);
 extern int func_021B85DC(int);
-extern int func_0201CD10(u32, s16, s16, u32, u32, s32, u32, u32, u32, u16, u32);
-extern void func_0201CE0C(void);
+extern void *func_0201CD10(u32, s16, s16, u32, u32, s32, u32, u32, u32, u16, u32);
+extern void func_0201CE0C(void *p);
 
 void func_021ECEB8(u8 *a, u32 b, u16 s, u32 c)
 {
+    void *o;
+
     func_02043B5C(*(int *)(a + 4), 0xc);
     func_0201DD78(1, 9, 0xc);
-    *(int *)(a + 0x30) = func_0201CD10(*(u32 *)a, 0, 0, b, *(u32 *)(a + 0x24),
-                                       func_021B85DC(*(int *)(a + 0x134)),
-                                       *(u32 *)(a + 0x2c), 0,
-                                       *(u16 *)(a + 0x13c), 0xc, c);
-    func_0201CE0C();
+    o = func_0201CD10(*(u32 *)a, 0, 0, b, *(u32 *)(a + 0x24),
+                      func_021B85DC(*(int *)(a + 0x134)),
+                      *(u32 *)(a + 0x2c), 0,
+                      *(u16 *)(a + 0x13c), 0xc, c);
+    *(void **)(a + 0x30) = o;
+    func_0201CE0C(o);
     a[0x13f] = 0;
     a[0x13e] = 0;
     if (s == 0xff) {

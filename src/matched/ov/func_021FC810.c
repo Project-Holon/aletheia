@@ -39,8 +39,8 @@ extern u32 sub_02045770(u32 a);
 extern void sub_02043B5C(u32 a, u32 b);
 extern void sub_02045334(u32 a);
 extern void sub_02045374(u32 a);
-extern void unit_02045730(u32 a);
-extern void sub_020409B4(void);
+extern u8 unit_02045730(u32 a);
+extern void sub_020409B4(u32 index);
 extern void func_0201F73C(u32 h, u32 a, u32 b, u32 c);
 extern void sub_02045808(u32 a);
 extern void func_02202858(u32 a, u32 b, u32 c, u32 d, u32 e, u8 *f);
@@ -58,8 +58,7 @@ void func_021FC810(u8 *p, u32 b, u32 c, u32 d, u32 e, u32 sel)
     h = *(u32 *)(p + 0xd40);
     sub_02045334(h);
     sub_02045374(h);
-    unit_02045730(h);
-    sub_020409B4();
+    sub_020409B4(unit_02045730(h));
     func_02202858(*(u32 *)(p + 0xd40), 0, *(u32 *)(p + 0xb88), 0, 0, p + 0xfa0);
     sub_02045808(v);
 }

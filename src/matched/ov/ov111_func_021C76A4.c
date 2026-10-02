@@ -110,7 +110,7 @@ typedef struct {
 
 extern void func_02046440(int a, int b, int c, int d, int e, int heap, int g);
 extern void *func_02048BC4(const void *p, int heap);
-extern void func_02048C58(void);
+extern void func_02048C58(void *slots);
 extern void func_02046858(Camera *c);
 extern void func_02040588(int a, int b);
 extern const void *const d_021C8810;
@@ -120,10 +120,12 @@ extern const s16 FX_SinCosTable_[];
 void func_021C76A4(Work *p)
 {
     Camera cam;
+    void *light;
 
     func_02046440(0, 1, 0, 1, 0x1000, 0x27, 0);
-    p->f100 = func_02048BC4(&d_021C8810, 0x27);
-    func_02048C58();
+    light = func_02048BC4(&d_021C8810, 0x27);
+    p->f100 = light;
+    func_02048C58(light);
     cam = d_021C896C;
     cam.f4 = FX_SinCosTable_[0x16C];
     cam.f8 = FX_SinCosTable_[0x16D];

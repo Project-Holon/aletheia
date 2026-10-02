@@ -30,7 +30,7 @@ typedef unsigned int u32;
 extern int func_021D775C(int key);
 extern void *func_021C7CF4(void *p, int k);
 extern u16 func_021D6740(void *p);
-extern int func_020213C0(void);
+extern int func_020213C0(u32 a);
 extern u16 func_021D5B40(void *p);
 extern int func_021C8288(void *p);
 extern int func_021D85C0(void *a, int k);
@@ -48,7 +48,7 @@ void func_021DCB38(int a, void *b, int c)
     if (c == func_021D775C(2)) {
         mon = func_021C7CF4(b, c);
         n = func_021D6740(mon);
-        if (n != 0 && func_020213C0() != 0 && func_021D5B40(mon) == 0
+        if (n != 0 && func_020213C0(n) != 0 && func_021D5B40(mon) == 0
             && (func_021C8288(b) == 1 || func_021D85C0(b, 0x32) != 0)) {
             m = (u8 *)func_021C88A4(b, 0x20, c);
             *(u32 *)m |= 0x20 << 18;

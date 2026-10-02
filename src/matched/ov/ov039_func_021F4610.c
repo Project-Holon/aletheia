@@ -42,8 +42,8 @@ typedef struct {
     s8 slot[4];
 } Work;
 
-extern void func_020124E4(void);
-extern void *func_0201210C(void);
+extern void *func_020124E4(void *p);
+extern void *func_0201210C(void *p);
 extern int func_02188D2C(void *p);
 extern Work *func_021897BC(void *p, int idx);
 extern void *func_021BE674(char *base, int i, int j, u16 k);
@@ -68,8 +68,7 @@ int func_021F4610(void *a0, int *a1)
     u8 j;
     void *o;
 
-    func_020124E4();
-    sys = func_0201210C();
+    sys = func_0201210C(func_020124E4(a0));
     h = func_02188D2C(sys);
     s = func_021897BC(sys, 1);
     c = (u8)(s->sel >> 1);

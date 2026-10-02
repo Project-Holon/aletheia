@@ -23,7 +23,7 @@ struct S { char *p; u8 k; u8 pad[3]; u32 v; u32 c; u32 a; u8 *cnt; };
 
 extern u8 func_021B8E70(u8 *p, u32 k);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
-extern u8 *func_02031290(void);
+extern u8 *func_02031290(void *node);
 extern void func_021ED5E8(void);
 
 void func_021ED590(char *p, u8 k, u32 a)
@@ -31,8 +31,7 @@ void func_021ED590(char *p, u8 k, u32 a)
     struct S *t;
 
     if (k != 6) {
-        func_020311B8(*(u32 *)(p + 0x2c), (void *)func_021ED5E8, 0x18, 1);
-        t = (struct S *)func_02031290();
+        t = (struct S *)func_02031290(func_020311B8(*(u32 *)(p + 0x2c), (void *)func_021ED5E8, 0x18, 1));
         t->p = p;
         t->k = k;
         t->a = a;

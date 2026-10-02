@@ -15,8 +15,8 @@
  *   func_021B65C8  0x021B65C8  thumb  ov067
  */
 
-void func_021B6600(void)
+void *func_021B6600(unsigned char *p, unsigned int v)
 {
-    void func_021B65C8(void);
-    func_021B65C8();
+    void *func_021B65C8(unsigned char *p, unsigned int v);
+    return func_021B65C8(p, v);
 }

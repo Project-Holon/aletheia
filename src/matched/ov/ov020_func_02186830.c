@@ -12,9 +12,12 @@
  *   func_02049250  0x02049250  arm
  */
 
-void func_02049250(int a, int b);
+struct ArcFile;
 
-void func_02186830(unsigned int *p, int b)
+extern void *func_02049250(struct ArcFile *arc, unsigned int member,
+                           unsigned int heap);
+
+void *func_02186830(struct ArcFile **p, int b, unsigned int heap)
 {
-    func_02049250(*p, b + 0x22);
+    return func_02049250(*p, b + 0x22, heap);
 }

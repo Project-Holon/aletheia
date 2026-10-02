@@ -24,11 +24,11 @@ typedef struct {
 } Work;
 
 extern Work *d_0220AF20;
-extern int *func_02030EE8(void);
+extern int *func_02030EE8(void *h);
 extern int func_021F935C(int);
 
-void func_021F8FB0(void)
+void func_021F8FB0(void *h)
 {
-    int m = func_021F935C(func_02030EE8()[2]);
+    int m = func_021F935C(func_02030EE8(h)[2]);
     d_0220AF20->m2 &= m ^ 0xffffffff;
 }

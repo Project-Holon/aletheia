@@ -20,8 +20,8 @@
 extern int func_020450F0(int, int, int, int, int, int, int);
 extern void func_02045334(int);
 extern void func_02045374(int);
-extern void func_02045730(int);
-extern void func_020409B4(void);
+extern unsigned char func_02045730(int);
+extern void func_020409B4(unsigned int);
 
 typedef struct {
     char pad[0x44];
@@ -44,13 +44,11 @@ void func_0217D890(S *p)
     p->b = z;
     func_02045334(r);
     func_02045374(r);
-    func_02045730(r);
-    func_020409B4();
+    func_020409B4(func_02045730(r));
     r2 = func_020450F0(6, 1, 0x12, 0x1e, 4, 14, 1);
     p->c = r2;
     p->d = z;
     func_02045334(r2);
     func_02045374(r2);
-    func_02045730(r2);
-    func_020409B4();
+    func_020409B4(func_02045730(r2));
 }

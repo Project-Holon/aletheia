@@ -31,10 +31,10 @@ typedef signed int     s32;
 extern u32 func_021C124C();
 extern u32 func_021C13E8();
 extern u32 func_021C14DC();
-extern u32 func_021C1D24();
+extern u32 func_021C1D24(void *);
 void func_021C112C(u32 a0)
 {
-    if (func_021C1D24() == 1) {
+    if (func_021C1D24((void *)a0) == 1) {
     if (*(u32*)(((u8*)a0) + 8) != 0) {
     func_021C14DC(a0);
     func_021C124C(a0);

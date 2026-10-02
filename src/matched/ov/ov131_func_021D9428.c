@@ -15,11 +15,11 @@
  * Addresses are Black-image addresses.
  */
 
-extern unsigned int func_021D93E4(unsigned char *);
+extern unsigned int func_021D93E4(unsigned char *, unsigned int);
 
-unsigned int func_021D9428(unsigned char *p)
+unsigned int func_021D9428(unsigned char *p, unsigned int target)
 {
-    unsigned int r = func_021D93E4(p);
+    unsigned int r = func_021D93E4(p, target);
 
     if (r < p[0x10])
         return r;

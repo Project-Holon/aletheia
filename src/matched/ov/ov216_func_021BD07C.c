@@ -22,13 +22,13 @@ extern void func_02043AF4(void *,short,int,unsigned short,unsigned short,int);
 extern void func_021BDA54(void *,void *,unsigned char,int,int,unsigned short);
 extern void func_02045334(void *);
 extern void func_02045374(void *);
-extern void func_02045730(void *);
-extern void func_020409B4(void);
+extern unsigned char func_02045730(void *);
+extern void func_020409B4(unsigned int);
 void func_021BD07C(void *p,void **q,int v,short a,unsigned char b,unsigned char c,unsigned char d,unsigned char e)
 {
     void *x;
     func_02043AF4(q[1],(short)(a*8),0,(unsigned short)(c*8),(unsigned short)(d*8),d_021BDD8A[e].b);
     func_021BDA54(p,q,b,0,v,d_021BDD8A[e].a);
     x=q[0];
-    func_02045334(x); func_02045374(x); func_02045730(x); func_020409B4();
+    func_02045334(x); func_02045374(x); func_020409B4(func_02045730(x));
 }

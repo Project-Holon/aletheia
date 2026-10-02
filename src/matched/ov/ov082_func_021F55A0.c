@@ -21,7 +21,7 @@
 
 typedef unsigned int u32;
 
-extern int  func_020124E4(void);
+extern int  func_020124E4(int a);
 extern int  func_0201210C(int a);
 extern u32 *func_02189A60(int a);
 extern void func_0204E720(int a, int b, int c, int d);
@@ -35,7 +35,7 @@ int func_021F55A0(int a0, int *st)
     char *w;
     int t;
 
-    obj = func_0201210C(func_020124E4());
+    obj = func_0201210C(func_020124E4(a0));
     w = *(char **)func_02189A60(obj);
     switch (*st) {
     case 0:

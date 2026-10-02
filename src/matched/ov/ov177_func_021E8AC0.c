@@ -15,16 +15,15 @@
  *   func_02008DF0  0x02008DF0  thumb
  */
 
-extern void func_02012EBC(int a);
-extern int  func_02008C58(void);
+extern int  func_02012EBC(int a);
+extern int  func_02008C58(int sys);
 extern void func_02008DF0(int x, int y);
 
 void func_021E8AC0(int a, int b)
 {
     int x;
 
-    func_02012EBC(a);
-    x = func_02008C58();
+    x = func_02008C58(func_02012EBC(a));
     switch (b) {
     case 1:
     case 4:

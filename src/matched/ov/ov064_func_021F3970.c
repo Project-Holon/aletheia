@@ -42,7 +42,7 @@ typedef struct {
     u16 h36;
 } W;
 
-extern int func_0201210C(void);
+extern int func_0201210C(int a);
 extern int *func_021897BC(char *p, int idx);
 extern int func_02188D2C(int a);
 extern void func_020061E4(int a);
@@ -53,7 +53,7 @@ extern void func_021BE6B0(u8 *p, int v);
 extern void func_021BE700(int a, int b, int c, u16 d, int e);
 extern void func_021BE6CC(int a, int b, int c, u16 d, int e);
 extern int func_020122C0(int a, int b, void *cb, int c);
-extern int func_021F3AF8(void);
+extern int func_021F3AF8(void *task);
 
 void func_021F3970(int a, const V3 *p0, const V3 *p1, int f30, int n)
 {
@@ -62,7 +62,7 @@ void func_021F3970(int a, const V3 *p0, const V3 *p1, int f30, int n)
     int s;
     W *w;
 
-    sys = func_0201210C();
+    sys = func_0201210C(a);
     w = (W *)func_021897BC((char *)sys, 1);
     s = func_02188D2C(sys);
     func_020061E4(0x566);

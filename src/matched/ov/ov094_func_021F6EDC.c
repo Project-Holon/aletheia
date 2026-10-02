@@ -19,7 +19,7 @@
  *   func_021F73A4  0x021F73A4  thumb  ov094
  */
 
-extern void func_02048AFC(int);
+extern void func_02048AFC(int, const int *);
 extern void func_02048B44(int, int);
 extern void func_02048AD0(int);
 extern void func_021F73A4(int *);
@@ -30,7 +30,7 @@ void func_021F6EDC(int *p, int *a, int *b)
         p[6] = a[0];
         p[7] = a[1];
         p[8] = a[2];
-        func_02048AFC(p[1]);
+        func_02048AFC(p[1], a);
     }
     if (b) {
         p[9] = b[0];

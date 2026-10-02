@@ -25,12 +25,12 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021C2DA0();
-extern u32 func_021C2DCC();
-u32 func_021C29C8(void)
+extern u32 func_021C2DA0(u32 a0);
+extern void func_021C2DCC(char *p);
+u32 func_021C29C8(u32 a0)
 {
-    u32 v1 = func_021C2DA0();
-    func_021C2DCC();
+    u32 v1 = func_021C2DA0(a0);
+    func_021C2DCC((char *)v1);
     return v1;
 }
 

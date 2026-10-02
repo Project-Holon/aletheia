@@ -7,15 +7,15 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_021F4F54  0x021F4F54  thumb  ov112
  */
 
-unsigned char func_021F4F54(void *);
+unsigned char *func_021F4F54(unsigned char *p, int i);
 
-unsigned char func_021F5140(void *p)
+unsigned char func_021F5140(void *p, int i)
 {
-    return *(unsigned char *)(func_021F4F54(p) + 9);
+    return *(unsigned char *)(func_021F4F54(p, i) + 9);
 }

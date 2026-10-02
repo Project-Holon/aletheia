@@ -16,11 +16,11 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_021D5CAC(void);
+extern int func_021D5CAC(char *p);
 extern void func_021C5AB8(void);
 
-void func_021D5D7C(void)
+void func_021D5D7C(char *p)
 {
-    if (func_021D5CAC() != 0)
+    if (func_021D5CAC(p) != 0)
         func_021C5AB8();
 }

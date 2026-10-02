@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_020399A8  0x020399A8  arm
@@ -21,14 +21,13 @@
 typedef unsigned long u32;
 
 extern u32 func_020399A8(void);
-extern u32 func_0203D1A4(void);
+extern u32 func_0203D1A4(u32 v);
 
 void func_021DB328(u32 a, u32 b, u32 c, char *d, u32 e)
 {
     if (e != func_020399A8())
         return;
-    func_020399A8();
-    if (a == func_0203D1A4())
+    if (a == func_0203D1A4(func_020399A8()))
         return;
     *(u32 *)(d + 0x144) = 1;
 }

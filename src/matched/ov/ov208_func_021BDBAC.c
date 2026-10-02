@@ -20,9 +20,9 @@ struct Ov208Scene {
     void *mgr;
 };
 
-extern void ov208_func_021BD330(void *mgr);
+extern void ov208_func_021BD330(void *mgr, int v);
 
-void ov208_func_021BDBAC(struct Ov208Scene *p)
+void ov208_func_021BDBAC(struct Ov208Scene *p, int v)
 {
-    ov208_func_021BD330(p->mgr);
+    ov208_func_021BD330(p->mgr, v);
 }

@@ -19,7 +19,7 @@
  */
 
 extern void *func_020450F0(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
-extern void *func_02045770(void);
+extern void *func_02045770(void *);
 extern void func_02045334(void *);
 extern void func_02045374(void *);
 extern void *func_02045730(void *);
@@ -36,7 +36,7 @@ void func_021F3010(T *p, unsigned a, unsigned b, unsigned c, unsigned char d, un
 {
     void *w;
     p->f0 = func_020450F0((void *)a, c, d, e, f, b, 1);
-    p->f4 = func_02045770();
+    p->f4 = func_02045770(p->f0);
     w = p->f0;
     p->fc = 0;
     p->f8 = w;

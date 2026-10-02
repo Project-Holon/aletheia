@@ -18,15 +18,14 @@ typedef unsigned short u16;
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern void func_02006148(int);
-extern void func_020061F8(void);
+extern int func_02006148(u32 a0);
+extern void func_020061F8(int i);
 
 void func_021F423C(u8 *p, u32 idx)
 {
     u16 v = *(u16 *)(p + idx * 2 + 8);
 
     if (v != 0xffff) {
-        func_02006148(v);
-        func_020061F8();
+        func_020061F8(func_02006148(v));
     }
 }

@@ -34,7 +34,7 @@ extern int func_021D5864(void *m);
 extern void func_021F7EE8(u32 a, u32 b);
 extern void func_021F7A28(u32 a, u32 b);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
-extern u8 *func_02031290(void);
+extern u8 *func_02031290(void *node);
 extern void func_021ED460(void);
 
 void func_021ED3D4(char *p, u8 k, int a, int b, int flag)
@@ -43,8 +43,7 @@ void func_021ED3D4(char *p, u8 k, int a, int b, int flag)
     u8 *m;
     u8 y;
 
-    func_020311B8(*(u32 *)(p + 0x2c), (void *)func_021ED460, 0xc, 1);
-    t = (struct T *)func_02031290();
+    t = (struct T *)func_02031290(func_020311B8(*(u32 *)(p + 0x2c), (void *)func_021ED460, 0xc, 1));
     t->e = p + 0x48 + k * 0xc;
     t->cnt = (u8 *)p + 0x41;
     t->st = 0;

@@ -16,11 +16,11 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_0204B878(void *);
+extern void func_0204B878(void *p, unsigned short value);
 extern void func_0204B9A0(void *);
 
-void func_021BCE7C(void *p)
+void func_021BCE7C(void *p, unsigned short value)
 {
-    func_0204B878(p);
+    func_0204B878(p, value);
     func_0204B9A0(p);
 }

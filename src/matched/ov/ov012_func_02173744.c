@@ -21,7 +21,7 @@
  *   d_02175614     0x02175614  data   ov012  a1
  */
 
-extern int func_02012138(void);
+extern int func_02012138(int a);
 extern int func_020120F4(int a);
 extern int func_02026454(int a);
 extern void func_02034714(const char *file, int line, const char *msg);
@@ -38,7 +38,7 @@ void func_02173744(int a)
     int r7;
     int *p;
 
-    r5 = func_02012138();
+    r5 = func_02012138(a);
     r7 = func_020120F4(a);
     if (func_02026454(r5) != 0) {
         func_02034714(d_02175610, 0, d_02175610);

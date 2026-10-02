@@ -27,7 +27,7 @@ extern unsigned char d_021E8B10[];
 extern void func_02082BCC(int, int, int);
 extern void func_0204A48C(void *, int, int);
 extern int func_0204B100(int, int, int);
-extern void func_0204B270(void);
+extern void func_0204B270(void *);
 extern void func_020434DC(int, int);
 extern void func_02043598(int, int);
 
@@ -36,7 +36,7 @@ void func_021E560C(int *p, int b, int c)
     func_02082BCC((int)p, 0, 4);
     func_0204A48C(d_021E8B10, b, c);
     p[0] = func_0204B100(0x80, 0, c);
-    func_0204B270();
+    func_0204B270((void *)p[0]);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
 }

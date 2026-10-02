@@ -29,11 +29,11 @@ typedef unsigned int u32;
 extern int func_02039338(int a);
 extern void func_02082B0C(void *src, void *dst, u32 n);
 extern u32 func_02045770(u32 a);
-extern u8 *func_020437D4(void);
+extern u8 *func_020437D4(void *bmp);
 extern void func_02045334(u32 a);
 extern void func_02045374(u32 a);
-extern void func_02045730(u32 a);
-extern void func_020409B4(void);
+extern u8 func_02045730(u32 a);
+extern void func_020409B4(u32 index);
 extern void func_021844D8(u8 *d, int x, int y);
 extern void func_02186860(u8 *d, int x, int y);
 
@@ -50,13 +50,13 @@ void func_021841F8(int a, int b, u8 *c, u8 *d, int e)
         } else {
             func_02082B0C(c, d + 0x4290 + off, 0x3e8);
         }
-        func_02045770(*(u32 *)(d + 0x118));
-        func_02082B0C(d + 0x4290, func_020437D4(), 0x3840);
+        func_02082B0C(d + 0x4290,
+                      func_020437D4((void *)func_02045770(*(u32 *)(d + 0x118))),
+                      0x3840);
         t = *(u32 *)(d + 0x118);
         func_02045334(t);
         func_02045374(t);
-        func_02045730(t);
-        func_020409B4();
+        func_020409B4(func_02045730(t));
     } else {
         n = *(int *)(d + 0x428c);
         if (n * 1000 < 0x3840) {

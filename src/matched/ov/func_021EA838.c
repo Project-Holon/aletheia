@@ -25,5 +25,8 @@ typedef signed int s32;
 
 typedef struct { u32 f0; u8 pad[60]; } E64;
 
-void func_021EA838(u32 *p) { func_021ED56C(p[0x5f], func_021B8E70(p[0])); }
+extern u8 func_021B8E70(u8 *p, u32 k);
+extern void func_021ED56C(u32 a, u32 b);
+
+void func_021EA838(u32 *p, u32 k) { func_021ED56C(p[0x5f], func_021B8E70((u8 *)p[0], k)); }
 

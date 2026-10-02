@@ -26,10 +26,10 @@ typedef signed short   s16;
 typedef signed int     s32;
 
 extern u32 func_021C0A54();
-extern u32 func_021C0AA4();
+extern u32 func_021C0AA4(u32);
 u32 func_021C099C(u32 a0)
 {
-    func_021C0AA4();
+    func_021C0AA4(a0);
     return func_021C0A54(a0);
 }
 

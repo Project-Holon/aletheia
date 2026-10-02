@@ -18,12 +18,11 @@
  */
 
 extern void func_02045374(void *);
-extern void func_02045730(void *);
-extern void func_02041B6C(void);
+extern unsigned char func_02045730(void *);
+extern void func_02041B6C(unsigned);
 
 void func_021CA4B4(char *p)
 {
     func_02045374(p);
-    func_02045730(p);
-    func_02041B6C();
+    func_02041B6C(func_02045730(p));
 }

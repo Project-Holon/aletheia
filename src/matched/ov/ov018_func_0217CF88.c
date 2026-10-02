@@ -45,7 +45,7 @@ int func_0217CF88(int a0, int a1)
     c = func_0201210C(w);
     h = func_02012138(w);
     v = 0;
-    if (func_02026454() == 2)
+    if (func_02026454(h) == 2)
         v = func_02026474(h);
     if (v != 0) {
         func_0217BBCC(c, w, v);

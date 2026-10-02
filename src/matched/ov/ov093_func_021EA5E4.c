@@ -13,9 +13,9 @@
  *   func_02045838  0x02045838  arm
  */
 
-void func_02045838(unsigned int);
+void func_02045838(void *dst, void *src);
 
-void func_021EA5E4(unsigned char *p)
+void func_021EA5E4(unsigned char *p, void *src)
 {
-    func_02045838(*(unsigned int *)(p + 0xAC));
+    func_02045838(*(void **)(p + 0xAC), src);
 }

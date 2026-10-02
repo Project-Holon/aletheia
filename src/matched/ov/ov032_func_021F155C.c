@@ -28,7 +28,7 @@ typedef unsigned int u32;
 
 extern void func_021F1704(void *h, char *t);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
-extern u8 *func_02031290(void);
+extern u8 *func_02031290(void *node);
 extern void func_02082BCC(void *p, int v, int n);
 extern int func_0207C768(int a, int b);
 
@@ -39,8 +39,7 @@ void func_021F155C(char *p, u8 *e, u8 mode, u8 delay, int *r)
 {
     u8 *t;
 
-    func_020311B8(*(u32 *)(p + 0xa0), (void *)func_021F1704, 0x28, 0);
-    t = func_02031290();
+    t = func_02031290(func_020311B8(*(u32 *)(p + 0xa0), (void *)func_021F1704, 0x28, 0));
     func_02082BCC(t, 0, 0x28);
     t[0xc] = mode;
     if (t[0xc] == 0) {

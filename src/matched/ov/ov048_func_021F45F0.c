@@ -18,8 +18,8 @@
  *   func_020111E8  0x020111E8  thumb
  */
 
-extern void func_02012EBC(int a);
-extern int func_0200D418(void);
+extern int func_02012EBC(int a);
+extern int func_0200D418(int sys);
 extern void func_021F44B8(void *a);
 extern int func_0215E404(int a);
 extern int func_020111E8(void);
@@ -32,8 +32,7 @@ void func_021F45F0(int *a, void *b)
     int r6;
     int r0;
 
-    func_02012EBC(a[2]);
-    r7 = func_0200D418();
+    r7 = func_0200D418(func_02012EBC(a[2]));
     func_021F44B8(b);
     if (func_0215E404(r7)) {
         r0 = func_020111E8();

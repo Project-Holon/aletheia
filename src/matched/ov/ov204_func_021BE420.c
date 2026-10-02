@@ -14,12 +14,11 @@
  *   func_020061F8 0x020061F8 thumb
  */
 
-extern void func_02006148(int);
-extern void func_020061F8(void);
+extern int func_02006148(unsigned int);
+extern void func_020061F8(int);
 
 int func_021BE420(int a, int b, int *p)
 {
-    func_02006148(*p);
-    func_020061F8();
+    func_020061F8(func_02006148(*p));
     return 1;
 }

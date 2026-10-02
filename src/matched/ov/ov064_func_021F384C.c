@@ -26,8 +26,8 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-extern void func_020124E4(void);
-extern int func_0201210C(void);
+extern void *func_020124E4(void *task);
+extern int func_0201210C(void *p);
 extern int func_02188D2C(int a);
 extern int *func_021897BC(char *p, int idx);
 extern int func_021BE6E8(int a, int b, int c, int d);
@@ -38,7 +38,7 @@ extern void func_020061E4(int a);
 extern void func_0204E720(int a, int b, int c, int d);
 extern int func_0204E804(void);
 
-int func_021F384C(int unused, int *st)
+int func_021F384C(void *task, int *st)
 {
     int sys;
     int s;
@@ -46,8 +46,7 @@ int func_021F384C(int unused, int *st)
     int v;
     int lim;
 
-    func_020124E4();
-    sys = func_0201210C();
+    sys = func_0201210C(func_020124E4(task));
     s = func_02188D2C(sys);
     w = func_021897BC((char *)sys, 1);
     v = func_021BE6E8(s, 0, 0, 0);

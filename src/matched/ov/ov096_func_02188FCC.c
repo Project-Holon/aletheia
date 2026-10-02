@@ -29,7 +29,7 @@ extern int func_021B9AF8(int, int);
 extern int func_021B99B8(int, int);
 extern int func_021B9B94(int);
 extern int func_0218A308(int, int);
-extern int func_021D5B68(void);
+extern int func_021D5B68(int);
 extern int func_021D62A8(int);
 extern int func_0218A0F4(int, int, int, int, int);
 
@@ -49,7 +49,7 @@ void func_02188FCC(int a, int b, int c)
          i < func_021B9B94(handle); i++) {
         int t = func_0218A308(handle, (unsigned char)i);
 
-        if (func_021D5B68() == 0) {
+        if (func_021D5B68(t) == 0) {
             if (func_0218A0F4(a, c, func_021D62A8(t), 0, t1) != 0)
                 break;
         }

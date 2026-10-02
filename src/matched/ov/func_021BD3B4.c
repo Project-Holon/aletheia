@@ -17,12 +17,11 @@
  */
 
 
-extern void func_021BD43C(void);
-extern void func_021BD868(void);
+extern void *func_021BD43C(void *mgr, int key);
+extern int func_021BD868(const void *p);
 
-void func_021BD3B4(void)
+int func_021BD3B4(void *mgr, int key)
 {
-    func_021BD43C();
-    func_021BD868();
+    return func_021BD868(func_021BD43C(mgr, key));
 }
 

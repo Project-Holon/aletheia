@@ -26,9 +26,9 @@ typedef unsigned int u32;
 extern u32 func_0201C6C4(u32 a, u32 b);
 extern void func_02045334(u32 a);
 extern void func_02045374(u32 a);
-extern void func_02045730(u32 a);
+extern u8 func_02045730(u32 a);
 extern u32 func_02045770(u32 p);
-extern void func_02041B6C(void);
+extern void func_02041B6C(u32 bit);
 extern void func_02031194(void *task);
 
 void func_021F20E4(void *task, char *q)
@@ -47,8 +47,7 @@ void func_021F20E4(void *task, char *q)
     }
     if (s[4] == 0) {
         func_02045374(**(u32 **)(q + 4));
-        func_02045730(**(u32 **)(q + 4));
-        func_02041B6C();
+        func_02041B6C(func_02045730(**(u32 **)(q + 4)));
         r = *(int **)(q + 0xc);
         if (r != 0)
             (*r)--;

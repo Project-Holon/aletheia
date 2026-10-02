@@ -26,15 +26,14 @@ extern u8 func_021B8ED8(u8 *p, u8 k);
 extern int func_021B98AC(char *const *q, u8 b);
 extern u32 func_021D5844(u32 *p);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
-extern u8 *func_02031290(void);
+extern u8 *func_02031290(void *node);
 extern void func_021ED724(void);
 
 void func_021ED660(char *p, u32 k, u32 a, u32 b)
 {
     struct S *t;
 
-    func_020311B8(*(u32 *)(p + 0x2c), (void *)func_021ED724, 0x18, 1);
-    t = (struct S *)func_02031290();
+    t = (struct S *)func_02031290(func_020311B8(*(u32 *)(p + 0x2c), (void *)func_021ED724, 0x18, 1));
     t->v = func_021D5844((u32 *)func_021B98AC(*(char *const **)(p + 0x138),
                                               func_021B8ED8(*(u8 **)(p + 0x134), a)));
     t->w = p;

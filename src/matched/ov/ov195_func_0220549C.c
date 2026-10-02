@@ -24,8 +24,8 @@ extern int func_02045770(int);
 extern void func_02043B5C(int, int);
 extern void func_02045334(int);
 extern void func_02045374(int);
-extern void func_02045730(int);
-extern void func_02041B6C(void);
+extern unsigned char func_02045730(int);
+extern void func_02041B6C(int);
 extern void func_0201CE48(int);
 extern void func_02045808(int);
 
@@ -37,8 +37,7 @@ void func_0220549C(char *a, int b)
     p = *(int *)(a + 0x6c);
     func_02045334(p);
     func_02045374(p);
-    func_02045730(p);
-    func_02041B6C();
+    func_02041B6C(func_02045730(p));
     if (*(int *)(a + 0x64) != 0)
         func_0201CE48(*(int *)(a + 0x64));
     if (*(int *)(a + 0x80) != 0)

@@ -14,9 +14,9 @@
  *   func_0204B3DC 0x0204B3DC arm
  */
 
-extern void func_0204B3DC(int);
+extern void func_0204B3DC(void *obj, unsigned int v);
 
-void func_021F0ED0(char *p)
+void func_021F0ED0(char *p, int a)
 {
-    func_0204B3DC(*(int *)(p + 0x14));
+    func_0204B3DC(*(void **)(p + 0x14), a);
 }

@@ -28,7 +28,7 @@ extern void func_021F0F30(char *e, int a, int b);
 extern void func_021F1144(char *this, char *e, int a, int b, int c, void *d);
 extern void func_021F1418(void);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
-extern u8 *func_02031290(void);
+extern u8 *func_02031290(void *node);
 extern void func_02082BCC(void *p, int v, int n);
 
 void func_021F13A0(char *this, int a, int b, u8 c, int s)
@@ -38,8 +38,7 @@ void func_021F13A0(char *this, int a, int b, u8 c, int s)
 
     e = func_021F0F44(this, 0xff);
     if (e != 0) {
-        func_020311B8(*(u32 *)(this + 0xa0), (void *)func_021F1418, 0x18, 0);
-        r = func_02031290();
+        r = func_02031290(func_020311B8(*(u32 *)(this + 0xa0), (void *)func_021F1418, 0x18, 0));
         func_02082BCC(r, 0, 0x18);
         *(char **)(r + 0xc) = this;
         r[1] = c;

@@ -16,11 +16,11 @@
  */
 
 extern void *func_02048BC4(void *, int);
-extern void func_02048C58(void);
+extern void func_02048C58(void *);
 extern char d_02185DD4[];
 
 void func_02185824(char *p)
 {
     *(void **)(p + 0xc370) = func_02048BC4(d_02185DD4, (unsigned short)*(unsigned int *)p);
-    func_02048C58();
+    func_02048C58(*(void **)(p + 0xc370));
 }

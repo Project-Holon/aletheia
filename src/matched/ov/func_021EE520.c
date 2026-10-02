@@ -17,10 +17,10 @@
  * emitter.
  */
 
-extern unsigned char *func_0202616C(int);
+extern void *func_0202616C(void **obj, unsigned idx);
 extern void func_021EEFA4(int, int, int, int, int);
-void func_021EE520(char *p)
+void func_021EE520(char *p, unsigned idx)
 {
-    unsigned char *q = func_0202616C(*(int *)(*(int *)(p + 0x2c) + 0x70));
+    unsigned char *q = func_0202616C(*(void ***)(*(char **)(p + 0x2c) + 0x70), idx);
     func_021EEFA4(*(int *)(p + 0x2c), 0x54, 0x10, q[0], q[1]);
 }

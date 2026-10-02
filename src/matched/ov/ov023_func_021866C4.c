@@ -20,8 +20,8 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_02012EBC(u32 a);
-extern u32 func_0200ED48(void);
+extern u32 func_02012EBC(u32 a);
+extern u32 func_0200ED48(u32 a);
 extern u32 func_02184180(u32 a, u32 b);
 extern int func_02039338(void);
 extern u32 func_02008530(u32 a);
@@ -33,8 +33,7 @@ void func_021866C4(u32 *p)
     u32 h;
     u32 r;
 
-    func_02012EBC(*(u32 *)(p[1] + 4));
-    h = func_0200ED48();
+    h = func_0200ED48(func_02012EBC(*(u32 *)(p[1] + 4)));
     for (i = 0; i < 5; i++) {
         r = func_02184180(*(u32 *)p[1], (u8)i);
         if (r != 0) {

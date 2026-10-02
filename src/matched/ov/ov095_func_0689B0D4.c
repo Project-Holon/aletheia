@@ -31,7 +31,7 @@ typedef struct {
     u32 rest : 9;
 } Q;
 
-extern void func_0689B354(u8 *p);
+extern void func_0689B354(u8 *p, u8 *s);
 extern int func_0689B174(u32 a);
 extern u32 func_0689B184(u32 a);
 extern void func_0689B194(u32 a, u32 b, u32 c);
@@ -45,7 +45,7 @@ int func_0689B0D4(int unused, u8 *s)
 {
     u8 c;
 
-    func_0689B354(s + 0x80);
+    func_0689B354(s + 0x80, s);
     if (func_0689B174(*(u32 *)(s + 0xa0)) == 2) {
         c = 6;
         if (s[0x80] != 0) {

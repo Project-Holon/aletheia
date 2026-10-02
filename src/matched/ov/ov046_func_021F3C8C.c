@@ -40,8 +40,8 @@ typedef struct Q {
     int p20;
 } Q;
 
-extern u32 func_020124E4(void);
-extern u32 func_0201210C(void);
+extern u32 func_020124E4(u32);
+extern u32 func_0201210C(u32);
 extern u32 func_02188D2C(u32);
 extern Q *func_021897BC(u32, int);
 extern u32 func_02188C80(u32);
@@ -54,8 +54,8 @@ extern void func_021F3DE8(void);
 
 int func_021F3C8C(u32 a, int *b)
 {
-    u32 h = func_020124E4();
-    u32 x = func_0201210C();
+    u32 h = func_020124E4(a);
+    u32 x = func_0201210C(h);
     Q *q;
     int r;
 

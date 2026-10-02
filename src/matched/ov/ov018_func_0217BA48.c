@@ -12,10 +12,10 @@
  *   func_0217BA54  0x0217BA54  thumb
  */
 
-void func_0217BA54(void);
+void func_0217BA54(void *a);
 
 void func_0217BA48(int a, int b)
 {
     if (b == 0)
-        func_0217BA54();
+        func_0217BA54((void *)a);
 }

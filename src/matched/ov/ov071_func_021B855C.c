@@ -37,8 +37,8 @@ typedef struct {
 
 int func_021B855C(int a, int *p, C *c, unsigned char *d)
 {
-    extern void func_02012138(void *);
-    extern int func_02158344(void);
+    extern unsigned func_02012138(void *);
+    extern int func_02158344(unsigned);
     extern void func_021B6F04(Q *, unsigned char *);
     extern unsigned func_02045770(void *);
     extern int func_0201C6C4(void *, unsigned);
@@ -48,8 +48,7 @@ int func_021B855C(int a, int *p, C *c, unsigned char *d)
     int n;
     int i;
 
-    func_02012138(*c->f0);
-    r = func_02158344();
+    r = func_02158344(func_02012138(*c->f0));
     n = 0;
     if (c->f2d == 1) {
         return 1;

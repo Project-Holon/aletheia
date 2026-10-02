@@ -55,16 +55,15 @@ extern u32 func_021BF2FC();
 extern u32 func_021BF38C();
 extern u32 func_021BF47C();
 extern u32 func_021BF704();
-extern u32 func_021BF76C();
+extern u32 func_021BF76C(void *);
 extern u32 func_021BF810();
 extern u32 func_021BFC60();
-extern u32 func_021C116C();
+extern void func_021C116C(u32);
 u32 func_021BE704(u32 a0)
 {
     if (*(u32*)(((u8*)a0) + 968) != 0) {
     if (func_021BF810(a0, *(u32*)(((u8*)a0) + 968)) != 0) {
-    func_021BF76C(a0);
-    func_021C116C();
+    func_021C116C(func_021BF76C((void *)a0));
     }
     }
     func_021BFC60(a0);

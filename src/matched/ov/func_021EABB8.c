@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_020456F8  0x020456F8  arm  arm9
@@ -18,13 +18,12 @@
  */
 
 extern void func_020456F8(void *);
-extern void func_02045730(void *);
-extern void func_02041B6C(void);
+extern unsigned char func_02045730(void *);
+extern void func_02041B6C(unsigned int);
 
 void func_021EABB8(void **p)
 {
     func_020456F8(*p);
-    func_02045730(*p);
-    func_02041B6C();
+    func_02041B6C(func_02045730(*p));
 }
 

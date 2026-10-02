@@ -24,11 +24,11 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_021BA434();
+extern unsigned char func_021BA434(char *p);
 u32 func_021BA3B4(u32 a0, u32 a1)
 {
     if (a1 == 0) {
-    if (func_021BA434() > 1) {
+    if (func_021BA434((char *)a0) > 1) {
     return 1;
     }
     return 0;

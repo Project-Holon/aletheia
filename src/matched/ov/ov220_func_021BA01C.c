@@ -29,8 +29,8 @@ extern void *func_02045770(void *p);
 extern int func_0201C6C4(void *a, void *b);
 extern void func_02045334(void *p);
 extern void func_02045374(void *p);
-extern void func_02045730(void *p);
-extern void func_02041B6C(void);
+extern unsigned char func_02045730(void *p);
+extern void func_02041B6C(unsigned int bit);
 
 void func_021BA01C(Obj *o)
 {
@@ -42,8 +42,7 @@ void func_021BA01C(Obj *o)
                 void *p = o->ptr[i];
                 func_02045334(p);
                 func_02045374(p);
-                func_02045730(p);
-                func_02041B6C();
+                func_02041B6C(func_02045730(p));
                 o->done[i] = 1;
             }
         }

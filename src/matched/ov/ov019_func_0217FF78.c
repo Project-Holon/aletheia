@@ -41,8 +41,8 @@
 
 typedef unsigned int u32;
 
-extern void func_020399A8(void);
-extern int func_0203D1A4(void);
+extern void *func_020399A8(void);
+extern int func_0203D1A4(void *);
 extern int func_021751DC(u32 *p, int i, u32 *out);
 extern int func_021677E4(u32 v, int i);
 extern int func_02008550(u32 *q);
@@ -55,8 +55,7 @@ void func_0217FF78(u32 *p)
     int i;
     u32 tmp[5];
 
-    func_020399A8();
-    count = func_0203D1A4();
+    count = func_0203D1A4(func_020399A8());
 
     for (i = 0; i < 4; i++) {
         if (count != i && func_021751DC(p, i, tmp) == 1) {

@@ -7,7 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
+ *
+ * EXACT*: the listing extent includes two bytes of trailing alignment padding.
  *
  * symbols:
  *   func_021BF084  0x021BF084  thumb  ov099
@@ -25,13 +27,13 @@ typedef signed short   s16;
 typedef signed long    s32;
 typedef int BOOL;
 
-extern void func_021BF084(void);
+extern int func_021BF084(void *p);
 extern void func_021BF24C(void *a, void *b);
 extern void func_021BF1CC(void *a);
 
 void func_021BF280(void *a, void *b)
 {
-    func_021BF084();
+    func_021BF084(a);
     func_021BF24C(a, b);
     func_021BF1CC(a);
 }

@@ -29,12 +29,12 @@ typedef struct {
     u16 fC;
 } Req;
 
-int func_020124E4(void);
-int func_02012138(void);
-u8 *func_02158344(void);
-void func_02188C7C(int);
-void func_0216D9A0(void);
-void func_0216D9E4(void);
+int func_020124E4(int);
+int func_02012138(int);
+u8 *func_02158344(int);
+int func_02188C7C(int);
+void func_0216D9A0(int);
+void func_0216D9E4(int);
 void *func_0217FC08(int a, int b, u8 *c, int d, int e, u16 f);
 void func_02012374(int a, void *b);
 
@@ -43,22 +43,19 @@ int func_0217FB94(int a, int *state, Req *req)
     int s;
     u8 *w;
 
-    s = func_020124E4();
-    func_02012138();
-    w = func_02158344();
+    s = func_020124E4(a);
+    w = func_02158344(func_02012138(s));
     switch (*state) {
     case 0:
         if (w == 0) {
             return 1;
         }
-        func_02188C7C(req->f0);
-        func_0216D9A0();
+        func_0216D9A0(func_02188C7C(req->f0));
         func_02012374(a, func_0217FC08(s, req->f0, w, req->f4, req->f8, req->fC));
         (*state)++;
         break;
     case 1:
-        func_02188C7C(req->f0);
-        func_0216D9E4();
+        func_0216D9E4(func_02188C7C(req->f0));
         return 1;
     }
     return 0;

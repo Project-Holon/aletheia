@@ -20,18 +20,17 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-extern void func_020124E4(void);
-extern int func_0201210C(void);
+extern void *func_020124E4(void *task);
+extern int func_0201210C(void *p);
 extern int func_02188D2C(int a);
 extern u8 *func_021BE674(int a, int b, int c, u16 d);
 extern int func_021BE6BC(u8 *p);
 
-int func_021F3BD8(void)
+int func_021F3BD8(void *task)
 {
     int s;
 
-    func_020124E4();
-    s = func_02188D2C(func_0201210C());
+    s = func_02188D2C(func_0201210C(func_020124E4(task)));
     if (func_021BE6BC(func_021BE674(s, 0, 1, 0)) != 0) {
         return 1;
     }

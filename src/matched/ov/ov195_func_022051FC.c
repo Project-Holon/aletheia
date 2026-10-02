@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02049B40 0x02049B40 arm
@@ -35,8 +35,8 @@ extern u32 func_02045770(u32);
 extern void func_02043B5C(u32, int);
 extern void func_02045334(u32);
 extern void func_02045374(u32);
-extern void func_02045730(u32);
-extern void func_02041B6C(void);
+extern unsigned char func_02045730(u32);
+extern void func_02041B6C(u32);
 extern u32 func_0201F5DC(int, int, int, u16);
 extern u32 func_02045B38(int, int, int, u16);
 extern u32 func_0203101C(u16, u16, int, int);
@@ -57,8 +57,7 @@ void func_022051FC(int a, char *b)
     p = *(u32 *)(b + 0x6c);
     func_02045334(p);
     func_02045374(p);
-    func_02045730(p);
-    func_02041B6C();
+    func_02041B6C(func_02045730(p));
     *(u32 *)(b + 0x74) = func_0201F5DC(1, 2, 0, *(u16 *)(b + 2));
     *(u32 *)(b + 0x78) = func_02045B38(0, 2, 0xac, *(u16 *)(b + 2));
     *(u32 *)(b + 0x7c) = func_02045B38(0, 2, 0xcc, *(u16 *)(b + 2));

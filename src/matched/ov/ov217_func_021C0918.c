@@ -30,15 +30,14 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_02012138();
+extern u32 func_02012138(u32);
 extern u32 func_02026400();
 extern u32 func_02026454();
 extern u32 func_02026498();
-extern u32 func_021BF734();
-void func_021C0918(void)
+extern u32 func_021BF734(u8 *);
+void func_021C0918(u8 *a0)
 {
-    func_021BF734();
-    u32 v1 = func_02012138();
+    u32 v1 = func_02012138(func_021BF734(a0));
     func_02026498(v1, 1);
     if (func_02026454(v1) == 2) {
     func_02026400(v1);

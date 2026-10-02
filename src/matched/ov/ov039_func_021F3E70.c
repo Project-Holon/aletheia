@@ -45,8 +45,8 @@ typedef struct {
     u8 flag[8];
 } Save;
 
-extern void func_020124E4(void);
-extern void *func_0201210C(void);
+extern void *func_020124E4(void *p);
+extern void *func_0201210C(void *p);
 extern int func_02188D2C(void *p);
 extern Work *func_021897BC(void *p, int idx);
 extern u32 func_02188C80(void *p);
@@ -73,8 +73,7 @@ int func_021F3E70(int a0, int *a1)
     void *o2;
     int i;
 
-    func_020124E4();
-    sys = func_0201210C();
+    sys = func_0201210C(func_020124E4((void *)a0));
     h = func_02188D2C(sys);
     s = func_021897BC(sys, 1);
     q = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(sys))), 2);

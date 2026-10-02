@@ -15,13 +15,13 @@
  *   func_0204B878 0x0204B878 arm
  */
 
-extern int func_0204B898(void);
+extern unsigned short func_0204B898(void *);
 extern void func_0204B8C4(void *, int);
 extern void func_0204B878(void *, int);
 
 void func_0220F138(void *a, int b)
 {
-    if (b != func_0204B898())
+    if (b != func_0204B898(a))
     {
         func_0204B8C4(a, 0);
         func_0204B878(a, b);

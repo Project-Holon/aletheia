@@ -25,15 +25,14 @@ typedef unsigned int u32;
 extern void func_021F1F9C(void *task, u8 *s);
 extern void func_02021FD8(u32 p, u32 idx, u32 c, u32 count, u8 weight, u16 color);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
-extern u8 *func_02031290(void);
+extern u8 *func_02031290(void *node);
 extern void func_02082BCC(void *p, int v, int n);
 
 void func_021F1F34(char *p, u8 *q, int *r)
 {
     u8 *t;
 
-    func_020311B8(*(u32 *)(p + 0xa0), (void *)func_021F1F9C, 0x14, 0);
-    t = func_02031290();
+    t = func_02031290(func_020311B8(*(u32 *)(p + 0xa0), (void *)func_021F1F9C, 0x14, 0));
     func_02082BCC(t, 0, 0x14);
     *(char **)(t + 0xc) = p;
     *(u8 **)(t + 8) = q;

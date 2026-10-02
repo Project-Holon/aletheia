@@ -38,7 +38,7 @@ void func_021B6844(int *p)
     struct S6844 s;
     void func_0204A48C(void *, void *, int);
     int func_0204B100(int, int, int);
-    void func_0204B270(void);
+    void func_0204B270(int);
     int func_02025318(int, int, int);
     int func_02025538(int, int);
 
@@ -51,7 +51,7 @@ void func_021B6844(int *p)
     s.h14 = 0x40;
     func_0204A48C(&s, &d_021BA7D4, 0x61);
     p[5] = func_0204B100(0x60, 0, 0x61);
-    func_0204B270();
+    func_0204B270(p[5]);
     p[1] = func_02025318(0x61, 0x10, 0x10);
     p[11] = func_02025538(0x61, p[5]);
 }

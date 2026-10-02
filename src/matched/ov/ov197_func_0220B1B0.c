@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_0220B248 0x0220B248 thumb
@@ -15,22 +15,22 @@
  *   func_0220B880 0x0220B880 thumb
  */
 
-extern void func_0220B248(void);
-extern void func_0220B774(void);
-extern void func_0220B880(void);
+extern void func_0220B248(char *);
+extern void func_0220B774(char *);
+extern void func_0220B880(char *);
 
-void func_0220B1B0(int unused, int which)
+void func_0220B1B0(char *a, int which)
 {
     switch (which)
     {
     case 0:
-        func_0220B248();
+        func_0220B248(a);
         break;
     case 1:
-        func_0220B774();
+        func_0220B774(a);
         break;
     case 2:
-        func_0220B880();
+        func_0220B880(a);
         break;
     }
 }

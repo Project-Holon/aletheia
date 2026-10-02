@@ -24,20 +24,22 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 int func_020122C0(void *p, int a, void (*cb)(void), int n);
-void *func_020124E8(void);
+void *func_020124E8(void *p);
 int func_020120F4(void *p);
-int func_02012EBC(void);
+int func_02012EBC(int p);
 void func_021542C0(void);
 
 void *func_02154670(void *p)
 {
     void *r7;
     char *r4;
+    int q;
 
     r7 = (void *)func_020122C0(p, 0, func_021542C0, 0x2CC);
-    r4 = func_020124E8();
-    *(int *)(r4 + 4) = func_020120F4(p);
-    *(int *)(r4 + 8) = func_02012EBC();
+    r4 = func_020124E8(r7);
+    q = func_020120F4(p);
+    *(int *)(r4 + 4) = q;
+    *(int *)(r4 + 8) = func_02012EBC(q);
     *(void **)r4 = p;
     *(int *)(r4 + 0x258) = func_020120F4(p);
     *(int *)(r4 + 0x25C) = 1;

@@ -27,7 +27,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021D775C(int);
-extern void *func_021C7FCC(void *);
+extern void *func_021C7FCC(void *, int);
 extern void *func_021C8120(void *, int);
 extern u8 func_021B9B94(void *);
 extern void *func_021B9C00(void *, int);
@@ -51,7 +51,7 @@ void func_021E6BF4(void *x, void *a, int c)
     u8 pick;
     int slot;
     if (c == func_021D775C(2)) {
-        party = func_021C7FCC(a);
+        party = func_021C7FCC(a, c);
         moves = func_021C8120(a, 48);
         used = 0;
         count = func_021B9B94(party);

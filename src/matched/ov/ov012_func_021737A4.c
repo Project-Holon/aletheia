@@ -28,8 +28,8 @@ typedef unsigned char u8;
 extern int func_02026454(int a);
 extern u8 *func_02026474(int a);
 extern void func_02034714(void *file, int line, void *msg);
-extern void func_02188C80(int b);
-extern int func_0201212C(void);
+extern int func_02188C80(int b);
+extern int func_0201212C(int p);
 extern int func_020123C4(int v);
 extern int func_02173840(u8 *p);
 extern int func_02174268(u8 *p);
@@ -49,8 +49,7 @@ void func_021737A4(int a, int b)
     if (r4 == 0) {
         func_02034714((void *)0x02175610, 0, (void *)0x02175610);
     }
-    func_02188C80(b);
-    if (func_0201212C() == 1) {
+    if (func_0201212C(func_02188C80(b)) == 1) {
         return;
     }
     if (func_020123C4(*(int *)(*(u8 **)r4 + 0xc)) == 1) {

@@ -42,7 +42,7 @@ typedef struct Obj {
     int dirty;
 } Obj;
 
-extern void func_0200A094(void *list);
+extern void func_0200A094(void *list, u32 idx);
 extern u32 func_0200A348(void *list);
 extern int func_0200A0E4(void *list, u32 i);
 extern void func_0200A000(void *list, u32 i, void *out);
@@ -55,7 +55,7 @@ void func_021DBC08(Obj *o, int idx)
     unsigned char buf[0xCC];
     u32 i;
 
-    func_0200A094(o->list);
+    func_0200A094(o->list, idx);
     for (i = 0; i < func_0200A348(o->list); i++)
         func_021DBEE4(&o->items[i]);
     for (i = 0; i < func_0200A348(o->list); i++) {

@@ -33,8 +33,8 @@ struct ent {
     u8 pad3[0x18];
 };
 
-extern void func_02012EBC(int);
-extern int func_0200ED48(void);
+extern int func_02012EBC(int);
+extern int func_0200ED48(int);
 extern int func_0201283C(int);
 extern int func_02188CE0(int);
 extern int func_0217AFB0(char *, int, int *);
@@ -51,8 +51,7 @@ void func_0217B440(char *base, int x, int y)
     int r;
     int i;
 
-    func_02012EBC(x);
-    a = func_0200ED48();
+    a = func_0200ED48(func_02012EBC(x));
     b = func_0201283C(x);
     c = func_02188CE0(y);
     q = (struct ent *)(base + 0x2910);

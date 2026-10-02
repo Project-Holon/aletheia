@@ -26,8 +26,8 @@
 
 typedef unsigned char u8;
 
-int func_020124E4(void);
-int func_02012138(void);
+int func_020124E4(int);
+int func_02012138(int);
 int func_020120F4(int);
 int func_0201210C(int);
 u8 *func_02158344(int);
@@ -49,8 +49,8 @@ int func_0217FA38(int a, int *state)
     u8 *w;
     int r;
 
-    s = func_020124E4();
-    h = func_02012138();
+    s = func_020124E4(a);
+    h = func_02012138(s);
     p2 = func_020120F4(s);
     p3 = func_0201210C(s);
     w = func_02158344(h);

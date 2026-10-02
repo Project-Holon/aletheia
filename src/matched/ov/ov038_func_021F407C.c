@@ -36,8 +36,8 @@ typedef struct {
     int x, y, z;
 } Vec;
 
-extern void func_020124E4(void);
-extern void *func_0201210C(void);
+extern void *func_020124E4(void *p);
+extern void *func_0201210C(void *p);
 extern int func_02188D2C(void *p);
 extern u8 *func_021897BC(void *p, int idx);
 extern u32 func_02188CB4(void *p);
@@ -60,8 +60,7 @@ int func_021F407C(int a0, int *a1)
     void *o;
     Vec *v;
 
-    func_020124E4();
-    sys = func_0201210C();
+    sys = func_0201210C(func_020124E4((void *)a0));
     h = (char *)func_02188D2C(sys);
     s = func_021897BC(sys, 1);
     func_02188CB4(sys);

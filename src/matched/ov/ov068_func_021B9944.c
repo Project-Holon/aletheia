@@ -23,10 +23,10 @@
  *   func_021B9D58  0x021B9D58  thumb  ov068
  */
 
-void func_021B9944(void *p)
+int func_021B9944(void *p, int i)
 {
-    void func_021BA018(void *);
-    func_021BA018((char *)p + 0x7c);
+    int func_021BA018(char *, int);
+    return func_021BA018((char *)p + 0x7c, i);
 }
 
 void func_021B9950(void *p)
@@ -35,14 +35,14 @@ void func_021B9950(void *p)
     func_021BA020((char *)p + 0x7c);
 }
 
-void func_021B995C(void)
+int func_021B995C(int *p, int i)
 {
-    void func_021B9BFC(void);
-    func_021B9BFC();
+    int func_021B9BFC(int *, int);
+    return func_021B9BFC(p, i);
 }
 
-void func_021B9964(void)
+void func_021B9964(char *p)
 {
-    void func_021B9D58(void);
-    func_021B9D58();
+    void func_021B9D58(char *);
+    func_021B9D58(p);
 }

@@ -17,13 +17,13 @@
  * Release the child at +0x2c and reset its field +0x5c to the handler.
  */
 
-extern void func_021EEF74(void *);
+extern void func_021EEF74(char *q, int a, int b);
 extern void func_021DC9B4(void *, void *);
 extern void func_021E066C(void);
 
-void func_021EE944(char *p)
+void func_021EE944(char *p, int a, int b)
 {
-    func_021EEF74(*(void **)(p + 0x2c));
+    func_021EEF74(*(char **)(p + 0x2c), a, b);
     func_021DC9B4(*(void **)(p + 0x2c), (void *)&func_021E066C);
 }
 

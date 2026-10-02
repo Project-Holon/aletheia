@@ -27,8 +27,8 @@ typedef unsigned short u16;
 typedef struct { u16 a, b, c, d; } Rect;
 
 extern int func_020120F4(int);
-extern void func_02012944(void);
-extern int func_02008550(void);
+extern u8 *func_02012944(int);
+extern int func_02008550(u8 *);
 extern int func_02012B58(int);
 extern int func_0204B294(int, int, int, int, Rect *, int, int);
 extern void func_0204B3DC(int, int);
@@ -43,8 +43,7 @@ void func_0217DC14(int *p)
 
     r = d_021836D4;
     h = func_020120F4(p[0]);
-    func_02012944();
-    if (func_02008550() == 1) {
+    if (func_02008550(func_02012944(h)) == 1) {
         r.c = 3;
     }
     p[0x98 / 4] = func_0204B294(p[0x54 / 4], p[1], p[2], p[4], &r, 0, 0x70);

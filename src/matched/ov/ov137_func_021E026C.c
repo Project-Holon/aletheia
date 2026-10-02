@@ -33,17 +33,17 @@ extern void func_0201C724(void *,void *,int,int,void *,void *,u16);
 extern void func_02045334(void *),func_02045374(void *);
 extern int func_02045730(void *);
 extern void func_02041B6C(int);
-extern void func_0201EF40(void *,int);
+extern void func_0201EF40(void *,int,unsigned);
 extern void *func_020457B0(int,int);
 extern void func_0201F250(void *,void *,void *);
 extern void func_02045808(void *);
-void func_021E026C(u8 *p,int message)
+void func_021E026C(u8 *p,int message,unsigned value)
 {
     u8 *s;
     void *window,*text,*owner,*data;
     s=p+3296;
     window=*(void **)(s+16);
-    func_0201EF40(*(void **)(s+12),0);
+    func_0201EF40(*(void **)(s+12),0,value);
     text=func_020457B0(256,114);
     func_02045CAC(*(void **)(s+8),message,text);
     func_0201F250(*(void **)(s+12),*(void **)(s+92),text);

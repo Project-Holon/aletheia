@@ -7,9 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
- * EXACT* because the extent runs into the unlabelled leaf func_021F3ECC
+ * Once filed EXACT* because the extent ran into the unlabelled leaf func_021F3ECC
  * (filed as ov043_func_021F3ECC.c) and the unlabelled follower
  * 0x021F3EEC. Twin of ov044_func_021F37F0.c.
  *
@@ -43,8 +43,8 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern void func_020124E4(void);
-extern u32 func_0201210C(void);
+extern void *func_020124E4(void *a);
+extern u32 func_0201210C(void *p);
 extern void *func_02188D2C(u32 a);
 extern int *func_021897BC(u32 a, int b);
 extern u32 func_02188C58(u32 a);
@@ -77,8 +77,7 @@ int func_021F3D78(void *a, int *b)
     u32 c;
     int v[3];
 
-    func_020124E4();
-    s = func_0201210C();
+    s = func_0201210C(func_020124E4(a));
     r = func_02188D2C(s);
     w = func_021897BC(s, 1);
     h = func_02188C58(s);

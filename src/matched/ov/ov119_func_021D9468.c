@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Start a transfer on the object when the length is non-zero.
  *
@@ -18,7 +18,7 @@
  *   func_021E1B14  0x021E1B14  thumb  ov119
  */
 
-extern void func_021E36D8(void *p);
+extern void func_021E36D8(void *p, int idx);
 extern int func_021D8AA8(void *p);
 extern void func_021E36A8(void *p, int a, int b, int c, int d, int e);
 extern void func_021E1B14(void *p, int a, int b);
@@ -29,7 +29,7 @@ void func_021D9468(void *p, int a, int b)
 
     if (b == 0)
         return;
-    func_021E36D8(p);
+    func_021E36D8(p, a);
     t = func_021D8AA8(p);
     func_021E36A8(p, a, 1 - a, b, 1, t);
     func_021E1B14(p, a, b);

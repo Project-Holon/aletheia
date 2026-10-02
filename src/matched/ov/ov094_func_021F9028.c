@@ -7,7 +7,9 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
+ *
+ * EXACT*: the listing extent includes two bytes of trailing alignment padding.
  *
  * Frees the buffer at 0x10 of the current task's work, if any.
  *
@@ -15,12 +17,12 @@
  *   func_02030EE8 0x02030EE8 arm
  *   func_020307B0 0x020307B0 arm
  */
-extern char *func_02030EE8(void);
+extern char *func_02030EE8(void *h);
 extern void func_020307B0(void *);
 
-void func_021F9028(void)
+void func_021F9028(void *h)
 {
-    void *p = *(void **)(func_02030EE8() + 0x10);
+    void *p = *(void **)(func_02030EE8(h) + 0x10);
     if (p != 0)
         func_020307B0(p);
 }

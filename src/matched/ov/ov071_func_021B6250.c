@@ -45,7 +45,7 @@ typedef struct {
 extern Pair d_021BA774[];
 
 extern void *func_02012138(void *);
-extern u8 *func_02158344(void);
+extern u8 *func_02158344(void *);
 extern void func_0202208C(int, int, int, int, int, int, int);
 extern int func_0200FB24(void);
 extern int func_0217440C(void);
@@ -69,7 +69,7 @@ int func_021B6250(int a, int *seq, void **pwk, u8 *mywk)
     u8 k;
 
     h = func_02012138(*pwk);
-    r = func_02158344();
+    r = func_02158344(h);
     switch (*seq) {
     case 0:
         func_0202208C(0, 1, 1, 0, 6, 1, 0x8061);

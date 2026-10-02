@@ -16,10 +16,10 @@
  */
 
 
-extern void func_021EBFA8(char *);
+extern void func_021EBFA8(char *p, int i, int v);
 extern void func_0204B92C(int, int);
-void func_021EBFCC(char *p, int i)
+void func_021EBFCC(char *p, int i, int v)
 {
-    func_021EBFA8(p);
+    func_021EBFA8(p, i, v);
     func_0204B92C(*(int *)(p + i * 4 + 0x9E74), 1);
 }

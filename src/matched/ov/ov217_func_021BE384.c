@@ -76,14 +76,14 @@ extern u32 func_021C06E0();
 extern u32 func_021C0794();
 extern u32 func_021C0800();
 extern u32 func_021C085C();
-extern u32 func_021C08A8();
+extern void func_021C08A8(int *);
 extern u32 func_021C08F0();
 extern u32 func_021C0968();
 extern u32 func_021C09E0();
 extern u32 func_021C09EC();
 void func_021BE384(u32 a0)
 {
-    func_021C08A8();
+    func_021C08A8((int *)a0);
     func_021C085C(a0);
     func_021C09E0(*(u32*)(((u8*)a0)));
     func_021C09EC(*(u32*)(((u8*)a0)));

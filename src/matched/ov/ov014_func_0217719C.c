@@ -7,15 +7,17 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * symbols:
  *   func_02177310  0x02177310  thumb
  */
 
-void func_02177310(void);
+typedef unsigned int u32;
 
-int func_0217719C(void)
+void func_02177310(u32 v);
+
+int func_0217719C(u32 v)
 {
-    func_02177310();
+    func_02177310(v);
     return 1;
 }

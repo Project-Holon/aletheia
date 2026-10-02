@@ -15,8 +15,8 @@
  *   func_02027FD8  0x02027FD8  thumb
  */
 
-void func_021B718C(void)
+void func_021B718C(void *p)
 {
-    void func_02027FD8(void);
-    func_02027FD8();
+    void func_02027FD8(void *p);
+    func_02027FD8(p);
 }

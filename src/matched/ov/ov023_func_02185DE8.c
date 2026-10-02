@@ -38,8 +38,8 @@ extern void func_02185C38(char *p, char *t, int a, int b, int *x, int *y, int c,
 extern void func_02185DA8(struct e6 *e, struct o4 *o);
 extern void func_02045334(char *p);
 extern void func_02045374(char *p);
-extern void func_02045730(char *p);
-extern void func_020409B4(void);
+extern unsigned char func_02045730(char *p);
+extern void func_020409B4(unsigned int index);
 
 void func_02185DE8(char *p, struct e6 *e, struct o4 *o, int flag)
 {
@@ -61,8 +61,7 @@ void func_02185DE8(char *p, struct e6 *e, struct o4 *o, int flag)
     if (hit && flag) {
         func_02045334(p);
         func_02045374(p);
-        func_02045730(p);
-        func_020409B4();
+        func_020409B4(func_02045730(p));
     }
     func_02185DA8(e, o);
     for (i = 0; i < 5; i++)

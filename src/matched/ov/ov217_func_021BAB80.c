@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Reconstructed from the listing (.inst decoded).
  *
@@ -32,14 +32,14 @@ typedef signed int     s32;
 extern u32 func_021BC634();
 extern u32 func_021BC638();
 extern u32 func_021BC640();
-extern u32 func_021BC758();
-extern u32 func_021BC774();
-extern u32 func_021C09AC();
+extern u32 func_021BC758(u32 a0);
+extern void func_021BC774(u8 *p);
+extern u32 func_021C09AC(void *p);
 u32 func_021BAB80(u32 a0, u32 a1)
 {
-    u32 v1 = func_021C09AC();
-    u32 v2 = func_021BC758();
-    func_021BC774();
+    u32 v1 = func_021C09AC((void *)a0);
+    u32 v2 = func_021BC758(v1);
+    func_021BC774((u8 *)v2);
     func_021BC634(v2, v1);
     func_021BC638(v2, a0);
     func_021BC640(v2, a1);

@@ -22,7 +22,7 @@ typedef unsigned int u32;
 
 extern void func_021F17D8(void);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
-extern u8 *func_02031290(void);
+extern u8 *func_02031290(void *node);
 extern void func_02082BCC(void *p, int v, int n);
 
 void func_021F178C(char *this, u8 a, int *p)
@@ -30,8 +30,7 @@ void func_021F178C(char *this, u8 a, int *p)
     u8 *r;
     int v;
 
-    func_020311B8(*(u32 *)(this + 0xa0), (void *)func_021F17D8, 0xc, 0);
-    r = func_02031290();
+    r = func_02031290(func_020311B8(*(u32 *)(this + 0xa0), (void *)func_021F17D8, 0xc, 0));
     func_02082BCC(r, 0, 0xc);
     r[0] = a;
     if (r[0] == 0) {

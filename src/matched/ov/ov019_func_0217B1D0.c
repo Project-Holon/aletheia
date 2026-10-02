@@ -50,8 +50,8 @@ struct obj {
 extern int memcmp(const void *a, const void *b, int n);
 extern void memset(void *p, int v, int n);
 extern int func_02012114(int);
-extern void func_0201210C(int);
-extern int func_02188CE0(void);
+extern int func_0201210C(int);
+extern int func_02188CE0(int);
 extern int func_0217AED4(struct ent *e, int v);
 extern int func_02012964(int);
 extern int func_0216DE94(int, int);
@@ -73,8 +73,7 @@ int func_0217B1D0(struct obj *o, struct ent *e)
             continue;
         }
         if (func_02012114(o->in->fc) == 1) {
-            func_0201210C(o->in->fc);
-            t = func_02188CE0();
+            t = func_02188CE0(func_0201210C(o->in->fc));
             if (t != 0) {
                 r = func_0217AED4(e, v);
                 r = func_0216DE94(func_02012964(o->in->f8), r);

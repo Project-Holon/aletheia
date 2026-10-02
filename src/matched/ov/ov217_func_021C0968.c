@@ -20,11 +20,11 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_021BF734(void);
+extern int func_021BF734(unsigned char *);
 extern int func_02012138(int);
 extern void func_02026498(int, int);
 
-void func_021C0968(void)
+void func_021C0968(unsigned char *a0)
 {
-    func_02026498(func_02012138(func_021BF734()), 0);
+    func_02026498(func_02012138(func_021BF734(a0)), 0);
 }

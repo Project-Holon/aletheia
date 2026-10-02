@@ -31,7 +31,7 @@ typedef struct {
 extern const T4 d_021C37D4;
 extern void func_021BB42C(void *p);
 extern int func_02009864(void *h, int id, int n);
-extern int func_02025C88(void);
+extern int func_02025C88(int x);
 extern void *func_0202DA04(u16 a);
 extern void *func_0202DA48(void *a, int b, int c, u16 d);
 extern void *func_0202DA18(void *a, int b, int c, int d, u16 e);
@@ -48,8 +48,8 @@ void func_021BB374(char *p, int a, int b)
     t = d_021C37D4;
     if (*(void **)(p + 0x180) != 0)
         func_021BB42C(p);
-    func_02009864(*(void **)(p + 4), a, 8);
-    r = func_02025C88();
+    r = func_02009864(*(void **)(p + 4), a, 8);
+    r = func_02025C88(r);
     o = func_0202DA04(b);
     *(void **)(p + 0x184) = func_0202DA48(o, r, 1, b);
     *(void **)(p + 0x188) = func_0202DA18(o, r, 1, 0, b);

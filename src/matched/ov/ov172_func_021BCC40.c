@@ -73,13 +73,13 @@ extern void func_0201EFA4(u32 ws, u32 idx, u32 val, u32 digits, u32 mode, u32 f)
 extern void func_0201F250(u32 ws, u32 dst, u32 fmt);
 extern void func_0201ED04(u32 ws);
 extern void func_020456F8(u32 win);
-extern void func_02045730(u32 win);
-extern void func_02041B6C(void);
+extern u8 func_02045730(u32 win);
+extern void func_02041B6C(u32 bit);
 
-static inline void func_021BCC40_show(u32 win)
+static inline u8 func_021BCC40_show(u32 win)
 {
     func_020456F8(win);
-    func_02045730(win);
+    return func_02045730(win);
 }
 
 void func_021BCC40(void *ctx, char *list, char *row, int idx)
@@ -151,8 +151,7 @@ void func_021BCC40(void *ctx, char *list, char *row, int idx)
         func_0201ED04(ws);
         *(u32 *)(row + 4) = 1;
     } else {
-        func_021BCC40_show(*(u32 *)(row + 0x14));
-        func_02041B6C();
+        func_02041B6C(func_021BCC40_show(*(u32 *)(row + 0x14)));
     }
     *(u32 *)row = 0;
 }

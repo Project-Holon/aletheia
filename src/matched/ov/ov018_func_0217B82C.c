@@ -39,7 +39,7 @@ typedef struct {
     u8 f8[1];
 } Work;
 
-extern int func_020124E4(void);
+extern int func_020124E4(int);
 extern int func_0201210C(int);
 extern int func_02012138(int);
 extern int func_02188C7C(int);
@@ -65,7 +65,7 @@ int func_0217B82C(int a0, int *state, Work *w)
     int sys;
     int obj;
 
-    sys = func_020124E4();
+    sys = func_020124E4(a0);
     obj = func_0201210C(sys);
     func_02012138(sys);
     switch (*state) {

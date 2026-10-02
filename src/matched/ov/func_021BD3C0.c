@@ -13,10 +13,10 @@
  *   func_021BD404 0x021BD404  thumb  ov208
  */
 
-extern void *func_021BD404(void);
+extern void *func_021BD404(void *mgr, int key);
 
-int func_021BD3C0(void)
+int func_021BD3C0(void *mgr, int key)
 {
-    return *(int *)func_021BD404();
+    return *(int *)func_021BD404(mgr, key);
 }
 

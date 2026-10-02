@@ -22,8 +22,8 @@
 typedef unsigned char u8;
 extern int func_020279E8(void *);
 extern u8 func_02027A04(const void *);
-extern void func_02012EBC(void *);
-extern int func_020071F0(void);
+extern void *func_02012EBC(void *);
+extern int func_020071F0(void *);
 extern void func_02045CAC(void *,int,void *);
 extern void func_020414EC(int);
 extern void func_02027858(void *);
@@ -39,8 +39,7 @@ void func_021D504C(char *p)
 {
     if (func_020279E8(*(void **)(p+0x238))) {
         if (!func_02027A04(*(void **)(p+0x238))) {
-            func_02012EBC(*(void **)(p+0x260));
-            if (func_020071F0()) {
+            if (func_020071F0(func_02012EBC(*(void **)(p+0x260)))) {
                 func_02045CAC(*(void **)(p+0x24),46,*(void **)(p+0x38));
                 func_021D4FAC(p);
                 func_021D4244(p,func_021D4AFC,0x50d);

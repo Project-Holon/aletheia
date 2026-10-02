@@ -89,8 +89,8 @@ extern int func_02045770(void *p);
 extern int func_0201C6C4(int a, int b);
 extern void func_02045334(void *p);
 extern void func_02045374(void *p);
-extern void func_02045730(void *p);
-extern void func_02041B6C(void);
+extern u8 func_02045730(void *p);
+extern void func_02041B6C(u32 bit);
 extern void func_021B7718(u32 which, u8 idx, void *data);
 
 void func_021B7378(S *p)
@@ -210,16 +210,14 @@ void func_021B7378(S *p)
             o = p->f88;
             func_02045334(o);
             func_02045374(o);
-            func_02045730(o);
-            func_02041B6C();
+            func_02041B6C(func_02045730(o));
             p->f90 = 1;
         }
         if (p->f94 == 0 && func_0201C6C4(p->fc, func_02045770(p->f8c)) == 0) {
             o = p->f8c;
             func_02045334(o);
             func_02045374(o);
-            func_02045730(o);
-            func_02041B6C();
+            func_02041B6C(func_02045730(o));
             p->f94 = 1;
         }
     }

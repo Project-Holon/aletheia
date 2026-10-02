@@ -12,15 +12,15 @@
  * symbols:
  *   func_021BC520 0x021BC520  thumb  ov208
  *
- * Zeroes +8, +0xC and +0x10, then tail-calls func_021BC520 with the first argument.
+ * Zeroes +8, +0xC and +0x10, then tail-calls func_021BC520 with both arguments.
  */
 
-extern void func_021BC520(void *);
+extern void func_021BC520(int flag, int *p);
 
-void func_021BC508(void *a, char *q)
+void func_021BC508(int flag, int *p)
 {
-    *(int *)(q + 8) = 0;
-    *(int *)(q + 0xc) = 0;
-    *(int *)(q + 0x10) = 0;
-    func_021BC520(a);
+    p[2] = 0;
+    p[3] = 0;
+    p[4] = 0;
+    func_021BC520(flag, p);
 }

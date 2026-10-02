@@ -15,11 +15,10 @@
  *   func_021BE580 0x021BE580 thumb ov021
 */
 
-extern void func_02188D2C(void);
-extern void func_021BE580(void);
+extern void *func_02188D2C(void *p);
+extern void func_021BE580(void *p);
 
-void func_021F3764(void)
+void func_021F3764(void *p)
 {
-    func_02188D2C();
-    func_021BE580();
+    func_021BE580(func_02188D2C(p));
 }

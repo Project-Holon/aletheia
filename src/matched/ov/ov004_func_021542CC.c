@@ -42,7 +42,7 @@ void func_02026400(int x);
 int *func_020124E8(int p);
 void func_02082BCC(void *p, int v, int n);
 int func_02012EBC(int p);
-int func_0200AD6C(void);
+int func_0200AD6C(int p);
 int func_02008B08(int p);
 int func_0201AD0C(int p);
 int func_0201293C(int p);
@@ -72,7 +72,7 @@ int func_021542CC(int a, int b)
     p[1] = a;
     p[2] = b;
     p[18] = func_02012EBC(r6);
-    p[3] = func_0200AD6C();
+    p[3] = func_0200AD6C(p[18]);
     p[4] = func_02008B08(p[18]);
     p[5] = func_0201AD0C(p[18]);
     p[6] = func_0201293C(r6);

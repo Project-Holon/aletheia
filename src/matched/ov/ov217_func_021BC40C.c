@@ -15,9 +15,9 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_021BC6DC(void);
+extern unsigned int func_021BC6DC(void *p);
 
-int func_021BC40C(void)
+int func_021BC40C(void *p)
 {
-    return func_021BC6DC() * 0x18 - 0xa8;
+    return (int)func_021BC6DC(p) * 0x18 - 0xa8;
 }

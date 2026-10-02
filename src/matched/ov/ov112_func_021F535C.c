@@ -13,9 +13,9 @@
  *   func_021F624C  0x021F624C  thumb  ov112
  */
 
-void func_021F624C(int);
+void func_021F624C(char *p, int *q);
 
-void func_021F535C(int *p)
+void func_021F535C(int *p, int *q)
 {
-    func_021F624C(*(int *)((char *)p + 8));
+    func_021F624C(*(char **)((char *)p + 8), q);
 }

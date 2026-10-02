@@ -64,8 +64,8 @@ extern unsigned d_021BA978[];
 extern Menu d_021BA9F8[];
 extern int d_021BA9C8[][4];
 
-extern void func_02012138(void *);
-extern u8 *func_02158344(void);
+extern u32 func_02012138(void *);
+extern u8 *func_02158344(u32);
 extern void func_021B82A4(void *a, void *p);
 extern void func_021B82FC(void *p);
 extern int func_02035C08(void *);
@@ -91,8 +91,7 @@ int func_021B7EE0(int a, int *state, C *c, D *d)
     u32 keys;
     int t;
 
-    func_02012138(*c->f0);
-    r = func_02158344();
+    r = func_02158344(func_02012138(*c->f0));
     func_021B82A4(c, d);
     func_021B82FC(d);
     if (c->f2e == 1) {

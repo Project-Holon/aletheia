@@ -30,7 +30,7 @@ struct S {
 
 extern int func_0217AFB0(char *, int, int *);
 extern int func_0217AED4(int, int *);
-extern int func_0216D3CC(void);
+extern int func_0216D3CC(int);
 extern int func_02188CB4(int);
 extern int func_021A3074(int);
 extern int func_0216D5F8(int);
@@ -48,7 +48,7 @@ int func_0217B6B4(char *base, int *p, int r2, unsigned char *state)
     h = func_0217AFB0(base, *p, p);
     switch (*state) {
     case 0:
-        if (func_0216D3CC() == 1) {
+        if (func_0216D3CC(h) == 1) {
             switch (func_0216D5F8(func_021A3074(func_02188CB4(r2)))) {
             case 0:
                 k = 1;

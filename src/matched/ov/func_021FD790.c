@@ -34,8 +34,8 @@ extern void func_02045808(void *p);
 extern int func_021F91DC(void *p, void *b, u32 c, u32 d, u32 e, u16 f, void *g);
 extern void func_02045334(void *p);
 extern void func_02045374(void *p);
-extern void func_02045730(void *p);
-extern void func_020409B4(void);
+extern u8 func_02045730(void *p);
+extern void func_020409B4(u32 index);
 
 void func_021FD790(void *bank, Pane *pane, u32 index, void *g)
 {
@@ -46,7 +46,6 @@ void func_021FD790(void *bank, Pane *pane, u32 index, void *g)
     win = pane->win;
     func_02045334(win);
     func_02045374(win);
-    func_02045730(win);
-    func_020409B4();
+    func_020409B4(func_02045730(win));
     func_02045808(str);
 }

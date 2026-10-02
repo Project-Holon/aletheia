@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Blocker: every concrete byte reproduces; 0x0200E9F4 and 0x0200EA04 are
  *   unlabelled Thumb leaves with no branch anywhere outside this range, so
@@ -25,8 +25,8 @@
 
 extern int func_02012EBC(int);
 extern int func_021FC4DC(int);
-extern void func_0200E9F4(int);
-extern int func_0200EA04(void);
+extern int func_0200E9F4(int);
+extern int func_0200EA04(int);
 
 void func_021F966C(char *r5, int *r4)
 {
@@ -37,6 +37,5 @@ void func_021F966C(char *r5, int *r4)
     *(int *)(r5 + 0xC) = r4[2];
     *(int *)r5 = func_021FC4DC(r4[0]);
     *(int *)(r5 + 0x10) = *(int *)(*(int *)(*(int *)((char *)r4 + 0x18) + 0xC) + 4);
-    func_0200E9F4(x);
-    *(int *)(r5 + 0x14) = func_0200EA04();
+    *(int *)(r5 + 0x14) = func_0200EA04(func_0200E9F4(x));
 }

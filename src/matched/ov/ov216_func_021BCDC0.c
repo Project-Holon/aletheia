@@ -24,11 +24,11 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_02165C48(void);
+extern unsigned int func_02165C48(void *a0);
 
-int func_021BCDC0(void)
+int func_021BCDC0(void *a0)
 {
-    switch (func_02165C48()) {
+    switch (func_02165C48(a0)) {
     case 0x15:
         return 0;
     case 0x14:

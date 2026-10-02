@@ -25,7 +25,7 @@ typedef unsigned int u32;
 extern void func_021F1930(void *task, u8 *s);
 extern void func_021F05E8(char *p, int a, int b);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
-extern u8 *func_02031290(void);
+extern u8 *func_02031290(void *node);
 extern void func_02082BCC(void *p, int v, int n);
 extern void func_02045838(u32 a, u32 b);
 
@@ -33,8 +33,7 @@ void func_021F18E0(char *p, u32 a, int *c)
 {
     u8 *r;
 
-    func_020311B8(*(u32 *)(p + 0xa0), (void *)func_021F1930, 0x10, 0);
-    r = func_02031290();
+    r = func_02031290(func_020311B8(*(u32 *)(p + 0xa0), (void *)func_021F1930, 0x10, 0));
     func_02082BCC(r, 0, 0x10);
     func_02045838(*(u32 *)(p + 0x120), a);
     *(char **)(r + 8) = p;

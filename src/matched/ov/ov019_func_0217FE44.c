@@ -20,9 +20,9 @@
 
 typedef short s16;
 
-extern void func_02188CB4(void);
-extern int func_021A3074(void);
-extern int func_0216D83C(void);
+extern int func_02188CB4(int);
+extern int func_021A3074(int);
+extern int func_0216D83C(int);
 extern int func_0216D86C(int);
 extern s16 d_02180794[][2];
 extern s16 d_0218079C[][2];
@@ -32,11 +32,12 @@ int func_0217FE44(int a, int mode, unsigned *out)
     unsigned i;
     int x;
     int y;
+    int h;
 
-    func_02188CB4();
+    h = func_02188CB4(a);
     *out = 0;
-    y = func_021A3074();
-    x = func_0216D83C();
+    y = func_021A3074(h);
+    x = func_0216D83C(y);
     y = func_0216D86C(y);
     if (mode == 2) {
         for (i = 0; i < 2; i++) {

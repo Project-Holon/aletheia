@@ -17,14 +17,14 @@
  *   func_0204B84C  0x0204B84C  arm
  */
 
-void func_021B6A10(void *p)
+void func_021B6A10(void *p, unsigned int v)
 {
-    void func_0204B800(void *);
-    func_0204B800(*(void **)p);
+    void func_0204B800(void *, unsigned int);
+    func_0204B800(*(void **)p, v);
 }
 
-void func_021B6A1C(void *p)
+void func_021B6A1C(void *p, unsigned int v)
 {
-    void func_0204B84C(void *);
-    func_0204B84C(*(void **)p);
+    void func_0204B84C(void *, unsigned int);
+    func_0204B84C(*(void **)p, v);
 }

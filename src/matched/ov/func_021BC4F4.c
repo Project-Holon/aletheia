@@ -12,15 +12,15 @@
  * symbols:
  *   func_021BC520 0x021BC520  thumb  ov208
  *
- * Stores 0x10 at +8 and zeroes +0xC and +0x10, then tail-calls func_021BC520.
+ * Stores 0x10 at +8 and zeroes +0xC and +0x10, then tail-calls func_021BC520 with both arguments.
  */
 
-extern void func_021BC520(void *);
+extern void func_021BC520(int flag, int *p);
 
-void func_021BC4F4(void *a, char *q)
+void func_021BC4F4(int flag, int *p)
 {
-    *(int *)(q + 8) = 0x10;
-    *(int *)(q + 0xc) = 0;
-    *(int *)(q + 0x10) = 0;
-    func_021BC520(a);
+    p[2] = 0x10;
+    p[3] = 0;
+    p[4] = 0;
+    func_021BC520(flag, p);
 }

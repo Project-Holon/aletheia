@@ -21,7 +21,7 @@
 
 extern int func_0215A5F4(int a);
 extern int func_0215A5DC(int a);
-extern int func_0201210C(void);
+extern int func_0201210C(int p);
 extern int func_02159B10(int a, int b);
 extern void func_020061E4(int a);
 extern int func_021F4DBC(int a, int b, int c);
@@ -36,7 +36,7 @@ int func_021F4650(int a, int b)
 
     r6 = func_0215A5F4(b);
     r7 = func_0215A5DC(b);
-    sp = func_0201210C();
+    sp = func_0201210C(r7);
     r4 = func_02159B10(a, b);
     func_020061E4(0x547);
     func_0215897C(r6, func_021F4DBC(r7, sp, r4));

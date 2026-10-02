@@ -27,8 +27,8 @@
 
 typedef unsigned char u8;
 
-extern void  func_020124E4(void);
-extern void *func_0201210C(void);
+extern void *func_020124E4(void *a);
+extern void *func_0201210C(void *p);
 extern void *func_02188D2C(void *a);
 extern int  *func_021897BC(void *a, int b);
 extern void *func_02188C80(void *p);
@@ -41,7 +41,7 @@ extern void *func_021BE674(void *p, int i, int j, int k);
 extern void  func_021BE6B0(void *p, int b);
 extern int   func_021BE6BC(void *p);
 
-int func_021F39B8(int a0, int *a1)
+int func_021F39B8(void *a0, int *a1)
 {
     void *r7;
     void *r6;
@@ -51,8 +51,7 @@ int func_021F39B8(int a0, int *a1)
     int idx;
     u8 v;
 
-    func_020124E4();
-    r7 = func_0201210C();
+    r7 = func_0201210C(func_020124E4(a0));
     r6 = func_02188D2C(r7);
     s = func_021897BC(r7, 1);
     flag = 1;

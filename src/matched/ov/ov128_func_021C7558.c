@@ -37,8 +37,8 @@ extern void *func_0201CCE4(void *,int,int,void *,void *,int,void *,int,u16,u16);
 extern void func_0201F73C(void *,int,int,int);
 extern void func_02045334(void *);
 extern void func_02045374(void *);
-extern void func_02045730(void *);
-extern void func_02041B6C();
+extern u8 func_02045730(void *);
+extern void func_02041B6C(unsigned);
 extern void func_02045808(void *);
 extern void func_021CA3E8(int);
 void func_021C7558(u8 *p,u8 *ctx,unsigned v,unsigned heap)
@@ -60,8 +60,7 @@ void func_021C7558(u8 *p,u8 *ctx,unsigned v,unsigned heap)
     obj=*(void **)(p+0x1c);
     func_02045334(obj);
     func_02045374(obj);
-    func_02045730(obj);
-    func_02041B6C();
+    func_02041B6C(func_02045730(obj));
     func_02045808(buf);
     func_021CA3E8(0);
 }

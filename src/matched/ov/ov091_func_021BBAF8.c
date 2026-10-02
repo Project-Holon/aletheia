@@ -26,15 +26,15 @@ typedef struct Req {
     u8 c[4];
 } Req;
 
-extern void func_021BBC04(u8 *a, u8 *b);
+extern void func_021BBC04(u8 *a, u8 *b, int *items);
 extern void func_020355D8(u32 a);
 extern int func_02027778(Req *r, u32 b);
 
-void func_021BBAF8(u8 *a, u8 *b)
+void func_021BBAF8(u8 *a, u8 *b, int *items)
 {
     Req r;
 
-    func_021BBC04(a, b);
+    func_021BBC04(a, b, items);
     r.heap = *(u16 *)a;
     r.v = b[0];
     r.p = b + 0x14;

@@ -18,16 +18,15 @@
  *   func_021897BC  0x021897BC  thumb
  */
 
-extern void func_020124E4(void);
-extern int func_0201210C(void);
+extern void *func_020124E4(void *task);
+extern int func_0201210C(void *p);
 extern int *func_021897BC(int, int);
 
-int func_021F38D0(void)
+int func_021F38D0(void *task)
 {
     int a;
     int r;
-    func_020124E4();
-    a = func_0201210C();
+    a = func_0201210C(func_020124E4(task));
     r = 1;
     if (*func_021897BC(a, 1) != 0)
         r = 0;

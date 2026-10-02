@@ -24,9 +24,9 @@ typedef unsigned char u8;
 
 extern int func_021D775C(int);
 extern char *func_021C88A4(void *a, int k, int c);
-extern void func_021D70A8(int u);
+extern int func_021D70A8(int u);
 typedef struct Word { unsigned int v; } Word;
-extern Word func_021E89D4(void);
+extern Word func_021E89D4(unsigned int a);
 extern void func_021C88C8(void *a, void *p);
 extern void func_021D76BC(int a, int b);
 extern void func_021C83DC(void *a, int k);
@@ -41,8 +41,7 @@ void func_021E3CB0(int u, void *a, int c, int *w)
         case 0:
             p = func_021C88A4(a, 0xc, c);
             *(int *)(p + 4) = 0x19;
-            func_021D70A8(u);
-            *(Word *)(p + 8) = func_021E89D4();
+            *(Word *)(p + 8) = func_021E89D4(func_021D70A8(u));
             p[0xf] = c;
             func_021C88C8(a, p);
             func_021D76BC(0x3e, 2);

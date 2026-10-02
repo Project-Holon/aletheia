@@ -20,7 +20,7 @@
 
 extern void func_02028148(int);
 extern void func_02028178(int);
-extern void func_02028218(int);
+extern void func_02028218(int, int);
 
 void func_021BBE44(int x)
 {
@@ -34,8 +34,8 @@ void func_021BBE50(int x)
         func_02028178(x);
 }
 
-void func_021BBE5C(int x)
+void func_021BBE5C(int x, int f)
 {
     if (x != 0)
-        func_02028218(x);
+        func_02028218(x, f);
 }

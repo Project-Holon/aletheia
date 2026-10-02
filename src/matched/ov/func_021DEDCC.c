@@ -15,10 +15,10 @@
  * Forward the second word of the head object.
  */
 
-extern void func_0200781C(int);
+extern unsigned char func_0200781C(int save, unsigned int box);
 
-void func_021DEDCC(char *p)
+int func_021DEDCC(char *p, int box)
 {
-    func_0200781C(*(int *)(*(char **)p + 4));
+    return func_0200781C(*(int *)(*(char **)p + 4), box);
 }
 

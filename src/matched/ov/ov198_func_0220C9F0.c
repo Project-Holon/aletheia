@@ -26,7 +26,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int   func_022110D4(void);
+extern int   func_022110D4(u8 *p, int i);
 extern void *func_02045EC0(void *a, u32 b);
 extern u32   func_02045770(void *a);
 extern void  func_0201C724(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
@@ -37,7 +37,7 @@ extern void  func_0201F250(void *a, u32 b, void *c);
 extern u32   func_0201D304(u32 a, u32 b, u32 c);
 extern u32   func_02045738(void *a);
 
-void func_0220C9F0(char *p)
+void func_0220C9F0(char *p, int i)
 {
     char *elem;
     void *t;
@@ -50,7 +50,7 @@ void func_0220C9F0(char *p)
     u32 e;
     u32 x;
 
-    elem = (char *)(p + 4) + func_022110D4() * 0x4c;
+    elem = (char *)(p + 4) + func_022110D4((u8 *)p, i) * 0x4c;
     t = func_02045EC0(*(void **)(p + 0x1ea0), 0x2c);
     x = *(u32 *)(p + 0x1eac);
     y = func_02045770(*(void **)(p + 0x1fe8));

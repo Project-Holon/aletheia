@@ -31,7 +31,7 @@
 extern void func_02082BCC(void *, int, int);
 extern void func_0204A48C(void *, int, int);
 extern int func_0204B100(int, int, int);
-extern void func_0204B270(void);
+extern void func_0204B270(void *);
 extern void func_020434DC(int, int);
 extern void func_02043598(int, int);
 extern int d_021BC944;
@@ -41,7 +41,7 @@ void func_021BC5F0(int *out, int a, int b)
     func_02082BCC(out, 0, 4);
     func_0204A48C(&d_021BC944, a, b);
     *out = func_0204B100(0x80, 0, b);
-    func_0204B270();
+    func_0204B270((void *)*out);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
 }

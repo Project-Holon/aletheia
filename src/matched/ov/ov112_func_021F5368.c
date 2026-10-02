@@ -13,9 +13,9 @@
  *   func_021F6264  0x021F6264  thumb  ov112
  */
 
-void func_021F6264(int);
+void func_021F6264(char *p, unsigned short v);
 
-void func_021F5368(int *p)
+void func_021F5368(int *p, unsigned short v)
 {
-    func_021F6264(*(int *)((char *)p + 8));
+    func_021F6264(*(char **)((char *)p + 8), v);
 }

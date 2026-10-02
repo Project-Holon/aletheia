@@ -31,7 +31,7 @@ typedef struct {
     int c;
 } V;
 
-extern void *func_0201210C(void);
+extern void *func_0201210C(void *p);
 extern void *func_021897BC(void *p, int i);
 extern void *func_02188D2C(void *p);
 extern void func_020061E4(int se);
@@ -42,14 +42,14 @@ extern void func_021BE6B0(u8 *p, int v);
 extern void func_021BE700(void *p, int i, u16 j, u16 k, int flag);
 extern void func_021BE6CC(void *p, int i, u16 j, u16 k, int flag);
 
-void func_021F3AA0(void *unused, int b, V *c)
+void func_021F3AA0(void *a, int b, V *c)
 {
     int i;
     void *t;
     void *s;
     int flag;
 
-    t = func_0201210C();
+    t = func_0201210C(a);
     func_021897BC(t, 1);
     flag = 1;
     s = func_02188D2C(t);

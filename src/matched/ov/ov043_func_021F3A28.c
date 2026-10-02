@@ -22,7 +22,7 @@
  *   func_021F3D78  0x021F3D78  thumb
  */
 
-extern void *func_0201210C(void);
+extern void *func_0201210C(void *p);
 extern void *func_02188C80(void *p);
 extern void *func_020120F4(void *p);
 extern void *func_02012EC4(void *p);
@@ -40,7 +40,7 @@ void func_021F3A28(void *a0, int a1)
     void *x;
     int d;
 
-    r6 = func_0201210C();
+    r6 = func_0201210C(a0);
     func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(r6))), 7);
     r4 = func_021897BC(r6, 1);
     r4[5] = a1;

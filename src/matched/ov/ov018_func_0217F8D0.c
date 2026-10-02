@@ -25,22 +25,20 @@ typedef struct {
     u8 bit93F : 1;
 } Sys;
 
-u16 *func_02159AE8(void);
-void func_0215A5DC(int);
-void func_02012138(void);
-Sys *func_02158344(void);
+u16 *func_02159AE8(void *a0, void *a1);
+int func_0215A5DC(int);
+int func_02012138(int);
+Sys *func_02158344(int);
 int func_02175B8C(void *);
 
-int func_0217F8D0(void *unused, int a)
+int func_0217F8D0(void *a0, int a)
 {
     u16 *out;
     Sys *s;
     int v;
 
-    out = func_02159AE8();
-    func_0215A5DC(a);
-    func_02012138();
-    s = func_02158344();
+    out = func_02159AE8(a0, (void *)a);
+    s = func_02158344(func_02012138(func_0215A5DC(a)));
     if (s != 0 && s->bit93F == 0 && func_02175B8C((u8 *)s + 0x1AC) == 1) {
         v = 1;
     } else {

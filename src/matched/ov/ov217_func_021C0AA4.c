@@ -38,10 +38,10 @@ extern u32 func_021C0C2C();
 extern u32 func_021C0C50();
 extern u32 func_021C0CC8();
 extern u32 func_021C0D08();
-extern u32 func_021C0D2C();
+extern void func_021C0D2C(u8 *);
 u32 func_021C0AA4(u32 a0)
 {
-    func_021C0D2C();
+    func_021C0D2C((u8 *)a0);
     func_021C0D08(a0);
     func_021C0CC8(a0);
     func_021C0C50(a0);

@@ -13,11 +13,10 @@
  *   func_0216CF6C  0x0216CF6C  thumb
  */
 
-void func_02012964(void);
-void func_0216CF6C(void);
+int func_02012964(int a);
+void func_0216CF6C(int x);
 
-void func_021859F0(void)
+void func_021859F0(int a)
 {
-    func_02012964();
-    func_0216CF6C();
+    func_0216CF6C(func_02012964(a));
 }

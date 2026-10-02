@@ -46,7 +46,7 @@ typedef struct {
     u16 g;
 } W;
 
-extern void *func_0201210C(void);
+extern void *func_0201210C(void *p);
 extern W *func_021897BC(void *p, int i);
 extern void *func_02188D2C(void *p);
 extern void func_020061E4(int se);
@@ -68,7 +68,7 @@ void *func_021F39B8(void *a, int b, V *c, const V *d, int e, int f)
     W *w;
     int flag;
 
-    t = func_0201210C();
+    t = func_0201210C(a);
     flag = 1;
     w = func_021897BC(t, 1);
     s = func_02188D2C(t);

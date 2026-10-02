@@ -19,13 +19,13 @@
 
 typedef unsigned short u16;
 
-extern void *func_020124E4(void);
+extern void *func_020124E4(void *p);
 extern void *func_0201210C(void *p);
 extern void *func_02188D2C(void *p);
 extern int *func_021897BC(void *p, int i);
 extern int func_021BE6E8(void *p, int i, u16 j, int k);
 
-int func_021F3C6C(void)
+int func_021F3C6C(void *a)
 {
     void *t;
     void *s;
@@ -33,7 +33,7 @@ int func_021F3C6C(void)
     int flag;
     int *p;
 
-    t = func_0201210C(func_020124E4());
+    t = func_0201210C(func_020124E4(a));
     s = func_02188D2C(t);
     p = func_021897BC(t, 1);
     flag = 1;

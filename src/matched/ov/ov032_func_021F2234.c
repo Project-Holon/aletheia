@@ -36,7 +36,7 @@ extern char d_021F36A0[];
 extern void *func_02030734(u32 heap, u32 size, u32 flag, const char *file, u32 line);
 extern u32 func_020120F4(u32 a);
 extern u32 func_0201210C(u32 a);
-extern u32 func_02188E30(void);
+extern u32 func_02188E30(u32 a);
 extern u32 func_020490F4(u32 a, u32 b);
 extern void func_021F27D4(char *p);
 extern void func_021F2908(char *p);
@@ -51,12 +51,13 @@ extern void func_021F0208(char *p, int flag);
 char *func_021F2234(u32 a0, u32 a1)
 {
     char *p;
+    u32 v;
 
     p = func_02030734(0x70, 0x3d0, 1, d_021F36A0, 0x8d);
     *(u32 *)(p + 0x0) = a0;
     *(u32 *)(p + 0x4) = func_020120F4(a0);
-    *(u32 *)(p + 0x8) = func_0201210C(a0);
-    *(u32 *)(p + 0x10) = func_02188E30();
+    *(u32 *)(p + 0x8) = v = func_0201210C(a0);
+    *(u32 *)(p + 0x10) = func_02188E30(v);
     *(u32 *)(p + 0xc) = a1;
     *(u16 *)(p + 0x98) = 0x70;
     *(u16 *)(p + 0x94) = 0x15;

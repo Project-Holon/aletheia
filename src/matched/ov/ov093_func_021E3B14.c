@@ -23,7 +23,7 @@ typedef unsigned short u16;
 
 extern int func_021D775C(int);
 extern void *func_021C7CF4(void *a, int b);
-extern int func_021D67A8(void);
+extern int func_021D67A8(void *m);
 extern u8 *func_021C88A4(void *a, int k, int c);
 extern void func_021C88C8(void *a, void *p);
 extern const u16 d_021F284C[];
@@ -35,8 +35,7 @@ void func_021E3B14(int u, void *a, int c)
     u8 *p;
 
     if (c == func_021D775C(3)) {
-        func_021C7CF4(a, c);
-        r = func_021D67A8();
+        r = func_021D67A8(func_021C7CF4(a, c));
         for (i = 0; i < 5; i++) {
             if (r == d_021F284C[i])
                 return;

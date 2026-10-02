@@ -28,7 +28,7 @@
 typedef short s16;
 
 extern int func_0215A5F4(int);
-extern int *func_02158F58();
+extern int *func_02158F58(int a0);
 extern int func_02188C98(int);
 extern int func_0218DC70(int);
 extern int func_02188CB4(int);
@@ -53,7 +53,7 @@ int func_02186CC4(int a0, int a1)
     s16 v[3];
 
     r6 = func_0215A5F4(a1);
-    s = func_02158F58();
+    s = func_02158F58(r6);
     a = func_0218DC70(func_02188C98(s[1]));
     b = func_02188CB4(s[1]);
     c = func_02188C7C(s[1]);

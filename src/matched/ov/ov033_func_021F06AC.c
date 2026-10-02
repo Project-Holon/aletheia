@@ -33,7 +33,7 @@ extern void func_0203FCA0(unsigned char, void *, unsigned char);
 extern void func_020414AC(unsigned char);
 extern void func_02040618(unsigned char, unsigned, unsigned);
 extern void *func_0204B100(unsigned, unsigned, unsigned);
-extern void func_0204B270(void);
+extern void func_0204B270(void *);
 extern void func_02043598(unsigned, unsigned);
 
 void func_021F06AC(char *p)
@@ -54,6 +54,6 @@ void func_021F06AC(char *p)
         func_02040618(id, 3, 0);
     }
     *(void **)(p + 0xC) = func_0204B100(8, 0, *(unsigned short *)p);
-    func_0204B270();
+    func_0204B270(*(void **)(p + 0xC));
     func_02043598(0x10, 1);
 }

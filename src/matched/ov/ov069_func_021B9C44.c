@@ -45,8 +45,8 @@ extern int func_02045770(int);
 extern void func_02043B5C(int, int);
 extern void func_02045334(int);
 extern void func_02045374(int);
-extern void func_02045730(int);
-extern void func_020409B4(void);
+extern u8 func_02045730(int);
+extern void func_020409B4(u32);
 
 void func_021B9C44(Obj *o)
 {
@@ -63,8 +63,7 @@ void func_021B9C44(Obj *o)
         h = o->a[i];
         func_02045334(h);
         func_02045374(h);
-        func_02045730(h);
-        func_020409B4();
+        func_020409B4(func_02045730(h));
     }
     for (j = 0; j < 10; j++) {
         o->b[j] = func_020450F0(1, 2, 1, 10, 2, 1, 1);

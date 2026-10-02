@@ -22,10 +22,10 @@ int func_021B69B8(void *p)
     return *(int *)((char *)p + 0x18);
 }
 
-void func_021B69BC(void *p)
+void func_021B69BC(void *p, unsigned int v)
 {
-    void func_0204B3DC(void *);
-    func_0204B3DC(*(void **)p);
+    void func_0204B3DC(void *, unsigned int);
+    func_0204B3DC(*(void **)p, v);
 }
 
 int func_021B69C8(void *p, int a)

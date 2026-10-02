@@ -16,11 +16,11 @@
  * Addresses are Black-image addresses.
  */
 
-extern int func_021BBF04(void);
+extern unsigned int func_021BBF04(unsigned int p, unsigned int slot);
 extern int func_02041648(int);
 
-int func_021BBF28(void)
+int func_021BBF28(unsigned char *p, unsigned int slot)
 {
-    int t = func_021BBF04() << 3;
+    int t = func_021BBF04((unsigned int)p, slot) << 3;
     return t - func_02041648(2);
 }

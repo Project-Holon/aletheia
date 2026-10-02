@@ -46,8 +46,8 @@ typedef struct {
 extern void func_0201F73C(void *p, int a, int b, int c);
 extern void func_02045334(void *p);
 extern void func_02045374(void *p);
-extern void func_02045730(void *p);
-extern void func_020409B4(void);
+extern u8 func_02045730(void *p);
+extern void func_020409B4(unsigned int index);
 
 void func_021C7908(Work *p)
 {
@@ -57,6 +57,5 @@ void func_021C7908(Work *p)
     v = p->f8;
     func_02045334(v);
     func_02045374(v);
-    func_02045730(v);
-    func_020409B4();
+    func_020409B4(func_02045730(v));
 }

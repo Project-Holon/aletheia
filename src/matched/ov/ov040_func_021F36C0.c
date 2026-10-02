@@ -43,7 +43,7 @@ typedef struct {
 extern V3 d_021F38D4;
 extern char d_021F38EC[];
 
-extern u32 func_02188D2C(void);
+extern u32 func_02188D2C(u32 a);
 extern u32 func_02188C84(u32 a);
 extern void func_02189764(u32 a, int b, u32 c, int d);
 extern void *func_021897BC(u32 a, int b);
@@ -67,7 +67,7 @@ void func_021F36C0(u32 a)
     u8 *e;
     V3 v;
 
-    s = func_02188D2C();
+    s = func_02188D2C(a);
     func_02189764(a, 1, func_02188C84(a), 4);
     func_021897BC(a, 1);
     func_021BE310(s, d_021F38EC, 0);

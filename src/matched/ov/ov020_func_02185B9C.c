@@ -24,8 +24,8 @@ typedef unsigned short u16;
 
 typedef struct { int id; u16 v; u16 pad; } Ent;
 
-int func_02012EC4(void);
-void func_0200B37C(void);
+int func_02012EC4(int a);
+void func_0200B37C(int a);
 void func_0200B394(int a, int b);
 int func_020490F4(int a, int b);
 Ent *func_02049250(int h, int a, int b);
@@ -36,12 +36,12 @@ void func_02049238(int h);
 void func_02185B9C(int a0, int id)
 {
     unsigned n, i;
-    int r0 = func_02012EC4();
+    int r0 = func_02012EC4(a0);
     int h;
     int c = 0x8001;
     Ent *e;
 
-    func_0200B37C();
+    func_0200B37C(r0);
     h = func_020490F4(0x65, c);
     e = func_02049250(h, 0, c);
     n = func_020493D4(h, 0) >> 3;

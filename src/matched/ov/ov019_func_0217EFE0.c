@@ -16,8 +16,8 @@
  *   d_0218044C     0x0218044C  data
  */
 
-extern void func_02012EBC(int a);
-extern int func_02024988(void);
+extern int func_02012EBC(int a);
+extern int func_02024988(int a);
 extern void func_020249A0(int a, int b);
 extern int d_0218044C[];
 
@@ -25,8 +25,7 @@ void func_0217EFE0(int a, unsigned int n)
 {
     int r;
     unsigned short i;
-    func_02012EBC(a);
-    r = func_02024988();
+    r = func_02024988(func_02012EBC(a));
     i = n - 1;
     if (n >= 1 && n <= 8) {
         if (i < 8) {

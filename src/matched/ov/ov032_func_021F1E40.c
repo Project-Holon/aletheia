@@ -29,7 +29,7 @@ extern void func_021F1EAC(void *task, u8 *s);
 extern void func_021F0FC8(char *p, char *q, u32 a);
 extern void func_021F0ED0(char *q, int a);
 extern void *func_020311B8(u32 a, void *fn, u32 sz, u32 a3);
-extern u8 *func_02031290(void);
+extern u8 *func_02031290(void *node);
 extern void func_02082BCC(void *p, int v, int n);
 extern u16 func_02165E24(void *r);
 extern u8 func_02165FC0(u32 type);
@@ -40,7 +40,7 @@ void func_021F1E40(char *p, char *q, void *x, int flag)
     u8 *r;
 
     t = func_020311B8(*(u32 *)(p + 0xa0), (void *)func_021F1EAC, 0x18, 0);
-    r = func_02031290();
+    r = func_02031290(t);
     func_02082BCC(r, 0, 0x18);
     *(char **)(r + 0x10) = p;
     *(char **)(r + 8) = q;

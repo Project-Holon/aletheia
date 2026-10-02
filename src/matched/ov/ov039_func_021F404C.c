@@ -43,7 +43,7 @@ typedef struct {
     int x, y, z;
 } Vec;
 
-extern void *func_0201210C(void);
+extern void *func_0201210C(void *p);
 extern u32 func_02188C80(void *p);
 extern unsigned int func_020120F4(unsigned int);
 extern unsigned int func_02012EC4(unsigned int);
@@ -76,7 +76,7 @@ int func_021F404C(void *a0)
     u8 k;
     int h;
 
-    sys = func_0201210C();
+    sys = func_0201210C(a0);
     p = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(sys))), 2);
     s = func_021897BC(sys, 1);
     x = func_02188CB4(sys);

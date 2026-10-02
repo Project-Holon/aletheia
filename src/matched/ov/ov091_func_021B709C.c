@@ -30,7 +30,7 @@ typedef struct {
 } R;
 
 extern u32 func_0204B100(u32 a, u32 b, u32 heap);
-extern void func_0204B270(void);
+extern void func_0204B270(u32 bank);
 extern int func_0204B294(int a, int b, int c, int d, R *r, int f, u16 g);
 extern void func_0204B3DC(int a, int b);
 extern void func_0204B92C(int a, int b);
@@ -40,9 +40,11 @@ void func_021B709C(u8 *p)
     R b;
     R a;
     int x;
+    u32 bank;
 
-    *(u32 *)(p + 0x1d4) = func_0204B100(10, 8, *(u16 *)p);
-    func_0204B270();
+    bank = func_0204B100(10, 8, *(u16 *)p);
+    *(u32 *)(p + 0x1d4) = bank;
+    func_0204B270(bank);
     b.a = 0;
     b.b = 0;
     b.c = 0;

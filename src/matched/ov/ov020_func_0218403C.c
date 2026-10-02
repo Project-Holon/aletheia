@@ -25,7 +25,7 @@ extern void func_0202E848(int a, u16 *b, u16 *c);
 extern int func_02188C84(int a);
 extern int func_02013B38(int a);
 extern int func_0201407C(int a, int b, int c);
-extern int func_020140D8(void);
+extern int func_020140D8(int a);
 extern void func_020140B4(int a);
 
 void func_0218403C(u8 *p)
@@ -40,7 +40,7 @@ void func_0218403C(u8 *p)
     r4 = func_02188C84(*(int *)(p + 8));
     r6 = func_0201407C(r4, func_02013B38(*(u16 *)(p + 0x14)), 0);
     flag = 0;
-    if (func_020140D8() != 0)
+    if (func_020140D8(r6) != 0)
         flag = 1;
     func_020140B4(r6);
     hi = s[1];

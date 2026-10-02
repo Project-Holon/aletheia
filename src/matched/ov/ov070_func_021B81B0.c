@@ -15,8 +15,8 @@
  *   func_021BB368  0x021BB368  thumb  ov070
  */
 
-void func_021B81B0(void)
+int func_021B81B0(int x)
 {
-    void func_021BB368(void);
-    func_021BB368();
+    int func_021BB368(int);
+    return func_021BB368(x);
 }

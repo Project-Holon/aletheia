@@ -32,7 +32,7 @@ extern void *func_021C7CF4(int a, int b);
 extern int func_021D5BB0(void *q, u32 n);
 extern int func_021C804C(int a, int b, u32 *out);
 extern u32 func_021D8340(u32 *m);
-extern int func_0201C314(void);
+extern int func_0201C314(u32 m);
 extern int func_021D76BC(int a, int b);
 extern void func_021C8838(void *p, int a, int b);
 
@@ -42,17 +42,18 @@ void func_021E1C8C(int u, int a, int b)
     u8 k;
     int ok;
     void *q;
+    u32 m;
 
     if (b == func_021D775C(3)) {
         k = func_021D775C(4);
         q = func_021C7CF4(a, k);
         ok = 0;
         if (func_021D5BB0(q, 3) == 0) {
-            if (func_021C804C(a, k, &buf) != 0 && func_021D8340(&buf) != 0 && func_0201C314() != 0)
+            if (func_021C804C(a, k, &buf) != 0 && (m = func_021D8340(&buf)) != 0 && func_0201C314(m) != 0)
                 ok = 1;
         }
         if (ok == 0) {
-            if (func_021D8340(&buf) == 0 || func_0201C314() == 0) {
+            if ((m = func_021D8340(&buf)) == 0 || func_0201C314(m) == 0) {
                 if (func_021D76BC(0x40, 1) != 0)
                     func_021C8838((void *)func_021D775C(0x3f), 1, 0x47);
             }

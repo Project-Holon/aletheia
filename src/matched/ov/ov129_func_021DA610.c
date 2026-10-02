@@ -13,14 +13,14 @@
  *   func_021DA578  0x021DA578  thumb
  */
 
-extern void func_021DA578(int a, int b);
+extern void func_021DA578(void *p, int a, void *b, unsigned int c);
 
-void func_021DA610(int a, int b)
+void func_021DA610(void *p, int sel, void *b, unsigned int c)
 {
-    if (b == 1) {
-        func_021DA578(a, 5);
+    if (sel == 1) {
+        func_021DA578(p, 5, b, c);
         return;
     }
-    if (b == 2)
-        func_021DA578(a, 6);
+    if (sel == 2)
+        func_021DA578(p, 6, b, c);
 }

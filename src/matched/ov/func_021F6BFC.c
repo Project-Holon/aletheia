@@ -21,13 +21,13 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed int s32;
 typedef signed short s16;
-extern u32 func_02017DBC(void);
+extern u32 func_02017DBC(u32 handle);
 extern void func_02017E88(u32 a, int b, int c);
 extern void func_02017DE4(u32 a, u32 b);
 
 int func_021F6BFC(u32 handle)
 {
-    u32 stamp = func_02017DBC();
+    u32 stamp = func_02017DBC(handle);
 
     func_02017E88(handle, 5, 0);
     func_02017E88(handle, 0x6f, 0);

@@ -30,11 +30,11 @@ typedef signed int     s32;
 extern u32 func_020061E4();
 extern u32 func_021BBD38();
 extern u32 func_021BBD68();
-extern u32 func_021BBDAC();
+extern void func_021BBDAC(u8 *p);
 extern u32 func_021BC580();
 u32 func_021BBAA4(u32 a0, u32 a1)
 {
-    func_021BBDAC();
+    func_021BBDAC((u8 *)a0);
     func_021BBD38(a0, a1);
     func_021BBD68(a0);
     func_020061E4(1352);

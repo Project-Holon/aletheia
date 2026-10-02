@@ -7,9 +7,12 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
- * Script command: mode 5 calls func_02006210, any other func_020061F8.
+ * EXACT*: the listing extent includes two bytes of trailing alignment padding.
+ *
+ * Script command: mode 5 calls func_02006210, any other mode is passed to
+ * func_020061F8.
  *
  * symbols:
  *   func_0201134C 0x0201134C thumb
@@ -18,13 +21,15 @@
  */
 extern int func_0201134C(void *);
 extern void func_02006210(void);
-extern void func_020061F8(void);
+extern void func_020061F8(int i);
 
 int func_021FBAD8(void *a, char *s)
 {
-    if (func_0201134C(a) == 5)
+    int r = func_0201134C(a);
+
+    if (r == 5)
         func_02006210();
     else
-        func_020061F8();
+        func_020061F8(r);
     return *(int *)(s + 0x23c);
 }

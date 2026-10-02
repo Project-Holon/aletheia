@@ -18,10 +18,10 @@
 
 
 
-extern void func_021EE3E4(int);
-extern void func_021ECC1C(int);
-void func_021EE408(int p)
+extern void func_021EE3E4(char **p, unsigned idx);
+extern void func_021ECC1C(unsigned char *p);
+void func_021EE408(char *p, int v)
 {
-    func_021EE3E4(p);
-    func_021ECC1C(p);
+    func_021EE3E4((char **)p, v);
+    func_021ECC1C((unsigned char *)p);
 }

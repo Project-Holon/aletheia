@@ -9,8 +9,9 @@
  * isa:      thumb
  * status:   EXACT
  *
- * The `movs r7, #0` at entry that feeds the second memset's value is an
- * enum-typed zero assigned first (an int zero is folded to `movs r1, #0`).
+ * The `movs r7, #0` at entry that feeds the second memset's value comes
+ * from naming func_0204B270's argument (the bank func_0204B100 returned);
+ * with that call left argument-free the zero folds to `movs r1, #0`.
  * Table rows are indexed `i - 2` over a loop from 2 to 12.
  *
  * symbols:
@@ -38,8 +39,6 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-typedef enum { Z0 } Z;
-
 typedef struct {
     u16 a;
     u16 b;
@@ -63,7 +62,7 @@ extern Ent d_021BB704[];
 extern void func_02082BCC(void *p, int c, u32 n);
 extern void func_0204A48C(void *, void *, int);
 extern int func_0204B100(int, int, int);
-extern void func_0204B270(void);
+extern void func_0204B270(int bank);
 extern void func_020434DC(u32 a, u32 b);
 extern void func_02043598(int, int);
 extern int func_020490F4(int, int);
@@ -82,13 +81,11 @@ void func_021B9E28(int *p, void *res, int heap)
     Local s;
     int h;
     int i;
-    Z z;
 
-    z = Z0;
     func_02082BCC(p, 0, 0x54);
     func_0204A48C(d_020A1448, res, heap);
     p[0] = func_0204B100(0x80, 0, heap);
-    func_0204B270();
+    func_0204B270(p[0]);
     func_020434DC(0x10, 1);
     func_02043598(0x10, 1);
     h = func_020490F4(0x1b, heap);
@@ -98,7 +95,7 @@ void func_021B9E28(int *p, void *res, int heap)
     p[4] = func_0204A6C8(h, 0xc, 0, 0, heap);
     p[5] = func_0204AF28(h, 0xb, 0xa, heap);
     func_02049238(h);
-    func_02082BCC(&s, z, 8);
+    func_02082BCC(&s, 0, 8);
     s.e = 2;
     s.d = 2;
     for (i = 2; i < 13; i++) {
