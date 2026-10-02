@@ -10,7 +10,8 @@
  * status: DIFF
  * residue: 48-byte body, 4 concrete bytes differ at +0x0c,+0x12,+0x14; compiled ldrh uses base/index rather than the image's completed pointer.
  * checks: 1 no calls or stack arguments; 2 caller 021C8FA4 declares full-word integer base/index/flag, no matched twin; 3 const pointer and modular unsigned base/index compiled, both 4 bytes out; 4 pointer association, integer and char-pointer forms compiled, unchanged; 5 refreshed idioms and 55A0/5608 neighbours, no twin; stack-object check n/a because no stack object. No sweep proposed.
- * budget: 3 iteration runs, stopped after two nonshrinking changes; checks 3=2/2, 4=2/2; other checks read-only; no permutations.
+ * budget: 4 iteration runs across W52/W53, three consecutive nonshrinking changes; checks 3=2/2, 4=2/2 remain exhausted. W53 once-only budget-300 permuter consumed, baseline/best DIFF4/48B after all 300 candidates. One final allowed manual trial used, no order sweeps. Other checks read-only; all allowances exhausted.
+ * retry: Mixed address-node hypothesis from a-char-cast-on-the-base-pins-the-base-plus-index-sum.md: retain full u32 p+i*14 address and integer guard, spell later byte accesses through char-pointer casts to distinguish their DAG nodes. Fixed-region 55d8-r4-mixed-char.log remains DIFF4/48B at +0x0c,+0x12,+0x14. No matched result or new semantic domain; best modular unsigned spelling retained below. Refreshed ov093 neighbours/idiom names give no new twin; no calls, relocation blockers or stack object.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

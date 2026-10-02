@@ -1,0 +1,55 @@
+/*
+ * function: func_021D6EAC
+ * address: 0x021D6EAC
+ * packet: pkt_ov093_021D6EAC
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * residual: 60 bytes, 4 concrete bytes differ: record base r7 vs original r6;
+ * pointer-array field base r6 vs original r7. All five relocations resolve.
+ * lever: explicit pool pointer folds +0xC into the pool word; explicit record
+ * base restores the original pool-slot order but leaves swapped register colours.
+ * checks: 1 no argument-register residue; own 021D74BC body takes int and
+ * matched 021D74C8 body takes no arguments; 2 021D7494 agrees on one int,
+ * no initializer twin for 021F4470; 3 int index with unsigned bound and
+ * unsigned long index both remain 4-byte DIFF; 4 field-offset and long-index
+ * idioms read, long inert; declaration-order idiom fits but two scheduling
+ * variants already consumed; 5 reread idiom directory and 021D7494/021D74C8,
+ * no new twin, stack-object check n/a because residue is base-register colours.
+ * budget: iteration 3/10, scheduling variants 2/2, check3 2/2, permuter 0.
+ * next: declaration swap is the apparent lever but the scheduling cap forbids
+ * another variant in this carried budget; do not repeat the capped variants.
+ * symbols:
+ *   data_021F4470 0x021F4470 data a4
+ *   data_021F3CB0 0x021F3CB0 data a4
+ *   func_021D74BC 0x021D74BC thumb ov093
+ *   func_021D74C8 0x021D74C8 thumb ov093
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef struct Node { u8 bytes[0x3c]; } Node;
+extern Node data_021F4470[0x84];
+extern struct { u32 serial; Node *head; u32 used; Node *pool[0x84]; } data_021F3CB0;
+extern void func_021D74BC(int);
+extern void func_021D74C8(void);
+void func_021D6EAC(void)
+{
+    unsigned long i;
+    Node *n;
+    Node *base;
+    Node **pool;
+    base = data_021F4470;
+    pool = data_021F3CB0.pool;
+    for (i = 0; i < 0x84u; i++) {
+        n = &base[i];
+        func_021D74BC((int)n);
+        pool[i] = n;
+    }
+    data_021F3CB0.head = 0;
+    data_021F3CB0.used = 0;
+    data_021F3CB0.serial = 0;
+    func_021D74C8();
+}

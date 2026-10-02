@@ -1,0 +1,26 @@
+/*
+ * function: func_021DD4E0
+ * address: 0x021DD4E0
+ * packet: pkt_ov093_021DD4E0
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021C7CF4 0x021C7CF4 thumb ov093
+ *   func_021D62C4 0x021D62C4 thumb ov093
+ *   func_021DDEA4 0x021DDEA4 thumb ov093
+ *   func_021DD044 0x021DD044 thumb ov093
+ */
+typedef unsigned int u32;
+extern void *func_021C7CF4(void *, int);
+extern int func_021D62C4(void *, int);
+extern int func_021DDEA4(void *, int, u32);
+extern void func_021DD044(void *, void *, int);
+void func_021DD4E0(int a, void *b, int c)
+{
+    if (func_021D62C4(func_021C7CF4(b, c), 15) == 0 && func_021DDEA4(b, c, 2) != 0)
+        func_021DD044((void *)a, b, c);
+}

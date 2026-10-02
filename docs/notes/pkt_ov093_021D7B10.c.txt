@@ -1,0 +1,17 @@
+/*
+ * function: func_021D7B10
+ * address: 0x021D7B10
+ * packet: pkt_ov093_021D7B10
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * residue: 10 concrete bytes, compiled 28 B; product/mask/shift register scheduling.
+ * runs: iteration 3/10 stopped after two nonshrinking changes; check3 2/2; check4 1/2; scheduling variants 2/2; no permuter.
+ * checks: 1 n/a no callees or stack args; 2 no twin in ov093 nearby arithmetic family; 3 int mask gives 11-byte DIFF and signed branch, u16 mask gives 32-byte compile; 4 parameter reassignment gives 32-byte compile, declaration/type idioms read; 5 refreshed idiom list and D7C70/D7D18 neighbours, no twin and n/a stack-object idiom because no stack object. Next hypothesis: signedness of product parameters, no more scheduling variants.
+ */
+typedef unsigned int u32;
+typedef unsigned char u8;
+u32 func_021D7B10(u32 a,u32 b) { u32 p=a*b; u32 r=p>>12; if((p&4095)>2048) ++r; return r; }

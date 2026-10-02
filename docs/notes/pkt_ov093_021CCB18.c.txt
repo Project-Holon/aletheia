@@ -10,7 +10,8 @@
  * status: DIFF
  * residual: 15 concrete bytes; original rpos r1, base r3 and shifted byte r4; compiled rpos r3, base r4 and shifted byte r2. Original adds rpos+2 before second byte load but stores after narrowing.
  * checks: 1 no callees, arity inapplicable; 2 matched 021CCBE8 four-byte twin benefits from cursor local, 021CD5E0/021CD6AC declare this return u16; 3 int field, u32 local, u32 return and const byte source compiled, none exact (u32 local worsens to 21 bytes); writable Buf parameter cannot be const without casting away cursor store; 4 cursor-local/const-source idioms read; 5 refreshed idiom names and ov093 neighbours, no new two-byte twin, no stack object. Next hypothesis: alignment-one array pointer instead of byte pointer, not tried because two scheduling variants and check 3 exhausted.
- * budget: 5 iteration runs, 2 check-3 runs; scheduling/local-reordering variants 2/2; no permuter; check 1,2,4,5 read-only.
+ * budget: 5 carried iteration runs, 2 check-3 runs; scheduling/local-reordering variants 2/2; conservative consecutive nonshrinking 3. W53 once-only budget-300 permuter consumed (60 candidates); two semantic winner validations, no new manual trials. Check 1,2,4,5 read-only. Superseded by matched ov093_func_021CCB18.c after EXACT28 fixed-region validation.
+ * retry: Permuter's signed tmp pointer arithmetic was rejected without an invented cursor domain. A u32 tmp port stayed DIFF15; preserving int tmp but spelling both addresses as unsigned modular integer sums, (u32)p+(u32)tmp+8 and (u32)p+p->rpos+9, validates EXACT28 (cb18-winner-modular-one.log). The full 32-bit cursor is preserved and cast back to u32 before addition; no narrowing, signed address overflow, uninitialized return or volatile. Historical DIFF C remains below; verified winner is in matched source.
  */
 typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef struct { u32 wpos,rpos; u8 buf[3000]; } Buf;
