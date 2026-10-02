@@ -37,10 +37,10 @@ struct Obj {
     struct Rec unk_0c;
 };
 
-extern void *sub_020627D8(void *h);
+extern void *sub_020627D8(void *h, u32 idx);
 extern void  sub_0206434C(struct Rec *r, void *v);
 
-void sub_0204D360(struct Obj *o)
+void sub_0204D360(struct Obj *o, u32 idx)
 {
-    sub_0206434C(&o->unk_0c, sub_020627D8(o->unk_08));
+    sub_0206434C(&o->unk_0c, sub_020627D8(o->unk_08, idx));
 }

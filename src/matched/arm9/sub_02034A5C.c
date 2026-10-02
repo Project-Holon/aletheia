@@ -17,9 +17,9 @@
  *   sub_02034A3C   0x02034A3C  arm
  *
  * Release the registration a handle owns.  -1 is the "no handle" value and
- * returns at once; otherwise the handle is resolved to its owner
- * (func_02034D60), the eight-byte registration table is fetched
- * (func_02034CBC) and its live length taken (func_02034D08), and the first
+ * returns at once; otherwise the handle is resolved to its area index
+ * (func_02034D60), which selects the eight-byte registration table
+ * (func_02034CBC) and its live length (func_02034D08), and the first
  * entry whose state word at +4 is 1 and whose handle at +0 is the one asked
  * for is handed to sub_02034A3C.  At most one entry matches, so the scan
  * returns rather than breaking.
@@ -48,14 +48,14 @@ struct Registration {
     s32 state;
 };
 
-extern struct Registration *func_02034CBC(void);
-extern void *func_02034D60(s32 handle);
-extern s32 func_02034D08(void *owner);
+extern struct Registration *func_02034CBC(s32 area);
+extern s32 func_02034D60(s32 handle);
+extern s32 func_02034D08(s32 area);
 extern void sub_02034A3C(struct Registration *entry);
 
 void sub_02034A5C(s32 handle)
 {
-    void *owner;
+    s32 area;
     struct Registration *table;
     s32 count;
     s32 i;
@@ -64,9 +64,9 @@ void sub_02034A5C(s32 handle)
         return;
     }
 
-    owner = func_02034D60(handle);
-    table = func_02034CBC();
-    count = func_02034D08(owner);
+    area = func_02034D60(handle);
+    table = func_02034CBC(area);
+    count = func_02034D08(area);
 
     for (i = 0; i < count; i++) {
         if (table[i].state == 1 && handle == table[i].handle) {

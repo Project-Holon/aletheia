@@ -38,10 +38,10 @@ struct Obj {
     void      *unk_74;
 };
 
-extern void *sub_020627D8(void *h);
+extern void *sub_020627D8(void *h, u32 idx);
 extern void  sub_0206469C(struct Rec *r, void *v);
 
-void sub_0204D380(struct Obj *o)
+void sub_0204D380(struct Obj *o, u32 idx)
 {
-    sub_0206469C(&o->unk_0c, sub_020627D8(o->unk_74));
+    sub_0206469C(&o->unk_0c, sub_020627D8(o->unk_74, idx));
 }

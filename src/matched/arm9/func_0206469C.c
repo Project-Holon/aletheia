@@ -78,7 +78,7 @@ struct Obj0206469C {
     struct Srt0206469C unk_48;
 };
 
-extern void func_02062FF0(struct Obj0206469C *o);
+extern void func_02062FF0(struct Obj0206469C *o, void *bank);
 extern void *func_02062D40(struct Obj0206469C *o);
 extern void *func_020629E8(void *bank, u32 idx);
 extern void func_02064140(struct Srt0206469C *srt, u32 a);
@@ -87,13 +87,13 @@ extern void func_02064100(struct Srt0206469C *srt, u16 rot);
 extern void func_02064120(struct Srt0206469C *srt, u32 sx, u32 sy);
 extern void func_020643CC(void *walk, u32 a, u16 b);
 
-void func_0206469C(struct Obj0206469C *o)
+void func_0206469C(struct Obj0206469C *o, void *bank)
 {
     struct Node0206469C *p;
     u32 k;
     u32 r;
 
-    func_02062FF0(o);
+    func_02062FF0(o, bank);
     o->unk_30 = 0;
 
     if (*(u16 *)(o->unk_04 + 4) == 0) {

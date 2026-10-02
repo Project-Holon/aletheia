@@ -40,12 +40,12 @@ struct Obj {
     u8  unk_68;
 };
 
-extern void func_0204D324(void *sub);
+extern void func_0204D324(void *sub, u16 value);
 extern void func_0204B95C(struct Obj *p);
 
 void sub_0204B878(struct Obj *p, u16 value)
 {
     p->unk_5a = value;
-    func_0204D324(&p->unk_68);
+    func_0204D324(&p->unk_68, value);
     func_0204B95C(p);
 }

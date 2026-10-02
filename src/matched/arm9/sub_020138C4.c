@@ -30,8 +30,8 @@ typedef struct {
 extern int sub_0201A920(void *p);
 extern int sub_0200846C(void *p);
 extern int sub_02013234(void *p);
-extern void sub_02012EBC(void);
-extern int sub_0200873C(void);
+extern void *sub_02012EBC(void *p);
+extern void *sub_0200873C(void *sys);
 extern int sub_020082EC(void *p);
 extern void sub_02008314(int a, int b);
 extern int sub_0200CA1C(int x);
@@ -51,8 +51,7 @@ void sub_020138C4(S *p, int a1, void *a2)
         p->a48[i] = (void *)sub_02013234(a2);
     }
     p->f58 = a1;
-    sub_02012EBC();
-    t = sub_0200873C();
+    t = (int)sub_0200873C(sub_02012EBC((void *)a1));
     v = sub_020082EC(a2);
     p->f5c = v;
     sub_02008314(t, v);

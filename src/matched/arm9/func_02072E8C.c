@@ -27,9 +27,9 @@
  * three instructions and the pool word is one of them.
  */
 
-extern void func_02073484(void *);
+extern void func_02073484(void *p, unsigned char v);
 
-void func_02072E8C(void **r0)
+void func_02072E8C(void **r0, unsigned char v)
 {
-    func_02073484(*r0);
+    func_02073484(*r0, v);
 }

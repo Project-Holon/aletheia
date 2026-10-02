@@ -33,12 +33,12 @@ typedef struct {
     u8 unk3c;
 } Obj02073484;
 
-extern void func_02089398(u32 player);
+extern void func_02089398(int playerNo, int flag);
 
 void func_02073484(Obj02073484 *p, u8 v)
 {
     if (p != 0 && v != p->unk2e) {
-        func_02089398(p->unk3c);
+        func_02089398(p->unk3c, v);
         p->unk2e = v;
     }
 }

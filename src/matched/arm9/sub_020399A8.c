@@ -13,17 +13,19 @@
  *   func_02039338  0x02039338  arm
  *   func_0203996C  0x0203996C  arm
  *
- * A two-call shutdown/reset forwarder: no arguments, both results discarded.
+ * A two-call forwarder: the index func_02039338 returns goes straight to
+ * func_0203996C through r0, and that entry is returned.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_020399A8.c  *       --func sub_020399A8 --addr 0x020399A8 --cc 1.1p1 --arm
  */
 
-extern void func_02039338(void);
-extern void func_0203996C(void);
+struct Entry;
 
-void sub_020399A8(void)
+extern int func_02039338(void);
+extern struct Entry *func_0203996C(int idx);
+
+struct Entry *sub_020399A8(void)
 {
-    func_02039338();
-    func_0203996C();
+    return func_0203996C(func_02039338());
 }

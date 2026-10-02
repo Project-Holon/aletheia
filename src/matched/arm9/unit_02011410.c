@@ -27,11 +27,11 @@
 
 typedef unsigned int u32;
 
-extern u32 func_020113D8(void);
+extern u32 func_020113D8(u32 row);
 
-u32 func_02011410(void)
+u32 func_02011410(u32 tz)
 {
-    switch (func_020113D8()) {
+    switch (func_020113D8(tz)) {
     case 3:
     case 4:
         return 1;

@@ -156,7 +156,7 @@ struct Sub020056A0Sys {
 extern struct Sub020056A0Sys sub_020056A0_Sys;
 
 extern void *func_02030DA8(void *heap, u32 a, u32 b, u32 c);
-extern void  func_0203F034(void);
+extern void  func_0203F034(u32 seed);
 extern void  func_0203F258(void *heap);
 
 void sub_020056C8(void *heap);
@@ -180,8 +180,7 @@ void sub_020056C8(void *heap)
 void sub_020056D0(void)
 {
     sub_020056C8(sub_020056A0_Sys.unk10);
-    sub_020056EC(0);
-    func_0203F034();
+    func_0203F034(sub_020056EC(0));
 }
 
 u32 sub_020056EC(u32 range)

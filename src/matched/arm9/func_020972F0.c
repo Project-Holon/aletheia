@@ -23,15 +23,15 @@ typedef struct P0972 {
     u8 buf[1];
 } P0972;
 
-extern void func_02097170(P0972 *p);
+extern void func_02097170(P0972 *p, double x);
 extern void func_02096670(P0972 *p, int n);
 
-void func_020972F0(void *a0, int a1, int a2, P0972 *p)
+void func_020972F0(void *a0, double x, P0972 *p)
 {
     int n = *(s16 *)((char *)a0 + 2);
     int i;
 
-    func_02097170(p);
+    func_02097170(p, x);
     if (p->buf[0] > 9)
         return;
     if (n > 0x20)

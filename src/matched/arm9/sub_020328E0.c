@@ -61,19 +61,19 @@ struct SaveMain {
 
 extern struct SaveMain *unk_02146994;
 
-extern u32 func_02031EAC(struct SaveBackup *p);
+extern u32 func_02031EAC(struct SaveBackup *p, u32 sel);
 extern u32 func_02031F54(struct SaveBackup *p, u32 buf);
-extern void func_020336B8(u32 dst, u32 src, u32 len, u32 handle);
+extern int func_020336B8(u32 dst, u32 src, u32 len, u32 handle);
 
-void sub_020328E0(struct SaveBackup *p)
+int sub_020328E0(struct SaveBackup *p, u32 sel)
 {
     u32 dst;
     u32 area;
     u32 buf;
 
     area = p->unk30;
-    dst = area + func_02031EAC(p) - 0x10;
+    dst = area + func_02031EAC(p, sel) - 0x10;
     buf = p->unk34;
     func_02031F54(p, buf);
-    func_020336B8(dst, buf + (area - 0x10), 0xF, unk_02146994->unk208);
+    return func_020336B8(dst, buf + (area - 0x10), 0xF, unk_02146994->unk208);
 }

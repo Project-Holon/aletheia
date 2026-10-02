@@ -17,7 +17,8 @@
  *   sub_02005C28  0x02005C28  thumb
  *   sub_02008390  0x02008390  thumb
  *
- * One function of the boot path, 26 bytes: a test whose two arms pass 1 and 0
+ * One function of the boot path, 26 bytes: a test on a two-bit field of the
+ * object passed in r0 (sub_02008390 reads it), whose two arms pass 1 and 0
  * to the same one argument routine.  Both arms keep their own call and their
  * own `pop`, which is what an `if`/`else` with a call in each arm compiles to;
  * they are not tail merged, so the call is inside the arms in the source and
@@ -39,12 +40,12 @@
 
 typedef unsigned int u32;
 
-extern u32  sub_02008390(void);
+extern u32  sub_02008390(void *obj);
 extern void sub_02005C28(u32 on);
 
-void sub_0200530C(void)
+void sub_0200530C(void *obj)
 {
-    if (sub_02008390() == 0) {
+    if (sub_02008390(obj) == 0) {
         sub_02005C28(1);
     } else {
         sub_02005C28(0);

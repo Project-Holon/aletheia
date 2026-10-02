@@ -27,9 +27,9 @@
  * three instructions and the pool word is one of them.
  */
 
-extern void func_02073438(void *);
+extern void func_02073438(void *p, int fadeFrame);
 
-void func_02072E7C(void **r0)
+void func_02072E7C(void **r0, int fadeFrame)
 {
-    func_02073438(*r0);
+    func_02073438(*r0, fadeFrame);
 }

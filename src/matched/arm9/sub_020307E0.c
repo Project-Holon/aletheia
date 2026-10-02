@@ -21,7 +21,7 @@
  * A heap-state assertion, guarded on the result of sub_020302A4 and then
  * dispatched on the heap-layer state word returned by sub_02030524.
  *
- *   void sub_020307E0(void)
+ *   void sub_020307E0(void *p, u32 size)
  *
  * Neither call takes an argument. The dispatch is the ARM form of the
  * dense switch: `cmp r0, #5` then `addls pc, pc, r0, lsl #2`, so the table
@@ -50,13 +50,13 @@
 
 typedef unsigned int u32;
 
-extern u32 sub_020302A4(void);
+extern u32 sub_020302A4(void *p, u32 size);
 extern u32 sub_02030524(void);
 extern void OS_Terminate(void);
 
-void sub_020307E0(void)
+void sub_020307E0(void *p, u32 size)
 {
-    if (sub_020302A4() != 0) {
+    if (sub_020302A4(p, size) != 0) {
         return;
     }
     switch (sub_02030524()) {

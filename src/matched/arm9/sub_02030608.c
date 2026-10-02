@@ -44,17 +44,17 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int   sub_0202FC48(u32 a, u16 b, u16 c);
+extern int   sub_0202FC48(u32 a, u16 b, u16 c, u32 d);
 extern void *sub_02030524(void);
 extern void  sub_02086580(u32 a);
 extern void  sub_0208656C(u32 a);
 extern void  sub_02088234(void *obj);
 
-void sub_02030608(u32 a, u32 b, u32 c)
+void sub_02030608(u32 a, u32 b, u32 c, u32 d)
 {
     int ok;
 
-    ok = sub_0202FC48(a, b, c);
+    ok = sub_0202FC48(a, b, c, d);
     sub_02086580(0);
     sub_0208656C(0);
     if (ok != 0) {

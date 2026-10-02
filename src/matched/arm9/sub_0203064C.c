@@ -39,13 +39,13 @@
 
 typedef unsigned int u32;
 
-extern int   sub_0202FDC4(void *a, u32 b);
+extern int   sub_0202FDC4(void *a, u32 b, u32 c);
 extern void *sub_02030524(void);
 extern void  sub_020306A0(void *obj, void *a, u32 b);
 
-void sub_0203064C(void *a, u32 b)
+void sub_0203064C(void *a, u32 b, u32 c)
 {
-    if (sub_0202FDC4(a, b) != 0) {
+    if (sub_0202FDC4(a, b, c) != 0) {
         return;
     }
     sub_020306A0(sub_02030524(), a, b);

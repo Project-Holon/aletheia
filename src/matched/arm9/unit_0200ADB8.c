@@ -84,7 +84,7 @@ extern void *func_02045B38(u32 a, u32 b, u32 c, u32 d);
 extern void  func_02045CAC(void *g, u32 id, void *dest);
 extern void  func_02045C04(void *g);
 extern u16   func_0203F1FC(void *p, u32 size);
-extern void *func_020457B0(u32 id);
+extern void *func_020457B0(u32 size, u32 heap);
 extern const char func_0200ADF0_File[];
 
 struct Reg {
@@ -171,9 +171,9 @@ void func_0200AE18(struct Reg *p, void *dest)
     func_02045C04(g);
 }
 
-void *func_0200AE3C(struct Reg *p)
+void *func_0200AE3C(struct Reg *p, u32 heap)
 {
-    void *dest = func_020457B0(0x1A);
+    void *dest = func_020457B0(0x1A, heap);
 
     func_0200AE18(p, dest);
     return dest;

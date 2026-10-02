@@ -45,12 +45,12 @@ struct Obj {
     void *unk3C;
 };
 
-extern void func_02020DC8(void *x);
+extern void func_02020DC8(void *x, int heap);
 extern void func_020206C0(struct Obj *p);
 
-void func_02020CF8(struct Obj *p)
+void func_02020CF8(struct Obj *p, int heap)
 {
-    func_02020DC8(p->unk3C);
+    func_02020DC8(p->unk3C, heap);
     func_020206C0(p);
 }
 

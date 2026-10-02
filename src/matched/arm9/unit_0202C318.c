@@ -60,12 +60,12 @@ typedef unsigned int u32;
 
 extern u32 sub_0202C3E0(void *a, void *b);
 extern u32 sub_0202C470(void *p);
-extern u32 sub_0202C48C(void *p);
-extern u32 sub_0202C498(void *p);
+extern u32 sub_0202C48C(void *p, u32 idx);
+extern u32 sub_0202C498(void *p, u32 idx);
 extern u32 sub_0202C4A4(void *p);
 extern u32 func_0202C4C8(void *p);
 extern u32 sub_0202C4D8(void *a, void *b);
-extern u32 sub_0202C504(void *p);
+extern u32 sub_0202C504(void *p, u32 idx);
 extern u32 sub_0202C518(void *p);
 
 u32 sub_0202C318(void *a, void *b)
@@ -78,14 +78,14 @@ u32 sub_0202C320(void *p)
     return sub_0202C470(p);
 }
 
-u32 sub_0202C328(void *p)
+u32 sub_0202C328(void *p, u32 idx)
 {
-    return sub_0202C48C(p);
+    return sub_0202C48C(p, idx);
 }
 
-u32 sub_0202C330(void *p)
+u32 sub_0202C330(void *p, u32 idx)
 {
-    return sub_0202C498(p);
+    return sub_0202C498(p, idx);
 }
 
 u32 sub_0202C338(void *p)
@@ -103,9 +103,9 @@ u32 sub_0202C348(void *a, void *b)
     return sub_0202C4D8(a, b);
 }
 
-u32 sub_0202C350(void *p)
+u32 sub_0202C350(void *p, u32 idx)
 {
-    return sub_0202C504(p);
+    return sub_0202C504(p, idx);
 }
 
 u32 sub_0202C358(void *p)

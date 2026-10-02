@@ -46,18 +46,18 @@ struct Obj70AFC {
 
 struct Dst70AFC { u8 pad00[0x14]; u32 f14; };
 
-struct Ent70AFC *func_0206E62C(void *p);
+struct Ent70AFC *func_0206E62C(void *dict, void *name);
 
-static inline struct Ent70AFC *GetEnt(struct Obj70AFC *obj)
+static inline struct Ent70AFC *GetEnt(struct Obj70AFC *obj, void *name)
 {
     if (obj != 0 && obj->h34 != 0)
-        return func_0206E62C((u8 *)obj + obj->h34);
+        return func_0206E62C((u8 *)obj + obj->h34, name);
     return 0;
 }
 
-void func_02070AFC(struct Obj70AFC *obj, void *unused, struct Dst70AFC *dst)
+void func_02070AFC(struct Obj70AFC *obj, void *name, struct Dst70AFC *dst)
 {
-    struct Ent70AFC *e = GetEnt(obj);
+    struct Ent70AFC *e = GetEnt(obj, name);
     u16 base = (u16)obj->f2c & ~0xE0000000;
     u16 ofs = e->offset;
     if (!(e->flag & 1)) {

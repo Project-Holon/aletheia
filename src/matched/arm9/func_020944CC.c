@@ -26,18 +26,17 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern u32 func_02094488(u8 *p, const void *src, u32 n);
-extern u32 func_02093BDC(u32 writer, void *s);
+extern u32 func_02093BDC(u32 writer, void *s, const u8 *format, u8 *ap, int is_secure);
 
-u32 func_020944CC(u8 *dst, u32 n, u32 arg2, u32 arg3)
+u32 func_020944CC(u8 *dst, u32 n, const u8 *format, u8 *ap)
 {
-    u32 state[4];
+    u32 state[3];
     u32 len;
 
-    state[1] = (u32)dst;
-    state[2] = n;
-    state[3] = 0;
-    state[0] = 0;
-    len = func_02093BDC((u32)func_02094488, &state[1]);
+    state[0] = (u32)dst;
+    state[1] = n;
+    state[2] = 0;
+    len = func_02093BDC((u32)func_02094488, state, format, ap, 0);
     if (dst == 0)
         return len;
     if (len < n) {

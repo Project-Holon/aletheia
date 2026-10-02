@@ -11,8 +11,9 @@
  *
  * A two-call forwarder in the ARM SDK-style block at 0x02035000..0x02038000:
  * "push {r3, lr}; bl sub_02035224; bl sub_02035C20; pop {r3, pc}", sixteen
- * bytes, no register setup between the calls so nothing about the argument
- * count is visible.
+ * bytes, no register setup between the calls: the first call's result is
+ * still in r0 as the second call's argument, and the second call's result
+ * is returned.
  *
  * Byte-correct.  sub_02035224 resolves on the `label` class (58 branches to
  * it image-wide, e.g. 0x02035460).  sub_02035C20 does not: this call is its
@@ -26,11 +27,10 @@
  *       --func sub_02035C38 --addr 0x02035C38 --cc 1.1p1 --arm
  */
 
-extern void sub_02035224(void);
-extern void sub_02035C20(void);
+extern void *sub_02035224(void);
+extern int sub_02035C20(const void *p);
 
-void sub_02035C38(void)
+int sub_02035C38(void)
 {
-    sub_02035224();
-    sub_02035C20();
+    return sub_02035C20(sub_02035224());
 }

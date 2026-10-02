@@ -43,8 +43,8 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern void func_0203F37C(void);
-extern void func_0203F328(void);
+extern void func_0203F37C(void *p, u32 size, u32 seed);
+extern void func_0203F328(void *p, u32 size, u32 seed);
 
 struct ObjC4 {
     u8 unk00[0x80];
@@ -54,14 +54,14 @@ struct ObjC4 {
 
 extern struct ObjC4 *gObj_0214616C;
 
-void func_0200B900(void *a, void *b, u32 c, u32 d)
+void func_0200B900(void *a, u32 b, u32 c)
 {
-    func_0203F37C();
+    func_0203F37C(a, b, c);
 }
 
-void func_0200B908(void *a, void *b, u32 c, u32 d)
+void func_0200B908(void *a, u32 b, u32 c)
 {
-    func_0203F328();
+    func_0203F328(a, b, c);
 }
 
 struct ObjC4 *func_0200B910(void)

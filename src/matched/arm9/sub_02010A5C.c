@@ -26,23 +26,23 @@ typedef unsigned int   u32;
 extern void  func_0203064C(int a, int b, int c);
 extern u8   *func_0203159C(void *a, int b, int c);
 extern void  func_02082BCC(void *dst, int val, unsigned n);
-extern void *sub_020124F4(int a);
-extern void  sub_02012EBC(void);
-extern void  sub_02009448(void);
-extern int   sub_020092EC(void);
+extern void *sub_020124F4(u16 heap);
+extern void *sub_02012EBC(void *p);
+extern void *sub_02009448(void *sys);
+extern u8    sub_020092EC(const void *obj);
 
 int sub_02010A5C(void *a0)
 {
     u8 *p;
+    void *sys;
 
     func_0203064C(1, 0x67, 0x78000);
     p = func_0203159C(a0, 0x1d8, 0x67);
     func_02082BCC(p, 0, 0x1d8);
     *(u16 *)(p + 0x1d0) = 0x67;
-    *(u32 *)(p + 0x44) = (u32)sub_020124F4(0x67);
-    sub_02012EBC();
-    sub_02009448();
-    if (sub_020092EC() != 0) {
+    sys = sub_020124F4(0x67);
+    *(void **)(p + 0x44) = sys;
+    if (sub_020092EC(sub_02009448(sub_02012EBC(sys))) != 0) {
         *(u32 *)(p + 0x1d4) = 1;
         *(u32 *)(p + 0x54) = 1;
     } else {

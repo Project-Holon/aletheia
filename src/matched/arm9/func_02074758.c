@@ -11,4 +11,11 @@
  * status:   EXACT
  */
 
-int func_02074758(int a0, int a1, int a2, int a3){ int t0 = func_02074770(); int t1 = func_02061118((int)*(int *)((char *)(a0))); return t1; }
+extern void func_02074770(void *o);
+extern void func_02061118(void *heap);
+
+void func_02074758(void **a0)
+{
+    func_02074770(a0);
+    func_02061118(*a0);
+}

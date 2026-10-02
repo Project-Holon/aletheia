@@ -28,7 +28,7 @@ typedef unsigned int u32;
 
 extern void *func_020913D0(u32 heap);
 extern void func_020913E8(void *p);
-extern u32 func_020913BC(void);
+extern u32 func_020913BC(void *p);
 extern void func_02092344(void *dst, const void *src, u32 n);
 
 void *func_020913FC(u32 a0, u32 a1)
@@ -42,7 +42,7 @@ void *func_020913FC(u32 a0, u32 a1)
         func_020913E8((void *)a0);
         return 0;
     }
-    n = func_020913BC();
+    n = func_020913BC((void *)a0);
     p = func_020913D0(a1);
     if (p != 0) {
         if (n >= a1)

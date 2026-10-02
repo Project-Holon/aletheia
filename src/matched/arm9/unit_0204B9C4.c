@@ -67,7 +67,8 @@ struct Actor {
 };
 
 extern struct Anim *func_0204D410(struct Ctl *c);
-extern void         func_0204D768(struct Ctl *c);
+struct Cmd;
+extern void         func_0204D768(struct Ctl *c, const struct Cmd *cmd);
 extern void         func_0204D7C4(struct Ctl *c);
 
 void func_0204B9C4(struct Actor *a, u32 v)
@@ -85,9 +86,9 @@ void func_0204B9C4(struct Actor *a, u32 v)
     }
 }
 
-void func_0204BA00(struct Actor *a)
+void func_0204BA00(struct Actor *a, const struct Cmd *cmd)
 {
-    func_0204D768(&a->ctl);
+    func_0204D768(&a->ctl, cmd);
 }
 
 void func_0204BA10(struct Actor *a)

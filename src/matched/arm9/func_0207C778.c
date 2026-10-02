@@ -14,11 +14,13 @@
  *   func_0207C86C  0x0207C86C  arm
  */
 
-extern void func_0207C8A0(void);
-extern void func_0207C86C(void);
+typedef long fx32;
 
-void func_0207C778(void)
+extern void func_0207C8A0(fx32 denom);
+extern fx32 func_0207C86C(void);
+
+fx32 func_0207C778(fx32 v)
 {
-    func_0207C8A0();
-    func_0207C86C();
+    func_0207C8A0(v);
+    return func_0207C86C();
 }
