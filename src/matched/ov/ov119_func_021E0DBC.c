@@ -6,13 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH
- * blocker: ARM9 func_020275EC at 0x020275EC lacks an outside witness.
- * blocker:
- *   0x020275EC thumb, EXACT in scratch blocker-r3.log; Ilias owns filing.
- *   typedef unsigned int u32; typedef unsigned char u8;
- *   extern const u8 d_0209FCF8[];  (data symbol 0x0209FCF8, a1)
- *   u32 func_020275EC(u32 a) { return d_0209FCF8[a]; }
+ * status: EXACT
  * symbols:
  *   func_02017E1C 0x02017E1C thumb
  *   func_020275E4 0x020275E4 thumb

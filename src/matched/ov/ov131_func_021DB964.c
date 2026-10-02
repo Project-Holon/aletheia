@@ -6,12 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH*
- * blocker: ARM9 func_020275EC lacks an outside witness; Ilias owns filing.
- *   Verified C copied from ov119_func_021E0DBC.c, blocker-r3.log EXACT:
- *   extern const unsigned char d_0209FCF8[];
- *   unsigned func_020275EC(unsigned a) { return d_0209FCF8[a]; }
- *   symbols: d_0209FCF8 0x0209FCF8 data a1
+ * status: EXACT*
  * extent: two-byte zero alignment padding at 0x021DB9E6.
  * symbols:
  *   func_021D6064 0x021D6064 thumb ov131

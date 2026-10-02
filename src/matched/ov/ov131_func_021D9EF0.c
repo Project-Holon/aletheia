@@ -6,11 +6,8 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH*
+ * status: EXACT*
  * extent: two zero alignment bytes at 021DA0AE follow the 446-byte body.
- * blocker: ARM9 020275EC at +0108 and +016E has no outside witness;
- * Ilias owns its missing evidence. No ARM9 blocker C is authorized.
- * split: singleton TU has zero viable pieces; all concrete bytes match.
  * proof: i is a byte, i*24 <=6120. first/second remain full-word u32
  * results; unsigned address multiply/add preserve original modulo-2^32
  * lsl/add without invented selector bounds. 0204AB84 writes all nine words

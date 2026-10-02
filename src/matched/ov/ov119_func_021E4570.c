@@ -1,0 +1,23 @@
+/*
+ * function: func_021E4570
+ * address: 0x021E4570
+ * packet: pkt_ov119_021E4570
+ * region: ov119
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_020452E8 0x020452E8 arm
+ */
+extern void func_020452E8(void *);
+void func_021E4570(char *p)
+{
+    int i;
+    for (i = 0; i < 25; i++) {
+        if (*(void **)(p + i * 4 + 0x6B8)) {
+            func_020452E8(*(void **)(p + i * 4 + 0x6B8));
+            *(void **)(p + i * 4 + 0x6B8) = 0;
+        }
+    }
+}

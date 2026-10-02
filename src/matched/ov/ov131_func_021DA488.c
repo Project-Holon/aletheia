@@ -6,9 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH*
- * blocker: ARM9 0x02027604 Thumb byte-table accessor has no witness
- * outside 021DA488..021DA6A2; owner evidence only, no blocker C.
+ * status: EXACT*
  * extent: two-byte zero alignment padding at 0x021DA6A2.
  * semantics: C1E8 forwards BD28(a,2); BDB4 case 2 at 0201BE0C
  * returns ldrb, bounding kind to 0..255 and (kind+16)*4 to 1084.

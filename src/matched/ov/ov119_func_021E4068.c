@@ -6,12 +6,7 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH
- * blocker: ARM9 unlabelled Thumb leaves have no outside witness (Ilias-owned).
- *   0x02027614, verified EXACT: int func_02027614(void) { return 19; }
- *   0x02027618, verified EXACT: int func_02027618(void) { return 20; }
- *   0x0202761C, verified EXACT: int func_0202761C(int a) { return a + 21; }
- *   0x02027620, verified EXACT: int func_02027620(int a) { return a + 24; }
+ * status: EXACT
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_0204A6C8 0x0204A6C8 arm

@@ -6,11 +6,8 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH
- * blocker: ARM9 0x0202F72C thumb, +0x13A THM_CALL unresolved (no
- *   outside witness); complete 12-byte tail forwarder to 0x020212E4.
- *   Owner C prohibited. Original caller supplies r0 pointer, narrowed r1
- *   and halfword r2; all three are retained, r0 return consumed.
+ * status: EXACT
+ * note: callee func_0202F72C filed as arm9 witness (pkt_0202F72C).
  * interface: C08 returns -1 or 0..4 for this five-record list (full
  *   C08/BBC/ADC bodies and nonwriting A70/AA4 predicates, retained evidence).
  *   BA14 writes every four-byte record; the sixth first byte is the sentinel.

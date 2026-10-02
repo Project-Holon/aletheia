@@ -6,25 +6,9 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH
- * blocker: ARM9 0x0202F688 and 0x0202F6D8 lack outside witnesses; scratch one
- * verified EXACT at 80 and 84 bytes respectively. Caller one MATCH*, tu MATCH.
- * blocker: 0x0202F688 thumb verified C:
- * unsigned int func_0202F688(unsigned int n) {
- *   if(n<0x7531) return 89;
- *   if(n<0x9c41) { if(n-0x7531>=14) return 89; return 92; }
- *   if(n<0xea61) { if(n-0x9c41>=109) return 89; return 90; }
- *   if(n<=65535) return 91;
- *   return 89;
- * }
- * blocker: 0x0202F6D8 thumb verified C:
- * unsigned int func_0202F6D8(unsigned int n) {
- *   if(n<0x7531) { if(n>=117) return 2; }
- *   else if(n<0x9c41) { n-=0x7531; if(n>=14) return 2; }
- *   else if(n<0xea61) { n-=0x9c41; if(n>=109) return 2; }
- *   else { if(n<=65535) { n-=0xea61; if(n>=3) return 0; } else return 2; }
- *   return n;
- * }
+ * status: EXACT*
+ * note: arm9 witnesses func_0202F688 / func_0202F6D8 filed (unlabelled Thumb
+ *   leaves); 92-byte listing extent includes 2 bytes of alignment padding.
  * symbols:
  *   func_0202F688 0x0202F688 thumb
  *   func_0202F6D8 0x0202F6D8 thumb

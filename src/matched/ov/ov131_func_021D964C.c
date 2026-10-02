@@ -1,0 +1,25 @@
+/*
+ * function: func_021D964C
+ * address: 0x021D964C
+ * packet: pkt_ov131_021D964C
+ * region: ov131
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * symbols:
+ *   func_020452E8 0x020452E8 arm
+ */
+typedef unsigned char u8;
+extern void func_020452E8(void *);
+void func_021D964C(u8 *a,u8 *p)
+{
+    if(*(void **)(p+0x20)!=0) {
+        func_020452E8(*(void **)(p+0x20));
+        *(void **)(p+0x20)=0;
+    }
+    if(*(void **)(p+0x24)!=0) {
+        func_020452E8(*(void **)(p+0x24));
+        *(void **)(p+0x24)=0;
+    }
+}
