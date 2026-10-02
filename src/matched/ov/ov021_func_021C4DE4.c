@@ -18,6 +18,7 @@
 
 typedef unsigned short u16;
 typedef unsigned int u32;
+typedef signed int s32;
 
 typedef struct {
     u16 heap;
@@ -29,17 +30,17 @@ typedef struct {
     u32 f14;
 } R;
 
-extern u32 func_02011590(u32 t);
+extern u32 func_02011590(u32 t, s32 v);
 extern void func_021C4E34(R *r);
 extern void func_021C4E6C(R *r);
 
-u32 func_021C4DE4(R *r)
+u32 func_021C4DE4(R *r, s32 dv)
 {
     u32 v;
 
     if (r->task == 0)
         return 0;
-    v = func_02011590(r->task);
+    v = func_02011590(r->task, dv);
     func_021C4E34(r);
     func_021C4E6C(r);
     return v;

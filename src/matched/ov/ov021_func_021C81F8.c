@@ -22,8 +22,8 @@
  */
 
 extern int func_0215A5DC(int b);
-extern void func_0201210C();
-extern int func_02189A00();
+extern int func_0201210C(int a);
+extern int func_02189A00(int a);
 extern int func_02159B10(int a, int b);
 extern int func_0215A5F4(int b);
 extern int func_021C1CB0(int a, int b, int c);
@@ -37,8 +37,7 @@ int func_021C81F8(int a, int b)
     unsigned short r4;
 
     sp4 = func_0215A5DC(b);
-    func_0201210C();
-    sp0 = func_02189A00();
+    sp0 = func_02189A00(func_0201210C(sp4));
     v = func_02159B10(a, b);
     found = 0;
     for (i = 0; i < 17; i++) {

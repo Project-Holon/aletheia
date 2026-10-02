@@ -24,7 +24,7 @@ typedef unsigned int u32;
 
 extern u32 func_021ABE24(u32 a);
 extern u32 func_02046E24(u32 a, u32 b);
-extern void func_02046FF8(void);
+extern int func_02046FF8(u32 self);
 extern u32 func_02047400(u32 a, u32 b, u32 c);
 extern const u16 data_021DB8CC[];
 extern const u16 data_021DB8C4[];
@@ -47,7 +47,7 @@ void func_021D0174(B *p, int i)
     s = data_021DB8CC;
     if (p->f4[i] == 0) {
         p->f4[i] = func_02046E24(x, s[i]);
-        func_02046FF8();
+        func_02046FF8(p->f4[i]);
         p->f34[i] = func_02047400(p->f4[i], 0, p->f4[i]);
     }
     t = data_021DB8C4;

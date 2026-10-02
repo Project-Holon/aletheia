@@ -22,14 +22,14 @@
  *   func_021C8B78  0x021C8B78  thumb  ov021
  */
 
-extern void func_021C8AAC(int *p);
-extern int func_021C89A8();
+extern int func_021C8AAC(int *p);
+extern int func_021C89A8(int a);
 extern void func_021C8AD0(int *p);
 extern int func_0216D454(int a);
 extern void func_021C8B48(int *p);
 extern int func_021C8B5C(int *p);
-extern void func_02006148(int a);
-extern void func_020061F8();
+extern int func_02006148(int a);
+extern void func_020061F8(int a);
 extern void func_021C8B14(int *p);
 extern void func_021C8B78(int *p);
 
@@ -37,8 +37,7 @@ int func_021C89BC(int a, int *st, int *p)
 {
     switch (*st) {
     case 0:
-        func_021C8AAC(p);
-        if (func_021C89A8() == 0) {
+        if (func_021C89A8(func_021C8AAC(p)) == 0) {
             *st = 2;
         } else {
             *st = 1;
@@ -49,8 +48,7 @@ int func_021C89BC(int a, int *st, int *p)
         if (func_0216D454(p[3])) {
             func_021C8B48(p);
             if (func_021C8B5C(p)) {
-                func_02006148(0x694);
-                func_020061F8();
+                func_020061F8(func_02006148(0x694));
                 *st = 2;
             } else {
                 func_021C8B14(p);

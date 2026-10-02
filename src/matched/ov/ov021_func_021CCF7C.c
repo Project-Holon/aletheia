@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02020D0C  0x02020D0C  thumb
@@ -19,12 +19,12 @@ typedef struct {
     int f10;
 } Info;
 
-extern Info *func_02020D0C(void);
+extern Info *func_02020D0C(void *p);
 extern void func_02020298(void *p, int a, int b, int c);
 
 void func_021CCF7C(void *p, int k)
 {
-    Info *i = func_02020D0C();
+    Info *i = func_02020D0C(p);
 
     if (k == 0 && i->f10 == 1) {
         func_02020298(p, 1, 0, 2);

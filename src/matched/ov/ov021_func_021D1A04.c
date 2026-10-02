@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_0215A5F4(u32 a);
-extern u32 *func_02158F58(void);
+extern u32 *func_02158F58(u32 a);
 extern u32 func_02188C84(u32 a);
 extern u32 func_02159B10(u32 a, u32 b);
 extern u32 func_02188CB4(u32 a);
@@ -38,7 +38,7 @@ int func_021D1A04(u32 a, u32 b)
 {
     u32 buf[3];
     u32 s = func_0215A5F4(b);
-    u32 *q = func_02158F58();
+    u32 *q = func_02158F58(s);
     u32 t = func_02188C84(q[1]);
     u32 k = func_02159B10(a, b);
     u8 *r;

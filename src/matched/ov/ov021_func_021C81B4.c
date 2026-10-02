@@ -21,8 +21,8 @@
  */
 
 extern int func_0215A5DC(int b);
-extern void func_0201210C();
-extern int func_02189A00();
+extern int func_0201210C(int a);
+extern int func_02189A00(int a);
 extern int func_02159B10(int a, int b);
 extern int func_0215A5F4(int b);
 extern int func_021C30B8(int a, int b, int c);
@@ -33,8 +33,7 @@ int func_021C81B4(int a, int b)
     int r6, r7, r5, r4, v;
 
     r6 = func_0215A5DC(b);
-    func_0201210C();
-    r7 = func_02189A00();
+    r7 = func_02189A00(func_0201210C(r6));
     r5 = func_02159B10(a, b);
     r4 = func_0215A5F4(b);
     v = func_021C30B8(r6, r7, r5);

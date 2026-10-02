@@ -52,7 +52,7 @@ typedef struct NNSG2dAnimController {
     const NNSG2dAnimSequence *pAnimSequence;
 } NNSG2dAnimController;
 
-extern void func_02062D4C(NNSG2dAnimController *pAnimCtrl);
+extern BOOL func_02062D4C(NNSG2dAnimController *pAnimCtrl, fx32 frames);
 
 static inline BOOL IsForward_(const NNSG2dAnimController *pAnimCtrl)
 {
@@ -78,5 +78,5 @@ void func_02062F90(NNSG2dAnimController *pAnimCtrl)
     }
     pAnimCtrl->pActiveCurrent = pAnimCtrl->pCurrent;
     pAnimCtrl->currentTime = 0;
-    func_02062D4C(pAnimCtrl);
+    func_02062D4C(pAnimCtrl, 0);
 }

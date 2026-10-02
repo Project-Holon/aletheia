@@ -26,8 +26,8 @@
 typedef unsigned int u32;
 
 extern void func_020061E4(u32);
-extern void func_02006148(u32);
-extern int func_02006224(void);
+extern int func_02006148(u32);
+extern int func_02006224(u32);
 extern u32 func_02188CB4(u32);
 extern u32 func_02188C98(u32);
 extern void func_021A3038(u32, int *);
@@ -61,8 +61,7 @@ int func_021C9854(u32 a, u32 *q, u32 *p)
         break;
     case 1:
         if (p[4] == 0) {
-            func_02006148(0x55D);
-            if (func_02006224() == 0) {
+            if (func_02006224(func_02006148(0x55D)) == 0) {
                 q[0]++;
             }
         } else {

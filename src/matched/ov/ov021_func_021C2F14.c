@@ -22,16 +22,16 @@ typedef unsigned int u32;
 
 typedef struct { u32 v[4]; } T;
 
-extern void func_021C2F50(T *t);
+extern void func_021C2F50(char *dst, const char *src);
 extern int func_0206E62C(void *a, T *t);
 extern int func_021C2ECC(u32 a, u32 b);
 
-int func_021C2F14(u8 *p)
+int func_021C2F14(u8 *p, const char *name)
 {
     T t;
     int r;
 
-    func_021C2F50(&t);
+    func_021C2F50((char *)&t, name);
     if (p != 0 && *(u16 *)(p + 0x34) != 0)
         r = func_0206E62C(p + *(u16 *)(p + 0x34), &t);
     else

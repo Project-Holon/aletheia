@@ -22,7 +22,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0200BCA8(u32);
+extern int func_0200BCA8(u32, u32);
 extern u32 func_0200BC2C(u32, u32);
 extern u32 func_02017E1C(u32, u32, u32);
 extern u32 func_0200BCD8(u32, u32);
@@ -36,7 +36,7 @@ int func_021C341C(u32 *p, u32 b)
     u32 s1;
     u32 s2;
 
-    if (func_0200BCA8(p[2]) != 1)
+    if (func_0200BCA8(p[2], b) != 1)
         return 1;
     m = func_0200BC2C(p[2], b);
     s2 = func_02017E1C(m, 5, 0);

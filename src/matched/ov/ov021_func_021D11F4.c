@@ -27,10 +27,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u32 func_020490F4(u32 a, u32 b);
-extern void func_02188C80(u32 a);
-extern void func_020120F4(void);
-extern void func_02012944(void);
-extern u32 func_02008550(void);
+extern u32 func_02188C80(u32 a);
+extern u32 func_020120F4(u32 a);
+extern u32 func_02012944(u32 a);
+extern u32 func_02008550(u32 a);
 extern u32 func_0204384C(u32 a, u32 b, u32 c, u32 d);
 extern void func_02049BDC(u32 h, u32 id, u32 type, u32 ofs, u32 src, u32 size, u32 heap);
 extern void func_02049238(u32 h);
@@ -41,10 +41,7 @@ void func_021D11F4(u32 *p, u32 b)
     u32 h = func_020490F4(200, b);
     u32 idx;
 
-    func_02188C80(p[0]);
-    func_020120F4();
-    func_02012944();
-    idx = func_02008550();
+    idx = func_02008550(func_02012944(func_020120F4(func_02188C80(p[0]))));
     p[4] = func_0204384C(200, 0, 0, b);
     func_02049BDC(h, 1, 0, d_021DB97C[idx] << 5, 0x120, 0x20, b);
     func_02049238(h);

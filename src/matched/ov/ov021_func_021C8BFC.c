@@ -24,8 +24,8 @@
  *   func_021C8DE4  0x021C8DE4  thumb  ov021
  */
 
-extern void func_021C8D18(int *p);
-extern int func_021C8BC4();
+extern int func_021C8D18(int *p);
+extern int func_021C8BC4(int a);
 extern int func_021A2F98(int a);
 extern void func_021ACBC8(int a, int b);
 extern void func_021C8E30(int *p);
@@ -41,8 +41,7 @@ int func_021C8BFC(int a, int *st, int *p)
 {
     switch (*st) {
     case 0:
-        func_021C8D18(p);
-        if (func_021C8BC4() == 0) {
+        if (func_021C8BC4(func_021C8D18(p)) == 0) {
             *st = 2;
         } else {
             func_021ACBC8(func_021A2F98(p[2]), 0);

@@ -23,8 +23,8 @@
  */
 
 extern int func_02188C58(int);
-extern void func_02188CB4(int);
-extern int func_021A3074(void);
+extern int func_02188CB4(int);
+extern int func_021A3074(int);
 extern int func_0218E138(int);
 extern void func_0218E13C(int, int);
 extern void func_0216D410(int, int);
@@ -38,8 +38,7 @@ int func_021BFC98(int a, int *s, int *q)
     int h = func_02188C58(q[1]);
     int t;
 
-    func_02188CB4(q[1]);
-    t = func_021A3074();
+    t = func_021A3074(func_02188CB4(q[1]));
     switch (s[0]) {
     case 0:
         q[2] = func_0218E138(h);

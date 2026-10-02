@@ -29,19 +29,21 @@ extern Work *func_020124E8(void *task);
 extern void *func_0201210C(void *p);
 extern void func_021D10A8(void);
 extern int func_021D1164(int a, void *b);
-extern void func_021D11B0(void);
+extern void func_021D11B0(int p);
 
 void *func_021D0FE8(void *a, int unused, int c)
 {
     void *task;
     Work *w;
+    int v;
 
     task = func_020122C0(a, 0, func_021D10A8, 0x10);
     w = func_020124E8(task);
     w->f00 = a;
     w->f04 = 0;
     w->f08 = c;
-    w->f0C = func_021D1164(0x8015, func_0201210C(a));
-    func_021D11B0();
+    v = func_021D1164(0x8015, func_0201210C(a));
+    w->f0C = v;
+    func_021D11B0(v);
     return task;
 }

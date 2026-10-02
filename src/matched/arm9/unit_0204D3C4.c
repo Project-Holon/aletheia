@@ -51,6 +51,7 @@
 
 typedef unsigned char u8;
 typedef unsigned int  u32;
+typedef signed int    s32;
 
 struct Obj {
     u32 kind;
@@ -62,25 +63,25 @@ typedef void *(*DispatchFn)(struct Obj *o, u32 arg);
 
 extern DispatchFn const gUnk_020A1394[][3];
 
-extern void *sub_02064364(void *p);
-extern void *sub_020649D4(void *p);
+extern void sub_02064364(void *p, s32 frames);
+extern void sub_020649D4(void *p, s32 frames);
 
 void *sub_0204D3C4(struct Obj *o, u32 arg)
 {
     return gUnk_020A1394[10][o->kind](o, arg);
 }
 
-void *sub_0204D3E0(struct Obj *o)
+void sub_0204D3E0(struct Obj *o, s32 frames)
 {
-    return sub_02064364(&o->unk_0c);
+    sub_02064364(&o->unk_0c, frames);
 }
 
-void *sub_0204D3F0(struct Obj *o)
+void sub_0204D3F0(struct Obj *o, s32 frames)
 {
-    return sub_02064364(&o->unk_0c);
+    sub_02064364(&o->unk_0c, frames);
 }
 
-void *sub_0204D400(struct Obj *o)
+void sub_0204D400(struct Obj *o, s32 frames)
 {
-    return sub_020649D4(&o->unk_0c);
+    sub_020649D4(&o->unk_0c, frames);
 }

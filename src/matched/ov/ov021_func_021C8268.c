@@ -23,9 +23,9 @@
 extern int func_020122C0(int a, int b, void *c, int d);
 extern int *func_020124E8(int a);
 extern void func_02082BCC(void *p, int v, int n);
-extern void func_020120F4(int a);
-extern void func_02012944();
-extern int func_02008550();
+extern int func_020120F4(int a);
+extern int func_02012944(int a);
+extern int func_02008550(int a);
 extern void func_02014204(void *p, int v);
 extern void func_021C82C4();
 
@@ -40,9 +40,7 @@ int func_021C8268(int a, int b, int c)
     func_02082BCC(r4, 0, 0x30);
     r4[0] = a;
     r4[2] = c;
-    func_020120F4(a);
-    func_02012944();
-    if (func_02008550() == 0) {
+    if (func_02008550(func_02012944(func_020120F4(a))) == 0) {
         r4[10] = 11;
         v = 12;
     } else {

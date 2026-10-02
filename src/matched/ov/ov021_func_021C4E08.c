@@ -17,6 +17,7 @@
 
 typedef unsigned short u16;
 typedef unsigned int u32;
+typedef signed int s32;
 
 typedef struct { int x, y, z; } V3;
 
@@ -30,13 +31,13 @@ typedef struct {
     V3 *pos;
 } R;
 
-extern void func_020115EC(u32 t);
+extern void func_020115EC(u32 t, s32 v);
 extern void func_021C4E34(R *r);
 
-void func_021C4E08(R *r)
+void func_021C4E08(R *r, s32 frame)
 {
     if (r->task != 0) {
-        func_020115EC(r->task);
+        func_020115EC(r->task, frame);
         func_021C4E34(r);
     }
 }

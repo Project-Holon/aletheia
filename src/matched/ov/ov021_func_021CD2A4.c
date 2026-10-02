@@ -53,10 +53,10 @@ typedef struct {
 
 extern const u8 d_021DB44C[];
 extern u32 func_020122C0(u32 a, u32 b, void *cb, u32 n);
-extern Obj *func_020124E8(void);
+extern Obj *func_020124E8(u32 a);
 extern u32 func_020120F4(u32 a);
-extern void func_02012EBC(u32 a);
-extern u32 func_0200C0F0(void);
+extern u32 func_02012EBC(u32 a);
+extern u32 func_0200C0F0(u32 a);
 extern u32 func_02012944(u32 a);
 extern u32 func_02012A54(u32 a);
 extern u32 func_02008550(u32 a);
@@ -72,15 +72,14 @@ u32 func_021CD2A4(u32 a, u32 b, u32 x, u32 c, u32 d)
     Obj *o;
 
     h = func_020122C0(a, x, func_021CD348, 0x50);
-    o = func_020124E8();
+    o = func_020124E8(h);
     o->f00 = a;
     o->f04 = func_020120F4(a);
     o->f10 = b;
     o->f18 = d;
     o->f4c = c;
     o->f48 = 4;
-    func_02012EBC(o->f04);
-    o->f08 = func_0200C0F0();
+    o->f08 = func_0200C0F0(func_02012EBC(o->f04));
     o->f0c = func_02012944(o->f04);
     o->f14 = func_02012A54(o->f04);
     o->f1c = c;

@@ -18,13 +18,13 @@
 
 typedef unsigned int u32;
 
-extern int func_021A448C(void);
+extern int func_021A448C(u32 *p, int a);
 extern int func_021C0DDC(u32 a, u32 b, int c);
 
 int func_021C0CE4(u32 a, u32 b, u32 flags)
 {
     int r = 0;
-    int h = func_021A448C();
+    int h = func_021A448C((u32 *)a, b);
 
     if (flags & 1)
         r = func_021C0DDC(a, b, h);
