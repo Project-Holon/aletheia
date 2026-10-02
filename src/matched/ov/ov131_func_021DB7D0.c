@@ -1,0 +1,12 @@
+/*
+ * function: func_021DB7D0
+ * address: 0x021DB7D0
+ * packet: pkt_ov131_021DB7D0
+ * region: ov131
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ */
+void func_021DB7D0(void) {
+}
