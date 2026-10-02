@@ -23,7 +23,7 @@ extern int func_020362DC(void);
 extern int func_02035C60(void);
 extern void func_02012E08(int);
 extern void func_021D8F58(int);
-extern int func_021D5D58(void);
+extern int func_021D5D58(int);
 extern void func_021D6EE0(int, int, int);
 extern void func_021D6F44(void);
 
@@ -39,7 +39,7 @@ void func_021D6F70(int a)
     }
     func_021D8F58(a);
     if (*(int *)(a + 8) != 0) {
-        if (func_021D5D58() != 0)
+        if (func_021D5D58(*(int *)(a + 8)) != 0)
             func_021D6EE0(a, (int)func_021D6F44, 0x191);
         func_021D6EE0(a, 0x021D706D, 0x193);
     } else {

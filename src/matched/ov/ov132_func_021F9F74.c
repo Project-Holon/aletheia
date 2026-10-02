@@ -13,8 +13,8 @@
  * symbols:
  *   func_020515B4 0x020515B4 arm
  */
-extern int func_020515B4(void *);
 typedef struct { int x, y, z; } Vec;
+extern int func_020515B4(void *, int, Vec *);
 typedef struct { int a; Vec v; } Part;
 typedef struct { char pad[0x4808]; Part part[4]; } Obj;
 static inline void set(Vec *p, int x, int y, int z)
@@ -25,7 +25,7 @@ static inline void set(Vec *p, int x, int y, int z)
 }
 void func_021F9F74(char *p, unsigned i, Vec *v)
 {
-    int a = func_020515B4(*(void **)(p + 0x4804));
+    int a = func_020515B4(*(void **)(p + 0x4804), i, v);
     if (a == 0 || i < 4) {
         ((Obj *)p)->part[i].a = a;
         set(&((Obj *)p)->part[i].v, v->x, v->y, v->z);

@@ -19,11 +19,11 @@
 
 typedef struct {
     int pad0;
-    int x4;
+    void *x4;
 } Top;
 
 extern void func_020061E4(unsigned se);
-extern int func_020077B8(int a);
+extern int func_020077B8(void *save, unsigned box);
 extern void func_021EA1C0(unsigned char *p);
 extern int func_021E8FC0(unsigned char *p, int (*cb)(unsigned char *), int n);
 extern int func_021E087C(unsigned char *p);
@@ -38,7 +38,7 @@ int func_021EA14C(unsigned char *p, unsigned i, int v)
             func_020061E4(0x557);
             return 0x15;
         }
-        if (func_020077B8((*(Top **)p)->x4) == 0) {
+        if (func_020077B8((*(Top **)p)->x4, k) == 0) {
             func_020061E4(0x557);
             return 0x15;
         }

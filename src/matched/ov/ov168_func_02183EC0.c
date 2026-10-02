@@ -15,13 +15,12 @@
  *   func_02183D44  0x02183D44  thumb  ov168
  */
 
-extern void func_02183D3C(void);
-extern void func_02184818(void);
+extern int func_02183D3C(int);
+extern void func_02184818(int w);
 extern void func_02183D44(int *);
 
 void func_02183EC0(int *p)
 {
-    func_02183D3C();
-    func_02184818();
+    func_02184818(func_02183D3C((int)p));
     func_02183D44(p);
 }
