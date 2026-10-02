@@ -22,9 +22,9 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed int     s32;
 
-extern void func_0207E008(void);
+extern void *func_0207E008(void);
 
-void func_021B6EBC(void)
+void *func_021B6EBC(void)
 {
-    func_0207E008();
+    return func_0207E008();
 }

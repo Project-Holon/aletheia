@@ -618,6 +618,18 @@ arm9_main  0x0202E938  thumb   # bl from ov172 at 0x021BCD00; callee func_020085
 # ov172 setter "str r1, [r0, #0x2c]; bx lr" after the getter func_021BE0D0,
 # already EXACT in src/matched/ov172_func_021BE0D4.c.
 overlay_172  0x021BE0D4  thumb # bl from ov172 at 0x021B890C (raw; "ldr r0, [r4, #0x3dc]; movs r1, #1; bl")
+overlay_172  0x021B7714  thumb # bl from ov172 at 0x021B8712 (func_021B8628); leaf "movs r0, #1; lsls r0, r2; ...; strb r0, [r1, #0x10]; bx lr" after func_021B75AC
+overlay_172  0x021B7724  thumb # bl from ov172 at 0x021B86AE (func_021B8628); leaf "ldr r0, [r1, #0x14]; cmp r0, #0; bne; ...; bx lr" right after 0x021B7714
+overlay_172  0x021BE02C  thumb # getter "ldr r0, [r0, #0x10]; bx lr"; bl from ov172 at 0x021BAA30 (func_021BA9EC), also raw at 0x021B9094, 0x021BBF72
+overlay_172  0x021BE030  thumb # setter "str r1, [r0, #0x10]; bx lr"; bl from ov172 at 0x021B90EA, 0x021B9138, 0x021BBFEC, 0x021BC020 (raw, unlabelled thumb code)
+overlay_172  0x021BA234  thumb # "movs r1, #0; str r1, [r0, #0xc]; ldr r0, [r0, #0x20]; ldr r3, =func_02072BDC; bx r3"; bl from ov172 at 0x021B87F6 (func_021B8770)
+overlay_172  0x021B6EA8  thumb # u16 setter with wrap "strh r1, [r0, #4]; adds r1, #5; ...; bx lr"; bl from ov172 at 0x021B880E (func_021B8770)
+overlay_172  0x021BE0CC  thumb # setter "str r1, [r0, #0x28]; bx lr"; bl from ov172 at 0x021B8816 (func_021B8770)
+overlay_172  0x021BE0A0  thumb # setter "str r1, [r0, #0x1c]; bx lr"; bl from ov172 at 0x021B883A (func_021B8770)
+overlay_172  0x021B80CC  thumb # "ldr r0, [r1, #8]; cmp r0, #0xc; ...; bx lr" after func_021B8084's pop; bl from ov172 at 0x021BD492, 0x021BD4B4 (func_021BD43C)
+overlay_172  0x021B80DC  thumb # setter "movs r0, #0x5e; lsls r0, #2; str r2, [r1, r0]; bx lr"; bl from ov172 at 0x021BD2AE, 0x021BD2C0, 0x021BD2D2, 0x021BD300 (func_021BD1AC)
+overlay_172  0x021B80EC  thumb # 6-byte copy loop "push {r4, r5}; ...; pop {r4, r5}; bx lr"; bl from ov172 at 0x021BD2E2 (func_021BD1AC), raw at 0x021BC0A6
+overlay_172  0x021B8448  thumb # tail-call stub "ldr r3, =0x02179651; movs r0, #5; bx r3" before func_021B8454; bl from ov172 at 0x021B7F92 (func_021B7E34)
 # ov016 vendor functions already EXACT without a label (integrator note, sdk_overlays_3).
 overlay_016  0x021B96A8  thumb # APC_GetState; bl from ov016 at 0x021BAB12 (raw, inside AutoConfigThreadEx 0x021BA804)
 overlay_016  0x021B979C  thumb # alarmCallback; pool words 0x021B979D at ov016 0x021B99BC (ConnectAP 0x021B98A4+0x118) and 0x021B9E80 (ScanAP's pool)
@@ -631,6 +643,8 @@ overlay_170  0x021EF264  thumb # "ldr r0, =d_021F0F58; ldr r3, =func_021EF0A8; m
 overlay_170  0x021DEB08  thumb # "ldr r3, =func_021DEA6C; movs r1, #0; bx r3", printed as .word data after func_021DEAFC's pool; bl from ov170 at 0x021E15C4
 overlay_170  0x021EBB1C  thumb # "ldr r3, =func_021EBA84; adds r2, r1, #0; movs r1, #0x16; bx r3", printed as .word data after func_021EBAF8's pop (tree_ov170_6); bl from ov170 at 0x021E7B6E (func_021E7A10)
 overlay_170  0x021E2648  thumb # "ldr r3, =func_021E9284; bx r3" tail thunk after func_021E24EC's pool, printed as .word data (tree_ov170_6); pointer word 0x021E2649 at ov170 0x021EFABC (state handler table, between func_021E24EC and func_021E2650)
+overlay_206  0x021BC0AC  thumb # "movs r0, #0xa7; bx lr" after func_021BC008's pop, printed as data; bl from ov206 at 0x021BBE94 (func_021BBE5C)
+overlay_206  0x021BC0E0  thumb # "movs r0, #0xe9; bx lr" before func_021BC0E4, printed as data; bl from ov206 at 0x021BBE9A (func_021BBE5C)
 # ov208 leaves already EXACT (tree_ov135), unlabelled in the listing.
 overlay_208  0x021BD360  thumb # "movs r1, #0; str r1, [r0, #0x10]; bx lr"; pool word 0x021BD361 (Thumb bit set) at ov208 0x021BDBA8, the tail-call pool of func_021BDBA0
 overlay_208  0x021BDBAC  thumb # "ldr r0, [r0, #0x30]; ldr r3, =func_021BD330; bx r3"; bl from ov208 at 0x021C1976, 0x021C5FE0

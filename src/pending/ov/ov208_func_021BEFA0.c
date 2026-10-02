@@ -1,0 +1,94 @@
+/*
+ * function: func_021BEFA0
+ * address:  0x021BEFA0
+ * packet:   pkt_ov208_021BEFA0
+ * region:   ov208
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * note:     2026-10-02 lane C2-02: two compare directions (image: cmp x0,x then bhi) and the f2c store constant order differ; tried x0<=x, !(x0>x), locals.
+ *
+ * symbols:
+ *   func_021BC3B4  0x021BC3B4  thumb  ov208
+ *   func_02035D20  0x02035D20  arm
+ *   func_0204B3F4  0x0204B3F4  arm
+ *   ov208_func_021BF280  0x021BF280  thumb  ov208
+ *   func_0204B878  0x0204B878  arm
+ *   func_020061E4  0x020061E4  thumb
+ *   func_020355D8  0x020355D8  arm
+ *   func_021BDC48  0x021BDC48  thumb  ov208
+ */
+
+typedef unsigned char  u8;
+typedef unsigned short u16;
+typedef unsigned int   u32;
+typedef signed short   s16;
+typedef signed int     s32;
+
+struct E {
+    u8 pad0[0x1c];
+    int h1c;
+    u8 x0;
+    u8 y0;
+    u8 w;
+    u8 h;
+    u8 pad24[2];
+    u16 f26;
+    u8 pad28[4];
+    u32 f2c;
+    u8 pad30[4];
+};
+
+struct S {
+    u8 pad0[0x94];
+    u32 cur;
+    u32 prev;
+};
+
+extern int func_021BC3B4(int *p);
+extern int func_02035D20(u32 *x, u32 *y);
+extern int func_0204B3F4(int a0);
+extern void ov208_func_021BF280(void *first, char *q, void *third, int next);
+extern void func_0204B878(int a, u16 b);
+extern void func_020061E4(int id);
+extern void func_020355D8(int a);
+extern void func_021BDC48(int p, u32 on);
+
+int func_021BEFA0(void *a0, struct S *st, int *obj)
+{
+    int sc;
+    int res;
+    u32 x;
+    u32 y;
+    u8 i;
+    struct E *e;
+
+    sc = func_021BC3B4(obj);
+    res = 0;
+    if (st->cur == 6 && func_02035D20(&x, &y) != 0) {
+        for (i = 0; i < 6; i++) {
+            e = (struct E *)((u8 *)st + i * 0x14);
+            if (func_0204B3F4(e->h1c) != 0
+                && x >= e->x0 && x < e->x0 + e->w
+                && y >= e->y0 && y < e->y0 + e->h) {
+                if (st->prev == i) break;
+                st->cur = i;
+                res = 1;
+                break;
+            }
+        }
+    }
+    if (res != 0) {
+        ov208_func_021BF280(a0, (char *)st, obj, st->cur);
+        e = (struct E *)((u8 *)st + st->cur * 0x14);
+        e->f2c = 1;
+        e = (struct E *)((u8 *)st + st->cur * 0x14);
+        func_0204B878(e->h1c, e->f26);
+        func_020061E4(0x54a);
+        func_020355D8(1);
+        func_021BDC48(sc, 0);
+    }
+    return res;
+}

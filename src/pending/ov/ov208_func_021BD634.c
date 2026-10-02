@@ -9,6 +9,8 @@
  * isa:      thumb
  * status:   DIFF
  *
+ * 2026-10-02 (lane C2-01): also tried a local `one = 1` shared by all three uses of 1, f4 store after
+ * the pos memset, f4/f34 stores swapped: 8/16/12 bytes out, no better.
  * 8 bytes out: the store p->f4 = 1 (str r7, [r5, #4]) is scheduled after the
  * memset argument setup in the image, before it in every spelling tried.
  *

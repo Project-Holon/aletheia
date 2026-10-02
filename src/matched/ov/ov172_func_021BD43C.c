@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * 2026-10-02: byte-correct. Blocker: func_021B80CC (a 64-byte thumb getter-style
  * function, show prints it as ARM) has no label/start in ov172's layout (only ov105

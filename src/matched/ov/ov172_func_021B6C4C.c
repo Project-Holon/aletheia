@@ -16,13 +16,14 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern u8 *func_021B6EC4(void *, int);
-extern void func_021B6C78(void *, u8 *);
+typedef struct Stroke Stroke;
+extern void func_021B6C78(u16 *o, const Stroke *e);
 extern void func_021B6ECC(void *, u16 *);
 
 void func_021B6C4C(char *p)
 {
     if (*(u16 *)(p + 6) != *(u16 *)(p + 4)) do {
-        func_021B6C78(p, func_021B6EC4(p, *(u16 *)(p + 6)));
+        func_021B6C78((u16 *)p, (const Stroke *)func_021B6EC4(p, *(u16 *)(p + 6)));
         func_021B6ECC(p, (u16 *)(p + 6));
     } while (*(u16 *)(p + 6) != *(u16 *)(p + 4));
 }

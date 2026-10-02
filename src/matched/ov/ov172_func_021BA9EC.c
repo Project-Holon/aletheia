@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   MATCH
+ * status:   EXACT
  *
  * 2026-10-02 (lane C1-04): byte-correct; one relocation wildcarded.
  * Blocker: func_021BE02C has no witness in ov172 (unlabelled leaf: 021BE02C

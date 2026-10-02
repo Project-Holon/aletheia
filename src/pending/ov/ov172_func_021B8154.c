@@ -1,0 +1,175 @@
+/*
+ * function: func_021B8154
+ * address: 0x021B8154
+ * packet: pkt_ov172_021B8154
+ * region: ov172
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * note 2026-10-02: logic complete; 8 instructions differ in the q+0x64 init block only. The original
+ *   materialises the 0 for the 0x74/0x7c stores in r3 right after the func_021BDFDC call and builds the
+ *   copy dst (q+0x80) later in r3; this C builds dst early and the 0 late. Inert: store order, chained
+ *   assignments, Player struct pointer. Callee notes: func_021B785C/77B8/77E8 take (p, base) here (r1 is set);
+ *   func_021B7818 and func_021B8AD4 return their tail call value; func_0203EA54 filed in src/matched/arm9.
+ * symbols:
+ *   func_020399A8 0x020399A8 arm
+ *   func_0203D1A4 0x0203D1A4 arm
+ *   func_021BDFDC 0x021BDFDC thumb ov172
+ *   func_021B7740 0x021B7740 thumb ov172
+ *   func_0203D1B4 0x0203D1B4 arm
+ *   func_021B8454 0x021B8454 thumb ov172
+ *   func_021BE1A4 0x021BE1A4 thumb ov172
+ *   func_021BE078 0x021BE078 thumb ov172
+ *   func_021B8628 0x021B8628 thumb ov172
+ *   func_0203EA54 0x0203EA54 arm
+ *   func_021BE0F8 0x021BE0F8 thumb ov172
+ *   func_021BE0FC 0x021BE0FC thumb ov172
+ *   func_021BE0AC 0x021BE0AC thumb ov172
+ *   func_021B7818 0x021B7818 thumb ov172
+ *   func_021B785C 0x021B785C thumb ov172
+ *   MIi_CpuCopy32 0x02082A90 arm
+ *   func_021B77B8 0x021B77B8 thumb ov172
+ *   func_021B77E8 0x021B77E8 thumb ov172
+ *   func_021C2B74 0x021C2B74 arm ov172
+ *   func_0203E758 0x0203E758 arm
+ *   func_021B8A14 0x021B8A14 thumb ov172
+ *   func_021B8740 0x021B8740 thumb ov172
+ *   func_021B8AD4 0x021B8AD4 thumb ov172
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct {
+    u8 b[0x21];
+} Blk;
+extern u32 func_020399A8(void);
+extern u32 func_0203D1A4(u32 v);
+extern u32 func_021BDFDC(void *p);
+extern void func_021B7740(void *p, char *q, int a, int b);
+extern int func_0203D1B4(void);
+extern void func_021B8454(void *p, char *q);
+extern void func_021BE1A4(char *p);
+extern u32 func_021BE078(void *p);
+extern void func_021B8628(void *a, int b, int *t, int c);
+extern int func_0203EA54(void);
+extern u32 func_021BE0F8(void *p);
+extern void func_021BE0FC(void *p, u32 v);
+extern u32 func_021BE0AC(void *p);
+extern void *func_021B7818(void *p, void *q);
+extern u32 func_021B785C(void *p, char *q);
+extern void MIi_CpuCopy32(const void *srcp, void *destp, unsigned long size);
+extern u32 func_021B77B8(void *p, char *q);
+extern u32 func_021B77E8(void *p, char *q);
+extern unsigned long func_021C2B74(void *src, unsigned char *dst, unsigned long limit, unsigned char *wrk, unsigned long width, unsigned long height, unsigned long quality, unsigned long sampling, unsigned long option);
+extern void func_0203E758(int a0, int a1, int a2, int a3);
+extern u32 func_021B8A14(int unused, char *q);
+extern u32 func_021B8740(int a, int b, u8 c, u32 d);
+extern u32 func_021B8AD4(int unused, char *base);
+void func_021B8154(void *p, char *q)
+{
+    u32 self;
+    char *base;
+    void *src;
+    u32 size;
+    u32 w;
+    unsigned long r;
+    u8 n;
+    u8 i;
+    int found;
+    u8 j;
+    u8 v;
+    self = func_0203D1A4(func_020399A8());
+    if (*(u32 *)(q + 0x174) == 2) {
+        if (*(u32 *)(q + 0x64) == 0) {
+            base = (char *)func_021BDFDC(p);
+            *(u32 *)(q + 0x64) = 1;
+            *(u32 *)(q + 0x68) = 1;
+            *(u32 *)(q + 0x6c) = 1;
+            *(u32 *)(q + 0x70) = 1;
+            *(u32 *)(q + 0x74) = 0;
+            *(u32 *)(q + 0x7c) = 0;
+            *(u8 *)(q + 0x78) = 0xff;
+            *(Blk *)(q + 0x80) = *(Blk *)(q + 0x40);
+            *(u8 *)(q + 0x2c) = 1;
+            *(u8 *)(q + 4) = 1;
+            func_021B7740(p, base, 0, 0);
+        }
+    } else {
+        n = func_0203D1B4();
+        if (*(u8 *)(q + 4) != n) {
+            func_021B8454(p, q);
+            func_021BE1A4(p);
+            if (*(u8 *)(q + 4) < n && self == 0) {
+                *(u32 *)(q + 0x3b8) = 1;
+                *(u32 *)(q + 0x3bc) = func_021BE078(p);
+            }
+            *(u32 *)(q + 0x3b4) = 1;
+            *(u8 *)(q + 4) = n;
+            *(u8 *)(q + 0x2c) = n;
+        }
+    }
+    for (i = 0; i < 4; i++)
+        func_021B8628(p, (int)q, (int *)(q + 0x64 + i * 0x40), i);
+    if (*(u8 *)(q + 4) > 1) {
+        if (*(u32 *)(q + 0x184) == 1) {
+            if (func_0203EA54() == 1)
+                *(u32 *)(q + 0x184) = 0;
+        } else if ((*(u8 *)(q + 0x183) & *(u8 *)(q + 0x182)) == *(u8 *)(q + 0x182) && *(u8 *)(q + 0x182) != 0) {
+            if (func_021BE0F8(p) == 0) {
+                func_021BE0FC(p, 1);
+                if (func_021BE0AC(p) == 0) {
+                    base = (char *)func_021BDFDC(p);
+                    src = func_021B7818(p, base);
+                    size = func_021B785C(p, base);
+                    MIi_CpuCopy32(src, *(void **)(q + 0x18c), size);
+                    w = func_021B77B8(p, base);
+                    r = func_021C2B74(*(void **)(q + 0x18c), *(unsigned char **)(q + 0x190), size,
+                                      *(unsigned char **)(q + 0x188), w, func_021B77E8(p, base), 0x46, 1, 4);
+                    if (r != 0) {
+                        func_0203E758(*(int *)(q + 0x190), r, *(u8 *)(q + 0x182), 0);
+                        *(u8 *)(q + 0x183) = 0;
+                        *(u32 *)(q + 0x184) = 1;
+                    }
+                }
+                func_021BE0FC(p, 0);
+            }
+        }
+        if (*(u8 *)(q + 0x1ac) != *(u8 *)(q + 0x1ad) && *(u32 *)(q + 0x3c0) == 1)
+            func_021B8A14((int)p, q);
+        if (*(u32 *)(q + 0x3c4) == 1 && func_021B8740((int)p, (int)q, 4, 0) == 1)
+            *(u32 *)(q + 0x3c4) = 0;
+        if (*(u32 *)(q + 0x3cc) == 1 && func_021B8740((int)p, (int)q, 5, 0) == 1)
+            *(u32 *)(q + 0x3cc) = 0;
+        if (*(u32 *)(q + 0x3b4) == 1 && func_021B8AD4((int)p, q) == 1)
+            *(u32 *)(q + 0x3b4) = 0;
+    }
+    if (self == 0) {
+        if (*(u32 *)(q + 0x3b8) == 1 && func_021B8740((int)p, (int)q, 2, *(u32 *)(q + 0x3bc)) == 1)
+            *(u32 *)(q + 0x3b8) = 0;
+        if (*(u32 *)(q + 0x3b0) == 1) {
+            found = 0;
+            for (j = 0; j < 4; j++) {
+                if (*(u32 *)(q + j * 0x40 + 0x74) == 1) {
+                    if (*(u8 *)(q + 0x3d8) == 0xff)
+                        *(u8 *)(q + 0x3d8) = j;
+                    found = 1;
+                    *(u32 *)(q + j * 0x40 + 0x74) = 0;
+                }
+            }
+            if (found == 0)
+                *(u8 *)(q + 0x3d8) = 0xff;
+            if (*(u8 *)(q + 0x3d8) != *(u8 *)(q + 0x3ae))
+                *(u32 *)(q + 0x3d4) = 1;
+            *(u32 *)(q + 0x3b0) = 0;
+        }
+        v = *(u8 *)(q + 0x3d8);
+        if (v != 0xff && *(u32 *)(q + v * 0x40 + 0x64) == 0) {
+            *(u8 *)(q + 0x3d8) = 0xff;
+            *(u32 *)(q + 0x3d4) = 1;
+            *(u32 *)(q + 0x3b0) = 0;
+        }
+        if (*(u32 *)(q + 0x3d4) == 1 && func_021B8740((int)p, (int)q, 1, *(u8 *)(q + 0x3d8)) == 1)
+            *(u32 *)(q + 0x3d4) = 0;
+    }
+}
