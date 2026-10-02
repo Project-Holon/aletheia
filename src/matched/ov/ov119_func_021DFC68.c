@@ -3,20 +3,15 @@
  * address:  0x021DFC68
  * packet:   pkt_ov119_021DFC68
  * region:   ov119
- * compiler: 1.1p1
+ * compiler: dsi/1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
  *
- * Byte-correct except an 8-byte register permutation in the header: the
- * original keeps the loaded counter in r2 and the incremented value in r3
- * (`ldr r2,[p+8]; adds r3,r2,#1; ldr r2,[p+4]; str r3,[p+8]; cmp r2,r3`),
- * dsi/1.1p1 assigns r1/r2 instead. Every instruction from the main block
- * (offset 0x26) on is identical. Reached from the root's last guard.
- *
- * 2026-10-02 (lane B2-05): also tried an unused 2nd parameter, declaration orders, k/m merging,
- * pointer-typed counter, u32 counter, nested if shape, swapped compare order: still the same 8 bytes.
+ * 2026-10-02 lane R1: the register shift (r2/r3 instead of r1/r2) was the incoming r1 kept
+ * live: the function takes a second argument and forwards it to func_021DFC28 (p, a1), whose
+ * matched definition reads r1. Callers in ov118 pass two arguments.
  *
  * symbols:
  *   func_02015C30    0x02015C30  thumb
@@ -38,14 +33,14 @@ typedef int s32;
 
 extern u32 func_02015C30(u32, void *);
 extern u32 func_02015C48(u32, void *);
-extern void func_021DFC28(void *);
+extern void func_021DFC28(void *, int);
 extern u32 func_021DFBF0(u32, u32, void *, int);
 extern float _s32_to_float(s32);
 extern float __fdiv(float, float);
 extern float __fmul(float, float);
 extern s32 _f2s(float);
 
-void func_021DFC68(void *p)
+void func_021DFC68(void *p, int a1)
 {
     u32 vec[6];
     s32 k, next, m;
@@ -60,7 +55,7 @@ void func_021DFC68(void *p)
         return;
     if (m != next) {
         if (*(u32 *)((char *)p + 0x34) != 0) {
-            func_021DFC28(p);
+            func_021DFC28(p, a1);
             return;
         }
         func_02015C30(*(u32 *)p, &vec[0]);

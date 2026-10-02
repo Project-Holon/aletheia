@@ -6,7 +6,9 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
+ * status: EXACT
+ * 2026-10-02 lane R1: closed by storing the call result straight into items[i] and reading it back
+ * (w=items[i]): the pointer local stays live across the call and the forwarded value is spilled.
  * symbols:
  *   d_021E76FC 0x021E76FC data a4
  *   func_021D8AA8 0x021D8AA8 thumb ov119
@@ -45,9 +47,7 @@ void func_021DD90C(u8 *p,int i,int msg,int force)
         if(func_021D8AA8(p)==0) return;
     }
     if(*(int *)(p+i*4+0x5bc)) func_020452E8(*(int *)(p+i*4+0x5bc));
-    items=(int *)(p+0x5bc);
-    w=func_020450F0(3,((int *)&t)[i],16,12,2,5,0);
-    items[i]=w;
+    items=(int *)(p+0x5bc); items[i]=func_020450F0(3,((int *)&t)[i],16,12,2,5,0); w=items[i];
     func_0201DD78(5,6,0);
     msg+=0x72;
     func_02045CAC(*(int *)(p+0x720),msg,*(int *)(p+0x730));
