@@ -1,0 +1,32 @@
+/*
+ * function: func_021E3004
+ * address:  0x021E3004
+ * packet:   pkt_ov119_021E3004
+ * region:   ov119
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT* (extent runs past compiled, trailing padding)
+ *
+ * symbols:
+ *   func_02087A3C  0x02087A3C  arm
+ *   func_020056BC  0x020056BC  thumb
+ *   func_02051360  0x02051360  arm
+ */
+
+typedef unsigned int u32;
+
+extern void func_02087A3C(int clear, u32 flags);
+extern u32 func_020056BC(void);
+extern void func_02051360(void *, void *, int, int);
+
+void func_021E3004(char *p)
+{
+    int i;
+
+    for (i = 4; i < 9; i++) {
+        func_02087A3C(1, 1);
+        func_02051360(((void **)p)[i], *(void **)(p + 0xB4), 1, func_020056BC());
+    }
+}
