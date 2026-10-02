@@ -61,7 +61,7 @@ int func_0217B410(int a0, int a1, int a2)
         if (pos.x >= base && pos.x < base + 0x20000 && pos.z == 0x158000) {
             v = d_02182B90;
             v.x += pos.x - base;
-            return func_0216B340(a1, 1, &v, 0, 4);
+            return (int)func_0216B340(a1, 1, &v, 0, 4); /* int-typed on purpose: function returns int */
         }
         base += 0x400000;
     }

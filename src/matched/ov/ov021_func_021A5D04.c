@@ -30,11 +30,11 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0216D3CC(int p);
-extern int func_021A5CA4(int a, int b, int c, int d, int e, int f);
-extern u32 func_021A5B6C(int a, int b, int c, int d);
-extern void func_0219E664(int b, int e, u8 *buf);
-extern u32 func_0219D724(int b, u8 *buf);
+extern int func_0216D3CC(void *p);
+extern int func_021A5CA4(void *a, void *b, int c, int d, int e, int f);
+extern u32 func_021A5B6C(void *a, void *b, int c, int d);
+extern void func_0219E664(void *o, u32 k, void *buf);
+extern u32 func_0219D724(void *b, u8 *buf);
 extern u16 func_021AB0F0(u32);
 extern u32 func_021AB0F8(u32);
 extern int func_021AB158(u16);
@@ -42,7 +42,7 @@ extern int func_021AB164(u16);
 extern int func_021AB170(u16);
 extern int func_021AB17C(u16);
 
-int func_021A5D04(int a, int b, int c, int d, int e, int f)
+int func_021A5D04(void *a, void *b, int c, int d, int e, int f)
 {
     u8 buf[8];
     u32 r;

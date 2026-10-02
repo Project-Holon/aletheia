@@ -37,7 +37,7 @@ typedef unsigned int   u32;
 typedef struct Rec {
     u8 f0;
     u8 pad1[3];
-    u32 f4;
+    void *f4;
 } Rec;
 
 extern void *func_0215A5F4(void *p);
@@ -45,8 +45,8 @@ extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5E4(void *a0);
 extern void *func_0201210C(void *p);
 extern Rec *func_02030734(u32 heap, u32 size, u32 flags, const char *file, u32 line);
-extern u32 func_02014840(u32 sys, u32 x, u32 ovId, const void *proc, void *work, void *cb, void *rec);
-extern void func_0215897C(u32 a, u32 b);
+extern void *func_02014840(void *sys, void *x, u32 ovId, const void *proc, void *work, void *cb, void *rec);
+extern void func_0215897C(void *a, void *b);
 extern const char d_021DE5A8[];
 extern const u8 d_021F6D78[];
 extern u8 ov107_id[];

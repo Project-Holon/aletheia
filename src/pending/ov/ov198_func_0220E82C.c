@@ -25,7 +25,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_020490F4(void *,u16);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern unsigned func_020275F8(u8);
 extern void *func_02049E74(unsigned,unsigned,unsigned,unsigned,u16);
 struct Sub0204A9D0;
@@ -38,7 +38,7 @@ void func_0220E82C(char *p,void *obj,int index,int which)
 {
     void *owner,*data;
     struct Sub0204A9D0 *out;
-    owner=func_020490F4((void *)83,(*(u16 *)(*(char **)p+16)&0x7fff)|0x8000);
+    owner=func_020490F4(83,(*(u16 *)(*(char **)p+16)&0x7fff)|0x8000);
     data=func_02049E74((unsigned)owner,func_020275F8(which),0,(unsigned)&out,(*(u16 *)(*(char **)p+16)&0x7fff)|0x8000);
     func_0204A9D0(*(unsigned *)(p+index*4+0x24a4),out);
     func_020307B0(data);

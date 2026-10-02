@@ -43,7 +43,7 @@ extern struct Bank *func_0204B100(int,u8,u32);
 extern void func_0204B270(struct Bank *);
 extern void func_020434DC(u32,u32);
 extern void func_02043598(u32,u32);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_0204ABF0(u32,u32,u32,u32,u16);
 extern int func_0204A6C8(u32,u32,u32,u32,u16);
 extern int func_0204AF28(u32,u32,u32,u32);
@@ -64,7 +64,7 @@ void func_021B7B2C(u32 *p,const void *config,u16 heap) {
  func_0204B270((struct Bank *)p[0]);
  func_020434DC(0x10,1);
  func_02043598(0x10,1);
- archive=func_020490F4((void *)0x5e,heap);
+ archive=func_020490F4(0x5e,heap);
  p[1]=func_0204ABF0((u32)archive,0x23,0,0,heap);
  p[2]=func_0204A6C8((u32)archive,0x22,0,0,heap);
  p[3]=func_0204AF28((u32)archive,0x21,0x20,heap);

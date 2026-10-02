@@ -38,11 +38,11 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0204A380(u32 a0, u32 a1, u32 a2, u16 a3);
+extern void *func_0204A380(void *a0, u32 a1, u32 a2, u16 a3);
 extern u32 func_0204979C(void *buf, u32 a1, u32 a2);
 extern void ENV_SetResourceSet(void *p);
 
-u32 sub_02049740(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags)
+u32 sub_02049740(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u16 flags)
 {
     void *buf;
     u32 res;

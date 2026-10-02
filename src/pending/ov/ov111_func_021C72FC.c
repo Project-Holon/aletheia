@@ -116,7 +116,7 @@ extern int func_020275E4(void);
 extern int func_02027624(void);
 extern int func_02027628(void);
 extern int func_0202762C(void);
-extern void *func_020490F4(int id, int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049238(void *arc);
 extern void func_02049658(void *arc, int id, int frame, int a, int b, int c, int heap);
 extern void func_020498F4(void *arc, int id, int frame, int a, int b, int c, int heap);

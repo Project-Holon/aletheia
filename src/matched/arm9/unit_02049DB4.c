@@ -31,7 +31,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_0204A1BC(u32 a0, u32 a1, u32 a2, u32 a3);
-extern void *func_0204A380(u32 a0, u32 a1, u32 a2, u32 a3);
+extern void *func_0204A380(void *a0, u32 a1, u32 a2, u32 a3);
 extern int   func_02062820(void *ptr, u32 val);
 extern int   func_02062A00(void *ptr, u32 val);
 extern int   func_02062A4C(void *ptr, u32 val);
@@ -51,7 +51,7 @@ void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
     return res;
 }
 
-void *func_02049DF4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *func_02049DF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = func_0204A380(a0, a1, a2, a4);
     if (res != 0) {
@@ -75,7 +75,7 @@ void *func_02049E34(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
     return res;
 }
 
-void *func_02049E74(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *func_02049E74(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = func_0204A380(a0, a1, a2, a4);
     if (res != 0) {
@@ -99,7 +99,7 @@ void *func_02049EB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
     return res;
 }
 
-void *func_02049EF4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *func_02049EF4(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = func_0204A380(a0, a1, a2, a4);
     if (res != 0) {
@@ -123,7 +123,7 @@ void *func_02049F34(u32 a0, u32 a1, u32 a2, u32 a3)
     return res;
 }
 
-void *func_02049F78(u32 a0, u32 a1, u32 a2, u32 a3)
+void *func_02049F78(void *a0, u32 a1, u32 a2, u32 a3)
 {
     void *res = func_0204A380(a0, a1, 0, a3);
     if (res != 0) {
@@ -147,7 +147,7 @@ void *func_02049FBC(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
     return res;
 }
 
-void *func_02049FFC(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+void *func_02049FFC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     void *res = func_0204A380(a0, a1, a2, a4);
     if (res != 0) {

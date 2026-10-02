@@ -33,7 +33,7 @@ extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern void *func_0201210C(void *p);
 struct Desc;
-extern struct Desc *func_0216AF74(int a0, int a1, int a2, int a3, unsigned short *a4, unsigned short a5);
+extern struct Desc *func_0216AF74(void *a0, void *a1, int a2, int a3, unsigned short *a4, unsigned short a5);
 extern void func_0215897C();
 
 int func_0216ABD8(int a0, int a1)

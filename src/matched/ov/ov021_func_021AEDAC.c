@@ -27,8 +27,8 @@ typedef struct R { u32 f0; u32 f4; } R;
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *a0);
-extern R *func_02158F58(u32 a);
-extern u32 func_02012F2C(u32 a);
+extern R *func_02158F58(void *a);
+extern u32 func_02012F2C(void *a);
 extern u32 func_02188C9C(u32 a);
 extern int func_02014024(u32 a);
 extern void func_02008DF0(u32 a, u32 b);

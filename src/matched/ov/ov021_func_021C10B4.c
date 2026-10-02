@@ -51,33 +51,33 @@ typedef struct {
     u16 f8;
     u16 padA;
     u32 fC;
-    u32 f10;
+    u8 *f10;
     u32 f14;
 } Work;
 
 extern void *func_021A3074(unsigned char *p);
-extern u16 func_0216D5F8(u32 obj);
-extern int func_0216D83C(u32 obj);
-extern int func_0216D86C(u32 obj);
-extern void func_0216D88C(u32 obj, Vec *v);
+extern u16 func_0216D5F8(void *obj);
+extern int func_0216D83C(void *obj);
+extern int func_0216D86C(void *obj);
+extern void func_0216D88C(void *obj, Vec *v);
 extern void func_02164280(int x, int y, Vec *v);
 extern void func_02164208(u32 dir, Vec *v, int step);
-extern int func_02163E58(u32 obj, Vec *v, int *h);
+extern int func_02163E58(void *obj, Vec *v, int *h);
 extern u32 func_02188CD0(u32 a);
-extern u32 func_021ACB38(u32, u32, Vec *, u32, int);
-extern void func_021A2F8C(u32 a, u32 b);
+extern u32 func_021ACB38(u32, u32, Vec *, void *, int);
+extern void func_021A2F8C(u8 *a, u32 b);
 extern void *func_02188CE8(u32 a);
 extern int func_021AA900(void *p, s16 *v);
 extern void func_021AAB1C(void *p, int b);
 extern u32 func_02197E7C(u16 a, u16 b);
-extern void func_0216D410(u32 obj, u32 a);
-extern int func_0216D454(u32 obj);
-extern void func_0216D480(u32 obj);
-extern u32 func_021A2F98(u32 a);
+extern void func_0216D410(void *obj, u32 a);
+extern int func_0216D454(void *obj);
+extern void func_0216D480(void *obj);
+extern u32 func_021A2F98(u8 *a);
 extern void func_021ACBB8(u32 a, int b);
-extern void func_021A2F48(u32 a, int b);
-extern int func_021A2F54(u32 a);
-extern void func_021A35A0(u32 a, int b);
+extern void func_021A2F48(u8 *a, int b);
+extern int func_021A2F54(u8 *a);
+extern void func_021A35A0(u8 *a, int b);
 
 void func_021C10B4(u32 task, Work *w)
 {

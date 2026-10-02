@@ -112,7 +112,7 @@ int func_0217D5B8(u8 *a, Obj *b, int c, u8 *d)
             } else {
                 p = func_02030734(0x41, 0x18, 1, d_021807E8, 0xBA2);
                 p[1] = (*(int **)a)[2];
-                p[2] = func_02012934((*(int **)a)[2]);
+                p[2] = (int)func_02012934((void *)(*(int **)a)[2]);
                 p[3] = func_02012EBC((*(int **)a)[2]);
                 p[4] = func_02012F2C((*(int **)a)[2]);
                 *(int **)(a + 0x3558) = p;

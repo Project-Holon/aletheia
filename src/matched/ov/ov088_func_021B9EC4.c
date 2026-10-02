@@ -40,13 +40,13 @@ extern void *func_020490F4(unsigned int id, unsigned int heap);
 extern void func_0204A48C(void *, void *, int);
 extern int func_0204B100(int, int, int);
 extern void func_0204B270(void *bank);
-extern int func_0204A6C8(int, int, int, int, int);
-extern int func_0204ABF0(int, int, int, int, int);
-extern int func_0204AF28(int, int, int, int);
+extern int func_0204A6C8(void *, int, int, int, int);
+extern int func_0204ABF0(void *, int, int, int, int);
+extern int func_0204AF28(void *, int, int, int);
 extern int func_0204B294(int, int, int, int, Local *, int, int);
 extern void func_0204B92C(int, int);
 extern void func_02043598(int, int);
-extern void func_02049238(int);
+extern void func_02049238(void *);
 
 void func_021B9EC4(int *p, int heap)
 {

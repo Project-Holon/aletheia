@@ -23,11 +23,13 @@
  *   func_021F64FC 0x021F64FC thumb ov215
  *   table 0x021F7124 data ov215
  */
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern int func_0204AC18(unsigned int, unsigned int, unsigned int, unsigned int, unsigned short, unsigned short, unsigned short);
-extern int func_0204A6C8(unsigned int, unsigned int, unsigned int, unsigned int, unsigned short);
-extern int func_0204AF28(unsigned int, unsigned int, unsigned int, unsigned int);
-extern void func_02049238(unsigned int);
+typedef unsigned short u16;
+
+extern void *func_020490F4(unsigned int id, u16 heap);
+extern int func_0204AC18(void *, unsigned int, unsigned int, unsigned int, unsigned short, unsigned short, unsigned short);
+extern int func_0204A6C8(void *, unsigned int, unsigned int, unsigned int, unsigned short);
+extern int func_0204AF28(void *, unsigned int, unsigned int, unsigned int);
+extern void func_02049238(void *);
 extern unsigned int func_021F64FC(unsigned int);
 extern unsigned int func_0204B294(unsigned int, unsigned int, unsigned int, unsigned int, unsigned int, unsigned short, unsigned short);
 extern void func_0204B92C(unsigned int, unsigned int);
@@ -44,7 +46,7 @@ struct Context {
 void func_021F5DAC(int unused, struct Context *p)
 {
     unsigned char i;
-    void *h = func_020490F4((void *)189, p->heap);
+    void *h = func_020490F4(189, p->heap);
     char *tmp1;
     unsigned int tmp2;
     int tmp;

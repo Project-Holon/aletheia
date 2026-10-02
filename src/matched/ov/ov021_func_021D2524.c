@@ -29,28 +29,29 @@ extern void *func_0215A5DC(void *a0);
 extern void *func_0201210C(void *p);
 extern u32 func_02159B10(u32 a, u32 b);
 extern void *func_0215A5F4(void *p);
-extern u32 func_020122C0(u32 a, u32 b, void *c, u32 d);
-extern u32 func_020124E8(void);
-extern void func_021D25A4(u32 p);
+extern void *func_020122C0(void *a, u32 b, void *c, u32 d);
+extern void *func_020124E8(void *task);
+extern void func_021D25A4(void *p);
 extern void func_021D26D0(void);
-extern void func_021D25F4(u32 p, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void func_0215897C(u32 a, u32 b);
+extern void func_021D25F4(void *p, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void func_0215897C(void *vm, void *task);
 
 int func_021D2524(u32 a, u32 b)
 {
-    u32 r5, r4, s1, s2, s3;
+    u32 r5, s1, s2, s3;
+    void *r4;
     void *r6;
     void *r7;
 
     r6 = func_0215A5DC((void *)b);
-    func_0201210C();
+    func_0201210C(r6);
     s1 = func_02159B10(a, b);
     s2 = func_02159B10(a, b);
     s3 = func_02159B10(a, b);
     r5 = func_02159B10(a, b);
     r7 = func_0215A5F4((void *)b);
     r4 = func_020122C0(r6, 0, func_021D26D0, 0x18);
-    r6 = func_020124E8();
+    r6 = func_020124E8(r4);
     func_021D25A4(r6);
     func_021D25F4(r6, s1, s2, s3, r5, 0);
     func_0215897C(r7, r4);

@@ -34,7 +34,7 @@ extern int func_02188C9C(int);
 extern int func_021690B4(int);
 extern int func_02188C84(int);
 extern void func_021F3E84(char *, int, int, int);
-extern void func_021F3C2C(char *, int, int, char *, int);
+extern void func_021F3C2C(char *, void *, int, char *, int);
 extern void func_021F405C(char *, char *, int);
 extern void func_021F43D8(char *, int, char *, int, int);
 extern void func_02189A68(int, char *);
@@ -46,14 +46,14 @@ void func_021F39C0(int a, int b, char *c)
 
     t0 = func_02188C54(b);
     t1 = func_020120F4(func_02188C80(b));
-    *(int *)c = func_02188CB4((void *)b);
-    *(int *)(c + 4) = func_02188C7C((void *)b);
+    *(void **)c = func_02188CB4((void *)b);
+    *(void **)(c + 4) = func_02188C7C((void *)b);
     t2 = func_02188C9C(b);
     t3 = func_021690B4(t1);
     t4 = func_02188C84(b);
     func_021F3E84(c + 0x308, t3, t2, t4);
     for (i = 0; i < 0x20; i++)
-        func_021F3C2C(c + 8 + i * 0x18, *(int *)(c + 4), t2, c + 0x308, i);
+        func_021F3C2C(c + 8 + i * 0x18, *(void **)(c + 4), t2, c + 0x308, i);
     func_021F405C(c + 0x308, c, t3);
     func_021F43D8(c + 0x348, t0, c + 0x308, t3, t4);
     func_02189A68(b, c);

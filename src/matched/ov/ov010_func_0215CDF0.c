@@ -24,12 +24,12 @@ extern void *func_0215A5DC(void *a0);
 extern unsigned short *func_02159AE8(void *a0, void *a1);
 extern void func_02034AC4(u32);
 extern void func_02034A5C(u32);
-extern void func_021F3768(void *, u32 *);
+extern void func_021F3768(void *, void *);
 extern char ov037_id[];
 
 int func_0215CDF0(void *a, void *b)
 {
-    u32 v[8];
+    unsigned short *v[8];
     void *h = func_0215A5DC(b);
     v[0] = func_02159AE8(a, b);
     v[1] = func_02159AE8(a, b);

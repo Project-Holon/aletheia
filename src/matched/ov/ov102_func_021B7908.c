@@ -39,7 +39,7 @@ extern void func_0203FC28(void *);
 extern void func_0203FCA0(u32,const void *,u32);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u8);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern void func_02049658(void *,u32,u32,u32,u32,u32,u16);
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
@@ -62,7 +62,7 @@ void func_021B7908(u32 *p,u16 heap)
         func_020414AC(layer);
         func_02040588(layer,1);
     }
-    arc=func_020490F4((void *)94,heap);
+    arc=func_020490F4(94,heap);
     func_02049B68(arc,1,0,0,0,heap);
     func_02049B68(arc,1,4,0,0,heap);
     func_02049658(arc,0,3,0,0,0,heap);

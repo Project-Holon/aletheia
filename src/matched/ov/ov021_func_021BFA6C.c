@@ -67,7 +67,7 @@ extern int func_021C6E48(int);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
 extern int func_02188CD0(int);
-extern void func_021AC528(int, int);
+extern void func_021AC528(void *, int);
 extern void func_0218FF20(int);
 extern void func_0218FE98(int);
 
@@ -116,7 +116,7 @@ int func_021BFA6C(int task, int *state, Q *q)
         break;
     case 4:
         if (func_021C6E48(d) != 0) {
-            t = func_021A3074(func_02188CB4((void *)obj));
+            t = func_021A3074(func_02188CB4((unsigned char *)obj));
             func_021AC528(t, func_02188CD0(obj));
             (*state)++;
         }

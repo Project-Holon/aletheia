@@ -19,9 +19,9 @@
  */
 
 extern int func_0201C6B4(int);
-extern int func_020120F4(int);
+extern void *func_020120F4(int);
 extern void *func_02012934(void *p);
-extern unsigned int func_0201AA18(int);
+extern unsigned int func_0201AA18(void *);
 extern void func_0204B3DC(int, int);
 
 void func_021EFF5C(int *p)

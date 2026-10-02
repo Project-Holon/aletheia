@@ -16,7 +16,7 @@
 typedef struct {
     char pad[0x30];
     void *f30;
-    int f34;
+    void *f34;
 } Obj;
 
 extern int func_021BD090(Obj *p);

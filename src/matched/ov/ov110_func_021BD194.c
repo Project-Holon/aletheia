@@ -27,12 +27,12 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u16 x,y,z; u8 a,b; } Params;
-extern void *func_020275E4(void);
+extern unsigned int func_020275E4(void);
 extern int func_02027614(void);
 extern int func_02027618(void);
 extern int func_0202761C(int);
 extern int func_02027620(int);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void *func_0204AC18(void *,int,int,int,int,int,u16);
 extern void *func_0204A6C8(void *,int,int,int,u16);
 extern void *func_0204AF28(void *,int,int,u16);

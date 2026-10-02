@@ -21,7 +21,7 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_021BB480(u8 *p)
+void *func_021BB480(void *p)
 {
-    return *(u32*)p;
+    return *(void **)p;
 }

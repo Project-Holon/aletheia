@@ -26,28 +26,29 @@
  */
 
 typedef unsigned char u8;
+typedef unsigned int u32;
 
 void *func_0215A5F4(void *p);
-int func_0215A5EC(int b);
-int func_02158F90(int a);
-int func_021B1E74(int b);
-int func_0216DE54(int a, int b);
-int func_0219BBA4(int a);
-void func_0216D9A0(int a);
-int func_0216D454(int a);
-void func_0216DB04(int a);
-int func_0216DA5C(int a);
+void *func_0215A5EC(void *b);
+void *func_02158F90(void *a);
+void *func_021B1E74(void *b);
+void *func_0216DE54(void *map, u32 kind);
+void *func_0219BBA4(void *a);
+void func_0216D9A0(void *map);
+int func_0216D454(void *a);
+void func_0216DB04(void *a);
+int func_0216DA5C(void *a);
 void func_020113D0(int a, int (*f)(int, int));
 int func_021B1A44(int a, int b);
 extern u8 d_021EE71C;
 
-int func_021B1B08(int a, int b)
+int func_021B1B08(int a, void *b)
 {
     void *r4;
-    int r6;
-    int r7;
+    void *r6;
+    void *r7;
 
-    r4 = func_0215A5F4((void *)b);
+    r4 = func_0215A5F4(b);
     r6 = func_0215A5EC(b);
     r4 = func_02158F90(r4);
     r7 = func_021B1E74(b);

@@ -32,7 +32,7 @@ void *func_021D297C(void *a)
     void *task = func_020122C0(a, 0, func_021D29A8, 8);
     u32 *w = func_020124E8(task);
 
-    w[0] = func_0201210C((void *)a);
+    w[0] = (u32)func_0201210C((void *)a);
     w[1] = func_02188CCC(w[0]);
     return task;
 }

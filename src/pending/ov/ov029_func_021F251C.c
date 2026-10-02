@@ -77,7 +77,7 @@ typedef unsigned int   u32;
 extern int d_021F3554;
 
 extern u8 func_0201214C(int a);
-extern int func_020490F4(u32 id, u32 heap);
+extern int func_020490F4(unsigned int id, u16 heap);
 extern u32 func_02030CB0(u32 n);
 extern void *func_02030734(u32 heap, u32 size, u32 flag, void *file, u32 line);
 extern int func_02030CBC(u32 n, void *mem);

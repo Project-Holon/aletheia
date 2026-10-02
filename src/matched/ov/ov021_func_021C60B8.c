@@ -35,25 +35,25 @@ typedef struct {
     u8 pad1[3];
     u32 f4;
     u32 f8;
-    u32 fC;
-    u32 f10;
+    void *fC;
+    void *f10;
 } Work;
 
-extern void func_021A2F48(u32 a, int b);
-extern int func_021A2F54(u32 a);
-extern void *func_021A3074(unsigned char *p);
-extern void func_0216D410(u32 obj, u32 a);
-extern int func_0216D480(u32 obj);
-extern int func_02189A00(u32 a);
+extern void func_021A2F48(void *a, int b);
+extern int func_021A2F54(void *a);
+extern void *func_021A3074(void *p);
+extern void func_0216D410(void *obj, u32 a);
+extern int func_0216D480(void *obj);
+extern int func_02189A00(void *a);
 extern void *func_021C1D68(u32 a, int b, int c);
 extern void func_02012374(void *a, void *t);
 extern int func_021C61D4(Work *w);
-extern void func_021C61EC(void *a, u32 b, u32 c);
-extern void *func_02188CE8(u32 a);
+extern void func_021C61EC(void *a, u32 b, void *c);
+extern void *func_02188CE8(void *a);
 extern void *func_021A9F40(void *self, u32 v);
 extern void func_02158780(void *a, u32 id, u32 b, u32 c, u32 d);
-extern void *func_02188C7C(unsigned char *p);
-extern void func_0216D9E4(u32 o);
+extern void *func_02188C7C(void *p);
+extern void func_0216D9E4(void *o);
 
 int func_021C60B8(void *task, int *state, Work *w)
 {

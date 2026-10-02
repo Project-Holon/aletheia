@@ -22,16 +22,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021A607C(void *a, int b, int c, int d, int e, int f);
-extern int func_021A60DC(void *a, int b, int c, int d, int e, int f);
-extern int func_021A61B0(void *a, int b, int c, int d, int e, int f);
-extern int func_021A6200(void *a, int b, int c, int d, int e, int f);
+extern int func_021A607C(void *a, void *b, int c, int d, int e, int f);
+extern int func_021A60DC(void *a, void *b, int c, int d, int e, int f);
+extern int func_021A61B0(void *a, void *b, int c, int d, int e, int f);
+extern int func_021A6200(void *a, void *b, int c, int d, int e, int f);
 
 int func_021A6014(int *a, int b, int c, int d, int e)
 {
     int sw = a[0];
     int r = 0;
-    int p = a[7];
+    void *p = ((void **)a)[7];
     switch (sw) {
     case 0: r = func_021A607C(a, p, b, c, d, e); break;
     case 1: r = func_021A60DC(a, p, b, c, d, e); break;

@@ -17,9 +17,9 @@
  *   func_021C1D18  0x021C1D18  thumb  ov021
  */
 
-int func_020120F4(int a);
+void *func_020120F4(int a);
 void *func_02012934(void *p);
-int func_0201AB28(int a, int b);
+int func_0201AB28(void *a, int b);
 int func_02017E1C(int a, int b, int c);
 int func_02017EAC(int a);
 int func_021C1D18(int a, int b, int c, int d, int e, int f, int g);

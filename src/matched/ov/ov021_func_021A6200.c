@@ -23,13 +23,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0216D3CC(int p);
-extern u16 func_0216D5F8(int p);
-extern void func_0216D4B4(int p);
-extern int func_021A607C(int a, int b, int c, int d, int e, int f);
-extern int func_021A60DC(int a, int b, int c, int d, int e, int f);
+extern int func_0216D3CC(void *p);
+extern u16 func_0216D5F8(void *p);
+extern void func_0216D4B4(void *p);
+extern int func_021A607C(void *a, void *b, int c, int d, int e, int f);
+extern int func_021A60DC(void *a, void *b, int c, int d, int e, int f);
 
-int func_021A6200(int a, int b, int c, int d, int e, int f)
+int func_021A6200(void *a, void *b, int c, int d, int e, int f)
 {
     int t = func_0216D5F8(b);
     if (e != 9 && e != t) {

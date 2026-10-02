@@ -17,9 +17,11 @@
  *   func_0203D3A8  0x0203D3A8  arm
  */
 
+typedef unsigned short u16;
+
 int func_021736D8(void);
-int func_020399A8(void);
-int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *d);
+void *func_020399A8(void);
+int func_0203D3A8(void *a, u16 b, u16 c, void *d);
 
 int func_02174660(int a, ...)
 {

@@ -33,9 +33,9 @@ extern s16 func_0216D86C();
 extern int func_021641E8();
 extern int func_021641F8();
 
-void func_021A330C(u32 *a, u32 b, s16 *c, s16 *d, s16 *e)
+void func_021A330C(unsigned char **a, u32 b, s16 *c, s16 *d, s16 *e)
 {
-    void *t = func_021A3074(a);
+    void *t = func_021A3074((unsigned char *)a);
 
     if (func_02188CFC(a[0]) == 0) {
         *c = func_0216D83C(t);

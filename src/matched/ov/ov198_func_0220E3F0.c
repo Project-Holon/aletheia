@@ -15,17 +15,17 @@
  *   func_02049238 0x02049238 arm
  */
 typedef unsigned short u16;
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern int func_0204A6C8(unsigned, unsigned, unsigned, unsigned, u16);
-extern int func_0204ABF0(unsigned, unsigned, unsigned, unsigned, u16);
-extern int func_0204AF28(unsigned, unsigned, unsigned, u16);
+extern void *func_020490F4(unsigned int id, u16 heap);
+extern int func_0204A6C8(void *, unsigned, unsigned, unsigned, u16);
+extern int func_0204ABF0(void *, unsigned, unsigned, unsigned, u16);
+extern int func_0204AF28(void *, unsigned, unsigned, u16);
 extern void func_02049238(void *);
 void func_0220E3F0(char *p)
 {
     void *owner;
-    owner = func_020490F4((void *)83, (*(u16 *)(*(char **)p + 16) & 0x7fff) | 0x8000);
-    *(int *)(p + 0x24bc) = func_0204A6C8((unsigned)owner, 12, 0, 1, *(u16 *)(*(char **)p + 16));
-    *(int *)(p + 0x2510) = func_0204ABF0((unsigned)owner, 11, 1, 96, *(u16 *)(*(char **)p + 16));
-    *(int *)(p + 0x2528) = func_0204AF28((unsigned)owner, 13, 16, *(u16 *)(*(char **)p + 16));
+    owner = func_020490F4(83,(*(u16 *)(*(char **)p + 16) & 0x7fff) | 0x8000);
+    *(int *)(p + 0x24bc) = func_0204A6C8(owner, 12, 0, 1, *(u16 *)(*(char **)p + 16));
+    *(int *)(p + 0x2510) = func_0204ABF0(owner, 11, 1, 96, *(u16 *)(*(char **)p + 16));
+    *(int *)(p + 0x2528) = func_0204AF28(owner, 13, 16, *(u16 *)(*(char **)p + 16));
     func_02049238(owner);
 }

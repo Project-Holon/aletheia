@@ -66,7 +66,7 @@ extern void func_0217BA48(Ctx *ctx, int *out);
 extern void func_0217BA6C(Ctx *ctx, int *out);
 extern int func_0217B9CC(Ctx *ctx);
 extern void *func_02012934(void *p);
-extern int func_021CC720(int a, int b, int c, int d, int e, int f);
+extern int func_021CC720(int a, void *b, int c, int d, int e, int f);
 extern int func_021CC810(int h);
 extern int func_021CC7B4(int h, int *out);
 extern void func_0217B9F4(int h);
@@ -113,7 +113,7 @@ int func_0217E188(Ctx *ctx, Obj *obj, int a2, u8 *state)
         f1 = o1c != 0;
         f2 = o18 != 0;
         ctx->f3538 = func_0217B9CC(ctx);
-        ctx->f3534 = func_021CC720(a2, func_02012934(ctx->sys->f8), ctx->f3538, f1, f2, 0x15);
+        ctx->f3534 = func_021CC720(a2, func_02012934((void *)ctx->sys->f8), ctx->f3538, f1, f2, 0x15);
         (*state)++;
         break;
     case 3:

@@ -76,9 +76,9 @@ int func_0217F380(Ctx *ctx, int a);
 int func_0217B8E4(Ctx *ctx, int v);
 void *func_02012934(void *p);
 void func_020120F4(int a);
-int func_0201AA1C(int a);
-int func_0201AAD4(int a);
-int func_0201AA88(int a);
+int func_0201AA1C(void *a);
+int func_0201AAD4(void *a);
+int func_0201AA88(void *a);
 
 int func_0217C2AC(Ctx *ctx, Obj *obj, int a2, u8 *state)
 {
@@ -109,7 +109,7 @@ int func_0217C2AC(Ctx *ctx, Obj *obj, int a2, u8 *state)
         (*state)++;
         break;
     case 3:
-        h = func_02012934(ctx->sys->f8);
+        h = func_02012934((void *)ctx->sys->f8);
         r = func_0217F380(ctx, a2);
         if (r == -1)
             break;

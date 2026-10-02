@@ -19,9 +19,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_0203996C(u32 a);
-extern int func_020399A8(void);
-extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *d);
+extern void *func_0203996C(u32 a);
+extern void *func_020399A8(void);
+extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
 
 void func_021CF2F0(int mode)
 {

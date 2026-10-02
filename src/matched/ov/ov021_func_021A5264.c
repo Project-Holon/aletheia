@@ -30,23 +30,25 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_0216D83C(u32);
-extern int func_0216D854(u32);
-extern int func_0216D86C(u32);
+typedef struct { int x, y, z; } VecFx32;
+
+extern int func_0216D83C(void *);
+extern int func_0216D854(void *);
+extern int func_0216D86C(void *);
 extern int func_021641E8(u32);
 extern int func_021641F8(u32);
-extern int func_02163994(u32, int, int, int, u32);
-extern void func_0216D88C(u32, int *);
-extern void func_02164208(u32, int *, u32);
-extern int func_02163E34(u32, int *, int *);
+extern int func_02163994(void *, int, int, int, u32);
+extern void func_0216D88C(void *, VecFx32 *);
+extern void func_02164208(u32, VecFx32 *, u32);
+extern int func_02163E34(void *, VecFx32 *, int *);
 extern u16 func_021AB0F0(u32 attr);
 extern int func_021AB2DC(u16 id);
-extern u32 func_0216D67C(u32);
-extern int func_0216E5B0(u32, int *);
+extern void *func_0216D67C(void *);
+extern int func_0216E5B0(void *, VecFx32 *);
 
-int func_021A5264(u32 a, u32 b, u32 c, int *d)
+int func_021A5264(u8 *a, void *b, u32 c, int *d)
 {
-    int buf[3];
+    VecFx32 buf;
     int s2;
     int s1;
     int r4;
@@ -57,14 +59,14 @@ int func_021A5264(u32 a, u32 b, u32 c, int *d)
     r4 = (short)(r4 + func_021641E8(c));
     r3 = (short)(s2 + func_021641F8(c));
     r4 = func_02163994(b, r4, s1, r3, c);
-    func_0216D88C(b, buf);
-    func_02164208(c, buf, 0x10000);
-    if (func_02163E34(b, buf, d) == 0) {
+    func_0216D88C(b, &buf);
+    func_02164208(c, &buf, 0x10000);
+    if (func_02163E34(b, &buf, d) == 0) {
         *d = -1;
     }
     if (r4 & 2) {
         if (func_021AB2DC(func_021AB0F0(*d)) == 1) {
-            if (func_0216E5B0(func_0216D67C(b), buf) == 1) {
+            if (func_0216E5B0(func_0216D67C(b), &buf) == 1) {
                 r4 &= ~2;
             }
         }

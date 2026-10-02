@@ -29,37 +29,37 @@
 typedef short s16;
 
 extern void *func_0215A5F4(void *p);
-extern int *func_02158F58(int a0);
-extern int func_02188C98(int);
-extern int func_0218DC70(int);
+extern int *func_02158F58(void *a0);
+extern void *func_02188C98(int);
+extern void *func_0218DC70(void *);
 extern void *func_0215A5E4(void *a0);
-extern int func_020127F0(int);
-extern void *func_02188CB4(unsigned char *p);
-extern void *func_02188C7C(unsigned char *p);
-extern void func_021A3460(int, s16 *, s16 *, s16 *);
-extern void *func_0216DDC0(int, int, int, int);
+extern int func_020127F0(void *);
+extern void *func_02188CB4(int p);
+extern void *func_02188C7C(int p);
+extern void func_021A3460(void *, s16 *, s16 *, s16 *);
+extern void *func_0216DDC0(void *, int, int, int);
 extern int func_02186090(void *p);
-extern int func_02193BE4(int, int);
-extern void func_02193BC4(int, int);
+extern int func_02193BE4(void *, unsigned int);
+extern void func_02193BC4(void *, unsigned int);
 extern void func_021869B0(int);
 
 int func_02186C44(int a0, int a1)
 {
     int *s;
-    int a;
+    void *a;
     int b;
     void *c;
     void *d;
     int e;
     s16 v[3];
 
-    s = func_02158F58((int)func_0215A5F4((void *)a1));
+    s = func_02158F58(func_0215A5F4((void *)a1));
     a = func_0218DC70(func_02188C98(s[1]));
-    b = func_020127F0((int)func_0215A5E4((void *)a1));
-    c = func_02188CB4((unsigned char *)s[1]);
-    d = func_02188C7C((unsigned char *)s[1]);
-    func_021A3460((int)c, &v[2], &v[1], &v[0]);
-    e = func_02186090(func_0216DDC0((int)d, v[2], v[0], 0));
+    b = func_020127F0(func_0215A5E4((void *)a1));
+    c = func_02188CB4(s[1]);
+    d = func_02188C7C(s[1]);
+    func_021A3460(c, &v[2], &v[1], &v[0]);
+    e = func_02186090(func_0216DDC0(d, v[2], v[0], 0));
     if (func_02193BE4(a, e) != 0) {
         func_02193BC4(a, e);
         func_021869B0(b);

@@ -36,7 +36,7 @@ extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5E4(void *a0);
 extern u32 func_02159B10(u32 a, u32 b);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern u32 func_02012F8C(u32 a);
+extern u32 func_02012F8C(void *a);
 extern u16 *func_02009390(u32 a, u32 b);
 extern u32 func_020093D8(u32 a);
 extern u32 func_02009418(u32 a);
@@ -51,6 +51,7 @@ int func_021D16D8(u32 a, u32 b)
     u16 *r4;
     u8 i;
     u16 *e;
+    u32 id;
 
     func_0215A5F4((void *)b);
     func_0215A5DC((void *)b);
@@ -59,12 +60,12 @@ int func_021D16D8(u32 a, u32 b)
     k1 = func_02159B10(a, b);
     func_02159B10(a, b);
     r4 = func_02159AE8((void *)a, (void *)b);
-    r6 = func_02012F8C(r6);
+    id = func_02012F8C(r6);
     switch (r7) {
     case 0:
         *r4 = 1;
         for (i = 0; i < 5; i++) {
-            e = func_02009390(r6, i);
+            e = func_02009390(id, i);
             if (e == 0) {
                 *r4 = 0;
             } else if (e[0] == 0x7E || e[0] == 0) {
@@ -73,24 +74,24 @@ int func_021D16D8(u32 a, u32 b)
         }
         break;
     case 1:
-        if (func_020093D8(r6) == 0x7F) {
+        if (func_020093D8(id) == 0x7F) {
             *r4 = 0;
         } else {
             *r4 = 1;
         }
         break;
     case 2:
-        if (func_02009418(r6) == 1) {
+        if (func_02009418(id) == 1) {
             *r4 = 1;
         } else {
             *r4 = 0;
         }
         break;
     case 3:
-        func_02009428(r6, 0);
+        func_02009428(id, 0);
         break;
     case 4:
-        func_020093F0(r6, k1);
+        func_020093F0(id, k1);
         break;
     }
     return 0;

@@ -56,26 +56,26 @@ typedef struct {
     u16 *fC;
 } Ctx;
 
-int func_020124E4(int a0);
-int func_020120F4(int a0);
-int func_02012138(int a0);
+void *func_020124E4(void *a0);
+void *func_020120F4(void *a0);
+u32 func_02012138(void *a0);
 void *func_0201210C(void *p);
 u8 *func_02158344(int a0);
 int func_0200FB24(void);
-int func_02012B80(int a0);
-int func_02012B58(int a0);
+u8 func_02012B80(void *a0);
+u8 func_02012B58(void *a0);
 void func_021757A8(void *p);
 void func_0217BF1C(void *p);
-int func_02188C54(int a0);
+void *func_02188C54(u8 *a0);
 int func_021904B0(int a0, int a1);
-int func_021907A8(int a0, int a1);
+int func_021907A8(void *a0, int a1);
 int func_0201EC64(int a0);
 void func_020061E4(int a0);
-int func_0215841C(int a0);
+int func_0215841C(void *p);
 void func_02190740(int a0, int a1, int a2, int a3);
 int func_020457B0(int a0, int a1);
 int func_02045EC0(int a0, int a1);
-int func_021583EC(int a0, int a1);
+int func_021583EC(void *a0, int a1);
 void func_0201F02C(int a0, int a1, int a2);
 void func_0201F250(int a0, int a1, int a2);
 void func_02190758(int a0, int a1, int a2, int a3);
@@ -91,11 +91,11 @@ void func_0201ED04(int a0);
 void func_02190728(int a0);
 void func_02045C04(int a0);
 
-int func_0217F6A0(int a0, int *state, Ctx *c)
+int func_0217F6A0(void *a0, int *state, Ctx *c)
 {
-    int h;
-    int s;
-    int k;
+    void *h;
+    void *s;
+    u32 k;
     u8 *w;
     void *t;
     int flag;
@@ -103,7 +103,7 @@ int func_0217F6A0(int a0, int *state, Ctx *c)
     h = func_020124E4(a0);
     s = func_020120F4(h);
     k = func_02012138(h);
-    t = func_0201210C((void *)h);
+    t = func_0201210C(h);
     flag = 0;
     w = func_02158344(k);
     if (w == 0 && *state > 0 && *state < 5) {
@@ -111,7 +111,7 @@ int func_0217F6A0(int a0, int *state, Ctx *c)
     }
     switch (*state) {
     case 0: {
-        int g;
+        void *g;
         int a;
         int b;
 
@@ -124,7 +124,7 @@ int func_0217F6A0(int a0, int *state, Ctx *c)
             func_0217BF1C(w + 0x914);
         }
         g = func_02188C54(t);
-        c->f0 = func_021904B0(g, 0x2D);
+        c->f0 = func_021904B0((int)g, 0x2D);
         c->f4 = func_021907A8(g, c->f0);
         c->f8 = func_0201EC64(4);
         func_020061E4(0x547);

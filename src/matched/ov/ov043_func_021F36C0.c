@@ -107,7 +107,7 @@ extern int   func_021BE748(void *p);
 extern void  func_021BE6CC(void *p, int i, u16 j, u16 k, int flag);
 extern void  func_021F3F38(int *a, void *b, int c);
 extern void  func_021F4174(void *p);
-extern void  func_021A3038(u32 id, int *out);
+extern void  func_021A3038(void *id, int *out);
 extern int   func_021A01BC(u32 a, u32 b);
 extern int   func_021A01B4(u32 a, u32 b);
 extern void *sub_02030344(u32 heapId);

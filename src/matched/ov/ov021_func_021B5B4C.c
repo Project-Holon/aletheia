@@ -23,20 +23,20 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern int func_02159B10();
+extern unsigned int func_02159B10(void *a0, void *a1);
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern void *func_0215A07C(int a, unsigned short *b, unsigned short *c);
-extern int func_0215897C();
+extern void *func_0215A07C(void *a, u16 *b, u16 *c);
+extern void func_0215897C(void *vm, void *task);
 
-int func_021B5B4C(int a0, int a1)
+int func_021B5B4C(void *a0, void *a1)
 {
-    u16 *a = func_02159AE8((void *)a0, (void *)a1);
-    u16 *b = func_02159AE8((void *)a0, (void *)a1);
+    u16 *a = func_02159AE8(a0, a1);
+    u16 *b = func_02159AE8(a0, a1);
     void *r4;
 
     func_02159B10(a0, a1);
-    r4 = func_0215A5F4((void *)a1);
-    func_0215897C(r4, func_0215A07C(func_0215A5DC((void *)a1), (int)a, (int)b));
+    r4 = func_0215A5F4(a1);
+    func_0215897C(r4, func_0215A07C(func_0215A5DC(a1), a, b));
     return 1;
 }

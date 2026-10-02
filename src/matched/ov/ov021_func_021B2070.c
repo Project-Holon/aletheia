@@ -24,7 +24,7 @@ typedef unsigned int   u32;
 extern u32 func_021B1E74(u32);
 extern unsigned short *func_02159AE8(void *a0, void *a1);
 extern u32 func_0219E348(u32);
-extern void func_021B83FC(u32, u32, u32, u32);
+extern void func_021B83FC(u32, unsigned short *, unsigned short *, unsigned short *);
 
 int func_021B2070(u32 a, u32 b)
 {

@@ -22,11 +22,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int            s32;
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void func_02049B68(u32 h, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void func_02049658(u32 h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void func_020498F4(u32 h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern void func_02049238(u32 h);
+extern void *func_020490F4(unsigned int id, u16 heap);
+extern void func_02049B68(void *h, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void func_02049658(void *h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void func_020498F4(void *h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern void func_02049238(void *h);
 
 void ov208_func_021C0090(u16 *heap, u8 *p, int key)
 {

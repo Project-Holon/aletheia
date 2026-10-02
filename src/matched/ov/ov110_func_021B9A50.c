@@ -45,7 +45,7 @@ extern void func_021B9BAC(void *,u8 *);
 extern void *func_02030DA8(u32,u32,void *,int);
 extern void func_021B9BD0(void *,u8 *);
 extern void *func_021B9BA4(void (*)(void *,u8 *),u8 *,int);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 void *func_021B9A50(u8 *context,void *arg) {
     u8 *p;
     int i;
@@ -69,7 +69,7 @@ void *func_021B9A50(u8 *context,void *arg) {
         p[0x74]=0;
         *(u32 *)(p+0x84)=0;
         *(u32 *)(p+0x88)=0;
-        *(void **)(p+0x8c)=func_020490F4((void *)43,42);
+        *(void **)(p+0x8c)=func_020490F4(43,42);
     }
     return p;
 }

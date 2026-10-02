@@ -34,7 +34,7 @@ void func_021D986C(void **p, u32 a, u32 heap)
     func_02082BCC(p, 0, 8);
     func_0204A48C(d_021DF5A8, a, heap);
     p[0] = func_0204B100(128, 0, heap);
-    q = func_0204B034((u32)d_021DF5C4, 2, heap);
+    q = func_0204B034((unsigned char *)d_021DF5C4, 2, heap);
     p[1] = q;
     func_0204B258(p[0], q);
     func_020434DC(16, 1);

@@ -14,9 +14,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_02049EF4(u32,u32,u32,void *,u16);
+extern void *func_02049EF4(void *,u32,u32,void *,u16);
 extern void *func_021DBA90(u16,void *);
-void func_021D9980(u8 *a,u8 *p,u32 resource)
+void func_021D9980(u8 *a,u8 *p,void *resource)
 {
     *(void **)(p+0x38)=func_02049EF4(resource,72,0,p+0x34,*(u16 *)a);
     *(void **)(p+0x40)=func_02049EF4(resource,73,0,p+0x3c,*(u16 *)a);

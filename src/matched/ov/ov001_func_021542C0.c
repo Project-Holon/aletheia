@@ -59,7 +59,7 @@ extern u32   func_02005C44(void);
 extern void  func_02005E30(int x);
 extern int   func_02012138(u32 a0);
 extern int   func_02026454(int x);
-extern void *func_020144DC(u32 a0, u32 a1);
+extern void *func_020144DC(u32 a0, void *a1);
 extern void  func_02012374(void *obj, void *out);
 extern void  func_020120B4(u32 a0, void *a1, void *a2, void *a3);
 extern int   func_020120F0(u32 a0);

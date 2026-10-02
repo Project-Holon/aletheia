@@ -49,10 +49,10 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern const u32 d_020A1448[],d_021BB6F0[];
 extern void func_0201DD68(char *),func_021BA624(char *),func_021BA028(char *),func_021BA668(char *),func_021BA1C8(void),func_021BAA9C(char *),func_021B96EC(char *),func_021B974C(int,int,int,int,int),func_021B95B8(char *,u32);
-extern int func_0201EC74(u32,u32,u32),func_020457B0(u32,u32),func_0201D7EC(int,int,int,int,u32),func_02045B38(u32,u32,u32,u32),func_02049740(u32,u32,u32,u32,u32,u16),func_02049990(u32,u32,u32,u32,u16,u32,u32,u16),func_0201F5DC(int,u32,u32,u32),func_0204B100(int,u8,u32),func_020056A0(u32,u32,u32),func_0201C440(u32),func_02027F60(u16,u16,u32,u32,u16);
-extern void *func_020490F4(unsigned int id, u32 heap);
+extern int func_0201EC74(u32,u32,u32),func_020457B0(u32,u32),func_0201D7EC(int,int,int,int,u32),func_02045B38(u32,u32,u32,u32),func_02049740(void *,u32,u32,u32,u32,u16),func_02049990(void *,u32,u32,u32,u16,u32,u32,u16),func_0201F5DC(int,u32,u32,u32),func_0204B100(int,u8,u32),func_020056A0(u32,u32,u32),func_0201C440(u32),func_02027F60(u16,u16,u32,u32,u16);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void *func_02049F78(void *,u32,void **,u32);
-extern void func_02049B68(u32,u32,u32,u32,u32,u16),func_02049238(void *),func_0204E720(u32,int,int,int),func_0204A48C(const void *,u32,u32),func_02043534(int),func_020435F4(int),func_02082D44(const void *,void *,u32),func_020307B0(void *);
+extern void func_02049B68(void *,u32,u32,u32,u32,u16),func_02049238(void *),func_0204E720(u32,int,int,int),func_0204A48C(const void *,u32,u32),func_02043534(int),func_020435F4(int),func_02082D44(const void *,void *,u32),func_020307B0(void *);
 void func_021BA780(char *p) {
  void *owner;
  void *raw;
@@ -65,16 +65,16 @@ void func_021BA780(char *p) {
  *(int *)(p+0x294)=func_020457B0(200,*(u16 *)(p+0x278));
  *(int *)(p+0x290)=func_0201D7EC(23,0,0,0,*(u16 *)(p+0x278));
  *(int *)(p+0x288)=func_02045B38(0,2,46,*(u16 *)(p+0x278));
- owner=func_020490F4((void *)28,*(u16 *)(p+0x278));
- func_02049B68((u32)owner,1,0,0,0,*(u16 *)(p+0x278));
- *(int *)(p+0x2fc)=func_02049740((u32)owner,6,0,0,0,*(u16 *)(p+0x278));
- if(*(int *)(p+0x24c)!=5) func_02049990((u32)owner,13,1,0,*(int *)(p+0x2fc),0,0,*(u16 *)(p+0x278));
- else {func_02049990((u32)owner,13,0,0,*(int *)(p+0x2fc),0,0,*(u16 *)(p+0x278));func_02049990((u32)owner,14,1,0,*(int *)(p+0x2fc),0,0,*(u16 *)(p+0x278));}
+ owner=func_020490F4(28,*(u16 *)(p+0x278));
+ func_02049B68(owner,1,0,0,0,*(u16 *)(p+0x278));
+ *(int *)(p+0x2fc)=func_02049740(owner,6,0,0,0,*(u16 *)(p+0x278));
+ if(*(int *)(p+0x24c)!=5) func_02049990(owner,13,1,0,*(int *)(p+0x2fc),0,0,*(u16 *)(p+0x278));
+ else {func_02049990(owner,13,0,0,*(int *)(p+0x2fc),0,0,*(u16 *)(p+0x278));func_02049990(owner,14,1,0,*(int *)(p+0x2fc),0,0,*(u16 *)(p+0x278));}
  func_02049238(owner);
- owner=func_020490F4((void *)29,*(u16 *)(p+0x278));
- func_02049B68((u32)owner,1,4,0,0,*(u16 *)(p+0x278));
- *(int *)(p+0x308)=func_02049740((u32)owner,4,4,0,0,*(u16 *)(p+0x278));
- func_02049990((u32)owner,9,4,0,*(int *)(p+0x308),0,0,*(u16 *)(p+0x278));func_02049238(owner);
+ owner=func_020490F4(29,*(u16 *)(p+0x278));
+ func_02049B68(owner,1,4,0,0,*(u16 *)(p+0x278));
+ *(int *)(p+0x308)=func_02049740(owner,4,4,0,0,*(u16 *)(p+0x278));
+ func_02049990(owner,9,4,0,*(int *)(p+0x308),0,0,*(u16 *)(p+0x278));func_02049238(owner);
  *(int *)(p+0x304)=func_0201F5DC(5,14,0,*(u16 *)(p+0x278));
  func_0204E720(3,16,0,2);func_021BA668(p);
  func_0204A48C(d_020A1448,(u32)d_021BB6F0,*(u16 *)(p+0x278));
@@ -90,7 +90,7 @@ void func_021BA780(char *p) {
  }
  func_02043534(19);func_020435F4(23);
  *(u16 *)(p+0x242)=*(u16 *)(p+0x278);
- owner=func_020490F4((void *)28,*(u16 *)(p+0x242));
+ owner=func_020490F4(28,*(u16 *)(p+0x242));
  raw=func_02049F78(owner,2,&resource,*(u16 *)(p+0x242));
  func_02082D44(*(void **)((char *)resource+12),p,0x120);
  for(i=0;i<9;i++) func_02082D44(p+(8-i)*32,p+(i+9)*32,32);

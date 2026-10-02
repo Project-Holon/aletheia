@@ -50,7 +50,7 @@ typedef struct {
 
 typedef struct {
     void *f00;
-    u32 h04;
+    void *h04;
     int f08;
     void *f0c;
     void *f10;
@@ -72,21 +72,21 @@ extern const char d_0220AEC0[];
 extern const Pt d_0220AABC;
 
 extern void *func_02030734(u16, u32, int, const char *, u16);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void *func_0204B100(int, int, u16);
-extern int func_0204ABF0(u32 a, int b, int c, int d, u16 e);
+extern int func_0204ABF0(void * a, int b, int c, int d, u16 e);
 extern void *func_021F86E0(void);
 extern u32 func_0204AEF4(int, int);
 extern void func_020216D4(void *, u32, u32, u32);
 extern u32 func_020275E4(void);
 extern u32 func_020276B8(void);
-extern int func_0204A6C8(u32 a, int b, int c, int d, u16 e);
+extern int func_0204A6C8(void * a, int b, int c, int d, u16 e);
 extern u32 func_020276BC(int);
 extern u32 func_020276C0(int);
-extern int func_0204AF28(u32 a, int b, int c, u16 d);
+extern int func_0204AF28(void * a, int b, int c, u16 d);
 extern u32 func_020276B4(void);
 extern void func_02022004(unsigned, unsigned, u16, unsigned, unsigned);
-extern void func_02049238(u32);
+extern void func_02049238(void *);
 extern void *func_02049E74(void *, unsigned int, int, void *, unsigned short);
 extern int func_02005C44(void);
 extern void *func_021F86D4(void);
@@ -115,7 +115,7 @@ Obj *func_02206BC8(int a, u16 heap)
         s->f18[i] = func_0204ABF0(s->h04, 0xa2, 0, (u16)(i * 0x20), s->heap);
         func_020216D4(func_021F86E0(), 2, (u16)(func_0204AEF4(s->f18[i], 0) >> 1), 0x20);
     }
-    arc = func_020490F4(func_020275E4(), (u16)((s->heap & 0x7fff) | 0x8000));
+    arc = func_020490F4(func_020275E4(), (s->heap & 0x7fff) | 0x8000);
     s->f30 = func_0204A6C8(arc, func_020276B8(), 0, 0, s->heap);
     s->f34 = func_0204AF28(arc, func_020276BC(1), func_020276C0(1), s->heap);
     s->f38 = func_0204ABF0(arc, func_020276B4(), 0, 0x100, s->heap);

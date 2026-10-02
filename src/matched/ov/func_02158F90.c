@@ -23,8 +23,8 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 
 
-u32 func_02158F90(u8 *p)
+void *func_02158F90(void *p)
 {
-    return *(u32 *)(p + 0x8);
+    return *(void **)((u8 *)p + 0x8);
 }
 

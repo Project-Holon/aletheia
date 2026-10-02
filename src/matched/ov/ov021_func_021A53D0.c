@@ -21,10 +21,10 @@
 typedef unsigned int u32;
 
 void *func_021A3960(unsigned char *p);
-int func_0216D5F8(u32 h);
-void func_0216D4B4(u32 h);
-void func_0216D5E0(u32 h, int v);
-void func_0216D674(u32 h, int a);
+int func_0216D5F8(void *h);
+void func_0216D4B4(void *h);
+void func_0216D5E0(void *h, int v);
+void func_0216D674(void *h, int a);
 void func_021A3964(u32 h, int s);
 
 void func_021A53D0(u32 *p)
@@ -33,7 +33,7 @@ void func_021A53D0(u32 *p)
     int v;
 
     if (p[0] == 3) {
-        h = func_021A3960(p[3]);
+        h = func_021A3960(*(unsigned char **)(p + 3));
         v = func_0216D5F8(h);
         func_0216D4B4(h);
         func_0216D5E0(h, v);

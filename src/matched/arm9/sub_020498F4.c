@@ -33,10 +33,10 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32  sub_0204A380(u32 a, u32 b, u32 f, u16 sel);
+extern u32  sub_0204A380(void *a, u32 b, u32 f, u16 sel);
 extern void sub_02049A18(u32 handle, u32 c, u32 d, u32 zero0, u32 e, u32 zero1);
 
-void sub_020498F4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g)
+void sub_020498F4(void *a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g)
 {
     sub_02049A18(sub_0204A380(a, b, f, (u16)((g & 0x7fff) | 0x8000)),
                  c, d, 0, e, 0);

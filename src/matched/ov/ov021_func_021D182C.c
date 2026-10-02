@@ -34,7 +34,7 @@ extern void *func_02188C7C(unsigned char *p);
 extern u32 func_02188D24(u32 a);
 extern int *func_021BB990(int a, int *d, const int *c);
 extern u32 func_021BBA6C(const void *p);
-extern u32 func_0216DE94(u32 a, u32 b);
+extern u32 func_0216DE94(void *a, u32 b);
 extern int d_021DD5F0[];
 
 u8 *func_021D182C(u32 a, u16 b, struct V3 *c, u16 d)

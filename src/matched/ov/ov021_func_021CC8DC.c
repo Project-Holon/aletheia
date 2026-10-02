@@ -39,7 +39,7 @@ typedef struct {
     u16 f8C[6];
 } Obj;
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32 func_0201BC3C(void);
 extern int func_0204ACEC(void *h, u32 a1, u32 a2, u32 a3, u16 a4);
 extern u32 func_0201BC40(void);

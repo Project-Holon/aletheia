@@ -22,7 +22,7 @@ typedef unsigned int u32;
 
 typedef struct {
     int f00;
-    int f04;
+    void *f04;
     int pad[2];
     int f10;
     u16 f14;

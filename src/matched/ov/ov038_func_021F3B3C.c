@@ -80,10 +80,10 @@ extern unsigned int func_02012EC4(unsigned int);
 extern int *func_0200B3A4(unsigned int, unsigned int);
 extern void *func_021BE674(int base, int i, int j, int k);
 extern void *func_021A3074(unsigned char *p);
-extern int func_0216D454(u32 t);
-extern int func_0216D3CC(u32 t);
-extern void func_021A3038(u32 q, V3 *v);
-extern void func_021A3044(u32 q, V3 *v);
+extern int func_0216D454(void *t);
+extern int func_0216D3CC(void *t);
+extern void func_021A3038(void *q, V3 *v);
+extern void func_021A3044(void *q, V3 *v);
 extern void func_021BE4B4(int p, int i, int j, int v);
 extern V3 *func_021BE480(int p, int i, int j);
 extern void func_021BE700(int p, int i, int j, int k, int flag);
@@ -100,7 +100,7 @@ extern void func_02012374(int a0, void *t);
 extern void *func_021618A0(void *w, void *sys, int a2, void *a3);
 extern int func_02197DA0();
 extern int func_02197DAC();
-extern int func_02197D3C(u32 t, void *p);
+extern int func_02197D3C(void *t, void *p);
 extern int func_021F3DFC(int a0, int *a1);
 
 int func_021F3B3C(int a0, int *a1)

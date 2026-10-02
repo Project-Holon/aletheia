@@ -45,7 +45,7 @@ extern T2 d_021D8A2C[];
 extern int func_021A3974(u32);
 extern u32 func_021A5318(u8 *, u32);
 extern void *func_021A3960(unsigned char *p);
-extern int func_02163E34(u32, int, u32 *);
+extern int func_02163E34(void *, int, u32 *);
 extern u16 func_021AB0F8(u32);
 extern void func_020061E4(int);
 

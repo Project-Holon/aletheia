@@ -33,10 +33,10 @@ extern unsigned short func_02158F8C(unsigned char *p);
 extern u16 func_02159B10(u32 a, u32 b);
 extern u32 func_0215A4C8(u32 a);
 extern u32 func_0215A4B4(u32 a);
-extern u32 func_02158F54(u32 a);
-extern u32 *func_02158F58(u32 a);
+extern u32 func_02158F54(void *a);
+extern u32 *func_02158F58(void *a);
 extern u32 func_0216EAB0(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
-extern void func_0215897C(u32 a, u32 b);
+extern void func_0215897C(void *a, u32 b);
 
 int func_021AED24(u32 a, u32 b)
 {

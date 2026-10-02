@@ -23,12 +23,12 @@
 
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
-extern int func_0216D3CC(int a);
+extern int func_0216D3CC(void *a);
 extern int func_02197E7C(int a, int b);
-extern void func_0216D410(int a, int b);
+extern void func_0216D410(void *a, int b);
 extern void func_020061E4(int a);
-extern int func_0216D454(int a);
-extern void func_0216D480(int a);
+extern int func_0216D454(void *a);
+extern void func_0216D480(void *a);
 extern void func_021C909C(int a);
 
 int func_021F39F8(int a, int *s, int *t)
@@ -45,7 +45,7 @@ int func_021F39F8(int a, int *s, int *t)
         }
         break;
     case 1:
-        if (func_0216D3CC(*(int *)t[2]) == 1) {
+        if (func_0216D3CC(*(void **)t[2]) == 1) {
             if (t[1] > 0) {
                 int v = 8;
                 if (t[1] <= 1)
@@ -54,7 +54,7 @@ int func_021F39F8(int a, int *s, int *t)
                     v = 0x10;
                 else if (t[1] <= 4)
                     v = 0xc;
-                func_0216D410(*(int *)t[2], func_02197E7C(*(unsigned short *)t, v));
+                func_0216D410(*(void **)t[2], func_02197E7C(*(unsigned short *)t, v));
                 t[1] = t[1] - 1;
             } else {
                 func_020061E4(0x6a3);
@@ -64,7 +64,7 @@ int func_021F39F8(int a, int *s, int *t)
         break;
     case 2:
         if (func_0216D454(r6) == 1) {
-            func_0216D480(*(int *)t[2]);
+            func_0216D480(*(void **)t[2]);
             func_0216D480(r6);
             func_021C909C(((int *)t[2])[1]);
             return 1;

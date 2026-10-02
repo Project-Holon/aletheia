@@ -51,42 +51,42 @@ typedef struct {
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *a0);
-extern int func_020127C4(int a);
+extern int func_020127C4(void *a);
 extern int func_02159B10(int a0, int a1);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_02186278(int p, int which);
-extern Ent *func_02158F58(int a);
-extern int func_02188C98(int a);
-extern int func_0218DC70(int a);
-extern void *func_02188CB4(unsigned char *p);
-extern void *func_02188C7C(unsigned char *p);
-extern int func_020127F0(int a);
-extern void func_021A3460(int o, s16 *x, s16 *y, s16 *z);
-extern int func_0216DDC0(int a, int x, int y, int z);
+extern Ent *func_02158F58(void *a);
+extern void *func_02188C98(int a);
+extern void *func_0218DC70(void *a);
+extern void *func_02188CB4(int p);
+extern void *func_02188C7C(int p);
+extern void *func_020127F0(void *a);
+extern void func_021A3460(void *o, s16 *x, s16 *y, s16 *z);
+extern void *func_0216DDC0(void *a, int x, int y, int z);
 extern int func_02186090(void *p);
-extern int func_0216D588(int a);
-extern void func_02193904(int a);
-extern int func_0219390C(int a, int b);
-extern int *func_02193C00(int a);
-extern int func_02193C04(int a);
-extern int func_021867B4(int a);
-extern int func_021867A8(int a);
-extern int func_021869AC(int a);
-extern int func_021869B8(int a);
-extern int func_021938F4(int a);
-extern int func_021869D8(int a);
-extern int func_021869D0(int a);
-extern int func_02193BE4(int a, int b);
+extern int func_0216D588(void *a);
+extern void func_02193904(void *a);
+extern void *func_0219390C(void *a, unsigned int b);
+extern int *func_02193C00(void *a);
+extern void *func_02193C04(void *a);
+extern int func_021867B4(void *a);
+extern int func_021867A8(void *a);
+extern int func_021869AC(void *a);
+extern int func_021869B8(void *a);
+extern int func_021938F4(unsigned char *a);
+extern int func_021869D8(void *a);
+extern int func_021869D0(void *a);
+extern int func_02193BE4(void *a, unsigned int b);
 
 int func_02186D48(int a0, int a1)
 {
     int cur;
     int st;
-    int id;
+    void *id;
     int *rec;
-    int sub;
+    void *sub;
     void *b;
-    int obj;
+    void *obj;
     int c;
     void *d;
     void *w;
@@ -94,29 +94,29 @@ int func_02186D48(int a0, int a1)
     u16 *out;
     Ent *ent;
     void *m;
-    int s;
+    void *s;
     s16 v[3];
 
     m = func_0215A5F4((void *)a1);
     b = func_0215A5E4((void *)a1);
-    c = func_020127C4((int)b);
+    c = func_020127C4(b);
     kind = func_02159B10(a0, a1);
     out = func_02159AE8((void *)a0, (void *)a1);
     if (kind == 3) {
         *out = func_02186278(c, 0);
     } else {
-    ent = func_02158F58((int)m);
-    m = (void *)func_0218DC70(func_02188C98(ent->f4));
-    d = func_02188CB4((unsigned char *)ent->f4);
-    w = func_02188C7C((unsigned char *)ent->f4);
-    s = func_020127F0((int)b);
-    func_021A3460((int)d, &v[2], &v[1], &v[0]);
-    obj = func_0216DDC0((int)w, v[2], v[0], 0);
+    ent = func_02158F58(m);
+    m = func_0218DC70(func_02188C98(ent->f4));
+    d = func_02188CB4(ent->f4);
+    w = func_02188C7C(ent->f4);
+    s = func_020127F0(b);
+    func_021A3460(d, &v[2], &v[1], &v[0]);
+    obj = func_0216DDC0(w, v[2], v[0], 0);
     if (obj != 0) {
-        cur = func_02186090((void *)obj);
+        cur = func_02186090(obj);
         st = func_0216D588(obj);
-        func_02193904((int)m);
-        sub = func_0219390C((int)m, cur);
+        func_02193904(m);
+        sub = func_0219390C(m, cur);
         if (sub != 0) {
             rec = func_02193C00(sub);
             id = func_02193C04(sub);
@@ -141,7 +141,7 @@ int func_02186D48(int a0, int a1)
         *out = func_021869B8(s);
         break;
     case 6:
-        if (func_021938F4((int)m) == 0)
+        if (func_021938F4(m) == 0)
             *out = 0;
         else
             *out = 1;
@@ -156,7 +156,7 @@ int func_02186D48(int a0, int a1)
         *out = cur;
         break;
     case 10:
-        *out = func_02193BE4((int)m, cur);
+        *out = func_02193BE4(m, cur);
         break;
     case 11:
         *out = st;

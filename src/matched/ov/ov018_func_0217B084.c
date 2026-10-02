@@ -33,7 +33,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 typedef struct {
-    int f0;
+    unsigned char *f0;
     int f4;
     int f8;
     int fc;

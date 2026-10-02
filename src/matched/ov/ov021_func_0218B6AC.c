@@ -18,13 +18,13 @@
  * Addresses are Black-image addresses.
  */
 
-extern void func_020120F4(void);
+extern void *func_020120F4(void *p);
 extern void *func_02012934(void *p);
 extern int func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, int i);
 extern int func_02017E1C(void *p, int a, int b);
 
-int func_0218B6AC(void)
+int func_0218B6AC(void *ctx)
 {
     void *list;
     void *e;
@@ -32,8 +32,7 @@ int func_0218B6AC(void)
     int i;
     int cnt;
 
-    func_020120F4();
-    list = func_02012934();
+    list = func_02012934(func_020120F4(ctx));
     n = func_0201AA18(list);
     i = 0;
     cnt = 0;

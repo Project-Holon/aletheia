@@ -45,7 +45,7 @@ extern void func_021767F0();
 extern void *func_02184D38();
 extern int func_021665F0();
 struct Desc;
-extern struct Desc *func_0216B3A8(int a0, int a1, int a2);
+extern struct Desc *func_0216B3A8(void *a0, int a1, int a2);
 extern void func_0215897C();
 
 int func_0216AE10(int a0, int a1)

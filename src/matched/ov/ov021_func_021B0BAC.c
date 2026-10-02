@@ -57,12 +57,12 @@ typedef struct S {
 
 extern void *func_0215A5F4(void *p);
 extern u32 func_0215A60C(u32);
-extern u32 *func_02158F58(u32);
+extern u32 *func_02158F58(void *);
 extern u32 func_0215A5EC(u32);
 extern u32 func_0216DE94(u32, int);
-extern u32 func_02158F78(u32);
-extern u32 func_02158F74(u32);
-extern u32 func_02158F7C(u32);
+extern u32 func_02158F78(void *);
+extern u32 func_02158F74(void *);
+extern u32 func_02158F7C(void *);
 extern void func_02045CAC(u32, u32, u32);
 extern u32 func_0215A5CC(u32);
 extern u32 func_02045B38(u32, u32, u32, u32);

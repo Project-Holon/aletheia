@@ -68,7 +68,7 @@ struct BgEvent {
 
 extern void *func_0201210C(void *p);
 extern void *func_02188CB4(void *p);
-extern void func_021A3038(u32 id, int *out);
+extern void func_021A3038(void *id, int *out);
 extern void *func_02188C98(void *p);
 extern u32 func_021AB0D4(void *a, int *b);
 extern u16 func_021AB0F0(u32 attr);
@@ -76,7 +76,7 @@ extern int func_021AB188(u16 id);
 extern void *func_0201296C(void *p);
 extern struct BgEvent *func_0216282C(void *p, void *q, int *pos, int dir);
 extern int func_02158768(void *a0, u32 a1, int a2, u16 a3);
-extern int func_021A3098(u32 v);
+extern int func_021A3098(void *v);
 extern void *func_021A3074(unsigned char *p);
 extern u16 func_0216D7C4(void *p);
 
@@ -106,7 +106,7 @@ int func_0218A8BC(struct FieldCtx *p)
     if (cx == (pos[0] >> 12) / 16 && cz == (pos[2] >> 12) / 16)
         return func_02158768(p->f4, e->msg, 0, p->f0);
     a = func_021A3098(id);
-    b = func_0216D7C4(func_021A3074((void *)id));
+    b = func_0216D7C4(func_021A3074(id));
     if (a != 0 || b == 0x58 || b == 0x59 || b == 0x5A || b == 0x5B || (u16)(b + 0xFF5D) <= 3)   /* b - 0xA3 */
         return func_02158768(p->f4, e->msg, 0, p->f0);
     return 0;

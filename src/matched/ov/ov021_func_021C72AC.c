@@ -41,7 +41,7 @@ void *func_021C72AC(u32 a, u16 b, int c, int d)
     o = func_021C6C70(h, 0x10, (void *)func_021C7500);
     p = func_021C6CCC(o);
     *(u32 *)(p + 0) = a;
-    *(u32 *)(p + 4) = func_021A3074((void *)q);
+    *(void **)(p + 4) = func_021A3074((void *)q);
     *(u16 *)(p + 8) = 0;
     *(u16 *)(p + 0xa) = b;
     p[0xc] = c;

@@ -63,13 +63,13 @@ loc_021605EA:
 a0 = *(int *)((char *)t4 + 4);
     t6 = func_020120F4((const struct Ctx *)a0);
 loc_021605F0:
-    name = func_02012C0C(t6);
+    name = func_02012C0C((struct BigObj *)t6);
 loc_021605F6:
 a0 = 0x15;
     o4 = a0;
 a1 = t5 + 0;
 a3 = 0x50;
-    res = func_021C4F7C(t6, a1, (u32)name, a3, o4);
+    res = func_021C4F7C(t6, a1, (const unsigned short *)name, a3, o4);
 loc_02160606:
 *(char **)((char *)t4 + 0xc) = res;
 loc_02160608:

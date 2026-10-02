@@ -66,12 +66,12 @@ extern const Row7 data_021C8568;
 
 extern void *func_0204B034(const BankDesc *desc, unsigned int a1, unsigned int heap);
 extern u32  func_0204B100(u32 a, u32 b, u32 heap);
-extern void func_0204B258(u32 bank, u32 p);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern u32  func_0204AC18(u32 h, int a, u32 b, u32 c, u32 d, u32 e, u32 heap);
-extern u32  func_0204A6C8(u32 h, int a, u32 b, u32 c, u32 heap);
-extern u32  func_0204AF28(u32 h, u32 a, u32 b, u32 heap);
-extern void func_02049238(u32 h);
+extern void func_0204B258(u32 bank, void *p);
+extern void *func_020490F4(unsigned int id, u16 heap);
+extern u32  func_0204AC18(void *h, int a, u32 b, u32 c, u32 d, u32 e, u32 heap);
+extern u32  func_0204A6C8(void *h, int a, u32 b, u32 c, u32 heap);
+extern u32  func_0204AF28(void *h, u32 a, u32 b, u32 heap);
+extern void func_02049238(void *h);
 extern void func_02082BCC(void *dst, int v, int n);
 extern u32  func_0204B294(u32 res, u32 a, u32 b, u32 c, ObjPos *pos, u32 f, u32 heap);
 extern void func_0204B878(u32 obj, u32 anim);
@@ -83,6 +83,7 @@ extern void func_0204B688(u32 obj, u32 on);
 extern void func_0204B404(u32 obj, Pt *pos, int n);
 
 #define W(o) (*(u32 *)(p + (o)))
+#define WP(o) (*(void **)(p + (o)))
 #define OBJ(i) (*(u32 *)(p + (i) * 4 + 0xbc))
 
 void func_021C0134(u16 *heap, u8 *p, int key)
@@ -95,9 +96,9 @@ void func_021C0134(u16 *heap, u8 *p, int key)
     u8 i;
 
     desc = data_021C8580;
-    W(0x1d4) = func_0204B034(&desc, 1, *heap);
+    WP(0x1d4) = func_0204B034(&desc, 1, *heap);
     W(0x1d0) = func_0204B100(0x10, 0, *heap);
-    func_0204B258(W(0x1d0), W(0x1d4));
+    func_0204B258(W(0x1d0), WP(0x1d4));
 
     h = func_020490F4(0x55, *heap);
     W(0x9c) = func_0204AC18(h, 2, 0, 0, 0, 5, *heap);

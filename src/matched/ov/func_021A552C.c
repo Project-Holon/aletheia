@@ -20,11 +20,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef int BOOL;
 
-extern void func_021A550C();
+extern void func_021A550C(u32 *p);
 
-u32 func_021A552C(void)
+u32 func_021A552C(u32 *p)
 {
-    func_021A550C();
+    func_021A550C(p);
 
     return 0x0;
 }

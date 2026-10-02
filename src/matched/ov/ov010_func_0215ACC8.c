@@ -19,7 +19,7 @@
  */
 
 extern void *func_0215A5E4(void *a0);
-extern int func_02012EBC(int);
+extern int func_02012EBC(void *);
 extern unsigned short *func_02159AE8(void *a0, void *a1);
 extern int func_020071EC(int);
 extern int func_020071E4(int);

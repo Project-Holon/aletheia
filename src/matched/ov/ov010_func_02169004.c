@@ -41,14 +41,14 @@ extern int func_0201296C(int);
 extern void func_020143F0(int);
 extern void func_0200D440(int);
 extern void *func_02012934(void *p);
-extern void func_0201B100(int, int);
+extern void func_0201B100(void *, int);
 extern int func_02012F2C(int);
 extern void func_02008E30(int);
 extern int func_02009470(int);
 extern void func_0200952C(int);
 extern void func_021862A8(int, int, int);
 extern void *func_0200E394(void *a0);
-extern void func_0200E518(int);
+extern void func_0200E518(void *);
 extern int func_0200A8A0(int);
 extern void func_0200AB04(int);
 

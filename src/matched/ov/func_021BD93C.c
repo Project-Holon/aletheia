@@ -23,10 +23,10 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern void *func_02188CB4();
-extern u32 func_021A3098(u32);
+extern void func_021A3098(void *);
 
-int func_021BD93C(u32 a, u32 b, u32 c, u32 d)
+void func_021BD93C(u32 a, u32 b, u32 c, u32 d)
 {
-return func_021A3098(func_02188CB4(*(u32 *)((u8 *)(*(u32 *)((u8 *)(a) + 8)) + 12), b, c, d));
+func_021A3098(func_02188CB4(*(u32 *)((u8 *)(*(u32 *)((u8 *)(a) + 8)) + 12), b, c, d));
 }
 

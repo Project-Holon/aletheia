@@ -23,18 +23,19 @@
 
 extern void *func_0215A5DC(void *a0);
 extern void *func_0201210C(void *p);
-extern int func_02189A00(int a);
+extern void *func_02189A00(unsigned char *p);
 extern int func_02159B10(int a, int b);
 extern void *func_0215A5F4(void *p);
-extern int func_021C1CB0(int a, int b, int c);
-extern void func_0215897C(int a, int b);
+extern int func_021C1CB0(int a, char *b, int c);
+extern void func_0215897C(void *vm, void *task);
 extern unsigned short d_021DAAE0[];
 extern unsigned short d_021DAAE2[];
 
 int func_021C81F8(int a, int b)
 {
-    int sp0, v, found, i;
     void *sp4;
+    void *sp0;
+    int v, found, i;
     void *r5;
     unsigned short r4;
 
@@ -51,9 +52,9 @@ int func_021C81F8(int a, int b)
     }
     if (found) {
         r5 = func_0215A5F4((void *)b);
-        v = func_021C1CB0(sp4, sp0, (unsigned char)r4);
+        v = func_021C1CB0((int)sp4, sp0, (unsigned char)r4);
         if (v) {
-            func_0215897C(r5, v);
+            func_0215897C(r5, (void *)v);
         }
     }
     return 1;

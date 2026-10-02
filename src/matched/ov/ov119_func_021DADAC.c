@@ -20,15 +20,16 @@
  *   func_02045CAC  0x02045CAC  arm
  */
 
+typedef unsigned short u16;
 typedef unsigned char u8;
 
 extern int func_021D8A24(void *p);
 extern void func_021D8E84(void *p, int v);
 extern void func_021E1024(void *p);
 extern void func_021E1030(void *p);
-extern unsigned int func_020399A8(void);
-extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *d);
-extern void func_02039C68(unsigned int a, unsigned int b, unsigned int c);
+extern void *func_020399A8(void);
+extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
+extern void func_02039C68(void *a, unsigned int b, unsigned int c);
 extern void func_02045CAC(int a, int b, int c);
 
 void func_021DADAC(void *p)

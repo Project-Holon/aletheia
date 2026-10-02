@@ -25,21 +25,20 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_0215A5F4(void *p);
-extern void func_02158F54(u32 a);
-extern u32 func_020120F4(void);
-extern u8 *func_02012ED8(u32 t);
-extern int func_0200B6E0(u32 t, int a, int id, int v, int z, u8 *b, u8 *c);
+extern void *func_02158F54(void *a);
+extern void *func_020120F4(void *p);
+extern u8 *func_02012ED8(void *p);
+extern int func_0200B6E0(void *t, int a, int id, int v, int z, u8 *b, u8 *c);
 
 int func_021CBC14(u32 unused, u32 a)
 {
-    u32 t;
+    void *t;
     u8 *p;
     int id;
     int v;
     int r;
 
-    func_02158F54(func_0215A5F4((void *)a));
-    t = func_020120F4();
+    t = func_020120F4(func_02158F54(func_0215A5F4((void *)a)));
     p = func_02012ED8(t);
     id = 20;
     v = *(u16 *)(p + 0x10);

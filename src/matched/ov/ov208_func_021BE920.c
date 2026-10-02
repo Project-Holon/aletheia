@@ -42,12 +42,12 @@ struct Ov208Icon {
     u32 f30;
 };
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void func_02049BDC(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
-extern void func_02049238(u32 h);
-extern u32  func_0204384C(u32 a, u32 b, u32 c, u32 d);
-extern void func_02043814(u32 a, u32 b);
-extern void func_020437AC(u32 a);
+extern void *func_020490F4(unsigned int id, u16 heap);
+extern void func_02049BDC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6);
+extern void func_02049238(void *h);
+extern void *func_0204384C(u32 a, u32 b, u32 c, u32 d);
+extern void func_02043814(void *a, u32 b);
+extern void func_020437AC(void *a);
 extern u32  func_02045EC0(u32 a, u32 b);
 extern void func_0201C724(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u16 g);
 extern void func_02045808(u32 a);

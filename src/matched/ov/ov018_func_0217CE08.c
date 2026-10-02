@@ -31,14 +31,14 @@ extern int func_0217BED4();
 extern void *func_02185140();
 extern void *func_02185588();
 
-void *func_0217CE08(int a0, int a1, int a2, int a3)
+void *func_0217CE08(void *a0, void *a1, int a2, int a3)
 {
     int h;
     void *c;
     V12 v;
 
     h = func_02012138(a0);
-    c = func_020120F4((const struct Ctx *)a0);
+    c = func_020120F4(a0);
     func_02158344(h);
     if (func_0217BED4(a2, &v) == 0)
         return 0;

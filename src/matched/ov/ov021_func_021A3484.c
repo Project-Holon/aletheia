@@ -32,7 +32,7 @@ extern int func_021641F8();
 extern void func_0207CCA4();
 extern void func_0219E784();
 
-void func_021A3484(u32 *a, u32 b, s32 *c)
+void func_021A3484(unsigned char **a, u32 b, s32 *c)
 {
     s16 v[4];
     s32 t1;

@@ -28,17 +28,17 @@ typedef struct Pair {
     u16 b;
 } Pair;
 
-extern u32 func_0201292C(u32 a);
+extern void *func_0201292C(u32 a);
 extern Pair *func_02030734(u32 heap, u32 size, u32 a, const u8 *file, u32 line);
 extern u16 func_02009310(u32 a, u32 i);
 extern u16 func_02009330(u32 a, u32 i);
-extern int func_02007E3C(u32 a, u32 b, u32 c, u32 d);
+extern int func_02007E3C(void *a, u32 b, u32 c, u32 d);
 extern u8 d_021DE288[];
 
 Pair *func_021B7640(u32 a, u32 b, u32 c, int *d)
 {
     Pair *buf;
-    u32 h;
+    void *h;
     int n;
     int i;
     u16 x;

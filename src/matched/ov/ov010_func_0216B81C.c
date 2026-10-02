@@ -32,8 +32,8 @@ extern void *func_0200C0E8(void *sys);
 extern int func_02159B10();
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_0200C32C();
-extern int func_0216B8B8(int a0, unsigned short *a1);
-extern int func_0216B91C(int a0, int a1, unsigned short *a2);
+extern int func_0216B8B8(void *a0, unsigned short *a1);
+extern int func_0216B91C(void *a0, int a1, unsigned short *a2);
 
 int func_0216B81C(int c, int vm)
 {

@@ -57,13 +57,13 @@ struct CompHeader {
 
 extern char s_clact_c[];
 
-extern void *func_02049250(u32 owner, u32 which, u32 mode);
+extern void *func_02049250(void *owner, u32 which, u32 mode);
 extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *site,
                           u16 tag);
 extern void sub_020307B0(void *p);
 extern void func_020834C0(const void *src, void *dest);
 
-void *func_0204D9D4(u32 owner, u32 which, u32 compressed, u32 heapId)
+void *func_0204D9D4(void *owner, u32 which, u32 compressed, u32 heapId)
 {
     void *out;
     struct CompHeader *raw;

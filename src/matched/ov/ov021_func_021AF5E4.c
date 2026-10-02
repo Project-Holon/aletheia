@@ -27,16 +27,16 @@ extern u32 func_0215A5CC(u32);
 extern void *func_0215A5E4(void *a0);
 extern u32 func_02159B10(u32, u32);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern u32 func_0201292C(void);
-extern u16 func_02007E3C(u32, u32, u32, u32);
+extern void *func_0201292C(void *p);
+extern u16 func_02007E3C(void *, u32, u32, u32);
 
 int func_021AF5E4(u32 a, u32 b)
 {
     u32 c = func_0215A5CC(b);
-    u32 d, e, f;
+    void *d;
+    u32 e, f;
     u16 *p;
-    func_0215A5E4((void *)b);
-    d = func_0201292C();
+    d = func_0201292C(func_0215A5E4((void *)b));
     e = func_02159B10(a, b);
     f = func_02159B10(a, b);
     p = func_02159AE8((void *)a, (void *)b);

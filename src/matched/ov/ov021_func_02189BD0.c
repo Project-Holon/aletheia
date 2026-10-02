@@ -143,7 +143,7 @@ extern int func_020142E8(void *p, u32 id);
 extern int func_021A2F20(u32 obj, u32 trg, u32 cont, u32 flags);
 extern void *func_02012138(void *sys);
 extern void *func_02158344(void *p);
-extern void *func_021A3074(unsigned char *p);
+extern void *func_021A3074(u32 p);
 extern int func_0217BFD8(void *sys, u16 v);
 extern int func_0217CA84(void *sys, int v);
 extern int func_02026454(void *p);
@@ -156,17 +156,17 @@ struct Desc;
 extern struct Desc *func_0216B3A8(void *sys, int a1, int a2);
 extern int func_021754B4(void *ev, u32 *out);
 extern void func_021A2F6C(u32 obj);
-extern int func_0217FC6C(void *sys, u8 *pos, void *ev, u32 m, u32 out, u16 id);
+extern int func_0217FC6C(void *sys, u8 *pos, void *ev, void *m, u32 out, u16 id);
 extern int func_0217BDE0(void *sys, void *ev, u32 obj);
 extern int func_0217AFC4(void *ev, u32 obj, u32 *out);
-extern int func_0217FB5C(void *sys, u8 *pos, void *ev, u32 m, u32 out, u16 id);
+extern int func_0217FB5C(void *sys, u8 *pos, void *ev, void *m, u32 out, u16 id);
 extern u32 func_021A3050(u32 obj);
 extern void func_021A3038(u32 obj, int *out);
 extern void func_02164208(u32 v, int *pos, int step);
 extern int func_0218B4B0(struct FieldInput *p, u8 *pos);
 extern u32 func_0216D5B8(int p);
 extern int func_02158D90(u16 v);
-extern int func_0219F01C(void *sys, u8 *pos, u32 a, u32 m, int ev, u16 id);
+extern int func_0219F01C(void *sys, u8 *pos, u32 a, void *m, int ev, u16 id);
 extern u32 func_02162A54(void *p, void *q, int *pos, u32 d);
 extern int func_02158768(void *sys, u32 msg, int a, u16 id);
 extern u16 func_0218B56C(struct FieldInput *p, u8 *pos);
@@ -271,7 +271,7 @@ int func_02189BD0(void *sys, u8 *pos, int *outA, int *outB)
         if (func_02012B70(in.f8) == 1 && func_0217C070(ev) == 1)
             return func_0217B810(sys, pos);
         if (func_0217689C(ev, in.f10) == 1)
-            return func_0216B3A8(sys, 9, func_02012FB0(in.f8));
+            return (int)func_0216B3A8(sys, 9, func_02012FB0(in.f8));
         if (in.b10 == 1 && func_021754B4(ev, &out) == 1) {
             func_021A2F6C(in.f18);
             return func_0217FC6C(sys, pos, ev, model, out, in.f0);

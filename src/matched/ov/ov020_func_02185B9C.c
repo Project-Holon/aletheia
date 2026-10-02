@@ -27,11 +27,11 @@ typedef struct { int id; u16 v; u16 pad; } Ent;
 int func_02012EC4(int a);
 void func_0200B37C(int a);
 void func_0200B394(int a, int b);
-void *func_020490F4(unsigned int id, unsigned int heap);
-Ent *func_02049250(int h, int a, int b);
-unsigned func_020493D4(int h, int a);
+void *func_020490F4(unsigned int id, u16 heap);
+Ent *func_02049250(void *h, int a, int b);
+unsigned func_020493D4(void *h, int a);
 void func_020307B0(void *p);
-void func_02049238(int h);
+void func_02049238(void *h);
 
 void func_02185B9C(int a0, int id)
 {

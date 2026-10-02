@@ -19,13 +19,15 @@
  *   func_0203D3A8  0x0203D3A8  arm
  */
 
+typedef unsigned short u16;
+
 extern int func_021D8A24(void *p);
 extern void func_021D8E84(void *p, int v);
 extern int func_021DD34C(void *p, int a, int b);
 extern void func_021DD4F4(void *p, int a, int b);
 extern void func_021E62D4(void *p, int a, int b);
-extern unsigned int func_020399A8(void);
-extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *d);
+extern void *func_020399A8(void);
+extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
 
 void func_021DF708(void *p)
 {

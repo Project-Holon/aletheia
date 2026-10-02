@@ -35,7 +35,7 @@ extern void func_02045334(void *);
 extern void func_02045374(void *);
 extern u8 func_02045730(void *);
 extern void func_02041B6C(u32);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_0204A6C8(u32,u32,u32,u32,u16);
 extern void func_02049238(void *);
 extern u32 func_0204B294(u32,u32,u32,u32,u32,u16,u16);
@@ -58,7 +58,7 @@ void func_021D9568(u8 *a,u8 *p)
     func_02045334(cell);
     func_02045374(cell);
     func_02041B6C(func_02045730(cell));
-    archive=func_020490F4((void *)78,*(u16 *)a);
+    archive=func_020490F4(78,*(u16 *)a);
     *(u32 *)(p+0x18)=func_0204A6C8((u32)archive,func_021DBF2C(index,1),0,1,*(u16 *)a);
     func_02049238(archive);
     pos.x=128;

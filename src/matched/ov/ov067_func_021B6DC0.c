@@ -109,7 +109,7 @@ extern const char d_021B9564[];
 extern S *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
 extern void func_02082BCC(void *p, u32 v, u32 n);
 extern void func_020414AC(u32 a);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32 func_020493D4(void *narc, int fileId);
 extern void func_0204932C(void *narc, int fileId, void *dest);
 extern int func_02062A98(void *p, Pltt **out);

@@ -40,10 +40,10 @@ extern u32 func_02027624(void);
 extern u32 func_02027628(void);
 extern u32 func_0202762C(void);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void func_02049B68(u32 o, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void func_02049658(u32 o, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
-extern u32 func_02049EF4(u32 o, u32 a, u32 b, struct Scr **out, u32 e);
-extern void func_02049238(u32 o);
+extern void func_02049B68(void *o, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void func_02049658(void *o, u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);
+extern u32 func_02049EF4(void *o, u32 a, u32 b, struct Scr **out, u32 e);
+extern void func_02049238(void *o);
 extern void func_020410D0(u8 a, u32 b, u32 c, u32 d, u32 e, void *f, u32 g,
                           u32 h, u32 i, u32 j);
 extern void func_02041B6C(u8 a);

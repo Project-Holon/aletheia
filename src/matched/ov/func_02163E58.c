@@ -17,26 +17,25 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02163E1C();
+typedef struct { int x, y, z; } VecFx32;
 
-int func_02163E58(int a0, int a1, int a2)
+extern int func_02163E1C(void *a, char *b, void *c);
+
+int func_02163E58(void *a0, VecFx32 *a1, int *a2)
 {
     unsigned char fr[16];
-    int t4;
+    int *t4;
     int t5;
-t4 = a2 + 0;
+    int r;
+t4 = a2;
 t5 = 0;
-a2 = (int)(fr + 0);
-*(int *)((char *)t4) = t5;
-    a0 = func_02163E1C(a0, a1, a2);
+*t4 = t5;
+    r = func_02163E1C(a0, (char *)a1, fr);
 loc_02163E68:
-    if (a0 != 1) goto loc_02163E76;
+    if (r != 1) goto loc_02163E76;
 loc_02163E6C:
-    a0 = *(int *)(fr + 12);
-*(int *)((char *)t4) = a0;
-a0 = 1;
-    return a0;
+*t4 = *(int *)(fr + 12);
+    return 1;
 loc_02163E76:
-a0 = t5 + 0;
-    return a0;
+    return t5;
 }

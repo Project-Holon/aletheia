@@ -36,7 +36,7 @@ extern void *func_02012EBC(void *);
 extern void *func_0200A8A0(void *);
 extern u32 func_02008530(void *);
 extern int func_0200A9A4(void *,u32);
-extern u32 func_0201292C(void *);
+extern void *func_0201292C(void *);
 extern u32 func_02007FB8(u8 *,u16,u16);
 extern u32 func_02007E50(u8 *,u16,u16,u16);
 extern void *func_020084F4(void *);
@@ -50,7 +50,8 @@ int func_021B8860(u8 *p)
     u8 *detail;
     void *record;
     u8 *key;
-    u32 bag,quantity,request;
+    u8 *bag;
+    u32 quantity,request;
     void *src;
     int flag;
     int result=1;
@@ -59,13 +60,13 @@ int func_021B8860(u8 *p)
     key=detail+12;
     if(!func_0200A9A4(record,func_02008530(key)) && *(void **)ARG) {
         bag=func_0201292C(func_020120F4(*(void **)ARG));
-        quantity=func_02007FB8((u8 *)bag,134,60);
+        quantity=func_02007FB8(bag,134,60);
         switch(quantity) {
         case 999: result=2; break;
         default:
             request=*(u32 *)(p+0x1a0);
             if(999-quantity<request) request=999-quantity;
-            result=func_02007E50((u8 *)bag,134,(u16)request,60)?0:2;
+            result=func_02007E50(bag,134,(u16)request,60)?0:2;
             break;
         }
     }

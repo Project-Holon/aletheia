@@ -33,8 +33,8 @@ extern void *func_0215A5DC(void *a);
 extern u32  func_02011330(void *a);
 extern void func_02159144(int a);
 extern void func_02034AC4(void *a);
-extern int  func_021F5260(u32 a, u32 b, u32 c, u32 d, void *e);
-extern void func_0215897C(u32 a, int b);
+extern int  func_021F5260(u32 a, u32 b, u32 c, void *d, void *e);
+extern void func_0215897C(void *a, int b);
 extern u8 ov_id_52[];
 
 int func_02164910(void *s, void *q)

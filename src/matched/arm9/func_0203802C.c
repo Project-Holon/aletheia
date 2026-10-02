@@ -38,13 +38,14 @@
  *       --func func_0203802C --addr 0x0203802C --cc 1.1p1 --arm
  */
 
+typedef unsigned short u16;
 typedef unsigned char u8;
 typedef unsigned int u32;
 
 extern u8 *func_0203D788(void);
 extern int func_020366A8(u8 *p);
-extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, unsigned int d);
-extern u32 func_020399A8(void);
+extern int func_0203D3A8(void *a, u16 b, u16 c, unsigned int d);
+extern void *func_020399A8(void);
 extern u32 func_0203D6BC(void);
 extern u32 func_02037D98(u32 a);
 extern void func_020381D8(u32 a, u32 b);

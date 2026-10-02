@@ -35,7 +35,7 @@ typedef unsigned int u32;
 extern void func_02030EAC(void *);
 extern void func_02043534(u32);
 extern void func_020435F4(u32);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049238(void *);
 extern void *func_0201EC64(u32);
 extern void *func_02045B38(u32, u32, u32, u32);
@@ -58,7 +58,7 @@ void func_021BDE94(char *p)
     func_020435F4(0);
     *(volatile u32 *)0x04000000 &= 0xffffe0ff;
     *(volatile u32 *)0x04001000 &= 0xffffe0ff;
-    h = func_020490F4((void *)0x21, 0x21);
+    h = func_020490F4(0x21, 0x21);
     *(void **)(p + 0xdc) = func_0201EC64(0x21);
     *(void **)(p + 0xe0) = func_02045B38(0, 2, 0xd1, 0x21);
     *(void **)(p + 0xe4) = func_02045B38(0, 2, 0xe8, 0x21);

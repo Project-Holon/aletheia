@@ -20,7 +20,7 @@
 
 extern void *func_020124E4(void *task);
 extern void *func_0201210C(void *p);
-extern int *func_021897BC(int, int);
+extern int *func_021897BC(char *, int);
 
 int func_021F38D0(void *task)
 {

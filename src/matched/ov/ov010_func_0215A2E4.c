@@ -23,7 +23,7 @@
 extern void *func_02030734(int, int, int, void *, int);
 extern int func_020120F4(int);
 extern void *func_02012934(void *p);
-extern int func_0201AA18(int);
+extern int func_0201AA18(void *);
 extern int func_020122C0(int, int, void (*)(void), int);
 extern int *func_020124E8(int);
 extern void func_0215A370(void);
@@ -37,7 +37,7 @@ int func_0215A2E4(int a, int b, int c, int d, int e, int f, unsigned short g)
     int r;
     int *q;
 
-    *(int *)p = t12;
+    *(int *)p = (int)t12;
     p[0xc] = 1;
     p[0xe] = func_0201AA18(t12);
     p[0xf] = c;

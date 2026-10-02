@@ -17,11 +17,11 @@
 typedef unsigned int u32;
 
 void *func_021A3960(unsigned char *p);
-int func_0216D5F8(u32 h);
+int func_0216D5F8(void *h);
 
 int func_021A448C(u32 *p, int a)
 {
-    int r = func_0216D5F8(func_021A3960(p[3]));
+    int r = func_0216D5F8(func_021A3960((unsigned char *)p[3]));
 
     if (a == 9)
         return 0;

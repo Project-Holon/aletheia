@@ -26,10 +26,10 @@
  */
 
 extern void *func_02188CB4(void *x);
-extern int func_021A3098(int a);
+extern int func_021A3098(void *a);
 extern void *func_02188C98(void *x);
 extern int func_021A2FA4(int a, int b);
-extern void func_021A3364(int a, int b, int *c);
+extern void func_021A3364(void *a, int b, int *c);
 extern int func_021AB0D4(void *a, int *b);
 extern int func_021AB0F8(int a);
 extern int func_021AB0F0(int a);
@@ -45,15 +45,16 @@ int func_0218B408(char *p, void *a, void *x)
     int t;
     int flag;
     int t2;
-    void *v;
+    void *id;
+    int v;
     int buf[3];
 
-    v = func_02188CB4(x);
-    if (func_021A3098(v) == 2) {
+    id = func_02188CB4(x);
+    if (func_021A3098(id) == 2) {
         cam = func_02188C98(x);
         r7 = func_021A2FA4(*(int *)(p + 0x18), *(int *)(p + 0x2C));
         if (r7 != 9) {
-            func_021A3364(v, r7, buf);
+            func_021A3364(id, r7, buf);
             t = func_021AB0D4(cam, buf);
             v = func_021AB0F8(t);
             t2 = func_021AB0F0(t);

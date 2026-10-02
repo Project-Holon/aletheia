@@ -20,31 +20,39 @@
  * Addresses are Black-image addresses.
  */
 
+typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_020120F4(void);
+typedef struct W {
+    void *a;
+    void *b;
+    void **c;
+    u16 *d;
+} W;
+
+extern void *func_020120F4(void *p);
 extern void *func_0201210C(void *p);
-extern u32 func_020122C0(u32 a, u32 b, void *cb, u32 size);
-extern u32 *func_020124E8(u32 task);
-extern u32 *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_020122C0(void *a, u32 b, void *cb, u32 size);
+extern W *func_020124E8(void *task);
+extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
 extern void func_021D310C(void);
 extern char d_021DE698[];
 
-u32 func_021D30B8(u32 a, u32 b)
+void *func_021D30B8(void *a, u16 *b)
 {
-    u32 r7;
+    void *r7;
     void *s4;
-    u32 s8;
-    u32 *w;
+    void *s8;
+    W *w;
 
-    r7 = func_020120F4();
-    s4 = func_0201210C((void *)a);
+    r7 = func_020120F4(a);
+    s4 = func_0201210C(a);
     s8 = func_020122C0(a, 0, func_021D310C, 0x10);
     w = func_020124E8(s8);
-    w[0] = a;
-    w[1] = s4;
-    w[3] = b;
-    w[2] = (u32)func_02030734(4, 8, 0, d_021DE698, 0x4a);
-    *(u32 *)w[2] = r7;
+    w->a = a;
+    w->b = s4;
+    w->d = b;
+    w->c = func_02030734(4, 8, 0, d_021DE698, 0x4a);
+    *w->c = r7;
     return s8;
 }

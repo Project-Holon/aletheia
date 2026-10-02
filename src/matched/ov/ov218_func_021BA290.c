@@ -15,7 +15,9 @@
  *   func_0204AF28 0x0204AF28 arm
  *   func_02049238 0x02049238 arm
  */
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+typedef unsigned short u16;
+
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_0204A6C8(unsigned, unsigned, unsigned, unsigned, unsigned short);
 extern int func_0204ABF0(unsigned, unsigned, unsigned, unsigned, unsigned short);
 extern int func_0204AF28(unsigned, unsigned, unsigned, unsigned);
@@ -27,7 +29,7 @@ void func_021BA290(char *ctx)
     *(int *)(ctx + 0x2d0) = -1;
     *(int *)(ctx + 0x2d4) = -1;
     *(int *)(ctx + 0x2d8) = -1;
-    archive = func_020490F4((void *)193, heap);
+    archive = func_020490F4(193, heap);
     *(int *)(ctx + 0x2d0) = func_0204A6C8((unsigned)archive, 10, 0, 2, heap);
     *(int *)(ctx + 0x2d4) = func_0204ABF0((unsigned)archive, 11, 2, 96, heap);
     *(int *)(ctx + 0x2d8) = func_0204AF28((unsigned)archive, 9, 8, heap);

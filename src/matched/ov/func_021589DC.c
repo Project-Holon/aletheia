@@ -25,16 +25,15 @@ extern void *func_020124E8(struct Obj *p);
 int func_021589DC(int a0)
 {
     void *p;
-    void *v0;
 
-    v0 = func_02158F50((void *)a0);
+    p = func_02158F50((void *)a0);
 loc_021589E2:
-    if (v0 != 0) goto loc_021589EA;
+    if (p != 0) goto loc_021589EA;
 loc_021589E6:
 a0 = 0;
     return a0;
 loc_021589EA:
-    p = func_020124E8((struct Obj *)a0);
+    p = func_020124E8((struct Obj *)p);
 loc_021589EE:
 a0 = *(int *)((char *)p + 4);
     return a0;}

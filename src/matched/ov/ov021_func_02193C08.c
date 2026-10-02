@@ -38,7 +38,7 @@ void func_02193C08(char *p, int heap)
         for (i = 0; i < 10; i++) {
             func_02193F6C((char *)*(int *)(p + 4) + i * 0x50);
         }
-        *(int *)(p + 0x10) = func_020490F4(0x9a, heap);
+        *(void **)(p + 0x10) = func_020490F4(0x9a, heap);
         *(void **)(p + 0x14) = func_02030734(heap, 0x600, 1, &d_021DDA60, 0x3ab);
         *(int *)(p + 0x118) = func_02186830(*(int *)(p + 0xc), *(u8 *)p, heap);
     }

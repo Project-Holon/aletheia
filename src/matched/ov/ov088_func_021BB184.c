@@ -33,6 +33,7 @@
  *   d_021BD5D4     0x021BD5D4  data  a4
  */
 
+typedef unsigned short u16;
 typedef unsigned int u32;
 
 typedef struct T28 {
@@ -45,19 +46,19 @@ extern char d_021BD5DC[];
 extern char d_021BD5E4[];
 extern char d_021BD5D4[];
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_0204A48C(void *, void *, int);
 extern u32 func_02008550(int);
 extern int func_0204B100(int, int, int);
-extern int func_0204A6C8(int, int, int, int, int);
-extern int func_0204ABF0(int, int, int, int, int);
-extern int func_0204AF28(int, int, int, int);
+extern int func_0204A6C8(void *, int, int, int, int);
+extern int func_0204ABF0(void *, int, int, int, int);
+extern int func_0204AF28(void *, int, int, int);
 extern int func_0204B294(int, int, int, int, void *, int, int);
 extern void func_0204B3DC(void *, int);
 extern void func_0204B92C(int, int);
 extern void func_020434DC(int, int);
 extern void func_02043598(int, int);
-extern void func_02049238(int);
+extern void func_02049238(void *);
 
 void func_021BB184(int *p)
 {

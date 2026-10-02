@@ -27,7 +27,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct {u8 low:7;u8 flip:1;} Flags;
 struct Sub0204A9D0;
-extern void *func_020490F4(void *,u16);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern unsigned func_02027610(u8);
 extern void *func_02049E74(unsigned,unsigned,unsigned,unsigned,u16);
 extern void func_0204A9D0(int,struct Sub0204A9D0 *);
@@ -43,7 +43,7 @@ void func_0220E8B4(char *p,int first,int index,int which)
     toggle=((Flags *)(p+0x2175))->flip;
     first+=toggle;
     index+=toggle;
-    owner=func_020490F4((void *)83,(*(u16 *)(*(char **)p+16)&0x7fff)|0x8000);
+    owner=func_020490F4(83,(*(u16 *)(*(char **)p+16)&0x7fff)|0x8000);
     data=func_02049E74((unsigned)owner,func_02027610(which),0,(unsigned)&out,(*(u16 *)(*(char **)p+16)&0x7fff)|0x8000);
     func_0204A9D0(*(int *)(p+index*4+0x24a4),out);
     func_020307B0(data);

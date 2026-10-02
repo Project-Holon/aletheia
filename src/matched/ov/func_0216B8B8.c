@@ -41,7 +41,7 @@ int func_0216B8B8(int a0, u16 *a1)
 
 t5 = a0 + 0;
 t4 = a1 + 0;
-    t6 = func_0200E394(a0);
+    t6 = func_0200E394((void *)a0);
 loc_0216B8C2:
 a0 = t5 + 0;
     p = func_0200C0E8((void *)a0);

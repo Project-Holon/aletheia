@@ -31,7 +31,7 @@ extern void *func_0201210C(void *p);
 extern u32 func_02012ED0(u32);
 extern void *func_0215A5DC();
 extern u32 func_021666A4(u32);
-extern u32 func_02188C80(u32);
+extern u32 func_02188C80(void *);
 
 int func_021C8848(u32 a, u32 b, u32 c, u32 d)
 {

@@ -33,12 +33,12 @@ typedef unsigned short u16;
 
 extern void *func_020124E4(void *p);
 extern void *func_0201210C(void *p);
-extern u32 func_02188D2C(u32 a);
-extern u8 *func_021897BC(u32 a, int b);
-extern u32 func_02188C80(u32 a);
-extern u32 func_020120F4(u32 a);
-extern u32 func_02012EC4(u32 a);
-extern u8 *func_0200B3A4(u32 a, u32 b);
+extern int func_02188D2C(int *a);
+extern u8 *func_021897BC(char *a, int b);
+extern u32 func_02188C80(unsigned char *a);
+extern void *func_020120F4(const void *a);
+extern void *func_02012EC4(void *a);
+extern u8 *func_0200B3A4(void *a, int b);
 extern void func_021BE700(u32 a, int b, u16 c, u8 d, int e);
 extern u8 *func_021BE674(u32 a, int b, u16 c, u16 d);
 extern void func_021BE6B0(u8 *p, int v);
@@ -59,7 +59,7 @@ int func_021F3DE8(void *a, int *st)
     s = func_0201210C(func_020124E4(a));
     t = func_02188D2C(s);
     w = func_021897BC(s, 1) + 0xc;
-    func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(s))), 10);
+    func_0200B3A4(func_02012EC4(func_020120F4((void *)func_02188C80(s))), 10);
     switch (*st) {
     case 0:
         k = w[0];

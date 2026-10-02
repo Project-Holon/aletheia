@@ -18,10 +18,10 @@
 typedef unsigned int u32;
 
 extern void *func_0201210C(void *p);
-extern u32 func_02188C58(u32);
-extern void func_021B52A4(u32, u32);
+extern u32 func_02188C58(void *);
+extern void func_021B52A4(void *, u32);
 
-int func_021B52E0(u32 *p)
+int func_021B52E0(void **p)
 {
     void *w = func_0201210C(p[0]);
 

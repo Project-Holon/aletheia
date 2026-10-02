@@ -56,11 +56,11 @@ typedef struct {
 } Req;
 
 extern void func_02082BCC(void *p, int v, int n);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern int func_0204AC18(int, int, int, int, int, int, u16);
-extern int func_0204A6C8(int, int, int, int, u16);
-extern int func_0204AF28(int, int, int, u16);
-extern void func_02049238(int);
+extern void *func_020490F4(unsigned int id, u16 heap);
+extern int func_0204AC18(void *, int, int, int, int, int, u16);
+extern int func_0204A6C8(void *, int, int, int, u16);
+extern int func_0204AF28(void *, int, int, u16);
+extern void func_02049238(void *);
 extern int func_0204B294(int, int, int, int, Rect *, int, u16);
 extern void func_0204B92C(int, int);
 extern void func_0204B974(int);

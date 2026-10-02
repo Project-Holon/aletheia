@@ -40,22 +40,19 @@ int func_02166980(int a0, int a1)
     int t5;
     int t6;
     int t7;
-    void *ctx;
-    void *v0;
-    void *v1;
-    unsigned short *v2;
+    void *p;
 
 t6 = a1 + 0;
 t5 = a0 + 0;
 a0 = t6 + 0;
-    v0 = func_0215A5F4((void *)a0);
+    func_0215A5F4((void *)a0);
 loc_0216698C:
 a0 = t6 + 0;
-    v1 = func_0215A5DC((void *)a0);
+    p = func_0215A5DC((void *)a0);
 loc_02166992:
-    ctx = func_020120F4((const struct Ctx *)v1);
+    p = func_020120F4((const struct Ctx *)p);
 loc_02166996:
-    a0 = func_02012F38(ctx);
+    a0 = func_02012F38(p);
 loc_0216699A:
 t7 = a0 + 0;
 a0 = t5 + 0;
@@ -65,12 +62,13 @@ a0 = a0 << 0x18;
 t4 = (unsigned)a0 >> 0x18;
 a0 = t5 + 0;
 a1 = t6 + 0;
-    v2 = func_02159AE8((void *)a0, (void *)a1);
+    a0 = (int)func_02159AE8((void *)a0, (void *)a1); /* int-typed on purpose: pointer local changes codegen */
 loc_021669AE:
+t5 = a0 + 0;
 a0 = t7 + 0;
 a1 = t4 + 0;
     a0 = func_02166824(a0, a1);
 loc_021669B8:
-*(u16 *)((char *)v2) = a0;
+*(u16 *)((char *)t5) = a0;
 a0 = 0;
     return a0;}

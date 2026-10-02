@@ -34,9 +34,9 @@ static inline u8 Ctx_ReadByte(Ctx *s)
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *a0);
-extern void func_02158F58(u32 a);
-extern u32 func_02158F74(u32 a);
-extern u32 func_02012944(u32 a);
+extern void func_02158F58(void *a);
+extern u32 func_02158F74(void *a);
+extern u32 func_02012944(void *a);
 extern void func_0201F02C(u32 a, u32 b, u32 c);
 
 int func_021AF75C(Ctx *s, u32 b)

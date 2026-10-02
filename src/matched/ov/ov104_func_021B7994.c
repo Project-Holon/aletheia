@@ -45,7 +45,7 @@ extern void func_0203FC28(struct DispConfig *);
 extern void func_0203FCA0(u8,const struct BgTemplate *,u8);
 extern void func_020414AC(u8);
 extern void func_02040588(u8,u32);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049B68(u32,u32,u32,u32,u32,u16);
 extern void func_02049658(u32,u32,u32,u32,u32,u32,u16);
 extern void func_020498F4(u32,u32,u32,u32,u32,u32,u16);
@@ -64,7 +64,7 @@ void func_021B7994(void *p,u16 heap) {
   func_020414AC(bg);
   func_02040588(bg,1);
  }
- archive=func_020490F4((void *)0x5e,heap);
+ archive=func_020490F4(0x5e,heap);
  func_02049B68((u32)archive,1,0,0,0,heap);
  func_02049B68((u32)archive,1,4,0,0,heap);
  func_02049658((u32)archive,0x24,1,0,0,0,heap);

@@ -42,15 +42,15 @@ typedef struct {
 
 extern W *func_02030734(u16 heap, int size, int clear, char *file, int line);
 extern char d_0220AEE0[];
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_0204B100(int a, int b, u16 heap);
-extern int func_0204A6C8(u32 a, int b, int c, int d, u16 e);
-extern int func_0204AF28(u32 a, int b, int c, u16 d);
-extern int func_0204ABF0(u32 a, int b, int c, int d, u16 e);
+extern int func_0204A6C8(void * a, int b, int c, int d, u16 e);
+extern int func_0204AF28(void * a, int b, int c, u16 d);
+extern int func_0204ABF0(void * a, int b, int c, int d, u16 e);
 extern void *func_021F86E0(void);
 extern u32 func_0204AEF4(int h, int k);
 extern void func_020216D4(void *slots, u32 bank, u32 off, u32 size);
-extern void func_02049238(u32 h);
+extern void func_02049238(void * h);
 
 W *func_02209224(u16 heap)
 {
@@ -60,7 +60,7 @@ W *func_02209224(u16 heap)
 
     w = func_02030734(heap, 0x78, 1, d_0220AEE0, 0x81);
     w->heap = heap;
-    a = func_020490F4(0xb, (u16)((w->heap & 0x7fff) | 0x8000));
+    a = func_020490F4(0xb, (w->heap & 0x7fff) | 0x8000);
     w->h0 = func_0204B100(6, 0, w->heap);
     w->h4 = func_0204B100(6, 0, w->heap);
     w->h40 = func_0204A6C8(a, 0x7a, 0, 0, w->heap);

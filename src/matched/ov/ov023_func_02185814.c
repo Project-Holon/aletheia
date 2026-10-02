@@ -17,8 +17,10 @@
  *   func_02186444  0x02186444  thumb  ov023
  */
 
-extern int  func_0203996C(int a);
-extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, unsigned int d);
+typedef unsigned short u16;
+
+extern void *func_0203996C(int a);
+extern int func_0203D3A8(void *a, u16 b, u16 c, unsigned int d);
 extern void func_02185354(char *p);
 extern void func_021857F4(char *p, int a, int b);
 extern void func_02186444(char *p, int v);

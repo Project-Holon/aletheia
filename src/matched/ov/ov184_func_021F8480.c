@@ -55,7 +55,7 @@ int func_021F8480(void *obj,int b,char *q)
     *(char **)(p+0x30)=q;
     *(u32 *)(p+0x20)=func_0201C440((void *)(unsigned int)*(u16 *)(p+0x24));
     v=func_021FC4DC(*(void **)(q+8));
-    *(void **)(p+0x1c)=func_02025538(*(u16 *)(p+0x24),(u32)v);
+    *(void **)(p+0x1c)=func_02025538(*(u16 *)(p+0x24),v);
     for (i=0;i<2;i++) *(void **)(p+i*4+0x14)=func_021FD760(v,*(int *)(q+0xc),i,*(u16 *)(p+0x24));
     *(int *)(p+0x28)=func_0200A640(func_0200A5F8(func_02012EBC(*(int *)(q+0x18))));
     func_021F88A4(p,q);

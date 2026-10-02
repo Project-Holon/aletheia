@@ -30,10 +30,10 @@ void *func_02030734(int a, int b, int c, void *d, int e);
 int func_02188C84(int obj);
 void *func_02188CB4(unsigned char *p);
 void *func_021A3074(unsigned char *p);
-void func_0216D5E0(int a, int b);
-void func_021A35E0(int a, int b);
-int func_0216D888(int a);
-void func_02188D40(int a, int b);
+void func_0216D5E0(void *a, int b);
+void func_021A35E0(void *a, int b);
+void *func_0216D888(void *a);
+void func_02188D40(int a, void *b);
 void func_02188CAC(int a, void *b);
 
 void func_021A2D88(int obj, int unused, int y)

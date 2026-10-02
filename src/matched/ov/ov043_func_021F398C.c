@@ -33,8 +33,8 @@ typedef struct {
 extern E d_021F4490[];
 
 extern void *func_0201210C(void *a);
-extern u32 func_02188C80(u32 a);
-extern int *func_021897BC(u32 a, int b);
+extern u32 func_02188C80(void *a);
+extern int *func_021897BC(void *a, int b);
 extern u32 func_020120F4(u32 a);
 extern u32 func_02012EC4(u32 a);
 extern int *func_0200B3A4(u32 a, u32 b);

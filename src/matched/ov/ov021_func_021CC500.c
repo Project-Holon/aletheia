@@ -22,30 +22,30 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 typedef struct Task {
-    u32 f0;
-    u32 f4;
-    u32 f8;
+    void *f0;
+    void *f4;
+    void *f8;
     u8 fC;
     u8 fD;
     u8 padE[0x58 - 0xE];
     u32 f58;
 } Task;
 
-extern u32 func_020120F4(void);
+extern void *func_020120F4(void *p);
 extern void *func_02012934(void *p);
-extern u32 func_020122C0(u32 a, u32 b, void *c, u32 d);
-extern Task *func_020124E8(u32 h);
+extern void *func_020122C0(void *a, u32 b, void *c, u32 d);
+extern Task *func_020124E8(void *h);
 extern int func_021CC390(u32 a, u32 b, u32 c);
 
-u32 func_021CC500(u32 a, u32 b, u32 c)
+void *func_021CC500(void *a, u32 b, u32 c)
 {
-    u32 t;
+    void *t;
     void *x;
-    u32 h;
+    void *h;
     Task *p;
 
-    t = func_020120F4();
-    x = func_02012934((void *)t);
+    t = func_020120F4(a);
+    x = func_02012934(t);
     h = func_020122C0(a, 0, (void *)func_021CC390, 0x5c);
     p = func_020124E8(h);
     p->f0 = a;

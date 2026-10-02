@@ -17,11 +17,11 @@
  *   func_020409B4 0x020409B4 arm
  */
 typedef unsigned short u16;
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void func_02049B68(unsigned,unsigned,unsigned,unsigned,unsigned,u16);
-extern void func_02049658(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
-extern void func_020498F4(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
-extern void func_02049238(unsigned);
+extern void *func_020490F4(unsigned int id, u16 heap);
+extern void func_02049B68(void *,unsigned,unsigned,unsigned,unsigned,u16);
+extern void func_02049658(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
+extern void func_020498F4(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
+extern void func_02049238(void *);
 extern void func_020409B4(unsigned);
 void func_021B9900(char*p)
 {

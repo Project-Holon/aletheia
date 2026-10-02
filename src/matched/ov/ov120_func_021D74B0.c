@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Table { u32 a[16]; } Table;
 extern const Table d_021D8AB0;
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049990(void *,u32,u32,u32,u16,u32,u32,u16);
 extern void func_02049238(void *);
 extern void func_0204B92C(void *,u32);
@@ -32,7 +32,7 @@ extern void func_02041B6C(u32);
 void func_021D74B0(u8 *p,int n)
 {
     Table a=d_021D8AB0;
-    void *t=func_020490F4((void *)144,*(u16 *)(p+0xf4));
+    void *t=func_020490F4(144,*(u16 *)(p+0xf4));
     func_02049990(t,15,0,0,*(u32 *)(p+4),0,0,*(u16 *)(p+0xf4));
     func_02049238(t);
     func_0204B92C(*(void **)(p+0x130),0);

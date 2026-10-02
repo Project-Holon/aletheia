@@ -29,7 +29,7 @@ extern int func_02188C98(int);
 extern int func_02188C9C(int);
 extern void *func_02188CB4(unsigned char *p);
 extern int func_02013D5C(int);
-extern void func_021A3038(int, Vec *);
+extern void func_021A3038(void *, Vec *);
 extern int func_0217B94C(Vec *);
 extern int func_02159B48(int);
 extern void func_02159B94(int, int, int, int);

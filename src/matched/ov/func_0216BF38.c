@@ -39,15 +39,13 @@ int func_0216BF38(int a0, int a1)
     int t6;
     void *t7;
     void *p;
-    void *v0;
-    unsigned short *v1;
 
 t6 = a1 + 0;
 t5 = a0 + 0;
 a0 = t6 + 0;
-    v0 = func_0215A5E4((void *)a0);
+    p = func_0215A5E4((void *)a0);
 loc_0216BF44:
-    p = func_02012EBC((struct Big *)v0);
+    p = func_02012EBC((struct Big *)p);
 loc_0216BF48:
     t7 = func_0200D418(p);
 loc_0216BF4C:
@@ -59,11 +57,12 @@ a0 = a0 << 0x18;
 t4 = (unsigned)a0 >> 0x18;
 a0 = t5 + 0;
 a1 = t6 + 0;
-    v1 = func_02159AE8((void *)a0, (void *)a1);
+    a0 = (int)func_02159AE8((void *)a0, (void *)a1); /* int-typed on purpose: pointer local changes codegen */
 loc_0216BF62:
+t5 = a0 + 0;
 a1 = t4 + 0;
     a0 = func_0200D468(t7, a1);
 loc_0216BF6C:
-*(u16 *)((char *)v1) = a0;
+*(u16 *)((char *)t5) = a0;
 a0 = 0;
     return a0;}

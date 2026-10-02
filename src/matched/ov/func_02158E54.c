@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_0201210C  0x0201210C  thumb
@@ -24,22 +24,24 @@ extern int func_02082A7C();
 extern int func_02188C54();
 
 int func_02158E54(int a0, int a1, int a2)
-{    int t5;
-    void *v0;
+{
+    void *t4;
+    int t5;
 
 t5 = a0 + 0;
 a0 = a1 + 0;
-    v0 = func_0201210C(a0, a1);
+    t4 = func_0201210C(a0, a1);
 loc_02158E5E:
 a0 = 0;
 a1 = t5 + 0;
 a2 = 8;
     a0 = func_02082A7C(a0, a1, a2);
 loc_02158E6A:
-*(void **)((char *)t5 + 4) = v0;
-    if (v0 == 0) goto loc_02158E78;
+*(void **)((char *)t5 + 4) = t4;
+    if (t4 == 0) goto loc_02158E78;
 loc_02158E70:
-    a0 = func_02188C54(v0);
+a0 = (int)t4 + 0; /* int-typed on purpose: pointer local changes codegen */
+    a0 = func_02188C54(a0);
 loc_02158E76:
 *(int *)((char *)t5) = a0;
 loc_02158E78:

@@ -39,7 +39,7 @@ void func_021E72FC(unsigned char *p, unsigned idx, unsigned owner, unsigned heap
 {
     void *handle;
     Request req;
-    handle = func_020490F4((void *)0x20, heap);
+    handle = func_020490F4(0x20, heap);
     *(unsigned *)(p + 0x1e8) = func_0204AC18(handle, 0, *(unsigned *)(p + 0x234), p[0x233] * 32, d_021E8CBE[idx], 1, heap);
     *(unsigned *)(p + 0x1ec) = func_0204A6C8(handle, idx + 0x31, 0, *(unsigned *)(p + 0x234), heap);
     *(unsigned *)(p + 0x1f0) = func_0204AF28(handle, 0x41, 0x42, heap);

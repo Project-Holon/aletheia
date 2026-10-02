@@ -38,7 +38,7 @@ void *func_021C6078(void *a, void *b, int c)
     w[0] = c;
     *(void **)(w + 4) = a;
     *(void **)(w + 0xC) = b;
-    *(int *)(w + 0x10) = func_02188CB4((void *)b);
+    *(void **)(w + 0x10) = func_02188CB4(b);
     *(void **)(w + 8) = func_020120F4(a);
     return task;
 }

@@ -54,9 +54,9 @@ typedef struct {
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern u32 func_020120F4(u32 a);
-extern u32 func_02012944(u32 a);
-extern u32 func_02158F74(u32 a);
+extern void *func_020120F4(void *a);
+extern u32 func_02012944(void *a);
+extern u32 func_02158F74(void *a);
 extern u32 func_02159B10(u32 a, u32 b);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void func_0201F02C(u32 ws, u32 i, u32 a);
@@ -67,17 +67,18 @@ extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern void func_0201EE60(u32 ws, u32 i, u16 v);
 extern void func_0203F4CC(RtcTime *t);
 extern u32 func_020056EC(u32 v);
-extern u32 func_02012F2C(u32 a);
+extern u32 func_02012F2C(void *a);
 extern const Entry d_021DD774[];
 extern u32 func_02008DFC(u32 p, u32 v);
 extern void func_0201EFA4(u32 ws, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern int func_02008550(u32 a);
-extern int func_021D2CE8(u32 h, int k);
-extern u16 func_021D2D24(u32 h, int k, u32 v);
+extern int func_021D2CE8(void *h, int k);
+extern u16 func_021D2D24(void *h, int k, u32 v);
 
 int func_021D2B54(u32 a, u32 b)
 {
-    u32 h, name, ws, v;
+    void *h;
+    u32 name, ws, v;
     void *o;
     u16 *out;
     void *party;
@@ -97,7 +98,7 @@ int func_021D2B54(u32 a, u32 b)
     v = func_02159B10(a, b);
     out = func_02159AE8((void *)a, (void *)b);
     func_0201F02C(ws, 0, name);
-    party = func_02012934((void *)h);
+    party = func_02012934(h);
     n = func_0201AA18(party);
     for (i = 0; i < n; i++) {
         mon = func_0201AB28(party, i);

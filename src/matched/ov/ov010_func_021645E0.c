@@ -40,7 +40,7 @@ extern int   func_021A34F8(u8 *p);
 int func_021645E0(void *unused, int *st, int *w)
 {
     int r;
-    u8 *h = func_0201210C(w[0]);
+    u8 *h = func_0201210C((void *)w[0]);
     func_02188C7C(h);
     switch (*st) {
     case 0:

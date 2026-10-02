@@ -28,13 +28,13 @@ typedef struct {
     u16 a2a[4];
 } Stats;
 
-extern u32 func_021CA210(u8 *p);
-extern u32 func_0201AB28(u32 h, u8 idx);
+extern void *func_021CA210(u8 *p);
+extern u32 func_0201AB28(void *h, u8 idx);
 extern u16 func_02017E1C(u32 m, int id, int c);
 
 int func_021C9F44(u8 *p)
 {
-    u32 h;
+    void *h;
     u16 i;
     u8 *q;
     u32 m;

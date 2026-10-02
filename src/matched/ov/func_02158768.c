@@ -20,11 +20,12 @@ typedef unsigned int u32;
 struct Desc;
 extern struct Desc *func_02158920(int a, int b, int c, int d, int e);
 
-int func_02158768(int a0, int a1, int a2, int a3)
+struct Desc *func_02158768(int a0, int a1, int a2, int a3)
 {
     int t4;
     int t5;
     int o4;
+    struct Desc *r;
 t5 = a1 + 0;
 t4 = a2 + 0;
 a1 = 0;
@@ -32,7 +33,7 @@ a1 = 0;
 a1 = a3 + 0;
 a2 = t5 + 0;
 a3 = t4 + 0;
-    a0 = func_02158920(a0, a1, a2, a3, o4);
+    r = func_02158920(a0, a1, a2, a3, o4);
 loc_0215877C:
-    return a0;
+    return r;
 }

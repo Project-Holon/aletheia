@@ -18,10 +18,11 @@
  *     form the listing loads straight into r2/r3.
  */
 
+typedef unsigned short u16;
 typedef unsigned long u32;
 
-extern u32  func_020399A8(void);
-extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *p);
+extern void *func_020399A8(void);
+extern int func_0203D3A8(void *a, u16 b, u16 c, void *p);
 
 void func_021DC2C0(u32 ignored, void *p)
 {

@@ -19,10 +19,8 @@
    "status": "EXACT*",
    "evidence": {
     "sole-ref": [
-     "code:0x02162940",
      "code:0x0217B810",
-     "code:0x0217FB5C",
-     "code:0x021AE0CC"
+     "code:0x0217FB5C"
     ]
    }
   }

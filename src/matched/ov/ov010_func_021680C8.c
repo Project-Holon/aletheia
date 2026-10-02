@@ -54,7 +54,7 @@ typedef struct {
 
 extern int func_020120F4(int);
 extern void *func_0201210C(void *p);
-extern int func_02188C54(int);
+extern int func_02188C54(void *);
 extern int func_020122C0(int, int, void *, int);
 extern R *func_020124E8(int);
 extern int func_020457B0(int, int);

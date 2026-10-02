@@ -20,11 +20,11 @@
  */
 
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void func_02049B68(int, int, int, int, int, int);
+extern void func_02049B68(void *, int, int, int, int, int);
 extern void func_02040EBC(int, int);
-extern void func_02049658(int, int, int, int, int, int, int);
-extern void func_020498F4(int, int, int, int, int, int, int);
-extern void func_02049238(int);
+extern void func_02049658(void *, int, int, int, int, int, int);
+extern void func_020498F4(void *, int, int, int, int, int, int);
+extern void func_02049238(void *);
 
 void func_021F0228(int a)
 {

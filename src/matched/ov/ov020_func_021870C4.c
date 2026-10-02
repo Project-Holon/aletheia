@@ -52,16 +52,16 @@ int func_020457B0(int a, int b);
 int func_02045B38(int a, int b, int c, int d);
 int func_0201EC64(int a);
 int func_020127D0(void *a, int b);
-int func_02188C98(void *a);
-int func_0218DC70(int a);
+void *func_02188C98(void *a);
+void *func_0218DC70(void *a);
 void *func_02188CB4(void *a);
 void *func_02188C7C(void *a);
 void func_020127F0(void *a);
-void func_021A3460(int a, s16 *x, s16 *y, s16 *z);
-int func_0216DDC0(int a, int b, int c, int d);
+void func_021A3460(void *a, s16 *x, s16 *y, s16 *z);
+int func_0216DDC0(void *a, int b, int c, int d);
 void func_0216D88C(int a, void *b);
 int func_02186090(void *p);
-int func_0219390C(int a, int b);
+void *func_0219390C(void *a, unsigned int b);
 
 void *func_021870C4(void *a0, void *a1)
 {
@@ -73,11 +73,11 @@ void *func_021870C4(void *a0, void *a1)
     void *b;
     s16 v[3];
     char *o;
-    int a;
+    void *a;
     void *c;
     int d;
     int e;
-    int x;
+    void *x;
 
     n = func_02188C84(a1);
     c54 = func_02188C54(a1);
@@ -109,8 +109,8 @@ void *func_021870C4(void *a0, void *a1)
     func_0216D88C(d, o + 0x34);
     e = func_02186090((void *)d);
     x = func_0219390C(a, e);
-    *(int *)(o + 0x28) = a;
-    *(int *)(o + 0x2c) = x;
+    *(void **)(o + 0x28) = a;
+    *(void **)(o + 0x2c) = x;
     *(int *)(o + 0x30) = d;
     *(u16 *)(o + 0x4c) = e;
     return ret;

@@ -33,13 +33,22 @@ struct S6844 {
 extern struct S6844 d_020A1448;
 extern char d_021BA7D4;
 
-void func_021B6844(int *p)
+struct W6844 {
+    int w0;
+    u8 *unk_04;
+    int pad_08[3];
+    void *unk_14;
+    int pad_18[5];
+    void *unk_2c;
+};
+
+void func_021B6844(struct W6844 *p)
 {
     struct S6844 s;
     void func_0204A48C(void *, void *, int);
-    int func_0204B100(int, int, int);
-    void func_0204B270(int);
-    int func_02025318(int, int, int);
+    void *func_0204B100(int, int, int);
+    void func_0204B270(void *);
+    u8 *func_02025318(int, int, int);
     void *func_02025538(unsigned int a0, void *a1);
 
     s = d_020A1448;
@@ -50,8 +59,8 @@ void func_021B6844(int *p)
     s.h10 = 0x60;
     s.h14 = 0x40;
     func_0204A48C(&s, &d_021BA7D4, 0x61);
-    p[5] = func_0204B100(0x60, 0, 0x61);
-    func_0204B270(p[5]);
-    p[1] = func_02025318(0x61, 0x10, 0x10);
-    p[11] = func_02025538(0x61, p[5]);
+    p->unk_14 = func_0204B100(0x60, 0, 0x61);
+    func_0204B270(p->unk_14);
+    p->unk_04 = func_02025318(0x61, 0x10, 0x10);
+    p->unk_2c = func_02025538(0x61, p->unk_14);
 }

@@ -18,15 +18,15 @@
 
 extern int *func_02030734(int, int, int, void *, int);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void func_0204932C(int, int, int *);
+extern void func_0204932C(void *, int, int *);
 extern int d_02187EB4;
 
 int *func_021867C4(int a, int id)
 {
     int *p = func_02030734(id, 0x38, 1, &d_02187EB4, 0x448);
 
-    p[0] = func_020490F4(0x9a, id);
-    func_0204932C(p[0], a, p + 2);
+    p[0] = (int)func_020490F4(0x9a, id);
+    func_0204932C((void *)p[0], a, p + 2);
     p[1] = a;
     return p;
 }

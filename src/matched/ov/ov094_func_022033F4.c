@@ -35,7 +35,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct Main {
     unsigned char pad00[0x48];
-    u32 f48;
+    void *f48;
     unsigned char pad4c[0x64 - 0x4c];
     void *pal;
     unsigned char pad68[0x104 - 0x68];
@@ -55,24 +55,24 @@ typedef struct Main {
     unsigned char pad242[0x284 - 0x242];
     unsigned char buf284[0x20];
 } Main;
-extern void func_02049658(u32, u32, u32, u32, u32, u32, u16);
-extern void func_020498F4(u32, u32, u32, u32, u32, u32, u16);
-extern void func_020216B4(void *, u32, u32, u32, u32, u32, u16);
+extern void func_02049658(void *, u32, u32, u32, u32, u32, u16);
+extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
+extern void func_020216B4(void *, void *, u32, u32, u32, u32, u16);
 extern void *func_021F86E0(void);
 extern char *func_02021728(void *, u32);
 extern void func_02082A60(const void *, void *, u32);
-extern int func_0204A6C8(u32, u32, u32, u32, u16);
-extern int func_0204AF28(u32, u32, u32, u32);
-extern int func_0204ABF0(u32, u32, u32, u32, u16);
+extern int func_0204A6C8(void *, u32, u32, u32, u16);
+extern int func_0204AF28(void *, u32, u32, u32);
+extern int func_0204ABF0(void *, u32, u32, u32, u16);
 extern u32 func_0204AEF4(int, int);
 extern void func_020216D4(void *, u32, u32, u32);
 extern u32 func_020275E4(void);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32 func_020275FC(u32);
 extern u32 func_02027600(u32);
 extern u32 func_020275E8(void);
 extern u32 func_020275F8(u32);
-extern void func_02049238(u32);
+extern void func_02049238(void *);
 void func_022033F4(Main *m)
 {
     void *arc;
@@ -91,7 +91,7 @@ void func_022033F4(Main *m)
     func_020216D4(m->pal, 3, (u16)(func_0204AEF4(m->h108, 1) >> 1), 0x100);
     m->h110 = func_0204A6C8(m->f48, 0x77, 0, 1, m->heap);
     m->h114 = func_0204AF28(m->f48, 0x78, 0x79, m->heap);
-    arc = func_020490F4(func_020275E4(), (u16)((m->heap & 0x7fff) | 0x8000));
+    arc = func_020490F4(func_020275E4(), (m->heap & 0x7fff) | 0x8000);
     file = func_020275FC(0);
     m->h1f4 = func_0204AF28(arc, file, func_02027600(0), m->heap);
     m->h1f0 = func_0204ABF0(arc, func_020275E8(), 1, 0x100, m->heap);

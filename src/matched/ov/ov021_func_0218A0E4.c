@@ -91,11 +91,11 @@ extern int func_0217394C(void *sys);
 extern int func_0218B4B0(struct FieldInput *p, u8 *pos);
 extern u32 func_0216D5B8(int p);
 extern int func_02158D90(u16 v);
-extern void *func_021A3074(unsigned char *p);
+extern void *func_021A3074(u32 p);
 extern u32 func_0216D588(int p);
 extern int func_0217AF38(u32 v);
 extern void func_021A2F6C(u32 obj);
-extern int func_0219F01C(void *sys, u8 *pos, u32 a, u32 m, int ev, u16 id);
+extern int func_0219F01C(void *sys, u8 *pos, u32 a, void *m, int ev, u16 id);
 extern int func_0201212C(void *sys);
 extern int func_0215FCE0(void *sys, u8 *pos, u16 id);
 

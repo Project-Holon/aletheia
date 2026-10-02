@@ -22,9 +22,9 @@
  *   func_02043598 0x02043598 arm
  */
 
-extern int func_020120F4(int);
+extern void *func_020120F4(int);
 extern void *func_02012934(void *p);
-extern unsigned int func_0201AA18(int);
+extern unsigned int func_0201AA18(void *);
 extern void func_0204B3B4(int);
 extern void func_0204A8D4(int);
 extern void func_0204ADA4(int);

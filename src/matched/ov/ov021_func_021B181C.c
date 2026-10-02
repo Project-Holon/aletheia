@@ -25,12 +25,12 @@
 typedef signed short s16;
 
 void *func_0215A5F4(void *p);
-int *func_02158F58(int a);
+int *func_02158F58(void *a);
 int func_02159B10(int a, int b);
 int func_02188C9C(int a);
 int func_0215A5EC(int b);
 void *func_0215A5E4(void *a0);
-int func_0201296C(int a);
+int func_0201296C(void *a);
 int func_0216E3D0(int a, int b);
 int func_0216CE6C(int a, s16 b, s16 c, int d, int e, int f, int g, int h);
 void func_0216DAF8(int a);

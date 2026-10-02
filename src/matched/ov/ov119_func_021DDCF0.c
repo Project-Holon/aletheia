@@ -23,9 +23,9 @@ extern int func_021D94D4(void *);
 extern int func_021D95D0(void *);
 extern int func_021D95F0(void *);
 extern int func_021D9610(void *);
-extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *d);
-extern unsigned func_020399A8(void);
-extern void func_021DD080(unsigned,int,void *);
+extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
+extern void *func_020399A8(void);
+extern void func_021DD080(void *,int,void *);
 extern void func_021D8E84(void *,int);
 extern void func_021DDBF0(void *);
 void func_021DDCF0(unsigned char *p)

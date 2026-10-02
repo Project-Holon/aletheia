@@ -49,7 +49,7 @@ extern unsigned int func_021F36EC(int a);
 extern int *func_021F36E0(int a);
 extern void func_021F3B44(int *a, int *out, int x, int y);
 extern void *func_02188C7C(unsigned char *p);
-extern int func_0216DD1C(int it, int *cur, int *v);
+extern int func_0216DD1C(void *it, int *cur, int *v);
 extern int func_0216D588(int a);
 extern void func_021F3B88(int *a, int *out, int c);
 extern unsigned int func_021F3724(int a);

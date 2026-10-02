@@ -18,7 +18,7 @@
  */
 typedef unsigned short u16;
 struct Context {void *owner;u16 heap,pad6;char gap8[0x54];int slots[6];};
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_0204A6C8(unsigned,unsigned,unsigned,unsigned,u16);
 extern int func_0204AC18(unsigned,unsigned,unsigned,unsigned,u16,u16,u16);
 extern int func_0204AF28(unsigned,unsigned,unsigned,unsigned);
@@ -26,7 +26,7 @@ extern void func_02049238(void *);
 void func_021BA978(struct Context *p)
 {
     u16 heap=p->heap;
-    void *arc=func_020490F4((void *)192,heap);
+    void *arc=func_020490F4(192,heap);
     int a=func_0204A6C8((unsigned)arc,15,0,0,heap);
     int b=func_0204AC18((unsigned)arc,16,0,192,0,4,heap);
     int c=func_0204AF28((unsigned)arc,14,17,heap);

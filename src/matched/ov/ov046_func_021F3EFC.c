@@ -29,18 +29,18 @@
 
 typedef unsigned int u32;
 typedef unsigned char u8;
-extern void *func_020124E4(u32);
+extern void *func_020124E4(void *);
 extern void *func_0201210C(void *p);
-extern u32 func_02188D2C(u32);
-extern int *func_021897BC(u32, int);
-extern u32 func_02188C80(u32);
-extern u32 func_020120F4(u32);
-extern u32 func_02012EC4(u32);
-extern int func_0200B3A4(u32, u32);
+extern int func_02188D2C(int *);
+extern int *func_021897BC(char *, int);
+extern u32 func_02188C80(unsigned char *);
+extern void *func_020120F4(const void *);
+extern void *func_02012EC4(void *);
+extern int *func_0200B3A4(void *, int);
 extern void func_020061E4(int);
 extern void *func_02188CB4(unsigned char *p);
-extern void func_021A3038(u32, int *);
-extern void func_021A3044(u32, int *);
+extern void func_021A3038(void *, int *);
+extern void func_021A3044(void *, int *);
 extern int d_021F4130[];
 
 int func_021F3EFC(u32 a, int *b)
@@ -51,10 +51,10 @@ int func_021F3EFC(u32 a, int *b)
     void *c;
     int v[3];
 
-    x = func_0201210C(func_020124E4(a));
+    x = func_0201210C(func_020124E4((void *)a));
     func_02188D2C(x);
     w = func_021897BC(x, 1) + 3;
-    func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(x))), 10);
+    func_0200B3A4(func_02012EC4(func_020120F4((void *)func_02188C80(x))), 10);
     switch (*b) {
     case 0:
         func_020061E4(0x55e);

@@ -34,7 +34,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049BDC(u32, u32, u32, u32, u32, u32, u16);
 extern void func_02049B68(void *, u32, u32, u32, u32, u32);
 extern void func_02049658(u32, u32, u32, u32, u32, u32, u16);
@@ -62,7 +62,7 @@ extern void func_02082A60(void *, void *, unsigned long);
 void func_021BCEAC(u8 *p)
 {
     void *h, *h2;
-    h = func_020490F4((void *)0x4c, H);
+    h = func_020490F4(0x4c, H);
     func_02049BDC((u32)h, 1, 4, 0x20, 0x20, 0x20, H);
     func_02049B68(h, 0, 4, 0x1a0, 0x20, H);
     func_02049658((u32)h, 9, 6, 0, 0, 0, H);
@@ -73,7 +73,7 @@ void func_021BCEAC(u8 *p)
         }
     }
     func_02049238(h);
-    h2 = func_020490F4((void *)func_020275E4(), H);
+    h2 = func_020490F4(func_020275E4(), H);
     W(0x184) = func_0204ABF0((u32)h, func_02027694(), 1, 0x60, H);
     W(0x1a8) = func_0204A6C8((u32)h, func_02027698(), 0, 1, H);
     W(0x1c4) = func_0204AF28((u32)h, func_0202769C(2), func_020276A0(2), H);
@@ -85,7 +85,7 @@ void func_021BCEAC(u8 *p)
         func_02041B6C(5);
     }
     func_02049238(h2);
-    h = func_020490F4((void *)7, H);
+    h = func_020490F4(7, H);
     W(0x194) = func_0204ACEC((u32)h, func_0201BC3C(), 1, 0xc0, H);
     func_02049238(h);
     func_02082A60((void *)0x05000440, p + 0x20e, 0x20);

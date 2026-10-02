@@ -20,14 +20,14 @@ typedef unsigned short u16;
 typedef struct {
     int f0;
     int pad[4];
-    int f14;
+    unsigned char *f14;
 } S;
 
 extern int func_02197E7C(int a, int b);
-extern void func_0216D410(int p, int a);
-extern void func_021A3964(int a, int b);
+extern void func_0216D410(void *p, int a);
+extern void func_021A3964(unsigned char *a, int b);
 
-void func_021A5F74(S *a, int b, int c, int d, u16 e)
+void func_021A5F74(S *a, void *b, int c, int d, u16 e)
 {
     func_0216D410(b, func_02197E7C(e, 0x38));
     a->f0 = 1;

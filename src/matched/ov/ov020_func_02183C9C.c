@@ -61,8 +61,8 @@ extern void *func_020298A0(u32 a, int b, int c, int d);
 extern void  func_02012374(void *obj, void *out);
 extern void *func_020145FC(u32 a);
 extern void *func_0201210C(void *p);
-extern void *func_021BE92C(u32 a0, u32 a1, int a2, int a3, int a4, int a5, int a6);
-extern u32   func_02188D20(u32 p);
+extern void *func_021BE92C(u32 a0, void *a1, int a2, int a3, int a4, int a5, int a6);
+extern u32   func_02188D20(void *p);
 extern void  func_021BC578(u32 a, int b);
 
 int func_02183C9C(void *obj, int *state, Arg *arg)

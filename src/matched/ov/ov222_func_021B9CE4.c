@@ -24,10 +24,10 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern const u32 d_021BA1D8[];
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern int func_0204AC18(u32,u32,u32,u32,u16,u16,u16);
-extern int func_0204A6C8(u32,u32,u32,u32,u16);
-extern int func_0204AF28(u32,u32,u32,u16);
+extern void *func_020490F4(unsigned int id, u16 heap);
+extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16);
+extern int func_0204A6C8(void *,u32,u32,u32,u16);
+extern int func_0204AF28(void *,u32,u32,u16);
 extern void func_02049238(void*);
 extern u32 func_021BA028(void*);
 extern void* func_0204B294(u32,u32,u32,u32,const void*,u16,u16);
@@ -37,7 +37,7 @@ void func_021B9CE4(char*p)
 {
  u32 t;
  void *h;
- h=func_020490F4((void*)0xca,*(u16*)p);
+ h=func_020490F4(0xca,*(u16*)p);
  *(int*)(p+0x4c)=func_0204AC18(h,0,0,0,0,2,*(u16*)p);
  *(int*)(p+0x48)=func_0204A6C8(h,3,0,0,*(u16*)p);
  *(int*)(p+0x50)=func_0204AF28(h,8,9,*(u16*)p);

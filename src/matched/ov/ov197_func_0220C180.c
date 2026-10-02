@@ -20,13 +20,13 @@
  */
 typedef unsigned short u16;
 extern unsigned func_02020F08(void);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern unsigned func_02020E60(unsigned,unsigned);
-extern void *func_02049E74(unsigned,unsigned,unsigned,void **,u16);
+extern void *func_02049E74(void *,unsigned,unsigned,void **,u16);
 extern void func_0204A9D0(int,void *);
 extern void func_020307B0(void *);
 extern void func_020216B4(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
-extern void func_02049238(unsigned);
+extern void func_02049238(void *);
 void func_0220C180(char *p,u16 item,unsigned slot,unsigned offset)
 {
     char *q=*(char **)p;
@@ -38,6 +38,6 @@ void func_0220C180(char *p,u16 item,unsigned slot,unsigned offset)
     buffer=func_02049E74(arc,func_02020E60(item,first),0,&data,*(u16 *)(*(char **)p+0xc));
     func_0204A9D0(*(int *)(p+slot*4+0x544),data);
     func_020307B0(buffer);
-    func_020216B4(*(void **)(p+8),arc,func_02020E60(item,second),*(u16 *)(*(char **)p+0xc),3,32,offset*16);
+    func_020216B4(*(void **)(p+8),(unsigned)arc,func_02020E60(item,second),*(u16 *)(*(char **)p+0xc),3,32,offset*16);
     func_02049238(arc);
 }

@@ -22,9 +22,8 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 
-int func_021A6B9C(u32 a, u32 b, u32 c)
+void func_021A6B9C(u8 *a)
 {
-*(u8 *)((u8 *)(a)) = (1 | (*(u8 *)((u8 *)(a)) & ~1));
-return a;
+    *a = (1 | (*a & ~1));
 }
 

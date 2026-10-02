@@ -24,15 +24,15 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void *func_0215A5F4(void *p);
-extern u32 *func_02158F58(u32);
-extern void *func_02188CB4(unsigned char *p);
+extern u32 *func_02158F58(void *);
+extern void *func_02188CB4(u32 p);
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_0215A5F4(void *p);
-extern u32 *func_02158F58(u32);
-extern void *func_02188CB4(unsigned char *p);
+extern u32 *func_02158F58(void *);
+extern void *func_02188CB4(u32 p);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern u32 func_021A3098(u32);
+extern u32 func_021A3098(void *);
 
 int func_021B1F60(u32 a, u32 b)
 {

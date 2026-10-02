@@ -28,10 +28,10 @@ typedef struct {
 
 extern int func_02159B10(int, int);
 extern void *func_0215A5E4(void *a0);
-extern int func_02012F08(int);
+extern int func_02012F08(void *);
 extern void func_0200C248(int, int);
 extern void func_0203F4E4(V4 *);
-extern int func_02012F5C(int);
+extern int func_02012F5C(void *);
 extern void func_02008A7C(int, int, int, int, int);
 
 int func_0215AC68(int a, int b)

@@ -36,11 +36,11 @@ struct Ent { u32 k; u32 v; };
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *a0);
-extern u32 *func_02158F58(u32 p);
+extern u32 *func_02158F58(void *p);
 extern u32 func_02188C84(u32 p);
 extern u32 func_02159B10(u32 a, u32 b);
-extern u32 func_020127A4(u32 p);
-extern u32 func_02012F08(u32 p);
+extern u32 func_020127A4(void *p);
+extern u32 func_02012F08(void *p);
 extern void func_0200C278(u32 a, u32 b);
 extern struct Ent *func_0204A298(u32, u32, u32, u32, u32 *);
 extern void func_020307B0(void *p);

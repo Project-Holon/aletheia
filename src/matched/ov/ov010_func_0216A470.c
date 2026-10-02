@@ -33,8 +33,8 @@ extern void *func_02012F50(void *base);
 extern int func_02159B10();
 extern u16 *func_02159AE8(void *a0, void *a1);
 struct Desc;
-extern struct Desc *func_02168BF0(int a, int b, int c, int d, unsigned short *e);
-extern int func_0215897C();
+extern struct Desc *func_02168BF0(void *a, int b, int c, int d, unsigned short *e);
+extern void func_0215897C(void *a, void *b);
 
 int func_0216A470(int a0, int a1)
 {

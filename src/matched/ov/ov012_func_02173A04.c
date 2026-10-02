@@ -17,8 +17,10 @@
  * push {r0-r3} home area; ov019 calls it at 0x02173A04.
  */
 
-int func_020399A8(void);
-int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *d);
+typedef unsigned short u16;
+
+void *func_020399A8(void);
+int func_0203D3A8(void *a, u16 b, u16 c, void *d);
 
 int func_02173A04(int a, int b, int c, int d)
 {

@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned char u8;
 struct Out { char pad[20]; void *f14; };
 struct Obj;
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern unsigned func_0201BABC(unsigned,unsigned,u16,unsigned);
 extern void *func_02049E74(unsigned,unsigned,unsigned,unsigned,u16);
 extern u16 func_0204B7F0(u8 *);
@@ -39,7 +39,7 @@ void func_021BE1B8(char *p,int index,unsigned species,unsigned form,u16 half,int
     struct Out *out;
     struct Obj **slot;
     unsigned saved;
-    owner=func_020490F4((void *)7,0x806b);
+    owner=func_020490F4(7,0x806b);
     saved=half;
     data=func_02049E74((unsigned)owner,func_0201BABC(species,form,saved,0),0,(unsigned)&out,0x806b);
     if (mode==1) {

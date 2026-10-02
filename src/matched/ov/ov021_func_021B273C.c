@@ -21,8 +21,8 @@
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern int func_02011330(int a);
-extern int func_021F3A88(int a, int b, int c);
-extern void func_0215897C(int a, int b);
+extern int func_021F3A88(void *a, int b, int c);
+extern void func_0215897C(void *a, int b);
 
 int func_021B273C(int a, int b)
 {

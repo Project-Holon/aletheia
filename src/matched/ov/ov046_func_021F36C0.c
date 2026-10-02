@@ -60,7 +60,7 @@ extern void func_021F3838(u32 a0, int a1, V *a2, u16 *a3, int a4, int a5);
 extern void func_021F38D4(u8 *base, u32 t, int idx);
 extern void func_021BE700(u32 a, int b, u16 c, u16 d, int e);
 extern void *func_02188CB4(void *a);
-extern void func_021A3038(u32 c, int *v);
+extern void func_021A3038(void *a, int *v);
 extern int func_021F40D8(int *p);
 extern void func_021F3FA8(u32 a, void *b, u32 c);
 extern void func_021F4078(void *a, int b, int c);

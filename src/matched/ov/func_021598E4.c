@@ -32,9 +32,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_021B1BB8(int, int);
+extern int func_021B1BB8(int a, void *b);
 
-int func_021598E4(int a0, int a1)
+int func_021598E4(int a0, void *a1)
 {
     return func_021B1BB8(a0, a1);
 }

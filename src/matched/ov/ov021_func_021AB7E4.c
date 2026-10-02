@@ -31,7 +31,7 @@ S *func_021AB7E4(int heap)
     S *p = func_02030734(heap, 0x10, 1, d_021DE000, 0x81);
     int i;
     for (i = 0; i < 2; i++) {
-        p->f8[i] = func_020490F4(d_021D8EEC[i], heap);
+        p->f8[i] = (int)func_020490F4(d_021D8EEC[i], heap);
     }
     return p;
 }

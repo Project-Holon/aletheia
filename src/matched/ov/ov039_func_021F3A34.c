@@ -102,7 +102,7 @@ extern void func_02028B50(int a, int b);
 extern void func_02006210(void);
 extern u32 func_02011688(u32 p, Vec *dst, u32 idx);
 extern void *func_02188CB4(void *p);
-extern void func_021A3044(u32 q, Vec *v);
+extern void func_021A3044(void *q, Vec *v);
 extern void func_021F4A18(void *a, Work *s);
 
 extern u32 d_021F4C38[];

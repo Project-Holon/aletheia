@@ -17,17 +17,20 @@
  *   func_0218F818  0x0218F818  thumb  ov021
  */
 
+typedef unsigned char u8;
 typedef unsigned int u32;
 
-extern u32 func_020124E4(u32);
-extern void *func_0201210C(void *p);
-extern u32 func_02188C58(u32);
-extern u32 func_0218F0E8(u32);
-extern void func_0218F818(u32);
+struct Ctx;
 
-int func_021B55C8(u32 a)
+extern void *func_020124E4(void *o);
+extern void *func_0201210C(const struct Ctx *p);
+extern void *func_02188C58(void *o);
+extern u32 func_0218F0E8(u8 *a);
+extern void func_0218F818(u8 *a);
+
+int func_021B55C8(void *a)
 {
-    u32 x = func_02188C58(func_0201210C(func_020124E4(a)));
+    u8 *x = func_02188C58(func_0201210C(func_020124E4(a)));
 
     if (func_0218F0E8(x) == 0) {
         func_0218F818(x);

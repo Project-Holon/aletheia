@@ -43,27 +43,28 @@ extern int func_020124E4(int);
 extern void *func_0201210C(void *p);
 extern int func_02012138(int);
 extern void *func_02188C7C(unsigned char *p);
-extern void func_0216D9A0(int);
-extern int func_02188C54(int);
+extern void func_0216D9A0(void *);
+extern int func_02188C54(void *);
 extern int func_021904B0(int, int);
 extern int func_02190F64(int, int);
 extern void func_02190E74(int, int, int, int);
 extern int func_02190EF0(int);
 extern void func_02190E40(int);
 extern void func_02045C04(int);
-extern int func_02188BE8(int);
+extern int func_02188BE8(void *);
 extern void *func_02188CB4(unsigned char *p);
-extern int func_021A3238(int);
-extern void func_0217C658(void *, int, int, int, int, int);
+extern int func_021A3238(void *);
+extern void func_0217C658(void *, int, void *, int, int, int);
 extern int func_0217C688(void *, int);
 extern int func_02185214(int);
 extern void func_02012374(int, int);
-extern void func_0216D9E4(int);
+extern void func_0216D9E4(void *);
 
 int func_0217B82C(int a0, int *state, Work *w)
 {
     int sys;
     void *obj;
+    int hnd;
 
     sys = func_020124E4(a0);
     obj = func_0201210C((void *)sys);
@@ -71,9 +72,9 @@ int func_0217B82C(int a0, int *state, Work *w)
     switch (*state) {
     case 0:
         func_0216D9A0(func_02188C7C(obj));
-        obj = func_02188C54(obj);
-        w->f0 = func_021904B0(obj, 0x2D);
-        w->f4 = func_02190F64(obj, w->f0);
+        hnd = func_02188C54(obj);
+        w->f0 = func_021904B0(hnd, 0x2D);
+        w->f4 = func_02190F64(hnd, w->f0);
         func_02190E74(w->f4, 0, 0, 0x60);
         (*state)++;
         break;

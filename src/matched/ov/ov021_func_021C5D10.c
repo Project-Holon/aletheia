@@ -47,7 +47,7 @@ typedef struct {
     void *fC;
     u32 f10;
     void *f14;
-    u32 f18;
+    void *f18;
     void *f1C;
     s16 f20[3];
     u16 pad26;
@@ -71,10 +71,10 @@ extern void *func_02188CE8(u8 *p);
 extern u32 func_02012F2C(void *a);
 extern void *func_02188C7C(u8 *q);
 extern void *func_02188CB4(u8 *p);
-extern void *func_021A3074(unsigned char *p);
+extern void *func_021A3074(void *p);
 extern u16 func_0216D5F8(void *p);
-extern void func_021A3038(u32 id, VecFx32 *out);
-extern u32 func_021A34EC(u32 id);
+extern void func_021A3038(void *id, VecFx32 *out);
+extern u32 func_021A34EC(void *id);
 extern int func_021C5C64(void *unused, u8 *a, VecFx32 *out);
 extern int func_021AA900(void *self, s16 *pos);
 /* 021AA180 reads a mode in r1 (its own file: (ctx, mode)); this caller

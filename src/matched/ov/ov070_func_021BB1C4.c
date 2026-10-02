@@ -42,13 +42,13 @@ typedef struct {
     int f808;
 } Work;
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern int func_0204A380(int, int, int, unsigned);
+extern void *func_020490F4(unsigned int id, u16 heap);
+extern int func_0204A380(void *, int, int, unsigned);
 extern int func_02062B30(int, Img **);
 extern void func_02041090(unsigned, void *, unsigned, unsigned, u8, u8);
 extern void func_02041B6C(int);
 extern void func_020307B0(int);
-extern void func_02049238(int);
+extern void func_02049238(void *);
 
 void func_021BB1C4(Work *p)
 {

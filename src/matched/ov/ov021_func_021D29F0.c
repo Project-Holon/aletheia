@@ -37,9 +37,9 @@
 typedef unsigned int u32;
 
 extern void *func_0215A5F4(void *p);
-extern u32 *func_02158F58(u32 a);
-extern u32 func_02188C84(u32 a);
-extern u32 func_02188C54(u32 a);
+extern void **func_02158F58(void *a);
+extern u32 func_02188C84(void *a);
+extern void *func_02188C54(void *a);
 extern u32 func_02011330(u32 a);
 extern u32 func_02045B38(u32, u32, u32, u32);
 extern u32 func_02045180(u32, u32, u32, u32, u32, u32, u32);
@@ -50,7 +50,7 @@ extern void func_02045374(u32 w);
 extern void func_0201F73C(u32 a, u32 b, u32 c, u32 d);
 extern u32 func_020457B0(u32 n, u32 heap);
 extern void func_02045CAC(u32, u32, u32);
-extern u32 func_021904AC(u32 p);
+extern u32 func_021904AC(void *p);
 extern void func_0201C7A4(u32, u32, u32, u32, u32);
 extern void func_02041B6C(u32);
 extern void func_02045808(u32);
@@ -60,8 +60,9 @@ extern void func_02041300(int, int, int, int, int, int, int);
 
 int func_021D29F0(u32 a, u32 b)
 {
-    u32 *q;
-    u32 heap, m, msg, win, s;
+    void **q;
+    u32 heap, msg, win, s;
+    void *m;
 
     q = func_02158F58(func_0215A5F4((void *)b));
     heap = func_02188C84(q[1]);

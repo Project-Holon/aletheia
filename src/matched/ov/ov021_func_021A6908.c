@@ -28,21 +28,21 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u16 func_0216D608(u32 o);
-extern int func_021A5B6C(u8 *p, u32 o, u32 v, u32 z);
+extern u16 func_0216D608(void *o);
+extern int func_021A5B6C(u8 *p, void *o, u32 v, u32 z);
 extern void func_021A6870(u8 *p);
 extern void func_021A6708(u8 *p);
 extern void func_021A6750(u8 *p);
 extern void func_021A6768(u8 *p);
-extern void func_0216D5E0(u32 o, u32 v);
+extern void func_0216D5E0(void *o, u32 v);
 extern u32 func_02197E7C(u32 a, u32 b);
-extern void func_0216D410(u32 o, u32 v);
-extern void func_0216D548(u32 o, u32 v);
-extern void func_021A3964(u32 o, u32 v);
+extern void func_0216D410(void *o, u32 v);
+extern void func_0216D548(void *o, u32 v);
+extern void func_021A3964(u8 *o, u32 v);
 
 u32 func_021A6908(u8 *p, u32 a1)
 {
-    u32 o = *(u32 *)(p + 0x1C);
+    void *o = *(void **)(p + 0x1C);
     u32 r6 = func_0216D608(o);
 
     if (func_021A5B6C(p, o, r6, 0)) {
@@ -56,6 +56,6 @@ u32 func_021A6908(u8 *p, u32 a1)
     func_0216D410(o, func_02197E7C(r6, 0x10));
     func_0216D548(o, 0x18);
     *(u32 *)p = 1;
-    func_021A3964(*(u32 *)(p + 0x14), 1);
+    func_021A3964(*(u8 **)(p + 0x14), 1);
     return r6;
 }

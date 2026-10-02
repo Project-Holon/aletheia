@@ -25,14 +25,14 @@ extern void *func_0200CA1C(void *a);
 extern int func_0200CED4();
 extern u16 *func_02030734();
 
-u16 *func_021B5824(u8 *a0, int a1, u16 *a2, int a3)
+u16 *func_021B5824(u8 *a0, void *a1, u16 *a2, int a3)
 {
     int i = 0;
     void *r;
     u16 *v;
 
     *a2 = 0;
-    r = func_0200CA1C((void *)a1);
+    r = func_0200CA1C(a1);
     v = func_02030734((u16)((a3 & 0x7fff) | 0x8000), 0x40, 1, g_021DE248, 0xac);
     for (i = 0; i < 0x28b; i++) {
         if (a0[0xa + i / 8] & (1 << (i % 8))) {

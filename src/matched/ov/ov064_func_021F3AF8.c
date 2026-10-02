@@ -41,7 +41,7 @@ typedef struct {
 
 extern void *func_020124E4(void *task);
 extern void *func_0201210C(void *p);
-extern int func_02188D2C(int a);
+extern int func_02188D2C(int *p);
 extern int *func_021897BC(char *p, int idx);
 extern int func_021BE480(int a, unsigned b, int c);
 

@@ -22,11 +22,11 @@
 
 typedef unsigned int u32;
 extern void *func_0201210C(void *p);
-extern u32 func_02188C80(u32);
-extern u32 func_020120F4(u32);
-extern u32 func_02012EC4(u32);
-extern int func_0200B3A4(u32, u32);
-extern int *func_021897BC(u32, int);
+extern u32 func_02188C80(unsigned char *);
+extern void *func_020120F4(const void *);
+extern void *func_02012EC4(void *);
+extern int *func_0200B3A4(void *, int);
+extern int *func_021897BC(char *, int);
 extern void *func_020122C0(void *, int, void (*)(void), int);
 extern void func_021F3C8C(void);
 
@@ -36,7 +36,7 @@ void func_021F3AD0(void *a, int b, int c)
     int p;
     int *q;
 
-    p = func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(x))), 10);
+    p = (int)func_0200B3A4(func_02012EC4(func_020120F4((void *)func_02188C80(x))), 10);
     q = func_021897BC(x, 1);
     q[0] = b;
     q[1] = c;

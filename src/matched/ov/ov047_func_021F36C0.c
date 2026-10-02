@@ -25,7 +25,7 @@ extern int func_02188C80(int a);
 extern int func_02188C84(int a);
 extern void *func_02188CB4(unsigned char *p);
 extern int func_02189764(int a, int b, int c, int d);
-extern int *func_021897BC(int a, int b);
+extern void **func_021897BC(int a, int b);
 extern void *func_021A3074(unsigned char *p);
 extern unsigned int func_020120F4(unsigned int);
 extern unsigned int func_02012EC4(unsigned int);
@@ -33,7 +33,7 @@ extern void *func_0200B3A4(unsigned int, unsigned int);
 
 void func_021F36C0(int a)
 {
-    int *p;
+    void **p;
 
     func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(a))), 0x1f);
     func_02189764(a, 1, func_02188C84(a), 0x14);

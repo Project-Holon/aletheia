@@ -28,7 +28,7 @@ extern int d_021DDA28;
 extern int func_02048B78(int a);
 extern void func_02048B88(int a, int *out);
 extern u16 func_0207D184(int a);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_0218E18C(char *p, int a);
 extern void func_0218EEFC(int a, int b, int c, u16 heap, char *p);
 
@@ -61,8 +61,8 @@ char *func_0218E018(int a0, int a1, int a2, int a3, u16 heap)
         func_02048B88(a2, &t);
         *(u16 *)(p + 0x80) = func_0207D184(t);
     }
-    *(int *)(p + 4) = func_020490F4(0x3c, *(u16 *)p);
-    *(int *)(p + 8) = func_020490F4(0x6c, *(u16 *)p);
+    *(void **)(p + 4) = func_020490F4(0x3c, *(u16 *)p);
+    *(void **)(p + 8) = func_020490F4(0x6c, *(u16 *)p);
     *(u16 *)(p + 0xea) = 0xffff;
     func_0218E18C(p, a3);
     func_0218EEFC(7, 6, 2, heap, p);

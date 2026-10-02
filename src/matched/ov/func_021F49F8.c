@@ -70,19 +70,19 @@ typedef struct {
 
 extern u8 d_02202BE0[];
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_0204A48C(void *a, u32 b, u32 heap);
 extern u32 func_0204B100(u32 a, u32 b, u32 heap);
-extern u32 func_0204A6C8(u32 arc, u32 id, u32 a, u32 b, u32 heap);
-extern u32 func_0204ABF0(u32 arc, u32 id, u32 a, u32 b, u32 heap);
-extern u32 func_0204AF28(u32 arc, u32 a, u32 b, u32 heap);
-extern void func_02049238(u32 h);
+extern u32 func_0204A6C8(void *arc, u32 id, u32 a, u32 b, u32 heap);
+extern u32 func_0204ABF0(void *arc, u32 id, u32 a, u32 b, u32 heap);
+extern u32 func_0204AF28(void *arc, u32 a, u32 b, u32 heap);
+extern void func_02049238(void *h);
 extern void *func_02049F34(u32 arc, u32 file, PlttData **out, u32 heap);
 extern void DC_FlushRange(void *p, u32 size);
 extern void GX_LoadOBJPltt(const void *src, u32 offset, u32 size);
 extern void func_020307B0(void *p);
 extern u32 func_02008550(void *a);
-extern u32 func_0204AC18(u32 arc, u32 id, u32 a, u32 b, u32 c, u32 d, u32 heap);
+extern u32 func_0204AC18(void *arc, u32 id, u32 a, u32 b, u32 c, u32 d, u32 heap);
 
 void func_021F49F8(Obj *p, u32 mode)
 {

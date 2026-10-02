@@ -46,7 +46,7 @@ u32 func_021A3128(u32 *a, u32 b)
         func_021A3364(a, b, d);
         r = func_021AB0D4(h, d);
     } else if (func_02188CFC(a[0]) == 1) {
-        void *t = func_021A3074(a);
+        void *t = func_021A3074((u8 *)a);
         u32 h = func_02188C5C(a[0]);
 
         func_0219E664(t, b, c);

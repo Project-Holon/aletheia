@@ -52,7 +52,7 @@ int func_02009470(int p);
 int func_02008730(int p);
 int func_0200873C(int p);
 int func_02008C58(int p);
-int func_0201292C(int p);
+void *func_0201292C(int p);
 int func_0200CA38(int p);
 int func_02009CC0(int p);
 void func_02154390(void);
@@ -82,7 +82,7 @@ int func_021542CC(int a, int b)
     p[10] = func_02008730(p[18]);
     p[11] = func_0200873C(p[18]);
     p[12] = func_02008C58(p[18]);
-    p[13] = func_0201292C(r6);
+    *(void **)&p[13] = func_0201292C(r6);
     p[19] = a;
     p[14] = func_0200CA38(p[7]);
     p[15] = func_02009CC0(p[8]);

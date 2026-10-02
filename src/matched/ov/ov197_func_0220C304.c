@@ -18,14 +18,14 @@
  *   func_02049238 0x02049238 arm
  */
 typedef unsigned short u16;
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern int func_0204A6C8(unsigned,unsigned,unsigned,unsigned,u16);
-extern int func_0204AC18(unsigned,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
-extern int func_0204AF28(unsigned,unsigned,unsigned,unsigned);
-extern void *func_02049F78(unsigned,unsigned,char **,u16);
+extern void *func_020490F4(unsigned int id, u16 heap);
+extern int func_0204A6C8(void *,unsigned,unsigned,unsigned,u16);
+extern int func_0204AC18(void *,unsigned,unsigned,unsigned,unsigned,unsigned,u16);
+extern int func_0204AF28(void *,unsigned,unsigned,unsigned);
+extern void *func_02049F78(void *,unsigned,char **,u16);
 extern void func_020215BC(void *,const void *,unsigned,unsigned,u16);
 extern void func_020307B0(void *);
-extern void func_02049238(unsigned);
+extern void func_02049238(void *);
 void func_0220C304(char *p)
 {
     void *arc = func_020490F4(11,(*(u16 *)(*(char **)p+0xc)&0x7fff)|0x8000);

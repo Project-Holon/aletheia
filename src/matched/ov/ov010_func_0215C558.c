@@ -17,10 +17,10 @@
  */
 typedef unsigned short u16;
 extern void *func_0215A5E4(void *a0);
-extern int func_020127A4(int);
+extern int func_020127A4(void *);
 extern int func_02159B10(int,int);
-extern int func_02012F08(int);
-extern void func_0200C278(int,int);
+extern void *func_02012F08(void *);
+extern void func_0200C278(void *,int);
 int func_0215C558(int a,int b)
 {
     void *p = func_0215A5E4((void *)b);

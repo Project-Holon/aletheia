@@ -36,7 +36,7 @@ void func_021B7318(char *p,int mode) {
         func_0204A48C(&cfg,func_021B61FC(mode),141);
     }
     *(int *)(p+0x9044)=func_0204B100(249,0,141);
-    *(int *)(p+0x911c)=func_02025538(141,*(void **)(p+0x9044));
+    *(void **)(p+0x911c)=func_02025538(141,*(void **)(p+0x9044));
     func_021B74C8((int *)p);
     func_020434DC(16,1); func_02043598(16,1);
 }

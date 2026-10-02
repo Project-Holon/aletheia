@@ -29,13 +29,13 @@ typedef unsigned int   u32;
 typedef struct { int x, y, z; } Vec3;
 
 extern void *func_021A3074(unsigned char *p);
-extern void func_0216D88C(u32 a, Vec3 *v);
-extern void func_0216D89C(u32 a, Vec3 *v);
+extern void func_0216D88C(void *a, Vec3 *v);
+extern void func_0216D89C(void *a, Vec3 *v);
 extern void func_021AC154(u32 a);
 extern u32 func_021A2F98(u32 a);
 extern u32 func_02188CD0(u32 a);
 extern u32 func_021AD564(u32 a, u32 b, u32 c);
-extern void func_021C12E4(u32 a, u8 *b);
+extern void func_021C12E4(void *a, u8 *b);
 
 int func_021C146C(u8 *p)
 {

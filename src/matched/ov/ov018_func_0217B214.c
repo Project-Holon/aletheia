@@ -60,7 +60,7 @@ struct U16Vec;
 struct MsgBank;
 
 typedef struct {
-    int f0;
+    unsigned char *f0;
     int f4;
     int f8;
     int fc;

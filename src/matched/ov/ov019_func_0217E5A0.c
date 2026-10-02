@@ -49,7 +49,7 @@ typedef struct {
 
 typedef struct {
     int f0;
-    int f4;
+    void *f4;
     int f8;
     int fc;
     int f10;
@@ -74,7 +74,7 @@ void func_0217F210(u8 *w, int a, int msg);
 int func_0217B8E4(u8 *w, int v);
 void func_0217422C(u8 *w, int b, Req *c);
 int func_02174268(u8 *w);
-int func_0201292C(int a);
+void *func_0201292C(int a);
 int func_02012EBC(int a);
 int func_0200873C(int a);
 int func_020084F4(u8 *a);

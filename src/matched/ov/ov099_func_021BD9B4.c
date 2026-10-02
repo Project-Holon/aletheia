@@ -12,10 +12,11 @@
  *   func_02039CB4 0x02039CB4 arm
  *   func_0203D3A8 0x0203D3A8 arm
  */
+typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_020399A8(void);
-extern int func_02039CB4(u32, u32, u32);
-extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *d);
+extern void *func_020399A8(void);
+extern int func_02039CB4(void *, u32, u32);
+extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
 int func_021BD9B4(char *p, int v)
 {
     if (func_02039CB4(func_020399A8(), 0x1b, 10) != 0) {

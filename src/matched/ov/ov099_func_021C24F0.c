@@ -58,7 +58,7 @@ int func_021C24F0(void *obj, int unused, char *args)
     *(u32 *)(p + 0xc0) = *(u32 *)(args + 8);
     *(u32 *)(p + 0xc4) = *(u32 *)(args + 4);
     *(int *)(p + 0xcc) = func_021BCB8C(*(void **)(p + 0xc4));
-    *(u32 *)(p + 0xc8) = func_02012934(*(struct BigObj **)(p + 0xc4));
+    *(void **)(p + 0xc8) = func_02012934(*(struct BigObj **)(p + 0xc4));
     *(u32 *)(p + 4) = func_0201283C(*(struct BigObj **)(p + 0xc4));
     *(u32 *)(p + 0xd8) = func_0200873C(*(u32 *)(args + 8));
     *(u32 *)(p + 0x1d8) = *(u32 *)(args + 0xc);

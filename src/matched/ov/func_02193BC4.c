@@ -29,15 +29,15 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02186764(u32);
-extern u32 func_02193EB4(u32, u32, u32, u32);
-extern u32 func_02193EE8(u32);
-extern u32 func_02193EFC(u32, u32);
+extern void func_02186764(u8 *);
+extern void func_02193EB4(void *);
+extern void func_02193EE8(void *);
+extern u8 *func_02193EFC(void *, u32);
 
-int func_02193BC4(u32 a, u32 b, u32 c, u32 d)
+void func_02193BC4(void *a, u32 b)
 {
-func_02193EB4(a, b, c, d);
+func_02193EB4(a);
 func_02186764((func_02193EFC(a, b) + 52));
-return func_02193EE8(a);
+func_02193EE8(a);
 }
 

@@ -32,7 +32,7 @@ typedef struct BgTemplate { u32 a,b,bufSize,d; u8 e,f,g,h; u32 i; u8 j,k,l,m; u3
 extern const BgTemplate d_021E7E24,d_021E7F44;
 extern void func_021E57E8(int),func_0203FCA0(u32,const BgTemplate *,u32);
 extern void func_02040C14(u32,u32,u32,u32),func_02041300(u32,int,int,int,u8,u8,u8),func_020409B4(u32);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049B68(void *,int,int,int,int,u32);
 extern void func_02049658(u32,u32,u32,u32,u32,u32,u16),func_020498F4(u32,u32,u32,u32,u32,u32,u16);
 extern void func_02040618(u32,u32,u32),func_02049238(void *);
@@ -44,13 +44,13 @@ void func_021E5284(char *p,int mode)
  a=d_021E7E24;func_0203FCA0(6,&a,0);func_02040C14(6,0,1,0);func_02041300(6,0,0,0,32,24,17);func_020409B4(6);
  b=d_021E7F44;func_0203FCA0(7,&b,2);
  if(mode==0) {
-  v=func_020490F4((void *)0x67,*(u16 *)(p+0x5f4));
+  v=func_020490F4(0x67,*(u16 *)(p+0x5f4));
   func_02049B68(v,5,6,0x6000,0,*(u16 *)(p+0x5f4));
   func_02049658((u32)v,4,7,0,0,0,*(u16 *)(p+0x5f4));
   func_020498F4((u32)v,6,7,0,0,0,*(u16 *)(p+0x5f4));
   func_02040618(7,0,0);func_02049238(v);
  } else {
-  v=func_020490F4((void *)0x68,*(u16 *)(p+0x5f4));
+  v=func_020490F4(0x68,*(u16 *)(p+0x5f4));
   func_02049B68(v,1,6,0x6000,0,*(u16 *)(p+0x5f4));
   func_02049658((u32)v,0,7,0,0,0,*(u16 *)(p+0x5f4));
   func_020498F4((u32)v,2,7,0,0,0,*(u16 *)(p+0x5f4));

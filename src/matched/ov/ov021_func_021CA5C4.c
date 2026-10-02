@@ -237,9 +237,10 @@ typedef enum {
 
 #define FLAGS(w) ((Flags *)((w) + 0xc))
 
+extern u8 *func_02012944(u32 p);
 extern void *func_0215A5F4(void *p);
-extern void func_02158F58(u32 h);
-extern u32 func_02158F54(u32 h);
+extern int func_02158F58(void *h);
+extern u32 func_02158F54(void *h);
 extern u32 func_020120F4(u32 a);
 extern u32 func_02012EBC(u32 a);
 extern u32 func_0201296C(u32 a);
@@ -249,39 +250,39 @@ extern u32 func_0200D884(u32 h, u32 id, void *out);
 extern void *func_0201210C(void *p);
 extern u16 func_02011330(void *a);
 extern u16 func_02159B10(void *a, u32 b);
-extern u16 *func_02158FE0(u32 h, u32 a, u32 b);
-extern void func_0215897C(u32 h, u32 task);
+extern u16 *func_02158FE0(void *h, u32 a, u32 b);
+extern void func_0215897C(void *h, void *task);
 
-extern int func_021CBCC4(u32 a);
+extern int func_021CBCC4(void *a);
 extern void func_02087BCC(u32 a);
 extern void func_0200D85C(u32 h);
 extern u32 func_0200D87C(u32 h);
 extern void *func_02188CB4(unsigned char *p);
-extern u32 func_021A3050(u32 a);
-extern void func_021A3038(u32 a, Trip *t);
-extern u32 func_02188C9C(u32 a);
+extern u32 func_021A3050(void *a);
+extern void func_021A3038(void *a, Trip *t);
+extern u32 func_02188C9C(void *a);
 extern void func_02014184(Rec1C *out, u32 id, s16 n, u32 a, u32 b, u32 c);
 extern void func_0201289C(u32 a, Rec1C *r);
 extern void func_02014314(u32 a, u32 id);
 extern void func_0201433C(u32 a, u32 id);
 extern u16 func_0200DAC4(u32 h, u32 i);
 extern u32 func_021C9D30(u32 a);
-extern u32 func_021A30B0(u32 a);
+extern u32 func_021A30B0(void *a);
 extern u16 func_021A3190(u32 a, u32 b);
 extern void *func_02188C7C(unsigned char *p);
-extern u32 func_0216DE94(u32 a, u32 id);
-extern void func_0216DAC8(u32 o, u32 v);
+extern void *func_0216DE94(void *a, u32 id);
+extern void func_0216DAC8(void *o, u32 v);
 extern u16 func_0200DA54(u32 h);
 extern u32 func_0200DBA0(u32 h, u32 i, u32 op);
-extern void func_021F37C0(u32 a, u32 b, const Trip *t);
-extern u32 func_021F380C(u32 a);
-extern void func_021D024C(u32 o, u32 v);
-extern void func_021D028C(u32 o, u32 v);
-extern void func_0216D88C(u32 o, Vec *v);
-extern u32 func_0216D5F8(u32 o);
-extern void func_0216E014(u32 o, Vec *v, u32 r);
-extern void func_0216DB4C(u32 o, u32 v);
-extern u32 func_021CBBA0(u32 o);
+extern void func_021F37C0(void *a, u32 b, const Trip *t);
+extern void *func_021F380C(void *a);
+extern void func_021D024C(void *o, u32 v);
+extern void func_021D028C(void *o, u32 v);
+extern void func_0216D88C(void *o, Vec *v);
+extern u32 func_0216D5F8(void *o);
+extern void func_0216E014(void *o, Vec *v, u32 r);
+extern void func_0216DB4C(void *o, u32 v);
+extern u32 func_021CBBA0(void *o);
 extern u32 func_021CA164(u32 h, u32 x, u32 mode);
 extern u16 func_0200DB80(u32 h, u32 i);
 extern void *func_020127A4(u32 a);
@@ -289,27 +290,27 @@ extern int func_02008550(void *p);
 extern u16 func_021A31A4(u32 a, u32 b);
 extern u32 func_0200BAC8(u32 a);
 extern u32 func_0200BBA8(u32 a);
-extern void func_0216D5E0(u32 o, u32 v);
-extern void func_0216DAF8(u32 o);
-extern u32 func_0216D63C(u32 o, u32 v);
-extern u32 func_0216CB48(u32 x, u32 v, u32 id);
+extern void func_0216D5E0(void *o, u32 v);
+extern void func_0216DAF8(void *o);
+extern u32 func_0216D63C(void *o, u32 v);
+extern void *func_0216CB48(u32 x, u32 v, u32 id);
 extern u32 func_0200DB44(u32 h, u32 i);
 extern u32 func_021CBBAC(u8 *w, u32 v);
 extern void func_021CBBD0(u8 *w, u32 v, u16 *a, u16 *b, u16 *c);
 extern void *func_0200DF58(u32 h, u32 heap);
 extern u16 func_0200DF94(void *p);
 extern void func_020307B0(void *p);
-extern u32 func_021CB9BC(u32 x, u32 b, u16 *dst, u32 f);
-extern u32 func_020124AC(u32 x, u32 n, u32 (*fn)(void *, u32), Wait *st);
+extern void *func_021CB9BC(u32 x, u32 b, u16 *dst, u32 f);
+extern void *func_020124AC(u32 x, u32 n, u32 (*fn)(void *, u32), Wait *st);
 extern u32 func_021542C0(void *a, u32 b);
 extern u8 func_0200DE94(u32 h);
 extern u8 func_0200DE5C(u32 h);
 extern void func_0200D914(u32 h, u32 id, const void *src);
 extern u8 func_0200DE64(u32 h);
-extern u32 func_0216C860(u32 x);
+extern void *func_0216C860(u32 x);
 extern u8 func_0200DF40(u32 h);
 extern u8 func_0200DF4C(u32 h);
-extern u32 func_0216C538(u8 *w, u32 x, u8 v);
+extern void *func_0216C538(u8 *w, u32 x, u8 v);
 extern u32 func_021C9F44(u8 *w, u32 x);
 extern int func_021C9FD0(u8 *w);
 extern void func_021C9D70(u32 x, u8 *w);
@@ -317,15 +318,15 @@ extern void func_021C9FFC(u8 *w, u32 x);
 extern void func_021C9BCC(u8 *w);
 extern void func_021CA05C(u8 *w);
 extern u32 func_021CA150(u8 *w, u32 i);
-extern u32 func_0216C640(u8 *w, u32 x, u32 s);
+extern void *func_0216C640(u8 *w, u32 x, void *s);
 extern u32 func_021C9DB0(u8 *w);
 extern void func_021C9E8C(u8 *w);
 extern void func_02082BCC(void *p, int v, int n);
-extern u32 func_0216C6E8(u8 *w, u32 x, u32 p1, u32 p2, u32 k);
+extern void *func_0216C6E8(u8 *w, u32 x, u32 p1, u32 p2, u32 k);
 extern void func_021C9CAC(u8 *w);
 extern void func_021C9C54(u8 *w, u32 x);
 extern void func_021C9B78(u8 *w);
-extern void func_021CB9E4(u8 *w, u32 a1, u32 a2, u32 a3);
+extern void func_021CB9E4(u8 *w, u32 a1, void *a2, void *a3);
 extern void func_021CA048(u8 *w, u32 x);
 extern u32 func_02012134(u32 x);
 extern void *func_0202B578(u32 a);
@@ -346,10 +347,10 @@ extern void func_020113D0(void *a, void *fn);
 extern void func_0200B424(void);
 extern void func_020130B4(u32 p);
 extern u16 func_021CA234(u8 *w);
-extern u32 func_02014808(u32 x, u32 s, u32 n, void *fn, void *arg, u32 a, u32 b);
+extern void *func_02014808(u32 x, void *s, u32 n, void *fn, void *arg, u32 a, u32 b);
 extern void func_0200DA14(u32 h);
 extern void func_0200DB1C(u32 h, u32 i);
-extern void func_021F388C(u32 a);
+extern void func_021F388C(void *a);
 extern int func_0201AA18(void *party);
 extern void *func_0201AB28(void *party, int i);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
@@ -360,9 +361,9 @@ extern void func_0200DB30(u32 h, u32 i);
 extern void func_021CA250(u8 *w);
 extern void func_02167B00(u8 *w);
 extern void func_02167AB0(u8 *w);
-extern u32 func_021CB914(u32 x, u8 *w);
+extern void *func_021CB914(u32 x, u8 *w);
 extern void func_02167B24(u32 v);
-extern u32 func_021CD48C(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
+extern u32 func_021CD48C(u32 a, void *b, u32 c, u32 d, u32 e, u32 f, u32 g, u32 h);
 extern void func_02167BFC(u8 *w, u32 p1, u32 p2);
 extern void func_02167CF4(u8 *w, u8 v);
 extern u32 func_02039338(void);
@@ -501,7 +502,7 @@ int func_021CA5C4(void *a, u32 b)
         *dst = func_021A3190(func_021A30B0(func_02188CB4((void *)s30)), 0);
         break;
     case 13: {
-        u32 o = func_0216DE94(func_02188C7C((void *)s30), p1);
+        void *o = func_0216DE94(func_02188C7C((void *)s30), p1);
         if (o != 0)
             func_0216DAC8(o, p2);
         break;
@@ -560,7 +561,7 @@ int func_021CA5C4(void *a, u32 b)
         break;
     case 23: {
         u32 y = p2 << 16;
-        u32 o = func_0216DE94(func_02188C7C((void *)s30), p1);
+        void *o = func_0216DE94(func_02188C7C((void *)s30), p1);
         if (o != 0) {
             func_0216D88C(o, &v);
             v.y = y;
@@ -570,20 +571,20 @@ int func_021CA5C4(void *a, u32 b)
         break;
     }
     case 24: {
-        u32 o = func_0216DE94(func_02188C7C((void *)s30), p1);
+        void *o = func_0216DE94(func_02188C7C((void *)s30), p1);
         if (o != 0)
             func_0216DB4C(o, 0);
         break;
     }
     case 25: {
-        u32 o = func_0216DE94(func_02188C7C((void *)s30), p1);
+        void *o = func_0216DE94(func_02188C7C((void *)s30), p1);
         *dst = 0;
         if (o != 0)
             *dst = 1;
         break;
     }
     case 26: {
-        u32 o = func_0216DE94(func_02188C7C((void *)s30), p1);
+        void *o = func_0216DE94(func_02188C7C((void *)s30), p1);
         *dst = 0;
         if (o != 0)
             *dst = func_021CBBA0(o);
@@ -620,13 +621,13 @@ int func_021CA5C4(void *a, u32 b)
         func_021F37C0(s30, 7, data_021DAD70);
         break;
     case 35: {
-        u32 o = func_0216DE94(func_02188C7C((void *)s30), p1);
+        void *o = func_0216DE94(func_02188C7C((void *)s30), p1);
         if (o != 0)
             func_0216D5E0(o, p2);
         break;
     }
     case 36: {
-        u32 o = func_0216DE94(func_02188C7C((void *)s30), p1);
+        void *o = func_0216DE94(func_02188C7C((void *)s30), p1);
         if (o != 0)
             func_0216DAF8(o);
         break;

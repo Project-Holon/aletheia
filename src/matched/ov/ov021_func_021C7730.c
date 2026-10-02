@@ -50,7 +50,7 @@ int func_021C7730(Fx *o)
     Vec v;
     u32 s;
 
-    func_02188CB4(o->w4);
+    func_02188CB4((unsigned char *)o->w4);
     s = o->w10;
     switch (o->st) {
     case 0:

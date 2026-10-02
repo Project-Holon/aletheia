@@ -56,7 +56,7 @@ extern u32  func_0200C0E8(u32 sys);
 extern u32  func_0200C258(u32 a);
 extern u32  func_0200CA1C(void *a);
 extern u32  func_02012924(void *a);
-extern u32  func_0201292C(void *a);
+extern void *func_0201292C(void *a);
 extern u32  func_02012944(void *a);
 extern u32  func_0201296C(void *a);
 extern u32  func_02012EBC(void *a);
@@ -95,7 +95,7 @@ void func_02013360(u8 *o, void *a1, const void *a2)
         *(o + i + 0x78) = 0;
     }
     *(u32 *)(o + 0x34) = func_02012944(a1);
-    *(u32 *)(o + 0x60) = func_0201292C(a1);
+    *(void **)(o + 0x60) = func_0201292C(a1);
     *(u32 *)(o + 0x64) = func_02012924(a1);
     *(u32 *)(o + 0x68) = func_0200CA1C(a1);
     *(u32 *)(o + 0x70) = func_02012F20(a1);

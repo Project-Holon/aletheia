@@ -43,16 +43,16 @@ typedef struct Q {
     int p20;
 } Q;
 
-extern u32 func_020124E4(u32);
+extern void *func_020124E4(void *);
 extern void *func_0201210C(void *p);
-extern u32 func_02188D2C(u32);
-extern Q *func_021897BC(u32, int);
-extern u32 func_02188C80(u32);
-extern u32 func_020120F4(u32);
-extern u32 func_02012EC4(u32);
-extern int func_0200B3A4(u32, u32);
-extern u32 func_020122C0(u32, int, void (*)(void), int);
-extern void func_02012374(u32, u32);
+extern int func_02188D2C(int *);
+extern Q *func_021897BC(char *, int);
+extern u32 func_02188C80(unsigned char *);
+extern void *func_020120F4(const void *);
+extern void *func_02012EC4(void *);
+extern int *func_0200B3A4(void *, int);
+extern void *func_020122C0(void *, int, void (*)(void), int);
+extern void func_02012374(void *, void *);
 extern void func_021F3DE8(void);
 extern int func_021F3BC8(int *);
 extern int func_021F3BE8(int *, int);
@@ -60,15 +60,15 @@ extern void func_021F4078(u32, int, int);
 
 int func_021F3D40(u32 a, int *b)
 {
-    u32 h = func_020124E4(a);
-    void *x = func_0201210C((void *)h);
+    void *h = func_020124E4((void *)a);
+    void *x = func_0201210C(h);
     Q *q;
     int t;
     int y;
 
     func_02188D2C(x);
     q = func_021897BC(x, 1);
-    func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(x))), 10);
+    func_0200B3A4(func_02012EC4(func_020120F4((void *)func_02188C80(x))), 10);
     switch (*b) {
     case 0:
         t = func_021F3BC8(q->a8);
@@ -79,12 +79,12 @@ int func_021F3D40(u32 a, int *b)
         q->e = 8;
         q->p1c = 0x6d4;
         q->p20 = 0x6d9;
-        func_02012374(a, func_020122C0(h, 0, func_021F3DE8, 0));
+        func_02012374((void *)a, func_020122C0(h, 0, func_021F3DE8, 0));
         q->a8[0] = t;
         (*b)++;
         break;
     case 1:
-        func_021F4078(x, q->a0, *q->a8);
+        func_021F4078((u32)x, q->a0, *q->a8);
         return 1;
     }
     return 0;

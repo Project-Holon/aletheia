@@ -17,9 +17,11 @@
  *   func_02045B38 0x02045B38 arm
  *   func_020457B0 0x020457B0 arm
  */
+typedef unsigned short u16;
+
 struct Tcbl; struct GfFont; struct WordSet; struct MsgBank; struct U16Vec;
 extern struct Tcbl *func_0203101C(unsigned,unsigned short,unsigned,unsigned);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_0201DD78(unsigned,unsigned,unsigned);
 extern void *func_0201C450(unsigned short,unsigned);
 extern struct GfFont *func_0201D7EC(int,int,int,int,unsigned);
@@ -29,7 +31,7 @@ extern struct U16Vec *func_020457B0(unsigned,unsigned);
 void func_021BC0C8(char *p)
 {
     *(struct Tcbl **)(p+0x18)=func_0203101C(*(unsigned short *)p,*(unsigned short *)p,64,128);
-    *(void **)(p+0x54)=func_020490F4((void *)173,*(unsigned short *)p);
+    *(void **)(p+0x54)=func_020490F4(173,*(unsigned short *)p);
     func_0201DD78(7,8,15);
     *(void **)(p+0x12c)=func_0201C450(2048,*(unsigned short *)p);
     *(struct GfFont **)(p+0x128)=func_0201D7EC(23,0,0,0,*(unsigned short *)p);

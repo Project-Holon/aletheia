@@ -114,7 +114,7 @@ struct Sub24 {
 struct BigObj {
     u8  unk000[0x18C];
     u32 unk18C;
-    u32 unk190;
+    void *unk190;
     void *unk194;
     u32 unk198;
     u32 unk19C;
@@ -151,7 +151,7 @@ u32 func_02012924(const struct BigObj *p)
     return p->unk18C;
 }
 
-u32 func_0201292C(const struct BigObj *p)
+void *func_0201292C(const struct BigObj *p)
 {
     return p->unk190;
 }

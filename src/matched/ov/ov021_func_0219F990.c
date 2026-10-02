@@ -47,7 +47,7 @@ extern u32 func_0216D67C(u32);
 extern u32 func_0216D534(u32);
 extern int func_02188CBC(u32);
 extern void *func_02188CB4(unsigned char *p);
-extern int func_021A3080(int);
+extern u32 func_021A3080(u8 *p);
 extern int func_0219FADC(u8 *p, u32 b, u8 *c);
 extern void func_0219FAB4(u32, u32, u8 *, Vec *);
 extern void func_0216D8C0(u32, Vec *);
@@ -67,7 +67,7 @@ void func_0219F990(u32 a, u8 *p, u32 b)
     int ff;
     u32 t;
     u8 m;
-    int x;
+    void *x;
 
     ok = 1;
     info = func_0216E3C4(a);

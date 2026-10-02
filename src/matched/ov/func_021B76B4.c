@@ -24,15 +24,15 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-int func_0201292C(void *a0);
+void *func_0201292C(void *a0);
 int func_02009310(int a2, int i);
 int func_02009330(int a2, int i);
-int func_02007E50(int saved, int a, int b, int c);
+int func_02007E50(void *saved, int a, int b, int c);
 void func_02009364(int a2, int i);
 
 void func_021B76B4(void *a0, int a1, int a2)
 {
-    int saved = func_0201292C(a0);
+    void *saved = func_0201292C(a0);
     u32 i;
 
     for (i = 0; i < 0x14; i++) {

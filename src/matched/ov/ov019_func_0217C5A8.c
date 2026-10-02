@@ -92,9 +92,9 @@ void func_0217F24C(Ctx *ctx);
 int func_02173A48(int a, ...);
 void *func_02012934(void *p);
 void func_020120F4(int a);
-int func_0201AA1C(int a);
-int func_0201AAD4(int a);
-int func_0201AA88(int a);
+int func_0201AA1C(void *a);
+int func_0201AAD4(void *a);
+int func_0201AA88(void *a);
 u32 func_020362DC(void);
 
 int func_0217C5A8(Ctx *ctx, Obj *obj, int a2, u8 *state)
@@ -148,7 +148,7 @@ int func_0217C5A8(Ctx *ctx, Obj *obj, int a2, u8 *state)
         obj->f6e = 0;
         if (func_0217F268(ctx, &flag) != 1)
             break;
-        h = func_02012934(ctx->sys->f8);
+        h = func_02012934((void *)ctx->sys->f8);
         func_0217F24C(ctx);
         if (func_0217BAA8(ctx, obj->f2d, &obj->f64, &obj->f68) == 0) {
             func_0217F210(ctx, a2, 0x13e);

@@ -39,7 +39,7 @@ typedef unsigned int u32;
 struct Descriptor;struct MsgBank;struct Rec;struct U16Vec;struct CharBuf;struct Cfg;
 extern u8 d_021F6EA0[];
 extern void func_02040588(u32,u32);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049B68(u32,u32,u32,u32,u32,u16);
 extern void func_02049658(u32,u32,u32,u32,u32,u32,u16),func_020498F4(u32,u32,u32,u32,u32,u32,u16);
 extern void func_020413B0(u32,u8,u8,u8,u8,u8),func_020409B4(u32),func_02049238(void *);
@@ -60,7 +60,7 @@ void func_021EF444(u8 *p) {
  if(!p[0x28]) {*(u32 *)(d_021F6EA0+4)=1;bg=4;}
  else {*(u32 *)(d_021F6EA0+4)=0;bg=2;}
  func_02040588(bg,0);
- archive=func_020490F4((void *)22,*(u16 *)p);
+ archive=func_020490F4(22,*(u16 *)p);
  func_02049B68((u32)archive,0,4,224,32,*(u16 *)p);
  func_02049B68((u32)archive,0,0,224,32,*(u16 *)p);
  func_02049658((u32)archive,1,bg,0,0,0,*(u16 *)p);

@@ -35,7 +35,7 @@ typedef struct {
     int f0;
     int f4;
     int f8;
-    int fC;
+    void *fC;
     int f10;
     int f14;
     int f18;
@@ -51,7 +51,7 @@ extern int func_0219E348(int a);
 extern int func_02188CD0(u32 a);
 extern int func_02188C58(u32 a);
 extern void *func_02188CB4(unsigned char *p);
-extern void func_021A2F6C(int a);
+extern void func_021A2F6C(void *a);
 extern void func_0216DB4C(int a, int b);
 extern void func_0216DC98(int a, int b);
 extern void func_0216DAE0(int a, int b);

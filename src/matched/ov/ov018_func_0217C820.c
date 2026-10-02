@@ -32,7 +32,7 @@ typedef unsigned int u32;
 
 typedef struct {
     void *f0;
-    int f4;
+    void *f4;
     s16 f8;
     s16 fA;
     u16 fC;
@@ -42,7 +42,7 @@ typedef struct {
     u8 f11;
     u8 f12;
     u8 f13;
-    int f14;
+    void *f14;
 } Rec;
 
 typedef struct {
@@ -53,14 +53,14 @@ typedef struct {
 
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
-extern void func_0216D410(int, u16);
-extern void func_021A3038(int, Vec *);
+extern void func_0216D410(void *, u16);
+extern void func_021A3038(unsigned char *, Vec *);
 extern void func_021F37B8(int, Vec *);
 extern void func_020061E4(int);
-extern void func_0216DAC8(int, int);
-extern int func_021F37D8(int);
+extern void func_0216DAC8(unsigned int *, unsigned int);
+extern int func_021F37D8(void *);
 extern int func_0216D454(int);
-extern void func_0216D480(int);
+extern void func_0216D480(char *);
 extern void func_0216CF2C(int);
 
 int func_0217C820(Rec *r)
@@ -83,7 +83,7 @@ int func_0217C820(Rec *r)
             v.x += 0x8000;
         else
             v.x -= 0x8000;
-        func_021F37B8(r->f4, &v);
+        func_021F37B8((int)r->f4, &v);
         func_020061E4(0x774);
         r->f10++;
         break;
@@ -98,7 +98,7 @@ int func_0217C820(Rec *r)
         }
         break;
     case 2:
-        if (func_021F37D8(r->f4) == 0 && func_0216D454(obj) == 1) {
+        if (func_021F37D8(r->f4) == 0 && func_0216D454((int)obj) == 1) {
             func_0216D480(obj);
             if (r->f14 != 0)
                 func_0216D480(r->f14);
@@ -107,7 +107,7 @@ int func_0217C820(Rec *r)
         break;
     case 3:
         if (r->f14 != 0) {
-            func_0216CF2C(r->f14);
+            func_0216CF2C((int)r->f14);
             r->f14 = 0;
         }
         return 1;

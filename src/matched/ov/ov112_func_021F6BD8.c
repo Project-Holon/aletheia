@@ -24,7 +24,7 @@ typedef unsigned char u8;
 extern void *func_02030734(u16,u32,int,const char *,u16);
 extern void *func_0204B100(int,u8,u32);
 extern void func_0204B270(void *);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32 func_0204ABF0(u32,u32,u32,u32,u16);
 extern int func_0204A6C8(u32,u32,u32,u32,u16);
 extern int func_0204AF28(u32,u32,u32,u32);
@@ -43,7 +43,7 @@ Object *func_021F6BD8(u16 heap,void *a)
     p->other[0]=0;
     p->bank=func_0204B100(5,0,p->heap);
     func_0204B270(p->bank);
-    q=func_020490F4((void *)47,p->heap);
+    q=func_020490F4((unsigned int)47,p->heap);
     p->x=func_0204ABF0((u32)q,4,0,0,p->heap);
     p->y=func_0204A6C8((u32)q,10,0,0,p->heap);
     p->z=func_0204AF28((u32)q,20,23,p->heap);

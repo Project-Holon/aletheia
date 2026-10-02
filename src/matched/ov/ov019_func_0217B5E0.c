@@ -39,7 +39,7 @@ int func_0217B5E0(char *base, int *p, int r2, unsigned char *state)
     switch (*state) {
     case 0:
         if (func_0216D3CC(h) == 1) {
-            func_0216D828(func_021A3074(func_02188CB4((void *)r2)), a);
+            func_0216D828((int)func_021A3074(func_02188CB4((void *)r2)), a);
             func_0216D828(h, a + 4);
             if (a[4] != a[0] || a[6] != a[2]) {
                 func_0216D410(h, 0x44);

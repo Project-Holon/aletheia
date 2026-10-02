@@ -30,7 +30,7 @@ typedef unsigned int u32;
 
 typedef struct {
     void *f0;
-    int f4;
+    unsigned char *f4;
     s16 f8;
     s16 fA;
     u16 fC;
@@ -46,13 +46,13 @@ typedef struct {
 extern const u8 d_021836A0[4];
 
 extern void func_020061E4(int);
-extern int func_02188BE8(int);
+extern int func_02188BE8(void *);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
-extern int func_0216D3CC(int);
+extern int func_0216D3CC(void *);
 extern int func_020120F4(void *);
 extern void func_0217BCDC(void *, void *, int, u8, u8);
-extern void func_0216D410(int, u8);
+extern void func_0216D410(void *, u8);
 
 int func_0217C688(Rec *r, void *a1)
 {

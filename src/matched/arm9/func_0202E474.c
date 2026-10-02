@@ -35,7 +35,7 @@ extern void *func_02030734(int a0, int a1, int a2, int a3, int a4);
 extern int   func_0200873C(int a0);
 extern int   func_02012944(int a0);
 extern int   func_02012924(int a0);
-extern int   func_0201292C(int a0);
+extern void *func_0201292C(int a0);
 extern void  func_02082D44(void *src, void *dst, int n);
 extern void *func_020127A4(int a0);
 extern int   func_02012B28(void *p);
@@ -51,7 +51,7 @@ void *func_0202E474(int a0, int a1, int a2, int a3)
     *(int *)(p + 4) = func_0200873C(v);
     *(int *)(p + 8) = func_02012944(a0);
     *(int *)(p + 0xc) = func_02012924(a0);
-    *(int *)(p + 0x10) = func_0201292C(a0);
+    *(void **)(p + 0x10) = func_0201292C(a0);
     if (a1 != 0) {
         func_02082D44((void *)a1, p + 0x14, 0x18);
     }

@@ -29,7 +29,7 @@ struct In {
 };
 
 struct S {
-    u32 f00;
+    void *f00;
     struct In *f04;
 };
 

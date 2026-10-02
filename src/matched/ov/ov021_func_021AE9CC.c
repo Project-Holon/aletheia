@@ -24,7 +24,7 @@ typedef signed char    s8;
 typedef struct R { u8 pad[0x14]; u32 f14; u32 f18; } R;
 
 extern void *func_0215A5F4(void *p);
-extern R *func_02159124(u32 a, u32 b);
+extern R *func_02159124(void *a, u32 b);
 extern u16 *func_02159AE8(void *a0, void *a1);
 
 int func_021AE9CC(u32 a, u32 b)

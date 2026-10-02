@@ -88,7 +88,7 @@ typedef struct {
     u8 f1B0[8];
 } Work;
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void *func_02045B38(int a, int b, int c, int heap);
 extern void *func_02045EC0(void *p, int i);
 extern void func_02045A90(void *p);

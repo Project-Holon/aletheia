@@ -20,7 +20,7 @@ extern int func_020399A8(void);
 extern int func_02039CB4(unsigned, unsigned, unsigned);
 extern unsigned func_02008468(int);
 extern void *func_02012944(void *);
-extern int func_0203D3A8(void *a, unsigned int b, u16 c, void *d);
+extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
 extern void func_021BA8EC(char *);
 int func_021C1374(char *p, int ret)
 {

@@ -26,8 +26,8 @@ typedef unsigned int   u32;
 
 extern u32 func_02188C5C(void *p);
 extern void *func_02188CB4(void *p);
-extern void func_021A3664(u32 a, u32 b);
-extern u32 func_021A36A4(u32 a);
+extern void func_021A3664(u32 *p, u32 heap);
+extern u32 func_021A36A4(u8 *p);
 extern void func_021BB3AC(u32 a, u32 b);
 extern u32 *sub_02030734(u32 heap, u32 size, int clear, const char *site, u32 tag);
 extern const char data_021DDF1C[];
@@ -36,9 +36,9 @@ u32 *func_021A6D58(void *a, u32 heap)
 {
     u32 r7 = func_02188C5C(a);
     u32 *p = sub_02030734(heap, 8, 1, data_021DDF1C, 0x3e);
-    void *r6 = func_02188CB4((void *)a);
+    void *r6 = func_02188CB4(a);
 
-    *p = r6;
+    *(void **)p = r6;
     func_021A3664(r6, heap);
     func_021BB3AC(r7, func_021A36A4(r6));
     return p;

@@ -46,6 +46,6 @@ void *func_021C0E4C(u32 a, u16 b, u32 c, u32 d)
     *(u16 *)((u8 *)w + 4) = b;
     *(u16 *)((u8 *)w + 6) = d;
     w[7] = c;
-    w[8] = func_021A3960((void *)t);
+    w[8] = (u32)func_021A3960((void *)t);
     return task;
 }

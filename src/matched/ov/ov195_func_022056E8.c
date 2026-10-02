@@ -40,11 +40,11 @@ typedef unsigned int u32;
 
 extern u32 d_020A7370;
 extern u32 d_02208F40[];
-extern u32 func_0201292C(u32);
+extern void *func_0201292C(u32);
 extern int func_0201AA18(u32);
 extern int func_0201AA14(u32);
-extern int func_02007F68(u32, int, int, u16);
-extern void func_02007F1C(u32, int, int, u16);
+extern int func_02007F68(void *, int, int, u16);
+extern void func_02007F1C(void *, int, int, u16);
 extern u32 func_020173EC(void);
 extern u32 func_02030734(u16, u32, int, void *, u32);
 extern void func_02019CE0(u32, u32);
@@ -64,7 +64,8 @@ extern void func_02008DF0(u32, int);
 
 void func_022056E8(u32 *a, char *b)
 {
-    u32 save, p, q, v;
+    void *save;
+    u32 p, q, v;
     int i;
 
     save = func_0201292C(a[0]);

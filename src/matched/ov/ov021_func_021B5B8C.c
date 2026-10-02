@@ -23,21 +23,23 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u32 func_02159B10(u32 a, u32 b);
-extern int func_0215B4AC(u32 a, u32 b, u32 *out);
-extern void *func_0215A5E4(void *a0);
-extern u32 func_02012F08(u32 a);
-extern u32 func_02017E1C(u32 a, u32 b, u32 c);
-extern void func_0200C11C(u32 a, u32 b, u32 c, u32 d, u32 e);
+struct Blk34;
 
-int func_021B5B8C(u32 a, u32 b)
+extern unsigned int func_02159B10(void *a0, void *a1);
+extern int func_0215B4AC(void *a0, unsigned int a1, void **out);
+extern void *func_0215A5E4(void *a0);
+extern void *func_02012F08(int *p);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern void func_0200C11C(struct Blk34 *p, u16 a, u32 b, u32 c, u32 d);
+
+int func_021B5B8C(void *a, void *b)
 {
-    u32 rec;
-    u32 x;
+    void *rec;
+    struct Blk34 *x;
     u16 v5, v6f, v4c, v6e;
 
     if (func_0215B4AC(b, func_02159B10(a, b), &rec) == 1) {
-        x = func_02012F08(func_0215A5E4((void *)b));
+        x = func_02012F08(func_0215A5E4(b));
         v5 = func_02017E1C(rec, 5, 0);
         v6f = func_02017E1C(rec, 0x6f, 0);
         v4c = func_02017E1C(rec, 0x4c, 0);

@@ -14,7 +14,7 @@
 
 typedef unsigned int u32;
 
-u32 func_021B7FF4(u32 *p)
+void *func_021B7FF4(void **p)
 {
     return *p;
 }

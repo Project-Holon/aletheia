@@ -27,7 +27,7 @@ typedef unsigned int u32;
 struct Pair { int a,b; };
 struct Point { s16 x,y; u16 f4; u8 f6,f7; };
 extern const struct Pair d_021DA738, d_021DA748;
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32 func_0201BA68(int);
 extern void *func_0204A6C8(void *, u32, u32, u32, u16);
 extern void *func_0204B294(u32, void *, u32, u32, struct Point *, u16, u16);

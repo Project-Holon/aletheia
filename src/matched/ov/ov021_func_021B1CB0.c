@@ -27,7 +27,7 @@ extern void *func_0215A5DC(void *a0);
 extern void *func_0201210C(void *p);
 extern void *func_02188CB4(unsigned char *p);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern int func_021A32A8(u32, u32);
+extern int func_021A32A8(void *, u32);
 extern u16 func_0216D588(int);
 
 int func_021B1CB0(u32 a, u32 b)

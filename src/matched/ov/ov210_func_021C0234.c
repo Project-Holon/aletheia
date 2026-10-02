@@ -17,9 +17,10 @@
  *   func_02045EC0 0x02045EC0 arm
  *   d_021C0C20 0x021C0C20 data a4
  */
+typedef unsigned short u16;
 typedef struct Template { unsigned char prefix[24]; unsigned char zero, count; unsigned short offset; unsigned words[2]; void *ctx; } Template;
 extern const Template d_021C0C20;
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void *func_021B7754(void *, unsigned);
 extern void func_021B7A10(void *, void *, unsigned, unsigned, unsigned);
 extern void func_021B7A4C(void *, void *, unsigned, unsigned, unsigned);
@@ -28,7 +29,7 @@ extern void func_021B79E4(void *, unsigned, unsigned);
 extern void *func_02045EC0(void *, unsigned);
 void func_021C0234(char *ctx)
 {
-    void *archive = func_020490F4((void *)159, 0x807b);
+    void *archive = func_020490F4(159, 0x807b);
     Template config;
     unsigned i;
     config = d_021C0C20;

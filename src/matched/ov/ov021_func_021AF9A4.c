@@ -31,10 +31,10 @@ typedef struct {
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5E4(void *a0);
-extern u32 func_02158F74(u32);
+extern u32 func_02158F74(void *a);
 extern u32 func_02159B10(Script *, u32);
 extern void *func_02012934(void *p);
-extern u32 func_0201AB28(u32, u32);
+extern u32 func_0201AB28(void *, u32);
 extern void func_0201EEF4(u32, u32, u32);
 
 int func_021AF9A4(Script *a, u32 b)

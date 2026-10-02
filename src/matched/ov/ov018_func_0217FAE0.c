@@ -30,16 +30,16 @@ typedef short s16;
 
 u16 *func_02159AE8(void *a0, void *a1);
 void *func_0215A5DC(void *a0);
-int func_02012138(int);
-int func_020120F4(int);
-int func_0215841C(int);
-int func_02012B58(int);
+unsigned int func_02012138(void *);
+void *func_020120F4(void *);
+int func_0215841C(void *);
+int func_02012B58(void *);
 
 int func_0217FAE0(void *unused, int a)
 {
     u16 *out;
     void *t;
-    int q;
+    void *q;
     int v;
 
     out = func_02159AE8(unused, (void *)a);

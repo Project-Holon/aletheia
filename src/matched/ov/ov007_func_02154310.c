@@ -34,13 +34,13 @@ typedef unsigned short u16;
 extern void *func_0201210C(void *p);
 extern int   func_02012138(u32 a0);
 extern int   func_02026454(int x);
-extern void *func_020144DC(u32 a0, u32 a1);
+extern void *func_020144DC(u32 a0, void *a1);
 extern void  func_02012374(void *obj, void *out);
 extern void  func_020120B4(u32 a0, void *a1, void *a2, void *a3);
 extern int   func_020120F0(u32 a0);
-extern void *func_020145CC(u32 a0, u32 a1);
-extern void *func_021BE8D4(u32 a0, u32 a1, int a2, int a3);
-extern void *func_021BE92C(u32 a0, u32 a1, int a2, int a3, int a4, int a5, int a6);
+extern void *func_020145CC(u32 a0, void *a1);
+extern void *func_021BE8D4(u32 a0, void *a1, int a2, int a3);
+extern void *func_021BE92C(u32 a0, void *a1, int a2, int a3, int a4, int a5, int a6);
 
 extern char ov116_id[];
 extern char d_021D83A4[];

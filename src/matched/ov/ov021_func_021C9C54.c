@@ -32,13 +32,13 @@ typedef struct {
 
 extern int func_021CA270(int kind);
 extern int func_0200D884(u32 h, int id, void *val);
-extern u32 func_021CA210(u8 *p);
-extern u32 func_0201AB28(u32 h, u8 idx);
+extern void *func_021CA210(u8 *p);
+extern u32 func_0201AB28(void *h, u8 idx);
 extern u16 func_02017E1C(u32 m, int id, int c);
 
 void func_021C9C54(u8 *p)
 {
-    u32 h;
+    void *h;
     int i;
     u32 m;
 

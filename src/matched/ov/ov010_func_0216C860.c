@@ -19,7 +19,7 @@ extern void *func_020122C0(void *,void *,void *,unsigned int);
 extern void **func_020124E8(void *);
 extern int func_0216C7FC(int, int *, int *);
 void *func_0216C860(void *a) {
-    unsigned int v; void *t; void **p;
+    void *v; void *t; void **p;
     v=func_0201210C(a); t=func_020122C0(a,0,(void *)func_0216C7FC,0x14); p=func_020124E8(t);
-    p[1]=a; *(unsigned int *)p=v; return t;
+    p[1]=a; *(void **)p=v; return t;
 }

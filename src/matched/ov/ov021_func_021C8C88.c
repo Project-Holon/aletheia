@@ -31,7 +31,7 @@ typedef signed short   s16;
 struct Work8C88 {
     void *sys;
     u8 *owner;
-    u32 f8;
+    u8 *f8;
     void *fC;
     u32 f10;
     u32 f14;
@@ -58,8 +58,8 @@ void *func_021C8C88(u32 prio, void *sys, u8 *owner)
 
     w->sys = sys;
     w->owner = owner;
-    w->f8 = v;
-    w->fC = func_021A3074((void *)v);
+    w->f8 = (u8 *)v;
+    w->fC = func_021A3074(w->f8);
     w->f10 = 0;
     w->f14 = 0;
     w->f18 = 0;

@@ -28,12 +28,12 @@ typedef struct S {
     u32 f3c;
 } S;
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern int *func_02049250(int, int, u16);
-extern u32 func_020493D4(int, int);
-extern void func_0204944C(int, int, int, int, void *);
+extern void *func_020490F4(unsigned int id, u16 heap);
+extern int *func_02049250(void *, int, u16);
+extern u32 func_020493D4(void *, int);
+extern void func_0204944C(void *, int, int, int, void *);
 extern void func_020307B0(void *);
-extern void func_02049238(int);
+extern void func_02049238(void *);
 
 void func_021F3E84(S *o, int b, int key, u16 c)
 {

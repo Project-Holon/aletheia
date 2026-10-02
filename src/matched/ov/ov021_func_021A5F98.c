@@ -24,16 +24,16 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void func_021A6278(void *a, int b, int c, int d, int e, int f);
-extern void func_021A627C(void *a, int b, int c, int d, int e, int f);
-extern void func_021A62B4(void *a, int b, int c, int d, int e, int f);
-extern void func_021A62D8(void *a, int b, int c, int d, int e, int f);
-extern void func_021A62FC(void *a, int b, int c, int d, int e, int f);
-extern void func_021A6338(void *a, int b, int c, int d, int e, int f);
+extern void func_021A6278(void *a, void *b, int c, int d, int e, int f);
+extern void func_021A627C(void *a, void *b, int c, int d, int e, int f);
+extern void func_021A62B4(void *a, void *b, int c, int d, int e, int f);
+extern void func_021A62D8(void *a, void *b, int c, int d, int e, int f);
+extern void func_021A62FC(void *a, void *b, int c, int d, int e, int f);
+extern void func_021A6338(void *a, void *b, int c, int d, int e, int f);
 
 void func_021A5F98(int *a, int sel, int c, int d, int e, int f)
 {
-    int p = a[7];
+    void *p = ((void **)a)[7];
     switch (sel) {
     case 0: func_021A6278(a, p, c, d, e, f); break;
     case 1: func_021A627C(a, p, c, d, e, f); break;

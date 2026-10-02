@@ -29,44 +29,45 @@ typedef short s16;
 typedef unsigned short u16;
 
 extern void *func_0215A5F4(void *p);
-extern int *func_02158F58(int a0);
-extern int func_02188C98(int);
-extern int func_0218DC70(int);
-extern void *func_02188CB4(unsigned char *p);
-extern void *func_02188C7C(unsigned char *p);
-extern int func_02158F74(int);
+extern int *func_02158F58(void *a0);
+extern void *func_02188C98(int);
+extern void *func_0218DC70(void *);
+extern void *func_02188CB4(int p);
+extern void *func_02188C7C(int p);
+extern void *func_02158F74(void *);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_02159B10(int, int);
-extern void func_021A3460(int, s16 *, s16 *, s16 *);
-extern void *func_0216DDC0(int, int, int, int);
+extern void func_021A3460(void *, s16 *, s16 *, s16 *);
+extern void *func_0216DDC0(void *, int, int, int);
 extern int func_02186090(void *p);
-extern int func_0219391C(int);
+extern unsigned char func_0219391C(unsigned char *);
 
 int func_02187000(int a0, int a1)
 {
     void *r6;
     int *s;
-    int a;
+    void *a;
     void *b;
     void *c;
     u16 *r4;
     int r5;
+    int n;
     s16 v[3];
 
     r6 = func_0215A5F4((void *)a1);
-    s = func_02158F58((int)r6);
+    s = func_02158F58(r6);
     a = func_0218DC70(func_02188C98(s[1]));
-    b = func_02188CB4((unsigned char *)s[1]);
-    c = func_02188C7C((unsigned char *)s[1]);
-    func_02158F74((int)r6);
+    b = func_02188CB4(s[1]);
+    c = func_02188C7C(s[1]);
+    func_02158F74(r6);
     r4 = func_02159AE8((void *)a0, (void *)a1);
     r5 = func_02159B10(a0, a1);
-    func_021A3460((int)b, &v[2], &v[1], &v[0]);
-    r6 = (void *)func_02186090(func_0216DDC0((int)c, v[2], v[0], 0));
+    func_021A3460(b, &v[2], &v[1], &v[0]);
+    n = func_02186090(func_0216DDC0(c, v[2], v[0], 0));
     r5 = (u16)(r5 - 1);
     if (func_0219391C(a) == 0)
-        *r4 = r5 + ((int)r6 * 4 + 1);
+        *r4 = r5 + (n * 4 + 1);
     else
-        *r4 = r5 + ((int)r6 * 4 + 9);
+        *r4 = r5 + (n * 4 + 9);
     return 0;
 }

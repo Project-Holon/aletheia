@@ -39,8 +39,8 @@ extern int func_02011330();
 extern int func_02012104();
 extern int func_02012374();
 extern void *func_020120F4(const struct Ctx *p);
-extern int func_02012844();
-extern int func_0201296C();
+extern unsigned int func_02012844(void *p);
+extern void *func_0201296C(void *p);
 extern void *func_02188CB4(unsigned char *p);
 extern int func_02188CD0();
 extern int func_021A3038();
@@ -52,7 +52,7 @@ extern int func_021BB578();
 
 int func_021AFDAC(int a0, int a1)
 {
-    int h;
+    void *h;
     void *a;
     int b;
     int c;
@@ -66,13 +66,13 @@ int func_021AFDAC(int a0, int a1)
     int arr[3];
     int buf[3];
 
-    h = func_02158F54(func_0215A5F4((void *)a1));
-    a = func_0201210C();
+    h = (void *)func_02158F54(func_0215A5F4((void *)a1));
+    a = func_0201210C(h);
     b = func_02011330(a0);
     c = func_02011330(a0);
     d = func_02011330(a0);
-    e = func_020120F4((const struct Ctx *)h);
-    f = func_02012844();
+    e = func_020120F4(h);
+    f = func_02012844(e);
     g = func_0201296C(e);
     func_021A3038(func_02188CB4((void *)a), buf);
     r = func_0216282C((struct Ctx *)f, (void *)g, buf, 9);

@@ -20,14 +20,14 @@
 typedef unsigned int u32;
 
 void *func_021A3960(unsigned char *p);
-int func_0216D7DC(u32 h);
+int func_0216D7DC(void *h);
 int func_021A5318(u32 *p, u32 m);
 int func_021AB0F0(int x);
 int func_021AB348(int x);
 
 int func_021A5458(u32 *p)
 {
-    int x = func_0216D7DC(func_021A3960(p[3]));
+    int x = func_0216D7DC(func_021A3960(*(unsigned char **)(p + 3)));
 
     if (func_021A5318(p, 2) == 0 && func_021AB348(func_021AB0F0(x)) == 1)
         return 1;

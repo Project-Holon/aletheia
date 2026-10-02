@@ -31,8 +31,8 @@ extern u32 func_02159B10(u32 a, u32 b);
 extern u32 func_0215A5EC(u32 a);
 extern u32 func_0216DE94(u32 a, u32 b);
 extern void func_0216D88C(u32 a, int *v);
-extern u32 func_021F3CFC(u32 a, int *v, u32 b, u32 c);
-extern void func_0215897C(u32 a, u32 b);
+extern void *func_021F3CFC(void *a, int *v, u32 b, u32 c);
+extern void func_0215897C(void *a, void *b);
 
 u32 func_021D2EDC(u32 a, u32 b)
 {
@@ -41,11 +41,11 @@ u32 func_021D2EDC(u32 a, u32 b)
     void *s0;
     u32 r6;
     u32 r5;
-    u32 r;
+    void *r;
 
     r7 = func_0215A5F4((void *)b);
     s0 = func_0215A5DC((void *)b);
-    func_0201210C();
+    func_0201210C(s0);
     r6 = func_02159B10(a, b);
     r5 = func_02159B10(a, b);
     func_0216D88C(func_0216DE94(func_0215A5EC(b), r6), v);

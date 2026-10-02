@@ -31,9 +31,9 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void sub_0204AC18(u32 a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
+extern void sub_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g);
 
-void sub_0204ABF0(u32 a, u32 b, u32 c, u32 d, u16 g)
+void sub_0204ABF0(void *a, u32 b, u32 c, u32 d, u16 g)
 {
     sub_0204AC18(a, b, c, d, 0, 0, g);
 }

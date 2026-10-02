@@ -18,7 +18,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern u8 func_021BF6DC(u8 *);
 extern void func_020499D4(void *, int, int, int, int, int, int, u16);
 extern void func_02045374(void *);
@@ -28,7 +28,7 @@ void func_021BB8D8(u8 *p)
 {
     void *handle;
     int i;
-    handle = func_020490F4((void *)43, 42);
+    handle = func_020490F4(43, 42);
     if (func_021BF6DC(*(u8 **)(p + 4)) == 0) {
         func_020499D4(handle, 27, 1, 0, 0, 0, 0, 42);
         for (i = 0; i < 12; i++) func_02045374(*(void **)(p + 0x60 + i * 4));

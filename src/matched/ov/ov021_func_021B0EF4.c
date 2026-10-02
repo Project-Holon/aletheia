@@ -50,7 +50,7 @@ typedef struct S {
 } S;
 
 extern void *func_0215A5F4(void *p);
-extern int *func_02158F58(void *);
+extern unsigned char **func_02158F58(void *);
 extern int func_02159B10(void *, int);
 extern int func_02158F78(void *);
 extern int func_02159190(int);
@@ -63,9 +63,9 @@ extern void func_02082BCC(void *p, int v, int n);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
 extern void func_0216D88C(void *, V3 *);
-extern int func_021B0A40(int, V3 *);
+extern int func_021B0A40(void *, V3 *);
 extern void func_021B0B08(int, int);
-extern void func_021B0ADC(int, int, int, V3 *, int, int, int);
+extern void func_021B0ADC(int, unsigned char *, int, V3 *, int, int, int);
 extern void func_0215A660(int, int);
 extern void func_020113D0(void *, int (*)(int, int));
 extern int func_021B0CEC(int, int);
@@ -73,7 +73,7 @@ extern int func_021B0CEC(int, int);
 int func_021B0EF4(void *a, int b)
 {
     void *o;
-    int *q;
+    unsigned char **q;
     int k0, k1, k2, m, r, flag;
     int y;
     void *x;

@@ -18,8 +18,8 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void *func_02049F78(unsigned, unsigned, unsigned, unsigned);
+extern void *func_020490F4(unsigned int id, u16 heap);
+extern void *func_02049F78(void *, unsigned, void *, unsigned);
 extern void func_02082D44(const void *, void *, unsigned);
 extern void func_020307B0(void *);
 extern void func_02049238(void *);
@@ -27,11 +27,11 @@ extern int func_02061CA4(void *, unsigned, unsigned, int);
 extern const u8 d_021BC708[];
 void func_021BB7A4(char *p)
 {
-    void *object = func_020490F4((void *)205, *(u16 *)p);
+    void *object = func_020490F4(205, *(u16 *)p);
     u8 i;
     for (i = 0; i < 4; i++) {
         char *out;
-        void *buffer = func_02049F78((unsigned)object, d_021BC708[i], (unsigned)&out, *(u16 *)p);
+        void *buffer = func_02049F78(object, d_021BC708[i], &out, *(u16 *)p);
         func_02082D44(*(char **)(out + 0xC) + 256, p + 0x26A + i * 256, 256);
         func_020307B0(buffer);
     }

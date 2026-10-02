@@ -42,10 +42,10 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0204A380(u32 a0, u32 a1, u32 a2, u16 a3);
+extern void *func_0204A380(void *a0, u32 a1, u32 a2, u16 a3);
 extern u32 func_0204982C(void *buf, u32 kind, u32 a2, u32 size);
 
-u32 sub_02049800(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6)
+u32 sub_02049800(void *a0, u32 a1, u32 a2, u32 a3, u32 a4, u32 a5, u16 a6)
 {
     return func_0204982C(func_0204A380(a0, a1, a5, a6), a2, a3, a4);
 }

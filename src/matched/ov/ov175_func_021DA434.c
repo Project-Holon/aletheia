@@ -19,11 +19,12 @@
  * block, anything else reports 1.
  */
 
+typedef unsigned short u16;
 typedef unsigned long u32;
 
 extern int func_02156CD0(void);
-extern int func_020399A8(void);
-extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, unsigned int d);
+extern void *func_020399A8(void);
+extern int func_0203D3A8(void *a, u16 b, u16 c, unsigned int d);
 extern u32 g_021E2C8C[];
 
 int func_021DA434(void)

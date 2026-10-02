@@ -21,14 +21,14 @@
 typedef unsigned short u16;
 extern char d_021E8530[];
 extern int func_02030734(u16, unsigned, int, void *, int);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_021D8DD0(int, int, int, char *);
 extern int func_0201BA68(int);
 extern int func_0201BABC(int, int, int, int);
-extern int func_02049DF4(int, int, int, int *, u16);
+extern int func_02049DF4(void *, int, int, int *, u16);
 extern void func_02082D44(void *, const void *, int);
 extern void func_020307B0(int);
-extern void func_02049238(int);
+extern void func_02049238(void *);
 void func_021E5098(char *p, int b)
 {
     int i, n, x, t, out;

@@ -34,13 +34,13 @@ typedef unsigned int   u32;
 extern void *func_020457B0(u32 size, u32 heap);
 extern void *func_0201D7EC(u32 a, u32 b, u32 c, u32 d, u32 heap);
 extern void *func_02045B38(u32 a, u32 b, u32 c, u32 d);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void func_02049B68(u32 h, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern u32 func_02049740(u32 h, u32 id, u32 layer, u32 ofs, u32 size, u32 heap);
-extern void func_02049990(u32 h, u32 id, u32 layer, u32 ofs, u32 chrOfs, u32 a5, u32 a6,
+extern void *func_020490F4(unsigned int id, u16 heap);
+extern void func_02049B68(void *h, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern u32 func_02049740(void *h, u32 id, u32 layer, u32 ofs, u32 size, u32 heap);
+extern void func_02049990(void *h, u32 id, u32 layer, u32 ofs, u32 chrOfs, u32 a5, u32 a6,
     u32 heap);
-extern void func_02049238(u32 h);
-extern void *func_02049F78(u32 h, u32 id, void *out, u32 heap);
+extern void func_02049238(void *h);
+extern void *func_02049F78(void *h, u32 id, void *out, u32 heap);
 extern void func_02082D44(void *src, void *dst, u32 n);
 extern void func_021964B0(void *pal, const u16 *add, u32 n);
 extern void func_020307B0(void *p);

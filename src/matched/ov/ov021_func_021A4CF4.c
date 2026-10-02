@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * symbols:
  *   func_021A3960  0x021A3960  thumb  ov021
@@ -29,16 +29,16 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_021A3960(unsigned char *p);
-extern void func_021A4D8C(u32, u32, u32);
-extern void func_021A4D90(u32, u32, u32);
-extern void func_021A4DC0(u32, u32, u32);
-extern void func_021A4E78(u32, u32, u32);
-extern void func_021A4E9C(u32, u32, u32);
-extern void func_021A4ED8(u32, u32, u32);
-extern void func_021A4F04(u32, u32, u32);
-extern void func_021A4F0C(u32, u32, u32);
-extern void func_021A4F50(u32, u32, u32);
-extern int func_021A4F58(u32, u32, u32);
+extern void func_021A4D8C(u32, void *, u32);
+extern void func_021A4D90(u32, void *, u32);
+extern void func_021A4DC0(u32, void *, u32);
+extern void func_021A4E78(u32, void *, u32);
+extern void func_021A4E9C(u32, void *, u32);
+extern void func_021A4ED8(u32, void *, u32);
+extern void func_021A4F04(u32, void *, u32);
+extern void func_021A4F0C(u32, void *, u32);
+extern void func_021A4F50(u32, void *, u32);
+extern int func_021A4F58(u32, void *, u32);
 
 void func_021A4CF4(u32 a, u32 b, u32 c)
 {

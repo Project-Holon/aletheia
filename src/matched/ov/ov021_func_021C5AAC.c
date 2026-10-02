@@ -24,25 +24,34 @@
  *   func_021C5B58  0x021C5B58  thumb  ov021
  */
 
-extern int func_020120F4(int a);
+extern void *func_020120F4(void *a);
 extern void *func_02012934(void *p);
-extern int func_0201AA18(int a);
-extern int func_020122C0(int a, int b, void *cb, int c);
-extern int *func_020124E8(int a);
+extern int func_0201AA18(void *a);
+extern int func_020122C0(void *a, int b, void *cb, int c);
+struct Work {
+    void *a;
+    void *f04;
+    int *f08;
+    int f0C;
+    int f10;
+    int f14;
+};
+
+extern struct Work *func_020124E8(int a);
 extern void *func_0201210C(void *p);
-extern int func_0201AB28(int a, int b);
-extern int func_02012EBC(int a);
-extern int func_0200C0F0(int a);
+extern int func_0201AB28(void *a, int b);
+extern void *func_02012EBC(void *a);
+extern void *func_0200C0F0(void *a);
 extern int func_02017E1C(int a, int b, int c);
-extern int func_0216BFD4(int a, int b, int c, int d, int e, int f, int g);
+extern int *func_0216BFD4(int a, int b, int c, int d, int e, int f, void *g);
 extern int func_021C5B58(int a, int *b, int *c);
 
-int func_021C5AAC(int a, int b, int c, int d)
+int func_021C5AAC(void *a, int b, int c, int d)
 {
     int h;
-    int *p;
+    struct Work *p;
     int e;
-    int r6;
+    void *r6;
     int x;
     int y;
 
@@ -51,16 +60,16 @@ int func_021C5AAC(int a, int b, int c, int d)
     }
     h = func_020122C0(a, 0, (void *)func_021C5B58, 0x18);
     p = func_020124E8(h);
-    p[0] = a;
-    p[1] = func_0201210C((void *)a);
-    p[4] = b;
-    p[5] = d;
-    r6 = func_020120F4(p[0]);
-    e = func_0201AB28(func_02012934((void *)r6), c);
+    p->a = a;
+    p->f04 = func_0201210C(a);
+    p->f10 = b;
+    p->f14 = d;
+    r6 = func_020120F4(p->a);
+    e = func_0201AB28(func_02012934(r6), c);
     r6 = func_0200C0F0(func_02012EBC(r6));
     x = func_02017E1C(e, 5, 0);
     y = func_02017E1C(e, 0x6f, 0) | (func_02017E1C(e, 0x6e, 0) << 8);
-    p[2] = func_0216BFD4(4, 1, x, y, 0xa, 0, r6);
-    p[3] = e;
+    p->f08 = func_0216BFD4(4, 1, x, y, 0xa, 0, r6);
+    p->f0C = e;
     return h;
 }

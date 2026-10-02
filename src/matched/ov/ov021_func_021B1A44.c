@@ -25,7 +25,7 @@
 typedef unsigned char u8;
 
 void *func_0215A5F4(void *p);
-int func_02158F90(int a);
+int func_02158F90(void *a);
 int func_021B1E74(int b);
 int func_0215A5EC(int b);
 int func_0216D454(int a);

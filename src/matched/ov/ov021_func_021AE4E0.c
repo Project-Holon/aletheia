@@ -15,21 +15,33 @@
  *   func_0216D5A0  0x0216D5A0  thumb  ov010
  */
 
-extern void *func_021A3074(unsigned char *p);
-extern int func_0216D454(int a0);
-extern int func_0216D5A0(int x);
+typedef struct Task {
+    int state;              /* 0x00 */
+    int f04;
+    void *f08;              /* 0x08 */
+    int f0C[4];
+    int f1C;                /* 0x1C */
+    int f20;
+    int f24;                /* 0x24 */
+    int f28[3];
+    unsigned char *f34;     /* 0x34 */
+} Task;
 
-int func_021AE4E0(int *p)
+extern void *func_021A3074(unsigned char *p);
+extern int func_0216D454(void *a0);
+extern int func_0216D5A0(void *x);
+
+int func_021AE4E0(Task *p)
 {
-    if (func_0216D454(func_021A3074(p[0x34 / 4])) == 0)
+    if (func_0216D454(func_021A3074(p->f34)) == 0)
         return 0;
-    p[0] = 3;
-    switch (func_0216D5A0(p[2])) {
+    p->state = 3;
+    switch (func_0216D5A0(p->f08)) {
     case 0x33:
     case 0x34:
     case 0x35:
     case 0x36:
-        p[0] = 7;
+        p->state = 7;
         break;
     }
     return 1;

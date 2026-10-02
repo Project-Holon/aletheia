@@ -36,7 +36,7 @@ extern void func_0204A48C(const void *,u32,u32);
 extern void *func_0204B100(int,u8,u32);
 extern void func_0204B270(void *);
 extern void func_020434DC(u32,u32),func_02043598(u32,u32);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_0204ABF0(u32,u32,u32,u32,u16);
 extern int func_0204A6C8(u32,u32,u32,u32,u16);
 extern int func_0204AF28(u32,u32,u32,u32);
@@ -56,7 +56,7 @@ void func_021B7B3C(struct State *p,const void *config,u16 heap)
     func_0204B270(p->bank);
     func_020434DC(16,1);
     func_02043598(16,1);
-    arc=func_020490F4((void *)94,heap);
+    arc=func_020490F4(94,heap);
     p->palette=func_0204ABF0((u32)arc,12,1,0,heap);
     p->chars=func_0204A6C8((u32)arc,11,0,1,heap);
     p->other=func_0204AF28((u32)arc,10,9,heap);

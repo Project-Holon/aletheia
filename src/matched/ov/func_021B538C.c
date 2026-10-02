@@ -26,7 +26,7 @@ typedef signed short   s16;
 typedef signed char    s8;
 extern void *func_0201210C(void *p);
 extern void *func_0215A5DC();
-extern u32 func_02188C58(u32);
+extern u32 func_02188C58(void *);
 extern u32 func_0218EC54(u32);
 
 int func_021B538C(u32 a, u32 b, u32 c, u32 d)

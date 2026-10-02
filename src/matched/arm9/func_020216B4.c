@@ -31,11 +31,11 @@ typedef unsigned int   u32;
 
 struct PalAnmSlot;
 
-extern void func_02021660(struct PalAnmSlot *slots, u32 arcId, u32 fileId,
+extern void func_02021660(struct PalAnmSlot *slots, void *arc, u32 fileId,
                           u32 tag, u32 idx, u32 count, u16 off, u16 srcOff);
 
-void func_020216B4(struct PalAnmSlot *slots, u32 arcId, u32 fileId, u32 tag,
+void func_020216B4(struct PalAnmSlot *slots, void *arc, u32 fileId, u32 tag,
                    u32 idx, u32 count, u16 off)
 {
-    func_02021660(slots, arcId, fileId, tag, idx, count, off, 0);
+    func_02021660(slots, arc, fileId, tag, idx, count, off, 0);
 }

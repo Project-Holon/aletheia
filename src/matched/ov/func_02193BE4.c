@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * 
  * Promoted from src/pending/: the blocker this file named is filed.
  * func_02186770 (0x02186770) is a matched manifest entry, so the `matched`
@@ -28,13 +28,13 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02186770(u32);
-extern u32 func_02193EB4(u32, u32, u32, u32);
-extern u32 func_02193F34(u32, u32);
+extern int func_02186770(u8 *);
+extern void func_02193EB4(void *);
+extern u8 *func_02193F34(void *, u32);
 
-int func_02193BE4(u32 a, u32 b, u32 c, u32 d)
+int func_02193BE4(void *a, u32 b)
 {
-func_02193EB4(a, b, c, d);
+func_02193EB4(a);
 return func_02186770((func_02193F34(a, b) + 52));
 }
 

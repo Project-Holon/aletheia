@@ -26,12 +26,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_0215A5F4(void *p);
-extern u32 *func_02158F58(u32);
+extern u32 *func_02158F58(void *);
 extern u32 func_02188D38(u32);
 extern int func_02159B10(u32, u32);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
-extern u32 func_021C78DC(u32, int, void *, u32);
+extern u32 func_021C78DC(u32, int, void *, void *);
 extern void func_021C6DE0(u32, u32, int);
 
 int func_021B1D64(u32 a, u32 b)

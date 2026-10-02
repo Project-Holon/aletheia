@@ -37,7 +37,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct Obj;
 struct Placement { u16 x,y,z;u8 f6,f7; };
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049B68(u32,u32,u32,u32,u32,u16);
 extern void func_02049658(u32,u32,u32,u32,u32,u32,u16),func_020498F4(u32,u32,u32,u32,u32,u32,u16),func_02049BDC(u32,u32,u32,u32,u32,u32,u16);
 extern void func_020409B4(u32),func_02049238(void *),func_02040588(u32,u32),func_020413B0(u32,u8,u8,u8,u8,u8);
@@ -50,7 +50,7 @@ void func_021EF0F4(u8 *p) {
  u32 first;
  struct Placement placement;
  if(!p[0x28]) {
- archive=func_020490F4((void *)139,*(u16 *)p);
+ archive=func_020490F4(139,*(u16 *)p);
  func_02049B68((u32)archive,1,4,0,0,*(u16 *)p);
  func_02049658((u32)archive,5,7,0,0,0,*(u16 *)p);func_020498F4((u32)archive,9,7,0,0,0,*(u16 *)p);
  func_02049B68((u32)archive,0,0,0,0,*(u16 *)p);
@@ -61,20 +61,20 @@ void func_021EF0F4(u8 *p) {
  func_02049658((u32)archive,7,0,0,0,0,*(u16 *)p);func_020498F4((u32)archive,11,0,0,0,0,*(u16 *)p);
  func_020409B4(2);func_02049238(archive);
  } else {
- archive=func_020490F4((void *)34,*(u16 *)p);
+ archive=func_020490F4(34,*(u16 *)p);
  func_02049B68((u32)archive,6,4,0,0,*(u16 *)p);
  func_02049658((u32)archive,15,7,0,0,0,*(u16 *)p);func_020498F4((u32)archive,31,7,0,0,0,*(u16 *)p);
  func_02049B68((u32)archive,6,0,0,0,*(u16 *)p);
  func_02049658((u32)archive,15,3,0,0,0,*(u16 *)p);func_020498F4((u32)archive,31,3,0,0,0,*(u16 *)p);
  func_02049238(archive);
- archive=func_020490F4((void *)139,*(u16 *)p);
+ archive=func_020490F4(139,*(u16 *)p);
  func_02049BDC((u32)archive,2,4,288,288,128,*(u16 *)p);
  func_02049658((u32)archive,6,5,0,0,0,*(u16 *)p);func_020498F4((u32)archive,10,5,0,0,0,*(u16 *)p);
  func_02049BDC((u32)archive,3,4,416,416,32,*(u16 *)p);
  func_02049658((u32)archive,7,4,0,0,0,*(u16 *)p);func_020498F4((u32)archive,11,4,0,0,0,*(u16 *)p);
  func_020409B4(5);func_02040588(5,0);func_02040588(4,0);func_02049238(archive);
  }
- archive=func_020490F4((void *)func_020275E4(),*(u16 *)p);
+ archive=func_020490F4(func_020275E4(),*(u16 *)p);
  func_02049B68((u32)archive,func_02027624(),4,256,32,*(u16 *)p);
  func_02049658((u32)archive,func_02027628(),6,0,0,0,*(u16 *)p);func_020498F4((u32)archive,func_0202762C(),6,0,0,0,*(u16 *)p);
  func_020413B0(6,0,21,32,3,8);func_020409B4(6);

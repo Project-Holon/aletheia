@@ -20,14 +20,14 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_021D6810(u8 *, int);
 extern void func_021D6AF0(u8 *, u16, u16, int);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049990(void *, u32, u32, u32, u16, u32, u32, u16);
 extern void func_02049238(void *);
 void func_021D6814(u8 *p)
 {
     void *t;
     func_021D6810(p, 0);
-    t = func_020490F4((void *)144, *(u16 *)(p + 0xf4));
+    t = func_020490F4(144, *(u16 *)(p + 0xf4));
     func_02049990(t, 19, 4, 0, *(u32 *)p, 0, 0, *(u16 *)(p + 0xf4));
     func_02049990(t, 20, 4, 0, *(u32 *)p, 192, 0, *(u16 *)(p + 0xf4));
     func_02049238(t);

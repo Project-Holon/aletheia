@@ -29,7 +29,7 @@ typedef struct {
 } Script;
 
 extern void *func_0215A5F4(void *p);
-extern u32 func_02158F74(u32);
+extern u32 func_02158F74(void *);
 extern u32 func_02159B10(Script *, u32);
 extern void func_0201EF5C(u32, u32, u32);
 extern void func_0201EF4C(u32, u32, u32);

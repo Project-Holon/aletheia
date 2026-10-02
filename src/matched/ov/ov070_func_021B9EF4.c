@@ -25,13 +25,13 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern int func_0204AC18(int, int, int, int, int, int, u16);
-extern int func_0204A6C8(int, int, int, int, u16);
-extern int func_0204AF28(int, int, int, u16);
+extern void *func_020490F4(unsigned int id, u16 heap);
+extern int func_0204AC18(void *, int, int, int, int, int, u16);
+extern int func_0204A6C8(void *, int, int, int, u16);
+extern int func_0204AF28(void *, int, int, u16);
 extern int func_02043678(u32, u32, u32, u32);
 extern int func_02008550(int);
-extern void func_02049238(int);
+extern void func_02049238(void *);
 
 void func_021B9EF4(char *p)
 {

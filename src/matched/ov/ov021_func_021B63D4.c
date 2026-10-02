@@ -30,10 +30,12 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
+struct Ctx;
+
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern void *func_0201210C(void *p);
+extern void *func_0201210C(const struct Ctx *p);
 extern void func_02188C84(void *);
 extern void *func_020120F4(void *);
 extern void func_02012944(void *);
@@ -49,7 +51,7 @@ u32 func_021B63D4(void *a, void *b)
     u16 *out = func_02159AE8(a, b);
     void *p10 = func_0215A5F4(b);
     void *pc = func_0215A5DC(b);
-    void *t8 = func_0201210C();
+    void *t8 = func_0201210C(pc);
     void *t;
     void *party;
     int n;

@@ -20,14 +20,14 @@
 typedef unsigned int u32;
 
 extern void *func_0215A5F4(void *p);
-extern u32 func_02158F90(u32);
-extern u32 func_0215A5EC(u32);
-extern void func_0216D9A0(u32);
-extern int func_021B1B08(int, int);
+extern void *func_02158F90(void *);
+extern void *func_0215A5EC(void *);
+extern void func_0216D9A0(void *map);
+extern int func_021B1B08(int a, void *b);
 
-int func_021B1BB8(int a, int b)
+int func_021B1BB8(int a, void *b)
 {
-    if (func_02158F90(func_0215A5F4((void *)b)) == 0) {
+    if (func_02158F90(func_0215A5F4(b)) == 0) {
         func_0216D9A0(func_0215A5EC(b));
     } else {
         return func_021B1B08(a, b);

@@ -45,7 +45,7 @@ extern void func_021F4684(const void *,u32,u32);
 extern void *func_0204B100(int,u8,u32);
 extern void func_0204B270(void *);
 extern void func_02043598(u32,u32);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049B68(u32,u32,u32,u32,u32,u16);
 extern void func_02049658(u32,u32,u32,u32,u32,u32,u16);
 extern void func_020498F4(u32,u32,u32,u32,u32,u32,u16);
@@ -76,13 +76,13 @@ void func_021F44F8(u8 *p)
     *(void **)(p+72)=func_0204B100(8,0,*(u16 *)p);
     func_0204B270(*(void **)(p+72));
     func_02043598(16,1);
-    t=func_020490F4((void *)46,*(u16 *)p);
+    t=func_020490F4((unsigned int)46,*(u16 *)p);
     func_02049B68((u32)t,4,4,0,0,*(u16 *)p);
     func_02049658((u32)t,7,7,0,0,0,*(u16 *)p);
     func_020498F4((u32)t,12,7,0,0,0,*(u16 *)p);
     func_02049238(t);
     if (*(u32 *)(p+12)==0) {
-        t=func_020490F4((void *)func_020275E4(),*(u16 *)p);
+        t=func_020490F4((unsigned int)func_020275E4(),*(u16 *)p);
         func_02049B68((u32)t,func_02027624(),4,288,32,*(u16 *)p);
         func_02049658((u32)t,func_02027628(),6,0,0,0,*(u16 *)p);
         func_020498F4((u32)t,func_0202762C(),6,0,0,0,*(u16 *)p);

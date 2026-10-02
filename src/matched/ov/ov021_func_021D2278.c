@@ -36,16 +36,16 @@ extern u32 func_02188D38(u32 a);
 extern int func_021C7858(int, int, Vec *);
 extern void func_021C6DE0(u32 a, u32 b, u32 c);
 extern void func_020061E4(u32 a);
-extern void func_02006148(u32);
-extern int func_02006224(void);
+extern int func_02006148(u32 a0);
+extern int func_02006224(u32 a0);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
-extern void func_021A30A4(u32 a, u32 b);
+extern void func_021A30A4(void *a, u32 b);
 extern int func_021CD440(u32 field, u16 *out);
 extern u32 func_02184FD4(u32 a, u16 b);
 extern void func_02012374(u32 a, u32 b);
-extern void func_0216D410(u32 o, u32 v);
-extern int func_0216D454(u32 o);
+extern void func_0216D410(void *o, u32 v);
+extern int func_0216D454(void *o);
 
 int func_021D2278(u32 a, int *seq, int *w)
 {
@@ -73,11 +73,10 @@ int func_021D2278(u32 a, int *seq, int *w)
         (*seq)++;
         break;
     case 2:
-        func_02006148(0x63C);
-        if (func_02006224() != 0) {
+        if (func_02006224(func_02006148(0x63C)) != 0) {
             break;
         }
-        o = func_02188CB4(w[1]);
+        o = func_02188CB4((unsigned char *)w[1]);
         func_021A3074((void *)o);
         func_021A30A4(o, 3);
         func_021CD440(w[1], &id);
@@ -85,11 +84,11 @@ int func_021D2278(u32 a, int *seq, int *w)
         (*seq)++;
         break;
     case 3:
-        func_0216D410(func_021A3074(func_02188CB4(w[1])), 8);
+        func_0216D410(func_021A3074(func_02188CB4((unsigned char *)w[1])), 8);
         (*seq)++;
         break;
     case 4:
-        if (func_0216D454(func_021A3074(func_02188CB4(w[1])))) {
+        if (func_0216D454(func_021A3074(func_02188CB4((unsigned char *)w[1])))) {
             return 1;
         }
         break;

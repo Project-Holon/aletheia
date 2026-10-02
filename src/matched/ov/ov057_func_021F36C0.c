@@ -44,8 +44,8 @@ typedef struct Res {
 } Res;
 
 extern int func_02188C84(int a);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern u32 func_02046E24(u32 a0, u32 a1);
+extern void *func_020490F4(unsigned int id, u16 heap);
+extern u32 func_02046E24(void *a0, u32 a1);
 extern int func_02046F50(u32, int);
 extern void func_02046FF8(u32);
 extern u32 func_02047400(u32 a, u32 b, u32 c);
@@ -53,7 +53,7 @@ extern u32 func_02047564(u32 a, u32 b, u32 c);
 extern u32 func_0204767C(u32 a, u32 *b, u32 c);
 extern void func_020477A4(u32 h, u16 i);
 extern void func_02046BE0(u32 a, u32 b);
-extern void func_02049238(int);
+extern void func_02049238(void *);
 
 extern const u32 d_021F38A8[];
 extern const u32 d_021F387C[];

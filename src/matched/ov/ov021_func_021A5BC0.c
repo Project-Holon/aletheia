@@ -23,16 +23,16 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern void func_021A5EA0(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void func_021A5EA4(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void func_021A5EDC(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void func_021A5F14(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void func_021A5F38(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern void func_021A5F74(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void func_021A5EA0(u8 *p, void *a, u32 b, u32 c, u32 d, u32 e);
+extern void func_021A5EA4(u8 *p, void *a, u32 b, u32 c, u32 d, u32 e);
+extern void func_021A5EDC(u8 *p, void *a, u32 b, u32 c, u32 d, u32 e);
+extern void func_021A5F14(u8 *p, void *a, u32 b, u32 c, u32 d, u32 e);
+extern void func_021A5F38(u8 *p, void *a, u32 b, u32 c, u32 d, u32 e);
+extern void func_021A5F74(u8 *p, void *a, u32 b, u32 c, u32 d, u32 e);
 
 void func_021A5BC0(u8 *p, u32 k, u32 b, u32 c, u32 d, u32 e)
 {
-    u32 a = *(u32 *)(p + 0x1c);
+    void *a = *(void **)(p + 0x1c);
 
     switch (k) {
     case 0:

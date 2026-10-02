@@ -17,7 +17,7 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_0204A6C8(u32, u32, u32, u32, u16);
 extern int func_0204AC18(u32, u32, u32, u32, u16, u16, u16);
 extern int func_0204AF28(u32, u32, u32, u32);
@@ -25,7 +25,7 @@ extern void func_02049238(void *);
 void func_021B96EC(char *p)
 {
     void *owner;
-    owner = func_020490F4((void *)28, *(u16 *)(p + 0x278));
+    owner = func_020490F4(28, *(u16 *)(p + 0x278));
     *(int *)(p + 0x2bc) = func_0204A6C8((u32)owner, 7, 0, 0, *(u16 *)(p + 0x278));
     *(int *)(p + 0x2b8) = func_0204AC18((u32)owner, 3, 0, 0, 0, 3, *(u16 *)(p + 0x278));
     *(int *)(p + 0x2c0) = func_0204AF28((u32)owner, 9, 15, *(u16 *)(p + 0x278));

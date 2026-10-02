@@ -63,12 +63,12 @@ typedef struct Info {
 extern const Point d_0220A50C[][3];
 extern const u16 d_0220A392[];
 extern const char d_0220AEB0[];
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32 func_0201BC78(void);
 extern u32 func_0201BCEC(void);
 extern u32 func_0201BC3C(void);
-extern int func_0204AF28(u32, u32, u32, u32);
-extern int func_0204ACEC(u32, u32, u32, u16, u16);
+extern int func_0204AF28(void *, u32, u32, u32);
+extern int func_0204ACEC(void *, u32, u32, u16, u16);
 extern u32 func_0204AEF4(int, int);
 extern void func_020216D4(void *, u32, u32, u32);
 extern void *func_02030734(u16, u32, int, const char *, u16);
@@ -77,13 +77,13 @@ extern void func_0220684C(void *, void *, void *);
 extern void func_02204BCC(void *);
 extern u32 func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
 extern u32 func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
-extern int func_0204A6C8(u32, u32, u32, u32, u16);
+extern int func_0204A6C8(void *, u32, u32, u32, u16);
 extern void *func_0204B294(u32, u32, u32, u32, const void *, u16, u16);
 extern void func_0204B404(void *, const Point *, int);
 extern void func_0204B92C(void *, int);
 extern void func_0204B878(void *, u16);
 extern void func_0204B6F4(void *, u32, u32);
-extern void func_02049238(u32);
+extern void func_02049238(void *);
 void func_022057CC(Main *m, Info *q)
 {
     int n;
@@ -98,7 +98,7 @@ void func_022057CC(Main *m, Info *q)
     k = 0;
     if (m->mode == 0 || m->mode == 3)
         return;
-    arc = func_020490F4(7, (u16)((m->heap & 0x7fff) | 0x8000));
+    arc = func_020490F4(7, (m->heap & 0x7fff) | 0x8000);
     m->h1c0 = func_0204AF28(arc, func_0201BC78(), func_0201BCEC(), m->heap);
     m->h1bc = func_0204ACEC(arc, func_0201BC3C(), 1, 0x160, m->heap);
     func_020216D4(m->pal, 3, (u16)(func_0204AEF4(m->h1bc, 1) >> 1), 0x60);

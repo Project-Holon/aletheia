@@ -25,34 +25,36 @@
  */
 
 typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
 
-int func_020124E4(int);
-int func_02012138(int);
-int func_020120F4(int);
+void *func_020124E4(void *);
+u32 func_02012138(void *);
+void *func_020120F4(void *);
 void *func_0201210C(void *p);
 u8 *func_02158344(int);
-int func_02012B58(int);
+u8 func_02012B58(void *);
 void func_02176230(u8 *a, u8 *b);
-int func_0217CE08(int a, int b, int c, int d);
-void func_02012374(int a, int b);
-int func_020120F8(int);
-int func_02012AC8(int);
+void *func_0217CE08(void *a, void *b, int c, int d);
+void func_02012374(void *a, void *b);
+u8 *func_020120F8(void *);
+u16 func_02012AC8(void *);
 int func_02013D5C(int);
-int func_0217F938(int);
+void *func_0217F938(void *);
 
-int func_0217FA38(int a, int *state)
+int func_0217FA38(void *a, int *state)
 {
-    int s;
-    int h;
-    int p2;
+    void *s;
+    u32 h;
+    void *p2;
     void *p3;
     u8 *w;
-    int r;
+    void *r;
 
     s = func_020124E4(a);
     h = func_02012138(s);
     p2 = func_020120F4(s);
-    p3 = func_0201210C((void *)s);
+    p3 = func_0201210C(s);
     w = func_02158344(h);
     switch (*state) {
     case 0:

@@ -104,9 +104,9 @@ struct Sys {
 };
 
 extern struct Ctx *g_021469F0;
-extern u32  func_020399A8(void);
-extern void func_02039C68(u32 h, u32 a, u32 b);
-extern int  func_02039CB4(u32 h, u32 a, u32 b);
+extern void *func_020399A8(void);
+extern void func_02039C68(void *h, u32 a, u32 b);
+extern int  func_02039CB4(void *h, u32 a, u32 b);
 extern int  func_02039338(void);
 extern int  func_020399EC(void);
 extern int  func_02039ACC(void);
@@ -122,7 +122,7 @@ extern void func_0203D01C(void);
 extern void func_0203D0DC(void *fn);
 extern void func_0203D17C(u32 a);
 extern int  func_0203D210(void);
-extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *q);
+extern int func_0203D3A8(void *a, u16 b, u16 c, void *q);
 extern struct Sys *func_0203D788(void);
 extern void func_0203DA20(void);
 extern void func_0203DC04(void);

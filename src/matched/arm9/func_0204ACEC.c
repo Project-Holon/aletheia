@@ -70,11 +70,11 @@ typedef struct Outer0204ACEC {
 } Outer0204ACEC;
 
 extern Outer0204ACEC *lbl_02146A74;
-extern void *func_02049250(u32 a0, u32 a1, u32 a2);
+extern void *func_02049250(void *a0, u32 a1, u32 a2);
 extern void func_0204DEE8(Inner0204ACEC *a0, u32 a1, void *a2, u32 a3, u32 a4);
 extern void func_020307B0(void *a0);
 
-int func_0204ACEC(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4)
+int func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u16 a4)
 {
     Inner0204ACEC *in = &lbl_02146A74->in;
     u32 i;

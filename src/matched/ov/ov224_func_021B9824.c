@@ -18,7 +18,7 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049B68(void *, u32, u32, u32, u32, u16);
 extern void func_02049658(void *, u32, u32, u32, u32, u32, u16);
 extern void func_020498F4(void *, u32, u32, u32, u32, u32, u16);
@@ -26,7 +26,7 @@ extern void func_02049238(void *);
 extern void func_020409B4(u32);
 void func_021B9824(u16 *work)
 {
-    void *narc = func_020490F4((void *)0xce, *work);
+    void *narc = func_020490F4(0xce, *work);
     func_02049B68(narc, 0, 0, 0, 0, *work);
     func_02049658(narc, 1, 1, 0, 0, 0, *work);
     func_020498F4(narc, 2, 1, 0, 0, 0, *work);

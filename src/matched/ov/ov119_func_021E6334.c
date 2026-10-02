@@ -30,7 +30,7 @@ typedef struct { short x,y,z; u8 a,b; } Create;
 extern const int d_021E7D70[6][2];
 extern const int d_021E7DA0[6][2];
 extern void *func_020185F0(void *);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_021E62D4(void *,int,int);
 extern u32 func_0201BA68(void *);
 extern int func_0204A6C8(u32,u32,u32,u32,u16);
@@ -44,7 +44,7 @@ void func_021E6334(char *p,int i,int j,void *mon,int selected,u32 visible)
 {
     Create c;
     void *q = func_020185F0(mon);
-    void *h = func_020490F4((void *)7,*(u16 *)(p+0x5f4));
+    void *h = func_020490F4(7,*(u16 *)(p+0x5f4));
     int n;
     func_021E62D4(p,i,j);
     if (selected) {

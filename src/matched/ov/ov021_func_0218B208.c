@@ -50,8 +50,8 @@ struct FieldCtx {
 extern void *func_02188CE8(u8 *p);
 extern int func_02013DD0(u16 v);
 extern void *func_02188C98(u8 *p);
-extern u32 func_0218DC70(void *p);
-extern int func_021AA248(void *obj, u32 v);
+extern void *func_0218DC70(void *p);
+extern int func_021AA248(void *obj, void *v);
 extern int func_021A9F40(void *obj, u32 v);
 
 int func_0218B208(struct FieldCtx *p, void *unused, u8 *pos)

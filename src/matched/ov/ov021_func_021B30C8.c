@@ -42,7 +42,7 @@ extern u32 func_0218F1B4(void *h);
 extern void func_0218F1AC(void *h, u32 v);
 extern void func_0218F848(void *h);
 extern void *func_02188CB4(unsigned char *p);
-extern int func_021A3050(u32 a);
+extern int func_021A3050(void *a);
 extern void func_0218ECE4(void *h, Vec3 *out);
 extern void func_0218ECB4(void *h, Vec3 *out);
 extern void func_0218EC54(void *h);

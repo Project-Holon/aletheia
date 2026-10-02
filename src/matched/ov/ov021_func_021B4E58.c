@@ -25,10 +25,10 @@ typedef unsigned int   u32;
 
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern void func_0215897C(u32 a, u32 b);
+extern void func_0215897C(void *a, void *b);
 extern unsigned short *func_02159AE8(void *a0, void *a1);
 extern void *func_0201210C(void *p);
-extern u32 func_021CD2A4(u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void *func_021CD2A4(void *a, void *b, u32 c, u32 d, void *e);
 
 int func_021B4E58(u32 a, u32 b)
 {

@@ -31,8 +31,8 @@ extern u32 func_0215A5EC(u32);
 extern void *func_0215A5DC(void *a0);
 extern u32 func_0216DE94(u32, int);
 extern void func_0216D88C(u32, void *);
-extern u32 func_02161AC0(u32, u32, void *, void *);
-extern void func_0215897C(u32, u32);
+extern u32 func_02161AC0(void *, u32, void *, void *);
+extern void func_0215897C(void *, u32);
 
 int func_021B1FB8(u32 a, u32 b)
 {

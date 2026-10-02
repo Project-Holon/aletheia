@@ -34,8 +34,10 @@
  * cell and animation resources), then closes the archive.
  */
 
+typedef unsigned short u16;
+
 extern unsigned func_020275E4(void);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern unsigned func_020275F8(unsigned char i);
 extern void *func_0204A6C8(void *h, unsigned id, int a, int b, unsigned heap);
 extern unsigned func_020275FC(int k);

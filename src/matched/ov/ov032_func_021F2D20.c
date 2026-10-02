@@ -79,7 +79,7 @@ extern const ResSpec3 d_021F35C8;
 extern const ResSpec3 d_021F35D4;
 
 extern void func_021F30D4(Work *p, ResList *out, const ResSpec *spec, void *arc);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_020216B4(u32 a, void *h, u32 b, u32 heap, u32 c, u32 d, u32 e);
 extern void func_02021640(u32 a, u32 b, u32 c, u32 heap, u32 d, u32 e, u32 f);
 extern void *func_02049250(void *h, u32 id, u16 heap);

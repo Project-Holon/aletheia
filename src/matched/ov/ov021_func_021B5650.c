@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * func_021F36C8 is the ov056 slot-table lookup (src/matched/ov/ov056_func_021F36C8.c).
  *
@@ -23,18 +23,20 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern void *func_0215A5DC(void *a0);
-extern void *func_0201210C(void *p);
-extern u32 func_02159B10(u32, u32);
-extern u32 func_02188C58(u32);
-extern u32 func_021F36C8(u16);
-extern void func_0218E17C(u32, u32);
+struct Ctx;
 
-int func_021B5650(u32 a, u32 b)
+extern void *func_0215A5DC(void *a0);
+extern void *func_0201210C(const struct Ctx *p);
+extern unsigned int func_02159B10(void *a0, void *a1);
+extern void *func_02188C58(void *o);
+extern u32 func_021F36C8(u16);
+extern void func_0218E17C(u32 *p, u32 v);
+
+int func_021B5650(void *a, void *b)
 {
-    void *w = func_0201210C(func_0215A5DC((void *)b));
-    u32 k = func_02159B10(a, b);
-    u32 x = func_02188C58(w);
+    void *w = func_0201210C(func_0215A5DC(b));
+    unsigned int k = func_02159B10(a, b);
+    u32 *x = func_02188C58(w);
 
     func_0218E17C(x, func_021F36C8(k - 1));
     return 0;

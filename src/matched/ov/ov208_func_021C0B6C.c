@@ -33,15 +33,15 @@ typedef struct {
     u8 f7;
 } ObjPos;
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32  func_0201BABC(u32 species, u32 form, u32 gender, u32 isEgg);
-extern u32  func_0204A6C8(u32 h, u32 a, u32 b, u32 c, u16 heap);
+extern u32  func_0204A6C8(void *h, u32 a, u32 b, u32 c, u16 heap);
 extern u32  func_0204B294(u32 res, u32 a, u32 b, u32 c, ObjPos *pos, u16 f, u16 heap);
 extern void func_0204B92C(u32 obj, int v);
 extern u32  func_0201BB5C(u32 species, u32 form, u32 half, u32 isEgg);
 extern void func_0204B6F4(u32 obj, u32 v, u32 flag);
 extern void func_0204B688(u32 obj, u32 on);
-extern void func_02049238(u32 h);
+extern void func_02049238(void *h);
 
 u32 func_021C0B6C(u32 *slot, u32 a, u32 b, u32 res, u16 heap, u32 species, u32 form,
                   u32 gender, u32 isEgg, u8 x, u8 y)

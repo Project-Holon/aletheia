@@ -19,11 +19,13 @@
  *   func_02041B6C 0x02041B6C arm
  */
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void func_02049BDC(unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
-extern unsigned func_02049740(unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
-extern void func_02049990(unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
-extern void func_02049238(unsigned);
+typedef unsigned short u16;
+
+extern void *func_020490F4(unsigned int id, u16 heap);
+extern void func_02049BDC(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
+extern unsigned func_02049740(void *, unsigned, unsigned, unsigned, unsigned, unsigned);
+extern void func_02049990(void *, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
+extern void func_02049238(void *);
 extern void func_020413B0(unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
 extern void func_02041B6C(unsigned);
 

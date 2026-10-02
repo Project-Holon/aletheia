@@ -37,14 +37,14 @@ typedef unsigned char u8;
 typedef struct {
     int f0;
     int f4;
-    int f8;
+    void *f8;
 } Sys;
 
 int func_0217BB20(u8 *w);
 void func_0217F074(u8 *w);
 int func_0217B8E4(u8 *w, int v);
-int func_0217B9CC(u8 *w);
-void func_0217B9F4(int h);
+void *func_0217B9CC(u8 *w);
+void func_0217B9F4(void *h);
 void func_0217FE38(u8 *p);
 int func_0217FE24(u8 *p);
 void func_02175240(u8 *p, int v);
@@ -53,7 +53,7 @@ int func_02175214(u8 *p);
 int func_02174D98(int v);
 int func_02174DF0(u8 *p);
 void *func_02012934(void *p);
-void func_0201AC2C(int h, int v);
+void func_0201AC2C(void *h, int v);
 void func_0201A2A8(int a, int v);
 int func_020399A8(void);
 int func_0203D1A4(int a);
@@ -65,7 +65,7 @@ int func_0217E440(u8 *w, void *obj, int a2, u8 *state)
 {
     u8 *p;
     int idx;
-    int h;
+    void *h;
 
     p = *(u8 **)(w + 0x355C);
     idx = func_0203D1A4(func_020399A8());

@@ -33,9 +33,9 @@ typedef struct {
 extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5F4(void *p);
 extern u32 func_02159B10(u32 a, u32 b);
-extern u32 func_020122C0(u32 a, u32 b, void *c, u32 d);
+extern u32 func_020122C0(void *a, u32 b, void *c, u32 d);
 extern Rec *func_020124E8(void);
-extern void func_0215897C(u32 a, u32 b);
+extern void func_0215897C(void *a, u32 b);
 extern int func_021AF4E8(u32 a, u32 b, Rec *c);
 
 int func_021AF380(u32 a, u32 b)

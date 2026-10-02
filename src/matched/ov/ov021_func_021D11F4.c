@@ -32,8 +32,8 @@ extern u32 func_020120F4(u32 a);
 extern u32 func_02012944(u32 a);
 extern u32 func_02008550(u32 a);
 extern u32 func_0204384C(u32 a, u32 b, u32 c, u32 d);
-extern void func_02049BDC(u32 h, u32 id, u32 type, u32 ofs, u32 src, u32 size, u32 heap);
-extern void func_02049238(u32 h);
+extern void func_02049BDC(void *h, u32 id, u32 type, u32 ofs, u32 src, u32 size, u32 heap);
+extern void func_02049238(void *h);
 extern const u32 d_021DB97C[];
 
 void func_021D11F4(u32 *p, u32 b)

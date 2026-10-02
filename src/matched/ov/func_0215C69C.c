@@ -33,20 +33,20 @@ int func_0215C69C(int a0, int a1)
 {
     int t4;
     int t5;
-    void *v0;
-    void *v1;
+    void *t6;
 
 t4 = a1 + 0;
 a0 = t4 + 0;
-    v0 = func_0215A5DC((void *)a0);
+    t6 = func_0215A5DC((void *)a0);
 loc_0215C6A6:
 a0 = t4 + 0;
-    v1 = func_0215A5F4((void *)a0);
+    a0 = (int)func_0215A5F4((void *)a0); /* int-typed on purpose: pointer local changes codegen */
 loc_0215C6AE:
-    a0 = func_02158FB8(v1);
+t4 = a0 + 0;
+    a0 = func_02158FB8((void *)a0);
 loc_0215C6B4:
 t5 = a0 + 0;
-    a0 = func_020120F0(v0);
+    a0 = func_020120F0(t6);
 loc_0215C6BC:
     if (a0 == 0) goto loc_0215C6C4;
 loc_0215C6C0:
@@ -71,7 +71,8 @@ a0 = *(int *)((char *)t5 + 4);
 loc_0215C6E0:
     func_020307B0(a0);
 loc_0215C6E4:
-    a0 = func_02158FBC(v1);
+a0 = t4 + 0;
+    a0 = func_02158FBC(a0);
 loc_0215C6EA:
 a0 = 1;
     return a0;}

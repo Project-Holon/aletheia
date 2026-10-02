@@ -20,7 +20,7 @@ typedef unsigned int u32;
 
 typedef struct {
     void *owner;
-    u32 f4;
+    void *f4;
     u32 f8;
     u16 hC;
     u16 pad;
@@ -39,7 +39,7 @@ void *func_021C5BD0(void *a, u16 b, u32 c)
     W *w = func_020124E8(t);
 
     w->owner = a;
-    w->f4 = func_0201210C((u32)a);
+    w->f4 = func_0201210C(a);
     w->f10 = c;
     w->f8 = func_020120F4(a);
     w->hC = b;

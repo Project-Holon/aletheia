@@ -27,7 +27,7 @@ extern u8 *g_021469DC;
 
 extern void func_0203AD80(u32 a, u32 b, u32 c, u32 d);
 extern u32 func_02039338(void);
-extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, unsigned int d);
+extern int func_0203D3A8(void *a, u16 b, u16 c, unsigned int d);
 
 void func_0203BE5C(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4)
 {

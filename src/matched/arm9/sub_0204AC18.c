@@ -54,11 +54,11 @@ struct Sys {
 
 extern struct Sys *unk_02146A74;
 
-extern u32  func_02049250(u32 a, u32 b, u16 flags);
+extern u32  func_02049250(void *a, u32 b, u16 flags);
 extern void func_0204DD08(struct Owner *owner, u32 idx, u32 handle, u32 c, u32 d, u16 e, u16 f);
 extern void func_020307B0(u32 handle);
 
-s32 sub_0204AC18(u32 a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g)
+s32 sub_0204AC18(void *a, u32 b, u32 c, u32 d, u16 e, u16 f, u16 g)
 {
     struct Owner *owner;
     u32 i;

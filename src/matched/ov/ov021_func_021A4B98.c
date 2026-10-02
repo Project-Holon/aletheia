@@ -21,13 +21,13 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
-extern int func_0216D3CC(u32);
-extern int func_021A4B54(u32, u32, u32);
-extern u32 func_021A5264(u32, u32, u32, int *);
+extern int func_0216D3CC(void *);
+extern int func_021A4B54(u8 *, void *, u8 *);
+extern u32 func_021A5264(u8 *, void *, u32, int *);
 extern int func_021AB0F0(int);
 extern u32 func_021AB0F8(int);
 
-int ov021_func_021A4B98(u32 a, u32 b, u8 *c)
+int ov021_func_021A4B98(u8 *a, void *b, u8 *c)
 {
     int sp;
     u32 r;
@@ -35,7 +35,7 @@ int ov021_func_021A4B98(u32 a, u32 b, u8 *c)
         return 0;
     }
     if (*(u16 *)(c + 8) == 9) {
-        return func_021A4B54(a, b, (u32)c);
+        return func_021A4B54(a, b, c);
     }
     r = func_021A5264(a, b, *(u16 *)(c + 8), &sp);
     if (*(u32 *)(c + 16) == 1 && r != 0 && !(r & 0x10)) {

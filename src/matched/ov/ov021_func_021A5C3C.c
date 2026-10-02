@@ -21,16 +21,16 @@
 typedef unsigned char  u8;
 typedef unsigned int   u32;
 
-extern int func_021A5CA4(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern int func_021A5D04(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern int func_021A5DD8(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern int func_021A5E28(u8 *p, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern int func_021A5CA4(u8 *p, void *a, u32 b, u32 c, u32 d, u32 e);
+extern int func_021A5D04(u8 *p, void *a, u32 b, u32 c, u32 d, u32 e);
+extern int func_021A5DD8(u8 *p, void *a, u32 b, u32 c, u32 d, u32 e);
+extern int func_021A5E28(u8 *p, void *a, u32 b, u32 c, u32 d, u32 e);
 
 int func_021A5C3C(u8 *p, u32 b, u32 c, u32 d, u32 e)
 {
     int sw = *(int *)p;
     int r = 0;
-    u32 a = *(u32 *)(p + 0x1c);
+    void *a = *(void **)(p + 0x1c);
 
     switch (sw) {
     case 0:

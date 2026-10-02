@@ -32,8 +32,8 @@ extern void *func_0215A5F4(void *p);
 extern u32 func_02159B10(u32 a, u32 b);
 extern u32 func_0202A230(u32 a, u32 b);
 extern unsigned short func_02029E20(u32 k);
-extern u32 func_02029AF4(u32 a, u32 b);
-extern void func_0215897C(u32 a, u32 b);
+extern u32 func_02029AF4(void *a, u32 b);
+extern void func_0215897C(void *a, u32 b);
 
 int func_021AEC40(u32 a, u32 b)
 {

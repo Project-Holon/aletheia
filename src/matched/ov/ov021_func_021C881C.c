@@ -24,13 +24,13 @@ typedef unsigned int u32;
 typedef signed short s16;
 extern void *func_0215A5DC(void *a0);
 extern void *func_0201210C(void *p);
-extern u32 func_02188C80(u32 a);
-extern u32 func_020120F4(u32 a);
-extern u32 *func_02012ED0(u32 a);
+extern u32 func_02188C80(u8 *p);
+extern void *func_020120F4(void *p);
+extern u32 *func_02012ED0(void *a);
 extern u32 func_021C8608(void);
 int func_021C881C(void *task, u32 a)
 {
-    u32 *p = func_02012ED0(func_020120F4(func_02188C80(func_0201210C(func_0215A5DC((void *)a)))));
+    u32 *p = func_02012ED0(func_020120F4((void *)func_02188C80(func_0201210C(func_0215A5DC((void *)a)))));
     if (*p == 0)
         *p = func_021C8608();
     return 0;

@@ -16,10 +16,10 @@
 
 typedef unsigned int u32;
 
-int func_02188CFC(u32 x);
-void func_021A575C(u32 x);
+int func_02188CFC(void *x);
+void func_021A575C(u32 *x);
 
-void func_021A356C(u32 *p)
+void func_021A356C(void **p)
 {
     if (func_02188CFC(p[0]) == 0)
         func_021A575C(p[2]);

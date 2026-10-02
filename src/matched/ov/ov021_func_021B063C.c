@@ -42,22 +42,22 @@ typedef unsigned int   u32;
 
 extern u16 func_02159B10(u32, u32);
 extern void *func_0215A5DC(void *a0);
-extern u32 func_020120F4(u32);
+extern u32 func_020120F4(void *);
 extern u32 func_020127A4(u32);
 extern void *func_0201210C(void *p);
-extern u32 func_02188C54(u32);
-extern u32 func_02188D48(u32);
+extern u32 func_02188C54(void *);
+extern u32 func_02188D48(void *);
 extern void *func_0215A5F4(void *p);
-extern u32 func_02158F74(u32);
-extern u32 func_02158F7C(u32);
-extern u32 func_02188C84(u32);
+extern u32 func_02158F74(void *);
+extern u32 func_02158F7C(void *);
+extern u32 func_02188C84(void *);
 extern u32 func_02045B38(u32, u32, u32, u32);
 extern u32 func_020457B0(u32, u32);
 extern u32 func_02012F08(u32);
 extern u32 func_0200C274(u32);
 extern void func_02190728(u32);
 extern u32 func_02190708(u32, u32, u16, u16, u16, u16);
-extern void func_02188D4C(u32, u32);
+extern void func_02188D4C(void *, u32);
 extern void func_0201EFA4(u32, u32, u32, u32, u32, u32);
 extern void func_02045CAC(u32, u32, u32);
 extern void func_0201F250(u32, u32, u32);
@@ -68,9 +68,9 @@ extern void func_02045C04(u32);
 int func_021B063C(u32 a, u32 b)
 {
     u16 v1, v2;
-    u32 x, m, w, r6, r7, h, z, obj, g;
-    void *y;
     void *t;
+    void *y;
+    u32 x, m, w, r6, r7, h, z, obj, g;
 
     v1 = func_02159B10(a, b);
     v2 = func_02159B10(a, b);

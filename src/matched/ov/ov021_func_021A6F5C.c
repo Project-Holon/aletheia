@@ -37,7 +37,7 @@ extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
 extern void *func_021A3074(unsigned char *p);
 extern u32 func_021A2FA4(u32 a, u32 b);
-extern u32 func_0216D3CC(u32 a);
+extern u32 func_0216D3CC(void *a);
 extern u32 func_021A2FB0(u32 a);
 extern u32 func_021A30C8(u32 a);
 extern u32 func_021A3128(u32 a, u32 b);
@@ -62,7 +62,7 @@ void func_021A6F5C(u32 a, u32 *b)
     v10 = func_020362DC();
     r7 = func_0203630C();
     fl = 0;
-    v14 = func_021A3074(b[1]);
+    v14 = func_021A3074((unsigned char *)b[1]);
     r4 = func_021A2FA4(b[1], r7);
     if (func_0216D3CC(v14) == 1 || func_021A2FB0(b[1]) == 1) {
         if (r4 != 9) {

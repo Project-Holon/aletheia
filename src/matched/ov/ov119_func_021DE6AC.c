@@ -21,7 +21,7 @@ typedef struct { u8 pad[0x11fb]; u8 state:4; u8 other:4; } Flags;
 extern int func_021D8A24(void *);
 extern unsigned func_020399A8(void);
 extern int func_020173EC(void);
-extern int func_0203D3A8(void *a, unsigned int b, u16 c, void *d);
+extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
 extern void func_021D8E84(void *,int);
 extern void func_021DE66C(void *);
 void func_021DE6AC(char *p)

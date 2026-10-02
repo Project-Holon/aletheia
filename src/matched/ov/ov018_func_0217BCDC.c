@@ -38,15 +38,16 @@ extern int func_02012B58(int);
 extern int func_02175598(u8 *, int);
 extern void *func_0201210C(void *p);
 extern void *func_02188CB4(unsigned char *p);
-extern void func_021A3220(int, u16);
+extern void func_021A3220(void *, u16);
 extern void *func_021A3074(unsigned char *p);
-extern void func_0216D8C0(int, Vec *);
-extern void func_021A322C(int);
+extern void func_0216D8C0(void *, Vec *);
+extern void func_021A322C(void *);
 
 void func_0217BCDC(u8 *p, void *a1, int id, u8 kind, u8 flag)
 {
     int res;
     void *obj;
+    int has;
     int x;
     int y = func_020120F4(a1);
     Vec v = { 0, 0, 0 };
@@ -54,15 +55,15 @@ void func_0217BCDC(u8 *p, void *a1, int id, u8 kind, u8 flag)
     if (func_02012114(a1) == 0)
         return;
     x = func_02012944(func_020120F4(a1));
-    obj = func_02008550(x);
+    has = func_02008550(x);
     if (p != 0) {
         if (id == 0xFFFF) {
             if (((Fh *)(p + 0x86))->f == func_02012B58(y))
                 id = 0;
         }
         if (id == 0) {
-            kind = obj == 0 ? 3 : 4;
-            flag = obj;
+            kind = has == 0 ? 3 : 4;
+            flag = has;
         }
         if (*(u16 *)(p + 0x88) == id)
             return;
@@ -74,12 +75,12 @@ void func_0217BCDC(u8 *p, void *a1, int id, u8 kind, u8 flag)
     } else {
         id = 0;
         res = 1;
-        if (obj)
+        if (has)
             res = 4;
     }
     obj = func_02188CB4(func_0201210C(a1));
     func_021A3220(obj, res);
-    func_0216D8C0(func_021A3074((void *)obj), &v);
+    func_0216D8C0(func_021A3074(obj), &v);
     if (id == 0)
         func_021A322C(obj);
 }

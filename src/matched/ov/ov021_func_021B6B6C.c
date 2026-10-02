@@ -50,7 +50,7 @@ u32 func_021B6B6C(void *a, void *b)
         const u16 *e = func_021B6AA4(tab, idx);
         void *r5 = func_0215A5F4(b);
         void *r6 = func_02158F54(r5);
-        void *cur = func_0201210C();
+        void *cur = func_0201210C(r6);
         Vec3 v;
         u32 f3 = e[3];
         u32 f4 = e[4];

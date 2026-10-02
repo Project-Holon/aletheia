@@ -34,7 +34,7 @@ int func_021DD37C(void *a, int unused, char *q)
     char *p = func_0203159C(a, 0x80, func_021F9B9C(*(char **)(q + 0xc)));
     func_02082BCC(p, 0, 0x80);
     *(u16 *)(p + 0x7c) = func_021F9B9C(*(char **)(q + 0xc));
-    *(int *)p = func_02025538(*(u16 *)(p + 0x7c), *(void **)(q + 4));
+    *(void **)p = func_02025538(*(u16 *)(p + 0x7c), *(void **)(q + 4));
     *(void **)(p + 4) = func_0201C440(*(u16 *)(p + 0x7c));
     *(void **)(p + 0x74) = func_021FD760(*(void **)(q + 4), *(int *)(q + 8), 1, *(u16 *)(p + 0x7c));
     func_021FBE54(*(char **)(q + 8), 13, *(u16 *)(p + 0x7c));

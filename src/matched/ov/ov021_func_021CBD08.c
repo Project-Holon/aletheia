@@ -34,9 +34,9 @@ typedef struct {
 } Sel;
 
 extern void *func_0201A920(u32 heap);
-extern u32 func_021CA210(u8 *p);
+extern void *func_021CA210(u8 *p);
 extern void func_0201A954(void *list, u8 n);
-extern u32 func_0201AB28(u32 h, u8 idx);
+extern u32 func_0201AB28(void *h, u8 idx);
 extern void func_0201A98C(void *list, u32 m);
 extern u32 func_021681C8(u32 a, void *list, u8 kind, u8 *b, u8 *c, u8 n);
 extern void func_020307B0(void *p);
@@ -44,7 +44,7 @@ extern void func_020307B0(void *p);
 u32 func_021CBD08(u8 *p, u32 a)
 {
     void *list = func_0201A920(0x8004);
-    u32 h = func_021CA210(p);
+    void *h = func_021CA210(p);
     int i;
     u32 r;
 

@@ -20,14 +20,13 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
-extern void func_020124E4(void);
+extern void *func_020124E4(void *task);
 extern void *func_0201210C(void *p);
 extern void func_0204E720(u32 a, u32 b, u32 c, u32 d);
 extern int func_0204E804(void);
 int func_021C85CC(void *task, int *state)
 {
-    func_020124E4();
-    func_0201210C();
+    func_0201210C(func_020124E4(task));
     switch (*state) {
     case 0:
         func_0204E720(3, 0x10, 0, 0);

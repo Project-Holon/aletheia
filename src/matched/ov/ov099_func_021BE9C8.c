@@ -43,7 +43,7 @@ extern int func_021C1A44(char *);
 extern void func_021C1AC0(char *);
 extern int func_021BA8BC(void *);
 extern void func_020414AC(u32);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_021BE53C(char *, void *);
 extern void func_02049238(void *);
 extern void func_020452E8(void *);
@@ -66,7 +66,7 @@ int func_021BE9C8(char *p, int v)
         if (func_021C1A44(p) == 1) func_021C1AC0(p);
         *(void **)(p + 0x198) = (void *)func_021BA8BC(*(void **)(p + 0x198));
         func_020414AC(3);
-        h = func_020490F4((void *)0x21, 0x21);
+        h = func_020490F4(0x21, 0x21);
         func_021BE53C(p, h);
         func_02049238(h);
         *(u16 *)(p + 0x1328) = 1;

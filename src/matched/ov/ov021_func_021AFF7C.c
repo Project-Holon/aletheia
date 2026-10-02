@@ -31,14 +31,14 @@ extern int func_02158F54();
 extern void *func_0201210C(void *p);
 extern int func_02011330();
 extern int func_02012104();
-extern int func_02012374();
-extern int func_02188C5C();
+extern int func_02012374(int a, void *b);
+extern int func_02188C5C(void *p);
 extern int func_021BB3E8();
-extern void *func_02184D90(void *p, int unused, int a, const Q *q, int s, int t);
+extern void *func_02184D90(void *p, void *unused, int a, const Q *q, int s, int t);
 
 int func_021AFF7C(int a0, int a1)
 {
-    int h;
+    void *h;
     void *a;
     int b;
     int c;
@@ -48,8 +48,8 @@ int func_021AFF7C(int a0, int a1)
     int w;
     int loc[2];
 
-    h = func_02158F54(func_0215A5F4((void *)a1));
-    a = func_0201210C();
+    h = (void *)func_02158F54(func_0215A5F4((void *)a1));
+    a = func_0201210C(h);
     b = func_02011330(a0);
     c = func_02011330(a0);
     d = func_02011330(a0);
@@ -57,6 +57,6 @@ int func_021AFF7C(int a0, int a1)
     f = func_02011330(a0);
     w = func_02012104(h);
     func_021BB3E8(func_02188C5C(a), b, c, d, e, loc, 0x15);
-    func_02012374(w, func_02184D90((void *)h, a, b, (const Q *)loc, f, 0));
+    func_02012374(w, func_02184D90(h, a, b, (const Q *)loc, f, 0));
     return 1;
 }

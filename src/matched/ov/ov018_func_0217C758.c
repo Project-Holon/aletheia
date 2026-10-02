@@ -40,7 +40,7 @@ typedef unsigned int u32;
 
 typedef struct {
     void *f0;
-    int f4;
+    void *f4;
     s16 f8;
     s16 fA;
     u16 fC;
@@ -50,7 +50,7 @@ typedef struct {
     u8 f11;
     u8 f12;
     u8 f13;
-    int f14;
+    void *f14;
 } Rec;
 
 typedef struct {
@@ -68,17 +68,17 @@ extern int func_020120F4(void *);
 extern int func_02012964(int);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
-extern int func_02188C9C(int);
-extern u16 func_0216D598(int);
-extern int func_0216D83C(int);
-extern int func_0216D86C(int);
-extern int func_0216D8AC(int);
+extern u16 func_02188C9C(unsigned char *);
+extern u16 func_0216D598(void *);
+extern int func_0216D83C(void *);
+extern int func_0216D86C(void *);
+extern int func_0216D8AC(void *);
 extern void func_0216E618(Tmpl *, u16, u16, int);
-extern int func_0216CE60(int, Tmpl *, int);
+extern void *func_0216CE60(int, Tmpl *, int);
 extern void func_0217BCDC(void *, void *, int, u8, u8);
-extern void func_0216DAC8(int, int);
+extern void func_0216DAC8(unsigned int *, unsigned int);
 
-void func_0217C758(Rec *r, void *a1, int a2, void *a3, u16 id, u8 kind,
+void func_0217C758(Rec *r, void *a1, void *a2, void *a3, u16 id, u8 kind,
                    u8 flag, u16 idx, int place)
 {
     int sys;
@@ -98,7 +98,7 @@ void func_0217C758(Rec *r, void *a1, int a2, void *a3, u16 id, u8 kind,
     r->f13 = idx;
     if (place != 0) {
         sys = func_02012964(func_020120F4(a1));
-        obj = func_021A3074(func_02188CB4((void *)a2));
+        obj = func_021A3074(func_02188CB4(a2));
         zone = func_02188C9C(a2);
         d_02183AF0.f2 = func_0216D598(obj);
         d_02183AF0.fC = idx;

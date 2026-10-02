@@ -24,9 +24,9 @@ typedef signed char    s8;
 
 extern void *func_0215A5DC(void *a0);
 extern void *func_0201210C(void *p);
-extern int func_02188D48(u32 a);
+extern int func_02188D48(void *a);
 extern int func_02190728(u32 a);
-extern void func_02188D4C(u32 a, u32 b);
+extern void func_02188D4C(void *a, u32 b);
 
 int func_021B07E0(u32 a, u32 b)
 {

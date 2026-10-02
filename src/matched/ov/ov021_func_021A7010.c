@@ -38,8 +38,8 @@ extern u32 func_020362DC(void);
 extern unsigned int func_0203630C(void);
 extern void *func_021A3074(unsigned char *p);
 extern u32 func_021A2FA4(u32 a, u32 b);
-extern u32 func_0216D608(u32 a);
-extern u32 func_0216D3CC(u32 a);
+extern u32 func_0216D608(void *a);
+extern u32 func_0216D3CC(void *a);
 extern u32 func_021A2FB0(u32 a);
 extern u32 func_021A30C8(u32 a);
 extern u32 func_021A3128(u32 a, u32 b);
@@ -63,7 +63,7 @@ void func_021A7010(u32 a, u32 *b)
     u32 r4;
     v14 = func_020362DC();
     r6 = func_0203630C();
-    v10 = func_021A3074(b[1]);
+    v10 = func_021A3074((unsigned char *)b[1]);
     if (b[2] == 0) {
         r4 = func_021A2FA4(b[1], r6);
         r7 = 1;

@@ -109,7 +109,7 @@ struct Desc *func_0215FF54(int a0, int a1, u16 a2)
         p->sub->fn18 = (void *)func_021606D0;
         p->sub->rec = p;
     }
-    func_0216D9A0(func_02188C7C(p->field));
+    func_0216D9A0(func_02188C7C((unsigned char *)p->field));
     func_020355D8(0);
     return r5;
 }

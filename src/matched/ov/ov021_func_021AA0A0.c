@@ -64,7 +64,7 @@ void func_021AA0A0(S *s, u16 a, u8 b, u32 flags)
     int h;
     Opts *o;
 
-    func_02188CB4(s->f0);
+    func_02188CB4((unsigned char *)s->f0);
     func_021A9350(&buf, s->f8, 0xff, 0, func_021A1BF4(func_02188C6C(s->f0)));
     o = &opts;
     func_02082BCC(o, 0, 0x28);

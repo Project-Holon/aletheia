@@ -27,12 +27,12 @@ typedef signed char    s8;
 extern u32 func_02159B10(u32, u32);
 extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5F4();
-extern u32 func_021CFC4C(u32, u32, u32);
+extern int func_021CFC4C(void *, int, void *);
 
 int func_021D0084(u32 a, u32 b, u32 c, u32 d)
 {
 func_0215A5F4(b, b, c, d);
-func_021CFC4C(func_0215A5DC((void *)b), func_02159B10(a, b), func_02159B10(a, b));
+func_021CFC4C(func_0215A5DC((void *)b), func_02159B10(a, b), (void *)func_02159B10(a, b));
 return 0;
 }
 

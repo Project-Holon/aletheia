@@ -36,7 +36,7 @@ extern void func_0201A9C8(void *, unsigned);
 extern void *func_020120F4(void *);
 extern void *func_02012F98(void *);
 extern void *func_02012934(void *p);
-extern void func_02007C34(void *, unsigned);
+extern void func_02007C34(void *, void *);
 extern void func_0200AD94(void *, u16);
 void func_022021F8(u8 *p, int flag)
 {

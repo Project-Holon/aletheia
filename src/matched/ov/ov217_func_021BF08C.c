@@ -21,7 +21,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 struct ArcFile;
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern unsigned func_021BF810(char *);
 extern void *func_02049250(struct ArcFile *,unsigned,unsigned);
 extern int func_02062B30(void *,void **);
@@ -34,7 +34,7 @@ void func_021BF08C(char *p)
     struct ArcFile *arc;
     void *file,*out;
     unsigned id;
-    arc=func_020490F4((void *)192,*(u16 *)(p+4));
+    arc=func_020490F4(192,*(u16 *)(p+4));
     if (*(unsigned *)(p+0x3d0)!=0) id=8;
     else if (func_021BF810(p)==0) id=6;
     else {

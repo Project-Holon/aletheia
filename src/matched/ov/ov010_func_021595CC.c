@@ -31,11 +31,11 @@ extern int func_02011330(int);
 extern int func_0215A5D4(int);
 extern int func_0215A5D8(int);
 extern int func_02159B38(int);
-extern int func_021589A0(int, int, int);
+extern int func_021589A0(void *, int, int);
 extern void func_0215AA48(int, int);
 extern void func_0215AA24(int);
 extern void func_0215AA34(int);
-extern void func_02158A34(int, int, int, int);
+extern void func_02158A34(void *, void *, int, int);
 extern void func_020113D0(int, int (*)(int));
 extern int func_021595A0(int);
 

@@ -25,24 +25,25 @@ extern void *func_02012934(void *p);
 extern int func_0201AA18(void *a0);
 extern void *func_0201AB28(void *p, u32 idx);
 
-int func_0215B4AC(int a0, int a1, int a2)
+int func_0215B4AC(void *a0, u32 a1, void **a2)
 {
     int t4;
-    int t5;
-    int t6;
+    u32 t5;
+    void **t6;
+    int n;
     void *p;
     void *v0;
     void *v1;
 
 t5 = a1 + 0;
-t6 = a2 + 0;
-    v0 = func_0215A5E4((void *)a0);
+t6 = a2;
+    v0 = func_0215A5E4(a0);
 loc_0215B4B6:
     v1 = func_02012934(v0);
 loc_0215B4BA:
-    a0 = func_0201AA18(v1);
+    n = func_0201AA18(v1);
 loc_0215B4C0:
-    if ((unsigned)t5 >= (unsigned)a0) goto loc_0215B4C8;
+    if (t5 >= (unsigned)n) goto loc_0215B4C8;
 loc_0215B4C4:
 t4 = 1;
     goto loc_0215B4CC;
@@ -50,9 +51,7 @@ loc_0215B4C8:
 t4 = 0;
 t5 = 0;
 loc_0215B4CC:
-a1 = t5 + 0;
-    p = func_0201AB28(v1, a1);
+    p = func_0201AB28(v1, t5);
 loc_0215B4D4:
-*(void **)((char *)t6) = p;
-a0 = t4 + 0;
-    return a0;}
+*t6 = p;
+    return t4;}

@@ -17,14 +17,14 @@
  */
 
 void *func_021A3074(unsigned char *p);
-int func_0219E634(int a, int *buf);
+int func_0219E634(void *a, int *buf);
 void *func_02188C7C(unsigned char *p);
-int func_0219E570(int a, int *buf, int c);
+int func_0219E570(void *a, int *buf, int c);
 
-int func_0218B53C(unsigned char *p, int b)
+int func_0218B53C(unsigned char *p, void *b)
 {
     int buf[2];
     if (func_0219E634(func_021A3074(*(void **)(p + 0x18)), buf) != 0)
-        return func_0219E570(func_02188C7C((void *)b), buf, 0);
+        return func_0219E570(func_02188C7C(b), buf, 0);
     return 0;
 }

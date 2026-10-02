@@ -18,9 +18,9 @@
  *   func_020307B0  0x020307B0  arm
  */
 
-int func_020124F0(int a);
-int func_020124E8(int a);
-int func_020124E4(int a);
+void *func_020124F0(int a);
+void *func_020124E8(void *a);
+void *func_020124E4(int a);
 void *func_0201210C(void *p);
 void func_021C2918(int a);
 void func_020437AC(int a);

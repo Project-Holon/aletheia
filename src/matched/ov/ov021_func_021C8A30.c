@@ -30,7 +30,7 @@ typedef signed short   s16;
 struct Work8A30 {
     void *sys;
     u8 *owner;
-    u32 f8;
+    u8 *f8;
     void *fC;
     u32 f10;
     u16 f14;

@@ -28,10 +28,10 @@ extern void *func_021A3960(unsigned char *p);
 extern int func_021A5610(u8 *);
 extern int func_021A53BC(u8 *);
 extern int func_021A46F0(u8 *, u32);
-extern int func_021A4544(u8 *, u32, u32);
-extern int func_021A4598(u8 *, u32, u32);
-extern int func_021A4664(u8 *, u32, u32);
-extern int func_021A4698(u8 *, u32, u32);
+extern int func_021A4544(u8 *, void *, u32);
+extern int func_021A4598(u8 *, void *, u32);
+extern int func_021A4664(u8 *, void *, u32);
+extern int func_021A4698(u8 *, void *, u32);
 
 int func_021A44C8(u8 *p, u32 s)
 {

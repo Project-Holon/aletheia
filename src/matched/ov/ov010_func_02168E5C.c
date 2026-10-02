@@ -40,7 +40,7 @@ int func_02168E5C(int a, int b, int c)
     int h = func_020122C0(a, 0, func_02168EB0, 0x18);
     int *p = func_020124E8(h);
     p[0] = a;
-    p[1] = func_0201210C((void *)a);
+    p[1] = (int)func_0201210C((void *)a); /* int-typed on purpose: field is int in record */
     *(u8 *)(p + 2) = func_02008550(func_02012944(x));
     p[3] = func_0200E8F8(func_02012EBC(x));
     p[4] = b;

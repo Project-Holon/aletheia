@@ -30,7 +30,7 @@ typedef struct {
 
 extern void *func_02188C7C(unsigned char *p);
 extern int func_02188C9C(int);
-extern void func_0216CE60(int, Buf *, int);
+extern void func_0216CE60(void *, Buf *, int);
 extern const Buf d_02182B6C;
 
 void func_0217BF2C(int a, u16 b, u16 c, int d, u16 e, u16 f, u16 g)

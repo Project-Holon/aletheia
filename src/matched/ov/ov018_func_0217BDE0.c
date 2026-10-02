@@ -42,7 +42,7 @@ extern int func_02175CF4(u8 *, u8 *);
 extern int func_020120F8(int);
 extern int func_02012AC8(int);
 extern void *func_021A3074(unsigned char *p);
-extern void func_0216D828(int, Vec3s *);
+extern void func_0216D828(void *, Vec3s *);
 extern int func_02182124(int, u8 *, u8 *);
 
 int func_0217BDE0(int a, u8 *b, int c)

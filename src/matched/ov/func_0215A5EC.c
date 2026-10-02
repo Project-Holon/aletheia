@@ -21,7 +21,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-u32 func_0215A5EC(u8 *p)
+void *func_0215A5EC(void *p)
 {
-return *(u32 *)((u8 *)*(u32 *)(p + 0x20) + 0xc);
+    return *(void **)(*(u8 **)((u8 *)p + 0x20) + 0xc);
 }

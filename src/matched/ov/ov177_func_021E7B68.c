@@ -38,7 +38,7 @@ void func_021E7B68(char *p, unsigned idx, unsigned owner, unsigned heap)
 {
     void *handle;
     Request req;
-    handle = func_020490F4((void *)0x20, heap);
+    handle = func_020490F4(0x20, heap);
     *(unsigned short *)(p + 0x80) = func_0204AC18(handle, 0, 0, 0x140, d_021E8CBE[idx], 1, heap);
     *(unsigned short *)(p + 0x82) = func_0204A6C8(handle, idx + 0x31, 0, 0, heap);
     *(unsigned short *)(p + 0x84) = func_0204AF28(handle, 0x41, 0x42, heap);

@@ -24,7 +24,7 @@ void *func_0201210C(void *p);
 void *func_020122C0(void *p, int a, void *cb, int n);
 void *func_020124E8(void *p);
 void func_02082BCC(void *p, int v, int n);
-int func_02188C84(int x);
+int func_02188C84(void *x);
 int func_02180538(void);
 
 void *func_021804F8(void *p, int a)

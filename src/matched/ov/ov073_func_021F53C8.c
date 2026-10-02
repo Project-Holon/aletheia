@@ -29,7 +29,7 @@ extern void *func_020124E4(void *task);
 extern void *func_0201210C(void *p);
 extern int func_02189A08(int a);
 extern u32 func_021CF560(u32 *p);
-extern u32 func_02189A00(u8 *p);
+extern void *func_02189A00(u8 *p);
 extern int func_021C1DCC(int a, char *b, int c, int d);
 extern int func_020122C0(void *a, void *b, void *cb, int n);
 extern void func_02012374(void *a, int b);
@@ -64,7 +64,7 @@ int func_021F53C8(void *task, int *st)
                 func_0204E720(4, 0, 0x10, 0);
                 *st = 1;
             } else {
-                r = func_021C1DCC((int)t, (char *)func_02189A00((u8 *)v), w[1], w[2]);
+                r = func_021C1DCC((int)t, func_02189A00((u8 *)v), w[1], w[2]);
                 if (r != 0) {
                     func_02012374(task, r);
                 } else {

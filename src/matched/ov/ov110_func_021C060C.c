@@ -35,7 +35,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049B68(u32,u32,u32,u32,u32,u16);
 extern void func_02049B40(u32,u32,u32,u32,u32,u16);
 extern int func_02061CA4(void *,u32,u32,int);
@@ -57,7 +57,7 @@ void func_021C060C(u8 *p,u16 heap,u32 font,void *print,void *bank)
 {
     void *h;
     void *str;
-    h=func_020490F4((void *)43,heap);
+    h=func_020490F4((unsigned int)43,heap);
     func_02049B68((u32)h,0,0,0,288,heap);
     func_02049B68((u32)h,0,4,0,256,heap);
     func_02049B40(23,5,0,288,32,heap);

@@ -17,19 +17,17 @@
  *   func_021B55F0  0x021B55F0  thumb  ov021
  */
 
-typedef unsigned int u32;
-
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern u32 func_020122C0(u32, u32, u32, u32);
-extern void func_0215897C(u32, u32);
-extern int func_021B55F0(u32);
+extern void *func_020122C0(void *a0, int a1, int (*cb)(void *), int a3);
+extern void func_0215897C(void *vm, void *task);
+extern int func_021B55F0(void *a);
 
-int func_021B54FC(u32 a, u32 b)
+int func_021B54FC(void *a, void *b)
 {
-    void *s = func_0215A5F4((void *)b);
-    void *d = func_0215A5DC((void *)b);
+    void *s = func_0215A5F4(b);
+    void *d = func_0215A5DC(b);
 
-    func_0215897C(s, func_020122C0(d, 0, (u32)func_021B55F0, 0));
+    func_0215897C(s, func_020122C0(d, 0, func_021B55F0, 0));
     return 1;
 }

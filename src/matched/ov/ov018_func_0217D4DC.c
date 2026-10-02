@@ -41,16 +41,16 @@ int func_02158378(void *);
 void func_020061E4(int);
 void func_0217F174(Ov018Menu *);
 void func_0217F0C4(Ov018Menu *);
-int func_0217CEE8(void *, int, int);
-int func_0217CE08(void *, int, int, int);
-int func_0217CE6C(void *, int, int);
+void *func_0217CEE8(void *, void *, int);
+void *func_0217CE08(void *, void *, int, int);
+void *func_0217CE6C(void *, void *, int);
 
-int func_0217D4DC(Ov018Menu *w, int b, int c)
+void *func_0217D4DC(Ov018Menu *w, int b, int c)
 {
     void *s1;
     void *s2;
     void *r;
-    int ret;
+    void *ret;
 
     s1 = func_02012138(w->f0);
     s2 = func_020120F4(w->f0);

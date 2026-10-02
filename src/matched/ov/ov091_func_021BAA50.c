@@ -34,12 +34,12 @@ typedef struct {
     u8 e;
 } R;
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_0201AB28(int base, int idx);
 extern int func_020185F4(int x);
 extern int func_0201BA68(int x);
-extern int func_0204A6C8(u32 a, int b, int c, int d, u16 e);
-extern void func_02049238(u32 a);
+extern int func_0204A6C8(void *a, int b, int c, int d, u16 e);
+extern void func_02049238(void *a);
 extern int func_0201BBE8(int x);
 extern int func_0204B294(int a, int b, int c, int d, R *r, int f, u16 g);
 extern void func_0204B6F4(int a, int b, int c);

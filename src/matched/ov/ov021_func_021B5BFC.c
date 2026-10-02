@@ -25,32 +25,33 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_0215A5E4(void *a0);
-extern u32 func_02159B10(u32 a, u32 b);
-extern void *func_02012934(void *p);
-extern int func_0201AA18(u32 a);
-extern u32 func_0201AB28(u32 a, int i);
-extern u32 func_02017E1C(u32 a, int b, int c);
-extern u32 func_02012F08(u32 a);
-extern void func_0200C2B0(u32 a, u32 b, u16 *c);
+struct Blk34;
 
-int func_021B5BFC(u32 a, u32 b)
+extern void *func_0215A5E4(void *a0);
+extern unsigned int func_02159B10(void *a0, void *a1);
+extern void *func_02012934(void *p);
+extern int func_0201AA18(void *a0);
+extern void *func_0201AB28(void *p, int i);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
+extern void *func_02012F08(int *p);
+extern void func_0200C2B0(struct Blk34 *p, u32 i, const u16 *src);
+
+int func_021B5BFC(void *a, void *b)
 {
     u16 buf[6];
     void *sav;
-    u32 r;
+    unsigned int r;
     void *bag;
-    u32 mon;
+    void *mon;
     int i;
     int j;
     int n;
 
-    sav = func_0215A5E4((void *)b);
-    bag = func_02012934((void *)sav);
+    sav = func_0215A5E4(b);
+    bag = func_02012934(sav);
     r = func_02159B10(a, b);
     for (i = 0; i < 6; i++)
         buf[i] = 0;
-
     for (j = 0, n = 0; j < func_0201AA18(bag); j++) {
         mon = func_0201AB28(bag, j);
         if (func_02017E1C(mon, 0x4C, 0) == 0)

@@ -31,8 +31,8 @@ typedef unsigned int   u32;
 struct Ent { u32 k; u32 v; };
 
 extern void *func_0215A5F4(void *p);
-extern u32 *func_02158F58(u32 p);
-extern u32 func_02158F74(u32 p);
+extern u32 *func_02158F58(void *p);
+extern u32 func_02158F74(void *p);
 extern u32 func_02188C84(u32 p);
 extern u32 func_02159B10(u32 a, u32 b);
 extern void func_0201EFA4(u32 a, u32 b, u32 c, u32 d, u32 e, u32 f);

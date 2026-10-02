@@ -27,7 +27,7 @@ struct P16 { short x; short z; };
 extern void *func_02188CB4(unsigned char *p);
 extern u32 func_02188C80(u32 a);
 extern u32 func_020120F8(u32 a);
-extern void func_021A3038(u32 a, int *v);
+extern void func_021A3038(void *a, int *v);
 extern void func_02012AD0(u32 a);
 extern struct P16 d_02180718[];
 

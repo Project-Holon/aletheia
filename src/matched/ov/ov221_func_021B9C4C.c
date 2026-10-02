@@ -20,9 +20,11 @@
  *   func_0204B92C 0x0204B92C arm
  *   d_021BA140 0x021BA140 data a2
  */
+typedef unsigned short u16;
+
 struct Obj; struct Vec2 { short x,y; };
 extern struct Vec2 d_021BA140;
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_0204AC18(unsigned,unsigned,unsigned,unsigned,unsigned short,unsigned short,unsigned short);
 extern int func_0204A6C8(unsigned,unsigned,unsigned,unsigned,unsigned short);
 extern int func_0204AF28(unsigned,unsigned,unsigned,unsigned);
@@ -33,7 +35,7 @@ extern void func_0204B3DC(struct Obj *,unsigned);
 extern void func_0204B92C(struct Obj *,unsigned);
 void func_021B9C4C(unsigned char *p)
 {
-    void *h=func_020490F4((void *)0xCA,*(unsigned short *)p);
+    void *h=func_020490F4(0xCA,*(unsigned short *)p);
     *(int *)(p+0x4C)=func_0204AC18((unsigned)h,0,0,0,0,2,*(unsigned short *)p);
     *(int *)(p+0x48)=func_0204A6C8((unsigned)h,3,0,0,*(unsigned short *)p);
     *(int *)(p+0x50)=func_0204AF28((unsigned)h,8,9,*(unsigned short *)p);

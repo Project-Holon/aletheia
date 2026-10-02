@@ -23,22 +23,21 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_0215A5F4(void *p);
-extern void func_02158F54(u32 a);
-extern u32 func_020120F4(void);
-extern u8 *func_02012ED8(u32 t);
-extern u16 *func_02158FE0(u32 a, u32 b, u32 c);
+extern void *func_02158F54(void *a);
+extern void *func_020120F4(void *p);
+extern u8 *func_02012ED8(void *p);
+extern u16 *func_02158FE0(void *a, void *b, unsigned int id);
 extern int func_02167D00(u8 *o, u16 *out);
 
 int func_021CB86C(u32 unused, u32 a)
 {
-    u32 t;
+    void *t;
     void *s;
     u8 *p;
     u16 *q;
 
     s = func_0215A5F4((void *)a);
-    func_02158F54(s);
-    t = func_020120F4();
+    t = func_020120F4(func_02158F54(s));
     p = func_02012ED8(t);
     q = func_02158FE0(s, t, *(u16 *)(p + 0x72A));
     if (func_02167D00(p, q) == 1)

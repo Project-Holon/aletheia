@@ -33,7 +33,7 @@ extern int func_0217AED4(int, int *);
 extern int func_0216D3CC(int);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_021A3074(unsigned char *p);
-extern int func_0216D5F8(int);
+extern int func_0216D5F8(void *);
 extern void func_0216D410(int, int);
 extern int func_0216D480(int);
 extern void func_0216D548(int, int);

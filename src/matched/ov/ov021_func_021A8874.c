@@ -95,7 +95,7 @@ extern u32 func_0204AC18(void *arc, u32 id, u32 a, u32 b, u32 c, u32 d, u32 heap
 extern u32 func_0204A6C8(void *arc, u32 id, u32 a, u32 b, u32 heap);
 extern u32 func_0204AF28(void *arc, u32 a, u32 b, u32 heap);
 extern u32 func_020275E4(void);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32 func_02027614(void);
 extern u32 func_02027618(void);
 extern u32 func_0202761C(u32);
@@ -145,7 +145,7 @@ void func_021A8874(Obj *p, void *q, int r, u32 unused)
     func_020409B4(5);
     p->f11C = func_0204B100(8, 0, p->f00);
     bank = d_021D8C1C;
-    p->f120 = func_0204B034(&bank, 1, p->f00);
+    p->f120 = (u32)func_0204B034(&bank, 1, p->f00);
     func_0204B258(p->f11C, p->f120);
     pos.x = 0x40;
     pos.y = 0x2C;

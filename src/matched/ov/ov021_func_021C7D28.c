@@ -25,7 +25,7 @@ typedef unsigned short u16;
 typedef struct {
     int f0;
     int f4;
-    int f8;
+    void *f8;
     u8 fC;
     u8 padD;
     u16 fE;

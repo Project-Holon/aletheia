@@ -25,9 +25,9 @@ typedef struct { int x, y, z; } V12;
 extern int func_02012138();
 extern u8 *func_02158344();
 extern u32 *func_0217BEA8(u16);
-extern int func_02184D38(int, int, u16, V12 *, int, int);
+extern void *func_02184D38(void *, void *, u16, V12 *, int, int);
 
-int func_0217CE6C(int a0, int a1, int a2)
+void *func_0217CE6C(void *a0, void *a1, int a2)
 {
     u8 *p;
     u32 *q;

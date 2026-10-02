@@ -24,8 +24,8 @@ extern void *func_0215A5DC(void *a0);
 extern void *func_0215A5F4(void *p);
 extern void *func_0201210C(void *p);
 extern void *func_02158F50(void *p);
-extern u32 func_021C978C(u32, u32, u32);
-extern void func_0215897C(u32, u32);
+extern u32 func_021C978C(void *, void *, void *);
+extern void func_0215897C(void *, u32);
 
 int func_021B2B24(u32 a, u32 b)
 {

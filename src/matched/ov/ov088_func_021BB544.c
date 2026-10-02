@@ -27,12 +27,12 @@ typedef struct { u16 a; u16 b; } Ent;
 extern const Ent d_021BD5EC[8];
 extern char d_021BDA00[];
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32 func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
-extern u32 func_02049EF4(u32 o, u32 a, u32 b, void **out, u32 e);
+extern u32 func_02049EF4(void *o, u32 a, u32 b, void **out, u32 e);
 extern void func_02082A60(void *srcp, void *destp, unsigned long size);
 extern void func_020307B0(void *p);
-extern void func_02049238(u32 h);
+extern void func_02049238(void *h);
 
 void func_021BB544(char *p)
 {

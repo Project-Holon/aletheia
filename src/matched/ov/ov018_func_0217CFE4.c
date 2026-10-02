@@ -52,7 +52,7 @@ void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
 int func_02026454(void *);
 u8 *func_02026474(void *);
 void func_0217EFCC(u8 *w, u8 *p);
-void *func_020490F4(unsigned int id, unsigned int heap);
+void *func_020490F4(unsigned int id, u16 heap);
 void func_0217D624(u8 *w);
 void func_0217D720(u8 *w, void *bg);
 void func_0217D890(u8 *w);

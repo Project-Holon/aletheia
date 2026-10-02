@@ -36,7 +36,7 @@ extern void func_021C6DE0(u32 a, u32 b, u32 c);
 extern u32 func_021A01D4(u32 a);
 extern void func_021A01FC(u32 a, u32 b, u32 c, u32 d);
 extern void *func_02188CB4(unsigned char *p);
-extern void func_021A30A4(u32 a, u32 b);
+extern void func_021A30A4(void *a, u32 b);
 extern u32 func_02184F88(u32 a);
 extern void func_02012374(u32 a, u32 b);
 
@@ -60,7 +60,7 @@ int func_021D2358(u32 a, int *seq, int *w)
         (*seq)++;
         break;
     case 1:
-        func_021A30A4(func_02188CB4(w[1]), 2);
+        func_021A30A4(func_02188CB4((unsigned char *)w[1]), 2);
         (*seq)++;
         break;
     case 2:

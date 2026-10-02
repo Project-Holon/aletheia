@@ -84,22 +84,22 @@ extern u32 func_02027614(void);
 extern u32 func_02027618(void);
 extern u32 func_0202761C(u32);
 extern u32 func_02027620(u32);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void func_02049B68(u32 o, u32 a, u32 b, u32 c, u32 d, u32 e);
-extern u32 func_02049740(u32, u32, u32, u32, u32, u32);
-extern u32 func_02049EF4(u32 o, u32 a, u32 b, struct Scr **out, u32 e);
+extern void *func_020490F4(unsigned int id, u16 heap);
+extern void func_02049B68(void *o, u32 a, u32 b, u32 c, u32 d, u32 e);
+extern u32 func_02049740(void *, u32, u32, u32, u32, u32);
+extern u32 func_02049EF4(void *o, u32 a, u32 b, struct Scr **out, u32 e);
 extern void func_020410D0(u8 a, u32 b, u32 c, u32 d, u32 e, void *f, u32 g,
                           u32 h, u32 i, u32 j);
 extern void func_02041B6C(u8 a);
 extern void func_020307B0(u32 h);
-extern u32 func_0204AC18(u32 arc, u32 id, u32 a, u32 b, u32 c, u32 d, u32 heap);
-extern u32 func_0204A6C8(u32 arc, u32 id, u32 a, u32 b, u32 heap);
-extern u32 func_0204AF28(u32 arc, u32 a, u32 b, u32 heap);
+extern u32 func_0204AC18(void *arc, u32 id, u32 a, u32 b, u32 c, u32 d, u32 heap);
+extern u32 func_0204A6C8(void *arc, u32 id, u32 a, u32 b, u32 heap);
+extern u32 func_0204AF28(void *arc, u32 a, u32 b, u32 heap);
 extern u32 func_0204B294(u32, u32, u32, u32, Local *, u32, u32);
 extern void func_0204B92C(u32, int);
 extern void func_0204B954(u32, u32);
 extern void func_0204B878(u32, u16);
-extern void func_02049238(u32);
+extern void func_02049238(void *);
 
 void func_021F0924(Obj *p)
 {

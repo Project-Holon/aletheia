@@ -29,10 +29,10 @@ extern void *func_0215A5DC(void *a0);
 extern void *func_0201210C(void *p);
 extern int func_02159B10(u32 a, u32 b);
 extern void *func_02188C7C(unsigned char *p);
-extern u32 func_0216DE94(u32 a, int b);
-extern void func_0216D88C(u32 a, int *v);
-extern u32 func_021F3970(u32 a, int *v, int *w, int c, int d);
-extern void func_0215897C(u32 a, u32 b);
+extern void *func_0216DE94(void *a, int b);
+extern void func_0216D88C(void *a, int *v);
+extern void *func_021F3970(void *a, int *v, int *w, int c, int d);
+extern void func_0215897C(void *a, void *b);
 
 u32 func_021D2F6C(u32 a, u32 b)
 {
@@ -47,11 +47,11 @@ u32 func_021D2F6C(u32 a, u32 b)
     int r7;
     int r6;
     int r4;
-    u32 r;
+    void *r;
 
     s10 = func_0215A5F4((void *)b);
     sc = func_0215A5DC((void *)b);
-    s14 = func_0201210C();
+    s14 = func_0201210C(sc);
     s18 = func_02159B10(a, b);
     s8 = func_02159B10(a, b);
     s4 = func_02159B10(a, b);

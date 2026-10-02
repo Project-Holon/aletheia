@@ -30,9 +30,10 @@
  */
 
 typedef unsigned char u8;
+typedef unsigned short u16;
 typedef unsigned int  u32;
 
-extern void *func_020490F4(u32 archive_id, u32 heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void *func_02045B38(u32 a, u32 b, u32 c, u32 d);
 extern void *func_02045EC0(void *h, u32 idx);
 extern void  func_02045A90(void *a);

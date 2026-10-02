@@ -33,8 +33,8 @@ int func_020124E4(int);
 int func_02012138(int);
 u8 *func_02158344(int);
 void *func_02188C7C(unsigned char *p);
-void func_0216D9A0(int);
-void func_0216D9E4(int);
+void func_0216D9A0(void *x);
+void func_0216D9E4(void *x);
 void *func_0217FC08(int a, int b, u8 *c, int d, int e, u16 f);
 void func_02012374(int a, void *b);
 
@@ -50,12 +50,12 @@ int func_0217FB94(int a, int *state, Req *req)
         if (w == 0) {
             return 1;
         }
-        func_0216D9A0(func_02188C7C(req->f0));
+        func_0216D9A0(func_02188C7C((u8 *)req->f0));
         func_02012374(a, func_0217FC08(s, req->f0, w, req->f4, req->f8, req->fC));
         (*state)++;
         break;
     case 1:
-        func_0216D9E4(func_02188C7C(req->f0));
+        func_0216D9E4(func_02188C7C((u8 *)req->f0));
         return 1;
     }
     return 0;

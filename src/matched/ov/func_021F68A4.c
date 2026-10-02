@@ -99,10 +99,10 @@ typedef struct {
 extern char str_02203B54[];
 
 extern void *func_02030734(u32 heap, u32 size, u32 align, const char *file, u32 line);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void *func_02007A18(void *save, int box, unsigned slot);
 extern void func_021F6748(void *mon, Info *q);
-extern void func_021F67A8(void *mon, u32 icon, u32 item_spr, u16 *species, u32 slot, u32 arc, Info *info, IconRec *rec);
+extern void func_021F67A8(void *mon, u32 icon, u32 item_spr, u16 *species, u32 slot, void *arc, Info *info, IconRec *rec);
 extern void func_0204B3DC(u32, int);
 extern void func_0200785C(void *save, int box, void *buf);
 extern int func_0201AA18(void *list);
@@ -110,7 +110,7 @@ extern void *func_0201AB28(void *list, u32 i);
 extern void *func_020185F4(void *a);
 extern void func_02045CAC(void *s, u32 v, void *buf);
 extern void func_02034714(void *file, int line, void *msg);
-extern void func_02049238(u32 h);
+extern void func_02049238(void *h);
 extern void *func_02045770(void *p);
 extern void func_02043B5C(void *a, u32 b);
 extern int func_021F91A0(void *a, void *b, u32 c, u32 d, u32 e, u16 f, void *g);

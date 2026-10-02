@@ -64,6 +64,28 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
+/* 0x2c-byte work block built here and handed to the ov170 process */
+typedef struct {
+    void *w;            /* 0x00 */
+    u32 f04;            /* 0x04 */
+    void *f08;          /* 0x08 */
+    u32 f0C;            /* 0x0c */
+    u8 *f10;            /* 0x10 */
+    u32 f14;            /* 0x14 */
+    u32 f18;            /* 0x18 */
+    u32 f1C;            /* 0x1c */
+    u32 f20;            /* 0x20 */
+    u32 kind;           /* 0x24 */
+    u32 f28;            /* 0x28 */
+} Work021B4D60;
+
+/* 0xc-byte record passed alongside it */
+typedef struct {
+    void *w;                /* 0x00 */
+    unsigned short *name;   /* 0x04 */
+    Work021B4D60 *work;     /* 0x08 */
+} Rec021B4D60;
+
 extern const char d_021DE220[];
 extern char ov170_id[];
 extern const u8 d_021EF78C[];
@@ -82,15 +104,16 @@ extern u32 func_0200873C(void *p);
 extern u32 func_0201293C(void *p);
 extern void *func_02012934(void *p);
 extern u32 func_0201292C(void *p);
-extern u32 func_02012944(void *p);
+extern u8 *func_02012944(void *p);
 extern void *func_0200BAC8(void *p);
-extern u32 func_0200BAF4(void *p, int n);
+extern void *func_0200BAF4(void *p, int n);
 extern u32 func_0200BBFC(void *p, int n);
 extern void *func_02014840(void *sys, void *x, u32 ovId, const void *proc, void *work, void *cb, void *rec);
 extern void *func_02030734(u32 heap, u32 size, u32 flags, const char *file, u32 line);
 extern void func_021B4D14(void);
 
-int func_021B4D60(u32 *c, void *vm)
+/* c arrives as the command object and is then reused for the new work block (one register; a separate local changes codegen) */
+int func_021B4D60(Work021B4D60 *c, void *vm)
 {
     void *slot;
     void *sys;
@@ -100,7 +123,7 @@ int func_021B4D60(u32 *c, void *vm)
     void *z;
     unsigned short *r7;
     u32 kind;
-    u32 *h;
+    Rec021B4D60 *h;
     void *s;
 
     slot = func_0215A5F4(vm);
@@ -112,24 +135,24 @@ int func_021B4D60(u32 *c, void *vm)
     r7 = func_02159AE8(c, vm);
     kind = func_02159B10(c, vm);
     c = func_02030734(4, 0x2c, 0, d_021DE220, 0x7c);
-    c[0] = (u32)w;
-    c[1] = func_0201293C(w);
-    c[2] = func_02012934(w);
-    c[3] = func_0201292C(w);
-    c[4] = func_02012944(w);
-    c[6] = func_0200873C(x);
-    c[7] = func_0200CA38(y);
-    c[9] = kind;
-    c[5] = 0;
+    c->w = w;
+    c->f04 = func_0201293C(w);
+    c->f08 = func_02012934(w);
+    c->f0C = func_0201292C(w);
+    c->f10 = func_02012944(w);
+    c->f18 = func_0200873C(x);
+    c->f1C = func_0200CA38(y);
+    c->kind = kind;
+    c->f14 = 0;
     if (kind == 4) {
         s = func_0200BAC8(x);
-        c[2] = func_0200BAF4(s, 4);
-        c[5] = func_0200BBFC(s, 3);
+        c->f08 = func_0200BAF4(s, 4);
+        c->f14 = func_0200BBFC(s, 3);
     }
     h = func_02030734(4, 0xc, 0, d_021DE220, 0x90);
-    h[0] = (u32)w;
-    h[1] = r7;
-    h[2] = (u32)c;
+    h->w = w;
+    h->name = r7;
+    h->work = c;
     func_0215897C(slot, func_02014840(sys, z, (u32)ov170_id, d_021EF78C, c, (void *)func_021B4D14, h));
     return 1;
 }

@@ -27,7 +27,7 @@ typedef struct {
 
 u16 *func_02159AE8(void *a0, void *a1);
 void *func_0215A5DC(void *a0);
-int func_02012138(int);
+unsigned int func_02012138(void *);
 Sys *func_02158344(int);
 int func_02175B8C(void *);
 

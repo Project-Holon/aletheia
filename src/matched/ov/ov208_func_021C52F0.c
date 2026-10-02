@@ -28,18 +28,18 @@ typedef unsigned int   u32;
 
 struct Ov208Menu {
     u8  pad0[0x128];
-    u32 arc;
+    void *arc;
     u32 res[2];
     u32 j;
     u32 k;
 };
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32  func_0201BC3C(void);
-extern u32  func_0204ACEC(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
+extern u32  func_0204ACEC(void *a0, u32 a1, u32 a2, u32 a3, u32 a4);
 extern u32  func_0201BC78(void);
 extern u32  func_0201BCEC(void);
-extern u32  func_0204AF28(u32 a0, u32 a1, u32 a2, u32 a3);
+extern u32  func_0204AF28(void *a0, u32 a1, u32 a2, u32 a3);
 
 void ov208_func_021C52F0(u16 *heap, struct Ov208Menu *p)
 {

@@ -41,14 +41,14 @@ typedef struct {
 
 extern W *func_02030734(u16 heap, int size, int clear, char *file, int line);
 extern char d_0220AEFC[];
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern int func_0204A6C8(u32 a, int b, int c, int d, u16 e);
-extern int func_0204AF28(u32 a, int b, int c, u16 d);
-extern int func_0204AC18(u32 a, int b, int c, u32 d, int e, int f, u16 g);
+extern void *func_020490F4(unsigned int id, u16 heap);
+extern int func_0204A6C8(void * a, int b, int c, int d, u16 e);
+extern int func_0204AF28(void * a, int b, int c, u16 d);
+extern int func_0204AC18(void * a, int b, int c, u32 d, int e, int f, u16 g);
 extern u32 func_0204AEF4(int h, int k);
 extern void func_020216D4(void *slots, u32 bank, u32 off, u32 size);
 extern int func_0204B100(int a, int b, u16 heap);
-extern void func_02049238(u32 h);
+extern void func_02049238(void * h);
 extern void *func_021F86D4(void);
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 a3);
 extern void func_02209CC4(void *a, void *b);
@@ -59,7 +59,7 @@ W *func_02209A7C(void *a0, u32 b, u16 heap)
     void *a;
 
     w = func_02030734(heap, 0x30, 1, d_0220AEFC, 0x52);
-    a = func_020490F4(0xb, (u16)((heap & 0x7fff) | 0x8000));
+    a = func_020490F4(0xb, (heap & 0x7fff) | 0x8000);
     w->heap = heap;
     w->h0c = func_0204A6C8(a, 0xd9, 0, 1, heap);
     w->h14 = func_0204AF28(a, 0xdb, 0xdc, heap);

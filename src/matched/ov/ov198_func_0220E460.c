@@ -17,10 +17,10 @@
  *   func_02027610 0x02027610 thumb
  */
 typedef unsigned short u16;
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern int func_0204A6C8(unsigned, unsigned, unsigned, unsigned, u16);
-extern int func_0204ABF0(unsigned, unsigned, unsigned, unsigned, u16);
-extern int func_0204AF28(unsigned, unsigned, unsigned, u16);
+extern void *func_020490F4(unsigned int id, u16 heap);
+extern int func_0204A6C8(void *, unsigned, unsigned, unsigned, u16);
+extern int func_0204ABF0(void *, unsigned, unsigned, unsigned, u16);
+extern int func_0204AF28(void *, unsigned, unsigned, u16);
 extern void func_02049238(void *);
 extern unsigned func_020275F8(unsigned);
 extern unsigned func_02027610(unsigned);
@@ -28,12 +28,12 @@ void func_0220E460(char *p)
 {
     void *owner;
     unsigned i;
-    owner = func_020490F4((void *)83, (*(u16 *)(*(char **)p + 16) & 0x7fff) | 0x8000);
-    *(int *)(p + 0x2518) = func_0204ABF0((unsigned)owner, 33, 1, 160, *(u16 *)(*(char **)p + 16));
-    *(int *)(p + 0x2530) = func_0204AF28((unsigned)owner, 59, 62, *(u16 *)(*(char **)p + 16));
+    owner = func_020490F4(83,(*(u16 *)(*(char **)p + 16) & 0x7fff) | 0x8000);
+    *(int *)(p + 0x2518) = func_0204ABF0(owner, 33, 1, 160, *(u16 *)(*(char **)p + 16));
+    *(int *)(p + 0x2530) = func_0204AF28(owner, 59, 62, *(u16 *)(*(char **)p + 16));
     for (i = 8; i <= 21; i++)
-        ((int *)(p + 0x24a4))[i] = func_0204A6C8((unsigned)owner, func_020275F8(0), 0, 1, *(u16 *)(*(char **)p + 16));
-    *(int *)(p + 0x24fc) = func_0204A6C8((unsigned)owner, func_02027610(0), 0, 1, *(u16 *)(*(char **)p + 16));
-    *(int *)(p + 0x2500) = func_0204A6C8((unsigned)owner, func_02027610(0), 0, 1, *(u16 *)(*(char **)p + 16));
+        ((int *)(p + 0x24a4))[i] = func_0204A6C8(owner, func_020275F8(0), 0, 1, *(u16 *)(*(char **)p + 16));
+    *(int *)(p + 0x24fc) = func_0204A6C8(owner, func_02027610(0), 0, 1, *(u16 *)(*(char **)p + 16));
+    *(int *)(p + 0x2500) = func_0204A6C8(owner, func_02027610(0), 0, 1, *(u16 *)(*(char **)p + 16));
     func_02049238(owner);
 }

@@ -47,20 +47,20 @@ typedef struct {
     u32 fCC;
 } Anim;
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_0204A48C(const void *a, u32 b, u32 heap);
 extern const u8 d_020A1448[];
 extern u32 func_0204B100(u32 a, u32 b, u32 heap);
-extern u32 func_0204AC18(u32 h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 heap);
-extern u32 func_0204A6C8(u32 h, u32 a, u32 b, u32 c, u32 heap);
-extern u32 func_0204AF28(u32 h, u32 a, u32 b, u32 heap);
-extern void func_02049238(u32 h);
+extern u32 func_0204AC18(void *h, u32 a, u32 b, u32 c, u32 d, u32 e, u32 heap);
+extern u32 func_0204A6C8(void *h, u32 a, u32 b, u32 c, u32 heap);
+extern u32 func_0204AF28(void *h, u32 a, u32 b, u32 heap);
+extern void func_02049238(void *h);
 extern u32 func_020275E4(void);
 extern u32 func_02027614(void);
 extern u32 func_02027618(void);
 extern u32 func_0202761C(u32 a);
 extern u32 func_02027620(u32 a);
-extern u32 func_0204ABF0(u32 h, u32 a, u32 b, u32 c, u32 heap);
+extern u32 func_0204ABF0(void *h, u32 a, u32 b, u32 c, u32 heap);
 extern void func_020434DC(u32 mask, u32 enable);
 extern void func_02043598(u32 mask, u32 enable);
 

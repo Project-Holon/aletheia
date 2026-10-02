@@ -32,7 +32,7 @@ extern unsigned func_020221A4(void);
 extern void func_02040588(int,int);
 extern void func_021E6440(int,int,int);
 extern void func_021E1CE8(void *,int);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049990(void *,unsigned,int,int,u16,int,int,unsigned);
 extern void func_02049238(void *);
 extern void func_021E3208(void *,int);
@@ -52,7 +52,7 @@ void func_021DE2C4(char *p)
         func_02040588(3,zero);
         func_021E6440((int)p,-1,-1);
         func_021E1CE8(p,0);
-        resource=func_020490F4((void *)102,*(u16 *)(p+0x5f4));
+        resource=func_020490F4(102,*(u16 *)(p+0x5f4));
         func_02049990(resource,11,2,0,(u16)*(int *)(p+0x86c),zero,zero,*(u16 *)(p+0x5f4));
         func_02049238(resource);
         func_021E3208(p,0);

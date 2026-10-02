@@ -73,7 +73,7 @@ extern void func_021BBA1C(u32 a);
 extern int func_020120F4(int a);
 extern int func_02012944(int a);
 extern void func_02030EAC(void *p);
-extern void func_021F3B10(void *o, int a1, int a2, int a3, int idx);
+extern void func_021F3B10(void *o, void *a1, int a2, int a3, int idx);
 extern void func_021F392C(void *o, int a1, int heap, int idx);
 extern void func_021F3D60(void *o, int idx, int heap);
 extern void func_021F3890(void *o, int a, int idx);
@@ -103,7 +103,7 @@ int func_021F3734(void *a0, int *state, Work *p)
     switch (*state) {
     case 0:
         h = func_02012944(func_020120F4(p->f4));
-        func_021F3B10(p->obj, func_02188CB4(p->f0), h, heap, p->idx);
+        func_021F3B10(p->obj, func_02188CB4((void *)p->f0), h, heap, p->idx);
         (*state)++;
         break;
     case 1:

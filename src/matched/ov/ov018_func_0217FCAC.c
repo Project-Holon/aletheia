@@ -29,8 +29,8 @@ void func_02012374(int x, int y);
 int *func_02158344(int x);
 int func_02167A54(int a, int b);
 void *func_02188C7C(unsigned char *p);
-void func_0216D9A0(int x);
-void func_0216D9E4(int x);
+void func_0216D9A0(void *x);
+void func_0216D9E4(void *x);
 int func_0217FD34(int a, int b, int *c, int d, int e, int f);
 
 int func_0217FCAC(int x, int *st, int *obj)
@@ -47,12 +47,12 @@ int func_0217FCAC(int x, int *st, int *obj)
         if (func_02167A54(m[2], obj[2]) == 0) {
             return 1;
         }
-        func_0216D9A0(func_02188C7C(obj[0]));
+        func_0216D9A0(func_02188C7C((unsigned char *)obj[0]));
         func_02012374(x, func_0217FD34(v, obj[0], m, obj[1], obj[2], *(u16 *)(obj + 3)));
         *st = *st + 1;
         break;
     case 1:
-        func_0216D9E4(func_02188C7C(obj[0]));
+        func_0216D9E4(func_02188C7C((unsigned char *)obj[0]));
         return 1;
     }
     return 0;

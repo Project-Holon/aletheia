@@ -23,18 +23,18 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern u32 *func_0216D69C(u32);
+extern void *func_0216D69C(void *);
 extern void func_021B7EE4(void *p, void *r);
-extern void func_0219EAD8(u32 *p, void *r);
+extern void func_0219EAD8(void *p, void *r);
 extern void func_021B8028(void *p, void *out);
-extern void func_0216D89C(u32, void *);
+extern void func_0216D89C(void *, void *);
 
-void func_0219E2C0(u32 a, void *r)
+void func_0219E2C0(void *a, void *r)
 {
-    u32 *p = func_0216D69C(a);
+    void **p = func_0216D69C(a);
     u8 buf[12];
-    func_021B7EE4((void *)*p, r);
+    func_021B7EE4(*p, r);
     func_0219EAD8(p, r);
-    func_021B8028((void *)*p, buf);
+    func_021B8028(*p, buf);
     func_0216D89C(a, buf);
 }

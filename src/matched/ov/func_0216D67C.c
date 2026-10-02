@@ -19,9 +19,7 @@ typedef unsigned int u32;
 
 
 
-int func_0216D67C(int a0)
+void *func_0216D67C(void *a0)
 {
-
-a0 = a0 + 0x88;
-a0 = *(int *)((char *)a0);
-    return a0;}
+    return *(void **)((char *)a0 + 0x88);
+}

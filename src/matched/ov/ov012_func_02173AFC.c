@@ -19,10 +19,11 @@
  * Addresses are Black-image addresses.
  */
 
+typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_020399A8(void);
-extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *d);
+void *func_020399A8(void);
+extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
 
 int func_02173AFC(int v)
 {

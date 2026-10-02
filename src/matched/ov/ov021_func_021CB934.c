@@ -29,18 +29,18 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 typedef struct {
-    u32 owner;
+    void *owner;
     u16 *result;
     u32 screen;
     u32 arg;
 } Work;
 
 extern void *func_0215A5F4(void *p);
-extern void func_0215A684(u32 a, int b);
-extern int func_0215A690(u32 a);
+extern void func_0215A684(void *a, int b);
+extern int func_0215A690(void *a);
 extern void *func_0215A5DC(void *a0);
 extern void *func_0201210C(void *p);
-extern u32 func_02188C54(u32 a);
+extern u32 func_02188C54(void *a);
 extern u32 func_02190BE4(u32 a, u32 b);
 extern int func_02190C78(u32 s);
 extern void func_021909BC(u32 s);

@@ -84,7 +84,7 @@ extern void func_02011558(void *anim);
 extern int func_0216C270(Work *w);
 extern void *func_0216C280(Work *w);
 extern void func_0216C2A4(Work *w);
-extern void func_02163E58(u32 a, VecFx32 *v, fx32 *y);
+extern void func_02163E58(void *a, VecFx32 *v, fx32 *y);
 extern void func_0218F0A8(void *p);
 extern int func_0218F0E8(void *p);
 extern void func_021F3714(void *field);

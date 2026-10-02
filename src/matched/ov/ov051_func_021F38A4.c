@@ -29,10 +29,10 @@ extern int *func_021F3718(int a);
 extern void func_021F3D04(int a, int b);
 extern int func_021F3958(int a, int b, int c);
 extern void *func_02188CB4(unsigned char *p);
-extern void func_021A3038(int a, int *b);
+extern void func_021A3038(void *a, int *b);
 extern void func_02164208(int a, int *b, int c);
 extern void *func_02188C7C(unsigned char *p);
-extern int func_0216DDC0(int a, int b, int c, int d);
+extern int func_0216DDC0(void *a, int b, int c, int d);
 extern int func_0216D588(int a);
 
 int func_021F38A4(int a, int b)

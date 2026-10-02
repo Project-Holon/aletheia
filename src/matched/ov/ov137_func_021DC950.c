@@ -15,20 +15,33 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 extern void *func_02030734(u16,u32,int,const void *,int);
 extern void *func_02012934(void *p);
-extern u32 func_0201292C(void *);
+extern void *func_0201292C(void *);
 extern int func_0201AA18(void *);
 extern void func_0201AB28(void *,int);
 extern const unsigned char d_021E2260[];
-u32 *func_021DC950(u32 *p,int a,int b)
+struct DC950Src {
+    u32 pad_00[4];
+    void *unk_10;
+};
+struct DC950Obj {
+    void *unk_00;
+    void *unk_04;
+    u32 pad_08[11];
+    int unk_34;
+    u32 unk_38;
+    int unk_3c;
+    u32 pad_40[22];
+};
+struct DC950Obj *func_021DC950(struct DC950Src *p,int a,int b)
 {
-    u32 *v;
+    struct DC950Obj *v;
     int i;
-    v=func_02030734(4,152,1,d_021E2260,256);
-    v[0]=func_02012934((void *)p[4]);
-    v[1]=func_0201292C((void *)p[4]);
-    v[14]=0;
-    v[13]=a;
-    v[15]=b;
-    for(i=0;i<func_0201AA18((void *)v[0]);i++) func_0201AB28((void *)v[0],i);
+    v=func_02030734(4,sizeof(struct DC950Obj),1,d_021E2260,256);
+    v->unk_00=func_02012934(p->unk_10);
+    v->unk_04=func_0201292C(p->unk_10);
+    v->unk_38=0;
+    v->unk_34=a;
+    v->unk_3c=b;
+    for(i=0;i<func_0201AA18(v->unk_00);i++) func_0201AB28(v->unk_00,i);
     return v;
 }

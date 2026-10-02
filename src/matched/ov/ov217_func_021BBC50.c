@@ -23,7 +23,7 @@ struct Big;
 extern unsigned func_021BC628(u8 *);
 extern void *func_02012EBC(struct Big *);
 extern void *func_0200E394(void *a0);
-extern int func_0200E44C(int, int);
+extern int func_0200E44C(void *, int);
 extern const u8 d_021C308A[], d_021C3080[], d_021C30A8[];
 u8 func_021BBC50(u8 *p)
 {

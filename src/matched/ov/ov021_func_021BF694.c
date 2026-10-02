@@ -36,11 +36,11 @@ extern int func_02188D38(int);
 extern void *func_021A3074(unsigned char *p);
 extern int func_0218E138(int);
 extern void func_0218E13C(int, int);
-extern void func_0216D8C0(int, Vec *);
-extern void func_0216D410(int, int);
+extern void func_0216D8C0(void *, Vec *);
+extern void func_0216D410(void *, int);
 extern int func_021BE92C(int, int, int, int, int, int, int);
 extern void func_02012374(int, int);
-extern int func_021C7684(int, int, int, int);
+extern int func_021C7684(int, void *, int, int);
 extern void func_021C6DE0(int, int, int);
 extern int func_021C6E48(int);
 
@@ -56,11 +56,11 @@ int func_021BF694(int a, int *s, int *q)
         q[2] = func_0218E138(h);
         func_0218E13C(h, 0);
         rot = d_021DA080;
-        t = func_021A3074(func_02188CB4(q[1]));
+        t = func_021A3074(func_02188CB4((unsigned char *)q[1]));
         func_0216D8C0(t, &rot);
         func_0216D410(t, 1);
         func_02012374(a, func_021BE92C(q[0], q[1], 0, 1, 1, 0, 0));
-        r = func_021C7684(q[1], func_021A3074(func_02188CB4(q[1])), 0x28, 0xfa);
+        r = func_021C7684(q[1], func_021A3074(func_02188CB4((unsigned char *)q[1])), 0x28, 0xfa);
         func_021C6DE0(func_02188D38(q[1]), r, 0);
         s[0] = s[0] + 1;
         break;

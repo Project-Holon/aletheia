@@ -29,12 +29,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern u8 abs_id_01[];
-extern u32 func_02154694(void *a, u32 b);
+extern void *func_02154694(void *a, u32 b);
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern void func_0215897C(u32 a, u32 b);
+extern void func_0215897C(void *a, void *b);
 extern void *func_0201210C(void *p);
-extern u32 func_020124AC(u32 a, u32 b, u32 (*fn)(void *, u32), u32 c);
+extern void *func_020124AC(void *a, u32 b, void *(*fn)(void *, u32), void *c);
 
 int func_021B4CDC(u32 a, u32 b)
 {

@@ -53,12 +53,12 @@ struct Q {
 
 extern int func_021BE17C(void *a);
 extern void *func_02188CB4(unsigned char *p);
-extern int func_021A3050(int p);
+extern int func_021A3050(void *p);
 extern int func_021BE194(void *a);
 extern struct Q func_021BE148(int a);
 extern int func_021BE1B0(void *a);
 extern void func_021A7B08(int a, struct V3 *b);
-extern void func_021A3038(int a, struct V3 *b);
+extern void func_021A3038(void *a, struct V3 *b);
 extern void func_0218FEA4(int a);
 extern void func_0218FE78(int a, void *b);
 
@@ -74,7 +74,7 @@ void func_021BDFB0(char *a)
     int z;
 
     func_021BE17C(a);
-    r7 = func_02188CB4(*(void **)a);
+    r7 = func_02188CB4(*(unsigned char **)a);
     func_021A3050(r7);
     q = func_021BE148(func_021BE194(a));
     *(int *)(r6 + 0x48) = q.f3c;

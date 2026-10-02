@@ -23,22 +23,24 @@
 
 typedef unsigned char u8;
 
-int func_020124E4(int a0);
-int func_02012138(int a0);
-u8 *func_02158344(int a0);
-void func_0217F2B4(int a0, int a1);
-int func_0217F5A0(void *p);
-void func_0217F4A0(int a0, int a1, int a2, int a3);
-void *func_0201210C(void *p);
-int func_0217C458(int a0, int a1, u8 *a2, int a3);
-void func_0217FA1C(int a0);
-void func_0201235C(int a0, int a1);
+struct Desc;
 
-int func_0217F95C(int a0, int *state, int a2)
+void *func_020124E4(void *a0);
+unsigned int func_02012138(void *a0);
+u8 *func_02158344(int a0);
+void func_0217F2B4(void *a0, void *a1);
+int func_0217F5A0(void *p);
+void func_0217F4A0(void *a0, int a1, int a2, int a3);
+void *func_0201210C(void *p);
+struct Desc *func_0217C458(void *a0, void *a1, u8 *a2, int a3);
+void func_0217FA1C(void *p);
+void func_0201235C(void *a0, void *a1);
+
+int func_0217F95C(void *a0, int *state, void *a2)
 {
-    int h;
+    void *h;
     u8 *w;
-    int r;
+    struct Desc *r;
 
     h = func_020124E4(a0);
     w = func_02158344(func_02012138(h));
@@ -67,7 +69,7 @@ int func_0217F95C(int a0, int *state, int a2)
         }
         break;
     case 2:
-        r = func_0217C458(h, func_0201210C((void *)h), w, 0x15);
+        r = func_0217C458(h, func_0201210C(h), w, 0x15);
         func_0217FA1C(a2);
         func_0201235C(a0, r);
         return 0;

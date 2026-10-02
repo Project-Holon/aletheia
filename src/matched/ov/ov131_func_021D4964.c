@@ -28,13 +28,13 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void func_02049B68(u32,u32,u32,u32,u32,u16);
-extern void func_02049658(u32,u32,u32,u32,u32,u32,u16);
-extern void func_020498F4(u32,u32,u32,u32,u32,u32,u16);
-extern int func_0204AC18(u32,u32,u32,u32,u16,u16,u16);
-extern int func_0204A6C8(u32,u32,u32,u32,u16);
-extern int func_0204AF28(u32,u32,u32,u32);
+extern void *func_020490F4(unsigned int id, u16 heap);
+extern void func_02049B68(void *,u32,u32,u32,u32,u16);
+extern void func_02049658(void *,u32,u32,u32,u32,u32,u16);
+extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
+extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16);
+extern int func_0204A6C8(void *,u32,u32,u32,u16);
+extern int func_0204AF28(void *,u32,u32,u32);
 extern void func_020413B0(u32,u8,u8,u8,u8,u8);
 extern void func_02049238(void *);
 extern u32 func_020275E4(void);
@@ -64,9 +64,9 @@ extern int func_02027748(void);
 extern int func_0202774C(int);
 extern int func_02027750(int);
 extern int func_02027754(int);
-extern void func_021D67EC(u16 *,int,int);
+extern void func_021D67EC(u16 *,int,void *);
 extern void func_021D7B4C(u8 *,u8 *,void *);
-extern void func_021D9980(u8 *,u8 *,u32);
+extern void func_021D9980(u8 *,u8 *,void *);
 extern void func_021D8884(u8 *,u8 *,void *);
 #define H (*(u16 *)p)
 #define I(k) (*(int *)(p+(k)))
@@ -77,7 +77,7 @@ void func_021D4964(u8 *p)
     void *a;
     void *b;
     u8 i;
-    a=func_020490F4((void *)78,H);
+    a=func_020490F4(78,H);
     func_02049B68(a,0,0,0,0,H);
     func_02049658(a,8,2,0,0,0,H);
     func_020498F4(a,70,3,0,0,0,H);
@@ -100,7 +100,7 @@ void func_021D4964(u8 *p)
     I(0x11c)=func_0204AF28(a,80,131,H);
     I(0x128)=func_0204AF28(a,82,133,H);
     I(0x12c)=func_0204AF28(a,79,130,H);
-    b=func_020490F4((void *)func_020275E4(),H);
+    b=func_020490F4(func_020275E4(),H);
     func_02049B68(b,func_02027624(),0,0x120,32,H);
     func_02049658(b,func_02027628(),1,0,0,0,H);
     func_020498F4(b,func_0202762C(),1,0,0,0,H);
@@ -138,10 +138,10 @@ void func_021D4964(u8 *p)
     I(0xd0)=func_0204A6C8(b,func_0202772C(1),0,0,H);
     x=func_02027738(1,2); y=func_02027740(1,2);
     I(0x104)=func_0204AF28(b,x,y,H);
-    func_02049238((void *)b);
+    func_02049238(b);
     func_021D67EC((u16 *)p,I(0x88),a);
-    func_021D7B4C(p,P(0x8c),(void *)a);
+    func_021D7B4C(p,P(0x8c),a);
     func_021D9980(p,P(0x90),a);
-    func_021D8884(p,P(0x94),(void *)a);
-    func_02049238((void *)a);
+    func_021D8884(p,P(0x94),a);
+    func_02049238(a);
 }

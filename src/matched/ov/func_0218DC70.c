@@ -16,8 +16,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-u32 func_0218DC70(u8 *p)
+void *func_0218DC70(u8 *p)
 {
-    return *(u32 *)(p + 0x6c);
+    return *(void **)(p + 0x6c);
 }
 

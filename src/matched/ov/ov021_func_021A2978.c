@@ -22,5 +22,5 @@ void *func_020490F4(unsigned int id, unsigned int heap);
 void func_021A2978(u8 *p, u16 *q, int c)
 {
     if (q[1] != 0 || q[2] != 0)
-        *(u32 *)(p + 0x10) = func_020490F4(q[0], c);
+        *(void **)(p + 0x10) = func_020490F4(q[0], c);
 }

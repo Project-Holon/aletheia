@@ -16,11 +16,11 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern void func_021B8FA0(int,int,int,int,u8,u8,u8,u8,u8,u8,u8,u8,u8,int,u16);
+extern void *func_020490F4(unsigned int id, u16 heap);
+extern void func_021B8FA0(void *,int,int,int,u8,u8,u8,u8,u8,u8,u8,u8,u8,int,u16);
 extern void func_02041300(u8,u8,u8,u8,u8,u8,u8);
 extern void func_02041B6C(u8);
-extern void func_02049238(int);
+extern void func_02049238(void *);
 void func_021B9060(int a,u16 b) {
  void *p = func_020490F4(94,b);
  if(a&1)func_021B8FA0(p,7,2,0,0,0,16,24,0,0,16,24,9,0,b);

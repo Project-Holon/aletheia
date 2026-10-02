@@ -24,17 +24,17 @@ typedef struct {
     int z;
 } Vec021A5788;
 
-void func_021A3898(u32 x, Vec021A5788 *v);
+void func_021A3898(unsigned char *p, Vec021A5788 *v);
 void func_02164208(int k, Vec021A5788 *v, int s);
 void *func_021A3960(unsigned char *p);
-void func_02163E34(u32 h, Vec021A5788 *v, int *out);
+void func_02163E34(void *h, Vec021A5788 *v, int *out);
 
 void func_021A5788(u32 *p, int k, int *out)
 {
     Vec021A5788 v;
 
-    func_021A3898(p[3], &v);
+    func_021A3898(*(unsigned char **)(p + 3), &v);
     if (k != 9)
         func_02164208(k, &v, 0x10000);
-    func_02163E34(func_021A3960(p[3]), &v, out);
+    func_02163E34(func_021A3960(*(unsigned char **)(p + 3)), &v, out);
 }

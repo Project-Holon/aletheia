@@ -30,15 +30,15 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32 func_0203FA08(u32 a, u32 b, u32 c);
-extern void func_02049658(u32 p, int a, int b, int c, int d, int e, int f);
+extern void func_02049658(void *p, int a, int b, int c, int d, int e, int f);
 extern u16 *func_0204162C(int a);
-extern void *func_02049EF4(u32 p, int a, int b, u8 **out, int d);
+extern void *func_02049EF4(void *p, int a, int b, u8 **out, int d);
 extern void func_02082D44(void *src, void *dst, int n);
 extern void func_020307B0(void *p);
-extern void func_02049B68(u32 p, int a, int b, int c, int d, int e);
-extern void func_02049238(u32 h);
+extern void func_02049B68(void *p, int a, int b, int c, int d, int e);
+extern void func_02049238(void *h);
 
 void func_021F0378(u32 *p)
 {

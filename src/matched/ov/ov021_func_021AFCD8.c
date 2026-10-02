@@ -29,7 +29,7 @@ extern void *func_02184D38();
 
 int func_021AFCD8(int a0, int a1)
 {
-    int h;
+    void *h;
     void *a;
     int b;
     int c;
@@ -38,8 +38,8 @@ int func_021AFCD8(int a0, int a1)
     int arr[3];
     int w;
 
-    h = func_02158F54(func_0215A5F4((void *)a1));
-    a = func_0201210C();
+    h = (void *)func_02158F54(func_0215A5F4((void *)a1));
+    a = func_0201210C(h);
     b = func_02011330(a0);
     c = func_02011330(a0);
     d = func_02011330(a0);

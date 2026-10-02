@@ -24,14 +24,16 @@
  *   func_021B9DB8  0x021B9DB8  thumb  ov100
  */
 
+typedef unsigned short u16;
+
 extern int func_020279E8(int);
 extern void func_02027A04(int);
 extern void func_02027858(int);
 extern void func_02041B6C(int);
-extern int func_020399A8(void);
-extern int func_02039CB4(int, int, int);
-extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, unsigned int d);
-extern int func_02039C68(int, int, int);
+extern void *func_020399A8(void);
+extern int func_02039CB4(void *, int, int);
+extern int func_0203D3A8(void *a, u16 b, u16 c, unsigned int d);
+extern int func_02039C68(void *, int, int);
 extern void func_021B95B8(int, void (*)(void));
 extern void func_021BA290(int, int);
 extern void func_021B9EA4(void);

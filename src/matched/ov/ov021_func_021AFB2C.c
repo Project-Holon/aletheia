@@ -32,7 +32,7 @@ static inline u8 Ctx_ReadByte(Ctx *s)
 }
 
 extern void *func_0215A5F4(void *p);
-extern u32 func_02158F74(u32 a);
+extern u32 func_02158F74(void *a);
 extern u32 func_02159B10(Ctx *a, u32 b);
 
 extern void func_0201F048(u32 a, u32 b, u32 c);

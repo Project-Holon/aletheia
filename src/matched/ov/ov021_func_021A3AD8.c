@@ -24,13 +24,13 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 void *func_021A3960(u8 *p);
-u32 func_0216D67C(u32 h);
-int func_0216D598(u32 h);
-void func_0219D208(u32 h, int a);
+u32 func_0216D67C(void *h);
+int func_0216D598(void *h);
+void func_0219D208(void *h, int a);
 void func_0216CD88(u32 g);
 u32 func_021A398C(u8 *p);
 int func_021A31A4(u32 x, int a);
-void func_0216E204(u32 h, int v);
+void func_0216E204(void *h, int v);
 
 void func_021A3AD8(u8 *p, int a)
 {

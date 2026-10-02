@@ -27,7 +27,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 struct ArcFile;
 struct NitroFileHeader;
-extern void *sub_020490F4(unsigned int id, unsigned int heap);
+extern void *sub_020490F4(unsigned int id, u16 heap);
 extern void *func_02049250(struct ArcFile *, u32, u32);
 extern int func_02062A98(struct NitroFileHeader *, void **);
 extern void func_02040E78(u32, void *, u32, u32);
@@ -45,7 +45,7 @@ void func_021B9A24(u32 heap)
     void *screen;
     struct ArcFile *arc;
     void *buffer;
-    arc = sub_020490F4((void *)192, (heap & 0x7fff) | 0x8000);
+    arc = sub_020490F4(192, (heap & 0x7fff) | 0x8000);
     buffer = func_02049250(arc, 0, heap);
     func_02062A98(buffer, &palette);
     func_02040E78(1, *(void **)((char *)palette + 12), 512, 0);

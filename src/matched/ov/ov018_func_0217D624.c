@@ -64,17 +64,17 @@ extern struct WordSet *func_0201EC64(u32 heap);
 extern int func_0201C440();
 extern struct MsgBank *func_02045B38(u32 resident, u32 arcId, u32 fileId, u32 heapId);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern char d_021836B4[];
+extern unsigned char d_021836B4[];
 
 void func_0217D624(struct State *o)
 {
     struct Obj *t;
 
     o->bank = func_0204B100(0x29, 5, 0x70);
-    t = func_0204B034((u32)d_021836B4, 1, 0x70);
+    t = func_0204B034(d_021836B4, 1, 0x70);
     o->obj = t;
     func_0204B258(o->bank, t);
-    o->unkB0 = func_02025538(0x70, (u32)o->bank);
+    o->unkB0 = func_02025538(0x70, o->bank);
     o->tcbl = func_0203101C(0x70, 0x70, 4, 0x20);
     o->font = func_0201D7EC(0x17, 0, 0, 0, 0x70);
     o->words = func_0201EC64(0x70);

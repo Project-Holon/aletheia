@@ -31,7 +31,7 @@ typedef unsigned int u32;
 struct Obj;
 extern const u8 d_021BBF14[];
 extern u32 func_020275E4(void);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern u32 func_02027614(void);
 extern int func_0204AC18(u32,u32,u32,u32,u16,u16,u16);
 extern u32 func_02027618(void);
@@ -49,7 +49,7 @@ void func_021BA41C(char *p)
     u8 i;
     void *loader;
     u32 first;
-    loader=func_020490F4((void *)func_020275E4(),*(u16 *)(*(char **)p+4));
+    loader=func_020490F4(func_020275E4(),*(u16 *)(*(char **)p+4));
     *(int *)(p+0x30)=func_0204AC18((u32)loader,func_02027614(),1,128,0,3,*(u16 *)(*(char **)p+4));
     *(int *)(p+0x2c)=func_0204A6C8((u32)loader,func_02027618(),0,1,*(u16 *)(*(char **)p+4));
     first=func_0202761C(0);

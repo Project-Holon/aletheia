@@ -21,15 +21,15 @@
 
 typedef unsigned int u32;
 
-extern int  func_020124E4(int a);
+extern void *func_020124E4(void *a);
 extern void *func_0201210C(void *p);
-extern u32 *func_02189A60(int a);
+extern u32 *func_02189A60(void *a);
 extern void func_0204E720(int a, int b, int c, int d);
 extern int  func_0204E804(void);
 extern void func_02030EAC(int a);
-extern void func_021F5648(int a, void *p);
+extern void func_021F5648(void *a, void *p);
 
-int func_021F55A0(int a0, int *st)
+int func_021F55A0(void *a0, int *st)
 {
     void *obj;
     char *w;

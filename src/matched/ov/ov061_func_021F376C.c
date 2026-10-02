@@ -39,26 +39,26 @@ typedef struct {
     int c;
 } V3;
 
-extern int func_02188D2C(int a);
+extern int func_02188D2C(int *p);
 extern void *func_02188CB4(unsigned char *p);
-extern int func_02188C80(int a);
+extern int func_02188C80(u8 *a);
 extern int func_020120F4(int a);
 extern int func_02012844(int a);
-extern int *func_021897BC(int a, int idx);
-extern int func_02188C9C(int a);
+extern int *func_021897BC(char *a, int idx);
+extern int func_02188C9C(u8 *a);
 extern void func_021F388C(int *o, int a);
 extern u8 *func_021BE674(int a, int b, int c, u16 d);
 extern void func_021BE580(int a);
 extern int func_021BE6BC(u8 *p);
 extern void func_021BE4B4(int a, int b, int c, int d);
-extern int func_021F3868(int *o, int g);
-extern int func_021A3050(int g);
-extern void func_021A3364(int g, int b, V3 *out);
+extern int func_021F3868(int *o, void *g);
+extern int func_021A3050(void *g);
+extern void func_021A3364(void *g, int b, V3 *out);
 extern int func_02162478(int h, V3 *v);
 extern void func_021BE6CC(int a, int b, int c, u16 d, int e);
 extern void func_021BE6B0(u8 *p, int v);
 
-void func_021F376C(int a)
+void func_021F376C(u8 *a)
 {
     int *o;
     int s;
@@ -68,13 +68,13 @@ void func_021F376C(int a)
     u8 *e;
     V3 v;
 
-    s = func_02188D2C(a);
-    g = func_02188CB4((void *)a);
+    s = func_02188D2C((int *)a);
+    g = func_02188CB4(a);
     h = func_02012844(func_020120F4(func_02188C80(a)));
-    o = func_021897BC(a, 0);
+    o = func_021897BC((char *)a, 0);
     cur = func_02188C9C(a);
     if (o[2] != cur) {
-        func_021F388C(o, a);
+        func_021F388C(o, (int)a);
         o[2] = cur;
     }
     e = func_021BE674(s, 0, 0, 0);

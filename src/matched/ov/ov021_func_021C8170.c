@@ -22,15 +22,16 @@
 
 extern void *func_0215A5DC(void *a0);
 extern void *func_0201210C(void *p);
-extern int func_02189A00(int a);
+extern void *func_02189A00(unsigned char *p);
 extern int func_02159B10(int a, int b);
 extern void *func_0215A5F4(void *p);
 extern int func_021C1D68(int a, int b, int c);
-extern void func_0215897C(int a, int b);
+extern void func_0215897C(void *vm, void *task);
 
 int func_021C8170(int a, int b)
 {
-    int r7, r5, v;
+    void *r7;
+    int r5, v;
     void *r6;
     void *r4;
 
@@ -38,9 +39,9 @@ int func_021C8170(int a, int b)
     r7 = func_02189A00(func_0201210C(r6));
     r5 = func_02159B10(a, b);
     r4 = func_0215A5F4((void *)b);
-    v = func_021C1D68(r6, r7, (unsigned char)r5);
+    v = func_021C1D68((int)r6, (int)r7, (unsigned char)r5);
     if (v) {
-        func_0215897C(r4, v);
+        func_0215897C(r4, (void *)v);
     }
     return 1;
 }

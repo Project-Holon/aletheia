@@ -15,7 +15,7 @@
  *   func_0204E804  0x0204E804  arm
  */
 
-int func_020124E4(int a);
+void *func_020124E4(int a);
 void *func_0201210C(void *p);
 void func_0204E720(int a, int b, int c, int d);
 int func_0204E804(void);

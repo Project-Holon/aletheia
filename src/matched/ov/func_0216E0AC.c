@@ -31,38 +31,26 @@ extern int func_0216D230();
 extern int func_0216D268();
 extern int func_0216D0E8();
 
-void func_0216E0AC(int a0, int a1, int a2)
+void func_0216E0AC(void *a0, void *a1)
 {
-    int t4;
-    int t5;
+    void *t4;
+    void *t5;
     int t6;
 
-t5 = a0 + 0;
-t4 = a1 + 0;
-    a0 = func_0216D67C(a0);
+t5 = a0;
+t4 = a1;
+    t6 = func_0216D67C(a0);
 loc_0216E0B6:
-t6 = a0 + 0;
-a0 = t5 + 0;
-    a0 = func_0216D71C(a0);
+    func_0216D71C(t5);
 loc_0216E0BE:
-a0 = t5 + 0;
-a1 = t4 + 0;
-    a0 = func_0216CFC4(a0, a1);
+    func_0216CFC4(t5, t4);
 loc_0216E0C6:
-a0 = t5 + 0;
-a1 = t4 + 0;
-    a0 = func_0216D02C(a0, a1);
+    func_0216D02C(t5, t4);
 loc_0216E0CE:
-a0 = t5 + 0;
-    a0 = func_0216D230(a0);
+    func_0216D230(t5);
 loc_0216E0D4:
-a0 = t6 + 0;
-a1 = t5 + 0;
-    a0 = func_0216D268(a0, a1);
+    func_0216D268(t6, t5);
 loc_0216E0DC:
-a0 = t5 + 0;
-a1 = t4 + 0;
-a2 = 0;
-    a0 = func_0216D0E8(a0, a1, a2);
+    func_0216D0E8(t5, t4, 0);
 loc_0216E0E6:
     return;}

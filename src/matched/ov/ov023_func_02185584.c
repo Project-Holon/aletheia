@@ -18,12 +18,13 @@
  *   func_02185354  0x02185354  thumb  ov023
  */
 
+typedef unsigned short u16;
 typedef unsigned char u8;
 
 extern void func_02082BCC(void *p, int v, int n);
 extern int func_02039338(void);
-extern int func_020399A8(void);
-extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *d);
+extern void *func_020399A8(void);
+extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
 extern void func_02186444(char *p, int v);
 extern void func_02185354(char *p);
 

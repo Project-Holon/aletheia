@@ -14,12 +14,14 @@
  *   func_0204AF28 0x0204AF28 arm
  *   func_02049238 0x02049238 arm
  */
+typedef unsigned short u16;
+
 extern int func_020275E4(void);
 extern int func_02027618(void);
 extern int func_02027614(void);
 extern int func_0202761C(int);
 extern int func_02027620(int);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_0204A6C8(void *, int, int, int, unsigned int);
 extern int func_0204AC18(void *, int, int, int, int, int, unsigned int);
 extern int func_0204AF28(void *, int, int, unsigned int);

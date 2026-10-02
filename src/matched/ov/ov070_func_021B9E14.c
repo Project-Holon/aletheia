@@ -26,12 +26,14 @@ typedef struct {
     unsigned char d, e;
 } Rect;
 
+typedef unsigned short u16;
+
 extern void func_021B9DE8(char *);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_02020E60(unsigned short, int);
-extern int func_0204AC18(int, int, int, int, int, int, unsigned short);
-extern int func_0204A6C8(int, int, int, int, unsigned short);
-extern void func_02049238(int);
+extern int func_0204AC18(void *, int, int, int, int, int, unsigned short);
+extern int func_0204A6C8(void *, int, int, int, unsigned short);
+extern void func_02049238(void *);
 extern int func_0204B294(int, int, int, int, Rect *, int, unsigned short);
 extern void func_0204B92C(int, int);
 extern void func_0204B3DC(int, int);

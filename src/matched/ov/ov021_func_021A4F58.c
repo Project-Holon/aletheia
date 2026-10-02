@@ -35,14 +35,14 @@ typedef struct {
 } Vec021A4F58;
 
 void *func_021A3960(unsigned char *p);
-void func_0216D88C(u32 h, Vec021A4F58 *v);
-void func_02163E58(u32 h, Vec021A4F58 *v, int *lim);
-void func_0216D570(u32 h);
-void func_0216D89C(u32 h, Vec021A4F58 *v);
+void func_0216D88C(void *h, Vec021A4F58 *v);
+void func_02163E58(void *h, Vec021A4F58 *v, int *lim);
+void func_0216D570(void *h);
+void func_0216D89C(void *h, Vec021A4F58 *v);
 
 int func_021A4F58(u32 *p)
 {
-    void *h = func_021A3960(p[3]);
+    void *h = func_021A3960(*(unsigned char **)(p + 3));
     Vec021A4F58 v;
     int lim;
 

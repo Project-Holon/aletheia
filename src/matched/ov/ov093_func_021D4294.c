@@ -17,11 +17,11 @@
 typedef unsigned char u8; typedef unsigned short u16;
 struct S { void *link; u8 pad[0x3b1c - 4]; u16 buf[2]; };
 extern struct S *d_021F3B88;
-extern int func_0203D3A8(void *a, unsigned int b, unsigned int c, void *d);
+extern int func_0203D3A8(void *a, u16 b, u16 c, void *d);
 void func_021D4294(u16 v)
 {
     u16 *b = d_021F3B88->buf;
     b[0] = 0x64;
     b[1] = v;
-    func_0203D3A8((unsigned)d_021F3B88->link, 0x100, 4, (void *)b);
+    func_0203D3A8(d_021F3B88->link, 0x100, 4, (void *)b);
 }

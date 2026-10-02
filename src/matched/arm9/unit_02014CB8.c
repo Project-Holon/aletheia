@@ -47,7 +47,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void  ENV_SetResourceSet_2(void *p);
 
 struct Sub02014CB8Obj {
@@ -61,7 +61,7 @@ void sub_02014CB8(struct Sub02014CB8Obj *o, u32 x)
 {
     if (o->f00 == 0) {
         o->f04 = x;
-        o->f00 = func_020490F4(x, (u16)o->f40);
+        o->f00 = func_020490F4(x, o->f40);
     }
 }
 

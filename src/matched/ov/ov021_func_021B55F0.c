@@ -16,17 +16,19 @@
  *   func_0218FE50  0x0218FE50  thumb  ov021
  */
 
-typedef unsigned int u32;
+typedef unsigned char u8;
 typedef enum { B_FALSE, B_TRUE } Bool;
 
-extern u32 func_020124E4(u32);
-extern void *func_0201210C(void *p);
-extern u32 func_02188C58(u32);
-extern u32 func_0218FE50(u32);
+struct Ctx;
 
-int func_021B55F0(u32 a)
+extern void *func_020124E4(void *o);
+extern void *func_0201210C(const struct Ctx *p);
+extern void *func_02188C58(void *o);
+extern int func_0218FE50(u8 *a);
+
+int func_021B55F0(void *a)
 {
-    u32 x = func_0218FE50(func_02188C58(func_0201210C(func_020124E4(a))));
+    int x = func_0218FE50(func_02188C58(func_0201210C(func_020124E4(a))));
 
     return x != 0 ? B_FALSE : B_TRUE;
 }

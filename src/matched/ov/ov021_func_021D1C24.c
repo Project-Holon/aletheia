@@ -29,14 +29,14 @@ typedef unsigned int u32;
 
 extern u32 func_020122C0(u32 a, u32 b, void *c, u32 d);
 extern int func_021D1C8C(void *proc, int *seq, void *w);
-extern u32 *func_020124E8(void);
+extern u32 *func_020124E8(u32 task);
 extern void func_02082BCC(void *p, int v, int n);
 extern u32 func_020120F4(u32 a);
-extern void func_02012EBC(void);
-extern u32 func_02007B44(void);
+extern u32 func_02012EBC(u32 a);
+extern u32 func_02007B44(u32 a);
 extern void *func_02188CB4(unsigned char *p);
 extern void *func_02012934(void *p);
-extern u32 func_0201AB28(u32 a, u32 b);
+extern u32 func_0201AB28(void *a, u32 b);
 extern u32 func_02188C54(u32 a);
 
 u32 func_021D1C24(u32 a, u32 b, u32 c)
@@ -45,15 +45,14 @@ u32 func_021D1C24(u32 a, u32 b, u32 c)
     u32 *p;
 
     r = func_020122C0(a, 0, func_021D1C8C, 0x58);
-    p = func_020124E8();
+    p = func_020124E8(r);
     func_02082BCC(p, 0, 0x58);
     p[1] = a;
     p[2] = func_020120F4(a);
-    func_02012EBC();
-    p[0] = func_02007B44();
+    p[0] = func_02007B44(func_02012EBC(p[2]));
     p[3] = b;
-    p[4] = func_02188CB4((void *)b);
-    p[5] = func_0201AB28(func_02012934(p[2]), c);
+    p[4] = (u32)func_02188CB4((void *)b);
+    p[5] = func_0201AB28(func_02012934((void *)p[2]), c);
     p[7] = func_02188C54(p[3]);
     *((u8 *)p + 0x4e) = c;
     p[0x15] = 0;

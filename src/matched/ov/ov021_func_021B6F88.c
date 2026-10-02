@@ -22,7 +22,7 @@
  */
 
 extern void *func_0215A5E4(void *a0);
-extern int func_02012944(int p);
+extern int func_02012944(void *p);
 extern void *func_021B6EE0(int a, int b);
 extern void func_0201F02C(int a, int b, int c);
 extern void func_0201EEC4(int a, int b, int c);

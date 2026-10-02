@@ -110,7 +110,7 @@ extern int func_02027614(void);
 extern int func_02027618(void);
 extern int func_0202761C(int a);
 extern int func_02027620(int a);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049238(void *arc);
 extern void func_0204A48C(const void *a, const void *b, int heap);
 extern void *func_0204B100(int n, int a, int heap);

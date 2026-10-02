@@ -23,22 +23,22 @@ typedef unsigned short u16;
 void *func_020120F4(void *p);
 void *func_0201210C(void *p);
 u16 func_02012984(void *p);
-u16 func_02188C9C(int x);
-int func_02188CE8(int x);
+u16 func_02188C9C(void *x);
+int func_02188CE8(void *x);
 void func_021AAAF0(int x, int y);
 
-void func_02184CEC(int *o, void *p)
+void func_02184CEC(void **o, void *p)
 {
     void *a = func_020120F4(p);
     void *b = func_0201210C(p);
     u16 c = func_02012984(a);
 
-    o[0] = (int)p;
-    o[1] = (int)a;
+    o[0] = p;
+    o[1] = a;
     o[2] = b;
-    *(u16 *)(o + 3) = func_02188C9C(b);
-    o[0x10] = 0;
-    o[0x11] = 0;
+    *(u16 *)((char *)o + 12) = func_02188C9C(b);
+    *(int *)((char *)o + 0x40) = 0;
+    *(int *)((char *)o + 0x44) = 0;
     *(u16 *)((char *)o + 0x48) = c;
     *(u16 *)((char *)o + 0x4a) = c;
     func_021AAAF0(func_02188CE8(o[2]), 1);

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * symbols:
  *   func_021A3960  0x021A3960  thumb  ov021
@@ -24,11 +24,11 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern void *func_021A3960(unsigned char *p);
-extern void func_021A51A4(u32, u32, u32);
-extern void func_021A51A8(u32, u32, u32);
-extern void func_021A51D8(u32, u32, u32);
-extern void func_021A5204(u32, u32, u32);
-extern void func_021A5228(u32, u32, u32);
+extern void func_021A51A4(u32, void *, u32);
+extern void func_021A51A8(u32, void *, u32);
+extern void func_021A51D8(u32, void *, u32);
+extern void func_021A5204(u32, void *, u32);
+extern void func_021A5228(u32, void *, u32);
 
 void func_021A5148(u32 a, u32 b, u32 c)
 {

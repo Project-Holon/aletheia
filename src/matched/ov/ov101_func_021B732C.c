@@ -17,10 +17,10 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern void *func_020490F4(unsigned int id, unsigned int heap);
-extern int func_0204AC18(unsigned,unsigned,unsigned,u16,u16,u16,unsigned);
-extern int func_0204A6C8(unsigned,unsigned,unsigned,unsigned,unsigned);
-extern int func_0204AF28(unsigned,unsigned,unsigned,unsigned);
-extern void func_02049238(unsigned);
+extern int func_0204AC18(void *,unsigned,unsigned,u16,u16,u16,unsigned);
+extern int func_0204A6C8(void *,unsigned,unsigned,unsigned,unsigned);
+extern int func_0204AF28(void *,unsigned,unsigned,unsigned);
+extern void func_02049238(void *);
 void func_021B732C(int *p,unsigned b,int c,int unused,int unused2,u8 d,unsigned e) {
  void *q;
  q=func_020490F4(0x5e,e);

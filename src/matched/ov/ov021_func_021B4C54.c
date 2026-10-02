@@ -25,16 +25,16 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 typedef struct {
-    u32 a;
+    void *a;
     u32 b;
 } Pair;
 
 extern u8 abs_id_6[];
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
-extern void func_0215897C(u32 a, u32 b);
+extern void func_0215897C(void *a, void *b);
 extern void *func_0201210C(void *p);
-extern u32 func_020124AC(u32 a, const void *b, void *c, Pair *d);
+extern void *func_020124AC(void *a, const void *b, void *c, Pair *d);
 extern void func_02154C20(void);
 
 int func_021B4C54(u32 a, u32 b)

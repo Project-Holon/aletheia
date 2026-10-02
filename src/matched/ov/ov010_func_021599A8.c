@@ -33,17 +33,17 @@ extern void *func_0215A5E4(void *a0);
 extern void *func_0215A5F4(void *p);
 extern void *func_0215A5DC(void *a0);
 extern void *func_0201210C(void *p);
-extern int func_02188CCC(int);
-extern int func_02012E40(int);
-extern int func_02012DD0(int);
+extern int func_02188CCC(void *);
+extern int func_02012E40(void *);
+extern int func_02012DD0(void *);
 extern int func_021A0F90(int);
 extern int func_021A153C(int);
 extern void func_021A1548(int);
 extern u16 *func_02159AE8(void *a0, void *a1);
-extern int func_021590FC(int);
+extern int func_021590FC(void *);
 extern void func_021D11D8(int);
 extern void func_021D1194(int);
-extern void func_021590F4(int, int);
+extern void func_021590F4(void *, int);
 
 int func_021599A8(int a, int b)
 {

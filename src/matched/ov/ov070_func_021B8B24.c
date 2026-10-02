@@ -22,7 +22,7 @@ typedef unsigned int u32;
 struct CodeIn;
 
 extern struct CodeIn *func_0202E940(u16 a0, u16 a1, u32 a2, u16 heap);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_0202E9AC();
 extern void func_02049238(void *arc);
 

@@ -29,7 +29,7 @@ extern void *func_021A3074(unsigned char *p);
 extern void *func_021C6C70(u32 h, int size, void *fn);
 extern u8 *func_021C6CCC(void *o);
 extern void func_021C748C(void);
-extern u16 func_0216D5F8(u32 a);
+extern u16 func_0216D5F8(void *a);
 
 void *func_021C7260(u32 a, u16 b, int c)
 {
@@ -45,7 +45,7 @@ void *func_021C7260(u32 a, u16 b, int c)
     p = func_021C6CCC(o);
     *(u32 *)(p + 0) = a;
     t = func_021A3074((void *)q);
-    *(u32 *)(p + 4) = t;
+    *(void **)(p + 4) = t;
     *(u16 *)(p + 8) = 0;
     *(u16 *)(p + 0xa) = b;
     p[0xc] = c;

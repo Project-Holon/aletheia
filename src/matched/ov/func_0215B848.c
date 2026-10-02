@@ -27,15 +27,14 @@ extern int func_02159B10();
 extern void *func_0215A5E4(void *a0);
 extern void *func_02012934(void *p);
 extern int func_0201AB08(void *a0);
-extern int func_0201AB18(int a0);
+extern int func_0201AB18(void *party);
 
 int func_0215B848(int a0, int a1)
 {
     int t4;
     int t5;
     unsigned short *v0;
-    void *v1;
-    void *v2;
+    void *p;
 
 t4 = a0 + 0;
 t5 = a1 + 0;
@@ -47,21 +46,21 @@ a1 = t5 + 0;
 loc_0215B85C:
 t4 = a0 + 0;
 a0 = t5 + 0;
-    v1 = func_0215A5E4((void *)a0);
+    p = func_0215A5E4((void *)a0);
 loc_0215B864:
-    v2 = func_02012934(v1);
+    p = func_02012934(p);
 loc_0215B868:
     if (t4 == 1) goto loc_0215B87A;
 loc_0215B86C:
     if (t4 != 2) goto loc_0215B880;
 loc_0215B870:
-    a0 = func_0201AB08(v2);
+    a0 = func_0201AB08(p);
 loc_0215B874:
 a0 = a0 << 0x10;
 a0 = (unsigned)a0 >> 0x10;
     goto loc_0215B882;
 loc_0215B87A:
-    a0 = func_0201AB18(a0);
+    a0 = func_0201AB18(p);
 loc_0215B87E:
     goto loc_0215B874;
 loc_0215B880:

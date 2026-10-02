@@ -19,8 +19,7 @@ typedef unsigned int u32;
 
 
 
-int func_0215A5CC(int a0)
+u16 func_0215A5CC(void *a0)
 {
-
-a0 = *(u16 *)((char *)a0);
-    return a0;}
+    return *(u16 *)a0;
+}

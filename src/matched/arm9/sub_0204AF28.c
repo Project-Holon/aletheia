@@ -73,10 +73,10 @@ struct Ctx {
 
 extern struct Ctx *g_02146A74;
 
-extern void *func_02049250(u32 owner, u32 which, u32 mode);
+extern void *func_02049250(void *owner, u32 which, u32 mode);
 extern void func_0204E074(struct Pool *pool, s32 idx, void *a, void *b);
 
-s32 sub_0204AF28(u32 owner, u32 first, u32 second, u32 mode)
+s32 sub_0204AF28(void *owner, u32 first, u32 second, u32 mode)
 {
     struct Pool *pool = &g_02146A74->pool;
     struct Entry *entry;

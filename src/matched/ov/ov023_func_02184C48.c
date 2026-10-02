@@ -30,10 +30,12 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
+typedef unsigned short u16;
+
 extern u8 d_020A1448[];
 extern u8 d_02186ACC[];
 extern u32 func_020275E4(void);
-extern void *func_020490F4(unsigned int id, unsigned int heap);
+extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_0204A48C(void *, void *, u32);
 extern u32 func_0204B100(u32 a, u32 b, u32 heap);
 extern u32 func_0204A6C8(void *arc, u32 id, u32 a, u32 b, u32 heap);

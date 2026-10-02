@@ -30,6 +30,6 @@ void *func_021AE454(int a, int b, S24 *src, int c)
     *(int *)(p + 0x20) = 0;
     *(int *)(p + 0x24) = c;
     *(int *)(p + 0x30) = b;
-    *(int *)(p + 0x34) = func_02188CB4((void *)b);
+    *(void **)(p + 0x34) = func_02188CB4((void *)b);
     return p;
 }
