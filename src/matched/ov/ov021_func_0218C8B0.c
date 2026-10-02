@@ -14,14 +14,14 @@
  *   func_0218C88C  0x0218C88C  thumb  ov021
  */
 
-extern int func_0218C8FC(void *p);
+extern int func_0218C8FC(void *p, int i);
 extern void func_0218C88C(void *p, int a, int b);
 
 int func_0218C8B0(void *p, int v)
 {
     if (p == 0)
         return 1;
-    if (func_0218C8FC(p) == 1) {
+    if (func_0218C8FC(p, v) == 1) {
         func_0218C88C(p, v, 3);
         return 1;
     }

@@ -29,12 +29,12 @@ extern u32 func_0216D568(u32, u32);
 extern u32 func_0216DB24(u32);
 extern u32 func_0219BEB4(u32, u32);
 extern u32 func_0219BF3C(u32, u32);
-extern u32 func_0219BF48(u32, u32, u32, u32);
+extern u32 func_0219BF48(u32);
 
 int func_0219BF00(u32 a, u32 b, u32 c, u32 d)
 {
 if (*(u8 *)((u8 *)(b) + 2) == 0) {
-    if (func_0219BF48(a, *(u8 *)((u8 *)(b) + 2), c, d) == 0) {
+    if (func_0219BF48(a) == 0) {
         if (func_0216DB24(a) == 1) {
             func_0219BF3C(a, func_0219BEB4(a, *(u8 *)((u8 *)(b) + 1)));
         }

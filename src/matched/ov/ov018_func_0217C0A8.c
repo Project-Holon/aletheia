@@ -32,31 +32,32 @@ extern int func_02012B58();
 extern int func_02026454();
 extern u8 *func_02026474();
 extern int func_02013D5C();
-extern void func_02012950();
-extern void func_02012944();
-extern void func_02008550();
+extern u8 *func_02012950();
+extern u8 *func_02012944();
+extern u8 func_02008550(u8 *obj);
 
-void func_0217C0A8(int a0)
+u8 func_0217C0A8(int a0)
 {
     int h;
     u8 *q;
+    u8 *obj;
 
     h = func_02026478(a0);
     if (func_02012B70(h) == 0) {
-        func_02012944(h);
+        obj = func_02012944(h);
     } else if (func_02012B80(h) == func_02012B58(h)) {
-        func_02012944(h);
+        obj = func_02012944(h);
     } else {
         q = 0;
         if (func_02026454(a0) == 2 && func_02026474(a0) != 0)
             q = func_02026474(a0);
         if (q == 0) {
-            func_02012944(h);
+            obj = func_02012944(h);
         } else if (func_02013D5C(*(u16 *)(q + 0x84)) == 1) {
-            func_02012944(h);
+            obj = func_02012944(h);
         } else {
-            func_02012950(h, func_02012B80(h));
+            obj = func_02012950(h, func_02012B80(h));
         }
     }
-    func_02008550();
+    return func_02008550(obj);
 }

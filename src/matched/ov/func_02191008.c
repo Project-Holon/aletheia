@@ -31,11 +31,11 @@ extern u32 func_02045808(u32);
 extern u32 func_02190538(u32);
 extern u32 func_02190D48(u32);
 extern u32 func_021927E8(u32);
-extern u32 func_02192BC0(u32, u32, u32, u32);
+extern u32 func_02192BC0(u32);
 
-int func_02191008(u32 a, u32 b, u32 c, u32 d)
+int func_02191008(u32 a)
 {
-func_02192BC0(*(u32 *)((u8 *)(a)), b, c, d);
+func_02192BC0(*(u32 *)((u8 *)(a)));
 if (*(u32 *)((u8 *)(a) + 4) != 0) {
     func_02190D48(*(u32 *)((u8 *)(a) + 4));
 }

@@ -22,12 +22,12 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02188C6C(u32, u32, u32, u32);
+extern u32 func_02188C6C(u32);
 extern u32 func_021A1BF4(u32);
 
-int func_021C61D4(u32 a, u32 b, u32 c, u32 d)
+int func_021C61D4(u32 a)
 {
-if (func_021A1BF4(func_02188C6C(*(u32 *)((u8 *)(a) + 12), b, c, d)) == 0) {
+if (func_021A1BF4(func_02188C6C(*(u32 *)((u8 *)(a) + 12))) == 0) {
     return 1;
 }
 return 0;

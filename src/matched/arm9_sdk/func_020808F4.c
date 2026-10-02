@@ -11,5 +11,5 @@
  * status:   EXACT
  */
 
-extern void func_020808BC(int, int, int, int);
-void func_020808F4(int a0, int a1, int a2, int a3){ func_020808BC((int)0x2150E4E, (int)a1, (int)a2, (int)a3); }
+extern void func_020808BC(int);
+void func_020808F4(void){ func_020808BC((int)0x2150E4E); }

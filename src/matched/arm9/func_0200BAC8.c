@@ -16,9 +16,9 @@
  *   func_0200BAC8  0x0200BAC8  thumb
  */
 
-extern void func_020071CC(void *p, int n);
+extern void *func_020071CC(void *p, int n);
 
-void func_0200BAC8(void *p)
+void *func_0200BAC8(void *p)
 {
-    func_020071CC(p, 0x31);
+    return func_020071CC(p, 0x31);
 }

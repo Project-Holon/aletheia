@@ -29,14 +29,14 @@ typedef signed char    s8;
 extern u32 func_020307B0(u32);
 extern u32 func_02045808(u32);
 extern u32 func_02190538(u32);
-extern u32 func_02190D48(u32, u32, u32, u32);
+extern u32 func_02190D48(u32);
 extern u32 func_021927E8(u32);
 extern u32 func_02194A48(u32, u32);
 
-int func_021915B4(u32 a, u32 b, u32 c, u32 d)
+int func_021915B4(u32 a)
 {
 if (*(u32 *)((u8 *)(a) + 28) != 0) {
-    func_02190D48(*(u32 *)((u8 *)(a) + 28), b, c, d);
+    func_02190D48(*(u32 *)((u8 *)(a) + 28));
 }
 if (*(u32 *)((u8 *)(a) + 32) != 0) {
     func_02190538(*(u32 *)((u8 *)(a) + 32));

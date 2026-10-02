@@ -25,14 +25,14 @@ typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
 extern u32 func_0201F7A8(u32, u32);
-extern u32 func_0202F038(u32, u32, u32, u32);
+extern u32 func_0202F038(u32);
 extern u32 func_02041B6C(u32);
 extern u32 func_020456F8(u32);
 
-int func_021962C4(u32 a, u32 b, u32 c, u32 d)
+int func_021962C4(u32 a)
 {
 if (*(u32 *)((u8 *)(a) + ((186 << 2))) != 0) {
-    func_0202F038(*(u32 *)((u8 *)(a) + ((186 << 2))), b, c, d);
+    func_0202F038(*(u32 *)((u8 *)(a) + ((186 << 2))));
     *(u32 *)((u8 *)(a) + ((186 << 2))) = 0;
 }
 func_0201F7A8(*(u32 *)((u8 *)(a) + ((43 << 4))), 2);
