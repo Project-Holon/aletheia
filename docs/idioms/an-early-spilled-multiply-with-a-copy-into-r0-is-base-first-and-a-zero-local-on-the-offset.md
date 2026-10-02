@@ -1,5 +1,9 @@
 # An early spilled multiply with a copy into r0 is base first and a zero local on the offset
 
+summary: assigning the base before the element offset and adding a zero-valued local at the first call keeps the multiply early, spills the offset, and preserves the base in a callee-saved register.
+
+Found in: src/matched/ov/ov021_func_021B7DE0.c (0x021B7DE0, ov021, Thumb).
+
 Seen in ov021 func_021B7DE0 (Thumb, -O4,p). The image computes an element
 offset right after the bound check, spills it, and passes the element
 pointer with a self-copy:
