@@ -7,15 +7,15 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_021F4D94 0x021F4D94 thumb
  */
 
-extern int func_021F4D94(int);
+extern int func_021F4D94(int, int);
 
 void func_021F25F8(int *a, int b, int c)
 {
-    *a = func_021F4D94(c);
+    *a = func_021F4D94(c, b);
 }

@@ -7,18 +7,17 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_020490F4  0x020490F4  arm
  *   func_02049238  0x02049238  arm
  */
 
-extern void func_020490F4(int, int);
-extern void func_02049238(void);
+extern void *func_020490F4(int, int);
+extern void func_02049238(void *arc);
 
 void func_021E10DC(char *p)
 {
-    func_020490F4(0x17, *(unsigned short *)(p + 0x34c));
-    func_02049238();
+    func_02049238(func_020490F4(0x17, *(unsigned short *)(p + 0x34c)));
 }

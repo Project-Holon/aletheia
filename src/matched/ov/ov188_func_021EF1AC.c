@@ -7,14 +7,14 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02082D44  0x02082D44  arm
  */
 typedef unsigned int u32;
 
-extern void func_02082D44(u32 a, void *dst);
+extern void func_02082D44(void *, void *, int);
 
 int func_021EF1AC(char *p, char *q)
 {
@@ -25,7 +25,7 @@ int func_021EF1AC(char *p, char *q)
 
         if (b < 0xc00) {
             *(u32 *)(q + 0x34) = b;
-            func_02082D44(a, q + 0x38);
+            func_02082D44((void *)a, q + 0x38, b);
             return 1;
         }
     }

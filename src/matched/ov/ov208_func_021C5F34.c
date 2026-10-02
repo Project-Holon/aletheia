@@ -54,7 +54,7 @@ extern void *func_021BC3B8(void *ctx);
 extern u16  func_021BC3BC(char *p);
 extern void func_021C5200(void *p);
 extern void func_021BDC48(void *s, u32 on);
-extern void func_021BDBAC(void *s);
+extern void func_021BDBAC(void *s, int v);
 extern void func_021C80AC(void *u, int k, Vec *v);
 extern void func_02015C48(u32 obj, Vec *v);
 extern void func_021BDAAC(void *s, u32 mode, u32 kind, u32 flag);
@@ -116,7 +116,7 @@ void ov208_func_021C5F34(void *a0, u8 *p, void *ctx, int ev)
         break;
     case 2:
         if (ev == 3)
-            func_021BDBAC(scene);
+            func_021BDBAC(scene, 0);
         break;
     case 3:
         if (ev == 4) {
@@ -172,7 +172,7 @@ void ov208_func_021C5F34(void *a0, u8 *p, void *ctx, int ev)
         break;
     case 6:
         if (ev == 7)
-            func_021BDBAC(scene);
+            func_021BDBAC(scene, 0);
         break;
     case 7:
         if (ev == 0) {

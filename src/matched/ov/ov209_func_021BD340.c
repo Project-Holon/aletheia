@@ -7,17 +7,17 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_021BD314 0x021BD314 thumb
  */
 
-extern void func_021BD314(void *);
+extern void func_021BD314(void *, int);
 
-int func_021BD340(char *a)
+int func_021BD340(char *a, int arg)
 {
-    func_021BD314(a);
+    func_021BD314(a, arg);
     *(int *)(*(int *)a + 0x10) = 3;
     return 7;
 }

@@ -17,9 +17,9 @@
 
 typedef unsigned short u16;
 
-extern int func_021B9CE0(char *);
+extern int func_021B9CE0(char *, int);
 
-u16 func_021B9BF8(char *p, void *unused, int c)
+u16 func_021B9BF8(char *p, int idx, int c)
 {
-    return ((u16 *)func_021B9CE0(p))[(c << 1) + 7];
+    return ((u16 *)func_021B9CE0(p, idx))[(c << 1) + 7];
 }

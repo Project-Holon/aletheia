@@ -14,12 +14,12 @@
  *   func_020061E4  0x020061E4  thumb
  */
 
-extern int func_021FB4CC(void);
+extern int func_021FB4CC(int obj, int x, int y);
 extern void func_020061E4(int);
 
-int func_021FB4B4(void)
+int func_021FB4B4(int obj, int x, int y)
 {
-    int r = func_021FB4CC();
+    int r = func_021FB4CC(obj, x, y);
 
     if (r != 0)
         func_020061E4(0x703);

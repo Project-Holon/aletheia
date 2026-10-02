@@ -16,11 +16,11 @@
 
 typedef unsigned char u8;
 
-extern void func_02211A24(u8 *);
+extern void func_02211A24(u8 *, unsigned);
 extern void func_02211A10(u8 *, unsigned);
 
-void func_02211A40(u8 *p)
+void func_02211A40(u8 *p, unsigned idx)
 {
-    func_02211A24(p);
+    func_02211A24(p, idx);
     func_02211A10(p, 1);
 }
