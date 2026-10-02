@@ -6,16 +6,9 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH*
- * blocker: ARM9 func_02061C30 has no outside witness; Ilias owns it.
- *   Verified prior lane C in ov091_func_021B6FEC.c reaches DIFF (8 bytes):
- *   extern void func_02061B5C(void *); extern char d_02146B80[];
- *   void func_02061C30(void) { func_02061B5C(d_02146B80); }
- *   Its two loads and two pool words are swapped. No ARM9 source filed.
- * 2026-10-02 lane B2-07: re-verified MATCH*; func_02061C30 re-tried with a literal
- *   address, an int return and a function-pointer local, all DIFF (5-8 bytes,
- *   the ldr ip / ldr r0 transposition of docs/idioms/a-tail-calls-pool-word-is-
- *   scheduled-before-the-last-argument-write.md). Still no arm9 witness.
+ * status: EXACT*
+ * 2026-10-02 R3: closed by the arm9 witness src/matched/arm9/func_02061C30.c
+ *   (the tail-call stub matches under ../2.0/sp2; see its header).
  * extent: Two zero padding bytes at 0x021D493E.
  * symbols:
  *   func_02061C30 0x02061C30 arm
