@@ -1,0 +1,33 @@
+/*
+ * function: func_0215843C
+ * address: 0x0215843C
+ * packet: pkt_ov010_0215843C
+ * region: ov010
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * extent: Two zero alignment bytes at 0x02158466 precede 0x02158468.
+ * lever: A named u8 id truncates the result in r0 before preparing r1.
+ * symbols:
+ *   func_02026478 0x02026478 thumb
+ *   func_02012B70 0x02012B70 thumb
+ *   func_02012B80 0x02012B80 thumb
+ *   func_021583EC 0x021583EC thumb ov010
+ *   func_0200855C 0x0200855C thumb
+ */
+typedef unsigned char u8;
+extern void *func_02026478(void *);
+extern int func_02012B70(void *);
+extern int func_02012B80(void *);
+extern void *func_021583EC(void *, u8);
+extern int func_0200855C(void *);
+int func_0215843C(void *p)
+{
+    void *q = func_02026478(p);
+    u8 id;
+    if (func_02012B70(q) == 0)
+        return 21;
+    id = func_02012B80(q);
+    return func_0200855C(func_021583EC(q, id));
+}

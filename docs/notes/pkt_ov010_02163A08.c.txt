@@ -1,0 +1,36 @@
+/*
+ * function: func_02163A08
+ * address: 0x02163A08
+ * packet: pkt_ov010_02163A08
+ * region: ov010
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * blocker: six concrete register bytes differ, x/y colour r5/r6 is swapped; compiled 54 versus listed 56 (two-byte alignment).
+ * checks: 1 getters 0216D91C/0216D924 read only r0 and return a byte; 2 02163D04 confirms one-argument u32 getters, no rectangle twin; 3 u16 coordinates and const source each retain six-byte swap (two compiles); 4 typed rectangle versus halfword array retains same swap; 5 re-listed idioms and ov010/ov021 neighbours, distinct width/height locals already inert, no stack object; next hypothesis is inline clamp or parameter-local reassignment, no sweep run.
+ * budgets: iteration 3 (two nonshrinking changes), check3 2, check4 1, check1/2/5 read-only; one scheduling variant (distinct locals); total 6. No permuter.
+ * symbols:
+ *   func_0216D91C 0x0216D91C thumb ov010
+ *   func_0216D924 0x0216D924 thumb ov010
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+extern u32 func_0216D91C(const void *p);
+extern u32 func_0216D924(const void *p);
+typedef struct { s16 x0, y0, x1, y1; } Rect;
+void func_02163A08(const void *p, u16 x, u16 y, Rect *out)
+{
+    s16 w;
+    s16 h;
+    w = func_0216D91C(p) - 1;
+    if (w < 0) w = 0;
+    out->x1 = x + w;
+    out->x0 = x;
+    h = func_0216D924(p) - 1;
+    if (h < 0) h = 0;
+    out->y0 = y - h;
+    out->y1 = y;
+}

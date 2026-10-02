@@ -1,0 +1,27 @@
+/*
+ * function: func_02163994
+ * address: 0x02163994
+ * packet: pkt_ov010_02163994
+ * region: ov010
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * trailing: two-byte zero alignment at 0x021639BE before func_021639C0.
+ * symbols:
+ *   func_0216D88C 0x0216D88C thumb ov010
+ *   func_021638CC 0x021638CC thumb ov010
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef signed short s16;
+typedef unsigned int u32;
+typedef struct { int x, y, z; } VecFx32;
+extern void func_0216D88C(const void *p, VecFx32 *out);
+extern u32 func_021638CC(void *p, VecFx32 *o, s16 x, s16 y, int z, u16 kind);
+u32 func_02163994(void *p, s16 x, s16 y, int z, u16 kind)
+{
+    VecFx32 pos;
+    func_0216D88C(p, &pos);
+    return func_021638CC(p, &pos, x, y, z, kind);
+}

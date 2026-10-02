@@ -1,0 +1,35 @@
+/*
+ * function: func_02162A74
+ * address: 0x02162A74
+ * packet: pkt_ov010_02162A74
+ * region: ov010
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * blocker: 17 concrete bytes differ; compiled 42 versus listed 48 bytes.
+ * checks: 1 no calls in this leaf, incoming fifth slot is ldrh; 2 caller 0215B214 declares five inputs with trailing u16s, tested these widths, signed index worsened branch; 3 const Ctx and u16 index each retain 17-byte residue (two compiles); 4 nested payload inline helper and raw first store retain same residue; 5 re-listed idioms and ov010/ov021 neighbours, no closing twin, no stack object; next hypothesis is enum index or different payload lvalue, no sweep run.
+ * budgets: iteration 3 (two nonshrinking changes), check2 1, check3 2, check4 1, check1/5 read-only; total 7. No permuter.
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct { u32 e,f,g; } Payload;
+typedef struct { u16 a,b,c,d; Payload data; } Rec;
+typedef struct { u8 pad[18]; u16 n; u8 pad14[8]; Rec *r; } Ctx;
+static inline void set(Payload *p, u16 b, u16 d)
+{
+    p->f = d;
+    p->g = b << 4;
+}
+void func_02162A74(const Ctx *c, u16 i, u16 a, u16 b, u16 d)
+{
+    Rec *r;
+    if (c->n >= i && c->r != 0) {
+        r = &c->r[i];
+        if (r->d == 0) {
+            *(u32 *)((u8 *)r + 8) = a;
+            set(&r->data, b, d);
+        }
+    }
+}

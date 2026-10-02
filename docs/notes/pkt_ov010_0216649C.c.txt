@@ -1,0 +1,29 @@
+/*
+ * function: func_0216649C
+ * address: 0x0216649C
+ * packet: pkt_ov010_0216649C
+ * region: ov010
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 callee matched body takes p and two u32 outputs, call setup exact; 2 no ov010 twin for callee/table; 3 pointer-table return and const qualification compiled, both DIFF24; 4 return/goto and table idioms read, enum Boolean return does not fit address-valued table; 5 idiom directory and neighbours reread, scalar output slots exact, no struct/array residue. No scheduling sweep permitted: two branch-form variants exhausted.
+ * residual: 48 bytes compiled, 24 concrete bytes differ; both relocations resolve.
+ * evidence: table words at 02171EF4 onward are overlay addresses (02171ED6,02171EB8,...), hence pointer entries. Original zero-return arm precedes success, compiler hoists success ahead of zero; success load/constant scheduling also differs.
+ * budgets: 3 ordinary runs; two consecutive nonshrinking branch changes; 2/2 ordering variants; check3 2/2 compiles; no permuter, no prior-wave attempts. Logs S23/0216649C-r1.log through r5.log.
+ * symbols:
+ *   func_02166434 0x02166434 thumb ov010
+ *   d_02171EF4 0x02171EF4 data a4
+ */
+typedef unsigned int u32;
+typedef unsigned char u8;
+extern u8 *d_02171EF4[];
+extern int func_02166434(void *, u32 *, u32 *);
+u8 *func_0216649C(void *p) {
+    u32 a;
+    u32 b;
+    if (func_02166434(p, &a, &b)) goto found;
+    return 0;
+found:
+    return d_02171EF4[a + b*7];
+}

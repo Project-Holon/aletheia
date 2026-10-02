@@ -1,0 +1,39 @@
+/*
+ * function: func_02159830
+ * address: 0x02159830
+ * packet: pkt_ov010_02159830
+ * region: ov010
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * checks: 1 original and compiled 02159848 call ARM 0209C2B0 with numerator r0, divisor r1 and store remainder r1 at 0215984C; 2 matched caller prototypes confirm two-argument getters; 3 n/a no compiled spill/scheduling residue; 4 runtime-helper-reloc supplies helper symbol and direct u64 result preserves both output registers; 5 n/a no remaining residue or stack object.
+ * Zero divisor is admitted by original getter path. 02159B10 reads
+ * a script u16 with 02011330 and passes it through 0215901C. That function
+ * calls 02158FE0; input below 0x4000 returns null, so 0215901C returns the
+ * original value, including zero. Original calls runtime helper and stores
+ * its r1 remainder. C % is undefined for zero. A direct helper declared to
+ * return an opaque u64 scalar preserves r0/r1; extracting its high word
+ * compiles to no shift and the immediate original strh r1 instruction.
+ * Fixed dsi/1.1p1 -O4,p run 1 produced EXACT*, 34 bytes, three resolved
+ * relocation sites; the two extent bytes at 02159852 are zero padding.
+ * No nonzero domain or arithmetic meaning for the combined scalar output
+ * was assumed. All twelve S9 addresses are now matched.
+ * symbols:
+ *   func_02159AE8 0x02159AE8 thumb ov010
+ *   func_02159B10 0x02159B10 thumb ov010
+ *   _u32_div_f 0x0209C2B0 arm
+ */
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef unsigned long long u64;
+extern u16 *func_02159AE8(void *, void *);
+extern u32 func_02159B10(void *, void *);
+extern u64 _u32_div_f(u32, u32);
+int func_02159830(void *a, void *b)
+{
+    u16 *p = func_02159AE8(a, b);
+    u32 divisor = func_02159B10(a, b);
+    *p = (u32)(_u32_div_f(*p, divisor) >> 32);
+    return 0;
+}

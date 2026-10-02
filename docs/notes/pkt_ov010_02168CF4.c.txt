@@ -1,0 +1,44 @@
+/*
+ * function: func_02168CF4
+ * address: 0x02168CF4
+ * packet: pkt_ov010_02168CF4
+ * region: ov010
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * Best fixed-flag run 8: 58 bytes versus 60, 15 concrete bytes differ.
+ * Original loads kind into r2 from r4+r1 before zero stack argument setup;
+ * this spelling retains 0x12c but delays kind until after stack setup.
+ * Enum offset plus parenthesized deltas improves 56/39 to 58/15; plain
+ * raw or struct fields choose 0x124, losing the original offset schedule.
+ * checks: 1 0201210C reads one pointer; 021681C8 reads r0-r3 and both stack words; 2 no ov010 twin, pending callee and matched E910 prototypes read; 3 unsigned kind and const forwarding each compiled, no change; 4 enum offset and parenthesized deltas compiled, 60/31 then 58/15; 5 ov021 CBD08 twin has u8 kind/count but this caller's word loads lack truncation, retain full widths; no stack object, struct-local check n/a. Next hypothesis would be narrower kind/count externs, but their truncations contradict this caller; no sweep authorized.
+ * budget: iteration 4, check3 2/2, check4 2/2, scheduling variants 2/2;
+ * checks 1/2/5 read-only, no permuter, no failed CLI/compiler attempts.
+ * symbols:
+ *   func_0201210C 0x0201210C thumb
+ *   func_021681C8 0x021681C8 thumb ov010
+ *   func_0216E910 0x0216E910 thumb ov010
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef enum { KIND_OFF = 0x12c } Offset;
+typedef struct {
+    u8 pad[0x124];
+    int count;
+    void *save;
+    u32 kind;
+} Record;
+extern void *func_0201210C(void *);
+extern void *func_021681C8(void *, void *, int, const void *, const void *, int);
+extern int func_0216E910(void *, void *, void *);
+int func_02168CF4(void *a, const Record *p)
+{
+    void *b;
+    u32 kind;
+    Offset off;
+    b = func_0201210C(a);
+    off = KIND_OFF;
+    kind = *(const int *)((const u8 *)p + off);
+    return func_0216E910(a, b, func_021681C8(a, *(void *const *)((const u8 *)p + (off - 4)), kind, p, 0, *(const int *)((const u8 *)p + (off - 8))));
+}

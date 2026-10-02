@@ -1,0 +1,22 @@
+/*
+ * function: func_02161534
+ * address: 0x02161534
+ * packet: pkt_ov010_02161534
+ * region: ov010
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02034AC4 0x02034AC4 arm
+ *   func_021C3E24 0x021C3E24 thumb ov136
+ *   func_02034A5C 0x02034A5C arm
+ *   ov136_id 0x88 data a1
+ */
+
+typedef unsigned int u32;
+extern unsigned char ov136_id[];
+extern void func_02034AC4(u32);
+extern void func_02034A5C(u32);
+extern void func_021C3E24(unsigned char *);
+void func_02161534(unsigned char *p) { func_02034AC4((u32)ov136_id); func_021C3E24(p); func_02034A5C((u32)ov136_id); }

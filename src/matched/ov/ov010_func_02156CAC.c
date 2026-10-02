@@ -1,0 +1,19 @@
+/*
+ * function: func_02156CAC
+ * address: 0x02156CAC
+ * packet: pkt_ov010_02156CAC
+ * region: ov010
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02030734 0x02030734 arm
+ *   func_0200A5F8 0x0200A5F8 thumb
+ *   d_02172730 0x02172730 data a1
+ */
+typedef struct Obj { int f00; int f04; int f08; } Obj;
+extern Obj *func_02030734(int, int, int, const char *, int);
+extern int func_0200A5F8(int);
+extern const char d_02172730[];
+Obj *func_02156CAC(int a, int b, int c) { Obj *p; int zero = 0; p = func_02030734(a, 12, 0, d_02172730, 0xa7); p->f00 = zero; p->f08 = func_0200A5F8(c); p->f04 = b; return p; }

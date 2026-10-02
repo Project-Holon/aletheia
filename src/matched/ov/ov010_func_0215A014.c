@@ -1,0 +1,30 @@
+/*
+ * function: func_0215A014
+ * address: 0x0215A014
+ * packet: pkt_ov010_0215A014
+ * region: ov010
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0201296C 0x0201296C thumb
+ *   func_02014314 0x02014314 thumb
+ *   d_02170FEC 0x02170FEC data ov010 a4
+ */
+typedef unsigned short u16;
+typedef struct Ent { u16 h0; u16 unused:1; u16 on:1; u16 rest:14; u16 h4, h6, h8; char pad[10]; } Ent;
+extern Ent d_02170FEC[];
+extern char *func_0201296C(void *);
+extern void func_02014314(char *, int);
+void func_0215A014(void *a, int b) {
+ unsigned i;
+ Ent *p;
+ for(i=0; i<17; i++) {
+ p = &d_02170FEC[i];
+ if (b == p->h8 && p->on) {
+ func_02014314(func_0201296C(a), p->h0);
+ return;
+ }
+ }
+}

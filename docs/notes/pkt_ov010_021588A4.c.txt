@@ -1,0 +1,26 @@
+/*
+ * function: func_021588A4
+ * address: 0x021588A4
+ * packet: pkt_ov010_021588A4
+ * region: ov010
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * blocker: historical fixed-flag DIFF: pool load/store scheduling; unresolved callback 0215889C.
+ * checks: 1 no direct calls; callback trampoline at 0215889C reaches 0201235C; 2 no same-region matched setter twin; 3 prior int/raw and typed callback field spellings failed, no width spill exists; 4 current idiom listing gives no new evidence for callback witness; 5 reread original and current same-region neighbour filenames, no 0215889C shard or code-start seed.
+ * Budget: legacy docs/notes/func_021588A4.c.txt describes at least five
+ * attempts and at least two nonshrinking scheduling variants; those budgets
+ * remain exhausted. No new compiler invocation in wave49, no new verdict.
+ * Readonly wave49 show confirms 0215889C: ldr r3,[pc]; bx r3;
+ * word 0201235D. The setter word is 0215889D, not the ARM9 target.
+ * No initialization or runtime input constraint is assumed.
+ * symbols:
+ *   func_0215889C 0x0215889C thumb ov010
+ */
+extern void func_0215889C(void);
+void func_021588A4(void *p, int a)
+{
+    *(int *)((char *)p + 0x14) = a;
+    *(int *)((char *)p + 0x10) = (int)&func_0215889C;
+}

@@ -1,0 +1,22 @@
+/*
+ * function: func_02162230
+ * address: 0x02162230
+ * packet: pkt_ov010_02162230
+ * region: ov010
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * checks: semantic proof gap: caller62008 forwards r1; ov011 callback747E0 narrows to u16 but does not bound it below3/32; signed shift and record bounds unproven. ToolEXACT* is byte evidence only, not accepted matching work.
+ * budget: 2 one iterations; 1 scratch TU participation; no permuter/manual ordering variants; verification counted separately in S17 report.
+ * evidence: callback747E0 at table2176A70 sets base=r3+0x35C and forwards narrowed entryr0 through62008. Initializer621F54 clears0x48 bytes; valid eight-byte slots0..2 fit, but this shape is not input-domain proof. No fabricated domain constraint is permitted.
+ * symbols:
+ *   func_02082D44 0x02082D44 arm
+ */
+typedef unsigned short u16;
+extern void func_02082D44(void *, void *, unsigned);
+void func_02162230(char *p, int index, void *s)
+{
+    func_02082D44(s, p + 8 + index * 8, 8);
+    *(u16 *)(p + 2) = (u16)(*(u16 *)(p + 2) | (1 << index));
+}
