@@ -75,8 +75,8 @@ struct Blk {
 
 extern void *func_02030734(u16 heap, u32 size, u32 align, const u8 *file,
                            u32 line);
-extern u32   func_02033908(u16 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
-extern u32   func_02033BF8(void);
+extern void *func_02033908(u16 a, u32 b, u32 c, u32 d, u32 e, u32 f, u32 g);
+extern u32   func_02033BF8(void *tbl);
 extern void  func_02033410(struct Blk *b, u32 f);
 extern void  func_020319C0(struct Blk *b);
 extern void  func_02034714(const u8 *file, u32 line, const u8 *expr);
@@ -89,6 +89,7 @@ struct Blk *func_0203174C(const struct In *in, u32 heap, u32 c, u32 d, u32 e)
 {
     struct Blk *b;
     u32 n;
+    void *tbl;
 
     if (g_02146994 == 0)
         func_02034714(str_020A7848, 0x10c, str_020A7858);
@@ -113,9 +114,9 @@ struct Blk *func_0203174C(const struct In *in, u32 heap, u32 c, u32 d, u32 e)
 
     b->f138 = (u32)func_02030734(heap, b->f13c, 1, str_020A7848,
                                  0x125);
-    b->f2c = func_02033908(heap, in->f00, in->f04, b->f08, 0x10, 4,
-                           b->f140);
-    b->f30 = func_02033BF8();
+    tbl = func_02033908(heap, in->f00, in->f04, b->f08, 0x10, 4, b->f140);
+    b->f2c = (u32)tbl;
+    b->f30 = func_02033BF8(tbl);
     if (c != 0) {
         b->f34 = c;
         b->f1d = 0;

@@ -20,8 +20,7 @@
  * The two pool words 0x04000050 and 0x04001050 are the main and sub
  * engine's BLDCNT/BLDY block; both arms are written out in full rather
  * than factored behind a helper, which is what keeps them as two separate
- * call sequences rather than one tail-merged site (the second arm's first
- * blx takes an extra r2 argument, so they are not identical anyway).
+ * call sequences rather than one tail-merged site.
  *
  * Note the second engine's register word is the plain constant 0x04001050
  * in the pool, not 0x04000050 + 0x1000 computed at run time.
@@ -45,13 +44,15 @@
  * argument is the engine's own descriptor table, and the last argument is
  * the engine bit (1 or 2), which func_02023E9C stores to f04.
  *
- * G2x_SetBlendBrightness_ is called with two arguments in the first arm
- * and three in the second, so the two arms cannot tail-merge; declaring
- * two externs at the same address (0x0207D658) is what reproduces that.
+ * G2x_SetBlendBrightness_ takes three arguments (addr, plane, brightness)
+ * and both arms pass all three. The first arm emits no `mov r2` because
+ * `from` is still live in r2 from entry; the second arm reloads it from r6
+ * after the intervening call. An earlier spelling declared a two-argument
+ * extern for the first arm, which matched the bytes but left r2 unnamed
+ * (docs/idioms/an-argument-passed-through-a-register-must-be-named-in-the-c.md).
  *
  * symbols:
  *   G2x_SetBlendBrightness_   0x0207D658  arm
- *   G2x_SetBlendBrightness2_  0x0207D658  arm
  *   func_02023E9C             0x02023E9C  thumb
  *   data_0214691C             0x0214691C  data
  *   data_021468FC             0x021468FC  data
@@ -62,8 +63,7 @@ typedef unsigned short u16;
 typedef signed short   s16;
 typedef unsigned int   u32;
 
-extern void G2x_SetBlendBrightness_(void *reg, u32 a);
-extern void G2x_SetBlendBrightness2_(void *reg, u32 a, u32 b);
+extern void G2x_SetBlendBrightness_(u32 addr, int plane, int brightness);
 extern void func_02023E9C(void *rec, void *p, u16 steps, s16 from,
                           u32 a4, u32 a5);
 
@@ -77,12 +77,12 @@ void func_02023EF4(void *p, u16 steps, s16 from, s16 to, u32 mask)
     }
 
     if (mask & 1) {
-        G2x_SetBlendBrightness_((void *)0x04000050, (u32)to);
+        G2x_SetBlendBrightness_(0x04000050, to, from);
         func_02023E9C(data_0214691C, p, steps, from, (u32)to, 1);
     }
 
     if (mask & 2) {
-        G2x_SetBlendBrightness2_((void *)0x04001050, (u32)to, (u32)from);
+        G2x_SetBlendBrightness_(0x04001050, to, from);
         func_02023E9C(data_021468FC, p, steps, from, (u32)to, 2);
     }
 }

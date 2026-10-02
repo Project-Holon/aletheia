@@ -19,11 +19,11 @@ typedef unsigned int  u32;
 
 extern void func_020307B0(void *p);
 extern void func_020339B4(u32 v);
-extern u32  func_02033B68(u32 v);
+extern u32  func_02033B68(u8 *p, u32 i);
 extern void func_020339D0(u32 a, u32 b);
 extern void func_02033410(u8 *p, u32 v);
 
-u32 func_020319A4(u8 *p)
+u32 func_020319A4(u8 *p, u32 id)
 {
-    return func_02033B68(*(u32 *)(p + 0x2c)) + *(u32 *)(p + 0x34);
+    return func_02033B68(*(u8 **)(p + 0x2c), id) + *(u32 *)(p + 0x34);
 }

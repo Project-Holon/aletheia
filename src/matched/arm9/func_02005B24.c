@@ -28,9 +28,11 @@
  * Network bring-up: take a block out of the static buffer at 0x020AA9B4
  * (0x95AD0 bytes, a pool word and not a `movs`-able constant), publish the
  * handle at +0x10 of the connection-slot global and hand the pair to the
- * handler installer, then run the console-type-specific tail.  The two
- * arguments are forwarded straight through in r0/r1 with nothing in between,
- * so the first call sees this function's own parameters.
+ * handler installer, then run the console-type-specific tail.  The function
+ * takes no arguments: its first call, func_020726D0 (sound init), is
+ * `void (void)` and reads neither r0 nor r1, so the r0/r1 the caller
+ * func_0200523C leaves behind are dead
+ * (docs/idioms/an-argument-passed-through-a-register-must-be-named-in-the-c.md).
  *
  * Verified with:
  *   python tools/match.py one --src src/pending/func_02005B24.c \
@@ -44,18 +46,18 @@ extern char g_020AA260[];
 extern char g_020A7010[];
 extern char g_020AA2BC[];
 
-extern void func_020726D0(u32 a0, u32 a1);
+extern void func_020726D0(void);
 extern u32  func_020746E8(char *base, u32 size);
 extern void func_02073FB8(char *a, char *b, u32 c, u32 d);
 extern void func_02005B74(u32 flag);
 extern int  func_02085D3C(void);
 extern void func_02005B6C(void);
 
-void func_02005B24(u32 a0, u32 a1)
+void func_02005B24(void)
 {
     u32 handle;
 
-    func_020726D0(a0, a1);
+    func_020726D0();
     handle = func_020746E8(g_020AA9B4, 0x95AD0);
     *(u32 *)(g_020AA260 + 0x10) = handle;
     func_02073FB8(g_020AA2BC, g_020A7010, handle, 0);

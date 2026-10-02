@@ -11,5 +11,5 @@
  * status:   EXACT
  */
 
-extern void func_0206074C(void);
-void func_02060C94(void){ func_0206074C(); }
+extern void func_0206074C(void *heap);
+void func_02060C94(void *heap){ func_0206074C(heap); }

@@ -11,16 +11,16 @@
  * status:   EXACT
  */
 
-extern void func_02060FEC(char *p, int n);
+extern unsigned int func_02060FEC(char *p, unsigned int size, unsigned int align);
 extern unsigned int func_02061048(unsigned int *p, unsigned int a, unsigned int b);
-void func_02061124(char *p, int n, int v)
+unsigned int func_02061124(char *p, int n, int v)
 {
     if (n == 0)
         n = 1;
     n = (n + 3) & ~3;
     p += 0x24;
     if (v >= 0)
-        func_02060FEC(p, n);
+        return func_02060FEC(p, (unsigned int)n, (unsigned int)v);
     else
-        func_02061048((unsigned int *)p, (unsigned int)n, (unsigned int)-v);
+        return func_02061048((unsigned int *)p, (unsigned int)n, (unsigned int)-v);
 }

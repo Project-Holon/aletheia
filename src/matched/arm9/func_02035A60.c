@@ -18,8 +18,9 @@
  *   func_02035224  0x02035224  arm
  *   func_020358A0  0x020358A0  arm
  *
- * Two calls in a row, the second one's result returned through the shared
- * `pop {r3, pc}`.  Nothing else: no stack frame, no locals.
+ * Two calls in a row: the first one's result is the second one's argument,
+ * handed over in r0 with nothing in between.  Nothing else: no stack frame,
+ * no locals.
  *
  * Addresses are Black-image addresses.
  *
@@ -28,11 +29,10 @@
  *       --func func_02035A60 --addr 0x02035A60 --cc 1.1p1 --arm
  */
 
-extern void func_02035224(void);
-extern void func_020358A0(void);
+extern void *func_02035224(void);
+extern void func_020358A0(void *ctx);
 
 void func_02035A60(void)
 {
-    func_02035224();
-    func_020358A0();
+    func_020358A0(func_02035224());
 }

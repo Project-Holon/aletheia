@@ -41,6 +41,7 @@
 
 typedef unsigned char u8;
 typedef unsigned short u16;
+typedef unsigned int u32;
 
 extern void func_02034AC4(void *a0);
 extern void func_0201C41C(int a0);
@@ -49,15 +50,15 @@ extern void func_02010794(int a0);
 extern void func_020107CC(void);
 extern void func_020312CC(int a0, void *a1, int a2);
 extern void func_02006F20(int a0);
-extern void func_020070A4(void);
-extern void func_0200873C(void);
-extern void func_02008414(void);
-extern void func_02012FF0(void);
+extern void *func_020070A4(void);
+extern void *func_0200873C(void *sys);
+extern u8 func_02008414(const void *p);
+extern void func_02012FF0(void *val);
 extern void func_0200F6B8(void);
 extern void func_0200F6D8(int a0);
 extern void func_02034704(void *a0);
 extern void func_0201F344(int a0);
-extern void func_020173D0(int a0);
+extern void func_020173D0(u32 heap);
 extern void func_02005B24(void);
 extern void func_02006544(int a0, void *a1, void *a2);
 extern void func_0200530C(void);
@@ -83,11 +84,8 @@ void func_0200523C(void)
     func_020107CC();
     func_020312CC(v - 0xD, (void *)0x020A0480, 0);
     func_02006F20(7);
-    func_020070A4();
-    func_0200873C();
-    func_02008414();
-    func_020070A4();
-    func_02012FF0();
+    func_02008414(func_0200873C(func_020070A4()));
+    func_02012FF0(func_020070A4());
     func_0200F6B8();
     func_0200F6D8(8);
     func_02034704((void *)&func_0200FB6C);
@@ -95,8 +93,7 @@ void func_0200523C(void)
     func_020173D0(0);
     func_02005B24();
     func_02006544(1, (void *)&func_02006C00, (void *)&func_02006C2C);
-    func_020070A4();
-    func_0200873C();
+    func_0200873C(func_020070A4());
     func_0200530C();
     func_020082DC();
     func_020266E0(1);
