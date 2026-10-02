@@ -1,0 +1,26 @@
+/*
+ * function: func_021ED9A4
+ * address:  0x021ED9A4
+ * packet:   pkt_ov093_021ED9A4
+ * region:   ov093
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   EXACT
+ *
+ * symbols:
+ *   func_021B8E70  0x021B8E70  thumb  ov093
+ */
+typedef unsigned char u8;
+struct E { int a0; u8 *owner; u8 k8; u8 v9; u8 fa; u8 fb; };
+extern u8 func_021B8E70(u8 *, u8);
+void func_021ED9A4(struct E *e, u8 *o, u8 k)
+{
+    e->k8 = k;
+    e->v9 = func_021B8E70(*(u8 **)(o + 0x134), k);
+    e->owner = o;
+    e->fa = 0;
+    e->fb = 1;
+    e->a0 = 0;
+}
