@@ -1,0 +1,22 @@
+/*
+ * function: func_02175DCC
+ * address: 0x02175DCC
+ * packet: pkt_ov011_02175DCC
+ * region: ov011
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02175B14 0x02175B14 thumb ov011
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+typedef struct { u8 pad[0x7c]; u32 value:4; u32 rest:28; } Bits;
+extern int func_02175B14(void *);
+int func_02175DCC(void *p)
+{
+    if (func_02175B14(p) == 0) return 6;
+    return ((Bits *)p)->value;
+}

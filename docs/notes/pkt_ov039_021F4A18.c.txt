@@ -1,0 +1,148 @@
+/*
+ * function: func_021F4A18
+ * address: 0x021F4A18
+ * packet: pkt_ov039_021F4A18
+ * region: ov039
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * note: Best fixed-flag run04 is 428B, 14 concrete byte differences,
+ *       all 27 relocations resolved. Six bytes are cursor/k spill offsets:
+ *       original cursor sp+8, k sp+C; C gives cursor sp+C, k sp+8.
+ *       Eight bytes are predicate order at original 021F4AC0..021F4ACA:
+ *       the original reads best before first although best has no prior store.
+ *       This C guards best's first read. Do not use best > d || first,
+ *       an arbitrary initialization, volatile, or invented input constraints.
+ *       Vec out buffers mirror the conditional writer func_021F48C0, without
+ *       invented initialized fields. Vec's three word fields are proven by
+ *       the vector callees. Original halfword call truncations require u16
+ *       extern parameters although legacy ov039 callers declare u8.
+ * checks: 1 own matched callees/forwarding bodies confirm arities, vector outputs and return registers; show 021F3DE4 confirms no internal narrowing; 2 matched 021F3A34 shares four records, cur+21EC and d_021F4CA0, no minimum twin; 3 const s/cursor compiled unchanged DIFF14, 1/2 compiles; 4 enum and function/block spill idioms read, two scheduling variants already used; 5 refreshed idiom directory and ov038/039 neighbours, struct-local idiom read, no new fix; next hypothesis guarded first-candidate loop peeling, not run.
+ * budget: 5 iteration compiles; first nonshrink run02, 4 runs since it,
+ *         current consecutive nonshrinks 1, stopped on semantic uncertainty;
+ *         two scheduling variants exhausted. Checks 1/2/4/5 readonly (0/2),
+ *         check3 1/2. Once-300 --types permuter exhausted, no improvement:
+ *         DIFF14/428B; output is baseline formatting, no mutation adopted.
+ *         No sweeps, no leaves, no pending copy. Carry budgets on resume.
+ * evidence: scratchpad/overlay-goal-20261001-w54/B3/ov039-run04.log,
+ *           ov039-check3-const.log and ov039-permuter.log (terminal exits 1).
+ * symbols:
+ *   func_02188D2C 0x02188D2C thumb ov021
+ *   func_02188C80 0x02188C80 thumb ov021
+ *   func_02188CB4 0x02188CB4 thumb ov021
+ *   func_020120F4 0x020120F4 thumb
+ *   func_02012A30 0x02012A30 thumb
+ *   func_021BE4C4 0x021BE4C4 thumb ov021
+ *   func_021BE674 0x021BE674 thumb ov021
+ *   func_021BE748 0x021BE748 thumb ov021
+ *   func_021F3DE4 0x021F3DE4 thumb ov039
+ *   func_02047790 0x02047790 arm
+ *   func_02047674 0x02047674 arm
+ *   func_021F48C0 0x021F48C0 thumb ov039
+ *   func_0207C9D0 0x0207C9D0 arm
+ *   func_0207CA00 0x0207CA00 arm
+ *   func_0207CBD0 0x0207CBD0 arm
+ *   func_021A3038 0x021A3038 thumb ov021
+ *   func_02028B18 0x02028B18 thumb
+ *   d_021F4CA0 0x021F4CA0 data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef enum { INDEX_ZERO } Index;
+typedef struct { long x, y, z; } Vec;
+extern void *func_02188D2C(void *);
+extern u32 func_02188C80(void *);
+extern u32 func_02188CB4(void *);
+extern void *func_020120F4(const void *);
+extern u8 *func_02012A30(void *);
+extern int func_021BE4C4(void *, u32, u16);
+extern void *func_021BE674(char *, int, u16, u16);
+extern int func_021BE748(void *);
+extern int func_021F3DE4(void *, u16, u16);
+extern int func_02047790(int *, u16);
+extern int func_02047674(int);
+extern void func_021F48C0(u8 *, int, int, int *);
+extern void func_0207C9D0(const Vec *, const Vec *, Vec *);
+extern void func_0207CA00(const Vec *, const Vec *, Vec *);
+extern long func_0207CBD0(const Vec *);
+extern void func_021A3038(u32, Vec *);
+extern void func_02028B18(void *, u32, u32);
+extern const Vec d_021F4CA0[];
+
+void func_021F4A18(void *a, u8 *s)
+{
+    void *h;
+    int time;
+    int obj;
+    long best;
+    int chosen;
+    int anim;
+    int first;
+    void *sound;
+    int obj2;
+    u8 k;
+    u8 *cursor;
+    int i;
+    Index index;
+    u8 j;
+    long d;
+    int volume;
+    Vec v;
+    Vec player;
+    Vec difference;
+    int limit;
+    int next;
+    u8 *res;
+    Vec current;
+    Vec following;
+    Vec delta;
+
+    h = func_02188D2C(a);
+    sound = func_02012A30(func_020120F4((void *)func_02188C80(a)));
+    first = 1;
+    for (i = 0; i < 4; i++) {
+        index = (u8)i;
+        j = index;
+        obj = func_021BE4C4(h, 0, j);
+        cursor = s + index;
+        k = (u8)(cursor[0x21EC] + 1);
+        func_021BE674(h, 0, j, k);
+        time = func_021F3DE4(h, j, k);
+        res = (u8 *)func_02047674(func_02047790((int *)obj, k));
+        func_021F48C0(*(u8 **)(res + 8), 0, time, (int *)&v);
+        func_0207C9D0(&v, &d_021F4CA0[index], &v);
+        func_021A3038(func_02188CB4(a), &player);
+        func_0207CA00(&v, &player, &difference);
+        d = func_0207CBD0(&difference);
+        if (!(first == 0 && best <= d)) {
+            best = d;
+            chosen = j;
+            anim = cursor[0x21EC] + 1;
+            first = 0;
+        }
+    }
+    if (best >= 0x60000) {
+        volume = 0;
+    } else {
+        obj2 = func_021BE4C4(h, 0, chosen);
+        limit = func_021BE748(func_021BE674(h, 0, chosen, anim));
+        time = func_021F3DE4(h, chosen, anim);
+        next = time + 0x1000;
+        if (next >= limit)
+            next = 0;
+        res = (u8 *)func_02047674(func_02047790((int *)obj2, anim));
+        volume = 0;
+        func_021F48C0(*(u8 **)(res + 8), 0, time, (int *)&current);
+        func_021F48C0(*(u8 **)(res + 8), 0, next, (int *)&following);
+        func_0207CA00(&current, &following, &delta);
+        d = func_0207CBD0(&delta);
+        if (d >= 0x20000) volume = 127;
+        else if (d >= 0x18000) volume = 120;
+        else if (d >= 0x10000) volume = 90;
+        else if (d >= 0x8000) volume = 60;
+    }
+    func_02028B18(sound, 0x68A, volume);
+}

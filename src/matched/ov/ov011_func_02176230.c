@@ -1,0 +1,30 @@
+/*
+ * function: func_02176230
+ * address: 0x02176230
+ * packet: pkt_ov011_02176230
+ * region: ov011
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT*
+ * extent: two alignment bytes at 02176256.
+ * interface: original +0x1A/+0x1C narrows the full-width call result;
+ * the callee's filed u8 return removes this pair (r2: DIFF 9 bytes).
+ * symbols:
+ *   func_02175B14 0x02175B14 thumb ov011
+ *   func_02026478 0x02026478 thumb
+ *   func_02012B58 0x02012B58 thumb
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+extern int func_02175B14(void *p);
+extern u32 func_02026478(void *p);
+extern int func_02012B58(const void *p);
+u8 func_02176230(u8 *p, u8 *q)
+{
+    if (func_02175B14(q) == 0) {
+        return func_02012B58((const void *)func_02026478(((void **)p)[1]));
+    }
+    return q[0xa0];
+}

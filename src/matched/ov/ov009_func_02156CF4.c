@@ -1,6 +1,6 @@
 /*
  * unit:     yes
- * function: func_02156CF4
+ * function: func_02156CF4, func_02156D5C, func_02156D70
  * address:  0x02156CF4
  * packet:   pkt_ov009_02156CF4
  * region:   ov009

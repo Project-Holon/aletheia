@@ -1,0 +1,89 @@
+/*
+ * function: func_021AFABC
+ * address: 0x021AFABC
+ * packet: pkt_ov013_021AFABC
+ * region: ov013
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: arm
+ * status: DIFF
+ * checks: 1 no calls, all codec/state operations inline; 2 exact 4/2-bit decoders and wrappers prove state/arity, no exact encoder twin; 3 const src 588 vs nonconst 591, s16/int sample tied, u8 code 1296 B/1075 diff and s16 step 1320 B/614 diff; 4 inline/byte-colour idioms read, no further fit; 5 directory and ov013 neighbours reread, scalar frame has no addressed stack object; next hypothesis would be codec result/store scheduling, no sweep run.
+ * budget: iteration 4 runs, stop after 3 consecutive nonshrinking changes (runs 2-4); check 3 2/2 compiles, other checks 0/2; manual reorder/scheduling 1/2; sweeps 0/3; once-300 typed permuter spent, validation 1; no carried history.
+ * residual: 1320/1320 B, 588 concrete bytes differ, both data relocations resolve sole-ref; pool order, register colours and inline return/state-store scheduling differ.
+ * permuter: 300 compiles, best DIFF 1320 B/588 diff; reorder(+1) and temp for src[4] returned 588 diff in fresh one, so original best spelling retained.
+ * 3-bit ADPCM encoder, eight samples per three output bytes, high bits first.
+ * symbols:
+ *   d_021B3A04 0x021B3A04 data ov013 a1
+ *   d_021B3A1C 0x021B3A1C data ov013 a2
+ */
+typedef unsigned char u8;
+typedef signed char s8;
+typedef short s16;
+typedef unsigned int u32;
+typedef struct AdpcmState {
+    s16 pred;
+    u8 index;
+} AdpcmState;
+extern const s8 d_021B3A04[8];
+extern const s16 d_021B3A1C[89];
+static inline u8 Adpcm3EncodeSample(AdpcmState *st, s16 sample)
+{
+    int idx;
+    int pred;
+    int code;
+    int diff;
+    int step;
+    int np;
+    idx = st->index;
+    pred = st->pred;
+    step = d_021B3A1C[idx];
+    diff = sample - pred;
+    if (diff < 0) {
+        code = 4;
+        diff = -diff;
+    } else code = 0;
+    if (diff >= step) {
+        code |= 2;
+        diff -= step;
+    }
+    if (diff >= (step >> 1)) code |= 1;
+    diff = step >> 2;
+    if (code & 2) diff += step;
+    if (code & 1) diff += step >> 1;
+    if (code & 4) diff = -diff;
+    np = pred + diff;
+    if (np < -32768) np = -32768;
+    if (np > 32767) np = 32767;
+    idx += d_021B3A04[code];
+    if (idx < 0) idx = 0;
+    else if (idx > 88) idx = 88;
+    st->pred = (s16)np;
+    st->index = idx;
+    return code;
+}
+void func_021AFABC(u8 *dst, const s16 *src, u32 n, AdpcmState *st)
+{
+    u32 i;
+    u32 count;
+    u8 a;
+    u8 b;
+    u8 c;
+    u8 d;
+    count = n / 8;
+    for (i = 0; i < count; i++) {
+        a = (u8)(Adpcm3EncodeSample(st, src[0]) << 5);
+        a |= (u8)(Adpcm3EncodeSample(st, src[1]) << 2);
+        b = Adpcm3EncodeSample(st, src[2]);
+        dst[0] = a | (b >> 1);
+        c = (u8)(Adpcm3EncodeSample(st, src[3]) << 4);
+        c |= (u8)(Adpcm3EncodeSample(st, src[4]) << 1);
+        d = Adpcm3EncodeSample(st, src[5]);
+        dst[1] = c | (b << 7) | (d >> 2);
+        c = (u8)(Adpcm3EncodeSample(st, src[6]) << 3);
+        c |= Adpcm3EncodeSample(st, src[7]);
+        dst[2] = c | (d << 6);
+        src += 8;
+        dst += 3;
+    }
+}

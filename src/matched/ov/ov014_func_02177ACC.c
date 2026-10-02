@@ -1,0 +1,18 @@
+/*
+ * function: func_02177ACC
+ * address: 0x02177ACC
+ * packet: pkt_ov014_02177ACC
+ * region: ov014
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   g_021797A4 0x021797A4 data ov014 a4
+ *   func_02178E38 0x02178E38 thumb ov014
+ */
+
+extern unsigned char *g_021797A4;
+extern unsigned int func_02178E38(void);
+unsigned int func_02177ACC(void) { if (g_021797A4 != 0) return func_02178E38() & 0xFFFE; return 0; }

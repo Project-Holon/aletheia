@@ -1,0 +1,40 @@
+/*
+ * function: func_02176158
+ * address: 0x02176158
+ * packet: pkt_ov011_02176158
+ * region: ov011
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * residual: 60 bytes, 9 concrete bytes differ; index r5/offset r4 rather
+ * than original index r4/offset r5. All relocations resolve.
+ * checks: 1 callee has three loaded inputs and int return; memset standard
+ * three inputs; 2 no ov010/011/012 twin; 3 short counter DIFF64/18, const p
+ * DIFF60/9; 4 explicit offset and declaration-order swap DIFF60/9;
+ * 5 fresh idiom listing/neighbour search no twin, stack-object check n/a
+ * because residue is a register-only loop; next hypothesis per-record
+ * pointer/record-array shape, not tried because scheduling cap exhausted.
+ * budget: iteration 3/10 stopped on two nonshrinking changes; scheduling
+ * 2/2; check3 2/2; check4 1/2; total one runs 6; no permutation sweep.
+ * symbols:
+ *   func_02173E6C 0x02173E6C thumb ov011
+ *   memset 0x02082BCC arm
+ */
+typedef unsigned char u8;
+extern int func_02173E6C(int a, int b, int c);
+extern void *memset(void *p, int value, unsigned int size);
+void func_02176158(int a, u8 *p)
+{
+    unsigned int offset;
+    int i;
+    for (i = 0; i < 3; i++) {
+        offset = i * 0x38;
+        if (p[0xe8 + offset] != 0) {
+            if (func_02173E6C(a, (int)(p + 0xe8 + offset), i) == 1) {
+                memset(p + 0xe8 + offset, 0, 0x38);
+            }
+        }
+    }
+}

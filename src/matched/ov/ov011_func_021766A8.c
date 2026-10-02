@@ -1,0 +1,27 @@
+/*
+ * function: func_021766A8
+ * address: 0x021766A8
+ * packet: pkt_ov011_021766A8
+ * region: ov011
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT*
+ * extent: two alignment bytes at 021766CA.
+ * symbols:
+ *   func_0203133C 0x0203133C arm
+ *   func_020307B0 0x020307B0 arm
+ *   func_020315D4 0x020315D4 arm
+ */
+typedef unsigned char u8;
+extern void func_0203133C(void *p);
+extern void func_020307B0(void *p);
+extern void func_020315D4(void *p);
+int func_021766A8(void *p, int b, int c, u8 *q)
+{
+    func_0203133C(*(void **)(q + 0xf4));
+    func_020307B0(*(void **)(q + 0xf8));
+    func_020315D4(p);
+    return 1;
+}

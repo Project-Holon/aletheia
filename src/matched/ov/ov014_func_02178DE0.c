@@ -1,0 +1,24 @@
+/*
+ * function: func_02178DE0
+ * address: 0x02178DE0
+ * packet: pkt_ov014_02178DE0
+ * region: ov014
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   g_021797A8 0x021797A8 data a4
+ *   func_02178138 0x02178138 thumb ov014
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef void (*Cb)(int);
+extern u8 *g_021797A8;
+extern void func_02178138(int);
+void func_02178DE0(u8 *p) {
+ Cb cb = *(Cb *)(g_021797A8 + 0x1E64);
+ if (cb != 0) cb(*(u16 *)(p + 2) == 0 ? 1 : 0);
+ if (*(u16 *)(p + 2) != 0) func_02178138(10); else func_02178138(0);
+}

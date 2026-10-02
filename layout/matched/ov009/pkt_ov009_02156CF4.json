@@ -18,7 +18,9 @@
    "flags": "-proc arm946e -enum int -Cpp_exceptions off -interworking -char signed -msgstyle gcc -O4,p -thumb -lang c99",
    "status": "EXACT",
    "functions": [
-    "func_02156CF4"
+    "func_02156CF4",
+    "func_02156D5C",
+    "func_02156D70"
    ],
    "evidence": {
     "sole-ref": [
