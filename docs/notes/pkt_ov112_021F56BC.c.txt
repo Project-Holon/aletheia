@@ -1,0 +1,187 @@
+/*
+ * function: func_021F56BC
+ * address: 0x021F56BC
+ * packet: pkt_ov112_021F56BC
+ * region: ov112
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 matrix SDK two-input routines and full 5EDC thirteen-input body verified; 2 no renderer twin in ov111/112/113; 3 const List, decode const/u16/u32 and flip u8/u32 compared; 4 SDK enum texparam, nested inline FX_Mul and bitfield reads tried; 5 stack-object idiom/neighbours/directory reread, packet depth at +4 and vectors at +8; macro-free emitted baseline agrees; permuter 300 best rejected (volatile pos and added return x).
+ * blocker: 2088 vs 2080 bytes; 1849 concrete bytes differ. Frame is 32 bytes larger, allocations/scheduling and scalar/aggregate stores diverge; three camera data sites remain unwitnessed.
+ * extent: Original 2080 bytes ends at 021F5EDC, next renderer helper is a separately labelled function. No leaf filed while caller differs.
+ * volatile: geometry command registers repeatedly written at 021F56C8-021F56DA, 021F58EC-021F590A, 021F597C-021F5982, 021F59E8, 021F5A5C, 021F5EAE, 021F5EC6.
+ * symbols:
+ *   func_0207D7C4 0x0207D7C4 arm
+ *   func_0207B67C 0x0207B67C arm
+ *   func_02082B60 0x02082B60 arm
+ *   func_0207ADE8 0x0207ADE8 arm
+ *   func_0207B5C0 0x0207B5C0 arm
+ *   func_0207BE14 0x0207BE14 arm
+ *   func_021F660C 0x021F660C thumb ov112
+ *   func_0207C768 0x0207C768 arm
+ *   func_0207D8FC 0x0207D8FC arm
+ *   func_0207D888 0x0207D888 arm
+ *   func_0207AF38 0x0207AF38 thumb
+ *   func_0207B51C 0x0207B51C arm
+ *   func_0207CA00 0x0207CA00 arm
+ *   func_021F65EC 0x021F65EC thumb ov112
+ *   func_021F5EDC 0x021F5EDC thumb ov112
+ *   _fflt 0x0209BDBC arm
+ *   _fadd 0x0209C95C arm
+ *   _fsub 0x0209CB8C arm
+ *   _ffix 0x0209C494 arm
+ *   _ll_mul 0x0209C054 arm
+ *   d_02148D8C 0x02148D8C data a4
+ *   d_02148D98 0x02148D98 data a4
+ *   d_02148DA4 0x02148DA4 data a4
+ *   d_021F8310 0x021F8310 data a4
+ *   d_021F831C 0x021F831C data a4
+ *   d_021F8304 0x021F8304 data a4
+ *   d_02148B98 0x02148B98 data a4
+ *   d_02148B54 0x02148B54 data a4
+ *   d_020A1B38 0x020A1B38 data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef short s16;
+typedef unsigned int u32;
+typedef long long s64;
+typedef unsigned long long u64;
+typedef struct {int x,y,z;} Vec;
+typedef struct {int a[16];} M44;
+typedef struct {int a[12];} M43;
+typedef struct {int a[9];} M33;
+typedef struct {u16 id,angle;int sx,sy;s16 x,y;} Frame;
+typedef struct {u32 reserved;int depth;Vec position,shift,scale,anchor;u16 a,b;} Draw;
+typedef struct {u32 camera:1;u32 other:31;} Flags;
+typedef struct {u32 blend:1;u32 unused:1;u32 hidden:1;u32 other:29;} ObjectFlags;
+typedef struct {int count;u8 **objects;Flags flags;} List;
+typedef enum {GX_TEXFMT_NONE=0,GX_TEXFMT_DIRECT=7} GXTexFmt;
+typedef enum {GX_TEXGEN_NONE=0,GX_TEXGEN_TEXCOORD=1,GX_TEXGEN_VERTEX=3} GXTexGen;
+typedef enum {GX_TEXSIZE_S8=0,GX_TEXSIZE_S1024=7} GXTexSizeS;
+typedef enum {GX_TEXSIZE_T8=0,GX_TEXSIZE_T1024=7} GXTexSizeT;
+typedef enum {GX_TEXREPEAT_NONE=0,GX_TEXREPEAT_ST=3} GXTexRepeat;
+typedef enum {GX_TEXFLIP_NONE=0,GX_TEXFLIP_ST=3} GXTexFlip;
+typedef enum {GX_TEXPLTTCOLOR0_USE=0,GX_TEXPLTTCOLOR0_TRNS=1} GXTexPlttColor0;
+extern const Vec d_02148D8C,d_02148D98,d_02148DA4,d_021F8310,d_021F831C,d_021F8304;
+extern const M43 d_02148B98;
+extern const M44 d_02148B54;
+extern const s16 d_020A1B38[];
+extern void func_0207D7C4(const Vec *,const Vec *,const Vec *,int,M43 *);
+extern void func_0207B67C(const M43 *,M43 *),func_02082B60(const M43 *,M33 *),func_0207ADE8(const M33 *,M44 *),func_0207B5C0(const M43 *,M44 *),func_0207BE14(const M44 *,const M44 *,M44 *);
+extern void func_021F660C(const int *,const int *,u32 *,u32 *);
+extern int func_0207C768(int,int);
+extern void func_0207D8FC(const M44 *),func_0207D888(int,int),func_0207AF38(M33 *,int,int),func_0207B51C(const Vec *,const M33 *,Vec *),func_0207CA00(const Vec *,const Vec *,Vec *);
+extern void func_021F65EC(void);
+extern void func_021F5EDC(u8 *,u32,u32,u32,u32,u32,u32,Frame *,Frame *,int,int,int *,u8);
+#define W(p,o) (*(u32 *)((u32)(p)+(o)))
+#define I(p,o) (*(int *)((u32)(p)+(o)))
+#define H(p,o) (*(u16 *)((u32)(p)+(o)))
+#define PTR(p,o) (*(u8 **)((u32)(p)+(o)))
+#define REG(a) (*(volatile u32 *)(a))
+static inline void texparam(GXTexFmt fmt,GXTexGen gen,GXTexSizeS s,GXTexSizeT t,GXTexRepeat repeat,GXTexFlip flip,GXTexPlttColor0 pltt0,u32 addr){REG(0x040004A8)=(addr>>3)|(fmt<<26)|(gen<<30)|(s<<20)|(t<<23)|(repeat<<16)|(flip<<18)|(pltt0<<29);}
+static inline int fxmul(int a,int b){return (int)(((s64)a*b+2048)>>12);}
+static inline int rounded(int a){float f;if(a>0)f=0.5f+(float)(a<<12);else f=(float)(a<<12)-0.5f;return (int)f;}
+static inline void decode(const u8 *r,Frame *f){
+ u8 *p;u16 kind;
+ kind=W(PTR(r,28),4);p=PTR(PTR(r,0),0);
+ switch(kind){
+ case 0:f->id=H(p,0);f->angle=0;f->sx=4096;f->sy=4096;f->x=0;f->y=0;break;
+ case 1:*f=*(Frame *)p;break;
+ case 2:f->id=H(p,0);f->angle=0;f->sx=4096;f->sy=4096;f->x=*(s16 *)(p+4);f->y=*(s16 *)(p+6);break;
+ }
+}
+void func_021F56BC(const List *list,void (*draw)(u8,Draw *,u32))
+{
+ Frame root,child;
+ Vec pos;
+ M44 camera;
+ M43 inverse;
+ M33 orientation;
+ M44 combined,projection;
+ M33 rotation;
+ Draw out;
+ int w;
+ int i,j;
+ u8 k,flip;
+ u8 *obj,*record,*piece,*node,*rows,*part;
+ int sx,sy,x,y,s,c,u,v;
+ u16 angle;
+ REG(0x04000444)=0;REG(0x04000440)=0;REG(0x0400044C)=0;REG(0x04000440)=3;REG(0x04000454)=0;REG(0x04000440)=2;
+ if(list->flags.camera==0)func_0207D7C4(&d_02148D8C,&d_02148D98,&d_02148DA4,1,0);
+ else func_0207D7C4(&d_021F8310,&d_021F831C,&d_021F8304,1,0);
+ func_0207B67C(&d_02148B98,&inverse);func_02082B60(&inverse,&orientation);func_0207ADE8(&orientation,&camera);
+ for(i=0;i<list->count;i++){
+  obj=list->objects[i];
+  if(obj==0 || ((ObjectFlags *)(obj+0xEC))->hidden)continue;
+  REG(0x04000444)=0;
+  obj=list->objects[i];
+  out.depth=0;decode(obj+0x28,&root);
+  pos=*(Vec *)(obj+0xC8);
+  if(list->flags.camera==0){sx=root.x<<8;sy=(-root.y)<<8;}
+  else{
+   projection.a[0]=524288;projection.a[1]=0;projection.a[2]=0;projection.a[3]=524288;
+   projection.a[4]=0;projection.a[5]=393216;projection.a[6]=0;projection.a[7]=-393216;
+   projection.a[8]=0;projection.a[9]=0;projection.a[10]=-4096;projection.a[11]=4096;
+   projection.a[12]=4096;projection.a[13]=0;projection.a[14]=0;projection.a[15]=-4096;
+   func_0207B5C0(&d_02148B98,&combined);func_0207BE14(&combined,&d_02148B54,&combined);
+   func_021F660C((int *)&pos,combined.a,(u32 *)&pos,(u32 *)&w);
+   pos.x=func_0207C768(pos.x,w);pos.y=func_0207C768(pos.y,w);
+   func_021F660C((int *)&pos,projection.a,(u32 *)&pos,(u32 *)&w);
+   sx=rounded(root.x);sy=rounded(-root.y);
+  }
+  pos.z=I(obj,0xD0);flip=0;if(I(obj,0xD4)<0)flip++;
+  REG(0x04000470)=pos.x;REG(0x04000470)=pos.y;REG(0x04000470)=pos.z;
+  if(list->flags.camera==0)func_0207D8FC(&camera);
+  REG(0x04000470)=sx;REG(0x04000470)=sy;REG(0x04000470)=0;
+  angle=(flip&1)?65536-root.angle:root.angle;
+  func_0207D888(-d_020A1B38[2*(angle>>4)],d_020A1B38[2*(angle>>4)+1]);
+  sy=fxmul(root.sy,I(obj,0xD8));sx=fxmul(root.sx,I(obj,0xD4));
+  REG(0x0400046C)=sx;REG(0x0400046C)=sy;REG(0x0400046C)=4096;
+  func_0207AF38(&rotation,-d_020A1B38[2*(H(obj,0xFC)>>4)],d_020A1B38[2*(H(obj,0xFC)>>4)+1]);
+  func_0207B51C((Vec *)(obj+0x100),&rotation,(Vec *)(obj+0x10C));
+  func_0207CA00((Vec *)(obj+0x100),(Vec *)(obj+0x10C),(Vec *)(obj+0x10C));
+  I(obj,0x10C)=func_0207C768(I(obj,0x10C),I(obj,0xD4));I(obj,0x110)=func_0207C768(I(obj,0x110),I(obj,0xD8));
+  REG(0x0400044C)=29;func_021F65EC();
+  node=obj+0x90;
+  texparam(W(node,20),GX_TEXGEN_TEXCOORD,W(node,12),W(node,16),GX_TEXREPEAT_ST,GX_TEXFLIP_ST,W(node,28),W(node,0));
+  for(j=0;j<H(PTR(PTR(obj,0x6C),4)+8*root.id,0);j++){
+   rows=PTR(PTR(obj,0x6C),4)+8*root.id;
+   part=PTR(rows,4)+8*j;
+   record=PTR(obj,0x68)+92*((H(part,6)&0xFF00)>>8);
+   decode(record,&child);
+   piece=PTR(obj,0x20)+4+56*child.id;
+   if(W(piece,32)){
+    x=W(piece,36);y=W(piece,40);u=W(piece,44);
+    if(((ObjectFlags *)(obj+0xEC))->blend)u=(int)((u32)u+(u32)x);
+    func_021F5EDC(obj,W(piece,24),W(piece,28),W(piece,32),x,y,u,&child,&root,j,list->flags.camera,&out.depth,flip);
+   }
+   func_021F5EDC(obj,W(piece,0),W(piece,4),W(piece,8),W(piece,12),W(piece,16),W(piece,20),&child,&root,j,list->flags.camera,&out.depth,flip);
+   for(k=0;k<8;k++){
+    if(piece[48+k]==255)break;
+    angle=root.angle+child.angle;
+    node=PTR(obj,0x24)+20*piece[48+k];
+    x=I(node,8);y=I(node,12);
+    s=d_020A1B38[2*(angle>>4)];c=d_020A1B38[2*(angle>>4)+1];
+    u=fxmul((int)((u32)x*c-(u32)y*s),fxmul(root.sx,child.sx));
+    v=fxmul((int)((u32)x*s+(u32)y*c),fxmul(root.sy,child.sy));
+    x=*(s16 *)(part+2)+root.x;y=*(s16 *)(part+4)+root.y;
+    s=d_020A1B38[2*(root.angle>>4)];c=d_020A1B38[2*(root.angle>>4)+1];
+    sx=(int)((u32)u+fxmul((int)((u32)x*c-(u32)y*s),root.sx));
+    sy=(int)((u32)v+fxmul((int)((u32)x*s+(u32)y*c),root.sy));
+    sx+=rounded(child.x);sy+=rounded(child.y);
+    out.position=pos;out.position.y=-out.position.y;
+    out.shift.x=fxmul(sx,I(obj,0xD4)/16);out.shift.y=fxmul(sy,I(obj,0xD8)/16);out.shift.z=out.depth;
+    out.anchor=*(Vec *)(obj+0x100);out.a=H(obj,0xFC);out.scale=*(Vec *)(obj+0xD4);
+    node=PTR(obj,0x24)+20*piece[48+k];out.b=angle+(W(node,16)<<11);
+    draw(W(node,4),&out,W(obj,0xF8));
+    node=PTR(obj,0x24)+20*piece[48+k];
+    if(W(node,4)==5){I(obj,0x100)=out.shift.x;I(obj,0x104)=out.shift.y;I(obj,0x108)=0;}
+   }
+  }
+  REG(0x04000448)=1;
+ }
+ REG(0x04000448)=1;
+}

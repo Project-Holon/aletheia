@@ -1,0 +1,36 @@
+/*
+ * function: func_021BA384
+ * address: 0x021BA384
+ * packet: pkt_ov071_021BA384
+ * region: ov071
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0201C6B4 0x0201C6B4 thumb
+ *   func_02043534 0x02043534 arm
+ *   func_020315D4 0x020315D4 arm
+ *   func_021BA4D4 0x021BA4D4 thumb ov071
+ *   func_021BA400 0x021BA400 thumb ov071
+ */
+
+typedef unsigned int u32;
+struct PrintSys;
+struct S020315D4;
+extern u32 func_0201C6B4(const struct PrintSys *);
+extern void func_02043534(unsigned int);
+extern void func_020315D4(struct S020315D4 *);
+extern void func_021BA4D4(void **);
+extern void func_021BA400(void);
+
+int func_021BA384(void *a, void *b, char *c, void **d)
+{
+    if (func_0201C6B4(*(void **)(*(char **)(c + 4) + 8)) == 0) return 0;
+    func_02043534(8);
+    func_021BA4D4(d);
+    func_021BA400();
+    func_020315D4(a);
+    return 1;
+}

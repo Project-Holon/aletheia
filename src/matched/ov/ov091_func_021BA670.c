@@ -1,0 +1,17 @@
+/*
+ * function: func_021BA670
+ * address: 0x021BA670
+ * packet: pkt_ov091_021BA670
+ * region: ov091
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT*
+ * symbols:
+ *   func_02007F1C 0x02007F1C thumb
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern u32 func_02007F1C(u8 *, u16, u16, u16);
+u32 func_021BA670(u8 *p, u16 id) { return func_02007F1C(*(u8 **)(*(u8 **)(p+0x280)+4),id,1,*(u16 *)p); }

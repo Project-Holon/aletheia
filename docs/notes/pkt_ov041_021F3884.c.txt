@@ -1,0 +1,294 @@
+/*
+ * function: func_021F3884
+ * address: 0x021F3884
+ * packet: pkt_ov041_021F3884
+ * region: ov041
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 F930 fifth parameter u16 and BE700/6CC widths checked; F900 caller visibly passes config and type; 2 3FC0/3FD8/4000 and ov021 parameter bodies read; 3 int/u8 k and u32 h checked, h no change; 4 far-offset enum improves frame but worsens bytes; 5 stack-struct idiom and neighbours refreshed. Next: typed config and grouped table views with original stack offsets.
+ * runs: 4 iteration + 1 check + 1 macro-free baseline + permuter(300); volatile-add(row) output rejected; AST baseline wildcards differ (1249 vs one 1257), no result accepted.
+ * residual: 1257 concrete bytes; 1628/1632 (delta -4); frame 0x100 vs 0xE8 and pooled metadata accesses; 15 unresolved sites.
+ * symbols:
+ *   func_020124E4 0x020124E4 thumb
+ *   func_0201210C 0x0201210C thumb
+ *   func_020120F4 0x020120F4 thumb
+ *   func_02012EC4 0x02012EC4 thumb
+ *   func_0200B3A4 0x0200B3A4 thumb
+ *   func_02011428 0x02011428 thumb
+ *   func_02011608 0x02011608 thumb
+ *   func_02011688 0x02011688 thumb
+ *   func_02011558 0x02011558 thumb
+ *   func_020061E4 0x020061E4 thumb
+ *   func_02188D2C 0x02188D2C thumb ov021
+ *   func_021897BC 0x021897BC thumb ov021
+ *   func_02188C58 0x02188C58 thumb ov021
+ *   func_02188C80 0x02188C80 thumb ov021
+ *   func_02188CB4 0x02188CB4 thumb ov021
+ *   func_0218F0A8 0x0218F0A8 thumb ov021
+ *   func_0218F0E8 0x0218F0E8 thumb ov021
+ *   func_0218F818 0x0218F818 thumb ov021
+ *   func_0218F900 0x0218F900 thumb ov021
+ *   func_0218FE50 0x0218FE50 thumb ov021
+ *   func_0218E13C 0x0218E13C thumb ov021
+ *   func_0218EC54 0x0218EC54 thumb ov021
+ *   func_0218ECE4 0x0218ECE4 thumb ov021
+ *   func_0218F930 0x0218F930 thumb ov021
+ *   func_0218FE70 0x0218FE70 thumb ov021
+ *   func_0218EC60 0x0218EC60 thumb ov021
+ *   func_0218F9C4 0x0218F9C4 thumb ov021
+ *   func_0218F05C 0x0218F05C thumb ov021
+ *   func_0218F878 0x0218F878 thumb ov021
+ *   func_021A3074 0x021A3074 thumb ov021
+ *   func_021A3044 0x021A3044 thumb ov021
+ *   func_021A3038 0x021A3038 thumb ov021
+ *   func_021BE700 0x021BE700 thumb ov021
+ *   func_021BE6CC 0x021BE6CC thumb ov021
+ *   func_021BE6E8 0x021BE6E8 thumb ov021
+ *   func_021BE674 0x021BE674 thumb ov021
+ *   func_021BE6B0 0x021BE6B0 thumb ov021
+ *   func_0216DAC8 0x0216DAC8 thumb ov010
+ *   func_0216D548 0x0216D548 thumb ov010
+ *   func_0216D568 0x0216D568 thumb ov010
+ *   func_0216D550 0x0216D550 thumb ov010
+ *   func_0216D570 0x0216D570 thumb ov010
+ *   func_0216D57C 0x0216D57C thumb ov010
+ *   func_02158780 0x02158780 thumb ov010
+ *   func_021F3FEC 0x021F3FEC thumb ov041
+ *   func_021F3F44 0x021F3F44 thumb ov041
+ *   func_021F3FC0 0x021F3FC0 thumb ov041
+ *   func_021F3F18 0x021F3F18 thumb ov041
+ *   func_021F3FD8 0x021F3FD8 thumb ov041
+ *   func_021F4000 0x021F4000 thumb ov041
+ *   d_021F4320 0x021F4320 data a4
+ *   d_021F4130 0x021F4130 data a2
+ *   d_021F4084 0x021F4084 data a2
+ *   d_021F408C 0x021F408C data a2
+ *   d_021F4094 0x021F4094 data a2
+ *   d_021F409C 0x021F409C data a2
+ *   d_021F40F0 0x021F40F0 data a2
+ *   d_021F4198 0x021F4198 data a2
+ *   d_021F419C 0x021F419C data a1
+ *   d_021F419A 0x021F419A data a2
+ *   d_021F419D 0x021F419D data a1
+ *   d_021F419E 0x021F419E data a1
+ *   d_021F40B4 0x021F40B4 data a2
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct {int x,y,z;} Vec;
+typedef struct {u32 id; int x,y,z,pad;} Row;
+typedef struct {u16 a,b; u8 type,x,y,pad;} Spec;
+typedef struct {u16 x,y,z;} Tile;
+extern void *func_020124E4(void *);
+extern void *func_0201210C(void *);
+extern int func_02188D2C(void *);
+extern u8 *func_021897BC(void *,int);
+extern u8 *func_02188C58(void *);
+extern u32 func_02188C80(void *);
+extern u32 func_020120F4(u32);
+extern u32 func_02012EC4(u32);
+extern void *func_0200B3A4(u32,u32);
+extern void func_0218F0A8(u8 *);
+extern int func_0218F0E8(u8 *);
+extern void func_021F3FEC(u8 *);
+extern int func_021F3F44(int);
+extern u32 func_02011428(u32,u32,u32,void *,u32);
+extern u16 func_02011608(u32);
+extern int func_021F3FC0(u32,int);
+extern u16 func_021F3F18(int);
+extern void func_021BE700(int,int,u8,u16,int);
+extern void func_021BE6CC(int,int,u8,u16,int);
+extern void func_0218F818(u8 *);
+extern int func_021BE6E8(int,int,u8,u16);
+extern void func_020061E4(u32);
+extern void *func_021BE674(int,int,u8,u16);
+extern int func_021BE6B0(void *,int);
+extern void *func_02158780(void *,u32,u32,u32,u32);
+extern void func_0218F900(u8 *,void *,u32);
+extern int func_0218FE50(u8 *);
+extern void func_0218E13C(u8 *,u32);
+extern void *func_02188CB4(void *);
+extern void *func_021A3074(void *);
+extern void func_0216DAC8(void *,u32);
+extern void func_0216D548(void *,u32);
+extern void func_0216D568(void *,u32);
+extern void func_0216D550(void *,u32);
+extern void func_0216D570(void *,u32);
+extern int func_0216D57C(void *,u32);
+extern void func_021F3FD8(u8 *);
+extern void func_021A3044(void *,Vec *);
+extern void func_021A3038(void *,Vec *);
+extern void func_02011558(u32);
+extern void func_0218F05C(u8 *);
+extern void func_0218F878(u8 *);
+extern int func_02011688(u32,Vec *,u32);
+extern void func_0218EC54(u8 *);
+extern void func_0218ECE4(u8 *,Vec *);
+extern void func_0218F930(u8 *,Vec *,Vec *,u32 *,u16);
+extern u8 *func_0218FE70(u8 *);
+extern void func_0218EC60(u8 *);
+extern void func_0218F9C4(u8 *,u32 *,u16);
+extern void func_021F4000(u8 *,u8 *);
+extern const Row d_021F4320[];
+extern const Row d_021F4130[];
+extern const u16 d_021F4084[],d_021F408C[],d_021F4094[],d_021F409C[];
+extern const Tile d_021F40F0[];
+extern const Spec d_021F4198[];
+extern const u16 d_021F40B4[];
+extern const u8 d_021F419C[];
+#define W(o) (*(u32 *)(s+(o)))
+#define H(o) (*(u16 *)(s+(o)))
+int func_021F3884(void *a0,u32 *state)
+{
+ void *sys,*model,*obj;
+ u32 h;
+ int i,index,frame,off,total,first,n;
+ u8 *s,*player;
+ u8 k;
+ u16 seq;
+ const Row *row;
+ const Spec *spec;
+ Vec pos,target,v,current;
+ u32 config[17],blend[6],finish[6];
+ sys=func_0201210C(func_020124E4(a0));
+ h=func_02188D2C(sys);
+ s=func_021897BC(sys,1);
+ player=func_02188C58(sys);
+ func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(sys))),5);
+ switch(*state) {
+ case 0:
+  func_0218F0A8(player);
+  func_021F3FEC(s+0x720);
+  ++*state;
+  break;
+ case 1:
+  if(func_0218F0E8(player)!=0) break;
+  first=s[0]; index=func_021F3F44(s[1]);
+  row=(const Row *)((u32)d_021F4320+s[0]*80+index*20);
+  if(row->id==0xffffffff) return 1;
+  W(0x714)=func_02011428(0x8015,121,row->id,s+4,0x708);
+  H(0x71a)=func_02011608(W(0x714));
+  row=(const Row *)((u32)d_021F4130+first*80+index*20);
+  spec=d_021F4198+(u16)row->id;
+  n=spec->x; off=spec->y;
+  if(n+off>=H(0x71a)) n=H(0x71a)-(off+1);
+  H(0x71c)=n; H(0x71e)=off;
+  s[3]=0;
+  k=s[0]; seq=func_021F3F18(func_021F3FC0(s[1],k));
+  func_021BE700(h,0,k,seq,1);
+  func_021BE700(h,0,k,seq+1,1);
+  func_021BE6CC(h,0,k,seq,0);
+  func_021BE6CC(h,0,k,seq+1,0);
+  func_0218F818(player);
+  ++*state;
+  break;
+ case 2:
+  k=s[0]; i=func_021F3FC0(s[1],k);
+  frame=func_021BE6E8(h,0,k,func_021F3F18(i))/4096;
+  if(frame==d_021F4084[i]) func_020061E4(0x698);
+  if(frame<d_021F408C[i]) break;
+  seq=func_021F3F18(i);
+  func_021BE6B0(func_021BE674(h,0,k,seq),1);
+  func_021BE6B0(func_021BE674(h,0,k,seq+1),1);
+  func_02158780(a0,2,0,0,0x8015);
+  index=func_021F3F44(s[1]);
+  row=(const Row *)((u32)d_021F4130+s[0]*80+index*20);
+  spec=d_021F4198+(u16)row->id;
+  *(u16 *)((u8 *)config+0x24)=spec->a;
+  *(u16 *)((u8 *)config+0x26)=spec->b;
+  config[16]=0;
+  config[15]=0;
+  config[14]=1;
+  config[13]=1;
+  config[12]=0;
+  func_0218F900(player,config,spec->type);
+  ++*state;
+  break;
+ case 3:
+  if(func_0218FE50(player)!=0) break;
+  func_0218E13C(player,2);
+  model=func_021A3074(func_02188CB4(sys));
+  func_0216DAC8(model,1); func_0216D548(model,512); func_0216D568(model,0x8000);
+  k=s[0]; seq=func_021F3F18(func_021F3FC0(s[1],k));
+  func_021BE6B0(func_021BE674(h,0,k,seq),0);
+  func_021BE6B0(func_021BE674(h,0,k,seq+1),0);
+  func_020061E4(0x699);
+  ++*state;
+  break;
+ case 4:
+  k=s[0]; i=func_021F3FC0(s[1],k);
+  frame=func_021BE6E8(h,0,k,func_021F3F18(i))/4096;
+  if(frame<d_021F409C[i]) break;
+  func_020061E4(0x6a0); s[2]=1; H(0x718)=0;
+  ++*state;
+  break;
+ case 5:
+  k=s[0]; i=func_021F3FC0(s[1],k);
+  frame=func_021BE6E8(h,0,k,func_021F3F18(i))/4096;
+  if(frame==d_021F4094[i]) {
+   func_020061E4(0x696);
+   if(s[3]==0) { func_021F3FD8(s); func_0218E13C(player,1); }
+   func_0216DAC8(func_021A3074(func_02188CB4(sys)),0);
+  }
+  if(s[2]) break;
+  obj=func_02188CB4(sys);
+  pos.x=pos.y=pos.z=0;
+  index=func_021F3F44(s[1]);
+  row=(const Row *)((u32)d_021F4130+s[0]*80+index*20);
+  pos.x=((u32)row->x<<16)+0x8000;
+  pos.y=(u32)row->y<<16;
+  pos.z=((u32)row->z<<16)+0x8000;
+  func_021A3044(obj,&pos);
+  ++*state;
+  break;
+ case 6:
+  func_0216D550(func_021A3074(func_02188CB4(sys)),512);
+  func_02011558(W(0x714));
+  k=s[0]; seq=func_021F3F18(func_021F3FC0(s[1],k));
+  func_021BE700(h,0,k,seq,0); func_021BE700(h,0,k,seq+1,0);
+  func_0218F05C(player); func_0218F878(player);
+  return 1;
+ }
+ if(s[2]) {
+  v.x=v.y=v.z=0;
+  k=s[0];
+  if(func_02011688(W(0x714),&v,H(0x718))) {
+   v.x+=((u32)d_021F40F0[k].x<<16)+0x8000;
+   v.y+=(u32)d_021F40F0[k].y<<16;
+   v.z+=((u32)d_021F40F0[k].z<<16)+0x8000;
+   func_021A3044(func_02188CB4(sys),&v);
+  }
+  if(W(0x724)!=0 && H(0x718)<H(0x71c)) {
+   func_021A3038(func_02188CB4(sys),&target);
+   if(W(0x728)==0) {
+    func_0218EC54(player); func_0218ECE4(player,&current);
+    blend[0]=blend[1]=blend[2]=blend[3]=blend[4]=0; blend[5]=1;
+    func_0218F930(player,&current,&target,blend,H(0x71c)-H(0x718));
+    W(0x728)=1;
+   } else *(Vec *)(func_0218FE70(player)+12)=target;
+  }
+  if(H(0x718)==H(0x71c)) {
+   if(W(0x728)!=0) W(0x728)=0;
+   func_0218EC60(player); func_0218E13C(player,0);
+   finish[0]=finish[1]=finish[2]=finish[3]=finish[4]=1; finish[5]=0;
+   func_0218F9C4(player,finish,H(0x71e)); s[3]=1;
+  }
+  i=(u16)((const Row *)((u32)d_021F4130+s[0]*80+func_021F3F44(s[1])*20))->id;
+  model=func_021A3074(func_02188CB4(sys));
+  if(H(0x718)==H(0x71a)-1-d_021F40B4[i] && i!=11) { func_0216D570(model,0x8000); func_020061E4(0x697); }
+  if(i==11) {
+   if(H(0x718)==70) func_020061E4(0x6a1);
+   if(H(0x718)+8>=H(0x71a) && func_0216D57C(model,0x8000)!=0) func_0216D570(model,0x8000);
+  }
+  H(0x718)++;
+  if(H(0x718)>=H(0x71a)) s[2]=0;
+  func_021F4000(s+0x720,player);
+ }
+ return 0;
+}
+
+

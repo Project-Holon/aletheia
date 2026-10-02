@@ -1,0 +1,261 @@
+/*
+ * function: func_021F41A8
+ * address: 0x021F41A8
+ * packet: pkt_ov039_021F41A8
+ * region: ov039
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 wide BE674 parameters and u16 F3DE4 animation index improve 578 to 574 bytes; 2 matched 3A34/404C/4610 confirm Work and audio flow; 3 u16 k worsens, u32 volume worsens; 4 spill-order/stack-struct/index idioms read; 5 same-overlay neighbours and idioms refreshed. Next: separate tail animation handle lifetime from the selector's spill.
+ * runs: 3 iteration + 3 checks
+ * residual: 574 concrete bytes; 1140/1128 (delta +12); stack k/animation slots, table field views and tail colours; d_021F4CF4 sole-reference remains unresolved.
+ * symbols:
+ *   func_020124E4 0x020124E4 thumb
+ *   func_0201210C 0x0201210C thumb
+ *   func_02188D2C 0x02188D2C thumb ov021
+ *   func_021897BC 0x021897BC thumb ov021
+ *   func_02188C80 0x02188C80 thumb ov021
+ *   func_020120F4 0x020120F4 thumb
+ *   func_02012A30 0x02012A30 thumb
+ *   func_02006148 0x02006148 thumb
+ *   func_021BE674 0x021BE674 thumb ov021
+ *   func_02012EC4 0x02012EC4 thumb
+ *   func_0200B3A4 0x0200B3A4 thumb
+ *   func_02011428 0x02011428 thumb
+ *   func_021F3E04 0x021F3E04 thumb ov039
+ *   func_021BE6B0 0x021BE6B0 thumb ov021
+ *   func_020061E4 0x020061E4 thumb
+ *   func_021F3DE4 0x021F3DE4 thumb ov039
+ *   func_02158780 0x02158780 thumb ov010
+ *   func_021BE6BC 0x021BE6BC thumb ov021
+ *   func_02188CB4 0x02188CB4 thumb ov021
+ *   func_021A3074 0x021A3074 thumb ov021
+ *   func_0216DAC8 0x0216DAC8 thumb ov010
+ *   func_02028A7C 0x02028A7C thumb
+ *   func_02006138 0x02006138 thumb
+ *   func_02072F34 0x02072F34 arm
+ *   func_02028B18 0x02028B18 thumb
+ *   func_0203630C 0x0203630C arm
+ *   func_0216D5E0 0x0216D5E0 thumb ov010
+ *   func_021A3044 0x021A3044 thumb ov021
+ *   func_02011558 0x02011558 thumb
+ *   func_020061F8 0x020061F8 thumb
+ *   func_02028B50 0x02028B50 thumb
+ *   func_02006210 0x02006210 thumb
+ *   func_021BE4C4 0x021BE4C4 thumb ov021
+ *   func_021BE748 0x021BE748 thumb ov021
+ *   func_02047790 0x02047790 arm
+ *   func_02047674 0x02047674 arm
+ *   func_021F48C0 0x021F48C0 thumb ov039
+ *   func_0207CA00 0x0207CA00 arm
+ *   func_0207CBD0 0x0207CBD0 arm
+ *   d_021F4C38 0x021F4C38 data a4
+ *   d_021F4CF4 0x021F4CF4 data ov039 a4
+ *   d_021F4C58 0x021F4C58 data a2
+ */
+typedef signed char s8;
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct { int x,y,z; } Vec;
+typedef struct { u16 x,z; } Tile;
+typedef struct {
+ u8 pad0[4],sel,pad5[2]; s8 hold;
+ int timer[4]; u32 anim;
+ u8 pad1c[0x21e4-0x1c]; int active;
+ u8 req[4],cur[4]; s8 slot[4];
+} Work;
+extern void *func_020124E4(void *);
+extern void *func_0201210C(void *);
+extern int func_02188D2C(void *);
+extern Work *func_021897BC(void *,int);
+extern u32 func_02188C80(void *);
+extern u32 func_020120F4(u32);
+extern u32 func_02012A30(u32);
+extern int func_02006148(u32);
+extern void *func_021BE674(int,int,int,int);
+extern u32 func_02012EC4(u32);
+extern void *func_0200B3A4(u32,u32);
+extern u32 func_02011428(u32,u32,u16,void *,u32);
+extern void func_021F3E04(void *,u8,u8,int);
+extern int func_021BE6B0(void *,int);
+extern void func_020061E4(u32);
+extern int func_021F3DE4(void *,u8,u16);
+extern void *func_02158780(void *,u32,u32,u32,u32);
+extern int func_021BE6BC(void *);
+extern void *func_02188CB4(void *);
+extern void *func_021A3074(void *);
+extern void func_0216DAC8(void *,u32);
+extern void func_02028A7C(u32,u32);
+extern void *func_02006138(int);
+extern void func_02072F34(void *,u8);
+extern void func_02028B18(u32,u32,u32);
+extern u32 func_0203630C(void);
+extern void func_0216D5E0(void *,u32);
+extern void func_021A3044(void *,Vec *);
+extern void func_02011558(u32);
+extern void func_020061F8(int);
+extern void func_02028B50(u32,int);
+extern void func_02006210(void);
+extern int func_021BE4C4(void *,u32,int);
+extern int func_021BE748(u32);
+extern int func_02047790(int *,int);
+extern int func_02047674(int);
+extern void func_021F48C0(u8 *,int,int,int *);
+extern void func_0207CA00(const Vec *,const Vec *,Vec *);
+extern int func_0207CBD0(const Vec *);
+extern u32 d_021F4C38[];
+extern Vec d_021F4CF4;
+extern const Tile d_021F4C58[];
+int func_021F41A8(void *a0,u32 *state)
+{
+ void *sys,*o,*model;
+ int h,j;
+ Work *s;
+ u32 w;
+ int sound;
+ u8 k,b;
+ int id;
+ Vec pos,v1,v2,delta;
+ void *anim;
+ int frame,next,limit;
+ u8 volume;
+ sys=func_0201210C(func_020124E4(a0));
+ h=func_02188D2C(sys);
+ s=func_021897BC(sys,1);
+ w=func_02012A30(func_020120F4(func_02188C80(sys)));
+ sound=func_02006148(0x6db);
+ j=(u8)(s->sel>>1);
+ k=j;
+ o=func_021BE674(h,0,k,0);
+ func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(sys))),2);
+ switch(*state) {
+ case 0:
+  s->anim=func_02011428(0x8015,0x6b,d_021F4C38[s->sel],(u8 *)s+0x1c,0x21c0);
+  func_021F3E04((void *)h,k,0,0);
+  func_021BE6B0(o,0);
+  func_020061E4(0x687);
+  ++*state;
+  break;
+ case 1:
+  if(func_021F3DE4((void *)h,k,0)<0xf000) break;
+  func_021BE6B0(o,1);
+  func_02158780(a0,13,0,0,0x8015);
+  ++*state;
+  break;
+ case 2:
+  func_021BE6B0(o,0);
+  func_020061E4(0x687);
+  ++*state;
+  break;
+ case 3:
+  if(func_021BE6BC(o)==0) break;
+  func_0216DAC8(func_021A3074(func_02188CB4(sys)),1);
+  func_021BE6B0(o,1);
+  func_021BE6B0(func_021BE674(h,0,k,(u8)(s->sel+1)),0);
+  s->timer[j]=0;
+  s->slot[j]=-1;
+  s->hold=-1;
+  id=0x68a;
+  func_02028A7C(w,id);
+  func_020061E4(0x6db);
+  func_02072F34(func_02006138(sound),0);
+  func_02028B18(w,id,127);
+  s->active=1;
+  ++*state;
+  break;
+ case 4:
+  if(s->slot[j]!=-1 && (func_0203630C()&0x80)) ++*state;
+  break;
+ case 5:
+  model=func_021BE674(h,0,k,(u8)(s->sel+1));
+  s->hold=j;
+  func_021BE6B0(model,1);
+  func_021F3E04((void *)h,k,0,0);
+  func_021BE6B0(o,0);
+  func_020061E4(0x687);
+  model=func_021A3074(func_02188CB4(sys));
+  func_0216D5E0(model,1);
+  func_0216DAC8(model,0);
+  ++*state;
+  break;
+ case 6: {
+  void *q;
+  if(func_021F3DE4((void *)h,k,0)<0xf000) break;
+  func_021BE6B0(o,1);
+  q=func_02188CB4(sys);
+  pos=d_021F4CF4;
+  pos.x=((u32)d_021F4C58[s->cur[j]].x<<16)+0x8000;
+  pos.z=((u32)(d_021F4C58[s->cur[j]].z-2)<<16)+0x8000;
+  func_021A3044(q,&pos);
+  s->active=0;
+  ++*state;
+  break;
+ }
+ case 7:
+  func_02158780(a0,14,0,0,0x8015);
+  ++*state;
+  break;
+ case 8:
+  func_021BE6B0(o,0);
+  func_020061E4(0x687);
+  ++*state;
+  break;
+ case 9:
+  if(func_021BE6BC(o)==0) break;
+  func_021BE6B0(o,1);
+  func_021BE6B0(func_021BE674(h,0,k,(u8)(s->sel+1)),0);
+  s->timer[j]=0;
+  s->slot[j]=-1;
+  func_02011558(s->anim);
+  s->hold=-1;
+  s->sel=255;
+  func_02028A7C(w,0x68a);
+  func_02028B18(w,0x68a,0);
+  func_020061F8(sound);
+  return 1;
+ }
+ if((u8)(s->sel+0xfe)<=3) {
+  frame=func_021F3DE4((void *)h,k,(u8)(s->sel+1));
+  switch(s->sel) {
+  case 2:
+   if(frame==0xbf000) { func_02028B50(w,0x68a); func_02006210(); func_020061E4(0x68b); }
+   else if(frame==0xeb000) { func_02028B50(w,0x68a); func_02006210(); }
+   else if(frame==0xff000) func_020061E4(0x68c);
+   break;
+  case 3:
+   if(frame==0x108000) { func_02028B50(w,0x68a); func_02006210(); func_020061E4(0x68b); }
+   else if(frame==0x131000) { func_02028B50(w,0x68a); func_02006210(); }
+   else if(frame==0x148000) func_020061E4(0x68c);
+   break;
+  case 4:
+   if(frame==0xb1000) { func_02028B50(w,0x68a); func_02006210(); func_020061E4(0x6d2); }
+   break;
+  case 5:
+   if(frame==0xb6000) { func_02028B50(w,0x68a); func_02006210(); func_020061E4(0x6d2); }
+   break;
+  }
+ }
+ anim=(void *)func_021BE4C4((void *)h,0,k);
+ b=s->sel+1;
+ limit=func_021BE748((u32)func_021BE674(h,0,k,b));
+ frame=func_021F3DE4((void *)h,k,b);
+ next=frame+4096;
+ if(next>=limit) next=0;
+ anim=(void *)func_02047674(func_02047790(anim,b));
+ volume=0;
+ func_021F48C0(*(u8 **)((u8 *)anim+8),0,frame,(int *)&v1);
+ func_021F48C0(*(u8 **)((u8 *)anim+8),0,next,(int *)&v2);
+ func_0207CA00(&v1,&v2,&delta);
+ frame=func_0207CBD0(&delta);
+ if(frame>=0x20000) volume=127;
+ else if(frame>=0x18000) volume=90;
+ else if(frame>=0x10000) volume=60;
+ else if(frame>=0x8000) volume=30;
+ func_02072F34(func_02006138(sound),volume);
+ return 0;
+}
+
+

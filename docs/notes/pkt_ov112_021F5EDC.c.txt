@@ -1,0 +1,74 @@
+/*
+ * function: func_021F5EDC
+ * address: 0x021F5EDC
+ * packet: pkt_ov112_021F5EDC
+ * region: ov112
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * residual: same-size 576 B, 23 concrete bytes in indexed lookup load order/register colours.
+ * checks: 1 SDK callees are nine/two arguments; 2 no closer ov112 rendering twin; 3 const rec/id/p and unsigned sub compiled; 4 typed entry and inline FIFO helpers reduced residue; 5 idioms and matched neighbours reread, no further shape.
+ * retry: permuter --budget 300 --types baseline/best both DIFF 23; operand order reduced 29 to 23.
+ * volatile: 0x04000440,0x04000450,0x040004AC,0x040004A4,0x04000470,
+ * 0x0400046C,0x04000500,0x04000488,0x0400048C,0x04000504 are hardware command FIFOs.
+ * symbols:
+ *   func_0207D760 0x0207D760 arm
+ *   func_0207D888 0x0207D888 arm
+ *   table 0x020A1B38 data a2
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef short s16;
+typedef unsigned int u32;
+typedef struct { s16 tag,x,y,pad; } Entry;
+typedef struct { int tag; Entry *items; } Index;
+typedef struct { int tag; Index *table; } Data;
+extern s16 table[];
+extern void func_0207D760(int,int,int,int,int,int,int,int,void *);
+extern void func_0207D888(int,int);
+#define REG(a) (*(volatile u32 *)(a))
+static inline void vertex(int x,int y) {
+    REG(0x04000488)=(u32)(u16)((x<<8)>>16) | ((u32)(u16)((y<<8)>>16)<<16);
+}
+static inline void translate(int x,int y,int z) { REG(0x04000470)=x; REG(0x04000470)=y; REG(0x04000470)=z; }
+static inline void scale(int x,int y,int z) { REG(0x0400046c)=x; REG(0x0400046c)=y; REG(0x0400046c)=z; }
+void func_021F5EDC(const u8 *p,int x,int y,int w,int h,int vx,int vy,const u8 *rec,const u16 *id,u32 sub,int camera,int *z,int flip)
+{
+    u32 entry;
+    int angle,tx,ty;
+    if(camera!=0) {
+        func_0207D760(0x60000,-0x5f000,-0x7f000,0x80000,0x1000,0x3e8000,0x1000,1,0);
+        REG(0x04000440)=2;
+    }
+    REG(0x04000450)=29;
+    REG(0x040004ac)=*(u32 *)(p+0xbc)>>(4-(*(int *)(p+0xb4)==2));
+    REG(0x040004a4)=0x1f00c0;
+    entry=(u32)sub*8+(u32)(*(Data **)(p+0x6c))->table[*id].items;
+    tx=(*(s16 *)(entry+2)+*(s16 *)(rec+12))<<8;
+    ty=-(*(s16 *)(entry+4)+*(s16 *)(rec+14))<<8;
+    if(flip==0) angle=*(u16 *)(p+0xfc);
+    else if(flip&1) angle=(u16)(65536-*(u16 *)(p+0xfc));
+    func_0207D888(-table[(angle>>4)*2],table[(angle>>4)*2+1]);
+    translate(tx,ty,*z);
+    func_0207D888(-table[(*(u16 *)(rec+2)>>4)*2],table[(*(u16 *)(rec+2)>>4)*2+1]);
+    if(flip==0) {
+        scale(*(int *)(rec+4),*(int *)(rec+8),0x1000);
+        translate(x,y,0);
+        scale(w,h,0x1000);
+    } else if(flip&1) {
+        scale(-*(int *)(rec+4),*(int *)(rec+8),0x1000);
+        translate(-x,y,0);
+        scale(w,h,0x1000);
+        translate(-256,0,0);
+        vx=0x200000-vx-w;
+    }
+    REG(0x04000500)=1;
+    vertex(vx,vy); REG(0x0400048c)=0; REG(0x0400048c)=0;
+    vertex(vx+w,vy); REG(0x0400048c)=0x100; REG(0x0400048c)=0;
+    vertex(vx+w,vy+h); REG(0x0400048c)=0xff000100; REG(0x0400048c)=0;
+    vertex(vx,vy+h); REG(0x0400048c)=0xff000000; REG(0x0400048c)=0;
+    REG(0x04000504)=0; REG(0x04000440)=0; REG(0x04000450)=0; REG(0x04000440)=2;
+    if(camera==0) *z-=256; else *z-=1024;
+}

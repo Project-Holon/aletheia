@@ -1,0 +1,22 @@
+/*
+ * function: func_021F5340
+ * address: 0x021F5340
+ * packet: pkt_ov083_021F5340
+ * region: ov083
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_020122C0 0x020122C0 thumb
+ *   func_020124E8 0x020124E8 thumb
+ *   func_020120F4 0x020120F4 thumb
+ *   func_021F542C 0x021F542C thumb ov083
+ */
+typedef unsigned char u8;
+extern void *func_020122C0(void *owner,void *a,void *b,unsigned int size);
+extern u8 *func_020124E8(void *p);
+extern void *func_020120F4(void *p);
+extern void func_021F542C(void);
+void *func_021F5340(void *p) { void *task; u8 *w; task=func_020122C0(p,0,(void *)func_021F542C,12); w=func_020124E8(task); *(void **)(w+8)=func_020120F4(p); *(void **)(w+4)=p; return task; }

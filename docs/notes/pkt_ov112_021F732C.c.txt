@@ -1,0 +1,153 @@
+/*
+ * function: func_021F732C
+ * address: 0x021F732C
+ * packet: pkt_ov112_021F732C
+ * region: ov112
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * residual: same-size 628 B, 54 concrete bytes; row index/r pointer colours, invariant constant spill order, z-expression scheduling.
+ * checks: 1 forwarders and full targets prove return/width ABI; 2 7204/6A80 twins checked; 3 const p/q compiled unchanged, u16 angle/end worse; 4 declared matrix/vector locals and row arrays reduced residue; 5 idioms and matched neighbours reread.
+ * retry: permuter --budget 300 --types baseline DIFF 55, best DIFF 54 confirmed by fixed one; harmless expression temporaries retained.
+ * ABI: 4B24/4B30 are tail forwarders; caller consumes their r0 result.
+ * symbols:
+ *   func_021F5450 0x021F5450 thumb ov112
+ *   func_021F545C 0x021F545C thumb ov112
+ *   func_021F4B24 0x021F4B24 thumb ov112
+ *   func_021F4B30 0x021F4B30 thumb ov112
+ *   func_021F4E8C 0x021F4E8C thumb ov112
+ *   func_021F4ED4 0x021F4ED4 thumb ov112
+ *   func_021F4EB4 0x021F4EB4 thumb ov112
+ *   func_021F4E6C 0x021F4E6C thumb ov112
+ *   func_0207AF38 0x0207AF38 thumb
+ *   func_0207B51C 0x0207B51C arm
+ *   func_0207CA00 0x0207CA00 arm
+ *   func_0204F638 0x0204F638 arm
+ *   _fflt 0x0209BDBC arm
+ *   _fadd 0x0209C95C arm
+ *   _fsub 0x0209CB8C arm
+ *   _ffix 0x0209C494 arm
+ *   table 0x020A1B38 data a2
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef short s16;
+typedef unsigned int u32;
+typedef struct 
+{
+  int x;
+  int y;
+  int z;
+} Vec;
+typedef struct 
+{
+  int m[9];
+} Mtx;
+extern s16 table[];
+extern u8 *func_021F5450(u8 *, int);
+extern u8 *func_021F545C(u8 *);
+extern int func_021F4B24(u8 *);
+extern int func_021F4B30(u8 *);
+extern void func_0207AF38(Mtx *, int, int);
+extern void func_0207B51C(const Vec *, const Mtx *, Vec *);
+extern void func_0207CA00(const Vec *, const Vec *, Vec *);
+extern void func_021F4E8C(int, int, Vec *);
+extern void func_021F4ED4(int, int, u16);
+extern void func_021F4EB4(int, int, s16, s16);
+extern void func_021F4E6C(int, int, int);
+extern void func_0204F638(void *, u32, Vec *);
+typedef struct 
+{
+  u8 pad[0x84];
+  u8 *objects[9];
+  u8 *dims[9];
+  int states[9];
+} Row;
+void func_021F732C(u8 *p, Row *q)
+{
+  Vec pos;
+  Mtx matrix;
+  Vec b;
+  Vec a;
+  u8 *r;
+  int i;
+  int mapped;
+  int flip;
+  int end;
+  int scale;
+  int angle;
+  float f;
+  int tmp;
+  u8 *tmp1;
+  Vec *tmp2;
+  int tmp4;
+  for (i = 0; i < 9; i++)
+  {
+    mapped = i;
+    if ((*((int *) (((u8 *) q) + 0x54))) == 1)
+    {
+      if (i == 7)
+        mapped = 8;
+      else
+        if (i == 8)
+        mapped = 7;
+      else
+        if (i == 0)
+        mapped = 1;
+      else
+        if (i == 1)
+        mapped = 0;
+    }
+    tmp = ((u32) q->objects[i]) != 0;
+    if (tmp && (q->states[i] == 1))
+    {
+      if (((*((int *) (((u8 *) q) + 12))) == 1) && ((*((int *) (((u8 *) q) + 8))) == 1))
+      {
+        r = func_021F5450(*((u8 **) (((u8 *) q) + 0x58)), mapped);
+        if ((*((int *) r)) != 1)
+          continue;
+        flip = ((*((int *) (r + 0x1c))) < 0) ? (1) : (0);
+        angle = (u16) (65536 - (*((u16 *) (r + 0x34))));
+        end = (u16) ((((*((u16 *) (r + 0x36))) + 65536) + (*((s16 *) (q->dims[i] + 2)))) % 65536);
+        func_021F545C(*((u8 **) (((u8 *) q) + 0x58)));
+        scale = *((int *) (r + 0x1c));
+        func_0207AF38(&matrix, -table[(angle >> 4) * 2], table[((angle >> 4) * 2) + 1]);
+        func_0207B51C((Vec *) (r + 0x10), &matrix, &a);
+        if (flip == 1)
+          end = (u16) (65536 - end);
+        if ((func_021F4B30(q->objects[i]) == 0) && (flip == 1))
+          scale = -scale;
+        tmp2 = (Vec *) (r + 0x28);
+        func_0207B51C(tmp2, &matrix, &b);
+        func_0207CA00((Vec *) (r + 0x28), &b, &b);
+        if ((*((u16 *) (p + 0x434))) != 0)
+          f = 0.5f + ((float) ((*((u16 *) (p + 0x434))) << 12));
+        else
+          f = ((float) ((*((u16 *) (p + 0x434))) << 12)) - 0.5f;
+        tmp4 = ((*((int *) (r + 4))) + a.x) + 0x80000;
+        pos.x = tmp4 + ((int) f);
+        pos.y = ((*((int *) (r + 8))) + a.y) + 0x60000;
+        if (func_021F4B24(q->objects[i]) == 1)
+          pos.z = (*((int *) (((u8 *) q) + 0x20))) - 0x14000;
+        else
+          pos.z = ((*((int *) (((u8 *) q) + 0x20))) + ((((u32) (mapped - 7)) <= 1) ? (0xa000) : (0x5000))) - ((*((u8 *) (q->dims[i] + 4))) << 11);
+        func_021F4E8C(*((int *) (p + 16)), (int) q->objects[i], &pos);
+        func_021F4ED4(*((int *) (p + 16)), (int) q->objects[i], end - angle);
+        func_021F4EB4(*((int *) (p + 16)), (int) q->objects[i], (scale / 16) / 4, ((*((int *) (r + 0x20))) / 16) / 4);
+        func_021F4E6C(*((int *) (p + 16)), (int) q->objects[i], 1);
+      }
+      else
+        func_021F4E6C(*((int *) (p + 16)), (int) q->objects[i], 0);
+    }
+  }
+
+  func_021F545C(*((u8 **) (((u8 *) q) + 0x58)));
+  int *tmp3 = (int *) (((u8 *) q) + 24);
+  pos.x = (*tmp3) / 16;
+  pos.y = (0xc0000 - (*((int *) (((u8 *) q) + 28)))) / 16;
+  pos.z = 50;
+  tmp1 = ((u8 *) q) + 0x5c;
+  func_0204F638(*((void **) (p + 8)), *((u32 *) tmp1), &pos);
+}

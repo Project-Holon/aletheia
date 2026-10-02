@@ -1,0 +1,227 @@
+/*
+ * function: func_021BDE98
+ * address: 0x021BDE98
+ * packet: pkt_ov093_021BDE98
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 D5778 u8/2 args, C62D8 5 args/out h+b, veneers sole-ref; 2 no full twin; 3 const action compiled, wide move adds 12 bytes; 4 stack-local and const idioms read; 5 fresh directory and matched CCE0/C62D8 read.
+ * residual: 1180/1184, 362 concrete bytes; frame4c correct, move/finalMove register swap and spill slots remain. Permuter300 baseline agrees, best rejected for changed return, volatile and tmp5 read before assignment.
+ * symbols:
+ *   func_021D5C08 0x021D5C08 thumb ov093
+ *   func_021BD1E0 0x021BD1E0 thumb ov093
+ *   func_021BE518 0x021BE518 thumb ov093
+ *   func_021BDE48 0x021BDE48 thumb ov093
+ *   func_021D80BC 0x021D80BC thumb ov093
+ *   func_021D82D0 0x021D82D0 thumb ov093
+ *   func_021D5778 0x021D5778 thumb ov093
+ *   func_021D62C4 0x021D62C4 thumb ov093
+ *   func_021E02DC 0x021E02DC thumb ov093
+ *   func_021BE924 0x021BE924 thumb ov093
+ *   func_021C001C 0x021C001C thumb ov093
+ *   func_021C62D8 0x021C62D8 thumb ov093
+ *   func_021C5604 0x021C5604 thumb ov093
+ *   func_021C64B4 0x021C64B4 thumb ov093
+ *   func_021CA7F4 0x021CA7F4 thumb ov093
+ *   func_021C07AC 0x021C07AC thumb ov093
+ *   func_021C0450 0x021C0450 thumb ov093
+ *   func_021BEBD8 0x021BEBD8 thumb ov093
+ *   func_021BE3A8 0x021BE3A8 thumb ov093
+ *   func_021BE338 0x021BE338 thumb ov093
+ *   func_021BE348 0x021BE348 thumb ov093
+ *   func_021BE358 0x021BE358 thumb ov093
+ *   func_021BE368 0x021BE368 thumb ov093
+ *   func_021BE378 0x021BE378 thumb ov093
+ *   func_021BE388 0x021BE388 thumb ov093
+ *   func_021BE66C 0x021BE66C thumb ov093
+ *   func_021BE620 0x021BE620 thumb ov093
+ *   func_021C6458 0x021C6458 thumb ov093
+ *   func_021C99A0 0x021C99A0 thumb ov093
+ *   func_021C8810 0x021C8810 thumb ov093
+ *   func_021C5620 0x021C5620 thumb ov093
+ *   func_021D5FC0 0x021D5FC0 thumb ov093
+ *   func_021C024C 0x021C024C thumb ov093
+ *   func_021BE7E4 0x021BE7E4 thumb ov093
+ *   func_021BE6EC 0x021BE6EC thumb ov093
+ *   func_021D5440 0x021D5440 thumb ov093
+ *   func_021BE398 0x021BE398 thumb ov093
+ *   func_021BEAB4 0x021BEAB4 thumb ov093
+ *   func_021BE550 0x021BE550 thumb ov093
+ *   func_021BEC58 0x021BEC58 thumb ov093
+ *   func_021D6744 0x021D6744 thumb ov093
+ *   func_021CD4B0 0x021CD4B0 thumb ov093
+ *   func_021D69AC 0x021D69AC thumb ov093
+ *   func_021C0780 0x021C0780 thumb ov093
+ *   func_021BFE60 0x021BFE60 thumb ov093
+ *   func_021D5BB0 0x021D5BB0 thumb ov093
+ *   func_021BFF60 0x021BFF60 thumb ov093
+ *   func_021BE994 0x021BE994 thumb ov093
+ *   func_021E0394 0x021E0394 thumb ov093
+ *   func_021BE400 0x021BE400 thumb ov093
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct { u32 kind:4; u32 slot:3; u32 id:16; u32 rest:9; } Action;
+typedef struct { u8 result; u8 pad; u16 id; u8 slot; } Result;
+typedef struct { u32 words[5]; } Out;
+extern u32 func_021D5C08(void *);
+extern void func_021BD1E0(void *);
+extern void func_021BE518(void *);
+extern u16 func_021BDE48(void *, Action *);
+extern int func_021D80BC(void *, u32, void *, u16);
+extern void func_021D82D0(Action *, u32, u32);
+extern u8 func_021D5778(void *, u16);
+extern int func_021D62C4(void *, int);
+extern int func_021E02DC(void *, u16, u32);
+extern void func_021BE924(u8 *, u8 *, u32);
+extern int func_021C001C(u8 *, u8 *, u16, u8);
+extern int func_021C62D8(u8 *, u8 *, u32, u32, void *);
+extern void func_021C5604(u8 *, u8 *, int);
+extern void func_021C64B4(u8 *, u16, u8 *, void *);
+extern int func_021CA7F4(u8 *, u8 *, u32, const u8 *, void *);
+extern int func_021C07AC(u8 *, u8 *, u32, u32, int);
+extern void func_021C0450(u8 *, u8 *, u32, int);
+extern void func_021BEBD8(u8 *, u8 *, int, int);
+extern int func_021BE3A8(u8 *, u8 *, u16 *);
+extern void func_021BE338(void *);
+extern void func_021BE348(void *);
+extern u32 func_021BE358(void *);
+extern void func_021BE368(void *);
+extern void func_021BE378(void *, void *);
+extern void func_021BE388(void *, u32);
+extern void func_021BE66C(u8 *, u8 *, u8 *, int);
+extern void func_021BE620(u8 *, u8 *, u8 *);
+extern int func_021C6458(u8 *, u8 *, u32, u32, u8 *);
+extern int func_021C99A0(void *, void *);
+extern void func_021C8810(u8 *);
+extern void func_021C5620(u8 *, u8 *, int, void *);
+extern void func_021D5FC0(void *, u32);
+extern int func_021C024C(u8 *, u8 *, u32);
+extern int func_021BE7E4(u8 *, u8 *, u32, u32, void *);
+extern int func_021BE6EC(u8 *, u8 *, u16, u32);
+extern u8 func_021D5440(u8 *);
+extern void func_021BE398(void *, u32, u32, u32);
+extern int func_021BEAB4(u8 *, u8 *, u32, void *, void *);
+extern void func_021BE550(u8 *, u8 *, u32, void *);
+extern int func_021BEC58(u8 *, u8 *, u32, void *);
+extern void func_021D6744(u8 *, u32, u32, u32, u32, u32);
+extern void func_021CD4B0(void *, u32, ...);
+extern u8 func_021D69AC(u8 *, int);
+extern void func_021C0780(u8 *, u8 *, int, u8);
+extern void func_021BFE60(u8 *, u8 *);
+extern int func_021D5BB0(void *, u32);
+extern void func_021BFF60(u8 *, u8 *, int);
+extern void func_021BE994(u8 *, u8 *, u32, u32);
+extern void func_021E0394(u8 *, u32);
+extern void func_021BE400(u8 *, u32);
+void func_021BDE98(u8 *p, u8 *a, const Action *action, u32 value)
+{
+    Result r;
+    u32 slot, originalState;
+    u8 f25, f26, redirected, called;
+    u32 category;
+    u8 flag;
+    u32 resultValue, slotValue, monId;
+    u16 finalMove, move, override;
+    originalState = func_021D5C08(a);
+    func_021BD1E0(*(void **)(p + 0x4a8));
+    func_021BE518(*(void **)(p + 0x4b0));
+    r.id = 0;
+    r.slot = 6;
+    override = func_021BDE48(a, (Action *)action);
+    if (override) {
+        slot = func_021D80BC(*(void **)(p + 4), *(u32 *)(p + 8), a, override);
+        func_021D82D0((Action *)action, override, slot);
+    }
+    move = (u16)action->id;
+    finalMove = move;
+    category = func_021D5778(a, move);
+    slot = (u8)action->slot;
+    called = 0;
+    r.result = 0;
+    f25 = (u8)func_021D62C4(a, 25);
+    f26 = (u8)func_021D62C4(a, 26);
+    func_021E02DC(a, move, value);
+    func_021BE924(p, a, move);
+    if (func_021C001C(p, a, move, (u8)((f25 || f26) ? 1 : called))) goto finish;
+    if (!func_021C62D8(p, a, move, slot, &r.id)) {
+        func_021C5604(p, a, move);
+        func_021C64B4(p, move, a, *(void **)(p + 0x1ab4));
+        func_021CA7F4(p, a, slot, *(u8 **)(p + 0x1ab4), *(void **)(p + 0x850));
+        func_021C07AC(p, a, move, category, *(int *)(p + 0x850));
+        called = 1;
+        func_021C0450(p, a, move, 26);
+        goto finish;
+    }
+    redirected = (u8)(r.id != 0);
+    if (redirected) {
+        func_021C5604(p, a, move);
+        func_021BEBD8(p, a, move, slot);
+        func_021E02DC(a, r.id, value);
+        finalMove = r.id;
+        slot = r.slot;
+    } else finalMove = move;
+    func_021C64B4(p, move, a, *(void **)(p + 0x1ab4));
+    if (redirected) {
+        func_021C64B4(p, finalMove, a, *(void **)(p + 0x1ab0));
+        *(u32 *)(*(u8 **)(p + 0x1ab0) + 0x10) |= 4;
+        *(u16 *)(*(u8 **)(p + 0x1ab0) + 2) = move;
+        if (func_021BE3A8(p, a, *(u16 **)(p + 0x1ab0))) {
+            func_021C07AC(p, a, move, category, *(int *)(p + 0x850));
+            called = 1;
+            goto finish;
+        }
+    } else **(Out **)(p + 0x1ab0) = **(Out **)(p + 0x1ab4);
+    func_021BE338(*(void **)(p + 0x850));
+    func_021BE348(*(void **)(p + 0x854));
+    func_021CA7F4(p, a, slot, *(u8 **)(p + 0x1ab0), *(void **)(p + 0x850));
+    flag = (u8)func_021BE358(*(void **)(p + 0x850));
+    func_021BE368(*(void **)(p + 0x850));
+    func_021BE378(*(void **)(p + 0x850), *(void **)(p + 0x854));
+    func_021BE388(*(void **)(p + 0x854), flag);
+    if (!f25 && !f26 && category != 4) {
+        func_021C07AC(p, a, move, category, *(int *)(p + 0x850));
+        called = 1;
+    }
+    func_021BE66C(p, a, *(u8 **)(p + 0x1ab4), 34);
+    func_021BE620(p, a, *(u8 **)(p + 0x1ab0));
+    if (func_021C6458(p, a, move, finalMove, p + 0x1ae4)) {
+        func_021C99A0(p, p + 0x1ae4);
+        func_021C8810(p + 0x1ae4);
+    } else func_021C5604(p, a, finalMove);
+    *(u16 *)(p + 0x1f74) = finalMove;
+    if (func_021D62C4(a, 34)) {
+        func_021C5620(p, a, 34, 0);
+        func_021D5FC0(a, 14);
+    }
+    if (func_021C024C(p, a, finalMove)) goto finish;
+    if (func_021BE7E4(p, a, finalMove, slot, &r)) goto finish;
+    if (func_021BE6EC(p, a, finalMove, slot)) goto finish;
+    func_021BE398(p + 0x1c, finalMove, *(u32 *)(p + 16), func_021D5440(a));
+    func_021BE66C(p, a, *(u8 **)(p + 0x1ab4), 35);
+    if (func_021BEAB4(p, a, finalMove, *(void **)(p + 0x854), *(void **)(p + 0x1ab0)))
+        func_021BE550(p, a, finalMove, *(void **)(p + 0x854));
+    else r.result = func_021BEC58(p, a, finalMove, *(void **)(p + 0x854));
+finish:
+    func_021D5FC0(a, 3);
+    if (called || f25 || finalMove == 165) {
+        func_021D6744(a, slot, r.result, (*(u8 **)(p + 0x854))[6], finalMove, move);
+        slotValue = (*(u8 **)(p + 0x854))[6];
+        resultValue = r.result;
+        monId = func_021D5440(a);
+        func_021CD4B0(*(void **)(p + 12), 24, monId, slot, resultValue, slotValue, finalMove, move);
+    } else if (func_021D69AC(a, 3)) func_021C0780(p, a, 3, 0);
+    if (originalState != 16 && func_021D5C08(a) != 16) func_021BFE60(p, a);
+    if (func_021D5BB0(a, 11)) {
+        func_021CD4B0(*(void **)(p + 12), 49, func_021D5440(a), 0);
+        func_021BFF60(p, a, 0);
+    }
+    func_021BE994(p, a, finalMove, r.result);
+    if (r.id) func_021E0394(a, r.id);
+    func_021E0394(a, move);
+    func_021BE400(p, finalMove);
+}

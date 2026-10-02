@@ -1,36 +1,3 @@
-=== 2026-09-27 tree_ov114: func_021C7C1C (ov114, ARM), best DIFF, same size ===
-
-Verdict: DIFF, 2620/2620 bytes (0x021C7C1C..0x021C8658 incl. 3 pool words),
-73/73 relocation sites resolved (d_021D3EF0 = d_021D3D2C + 0x1c4 resolves
-sole-ref as its own extern; a G.hdr spelling stores through [G,#0x1c4] and
-loses the second pool word, so the original named two objects).
-
-Residue: a pure register rotation of the five values the compiler hoists to
-the prologue. Image: r4 = 24, r5 = &G, r6 = &hdr, r7 = -13, r8 = 0.
-Compiled: r4 = &G, r5 = &hdr, r6 = -13, r7 = 0, r8 = 24. Instruction order
-is identical (ldr G, ldr hdr, ldr state, mvn -13, cmp, mov 0, mov 24). With
-that mapping applied, the ONLY other difference is 5 instructions in the
-state-14 len/0x128 divide (+0x66C..+0x67C), where the image reuses r4 (24,
-dead there) as the umull high register and the build reuses &hdr's register;
-that follows from the rotation. Every switch table, arm order, cross-jump and
-constant derivation (sub rX, r24, #0x1d etc., mvn #1 in states 4/12) matches.
-
-Levers measured, all leave 24 last (158 concrete bytes out, unchanged):
-  named local for 24 (int, enum-typed, declared first/last); enum-typed state
-  and result fields; u32/s32 field types; state as int array d_021D3D2C[]
-  with byte/pointer casts (sibling style); pointer local for G (G then
-  colours LAST, 154 out); declaration orders of len/code/type/resp; odd-state
-  arm moved first; case 0/1/24 first; returns vs breaks; resp local for the
-  hdr copy; removing the odd arm or the error-arm state store (probes: 24
-  still last); changing -13/0 to other values (probe: still last); ERROR arm
-  as a static inline helper (frame grows to 0x5c, 242 out).
-  Front ends: dsi/1.2, dsi/1.3 identical to 1.1p1; ../2.0/sp2 3176 bytes,
-  ../1.2/sp2 3316 bytes.
-  permuter.py seed 6301, budget 600: best 163 out (worse than hand).
-Open question for the next lane: what source makes the 24 temp the first
-allocated web (its def created before &G's) while still scheduled last.
-
-Best source:
 /*
  * function: func_021C7C1C
  * address:  0x021C7C1C
@@ -41,6 +8,13 @@ Best source:
  * lang:     c99
  * isa:      arm
  * status:   DIFF
+ * residual: 204 concrete bytes differ, same-size 2620; five prologue webs rotate.
+ * retry: enum setter 204; enum inline poll 242; unsigned fields 204.
+ * previous: permuter budget 600 was already run, best 163 in previous environment.
+ * checks: 1 8EB4 own source and SDK returns agree; 2 no closer same-overlay twin;
+ * 3 SDK unsigned-long len alias compiled, unchanged 204; 4 enum inlining failed;
+ * 5 idioms and neighbours re-read, no aggregate address residue.
+ * next: source shape creating the 24 web before the global address webs.
  *
  * DWC encryption-session poll: a switch on the session state (0..24); every
  * even state 2..22 runs DWCi_EncSessionProcess and on 1 (error) or 8 (done)

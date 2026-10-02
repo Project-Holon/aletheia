@@ -1,0 +1,137 @@
+/*
+ * function: func_021BC610
+ * address: 0x021BC610
+ * packet: pkt_ov093_021BC610
+ * region: ov093
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 D8454 wide return, B9AB0 u8 return, BC948 3 args; 2 no full twin; 3 const out unchanged620/395, narrow special/n unchanged620/395, const p CCERR; 4 pointer-inline and stack-order idioms read; 5 fresh idiom listing, BC8EC/BC948 neighbours reread.
+ * residual: 600/612,270 concrete bytes; spill ordering and twelve bytes of folded action reload/helper remain. Permuter300 emitted baseline392 disagreed with one395; best rejected for uninitialized t/tmp1 and narrowed index. Restored valid best run4; run10 confirms.
+ * symbols:
+ *   func_021BB85C 0x021BB85C thumb ov093
+ *   func_021BB8A8 0x021BB8A8 thumb ov093
+ *   func_021BB8B0 0x021BB8B0 thumb ov093
+ *   func_021D83E0 0x021D83E0 thumb ov093
+ *   func_021D8454 0x021D8454 thumb ov093
+ *   func_021B9AB0 0x021B9AB0 thumb ov093
+ *   func_021B9BF0 0x021B9BF0 thumb ov093
+ *   func_021CC8D8 0x021CC8D8 thumb ov093
+ *   func_021CC95C 0x021CC95C thumb ov093
+ *   func_021B86B8 0x021B86B8 thumb ov093
+ *   func_021BC8EC 0x021BC8EC thumb ov093
+ *   func_021BC948 0x021BC948 thumb ov093
+ *   func_021BC874 0x021BC874 thumb ov093
+ *   func_021C6350 0x021C6350 thumb ov093
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct { u32 kind:4; u32 slot:3; u32 id:16; u32 rest:9; } B;
+typedef struct { u8 *a; B b; u32 key; u8 side, x, y, z; } E;
+extern u8 *func_021BB85C(u8 *, u32);
+extern u8 func_021BB8A8(u8 *, u8);
+extern B func_021BB8B0(u8 *, u32, u32);
+extern int func_021D83E0(B *);
+extern u32 func_021D8454(B *);
+extern u8 func_021B9AB0(u8);
+extern u8 *func_021B9BF0(void *, u8);
+extern u32 func_021CC8D8(void *, int);
+extern void func_021CC95C(void *, u32, int);
+extern void *func_021B86B8(void ***);
+extern int func_021BC8EC(u8 *, u32, u8 *);
+extern u32 func_021BC948(u8 *, u8 *, int);
+extern void func_021BC874(E *, u32);
+extern u32 func_021C6350(u8 *, u8 *);
+static inline u16 actionId(E *a, u32 i)
+{
+    if (a[i].b.kind == 1) return a[i].b.id;
+    return 0;
+}
+u32 func_021BC610(u8 *p, u8 *q, E *out)
+{
+    u8 *mon;
+    u32 lock;
+    u8 i, i0;
+    u32 special, n;
+    u8 j, count;
+    u32 value, speed, rank;
+    u8 *side;
+    u8 monIndex, t;
+    E *e;
+    special = 0;
+    count = 0;
+    for (i0 = 0; i0 < 4; i0++) {
+        side = func_021BB85C(*(u8 **)p, i0);
+        if (!side) continue;
+        n = func_021BB8A8(q, i0);
+        monIndex = 0;
+        for (j = 0; j < n; j++) {
+            e = (E *)((u32)out + count * 16);
+            e->b = func_021BB8B0(q, i0, j);
+            if (func_021D83E0(&e->b)) break;
+            t = (u8)func_021D8454(&e->b);
+            switch(t) {
+            case 6:
+                monIndex = func_021B9AB0((u8)e->b.slot);
+                e->a = func_021B9BF0(*(void **)(side + 4), monIndex);
+                special = 1;
+                break;
+            case 3:
+                e->a = func_021B9BF0(*(void **)(side + 4), (u8)e->b.slot);
+                monIndex++;
+                break;
+            default:
+                e->a = func_021B9BF0(*(void **)(side + 4), monIndex);
+                monIndex++;
+                break;
+            }
+            e->side = i0;
+            e->x = 0;
+            e->y = 0;
+            count++;
+        }
+    }
+    for (i = 0; i < count; i++) {
+        lock = func_021CC8D8(p + 0x1d74, 1600);
+        e = out + i;
+        mon = e->a;
+        switch (e->b.kind) {
+        case 4:
+            if (func_021B86B8(*(void ****)(p + 4)) == 0 && e->side == 1) rank = 0;
+            else rank = 4;
+            break;
+        case 3: rank = 3; break;
+        case 2: rank = 2; break;
+        case 1: rank = 1; break;
+        case 5: rank = 0; break;
+        case 6: rank = 0; break;
+        case 7: rank = 0; break;
+        case 8: e->key = 0x01002000; continue;
+        case 0: default: rank = 0; break;
+        }
+        if (e->b.kind == 1) {
+            speed = func_021BC8EC(p, actionId(out, i), mon);
+        } else if (e->b.kind == 5 || e->b.kind == 7) speed = 7;
+        else speed = 0;
+        value = func_021BC948(p, mon, 1);
+        func_021CC95C(p + 0x1d74, lock, 1656);
+        e->key = 0x2000 | (((rank & 7) << 22) | ((speed & 63) << 16)) | (value & 0x1fff);
+    }
+    func_021BC874(out, count);
+    if (!special) {
+        for (i = 0; i < count; i++) {
+            e = (E *)((u32)out + i * 16);
+            if (e->b.kind == 1 || e->b.kind == 5) {
+                lock = func_021CC8D8(p + 0x1d74, 1674);
+                value = func_021C6350(p, e->a);
+                e->key = (e->key & 0xffff1fff) | ((value & 7) << 13);
+                func_021CC95C(p + 0x1d74, lock, 1677);
+            }
+        }
+        func_021BC874(out, count);
+    }
+    return count;
+}

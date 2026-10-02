@@ -1,0 +1,21 @@
+/*
+ * unit: yes
+ * function: func_021B9E20, func_021B9E3C
+ * address: 0x021B9E20
+ * packet: pkt_ov091_021B9E20
+ * region: ov091
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021BB7A4 0x021BB7A4 thumb ov091
+ *   func_021B7B98 0x021B7B98 thumb ov091
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void func_021BB7A4(u8 *,u32);
+extern void func_021B7B98(u8 *);
+void func_021B9E20(u8 *p) { func_021BB7A4(p,*(u32 *)(p+0x150)); p[12]=2; func_021B7B98(p); }
+void func_021B9E3C(u8 *p) { p[12]=19; }
