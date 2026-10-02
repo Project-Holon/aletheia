@@ -61,7 +61,7 @@ extern void func_0201F344(int a0);
 extern void func_020173D0(u32 heap);
 extern void func_02005B24(void);
 extern void func_02006544(int a0, void *a1, void *a2);
-extern void func_0200530C(void);
+extern void func_0200530C(void *obj);
 extern void func_020082DC(void);
 extern void func_020266E0(int a0);
 extern void func_02010DB4(void);
@@ -93,8 +93,7 @@ void func_0200523C(void)
     func_020173D0(0);
     func_02005B24();
     func_02006544(1, (void *)&func_02006C00, (void *)&func_02006C2C);
-    func_0200873C(func_020070A4());
-    func_0200530C();
+    func_0200530C(func_0200873C(func_020070A4()));
     func_020082DC();
     func_020266E0(1);
     func_02010DB4();

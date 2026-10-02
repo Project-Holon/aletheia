@@ -27,13 +27,13 @@ extern u32  g_02146998;
 extern void func_02075EAC(void *a);
 extern void func_02084F10(void *a);
 extern u32  func_02075DD8(void);
-extern void func_020338B8(void *a0, u32 a1, u32 a2);
+extern void func_020338B8(u16 a, u32 b, void (*cb)(u32));
 
-int func_020337B8(void *a0, u32 *a1, u32 a2)
+int func_020337B8(u16 a0, u32 *a1, u32 a2)
 {
     if (g_020A789C[0] == 1) {
-        func_02075EAC(a0);
-        func_02084F10(a0);
+        func_02075EAC((void *)a0);
+        func_02084F10((void *)a0);
         g_02146998 = 0;
 
         switch (func_02075DD8()) {
@@ -48,11 +48,11 @@ int func_020337B8(void *a0, u32 *a1, u32 a2)
         case 7:
         default:
             *a1 = 0;
-            func_020338B8(a0, 0, a2);
+            func_020338B8(a0, 0, (void (*)(u32))a2);
             break;
         case 6:
             *a1 = 0;
-            func_020338B8(a0, 1, a2);
+            func_020338B8(a0, 1, (void (*)(u32))a2);
             break;
         }
         return 1;

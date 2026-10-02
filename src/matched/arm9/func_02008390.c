@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  */
 
-unsigned int func_02008390(char *a0, int a1, int a2, int a3){ return (unsigned int)(*(unsigned short *)(a0) << 0x1a) >> 0x1e; }
+unsigned int func_02008390(char *a0){ return (unsigned int)(*(unsigned short *)(a0) << 0x1a) >> 0x1e; }

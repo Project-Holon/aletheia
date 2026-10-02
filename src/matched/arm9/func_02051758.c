@@ -11,4 +11,4 @@
  * status:   EXACT
  */
 
-int func_02051758(int a0, int a1, int a2, int a3){ int t0; t0 = func_02048AC4((int)*(int *)(((char *)(a0) + 32))); *(int *)(((char *)(a0) + 32)) = (int)0; return 0; }
+int func_02051758(int a0){ int t0; t0 = func_02048AC4((int)*(int *)(((char *)(a0) + 32))); *(int *)(((char *)(a0) + 32)) = (int)0; return 0; }

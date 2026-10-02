@@ -14,9 +14,11 @@
  *   ENV_InsertResourceSet  0x02086C54  arm
  */
 
-void ENV_InsertResourceSet(void *prev, void *resSet);
+typedef unsigned int u32;
 
-void func_020913BC(void *resSet)
+u32 ENV_InsertResourceSet(void *prev, void *resSet);
+
+u32 func_020913BC(void *resSet)
 {
-    ENV_InsertResourceSet(0, resSet);
+    return ENV_InsertResourceSet(0, resSet);
 }

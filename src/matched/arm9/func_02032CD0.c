@@ -77,9 +77,9 @@ extern u32  func_02033BF0(u8 *tbl);
 extern u16  sub_02032BF8(Save *p, u32 id, u32 v, u32 f);
 extern u32  func_020337B8(u16 id, u32 *out, u32 handle);
 extern u32  func_02033BAC(u8 *tbl, u32 idx);
-extern u16  sub_02032C84(Save *p, u32 v);
-extern u16  sub_020328E0(Save *p, u32 v);
-extern u16  sub_02032930(Save *p, u32 v);
+extern int  sub_02032C84(Save *p, u32 v);
+extern int  sub_020328E0(Save *p, u32 v);
+extern int  sub_02032930(Save *p, u32 v);
 extern void sub_0203335C(Save *p);
 extern void func_020333F8(Save *p);
 

@@ -14,17 +14,14 @@
  *   func_0209A7A8  0x0209A7A8  arm
  */
 
-typedef unsigned int u32;
-typedef unsigned long long u64;
 
-extern u64 func_0209A6E8(u32 a0, u32 a1, u32 *out);
-extern u32 func_0209A7A8(u64 v, u32 t);
+extern double func_0209A6E8(double x, int *eptr);
+extern double func_0209A7A8(double x, int n);
 
-u32 func_02097990(u32 a0, u32 a1, u32 a2)
+double func_02097990(double x, int n)
 {
-    u32 t;
-    u64 v = func_0209A6E8(a0, a1, &t);
-
-    t += a2;
+    int t;
+    double v = func_0209A6E8(x, &t);
+    t += n;
     return func_0209A7A8(v, t);
 }

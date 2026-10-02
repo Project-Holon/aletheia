@@ -41,11 +41,11 @@
 typedef unsigned int u32;
 typedef int           s32;
 
-extern void func_0209C0A4(s32 shifted, s32 c);
+extern s32 func_0209C0A4(s32 shifted, s32 c);
 
-void func_0202290C(s32 a, s32 b, s32 c)
+s32 func_0202290C(s32 a, s32 b, s32 c)
 {
-    func_0209C0A4((b - a) << 7, c);
+    return func_0209C0A4((b - a) << 7, c);
 }
 
 struct Quad {

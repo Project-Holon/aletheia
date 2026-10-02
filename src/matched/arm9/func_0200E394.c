@@ -10,8 +10,8 @@
  * status:   EXACT
  */
 
-extern void func_020071CC(int a, int b);
-void func_0200E394(int a0)
+extern void *func_020071CC(int a, int b);
+void *func_0200E394(int a0)
 {
-    func_020071CC(a0, 0x3f);
+    return func_020071CC(a0, 0x3f);
 }

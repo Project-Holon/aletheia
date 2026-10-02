@@ -38,7 +38,7 @@
  * guards would each need their own `pop`).
  */
 
-extern int func_02062F00(char *self);
+extern int func_02062F00(char *self, unsigned int i);
 extern char *func_02062D40(char *self);
 extern int func_020629E8(int h, int v);
 extern void func_02064140(char *self, int v);
@@ -47,13 +47,13 @@ extern void func_02064120(char *self, int a, int b);
 extern void func_02064100(char *self, int a);
 extern void func_020643CC(char *self, int a, int b);
 
-void func_02064AB4(char *self)
+void func_02064AB4(char *self, unsigned int i)
 {
     char *p;
     int kind;
     int item;
 
-    if (func_02062F00(self) == 0 || *(unsigned short *)(*(int *)(self + 4) + 4) == 0)
+    if (func_02062F00(self, i) == 0 || *(unsigned short *)(*(int *)(self + 4) + 4) == 0)
         return;
     p = func_02062D40(self);
     item = func_020629E8(*(int *)(self + 0x44), *(unsigned short *)p);

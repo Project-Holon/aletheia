@@ -60,12 +60,12 @@ struct BgLayer {
 
 extern struct BgLayer *g_BgConfig;
 
-extern void func_02042360(void *p, u32 a, u32 b, u32 c);
+extern void func_02042360(void *p, u32 a, u32 b);
 extern void func_02040860(u32 layer, u32 a, u32 b, u32 c);
 
 void sub_02040820(u32 layer, u32 a, u32 b, u32 c, u32 d, u32 e)
 {
-    func_02042360((u8 *)g_BgConfig + 8 + layer * sizeof(struct BgLayer), a, b, c);
+    func_02042360((u8 *)g_BgConfig + 8 + layer * sizeof(struct BgLayer), a, b);
     func_02040860(layer, c, d, e);
 }
 

@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * symbols:
  *   g_02146A44     0x02146A44  data
@@ -33,19 +33,19 @@ struct BgLayer {
 
 extern struct BgLayer *g_02146A44;
 
-extern void func_02042360(void *p, u32 a, u32 b, u32 c);
+extern void func_02042360(void *p, u32 a, u32 b);
 extern void func_020423D4(u32 layer);
 extern void func_0203D814(u32 x, u32 y);
 
 #define W(a) (*(volatile u32 *)(a))
 
-void sub_02040618(u32 layer, u32 a, u32 b, u32 c)
+void sub_02040618(u32 layer, u32 a, u32 b)
 {
     u32 mask = 0x1ff;
     u32 hmask = mask << 16;
     u32 x, y;
 
-    func_02042360((u8 *)g_02146A44 + 8 + layer * sizeof(struct BgLayer), a, b, c);
+    func_02042360((u8 *)g_02146A44 + 8 + layer * sizeof(struct BgLayer), a, b);
 
     x = g_02146A44[layer].scrollX;
     y = g_02146A44[layer].scrollY;

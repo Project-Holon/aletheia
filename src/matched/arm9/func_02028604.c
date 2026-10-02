@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  */
 
-int func_02028604(int a0, int a1, int a2, int a3){ int t0 = func_020437AC((int)*(int *)((char *)((a0 + 0)))); int t1 = func_020307B0((int)((a0 + 0) + 0)); return t1; }
+int func_02028604(int a0){ int t0 = func_020437AC((int)*(int *)((char *)((a0 + 0)))); int t1 = func_020307B0((int)((a0 + 0) + 0)); return t1; }

@@ -44,9 +44,9 @@ struct Obj0204D4B4 {
     u8  unk_0c;
 };
 
-extern void *sub_02064AB4(void *p);
+extern void sub_02064AB4(void *p, u32 i);
 
-void *sub_0204D4B4(struct Obj0204D4B4 *o)
+void sub_0204D4B4(struct Obj0204D4B4 *o, u32 i)
 {
-    return sub_02064AB4(&o->unk_0c);
+    sub_02064AB4(&o->unk_0c, i);
 }

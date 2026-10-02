@@ -26,10 +26,10 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 typedef signed short   s16;
 typedef signed char    s8;
-extern u32 func_02047674(u32, u32, u32, u32);
+extern u32 func_02047674(u32);
 
-int func_021BE748(u32 a, u32 b, u32 c, u32 d)
+int func_021BE748(u32 a)
 {
-return ((*(u16 *)((u8 *)(*(u32 *)((u8 *)(func_02047674(*(u32 *)((u8 *)(a) + 12), b, c, d)) + 8)) + 4) << 12) - (1 << 12));
+return ((*(u16 *)((u8 *)(*(u32 *)((u8 *)(func_02047674(*(u32 *)((u8 *)(a) + 12))) + 8)) + 4) << 12) - (1 << 12));
 }
 

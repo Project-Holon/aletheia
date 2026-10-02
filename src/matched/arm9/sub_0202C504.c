@@ -32,9 +32,9 @@
 typedef unsigned int u32;
 
 extern void *sub_0202C510(void *p, u32 idx);
-extern void sub_0202C558(void *w);
+extern u32 sub_0202C558(void *w);
 
-void sub_0202C504(void *p, u32 idx)
+u32 sub_0202C504(void *p, u32 idx)
 {
-    sub_0202C558(sub_0202C510(p, idx));
+    return sub_0202C558(sub_0202C510(p, idx));
 }

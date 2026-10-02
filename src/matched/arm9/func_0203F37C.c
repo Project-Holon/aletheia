@@ -11,5 +11,5 @@
  * status:   EXACT
  */
 
-extern void func_0203F328(void);
-void func_0203F37C(void){ func_0203F328(); }
+extern void func_0203F328(unsigned short *p, unsigned int size, unsigned int seed);
+void func_0203F37C(void *p, unsigned int size, unsigned int seed){ func_0203F328(p, size, seed); }

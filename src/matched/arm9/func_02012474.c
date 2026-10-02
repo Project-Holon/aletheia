@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/func_02012474.c \
@@ -17,7 +17,7 @@
 typedef unsigned int u32;
 
 extern void sub_020124E4(void *p);
-extern void *func_02012374(void *evt, void **out);
+extern void func_02012374(void *evt, void **out);
 extern void func_02034A5C(void *p);
 
 int func_02012474(void *a0, u32 *a1, u32 *a2)

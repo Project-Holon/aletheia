@@ -25,11 +25,11 @@ struct Obj;
 
 extern u32 func_0201295C(u32 v);
 extern u32 func_0202B810(void);
-extern void func_02006E7C(u32 a, u32 b);
+extern u8 func_02006E7C(u32 a, u32 b);
 
-void func_0202B818(struct Obj *o)
+u8 func_0202B818(struct Obj *o)
 {
     u32 r = func_0201295C(*(u32 *)((u8 *)o + 0x4));
 
-    func_02006E7C(r, (u16)func_0202B810());
+    return func_02006E7C(r, (u16)func_0202B810());
 }

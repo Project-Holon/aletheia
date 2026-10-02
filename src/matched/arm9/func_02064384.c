@@ -28,12 +28,12 @@ typedef signed int     s32;
 
 struct CellAnim;
 
-extern s32  func_02062F00(struct CellAnim *anim);
+extern s32  func_02062F00(struct CellAnim *anim, u32 i);
 extern void func_0206419C(struct CellAnim *anim);
 
-void func_02064384(struct CellAnim *anim)
+void func_02064384(struct CellAnim *anim, u32 i)
 {
-    if (func_02062F00(anim) != 0) {
+    if (func_02062F00(anim, i) != 0) {
         func_0206419C(anim);
     }
 }

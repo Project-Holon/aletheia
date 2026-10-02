@@ -17,12 +17,12 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int  func_0202A20C(void *a, u32 b, u32 c, u16 d);
+extern u32  func_0202A20C(u8 *p, u32 key, u32 v2, u32 v3);
 extern void *func_0202A21C(void *a, u16 b);
 
 int func_0202A19C(u32 a, u32 *p, u32 c, u32 d, u16 e)
 {
-    int i = func_0202A20C(p, c, d, e);
+    int i = func_0202A20C((u8 *)p, c, d, e);
     u8 *r = func_0202A21C(p, *(u16 *)((u8 *)*p + i * 8 + 6));
 
     if (*(u8 *)((u8 *)r + 7) == 2) {

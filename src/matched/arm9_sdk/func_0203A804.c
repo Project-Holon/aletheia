@@ -13,9 +13,9 @@
  *   func_0203A748   0x0203A748  arm
  */
 
-extern int func_0203A748(void);
+extern int func_0203A748(unsigned int idx);
 
-int func_0203A804(void)
+int func_0203A804(unsigned int idx)
 {
-    return func_0203A748() != 0;
+    return func_0203A748(idx) != 0;
 }

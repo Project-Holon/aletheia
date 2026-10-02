@@ -13,9 +13,9 @@
  *   func_0203A70C   0x0203A70C  arm
  */
 
-extern int func_0203A70C(void);
+extern int func_0203A70C(unsigned int idx);
 
-int func_0203A7EC(void)
+int func_0203A7EC(unsigned int idx)
 {
-    return func_0203A70C() != 0;
+    return func_0203A70C(idx) != 0;
 }

@@ -48,7 +48,7 @@ extern void  func_02045F5C(void *h, u32 a, void *dest, u32 size);
 extern void  func_02045C04(void *h);
 extern void  func_020307B0(void *p);
 
-extern void  func_0200B900(void *a, u32 b, u32 c, u32 d);
+extern void  func_0200B900(void *a, u32 b, u32 c);
 extern void *func_020271CC(void *a, u32 id);
 extern void  func_02017550(void *ent);
 extern void *func_0201A920(u32 a);

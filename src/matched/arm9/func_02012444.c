@@ -28,7 +28,7 @@ struct Desc;
 
 extern struct Desc *sub_020122C0(void *owner, void *a, void *b, u32 size);
 extern u32 *sub_020124E8(struct Desc *d);
-extern void *func_02012374(void *evt, void **out);
+extern void func_02012374(void *evt, void **out);
 extern void func_0201240C(void);
 
 struct Obj {
@@ -36,7 +36,7 @@ struct Obj {
     void *unk_10;
 };
 
-void *func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3)
+void func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3)
 {
     struct Desc *d;
     u32 *p;
@@ -46,5 +46,5 @@ void *func_02012444(struct Obj *obj, u32 a1, u32 a2, u32 a3)
     p[0] = a1;
     p[1] = a2;
     p[2] = a3;
-    return func_02012374(obj, (void **)d);
+    func_02012374(obj, (void **)d);
 }

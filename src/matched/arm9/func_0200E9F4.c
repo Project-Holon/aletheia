@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Unlabelled leaf accessor matched to give overlay call sites a `matched`
  * witness.  Addresses are Black-image addresses.
@@ -16,9 +16,9 @@
  *   func_0200E9F4  0x0200E9F4  thumb
  */
 
-extern void func_020071CC(void *p, int n);
+extern void *func_020071CC(void *p, int n);
 
-void func_0200E9F4(void *p)
+void *func_0200E9F4(void *p)
 {
-    func_020071CC(p, 0x3c);
+    return func_020071CC(p, 0x3c);
 }

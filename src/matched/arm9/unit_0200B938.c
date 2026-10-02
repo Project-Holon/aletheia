@@ -52,7 +52,7 @@ extern void  func_02045F5C(void *h, u32 a, void *dest, u32 size);
 extern void  func_02045C04(void *h);
 extern void  func_020307B0(void *p);
 
-extern void  func_0200B900(void *a, u32 b, u32 c, u32 d);
+extern void  func_0200B900(void *a, u32 b, u32 c);
 extern void *func_020271CC(void *a, u32 id);
 extern void  func_02017550(void *ent);
 extern void *func_0201A920(u32 a);
@@ -115,6 +115,6 @@ void func_0200B938(const void *a, const void *b, const void *c)
     MI_CpuCopy8(c, &gObj_0214616C->unkC4, sizeof(gObj_0214616C->unkC4));
     MI_CpuCopy8(a, gObj_0214616C->unk00, sizeof(gObj_0214616C->unk00));
     v = gObj_0214616C->unkC4.unk17DC;
-    func_0200B900(&gObj_0214616C->unkC4, 0x17DC, v + ((v ^ 0xFFFF) << 16), v);
+    func_0200B900(&gObj_0214616C->unkC4, 0x17DC, v + ((v ^ 0xFFFF) << 16));
 }
 

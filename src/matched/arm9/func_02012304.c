@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Virtual call: the target is the object's own word at +4, the first argument is
  * the object, the second is the object + 8, the third is the object's word at
@@ -21,7 +21,7 @@
 
 typedef unsigned int u32;
 
-typedef void (*Fn02012304)(void *self, void *arg, u32 n);
+typedef int (*Fn02012304)(void *self, void *arg, u32 n);
 
 struct S02012304 {
     unsigned char pad[4];
@@ -30,7 +30,7 @@ struct S02012304 {
     u32 f0c;
 };
 
-void func_02012304(struct S02012304 *o)
+int func_02012304(struct S02012304 *o)
 {
-    o->f04(o, (unsigned char *)o + 8, o->f0c);
+    return o->f04(o, (unsigned char *)o + 8, o->f0c);
 }
