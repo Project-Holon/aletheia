@@ -43,8 +43,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern u8 *func_02030734(u32 heap, u32 size, u32 align, const u8 *file,
-                         u32 line);
+extern void *func_02030734(u32 heap, u32 size, int align, const char *file,
+                         u16 line);
 extern void func_02082A7C(u32 a, void *p, u32 n);
 extern void func_020819B8(void *p, u32 n);
 extern int func_02033534(u32 a);
@@ -53,7 +53,7 @@ extern u8 *g_02146994;
 
 void func_020316C8(u32 a0, u32 a1, u32 a2)
 {
-    u8 *p = func_02030734((u16)a0, 0x210, 0, str_020A7848, 0xdf);
+    u8 *p = func_02030734((u16)a0, 0x210, 0, (const char *)str_020A7848, 0xdf);
 
     g_02146994 = p;
     func_02082A7C(0, p, 0x210);

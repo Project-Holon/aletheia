@@ -31,7 +31,7 @@
  */
 
 extern int   func_02012EBC(int a0);
-extern void *func_02030734(int a0, int a1, int a2, int a3, int a4);
+extern void *func_02030734(unsigned int a0, unsigned int a1, int a2, const char *a3, unsigned short a4);
 extern int   func_0200873C(int a0);
 extern int   func_02012944(int a0);
 extern int   func_02012924(int a0);
@@ -47,7 +47,7 @@ extern char data_020A77C4[];
 void *func_0202E474(int a0, int a1, int a2, int a3)
 {
     int   v = func_02012EBC(a0);
-    char *p = func_02030734(a3, 0x3c, 1, (int)data_020A77C4, 0x37);
+    char *p = func_02030734(a3, 0x3c, 1, data_020A77C4, 0x37);
 
     *(int *)p = a0;
     *(int *)(p + 4) = func_0200873C(v);

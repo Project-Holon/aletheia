@@ -84,7 +84,7 @@ struct ModeEntry {
 extern const struct ModeEntry gModeTable[];
 extern u8   g_020A7494[];
 
-extern void *func_02030734(u32 heap, u32 size, u32 clear, const u8 *file, u32 line);
+extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
 struct Actor;
 struct Bmp;
 struct Obj;
@@ -120,7 +120,7 @@ struct Grid *func_020255A0(struct Sys *sys, const struct Param *param)
         q[3] = 0;
     }
 
-    g = func_02030734(sys->f4, 0xcc, 1, g_020A7494, 0xa3);
+    g = func_02030734(sys->f4, 0xcc, 1, (const char *)g_020A7494, 0xa3);
     g->bmp = param->bmp;
     cols = (u8)(func_020437DC(g->bmp) >> 5);
     rows = (u8)(func_020437E4(param->bmp) >> 4);

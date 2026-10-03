@@ -78,7 +78,7 @@ struct Task {
     u16   f24;    /* 0x24 */
 };
 
-extern void *func_02030734(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
+extern void *func_02030734(u32 a0, u32 a1, int a2, const char *a3, u16 a4);
 extern void  func_02082BCC(void *p, u32 v, u32 n);
 typedef unsigned char  u8;
 extern void func_020222CC(u32 which, int brightness);
@@ -92,7 +92,7 @@ void func_020229A4(struct Task *t, u32 dir)
     s32         a;
     s32         b;
 
-    t->obj = (struct Obj *)func_02030734((u16)t->f20, 0x24, 0, 0x020A7450,
+    t->obj = (struct Obj *)func_02030734((u16)t->f20, 0x24, 0, (const char *)0x020A7450,
                                          0x09AC);
     func_02082BCC(t->obj, 0, 0x24);
     o = t->obj;

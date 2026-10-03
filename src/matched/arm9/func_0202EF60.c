@@ -26,14 +26,14 @@ struct Obj {
     u8  pad[0xa];
 };
 
-extern void *func_02030734(void *heap, u32 size, u32 flags, const void *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct Bmp;
 extern struct Bmp *func_0204384C(u32 arc, u32 member, u32 heap2, u32 heap);
 extern const char g_020A7814[];
 
 struct Obj *func_0202EF60(u32 heap)
 {
-    struct Obj *obj = func_02030734((void *)heap, 0x1c, 0, g_020A7814, 0xa6);
+    struct Obj *obj = func_02030734(heap, 0x1c, 0, g_020A7814, 0xa6);
 
     obj->unk10 = (u16)heap;
     obj->unk0C = (u32)func_0204384C(0xc6, 0, 1, obj->unk10);

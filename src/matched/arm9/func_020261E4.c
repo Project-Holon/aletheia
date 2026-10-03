@@ -29,7 +29,8 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void *func_02030734(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
+typedef unsigned short u16;
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern u32   func_02012944(u32 a0);
 extern u32   func_020457B0(u32 a0, u32 a1);
 extern void  func_02008500(u32 a0, u32 a1);
@@ -43,7 +44,7 @@ void *func_020261E4(u32 a0, u32 a1)
     u8 *e;
     u8 *q;
 
-    p = func_02030734(a0, 0x88, 1, (u32)g_020A74B0, 0xe0);
+    p = func_02030734(a0, 0x88, 1, (const char *)g_020A74B0, 0xe0);
     *(u32 *)p = a1;
     q = (u8 *)func_02012944(a1);
     base = p + 0x3c;

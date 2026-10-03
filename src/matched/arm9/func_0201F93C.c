@@ -25,13 +25,15 @@
  *
  * The residue in docs/notes/func_0201F93C.c.txt (the stack-passed u16 heap
  * cached once in a callee-saved register instead of reloaded, 92 bytes out)
- * was a declaration fact: the allocator's heap parameter is a signed `int`.
- * With `u32` the u16 value is zero-extended once and CSE'd into all four
- * uses; with `int` the conversion at the allocator site is a distinct value,
+ * depended on the conversion at the allocation call: the allocator's heap
+ * parameter is `u32`, and the explicit `(u32)(int)heap` keeps that site's
+ * signed conversion distinct from the other uses. Without it, the u16 value
+ * is zero-extended once and CSE'd into all four uses. With the conversion,
  * the first `ldrh` feeds r0 directly, the header pointer's register is
  * reused for the second load, and the frame shrinks to the original's
  * push {r3-r7,lr} / sub sp,#8.  Found by tools/permuter.py hill (a
- * `(int)heap` cast at that one site), then written as the prototype.
+ * `(int)heap` cast at that one site), then retained explicitly at the call
+ * while preserving the allocator's unsigned-word parameter.
  *
  * Addresses are Black-image addresses.
  *
@@ -68,7 +70,7 @@ typedef struct {
 } BmpMenu;
 
 extern char sBmpMenuFile[];
-extern void *func_02030734(int heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_02020D18(u32 heap);
 extern void  func_02020DC8(void *cursor, u32 heap);
 extern u8    func_0201FC1C(BmpMenu *m);
@@ -77,7 +79,7 @@ extern void  func_0201FD18(BmpMenu *m);
 
 BmpMenu *func_0201F93C(const BmpMenuHeader *hdr, u8 px, u8 py, u8 pos, u16 heap, u32 cancel)
 {
-    BmpMenu *m = func_02030734(heap, sizeof(BmpMenu), 1, sBmpMenuFile, 0x61);
+    BmpMenu *m = func_02030734((u32)(int)heap, sizeof(BmpMenu), 1, sBmpMenuFile, 0x61);
 
     m->hdr = *hdr;
     m->cursor = func_02020D18(heap);

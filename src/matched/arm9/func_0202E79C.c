@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
  *   func_020084A0  0x020084A0  thumb
@@ -16,7 +16,8 @@ typedef unsigned int u32;
 typedef unsigned char u8;
 
 extern void func_02082BCC(void *p, u32 v, u32 n);
-extern void func_020084A0(void *p);
+struct Sub0200852CObj;
+extern void func_020084A0(struct Sub0200852CObj *p);
 
 void func_0202E79C(u8 *p)
 {
@@ -24,6 +25,6 @@ void func_0202E79C(u8 *p)
     *(u32 *)(p + 0) = 0;
     *(u32 *)(p + 4) = 0;
     *(u32 *)(p + 8) = 0;
-    func_020084A0(p + 0xc);
-    func_020084A0(p + 0x2c);
+    func_020084A0((struct Sub0200852CObj *)(p + 0xc));
+    func_020084A0((struct Sub0200852CObj *)(p + 0x2c));
 }

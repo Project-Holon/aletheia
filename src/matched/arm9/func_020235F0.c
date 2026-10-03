@@ -24,7 +24,7 @@
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_02030734(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
+extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void  func_0202368C(void *a0, u32 a1, u32 a2, u32 a3, u32 a4,
                            u32 a5, u32 a6, u32 a7);
 
@@ -42,7 +42,7 @@ struct S {
 
 void func_020235F0(struct S *p, u32 a1)
 {
-    p->f14 = func_02030734((u16)p->f20, 0x38, 0, 0x020A7450, 0x0D63);
+    p->f14 = func_02030734((u16)p->f20, 0x38, 0, (const char *)0x020A7450, 0x0D63);
     func_0202368C(p->f14, a1, p->f04, p->f08, p->f10, p->f18, p->f1C, p->f20);
     p->f0C = p->f0C + 1;
 }

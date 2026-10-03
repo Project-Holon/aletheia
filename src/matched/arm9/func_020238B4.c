@@ -46,14 +46,14 @@ struct Task {
     u32   f20;    /* 0x20 */
 };
 
-extern void *func_02030734(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void  func_02082BCC(void *p, u32 v, u32 n);
 extern void  func_02023964(void *obj, u32 a1, u32 a2, u32 a3, u32 a4,
                            u32 a5, u32 a6, u32 a7);
 
 void func_020238B4(struct Task *t, u32 a1)
 {
-    t->obj = func_02030734((u16)t->f20, 0x334, 0, 0x020A7450, 0x1354);
+    t->obj = func_02030734((u16)t->f20, 0x334, 0, (const char *)0x020A7450, 0x1354);
     func_02082BCC(t->obj, 0, 0x334);
     func_02023964(t->obj, a1, t->f04, t->f08, t->f10, t->f18, t->f1c,
                   t->f20);

@@ -75,7 +75,7 @@ struct Obj {
     u16 f18[2];      /* +0x18 */
 };
 
-extern void *func_02030734(u32 heap, u32 sz, u32 c, void *file, u32 line);
+extern void *func_02030734(u32 heap, u32 sz, int c, const char *file, u16 line);
 struct Sub020071CCCtrl;
 extern void *func_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 extern void *func_02024988(void *sys);
@@ -92,7 +92,7 @@ struct Obj *func_02024044(u32 kind, u32 a1, void *src, u32 flag,
     struct Obj *o;
     s32 i;
 
-    o = (struct Obj *)func_02030734((u16)hh, 0x20, 1, file_020A745C, 0x56);
+    o = (struct Obj *)func_02030734((u16)hh, 0x20, 1, (const char *)file_020A745C, 0x56);
     o->kind = (u8)kind;
     o->f08 = func_020071CC(sys, 0x37);
     o->f0c = func_02024988(sys);

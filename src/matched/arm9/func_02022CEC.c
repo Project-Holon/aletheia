@@ -27,7 +27,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern void *func_02030734(u32 a0, u32 a1, u32 a2, u32 a3, u32 a4);
+extern void *func_02030734(u32 a0, u32 a1, int a2, const char *a3, u16 a4);
 
 void func_02022CEC(u32 *a0, u32 a1, u32 a2, u32 a3)
 {
@@ -37,14 +37,14 @@ void func_02022CEC(u32 *a0, u32 a1, u32 a2, u32 a3)
     switch (a1) {
     case 0:
     case 1:
-        p = func_02030734((u16)a3, 0x604, 0, 0x020A7450, 0xA9B);
+        p = func_02030734((u16)a3, 0x604, 0, (const char *)0x020A7450, 0xA9B);
         a0[1] = 1;
         a0[0] = (u32)p;
         a0[2] = a2;
         *(u32 *)(p + 0x600) = a1;
         break;
     case 2:
-        p = func_02030734((u16)a3, 0xC08, 0, 0x020A7450, 0xAA3);
+        p = func_02030734((u16)a3, 0xC08, 0, (const char *)0x020A7450, 0xAA3);
         a0[0] = (u32)p;
         a0[1] = 2;
         a0[2] = a2;

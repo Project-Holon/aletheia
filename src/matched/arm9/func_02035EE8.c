@@ -24,12 +24,12 @@ typedef struct {
 } T;
 
 extern u8 g_020A799C[];
-extern void *func_02030734(u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void func_02082BCC(void *dst, u32 val, u32 size);
 
 T *func_02035EE8(u32 a)
 {
-    T *p = (T *)func_02030734(a, 0x4c, 0, (u32)g_020A799C, 0x44);
+    T *p = (T *)func_02030734(a, 0x4c, 0, (const char *)g_020A799C, 0x44);
 
     func_02082BCC(p, 0, 0x4c);
     p->f40 = 8;
