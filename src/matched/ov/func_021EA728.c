@@ -14,11 +14,11 @@
  * Sibling of func_021EA1C0 with (0x1c, 0) and the 0x228F buffer.
  */
 
-extern int func_02030734(int, int, int, int, int);
+extern void *func_02030734(unsigned int heap, unsigned int size, int clear, const char *site, unsigned short tag);
 
 
 void func_021EA728(void *p)
 {
-    int v = func_02030734(0x4c, 0x1c, 0, 0x021F140C, 0x228F);
+    int v = (int)func_02030734(0x4c, 0x1c, 0, (const char *)0x021F140C, 0x228F);
     *(int *)(*(int *)((char *)p + 0x2c) + 0x60) = v;
 }

@@ -14,13 +14,13 @@
  *   d_021C8D98     0x021C8D98  data  ov208  a4
  */
 
-extern void *func_02030734(int, int, int, void *, int);
+extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
 extern int d_021C8D98;
 
 void func_021BC35C(int a, int b, int c, int d, int e, int f, int g, int h,
                    unsigned short i, int j)
 {
-    int *p = (int *)func_02030734(a, 0x24, 1, &d_021C8D98, 0x60);
+    int *p = (int *)func_02030734(a, 0x24, 1, (const char *)&d_021C8D98, 0x60);
 
     p[0] = b;
     p[1] = c;

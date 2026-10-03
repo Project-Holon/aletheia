@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_021D4954   0x021D4954  thumb ov093
@@ -30,12 +30,12 @@ typedef signed int s32;
 
 extern u8 *func_021F3B88;
 
-u32 func_02030734(int v, int c, int one, int ptr, int n);
+void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 
 u32 func_021D4954(void *a, int b, int c)
 {
     u32 v = (u16)(0x8000 | (*(u16 *)(func_021F3B88 + 4) & 0x7fff));
-    u32 r = func_02030734(v, c, 1, 0x021f3a98, 0x31e);
+    u32 r = (u32)func_02030734(v, c, 1, (const char *)0x021f3a98, 0x31e);
 
     *(u32 *)(func_021F3B88 + 0x3b14) = r;
     return *(u32 *)(func_021F3B88 + 0x3b14);

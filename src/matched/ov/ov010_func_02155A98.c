@@ -95,7 +95,7 @@ extern void *func_02012138(void *p);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
 extern void *func_02012934(const struct BigObj *p);
 extern void *func_0201AB28(void *list, u32 i);
-extern u32 func_02017E1C(void *p, u32 id, void *v);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_0216576C(void *p);
 extern void func_02045808(struct U16Vec *vec);
 extern void *func_02012F44(void *h);
@@ -132,7 +132,7 @@ void *func_02155A98(void *a, void *b, u32 c, u32 d, struct Link *link)
     s->f38 = 0;
     tmp = func_020457B0(11, 4);
     s->f18 = func_0201AB28(func_02012934(s->f04), c);
-    func_02017E1C(s->f18, 0x73, tmp);
+    func_02017E1C(s->f18, 0x73, (u32)tmp);
     func_0216576C(tmp);
     func_02045808(tmp);
     s->f2c = 0;

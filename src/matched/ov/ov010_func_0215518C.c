@@ -48,7 +48,7 @@ struct PartyMon;
 struct Rec534;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012934(const struct BigObj *p);
-extern int func_0201AA18(void *list);
+extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
@@ -68,7 +68,7 @@ void func_0215518C(int mode, struct Ctx *ctx)
     t = func_0200BAC8(ctx->f4c);
     if (mode == 0) {
         list = func_02012934(func_020120F4(ctx->f00));
-        for (i = 0; i < func_0201AA18(list); i++) {
+        for (i = 0; i < (int)func_0201AA18(list); i++) {
             e = func_0201AB28(list, i);
             if (func_02017E1C(e, 0x4c, 0) == 0)
                 func_0201A98C(ctx->f38, e);

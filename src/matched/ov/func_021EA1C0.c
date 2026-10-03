@@ -15,11 +15,11 @@
  * the handle at sub-object +0x60.
  */
 
-extern int func_02030734(int, int, int, int, int);
+extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
 
 
 void func_021EA1C0(void *p)
 {
-    int v = func_02030734(0x4c, 0xb8, 1, 0x021F140C, 0x2130);
+    int v = (int)func_02030734(0x4c, 0xb8, 1, (const char *)0x021F140C, 0x2130);
     *(int *)(*(int *)((char *)p + 0x2c) + 0x60) = v;
 }

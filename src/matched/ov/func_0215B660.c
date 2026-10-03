@@ -23,7 +23,7 @@ typedef unsigned int u32;
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_02159B10();
 extern int func_0215B4AC();
-extern int func_02017E1C();
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 
 int func_0215B660(int a0, int a1, int a2)
 {
@@ -51,14 +51,14 @@ loc_0215B688:
     a0 = *(int *)(fr + 0);
 a1 = 0xa0;
 a2 = t6 + 0;
-    a0 = func_02017E1C(a0, a1, a2);
+    a0 = (int)func_02017E1C((void *)a0, a1, a2);
 loc_0215B692:
 a0 = a0 << 0x10;
 t5 = (unsigned)a0 >> 0x10;
     a0 = *(int *)(fr + 0);
 a1 = 0xa1;
 a2 = t6 + 0;
-    a0 = func_02017E1C(a0, a1, a2);
+    a0 = (int)func_02017E1C((void *)a0, a1, a2);
 loc_0215B6A0:
 a0 = a0 << 0x10;
 a0 = (unsigned)a0 >> 0x10;
@@ -67,7 +67,7 @@ loc_0215B6A8:
     a0 = *(int *)(fr + 0);
 a1 = 0x4c;
 a2 = t6 + 0;
-    a0 = func_02017E1C(a0, a1, a2);
+    a0 = (int)func_02017E1C((void *)a0, a1, a2);
 loc_0215B6B2:
     if (a0 != 1) goto loc_0215B6BA;
 loc_0215B6B6:

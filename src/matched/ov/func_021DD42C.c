@@ -16,12 +16,12 @@
  */
 
 
-extern int func_0201AA18(int);
+extern unsigned int func_0201AA18(void *);
 extern void func_0201AB8C(int, int, int, int);
 void func_021DD42C(int *p, unsigned char *a)
 {
     unsigned i = *(unsigned short *)(a + 4) - 0x1e;
-    while (i < func_0201AA18(*(int *)(*p + 8)) - 1) {
+    while (i < func_0201AA18(*(void **)(*p + 8)) - 1) {
         func_0201AB8C(*(int *)(*p + 8), i, i + 1, 0x4c);
         i++;
     }
