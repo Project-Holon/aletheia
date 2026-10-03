@@ -57,7 +57,7 @@ extern void func_021D96C4(u8 *p);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02082BCC(void *,int,int);
 extern int func_0200A350(void *);
-extern void func_020312CC(int,const void *,void *);
+extern void func_020312CC(u32,u32,u32);
 extern u8 *func_021D9624(int arg, u16 heap);
 extern void func_021D6924(void *,int);
 extern void *func_021D9744(void *);
@@ -113,7 +113,7 @@ void func_021D7EAC(void *task,u32 *state,u8 *p)
         *(u32 *)(*(u8 **)(p+960)+12)=9;
         if(!func_0200A350(*(void **)(p+956))) *(u32 *)(*(u8 **)(p+960)+20)=2;
         else *(u32 *)(*(u8 **)(p+960)+20)=0;
-        func_020312CC((int)ov115_id,d_021D6338,*(void **)(p+960));
+        func_020312CC((u32)ov115_id,(u32)d_021D6338,(u32)*(void **)(p+960));
         *state=5; return;
     case 5:
         *(void **)(p+916)=func_021D9624(1,29);

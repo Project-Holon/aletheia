@@ -70,7 +70,7 @@ extern u8 d_021D6338[];
 extern u8 d_021DA9A8[];
 extern u8 d_021D654C[];
 
-extern void func_020312CC(void *ovl, void *proc, void *arg);
+extern void func_020312CC(u32 ovl, u32 proc, u32 arg);
 extern void func_0200F7B8(u32 a);
 extern int  func_0203CD98(void);
 
@@ -83,7 +83,7 @@ int func_02010AC4(u32 a0, u32 a1, u32 a2, u8 *ctx)
         *(u32 *)(ctx + 0x08) = 1;
         *(u32 *)(ctx + 0x0c) = 0x32;
         *(u8 **)(ctx + 0x10) = ctx + 0x5c;
-        func_020312CC(ov115_id, d_021D6338, ctx);
+        func_020312CC((u32)ov115_id, (u32)d_021D6338, (u32)ctx);
         *(u32 *)(ctx + 0x1d4) += 1;
         break;
     case 1:
@@ -94,7 +94,7 @@ int func_02010AC4(u32 a0, u32 a1, u32 a2, u8 *ctx)
         *(u32 *)(ctx + 0x48) = *(u32 *)(ctx + 0x44);
         *(u16 *)(ctx + 0x50) = *(u16 *)(ctx + 0x1d0);
         *(u8 **)(ctx + 0x4c) = ctx + 0x5c;
-        func_020312CC(ov123_id, d_021DA9A8, ctx + 0x48);
+        func_020312CC((u32)ov123_id, (u32)d_021DA9A8, (u32)(ctx + 0x48));
         *(u32 *)(ctx + 0x1d4) += 1;
         break;
     case 2:
@@ -114,7 +114,7 @@ int func_02010AC4(u32 a0, u32 a1, u32 a2, u8 *ctx)
         *(u32 *)(ctx + 0x28) = *(u32 *)(ctx + 0x44);
         *(u32 *)(ctx + 0x2c) = 0;
         *(u32 *)(ctx + 0x30) = 1;
-        func_020312CC(ov115_id, d_021D654C, ctx + 0x28);
+        func_020312CC((u32)ov115_id, (u32)d_021D654C, (u32)(ctx + 0x28));
         *(u32 *)(ctx + 0x1d4) += 1;
         break;
     default:

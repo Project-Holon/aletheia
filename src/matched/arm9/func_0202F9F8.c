@@ -63,13 +63,13 @@ extern u8 d_021BD574[];
 extern struct State g_02146948;
 extern u8 g_02146948_arg[];
 
-extern void func_020312CC(void *ovl, void *proc, void *arg);
+extern void func_020312CC(u32 ovl, u32 proc, u32 arg);
 
 int func_0202F9F8(void *unused, u32 *state)
 {
     switch (*state) {
     case 0:
-        func_020312CC(ov088_id, d_021BD8E8, &g_02146948.f04);
+        func_020312CC((u32)ov088_id, (u32)d_021BD8E8, (u32)&g_02146948.f04);
         *state = 1;
         break;
     case 1:
@@ -77,14 +77,14 @@ int func_0202F9F8(void *unused, u32 *state)
         g_02146948.f00 = 0;
         g_02146948.f02 = 1;
         g_02146948.f03 = 0;
-        func_020312CC(ov179_id, d_021B68D8, g_02146948_arg);
+        func_020312CC((u32)ov179_id, (u32)d_021B68D8, (u32)g_02146948_arg);
         *state = 2;
         break;
     case 2:
         if (g_02146948.f03 == 0) {
             g_02146948.f00 = 1;
             g_02146948.f03 = 0;
-            func_020312CC(ov179_id, d_021B68D8, g_02146948_arg);
+            func_020312CC((u32)ov179_id, (u32)d_021B68D8, (u32)g_02146948_arg);
             *state = 3;
             break;
         }
@@ -93,11 +93,11 @@ int func_0202F9F8(void *unused, u32 *state)
     case 3:
         g_02146948.f00 = 2;
         g_02146948.f03 = 0;
-        func_020312CC(ov179_id, d_021B68D8, g_02146948_arg);
+        func_020312CC((u32)ov179_id, (u32)d_021B68D8, (u32)g_02146948_arg);
         *state = 4;
         break;
     case 4:
-        func_020312CC(ov088_id, d_021BD574, 0);
+        func_020312CC((u32)ov088_id, (u32)d_021BD574, 0);
         *state = 0;
         break;
     }

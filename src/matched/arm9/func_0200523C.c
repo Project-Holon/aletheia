@@ -51,7 +51,7 @@ extern void func_0201C41C(void *arg);
 extern void func_0203CB34(u32 a, u32 b, u32 c, u32 d);
 extern void func_02010794(u32 a0);
 extern void func_020107CC(void);
-extern void func_020312CC(int a0, void *a1, int a2);
+extern void func_020312CC(u32 a0, u32 a1, u32 a2);
 extern struct SaveCtrl *func_02006F20(int heap);
 extern struct Sub02007084Ctrl *func_020070A4(void);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
@@ -85,7 +85,7 @@ void func_0200523C(void)
     func_0203CB34(1, 0, 1, v);
     func_02010794(v);
     func_020107CC();
-    func_020312CC(v - 0xD, (void *)0x020A0480, 0);
+    func_020312CC(v - 0xD, (u32)(void *)0x020A0480, 0);
     func_02006F20(7);
     func_02008414(func_0200873C(func_020070A4()));
     func_02012FF0(func_020070A4());
