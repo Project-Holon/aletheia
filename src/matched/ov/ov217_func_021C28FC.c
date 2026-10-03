@@ -24,9 +24,9 @@ typedef signed char    s8;
 typedef signed short   s16;
 typedef signed int     s32;
 
-extern u32 func_02030734();
+extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 u32 func_021C28FC(u32 a0)
 {
-    return func_02030734(a0, 52, 0, 0x21C407C, 420);
+    return (u32)func_02030734(a0, 52, 0, (const char *)0x21C407C, 420);
 }
 

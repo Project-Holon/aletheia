@@ -19,7 +19,7 @@
  */
 
 extern const int d_021C4050[];
-extern int func_02030734(int heap, int a, int b, const int *tab, int c);
+extern void *func_02030734(unsigned int heap, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void func_021C0E6C(int h);
 typedef unsigned int   u32;
 extern void func_021C0E78(u32 a0, u32 a1, u32 a2);
@@ -27,7 +27,7 @@ extern void func_021C0E78(u32 a0, u32 a1, u32 a2);
 int func_021C0E08(int a0, int a1)
 {
     int h;
-    h = func_02030734(a1, 0x10, 0, d_021C4050, 0x3C);
+    h = (int)func_02030734(a1, 0x10, 0, (const char *)d_021C4050, 0x3C);
     func_021C0E6C(h);
     func_021C0E78(h, a0, a1);
     return h;
