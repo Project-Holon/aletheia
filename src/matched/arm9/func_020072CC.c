@@ -82,5 +82,5 @@ u32 func_020072CC(struct Ctrl *ctrl, u32 id, u8 heap, void *buf, u32 size)
     if (func_02008784(ctrl, id) == 0) {
         return 0;
     }
-    func_02031DC0(ctrl->unk14[id], heap, *func_020087D4(ctrl, id));
+    return (u32)func_02031DC0(ctrl->unk14[id], heap, *func_020087D4(ctrl, id));
 }

@@ -19,11 +19,12 @@
  */
 
 typedef unsigned char u8;
+typedef unsigned short u16;
 typedef unsigned int  u32;
 
-extern void *func_02030734(u32 a, u32 b, u32 c, u32 d, u32 e);
+extern void *func_02030734(u32 a, u32 b, int clear, const char *site, u16 tag);
 
-void *func_0203D7C8(u32 a, u32 size, u32 c, u32 d)
+void *func_0203D7C8(u32 a, u32 size, const char *c, u16 d)
 {
     u8 *p = (u8 *)func_02030734(a, ((size + 0x24) & ~0x1fu) + 0x20, 1, c, d);
     u8 *q = (u8 *)(((u32)p + 0x20) & ~0x1fu);

@@ -11,4 +11,24 @@
  * status:   EXACT
  */
 
-void func_020116C0(int p0){ *(unsigned short *)(p0) = (unsigned short)0; *(int *)((p0 + 4)) = (int)0; *(int *)((p0 + 8)) = (int)0; *(int *)((p0 + 12)) = (int)0; *(int *)((p0 + 16)) = (int)0; *(int *)((p0 + 20)) = (int)0; *(int *)((p0 + 24)) = (int)0; *(int *)((p0 + 28)) = (int)0; *(int *)((p0 + 32)) = (int)0; *(int *)((p0 + 36)) = (int)0; *(int *)((p0 + 40)) = (int)0; *(int *)((p0 + 44)) = (int)0; *(int *)((p0 + 48)) = (int)0; *(int *)((p0 + 52)) = (int)0; }
+struct IcaAnime;
+
+void func_020116C0(struct IcaAnime *p)
+{
+    unsigned char *p0 = (unsigned char *)p;
+
+    *(unsigned short *)(p0) = (unsigned short)0;
+    *(int *)((p0 + 4)) = (int)0;
+    *(int *)((p0 + 8)) = (int)0;
+    *(int *)((p0 + 12)) = (int)0;
+    *(int *)((p0 + 16)) = (int)0;
+    *(int *)((p0 + 20)) = (int)0;
+    *(int *)((p0 + 24)) = (int)0;
+    *(int *)((p0 + 28)) = (int)0;
+    *(int *)((p0 + 32)) = (int)0;
+    *(int *)((p0 + 36)) = (int)0;
+    *(int *)((p0 + 40)) = (int)0;
+    *(int *)((p0 + 44)) = (int)0;
+    *(int *)((p0 + 48)) = (int)0;
+    *(int *)((p0 + 52)) = (int)0;
+}
