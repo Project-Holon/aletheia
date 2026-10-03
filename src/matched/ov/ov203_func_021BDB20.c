@@ -29,7 +29,7 @@ extern void func_021BE4B4(char *ctx);
 extern void func_021BDE98(char *ctx);
 extern void func_020315D4(struct S020315D4 *p);
 extern void func_020306F0(int);
-extern void func_02034A5C(const void *);
+extern void func_02034A5C(int);
 extern const char ov067_id[];
 int func_021BDB20(void *a, void *b, void *c, char *work)
 {
@@ -41,6 +41,6 @@ int func_021BDB20(void *a, void *b, void *c, char *work)
     func_021BDE98(*(void **)(work + 0xc));
     func_020315D4(a);
     func_020306F0(0x6c);
-    func_02034A5C(ov067_id);
+    func_02034A5C((int)ov067_id);
     return 1;
 }

@@ -20,7 +20,7 @@ typedef unsigned short u16;
 extern void func_02005D28(char *);
 extern void func_020307B0(void *);
 extern void func_02013930(void *);
-extern void func_02034A5C(const void *);
+extern void func_02034A5C(int handle);
 extern const char ov093_id[];
 extern void func_02213808(char *, int);
 int func_02213338(char *p, char *q)
@@ -29,7 +29,7 @@ int func_02213338(char *p, char *q)
     func_020307B0(*(void **)(q + 0x34));
     func_02013930(q);
     func_020307B0(q);
-    func_02034A5C(ov093_id);
+    func_02034A5C((int)ov093_id);
     func_02213808(p, 0);
     return 1;
 }
