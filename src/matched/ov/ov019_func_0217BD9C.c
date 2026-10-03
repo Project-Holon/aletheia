@@ -27,7 +27,7 @@ typedef unsigned char u8;
 
 typedef unsigned int   u32;
 extern void func_020061E4(u32 a);
-extern int *func_02030734(int a, int b, int c, int *d, int e);
+extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern int func_02012EBC(int a);
 extern void func_0217422C(u8 *a, int b, int *c);
 extern int func_02174268(u8 *a);
@@ -46,7 +46,7 @@ int func_0217BD9C(u8 *a, int b, int c, u8 *d)
             return 1;
         a[0x282E] = 0;
         func_020061E4(0x54B);
-        p = func_02030734(4, 12, 1, d_021807E8, 0x41A);
+        p = func_02030734(4, 12, 1, (const char *)d_021807E8, 0x41A);
         *p = func_02012EBC(*(int *)(*(int *)a + 8));
         *(int **)(a + 0x3558) = p;
         func_0217422C(a, 0x1d, p);

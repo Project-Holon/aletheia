@@ -16,7 +16,7 @@
  *   d_02187EB4     0x02187EB4  data  ov020  a4
  */
 
-extern int *func_02030734(int, int, int, void *, int);
+extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void *func_020490F4(unsigned int id, unsigned int heap);
 typedef unsigned int   u32;
 struct ArcFile;
@@ -25,7 +25,7 @@ extern int d_02187EB4;
 
 int *func_021867C4(int a, int id)
 {
-    int *p = func_02030734(id, 0x38, 1, &d_02187EB4, 0x448);
+    int *p = func_02030734(id, 0x38, 1, (const char *)&d_02187EB4, 0x448);
 
     p[0] = (int)func_020490F4(0x9a, id);
     func_0204932C((void *)p[0], a, p + 2);

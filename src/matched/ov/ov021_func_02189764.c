@@ -20,7 +20,7 @@ typedef struct {
 } Slot;
 
 extern unsigned char d_021DD9C0[];
-void *func_02030734(int a, int b, int c, void *d, int e);
+void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, unsigned short e);
 
 void *func_02189764(unsigned char *p, int id, int a, int b)
 {
@@ -30,5 +30,5 @@ void *func_02189764(unsigned char *p, int id, int a, int b)
     if (s->id != -1)
         return 0;
     s->id = id;
-    return s->buf = func_02030734(a, b, 1, d_021DD9C0, 0xD7C);
+    return s->buf = func_02030734(a, b, 1, (const char *)d_021DD9C0, 0xD7C);
 }

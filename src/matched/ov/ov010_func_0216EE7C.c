@@ -53,7 +53,7 @@ extern void *func_02012934(const struct BigObj *p);
 extern u32 func_0201AB18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern struct U16Vec *func_020457B0(u32 capacity, u32 heapId);
-extern u32 func_02017E1C(void *mon, u32 id, void *arg);
+extern u32 func_02017E1C(void *mon, u32 id, u32 arg);
 extern void func_021654AC(void *name);
 extern void func_02165424(void *name);
 extern void func_02165468(void *name);
@@ -77,7 +77,7 @@ void func_0216EE7C(BattleEndCtx *c)
     mon = func_0201AB28(party, func_0201AB18(party));
     if (st->outcome != 0 && st->outcome != 2) {
         name = func_020457B0(12, 0x8004);
-        func_02017E1C(mon, 0x73, name);
+        func_02017E1C(mon, 0x73, (u32)name);
         hp = func_02017E1C(mon, 0xA0, 0);
         maxHp = func_02017E1C(mon, 0xA1, 0);
         if (hp == 0)

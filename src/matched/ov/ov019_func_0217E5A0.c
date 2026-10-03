@@ -85,7 +85,7 @@ int func_0203D1A4(int a);
 int func_0203D1B4(void);
 void func_02039C68(int a, int b, int c);
 int func_02039CB4(int a, int b, int c);
-void *func_02030734(int a, int b, int c, int *d, int e);
+void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 void func_020307B0(void *a);
 extern int d_021807E8[];
 
@@ -150,13 +150,13 @@ int func_0217E5A0(u8 *w, u8 *obj, int a2, u8 *state)
         }
         break;
     case 3:
-        q = func_02030734(0x41, 0xc4, 1, d_021807E8, 0x10c4);
+        q = func_02030734(0x41, 0xc4, 1, (const char *)d_021807E8, 0x10c4);
         q->f0 = ((int *)(p + 0x148))[idx];
         q->f4 = func_0201292C((*(Sys **)w)->f8);
         q->fc = func_0200873C(func_02012EBC((*(Sys **)w)->f8));
         q->f34 = 0x1a;
         q->f14 = *(int *)(w + 0x352C);
-        q->fc0 = func_02030734(0x41, 0x70, 1, d_021807E8, 0x10ce);
+        q->fc0 = func_02030734(0x41, 0x70, 1, (const char *)d_021807E8, 0x10ce);
         cnt = 0;
         for (i = 0; i < func_0203D1B4(); i++) {
             if (i == idx)

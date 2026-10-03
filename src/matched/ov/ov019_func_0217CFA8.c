@@ -43,7 +43,7 @@ typedef struct {
 
 extern int func_0217BB04(u8 *a);
 extern void func_02034714(void *a, int b, void *c);
-extern void *func_02030734(int heap, int size, int clear, void *file, int line);
+extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void func_0216F40C(void *a, int b, int c, int d, int e);
 extern void func_02082D44(void *a, void *b, int c);
 extern int func_020399A8(void);
@@ -72,8 +72,8 @@ int func_0217CFA8(u8 *a, Obj *b, int c, u8 *d)
     case 0:
         if (*(void **)(a + 0x3540) != 0 || *(void **)(a + 0x3544) != 0)
             func_02034714(d_021807E4, 0, d_021807E4);
-        *(void **)(a + 0x3540) = func_02030734(0x41, 0x678, 1, d_021807E8, 0x9B3);
-        *(void **)(a + 0x3544) = func_02030734(0x41, 0x678, 1, d_021807E8, 0x9B5);
+        *(void **)(a + 0x3540) = func_02030734(0x41, 0x678, 1, (const char *)d_021807E8, 0x9B3);
+        *(void **)(a + 0x3544) = func_02030734(0x41, 0x678, 1, (const char *)d_021807E8, 0x9B5);
         func_0216F40C(*(void **)(a + 0x3540), (*(int **)a)[2], 1, 0, 0x41);
         func_02082D44(*(void **)(a + 0x3540), *(void **)(a + 0x3544), 0x678);
         func_02039C68(func_020399A8(), 3, 0x14);

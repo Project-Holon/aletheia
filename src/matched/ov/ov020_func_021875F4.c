@@ -17,6 +17,7 @@
  */
 
 typedef unsigned short u16;
+typedef unsigned int u32;
 
 struct P {
     u16 a;
@@ -36,7 +37,7 @@ struct L {
     int f;
 };
 
-extern int *func_02030734(int, int, int, void *, int);
+extern void *func_02030734(u32, u32, int, const char *, u16);
 extern int func_0216FC4C(void);
 extern int func_0216FAB4(int, int, int, int, int, int, int, int, int, struct L *);
 extern int d_02187EDC;
@@ -46,7 +47,7 @@ int *func_021875F4(int a0, int a1, int a2, int a3, struct P e)
     struct L l;
     int *p;
 
-    p = func_02030734(((u16 *)&e)[4], 0x1c, 1, &d_02187EDC, 0x19c);
+    p = func_02030734(((u16 *)&e)[4], 0x1c, 1, (const char *)&d_02187EDC, 0x19c);
     p[0] = 0;
     *(u16 *)((char *)p + 4) = func_0216FC4C() - 1;
     *(u16 *)((char *)p + 6) = func_0216FC4C() - 1;

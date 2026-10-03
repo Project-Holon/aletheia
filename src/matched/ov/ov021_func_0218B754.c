@@ -22,7 +22,7 @@
 typedef unsigned char  u8;
 typedef unsigned short u16;
 
-extern void *func_02030734(int, int, int, void *, int);
+extern void *func_02030734(unsigned int, unsigned int, int, const char *, u16);
 extern int d_021DD9CC;
 extern void func_0218BCE4(char *p, u8 a);
 extern void func_0218C490(char *p, char *q);
@@ -34,7 +34,7 @@ char *func_0218B754(int a, int b, u16 c)
     unsigned j;
     int z = 0;
 
-    p = (char *)func_02030734(a, 0x13F8, 0, &d_021DD9CC, 0x193);
+    p = (char *)func_02030734(a, 0x13F8, 0, (const char *)&d_021DD9CC, 0x193);
     *(u16 *)p = a;
     *(int *)(p + 4) = b;
     func_0218BCE4(p + 8, c);

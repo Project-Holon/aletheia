@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * symbols:
  *   d_021DDA38  0x021DDA38  data  ov021  a4

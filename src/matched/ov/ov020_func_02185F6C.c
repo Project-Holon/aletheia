@@ -33,7 +33,8 @@
 
 int func_02045B38(int a, int b, int c, int d);
 int func_02045EC0(int a, int b);
-void func_02045A38(int a, void *b, int c);
+struct U16Vec;
+void func_02045A38(struct U16Vec *a, unsigned short *b, unsigned int c);
 int func_02008F08(int a);
 void func_02008F88(int a, void *b);
 void func_02008FA0(int a, int b);
@@ -58,7 +59,7 @@ void func_02185F6C(int a)
     int r4;
     char buf[0x20];
 
-    func_02045A38(r7, buf, 0x10);
+    func_02045A38((struct U16Vec *)r7, (unsigned short *)buf, 0x10);
     r4 = func_02008F08(1);
     func_02008F88(r4, buf);
     func_02008FA0(r4, 1);

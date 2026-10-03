@@ -25,7 +25,7 @@ typedef struct {
 } S;
 
 extern unsigned char d_021DD9CC[];
-void *func_02030734(int a, int b, int c, void *d, int e);
+void *func_02030734(unsigned int heap, unsigned int size, int clear, const char *site, unsigned short tag);
 void func_0218BEE8(S *p, unsigned char *e, int i, int arg);
 
 void func_0218BD28(S *p, int arg)
@@ -34,7 +34,7 @@ void func_0218BD28(S *p, int arg)
     unsigned char i;
     if (n != 0) {
         p->count = n;
-        p->ents = func_02030734(p->heap, n * 0x18, 1, d_021DD9CC, 0x45F);
+        p->ents = func_02030734(p->heap, n * 0x18, 1, (const char *)d_021DD9CC, 0x45F);
         for (i = 0; i < p->count; i++)
             func_0218BEE8(p, p->ents + i * 0x18, i, arg);
     }

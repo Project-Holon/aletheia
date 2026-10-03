@@ -31,7 +31,7 @@ extern int d_021D3F60[];
 extern int d_021DDA60;
 extern u32 func_020493D4(int h, int a);
 extern Ent *func_02049250(int h, int a, u16 heap);
-extern void *func_02030734(u16 heap, u32 size, u32 clear, void *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *p);
 extern int func_02194044(u8 *p, u16 a, u16 b);
 extern void func_0216245C(u8 *o, u16 idx);
@@ -52,7 +52,7 @@ void func_021939C0(u8 *o, void *dst, int skip, u32 heap)
     heap = (heap & 0x7FFF) | 0x8000;
     e = func_02049250(*(int *)(o + 0x10), d_021D3F60[*o], (u16)heap);
     n >>= 3;
-    seen = func_02030734((u16)heap, n * 4, 1, &d_021DDA60, 0x208);
+    seen = func_02030734((u16)heap, n * 4, 1, (const char *)&d_021DDA60, 0x208);
     cnt = 0;
     for (i = 0; i < n; i++) {
         cur = &e[i];

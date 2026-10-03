@@ -28,7 +28,7 @@ typedef struct Blk {
     u32 w[15];
 } Blk;
 
-extern void *func_02030734(int, int, int, void *, int);
+extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern int func_0218BBD0(u8 *owner, u32 x);
 extern void func_0218BFB4(u8 *owner, u8 *node, u8 *rec);
 extern void func_0218BA70(u8 *owner, u8 *node);
@@ -36,7 +36,7 @@ extern u8 d_021DD9CC[];
 
 u8 *func_0218C7F0(u8 *owner, u32 x, Blk *src)
 {
-    u8 *p = func_02030734(*(u16 *)owner, 0x60, 0, d_021DD9CC, 0x825);
+    u8 *p = func_02030734(*(u16 *)owner, 0x60, 0, (const char *)d_021DD9CC, 0x825);
 
     *(u8 **)p = owner;
     *(u32 *)(p + 8) = 0;

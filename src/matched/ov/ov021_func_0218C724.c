@@ -30,7 +30,7 @@ typedef unsigned short u16;
 typedef short          s16;
 typedef unsigned int   u32;
 
-extern void *func_02030734(int, int, int, void *, int);
+extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_0207AF1C(void *m, int a, int b);
 extern void func_02169510(u32 a, void *b);
 extern void func_0207C9D0(void *a, void *b, void *c);
@@ -48,7 +48,7 @@ u8 *func_0218C724(u8 *owner, u32 *obj)
     u32 tmp[3];
     int k;
 
-    p = func_02030734(*(u16 *)owner, 0x60, 0, d_021DD9CC, 0x7E9);
+    p = func_02030734(*(u16 *)owner, 0x60, 0, (const char *)d_021DD9CC, 0x7E9);
     *(u8 **)p = owner;
     *(u32 **)(p + 8) = obj;
     *(u32 *)(p + 4) = 0xFFFF;

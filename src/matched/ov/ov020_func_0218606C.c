@@ -7,7 +7,7 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: EXACT*
+ * status: EXACT
  * symbols:
  *   func_02030734 0x02030734 arm
  *   d_02187EA0 0x02187EA0 data ov020 a1

@@ -46,7 +46,7 @@ typedef struct Cfg {
 
 extern void func_0218D104(u8 *a, u8 *b, void *c);
 extern int func_0218DC84(int a, int b, const int *q, int c);
-extern void *func_02030734(int, int, int, void *, int);
+extern void *func_02030734(u32, u32, int, const char *, u16);
 extern char d_021D3DDC[];
 extern int d_021DD9EC;
 extern void func_0218DD70(void *e);
@@ -147,9 +147,9 @@ void func_0218CEE4(Obj *p, const Src *src, void *c)
     cfg.nB = 0;
     cfg.f18 = 0x1000000;
     cfg.f1c = 0x400000;
-    p->f24 = func_02030734(p->heap, p->f2e * 0x28, 1, &d_021DD9EC, 0x306);
-    p->f28 = func_02030734(p->heap, p->f2e << 4, 1, &d_021DD9EC, 0x307);
-    p->f44 = func_02030734(p->heap, p->f2e, 1, &d_021DD9EC, 0x308);
+    p->f24 = func_02030734(p->heap, p->f2e * 0x28, 1, (const char *)&d_021DD9EC, 0x306);
+    p->f28 = func_02030734(p->heap, p->f2e << 4, 1, (const char *)&d_021DD9EC, 0x307);
+    p->f44 = func_02030734(p->heap, p->f2e, 1, (const char *)&d_021DD9EC, 0x308);
     for (i = 0; i < p->f2e; i++) {
         off = i * 0x28;
         func_0218DD70(p->f24 + off + 0x18);
