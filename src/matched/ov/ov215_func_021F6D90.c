@@ -1,0 +1,19 @@
+/*
+ * function: func_021F6D90
+ * address: 0x021F6D90
+ * packet: pkt_ov215_021F6D90
+ * region: ov215
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_02015EB0 0x02015EB0 thumb
+ *   func_02015F50 0x02015F50 thumb
+ */
+typedef unsigned char u8;
+struct McssFade;
+extern void func_02015EB0(void *);
+extern void func_02015F50(struct McssFade *,u8,u8,int,unsigned);
+void func_021F6D90(char *p){func_02015EB0(*(void **)(p+52));func_02015F50(*(struct McssFade **)(p+52),16,0,2,32767);}

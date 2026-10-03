@@ -1,0 +1,75 @@
+/*
+ * function: func_021BB540
+ * address: 0x021BB540
+ * packet: pkt_ov223_021BB540
+ * region: ov223
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own49F78 full unit reads third argument as a full-word output address; own490F4/307B0/49238/61CA4 bodies and SDK copy prototype read; 2 BB7A4 matched palette loader re-read; 3 b u32, const p, offset u32 unchanged10; post-stop function-scope first/second unchanged10 (second manual scheduling variant); 4 stack-order/block-scope/struct-sp idioms read; 5 fresh unfiltered idiom listing and BB7A4/BB944 neighbours re-read; once-only permuter budget300 baselineDIFF10/236 agrees on concrete verdict/size, emitter reports two extra unresolved data hints; safe temp/expand/cast candidate fixed-one validatedDIFF5/236 with12/12 resolved; next retry hypothesis integer spelling of first buffer base to swap a/first homes, no more scheduling variants this pass
+ * symbols:
+ *   func_020490F4 0x020490F4 arm
+ *   func_02049F78 0x02049F78 arm
+ *   func_02082D44 0x02082D44 arm
+ *   func_020307B0 0x020307B0 arm
+ *   func_02049238 0x02049238 arm
+ *   func_02061CA4 0x02061CA4 arm
+ *   d_021BC73C 0x021BC73C data a1
+ *   d_021BC6FC 0x021BC6FC data a1
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void *func_020490F4(u32, u16);
+extern void *func_02049F78(void *, u32, u32, u32);
+extern void func_02082D44(const void *, void *, u32);
+extern void func_020307B0(void *);
+extern void func_02049238(void *);
+extern int func_02061CA4(void *, u32, u32, int);
+extern const u8 d_021BC73C[];
+extern const u8 d_021BC6FC[];
+void func_021BB540(char *p)
+{
+  void *object = func_020490F4(205, *((u16 *) p));
+  void *first;
+  void *second;
+  char *a = p + 0x74;
+  char *b = p + 0x94;
+  char *out;
+  u8 i;
+  int offset;
+  char *tmp;
+  for (i = 0; i < 3; i++)
+  {
+    const u8 *row;
+    row = d_021BC73C + (i * 5);
+    first = func_02049F78(object, row[1], (u32) (&out), *((u16 *) p));
+    offset = i * 0x94;
+    func_02082D44(*((void **) (out + 12)), a + offset, 32);
+    func_020307B0(first);
+    second = func_02049F78(object, row[4], (u32) (&out), *((u16 *) p));
+    func_02082D44(*((void **) (out + 12)), (p + 0x94) + offset, 32);
+    func_020307B0(second);
+  }
+
+  func_02049238(object);
+  for (i = 0; i < 3; i++)
+  {
+    *((u16 *) ((p + (i * 0x94)) + 0xd4)) = 2;
+    tmp = p + (i * 0x94);
+    *((u16 *) (tmp + 0xd6)) = 16;
+  }
+
+  i = 0;
+  a = p + 0xb4;
+  p += 0x94;
+  for (; i < 3; i++)
+  {
+    offset = (int) (i * 0x94);
+    func_02082D44(p + offset, a + offset, 32);
+    func_02061CA4((void *) 30, d_021BC6FC[i] * 32, (u32) (a + offset), 32);
+  }
+
+}

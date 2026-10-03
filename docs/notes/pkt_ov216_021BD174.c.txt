@@ -7,8 +7,9 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * checks: 1 callee/show ABI scalar RGB555 stack agrees ov032_021F1004; C60/C78 overwrite entry r1, return byte; 2 BD0E4/BD07C/ov032_021F1004 no population twin; 3 enum index DIFF58, const p CCERR then DIFF112 (one cap excess), 4 enum-offset/far-offset/const-array/declared-struct/scalar-halfword idioms read, 5 fresh unfiltered listing and neighbours read; best DIFF58/720vs724, six ov010 unwitnessed leaves; once permuter300 baseline agrees58/720 best43/724 rejected return-p signature mutant, safe temp alone r7 DIFF58; next far-offset-before-index hypothesis, manual scheduling cap reached.
+ * status: EXACT*
+ * checks: 1 ABI rederived from matched bodies/callers; C58 remains wide because caller truncates to u16. 2 no twin. 3 prior enum/const trials exhausted; 4 far-offset-before-index modular integer address formation rescues MATCH*722; 5 current idioms/neighbours read. Six authorized ov010 leaves EXACT with adjacent TU audits; prior once300 not repeated.
+ * tail: 2B zero alignment at 021BD446..021BD448.
  * symbols:
  *   func_02165CC0 0x02165CC0 thumb ov010
  *   func_02021F64 0x02021F64 thumb
@@ -124,7 +125,7 @@ void func_021BD174(char *p,void *record,u16 unused,u8 slot)
     func_0202DC48(*(u32 *)(p+0x158),*(u32 *)(q+0x70),(u32)&data,slot);
     *(u8 *)(q+0x7c)=func_02165CE8(record);
     index=slot*12;
-    func_0202DAA4(*(void **)(p+0x58),func_02025C88(*(u8 *)(q+0x7c)),*(void **)(p+index+0x6c),*(void **)(p+index+0x68),*(u16 *)(p+2));
+    func_0202DAA4(*(void **)(p+0x58),func_02025C88(*(u8 *)(q+0x7c)),*(void **)((u32)p+0x6c+(u32)index),*(void **)((u32)p+0x68+(u32)index),*(u16 *)(p+2));
     subtype=func_02165CB4(record);
     if(subtype==0) {func_0204B3DC(*(struct Obj **)(q+0x74),0);return;}
     func_021BCE7C(*(void **)(q+0x74),subtype+1);

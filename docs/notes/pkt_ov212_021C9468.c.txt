@@ -8,8 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own callee files checked; unlabelled 021C9918 reads r0-r3, returns ldrb unsigned; unsigned return/const buffers kept 506 bytes out; 2 ov212 twin 976C confirms alloc/release/site, no filter twin in ov210/211/213/214; 3 int form worsened to 513; u32 index with halfword increment 566; Search/output pointers are mutated, cannot be const; 4 masked-local-width and separate-loop-index idioms read; 5 full idiom directory reread and current neighbours inspected, no closing twin. Next retry: case3 form/index spill colouring and guard-chain layout, no further permuter.
- * residual: 772/772 bytes, 476 concrete differences; 22/23 relocations resolved, finalTest 021C9918 unlabelled; caller is DIFF so no leaf filed.
+ * checks: 1 own bodies/callers rederived; full 9918 body returns ldrb and caller consumes it without a truncation, so finalTest is u8; 2 fresh 976C and sibling caller search no twin; 3 narrow finalTest unchanged476, count u16 worsened499/776; mutated Search/output pointers cannot be const; 4 masked-width/separate-loop-index/struct-local idioms read; 5 fresh complete idiom directory and neighbours read.
+ * residual: 772/772 DIFF476, 22/23 relocations; 9918 unwitnessed overlay leaf; caller remains DIFF so no leaf filed. Final retry four one runs: u8 extern, bounded count width and declaration order; three nonshrinks, prior once300 not repeated.
  * permuter: once --budget 300 --jobs 1 --types; macro-free emitted baseline matched 776/772,506; best 772/772,476. Removed unsafe use(type1) before assignment, fixed one retained 476; other mutations only reorder reads, widen bounded count, name masked ID temp, change equivalent loop blocks.
  * symbols:
  *   open 0x020490F4 arm
@@ -80,7 +80,7 @@ extern u32 seen(void *, u16);
 extern void personalFree(void *);
 extern void *personal(u32, u16, u16);
 extern u32 value(const void *, u32);
-extern u32 finalTest(const u8 *, const u16 *, u32, u32);
+extern u8 finalTest(const u8 *, const u16 *, u32, u32);
 extern const char site[];
 int func_021C9468(struct Search *p, u16 heap, u16 *outCount, u16 **out)
 {
@@ -252,7 +252,6 @@ int func_021C9468(struct Search *p, u16 heap, u16 *outCount, u16 **out)
 
   return 0;
 }
-
 
 
 

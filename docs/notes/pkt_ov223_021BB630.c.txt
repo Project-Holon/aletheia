@@ -1,0 +1,68 @@
+/*
+ * function: func_021BB630
+ * address: 0x021BB630
+ * packet: pkt_ov223_021BB630
+ * region: ov223
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own BB520 reads int color and three halfword output addresses; own61CA4 takes four full-word payloads; 2 new EXACT BB844 and BB7A4 re-read; 3 post-stop const p removed persistent row CSE and restored368/372B, offset u32 unchanged329; 4 distinct arithmetic types, struct-pointer-field recomputation, struct-sp and stack-order idioms read; 5 fresh unfiltered idiom listing and BB844 full source re-read; original BB682 first counter store followed by BB684/BB6AC second store sets16, retained both stores; once-only permuter budget300 baseline325 differs from fixed-one329 by unresolved table relocation, output200/372 rejected also for narrowing color product to u16; widened candidate verified328/368 but not retained because baseline disagreement; next retry hypothesis scoped inline transition helper preserving per-use base/offset reloads
+ * volatile: original 021BB65E/021BB678 and 021BB690/021BB6A8 independently reload the transition field at p+offset+0xD6.
+ * symbols:
+ *   func_021BB520 0x021BB520 thumb ov223
+ *   func_02061CA4 0x02061CA4 arm
+ *   d_021BC6FC 0x021BC6FC data a1
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+enum Offset {OffsetZero=0};
+struct Colors {u16 b2,g2,r2,b1,g1,r1;};
+extern void func_021BB520(int,u16 *,u16 *,u16 *);
+extern int func_02061CA4(void *,u32,u32,int);
+extern const u8 d_021BC6FC[];
+void func_021BB630(const char *p)
+{
+    u8 i,j;
+    u32 offset;
+    int active;
+    int next;
+    int pixel;
+    u16 weight;
+    u16 red,green,blue;
+    char *q;
+    struct Colors colors;
+    for(i=0;i<3;i++) {
+        offset=i*0x94;
+        active=0;
+        switch(*(u16 *)(p+offset+0xd4)) {
+        case 1:
+            if(*(volatile u16 *)(p+offset+0xd6)==16) *(u16 *)(p+offset+0xd4)=2;
+            else {++*(volatile u16 *)(p+offset+0xd6);*(u16 *)(p+offset+0xd6)=16;active=1;}
+            break;
+        case 3:
+            if(*(volatile u16 *)(p+offset+0xd6)==0) *(u16 *)(p+offset+0xd4)=0;
+            else {--*(volatile u16 *)(p+offset+0xd6);active=1;}
+            break;
+        }
+        if(active) {
+            if(*(u16 *)(p+offset+0xd4)==1||*(u16 *)(p+offset+0xd4)==3) {
+                q=(char *)p+offset;
+                for(j=0;j<16;j++) {
+                    weight=*(u16 *)(q+0xd6);
+                    pixel=j*2;
+                    next=*(u16 *)(q+pixel+0x94);
+                    func_021BB520(*(u16 *)(q+pixel+0x74),&colors.r1,&colors.g1,&colors.b1);
+                    func_021BB520(next,&colors.r2,&colors.g2,&colors.b2);
+                    blue=(colors.b1*(16-weight)+colors.b2*weight)/16;
+                    red=(colors.r1*(16-weight)+colors.r2*weight)/16;
+                    green=(colors.g1*(16-weight)+colors.g2*weight)/16;
+                    *(u16 *)(q+pixel+0xb4)=red|(green<<5)|(blue<<10);
+                }
+            }
+            func_02061CA4((void *)30,d_021BC6FC[i]*32,(u32)(p+0xb4+offset),32);
+        }
+    }
+}

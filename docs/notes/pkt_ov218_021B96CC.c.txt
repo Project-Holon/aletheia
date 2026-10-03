@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 SDK own units read: 49658/498F4 seven args last u16,49DF4 five args last u16 and raw word output pointer,49B68 six args,40B1C u8,const void *,u32,u32; 2 B9A80 matched twin reread and narrowed matched/pending searches found no rendering twin; 3 const p compiled338/8 unchanged; 4 declaration-order, u16 four-shifts, declared stack-struct idioms read, two manual scheduling variants exhausted; 5 fresh unfiltered idiom directory and B9A80 neighbor reread, no new twin; macro-free once300 baseline338/8 agrees, no improvement; residual tile/base r5/r6 swap, 2 bytes short; next retry allocator/type hypothesis.
+ * checks: 1 SDK own units/shows fix all arities and narrow heap;2 B9A80/B9D48 and sibling219849A4 reread, no rendering twin;3 long tile and const p unchanged8/338,short tile worsens136/342;4 declaration-order/u16/stack-struct idioms read, declaration swap unchanged;5 fresh full idiom listing and matched neighbors reread. Final retry exhausted; no next sweep.
+ * search: six one runs; prior once300 baseline8/338 unchanged, not repeated; best338B versus original340B,8 concrete differences including base/tile r5/r6 swap and alignment.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm

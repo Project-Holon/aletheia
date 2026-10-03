@@ -1,8 +1,8 @@
 /*
  * function: func_021B9834
  * packet: pkt_ov214_021B9834
- * checks: 1 all callees own sources/matched callers; 0200B98C consumes record/kind/index and returns r0/r1 wide value, caller uses low word; 2 ov213 constructor and ov214 neighbours/pending callers read, no exact state-machine twin; 3 const obj and long loop counter both unchanged; 4 dispatch range/shared-call-tail/enum/stack-local idioms read, two scheduling variants exhausted; 5 full idiom directory and matched/pending neighbours refreshed.
- * residual: 1672/1668 DIFF1458; branch tails and dispatch differ, ARM9 0200B98C has four unresolved calls. Four iteration one calls plus two check3 calls; permuter 300 baseline agrees, best DIFF585 rejected because tmp1 and tmp2 assignments before case labels are bypassed by switch dispatch, causing uninitialized reads. Best validated C retained.
+ * checks: 1 own bodies/matched callers freshly read; ARM9 B98C full body consumes record/kind/index and returns two words, A0B0 original consumes r1 only; 2 fresh scoped neighbour searches no state-machine twin; 3 bounded side/index u16 gives DIFF1411/1676 versus DIFF1458/1672; previous const obj and long counter unchanged, no repeat; 4 dispatch-range/shared-tail/struct-local idioms read; 5 fresh complete idiom directory and matched neighbours read.
+ * residual: 1676/1668 DIFF1411 (shorter DIFF1458/1672 also preserved in scratch r1); branch/tail layout and new narrowing shifts remain, four ARM9 B98C calls unresolved. Four one runs; safe temporary assignments AFTER case labels and explicit default/update goto both unchanged1458. Manual scheduling cap reached; parent requested no added variants. Prior once300 consumed; invalid DIFF585 uninitialized switch temporaries never accepted.
  * address: 0x021B9834
  * region: ov214
  * compiler: dsi/1.1p1
@@ -106,7 +106,8 @@ int func_021B9834(void *unused,u32 *state,const char *obj,char *p)
 {
     void *owner,*record;
     u32 result;
-    int done,side,index;
+    int done;
+    u16 side,index;
     long i;
     u32 status0,status1,a,b,c;
     u32 addr;

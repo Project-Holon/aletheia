@@ -1,15 +1,15 @@
 /*
  * function: func_021B95A0
  * packet: pkt_ov214_021B95A0
- * checks: 1 own/matched callees rederived; 0203159C live r0 return retained; 2 ov213 constructor and ov214 neighbours read, no exact twin; 3 const pointer object unchanged, const pointee CCERR (mutable callee conversions), cap reached; 4 enum/pool/goto idioms read; 5 unfiltered idioms and neighbouring matched/pending files refreshed
- * residual: 504/504 DIFF67; two manual scheduling variants exhausted; permuter 300 baseline DIFF67, emitted DIFF39 rejected: tmp1 assigned in outer else before common label is bypassed by two goto common edges, then read as call argument.
+ * checks: 1 callee own bodies/forwarders and original register setup rederived; 2 ov214 neighbours read; 3 const object unchanged in prior run, mutable pointee conversions prohibit const; 4 shared-tail idiom gives MATCH after each incoming arm repeats the call; 5 directory/neighbours refreshed.
+ * retry: safe temporaries after the common label stayed DIFF67; repeated branch calls gave MATCH504; callback 021B9F18 separately matched and verified.
  * address: 0x021B95A0
  * region: ov214
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: EXACT
  * prototype: 0203159C own source returns void, but its ARM body leaves the allocator result in r0 after str r0,[r4,#14]; this caller preserves that live return as its context.
  * symbols:
  * func_02034AC4 0x02034AC4 arm
@@ -99,9 +99,9 @@ int func_021B95A0(void *manager,char *state,char * const obj)
             func_021B9EF0(obj,p,5,0,1);func_021BA6A0(obj,p,60);
             if(*(int*)(obj+8))func_021BAC58(obj,p);
             *(int*)(p+0xb4)=1;
-          }else goto common;
+          }else {func_021B9EB8(state,(int)obj,p,15,k,16,0,2,0);}
         }else {common:func_021B9EB8(state,(int)obj,p,15,k,16,0,2,0);}
-    }else if(*(int*)(obj+8))goto common;
+    }else if(*(int*)(obj+8)){func_021B9EB8(state,(int)obj,p,15,k,16,0,2,0);}
     else *(int*)(p+0x54)=1;
     func_021BAE4C(obj,p);func_021BAE9C((int)obj,p);func_021BAE88(obj,p);
     func_0203D34C(1,*(u16*)p);

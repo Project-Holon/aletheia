@@ -1,0 +1,81 @@
+/*
+ * function: func_021BB18C
+ * address: 0x021BB18C
+ * packet: pkt_ov223_021BB18C
+ * region: ov223
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own EC64/EE60/F250/C724 and text/bitmap bodies establish arities and outgoing slots; 2 BB2A4/BB134 matched neighbours use the same text/layout helpers; 3 const p worsened 25 to50, which u16 unchanged25; post-stop offset u16 gave213/224B and center s16 gave60/228B; 4 enum-offset/local-stack-order/scope/second-definition idioms read; 5 fresh unfiltered idiom listing and BB2A4/BB450 re-read, scalar spill residue not aggregate; next retry hypothesis separate full-word offset copy or an inline helper to move offset/set/message homes; once-only permuter budget300 plateau25/232, baseline concrete verdict and size agree but reports two extra unresolved data hints, no mutation retained
+ * symbols:
+ *   func_0201EC64 0x0201EC64 thumb
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_020457B0 0x020457B0 arm
+ *   func_0201EE60 0x0201EE60 thumb
+ *   func_0201F250 0x0201F250 thumb
+ *   func_02045808 0x02045808 arm
+ *   func_0201ED04 0x0201ED04 thumb
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_0201D304 0x0201D304 thumb
+ *   func_0201D42C 0x0201D42C thumb
+ *   func_020437DC 0x020437DC arm
+ *   func_020437E4 0x020437E4 arm
+ *   func_0201C724 0x0201C724 thumb
+ *   func_021BAF48 0x021BAF48 thumb ov223
+ *   d_021BC730 0x021BC730 data a4
+ *   d_021BC710 0x021BC710 data a2
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct WordSet; struct MsgBank; struct U16Vec; struct Descriptor; struct CharBuf; struct Bmp; struct StrObj;
+extern struct WordSet *func_0201EC64(u32);
+extern void *func_02045EC0(struct MsgBank *,u32);
+extern struct U16Vec *func_020457B0(u32,u32);
+extern void func_0201EE60(struct WordSet *,u32,u16);
+extern void func_0201F250(struct WordSet *,void *,void *);
+extern void func_02045808(struct U16Vec *);
+extern void func_0201ED04(struct WordSet *);
+extern void *func_02045770(struct Descriptor *);
+extern void func_02043B5C(struct CharBuf *,u8);
+extern u32 func_0201D304(struct StrObj *,u32,u32);
+extern u32 func_0201D42C(struct StrObj *,void *);
+extern u16 func_020437DC(const struct Bmp *);
+extern u16 func_020437E4(const struct Bmp *);
+extern void func_0201C724(void *,u32,u32,u32,u32,u32,u16);
+extern int func_021BAF48(char *);
+extern const u32 d_021BC730[];
+extern const u16 d_021BC710[];
+enum Offset { OffsetZero=0 };
+void func_021BB18C(char *p,u32 which)
+{
+    enum Offset offset=0x240;
+    struct Descriptor *d=*(struct Descriptor **)(p+offset);
+    struct WordSet *set;
+    void *message;
+    struct U16Vec *buf;
+    u16 height;
+    u32 canvas;
+    u16 center=0;
+    offset+=12;
+    set=func_0201EC64(*(u16 *)p);
+    message=func_02045EC0(*(struct MsgBank **)(p+0x234),d_021BC730[which]);
+    buf=func_020457B0(64,*(u16 *)p);
+    func_0201EE60(set,1,d_021BC710[which]);
+    func_0201F250(set,buf,message);
+    func_02045808(message);
+    func_0201ED04(set);
+    func_02043B5C(func_02045770(d),0);
+    func_0201D304((struct StrObj *)buf,*(u32 *)(p+0x18),0);
+    height=(u16)func_0201D42C((struct StrObj *)buf,*(void **)(p+0x18));
+    func_020437DC(func_02045770(d));
+    canvas=func_020437E4(func_02045770(d));
+    if(canvas>height) center=(int)(canvas-height)/2;
+    func_0201C724(*(void **)(p+0x1c),(u32)func_02045770(d),0,(short)center,(u32)buf,*(u32 *)(p+0x18),0x3c40);
+    func_02045808(buf);
+    *(u32 *)(p+offset)=0;
+    func_021BAF48(p);
+}

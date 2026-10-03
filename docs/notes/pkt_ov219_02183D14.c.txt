@@ -7,8 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own callee definitions/shows establish arities and narrow27120 arguments;2 own-region matched/pending search has no body twin,3C78 agrees two pointer parameters;3 signed choice worsened1486,u16 old unchanged1888B/1430;4 unsigned-switch/struct-slot idioms read,two scheduling variants worse;5 fresh unfiltered idiom listing and3C78 reread,no new twin. No manual reorder remains. Next hypothesis: correct cross-jumped state arms within a fresh retry budget.
- * search: six iteration compiles stop after three nonshrinks;one check3 and emitted baseline agree with best full diff;mandatory once300 permuter terminal1 rejected despite1884B/948 score because assignments preceding case labels after break leave temporaries uninitialized;tmp10/tmp8 read choice/touch before assignment,ids=ids may read uninitialized. Best valid C is1888B,original1884B,1430 concrete bytes out.
+ * checks: 1 all own callees/matched callers and missing callee shows rederive ABI;2 3C78 confirms two pointers,sibling2189C00 confirms live returned35C60 result;3 u8 result,int index through u32 pointer unchanged635/1884;4 cross-jump/unsigned-switch/stack-struct/cast-output idioms read;5 fresh full idiom listing,3C78/849A4/2189C00 and pending8544C reread,no dispatcher twin. Final retry exhausted; no next sweep.
+ * search: seven one runs: baseline1888/1434,valid shared state labels1884/635;shared sound tail1876/1253 worsens;unsigned long result/touch unchanged635. Prior once300 rejected for uninitialized temporaries across case/goto,not repeated. Missing ARM9 witnesses02025BE8/02027120 also block; overlay856CC leaf not filed while ARM9 blocked.
  * prototype: 35C60 leaves its forwarded result live in r0 and receives original live1;85580 retains live arc input in r1 despite its one-argument own definition;0947C caller passes full words without narrowing.
  * symbols:
  *   func_020362DC 0x020362DC arm
@@ -127,7 +127,7 @@ int func_02183D14(char *p,char *state)
         func_02040588(6,1);func_02040588(2,1);func_02040588(7,1);func_02040588(3,1);
         *(u32 *)state=1;break;
     case 1:if(func_020221A4()==1)*(u32 *)state=2;break;
-    case 2:if(func_02184D70(p,0,1)==1)*(u32 *)state=W(0xc33c)?16:3;break;
+    case 2:if(func_02184D70(p,0,1)==1){if(W(0xc33c))goto state16;goto state3;}break;
     case 3:
         if(func_02184D70(p,1,1)==1){func_02184EC0(p,d_02185DB6,&d_02185E98,d_02185E28);*(u32 *)state=4;}break;
     case 4:
@@ -157,8 +157,8 @@ int func_02183D14(char *p,char *state)
     case 14:if(func_02184D70(p,5,1)==1){P(0xc054)=func_0201FDA0(&d_02185DB0,0x22,7,0,*(u32 *)p);*(u32 *)state=15;}break;
     case 15:
         choice=func_0201FEBC(P(0xc054));if(choice==0){func_02185310(p);func_0200947C(P(0x10),P(0xc),W(0xc344),W(0xc348));
-            func_02027120(W(0xc344),W(0xc348));W(0xc33c)=W(0xc344);W(0xc340)=W(0xc348);*(u32 *)state=16;}
-        else if(choice==(u32)-2){func_02185310(p);*(u32 *)state=3;}break;
+            func_02027120(W(0xc344),W(0xc348));W(0xc33c)=W(0xc344);W(0xc340)=W(0xc348);state16: *(u32 *)state=16;}
+        else if(choice==(u32)-2){func_02185310(p);state3: *(u32 *)state=3;}break;
     case 16:
         if(W(0xc318)==1&&W(0xc34c)==0)H(0xc31c)=0;else H(0xc31c)=1;
         func_021856CC(p);func_02184734(p);func_02185794(p);

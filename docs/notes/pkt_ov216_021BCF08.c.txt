@@ -8,8 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 callee own bodies/DA54 u16 c reviewed, full-word exception tried; 2 matched D07C/DA54 shared callees/table but no setup twin; 3 wide color/fill 334B, const p unchanged249B; 4 enum/spill idioms read; 5 fresh unfiltered idiom listing and D07C/DA54 reread, no stack object. Next hypothesis would be declaration/spill order.
- * residue: 249 concrete bytes, compiled376 versus372; spill order, entry guard and reused-loop register allocation. ARM9 02045CAC also unresolved in Ilias unit_02045C44.c missing function header entry.
+ * checks: 1 own callee bodies and fresh pending CEA4/D07C/DA54 caller ABI read; 2 fresh scoped neighbours no setup twin; 3 int entry index removes enum guard and shrinks to DIFF40/372; long counters unchanged40, prior const p unchanged; 4 enum/spill/struct-local idioms read; 5 fresh complete idiom directory and matched/pending neighbours read, residue is scalar spill colouring.
+ * residue: 372/372 DIFF40 (improved from249/376), 19/22 relocations; Ilias ARM9 02045CAC lacks unit header/shard witness. Five one runs; declaration order unchanged40, long counters unchanged40, separate phase bases worsened204/356; three consecutive nonshrinks stop. Prior once300 baseline disagreement consumed search; not repeated.
  * permuter: once-only300 search baseline245/376 with4 unresolved disagreed fixed249/376 with3; AST emission changed baseline. Search consumed, output not accepted; fixed best retained.
  * symbols:
  *   func_02045CAC 0x02045CAC arm
@@ -40,7 +40,7 @@ extern u8 func_02045730(struct Descriptor *);
 extern void func_020409B4(u32);
 void func_021BCF08(const char *p)
 {
-    EntryIndex i;
+    int i;
     int j,k=0;
     u16 color;
     u8 fill;

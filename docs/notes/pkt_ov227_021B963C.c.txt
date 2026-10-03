@@ -1,0 +1,199 @@
+/*
+ * function: func_021B963C
+ * address: 0x021B963C
+ * packet: pkt_ov227_021B963C
+ * status: DIFF
+ * region: ov227
+ * isa: thumb
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * checks: 1 callee bodies/prototypes and all49 relocations resolved; 2 neighbors/twins read; 3 u8 flag and const parameter unchanged; 4 relevant idioms read; 5 full idiom directory re-read.
+ * residual: best616B/158 concrete bytes; two manual scheduling variants exhausted; once-only300 permuter returned155 but rejected unsafe tmp assignments before case2.
+ * extent: code through021B988E, pools through021B98A4, following callback table and event_pdc_return.c string.
+ * prototypes: 02031348 legacy void(void) forwards unchanged r0-r3 to four-argument020314F4; 020185F0 bx-lr preserves caller's address in r0, consumed by020074D8.
+ * symbols:
+ *   func_02031330 0x02031330 arm
+ *   func_02012934 0x02012934 thumb
+ *   func_02012944 0x02012944 thumb
+ *   func_0200CA1C 0x0200CA1C thumb
+ *   func_0201293C 0x0201293C thumb
+ *   func_02012F2C 0x02012F2C thumb
+ *   func_02008DF0 0x02008DF0 thumb
+ *   func_02008500 0x02008500 thumb
+ *   func_02017E40 0x02017E40 thumb
+ *   func_0201AA18 0x0201AA18 thumb
+ *   func_0201AA14 0x0201AA14 thumb
+ *   func_02007698 0x02007698 thumb
+ *   func_020076D0 0x020076D0 thumb
+ *   func_02045B38 0x02045B38 arm
+ *   func_0201296C 0x0201296C thumb
+ *   func_020142E8 0x020142E8 thumb
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_02045C04 0x02045C04 arm
+ *   func_020127A4 0x020127A4 thumb
+ *   func_02012AC8 0x02012AC8 thumb
+ *   func_02013E4C 0x02013E4C thumb
+ *   func_0202F190 0x0202F190 thumb
+ *   func_0200CA38 0x0200CA38 thumb
+ *   func_02017E1C 0x02017E1C thumb
+ *   func_0200CED4 0x0200CED4 thumb
+ *   func_0200CFA0 0x0200CFA0 thumb
+ *   func_0200CDE0 0x0200CDE0 thumb
+ *   func_02031348 0x02031348 arm
+ *   func_02012EBC 0x02012EBC thumb
+ *   func_0200C0F0 0x0200C0F0 thumb
+ *   func_0216C0A4 0x0216C0A4 thumb ov010
+ *   func_0216C0E4 0x0216C0E4 thumb ov010
+ *   func_0216C0D4 0x0216C0D4 thumb ov010
+ *   func_0216C0C0 0x0216C0C0 thumb ov010
+ *   func_0201A98C 0x0201A98C thumb
+ *   func_020185F0 0x020185F0 thumb
+ *   func_020074D8 0x020074D8 thumb
+ *   d_0220BAB0 0x0220BAB0 data a4 ov207
+ *   d_021F5580 0x021F5580 data a4 ov194
+ *   ov207_id 0x000000CF data a1
+ *   ov194_id 0x000000C2 data a1
+ */
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+extern u32 func_02031330(void *);
+extern void *func_02012934(void *);
+extern void *func_02012944(void *);
+extern void *func_0200CA1C(void *);
+extern u32 func_0201293C(void *);
+extern void *func_02012F2C(void *);
+extern u32 func_02008DF0(void *,int);
+extern void func_02008500(void *,void *);
+extern void func_02017E40(void *,u32,u32);
+extern u32 func_0201AA18(void *);
+extern u32 func_0201AA14(void *);
+extern u32 func_02007698(void *);
+extern int func_020076D0(void *,int *,int *);
+extern void *func_02045B38(u32,u32,u32,u32);
+extern u32 func_0201296C(void *);
+extern u32 func_020142E8(void *,int);
+extern void *func_02045EC0(void *,u32);
+extern void func_02045C04(void *);
+extern void *func_020127A4(void *);
+extern u16 func_02012AC8(void *);
+extern u32 func_02013E4C(u32);
+extern void func_0202F190(void *,u32,u32,u32,u16);
+extern u32 func_0200CA38(void *);
+extern u32 func_02017E1C(void *,u32,u32);
+extern u32 func_0200CED4(void *,u16);
+extern void func_0200CFA0(void *,void *);
+extern void func_0200CDE0(void *,void *);
+extern void func_02031348(void *,u32,u32,u32);
+extern void *func_02012EBC(void *);
+extern void *func_0200C0F0(void *);
+extern int *func_0216C0A4(u16,int,int,int,int,int,int,int);
+extern int func_0216C0E4(int *);
+extern void func_0216C0D4(int *,int);
+extern int func_0216C0C0(int);
+extern u32 func_0201A98C(void *,void *);
+extern void *func_020185F0(void *);
+extern int func_020074D8(void *,const void *);
+extern char d_0220BAB0[],d_021F5580[];
+extern const char ov207_id[],ov194_id[];
+int func_021B963C(void *unused,u32 *state,const char *data,char *p)
+{
+    u32 gate;
+    gate=func_02031330(*(void **)(p+0x34));
+    if(gate==1)return 0;
+    switch(*state) {
+    case 0: {
+        void *party,*profile,*dex,*flags,*bank;
+        u32 storage,seen,kind,count;
+        int box,slot;
+        u8 done;
+        party=func_02012934(*(void **)data);
+        profile=func_02012944(*(void **)data);
+        dex=func_0200CA1C(*(void **)data);
+        storage=func_0201293C(*(void **)data);
+        if(*(u32 *)(data+4)==1) {
+            flags=func_02012F2C(*(void **)data);
+            func_02008DF0(flags,7);
+            func_02008DF0(flags,84);
+            func_02008500(profile,*(void **)(p+4));
+            func_02017E40(*(void **)(data+8),141,*(u32 *)(p+4));
+            count=func_0201AA18(party);
+            if((int)count>=(int)func_0201AA14(party)) {
+                box=func_02007698((void *)storage);
+                slot=0;
+                func_020076D0((void *)storage,&box,&slot);
+                *(u32 *)(p+0x2c)=box;
+                bank=func_02045B38(0,2,234,139);
+                seen=func_020142E8((void *)func_0201296C(*(void **)data),2413);
+                *(void **)(p+0x28)=func_02045EC0(bank,seen?177:176);
+                func_02045C04(bank);
+            }
+            kind=func_02013E4C(func_02012AC8(func_020127A4(*(void **)data)));
+            done=0;
+            func_0202F190(*(void **)(data+8),0,(u32)profile,kind,*(u16 *)(p+0x30));
+            seen=func_0200CA38(dex);
+            if(func_0200CED4(dex,func_02017E1C(*(void **)(data+8),5,0))==0) done=1;
+            func_0200CFA0(dex,*(void **)(data+8));
+            func_0200CDE0(dex,*(void **)(data+8));
+            *(u32 *)(p+0xc)=*(u32 *)(data+8);
+            *(u32 *)(p+0x10)=seen;
+            *(u32 *)(p+0x14)=*(u32 *)(p+0x28);
+            *(u32 *)(p+0x18)=storage;
+            *(u32 *)(p+0x1c)=*(u32 *)(p+0x2c);
+            *(u32 *)(p+0x20)=*(u32 *)data;
+            if(done) *(u32 *)(p+8)=0;
+            else *(u32 *)(p+8)=1;
+            func_02031348(*(void **)(p+0x34),(u32)ov207_id,(u32)d_0220BAB0,(u32)(p+8));
+            (*state)++;
+        } else {
+            if(*(u32 *)(data+4)==2) func_0200CFA0(dex,*(void **)(data+8));
+            *state=4;
+        }
+        break;
+    }
+    case 1: {
+        u32 storage;
+        int enabled;
+        void *record;
+        int *object;
+        if(gate==1)return 0;
+        storage=func_0201293C(*(void **)data);
+        enabled=0;
+        if(*(u32 *)(p+0x24)==1)enabled=1;
+        if(enabled) {
+            record=func_0200C0F0(func_02012EBC(*(void **)data));
+            object=func_0216C0A4(*(u16 *)(p+0x30),*(int *)(data+8),10,0,*(int *)(p+0x28),storage,*(int *)(p+0x2c),(int)record);
+            *(int **)p=object;
+            func_02031348(*(void **)(p+0x34),(u32)ov194_id,(u32)d_021F5580,(u32)object);
+            (*state)++;
+        } else *state=3;
+        break;
+    }
+    case 2:
+        if(gate==1)return 0;
+        if(func_0216C0E4(*(int **)p)==0) {
+            func_0216C0D4(*(int **)p,*(int *)(p+4));
+            func_02017E40(*(void **)(data+8),115,*(u32 *)(p+4));
+            func_02008DF0(func_02012F2C(*(void **)data),30);
+        }
+        func_0216C0C0(*(int *)p);
+        *(int *)p=0;
+        (*state)++;
+        break;
+    case 3: {
+        void *party,*storage,*record;
+        party=func_02012934(*(void **)data);
+        if(*(u32 *)(p+0x28)==0)func_0201A98C(party,*(void **)(data+8));
+        else {
+            storage=(void *)func_0201293C(*(void **)data);
+            record=func_020185F0(*(void **)(data+8));
+            func_020074D8(storage,record);
+        }
+        (*state)++;
+        break;
+    }
+    case 4: default:return 1;
+    }
+    return 0;
+}

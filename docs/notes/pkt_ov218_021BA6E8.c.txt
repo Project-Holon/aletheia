@@ -1,0 +1,19 @@
+/*
+ * function: func_021BA6E8
+ * address: 0x021BA6E8
+ * packet: pkt_ov218_021BA6E8
+ * region: ov218
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own 720 body and original read all four full-word arguments, return int; 2 4FC/328/554/61C confirm seven slots and position ABI, no wrapper twin; 3 enum base and pointer ABI paired with owned 720 compile unchanged at 62 bytes/57 differences; 4 direct pointer selection and enum inline binding did not improve; 5 full idiom directory relisted and 4FC/328/554/61C reread; no stack object. Next sweep: none within canonical budget.
+ * residual: best first-pass 58 bytes against 56, 35 concrete differences; selected base remains separate from its offset and the seven-entry bound is rematerialized.
+ * symbols:
+ *   func_021BA720 0x021BA720 thumb ov218
+ */
+typedef unsigned int u32;
+extern int func_021BA720(u32,u32,u32,int);
+enum Count {CountSeven=7};
+void func_021BA6E8(char *p,int flag,int y){u32 offset;u32 space;enum Count n;u32 base;int i;if(flag!=0){offset=0x294;space=0;}else{offset=0x2b0;space=1;}n=CountSeven;base=(u32)p+offset;for(i=0;i<n;i++){if(func_021BA720(base,i,space,y)!=0)break;}}

@@ -1,0 +1,26 @@
+/*
+ * function: func_021BBAE8
+ * address: 0x021BBAE8
+ * packet: pkt_ov225_021BBAE8
+ * region: ov225
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT*
+ * symbols:
+ *   func_021B9CDC 0x021B9CDC thumb ov225
+ *   func_021B9E80 0x021B9E80 thumb ov225
+ *   sub_02030EAC 0x02030EAC arm
+ *   func_020307B0 0x020307B0 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef short s16;
+typedef unsigned int u32;
+extern int func_021B9CDC(void *);
+extern void func_021B9E80(char *,u32);
+struct Node;
+extern void sub_02030EAC(struct Node *);
+extern void func_020307B0(void *);
+void func_021BBAE8(char *p) { func_021B9E80(*(char **)(p+4),func_021B9CDC(*(void **)(*(char **)(p+4)+0x2c))); sub_02030EAC(*(struct Node **)(p+0x34)); func_020307B0(p); }

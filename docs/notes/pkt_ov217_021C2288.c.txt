@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own C253C takes void*,u8,u8,u16,u32, all33 resolved; 2 same-overlay matched/pending search found no caller twin, C253C reread; 3 long and enum start both 688/639 unchanged, full-word types preserve arithmetic; 4 declaration-order and per-loop index spill idioms read, two manual scheduling variants exhausted; 5 fresh unfiltered idiom directory and C253C/C1F44 neighbors reread, no new twin; macro-free once300 baseline688/639 agrees, valid temp(u16 z), left1 copy and independent idx/z reorder yields690/151, fixed one confirms; residual entry homing and one missing start copy shift first loop, small-arm flag store register swap; next retry parameter-homing/spill type hypothesis.
+ * checks: 1 own C253C takes void*,u8,u8,u16,u32,33/33 resolved;2 same-overlay matched/pending callers and sibling218 neighbors searched,no body twin;3 long n1 and long end1 unchanged151/690,int tmp worsens632/692;4 parameter-homing/declaration/struct-slot idioms read,two manual variants unchanged;5 fresh full idiom listing,C253C/C1F44/217218 neighbors reread. Final retry exhausted; no next sweep.
+ * search: six one runs; prior once300 valid winner690/151 retained,not repeated; best690B versus original692B,151 concrete differences: missing entry copy,first-loop scheduling,small-arm flag registers.
  * symbols:
  *   _fflt 0x0209BDBC arm
  *   _fmul 0x0209C77C arm

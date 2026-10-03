@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 B28 own matched takes rec and two u8 outputs; cos/sin own ARM9 double(double), 48/48 resolved; 2 C1F44 FX macro and 11FC/1224 caller twins reread; 3 const p and Position output struct both 432/4 unchanged; 4 FX conversion, const-load and logical-store idioms read; 5 fresh unfiltered idiom directory and C1F44/11FC reread, no winning twin; macro-free once300 baseline432/4 agrees, no improvement; residual +FE/+100 stack dy reload versus x store; next retry restrict/read-only-output scheduling hypothesis, no further manual variants here.
+ * checks: 1 B28 own body takes rec,two u8 outputs;cos/sin own ARM9 double(double),48/48 resolved;2 C1F44 and11FC/1224 confirm output width and three inputs;3 restrict out,u16 out,u8/s16 first unchanged4/432;4 FX/const-load/logical-store idioms read,explicit store temporaries unchanged;5 fresh full idiom listing and217/218 matched neighbors reread. Final retry exhausted; no next sweep.
+ * search: six one runs; prior macro-free once300 baseline4/432 unchanged, not repeated; best432B,4 concrete differences at FE/100: dy stack reload and x store trade places.
  * symbols:
  *   _fflt 0x0209BDBC arm
  *   _f2d 0x0209BD38 arm

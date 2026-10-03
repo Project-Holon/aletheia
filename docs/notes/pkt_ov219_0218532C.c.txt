@@ -1,0 +1,101 @@
+/*
+ * function: func_0218532C
+ * address: 0x0218532C
+ * packet: pkt_ov219_0218532C
+ * region: ov219
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own bodies 5D08(int*) and 5D64(int*,int*) re-read; 2 no matching search twin, adjacent menu/display bodies re-read; 3 const p worsens 122B, s16 x bounds unchanged 119B; 4 struct-spill/const/assignment-slot idioms read, no fix; 5 full idiom directory and own nearest neighbors refreshed; stack object diagnostic read. Permuter once300 baseline confirmed 119B; safe winning expand(row), delta split and order/block changes validated 101B. Next hypothesis: distinct initial and wrapped primary y bounds, within next retry scheduling cap.
+ * residual: compiled 288/288 bytes, 101 concrete bytes; all three calls resolved. Permuter winner keeps all locals initialized and full-width row arithmetic.
+ * symbols:
+ *   func_02185D08 0x02185D08 thumb ov219
+ *   func_02185D64 0x02185D64 thumb ov219
+ */
+typedef unsigned short u16;
+typedef short s16;
+typedef unsigned int u32;
+extern void func_02185D08(int *);
+extern int func_02185D64(int *, int *);
+int func_0218532C(char *p, u32 *out)
+{
+  int result;
+  s16 xlow;
+  s16 xhigh;
+  int ylow;
+  int yhigh;
+  int high2;
+  int low2;
+  u32 selected;
+  int center[2];
+  int point[2];
+  u32 best;
+  u32 i;
+  u32 distance;
+  char *row;
+  int delta;
+  int y;
+  result = 0;
+  xlow = (s16) ((*((int *) (p + 0xC2F4))) - 128);
+  xhigh = (s16) ((*((int *) (p + 0xC2F4))) + 128);
+  ylow = (s16) ((*((int *) (p + 0xC2F8))) - 128);
+  selected = *((u32 *) (p + 20));
+  yhigh = (s16) ((*((int *) (p + 0xC2F8))) + 128);
+  center[0] = *((int *) (p + 0xC2F4));
+  center[1] = *((int *) (p + 0xC2F8));
+  best = 256;
+  func_02185D08(center);
+  delta = yhigh;
+  delta = delta - ylow;
+  if (delta < 0)
+    delta = -delta;
+  if (delta > 256)
+  {
+    low2 = (s16) (*((int *) (p + 0xC2F8)));
+    high2 = low2;
+    if (delta)
+    {
+    }
+    if (low2 > 0)
+      ylow = low2 - 65536;
+    else
+      ylow = low2 + 65536;
+    yhigh = ylow;
+    low2 -= 128;
+    high2 += 128;
+    ylow -= 128;
+    yhigh += 128;
+  }
+  else
+  {
+    do
+    {
+      high2 = yhigh;
+    }
+    while (0);
+    low2 = ylow;
+  }
+  for (i = 0; i < (*((u32 *) (p + 20))); i++)
+  {
+    row = p + (i * 48);
+    if (((((*((s16 *) ((p + (i * 48)) + 24))) > xlow) && ((*((s16 *) ((p + (i * 48)) + 24))) < xhigh)) && ((((*((s16 *) ((p + (i * 48)) + 26))) > ylow) && ((*((s16 *) ((p + (i * 48)) + 26))) < yhigh)) || (((*((s16 *) ((p + (i * 48)) + 26))) > low2) && ((*((s16 *) ((p + (i * 48)) + 26))) < high2)))) && ((*((u16 *) ((p + (i * 48)) + 64))) != 0))
+    {
+      point[0] = *((s16 *) ((p + (i * 48)) + 24));
+      point[1] = *((s16 *) ((p + (i * 48)) + 26));
+      func_02185D08(point);
+      distance = (u32) func_02185D64(center, point);
+      if (distance < best)
+      {
+        best = distance;
+        selected = i;
+      }
+    }
+  }
+
+  *out = selected;
+  if (selected != (*((u32 *) (p + 20))))
+    result = 1;
+  return result;
+}

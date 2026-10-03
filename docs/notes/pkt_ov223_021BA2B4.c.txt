@@ -1,0 +1,171 @@
+/*
+ * function: func_021BA2B4
+ * address: 0x021BA2B4
+ * packet: pkt_ov223_021BA2B4
+ * region: ov223
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 every callee read from own matched source; no call setup differs; 2 own A0AC and 9D9C table twin checked; 3 int and unsigned long sort a/b each unchanged DIFF6; writable p excludes const; 4 register-colour, width and struct-stack idioms checked; 5 refreshed unfiltered idioms and ov22 neighbours, no new twin. Next hypothesis: isolate sort a/b block or reverse their declarations on retry.
+ * residual: 1384/1384 bytes; six concrete bytes at +04F2,+04F6,+04F8,+04FE,+0506,+0508 exchange a/b in r2/r3. All 70 relocations resolve.
+ * attempts: full animation state machine; two manual scheduling variants exhausted; macro-free emitted baseline matches DIFF6; once-only permuter jobs1 budget300 types found no improvement (terminal exit1). Five iteration runs including syntax repair, two check3 runs, one emitted baseline run.
+ * symbols:
+ *   motion 0x021BC7F0 data a1
+ *   initialOrder 0x021BC8C0 data a1
+ *   func_021BA0AC 0x021BA0AC thumb
+ *   func_0204B3DC 0x0204B3DC arm
+ *   func_0204B404 0x0204B404 arm
+ *   func_0204B5AC 0x0204B5AC arm
+ *   func_0204B84C 0x0204B84C arm
+ *   func_0204B454 0x0204B454 arm
+ *   func_0204B800 0x0204B800 arm
+ *   _fgr 0x0209BBB0 arm
+ *   _ffltu 0x0209BE04 arm
+ *   _ffix 0x0209C494 arm
+ *   _fmul 0x0209C77C arm
+ *   _fadd 0x0209C95C arm
+ *   _fsub 0x0209CB8C arm
+ *   _fdiv 0x0209CE10 arm
+ */
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+typedef signed short s16;
+typedef struct {s16 x,y;} Pos;
+typedef struct {int x,y;} Scale;
+typedef struct {u8 b[14];} Motion;
+typedef struct {u8 b[3];} Order;
+extern const Motion motion[];
+extern const Order initialOrder;
+extern int func_021BA0AC(s16 *,int *,u16,u16,u8,u8,u8,u8,u32,u8,u32);
+extern void func_0204B3DC(u32,u32);
+extern void func_0204B404(u32,const Pos *,u32);
+extern void func_0204B5AC(u32,Scale *);
+extern void func_0204B84C(u32,u32);
+extern void func_0204B454(u32,Pos *,u32);
+extern void func_0204B800(u32,u32);
+#define FIX(x) ((int)(((x)>0)?((x)*4096.0f+.5f):((x)*4096.0f-.5f)))
+void func_021BA2B4(char *p)
+{
+    u32 changed[3]={0,0,0};
+    s16 ys[4];
+    char *r;
+    const Motion *m;
+    u8 i=0,j,a,b;
+    int step,rank;
+    Pos c1p0;
+    Scale c1s0;
+    Pos c1p1;
+    Scale c1s1;
+    Pos c2p;
+    Scale c2s;
+    Pos c3p0;
+    Scale c3s0;
+    Pos c3p1;
+    Scale c3s1;
+    Pos c4p;
+    Scale c4s;
+    Order order;
+    s16 sortedYs[3];
+    Pos current;
+    for(;i<3;i++) {
+        r=p+84+i*148;
+        m=motion+i;
+        step=0;
+        if(*(u32 *)(r+140)==0)continue;
+        switch(*(u32 *)(r+140)) {
+        case 0: break;
+        case 1: step=1;break;
+        case 2: step=-1;break;
+        }
+        if(step<0){*(u16 *)(r+132)=0;*(u32 *)(r+136)=1;}
+        switch(*(u32 *)(r+136)) {
+        case 0:
+            if(step>0){
+                func_0204B3DC(*(u32 *)(r+24),0);func_0204B3DC(*(u32 *)(r+28),1);
+                *(u16 *)(r+132)=0;*(u32 *)(r+136)=1;*(u32 *)(r+144)=0;
+            }else{
+                if(*(u32 *)(r+140)==2)*(u32 *)(r+140)=0;
+                break;
+            }
+        case 1: {
+            u32 scale;
+            if(*(u16 *)(r+132)==0){
+                c1p0.x=m->b[0];c1p0.y=m->b[1];scale=m->b[6];
+                c1s0.x=c1s0.y=FIX((float)scale/16.0f);
+                func_0204B404(*(u32 *)(r+28),&c1p0,1);func_0204B5AC(*(u32 *)(r+28),&c1s0);
+            }else{
+                ys[i]=func_021BA0AC((s16 *)&c1p1,(int *)&c1s1,m->b[0],m->b[1],m->b[2],m->b[3],m->b[6],m->b[7],m->b[10],m->b[12],*(u16 *)(r+132));
+                changed[i]=1;
+                func_0204B404(*(u32 *)(r+28),&c1p1,1);func_0204B5AC(*(u32 *)(r+28),&c1s1);
+            }
+            if(*(u16 *)(r+132)==0&&step<0){
+                func_0204B3DC(*(u32 *)(r+24),1);func_0204B3DC(*(u32 *)(r+28),0);
+                *(u16 *)(r+132)=0;*(u32 *)(r+136)=0;*(u32 *)(r+144)=0;
+                break;
+            }
+            *(u16 *)(r+132)=*(u16 *)(r+132)+step;*(u32 *)(r+144)=0;
+            if(*(u16 *)(r+132)==m->b[10]){*(u16 *)(r+132)=0;*(u32 *)(r+136)=2;}
+            break;
+        }
+        case 2: {
+            u32 value;
+            c2p.x=m->b[2];c2p.y=m->b[3];value=m->b[7];
+            c2s.x=c2s.y=FIX((float)value/16.0f);
+            func_0204B404(*(u32 *)(r+28),&c2p,1);func_0204B5AC(*(u32 *)(r+28),&c2s);
+            if(*(u16 *)(r+132)==0&&step<0){
+                *(u16 *)(r+132)=m->b[10]-1;*(u32 *)(r+136)=1;*(u32 *)(r+144)=0;break;
+            }
+            *(u16 *)(r+132)=*(u16 *)(r+132)+step;*(u32 *)(r+144)=0;
+            if(*(u16 *)(r+132)==m->b[9]){*(u16 *)(r+132)=0;*(u32 *)(r+136)=3;}
+            break;
+        }
+        case 3: {
+            u32 scale;
+            if(*(u16 *)(r+132)==0){
+                c3p0.x=m->b[2];c3p0.y=m->b[3];scale=m->b[7];
+                c3s0.x=c3s0.y=FIX((float)scale/16.0f);
+                func_0204B404(*(u32 *)(r+28),&c3p0,1);func_0204B5AC(*(u32 *)(r+28),&c3s0);
+            }else{
+                ys[i]=func_021BA0AC((s16 *)&c3p1,(int *)&c3s1,m->b[2],m->b[3],m->b[4],m->b[5],m->b[7],m->b[8],m->b[11],m->b[13],*(u16 *)(r+132));
+                changed[i]=1;
+                func_0204B404(*(u32 *)(r+28),&c3p1,1);func_0204B5AC(*(u32 *)(r+28),&c3s1);
+            }
+            if(*(u16 *)(r+132)==0&&step<0){*(u16 *)(r+132)=m->b[9]-1;*(u32 *)(r+136)=2;*(u32 *)(r+144)=0;break;}
+            *(u16 *)(r+132)=*(u16 *)(r+132)+step;*(u32 *)(r+144)=0;
+            if(*(u16 *)(r+132)==m->b[11]){*(u16 *)(r+132)=0;*(u32 *)(r+136)=4;}
+            break;
+        }
+        case 4: {
+            u32 value;
+            c4p.x=m->b[4];c4p.y=m->b[5];value=m->b[8];
+            c4s.x=c4s.y=FIX((float)value/16.0f);
+            func_0204B404(*(u32 *)(r+28),&c4p,1);func_0204B5AC(*(u32 *)(r+28),&c4s);
+            if(step<0){
+                func_0204B84C(*(u32 *)(r+28),3);
+                *(u16 *)(r+132)=m->b[11]-1;*(u32 *)(r+136)=3;*(u32 *)(r+144)=0;
+            }else if(*(u32 *)(r+140)==1){
+                func_0204B84C(*(u32 *)(r+28),2);
+                *(u32 *)(r+140)=0;
+                if(*(u32 *)(r+144)==0)*(u32 *)(p+560)=1;
+            }
+            break;
+        }
+        }
+    }
+    order=initialOrder;
+    for(i=0;i<3;i++){
+        if(changed[i])sortedYs[i]=ys[i];
+        else{func_0204B454(*(u32 *)(p+i*148+112),&current,1);sortedYs[i]=current.y;}
+    }
+    for(i=0;i<3;i++)for(j=2;j>i;j--){
+        a=order.b[j];b=order.b[j-1];
+        if(sortedYs[a]>sortedYs[b]){order.b[j-1]=a;order.b[j]=b;}
+    }
+    for(i=0;i<3;i++){
+        if(order.b[0]==i)rank=0;else if(order.b[1]==i)rank=1;else rank=2;
+        func_0204B800(*(u32 *)(p+i*148+112),rank);
+    }
+}

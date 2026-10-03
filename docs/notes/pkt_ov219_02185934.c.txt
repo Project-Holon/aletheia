@@ -1,0 +1,136 @@
+/*
+ * function: func_02185934
+ * address: 0x02185934
+ * packet: pkt_ov219_02185934
+ * region: ov219
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 n/a no calls or relocations; 2 own matched 84734 coordinate and 85AC8 mode/context bodies re-read, no movement twin; 3 u16 pressed/held and int sx/sy with explicit u16 truncation unchanged 388B; const p cannot express original stores; 4 nested-if/crossjump/typed-base/narrow-parameter idioms read, no fix; 5 full idiom directory and same-overlay neighbors refreshed; no address-taken stack object. Permuter once300 baseline confirmed 408/404 388B; winning temporaries and scheduling ported without its uninitialized factor read, validated 404/404 171B. Next retry hypothesis: initial parameter homes and step-local coloring, within manual scheduling cap.
+ * residual: compiled 404/404 bytes, 171 concrete bytes, no calls. All coordinate updates retain modular word arithmetic; snapshots use observed signed halfwords. Unsafe permuter empty-if factor read rejected before validation.
+ */
+typedef unsigned short u16;
+typedef short s16;
+typedef unsigned int u32;
+struct Work
+{
+  char pad0[0xC2F4];
+  u32 x;
+  u32 y;
+  char pad1[16];
+  u16 slow;
+  char pad2[14];
+  u16 mode;
+  char pad3[2];
+  u32 keys;
+  char pad4[12];
+  u32 dx;
+  u32 dy;
+};
+int func_02185934(struct Work *p, u32 pressed, u32 held)
+{
+  int x;
+  int y;
+  int result;
+  int tmp1;
+  int sy;
+  int factor;
+  int tmp;
+  int sx;
+  int pad;
+  int tmp2;
+  result = 0;
+  x = (s16) p->x;
+  y = (s16) p->y;
+  tmp1 = (*p).slow;
+  if ((pressed & 1) || (p->keys & 1))
+  {
+    if (p->mode == 1)
+    {
+      tmp2 = p->slow == 0;
+      if (tmp2)
+        p->slow = 1;
+      else
+        p->slow = 0;
+    }
+    return 1;
+  }
+  if (tmp1 == 0)
+  {
+    if ((p->dx != 0) || (p->dy != 0))
+    {
+      factor = 85;
+      sx = (u16) (85 * p->dx);
+      sy = (u16) (p->dy * 85);
+    }
+    else
+    {
+      sx = 512;
+      sy = 512;
+    }
+  }
+  else
+  {
+    if ((p->dx != 0) || (p->dy != 0))
+    {
+      factor = 10;
+      sx = (u16) (p->dx * factor);
+      sy = (u16) (p->dy * factor);
+    }
+    else
+    {
+      sx = 32;
+      sy = 32;
+    }
+  }
+  if ((held & 32) || (p->keys & 32))
+  {
+    if ((*p).mode == 1)
+      p->y += sx;
+    else
+      if (y < (-10208))
+      p->y += sx;
+    result = 1;
+  }
+  if ((held & 16) || (p->keys & 16))
+  {
+    if (p->mode == 1)
+      p->y -= sx;
+    else
+      if (y > (-13184))
+      p->y -= sx;
+    result = 1;
+  }
+  if ((held & 64) || (p->keys & 64))
+  {
+    if (p->mode == 1)
+    {
+      if ((x + sy) < 15872)
+        p->x += sy;
+      else
+        p->x = 15872;
+    }
+    else
+      if (x < 8224)
+      p->x += sy;
+    result = 1;
+  }
+  if ((held & 128) || (p->keys & 128))
+  {
+    if (p->mode == 1)
+    {
+      tmp = (x - sy) > (-15872);
+      if (tmp)
+        p->x -= sy;
+      else
+        p->x = -15872;
+    }
+    else
+      if (x > 4864)
+      p->x -= sy;
+    result = 1;
+  }
+  return result;
+}

@@ -1,8 +1,8 @@
 /*
  * function: func_021B9F24
  * packet: pkt_ov214_021B9F24
- * checks: 1 allocator five parameters and narrow heap/palette arguments copied from owners; 2 ov214 A2F4/A108 and pending caller read; 3 n/a: every instruction and argument register matches, residue is only three literal pool words; 4 pool-word-order scheduler tie idiom fits; 5 unfiltered idiom directory and matched/pending neighbours refreshed
- * residual: 244/244 DIFF6 at +E8,+EC,+F0 only; original pool 013A,5694,7FFF versus compiled 7FFF,013A,5694. Two scheduling variants and permuter 300 found no improvement.
+ * checks: 1 own callee ABIs rederived, all argument/instruction bytes match; 2 fresh scoped ov214 matched/pending neighbour search no twin; 3 n/a every instruction and parameter setup exact, only pool words differ; 4 pool-word scheduler tie idiom read; 5 fresh complete idiom directory and neighbours read.
+ * residual: 244/244 DIFF6 at E8/EC/F0: original 013A/5694/7FFF versus compiled 7FFF/013A/5694. Final retry three one runs: independent palette store reorder DIFF9, named u16 palette temps unchanged6; two scheduling variants exhausted, prior once300 not repeated.
  * address: 0x021B9F24
  * region: ov214
  * compiler: dsi/1.1p1
