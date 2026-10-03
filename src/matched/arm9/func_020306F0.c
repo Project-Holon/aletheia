@@ -45,13 +45,13 @@
 
 typedef unsigned int u32;
 
-extern void sub_02030A5C(void *heap);
-extern u32  sub_0202FF98(void *heap);
+extern void sub_02030A5C(u32 heap);
+extern u32  sub_0202FF98(u32 heap);
 typedef unsigned short u16;
 extern u16 sub_02030524(void);
 extern void OS_Terminate(void);
 
-void func_020306F0(void *heap)
+void func_020306F0(u32 heap)
 {
     sub_02030A5C(heap);
 

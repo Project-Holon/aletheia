@@ -31,12 +31,13 @@ typedef unsigned int  u32;
 
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
-extern u32   func_02012944(u32 a0);
-extern u32   func_020457B0(u32 a0, u32 a1);
-extern void  func_02008500(u32 a0, u32 a1);
+struct U16Vec;
+extern u8   *func_02012944(void *a0);
+extern struct U16Vec *func_020457B0(u32 a0, u32 a1);
+extern void  func_02008500(void *a0, void *a1);
 extern u32   g_020A74B0[];
 
-void *func_020261E4(u32 a0, u32 a1)
+void *func_020261E4(u32 a0, void *a1)
 {
     int i;
     u8 *p;
@@ -45,15 +46,15 @@ void *func_020261E4(u32 a0, u32 a1)
     u8 *q;
 
     p = func_02030734(a0, 0x88, 1, (const char *)g_020A74B0, 0xe0);
-    *(u32 *)p = a1;
-    q = (u8 *)func_02012944(a1);
+    *(void **)p = a1;
+    q = func_02012944(a1);
     base = p + 0x3c;
     for (i = 0; i < 6; i++) {
         e = base + i * 0xc;
-        *(u32 *)(e + 4) = func_020457B0(8, a0);
-        *(u32 *)(e + 8) = func_020457B0(8, a0);
-        func_02008500((u32)q, *(u32 *)(e + 4));
-        func_02008500((u32)q, *(u32 *)(e + 8));
+        *(struct U16Vec **)(e + 4) = func_020457B0(8, a0);
+        *(struct U16Vec **)(e + 8) = func_020457B0(8, a0);
+        func_02008500(q, *(struct U16Vec **)(e + 4));
+        func_02008500(q, *(struct U16Vec **)(e + 8));
     }
     return p;
 }

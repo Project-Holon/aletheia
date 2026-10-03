@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * Parked: five of the six initialisers resolve as `matched` (0x0202B5FC,
  * 0x0202B610, 0x0202B624, 0x0202B63C, 0x0202B65C).  The one that does not is
@@ -37,9 +37,11 @@ extern void func_0202B63C(u8 *p);
 extern void func_0202B64C(u8 *p);
 extern void func_0202B65C(u8 *p);
 
-void func_0202B59C(u8 *p, u32 a, u32 b)
+struct SaveBlock;
+
+void func_0202B59C(u8 *p, struct SaveBlock *a, u32 b)
 {
-    *(u32 *)(p + 4)  = a;
+    *(u32 *)(p + 4)  = (u32)a;
     *(u32 *)(p + 8)  = 0xffffffff;
     *(u16 *)(p + 0)  = (u16)b;
     *(u32 *)(p + 0xc) = 0;

@@ -26,9 +26,10 @@ extern const u8 str_020A772C[];
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void   func_0202B584(void *p);
-extern void func_0202B59C(u8 *p, u32 a, u32 b);
+struct SaveBlock;
+extern void func_0202B59C(u8 *p, struct SaveBlock *a, u32 b);
 
-void *func_0202B4BC(u32 a, u32 b)
+void *func_0202B4BC(struct SaveBlock *a, u32 b)
 {
     void *p = func_02030734(b, 0x28, 0, (void *)str_020A772C, 0xa3);
 
