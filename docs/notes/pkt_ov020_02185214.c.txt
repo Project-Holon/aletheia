@@ -7,15 +7,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
- * checks: 1 callees re-derived, 021A3238 consumes live 02188CB4 result; 2 neighbours no matching twin; 3 unsigned-long return handle and pointer-typed h DIFF22; 4 inline/frame idioms checked; 5 idioms/neighbours refreshed, declared Rec required by aggregate copy.
- * Safe residual: 220 bytes, DIFF22; return value held in r7 instead of
- * [sp,#4], pushing two short-lived values into spill slots and expanding frame.
- * Runs: 4 + permuter300; emitted baseline DIFF22 agrees with fixed one,
- * no candidate improved. Return-passing finish inline also unchanged.
- * ARM9 02013DD0 now has its own matched witness; no evidence blocker remains.
- * The 021A3238 extern returns int despite the old void forwarder declaration:
- * caller compares r0; forwarded target 021A3A20 returns int 0/1.
+ * status:   EXACT
+ * checks: 1 own getter body and live r0 expose 0202648C pointer argument; 2 owner witnesses current; 3-5 no parking checks required after EXACT.
+ * Lever: func_0202648C reads its pointer argument in the matched ARM9
+ * unit_02026454.c. The original forwards func_02012138(a) in r0 with
+ * no intervening argument setup. Explicitly passing h restores the
+ * return-value spill and all frame/register choices (DIFF22 -> EXACT).
+ * Runs this retry: 2; the prior consumed permuter was not repeated.
  * symbols:
  *   func_020120F4  0x020120F4  thumb
  *   func_0201210C  0x0201210C  thumb
@@ -55,7 +53,7 @@ u16 *func_0200BE48(void *p);
 void *func_02012FCC(void *p);
 u64 func_0200BFA4(u8 *p, void *x, u32 n);
 u32 func_02012138(void *p);
-void func_0202648C(void);
+u32 func_0202648C(void *p);
 int func_02026454(void *p);
 void func_02026484(void *p);
 void func_02012B78(void *p, u8 v);
@@ -67,6 +65,10 @@ void *func_02188CB4(void *v);
 int func_021A3238(void *v);
 void func_0217BCDC(u8 *a, void *b, int c, u8 d, u8 e);
 int func_02158344(u32 p);
+static inline void create_result(void *a, void *r6, Rec *s, void **out)
+{
+    *out = func_02185C4C(a, r6, s);
+}
 static inline void *finish(void *a, void *r4, void *r6, void *ret)
 {
     u16 *t;
@@ -74,7 +76,7 @@ static inline void *finish(void *a, void *r4, void *r6, void *ret)
     t = func_0200BE48(func_02012EBC(r4));
     func_0200BFA4((u8 *)t, func_02012FCC(r4), 1);
     h = (void *)func_02012138(a);
-    func_0202648C();
+    func_0202648C(h);
     if (func_02026454(h) == 0)
         func_02026484(h);
     if (func_021A3238(func_02188CB4(r6)) == 0)
@@ -98,6 +100,6 @@ void *func_02185214(void *a)
     s = *func_020128DC(r4);
     if (func_02013DD0(s.f04) == 1)
         func_02014204(&s, s.f04);
-    ret = func_02185C4C(a, r6, &s);
+    create_result(a, r6, &s, &ret);
     return finish(a, r4, r6, ret);
 }

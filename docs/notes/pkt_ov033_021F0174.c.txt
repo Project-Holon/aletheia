@@ -8,10 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 fresh own EFF48(3), EFEEC(2), EFF40(1), sound(1/2/4), context helpers(1), 02013E7C returns full-word bool; tile narrow extern preserved for observed caller truncation; 2 000C allocation D4/EFF48/05A4 layouts, no full twin; 3 u32 distance and int enabled each unchanged 161/1072; 4 block-scope record locals 192/1072, grouped best Rec 202/1072, inline saveRecord 580/1076; enum/stack/dead-store idioms read; 5 full directory and ov033/ov032/ov034 neighbours refreshed.
- * residual: DIFF 1072/1072, 161 concrete bytes, all 24 relocations resolved. Map/sys/old-record versus best-record spill slots, bestKind zero web and later schedules remain; sound tail still agrees.
- * prior: Old types permuter 300 consumed, not repeated. Its accepted score<->allowSound declaration order plus 02013E7C(tile) temporary improved 172 to 161. Previous kind enum/scope/grouping/initialization attempts failed; two fresh manual scheduling variants consumed.
- * renewed-pass: substantive fresh attempts complete; three nonshrinking iterations then mandatory checks; no new permuter search.
+ * checks: 1 fresh EFF40(1), EFEEC(2), EFF48(3), context helpers(1), sound(1/2/4), F0AC4(1); ov021 02189370/C0 prove tile calls 3, BD4 full-word return unchanged161; 2 refreshed 000C D4 allocation and 05A4 layouts, no full twin; 3 unsigned enabled unchanged161, writable Obj cannot have const pointee; typed const context sys unchanged161; 4 enum/stack/dead-store idioms refreshed; 5 refreshed ov032/033/034 matched/pending and idiom directory, declared-stack-struct read.
+ * residual: DIFF 1072/1072, 161 concrete bytes, all24 relocations resolved. Map/sys/old-record versus best-record spill slots, bestKind zero web and later schedules remain; sound tail agrees.
+ * prior: Old types permuter300 consumed, never repeated. Accepted score<->allowSound declaration order and 02013E7C(tile) temporary reduced172 to161. Previous enum/scope/grouping/initialization/inline saveRecord attempts failed.
+ * final-retry: Wave76 R15 six runs: pointer-typed sys and declaration-group exchange unchanged161; moving zero before bounds 1076/DIFF807; three nonshrinks stopped iteration, checks completed. Both manual scheduling variants consumed. New hypothesis: distinct context-local lifetime per stage, not another declaration sweep.
  * symbols:
  *   func_02024ABC 0x02024ABC thumb
  *   func_02188C80 0x02188C80 thumb ov021
@@ -54,7 +54,7 @@ struct Ctx;
 void func_02024ABC(void); void *func_02188C80(void *);
 u8 *func_020120F8(const struct Ctx *); Vec *func_02012AA0(void *);
 void *func_020120F4(const struct Ctx *); u32 func_02012974(const void *);
-int func_02159C48(u32,int,int); u16 func_02159BD4(u32,int,int);
+int func_02159C48(u32,int,int); u32 func_02159BD4(u32,int,int);
 int func_02013E7C(u16); int func_02013D74(u32);
 void func_021EFF40(void *); int func_021EFEEC(char *, int *);
 int func_021EFF48(void *, u32 *, int);
@@ -69,13 +69,14 @@ static inline Flag permit(Obj *p)
     if (p->f94 == 0) { p->f94=1; return One; }
     return One;
 }
-void func_021F0174(Obj *p, int enabled)
+void func_021F0174(Obj *p, unsigned int enabled)
 {
     Rec rec;
+    u32 map;
+    const struct Ctx *sys;
     Other *bestB;
     Entry *bestA;
     u32 bestKind;
-    u32 map, sys;
     int x,y,z;
     u32 tile;
     int hasTile;
@@ -100,12 +101,12 @@ void func_021F0174(Obj *p, int enabled)
     p->old.kind = p->current.kind;
     if (p->current.kind == 1) p->old.a = p->current.a;
     else if (p->current.kind == 2) p->old.b = p->current.b;
-    sys = (u32)func_02188C80((void *)p->f08);
-    v = func_02012AA0(func_020120F8((const struct Ctx *)sys));
+    sys = func_02188C80((void *)p->f08);
+    v = func_02012AA0(func_020120F8(sys));
     x = (v->x >> 4) / 4096;
     y = (v->y >> 4) / 4096;
     z = (v->z >> 4) / 4096;
-    map = func_02012974(func_020120F4((const struct Ctx *)sys));
+    map = func_02012974(func_020120F4(sys));
     tile = 0xffff;
     hasTile = 0;
     if (func_02159C48(map,v->x,v->z) == 1) {

@@ -5,13 +5,16 @@
  * region: ov103
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 unsigned division helper rederived from ARM runtime target; no other calls; 2 scoped ov103/neighbour source search no twin; 3 int sum and all-const/source mutable pointers unchanged53, original loop guard signed, pointer parameters cannot narrow; 4 allocation/scheduling idioms read, two declaration/assignment variants worsened; 5 fresh idiom list and neighbours, no stack-object residue; types permuter300 completed, volatile-add(cx) rejected and removed, safe expanded fields reduce53 to17. Next: inline helper scope for initial field loads, not another permuter.
- * residue: 17 concrete bytes in initial field loads/spills and ip assignment, 158 compiled bytes versus160 listing extent (2 bytes padding); whole body after +0x36 matches.
+ * checks: 1 unsigned division runtime symbol/prototype from matched02095B3C, one relocation resolved; 2 fresh1038DE4 caller supplies initialized Pair lines; 3 long cx and all-const pointers each unchanged17; 4 inline-helper/stack-scope/long/color idioms read; 5 unfiltered idioms and1038DE4/8FA0,104829C reread. Next would be a scalar inline accessor for the cached x field, within a renewed scheduling budget.
+ * residual: 158/160, 17 concrete bytes, 1/1 resolved; initial x/y loads, spill slots and ip assignment; body after0036 matches.
+ * renewed: metric inline125/150; unused aggregate helper17/158; corrected aggregate subtract157/172. Three manual nonshrinks and two check compiles; two scheduling variants. Historical types permuter300 consumed; not repeated, rejected volatile(cx) winner stays excluded.
+ * behavior: long is signed32 on fixed compiler; read-only Pair inputs retain full pointer payloads, signed coordinate subtraction and abs, unsigned division and u8 return.
  * symbols:
  *   _u32_div_f 0x0209C2B0 arm
- */
+  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -33,11 +36,11 @@ inline static int magnitude(int a)
   return (a < 0) ? (-a) : (a);
 }
 
-u8 func_021B8F00(const Pair *a, Pair *b, const Pair *c, Pair *d)
+u8 func_021B8F00(const Pair *a, const Pair *b, const Pair *c, const Pair *d)
 {
   int ax = a->x;
   int ay = a->y;
-  int cx = c->x;
+  long cx = c->x;
   int cy = c->y;
   u32 v;
   u32 t;

@@ -8,8 +8,11 @@
  * lang: c99
  * isa: arm
  * status: DIFF
- * Wave 75 R20 renewed pass: DIFF 40 concrete bytes, compiled 268/268. Named guard temporary and while loop improved the old 45-byte register permutation. Enum counter was 48; u16 counter was 276 bytes. The first recorded 300-candidate permuter is consumed; its 40-byte candidate passed fixed one (07F8-r6.log).
- * checks: 1 memcpy/tick declarations from matched 021B0904, arities 3/0; 2 021B0904 shares globals/callees, no exact builder twin; 3 enum/u16/unsigned long counter and const byte source tested, u16 adds truncation; 4 reused-variable and enum-zero idioms read; 5 directory and ov013 neighbours rechecked, no stack object; next hypothesis inline search/helper boundaries, no repeat permuter
+ * residual: DIFF 268/268 bytes, 34 concrete bytes differ; all six relocations resolved.
+ * evidence: separate byte divisor improves 40 to 37; unsigned promotion in u64 division removes sign-word ASR and improves to 34. Inline search gave 264/217; self-copy flag tied 40. Separate address locals and unsigned-long divisor tied 34; frame-selector inline gave 39.
+ * checks: 1 own EXACT memcpy and tick bodies/shards read, arities 3/0, observed unsigned n and u64 return retained; 2 fresh 0904 shares globals and callees but is not a builder twin; 3 _Bool found on unsigned-divisor best tied 34; 4 byte-signedness, flag identity and inline-allocation idioms read; 5 full idiom directory and fresh ov013 neighbours reread, no addressed stack aggregate; next hypothesis an independently evidenced frame-offset enum, no repeat scheduling sweep.
+ * permuter: first recorded budget-300 search and emitted 40-byte candidate consumed in prior pass; not repeated.
+ * prior evidence: named guard and while loop improved 45 to 40; enum counter 48, u16 counter 276 bytes; const byte source and unsigned-long counter tested.
  * symbols:
  *   d_021B3C84     0x021B3C84  data  ov013  a4
  *   d_021B3CB0     0x021B3CB0  data  ov013  a4
@@ -63,6 +66,7 @@ int func_021B07F8(const u8 *src, u32 n)
 {
   PacketHeader *hdr;
   u32 i;
+  u8 divisor;
   enum
   {
     NotFound = 0,
@@ -108,11 +112,11 @@ int func_021B07F8(const u8 *src, u32 n)
     func_02082B0C(src, ((u8 *) hdr) + 0xC, n);
   }
   hdr->f4 = 0x40;
-  i = hdr->f4;
+  divisor = hdr->f4;
   seq = d_021B3C84.f0;
   d_021B3C84.f0 = d_021B3C84.f0 + 1;
   hdr->f6 = seq;
-  hdr->f8 = (u32) (func_020870D0() / i);
+  hdr->f8 = (u32) (func_020870D0() / (u32)divisor);
   d_021B42C0.f8C4++;
   return 1;
 }

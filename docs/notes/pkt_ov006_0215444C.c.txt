@@ -1,32 +1,35 @@
 /*
- * function: func_0215444C
- * address:  0x0215444C
- * packet:   pkt_ov006_0215444C
- * region:   ov006
+ * function: func_0215444C, func_021544BC
+ * unit: yes
+ * address: 0x0215444C
+ * packet: pkt_ov006_0215444C
+ * region: ov006
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   DIFF
- * checks: 1 own ARM9 bodies prove 020399A8 returns pointer forwarded to 0203D1A4; 02012950 returns pointer, 02008550 returns byte; 2 ov006 pending 021544F0 agrees on pointer accessor, no scheduling twin; 3 const descriptor unchanged, const O worsens to36, unsigned indexes unchanged; 4 const-hoisting idiom tested; 5 neighbours/idioms rechecked, residue is spill scheduling not a stack object. Permuter skipped: extent includes follower021544BC.
- * renewed pass: 5 runs; correct call-chain and pointer types retain DIFF18, const O DIFF36. No consumed permuter search repeated.
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * size: 136
+ * checks: 1 020084F4 bx-lr identity takes live t pointer, fixes18; 2 ov006544F0 and ARM9 accessor sources read; 3 byte-return, raw indexed-address, long-pointer payload and const record checked; 4 const-hoist and register-tie idioms read; 5 fresh idiom/neighbour review; unit follower544BC verified. Prior manual histories R1 eight/wave75 five; permuter skipped follower extent, never consumed.
  *
- * near miss: DIFF 18 bytes: original loads a->r into r1 and spills the second call result (sp+4) after two field loads; every C spelling tried (struct/char* forms, q assigned before/after, local order) spills it right after the call and loads a->r into r0.
- * lane R1 (2026-09-28), 8 more runs, still the same 18 bytes (+0x1E..+0x32): a named `R *r = a->r`
- *   local, q assigned before the first store, x/t as an `int v[2]` stack array, y recomputed as 1-x;
- *   `unsigned char t` is worse (SIZE 116). The spill store of t is emitted at the def and the freed r0 is
- *   reused for a->r; the original keeps t in r0 across two loads. permuter is unusable here: it scores
- *   against the 136-byte listing extent (the unlabelled leaf at 0x021544BC follows at 0x70).
- *
+ * The lead is 110 bytes, followed by two padding bytes and the 24-byte
+ * func_021544BC thunk. function_starts: 0x021544BC.
+ * func_020084F4 is the bx-lr identity: the original retains the pointer
+ * returned by func_02012950 in r0 across two loads, passes it to the
+ * identity, and stores the unchanged result. Its prior (void) extern
+ * dropped the live input and caused an 18-byte scheduling residue.
+ * func_0203D1A4 explicitly returns only eight bits; the caller consumes
+ * those bits without truncation. Indexed record reads retain modular
+ * unsigned address arithmetic without assuming an index domain.
  * symbols:
- *   func_020399A8  0x020399A8  arm
- *   func_0203D1A4  0x0203D1A4  arm
- *   func_02012950  0x02012950  thumb
- *   func_020084F4  0x020084F4  thumb
- *   func_02008550  0x02008550  thumb
- *   func_0201A948  0x0201A948  thumb
+ *   func_020399A8 0x020399A8 arm
+ *   func_0203D1A4 0x0203D1A4 arm
+ *   func_02012950 0x02012950 thumb
+ *   func_020084F4 0x020084F4 thumb
+ *   func_02008550 0x02008550 thumb
+ *   func_0201A948 0x0201A948 thumb
+ *   func_02013128 0x02013128 thumb
  */
-
 typedef struct {
     int f0, f4, f8;
     unsigned char fc;
@@ -43,17 +46,18 @@ typedef struct {
     char pad[0x20];
     Sub s;
     char pad2[0x5c - 0x48];
-    R *r;
+    const R *r;
     char pad3[0x168 - 0x60];
     void *f168;
 } O;
 
 void *func_020399A8(void);
-unsigned int func_0203D1A4(void *p);
+unsigned char func_0203D1A4(void *p);
 void *func_02012950(void *a, unsigned int b);
-int func_020084F4(void);
+void *func_020084F4(void *p);
 unsigned char func_02008550(const void *a);
 void func_0201A948(void *a);
+void func_02013128(void *p, void *src, int i);
 
 void func_0215444C(O *a, void *b)
 {
@@ -66,14 +70,19 @@ void func_0215444C(O *a, void *b)
     t = func_02012950(b, y);
     a->s.f0 = a->r->f1c;
     q = &a->s;
-    q->f4 = a->r->t14[x];
-    q->f8 = func_020084F4();
+    q->f4 = *(int *)((unsigned int)a->r + 0x14 + 4 * (unsigned int)x);
+    q->f8 = (int)func_020084F4(t);
     q->fc = func_02008550(t);
-    q->f10 = a->r->t14[y];
+    q->f10 = *(int *)((unsigned int)a->r + 0x14 + 4 * (unsigned int)y);
     q->f14 = b;
     q->f18 = 0;
     func_0201A948(a->f168);
     q->f1c = a->f168;
     q->f20 = a->r->t14[0];
     q->f24 = a->r->t14[1];
+}
+
+void func_021544BC(O *a)
+{
+    func_02013128(*(void **)((unsigned int)a + 0xdc), a->f168, 0);
 }

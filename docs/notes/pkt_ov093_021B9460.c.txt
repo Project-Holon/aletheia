@@ -5,10 +5,21 @@
  * region: ov093
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 all arities rederived from own matched accessors or ov093 callers, BA178/D4D84 take3 and B9B54 takes2; 2 969C and B9B54/9634 sources confirm full-word payloads but no complete loop twin; 3 enum second-loop counter compiles unchanged468/306, widening k:u8 to int worsens468/316; prior const a with u16 k=472/324; 4 shared function-scope loop counter and reordered declarations compile unchanged468/306, enum-zero and stack-order idioms read; 5 directory refreshed and current 969C reread, no new aggregate. Prior --types permuter300 consumed, rejected assignment after break and truncated scaled offset, not repeated. Next lever is an inline per-record accessor's local lifetime rather than another flat declaration sweep.
- * residual: 468/468 bytes, 306 concrete bytes differ, 21/21 relocations resolved. Renewed logs scratchpad/overlay-newpass-20261003-w75/R11/021B9460-{enum,sharedloops,widek}.log; best C remains the recorded baseline.
+ *
+ * DIFF, 306 concrete bytes, 468/468 bytes, all 21 relocations resolved.
+ * checks: 1 own BA178/D4D84/Q1/9634 and matched969C confirm arities; own D4D84 heap:u32 and 969C D5848 pointer payload spelling adopted at unchanged306/468; 2 matched969C reread, no complete loop twin; 3 enum last and widened species with retained u16 cast remain306/468; 4 inline record accessor worsens388/472 and pointer array-base local worsens414/468; 5 idiom directory and neighbours refreshed, declared-stack-object idiom does not fit scalar/CSE spills.
+ * Five fixed one compiles in final retry, all terminal DIFF exits read.
+ * Prior once300 --types search consumed, invalid search mutants recorded
+ * in the old archive were not accepted or searched again.
+ * Keep raw record offsets; the accessor changes the second-loop load
+ * ordering, and the array-base local grows the frame from0x30 to0x38.
+ * Residual: first-loop register pair, scalar spill homes, second-loop
+ * counter home and later pointer-load/argument scheduling.
+ * New logs: scratchpad/overlay-newpass-20261003-w76/R5/9460-*.log.
+ *
  * symbols:
  *   func_021BA178 0x021BA178 thumb ov093
  *   func_0201AA18 0x0201AA18 thumb
@@ -32,12 +43,12 @@ extern const u8 data_021EFCF0[4];
 extern void *func_021BA178(void *, int, int);
 extern int func_0201AA18(void *);
 extern void *func_0201AB28(void *, int);
-extern void *func_021D4D84(void *, u8, int);
+extern void *func_021D4D84(void *, u8, u32);
 struct Q1 { u32 items[6]; u8 count; };
 extern void func_021B9B54(struct Q1 *, u32);
 extern int func_021B9634(void *);
 extern int func_021D59B4(void *, int);
-extern void func_021D5848(void *, u32);
+extern void func_021D5848(void *, void *);
 extern void *func_021B86B8(void *);
 extern u16 func_021D5444(void *);
 extern int func_02017E1C(void *, int, int);
@@ -72,7 +83,7 @@ void func_021B9460(u8 *a, u8 *b, u8 k)
         u8 slot = start;
         for (i = 0; i < last; i++) {
             if (func_021D59B4(*(void **)(a + slot * 4 + 0x84), 0x11) == 0x95)
-                func_021D5848(*(void **)(a + slot * 4 + 0x84), (u32)func_0201AB28(list, last));
+                func_021D5848(*(void **)(a + slot * 4 + 0x84), func_0201AB28(list, last));
             slot++;
         }
     }
@@ -97,7 +108,7 @@ void func_021B9460(u8 *a, u8 *b, u8 k)
                 if (result != 0) {
                     if (*(void **)(b + 0x2c0) == 0)
                         *(void **)(b + 0x2c0) = func_020173F0(result, func_021D59B4(m, 0xf), 0, 0, *(u16 *)(b + 0x468));
-                    func_021D5848(m, *(u32 *)(b + 0x2c0));
+                    func_021D5848(m, *(void **)(b + 0x2c0));
                 }
             }
             start++;

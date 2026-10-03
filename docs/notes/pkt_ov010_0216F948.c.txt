@@ -9,8 +9,12 @@
  * isa:      thumb
  * status:   DIFF
  *
- * DIFF, 144 concrete bytes, 328/344 bytes, all 9 relocations resolved.
- * checks: 1,2,3,4,5
+ * DIFF, 139 concrete bytes, 328/344 bytes, all 9 relocations resolved.
+ * checks: 1 current matched interfaces GetMon3/alloc5/learnset3/free1,
+ * allocator int clear and u16 tag fixed without byte change; 2 caller
+ * 5C89C confirms returned halfword list, no stack-copy twin; 3 const source
+ * aliases give144/328; 4 aggregate/inline-level/stack-slot idioms reread;
+ * 5 directory/neighbours refreshed, missing two Learn copies remain.
  * Image frame 0x40 versus compiled 0x38: eight four-byte learnset copies,
  * including before-loop and per-iteration pairs, collapse into six slots.
  * Own/matched-caller evidence confirms GetMon 3, alloc 5, learnset 3,
@@ -20,6 +24,11 @@
  * Five fixed one runs. Relevant aggregate/inline/stack idioms were read.
  * Best extent is 16 bytes short; the within-eight-byte permuter gate does
  * not apply. Earlier manual sweeps are not claimed as a permuter run.
+ * wave76 final retry: scalar move accessor with per-iteration copies
+ * improves144 to139/328; before-loop scalar form gives207/320, helper-local
+ * copy and const source aliases give144/328. Five fixed one runs including
+ * corrected allocator prototype check. Renewed manual pass exhausted;
+ * best remains16B short, so the first once300 search gate still does not apply.
  *
  * symbols:
  *   func_02017E1C  0x02017E1C  thumb
@@ -36,7 +45,7 @@ typedef unsigned int u32;
 struct Learn { u16 move; u16 level; };
 
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
-extern void *func_02030734(u32 heap, u32 size, u32 flags, const char *file, u32 line);
+extern void *func_02030734(u32 heap, u32 size, int flags, const char *file, u16 line);
 extern void func_0201ADD0(u16 species, u16 form, void *dest);
 extern void func_020307B0(void *m);
 extern const char d_02172B74[];
@@ -49,9 +58,9 @@ static inline int Learn_IsEnd(const struct Learn *t)
     return end;
 }
 
-static inline struct Learn Learn_Copy(struct Learn l)
+static inline u16 Learn_Move(struct Learn l)
 {
-    return l;
+    return l.move;
 }
 
 u16 *func_0216F948(void *mon, u32 heap)
@@ -92,16 +101,16 @@ u16 *func_0216F948(void *mon, u32 heap)
         e = cur;
         if (e.level > level)
             continue;
-        a = cur;
         for (j = 0; j < 4; j++) {
-            if (moves[j] == Learn_Copy(a).move)
+            a = cur;
+            if (moves[j] == Learn_Move(a))
                 break;
         }
         if (j != 4)
             continue;
-        c = cur;
         for (j = 0; j < n; j++) {
-            if (out[j] == Learn_Copy(c).move)
+            c = cur;
+            if (out[j] == Learn_Move(c))
                 break;
         }
         if (j != n)

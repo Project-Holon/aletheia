@@ -5,10 +5,20 @@
  * region: ov093
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 all callee arities rederived from own sources and matched ov093 callers, CD6F0=11 and BA9C8=5; 2 7CB4/8070/81DC twins confirm call widths and q fields; 3 renewed const q and structured Q pointer both compile unchanged600/69, t:u8 inserts truncation and worsens604/565 (B6818 returns0/1); prior const p=73 and unsigned t unchanged; 4 const-record stack-store and u16-accessor scheduling idioms read, no safe improvement; 5 directory refreshed and current 7CB4 reread, no new matching twin or stack aggregate. Prior --types permuter300 consumed and not repeated. Next lever is call-site inline grouping while retaining the two distinct B6994 paths.
- * residual: 600/600 bytes, 69 concrete bytes differ, 21/21 relocations resolved. Renewed logs scratchpad/overlay-newpass-20261003-w75/R11/021B7E18-{constq,structuredq,narrowt}.log; best C remains the recorded baseline.
+ *
+ * DIFF, 69 concrete bytes, 600/600 bytes, all 21 relocations resolved.
+ * checks: 1 matched 7CB4/8070/81DC confirm all arities, CD6F0=11; own BA9C8 gives Copy24 pointer and pointer return, adopted at unchanged69/600; own B9010 returns the u8 local n in0..4; 2 twins reread with their two distinct B6994 paths; 3 kind:int worsens559/628 and flag:int worsens268/604; 4 inline create wrapper worsens452/576 and inline result-store wrapper worsens456/572; 5 idiom directory and neighbours refreshed, declared-stack-object idiom does not fit the scalar CSE spills.
+ * Five fixed one compiles in final retry, all terminal DIFF exits read.
+ * Prior once300 --types search consumed and not repeated.
+ * The two inline wrappers collapse the original spill frame and change
+ * indexed LHS setup rather than closing the outgoing-argument scheduling.
+ * Retain direct calls and the own allocator's pointer prototype.
+ * Residual: stack argument stores and field/address load scheduling.
+ * New logs: scratchpad/overlay-newpass-20261003-w76/R5/7E18-*.log.
+ *
  * symbols:
  *   func_021B6818 0x021B6818 thumb ov093
  *   func_021D4270 0x021D4270 thumb ov093
@@ -29,7 +39,8 @@ typedef unsigned int u32;
 typedef struct { u8 pad[0x473]; u8 a:1; u8 b:1; } B;
 extern int func_021B6818(int *);
 extern int func_021D4270(void);
-extern int func_021BA9C8(void *, void *, void *, int, u16);
+struct Copy24 { int x[6]; };
+extern u8 *func_021BA9C8(void *, struct Copy24 *, void *, int, u16);
 extern int func_021CD6F0(void *, void *, int, int, u16, u8, u8, int, u8, void *, u16);
 extern int func_021CD978(int);
 extern void func_021BAA94(int, int, u8, u8);
@@ -54,7 +65,7 @@ int func_021B7E18(u8 *p)
         return 1;
     }
     if (p[0x46e]) {
-        *(int *)(p + 8) = func_021BA9C8(p, p + 0x3f0, p + 0x1b0, t, *(u16 *)(p + 0x468));
+        *(int *)(p + 8) = (int)func_021BA9C8(p, (struct Copy24 *)(p + 0x3f0), p + 0x1b0, t, *(u16 *)(p + 0x468));
         ((int *)(p + 0x10))[idx] = func_021CD6F0(p, p + 0xc8, q[0x20], *(int *)(q + 0x1c), idx, kind, 0, t, 0, p + 0x3f0, *(u16 *)(p + 0x468));
         func_021BAA94(*(int *)(p + 8), func_021CD978(((int *)(p + 0x10))[idx]), idx, kind);
         if (q[0x22] == 2) {
@@ -72,7 +83,7 @@ int func_021B7E18(u8 *p)
         }
     } else {
         ((int *)(p + 0x10))[idx] = func_021CD6F0(p, p + 0xc8, q[0x20], *(int *)(q + 0x1c), idx, kind, 0, t, 0, p + 0x3f0, *(u16 *)(p + 0x468));
-        *(int *)(p + 0xc) = func_021BA9C8(p, p + 0x3f0, p + 0x1b0, t, *(u16 *)(p + 0x468));
+        *(int *)(p + 0xc) = (int)func_021BA9C8(p, (struct Copy24 *)(p + 0x3f0), p + 0x1b0, t, *(u16 *)(p + 0x468));
         for (i = 0; i < 4; i++) {
             if (func_021B8B9C(p, i))
                 func_021BAB10(*(int *)(p + 0xc), i, func_021B6994(p, i));

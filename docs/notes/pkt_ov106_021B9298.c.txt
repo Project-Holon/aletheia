@@ -8,7 +8,7 @@
  * isa: thumb
  * status: DIFF
  * residue: 62 compiled bytes versus 60 original; 28 concrete bytes differ after +0x20, early destination address formation and source-index register copy.
- * checks: 1 own bitmap getter one const pointer, SDK copy reads source r0/dest r1/length r2; signed length unchanged; 2 ov106021B8A28 confirms four u16 stack params; 3 inline helper full-width product and const source unchanged at62/60,28 bytes; 4 address/scheduling idioms read; 5 fresh full directory and matched neighbour reread. Retry exhausted after three nonshrinks; next useful evidence would be SDK inline types. Permuter300 baseline62/60,28 agreed; size60 candidate rejected for uninitialized s_ read and reversed getter order, not ported.
+ * checks: 1 own 437D4 and SDK MIi_CpuCopy32 confirm one/three args and source/dest/length order; 2 ov106 8A28 refreshed, x/y int and four u16 stack args; 3 int coordinates and u16 inline dimensions unchanged DIFF28/62; const source retained, signed length prior attempt not repeated; 4 u32-scaled pointers and an extra copy inline unchanged28, inline-argument evaluation idiom read; 5 fresh full idiom listing and ov105/106/107 neighbours, no stack object. W76 three fixed runs, all unchanged28/+2. Earlier permuter300 consumed; invalid uninitialized/reversed-getter candidate remains rejected, no repeat. Next: SDK copy wrapper's original source parameter types.
  * symbols:
  *   func_020437D4 0x020437D4 arm
  *   func_02082A90 0x02082A90 arm
@@ -19,15 +19,19 @@ typedef unsigned int u32;
 struct Bmp;
 extern void *func_020437D4(const struct Bmp *);
 extern void func_02082A90(const void *,void *,int);
-static inline void copy_tiles(const u8 *d,u8 *s,u32 x,u32 y,u16 sx,u16 sy,u32 width,u32 height)
+static inline void copy_words(const void *from,void *to,u32 size)
+{ func_02082A90(from,to,size); }
+static inline void copy_tiles(const u8 *d,u8 *s,int x,int y,u16 sx,u16 sy,u16 width,u16 height)
 {
-    u32 dx,src,size;
+    int dx,src; u32 size;
     dx=x+width*y;
     src=sx+sy*width;
     size=width*height;
-    func_02082A90(d+32*dx,s+32*src,32*size);
+    { const u32 *from = (const u32 *)d + 8*dx;
+      u32 *to = (u32 *)s + 8*src;
+      copy_words(from,to,32*size); }
 }
-void func_021B9298(const struct Bmp *a,const struct Bmp *b,u32 x,u32 y,u16 sx,u16 sy,u16 width,u16 height)
+void func_021B9298(const struct Bmp *a,const struct Bmp *b,int x,int y,u16 sx,u16 sy,u16 width,u16 height)
 {
     u8 *d,*s;
     d=func_020437D4(a);

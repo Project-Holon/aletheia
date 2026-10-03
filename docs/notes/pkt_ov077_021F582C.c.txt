@@ -21,7 +21,8 @@
  *   d_020A1B38     0x020A1B38  data  a2
  *   d_021F5A58     0x021F5A58  data  a4
  * Addresses are Black-image addresses.
- * checks:   1 func_0207AF1C/func_0207AF38 take (m, sin, cos) as in ov058 0x021F391C, func_0207D934 takes one, no stray argument registers; 2 no shape twin (ov079 0x021F5AE4 and ov077 0x021F5798 share only the 0x3008/0x300A grid fields; ov078 0x021F5800 is the G3 sibling whose spelling this reuses); 3 cols/rows u16 244 lines (worse), permuter's i as u16 compiles 8 bytes longer, the only parameter is a pointer; 4 four-halfword-zero-stores-...-placed-by-block applied (prologue now exact), enum-typed 0x300A offset local 246 (frame grows), TileSet struct pointer identical to best, function-vs-block scope and declaration position swept (213-214, flat); 5 re-listed idioms (415), nothing else fits a hoisted-constant register choice
+ * checks: 1 AF1C/AF38 matrix,sin,cos three andD934 matrix one confirmed by matched ov058/078 callers; 2 ov077/079 grid and ov078 graphics neighbour refreshed; 3 signed-long fx32 and const read-only w/e variants each556/403 flat; 4 SDK inline/vector-copy/struct-slot idioms read, s/t deferral544/465 and by-value translate568/478 worse; 5 full idiom directory and fresh siblings refreshed. Prior permuter300 remains spent. Next hypothesis: vendor translation inline with distinct enum field types.
+ * retry: Wave76 R18 final retry, four fixed one runs; pointer-translate best556/403 retained, all10 relocations resolved; handed596 extent includes trailing data.
  *
  * Residue (same size, 214 diff lines from +0x36): the original materialises
  * 0x300A in r7 and reaches cols as r7 - 2, hoists that 0x3008 offset to

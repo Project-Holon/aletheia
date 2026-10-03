@@ -8,15 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks:   1 func_02030734 takes 5 (heap,size,clear,file,line), func_0201121C 2, func_020490F4 2, func_0201126C 2; 2 no twin in ov096 (ov094_func_021F93F4 has the same alloc+0201121C/126C shape, its prototypes copied); 3 heap as u16 (worse: ldrh via add r0,sp), as int, as local copy (all same 7-byte scheduling diff), alloc prototype with u32/const char* (no change); 4 none fits (scheduling tie); 5 n/a no stack object
- *
- * Residue (runs 5/10): only the placement of the two pool loads for the
- * alloc call.  Original: str r3,[sp,#8]; adds r7,r1; str r2,[sp,#4];
- * ldr r5,[sp,#0x20]; ldr r0,[pc] (line 0x1d9); ldr r3,[pc] (file);
- * str r0,[sp].  Compiled: ldr r0,[pc] is hoisted before the spills and the
- * ldr r5 comes after it, ldr r3 after str r0,[sp].  Everything else in the
- * function (all 12 relocations, register allocation) is identical; the diff
- * is a 6-instruction window at +0x06..+0x12.
+ * checks: 1 own ARM9 allocator proves fifth u16 tag, B86B8 pointer return, all other 5/2-argument shapes retained; 2 own A41C and matched B8588 callers read; 3 evidenced tag and full-width pointer/flag declarations unchanged 176/14; 4 inline allocator and pool-scheduler idioms read; 5 fresh directory and matched constructor neighbours re-read.
+ * residual: DIFF 176/176, 14 concrete bytes, all 12 sites resolve; line pool load precedes spills and file load follows outgoing store.
+ * budget: 3 nonshrinking iteration calls; first types300 permuter consumed. Emitted baseline DIFF14 agrees on bytes but loses one relocation (fixed one resolves all 12). Best12 narrows full-width d to u16: rejected, no mutant accepted. Next hypothesis: allocation wrapper source boundary with full-width inputs.
  * symbols:
  *   d_0218A7A0     0x0218A7A0  data   ov096  a1
  *   d_0218A574     0x0218A574  data   ov096  a4
@@ -39,33 +33,38 @@ typedef unsigned int u32;
 extern char d_0218A7A0[];
 extern char d_0218A574[];
 
-extern u8 *func_02030734(int a, int b, int c, void *d, int e);
+extern u8 *func_02030734(u32 a, u32 b, int c, const char *d, u16 e);
 extern int func_020490F4(int a, int b);
 extern int func_02020F14(u32 heap);
-extern u32 func_021B8588(int p);
-extern u32 func_021B86B8(int p);
+extern u32 func_021B8588(void *p);
+extern void *func_021B86B8(void ***p);
 extern void *func_0201121C(u32 heap, void *params);
 extern void func_0201126C(void *vm, void *user);
 extern u32 func_0201C408(void);
 extern void func_0201C328(int n, u32 heap);
 extern void func_0218A41C(int a);
 
-void *func_02187F00(int a, int b, int c, int d, u32 heap)
+static inline u8 *allocate(u32 heap)
+{
+    return func_02030734(heap, 0xd8, 1, d_0218A7A0, 0x1d9);
+}
+
+void *func_02187F00(void ***a, void *b, void *c, u32 d, u32 heap)
 {
     u8 *p;
     void *vm;
 
-    p = func_02030734(heap, 0xd8, 1, d_0218A7A0, 0x1d9);
+    p = allocate(heap);
     *(u16 *)(p + 0xa0) = heap;
     *(int *)(p + 0xc4) = 1;
-    *(int *)(p + 0x40) = d;
+    *(u32 *)(p + 0x40) = d;
     *(int *)(p + 0xa4) = func_020490F4(0xab, heap);
     *(int *)(p + 0xa8) = func_02020F14(heap);
-    *(int *)(p + 0xb0) = a;
-    *(int *)(p + 0xb4) = b;
-    *(int *)(p + 0xb8) = c;
+    *(void ****)(p + 0xb0) = a;
+    *(void **)(p + 0xb4) = b;
+    *(void **)(p + 0xb8) = c;
     *(int *)(p + 0x98) = func_021B8588(a);
-    *(int *)(p + 0x9c) = func_021B86B8(a);
+    *(void **)(p + 0x9c) = func_021B86B8(a);
     vm = func_0201121C(heap, d_0218A574);
     func_0201126C(vm, p);
     if (func_0201C408() == 0)

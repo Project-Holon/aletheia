@@ -7,6 +7,13 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * owner-blocker: fresh enum-tile one is DIFF138/320 with unresolved ARM9
+ *   func_02045CAC at +0080. src/matched/arm9/unit_02045C44.c contains
+ *   its body, but function: names only func_02045C44 and pkt_02045C44's
+ *   unit functions list omits the reader. Ilias owns that inventory fix.
+ *   Stopped after one fresh substantive compile; no further caller retry
+ *   while that witness is absent. Old once300 search remains consumed.
+ *   Evidence: scratchpad/overlay-newpass-20261003-w76/R22/021BA978-enum.log.
  * checks: 1 full callee and forwarding bodies prove retained visible inputs, CCE4 live r0 return and F73C caller-side u16 truncation; F73C fourth unsigned parameter stayed DIFF138/320 (1 C1 compile); 2 fresh ov099/ARM9 own-body headers, BAAB8/BCECC callers and BA928/B050 neighbors supplied no rescue; 3 long flag and long resource each stayed DIFF138/320 (2/2 compiles); mutable p cannot safely be const; 4 enum/shared constant and raw-offset idioms read, tile14 extraction already tried without improvement; 5 fresh idiom list and matched neighbors reread; mode spill rather than stack object remains; next scheduling/extraction probe forbidden by consumed 2/2 manual-variant cap.
  * residual: DIFF138/320: mode lives in r7 instead of original stack spill; resource spills, and shared tile14 register synthesis differs.
  * budgets: 5 iteration compiles, final nonshrinking streak 3; C1 1, C3 2; manual scheduling/order variants 2/2; once-only types permuter tool-reported 300 compiles.

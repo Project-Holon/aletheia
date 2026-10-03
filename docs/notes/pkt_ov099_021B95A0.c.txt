@@ -7,10 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 full B9DC0/B9E50 forwarding and other visible unused inputs retained; BA810 two-halfword r0 return ABI proved; 2 B9800/B9FDC and fresh ov099/ov127 callers supplied no register-allocation rescue; 3 long h and unsigned-long index each stayed DIFF18/208 (2/2 compiles); 4 named +588 offset worsened to DIFF78/204, reverted; declaration-order/raw-offset idioms read; 5 fresh idiom listing, neighbors and declared-struct storage idiom reread, Pos copy already correct; next enum/shared-offset scheduling probe forbidden by consumed 2/2 manual-variant cap.
- * residual: DIFF18/208: heap and +588 offset occupy swapped r4/r6; unresolved ov127 021C4800 is secondary, not a MATCH-only leaf authorization.
- * budgets: 4 iteration compiles, final nonshrinking streak 3; C3 2, C4 1; manual scheduling/order variants 2/2; once-only types permuter tool-reported 300 compiles, no improvement; best compiled C3b retained.
- * evidence: scratchpad/overlay-goal-20260930-w32/B8/021B95A0-c3b.log; 021B95A0-c4.log; 021B95A0-permuter.log
+ * checks: 1 own ov127 allocator/copy bodies and ov099 forwards/getters checked; visible unused forwarded inputs retained; C4800 now witnessed, pointer destination corrected with full-word cast, retained18; 2 current B9800/B9FDC and legacy getters checked; 3 enum h18, u32 h18, enum index18; 4 enum shared offset98, reusing heap parameter18 exhaust two manual variants; 5 idioms/neighbours reread. Old once300 at w32/B8/021B95A0-permuter.log consumed, not repeated.
+ * residual: DIFF18/208: heap/offset r4/r6 allocation swap; all14 relocations resolve. Six fresh principled compiles; old exhausted status did not exclude manual pass. Evidence: scratchpad/overlay-newpass-20261003-w76/R22/021B95A0-*.log. No new permuter; previous once300 preserved.
  * symbols:
  *   func_02082BCC 0x02082BCC arm
  *   func_021B9DC0 0x021B9DC0 thumb ov099
@@ -42,8 +40,8 @@ extern void func_021B9DC0(void *, int, int);
 extern void func_021B9E04(void *, int);
 extern Pos func_021BA810(int);
 extern unsigned long func_021BA81C(int);
-extern void *func_021C47A0(u16, u16, int);
-extern void func_021C4800(void *, u32);
+extern void *func_021C47A0(u32, u32, u32);
+extern void func_021C4800(void *, void *);
 extern Container *func_021C4880(u32, u32);
 extern void func_021B9D30(void *, int, int);
 extern void func_021C59D0(void *);
@@ -68,7 +66,7 @@ void func_021B95A0(char *p, unsigned long heap, int a, int b, u32 n, int c, void
     func_021B9E04(*(void **)(p + 0x10), h);
     pos = func_021BA810(index);
     *(void **)(p + 0x588) = func_021C47A0(pos.x, pos.y, h);
-    func_021C4800(*(void **)(p + 0x588), func_021BA81C(index));
+    func_021C4800(*(void **)(p + 0x588), (void *)func_021BA81C(index));
     *(Container **)(p + 0x58c) = func_021C4880(0x30, h);
     func_021B9D30(p, b, h);
     func_021C59D0(p + 0x594);

@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * final-retry: W76 R16 3 iteration + 1 check3. Extra inline layer gives428/DIFF38; first-candidate loop peeling gives552/DIFF501; cursor/k spill pair and pointer-valued getter prototypes retain428/DIFF14. Three nonshrinks stop. Checks1 current own vector/48C0/3DE4 bodies and matched ov021 getter callers re-read; 2 scoped 038/039/040 minimum callers refreshed, no twin; 3 pointer getter/prototypes compiled unchanged14; 4 spill pair and extra inline layer tried, no uninitialized-best spellings; 5 refreshed idioms/neighbours and declared-stack-struct idiom. Earlier permuter300 consumed, not repeated. Final retry exhausted; preserve guarded best below.
  * renewal: Wave75 R26 3 iteration + 1 check3; guarded first-candidate seeding grows436/DIFF259; boolean enum remains428/DIFF14; enum k grows440/DIFF345; enum-first/const s+cursor flat14. Three nonshrinks stop, two scheduling variants consumed; earlier permuter300 remains spent, no rerun.
  * note: Best fixed-flag run04 is 428B, 14 concrete byte differences,
  *       all 27 relocations resolved. Six bytes are cursor/k spill offsets:

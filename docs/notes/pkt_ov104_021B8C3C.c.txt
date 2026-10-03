@@ -6,7 +6,8 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
+ * status: EXACT (superseded by src/matched/ov/ov104_func_021B8C3C.c)
+ * resolution: Wave76 R26 fourth run exact; raw delta.y capture plus both endpoint conversions before origin additions, with end.y as left add operand. Old permuter remains consumed.
  * checks: 1 matched accessor/initializer and runtime vector signatures agree; 2 own ov104 neighbours read, no exact emitter twin; 3 const baseline/removal unchanged25, u16 angle worse120; 4 const scheduling/stack Vec idioms read; 5 unfiltered directory and fresh neighbours reread, declared stack objects already correct. Best24/204 after one types permuter300 and confirming one.
  * symbols:
  *   func_020056EC 0x020056EC thumb

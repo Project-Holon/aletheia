@@ -7,8 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 matched ARM9 bodies prove call arities, original argument setup preserved. 2 fresh ov103 7970/ov104 7994/ov105 78F4 twins confirm setup types, no monolithic twin. 3 unsigned counter 365 out; full-width heap iteration unchanged; readonly p forbidden by writes. 4 repeated-constant and enum-zero idioms: enum local and enum parameters 508 bytes/364 out. 5 fresh directory and 7F00/7F74/7F7C/8D8C/8B5C neighbours read; no rescue; ordering cap exhausted 2/2.
- * residual: 508 compiled versus 492 original, 364 concrete bytes differ; stack zero rematerialized rather than hoisted. Data 021B94A8 lacks witness. Iteration stopped after three nonshrinking changes (runs 2-4); checks carry that cap. Near-size permuter inapplicable (+16).
+ * checks: 1 own ARM9 arities read including six/seven-arg resource loaders; original full-word heap forwarding to 45B38/D7EC retained in best C. 2 ov104 7994 and ov105 78F4 setup twins reread, no monolithic twin. 3 full-width heap plus u32 zero check3 remains 508/364; enum reused counter worsened to 512/449. Narrow main heap trial rejected: full-input-domain narrowing unproved. 4 repeated-constant and enum-zero idioms reread; shared loop counter zero failed. 5 fresh unfiltered directory and ov106 8AD0/8648 plus sibling neighbours reread, no rescue. Next hypothesis: block boundary around resource batches, after cap.
+ * residual: renewed pass: 3 nonshrinking iterations plus 1 check3; best 508 compiled versus 492 original, 364 concrete bytes. Zero rematerializes for stack calls instead of staying in r4; data 021B94A8 lacks outside witness even with alignment-only hint. No prior permuter; near-size condition unmet (+16), so no search.
  * symbols:
  *   func_02082BCC 0x02082BCC arm
  *   func_0203F8F4 0x0203F8F4 arm
@@ -65,7 +65,7 @@ extern void func_02045808(void *),func_0201D83C(void *),func_02045C04(void *);
 extern void func_02045334(u32),func_02045374(u32),func_020409B4(u32);
 void func_021B7D14(u32 *p,void *a,int heap) {
     int i,id;
-    Zero zero;
+    u32 zero;
     void *bank,*font,*text;
     func_02082BCC(p,0,16);
     func_0203F8F4(heap);

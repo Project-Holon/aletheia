@@ -8,21 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks: 1 matched E40 getter takes h, CBAC three fullword arguments, D10C body ignores legacy trailing parameters; 2 allocation/prototypes and typed Param/Work twin 02172BC0 re-read; 3 unsigned state and mutable template unchanged DIFF196/59, const b iteration CCERR; 4 large aggregate loop alignment idiom fits existing T70; 5 refreshed ov011 neighbours/idioms, no local stack aggregate. Next hypothesis: typed request/source aggregate representation; no sweep.
- * Renewed pass: three iteration runs and two check3 compiles, safe baseline
- * DIFF196/59 below, h passed to E40. Once300 types search consumed this wave;
- * see scratchpad/overlay-newpass-20261003-w75/R17/perm-02172CB0.log.
- * Best mutant DIFF192/65 rejected: tmp=c[0x8fd] is between case0's break
- * and the case1 label; dispatch to case1 bypasses initialization.
- *
- * Near miss (DIFF, 196 vs 192 B, 59 bytes differ). Semantics are right (state machine on *a:
- * 0 allocs a 0x70 struct copied from d_021768C8, registers callback func_02173568;
- * 1 waits on c[0x8fd] >= 2 then sets it to 3 or 4). Blocker: allocation. The image
- * has c/b/a in r4/r5/r6 and the 0x70 copy loop with source in r3 and counter in r7;
- * this C gives b/a/c in r4/r5/r7 and the loop with source r6, counter r2, so the pool
- * order also moves. An if/else chain instead of switch is worse (126 bytes).
- * Also: d_021768C8 and func_02173568 (unlabelled Thumb callback leaf at 0x02173568,
- * tail-calls through a pool word) would have no witness, capping at MATCH.
+ * checks: 1 own matched getter/allocator/CBAC/D10C bodies rederived, accurate pointer and allocator widths unchanged59; 2 ov01172BC0/730AC typed twins do not fix loop allocation; 3 const input and u8 value unchanged59; 4 big struct assignment/alignment idiom read; 5 fresh idioms/neighbours reread, no stack aggregate. d021768C8 hint dropped after own pool proof and unchanged verdict.
+ * Fresh final retry: 8 one runs, input/output/request representations and accurate prototypes all DIFF59/196B (original192B); const b repaired from prior CCERR and u8 v unchanged. Remaining +B8 data021768C8 and +BC ov011 callback02173568 unwitnessed. Once300 consumed at scratchpad/overlay-newpass-20261003-w75/R17/perm-02172CB0.log; rejected mutant read tmp before initialization across case dispatch, never repeat.
  *
  * symbols:
  *   func_02026478  0x02026478  thumb
@@ -35,7 +22,7 @@
  *   func_0203CFF0  0x0203CFF0  arm
  *   func_02173568  0x02173568  thumb  ov011
  *   d_02177000     0x02177000  data  ov011
- *   d_021768C8     0x021768C8  data  ov011
+ *   d_021768C8     0x021768C8  data  a4
  */
 
 typedef unsigned char u8;
@@ -48,10 +35,10 @@ typedef struct {
 extern char d_02177000[];
 extern const T70 d_021768C8;
 
-extern int func_02026478(int a);
-extern int func_02012E40(int);
-extern void *func_02030734(u32 heap, u32 size, u32 a, char *file, u32 line);
-extern int func_02158590(int a);
+extern void *func_02026478(void *a);
+extern u8 func_02012E40(const u8 *);
+extern void *func_02030734(u32 heap, u32 size, int a, const char *file, unsigned short line);
+extern int func_02158590(void *a);
 extern void func_0203CBAC(void *a, void *b, void *c);
 extern void func_020307B0(void *a);
 extern void func_0203D10C(int a);
@@ -60,11 +47,11 @@ extern void func_02173568(void);
 
 int func_02172CB0(int *a, u8 *b, u8 *c)
 {
-    int h;
+    void *h;
     T70 *p;
     int v;
 
-    h = func_02026478(*(int *)(b + 4));
+    h = func_02026478(*(void **)(b + 4));
     if (func_02012E40(h) == 1)
         return 0;
     switch (*a) {

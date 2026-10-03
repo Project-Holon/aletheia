@@ -8,18 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- *
- * Residual (12 runs): 24 bytes differ, all register allocation and one
- * compare operand order.  Original: lo=(n&7) in r4, w in r5, hi in r6, loop
- * x reuses r4; ours: lo r5, w r4, hi r6, x r5.  Stack slots (h at [sp+8], y at
- * [sp+0xc], lo+7 at [sp+0x10], hi+3 at [sp+0x14]) already match with the
- * declaration order below.  The two compares are `cmp r0,r1` (call result
- * first, hoisted temp loaded from the stack into r1) in the original and
- * `cmp r1,r0` in ours; swapping the operands in the C changed nothing.
- *
- * checks: 1 callees func_021C47F8/47FC read one halfword, 4864 takes (m,u16,u16), prototypes fit and r0-r3 match; 2 no twin (Grep ov099/ov127 for 21C47F8 found only callers of the same accessor); 3 lo/hi as int and unsigned, 47F8/47FC returning u16 vs u32, loop counters must be u32 (blo) so no enum tried: no change; 4 no idiom for a two-reg swap of hoisted-invariant sources; 5 idioms re-listed, none new fits
- * unswept: n as u16 param, x/y as u16 locals with (int) compares, a do-while spelling.
- *
+ * checks: 1 own getter bodies return u16, 4864 three arguments/full-word result; retained caller u16 argument truncations, u32 return probe13; 2 BA0F8 and ov127 own leaves reread; 3 enum x/y42, narrowed input14 uses wrong arithmetic shift and is rejected, masked u16 lo176B/166diff, const Work pointer13; 4 reused n25 and decl order13 exhaust two manual variants; 5 fresh idioms/neighbours checked; once300 baseline13 agreed and safe temp/use winner fixed one2.
+ * residual: DIFF2/172: only cmp r1,r0 versus cmp r0,r1 at +0066 and +007C. All four calls resolved. Fresh once-only types budget300 consumed; mutations use(hi), temp(tmp=func_021C47F8(o->f588)) preserve values/order. Fixed one validates2. Evidence: scratchpad/overlay-newpass-20261003-w76/R22/021BA04C-perm.log and 021BA04C-permuter.log. No manual sweep reopened.
  * symbols:
  *   func_021C47F8  0x021C47F8  thumb  ov127
  *   func_021C47FC  0x021C47FC  thumb  ov127
@@ -27,39 +17,45 @@
  */
 typedef unsigned short u16;
 typedef unsigned int u32;
-typedef struct {
-    short x, y;
+typedef struct
+{
+  short x;
+  short y;
 } Pos;
-
-typedef struct {
-    char pad[0x588];
-    void *f588;
+typedef struct
+{
+  char pad[0x588];
+  void *f588;
 } Work;
-
 extern u32 func_021C47F8(void *m);
 extern u32 func_021C47FC(void *m);
-extern int func_021C4864(void *m, u16 x, u16 y);
-
+extern u32 func_021C4864(void *m, u16 x, u16 y);
 void func_021BA04C(Work *o, Pos *out, u32 n)
 {
-    u32 hi = n >> 3;
-    u32 w;
-    u32 lo = n & 7;
-    u32 y;
-    u32 h;
-    u32 x;
-
-    w = func_021C47F8(o->f588);
-    h = func_021C47FC(o->f588);
-
-    for (y = 0; y < h; y++) {
-        for (x = 0; x < w; x++) {
-            if (func_021C4864(o->f588, x, y) == lo + 7
-                && func_021C4864(o->f588, x, y + 1) == hi + 3) {
-                out->x = x * 16;
-                out->y = y * 16;
-                return;
-            }
+  u32 hi = n >> 3;
+  u32 w;
+  u32 lo = n & 7;
+  u32 y;
+  u32 h;
+  u32 x;
+  u32 tmp = func_021C47F8(o->f588);
+  w = tmp;
+  h = func_021C47FC(o->f588);
+  for (y = 0; y < h; y++)
+  {
+    for (x = 0; x < w; x++)
+    {
+      if ((func_021C4864(o->f588, x, y) == (lo + 7)) && (func_021C4864(o->f588, x, y + 1) == (hi + 3)))
+      {
+        out->x = x * 16;
+        if (hi)
+        {
         }
+        out->y = y * 16;
+        return;
+      }
     }
+
+  }
+
 }

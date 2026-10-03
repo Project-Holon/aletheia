@@ -9,17 +9,11 @@
  * status: DIFF
  * residual: 302/304 bytes, nine concrete bytes differ; count home-store at
  * entry and count reload at first loop latch reorder; two trailing zeros.
- * checks: 1 matched D57FC proves pointer argument; B9C00 u32 index and
- * D54C0 int index corrected; explicit Thumb ARM9 symbols resolve all ten
- * sites, prototypes alone unchanged; 2 D0644/D0D50/CFBF0 prove byte count
- * and pointer target, no sorting twin; 3 byte count/pointer target,
- * separate sort index, copied bound and p const/nonconst unchanged;
- * 4 narrow-parameter home/spill, separate-index, declared-stack-object,
- * masked-local and truncated-load idioms read; 5 directory/neighbours
- * reread, scores array offsets agree and no new stack-shape lever.
- * renewed pass: six runs; stopped after three nonshrinking changes.
+ * checks: 1 own ov093 bodies and ARM9 units rederived; pointer-payload externs corrected, all10 sites resolve, still DIFF9; 2 D0644/D0D50/CFBF0 byte-count callers reread, no sorting twin; 3 enum bound, long index, enum count, u16 count unchanged9; 4 home-store/spill, byte-count and masked-local idioms read; 5 fresh directory/neighbours reread, scores stack offsets agree.
+ * wave75: six runs; stopped after three nonshrinking changes.
+ * wave76: 5 runs, three nonshrinking iterations then checks1/3; best9/302 retained.
  * permuter: prior 300 --types consumed; best volatile(kind) mutant rejected;
- * search not repeated. Next: front-end count homing/enum-bound hypothesis.
+ * search not repeated. Enum-bound hypothesis now tested unchanged.
  * symbols:
  *   func_0201C314 0x0201C314 thumb
  *   func_0201C1C8 0x0201C1C8 thumb
@@ -41,9 +35,9 @@ extern int func_021D5B68(void *);
 extern u8 func_021D5448(void *);
 extern u8 func_021D5584(void *, u32);
 extern u16 func_021D54C0(void *, int);
-extern int func_0201C314(u32);
-extern u8 func_0201C1C8(u32);
-extern u16 func_0201C1D8(u32);
+extern u32 func_0201C314(void *);
+extern u8 func_0201C1C8(void *);
+extern u16 func_0201C1D8(void *);
 extern int func_021D799C(int, int);
 void func_021D09E0(u8 *p, u8 *order, u8 count, void *target)
 {
@@ -66,10 +60,10 @@ void func_021D09E0(u8 *p, u8 *order, u8 count, void *target)
             for (j = 0; j < n; j++) {
                 if (func_021D5584(mon, j)) {
                     move = func_021D54C0(mon, j);
-                    if (func_0201C314(move)) {
+                    if (func_0201C314((void *)(u32)move)) {
                         int kind;
-                        kind = func_0201C1C8(move);
-                        power = func_0201C1D8(move);
+                        kind = func_0201C1C8((void *)(u32)move);
+                        power = func_0201C1D8((void *)(u32)move);
                         if (power < 10) power = 60;
                         switch (func_021D799C(kind, type)) {
                         case 5: power *= 4; break;

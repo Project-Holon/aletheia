@@ -2,17 +2,16 @@
  * function: func_021BEAB4
  * address:  0x021BEAB4
  * packet:   pkt_ov093_021BEAB4
- * hint: Only the second byte comparison scratch register differs.
+ * hint: Matched by passing the guard byte as the veneer's second argument.
  * region:   ov093
  * compiler: 1.1p1
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
- * checks: 1 own BEB14 body returns int, takes six arguments and stores both byte outputs; corrected return extern leaves DIFF2. 2 refreshed own-region searches give no complete twin. 3 the two differing instructions touch only the byte-load scratch colour; original int parameters already match the own callee. 4 inline byte and int selector helpers both remain2, with inline/early-return/struct-local idioms read. 5 refreshed idioms and BEB14 neighbour read. Prior permuter300 is consumed and not repeated. Remaining residue is ldrb/cmp r1 versus r0 at +24/+26.
+ * status:   EXACT
+ * checks: Fresh Wave76 pass: own BEB14 confirms both byte outputs; the 021BEB04 veneer preserves r0/r1. The guard byte remains live in r1 as the second call argument, matching the existing guard-value-in-r1 idiom. Initial candidate and final clean source both EXACT; moved source and verified generated shard. Prior permuter300 was not repeated.
  *
- * Residual: original loads buf[0] into r1 (ldrb r1,[r7]; cmp r1,#0x1f); mine loads it into r0 (and the
- * early-exit `return 0` is shared at the tail in both). Everything else, including the epilogue, matches.
+ * Resolved: original loads buf[0] into r1 because it is the second argument to func_021BEB04.
  * Tried: nested-if vs early return, u32/u8 local copy of buf[0] and buf[1], address locals x/y, a
  * struct {lo,hi} in place of u8[2], temp for the q[7] value: all DIFF, same residue.
  *
@@ -24,7 +23,7 @@ typedef unsigned char u8; typedef unsigned short u16; typedef unsigned int u32;
 typedef signed char s8; typedef signed short s16; typedef signed int s32;
 
 extern int func_021BEB14(u8 *p, u8 *a, int b, int c, u8 *x, u8 *y);
-extern u8 func_021BEB04(u8 *p);
+extern u8 func_021BEB04(u8 *p, int selector);
 
 int func_021BEAB4(u8 *p, u8 *a, int b, int c, u8 *q)
 {
@@ -33,7 +32,7 @@ int func_021BEAB4(u8 *p, u8 *a, int b, int c, u8 *q)
     buf[0] = 0x1F;
     func_021BEB14(p, a, b, c, &buf[1], &buf[0]);
     if (buf[1] != 0x1F) {
-        q[7] = (buf[0] != 0x1F) ? func_021BEB04(p + 0x1AB8) : 6;
+        q[7] = (buf[0] != 0x1F) ? func_021BEB04(p + 0x1AB8, buf[0]) : 6;
         q[1] = buf[1];
         q[0] = 1;
         return 1;

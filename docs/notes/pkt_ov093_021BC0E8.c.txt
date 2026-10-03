@@ -15,7 +15,7 @@
  * Permuter300's 312-byte candidate changes void to u32 and returns type,
  * which is unset for n=0; it also narrows lock u32 to u16 and reads entry c
  * before C6350 instead of afterward. Reject all three behavior changes.
- * checks: 1 all arities rederived from own sources or ov093 callers, BC948/BC8EC=3, CC8D8=2 (one-word struct return), CC95C=3 as caller supplies r2, C6350=2; 2 refreshed BC568/BBFA8 establish16-byte E and indexed records; 3 one-word lock struct, const E inline pointer and const p parameter with call-site casts each compile unchanged296/264 (const p without casts CCERR); 4 copied packed-key local compiles292/263, further20bytes short, rejected; inline-local and const-store idioms read, prior n:u8/full-width ENTRY unchanged; 5 directory and BC568 refreshed, no address-taken aggregate needed by original. Prior permuter300 consumed, rejected return-type/uninitialized-return, lock narrowing and early field-read changes, not repeated. Next lever is another inline helper level with the original post-C6350 field-read order.
+ * checks: 1 own callees rederived, CC95C caller-loaded third line retained; 2 BC568/BBFA8 reread, E stride16 and no whole twin; 3 enum type0..15 unchanged296/264; 4 extra accuracy and update inline levels, unsigned long i, const n all unchanged296/264; 5 full directory/neighbours refreshed, declared-struct idiom reread, original spilled locals remain absent. Three nonshrinking iteration changes, two check runs; prior unsafe permuter300 consumed, not repeated. Best level.log.
  * symbols:
  *   func_021BC948 0x021BC948 thumb ov093
  *   func_021D8454 0x021D8454 thumb ov093

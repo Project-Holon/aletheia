@@ -8,11 +8,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks: 1 own 0202E474 arity4 and 02008298 body arity2/strh; 2 neighbours share callees but no twin body; 3 const a0 unchanged; 4 hidden-r0 switch and spill idioms read; 5 neighbours and idioms re-read, no local aggregate.
+ * checks: 1 own unit_020120F0 and unit_02008254 confirm pointer/const context and MyItemSave inputs, E474 arity4; corrected prototypes still60/140; 2 FB4/F88 no switch twin; 3 typed const Source and unsigned selector60/140; 4 typed-pointer homing and hidden-r0 switch idioms read; 5 refreshed idioms/FB4/F88, no local aggregate.
  * renewed-pass: 140 compiled / 144 original, 60 concrete bytes; original a3 is spilled and h in r7, compiler reverses them. Private case0 call recovers r1 dispatch.
  * permuter: first recorded budget300/types search; macro-free baseline DIFF60 size140/144 agrees with one. Best DIFF80 size144 rejected: tmp initialized before case2 and tmp2 before default, both bypassed by dispatch/goto. No repeat search.
- * next-hypothesis: typed descriptor parameter may recover the remaining allocation and four-byte branch hop; no additional manual reorder remains this wave.
+ * next-hypothesis: no further authorized retry; typed descriptors did not settle homes.
  *
+ * wave76: Five compiles: typed descriptor, typed source and unsigned selector each60/140; typed const source with corrected accessor60; original byte spelling with corrected context/setter prototypes60. Final authorized retry exhausted; old permuter300 not repeated.
+ * evidence76: scratchpad/overlay-newpass-20261003-w76/R2/; each log awaited to terminal exit.
  * symbols:
  *   func_020120F4  0x020120F4  thumb
  *   func_02160FB4  0x02160FB4  thumb  ov010
@@ -24,14 +26,16 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef unsigned int   u32;
 
-extern int func_020120F4(int);
+struct Ctx;
+struct MyItemSave;
+extern void *func_020120F4(const struct Ctx *);
 extern int func_02160FB4(void *);
 extern int *func_0202E474(int, int, int, int);
-extern void func_02008298(int, u16);
+extern void func_02008298(struct MyItemSave *, u16);
 
 int *func_02160FE0(u8 *a0, int a1, int a2, const int *a3)
 {
-    int h = func_020120F4(**(int **)(a0 + 0x18));
+    int h = (int)func_020120F4((const struct Ctx *)**(int **)(a0 + 0x18));
     int *r;
     int n;
     int c;
@@ -41,7 +45,7 @@ int *func_02160FE0(u8 *a0, int a1, int a2, const int *a3)
         n = 4;
         r = func_0202E474(h, (int)(a0 + 0x34), func_02160FB4((void *)**(int **)(a0 + 0x18)), n);
         if (a1 != n - 5) {
-            func_02008298(r[3], (u16)a1);
+            func_02008298((struct MyItemSave *)r[3], (u16)a1);
         }
         break;
     case 0:

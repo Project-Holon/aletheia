@@ -9,9 +9,11 @@
  * isa: thumb
  * status: DIFF
  * blocker: six concrete bytes exchange x/y in r5/r6; 54 code bytes plus two alignment bytes.
- * checks: 1 own matched getters read one integer address and return int byte values, compiled their declarations; 2 ov010 02163C04 confirms full-word coordinate arguments, no rectangle twin; 3 enum and long coordinates retain DIFF6; 4 inline clamp and parameter reassignment retain/worsen it; 5 re-listed idioms and ov010/ov021 neighbours, no stack object.
- * attempted: inline clamp DIFF6; parameter reassignment DIFF38/64; full-word coordinates DIFF6; signed getters, enum coordinates, long coordinates and integer object parameter each DIFF6. Seven fixed compiles this pass.
- * permuter: consumed once300 --types in wave50 R1, not repeated. No manual sweep run; next hypothesis would be a two-coordinate record argument helper.
+ * checks: 1 current own getters take one int address and explicitly return bytes, u8 extern returns DIFF6; 2 current 02163C04/02163AF0 confirm full-word coordinates and four signed halfwords, no twin; 3 u16 coordinates DIFF6/54, only low halfwords consumed; 4 inline/enum/register-set idioms reread; 5 unfiltered idiom listing and current neighbours reread, no aggregate local.
+ * attempted: inline clamp DIFF6; parameter reassignment DIFF38/64; full-word coordinates DIFF6; signed getters, enum coordinates, long coordinates and integer object parameter each DIFF6. Seven fixed compiles in the prior pass.
+ * permuter: consumed once300 --types in wave50 R1, not repeated. No manual sweep run; final retry exhausted.
+ * final-retry: w76 R3 exhausted: by-value Coord DIFF44/62; reordered inline wrapper DIFF6/54; short coordinates DIFF6/54; u8 getter return and u16 coordinate checks each DIFF6/54. Five one calls; wave50 once300 remains spent.
+ * evidence-final: scratchpad/overlay-newpass-20261003-w76/R3/; every invocation exited before its complete verdict was read.
  * symbols:
  *   func_0216D91C 0x0216D91C thumb ov010
  *   func_0216D924 0x0216D924 thumb ov010

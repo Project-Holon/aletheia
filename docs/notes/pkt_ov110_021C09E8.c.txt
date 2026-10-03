@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 func_020410D0 takes ten args, u8 fourth matches original narrowing; 2 ov103/ov111 callers confirm widths but no exact twin; 3 signed/unsigned dimensions and const p compiled without fixing d/count swap; 4 declaration-order and commutative-local idioms reduce to 10 bytes; 5 new idiom scan and neighbour search no further lever; no stack aggregate residue. Permuter 300 flat at 10 bytes.
+ * checks: 1 own ARM9 upload body takes ten args, u8 fourth retained for caller narrowing; 2 current ov103/ov111/ov110 twins no closer shape; 3 fresh signed-long index/count flat at 10; prior const and dimensions checked; 4 integer-address (27), inline recolor helper (13), nested local scope (10) do not close; 5 fresh neighbours/idiom scan no new lever, no stack aggregate. Earlier permuter 300 flat at 10, consumed and not repeated.
  * symbols:
  *   func_020410D0 0x020410D0 arm
  *   func_02041B6C 0x02041B6C arm

@@ -8,10 +8,21 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own D6B6C one-pointer body and SDK sqrt one-word interface rederived; float helper directions agree with the original unsigned FX32 conversion; 2 same-overlay callers/neighbour CB5F0 read, no new twin; 3 b/c u16 and y unsigned-long each146/5; 4 allocator multiply tie and table-field/long idioms read; 5 fresh unfiltered idiom listing and CB5F0 refreshed, no stack aggregate.
- * residual: 146/148 bytes (two trailing alignment bytes), 2 concrete bytes at +76/+7A: product result uses r2 instead of r1; 14/14 relocations resolved.
- * fresh-pass: 8 one runs. Named divisor scheduling variants146/8 and144/27 rejected; macro-free baseline146/5 agrees with emitted baseline. Once-only permuter300 consumed in wave75 R14 (2026-10-03), temp(FX32 conversion) and temp(sqrt) improve146/2; generated declarations ported to top and revalidated unchanged.
- * proof: x/y and products retain full unsigned 32-bit wrap, float conversion and sqrt call order preserved, bounded result clamp unchanged. Do not repeat this permuter.
+ * checks: 1 own D6B6C body and sqrt one-word interface rederived; unsigned
+ *   float/helper call setup agrees; 2 CB5F0 full body refreshed, no twin;
+ *   3 a unsigned-long compiles unchanged at 146/2; b/c narrow checks were
+ *   previously consumed; 4 multiply-operand, accumulator and inline idioms
+ *   read; 5 full idiom directory relisted and matched CB5F0 refreshed.
+ * residual: 146/148 bytes, two trailing alignment bytes, 2 concrete bytes
+ *   at +76/+7A: product result r2 instead of r1; 14/14 relocations resolve.
+ * retry: wave76 R8, 4 compiles. Product operand reversal, unsigned sqrt
+ *   temporary and inline Product helper each retain 146/2; stopped after
+ *   three nonshrinking changes. Check 3 full-width long a retains 146/2.
+ * permuter: once300 consumed wave75 R14; temp(FX32 conversion) and temp(sqrt)
+ *   improved146/5 to146/2, emitted baseline and ported C were validated.
+ *   Search not repeated; divisor scheduling variants146/8 and144/27 rejected.
+ * proof: full unsigned word wrap, float conversions, sqrt call order and
+ *   result clamp preserved. No volatile or fabricated input constraints.
  * symbols:
  *   _ffltu         0x0209BE04  arm
  *   _fadd          0x0209C95C  arm
@@ -29,16 +40,21 @@ typedef signed short s16;
 typedef signed int s32;
 extern int func_0207C7B4(int x);
 extern u32 func_021D6B6C(void *p);
-u32 func_021CB55C(void *p, u32 a, u32 b, u32 c)
+static inline u32 Product(u32 root, u32 value)
 {
-  int tmp, tmp1;
+    return (root * (value * value)) >> 12;
+}
+u32 func_021CB55C(void *p, unsigned long a, u32 b, u32 c)
+{
+  int tmp;
+  u32 tmp1;
   u32 r, lim;
   u32 x = (2 * c) + 10;
   u32 y = (c + b) + 10;
   u32 t1 = ((u32) (func_0207C7B4((int) ((x > 0) ? ((x * (1 << 12)) + 0.5f) : ((x * (1 << 12)) - 0.5f))) * (x * x))) >> 12;
   tmp = (int) ((y > 0) ? ((y * (1 << 12)) + 0.5f) : ((y * (1 << 12)) - 0.5f));
   tmp1 = func_0207C7B4(tmp);
-  r = ((a * t1) / (((u32) (tmp1 * (y * y))) >> 12)) + 1;
+  r = ((a * t1) / Product(tmp1, y)) + 1;
   lim = func_021D6B6C(p);
   if (r > lim)
     r = lim;

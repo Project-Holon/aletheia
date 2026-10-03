@@ -8,7 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks: 1 own callees verify live 02012138 -> 02158344; 2 const-vector twins checked; 3 short local DIFF94, signed-result local DIFF42, unsigned id DIFF18; 4 long/local-result idioms no improvement; 5 neighbours and idioms refreshed, no matching twin.
+ * checks: 1 own callee bodies confirm live 02012138 -> 02158344 and six-arg 02014184; 2 fresh 02184E40 confirms const vector, no exact twin; 3 const a0 first CCERR then 164/18 with explicit casts; 4 delayed zero, long/enum adjustment all 164/18; 5 fresh unfiltered idiom listing/neighbours, declared S3 copy preserved.
+ * Final retry R14: 5 runs including one CCERR; old best C retained.
  * Safe residual: 164 bytes, DIFF18, r4/r5 exchange plus final asrs schedule.
  * Runs: 6 + permuter300 (baseline DIFF18); unsafe DIFF10 winner rejected:
  * use(r6) reads r6 before assignment. No further permuter search permitted.

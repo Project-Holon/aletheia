@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own matched bodies and veneers re-derived; BE550 retains the original caller-loaded fourth register. 2 refreshed BCCE0/C62D8 neighbours give no full twin. 3 category u8 plus own u16 callees improves 312 to 300; a typed Work parameter is identical300; earlier const a was312. 4 cast-buffer314, enum-category312, enum-offset556; declared-struct and far-offset idioms read. 5 fresh idiom listing and own neighbours read; Result at sp44 already agrees. Prior consumed permuters are not repeated. Remaining hypothesis is independent 0x854 pool provenance versus the compiler deriving it from 0x850; scheduling variants remain consumed.
+ * checks: 1 own arities rederived including newly matched BEAB4 five args and D69AC unit; BEAB4 own types unchanged1180/300, caller-loaded BE550 fourth retained; 2 BCCE0/BE400/C62D8 refreshed, no whole twin; 3 slot:u8 worsens1176/1020 and is rejected for truncating D80BC result before D82D0; const Action pointer1180/311; 4 named far fields and unsigned long state/slot unchanged1180/300, integer-spelled +854 worsens1188/666, far-offset/struct-local idioms read; 5 full directory/neighbours refreshed, Result sp44 already agrees. Three nonshrinking iteration changes. Consumed permuter not repeated. Best arity.log; safe full-width slot retained.
  * residual: 1180/1184,300 concrete bytes; original move/finalMove register roles restored by delaying finalMove after category call; spill offsets and folded far-field pool remain. Prior Permuter300 baseline agreed but unsafe best rejected, not repeated.
  * symbols:
  *   func_021D5C08 0x021D5C08 thumb ov093
@@ -105,7 +105,7 @@ extern int func_021BE7E4(u8 *, u8 *, u32, u32, void *);
 extern int func_021BE6EC(u8 *, u8 *, u16, u32);
 extern u8 func_021D5440(u8 *);
 extern void func_021BE398(void *, u32, u32, u32);
-extern int func_021BEAB4(u8 *, u8 *, u32, void *, void *);
+extern int func_021BEAB4(u8 *, u8 *, int, int, u8 *);
 extern void func_021BE550(u8 *, u8 *, u32, void *);
 extern int func_021BEC58(u8 *, u8 *, u16, void *);
 extern void func_021D6744(u8 *, u32, u32, u32, u32, u32);
@@ -204,7 +204,7 @@ void func_021BDE98(u8 *p, u8 *a, Action *action, u32 value)
     if (func_021BE6EC(p, a, finalMove, slot)) goto finish;
     func_021BE398(p + 0x1c, finalMove, *(u32 *)(p + 16), func_021D5440(a));
     func_021BE66C(p, a, *(u8 **)(p + 0x1ab4), 35);
-    if (func_021BEAB4(p, a, finalMove, *(void **)(p + 0x854), *(void **)(p + 0x1ab0)))
+    if (func_021BEAB4(p, a, finalMove, *(int *)(p + 0x854), *(u8 **)(p + 0x1ab0)))
         func_021BE550(p, a, finalMove, *(void **)(p + 0x854));
     else r.result = func_021BEC58(p, a, finalMove, *(void **)(p + 0x854));
 finish:

@@ -8,7 +8,17 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks: 1 matched callees have arities 1/3/3/2; 2 ov018 neighbours share Layout/callees but no twin; 3 const p gives 49, u8 sel gives 228 B; 4 enum sel/count remain 47; 5 reassigned second parameter remains 47, declared Layout already used; once-only permuter 300 baseline 47/224 and winner fixed-one 47/224; no further sweep proposed.
+ * prior-checks: 1 matched callees have arities 1/3/3/2; 2 ov018 neighbours share Layout/callees but no twin; 3 const p gives 49, u8 sel gives 228 B; 4 enum sel/count remain 47; 5 reassigned second parameter remains 47, declared Layout already used; once-only permuter 300 baseline 47/224 and winner fixed-one 47/224; no further sweep proposed.
+ * Wave 76 R13 final retry: separate first-loop k, byte cur and long n
+ * give DIFF47/224, DIFF56/224 and DIFF47/224. Three nonshrinking changes
+ * stop iteration. Current-own-body prototype corrections remain DIFF47/224;
+ * long cur regresses to DIFF62/224. Five fresh compiles; permuter not repeated.
+ * checks: 1 own 120F0/4B3DC/4B6F4 units reread, const Pos and full
+ * u32 flags copied; visible pre-call byte truncation preserves B6F4 u8;
+ * 2 E0F4 full Layout/position twin reread; 3 cur/long widths checked;
+ * 4 separate-index, byte-colour, zero-copy and declared-stack idioms read;
+ * 5 current neighbours and refreshed idiom list reviewed; Layout sp+14
+ * and Pos sp+18 already match, so no cast-buffer rescue. Next: none.
  * symbols:
  *   func_020120F4  0x020120F4  thumb
  *   func_0204B404  0x0204B404  arm
@@ -34,10 +44,11 @@ typedef struct {
     Pos pos;
 } Layout;
 
-extern void *func_020120F4(void *);
-extern void func_0204B404(void *, Pos *, int);
-extern void func_0204B6F4(void *, u8, int);
-extern void func_0204B3DC(void *, int);
+struct Ctx;
+extern void *func_020120F4(const struct Ctx *);
+extern void func_0204B404(void *, const Pos *, unsigned);
+extern void func_0204B6F4(void *, u8, unsigned);
+extern void func_0204B3DC(void *, unsigned);
 
 void func_0217E014(u8 *p)
 {

@@ -7,32 +7,23 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 callee files/callers confirm arity; B9934 u8 argument matches
- *   explicit narrowing, 9168 is a Thumb veneer with four registers and a
- *   stack pointer argument; 2 8E58/8FA4/8918 establish packed header and
- *   u8 return; no exact body twin; 3 const Ent versus mutable and const
- *   Context versus mutable no change; int versus u32 arg no change;
- *   u8 result no change, dispatcher passes wide int so no narrowing accepted;
- *   4 read loop-invariant, bitfield, scope and stack-struct idioms; explicit
- *   work local hoists before outer loop, inline work expressions avoid it;
- *   5 refreshed 444 idioms and matched 8/9 neighbours, no new twin or lever.
- * residual: 256/256 bytes, all 13 sites resolved, 18 concrete bytes out:
- *   entry arg spill at +0x0c..+0x14 and address/flag scheduling +0x70..+0x76.
- * permuter: one --budget 300 --types pass, expand(work x3) was the only
- *   improvement (64 to 18); match.py agreed. No signature narrowing,
- *   uninitialised reads, volatile or changed control flow accepted.
- * lever: scalar declaration order fixes spills; inline &p->work prevents
- *   its address and msg address from hoisting outside the outer loop.
- * fresh-pass: W75 R13, 4 fixed-flag runs. Inner-scope work pointer hoists
- *   and regresses to DIFF 65; enum arg unchanged at 18; redundant second
- *   work assignment hoists and gives 64. Three nonshrinking changes stopped
- *   iteration. Correct pointer return for B9934 keeps DIFF 18.
- * checks: 1 own B9934/C5620/C56A8/C99A0 bodies reread, pointer return compiled;
- *   2 C8E58/C8FA4 refreshed; 3 full-width enum arg compiled unchanged,
- *   prior const checks retained; 4 subrecord/typed-pointer/second-assignment
- *   idioms read; 5 idioms relisted, neighbours refreshed, Slot storage agrees.
- * permuter: prior 300-candidate pass consumed and not repeated. No arg
- *   narrowing accepted: original forwards the full word into the veneer.
+ * checks: 1 own B9934/C5620/C56A8/C99A0 bodies rederived, original
+ *   B9934 narrowing and five-argument 9168 veneer setup preserved;
+ *   2 matched C8E58/C8FA4 bodies refreshed, no exact twin;
+ *   3 full-word unsigned-long veneer argument compiles unchanged at256/18;
+ *   4 long-index, loop-invariant and typed-address idioms read;
+ *   5 full idiom directory relisted, C8FA4 refreshed, Slot frame agrees.
+ * residual: 256/256 bytes,18 concrete bytes; 13/13 relocations resolve.
+ *   Entry arg spill +0c..14 and work-address/result-store +70..76 differ.
+ * retry: wave76 R8,4 compiles. Long arg and long i each retain18;
+ *   integer-spelled msg address hoists both addresses and regresses to73;
+ *   three nonshrinking changes stopped iteration; check 3 wide veneer
+ *   argument retains18. Pointer msg spelling restored in best C.
+ * permuter: prior once300 --types consumed; expand(work x3) improved64
+ *   to18 and match.py agreed. No search repeated. Prior inner work local,
+ *   enum arg and redundant work assignment gave65/18/64 respectively.
+ * proof: original passes the full fourth argument word; no narrowing,
+ *   volatile, invented defaults or altered control flow accepted.
  * symbols:
  *   func_021B9934 0x021B9934 thumb ov093
  *   func_021C5A1C 0x021C5A1C thumb ov093
@@ -74,17 +65,17 @@ extern void func_021C5A34(u8 *, u8 *);
 extern int func_021D5B7C(void *);
 extern int func_021C56A8(u8 *, int *);
 extern void func_021C5620(u8 *, u8 *, int, struct Slot *);
-extern int func_021C9168(int, struct Slot, u8 *, int, struct Msg *);
+extern int func_021C9168(int, struct Slot, u8 *, unsigned long, struct Msg *);
 extern int func_021C99A0(void *, const struct Msg *);
 extern void func_021C8810(struct Msg *);
 extern void func_021C195C(u8 *, u8 *, u32);
 
-u8 func_021C9068(const struct Context *p, Ent *e, int arg)
+u8 func_021C9068(const struct Context *p, Ent *e, unsigned long arg)
 {
     const struct Msg *msg;
     u8 *first;
     u8 result;
-    unsigned i;
+    unsigned long i;
     u8 *a;
     int value;
     int k;

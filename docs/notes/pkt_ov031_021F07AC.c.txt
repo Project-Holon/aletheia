@@ -8,10 +8,20 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 freshly read own callees/confirmed callers, 0201C724(7), 0202DC60(5), 020413B0(6), 0202DCC4(2), all 27 sites resolved in best; 2 0054/0680 give object layout, no full twin; 3 enum k/enum flag/enum offset each 29/500; const e initially CCERR from const third call argument then const third extern compiles unchanged 29/500; 4 enum byte offset explicit shift (winning A04 lever) worsens 467/504 and loses data witness; 5 full idiom directory and ov031 neighbours refreshed.
- * residual: DIFF 500/500, 29 concrete bytes (old note counted 24 instruction lines), all 27 relocations resolved. k uses r5 instead of original r6, flag uses r6 instead of r5; offset shift sinks across flag branch.
- * prior: Both old types permuter searches at 300 consumed, not repeated. Previous width/local-copy/self-assignment forms unchanged; dst-local form moved shift but gave 504 and pal r2. Preserve per-arm b[k] store, case0 return after case5 and w40 local before print.
- * renewed-pass: substantive fresh attempts complete; three nonshrinking iterations then mandatory checks; no new permuter search.
+ * residual: 500/500 bytes, 28 concrete mismatches, all27 sites resolved.
+ * W76 final retry: eight runs. Inline paletteFlag return branch reduces29
+ * to28, retained; long c, enum helper/c, long offset and wide k unchanged;
+ * proven-range u16 offset expands504/DIFF459. Three later nonshrinks stop.
+ * checks: 1 own 1C724(7), 2DC60(5), 413B0(6), 2DCC4(2), other own/shared
+ * signatures re-read; corrected wide413B0 index and unsigned2DCC4 index
+ * unchanged28; preserve narrow1C724 arguments for observed truncation;
+ * 2 own0054/0680/09A0/0AA0 prove layout/byte k, no full twin;
+ * 3 u32 k unchanged28 and existing const e retained; u8 k best restored;
+ * 4 enum-return/flag, masked-width and shared register idioms read;
+ * 5 recent directory/neighbours reviewed, pair/frame offsets agree.
+ * Keep per-arm b[k] store, case0 aftercase5, w40 local before firstprint.
+ * Both old types-permuter300 searches consumed, not repeated.
+ * Next: inline palette-copy binding with halfword offset before flag branch.
  * symbols:
  *   func_0204162C  0x0204162C  arm
  *   func_02082D44  0x02082D44  arm
@@ -60,9 +70,9 @@ struct Obj {
 
 extern u16 *func_0204162C(u8 bg);
 extern void func_02082D44(void *src, void *dst, int n);
-extern void func_020413B0(u8 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
+extern void func_020413B0(u32 index, u8 x0, u8 y0, u8 w, u8 h, u8 pal);
 extern void func_02041B6C(int);
-extern u32 func_0202DCC4(u32 o, int i);
+extern u32 func_0202DCC4(u32 o, u32 i);
 extern void func_0202DC9C(u32 o, int i, u32 a1);
 extern u32 func_02045770(u32 a);
 extern void func_02043B5C(u32 v, u32 a);
@@ -76,6 +86,11 @@ extern void func_02045808(void *p);
 extern void *func_020457B0(u32 size, u32 heap);
 extern void func_02045924(void *dst, const void *src);
 extern const Pair d_021F1040;
+static inline int paletteFlag(const u8 *e)
+{
+    if (e[0x20] != 0) return 2;
+    return 0;
+}
 
 void func_021F07AC(struct Obj *p, const u8 *e, u8 k)
 {
@@ -89,9 +104,7 @@ void func_021F07AC(struct Obj *p, const u8 *e, u8 k)
 
     pal = func_0204162C(6);
     off = k * 0xE0;
-    c = 0;
-    if (e[0x20] != 0)
-        c = 2;
+    c = paletteFlag(e);
     func_02082D44(pal, pal + off, 0x1C0);
     func_020413B0(6, 0, k * 7, 0x20, 7, c);
     func_02041B6C(6);

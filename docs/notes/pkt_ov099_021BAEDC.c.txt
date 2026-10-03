@@ -7,6 +7,11 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * owner-blocker: no fresh compile while ARM9 func_02045CAC remains
+ *   absent from unit_02045C44's function: value and pkt_02045C44 unit
+ *   functions list. Its full body is in src/matched/arm9/unit_02045C44.c;
+ *   fresh sibling caller 021BA978 leaves it unresolved at +0080.
+ *   Ilias owns that inventory fix. Old once300 search remains consumed.
  * checks: 1 full own getters/BB918 body prove u8 returns and preserve visible unused r2 pointer; unused local is never read; Friends field9 is two bits so int v conversion preserves values; 2 fresh own-body and same-overlay BE4BC/BE3CC caller declarations plus BE6F0/BFBBC/BFFE0 neighbors checked; 3 known u8 kind/other widths stayed DIFF61/372 (1 C3 compile); 4 nested-if shape improved to61, goto probe worsened to203; conditional-branch/unconditional-B and two-arm tail idioms read; 5 fresh idiom list, neighbors and declared-struct local idiom reread; address-only unused local is not a wrong stack object; next control-arm extraction probe forbidden by consumed 2/2 manual-variant cap.
  * residual: DIFF61/372: inner third guard uses late branch destination instead of adjacent bne/b pair; remaining block-layout displacement.
  * budgets: 5 iteration compiles, final nonshrinking streak 3; C3 1; manual scheduling/order variants 2/2; once-only types permuter tool-reported 300 compiles, no improvement.

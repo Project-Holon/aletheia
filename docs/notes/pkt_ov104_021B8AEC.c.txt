@@ -7,7 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own initializer/active accessor/updater arity read, full random helper returns u32; 2 fresh own ov104 neighbours, no exact twin; 3 u32 lifetime/color unchanged14, u8 color check unchanged14; 4 chained assignment/stack Vec/enum constant idioms read; 5 full unfiltered filenames and fresh neighbours reread, declared pair locals already correct. Manual order cap2; types permuter300 baseline best14/336, no improved mutant.
+ * residual: renewed pass: 3 nonshrinking iterations plus 1 check3; best 336/336, 14 concrete bytes, negative end-Y materialization and point store order. Previous 300-type permuter consumed, not repeated; two scheduling variants used.
+ * checks: 1 own 8DA4/8E8C/8D20 and ARM9 random getter bodies confirm every arity. 2 fresh ov104 neighbours have no emitter twin. 3 check3 long Point.y remained 336/14; life u32 and Color enum iteration unchanged. 4 stack-Vec, declared-struct, chain-assignment and enum-constant idioms reread; inline initializer and EndY enum unchanged. 5 unfiltered directory and ov104 8D20 plus sibling ov105 7F78 reread; no rescue. Next hypothesis: helper with separate coordinate return types, after cap; no manual scheduling left.
  * symbols:
  *   func_020056EC 0x020056EC thumb
  *   func_021B8E8C 0x021B8E8C thumb ov104
@@ -19,7 +20,9 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-typedef struct { int x,y; } Point;
+typedef enum { COLOR_TWO=2, COLOR_FIVE=5 } Color;
+typedef enum { END_Y=-36 } EndY;
+typedef struct { int x; long y; } Point;
 extern u32 func_020056EC(u32);
 extern u32 func_021B8E8C(u8 *);
 extern void func_021B8DA4(u8 *,const Point *,const Point *,int,u32);
@@ -27,11 +30,18 @@ extern void func_021B8D20(u8 *);
 extern const s16 g_020A1B38[];
 #define W(o) (*(u32 *)(p+(o)))
 #define SHIFT(v,n) ((int)((u32)(v)<<(n)))
+static inline void initialize(Point *start,Point *end,int x,EndY endY)
+{
+    start->x=end->x=x;
+    start->y=228;
+    end->y=endY;
+}
 void func_021B8AEC(u8 *p)
 {
     Point end,start;
     int i,offset,angle;
-    u32 life,color;
+    u32 life;
+    Color color;
     u8 direction;
     switch(W(0x528)) {
     case 0:
@@ -41,9 +51,7 @@ void func_021B8AEC(u8 *p)
                 offset=i*44;
                 if(!func_021B8E8C(p+offset)) {
                     direction=func_020056EC(2);
-                    start.x=end.x=func_020056EC(256);
-                    start.y=228;
-                    end.y=-36;
+                    initialize(&start,&end,func_020056EC(256),-36);
                     life=func_020056EC(50)+110;
                     color=2;
                     if(func_020056EC(2)) color=5;

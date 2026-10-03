@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 func_020410D0 ten args with u8 third/fourth; 2 ov110 callers confirm arity, ov103 twin confirms widths; 3 index u8 and const p checked; const changes scheduling but does not close; 4 pointer-base, named temporary and dead-parameter idioms checked; 5 fresh idiom scan and neighbour reads, no stack aggregate residue. Final spelling is 20 concrete bytes out (021C080C-10.log); permuter candidate is safe but worse than this source.
+ * checks: 1 own ARM9 upload body has ten args, caller narrows third/fourth to u8; 2 current ov103/ov111/ov110 neighbours no closer twin; 3 fresh const p gives 62, signed-long index/count flat at 20; 4 inline recolor helper flat 20, integer data address fixes entry but gives 29, integer load cast back to pointer flat 20; 5 current idioms/neighbours reread, no stack aggregate. Prior safe-but-worse permuter consumed, not repeated. Best 128 compiled bytes/20 concrete differences.
  * symbols:
  *   func_020410D0 0x020410D0 arm
  *   func_02041B6C 0x02041B6C arm

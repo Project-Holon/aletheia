@@ -8,8 +8,11 @@
  * isa: thumb
  * lang: c99
  * status: DIFF
- * checks: 1 callees use one argument; register mismatch begins in zero-store loop, not argument setup; 2 ov110 callers provide no body twin; 3 int/u8/enum zero tried, two _Bool attempts CCERR; 4 zero-copy idioms and initializer spelling do not close; 5 fresh idiom scan and neighbours inspected, no stack aggregate. Permuter candidate rejected: uninitialized tmp pointer and stores i instead of zero.
+ * checks: 1 own ov110/ov067 files and ARM9 Thumb bodies confirm one argument; missing Thumb symbols corrected, all eight calls resolve; 2 current ov110 callers no body twin; 3 fresh signed-char flag flat at 80 bytes; 4 counter-copy, literal zero and enum-copy forms do not close; 5 current neighbours and idiom scan unchanged, no stack aggregate. Prior permuter consumed, rejected uninitialized pointer/stored counter candidate; not repeated.
+ * residual: 92 compiled bytes, 80 concrete bytes differ; original keeps the zero in r4, candidate copies it to r1 for the loop and shifts later instructions.
  * symbols:
+ *   func_0201C6EC 0x0201C6EC thumb
+ *   func_02027FD8 0x02027FD8 thumb
  *   func_021B6284 0x021B6284 thumb ov067
  *   func_021C0AB4 0x021C0AB4 thumb ov110
  *   func_021C0C18 0x021C0C18 thumb ov110

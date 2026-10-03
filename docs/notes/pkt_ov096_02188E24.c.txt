@@ -7,18 +7,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
- *
- * Residue: 4 concrete bytes, scheduling only.  The original stores the fifth
- *   argument before reloading the spilled third: `str r7,[sp]; ldr r2,[sp,#4];
- *   adds r0,r6; adds r1,r4`.  Compiled: `ldr r2,[sp,#4]; adds r0; adds r1;
- *   str r7,[sp]`.  Everything else (switch shape, frame, relocations) matches.
- * checks: 1 func_0218A0F4 is a 5-arg compare dispatcher, arity matches the
- *   original setup (r0,r1,r2,r3,[sp]); 2 twins func_02188F58/func_02189100
- *   (matched) use the same callee, no help; 3 tried k as unsigned, x/y
- *   declaration order swapped, a separate result local n, Conn struct for b:
- *   no change; moving the switch before the two func_021C81C8 calls changes the
- *   layout (worse); 4 no idiom fits; 5 idioms re-listed, none new.
+ * status:   EXACT*
+ * Lever: x is a u16 local from the evidenced u16 callee return. Its word
+ * spill reload stays after the outgoing fifth-argument store. All 5
+ * relocation sites resolve; trailing two-byte padding is EXACT*.
  * symbols:
  *   func_0201134C  0x0201134C  thumb
  *   func_0218A0F4  0x0218A0F4  thumb  ov096
@@ -29,21 +21,21 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0201134C(int);
-extern void func_0218A0F4(int, int, int, int, int);
-extern int func_021C81C8(int, int, int);
+extern u32 func_0201134C(u8 *);
+extern int func_0218A0F4(u8 *, int, int, int, int);
+extern u16 func_021C81C8(u8 *, u8 *, int);
 
-int func_02188E24(int a, int b)
+int func_02188E24(u8 *a, u8 *b)
 {
     int k;
     int m;
-    int x;
+    u16 x;
     int y;
 
     k = func_0201134C(a);
     m = func_0201134C(a);
-    x = func_021C81C8(*(int *)(b + 0xb4), *(int *)(b + 0xbc), 1);
-    y = func_021C81C8(*(int *)(b + 0xb4), *(int *)(b + 0xc0), 1);
+    x = func_021C81C8(*(u8 **)(b + 0xb4), *(u8 **)(b + 0xbc), 1);
+    y = func_021C81C8(*(u8 **)(b + 0xb4), *(u8 **)(b + 0xc0), 1);
     switch (k) {
     case 0:
         k = 1;

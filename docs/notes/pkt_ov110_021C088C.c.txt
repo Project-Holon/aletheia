@@ -7,15 +7,9 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own sub_02061CA4 reads four full-word arguments; 2 matched 098C and sibling 76A4 fix table/ABI, pending BD348 is only a DIFF twin; 3 const rows DIFF164/248 unchanged, byte channel locals DIFF135/252 (two compiles consumed); 4 named-row/commutative-chain idioms inspected, named row already failed; 5 full unfiltered directory reread and full 098C/BD348/76A4 rereads, no local aggregate/SP address residue, no stack-object lever. No next sweep within remaining caps.
- * Best: DIFF65, compiled256/original256, both relocations resolved.
- * Full fixed-flag confirmation: w38/B8/permuter-088C-confirm.log terminal1.
- * Iteration: four runs, NS streak3 starting run2; checks do not reset it.
- * Check3 two compiles; scheduling variants two (named row, red hoist).
- * Once-only --types --budget300 consumed300: best mutations hoist-up(r,-2).
- * Accepted mutation reads a only after its assignment, before b is read;
- * no intervening stores/calls, no input narrowing or added volatile.
- * Residue: red/green extraction colours and high/red arithmetic scheduling.
+ * checks: 1 own ARM9 queue body confirms four full-word args; 2 current ov110 neighbours retain table/ABI and no closer twin; 3 fresh u16/s16 red local flat at 9, u16 second color 64, int red 252/122, enum second color flat 9; prior const rows consumed; 4 reversing RGB packing OR order gives 19, extracting green before red gives 9; 5 fresh neighbours and idiom scan, no local aggregate/SP-address residue. Prior 300 permuter consumed, accepted red hoist retained; not repeated.
+ * Best: DIFF9, compiled256/original256, both relocations resolved (w76/R29/e2.log).
+ * Residue: red channel and second-color word swap r1/r2 at 021C08FA/021C08FE and dependent instructions through 021C094E; all other instructions agree.
  * Original u8 counter against full u32 count retained, including wraparound;
  * caller 098C passes3, which is not proof permitting count narrowing.
  * ratio is s16; bounded 5-bit channel differences multiply without overflow.
@@ -42,14 +36,14 @@ void func_021C088C(u16 *phase,u16 *dst,const ColorRow *rows,u32 count)
         int a,b;
         u8 g,r,h;
         a=rows[i].a;
+        g=(u8)((a&0x3e0)>>5);
         r=(u8)(a&0x1f);
         b=rows[i].b;
-        g=(u8)((a&0x3e0)>>5);
         h=(u8)((a&0x7c00)>>10);
         h=(u8)(h+((ratio*((u8)((b&0x7c00)>>10)-h))>>12));
         r=(u8)(r+((ratio*((u8)(b&0x1f)-r))>>12));
         g=(u8)(g+((ratio*((u8)((b&0x3e0)>>5)-g))>>12));
-        dst[i]=(h<<10)|(g<<5)|r;
+        dst[i]=r|(g<<5)|(h<<10);
         func_02061CA4((void *)15,rows[i].slot*32+rows[i].pal*2,(u32)(dst+i),2);
     }
 }

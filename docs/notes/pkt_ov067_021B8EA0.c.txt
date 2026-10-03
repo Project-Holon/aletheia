@@ -9,6 +9,15 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * final retry: Wave76 R17, four fixed-flag one compiles, no sweeps/permuter.
+ *   Fresh hypotheses: struct direction field and long direction each retain
+ *   256/14; union signed/unsigned view gives 256/19; direction enum 256/14.
+ *   Checks 1 own 841C/8434 bodies confirm two/five args and original call
+ *   widths; 2 own 8DF0 is current witness, 8C08/8E90 have no standalone C;
+ *   3 direction widths/enum/aggregate measured, object is mutable; 4 enum,
+ *   inline argument and narrow-spill idioms reviewed; 5 idioms refreshed.
+ *   Retain baseline, exhausted this authorized retry. The unresolved source
+ *   lever is the direction object's memory lifetime at outgoing stack setup.
  * checks: 1 own 8434 confirms five args and own 841C two/int return; 2 ov067 8DF0/8C08/8E90 refreshed; 3 own callee widths u8/u8/u16/u32 checked against twin's caller width exception, prior s8/short direction attempts retained, shared _Bool one unchanged DIFF14; 4 pointer-to-direction inline setup unchanged DIFF14, early zero guard worse DIFF33 reverted; 5 fresh idioms/neighbours, narrow-spill and s8-local idioms read, no stack object. W75 three fixed runs; prior permuter300 consumed, not repeated. Next: original memory-resident direction source shape.
  *
  * Residual DIFF14 (256 bytes, same size, four relocations resolved): call setup at +0xD8.

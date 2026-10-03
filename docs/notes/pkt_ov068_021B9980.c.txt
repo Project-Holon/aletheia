@@ -9,6 +9,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * final retry: Wave76 R17, five fixed-flag one compiles, no sweeps/permuter.
+ *   _Bool zero gives 492/10; struct zero gives 492/14; pure zero-after-h
+ *   inline helper retains 492/8; unsigned-long zero 492/10; enum bg id 492/8.
+ *   Checks 1 own 49DB4/49B40/658/8F4/BDC units re-derived five/six/seven
+ *   arities and u16 heaps, own 3FCA0/40C14/450F0 confirm widths; 2 current
+ *   ov069 initializer lacks mixed zero web; 3 both new widths measured,
+ *   mutable object not const; 4 enum-zero and inline web idioms refreshed;
+ *   5 idioms refreshed. Keep baseline 492/8, exhausted this authorized retry.
+ *   Remaining lever needs evidence for the DF4-crossing zero lifetime;
+ *   nominal enum splits and consumed wrappers/searches must not be repeated.
  * checks:   1 arity from the callees' own arm9 files (sub_02049658/sub_020498F4 and func_02049BDC take 7 with a u16 heap, sub_02049B68 takes 6, func_02049DF4 takes 5) and from the caller ov068 func_021B9850 (func_021B9980(p, a), heap 0x1c from 021B95A0); 2 no twin with this zero shape (ov069_func_021B98AC passes heap as the constant 0x80; ov067_func_021B6DC0 and ov018_func_0217D918 load bg templates but not this zero web); 3 heap u16 (param and callee params) no change, z as u8/u16/s16 no change or worse, int callee params no change; 4 an-enum-typed-zero-keeps-its-own-web-where-a-u32-zero-is-folded applied (10 -> 8 bytes), a-constant-built-as-movs-then-adds-or-subs-one-is-an-enum-local read, neither covers the mixed zeros; 5 re-listed docs/idioms (ls -t), nothing new fits
  * runs:     7 + 1x4 + permuter
  *   wave75 R28: 5 one calls (3 iteration, 2 check-3), no sweeps/permuter.

@@ -6,7 +6,8 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
+ * status: EXACT (superseded by src/matched/ov/ov104_func_021B89DC.c)
+ * resolution: Wave76 R26 first run exact; byte RGB endpoints plus named signed db/dr/dg deltas, factor after green extraction. Prior permuter remains consumed.
  * residual: 172 bytes compiled, 113 concrete bytes differ in allocation/scheduling.
  * checks: 1 own ARM9 02061CA4 source confirms four word arguments, caller reads no return; 2 ov105 021B8734 is a scale-blend twin and ov104 021B8EB0 confirms index/color widths; 3 u8 components compiled unchanged at 113, stack u8 index and u16 colors confirmed by ldrb/ldrh; 4 masked-local-width and truncated-int-load idioms read; 5 idioms relisted and sibling callers reread, stack-object check n/a no stack aggregate. Separate cosine inline, cosine inside blend after green extraction and inline argument order all unchanged. 300-budget --types permuter stayed 113. No sweep. Next lever: factor/data-load lifetime, not merely another cosine inline.
  * symbols:

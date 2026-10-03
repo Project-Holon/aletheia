@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF (704 bytes; 56 concrete bytes differ; 33/33 references resolved)
- * checks: 1 re-derived own matched callee bodies and original outgoing slots retain all observed arguments, including C5798 extras and the documented partial aggregate. 2 refreshed C11A4 forwards all eight full arguments; no complete twin. 3 corrected own C1194 u8 return, C0CB4 Q pointer and C1CCC return/out type remain56; signed32 enum count/flag56, _Bool flag712B/430, one-word Flag parameter56. 4 spill/scope/flag/enum idioms read; scheduling variants stay consumed. 5 fresh idiom listing and own neighbours read; no address-taken scratch object in the residue. Prior permuter300 is consumed and not repeated. Remaining residue is count/index spill-home exchange and flag stack-store scheduling.
+ * earlier-checks: 1 re-derived own matched callee bodies and original outgoing slots retain all observed arguments, including C5798 extras and the documented partial aggregate. 2 refreshed C11A4 forwards all eight full arguments; no complete twin. 3 corrected own C1194 u8 return, C0CB4 Q pointer and C1CCC return/out type remain56; signed32 enum count/flag56, _Bool flag712B/430, one-word Flag parameter56. 4 spill/scope/flag/enum idioms read; scheduling variants stay consumed. 5 fresh idiom listing and own neighbours read; no address-taken scratch object in the residue. Prior permuter300 is consumed and not repeated. Remaining residue is count/index spill-home exchange and flag stack-store scheduling.
  *
  * ABI: all eight arguments copied from matched func_021C11A4. Parameters c
  * and f are unused in the original. The fifth and sixth words are pointers
@@ -33,6 +33,8 @@
  * C5798's own source lists six parameters, but this original caller supplies
  * two more stack words (byte_021F3B20 and g&1); retain all eight arguments.
  *
+ * final-retry: 5 runs; three nonshrinking changes and two targeted checks. Prior permuter300 consumed, not repeated. Best704B/56 retained with corrected own-callee declarations; scheduling cap preserved.
+ * checks: 1 own callees refreshed; C0C38 listing proves six args and output widths; veneer setup retains14B0/14C0/14D0 args; own C1CCC pointer types and C0D70/C1184 const corrected, still56. 2 C11A4 eight-argument caller and C0CB4/C0CE8 neighbours refreshed. 3 const d and const C0C38 input remain56. 4 long count56; long i700B/592; long j56; long/const/spill idioms read. 5 idioms relisted and neighbours reread; residue has scalar count/index homes.
  * symbols:
  *   func_021D5440 0x021D5440 thumb ov093
  *   func_021D6D7C 0x021D6D7C thumb ov093
@@ -84,12 +86,12 @@ extern void func_021D5FC0(u8 *, int);
 extern u32 func_021C14B0(u8 *, u8);
 extern void func_021C14C0(void *, u8 *, u16, int);
 extern void func_021C14D0(void *, u8 *, u16, int);
-extern u32 func_021C0D70(u8 *);
+extern u32 func_021C0D70(const u8 *);
 extern int func_021C0C38(u8 *, u8 *, u8 **, u16 *, int *, u8 *);
 extern u32 func_021C0CB4(u8 *, const struct Q *, u32 *);
 extern int func_021C0CE8(u8 *, const struct Q *, u32 *, u16 *, u32 *, u8 *, u8 *);
 extern u16 func_021C4104(u8 *, u32, u8 *, u16, int, u8, u16 *);
-extern int func_021C1184(u8 *);
+extern int func_021C1184(const u8 *);
 extern u8 func_021C1194(u8 *);
 extern void func_021C1198(u8 *, int);
 extern void func_021C15E8(u8 *, u8 *, u8 *, u16 *);
@@ -99,7 +101,7 @@ extern void func_021C5840(u8 *, u32, int *, u8 **, int);
 extern void func_021C59C4(u8 *, u32, u8 **, u8 *, int);
 extern void func_021C1828(u8 *, u32, u8 *, u8 *, u8 *, u16);
 extern void func_021C16F8(u8 *, u8 *, int);
-extern int func_021C1CCC(u8 *, u8 *, u8 *, u16 *);
+extern int func_021C1CCC(u8 *, u16 *, u8 *, u8 *);
 extern void func_021C1DCC(u8 *, u8 *, u32, u8 *, u32);
 extern void func_021C1880(u8 *, u8 *, u32, u32, u32, int);
 extern void func_021C4218(u8 *, u8 *, u8 *, u8 *, u32, u32, u32, u32);
@@ -159,7 +161,7 @@ u32 func_021C11F0(u8 *p, u32 b, u32 c, u8 *d, u32 a, u32 e, u32 f, u32 g)
         {
             int j;
             for (j = 0; j < count; j++) {
-                func_021C1CCC(p, (u8 *)a, (u8 *)b, (u16 *)ptr_021F3B38[j]);
+                func_021C1CCC(p, (u16 *)a, (u8 *)b, ptr_021F3B38[j]);
                 func_021C1DCC(p, (u8 *)a, b, ptr_021F3B38[j], half_021F3B26[j]);
                 func_021C1880(p, (u8 *)a, b, (u32)ptr_021F3B38[j], half_021F3B26[j], 0);
                 func_021C4218(p, (u8 *)b, ptr_021F3B38[j], (u8 *)a, word_021F3B2C[j],

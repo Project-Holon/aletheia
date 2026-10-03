@@ -7,7 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 func_02027778 reads two args, earlier third removed; 2 ov107_func_021F1930 confirms 20-byte descriptor and 12-byte records; 3 u16 heap parameter and enum/int one checked, no close; 4 zero-copy and local-stack idioms checked; 5 fresh idiom scan and aggregate-local idiom read. Permuter candidate rejected: drops records flags stores and calls before desc.d store. Table has no outside data witness with alignment-only hint.
+ * checks: 1 own ARM9 callees confirm two-argument constructor and full-word heap store; 2 current ov107 twin confirms descriptor 20/records 12 bytes; 3 unsigned-long heap gives 85 differing bytes after body correction, enum i/j worsen to 132/140 bytes; 4 zero-copy and aggregate-local idioms do not close; 5 current neighbours/idioms reread, declared aggregates retained. Prior permuter consumed and rejected dropped flags/call-before-desc.d candidate; not repeated. Alignment-only data still unresolved.
+ * residual: 128 compiled vs 124 original, 85 concrete bytes differ; initial zero/copy and descriptor store schedule remain. Original 021C0AFC stores 1 to records[2].flags at sp+0x2c, not an unused one local; old sketch omitted it.
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
  *   func_02045808 0x02045808 arm
@@ -22,7 +23,7 @@ extern const u8 data_021C3C94[];
 extern void *func_02045EC0(void *,unsigned);
 extern void func_02045808(void *);
 extern void *func_02027778(Descriptor *,void *);
-void *func_021C0AC8(void *p,void *bank,u16 heap) {
+void *func_021C0AC8(void *p,void *bank,unsigned long heap) {
     Descriptor desc;
     int one;
     Record records[3];
@@ -34,6 +35,7 @@ void *func_021C0AC8(void *p,void *bank,u16 heap) {
         records[i].flags=j;
     }
     one=1;
+    records[2].flags=one;
     desc.heap=heap;
     desc.records=records;
     desc.a=32;

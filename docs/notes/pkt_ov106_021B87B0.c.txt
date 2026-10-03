@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * renewed pass: W76 R27 not attempted because Ilias-owned ARM9 02045CAC is still unresolved: src/matched/arm9/unit_02045C44.c defines it but its function header and layout/matched/arm9/pkt_02045C44.json list only func_02045C44 for the unit; no separate witness exists. Do not retry this caller until the owner files the helper witness. No fresh compiles or repeated search.
  * checks: 1 callee files confirm arities; 2 ov105/ov106 callers lack constructor twin; 3 s16/u32 first worsen to 588 bytes; 4 narrow-home and declared-struct idioms read; 5 neighbours/index reread, no new twin.
  * residual: 580/580, 43 concrete bytes in prologue/loop scheduling; ARM9 unit_02045C44 omits helper 02045CAC.
  * search: permuter --types --jobs 1 --budget 300 baseline agrees DIFF43; no byte improvement; reorder cap exhausted.

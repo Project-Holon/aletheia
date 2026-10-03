@@ -13,7 +13,10 @@
  * evidence: reusing the int sample parameter for encoded code gave 273, versus 279 for pointer helper/long count; s16 reused parameter gave 274. Long index and nonconst source stayed 273.
  * permuter: first typed budget-300 pass emitted baseline 273 and best 272; initialized temporaries for the second/final sample and commuted final OR retained. Fresh one verified 272. Calls and src increments remain sequential; code values are 0..3, so u8 intermediates preserve values.
  * prior evidence: accumulated byte, src++ calls and separate np preserve size/frame; pred-read and extern order, step-load placement, add spelling and final OR already tried. A four-sample j-loop was 252 bytes and not unrolled.
- * checks: 1 no out-of-line calls; 2 exact own-overlay decoder/wrappers confirm state/table types, no exact encoder twin; 3 long idx/nonconst src both 273; 4 inline/width/table/parameter idioms read; 5 unfiltered idiom directory and ov013 neighbours reread, scalar frame has no addressed stack aggregate.
+ * checks: 1 no out-of-line calls; 2 exact own-overlay decoder and 021B043C/021B04A8 wrappers reread, no exact encoder twin; 3 enum index, long sample and long np all unchanged 576/272; 4 inline/width/table/long-index idioms read; 5 unfiltered idiom directory and ov013 neighbours refreshed, scalar frame has no addressed stack aggregate. Next unrun hypothesis: typed inline boundary around the final packed-byte expression.
+ * Final wave76 retry: sample/state helper argument reversal also stays
+ * 576/272. All new spellings tie; best initialized-temporary C retained.
+ * Both relocations resolve; consumed once-300 search not repeated.
  * symbols:
  *   d_021B3A00     0x021B3A00  data  ov013  a1
  *   d_021B3A1C     0x021B3A1C  data  ov013  a2

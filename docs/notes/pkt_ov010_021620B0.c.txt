@@ -10,12 +10,14 @@
  * status:   DIFF
  * blocker: 7 concrete bytes differ in 92/92 bytes: outer index and offset
  * spill slots at sp+0 and sp+4 are exchanged; instructions otherwise match.
- * checks: 1 own 02161ECC/02161E78 bodies and 02082D44 callers confirm 1/1/3 arguments; 2 fresh ov010 neighbours no closing twin; 3 short i gives DIFF20/96, enum i DIFF7/92; 4 spill-slot declaration-order and block-scope idioms read; 5 fresh idiom listing and neighbours, no aggregate stack object. No additional sweep proposed.
+ * checks: 1 own 02161ECC/02161E78 confirm1/1, SDK copy arity3; 2 current 02161D98/F90 no compacting twin; 3 unsigned offset/long index7/92, inner u8 index71/100 with extra narrowing; 4 aggregate and inline spill-home hypotheses both7/92; 5 refreshed idioms/neighbours, no new twin.
  * newpass: declaration reversal and block-local offset each remained DIFF7;
  * once300 --types permuter baseline and best DIFF7/92, exit1, no improvement.
  * evidence: scratchpad/overlay-newpass-20261003-w75/R5/0b0-*.log;
  * baseline emitted spelling agreed with fixed one. This search is spent.
  *
+ * wave76: Four compiles: anonymous aggregate locals7/92; inline compact wrapper7/92; unsigned offset/long outer index7/92; u8 inner index71/100. Original best7/92 retained; final authorized retry exhausted; old permuter300 not repeated.
+ * evidence76: scratchpad/overlay-newpass-20261003-w76/R2/; each log awaited to terminal exit.
  * symbols:
  *   func_02161ECC  0x02161ECC  thumb
  *   func_02161E78  0x02161E78  thumb

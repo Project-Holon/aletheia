@@ -8,18 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks:   1 func_021BAC24 (300-byte ov099 fn, labelled) reads r0-r3 + two stack args, matches the 6-arg extern; 2 no twin in src/matched or src/pending sharing d_021C3A70; 3 const char *p CCERR (q assigned from it), u16 temp for the 0x134C read compiled, no change (flag/t widths not tried: no truncation in the original); 4 pointer-local-can-rematerialise-the-symbol-base compiled as the int-array form, no change; others do not fit; 5 re-read idioms after 9 runs, nothing new
- *
- * Residue: same size (116 B), same instructions; base pointer d_021C3A70 sits in
- * r1 and the loaded temporaries in r2, the original has base r2 and temporaries
- * r1 in both arms (about 30 lines, pure r1/r2 swap). Tried: global direct
- * stores (base reloaded at the tail, t takes r2), D *d hoisted above the branch
- * (base loaded before cmp), D *d assigned per arm (best, below), d declared
- * first, q assigned before d, temp read before d, int-array form d[0x18],
- * base assigned after the arm (worse). Two ABS32 sites (d_021C3A70,
- * d_021C3B68) are also wildcards here (no outside witness).
- * Sweep not run: a permuter over the per-arm statement order.
- *
+ * checks: 1 BAC24 own six-argument body confirmed; 2 same-region data search found no twin; 3 enum flag/u8 t retained27, const p with explicit call cast worsened31, unsigned-long t retained27; 4 dying-local subtraction retained27; 5 fresh idiom list and BAC24 neighbour reread; once300 baseline27 agreed, best23 added invalid return d, rejected; clean temporary-only port retained27.
+ * residual: DIFF27/116, all four relocations resolve (data now sole-ref). One fresh once-only --types budget300 consumed; no repeat. Search log: scratchpad/overlay-newpass-20261003-w76/R22/021BB954-permuter.log. No further scheduling sweep authorized this pass.
  * symbols:
  *   d_021C3A70     0x021C3A70  data   ov099
  *   d_021C3AD0     0x021C3AD0  data   ov099
@@ -48,7 +38,7 @@ void func_021BB954(char *p, int flag)
 {
     D *d;
     char *q;
-    int t;
+    unsigned long t;
 
     if (flag) {
         q = *(char **)(p + 0x248);

@@ -1,29 +1,26 @@
 /*
  * function: func_0216FD54
- * address:  0x0216FD54
- * packet:   pkt_ov010_0216FD54
- * region:   ov010
+ * address: 0x0216FD54
+ * packet: pkt_ov010_0216FD54
+ * region: ov010
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   DIFF
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
  *
- * DIFF, 159 concrete bytes, 172/176 bytes, all 12 relocations resolved.
- * checks: 1,2,3,4,5
- * Two 12-byte-stride table entries, two allocations, conversion and DMA.
- * Narrow table/dimension locals retain values bounded by observed shifts.
- * Own func_0216FC74 body proves six arguments, first pointer, fourth u16;
- * the a+14 pointer load remains after the second allocation.
- * Seven fixed one runs: const table, enum width and const/narrow entry
- * checks did not improve; narrow locals improved 161 to 159.
- * Reasonable archive checks found no earlier permuter run. once300
- * --types --jobs 1 baseline agreed at 159/172; search is now consumed.
- * Its 110/176 candidate was rejected: c/d narrowing and the narrowed
- * whole shift changed values; a+14 read was hoisted across allocation.
- * Ported safe temporary/block mutations validated at 159/172, so keep
- * this simpler spelling. Raw table A and width register/stack homes still
- * differ from the image; the compiler also hoists the second table load.
+ * DIFF, 110 concrete bytes, 172/176 bytes, all 12 relocations resolved.
+ * checks: 1 own allocator takes three u32 dimensions/depth, caller's repeated stack ldrh proves u16 heap here; own FC74 takes6 with fourth:u16, bitmap data accessor is const; refreshed prototypes and modular destination addition validate110/172; 2 current FAB4 twin proves TexReq offsets and12-byte Fmt table stride; 3 raw table A as enum improves159 to110, widening hi returns159/172; 4 named header and inline first-bitmap helper are flat159/172, inline argument/enum/stack-object idioms read; 5 directory and current FAB4 reread, no passed stack-object lever.
+ * Six fixed one compiles in final retry, all terminal DIFF exits read.
+ * Prior once300 --types search consumed in wave75/R10 and not repeated.
+ * Retain enum A with u16 hi/wi; table ldrh bounds A to0..65535
+ * and wi to0..8191, so A*wi fits signed int and the existing division
+ * and shifts keep their observed values. The enum changes allocation
+ * and spills without narrowing the wide c/d arguments.
+ * The a+0x14 read stays after allocation; destination addition is modular.
+ * Residual: parameter spill order, hoisted second table load, A/tmp homes
+ * and the added hi shift-pair. Original176 bytes versus this172.
+ * New logs: scratchpad/overlay-newpass-20261003-w76/R5/FD54-*.log.
  *
  * symbols:
  *   d_021726A0     0x021726A0  data  ov010
@@ -55,10 +52,10 @@ typedef struct {
 
 extern TE d_021726A0[];
 
-extern void *func_02043678(int a, int b, int c, u16 d);
+extern void *func_02043678(u32 a, u32 b, u32 c, u16 d);
 extern void func_0216FC74(void *a, int b, int c, u16 d, void *e, void *f);
 extern void func_0216FCA0(void *a, void *b);
-extern void *func_020437D4(void *p);
+extern void *func_020437D4(const void *p);
 extern void func_0207F7A0(void);
 extern void func_020862F0(void *p, int n);
 extern void func_0207F7FC(void *p, int src, int n);
@@ -69,7 +66,7 @@ void func_0216FD54(char *a, void *b, int c, int d, u16 e, u16 f)
 {
     unsigned short hi;
     unsigned short wi;
-    unsigned short A;
+    enum RawHeight { RAW_HEIGHT_ZERO = 0 } A;
     void *buf;
     void *tmp;
     void *vram;
@@ -89,7 +86,7 @@ void func_0216FD54(char *a, void *b, int c, int d, u16 e, u16 f)
     n = (A * wi / 8) << 5;
     func_0207F7A0();
     func_020862F0(vram, n);
-    func_0207F7FC(vram, base + off, n);
+    func_0207F7FC(vram, (int)((u32)base + (u32)off), n);
     func_0207F9B4();
     func_020437AC(buf);
     func_020437AC(tmp);

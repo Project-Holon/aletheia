@@ -8,11 +8,12 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own ov092 callees and full ARM9 0201B2B0 body re-read; getter returns u16 result on every path, u16 extern compiled flat474; 2 no full twin, 9A14/9C34/9CA4/9C80 refreshed; 3 busy enum flat517, enum flag431 but1032 and only70/73relocs, enum output lvalue475; 4 false case6 busy guard removed (1024/474), separate busy labels1028/497 rejected, case4 party block flat474; 5 fresh idioms/neighbours reviewed; next pass needs separate case4 species/slot locals instead of sharing address-taken case0 slot; two scheduling variants spent.
- * residual: Wave75 R30 DIFF 1024/1024,474 concrete bytes,73/73 resolved. Return/flag layout and case4 loop spills remain; descriptors now resolve at correct layout. Prior permuter300 remains spent.
- * search: permuter300 spent before loader order correction; byte baseline507 agreed, reloc baseline4 unresolved vs one3. Best722 had tmp/tmp1 assigned before case labels (unreachable); reject. Earlier1020/507 and1032/437 spellings had swapped loader args; do not restore.
- * renewed: Wave75 R30 7 fixed-flag runs; substantive decoded case6 correction improves517 to474 and fixes size/descriptor relocations. No permuter repeated.
- * ABI: 0201B2B0 full body returns its u16 result (zero or EvoRow.target) after cleanup; caller stores full word, compares zero, then stores halfword. u16 extern preserves those returned bits and emitted no caller truncation.
+ * checks: 1 re-derived ov092/ov010 callees from matched sources and ARM9 calls from original argument setup/current matched witnesses; full 0201B2B0 body returns u16 (zero or row target) after cleanup; 2 9C80 and other ov092 neighbours refreshed, no full twin; 3 nonconst source worsens to476, long used unchanged474; 4 separate case4 species/slot worsens501, case1-only enum flag gives1032/431 with70/73 relocs, long species unchanged474; 5 complete fresh idiom listing and matched neighbours reread, declared-struct stack idiom opened.
+ * residual: Wave76 final retry DIFF 1024/1024, 474 concrete bytes, 73/73 relocations resolved. Case1 zero/one order, return layout, case4 party spill and field-base colouring remain.
+ * renewed: Three nonshrinking principled changes then two mandatory type/const checks, five fixed-flag one runs. Retained measured long-species spelling. Prior Wave75 case6 correction improved517 to474; separate busy labels1028/497 and party block alone474 did not match.
+ * search: Prior permuter300 remains spent and was not repeated. Its pre-loader-correction baseline507 agreed in bytes (four unresolved versus three in one); best722 read tmp/tmp1 bypassed by switch labels and was rejected. Earlier1020/507 and1032/437 had swapped loader args; do not restore.
+ * ABI: Loader order remains (context,id,descriptor,argument). 020185F0 empty matched body preserves its pointer input/result; 02031348 original calls explicitly pass four arguments despite empty matched wrapper. 0201B2B0 fifth argument byte, seventh u16; full-body u16 result proof retained.
+ * next: Revisit case4 party/field alias shape only with new evidence; separate species/slot locals and case1 enum are now consumed hypotheses.
  * symbols:
  *   func_02031330 0x02031330 arm
  *   func_02012934 0x02012934 thumb
@@ -153,7 +154,8 @@ int func_021B9614(void *unused, u32 *step, const u8 *s, u8 *r)
     void *dex, *save, *bank;
     int amount, used, index, box, slot;
     int flag;
-    u32 species, method;
+    unsigned long species;
+    u32 method;
     void *mon;
     Extra *e;
     busy = func_02031330((*(void **)((u8 *)(r)+( 64))));

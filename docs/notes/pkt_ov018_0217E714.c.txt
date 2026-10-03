@@ -9,7 +9,11 @@
  * isa: thumb
  * status: DIFF
  * checks: 1 own accessors use pointer payloads/u8 returns; 021585BC dead second argument overwritten before any read/forward; 2 E638 twin getter/call shape checked; 3 const w/record plus u16 anim worse (one CCERR then 677); 4 ternary directions reduced 652 to 377; 5 neighbours and idiom directory reread, Vec/Result stack offsets agree.
- * blocker: ARM9 func_02045CAC (ARM/header), 13 call sites with no witness outside this caller; no overlay leaves filed.
+ * blocker: ARM9 func_02045CAC (ARM/header), 13 call sites with no matched
+ * witness. Wave 76 R13 gated before caller compile: unit_02045C44.c contains
+ * the body, but its function header and pkt_02045C44.json nested functions
+ * name only func_02045C44. Owner must fix that missing function entry;
+ * no caller retry or overlay leaves filed while this ARM9 blocker remains.
  * residual: DIFF 1220/1220, 386 concrete bytes after primary prototype correction; full frame 0x4c. Context/oldState/slot spill positions and the shared byte-store join remain.
  * permuter: once, budget 300, types, jobs 1; macro-free baseline 377 agreed. Rejected 328-byte candidate: tmp1 assigned before case 1 inside switch, unreachable on dispatch, then read in case 1.
  * symbols:

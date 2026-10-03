@@ -9,17 +9,12 @@
  * status: DIFF
  * residual: 364 bytes, thirteen concrete bytes differ at +0006..+0026;
  * descriptor conversion scheduling only; body from +0028 agrees.
- * checks: 1 B8D8C/B9934 own matched files and D324C/D3630 callers prove
- * arities; B9934 pointer return and D66D0 pointer argument corrected,
- * all 21 sites resolve; 2 no two-object state-machine twin in neighbours;
- * 3 u/v int expands frame and worsens, c const/nonconst unchanged;
- * 4 declaration/init order, const-descriptor and truncated/masked-local
- * idioms read; 5 current directory/D324C/D3630 reread, scalar homes only.
- * renewed pass: six runs; stopped after three nonshrinking changes;
+ * checks: 1 B8D8C/B9934/B9A24 and EA768/778/7A8/7B8 own interfaces plus D324C/D3630 rederived; all21 sites resolve; 2 no state-machine twin; 3 typed descriptor unchanged13, long scalar locals38, typed descriptor const unchanged13; 4 masked/truncated-load and const-descriptor idioms read; 5 fresh idiom directory and D324C/D3630 reread; scalar homes only.
+ * wave75: six runs; stopped after three nonshrinking changes;
  * init-order and inline descriptor loader were the two scheduling variants.
  * Best y/v/x/u initializer order retained with pointer prototypes.
  * permuter: prior 300 --types consumed (22 to 13); not repeated.
- * Next: typed descriptor storage without changing scalar conversion order.
+ * wave76: 4 runs; typed descriptor13, long scalar locals38, typed storage-order22, const typed descriptor13. Three nonshrinking iterations; original best13 retained.
  * symbols:
  *   func_021B8D8C 0x021B8D8C thumb ov093
  *   func_021B9934 0x021B9934 thumb ov093

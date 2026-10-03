@@ -15,16 +15,14 @@
  * the exchange is not in state 4 (*start = 530).
  *
  * residual: DIFF10/260, only partner allocation fifth-argument scheduling.
- * checks: 1 own allocator has u16 fifth argument and ov011 return is u8,
- * both compiled unchanged DIFF10; 2 current ov010/ov011 neighbours provide
- * field/prototype evidence but no allocator twin; 3 int heap DIFF10,
- * const sys CCERR then cast-repaired DIFF10; 4 stack/inline idioms read;
- * 5 fresh idiom listing/neighbours reread, scalar n slot and frame exact.
+ * checks: 1 current allocator takes five arguments with u16 tag, own accessors/ov011 bodies reread; copied u8 pointer/int page declarations DIFF10/260, all fifteen relocations resolve; 2 current 02166434/ov011 neighbours provide record/prototype evidence, no allocator twin; 3 enum RecordSize inline parameter DIFF10/260; 4 inline-binding/enum/stack idioms read; 5 unfiltered idiom listing, current neighbours and declared-struct stack idiom reread.
  * Iteration stopped after three nonshrinking changes (tag width, named
  * u16 line, int heap). Prior permuter seed9602 budget400 remains consumed.
  * All fifteen relocations now resolve, including ov011 func_02176880.
- * Next hypothesis: an inline allocator wrapper's argument binding order.
+ * Final retry: no further sweep proposed.
  *
+ * final-retry: w76 R3 exhausted: inline allocator, enum SourceLine binding and shared tag-to-start dependency each DIFF10/260; enum size and copied own declarations retain DIFF10/260. Five one calls; old seed9602 budget400 remains spent.
+ * evidence-final: scratchpad/overlay-newpass-20261003-w76/R3/; every invocation exited before its complete verdict was read.
  * symbols:
  *   func_020120F4  0x020120F4  thumb
  *   func_02012EBC  0x02012EBC  thumb
@@ -66,13 +64,13 @@ extern void *func_02012EBC(void *p);
 extern void *func_0200E0B0(void *p);
 extern void *func_02012138(void *sys);
 extern u8 func_021767A0(void *field, void *p);
-extern u32 func_02012FB0(void *p);
+extern int func_02012FB0(u8 *p);
 extern void *func_02030734(u32 heap, u32 size, int flags, const char *file, u16 line);
 extern u16 func_0216749C(Entry32 *list, Entry32 *out, u32 cap, int page, u8 *n);
-extern u8 func_021673C4(void *st);
-extern u8 func_021673A8(void *st);
+extern u8 func_021673C4(u8 *st);
+extern u8 func_021673A8(u8 *st);
 extern void *func_02158344(void *field);
-extern void *func_02176880(void *link);
+extern u8 *func_02176880(u8 *link);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern const char d_021729EC[];
 

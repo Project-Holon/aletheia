@@ -1,26 +1,19 @@
 /*
  * function: func_068996D4
- * address:  0x068996D4
- * packet:   pkt_ov095_068996D4
- * region:   ov095
+ * address: 0x068996D4
+ * packet: pkt_ov095_068996D4
+ * region: ov095
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   DIFF
- * checks:   1 every callee is a 16-byte `bx pc` veneer stub (args unread by the stub): arities taken from the caller's
- *           register setup (F3 2 args, F4 2 args, F5 3, F7 3), 0x06898DE0 compared unsigned (bls) so u32 return, no
- *           change; 2 no twin (ov095 has no other 0x1a/0x1f alloc-and-send function; 0x068995B0/0x06899900 are siblings
- *           with the same stub-call frame and are EXACT); 3 `a` as int only (spill is first store as in the original),
- *           loop counter int vs u32 (u32 gives the original blo) no change; 4 struct/array local (folded away by
- *           mwcc, no frame), static inline helper for the t[] stores (identical output) none fits; 5 re-listed
- *           docs/idioms, nothing about an unexplained 8-byte frame hole.
- *
- * Residue: the original is `push {r4-r7, lr}; sub sp, #0xc` with only `a` at [sp] (an 8-byte hole nothing reads), and
- * the new record pointer t is copied r0 -> r1 before the t[7]/t[4] stores and the zeroing loop (loop temp then lands
- * in r0).  Mine is `push {r3-r7, lr}` with t left in r0 and the loop temp in r1.  Everything else matches
- * (all 12 callee relocations resolve).  Runs: 6.
- *
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 06898DE0 own matched source is int(int,u32), unsigned caller comparison preserved by u32 cast; eleven bx-pc veneers/full caller argument setup reread, all12 relocs resolve; 2 exact 068995B0/06899900 siblings refreshed, no complete twin; 3 long fill index and short n unchanged168/97; 4 one-word aggregate-return and declared-struct stack idioms read; 5 complete fresh idiom listing/neighbours reread and stack-local idiom opened.
+ * residual: Wave76 DIFF 168/172, 97 concrete bytes, 12/12 relocations resolved. Valid initialized one-word Result wrapper recovers push r4-r7/lr plus sub sp0xc; returned t still stays r0 instead of r1, causing fill register/branch shifts and four-byte size shortfall.
+ * renewed: Long v unchanged162/154; aggregate return improves168/97. Aggregate-by-value fill and integer address fill unchanged168/97, enum counter adds entry guard172/100; stopped after three nonshrinking changes following improvement. Two required type checks unchanged; seven fixed-flag one runs.
+ * search: First typed permuter300 completed with emitted baseline168/97 agreeing. Best172/116 added volatile(v,loc), expanded n, changed void return via ret-var(x), and reordered declarations; rejected for added volatile/signature change, not validated or adopted. Search now consumed.
+ * prior: Raw struct/array locals folded away; scalar fill helper and unsigned counter alone did not restore the frame. The initialized inline Result wrapper now explains the former eight-byte frame hole without changing any external prototype.
+ * next: Need evidence-backed scalar pointer transfer to r1 within the aggregate wrapper; two manual helper/scheduling variants were spent.
  * symbols:
  *   func_06898DE0  0x06898DE0  thumb
  *   func_06899780  0x06899780  thumb
@@ -35,12 +28,11 @@
  *   func_06899810  0x06899810  thumb
  *   func_06899820  0x06899820  thumb
  */
-
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern u32 func_06898DE0(int a, int b);
+extern int func_06898DE0(int a, u32 b);
 extern int func_06899780(int a);
 extern int func_06899790(int a);
 extern int func_068997A0(int a, int b);
@@ -53,6 +45,8 @@ extern u32 func_06899800(void);
 extern u32 func_06899810(void);
 extern void func_06899820(int a, u32 *q);
 
+typedef struct { u8 *p; } Result;
+static inline Result allocate(int p, int k, int v) { Result r; r.p=func_068997D0(p,k,v); return r; }
 static inline void fill(u8 *t, int x, int n)
 {
     u32 i;
@@ -70,6 +64,7 @@ void func_068996D4(int a, int p, int x)
     u8 v;
     int n;
     u8 *t;
+    Result result;
     u32 *q;
     struct {
         int a;
@@ -82,13 +77,13 @@ void func_068996D4(int a, int p, int x)
     if (x == func_06899790(v) && func_068997A0(p, v) == 0) {
         n = 3;
         if (func_068997C0(func_068997B0(p, v), n) != 0) {
-            t = func_068997D0(p, 0x1a, v);
+            result=allocate(p,0x1a,v); t=result.p;
             fill(t, x, n);
             func_068997E0(p);
         } else {
             q = func_068997F0(p, 0xc, 0x1f);
             q[1] = 5;
-            if (func_06898DE0(loc.a, x) > 1)
+            if ((u32)func_06898DE0(loc.a, x) > 1)
                 q[2] = func_06899800();
             else
                 q[2] = func_06899810();

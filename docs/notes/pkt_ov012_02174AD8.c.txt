@@ -8,21 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * Best: r4 log, 48 bytes, DIFF 6; offset load after guard instead of before.
- * checks: 1 reread matched ov010 func_02157450, all four full-word inputs present and task returned; 2 reread ov012 02174284/02174B08/02174B40, no exact far-byte twin; 3 early initializer with const/nonconst byte-source parameters both compiled DIFF7, state remains u8 and kind u32 from callee; 4 enum-offset and typed-pointer/constant-live-range idioms read; 5 fresh idiom directory and matched neighbours reread, no stack-object residue. Next hypothesis: enum offset through an inline wrapper, unrun; consumed permuter not repeated.
- * Renewed wave75: outer enum initializer DIFF7, explicit u8 guard local
- * DIFF7, and nonconst source parameter with that initializer DIFF7.
- * Two manual placement variants consumed; three nonshrinking changes stop
- * iteration. Original inner-block best below retained at DIFF6.
- * Wave55's once-300 permuter is consumed: best unchanged DIFF48/6,
- * no winning mutations. The renewed pass used fresh canonical iteration
- * limits and preserved that search exclusion. Its retained best was
- * reconfirmed by scratchpad/overlay-newpass-20261003-w75/R18/ad8-best.log.
- * Matched ov010 func_02157450 takes four inputs and returns the task;
- * r3 passes the Rec pointer unchanged. No relocation blocker remains.
- * Retry evidence: scratchpad/overlay-goal-20261001-w55/R1/perm-02174AD8.log.
- * Evidence: scratchpad/overlay-goal-20261001-w54/S22/02174AD8-r4.log.
- * Original 02174AE0 ldr r6,[pc,#0x20] precedes 02174AE2 cmp and 02174AE4 bne; compiled best puts the same offset load after those two instructions. All other instructions and the callee relocation resolve identically. No volatile, invented initialization, or constrained input domain.
+ * checks: 1 own matched ov01057450 confirms four full-word inputs and task return; 2 ov01274284/74B08/74B40 no exact far-byte twin; 3 const char* plus u8 cast and integer address unchanged6; 4 enum-offset/inline-argument/typed-pointer idioms read; 5 fresh directory/neighbours reread, no stack object.
+ * Fresh final retry: 6 one runs, inline enum-offset argument, integer address, far struct field (12), char and signed-address types; best DIFF6/48B with all sites resolved. Offset pool load still follows rather than precedes guard. Prior early initializer/u8 guard/mutable parameter variants gave7. Wave55 once300 consumed without winner: scratchpad/overlay-goal-20261001-w55/R1/perm-02174AD8.log.
+ *
  * symbols:
  *   func_02157450 0x02157450 thumb ov010
  */

@@ -8,13 +8,17 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks: 1 matched arities plus live r1 retained through 021A3044 thunk;
- * 2 C0E8/C2FC neighbours use same prototypes but no snap twin;
- * 3 const position pointer and long coordinate field types DIFF27;
- * 4 enum bias DIFF46, reverse-argument GridSet inline DIFF28;
- * 5 VecFx32 local uses correct sp offsets; neighbours/idioms reread, no new lever.
+ * checks: 1 current matched interfaces retain live r1 through 021A3044;
+ * 2 C0E8/C2FC family has no exact snap twin; 3 full-range signed Coord
+ * enum locals give28/88, raw-offset signed loads retain27/88;
+ * 4 enum/grid/local-storage idioms reread; 5 directory/neighbours refreshed,
+ * VecFx32 is a real local with correct sp offsets, no new shape lever.
  * permuter: prior seed 9603 consumed; not repeated in renewed wave75 pass.
  * wave75: enum bias/inline setter did not improve 27-byte register/schedule residue.
+ * wave76 final retry: unsigned z candidate gives45/80 but changes signed
+ * division and is rejected. Enum coordinates and raw loads do not improve
+ * the retained27/88. Three fixed one runs; renewed manual pass exhausted,
+ * consumed seed9603 search never repeated.
  * Arithmetic uses modular unsigned addition and shifts before signed consumption.
  *
  * Snap the actor's position to the 16-unit grid (z biased by 32) and

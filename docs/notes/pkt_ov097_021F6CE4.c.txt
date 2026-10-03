@@ -1,0 +1,60 @@
+/*
+ * function: func_021F6CE4
+ * address: 0x021F6CE4
+ * packet: pkt_ov097_021F6CE4
+ * region: ov097
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * blocker: 59 concrete bytes differ at 136/140; inline restores original frame, message spill and hoisted zero, but allocation and final print schedule differ.
+ * checks: 1 own allocator/text/getter/print prototypes re-derived, EFA4 six args verified; 2 6A98/6D70 neighbours re-read; 3 byte zero and const source pointer gave 86; 4 owner-bound print inline with pointer or raw address gave 59; 5 fresh idiom listing and neighbours, scalar spills, no stack object; next sweep none.
+ * permuter: once-only types budget 300 this pass; macro-free baseline 59 agreed; best 55 rejected because handler load moved across GetMon call without alias proof.
+ * symbols:
+ *   func_020457B0  0x020457B0  arm
+ *   func_02045EC0  0x02045EC0  arm
+ *   func_02045770  0x02045770  arm
+ *   func_02045808  0x02045808  arm
+ *   func_02017E1C  0x02017E1C  thumb
+ *   func_0201EFA4  0x0201EFA4  thumb
+ *   func_0201F250  0x0201F250  thumb
+ *   func_0201C724  0x0201C724  thumb
+ */
+
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef enum { ZERO } Zero;
+typedef enum { INDEX_ZERO } Index;
+extern void *func_020457B0(u32, u32);
+extern void *func_02045EC0(void *, u32);
+extern void *func_02045770(void *);
+extern void func_02045808(void *);
+extern u32 func_02017E1C(void *, u32, u32);
+extern void func_0201EFA4(void *, u32, u32, u32, u32, u32);
+extern void func_0201F250(void *, void *, void *);
+extern void func_0201C724(void *, u32, u32, u32, u32, u32, u16);
+
+static inline void print_window(u32 a, Index b, void *t)
+{
+    void *owner = *(void **)(a + 0x1c);
+    func_0201C724(owner,
+                  (u32)func_02045770(*(void **)(a + b * 8 + 0x20)), 8, 0x20, (u32)t,
+                  *(u32 *)(a + 0x10), 0x3dc0);
+    *(unsigned char *)(a + b * 8 + 0x24) = 1;
+}
+void func_021F6CE4(const unsigned char *a, Index b)
+{
+    void *t;
+    void *u;
+    unsigned char z = ZERO;
+
+    t = func_020457B0(0x20, 0x8071);
+    u = func_02045EC0(*(void **)(a + 0x14), 0xb);
+    func_0201EFA4(*(void **)(a + 0x18), 0,
+                  func_02017E1C(*(void **)(a + b * 4 + 0xf8), 0x9e, 0), 3, z, 1);
+    func_0201F250(*(void **)(a + 0x18), t, u);
+    print_window((u32)a, b, t);
+    func_02045808(u);
+    func_02045808(t);
+}

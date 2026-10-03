@@ -8,17 +8,20 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks: 1 matched callers confirm vm/c and allocation/task arities; 2 D468 twin differs in flow; 3 const vm and u32 vm casts unchanged 17 bytes; 4 cursor, homing and narrow-home idioms read; 5 neighbours re-read, no local stack object.
+ * checks: 1 own 02159B10 and 0215901C prove full-width fallback return; corrected extern u32 and arg u32 produce27/284, old17 invalid; other own/caller arities reviewed; 2 D468 no closing twin; 3 typed context copy27/284, u16 mode with narrow arg228/288; 4 width/homing idioms read; 5 refreshed idioms/neighbours, no local aggregate.
  * renewed-pass: vm reused as mode and u32 vm both unchanged; no repeated permuter (old seed 9604 already consumed).
  *
  * Script command: start the ov010 link sequence (func_02155A98) for mode
  * 0/1, or push the ov112 proc through func_02014808 otherwise.
- * Size-exact, 17 bytes out: the image keeps vm in r4 and c in r5 (the
+ * Size-exact, 27 bytes out with corrected full-width return: the image keeps vm in r4 and c in r5 (the
  * mode byte, the task work and the box then reuse r4); this C swaps them.
- * Cursor idiom applied; declaration orders and permuter seed 9604 flat.
+ * Old 17-byte score used an unjustified u16 return extern and is superseded.
+ * Cursor idiom applied; historical declaration orders and seed9604 remain spent.
  * ov112_id now resolves as overlay_id at func_02014808; the pooled
  * callback 0x0215DF6C still lacks a witness. No leaf filed while DIFF.
  *
+ * wave76: Five compiles: widened arg27/284; u16 mode plus corrected u32 extern228/288; u32 extern/arg with u8 mode27/284; byte context parameter copied to typed local27/284; observed u8 call parameter instead of inline cast27/284. Final authorized retry exhausted; seed9604 permuter remains spent.
+ * evidence76: scratchpad/overlay-newpass-20261003-w76/R2/; each log awaited to terminal exit.
  * symbols:
  *   func_0215A5F4  0x0215A5F4  thumb  ov010
  *   func_0215A5DC  0x0215A5DC  thumb  ov010
@@ -78,12 +81,12 @@ extern void *func_0215A5DC(void *vm);
 extern void *func_0215A5E4(void *vm);
 extern void *func_0201210C(void *evt);
 extern void func_02158F58(void *a);
-extern u16 func_02159B10(Ctx *c, void *vm);
+extern u32 func_02159B10(Ctx *c, void *vm);
 extern void *func_02012F80(void *sys);
 extern void *func_020122C0(void *a, u32 b, TaskFn fn, u32 size);
 extern Starter *func_020124E8(void *task);
 extern void MI_CpuFill8(void *dst, u8 val, u32 size);
-extern void *func_02155A98(void *a, void *b, u32 c, u32 d, void *link);
+extern void *func_02155A98(void *a, void *b, u8 c, u32 d, void *link);
 extern void func_0215898C(void *a, void *task);
 extern void func_02012A30(void *sys);
 extern void func_02011290(Ctx *c);
@@ -104,7 +107,7 @@ int func_0215D34C(Ctx *c, void *vm)
     void *evt;
     void *sys;
     void *proc;
-    u16 arg;
+    u32 arg;
     u8 mode;
 
     a = func_0215A5F4(vm);
@@ -126,7 +129,7 @@ int func_0215D34C(Ctx *c, void *vm)
         task = func_020122C0(evt, 0, func_0215DE58, sizeof(Starter));
         s = func_020124E8(task);
         MI_CpuFill8(s, 0, sizeof(Starter));
-        s->seq = func_02155A98(evt, sys, (u8)arg, d, link);
+        s->seq = func_02155A98(evt, sys, arg, d, link);
         s->link = link;
         s->mode = d;
         func_0215898C(a, task);

@@ -8,10 +8,19 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 freshly read own 0202173C(8), 0204B98C(1), 0204B918(1); caller uses live r0 after tail forwarder so int return retained; 2 ov029 0E70/0EB0/0F28 confirm call prototype, no full twin; 3 const p with cast-clear 24/96, typed five-field context 23/96, const table and unsigned c 23/96; 4 enum zero 46/104, named-zero/inline-wrapper idioms read; 5 directory and ov029/ov028/ov030 neighbours refreshed, no new twin.
- * residual: DIFF 96/96, 23 concrete bytes, all 4 relocations resolved. Index/table load/zero argument setup after 0204B918 retains different colours and scheduling.
- * prior: Old types permuter 300 consumed, not repeated. Earlier scope/index/zero/step/ctx/casts and inline call/lookup wrappers did not beat 23; c local improved previous 30.
- * renewed-pass: substantive fresh attempts complete; three nonshrinking iterations then mandatory checks; no new permuter search.
+ * residual: 96/96 bytes, 23 concrete mismatches, all four relocations resolved.
+ * W76: six runs; unsigned-long c unchanged23; enum mask adds4B/DIFF43;
+ * byte c worsens28. Three nonshrinking changes stopped iteration.
+ * checks: 1 own EXACT 2173C proves eight args, B98C pointer/word-return
+ * prototype corrected unchanged23; B918 own forwarder has one pointer,
+ * its int return retained for observed live r0; 2 own ARM9 witnesses and
+ * ov029 0E70/0EB0/0F28 call sites confirm no new full twin;
+ * 3 unsigned-long context words unchanged23; prior const context worsens24;
+ * 4 named-zero and enum argument-web idioms refreshed;
+ * 5 current directory/neighbours and outgoing frame reviewed, no aggregate
+ * is passed here. Index and shared eight/step setup keep different colours.
+ * Prior types permuter300 consumed, not repeated. Keep word c local.
+ * Next: distinct mask/step ABI integer types without enum truncation.
  * symbols:
  *   func_0204B98C  0x0204B98C  arm
  *   func_0204B918  0x0204B918  arm
@@ -23,8 +32,8 @@ typedef unsigned char  u8;
 typedef unsigned short u16;
 typedef signed   short s16;
 
-extern int func_0204B98C(int a);
-extern int func_0204B918(int a);
+extern unsigned int func_0204B98C(void *a);
+extern int func_0204B918(void *a);
 extern int func_0202173C(void *p, u16 mask, u16 col, s16 step, u8 b, u8 c, u16 d, void *ctx);
 extern const unsigned int d_021F3224[];
 
@@ -33,11 +42,11 @@ int func_021F2E8C(int *p)
     unsigned int c;
     if (p[0] == 0)
         return 1;
-    if (func_0204B98C(p[2]) == 0) {
+    if (func_0204B98C((void *)p[2]) == 0) {
         p[0] = 0;
         return 1;
     }
-    c = d_021F3224[func_0204B918(p[2])];
+    c = d_021F3224[func_0204B918((void *)p[2])];
     func_0202173C((void *)p[3], 8, p[1], -120, 0, c, 0, (void *)p[4]);
     return 0;
 }

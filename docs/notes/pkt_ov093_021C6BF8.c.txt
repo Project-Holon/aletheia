@@ -10,7 +10,7 @@
  * isa:      thumb
  * status:   DIFF
  *
- * checks: 1 all callees' arities read from the listing (sub_0201BD28(q,7), func_021D5F14(a), func_021D7930(u8), func_021B911C(x,3) two args, sub_0201C284(q)); 2 no twin; 3 u16 h vs u32 h with (u16) casts, q u16 kept: no change; 4 no-code self-assignment (p = p; h = h;) tried at three points: no change; 5 n/a.
+ * earlier-checks: 1 all callees' arities read from the listing (sub_0201BD28(q,7), func_021D5F14(a), func_021D7930(u8), func_021B911C(x,3) two args, sub_0201C284(q)); 2 no twin; 3 u16 h vs u32 h with (u16) casts, q u16 kept: no change; 4 no-code self-assignment (p = p; h = h;) tried at three points: no change; 5 n/a.
  * checks (big lane R2): 1 unchanged; 2 twins 021C2D10 and 021C6A9C (same callers, sub_0201BD28/func_021B911C) filed EXACT, neither has a u16 sum live across the calls; 3 h and r merged into one int with (u16) casts, h declared before r, const u8 *a/*b with const callee parameters: no change; 4 inline Calc(q, a) for h (two spellings) and inline Tail(p, q) for the branch after 0x41: no change; a named local k = 0x2c for the repeated key (declared first, last, or assigned at first use): no change (a-repeated-small-constant-takes-a-callee-saved-register: r6 = 0x2c and r7 = 4 already match); 5 idioms re-listed, nothing else fits. All 12 bytes.
  *
  * Residual: same size (180), same instructions, pure register swap r4<->r5: the original keeps p in r5 and h/r in r4,
@@ -22,12 +22,14 @@
  *   u8: corrected extern, still DIFF 12. Signed h with preserved u16 uses
  *   regresses to 192 B; context struct field retains DIFF 12. Narrow bool
  *   result and D7930 return check retain DIFF 12. Three nonshrinking changes.
- * checks: 1 own D5F14/D7930 bodies and C2D10/C6A9C prototypes reread;
+ * earlier-checks: 1 own D5F14/D7930 bodies and C2D10/C6A9C prototypes reread;
  *   2 both twins reread, no u16-sum twin; 3 signed h and byte result compiled;
  *   4 byte-colour and flag-lifetime idioms read, no rescue;
  *   5 idioms relisted and matched twins refreshed; no stack object residue.
  * permuter: consumed prior 300/2500 searches not repeated. Next lever must
  *   explain p/h coalescing without declaration-order or self-move sweeps.
+ * final-retry: 5 runs; three nonshrinking changes, two targeted checks. Prior permuter300/2500 consumed, not repeated. Best180B/12 retained with own C284 return type.
+ * checks: 1 own D5F14 and D7930 plus matched C2D10 call ABI refreshed; C284 own unit returns u32, corrected extern remains12. 2 C2D10/C6A9C refreshed, neither has this u16 sum. 3 const p remains12. 4 long h, long result and integer-spelled p each remain12; long-colour idiom read. 5 idioms relisted and both twins reread; no address-taken stack object.
  * symbols:
  *   sub_0201BD28  0x0201BD28  thumb
  *   sub_0201C284  0x0201C284  thumb
@@ -58,7 +60,7 @@ extern u8 func_021D5F14(u8 *p);
 extern int func_021D7930(u8 v);
 extern int func_021B911C(int a, int b);
 extern u32 sub_0201BD28(u16 id, u32 field);
-extern int sub_0201C284(u16 id);
+extern u32 sub_0201C284(u16 id);
 
 int func_021C6BF8(u8 *p, u8 *a, u8 *b, u16 q)
 {

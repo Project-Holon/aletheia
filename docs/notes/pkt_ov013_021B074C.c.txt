@@ -10,9 +10,10 @@
  * status: DIFF
  * Remove request from its slot; clear mask and shut down an empty session.
  * residual: DIFF 172/172 bytes, 18 concrete bytes differ; all seven relocations resolved.
- * evidence: const request parameter, inline clearSlot and enum zero each stayed 18; long counter stayed 18 and u32 array representation gave 20. Remaining slot/global load/store scheduling and loop colouring.
- * permuter: first typed budget-300 pass emitted baseline/best 18; no improvement. Search consumed.
- * checks: 1 own callee sources/assembly confirm 1A48(char*), 1720(u32), 133C(u32), 3018(void); 2 same-overlay session neighbours, no exact twin; 3 const request/long counter 18, word array 20; 4 inline/enum-zero/long-index idioms read; 5 unfiltered idiom directory and ov013 neighbours reread, scalar frame has no addressed stack aggregate.
+ * evidence: fresh two-argument clear helper and pointer-to-slot loop each tied 18. Decrement before slot-clear gave 26; u16 loop check gave 180 bytes/84. Remaining table-base colour and slot/global store scheduling.
+ * checks: 1 own matched 1A48(char*), 1720(u32), 133C(u32), and current 3018 callers reread; 2 no exact session twin; 3 const request remains best, fresh u16 counter adds truncation and 8 bytes; 4 inline, flag/input identity and no-code self-assignment idioms read; 5 full directory and fresh ov013 neighbours reread, no addressed stack aggregate; next hypothesis an independently sourced slot-clear helper, no further manual reorder.
+ * permuter: prior typed budget-300 baseline/best 18 consumed; not repeated.
+ * prior evidence: inline clearSlot, enum zero and long counter stayed 18; word array gave 20.
  * symbols:
  *   d_021B3CB0 0x021B3CB0 data ov013 a4
  *   d_021B3CBC 0x021B3CBC data ov013 a4

@@ -9,6 +9,14 @@
  * status: DIFF
  * checks: 1 n/a no callees; 2 ov110 021B98A0/021B99D8 parser callers checked, no full twin; 3 const u16 source pointer compiled unchanged; 4 nested-pointer and running-cursor idioms read; 5 idioms relisted and ov110 callers reread, stack-object check n/a no stack aggregate. Inline read16, split cursor advances and u16 pointer increments all stayed 136 B/109 out. 300-budget --types permuter's valid --n-before-bit-store mutation gave 140 B/37 out; one confirmed it. No hand sweep. Next lever: count-address materialisation, without changing inner-loop scheduling.
  * residual: 140 bytes compiled, 37 concrete bytes differ in the marker-count load and inner-loop scheduling; no relocation blockers.
+ * wave76 R28 runs: 5 one calls; no sweep or repeated permuter. Fresh checks:
+ *   1 no callees; 2 98A0/99D8 parser family reread, no full twin; 3 u16 n
+ *   gives 144/113, enum n gives 140/37; typed u16 count-pointer arithmetic,
+ *   nested MarkerHeader/CountBody address and enum source address each
+ *   keep 140/37; 4 nested-pointer and load-before-stride idioms checked;
+ *   5 fresh idiom directory and ov109/110/111 neighbour reads. Best retained.
+ *   Next: separate count-address computation plus bottom subs/bne without
+ *   an extra cmp; typed/nested pointer address folding is now measured.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;

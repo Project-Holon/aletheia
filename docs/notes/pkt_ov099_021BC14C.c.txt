@@ -8,19 +8,14 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks:   1 callees 021BA874/021BAAB8/021BC090 arity from matched ov099 files, 20399A8/203D1E8/203D378 chain passes r0 through (no setup between the blx), no change; 2 twin func_021BC228 (EXACT, ov099) has the same arms, its raw-cast spelling copied; 3 v as int and unsigned, struct W with f242/f1CC/f135C fields compiled, no change; 4 none fits (a-goto-join... is about the opposite direction); 5 n/a no new idioms appeared
+ * checks:   1 own matched ARM9 guard returns u32(void), preceding callback is void(two args), separated calls; own overlay callees checked; 2 021BC228 twin read; 3 long state, const pointer binding and pointer-valued call types inert; 4 enum-offset and self-assignment idioms read; 5 refreshed neighbours/idioms, no stack object.
  *
- * Residue: 124 B against 120 B. Registers, prologue (push r3-r7, r7 = 0) and
- * both arms match when each arm ends in its own `p->f1CC = K; return r;`
- * (0x1CC is then derived as `subs r5, #0x76` from the live 0x242 offset), but
- * the compiler does not cross-jump the two `subs r5,#0x76; str r0,[r4,r5];
- * adds r0,r6,#0; pop` tails, so arm 1 has its own tail (4 + 2 bytes). The
- * original joins the arms (arm 1 ends `movs r0,#0x42; b tail`, arm 2 falls
- * into the tail). Writing the join with a variable `v` (raw casts or struct)
- * gives v in r1 and the address rematerialised (`movs r0,#0x73; lsls`)
- * instead of derived, because 0x242 is not live at the join. Also tried:
- * `((u16 *)(p + 0x242) - 59)` for the tail address (folded to 0x1CC).
- * Sweep not run: a permuter over the join spelling.
+ * Renewed W76: 8 one runs, DIFF 14/120 (original 120). Shared enum K242
+ * assigned in each arm and used as o-0x76 in common tail restored byte size,
+ * control flow and derived offset. Only p/o are r5/r4 instead of r4/r5.
+ * p=p, o=o and long state inert; pointer-call types and real guard arities
+ * corrected with identical code. Permuter 300 types consumed: baseline
+ * agrees 14/120, best14/120, no winning mutation. Old note replay was128/73.
  *
  * symbols:
  *   func_020399A8  0x020399A8  arm
@@ -33,29 +28,36 @@
  */
 
 typedef unsigned short u16;
+typedef enum { K242 = 0x242 } Off;
 
-extern int func_020399A8(void);
-extern int func_0203D1E8(int a, int b);
-extern int func_0203D378(int a);
-extern void func_02039C68(int a, int b, int c);
+extern void *func_020399A8(void);
+extern void func_0203D1E8(void *a, void *b);
+extern unsigned int func_0203D378(void);
+extern void func_02039C68(void *a, unsigned int b, unsigned int c);
 extern void func_021BA874(void *p, int id);
 extern void func_021BAAB8(char *p, int a, int b);
 extern void func_021BC090(void *p);
 
 int func_021BC14C(char *p, int r)
 {
-    if (func_0203D378(func_0203D1E8(func_020399A8(), 0)) == 0) {
+    Off o;
+    int state;
+    func_0203D1E8(func_020399A8(), 0);
+    if (func_0203D378() == 0) {
         *(int *)(p + 0x135C) = 3;
-        func_021BA874(p, *(u16 *)(p + 0x242) - 1);
+        o = K242;
+        func_021BA874(p, *(u16 *)(p + o) - 1);
         func_021BAAB8(p, 0x5F, 0);
-        *(int *)(p + 0x1CC) = 0x42;
-        return r;
-    }
+        state = 0x42;
+    } else {
     *(int *)(p + 0x135C) = 4;
-    func_021BA874(p, *(u16 *)(p + 0x242) - 1);
+    o = K242;
+    func_021BA874(p, *(u16 *)(p + o) - 1);
     func_021BAAB8(p, 0x7E, 0);
     func_021BC090(p);
     func_02039C68(func_020399A8(), 0x1B, 0xA);
-    *(int *)(p + 0x1CC) = 0x49;
+    state = 0x49;
+    }
+    *(int *)(p + (o - 0x76)) = state;
     return r;
 }

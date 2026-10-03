@@ -9,6 +9,19 @@
  * status: DIFF
  * residue: 18 concrete bytes; flag truncation sinks past interrupt-disable call.
  * checks: 1 allocator seven arguments, return used; IRQ zero/one args; 2 ov111 twins confirm eight-byte position; 3 const q and wide sixth argument no change; 4 merged-halfword inline and ternary idioms no change; 5 reread ov110/ov111 twins and idioms, stack struct addressing already agrees. No sweep proposed.
+ *   Wave76 R28 renewed checks: 1 full own B294 reads seven, last two u16;
+ *   its forwarding return is consumed as r0 here, so pointer return retained;
+ *   B92C/B954 own files read two, SDK matched OSi_GetVFrame declares IRQ
+ *   zero/one inputs; copying the true sixth u16 parameter compiles 100/18;
+ *   2 BD194 and ov111 callers confirm Request shape, no matching flag web;
+ *   3 u16/enum flag locals, inline flag-first parameter order, signed short
+ *   coordinates and enum kind each retain 100/18; 4 merged-halfword/inline
+ *   idioms reread; 5 directory refreshed and ov109/110/111 neighbours reread.
+ * runs: wave76 R28 6 one calls + first permuter300; macro-free baseline
+ *   agrees 100/18, best unchanged after 300. No manual sweep.
+ *   Next: a type/evaluation boundary pinning the flag shift pair before
+ *   IRQ, with zero kept in r1; local narrow width and inline argument order
+ *   do not do so. This function's once-only permuter is now consumed.
  * symbols:
  *   func_02087988 0x02087988 arm
  *   func_0208799C 0x0208799C arm
@@ -22,7 +35,7 @@ typedef unsigned int u32;
 typedef struct { u16 a,b,c; u8 d,e; } Request;
 extern u32 func_02087988(void);
 extern u32 func_0208799C(u32);
-extern void *func_0204B294(u32,u32,u32,u32,Request *,u32,u16);
+extern void *func_0204B294(u32,u32,u32,u32,Request *,u16,u16);
 extern void func_0204B92C(void *,u32);
 extern void func_0204B954(void *,u32);
 typedef enum { FLAG_OFF, FLAG_ON } Flag;

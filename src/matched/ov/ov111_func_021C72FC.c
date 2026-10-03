@@ -7,8 +7,8 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
- * blocker:  one stack-argument store (heap 0x27 at sp+8) of the seventh call is scheduled first instead of last; 3 instructions, see docs/notes/pkt_ov111_021C72FC.c.txt
+ * status:   EXACT
+ * lever:    enum-typed zero in the eighth call preserves copied argument registers and the preceding late heap store.
  *
  * symbols:
  *   func_020275E4  0x020275E4  thumb
@@ -118,9 +118,9 @@ extern int func_02027628(void);
 extern int func_0202762C(void);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern void func_02049238(void *arc);
-extern void func_02049658(void *arc, int id, int frame, int a, int b, int c, int heap);
-extern void func_020498F4(void *arc, int id, int frame, int a, int b, int c, int heap);
-extern void func_02049B68(void *arc, int id, int a, int b, int c, int heap);
+extern void func_02049658(void *arc, u32 id, u32 frame, u32 a, u32 b, u32 c, u16 heap);
+extern void func_020498F4(void *arc, u32 id, u32 frame, u32 a, u32 b, u32 c, u16 heap);
+extern void func_02049B68(void *arc, u32 id, u32 a, u32 b, u32 c, u16 heap);
 extern void func_02049BDC(void *arc, int id, int a, int b, int c, int d, int heap);
 extern void func_02049B40(int a, int b, int c, int d, int e, int heap);
 extern void func_020413B0(int a, int b, int c, int d, int e, int f);
@@ -131,6 +131,8 @@ extern void *func_02049F78(void *arc, int id, Res **out, int heap);
 
 void func_021C72FC(Work *p)
 {
+    typedef enum { Zero } ZeroArg;
+    ZeroArg z = Zero;
     void *arc = p->f0;
     void *arc2;
     int i;
@@ -142,7 +144,7 @@ void func_021C72FC(Work *p)
     func_020498F4(arc, 0x23, 5, 0, 0, 0, 0x27);
     func_02049658(arc, 0x19, 3, 0, 0, 0, 0x27);
     func_020498F4(arc, 0x22, 3, 0, 0, 0, 0x27);
-    func_02049B68(arc, 0, 0, 0, 0, 0x27);
+    func_02049B68(arc, z, z, z, z, 0x27);
     func_02049658(arc, 0x19, 1, 0, 0, 0, 0x27);
     func_020498F4(arc, 0x21, 1, 0, 0, 0, 0x27);
     arc2 = func_020490F4(func_020275E4(), 0x27);

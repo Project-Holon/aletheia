@@ -9,7 +9,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks:   1 own EEB64 reads two arguments, returns record pointer, BB830 takes1; 2 refreshed BAE60/BB0A0 confirm the 12-byte record array at +0x14, no loop twin; 3 renewed const P/const E pointers compile unchanged108/26 after fixing BB830 extern constness, prior signed counters and const source unchanged/worse; 4 integer-valued walking cursor gives108/51 with s=r3, j=r1, cnt=r2 rather than original s=r2, j=r0, cnt=r1; one-word struct copy with walking source worsens116/105 and enlarges frame; pointer/declaration and long-index idioms read; 5 full idiom directory and current twins refreshed, no aggregate. Earlier permuter300 and600 plus720-order sweep consumed and not repeated. Next fresh-wave lever is full-width unsigned long j/cnt instead of unsigned int, whose distinct compiler type can change colours without narrowing.
+ * checks: 1 own BB830(1)/EEB64(2), own pointer-input/scalar-return spelling unchanged108/26; 2 BAE60/BB0A0 reread, no loop twin; 3 unsigned long j/cnt unchanged108/26, pointer-to-word-array corrected after CCERR gives108/51; 4 nested cursor helper gives108/51, long-index/inline and zero-copy idioms read; 5 full directory refreshed and neighbours reread, no aggregate. Three nonshrinking iteration changes, two check runs; all prior permuters/sweeps consumed, not repeated. Best arity.log; remaining allocation is walking source r2 versus indexed source.
  * checks (big lane R2): 1 unchanged; 2 no loop twin found; 3 const u32 *s, *(s + j), a D *d = &p->d[i] local (54 bytes): no gain; 4 walking source (`*s; s++`, `*s++`, `j++, s++`, s++ last): 51 bytes and 2 bytes short (the original reloads p from [sp] twice; the walking form loads it once and colours j=r1, cnt=r2, s=r3); a 720-order sweep of the six declarations on the walking form: best 50; an inline Copy(p, i, s, cnt) helper with `*s++` puts s in r2 as the original does (38 bytes) but j lands in r1 and cnt in r4; 5 idioms re-listed. Permuter --types 300 on this spelling and 600 on the walking one: nothing better (its best adds a return value). Residue as below, 26 bytes.
  *
  * Residual (best C, 108/112 bytes, 26 concrete bytes differ): the original walks
@@ -47,8 +47,8 @@ typedef struct {
     u8 c[4];
 } P;
 
-extern int func_021BB830(E *);
-extern u32 *func_021EEB64(u32, u32 *);
+extern int func_021BB830(u8 *);
+extern u32 func_021EEB64(void *, u32 *);
 
 void func_021BB6A8(P *p)
 {
@@ -62,8 +62,8 @@ void func_021BB6A8(P *p)
     for (i = 0; i < 4; i++) {
         e = &p->e[i];
         p->c[i] = 0;
-        if (func_021BB830(e) != 0) {
-            s = func_021EEB64(e->h, &n);
+        if (func_021BB830((u8 *)e) != 0) {
+            s = (u32 *)func_021EEB64((void *)e->h, &n);
             cnt = n >> 2;
             for (j = 0; j < cnt; j++) {
                 p->d[i].v[j] = s[j];

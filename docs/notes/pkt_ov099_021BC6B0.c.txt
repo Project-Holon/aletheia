@@ -8,14 +8,18 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks:   1 func_021BA928(p,v) and func_020362DC() void match matched twins (021BC5FC); 2 no twin of this shape in ov099; 3 s as u8 / int, field read as u32 vs int, s spelled ternary or one store per arm: same swap; 4 enum-offset lever (an-enum-type-keeps-values-out-of-constant-folding) already applied, 021BC468 needs it; 5 re-read idioms, none fits
+ * checks:   1 own 021BA928 is int(p); ARM9 unit_020362BC contains u32 sub_020362DC(void), declarations corrected; 2 scoped twins 021BC5FC/468/4D4 inspected; 3 long s inert, unchanged mutable p disallows const pointee; 4 enum, self-assignment, inline accessor and width idioms read; 5 refreshed idioms and neighbours, no stack-object residue.
  *
- * Residue (16 bytes, register swap only): the original loads the pooled offset 0x135c
+ * Residue (8 bytes, register swap only): the original loads the pooled offset 0x135c
  * into r0 and the field into r1 (`ldr r0,[pc]; ldr r1,[r5,r0]; subs r1,#3; cmp r1,#1;
  * ... movs r1,#0x90/0x97; subs r0,#9; strb r1,[r5,r0]`); every spelling below gives
  * offset in r1 and the field/value in r0. Tried: int o, enum o (folds / swaps), o declared
  * before or after s, x local for the field, ternary s, per-arm stores, ||-form compare,
  * u8 s, u32 field read. 10 runs.
+ *
+ * Renewed W76: 5 one runs; self-assignment o, long s and inline read_mode all
+ * unchanged 8/68. Correct callee declarations also unchanged. Permuter 300
+ * types consumed: baseline agrees 8/68, best 8/68, no winning mutation.
  *
  * symbols:
  *   func_021BA928  0x021BA928  thumb  ov099
@@ -28,15 +32,15 @@ typedef unsigned long  u32;
 
 typedef enum { K135C = 0x135c } Off;
 
-extern int func_021BA928(void *p, int v);
-extern int func_020362DC(void);
+extern int func_021BA928(void *p);
+extern u32 func_020362DC(void);
 
 int func_021BC6B0(char *p, int v)
 {
     Off o;
     int s;
 
-    if (func_021BA928(p, v) == 0) {
+    if (func_021BA928(p) == 0) {
         return v;
     }
     if (func_020362DC() == 0) {

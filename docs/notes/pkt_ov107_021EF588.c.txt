@@ -7,7 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own callee bodies fix arities, copy reads 3 words, 458F8 explicitly truncated; 2 ov107 1704/17E0/EF444 twins agree, getter u32 payload cast preserved; 3 int lengths/index, u16 index, const getters and u32 character leave 15 bytes (2 check compiles); 4 assignment-in-argument fixes buffer holds, stack-slot idioms read, reorder cap 2/2; 5 fresh unfiltered idiom listing and ov106/ov107 neighbours reread, no stack aggregate, remaining declaration reorder disallowed; once-only types permuter 300 candidates no improvement.
+ * checks: 1 own 12944/30734/08534/45EC0/457B0/45808/458F8/45A90/774A0 and SDK copy plus matched callers rederived arities; explicit getter truncation retained; 2 ov107 1704/17E0/EF444 and 1AFC/1B00 refreshed; 3 enum loop counter worse189/+8 and reverted, u16-heap constructor inline unchanged15, earlier widths and const getters not repeated; 4 paired-pointer aggregate unchanged15, stack-object/extra-inline-slot idioms read, no new declaration-order sweep; 5 fresh full idiom listing and neighbours, aggregate scalarises back to same spills. W76 three fixed runs; prior permuter300 consumed, no repeat. Next: source provenance for the expanded/other pointer spill slots.
+ * residual: DIFF15, compiled452/452, all34 relocations resolved; expanded/other spill slots reversed plus allocation input-load ordering at0082..0086.
  * symbols:
  *   func_02012944 0x02012944 thumb
  *   func_02030734 0x02030734 arm
@@ -60,11 +61,15 @@ extern void func_020774A0(int (*)(void));
 extern int func_021F05DC(void);
 extern const char d_021F6E0C[];
 extern u8 ov014_id[];
+static inline struct U16Vec *alloc_expanded(u32 size,u16 heap)
+{ return func_020457B0(size,heap); }
 
+typedef struct { struct U16Vec *other, *expanded; } Pair;
 void func_021EF588(u8 *p)
 {
     u8 *save;
-    struct U16Vec *message, *expanded, *other;
+    struct U16Vec *message;
+    Pair slots;
     int n, m;
     u16 *buffer;
     struct MsgBank *bank;
@@ -88,8 +93,8 @@ void func_021EF588(u8 *p)
         index = 15;
     }
     message = func_02045EC0(bank, index);
-    expanded = func_020457B0(256, *(u16 *)p);
-    func_0201F250((struct WordSet *)func_021F1B00(*(u8 **)(p + 0x68)), expanded, message);
+    slots.expanded = alloc_expanded(256, *(u16 *)p);
+    func_0201F250((struct WordSet *)func_021F1B00(*(u8 **)(p + 0x68)), slots.expanded, message);
     func_02045808(message);
     if (!p[0x28]) {
         bank = (struct MsgBank *)func_021F1AFC(*(u8 **)(p + 0x68));
@@ -98,13 +103,13 @@ void func_021EF588(u8 *p)
         bank = (struct MsgBank *)func_021F1AFC(*(u8 **)(p + 0x68));
         index = 16;
     }
-    other = func_02045EC0(bank, index);
-    n = (u16)func_020458F8(expanded);
-    m = (u16)func_020458F8(other);
-    func_02082A60(func_02045A90(expanded), buffer = *(u16 **)(p + 0x50), n * 2);
-    func_02082A60(func_02045A90(other), buffer = *(u16 **)(p + 0x54), m * 2);
-    func_02045808(expanded);
-    func_02045808(other);
+    slots.other = func_02045EC0(bank, index);
+    n = (u16)func_020458F8(slots.expanded);
+    m = (u16)func_020458F8(slots.other);
+    func_02082A60(func_02045A90(slots.expanded), buffer = *(u16 **)(p + 0x50), n * 2);
+    func_02082A60(func_02045A90(slots.other), buffer = *(u16 **)(p + 0x54), m * 2);
+    func_02045808(slots.expanded);
+    func_02045808(slots.other);
     (*(u16 **)(p + 0x50))[n] = 0;
     (*(u16 **)(p + 0x54))[m] = 0;
     for (i = 0; i < 96; i++) {

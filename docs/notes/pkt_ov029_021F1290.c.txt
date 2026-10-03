@@ -8,10 +8,20 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 freshly read 021F0C70(4) and 021F0D14(4), 0204162C(1); 2 021F0C00/EFF58 callers and table layout, no full twin; 3 s u16 gives 86/172, unsigned s 25/172, enum s 27/172; enum k 97/176, unsigned c 25/172; 4 enum/commutative/stack-local idioms read; 5 directory and ov029/ov028/ov030 neighbours refreshed, no new twin.
- * residual: DIFF 172/172, 25 concrete bytes, all 6 relocations resolved. Loop preheader k-zero, table lookup/w*4 order and inner OR register colours remain.
- * prior: Old 300-candidate types search reached 25 from 49, then an old 600-candidate seed7 search was also consumed; neither repeated. Preserve tmp initialization, 2-D byte table, copied six-word table and direct buf[bb*32+aa]. LICM whole lookup previously gave 116/176; pointer/subscript and OR orders 25-26.
- * renewed-pass: substantive fresh attempts complete; three nonshrinking iterations then mandatory checks; no new permuter search.
+ * residual: 172/172 bytes, 19 concrete mismatches, all six relocations resolved.
+ * W76: eight runs; k=0 before palette lookup improves25 to19. Long s/c
+ * unchanged19; named entry temporary expands176/DIFF116. Three later
+ * nonshrinking changes stopped iteration; two scheduling variants used.
+ * checks: 1 own 0C70 pointer signature and 4162C unsigned return corrected
+ * unchanged19, 0C00/133C callers prove four out-coordinate args;
+ * 2 1010/0C00/133C and table layouts re-read, no full twin;
+ * 3 signed/unsigned long palette locals and read-only h const unchanged;
+ * 4 counter-before-base, row/column and loop-invariant field idioms read;
+ * 5 recent directory and scoped neighbours refreshed, copied24B table
+ * and A/B stack addresses still agree. Lookup/register web remains.
+ * Prior types searches300 and600(seed7) consumed, never repeated.
+ * Preserve tmp initializer, direct buf index and two-dimensional byte table.
+ * Next: descriptor-table base type distinct from copied tile table index.
  * symbols:
  *   func_0204162C  0x0204162C  arm
  *   func_021F0D14  0x021F0D14  thumb  ov029
@@ -26,14 +36,14 @@ typedef struct {
 } S13Tbl;
 typedef enum { CounterZero } Counter;
 
-extern int func_0204162C(int);
+extern unsigned int func_0204162C(int);
 extern void func_021F0D14(int, int, int *, int *);
-extern int func_021F0C70(int, int, int, int);
+extern int func_021F0C70(void *, int, int, int);
 extern const S13Tbl d_021F3354;
 extern const unsigned short d_021F31D4[];
 extern const unsigned char d_021F323C[][5];
 
-void func_021F1290(int h, int x, int y, int w)
+void func_021F1290(const void *h, int x, int y, int w)
 {
     int A;
     unsigned short *buf;
@@ -51,11 +61,12 @@ void func_021F1290(int h, int x, int y, int w)
     buf = tmp;
     func_021F0D14(x, y, &A, &B);
     c = d_021F31D4[w];
-    t = func_021F0C70(h, c, x, y);
+    t = func_021F0C70((void *)h, c, x, y);
     bb = B;
+    k = 0;
     s = d_021F323C[c][t];
     s = s << 12;
-    for (k = 0; k < 4; k++) {
+    for (; k < 4; k++) {
         aa = A;
         for (j = 0; j < 4; j++) {
             if (aa >= 0 && aa < 32)

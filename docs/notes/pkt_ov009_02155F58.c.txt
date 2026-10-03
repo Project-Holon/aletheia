@@ -8,20 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks: 1 SDK error getter reads two int pointers, own ARM9 status logger types verified; 2 ov009552E8/56690 agree on getter, no branch-island twin; 3 unsigned ret unchanged; 4 switch-exit idioms consulted, goto/do shapes unchanged; 5 neighbours/idioms rechecked, stack slots match except the shared2B shift. Prior permuter300 consumed, not repeated; branch expansion remains.
- * renewed pass: 4 runs; explicit case4-tail goto, do/break outer guard, actual logger signedness/return prototypes and unsigned ret all DIFF349/436B (one initial2B branch expansion shifts body).
- *
- * DIFF349 concrete bytes, caused by 2 bytes of branch encoding (the size
- * matches because the 2 bytes come out of the trailing pad).  The original
- * skips the whole body on r == 0 with `beq 0x02156022`, a branch island:
- * 0x02156022 is the `b 0x021560B0` ending case 4 of the switch, used because
- * the real target 0x021560B0 is out of Thumb conditional-branch reach.  This
- * C gives `bne body; b tail` instead (+2 bytes), and everything after it is
- * shifted by 2 until the pad.  Tried, no change: `if (r == 0) goto tail;`,
- * a `goto` to a label at the end of case 4, and tools/permuter.py
- * (300 compiles, best 250 bytes out).  The next thing to try is a different
- * nesting of the body, one that makes the r == 0 edge target the case-4
- * exit block directly.
+ * checks: 1 own SDK getter reads two int pointers; logger int/u32/u32/u32 and status getter no args; 2 ov009552E8/561C0/56690 no branch-island twin; 3 unsigned/enum state both unchanged349; 4 cross-jumped tail-copy/shared-exit idioms read, control-flow cap respected; 5 fresh idiom listing and matched ov00956690 reread, frame matches.
+ * Fresh final retry: 6 one runs, outer switch/inverted guard/enum result and unsigned/enum state all DIFF349/436B; three nonshrinking iterations. Prior once300 already consumed and not repeated; original 2B branch island is still expanded. Earlier tail goto/do-break shapes also consumed. Next possible hypothesis: duplicated tail statement copy, beyond this run's two manual control-flow variants.
  *
  * symbols:
  *   d_021A8264     0x021A8264  data  ov009  a4

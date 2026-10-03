@@ -9,8 +9,10 @@
  * isa:      thumb
  * status:   DIFF
  *
- * checks: 1 SDK copy/fill three args proven; 2 legacy note has better11 baseline; 3 nonconst source worse, u16 zone unchanged; 4 enum offset yielded30, no new idiom; 5 neighbours and idioms re-read, no new twin; permuter300 consumed, emitted baseline11 agrees, no improvement.
+ * checks: 1 SDK copy/fill arity3 retained; 2 current ov010 matrix getter/neighbours no decoder twin; 3 unsigned-long loop counter remains11/100; 4 masked-width idiom read, no closing lever; 5 refreshed idioms and 02159C20/02159D68, no stack object.
  * blocker: DIFF 11/100 register rotation only. Fresh enum-offset/width hypotheses failed; legacy best restored. Do not repeat historical 120 declaration permutations or this 300-run permuter.
+ * wave76: Four fixed-flag compiles: unsigned-long words and signed-short zone each11/100; u16 product adds truncation,89/104 and rejected; check3 unsigned-long loop remains11. Final authorized retry exhausted; old permuter300 and 120 declaration variants remain spent.
+ * evidence76: scratchpad/overlay-newpass-20261003-w76/R2/; each log awaited to terminal exit.
  * symbols:
  *   func_02082A48  0x02082A48  arm
  *   func_02082A90  0x02082A90  arm

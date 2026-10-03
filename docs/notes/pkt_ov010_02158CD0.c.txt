@@ -9,8 +9,13 @@
  * isa:      thumb
  * status:   DIFF
  *
- * checks: 1 matched 02013AD0 confirms helper arity/halfword fields; 2 no same-table twin; 3 const table118 but uncertain mutability, u16 v worse154, direct global accesses188B; 4 table/pointer idioms read; 5 neighbours and idioms re-read, old best restored; permuter300 consumed, baseline126 agrees, decl-order mutant128 rejected.
- * blocker: DIFF126, compiled160/original168; base/index fold and output-pointer allocation. Table pool witness remains unresolved until codegen matches.
+ * checks: 1 own 02013AD0 halfword return bodies and assertion arity agree; 2 02158BFC passes distinct stack outputs, no exact table twin; 3 unsigned b/c and u16-pointer/short b/c flat14, const element pointer154; 4 struct-field, scalar-copy and table/pointer idioms read; 5 refreshed idioms and matched caller, no further rescue; next hypothesis output-load allocator tie, no consumed permuter repeat.
+ * blocker: DIFF14, compiled168/original168; 5/5 relocations resolved.
+ * Wave 76: form e after the assertion call, restoring size and all data
+ * witnesses. An 8-byte variant read c after the o2 store, unlike the image,
+ * and was rejected for possible output/table aliasing. Named u16 b/c read
+ * both fields before either final output store: safe best14 (run3).
+ * Old permuter300 remains consumed; no repeated search this final retry.
  * symbols:
  *   func_02034714  0x02034714  arm
  *   func_02013B5C  0x02013B5C  thumb
@@ -34,15 +39,18 @@ u16 func_02158CD0(unsigned k, unsigned v, u16 *o1, u16 *o2, u16 *o3)
     unsigned i;
     struct E *t = d_021701A8;
     struct E *e;
+    u16 b, c;
     for (i = 0; i < 46; i++) {
         if (v < t[i].lo)
             continue;
-        e = &t[i];
-        if (v > e->hi)
+        if (v > t[i].hi)
             func_02034714(d_02172898, 0, d_02172898);
+        e = &t[i];
         *o1 = e->a;
-        *o2 = e->b;
-        *o3 = e->c;
+        b = e->b;
+        c = e->c;
+        *o2 = b;
+        *o3 = c;
         return v - t[i].lo;
     }
     if (v >= 1) {

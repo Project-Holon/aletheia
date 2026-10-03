@@ -5,20 +5,13 @@
  * region: ov100
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 full40618/42360 permits3args; own callee types audited; 2 freshBB414/BB180/BB584/ov1016AD8 no matching twin; 3 u16 offset no change, done/flag bounded0or1, p mutable so const inapplicable; 4 enum-offset/inline/struct-field/masked-width idioms read; 5 full idiom list and named neighbours reread, no stack aggregate residue.
- * budgets: 6 iterations, stopped3 nonshrinks fromr4 (3/20); manual variants2;
- *   C3 one compile; types permuter once300 including baseline; winner one verify.
- * residual: DIFF56/236 after automated use(callback);temp(hardware predicate).
- * audit: predicate read remains one existing hardware volatile access before
- *   callback load, as ROM; no added volatile, empty callback test has no effects;
- *   all locals assigned before use, signatures unchanged, u16 off=584 only.
- * next: no manual reorder/extraction probes remain; preserve counters.
- * volatile: 0x021BB49E reads shared hardware status at 0x02FFFC3C.
- * evidence: original supplies r1=3 and r2=count to40618, kept explicit.
- *   Full 40618 forwards fourth input to42360; full42360 reads only first
- *   three inputs, so unestablished r3 is omitted, never invented.
+ * checks: 1 own bodies and forwarding targets confirm all arities, 02040618 three inputs; 2 fresh BB414/BB584 no twin; 3 enum done/word flag unchanged56; 4 compound frame subtraction unchanged176/228, explicit c99 best confirmation56; 5 unfiltered idioms and BB414/BB584 refreshed.
+ * residual: 236/236, 56 concrete bytes, 11/11 resolved; hardware boolean normalization and repeated frame offsets.
+ * renewed: raw hardware state176/228, forwarded helper offset56/236, enum hardware176/228; three manual nonshrinks, three check compiles. Historical types permuter300 consumed; not repeated.
+ * volatile: original hardware status read at021BB49E; existing register access only.
  * symbols:
  *   func_0207E3D0 0x0207E3D0 arm
  *   func_02027974 0x02027974 thumb
@@ -29,7 +22,7 @@
  *   func_0200FB24 0x0200FB24 thumb
  *   func_0200FB38 0x0200FB38 thumb
  *   func_0202223C 0x0202223C thumb
- */
+  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -60,12 +53,13 @@ inline static void setFrame(u8 *p, u16 v)
   *((u16 *) (p + (t - 8))) = v;
 }
 
+enum Flag { FlagZero, FlagOne };
 int func_021BB498(int a, int b, int c, u8 *p)
 {
   u16 off = Callback;
   void (*callback)(u8 *);
-  u8 done = 1;
-  u8 flag;
+  enum Flag done = FlagOne;
+  u32 flag;
   int tmp;
   tmp = ((*((volatile u32 *) 0x02fffc3c)) & 7) == 1;
   callback = *((void (**)(u8 *)) (p + off));

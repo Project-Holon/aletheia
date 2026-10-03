@@ -1,0 +1,75 @@
+/*
+ * function: func_021BD348
+ * address: 0x021BD348
+ * packet: pkt_ov110_021BD348
+ * region: ov110
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 full own sub_02061CA4 confirms four inputs and int return;
+ *   copied prototype compiled same 256/127, both relocations resolve;
+ *   2 ov110 9CE4/C060C and ov111 C82C0 share DMA callee, no blend twin;
+ *   parked func_021BF664 is ov208, different field extents;
+ *   3 u8 b gives 260/158, u8 g 252/139, u8 r 252/148; unsigned green
+ *   masks with signed A/B reproduce asr for high and reduce 128 to 127;
+ *   4 per-channel and enum-offset idioms checked, enum high shifted early
+ *   gives 256/132, enum index offset gives 256/127; two manual scheduling
+ *   variants consumed; 5 refreshed idiom directory and ov109/110/111
+ *   neighbours; no matching stack aggregate.
+ * runs: wave76 R28 8 one calls + first permuter300; no manual sweep.
+ *   Macro-free emitted baseline agrees 256/127. Search best 256/89,
+ *   mutations decl-order(B<->g), temp(g update), expand(b x2); one agrees.
+ *   Every temporary is assigned before use; expansions read saved A/B and
+ *   preserve the original per-channel u8 truncations and final u16 store.
+ * residual: 256/256, 89 concrete bytes differ; i*2 is now kept in r7,
+ *   but i is r6 instead of r3 and channel extraction/update chains differ.
+ *   The old i*2 spill/high-result allocation wall shrank; best C below.
+ *   Next: the remaining per-channel live webs and their signed/unsigned
+ *   widths, without another reorder sweep or repeated permuter search.
+ * symbols:
+ *   tbl_020A1B38 0x020A1B38 data
+ *   func_02061CA4 0x02061CA4 arm
+ */
+typedef struct
+{
+  char pad0[0x98];
+  unsigned short srcA[5];
+  unsigned short srcB[5];
+  unsigned short dst[5];
+  char padb6[0xb8 - 0xb6];
+  int f108;
+} Ent;
+extern short tbl_020A1B38[];
+extern int func_02061CA4(void *, unsigned int, unsigned int, int);
+void func_021BD348(Ent *e)
+{
+  unsigned char tmp;
+  if ((e->f108 + 0x400) >= 0x10000)
+    e->f108 = e->f108 - 0xfc00;
+  else
+    e->f108 = e->f108 + 0x400;
+  {
+    unsigned char i;
+    int t = e->f108;
+    short ratio;
+    t = ((t >> 4) << 1) + 1;
+    ratio = (tbl_020A1B38[t] + 0x1000) / 2;
+    for (i = 0; i < 5; i++)
+    {
+      int A = e->srcA[i];
+      int g = (unsigned char) ((A & 0x3e0u) >> 5);
+      int B = e->srcB[i];
+      int r = (unsigned char) (A & 0x1f);
+      int b = (unsigned char) ((A & 0x7c00) >> 10);
+      b = (unsigned char) (((unsigned char) ((A & 0x7c00) >> 10)) + ((ratio * (((unsigned char) ((B & 0x7c00) >> 10)) - ((unsigned char) ((A & 0x7c00) >> 10)))) >> 12));
+      r = (unsigned char) (r + ((ratio * (((unsigned char) (B & 0x1f)) - r)) >> 12));
+      tmp = (unsigned char) (g + ((ratio * (((unsigned char) ((B & 0x3e0u) >> 5)) - g)) >> 12));
+      g = tmp;
+      e->dst[i] = (unsigned short) (((b << 10) | (g << 5)) | r);
+    }
+
+    func_02061CA4((void *) 0xe, 0x56, (unsigned int) e->dst, 0xa);
+  }
+}

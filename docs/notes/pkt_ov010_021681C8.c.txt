@@ -10,7 +10,11 @@
  * status:   DIFF
  *
  * DIFF 613 concrete bytes; compiled 808 versus 800. Best size retained. Numeric context local gives same808/613; enum flag restores original flag truncation but gives812/536; const record aliases and unsigned kind retain812/536; advancing rec in place worsens820/548. Original keeps rec in r7 and homes context to sp+0x20; generated keeps context in r5 and spills rec. Prior seed7202 budget300 search remains consumed; no repeated search.
- * checks: 1 matched family/callee bodies confirm arities and narrow stack heap/flag; 2 ov010 E95C and ov021 CBD08 siblings read, no full twin; 3 const input context compiled unchanged808/613, record const aliases no homing repair; 4 pointer homing/enum/const idioms read; 5 neighbours rechecked, declared-struct-local idiom read but Loc is already an actual16-byte struct; next hypothesis distinct per-section inline helper parameter types, no sweep run.
+ * checks: 1 current matched bodies/callers confirm arities; 68AC8 ignores overwritten legacy a1-a3, reads record only; 2 E95C/CBD08 family gives no full twin; 3 const section helper with enum flag gives536/812 after CCERR repair; 4 pointer-home, aggregate and enum idioms reread; 5 neighbours and idiom directory refreshed, Loc is an actual16-byte object and no new homing twin appears.
+ * wave76 final retry: section-specific inline helper and one-word ContextWord
+ * local both retain613/808. Const helper plus enum flag retains536/812.
+ * Four fixed one runs including one CCERR. Best size808 retained below;
+ * fresh manual pass exhausted, prior seed7202 search never repeated.
  *
  * symbols:
  *   func_020120F4  0x020120F4  thumb

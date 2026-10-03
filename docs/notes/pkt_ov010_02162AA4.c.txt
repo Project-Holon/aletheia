@@ -11,13 +11,15 @@
  *
  * blocker: DIFF45, compiled190 versus extent196. The long cache restores
  * final n stack reload; two branch-to-next stubs remain omitted (plus pad).
- * checks: 1 no calls, original reads fifth parameter with ldrh; 2 matched 02162C84/02162D90 caller prototypes use u16 n, no closing twin; 3 enum w unchanged42/186, long w restores stack reload45/190; 4 inline center70/186, do-break42/186, focused half helper53/190; 5 fresh idiom listing and ov010/ov021 neighbours, no stack aggregate. No further sweep proposed.
+ * checks: 1 leaf with no calls, fifth slot is ldrh; 2 current matched 02162C84/02162D90 use u16 n, no closing twin; 3 enum Direction plus const u16 n DIFF45/190; 4 inline/enum/branch idioms read, flip helper unchanged; 5 unfiltered idiom listing and current neighbours reread, no aggregate local.
  * search: once300 --types emitted baseline DIFF45/190 agrees with one;
  * best115/194 rejected: tmp/tmp1 assigned before case2 are bypassed by
  * direct case dispatch, which reads uninitialized tmp1. Search spent.
  * Original int cache42/186 retained in aa4-r1.log; this source is nearer
  * in size and reproduces the original final ldrh from its parameter slot.
  * evidence: scratchpad/overlay-newpass-20261003-w75/R5/aa4-*.log.
+ * final-retry: w76 R3 exhausted: shared goto flip DIFF99/188; inline flip DIFF45/190; enum Half DIFF45/190; final type check DIFF45/190. Four one calls; old once300 remains spent.
+ * evidence-final: scratchpad/overlay-newpass-20261003-w76/R3/; every invocation exited before its complete verdict was read.
  * symbols:
  */
 typedef unsigned short u16;

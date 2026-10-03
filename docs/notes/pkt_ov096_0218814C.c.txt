@@ -7,11 +7,10 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * checks: 1 own files/show confirm 2FC return/visible r1, Tick u64, mul runtime; 2 87FB0/A220 guarded u64 helper twin, order cap prevents another manual spelling; 3 u16 i adds 4 bytes/const a unchanged 314/158, writable b cannot const and address a cannot narrow; 4 random-high/struct-local/enum idioms read; 5 fresh directory and 880BC/own85BC/ov093 D7704 reread; next hypothesis helper-scope draw with preserved loop field pointers.
- * Best 310 bytes versus 312 extent, 111 concrete mismatches (814c-mutant.log).
- * Iteration stopped after i5/i6/i7 three nonshrinking; manual order cap 2 used.
- * Once-only types300 permuter hoist-up(n,-2) behavior-valid, no new volatile/signature/address narrowing.
+ * status: EXACT*
+ * Lever: guarded named field pointers retain the 0x18 frame; entry/mask
+ * declaration order fixes r7/r6; u64 draw puts its high-word zero before
+ * the count guard. All 9 relocation sites resolve.
  * symbols:
  *   func_0218A2FC 0x0218A2FC thumb ov096
  *   func_0218A310 0x0218A310 thumb ov096
@@ -26,14 +25,15 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef enum { COUNT_ONE = 1 } Count;
-typedef struct { u8 state, index; unsigned short move; int scores[4]; u8 p14[0x28]; u32 mask, all; u8 flags, entry, slot, target; u8 p48[0x4c]; u8 side, opp; u8 p96[0x1a]; int fb0, fb4, fb8, fbc, fc0, fc4; u8 pc8[8]; u64 tick; } Obj;
-extern int func_0218A2FC(u8 *, int);
+typedef struct { u8 state, index; unsigned short move; int scores[4]; u8 p14[0x28]; u32 mask, all; u8 flags, entry, slot, target; u8 p48[0x4c]; u8 side, opp; u8 p96[0x1a]; int fb0, fb4, fb8; u8 *fbc, *fc0; int fc4; u8 pc8[8]; u64 tick; } Obj;
+extern u8 *func_0218A2FC(u8 *, u8);
 extern void func_0218A310(u8 *);
 extern void func_0218A324(u8 *);
 extern void func_021885BC(int, u8 *);
-extern int func_021D5448(int);
+extern u8 func_021D5448(u8 *);
 extern u64 func_020870D0(void);
 extern u32 func_0203F0A8(void);
+inline static u32 draw_below(u32 n) { u64 random=func_0203F0A8(); if(n!=0) random=(random*n)>>32; return random; }
 int func_0218814C(int a, Obj *b)
 {
     int scores[4];
@@ -41,28 +41,36 @@ int func_0218814C(int a, Obj *b)
     long i;
     int v;
     Count n;
-    u32 random;
+
     u32 mask;
     int next;
+    u8 *entryPtr;
+    u32 *maskPtr;
+    u8 *flagsPtr;
     b->fbc = func_0218A2FC((u8 *)b, b->side);
     b->fc0 = func_0218A2FC((u8 *)b, b->opp);
     if (!(b->flags & 16)) {
         func_0218A310((u8 *)b);
         func_0218A324((u8 *)b);
     }
-    while ((mask = b->mask) != 0) {
+    if ((mask = b->mask) != 0) {
+    flagsPtr = &b->flags;
+    maskPtr = &b->mask;
+    entryPtr = &b->entry;
+    do {
         if (mask & 1) {
             if (!(b->flags & 16)) b->state = 0;
-            b->flags &= ~16;
+            *flagsPtr &= ~16;
             b->tick = func_020870D0();
             func_021885BC(a, (u8 *)b);
             if (b->flags & 16) return 1;
         }
-        next = b->entry + 1;
-        mask = b->mask >> 1;
-        b->entry = next;
-        b->mask = mask;
+        next = *entryPtr + 1;
+        mask = *maskPtr >> 1;
+        *entryPtr = next;
+        *maskPtr = mask;
         b->index = 0;
+    } while ((mask = *maskPtr) != 0);
     }
     if (b->flags & 2) {
         b->slot = 4;
@@ -85,9 +93,7 @@ int func_0218814C(int a, Obj *b)
                 }
             }
         }
-        random = func_0203F0A8();
-        if (n != 0) random = (u32)(((u64)random * (u32)n) >> 32);
-        b->slot = ids[random];
+        b->slot = ids[draw_below(n)];
     }
     b->target = b->opp;
     return 0;

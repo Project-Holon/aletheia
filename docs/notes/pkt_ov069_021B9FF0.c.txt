@@ -8,6 +8,17 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * final retry: Wave76 R17, five fixed-flag one compiles, no sweeps/permuter.
+ *   Destructive byte pointer gives 678/620; explicit row pointer before byte
+ *   loads 690/606; long index 690/619; enum b12 and unsigned memcpy stride
+ *   each retain 692/196. Keep baseline, exhausted this authorized retry.
+ *   Checks 1 own 1ED04/1F020/45730 units re-derived six/three/one arities,
+ *   45994 and 2435C three/two, return forwarding confirmed; 2 own ov069
+ *   BA480/caller9F70 refreshed; 3 long index/enum byte measured, list already
+ *   const; 4 distinct-arithmetic-types and char-base idioms reviewed, new
+ *   signed/unsigned stride hypothesis measured once; 5 idioms refreshed.
+ *   Need product-only CSE while spilling the full sum; further pointer
+ *   extraction/declaration sweeps and the old 300 permuter are consumed.
  *
  * symbols:
  *   func_020457B0  0x020457B0  arm

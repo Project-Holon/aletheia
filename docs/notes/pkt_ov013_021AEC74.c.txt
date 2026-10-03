@@ -8,7 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 matched func_021B1F2C forwards unsigned i, func_021B20B0 takes 2 and func_021B1F54 takes 1; 2 matched 021AECC4/021AEDEC/021AEE14/021AF13C read, no twin; 3 enum mode argument and signed payload local both compiled DIFF24, no narrowing evidence for i; 4 enum-zero/enum-return/hidden-input idioms read; 5 fresh idiom listing and ov013 neighbours reread, no stack object residue. Next hypothesis: duplicated per-path check call, unrun.
+ * checks: 1 own 021B1F2C/021B20B0/021B1F54 rederive arities 1/2/1; 2 021AECC4/021AEDEC/021AEE14/021AF13C reread, no twin; 3 const Node local and unsigned-long input both unchanged 80/24, input stays full-width; 4 enum-zero/enum-return/const-record idioms read; 5 unfiltered idiom directory and ov013 neighbours refreshed, no stack object residue. Next unrun hypothesis: explicit distinct success/failure labels preserving the original entry-path branch.
+ * Final wave76 retry: duplicated per-path call expands to 104 bytes;
+ * compound null/allocation guard stays 80/24. Retain the original best C.
+ * All four relocations resolve; consumed once-300 permuter not repeated.
  * Renewed wave75: corrected input i removes 3 original byte differences;
  * remaining 24 bytes are zero hoist, p register and merge-path shape.
  * Enum zero/return and integer field/local types were unchanged DIFF24.

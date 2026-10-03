@@ -9,6 +9,7 @@
  * isa: thumb
  * status: DIFF
  * checks: 1 WordSet own units and SDK RTCDate/RTCResult rederived, F3D38 four args; 2 matched 4058 same message fields but lacks live2; 3 const p DIFF8 unchanged; 4 enum d and two inline argument/field variants DIFF8 unchanged; 5 fresh idioms and scoped 048 neighbours, declared-stack-struct read. Next hypothesis would inline the WordSet call wrappers with proven SDK parameter enums, not run.
+ * final-retry: W76 R16 3 iteration + 1 check3; date-call inline and nested message emitter unchanged DIFF8/124, combined message/date frame worse18/124, mutable p with own builder's int* signature unchanged8. Three nonshrinks stop. Checks1 own WordSet units EFA4 six args/F230 three and ov048 F3D38 four re-read; 2 scoped 047/048/049 no closer twin; 3 mutable p compiled unchanged; 4 inline wrappers and explicit frame tried, declared-stack-struct idiom read; 5 idioms/neighbours refreshed. Previous permuter300 consumed, not repeated. Final retry exhausted; retain best below.
  * runs: Wave75 R26 3 iteration + 1 check3; all124 bytes,DIFF8,8/8 relocs; three nonshrinks stop.
  * residual: live2 field store floats before mov r2,#1; two manual scheduling variants consumed. Earlier once-300 --types permuter remains spent; no rerun.
  * history: Earlier note tried widths for F3D38, named1/2 constants, word buffer, struct pointer/int array, store orders, nested blocks and permuter300; best8 retained. Current inline spelling retains the same best8 with proven RTCDate/WordSet types.

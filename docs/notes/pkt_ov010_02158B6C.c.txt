@@ -7,10 +7,12 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
  *
- * checks: 1 own 0201296C one arg and 020143CC two args restored; 2 matched 02158B00 takes const list; 3 const list and u32 id compiled with no change; 4 inline parser and narrow-width idioms tried; 5 matched neighbours re-read; permuter 300 consumed, baseline129 agrees, validated best40.
- * blocker: DIFF 40/144: bounded temp/call-result mutations keep branch layout, first-loop cursor register still wrong. Header restored on emitted candidate before final validation.
+ * levers: wave76 reused cursor p across both parsing phases; p += 6 at the
+ * matched key, then p += key before save accessor. Local base/q produced
+ * DIFF40; cursor reuse alone31, resetting it through base129; in-place
+ * advances give EXACT. Permuter300 previously consumed, not repeated.
  * symbols:
  *   func_0201296C  0x0201296C  thumb
  *   func_020143CC  0x020143CC  thumb
@@ -28,8 +30,6 @@ inline static u16 RD16(const u8 *p)
 u16 func_02158B6C(const void *a, const u8 *list, u32 key)
 {
   const u8 *p = list;
-  const u8 *base;
-  const u8 *q;
   u32 h;
   const u8 *tmp;
   int pad;
@@ -43,29 +43,28 @@ u16 func_02158B6C(const void *a, const u8 *list, u32 key)
     if (key == id)
     {
       key = ((p[2] + (p[3] << 8)) + (p[4] << 16)) + (p[5] << 24);
-      tmp = p + 6;
-      base = tmp;
+      p += 6;
       break;
     }
   }
 
   if (key == 0)
     return 0xFFFF;
+  p += key;
   tmp2 = func_0201296C(a);
-  q = base + key;
   h = tmp2;
-  for (;; q += 6)
+  for (;; p += 6)
   {
     u16 val;
-    u16 id = RD16(q);
+    u16 id = RD16(p);
     if (id == 0)
       return 0xFFFF;
     if (id == 0)
       return 0xFFFF;
-    tmp1 = RD16(q + 2);
+    tmp1 = RD16(p + 2);
     val = tmp1;
     if (val == (*func_020143CC(h, id)))
-      return RD16(q + 4);
+      return RD16(p + 4);
   }
 
 }

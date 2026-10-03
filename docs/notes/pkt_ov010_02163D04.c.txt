@@ -9,9 +9,11 @@
  * isa: thumb
  * status: DIFF
  * blocker: six concrete bytes exchange the row-copy source/destination r2/r3; 280-byte size exact, all ten relocations resolved.
- * checks: 1 own matched DCB4/getters/E34/D7DC and ov021 callers establish one/one/three/one arguments, signed getter declarations retain DIFF6; 2 no same-loop twin in ov010/ov021 neighbours; 3 const m rejected implicit conversion, corrected getter/position prototypes retain DIFF6; 4 inline copy in both argument orders and u64+u32 aggregate retain DIFF6; 5 block-local cast buffer worsens to DIFF225, re-listed idioms and neighbours.
+ * checks: 1 current own DCB4/getters/E34/D7DC and ov021 B11C/B0F0 bodies rederive arities; integer getter parameters with explicit address casts DIFF6/280, ten relocations resolve; 2 current E34/ov021 witnesses and neighbours, no same-loop twin; 3 wrapped enum byte counters DIFF204/280; 4 aggregate-copy/inline/enum idioms read; 5 unfiltered idiom listing, current neighbours and declared-struct stack idiom reread.
  * attempted: inline copy, reversed inline copy, builtin memcpy, const source prototype, block aggregate, corrected prototypes, block buffer; seven fixed compiles including one CCERR. Best is the original direct aggregate with corrected getter declarations.
- * permuter: older seed9605 anneal500 already consumed, not repeated; no manual sweep. Next hypothesis would be an SDK aggregate-copy intrinsic rather than __builtin_memcpy, which emits an external call.
+ * permuter: older seed9605 anneal500 already consumed, not repeated; no manual sweep. No further sweep proposed.
+ * final-retry: w76 R3 exhausted: const by-value position, returned-struct copy helper and 12-byte union storage each DIFF6/280; wrapped enum counters worsen to DIFF204/280; copied own getter signatures retain DIFF6/280. Five one calls; old seed9605 anneal500 remains spent.
+ * evidence-final: scratchpad/overlay-newpass-20261003-w76/R3/; every invocation exited before its complete verdict was read.
  * symbols:
  *   func_0216DCB4  0x0216DCB4  thumb  ov010
  *   func_0216D91C  0x0216D91C  thumb  ov010
@@ -38,8 +40,8 @@ typedef struct VecFx32 {
 typedef int (*AttrTest)(u16 attr);
 
 extern int func_0216DCB4(void *m);
-extern int func_0216D91C(void *m);
-extern int func_0216D924(void *m);
+extern int func_0216D91C(int m);
+extern int func_0216D924(int m);
 extern int func_02163E34(void *m, VecFx32 *pos, u32 *attr);
 extern int func_021AB11C(u32 attr);
 extern u32 func_0216D7DC(void *m);
@@ -62,8 +64,8 @@ int func_02163D04(void *m, u32 kind, VecFx32 pos)
 
     if (func_0216DCB4(m) == 0) {
         found = 0;
-        w = func_0216D91C(m);
-        h = func_0216D924(m);
+        w = func_0216D91C((int)m);
+        h = func_0216D924((int)m);
         row = pos;
         for (i = 0; i < h; i++, row.z -= 0x10000) {
             cur = row;

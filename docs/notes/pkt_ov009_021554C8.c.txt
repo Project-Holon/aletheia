@@ -7,14 +7,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
- * checks: 1 own SDK bodies confirm arities and pointer payloads, info layout from02087C88, login first arg u16*; 2 ov009 neighbours no stack/scheduling twin; 3 unsigned m/flag/w758 unchanged14, actual pointer/prototype types unchanged14; 4 cast-buffer idiom tested172/15; 5 idioms/neighbours rechecked, actual OSOwnerInfo plus name[2] still14. Prior permuter300 best14 consumed, not repeated.
- * renewed pass: 5 runs, best DIFF14/384B,28/30 sites resolved; early cast pointer172, late15, separate typed info14, unsigned locals14, proper pointer callees14. Remaining case2 name address rematerialisation and case6 store register rotation. Unresolved overlay leaves02155C24 and02155C6C, none filed while DIFF.
- * Prior unsuccessful shapes: Req*local, inline ReqInit, separate char buffer/header and inline far setter. Preserve separate flag assignment and m load; data-global alias d_021A8264_obj prevents unwanted CSE of its pool word.
- *
- * Per-frame driver of the ov009 work block's state word (+0x754), cases
- * 0-3 falling through into each other; everything but state 6 ends in
- * func_02155F58.
+ * status:   EXACT
+ * checks: 1 SDK bodies confirm arities and payloads, case6 returns observed r0=0x3EF; 2 ov009 neighbours no complete twin; 3 u16/u8 flag both unchanged DIFF10; 4 block-local u16 name[2]={0,0} fixes address lifetime, MATCH384; 5 fresh idioms/neighbours and stack-storage idiom reread.
+ * EXACT after verified ov009 leaves02155C24/02155C6C attest +170/+178. TU suggest-split diagnostic completed before leaf shards: MATCH, no viable cut. Prior once300 consumed, never repeated.
+ * Fresh retry: 10 one runs plus TU; assignment-return85, constant local return10, raw name/pair/union and flag widths10; initializer closes concrete bytes. No volatile or input-domain restriction.
  *
  * symbols:
  *   d_021A8264     0x021A8264  data  ov009  a4
@@ -95,12 +91,12 @@ void func_02155C24(void);
 void func_02155C28(void);
 void func_02155C6C(void);
 
-void func_021554C8(void)
+int func_021554C8(void)
 {
-    u16 name[2];
     OSOwnerInfo info;
     void *m;
     int flag;
+    int ret;
 
     switch (d_021A8264->state) {
     case 0:
@@ -120,18 +116,19 @@ void func_021554C8(void)
             break;
         }
     case 2:
-        if (func_02155F58() != 0)
-            return;
+        ret = func_02155F58();
+        if (ret != 0)
+            return ret;
         flag = 0;
         m = d_021A8264->w100;
         if (m != 0)
             flag = 0x20;
         func_0216AB20(d_021A8264->w108, 0x2FC6, d_021A1C6C, 0, 0, m, flag);
         d_021A8264->b7A9 = 1;
-        name[0] = 0;
-        name[1] = 0;
+        { u16 name[2] = {0, 0};
         func_02087C88(&info);
         func_0216B0E0(name, 0, func_02155B98, 0);
+        }
         func_02155374(3);
     case 3:
         func_0216AE88();
@@ -156,8 +153,7 @@ void func_021554C8(void)
         break;
     case 6:
         func_0216AE88();
-        d_021A8264->w758 = 0x3EF;
-        return;
+        { int code = 0x3EF; d_021A8264->w758 = code; return code; }
     }
-    func_02155F58();
+    return func_02155F58();
 }

@@ -8,18 +8,20 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- *
- * blocker:  codegen only, 14 of 168 bytes; a pure callee-saved colouring swap
- *           (r4/r6 and r6/r7 exchanged).  Re-verified 2026-09-27, unchanged.
- *   plus one schedule swap.  The second parameter b and the `x` flag are the
- *   two live-across-call temporaries; the image keeps b in r4 and x in r7
- *   (later `strb r7,[a+0x38]`, `adds r0,r7,#0`), mwcc keeps b in r6 and x in
- *   r4.  The only other difference is at +0x9E: the original issues
- *   `strh r1,[a+0x42]; adds r5,#0x3a` where mwcc does `adds r5,#0x3a` first.
- *   Everything else, all 10 resolved relocations included, is byte-exact.
- *   Ceiling is MATCH anyway: func_0201CE0C's only reference image-wide is the
- *   call inside this range, so that site stays wildcarded.
- *
+ * checks: 1 CE0C own unit reads pointer, so forward stored CCE4 result
+ *   left live in r0; proper pointer extern and u16 CCE4 trailing inputs14;
+ *   CCE4 legacy void forward leaves r0 live, CD10 returns record;
+ *   2 no ov097/ov098 twin, own ARM9 bodies/units consulted;
+ *   3 byte/enum x14, unsigned-long/enum b14, base writes forbid const;
+ *   4 initialised flag31, flag/allocation and call-argument idioms read;
+ *   5 fresh idiom list and neighbours checked; no wrong stack object;
+ *   fresh once300 baseline14 agreed with fixed one, no improvement.
+ * residual: DIFF14/168 with all11 relocations resolved. r4/r6/r7 rotate
+ *   and final +009E/+00A0 adds-base/store schedule swaps. Original adds
+ *   a+0x3A before second strh; compiled adds after it. CE0C now exported by
+ *   src/matched/arm9/unit_0201CDF4.c and pkt_0201C974; old MATCH ceiling
+ *   is obsolete. Seven fixed runs plus fresh once300, now consumed.
+ *   Evidence: scratchpad/overlay-newpass-20261003-w76/R22/021B6B8C-*.log.
  * symbols:
  *   func_02045770  0x02045770  arm
  *   func_02043B5C  0x02043B5C  arm
@@ -42,8 +44,8 @@ extern void func_02045374(int);
 extern void func_020409B4(int);
 extern void func_02045334(int);
 extern void func_0201DD78(int, int, int);
-extern int func_0201CCE4(int, int, int, int, int, int, int, int, int, int);
-extern void func_0201CE0C(void);
+extern int func_0201CCE4(int, int, int, int, int, int, int, int, u16, u16);
+extern void func_0201CE0C(void *);
 extern void func_0201C7A4(int, int, int, int, int);
 
 void func_021B6B8C(int a, int b)
@@ -55,11 +57,10 @@ void func_021B6B8C(int a, int b)
     func_02040588(1, 1);
     x = 1;
     if (b != 0) {
-        *(int *)a = func_0201CCE4(*(int *)(a + 0x1c), 0, 0,
+        func_0201CE0C((void *)(*(int *)a = func_0201CCE4(*(int *)(a + 0x1c), 0, 0,
                                   *(int *)(a + 0x2c), *(int *)(a + 0x24),
                                   *(int *)(a + 0x34), *(int *)(a + 0x28), 0,
-                                  *(u16 *)(a + 0x44), 0xc);
-        func_0201CE0C();
+                                  *(u16 *)(a + 0x44), 0xc)));
         x = 0;
     } else {
         func_0201C7A4(func_02045770(*(int *)(a + 0x1c)), 0, 0,

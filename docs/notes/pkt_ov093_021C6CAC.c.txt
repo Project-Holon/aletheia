@@ -9,7 +9,7 @@
  * status: DIFF
  * residual: 288 versus 292 bytes; 250 concrete bytes differ. Register allocation
  *   spills kind instead of v and keeps z live instead of using its stack slot.
- * checks: 1 prototypes from matched ov093 callers; 021D7B3C show confirms two args;
+ * earlier-checks: 1 prototypes from matched ov093 callers; 021D7B3C show confirms two args;
  *   2 021C79E0 neighbour read, no exact twin;
  *   3 u16 b, u8 selector and enum selector no improvement; u32 helper signature no change;
  *   4 enum-zero and bare-declaration idioms tested, no closure;
@@ -20,12 +20,14 @@
  * fresh-pass: W75 R13, 5 fixed-flag runs; explicit line local plus enum/byte
  *   selector each retain 288 B/250 out; const p also unchanged. Matched ARM9
  *   BD28 establishes u16 first argument; correcting it retains the baseline.
- * checks: 1 own BD28/C1BC unit and matched script-call prototypes reread;
+ * earlier-checks: 1 own BD28/C1BC unit and matched script-call prototypes reread;
  *   2 C79E0/C71E0 twins refreshed; 3 byte selector and const p compiled;
  *   4 narrow-flag/line-number/enum-zero idioms read; 5 idioms relisted,
  *   twins refreshed, no address-taken stack object requiring storage change.
  * permuter: consumed prior 300-candidate search not repeated. Selector
  *   register lifetime remains the required new hypothesis.
+ * final-retry: 7 runs; five fresh iterations (three nonshrinking changes after the lower byte score), then two targeted checks. Prior permuter300 consumed, not repeated. Best288B/250 preserved; wrong kind/v and z spill allocation remains.
+ * checks: 1 own BD28/C1BC and script-call sources refreshed, all arities retained. 2 C79E0/C71E0 refreshed, no complete twin. 3 unsigned out pointer remains288B/250. 4 long kind/v/z/amount each remain288B/250; integer-spelled out284B/242 worsens size; unsigned-long line remains288B/250. 5 idioms relisted and matched neighbours refreshed; scalar homes, no address-taken aggregate.
  * symbols:
  *   func_021D5440 0x021D5440 thumb ov093
  *   func_0201BD28 0x0201BD28 thumb
@@ -98,4 +100,3 @@ int func_021C6CAC(u8 *p, u8 *a, u16 b, int amount, int *out)
     }
     return 0;
 }
-

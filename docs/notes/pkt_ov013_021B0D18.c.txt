@@ -9,8 +9,10 @@
  * isa: arm
  * status: DIFF
  * volatile: SQRTCNT polls at 021B0D90; SQRT result/parameter are hardware registers at 040002B4/040002B8.
- * Wave 75 R20 renewed pass: DIFF 10 concrete bytes, compiled 544/544; all 12 relocations resolve. Only +012C/+0130/+0134 store/RMW scheduling differs. Inline reset helper, enum flag and signed x did not improve. Earlier 300-candidate permuter was consumed and was not repeated. Corrected callee types from current matched bodies; 3084 third argument is a byte output pointer.
- * checks: 1 matched 3278/3604/04A8/1688 bodies read, 3084 pending body reads output pointer; 2 no matching f8 twin, f14 block already matches; 3 enum f8 and signed x compiled, no change (one CCERR corrected enum pointer); 4 inline and named-field idioms read; 5 directory and neighbours rechecked, no stack object; next hypothesis a reset expression with a real field dependency, no repeat permuter
+ * residual: DIFF 544/544 bytes, 10 concrete bytes differ; all twelve relocations resolved. Only +012C/+0130/+0134 reset store/RMW scheduling differs.
+ * evidence: fresh xor-zero dependency, comma reset expression and byte reset bitfield each tied 10. Signed reset flag and own MATH_CountPopulation u8 return correction also tied 10.
+ * checks: 1 own matched 3278/3604/04A8/1688 and MATH_CountPopulation bodies read; 3084 original reads x/sq/byte-output pointer, arity 3; 2 no exact reset twin; 3 signed f8 and exact u8 SDK return compiled without change; 4 inline, commutative-operand and named-field idioms read; 5 full directory and fresh ov013 neighbours reread, no addressed stack aggregate; next hypothesis a reset helper using an independently evidenced enclosing record.
+ * permuter: earlier budget-300 search consumed; not repeated. Prior inline reset, enum flag and signed x did not improve.
  * symbols:
  *   d_021B42C0  0x021B42C0  data  ov013  a4
  *   d_021B3C84  0x021B3C84  data  ov013  a4
@@ -57,7 +59,7 @@ typedef enum { FlagClear=0, FlagSet=1 } Flag;
 typedef struct {
     u32 f0;
     u32 f4;
-    u32 f8;
+    int f8;
     u32 fC;
     u16 f10;
     u8 f12;
@@ -84,9 +86,9 @@ extern int func_021B3084(u32 x, u32 sq, u8 *z);
 extern void func_021B04A8(AdpcmHdr *a, void *b, int n, AdpcmState *c, int mode);
 extern void func_021B1588(u8 *dst, short *src, u32 n);
 extern void func_021B1688(u8 *dst, short *src, u32 n);
-extern int func_02080D24(u32 x);
+extern u8 func_02080D24(u32 x);
 
-static inline void signal_reset(Frame *f,u32 *flag) { f->f5 |= 0x80; *flag=0; }
+static inline void signal_reset(Frame *f,int *flag) { f->f5 |= 0x80; *flag=0; }
 
 Frame *func_021B0D18(void)
 {

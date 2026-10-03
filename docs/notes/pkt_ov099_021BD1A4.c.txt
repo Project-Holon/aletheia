@@ -9,9 +9,11 @@
  * isa: thumb
  * status: DIFF
  * residual: 372/372 bytes, 18 concrete bytes differ solely in the r5/r6 exchange; all 20 relocations resolved.
- * checks: 1 own/matched callee arities preserve every original input, no argument-register discrepancy; 2 fresh BBA4C and BC2C0/BD0F0 twins confirm declarations, no caller twin; 3 unsigned n gives 376 B/221 out, u16 zero unchanged 18, p writes and full-width v rule out const/narrow parameter; 4 enum zero and declaration-initializer order unchanged 18, shared order/extraction cap 2/2; 5 fresh full idiom listing and matched neighbours, correct halfword stack slots; once-only 300 types permuter best remains 18, no mutant adopted.
- * budget: iteration 4, consecutive nonshrinking 3, first nonshrinking i2 and 3 runs since; checks 1=0,2=0,3=2,4=2,5=0; permuter 300 consumed; no new order/extraction or width sweep is available in those checks.
- * prototypes: BCB70 matched caller declares void but this original tests its live R0 result.
+ * checks: current own callee definitions correct BCB70, BBDD0 and object/archive prototypes; both prototype compiles leave 18. BBA4C, BC2C0, BD0F0 and C02C8 neighbours reread; no untried caller twin.
+ * retry: wave76 R24, 7 one runs. long v 18, inline polling helper 94, long zero 18: three consecutive nonshrinking iterations. Check 3 long n and enum n each 18; check 1 current own prototypes twice 18. Manual extraction 1/2.
+ * evidence: p writes and full-width v forbid const/narrow parameters; original halfword out stack slots already match. Full idiom listing and order/extraction idioms reread.
+ * prior-search: earlier once-only --budget 300 --types permuter consumed, best 18; no repeated search. Earlier unsigned n 376/221, u16 zero, enum zero and declaration order left 18.
+ * next: n/zero allocator tie; fresh long/enum webs and polling extraction did not break r5/r6 exchange.
  * symbols:
  *   func_02045770 0x02045770 arm
  *   func_0201C6C4 0x0201C6C4 thumb
@@ -35,17 +37,20 @@ typedef unsigned int u32;
 extern void *func_02045770(void *);
 extern u32 func_0201C6C4(void *, void *);
 extern void func_02045334(void *);
-extern int func_020200CC(void *);
-extern void func_020202FC(void *, u16 *, u16 *);
-extern u32 func_02012934(const void *);
+extern int func_020200CC(struct Obj *);
+extern void func_020202FC(struct Obj *, u16 *, u16 *);
+struct BigObj;
+struct Obj;
+struct Rec534;
+extern void *func_02012934(const struct BigObj *);
 extern void func_021BBA4C(char *, void *);
-extern void func_021BBDD0(char *, int);
+extern void func_021BBDD0(void *, int);
 extern u32 func_0203D378(void);
-extern int func_021BCB70(int, int, int *);
+extern int func_021BCB70(void *, const struct BigObj *, u32 *);
 extern int func_021BCBBC(int, int, int *);
 extern void func_021BAAB8(char *, int, int);
 extern void func_021BC0C4(char *);
-extern void func_0201AC2C(const void *, void *);
+extern void func_0201AC2C(const struct Rec534 *, struct Rec534 *);
 extern void func_021BA8EC(char *);
 int func_021BD1A4(char *p, int v)
 {
@@ -79,7 +84,7 @@ int func_021BD1A4(char *p, int v)
     case -2:
         return v;
     case 0:
-        if (func_021BCB70(*(int *)(p + 0x1348), *(int *)(p + 0xc4), &out) != 0) {
+        if (func_021BCB70(*(void **)(p + 0x1348), *(struct BigObj **)(p + 0xc4), (u32 *)&out) != 0) {
             func_021BAAB8(p, 0x68, 0);
             *(u32 *)(p + 0x1cc) = 0x6b;
             func_021BC0C4(p);

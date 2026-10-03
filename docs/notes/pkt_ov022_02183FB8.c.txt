@@ -8,9 +8,15 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * Final retry R14: 5 runs; whole-call inline plus reordered inline arguments
+ * leave 100 bytes / DIFF5. Matched ARM9 unit_0200852C returns u8 for 08554:
+ * its raw caller result and u8 local are now explicit, still DIFF5. 08550
+ * remains wide in this extern because the original explicitly truncates y.
+ * checks: 1 current own callee bodies/forwarders read, 08554 u8 return verified; 2 fresh matched 02183E48; 3 u8 x unchanged with and without inline wrapper; 4 wrapper spelling/order unchanged; 5 fresh unfiltered idiom listing/neighbours, follower 0218401C still outside lead, no new twin.
+ * No permuter repeat: prior 300 consumed and extent contains follower.
  * New pass R24: three targeted inline address-helper spellings (plain,
  * enum offset, explicit offset parameter) all retain the 5-byte r0/r1 swap.
- * checks: 1 matched own 0217357C reads four args; image explicitly narrows
+ * Previous checks: 1 matched own 0217357C reads four args; image explicitly narrows
  * only the fourth, so third stays wide; 2 matched twin 02183E48 re-read;
  * 3 unsigned long x/y unchanged; 4 unsigned-long raw base preserves split
  * offset but unchanged; 5 fresh idiom listing/neighbours, no new twin;
@@ -30,7 +36,7 @@
  * of this function probably has the address of `a->t.f` computed in a
  * shape this C does not reach (not in a loop here).
  *
- * checks: 1 all callees' arities verified (02008550/54 one arg, 0217357C
+ * Previous checks: 1 all callees' arities verified (02008550/54 one arg, 0217357C
  * four, 0203D1A4 takes the 020399A8 result); 2 twin is func_02183E48 (same
  * expression, matches only in a loop); 3 n/a (no load/store trade); 4 none
  * fits; 5 n/a. Tried: a+0x2830+0x14 (folds), 0x2830+a, (u32)a+0x2830,
@@ -76,12 +82,12 @@ typedef struct C {
 extern int func_020399A8(void);
 extern u32 func_0203D1A4(u32 v);
 extern u32 func_02008550(u8 *p);
-extern u32 func_02008554(u8 *p);
+extern u8 func_02008554(u8 *p);
 extern void func_0217357C(u8 *a, u8 *b, u32 c, u32 d);
 
 void func_02183FB8(u8 *s, C *a, int idx, u8 *src)
 {
-    u32 x;
+    u8 x;
     u32 y;
 
     *(Rec28 *)(s + 0x2c + idx * 0x28) = *(Rec28 *)src;

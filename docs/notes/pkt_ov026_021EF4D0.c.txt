@@ -8,10 +8,13 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
+ * Final retry R14: 5 runs; typed const Input produces 190/92; enum and
+ * union delta storage produce 190/90. No improvement; old C retained.
+ * checks: 1 current own ov021 witnesses and complete A2C28 forwarding target confirm two args; 2 fresh EF2D8/EF3E0; 3 u32 a and enum x both 190/90; 4 typed input/delta hypotheses unchanged; 5 fresh unfiltered idiom listing/neighbours and stack-object idiom, declared s16[2] retained.
  * New pass R24: inline add_delta with out-delta remains 190 bytes / DIFF 90;
  * enum-typed two-byte offset fixes prologue but yields 184 / DIFF 148;
  * using that enum offset for the update too yields 184 / DIFF 150. No gain.
- * checks: 1 own 021A2640/26C4's legacy trailing arguments are unused in
+ * Previous checks: 1 own 021A2640/26C4's legacy trailing arguments are unused in
  * their full forwarding target 021A2C28 (only reads pointer+4), two args kept;
  * 2 matched twins 021EF2D8/3E0 re-read; 3 long x unchanged 190 / DIFF 90;
  * 4 enum-offset and inline-load hypotheses tried; 5 fresh idiom listing,
@@ -22,7 +25,7 @@
  * constant 2); compiled pushes {r3-r6,lr} + sub sp,#4 and hoists movs r2,#0 /
  * movs r3,#0x18 earlier. Same instruction count in the bodies, different
  * register pressure. Sibling func_021EF2D8 (same family) is EXACT*.
- * checks: 1 callees arity ok (f2640(a,v), f26C4(a,v), f21E0(a)); 2 twin
+ * Previous checks: 1 callees arity ok (f2640(a,v), f26C4(a,v), f21E0(a)); 2 twin
  * func_021EF2D8/func_021EF3E0 matched, shape differs only by the c[4]/c[5]
  * store of the deltas; 3 const s16 *b no change; int vs s16 for x/d0/d1 and
  * assignment-in-expression spelling no change; 4 none fits; 5 n/a

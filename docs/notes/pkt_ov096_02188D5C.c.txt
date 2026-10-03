@@ -1,0 +1,74 @@
+/*
+ * function: func_02188D5C
+ * address:  0x02188D5C
+ * packet:   pkt_ov096_02188D5C
+ * region:   ov096
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * checks: 1 own Read/C7E14/D54C0 bodies and matched D5448 caller prove u32/u16/u8 return bits and visible call inputs; 2 own 88F58 and 885BC show connection shape; 3 u16 r/item with u32 t retain 162/4; narrow y/z worsen to166/108; b is mutable and t is full-width, so no const/narrow pointer parameter invention; 4 narrow-spill/const-record idioms read; 5 fresh directory and matched neighbours re-read.
+ * residual: DIFF 162/164, 4 concrete bytes at +0x72/+0x74, all 8 sites resolve; original stores sixth argument before b+0xb4 base copy.
+ * budget: 3 nonshrinking iteration calls; first macro-free types300 permuter baseline agrees DIFF4 and finds no improvement. Next hypothesis: connection subobject load shape; no consumed search may be repeated.
+ * symbols:
+ *   func_0201134C  0x0201134C  thumb
+ *   func_021D5440  0x021D5440  thumb  ov093
+ *   func_021D5448  0x021D5448  thumb  ov093
+ *   func_021D54C0  0x021D54C0  thumb  ov093
+ *   func_021C7E14  0x021C7E14  thumb  ov093
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+typedef struct {
+    u8 pad00;
+    u8 f1;
+    u16 f2;
+    u8 pad04[0x38 - 4];
+    int f38;
+    u8 pad3C[0xb4 - 0x3c];
+    int fb4;
+    u8 padB8[0xbc - 0xb8];
+    int fbc;
+    int fc0;
+    int fc4;
+} Conn;
+
+extern u32 func_0201134C(u8 *);
+extern u8 func_021D5440(u8 *p);
+extern u8 func_021D5448(u8 *);
+extern u16 func_021D54C0(u8 *, u8);
+extern u16 func_021C7E14(u8 *, int, int, u32, int, int);
+
+int func_02188D5C(u8 *a, Conn *b)
+{
+    u32 t;
+    int y;
+    int z;
+    u16 r;
+    int i;
+
+    t = func_0201134C(a);
+    y = func_021D5440((u8 *)b->fbc);
+    z = func_021D5440((u8 *)b->fc0);
+    r = func_021C7E14((u8 *)b->fb4, y, z, b->f2, 1, t);
+    if (r == 0) {
+        b->f38 = 0;
+    } else {
+        b->f38 = 2;
+        for (i = 0; i < func_021D5448((u8 *)b->fbc); i++) {
+            u16 item = func_021D54C0((u8 *)b->fbc, (unsigned char)i);
+
+            if (i == b->f1)
+                continue;
+            if (func_021C7E14((u8 *)b->fb4, y, z, item, 1, t) > r) {
+                b->f38 = 1;
+                break;
+            }
+        }
+    }
+    return b->fc4;
+}

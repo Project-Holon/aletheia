@@ -8,7 +8,11 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks: 1 own matched callee bodies/observed argument widths agree; 2 ov010 569EC/56A3C/56AD4 confirm u8 accessor, no exact twin; 3 const Member flat20, enum l worse277; 4 reset-base/register and declared-stack-struct idioms read, no rescue; 5 refreshed all idioms and ov010 neighbours, no new lever; next hypothesis separate reset zero web, no further scheduling sweep authorized.
+ * checks: 1 own callee/caller arities re-derived, const 020120F4 correction flat20; 2 569EC/56A3C/56AD4 and 5D884 corroborate accessors, no exact twin; 3 const Party flat20, byte-stepped enum b worse79; 4 enum, reset-web and declared-stack-struct idioms read; 5 current idioms/neighbours re-read, no rescue; next hypothesis reset-base web type, no consumed search repeat.
+ * Wave 76 final retry: separate enum reset-zero web484/780 B; swapped
+ * reset/record counter identities20/772 B; const Party20/772 B; const
+ * accessor argument20/772 B; byte-stepped enum sort counter79/772 B.
+ * Best remains20/772 B, all23 relocations resolved. Old seed9601 consumed.
  * Wave 75 fresh pass: const Member flat 20; u16 l 22; explicit swap-address locals 114/760 B; enum l 277/788 B. Best remains 20/772 B. Old seed 9601 anneal 600 consumed; never rerun.
  * Prior recorded evidence (retained):
  *

@@ -8,7 +8,7 @@
  * lang: c99
  * isa: arm
  * status: DIFF
- * checks: 1 no calls; 2 initializer neighbours share the three globals;
+ * prior-checks: 1 no calls; 2 initializer neighbours share the three globals;
  *   3 enum/narrow zero local both DIFF6; 4 pool-load scheduling idiom fits;
  *   5 latest neighbours/idioms no new twin; no stack-object residue.
  * residual: 76/76 bytes DIFF6, Cfg base load hoisted above index-zero store.
@@ -16,7 +16,15 @@
  *   DIFF11, enum zero DIFF6, u16 zero DIFF6; old chains/local pointer consumed.
  * permuter: budget300 types, emitted baseline DIFF6 agrees with fixed one;
  *   best DIFF6; consumed once in renewed pass, do not repeat.
- * next: distinct aggregate representation for the two-word Cfg clear.
+ * Wave 76 R13 final retry: pair-aggregate Clear adds an 8-byte frame and
+ * regresses to 96B/DIFF84; u64 clear and unsigned-long zero retain 76B/DIFF6.
+ * Three nonshrinking changes stop iteration; long signed loop index check
+ * also retains DIFF6. No consumed permuter repeated.
+ * checks: 1 no calls/parameters; 2 own 3064/3250 neighbours confirm
+ * 16-byte Cfg and two tail fields; 3 distinct long zero/index tested;
+ * 4 two-word aggregate and pool-scheduler idioms reread; 5 neighbours and
+ * refreshed idiom list have no new rescue. Best C retained; four compiles.
+ * next: no further manual scheduling variant; Cfg load/store remains a tie.
  * symbols:
  *   d_021B4C38 0x021B4C38 data a4
  *   d_021B4C2C 0x021B4C2C data a4

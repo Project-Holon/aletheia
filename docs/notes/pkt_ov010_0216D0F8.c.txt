@@ -10,7 +10,11 @@
  * status:   DIFF
  *
  * DIFF, 13 concrete bytes, 208/208 bytes, all 12 relocations resolved.
- * checks: 1,2,3,4,5
+ * checks: 1 current E544 body takes2 and returnsint (unused here), setters
+ * take2 with observed signed-halfword caller truncations, D89C copies3words;
+ * 2 current matched-family search no scheduling twin; 3 raw address and
+ * enum-typed source z retain13/208; 4 const/inline argument idioms reread;
+ * 5 directory/neighbours refreshed, actual VecFx32 local has correct offsets.
  * The const entry parameter restores the +46 and +A4 store/argument swaps.
  * Remaining +66..72: image loads p->z into r0 and moves obj to r0 last;
  * C moves obj first and loads p->z into r1. Types/struct storage, signed
@@ -20,6 +24,9 @@
  * its volatile/temp result was invalid. No repeat was run in this pass.
  * Own callee bodies and caller truncations justify signed-short externs.
  * No same-region matched twin fixes this last argument schedule.
+ * wave76 final retry: numeric record-address local, named z extraction and
+ * enum-typed source z each retain13/208. Three fixed one runs; renewed
+ * manual pass exhausted. Historical anneal/random searches never repeated.
  *
  * symbols:
  *   func_0216E51C  0x0216E51C  thumb  ov010

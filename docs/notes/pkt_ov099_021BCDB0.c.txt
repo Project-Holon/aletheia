@@ -8,11 +8,16 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks:   1 callees func_021BCBBC(a,b,&out) and func_021BBEB4(p,a,u8,n) arities agree with the original register setup; 2 twin func_021BCE30 (same switch tail) is parked with the same residue; 3 int vs u8 for the arm constant, m/c merged, no change; 4 none fits; 5 re-listed idioms; sweep not run: declaration of f relative to the calls
+ * checks:   1 matched 021BCBBC int(a,b,&out), 021BC06C void(p), ARM9 unit guard u32(void); own BBEB4 body/callers wide flag; 2 renewed CE30/6B0 and 021BC468/4D4 checked; 3 unsigned word mode inert; pointee mutated, const invalid; 4 enum, integer-address and width idioms; 5 refreshed directory/neighbours and stack-object idiom; scalar out frame already exact.
  *
  * Residue (same as pkt_ov099_021BCE30): layout and every branch target match,
  * only the switch tail's register roles differ (original: r0 = 0x135C offset
  * kept for `subs r0,#9`, r1 = loaded value / arm constants; ours swapped).
+ *
+ * Renewed W76: 6 one runs; enum byte value and linking s through c inert9;
+ * integer-address arithmetic worsened11 (restored); callee types and u32
+ * mode unchanged9/128. Permuter300 types consumed, baseline agrees9/128,
+ * best9/128, no winning mutation. Full safe spelling below.
  *
  * symbols:
  *   func_020362DC  0x020362DC  arm
@@ -27,17 +32,17 @@ typedef unsigned long  u32;
 
 typedef enum { K135C = 0x135C } Off;
 
-extern int func_020362DC(void);
+extern u32 func_020362DC(void);
 extern void func_021BC06C(char *p);
-extern void func_021BCBBC(int a, int b, int *out);
-extern void func_021BBEB4(char *p, int a, u8 b, int c);
+extern int func_021BCBBC(int a, int b, int *out);
+extern void func_021BBEB4(char *p, int a, int b, int c);
 
 int func_021BCDB0(char *p, int v)
 {
     int out;
     int s;
     int c;
-    int m;
+    u32 m;
     Off f;
 
     if (func_020362DC() != 0) {
@@ -48,7 +53,7 @@ int func_021BCDB0(char *p, int v)
             *(u32 *)(p + 0x1CC) = 0x78;
         } else {
             f = K135C;
-            m = *(int *)(p + f);
+            m = *(u32 *)(p + f);
             switch (m) {
             case 3:
                 s = 0x4E;

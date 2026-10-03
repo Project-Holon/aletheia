@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 matched own callees confirm int error/state, u16 channel argument;
+ * prior-checks: 1 matched own callees confirm int error/state, u16 channel argument;
  *   2 no body twin in ov014 neighbours; 3 u16 t and const Msg both DIFF101;
  *   4 unsigned field addresses DIFF101, shared-store goto worse 144B/DIFF107;
  *   5 re-read ov014 neighbours/idioms: no twin; no stack-object residue.
@@ -18,7 +18,18 @@
  *   old note reported 136B extent, current listing extent is 132B.
  * permuter: first budget300 types; emitted baseline DIFF101/136B agrees;
  *   best DIFF104/136B rejected: copy(r->r_@10) reads r before assignment.
- * next: integer-spelled loaded work base; two-field message substructure.
+ * Wave 76 R13 final retry: integer-spelled loaded work base gives 132B/
+ * DIFF91, but removes the original global-pointer reload after first store:
+ * rejected. Pair substructure, u16 normalized F1C return and enum t stay 91
+ * on that diagnostic candidate. Explicit base refresh restores the reload
+ * but is 136B/DIFF104. Unsigned-long a on original best stays 136B/DIFF101.
+ * Six fresh compiles; best C retained; no consumed permuter repeated.
+ * checks: 1 own 814C/8138/F1C bodies confirm arities and normalized
+ * u16 F1C result; 2 F1C callback twin reread; 3 distinct-long a compiled,
+ * const Msg already retained; 4 pointer-reread, store-tail and byte-return
+ * idioms reread, two manual base variants exhausted; 5 latest idiom list
+ * and current neighbours refreshed, no stack-object residue or rescue.
+ * next: missing common store join is still a branch/allocation wall.
  * symbols:
  *   g_021797A8 0x021797A8 data ov014 a4
  *   func_0217814C 0x0217814C thumb ov014

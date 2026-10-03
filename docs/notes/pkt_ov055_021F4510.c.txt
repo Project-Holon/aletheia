@@ -10,6 +10,7 @@
  * status:   DIFF
  * prior checks: 1 no callees; 2 no twin; 3 const tables (pulls the ldrb up, matches original) and const struct pointer tried, stores then come out [4] before [0]; 4 none fits; 5 n/a
  * checks: 1 no callees; 2 ov055 43D8 supplies a u16 index, refreshed 054/055/056 no twin; 3 signed byte tables gave 6 bytes (ldrsb), unsigned const tables retained; 4 field setter inline unchanged 4, chained zero assignment worse 22; 5 refreshed idioms/neighbours, no stack object. W75 first permuter300 baseline DIFF4, best DIFF2 required forbidden volatile pointer, rejected; no repeat. Next: source type for the two zero fields.
+ * final-retry: W76 R16, 3 iteration + 1 check3. Signed zero fields and caller-proven u32 index retain DIFF4/32; enum zero grows36/DIFF23; const slot pointer with u32 index unchanged4. Stop after three nonshrinks. Checks1 no callees; 2 current 43D8 declares u32 index and passes (u16)i, no twin; 3 u32 index and top-level const compiled unchanged; 4 enum-zero idiom tried, worse; 5 refreshed idioms/neighbours, no stack object. Earlier permuter300 consumed, not repeated. Final retry exhausted; retain best below.
  * history: W57 five fixed runs; const tables, const struct pointer and source-order swaps already consumed. W75 four fixed runs, baseline explain, first permuter300 consumed. Fixed one resolves both sole-ref tables; permuter scorer reports two unresolved, although its concrete baseline agrees DIFF4/32. Do not repeat the search.
  *
  * Originally an unlabelled leaf found while working func_021F43D8, which

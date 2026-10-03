@@ -13,7 +13,10 @@
  * evidence: a separate np = pred + diff reduced 247 to 201; pointer sample and unsigned-long count remained 201; n reuse gave 223. Signed-long index stayed 201; u8 code gave 396 bytes/142 and was rejected for size.
  * permuter: first typed budget-300 pass emitted baseline 201, best 186; declaration order, a dead initialized shift temp and s16 lo retained. Fresh one verified 186; lo is 0..15 and all temporaries initialize before use.
  * prior evidence: all 120 helper declaration orders were already consumed (76-88 instruction mismatches), not repeated; outer order, s16 parameter, src++ arguments, nonconst tables, int return/results and macro spelling were already tried. Else-if clamps gave 100 instruction mismatches.
- * checks: 1 no out-of-line calls; 2 own-overlay decoders/wrappers confirm state/table types, no exact encoder twin; 3 long idx 201, u8 code 396/142 rejected; 4 inline/width/table/parameter idioms read; 5 unfiltered idiom directory and ov013 neighbours reread, scalar frame has no addressed stack aggregate.
+ * checks: 1 no out-of-line calls; 2 ov013 decoder 021AF340 and wrappers reread, no exact encoder twin; 3 long code unchanged 404/186, u16 code worsens to 404/211; 4 inline/width/table/long-index idioms read; 5 unfiltered idiom directory and ov013 neighbours refreshed, scalar frame has no addressed stack aggregate. Next unrun hypothesis: one typed inline level for the second helper invocation.
+ * Final wave76 retry: reusing a widened sample as code worsens to 404/211;
+ * helper sample/state argument reversal stays 404/186. Best C retained.
+ * Both relocations resolve; old 120-order sweep and once-300 search not repeated.
  * symbols:
  *   d_021B3A0C     0x021B3A0C  data  ov013  a1
  *   d_021B3A1C     0x021B3A1C  data  ov013  a2

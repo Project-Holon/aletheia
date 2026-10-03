@@ -8,7 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks: 1 callee own u8 return requires caller-wide extern to reproduce explicit truncation; direct _s32_div_f preserves admitted zero path and original call registers, flat21; 2 56074/56420 confirm wide return cast and table shape; 3 const Party flat21, row struct/counter reuse flat21; 4 result-truncation and declared-stack-object idioms read; 5 refreshed idioms and 56074/ov1125140, no new twin; next hypothesis enum counter with explicit byte step, no consumed declaration permutations.
+ * checks: 1 own 021F5140 return/body and 4F40 plus matched 56074 allocator signature re-derived, retain visible post-call byte cast and zero-safe named divider; 2 current 56074/56420 corroborate category/table shape; 3 u16 j with explicit byte step flat21; 4 enum/declared-stack-struct/dead-parameter idioms read; 5 refreshed idioms and matched neighbours, no rescue; next hypothesis category local width, no consumed permutation/search repeat.
+ * Wave 76 final retry: byte-stepped enum j232/256 B; combined count
+ * struct217/238 B; reused dead heap parameter as record counter21/232 B;
+ * u16 j with byte step21/232 B. Retain prior best; all4 relocations resolved.
  * Wave 75 fresh pass: narrow callee return removes required post-call cast pair (141/228 B); row struct, reused counters and const Party flat21/232 B. Direct named signed division helper keeps21 and original r0/r1 arguments and r0 quotient; all category records may be FF, admitting tot=0. Old seed7203 budget400 consumed; never rerun.
  * Prior recorded evidence (retained):
  * func_02157174 (ov010, Thumb, 232 bytes), tree_ov010_3, 2026-09-28

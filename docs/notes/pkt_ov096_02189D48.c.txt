@@ -8,9 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * blocker: 8 concrete bytes differ; compiled 294 versus listing 296 bytes (listing ends with two zero alignment bytes). Two score calls exchange r1 setup and r2 reload scheduling.
- * checks: 1 own C7E14 takes six args and returns u16; D5440 byte return shown; 2 matched 02189B78/02188C1C and same-overlay twins read; 3 byte species compiled unchanged at 8, const Obj pointer compiled worse at 12; 4 score inline wrapper compiled unchanged at 8; 5 fresh idiom listing and neighbours read, scalar spills rather than stack object; next sweep none (shared manual-order cap exhausted).
- * budget: 5 iteration runs, stopped at 3 consecutive nonshrinking from i3; checks 1/2/3/4/5 compiles 0/0/2/1/0; manual-order variants 2/2; once-only types permuter budget 300 best 8, no winner adopted.
+ * blocker: 8 concrete bytes differ at 294/296 (two alignment zero bytes); both score-call r1/r2 setup schedules differ.
+ * checks: 1 own pointer callee prototypes/arity corrected and fixed one gave 8; 2 89B78 and A308 neighbours re-read; 3 enum species/pointer locals gave 26, raw full-word integer locals and u8 score argument gave 8; 4 wrapper/binding idioms re-read, existing score wrapper retained; 5 fresh idiom listing and neighbours, scalar spills, no stack object; next sweep none.
+ * permuter: historical once-only types budget 300 best 8; consumed search not repeated.
  * symbols:
  *   func_0201134C 0x0201134C thumb
  *   func_021B8DE4 0x021B8DE4 thumb ov093
@@ -38,17 +38,17 @@ typedef struct {
     int fb0, fb4, fb8, fbc, fc0, fc4;
 } Obj;
 extern int func_0201134C(int);
-extern int func_021B8DE4(int, int);
-extern int func_021B9AF8(int, int);
-extern int func_021B99B8(int, int);
-extern int func_021B9C98(int, int);
-extern u8 func_021D5440(int);
+extern int func_021B8DE4(void *, int);
+extern char *func_021B9AF8(char *, int);
+extern int func_021B99B8(void *, u32);
+extern int func_021B9C98(u8 *, u32);
+extern u8 func_021D5440(u8 *);
 extern u16 func_021C7E14(u8 *, int, int, u32, int, int);
-extern int func_0218A308(int, u8);
-extern int func_021D5B7C(int);
-extern int func_021D5448(int);
-extern int func_021D54C0(int, u8);
-static inline u16 score(u8 *p, int a, int b, u32 c, int d, int e)
+extern u8 *func_0218A308(void *, u8);
+extern int func_021D5B7C(void *);
+extern int func_021D5448(void *);
+extern u16 func_021D54C0(u8 *, u8);
+static inline u16 score(u8 *p, u8 a, int b, u32 c, int d, int e)
 {
     return func_021C7E14(p, a, b, c, d, e);
 }
@@ -62,24 +62,24 @@ int func_02189D48(int a, Obj *p)
     u8 sp;
     int j, move;
     k = func_0201134C(a);
-    slot = func_021B8DE4(p->fb0, p->f94);
-    party = func_021B9AF8(p->fb8, slot);
-    count = func_021B99B8(p->fb0, slot);
-    skip = func_021B9C98(party, p->fbc);
-    species = func_021D5440(p->fbc);
-    enemy = func_021D5440(p->fc0);
+    slot = func_021B8DE4((void *)p->fb0, p->f94);
+    party = (int)func_021B9AF8((char *)p->fb8, slot);
+    count = func_021B99B8((void *)p->fb0, slot);
+    skip = func_021B9C98((u8 *)party, p->fbc);
+    species = func_021D5440((u8 *)p->fbc);
+    enemy = func_021D5440((u8 *)p->fc0);
     base = score((u8 *)p->fb4, species, enemy, p->f2, 1, k);
     if (skip < 0 || base == 0) {
         p->f38 = 0;
         return p->fc4;
     }
     for (i = 0; i < count; i++) {
-        mon = func_0218A308(party, i);
-        sp = func_021D5440(mon);
-        if (func_021D5B7C(mon) != 0 && i != skip) {
+        mon = (int)func_0218A308((void *)party, i);
+        sp = func_021D5440((u8 *)mon);
+        if (func_021D5B7C((void *)mon) != 0 && i != skip) {
             p->f38 = 2;
-            for (j = 0; j < func_021D5448(mon); j++) {
-                move = func_021D54C0(mon, j);
+            for (j = 0; j < func_021D5448((void *)mon); j++) {
+                move = func_021D54C0((u8 *)mon, j);
                 if (j != p->f1) {
                     if (score((u8 *)p->fb4, sp, enemy, move, 1, k) > base) {
                         p->f38 = 1;

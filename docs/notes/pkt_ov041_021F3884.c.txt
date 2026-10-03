@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * final-retry: Wave76 R16, 3 iteration + 3 check3 calls (one syntax CCERR fixed); per-case Sequence scope flat1154, combined config/blend/finish frame1155, conflated metadata field shift flat1154 rejected. Check3 corrected finish clear to control0x720 while blend-init flag remains0x728; same1632 DIFF1154,94/107 retained below. Matched 4000/3FEC confirm control block, original +04DE uses0x728 and +054C/+0556 uses0x720. Second targeted check widens BE674/6CC/6E8/700 fourth argument per own bodies with explicit seq+1 u16 casts:1624/1632 DIFF1221,92/107; rejected. Checks 1 own/shared arities; 2 37E0/3FC0/4000 metadata and scoped neighbours; 3 field layout checked; 4 missing-truncation/narrow-callee/declared-struct idioms; 5 fresh full idioms list, no further hypothesis. Renewed pass exhausted; own F3F18/table witnesses unresolved, no leaf while DIFF; consumed permuter300 not repeated.
  * checks: 1 own/shared bodies refreshed; F900 r1/r2 retained as visible caller arguments, F3F18 show returns fullword0/2/4/6; 2 37E0/3FC0/4000 and Work metadata rederived, no complete twin; 3 const Game parameter first CCERR then fixed cast DIFF1154 unchanged; 4 fullword seq and return improve frame/layout, enum seq flat, wide k worse; 5 fresh idioms and scoped neighbours, declared-stack-struct read. Next hypothesis would separate fullword sequence-index lifetimes by case; no sweep run.
  * runs: Wave75 R26 6 iteration + 2 check3 (one CCERR); three final nonshrinks stop. Prior once-300 permuter spent (AST baseline1249 vs one1257), no repeat.
  * residual: Best same-size1632/1632,1154 concrete bytes,94/107 relocs; frame0xE0 vs0xE8 and metadata/spill layout differ. Alternate narrow-return/int-seq run03 is1620/1632,1116 bytes,95/107; same-size run04/06 preferred. Own F3F18/table witnesses still unresolved; caller is DIFF so no leaf filed.
@@ -276,7 +277,7 @@ int func_021F3884(const Game *a0,u32 *state)
    } else *(Vec *)(func_0218FE70(player)+12)=target;
   }
   if(s->frame==s->blendFrames) {
-   if(s->blending!=0) s->blending=0;
+   if(s->control!=0) s->control=0;
    func_0218EC60(player); func_0218E13C(player,0);
    finish[0]=finish[1]=finish[2]=finish[3]=finish[4]=1; finish[5]=0;
    func_0218F9C4(player,finish,s->finishFrames); s->done=1;

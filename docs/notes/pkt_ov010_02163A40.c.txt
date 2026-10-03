@@ -9,9 +9,11 @@
  * isa: thumb
  * status: DIFF
  * blocker: 15 concrete bytes exchange the second segment's d1/lo2 r3/r4; 174 code bytes plus two alignment bytes.
- * checks: 1 n/a leaf without calls; 2 ov010 02163AF0 confirms two rectangle inputs, no overlap twin; 3 const inputs retain DIFF15; 4 scalar-inline segment DIFF140, pointer-inline segment DIFF49, inline absolute DIFF50; 5 re-listed idioms and ov010 neighbours, no stack object.
+ * checks: 1 n/a leaf without calls; 2 current 02163AF0 confirms two four-halfword rectangles, no overlap twin; 3 const Rect inputs with enum Dist retain DIFF15/174; 4 inline/enum/register-set idioms reread; 5 unfiltered idiom listing and current neighbours reread, no stack object.
  * attempted: scalar inline, pointer inline, shared scalar webs, const inputs, inline abs; five fixed compiles. Recorded eight declaration-order variants were not repeated.
- * permuter: once300 --types baseline and best both DIFF15/174, emitted baseline agrees with fixed one, terminal exit1; scratchpad/overlay-newpass-20261003-w75/R6/a40-perm.log. No mutation improved it. No further sweep; next hypothesis would be a rectangle record type.
+ * permuter: once300 --types baseline and best both DIFF15/174, emitted baseline agrees with fixed one, terminal exit1; scratchpad/overlay-newpass-20261003-w75/R6/a40-perm.log. No mutation improved it. No further sweep; record-type final retry exhausted.
+ * final-retry: w76 R3 exhausted: typed Rect, long distances with explicit s16 wrap, enum Dist each DIFF15/174; const record check also DIFF15/174. Four one calls; old once300 and declaration sweeps remain spent.
+ * evidence-final: scratchpad/overlay-newpass-20261003-w76/R3/; every invocation exited before its complete verdict was read.
  */
 typedef short s16;
 

@@ -1,30 +1,24 @@
 /*
  * function: func_0216FCA0
- * address:  0x0216FCA0
- * packet:   pkt_ov010_0216FCA0
- * region:   ov010
+ * address: 0x0216FCA0
+ * packet: pkt_ov010_0216FCA0
+ * region: ov010
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   DIFF
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
  *
  * DIFF, 17 concrete bytes, 180/180 bytes, all 9 relocations resolved.
- * checks: 1,2,3,4,5
- * Tile deswizzle: q=i/(w*t), r=i%(w*t), with halfword width/height returns
- * and byte depth proven by callee bodies. Preserve signed quotient/remainder.
- * Address grouping, enum/inline index and const/type checks were flat or
- * CCERR. No fixed twin; aggregate/dead-store/stack idioms were consulted.
- * Eight fixed one runs including validation of the bounded-search winner.
- * Reasonable wave-3/S29 and legacy archive checks found no previous
- * permuter run. once300 --types --jobs 1 --lang c99 baseline matched 96/184.
- * Permuter 300 completed; its harmless blocks/pad/temp/index expansion
- * gives 17/180 and fixed one agrees. This search is now consumed.
- * Residue: spill-slot order, reversed quotient/remainder helper scheduling
- * and a multiply register at +96. No manual sweep reopened after search.
- * Division by zero remains possible from the observed accessor bits;
- * this DIFF retains the old C arithmetic candidate, without a proved
- * runtime-helper spelling for the admitted zero-divisor path.
+ * checks: 1 own bitmap accessors confirm u16/u16/u8 returns and pointer data; 2 current ov010 bitmap callers give no safe r1-return helper spelling; 3 const destination parameter remains17/180; 4 remainder-first and inline-index grouping remain17/180, explicit named quotient worsens97/182; 5 idiom directory and matched neighbours refreshed, scalar spills rather than a passed stack aggregate.
+ * Four fixed one compiles in final retry; one CLI error exited before compiling.
+ * Prior once300 --types search consumed in wave75/R10 and not repeated.
+ * Best C remains the recorded old arithmetic candidate; it is not proved
+ * for the admitted zero-divisor path. The named scalar divider can express
+ * the r0 quotient but does not expose the original r1 remainder in C.
+ * Residual: first quotient/remainder call order, scalar spill homes,
+ * multiply register at +0x98, and the unresolved zero-divisor C spelling.
+ * New logs: scratchpad/overlay-newpass-20261003-w76/R5/FCA0-*.log.
  *
  * symbols:
  *   func_020437DC  0x020437DC  arm

@@ -8,35 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks: 1 matched func_0203D1A4 reads the prior helper's result and now receives it; func_02157450 uses full-word kind and returns task; 2 matched ov012 021743A4/02175240/02175280 read, no exact far-byte twin; 3 const Self, enum offset, u32 index and u32 kind each compiled unchanged DIFF5; 4 enum-offset/constant-live-range and typed-pointer idioms read; 5 fresh idiom listing and ov012 neighbours reread, no stack object residue. Next hypothesis: unsigned integer parameter spelling for self, unrun.
- * Renewed wave75: 3 nonshrinking iterations and 2 check3 compiles, DIFF5
- * retained at 914 bytes plus original 2-byte alignment padding. Already
- * consumed permuters below were not repeated; no winner to validate.
- *
- * Stage machine on *state (18 states), same family as func_021743A4.
- *
- * DIFF, 5 bytes (B9, 20 runs + permuter 300 with no gain). Only case 12's
- * `*out = func_02157450(a0, a2, self->f2830, t)` differs: the original loads
- * self into r3 and the pool word 0x2830 into r2 (`ldr r3,[sp,#0x10];
- * ldr r2,=0x2830; ldrb r2,[r3,r2]`), and this source gives the reverse
- * (a `*((u8*)self+0x2830)` spelling changed nothing). Everything else is exact.
- * Lane R1 retry (11 runs + permuter 300 --types --focus self, no gain):
- * the byte spelled `*(0x2830 + (u8 *)self)`, `*(u8 *)(0x2830 + (u32)self)`,
- * `((u8 *)self)[0x2830]`, through a u8 local, and through a static inline
- * accessor (Self * or void * parameter) all give the same 3-instruction
- * swap; case 8 using the unused local w for the list instead of t is
- * byte-identical (so either spelling), and passing ctx->fC0 afresh is far
- * worse. The swap is which vreg (spill reload of self vs the pooled 0x2830)
- * coalesces with r2; no source-level lever found.
- * Keys found: case 13's loop is a do-while under `if (cnt > 0)`; t->f10 as an
- * if/else (not a ternary) gives t r7; `Slot *slots` declared first and q before
- * cnt/mine set the spill slots.
- * Current remaining relocation: ov012 0x0217534C, an unlabelled clear
- * wrapper; ov090 021B6100/021B6108 now have matched shards. No leaf filed
- * while this caller still differs. All other 53 sites resolve.
- * Pooled small words 0x5A/0x5B/0x83 are linker overlay ids
- * (ov090/ov091/ov131). p is the object func_02174F4C builds (0x2c-byte
- * slots at +0x18, per-player pointers at +0x148, flag bytes at +0x15C).
+ * checks: 1 own callee bodies/current ov021 witnesses rederived; getter word return and last two u8 callback args unchanged5; unlabelled ov0127534C shown, one input; 2 ov012743A4/75240/75280 no far-byte twin; 3 int self and signed-char field with u8 cast unchanged5; 4 enum-offset/inline-argument/typed-pointer idioms read; 5 fresh directory and matched sibling neighbours reread, no stack-object residue.
+ * Fresh final retry: 7 one runs; integer address, full-byte bitfield and inline argument wrapper unchanged5; int address/signed-char field and accurate getter/stack-arg widths unchanged5. Retained914B plus original2B pad, 53/54 sites resolve; +350 ov0127534C lacks external witness. B9 once300 and R1 once300 --types --focus self already consumed; no repeated search. Old direct pointer/commuted address/byte local/accessor variations also consumed.
  *
  * symbols:
  *   func_020399A8  0x020399A8  arm
@@ -163,7 +136,7 @@ extern u32   func_020399A8(void);
 extern int   func_0203D1A4(u32 link);
 extern void  func_021B6114(Ctx *ctx);
 extern void *func_021BE8D4(u32 a0, u32 a1, int a2, int a3);
-extern void *func_021BE92C(u32 a0, u32 a1, int a2, int a3, int a4, int a5, int a6);
+extern void *func_021BE92C(u32 a0, u32 a1, int a2, int a3, int a4, u8 a5, u8 a6);
 extern void  func_02012374(void *obj, void *out);
 extern void *func_020144DC(u32 a0, u32 a1);
 extern void  func_02034AC4(u32 id);
@@ -173,7 +146,7 @@ extern void  func_021B6108(Ctx *ctx);
 extern void  func_020120B4(u32 a0, void *a1, void *a2, void *a3);
 extern int   func_020120F0(u32 a0);
 extern u32   func_020120F4(u32 a0);
-extern u8    func_0201AA18(u32 a);
+extern u32   func_0201AA18(u32 a);
 extern u32   func_0200CA1C(u32 a);
 extern u32   func_0200CA38(u32 a);
 extern int   func_0200FB24(void);

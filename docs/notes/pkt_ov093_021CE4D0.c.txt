@@ -7,6 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * wave76: not retried; current source/shard lookup still lacks E979C/E9954 upper-ov093 peer witnesses. Owner-blocker gate stops caller iteration; prior best253 and all search history retained.
  * checks: 1 own/matched callee arities rederived, CF43C complete byte return, fixed CE7C4 veneer target ov095 CB08 takes one pointer; 2 CE3C8/CEA94 state twins and CF470/CE150/CE0BC own interfaces read; 3 unsigned-long state pointer and restored u32 pointer each756/253, p/st mutable so const unjustified; 4 narrow-result/shared-tail/pointer-spill/aggregate idioms read; 5 fresh unfiltered idiom listing and CE3C8 neighbour refreshed; spill is one pointer, not a callee stack aggregate.
  * residual: original772 includes16B non-C CE7C4..CE7D4 veneer; C lead756, compiled756,253 concrete bytes,44/46 relocations resolved. Previously245 with42/46; newly witnessed CE8F0/CF43C calls expose8 more concrete mismatches.
  * fresh-pass: 5 one runs: full-word countdown address756/253; increment label beside case7 yields748/298; shared state commit756/371; state pointer unsigned-long/restored u32 unchanged756/253. Manual scheduling cap2 consumed; retained prior best C below, freshly verified.

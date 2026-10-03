@@ -7,12 +7,14 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF (35 concrete bytes; compiled 166 versus original 164)
- * checks: 1 own matched callees confirm 2/2/3/3 inputs; 2 no six-stat twin, neighbors read; 3 enum declaration/assignment zero 35, u16 zero 36; 4 enum-zero and inline idioms tested; 5 refreshed idioms and B558/B74C, no closer twin; next explicit zero live-range boundary.
+ * status:   DIFF
+ * checks: 1 own 02159AE8/02159B10/0215B4AC/02017E1C sources confirm 2/2/3/3 inputs and full-width results; 2 B558/B74C no six-stat twin; 3 s16 zero36/166; 4 second-zero copy and enum-width/inline idioms tested; 5 refreshed idioms/B558/B74C, no new twin.
  * search: wave75 once-only permuter --budget 300 --types consumed; emitted baseline agrees with one DIFF35/166; best DIFF71/164 rejected because expand(sum x1) adds tmp2 twice.
  * attempts: enum zero initializer/assignment 35; non-inline zero_sum 144 with real call; inline total 45/164; u16 zero 36. Best legal fixed-flag spelling retained.
  * note: two zeros (arg 0 in r7, initial sum in r4) not reproduced; compiler merges both into one register (frame and register numbering differ)
  *
+ * wave76: Four compiles: enum Total sum with explicit u16 updates124/162; per-stat inline helper132/170; initial sum copied from enum zero139/166; s16 zero36/166. Retain35/166 legal baseline; final authorized retry exhausted; old permuter300 not repeated.
+ * evidence76: scratchpad/overlay-newpass-20261003-w76/R2/; each log awaited to terminal exit.
  * symbols:
  *   func_02159AE8  0x02159AE8  thumb  ov010
  *   func_02159B10  0x02159B10  thumb  ov010

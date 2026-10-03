@@ -8,7 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks: 1 matched func_0203D1A4 reads Link and returns masked byte; forwarded helper result restored, 02008494 now EXACT with resolving call; 2 matched ov012 02175240/02175280 and ov010 02167518/0216F0AC read, no constructor twin; 3 u8 index/return and matched u16 heap arguments both unchanged DIFF7; 4 enum-offset, separate-loop-index, cast-CSE and struct-local idioms read; 5 fresh idiom directory and neighbours reread, residue is scalar spills without explicit stack object. Next hypothesis: a named byte-offset for the n*4 CSE, unrun.
+ * checks: 1 own callees and ov010 caller rederive arities, current EXACT pkt_02008494 removes old owner blocker; 2 ov012 02175240 and ov010 0216F0AC reread, no constructor twin; 3 unsigned-long n unchanged 272/7, u16 n inserts truncation and worsens to 276/248; 4 long-index/inline-stack/struct-local idioms read; 5 unfiltered idiom directory and neighbours refreshed, no addressed stack aggregate. Next unrun hypothesis: typed inline accessor separating the index web from the scaled offset.
+ * Final wave76 retry: named byte offset and paired Index struct both stay
+ * 272/7; unsigned-long index also unchanged. Best wide-index C retained.
+ * All 12 relocations resolve; prior once-300 permuter not repeated.
  * Renewed wave75: forwarded Link input, enum index and separate loop counter
  * unchanged DIFF7; u8 index/return and u16 heap checks also unchanged.
  * Clean wide index and matched heap widths reconfirmed 272B DIFF7 with

@@ -9,7 +9,20 @@
  * isa: arm
  * status: DIFF
  * Wave 75 R20 renewed pass: DIFF 208 concrete bytes, compiled 364 versus 372 (-8 bytes), all 10 relocations resolve. Inline common tail, raw signed scalar node store, named zero and const packet retain missing branch trampoline/reload plus register rotation; enum zero is 368/229. One declaration reorder was 364/210, restored order is 364/208. First recorded permuter 300 is consumed; no improvement. Its baseline reported 200/unresolved2, but emitted source one (r6) gives 208/10 resolved, so search scores were not accepted.
- * checks: 1 matched 2894/279C/26DC and tick declarations read, arities 2/2/1/0; 2 matched 2AA0 common event tail inspected; 3 enum/unsigned zero and const packet compiled, no improvement; 4 named-zero and inline allocation idioms read; 5 directory and neighbours rechecked, no stack object; next hypothesis shared Node/Event alias representation and branch join structure, no repeat permuter
+ * prior-checks: 1 matched 2894/279C/26DC and tick declarations read, arities 2/2/1/0; 2 matched 2AA0 common event tail inspected; 3 enum/unsigned zero and const packet compiled, no improvement; 4 named-zero and inline allocation idioms read; 5 directory and neighbours rechecked, no stack object; shared Node/Event and branch join hypotheses tested below
+ * Wave 76 R13 final retry: best DIFF119/372 with short r, ten relocations
+ * resolved. Own 2894 body returns signed-byte table values or -1, so the
+ * narrowing preserves all returned values. Two sign-extension pairs are
+ * extra; trampoline/reload remain absent and r/zero colours reversed.
+ * Raw Event words and signed Node.fc remain 364B/208; duplicated inline
+ * tails grow to 440B/293; enum r and long r return to 364B/208; long zero
+ * and mutable packet on best stay 372B/119. Eight fresh compiles.
+ * checks: 1 own 2894/279C/26DC bodies and 23E0 tick twin reread;
+ * 2 2AA0 Event/Node twin and pending ov013 callers rechecked;
+ * 3 bounded short result, distinct long result/zero and mutable packet tested;
+ * 4 alias/reload and duplicated-tail idioms read; 5 idiom directory and
+ * neighbours refreshed, no stack object. Three final nonshrinks stop;
+ * consumed permuter not repeated. Next: none within this final retry.
  * symbols:
  *   g_021B4BE0     0x021B4BE0  data  a4
  *   g_021B4BD0     0x021B4BD0  data  a4
@@ -91,7 +104,7 @@ static inline int finish(const struct Pkt *pkt,struct Event *ev,struct Node *nod
 int func_021B2BE0(const struct Pkt *pkt, struct Event *ev)
 {
     struct Node *node;
-    int r;
+    short r;
     unsigned int z;
     z=0;
 

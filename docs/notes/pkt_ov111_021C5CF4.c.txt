@@ -1,18 +1,56 @@
-== 2026-09-28 tree_ov111 ==
-func_021C5CF4 (ov111, Thumb, 196 bytes): plots a 4x4 brush into a 4bpp tiled
-pixel buffer (dst, src, x, y, w, h, mode, side). Best source:
-src/pending/ov111_func_021C5CF4.c (DIFF, 25 instructions).
+/*
+ * function: func_021C5CF4
+ * address:  0x021C5CF4
+ * packet:   pkt_ov111_021C5CF4
+ * region:   ov111
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * residual: 190 versus196 bytes; 125 concrete bytes differ; no relocations.
+ * checks: 1 no calls, all eight inputs live; 2 own5DB8 confirms signed coordinate and clipping interface; 3 long k, long coordinates and mutable src all unchanged190/125; 4 fresh do-zero guards unchanged, branch-trampoline/cross-jump idioms read, older positive/goto/helper forms exhausted; 5 fresh full idioms and5DB8 neighbours, stack-object check inapplicable (no passed stack object).
+ * permuter: prior seed8502 types300 consumed; best680 asm/73 byte diff, no structural gain; never repeated.
+ * blockers: guard skip trampolines and k/xx register allocation; three nongaining renewed variants.
+ *
+ * symbols:
 
-What matches: the prologue homing of the stack parameters, the per-row hoists
-(yy / 8 * 0x18 in lr, yy % 8 * 8 spilled), the offset expression
-xx % 8 + ((yy % 8) * 8 + (xx / 8 + (yy / 8) * 0x18) * 64) computed before the
-src[k] test, the shared strb tail.
-What does not: the original reaches the loop tail through `b skip`
-trampolines after each two-term guard (bmi A; cmp; bge B; A: b skip), where
-every draft branches straight to the tail; and the draft swaps k and xx
-between r3 and r4 (plus the order of the parameter homing stores).
+ *
+ * Addresses are Black-image addresses.
+ */
 
-Tried: continue guards, one goto label before k++, empty-arm else-if chain,
-negated conjunctions, nested positive ifs, an inline range-check returning
-int, an inline per-dot helper (worse). Permuter seed 8502, 300 compiles, best
-680 asm score, 73 bytes out, no structural change.
+typedef unsigned char u8;
+
+void func_021C5CF4(u8 *dst, const u8 *src, long x, long y, int w, int h, int mode, int side)
+{
+    int j;
+    int i;
+    int k = 0;
+    int xx;
+    int yy;
+    int ofs;
+
+    for (j = 0; j < 4; j++) {
+        yy = y + j;
+        for (i = 0; i < 4; i++, k++) {
+            xx = x + i;
+            if (xx < 0 || yy < 0) {
+                continue;
+            }
+            if (xx >= w || yy >= h) {
+                continue;
+            }
+            if (mode == 1) {
+                if ((side == 0 && xx >= 0x60) || (side == 1 && xx <= 0x5F)) {
+                    continue;
+                }
+            }
+            ofs = xx % 8 + ((yy % 8) * 8 + (xx / 8 + (yy / 8) * 0x18) * 64);
+            if (src[k] == 1) {
+                dst[ofs] = 7;
+            } else if (src[k] == 2) {
+                dst[ofs] = 0;
+            }
+        }
+    }
+}

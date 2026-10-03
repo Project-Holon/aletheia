@@ -7,31 +7,22 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
- * New pass R24: inline pair out-writer and enum return value retain 140 / DIFF 63;
- * inline by-value pair introduces duplicate frame stores, 148 / DIFF 130.
- * checks: 1 own 021F2B9C takes pointer,row,col and returns u32; return bits
- * consumed as int unchanged; 2 matched 021F1010 re-read; 3 long a/b unchanged;
- * 4 raw byte-offset table reads tested per coordinate-pair idiom;
- * 5 fresh idiom listing and declared-struct stack-object idiom read, no new twin;
- * earlier permuter searches consumed and not repeated. Best old C retained.
- * checks:   1 func_021F2B9C takes (p, x, y) returns int; 2 twin ov029_func_021F1010 (const Pair t = d; ((int *)&t)[i % 2]): same 144-byte result here; 3 a/b as short, unsigned short in both spellings (no change or worse), early `return ret` (no change); 4 aggregate-assignment, an-eight-byte-pair-copy, a-two-word-const-table-copied-to-the-stack-is-a-pair-assignment: the ldm shape comes from the pair's register allocation, see below; 5 n/a; permuter --types 600 + 2x2500 on the u64 and param-reuse spellings: best candidates read t before assigning it or add volatile locals, none value-preserving, none kept
- *
- * residual (lane R1, 2026-09-29): same size, 140 = 140 bytes, 63 concrete bytes, all register
- * allocation. The image loads each table with `ldm r5, {r3, r5}` (base in the list, so no
- * writeback) and stores the words with separate sp-relative `str`s. That shape is just an
- * 8-byte pair copy whose two loads get ascending registers with the base as the high one. The
- * struct copy below gives `ldr r3,[r2]; ldr r2,[r2,#4]` (descending, no fusion, 144 bytes).
- * The bare-u64 load split into two struct words (this file) gives `ldm r4, {r2, r4}` and the
- * right size. Remaining difference: the image copies c to r7 and a to r4 (a, a/8+2 and x all
- * share r4), leaves b in r2 and keeps ret = 5 in r1; this C copies b to r5 and leaves a in r1,
- * so every register after that differs.
- * Tried with no gain (63 or worse): a reused as x and/or b as y (144, the ldm splits again);
- * x/y through temporaries or split statements; separate u64 temporaries t1/t2; no temporary
- * at all; const u64 externs; declaration orders of t/ret/x/y/m; table copies moved after x or
- * after the first guard (144); `*(u64 *)lo = d` into int[2] and a union (121, stm form).
- * Earlier lane: extern struct Pair copy (ldr pairs), local int[2] initialisers (an @N rodata
- * template, unresolved), static const struct copy (.rodata reloc unresolved).
+ * status: DIFF
+ * residual: 140/140 bytes, 63 concrete mismatches; ascending-register LDM
+ * pair copies agree in shape, argument/result register colouring remains.
+ * W76 final retry: six runs. Direct u64/word union emits STM pairs
+ * (DIFF121); enum x/y splits LDM and expands to144/DIFF127; enum modulo
+ * local unchanged63. Three nonshrinking changes stopped iteration.
+ * checks: 1 own EXACT 021F2B9C proves pointer,row,col and unsigned-word
+ * return, corrected prototype unchanged; 2 own matched 021F1010 re-read,
+ * no twin covering both copies; 3 read-only p const unchanged63;
+ * 4 pair assignment/eight-byte copy/coordinate byte-offset idioms reread;
+ * 5 directory/neighbour evidence and declared object shape reviewed.
+ * Prior searches spent: --types600 plus two2500 searches; invalid
+ * uninitialized/volatile mutants rejected; W75 inline out-pair and enum
+ * return unchanged63, by-value pair148/DIFF130. No searches repeated.
+ * Best original u64-to-Pair spelling preserved. Next untried hypothesis:
+ * separate ABI pair type for both table conversions with scalar accesses.
  *
  * symbols:
  *   func_021F020C  0x021F020C  thumb  ov029
@@ -45,12 +36,12 @@ struct Pair {
     int b;
 };
 
-extern int func_021F2B9C(void *p, int a, int b);
+extern unsigned int func_021F2B9C(unsigned char *p, int a, int b);
 typedef unsigned long long u64;
 extern u64 d_021F333C;
 extern u64 d_021F334C;
 
-int func_021F020C(void *p, int a, int b, int *c, int *d)
+int func_021F020C(const void *p, int a, int b, int *c, int *d)
 {
     struct Pair lo;
     struct Pair hi;
@@ -77,7 +68,7 @@ int func_021F020C(void *p, int a, int b, int *c, int *d)
     }
     y = y / 4;
     if (x < 9 && y < (&hi.a)[m]) {
-        ret = func_021F2B9C(p, x, y);
+        ret = func_021F2B9C((unsigned char *)p, x, y);
     }
     *c = x;
     *d = y;

@@ -8,7 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks: 1 all callee arities re-derived, third 02191674 arg u16 matches caller truncation; 2 neighbours no exact twin; 3 u8 mask unchanged, u16 palette adds shifts; 4 long index/enum palette/const Tiles/dead mode reuse unchanged; 5 neighbours and idioms refreshed, no stack aggregate in residue.
+ * checks: 1 own current callee witnesses confirm arities, third 02191674 arg u16 from caller truncation; 2 fresh 0217F5E0 no matching loop twin; 3 short index 336/107, u8 flag 332/99; 4 draw-pair inline and unshifted palette wrapper both 332/99; 5 fresh unfiltered idiom listing/matched neighbours, no stack aggregate in residue.
+ * Final retry R14: 4 runs; old best C 332 bytes / DIFF99 retained.
+ * All previously owner-blocked ov021 callees have current EXACT witnesses.
  * Renewed pass R23: 6 runs; safe best DIFF99, compiled332/original340.
  * Palette remains wide: matched callee has u16 fifth arg, but original
  * passes pal<<6 without truncation; narrow prototype/local adds shift pair.

@@ -7,9 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 full 87B0 body proves 12 inputs; 40618 forwards legacy fourth to complete three-input 42360 body; 2 no matched/pending ov106 twin for 80D0; 3 u32 versus int layer inputs and const descriptor each remain 564/20, byte inputs worsen; 4 fitting clamp and narrow-home idioms reread; prior iteration clamp/enum worsened and shared order cap 2 exhausted; 5 fresh directory and 8AD0/8648 reread give no further legal lever; next sweep would vary clamp type but types permuter already exhausted.
- * residual: 564/564, 20 concrete bytes: prologue spill interleave and clamp polarity/destination. One types permuter compiled 300 including baseline; best 564/14 adds use(b), changes loop and narrows b. Retain full-word baseline: original forwards b unchanged to 450F0; mutant has no full-input-domain narrowing proof.
- * note: 02040618's legacy fourth input is only forwarded to 02042360, whose complete three-input body never reads it. Original calls supply only three live arguments.
+ * checks: 1 full 87B0 proves 12 inputs; current own 40618/42360 files both take three, matching original calls; ARM9 resource loaders and 1BC3C return checked. 2 no ov106 emitter twin; fresh 8AD0/8648 match descriptors. 3 s16 maximum check3 gives 560/200; signed full-word f iteration unchanged 564/20. 4 clamp/enum-zero and pointer-spill idioms reread; zero shared with field stores gives correct clamp direction but shifts earlier constant allocation (int 560/200, enum 564/192). 5 unfiltered idiom directory and 8AD0/8648 reread; no rescue. Next hypothesis: isolate clamp helper with full-word input preservation, after cap.
+ * residual: renewed pass: 3 nonshrinking iterations plus 1 check3; retained best 564/564, 20 concrete bytes, prologue spill interleave and clamp polarity/destination. Previous 300-type permuter consumed and not repeated; its narrowed-b 564/14 still rejected because original forwards b full-width to 450F0.
  * symbols:
  *   fill 0x02082BCC arm
  *   func_021B8D8C 0x021B8D8C thumb ov106
@@ -40,13 +39,13 @@ extern u32 func_020490F4(u32,u32);
 extern int func_0201BC3C(void);
 extern u32 func_0204ACEC(u32,u32,u32,u32,u16);
 extern void func_02049238(u32);
-extern void func_021B87B0(u8 *,const u8 *,u32,u32,u32,u32,u32,u32,u8 *,s16,s16,u16);
+extern void func_021B87B0(u8 *,const u8 *,int,u32,u32,u32,u32,u32,u8 *,s16,s16,u16);
 extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
 extern void func_02040618(u32,u32,int);
 extern void func_021B8524(u8 *),func_021B8648(u8 *);
 extern u32 func_020056A0(u32,u32,u32);
 extern void func_021B8690(void);
-void func_021B80D0(u8 *p,u32 a,u32 b,u32 c,u8 d,u8 *e,u32 f,u32 g,const u8 *h,u16 heap) {
+void func_021B80D0(u8 *p,u32 a,u32 b,u32 c,u8 d,u8 *e,int f,u32 g,const u8 *h,u16 heap) {
     u32 arc,i;
     fill(p,0,0x59c);
     *(u8 **)(p+0x54c)=e;

@@ -1,0 +1,37 @@
+/*
+ * function: func_021B89DC
+ * address: 0x021B89DC
+ * packet: pkt_ov104_021B89DC
+ * region: ov104
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * lever: Byte RGB endpoints and named signed db/dr/dg deltas, with the
+ * cosine factor computed after green extraction, retain channel lifetimes.
+ * Evidence: ov105_func_021B8734 blend spelling and own ARM9 queue body.
+ * symbols:
+ *   d_020A1B38 0x020A1B38 data a2
+ *   func_02061CA4 0x02061CA4 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef short s16;
+typedef unsigned int u32;
+extern const s16 d_020A1B38[];
+extern int func_02061CA4(int,u32,void *,int);
+static inline u16 blend(int angle,u16 c1,u16 c2) {
+ u8 g1,r1,b1; int db,dr,dg; s16 factor;
+ g1=(c1&0x3e0)>>5;
+ factor=(s16)((d_020A1B38[((angle>>4)*2)+1]+0x1000)/2);
+ r1=c1&31;
+ b1=(c1&0x7c00)>>10;
+ db=(factor*((u8)((c2&0x7c00)>>10)-b1))>>12;
+ dr=(factor*((u8)(c2&31)-r1))>>12;
+ dg=(factor*((u8)((c2&0x3e0)>>5)-g1))>>12;
+ return ((u8)(b1+db)<<10)|((u8)(r1+dr)|((u8)(g1+dg)<<5));
+}
+void func_021B89DC(int a,u16 *p,int angle,int bank,u8 index,u16 c1,u16 c2) {
+ *p=blend(angle,c1,c2);
+ func_02061CA4(a,bank*32+index*2,p,2);
+}

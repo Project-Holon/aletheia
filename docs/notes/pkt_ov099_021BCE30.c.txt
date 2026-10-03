@@ -8,13 +8,17 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks:   1 callees take only p (no arity shift); 2 twins 021BC6B0/021BC468/021BC4D4 use the enum-offset local, applied here; 3 int vs u8 for the arm constant and m/c merged into one local, no change; 4 none fits; 5 re-listed idioms, goto-join and per-arm tails tried (per-arm tails break the layout); sweep not run: declaration of f relative to the calls
+ * checks:   1 own matched void(p) callees inspected; u32 guard witnessed by ARM9 unit_020362BC; 2 021BC468/4D4 and renewed 6B0 examined; 3 enum mode and correct guard width inert, mutable p rules out const pointee; 4 enum/inline and redundant-offset idioms read; 5 refreshed idioms and scoped neighbours; no stack object.
  *
  * Residue (12 runs): layout, branch targets and the derived `subs r0,#9` all
  * match; only the register roles differ. Original: r0 = 0x135C offset (kept
  * for the later `subs r0,#9`), r1 = loaded value and arm constants. Ours: the
  * offset gets r1 and the value/constants r0. Without the enum local the
  * offset is rematerialised as a second pool word (0x1353) instead.
+ *
+ * Renewed W76: 5 one runs; inline write_byte, enum-loaded mode, redundant
+ * f definition and corrected guard type all unchanged 9/80. Permuter 300
+ * types consumed: baseline agrees 9/80, best 9/80, no winning mutation.
  *
  * symbols:
  *   func_020362DC  0x020362DC  arm
@@ -28,9 +32,10 @@ typedef unsigned long  u32;
 
 typedef enum { K135C = 0x135C } Off;
 
-extern int func_020362DC(void);
+extern u32 func_020362DC(void);
 extern void func_021BC06C(char *p);
 extern void func_021BA8EC(char *p);
+
 
 int func_021BCE30(char *p, int v)
 {

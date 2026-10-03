@@ -8,7 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks: 1 every callee's arity from its own arm9 file (func_02049B68/B40 6, sub_02049658/sub_020498F4 7, func_02040C14 4, func_0203FCA0/func_02040588 take u8 bg: the lsls/lsrs #24 pairs match); 2 ov111 pending func_021C72FC has the same call run and the same residue kind (a heap stack store scheduled on the other side of the register args), ov070 func_021B9178 / ov071 func_021B6644 give the prototypes; 3 heap u16 on the parameter and every callee (as the arm9 callee files declare it): no change; handle as void *, 4th arg of 49658/498F4 as void *: no change; 4 enum-typed B40 palette type / C14 args / BG frame args (an-enum-typed-zero idiom), u8 B40 type and C14 args (sub-word idiom), the B40/C14 tail and the whole handle block as static inline helpers: all no change (35 lines each); permuter --types 300: no candidate beat the baseline; 5 re-listed docs/idioms after the sweeps, nothing new fits
+ * checks: 1 own 0203F8F4/45088 one, 3FC28 one, 3FCA0 three, 40588 two, 490F4 two, 49B68 six, 49658/498F4 seven, 49B40 six, 40C14 four; SDK82BCC three and49238 one confirmed by matched ov0729E38 caller; 2 same-region/sibling graphics callers refreshed; 3 enum register-zero prototype variants and unsigned-long u32 each compile328/68 flat; 4 enum-zero and sub-word parameter idioms read, no fresh improving lever; 5 full idiom directory and matched neighbours refreshed. Prior permuter300 remains spent. Next hypothesis: genuine palette request storage type for the tail zero web.
+ * retry: Wave76 R18 final retry, three fixed one runs; original best328/68 retained, all22 relocations resolved.
  *
  * Residual (328/328 bytes, 35 lines, all relocations resolve): from the
  * sixth handle call on (func_02049658(h, 6, 5, 0, 0, 0, heap)) the original

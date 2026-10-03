@@ -9,7 +9,10 @@
  * isa: thumb
  * status: DIFF
  * DIFF 12 concrete bytes; compiled 58 versus extent 60. Enum kind local improves prior 15-byte residue; byte-pointer view, inline argument binding and enum-typed dereference are unchanged. A full-width enum third callee parameter worsens to 15. Remaining load/setup schedule starts at +0x0e. Prior budget-300 --types search in w50/R1 remains consumed; no repeated search.
- * checks: 1 0201210C one const context pointer, 021681C8 six inputs, 0216E910 three inputs confirmed; 2 ov021 CBD08 twin narrows only its byte loads, this word-loading caller stays full width; 3 enum callee kind compiled worse15, old const/unsigned checks retained; 4 offset/enum and const-load idioms read; 5 no new twin, no local stack object so struct-local check n/a; next hypothesis distinct enum offset and kind types, no sweep run.
+ * checks: 1 current context1/681C8 six/E910 three input interfaces retained, all3 sites resolve; 2 CBD08 twin byte loads still do not narrow this word-loading caller; 3 distinct full-width Offset/Kind enum types retain12/58; 4 enum-zero and offset/load idioms reread; 5 directory/neighbours refreshed, frame is outgoing words with no local object and no new twin.
+ * wave76 final retry: distinct enum types, enum-typed zero stack argument
+ * and named count extraction each retain12/58. Three fixed one runs;
+ * renewed manual pass exhausted, w50 budget300 search never repeated.
  * symbols:
  *   func_0201210C 0x0201210C thumb
  *   func_021681C8 0x021681C8 thumb ov010

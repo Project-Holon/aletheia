@@ -8,6 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * final-retry: Wave76 R16, 3 iteration + 1 check3; integer base arithmetic flat5, word-index accessor worse1004/+4, paired-word array flat5; all terminal verdicts read. Check3 own 9228 third int with explicit s8 call wrap flat5. Checks 1 own callee arities refreshed; 2 scoped 8C4C/8DF0 twins and current neighbours; 3 table const and signed fields retained; 4 char-base and declared-struct idioms read; 5 fresh unfiltered idioms and neighbours, no new hypothesis. Best1328/1328 DIFF5,27/27 relocs retained below; renewed pass exhausted, old permuter300 not repeated.
  * checks: 1 own 841C/8404/9190/91BC/91D0/9228/92F0 confirm arities; 2 narrowed ov067 twins 8C4C/8DF0/8B74 and neighbouring declarations refreshed; 3 unsigned r gives 7 and changes signed guards, rejected; const table retained; 4 typed byte-base field access worse 995/+4, scalar and field-base inline getters unchanged 5; 5 idioms and neighbours refreshed, no stack object. Earlier permuter300 consumed, not repeated. Next: original inline caller source for the redundant test.
  * retry: wave59 R1, seven fixed runs; best unchanged at five bytes.
  * Earlier wave58 permuter300 baseline/best five bytes; not repeated.

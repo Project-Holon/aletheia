@@ -7,9 +7,9 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 arities rederived from own matched bodies/callers and 1008..1078/11E8/EFE3C show; 15B0 leaves live r0 forwarded, F19E4 r1 stays visible caller input; 2 EF79C/EFFB0/EEEAC refreshed; 3 unsigned W909 vs signed, u32 result flat909; p written so const inappropriate; 4 noted case27..29 reorder1002 rejected; 5 fresh idioms and File-stack/branch-island checks.
- * residual: R3 main1564 versus actual1560 (+4); listing target1568 includes existing EEEAC stub. 909 concrete bytes,118/126 relocs; unresolved overlay readers 1008,1010,1040,1050,1064,11E8,EFE3C.
- * search: R3 first permuter300 spent; emitted macro-free baseline909 agrees one. Size-first best1568/1050 is worse than909 and rejected; extent still includes the already matched 8-byte stub, despite compiling only main.
+ * checks: 1 own matched signatures and EFFB0/0728 callers rederived arities, SDK FS_InitFile/Seek/Read/Close inspected; 15B0 live r0 forwarding and 19E4 extra visible r1 retained; 2 EF79C/EFFB0/EEEAC and neighbours refreshed; 3 enum phase unchanged913, mutable p cannot be const, earlier signed/unsigned W and result attempts not repeated; 4 typed SDK 72B File and scoped inline payload-loader unchanged913, branch-range/empty-label and declared-struct idioms read; 5 fresh full idiom listing and File-frame/neighbours inspected. W76 three fixed runs, complete logs byte-identical; prior permuter300 consumed, no repeat. Next: early shared branch islands and case9 selection shape, not label permutations.
+ * residual: main1564 versus actual1560 (+4); listing1568 includes existing EEEAC stub. Current tool DIFF913,119/126 relocs; unresolved ov107 readers 1008,1010,1040,1050,1064,EFE3C (1010 twice). 11E8 now resolves via matched witness. Earlier record909/118 is retained as history, not current verdict.
+ * search: R3 first permuter300 spent; then-emitted macro-free baseline909 agreed one. Size-first best1568/1050 was worse and rejected; extent still includes the already matched 8-byte stub despite compiling only main. Search not repeated in W76.
  * retry: Wave59 R3: 4 fixed-flag runs plus permuter300; single retry completed.
  * extent: 021EEEAC already matched separately by pkt_ov107_021EEEAC; file only main, no duplicate unit/stub. Unowned EEEB4 begins after handed1568 bytes.
  * symbols:
@@ -79,7 +79,12 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-typedef struct {u32 words[18];} File;
+typedef enum { FS_OK=0, FS_ERROR=1 } FSResult;
+typedef struct File {
+ struct File *next; void *userdata; void *arc; u32 stat;
+ void *argument; FSResult error; void *queue[2];
+ u8 reserved1[16]; u8 arg[24];
+} File;
 extern void func_021F0E6C(void *),func_021EFC1C(u8 *,int);
 extern u8 func_02012E40(const u8 *);
 extern void func_02012E08(void *);
@@ -118,15 +123,27 @@ extern void func_0204A600(void *),func_0204A648(void *);
 #define O P(12)
 #define M P(104)
 #define SAVE (*(void **)((u8 *)P(8)+4))
+typedef enum { Phase0=0,Phase33=33 } Phase;
+#define PHASE (*(Phase *)(p+32))
+static inline void load_payload(u8 *p) {
+ File file; void *name;
+ name=func_0200575C(142);func_020788AC(&file);
+ if(!func_02078C18(&file,name))func_02034714(d_021F6E08,0,d_021F6E08);
+ func_02078B44(&file,0,0);W(100)=func_02078C28(&file);
+ P(96)=func_02030734(H(0),W(100),1,d_021F6E0C,660);
+ func_02078B70(&file,P(96),W(100));
+ if(!func_02078A80(&file))func_02034714(d_021F6E08,0,d_021F6E08);
+ W(32)=13;
+}
 int func_021EE894(u8 *p) {
- File file; void *name; u32 result;
+ u32 result;
  func_021F0E6C(O);
  if(W(16)==1 && W(32)!=2 && W(32)!=3) {
   W(24)=func_02012E40(SAVE);
   if(W(24)==1)func_02012E08(SAVE);
   W(32)=2;func_021EFC1C(p,3);
  }
- switch(W(32)) {
+ switch(PHASE) {
  case 0:func_0202208C(0,1,1,0,6,1,H(0));W(32)=1;break;
  case 1:
   if(func_020221A4()==1) {
@@ -159,14 +176,7 @@ int func_021EE894(u8 *p) {
    if(p[40]==0)H(92)=func_0200C184(P(76));
    if(func_021F1370(O,p+88)==1)W(32)=p[40]==0?12:32;
   }break;
- case 12:
-  name=func_0200575C(142);func_020788AC(&file);
-  if(!func_02078C18(&file,name))func_02034714(d_021F6E08,0,d_021F6E08);
-  func_02078B44(&file,0,0);W(100)=func_02078C28(&file);
-  P(96)=func_02030734(H(0),W(100),1,d_021F6E0C,660);
-  func_02078B70(&file,P(96),W(100));
-  if(!func_02078A80(&file))func_02034714(d_021F6E08,0,d_021F6E08);
-  W(32)=13;break;
+ case 12:load_payload(p);break;
  case 13:W(32)=14;break;
  case 14:
   if(func_021F1060(O)==10)goto failure;

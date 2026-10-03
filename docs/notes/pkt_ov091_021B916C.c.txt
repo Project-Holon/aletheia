@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 fresh own B8F68/B8FC4/B714/B7E8/BAF8/B4A0/B43C/B99E4/B9E20/C350 plus 0215EA14 and ARM9 getter interfaces; 2 no complete twin, BBE74/BE874 refreshed; 3 byte zero and unsigned long n each compiled flat122; 4 grouped Four blocks and enum zero before both HP reads with zero passed to both compiled flat122; 5 fresh idioms and stack/zero neighbours reviewed. Next hypothesis is a genuine address-taken n/zero helper-local; no additional scheduling variants allowed this pass.
+ * checks: 1 own callees/matched callers refreshed: scalar02017E1C three, BDC5C reads one but original caller sets r1 so two-word coerced call retained; removing second argument1508/244 worse; 2 matched BBE74/BE874 and HP getter unit refreshed; 3 getter party fieldA1 is u16; u16 n1512/274 worse, original wide n retained; 4 struct-return/frame idioms read; inline maximum/zero output helper1504/635 gives original frame but worsens other arms, maximum-only helper1508/122 flat; 5 full idiom directory and own/sibling neighbours refreshed. Prior permuter96 remains spent. Next hypothesis: genuine one-word inline aggregate return wrapper, within a future renewed budget.
+ * retry: Wave76 R18 final retry, four fixed one runs; original best1508/122 retained, all86 relocations resolved.
  * residual: R3 1508/1508,122 concrete bytes,86/86 relocs; n/zero register web and frame36 vs40 persist. Earlier permuter96 spent; no rerun.
  * renewed: Wave75 R30 4 fixed-flag runs, all 1508/1508 and122 concrete; original best retained. Prior permuter96 remains spent; no search repeated.
  * symbols:

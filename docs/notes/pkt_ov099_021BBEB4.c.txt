@@ -13,6 +13,13 @@
  * Budget: 5 iterations; first nonshrinking i3, consecutive i3-i5=3; C3=2 compiles, other checks=0; types permuter once budget300.
  * Residual: 436/440 bytes, 369 concrete bytes differ. Mode/field-base register swap, ternary polarity, missing index spill and extra color truncations.
  * Permuter best 440/440 with165 concrete differences rejected: volatile-add(off), declaration after statement and early field loads across calls. No mutant adopted.
+ * Renewed W76: one baseline run only. Original +0xEC calls ARM9 02045CAC,
+ * unresolved: no witness outside 021BBEB4..021BC068. Its body exists in
+ * src/matched/arm9/unit_02045C44.c, but the function header and matched shard
+ * list only func_02045C44. Ilias owns that omitted entry; no retry until fixed.
+ * The earlier budget300 permuter remains consumed and was not repeated.
+ * A named row pointer is a future hypothesis once the owner witness resolves.
+ *
  * symbols:
  *   func_021BA8BC 0x021BA8BC thumb ov099
  *   func_020450F0 0x020450F0 arm

@@ -7,8 +7,9 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * residue: 128 bytes, all six relocations resolved; 12 concrete bytes differ, bit/result r4/r5 swapped throughout.
- * checks: 1 OS interrupt helpers take zero/one arguments and return u32 (show verified); memcpy three arguments matches callers; 2 ov107 mask twins agree with interrupt prototypes, no accessor twin; 3 u16 result and int aid compiles preserve 12-byte residue, no pointer parameter or spill; 4 two declaration-order variants and parameter reassignment preserve swap, register-order idioms read; 5 refreshed idioms and ov107 neighbours, Snapshot frame/addressing matches exactly. Next targeted check: block-scope result or enum result, no sweep run.
+ * residue: DIFF5, compiled128/128, all six relocations resolved; register tie reduced to first mask/truncation/guard operands at000E..001A.
+ * checks: 1 SDK OS_DisableInterrupts/RestoreInterrupts bodies confirm zero/one args and u32 result; MI_CpuCopy8 body confirms three args; 2 own ov107 0B2C caller passes u16 aid and mask twins refreshed; 3 u16 aid unchanged12, enum result and block-scope result unchanged12; no pointer parameter; 4 enum/flag/register-order and declared Snapshot idioms read; 5 fresh full idioms/neighbours, Snapshot frame/addressing agrees. W76 four fixed runs plus baseline explain and first permuter300; valid best5 independently validated by fixed one. Next: first guard's duplicated full-width versus narrowed mask web; no more search.
+ * search: macro-free emitted concrete baseline12/128 agrees one, but scorer omits the two sole-ref data witnesses that fixed one resolves. First permuter300 best5 uses compare(!=0), expansion of bit in first guard, and tmp = 1 << aid before interrupt call; no invalid reads or signature mutant. Captured temporary is assigned before all uses. Search consumed.
  * symbols:
  *   func_02087988 0x02087988 arm
  *   func_0208799C 0x0208799C arm
@@ -22,7 +23,28 @@ typedef unsigned int u32;
 extern u32 func_02087988(void);extern u32 func_0208799C(u32);extern void func_02082D44(const void *,void *,u32);
 extern u8 d_021F6EAC[],d_021F6EB4[];
 typedef struct {u16 f00,f02,f04,f06,f08,f0A,f0C,f0E,f10,f12;} Snapshot;
-int func_021F0D34(int aid){u32 state;Snapshot snap;u16 bit;int result;
-state=func_02087988();bit=1<<aid;result=1;if(!(*(u16 *)(d_021F6EAC+10)&bit)){func_0208799C(state);return 0;}
-func_02082D44(d_021F6EB4,&snap,20);func_0208799C(state);
-if(snap.f04&bit)return 2;if(snap.f06&bit)return 3;if(snap.f08&bit)return 4;if(snap.f0A&bit)return 5;if(snap.f0C&bit)result=6;return result;}
+int func_021F0D34(u16 aid)
+{
+    u32 state;
+    Snapshot snap;
+    u16 bit;
+    int tmp;
+    tmp = 1 << aid;
+    state = func_02087988();
+    bit = tmp;
+    if (!(*(u16 *)(d_021F6EAC + 10) & (1 << aid))) {
+        func_0208799C(state);
+        return 0;
+    }
+    {
+        int result = 1;
+        func_02082D44(d_021F6EB4, &snap, 20);
+        func_0208799C(state);
+        if (snap.f04 & bit) return 2;
+        if ((snap.f06 & bit) != 0) return 3;
+        if (snap.f08 & bit) return 4;
+        if (snap.f0A & bit) return 5;
+        if (snap.f0C & bit) result = 6;
+        return result;
+    }
+}

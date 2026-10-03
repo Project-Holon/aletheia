@@ -7,21 +7,13 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * residue: 4 concrete bytes differ, palette and tileY spill slots swapped.
- * lever: u16 x/y pins home stores; row zero before base and palette shift
- *   restores register choices and scheduling. Nested width/base/tileY order
- *   reduced the spill residue from 8 to 4 in wave24 R1.
- * checks: 1 callee bodies confirm one layer arg, four tile-write args, u8 final
- *   layer and u16 tile; 2 no pre-wave twin in ov099/ov100, verified callers agree;
- *   3 u16 x/y shrank diff, int palette no change, const p worsened to 20, signed
- *   tileY/width and unsigned callee x/y leave 8; 4 spill-order idioms apply but
- *   reorder budget exhausted; 5 idioms relisted and pre-wave neighbours reread,
- *   no stack object exists so struct-local addressing idiom does not apply.
- * retry: wave24 R1 7 one runs, one --budget 300 --types permuter consumed
- *   300 candidates; nested declaration mutations improved 8 to 4 and were
- *   independently validated. Split palette, enum palette and moving palette
- *   inside the block leave 4. Permuter budget consumed; do not rerun it.
- * next: palette/tileY spill-web shape; ordinary scope and integer types exhausted.
+ * residue: 122/124 bytes, 4 concrete bytes differ solely in palette/tileY spill slots; all 3 relocations resolved.
+ * lever: u16 x/y pins home stores; original nested width/base/tileY lifetime keeps the earlier 4-byte best.
+ * checks: fresh own 42FB0 has u32 layer/x/y and u16 tile; prototype correction leaves 4. Own 41B6C has u32 input but original caller narrows layer, so u8 extern retained. BE4EC returns 8 and caller supplies layer despite its argless body.
+ * retry: wave76 R24, 6 one runs. Inline Draw helper 21, Palette out helper 4, long palette 4: three nonshrinking iterations; manual extraction 2/2. Check 3 long tileY 33 and long width 4; check 1 own tile-writer prototype 4.
+ * evidence: pos is full-width unsigned for the high shift, x/y home stores require u16; p is writable. Current BE384 neighbour and full unfiltered idiom listing reread; no matching tile caller twin.
+ * prior-search: wave24 R1 once-only --budget 300 --types permuter consumed; independently validated nested declarations reduced 8 to 4. Split/enum/scoped palette and prior const/signed variants already tried; no repeated search.
+ * next: palette/tileY spill-web shape; renewed helper extraction and long widths leave the same 4-byte tie.
  * symbols:
  *   func_021BE4EC 0x021BE4EC thumb ov099
  *   func_02042FB0 0x02042FB0 arm
@@ -31,7 +23,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021BE4EC(int layer);
-extern void func_02042FB0(int layer, unsigned x, unsigned y, u16 tile);
+extern void func_02042FB0(u32 layer, u32 x, u32 y, u16 tile);
 extern void func_02041B6C(u8 layer);
 void func_021BE3CC(char *p, int layer, u16 x, u16 y, u32 pos)
 {

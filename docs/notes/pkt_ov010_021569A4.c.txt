@@ -8,7 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks: 1 n/a no callees or argument setup; 2 56954/56978 confirm member/party shape, no exact twin; 3 const Work/Member/Party flat2; 4 dying-pointer allocator and const-struct idioms read; 5 refreshed all idioms and matched 56954/56978, no new lever; next hypothesis distinct pointer payload type rather than consumed declaration-order sweep.
+ * checks: 1 n/a no calls or argument setup; 2 current 56954/56978 confirm member/party shape; 3 u16 idx flat2, byte enum result8/74 B; 4 dying-pointer and const-struct idioms inspected; 5 refreshed all idioms and both matched neighbours, no twin; next hypothesis local type after payload spelling, no consumed declaration/permuter search repeat.
+ * Wave 76 final retry: void pointer party payload2/72 B; u32 pointer
+ * payload2/72 B; enum best index8/74 B; u16 idx2/72 B. Keep prior best2.
  * Wave 75 fresh pass: const Work, integer member address, const Member and const Party pointee all flat2/72 B. Old seed8701 consumed; never rerun.
  * Prior recorded evidence (retained):
  * === 2026-09-28 tree_ov010_4 ===

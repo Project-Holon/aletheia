@@ -17,7 +17,7 @@
  * state 5 without repeating the reset. No all-path zero-flag precondition.
  * Best permuter300 mutation volatile-add(saved) is rejected; it has no
  * original volatile evidence. No unchecked or behavior-changing C is filed.
- * checks: 1 all arities rederived from own files/callers, BBF88/BBF98 Thumb-to-ARM veneers reread, BC610 fourth argument retained because original explicitly supplies6; 2 refreshed BBC44/BBD80 and BB570/BAEF8 reset paths give no all-entry invariant; 3 prior a:u8 unchanged512, renewed scalar-in-struct saved unchanged512/471; 4 moving saved=0 to p->init!=0 arm safely shrinks512/471 to508/454, scalar slot remains, stack-order and declared-struct idioms read; 5 directory and BBC44/BBD80 refreshed, saved is not address-taken. Prior permuter300 consumed and volatile mutation rejected, not repeated. Next lever requires proof of an all-path entry invariant before removing the defined fallback; otherwise allocation remains the safe target.
+ * checks: 1 own callees rederived and ignored BCCE0/BDA00/C5200 return declarations corrected, unchanged508/454; BBF88/BBF98 preserve r0/r1 through veneers, BC610 caller explicitly supplies fourth6; 2 BBC44/BBD80/BBFA8 reread, reset invariant remains unproved; 3 u16 i/unsigned a worsens520/472, const u8* a unchanged508/454; 4 unsigned long saved and unsigned long i/const out unchanged508/454, eager fallback512/462; 5 full directory/neighbours refreshed and struct-local idiom reread. Retain defined bypass saved=0. Three nonshrinking iteration changes; consumed permuter not repeated. Best arity.log.
  * renewed: scratchpad/overlay-newpass-20261003-w75/R11/021BBD8C-savedinit.log; the best C below puts the fallback zero only on the branch that bypasses BBF88. Capturing the entry flag and selecting saved-or-zero at the final comparison preserves defined reads but worsens536/521 (latesaved.log); no eager-fallback removal justified by this trial.
  * symbols:
  *   func_021BB920 0x021BB920 thumb ov093
@@ -51,9 +51,9 @@ extern int func_021D5B68(void *);
 extern void func_021BDC98(S *, u8 *, u8);
 extern void func_021BD9D4(S *, u8, u8, u8, u8);
 extern u32 func_021B8588(void *);
-extern void func_021BCCE0(S *, E *);
-extern void func_021BDA00(S *);
-extern void func_021C5200(S *);
+extern u32 func_021BCCE0(S *, E *);
+extern int func_021BDA00(S *);
+extern int func_021C5200(S *);
 extern int func_021BC4DC(S *, u8 *);
 extern u32 func_021BBF98(void *, int);
 extern void func_021C4614(S *);

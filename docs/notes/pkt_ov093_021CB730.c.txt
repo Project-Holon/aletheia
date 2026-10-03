@@ -8,11 +8,22 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own/matched callees rederived (CBA30 fixed veneer, B9090 second argument full word); 2 CCE0/CBA40 twins preserve narrow entry parameters and callback arity; 3 state unsigned-long and lock unsigned-long each768/18 unchanged; p mutates, a reaches a mutable callee so const lacks evidence; 4 indexed table-field and stack-slot idioms read; 5 fresh unfiltered idiom listing, CBA40/CCE0 neighbours refreshed; no address-taken aggregate.
- * residual: 768/768 bytes,18 concrete bytes,37/37 relocations resolved. Entry slot load/p-copy and variadic setup schedule differ; state/lock spills are exchanged (+20/+24).
- * fresh-pass: 4 one runs. Direct second-loop indexed fields initially772/403; removing premature named p+24/p+1D74 bases yields768/18. Two manual scheduling variants consumed. Best C below includes full-word type checks with identical score.
- * permuter: prior once300 search consumed (baseline764/309; unsafe use(pos) output rejected; clean prior768/386). Not repeated in this pass. New retry hypothesis: exchange state/lock declaration order, then evidence-backed slot width to restore entry load order.
- * proof: table stride8 and callback offset4 shown by image; direct indexed fields preserve the same record/call. No fabricated defaults: condition/state/monId stores remain conditional on slot!=6 as original.
+ * checks: 1 own B8DDC/B9BF0/CC8D8/CC95C bodies rederived; unused line
+ *   argument kept where original loads it; B9090 second argument full word;
+ *   2 matched BCCE0/CBA40 bodies refreshed, scalar lock payload agrees;
+ *   3 arg u16 retains768/8; slot u32 plus wide B9BF0 index gives768/13;
+ *   4 stack-order/inline/varargs idioms read; 5 full idiom directory
+ *   relisted and matched BCCE0/CBA40 refreshed; no aggregate needed.
+ * residual: 768/768 bytes,8 concrete bytes,37/37 relocations resolve.
+ *   Entry slot load versus p copy and variadic setup schedule remain.
+ * retry: wave76 R8,5 compiles. Swapping state/lock declaration order improves
+ *   18 to8 and fixes +20/+24 spills. Wide slot gives13; wide CD64C tag
+ *   and inline ShowMove retain8; three nonshrinking changes stop iteration.
+ *   Both manual scheduling variants consumed; check 3 arg u16 retains8.
+ * permuter: prior once300 consumed; unsafe use(pos) output rejected.
+ *   Not repeated. The previous direct-field correction restored768/18.
+ * proof: callback table stride8 and pointer+4 proven; original conditional
+ *   state/condition/monId definitions retained, with no fabricated defaults.
  * symbols:
  *   func_021D5440 0x021D5440 thumb ov093
  *   func_021B8DDC 0x021B8DDC thumb ov093
@@ -84,9 +95,9 @@ int func_021CB730(u8 *p, u8 *a, u16 move, u8 arg, u8 slot)
   Condition initial;
   u8 condition;
   u8 *mon;
-  unsigned long state;
-  u32 result;
   unsigned long lock;
+  u32 result;
+  unsigned long state;
   u32 mark;
   u32 pos;
   u32 allowed;

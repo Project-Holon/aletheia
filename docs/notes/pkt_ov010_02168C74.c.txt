@@ -12,7 +12,11 @@
  * Final strh and add sp trade places. Enum Result return removes the old volatile.
  * Inline finish helper and enum value retain4; const C causes CCERR because constructor receives mutable output members.
  * permuter: once budget300 types, baseline agreed4/126, best unchanged; consumed in w75 R8.
- * checks: 1 constructor9 args and12374/307B0 arities checked; 2 68BF0 constructor confirms C fields; 3 const C CCERR, enum value unchanged4; 4 enum-return/epilogue idioms read; 5 neighbours and idioms reread, stack frame is outgoing args, no declared stack object. Next hypothesis: distinct output-pointer payload type, no scheduling sweep.
+ * checks: 1 current constructor9 args and12374/307B0 interfaces retained, all3 relocations resolve; 2 68BF0 constructor confirms halfword output pointer; 3 signed-short output/value retain4/126; 4 enum-return/epilogue idioms reread; 5 neighbours/directory refreshed, frame is outgoing args, no local aggregate to reshape.
+ * wave76 final retry: one-halfword Output payload wrapper retains4/126;
+ * signed-short pointer/value retain4/126; shared Result epilogue worsens
+ * to109/124. Three fixed one runs; best C retained. Renewed manual pass
+ * exhausted. Consumed wave75 budget300 search never repeated.
  *
  * symbols:
  *   func_02167EF4  0x02167EF4  thumb

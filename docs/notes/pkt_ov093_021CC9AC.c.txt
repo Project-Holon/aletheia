@@ -8,39 +8,52 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 no callees; 2 wrapper C88A4 forwards (char*,int,int), CCA74 confirms 10/9/13 header and record size bits; 3 size unsigned-long and b unsigned-long each196/137 unchanged, p is mutable; 4 bitfield-base/record-field/register tie idioms read; 5 fresh unfiltered idiom listing and CCA74 neighbour refreshed; no stack object.
- * residual: 196/200 bytes,137 concrete bytes; retained p/key/size register colouring differs. Both table relocations unresolved at shifted +AC/+B0; the corrected200/140 spelling resolves2/2 sole-ref at +B0/+B4, so this is code-shape fallout rather than a table provenance gap.
- * fresh-pass: 6 one runs. Corrected old pending zero-fill (original strb zero, not i) and moved off load after size rounding. Header increment rereads off after record writes; paired const byte-record table and nested guards retain196/137.
- * permuter: archive/legacy scratch search found no prior consumed run. Macro-free196/137 emitted baseline agrees. Once300 consumed wave75 R14 (2026-10-03): best200/107 adds volatile(p), rejected; valid pre-search C retained. Do not repeat.
- * proof: table has59 byte pairs; size0 fails, nonzero rounds to4 (max256); offset field9 bits and append limit500; byte-zero loop and field stores preserve original order and masked widths.
+ * checks: 1 no callees; original pool words at+B0/+B4 are EFE9C/EFE9D,
+ *   one59-pair table with size field+1; alignment-only data hint rerun
+ *   still unresolved because compiled slots land at+AC/+B0;
+ *   2 C88A4 wrapper and CCA74 header layout evidence retained;
+ *   3 byte vp parameter retains196/137; p writes prevent const;
+ *   4 bitfield-base/record-field/allocator idioms read; 5 full idiom
+ *   directory relisted, matched CCA74 full body refreshed; no stack object.
+ * residual: 196/200 bytes,137 concrete bytes; p/key/size colours differ.
+ *   Two pool relocations unresolved at shifted+AC/+B0. Prior corrected
+ *   200/140 spelling resolves both at+B0/+B4; this is code-shape fallout.
+ * retry: wave76 R8,4 compiles. Unsigned-long record bitfield bases,
+ *   long key with alignment-only symbol hint and long header bases
+ *   each retain196/137; three nonshrinking changes stop iteration.
+ *   Check 3 byte vp also retains137. Handed0 show used explicit size0x100.
+ * permuter: once300 consumed wave75 R14; macro-free emitted196/137
+ *   baseline agreed. Best200/107 added volatile(p), rejected; not repeated.
+ * proof: zero size fails; nonzero rounds to4 (max256); 9-bit offset and
+ *   append limit500 retained; byte zero loop, masked record writes and
+ *   header-offset reread preserve original order. No fabricated domains.
  * symbols:
- *   tbl_021EFE9C  0x021EFE9C  data  ov093
- *   tbl_021EFE9D  0x021EFE9D  data  ov093
+ *   tbl_021EFE9C  0x021EFE9C  data a4
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
 
 typedef struct Hdr021CC9AC {
-    u32 lo : 10;
-    u32 off : 9;
-    u32 hi : 13;
+    unsigned long lo : 10;
+    unsigned long off : 9;
+    unsigned long hi : 13;
 } Hdr021CC9AC;
 
 typedef struct Rec021CC9AC {
-    u32 key : 8;
-    u32 b : 5;
-    u32 size : 10;
-    u32 f23 : 1;
-    u32 f24 : 1;
-    u32 f25 : 1;
-    u32 f26 : 1;
-    u32 f27 : 5;
+    unsigned long key : 8;
+    unsigned long b : 5;
+    unsigned long size : 10;
+    unsigned long f23 : 1;
+    unsigned long f24 : 1;
+    unsigned long f25 : 1;
+    unsigned long f26 : 1;
+    unsigned long f27 : 5;
 } Rec021CC9AC;
 
 struct TablePair { u8 key, size; };
 extern const struct TablePair tbl_021EFE9C[0x3b];
 
-void *func_021CC9AC(void *vp, int key, unsigned long b)
+void *func_021CC9AC(u8 *vp, long key, unsigned long b)
 {
     Hdr021CC9AC *p = (Hdr021CC9AC *)vp;
     u32 i;

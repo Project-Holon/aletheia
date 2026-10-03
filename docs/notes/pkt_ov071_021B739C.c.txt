@@ -8,9 +8,21 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
+ * final retry: Wave76 R17, six fixed-flag one compiles, no sweeps/permuter.
+ *   State struct view retains1152/720. Ternary search guard plus pointer
+ *   countdown text copy gives1156/706 (best retained below). Enum next gives
+ *   1156/708; navigation struct, long state and u16 selection each1156/706.
+ *   Checks 1 own 7AC4/7AE8/7BB4/7BF0/7BFC/79A0/7A14/6C74/7108 units,
+ *   ov011 75B14/75B4C/761EC and current7EE0 declarations re-derived arities;
+ *   7A08 listing forwards r0+0x38 and load[r1+8], two args; 2 own7EE0/9070
+ *   plus ov011 neighbours refreshed; 3 enum/long/u16 measured, C/D/state
+ *   mutable; 4 loop-ternary and typed-copy/table-field idioms read/applied;
+ *   5 idioms refreshed. Exhausted this authorized retry, 51/60 relocs.
+ *   Remaining state/D r5/r6 swap and merged navigation loads require a new
+ *   evidence-backed front-end shape; do not repeat consumed permuter300.
  * checks: 1 refreshed 761EC/75B14 own bodies and A08 listing (r0/r1 forwarded); 2 refreshed ov071 7EE0/7AC4/7BB4 plus ov011; 3 unsigned state flat720, u8 t inserts truncation and grows1156/725; c/d/state are mutable; 4 state7/8 guard simplification1148/717 rejected because A08 may change aliased state; 5 idiom listing and own neighbours refreshed; next state/D front-end colouring, no new safe scheduling lever.
  * runs: 4 iteration + 1 arity check + permuter(300); emitted baseline 1152 bytes; volatile-add(state) output rejected.
- * residual: R3 1152/1160 (-8),720 concrete bytes,51/60 relocs; state/D r5/r6 allocation swap and merged branches persist. Earlier permuter300 spent; no rerun.
+ * residual: 1156/1160 (-4),706 concrete bytes,51/60 relocs; state/D r5/r6 allocation swap and merged branches persist. Earlier permuter300 spent; no rerun.
  * retry: Wave75 R29 renewed pass: 3 fixed-flag runs; best retained1152/720; earlier permuter300 remains spent.
  * symbols:
  *   func_02012138 0x02012138 thumb
@@ -81,6 +93,8 @@ extern const u8 d_021BA85C[],d_021BA862[][4];
 extern const u32 d_021BAA4C[];
 int func_021B739C(int a,int *state,C *c,D *d)
 {
+ u16 *dst;
+ u16 *src;
  u8 *r;
  int keys,res,t;
  u32 i;
@@ -110,7 +124,7 @@ int func_021B739C(int a,int *state,C *c,D *d)
   if(keys>0 && d->f83==1) {d->f83=0;func_021B6B98(c,(u8 *)d+0x2c,1,0,3);func_020061E4(0x548);break;}
   if(keys&0xf0) {
    next=0xff;
-   for(i=0;i<6;i++) if(d_021BA85C[i]==*c->f8) break;
+   for(i=0;(i<6)?1:0;i++) if(d_021BA85C[i]==*c->f8) break;
    sel=*c->f8;
    if(keys&0x40) next=d_021BA862[sel][0];
    else if(keys&0x80) next=d_021BA862[sel][1];
@@ -138,7 +152,8 @@ int func_021B739C(int a,int *state,C *c,D *d)
  case 5:
   d->rec=*(Record *)(c->f4+0x60+d_021BAA4C[*c->f8]*24);
   d->f78=((u8 *)c->f0)[0x15];
-  for(i=0;i<10;i++) d->text[i]=((u16 *)((u8 *)c->f0+0x18))[i];
+  dst=d->text; src=(u16 *)((u8 *)c->f0+0x18);
+  for(i=10;i!=0;i--) *dst++=*src++;
   if(r!=0 && func_02173E2C(r,&d->rec)!=1) break;
   *state=6;break;
  case 6:

@@ -5,12 +5,15 @@
  * region: ov095
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * residual: 46-byte valid body versus 40-byte original lead; 40 differing bytes.
- * checks: 1 D0FC body reads r0 only, void(u8*) and label resolves; 2 latest ov095 callers reveal no closer twin; 3 u16 i worsens to 50/44, enum byte-count unchanged 46/40 (2 compiles); 4 inline-copy/declaration/enum idioms read, two scheduling variants spent; 5 full fresh idiom listing and D4F0/D544 neighbours re-read, no rescue. Next hypothesis would be original byte-copy helper lowering, not more ordering variants.
- * budget: 5 iterations; r3/r4/r5 three nonshrinking, builtin r5 rejected as nonexistent callee; manual ordering/extraction cap 2 consumed. Permuter skipped because extent contains unlabelled followers.
- * followers: parent-cleared D15C,D174,D184,D1A0,D1BC,D1D4 left unattempted because lead DIFF; D0FC conditional blocker not filed because existing label resolves.
+ * checks: 1 own matched 0689D0FC body reads only r0, void(u8*) and current label resolves; 2 refreshed D4F0/D544 are different three-byte-record helpers, no49-byte-copy twin; 3 byte count worsens50/46, const source unchanged46/40; 4 inline-copy/long-index idioms read; 5 complete fresh idiom listing and matched neighbours reread, no addressed stack object.
+ * residual: Wave76 DIFF compiled46 versus original40-byte lead, 40 concrete bytes; one relocation resolves. Handed200-byte extent contains omitted followers, not a200-byte lead function.
+ * renewed: Inline copy helper, long outer index, and word-address spelling each46/40; stopped after three nonshrinking changes. Two required type/const checks completed; five fixed-flag one runs.
+ * search: Permuter skipped under canonical omitted-follower exception: original extent also holds D15C,D174,D184,D1A0,D1BC,D1D4. Followers left unattempted while lead is DIFF.
+ * prior: u16 outer index gave50/44, enum byte count46/40; previous two manual ordering/extraction variants and rejected nonexistent builtin are recorded as failed evidence, not new retry exclusions.
+ * next: Need another evidenced byte-copy lowering shape; current inline extraction and word-address shapes did not match.
  * symbols:
  *   func_0689D0FC 0x0689D0FC thumb ov095
  */
@@ -18,7 +21,7 @@ typedef unsigned char u8;
 extern void func_0689D0FC(u8 *);
 void func_0689D134(u8 *p)
 {
-    unsigned int i;
+    unsigned long i;
     enum { COPY_BYTES = 0x31 } n;
     u8 *src;
     u8 *dst;

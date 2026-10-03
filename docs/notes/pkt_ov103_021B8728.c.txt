@@ -5,25 +5,13 @@
  * region: ov103
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 8338 takes 2, 8CA0 takes 3 and forwards 2 to 7F60, other
- *   prototypes from own matched bodies; 2 ov103 neighbours and ov104
- *   829C confirm u16 state/raw full-word calls, no exact twin; 3 const
- *   7250/6480 and unsigned 8CB0 coordinate parameters unchanged, 2/2;
- *   4 enum-offset and pointer-association idioms read, shared manual
- *   ordering/extraction variants exhausted 2/2; 5 fresh idiom listing,
- *   ov103 8D9C/8A44 and ov104 829C reread, stack-struct idiom read.
- * residual: 256/256 bytes, 18 concrete byte differences, 21/21 resolved;
- *   far offset/state register tie. Iteration 5, streak 3, position 3/20
- *   from first nonshrinker r3; C1/C2/C4/C5 0 compiles, C3 2 compiles;
- *   once-only --types permuter budget 300 consumed (300 candidates),
- *   best defined spelling confirmed twice. No further sweep permitted.
- * behavior: off/tmp are assigned before uses; tmp1 before store; empty
- *   if(off) has no side effects. 8D9C returns true only after filling both
- *   nonnull point words; obj is assigned before either use. No new volatile,
- *   narrowing or changed call arity; unsigned coordinate payloads retain
- *   their full 32 bits. All callback and audio order/control paths preserved.
+ * checks: 1 own full ov1017250/727C/6480 and ov103 callees rederive inputs, 8338 two and 8CA0 three; 2 fresh103856C/8828 and104829C no exact twin; 3 full-word state address spelling unchanged18; 4 enum/association/stack-struct/scope idioms read; 5 unfiltered idioms and1038D9C/8DE4/8FA0 and104829C reread, no new lever.
+ * residual: 256/256, 18 concrete bytes, 21/21 resolved; off/state register tie and base-plus-offset association.
+ * renewed: bounded u16 off212/256; declared point struct18/256; case-local obj18/256; unsigned long state address unchanged18/256. Three manual nonshrinks and one check compile; one scheduling variant. Historical types permuter300 consumed; not repeated.
+ * behavior: off/tmp/tmp1 assigned before uses; original supported callback order retained; out point fields read only after8D9C success and both initialized by that body. No new volatile or narrowed pointers.
  * symbols:
  *   func_021B7250 0x021B7250 thumb ov101
  *   func_021B727C 0x021B727C thumb ov101
@@ -42,7 +30,7 @@
  *   func_021B6480 0x021B6480 thumb ov101
  *   func_021B8A44 0x021B8A44 thumb ov103
  *   d_021B926C 0x021B926C data a4
- */
+  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -64,8 +52,7 @@ extern int func_021B6480(const int *);
 extern u32 d_021B926C[];
 void func_021B8728(u8 *p,u16 *state)
 {
-    u32 point[2];
-    u8 *obj;
+    struct { u32 x,y; } point;
     Offset off;
     Offset tmp;
     u8 *tmp1;
@@ -77,8 +64,9 @@ void func_021B8728(u8 *p,u16 *state)
         func_021B8358(p);
     } else if(func_021B727C(*(int *)(p+off-0x74))==0) {
         switch(*state) {
-        case 0:
-            if(func_021B8D9C(d_021B926C,point)) {
+        case 0: {
+            u8 *obj;
+            if(func_021B8D9C(d_021B926C,(u32 *)&point)) {
                 if(func_021B91B4(p+off,d_021B926C)) {
                     func_021B8138(p+0x184,p+0x174,3,0,0);
                     func_020061E4(0x654);
@@ -87,13 +75,14 @@ void func_021B8728(u8 *p,u16 *state)
                 if(off) {}
                 obj=func_021B7954(p);
                 func_021B8CA0(obj,1,1);
-                func_021B8CB0(obj,1,point[0],point[1]);
+                func_021B8CB0(obj,1,point.x,point.y);
             } else {
                 func_021B8CA0(func_021B7954(p),1,0);
                 func_021B91A8(p+off);
                 *state=1;
             }
             break;
+        }
         case 1:
             (*(int *)(p+0x738))++;
             func_021B8338(p,func_021B8364);

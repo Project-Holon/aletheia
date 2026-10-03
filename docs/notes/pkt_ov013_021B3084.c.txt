@@ -8,14 +8,26 @@
  * lang: c99
  * isa: arm
  * status: DIFF
- * checks: 1 no callees; 2 neighbouring initializer confirms Cfg/Stat globals;
+ * prior-checks: 1 no callees; 2 neighbouring initializer confirms Cfg/Stat globals;
  *   3 enum ret, unsigned-long Level2 return, int result temporary all DIFF17;
  *   4 unsigned active-store address DIFF17; SDK CNT enum constant is zero;
  *   5 re-read ov013 neighbours/idioms: no new twin; no stack object residue.
  * residual: 460/460 bytes, DIFF17 at +0xC4..+0xD8; result in ip instead of r1.
  * history: prior int-ret/helper nesting/nonvolatile result/argument reuse tests
  *   failed; earlier permuter budget300 consumed, not repeated this pass.
- * next: enum or distinct-long sum type in the unsigned helper; no sweep run.
+ * Wave 76 R13 fresh retry: unsigned-long Level2 sum, enum sum (explicit
+ *   unsigned division), unsigned-long result and unsigned-long index each
+ *   compile to 460 bytes, DIFF17, all 3 relocations resolved; 4 fresh runs.
+ *   Iteration stopped after three nonshrinking type hypotheses; index was
+ *   the distinct-long check-3 measurement. Best C remains unchanged.
+ * checks: 1 no calls; 2 refreshed ov013 3064/3250 confirm the globals;
+ *   3 four full-width type hypotheses above DIFF17; out receives only the
+ *   low byte and is written, so const-out is invalid; no parameter spill;
+ *   4 SDK cp/sqrt.h confirms u32 SetSqrt32 and GetSqrtResult32, u16 control,
+ *   zero mode, volatile polling; pool-address/long-index idioms no rescue;
+ *   5 fresh unfiltered idiom directory and ov013/014/018 neighbour rereads:
+ *   no new twin; residue has no stack object. Earlier permuter not repeated.
+ * next: unresolved allocator/list-scheduler tie at +0xC4..+0xD8; no sweep.
  * volatile: SQRTCNT at 0x021B30E0/021B3134/021B31D8 polls busy;
  *   SQRT_RESULT is hardware result at 0x040002B4.
  * symbols:

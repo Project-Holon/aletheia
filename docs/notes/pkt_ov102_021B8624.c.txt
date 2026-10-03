@@ -5,59 +5,73 @@
  * region: ov102
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own full callees read arities 1/1/1/6/1 and rectangle stack arguments u8; 2 matched 021B8724 supplies the row/palette types; 3 u32 win gives 204/212 121 out, const p gives 208/212 107 out (two compiles); 4 ternary/u8/byte-color/spill idioms read; 5 fresh unfiltered idiom listing and 8724/86F8/ov1038074/8FA0 reread, no new lever; next would be struct-typed state, with order/extraction cap exhausted.
- * budget: eight iterations; first nonshrinking i2, seven runs since it, final streak three; order/extraction variants two of two used; C1/C2/C4/C5 zero compiles, C3 two of two; once-only types permuter 300 candidates exhausted.
- * residual: 208/212 bytes, 107 concrete bytes out; five of five relocations resolved. Permuter best 212/212 85 out adds volatile to palette0, inserts tmp/tmp2 assignments after a break before case 1 (unassigned reads), and uses preincrement tmp2 for the timer test; rejected, no mutant adopted.
- * note: As in matched 021B8724, palette selection is defined for indices zero and one; the image leaves palette registers unassigned for other indices.
+ * checks: 1 own full bodies prove1/1/1/6/1 inputs and u8 02045730 result; 2 fresh8724/86F8 confirm row stride12 and palette; 3 long win unchanged71; 4 enum/narrow-return/inline idioms read; 5 unfiltered idioms and1028724/86F8,1038FA0,104829C refreshed; next lever would be palette local scope.
+ * residual: 212/212, 71 concrete bytes, 5/5 resolved; win/index/palette colors, blink slot and coordinate scheduling.
+ * renewed: typed State107/208; enum win unchanged; enum palette72/212; typed Row unchanged; enum b116/216; rowY inline71/212; long win unchanged. Six manual and one check compiles; one scheduling variant.
+ * Historical types permuter300 consumed; not repeated. Its85/212 winner added volatile palette and unassigned reads after break; rejected. Palette is assigned only for image-supported indices0/1.
  * symbols:
  * func_02051C88 0x02051C88 arm
  * func_020061E4 0x020061E4 thumb
  * func_02045730 0x02045730 arm
  * func_020413B0 0x020413B0 arm
  * func_020409B4 0x020409B4 arm
- */
+  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_02051C88(void *);
-extern void func_020061E4(int);
-extern u32 func_02045730(void *);
+struct Ctx;
+struct Descriptor;
+typedef struct { u16 tag,x,y,w,h,pad; } Row;
+typedef struct {
+    struct Ctx *ctx;
+    u8 pad04[0x28-4];
+    u8 *rows;
+    u16 count, pad2e, index, done, phase, timer;
+    u32 enabled;
+} State;
+extern int func_02051C88(struct Ctx *);
+extern void func_020061E4(u32);
+extern u8 func_02045730(struct Descriptor *);
 extern void func_020413B0(u32,u8,u8,u8,u8,u8);
 extern void func_020409B4(u32);
-void func_021B8624(const u8 *p)
+static inline u8 rowY(const Row *row) { return row->y; }
+void func_021B8624(State *p)
 {
-    int win;
+    long win;
     u8 a,b,c,d;
-    u8 palette1,palette0;
+    typedef enum { PaletteNine=9, PaletteTwelve=12 } Palette;
+    Palette palette1;
+    u8 palette0;
     u8 blink;
-    u16 *row;
-    switch(*(u16 *)(p+0x34)) {
+    const Row *row;
+    switch(p->phase) {
     case 0:
-        *(u16 *)(p+0x32)=0;
-        if(func_02051C88(*(void **)p) && *(u32 *)(p+0x38)) {
+        p->done=0;
+        if(func_02051C88(p->ctx) && p->enabled) {
             func_020061E4(1352);
-            *(u16 *)(p+0x36)=0;
-            *(u16 *)(p+0x34)=1;
+            p->timer=0;
+            p->phase=1;
         }
         break;
     case 1:
-        blink=(u8)((*(u16 *)(p+0x36)/4)%2);
-        win=func_02045730(*(void **)(p+4+*(u16 *)(p+0x30)*4));
-        row=(u16 *)(*(u8 **)(p+0x28)+*(u16 *)(p+0x30)*12);
-        a=row[1]; b=row[2]; c=row[3]; d=row[4];
-        switch(*(u16 *)(p+0x30)) {
+        blink=(u8)((p->timer/4)%2);
+        win=func_02045730(*(struct Descriptor **)((u8 *)p+4+p->index*4));
+        row=(const Row *)(p->rows+p->index*12);
+        b=rowY(row); a=row->x; c=row->w; d=row->h;
+        switch(p->index) {
         case 0: palette1=12; palette0=11; break;
         case 1: palette1=9; palette0=4; break;
         }
         if (blink == 0) func_020413B0(win,a,b,c,d,palette0);
         else func_020413B0(win,a,b,c,d,palette1);
         func_020409B4(win);
-        (*(u16 *)(p+0x36))++;
-        if(*(u16 *)(p+0x36)>=16) {
-            *(u16 *)(p+0x32)=1;
-            *(u16 *)(p+0x34)=0;
+        (p->timer)++;
+        if(p->timer>=16) {
+            p->done=1;
+            p->phase=0;
         }
         break;
     }

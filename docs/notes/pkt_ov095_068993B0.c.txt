@@ -1,22 +1,19 @@
 /*
  * function: func_068993B0
- * address:  0x068993B0
- * packet:   pkt_ov095_068993B0
- * region:   ov095
+ * address: 0x068993B0
+ * packet: pkt_ov095_068993B0
+ * region: ov095
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   DIFF
- * checks:   1 callees are 16-byte `bx pc` stubs, arities from the register setup (all match, every reloc resolves);
- *           2 twin 0x068994B4 (same shape, EXACT*) gets v in the lowest callee-saved reg with the &&-chain form;
- *           3 h as u16 param / u16 local / u32 with (u16) cast, v as u8 / u32 / u8 param: no change; 4 declaration
- *           order (two orders), dead-parameter reuse (x reused for k and q; v,h as params), block-scoped h: no change;
- *           5 idiom list re-read, nothing about a two-local swap.
- *
- * Residue: only a register swap.  Original: v (u8) in r6, h (u16) in r5, x/k/q in r4.  Mine: v in r5, h in r6.
- * Six halfwords differ (+000C/+000E/+0020/+0022/+002C/+005A), sizes equal.  Runs: 9.
- *
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 all nine bx-pc/ARM-load veneers and full caller register setup reread, arities 1/1/1/2/1/2/1/3/2 and nine relocations resolve; 2 matched 068994B4 EXACT* sibling refreshed, no full twin; 3 signed-long byte local and enum halfword local both unchanged6; 4 masked-width/long-index/inline idioms read; 5 full fresh idiom listing and matched neighbours reread, no stack-object residue.
+ * residual: Wave76 DIFF 104/104, 6 concrete bytes, 9/9 relocations resolved. Original v in r6 and h in r5; compiled v in r5 and h in r6. Residue sites +000C/+000E/+0020/+0022/+002C/+005A.
+ * renewed: Long h with explicit u16 cast, long v with u8 cast, and inline wrapper all unchanged6; iteration stopped after three nonshrinking changes. Two required type checks also unchanged; five fixed-flag one runs.
+ * search: First typed permuter --budget300 completed; emitted baseline agreed104/6 and best6 did not improve. Search is now consumed; do not repeat.
+ * prior: Earlier h u16 parameter/local/u32-cast and v u8/u32/u8-parameter shapes, two declaration orders, dead-parameter reuse, and block h all failed to change the swap.
+ * next: Need evidence of another live value or helper parameter to break the colour tie; do not sweep declaration orders again.
  * symbols:
  *   func_06899418  0x06899418  thumb
  *   func_06899428  0x06899428  thumb
@@ -28,7 +25,6 @@
  *   func_06899488  0x06899488  thumb
  *   func_06899498  0x06899498  thumb
  */
-
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -49,9 +45,9 @@ void func_068993B0(int a0, int a1, int x)
 
     v = func_06899418(4);
     if (x == func_06899428(v)) {
-        u16 h;
+        unsigned long h;
 
-        h = func_06899438(0x12);
+        h = (u16)func_06899438(0x12);
         x = func_06899448(h, 0x1b);
         if (func_06899458(h) != 0) {
             if (x == 4 || x == 5) {

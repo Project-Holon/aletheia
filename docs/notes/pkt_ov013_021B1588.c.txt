@@ -8,8 +8,11 @@
  * lang: c99
  * isa: arm
  * status: DIFF
- * Wave 75 R20 renewed pass: DIFF 26 concrete bytes, compiled 172/172. Mask and clip/segment registers remain swapped. Inline encode/clip helpers, reused clip/segment local, u8 mask and const source/table gave no gain. Narrow inline return cost four bytes, so return is int. Dropping contested overlay data hint resolves the table. First recorded permuter 300 is consumed: baseline agrees, no improvement.
- * checks: 1 no external callees, inline signed segment search matches load widths; 2 1688 neighbouring encoder has no matching mu-law segment loop; 3 u8 mask and const source/table compiled, no change; 4 inline allocation and reused-variable idioms read; 5 directory and neighbours rechecked, no stack object; next hypothesis scalar mask helper variable identity, no repeat permuter
+ * residual: DIFF 172/172 bytes, 26 concrete bytes differ; table relocation resolved.
+ * evidence: fresh mask helper gave 176/120 and struct normalization 200/176, both rejected; mask self-assignment tied 26. Enum mask type check tied 26. Mask and clip/segment colours remain swapped.
+ * checks: 1 no external callees; signed segment-search loads checked; 2 fresh matched 1688 is a different encoder with no mu-law twin; 3 enum 0x7f/0xff mask compiled and tied 26, const short source retained; 4 inline-allocation, no-code self-assignment and reused-local idioms read; 5 full directory and fresh ov013 neighbours reread, no addressed stack aggregate; next hypothesis inline clip parameter type from independently established vendor evidence.
+ * permuter: first recorded budget-300 baseline agreed and search consumed without improvement; not repeated.
+ * prior evidence: encode/clip helpers, reused clip/segment local, u8 mask and const source/table tied 26. Narrow inline return adds four bytes; omitted contested data overlay hint resolves table.
  * symbols:
  *   d_021B3C28 0x021B3C28 data a4
 

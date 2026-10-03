@@ -5,12 +5,12 @@
  * region: ov095
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
- * status: UNCOMPILED safe draft
- * historical-diagnostic: prior C compiled to DIFF, 206 bytes plus original two-byte NOP padding, 28 differing bytes. Exact sketch preserved in scratchpad/overlay-goal-20260930-w31/B8/D338-historical-diagnostic.c; full verdict in 0689D338-c3b.log. Those numbers do not describe this draft.
- * checks: 1 D408/D418/D428/D438 veneers and D320 body read observed arguments, full-width extra stack reload; 2 D4F0/D544 own files prove 3-byte records and int index, no caller of D338; 3 unsigned long i then n both unchanged 206/28 (2 compiles); 4 array-member cast and scoped index-pointer variants worsen, cap 2 consumed; 5 full fresh idiom listing, D4F0/D544 neighbours and declared-struct storage idiom re-read. Next hypothesis would be original scratch storage declaration, with bounds proven first.
- * budget: 6 iterations; r4/r5/r6 three nonshrinking; one types permuter budget 300, all candidates counted, best 208/77 rejected because extra int->u8 contradicts full-width argument. No candidate promoted.
- * behavior: no complete caller/allocation evidence proves <=3 category matches or returned-index bounds. Historical C rejected: Temp.idx[3] may overflow and r[6] crosses its array bound. This uncompiled draft holds six indices, initializes count, guards empty count and both returned indices before reading them, and writes original offset 20 through the complete T object representation. Guards add behavior absent from the image on invalid inputs; equivalence and matching remain unproved. No new compile, permuter, or ordering probe; all old budgets remain consumed.
+ * status: DIFF
+ * checks: 1 D320/D544 own files fix pointer plus 4/2 arguments; veneers preserve full-word inputs; 2 same record helpers, no new caller bound; 3 six index bytes follow the observed six-iteration producer, unchecked reads use raw unsigned addresses; 4 declared-struct and byte-record idioms read; 5 fresh directory and helpers re-read.
+ * residual: DIFF 204/208, 145 concrete bytes, all 6 relocations resolve. Historical 206/28 used an unproven idx[3] bound; fresh six-byte diagnostic gives 206/32, scoped pointers worsen. Raw unchecked record reads preserve modular offsets, including original i==6 byte +20 store.
+ * budget: 3 iteration calls plus 1 check-3 compile; existing types300 permuter consumed, not repeated. Original reads idx[0] with no n==0 guard; no invented guard retained. Next hypothesis: scratch object storage and copy shape.
  * symbols:
  *   func_0689D408 0x0689D408 thumb ov095
  *   func_0689D418 0x0689D418 thumb ov095
@@ -32,31 +32,24 @@ extern void func_0689D320(T *, int, int, int);
 extern void func_0689D544(T *, int);
 void func_0689D338(T *p, u32 size, u32 category, int key, int extra)
 {
-    unsigned long n;
+    u32 n;
     u32 i;
     int first;
     int second;
     Temp temp;
-    if (p == 0 || size <= 1)
-        return;
+    if (size <= 1) return;
     n = 0;
     for (i = 0; i < 6; i++) {
-        if (category == p->r[i].b)
-            temp.idx[n++] = i;
+        if (category == p->r[i].b) temp.idx[n++] = i;
     }
-    if (n == 0)
-        return;
     first = func_0689D408(size);
     second = func_0689D418(size);
-    if (first < 0 || second < 0 || (u32)first >= n || (u32)second >= n)
-        return;
-    temp.r = p->r[temp.idx[0]];
-    p->r[temp.idx[first]] = p->r[temp.idx[second]];
-    p->r[temp.idx[second]] = temp.r;
+    temp.r = *(Rec *)((u32)p + 3 * (u32)temp.idx[0]);
+    *(Rec *)((u32)p + 3 * (u32)*(u8 *)((u32)temp.idx + (u32)first)) = *(Rec *)((u32)p + 3 * (u32)*(u8 *)((u32)temp.idx + (u32)second));
+    *(Rec *)((u32)p + 3 * (u32)*(u8 *)((u32)temp.idx + (u32)second)) = temp.r;
     if (func_0689D428(key) == 0)
         func_0689D320(p, temp.idx[0], func_0689D438(key), extra);
     else
-        ((u8 *)p)[20] = 0x1f;
-    for (i = 0; i < n; i++)
-        func_0689D544(p, temp.idx[i]);
+        *(u8 *)((u32)p + i * 3 + 2) = 0x1f;
+    for (i = 0; i < n; i++) func_0689D544(p, temp.idx[i]);
 }

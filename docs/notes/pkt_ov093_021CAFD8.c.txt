@@ -7,28 +7,24 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * residual: 348/348 bytes, 14 concrete bytes differ: r4/r5 count/index swap
- * from +0x96 through +0xEA. All 18 relocations resolve; the later tail matches.
- * checks: 1 call setups match, no arity residue in zero loop; 2 no twin using
- * CB134/CB144/CB154/CB164 in ov093 matched/pending; 3 int count with u8 wrap
- * and signed/unsigned handle array both compiled unchanged, no pointer-field
- * load residue needing const; 4 copy-zero and stored-zero idioms read, count
- * dependency compiled unchanged; 5 idioms relisted and CB214/CB274/CBFA0 read,
- * stack offsets already match, declared-struct-local idiom read.
- * runs: 5 iterations + 2 type checks + permuter 300 + 1 valid-mutant check.
- * permuter: best DIFF 7 changes members[i]=count (zero) to members[i]=i;
- * rejected as behavior-changing. Porting only temp(indices[i]) and declaration
- * order restores DIFF 22. No volatile, uninitialized reads or flags changes.
- * fresh-pass: W75 R13, 5 fixed-flag runs. Inline Clear separates j from i
- *   and improves 22 to 14. Returning the helper zero, byte count, wide index
- *   with explicit u8 wrap, and long count retain DIFF 14. Three consecutive
- *   nonshrinking changes stopped iteration. Best valid Clear spelling below.
- * checks: 1 matched B8778/B8D8C/D5B68 bodies reread, all veneer setup args
- *   agree; 2 no matched/pending four-veneer twin; 3 long count unchanged;
- *   4 copy-zero/hoisted-zero/long-index idioms read; 5 relisted idioms and
- *   CB214/CB274/CBFA0 refreshed; stack array offsets already agree.
- * permuter: prior 300-candidate search consumed, not repeated. Next lever
- *   must distinguish the long-lived count web from the reused loop index.
+ * checks: 1 own B8778/B8D8C/D5B68 and exact ARM9 0201BEB8 witness
+ *   reread; four fixed-veneer call setups agree, no owner blocker;
+ *   2 CB214/CB274/CBFA0 bodies refreshed, no four-veneer twin;
+ *   3 const item pointer compiles unchanged at348/14, only read by value;
+ *   4 enum/long-index/copy-zero idioms read; 5 full idiom list relisted
+ *   and neighbours refreshed; observed stack arrays already agree.
+ * residual: 348/348 bytes,14 concrete bytes,18/18 relocations resolve.
+ *   Count/index r4/r5 exchange from +96 through +EA; later tail agrees.
+ * retry: wave76 R8,4 compiles. Enum count gives350/178; enum index with
+ *   explicit u8 increment wrap gives348/18; unsigned-long byte-result
+ *   bound retains348/14. Three nonshrinking changes stop iteration;
+ *   check 3 const item retains14. Best Clear helper kept.
+ * permuter: prior once300 consumed, not repeated. DIFF7 candidate changed
+ *   zero-fill members[i]=count into members[i]=i and was rejected.
+ * history: inline Clear improved22 to14; returned helper zero, byte count,
+ *   wide index with wrap and long count each retained14.
+ * proof: original zero fill and u8 count/index wrap preserved; B8778's
+ *   explicit byte return permits wide n with the same value.
  * symbols:
  *   func_021D7F00 0x021D7F00 thumb ov093
  *   func_021CB134 0x021CB134 thumb ov093
@@ -70,7 +66,7 @@ static inline void Clear(int *members)
     zero = j;
     for (; j < 3; j++) members[j] = zero;
 }
-int func_021CAFD8(u8 *p, u32 mode, void *m, u16 *item, u8 self, void *out)
+int func_021CAFD8(u8 *p, u32 mode, void *m, const u16 *item, u8 self, void *out)
 {
     void *previous;
     int position;
@@ -82,7 +78,7 @@ int func_021CAFD8(u8 *p, u32 mode, void *m, u16 *item, u8 self, void *out)
     u8 choice;
     int count;
     int d0;
-    u8 n;
+    unsigned long n;
     u32 kind = 11;
     u8 tmp;
     if (func_021D7F00(mode) <= 1 || func_021CB134(out) != 1) goto fail;

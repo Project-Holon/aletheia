@@ -8,7 +8,10 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks: 1 matched callees arities 2/3; 2 0217F388 confirms const Ent and table layout; 3 unsigned long key/counter remain 14; 4 ternary loop condition fixes entry branch; 5 no new twin, no stack object; once-only permuter 300 baseline 14/300, emitted source fixed-one 14/300; no further sweep proposed.
+ * checks: 1 own 0217F310/02034714 bodies confirm 2/3 args; 2 fresh 0217F388 confirms const Ent; 3 const p remains 14, u16 counter worsens to 304/57; 4 split raw table access remains 300/14, repeated table access 304/22; 5 fresh unfiltered idiom listing and matched neighbours, no stack object/new twin.
+ * Final retry R14: 4 runs; best 300 bytes / DIFF14 retained verbatim.
+ * Earlier once-only permuter 300 consumed; baseline/emitted fixed one 14/300.
+ * No repeated search and no further scheduling sweep proposed.
  *
  * DIFF, 14 concrete bytes at 300 B, all 7 relocations resolved.
  * The ternary loop condition fixes the formerly missing entry branch.

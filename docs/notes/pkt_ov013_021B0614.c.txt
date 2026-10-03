@@ -9,11 +9,11 @@
  * isa: arm
  * status: DIFF
  * Register request in a free slot, restarting clock/counters for the first type-2 request.
- * residual: DIFF 312/312 bytes, 3 concrete bytes differ; all eight relocations resolved. Only second-loop reset differs: original mov r5,#0, compiled sub r5,r5,#3.
- * evidence: i -= 3 at the second loop retains the shared r5 web and improves 5 to 3. The first loop reaches i==3 unless it returns, so subtraction resets it to zero. i &= 0, self-assignment, and address-of-local reset returned 5; long i gave 5, enum i 7.
- * checks: 1 own callee definitions/assembly rechecked, 021B19BC corrected to char*, int, int; 2 same-overlay request neighbours, no exact twin; 3 u16 i gave 328 bytes/211 rejected, const request on best gave 34; 4 shared-loop/no-code/long-index idioms read; 5 unfiltered idiom directory and ov013 neighbours reread, scalar frame has no addressed stack aggregate.
- * permuter: prior budget-300 search already consumed without improvement, not repeated.
- * prior evidence: separate first index/register keyword tied; first-loop goto gave 62, Contains inline 290 bytes-out, do/while 203 bytes-out.
+ * residual: DIFF 312/312 bytes, 1 concrete byte differs; all eight relocations resolved. At +0064 original mov r5,#0 versus compiled moveq r5,#0.
+ * evidence: conditional second-loop reset (i==3)?0:i improves 3 to 1; the first loop reaches i==3 on every non-return path. Self-zero gave 5; pointer-index search gave 324 bytes/247; enum zero 316/94; switch reset and self-copy tied 1.
+ * checks: 1 own 16E4/19BC bodies and 3018 matched callers reread, tick own EXACT witness current, arities 1/3/0/0; 2 same-overlay request neighbours, no exact twin; 3 const Req on conditional best gave 32 and was rejected; 4 shared-loop, enum-zero, self-assignment idioms read; 5 unfiltered directory and fresh ov013 neighbours reread, no addressed stack aggregate; next hypothesis independent inline loop boundary rather than another scheduling reorder.
+ * permuter: earlier budget-300 search consumed without improvement; not repeated in this final fresh retry.
+ * prior evidence: i-=3 gave 3; long i 5, enum i 7, u16 i 328/211, earlier const request 34; first-loop goto 62, Contains inline 290 bytes-out, do/while 203 bytes-out.
  * symbols:
  *   d_021B3C84     0x021B3C84  data  ov013  a4
  *   d_021B3CB0     0x021B3CB0  data  ov013  a4
@@ -91,7 +91,7 @@ int func_021B0614(Req *p)
             return 1;
         }
     }
-    for (i -= 3; (i < 3) ? 1 : 0; i++) {
+    for (i = (i == 3) ? 0 : i; (i < 3) ? 1 : 0; i++) {
         if (d_021B3CB0[i] == 0) {
             d_021B3CB0[i] = p;
             break;

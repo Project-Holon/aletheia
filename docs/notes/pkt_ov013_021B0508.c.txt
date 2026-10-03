@@ -13,7 +13,10 @@
  * evidence: pairValue inline preserved 45; delayed f24 through reused k gave 46, enum zero/counter initialization gave 86; enum mode and long counter stayed 45. Callee 021B19BC corrected to char*, int, int from its matched source.
  * permuter: first typed budget-300 pass emitted baseline/best 45; no improvement. Search consumed.
  * prior evidence: ternary loop condition and Pair pointer fix loop rotation/pool count. Mode if/else gave 59, early i=0 gave 58 or tied; temporary value and stored ternary mode did not help. Remaining f1C/table/zero/0x440 scheduling is one basic block.
- * checks: 1 own callee definitions/assembly rechecked, 021B19BC has three arguments; 2 same-overlay session neighbours, no exact twin; 3 enum mode/long counter both 45; 4 inline-argument/enum-zero/store-order idioms read; 5 unfiltered idiom directory and ov013 neighbours reread, scalar frame has no addressed stack aggregate.
+ * checks: 1 own 021B3250/021B16E4/021B19BC/021B12FC/021B3364 definitions rederive arities 0/1/3/0/0; 02087170 reads hardware halfword with no inputs; 2 same-overlay session neighbours reread, no exact twin; 3 const mode-context pointer, enum size and u16 mode all unchanged 248/45; 4 inline-argument/enum-zero/store-order idioms read; 5 unfiltered idiom directory and ov013 neighbours refreshed, scalar frame has no addressed stack aggregate. Next unrun hypothesis: typed inline wrapper around the f24 field store.
+ * Final wave76 retry: explicit Ctx3C84 pointer store sequence worsens to
+ * 244/172; typed spellings tie 248/45. Best global-field C retained.
+ * All 13 relocations resolve; consumed once-300 search not repeated.
  * symbols:
  *   d_021B3C84     0x021B3C84  data  ov013  a4
  *   d_021B3C24     0x021B3C24  data  ov013  a4

@@ -7,41 +7,25 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * blocker: Twelve stack-offset bytes differ in the 546-byte lead; 33/33
- *   relocations now resolve. The remaining handed extent is alignment plus twelve
- *   unlabelled bx-pc off-image veneers (021CAF18..021CAFC8, target 0689CB49).
- *   No follower C or unit was created. See B3/acf4-c4b.log for the complete diff.
- * checks:
- *   1: CAA24's fifth parameter is u16; CB174 forwards three arguments.
- *      All lead call setup/prologue registers agree; no arity correction found.
- *   2: Existing CAA58 pending twin and matched B8D8C/CB1D4 checked.
- *      B8D8C returns 6 or the u8 result of B8BEC; narrow n is behavior-safe.
- *   3: Const p plus unsigned n: first compile CCERR at five callee conversions;
- *      cast-corrected second compile regressed to 18 bytes. Restored p.
- *   4: Stack-order/scope and byte-count idioms read; u8 n/prototype and
- *      signed j with unsigned comparison each compile to the same 12-byte
- *      diff. j ranges 0..65535, so no overflow. Inline-helper idiom does not fit.
- *   5: Full idiom list and pending CAA58/matched B8D8C/CB1D4 re-read;
- *      no applicable rescue. No check exceeded two compiles.
- * runs: 5 iteration + 2 check 3 (one CCERR) + 2 check 4 = 9 compiles.
- *   Iteration stopped after three consecutive nonshrinking changes.
- *   Permuter skipped under the unlabelled-follower exception: it would score
- *   the 740-byte extent against the 546-byte lead and its twelve veneers.
- * lever: Record ids[index] fixes the case-9 byte-address instruction order;
- *   n and case-4 j still use the opposite stack slots to the original.
- * fresh-pass: R13 compiled separate first-loop index, function-scope j,
- *   and u16 n; all remain DIFF 12, stopping after three nonshrinking changes.
- * fresh-checks: 1: Own CAA24/CB174/B9934 bodies and all call setups reread;
- *   corrected B9934 pointer return and CB174 wide third parameter compile
- *   unchanged. Original CAA24 call preserves its existing u16 move setup.
- *   2: Pending CAA58 and matched B8D8C/CB1D4 twins reread in full.
- *   3: u16 n and const q with mutable callee casts each remain DIFF 12.
- *   4: Separate-index, function/block-scope and stack-order idioms reread;
- *   two manual scheduling variants consumed; no forced stack object added.
- *   5: Full idiom directory and three twins refreshed, no further rescue.
- *   Five fresh compiles; no check exceeded two. Permuter remains skipped
- *   under the 546-byte lead / 740-byte follower-extent exception.
- *   Best C retains n/j's sp+14/sp+18 swap; scope variant only swaps n/i.
+ * checks: 1 own CAA24/CB174/B9934/B98A4 bodies and call setup rederived;
+ *   CAA24 returns int and takes five full-word arguments; original forwards
+ *   result to B98A4 without truncation, so caller key and extern are wide;
+ *   2 pending CAA58 and matched B8D8C/CB1D4 refreshed;
+ *   3 long id compiles unchanged at546/12; original stack id is full word;
+ *   4 long-index/enum/stack-slot idioms read; 5 full idiom list and
+ *   CAA58/CB1D4 refreshed; n/j still occupy opposite sp+14/sp+18 slots.
+ * residual: 546-byte lead,12 concrete bytes,33/33 relocations resolve.
+ *   Handed740 includes two alignment bytes and twelve16-byte bx-pc
+ *   fixed veneers CAF18..CAFC8 targeting0689CB49; no follower C filed.
+ * retry: wave76 R8,4 compiles. Long j with corrected wide key interfaces,
+ *   long n each retain12; enum j adds unfolded guard and gives20.
+ *   Three nonshrinking changes stop iteration; check 3 long id retains12.
+ * permuter: skipped under recorded follower-extent exception; scoring
+ *   the740-byte listing against546-byte lead is not a useful search.
+ * history: Record ids[selected] fixes case9 scheduling. Prior scope/index,
+ *   u16 n, const q and prototype corrections each retained12; const p
+ *   regressed18. Current own CAA24 body supersedes old note's u16 claim.
+ * proof: B8D8C full body returns6 or a byte; wide n preserves all results.
  * symbols:
  *   func_021D5440 0x021D5440 thumb ov093
  *   func_021B8D8C 0x021B8D8C thumb ov093
@@ -73,8 +57,8 @@ struct Record { u16 n0, n1; u8 ids[6]; };
 extern u8 func_021D5440(u8 *);
 extern u8 func_021B8D8C(void *, void *, u32);
 extern u8 *func_021B99E0(int);
-extern u8 func_021CAA24(u8 *, u8 *, u8 *, int, u16);
-extern u8 *func_021B98A4(void *, u8);
+extern int func_021CAA24(u8 *, u8 *, int, int, int);
+extern u8 *func_021B98A4(void *, int);
 extern u32 func_021D78AC(u32);
 extern u8 func_021B8C38(u32, u32);
 extern void *func_021CB174(u8 *, u32, int);
@@ -92,12 +76,12 @@ extern void func_021CAF98(void *, void *);
 extern void func_021CAFA8(void *, void *);
 extern void func_021CAFB8(void *, void *);
 extern void func_021CAFC8(void *, void *);
-int func_021CACF4(u8 *p, u8 *a, u16 move, u8 *q, int id, void *out)
+int func_021CACF4(u8 *p, u8 *a, u16 move, u8 *q, long id, void *out)
 {
     u32 i, count;
-    u8 n = func_021B8D8C(*(void **)(p + 4), *(void **)(p + 8), func_021D5440(a));
+    unsigned long n = func_021B8D8C(*(void **)(p + 4), *(void **)(p + 8), func_021D5440(a));
     u8 *b = func_021B99E0(n);
-    u8 key = func_021CAA24((u8 *)p, q, a, n, move);
+    int key = func_021CAA24((u8 *)p, q, (int)a, n, move);
     u8 selected;
     switch (*(u32 *)(q + 12)) {
     case 0:
@@ -115,7 +99,7 @@ int func_021CACF4(u8 *p, u8 *a, u16 move, u8 *q, int id, void *out)
             func_021CAF18(out, func_021B98A4(*(void **)(p + 8), b[4 + i]));
         return (u8)*(u16 *)b;
     case 4: {
-        int j;
+        long j;
         i = 0;
         count = 0;
         for (; i < *(u16 *)b; i++) {

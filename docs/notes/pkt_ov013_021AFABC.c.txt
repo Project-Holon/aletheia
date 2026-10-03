@@ -13,7 +13,10 @@
  * evidence: reusing the int sample parameter for the encoded code reduced old 588 to 534; nonconst source on this spelling reduced 534 to 531. Pointer helper gave 588, long count stayed 534, updating pred directly gave 623; long pred stayed 534.
  * permuter: prior wave54 typed budget-300 search already consumed, best 588; reorder(+1) and src[4] temp validated at 588. No repeated search.
  * prior evidence: on the older spelling const src gave 588 versus nonconst 591, s16/int sample tied, u8 sample gave 1296/1075 and s16 step gave 1320/614. The improved helper changes the const comparison.
- * checks: 1 no out-of-line calls; 2 own-overlay decoders/wrappers confirm state/table types, no exact encoder twin; 3 long pred 534, nonconst src 531; 4 inline/width/table/parameter idioms read; 5 unfiltered idiom directory and ov013 neighbours reread, scalar frame has no addressed stack aggregate.
+ * checks: 1 no out-of-line calls; 2 own-overlay decoders and 021B043C/021B04A8 wrappers reread, no exact encoder twin; 3 enum index, long sample and long np all unchanged 1320/531; 4 inline/width/table/long-index idioms read; 5 unfiltered idiom directory and ov013 neighbours refreshed, scalar frame has no addressed stack aggregate. Next unrun hypothesis: typed inline helper boundary for the packed output accumulator.
+ * Final wave76 retry: sample/state helper argument reversal also stays
+ * 1320/531. All new spellings tie; best nonconst-source C retained.
+ * Both relocations resolve; prior wave54 once-300 search not repeated.
  * symbols:
  *   d_021B3A04 0x021B3A04 data ov013 a1
  *   d_021B3A1C 0x021B3A1C data ov013 a2

@@ -5,26 +5,20 @@
  * region: ov099
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * residue: 80 bytes compiled, nine concrete bytes differ; p/window and y swap r4/r5.
- * checks: 1 own matched 020410D0 source rederived ten arguments, void result,
- *   sixth u32; exact prototype still nine bytes;
- *   2 ov099/ov100/ov091 callers rechecked, no twin; 021BA81C confirms call form;
- *   3 u16 mode unchanged, const p 18 bytes; p reassigned to window 76 bytes/72 out;
- *   4 struct parameter and y self-assignment unchanged; nested window-q scope unchanged;
- *   declaration-position, same-typed-local and parameter-reassignment idioms read;
- *   5 idioms relisted and neighbours rechecked; no new twin or addressed stack object;
- *   single --types permuter budget300 completed, best DIFF nine bytes, no improvement.
- * next: coordinate u16 x/y inline-helper scope may affect allocation; no further sweep run.
+ * checks: 1 own 020410D0 full body proves ten inputs; 2 fresh 0992274/1F74 and091A81C no twin; 3 a unsigned long unchanged9 and explicit c99 confirms; 4 declaration/enum/inline/long idioms read; 5 refreshed unfiltered idioms and these neighbours, no new lever.
+ * residual: 80/80, 9 concrete bytes, 1/1 resolved; p/q and y register swap.
+ * renewed: inline row-Y variant71/84; enum y and word q unchanged9; three manual nonshrinks, two check compiles. Historical types permuter300 consumed; not repeated.
  * symbols:
  *   func_020410D0 0x020410D0 arm
- */
+  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void func_020410D0(u32, u32, u32, u32, u8, u32, u8, u8, u8, u8);
-void func_021C2224(char *p, u32 a, u32 b, int mode, u8 row)
+void func_021C2224(char *p, unsigned long a, u32 b, int mode, u8 row)
 {
     char *q;
     u16 y;

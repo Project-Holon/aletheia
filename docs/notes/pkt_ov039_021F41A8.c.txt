@@ -8,11 +8,11 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 renewed own/shared signatures; BE674's third argument is wide, F3DE4/F3E04 use byte delta and halfword index; 2 refreshed 3A34/4610 Work fields, no new twin; 3 unsigned-long j reproduces DIFF2, word k grows1144/DIFF987; 4 enum/index/store hypotheses do not beat2; 5 fresh idioms and scoped neighbours, declared-stack-struct read. No next sweep justified; initial k and hold-store trade off.
- * runs: 3 iteration + 3 checks
- * residual: R3 best1128/1128,2 concrete bytes,78/78 relocs; initial BE674 r2 uses j in r6 instead of reloading k fromsp8. Source has valid initialized tileZ and no volatile. Keeping initial k restores four-byte hold-store/arg-setup swap.
- * retry: Wave59 R3: 10 fixed-flag runs plus permuter300 (baseline4; AST unresolved4 vs one0; candidate one2/0 validated).
- * renewal: Wave75 R26: 3 iteration + 2 check3 compiles; enum j/initial k, hold cast, comma call all DIFF4; long j DIFF2. Old best C retained; prior permuter remains spent, no rerun. Three nonshrinks stop this pass.
+ * checks: 1 fresh own BE674 four args/third u32, BE6B0 void(two), BE6BC one, BE4C4 three; F3DE4 byte delta/halfword index(3), F3E04 four, F48C0 four; refreshed 3A34/4610 prototypes cover remaining callees; accurate void setter and char* BE674 base unchanged2; 2 fresh 3A34/4610 Work layouts and 038/039/040 matched/pending neighbours, no full twin; 3 halfword k1144/DIFF989, signed-byte j1136/DIFF1024 with one lost data witness; a0 already const, state writable; 4 inline/narrow-spill/index idioms read; 5 fresh idiom directory and neighbours, declared-stack-struct read.
+ * residual: DIFF1128/1128,2 concrete bytes,all78 relocs. Initial BE674 r2 uses j(r6) rather than reload k(sp8). Initial k restores four-byte hold-store/argument-setup swap. Initialized tileZ retained, no volatile.
+ * prior: Wave59 ten fixed runs plus consumed types permuter300; validated best2. Wave75 enum j/initial k, hold cast and comma call DIFF4; long j unchanged2. No searches repeated.
+ * final-retry: Wave76 R15 seven runs. Initial k plus accurate void setter, inline hold helper, narrow helper parameter each DIFF4; three nonshrinks stop. Required checks above completed. Both manual scheduling variants consumed; best check1 C retained.
+ * next-hypothesis: caller-specific narrow setter parameter from observed call setup, rather than further ordering or index-width variants.
  * symbols:
  *   func_020124E4 0x020124E4 thumb
  *   func_0201210C 0x0201210C thumb
@@ -77,12 +77,12 @@ extern u32 func_02188C80(void *);
 extern u32 func_020120F4(u32);
 extern u32 func_02012A30(u32);
 extern int func_02006148(u32);
-extern void *func_021BE674(int,int,u32,int);
+extern void *func_021BE674(char *,int,u32,int);
 extern u32 func_02012EC4(u32);
 extern void *func_0200B3A4(u32,u32);
 extern u32 func_02011428(u32,u32,u16,void *,u32);
 extern void func_021F3E04(void *,u8,u16,int);
-extern int func_021BE6B0(void *,int);
+extern void func_021BE6B0(void *,int);
 extern void func_020061E4(u32);
 extern int func_021F3DE4(void *,u8,u16);
 extern void *func_02158780(void *,u32,u32,u32,u32);
@@ -132,7 +132,7 @@ int func_021F41A8(const void *a0,u32 *state)
  sound=func_02006148(0x6db);
  j=(u8)(s->sel>>1);
  k=j;
- o=func_021BE674(h,0,j,0);
+ o=func_021BE674((char *)h,0,j,0);
  func_0200B3A4(func_02012EC4(func_020120F4(func_02188C80(sys))),2);
  switch(*state) {
  case 0:
@@ -157,7 +157,7 @@ int func_021F41A8(const void *a0,u32 *state)
   if(func_021BE6BC(o)==0) break;
   func_0216DAC8(func_021A3074(func_02188CB4(sys)),1);
   func_021BE6B0(o,1);
-  func_021BE6B0(func_021BE674(h,0,k,(u8)(s->sel+1)),0);
+  func_021BE6B0(func_021BE674((char *)h,0,k,(u8)(s->sel+1)),0);
   s->timer[j]=0;
   s->slot[j]=-1;
   s->hold=-1;
@@ -173,7 +173,7 @@ int func_021F41A8(const void *a0,u32 *state)
   if(s->slot[j]!=-1 && (func_0203630C()&0x80)) ++*state;
   break;
  case 5:
-  model=func_021BE674(h,0,k,(u8)(s->sel+1));
+  model=func_021BE674((char *)h,0,k,(u8)(s->sel+1));
   s->hold=j;
   func_021BE6B0(model,1);
   func_021F3E04((void *)h,k,0,0);
@@ -211,7 +211,7 @@ int func_021F41A8(const void *a0,u32 *state)
  case 9:
   if(func_021BE6BC(o)==0) break;
   func_021BE6B0(o,1);
-  func_021BE6B0(func_021BE674(h,0,k,(u8)(s->sel+1)),0);
+  func_021BE6B0(func_021BE674((char *)h,0,k,(u8)(s->sel+1)),0);
   s->timer[j]=0;
   s->slot[j]=-1;
   func_02011558(s->anim);
@@ -245,7 +245,7 @@ int func_021F41A8(const void *a0,u32 *state)
  }
  anim=(void *)func_021BE4C4((void *)h,0,k);
  b=s->sel+1;
- limit=func_021BE748((u32)func_021BE674(h,0,k,b));
+ limit=func_021BE748((u32)func_021BE674((char *)h,0,k,b));
  frame=func_021F3DE4((void *)h,k,b);
  next=frame+4096;
  if(next>=limit) next=0;

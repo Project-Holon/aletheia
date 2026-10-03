@@ -7,8 +7,13 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
- * checks: 1 own 020186C8 reads six inputs, word stack slots and returns u32; original species truncation justifies u16 extern; 2 021684E8 uses u16 form, ov121 DEFAC still two-word PID DIFF; 3 u16 form and nonconst GiftMon flat19 with changed residue locations; 4 const-load and enum-argument idioms read; 5 refreshed idioms/021684E8/ov121 DEFAC, no rescue; next hypothesis original PID object type, no consumed 288-shape or two-word declaration sweep.
+ * status:   EXACT
+ * Wave 76 lever: gender is a u8 local, loaded from GiftMon.gender and
+ * remapped from 0xFF to 2. With the form extern parameter u8, this restores
+ * both personality-call setup schedules: 19 differing bytes become EXACT.
+ * Signed 64-bit PID and ID were flat19; union PID worsened to38. The u8
+ * form extern alone stayed19. Old seed7201 budget400 was not repeated.
+ * checks: 1 own callees and forwarding bodies re-read, six personality inputs; 2 021684E8/ov121 DEFAC inspected; 3 byte form flat19, byte gender EXACT; 4 existing width/const idioms inspected; 5 current neighbours and idioms inspected before filing.
  * Wave 75 fresh pass: unsigned-long species, enum flag argument, enum slot, u16 form argument, and nonconst GiftMon each19/1148 B; retain original const best. All54 relocations resolved. Old seed7201 budget400 consumed; never rerun.
  * Prior recorded evidence (retained):
  * func_02157E9C (ov010, Thumb, 1148 bytes), tree_ov010_2, 2026-09-28
@@ -128,7 +133,7 @@ extern u32 func_02008530(void *p);
 extern u16 *func_020084F4(void *p);
 extern u32 func_02008550(void *p);
 extern void *func_020173F0(u16 species, u16 level, u64 id, int heap);
-extern u32 func_020186C8(u32 a0, u16 a1, int a2, int a3, int a4, int a5);
+extern u32 func_020186C8(u32 a0, u16 a1, u8 a2, int a3, int a4, int a5);
 extern void func_02017588(void *p, u16 species, u16 level, u64 id, u32 pow, u64 rnd);
 extern void func_02017E40(void *p, u32 id, u32 v);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
@@ -155,7 +160,7 @@ void *func_02157E9C(const GiftMon *g, int heap, void *save)
     u8 iv[6];
     u32 month;
     u32 ability;
-    u32 gender;
+    u8 gender;
     u64 pid;
     u32 species;
     u32 otId;

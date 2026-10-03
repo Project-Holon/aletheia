@@ -7,43 +7,41 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * checks: 1 n/a no calls or relocations; 2 own ov082 5748 caller proves six parameters, 58C0 initializer and fields refreshed; 3 const a flat116 after goto, signed outer i follows blt and improves best to113; 4 explicit shared-exit goto116 worse, pointer-homing and loop idioms read; 5 fresh neighbours and idiom directory, no stack objects; next argument homes/record-field spelling.
- * runs: Wave75 R29 renewed pass: 3 iteration + permuter300 + 1 validation.
- * residual: best124/128 bytes,113 concrete bytes. Original homes a/r4, e/r0; ours a/r0,e/r1 and guard scratch/r4. No unresolved evidence.
- * permuter: macro-free baseline agrees124/128,113. Best128/128,110 validates DIFF but rejected: temp(tmp3=field) plus split assignment changes field increment into tmp3++ with no field writeback. Its early tmp4 also speculatively reads fields before delay guard. Search consumed; never repeat it.
- * follower: 021F58C0 separately matched callback initializer, beyond128-byte extent; no leaf filed.
+ * status: EXACT*
+ * checks: 1 no calls/relocations; 2 ov082 5748 caller and 58C0 initializer refreshed; 3 unsigned long fifth argument restores original a/r4,e/r0 homes; 4 nested zero-delay guard plus i*e multiply order produces EXACT*126; 5 full idiom directory and neighbours refreshed, two alignment bytes after lead.
+ * runs: Wave76 R18 six one compiles and one sequential shard verification. Prior permuter300 remains consumed and was not repeated.
+ * lever: unsigned long fifth argument restores parameter homes; nested zero-delay guard and i*e operand order fix the multiply copy. Extent ends with two alignment bytes.
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
+typedef struct { u16 value, pad; } Row;
+typedef struct { int done, busy; u8 delay, reload; u16 index; u16 tiles[2][6]; } State;
 
-void func_021F5840(unsigned *a, unsigned b, unsigned c, unsigned d, unsigned e, char *f)
+void func_021F5840(Row *a, unsigned b, unsigned c, unsigned d, unsigned long e, State *f)
 {
     int i;
     unsigned j;
     unsigned base;
 
-    if (*(int *)(f + 4) != 0)
+    if (f->busy != 0)
         return;
-    if (*(u8 *)(f + 8) != 0) {
-        *(u8 *)(f + 8) = *(u8 *)(f + 8) - 1;
-        return;
-    }
-    if (*(u16 *)(f + 0xa) == 0 && *(int *)f != 0)
-        return;
-
-    *(int *)(f + 4) = 1;
-    base = c + d * *(u16 *)(a + *(u16 *)(f + 0xa));
-    for (i = 0; i < 2; i++) {
-        for (j = 0; j < e; j++) {
-            *(u16 *)(f + 12 * i + 0xc + 2 * j) =
-                (u16)(base + e * i + j);
+    if (f->delay == 0) {
+        if (f->index == 0 && f->done != 0)
+            return;
+        f->busy = 1;
+        base = c + d * a[f->index].value;
+        for (i = 0; i < 2; i++) {
+            for (j = 0; j < e; j++) {
+                f->tiles[i][j] = (u16)(base + i * e + j);
+            }
         }
-    }
-    *(u8 *)(f + 8) = *(u8 *)(f + 9);
-    (*(u16 *)(f + 0xa))++;
-    if (*(u16 *)(f + 0xa) >= b) {
-        *(u16 *)(f + 0xa) = 0;
-        *(int *)f = 1;
+        f->delay = f->reload;
+        f->index++;
+        if (f->index >= b) {
+            f->index = 0;
+            f->done = 1;
+        }
+    } else {
+        f->delay--;
     }
 }

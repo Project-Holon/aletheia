@@ -8,12 +8,8 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks: 1 matched B8 forwarder and twin 02174374 prove hidden x argument; 2 matched DA8/63D8/5E30/6424/5D7C prototypes re-read, no complete twin; 3 u8 flag DIFF228/196, const b CCERR consumes second check; 4 enum flag and chained assignment DIFF224/88; 5 idioms/neighbours refreshed, stack-byte-array idiom read, stack access already right. Next hypothesis: original field representation for s+907. No sweep.
- * Renewed pass: safe baseline below DIFF224/88 (4B long), all nine
- * relocations resolved. Three iteration runs and two check3 calls; no more
- * manual scheduling variants. Once300 types permuter baseline agrees.
- * Best mutant DIFF220/112 rejected: volatile flag/y and x_=x before x was
- * initialized. Never rerun this search; log and rejected C in wave75/R17.
+ * checks: 1 own matched helpers and B8 forwarder rederived, accurate pointer prototypes unchanged88; 2 ov01174374/74978 no complete twin; 3 const b unchanged88, u16 flag worsens196; 4 word-container four-bit field and typed-pointer/stack-storage idioms read; 5 fresh idioms/neighbours reread, stack byte array already correct.
+ * Fresh final retry: 7 one runs, far state field/count pair/byte bitfield, accurate pointers and check3 alternatives; best DIFF88/224B (original220B), all9 sites resolve. Residue is flag spill/offset-load ordering and r0/r1 allocation. Prior once300 at wave75/R17 consumed; volatile flag/y and uninitialized x_ mutant rejected, never repeat.
  *
  * symbols:
  *   func_02026478  0x02026478  thumb
@@ -37,26 +33,26 @@ struct Rec {
     u32 lo : 4;
 };
 
-extern int func_02026478(int);
-extern int func_020127B8(int);
-extern int func_020399A8(void);
-extern int func_0203D1A4(int);
+extern void *func_02026478(void *);
+extern u8 *func_020127B8(void *);
+extern void *func_020399A8(void);
+extern u32 func_0203D1A4(void *);
 extern int func_02175DA8(u8 *);
-extern void func_021763D8(int, int);
-extern void func_02175E30(int, u8 *, u8 *);
-extern int func_02176424(int, u8 *, u8 *);
-extern void func_02175D7C(u8 *, u8 *, u8 *);
+extern void func_021763D8(u8 *, u32);
+extern void func_02175E30(void *, u8 *, struct Rec *);
+extern int func_02176424(u8 *, u8 *, u8 *);
+extern void func_02175D7C(void *, u8 *, void *);
 
 void func_0217410C(int a0, int a1, u8 *b, u8 *s)
 {
-    int y;
+    u8 *y;
     int flag;
-    int x;
+    void *x;
     u8 buf[2];
     int r7;
     int r6;
 
-    x = func_02026478(*(int *)(s + 4));
+    x = func_02026478(*(void **)(s + 4));
     y = func_020127B8(x);
     buf[1] = 0;
     flag = 0;
@@ -73,7 +69,7 @@ void func_0217410C(int a0, int a1, u8 *b, u8 *s)
         if (b[0x37] == 1) {
             func_021763D8(y, ((struct Rec *)b)->lo);
         } else {
-            func_02175E30(x, s, b);
+            func_02175E30(x, s, (struct Rec *)b);
         }
         s[0x907] = 1;
         if (func_02176424(y, &buf[1], &buf[0]) == 1) {
