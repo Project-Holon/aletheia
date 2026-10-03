@@ -44,6 +44,7 @@ typedef struct S1C {
 } S1C;
 
 struct Blk34;
+struct Flags02008414;
 struct Flags02008450;
 struct Sub02007084Ctrl;
 struct Sub02008700Obj;
@@ -52,7 +53,7 @@ extern u32 func_02008448(void *);
 extern u8 func_0200C31C(struct Blk34 *p);
 extern int func_020070C8(char *self);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern u8 func_02008414(void *);
+extern u8 func_02008414(const struct Flags02008414 *p);
 extern void func_0200890C(void *, void *);
 extern void *func_02011EEC(u32, u16, Rec12 *, int);
 extern void func_020312F8(int, void *, void *);
@@ -72,7 +73,7 @@ int func_021BC430(int a, int b, int c, u32 *q)
     t = func_02008448((void *)q[1]);
     h = func_0200C31C((void *)q[3]);
     func_020070C8(r);
-    func_02008414(func_0200873C(r));
+    func_02008414((const struct Flags02008414 *)func_0200873C(r));
     func_0200890C(r, &s);
     func_020312F8(-1, d_0209DF9C, func_02011EEC(1, s.f0, &s.rec, s.f18));
     func_02008450((void *)q[1], t);

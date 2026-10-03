@@ -55,7 +55,8 @@ extern void func_020312CC(u32 a0, u32 a1, u32 a2);
 extern struct SaveCtrl *func_02006F20(int heap);
 extern struct Sub02007084Ctrl *func_020070A4(void);
 extern struct Sub02008700Obj *func_0200873C(void *sys);
-extern u8 func_02008414(const void *p);
+struct Flags02008414;
+extern u8 func_02008414(const struct Flags02008414 *p);
 extern void func_02012FF0(void *val);
 extern void func_0200F6B8(void);
 extern void func_0200F6D8(u32 kind);
@@ -87,7 +88,7 @@ void func_0200523C(void)
     func_020107CC();
     func_020312CC(v - 0xD, (u32)(void *)0x020A0480, 0);
     func_02006F20(7);
-    func_02008414(func_0200873C(func_020070A4()));
+    func_02008414((const struct Flags02008414 *)func_0200873C(func_020070A4()));
     func_02012FF0(func_020070A4());
     func_0200F6B8();
     func_0200F6D8(8);
