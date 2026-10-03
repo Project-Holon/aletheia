@@ -15,7 +15,7 @@
  */
 
 extern void *func_02007A18(void *a, int b, int c, void *p);
-extern int func_0201AA18(void *m);
+extern unsigned int func_0201AA18(void *m);
 typedef unsigned int   u32;
 extern void *func_0201AB28(void *p, u32 idx);
 extern void *func_020185F4(void *a);
@@ -32,7 +32,7 @@ void *func_021D8DD0(void *a, int b, int c, char *p)
         if (b != n && c != -1)
             return func_02007A18(a, b, c, p);
         m = *(void **)(p + 0x838);
-        if (c < func_0201AA18(m) && c != -1)
+        if (c < (int)func_0201AA18(m) && c != -1)
             return func_020185F4(func_0201AB28(m, c));
     }
     return 0;

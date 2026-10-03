@@ -20,7 +20,7 @@
  */
 typedef unsigned short u16;
 extern char d_021E8530[];
-extern int func_02030734(u16, unsigned, int, void *, int);
+extern void *func_02030734(unsigned heapId, unsigned size, int clear, const char *site, u16 tag);
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern int func_021D8DD0(int, int, int, char *);
 extern int func_0201BA68(int);
@@ -34,7 +34,7 @@ void func_021E5098(char *p, int b)
 {
     int i, n, x, t, out;
     void *a;
-    if (b == 0) *(int *)(p + 0x1184) = func_02030734(*(u16 *)(p + 0x5f4), 0x5ac00, 0, d_021E8530, 0x50b);
+    if (b == 0) *(int *)(p + 0x1184) = (int)func_02030734(*(u16 *)(p + 0x5f4), 0x5ac00, 0, d_021E8530, 0x50b);
     a = func_020490F4(7, *(u16 *)(p + 0x5f4));
     goto check;
 body:

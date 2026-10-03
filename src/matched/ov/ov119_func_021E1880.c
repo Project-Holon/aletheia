@@ -23,7 +23,7 @@ typedef unsigned int   u32;
 struct MsgBank;
 struct WordSet;
 extern void func_02045CAC(struct MsgBank *bank, u32 index, void *dest);
-extern int func_02017E1C(int, int, int);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_0201EFA4(struct WordSet *p, u32 i, u32 a, u32 b, u32 c, u32 d);
 extern void func_0201F250(struct WordSet *ws, void *dst, void *src);
 extern void *func_02045770(int);
@@ -34,7 +34,7 @@ void func_021E1880(int a, int b, int c, int d, char *p)
     T5 t = d_021E7984;
     for (; i < 5; i++) {
         func_02045CAC(*(void **)(p + 0x720), 0x28, *(void **)(p + 0x734));
-        func_0201EFA4(*(void **)(p + 0x724), 0, func_02017E1C(a, t.v[i], 0), 3, 1, 1);
+        func_0201EFA4(*(void **)(p + 0x724), 0, func_02017E1C((void *)a, t.v[i], 0), 3, 1, 1);
         func_0201F250(*(void **)(p + 0x724), *(void **)(p + 0x730), *(void **)(p + 0x734));
         func_0201C7A4(func_02045770(b), (s16)c, (s16)(d + i * 16), *(void **)(p + 0x730), *(void **)(p + 0x728));
     }

@@ -45,7 +45,7 @@ extern struct AnimSequence *func_020627D8(struct AnimBank *,u32);
 extern void func_021F659C(char *,int);
 extern void func_0206469C(struct Obj0206469C *o, void *bank);
 extern void *func_02048F60(u32,u32,u16);
-extern void *func_02030734(u16,u32,int,const char *,u16);
+extern void *func_02030734(u32,u32,int,const char *,u16);
 extern void *func_02049DB4(u32 a0, u32 a1, u32 a2, u32 a3, u16 a4);
 extern void *func_02049F34(u32,u32,u32,u16);
 extern void func_020172D8(u8 *,u32);
@@ -71,7 +71,7 @@ void func_021F63B8(u8 *a,int index,u32 *res,u32 mode)
     table=func_02048F60(res[0],res[7],*(u32 *)(q+244));
     *(u8 **)(q+32)=table;
     *(u8 **)(q+36)=table+4+56* *(u32 *)table;
-    job=func_02030734(*(u32 *)(q+244),36,1,d_021F83D4,1104);
+    job=func_02030734((u16)*(u32 *)(q+244),36,1,d_021F83D4,1104);
     job[2]=q+144;
     job[3]=q+180;
     job[6]=*(u8 **)(a+12)+index*16384;

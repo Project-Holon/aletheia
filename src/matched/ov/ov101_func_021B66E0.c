@@ -16,7 +16,7 @@
  */
 
 extern void func_02082BCC(int, int, int);
-extern int func_02030734(int, int, int, int, int);
+extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
 typedef unsigned int   u32;
 extern void func_021B64F0(u32 p, u32 a, u32 b, u32 c, u32 d);
 
@@ -27,11 +27,11 @@ void func_021B66E0(int a, int b, int c)
     func_02082BCC(a, 0, 0x34);
     r7 = 0x57b;
     *(int *)a = b;
-    *(int *)(a + 0x28) = func_02030734(c, 0x2c, 0, 0x021B7524, r7);
+    *(int *)(a + 0x28) = (int)func_02030734(c, 0x2c, 0, (const char *)0x021B7524, r7);
     func_02082BCC(*(int *)(a + 0x28), 0, 0x2c);
-    *(int *)(a + 0x2c) = func_02030734(c, 0x2c, 0, 0x021B7524, r7 + 2);
+    *(int *)(a + 0x2c) = (int)func_02030734(c, 0x2c, 0, (const char *)0x021B7524, r7 + 2);
     func_02082BCC(*(int *)(a + 0x2c), 0, 0x2c);
-    *(int *)(a + 0x30) = func_02030734(c, 0x2c, 0, 0x021B7524, r7 + 4);
+    *(int *)(a + 0x30) = (int)func_02030734(c, 0x2c, 0, (const char *)0x021B7524, r7 + 4);
     func_02082BCC(*(int *)(a + 0x30), 0, 0x2c);
     func_021B64F0(b, 0x1000, 0x021B741C, 4, a);
 }

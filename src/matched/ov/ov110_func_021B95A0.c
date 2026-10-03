@@ -17,7 +17,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *func_02030734(u16,u32,u32,const char *,u32);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 struct PmsWordSys;
 extern struct PmsWordSys *func_020247A8(u32 heapId);
 extern void func_021B9608(void *);
@@ -27,7 +27,7 @@ void *func_021B95A0(u32 heap,void *save)
 {
     char *p;
     int i;
-    p=func_02030734(heap,0x1E50,0,d_021C3B80,88);
+    p=func_02030734((u16)heap,0x1E50,0,d_021C3B80,88);
     *(void **)p=save;
     *(void **)(p+4)=func_020247A8(heap);
     for(i=0;i<226;i++) *(u8 *)(p+0x1D6E + i)=0;

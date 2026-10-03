@@ -86,7 +86,7 @@ extern void *func_021E0138(void *sys, u16 heapId);
 extern void *func_021E01A0(void *src, u16 heapId);
 extern void *func_021E0200(void *sys, u16 heapId);
 extern int func_021E0410(char *p, void *party, int idx);
-extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *file, u32 line);
+extern void *sub_02030734(u32 heapId, u32 size, int clear, const char *file, u16 line);
 extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
 extern void func_020307B0(void *p);
 extern u32 sub_02008FFC(void);
@@ -101,7 +101,7 @@ extern void func_0201AC2C(void *src, void *dst);
 extern u32 sub_02007A9C(void);
 extern void *sub_02007AF4(void *save, u32 box);
 extern void *func_0201AB28(void *party, int idx);
-extern u32 func_02017E1C(void *mon, u32 id, void *v);
+extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern void func_02017E40(void *mon, u32 id, void *v);
 extern u32 func_0202136C(u16 v);
 extern int func_02009020(void *obj, int v);
@@ -211,7 +211,7 @@ void func_021E049C(char *p)
                 int idx = func_02009020(o, 0);
                 if (idx != -1) {
                     void *buf = func_02008F08(H(p, 0x5F4));
-                    func_02017E1C(mon, 0xA7, buf);
+                    func_02017E1C(mon, 0xA7, (u32)buf);
                     sub_0200903C(o, 0, idx, buf);
                     func_02008EAC(buf);
                     func_02017E40(mon, 0xA7, buf);

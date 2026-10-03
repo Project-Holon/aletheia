@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  * symbols:
  *   func_020173E8  0x020173E8  thumb
  *   func_02017550  0x02017550  thumb
@@ -35,7 +35,8 @@ typedef struct {
 
 typedef unsigned int   u32;
 u32 func_020173E8(void);
-void func_02017550(void *);
+struct Sav;
+void func_02017550(struct Sav *);
 
 void func_021F1184(Ov107Ctx *p)
 {
@@ -46,7 +47,7 @@ void func_021F1184(Ov107Ctx *p)
     list->f00 = 0;
     list->f02 = 0;
     for (i = 0; i < 6; i++) {
-        func_02017550((unsigned char *)p->f10 + i * func_020173E8() + 4);
+        func_02017550((struct Sav *)((unsigned char *)p->f10 + i * func_020173E8() + 4));
     }
     p->f18.b1 = 0;
     p->f18.b2 = 0;

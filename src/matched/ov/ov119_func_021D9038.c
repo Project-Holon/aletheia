@@ -18,8 +18,8 @@
 typedef unsigned char u8;
 extern int func_020399A8(void);
 extern int func_0203D1A4(int);
-extern int func_02017E1C(int,int,int);
+extern unsigned int func_02017E1C(void *,unsigned int,unsigned int);
 extern void func_021DD380(void *,int,int);
 extern void func_021E6334(void *,int,int,int,int,int);
 extern void func_021DF918(void *,int,void *);
-void func_021D9038(int a,int b,int c,u8 *p,int e,int f) { int z;if(e==func_020399A8()) { if(a!=func_0203D1A4(func_020399A8())) {z=0;if(func_02017E1C(*(int *)(p+0x1064+a*4),169,0)) {func_021DD380(p,f,*(int *)(p+0x1064+a*4));func_021E6334(p,1,f,*(int *)(p+0x1064+a*4),1,z);func_021DF918(p,1,*(void **)(p+0x1064+a*4));}p[0x11fb]=(p[0x11fb]&~240)|16;} } }
+void func_021D9038(int a,int b,int c,u8 *p,int e,int f) { int z;if(e==func_020399A8()) { if(a!=func_0203D1A4(func_020399A8())) {z=0;if(func_02017E1C((void *)*(int *)(p+0x1064+a*4),169,0)) {func_021DD380(p,f,*(int *)(p+0x1064+a*4));func_021E6334(p,1,f,*(int *)(p+0x1064+a*4),1,z);func_021DF918(p,1,*(void **)(p+0x1064+a*4));}p[0x11fb]=(p[0x11fb]&~240)|16;} } }

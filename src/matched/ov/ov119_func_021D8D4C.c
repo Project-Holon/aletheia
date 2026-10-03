@@ -25,7 +25,7 @@ typedef unsigned int u32;
 struct Sub020079BCEntry;
 extern struct Sub020079BCEntry *func_02007A18(void **save, u32 box, u32 slot);
 extern void *func_0201747C(void *a, u32 b);
-extern int func_0201AA18(void *m);
+extern u32 func_0201AA18(void *m);
 extern void *func_0201AB28(void *m, u32 c);
 extern void *func_020173F0(u16 species, u16 level, unsigned long long id, u16 heap);
 extern u32 func_020173EC(void);
@@ -45,7 +45,7 @@ void *func_021D8D4C(void **a, int b, int c, char *p)
         res = func_0201747C(func_02007A18(a, b, c), *(u16 *)(p + 0x5f4));
     } else {
         void *m = *(void **)(p + 0x838);
-        if (c >= func_0201AA18(m))
+        if (c >= (int)func_0201AA18(m))
             goto out;
         if (c == -1)
             goto out;
