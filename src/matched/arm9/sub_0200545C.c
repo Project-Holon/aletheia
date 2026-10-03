@@ -103,7 +103,7 @@ extern void  func_02034978(void);
 extern void  func_020346EC(u32 a, u32 b, void (*c)(void));
 extern void func_0203499C(u32 heap, int n0, int n1, int n2);
 extern void  func_0203129C(u32 a);
-extern void *func_02030734(u32 heap, u32 size, u32 c, void *file, u32 line);
+extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, unsigned short tag);
 extern u32   func_02030CB0(u32 n);
 extern struct Ctx *func_02030CBC(u32 capacity, struct Ctx *c);
 extern void  sub_020056D0(void);
@@ -155,10 +155,10 @@ void sub_0200545C(void)
     func_0203499C(0, 0x10, 4, 4);
     func_0203129C(0);
 
-    g_020AA194.heaps = func_02030734(0, 0x28, 0, s_gfl_use_c, 0x117);
-    g_020AA194.heaps->unk1C = func_02030734(0, func_02030CB0(4), 0, s_gfl_use_c, 0x119);
+    g_020AA194.heaps = func_02030734(0, 0x28, 0, (const char *)s_gfl_use_c, 0x117);
+    g_020AA194.heaps->unk1C = func_02030734(0, func_02030CB0(4), 0, (const char *)s_gfl_use_c, 0x119);
     g_020AA194.heaps->unk18 = func_02030CBC(4, g_020AA194.heaps->unk1C);
-    g_020AA194.heaps->unk24 = func_02030734(0, func_02030CB0(0x10), 0, s_gfl_use_c, 0x11C);
+    g_020AA194.heaps->unk24 = func_02030734(0, func_02030CB0(0x10), 0, (const char *)s_gfl_use_c, 0x11C);
     g_020AA194.heaps->unk20 = func_02030CBC(0x10, g_020AA194.heaps->unk24);
 
     sub_020056D0();

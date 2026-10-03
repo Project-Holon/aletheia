@@ -61,7 +61,8 @@ extern void  func_020307B0(void *p);
 
 extern void  func_0200B900(void *a, u32 b, u32 c);
 extern void *func_020271CC(void *a, u32 id);
-extern void  func_02017550(void *ent);
+struct Sav;
+extern void func_02017550(struct Sav *ent);
 extern struct Party *func_0201A920(u32 heap);
 extern void func_0201A954(struct Party *p, s32 capacity);
 extern u32 func_0201A98C(struct Party *p, const struct PartyMon *src);
@@ -126,7 +127,7 @@ void func_0200BA80(struct Rec35C *p)
 
     MI_CpuFill8(p, 0, sizeof(struct Rec35C));
     for (i = 0; i < 6; i++) {
-        func_02017550(&p->unk000.ent[i]);
+        func_02017550((struct Sav *)&p->unk000.ent[i]);
     }
     h = func_02045B38(0, 2, 9, 1);
     if (h != 0) {

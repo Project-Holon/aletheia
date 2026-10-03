@@ -53,7 +53,8 @@ extern const char sub_02007B20_File[];
 typedef unsigned short u16;
 struct Sub020071CCCtrl;
 extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
-extern void sub_02017550(struct Sub02007AC8Entry *entry);
+struct Sav;
+extern void sub_02017550(struct Sav *entry);
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *p);
 extern void func_02082A7C(u32 value, void *dest, u32 size);
@@ -70,7 +71,7 @@ void sub_02007AD0(struct Sub02007AC8Entry *base)
     u32 i;
 
     for (i = 0; i < 30; i++) {
-        sub_02017550(&base[i]);
+        sub_02017550((struct Sav *)&base[i]);
     }
 }
 

@@ -62,6 +62,7 @@
  */
 
 typedef unsigned char u8;
+typedef unsigned short u16;
 typedef unsigned int  u32;
 
 struct Sub0201088CObj {
@@ -73,7 +74,7 @@ struct Sub0201088CObj {
 };
 
 extern u8   s0x020A725C;
-extern void *func_02030734(u32 a, u32 b, u32 c, u8 *file, u32 line);
+extern void *func_02030734(u32 a, u32 b, int c, const char *file, u16 line);
 extern u32  func_020399A8(void);
 extern void func_02039C68(u32 ctx, u32 id, u32 size);
 extern void func_02010888(void *p, u32 v);
@@ -86,7 +87,7 @@ void *func_0201088C(u32 heap, u32 a1)
 {
     struct Sub0201088CObj *p;
 
-    p = func_02030734(heap, 0x14, 1, &s0x020A725C, 0x75);
+    p = func_02030734(heap, 0x14, 1, (const char *)&s0x020A725C, 0x75);
     p->f0c = a1;
     func_02039C68(func_020399A8(), 0x71, 8);
     func_02010888(p, (u32)func_0201093C);
@@ -97,7 +98,7 @@ void *func_020108C4(u32 heap, u32 a1, u32 a2, u32 a3)
 {
     struct Sub0201088CObj *p;
 
-    p = func_02030734(heap, 0x14, 1, &s0x020A725C, 0x87);
+    p = func_02030734(heap, 0x14, 1, (const char *)&s0x020A725C, 0x87);
     p->f0 = a2;
     p->f4 = a3;
     p->f0c = a1;

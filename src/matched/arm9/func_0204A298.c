@@ -27,7 +27,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int         func_020490A8(int a0, int a1, int a2, int a3);
-extern int         func_02030734(int a0, int a1, int a2, const char *file, int line);
+extern void *      func_02030734(u32 a0, u32 a1, int a2, const char *file, u16 line);
 extern void        func_02048F4C(int a0, int a1, int a2);
 extern int         func_020834C0(int a0, int a1);
 extern void        func_020307B0(int a0);
@@ -40,14 +40,14 @@ int func_0204A298(int a0, int a1, int a2, int a3, u32 *out)
 
     *out = func_020490A8(a0, a1, a2, a3);
     if (a2 != 0) {
-        r = func_02030734((u16)((a3 & 0x7fff) | 0x8000), *out, 0, sArcUtil3730, 1642);
+        r = (int)func_02030734((u16)((a3 & 0x7fff) | 0x8000), *out, 0, sArcUtil3730, 1642);
     } else {
-        r = func_02030734(a3, *out, 0, sArcUtil3730, 1646);
+        r = (int)func_02030734(a3, *out, 0, sArcUtil3730, 1646);
     }
     func_02048F4C(r, a0, a1);
     if (a2 != 0) {
         *out = *(u32 *)r >> 8;
-        t = func_02030734(a3, *out, 0, sArcUtil3730, 1656);
+        t = (int)func_02030734(a3, *out, 0, sArcUtil3730, 1656);
         func_020834C0(r, t);
         func_020307B0(r);
         r = t;

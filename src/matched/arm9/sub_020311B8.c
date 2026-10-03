@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * symbols:
  *   sub_02030734       0x02030734  arm

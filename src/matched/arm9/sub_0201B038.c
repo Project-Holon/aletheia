@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  * note:     EXACT* only for the two bytes of alignment padding at
  *           0x0201B0FE.  The rare random event that seeds party record
  *           field 0x97 (see docs/notes/sub_0201B038.c.txt for the draws and

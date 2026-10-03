@@ -31,7 +31,8 @@
 typedef unsigned int u32;
 
 extern void *sub_0200E6F0(u32 a);
-extern void *sub_020071CC(u32 a, u32 id);
+struct Sub020071CCCtrl;
+extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
 
 void *sub_0200E6E8(u32 a)
 {
@@ -40,5 +41,5 @@ void *sub_0200E6E8(u32 a)
 
 void *sub_0200E6F0(u32 a)
 {
-    return sub_020071CC(a, 0x3e);
+    return sub_020071CC((struct Sub020071CCCtrl *)a, 0x3e);
 }

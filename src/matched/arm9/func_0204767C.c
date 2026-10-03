@@ -32,7 +32,7 @@ typedef unsigned int   u32;
 extern struct Mod *g_02146A5C;
 extern char        str_020A7EA8[];
 
-extern u32 func_02030734(u32 heap, u32 size, u32 kind, void *file, u32 line);
+extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 
 struct Mod {
     u8  pad_00[0x18];
@@ -60,7 +60,7 @@ void *func_0204767C(u32 a0, u32 *a1, int a2)
     if (a2 == 0) {
         d->array = 0;
     } else {
-        d->array = func_02030734(g_02146A5C->f18, a2 * 4, 1, str_020A7EA8,
+        d->array = (u32)func_02030734(g_02146A5C->f18, a2 * 4, 1, str_020A7EA8,
                                  0x765);
         if (a1 != 0 && (int)a2 > 0) {
             for (i = 0; i < a2; i++)

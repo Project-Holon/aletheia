@@ -70,7 +70,7 @@ typedef struct Wrap {
 } Wrap;
 
 extern Wrap *g_021469F0;
-extern void *func_02030734(u32 a, u32 size, u32 b, void *p, u32 c);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_02034F84(u32 v);
 extern void func_0203DC4C(void);
 extern void *func_0203E420(void *arg);
@@ -84,7 +84,7 @@ Base *func_0203D8F0(const Base *src, u32 a1)
     if (g_021469F0 != 0 && g_021469F0->f101 == 1)
         return (Base *)src;
 
-    obj = func_02030734((u16)((src->heap & 0x7FFF) | 0x8000), sizeof(Wrap), 1, d_020A7D34, 0x72);
+    obj = func_02030734((u16)((src->heap & 0x7FFF) | 0x8000), sizeof(Wrap), 1, (const char *)d_020A7D34, 0x72);
     obj->base = *src;
     obj->arg = a1;
     obj->fn_2c = src->fn_2c;

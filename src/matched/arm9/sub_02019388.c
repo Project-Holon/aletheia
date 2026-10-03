@@ -184,7 +184,8 @@ extern void *func_02019C38(struct Mon *p, u32 pid, u32 n);
 extern u8   func_02017F50(u32 species, u16 form, u32 pid);
 extern u32  func_02019ABC(struct Mon *p);
 extern void func_0201F41C(const u16 *src, u16 *dst, u32 n);
-extern void func_02045A38(const void *src, void *dest, u32 n);
+struct U16Vec;
+extern void func_02045A38(struct U16Vec *src, u16 *dest, u32 n);
 
 void func_02019388(struct Mon *p, u32 id, u32 v)
 {
@@ -341,7 +342,7 @@ void func_02019388(struct Mon *p, u32 id, u32 v)
     case 0x71: b->g0 = (u16)v; break;
     case 0x72: b->unk1C = v; break;
     case 0x73:
-        func_02045A38((const void *)v, c->unk00, 11);
+        func_02045A38((struct U16Vec *)v, c->unk00, 11);
         b->iv7 = func_02019ABC(p);
         break;
     case 0x74:
@@ -349,7 +350,7 @@ void func_02019388(struct Mon *p, u32 id, u32 v)
         b->iv7 = func_02019ABC(p);
         break;
     case 0xB0:
-        func_02045A38((const void *)v, c->unk00, 11);
+        func_02045A38((struct U16Vec *)v, c->unk00, 11);
         break;
     case 0xB1:
         func_0201F41C((const void *)v, c->unk00, 11);
@@ -369,7 +370,7 @@ void func_02019388(struct Mon *p, u32 id, u32 v)
         }
         break;
     case 0x8D:
-        func_02045A38((const void *)v, d->unk00, 8);
+        func_02045A38((struct U16Vec *)v, d->unk00, 8);
         break;
     case 0x8E:
         func_0201F41C((const void *)v, d->unk00, 8);

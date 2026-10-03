@@ -28,7 +28,7 @@ typedef unsigned short u16;
 typedef unsigned int   u32;
 
 extern int         func_020490A8(int a0, int a1, int a2, int a3);
-extern int         func_02030734(int a0, int a1, int a2, const char *file, int line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *file, u16 tag);
 extern void        func_02048F4C(int a0, int a1, int a2);
 extern int         func_020834C0(int a0, int a1);
 extern void        func_020307B0(int a0);
@@ -42,14 +42,14 @@ int func_0204A1BC(int a0, int a1, int a2, int a3)
 
     if (a2 != 0) {
         t = func_020490A8(a0, a1, a2, a3);
-        r = func_02030734((u16)((a3 & 0x7fff) | 0x8000), t, 0, sArcUtil3730, 1599);
+        r = (int)func_02030734((u16)((a3 & 0x7fff) | 0x8000), t, 0, sArcUtil3730, 1599);
     } else {
         t = func_020490A8(a0, a1, a2, a3);
-        r = func_02030734(a3, t, 0, sArcUtil3730, 1603);
+        r = (int)func_02030734(a3, t, 0, sArcUtil3730, 1603);
     }
     func_02048F4C(r, a0, a1);
     if (a2 != 0) {
-        t2 = func_02030734(a3, *(u32 *)r >> 8, 0, sArcUtil3730, 1611);
+        t2 = (int)func_02030734(a3, *(u32 *)r >> 8, 0, sArcUtil3730, 1611);
         func_020834C0(r, t2);
         func_020307B0(r);
         r = t2;

@@ -78,7 +78,8 @@ extern struct Sub0200785CEntry  *sub_02007AF4(void *save, u32 box);
 extern u32 sub_02017E88(void *p, u32 id, u32 v);
 extern void func_02034714(const char *expr, u32 line, const char *file);
 extern void func_02045924(void *dest, const struct Sub0200785CName *src);
-extern void func_02045A38(const void *src, struct Sub0200785CName *dest,
+struct U16Vec;
+extern void func_02045A38(struct U16Vec *src, unsigned short *dest,
                           u32 n);
 
 int sub_020078C4(void *save, u32 box);
@@ -106,7 +107,7 @@ void sub_02007898(void *save, u32 box, const void *src)
         box = h->unk00;
     }
     if (box < 0x18) {
-        func_02045A38(src, &h->unk04[box], 0x14);
+        func_02045A38((struct U16Vec *)src, (unsigned short *)&h->unk04[box], 0x14);
     }
 }
 

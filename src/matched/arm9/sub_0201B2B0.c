@@ -61,7 +61,7 @@ struct EvoRow {
 
 extern u32   func_02017E1C(void *mon, u32 id, u32 v);
 extern u32   func_02020FE4(u32 id, u32 sel, u16 heap);
-extern void *func_02030734(u32 heap, u32 size, u32 c, void *file, u32 line);
+extern void *func_02030734(u32 heap, u32 size, int c, const char *file, u16 line);
 extern void  func_020307B0(void *p);
 struct Rec;
 extern void sub_0201B764(u32 id, void *dest);
@@ -113,7 +113,7 @@ u32 sub_0201B2B0(void *party, void *mon, u32 context, u32 param,
         methodOut = &dummy;
     }
     i = 0;
-    table = func_02030734(heap, 0x2A, 0, s_shinka_check_c, 0x6A);
+    table = func_02030734(heap, 0x2A, 0, (const char *)s_shinka_check_c, 0x6A);
     sub_0201B764(species, table);
 
     switch (context) {

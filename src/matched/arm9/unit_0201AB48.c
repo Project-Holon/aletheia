@@ -70,7 +70,7 @@ struct Party {
     struct PartyMon mon[6];
 };
 
-extern u32  func_02017E1C(const void *entry, u32 id, u32 v);
+extern u32  func_02017E1C(void *entry, u32 id, u32 v);
 typedef unsigned short u16;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *p);
@@ -82,7 +82,7 @@ extern const char sub_0201AB8C_File[];
 void sub_0201AB48(struct Party *p, u32 idx, const struct PartyMon *src)
 {
     u32 a = func_02017E1C(&p->mon[idx], 0xA9, 0);
-    u32 d = a - func_02017E1C(src, 0xA9, 0);
+    u32 d = a - func_02017E1C((void *)src, 0xA9, 0);
 
     *(struct PartyMon *)((u8 *)p + idx * sizeof(struct PartyMon) + 8) = *src;
     p->count += d;

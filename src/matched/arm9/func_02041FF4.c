@@ -63,7 +63,7 @@ extern struct BgSys *g_02146A44;
 extern char g_020A7E5C[];
 extern u16 func_02040EE0(int x, int y, u32 code);
 extern u8 *func_020415B4(u32 layer);
-extern void *func_02030734(u16 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_020307B0(void *p);
 extern void func_02043130(u16 pal, void *buf, u16 heap);
 extern void func_02082D44(void *dst, const void *src, u32 size);
@@ -87,7 +87,7 @@ u32 func_02041FF4(u32 layer, s32 x, s32 y, u16 *flags)
   {
     u8 *src;
     tbl = g_02146A44->slots[layer].tiles;
-    buf = func_02030734((g_02146A44->slots[0].heapId & 0x7fff) | 0x8000, 0x40, 0, g_020A7E5C, 0xa77);
+    buf = func_02030734((u16)((g_02146A44->slots[0].heapId & 0x7fff) | 0x8000), 0x40, 0, g_020A7E5C, 0xa77);
     src = chr + (((u32) (tbl[key] << 22)) >> 17);
     for (i = 0; i < 0x20; i++)
     {
@@ -105,7 +105,7 @@ u32 func_02041FF4(u32 layer, s32 x, s32 y, u16 *flags)
   if (g_02146A44->slots[layer].mode != 1)
   {
     tbl = g_02146A44->slots[layer].tiles;
-    buf = func_02030734((g_02146A44->slots[0].heapId & 0x7fff) | 0x8000, 0x40, 0, g_020A7E5C, 0xa8f);
+    buf = func_02030734((u16)((g_02146A44->slots[0].heapId & 0x7fff) | 0x8000), 0x40, 0, g_020A7E5C, 0xa8f);
     func_02082D44(buf, chr + (((u32) (tbl[key] << 22)) >> 16), 0x40);
     func_02043130((tbl[key] >> 10) & 3, buf, g_02146A44->slots[0].heapId);
     v = buf[px + (py << 3)];

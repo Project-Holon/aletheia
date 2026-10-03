@@ -89,7 +89,7 @@ extern const u8 d_020A1E38[];
 extern const struct Rect16 d_020A1300;
 extern const struct Setup36 d_020A1328;
 
-extern void *func_02030734(u16 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
 extern void  func_0206DF14(void);
 extern void  G3X_InitMtxStack(void);
 extern void  func_0206A700(void);
@@ -117,7 +117,7 @@ void func_02046440(u32 texMode, u32 texSize, u32 plttMode, u32 plttSize,
     struct Rect16 r;
     u32 size;
 
-    g_02146A5C = func_02030734(heap, 0xa0, 0, g_020A7EA8, 0x5c);
+    g_02146A5C = func_02030734((u16)heap, 0xa0, 0, g_020A7EA8, 0x5c);
     g_02146A5C->heap_id = heap;
     g_02146A5C->f8c = texMode;
     g_02146A5C->f90 = plttMode;

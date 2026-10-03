@@ -65,7 +65,7 @@ extern void *func_0204913C(void *a0, u32 a1, u32 heap);
 extern void *func_0204A39C(void *narc, int fileId, int decompress, u32 heapId, u32 *out_size);
 extern struct MsgBank *func_02045C44(const void *file, u32 heapId);
 extern void *func_02045EC0(struct MsgBank *bank, u32 index);
-extern void  func_02045A38(void *a, void *b, u32 c);
+extern void  func_02045A38(struct U16Vec *a, u16 *b, u32 c);
 extern void func_02045808(struct U16Vec *vec);
 extern void func_02045C04(struct Rec *rec);
 extern void  func_02049238(void *a);
@@ -112,7 +112,7 @@ u32 func_0200C5F8(struct MusicalDist *p)
         d = func_0204A39C(c, 1, 0, (u16)((p->unk00 & 0x7FFF) | 0x8000), &loc);
         e = func_02045C44(d, (u16)((p->unk00 & 0x7FFF) | 0x8000));
         f = func_02045EC0(e, 0);
-        func_02045A38(f, func_0200A7F8(a), 0x25);
+        func_02045A38(f, (u16 *)func_0200A7F8(a), 0x25);
         func_02045808(f);
         func_02045C04(e);
         func_020307B0(d);

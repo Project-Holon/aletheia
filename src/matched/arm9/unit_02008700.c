@@ -71,7 +71,8 @@ extern void MIi_CpuClear32(u32 data, void *dest, u32 size);
 
 /* The three sub-object constructors, each in a file of its own. */
 extern void sub_02008320(void *p);
-extern void sub_020084A0(void *p);
+struct Sub0200852CObj;
+extern void sub_020084A0(struct Sub0200852CObj *obj);
 struct PlayTime;
 struct Sub020071CCCtrl;
 extern void sub_020085A0(struct PlayTime *p);
