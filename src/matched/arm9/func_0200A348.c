@@ -13,13 +13,15 @@
  * docs/idioms/tail-call-is-a-pool-word-and-bx.md.  It carries no label in the
  * generated listing (it saves nothing), so it was read out of the bytes; it
  * sits between func_0200A338 and func_0200A350 at the end of its packet.
- * Because the pool word is loaded into r3 to be branched through, the callee
- * can take at most r0..r2, which is what the pass-through declares.
+ * Its target reads one object pointer in r0 and returns the unsigned count
+ * used by the overlay callers.
  */
 
-extern void func_0200A400(void *a0, void *a1, void *a2);
+typedef unsigned int u32;
+struct Obj;
+extern u32 func_0200A400(struct Obj *obj);
 
-void func_0200A348(void *a0, void *a1, void *a2)
+u32 func_0200A348(struct Obj *obj)
 {
-    func_0200A400(a0, a1, a2);
+    return func_0200A400(obj);
 }
