@@ -19,7 +19,7 @@ typedef unsigned int u32;
 typedef struct { u32 a, b, c; } E;
 typedef struct { E e[12]; } T;
 
-extern u32 func_02017E1C(u32 a, u32 b, u32 c);
+extern u32 func_02017E1C(void *a, u32 b, u32 c);
 extern u32 func_021C3BB0(u32 *p);
 extern T d_021DA960;
 
@@ -31,10 +31,10 @@ void func_021C3B2C(u32 *p, u32 *q)
     u32 x = func_021C3BB0(p);
 
     i = 0;
-    func_02017E1C(x, 5, 0);
-    func_02017E1C(x, 6, 0);
-    r5 = func_02017E1C(p[0], 6, 0);
-    r3 = func_02017E1C(p[1], 6, 0);
+    func_02017E1C((void *)x, 5, 0);
+    func_02017E1C((void *)x, 6, 0);
+    r5 = func_02017E1C((void *)p[0], 6, 0);
+    r3 = func_02017E1C((void *)p[1], 6, 0);
     for (; i < 12; i++) {
         if (*q == t.e[i].a && r5 != t.e[i].b && r3 != t.e[i].b) {
             *q = t.e[i].c;

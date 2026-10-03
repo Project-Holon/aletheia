@@ -25,12 +25,12 @@ typedef struct {
 } Obj;
 
 extern int d_021DE390;
-extern void *func_02030734(u16 heap, u32 size, u32 clear, const void *file, u32 line);
+extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
 extern void *func_02047CFC(u16, u16, u16);
 
 Obj *func_021BE2A8(u32 a, u32 b, u32 heap)
 {
-    Obj *o = func_02030734(heap, sizeof(Obj), 1, &d_021DE390, 0x4c);
+    Obj *o = func_02030734((u16)heap, sizeof(Obj), 1, (const char *)&d_021DE390, 0x4c);
 
     o->obj = func_02047CFC(a, b, heap);
     o->heap = heap;

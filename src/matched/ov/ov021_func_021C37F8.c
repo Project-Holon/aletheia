@@ -16,7 +16,7 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02017E1C(u32, u32, u32);
+extern u32 func_02017E1C(void *, u32, u32);
 
 int func_021C37F8(u32 a, u32 b)
 {
@@ -28,8 +28,8 @@ int func_021C37F8(u32 a, u32 b)
     m[0] = a;
     m[1] = b;
     for (i = 0; i < 2; i++) {
-        x[i] = func_02017E1C(m[i], 5, 0);
-        y[i] = func_02017E1C(m[i], 7, 0);
+        x[i] = func_02017E1C((void *)m[i], 5, 0);
+        y[i] = func_02017E1C((void *)m[i], 7, 0);
     }
     if (x[0] != x[1]) {
         if (y[0] == y[1])

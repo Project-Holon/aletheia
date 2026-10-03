@@ -78,7 +78,7 @@ typedef struct {
 } Out;
 
 extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
-extern void *func_02030734(u32, u32, u32, void *, u32);
+extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u8 d_021DE3D8;
 
 void func_021C24F0(Out *out, u32 b, u32 heap)
@@ -111,16 +111,16 @@ void func_021C24F0(Out *out, u32 b, u32 heap)
     basec = baseb + nb;
     total = na + nb + nc;
     if (total != 0) {
-        out->e0 = func_02030734(heap, total * 12, 1, &d_021DE3D8, 0x566);
+        out->e0 = func_02030734(heap, total * 12, 1, (const char *)&d_021DE3D8, 0x566);
     }
     if (na != 0) {
-        out->e1 = func_02030734(heap, na * 16, 1, &d_021DE3D8, 0x56a);
+        out->e1 = func_02030734(heap, na * 16, 1, (const char *)&d_021DE3D8, 0x56a);
     }
     if (nb != 0) {
-        out->e2 = func_02030734(heap, nb * 4, 1, &d_021DE3D8, 0x56e);
+        out->e2 = func_02030734(heap, nb * 4, 1, (const char *)&d_021DE3D8, 0x56e);
     }
     if (nc != 0) {
-        out->e3 = func_02030734(heap, nc * 4, 1, &d_021DE3D8, 0x572);
+        out->e3 = func_02030734(heap, nc * 4, 1, (const char *)&d_021DE3D8, 0x572);
     }
     out->total = total;
     out->na = na;

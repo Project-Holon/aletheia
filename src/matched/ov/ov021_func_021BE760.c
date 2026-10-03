@@ -83,7 +83,7 @@ extern int d_021DE390;
 extern void *func_020490F4(unsigned int id, u16 heap);
 extern u16 func_02048010(void *util, const Setup *setup, void *arc);
 extern void func_02049238(void *arc);
-extern void *func_02030734(u16 heap, int size, int clear, void *file, int line);
+extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
 extern void func_021BE630(Grp *g, int n, int heap);
 extern void func_0207ADC4(Mtx33 *m);
 extern void *func_021BE4C4(P *p, int i, int j);
@@ -111,9 +111,9 @@ void func_021BE760(P *p, const Setup *b, u16 i)
     p->slots[i].n = n;
     p->slots[i].active = 1;
     p->slots[i].id = id;
-    nodes = func_02030734(p->heap, n * sizeof(Node), 1, &d_021DE390, 0x23E);
+    nodes = func_02030734((u16)p->heap, n * sizeof(Node), 1, (const char *)&d_021DE390, 0x23E);
     p->slots[i].nodes = nodes;
-    p->slots[i].grps = func_02030734(p->heap, n * sizeof(Grp), 1, &d_021DE390, 0x241);
+    p->slots[i].grps = func_02030734((u16)p->heap, n * sizeof(Grp), 1, (const char *)&d_021DE390, 0x241);
     for (j = 0; j < n; j++) {
         int k;
         Node *nd;

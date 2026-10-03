@@ -35,7 +35,7 @@ typedef unsigned int   u32;
 typedef int fx32;
 typedef struct { fx32 x, y, z; } VecFx32;
 
-extern u32 *func_02030734(u32, u32, u32, u8 *, u32);
+extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void *func_02047CFC(int a, int b, int heap);
 extern void *func_02048A24(int a, int s, int c, int d, int e, int f, int g, int h, VecFx32 *pos, VecFx32 *up, VecFx32 *tgt, int heap);
 extern u8 d_021DE3D8;
@@ -60,7 +60,7 @@ u32 *func_021C1AF4(u32 a, u32 b)
 {
     u32 *r;
 
-    r = func_02030734(a, 0x138, 1, &d_021DE3D8, 0x158);
+    r = func_02030734(a, 0x138, 1, (const char *)&d_021DE3D8, 0x158);
     r[5] = (u32)func_02047CFC(8, 2, a);
     *(u16 *)((u8 *)r + 0x10) = a;
     r[0] = b;

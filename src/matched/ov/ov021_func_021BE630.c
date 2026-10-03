@@ -20,11 +20,11 @@ typedef unsigned char u8;
 
 extern int d_021DE390;
 
-void *func_02030734(u16 a, int b, int c, void *d, int e);
+void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, u16 e);
 
 void func_021BE630(int *p, int n, int heap)
 {
-    u8 *e = (u8 *)func_02030734(heap, n << 4, 1, &d_021DE390, 0x19D);
+    u8 *e = (u8 *)func_02030734((u16)heap, n << 4, 1, (const char *)&d_021DE390, 0x19D);
     int i;
 
     p[1] = (int)e;

@@ -30,7 +30,7 @@ typedef unsigned int   u32;
 
 typedef struct { int x, y, z; } Vec3;
 
-extern u8 *func_02030734(u32, u32, u32, u8 *, u32);
+extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u8 d_021DE3AC;
 extern u32 func_021A3068(u32 a);
 extern void *func_021A3074(unsigned char *p);
@@ -50,7 +50,7 @@ void func_021C1228(u32 a, u16 b, u32 c, u32 d)
     Vec3 vb;
     int out;
 
-    r = func_02030734((u16)(0x8000 | (d & 0x7fff)), 0x4c, 1, &d_021DE3AC, 0x2b3);
+    r = func_02030734((u16)(0x8000 | (d & 0x7fff)), 0x4c, 1, (const char *)&d_021DE3AC, 0x2b3);
     *(u16 *)(r + 4) = b;
     *(u32 *)(r + 0x3c) = a;
     *(u32 *)(r + 0x40) = func_021A3068(a);

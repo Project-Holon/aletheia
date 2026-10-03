@@ -22,7 +22,7 @@
 typedef unsigned int u32;
 typedef unsigned short u16;
 
-extern u32 func_02017E1C(u32, u32, u32);
+extern u32 func_02017E1C(void *, u32, u32);
 extern u32 func_02019C90(u16 a, u16 b, u32 k);
 extern int func_021C37F8(u32 a, u32 b);
 
@@ -39,10 +39,10 @@ int func_021C36EC(u32 a, u32 b)
     m[0] = a;
     m[1] = b;
     for (i = 0; i < 2; i++) {
-        sp[i] = func_02017E1C(m[i], 5, 0);
-        func_02017E1C(m[i], 7, 0);
-        fm[i] = func_02017E1C(m[i], 0x6f, 0);
-        gd[i] = func_02017E1C(m[i], 0x6e, 0);
+        sp[i] = func_02017E1C((void *)m[i], 5, 0);
+        func_02017E1C((void *)m[i], 7, 0);
+        fm[i] = func_02017E1C((void *)m[i], 0x6f, 0);
+        gd[i] = func_02017E1C((void *)m[i], 0x6e, 0);
         g1[i] = func_02019C90(sp[i], fm[i], 0x18);
         g2[i] = func_02019C90(sp[i], fm[i], 0x19);
     }

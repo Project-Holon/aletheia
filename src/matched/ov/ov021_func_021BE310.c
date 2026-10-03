@@ -80,7 +80,7 @@ typedef struct {
 extern int d_021DE390;
 
 extern u16 func_02047F4C(void *util, const Setup *setup);
-extern void *func_02030734(u16 heap, int size, int clear, void *file, int line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_021BE630(Grp *g, int n, int heap);
 extern void func_0207ADC4(Mtx33 *m);
 extern void *func_021BE4C4(P *p, int i, int j);
@@ -105,9 +105,9 @@ void func_021BE310(P *p, Setup *b, u16 i)
     p->slots[i].n = n;
     p->slots[i].active = 1;
     p->slots[i].id = id;
-    nodes = func_02030734(p->heap, n * sizeof(Node), 1, &d_021DE390, 0x8b);
+    nodes = func_02030734((u16)p->heap, n * sizeof(Node), 1, (const char *)&d_021DE390, 0x8b);
     p->slots[i].nodes = nodes;
-    p->slots[i].grps = func_02030734(p->heap, n * sizeof(Grp), 1, &d_021DE390, 0x8e);
+    p->slots[i].grps = func_02030734((u16)p->heap, n * sizeof(Grp), 1, (const char *)&d_021DE390, 0x8e);
     for (j = 0; j < n; j++) {
         int k;
         Node *nd;

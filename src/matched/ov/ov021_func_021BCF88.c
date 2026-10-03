@@ -15,9 +15,9 @@
 
 extern int d_021DE354;
 
-extern void *func_02030734(int a, int b, int c, void *d, int e);
+extern void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, unsigned short e);
 
 void *func_021BCF88(int a)
 {
-    return func_02030734(a, 0x154, 1, &d_021DE354, 0x73C);
+    return func_02030734(a, 0x154, 1, (const char *)&d_021DE354, 0x73C);
 }

@@ -15,7 +15,7 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02017E1C(u32 a, u32 b, u32 c);
+extern u32 func_02017E1C(void *a, u32 b, u32 c);
 extern u32 func_02005728(u32 n);
 
 void func_021C3C88(u32 *p, u32 *q)
@@ -24,13 +24,13 @@ void func_021C3C88(u32 *p, u32 *q)
     u32 s0, s1;
 
     x = 0;
-    if (func_02017E1C(p[0], 6, 0) == 0xe5)
+    if (func_02017E1C((void *)p[0], 6, 0) == 0xe5)
         x = 1;
     y = 0;
-    if (func_02017E1C(p[1], 6, 0) == 0xe5)
+    if (func_02017E1C((void *)p[1], 6, 0) == 0xe5)
         y = 1;
-    s0 = func_02017E1C(p[0], 0x70, 0);
-    s1 = func_02017E1C(p[1], 0x70, 0);
+    s0 = func_02017E1C((void *)p[0], 0x70, 0);
+    s1 = func_02017E1C((void *)p[1], 0x70, 0);
     if (x || y) {
         if (func_02005728(2) == 0)
             return;

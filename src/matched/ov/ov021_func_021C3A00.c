@@ -15,17 +15,17 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02017E1C(u32 a, u32 b, u32 c);
+extern u32 func_02017E1C(void *a, u32 b, u32 c);
 extern void func_021C3A70(u32 *p);
 
 void func_021C3A00(u32 *p)
 {
-    u32 a = func_02017E1C(p[0], 0x6e, 0);
+    u32 a = func_02017E1C((void *)p[0], 0x6e, 0);
 
-    func_02017E1C(p[1], 0x6e, 0);
+    func_02017E1C((void *)p[1], 0x6e, 0);
     if (a == 1)
         func_021C3A70(p);
-    func_02017E1C(p[0], 0x6e, 0);
-    if (func_02017E1C(p[1], 0x6e, 0) == 0)
+    func_02017E1C((void *)p[0], 0x6e, 0);
+    if (func_02017E1C((void *)p[1], 0x6e, 0) == 0)
         func_021C3A70(p);
 }

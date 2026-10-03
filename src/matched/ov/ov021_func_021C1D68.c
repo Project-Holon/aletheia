@@ -23,7 +23,7 @@ void *func_020120F4(int a);
 struct BigObj;
 void *func_02012934(const struct BigObj *p);
 extern void *func_0201AB28(void *p, u32 idx);
-int func_02017E1C(int a, int b, int c);
+u32 func_02017E1C(void *p, u32 id, u32 v);
 int func_02017EAC(int a);
 int func_021C1D18(int a, int b, int c, int d, int e, int f, int g);
 
@@ -37,10 +37,10 @@ int func_021C1D68(int a, int b, int c)
     int x4c;
 
     p = (int)func_0201AB28(func_02012934(func_020120F4(a)), c);
-    x5 = func_02017E1C(p, 5, 0);
-    x6f = func_02017E1C(p, 0x6f, 0);
-    x6e = func_02017E1C(p, 0x6e, 0);
+    x5 = func_02017E1C((void *)p, 5, 0);
+    x6f = func_02017E1C((void *)p, 0x6f, 0);
+    x6e = func_02017E1C((void *)p, 0x6e, 0);
     xe = func_02017EAC(p);
-    x4c = func_02017E1C(p, 0x4c, 0);
+    x4c = func_02017E1C((void *)p, 0x4c, 0);
     return func_021C1D18(a, b, x5, x6f, x6e, xe, x4c);
 }
