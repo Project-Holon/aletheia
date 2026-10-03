@@ -21,7 +21,8 @@ struct Sub24;
 extern struct Rec44 *func_02012950(struct Sub24 *p, u32 i);
 extern int func_02008468(void);
 extern void func_02082D44(void *, const void *, u32);
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u16 func_02039338(void);
 void func_021B68E0(u32 a, int b, int c, int *d, u32 e)
 {
@@ -30,7 +31,7 @@ void func_021B68E0(u32 a, int b, int c, int *d, u32 e)
         p = func_02012950((void *)*(int *)d[0], a);
         func_02082D44((void *)(c + 12), p, func_02008468());
     }
-    if (e == func_020399A8()) {
+    if (e == (u32)func_020399A8()) {
         if (a != func_02039338())
             d[9] = 1;
     }

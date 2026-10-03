@@ -29,13 +29,15 @@ extern void func_021D89CC(char *p);
 extern void func_021D9434(void *);
 extern void func_021DF0B8(char *p);
 extern void func_021D8E84(void *,int);
-extern unsigned func_020399A8(void);
-extern void func_02039C68(unsigned,unsigned,unsigned);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *,unsigned,unsigned);
 void func_021DF168(void *p) {
  if(func_020221A4()) {
   func_021E4888(p);func_020435F4(4);func_02022230(4);
   ++*(volatile unsigned char *)((char *)p+0x11fa);
   if(*(volatile unsigned char *)((char *)p+0x11fa)>=3) {func_021D89CC(p);func_021D8E84(p,(int)func_021D9434);return;}
-  func_02039C68(func_020399A8(),31,8);func_021D8E84(p,(int)func_021DF0B8);
+  func_02039C68((struct Link *)func_020399A8(),31,8);func_021D8E84(p,(int)func_021DF0B8);
  }
 }

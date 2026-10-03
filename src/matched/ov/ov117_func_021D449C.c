@@ -29,8 +29,10 @@ typedef unsigned char u8;
 extern void func_021E3BB0(void *p);
 extern void func_021E3230(void *p);
 extern int func_021D8A24(void *p);
-extern u32 func_020399A8(void);
-extern void func_02039C68(u32 h, u32 a, u32 b);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *h, u32 a, u32 b);
 extern void func_021D8E84(void *p, int next);
 extern void func_021D4290(u8 *p, u8 *outSame, u8 *outFlag, u32 key, int enemy);
 extern void func_021D4520(u8 *p);
@@ -44,7 +46,7 @@ void func_021D449C(u8 *p)
         func_021D4290(p, p + 0x11EE, p + 0x11F0, *(u32 *)(p + 0x830), 0);
         func_021E3230(p);
         if (func_021D8A24(p) != 0) {
-            func_02039C68(func_020399A8(), 0x11, 8);
+            func_02039C68((struct Link *)func_020399A8(), 0x11, 8);
             func_021D8E84(p, (int)func_021D4520);
         } else {
             func_021D8E84(p, (int)func_021D4544);

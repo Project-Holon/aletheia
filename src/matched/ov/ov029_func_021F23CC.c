@@ -42,7 +42,8 @@ extern int d_021F3554;
 extern void *func_02030734(u32 heap, u32 size, int flag, const char *file, u16 line);
 extern u32 func_020120F4(u32 a);
 extern u32 func_02012EBC(u32 a);
-extern int func_020072CC(u32 sv, u32 id, u32 heap, void *buf, u32 size);
+struct Ctrl;
+extern u32 func_020072CC(struct Ctrl *sv, u32 id, u8 heap, void *buf, u32 size);
 struct Sub020090B0Obj;
 extern u16 func_0203F1FC(const u8 *src, u32 len);
 extern void *func_02009210(u32 sv);
@@ -53,7 +54,8 @@ extern void func_02040E78(u32 a, void *src, u32 size, u32 ofs);
 extern void func_02040AE0(u32 index, const void *src, u32 mode);
 extern u16 *func_0204162C(int channel);
 extern void func_020409B4(u32 a);
-extern void func_0200734C(u32 sv, u32 id);
+struct Sub02007324Ctrl;
+extern void func_0200734C(struct Sub02007324Ctrl *sv, u32 id);
 extern void func_020307B0(void *p);
 
 int func_021F23CC(u8 *p, u32 a)
@@ -70,7 +72,7 @@ int func_021F23CC(u8 *p, u32 a)
     result = 0;
     buf = func_02030734(0x70, 0x3000, 0, (const char *)&d_021F3554, 0x104E);
     h = func_02012EBC(func_020120F4(a));
-    if (func_020072CC(h, 4, 0x70, buf, 0x3000) == 1) {
+    if (func_020072CC((struct Ctrl *)h, 4, 0x70, buf, 0x3000) == 1) {
         crc = func_0203F1FC(buf, 0x2600);
         x = func_0200910C(func_02009210(h));
         base = (u16)*(u32 *)(p + 0x14);
@@ -88,7 +90,7 @@ int func_021F23CC(u8 *p, u32 a)
             func_020409B4(5);
         }
     }
-    func_0200734C(h, 4);
+    func_0200734C((struct Sub02007324Ctrl *)h, 4);
     func_020307B0(buf);
     return result;
 }

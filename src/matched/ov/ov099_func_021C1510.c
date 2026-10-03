@@ -21,8 +21,10 @@
  */
 typedef unsigned char u8;
 extern int func_021C1154(char *, int);
-extern int func_020399A8(void);
-extern int func_02039CB4(unsigned, unsigned, unsigned);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern unsigned int func_02039CB4(struct Link *, unsigned int, unsigned int);
 extern int func_021C14EC(char *);
 extern void *func_0201283C(void *);
 struct Sub020097BCFriend;
@@ -40,7 +42,7 @@ int func_021C1510(char *p, int ret)
     void *s;
     unsigned count;
     if (func_021C1154(p, ret) == 0) {
-        if (func_02039CB4(func_020399A8(), 18, 10) != 0) {
+        if (func_02039CB4((struct Link *)func_020399A8(), 18, 10) != 0) {
             if (func_021C14EC(p) == 1) {
                 func_0200F4E4(func_020099C8(func_0201283C(*(void **)(p + 0xc4)), 0));
                 func_021BA8EC(p);

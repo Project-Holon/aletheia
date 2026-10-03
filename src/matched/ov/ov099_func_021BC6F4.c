@@ -28,8 +28,10 @@ typedef enum { K73 = 0x73 } Idx;
 
 extern u32 func_0203D378(void);
 extern void func_021BAAB8(char *p, int a, int b);
-extern int func_020399A8(void);
-extern void func_02039C68(u32 h, u32 a, u32 b);
+struct Entry;
+extern struct Entry *func_020399A8(void);
+struct Link;
+extern void func_02039C68(struct Link *h, unsigned int a, unsigned int b);
 
 int func_021BC6F4(char *p, int v)
 {
@@ -39,7 +41,7 @@ int func_021BC6F4(char *p, int v)
     if (func_0203D378() != 0) {
         k = K73;
         func_021BAAB8(p, 0x73, 0);
-        func_02039C68(func_020399A8(), 0x1b, 0xa);
+        func_02039C68((struct Link *)func_020399A8(), 0x1b, 0xa);
         a[k] = 0x49;
     } else {
         func_021BAAB8(p, 0x72, 0);

@@ -19,7 +19,8 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern int func_0203D1A4(int);
 extern u32 func_0203D1C0(u32 index);
 
@@ -28,7 +29,7 @@ int func_021CF12C(u32 mask)
     u8 i;
 
     for (i = 0; i < 4; i++) {
-        if (i != func_0203D1A4(func_020399A8()) && ((1 << i) & mask) && func_0203D1C0(i) == 1) {
+        if (i != func_0203D1A4((int)func_020399A8()) && ((1 << i) & mask) && func_0203D1C0(i) == 1) {
             return 1;
         }
     }
