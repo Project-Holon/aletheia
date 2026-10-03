@@ -7,10 +7,10 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status: EXACT
  *
- * 19 bytes out: register rotation in the `(cur + 1) % 2` block (image keeps the
- * 0x144 offset in r0 and the sum in r1; compiled uses r3 and r0).
+ * func_021C53E0 takes (res, obj): the image keeps obj in r1 at the call, which
+ * is what the old register-rotation residue was.
  *
  * symbols:
  *   func_0204B3DC        0x0204B3DC  arm
@@ -47,7 +47,7 @@ struct Ov208Menu {
 };
 
 extern void func_0204B3DC(u32 obj, int on);
-extern void func_021C53E0(u32 res);
+extern void func_021C53E0(u32 res, u32 obj);
 extern void ov208_func_021C57A4(u16 *heap, struct Ov208Menu *p, int key, u16 idx);
 
 void ov208_func_021C5CF0(u16 *heap, struct Ov208Menu *p, int key)
@@ -57,7 +57,7 @@ void ov208_func_021C5CF0(u16 *heap, struct Ov208Menu *p, int key)
     p->cur = (p->cur + 1) % 2;
     if (p->obj[p->cur] != 0) {
         if (p->obj[p->cur] != 0)
-            func_021C53E0(p->res[p->cur]);
+            func_021C53E0(p->res[p->cur], p->obj[p->cur]);
         p->obj[p->cur] = 0;
     }
     ov208_func_021C57A4(heap, p, key, p->sel);

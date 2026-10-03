@@ -1,0 +1,27 @@
+/*
+ * function: func_021C32FC
+ * address: 0x021C32FC
+ * packet: pkt_ov208_021C32FC
+ * region: ov208
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_0201C6EC 0x0201C6EC thumb
+ *   func_02045770 0x02045770 arm
+ *   func_02043B5C 0x02043B5C arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct PrintSys; struct Descriptor; struct CharBuf;
+extern void func_0201C6EC(struct PrintSys *print);
+extern void *func_02045770(struct Descriptor *p);
+extern void func_02043B5C(struct CharBuf *p, u8 v);
+void func_021C32FC(u16 *heap, u8 *p, int key)
+{
+    *(u32 *)(p + 0x10) = 0;
+    func_0201C6EC(*(struct PrintSys **)(p + 8));
+    func_02043B5C(func_02045770(*(struct Descriptor **)(p + 0xc)), 0);
+}

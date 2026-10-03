@@ -7,7 +7,7 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: MATCH
+ * status: EXACT
  * symbols:
  *   func_021BD0A8 0x021BD0A8 thumb
  * 2026-10-02: blocked on the relocation to func_021BD0A8, an unlabelled Thumb getter (ldr r0,[r0]; bx lr).

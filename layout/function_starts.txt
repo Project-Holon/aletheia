@@ -645,6 +645,9 @@ overlay_170  0x021EBB1C  thumb # "ldr r3, =func_021EBA84; adds r2, r1, #0; movs 
 overlay_170  0x021E2648  thumb # "ldr r3, =func_021E9284; bx r3" tail thunk after func_021E24EC's pool, printed as .word data (tree_ov170_6); pointer word 0x021E2649 at ov170 0x021EFABC (state handler table, between func_021E24EC and func_021E2650)
 overlay_206  0x021BC0AC  thumb # "movs r0, #0xa7; bx lr" after func_021BC008's pop, printed as data; bl from ov206 at 0x021BBE94 (func_021BBE5C)
 overlay_206  0x021BC0E0  thumb # "movs r0, #0xe9; bx lr" before func_021BC0E4, printed as data; bl from ov206 at 0x021BBE9A (func_021BBE5C)
+overlay_208  0x021BCC80  thumb # empty stub "bx lr" after func_021BCBB4; bl from ov208 in func_021BCA68
+overlay_208  0x021BD0A8  thumb # getter "ldr r0, [r0]; bx lr"; bl from ov208 in func_021BCF4C
+overlay_208  0x021C47B4  thumb # thunk "ldr r0, =0x6ac; ldr r3, =func_021BC6BC; ldr r0, [r1, r0]; bx r3" after func_021C47A0's pop; pool word 0x021C47B5 in func_021C3B6C
 # ov208 leaves already EXACT (tree_ov135), unlabelled in the listing.
 overlay_208  0x021BD360  thumb # "movs r1, #0; str r1, [r0, #0x10]; bx lr"; pool word 0x021BD361 (Thumb bit set) at ov208 0x021BDBA8, the tail-call pool of func_021BDBA0
 overlay_208  0x021BDBAC  thumb # "ldr r0, [r0, #0x30]; ldr r3, =func_021BD330; bx r3"; bl from ov208 at 0x021C1976, 0x021C5FE0

@@ -7,7 +7,7 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: MATCH
+ * status: EXACT
  * symbols:
  *   func_0203064C 0x0203064C arm
  *   func_0203159C 0x0203159C arm

@@ -7,10 +7,11 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   DIFF
+ * status:   EXACT
+ * blocker:  func_02014CEC witness (src/matched/arm9/func_02014CEC.c) has no shard yet; EXACT once the integrator builds it (2026-10-02)
  *
- * 18 bytes out: the image moves the func_02030CBC result to r1 before the
- * store; see docs/notes/pkt_ov208_021C4F78.c.txt.
+ * The last call takes the 3D heap handle as its second argument (r1 still
+ * holds it), which is why the image copies the result to r1 before the store.
  *
  * symbols:
  *   func_02014B08  0x02014B08  thumb
@@ -45,7 +46,7 @@ extern u32  func_0202D060(void);
 extern void func_02014CB8(u32 cam, u32 v);
 extern u32  func_02030CB0(u32 n);
 extern void *func_02030CBC(u32 n, void *mem);
-extern void func_02014CEC(u32 cam);
+extern void func_02014CEC(u32 cam, void *v);
 extern void *func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
 extern const char data_021C8E64[];
 
@@ -57,5 +58,5 @@ void ov208_func_021C4F78(u16 *heap, struct Ov208Menu *p)
     func_02014CB8(p->cam, func_0202D060());
     p->mem = func_02030734(*heap, func_02030CB0(4), 0, data_021C8E64, 0xa53);
     p->heap3d = func_02030CBC(4, p->mem);
-    func_02014CEC(p->cam);
+    func_02014CEC(p->cam, p->heap3d);
 }

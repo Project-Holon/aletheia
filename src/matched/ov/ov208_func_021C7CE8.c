@@ -6,8 +6,8 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: MATCH
- * blocker: arm9 02014CEC Thumb verified EXACT4 in S27 blocker1 log
+ * status: EXACT
+ * blocker: func_02014CEC witness filed as src/matched/arm9/func_02014CEC.c (2026-10-02), shard pending from the integrator; EXACT after that
  *   typedef unsigned int u32;
  *   void func_02014CEC(char *p, u32 value) { *(u32 *)(p + 8) = value; }
  * symbols:
