@@ -29,7 +29,7 @@ extern void func_021C88C8(void *a, void *b);
 extern void func_021C8838(void *p, int a, int b);
 extern void func_021C8860(void *p, u32 v);
 
-void func_021E0944(int unused, void *q, int id)
+void func_021E0944(int unused, void *q, int id, int unused2)
 {
     u8 *r;
     int n;

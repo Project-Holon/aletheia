@@ -1386,11 +1386,84 @@ def veneer_at(addr, site_region=None, region_hint=None):
     return size, addr + ptr_off, value
 
 
+# The Thumb-entry form.  A Thumb `bl` cannot reach an ARM routine or a
+# routine outside its +-4 MB range, so the linker also writes a stub that
+# starts in Thumb state and switches to ARM before the same ldr-ip/bx-ip pair:
+#
+#   4778       bx  pc            (Thumb: to ARM state, at the next word)
+#   46C0       mov r8, r8        (Thumb nop, pads to the word)
+#   E59FC000   ldr ip, [pc, #0]
+#   E12FFF1C   bx  ip
+#   <ptr>      .word target
+#
+# ov093 reaches its ov095 helpers in VRAM (0x0689xxxx) only through these.
+# Unlike the bare Thumb tail-call shape refused above, this one is a linker
+# signature: mwccarm never emits `bx pc` (a Thumb function that wants ARM code
+# calls it with a relocation the linker resolves, which is exactly this stub).
+# The rule is the ARM rule with a Thumb entry: the declared kind is `thumb`,
+# the address is four-aligned, the two halfwords are compared whole, the ARM
+# words that follow are one of the two encodings above, rules 4 to 6 hold, and
+# the stub (16 or 12 bytes) lies outside the compared range.
+
+VENEER_THUMB_BX_PC = 0x4778         # bx pc
+VENEER_THUMB_NOP = 0x46C0           # mov r8, r8
+
+
+def thumb_veneer_at(addr, site_region=None, region_hint=None):
+    """(size, pointer word address, target) if `addr` is a Thumb-entry veneer."""
+    if addr & 3:
+        return None
+    region = witness_region(addr, site_region, region_hint)
+    if region is None:
+        return None
+    off = addr - region.base
+    data = region.data
+    if off + 4 > len(data):
+        return None
+    h0, h1 = struct.unpack_from("<HH", data, off)
+    if h0 != VENEER_THUMB_BX_PC or h1 != VENEER_THUMB_NOP:
+        return None
+
+    def word(k):
+        if off + k + 4 > len(data):
+            return None
+        return struct.unpack_from("<I", data, off + k)[0]
+
+    w1 = word(4)
+    if w1 == VENEER_ARM_LDR_IP and word(8) == VENEER_ARM_BX_IP:
+        size, ptr_off = 16, 12
+    elif w1 == VENEER_ARM_LDR_PC:
+        size, ptr_off = 12, 8
+    else:
+        return None
+    value = word(ptr_off)
+    if value is None:
+        return None
+    # Rule 4 is relaxed for this form only.  The ARM rule needs the pointer to
+    # name a labelled function because its two words could, in principle, be
+    # a stray data run; here twelve fixed bytes, `bx pc` among them, already
+    # rule that out, and the ov093 veneers point at ov095 helpers that the
+    # ov095 listing has not labelled yet (0x06899D2C).  The target must still
+    # be aligned for the ISA its low bit declares and lie inside a region.
+    if not names_known_code(value, region.name):
+        target = value & ~1
+        if (target & 1) if value & 1 else (target & 3):
+            return None
+        if _region_at(target) is None:
+            return None
+    if (value & ~1) == addr:
+        return None
+    return size, addr + ptr_off, value
+
+
 def attest_veneer(addr, kind, lo, hi, site_region=None, region_hint=None):
     """The `veneer` class.  Returns (class, witnesses, site) or None."""
-    if kind != "arm":
+    if kind == "thumb":
+        found = thumb_veneer_at(addr, site_region, region_hint)
+    elif kind == "arm":
+        found = veneer_at(addr, site_region, region_hint)
+    else:
         return None
-    found = veneer_at(addr, site_region, region_hint)
     if found is None:
         return None
     size, ptr_at, _value = found
@@ -1765,6 +1838,8 @@ def isa_evidence(addr, region=None, hint=None):
             "the func_%08X label in asm/twl" % addr
     if veneer_at(addr, region, hint) is not None:
         return "arm", "the ARM linker veneer at %08X" % addr
+    if thumb_veneer_at(addr, region, hint) is not None:
+        return "thumb", "the Thumb-entry linker veneer at %08X" % addr
     th = sdk_addresses().get(addr)
     if th is not None:
         return ("thumb" if th else "arm"), "layout/symbols_sdk.json"
@@ -3667,7 +3742,7 @@ def attest(addr, kind, lo, hi, src=None, region_hint=None, align=None,
     sites = [s for s in ev.pool_words.get(want, ()) if not lo <= s < hi]
     if sites:
         return "literal", len(sites), sites[0]
-    if kind == "arm":
+    if kind in ("arm", "thumb"):
         proof = attest_veneer(addr, kind, lo, hi, site_region, region_hint)
         if proof is not None:
             return proof
@@ -7404,6 +7479,23 @@ def cmd_selftest(args):
            veneer_at(THUMB_THUNK), None)
     _check(res, "veneer: nor is the linker's own Thumb form",
            veneer_at(OVERLAY_THUMB_THUNK), None)
+    # The Thumb-entry form (bx pc; nop; ldr ip; bx ip; .word): ov093 reaches
+    # ov095 in VRAM through it.  0x021E9C60 points at a labelled ov095
+    # function, 0x021E9C80 at one the listing has not labelled yet.
+    _check(res, "veneer: a Thumb-entry veneer attests its own address",
+           cls(attest_veneer(0x021E9C60, "thumb", 0, 0, "ov093", "ov093")),
+           "veneer")
+    _check(res, "veneer: a Thumb-entry veneer to an unlabelled target",
+           cls(attest_veneer(0x021E9C80, "thumb", 0, 0, "ov093", "ov093")),
+           "veneer")
+    _check(res, "veneer: a Thumb-entry veneer is never claimed as ARM",
+           cls(attest_veneer(0x021E9C60, "arm", 0, 0, "ov093", "ov093")), None)
+    _check(res, "veneer: a compared range covering a Thumb-entry veneer is "
+           "refused",
+           cls(attest_veneer(0x021E9C60, "thumb", 0x021E9C60, 0x021E9C70,
+                             "ov093", "ov093")), None)
+    _check(res, "veneer: the ARM veneer is not a Thumb-entry veneer",
+           thumb_veneer_at(VENEER), None)
 
     # --- the symbols: header line --------------------------------------------
     # An overlay token and an alignment token may both follow the kind, in

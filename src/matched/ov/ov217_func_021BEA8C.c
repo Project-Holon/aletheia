@@ -24,7 +24,7 @@ extern u32 func_021BF76C(void *);
 extern u32 func_021BF7CC(void *);
 extern u32 func_021BF7E0(void *);
 extern u32 func_021BF7F4(void *);
-extern int func_021C11C8(u32, u8);
+extern u8 func_021C11C8(u8 *p, u8 key);
 extern int func_021C11D0(u32, u8);
 extern u32 func_021C26AC(void *, u8, u8);
 void func_021BEA8C(u8 *p, int step)
@@ -37,7 +37,7 @@ void func_021BEA8C(u8 *p, int step)
     kind = func_021BF7CC(p);
     count = func_021BF7E0(p);
     index = func_021BF7F4(p);
-    index = func_021C11C8(object, index);
+    index = func_021C11C8((u8 *)object, index);
     index = (count + (index + step)) % count;
     index = func_021C11D0(object, index);
     p[697] = func_021C26AC(p + 56, kind, index);

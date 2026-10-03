@@ -2611,3 +2611,15 @@ arm9_main   0x02070CD8  arm     # flags & 4 ? r[0] |= 1 : copy 3 words to r[1..3
 overlay_067  0x021B65B4  thumb   # p->[8] = 0; p->[0] = -1; tail call func_021B6548(p, a1, 1) via pool word at 0x021B65C4; bl from ov119 at 0x021D898C (func_021D8980, next to bl 0x021B6558/0x021B6548, both ov067-only starts)
 arm9_main   0x02010934  thumb   # tail call ARM func_020307B0(p) via pool word at 0x02010938; bl from ov119 at 0x021E0C5C (func_021E0C44) and ov137 at 0x021DF696; already written in unit_0201088C.c
 arm9_main   0x02061C30  arm     # tail call func_02061B5C(&0x02146B80) via pool words at 0x02061C3C/0x02061C40 (ldr ip; ldr r0; bx ip); blx from ov131 at 0x021D48E8 (func_021D48E4); already matched as src/matched/arm9/func_02061C30.c
+
+# Share B wave B3 and share C wave C2 witness leaves (2026-10-03).  Each is a
+# short Thumb leaf with no lr-saving prologue; the evidence is the call or
+# pointer word named in the comment.
+overlay_093 0x021DF144  thumb   # pointer word 0x021DF145 at ov093 0x021F2248
+overlay_093 0x021EF9D0  thumb   # pointer word 0x021EF9D1 at ov093 0x021EF8C4 (func_021EF8B8)
+overlay_094 0x021F7E74  thumb   # bl from ov093 at 0x021EA374 (func_021EA354)
+overlay_094 0x021F7E84  thumb   # bl from ov093 at 0x021EA37C (func_021EA354)
+overlay_094 0x021F853C  thumb   # bl from ov093 at 0x021EA366 (func_021EA354)
+overlay_136 0x021C4534  thumb   # pointer word 0x021C4535 at ov136 0x021C510C
+overlay_210 0x021BE314  thumb   # bl from ov210 at 0x021BD20E (func_021BD19C case body)
+arm9_main   0x02015F04  thumb   # bl from ov119 at 0x021E3520 (func_021E33FC)
