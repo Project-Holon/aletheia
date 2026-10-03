@@ -32,7 +32,7 @@ typedef struct { char *state; void *emitter; void *resource; } Callback;
 extern char d_0220AE68[];
 extern u32 func_0201134C(void *);
 extern void func_020113D0(char *p, int val);
-extern void *func_02030734(u16, u32, int, const char *, u16);
+extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_020307B0(void *);
 extern void *func_0205121C(u32, u32, u16);
 extern void *func_02050C30(void *, u32, u32, u32, u32, u32, u32);
@@ -57,14 +57,14 @@ int func_021FA12C(void *a, char *s)
     key = func_021FE38C(s, func_0201134C(a));
     if (func_021FD15C(s, key, &slot) == 1) {
         line = 0x715;
-        buffer = func_02030734((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000, 0x4800, 0, d_0220AE68, line);
+        buffer = func_02030734((u16)((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000), 0x4800, 0, d_0220AE68, line);
         resource = func_0205121C(6, key, (*(u16 *)(s + 0x238) & 0x7fff) | 0x8000);
         if (buffer != 0 && resource != 0) {
             *(void **)(s + 12 + slot * 4) = func_02050C30(buffer, 0x4800, 0, 5, 6, 0x36, (u16)((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000));
             if (*(void **)(s + 12 + slot * 4) != 0) {
                 func_02051380(*(void **)(s + 12 + slot * 4), resource);
                 line += 10;
-                cb = func_02030734((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000, 12, 0, d_0220AE68, line);
+                cb = func_02030734((u16)((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000), 12, 0, d_0220AE68, line);
                 cb->state = s;
                 cb->emitter = *(void **)(s + 12 + slot * 4);
                 cb->resource = resource;

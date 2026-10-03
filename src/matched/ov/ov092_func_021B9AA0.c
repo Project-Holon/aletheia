@@ -18,7 +18,7 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern int func_0201AA18(void *);
+extern u32 func_0201AA18(void *);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *,u32,u32);
 extern void func_02017E40(void *,u32,u32);
@@ -38,7 +38,7 @@ void func_021B9AA0(void *party)
     u8 tier;
     int threshold;
     int index;
-    for (i=0;i<func_0201AA18(party);i++) {
+    for (i=0;i<(int)func_0201AA18(party);i++) {
         mon = func_0201AB28(party,i);
         species = func_02017E1C(mon,0xab,0);
         item = func_02017E1C(mon,6,0);

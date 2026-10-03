@@ -22,7 +22,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 struct Copy24 { int x[6]; };
 extern u8 d_021F3A60[];
-extern u8 *func_02030734(u16, int, int, const void *, u16);
+extern void *func_02030734(unsigned int, unsigned int, int, const char *, u16);
 extern int func_020457B0(int, int);
 extern void func_021D787C(void *);
 extern void func_021BB828(u8 *p);
@@ -35,7 +35,7 @@ u8 *func_021BA9C8(void *a, struct Copy24 *b, void *c, int d, u16 heap)
 {
     u8 *p;
     int i;
-    p = func_02030734(heap, 0xcc4, 1, d_021F3A60, 0xad);
+    p = func_02030734(heap, 0xcc4, 1, (const char *)d_021F3A60, 0xad);
     *(void **)(p + 0xc) = a;
     *(void **)(p + 0x10) = c;
     *(u16 *)(p + 0xcc0) = heap;

@@ -31,7 +31,7 @@ struct S {
 };
 extern struct S *d_021F3B88;
 extern u8 d_021F3A98[];
-extern void *func_02030734(u16, int, int, const void *, u16);
+extern void *func_02030734(u32, u32, int, const char *, u16);
 struct Link;
 extern u32 func_0203D1A4(struct Link *p);
 extern u32 func_0203D1B4(void);
@@ -40,7 +40,7 @@ void func_021D4150(void *link, u16 mask, u16 heap)
 {
     u32 count, i, j, k, limit;
     if (link) {
-        d_021F3B88 = func_02030734(heap, 0x3b2c, 1, d_021F3A98, 0xd4);
+        d_021F3B88 = func_02030734(heap, 0x3b2c, 1, (const char *)d_021F3A98, 0xd4);
         d_021F3B88->link = link;
         d_021F3B88->mask = mask;
         d_021F3B88->heap = heap;

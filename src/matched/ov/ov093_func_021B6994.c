@@ -26,7 +26,7 @@ struct S {
     void *f24[4];
 };
 
-extern int func_0201AA18(void *p);
+extern u32 func_0201AA18(void *p);
 
 int func_021B6994(struct S **pp, u32 b)
 {
@@ -48,7 +48,7 @@ int func_021B6994(struct S **pp, u32 b)
             return 1;
         }
         q = p->f24[(u8)((b + 2) & 3)];
-        if (q != 0 && func_0201AA18(q) > 0) {
+        if (q != 0 && (int)func_0201AA18(q) > 0) {
             return 1;
         }
         return 2;

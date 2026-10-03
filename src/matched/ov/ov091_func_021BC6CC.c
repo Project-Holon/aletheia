@@ -64,7 +64,7 @@ extern void func_02045334(u32);
 extern void func_02045374(u32);
 extern u8 func_02045730(u32);
 extern void func_02041B6C(u8);
-extern u32 func_02017E1C(u32,u32,u32);
+extern u32 func_02017E1C(void *p,u32 id,u32 v);
 extern u32 func_02045EC0(u32,u32);
 extern void func_0201C724(u32,u32,s16,s16,u32,u32,u16);
 extern void func_02045808(u32);
@@ -115,7 +115,7 @@ void func_021BC6CC(u8 *p)
         q=W(0x130); func_02045334(q); func_02045374(q); func_02041B6C(func_02045730(q));
         for(i=0;i<6;i++) {
             off=i; off=off*2;
-            delta=func_02017E1C(W(0x38),*(u16 *)((u8 *)d_021BECE4+off),0)-*(u16 *)(p+off+0x124);
+            delta=func_02017E1C((void *)W(0x38),*(u16 *)((u8 *)d_021BECE4+off),0)-*(u16 *)(p+off+0x124);
             if(delta>=10) flag=1;
             buf=func_02045EC0(W(0x134),i+0x95); y=i<<4;
             func_0201C724(W(0x140),func_02045770(W(0x130)),0,(s16)(i<<4),buf,W(0x138),0x440);
@@ -146,7 +146,7 @@ void func_021BC6CC(u8 *p)
         u32 delta,buf,tmp,text;
         func_02043AF4(func_02045770(W(0x130)),0x50,0,0x20,0x60,15);
         for(i=0;i<6;i++) {
-            delta=func_02017E1C(W(0x38),d_021BECE4[i],0);
+            delta=func_02017E1C((void *)W(0x38),d_021BECE4[i],0);
             buf=func_02045EC0(W(0x134),0x9c); tmp=func_020457B0(0x20,H(0)); text=func_0201EC64(H(0));
             func_0201EFA4(text,0,delta,3,0,1); func_0201F250(text,tmp,buf);
             width=func_0201D304(tmp,W(0x138),0);
@@ -178,7 +178,7 @@ void func_021BC6CC(u8 *p)
             func_021B9788(p,0x29,1,(int)func_021BC6C0); func_021BB98C(p,W(0x150));
         } break;
     case 7:
-        func_02017E1C(W(0x38),5,0);
+        func_02017E1C((void *)W(0x38),5,0);
         if(func_0201B2B0((void *)T(0),(void *)W(0x38),0,*(u16 *)(S+0x30),S[0x5f],0,H(0))!=0) {
             p[0xc]=19; T(0x3c)=W(0x2c); T(0x40)=9;
         } else {

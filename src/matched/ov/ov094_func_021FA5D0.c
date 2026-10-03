@@ -29,7 +29,7 @@ typedef struct { u32 v[8]; } Desc;
 extern char d_0220AE68[];
 extern const Vec d_02209D78, d_02209E04;
 extern u32 func_0201134C(void *);
-extern void *func_02030734(u16, u32, int, const char *, u16);
+extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void func_020307B0(void *);
 extern void func_02051648(void *, Desc *, u16, Vec *, Vec *, Vec *, u16);
 extern int func_02051788(char *p);
@@ -47,7 +47,7 @@ int func_021FA5D0(void *a, char *s)
     int arg;
     int i;
 
-    p = func_02030734((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000, 0x5c, 1, d_0220AE68, 0x7ff);
+    p = func_02030734((u16)((*(u16 *)(s + 0x238) & 0x7fff) | 0x8000), 0x5c, 1, d_0220AE68, 0x7ff);
     slot = func_021FD1A8(s, func_021FE38C(s, func_0201134C(a)));
     count = func_021FD1C0(s, slot);
     p[0] = (int)a;

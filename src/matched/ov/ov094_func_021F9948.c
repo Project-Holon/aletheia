@@ -48,7 +48,7 @@ typedef struct {
 } Job;
 struct ScriptVm;
 extern void *func_02011324(struct ScriptVm *vm);
-extern Job *func_02030734(u16 heap, u32 size, int clear, const char *file, u16 line);
+extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 n);
 extern u32 func_0207C768(u32 a, u32 b);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
@@ -64,7 +64,7 @@ void func_021F9948(void *vm, u32 a, int mode, int c, int x, int dest, int e, int
     float ff;
     int fd;
     w = func_02011324(vm);
-    j = func_02030734((w->heap & 0x7fff) | 0x8000, 0x38, 0, d_0220AE68, 0x455);
+    j = func_02030734((u16)((w->heap & 0x7fff) | 0x8000), 0x38, 0, d_0220AE68, 0x455);
     j->work = w;
     j->a = a;
     j->mode = mode;

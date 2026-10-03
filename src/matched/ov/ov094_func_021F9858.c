@@ -44,7 +44,7 @@ extern void *func_02011324(struct ScriptVm *vm);
 extern int func_021F88E0(void);
 extern int func_021FCF2C(void *vm, u32 idx);
 extern void func_021FDB40(u32 a, int b, int c, int d, u32 e, u32 f, u32 g);
-extern Job *func_02030734(u16 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
 extern void *func_02030DA8(void *owner, void (*fn)(void *, void *), void *p, u32 n);
 extern void func_021F896C(void *h, void (*cb)(void *), int arg);
 extern void func_021FE54C(void *, void *);
@@ -80,7 +80,7 @@ void func_021F9858(void *vm, u32 a, int b, u32 c, int e, u32 f, int g, int h, in
         func_021FDB40(a, b, c, e, f, g, h);
         return;
     }
-    j = func_02030734((w->heap & 0x7fff) | 0x8000, 0x24, 0, d_0220AE68, 0x431);
+    j = func_02030734((u16)((w->heap & 0x7fff) | 0x8000), 0x24, 0, d_0220AE68, 0x431);
     j->work = w;
     j->a = a;
     j->b = b;

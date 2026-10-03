@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT* (extent 168, compiled 136: the rest is an unlabelled leaf at 0x021D4784, `d->tblC[a] != 0`, and its pool)
+ * status:   EXACT (extent 168, compiled 136: the rest is an unlabelled leaf at 0x021D4784, `d->tblC[a] != 0`, and its pool)
  *
  * Lever: the message header is read as bitfields (type:8, size:24) through a `const`
  * pointer. Plain `(u8)*c` / `*c >> 8` loads *c before &d (8 bytes out); bitfields through a
