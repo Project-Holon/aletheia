@@ -8,12 +8,14 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own callee arity/return and heap widths re-read; 2 6940/6BE8 callers and 7E3C width twin read; 3 signed x and caller Slot/other u16 tried (39 unchanged / 284 worse), p writes shown so cannot be const; 4 narrow heap callee and repeated print inline/declaration variants tried; 5 fresh idiom list and owned/caller neighbors re-read; permuter 300 baseline 322 B/39 differs agrees, best rejected (added return and s3 read before assignment).
- * Residual: 322 B against 324 B listing, 39 concrete bytes differ; register
- * rotation and the third print call's argument setup remain. All 26 relocs resolve.
- * Print x is explicitly sign-truncated to 16 bits in the original caller.
- * Heap is reloaded with ldrh at every allocator call; caller extern heap
- * widths are u16 (the own ARM9 bodies declare the full-word payload u32).
+ * checks: 1 own ARM9 callee arities/returns and observed narrow heap/truncated print x re-derived; 2 6940/6BE8 and 7E3C twins reread; 3 enum style/x improves 39 to17, enum helper style unchanged17, enum helper x and enum length worsen39; p and sys mutate, so const unsupported; 4 enum/inline argument and repeated-print idioms read; 5 fresh unfiltered idiom list and ov176/177 neighbors reread; prior permuter300 baseline322/39 agreed, invalid best rejected; not repeated.
+ * Residual: final retry exhausted; DIFF 322/324 B, 17 concrete bytes differ.
+ * Lever: Style and Position enums fix the long-lived scalar register rotation.
+ * Remaining difference is third print argument scheduling and 2-byte listing padding.
+ * Print x is explicitly sign-truncated to 16 bits; heap reloads ldrh at each allocator.
+ * Iteration 5 runs (three nonshrinks after improvement); check3 1 run.
+ * The late-difference wrapper was tested from the integer baseline (39 unchanged).
+ * No further manual sweep: final retry and nonshrinking budget exhausted.
  * symbols:
  *   func_02045B38 0x02045B38 arm
  *   func_0201EC64 0x0201EC64 thumb
@@ -33,6 +35,8 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned char u8;
+typedef enum { STYLE_ZERO=0 } Style;
+typedef enum { X_ZERO=0 } Position;
 typedef struct { struct Descriptor *win; u8 shown; u8 pad[3]; } Slot;
 struct MsgBank; struct U16Vec; struct WordSet; struct Descriptor; struct StrObj; struct PrintSys; struct MsgRec;
 extern struct MsgBank *func_02045B38(u32, u32, u32, u16);
@@ -53,9 +57,10 @@ static inline void print_slot(Slot *p, struct PrintSys *sys, u32 x, void *s, u32
     func_0201C6FC(sys, (u32)func_02045770(p->win), (s16)x, 0, s, style);
     p->shown = 1;
 }
-void func_021E5ADC(Slot *p, struct PrintSys *sys, int style, u32 value, u32 other, u16 heap)
+void func_021E5ADC(Slot *p, struct PrintSys *sys, Style style, u32 value, u32 other, u16 heap)
 {
-    u32 x, length;
+    Position x;
+    u32 length;
     struct MsgBank *bank;
     struct WordSet *fmt;
     struct U16Vec *buf;

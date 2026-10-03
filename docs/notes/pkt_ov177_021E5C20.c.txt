@@ -8,11 +8,11 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own E6718 partial heap slot/full body and all helper prototypes read; 2 7520 matched and pending 5D68/6118 twins read; 3 a1 u16 worsened 14 to 34, signed owner unchanged; 4 dead-store/enum and early named heap/declaration variants tried; 5 fresh idiom list/neighbors and declared-struct-local idiom read; permuter 300 macro-free baseline 288 B/14 differs agrees, no improvement.
- * Residual: same-size 288 B, 14 concrete prologue scheduling bytes differ.
- * E6718's last input is a partial HeapArg; its entire body reads only the
- * low halfword of that tenth slot. This caller loads and forwards a full
- * word with no truncation, so the compatible scalar extern stays u32.
+ * checks: 1 allocator/clear/ARM9 and own 6718 full body/forwarders re-derived; its tenth HeapArg input reads low16 but this caller forwards fullword so extern stays u32; 2 matched 5D68/6118/7520 constructors reread; 3 enum a1, const a2 and late typed Info view each unchanged14; 4 typed-view, enum and homing idioms read; 5 fresh unfiltered idiom list and ov176/177 constructors reread, stack object shape already matches; prior permuter300 baseline288/14 agreed and unchanged, not repeated.
+ * Residual: final retry exhausted; DIFF 288/288 B, 14 prologue scheduling bytes differ.
+ * Four iteration runs: enum a1, allocation inline, late typed Info; all unchanged.
+ * Check3 const a2 unchanged. Manual scheduling cap used (allocation/Info variants).
+ * No further sweep: final retry and three-nonshrinking iteration stop.
  * symbols:
  *   d_021E8DBC 0x021E8DBC data a1
  *   func_02030734 0x02030734 arm

@@ -1,0 +1,38 @@
+/*
+ * function: func_021E1910
+ * address: 0x021E1910
+ * packet: pkt_ov183_021E1910
+ * region: ov183
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * Bound: original copies 48 halfwords (12 eight-byte coordinate records); loops initialize 12 then 12 records.
+ * symbols:
+ *   d_021E3880 0x021E3880 data a2
+ *   func_021E19EC 0x021E19EC thumb ov183
+ *   func_02051B84 0x02051B84 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned long u32;
+typedef struct {short a,b,c,d;} Row;
+typedef struct {Row row[12];} Table;
+extern const Table d_021E3880;
+extern void func_021E19EC(int,int,char *);
+extern void *func_02051B84(u8 *,int,int,int);
+void func_021E1910(char *p) {
+    int i;
+    Table table;
+    for(i=0;i<12;i++)*(char **)(p+i*28+16)=(p+0x298)+i*4;
+    table=d_021E3880;
+    for(;i<24;i++){
+        *(u8 *)(p+i*4+0x298)=table.row[i-12].b-table.row[i-12].d;
+        *(u8 *)(p+i*4+0x29A)=table.row[i-12].a-table.row[i-12].c;
+        *(u8 *)(p+i*4+0x299)=table.row[i-12].b+table.row[i-12].d;
+        *(u8 *)(p+i*4+0x29B)=table.row[i-12].a+table.row[i-12].c;
+    }
+    *(u8 *)(p+0x2F8)=255;
+    *(void **)(p+0x294)=func_02051B84((u8 *)(p+0x298),(int)func_021E19EC,(int)p,*(u16 *)(p+0x34C));
+}

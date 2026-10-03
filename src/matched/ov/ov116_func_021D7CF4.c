@@ -1,0 +1,22 @@
+/*
+ * function: func_021D7CF4
+ * address: 0x021D7CF4
+ * packet: pkt_ov116_021D7CF4
+ * region: ov116
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_020310C4 0x020310C4 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef short s16;
+typedef unsigned int u32;
+extern void func_020310C4(void *);
+void func_021D7CF4(u8 *p)
+{
+    if (*(u32 *)p != 0) func_020310C4(*(void **)(p + 0x9a8));
+}

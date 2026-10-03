@@ -1,0 +1,94 @@
+/*
+ * function: func_021E1244
+ * address: 0x021E1244
+ * packet: pkt_ov183_021E1244
+ * region: ov183
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own func_021E11D0 is void(char *,int); 2 ov183 callers confirm signature, no table twin; 3 State count at 0x328 closes final-loop constant difference, int j unchanged; 4 struct-field and local-copy idioms read; 5 fresh idiom listing and 1850/06D0/11D0 neighbours read, no further fitting twin; permuter 300 baseline 304/304 DIFF29, candidate DIFF28, native one validates evidence.
+ * Residual: local table copy and row-index register colouring; final loop j r2 versus original r3. No owner blockers.
+ * Permuter caveat: scorer omits region in resolve_relocations and reports one unresolved data site; one resolves d_021E3868 by sole-ref.
+ * Bound: original copies six words to a 24-byte local, selects one of two three-word rows, and loops across its three columns.
+ * symbols:
+ *   d_021E3868 0x021E3868 data a4
+ *   func_021E11D0 0x021E11D0 thumb ov183
+ */
+typedef unsigned short u16;
+typedef unsigned long u32;
+typedef struct 
+{
+  int v[3];
+} Row;
+typedef struct 
+{
+  Row row[2];
+} Table;
+typedef struct 
+{
+  char pad[0x328];
+  int count;
+} State;
+extern const Table d_021E3868;
+extern void func_021E11D0(char *, int);
+void func_021E1244(State *p)
+{
+  int i;
+  int sum;
+  int prefix;
+  int group;
+  int k;
+  int j;
+  u32 row;
+  u16 truncated;
+  char *tmp;
+  *((int *) (((char *) p) + 0x2FC)) = 1;
+  *((u16 *) (((char *) p) + 0x21C)) = 0;
+  sum = *((int *) (((char *) p) + 0x328));
+  truncated = sum;
+  *((u16 *) (((char *) p) + 0x21E)) = truncated;
+  *((u16 *) (((char *) p) + 0x220)) = truncated;
+  sum += *((int *) (((char *) p) + 0x32C));
+  tmp = ((char *) p) + 0x222;
+  truncated = sum;
+  *((u16 *) tmp) = truncated;
+  *((u16 *) (((char *) p) + 0x224)) = truncated;
+  sum = (*((int *) (((char *) p) + 0x330))) + ((int) sum);
+  *((u16 *) (((char *) p) + 0x226)) = sum;
+  func_021E11D0((char *) p, 1);
+  for (i = 0; i < 3; i++)
+    *((int *) (((char *) p) + 0x23C)) += *((int *) ((((u32) p) + (i * 4)) + 0x328));
+
+  {
+    const Table table = d_021E3868;
+    row = 0;
+    if ((*((int *) (((char *) p) + 0x328))) != 4)
+      row = 1;
+    for (i = 0; i < 3; i++)
+      *((u16 *) ((((u32) p) + (i * 2)) + 0x214)) = table.row[row].v[i];
+
+    *((u16 *) ((((u32) p) + (i * 2)) + 0x214)) = table.row[row].v[i - 1];
+    prefix = 0;
+    for (group = 0; group < 2; group++)
+    {
+      prefix += *((int *) ((((u32) p) + (group * 4)) + 0x328));
+      *((int *) ((((u32) p) + (group * 28)) + 0x150)) = prefix - 1;
+    }
+
+    group = 0;
+    j = 0;
+    do
+    {
+      for (k = 0; k < ((State *) (((u32) p) + (group * 4)))->count; k++)
+      {
+        *((int *) ((((u32) p) + (j * 28)) + 4)) = group + 1;
+        j++;
+      }
+
+      group++;
+    }
+    while (j < (*((int *) (((char *) p) + 0x23C))));
+  }
+}

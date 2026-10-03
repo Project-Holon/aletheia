@@ -1,0 +1,145 @@
+/*
+ * function: func_021E19EC
+ * address: 0x021E19EC
+ * packet: pkt_ov183_021E19EC
+ * region: ov183
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 matched callees confirm arity, B878 takes u16; 2 1850 shares the record accesses, no matching callback twin; 3 const p and signed slot compiled flat; 4 stack/struct/guard idioms reviewed; 5 idiom directory and same-overlay neighbours re-read.
+ * residual: 444/444 bytes, 383 concrete bytes differ; entry/register colouring and stack-slot order remain.
+ * permuter: once, budget 300; macro-free baseline agrees after resolved runtime sites; validated its behavior-preserving best with fixed one, DIFF.
+ * retry: derive a typed Record pointer from 1850 before exploring enum far-field offsets; do not rerun the exhausted permuter.
+ * symbols:
+ *   _u32_div_f 0x0209C2B0 arm
+ *   func_020061E4 0x020061E4 thumb
+ *   func_02035D20 0x02035D20 arm
+ *   func_021FD860 0x021FD860 thumb ov186
+ *   func_021E0E40 0x021E0E40 thumb ov183
+ *   func_0204B878 0x0204B878 arm
+ *   func_021E1850 0x021E1850 thumb ov183
+ *   func_021E1708 0x021E1708 thumb ov183
+ */
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef struct 
+{
+  u32 a;
+  u32 b;
+} Pair;
+extern void func_020061E4(int);
+extern u32 func_02035D20(u32 *, u32 *);
+extern void func_021FD860(int, int, Pair *);
+extern int func_021E0E40(int, int);
+extern void func_0204B878(int, u16);
+extern void func_021E1850(const void *);
+extern void func_021E1708(char *);
+void func_021E19EC(u32 index, int pressed, char *p)
+{
+  u32 xA;
+  u32 yA;
+  Pair pairA;
+  u32 next;
+  u32 yB;
+  Pair pairB;
+  u32 xC;
+  u32 yC;
+  u32 xB;
+  u32 slot;
+  u32 key;
+  Pair pairC;
+  char *r;
+  int *tmp;
+  int tmp1;
+  u32 *tmp2;
+  tmp1 = index <= 11;
+  if (((*((u32 *) (p + 0x22c))) != 1) || (pressed != 0))
+    return;
+  if (tmp1)
+  {
+    r = p + (index * 28);
+    if ((*((int *) (r + 8))) == 1)
+    {
+      *((int *) (p + 0x318)) = 2;
+      *((u32 *) (p + 0x31c)) = index;
+    }
+    else
+    {
+      *((int *) (p + 0x318)) = 1;
+      *((int *) (p + 0x31c)) = *((int *) (r + 4));
+    }
+    func_020061E4(0x703);
+    goto ret_exit;
+  }
+  if (index == 22)
+  {
+    *((u16 *) (p + 0x1b8)) = 0;
+    *((u16 *) (p + 0x1ba)) = 2;
+    func_020061E4(0x703);
+    func_02035D20(&xA, &yA);
+    pairA.a = xA;
+    pairA.b = yA;
+    func_021FD860(*((int *) (p + 0x348)), 1, &pairA);
+  }
+  else
+    if (index == 23)
+  {
+    *((u16 *) (p + 0x1b8)) = 3;
+    *((u16 *) (p + 0x1ba)) = 2;
+    func_020061E4(0x703);
+    func_02035D20(&xB, &yB);
+    pairB.a = xB;
+    pairB.b = yB;
+    func_021FD860(*((int *) (p + 0x348)), 1, &pairB);
+  }
+  else
+  {
+    *((u16 *) (p + 0x1b8)) = (index - 12) % 5;
+    *((u16 *) (p + 0x1ba)) = (index - 12) / 5;
+    func_020061E4(0x703);
+  }
+  if ((index >= 12) && (index <= 21))
+  {
+    tmp = (int *) (p + 0x240);
+    if (!(*tmp))
+      return;
+    func_02035D20(&xC, &yC);
+    pairC.a = xC;
+    pairC.b = yC;
+    func_021FD860(*((int *) (p + 0x348)), 1, &pairC);
+    slot = *((u32 *) (p + 0x188));
+    index -= 11;
+    r = p + (slot * 28);
+    tmp2 = (u32 *) r;
+    *tmp2 = index;
+    func_0204B878(*((int *) (r + 12)), func_021E0E40(index, *((int *) (r + 8))));
+    key = *((u32 *) (r + 4));
+    if ((slot + 1) == (*((u32 *) (p + 0x23c))))
+    {
+      *((int *) (p + 0x318)) = 1;
+      *((int *) (p + 0x31c)) = 0;
+      *((int *) (p + 0x320)) = 0;
+      return;
+    }
+    next = *((u32 *) ((p + ((slot + 1) * 28)) + 4));
+    if (key != (*((u32 *) ((p + ((slot + 1) * 28)) + 4))))
+    {
+      *((int *) (p + 0x318)) = 1;
+      *((u32 *) (p + 0x31c)) = *((u32 *) ((p + ((slot + 1) * 28)) + 4));
+      *((int *) (p + 0x320)) = 0;
+      return;
+    }
+    *((int *) (p + 0x318)) = 2;
+    *((u32 *) (p + 0x31c)) = slot + 1;
+    return;
+  }
+  if (index == 22)
+    func_021E1850(p);
+  else
+    func_021E1708(p);
+  ret_exit:
+  return;
+
+}

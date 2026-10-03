@@ -1,0 +1,194 @@
+/*
+ * function: func_021DBFB0
+ * address: 0x021DBFB0
+ * packet: pkt_ov183_021DBFB0
+ * region: ov183
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * abi: DD0AC/DD0F4 retain the two explicitly prepared original argument registers; 02035C60 returns a full word consumed by the original caller.
+ * lever: bounded permuter's initialized pointer temporaries and declaration order reduce the residual to 167 bytes without reordering calls.
+ * checks: 1=full FF72C/FF698 ABI inspected; 2=BC68/DC228 neighbours inspected, no exact twin; 3=signed/unsigned state unchanged, p/state are mutated so const parameter invalid; 4=declared-struct idiom's cast storage unchanged, aggregate representations and two manual scheduling variants exhausted; 5=fresh idiom directory and neighbours reread; 300-compile permuter baseline agreed and valid best independently compiled; next=aggregate-pointer-copy hypothesis.
+ * symbols:
+ *   func_021DD0AC 0x021DD0AC thumb ov183
+ *   func_021DD0F4 0x021DD0F4 thumb ov183
+ *   func_021DCEE4 0x021DCEE4 thumb ov183
+ *   func_021DC8EC 0x021DC8EC thumb ov183
+ *   func_021DBD7C 0x021DBD7C thumb ov183
+ *   func_021FD170 0x021FD170 thumb ov186
+ *   func_021FE784 0x021FE784 thumb ov186
+ *   func_021FE7B0 0x021FE7B0 thumb ov186
+ *   func_021FF54C 0x021FF54C thumb ov186
+ *   func_021FF648 0x021FF648 thumb ov186
+ *   func_021FF72C 0x021FF72C thumb ov186
+ *   func_021FF698 0x021FF698 thumb ov186
+ *   func_021FD860 0x021FD860 thumb ov186
+ *   func_021F9BA0 0x021F9BA0 thumb ov186
+ *   func_021FD73C 0x021FD73C thumb ov186
+ *   func_021FD744 0x021FD744 thumb ov186
+ *   func_02082BCC 0x02082BCC arm
+ *   func_02035C60 0x02035C60 arm
+ *   func_02035D20 0x02035D20 arm
+ *   func_020061E4 0x020061E4 thumb
+ */
+typedef unsigned int u32;
+typedef struct 
+{
+  u32 a;
+  u32 b;
+} Pair;
+extern void func_021DD0AC(char *, char *);
+extern void func_021DD0F4(char *, char *);
+extern void func_021DCEE4(char *, char *);
+extern void func_021DC8EC(char *, int);
+extern void func_021DBD7C(void);
+extern void func_021FD170(void *, int, int);
+extern void func_021FE784(int, int, int, int);
+extern int func_021FE7B0(int *);
+extern void func_021FF54C(char *, int, Pair *);
+extern int func_021FF648(char *);
+extern int func_021FF72C(char *, int *);
+extern int func_021FF698(char *, char **, int *);
+extern void func_021FD860(int, int, int *);
+extern void func_021F9BA0(void *);
+extern void func_021FD73C(int *, int);
+extern void func_021FD744(int *);
+extern void func_02082BCC(void *, int, u32);
+extern void func_020061E4(int);
+extern int func_02035C60(void);
+extern u32 func_02035D20(u32 *, u32 *);
+void func_021DBFB0(int *task, int *state, char *p)
+{
+  char **tmp;
+  char **tmp1;
+  switch (*state)
+  {
+    case 0:
+      func_021DD0AC(p, *((char **) (p + 0xd0)));
+      func_021FD170(*((void **) (p + 0x18)), *((int *) ((*((char **) (p + 0xd0))) + 0x10)), 0x14b);
+      *state = 1;
+      break;
+
+    case 1:
+      func_021FE784(*((int *) ((*((char **) (p + 0xd0))) + 0xc)), 2, 3, 0);
+      *state = 2;
+      break;
+
+    case 2:
+      if (func_021FE7B0(*((int **) ((*((char **) (p + 0xd0))) + 0xc))))
+      *state = 3;
+      break;
+
+    case 3:
+    {
+      u32 pair[2];
+      func_02082BCC(pair, 0, 8);
+      *((Pair *) pair) = *((const Pair *) ((*((char **) (p + 0xd0))) + 0x1c));
+      func_021FF54C(*((char **) ((*((char **) (p + 0xd0))) + 0x24)), 3, (Pair *) pair);
+      *((int *) (p + 0xbc)) = 0;
+      *state = 4;
+      break;
+    }
+
+    case 4:
+      (*((int *) (p + 0xbc)))++;
+      if (func_021FF648(*((char **) ((*((char **) (p + 0xd0))) + 0x24))) && ((*((u32 *) (p + 0xbc))) > 96))
+    {
+      func_021FD860(*((int *) (p + 0xc)), 0, 0);
+      *state = 5;
+    }
+      break;
+
+    case 5:
+    {
+      int code;
+      char *out;
+      int aux;
+      if (!func_021FF72C(*((char **) ((*((char **) (p + 0xd0))) + 0x24)), &code))
+      {
+        tmp = (char **) (p + 0xd0);
+        if (func_021FF698(*((char **) ((*tmp) + 0x24)), &out, &aux))
+        {
+          tmp1 = (char **) (p + 0xc0);
+          *tmp1 = out;
+          *((char **) (p + 0xc4)) = out + 0x80;
+          *state = 6;
+        }
+        else
+        {
+          func_021FD170(*((void **) (p + 0x18)), *((int *) ((*tmp) + 0x10)), 0x114);
+          *state = 11;
+        }
+      }
+      else
+      {
+        func_021FD170(*((void **) (p + 0x18)), *((int *) ((*((char **) (p + 0xd0))) + 0x10)), code);
+        *state = 11;
+      }
+      break;
+    }
+
+    case 11:
+      if (func_02035C60())
+    {
+      u32 y;
+      u32 x;
+      int args[2];
+      func_02035D20(&x, &y);
+      args[0] = x;
+      args[1] = y;
+      func_021FD860(*((int *) (p + 0x10)), 1, args);
+      func_020061E4(0x703);
+      func_021F9BA0(*((void **) ((*((char **) (p + 0xd0))) + 0x14)));
+      *state = 12;
+    }
+      break;
+
+    case 6:
+      func_021FE784(*((int *) ((*((char **) (p + 0xd0))) + 0xc)), 2, 3, 1);
+      *state = 7;
+      break;
+
+    case 7:
+      if (func_021FE7B0(*((int **) ((*((char **) (p + 0xd0))) + 0xc))))
+    {
+      func_021DD0F4(p, *((char **) (p + 0xd0)));
+      func_021DCEE4(p, *((char **) (p + 0xd0)));
+      func_021DC8EC(p, *((int *) (p + 0xd0)));
+      *state = 8;
+    }
+      break;
+
+    case 8:
+      func_021FE784(*((int *) ((*((char **) (p + 0xd0))) + 0xc)), 2, 3, 0);
+      *state = 9;
+      break;
+
+    case 9:
+      if (func_021FE7B0(*((int **) ((*((char **) (p + 0xd0))) + 0xc))))
+      *state = 10;
+      break;
+
+    case 10:
+      func_021FD73C(task, (int) func_021DBD7C);
+      break;
+
+    case 12:
+      func_021FE784(*((int *) ((*((char **) (p + 0xd0))) + 0xc)), 2, 3, 1);
+      *state = 13;
+      break;
+
+    case 13:
+      if (func_021FE7B0(*((int **) ((*((char **) (p + 0xd0))) + 0xc))))
+      *state = 14;
+      break;
+
+    case 14:
+      func_021DD0F4(p, *((char **) (p + 0xd0)));
+      func_021FD744(task);
+      break;
+
+  }
+
+}

@@ -1,0 +1,102 @@
+/*
+ * function: func_021DD858
+ * address: 0x021DD858
+ * packet: pkt_ov183_021DD858
+ * region: ov183
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: 10 concrete bytes, select/numeric spill homes in the 468-byte lead.
+ * tail: 021DDA2C is a 672-byte larger follower, separately matched and verified.
+ * checks: 1 DAC4/DAD8 own unit returns u16 with two full-word inputs, no register/arity residue; 2 DD684 and DDA2C are formatter twins; 3 short select unchanged at 10, const q worsened to 15; 4 inline formatter and DDA2C declaration/field-base spelling unchanged at 10, scheduling cap used; 5 fresh idiom listing and ov183/ov186 neighbours re-read, stack Triple address already correct; permuter skipped because listing extent contains omitted separately matched DDA2C follower; next retry: selector and numeric local scope order.
+ * symbols:
+ *   func_021FC20C 0x021FC20C thumb ov186
+ *   func_021FC214 0x021FC214 thumb ov186
+ *   func_021FC21C 0x021FC21C thumb ov186
+ *   func_021FB964 0x021FB964 thumb ov186
+ *   func_021DE02C 0x021DE02C thumb ov183
+ *   func_021FC6A4 0x021FC6A4 thumb ov186
+ *   func_021FC868 0x021FC868 thumb ov186
+ *   func_0200DB44 0x0200DB44 thumb
+ *   func_0200DAC4 0x0200DAC4 thumb
+ *   func_0200DAD8 0x0200DAD8 thumb
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_020457B0 0x020457B0 arm
+ *   func_0201EFA4 0x0201EFA4 thumb
+ *   func_0201F250 0x0201F250 thumb
+ *   func_02045808 0x02045808 arm
+ *   func_021FC7C4 0x021FC7C4 thumb ov186
+ *   func_0200DABC 0x0200DABC thumb
+ *   func_021FC124 0x021FC124 thumb ov186
+ *   func_021DE084 0x021DE084 thumb ov183
+ *   d_021E3400 0x021E3400 data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+struct Record{u8 a,b,c,d;int value;};
+struct Triple{int a,b,c;};
+extern const struct Record d_021E3400[];
+extern int func_021FC20C(char *),func_021FC214(char *),func_021FC21C(char *);
+extern void func_021FB964(int,int,int),func_021FC868(void *,int,int,int);
+extern int func_021DE02C(int,int);
+extern void *func_021FC6A4(u16,unsigned,u16,u16,u8,u8,void *,u16);
+extern unsigned func_0200DB44(void *,unsigned);
+extern u16 func_0200DAC4(void *,unsigned),func_0200DAD8(void *,unsigned);
+extern void *func_02045EC0(int,int),*func_020457B0(unsigned,u16);
+extern void func_0201EFA4(void *,unsigned,unsigned,unsigned,unsigned,unsigned),func_0201F250(void *,void *,void *),func_02045808(void *);
+extern void func_021FC7C4(char *,void *,void *,u16);
+extern int func_0200DABC(int),func_021FC124(int,int,struct Triple *);
+extern void func_021DE084(char *,void *,const char *,unsigned,short,short,u16);
+void func_021DD858(char *p,char *q)
+{
+ int first,second,third,index,select,v;
+ const struct Record *rec;
+ char *slot;
+ void *obj;
+ struct Triple triple;
+ first=func_021FC20C(*(char **)(q+8));
+ second=func_021FC214(*(char **)(q+8));
+ third=func_021FC21C(*(char **)(q+8));
+ func_021FB964(*(int *)(q+8),11,*(u16 *)(p+0x7c));
+ if(func_021DE02C(*(int *)(q+0x10),*(int *)(q+0x14))) select=6;else select=1;
+ for(index=0;index<8;index++){
+  rec=&d_021E3400[index];slot=p+index*4;
+  *(void **)(slot+0x34)=func_021FC6A4(1,rec->a,rec->b,rec->c,rec->d,14,*(void **)(p+4),*(u16 *)(p+0x7c));
+  func_021FC868(*(void **)(slot+0x34),0,1,0);
+  switch(index){
+   case 1:
+    obj=func_02045EC0(second,func_021DE02C(*(int *)(q+0x10),*(int *)(q+0x14))?0x84:0x7f);break;
+   case 2:
+    obj=func_02045EC0(second,func_0200DB44(*(void **)(q+0x10),select)?0x91:0x87);break;
+   case 3:{
+    int number;
+    void *base;
+    number=func_0200DAC4(*(void **)(q+0x10),select);
+    if(number>9999)number=9999;
+    base=func_02045EC0(second,rec->value);
+    obj=func_020457B0(0x80,*(u16 *)(p+0x7c));
+    func_0201EFA4((void *)third,0,number,4,1,1);
+    func_0201F250((void *)third,obj,base);
+    func_02045808(base);break;
+   }
+   case 6:{
+    int number;
+    void *base;
+    number=func_0200DAD8(*(void **)(q+0x10),select);
+    if(number>9999)number=9999;
+    base=func_02045EC0(second,rec->value);
+    obj=func_020457B0(0x80,*(u16 *)(p+0x7c));
+    func_0201EFA4((void *)third,0,number,4,1,1);
+    func_0201F250((void *)third,obj,base);
+    func_02045808(base);break;
+   }
+   default:obj=func_02045EC0(second,rec->value);break;
+  }
+  func_021FC7C4(*(char **)(slot+0x34),obj,(void *)first,0x3da0);
+  func_02045808(obj);
+ }
+ v=func_0200DABC(*(int *)(q+0x10));
+ func_021FC124(*(int *)(q+8),13,&triple);
+ func_021DE084(p+8,*(void **)(q+4),(const char *)&triple,v,0xa0,0x20,*(u16 *)(p+0x7c));
+}

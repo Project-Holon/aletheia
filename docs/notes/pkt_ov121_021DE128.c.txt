@@ -1,0 +1,19 @@
+/*
+ * function: func_021DE128
+ * address: 0x021DE128
+ * packet: pkt_ov121_021DE128
+ * region: ov121
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: DIFF
+ * residual: compiled44 original44; 11 concrete bytes, halfword/c/d register rotation.
+ * checks: 1 02082BCC reads r0/r1/r2, no stack inputs; 2 ov121 memset callers no initializer twin, no callers of021DE128; 3 short b adds truncation, unsigned c/d unchanged; 4 byte-signedness and vendor parameter-register-set idioms describe rotation, typed44-byte Init unchanged; 5 refreshed idiom directory and matched ov121 neighbours, no new twin. Next hypothesis logical record store order; no permutation sweep used.
+ * symbols:
+ *   func_02082BCC 0x02082BCC arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern void func_02082BCC(void *,int,u32);
+void func_021DE128(u8 *p,u16 b,int c,int d) { func_02082BCC(p,0,44); *(u16 *)(p+2)=b; *(u16 *)(p+10)=11; *(u16 *)(p+4)=b; *(int *)(p+20)=c; *(int *)(p+24)=d; *(int *)(p+28)=c; *(int *)(p+32)=d; *(u16 *)p=*(u16 *)(p+2); *(int *)(p+36)=c; *(int *)(p+40)=d; }

@@ -8,7 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own ARM9 callee units fix pointer returns and all arities; ov090 leaf witnessed after overlay 90 load; 2 ov178 57E0 twin no rescue; 3 const src worsened to 28 bytes, const other unchanged at 12; 4 allocator/reassignment idioms read, local order/integer base unchanged and parameter reassignment worse; 5 idiom directory and ov178 neighbours reread; permuter macro-free baseline 236/236 12 bytes agreed, 300 candidates best 2 bytes rejected for reading tmp before assignment and storing it; next sweep none.
+ * checks: 1 own 12EBC/0873C full units and 34AC4 arities/returns re-derived, matched ov090 B6100 witnessed after overlay90 load; 2 matched ov178 57E0 and 58F4 neighbors reread; 3 typed Source and const record unchanged12, enum byte-loop counter adds guard/240B, const Source worsened28; 4 const/register-color and enum-loop idioms read; 5 fresh unfiltered idiom list and ov178 neighbors reread, no stack object; prior permuter300 baseline236/12 agreed, best rejected for read before assignment/store, not repeated.
+ * Residual: final retry exhausted; DIFF 236/236 B, 12 register-color bytes differ.
+ * Best typed Source preserves observed offsets and proper own callee pointer types.
+ * Four iteration runs and one check3 compile; no further sweep after final retry.
  * symbols:
  *   func_02012EBC 0x02012EBC thumb
  *   func_0200873C 0x0200873C thumb
@@ -19,18 +22,21 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned long u32;
-extern void *func_02012EBC(void *);
-extern void *func_0200873C(void *);
+struct Big;
+struct Sub02008700Obj;
+typedef struct {u8 *record;u32 pad4,f8;u8 cC,padD[3];u32 f10;struct Big *save;} Source;
+extern void *func_02012EBC(struct Big *);
+extern struct Sub02008700Obj *func_0200873C(void *);
 extern int func_02034AC4(int);
 extern void func_021B6100(u8 *);
 extern u8 ov090_id[];
-void func_021E56F4(char *src,const char *other,char *out)
+void func_021E56F4(Source *src,const char *other,char *out)
 {
     u8 i;
     void *v;
     u8 *p;
-    p=*(u8 **)src;
-    v=func_02012EBC(*(void **)(src+20));
+    p=src->record;
+    v=func_02012EBC(src->save);
     *(u32 *)out=*(u32 *)(other+4);
     *(u32 *)(out+4)=0;*(u32 *)(out+8)=0;
     *(void **)(out+12)=func_0200873C(v);
@@ -47,9 +53,9 @@ void func_021E56F4(char *src,const char *other,char *out)
     *(u32 *)(out+60)=0;*(u32 *)(out+64)=0;
     for(i=0;i<6;i++) *(u8 *)(out+73+i)=0;
     *(u32 *)(out+80)=0;*(u32 *)(out+88)=0;*(u16 *)(out+84)=0;
-    *(u32 *)(out+116)=*(u32 *)(src+16);
-    *(u32 *)(out+120)=*(u32 *)(src+8);
-    *(u8 *)(out+124)=*(u8 *)(src+12);
+    *(u32 *)(out+116)=src->f10;
+    *(u32 *)(out+120)=src->f8;
+    *(u8 *)(out+124)=src->cC;
     *(u32 *)(out+140)=p[184];
     if(p[185]) {*(u32 *)(out+144)=1;*(u16 *)(out+96)=p[185];}
     else {*(u32 *)(out+144)=0;*(u16 *)(out+96)=0;}

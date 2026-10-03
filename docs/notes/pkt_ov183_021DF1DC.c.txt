@@ -1,0 +1,100 @@
+/*
+ * function: func_021DF1DC
+ * address: 0x021DF1DC
+ * packet: pkt_ov183_021DF1DC
+ * region: ov183
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own callees read, FCDAC truncates index u16, FCE50 matched unit; 2 FE98 Config twin and fresh neighbours; 3 unsigned font/archive and const source/choices each unchanged; 4 declaration-order and spill-scope idioms; 5 fresh idioms and FE98/owned neighbours, two manual variants used. Permuter 300 baseline 428/13 agrees; validated initialized temporary + decl-order improves to 428/8. No further manual scheduling variants permitted.
+ * symbols:
+ *   func_021FC20C 0x021FC20C thumb ov186
+ *   func_021FC214 0x021FC214 thumb ov186
+ *   func_02082BCC 0x02082BCC arm
+ *   func_0201EC64 0x0201EC64 thumb
+ *   func_0201F81C 0x0201F81C thumb
+ *   func_021FC8C8 0x021FC8C8 thumb ov186
+ *   func_020457B0 0x020457B0 arm
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_02043678 0x02043678 arm
+ *   func_02043B5C 0x02043B5C arm
+ *   func_0201EFA4 0x0201EFA4 thumb
+ *   func_0201F250 0x0201F250 thumb
+ *   func_02045924 0x02045924 arm
+ *   func_0201D304 0x0201D304 thumb
+ *   func_0201C7D0 0x0201C7D0 thumb
+ *   func_021FCDAC 0x021FCDAC thumb ov186
+ *   func_02045808 0x02045808 arm
+ *   func_021FCE50 0x021FCE50 thumb ov186
+ *   func_021DF428 0x021DF428 thumb ov183
+ *   func_021DF620 0x021DF620 thumb ov183
+ *   d_021E3700 0x021E3700 data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+struct Item { void *value; int index; };
+struct State { struct Item *list; void *menu,*words; int a,b; u16 shared0,shared1; u16 indices[5][6]; int cursor; char *sprites[5][6]; char *source; };
+struct Config { u32 words[10]; };
+extern const struct Config d_021E3700;
+extern int func_021FC20C(char *),func_021FC214(char *);
+extern void func_02082BCC(void *,int,int);
+extern void *func_0201EC64(u32);
+extern struct Item *func_0201F81C(u32,u32);
+extern void *func_021FC8C8(struct Config *,u32);
+extern void *func_020457B0(u32,u32),*func_02045EC0(void *,u32);
+extern void *func_02043678(u32,u32,u32,u32);
+extern void func_02043B5C(void *,u8);
+extern void func_0201EFA4(void *,u32,u32,u32,u32,u32),func_0201F250(void *,void *,void *);
+extern void func_02045924(void *,const u16 *);
+extern u32 func_0201D304(void *,u32,u32);
+extern void func_0201C7D0(void *,short,short,void *,void *,u16);
+extern void func_021FCDAC(void *,u16,void *),func_02045808(void *),func_021FCE50(char *);
+extern void func_021DF428(struct State *,void *,u16),func_021DF620(struct State *,int,short,u16);
+void func_021DF1DC(struct State *p,const char *source,char *asset,void *manager,int a,int b,const u16 *choices,u16 heap)
+{
+    int i;
+    void *name;
+    unsigned second;
+    void *buf,*template;
+    unsigned first;
+    void *bmp;
+    u32 width;
+    struct Config cfg;
+    int *tmp;
+    first=func_021FC20C(asset);
+    second=func_021FC214(asset);
+    func_02082BCC(p,0,0xd4);
+    p->source=(char *)source;
+    p->words=func_0201EC64(heap);
+    p->a=a; p->b=b;
+    p->list=func_0201F81C(*(int *)(source+0x1718),heap);
+    for(i=0;i<*(int *)(source+0x1718);i++) p->list[i].index=i;
+    cfg=d_021E3700;
+    tmp=(int *)(source+0x1718);
+    cfg.words[0]=(u32)p->list;
+    cfg.words[1]=*tmp;
+    cfg.words[5]=(u32)asset; cfg.words[6]=(u32)manager;
+    cfg.words[7]=p->a; cfg.words[8]=p->b; cfg.words[9]=(u32)choices;
+    p->menu=func_021FC8C8(&cfg,heap);
+    buf=func_020457B0(255,heap);
+    template=func_02045EC0((void *)second,122);
+    name=func_020457B0(255,heap);
+    for(i=0;i<*(int *)(source+0x1718);i++) {
+        bmp=func_02043678(*((u8 *)&cfg+10),*((u8 *)&cfg+14),32,heap);
+        func_02043B5C(bmp,0);
+        func_0201EFA4(p->words,0,i+1,2,0,1);
+        func_0201F250(p->words,buf,template);
+        func_02045924(name,(u16 *)(source+i*0xc4));
+        width=func_0201D304(buf,(u32)first,0);
+        func_0201C7D0(bmp,16-width,4,buf,(void *)first,0x3da0);
+        func_0201C7D0(bmp,20,4,name,(void *)first,0x3da0);
+        func_021FCDAC(p->menu,i,bmp);
+    }
+    func_02045808(name); func_02045808(buf); func_02045808(template);
+    func_021FCE50(p->menu);
+    func_021DF428(p,manager,heap);
+    for(i=0;i<*choices;i++) func_021DF620(p,i+1,1,heap);
+}

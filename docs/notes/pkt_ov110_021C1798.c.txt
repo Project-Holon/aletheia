@@ -7,9 +7,11 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * blocker: 56 bytes compiled, six concrete bytes differ: loop index r4/base r5 versus original index r5/base r4. All five relocations resolved.
- * checks: 1 own callee body confirms single u32 index and other calls void/no-arg or clear(ptr,int,u32); 2 neighbouring 021C1738 uses same 44-byte table rows; 3 u8 counter adds narrowing, int counter with unsigned test retains six-byte swap; 4 named base, table const removal, long-index and integer-base idioms retain swap; 5 idiom list refreshed and 021C1738 reread, no stack object or newly applicable twin. Next hypothesis: object-row access instead of scalar address arithmetic, no sweep run.
+ * status: EXACT
+ * superseded: matched source src/matched/ov/ov110_func_021C1798.c, final retry EXACT.
+ * checks: 1 own F9B4 and matched ARM9/ov110 callers prove arities/returns; 2 C1738 row twin shows 11 words/44-byte stride; 3 typed Row with unsigned long index fixes colors; 4 row/long-index idioms read; 5 fresh idiom list and ov110 neighbors reread; EXACT after two runs, no permuter required.
+ * lever: observed 44-byte table rows use a typed Row pointer; integer address
+ * arithmetic swaps base/index colours, Row member access is EXACT.
  * symbols:
  *   func_020403F4 0x020403F4 arm
  *   func_020450C8 0x020450C8 arm
@@ -24,6 +26,6 @@ extern void func_020403F4(u32);
 extern void func_020450C8(void);
 extern void func_0203F9B4(void);
 extern void func_02082BCC(void *,int,u32);
-extern u32 d_021C3A74[];
-void func_021C1798(void *p) { u32 base; unsigned long i; base=(u32)d_021C3A74; for(i=0;i<6;i++) func_020403F4((u8)*(u32 *)(base+i*44)); func_020450C8(); func_0203F9B4(); func_02082BCC(p,0,4); }
-
+typedef struct {u32 id; u32 rest[10];} Row;
+extern Row d_021C3A74[];
+void func_021C1798(void *p) { const Row *base; unsigned long i; base=d_021C3A74; for(i=0;i<6;i++) func_020403F4((u8)base[i].id); func_020450C8(); func_0203F9B4(); func_02082BCC(p,0,4); }

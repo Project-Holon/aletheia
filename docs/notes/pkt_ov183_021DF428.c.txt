@@ -1,0 +1,84 @@
+/*
+ * function: func_021DF428
+ * address: 0x021DF428
+ * packet: pkt_ov183_021DF428
+ * region: ov183
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own ARM9 arities and F838 pending body read, F838 int/char extern unchanged; 2 DE084 sprite twin and pending CBD8/F838 read; 3 enum/long count unchanged, p is written so cannot be const; 4 stack declaration/scope variants tried (two scheduling variants used), struct-local idiom read; 5 fresh idiom directory and DE084/F838 reread; permuter 300 macro-free baseline 400 B/14 differs agrees, no improvement.
+ * Residual: 400 B, 14 concrete spill-slot offset bytes differ, all 16 relocs resolve.
+ * B294's original caller saves r0; extern returns the preserved result.
+ * symbols:
+ *   func_020490F4 0x020490F4 arm
+ *   func_0201BC3C 0x0201BC3C thumb
+ *   func_0204ACEC 0x0204ACEC arm
+ *   func_0201BC40 0x0201BC40 thumb
+ *   func_0201BCB4 0x0201BCB4 thumb
+ *   func_0204AF28 0x0204AF28 arm
+ *   func_02082BCC 0x02082BCC arm
+ *   func_021DF838 0x021DF838 thumb ov183
+ *   func_0201BABC 0x0201BABC thumb
+ *   func_0204A6C8 0x0204A6C8 arm
+ *   func_0204B294 0x0204B294 arm
+ *   func_0201BB5C 0x0201BB5C thumb
+ *   func_0204B6F4 0x0204B6F4 arm
+ *   func_0204B688 0x0204B688 arm
+ *   func_0204B3DC 0x0204B3DC arm
+ *   func_02049238 0x02049238 arm
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+enum Count { COUNT_MAX=5 };
+struct Pos { short x,y; u16 id; u8 priority,flags; };
+struct Entries { u32 species[6],form[6],gender[6]; };
+struct State { u8 pad[0x14]; u16 shared0,shared1; u16 indices[5][6]; u32 pad54; void *sprites[5][6]; void *source; };
+extern void *func_020490F4(u32,u16);
+extern int func_0201BC3C(void),func_0201BC40(void),func_0201BCB4(void);
+extern int func_0204ACEC(void *,u32,u32,u32,u16);
+extern int func_0204AF28(void *,u32,u32,u32);
+extern void func_02082BCC(void *,int,int);
+extern void func_021DF838(int,char *);
+extern u32 func_0201BABC(u32,u32,u32,u32),func_0201BB5C(u32,u32,u32,u32);
+extern int func_0204A6C8(void *,u32,u32,u32,u16);
+extern void *func_0204B294(u32,u32,u32,u32,u32,u16,u16);
+extern void func_0204B6F4(void *,u32,u32),func_0204B688(void *,u32),func_0204B3DC(void *,u32);
+extern void func_02049238(void *);
+void func_021DF428(struct State *p,u32 owner,u16 heap)
+{
+    int i,j;
+    void *archive;
+    int mode;
+    struct Pos pos;
+    struct Entries e;
+    u32 species;
+    {
+    long count;
+    count=*(int *)((char *)p->source+0x1718);
+    if(count>=5) count=5;
+    archive=func_020490F4(7,(heap&0x7fff)|0x8000);
+    p->shared0=func_0204ACEC(archive,func_0201BC3C(),0,0x80,heap);
+    mode=func_0201BC40();
+    p->shared1=func_0204AF28(archive,mode,func_0201BCB4(),heap);
+    func_02082BCC(&pos,0,8);
+    pos.id=1; pos.priority=0; pos.flags=0;
+    for(i=0;i<count;i++) {
+        func_021DF838((int)((u32)p->source+i*0xc4),(char *)&e);
+        for(j=0;j<6;j++) {
+            species=e.species[j];
+            if(species==0) species=1;
+            p->indices[i][j]=func_0204A6C8(archive,func_0201BABC(species,e.form[j],e.gender[j],0),0,0,heap);
+            pos.x=110+j*24; pos.y=72+i*24; pos.priority=6-j;
+            p->sprites[i][j]=func_0204B294(owner,p->indices[i][j],p->shared0,p->shared1,(u32)&pos,0,heap);
+            func_0204B6F4(p->sprites[i][j],func_0201BB5C(species,e.form[j],e.gender[j],0),0);
+            func_0204B688(p->sprites[i][j],1);
+            if(e.species[j]==0) func_0204B3DC(p->sprites[i][j],0);
+            else func_0204B3DC(p->sprites[i][j],1);
+        }
+    }
+    func_02049238(archive);
+    }
+}

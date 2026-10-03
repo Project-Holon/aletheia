@@ -1,0 +1,73 @@
+/*
+ * function: func_021DE66C
+ * address: 0x021DE66C
+ * packet: pkt_ov183_021DE66C
+ * region: ov183
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021FC20C 0x021FC20C thumb ov186
+ *   func_021FC214 0x021FC214 thumb ov186
+ *   func_021FC21C 0x021FC21C thumb ov186
+ *   func_021FB964 0x021FB964 thumb ov186
+ *   func_021FC6A4 0x021FC6A4 thumb ov186
+ *   func_021FC868 0x021FC868 thumb ov186
+ *   func_0200DFD8 0x0200DFD8 thumb
+ *   func_02045EC0 0x02045EC0 arm
+ *   func_020457B0 0x020457B0 arm
+ *   func_0201EFA4 0x0201EFA4 thumb
+ *   func_0201F250 0x0201F250 thumb
+ *   func_02045808 0x02045808 arm
+ *   func_021FC7C4 0x021FC7C4 thumb ov186
+ *   d_021E35D4 0x021E35D4 data a4
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef struct Record {u8 a,b,c,d; u32 value;} Record;
+typedef u16 Row[3];
+struct MsgBank; struct U16Vec; struct WordSet;
+extern const Record d_021E35D4[];
+extern int func_021FC20C(char *),func_021FC214(char *),func_021FC21C(char *);
+extern void func_021FB964(int,int,int);
+extern void *func_021FC6A4(u16,u32,u16,u16,u8,u8,void *,u16);
+extern void func_021FC868(void *,int,int,int);
+extern u16 func_0200DFD8(Row *,int,int);
+extern void *func_02045EC0(struct MsgBank *,u32);
+extern struct U16Vec *func_020457B0(u32,u32);
+extern void func_0201EFA4(struct WordSet *,int,int,int,int,int);
+extern void func_0201F250(struct WordSet *,void *,void *);
+extern void func_02045808(struct U16Vec *);
+extern void func_021FC7C4(char *,void *,void *,u16);
+void func_021DE66C(char *p,char *q)
+{
+    int font, bank, words, i, flag, value;
+    const Record *rec;
+    char *slot;
+    struct U16Vec *text;
+    void *base;
+    font=func_021FC20C(*(char **)(q+8));
+    bank=func_021FC214(*(char **)(q+8));
+    words=func_021FC21C(*(char **)(q+8));
+    func_021FB964(*(int *)(q+8),17,*(u16 *)(p+0x6c));
+    for(i=0;i<18;i++) {
+        rec=&d_021E35D4[i];
+        slot=p+i*4;
+        *(void **)(slot+0x1c)=func_021FC6A4(1,rec->a,rec->b,rec->c,rec->d,14,*(void **)(p+4),*(u16 *)(p+0x6c));
+        func_021FC868(*(void **)(slot+0x1c),0,1,0);
+        if(i>=8 && i<=12) {value=func_0200DFD8(*(Row **)(q+0x14),i-8,1);flag=1;}
+        else if(i>=13 && i<=17) {value=func_0200DFD8(*(Row **)(q+0x14),i-13,2);flag=1;}
+        else {text=func_02045EC0((struct MsgBank *)bank,rec->value);flag=0;}
+        if(flag) {
+            base=func_02045EC0((struct MsgBank *)bank,rec->value);
+            text=func_020457B0(128,*(u16 *)(p+0x6c));
+            func_0201EFA4((struct WordSet *)words,0,value,5,1,1);
+            func_0201F250((struct WordSet *)words,text,base);
+            func_02045808(base);
+        }
+        func_021FC7C4(*(char **)(slot+0x1c),text,(void *)font,0x3da0);
+        func_02045808(text);
+    }
+}

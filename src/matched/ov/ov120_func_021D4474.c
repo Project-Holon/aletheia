@@ -1,0 +1,18 @@
+/*
+ * function: func_021D4474
+ * address: 0x021D4474
+ * packet: pkt_ov120_021D4474
+ * region: ov120
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * symbols:
+ *   func_021D43BC 0x021D43BC thumb ov120
+ */
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern int func_021D43BC(int,char *);
+void func_021D4474(int n,char *p) { int v; v=*(int *)(p+0x160)-2; if(*(int *)(p+0x160)>=2 || *(int *)(p+0x160)<=4) func_021D43BC(n+v*2,p); }

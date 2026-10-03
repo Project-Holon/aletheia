@@ -1,0 +1,16 @@
+/*
+ * function: func_021D9FB0
+ * address: 0x021D9FB0
+ * packet: pkt_ov123_021D9FB0
+ * region: ov123
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT
+ * lever: A named unsigned cursor q preserves counter r4 and cursor r5.
+ * symbols:
+ *   func_0204B3B4 0x0204B3B4 arm
+ */
+extern void func_0204B3B4(void *);
+void func_021D9FB0(unsigned int p) { int i; unsigned int q; for(i=0;i<13;i++) { q=p+(unsigned)i*4; if(*(void **)(q+0x9b0)) { func_0204B3B4(*(void **)(q+0x9b0)); *(void **)(q+0x9b0)=0; } } }
