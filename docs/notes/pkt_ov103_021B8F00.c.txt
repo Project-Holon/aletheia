@@ -8,9 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 unsigned division runtime symbol/prototype from matched02095B3C, one relocation resolved; 2 fresh1038DE4 caller supplies initialized Pair lines; 3 long cx and all-const pointers each unchanged17; 4 inline-helper/stack-scope/long/color idioms read; 5 unfiltered idioms and1038DE4/8FA0,104829C reread. Next would be a scalar inline accessor for the cached x field, within a renewed scheduling budget.
+ * checks: 1 matched02095B3C rederived unsigned helper and symbol, one relocation resolved; 2 current1038DE4 initializes Pair lines, no full twin; 3 signed32 long Pair fields unchanged17/158; 4 scalar inline/flattened-vector/enum/stack-scope idioms read; 5 unfiltered idioms and1038DE4/8FA0,104829C reread. Next would be a scalar inline getter with an enum result type.
  * residual: 158/160, 17 concrete bytes, 1/1 resolved; initial x/y loads, spill slots and ip assignment; body after0036 matches.
- * renewed: metric inline125/150; unused aggregate helper17/158; corrected aggregate subtract157/172. Three manual nonshrinks and two check compiles; two scheduling variants. Historical types permuter300 consumed; not repeated, rejected volatile(cx) winner stays excluded.
+ * renewed: wave77 final retry: scalar getX inline17/158; explicit use of cached ax/ay/cy53/158; enum cx17/158; long Pair fields check17/158. Three iteration nonshrinks plus one check compile; two scheduling variants. Historical types permuter300 consumed (wave76 R25), not repeated; volatile(cx) remains excluded. Best previous C retained.
  * behavior: long is signed32 on fixed compiler; read-only Pair inputs retain full pointer payloads, signed coordinate subtraction and abs, unsigned division and u8 return.
  * symbols:
  *   _u32_div_f 0x0209C2B0 arm

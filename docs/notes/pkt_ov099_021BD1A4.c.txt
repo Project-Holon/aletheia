@@ -9,8 +9,8 @@
  * isa: thumb
  * status: DIFF
  * residual: 372/372 bytes, 18 concrete bytes differ solely in the r5/r6 exchange; all 20 relocations resolved.
- * checks: current own callee definitions correct BCB70, BBDD0 and object/archive prototypes; both prototype compiles leave 18. BBA4C, BC2C0, BD0F0 and C02C8 neighbours reread; no untried caller twin.
- * retry: wave76 R24, 7 one runs. long v 18, inline polling helper 94, long zero 18: three consecutive nonshrinking iterations. Check 3 long n and enum n each 18; check 1 current own prototypes twice 18. Manual extraction 1/2.
+ * checks: 1 current own BCB70/BBDD0/200CC/202FC/12934/1AC2C and other callees reread, every direct site resolves and arity agrees; 2 BC2C0, BD0F0 and BBA4C neighbours reread, no new whole twin; 3 const Rec534 *src leaves 18, mutable p and full-width n/v prevent parameter narrowing; 4 allocator-tie/enum/stack idioms reread; 5 fresh full directory and current neighbours reread, halfword out frame already exact. Next hypothesis: separate inline scope binding zero after nested argument evaluation.
+ * retry: wave77 R4 final retry, 4 one runs. _Bool zero, full-word q payload, zero initialized after q each 18/372: three nonshrinking iterations. Check 3 const src also 18. Manual scheduling/extraction 1/2. Wave76 R24 previously 7 one runs, long/enum webs and polling extraction did not improve 18.
  * evidence: p writes and full-width v forbid const/narrow parameters; original halfword out stack slots already match. Full idiom listing and order/extraction idioms reread.
  * prior-search: earlier once-only --budget 300 --types permuter consumed, best 18; no repeated search. Earlier unsigned n 376/221, u16 zero, enum zero and declaration order left 18.
  * next: n/zero allocator tie; fresh long/enum webs and polling extraction did not break r5/r6 exchange.

@@ -5,11 +5,13 @@
  * region: ov132
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
  * residue: 4 concrete bytes; adds r2,#0x7c exchanges order with adds r1,r6,r7.
- * checks: 1 MI_CpuCopy8 reads r0-r2, all arguments present; 2 D22C/D350 twins fix arity but no same loop; 3 int n and int copy-size (two prior compiles total) unchanged; 4 integer destination base unchanged; 5 wave 27 refreshed idioms/neighbours no further scheduling fit, no stack aggregate; copy wrapper, wrapper adding 0x7c, and wrapper taking base/offset all leave DIFF 4; first 300/types pass best DIFF 4, no mutations accepted. Next requires new scheduling evidence, not another types pass.
+ * checks: w77 renewed: 1 own 173E8/3996C/3D3F8 definitions and SDK copy ABI reread; corrected 3D3F8 u32 return/eight u32 parameters, const copy-source and u32 length DIFF4; explicit return of its result DIFF4 (FCAA8 reads r0). 2 D22C/D2B8/D350 twins refreshed; 3 const p, enum n unchanged4; 4 enum-length inline unchanged4, argument-binding/const-source idioms read; 5 directory and ov132 neighbours refreshed. Three iteration runs plus two checks; first two complete logs in tool transcript. Earlier once300/types consumed, not repeated; exhausted.
  * symbols:
+ *   func_020173EC 0x020173EC thumb
  *   func_02082D44 0x02082D44 arm
  *   func_0203996C 0x0203996C arm
  *   func_0203D3F8 0x0203D3F8 arm
@@ -17,10 +19,10 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 extern u32 func_020173EC(void);
-extern void func_02082D44(void *,void *,int);
+extern void func_02082D44(const void *,void *,u32);
 extern void *func_0203996C(int);
-extern int func_0203D3F8(void *,int,int,u32,void *,int,int,int);
-void func_021FD400(char *p)
+extern u32 func_0203D3F8(u32,u32,u32,u32,u32,u32,u32,u32);
+u32 func_021FD400(const char *p)
 {
     u8 i;
     u32 n;
@@ -36,5 +38,5 @@ void func_021FD400(char *p)
     }
     h=func_0203996C(0xff);
     n=func_020173EC();
-    func_0203D3F8(h,0xff,0x1104,(n+0x7c)*4,*(void **)(p+0x128),1,0,1);
+    return func_0203D3F8((u32)h,0xff,0x1104,(n+0x7c)*4,*(u32 *)(p+0x128),1,0,1);
 }

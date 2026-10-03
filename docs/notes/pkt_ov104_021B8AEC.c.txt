@@ -6,9 +6,9 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
- * residual: renewed pass: 3 nonshrinking iterations plus 1 check3; best 336/336, 14 concrete bytes, negative end-Y materialization and point store order. Previous 300-type permuter consumed, not repeated; two scheduling variants used.
- * checks: 1 own 8DA4/8E8C/8D20 and ARM9 random getter bodies confirm every arity. 2 fresh ov104 neighbours have no emitter twin. 3 check3 long Point.y remained 336/14; life u32 and Color enum iteration unchanged. 4 stack-Vec, declared-struct, chain-assignment and enum-constant idioms reread; inline initializer and EndY enum unchanged. 5 unfiltered directory and ov104 8D20 plus sibling ov105 7F78 reread; no rescue. Next hypothesis: helper with separate coordinate return types, after cap; no manual scheduling left.
+ * status: EXACT
+ * checks: W77 two runs; EXACT336 accepted and own shard verified after literal move. Supersedes the earlier DIFF note. Current own-definition audit flags Point.y long versus 8DA4 int and its Particle* input; orchestrator handles protofix at fold-in.
+ * lever: named end-Y local stored before the shared X assignment yields the original 336-byte schedule.
  * symbols:
  *   func_020056EC 0x020056EC thumb
  *   func_021B8E8C 0x021B8E8C thumb ov104
@@ -32,9 +32,11 @@ extern const s16 g_020A1B38[];
 #define SHIFT(v,n) ((int)((u32)(v)<<(n)))
 static inline void initialize(Point *start,Point *end,int x,EndY endY)
 {
+    int yy=endY;
+    end->y=yy;
     start->x=end->x=x;
     start->y=228;
-    end->y=endY;
+
 }
 void func_021B8AEC(u8 *p)
 {

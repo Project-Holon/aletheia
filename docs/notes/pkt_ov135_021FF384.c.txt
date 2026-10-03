@@ -1,0 +1,67 @@
+/*
+ * function: func_021FF384
+ * address:  0x021FF384
+ * packet:   pkt_ov135_021FF384
+ * region:   ov135
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * residual: renewed wave77 pass exhausted; canonical prototype spelling DIFF181, compiled248/original240; zero retained inr7 instead of color.
+ * checks: 1 own ARM945EC0/45808 types copied, ov13591A0/91DC seven-argument listings and matched callers reread; canonical u16 sixth parameter DIFF181/248; 2 C8CC/CA8C/FF474/7F9C twins reread; 3 s16 and unsigned-long color each DIFF181/248, read-only win slots const variant DIFF62/238 while iterating; 4 enum color assigned after first allocation reached DIFF8/238 only with widened sixth extern; zero enum worsened, two scheduling variants consumed; 5 fresh unfiltered idiom listing and ov135/136 neighbours reread.
+ * runs: wave77 5 iteration + 4 checks; no new permuter.
+ * permuter: earlier budget400 seed10601 already consumed per legacy pkt_021FF384 note; not repeated.
+ * hypothesis: scratch ff_own.c is DIFF8/238 with enum color and u32 sixth extern. It is not the parked canonical C: matched callers use u16 and callee021F91A8/021F91C6 reload the slot withldrh; no own matched definition exists. Preserve the narrower observed prototype until stronger evidence.
+ * next: remaining hypothesis is the first zero/color/store/shift interleave; no scheduling budget remains.
+ *
+ * symbols:
+ *   func_02045EC0  0x02045EC0  arm
+ *   func_02045808  0x02045808  arm
+ *   func_021F91A0  0x021F91A0  thumb
+ *   func_021F91DC  0x021F91DC  thumb
+ */
+
+typedef signed char s8;
+typedef signed short s16;
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+
+struct MsgBank;
+struct U16Vec;
+extern void *func_02045EC0(struct MsgBank *bank, u32 index);
+extern void func_02045808(struct U16Vec *p);
+extern int func_021F91A0(void *p, void *b, u32 c, u32 d, u32 e, u16 f, void *g);
+extern int func_021F91DC(void *p, void *b, u32 c, u32 d, u32 e, u16 f, void *g);
+
+void func_021FF384(void **win, void **win2, void *bank, void *g)
+{
+    void *s1;
+    void *s2;
+    void *s3;
+    void *s4;
+    void *s5;
+    void *s6;
+    u32 color;
+
+    color = 0x440;
+    s1 = func_02045EC0(bank, 0x43);
+    func_021F91A0(win[0], s1, 0, 0, 0, color, g);
+    func_02045808(s1);
+    s2 = func_02045EC0(bank, 0x45);
+    func_021F91A0(win[2], s2, 0, 0, 0, color, g);
+    func_02045808(s2);
+    s3 = func_02045EC0(bank, 0x47);
+    func_021F91A0(win[4], s3, 0, 0, 0, color, g);
+    func_02045808(s3);
+    s4 = func_02045EC0(bank, 0xB9);
+    func_021F91A0(win2[0], s4, 0, 0, 0, color, g);
+    func_02045808(s4);
+    s5 = func_02045EC0(bank, 0x49);
+    func_021F91DC(win[6], s5, 0, 0, 0, color, g);
+    func_02045808(s5);
+    s6 = func_02045EC0(bank, 0xFC);
+    func_021F91DC(win[7], s6, 0, 0, 0, color, g);
+    func_02045808(s6);
+}

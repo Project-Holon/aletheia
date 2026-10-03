@@ -8,13 +8,24 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own/caller arities rederived, including 6EA0 four, 74C4 three, 74E8 two, 7674 three and 7694 two; 2 matched 76F8/7E78 confirm shapes; 3 full-width heap compiled without improvement; 4 separate case-10 status and repeated mode actions consumed two ordering variants; 5 refreshed idiom directory and matched ov128 callers. Three nonshrinking changes; best saved.
- * residual: DIFF448, 628-byte lead versus original 632; handed 640 includes
- * eight-byte follower 021C7138. New retry 4 runs; altered variants DIFF492.
- * permuter: skipped for follower omitted from the compiled lead, as required.
- * next hypothesis: original separate mode/status tails without merging the
- * q[8]=3 assignment into earlier switch arms; explicit arities are verified.
- * extent: trailing 021C7138 tail-call stub included.
+ * blocker: historical diagnostic lead compiled/original632 B,327 concrete
+ * bytes out (improved448). Handed640 includes8-byte follower021C7138.
+ * Actual own prototypes: void func_021C7694(u8 *);
+ * void func_021C72A0(u8 *,int,u8 *);
+ * void *func_021C6E3C(void *,void **,int,int);
+ * int func_021C6E74(u8 *); void func_021C6EA0(u8 *,u8 *,u8 *,u16).
+ * Definition conflict: original711E explicitly moves ctx into r1 before
+ * call7120 ->7694, whose own definition declares only one formal.
+ * Full exact-definition prototype restoration remains necessary for the
+ * other historical pointer declarations; no owner files changed.
+ * The disabled historical sketch below is rejected under the current
+ * exact-definition rule and must not be compiled as-is.
+ * checks: 1 own definitions rederived,7694 arity conflicts with711E/7120; 2 current6208/7E78/76F8 matched neighbours reread; 3 word heap and unsigned statuses were flat327 during iteration, further check3 compile blocked by current definition rule; 4 shared-tail idioms read, external finish plus separate case10 status/submission improve327; 5 unfiltered idioms and matched neighbours reread; next sweep none, current definition blockers stop caller work.
+ * hypothesis: original shared cleanup after switch; current spelling places
+ * zero-return epilogue before cleanup and still differs across the tail.
+ * permuter: never run; skipped because listing extent has omitted follower.
+ * extent: trailing021C7138 tail-call stub included; TU blocked by incorrect
+ * own-definition prototype, no additional caller compile permitted.
  * symbols:
  *   func_021C7138 0x021C7138 thumb ov128
  *   func_021C6EA0 0x021C6EA0 thumb ov128
@@ -48,6 +59,7 @@
  *   func_020355C4 0x020355C4 arm
  *   d_021CA4F9 0x021CA4F9 data a1
  */
+#if 0 /* Rejected historical diagnostic; exact-definition blockers above. */
 typedef unsigned u32;
 typedef unsigned short u16;
 typedef unsigned char u8;
@@ -165,31 +177,38 @@ int func_021C6EC0(u8 *p,u8 *q,u8 *ctx,u16 heap)
         }
         break;
     case 10:
-        result=func_021C6E74(*(void **)(p+0x4C));
-        if(result==0) {
+    {
+        int menuStatus;
+        int submission;
+        menuStatus=func_021C6E74(*(void **)(p+0x4C));
+        if(menuStatus==0) {
             *(u32 *)q=func_020355C4();
-            result=func_021C6460((char *)q,*(void **)(q+0x5C),*(u32 *)(q+0x58));
-            if(result==0) goto finish;
+            submission=func_021C6460((char *)q,*(void **)(q+0x5C),*(u32 *)(q+0x58));
+            if(submission==0) goto finish;
             else {
-                func_021C7558(p,ctx,*(u8 *)((u32)d_021CA4F9+(u32)result),heap);
+                func_021C7558(p,ctx,*(u8 *)((u32)d_021CA4F9+(u32)submission),heap);
                 q[8]=11;
             }
-        } else if(result==1) {
+        } else if(menuStatus==1) {
             *(u32 *)q=func_020355C4();
             goto finish;
         }
         break;
+    }
     case 11:
         if(func_021C7674(p,q,ctx)!=0 && func_021CA084(q)==1) {
-finish:
-            func_021C7694(p,ctx);
-            func_021CA19C((u32 *)p);
-            q[8]=3;
+            goto finish;
         }
         break;
     default:
         break;
     }
     return 0;
+finish:
+    func_021C7694(p,ctx);
+    func_021CA19C((u32 *)p);
+    q[8]=3;
+    return 0;
 }
 void func_021C7138(u8 *p,u8 *q,u8 *ctx) { func_021C72A0(p,q,ctx); }
+#endif

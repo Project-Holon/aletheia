@@ -7,14 +7,14 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * residual: 524 versus520 bytes; 418 concrete bytes differ; 24/33 relocations resolve, nine table ABS32 sites lack outside witnesses.
- * checks: 1 all callee arities reread;48A24 twelve args;490F4(u32,u16) and three graphics pointer parameters corrected;40618 forwards three live inputs; 2 ov056/ov111 camera twins reviewed; 3 enum constants528/444, fifth argument widening524/418, typed Scene and corrected graphics interfaces524/418; 4 SDK volatile/BOOL inlines and enum-zero/frame idioms read, stack28/12 objects preserved; 5 fresh full idioms and own3EAC/neighbours reread.
+ * residual: 524 versus520 bytes; 414 concrete bytes differ; 24/33 relocations resolve, nine table ABS32 sites lack outside witnesses.
+ * checks: 1 exact own callee types applied, 524/414; ARM9 02046440 s16 parameter6 conflicts with both listings, stop caller compiles; 2 ov056/ov111 camera twins and own3EAC reviewed; 3 mutable Scene 524/422, enum one 524/418, exact blend prototype 524/418; further widths blocked by Ilias definition conflict; 4 genuine SDK volatile/BOOL inlines and declared 28/12-byte stack aggregates retained; 5 fresh full idiom listing/neighbours read. Prior types300 permuter consumed, never repeated.
  * permuter: old once types300 consumed; rejected call reorder/cached heap across side effects; never repeated.
  * blockers: zero/three/one webs and subsequent scheduling; three nongaining renewed variants; table sites still unresolved while DIFF.
  * volatile: DISP3DCNT 0x04000060 reads 021F3D0E/14/22; DISPCNT 04000000 at3E3C;
  *           WINOUT 0400004A at021F3E4C/60.
- * ABI: 02040618 fourth legacy parameter is unread, including forwarding target02042360.
- *      02046440 heap is zero-extended here, without the own-file s16 conversion.
+ * prototype-conflict: Ilias ARM9 02046440 parameter6 declared s16 heap; its 02046448 ldrh r8,[sp,#0x74],02046468 mov r0,r8 and02046478 allocator BL prove zero-extension. Caller021F3CAE ldrh/3CB4 stack store likewise zero-extend; exact extern produces ldrsh here. No further caller compiles or leaf edits.
+ * prototype-conflict: ARM9 0204EBD4 parameter2 declared void* heap, while caller021F3D5C feeds numeric u16 heap and own body casts heap to allocator int/u16 header store. Pointer-cast spelling below is diagnostic, not a filed workaround.
  * symbols:
  *   func_02046440 0x02046440 arm
  *   func_0204044C 0x0204044C arm
@@ -45,6 +45,7 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
+typedef signed short s16;
 typedef unsigned int u32;
 typedef int BOOL;
 typedef struct { u32 x,y,z; } Vec3;
@@ -56,12 +57,12 @@ extern const u16 d_021F81C4[];
 extern const Blob28 d_021F8274;
 extern const Blk3 d_021F8258;
 extern const u32 d_021F8214[],d_021F81D4[],d_021F81F4[];
-extern void func_02046440(u32,u32,u32,u32,u16,u32,void (*)(void));
-extern void func_0204044C(int);
-extern void func_02046BE0(int,int);
-extern u32 *func_02048A24(int,int,int,int,int,int,int,int,Vec3 *,Vec3 *,Vec3 *,u16);
+extern void func_02046440(u32,u32,u32,u32,u16,s16,void (*)(void));
+extern void func_0204044C(u32);
+extern void func_02046BE0(u32,u32);
+extern u32 *func_02048A24(u32,u32,u32,u32,u32,u32,u32,u32,Vec3 *,Vec3 *,Vec3 *,u16);
 extern void func_02048AD0(void *);
-extern void func_0207DCF8(const u16 *);
+extern void func_0207DCF8(const void *);
 extern void *func_0204EBD4(u8 *,void *);
 extern void func_0204ED70(u8 *,Blk3 *);
 extern void func_021F3EAC(const void *,u32,u32);
@@ -72,7 +73,7 @@ extern void func_02049658(void *,u32,u32,u32,u32,u32,u16);
 extern void func_020498F4(void *,u32,u32,u32,u32,u32,u16);
 extern void func_020409B4(u32);
 extern void func_02049238(void *);
-extern void func_0207D63C(void *,int,int,int,int);
+extern void func_0207D63C(u32 *,u32,u32,u32,u32);
 #define DISP3D (*(volatile u16 *)0x04000060)
 #define WINOUT (*(volatile u16 *)0x0400004A)
 static inline void AntiAlias(BOOL enable) {
@@ -129,7 +130,7 @@ void func_021F3CA4(const Scene *p)
     func_020409B4(2);
     func_020409B4(3);
     func_02049238(t);
-    func_0207D63C((void *)0x04000050,8,1,0,10);
+    func_0207D63C((u32 *)0x04000050,8,1,0,10);
     VisibleWnd(4);
     OBJInside(23,1);
     Outside(31,1);

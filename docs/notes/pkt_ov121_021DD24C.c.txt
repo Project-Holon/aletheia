@@ -8,7 +8,8 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 all own files/units and matched callers rederived; 17588 six with u16 level, 186C8 six with int species compiled inert1519; identity/thunk exceptions 084F4/185F0/185F4/180F4 retained; 2 full DAC18/DBDF4/DA338/DA3EC twins, sibling120/122 search no closer constructor; 3 integer record unchanged1519, u32 level1848/1539, reuse u16 heap tag1848/1623; const record/ctx/q retained from prior measured best; 4 declared Values local versus cast buffer unchanged1519, struct/frame and spill idioms read; 5 full sorted idiom directory and fresh matched neighbours read.
+ * checks-historical: 1 all own files/units and matched callers rederived; 17588 six with u16 level, 186C8 six with int species compiled inert1519; current identity/thunk own-definition conflicts now gated; 2 full DAC18/DBDF4/DA338/DA3EC twins, sibling120/122 search no closer constructor; 3 integer record unchanged1519, u32 level1848/1539, reuse u16 heap tag1848/1623; const record/ctx/q retained from prior measured best; 4 declared Values local versus cast buffer unchanged1519, struct/frame and spill idioms read; 5 full sorted idiom directory and fresh matched neighbours read.
+ * checks: 1 fresh own-definition gate blocks caller; 2 constructor twins refreshed; 3 deferred after blocker discovery, historical width evidence below; 4 declared struct/frame idiom reread; 5 fresh full directory and neighbours, no closer constructor.
  * retry: wave60 six runs; three nonshrinking iteration changes followed by heap-width and own-interface checks; prior permuter300 skipped, its month self-read mutant was rejected and fixed baseline1844/1519 agreed.
  * residual: original frame110 with record in sp10, compiled104 retains record r7 and spills ui; table 021DFA14 unresolved/no outside witness. No caller leaves filed while DIFF.
  * symbols:
@@ -57,7 +58,24 @@
  *   d_0209DF08 0x0209DF08 data
  *   d_0209DF0C 0x0209DF0C data
  *   d_020A7370 0x020A7370 data a4
+ * definition-blockers: arm9 020084F4(unit_020084BC.c), 020185F0(unit_020185F0.c), 020180F4(func_020180F4.c) each currently void(void); 0202D7C8(func_0202D7C8.c) currently int(int,int,int,int).
+ * faulty returns/arity: 084F4 and 185F0 preserve incoming r0 as an identity pointer; 180F4 forwards mon/move in r0/r1 to180FC; 2D7C8 reads only its heap argument and returns the allocator pointer.
+ * callee listing: 020084F4 bx lr; 020185F0 bx lr; 020180F4 ldr r3,[pc,#0]; 020180F6 bx r3; pool020180F8=0x020180FD;
+ * own thunk target: src/matched/arm9/func_020180FC.c defines void func_020180FC(void*,u16), confirming the forwarded two arguments.
+ *   0202D7CA adds r4,r0,#0; 0202D7CC bl 0202D060; 0202D7D0 adds r1,r4,#0; 0202D7D2 blx 020490F4; 0202D7D6 pop {r4,pc}; no incoming r1/r2/r3 reader.
+ * caller listing: 021DD7C0 bl 02012944; 021DD7C4 bl 020084F4; 021DD7C8 adds r2,r0,#0; 021DD7CA adds r0,r5,#0; 021DD7CC movs r1,#0x8e;
+ *   021DD860 adds r0,r5,#0; 021DD862 bl 020185F0; 021DD866 ldr r1,[sp,#0x40]; 021DD874 bl 0202F2AC, passing unchanged returned r0;
+ *   021DD64E adds r0,r5,#0; 021DD650 adds r1,r6,#0; 021DD652 bl 020180F4;
+ *   021DD898 ldr r0,[sp,#0x1c]; 021DD89A lsls r0,#16; 021DD89C lsrs r0,#16; 021DD89E bl 0202D7C8; 021DD8A2 adds r7,r0,#0.
+ * wave77: full1844-byte show, own definitions and constructor twins refreshed; definition blockers found before caller compile, zero fresh runs; no further caller compile authorized.
+ * historical-C: full measured1844/1519 sketch below is disabled; historical identity/thunk divergences are diagnostic evidence, not active exceptions.
  */
+/* Current own-definition prototypes, with no active divergent declarations. */
+extern void func_020084F4(void);
+extern void func_020185F0(void);
+extern void func_020180F4(void);
+extern int func_0202D7C8(int,int,int,int);
+#if 0 /* Disabled historical diagnostic sketch; owner definition blocks matching. */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -223,3 +241,4 @@ finish:
 done:
     return out;
 }
+#endif

@@ -8,11 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * residue: DIFF 976/976, 177 concrete bytes; no unresolved call/data blocker.
- * checks: 1 all 43 arities rederived from primary ARM9 source and matched ov121 callers, explicit B294 r0 result retained despite legacy void callee; 2 D694C/D6AEC/DCF54/DB938 twins reread; 3 enum second-loop index worsened980/206, u16 heap confirmed by matched callers, mutable p retained; 4 index reuse unchanged177, cast eight-byte Record buffer worsened972/348, both ordering/temp variants consumed; 5 idiom directory and neighbours refreshed. Best restored after three nonshrinking changes, four retry runs.
- * permuter: skipped because previous note records the 300-run search.
- * next hypothesis: second-loop index/zero web ties remain; cast storage fixes
- * no addressing mismatch, and enum index buys the register at four-byte cost.
+ * checks: 1 fresh own ARM9 signatures and D99A4(9), DCF54(6), all43 call sites; B294 live r0/CFDC forwarding now prove own-definition return blocker; 450F0 own full-word ABI plus return cast unchanged102; 2 fresh DAC18 heap-u16 caller, DB938/DCF54 layouts, ov120/121/122 matched/pending; 3 signed-long i and j and unsigned point.z unchanged102, byte j980/129; mutable p cannot have const pointee; 4 separate first arc unchanged177, named enum zero for its calls improved177→102; both manual scheduling variants consumed; 5 idiom directory and neighbours refreshed, declared-stack and named-zero idioms read.
+ * residual: DIFF976/976,102 concrete bytes,all43 relocs. Remaining extra add-sp44 before point.z store shifts final loop by two bytes; early arc/zero register swap fixed.
+ * prior: Once-only types permuter300 consumed, never repeated; prior enum j/reused i/cast Record buffer attempts did not close it.
+ * final-retry: Wave77 R15 eight runs; improved by explicit enum zero in first archive calls; three subsequent nonshrinks stopped iteration, required checks complete. Best check1 C retained. Next hypothesis: point.z field spelling that retains the point base across the joined x/y arms without a new scheduling sweep.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
@@ -38,13 +37,27 @@
  *   func_021D99A4 0x021D99A4 thumb ov121
  *   func_021DCF54 0x021DCF54 thumb ov121
  *   data_021DF86E 0x021DF86E data a2
+ * definition-blocker: arm9 0204B294, src/matched/arm9/sub_0204B294.c declares void(u32,u32,u32,u32,u32,u16,u16).
+ * fault: return is void although its final CFDC call returns an Obj pointer; historical pointer-return extern below is disabled, never an active exception.
+ * callee listing: 0204B304 ldr r1,[sp,#0x40]; 0204B308 mov r0,r6; 0204B30C mov r2,r5; 0204B310 str r4,[sp];
+ *   0204B314 bl 0204CFDC; 0204B318 add sp,sp,#0x2c; 0204B31C pop {r4,r5,r6,r7,pc}; r0 survives to the caller.
+ * own CFDC: src/matched/arm9/sub_0204CFDC.c defines struct Obj *sub_0204CFDC(void *,struct Req *,void *,void *,u16).
+ * caller listing: 021DB2D8 blx 0204B294; 021DB2DC ldr r1,[sp,#0x24]; 021DB2E0 adds r1,#0x38; 021DB2E2 str r0,[r5,r1];
+ *   021DB306 blx 0204B294; 021DB30C adds r1,#0x3c; 021DB30E str r0,[r5,r1]; 021DB38E blx 0204B294; 021DB394 str r0,[r6,r1].
+ * strict-audit: no further caller compile after identifying this blocker; eight measured runs and their best976/102 C retained only as disabled evidence.
  */
+typedef unsigned int u32;
+typedef unsigned short u16;
+/* Current own-definition prototype, retained verbatim in type and arity. */
+extern void func_0204B294(u32,u32,u32,u32,u32,u16,u16);
+#if 0 /* Disabled historical diagnostic sketch; owner definition blocks matching. */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef signed short s16;
+typedef enum { Clear } ClearValue;
 typedef union {u16 h[4];u8 b[8];} Cell;
-typedef struct {s16 x,y,z;u8 a,b;} Record;
+typedef struct {s16 x,y;u16 z;u8 a,b;} Record;
 extern const Cell data_021DF86E[];
 extern void *func_020490F4(u32,u16);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
@@ -56,7 +69,7 @@ extern void func_02040C14(u32,u32,u32,u32);
 extern void func_0201F5BC(u32,u32,u32,u32,u16);
 extern int func_0201BC3C(void);
 extern int func_0204ACEC(void *,u32,u32,u32,u16);
-extern void *func_020450F0(u8,u16,u16,u8,u8,u8,u8);
+extern u32 func_020450F0(u32,u32,u32,u32,u8,u8,u8);
 extern void func_02045374(void *);
 extern void *func_021D99A4(u32,u32,u16,u16,u8,u8,u8,u32,u16);
 extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16);
@@ -71,22 +84,24 @@ extern void func_0204B604(void *,u32,u32);
 extern void func_02040588(u32,u32);
 void func_021DB018(char *p,u16 heap)
 {
-    int i;
-    void *arc;
+    signed long i;
+    void *arc,*firstArc;
     Cell cell;
     Record point;
-    int j;
-    arc=func_020490F4(34,heap);
-    func_02049B68(arc,1,0,0,320,heap);
-    func_02049658(arc,10,3,0,0,0,heap);
-    func_020498F4(arc,17,3,0,0,0,heap);
-    func_02049658(arc,10,1,0,0,0,heap);
-    func_020498F4(arc,19,1,0,0,0,heap);
+    signed long j;
+    ClearValue zero;
+    firstArc=func_020490F4(34,heap);
+    zero=Clear;
+    func_02049B68(firstArc,1,zero,zero,320,heap);
+    func_02049658(firstArc,10,3,zero,zero,zero,heap);
+    func_020498F4(firstArc,17,3,zero,zero,zero,heap);
+    func_02049658(firstArc,10,1,zero,zero,zero,heap);
+    func_020498F4(firstArc,19,1,zero,zero,zero,heap);
     func_020409B4(3);
-    func_02049B68(arc,1,4,0,320,heap);
-    func_02049658(arc,10,7,0,0,0,heap);
-    func_020498F4(arc,18,7,0,0,0,heap);
-    func_02049238(arc);
+    func_02049B68(firstArc,1,4,zero,320,heap);
+    func_02049658(firstArc,10,7,zero,zero,zero,heap);
+    func_020498F4(firstArc,18,7,zero,zero,zero,heap);
+    func_02049238(firstArc);
     arc=func_020490F4(23,heap);
     func_02049B68(arc,5,0,480,32,heap);
     func_02049B68(arc,5,4,480,32,heap);
@@ -104,7 +119,7 @@ void func_021DB018(char *p,u16 heap)
         } else {
             cell=data_021DF86E[i];
         }
-        *(void **)(p+i*4+0xb08)=func_020450F0(2,cell.b[2],cell.b[3],10,2,15,0);
+        *(void **)(p+i*4+0xb08)=(void *)func_020450F0(2,cell.b[2],cell.b[3],10,2,15,0);
         func_02045374(*(void **)(p+i*4+0xb08));
         func_020409B4(2);
     }
@@ -134,3 +149,4 @@ void func_021DB018(char *p,u16 heap)
     }
     func_02040588(2,1);
 }
+#endif

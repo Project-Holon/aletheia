@@ -5,12 +5,16 @@
  * region: ov128
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 callee bodies read all named arguments, 02045738 returns u8 (no byte change); 2 U16Vec result spelling no change, 128/127/129 neighbours give no digit twin; 3 long counter unchanged, s16 counter 464 B/130 differences, const Query parameter unchanged during iteration; 4 register/declaration/long-index idioms read, scheduling variants exhausted; 5 idiom directory and matched neighbours refreshed, aggregate-copy slots already exact.
- * residual: 460/460 B, 22 bytes solely r4/r5 exchange (text versus constant/copy/loop counter), all 23 relocations resolved.
+ * checks: 1 fresh exact witness gate found ARM9 inner entries absent from their unit headers/shards; strict rule also exposes void/no-argument 02009860; stopped caller; 2 prior digit-array proof retained; 3 not continued after owner blocker discovery; 4 prior allocator/declaration/long-index evidence retained; 5 unfiltered idiom directory and matched neighbours refreshed; Digits stack-copy layout already correct.
+ * residual: Historical DIFF460/460,22 concrete bytes,19/23 relocs now resolved; owner-blocked, not newly exhausted. Missing0201283C Thumb symbols metadata is separate.
+ * runs: w77/R19:1 one, long width unchanged22 concrete; no subsequent caller compile. Prior P300 consumed, not repeated.
+ * history: Old best460/22 claimed23/23; old longcounter/const Query unchanged and s16counter464/130; old scheduling searches consumed.
+ * evidence: ARM9 unit_02045C44.c defines02045CAC but function header and pkt_02045C44.json list only02045C44; unit_02045AA8.c defines02045AFC but header/shard list only02045AA8. Unresolved caller sites+0092/+0172 and+0112. unit_02009860.c declares void sub_02009860(void), while original021C8FF6→021C8FFA calls02009860 then passes r0 to0205994C. Own0201283C returnsu32, declaration below follows it; add explicit Thumb hint after owner blockers fixed.
  * heap: The observed call path is 021C8E56 movs r3,#52, 021C8E58 calls 021C8E24, whose 021C8E26 call forwards r3 unchanged to this function; both allocator calls receive that u16-range value.
- * budget: 6 iterations, 3 consecutive nonshrinking (r4-r6), 3 runs from first nonshrink; schedule variants 2/2; checks 1=1/2, 2=1/2, 3=2/2, 4=0/2, 5=0/2; sweeps 0/3; once-300 permuter exhausted, baseline confirmed by one.
+ * scratch: scratchpad/overlay-newpass-20261003-w77/R19
  * symbols:
  *   func_021C63AC 0x021C63AC thumb ov128
  *   func_020457B0 0x020457B0 arm
@@ -27,6 +31,14 @@
  *   _ull_mod 0x0209C018 arm
  *   d_021CA674 0x021CA674 data a2
  */
+typedef unsigned int u32;
+extern u32 func_0201283C(const void *);
+extern void func_02009860(void);
+
+#if 0
+/* Historical pre-rule diagnostic body; incompatible interfaces below are inactive.
+   Preserve measured evidence only. Do not compile this caller until definitions
+   are reconciled and every extern/call is updated to the own matched definition. */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -55,7 +67,7 @@ void func_021C8F88(u8 *p, const Query *q, u8 *r, u16 heap)
     struct U16Vec *spare;
     u64 value;
     u32 bmp, font;
-    int width;
+    long width;
     int gap;
     Digits digits;
     func_021C63AC(r, (u32 *)p, 3, 2, 10, 30, 8, 10, 1, 0);
@@ -89,3 +101,4 @@ void func_021C8F88(u8 *p, const Query *q, u8 *r, u16 heap)
     func_02045808(spare);
     *(void **)(p + 16) = func_02049EF4(*(u32 *)(r + 8), 6, 0, (u32)(p + 20), heap);
 }
+#endif

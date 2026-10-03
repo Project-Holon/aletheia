@@ -7,13 +7,16 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own ARM9 queue body confirms four full-word args; 2 current ov110 neighbours retain table/ABI and no closer twin; 3 fresh u16/s16 red local flat at 9, u16 second color 64, int red 252/122, enum second color flat 9; prior const rows consumed; 4 reversing RGB packing OR order gives 19, extracting green before red gives 9; 5 fresh neighbours and idiom scan, no local aggregate/SP-address residue. Prior 300 permuter consumed, accepted red hoist retained; not repeated.
- * Best: DIFF9, compiled256/original256, both relocations resolved (w76/R29/e2.log).
+ * prior-checks: 1 own ARM9 queue body confirms four full-word args; 2 current ov110 neighbours retain table/ABI and no closer twin; 3 fresh u16/s16 red local flat at 9, u16 second color 64, int red 252/122, enum second color flat 9; prior const rows consumed; 4 reversing RGB packing OR order gives 19, extracting green before red gives 9; 5 fresh neighbours and idiom scan, no local aggregate/SP-address residue. Prior 300 permuter consumed, accepted red hoist retained; not repeated.
+ * prior-best: DIFF9, compiled256/original256, both relocations resolved (w76/R29/e2.log).
  * Residue: red channel and second-color word swap r1/r2 at 021C08FA/021C08FE and dependent instructions through 021C094E; all other instructions agree.
  * Original u8 counter against full u32 count retained, including wraparound;
  * caller 098C passes3, which is not proof permitting count narrowing.
  * ratio is s16; bounded 5-bit channel differences multiply without overflow.
  * No local arrays, out-of-array accesses or uninitialized reads introduced.
+ * checks: 1 current own ARM9 02061CA4 body confirms exact four-word prototype; 2 current ov110/111 queue callers no closer blend twin; 3 full-width unsigned-long count gives256/9, retains original u8 index wrap; const rows already tried; 4 inline red helper and reversed helper argument order both256/55, not retained; 5 full unfiltered idiom directory and current matched/pending neighbours reread, no stack aggregate.
+ * runs: wave77 R8 6 one calls; iteration long second color9, signed-short second color160, enum red252/122. Prior permuter300 consumed, not repeated.
+ * best: DIFF256/9; red and second-color R1/R2 swap remains; both relocations resolve. Original full count and byte wrap preserved.
  * symbols:
  *   FX_SinCosTable_ 0x020A1B38 data a2
  *   func_02061CA4 0x02061CA4 arm

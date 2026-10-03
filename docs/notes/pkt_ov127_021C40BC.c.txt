@@ -8,25 +8,20 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * blocker: 246/256 bytes, 178 concrete bytes out. Indexed base remains live
- * across calls; original keeps the unsigned stride in a stack slot and
- * recomputes the base. This changes register colors and omits 10 bytes.
- * domain: 4354 is identity bx lr, and caller 5680 takes selector7 from
- * 49A4 without a range check. No supported 18-entry bound: use unsigned
- * 32-bit multiply/add before casting the computed address. View describes
- * individual proven offsets 20,24,32,392, never an indexed fixed array.
- * heap: incoming u32 is explicitly truncated at 40FC/4104 before each
- * call. Canonical callee final u16 formal retains this caller conversion;
- * u32 formal plus explicit cast instead hoists one common conversion.
- * prototype: B908 uses only r0/r1 via D478; B294 return r0 is consumed
- * despite its owned ARM9 C being void. No ARM9 source was changed.
- * checks: 1 own listings confirm 4604/4354/4550 take 1, B294 takes 7 with final stack halfwords, B84C takes 2 with caller byte truncation, B908 reads only 2; 2 3EE0 allocates820 and initializes stride20 records, 4380 shares fields but no mapper bound; 3 unsigned i unchanged in iteration, const View*p improves180 to178 bytes out; 4 field-two-spellings unchanged and named unsigned stride unchanged; 5 idiom directory and matched neighbours reread, no supported indexed-array domain; next sweep none, iteration stopped and optional once300 consumed.
- * budget: 10 normal compiles including initial2 and semantic8; first
- * nonshrinking run3, final consecutive3 runs8-10, 8 runs from first.
- * Checks3/4 use one compile each; one scheduling temporary variant; no sweeps.
- * Optional once300 outside mandatory <=8 size delta: baseline246/178;
- * scorer best256/193 uses volatile-add(n), rejected without adoption or
- * validation. Search completed exit1; do not repeat it.
+ * blocker: historical diagnostic compiled254/256 B,169 concrete bytes out.
+ * Actual own prototypes: void *func_021C4604(u8 *); void func_021C4354(void);
+ * void sub_0204B294(u32,u32,u32,u32,u32,u16,u16);
+ * void func_0204B84C(void *,u32); void func_0204B908(int,int,int,int).
+ * Definition conflicts: ov1274354 is void(void) bx lr; caller40CE sets r0=n,
+ * calls40D0 and consumes return at40F2 muls. ARM9 B294 void return conflicts
+ * with caller4118/4120 and419E/41A6 storing r0 into object. Caller413C sets
+ * only r0/r1 for B908; own ARM9 definition declares four parameters.
+ * No owner files changed. The disabled historical sketch below is rejected
+ * under the current exact-definition rule and must not be compiled as-is.
+ * checks: 1 own definitions and original listing reread, owner conflicts above; 2 matched4380/3EE0 prove offsets but no indexed-array bound; 3 u16 heap worsened238/175; 4 far constants before offset improved254/169, hybrid worsened258/200; 5 unfiltered idioms and matched4380 reread; next sweep none, current definition blockers stop caller work.
+ * hypothesis: separate far offsets from unsigned indexed base; preserve
+ * full modular word arithmetic, no assumed 18-entry bound.
+ * history: once300 consumed earlier, volatile candidate rejected; never repeated.
  * symbols:
  *   func_021C4604 0x021C4604 thumb ov127
  *   func_021C4354 0x021C4354 thumb ov127
@@ -35,6 +30,7 @@
  *   func_0204B84C 0x0204B84C arm
  *   func_0204B908 0x0204B908 arm
  */
+#if 0 /* Rejected historical diagnostic; exact-definition blockers above. */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -52,7 +48,7 @@ u8 *func_021C40BC(const View *p, const short *src, int n, u32 heap)
     Request req;
     u8 *q;
     u32 i;
-    u32 offset;
+    unsigned long offset;
     q = func_021C4604((u8 *)p);
     i = func_021C4354(n);
     req.x = src[0];
@@ -61,7 +57,7 @@ u8 *func_021C40BC(const View *p, const short *src, int n, u32 heap)
     req.a = src[2];
     req.b = src[3];
     offset = i*20;
-    *(void **)(q+4) = func_0204B294(p->a,((View *)((u32)p+offset))->entry.handle,((View *)((u32)p+offset))->entry.owner,((View *)((u32)p+offset))->extra.b,&req,0,heap);
+    *(void **)(q+4) = func_0204B294(p->a,*(u32 *)((u32)p+20+offset),*(u32 *)((u32)p+24+offset),*(u32 *)((u32)p+392+offset),&req,0,heap);
     func_0204B84C(*(void **)(q+4),src[3]);
     if (*(u32 *)((u32)p+offset+32) == 1) func_0204B908(*(void **)(q+4),6);
     else func_0204B908(*(void **)(q+4),1);
@@ -80,3 +76,4 @@ u8 *func_021C40BC(const View *p, const short *src, int n, u32 heap)
     } else *(void **)(q+8) = 0;
     return q;
 }
+#endif

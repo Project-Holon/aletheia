@@ -7,10 +7,13 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 full-width heap preserved through BF10 and ARM9 490F4, widened extern/self compiles DIFF431; ADEC trailing input unread, AEF4 return consumed; 2 matching and pending ov121/119/122 neighbors no palette-copy twin; 3 const q CCERR then cast destinations DIFF434, reverted; 4 palette-address and stack-struct idioms read, no justified further lever; 5 refreshed idiom list and DD C58/DE024/DDF84 neighbors, no new twin; next hypothesis is a palette inline returning the base plus byte offset without an initial hoisted base load.
+ * prior-checks: 1 full-width heap preserved through BF10 and ARM9 490F4, widened extern/self compiles DIFF431; ADEC trailing input unread, AEF4 return consumed; 2 matching and pending ov121/119/122 neighbors no palette-copy twin; 3 const q CCERR then cast destinations DIFF434, reverted; 4 palette-address and stack-struct idioms read, no justified further lever; 5 refreshed idiom list and DD C58/DE024/DDF84 neighbors, no new twin; next hypothesis is a palette inline returning the base plus byte offset without an initial hoisted base load.
  * budget: 5 iteration runs, stopped after runs 3-5 did not shrink; check 1 one compile, check 3 two (one CCERR); 2 scheduling variants consumed; one 300-candidate permuter plus one fixed validation.
  * residual: compiled 504/original 504; 431 concrete bytes differ, first palette-base schedule is two bytes shorter and shifts the tail. All 27 relocations resolve.
  * permuter: emitted baseline DIFF431/504 agreed; best 59/504 widens heap but leaves narrow BF10 extern, adding a truncation absent in the original. Rejected; ABI-faithful C retained.
+ * wave77-gate: no caller compile; current BF10 and ARM9 020490F4 listings preserve full-word heap, but both existing matched declarations use u16. Owner correction required before retry; prior DIFF431/504 retained, consumed 300 search not repeated.
+ * checks: 1 BF10 holds full r1 in r4; 020490F4 +0C moves r1 to r0 and +20 passes it to 02030734 without truncation; 2 current same/sibling neighbours refreshed; 3 owner gate prevented a new width/const compile; 4 palette-base, hardware-inline and declared-stack-struct idioms inspected; 5 unfiltered directory and current neighbours refreshed. Prepared uncompiled next hypothesis: palette inline returning selected base plus byte offset.
+ * blocker: Ilias ARM9 sub_020490F4(u32 id,u16 heap) should take u32 heap; dependent ov121 BF10 also needs that declaration and u32 heap. No protected file changed.
  * symbols:
  *   func_021DBF10 0x021DBF10 thumb ov121
  *   func_021DBF40 0x021DBF40 thumb ov121

@@ -5,26 +5,27 @@
  * region: ov171
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * retry: exhausted; 4 iteration + 2 check runs. Best165/620B retained.
- *   Typed resource arrays worsened440/616B; u16 slot tied165; hoisted key
- *   worsened170; const Row and block-local slot checks tied165. Two
- *   declaration/scheduling variants spent; prior permuter300 not repeated.
- * retry-checks: 1 own callees reread; D81C/D898 aggregate tails agree with
- *   outgoing scalar word/halfword bits; D7C8 reads only first legacy arg;
- *   DE290 forwards B294 live r0; 2 DE144/DE2D4/E684 reread, no twin;
- *   3 const Row compiled; 4 local stack/struct-field idioms read and block
- *   slot compiled; 5 idiom directory/neighbours refreshed, declared struct
- *   stack local idiom reread, original struct copy retained.
- * checks: 1 callee arities and scalar stack-tail bits verified; 2 no ov171 twin;
- *   3 int counter worsened 440 to441; 4 declaration/register/struct idioms read;
- *   5 refreshed idioms/neighbours and stack-struct idiom; permuter300 baseline
- *   confirmed616B/440B by one, best620B/165B validated; next shape: typed parent.
- * note: 0202D7C8 ignores legacy a1-a3; original supplies only a0.
- *   0202D81C/0202D898 aggregate tails read the same scalar words, plus
- *   low-halfword key; the original outgoing slots supply those bits.
- *   021DE290 forwards 0204B294's r0 result, stored by this caller.
+ * residual: historical best165/620,21/21 relocations; resource/out/slot/key
+ *   spill lifetimes and first request address hoisting differ.
+ * blocker: arm9 D7C8 own int(int,int,int,int) reads onlya0; original +002C
+ *   sets onlya0=808C. D81C at +00DE has outgoing six scalar slots at
+ *   sp..sp+14; own fifth parameter is volatile Tail{5words,u16 key,pad}.
+ *   D898 at +013E has five scalar slots; own fifth is volatile Args{4words,
+ *   u16 key,pad}. DE290 own void(char*,constchar*) forwards B294 live r0;
+ *   original +0158 stores that r0. Existing scalar-tail/one-arg/u32-return
+ *   exceptions are removed; historical sketch is inactive and rejected.
+ * renewed-pass: typed parent165; explicit first-result temp440/616;
+ *   enum slot165; three nonshrinks stop. Unsigned-long key check165.
+ * checks: 1 own D7C8/D7D8/D81C/D898/DE290 and forwarding bodies reread,
+ *   strict own-prototype conflicts parked for Ilias, no more caller compiles;
+ *   2 DE144/DE2D4/DE608/DE684 neighbours reread,no twin; 3 long key compiled;
+ *   4 enum/long/aggregate idioms; 5 fresh directory/neighbours, declared-struct
+ *   idiom read: existing24-byte local copy/frame addressing already agrees.
+ * permuter: prior300 types consumed, baseline440/616 agreed, best165/620
+ *   validated historically; not repeated. Next action: owner prototype fixes.
  * symbols:
  *   func_021DE064 0x021DE064 thumb ov171
  *   func_0202D7C8 0x0202D7C8 thumb
@@ -44,6 +45,7 @@
  *   d_021DEC04 0x021DEC04 data a4
  *   d_021DEC94 0x021DEC94 data a4
  */
+#if 0 /* Historical rejected diagnostic sketch; see blocker above. */
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned short u16;
@@ -174,3 +176,13 @@ void func_021DE388(u8 *p)
   p[0xc60] ^= 1;
   func_021DE684(p);
 }
+#endif
+typedef unsigned int u32;
+typedef unsigned short u16;
+struct Tail { u32 s0,s1,s2,s3,s4; u16 key,pad; };
+struct Args { u32 w0,w1,w2,w3; u16 key,pad; };
+extern int func_0202D7C8(int,int,int,int);
+extern int func_0202D7D8(int,int,int,int,int,int,int,int,u16,u16);
+extern u32 func_0202D81C(u32,u32,u32,u32,volatile struct Tail);
+extern u32 func_0202D898(u32,u32,u32,u32,volatile struct Args);
+extern void func_021DE290(char *,const char *);

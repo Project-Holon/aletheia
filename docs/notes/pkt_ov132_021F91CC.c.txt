@@ -8,8 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 fresh matched 0202EA40 four-argument u16-pointer ABI copied unchanged; 2 fresh 879C caller and palette twin; 3 const pointer unchanged after one conversion CCERR; 4 raw-offset, dead-store, enum-offset and counter-zero idioms; 5 fresh directory and palette/caller rereads.
- * residual: Wave60 R2 seven runs (one CCERR), best DIFF256/256166. Unsigned color unchanged; shared phase store and wider channel masks worsened. Prior permuter300 not repeated; p/offset stack homes and channel temporary lifetimes remain.
+ * checks: 1 own 02061CA4 four args and s32 return copied, exact u32 third parameter verified166; 2 fresh 879C caller, no full twin; 3 wide tmp and const channel pointers DIFF185; 4 enum offsets/green-mask widths/raw-address clean body worsened, named green packing unchanged166; 5 fresh directory and neighbours.
+ * residual: Wave77 seven runs; best DIFF256/256166. Named offset body221, unsigned offset/mask223, raw-u32 base216; corrected ABI unchanged166; width/const185; named green unchanged166; strict prototype unchanged166. Prior permuter300 not repeated; p/offset homes and channel temporary lifetimes remain.
+ * ABI: Own 02061CA4 definition is int(void*,u32,u32,int); caller's output address is kept as a full-word unsigned local.
  * symbols:
  *   d_020A1B38 0x020A1B38 data a2
  *   func_02061CA4 0x02061CA4 arm
@@ -23,7 +24,7 @@ typedef enum
   PHASE_ZERO
 } Phase;
 extern const s16 d_020A1B38[];
-extern void func_02061CA4(int, int, const void *, unsigned int);
+extern int func_02061CA4(void *, unsigned int, unsigned int, int);
 void func_021F91CC(u8 *p)
 {
   int factor;
@@ -33,6 +34,7 @@ void func_021F91CC(u8 *p)
   s8 *tmp2;
   u8 *tmp3;
   int tmp4;
+  unsigned int output;
   if (((*((u16 *) (p + 0x168))) + 0x160) >= 65536)
     *((u16 *) (p + 0x168)) = (*((u16 *) (p + 0x168))) - 0xFEA0;
   else
@@ -60,5 +62,6 @@ void func_021F91CC(u8 *p)
     *((u16 *) ((p + 0x1BA) + (i * 2))) = (blue << 10) | (red | ((((u8) (tmp1 >> 5)) + ((s8) (((*tmp2) * factor) >> 12))) << 5));
   }
 
-  func_02061CA4(31, 0, p + 0x1BA, 32);
+  output = (unsigned int)p + 0x1BA;
+  func_02061CA4((void *)31, 0, output, 32);
 }

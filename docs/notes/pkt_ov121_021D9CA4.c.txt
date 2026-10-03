@@ -18,10 +18,14 @@
  *           aggregate residue. Wave26 R1 retry: integer allocation local, reuse
  *           of dead c for q, and u8* inline allocator result all stay DIFF 8.
  *           One 300-budget types permuter stays 8; no winning mutation.
- * retry-budget: prior 3 iterations + 4 checks; wave26 1x3 named allocator/local
- *           sweep + one 300-candidate types permuter. Carry prior nonshrinking
- *           window; numbered checks were read/audited again without new compiles.
- *           No concrete remaining allocator/local hypothesis; do not repeat it.
+ * retry-history: prior 3 iterations + 4 checks; wave26 three allocator/local
+ *           variants and once300 types permuter consumed, best still 8.
+ * wave77: renewed three iterations plus check1/check3 (5 one runs), best168/8.
+ *           Enum line local with narrow allocator tag gives172/161; wide tag
+ *           restores168/8, matching original untruncated outgoing word.
+ *           Own45730 u8 return and const stored payloads stay168/8. Checks1..5
+ *           refreshed own callees, CEC4 pointer twin, types, idioms and neighbours.
+ *           Three nonshrinking iterations exhausted; consumed permuter not repeated.
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm

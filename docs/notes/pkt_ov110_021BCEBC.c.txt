@@ -7,24 +7,12 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * Best: compiled 38 bytes, 6 concrete bytes differ in register allocation;
- * original saves only r4, C saves r3/r4/r5. Original has 2-byte padding.
- * checks: 1 full own F6DC one arg/u8 return and CFF0 two args/u32 return re-derived; 2 matched BCDFC/BCE70/BCEA0 wrappers reread, no matching boolean twin; 3 _Bool local unchanged6, _Bool return worsened19/44B; 4 dying-pointer and vendor bool idioms read, sequenced union worse37/44B and inline bool unchanged6; 5 fresh unfiltered idiom list and ov110 neighbors reread, no stack object; new permuter300 macro-free emitted baseline38/6 agreed, no improvement.
- * Residual: renewed wave76 pass complete; DIFF 38/40 B, 6 allocation bytes differ.
- * Original has 2-byte alignment padding; result materialization still keeps extra r5.
- * Four iteration runs plus one check3 compile and once-only permuter300.
- * Manual scheduling cap used (union/inline); no further sweep after final retry.
- * Wave76 R28: 5 one calls, no sweep or repeated permuter. Fresh checks:
- *   1 own BF6DC and CFF0 files confirm one/u8 and two/u32; 2 BCDFC, CE70,
- *   CEA0 wrappers still provide no dying-pointer/zero-result twin; 3 u32
- *   address parameter and const char pointer with unsigned long result
- *   each keep 38/6; enum result and enum return also keep 38/6, reassigning
- *   p to the Boolean result fixes the save set but gives 36/17, omitting
- *   the original's zero before CFF0; 4 enum-return and late-zero idioms
- *   checked; 5 refreshed idioms and ov109/110/111 neighbours. Best C retained.
- *   Next: a justified shared web for the dying input and zero result before
- *   CFF0; enum types alone do not coalesce them. Prior permuter consumed.
+ * status: EXACT*
+ * extent: 38-byte function followed by two zero alignment bytes.
+ * checks: own callees reread; final fixed-flag match.py EXACT* accepted.
+ * history: prior once300 permuter consumed; not repeated in wave77 R8.
+ * lever: inline helper reuses its dying pointer for the zero/one result;
+ *   zero assignment remains explicit, and the allocator shares r4.
  * symbols:
  *   func_021BF6DC 0x021BF6DC thumb ov110
  *   func_021BCFF0 0x021BCFF0 thumb ov110
@@ -33,13 +21,18 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 extern u8 func_021BF6DC(u8 *);
 extern u32 func_021BCFF0(char *,u32);
+static inline int Check(char *p, int zero)
+{
+    u32 value;
+    value = func_021BCFF0(p, zero);
+    p = 0;
+    if (value) p = (char *)1;
+    return (int)p;
+}
 int func_021BCEBC(char *p)
 {
-    int result;
     if (func_021BF6DC(*(u8 **)(p+4))==1) {
-        result=0;
-        if (func_021BCFF0(p,0)) result=1;
-        return result;
+        return Check(p, 0);
     }
     return 1;
 }

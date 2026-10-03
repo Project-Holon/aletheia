@@ -1,15 +1,16 @@
 /*
  * function: func_021BB954
- * address:  0x021BB954
- * packet:   pkt_ov099_021BB954
- * region:   ov099
+ * address: 0x021BB954
+ * packet: pkt_ov099_021BB954
+ * region: ov099
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   DIFF
- * checks: 1 BAC24 own six-argument body confirmed; 2 same-region data search found no twin; 3 enum flag/u8 t retained27, const p with explicit call cast worsened31, unsigned-long t retained27; 4 dying-local subtraction retained27; 5 fresh idiom list and BAC24 neighbour reread; once300 baseline27 agreed, best23 added invalid return d, rejected; clean temporary-only port retained27.
- * residual: DIFF27/116, all four relocations resolve (data now sole-ref). One fresh once-only --types budget300 consumed; no repeat. Search log: scratchpad/overlay-newpass-20261003-w76/R22/021BB954-permuter.log. No further scheduling sweep authorized this pass.
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 BAC24 own six-argument types copied; 2 BB918/BBE7C neighbours and data users checked; 3 const Source and byte-range enum retained27; 4 typed field views27, inline source helper27 and relevant base/table idioms read; 5 fresh unfiltered idioms and neighbours reread. Next sweep none.
+ * residual: DIFF27/116, base/value allocation differs, all4 relocations resolved. Four fresh runs. W76/R22 once300 consumed (best23 added invalid return, rejected), not repeated.
+ * evidence: scratchpad/overlay-newpass-20261003-w77/R3; see b954-r*.log.
  * symbols:
  *   d_021C3A70     0x021C3A70  data   ov099
  *   d_021C3AD0     0x021C3AD0  data   ov099
@@ -30,30 +31,41 @@ typedef struct {
 } D;
 
 extern D d_021C3A70;
-extern char d_021C3AD0[];
-extern char d_021C3B68[];
-extern void func_021BAC24(void *p, void *a, void *b, int c, int d, int e);
+typedef unsigned int u32;
+typedef struct { u32 a, b; } Pair;
+typedef struct { u32 w[13]; } Desc;
+extern Pair d_021C3AD0[];
+extern Desc d_021C3B68;
+extern void func_021BAC24(char *p, Desc *a, Pair *b, int c, int d, u32 e);
+typedef struct { char pad0[0x20]; u8 f20,f21,f22; char pad23[0x25]; u8 f48; } Source;
+typedef struct { char pad0[0x248]; const Source *q; char pad24c[0x1100]; u16 a,b; } Work;
+typedef enum { BYTE_MIN=0, BYTE_MAX=255 } ByteValue;
+static inline unsigned long load_true(D *d, const Source *q) {
+    d->f60 = q->f21 + 0x83;
+    d->f68 = q->f22 + 0x87;
+    return q->f20;
+}
 
 void func_021BB954(char *p, int flag)
 {
     D *d;
-    char *q;
-    unsigned long t;
+    const Source *q;
+    Work *o;
+    ByteValue t;
 
+    o = (Work *)p;
     if (flag) {
-        q = *(char **)(p + 0x248);
+        q = o->q;
         d = &d_021C3A70;
-        d->f60 = *(u8 *)(q + 0x21) + 0x83;
-        d->f68 = *(u8 *)(q + 0x22) + 0x87;
-        t = *(u8 *)(q + 0x20);
+        t = load_true(d, q);
     } else {
-        u16 a = *(u16 *)(p + 0x134C);
+        u16 a = o->a;
         d = &d_021C3A70;
         d->f60 = a + 0x83;
-        d->f68 = *(u16 *)(p + 0x134E) + 0x87;
-        q = *(char **)(p + 0x248);
-        t = *(u8 *)(q + 0x48);
+        d->f68 = o->b + 0x87;
+        q = o->q;
+        t = q->f48;
     }
     d->f70 = 0x8A - t;
-    func_021BAC24(p, d_021C3B68, d_021C3AD0, 6, 0, 0x1E);
+    func_021BAC24(p, &d_021C3B68, d_021C3AD0, 6, 0, 0x1E);
 }

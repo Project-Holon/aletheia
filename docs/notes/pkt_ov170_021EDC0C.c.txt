@@ -8,16 +8,20 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 callees read 3/1/3/3/2/1/2/3 arguments; 2 no matching twin;
- * 3 const pointer unchanged, u16 rowoff adds truncation; 4 spill-scope and
- * commutative idioms read, two scheduling variants spent; 5 fresh neighbor
- * and idiom reread found no new twin; no aggregate stack object here.
- * residual: 300/300 bytes, 17 concrete bytes: x/rowoff/fill spill slots,
- * initial loop setup scheduling, and +00CA addition operand order.
- * permuter: macro-free emitted baseline agrees (17, 300/300); 300 types
- * candidates, best unchanged; one search only. Runs: 6 + 2 checks + permuter.
- * retry: exhausted, 4 iteration + 2 checks; original DIFF17 retained. Fill at first function declaration worsened to28; reversed sum operands, long/u32 rowoff and fill at last function declaration each DIFF17. Earlier permuter300 not repeated.
- * retry-checks: 1 own 07A18/17DBC/17E88/17DE4/ADE4/AE1C/AE14 bodies reread, SDK fill has caller-observed three arguments; ADE4 narrow species/form retained for original truncation pairs. 2 DD25C/DEF98/DEDD8/DEFF8 neighbours reread; 3 u32 rowoff compiled; 4 function/block spill and local declaration order idioms read, two declaration variants spent; 5 directory and neighbours refreshed, no aggregate stack local.
+ * residual: historical best17/300;11/11 relocations, scalar spill/schedule.
+ * blocker: arm9 sub_0201ADE4 in unit_0201ADD0.c is void*(void*,void*,void*).
+ *   Original +0072/+0076 explicitly narrows scalar species/form before call;
+ *   legacy u16/u16/u32 extern diverges from the current own definition.
+ *   Historical diagnostic sketch below is inactive and rejected for filing.
+ * renewed-pass: raw ctx/exact17DBC/17DE4 returns17; union fill object17;
+ *   inline fill loop33; three nonshrinks stop. Signed-short rowoff268/304.
+ * checks: 1 own07A18/17DBC/17E88/17DE4/ADE4/AE1C/AE14 reread; ADE4 conflict
+ *   parks under Ilias ownership, no definition edit or further caller compile;
+ *   2 DD25C/DEF98/DEDD8/DEFF8/EDAB0 reread,no twin; 3 signed-short rowoff
+ *   compiled; 4 spill/inline/commutative idioms; 5 fresh directory/neighbours,
+ *   no aggregate stack object; union fill already gave same best17.
+ * permuter: prior300 types consumed and baseline17 agreed; not repeated.
+ * next-action: owner definition/type reconciliation before renewed matching.
  * symbols:
  *   func_02007A18 0x02007A18 thumb
  *   func_02017DBC 0x02017DBC thumb
@@ -28,20 +32,22 @@
  *   func_02017DE4 0x02017DE4 thumb
  *   func_02082A48 0x02082A48 arm
  */
+#if 0 /* Historical rejected diagnostic sketch; see blocker above. */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 extern void *func_02007A18(void *,int,u32);
-extern int func_02017DBC(void *);
+extern u32 func_02017DBC(void *);
 extern u32 func_02017E88(void *,u32,u32);
 extern void *func_0201ADE4(u16,u16,u32);
 extern u32 func_0201AE1C(void *,u32);
-extern void func_0201AE14(void *),func_02017DE4(void *,int);
+extern void func_0201AE14(void *);
+extern u32 func_02017DE4(void *,u32);
 extern void func_02082A48(u16,void *,int);
-void func_021EDC0C(char *const *p,int box,char *dst)
+void func_021EDC0C(char *p,int box,char *dst)
 {
     void *mon;
-    int state;
+    u32 state;
     u8 row,col,y;
     int rowoff;
     u8 x;
@@ -56,7 +62,7 @@ void func_021EDC0C(char *const *p,int box,char *dst)
         for(col=0;col<6;col++) {
             rowoff=row*6;
             limit=x+2;
-            mon=func_02007A18(*(void **)(*p+4),box,col+rowoff);
+            mon=func_02007A18(*(void **)(*(char **)p+4),box,col+rowoff);
             state=func_02017DBC(mon);
             species=func_02017E88(mon,5,0);
             if(func_02017E88(mon,169,0)!=0) {
@@ -80,3 +86,5 @@ void func_021EDC0C(char *const *p,int box,char *dst)
         x+=2;
     }
 }
+#endif
+extern void *func_0201ADE4(void *, void *, void *);

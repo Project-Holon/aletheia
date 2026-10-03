@@ -5,11 +5,15 @@
  * region: ov110
  * compiler: dsi/1.1p1
  * flags: -O4,p
- * isa: thumb
  * lang: c99
- * status: DIFF
- * checks: 1 own ov110/ov067 files and ARM9 Thumb bodies confirm one argument; missing Thumb symbols corrected, all eight calls resolve; 2 current ov110 callers no body twin; 3 fresh signed-char flag flat at 80 bytes; 4 counter-copy, literal zero and enum-copy forms do not close; 5 current neighbours and idiom scan unchanged, no stack aggregate. Prior permuter consumed, rejected uninitialized pointer/stored counter candidate; not repeated.
- * residual: 92 compiled bytes, 80 concrete bytes differ; original keeps the zero in r4, candidate copies it to r1 for the loop and shifts later instructions.
+ * isa: thumb
+ * status: EXACT*
+ * extent: 90-byte function followed by two zero alignment bytes.
+ * lever: inline Clear returns its stored zero, preserving r4 across calls.
+ * prototype: own 020355D8 takes u8; the stored zero and returned flag
+ *   retain that width through the inline helper and caller local.
+ * checks: own callees rederived; u8 zero/inline return/caller z retain EXACT*90 with exact own 020355D8(u8); both shard verifications pass.
+ * runs: wave77 R8 4 one calls. Previous permuter300 consumed, never repeated.
  * symbols:
  *   func_0201C6EC 0x0201C6EC thumb
  *   func_02027FD8 0x02027FD8 thumb
@@ -21,26 +25,30 @@
  *   func_020355D8 0x020355D8 arm
  */
 extern void func_0201C6EC(void *);
-extern void func_021B6284(void *);
-extern void func_021C0AB4(void *);
+typedef unsigned char u8;
+extern void func_021B6284(unsigned int *);
+extern void func_021C0AB4(u8 *);
 extern void func_02027FD8(void *);
-extern void func_021C0C18(void *);
-extern void func_021C07E8(void *);
-extern void func_021C16B0(void *);
-extern void func_020355D8(int);
+extern void func_021C0C18(u8 *);
+extern void func_021C07E8(u8 *);
+extern void func_021C16B0(u8 *);
+extern void func_020355D8(u8);
+static inline u8 Clear(char *p, u8 i) {
+    u8 zero;
+    zero = i;
+    for (; i < 4; i++) *(int *)(p + 0x7c + i * 4) = zero;
+    return zero;
+}
 void func_021C05B0(char *p) {
-    unsigned char i;
-    int z;
+    u8 z;
     func_0201C6EC(*(void **)(p+0x5c));
-    z=0;
-    i=0;
-    for(;i<4;i++) *(int *)(p+0x7c+i*4)=z;
+    z=Clear(p, 0);
     *(int *)(p+0x4c)=z;
-    func_021B6284(p+0xc);
-    func_021C0AB4(p);
+    func_021B6284((unsigned int *)(p+0xc));
+    func_021C0AB4((u8 *)p);
     func_02027FD8(*(void **)(p+0x64));
-    func_021C0C18(p);
-    func_021C07E8(p+0x24);
+    func_021C0C18((u8 *)p);
+    func_021C07E8((u8 *)(p+0x24));
     func_021C16B0(*(void **)(p+0x50));
     if (*(int *)(p+0xa8)) z=1;
     func_020355D8(z);

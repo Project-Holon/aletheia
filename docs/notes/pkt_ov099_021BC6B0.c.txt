@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks:   1 own 021BA928 is int(p); ARM9 unit_020362BC contains u32 sub_020362DC(void), declarations corrected; 2 scoped twins 021BC5FC/468/4D4 inspected; 3 long s inert, unchanged mutable p disallows const pointee; 4 enum, self-assignment, inline accessor and width idioms read; 5 refreshed idioms and neighbours, no stack-object residue.
+ * checks:   1 current own 021BA928 is int(p), 020362DC u32(void), both resolve; 2 scoped 021BC5FC/468/4D4 reread, no new twin; 3 const Off initializer worsens to 33/68, mutable p disallows const pointee and v is full width; 4 enum, width and allocator-tie idioms read; 5 fresh full idiom directory and current neighbours reread, no stack-object residue. Next hypothesis: a genuine inline scope around the offset/value pair, not another consumed type search.
  *
  * Residue (8 bytes, register swap only): the original loads the pooled offset 0x135c
  * into r0 and the field into r1 (`ldr r0,[pc]; ldr r1,[r5,r0]; subs r1,#3; cmp r1,#1;
@@ -20,6 +20,9 @@
  * Renewed W76: 5 one runs; self-assignment o, long s and inline read_mode all
  * unchanged 8/68. Correct callee declarations also unchanged. Permuter 300
  * types consumed: baseline agrees 8/68, best 8/68, no winning mutation.
+ * Renewed W77 final retry: 4 one runs. Full-range enum value 8/68,
+ * mode-base pointer 16/68, signed full-range Off 8/68: three nonshrinking
+ * iterations. Check 3 const Off 33/68. Best C retained; W76 once300 not repeated.
  *
  * symbols:
  *   func_021BA928  0x021BA928  thumb  ov099

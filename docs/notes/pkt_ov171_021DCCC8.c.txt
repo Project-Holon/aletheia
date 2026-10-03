@@ -7,6 +7,11 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * owner-gate: renewed pass skipped, zero caller compiles. ARM9 0200ED14
+ *   still has no source or shard witness; unit_0200ECB4 lists only ECB4,
+ *   ECC4,ECD0; unit_0200EDC4 lists only EDC4,EDEC,EE14. Neither lists ED14.
+ *   Current source/unit/shard searches checked before compiling; Ilias owns
+ *   the missing witness. Historical best77/352 and consumed300 retained.
  * residual: 352/352 bytes; 77 concrete bytes out, mainly spill-slot ordering
  *   and late address construction. ARM9 0200ED14 also lacks an external witness.
  * retry: exhausted; 6 iteration + 1 check runs, baseline81 to best77/352B.

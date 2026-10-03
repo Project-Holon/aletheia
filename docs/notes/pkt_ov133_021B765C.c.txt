@@ -6,9 +6,9 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * checks: 1 BA244 stores word r1, matched scale/vector caller arities and ARM9 callees reread; 2 75E0/8A30/8140/94C0 agree; 3 long delta/int rx and const p each unchanged282; 4 direct coordinate expressions restored x/y homes and shrank291 to282, named negation worsened668/960 bytes; 5 fresh idiom directory, stack and negation idioms plus current ov133/ov112 neighbours reread; prior permuter300 rejected, not repeated; retry exhausted.
+ * checks: W77 1 exact own callee return/parameter types, current ARM9 units and shards verified before compiling; 2 current75E0/8A30/8140/94C0 agree; 3 unsigned long count and long total inert; 4 unsigned modular oy and enum-opposite inline helper inert, negation/FX_Mul/stack/spill idioms read; 5 complete idiom directory and current ov133/ov112 neighbours refreshed. Prior permuter300 consumed and not repeated.
  * status: DIFF
- * residual: DIFF282, compiled956/original956, 33/33 resolved; early negation folds one instruction and count/ry spills differ. Seven retry one runs.
+ * residual: W77 DIFF282, compiled956/original956, 33/33 resolved; early negation folds one instruction and count/ry spills differ. Five one compiles; three nonshrinking changes stopped iteration; required post-stop width check inert. One parser-only invocation lacked addr and never compiled.
  * symbols:
  *   func_021BA184 0x021BA184 thumb ov133
  *   func_021BA208 0x021BA208 thumb ov133
@@ -40,10 +40,11 @@ typedef struct {int x,y;}Pair;
 typedef enum { PHASE_HALF=0x8000 } Phase;
 extern const s16 table[];
 extern u32 d_021BA3E4[];
-extern u8 *func_021BA184(void *),*func_021BA208(u8 *),*func_021BA218(u8 *),*func_021BA20C(u8 *);
-extern void func_021BA210(u8 *,u8 *),func_021BA21C(u8 *,Pair *),func_021BA244(u8 *,int);
-extern void func_021F4E8C(int,int,Vec *),func_021F4ED4(int,int,int),func_021F4EB4(int,int,s16,s16),func_021F4E6C(int,int,int);
-extern void func_0204F638(u8 *,int,Vec *),func_0204F684(void *,int,const s16 *,const s16 *),func_0204F720(void *,u32,u32 *),func_020061E4(u32);
+extern void *func_021BA184(char *);
+extern u32 func_021BA208(u8 *),func_021BA218(u8 *),func_021BA20C(u8 *);
+extern void func_021BA210(u8 *,u32),func_021BA21C(u8 *,const u8 *),func_021BA244(u8 *,u32);
+extern void func_021F4E8C(u32,void *,const int *),func_021F4ED4(u32,u32,u16),func_021F4EB4(u32,u32,s16,s16),func_021F4E6C(u8 *,u8 *,u32);
+extern void func_0204F638(u8 *,int,void *),func_0204F684(void *,int,const s16 *,const s16 *),func_0204F720(void *,u32,u32 *),func_020061E4(u32);
 static inline int depth(u16 angle,Phase half){return half-angle;}
 static inline int coordinate(s16 value,int radius,int bias){return value*radius+bias;}
 void func_021B765C(u8 *p,u16 base,int delta,long rx,u16 ry)
@@ -53,7 +54,8 @@ void func_021B765C(u8 *p,u16 base,int delta,long rx,u16 ry)
     s16 scale;
     int i=0;
     u16 angle,idx;
-    int rot,ox,oy,x,y,n,total,k;
+    u16 rot;
+    int ox,oy,x,y,n,total,k;
     u8 *olddata,*newdata;
     u32 count;
     u8 *e,*sprite;
@@ -70,11 +72,11 @@ void func_021B765C(u8 *p,u16 base,int delta,long rx,u16 ry)
     if((delta>2500 || delta<-2500)&&*(u16 *)(p+0x18c2)==0){*(u16 *)(p+0x18c2)=30;func_020061E4(0x624);}
     while(e){
         angle=(base+(i<<16)/14)%65536;
-        scale=0;sprite=func_021BA218(e);
+        scale=0;sprite=(u8 *)func_021BA218(e);
         pair=(const s16 *)((u8 *)table+(angle>>4)*4);
         x=pair[0]*rx+0x80000;
         y=pair[1]*ry+0x50000;
-        olddata=func_021BA20C(e);newdata=olddata;
+        olddata=(u8 *)func_021BA20C(e);newdata=olddata;
         n=*(int *)(p+0x1834)+(angle+0x8000)%65536;
         while(n<0)n+=*(u16 *)(p+0xa8)*0x1249;
         count=*(u16 *)(p+0xa8);total=count;total*=0x1249;
@@ -82,31 +84,31 @@ void func_021B765C(u8 *p,u16 base,int delta,long rx,u16 ry)
         if(*(int *)(p+0x98)==0 || *(u32 *)(p+0x9c)>(u32)((0x18000-angle)%65536)){
             idx=(n+0x924)/0x1249;
             if(idx>=count)idx-=count;
-            newdata=*(u8 **)(p+(u32)idx*4+0x1434);func_021BA210(e,newdata);
+            newdata=*(u8 **)(p+(u32)idx*4+0x1434);func_021BA210(e,(u32)newdata);
             if(*(u16 *)olddata!=*(u16 *)newdata && e==*(u8 **)(p+0x38))*(u8 **)(p+0x38)=0;
         }
         if(angle>=0x8000)angle=0x10000-angle;
         pos.x=(int)((float)x/4096.f);pos.y=(int)((float)y/4096.f);
         v.x=x+ox;v.y=y+oy;v.z=depth(angle,PHASE_HALF)+0x14000;
-        func_021F4E8C(*(int *)(p+0x1884),(int)sprite,&v);
+        func_021F4E8C(*(u32 *)(p+0x1884),sprite,(const int *)&v);
         func_021F4ED4(*(int *)(p+0x1884),(int)sprite,rot);
-        func_021BA21C(e,&pos);
-        if(angle<0x4000){scale=0x1000;func_021F4EB4(*(int *)(p+0x1884),(int)sprite,4096,4096);func_021F4E6C(*(int *)(p+0x1884),(int)sprite,1);func_021BA244(e,4096);}
+        func_021BA21C(e,(const u8 *)&pos);
+        if(angle<0x4000){scale=0x1000;func_021F4EB4(*(int *)(p+0x1884),(int)sprite,4096,4096);func_021F4E6C(*(u8 **)(p+0x1884),sprite,1);func_021BA244(e,4096);}
         else if(angle<0x6e00){
             scale=((u16)(0x6e00-angle)*2048)/0x2e00+0x800;
-            func_021F4EB4(*(int *)(p+0x1884),(int)sprite,scale,scale);func_021F4E6C(*(int *)(p+0x1884),(int)sprite,1);func_021BA244(e,scale);
+            func_021F4EB4(*(int *)(p+0x1884),(int)sprite,scale,scale);func_021F4E6C(*(u8 **)(p+0x1884),sprite,1);func_021BA244(e,scale);
         }else if(angle<0x78e0){
             scale=((u16)(0x78e0-angle)*2048)/0xae0;
-            func_021F4EB4(*(int *)(p+0x1884),(int)sprite,scale,scale);func_021F4E6C(*(int *)(p+0x1884),(int)sprite,1);func_021BA244(e,scale);
+            func_021F4EB4(*(int *)(p+0x1884),(int)sprite,scale,scale);func_021F4E6C(*(u8 **)(p+0x1884),sprite,1);func_021BA244(e,scale);
         }
-        else {func_021F4E6C(*(int *)(p+0x1884),(int)sprite,0);func_021BA244(e,0);scale=0;}
+        else {func_021F4E6C(*(u8 **)(p+0x1884),sprite,0);func_021BA244(e,0);scale=0;}
         if(*(int *)(newdata+16)==1 && (int)*(u16 *)(p+0x94)<45){
             fx.x=v.x/16;fx.y=(0xc0000-(v.y+0x8000))/16;fx.z=v.z+0x600;
             func_0204F638(*(u8 **)(p+0x188c),*(int *)(p+(u32)i*4+0x5c),&fx);
             func_0204F684(*(void **)(p+0x188c),*(int *)(p+(u32)i*4+0x5c),&scale,&scale);
             func_0204F720(*(void **)(p+0x188c),*(u32 *)(p+(u32)i*4+0x5c),&d_021BA3E4[1]);
         }else func_0204F720(*(void **)(p+0x188c),*(u32 *)(p+(u32)i*4+0x5c),&d_021BA3E4[0]);
-        e=func_021BA208(e);i++;
+        e=(u8 *)func_021BA208(e);i++;
     }
     func_021BA184(*(void **)(p+0x181c));
 }

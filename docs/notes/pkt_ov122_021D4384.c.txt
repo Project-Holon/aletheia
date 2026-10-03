@@ -7,12 +7,16 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 constructor byte widths and explicit return chain proven; no missing ABI values, gate exit 0; 2 ov122 twin 44BC and caller 4A64 read; sole local count 2 is not complete domain proof; 3 const readonly rows/values worsened 165 to 176, unsigned index did not improve; 4 raw slot temporary and loop pointer idioms left 165 bytes; 5 fresh idiom list and neighbours reread, no stack aggregate residue.
+ * prior-checks: 1 constructor byte widths and explicit return chain proven; no missing ABI values, gate exit 0; 2 ov122 twin 44BC and caller 4A64 read; sole local count 2 is not complete domain proof; 3 const readonly rows/values worsened 165 to 176, unsigned index did not improve; 4 raw slot temporary and loop pointer idioms left 165 bytes; 5 fresh idiom list and neighbours reread, no stack aggregate residue.
  * budget: 6 iteration runs, first nonshrinking r2, 5 since, final r4-r6=3 consecutive; check 3=1/2, check 4=1/2, shared scheduling/temporary variants=1/2; baseline check=1; permuter once 300 exhausted.
  * residual: admissible full-address r2 spelling compiles 324/312 bytes (+12), 227 concrete bytes differ; all 16 relocations resolve. See B3/4384-r2.log.
  * permuter: partial-base 312-byte emitted baseline confirmed; best 66 bytes depended on added volatile y and uninitialized x=x, rejected. Later root review also rejected pointer subscript[4] after conversion; once-only budget remains exhausted.
  * domain: original population loops to signed count with no eleven-slot guard; only reset loop is bounded to eleven. Raw unsigned32 arithmetic preserves unchecked address calculation.
  * indexing: reset visits eleven slots; population uses unchecked 32-bit address arithmetic, with no invented count bound.
+ * wave77-runs: x=0 after constructor and before text clear reduces227 to221/324 bytes; one fixed one run. No further caller compiles after current owner witness failure; old once-only 300 search remains consumed.
+ * residual-current: 324/312 bytes (+12), DIFF221;15/16 relocations resolve, 02045CAC missing from owner unit function header.
+ * checks: 1 own current callees re-derived, original explicitly byte-truncates row inputs; 2 current 44BC/4CD8/4D98 twins inspected; 3 owner witness gate prevents new const/width check; 4 full modular address and declared-stack idioms read; 5 fresh directory and same/sibling neighbours refreshed. Next uncompiled hypothesis: inline unchecked full-u32 slot address helper, after owner correction.
+ * blocker: ARM9 unit_02045C44.c contains func_02045CAC but its function header lists only func_02045C44; replace with one comma-separated value func_02045C44, func_02045CAC and regenerate owner shard. Do not file or edit that unit here.
  * symbols:
  *   func_02049B40 0x02049B40 arm
  *   func_020456F8 0x020456F8 arm
@@ -65,10 +69,10 @@ void func_021D4384(int count, int *values, Object *p, Row *rows, const int *xs, 
     for (i = 0; i < count; i++) {
         Row *row = &rows[i];
         *(void **)((u32)p + 0x10 + (u32)i * 4) = func_020450F0(7, row->f00, row->f04, row->f08, row->f0c, 13, 0);
+        x = 0;
         func_02043B5C(func_02045770(*(void **)((u32)p + 0x10 + (u32)i * 4)), 0);
         func_02045CAC(*(void **)((char *)p + 0x44), values[i], *(void **)((char *)p + 0x54));
         if (xs) x = xs[i] - (func_0201D304(*(void **)((char *)p + 0x54), *(u32 *)((char *)p + 0x4c), 0) >> 1);
-        else x = 0;
         if (ys) y = ys[i] - (func_0201D42C(*(void **)((char *)p + 0x54), *(void **)((char *)p + 0x4c)) >> 1);
         else y = 0;
         func_0201C7D0(func_02045770(*(void **)((u32)p + 0x10 + (u32)i * 4)), x, y, *(void **)((char *)p + 0x54), *(void **)((char *)p + 0x4c), 0x39e3);

@@ -7,8 +7,10 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * residue: DIFF5, compiled128/128, all six relocations resolved; register tie reduced to first mask/truncation/guard operands at000E..001A.
- * checks: 1 SDK OS_DisableInterrupts/RestoreInterrupts bodies confirm zero/one args and u32 result; MI_CpuCopy8 body confirms three args; 2 own ov107 0B2C caller passes u16 aid and mask twins refreshed; 3 u16 aid unchanged12, enum result and block-scope result unchanged12; no pointer parameter; 4 enum/flag/register-order and declared Snapshot idioms read; 5 fresh full idioms/neighbours, Snapshot frame/addressing agrees. W76 four fixed runs plus baseline explain and first permuter300; valid best5 independently validated by fixed one. Next: first guard's duplicated full-width versus narrowed mask web; no more search.
+ * residue: historical DIFF5, compiled128/128, all six relocations resolved; register tie at000E..001A. Blocked by Ilias's SDK 02082D44 own asm definition void(void); current diagnostic sketch is disabled and has no new verdict.
+ * blocker: arm9_sdk 02082D44 MI_CpuCopy8.c declares asm void MI_CpuCopy8(void), but its body uses r0 source, r1 destination and r2 size. Caller 021F0D5C loads r0; 021F0D5E adds r1,sp,#0; 021F0D60 movs r2,#0x14; 021F0D62 calls02082D44. Its header itself documents three arguments. Do not diverge from or edit the definition; Ilias must resolve the arity.
+ * checks: 1 SDK IRQ matched witness proves unsigned-long OSIntrMode; own copy definition re-read exposes blocker after five calls, no further retries; 2 own 0B2C caller/mask twins and sibling searches refreshed; 3 long bit unchanged128/5; 4 shift-count/enum/long-index idioms read; 5 full directory and own/sibling neighbours refreshed, declared Snapshot idiom read. Long tmp and unsigned shift count retain128/5; enum tmp gives128/108. Three nonshrinking iterations plus one check1 and one check3 call. Prior permuter300 not repeated; remaining register-web DIFF exhausted and SDK blocker takes precedence.
+ * checks-earlier: 1 SDK OS_DisableInterrupts/RestoreInterrupts bodies confirm zero/one args and u32 result; MI_CpuCopy8 body confirms three args; 2 own ov107 0B2C caller passes u16 aid and mask twins refreshed; 3 u16 aid unchanged12, enum result and block-scope result unchanged12; no pointer parameter; 4 enum/flag/register-order and declared Snapshot idioms read; 5 fresh full idioms/neighbours, Snapshot frame/addressing agrees. W76 four fixed runs plus baseline explain and first permuter300; valid best5 independently validated by fixed one. Next: first guard's duplicated full-width versus narrowed mask web; no more search.
  * search: macro-free emitted concrete baseline12/128 agrees one, but scorer omits the two sole-ref data witnesses that fixed one resolves. First permuter300 best5 uses compare(!=0), expansion of bit in first guard, and tmp = 1 << aid before interrupt call; no invalid reads or signature mutant. Captured temporary is assigned before all uses. Search consumed.
  * symbols:
  *   func_02087988 0x02087988 arm
@@ -20,12 +22,14 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u32 func_02087988(void);extern u32 func_0208799C(u32);extern void func_02082D44(const void *,void *,u32);
+typedef unsigned long OSIntrMode;
+extern OSIntrMode func_02087988(void);extern OSIntrMode func_0208799C(OSIntrMode);extern void func_02082D44(void);
 extern u8 d_021F6EAC[],d_021F6EB4[];
 typedef struct {u16 f00,f02,f04,f06,f08,f0A,f0C,f0E,f10,f12;} Snapshot;
+#if 0 /* Diagnostic caller: SDK definition has the wrong arity; not a compile candidate. */
 int func_021F0D34(u16 aid)
 {
-    u32 state;
+    OSIntrMode state;
     Snapshot snap;
     u16 bit;
     int tmp;
@@ -48,3 +52,4 @@ int func_021F0D34(u16 aid)
         return result;
     }
 }
+#endif

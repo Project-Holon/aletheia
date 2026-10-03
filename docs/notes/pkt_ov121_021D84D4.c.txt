@@ -11,10 +11,30 @@
  * checks: 1 all own/caller arities rederived, allocator tag slot widened to u32 from original full-word store; 20E60 caller visibly narrows u16; 2 7814/81B0 and ARM9 forwarding bodies refreshed; 3 signed random unchanged1301, mutable desc worsened1292; 4 named zero/clamp restored frame but worsened1290, unsigned raw Work move access worsened1023; 5 directory, stack-object idiom, 7814/94C4/8C1C neighbours refreshed.
  * residual: best compiled1864 versus lead1864, 949 concrete bytes against handed2004; frame64 rather than68, switch failure/default trampoline and clamp lifetime differ; table021DF4F2 now unresolved at shifted first pool.
  * follower: lead ends021D8C1C; 140-byte hardware function021D8C1C is already filed and sharded. Permuter skipped because the listing extent includes this unlabelled follower, rather than the lead alone.
- * interfaces: 185F0/185F4/084F4 are bare bx-lr bodies; caller passes an address in r0 and consumes it after the call. B294 legacy void forwards CFDC result in r0, consumed here; Point payload copies unchanged through B294/CFDC. 2D7C8 own body reads only a0, unused trailing legacy inputs omitted.
- * widths: 173F0 fifth tag slot is stored as a full word without call-site narrowing; extern widened u32. Species and20E60 item visibly narrow u16; level remains full word. 4B6F4 palette visibly narrows u8.
+ * interfaces: historical best below predates exact own-definition policy; do not
+ *           recompile this caller while ARM9 definition faults remain. No leaf filed.
+ * park-arm9: 020185F0 is void(void); original021D89CC wordF63F1C28 loads r0=r5,
+ *           021D89CE..89D1 encodes bl185F0, result becomes r0 for call at89E0.
+ *           020180F4 is void(void); original87A4 word1C311C28 sets r0/r1,
+ *           87A8 wordFCA4F63F calls180F4. Its180FC forwarder reads the inputs.
+ *           020084F4 is void(void); original892C wordF80AF63A calls12944,
+ *           8930 wordFDE0F62F calls084F4, 8934 word1C281C02 consumes result.
+ *           0204ABF0 own definition returns void; original8AC6 calls it and
+ *           8ACE str r0,[r1,#0xc]. 0204B294 returns void and has scalar fifth
+ *           parameter; original8BE0 str r7,[sp] passes Point address, 8BF4 calls,
+ *           8BFA str r0,[r1,#4] consumes pointer result. asm/overlays/ov121.s
+ *           records these exact addresses; affected definitions belong to Ilias.
+ * widths: historical173F0 tag and level full-word declarations reflect original
+ *           outgoing slots, but future work must use the current own definitions
+ *           or park a proven definition fault. Species/20E60 narrowu16; palette8.
  * source: resource branches2/3 use zero in r6, not earlier palette. Work combines observed IV6, move4, Point8 and pointer output slots. D8 zero with desc55 outside0..2 leaves original random stack words unset; draft preserves that path without inventing values.
  * runs: prior7 iterations+2 checks; wave59 retry5 iterations+1 check4+1 check3; permuter remains skipped for existing140-byte unlabelled follower.
+ * wave77: renewed three iterations plus check3 (4 one runs), best1864/949.
+ *           Separate IV/move/Point/output objects give995; reversed object order
+ *           gives950; long counter remains950; enum selector restores949.
+ *           Checks1..5 refreshed full own callees/forwarders, exact neighbours,
+ *           widths, stack/loop idioms and follower source/shard. Three nonshrinking
+ *           iterations exhausted; permuter still ineligible for140-byte follower.
  * symbols:
  *   func_02082BCC 0x02082BCC arm
  *   func_02049F34 0x02049F34 arm

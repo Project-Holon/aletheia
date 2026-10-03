@@ -8,9 +8,30 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 wave59 rederived every callee from full ARM9 files/SDK headers and matched callers; 02021F64 fifth slot reads low halfword only. 2 ov116 D7B70 and ov120 archive twins reread. 3 u16 heap removed required truncation and worsened; final callee int signedness unchanged, long heap with int weight worsened. 4 narrow-stack-reload and byte-count spill idioms read. 5 directory and neighbours refreshed. Earlier permuter 300 baseline 24/best 10 confirmed, not repeated.
- * retry: wave59 R1 four compiles; best remains 584 B/10 concrete bytes. Next lever is SDK/archive inline spelling around final heap reload, not further declaration reordering.
- * residual: final 02049B40 outgoing stack stores and heap reload scheduling, 10 bytes; all 25 relocations resolved.
+ * checks: 1 full current callees, unit headers and shards rederived;
+ * 056A0 and 1F5DC inputs and 7F54 callback declaration repaired flat;
+ * 49F78 data address is u32. 2 7B70 and fresh ov1155984 neighbours read.
+ * 3 enum Heap parameter compiled flat; prior u16 removes required
+ * truncation, so full-word heap retained. 4 narrow-reload/inline-wrapper
+ * and stack-object idioms read. 5 full unfiltered idiom directory and
+ * current ov114/115/116 neighbours refreshed; no new exact lever.
+ * residual: 584/584 bytes, 10 concrete bytes out, all 25 sites resolve.
+ * fresh pass: final inline helper, size parameter, and const heap-pointer
+ * helper all flat; three consecutive nongains STOP.
+ * permuter: prior once300 baseline24/best10 consumed, never repeated.
+ * owner-signature obstacles: own490F4/49B68/49740/49990/49B40 heap
+ * parameters are u16; original021D7D14 spills full incoming r1, and
+ * 021D7F34 LDR heap,021D7F38 STR word,021D7F40 BL49B40 has no pair.
+ * Own21F64 color is struct Rgb555; original021D7E64 STR word and
+ * 021D7E76 BL21F64, own entry LDRH stack+20. Historical widened/scalar
+ * declarations below are diagnostic only; no strict-rule retry.
+ * canonical: void *sub_020490F4(u32,u16);
+ * void sub_02049B68(void*,u32,u32,u32,u32,u16);
+ * u32 sub_02049740(void*,u32,u32,u32,u32,u16);
+ * u32 func_02049990(void*,u32,u32,u32,u32,u32,u32,u16);
+ * void sub_02049B40(u32,u32,u32,u32,u32,u16);
+ * void func_02021F64(u16*,u16*,u32,int,struct Rgb555).
+ * remaining: final 49B40 heap reload/outgoing stores, offsets226..22E.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm
@@ -29,6 +50,7 @@
  *   func_02021F64 0x02021F64 thumb
  *   func_0201F5DC 0x0201F5DC thumb
  */
+#if 0 /* Rejected historical diagnostic C; owner signatures above block retry. */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -37,18 +59,19 @@ extern void func_02049B68(void *, u32, u32, u32, u32, u32);
 extern u32 func_02049740(void *, u32, u32, u32, u32, u32);
 extern void func_02049990(void *, u32, u32, u32, u16, u32, u32, u32);
 extern void func_02082BCC(void *, int, int);
-extern void *func_02049F78(void *, int, void **, u16);
+extern void *func_02049F78(void *, u32, u32, u16);
 extern void func_02082D44(const void *, void *, u32);
 extern void func_020307B0(void *);
 extern void func_02021F64(const u16 *, u16 *, u32, u8, u16);
 extern void func_020862F0(void *, unsigned long);
-extern void *func_020056A0(void *, void *, int);
+extern void *func_020056A0(u32, u32, u32);
 extern void func_0207D63C(void *, int, int, int, int);
 extern void func_02049238(void *);
 extern u32 func_0203FA08(u32, u32, u32);
-extern void *func_0201F5DC(int, int, int, u32);
+extern void *func_0201F5DC(void *, u32, u32, u32);
 extern void func_02049B40(u32, u32, u32, u32, u32, u32);
-extern void func_021D7F54(void);
+extern void func_021D7F54(void *, u8 *);
+static inline void setup_text(int heap) { func_02049B40(23,5,0,0x180,32,heap); }
 void func_021D7D0C(u8 *p, int heap)
 {
   void *arc;
@@ -81,7 +104,7 @@ void func_021D7D0C(u8 *p, int heap)
     func_02049990(arc, 7, 3, 0, result, 0, 0, heap);
     func_02082BCC(p + 12, 0, 0x970);
   }
-  buf = func_02049F78(arc, 2, (void **) (&desc), (u16) heap);
+  buf = func_02049F78(arc, 2, (u32)&desc, (u16) heap);
   func_02082D44(*((void **) (desc + 12)), p + 20, 0x1e0);
   func_02082D44(*((void **) (desc + 12)), p + 0x1f4, 0x1e0);
   func_020307B0(buf);
@@ -118,13 +141,14 @@ void func_021D7D0C(u8 *p, int heap)
 
   func_020862F0(p + 0x1f4, 0x780);
   *((int *) (p + 16)) = 1;
-  *((void **) (p + 12)) = func_020056A0(func_021D7F54, p + 12, 20);
+  *((void **) (p + 12)) = func_020056A0((u32)func_021D7F54, (u32)(p + 12), 20);
   func_0207D63C((void *) 0x04000050, 1, 8, 8, 16);
   p[0x978] = 0;
   func_02049238(arc);
   func_0203FA08(1, 32, 0);
   func_0203FA08(2, 32, 0);
-  *((void **) (p + 0x984)) = func_0201F5DC(1, 13, 0, heap);
-  *((void **) (p + 0x988)) = func_0201F5DC(2, 13, 0, heap);
-  func_02049B40(23, 5, 0, 0x180, 32, heap);
+  *((void **) (p + 0x984)) = func_0201F5DC((void *)1, 13, 0, heap);
+  *((void **) (p + 0x988)) = func_0201F5DC((void *)2, 13, 0, heap);
+  setup_text(heap);
 }
+#endif

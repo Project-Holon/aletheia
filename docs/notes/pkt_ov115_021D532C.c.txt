@@ -8,24 +8,25 @@
  * isa: thumb
  * lang: c99
  * status: DIFF
- * checks: 1 own 490F4/49B68/49658/498F4 interfaces and full 49F78,
- * 21F64, 056A0->30DA8/30DC8 bodies read; 056A0 u32 prototype compiled;
- * 2 same-region shared-callee search no twin; 5214/5528 neighbours read;
- * 3 u16 step adds truncation, const src initially CCERR then compiles flat;
- * 4 spill/block-scope/loop/const/scalar-halfword idioms read, scheduling cap;
- * 5 fresh full idiom list and ov114/115/116 neighbours reread; &data's
- * slot already matches at sp+0x30, no struct/array addressing discrepancy.
- * residual: 508/508 bytes, all 20 relocations resolve, 252 concrete bytes out.
- * Original res sp+0x24 vs C sp+0x28; constant 3 is hoisted to r4 and early
- * calls shift two bytes, while copy-address caching recovers exact tail.
- * budget: 4 iterations, three consecutive nongains i2-i4; manual scheduling
- * 2/2; c1 1/2, c3 2/2, c4/c5 read-only. Once300 permuter spent, no reset.
- * permuter: baseline 512/465; best 508/250 moved 49F78 before memset,
- * rejected for call order. Safe ancestor restored original clear-then-load
- * order and fixed one confirmed 508/252 (532C-P-safe.log), kept below.
- * Do not restore i1: it reloaded heap after the overlapping memset.
- * ABI: 21F64 reads solely low16 of fifth stack slot; original loads
- * ldrh then supplies whole outgoing word, so scalar u16 retains its bits.
+ * checks: 1 full current callee bodies/unit function lists/shards checked;
+ * archive allocation and 49B68/49658/498F4 use pointer handles; 49F78
+ * uses pointer/u32/u32/u32; 5528 callback takes void*,u8*. ABI fixes flat.
+ * 2 same-region/sibling palette callers and 5214/5528/7B70 read, no twin.
+ * 3 _Bool done compiled flat at 508/252; p is written, const-pointee
+ * unsupported; full-word step retained. 4 spill/scope/enum/halfword and
+ * declared-stack-object idioms read. 5 full unfiltered idiom listing and
+ * ov114/115/116 neighbours refreshed; data slot already matches sp+30.
+ * residual: 508/508 bytes, 252 concrete bytes out, all 20 sites resolve.
+ * fresh pass: pointer archive handle, late enum Three, and _Bool loop
+ * completion flag flat; three consecutive nongains STOP.
+ * permuter: earlier once300 consumed; moved 49F78 before memset best
+ * rejected. Preserve heap capture BEFORE overlapping clear, THEN 49F78.
+ * owner-signature obstacle: arm9 02021F64 own definition is
+ * void func_02021F64(u16*,u16*,u32,int,struct Rgb555), not scalar/const.
+ * Original021D5494 STR r0,[sp],021D549A BL21F64 supplies color word;
+ * own entry reads LDRH at incoming stack+20. Historic scalar declaration
+ * below is diagnostic only; no strict-rule retry before owner resolution.
+ * remaining: res sp+24 versus C sp+28 and early constant3 hoisting.
  * symbols:
  *   sub_020490F4 0x020490F4 arm
  *   sub_02049B68 0x02049B68 arm
@@ -42,34 +43,35 @@
  *   func_0207D63C 0x0207D63C arm
  *   sub_02049238 0x02049238 arm
  */
+#if 0 /* Rejected historical diagnostic C; owner signatures above block retry. */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void *sub_020490F4(void *, u32);
-extern void sub_02049B68(u32, u32, u32, u32, u32, u16);
-extern void sub_02049658(u32, u32, u32, u32, u32, u32, u16);
-extern void sub_020498F4(u32, u32, u32, u32, u32, u32, u16);
-extern void *sub_02049F78(u32, u32, void **, u16);
+extern void *sub_020490F4(u32, u16);
+extern void sub_02049B68(void *, u32, u32, u32, u32, u16);
+extern void sub_02049658(void *, u32, u32, u32, u32, u32, u16);
+extern void sub_020498F4(void *, u32, u32, u32, u32, u32, u16);
+extern void *sub_02049F78(void *, u32, u32, u32);
 extern void func_02082BCC(void *, int, u32);
 extern void func_02082D44(const void *, void *, u32);
 extern void func_020307B0(void *);
 extern void func_02021F64(const u16 *, u16 *, u32, int, u16);
 extern void func_020862F0(void *, u32);
 extern void *sub_020056A0(u32, u32, u32);
-extern void func_021D5528(void *, void *);
+extern void func_021D5528(void *, u8 *);
 extern void func_0207D63C(void *, int, int, int, int);
 extern void sub_02049238(void *);
 void func_021D532C(u8 *p)
 {
   u16 heap;
-  u32 res;
+  void *res;
   void *pal;
   void *data;
   u8 *tmp;
   u32 tmp1;
   void *tmp2;
   void *tmp3;
-  res = (u32) sub_020490F4((void *) 145, *((u16 *) (p + 12)));
+  res = sub_020490F4(145, *((u16 *) (p + 12)));
   sub_02049B68(res, 3, 4, 0, 0, *((u16 *) (p + 12)));
   sub_02049658(res, 4, 4, 0, 0, 0, *((u16 *) (p + 12)));
   sub_020498F4(res, 6, 4, 0, 0, 0, *((u16 *) (p + 12)));
@@ -80,7 +82,7 @@ void func_021D532C(u8 *p)
   sub_020498F4(res, 7, 3, 0, 0, 0, *((u16 *) (p + 12)));
   heap = *((u16 *) (p + 12));
   func_02082BCC(p + 0x10, 0, 0x970);
-  pal = sub_02049F78(res, 2, &data, heap);
+  pal = sub_02049F78(res, 2, (u32)&data, heap);
   tmp = ((u8 *) data) + 12;
   func_02082D44(*((void **) (((u8 *) data) + 12)), p + 0x18, 0x1e0);
   func_02082D44(*((void **) tmp), p + 0x1f8, 0x1e0);
@@ -137,7 +139,8 @@ void func_021D532C(u8 *p)
     *((void **) (p + 0x10)) = tmp2;
     func_0207D63C((void *) 0x04000050, 1, 8, 8, 16);
     *((u8 *) (p + 0x97c)) = 0;
-    tmp3 = (void *) res;
+    tmp3 = res;
     sub_02049238(tmp3);
   }
 }
+#endif

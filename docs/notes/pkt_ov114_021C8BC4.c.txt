@@ -11,7 +11,15 @@
  * retry: wave24 R1, 3 targeted changes (inline Pair assignment, explicit int
  *   cast, Pair local) did not shrink 4; one --budget 300 --types permuter
  *   compiled 300 candidates and found no improvement. Do not rerun.
- * checks: 1 ov114 matched callers confirm 2/5/0 args; 2 same calls as 887C, no byte-loop twin; 3 prior const source, u8/int locals, unsigned countdown widths no cure; explicit int cast retry unchanged; 4 declaration-order, aggregate-copy and small pair copy reviewed; 5 refreshed idioms and live neighbours, n/a no stack object in best C.
+ * owner-blocker: Ilias SDK ov114 0x021CA470; matched ov_sdk definition
+ *   void func_021CA470(int,int,int,int,int) conflicts with caller return use.
+ *   021C8C20: bl 021CA470; 021C8C24: cmp r0,#0.
+ *   021CA488: bl 021CA240; 021CA48C: add sp,sp,#8; 021CA490: pop {r3,pc}
+ *   preserve r0 from SDK 021CA240's int return. Definition remains untouched.
+ *   The C below is the historically compiled recovery sketch, not eligible
+ *   for a new caller retry until the owner's prototype is corrected.
+ * renewed-pass: wave77 R11; signed countdown 168/110, long byte locals 164/4, enum countdown 168/117; consumed prior permuter retained.
+ * checks: 1 own SDK definitions audited 2/5/0, void-return discrepancy above stops matching; 2 live 87FC/8C68/8DA0 twins reread, their declarations also predate SDK definitions; 3 long byte locals unchanged 4; signed/enum counters add entry guards; further checks stopped at SDK owner blocker; 4 scheduling/global-base/aggregate-copy idioms read; 5 unfiltered idiom directory refreshed and neighbours reread, no stack aggregate in best C.
  * symbols:
  * d_021D3D28 0x021D3D28 data a4
  * d_021D3D2C 0x021D3D2C data a4

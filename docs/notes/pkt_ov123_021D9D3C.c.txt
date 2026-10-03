@@ -7,11 +7,11 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * residual: 516/516 bytes, 20 concrete bytes out, 20/20 relocations resolved.
+ * residual: last compiled candidate516/516 bytes,20 concrete bytes out,19/20 relocations. Final own-definition aggregate-interface correction below is uncompiled because ARM9 owner blocker remains.
  * residue: +00D2 reloads total-zero instead of immediate zero; +0118..011E shares total-zero and schedules outer spill; +014C..015A row-base/blend-shift order and scratch colour.
- * checks: 1 02021F64 own body takes five inputs, reads only low16 of fifth stack slot; u8 fourth extern worsened to22 (1 compile); 2 ov123 021D4884/021D614C and ov124 021D4558 confirm resource-call interfaces but no blend-loop twin; 3 const p first CCERR for discarded qualifiers then explicit mutable destination casts gave20 unchanged (2 compiles); 4 enum zero/loop, narrow flag, scalar-halfword stack, scheduling idioms read; 5 refreshed idiom directory and ov123/ov124 neighbours, no new exact blend twin.
- * budgets: 6 iteration verdicts +1 infrastructure invocation; first-nonshrinking r2, 6 actual invocations since then, consecutive nonshrinking verdicts3; manual scheduling variants2/2; sweeps0; checks1=1/2,2=0/2,3=2/2,4=0/2,5=0/2; permuter once300 exhausted, emitted baseline20 agreed with fixed one, best20 unchanged.
- * interface: 02021F64 scalar fifth u16 substitutes its two-byte RGB555 aggregate because complete leaf body reads only low16 and caller ldrh/str supplies same outgoing slot; fourth is signed int per own definition, fed by the original byte-truncated factor local.
+ * checks: 1 current own 02021F64 body takes five inputs, but its packet02021B6C shard does not cover this leaf; unresolved ARM9 owner blocker halts caller compiles; 2 current ov123/ov124 resource neighbours do not supply a blend twin; 3 renewed enum blend unchanged20; 4 scalar-halfword, zero, scheduling idioms re-audited; 5 fresh idiom listing and neighbours checked, no exact blend twin.
+ * renewed-pass: wave77 R17 one substantive enum-blend compile unchanged20; current 02021F64 has no exact shard witness. Leave owner work to Ilias; do not retry this caller until the witness exists. Prior once300 search remains consumed and was not repeated.
+ * interface: current own ARM9 02021F64 takes struct Rgb555 by value as fifth argument, never scalar u16. Original callee entry loads the fifth value with add r0,sp,#0x20 then ldrh r0,[r0]; original caller ldrh/str carries its RGB555 bits. Exact own bitfield declaration and union conversion copied below; no owner-blocked recompile or budget reset. Prior scalar-interface exception superseded.
  * infrastructure: iteration r6 exited1 without verdict when root removed ov032 legacy shard between manifest enumeration/open; unchanged retry r7 DIFF22. Never count r6 as a nonshrinking verdict.
  * evidence: full fixed logs and macro-free permuter source/log in scratchpad/overlay-goal-20261001-w56/B9; no volatile, fabricated initialized fields, or input restrictions.
  * symbols:
@@ -34,6 +34,14 @@ typedef unsigned int u32;
 typedef enum { C0=0 } Counter;
 typedef enum { FILL_ZERO=0 } Fill;
 typedef enum { OUTER_ZERO=0 } Outer;
+struct Rgb555 { u16 r:5; u16 g:5; u16 b:5; u16 pad:1; };
+union Rgb555Bits { u16 bits; struct Rgb555 color; };
+static inline struct Rgb555 rgb555_value(u16 bits)
+{
+    union Rgb555Bits value;
+    value.bits=bits;
+    return value.color;
+}
 extern void *func_020490F4(u32,u32);
 extern void func_02049B68(void *,u32,u32,u32,u32,u16);
 extern void func_02049658(void *,u32,u32,u32,u32,u32,u16);
@@ -42,7 +50,7 @@ extern void func_02082BCC(void *,u8,u32);
 extern void *func_02049F78(void *,int,void **,u16);
 extern void func_02082D44(const void *,void *,int);
 extern void func_020307B0(void *);
-extern void func_02021F64(u16 *,u16 *,u32,int,u16);
+extern void func_02021F64(u16 *,u16 *,u32,int,struct Rgb555);
 extern void func_020862F0(void *,int);
 extern void *func_020056A0(void *,void *,int);
 extern void func_0207D63C(void *,int,int,int,int);
@@ -91,7 +99,7 @@ void func_021D9D3C(const u8 *p)
             dstrow=destination+total*32;
             col=4;
             do {
-                func_02021F64((u16 *)(srcrow+col*2),(u16 *)(dstrow+col*2),1,factor,*(u16 *)(nextrow+col*2+16));
+                func_02021F64((u16 *)(srcrow+col*2),(u16 *)(dstrow+col*2),1,factor,rgb555_value(*(u16 *)(nextrow+col*2+16)));
                 col++;
             } while(col<11);
             total++;

@@ -9,9 +9,9 @@
  * status: DIFF
  * residue: 122/124 bytes, 4 concrete bytes differ solely in palette/tileY spill slots; all 3 relocations resolved.
  * lever: u16 x/y pins home stores; original nested width/base/tileY lifetime keeps the earlier 4-byte best.
- * checks: fresh own 42FB0 has u32 layer/x/y and u16 tile; prototype correction leaves 4. Own 41B6C has u32 input but original caller narrows layer, so u8 extern retained. BE4EC returns 8 and caller supplies layer despite its argless body.
- * retry: wave76 R24, 6 one runs. Inline Draw helper 21, Palette out helper 4, long palette 4: three nonshrinking iterations; manual extraction 2/2. Check 3 long tileY 33 and long width 4; check 1 own tile-writer prototype 4.
- * evidence: pos is full-width unsigned for the high shift, x/y home stores require u16; p is writable. Current BE384 neighbour and full unfiltered idiom listing reread; no matching tile caller twin.
+ * checks: 1 current own 42FB0 uses four inputs, u32 layer/x/y and u16 tile; 41B6C caller truncates layer so u8 extern retained; BE4EC returns 8 and caller supplies layer; 2 BE384 and setup twins reread, no whole twin; 3 const p gives 16/122 and bounded u16 width 33/122; 4 spill-scope, extra-inline and declared-stack-object idioms reread; 5 fresh full directory and current neighbours reread. Next hypothesis: extra inline nesting around one spilled value, not another ordering sweep.
+ * retry: wave77 R4 final retry, 5 one runs. Paired palette/tileY local, unsigned long palette and unsigned long cursor each 4/122: three nonshrinking iterations; manual extraction 1/2. Check 3 const p 16 and u16 width 33. Previous wave76 R24 6 one runs with inline Draw/Palette helpers and long types, best 4.
+ * evidence: pos is full-width unsigned for the high shift, x/y home stores require u16; p is only read in this function, so const is valid but changes its prologue ordering. Palette/tileY spill slots remain swapped; two bytes at extent end are zero padding.
  * prior-search: wave24 R1 once-only --budget 300 --types permuter consumed; independently validated nested declarations reduced 8 to 4. Split/enum/scoped palette and prior const/signed variants already tried; no repeated search.
  * next: palette/tileY spill-web shape; renewed helper extraction and long widths leave the same 4-byte tie.
  * symbols:

@@ -8,11 +8,11 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 fresh A1BC/E964/ABBC and DC_FlushRange/GXS_LoadOBJ/Pltt bodies confirm arities, live-r0 ABBC return retained; 2 fresh A7E0/AAF4 no full twin; 3 byte height/slot unchanged, const input retained; 4 aggregate/spill/enum-zero/narrow-home idioms; 5 fresh full directory/neighbours, enum Y and independent zero call unchanged.
- * Wave60: eight runs, best DIFF284/28435. Dimension aggregate and height declaration unchanged; u16 block with byte step DIFF38; prior permuter300 not repeated.
- * residue: size284/284, 35 bytes: prologue slot/zero scheduling plus src/x/y/line/height and hoisted row-offset spill slots; dst split assignment fixes +42 operand order.
- * next: stored Y/slot prologue order and src/x/y/line/height/CSE slot ordering remain; two scheduling variants used this retry.
- * ABI: ABBC tail forwards mode and leaves VRAM offset in r0, consumed here despite void own declaration.
+ * checks: renewed 1 own A1BC/E964/ABBC and SDK bodies read; ABBC void-definition conflicts with consumed r0 (blocked); 2 A7E0/AAF4 refreshed no full twin; 3 line u16 with byte step DIFF34, y unsigned-long DIFF35, restored verified u32 y; 4 enum/scope/stack idioms read, two scheduling variants exhausted; 5 unfiltered directory and neighbours refreshed.
+ * renewed-pass: eight compiles; block-scoped loop locals improve DIFF35 to DIFF34 at284; three subsequent nonshrinking changes stopped iteration. Prior permuter300 consumed, never repeated.
+ * residual: prologue slot/zero order and src/y/line/height/row-offset spill slots remain, with all eight relocation sites resolved.
+ * prototype-blocker: arm9 0204ABBC own definition void(u32,u32), original 021FA9D6 blx 0204ABBC; 021FA9DE adds r0,r0,r1 consumes its result. No further caller compile until owner fixes definition.
+ * historical-best: C below records the pre-rule verified DIFF34 spelling; its divergent ABBC result is documentary evidence, not an approved strict-prototype candidate.
  * symbols:
  *   func_0204A1BC 0x0204A1BC arm
  *   func_0206E964 0x0206E964 arm
@@ -34,14 +34,10 @@ void func_021FA99C(const u8 *p,unsigned slot,int resource,int type)
 {
     int blob;
     u32 charSize,palSize,dst;
-    u8 block;
-    unsigned long height;
-    u8 line;
-    u32 y=0,x;
-    u8 *src;
+    u32 y=0;
+    const u8 *src;
     u8 *tex;
     u32 palOffset;
-    u8 col;
     blob=func_0204A1BC(45,resource,y,*(u16 *)p);
     tex=func_0206E964((u8 *)blob);
     src=tex+*(u32 *)(tex+20);
@@ -52,7 +48,12 @@ void func_021FA99C(const u8 *p,unsigned slot,int resource,int type)
     dst+=(slot<<11);
     func_020862F0(tex+palOffset,palSize);
     func_0207E5D0(tex+palOffset,slot*32,palSize);
-    func_020862F0(src,charSize);
+    func_020862F0((void *)src,charSize);
+    {
+    u8 block,col;
+    u16 line;
+    Dim height;
+    u32 x;
     switch(type) {
     case 34: x=2; y=2; type=FOUR; height=FOUR; break;
     case 35: x=2; type=FOUR; height=EIGHT; break;
@@ -60,11 +61,12 @@ void func_021FA99C(const u8 *p,unsigned slot,int resource,int type)
     default: x=2; y=2; type=FOUR; height=FOUR; break;
     }
     for(block=0;block<(u32)height;block++) {
-        for(line=0;line<8;line++) {
+        for(line=0;line<8;line=(u8)(line+1)) {
             for(col=0;col<(u32)type;col++) {
                 func_0207E804(src+(col*4+((block*32)*type+line*type*4)),dst+(line*4+(((col+x)<<5)+((block+y)<<8))),4);
             }
         }
+    }
     }
     func_020307B0((void *)blob);
 }

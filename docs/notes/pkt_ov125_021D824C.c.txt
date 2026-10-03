@@ -8,21 +8,13 @@
  * lang: c99
  * isa: arm
  * status: DIFF
- * blocker: 492 bytes, 16 concrete bytes out; all18 relocations resolve.
- * Stack-header address r8 is hoisted before GetTick instead of after the
- * initial division; scalar value reads use [r8] instead of [sp,#8].
- * This also swaps thread r8/r7 and the zero-register initialization.
- * Scalar/header direct views with delayed pointer fix scalar reads but
- * hoist the address before udiv, yielding18 bytes out; best16 kept below.
- * checks: 1 own bodies show CreateThread6 word args, GetTick0/u64, Start/Destroy1, lock/unlock0, wait1, callback81EC ignores entry arg; 2 matched7D30 fixes thread prototypes and80E0/7874 fix tick/lock/wait, B2 verified80E0+81EC unit resolves callback; 3 Length.value unsigned32 unchanged22 bytes, count unsigned matches original blo and no narrowing justified; 4 struct/buffer/CSE idioms read, raw scalar views plus delayed copy pointer gave18 not16; 5 current directory and matched neighbours reread, B2 confirms related scalar/copy storage residue; next sweep none, iteration and manual variants stopped, once300 consumed.
- * budget: 6 iterations, first nonshrinking4, consecutive3 through6;
- * one check3 emitted baseline compile; once300 completed in16s and improved
- * 22 to16; one fixedone validation confirmed16/all18 relocs; one check4
- * compile gave18. Conservatively two manual scheduling variants consumed
- * (winner named word-index temporary, delayed copy pointer); no sweeps.
- * behavior: u32 Length.value preserves all32 header bits, all-ones sentinel,
- * equality with unsigned count, and wrapping subtract4. No fabricated
- * initialization, volatile, signature/domain narrowing, or stale blocker.
+ * blocker: compiled/original 492 B, 12 concrete bytes differ; all 18 sites resolve.
+ * lever: a declared Length union restores scalar [sp,#8] reads (16 to12).
+ * Remaining header address hoists before GetTick rather than after udiv,
+ * swapping thread r7/r8 and zero initialization. All 32 header bits,
+ * unsigned equality, all-ones sentinel and modular subtract4 are preserved.
+ * checks: 1 own81EC is void(void), corrected extern and SDK callback conversion compiled unchanged12; SDK Create6/Tick0-u64/Start1/Destroy1/locks0/wait1 rederived; 2 current80E0 unit+EXACT shard witnesses81EC and matched7D30/7770 reread; 3 start unsigned long compiled unchanged12, count stays unsigned word; 4 declared-struct idiom explains improvement, two byte-destination spellings worse25/27; 5 unfiltered idioms and matched neighbours reread; next sweep none, iteration stopped.
+ * history: once300 consumed previously (22 to16); never repeated.
  * symbols:
  *   d_021D9E40 0x021D9E40 data a4
  *   d_021D9E40_thread 0x021D9E40 data a4
@@ -41,12 +33,12 @@ typedef unsigned char u8;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef struct { u8 bytes[4]; } Bytes;
-typedef union { u32 value; Bytes bytes; } Length;
+typedef union { unsigned long value; Bytes bytes; } Length;
 extern u32 d_021D9E40[];
 extern u8 d_021D9E40_thread[];
 extern u8 d_021DA18C[];
 extern u64 OS_GetTick(void);
-extern void func_021D81EC(void *);
+extern void func_021D81EC(void);
 extern void func_020853C0(void *,void (*)(void *),int,void *,int,u32);
 extern void func_02085868(void *);
 extern void func_020855BC(void *);
@@ -55,16 +47,16 @@ extern void func_021D7CC0(void);
 extern void func_021D8438(int);
 int func_021D824C(void)
 {
-    u8 buffer[4];
-    Length *length = (Length *)buffer;
+    Length header;
+    Length *length = &header;
     u32 count = 0;
-    u32 start;
+    unsigned long start;
     u64 tick;
     int result;
     int tmp;
-    ((Length *)buffer)->value = -1;
+    header.value = -1;
     tick = OS_GetTick();
-    func_020853C0(d_021DA18C,func_021D81EC,0,d_021D9E40_thread,0x800,d_021D9E40[0x270/4]);
+    func_020853C0(d_021DA18C,(void (*)(void *))func_021D81EC,0,d_021D9E40_thread,0x800,d_021D9E40[0x270/4]);
     d_021D9E40[0x40c/4] = -6;
     d_021D9E40[0x410/4] = 0;
     d_021D9E40[0x414/4] = 0;
@@ -85,10 +77,10 @@ int func_021D824C(void)
                 return 0;
             }
             count += result;
-            if (count >= 4 && length->value == -1)
+            if (count >= 4 && header.value == -1)
                 length->bytes = *(Bytes *)d_021D9E40[0x260/4];
-            if (count == length->value && length->value != -1) {
-                d_021D9E40[0x25c/4] = length->value - 4;
+            if (count == header.value && header.value != -1) {
+                d_021D9E40[0x25c/4] = header.value - 4;
                 break;
             }
             tmp = 0x410/4;

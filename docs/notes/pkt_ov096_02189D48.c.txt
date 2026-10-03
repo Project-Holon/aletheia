@@ -8,9 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * blocker: 8 concrete bytes differ at 294/296 (two alignment zero bytes); both score-call r1/r2 setup schedules differ.
- * checks: 1 own pointer callee prototypes/arity corrected and fixed one gave 8; 2 89B78 and A308 neighbours re-read; 3 enum species/pointer locals gave 26, raw full-word integer locals and u8 score argument gave 8; 4 wrapper/binding idioms re-read, existing score wrapper retained; 5 fresh idiom listing and neighbours, scalar spills, no stack object; next sweep none.
- * permuter: historical once-only types budget 300 best 8; consumed search not repeated.
+ * blocker: DIFF compiled294/original296, 19 concrete bytes: scalar spill-slot allocation plus both score-call r1/r2 ordering. Pre-rule8 used integer pointer locals and narrowed extern indexes; it is superseded.
+ * checks: 1 exact own definitions/pointer fields/pointer locals/byte index locals give294/19; 2 89B78/A308 and scoped callers re-read; 3 byte second inline argument worsens298/202, u16 base gives14, unsigned enemy15, byte slot leaves19; 4 wrapper/binding/scope-spill idioms read; 5 fresh directory and neighbours read; no stack object; next sweep none.
+ * permuter: historical once-only types300 best8 consumed; no repeat in wave77; final C preserves current own definitions.
  * symbols:
  *   func_0201134C 0x0201134C thumb
  *   func_021B8DE4 0x021B8DE4 thumb ov093
@@ -35,53 +35,66 @@ typedef struct {
     u8 pad3c[0x58];
     u8 f94;
     u8 pad95[0x1b];
-    int fb0, fb4, fb8, fbc, fc0, fc4;
+    void *fb0;
+    u8 *fb4;
+    char *fb8;
+    u8 *fbc;
+    u8 *fc0;
+    int fc4;
 } Obj;
-extern int func_0201134C(int);
-extern int func_021B8DE4(void *, int);
+struct Cursor;
+extern u32 func_0201134C(struct Cursor *);
+extern u8 func_021B8DE4(char *, int);
 extern char *func_021B9AF8(char *, int);
 extern int func_021B99B8(void *, u32);
 extern int func_021B9C98(u8 *, u32);
 extern u8 func_021D5440(u8 *);
 extern u16 func_021C7E14(u8 *, int, int, u32, int, int);
-extern u8 *func_0218A308(void *, u8);
+extern u8 *func_0218A308(void *, u32);
 extern int func_021D5B7C(void *);
-extern int func_021D5448(void *);
-extern u16 func_021D54C0(u8 *, u8);
-static inline u16 score(u8 *p, u8 a, int b, u32 c, int d, int e)
+extern u8 func_021D5448(void *);
+extern u16 func_021D54C0(u8 *, int);
+static inline u16 score(Obj *p, u8 a, int b, u32 c, int d, int e)
 {
-    return func_021C7E14(p, a, b, c, d, e);
+    return func_021C7E14(p->fb4, a, b, c, d, e);
 }
-int func_02189D48(int a, Obj *p)
+int func_02189D48(struct Cursor *a, Obj *p)
 {
-    int k, slot, party, i, skip;
+    int k, i, skip;
+    u8 slot;
+    void *party;
     u8 species;
     int enemy;
     u32 base;
-    int count, mon;
+    int count;
+    u8 *mon;
     u8 sp;
     int j, move;
     k = func_0201134C(a);
-    slot = func_021B8DE4((void *)p->fb0, p->f94);
-    party = (int)func_021B9AF8((char *)p->fb8, slot);
-    count = func_021B99B8((void *)p->fb0, slot);
-    skip = func_021B9C98((u8 *)party, p->fbc);
-    species = func_021D5440((u8 *)p->fbc);
-    enemy = func_021D5440((u8 *)p->fc0);
-    base = score((u8 *)p->fb4, species, enemy, p->f2, 1, k);
+    slot = func_021B8DE4(p->fb0, p->f94);
+    party = func_021B9AF8(p->fb8, slot);
+    count = func_021B99B8(p->fb0, slot);
+    skip = func_021B9C98(party, *(u32 *)((u8 *)p + 0xbc));
+    species = func_021D5440(p->fbc);
+    enemy = func_021D5440(p->fc0);
+    base = score(p, species, enemy, p->f2, 1, k);
     if (skip < 0 || base == 0) {
         p->f38 = 0;
         return p->fc4;
     }
     for (i = 0; i < count; i++) {
-        mon = (int)func_0218A308((void *)party, i);
-        sp = func_021D5440((u8 *)mon);
-        if (func_021D5B7C((void *)mon) != 0 && i != skip) {
+        u8 partyIndex;
+        partyIndex = i;
+        mon = func_0218A308(party, partyIndex);
+        sp = func_021D5440(mon);
+        if (func_021D5B7C(mon) != 0 && i != skip) {
             p->f38 = 2;
-            for (j = 0; j < func_021D5448((void *)mon); j++) {
-                move = func_021D54C0((u8 *)mon, j);
+            for (j = 0; j < func_021D5448(mon); j++) {
+                u8 moveIndex;
+                moveIndex = j;
+                move = func_021D54C0(mon, moveIndex);
                 if (j != p->f1) {
-                    if (score((u8 *)p->fb4, sp, enemy, move, 1, k) > base) {
+                    if (score(p, sp, enemy, move, 1, k) > base) {
                         p->f38 = 1;
                         break;
                     }

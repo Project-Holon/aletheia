@@ -8,9 +8,9 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * residual: 372 bytes; 35 concrete bytes differ; all six relocations resolve.
- * checks: 1 own4B74(Work*,int),4D48(int) reread; 2 root3F54 confirms Work shape, no initializer twin; 3 const Work gave376/42, enum-selected x gives372/35; 4 pair helper gave376/42, enum/value idioms read, manual extraction cap2; 5 fresh full idioms and same-overlay neighbours, stack-object check inapplicable (no stack aggregate).
- * permuter: fresh once types300; native372/35 baseline agrees, plateau35; no winning signature variant.
+ * residual: 372 bytes; 23 concrete bytes differ; all six relocations resolve.
+ * checks: 1 own 4B74(Work*,int) and 4D48(int) exact prototypes; 2 root3F54/4B9C and current ov111 neighbours confirm Work layout; 3 enum x 372/40, enum selector offset with raw integer addresses 372/23, unsigned-long offset 372/35, long/u16 x 372/23; 4 enum/named-address idioms read, two manual scheduling variants spent; 5 fresh full idiom listing/neighbours read, no passed stack aggregate. Prior types300 permuter consumed at 372/35, never repeated.
+ * permuter: prior once types300 consumed at372/35; not repeated.
  * blockers: case0 address/value register webs and resulting literal-pool order.
  *
  * symbols:
@@ -51,16 +51,18 @@ extern void func_021C4D48(int side);
 int func_021C4E0C(Work *p)
 {
     typedef enum { AxisZero } Axis;
-    Axis x;
+    u16 x;
+    enum { SELECT_OFFSET = 0x305C } selectOffset;
     switch (p->seq) {
     case 0:
-        if (p->f305C == 0) {
+        selectOffset = SELECT_OFFSET;
+        if (*(u16 *)((u32)p + selectOffset) == 0) {
             x = 0x20;
         } else {
             x = 0xE0;
         }
-        p->f304C = x;
-        p->f3050 = 0x98;
+        *(int *)((u32)p + selectOffset - 0x10) = x;
+        *(int *)((u32)p + selectOffset - 0xC) = 0x98;
         p->f303C = 0x103D;
         p->f3040 = 0x103D;
         p->seq = 1;

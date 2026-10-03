@@ -9,10 +9,10 @@
  * isa: thumb
  * status: DIFF
  * residual: same-size 628 B, 54 concrete bytes; row index/r pointer colours, invariant constant spill order, z-expression scheduling.
- * checks: 1 wave59 rederived 5450/545C, full 4B24/4B30 forwarding targets, 4E8C/4ED4/4EB4/4E6C callers and SDK vector signatures; 4ED4 original truncates its third input. 2 7204/6A80/7E2C/760C twins reread. 3 long i unchanged, u8 flip and long mapped worsened. 4 typed Record pointer and unsigned constant suffixes unchanged; named long byte offset worsened. 5 unfiltered directory and neighbours refreshed; declared-struct, long-index, masked-width and unsigned-hoist idioms read.
+ * checks: 1 current exact-definition rule exposes wrong void returns at own ov1124B24/4B30 definitions; 2 full7204/6A80/7E2C/760C twins reread; 3 const row/source unchanged, u16 mapped and u8 counter worsen; 4 SDK MTX_RotZ33 wrapper unchanged; 5 unfiltered directory and struct/record-pointer idioms refreshed.
  * retry: permuter --budget 300 --types baseline DIFF 55, best DIFF 54 confirmed by fixed one; harmless expression temporaries retained.
- * retry-wave59: seven compiles, best remains628 B/54 concrete bytes. Earlier permuter300 not repeated. tmp3 declaration moved to block top with unchanged fixed verdict. Next lever is SDK rotation inline source structure, not more ordering variants.
- * ABI: 4B24/4B30 are tail forwarders; caller consumes their r0 result.
+ * retry-wave77: six fixed one calls: baseline628/54, SDK wrapper unchanged, u16 mapped632/591, u8 counter632/129, const row unchanged, const source unchanged. Three consecutive iteration nongains and two check3 calls; wave59R1 once300 preserved.
+ * ABI-blocker: own ov112021F4B30 is void but original caller021F7432 calls then7436 cmp r0,#0; own ov112021F4B24 is void but caller021F74AE calls then74B2 cmp r0,#1. Both forward to result-producing50E0/50D0. Do not diverge from own definitions to file; historical best sketch below is parked until its owner corrects both returns. No further caller compile after blocker identification.
  * symbols:
  *   func_021F5450 0x021F5450 thumb ov112
  *   func_021F545C 0x021F545C thumb ov112

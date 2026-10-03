@@ -7,15 +7,24 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * residual: original/compiled 392 B, 37 concrete bytes out; prologue scheduling and spill offsets.
- * checks: 1 own callees 5E14 takes2/returns0..3, 5E2C takes7, 020410D0 takes10; 2 ov127 twin search only wrapper5B98; 3 layer u8 unchanged45out, y int/mode int worse98out, const pointer inapplicable integer source; 4 frame/local-order, narrow flag, missing-truncation idioms read; 5 idiom directory relisted and matched5E14/5E2C reread, signed out[2] agrees original ldrsh. Next hypothesis block-scoped narrow flags, scheduling cap prevents further manual variants.
- * budgets: history empty; 4 ordinary one runs + 2 check3 + emitted-baseline one + winner one + once-only permuter300; no sweeps. Check3 exhausted2/2, permuter exhausted; checks1/2/4/5 readonly. Runs2/4 used2 scheduling variants; run6 accidentally split mode declaration, third scheduling variant, root notified and no further manual variants made. Last ordinary run4 improved to392B/45out; consecutive nonshrinking count0; conservatively carry all4 ordinary runs against20-run window, no reset. Scheduling category capped.
- * permuter: baseline392B/45out reproduced; best392B/37out validated fixed one, exit1. Mutations decl-order(chunkH,leftH), block(if1,3), split-assign(chunkH), copy(h), decl-order(destX,chunkW); reviewed behavior, no volatile/uninitialized reads/type or signature changes.
+ * blocker: historical diagnostic compiled/original392 B,37 concrete bytes out.
+ * Actual own prototypes: int func_021C5E14(u32,u32);
+ * char *func_021C5E2C(char *,int,int,u32,s16,s16,u16 *);
+ * void func_020410D0(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8).
+ * Definition conflict: original5C92/5C98/5C9E/5CA2 reload full word source,
+ * sy,width,height. 5D7E/5D84 ->5D82/5D8A forward width/height as full words
+ * to5E2C;5DC4 ldrsh confirms signed out[1].5CC4..5CCE forward full word
+ * sy,width,height toARM9 410D0 without narrowing, unlike its u8 formals.
+ * No owner files changed. The disabled historical sketch below is rejected
+ * under the current exact-definition rule and must not be compiled as-is.
+ * checks: 1 fresh own5E14/5E2C/ARM9410D0 definitions and caller listing show conflicts above; 2 wrapper5B98 is no proof of narrowing full-word inputs; 3 signed5E14 formals compiled unchanged37 before rule update; 4 block scope spill grouping worsened39, scope/narrow-parameter idioms read; 5 unfiltered idioms and fresh5E14/5E2C reread; next sweep none, current definition blockers stop caller work.
+ * history: once300 consumed earlier,45 to37 validated; never repeated.
  * symbols:
  *   func_021C5E14 0x021C5E14 thumb ov127
  *   func_021C5E2C 0x021C5E2C thumb ov127
  *   func_020410D0 0x020410D0 arm
  */
+#if 0 /* Rejected historical diagnostic; exact-definition blockers above. */
 typedef unsigned char u8;
 typedef signed char s8;
 typedef unsigned int u32;
@@ -109,3 +118,4 @@ void func_021C5C8C(void *unused, u8 layer, u8 x, u8 y, u8 w, u8 h, u32 source, u
   }
   while (leftH > 0);
 }
+#endif

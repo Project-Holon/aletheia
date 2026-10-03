@@ -8,12 +8,12 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own matched 0689D0FC body reads only r0, void(u8*) and current label resolves; 2 refreshed D4F0/D544 are different three-byte-record helpers, no49-byte-copy twin; 3 byte count worsens50/46, const source unchanged46/40; 4 inline-copy/long-index idioms read; 5 complete fresh idiom listing and matched neighbours reread, no addressed stack object.
+ * checks: 1 own 0689D0FC exact void(u8*) body and current witness refreshed; 2 D4F0/D544 and pending callers refreshed, no49-byte-copy twin; 3 const pointer object p unchanged46/40; 4 unsigned-countdown, typed-enum-offset and stack-object idioms read; 5 fresh plain directory and neighbours refreshed, no addressed local object in best.
  * residual: Wave76 DIFF compiled46 versus original40-byte lead, 40 concrete bytes; one relocation resolves. Handed200-byte extent contains omitted followers, not a200-byte lead function.
- * renewed: Inline copy helper, long outer index, and word-address spelling each46/40; stopped after three nonshrinking changes. Two required type/const checks completed; five fixed-flag one runs.
+ * renewed: Wave77 final retry: unsigned byte count46/40, full-word integer parameter address46/40, enum stride46/41; stopped after three nonshrinking changes. Check3 const pointer parameter object46/40. Four fixed-flag one runs; original best pointer body retained.
  * search: Permuter skipped under canonical omitted-follower exception: original extent also holds D15C,D174,D184,D1A0,D1BC,D1D4. Followers left unattempted while lead is DIFF.
  * prior: u16 outer index gave50/44, enum byte count46/40; previous two manual ordering/extraction variants and rejected nonexistent builtin are recorded as failed evidence, not new retry exclusions.
- * next: Need another evidenced byte-copy lowering shape; current inline extraction and word-address shapes did not match.
+ * next: Final retry exhausted. Original base stays r0, stride0x31 stays r2, and independent byte count is materialized in r4; tested spellings hoist a shared count and save/reload the base, adding six bytes. Need another witnessed copy source shape, not another consumed search.
  * symbols:
  *   func_0689D0FC 0x0689D0FC thumb ov095
  */

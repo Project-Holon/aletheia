@@ -7,8 +7,9 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 n/a no callees; 2 ov110 021B98A0 and 021B99D8 confirm four arguments, no full twin; 3 const u16 source pointer compiled unchanged; 4 nested-pointer and running-cursor idioms read; 5 idioms relisted and ov110 callers reread, stack-object check n/a no stack aggregate. Inline read16, split cursor advances and u16 pointer increments stayed 164 B/123 out. 300-budget --types permuter's valid named bit/address/byte temporaries gave 164 B/37 out; one confirmed it. No hand sweep. Next lever: count-address materialisation and inner-loop index allocation.
+ * checks-earlier: 1 n/a no callees; 2 ov110 021B98A0 and 021B99D8 confirm four arguments, no full twin; 3 const u16 source pointer compiled unchanged; 4 nested-pointer and running-cursor idioms read; 5 idioms relisted and ov110 callers reread, stack-object check n/a no stack aggregate. Inline read16, split cursor advances and u16 pointer increments stayed 164 B/123 out. 300-budget --types permuter's valid named bit/address/byte temporaries gave 164 B/37 out; one confirmed it. No hand sweep. Next lever: count-address materialisation and inner-loop index allocation.
  * residual: 164 bytes compiled, 36 concrete bytes differ in marker-count load and inner-loop register allocation; no relocation blockers.
+ * checks: 1 no callees; 2 full own 98A0/99D8 family refreshed, sibling search finds no full parser twin; 3 long bit-address offset and long loaded byte unchanged164/36; 4 masked-local, grouped pointer and long-index idioms read; 5 full idiom directory and own/sibling neighbours refreshed, no stack aggregate. Long source/temporary remains164/36; guarded do/while and signed enum count give164/37. Three nonshrinking iterations then two check3 compiles: five runs. Prior permuter300 not repeated. Best retained; final retry exhausted; count-address materialisation and inner index register still differ.
  * wave76 R28 runs: 7 one calls; no sweep or repeated permuter. Fresh checks:
  *   1 no callees; 2 own 98A0 and 99D8 confirm four inputs; 3 unsigned long
  *   index retains 37, const byte pointer retains enum-index best 36;

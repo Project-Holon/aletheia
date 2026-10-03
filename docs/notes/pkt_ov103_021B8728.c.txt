@@ -7,10 +7,11 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * checks: 1 own full ov1017250/727C/6480 and ov103 callees rederive inputs, 8338 two and 8CA0 three; 2 fresh103856C/8828 and104829C no exact twin; 3 full-word state address spelling unchanged18; 4 enum/association/stack-struct/scope idioms read; 5 unfiltered idioms and1038D9C/8DE4/8FA0 and104829C reread, no new lever.
- * residual: 256/256, 18 concrete bytes, 21/21 resolved; off/state register tie and base-plus-offset association.
- * renewed: bounded u16 off212/256; declared point struct18/256; case-local obj18/256; unsigned long state address unchanged18/256. Three manual nonshrinks and one check compile; one scheduling variant. Historical types permuter300 consumed; not repeated.
+ * status: EXACT
+ * checks: 1 current full own callee definitions copied, 8CA0 u8** and 8CB0 int coordinates; 2 current1038364/856C/8828 and104829C; 3 arithmetic full-word offset forms compared; 4 pointer association/enum/stack-struct idioms; 5 unfiltered idioms and current scoped neighbours reread.
+ * renewed: wave77 own prototypes18/256; all signed grouping211/252; tmp grouping8/256; mixed unsigned-long second4/256; signed-long second4/256; enum cast211/252; signed conversion of unsigned arithmetic EXACT256. Seven one runs, no permuter repeated.
+ * lever: grouped offset sums retain the original off/state colors; signed conversion of an unsigned second offset calculation prevents unwanted common subexpression retention.
+ * permuter: historical types300 consumed; never repeated in wave77.
  * behavior: off/tmp/tmp1 assigned before uses; original supported callback order retained; out point fields read only after8D9C success and both initialized by that body. No new volatile or narrowed pointers.
  * symbols:
  *   func_021B7250 0x021B7250 thumb ov101
@@ -35,49 +36,50 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef enum { OFFSET_AAC = 0xaac } Offset;
-extern int func_021B7250(const int *);
+extern int func_021B7250(int *);
 extern int func_021B727C(int);
 extern void func_021B8358(u8 *);
 extern int func_021B8D9C(u32 *,u32 *);
 extern int func_021B91B4(u8 *,u32 *);
 extern void func_021B8138(u8 *,void *,int,int,short);
 extern void func_020061E4(u32);
-extern void func_021B8338(u8 *,void (*)(u8 *,u16 *));
+extern void func_021B8338(u32,u32);
 extern void func_021B8828(u8 *,u16 *),func_021B8364(u8 *,u16 *),func_021B8A44(u8 *,u16 *);
 extern u8 *func_021B7954(u8 *);
-extern void func_021B8CA0(u8 *,int,int);
-extern void func_021B8CB0(u8 *,int,u32,u32);
+extern void func_021B8CA0(u8 **,int,int);
+extern void func_021B8CB0(u8 *,int,int,int);
 extern void func_021B91A8(void *);
-extern int func_021B6480(const int *);
+extern int func_021B6480(int *);
 extern u32 d_021B926C[];
 void func_021B8728(u8 *p,u16 *state)
 {
-    struct { u32 x,y; } point;
+    struct { int x,y; } point;
     Offset off;
     Offset tmp;
     u8 *tmp1;
     off=OFFSET_AAC;
-    if(func_021B7250(*(int **)(p+off-0x74))==1) {
+    if(func_021B7250(*(int **)(p+(off-0x74)))==1) {
         tmp=(Offset)off;
-        tmp1=*(u8 **)(p+tmp+0x60)+12;
+        tmp1=*(u8 **)(p+(tmp+0x60))+12;
         *(int *)tmp1=1;
         func_021B8358(p);
-    } else if(func_021B727C(*(int *)(p+off-0x74))==0) {
+    } else if(func_021B727C(*(int *)(p+(int)((u32)off-0x74)))==0) {
         switch(*state) {
         case 0: {
-            u8 *obj;
+            void *obj;
             if(func_021B8D9C(d_021B926C,(u32 *)&point)) {
                 if(func_021B91B4(p+off,d_021B926C)) {
                     func_021B8138(p+0x184,p+0x174,3,0,0);
                     func_020061E4(0x654);
-                    func_021B8338(p,func_021B8828);
+                    func_021B8338((u32)p,(u32)func_021B8828);
                 }
                 if(off) {}
                 obj=func_021B7954(p);
                 func_021B8CA0(obj,1,1);
                 func_021B8CB0(obj,1,point.x,point.y);
             } else {
-                func_021B8CA0(func_021B7954(p),1,0);
+                obj=func_021B7954(p);
+                func_021B8CA0(obj,1,0);
                 func_021B91A8(p+off);
                 *state=1;
             }
@@ -85,10 +87,10 @@ void func_021B8728(u8 *p,u16 *state)
         }
         case 1:
             (*(int *)(p+0x738))++;
-            func_021B8338(p,func_021B8364);
+            func_021B8338((u32)p,(u32)func_021B8364);
             break;
         }
     }
     if(func_021B6480(*(int **)(*(u8 **)(p+0xb0c)+4)))
-        func_021B8338(p,func_021B8A44);
+        func_021B8338((u32)p,(u32)func_021B8A44);
 }

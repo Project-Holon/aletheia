@@ -5,30 +5,15 @@
  * region: ov128
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 interfaces preserved; 2 no twin; 3 s16 x/y and u8 heap;
- *   4 row/index and table/window hypotheses; 5 idioms/neighbours refreshed.
- * Best safe spelling: 264 B, 211 concrete bytes differ; all 9 relocations resolve.
- * Witness: scratchpad/overlay-goal-20261001-w57/B7/9628-r4.log.
- * Original spills heap at sp+0x1c; compiler holds it in r7, rematerializes
- * table bases, and produces a frame four bytes smaller. No ARM9 blocker.
- * Check 1: matched 9E10/9E6C/63AC and original 9ED0/9EF4 interfaces read.
- * Retain unread outgoing heap/table arguments. Original 9694 truncates the
- * fourth 63AC argument to u8, justifying this caller's narrower prototype.
- * Check 2: no same-overlay matched twin found.
- * Check 3: s16 x/y produced 272 B/209 DIFF; u8 heap gave 264 B/211.
- * Both width variants exhausted (2/2). q is passed to mutable callees.
- * Check 4: row/index spelling below unchanged; explicit table/window
- * pointers worsened to 264 B/223 (9628-check4.log). Scheduling variants 2/2.
- * Read declaration-order, narrow-flag, window-pointer and stack-struct
- * idioms; live spills do not support an addressable stack object.
- * Check 5: refreshed idiom index and matched 95CC/9E6C/6438 evidence.
- * Runs: 4 iteration + check3a + check3b + check4 + once-300 permuter.
- * Nonshrinking iteration budget exhausted; sweeps 0/3; check4 compiles 1/2.
- * Permuter baseline agrees at 264 B/211. Its 264 B/135 mutant changed void
- * return/signature and inserted dummy control flow; rejected, not adopted.
- * No second permuter is permitted. Fresh interface/struct evidence only.
+ * checks: 1 strict own9ED0/9EF4 definitions omit original outgoing arguments; now parked, no divergent caller compile after rule update; 2 no full twin; 3 long j improves211→19, const q CCERR at mutable calls; 4 inline absolute helper reduces19→12, first-call wrapper unchanged12; 5 unfiltered idiom directory and9E10/9E6C/63AC neighbours refreshed; no addressed stack aggregate.
+ * residual: Historical DIFF264/264,12 concrete bytes,9/9 relocs; remaining instruction mismatch is entry spill/copy scheduling+4..+E. Current blocker is matched callee definition arity.
+ * runs: w77/R19:8 one including1 CCERR; three iteration nonshrinks, two check3 calls, own-interface check1, two check4 helpers. Prior P300 consumed, not repeated.
+ * history: Oldbest264/211; earlier P300 best264/135 changedvoid return and dummy controlflow, rejected. Fresh longheap/longk unchanged211, enumouter268/213; longj restores original0x30 frame and pushr3.
+ * evidence: Own ov1289ED0 has4 arguments, but021C96CA stores heap[sp] before call021C96DA withr0-r3 set. Own9EF4 has4 arguments, but021C96E8 stores table[sp] and021C96EE heap[sp+4] beforecall021C96F8 withr0-r3 set. Own9E10 thirdu16 conflicts with original9632 fullwordreload and9638call. Own63AC fourthu32; original9694 truncates outgoingvalue tobyte, fix owned value rather than extern when unblocked.
+ * scratch: scratchpad/overlay-newpass-20261003-w77/R19
  * symbols:
  *   func_021C9E10 0x021C9E10 thumb ov128
  *   func_021C9E6C 0x021C9E6C thumb ov128
@@ -40,6 +25,17 @@
  *   d_021CA7E0 0x021CA7E0 data a4
  *   d_021CA521 0x021CA521 data a1
  */
+typedef unsigned int u32;
+typedef unsigned short u16;
+typedef unsigned char u8;
+extern void func_021C9E10(u8 *,u8 *,u16);
+extern void func_021C9ED0(u32,int,const u16 *,u32);
+extern void func_021C9EF4(u32,int,u32,u32);
+
+#if 0
+/* Historical pre-rule diagnostic body; incompatible interfaces below are inactive.
+   Preserve measured evidence only. Do not compile this caller until definitions
+   are reconciled and every extern/call is updated to the own matched definition. */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -50,27 +46,29 @@ extern const u8 d_021CA521[];
 extern void func_021C9E10(u8 *,u8 *,u32);
 extern void func_021C9E6C(u8 *,void *);
 extern void func_021C63AC(void *,u32 *,u32,u8,u8,u8,u8,u8,u32,u8);
-extern void func_021C9ED0(void *,void *,const s16 *,u32,u32);
-extern void func_021C9EF4(void *,void *,int,u8,u32,u32);
+extern void func_021C9ED0(u32,int,const u16 *,u32,u32);
+extern void func_021C9EF4(u32,int,u32,u32,u32,u32);
+static inline int absolute(s16 value) { if(value<0) return -value; return value; }
 void func_021C9628(u8 *p,void *unused,u8 *q,u32 heap)
 {
-    int i,j,k,x,y;
+    int i,k,x,y; long j;
     const s16 *row;
     func_021C9E10(p+0xf8,q,heap);
     func_021C9E6C(p,q);
     for(k=0;k<2;k++) {
         row=d_021CA564[k];
-        y=row[1]; if(y<0)y=-y;
-        x=row[0]; if(x<0)x=-x;
+        y=absolute(row[1]);
+        x=absolute(row[0]);
         func_021C63AC(q,(u32 *)(p+0x118+k*8),3,x+2,y+1,26,18,10,0,0);
     }
     for(i=0;i<3;i++) {
-        func_021C9ED0(p+20+i*0x4c,q,d_021CA564[i],d_021CA538[i],heap);
+        func_021C9ED0((u32)(p+20+i*0x4c),(int)q,(const u16 *)d_021CA564[i],d_021CA538[i],heap);
         for(j=0;j<8;j++) {
-            func_021C9EF4(p+20+i*0x4c,q,j,d_021CA521[j],d_021CA7E0[j],heap);
+            func_021C9EF4((u32)(p+20+i*0x4c),(int)q,j,d_021CA521[j],d_021CA7E0[j],heap);
             *(void **)(p+0x20+j*4)=p+0x118;
             *(void **)(p+0x6c+j*4)=p+0x120;
             *(void **)(p+0xb8+j*4)=p+0x120;
         }
     }
 }
+#endif

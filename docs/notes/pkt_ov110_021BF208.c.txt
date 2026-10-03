@@ -7,8 +7,11 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * residual: 304 bytes, all 6 relocations resolved, 4 concrete bytes differ: independent subtracts at 021BF2B2/021BF2B4 schedule in the opposite order.
- * checks: 1 current own BEDD0 returns unsigned from one u8*; own F338/F360 take one pointer and return int, prototype refreshed; 2 current ov110 callers preserve input ABI, no closer twin; 3 fresh u16 keys flat 304/4, all observed keys tests use bits below 16; const p invalid because body writes through it; 4 branch-local delta initializer, unsigned halfword subtraction and typed State field variant all flat 4; 5 current neighbours/idioms reread, no stack object residue. Prior 300 permuter consumed at 304/4, not repeated.
+ * prior-residual: 304 bytes, all 6 relocations resolved, 4 concrete bytes differ: independent subtracts at 021BF2B2/021BF2B4 schedule in the opposite order.
+ * prior-checks: 1 current own BEDD0 returns unsigned from one u8*; own F338/F360 take one pointer and return int, prototype refreshed; 2 current ov110 callers preserve input ABI, no closer twin; 3 fresh u16 keys flat 304/4, all observed keys tests use bits below 16; const p invalid because body writes through it; 4 branch-local delta initializer, unsigned halfword subtraction and typed State field variant all flat 4; 5 current neighbours/idioms reread, no stack object residue. Prior 300 permuter consumed at 304/4, not repeated.
+ * checks: 1 current own BEDD0/F338/F360 definitions agree with retained exact prototypes; 2 current navigation callers and pending F444 no closer twin; 3 full-word unsigned-long keys remains304/4, mutable p precludes const; 4 named 64 mask live into minus65, inline Backward and signed-long decrement all304/4; both scheduling variants consumed, no further sweep; 5 full idiom directory and current ov110/111 neighbours reread, no stack object residue.
+ * runs: wave77 R8 4 one calls; all6 relocations resolve. Previous permuter300 consumed, never repeated.
+ * best: DIFF304/4; independent subtracts at021BF2B2/021BF2B4 still reversed. Existing best body retained.
  * symbols:
  *   func_021BEDD0 0x021BEDD0 thumb ov110
  *   func_021BF338 0x021BF338 thumb ov110

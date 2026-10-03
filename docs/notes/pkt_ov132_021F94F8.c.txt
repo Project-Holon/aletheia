@@ -8,15 +8,15 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks: 1 fresh FA558/FA56C bodies confirm arities 3/2, byte selected; 2 fresh 879C caller, no full twin; 3 const pointer and u16 count unchanged; 4 zero-copy, enum-zero and masked-width idioms; 5 fresh idiom listing and own neighbour rereads.
- * blocker: Wave60 R2: six runs, best DIFF212/212 four bytes (r4/r2 zero copies become immediate movs); enum j/count and wide do-loop worsened. Prior permuter300 not repeated.
+ * checks: 1 own FA558 third argument int copied and own FA56C byte argument; 2 fresh 879C caller, no full twin; 3 unsigned j worsened216/138; 4 enum-zero and second-zero copy idioms, separate enum call zero worsened212/12; 5 fresh directory and FA558/FA56C/879C rereads.
+ * blocker: Wave77 five runs, best DIFF212/212 four bytes: r4/r2 zero copies become immediates. Enum zero-to-byte224/198; enum j224/159; own int callee prototype212/4; unsigned j216/138; enum call-zero212/12. Prior permuter300 not repeated.
  * symbols:
  *   func_021FA558 0x021FA558 thumb ov132
  *   func_021FA56C 0x021FA56C thumb ov132
  */
 typedef unsigned char u8;
 typedef enum { ZERO } Zero;
-extern void func_021FA558(char *, int, Zero);
+extern void func_021FA558(char *, int, int);
 extern void func_021FA56C(char *, u8);
 void func_021F94F8(char *p)
 {

@@ -9,7 +9,7 @@
  * isa:      thumb
  * status:   DIFF
  * residual: 190 versus196 bytes; 125 concrete bytes differ; no relocations.
- * checks: 1 no calls, all eight inputs live; 2 own5DB8 confirms signed coordinate and clipping interface; 3 long k, long coordinates and mutable src all unchanged190/125; 4 fresh do-zero guards unchanged, branch-trampoline/cross-jump idioms read, older positive/goto/helper forms exhausted; 5 fresh full idioms and5DB8 neighbours, stack-object check inapplicable (no passed stack object).
+ * checks: 1 no calls; all eight inputs live; 2 own 5DB8 and current ov111 neighbours confirm signed coordinates/clipping; 3 enum k, enum mode, long w/h and long side all 190/125; no narrower coordinate evidence; 4 guard/cross-jump/zero-counter idioms read, prior structural variants exhausted; 5 fresh full idiom listing/neighbours read, no passed stack aggregate. Prior seed8502 types300 permuter consumed, rejected structural mutants, never repeated.
  * permuter: prior seed8502 types300 consumed; best680 asm/73 byte diff, no structural gain; never repeated.
  * blockers: guard skip trampolines and k/xx register allocation; three nongaining renewed variants.
  *
@@ -21,7 +21,7 @@
 
 typedef unsigned char u8;
 
-void func_021C5CF4(u8 *dst, const u8 *src, long x, long y, int w, int h, int mode, int side)
+void func_021C5CF4(u8 *dst, const u8 *src, long x, long y, int w, int h, int mode, long side)
 {
     int j;
     int i;

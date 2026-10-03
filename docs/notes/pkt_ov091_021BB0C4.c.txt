@@ -7,10 +7,10 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * retry: Wave76 R18 renewed pass four fixed one runs; actual callee prototypes220/21, explicit coordinate widths plus Rect220/6, point pointer220/2, const s220/2. Best220/2 retained.
+ * retry: Wave77 final retry: boolean zero220/2, point-call wrapper220/2, initialized point-return helper228/154; iteration stopped after three nonshrinking changes. Check3 const p220/32; strict own-pointer prototypes check1 restores220/2. Five fixed-flag one runs; original body retained with current strict declarations.
  * residue: 220 bytes, two concrete bytes at +0046/+0048: zero spill uses r0 instead of r1.
  * witness: ARM9 func_0204B09C current EXACT source src/matched/arm9/func_0204B09C.c and shard pkt_0204B09C read before caller compilation; all11 relocations now resolve.
- * checks: 1 own matched 02045780 two,0204B09C three,020410D0 ten,020413B0 six,02045374 one,02041B6C one refreshed; 2 own BB1A0 and D218 matched neighbours refreshed, y is u8 and d is explicitly narrowed into wide410D0; 3 const s220/2 flat; 4 wider Rect scratch220/6 worse, point pointer220/2 flat, enum-zero/struct-local idioms read; 5 full idiom directory and own neighbours refreshed. Prior permuter300 remains spent. Next hypothesis: enum-zero helper with independently typed point storage.
+ * checks: 1 exact own arity/types refreshed: 02045780(void*,u8),0204B09C(void*,int,void*),410D0 ten,413B0 six,45374(void*),41B6C(u32); file-local struct pointer types substituted by void*; 2 BB1A0/D218 and pending BA6A0/BB200 refreshed; 3 const p worsens to220/32, width/truncation evidence retained; 4 inline-bound-argument, enum-zero and declared-stack-object idioms read; 5 fresh plain directory and neighbours refreshed. Prior types300 permuter consumed; final retry exhausted.
  * symbols:
  *   func_02045780 0x02045780 arm
  *   func_0204B09C 0x0204B09C arm
@@ -28,11 +28,11 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef struct { short x,y; } Pt;
 typedef struct { Pt point; short width,height; } Rect;
-extern void func_02045780(u32,u8);
-extern void func_0204B09C(void *,int,Pt *);
+extern void func_02045780(void *,u8);
+extern void func_0204B09C(void *,int,void *);
 extern void func_020410D0(u32,u32,u32,u32,u8,u32,u8,u8,u8,u8);
 extern void func_020413B0(u32,u8,u8,u8,u8,u8);
-extern void func_02045374(u32);
+extern void func_02045374(void *);
 extern void func_02041B6C(u32);
 extern const u8 d_021BEC74[],d_021BEC75[],d_021BEC6C[],d_021BEC6D[];
 #define W(k) (*(u32 *)(s+(k)))
@@ -46,7 +46,7 @@ void func_021BB0C4(u8 *p,const u8 *s,int d)
     enum Zero {ZERO,ONE} zero;
     enum Selector {SEL_ZERO,SEL_ONE} selector;
     if (i % 2 == 0) d=-d;
-    func_02045780(W(0x20),d+(x+16));
+    func_02045780((void *)W(0x20),d+(x+16));
     point=&pt;
     point->x=-(x+d)*8;
     point->y=-y*8;
@@ -58,7 +58,7 @@ void func_021BB0C4(u8 *p,const u8 *s,int d)
     d=(unsigned)x+d;
     func_020410D0(2,(u8)d,y,16,6,(u32)(*(u8 **)(p+0x15c)+12),d_021BEC6C[selector*2],d_021BEC6D[zero*2],32,32);
     func_020413B0(2,d,y,16,6,5);
-    func_02045374(W(0x20));
+    func_02045374((void *)W(0x20));
     func_02041B6C(1);
     func_02041B6C(2);
 }

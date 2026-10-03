@@ -9,8 +9,9 @@
  * isa: thumb
  * status: DIFF
  * followers: unlabelled leaves begin at 021FD208 and 021FD218.
- * checks: retry 1 own allocator/sender/size bodies and SDK copy callers reread; 2 D350/D2B8 twins reread; 3 m int, u32* q plus cast (one initial CCERR) compile DIFF6; 4 q-before-s declaration and reusing q for first size compile DIFF6, allocator-tie/inline idioms read; 5 directory and neighbours refreshed. Permuter skipped: omitted followers at D208/D218. Retry exhausted, original best retained.
- * residual: 188-byte lead, 6 bytes: allocation buffer q and q+4 s use r6/r4 instead of r4/r6. Both allowed order variants exhausted. Permuter omitted because the 224-byte extent includes followers.
+ * checks: renewed 1 own allocator/sender/size definitions and SDK-copy matched callers reread; 2 D350/D2B8 refreshed; 3 const q DIFF6, exact fallback nonconst SDK-copy source DIFF6; 4 inline Copy DIFF6, allocator-tie/inline/enum idioms read; 5 unfiltered idiom directory and neighbours refreshed.
+ * renewed-pass: six compiles; lead188-byte DIFF6,15/15 resolved; q/s allocation-result colours r6/r4 instead of r4/r6; one manual inline scheduling variant used.
+ * permuter: skipped because224-byte extent includes omitted unlabelled D208/D218 followers; no historical search rerun.
  * symbols:
  *   func_020307B0 0x020307B0 arm
  *   func_02030734 0x02030734 arm
@@ -24,34 +25,40 @@
 typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned char u8;
+typedef enum { SIZE_ZERO } Size;
 /* 021FC644 allocates and clears 0x1ac bytes; these fields are the copied block. */
 typedef struct {u16 heap;u8 pad[0x12a];u32 value;void *first,*second;char *buffer;u8 tail[0x70];} Owner;
 extern void func_020307B0(void *);
 extern void *func_02030734(u32,u32,int,const char *,u16);
 extern int func_02008468(void);
 extern u32 func_020173E8(void);
-extern void func_02082D44(const void *,void *,u32);
+extern void func_02082D44(void *,void *,u32);
 extern void *func_020399A8(void);
 extern u32 func_0203D3F8(u32,u32,u32,u32,u32,u32,u32,u32);
 extern const char d_021FDE5C[];
+static inline void Copy(void *src, void *dst, unsigned long size)
+{
+    func_02082D44(src,dst,size);
+}
 u32 func_021FD14C(Owner *p)
 {
-    u32 m,n;
-    char *s;
-    void *q;
+    Size m;
+    u32 n;
+    unsigned long s;
+    char *q;
     u32 h;
     if(p->buffer) func_020307B0(p->buffer);
     m=func_02008468();
     n=func_020173E8();
     q=func_02030734(p->heap,m+4+n,0,d_021FDE5C,0x533);
-    p->buffer=q;
+    p->buffer=(char *)q;
     m=func_02008468();
-    s=(char *)q+4;
-    func_02082D44(&p->value,q,4);
+    s=(unsigned long)(q+4);
+    Copy(&p->value,(void *)q,4);
     n=func_02008468();
-    func_02082D44(p->first,s,n);
+    Copy(p->first,(void *)s,n);
     n=func_020173E8();
-    func_02082D44(p->second,s+m,n);
+    Copy(p->second,(void *)(s+m),n);
     h=(u32)func_020399A8();
     m=func_02008468();
     n=func_020173E8();

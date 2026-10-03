@@ -5,25 +5,19 @@
  * region: ov171
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * residue: best 160/160 bytes, 114 concrete bytes differ; flag spill restored,
- *   missing two offset spill slots and whole-loop register rotation.
- * checks: 1 n/a no callees; 2 ov170/ov171 neighbours have no twin;
- *   3 u8 flag and integer base each compiled unchanged 148/160, 146 bytes out;
- *   4 dead incoming r0 reused as cursor improves to 152/160, 144 bytes out,
- *     enum offsets worsen to 176/160, 169 bytes out;
- *   5 fresh directory/neighbour reread no twin, struct-local idiom read but
- *     n/a no addressable stack object. Next targeted test: named selector
- *     offset off+2 now compiled (wave29); copy does not improve it.
- * budget: 5 cumulative iterations (3 prior + 2 wave29); latest shrink at4,
- *   then unchanged114 at5, so terminal streak1 and first nonshrink remains2.
- *   C1 0,C2 0,C3 2/2,C4 2/2,C5 0 retained; no third order variant.
- * wave29: selector offset off+2 improves144 to114; separate selectorBase
- *   is unchanged114. First types budget300 spent; best109 rejected for
- *   void-to-char-pointer signature and uninitialized q read/return.
- * next: no safe new lever identified; two principled nonshrinks remain,
- *   but C3/C4, order and types passes may not be repeated.
+ * residual: 114/160 concrete bytes differ; flag spill, missing offset spill
+ *   slots and whole-loop register rotation;1/1 data relocation resolves.
+ * renewed-pass: pointer ctx/cursor149/156; u16 bound114; long offsets114;
+ *   three nonshrinks exhausted iteration, best unsigned parameter cursor kept.
+ * checks: 1 n/a no callees; 2 DD10C/DD38C and ov170 neighbours reread,no twin;
+ *   3 enum flag compiled114; 4 inline count accessor114; dead-parameter/enum
+ *   offset idioms read; 5 fresh directory/neighbours, declared-struct idiom
+ *   n/a no addressable aggregate, residue is scalar spills/register rotation.
+ * permuter: prior300 consumed; winner109 rejected uninitialized q/signature
+ *   change, not repeated. Next hypothesis: selected-slot address web type.
  * symbols:
  *   d_021DEC94 0x021DEC94 data a4
  */

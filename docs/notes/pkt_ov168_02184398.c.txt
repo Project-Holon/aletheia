@@ -1,0 +1,56 @@
+/*
+ * function: func_02184398
+ * address: 0x02184398
+ * packet: pkt_ov168_02184398
+ * region: ov168
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 matched CBC heap u32, allocator heap/size u32 and tag u16, getter u32, fill pointer/u32/u32; restored prototypes plus explicit narrowing DIFF75, inline u16 wrappers also75 (two compiles); 2 02183B60/021844C8 callback and payload twins read; 3 const payload unchanged18 before signature correction; 4 enum-width/stack-parameter/register-colouring idioms read; 5 fresh unfiltered idiom directory, 0218441C/021844C8/02183B60 read; no ov167/ov169 matched/pending sources; no declared stack scratch object. Next hypothesis narrow-argument wrapper with distinct heap enum, no further sweep this pass.
+ * retry: renewed wave77: three iterations18/112 (allocator ABI/site correction, unsigned long address, callback pointer), one check3 run18, two check1 runs75; stop at three nonshrinks.
+ * permuter: first and only 300 types search consumed this pass before final prototype correction; emitted baseline agreed fixed-one18/112, no improvement; no winning mutations and no repeat.
+ * residual: valid matched-callee prototypes DIFF75/112, six of six relocations resolved; original repeats heap truncation before each call while compiled CSE reuses it.
+ * evidence: old DIFF18 depended on incorrect u16 heap externs for CBC and allocator; own CBC(u32), sub_02030734(u32,u32,int,const char*,u16), unit_02006D44 getter u32 retained. Caller show +0008/+000a and +0020/+0026 narrows heap twice. Old size enum avoids constant-folding to 104 bytes.
+ * symbols:
+ *   d_02184A20 0x02184A20 data
+ *   func_02006CBC 0x02006CBC thumb
+ *   func_02006D94 0x02006D94 thumb
+ *   func_02034F84 0x02034F84 arm
+ *   func_02030734 0x02030734 arm
+ *   func_02082BCC 0x02082BCC arm
+ */
+
+
+extern const char d_02184A20[];
+extern void func_02006CBC(unsigned int);
+extern unsigned int func_02006D94(void);
+extern void func_02034F84(int);
+extern void *func_02030734(unsigned int, unsigned int, int, const char *, unsigned short);
+extern void func_02082BCC(void *, unsigned int, unsigned int);
+
+typedef enum { SIZE_0 = 0x120 } SizeE;
+static inline void initialize(unsigned short heap) { func_02006CBC(heap); }
+static inline void *allocate(unsigned short heap, unsigned int size, int clear, const char *site, unsigned short tag) { return func_02030734(heap,size,clear,site,tag); }
+
+void func_02184398(int *p, int a, void (*b)(int,char *), const void *c)
+{
+    initialize(a);
+    func_02034F84(8);
+    {
+        unsigned long n;
+        SizeE size = SIZE_0;
+        n = (unsigned long)allocate(a, size, 0, d_02184A20, 0x603);
+        func_02082BCC((int *)n, 0, size);
+        p[7] = n;
+        p[0] = 0;
+        p[1] = (n + 0x1f) & ~0x1f;
+        p[3] = 0x1001;
+        p[4] = 1;
+        p[2] = size - 0x20;
+    }
+    p[5] = (int)b;
+    p[6] = (int)c;
+    p[13] = func_02006D94();
+}

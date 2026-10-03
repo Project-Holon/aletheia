@@ -7,9 +7,9 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * residual: renewed pass: 3 nonshrinking iterations plus 1 check3; best 180/180, 5 concrete bytes, bank result versus zero home store scheduling. Previous 300-type permuter consumed, not repeated; two scheduling variants used.
+ * residual: W77 final retry: four fixed runs; best 180/180, 5 concrete bytes at +0x2C..0x30: bank-result spill versus zero materialization and flag-zero register. Context nested/split spellings unchanged; returned context and enum worsen. Prior permuter300 consumed, not repeated.
  * residue: five bytes at +0x2C..0x30; flag zero uses r0 after bank spill instead of r1 before it
- * checks: 1 own getter unit and ARM9 45770/43B5C/45EC0/F250/45808/C6FC/EF6C/EFA4/F02C definitions reconfirm call payloads and arities. 2 fresh 7EEC/7F78 neighbours have similar bank/window flow, no flag twin. 3 typed Window parameter check3 stays 180/5; pointer bank unchanged, u8 Context flag worsened to 188/139. 4 narrow-flag, declared-struct and stack-zero idioms read; word Context assignment unchanged. 5 fresh unfiltered directory and 7F78 reread; no rescue. Next hypothesis: separate full-word flag context without changing bank lifetime, after cap.
+ * checks: 1 own matched definitions and listing arities re-derived (callee sources in scratch); strict current own-definition rule supersedes historical caller extern exceptions. 2 fresh ov105 7F78 print twin, no flag-context twin. 3 enum context worsened 180/14; other context spellings 180/5, returned context 182/127. 4 declared-struct-local, inline allocation and zero/context idioms read. 5 unfiltered idiom directory and matched 7F78 refreshed; no rescue. Next: resolve own-definition pointer/word declarations before further homing hypotheses.
  * symbols:
  *   func_021B7CA0 0x021B7CA0 thumb ov105
  *   func_021B7CA4 0x021B7CA4 thumb ov105

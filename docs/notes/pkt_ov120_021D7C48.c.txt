@@ -7,6 +7,9 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * blocker: ARM9 02045CAC: Wave77 gated before caller compile. Body exists
+ * in unit_02045C44.c but function header and pkt_02045C44.json nested list
+ * omit func_02045CAC. Owner must supply that entry; no retry or leaves.
  * residue: 132 compiled bytes versus 140 extent; 107 concrete bytes differ.
  * checks: 1 callees shown: 450F0 seven args, byte stack args; 45CAC three, wide ID; 1C7A4 five; 2 ov120 and ov121 twins read, wide 450F0 plus casts unchanged; 3 u16 and s16 ID no improvement; mutable object is written, const inapplicable; 4 slot-member form 111 bytes out, existing named-element idiom covers list twins; 5 refreshed idioms and ov119/120/121 neighbours, inline create_slot 120 bytes out; no stack object; next investigate full object array typing and allocator inline argument binding.
  * symbols:

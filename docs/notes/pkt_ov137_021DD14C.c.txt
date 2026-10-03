@@ -5,11 +5,20 @@
  * region: ov137
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 func_0207E51C reads 3 arguments; 2 ov137_021DE6EC confirms void(void *,int,int), no table twin; 3 signed state fields unchanged, unsigned index with mutable table worsened 56 to 59 (2 compiles, cap consumed); 4 Pair table produces same 56-byte residue, declaration-order and const-table idioms read; 5 idiom directory and ov136/ov137 neighbours reread, no closer twin, no stack object. Retry long index unchanged; once-only 300 types permuter best adds volatile int *v and temporaries, rejected; no next sweep within carried budget.
- * retry: wave28 high; one unchanged iteration; cumulative iterations 4, checks 4; nonshrinking streak 3 from position 2 (three runs); permuter 300 compiles including baseline, exhausted; rejected volatile mutant 88 compiled bytes/34 differing bytes.
- * residual: 88 bytes, 56 concrete bytes differ; index/count registers swap and second table load is CSE'd, shifting branch targets.
+ * checks: 1 matched DE6EC and fresh ARM9 show confirm 7E51C three word arguments;
+ *   2 DD2E0/DE6EC neighbours read, Pair count/frame shares the two adjacent pool bases;
+ *   3 enum i remains DIFF56; const p and reuse of unused as counter remain DIFF56;
+ *   4 enum/index/table-field/reload idioms read; observed State fields and pointer
+ *   object replace raw integer pointer payloads, no byte improvement;
+ *   5 fresh unfiltered idiom directory and DD2E0/DD5AC/DE6EC read; no aggregate
+ *   stack local. Two scheduling variants used; next hypothesis accessor-shaped table.
+ * runs: wave77 renewed 3 iteration + 2 checks; old permuter300 consumed,
+ *   unsafe volatile winner rejected previously, not repeated in this pass.
+ * residual: DIFF56/88; index/counter register colours swap, table base CSE
+ *   omits the second pool load and shifts later branches. No unresolved sites.
  * symbols:
  * func_0207E51C 0x0207E51C arm
  * d_021E1AEE 0x021E1AEE data a1
@@ -18,19 +27,20 @@
 typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct { u8 count,frame; } Pair;
+struct State { u32 enable,index; int counter; u32 spare; u8 *object; };
 extern const Pair d_021E1AEE[];
 extern void func_0207E51C(void *,int,int);
 void func_021DD14C(int unused,u8 *p)
 {
-    int *v=(int *)(p+24);
-    int i;
-    if(v[0]) {
-        i=v[1];
-        if(v[2]>d_021E1AEE[i].count) {
-            v[1]=i+1;
-            v[2]=0;
-            if(d_021E1AEE[v[1]].count==255) v[1]=0;
-            func_0207E51C((u8 *)*(u32 *)((u8 *)v[4]+12)+(d_021E1AEE[v[1]].frame<<5),0,32);
+    struct State *v=(struct State *)(p+24);
+    u32 i;
+    if(v->enable) {
+        i=v->index;
+        if(v->counter>d_021E1AEE[i].count) {
+            v->index=i+1;
+            v->counter=0;
+            if(d_021E1AEE[v->index].count==255) v->index=0;
+            func_0207E51C(*(u8 **)(v->object+12)+(d_021E1AEE[v->index].frame<<5),0,32);
             return;
         }
         *(u32 *)(p+32)+=1;

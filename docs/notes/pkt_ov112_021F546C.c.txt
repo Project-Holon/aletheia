@@ -5,10 +5,12 @@
  * region: ov112
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 n/a no callees; 2 no ov112 twin; 3 enum mode and nonconst Input compiled, neither fixes the index copy; 4 long-index and multiply-order idioms read, no rescue; 5 idioms and neighbours rechecked, no local stack aggregate. Prior const Input, enum/long/unsigned index and integer-base checks also failed.
- * retry: wave64 final retry exhausted; enum mode 154-byte DIFF, reused p 153-byte DIFF, nonconst Input 157-byte DIFF; all 170 bytes.
+ * checks: 1 no callees; 2 same-region neighbours have no twin; 3 unsigned long mode and enum x/y unchanged; 4 long-index/multiply idioms reread; 5 full idiom directory refreshed, no stack aggregate or safe rescue.
+ * retry: wave77 authorized renewed pass: baseline plus unsigned long index, compound index/p step, long Vec fields, unsigned long mode and enum x/y: six fixed one calls, all170B/153. Three consecutive iteration nongains stopped; older wave64 variants preserved in archive.
+ * permuter: archive/legacy check found no consumed earlier search; mandatory once300 --types now consumed. Macro-free emitted baseline170B/153 agreed; best188B/100 added volatile(y), rejected without adoption or recompile. Output preserved in wave77/R10/021F546C_permuter.c.
  * residue: compiled 170 vs original 172; 153 concrete bytes differ after missing index copy shifts remaining layout.
  */
 typedef unsigned short u16;

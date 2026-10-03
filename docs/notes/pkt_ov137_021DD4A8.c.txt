@@ -5,13 +5,21 @@
  * region: ov137
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: retry 1 own 12944 one pointer, 8550 byte return, 490F4 two args, A48C three, B100 three, A6C8 five, AC18 seven and AF28 four reread, caller's fourth AC18 truncation retained; 2 DD5AC/DD2E0 resource neighbours reread; 3 short v DIFF2; 4 integer arc, unsigned-long v and v-last declaration each DIFF2, allocator-tie/address idioms reread; 5 directory/neighbours refreshed. Earlier permuter300 already ran, not repeated. Retry exhausted, original best retained.
- * residue: r4 instead of r5 for index at +0014/+0036; ARM9 data 020A1448
- * remains unresolved at +00B4. All other concrete bytes agree.
- * lever: named table pointer reproduces shared index address and +8 field.
- * runs: retry 4 iteration + 1 check; earlier permuter300 not repeated.
+ * checks: 1 own ARM9 definitions/units reread for all callees, A48C arg2 u32
+ *   and AC18 arg4 u32 corrected, caller's original u16 shift retained as cast;
+ *   2 DD2E0/DD5AC/DC9F4/DD570 resource neighbours read;
+ *   3 new enum v remains DIFF2/200; no more compiles while ARM9 blocker remains;
+ *   4 byte-colour/enum/allocator idioms read; 5 fresh idiom directory/neighbours,
+ *   scalar spills, no aggregate object. Further checks skipped by owner gate.
+ * gate: before compiling, ov136 021C5420 source and EXACT shard showed sole-ref
+ *   data:0x020A1448. The fresh ov137 caller still reports at +00B4:
+ *   020A1448 (data, from header) has no witness outside 021DD4A8..021DD570.
+ *   Stop this caller pending Ilias's ARM9 witness; do not retry it.
+ * runs: wave77 renewed 1 iteration; earlier permuter300 consumed, not repeated.
+ * residual: DIFF2/200 at +0014/+0036 (r4 versus r5), ARM9 data +00B4 unresolved.
  * symbols:
  * func_02012944 0x02012944 thumb
  * func_02008550 0x02008550 thumb
@@ -34,29 +42,30 @@ typedef unsigned int u32;
 extern u8 *func_02012944(void *);
 extern u8 func_02008550(const void *);
 extern void *func_020490F4(u32,u16);
-extern void func_0204A48C(const void *,const void *,u32);
+extern void func_0204A48C(const void *,u32,u32);
 extern void *func_0204B100(int,u8,u32);
 extern int func_0204A6C8(void *,u32,u32,u32,u16);
-extern int func_0204AC18(void *,u32,u32,u16,u16,u16,u16);
+extern int func_0204AC18(void *,u32,u32,u32,u16,u16,u16);
 extern int func_0204AF28(void *,u32,u32,u32);
 extern void func_02049238(void *);
 extern const u32 d_020A1448[],d_021E1B40[],d_021E1B20[],d_021E1B30[],d_021E1B38[];
+typedef enum { VARIANT_ZERO = 0 } Variant;
 void func_021DD4A8(const u8 *p)
 {
-    u8 v;
+    Variant v;
     long i;
     u32 a,b;
     const u32 *table;
     void *arc;
     v=func_02008550(func_02012944(*(void **)(*(u8 **)(*(u8 **)(p+12)+20)+4)));
     arc=func_020490F4(31,114);
-    func_0204A48C(d_020A1448,d_021E1B40,114);
+    func_0204A48C(d_020A1448,(u32)d_021E1B40,114);
     *(void **)(p+104)=func_0204B100(30,1,114);
     table=d_021E1B20+v;
     a=table[0]; b=table[2];
     for(i=0;i<5;i++) {
         *(int *)(p+i*4+128)=func_0204A6C8(arc,a,0,0,114);
-        *(int *)(p+i*4+108)=func_0204AC18(arc,b,0,i*32,0,1,114);
+        *(int *)(p+i*4+108)=func_0204AC18(arc,b,0,(u16)(i*32),0,1,114);
     }
     *(int *)(p+148)=func_0204AF28(arc,d_021E1B30[v],d_021E1B38[v],114);
     func_02049238(arc);

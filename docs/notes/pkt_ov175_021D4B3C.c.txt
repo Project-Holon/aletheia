@@ -24,9 +24,22 @@
  * Residue: 4 concrete bytes, 1664/1664; callback pool words +03DC/+03E0
  * (self and 021D5560) swapped. All 94 relocations resolve.
  * Lever: three-parameter inline copy wrapper fixes +01AC/+01AE argument order.
- * ABI: original passes the object in r0 to matched argument-free A36C
- * and A434. C1A0 and 9EEC leave their forwarding call's r0 live and this
- * caller tests it; their externs retain that result despite void bodies.
+ * renewed wave77: 3 iteration runs plus check1 and check3 remain1664/4,
+ * 94/94 resolved. Corrected7E0C/6550/25BEC types, typed callback payload
+ * and enum flags did not shrink it; top-level const parameters unchanged.
+ * Previous types300 search remains consumed and was not repeated.
+ * definition blocker ov175 C1A0: own return void, caller021D4CB8 bl then
+ * 021D4CBC cmp r0,#0; callee021DC1D6 blx0203D3F8, C1DA/C1DC restore/return
+ * without writing r0. 9EEC own return void, caller4E6E/4E92 bl then
+ * 4E72/4E96 cmp r0,#0; callee9EFC blx02039CB4 then9F00 pop, r0 live.
+ * definition blocker ov175 A36C/A434: own (void), caller4DE0/4FD6/503A/
+ * 510A ldr r0,[r4,#30] before A36C, and50FC ldr r0 before A434 at50FE.
+ * Legacy C below predates the strict own-definition rule and retains the
+ * removed ABI exceptions as historical DIFF4 evidence; it is not a valid
+ * prototype spelling to file. Stop caller compiles until definitions fixed.
+ * Checks1-5 refreshed this wave: own definitions/listings,5908/51BC/6460
+ * twins, real pointer/sign/const variants, callback/pool/declared-object
+ * idioms, then fresh unfiltered directory and matched neighbours. Exhausted.
  * symbols:
  *   func_021D6854 0x021D6854 thumb ov175
  *   func_021D65F0 0x021D65F0 thumb ov175

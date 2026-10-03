@@ -9,7 +9,7 @@
  * isa: thumb
  * status: DIFF
  * blocker: 10 concrete bytes differ at 98/100 (two alignment zero bytes); d outgoing store and address reload schedule at +3A..44.
- * checks: 1 C7E14 own six args/u16 result, D54C0 byte-index truncation preserved; 2 89B78/A308 and 89170 callers read; 3 y/z byte or enum gave 13, Mode d and unsigned-long full address gave 10; 4 score_move inline gave 10; 5 fresh idiom listing and neighbours, no stack object; next sweep none.
+ * checks: 1 exact own u8 count/int index definitions and byte argument local retain98/10; 2 score/count/getter bodies and scoped neighbours re-read; 3 const owner12, mutable owner/deferred inline load10, full-width unsigned-long d10; C7E14 tests full sixth argument for zero, so narrowing d is unsupported; 4 const-record/narrow-spill idioms read; 5 fresh directory/neighbours read; next sweep none.
  * permuter: once-only types budget 300 this pass; macro-free baseline 10 agreed; best 10, no gain.
  * symbols:
  *   func_021D5440  0x021D5440  thumb  ov093
@@ -28,15 +28,16 @@ typedef enum { SPECIES_NONE = 0 } Species;
 typedef enum { MODE_DEFAULT = 0 } Mode;
 
 extern u8 func_021D5440(u8 *);
-extern int func_021D5448(u8 *);
-extern u16 func_021D54C0(u8 *, u8);
+extern u8 func_021D5448(void *);
+extern u16 func_021D54C0(u8 *, int);
 extern u16 func_021C7E14(u8 *, int, int, u32, int, int);
-static inline u16 score_move(u8 *p, int y, int z, u16 move, Mode d)
+typedef struct { u8 pad00[0xb4]; u8 *fb4; } Owner;
+static inline u16 score_move(Owner *a, int y, int z, u16 move, Mode d)
 {
-    return func_021C7E14(p, y, z, move, 1, d);
+    return func_021C7E14(a->fb4, y, z, move, 1, d);
 }
 
-u32 func_0218A390(unsigned long a, u8 *b, u8 *c, Mode d)
+u32 func_0218A390(Owner *a, u8 *b, u8 *c, unsigned long d)
 {
     u32 best;
     u32 v;
@@ -47,7 +48,9 @@ u32 func_0218A390(unsigned long a, u8 *b, u8 *c, Mode d)
     y = func_021D5440(b);
     z = func_021D5440(c);
     for (i = 0; i < func_021D5448(b); i++) {
-        v = score_move(*(u8 **)(a + 0xb4), y, z, func_021D54C0(b, (u8)i), d);
+        u8 moveIndex;
+        moveIndex = i;
+        v = score_move(a, y, z, func_021D54C0(b, moveIndex), d);
         if (v > best)
             best = v;
     }

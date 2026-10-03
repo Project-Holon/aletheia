@@ -7,11 +7,11 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
+ * status: EXACT
  * checks: 1 fresh 9730/9768 show and 25EA4/23F60/B3DC/B9A0/B98C bodies confirm arities; 2 fresh A5B0/A64C/A7E0 no full twin; 3 u8/const-char pointer unchanged; 4 struct-field, chained-assignment and enum-zero idioms; 5 fresh directory/neighbours.
- * Wave60: six runs, best DIFF276/276 six bytes. Typed state and enum field stores unchanged; chained assignment DIFF12. Prior permuter300 not repeated.
- * residue: size 276/276; 6 bytes at +6C..72: constant 1 uses r0 rather than r1 and zero materialization sinks two bytes.
- * next: r1 one and earlier r0 zero remain; two scheduling variants used this retry.
+ * spelling: enum-typed one/zero locals retain separate constant webs; literals and enum-typed stores alone left six differing bytes. Prior permuter300 was not repeated.
+ * prototype-discrepancy: tool EXACT and owned verify accepted before updated strict-definition rule; pending main-session audit, not strict-prototype compliant.
+ * prototype-evidence: arm9_sdk/func_02035C08.c defines void(const void *); original +0020 blx 02035C08, +0024 adds r4,r0,#0, +0034 cmp r4,r0 consumes result. Source/shard preserved per parent instruction.
  * symbols:
  *   table 0x021FDC20 data a1
  *   func_02035C08 0x02035C08 arm
@@ -29,6 +29,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
+typedef enum { FLAG_ZERO, FLAG_ONE } Flag;
 typedef struct {u8 bytes[12];} Key;
 typedef struct {s16 x,y;} Pos;
 extern const Key table;
@@ -41,6 +42,7 @@ void func_021FA6CC(char *p)
     Key key;
     Pos pos;
     int hit;
+    Flag one,zero;
     if(*(int *)(p+12)==1) {
         key=table;
         hit=func_02035C08(&key);
@@ -49,9 +51,11 @@ void func_021FA6CC(char *p)
             if(hit==0) func_021F9730(*(void **)(p+4),7);
             else func_021F9730(*(void **)(p+4),8);
             func_0207D658(0x04001050,16,-8);
-            *(u32 *)(p+0x40+hit*4)=1;
-            *(u32 *)(p+16)=1;
-            *(u32 *)(p+12)=0;
+            one=FLAG_ONE;
+            zero=FLAG_ZERO;
+            *(u32 *)(p+0x40+hit*4)=one;
+            *(u32 *)(p+16)=one;
+            *(u32 *)(p+12)=zero;
             *(int *)(p+20)=hit;
             pos.x=hit==0?32:224;
             pos.y=128;

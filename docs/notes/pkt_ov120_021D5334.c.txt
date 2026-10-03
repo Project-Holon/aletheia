@@ -8,8 +8,22 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 all own/caller arities rederived; 355C4/355D8 u8 and 35CB8 u32 outputs corrected; 2 4D28/57B0 twins reread; 3 unsigned changed unchanged at110; 4 enum offset plus independent post-call raw offsets reduced110 to34; destructive enum update worsened329; two scheduling variants used; 5 idiom directory and 4D28/7814 neighbours refreshed.
- * residual: 1060 versus1060 bytes, 34 concrete bytes differ around touch-switch offset/register lifetime; sole unresolved overlay leaf021D6E70 remains unfiled while caller is DIFF.
+ * checks: 1 current own definitions expose void-return SDK blockers below;
+ * 2 matched 4D28/57B0 twins reread; 3 unsigned-long offset worsens to337,
+ * long changed unchanged at38; 4 field-spelling and enum-offset idioms
+ * reread; 5 plain idiom directory and matched 7AF4 neighbour refreshed.
+ * residual: Wave 77 fresh best DIFF1060/38,85/85 relocations resolved;
+ * touch-switch offset/register lifetime remains. The old 6E70 leaf is exact.
+ * blocker: Ilias SDK matched definitions func_02035C08(const void *) and
+ * func_02035BA4(const void *) both return void in src/matched/arm9_sdk/.
+ * Original caller +0284 BLX35C08 then +0288 adds r6,r0,#0 uses its result
+ * for switch dispatch; +0344 BLX35BA4 then +0348 cmp r0,#0 uses its result.
+ * Return declarations below preserve the decoded draft, pending owner
+ * correction; do not compile more variants or diverge from those definitions.
+ * Wave 77: three fresh principled iterations: own 6A9C/4F98/callback types
+ * DIFF38/1060; unsigned-long offset DIFF337/1068; long changed DIFF38/1060.
+ * Check1 discovered owner prototype blockers and ends caller work; prior
+ * checks2-5 were refreshed by current twins, width trials and idiom listing.
  * data: original 88D8 is +8 into the 88D0 touch object attested by 4D28; first rectangle plus terminator occupy two words.
  * search: 300 permuter compiles once. Macro-free one baseline 333/1068/1 unresolved disagreed with emitted baseline 328/1068/3 unresolved; output adds volatile busy and is rejected. No accepted search mutant.
  * runs: prior5 iterations+2 checks+1 macro-free+permuter300; wave59 retry6 iterations+1 check3+2 check4+1 macro-free AST baseline. Earlier search mutant rejected, no repeated permuter.
@@ -69,7 +83,7 @@ extern int func_021D702C(u8 *,int *);
 extern void func_021D6D10(void *,void *,int);
 extern void func_021D82F8(char *);
 extern void func_021D824C(char *);
-extern void *func_021D4F98(void *,int);
+extern void *func_021D4F98(void **,int);
 extern void func_021D7260(u8 *,void *);
 extern void func_021D7220(u8 *,void *);
 extern void func_021D69F4(u8 *,void *,u32);
@@ -78,7 +92,7 @@ extern int func_021D5230(u8 *);
 extern void func_021D7020(u8 *);
 extern void func_021D70C8(u8 *,int);
 extern void func_021D733C(void *,int,int);
-extern int func_021D6A9C(void *,int);
+extern int func_021D6A9C(u8 *,u32);
 extern void func_021D5318(u8 *);
 extern void func_021D4244(int,int,int);
 extern void func_021D6E70(void *,int *,u32);
@@ -87,9 +101,9 @@ extern void func_021D82A8(void *,void *,int);
 extern void func_021D72A0(void *,void *,int);
 extern void func_021D6D48(u8 *);
 extern void func_021D7D3C(void *);
-extern void func_021D51D4(void);
-extern void func_021D52D4(void);
-extern void func_021D5208(void);
+extern void func_021D51D4(u8 *);
+extern void func_021D52D4(u8 *);
+extern void func_021D5208(u8 *);
 extern u8 func_020355C4(void);
 extern u32 func_020362DC(void);
 extern void func_020355D8(u8);

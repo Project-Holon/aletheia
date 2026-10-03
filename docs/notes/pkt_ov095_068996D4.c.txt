@@ -8,12 +8,12 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 06898DE0 own matched source is int(int,u32), unsigned caller comparison preserved by u32 cast; eleven bx-pc veneers/full caller argument setup reread, all12 relocs resolve; 2 exact 068995B0/06899900 siblings refreshed, no complete twin; 3 long fill index and short n unchanged168/97; 4 one-word aggregate-return and declared-struct stack idioms read; 5 complete fresh idiom listing/neighbours reread and stack-local idiom opened.
- * residual: Wave76 DIFF 168/172, 97 concrete bytes, 12/12 relocations resolved. Valid initialized one-word Result wrapper recovers push r4-r7/lr plus sub sp0xc; returned t still stays r0 instead of r1, causing fill register/branch shifts and four-byte size shortfall.
- * renewed: Long v unchanged162/154; aggregate return improves168/97. Aggregate-by-value fill and integer address fill unchanged168/97, enum counter adds entry guard172/100; stopped after three nonshrinking changes following improvement. Two required type checks unchanged; seven fixed-flag one runs.
+ * checks: 1 own 06898DE0 int(int,u32) refreshed; E0 and820 veneers both target current EXACT legacy ov093 func_021C88C8(void*,void*), original t stays live in r1. Correct E0 second argument improves170/18; addressed-Result plus pointer context types unchanged170/18; 2 068995B0/06899900 and new current 06898B6C/068989CC twins refreshed, latter prove missing message argument; 3 unsigned x unchanged168/97 before arity repair; 4 aggregate-return and returned-pointer-to-r1 idioms read; 5 fresh plain directory/neighbours reread; no new manual storage shape.
+ * residual: Wave77 DIFF170/172, 18 concrete bytes, all12 sites resolved. Current two-argument dispatcher fixes branch/call offsets; fill's base remains r0, transfer to r1 occurs after two stores and loop scratch is r4/r3/r2 rather than r3/r2/r0. Two bytes of trailing alignment are also short.
+ * renewed: Wave77 final retry: initialized Result168/97, enum n168/104, addressed fill168/97; stopped after three nonshrinking changes. Check3 unsigned x168/97, check1 two-argument E0 then same addressed storage with proper pointer payloads both170/18. Six fixed-flag one runs; improved complete C retained below.
  * search: First typed permuter300 completed with emitted baseline168/97 agreeing. Best172/116 added volatile(v,loc), expanded n, changed void return via ret-var(x), and reordered declarations; rejected for added volatile/signature change, not validated or adopted. Search now consumed.
  * prior: Raw struct/array locals folded away; scalar fill helper and unsigned counter alone did not restore the frame. The initialized inline Result wrapper now explains the former eight-byte frame hole without changing any external prototype.
- * next: Need evidence-backed scalar pointer transfer to r1 within the aggregate wrapper; two manual helper/scheduling variants were spent.
+ * next: Final retry exhausted. E0's arity was the former main blocker; two manual storage variants and both check1 compiles are spent. Need a new fill source boundary witness for the remaining18 bytes; consumed types300 search must not repeat.
  * symbols:
  *   func_06898DE0  0x06898DE0  thumb
  *   func_06899780  0x06899780  thumb
@@ -35,20 +35,21 @@ typedef unsigned int u32;
 extern int func_06898DE0(int a, u32 b);
 extern int func_06899780(int a);
 extern int func_06899790(int a);
-extern int func_068997A0(int a, int b);
-extern int func_068997B0(int a, int b);
+extern int func_068997A0(void *a, int b);
+extern int func_068997B0(void *a, int b);
 extern int func_068997C0(int a, int b);
-extern u8 *func_068997D0(int a, int b, int c);
-extern void func_068997E0(int a);
-extern u32 *func_068997F0(int a, int b, int c);
+extern u8 *func_068997D0(void *a, int b, int c);
+extern void func_068997E0(void *a, void *t);
+extern u32 *func_068997F0(void *a, int b, int c);
 extern u32 func_06899800(void);
 extern u32 func_06899810(void);
-extern void func_06899820(int a, u32 *q);
+extern void func_06899820(void *a, void *q);
 
 typedef struct { u8 *p; } Result;
-static inline Result allocate(int p, int k, int v) { Result r; r.p=func_068997D0(p,k,v); return r; }
-static inline void fill(u8 *t, int x, int n)
+static inline Result allocate(void *p, int k, int v) { Result r; r.p=func_068997D0(p,k,v); return r; }
+static inline void fill(Result *result, int x, int n)
 {
+    u8 *t = result->p;
     u32 i;
 
     t[7] = x;
@@ -59,12 +60,11 @@ static inline void fill(u8 *t, int x, int n)
         t[5] |= 0x80;
 }
 
-void func_068996D4(int a, int p, int x)
+void func_068996D4(int a, void *p, int x)
 {
     u8 v;
     int n;
     u8 *t;
-    Result result;
     u32 *q;
     struct {
         int a;
@@ -77,9 +77,10 @@ void func_068996D4(int a, int p, int x)
     if (x == func_06899790(v) && func_068997A0(p, v) == 0) {
         n = 3;
         if (func_068997C0(func_068997B0(p, v), n) != 0) {
-            result=allocate(p,0x1a,v); t=result.p;
-            fill(t, x, n);
-            func_068997E0(p);
+            Result result=allocate(p,0x1a,v);
+            t=result.p;
+            fill(&result, x, n);
+            func_068997E0(p, t);
         } else {
             q = func_068997F0(p, 0xc, 0x1f);
             q[1] = 5;

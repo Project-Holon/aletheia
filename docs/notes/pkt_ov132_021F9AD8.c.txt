@@ -7,9 +7,9 @@
  * flags: -O4,p
  * lang: c99
  * isa: thumb
- * status: DIFF
- * checks: 1 fresh 9774 show two args and matched 3F0A8 returns u32(void), caller-loaded 3D378 pointer exception retained; 2 fresh 9A48/B1CC no full twin; 3 const record/u16 slot unchanged; 4 shared-tail and multiply-high idioms read; 5 fresh directory/neighbours.
- * residual: Wave60 R2 six runs, best DIFF540/54036. Both explicit late labels worsened allocation (536/540370 or384); byte action unchanged. Prior permuter300 not repeated.
+ * status: EXACT
+ * checks: 1 own 3D378/3F0A8 u32(void) and 9774 int(char*,u32) copied; removing 3D378 argument retains EXACT540; 2 fresh 9794/9A48/B1CC; 3 u32 slot worsened prologue to43; 4 final random-choice ternary EXACT540; 5 fresh directory and neighbours.
+ * lever: Wave77 seven runs: copied return ABI36, single seven-label384, int action36, wide slot43, final ternary EXACT, production EXACT, exact own prototype EXACT. Old300 permuter not repeated.
  * symbols:
  *   func_0203D378 0x0203D378 arm
  *   func_0203F0A8 0x0203F0A8 arm
@@ -23,7 +23,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 typedef unsigned long long u64;
 typedef enum { ACTION7 = 7, ACTION8 = 8 } Action;
-extern int func_0203D378(void *);
+extern u32 func_0203D378(void);
 extern u32 func_0203F0A8(void);
 extern int func_021F9774(char *, unsigned);
 static inline u32 random_below(u32 n)
@@ -35,7 +35,7 @@ static inline u32 random_below(u32 n)
 void func_021F9AD8(char *p, int mode, u8 slot)
 {
     u8 i;
-    if (**(void ***)(p + 0x30) && func_0203D378(**(void ***)(p + 0x30)) != 1) return;
+    if (**(void ***)(p + 0x30) && func_0203D378() != 1) return;
     for (i = 0; i < 4; i++) {
         int eligible[2] = {0, 0};
         char *record = *(char **)(*(char **)(p + 0x30) + i * 4 + 4);
@@ -48,8 +48,7 @@ void func_021F9AD8(char *p, int mode, u8 slot)
         if (eligible[0] == 1 && eligible[1] == 0) action = ACTION7;
         else if (eligible[1] == 1 && eligible[0] == 0) action = ACTION8;
         else {
-            if ((u8)random_below(2) == 0) action = ACTION7;
-            else action = ACTION8;
+            action = (u8)random_below(2) == 0 ? ACTION7 : ACTION8;
         }
         switch (mode) {
         case 1:

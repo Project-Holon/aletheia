@@ -8,7 +8,11 @@
  * isa: thumb
  * status: DIFF
  * residual: 200 bytes, 124 concrete bytes differ; coefficient narrowing and channel scheduling/registers.
- * checks: 1 readonly 02061CA4 body reads all four argument registers; 2 related 021DAAA4 note has same blend, no exact ov120/ov121/ov122 twin; 3 int weight and const palette parameters in iteration no improvement, const table targeted compile stays 124; 4 channel-shift and narrow-type idioms read, direct loop variant worsens; 5 repeated idiom listing and neighbours give no twin, no stack object residue. Next: per-channel scalar interpolation helper, without another ordering sweep.
+ * checks: 1 readonly 02061CA4 body reads all four argument registers; 2 related 021DAAA4 note has same blend, no exact ov120/ov121/ov122 twin; 3 int weight and const palette parameters in iteration no improvement, const table targeted compile stays124; 4 channel-shift/narrow-type idioms read, direct loop worsens; 5 refreshed idiom listing/neighbours, no twin or stack object.
+ * wave77: renewed three iterations plus check3 (4 one runs), best200/124.
+ *           Scalar channel helper gives204/151; enum weight and long loop each
+ *           give208/160; const palette stays200/124. Checks1..5 complete, three
+ *           nonshrinking iterations exhausted; previously consumed once300 not rerun.
  * budget: 4 iteration runs, first nonshrinking run 2, three consecutive nonshrinking; check3 1/2; ordering variant 1/2; permuter 300 used once, only volatile-add(last) candidate rejected.
  * symbols:
  *   d_020A1B38 0x020A1B38 data a4

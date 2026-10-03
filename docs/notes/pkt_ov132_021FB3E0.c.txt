@@ -8,11 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 arities rederived from own matched FB1F4/FADA0 and EXACT B2B0/ov112_6D68; n/a argument/register residue because only spill offsets differ; 2 matched B2B0 and ov112/ov132 neighbours plus pending callers refreshed, no closer relative-vector twin; 3 u32 coordinates and const char *p each DIFF23 at328, narrowing rejected by full-word cursor payload; 4 aggregate pinning, nested inline, redundant definitions and right-to-left named sums each unchanged; non-inline setter adds a call and gives DIFF133 at332; 5 unfiltered idiom directory and matched neighbours refreshed, declared-struct stack idiom read, pos at sp+0x28 already correct.
- * residual: same-size 328 bytes, 19/19 resolved, 23 concrete bytes differ solely in x/y/z, wait, ctx and index spill offsets.
- * permuter: wave59 once300 types jobs1; emitted macro-free baseline one confirmed DIFF23 at328; best22 rejected because temp mutation swaps z/wait cursor reads. Spent budget preserved; wave60 did not rerun.
- * runs: wave60 fresh retry7 (3 iteration, 2 check3, 2 check4); iteration stopped after three consecutive nonshrinking changes; two manual definition/temporary variants. Wave59 had9 + permuter300.
- * spills: image x1c,y18,z14,wait10,ctx08,i0c; compiled x10,y0c,z08,wait1c,ctx14,i18. Original inline baseline retained; no fresh spelling improved it.
+ * checks: renewed 1 own cursor/mask/context/position/allocator/task definitions reread, void* used for local structs; 2 B2B0 and ov112_6D68 refreshed no closer twin; 3 enum wait and void* ctx DIFF23, actual SDK const-source declaration DIFF23; 4 declared stack array and enum inline parameters DIFF23, stack/scope idioms read; 5 unfiltered directory and ov132/ov112 neighbours refreshed.
+ * renewed-pass: six compiles, same-size328 DIFF23 with19/19 resolved; x/y/z/wait/context/index spills remain; two manual scheduling variants exhausted.
+ * permuter: earlier once300/types best22 rejected because its mutation swapped z/wait cursor reads; consumed search was not repeated.
  * symbols:
  *   func_0201134C 0x0201134C thumb
  *   func_021FB1F4 0x021FB1F4 thumb ov132
@@ -29,32 +27,30 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
+typedef enum { COORD_ZERO } Coord;
 typedef struct {int x,y,z;} Vec;
 extern u32 func_0201134C(void *);
 extern int func_021FB1F4(char *,int);
-extern char *func_021F9DA0(void *);
-extern char *func_021F9DA4(void *,int);
-extern void func_021F8044(void *,void *,Vec *);
-extern void func_021F8054(void *,void *,const Vec *);
+extern void *func_021F9DA0(char *);
+extern void *func_021F9DA4(char *,u32);
+extern void func_021F8044(void *,u32 *,u32 *);
+extern void func_021F8054(void *,u32 *,const u32 *);
 extern void *func_02030734(u32,u32,int,const char *,u16);
-extern void func_0207CA00(void *,void *,void *);
+extern void func_0207CA00(const void *,const void *,void *);
 extern void *func_021FADA0(char *,u32,u32,u32);
 extern void func_021FB528(int,char *);
 extern const char d_021FDD00[];
-static inline void vset(Vec *v,int x,int y,int z)
+static inline void vset(Vec *v,Coord x,Coord y,Coord z)
 {
     v->x=x;v->y=y;v->z=z;
 }
 int func_021FB3E0(int unused,char *p)
 {
-    long x,y,z;
+    Coord x,y,z;
     int mask;
-    char *owner,*q,*target;
-    Vec pos;
+    char *owner;
     int rate;
-    u32 wait;
-    u8 i;
-    char *ctx;
+    Coord wait;
     owner=*(char **)p;
     mask=func_021FB1F4(p,func_0201134C(*(void **)(p+4)));
     rate=func_0201134C(*(void **)(p+4));
@@ -62,21 +58,26 @@ int func_021FB3E0(int unused,char *p)
     y=func_0201134C(*(void **)(p+4));
     z=func_0201134C(*(void **)(p+4));
     wait=func_0201134C(*(void **)(p+4));
+    {
+    void *ctx;
+    u8 i;
+    char *q,*target;
+    u32 pos[3];
     ctx=func_021F9DA0(*(void **)(owner+52));
     for(i=0;i<4;i++) {
         if(mask&(1<<i)) {
             target=func_021F9DA4(*(void **)(owner+52),i);
             if (rate==0) {
-                func_021F8044(ctx,target,&pos);
-                pos.x+=x;pos.y+=y;pos.z+=z;
-                func_021F8054(ctx,target,&pos);
+                func_021F8044(ctx,(u32 *)target,pos);
+                pos[0]+=x;pos[1]+=y;pos[2]+=z;
+                func_021F8054(ctx,(u32 *)target,pos);
             } else {
                 q=func_02030734(*(u16 *)owner,56,0,d_021FDD00,0x31B);
                 *(char **)(q+48)=owner;
                 *(char **)q=target;
                 *(void **)(q+4)=*(void **)(owner+52);
                 *(u16 *)(q+46)=0;
-                func_021F8044(ctx,target,(Vec *)(q+8));
+                func_021F8044(ctx,(u32 *)target,(u32 *)(q+8));
                 vset((Vec *)(q+20),*(int *)(q+8)+x,*(int *)(q+12)+y,*(int *)(q+16)+z);
                 *(u16 *)(q+44)=rate;
                 *(int *)(q+32)=(int)x/(int)rate;
@@ -85,6 +86,7 @@ int func_021FB3E0(int unused,char *p)
                 *(void **)(q+52)=func_021FADA0(owner,(u32)func_021FB528,(u32)q,10);
             }
         }
+    }
     }
     if(wait==1) {*(u16 *)(p+20)=rate;return 1;}
     return 0;

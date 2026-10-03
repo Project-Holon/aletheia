@@ -1,22 +1,16 @@
 /*
  * function: func_021BC14C
- * address:  0x021BC14C
- * packet:   pkt_ov099_021BC14C
- * region:   ov099
+ * address: 0x021BC14C
+ * packet: pkt_ov099_021BC14C
+ * region: ov099
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   DIFF
- * checks:   1 own matched ARM9 guard returns u32(void), preceding callback is void(two args), separated calls; own overlay callees checked; 2 021BC228 twin read; 3 long state, const pointer binding and pointer-valued call types inert; 4 enum-offset and self-assignment idioms read; 5 refreshed neighbours/idioms, no stack object.
- *
- * Renewed W76: 8 one runs, DIFF 14/120 (original 120). Shared enum K242
- * assigned in each arm and used as o-0x76 in common tail restored byte size,
- * control flow and derived offset. Only p/o are r5/r4 instead of r4/r5.
- * p=p, o=o and long state inert; pointer-call types and real guard arities
- * corrected with identical code. Permuter 300 types consumed: baseline
- * agrees 14/120, best14/120, no winning mutation. Old note replay was128/73.
- *
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 ARM9 guard/getter/callback/link bodies and own overlay arities copied; 2 BC228 and ov100 9BE4 twins read; 3 unsigned-long address and long return parameter retained14; 4 typed mode field14, aggregate state125/136 rejected; enum/global and stack-object idioms read; 5 fresh unfiltered idioms/neighbours reread. Next sweep none.
+ * residual: DIFF14/120, p/offset register swap only, all10 relocations resolved. Four fresh runs. W76 once300 baseline14/best14 consumed, not repeated.
+ * evidence: scratchpad/overlay-newpass-20261003-w77/R3; see c14c-r*.log.
  * symbols:
  *   func_020399A8  0x020399A8  arm
  *   func_0203D1E8  0x0203D1E8  arm
@@ -29,35 +23,40 @@
 
 typedef unsigned short u16;
 typedef enum { K242 = 0x242 } Off;
+typedef struct { char pad0[0x135C]; int mode; } Work;
 
-extern void *func_020399A8(void);
-extern void func_0203D1E8(void *a, void *b);
+struct Entry;
+struct Link;
+struct BAWork;
+struct S;
+extern struct Entry *func_020399A8(void);
+extern void func_0203D1E8(unsigned int a, void *b);
 extern unsigned int func_0203D378(void);
-extern void func_02039C68(void *a, unsigned int b, unsigned int c);
-extern void func_021BA874(void *p, int id);
+extern void func_02039C68(struct Link *a, unsigned int b, unsigned int c);
+extern void func_021BA874(struct BAWork *p, int id);
 extern void func_021BAAB8(char *p, int a, int b);
-extern void func_021BC090(void *p);
+extern void func_021BC090(struct S *p);
 
-int func_021BC14C(char *p, int r)
+int func_021BC14C(unsigned long p, long r)
 {
     Off o;
     int state;
-    func_0203D1E8(func_020399A8(), 0);
+    func_0203D1E8((unsigned int)func_020399A8(), 0);
     if (func_0203D378() == 0) {
-        *(int *)(p + 0x135C) = 3;
+        ((Work *)p)->mode = 3;
         o = K242;
-        func_021BA874(p, *(u16 *)(p + o) - 1);
-        func_021BAAB8(p, 0x5F, 0);
+        func_021BA874((struct BAWork *)p, *(u16 *)((char *)p + o) - 1);
+        func_021BAAB8((char *)p, 0x5F, 0);
         state = 0x42;
     } else {
-    *(int *)(p + 0x135C) = 4;
+    ((Work *)p)->mode = 4;
     o = K242;
-    func_021BA874(p, *(u16 *)(p + o) - 1);
-    func_021BAAB8(p, 0x7E, 0);
-    func_021BC090(p);
-    func_02039C68(func_020399A8(), 0x1B, 0xA);
+    func_021BA874((struct BAWork *)p, *(u16 *)((char *)p + o) - 1);
+    func_021BAAB8((char *)p, 0x7E, 0);
+    func_021BC090((struct S *)p);
+    func_02039C68((struct Link *)func_020399A8(), 0x1B, 0xA);
     state = 0x49;
     }
-    *(int *)(p + (o - 0x76)) = state;
+    *(int *)((char *)p + (o - 0x76)) = state;
     return r;
 }

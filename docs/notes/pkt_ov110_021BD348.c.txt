@@ -8,7 +8,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 full own sub_02061CA4 confirms four inputs and int return;
+ * prior-checks: 1 full own sub_02061CA4 confirms four inputs and int return;
  *   copied prototype compiled same 256/127, both relocations resolve;
  *   2 ov110 9CE4/C060C and ov111 C82C0 share DMA callee, no blend twin;
  *   parked func_021BF664 is ov208, different field extents;
@@ -18,16 +18,19 @@
  *   gives 256/132, enum index offset gives 256/127; two manual scheduling
  *   variants consumed; 5 refreshed idiom directory and ov109/110/111
  *   neighbours; no matching stack aggregate.
- * runs: wave76 R28 8 one calls + first permuter300; no manual sweep.
+ * prior-runs: wave76 R28 8 one calls + first permuter300; no manual sweep.
  *   Macro-free emitted baseline agrees 256/127. Search best 256/89,
  *   mutations decl-order(B<->g), temp(g update), expand(b x2); one agrees.
  *   Every temporary is assigned before use; expansions read saved A/B and
  *   preserve the original per-channel u8 truncations and final u16 store.
- * residual: 256/256, 89 concrete bytes differ; i*2 is now kept in r7,
+ * prior-residual: 256/256, 89 concrete bytes differ; i*2 is now kept in r7,
  *   but i is r6 instead of r3 and channel extraction/update chains differ.
  *   The old i*2 spill/high-result allocation wall shrank; best C below.
  *   Next: the remaining per-channel live webs and their signed/unsigned
  *   widths, without another reorder sweep or repeated permuter search.
+ * checks: 1 current own ARM9 02061CA4 full body confirms four args and int return; 2 refreshed ov110 9CE4/C060C and ov111 C82C0, no blend twin; 3 u16 index with explicit u8 wrap is 256/89; 4 inline high-channel helper is 256/81, returning shifted high is also81; 5 full unfiltered idiom listing and matched/pending neighbours reread; no local stack aggregate.
+ * runs: wave77 R8 6 one calls; iteration long high, short high, long green all256/89, then mandatory checks. Prior permuter300 consumed, not repeated.
+ * best: DIFF256/81; retained u8-returning high helper fixes initial A allocation r5 but red/high/green scheduling and index r6 versus r3 remain.
  * symbols:
  *   tbl_020A1B38 0x020A1B38 data
  *   func_02061CA4 0x02061CA4 arm
@@ -43,6 +46,12 @@ typedef struct
 } Ent;
 extern short tbl_020A1B38[];
 extern int func_02061CA4(void *, unsigned int, unsigned int, int);
+static inline unsigned char MixHigh(int A, int B, short ratio)
+{
+  unsigned char high = (unsigned char)((A & 0x7c00) >> 10);
+  high = (unsigned char)(high + ((ratio * ((unsigned char)((B & 0x7c00) >> 10) - high)) >> 12));
+  return high;
+}
 void func_021BD348(Ent *e)
 {
   unsigned char tmp;
@@ -63,7 +72,7 @@ void func_021BD348(Ent *e)
       int B = e->srcB[i];
       int r = (unsigned char) (A & 0x1f);
       int b = (unsigned char) ((A & 0x7c00) >> 10);
-      b = (unsigned char) (((unsigned char) ((A & 0x7c00) >> 10)) + ((ratio * (((unsigned char) ((B & 0x7c00) >> 10)) - ((unsigned char) ((A & 0x7c00) >> 10)))) >> 12));
+      b = MixHigh(A, B, ratio);
       r = (unsigned char) (r + ((ratio * (((unsigned char) (B & 0x1f)) - r)) >> 12));
       tmp = (unsigned char) (g + ((ratio * (((unsigned char) ((B & 0x3e0u) >> 5)) - g)) >> 12));
       g = tmp;

@@ -8,9 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 D320/D544 own files fix pointer plus 4/2 arguments; veneers preserve full-word inputs; 2 same record helpers, no new caller bound; 3 six index bytes follow the observed six-iteration producer, unchecked reads use raw unsigned addresses; 4 declared-struct and byte-record idioms read; 5 fresh directory and helpers re-read.
+ * checks: 1 D320/D544 own exact T* definitions fix pointer plus4/2 arguments; four veneers have no own C definitions and full-word input setup refreshed; 2 D4F0/D544/current pending callers refreshed, no new bound; 3 unsigned long draw indices preserve all bits of raw unsigned offsets and are unchanged204/145; 4 byte-record, aligned-out-header and declared-stack-object idioms read; 5 fresh plain directory and neighbours reread, scratch storage diagnostics completed.
  * residual: DIFF 204/208, 145 concrete bytes, all 6 relocations resolve. Historical 206/28 used an unproven idx[3] bound; fresh six-byte diagnostic gives 206/32, scoped pointers worsen. Raw unchecked record reads preserve modular offsets, including original i==6 byte +20 store.
- * budget: 3 iteration calls plus 1 check-3 compile; existing types300 permuter consumed, not repeated. Original reads idx[0] with no n==0 guard; no invented guard retained. Next hypothesis: scratch object storage and copy shape.
+ * budget: Wave77 final retry: word-aligned Temp union204/145, named index pointer210/189, enum count204/145; stopped after three nonshrinking changes. Check3 unsigned long indices204/145. Four fixed-flag one runs; prior types300 search remains consumed. No invented guard or narrowed index retained; final retry exhausted.
  * symbols:
  *   func_0689D408 0x0689D408 thumb ov095
  *   func_0689D418 0x0689D418 thumb ov095

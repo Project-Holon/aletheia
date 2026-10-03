@@ -7,8 +7,10 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * blocked: six register-colouring bytes; func_021F80C8 unlabelled and unfiled because caller remains DIFF.
- * checks: 1 showed callees and re-derived externs from B1F4/B208/B258; 80C8 forwards r2, 9DA4 reads two args; 2 shared-loop siblings but no narrowing twin; 3 two prior probes (int cast and restored declaration order) both 9-byte DIFF, u8 narrowed local best 6; 4 read masked-local, cast-result, dying-local and declaration idioms, more width probes exceed C3 budget; 5 wave 27 refreshed idioms and ov132/ov112 neighbours, no closer twin; no stack object; assigning narrowed value back to value gives DIFF 9, inline narrow helper leaves DIFF 6, first 300/types pass best DIFF 6 with unresolved 80C8. No mutant accepted; next requires new register-web evidence, not another types pass.
+ * checks: renewed 1 cursor/mask/context own definitions and 80C8 listing reread; 2 B208/B258 and fresh matched ov112_80B0 unit read; 3 signed-char narrow DIFF53 at92, restored u8 and const input DIFF6; 4 inline Apply DIFF6, byte-colour/inline idioms read; 5 unfiltered idiom directory and neighbours refreshed, new 80C8 unit witness found.
+ * renewed-pass: six compiles; best84-byte DIFF6, mask/value r6-r7 colouring unchanged; previous permuter300/types consumed and not repeated.
+ * prototype-blocker: ov112 021F80C8 now defined inside ov112_func_021F80B0.c as void(int,local Obj *,unsigned int); old best below declared void(char *,char *,int). Actual first argument comes from pointer-returning 9DA0; exact declaration/local mismatch needs a new audited candidate, no remaining iteration reset.
+ * historical-best: C below is the earlier verified DIFF6 spelling, not strict-prototype compliant; sole-ref blocker is superseded by current matched unit.
  * symbols:
  *   func_0201134C 0x0201134C thumb
  *   func_021FB1F4 0x021FB1F4 thumb ov132
@@ -17,27 +19,33 @@
  *   func_021F80C8 0x021F80C8 thumb ov112
  */
 typedef unsigned char u8;
-extern int func_0201134C(void *);
+typedef enum { VALUE_ZERO } Value;
+typedef enum { MASK_EMPTY } Mask;
+extern unsigned int func_0201134C(void *);
 extern int func_021FB1F4(char *, int);
-extern char *func_021F9DA0(void *);
-extern char *func_021F9DA4(void *, int);
+extern void *func_021F9DA0(char *);
+extern void *func_021F9DA4(char *, unsigned int);
 extern void func_021F80C8(char *, char *, int);
-int func_021FB5EC(int unused, char *p)
+static inline void Apply(char *ctx, char *owner, unsigned int i, u8 value)
+{
+    func_021F80C8(ctx,func_021F9DA4(*(void **)(owner+0x34),i),value);
+}
+int func_021FB5EC(int unused, const char *p)
 {
     char *obj;
-    int mask;
-    int value;
+    Mask mask;
+    unsigned long value;
     u8 narrowed;
     char *ctx;
     u8 i;
     obj = *(char **)p;
-    mask = func_021FB1F4(p, func_0201134C(*(void **)(p + 4)));
+    mask = func_021FB1F4((char *)p, func_0201134C(*(void **)(p + 4)));
     value = func_0201134C(*(void **)(p + 4));
     ctx = func_021F9DA0(*(void **)(obj + 0x34));
     narrowed = (u8)value;
     for (i = 0; i < 4; i++) {
         if ((1 << i) & mask) {
-            func_021F80C8(ctx, func_021F9DA4(*(void **)(obj + 0x34), i), narrowed);
+            Apply(ctx,obj,i,narrowed);
         }
     }
     return 0;

@@ -8,10 +8,12 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 matched callees and full B878/DA158/9320/9564 bodies confirm arities; 2 matched 93D4 and pending 8FA0 confirm Record fields; 3 const Record baseline compiled 464/468; separate unsigned-address semantic repair now 460/468, 420 differing bytes, all 19 relocs resolved; 4 const-array-index and separated-guard idioms read; 5 idiom directory and ov129 neighbours reread, no fresh correction; next sweep none (main/reorder caps reached).
- * budget: 6 iteration compiles including 1 CCERR; 3 consecutive nonshrinking changes; 2 manual reorder variants used; checks 1/2/4/5 read-only, check 3 used 1 of 2 compiles; 1 emitted-baseline compile; once-300 permuter exhausted, no sweeps; 1 separate semantic-repair validation; do not reset across retries.
+ * checks: 1 own DA158 int/B878 pointer/u16,93D4 const-pointer,9320/9564 byte-pointer interfaces corrected and validated unchanged460/420; 2 matched93D4 and8FA0 confirm fields, no complete twin; 3 long flag/long next unchanged; 4 inline state-store helper unchanged, third draft initially unused corrected withincheck4; 5 unfiltered idiom directory and93D4/9348/9760/97CC neighbours refreshed; no addressed stack object.
+ * residual: DIFF460/468 (-8),420 concrete bytes,19/19 relocs; first guard foldsbeq+b intobne and runtime record index keeps elementpointer instead of original scaled offset.
+ * runs: w77/R19:8 one; three nonshrinking iteration drafts (long i/enumvalue/unused helper), two check3, corrected called helper check4, two strict-definition check1 calls including pointer handle field correction. Prior P300 consumed, not repeated.
+ * history: Prior bounded-array repair460/420 retained. Old P300468/287 rejected because tmpassignment beforecase was bypassed and tmp2.state changedlocalcopy instead ofp[i].state.
  * bounds: B8 original 85C0 allocates 0x34C but can copy 36 incoming bytes to +330 without guards (021D8624..8634), so counts and index +188 are not bounded by 12. Runtime record loads/stores use unsigned 32-bit address arithmetic, and unsigned i preserves i+1 wrapping; guarded index<=11 path retained.
- * residual: -8 bytes; first guard folds beq+b into bne, and record-index scheduling keeps an element pointer instead of the original scaled offset. Pre-repair emitted baseline agreed with fixed one. Permuter best 468/468, 287 differing bytes rejected: tmp assigned before case label is bypassed; tmp2.state changes a local copy instead of the required p[i].state store.
+ * scratch: scratchpad/overlay-newpass-20261003-w77/R19
  * symbols:
  *   func_020061E4 0x020061E4 thumb
  *   func_021D93D4 0x021D93D4 thumb ov129
@@ -27,20 +29,22 @@
  *   _u32_div_f 0x0209C2B0 arm
  */
 typedef unsigned short u16;
-typedef struct { int state,value,flag,handle; char rest[12]; } Record;
+typedef struct { int state,value,flag; void *handle; char rest[12]; } Record;
 extern void func_020061E4(unsigned);
-extern void func_021D93D4(char *);
-extern int func_021D9320(char *);
+extern void func_021D93D4(const void *);
+extern int func_021D9320(unsigned char *);
 extern void func_021D9348(char *);
 extern void func_021D8AF4(char *,int);
-extern unsigned func_021DA158(int,int);
-extern void func_0204B878(int,u16);
+extern int func_021DA158(int,int);
+extern void func_0204B878(void *,u16);
 extern void func_021D9E48(char *,int,int);
 extern void func_021D9E98(char *,int);
 extern void func_021D9EE8(char *,int,int);
-extern void func_021D9564(char *,int);
+extern void func_021D9564(unsigned char *,int);
 void func_021D958C(unsigned index,int flag,const Record *p)
 {
+    unsigned char *object=(unsigned char *)p;
+    char *basep=(char *)p;
     char *q;
     unsigned i;
     int value,next;
@@ -62,16 +66,16 @@ void func_021D958C(unsigned index,int flag,const Record *p)
     } else if(index==22) {
         *(u16 *)((char *)p+0x1b8)=0; *(u16 *)((char *)p+0x1ba)=2;
         func_020061E4(1363);
-        func_021D93D4((char *)p);
+        func_021D93D4(basep);
         return;
     } else if(index==23) {
         *(u16 *)((char *)p+0x1b8)=3; *(u16 *)((char *)p+0x1ba)=2;
-        if(func_021D9320((char *)p)!=0) {
-            func_021D9348((char *)p);
+        if(func_021D9320(object)!=0) {
+            func_021D9348(basep);
             func_020061E4(1357);
             return;
         } else {
-            func_021D8AF4((char *)p,4);
+            func_021D8AF4(basep,4);
             return;
         }
     } else if(index>=12 && index<=21) {
@@ -80,12 +84,12 @@ void func_021D958C(unsigned index,int flag,const Record *p)
         i=*(int *)((char *)p+0x188);
         ((Record *)((unsigned)p+i*28))->state=index-11;
         func_0204B878(((const Record *)((unsigned)p+i*28))->handle,func_021DA158(index-11,((const Record *)((unsigned)p+i*28))->flag));
-        func_021D9E48((char *)p,1,1);
-        func_021D9E98((char *)p,index-12);
-        func_021D9E48((char *)p,1,0);
-        func_021D9E48((char *)p,2,1);
-        func_021D9EE8((char *)p,index-12,2);
-        func_0204B878(*(int *)((char *)p+0x1cc),3);
+        func_021D9E48(basep,1,1);
+        func_021D9E98(basep,index-12);
+        func_021D9E48(basep,1,0);
+        func_021D9E48(basep,2,1);
+        func_021D9EE8(basep,index-12,2);
+        func_0204B878(*(void **)((char *)p+0x1cc),3);
         value=((const Record *)((unsigned)p+i*28))->value;
         if(i+1==*(int *)((char *)p+0x23c)) {
             *(int *)((char *)p+0x31c)=1;
@@ -102,7 +106,7 @@ void func_021D958C(unsigned index,int flag,const Record *p)
                 *(int *)((char *)p+0x320)=i+1;
             }
         }
-        func_021D9564((char *)p,index);
+        func_021D9564(object,index);
         return;
     } else {
         *(u16 *)((char *)p+0x1b8)=(index-12)%5;

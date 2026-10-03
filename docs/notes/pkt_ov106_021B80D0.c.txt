@@ -7,8 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 full 87B0 proves 12 inputs; current own 40618/42360 files both take three, matching original calls; ARM9 resource loaders and 1BC3C return checked. 2 no ov106 emitter twin; fresh 8AD0/8648 match descriptors. 3 s16 maximum check3 gives 560/200; signed full-word f iteration unchanged 564/20. 4 clamp/enum-zero and pointer-spill idioms reread; zero shared with field stores gives correct clamp direction but shifts earlier constant allocation (int 560/200, enum 564/192). 5 unfiltered idiom directory and 8AD0/8648 reread; no rescue. Next hypothesis: isolate clamp helper with full-word input preservation, after cap.
- * residual: renewed pass: 3 nonshrinking iterations plus 1 check3; retained best 564/564, 20 concrete bytes, prologue spill interleave and clamp polarity/destination. Previous 300-type permuter consumed and not repeated; its narrowed-b 564/14 still rejected because original forwards b full-width to 450F0.
+ * checks: 1 own 87B0 twelve inputs and loader/descriptor definitions re-derived; strict current own-definition rule supersedes previous widening and const extern experiments. 2 fresh 8AD0/8648 no emitter twin. 3 const e and const 8AD0 extern unchanged 564/15; nominal f and long spellings worsen or remain. 4 inline allocation, data-pair clamp and front-end spill idioms reread. 5 unfiltered idiom directory and matched 8AD0/8648 refreshed; no rescue. Next: reconcile exact own prototypes, then full-width homing.
+ * residual: W77 final retry: six fixed runs; isolated signed-halfword clamp v<=0 improved DIFF20 to 15 at 564/564 (v<0 gives16). Remaining +0x0A..0x18 prologue parameter/spill ordering; all24 relocations resolved. Three nonshrinking changes stopped iteration. Prior permuter300 consumed, not repeated; old narrowed-b DIFF14 rejected because original forwards full word to450F0.
  * symbols:
  *   fill 0x02082BCC arm
  *   func_021B8D8C 0x021B8D8C thumb ov106
@@ -45,6 +45,7 @@ extern void func_02040618(u32,u32,int);
 extern void func_021B8524(u8 *),func_021B8648(u8 *);
 extern u32 func_020056A0(u32,u32,u32);
 extern void func_021B8690(void);
+static inline s16 clamp(s16 v) { if (v <= 0) return 0; return v; }
 void func_021B80D0(u8 *p,u32 a,u32 b,u32 c,u8 d,u8 *e,int f,u32 g,const u8 *h,u16 heap) {
     u32 arc,i;
     fill(p,0,0x59c);
@@ -71,7 +72,7 @@ void func_021B80D0(u8 *p,u32 a,u32 b,u32 c,u8 d,u8 *e,int f,u32 g,const u8 *h,u1
     func_02040618(p[0x54b],3,*(s16 *)(p+0x566));
     *(s16 *)(p+0x556)=0;*(s16 *)(p+0x558)=0;
     *(s16 *)(p+0x55a)=*(u16 *)(p+0x554)*24-288;
-    *(s16 *)(p+0x55a)=*(s16 *)(p+0x55a)>0?*(s16 *)(p+0x55a):0;
+    *(s16 *)(p+0x55a)=clamp(*(s16 *)(p+0x55a));
     func_021B8524(p);func_021B8648(p);
     *(u32 *)(p+0x58c)=func_020056A0((u32)func_021B8690,(u32)p,0);
 }

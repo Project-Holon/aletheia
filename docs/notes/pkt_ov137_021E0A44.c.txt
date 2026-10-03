@@ -8,28 +8,28 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 no calls, arity not applicable; 2 DEE4C table twin confirms unsigned byte address; 3 const parameter flat then unsigned table address shrank 182 to33 (2 runs); 4 stack-scope and initializer idioms reviewed, no new lever; 5 fresh full idiom list and DEE4C/E0BC0 neighbours reread, declared-stack-struct idiom inapplicable to integer arrays; next hypothesis long/int loop widths.
+ * checks: 1 no calls; 2 own DEE4C/E0BC0 table twins read; 3 mutable typed Obj parameter unchanged33; 4 stack aggregate/initializer/register-colouring idioms read; 5 fresh unfiltered idiom directory, E0570 and ov136 C5E30 read, no ov138 matched/pending sources; declared-stack-struct idiom read and grouped scratch arrays already measured. Next hypothesis separate array-base pointer locals, no further sweep this pass.
+ * retry: renewed wave77: three iteration runs (grouped stack arrays196/200, typed input33/208, integer table base182/208), one check3 run33; stop at three nonshrinks.
+ * permuter: earlier 300 search consumed; emitted baseline33/208 had unresolved1 against fixed-one resolved1/1; best9 added volatile and was rejected; not repeated.
  * residual: 33 concrete bytes at 208/208, table setup and count/key register colouring.
- * permuter: mandatory 300 once; baseline33/208 but unresolved1 versus fixed-one resolved1/1, emitted attestation disagreed; best9 used volatile-add(base), rejected.
- * bounds: the two five-word scratch arrays fill sp4..sp2b; table row stride is ten bytes.
- * retry: exhausted; 4 iteration + 2 checks. Long i/key each DIFF33; named row DIFF182; enum count DIFF182; sort-block key/value DIFF59. Original best retained, prior permuter300 not repeated.
- * retry-checks: 1 no calls; 2 DEE4C/E0BC0 own matched neighbours reread; 3 enum count compiled; 4 block-colouring/initializer idioms read and local sort scope compiled; 5 directory refreshed, arrays fit observed five-word stack slots, no declared struct local.
+ * bounds: two five-word scratch arrays are observed in sp4..sp2b; no table bound asserted.
  * symbols:
  *   d_021E1FDC 0x021E1FDC data a2
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 extern const u16 d_021E1FDC[];
-void *func_021E0A44(const u8 *p)
+typedef struct {u8 pad[0x2c]; int index,count;} Obj;
+void *func_021E0A44(Obj *p)
 {
     int distance[5],indices[5];
     long count;
     int angle,i,j,key,value,delta;
     const u8 *base;
     const u16 *table=d_021E1FDC;
-    count=*(int *)(p+0x30);
-    base=p+0x1a0;
-    angle=*(const u16 *)((unsigned)table+count*10+*(int *)(p+0x2c)*2)<<12;
+    count=p->count;
+    base=(const u8 *)p+0x1a0;
+    angle=*(const u16 *)((unsigned)table+count*10+p->index*2)<<12;
     i=0;
     do {indices[i]=i;distance[i]=65535;i++;} while(i<count);
     for(i=0;i<count;i++) {

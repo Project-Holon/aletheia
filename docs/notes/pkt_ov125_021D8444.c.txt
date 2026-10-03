@@ -7,13 +7,11 @@
  * flags: -O4,p
  * isa: arm
  * status: DIFF
- * blocker: 324 bytes, 18 concrete bytes differ: the 301-byte copy swaps
- * destination r5/source r3 for destination r3/source r5 (+0054..+0088).
- * All 10 relocation sites resolve. No fabricated initialization or volatile.
- * checks: 1 own bodies confirm 02167FA8 takes 2, 02168040 takes 0, 02059E38 takes 2, lock/unlock take 0 and wait takes 1; 2 no twin, 021D7770 proves 312-byte Record; 3 unsigned status unchanged (emitted check3); 4 aggregate/cast-buffer/allocator idioms read, inline copy unchanged; 5 new directory and matched neighbours reread, byte-buffer local unchanged; next sweep: none, stop after three nonshrinking iterations and once-300 permuter.
- * budget: 5 iterations; first nonshrinking run3, count3 through run5;
- * one check3 compile also validated macro-free emitted baseline; once-300
- * permuter completed without improvement (324 bytes/18 out); no sweeps.
+ * blocker: compiled/original 324 B, 18 concrete bytes differ; all10 sites resolve.
+ * The 301-byte aggregate copy uses destination r3/source r5 instead of
+ * destination r5/source r3 at +0054..+0088.
+ * checks: 1 fresh02167FA8 listing2,02168040 listing0,SDK59E38 callers2,locks0/wait1; 2 matched7770 proves312-byte Record, no twin; 3 enum status compiled unchanged18; 4 aligned union storage compiled unchanged18, aggregate-copy/declared-local idioms read; 5 unfiltered directory and current7770/80E0 neighbours reread; next sweep none, three flat iterations ended.
+ * history: once300 consumed previously at324/18; never repeated.
  * symbols:
  *   d_021D9E40 0x021D9E40 data a4
  *   d_021D8D30 0x021D8D30 data a1

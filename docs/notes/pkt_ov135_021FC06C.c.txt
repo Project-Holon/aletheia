@@ -8,11 +8,12 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: retry 1 own 2208C seven args and empty 0ADB4/185F0/084F4 bodies reread, caller-observed arguments/live r0 retained; own overlay bodies and 886C matched callers agree; 2 FCC40 twin reread; 3 const p CCERR (discarded qualifiers), long index DIFF4; 4 sixth argument enum and unsigned long plus fixed fade inline all DIFF4, enum-web/subword idioms reread; 5 directory and neighbours refreshed. Earlier permuter300 already ran, not repeated. Retry exhausted, original best retained.
- * permuter: budget 300 with types, once; emitted baseline DIFF 4 bytes 264/264 agrees with one; best unchanged, exit 1.
- * residue: four concrete bytes at +DC,+DE,+F8; original rematerializes 1 in r0, compiler retains it in r4 across final call.
- * runs: retry 4 iteration + 2 checks (one CCERR); earlier first pass 4 iteration + 3 checks + permuter.
- * prototype: 020185F0 retains the mon argument r0 loaded by this caller; own ARM9 unit is bx lr, so the returned full-word payload remains mon.
+ * residual: renewed wave77 pass exhausted; DIFF4/264, offsets +DC,+DE,+F8 retain1 inr4 instead of rematerializingr0.
+ * checks: 1 own2208C pointer-first seven args, overlay definitions and empty ARM9 bodies reread; exact pointer/char/unused-word prototypes DIFF4, caller-observed empty-stub arguments/live r0 retained; 2 FCC40/FCBF0 twins reread; 3 unsigned-long and enum index both DIFF4, const p excluded by actual stores and prior qualifier CCERR; 4 named done-step and inline Finish each DIFF4, two scheduling variants consumed; 5 fresh unfiltered idiom listing and ov135/136 neighbours reread.
+ * runs: wave77 3 iteration + 5 checks.
+ * permuter: prior budget300/types consumed, emitted baseline4/264 agreed and best unchanged; not repeated.
+ * prototype: 020185F0/0200ADB4/020084F4 bx-lr bodies preserve the full-word argument/result observed in this caller.
+ *
  * symbols:
  *   func_0200ADB4 0x0200ADB4 thumb
  *   func_020185F0 0x020185F0 thumb
@@ -37,35 +38,35 @@ typedef unsigned int u32;
 extern void *func_0200ADB4(void *);
 extern void *func_020185F0(void *);
 extern void *func_020084F4(void *);
-extern void func_0202208C(u32,u32,u32,u32,u32,u32,u32);
-extern void func_021FC528(void *);
+extern void func_0202208C(void *,u32,u32,u32,u32,u32,u32);
+extern void func_021FC528(char *);
 extern void func_021FC1C0(void);
-extern void func_021FFFE8(void *,u32,u32);
+extern void func_021FFFE8(u8 *,u32,u32);
 extern void func_021FC2C0(void *);
 extern void func_021FC3E0(void *);
-extern void func_021FC360(void *);
-extern void func_021FC8CC(void *,void *,void *,void *,void *,void *,void *);
+extern void func_021FC360(char *);
+extern void func_021FC8CC(void *,void *,void *,void **,void *,void *,void *);
 extern void func_021FCA8C(void *,void *,void *,void *,void *,void *);
 extern int func_021F886C(int,int,int);
-extern void func_021F8290(void *,void *,void *,void *,u32,int,int,void *);
+extern void func_021F8290(void *,void *,int,u8 *,u32,int,int,void *);
 extern void func_021FCB54(void *);
 int func_021FC06C(u8 *p)
 {
     void *mon;
     int index;
     mon=func_0200ADB4(*(void **)(*(u8 **)p));
-    func_021FC528(p);
+    func_021FC528((char *)p);
     func_021FC1C0();
     func_021FFFE8(p,0,0);
     func_021FC2C0(p);
     func_021FC3E0(p);
-    func_021FC360(p);
-    func_021FC8CC(*(void **)(p+0xB6C),*(void **)(p+0xB70),*(void **)(p+0xB68),p+0xD90,func_020185F0(mon),p+0x1D0,p+0xFA0);
+    func_021FC360((char *)p);
+    func_021FC8CC(*(void **)(p+0xB6C),*(void **)(p+0xB70),*(void **)(p+0xB68),(void **)(p+0xD90),func_020185F0(mon),p+0x1D0,p+0xFA0);
     func_021FCA8C(*(void **)(p+0xB6C),p+0xDAC,func_020084F4(*(void **)(*(u8 **)p+0x1C)),mon,p+0xDC0,p+0xFA0);
     index=func_021F886C(*(s8 *)(p+0x1D7),*(s8 *)(p+0x1D8),0);
-    func_021F8290(*(void **)(p+0xB6C),*(void **)(p+0xB70),*(void **)(p+0xB68),p+0xDB4,*(s16 *)(p+0x1D4),*(s8 *)(p+0x1D6),index,p+0xFA0);
+    func_021F8290(*(void **)(p+0xB6C),*(void **)(p+0xB70),*(int *)(p+0xB68),p+0xDB4,*(s16 *)(p+0x1D4),*(s8 *)(p+0x1D6),index,p+0xFA0);
     func_021FCB54(mon);
-    func_0202208C(3,1,1,0,6,1,0x48);
+    func_0202208C((void *)3,1,1,0,6,1,0x48);
     *(u32 *)(p+0x28)=0;
     *(u32 *)(p+0x12E4)=0;
     return 1;

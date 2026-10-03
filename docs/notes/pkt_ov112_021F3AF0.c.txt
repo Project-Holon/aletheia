@@ -7,11 +7,11 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * residual: 260 versus256 bytes; 160 concrete bytes differ; all ten relocations resolve.
- * checks: 1 own callees reread,67E0 six args,6F24(u32,u32) corrected;75DC show proves two inputs,6FB0 byte ABI exception retained; 2 root36C0 heap and3F00 Context shape, no matching initializer; 3 typed records252/196,named offset260/160,const Input260/163, corrected6F24 baseline260/160; 4 bitfield/stride/cast-row idioms read, two extraction variants; 5 fresh full idioms and own/sibling neighbours reread, stack-object check inapplicable.
+ * residual: last verified legacy-declaration spelling 260 versus256 bytes,160 concrete bytes differ,ten relocations resolve. Strict own-definition candidate below is uncompiled; parked on definition conflict.
+ * checks: 1 exact own allocator/67E0/6F24/6FB0/7098 prototypes reread; 6FB0 pointer-parameter definition conflicts with caller scalar extraction, parked strict-prototype diagnostic without further compile; 2 root36C0/3F00 and current ov112 neighbours confirm layouts; 3 raw row address 260/160, named u32 stride 252/194, sizeof stride 252/201; definition conflict prevents further width tuning; 4 bitfield/stride/pointer idioms read, manual scheduling cap2; 5 fresh full idiom listing/neighbours read, no passed stack aggregate. Prior types300 permuter consumed, never repeated.
  * permuter: old once types300 consumed; rejected reading +40 before allocation; never repeated.
  * blockers: outer-loop stride multiply/lifetime and inner address scheduling; bounded renewed pass exhausted.
- * ABI: 021F6FB0's second input is narrowed to a byte immediately before the call.
+ * prototype-conflict: ov112 021F6FB0 parameter2 is char* in its EXACT* definition (loads q+0x1E,+0x24,+0x2E,+0x29), but caller 021F3BC4/3BC6 masks five bits and3BC8/3BCA explicitly narrows u8 before BL3BCC. Do not restore legacy u8 extern or edit unassigned definition; caller3CA4 also remains Ilias-blocked. Below keeps exact pointer prototype for diagnosis.
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_021F67E0 0x021F67E0 thumb ov112
@@ -38,7 +38,7 @@ extern void func_021F3CA4(u8 *);
 extern void func_021F3F00(u8 *);
 extern void func_021F40F4(u8 *);
 extern u8 *func_021F6F24(u32,u32);
-extern void func_021F6FB0(void *,u8);
+extern void func_021F6FB0(void *,char *);
 extern void func_021F75DC(void *,u16);
 extern void func_021F7098(u8 *,u16);
 u8 *func_021F3AF0(Input *input,u16 heap)
@@ -71,7 +71,7 @@ u8 *func_021F3AF0(Input *input,u16 heap)
     func_021F3F00(p);
     func_021F40F4(p);
     *(u8 **)(p+40)=func_021F6F24(*(u16 *)p,0);
-    func_021F6FB0(*(void **)(p+40),(*(Input **)(p+4))->mode);
+    func_021F6FB0(*(void **)(p+40),(char *)(u32)(u8)(*(u32 *)*(void **)(p+4)&31));
     func_021F75DC(*(void **)(p+44),128);
     func_021F7098(*(u8 **)(p+40),128);
     return p;

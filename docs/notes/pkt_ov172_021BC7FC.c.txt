@@ -1,27 +1,5 @@
-# ov172 021BC7FC, tree_ov175_2 lane, 2026-09-28
-
-Fresh draft from the image: DIFF, 908 of 908 bytes, 35 bytes out, all 16 relocations
-resolved. Levers that got it from 601 to 35: `int mode` (signed bge), all locals at
-function scope in the order found, changed, same, replace, desc, kind, a, b, eq, n, slot
-(this is the spill-slot order sp+0x30 down to sp+8); entry fields indexed as
-list->entries[k].f everywhere, no entry pointer; the first stale-marking loop uses the
-scan counter n (fixes the n/slot spill swap); in the replace arm `same = 0; replace = 1;
-slot = k;`; the data[0x20] compare read into a u8 local first (orders the two loads).
-
-Residue A (8 bytes, +0x16C): the original materialises `same = 1` early but stores it
-after the `stale = 0` store. `same = eq` gets the store order but loads eq (27 bytes out
-otherwise); volatile on any flag, (u8)1/1U/enum TRUE, `eq == 1`, and the swapped statement
-order all lose.
-Residue B (27 bytes, +0x2B4..+0x356): in the removal loop the original has i in r2 and
-the slot walk j in r1; the draft swaps them. Not moved by: declaration position of i
-(18 spots), block-scoped j or a separate counter, reusing n or k, `register`, found/i--
-order, a while-condition j loop.
-Permuter seed 8801 (1500): best 35, no improvement.
-
-Best source:
-
 /*
- * function: ov172_func_021BC7FC
+ * function: func_021BC7FC
  * address:  0x021BC7FC
  * packet:   pkt_ov172_021BC7FC
  * region:   ov172
@@ -31,246 +9,296 @@ Best source:
  * isa:      thumb
  * status:   DIFF
  *
+ * 2026-10-02: 2 bytes off (one instruction). At +0x16C the original has `movs r0, #1`
+ * (keep = 1 as a constant); `keep = match;` gives `ldr r0, [sp, #0x10]` instead, and
+ * `keep = 1;` makes the compiler fetch changed's 1 from keep's slot and reorder the
+ * stores (18 bytes off). Loop counters i/j are one variable (fixes the stack slot
+ * order); `j--` before `any = 1` in the compaction loop; eb temp orders the b20 loads.
+ * func_021BD0A4 is declared to return a value (matched definition says void, the call
+ * site uses r0).
+ * historical-retry: renewed wave77 exhausted after eight runs; best908B/2B retained.
+ * historical-checks: 1 own unit predicates13D5C/13D9C and ov01477B80 witnesses exist;
+ *   corrected both predicate Thumb hints resolves16/16; own08550u8 and
+ *   readonly08530 pointer declarations unchanged2B; preserve live r0 from
+ *   legacy void CF3C/084F4/BD0A4 and caller-loaded ctx/obj arguments;
+ *   2 CCB88/CEF8/CE2C and B85D0 current full sources, no exact list twin;
+ *   3 keep u16 worsens912B/540B; const ctx unsupported (mutable callees,
+ *   CCERR); enum keep/constant1 gives18B, enum match unchanged2B;
+ *   4 bool keep and relational keep worsen924/581B and920/580B;
+ *   5 refreshed idioms/neighbours, buffer8 matches87C6C full write extent,
+ *   remaining scalar constant only. Prior permuter1500 not repeated.
+ *
  * symbols:
  *   func_021BDFE4  0x021BDFE4  thumb  ov172
  *   func_021B8108  0x021B8108  thumb  ov172
- *   func_0203CF10  0x0203CF10  arm
- *   func_0203CF3C  0x0203CF3C  arm
- *   func_02177B80  0x02177B80  thumb
- *   func_020084F4  0x020084F4  thumb
- *   func_02008550  0x02008550  thumb
- *   func_02008530  0x02008530  thumb
- *   func_02087C6C  0x02087C6C  arm
+ *   func_02177B80  0x02177B80  thumb  ov014
  *   func_021B85D0  0x021B85D0  thumb  ov172
  *   func_021BD0A4  0x021BD0A4  thumb  ov172
- *   func_02013D5C  0x02013D5C  thumb
- *   func_02013D9C  0x02013D9C  thumb
- *   MI_CpuCopy8    0x02082D44  arm
+ *   sub_02013D5C  0x02013D5C  thumb
+ *   sub_02013D9C  0x02013D9C  thumb
  *   func_021BCB88  0x021BCB88  thumb  ov172
  *   func_021BCEF8  0x021BCEF8  thumb  ov172
+ * checks: Updated strict own-definition rule supersedes historical checks.
+ *   Own CF3C: void(unsigned int); sub_020084F4: void(void);
+ *   own BD0A4: void(void*,unsigned long,unsigned long,unsigned long,unsigned long).
+ *   Listing: 021BC870 blx CF3C; 021BC874 adds r5,r0 (name pointer);
+ *   021BC898 bl 084F4; 021BC89C str r0,[sp,#0x18];
+ *   021BC916 bl BD0A4; 021BC91A adds r6,r0; 021BC91C cmp r6,#0.
+ *   Renewed eight one runs preceded the update; best908B/2B with16/16
+ *   resolved is rejected diagnostic C, now disabled. Old permuter not repeated.
+ *   No further compile; Ilias ARM9 blockers and main-session overlay fix needed.
  */
 
-typedef unsigned char u8;
+extern void func_0203CF3C(unsigned int a);
+extern void sub_020084F4(void);
+extern void func_021BD0A4(void *ctx, unsigned long unused, unsigned long a, unsigned long b, unsigned long c);
+
+#if 0 /* Rejected historical measured sketch: incompatible own definitions. */
+typedef unsigned char  u8;
 typedef unsigned short u16;
-typedef unsigned long u32;
+typedef unsigned int   u32;
 
-struct Slot {
-    u32 dirty;
-    u8 pad4[0x14];
-    u8 entry;
-    u8 pad19[3];
+struct Obj {
+    u8  p0[2];
+    u8  : 1;
+    u8  kind : 5;
+    u8  : 2;
+    u8  p3;
+    u32 f4;
+    u8  p8[3];
+    u8  : 7;
+    u8  bit7 : 1;
+    u32 : 17;
+    u32 id : 10;
+    u32 : 5;
+    u8  p10[10];
+    u8  x1a[6];
+    u8  b20;
+    u8  : 1;
+    u8  bit1 : 1;
+    u8  : 6;
 };
 
-struct Entry {
-    u32 state;
-    u32 stale;
-    u32 x8;
-    u8 padC[8];
+struct Rec {
+    u32 flag;
+    u8  pad[0x14];
+    u8  slot;
+    u8  pad2[3];
+};
+
+struct Ent {
+    u32 used;
+    u32 f;
+    u32 g;
+    u32 pad[2];
     u8 *data;
-    u8 kind;
-    u8 mac[6];
-    u8 pad1F;
-    u8 slot;
-    u8 pad21[3];
+    u8  kind;
+    u8  name[6];
+    u8  pad2;
+    u8  recIdx;
+    u8  pad3[3];
 };
 
-struct List {
-    u8 pick[3];
-    u8 pick3;
-    u32 x4;
-    int mode;
-    u32 dirty;
-    u8 pad10[0x30];
-    struct Slot slots[15];
-    struct Entry entries[15];
+struct Ctx {
+    u8  head[4];
+    u32 pad4;
+    int state;
+    u32 f0c;
+    u8  pad10[0x30];
+    struct Rec rec[15];
+    struct Ent ent[15];
 };
 
-struct DescB2 { u8 lo : 1; u8 type : 5; u8 hi : 2; };
-struct DescBB { u8 lo : 7; u8 flag : 1; };
-struct DescWC { u32 lo : 17; u32 id : 10; u32 hi : 5; };
-struct DescB21 { u8 lo : 1; u8 flag : 1; u8 hi : 6; };
+extern u32  func_021BDFE4(void *p);
+extern int  func_021B8108(void *a0, u32 v);
+extern u32  func_0203CF10(u32 a);
+extern u32  func_0203CF3C(u32 a);
+extern u8   func_02177B80(int i);
+extern u32  func_020084F4(struct Obj *o);
+extern u8   func_02008550(const struct Obj *o);
+extern u32  func_02008530(const struct Obj *o);
+extern void func_02087C6C(void *buf);
+extern int  func_021B85D0(struct Obj *o, void *buf);
+extern u32  func_021BD0A4(void *a0, struct Ctx *ctx, u32 a, u32 b, u32 c);
+extern u32  sub_02013D5C(u32 id);
+extern u32  sub_02013D9C(u32 id);
+extern void func_02082D44(const void *src, void *dst, u32 n);
+extern void func_021BCB88(void *a0, struct Ctx *ctx);
+extern void func_021BCEF8(void *a0, struct Ctx *ctx);
 
-extern u32 func_021BDFE4(void *p);
-extern int func_021B8108(void *ctx, u32 v);
-extern u8 *func_0203CF10(int i);
-extern u8 *func_0203CF3C(int i);
-extern u8 func_02177B80(int i);
-extern u32 func_020084F4(void *p);
-extern u32 func_02008550(void *p);
-extern u32 func_02008530(void *p);
-extern void func_02087C6C(void *p);
-extern int func_021B85D0(void *a, void *b);
-extern int func_021BD0A4(void *ctx, struct List *list, u32 a, u32 b, u32 c);
-extern int func_02013D5C(u16 id);
-extern int func_02013D9C(u16 id);
-extern void MI_CpuCopy8(const void *src, void *dst, u32 size);
-extern void func_021BCB88(void *ctx, struct List *list);
-extern void func_021BCEF8(void *ctx, struct List *list);
-
-void func_021BC7FC(void *ctx, struct List *list)
+void func_021BC7FC(void *a0, struct Ctx *ctx)
 {
-    int found;
+    u8 buf[8];
+    int any;
+    int moved;
+    int keep;
     int changed;
-    int same;
-    int replace;
-    u8 *desc;
+    struct Obj *obj;
     int kind;
-    u32 a;
-    u32 b;
-    int eq;
-    int n;
-    int slot;
-    u8 tmp[8];
-    int i;
-    u8 *mac;
-    u32 c;
-    int ok;
+    u32 p18;
+    u32 p14;
+    int match;
+    u32 found;
+    int j;
     u8 k;
-    u8 j;
+    u8 m;
+    u8 n;
+    u8 t;
+    int ok;
+    u8 *name;
+    u32 d;
+    u8 eb;
 
-    found = 0;
-    changed = 0;
-    if (!func_021B8108(ctx, func_021BDFE4(ctx)))
+    any = 0;
+    moved = 0;
+    if (func_021B8108(a0, func_021BDFE4(a0)) == 0) {
         return;
-
-    for (n = 0; n < 15; n++) {
-        if (list->entries[n].state == 1)
-            list->entries[n].stale = 1;
     }
-
-    if (list->mode != 7 && list->mode != 9 && list->mode != 10 && list->mode >= 5) {
-        for (n = 0; n < 16; n++) {
-            same = 0;
-            replace = 0;
-            desc = func_0203CF10(n);
-            if (desc == 0)
-                continue;
-            slot = 0xff;
-            mac = func_0203CF3C(n);
-            kind = func_02177B80(n);
-            if (kind == 3 && ((struct DescB2 *)(desc + 2))->type != 2)
-                continue;
-            ok = 0;
-            if (kind == 0x20) {
-                a = func_020084F4(desc);
-                c = func_02008550(desc);
-                b = func_02008530(desc);
-                func_02087C6C(tmp);
-                if (!((struct DescB21 *)(desc + 0x21))->flag || func_021B85D0(desc, tmp) == 1)
-                    ok = func_021BD0A4(ctx, list, a, b, c);
-            } else if (!func_02013D5C(((struct DescWC *)(desc + 0xc))->id)
-                       && !func_02013D9C(((struct DescWC *)(desc + 0xc))->id)) {
-                ok = func_021BD0A4(ctx, list, (u32)(desc + 0x1a), *(u32 *)(desc + 4),
-                                   ((struct DescBB *)(desc + 0xb))->flag);
-            }
-            if (ok == 0)
-                continue;
-
-            for (k = 0; k < 15; k++) {
-                if (list->entries[k].state == 1) {
-                    eq = 1;
-                    for (j = 0; j < 6; j++) {
-                        if (mac[j] != list->entries[k].mac[j]) {
-                            eq = 0;
-                            break;
-                        }
-                    }
-                    if (eq == 1) {
-                        list->entries[k].stale = 0;
-                        same = 1;
-                        if (kind != list->entries[k].kind) {
-                            same = 0;
-                            replace = 1;
-                            slot = k;
-                            for (j = 0; j < 3; j++) {
-                                if (k == list->pick[j]) {
-                                    list->pick[j] = 0xff;
-                                    changed = 1;
-                                }
-                            }
-                            if (list->pick3 == k) {
-                                list->pick3 = 0xff;
-                                changed = 1;
-                            }
-                        }
-                        if (kind == 0x20) {
-                            u8 v = list->entries[k].data[0x20];
-                            if (v != desc[0x20]) {
-                                same = 0;
-                                replace = 1;
-                                slot = k;
-                            }
-                        }
-                        break;
-                    }
-                } else if (slot == 0xff) {
-                    slot = k;
-                }
-            }
-            if (same != 0 || slot == 0xff)
-                continue;
-
-            list->entries[slot].state = 1;
-            list->entries[slot].stale = 0;
-            list->entries[slot].x8 = 0;
-            for (j = 0; j < 6; j++)
-                list->entries[slot].mac[j] = mac[j];
-            if (kind == 0x20) {
-                list->entries[slot].kind = 0x20;
-                MI_CpuCopy8(desc, list->entries[slot].data, 0x34);
-            } else {
-                list->entries[slot].kind = 3;
-                MI_CpuCopy8(desc, list->entries[slot].data, 0x64);
-            }
-            if (replace == 0) {
-                for (j = 0; j < 15; j++) {
-                    if (list->slots[j].entry == 0xff) {
-                        list->slots[j].entry = slot;
-                        list->entries[slot].slot = j;
-                        list->slots[j].dirty = 1;
-                        break;
-                    }
-                }
-            } else {
-                list->slots[list->entries[slot].slot].dirty = 1;
-            }
-            found = 1;
+    for (j = 0; j < 15; j++) {
+        if (ctx->ent[j].used == 1) {
+            ctx->ent[j].f = 1;
         }
     }
-
-    for (i = 0; i < 15; i++) {
-        if (list->entries[i].state == 1 && list->entries[i].stale == 1) {
-            for (j = list->entries[i].slot; j < 14; j++) {
-                if (list->slots[j + 1].entry == 0xff)
+    if (ctx->state == 7 || ctx->state == 9 || ctx->state == 10 || ctx->state < 5) {
+        goto second;
+    }
+    for (j = 0; j < 16; j++) {
+        keep = 0;
+        changed = 0;
+        obj = (struct Obj *)func_0203CF10(j);
+        if (obj == 0) {
+            continue;
+        }
+        found = 0xff;
+        name = (u8 *)func_0203CF3C(j);
+        kind = func_02177B80(j);
+        if (kind == 3 && obj->kind != 2) {
+            continue;
+        }
+        ok = 0;
+        if (kind == 0x20) {
+            p18 = func_020084F4(obj);
+            d = func_02008550(obj);
+            p14 = func_02008530(obj);
+            func_02087C6C(buf);
+            if (obj->bit1 == 0 || func_021B85D0(obj, buf) == 1) {
+                ok = func_021BD0A4(a0, ctx, p18, p14, d);
+            }
+        } else if (sub_02013D5C((u16)obj->id) == 0 && sub_02013D9C((u16)obj->id) == 0) {
+            ok = func_021BD0A4(a0, ctx, (u32)obj->x1a, obj->f4, obj->bit7);
+        }
+        if (ok == 0) {
+            continue;
+        }
+        for (k = 0; k < 15; k++) {
+            if (ctx->ent[k].used == 1) {
+                match = 1;
+                for (m = 0; m < 6; m++) {
+                    if (name[m] != ctx->ent[k].name[m]) {
+                        match = 0;
+                        break;
+                    }
+                }
+                if (match == 1) {
+                    ctx->ent[k].f = 0;
+                    keep = match;
+                    if (kind != ctx->ent[k].kind) {
+                        changed = 1;
+                        keep = 0;
+                        found = k;
+                        for (n = 0; n < 3; n++) {
+                            if (ctx->head[n] == k) {
+                                ctx->head[n] = 0xff;
+                                moved = 1;
+                            }
+                        }
+                        if (ctx->head[3] == k) {
+                            ctx->head[3] = 0xff;
+                            moved = 1;
+                        }
+                    }
+                    if (kind == 0x20) {
+                        eb = ((struct Obj *)ctx->ent[k].data)->b20;
+                        if (eb != obj->b20) {
+                            keep = 0;
+                            changed = 1;
+                            found = k;
+                        }
+                    }
                     break;
-                list->slots[j].entry = list->slots[j + 1].entry;
-                list->entries[list->slots[j].entry].slot = j;
-                list->slots[j].dirty = 1;
+                }
+            } else if (found == 0xff) {
+                found = k;
             }
-            list->slots[j].entry = 0xff;
-            list->slots[j].dirty = 1;
-            list->entries[i].slot = 0xff;
-            list->entries[i].state = 0;
-            for (j = 0; j < 3; j++) {
-                if (i == list->pick[j]) {
-                    list->pick[j] = 0xff;
-                    changed = 1;
+        }
+        if (keep != 0 || found == 0xff) {
+            continue;
+        }
+        ctx->ent[found].used = 1;
+        ctx->ent[found].f = 0;
+        ctx->ent[found].g = 0;
+        for (m = 0; m < 6; m++) {
+            ctx->ent[found].name[m] = name[m];
+        }
+        if (kind == 0x20) {
+            ctx->ent[found].kind = 0x20;
+            func_02082D44(obj, ctx->ent[found].data, 0x34);
+        } else {
+            ctx->ent[found].kind = 3;
+            func_02082D44(obj, ctx->ent[found].data, 0x64);
+        }
+        if (changed == 0) {
+            for (t = 0; t < 15; t++) {
+                if (ctx->rec[t].slot == 0xff) {
+                    ctx->rec[t].slot = found;
+                    ctx->ent[found].recIdx = t;
+                    ctx->rec[t].flag = 1;
+                    break;
                 }
             }
-            if (list->pick3 == i) {
-                list->pick3 = 0xff;
-                changed = 1;
+        } else {
+            ctx->rec[ctx->ent[found].recIdx].flag = 1;
+        }
+        any = 1;
+    }
+second:
+    for (j = 0; j < 15; j++) {
+        if (ctx->ent[j].used == 1 && ctx->ent[j].f == 1) {
+            u8 r = ctx->ent[j].recIdx;
+            for (; r < 14; r++) {
+                u8 s = ctx->rec[r + 1].slot;
+                if (s == 0xff) {
+                    break;
+                }
+                ctx->rec[r].slot = s;
+                ctx->ent[ctx->rec[r].slot].recIdx = r;
+                ctx->rec[r].flag = 1;
             }
-            i--;
-            found = 1;
+            ctx->rec[r].slot = 0xff;
+            ctx->rec[r].flag = 1;
+            ctx->ent[j].recIdx = 0xff;
+            ctx->ent[j].used = 0;
+            for (n = 0; n < 3; n++) {
+                if (ctx->head[n] == j) {
+                    ctx->head[n] = 0xff;
+                    moved = 1;
+                }
+            }
+            if (ctx->head[3] == j) {
+                ctx->head[3] = 0xff;
+                moved = 1;
+            }
+            j--;
+            any = 1;
         }
     }
-
-    if (found == 1) {
-        func_021BCB88(ctx, list);
-        changed = 1;
-        list->dirty = 1;
+    if (any == 1) {
+        func_021BCB88(a0, ctx);
+        moved = 1;
+        ctx->f0c = 1;
     }
-    if (changed == 1 && list->mode == 5)
-        func_021BCEF8(ctx, list);
+    if (moved == 1 && ctx->state == 5) {
+        func_021BCEF8(a0, ctx);
+    }
 }
+#endif

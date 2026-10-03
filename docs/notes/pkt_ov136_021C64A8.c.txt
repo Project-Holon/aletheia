@@ -1,0 +1,87 @@
+/*
+ * function: func_021C64A8
+ * address:  0x021C64A8
+ * packet:   pkt_ov136_021C64A8
+ * region:   ov136
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * residual: 212 bytes, DIFF11; only the joined 0/1 tail differs at +0098..00A6.
+ * lever: enum-typed ACTIVE local in the inline setter fixes the whole second
+ *   loop: 0x1F0 remains in r7 and movs r1,#1 is emitted inside each iteration.
+ * checks: 1 own ARM9 hardware/setter units and six overlay definitions read;
+ *   2 6E28/6E64 plus 660C/66B8 neighbours confirm arities, no full twin;
+ *   3 const p worsens to DIFF153/196, int k equals DIFF11/212 (two checks);
+ *   4 enum/call-arms/cross-jumped-tail idioms read; enum k, u16 k and call
+ *   in each tail arm worsen; two manual scheduling variants used;
+ *   5 directory/neighbours refreshed, no aggregate stack object. Next
+ *   hypothesis is callee-shaped tail helper; manual/check budget exhausted.
+ * runs: wave77 renewed 4 iteration + 2 checks + permuter300; emitted
+ *   macro-free baseline agrees DIFF11/212, no mutant improves it. Search
+ *   consumed here; never repeat it. Earlier retries did not consume it.
+ *
+ * symbols:
+ *   func_020434DC   0x020434DC  arm
+ *   func_02043598   0x02043598  arm
+ *   func_0204B92C  0x0204B92C  arm
+ *   func_021C65A8 0x021C65A8 thumb ov136
+ *   func_021C660C 0x021C660C thumb ov136
+ *   func_021C66B8 0x021C66B8 thumb ov136
+ *   func_021C6738 0x021C6738 thumb ov136
+ *   func_021C675C 0x021C675C thumb ov136
+ *   func_021C67D4 0x021C67D4 thumb ov136
+ *   d_021C7BBC 0x021C7BBC data ov136 a4
+ */
+
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+extern const u8 d_021C7BBC[];
+extern void func_020434DC(u32, u32);
+extern void func_02043598(u32, u32);
+extern void func_021C6738(u8 *);
+extern void func_021C65A8(u8 *);
+extern void func_021C67D4(u8 *);
+extern void func_021C675C(u8 *);
+extern void *func_021C660C(u8 *, const u8 *);
+extern void func_0204B92C(void *, u32);
+extern void func_021C66B8(u8 *, int, u32);
+typedef enum { ACTIVE = 1 } Active;
+typedef enum { OFF = 0, ON = 1 } Enable;
+static inline void activate(void *p)
+{
+    Active v = ACTIVE;
+    func_0204B92C(p, v);
+}
+void func_021C64A8(u8 *p)
+{
+    u32 i;
+    int k;
+    func_020434DC(0x10, 1);
+    func_02043598(0x10, 1);
+    for (i = 0; i < 8; i++) {
+        *(u32 *)(*(u8 **)(p + 8) + i * 4 + 0x210) = 0;
+        *(u32 *)(*(u8 **)(p + 8) + i * 4 + 0x230) = 0;
+        *(u32 *)(*(u8 **)(p + 8) + i * 4 + 0x250) = 0;
+    }
+    func_021C6738(*(u8 **)(p + 8));
+    func_021C65A8(*(u8 **)(p + 8));
+    func_021C67D4(*(u8 **)(p + 8));
+    func_021C675C(*(u8 **)(p + 8));
+    for (i = 0; i < 8; i++) {
+        *(void **)(*(u8 **)(p + 8) + i * 4 + 0x1F0) = func_021C660C(*(u8 **)(p + 8), d_021C7BBC + i * 0x34);
+        activate(*(void **)(*(u8 **)(p + 8) + i * 4 + 0x1F0));
+    }
+    if (*(u16 *)(*(u8 **)(p + 8) + 0x2FC) <= 10) {
+        func_021C66B8(*(u8 **)(p + 8), 0, 0);
+        k = 1;
+    } else {
+        k = (*(u16 *)(p + 0x1C) == 0) ? 0 : 1;
+    }
+    func_021C66B8(*(u8 **)(p + 8), k, 0);
+    func_021C66B8(*(u8 **)(p + 8), 4, 0);
+    func_021C66B8(*(u8 **)(p + 8), 5, 0);
+    func_021C66B8(*(u8 **)(p + 8), 6, 0);
+}

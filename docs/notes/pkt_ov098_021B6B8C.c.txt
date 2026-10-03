@@ -1,27 +1,16 @@
 /*
  * function: func_021B6B8C
- * address:  0x021B6B8C
- * packet:   pkt_ov098_021B6B8C
- * region:   ov098
- * compiler: 1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   DIFF
- * checks: 1 CE0C own unit reads pointer, so forward stored CCE4 result
- *   left live in r0; proper pointer extern and u16 CCE4 trailing inputs14;
- *   CCE4 legacy void forward leaves r0 live, CD10 returns record;
- *   2 no ov097/ov098 twin, own ARM9 bodies/units consulted;
- *   3 byte/enum x14, unsigned-long/enum b14, base writes forbid const;
- *   4 initialised flag31, flag/allocation and call-argument idioms read;
- *   5 fresh idiom list and neighbours checked; no wrong stack object;
- *   fresh once300 baseline14 agreed with fixed one, no improvement.
- * residual: DIFF14/168 with all11 relocations resolved. r4/r6/r7 rotate
- *   and final +009E/+00A0 adds-base/store schedule swaps. Original adds
- *   a+0x3A before second strh; compiled adds after it. CE0C now exported by
- *   src/matched/arm9/unit_0201CDF4.c and pkt_0201C974; old MATCH ceiling
- *   is obsolete. Seven fixed runs plus fresh once300, now consumed.
- *   Evidence: scratchpad/overlay-newpass-20261003-w76/R22/021B6B8C-*.log.
+ * address: 0x021B6B8C
+ * packet: pkt_ov098_021B6B8C
+ * region: ov098
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 current CE0C unit/shard gate passed; own ARM9 definitions copied except historical CCE4 return exception now forbidden; 2 B6B5C/B6C34 neighbours and BBA4C read; 3 long x/long b and _Bool x each retained10; 4 pointer base/callee types reduced14 to10, inline finish retained10; 5 fresh unfiltered idioms/neighbours reread. No further caller compile: owner blocker.
+ * residual: Historical DIFF10/168, all11 relocations resolve, five fresh runs before updated prototype instruction. ARM9 func_0201CCE4 own definition returns void, while 021B6BDC bl is followed by 021B6BE0 str r0,[r5] then 021B6BE2 CE0C call. Needs owner return correction; best C below is historical and not strict-prototype compliant. W76/R22 once300 consumed, not repeated.
+ * evidence: scratchpad/overlay-newpass-20261003-w77/R3, unique per-run logs; no repeated search.
  * symbols:
  *   func_02045770  0x02045770  arm
  *   func_02043B5C  0x02043B5C  arm
@@ -36,38 +25,43 @@
  */
 
 typedef unsigned short u16;
+typedef unsigned char u8;
+typedef unsigned int u32;
+struct Descriptor;
+struct CharBuf;
+struct Cfg;
 
-extern int func_02045770(int);
-extern void func_02043B5C(int, int);
-extern void func_02040588(int, int);
-extern void func_02045374(int);
-extern void func_020409B4(int);
-extern void func_02045334(int);
-extern void func_0201DD78(int, int, int);
-extern int func_0201CCE4(int, int, int, int, int, int, int, int, u16, u16);
+extern void *func_02045770(struct Descriptor *);
+extern void func_02043B5C(struct CharBuf *, u8);
+extern void func_02040588(u32, u32);
+extern void func_02045374(struct Cfg *);
+extern void func_020409B4(u32);
+extern void func_02045334(struct Descriptor *);
+extern void func_0201DD78(u32, u32, u32);
+extern void *func_0201CCE4(u32, u32, u32, u32, u32, u32, u32, u32, u16, u16);
 extern void func_0201CE0C(void *);
-extern void func_0201C7A4(int, int, int, int, int);
+extern void func_0201C7A4(void *, short, short, void *, void *);
 
-void func_021B6B8C(int a, int b)
+void func_021B6B8C(char *a, int b)
 {
     int x;
 
-    func_02043B5C(func_02045770(*(int *)(a + 0x1c)), 0xc);
+    func_02043B5C(func_02045770(*(struct Descriptor **)(a + 0x1c)), 0xc);
     func_0201DD78(1, 9, 0xc);
     func_02040588(1, 1);
     x = 1;
     if (b != 0) {
-        func_0201CE0C((void *)(*(int *)a = func_0201CCE4(*(int *)(a + 0x1c), 0, 0,
+        func_0201CE0C(*(void **)a = func_0201CCE4(*(u32 *)(a + 0x1c), 0, 0,
                                   *(int *)(a + 0x2c), *(int *)(a + 0x24),
                                   *(int *)(a + 0x34), *(int *)(a + 0x28), 0,
-                                  *(u16 *)(a + 0x44), 0xc)));
+                                  *(u16 *)(a + 0x44), 0xc));
         x = 0;
     } else {
-        func_0201C7A4(func_02045770(*(int *)(a + 0x1c)), 0, 0,
-                      *(int *)(a + 0x2c), *(int *)(a + 0x24));
-        func_02045374(*(int *)(a + 0x1c));
+        func_0201C7A4(func_02045770(*(struct Descriptor **)(a + 0x1c)), 0, 0,
+                      *(void **)(a + 0x2c), *(void **)(a + 0x24));
+        func_02045374(*(struct Cfg **)(a + 0x1c));
         func_020409B4(1);
-        func_02045334(*(int *)(a + 0x1c));
+        func_02045334(*(struct Descriptor **)(a + 0x1c));
     }
     *(char *)(a + 0x38) = x;
     *(char *)(a + 0x39) = 0;

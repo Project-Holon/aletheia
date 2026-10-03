@@ -8,8 +8,18 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own 021EEFA4 confirms void(char*,u8,u8,u8,u8), five arguments; 2 no data twin, asm proves 12-byte rows; 3 unsigned long index/helper64/76 and const p/helper63/76 worse; 4 typed row42/52, per-arm inline64/76, table/coordinate idioms read; 5 fresh unfiltered idioms and matched EFA4 reread; permuter300 used but emitted baseline33/56 disagrees with fixed35/56, winner21/56 changes void return to pointer and has CCERR declaration ordering, rejected; final retry exhausted.
- * residue: preserved best35 concrete bytes different at56/56; original index/table/target register homes and pool order differ, only2/4 relocations resolve. No concrete-correct MATCH or blocker leaf claim.
+ * residual: 31/56 concrete bytes differ, improved from35; pool-order and
+ *   caller register allocation remain. Only2/4 relocations resolve in best;
+ *   enum-stride variant resolves all4 but differs35, proving slot placement.
+ * renewed-pass: const extern tables/q improve31; integer q and scaled i
+ *   each42/52; enum-stride35/56; three successive nonshrinks stop iteration.
+ * checks: 1 own EFA4 confirms void(char*,u8,u8,u8,u8),5args;
+ *   2 own EFA4 and table callers reread, no twin; 3 typed Pair target35/56;
+ *   4 copied Pair local61/72, table/pair idioms read; 5 fresh directory and
+ *   neighbours, original56B pool slots0188/DCC/370 versus bestDCC/370/0188.
+ * permuter: prior300 consumed; emitted33 disagreed fixed35, winner21 had
+ *   changed void return and CCERR, rejected; no repeated search.
+ * next-hypothesis: table-source selection retaining original target pool first.
  * symbols:
  *   d_021F0188 0x021F0188 data a1
  *   d_021F0DCC 0x021F0DCC data a1
@@ -19,6 +29,6 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern u8 d_021F0188[],d_021F0DCC[],d_021F0370[];
+extern const u8 d_021F0188[],d_021F0DCC[],d_021F0370[];
 extern void func_021EEFA4(char*,u8,u8,u8,u8);
-void func_021EE544(u8*p,u32 i){u8*q;if(i<30)q=d_021F0DCC;else{q=d_021F0370;i-=30;}q=(u8*)((u32)q+i*12);func_021EEFA4(*(char**)(p+44),q[0],q[1],d_021F0188[0],d_021F0188[1]);}
+void func_021EE544(u8*p,u32 i){const u8*q;if(i<30)q=d_021F0DCC;else{q=d_021F0370;i-=30;}q=(const u8*)((u32)q+i*12);func_021EEFA4(*(char**)(p+44),q[0],q[1],d_021F0188[0],d_021F0188[1]);}

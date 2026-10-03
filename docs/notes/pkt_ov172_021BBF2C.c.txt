@@ -10,7 +10,7 @@
  * status: DIFF
  * residue: 8 concrete bytes differ at 1724/1724 bytes; q/count spill homes 0x10/0x14 versus original 0x14/0x10.
  * lever: explicit case-6 exit guard and u8 byte stores restore control flow; u16 heap removes caller-only narrowing pairs.
- * checks: 1 own callee prototypes and matched ov172 caller witnesses rederived;
+ * historical-checks: 1 own callee prototypes and matched ov172 caller witnesses rederived;
  * 02045770/0201C6C4/0204B878 own pointer prototypes compiled identically;
  * unlabelled 8B7C/8C14/8C20/E0F0 shown, live caller inputs retained;
  * 2 BD038/BD0C4/BD134/CE2C and pending C7FC read, no controller twin;
@@ -76,7 +76,19 @@
  *   func_0201F7A8 0x0201F7A8 thumb
  *   func_0201C6C4 0x0201C6C4 thumb
  *   func_02028178 0x02028178 thumb
+ * checks: Current ARM9 own sub_02035C60 source and shard checked before
+ *   renewed compile: exact prototype void(void), but caller reads r0.
+ *   Listing: 021BC23C blx 02035C60; 021BC240 cmp r0,#1;
+ *   021BC2FC blx 02035C60; 021BC300 cmp r0,#1.
+ *   Strict definition rule blocks renewed one and remaining checks/permuter.
+ *   Full historical measured sketch below is rejected and disabled;
+ *   old 1724B/8B is diagnostic history, not a fresh wave77 verdict.
+ *   Ilias owns this blocker; no ARM9 edits or divergent active externs.
  */
+
+extern void sub_02035C60(void);
+
+#if 0 /* Rejected historical measured sketch: incompatible own definitions. */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -478,3 +490,4 @@ int func_021BBF2C(void *ctx, char *p)
     func_02028178(*((u8 **) (p + 0x1c)));
   return 2;
 }
+#endif

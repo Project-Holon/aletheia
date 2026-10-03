@@ -1,0 +1,51 @@
+/*
+ * function: func_021D74D8
+ * address: 0x021D74D8
+ * packet: pkt_ov125_021D74D8
+ * region: ov125
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * residual: 72/72 bytes, 33 concrete differences, 2/2 relocations resolved.
+ * renewed-pass: wave77 R17 nine fixed one calls, one previously unused 300-candidate types permuter. Record base gives61, explicit shadows55; long live words, const pointer, enum shadow give55 three consecutive nonshrinking verdicts and close iteration. Own checksum prototype, unsigned-long shadows and integer base checks unchanged55. Permuter improves to33 and full fixed one confirms72/72 and33; no further manual iteration.
+ * checks: 1 own 85E8 veneer->7BDC is argless; own checksum3F1FC returns u16 and takes const u8 pointer, u32, corrected prototype verified; 2 current7374/7540/73E0 neighbours give interfaces but no exact shadow-refresh twin; 3 const and integer bases, word-width locals unchanged55; 4 aggregate/address/scheduling idioms read, manual extraction variants2/2; 5 fresh idiom directory and ov124/ov125/ov126 neighbours checked.
+ * permuter: baseline70/72,55 agrees with fixed one; once300 now consumed. Best temp/expand/hoist retains full word loads, reload after checksum, no volatile, uninitialized reads, narrowed addresses or range restriction. Fixed acceptance log021D74D8-permuter-accept.log confirms33.
+ * residue: output address remains one add instead of +4 then +12; shadow/live address and register scheduling differs before branch. Checksum call/store and final reload match.
+ * symbols:
+ *   func_021D85E8 0x021D85E8 arm ov125
+ *   func_0203F1FC 0x0203F1FC arm
+ */
+typedef signed short s16;
+extern int *func_021D85E8(void);
+extern unsigned short func_0203F1FC(const unsigned char *, unsigned int);
+int func_021D74D8(int a0, int *out)
+{
+  int *r = func_021D85E8();
+  char *record = ((char *) r) + 4;
+  int live0;
+  int live1;
+  unsigned int shadow0;
+  unsigned int shadow1;
+  const unsigned char *tmp1;
+  int tmp2;
+  *out = (int) (((char *) r) + 0x10);
+  shadow0 = *((unsigned int *) (record + 0xc4));
+  char *tmp = record + 0xc8;
+  live0 = r[2];
+  tmp2 = r[3];
+  live1 = tmp2;
+  shadow0 ^= live0;
+  shadow1 = *((unsigned int *) (record + 0xc8));
+  shadow1 ^= r[3];
+  shadow0 |= shadow1;
+  if (shadow0)
+  {
+    *((int *) (record + 0xc4)) = live0;
+    *((int *) (record + 0xc8)) = r[3];
+    tmp1 = (const unsigned char *) ((*out) + 0x80);
+    *((s16 *) (((char *) (*out)) + 0xc0)) = func_0203F1FC(tmp1, 0x38);
+  }
+  return r[2];
+}

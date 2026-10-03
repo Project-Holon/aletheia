@@ -9,9 +9,9 @@
  * isa: thumb
  * status: DIFF
  * residual: same-size 576 B, 23 concrete bytes in indexed lookup load order/register colours.
- * checks: 1 wave59 rederived G3i_OrthoW_/G3_RotZ from SDK headers, nine/two arguments. 2 611C/61D8/5678 neighbours reread, no closer rendering twin. 3 transitive const table pointers with unsigned long sub and a struct-pointer p both unchanged. 4 SDK G3_MtxMode/G3_Begin enum inlines unchanged; typed Entry pointer worsened to32, lookup inline and typed object cast unchanged. 5 unfiltered directory and neighbours refreshed; long-index/record-array/struct-pointer idioms read.
+ * checks: 1 own 0207D760 and SDK headers identify G3i_FrustumW_, nine arguments, and G3_RotZ two. 2 611C/61D8/5678 neighbours lack a twin. 3 unsigned long entry address and full32 camera enum unchanged. 4 full SDK texture/polygon inlines and fx32-long signature spelling unchanged. 5 unfiltered directory refreshed; long-index/record-pointer idioms reread.
  * retry: permuter --budget 300 --types baseline/best both DIFF 23; operand order reduced 29 to 23.
- * retry-wave59: seven compiles, best stays576 B/23 concrete bytes. Earlier permuter300 not repeated. Next lever is full SDK texture/polygon inline spelling before lookup; no additional ordering variants tested.
+ * retry-wave77: six fixed one calls: baseline plus texture inline, polygon inline, SDK fx32 spelling, unsigned long entry and camera enum; all576B/23. Three consecutive iteration nongains stopped. Wave58B9 permuter300 remains consumed; no repeated search.
  * volatile: 0x04000440,0x04000450,0x040004AC,0x040004A4,0x04000470,
  * 0x0400046C,0x04000500,0x04000488,0x0400048C,0x04000504 are hardware command FIFOs.
  * symbols:
@@ -27,8 +27,8 @@ typedef struct { s16 tag,x,y,pad; } Entry;
 typedef struct { int tag; Entry *items; } Index;
 typedef struct { int tag; Index *table; } Data;
 extern s16 table[];
-extern void func_0207D760(int,int,int,int,int,int,int,int,void *);
-extern void func_0207D888(int,int);
+extern void func_0207D760(long,long,long,long,long,long,long,int,void *);
+extern void func_0207D888(long,long);
 #define REG(a) (*(volatile u32 *)(a))
 static inline void vertex(int x,int y) {
     REG(0x04000488)=(u32)(u16)((x<<8)>>16) | ((u32)(u16)((y<<8)>>16)<<16);

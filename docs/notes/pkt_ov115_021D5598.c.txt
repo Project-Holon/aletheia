@@ -6,12 +6,14 @@
  * isa: thumb
  * compiler: dsi/1.1p1
  * flags: -O4,p
- * status: DIFF
- * checks: 1 full callee bodies/forwarders and caller widths proven; 2 no resource twin in ov114/115/116; 3 C3a full-word res unchanged18, C3b enum stack-zero +4B/273diff; 4 enum-zero/struct-local idioms read; 5 fresh idiom directory and 58B4/5938 neighbors, no twin; types300 no gain. Next unrun hypothesis: enum zero only in full-width outgoing slots (check3 cap spent).
- * residual: 568/568 bytes, 18 concrete bytes; nine immediate-zero/register-copy differences. Iteration4 stopped after3 nongains; checks compiled2; manual scheduling1; types300 baseline retained.
- * semantic: full-width pointer/argument payloads and call/store order retained; no volatile, added return, narrowed address or uninitialized-read mutant accepted.
- * ABI: 49990 fifth argument is explicitly truncated16; B294 result
- *   is consumed by stores and setters despite its legacy void spelling.
+ * status: EXACT
+ * lang: c99
+ * lever: an enum zero assigned after archive allocation and passed only in full-width outgoing zero slots preserves the independent literal register zeros.
+ * checks: fixed one EXACT with all 26 relocations resolved; earlier typed permuter consumed and not repeated.
+ * owner-definition evidence for post-wave correction: own49990 arg5
+ * is u32 and first argument void*, own490F4 is (u32,u16), own B294 void;
+ * original+0176 BL B294,+017C STR r0; +01C2 BL B294,+01CA STR r0;
+ * own4CFDC returns Obj*. This accepted EXACT predates strict-rule reminder.
  * symbols:
  *   sub_020490F4 0x020490F4 arm
  *   sub_02049B68 0x02049B68 arm
@@ -53,19 +55,21 @@ extern void func_02024230(s16 *,u32,u16,int);
 
 void func_021D5598(u8 *p)
 {
+    enum { Zero=0 } zero;
     u32 res;
     struct Rect a,b;
     res = (u32)sub_020490F4((void *)143, *(u16 *)(p+12));
-    sub_02049B68((u32)res,0,4,0,0,*(u16 *)(p+12));
-    *(u32 *)p = sub_02049740((u32)res,7,4,0,0,*(u16 *)(p+12));
-    func_02049990((u32)res,18,4,0,*(u32 *)p,0,0,*(u16 *)(p+12));
-    func_02049990((u32)res,19,6,0,*(u32 *)p,0,0,*(u16 *)(p+12));
-    func_02049990((u32)res,20,7,0,*(u32 *)p,0,0,*(u16 *)(p+12));
-    sub_02049B68((u32)res,0,0,0,0,*(u16 *)(p+12));
-    *(u32 *)(p+4) = sub_02049740((u32)res,6,0,0,0,*(u16 *)(p+12));
-    func_02049990((u32)res,15,0,0,*(u32 *)(p+4),0,0,*(u16 *)(p+12));
-    func_02049990((u32)res,16,1,0,*(u32 *)(p+4),0,0,*(u16 *)(p+12));
-    func_02049990((u32)res,17,2,0,*(u32 *)(p+4),0,0,*(u16 *)(p+12));
+    zero=Zero;
+    sub_02049B68((u32)res,0,4,zero,0,*(u16 *)(p+12));
+    *(u32 *)p = sub_02049740((u32)res,7,4,zero,0,*(u16 *)(p+12));
+    func_02049990((u32)res,18,4,0,*(u32 *)p,zero,0,*(u16 *)(p+12));
+    func_02049990((u32)res,19,6,0,*(u32 *)p,zero,0,*(u16 *)(p+12));
+    func_02049990((u32)res,20,7,0,*(u32 *)p,zero,0,*(u16 *)(p+12));
+    sub_02049B68((u32)res,0,0,zero,0,*(u16 *)(p+12));
+    *(u32 *)(p+4) = sub_02049740((u32)res,6,0,zero,0,*(u16 *)(p+12));
+    func_02049990((u32)res,15,0,0,*(u32 *)(p+4),zero,0,*(u16 *)(p+12));
+    func_02049990((u32)res,16,1,0,*(u32 *)(p+4),zero,0,*(u16 *)(p+12));
+    func_02049990((u32)res,17,2,0,*(u32 *)(p+4),zero,0,*(u16 *)(p+12));
     *(int *)(p+0x990) = sub_0204A6C8((u32)res,9,0,1,*(u16 *)(p+12));
     *(int *)(p+0x98c) = sub_0204AC18((u32)res,3,1,0,0,3,*(u16 *)(p+12));
     *(int *)(p+0x994) = sub_0204AF28((u32)res,12,25,*(u16 *)(p+12));

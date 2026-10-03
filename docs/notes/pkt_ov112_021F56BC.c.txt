@@ -8,12 +8,12 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 all SDK/caller arities rederived, B67C returns int and C768 takes two u32 words; full5EDC uses thirteen inputs; 2 ov111/112/113 no renderer twin; 3 mutable List restored early store order but worsened2092/1890, SDK fx32 fields unchanged2088/1849; 4 SDK texparam body is already verbatim and nested FX32_CAST unchanged; 5 idiom directory, stack-object idiom and neighbours refreshed; prior permuter300 retained.
- * blocker: 2088 vs 2080 bytes; 1849 concrete bytes differ. Frame is 32 bytes larger, allocations/scheduling and scalar/aggregate stores diverge; three camera data sites remain unwitnessed.
- * runs: wave59 retry4 iterations (including one CCERR)+2 check3+1 check4+1 macro-free emitted baseline; no second permuter.
+ * checks: 1 new exact-definition rule exposes SDK owner blockers ADE8/B5C0; 2 no renderer twin; 3 frame-kind full16 enum improves2; 4 SDK texparam and stack-object idioms reread; 5 complete directory refreshed. Remaining checks/iteration stop at owner blocker, no new search.
+ * blocker: arm9 SDK0207ADE8 and0207B5C0 matched definitions are asm void(void), but each own listing reads r0 source and writes r1 destination. Caller021F5710/5712 supplies r0/r1 to ADE8 at5714; caller5826 calls B5C0 with source/destination set. Definition correction belongs to Ilias; historical best sketch below cannot be filed while it diverges.
+ * runs: wave77 six fixed calls: baseline2088/1849; scoped frame locals2084/1849; Frame union2088/1849; decode enum2088/1847; enum loop counters2088/1896; callback unsigned long unchanged2088/1849. Gain at call4, two later nongains; no budget reset or further compile after owner blocker discovered.
  * search: fresh macro-free AST-emitted baseline is DIFF2088/1849 with57 of60 sites resolved, agreeing with fixed one; earlier300-budget best still rejected for volatile pos and added return x.
- * interfaces: ADE8/B5C0 legacy own void(void) asm reads input r0 and writes output r1; retained two address inputs. D7C4 five, B51C three, CA00 three, B67C two, BE14 three, D8FC one, AF38 three and B60 two verified in own SDK bodies/headers or matched ov112 caller. 660C own four-input body copied; 65EC complete no-input body verified.
- * attempts: loading decoded payload inside each arm plus scalar position stores worsened2116/1933; integer decode address unchanged; long SDK fields initially needed explicit int-pointer casts (CCERR), corrected check3 variant unchanged. Three consecutive nonshrinking iterations stopped the retry.
+ * interfaces: ADE8/B5C0 differing historical declarations are retained only as the parked experiment, not valid matching interfaces. D7C4 five, B51C/CA00 three, B67C two, BE14 three, D8FC one, AF38 three, B60 two, 660C four and65EC zero checked in own bodies/SDK headers.
+ * attempts: best experimental2088B/1847 retained by enum Kind holding explicit u16 cast; original extent2080B. Frame allocation/scheduling still diverge. Unresolved data021F8310@+35C,021F831C@+360,021F8304@+364 have no witness outside this caller. Older wave59 attempts and consumed wave58B8 once300 remain archived.
  * extent: Original 2080 bytes ends at 021F5EDC, next renderer helper is a separately labelled function. No leaf filed while caller differs.
  * volatile: geometry command registers repeatedly written at 021F56C8-021F56DA, 021F58EC-021F590A, 021F597C-021F5982, 021F59E8, 021F5A5C, 021F5EAE, 021F5EC6.
  * symbols:
@@ -90,7 +90,8 @@ static inline void texparam(GXTexFmt fmt,GXTexGen gen,GXTexSizeS s,GXTexSizeT t,
 static inline int fxmul(int a,int b){return (int)(((s64)a*b+2048)>>12);}
 static inline int rounded(int a){float f;if(a>0)f=0.5f+(float)(a<<12);else f=(float)(a<<12)-0.5f;return (int)f;}
 static inline void decode(const u8 *r,Frame *f){
- u8 *p;u16 kind;
+ typedef enum {KIND0=0,KINDMAX=65535} Kind;
+ u8 *p;Kind kind;
  kind=W(PTR(r,28),4);p=PTR(PTR(r,0),0);
  switch(kind){
  case 0:f->id=H(p,0);f->angle=0;f->sx=4096;f->sy=4096;f->x=0;f->y=0;break;

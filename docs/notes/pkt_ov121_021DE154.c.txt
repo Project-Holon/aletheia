@@ -7,10 +7,12 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 runtime quotient helpers take two full-word arguments; no residual call setup; 2 ov121 search found no interpolation twin; 3 const char table reduced 13 to 9 bytes, State mutable and widths decoded from loads; 4 aggregate/cast/struct-copy idioms did not resolve residue; 5 fresh directory and ov121/ov122 neighbours reread, no stack aggregate residue.
+ * prior-checks: 1 runtime quotient helpers take two full-word arguments; no residual call setup; 2 ov121 search found no interpolation twin; 3 const char table reduced 13 to 9 bytes, State mutable and widths decoded from loads; 4 aggregate/cast/struct-copy idioms did not resolve residue; 5 fresh directory and ov121/ov122 neighbours reread, no stack aggregate residue.
  * budget: 8 iteration runs; first nonshrinking r3, 6 runs since, consecutive r6-r8=3; reorder/temporary cap 2/2; check 3 used 1/2; baseline emission check 1; once-only permuter 300 exhausted, no improvement.
  * residual: 332/332 bytes, 9 concrete bytes differ in scheduling at +0036..0040; seven relocations resolved by fixed one.
  * permuter: macro-free emitted baseline confirmed by fixed one; search best stayed 9 bytes, exit 1; no candidate accepted.
+ * wave77-runs: const Pair table cast 9/332; const signed-byte tables 9/332; direct target member assignment 9/332; check3 State *const 9/332. Three consecutive nonshrinking changes; four fixed one runs; prior 300 search not repeated.
+ * checks: 1 signed and unsigned runtime helper arities remain two full-word inputs, named calls preserve admitted zero; 2 ov121 DE308 and sibling neighbours refreshed, no interpolation twin; 3 State *const compiled flat9; 4 const-source and copied-pair scheduling idioms inspected; 5 full directory and DE2F0/DE300/current neighbours read, no stack scratch object. Next hypothesis: signed-long index home preserving decoded u16 field extraction.
  * symbols:
  *   d_021DF858 0x021DF858 data a2
  *   d_021DF822 0x021DF822 data a1

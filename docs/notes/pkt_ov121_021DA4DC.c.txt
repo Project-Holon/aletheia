@@ -8,9 +8,18 @@
  * isa: thumb
  * status: DIFF
  * residual: 444 bytes, 30 concrete bytes differ; two byte-field update loads and outgoing menu arguments scheduled late.
- * checks: 1 nine menu inputs established by own 021DA1BC and original outgoing slots; fifth narrowed to u8, sixth/seventh wide words; 2 related exact 021D83DC has different descriptor/frame, no same-template twin; 3 const parameter removes alias reload and worsens to 328, u16 heap retained; 4 const scheduling and aggregate assignment idioms read; 5 repeated idiom listing and neighbours, declared Records/Position reproduce stack addresses. Next: descriptor accessor types preserving reload, without further ordering variants.
+ * checks: 1 nine menu inputs established by own 021DA1BC and original outgoing slots; fifth narrowed to u8, sixth/seventh wide words; 2 related exact021D83DC has different descriptor/frame, no same-template twin; 3 const parameter removes alias reload and worsens328, u16 heap retained; 4 const scheduling/aggregate idioms read; 5 refreshed listing/neighbours, declared Records/Position reproduce stack addresses.
+ * wave77: renewed three iterations plus check1/check3 (5 one runs), best444/30.
+ *           Typed offset/menu helpers stay30; enum index gives39. Own45874 heap
+ *           is full-word and B878 argument halfword; corrected declarations stay30.
+ *           ResourceHeap enum stays30. Checks1..5 complete, three nonshrinking
+ *           iterations exhausted; previously consumed once300 not rerun.
  * budget: 6 iteration runs; first nonshrinking run 3, two consecutive flat runs 5/6, no further evidence-backed iteration; check3 1/2; ordering variants 2/2 exhausted; permuter 300 used once, no improvement.
- * interfaces: menu fourth argument ldrh needs no extra truncation; fifth explicitly truncates to u8. Sixth and seventh outgoing words have no truncation although own callee declares u16, so caller extern retains full width.
+ * interfaces: menu fourth argument ldrh needs no extra truncation; fifth explicitly
+ *           truncates to u8. Sixth/seventh outgoing words have no truncation, while
+ *           own121_021DA1BC declares u16. Historical best below keeps full width;
+ *           renewed work must adopt its exact definition or park a proven fault,
+ *           following the revised rule loaded after this wave's compile caps.
  * symbols:
  *   func_02030734 0x02030734 arm
  *   func_02082BCC 0x02082BCC arm
@@ -40,12 +49,12 @@ extern const TablePair d_021DF76C[];
 extern void *func_02030734(u16,u32,int,const char *,u32);
 extern void func_02082BCC(void *,int,u32);
 extern void *func_02045EC0(u32,u32);
-extern void *func_02045874(u32,u16);
+extern void *func_02045874(u32,u32);
 extern void func_02045808(void *);
 extern void *func_021DA1BC(void *,const char *,u32,int,u8,u32,u32,int,u16);
 extern void func_0204B404(void *,Position *,int);
 extern void func_0204B3DC(void *,int);
-extern void func_0204B878(void *,u32);
+extern void func_0204B878(void *,u16);
 extern void func_0204B92C(void *,int);
 static inline void offset_record(Record *v,const u8 *p)
 {

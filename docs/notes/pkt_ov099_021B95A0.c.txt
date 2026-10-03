@@ -5,10 +5,12 @@
  * region: ov099
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own ov127 allocator/copy bodies and ov099 forwards/getters checked; visible unused forwarded inputs retained; C4800 now witnessed, pointer destination corrected with full-word cast, retained18; 2 current B9800/B9FDC and legacy getters checked; 3 enum h18, u32 h18, enum index18; 4 enum shared offset98, reusing heap parameter18 exhaust two manual variants; 5 idioms/neighbours reread. Old once300 at w32/B8/021B95A0-permuter.log consumed, not repeated.
- * residual: DIFF18/208: heap/offset r4/r6 allocation swap; all14 relocations resolve. Six fresh principled compiles; old exhausted status did not exclude manual pass. Evidence: scratchpad/overlay-newpass-20261003-w76/R22/021B95A0-*.log. No new permuter; previous once300 preserved.
+ * checks: 1 own allocators/getters/forwards rederived; BA810 scalar and B9E04 void(void) conflict with historical caller exceptions now forbidden; 2 B9800/B9FDC twins reread; 3 unsigned-long heap and long index retained18; 4 typed Work18, aggregate grid wrapper130/216 rejected; 5 fresh unfiltered idioms/neighbours and declared-struct idiom read. No further caller compile: definition conflict.
+ * residual: Historical DIFF18/208, all14 relocations resolve, four fresh runs before updated prototype instruction. BA810 own unsigned-long return conflicts with aggregate caller spelling; B9E04 own void(void) conflicts with 021B95D8 ldr r0,[r5,#0x10], 021B95DA adds r1,r4,#0, 021B95DC bl B9E04. Best C below is historical and not strict-prototype compliant. W32/B8 once300 consumed, not repeated.
+ * evidence: scratchpad/overlay-newpass-20261003-w77/R3, unique per-run logs; no repeated search.
  * symbols:
  *   func_02082BCC 0x02082BCC arm
  *   func_021B9DC0 0x021B9DC0 thumb ov099
@@ -35,44 +37,49 @@ typedef unsigned int u32;
 typedef struct { u16 x, y; } Pos;
 typedef struct { void *entries; u32 count; } Container;
 typedef struct { void *entries; u32 count; u16 used, capacity; } Container5;
+typedef struct { u16 width,height; void *entries; } Grid;
+typedef struct { int flag,heap; char pad8[12]; void *d,*e; char pad1c[0x56c]; Grid *grid; Container *container; void *q; u32 f594; int f598; Container5 *container5; } Work;
+struct Obj;
 extern void func_02082BCC(void *, int, int);
 extern void func_021B9DC0(void *, int, int);
 extern void func_021B9E04(void *, int);
 extern Pos func_021BA810(int);
 extern unsigned long func_021BA81C(int);
-extern void *func_021C47A0(u32, u32, u32);
-extern void func_021C4800(void *, void *);
+extern Grid *func_021C47A0(u32, u32, u32);
+extern void func_021C4800(u8 *, void *);
 extern Container *func_021C4880(u32, u32);
-extern void func_021B9D30(void *, int, int);
+extern void func_021B9D30(u8 *, void *, u32);
 extern void func_021C59D0(void *);
-extern void func_021B9D6C(void *, int, int, int);
+extern void func_021B9D6C(struct Obj *, int, int, int);
 extern void func_021B9E0C(void *, int, int, int);
-extern void func_021BA60C(void *, void *, int, int);
+extern void func_021BA60C(char *, char *, u32, u32);
 extern Container5 *func_021C5EEC(int, int);
 void func_021B95A0(char *p, unsigned long heap, int a, int b, u32 n, int c, void *d, void *e)
 {
-    long h;
-    unsigned long index;
+    unsigned long h;
+    long index;
     Pos pos;
+    Work *o;
+    o = (Work *)p;
     h = heap;
     index = 0;
     func_02082BCC(p, 0, 0x5a0);
     if (n != 0)
         index = (n - 1) >> 3;
-    *(void **)(p + 0x14) = d;
-    *(void **)(p + 0x18) = e;
-    *(int *)(p + 4) = h;
+    o->d = d;
+    o->e = e;
+    o->heap = h;
     func_021B9DC0(p + 0x14, h, a);
     func_021B9E04(*(void **)(p + 0x10), h);
     pos = func_021BA810(index);
-    *(void **)(p + 0x588) = func_021C47A0(pos.x, pos.y, h);
-    func_021C4800(*(void **)(p + 0x588), (void *)func_021BA81C(index));
-    *(Container **)(p + 0x58c) = func_021C4880(0x30, h);
-    func_021B9D30(p, b, h);
-    func_021C59D0(p + 0x594);
-    func_021B9D6C(p, h, a, index);
+    o->grid = func_021C47A0(pos.x, pos.y, h);
+    func_021C4800((u8 *)o->grid, (void *)func_021BA81C(index));
+    o->container = func_021C4880(0x30, h);
+    func_021B9D30((u8 *)p, (void *)b, h);
+    func_021C59D0(&o->f594);
+    func_021B9D6C((struct Obj *)p, h, a, index);
     func_021B9E0C(*(void **)(p + 0x10), h, a, c);
     func_021BA60C(p, p + 0x574, a, c);
-    *(Container5 **)(p + 0x59c) = func_021C5EEC(0x80, h);
-    *(int *)p = 1;
+    o->container5 = func_021C5EEC(0x80, h);
+    o->flag = 1;
 }

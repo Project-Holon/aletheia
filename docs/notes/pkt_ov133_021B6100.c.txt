@@ -9,7 +9,7 @@
  * isa: thumb
  * status: DIFF
  * residual: 408 bytes versus 404, 163 concrete differences, 18/18 relocations resolved; constructor stores and divisor/multiply register allocation differ, trailing code shifted.
- * checks: retry 1 own initializer/9028/2208C/3D34C prototypes and same-overlay callers reread; 2 6E74/9B48/9DE8 twins reread; 3 u16 heap and typed a8 Owner field compile unchanged163; 4 shared divide plus u16 quotient171, per-arm quotient plus int limit175, narrowing and constant-web idioms read; 5 directory/neighbours refreshed. Earlier permuter300 already ran with rejected baseline; not repeated. Retry exhausted, original163 best retained.
+ * checks: w77 renewed: 1 all own ARM9 definitions/ov133 callees and 9028 arity reread; 2 6E74/9B48/9DE8 twins plus constructor allocation 18f0 confirm layout; 3 enum word v with u32 casts unchanged163; mandatory signed word v with u32 compare/division casts unchanged163; 4 fully typed allocation fields and enum-mode inline each unchanged163 (two manual scheduling variants); 5 fresh idiom directory/ov133 and ov112 neighbours. Four fresh one runs; best original 408-byte C retained. Earlier once300 consumed including rejected baseline, no repeat; exhausted.
  * protected-tool: tools/permuter.py Scorer._post omits region in resolve_relocations(fb,c["addr"],self.decls,src=self.srckey); replacement adds region=self.reg.name. Fixed one and emitted one resolve 18/18 versus search baseline unresolved1; Ilias owns correction, tools untouched.
  * symbols:
  *   func_02030734 0x02030734 arm

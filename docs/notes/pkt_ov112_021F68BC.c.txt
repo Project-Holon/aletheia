@@ -5,12 +5,13 @@
  * region: ov112
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 full own callee bodies prove five input slots, live r0 returns, narrow archive heaps and full loader heap; 2 no ov112/ov111/ov113 twin; 3 enum and int mode unchanged, narrow mode lacks caller proof and const destination is invalid; 4 home-store and pointer-add idioms read; 5 directory and 67E0/69E4/6D68 neighbours re-read, no new twin; next hypothesis requires full caller mode domain.
- * residual: DIFF274, 296/296 bytes, 18/18 sites resolved; missing mode reload at +0x0e shifts following code. Four iteration runs ended at three consecutive nongains; two scheduling variants consumed; check3 one compile; once-only types300 exhausted.
+ * checks: 1 copied own-definition 4913C heap u32, retained original caller u16 cast; 490F4 ID u32; current49238 definition takes arc pointer. 2 no ov112/111/113 twin. 3 unsigned long heap/unused unchanged; no const destination or narrowed full32 mode. 4 home-store/pointer-add idioms reread. 5 unfiltered directory and neighbouring sources refreshed.
+ * residual: DIFF274, 296/296 bytes, 18/18 sites resolved; missing mode reload at +0x0e shifts following code. Wave77 seven calls: baseline, fullword kind, long sizes, inline size header, long heap, long unused, exact-definition ABI correction; all unchanged. Three consecutive iteration nongains; check1 one, check3 two; wave39B8 once300 retained.
  * rejected: permuter DIFF206 reads p+0x2c before original size store, then adds size4 twice to the block pointers. Diagnostic only; not ported or recompiled.
- * ABI: entry r3 mode is preserved full32 for both unsigned >=4 tests; byte store does not prove a narrow parameter. Entry stack heap remains u32 for loaders/allocator, archive calls alone visibly truncate16. C6D8 returns u32 address; 49238 legacy asm reads entry r0, so its extern takes the archive pointer. 30734 fifth tag is u16; scalar260 supplies exactly the original slot bits.
+ * ABI: entry r3 mode is preserved full32 for both unsigned >=4 tests; byte store does not prove a narrow parameter. Entry stack heap remains u32 for loaders/allocator; 4913C caller alone visibly truncates16. C6D8 returns u32 address; 49238 current matched asm has one void* input. 30734 fifth tag is u16; scalar260 supplies original slot bits.
  * behavior: dist is assigned and destroyed under identical full32 mode>=4 guards; size arithmetic wraps u32, allocation precedes header/block writes, and copies preserve member4/3/5 order. No volatile, uninitialized read, narrowed address or invented struct extent.
  * symbols:
  *   func_0200C52C 0x0200C52C thumb
@@ -32,8 +33,8 @@ typedef unsigned int u32;
 extern void *func_0200C52C(void *,u32);
 extern u32 func_0200C6D8(void *);
 extern u32 func_0200C6DC(void *);
-extern void *func_0204913C(void *,u32,u16);
-extern void *sub_020490F4(void *,u16);
+extern void *func_0204913C(void *,u32,u32);
+extern void *sub_020490F4(u32,u16);
 extern void *func_0204A39C(void *,int,int,u32,u32 *);
 extern u32 func_020493D4(void *,u32);
 extern void *sub_02030734(u32,u32,int,const char *,u16);
@@ -51,9 +52,9 @@ void func_021F68BC(u8 *p,u32 unused,void *sys,u32 kind,u32 heap)
     if((u32)kind>=4) {
         dist=func_0200C52C(sys,heap);
         base=func_0200C6D8(dist);
-        arc=func_0204913C((void *)base,func_0200C6DC(dist),(heap&0x7fff)|0x8000);
+        arc=func_0204913C((void *)base,func_0200C6DC(dist),(u16)((heap&0x7fff)|0x8000));
     } else {
-        arc=sub_020490F4((void *)((u32)kind+111),(heap&0x7fff)|0x8000);
+        arc=sub_020490F4(kind+111,(heap&0x7fff)|0x8000);
     }
     *(void **)(p+4)=func_0204A39C(arc,0,0,heap,(u32 *)(p+0x20));
     *(void **)(p+8)=func_0204A39C(arc,1,0,heap,(u32 *)(p+0x24));

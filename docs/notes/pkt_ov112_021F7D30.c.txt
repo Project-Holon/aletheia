@@ -5,13 +5,14 @@
  * region: ov112
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own vec callees take three arguments, 4ED4's caller truncates its third to u16, 020061F8 takes one; _ll_mul and signed division identities verified; 2 full ov112 7BA8/7AEC/7FAC/7E2C and own 7ECC give prototypes but no matching frame; 3 two compiles: u8 q/u16 time/enum offset/long sin gives 248B/146, const sine table unchanged; both pointer parameters are written; 4 narrow spill, enum offset, struct-local and FX-multiply idioms read, no safe fix; 5 fresh unfiltered idiom listing and neighbours reread; named FX extraction would exceed shared scheduling cap.
- * residual: original 252B, safe best 248B with 146 differing bytes; time spills at sp0 but sin spills at sp4 instead of the offset, whose live register differs.
- * budgets: ten iteration runs, first nonshrink run4 retained, three consecutive nonshrinks at runs8-10; shared declaration/extraction variants 2/2; check3 2/2; other checks readonly; one types permuter 300 candidates including baseline.
+ * checks: 1 own-definition prototypes copied exactly with typed raw word/pointer loads; one check1 call preserves best. 2 full7BA8/7AEC/7FAC/7E2C/7ECC read. 3 unsigned long offset restores frame and size, long angle worse. 4 signed product and reversed factors worse; FX idioms reread. 5 long/u16 offset worse; directory and neighbours refreshed. Both input pointers written.
+ * residual: original252B, safe best252B/16; only+44..52 integer multiply and 64-bit operand allocation differ. Unsigned long offset recovers original sp4 home and all subsequent instructions.
+ * budgets: wave77 eleven calls: baseline plus three iteration nongains; check3 two, check4 two, check5 two, check1 one. Scheduling/extraction2 consumed across iteration/check4; all terminal. Wave39B10 once300 retained, never repeated.
  * permuter: best 252B/139 is type:ret-var(offset), changing void to Offset and appending return; rejected without adoption or recompile. Internal added-volatile candidates also rejected. Safe tested spelling below retained.
- * semantics: count stays u16 (s16 would change values >=32768); offset205 becomes260 (u8 would wrap); signed sine and signed /3, 64-bit product plus2048 then >>12 retained; no narrowed address/index or volatile added.
+ * semantics: time u16 ranges0..65535, so (time/3)*205 fits signed32 and unsigned long gives identical value before s64 multiply. Offset205 becomes260 without wrap; signed sine, /3, product rounding and >>12 retained; no narrowed address/index or volatile added.
  * symbols:
  *   func_021F4EA4 0x021F4EA4 thumb ov112
  *   func_021F4E8C 0x021F4E8C thumb ov112
@@ -23,33 +24,34 @@
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
+typedef unsigned int u32;
 typedef long long s64;
 typedef enum { START_OFFSET=205, END_OFFSET=260 } Offset;
 typedef struct { int x,y,z; } Vec;
 typedef struct { u16 count,pad; int index,a,b; } Tail;
 extern const short table[];
-extern void func_021F4EA4(int,int,Vec *);
-extern void func_021F4E8C(int,int,Vec *);
-extern void func_021F4ED4(int,int,u16);
-extern void func_021F4E6C(int,int,int);
+extern void func_021F4EA4(u32,u32,u32);
+extern void func_021F4E8C(u32,void *,const int *);
+extern void func_021F4ED4(u32,u32,u16);
+extern void func_021F4E6C(u8 *,u8 *,u32);
 extern void func_020061F8(int);
 void func_021F7D30(u8 *p,u8 *q)
 {
     Tail *t=(Tail *)(q+0xf0);
     Vec v;
-    Offset offset;
+    unsigned long offset;
     u16 time=t->count;
     int angle=(time<<9)%65536;
     long s=table[(angle>>4)*2];
-    func_021F4EA4(*(int *)(p+0x10),*(int *)(q+0x84+t->index*4),&v);
+    func_021F4EA4(*(u32 *)(p+0x10),*(u32 *)(q+0x84+t->index*4),(u32)&v);
     offset=205;
     v.x+=(int)(((s64)s*((time/3)*offset)+2048)>>12);
     v.y-=3072;
-    func_021F4E8C(*(int *)(p+0x10),*(int *)(q+0x84+t->index*4),&v);
-    func_021F4ED4(*(int *)(p+0x10),*(int *)(q+0x84+t->index*4),s>>1);
+    func_021F4E8C(*(u32 *)(p+0x10),*(void **)(q+0x84+t->index*4),&v.x);
+    func_021F4ED4(*(u32 *)(p+0x10),*(u32 *)(q+0x84+t->index*4),s>>1);
     t->count++;
     if(t->count>=180) {
-        func_021F4E6C(*(int *)(p+0x10),*(int *)(q+0x84+t->index*4),0);
+        func_021F4E6C(*(u8 **)(p+0x10),*(u8 **)(q+0x84+t->index*4),0);
         offset+=55;
         *(int *)(q+offset)=0;
         *(u8 *)(p+0x43c)-=1;

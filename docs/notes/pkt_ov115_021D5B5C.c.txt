@@ -7,21 +7,23 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * residual: safe best DIFF198/200,141 concrete unequal bytes, all15 resolved.
- * checks: 1 full callee/forwarding bodies and full5FA0 show confirm arity;
- * 2 full5ED8/5CCC/5A9C twins; 3 u8 locals DIFF198/141, char pointer
- * experiment CCERR (2/2 cap), const p unsupported because p is written;
- * 4 masked-width/narrow-flag/guard-allocation idioms; 5 fresh unfiltered
- * complete idiom ls and full5CCC/5ED8 neighbours. No proven next lever.
- * budgets: iteration4; first nonshrink2, consecutive3 STOP; check3=2;
- * one scheduling variant plus measured restoration of original placement;
- * types permuter once300 including baseline; best200/72 rejected because
- * it hoists p+50 before45CAC, crossing a mutating call. Added return and
- * volatile mutants remain scratch. No narrowed input/index or flag changes.
- * safe source: restored tested check3-width spelling. Full32-bit p+50
- * retained; narrowing would change zero tests for values such as256.
- * evidence: 0201CCE4 is declared with its allocation return because this
- * caller stores r0; original truncates 0201F73C argument3 to u16.
+ * checks: 1 current full callee bodies rederived; the legacy all15
+ * resolved claim is stale. arm9 unit_02045C44.c contains 02045CAC body
+ * but its function list names only 02045C44; current shard lacks45CAC.
+ * blocker: arm9 02045CAC, missing function entry in unit_02045C44.c.
+ * canonical own prototype: void func_02045CAC(struct MsgBank*,u32,void*).
+ * Fresh one stopped immediately after DIFF198/200,137 concrete unequal
+ * bytes,14/15 resolved; +000E has no outside witness. Further retries
+ * and compile checks skipped under user owner-blocked-caller exclusion.
+ * Historical safe C retained below (prior198/141 with all15 resolved);
+ * current row-helper candidate/log are 5B5C_row.c and 5B5C_01.log.
+ * 2 5CCC/5ED8/5984 neighbours refreshed. 3 prior u8 local checks and
+ * unsupported const-pointee preserved; no fresh owner-blocked compile.
+ * 4 masked-width/narrow-flag/guard idioms read; 5 fresh full idiom listing.
+ * permuter: earlier once300 consumed; rejected candidate crossed mutating
+ * 45CAC before p+50 load. Never repeat that search or hoist that read.
+ * ABI: 1CCE4 allocation return consumed in r0; 1F73C argument3
+ * is explicitly truncated16 by original caller.
  * symbols:
  *   func_02045CAC 0x02045CAC arm
  *   func_021D5FA0 0x021D5FA0 thumb ov115
@@ -38,6 +40,7 @@
  *   func_02045374 0x02045374 arm
  *   func_02041B6C 0x02041B6C arm
  */
+#if 0 /* Historical diagnostic C: current owner witness missing. */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
@@ -76,3 +79,4 @@ void func_021D5B5C(u8 *p,u32 a,int b)
     func_02045374(w);
     func_02041B6C(func_021D5FA0(*(u32 *)(p+0x50)));
 }
+#endif

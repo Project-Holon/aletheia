@@ -9,7 +9,7 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own CEAC int(int), E6C0 void(void), CD98/CDBC int(void) rederived; 2 ov107 0E40 State neighbour refreshed, no matching reset twin; 3 enum zero used for bitfield worse22/+12 and reverted, literal bitfield zero with enum caller/store and literal caller alternatives both TU DIFF5; earlier u16/int widths not repeated, p written so const inappropriate; 4 enum-zero/allocator-tie idioms read; 5 fresh full idioms/neighbours. W76 one one plus two TU runs; best unit48 remains5. Permuter remains skipped: listing48 contains two8B followers absent from selected32B branch. Next: original zero/pointer web provenance, no permutation.
+ * checks: W77 final retry: 1 own CEAC/E6C0/CD98 definitions re-read; SDK CDBC own definition int(void) overrides the ov1070608 two-input extern; corrected no-input follower TU unchanged48/5; 2 own0E40 State and sibling searches refreshed; 3 signed-char zero unchanged5; 4 inline reset boundary unchanged5, zero/allocator-tie idioms read; 5 full idiom directory and matched neighbours refreshed. Three nonshrinking changes (integer pointer, long zero, typed State parameter), then three check calls: six TU runs, all48/5. No repeated search: permuter skipped because the selected32B lead omits two8B followers from the48B listing. Exhausted; next requires different pointer/zero source provenance.
  * residual: 5 differing bytes, consistent r4/r5 pointer/zero swap; all four relocations resolve.
  * followers: 021F1008 and 021F1010 tail-call stubs belong to this 48-byte TU.
  * symbols:
@@ -20,8 +20,8 @@
  */
 typedef unsigned char u8;typedef unsigned short u16;typedef unsigned int u32;
 typedef struct {u8 pad[24];unsigned short low:11,flag:1,rest:4;} State;
-extern int func_0203CEAC(int); extern void func_0203E6C0(void); extern int func_0203CD98(void),func_0203CDBC(void);
+extern int func_0203CEAC(int); extern void func_0203E6C0(void); extern int func_0203CD98(void);extern int func_0203CDBC(void);
 typedef enum { Z0 } Zero;
-void func_021F0FE8(void *arg) { State *p=arg;Zero zero=Z0;func_0203CEAC(zero);func_0203E6C0();*(int *)((u8 *)p+4)=zero;p->flag=0; }
+void func_021F0FE8(State *p) { Zero zero=Z0;func_0203CEAC(zero);func_0203E6C0();*(int *)((u8 *)p+4)=zero;p->flag=0; }
 int func_021F1008(void){return func_0203CD98();}
 int func_021F1010(void){return func_0203CDBC();}

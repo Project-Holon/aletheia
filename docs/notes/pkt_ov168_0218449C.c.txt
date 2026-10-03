@@ -8,13 +8,16 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * blocker: six concrete register bytes; loop bound r1 versus original r3,
- *   loop index r3 versus original r1; both variants compiled 44 bytes.
- * checks: 1 n/a no callees; 2 matched 021844C8 confirms int return, no twin; 3 long bound unchanged6, enum index worsened8; 4 named bound order9 then6, loop-colouring idioms read, permuter300 agreed baseline6/44 and found no improvement; 5 fresh unfiltered idiom directory and matched 021844C8 reread, no stack object; final retry exhausted, no further sweep.
+ * checks: 1 no calls; 2 own matched 021844C8 confirms int return and data object, no twin; 3 mutable Samples parameter unchanged6; 4 long-index/loaded-byte-bound/const-register idioms read; 5 fresh unfiltered idiom directory, 0218441C/021844C8/02183B60 read; no ov167/ov169 matched/pending sources, no stack object. Next hypothesis genuinely distinct inline index type, no further sweep this pass.
+ * retry: renewed wave77: three iteration runs (typed input6, unsigned data address6, inline byte magnitude6), one check3 run6; stop at three nonshrinks.
+ * permuter: earlier 300 types search consumed, unchanged6/44; not repeated.
+ * residual: six concrete bytes at 44/44; original bound r3/index r1 versus compiled bound r1/index r3.
  * symbols:
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 struct Bank; struct CharBuf; struct Descriptor; struct Rec; struct Node; struct Blk37;
-int func_0218449C(const char *p) { int max,i; u8 *data; int count,v; count=*(int *)(p+8); max=0; i=0; data=*(u8 **)(p+4); for(;i<count-1;i++){v=data[i];if((u32)v<128)v=255-v;if(v>max)max=v;}return max; }
+typedef struct {u32 unused; u8 *data; int count;} Samples;
+static inline int magnitude(u8 v) { if((u32)v<128) return 255-v; return v; }
+int func_0218449C(Samples *p) { int max,i; u32 data; int count,v; count=p->count; max=0; i=0; data=(u32)p->data; for(;i<count-1;i++){v=magnitude(*(u8 *)(data+(u32)i));if(v>max)max=v;}return max; }

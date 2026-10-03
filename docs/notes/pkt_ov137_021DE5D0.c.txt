@@ -5,12 +5,23 @@
  * region: ov137
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: retry 1 own 02008550/54 one-pointer/u8, 02039338 u16 return, 0204B878 two args, 0204B3DC two args and own 021DE6EC four args reread; caller-observed fifth stack a retained. 2 021DD2E0/021DD5AC/021DE6EC reread, no full twin in ov136-138. 3 long i plus u16 getter return and B878 argument stayed DIFF219/252. 4 distinct arithmetic, inline field-pointer, spill and enum-offset idioms read; unsigned address, inline send and int offsets stayed DIFF219/252; enum offsets improved to DIFF216/232. 5 idiom directory and matched neighbours refreshed, scalar spills rather than an aggregate local. Retry exhausted.
- * residual: 232 compiled bytes versus 240 original; 216 concrete bytes differ. Permuter 300 emitted baseline agreed DIFF216/232; best DIFF157/240 rejected for volatile flag, changed return type and reads of temporaries assigned before switch labels.
- * runs: retry 4 iteration + 2 checks + permuter300; previous first pass retained in wave archive.
- * prototypes: fifth argument to 021DE6EC is caller-observed stack value; callee's own file has legacy four-argument declaration.
+ * checks: 1 own ARM9 getter/setter units and ov137 DE6EC read, exact prototypes
+ *   now used (39338 returns u16, B878 pointer/u16, B3DC pointer/u32, DE6EC four);
+ *   2 DD2E0/DD5AC/DE6EC neighbours read; 3 new enum flag with const p gives
+ *   DIFF206/224; 4 enum/offset/overwritten-spill idioms read;
+ *   5 fresh idiom directory/neighbours, scalar spills, no aggregate object.
+ * prototype: original 021DE648 loads a, 021DE64C stores a to [sp], then
+ *   021DE64E..021DE654 set r1, r0, r2, r3 before BL at021DE656.
+ *   Own ov137 021DE6EC has four parameters and reads only r0..r3.
+ *   Fifth outgoing caller value is unused by that definition; reproducing
+ *   its outgoing stack requires an unused fifth parameter in the callee.
+ *   Park this signature/listing conflict; do not diverge from the definition.
+ * runs: wave77 renewed 1 substantive iteration; old permuter300 consumed,
+ *   unsafe volatile/signature/switch-dispatch mutant was rejected, not repeated.
+ * residual: DIFF206, compiled224 versus240; 10/10 relocation sites resolved.
  * symbols:
  *   func_020061E4 0x020061E4 thumb
  *   func_02008550 0x02008550 thumb
@@ -22,16 +33,20 @@
  */
 typedef unsigned char u8;
 typedef unsigned int u32;
+typedef unsigned short u16;
+typedef enum { FLAG_CLEAR = 0, FLAG_SET = 1 } Flag;
 typedef enum { O114=0x114, O138=0x138, O160=0x160 } Offset;
 extern u8 func_02008550(const void *);
 extern u8 func_02008554(const void *);
-extern int func_02039338(void);
-extern void func_021DE6EC(u8 *,u8 *,int,int,int);
-extern void func_0204B878(u32,int),func_0204B3DC(u32,int);
-extern void func_020061E4(int);
+extern u16 func_02039338(void);
+extern void func_021DE6EC(u8 *,u8 *,int,int);
+extern void func_0204B878(void *,u16);
+extern void func_0204B3DC(void *,u32);
+extern void func_020061E4(u32);
 void func_021DE5D0(const u8 *p)
 {
-    int i,flag=0;
+    int i;
+    Flag flag=FLAG_CLEAR;
     u8 a,b;
     Offset q0,q1,q2,q3;
     q0=O138; q0=O114;
@@ -44,16 +59,16 @@ void func_021DE5D0(const u8 *p)
         case 1:
             a=func_02008550(*(void **)(p+i*8+0x138));
             b=func_02008554(*(void **)(p+i*8+0x138));
-            if (i!=func_02039338()) func_021DE6EC((u8 *)p,*(u8 **)(p+q0),i,b,a);
-            func_0204B878(*(u32 *)(p+i*4+0x9c),4);
-            func_0204B3DC(*(u32 *)(p+i*4+0x9c),1);
+            if (i!=func_02039338()) func_021DE6EC((u8 *)p,*(u8 **)(p+q0),i,b);
+            func_0204B878(*(void **)(p+i*4+0x9c),4);
+            func_0204B3DC(*(void **)(p+i*4+0x9c),1);
             *(u32 *)(p+i*4+q2)=2;
-            flag=1;
+            flag=FLAG_SET;
             break;
         case 2: break;
         case 3:
             if(i==func_02039338()) func_02008550(*(void **)(p+i*8+0x138));
-            func_0204B878(*(u32 *)(p+i*4+0x9c),5);
+            func_0204B878(*(void **)(p+i*4+0x9c),5);
             *(u32 *)(p+i*4+q1)=0;
             break;
         }

@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks:   1 matched 021BCBBC int(a,b,&out), 021BC06C void(p), ARM9 unit guard u32(void); own BBEB4 body/callers wide flag; 2 renewed CE30/6B0 and 021BC468/4D4 checked; 3 unsigned word mode inert; pointee mutated, const invalid; 4 enum, integer-address and width idioms; 5 refreshed directory/neighbours and stack-object idiom; scalar out frame already exact.
+ * checks:   1 current own 021BCBBC int(a,b,&out), 021BC06C void(p), ARM9 guard u32(void); BBEB4 body reads four wide inputs, direct call resolves independently of its owner blocker; 2 021BC468/4D4 and owned short tails reread; 3 const Off worsens to 10/132, mutable p and full-width return forbid narrowing/const pointee; 4 enum, allocator-tie and stack-object idioms read; 5 fresh full directory and current neighbours reread, out slot already exact. Next hypothesis: real helper scope around mode tail.
  *
  * Residue (same as pkt_ov099_021BCE30): layout and every branch target match,
  * only the switch tail's register roles differ (original: r0 = 0x135C offset
@@ -18,6 +18,9 @@
  * integer-address arithmetic worsened11 (restored); callee types and u32
  * mode unchanged9/128. Permuter300 types consumed, baseline agrees9/128,
  * best9/128, no winning mutation. Full safe spelling below.
+ * Renewed W77 final retry: 4 one runs. Full-range enum values 9/128,
+ * mode-base pointer 44/132, signed full-range Off 9/128: three nonshrinking
+ * iterations. Check 3 const Off 10/132. Best C retained; W76 once300 not repeated.
  *
  * symbols:
  *   func_020362DC  0x020362DC  arm

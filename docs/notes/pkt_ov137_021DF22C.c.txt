@@ -5,11 +5,13 @@
  * region: ov137
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 both callees read two arguments, no stack arguments, rederived from own matched 021E19C0 and 021E15DC show; 2 no table twin; 3 const Obj worsened 26 to 29, u16 degrees unchanged (2 compiles, cap consumed); 4 enum step and table const removal unchanged (2 compiles, cap consumed), declaration order and stack-struct idioms read; 5 idioms and ov136/137/138 neighbours refreshed, no new twin, stack object already declared struct. Retry inline lookup with row/column locals unchanged; once-only 300 types permuter unchanged; no next sweep within carried budget.
- * retry: wave28 high; one unchanged iteration; cumulative iterations 7, checks 4; nonshrinking streak 3 from position 5 (three runs); permuter 300 compiles including baseline, exhausted.
- * residual: 116 bytes compiled, 26 concrete bytes differ, chiefly r4/r5/r6 rotation and early table load scheduling.
+ * checks: 1 own matched 021E19C0 and 021E15DC each take two arguments, shows agree; 2 DEE4C table twin read; 3 long target unchanged26; 4 enum/stack-struct/pool scheduling idioms read, unbounded extern unchanged26; 5 fresh unfiltered idiom directory, ov137 E0570/DEE4C and ov136 C5E30 read, no ov138 matched/pending sources; stack object remains declared struct. Next hypothesis distinct unsigned row and signed column arithmetic types, no further sweep this pass.
+ * retry: renewed wave77: three iteration runs (raw unsigned table26, target-first101, typed Selected26), check3 one run26 and check4 one run26; stop at three nonshrinks.
+ * permuter: earlier 300 types search consumed, unchanged26; not repeated.
+ * residual: 26 concrete bytes at 116/116, r4/r5/r6 rotation and table-index load scheduling.
  * symbols:
  *   d_021E1FDC 0x021E1FDC data a2
  *   func_021E19C0 0x021E19C0 thumb ov137
@@ -18,19 +20,21 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef enum { STEP_ZERO, STEP_MAX = 16384 } Step;
-typedef struct { u8 pad[40]; u8 *selected; int index, count; } Obj;
-extern u16 d_021E1FDC[][5];
+typedef struct {u8 pad[28]; int angle;} Selected;
+typedef struct { u8 pad[40]; Selected *selected; int index, count; } Obj;
+extern u16 d_021E1FDC[];
 extern void func_021E19C0(char *, int);
 extern void func_021E15DC(int *, int);
 int func_021DF22C(Obj *obj)
 {
     u8 *p = (u8 *)obj;
-    int target, delta, current;
+    long target;
+    int delta, current;
     Step step;
     u16 degrees;
     struct { int value; } angle;
-    current = *(int *)(obj->selected + 0x1c);
-    degrees = d_021E1FDC[obj->count][obj->index];
+    current = obj->selected->angle;
+    degrees = *(u16 *)((unsigned)d_021E1FDC+(unsigned)obj->count*10+(unsigned)obj->index*2);
     step = 16384;
     target = degrees << 12;
     angle.value = current;

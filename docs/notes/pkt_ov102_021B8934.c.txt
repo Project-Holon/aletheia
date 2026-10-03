@@ -8,10 +8,12 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own 78EC/8810 and ARM9 A8AC/A8F8/05728 bodies rederived, four8810 inputs retained because original explicitly loads d into r3; 2 scoped callers/89B8 confirm stride28 and clear848; 3 const bound and long counter unchanged83/128; 4 enum offset and bound/local/spill idioms read; 5 refreshed unfiltered idioms and10289B8/103856C neighbours. Next would be typed allocation-backed buffer parameter.
- * residual: 128/132, 54 concrete bytes, 6/6 resolved; saved pointer is instead a saved offset and a/c colors swap.
- * renewed: typed callees83/128, derived enum size101/134, grouped enum offset83/128; three manual nonshrinks, two check compiles.
- * permuter: once-only types budget300 now consumed; macro-free baseline83/128 agreed. Best60/130 changes void return to Rec* and adds return c_; rejected. Its assigned address temporaries ported alone with void signature intact give54/128 in paired fixed-flag one; no search repeated.
+ * checks: 1 own 78EC/8810 and ARM9 A8AC/A8F8/05728 full bodies, exact prototype types; 2 current7560/89B8 bound848; 3 typed Buffer achieved initial EXACT132 but own-arity correction DIFF109/128; 4 enum/typed-bound/struct idioms; 5 unfiltered idioms and scoped current neighbours reread.
+ * renewed: wave77 byte parameter DIFF54/128, typed Buffer initial EXACT132, three-argument protofix DIFF109/128; 3 one runs, no spent permuter repeated. Initial four-argument matched source and shard removed; initial exact and verify logs preserved in wave77 R5 scratch.
+ * lever: typed 848-byte Buffer count member keeps the bound address as a pointer spill; byte-pointer spelling stayed DIFF54/128.
+ * extent: clear848 and count halfword at846; ov1027560 allocates the containing 0x4a4 bytes and passes its +0x118 subobject.
+ * prototype: own ov102 func_021B8810 defines void(int,int,int); caller original021B899C loads d into r3 before BL021B89A2. Correct declaration removes d spill/load, yielding DIFF109/128 versus original132. Callee not edited; arity discrepancy parked.
+ * permuter: wave76 R25 types300 consumed; no search repeated.
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
  *   func_0200A8AC  0x0200A8AC  thumb
@@ -20,31 +22,27 @@
  *   func_0200A8F8  0x0200A8F8  thumb
  *   func_021B8810  0x021B8810  thumb  ov102
   */
-extern void func_02082BCC(int, int, int);
+extern void func_02082BCC(void *, int, unsigned int);
 struct Rec;
 extern int func_0200A8AC(struct Rec *);
 extern unsigned int func_021B78EC(void *, int);
 extern unsigned int func_02005728(unsigned int);
 extern unsigned int func_0200A8F8(struct Rec *, unsigned int);
-extern void func_021B8810(int, int, int, int);
+extern void func_021B8810(int, int, int);
 
-void func_021B8934(int a, void *b, struct Rec *c, int d)
+struct Buffer { unsigned char records[0x34e]; unsigned short count; };
+void func_021B8934(struct Buffer *a, void *b, struct Rec *c, int d)
 {
-    const unsigned short *p;
     long i;
     enum { BufferSize=0x350 } size;
-    int tmp, tmp1;
     size=BufferSize;
-    tmp1=a+0x34e;
 
     func_02082BCC(a, 0, size);
-    tmp=tmp1;
     if (c == 0)
-        *(unsigned short *)(a + (size - 2)) = 0x1e;
+        *(unsigned short *)((unsigned int)a + (size - 2)) = 0x1e;
     else
-        *(unsigned short *)(a + (size - 2)) = func_0200A8AC(c);
-    p = (unsigned short *)tmp;
-    for (i = 0; i < *p; i++) {
+        *(unsigned short *)((unsigned int)a + (size - 2)) = func_0200A8AC(c);
+    for (i = 0; i < a->count; i++) {
         int t = func_021B78EC(b, i);
         int u;
 
@@ -52,6 +50,6 @@ void func_021B8934(int a, void *b, struct Rec *c, int d)
             u = func_02005728(2);
         else
             u = (func_0200A8F8(c, i) == 1);
-        func_021B8810(a + i * 0x1c, t, u, d);
+        func_021B8810((int)((unsigned int)a + (unsigned int)i * 0x1c), t, u);
     }
 }

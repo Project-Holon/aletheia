@@ -7,27 +7,35 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own ARM9 upload body has ten args, caller narrows third/fourth to u8; 2 current ov103/ov111/ov110 neighbours no closer twin; 3 fresh const p gives 62, signed-long index/count flat at 20; 4 inline recolor helper flat 20, integer data address fixes entry but gives 29, integer load cast back to pointer flat 20; 5 current idioms/neighbours reread, no stack aggregate. Prior safe-but-worse permuter consumed, not repeated. Best 128 compiled bytes/20 concrete differences.
+ * prior-checks: 1 own ARM9 upload body has ten args, caller narrows third/fourth to u8; 2 current ov103/ov111/ov110 neighbours no closer twin; 3 fresh const p gives 62, signed-long index/count flat at 20; 4 inline recolor helper flat 20, integer data address fixes entry but gives 29, integer load cast back to pointer flat 20; 5 current idioms/neighbours reread, no stack aggregate. Prior safe-but-worse permuter consumed, not repeated. Best 128 compiled bytes/20 concrete differences.
+ * checks: 1 own ARM9 upload ten-argument definition copied exactly, including full-word third/fourth/address parameters; separate inline Upload byte parameters reproduce original call truncations, 128/20; shared byte locals instead give124/83; 2 refreshed own/sibling upload callers no recolor twin; 3 unsigned palette is128/20, mutable object precludes const; 4 inline allocation and typed pointer idioms reread, prior inline recolor20 consumed; 5 full idiom directory and current ov110/111 neighbours reread, no local stack aggregate.
+ * runs: wave77 R8 6 one calls; typed State pointer20, signed pixel pointer21, enum count20, unsigned palette20, own-prototype corrections83 then20. Previous safe-but-worse permuter300 consumed, not repeated.
+ * best: DIFF128/20; entry p store/load ordering and data/index R0/R4 versus R4/R1 remain; all2 relocations resolve. Previous caller-narrow extern exceptions are superseded; own prototype retained below.
  * symbols:
  *   func_020410D0 0x020410D0 arm
  *   func_02041B6C 0x02041B6C arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_020410D0(u8,unsigned,u8,u8,u8,void *,u8,u8,u8,u8);
+struct State { unsigned char pad[8]; unsigned image; };
+extern void func_020410D0(unsigned,unsigned,unsigned,unsigned,u8,unsigned,u8,u8,u8,u8);
 extern void func_02041B6C(unsigned);
-void func_021C080C(char *p,u8 index,int pal,int flag) {
+static inline void Upload(u8 tile,u8 width,unsigned address,u8 width2,u8 height)
+{
+    func_020410D0(2,0,tile,width,6,address,0,0,width2,height);
+}
+void func_021C080C(struct State *p,u8 index,unsigned pal,int flag) {
     unsigned w,h;
-    int n;
+    enum { N_ZERO, N_MAX = 0x7fffffff } n;
     int i;
     u16 *d;
-    d=*(u16 **)(p+8);
+    d=(u16 *)p->image;
     w=(unsigned)d[0]>>3;
     h=(unsigned)d[1]>>3;
     d=(u16 *)((char *)d+12);
     if(flag) pal=5;
     n=w*h;
     for(i=0;i<n;i++) { int v; v=d[i]&0xfff; d[i]=v+((pal+2)<<12); }
-    func_020410D0(2,0,index*6+1,w,6,*(char **)(p+8)+12,0,0,w,h);
+    Upload(index*6+1,w,p->image+12,w,h);
     func_02041B6C(2);
 }

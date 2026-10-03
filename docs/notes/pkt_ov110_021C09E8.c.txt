@@ -7,25 +7,29 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own ARM9 upload body takes ten args, u8 fourth retained for caller narrowing; 2 current ov103/ov111/ov110 twins no closer shape; 3 fresh signed-long index/count flat at 10; prior const and dimensions checked; 4 integer-address (27), inline recolor helper (13), nested local scope (10) do not close; 5 fresh neighbours/idiom scan no new lever, no stack aggregate. Earlier permuter 300 flat at 10, consumed and not repeated.
+ * checks: 1 exact own 020410D0 ten-argument and 02041B6C prototypes; caller uploadW u8/source unsigned preserve width without declaration divergence, 108/10; 2 ov111/ov103 and current ov110 neighbours reviewed; 3 enum count 108/10, u16 v 112/74, long pal 108/10, typed Map 108/30; 4 masked-width/constant-counter/pointer idioms no new eligible lever; 5 fresh full idiom listing/neighbours read, no passed stack aggregate. Prior types300 permuter consumed, never repeated.
  * symbols:
  *   func_020410D0 0x020410D0 arm
  *   func_02041B6C 0x02041B6C arm
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
-extern void func_020410D0(u8,unsigned,unsigned,u8,u8,void *,u8,u8,u8,u8);
+extern void func_020410D0(unsigned,unsigned,unsigned,unsigned,u8,unsigned,u8,u8,u8,u8);
 extern void func_02041B6C(unsigned);
-void func_021C09E8(const char *p,int pal) {
+void func_021C09E8(const char *p,long pal) {
     int w,h;
     int i,n;
+    u8 uploadW;
+    unsigned source;
     u16 *d;
     d=*(u16 **)(p+8);
     w=(unsigned)d[0]>>3;
     h=(unsigned)d[1]>>3;
     n=w*h;
     d=(u16 *)((char *)d+12);
-    for(i=0;i<n;i++) { int v; v=d[i]&0xfff; d[i]=v+((pal+2)<<12); }
-    func_020410D0(2,0,0,w,1,*(char **)(p+8)+12,0,5,w,h);
+    for(i=0;i<n;i++) { int v; v=d[i]&0xfff; d[i]=v+(((unsigned)pal+2)<<12); }
+    uploadW=w;
+    source=*(unsigned *)(p+8)+12;
+    func_020410D0(2,0,0,uploadW,1,source,0,5,w,h);
     func_02041B6C(2);
 }

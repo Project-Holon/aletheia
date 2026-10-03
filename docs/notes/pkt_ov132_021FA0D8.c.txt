@@ -8,10 +8,10 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 fresh 5725C/A3A8 bodies confirm arities 2/3, 05728 matched caller takes one, signed runtime scalar retained; 2 fresh A4AC no full twin; 3 const-byte ctx/u16 round unchanged; 4 separate-index scope and unsigned-hoisted-sum idioms; 5 fresh directory and neighbours.
- * Wave60: six runs, best DIFF414/416 five stack-slot bytes. Row scope DIFF10; shuffle-counter scope unchanged; wide row DIFF185. Prior permuter300 not repeated.
+ * checks: 1 own 5725C/A3A8 arities2/3 and ARM9 unit020056A0 sub02005728 u32(u32) copied; signed runtime scalar retained; 2 fresh A4AC/A3A8/9FEC, no full twin; 3 byte round unchanged5, signed byte round worsened418/199; 4 explicit byte row-base418/182, unsigned row-base414/8, count struct unchanged5; 5 fresh directory and neighbours, declared stack-object idiom reread.
+ * Wave77: five runs; best DIFF414/416 five stack-slot bytes. New byte/unsigned row bases182/8; byte round unchanged5; signed byte round199; count struct unchanged5. Prior permuter300 not repeated.
  * residue: round and row-times-12 spill slots exchange sp+4/sp+8 at +B0/D4/DC/114/118; compiled body 414, original extent 416 includes 2 alignment bytes.
- * next: two scheduling variants used this retry; row-times-12 CSE and round homes remain exchanged.
+ * next: row-times-12 CSE and round homes remain exchanged; independent scalar home versus CSE creation order remains.
  * division: retain scalar signed runtime helper on the admitted zero-total path.
  * symbols:
  *   func_0215725C 0x0215725C thumb ov010
@@ -32,7 +32,7 @@ void func_021FA0D8(char *p,const char *ctx)
     u8 weights[4];
     u8 counts[4]={0,0,0,0};
     u8 row,col;
-    unsigned long round;
+    u8 round;
     u8 n=0,i,j,k;
     for(i=0;i<4;i++) {
         weights[i]=func_0215725C(*(u8 **)(ctx+20),i);

@@ -8,9 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * blocker: 17 concrete bytes differ at 376/376; final print sum and outgoing argument scheduling only. Font enum fixed swapped font/owner spill slots.
- * checks: 1 own print/getter/string callees and EFA4 six args verified; 2 6A98/6CE4 neighbours re-read; 3 Font enum gave 25, proper const outer source pointer gave 17, sum helper const removal also 17; 4 surface-bound second inline gave 17, print/context idioms read; 5 fresh idiom listing and neighbours, declared-struct idiom read, no stack object; next sweep none.
- * permuter: historical once-only types budget 300 best 29; consumed search not repeated.
+ * checks: 1 own getter/print/string/wordset definitions rederived and canonical prototypes copied; 2 6A98/6B7C/6EE8 and BBA4C twins read; 3 byte w gave28/376, byte helper inputs59/380; 4 Font sum binding17, reordered helper parameters17, scalar sum inline17; 5 fresh unfiltered idiom listing and neighbours reread, no stack aggregate. Next sweep none.
+ * residual: DIFF17/376, final print argument scheduling only, all22 relocations resolved. Five fresh runs; historical once300 types best29 consumed, never repeated.
+ * evidence: scratchpad/overlay-newpass-20261003-w77/R3; see 6d70-r*.log.
  * symbols:
  *   func_020457B0 0x020457B0 arm
  *   func_02045EC0 0x02045EC0 arm
@@ -28,17 +28,22 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef short s16;
 typedef unsigned int u32;
-extern void *func_020457B0(u32, u32);
-extern void *func_02045EC0(void *, u32);
-extern void *func_02045770(void *);
-extern u8 func_02045738(void *);
-extern void func_02045808(void *);
-extern void func_0201EFA4(void *, u32, u32, u32, u32, u32);
-extern void func_0201F250(void *, void *, void *);
+struct U16Vec;
+struct MsgBank;
+struct Descriptor;
+struct WordSet;
+struct StrObj;
+extern struct U16Vec *func_020457B0(u32, u32);
+extern void *func_02045EC0(struct MsgBank *, u32);
+extern void *func_02045770(struct Descriptor *);
+extern u8 func_02045738(struct Descriptor *);
+extern void func_02045808(struct U16Vec *);
+extern void func_0201EFA4(struct WordSet *, u32, u32, u32, u32, u32);
+extern void func_0201F250(struct WordSet *, void *, void *);
 extern void func_0201C724(void *, u32, u32, u32, u32, u32, u16);
 extern u32 func_02017E1C(void *, u32, u32);
 extern u8 func_02017F00(void *);
-extern u32 func_0201D304(void *, u32, u32);
+extern u32 func_0201D304(struct StrObj *, u32, u32);
 typedef unsigned char Ctx;
 typedef enum { FONT_DEFAULT } Font;
 typedef enum { CENTER_ORIGIN } Center;
@@ -70,16 +75,20 @@ static inline void print_left_wrapped(const Ctx *p, u32 windows, u32 dirty, int 
 {
     print_left((const Ctx *)p, windows, dirty, i, s, center);
 }
-static inline void finish_sum(void *owner, void *surface, void *s, u32 font, u32 center, u32 w)
+static inline s16 sum_x(u32 center, u32 w)
 {
-    func_0201C724(owner, (u32)surface, (s16)(center + w), 0x20, (u32)s, font, 0x3dc0);
+    return (s16)(center + w);
+}
+static inline void finish_sum(u32 center, u32 w, void *owner, void *surface, void *s, Font font)
+{
+    func_0201C724(owner, (u32)surface, sum_x(center, w), 0x20, (u32)s, font, 0x3dc0);
 }
 static inline void print_sum(Ctx *p, u32 windows, u32 dirty, int i, void *s, u32 center, u32 w)
 {
     void *owner = *(void **)(p + 0x1c);
     void *surface;
     surface = func_02045770(*(void **)(windows + i * 8));
-    finish_sum(owner, surface, s, *(u32 *)(p + 0x10), center, w);
+    finish_sum(center, w, owner, surface, s, *(u32 *)(p + 0x10));
     *(u8 *)(dirty + i * 8) = 1;
 }
 void func_021F6D70(const Ctx *p, int i)

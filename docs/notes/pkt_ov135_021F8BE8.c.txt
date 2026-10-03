@@ -1,0 +1,116 @@
+/*
+ * function: func_021F8BE8
+ * address:  0x021F8BE8
+ * packet:   pkt_ov135_021F8BE8
+ * region:   ov135
+ * compiler: dsi/1.1p1
+ * flags:    -O4,p
+ * lang:     c99
+ * isa:      thumb
+ * status:   DIFF
+ * residual: renewed wave77 pass exhausted; DIFF139, compiled292/original296; inner default hop at 021F8C90 is threaded out.
+ * checks: 1 own 4FC4/513C/4EC0 byte-pointer inputs and ov114 listings/caller checked; corrected externs DIFF139; 2 F8BBC/F8D10/46A8 twins reread; 3 unsigned code DIFF254/304, unsigned wait DIFF139/292; const p cannot cover its stores; 4 hop-copy and switch idioms reread, do-loop and Cleanup helper consume the two scheduling variants; 5 fresh unfiltered idiom listing and ov135/136 neighbours reread.
+ * runs: wave77 3 iteration + 3 checks; no new permuter.
+ * permuter: earlier 1500-iteration seed11601 search already consumed (legacy pkt_021F8BE8 note); not repeated.
+ * next: a new source hypothesis must preserve the inner out-of-range hop; no manual scheduling or check budget remains this wave.
+ *
+ * symbols:
+ *   func_021C7C1C  0x021C7C1C  arm  ov114
+ *   func_021C866C  0x021C866C  arm  ov114
+ *   func_021C86A8  0x021C86A8  arm  ov114
+ *   func_021F4FC4  0x021F4FC4  thumb
+ *   func_021F513C  0x021F513C  thumb
+ *   func_021F4EC0  0x021F4EC0  thumb
+ */
+
+typedef signed char s8;
+typedef signed short s16;
+typedef unsigned char u8;
+typedef unsigned short u16;
+typedef unsigned int u32;
+typedef signed int s32;
+
+typedef struct {
+    u8 pad0[0x38];
+    int err;
+    u8 pad3C[0xF7C - 0x3C];
+    int state;
+    int sub;
+    u8 padF84[0xF8C - 0xF84];
+    int wait;
+} Work;
+
+extern void func_021C7C1C(void);
+extern int func_021C866C(void);
+extern int func_021C86A8(void);
+extern void func_021F4FC4(u8 *p);
+extern void func_021F513C(u8 *p);
+extern void func_021F4EC0(u8 *p, u32 a, u32 b);
+
+int func_021F8BE8(Work *p)
+{
+    int code;
+
+    func_021C7C1C();
+    if (func_021C866C() != 0) {
+        code = func_021C86A8();
+        p->wait = 0;
+        switch (code) {
+        case 0:
+            switch (p->state) {
+            case 0:
+                switch (p->sub) {
+                case 0:
+                    func_021F4EC0((u8 *)p, 1, 0);
+                    return 1;
+                case 3:
+                    p->err = -5003;
+                    return 2;
+                case 1:
+                    p->err = -5000;
+                    return 2;
+                case 2:
+                    p->err = -5001;
+                    return 2;
+                }
+                break;
+            case 1:
+                p->err = -5004;
+                return 2;
+            case 2:
+                p->err = -5005;
+                return 2;
+            default:
+                func_021F4FC4((u8 *)p);
+                break;
+            }
+            break;
+        case 1:
+            func_021F4FC4((u8 *)p);
+            p->err = code;
+            return 2;
+        case -1:
+        case 2:
+            func_021F4FC4((u8 *)p);
+            p->err = code;
+            return 2;
+        case -15:
+        case -12:
+            func_021F4FC4((u8 *)p);
+            p->err = code;
+            return 2;
+        case -14:
+        case -2:
+            func_021F4FC4((u8 *)p);
+            p->err = code;
+            return 2;
+        default:
+            func_021F4FC4((u8 *)p);
+            break;
+        }
+        func_021F513C((u8 *)p);
+    } else if (++p->wait == 0xE10) {
+        func_021F513C((u8 *)p);
+    }
+    return 0;
+}

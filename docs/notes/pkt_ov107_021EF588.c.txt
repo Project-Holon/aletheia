@@ -7,8 +7,11 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own 12944/30734/08534/45EC0/457B0/45808/458F8/45A90/774A0 and SDK copy plus matched callers rederived arities; explicit getter truncation retained; 2 ov107 1704/17E0/EF444 and 1AFC/1B00 refreshed; 3 enum loop counter worse189/+8 and reverted, u16-heap constructor inline unchanged15, earlier widths and const getters not repeated; 4 paired-pointer aggregate unchanged15, stack-object/extra-inline-slot idioms read, no new declaration-order sweep; 5 fresh full idiom listing and neighbours, aggregate scalarises back to same spills. W76 three fixed runs; prior permuter300 consumed, no repeat. Next: source provenance for the expanded/other pointer spill slots.
- * residual: DIFF15, compiled452/452, all34 relocations resolved; expanded/other spill slots reversed plus allocation input-load ordering at0082..0086.
+ * checks-earlier: 1 own 12944/30734/08534/45EC0/457B0/45808/458F8/45A90/774A0 and SDK copy plus matched callers rederived arities; explicit getter truncation retained; 2 ov107 1704/17E0/EF444 and 1AFC/1B00 refreshed; 3 enum loop counter worse189/+8 and reverted, u16-heap constructor inline unchanged15, earlier widths and const getters not repeated; 4 paired-pointer aggregate unchanged15, stack-object/extra-inline-slot idioms read, no new declaration-order sweep; 5 fresh full idiom listing and neighbours, aggregate scalarises back to same spills. W76 three fixed runs; prior permuter300 consumed, no repeat. Next: source provenance for the expanded/other pointer spill slots.
+ * residual: historical DIFF15, compiled452/452, all34 relocations resolved; pointer spill slots and allocation load order differ. Blocked by Ilias's SDK 02082A60 own asm void(void) definition; diagnostic body disabled, corrected declarations have no new verdict.
+ * blocker: arm9_sdk 02082A60 MIi_CpuCopy16.c declares asm void MIi_CpuCopy16(void), but reads r0 source/r1 destination/r2 size. Caller021EF664 gets source; 021EF668 moves destination to r1; 021EF66A doubles count into r2; 021EF66C calls02082A60, repeated at021EF674..021EF67C. Definition arity requires Ilias; no further caller compile.
+ * prototype: own ARM9 020458F8 returns u16(U16Vec*), not the former wide const getter; caller021EF64E/021EF658 calls then021EF652..654/021EF65C..65E narrows explicitly. Correct narrow declaration retained without inventing a wide return; local/field width work deferred behind SDK blocker.
+ * checks: 1 all own callee files refreshed; corrected 45EC0 void* and 1918(u8*,int,int,int) each retain452/15, SDK own copy exposes blocker; 2 full ov1071628/18D8/1918/1704/17E0/EF79C family and sibling searches; 3 long index unchanged452/15; 4 aggregate/extra-inline stack idioms read, no final inline compile after owner blocker; 5 full directory and own/sibling neighbours refreshed, declared-struct idiom read. Three nonshrinking iterations (45EC0 return, integer expanded field, reused message) plus check1 and check3: five calls. Prior permuter300 not repeated. Stack-web DIFF exhausted; SDK blocker takes precedence.
  * symbols:
  *   func_02012944 0x02012944 thumb
  *   func_02030734 0x02030734 arm
@@ -44,17 +47,16 @@ extern void *func_02030734(u32, u32, int, const char *, u16);
 extern u16 func_02008534(const struct Sub0200852CObj *);
 extern void func_021F1628(void *, int);
 extern void func_021F18D8(void *);
-extern void func_021F1918(void *, u32, u32, u32);
+extern void func_021F1918(u8 *, int, int, int);
 extern u32 func_021F1AFC(u8 *);
 extern u32 func_021F1B00(u8 *);
-extern struct U16Vec *func_02045EC0(struct MsgBank *, u32);
+extern void *func_02045EC0(struct MsgBank *, u32);
 extern struct U16Vec *func_020457B0(u32, u32);
 extern void func_0201F250(struct WordSet *, void *, void *);
 extern void func_02045808(struct U16Vec *);
-/* The caller explicitly narrows both observed return values. */
-extern u32 func_020458F8(const struct U16Vec *);
-extern u16 *func_02045A90(const struct U16Vec *);
-extern void func_02082A60(const void *, void *, u32);
+extern u16 func_020458F8(struct U16Vec *);
+extern u16 *func_02045A90(struct U16Vec *);
+extern void func_02082A60(void);
 extern int func_02034AC4(int);
 extern void func_02040588(u32, u32);
 extern void func_020774A0(int (*)(void));
@@ -65,6 +67,7 @@ static inline struct U16Vec *alloc_expanded(u32 size,u16 heap)
 { return func_020457B0(size,heap); }
 
 typedef struct { struct U16Vec *other, *expanded; } Pair;
+#if 0 /* Diagnostic caller: SDK definition has the wrong arity; not a compile candidate. */
 void func_021EF588(u8 *p)
 {
     u8 *save;
@@ -136,3 +139,4 @@ void func_021EF588(u8 *p)
     }
     func_020774A0(func_021F05DC);
 }
+#endif

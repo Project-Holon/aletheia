@@ -7,7 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 all callees freshly rederived, residue before first call and no missing live argument; 2 ov173 7378 has same 3-arg formatter, no exact twin; 3 u16 row adds truncation, integer base unchanged (2/2 carried); 4 named row unchanged, char base CCERR (2/2 carried); 5 typed context and freshly reread neighbours/idioms unchanged (2/2 carried), no stack object. High retry inline rowLookup unchanged DIFF5; first types300 used all300 and unchanged. Iterations4/checks6, consecutive nonshrink3, first position2; no further iteration or C3 allowance. Next investigation only with new caller/twin evidence, not another type pass.
+ * checks: 1 own formatter/destructor/constructor/three-input setter rederived; corrected12944 return u8* validated100/5; 2 6704/68F8/6A04 and matched siblings reread; 3 const p first CCERR for three nonconst overlay calls, explicit mutable call casts validated unchanged100/5 (2/2); 4 integer row/unsigned-long column/enum-row helpers unchanged100/5; 5 fresh unfiltered directory and matched neighbours reread, no stack object.
+ * renewed wave77: three nonshrinking iterations plus check1 and two check3 calls; full-word signed-base/unsigned-long offset retained. Old types300 search already consumed, not repeated. Exhausted; next manual hypothesis needs fresh evidence.
  * residual: five concrete bytes at +000A/+000C/+000E; 100/100, seven relocations resolved. Source computes row scaling after pointer load; image scales first.
  * symbols:
  *   func_021B6704 0x021B6704 thumb ov174
@@ -22,22 +23,23 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 extern void func_021B6704(u8 *,int),func_021B68F8(u8 *,int),func_021B6A04(u8 *,unsigned);
 extern void func_0201ED04(void *),func_0201F02C(void *,unsigned,void *);
-extern void *func_0201EC64(unsigned),*func_02012944(void *);
+extern void *func_0201EC64(unsigned);
+extern u8 *func_02012944(void *);
 static inline u8 *rowLookup(u8 *p,u8 row)
 {
-    return *(u8 **)(p+64)+row*4;
+    return *(u8 **)(p+64)+(row<<2);
 }
-void func_021B6AF8(u8 *p)
+void func_021B6AF8(const u8 *p)
 {
  u8 *desc; u8 index,code; void *res;
- desc=rowLookup(p,*(u8 *)(p+137));
+ desc=(u8 *)((int)*(u8 **)(p+64)+((unsigned long)*(u8 *)(p+137)<<2));
  index=desc[1];code=*(u16 *)(desc+2);
  *(u8 *)(p+136)=index;
- func_021B6704(p,index);
- if(index<2) func_021B68F8(p,1);else func_021B68F8(p,0);
+ func_021B6704((u8 *)p,index);
+ if(index<2) func_021B68F8((u8 *)p,1);else func_021B68F8((u8 *)p,0);
  if(*(void **)(p+116)) func_0201ED04(*(void **)(p+116));
  *(void **)(p+116)=func_0201EC64(*(u16 *)p);
  res=func_02012944(*(void **)(*(u8 **)(p+48)+4));
  func_0201F02C(*(void **)(p+116),0,res);
- func_021B6A04(p,code);
+ func_021B6A04((u8 *)p,code);
 }

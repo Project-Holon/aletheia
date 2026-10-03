@@ -7,8 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own matched signatures and EFFB0/0728 callers rederived arities, SDK FS_InitFile/Seek/Read/Close inspected; 15B0 live r0 forwarding and 19E4 extra visible r1 retained; 2 EF79C/EFFB0/EEEAC and neighbours refreshed; 3 enum phase unchanged913, mutable p cannot be const, earlier signed/unsigned W and result attempts not repeated; 4 typed SDK 72B File and scoped inline payload-loader unchanged913, branch-range/empty-label and declared-struct idioms read; 5 fresh full idiom listing and File-frame/neighbours inspected. W76 three fixed runs, complete logs byte-identical; prior permuter300 consumed, no repeat. Next: early shared branch islands and case9 selection shape, not label permutations.
- * residual: main1564 versus actual1560 (+4); listing1568 includes existing EEEAC stub. Current tool DIFF913,119/126 relocs; unresolved ov107 readers 1008,1010,1040,1050,1064,EFE3C (1010 twice). 11E8 now resolves via matched witness. Earlier record909/118 is retained as history, not current verdict.
+ * checks: 1 own overlay definitions and SDK bodies read; strict current rule conflicts with historical used-r0 declarations for own-void 021F15B0 and02078C28, and extra original zero to021F19E4. Original caller loads File* before78C28 and consumes r0 afterward; park owner definition/listing discrepancy, never diverge for a match. 2 fresh EF79C/EFFB0/EF444 flow/prototype neighbours. 3 long result unchanged1564/913. 4 boolean-arm, shared-goto, dense-switch, branch-range and declared72-byteFile idioms read. 5 unfiltered idiom directory and neighbours refreshed. Next: resolve own definitions before case9 call-in-each-arm hypothesis; scheduling cap consumed.
+ * residual: W77 final retry: five fixed runs; 1564 compiled versus actual main1560 (+4), 913 concrete bytes. Handed1568 includes separately matched8-byte021EEEAC; no duplicate unit. Case9 select, default label, SDK declarations and long result unchanged; duplicate failure helper worsened997. 119/126 relocations resolve, 1008/1010/1040/1050/1064/EFE3C remain overlay wildcard sites. Prior permuter300 consumed and follower extent also excluded; no repeated search.
  * search: R3 first permuter300 spent; then-emitted macro-free baseline909 agreed one. Size-first best1568/1050 was worse and rejected; extent still includes the already matched 8-byte stub despite compiling only main. Search not repeated in W76.
  * retry: Wave59 R3: 4 fixed-flag runs plus permuter300; single retry completed.
  * extent: 021EEEAC already matched separately by pkt_ov107_021EEEAC; file only main, no duplicate unit/stub. Unowned EEEB4 begins after handed1568 bytes.
@@ -102,7 +102,9 @@ extern int func_021F1370(void *,void *),func_021F1060(void *);
 extern void *func_0200575C(u32);
 extern void func_020788AC(File *);
 extern int func_02078C18(File *,void *),func_02078A80(File *);
-extern void func_02078B44(File *,int,int),func_02078B70(File *,void *,u32);
+typedef enum { SEEK_SET=0, SEEK_CUR=1, SEEK_END=2 } SeekOrigin;
+extern int func_02078B44(File *,long,SeekOrigin);
+extern long func_02078B70(File *,void *,long);
 extern u32 func_02078C28(File *);
 extern u8 d_021F6E08[],d_021F6E0C[];
 extern void func_02034714(void *,int,void *);

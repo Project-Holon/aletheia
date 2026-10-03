@@ -5,12 +5,16 @@
  * region: ov129
  * compiler: dsi/1.1p1
  * flags: -O4,p
+ * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 original DA158 reads two words and returns r0, 9E48/9E98/9EE8 arities3/2/3 retained; 2 no full twin, 93D4 record-array shape rejected for unknown runtime domain; 3 Flag/unsigned i 836/644, const p 836/652 rejected (2 calls spent); 4 enum-offset and unsigned-address idioms read, no safe bounded array proof; 5 fresh full idiom listing and 93D4/9E48/9E98/9EE8 neighbours reread, no further scheduling variant (cap2 spent); P300 once best adds return next to void and is rejected; next hypothesis needs producer/caller domain evidence, not another permuter.
- * budget: 8 iteration calls, first nonshrinker r3 (6 iteration calls r3..r8); scheduling2; check3=2; check5=0; no sweeps; P300 spent. r6 raw-address repair included in8; two later semantic repair validations and one AST baseline validation recorded separately, no reset. r8 shrank2 bytes, but no new evidenced scheduling lever remained; stop was conservative. Later modular/rawfields repairs each nonshrinking.
- * residual: final fixed one 840/836 bytes, 714 concrete bytes differ; frame0x48 versus0x44 and extra spills/register choices. 25/26 relocations resolved; d_021DA75C sole-ref moves to+2E8 with size shift and is unresolved, not an unmatched callee.
+ * checks: 1 own DA158 int return, B878 pointer/u16,93D4 const pointer,9320 byte pointer and ARM9 key-unit signatures copied; 2 no full twin, neighbours retain record/table shape; 3 byte changed and long next unchanged840/714; 4 named int row and unsigned-long column helper improves to842/576; 5 unfiltered idiom directory and93D4/9E48/9E98/9EE8/9760 neighbours refreshed, declared stack Table idiom read.
+ * residual: DIFF842/836 (+6),576 concrete bytes,25/26 relocs; frame0x48 versus0x44, extra entry pushr3/spills; table data d_021DA75C remains unresolved at+2E8.
+ * runs: w77/R19:6 one; three nonshrinking iterations long n/long offset/helper table, then two check3 and one check4. Checks improved without reopening iteration. Prior P300 consumed, not repeated.
+ * history: Prior840/714 modular-address repair retained; old836/644 array spelling rejected for unknown runtime domain. Old P300 best changedvoidreturn, rejected; never rerun.
+ * evidence: All runtime table/record addresses retain unsigned32 arithmetic including row*20 andcolumn*4 beforeintpage binding. Cursor/count updates retain modular32 behavior. Helper full-word int andunsignedlong do not narrow addresses or indices.
  * bounds: 85C0 nonzero argument copies nine unchecked words to+330; 89C4 sums counts into+23C. Physical12-record allocation does not bound index188 or i+1. Signed cursor1B8/1BA initialized0 but full callback domain not proved; both table reads and record fields use unsigned32 raw addresses, cursor/count updates preserve modular32 arithmetic.
+ * scratch: scratchpad/overlay-newpass-20261003-w77/R19
  * symbols:
  *   func_020362DC 0x020362DC arm
  *   func_0203633C 0x0203633C arm
@@ -37,19 +41,21 @@ extern unsigned func_020362DC(void);
 extern unsigned func_0203633C(void);
 extern void func_020061E4(unsigned);
 extern void func_021D9E98(char *,int);
-extern void func_021D93D4(void *);
-extern int func_021D9320(char *);
+extern void func_021D93D4(const void *);
+extern int func_021D9320(unsigned char *);
 extern void func_021D9348(char *);
 extern void func_021D8AF4(char *,int);
 extern void func_021D9E48(char *,int,int);
 extern void func_021D9EE8(char *,int,int);
-extern unsigned func_021DA158(int,int);
+extern int func_021DA158(int,int);
 extern void func_0204B878(void *,u16);
+static inline int read_table(const Table *t,int row,unsigned long col) { int page=(unsigned)t+(unsigned)row*20; return *(int *)((unsigned)page+col*4); }
 void func_021D8FA0(char *p)
 {
+    unsigned char *object=(unsigned char *)p;
     Table t=d_021DA75C;
     Flag changed=UNCHANGED;
-    int n=*(int *)((unsigned)&t+(unsigned)*(s16 *)(p+0x1ba)*20+(unsigned)*(s16 *)(p+0x1b8)*4);
+    int n=read_table(&t,*(s16 *)(p+0x1ba),*(s16 *)(p+0x1b8));
     unsigned i;
     int v,next;
     Offset off;
@@ -91,7 +97,7 @@ void func_021D8FA0(char *p)
             func_021D93D4((char *)p);
             func_020061E4(0x553);
         } else if(n==11) {
-            if(func_021D9320((char *)p)) {
+            if(func_021D9320(object)) {
                 func_021D9348((char *)p);
                 func_020061E4(0x54d);
             } else func_021D8AF4((char *)p,4);
@@ -157,7 +163,7 @@ void func_021D8FA0(char *p)
     }
     if(changed==1) {
         func_020061E4(0x548);
-        n=*(int *)((unsigned)&t+(unsigned)*(s16 *)(p+0x1ba)*20+(unsigned)*(s16 *)(p+0x1b8)*4);
+        n=read_table(&t,*(s16 *)(p+0x1ba),*(s16 *)(p+0x1b8));
         func_021D9E98((char *)p,n);
         if((unsigned)n-10<=1) {
             if(*(int *)(p+0x1a4)!=2) *(int *)(p+0x1a4)=2;

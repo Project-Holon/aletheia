@@ -1,0 +1,93 @@
+/*
+ * function: func_021DE960
+ * address: 0x021DE960
+ * packet: pkt_ov171_021DE960
+ * region: ov171
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * note: renewed w77 pass: 220B / 158 concrete bytes differ. All 4 relocations resolve.
+ *   Original frame 0x20, compiled 0x18; bestX spills in original but stays r7 here.
+ *   Recovered unsigned output words from unit_02035C70, with unsigned interval comparisons.
+ *   Four-bound spelling, unsigned loop and s16 best assignment compiled 236B/188 differences;
+ *   enum best and const obj gave no improvement. DE5F4 returns only 0 or 6, proving loop domain.
+ * checks: 1 own DE0E4 four args, DE5F4 one, 035D20 two u32 outputs; 2 DD5A8/DE684 no full twin;
+ *   3 enum best and const obj compiled flat; 4 struct-slot/out-param idioms read, no justified padding;
+ *   5 directory and DE684 re-read, no new twin. permuter 300 consumed; baseline 220B/158 agrees;
+ *   unsigned lo winner rejected because it folds the negative-bound clamp. Next: typed sentinel web.
+ *   Runtime signed remainder resolves at 0209C0A4 without a new runtime entry.
+ * symbols:
+ *   func_021DE0E4  0x021DE0E4  thumb ov171
+ *   func_021DE5F4  0x021DE5F4  thumb ov171
+ *   func_02035D20  0x02035D20  arm
+ *   func_0209C0A4  0x0209C0A4  arm
+ */
+
+typedef unsigned short u16;
+typedef signed short s16;
+
+extern unsigned int func_02035D20(unsigned int *, unsigned int *);
+extern int func_021DE5F4(char *);
+extern void func_021DE0E4(unsigned char *, int, s16 *, s16 *);
+extern int func_0209C0A4(int, int);
+
+int func_021DE960(char *obj)
+{
+    unsigned int out2;
+    unsigned int out1;
+    s16 win[2];
+    s16 p1;
+    s16 p2;
+    int start;
+    int best;
+    s16 bestX;
+    int i;
+
+    if (func_02035D20(&out1, &out2) == 0)
+        return 0xff;
+
+    i = (s16)func_021DE5F4(obj);
+    best = -1;
+    start = i;
+    bestX = 0;
+
+    for (; i < start + 6; i++) {
+        if (*(int *)(obj + 0x0b74 + i * 4) != 0) {
+            func_021DE0E4((unsigned char *)obj, i, &win[1], &win[0]);
+
+            p1 = win[1];
+            p2 = win[0];
+
+            {
+                s16 lo, hi;
+
+                lo = p1 - 0x30;
+                hi = p1 + 0x30;
+                if (lo < 0) lo = 0;
+                if (hi > 0xff) hi = 0xff;
+
+                if (out1 < lo) continue;
+                if (out1 >= hi) continue;
+
+                lo = p2 - 0x30;
+                hi = p2 + 0x30;
+                if (lo < 0) lo = 0;
+                if (hi > 0xff) hi = 0xff;
+
+                if (out2 < lo) continue;
+                if (out2 >= hi) continue;
+            }
+
+            if (best == -1 || p2 > bestX) {
+                bestX = p2;
+                best = i - start;
+            }
+        }
+    }
+
+    if (best == -1)
+        return 0xff;
+    return (best % 6) + 5;
+}

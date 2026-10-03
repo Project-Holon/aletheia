@@ -8,9 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own full bodies prove1/1/1/6/1 inputs and u8 02045730 result; 2 fresh8724/86F8 confirm row stride12 and palette; 3 long win unchanged71; 4 enum/narrow-return/inline idioms read; 5 unfiltered idioms and1028724/86F8,1038FA0,104829C refreshed; next lever would be palette local scope.
- * residual: 212/212, 71 concrete bytes, 5/5 resolved; win/index/palette colors, blink slot and coordinate scheduling.
- * renewed: typed State107/208; enum win unchanged; enum palette72/212; typed Row unchanged; enum b116/216; rowY inline71/212; long win unchanged. Six manual and one check compiles; one scheduling variant.
+ * checks: 1 own 51C88/061E4/45730/413B0/409B4 rederived 1/1/1/6/1 inputs and u8 accessor return; 2 ov1028724/86F8 no full twin; 3 scoped u8 window and wide palette unchanged70, byte palette105/208; 4 enum/inline/block-scope/typed-pointer idioms; 5 unfiltered idioms and current1028724/86F8,1038FA0,104829C reread. Next would be field getters with enum results.
+ * residual: 212/212, 70 concrete bytes, 5/5 resolved; win/index/palette colors, blink slot and coordinate scheduling.
+ * renewed: wave77 final retry: case-local palette70/212 improves71; u8 window plus u32 palette70; all case1 locals scoped70; unsigned long palette70; byte palette check105/208. Four iteration compiles ending with three nonshrinks plus one check; two scheduling variants. Best wide scoped spelling retained.
  * Historical types permuter300 consumed; not repeated. Its85/212 winner added volatile palette and unassigned reads after break; rejected. Palette is assigned only for image-supported indices0/1.
  * symbols:
  * func_02051C88 0x02051C88 arm
@@ -40,13 +40,7 @@ extern void func_020409B4(u32);
 static inline u8 rowY(const Row *row) { return row->y; }
 void func_021B8624(State *p)
 {
-    long win;
-    u8 a,b,c,d;
     typedef enum { PaletteNine=9, PaletteTwelve=12 } Palette;
-    Palette palette1;
-    u8 palette0;
-    u8 blink;
-    const Row *row;
     switch(p->phase) {
     case 0:
         p->done=0;
@@ -56,7 +50,13 @@ void func_021B8624(State *p)
             p->phase=1;
         }
         break;
-    case 1:
+    case 1: {
+        u8 win;
+        u8 a,b,c,d;
+        u8 blink;
+        const Row *row;
+        unsigned long palette1;
+        u8 palette0;
         blink=(u8)((p->timer/4)%2);
         win=func_02045730(*(struct Descriptor **)((u8 *)p+4+p->index*4));
         row=(const Row *)(p->rows+p->index*12);
@@ -74,5 +74,6 @@ void func_021B8624(State *p)
             p->phase=0;
         }
         break;
+    }
     }
 }

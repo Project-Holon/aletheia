@@ -10,8 +10,8 @@
  * status: DIFF
  * residual: 440/444 bytes; missing add r5, sp, #0 at +0x10c, then byte-copy register shift; 146 concrete bytes differ, 13/13 relocations resolved.
  * semantics: unrestricted size addition and payload length subtraction use unsigned 32-bit operations before casting to int, preserving the original ARM word wrapping without a fabricated input-range constraint.
- * budget: manual 5, first nonshrinking run 3, consecutive nonshrinking 3; iteration closed; checks 3=2/2, 4=1/2; no sweeps; permuter once-300 consumed; emitted-baseline diagnostic 1.
- * checks: 1 callee arities/return inputs verified, no missing argument; 2 ov125 matched callers confirm four full-word parameters, no copy twin; 3 const payload already present, long length unchanged, unsigned wrapping preserves same DIFF440/444 and146 (2/2); 4 stack/aggregate idioms read, union unchanged (1/2); 5 idiom directory and ov125 matched neighbours re-read, peer 824C has same stack-copy issue; no evidence-backed next sweep. Permuter emitted fixed-one baseline agrees 440/444 and 146; once-300 best rejected: u8 length, uninitialized packet read, allocation hoisted before length assignment; internal unresolved=1 score not accepted. Final wrap validation: B2/7a10-check3-wrap.log, terminal exit1,13/13 relocations resolved.
+ * renewed-pass: wave77 R17 five fixed compiles: inline copy helper, four-byte local array, one-word length struct all unchanged146 close iteration; unsigned flags and length self-assignment checks unchanged146. Two scheduling/extraction variants consumed. Prior once300 search consumed, unsafe best rejected; not repeated.
+ * checks: 1 current own 7D30/7CC0/7808/891C/89EC and allocator caller8C14 confirm interfaces; 2 current ov125 callers show four full-word parameters without an exact stack-copy twin; 3 unsigned flags unchanged146, preserved unsigned size wrapping; 4 inline helper/local aggregate/self-assignment unchanged146, stack-copy idioms reread; 5 fresh idiom listing and ov124/ov125/ov126 neighbours checked, no closer twin.
  * symbols:
  *   d_021D9E40 0x021D9E40 data a4
  *   func_021D7CAC 0x021D7CAC arm ov125

@@ -1,0 +1,36 @@
+/*
+ * function: func_021BCEBC
+ * address: 0x021BCEBC
+ * packet: pkt_ov110_021BCEBC
+ * region: ov110
+ * compiler: dsi/1.1p1
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: EXACT*
+ * extent: 38-byte function followed by two zero alignment bytes.
+ * lever: inline helper reuses its dying pointer for the zero/one result;
+ *   zero assignment remains explicit, and the allocator shares r4.
+ * symbols:
+ *   func_021BF6DC 0x021BF6DC thumb ov110
+ *   func_021BCFF0 0x021BCFF0 thumb ov110
+ */
+typedef unsigned char u8;
+typedef unsigned int u32;
+extern u8 func_021BF6DC(u8 *);
+extern u32 func_021BCFF0(char *,u32);
+static inline int Check(char *p, int zero)
+{
+    u32 value;
+    value = func_021BCFF0(p, zero);
+    p = 0;
+    if (value) p = (char *)1;
+    return (int)p;
+}
+int func_021BCEBC(char *p)
+{
+    if (func_021BF6DC(*(u8 **)(p+4))==1) {
+        return Check(p, 0);
+    }
+    return 1;
+}

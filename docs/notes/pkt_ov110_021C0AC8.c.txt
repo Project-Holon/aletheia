@@ -7,7 +7,7 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own ARM9 callees confirm two-argument constructor and full-word heap store; 2 current ov107 twin confirms descriptor 20/records 12 bytes; 3 unsigned-long heap gives 85 differing bytes after body correction, enum i/j worsen to 132/140 bytes; 4 zero-copy and aggregate-local idioms do not close; 5 current neighbours/idioms reread, declared aggregates retained. Prior permuter consumed and rejected dropped flags/call-before-desc.d candidate; not repeated. Alignment-only data still unresolved.
+ * checks: 1 own constructor/allocate/free exact prototypes, 128/85; 2 ov107 twin and own descriptor constructor confirm 20-byte descriptor/12-byte records; 3 enum one, unsigned-long j, enum flags, const p all 128/85; const-void record field 128/85; 4 stored-zero/declaration/counter idioms reviewed, original records[2].flags=1 retained, earlier schedules exhausted; 5 fresh full idiom listing/neighbours read, declared stack aggregates retained. Prior permuter consumed, rejected dropped flags/call reorder, never repeated.
  * residual: 128 compiled vs 124 original, 85 concrete bytes differ; initial zero/copy and descriptor store schedule remain. Original 021C0AFC stores 1 to records[2].flags at sp+0x2c, not an unused one local; old sketch omitted it.
  * symbols:
  *   func_02045EC0 0x02045EC0 arm
@@ -18,11 +18,11 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { void *s; u16 color; u16 pad; unsigned flags; } Record;
-typedef struct { unsigned heap; u8 count; u8 pad[3]; Record *records; unsigned mode; u8 a,b,c,d; } Descriptor;
+typedef struct { unsigned heap; u8 count; u8 pad[3]; const void *records; unsigned mode; u8 a,b,c,d; } Descriptor;
 extern const u8 data_021C3C94[];
 extern void *func_02045EC0(void *,unsigned);
 extern void func_02045808(void *);
-extern void *func_02027778(Descriptor *,void *);
+extern void *func_02027778(void *,void *);
 void *func_021C0AC8(void *p,void *bank,unsigned long heap) {
     Descriptor desc;
     int one;

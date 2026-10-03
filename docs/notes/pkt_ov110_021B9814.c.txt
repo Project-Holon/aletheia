@@ -7,8 +7,9 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 n/a no callees; 2 ov110 021B98A0/021B99D8 parser callers checked, no full twin; 3 const u16 source pointer compiled unchanged; 4 nested-pointer and running-cursor idioms read; 5 idioms relisted and ov110 callers reread, stack-object check n/a no stack aggregate. Inline read16, split cursor advances and u16 pointer increments all stayed 136 B/109 out. 300-budget --types permuter's valid --n-before-bit-store mutation gave 140 B/37 out; one confirmed it. No hand sweep. Next lever: count-address materialisation, without changing inner-loop scheduling.
+ * checks-earlier: 1 n/a no callees; 2 ov110 021B98A0/021B99D8 parser callers checked, no full twin; 3 const u16 source pointer compiled unchanged; 4 nested-pointer and running-cursor idioms read; 5 idioms relisted and ov110 callers reread, stack-object check n/a no stack aggregate. Inline read16, split cursor advances and u16 pointer increments all stayed 136 B/109 out. 300-budget --types permuter's valid --n-before-bit-store mutation gave 140 B/37 out; one confirmed it. No hand sweep. Next lever: count-address materialisation, without changing inner-loop scheduling.
  * residual: 140 bytes compiled, 37 concrete bytes differ in the marker-count load and inner-loop scheduling; no relocation blockers.
+ * checks: 1 no callees; 2 full own 98A0/99D8 family refreshed, sibling search finds no full parser twin; 3 long count and long inner n unchanged140/37; 4 unsigned-countdown, grouped pointer and long-index idioms read; 5 full idiom directory and own/sibling neighbours refreshed, no stack aggregate. Guarded do/while reproduces the inner loop but shrinks136/109; enum count-offset and long source address retain136/109. Three nonshrinking iterations then two check3 compiles: five runs. Two scheduling/named-offset variants consumed. Prior permuter300 not repeated. Best retained; final retry exhausted.
  * wave76 R28 runs: 5 one calls; no sweep or repeated permuter. Fresh checks:
  *   1 no callees; 2 98A0/99D8 parser family reread, no full twin; 3 u16 n
  *   gives 144/113, enum n gives 140/37; typed u16 count-pointer arithmetic,

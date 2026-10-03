@@ -8,9 +8,12 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks: 1 own ARM9 allocator proves fifth u16 tag, B86B8 pointer return, all other 5/2-argument shapes retained; 2 own A41C and matched B8588 callers read; 3 evidenced tag and full-width pointer/flag declarations unchanged 176/14; 4 inline allocator and pool-scheduler idioms read; 5 fresh directory and matched constructor neighbours re-read.
- * residual: DIFF 176/176, 14 concrete bytes, all 12 sites resolve; line pool load precedes spills and file load follows outgoing store.
- * budget: 3 nonshrinking iteration calls; first types300 permuter consumed. Emitted baseline DIFF14 agrees on bytes but loses one relocation (fixed one resolves all 12). Best12 narrows full-width d to u16: rejected, no mutant accepted. Next hypothesis: allocation wrapper source boundary with full-width inputs.
+ * checks: 1 current own allocator/490F4/20F14/VM/waza/A41C definitions and matched B8588 caller refreshed; strict prototype audit exposes owner return blocker below; 2 current A41C/87FB0 and pending neighbours refreshed; 3 not attempted after new owner-return gate, prior fresh enum full-word d176/14 is iteration evidence only; 4 inline-bound argument, declared-stack-object and spill scheduler idioms read; 5 fresh plain directory and neighbours refreshed. Current strict C is intentionally blocked, not a compiled candidate.
+ * residual: Historical executable best DIFF176/176, 14 bytes and all12 sites resolved. New strict prototype rule forbids its int-return extern for ARM9 02020F14; historical executable C remains only in wave77 R1 scratch.
+ * budget: Wave77 final retry before rule change: bound enum allocation tag176/14, allocation-sized Context176/14, full-word enum d176/14; stopped after three nonshrinking changes. Three fixed-flag one runs. Prior types300 search consumed; no repeats or budget reset. Best12 had narrowed full-width d: rejected.
+ * owner-blocked: arm9 0x02020F14, own src/matched/arm9/func_02020F14.c returns void and tail-calls pointer-returning020490F4. Caller02187F40 bl02020F14,02187F44 adds r1,r4,#0,02187F46 adds r1,#0xA8,02187F48 str r0,[r1] consumes its result. Preserve strict void declaration; owner must resolve return type before another caller compile.
+ * width-evidence: arm9020490F4 own second argument is u16. Caller02187F0C loads full heap word fromsp+0x20 and02187F2E copies r5 into r1 before02187F34 blx020490F4 without truncation. Strict u16 extern retained, no wider replacement; do not narrow incoming heap used by full-word allocator.
+ * next: Exhausted historical DIFF and current owner blocker. Do not retry until Ilias resolves the return/prototype discrepancy. The marked void-result assignment below documents the original required store and cannot compile with the required declaration.
  * symbols:
  *   d_0218A7A0     0x0218A7A0  data   ov096  a1
  *   d_0218A574     0x0218A574  data   ov096  a4
@@ -33,16 +36,16 @@ typedef unsigned int u32;
 extern char d_0218A7A0[];
 extern char d_0218A574[];
 
-extern u8 *func_02030734(u32 a, u32 b, int c, const char *d, u16 e);
-extern int func_020490F4(int a, int b);
-extern int func_02020F14(u32 heap);
+extern void *func_02030734(u32 a, u32 b, int c, const char *d, u16 e);
+extern void *func_020490F4(u32 a, u16 b);
+extern void func_02020F14(u32 heap);
 extern u32 func_021B8588(void *p);
 extern void *func_021B86B8(void ***p);
-extern void *func_0201121C(u32 heap, void *params);
+extern void *func_0201121C(u32 heap, const void *params);
 extern void func_0201126C(void *vm, void *user);
 extern u32 func_0201C408(void);
 extern void func_0201C328(int n, u32 heap);
-extern void func_0218A41C(int a);
+extern void func_0218A41C(u32 a);
 
 static inline u8 *allocate(u32 heap)
 {
@@ -58,8 +61,9 @@ void *func_02187F00(void ***a, void *b, void *c, u32 d, u32 heap)
     *(u16 *)(p + 0xa0) = heap;
     *(int *)(p + 0xc4) = 1;
     *(u32 *)(p + 0x40) = d;
-    *(int *)(p + 0xa4) = func_020490F4(0xab, heap);
-    *(int *)(p + 0xa8) = func_02020F14(heap);
+    *(void **)(p + 0xa4) = func_020490F4(0xab, heap);
+    /* BLOCKED: original requires storing live r0; owner's void return cannot express it. */
+    *(void **)(p + 0xa8) = func_02020F14(heap);
     *(void ****)(p + 0xb0) = a;
     *(void **)(p + 0xb4) = b;
     *(void **)(p + 0xb8) = c;

@@ -6,7 +6,8 @@
  * compiler: dsi/1.1p1
  * flags: -O4,p
  * isa: thumb
- * status: DIFF
+ * status: EXACT
+ * resolution: renewed Wave77 pass EXACT on run3; matched source src/matched/ov/ov137_func_021E07A4.c supersedes the historical sketch below. Initialize i, then assign count and base in separate statements, retaining signed Count enum; prior permuter not repeated.
  * residual: 164 bytes, four concrete bytes differ at +6/+8: ldr count and movs r7 swap.
  * runs: 6 cumulative iterations (4 prior + 2 wave29), C3 2/2 exhausted.
  * budget: first nonshrink iteration 4; terminal nonshrinking streak 3,

@@ -8,9 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own bodies and forwarding targets confirm all arities, 02040618 three inputs; 2 fresh BB414/BB584 no twin; 3 enum done/word flag unchanged56; 4 compound frame subtraction unchanged176/228, explicit c99 best confirmation56; 5 unfiltered idioms and BB414/BB584 refreshed.
+ * checks: 1 own bodies rederived, 02040618 three u32 inputs and FB24 u32 result; SDK7E3D0 original full body reads three words; 2 current BB414/BB584 no full twin; 3 const frame receiver unchanged56/236; main p writes forbid const receiver; 4 flag enum/shared done unchanged56; dead parameter and repeated-field idioms read; 5 unfiltered idioms and BB414/BB584 reread. Next would be separate typed storage for frame and callback.
  * residual: 236/236, 56 concrete bytes, 11/11 resolved; hardware boolean normalization and repeated frame offsets.
- * renewed: raw hardware state176/228, forwarded helper offset56/236, enum hardware176/228; three manual nonshrinks, three check compiles. Historical types permuter300 consumed; not repeated.
+ * renewed: wave77 final retry: C99 bool with own prototype types56/236; modular setter address56/236; dead entry parameter masked state176/228; const frame check56/236; enum flag/shared done check56/236; own anonymous Obj pointer declaration represented as void* check56/236. Three iteration nonshrinks plus three checks. Historical types300 consumed (wave76 R25), never repeated. Best const getter with own callee types retained.
  * volatile: original hardware status read at021BB49E; existing register access only.
  * symbols:
  *   func_0207E3D0 0x0207E3D0 arm
@@ -26,22 +26,21 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-struct Obj;
 struct PrintSys;
 extern void func_0207E3D0(void *, u32, u32);
-extern void func_02027974(struct Obj *);
+extern void func_02027974(void *);
 extern void func_02028178(u8 *);
-extern void func_02040618(int, int, int);
+extern void func_02040618(u32, u32, u32);
 extern void func_0204A600(void);
 extern u32 func_0201C4E4(struct PrintSys *);
-extern int func_0200FB24(void);
+extern u32 func_0200FB24(void);
 extern void func_0200FB38(void);
 extern void func_0202223C(u32, u32);
 enum Offset
 {
   Callback = 0x248
 };
-inline static u16 frame(u8 *p)
+inline static u16 frame(const u8 *p)
 {
   enum Offset t = Callback;
   return *((u16 *) (p + (t - 8)));
@@ -88,8 +87,8 @@ int func_021BB498(int a, int b, int c, u8 *p)
     if (*((void (**)(u8 *)) (p + 0x248)))
       done = 0;
   }
-  if (*((struct Obj **) (p + 0xcc0)))
-    func_02027974(*((struct Obj **) (p + 0xcc0)));
+  if (*((void **) (p + 0xcc0)))
+    func_02027974(*((void **) (p + 0xcc0)));
   if (*((u8 **) (p + 0xce0)))
     func_02028178(*((u8 **) (p + 0xce0)));
   if (*((u8 **) (p + 0xce4)))

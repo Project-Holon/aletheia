@@ -8,12 +8,11 @@
  * isa: thumb
  * status: DIFF
  * residue: 9 concrete bytes; scanline value and common hardware base swap r4/r5.
- * checks: 1 func_0207E3D0 reads r0-r2, three args; 2 no ov123 twin; 3 const p stays 9, u16 v adds unsigned-compare byte; 4 SDK getter signed int, initializer and BG3 offset inline stay 9; 5 fresh ov122/ov123/ov124 search and idiom listing find no twin, structured fields stay 9; no stack object residue.
+ * checks: 1 current 0207E3D0 interface remains three full-word inputs; 2 current ov123 neighbours have no scanline twin; 3 long i unchanged9; 4 inline BG3 getter with long parameters unchanged9, applicable hardware/getter idioms reread; 5 fresh idiom directory and ov123/ov124 neighbours checked, no closer twin or stack-object residue.
  * retry-budget: prior 3 iterations + 4 checks; wave26 R1 1x2 named getter/declaration
  *           sweep + one 300-candidate types permuter. Signed-int GX_GetVCount
  *           inline and v declared after n/i both stay DIFF 9, permuter stays 9.
- *           Carry prior nonshrinking window; no new numbered-check compiles.
- *           No concrete untried getter/declaration lever; no volatile forcing.
+ * renewed-pass: wave77 R17 five fixed compiles: long v, self-assignment, long n unchanged9 close iteration after three nonshrinking verdicts; check3 long i and check4 BG3 signature unchanged9. Old once300 permuter consumed, not repeated; no volatile forcing.
  * symbols:
  *   func_0207E3D0 0x0207E3D0 arm
  *   d_021DAA88 0x021DAA88 data a2

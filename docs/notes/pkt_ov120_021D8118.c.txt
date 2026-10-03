@@ -7,6 +7,9 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
+ * blocker: ARM9 02045CAC: Wave77 gated before caller compile. Body exists
+ * in unit_02045C44.c but function header and pkt_02045C44.json nested list
+ * omit func_02045CAC. Owner must supply that entry; no retry or leaves.
  * checks: 1 own callee sources confirm allocator seven args and reader arities, return chains named; 2 ov120 7A74/7F5C allocator twins and 81E0 caller read; 3 unsigned n unchanged (first-four u8 and explicit cast variants also unchanged); 4 seven-argument inline wrapper unchanged; 5 refreshed idiom directory and neighbors, no stack object residue.
  * residual: DIFF, 198 versus 200 bytes, 171 concrete bytes differ; allocator multiply/narrow sequence hoists and reuses r1=6 rather than materializing r0=6 after three stack stores.
  * budget: 4 iteration runs, three consecutive nonshrinking changes; checks 3=1/2, 4=1/2; zero sweeps; once-300-types permuter consumed. Best permuter candidate moved p+18 read across calls; rejected without alias proof. Next hypothesis would be a distinct inline allocator interface or evidence-backed arithmetic type, not a repeated permutation.

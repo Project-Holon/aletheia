@@ -7,8 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 own ARM9 arities read including six/seven-arg resource loaders; original full-word heap forwarding to 45B38/D7EC retained in best C. 2 ov104 7994 and ov105 78F4 setup twins reread, no monolithic twin. 3 full-width heap plus u32 zero check3 remains 508/364; enum reused counter worsened to 512/449. Narrow main heap trial rejected: full-input-domain narrowing unproved. 4 repeated-constant and enum-zero idioms reread; shared loop counter zero failed. 5 fresh unfiltered directory and ov106 8AD0/8648 plus sibling neighbours reread, no rescue. Next hypothesis: block boundary around resource batches, after cap.
- * residual: renewed pass: 3 nonshrinking iterations plus 1 check3; best 508 compiled versus 492 original, 364 concrete bytes. Zero rematerializes for stack calls instead of staying in r4; data 021B94A8 lacks outside witness even with alignment-only hint. No prior permuter; near-size condition unmet (+16), so no search.
+ * checks: 1 matched own loader/print/descriptor definitions and original arguments read; current strict rule makes historical 0203F8F4/02045088 widened externs conflicting with their narrow own definitions, requiring owner prototype resolution rather than divergent declarations. 2 fresh ov106 8AD0/8648 and resource twins, no monolithic initializer twin. 3 unsigned-long zero unchanged 508/364. 4 hoisted-loop-zero, declared-struct, block and repeated-constant idioms read. 5 unfiltered idiom directory and matched 8AD0/8648 refreshed. Next: reconcile callee widths before another zero-live-range hypothesis.
+ * residual: W77 final retry: four fixed runs; best 508/492, +16 bytes, 364 concrete bytes. Batch zero remains rematerialized in r0 instead of kept in r4; block/array/holder and long spellings unchanged. 38/39 relocations resolved; d_021B94A8 retains data a4, no outside witness. No recorded permuter; +16 is outside mandatory within-8 threshold.
  * symbols:
  *   func_02082BCC 0x02082BCC arm
  *   func_0203F8F4 0x0203F8F4 arm

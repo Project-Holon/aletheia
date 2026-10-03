@@ -8,12 +8,12 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 caller-loaded extras retained for 88AC; 63AC b is u8 from outgoing #24 shifts; 3EE0/4044 ov127 bodies agree; 4B294 r0 return used, integer fifth-argument pairing gives identical 664/566 diff (1/2 compiles); 2 no whole-constructor twin, 6CB0 and 8B90 give Point and full-word heap evidence; 3 u32 heap 664/567 then const ctx 664/566 (2/2 compiles); 4 enum-zero/stack-local/address-base idioms inspected, enum variant worse; 5 directory and 6CB0/8B90/ov127 neighbours reread, 9628 still pending; declared Point storage already matches halfword stack copy; next named hypothesis would be typed destination fields, no manual-order variants remain.
- * residual: original 636, compiled 664 (+28), 566 concrete byte differences; original p r7 / ctx r4 / i r6 / j r5, compiled p sp44 / ctx r5 / i r4 / j r7; frame 0x54 versus 0x58.
- * budgets: iteration 4; consecutive nonshrinks 3 (r2-r4); runs since first nonshrink 3; manual ordering 2/2; checks 1..5 compile counts 1,0,2,0,0; sweeps 0/3; permuter 0/1, not required at +28B; checks do not reset iteration.
- * prototype: 4B294 fifth argument preserves its full address payload; own body copies it unchanged; caller stores the returned r0 handle. Pointer versus own-callee u32 with explicit address casts have identical fixed-flag DIFF and call/store setup in check3b/check1a. Heap remains a full word because original outgoing stores do not truncate. No ARM9 compiler calls.
- * evidence: d_021CA688/650/638 pool slots 021C7D38/40/44 have matching ROM words and table uses; no overlay hint claimed; canonical hint-free one still lacks outside-range witnesses while DIFF. d_021CA564 is sole-ref resolved.
- * runs: 7ACC-r1/r2/r3/r4 then 7ACC-check3a/check3b/check1a, all terminal exit 1; scratchpad/overlay-goal-20261001-w57/B5. Current best valid body is check3b. Earlier 660-byte r1 draft omitted the observed b truncation and restricted heap to u16, so was rejected.
+ * checks: 1 strict own ARM9 0204B294 definition is void/u32 fifth/u16 seventh, conflicting with original returned-r0 use; parked when rule changed; 2 no constructor twin, 6CB0/8B90 retain Point evidence; 3 unsigned-long heap and long x unchanged 664/566; 4 typed object unchanged, inline abs worse569; 5 unfiltered idiom directory and matched neighbours refreshed, Point stack-struct idiom read.
+ * residual: Historical DIFF 636/636,275 concrete bytes,18/18 relocs; current owner blocker is ARM9 0204B294 return definition, not relocation evidence.
+ * runs: w77/R19: 8 one calls + first P300; three iteration nonshrinks; emitted-baseline one agrees fixed644/586; valid initialized temporaries in search winner verified636/275. No prior permuter existed; this once-300 is now consumed.
+ * history: Old w57 best664/566; earlier660 draft omitted outgoing byte truncation and narrowed heap, rejected. Fresh typed object664/566, long i644/586, enum j648/606, check3 variants664/566; no reopening after checks/search.
+ * evidence: 021C7CE2 BLX0204B294;021C7CEA stores returned r0 then021C7CEE forwards it;021C7D26 BLX and021C7D2C store returned r0. ARM9 listing0204B314 BL0204CFDC followed0204B318/31C leaves r0 unchanged; own sub_0204B294.c declares void. Fifth parameter carries &Point from021C7CCC/7D10. Owner must reconcile definition before another caller compile.
+ * scratch: scratchpad/overlay-newpass-20261003-w77/R19
  * symbols:
  *   func_021C63AC 0x021C63AC thumb ov128
  *   func_021C88AC 0x021C88AC thumb ov128
@@ -29,64 +29,116 @@
  *   d_021CA650 0x021CA650 data a2
  *   d_021CA638 0x021CA638 data a2
  */
+typedef unsigned int u32;
+typedef unsigned short u16;
+extern void func_0204B294(u32,u32,u32,u32,u32,u16,u16);
+
+#if 0
+/* Historical pre-rule diagnostic body; incompatible interfaces below are inactive.
+   Preserve measured evidence only. Do not compile this caller until definitions
+   are reconciled and every extern/call is updated to the own matched definition. */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
 typedef unsigned int u32;
-typedef struct {s16 x,y,z;u8 a,b;} Point;
+typedef struct
+{
+  s16 x;
+  s16 y;
+  s16 z;
+  u8 a;
+  u8 b;
+} Point;
 extern const s16 d_021CA564[][3];
 extern const u32 d_021CA688[];
-extern const Point d_021CA650,d_021CA638;
-extern void func_021C63AC(void *,u32 *,u32,u8,u8,u8,u8,u8,u32,u8);
-extern void func_021C88AC(u16 *,u16 *,const s16 *,u32,u32);
-extern void *func_021C3EE0(void *,void *,u32,u32);
-extern void func_021C4044(void *,int,int,int,int);
-extern void *func_02045EC0(void *,u32);
-extern void *func_02027F60(u16,u16,u32,u32,u32);
-extern void *func_020457B0(u32,u32);
-extern void *func_0204B294(u32,u32,u32,u32,const Point *,u16,u32);
-extern void func_0204B3DC(void *,u32);
-void func_021C7ACC(u8 *p,void *unused,const u8 *ctx,u32 heap)
+extern const Point d_021CA650;
+extern const Point d_021CA638;
+extern void func_021C63AC(void *, u32 *, u32, u8, u8, u8, u8, u8, u32, u8);
+extern void func_021C88AC(u16 *, u16 *, const s16 *, u32, u32);
+extern void *func_021C3EE0(void *, void *, u32, u32);
+extern void func_021C4044(void *, int, int, int, int);
+extern void *func_02045EC0(void *, u32);
+extern void *func_02027F60(u16, u16, u32, u32, u32);
+extern void *func_020457B0(u32, u32);
+extern void *func_0204B294(u32, u32, u32, u32, const Point *, u16, u32);
+extern void func_0204B3DC(void *, u32);
+void func_021C7ACC(u8 *p, void *unused, const u8 *ctx, u32 heap)
 {
-    int i,j,x,y;
-    Point pt1,pt0;
-    const s16 *row;
-    i=0;
-    j=0;
-    for(;i<2;i++) {
-        row=d_021CA564[i];
-        y=row[1];if(y<0)y=-y;
-        x=row[0];if(x<0)x=-x;
-        func_021C63AC((void *)ctx,(u32 *)(p+0xf0+i*8),3,x+4,y+4,26,17,10,j,j);
+  long i;
+  Point pt1;
+  int x;
+  void **tmp;
+  int j;
+  Point pt0;
+  const s16 *row;
+  u8 *tmp2;
+  u8 *tmp1;
+  int y;
+  long tmp4;
+  u8 *tmp5;
+  void **tmp6;
+  u8 *tmp7;
+  u8 *tmp8;
+  tmp7 = p + 0xf0;
+  i = 0;
+  tmp5 = tmp7;
+  j = 0;
+  tmp2 = tmp5;
+  for (; i < 2; i++)
+  {
+    tmp4 = i * 8;
+    row = d_021CA564[i];
+    y = row[1];
+    if (row[1] < 0)
+      y = -row[1];
+    x = row[0];
+    if (row[0] < 0)
+      x = -row[0];
+    func_021C63AC((void *) ctx, (u32 *) ((p + 0xf0) + tmp4), 3, x + 4, y + 4, 26, 17, 10, j, j);
+  }
+
+  tmp1 = tmp2;
+  for (; j < 3; j++)
+    func_021C88AC((u16 *) ((p + 12) + (j * 76)), (u16 *) ctx, d_021CA564[j], 0, heap);
+
+  *((void **) (p + 20)) = tmp1;
+  tmp = (void **) (p + 96);
+  *((void **) (p + 172)) = p + 0xf8;
+  *tmp = p + 0xf8;
+  *((void **) (p + 260)) = func_021C3EE0(*((void * const *) (ctx + 316)), 0, 16, heap);
+  func_021C4044(*((void **) (p + 260)), 0, 2, 224, heap);
+  for (i = 0; i < 4; i++)
+  {
+    *((void **) ((p + (i * 12)) + 280)) = func_02045EC0(*((void * const *) (ctx + 4)), d_021CA688[i * 2]);
+    *((u16 *) ((p + (i * 12)) + 284)) = 0x39e3;
+    *((u32 *) ((p + (i * 12)) + 288)) = 0;
+    *((void **) ((p + (i * 12)) + 328)) = func_02045EC0(*((void * const *) (ctx + 4)), d_021CA688[(i * 2) + 8]);
+    *((u16 *) ((p + (i * 12)) + 332)) = 0x39e3;
+    do
+    {
+      *((u32 *) ((p + (i * 12)) + 336)) = 0;
     }
-    for(;j<3;j++) func_021C88AC((u16 *)(p+12+j*76),(u16 *)ctx,d_021CA564[j],0,heap);
-    *(void **)(p+20)=p+0xf0;
-    *(void **)(p+172)=p+0xf8;
-    *(void **)(p+96)=p+0xf8;
-    *(void **)(p+260)=func_021C3EE0(*(void *const *)(ctx+316),0,16,heap);
-    func_021C4044(*(void **)(p+260),0,2,224,heap);
-    for(i=0;i<4;i++) {
-        *(void **)(p+i*12+280)=func_02045EC0(*(void *const *)(ctx+4),d_021CA688[i*2]);
-        *(u16 *)(p+i*12+284)=0x39e3;
-        *(u32 *)(p+i*12+288)=0;
-        *(void **)(p+i*12+328)=func_02045EC0(*(void *const *)(ctx+4),d_021CA688[i*2+8]);
-        *(u16 *)(p+i*12+332)=0x39e3;
-        *(u32 *)(p+i*12+336)=0;
-    }
-    *(u32 *)(p+324)=1;
-    *(u32 *)(p+372)=1;
-    *(void **)(p+376)=func_02045EC0(*(void *const *)(ctx+4),66);
-    *(u16 *)(p+380)=0x39e3;
-    *(u32 *)(p+384)=0;
-    *(void **)(p+388)=func_02045EC0(*(void *const *)(ctx+4),67);
-    *(u16 *)(p+392)=0x39e3;
-    *(u32 *)(p+396)=0;
-    *(void **)(p+400)=func_02027F60(1,14,*(const u32 *)(ctx+380),*(const u32 *)(ctx+52),heap);
-    func_021C63AC((void *)ctx,(u32 *)(p+264),1,2,1,27,4,10,0,15);
-    *(void **)(p+272)=func_020457B0(128,heap);
-    pt1=d_021CA650;
-    *(void **)(p+416)=func_0204B294(*(const u32 *)(ctx+312),*(const u32 *)(ctx+324),*(const u32 *)(ctx+332),*(const u32 *)(ctx+340),&pt1,0,heap);
-    func_0204B3DC(*(void **)(p+416),0);
-    pt0=d_021CA638;
-    *(void **)(p+420)=func_0204B294(*(const u32 *)(ctx+312),*(const u32 *)(ctx+324),*(const u32 *)(ctx+332),*(const u32 *)(ctx+340),&pt0,0,heap);
+    while (0);
+  }
+
+  *((u32 *) (p + 324)) = 1;
+  tmp6 = (void **) (p + 376);
+  *((u32 *) (p + 372)) = 1;
+  *tmp6 = func_02045EC0(*((void * const *) (ctx + 4)), 66);
+  tmp8 = p + 384;
+  *((u16 *) (p + 380)) = 0x39e3;
+  *((u32 *) tmp8) = 0;
+  *((void **) (p + 388)) = func_02045EC0(*((void * const *) (ctx + 4)), 67);
+  *((u16 *) (p + 392)) = 0x39e3;
+  *((u32 *) (p + 396)) = 0;
+  *((void **) (p + 400)) = func_02027F60(1, 14, *((const u32 *) (ctx + 380)), *((const u32 *) (ctx + 52)), heap);
+  func_021C63AC((void *) ctx, (u32 *) (p + 264), 1, 2, 1, 27, 4, 10, 0, 15);
+  *((void **) (p + 272)) = func_020457B0(128, heap);
+  const u32 tmp3 = *((const u32 *) (ctx + 324));
+  pt1 = d_021CA650;
+  *((void **) (p + 416)) = func_0204B294(*((const u32 *) (ctx + 312)), tmp3, *((const u32 *) (ctx + 332)), *((const u32 *) (ctx + 340)), &pt1, 0, heap);
+  func_0204B3DC(*((void **) (p + 416)), 0);
+  pt0 = d_021CA638;
+  *((void **) (p + 420)) = func_0204B294(*((const u32 *) (ctx + 312)), *((const u32 *) (ctx + 324)), *((const u32 *) (ctx + 332)), *((const u32 *) (ctx + 340)), &pt0, 0, heap);
 }
+#endif

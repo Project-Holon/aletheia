@@ -8,14 +8,17 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * residue: 52 bytes compiled; 13 concrete bytes differ in loop register allocation.
- * checks: 1 CE48 own ARM9 unit and 02878 cleanup caller confirm one pointer; 2 02878 no loop twin; 3 historical const p/long i each DIFF13, retry u16 i DIFF39/56; 4 typed records DIFF46/48, pointer base and named zero each DIFF13, scheduling cap used; 5 refreshed full idiom listing and 02878 reread, no stack object.
- * residual: 52/52 bytes; 13 concrete differences in loop register allocation. Final retry exhausted: 5 one runs plus required once-only 300-candidate permuter; emitted baseline DIFF13/52 agrees, best stays13.
+ * residual: renewed wave77 pass exhausted; DIFF13/52 loop register allocation.
+ * checks: 1 own CE48 Rec3 pointer type copied, listing arity and matched02878 caller confirmed; DIFF13; 2 02878 reread, no matching loop twin; 3 s16 counter DIFF39/56, signed address base DIFF13/52, const p excluded by writes; 4 pointer-element iteration and inline Clear each DIFF13/52, loop/long-index/named-element idioms reread, two scheduling variants consumed; 5 fresh unfiltered idiom listing and ov135/136 neighbours reread; no stack object.
+ * runs: wave77 3 iteration + 4 checks.
+ * permuter: earlier budget300/types emitted baselineDIFF13/52 agrees and best remains13; not repeated.
+ *
  * symbols:
  *   func_0201CE48 0x0201CE48 thumb
  */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-extern void func_0201CE48(void *);
+struct Rec3;
+extern void func_0201CE48(struct Rec3 *);
 void func_02202940(u8 *p) { long i=0; u32 base=(u32)p+24; for(;i<24;i++) { u32 e=base+(u32)i*12; if(*(u32 *)(e+8)!=0) *(u32 *)(e+8)=0; } if(*(void **)(p+16)!=0) { func_0201CE48(*(void **)(p+16)); *(u32 *)(p+16)=0; *(u32 *)(p+20)=0; } }

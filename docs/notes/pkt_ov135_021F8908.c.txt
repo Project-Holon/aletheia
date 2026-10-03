@@ -7,11 +7,14 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * residue: 22 concrete bytes; original branches to bottom test and stores heap before index loads; this spelling tests at top and schedules heap store later.
- * checks: 1 own matched 88D8 returns count and writes u32 start, own F81C takes two, own F878 takes four but original explicitly supplies heap as fifth; 2 no matching twin beyond 88D8 and table callers; 3 u16 count/return and signed start/goto each 46 bytes (2 compiles, cap consumed); 4 enum count/u16 argument 46, explicit break/u16 argument 32 (2 compiles, cap consumed); 5 refreshed idioms and ov134/135/136 neighbours, declared stack struct idiom not applicable because scalar out value, cached menu/goto 46 (1 compile). Retry inline loop helper worsened 32 to 59; once-only 300 types permuter supplied valid pre-guard menu load and sum temporary, validated one at 22 bytes. No next sweep within carried budget.
- * retry: wave28 high; cumulative iterations 5, checks 5; nonshrinking streak 3 from position 3 (three runs), permuter does not reset it; 300 compiles including baseline exhausted, one validation compile.
+ * residue: ARM9 owner ABI conflict; previous DIFF18/72 used five arguments, now forbidden. Canonical four-argument note below is not recompiled after discovering conflict.
+ * checks: W77 1 own matched 88D8/F81C/F878, exact own-definition four-argument F878 now retained; explicit Thumb hints restored in historical checks; 2 exact ov135 87E0/86A8 loops inspected; 3 long index inert; 4 bottom-test ternary idiom applied, enum heap inert; 5 refreshed complete idiom directory and current ov135 neighbours, scalar out stack slot already matches.
+ * retry: W77 renewed big pass, 6 one runs; three nonshrinking changes stopped iteration. Prior once-only 300 types search consumed, not repeated.
+ * blocker: arm9 0201F878 owns four args (table,u32,u32,u32), while caller ov135 021F8926/28 sets 0x48 then str r0,[sp] with r3 set before bl at021F893A. ARM9 listing asm/arm9/src/008_0201F5BC.s, 0201F87A/87E/880 preserves r1/r2/r3, 0201F88A/88C calls02045EC0 with two args, 0201F892/894 stores result/tag; through0201F896 no fifth-arg load. Ilias owns this ABI decision; no callee edits or further caller retry.
  * behavior: start is assigned from a u8 table field by 88D8; count is a difference of u8 entries, so successful indices stay below 256 and the int cast preserves values. menu load remains after allocation and is refreshed each iteration; the final extra ordinary read has no side effect.
  * symbols:
+ *   func_0201F81C 0x0201F81C thumb
+ *   func_0201F878 0x0201F878 thumb
  *   func_021F88D8 0x021F88D8 thumb ov135
  *   tbl_022030E8 0x022030E8 data a2
  */
@@ -19,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 extern int func_021F88D8(u32 id, u32 *start);
 extern void *func_0201F81C(u32 n, u32 heap);
-extern void func_0201F878(void *table, void *msg, u32 b, u32 tag, u32 heap);
+extern void func_0201F878(void *table, u32 msg, u32 b, u32 tag);
 extern const u16 tbl_022030E8[];
 int func_021F8908(void **menu, void *msg, u32 id)
 {
@@ -31,12 +34,11 @@ int func_021F8908(void **menu, void *msg, u32 id)
     void *tmp2;
     count = func_021F88D8(id, &start);
     *menu = func_0201F81C(count, 0x48);
-    for (i = 0; ; i++) {
+    for (i = 0; (i < count) ? 1 : 0; i++) {
         tmp2 = *menu;
         tmp1 = tmp2;
-        if (i >= count) break;
         tmp = start + i;
-        func_0201F878(tmp1, msg, tbl_022030E8[(int)start + i], tmp + 1, 0x48);
+        func_0201F878(tmp1, (u32)msg, tbl_022030E8[(int)start + i], tmp + 1);
     }
     return count;
 }

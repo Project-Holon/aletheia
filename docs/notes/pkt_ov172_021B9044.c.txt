@@ -7,11 +7,11 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * retry: exhausted; six runs (four iteration, two checks), best remains
+ * historical-retry: exhausted; six runs (four iteration, two checks), best remains
  *   1328B with 31 concrete bytes differing. Iteration: int current 31B,
  *   current declared first 84B/1330B, unsigned long max 31B; stopped after
  *   three consecutive nonshrinking changes. Both declaration variants used.
- * checks: 1 re-derived all callees from own full bodies and matched BA9EC;
+ * historical-checks: 1 re-derived all callees from own full bodies and matched BA9EC;
  *   B9580/B97AC listings read both ctx and q; B8B48/35C60 legacy void bodies
  *   return live r0 consumed by original, B8B5C retains caller-loaded inputs;
  *   2 full BA9EC state machine supplies related arity/types, no exact twin;
@@ -73,7 +73,23 @@
  *   _u32_div_f 0x0209C2B0 arm
  *   func_021B9E5C 0x021B9E5C thumb ov172
  *   func_0204B878 0x0204B878 arm
+ * checks: Current own definitions and shards checked before renewed compile;
+ *   B8B5C is void(void), B8B48 is void(void*, unsigned int, unsigned int),
+ *   ARM9 sub_02035C60 is void(void). Caller consumes all three returns.
+ *   Listing: 021B91C8 bl B8B5C; 021B91CC adds r7,r0; 021B91EA cmp r6,r7;
+ *   021B9386 bl B8B48; 021B938A cmp r0,#1;
+ *   021B9296 blx 02035C60; 021B929A cmp r0,#1 (also 9342/9346,93BC/93C0).
+ *   Strict definition rule blocks renewed one and remaining checks/permuter.
+ *   Full historical measured sketch below is rejected and disabled;
+ *   old 1328B/31B is diagnostic history, not a fresh wave77 verdict.
+ *   Main-session definition correction required; no owner source edited.
  */
+
+extern void func_021B8B5C(void);
+extern void func_021B8B48(void *p, unsigned int a, unsigned int b);
+extern void sub_02035C60(void);
+
+#if 0 /* Rejected historical measured sketch: incompatible own definitions. */
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef signed short s16;
@@ -402,3 +418,4 @@ int func_021B9044(void * const ctx, u8 *q)
   }
   return 1;
 }
+#endif

@@ -8,7 +8,7 @@
  * lang:     c99
  * isa:      thumb
  * status:   DIFF
- * checks:   1 own matched void(p) callees inspected; u32 guard witnessed by ARM9 unit_020362BC; 2 021BC468/4D4 and renewed 6B0 examined; 3 enum mode and correct guard width inert, mutable p rules out const pointee; 4 enum/inline and redundant-offset idioms read; 5 refreshed idioms and scoped neighbours; no stack object.
+ * checks:   1 current own matched void(p) callees and u32(void) guard inspected, all resolve; 2 021BC468/4D4 and owned short tails reread; 3 const Off worsens to 10/84, mutable p and full-width return forbid const pointee/narrowing; 4 enum, allocator-tie and inline idioms read; 5 fresh full idiom directory and current neighbours reread, no stack object. Next hypothesis: genuine inline scope around tail scratch webs.
  *
  * Residue (12 runs): layout, branch targets and the derived `subs r0,#9` all
  * match; only the register roles differ. Original: r0 = 0x135C offset (kept
@@ -19,6 +19,9 @@
  * Renewed W76: 5 one runs; inline write_byte, enum-loaded mode, redundant
  * f definition and corrected guard type all unchanged 9/80. Permuter 300
  * types consumed: baseline agrees 9/80, best 9/80, no winning mutation.
+ * Renewed W77 final retry: 4 one runs. Full-range enum values 9/80,
+ * mode-base pointer 32/80, signed full-range Off 9/80: three nonshrinking
+ * iterations. Check 3 const Off 10/84. Best C retained; W76 once300 not repeated.
  *
  * symbols:
  *   func_020362DC  0x020362DC  arm

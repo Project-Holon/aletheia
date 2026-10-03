@@ -8,9 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * checks: 1 own 020410D0 full body proves ten inputs; 2 fresh 0992274/1F74 and091A81C no twin; 3 a unsigned long unchanged9 and explicit c99 confirms; 4 declaration/enum/inline/long idioms read; 5 refreshed unfiltered idioms and these neighbours, no new lever.
+ * checks: 1 own 020410D0 reread proves ten inputs including byte stack arguments; 2 current ov0992274/1F74 have no full twin; 3 const p gives18, const payload local with mutable accessor gives9; 4 inline/const/declaration/enum idioms read; 5 current unfiltered idiom listing and ov0992274/1F74 reread. Next would be a typed payload-access inline with different result type.
  * residual: 80/80, 9 concrete bytes, 1/1 resolved; p/q and y register swap.
- * renewed: inline row-Y variant71/84; enum y and word q unchanged9; three manual nonshrinks, two check compiles. Historical types permuter300 consumed; not repeated.
+ * renewed: wave77 final retry: const p18/80; void pointer parameter9/80; mutable payload accessor9/80; const payload check9/80. Three iteration nonshrinks, one check compile, no scheduling sweep. Wave76 R25 proves historical types permuter300 consumed; not repeated. Best previous C retained.
  * symbols:
  *   func_020410D0 0x020410D0 arm
   */

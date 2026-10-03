@@ -8,9 +8,9 @@
  * lang: c99
  * isa: thumb
  * status: DIFF
- * blocker: 10 concrete bytes differ at 72/72; r4/r5 selector-object allocation swap.
- * checks: 1 A160/A2FC own byte/pointer prototypes and both halfword getter bodies re-derived; 2 A160/A2FC/D679C neighbours re-read; 3 halfword result and const getter pointer gave 10; 4 selector inline gave 10; 5 fresh idiom listing and neighbours, no stack object; next sweep none.
- * permuter: once-only types budget 300 this pass; baseline 10 agreed; best 2 rejected for index copy before assignment.
+ * blocker: DIFF 72/72, 10 concrete bytes; persistent r4/r5 owner/selected-pointer swap; all7 calls resolve.
+ * checks: 1 own Read u32/opaque cursor and A160/A2FC/u16 getter definitions copied; 2 selector and getter neighbours re-read; 3 full-word selected address, full-word owner address and u32 result each retain10; 4 selector/register-swap idioms read; 5 fresh directory and scoped neighbours read, no stack object; next sweep none.
+ * permuter: historical once-only types300 consumed; best2 rejected for read before assignment; no repeat in wave77.
  * symbols:
  *   func_0201134C 0x0201134C thumb
  *   func_0218A160 0x0218A160 thumb ov096
@@ -21,21 +21,22 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef struct { u8 p0[0x38]; int f38; u8 p1[0x88]; int fc4; } Obj;
-extern int func_0201134C(int);
+struct Cursor;
+extern unsigned int func_0201134C(struct Cursor *);
 extern u8 func_0218A160(u8 *, int);
 extern u8 *func_0218A2FC(u8 *, u8);
-extern u16 func_021D67A8(const u8 *);
-extern u16 func_021D679C(const u8 *);
+extern u16 func_021D67A8(void *);
+extern u16 func_021D679C(u8 *);
 static inline u8 *select_p(u8 *b, int r)
 {
     u8 index;
     index = func_0218A160(b, r);
     return func_0218A2FC(b, index);
 }
-int func_02189548(int a, Obj *b)
+int func_02189548(struct Cursor *a, Obj *b)
 {
     u16 t;
-    const u8 *p;
+    u8 *p;
     int r;
     r = func_0201134C(a);
     p = select_p((u8 *)b, r);

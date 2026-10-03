@@ -8,13 +8,15 @@
  * lang:     c99
  * isa:      arm
  * status:   DIFF
- * residual: 204 concrete bytes differ, same-size 2620; five prologue webs rotate.
- * retry: enum setter 204; enum inline poll 242; unsigned fields 204.
+ * residual: 202 concrete bytes differ, same-size 2620; five prologue webs rotate.
+ * retry: renewed wave77 R11; named completed 204, ctx pointer improves to 202;
+ *   const response, long fields, long len retain 202; iteration stopped after
+ *   three nongains. Own-definition API correction and unsigned ctx retain 202.
+ * prior: enum setter 204; enum inline poll 242; unsigned fields 204.
  * previous: permuter budget 600 was already run, best 163 in previous environment.
- * checks: 1 8EB4 own source and SDK returns agree; 2 no closer same-overlay twin;
- * 3 SDK unsigned-long len alias compiled, unchanged 204; 4 enum inlining failed;
- * 5 idioms and neighbours re-read, no aggregate address residue.
- * next: source shape creating the 24 web before the global address webs.
+ * checks: 1 own definitions copied: Process int/0, Shutdown void/0, GetResponse ulong/ulong*, error int/int*/int*, 8EB4 int/uint, memcpy void*/3; API spelling compiled unchanged 202; 2 live 8EB4/8C68/87FC twins reread, no closer poll twin; 3 const resp/long fields/long len 202 during iteration, unsigned ctx check 202; 4 global-base and small-constant idioms read, prior enum inline 242; 5 unfiltered idiom directory refreshed and live neighbours reread, no aggregate stack-object residue.
+ * next: independent per-case state-pointer scopes instead of one shared ctx;
+ *   not compiled here because the two scheduling variants are consumed.
  *
  * DWC encryption-session poll: a switch on the session state (0..24); every
  * even state 2..22 runs DWCi_EncSessionProcess and on 1 (error) or 8 (done)
@@ -35,7 +37,7 @@
  */
 
 typedef unsigned char u8;
-typedef unsigned int u32;
+typedef unsigned long u32;
 
 typedef struct {
     u8 code;
@@ -56,10 +58,10 @@ extern Hdr d_021D3EF0;
 
 extern int DWCi_EncSessionProcess(void);
 extern void DWCi_EncSessionShutdown(void);
-extern u8 *DWCi_EncSessionGetResponse(u32 *len);
+extern u32 DWCi_EncSessionGetResponse(u32 *len);
 extern int DWC_GetLastErrorEx(int *code, int *type);
-extern int func_021C8EB4(u32 type);
-extern void func_02092344(void *dst, const void *src, u32 n);
+extern int func_021C8EB4(unsigned int type);
+extern void *func_02092344(void *dst, const void *src, unsigned int n);
 
 void func_021C7C1C(void)
 {
@@ -67,32 +69,33 @@ void func_021C7C1C(void)
     int code;
     int type;
     u8 *resp;
+    Ctx *ctx = &d_021D3D2C;
 
-    switch (d_021D3D2C.state) {
+    switch (ctx->state) {
     case 2:
         switch (DWCi_EncSessionProcess()) {
         case 1:
-            d_021D3D2C.state = 24;
+            ctx->state = 24;
             DWC_GetLastErrorEx(&code, &type);
-            d_021D3D2C.result = func_021C8EB4(type);
+            ctx->result = func_021C8EB4(type);
             DWCi_EncSessionShutdown();
             return;
         case 8:
-            d_021D3D2C.state = 24;
+            ctx->state = 24;
             d_021D3EF0 = *(Hdr *)DWCi_EncSessionGetResponse(&len);
-            switch (d_021D3D2C.hdr.code) {
-            case 1: d_021D3D2C.result = 0; break;
-            case 2: d_021D3D2C.result = -5; break;
-            case 3: d_021D3D2C.result = -4; break;
-            case 7: d_021D3D2C.result = -1; break;
-            case 12: d_021D3D2C.result = -6; break;
-            case 13: d_021D3D2C.result = -7; break;
-            case 8: d_021D3D2C.result = -8; break;
-            case 9: d_021D3D2C.result = -9; break;
-            case 10: d_021D3D2C.result = -10; break;
-            case 11: d_021D3D2C.result = -11; break;
-            case 14: d_021D3D2C.result = -2; break;
-            default: d_021D3D2C.result = -13; break;
+            switch (ctx->hdr.code) {
+            case 1: ctx->result = 0; break;
+            case 2: ctx->result = -5; break;
+            case 3: ctx->result = -4; break;
+            case 7: ctx->result = -1; break;
+            case 12: ctx->result = -6; break;
+            case 13: ctx->result = -7; break;
+            case 8: ctx->result = -8; break;
+            case 9: ctx->result = -9; break;
+            case 10: ctx->result = -10; break;
+            case 11: ctx->result = -11; break;
+            case 14: ctx->result = -2; break;
+            default: ctx->result = -13; break;
             }
             DWCi_EncSessionShutdown();
             return;
@@ -101,21 +104,21 @@ void func_021C7C1C(void)
     case 4:
         switch (DWCi_EncSessionProcess()) {
         case 1:
-            d_021D3D2C.state = 24;
+            ctx->state = 24;
             DWC_GetLastErrorEx(&code, &type);
-            d_021D3D2C.result = func_021C8EB4(type);
+            ctx->result = func_021C8EB4(type);
             DWCi_EncSessionShutdown();
             return;
         case 8:
-            d_021D3D2C.state = 24;
+            ctx->state = 24;
             d_021D3EF0 = *(Hdr *)DWCi_EncSessionGetResponse(&len);
-            switch (d_021D3D2C.hdr.code) {
-            case 1: d_021D3D2C.result = 0; break;
-            case 2: d_021D3D2C.result = -5; break;
-            case 3: d_021D3D2C.result = -4; break;
-            case 5: d_021D3D2C.result = -3; break;
-            case 14: d_021D3D2C.result = -2; break;
-            default: d_021D3D2C.result = -13; break;
+            switch (ctx->hdr.code) {
+            case 1: ctx->result = 0; break;
+            case 2: ctx->result = -5; break;
+            case 3: ctx->result = -4; break;
+            case 5: ctx->result = -3; break;
+            case 14: ctx->result = -2; break;
+            default: ctx->result = -13; break;
             }
             DWCi_EncSessionShutdown();
             return;
@@ -124,23 +127,23 @@ void func_021C7C1C(void)
     case 6:
         switch (DWCi_EncSessionProcess()) {
         case 1:
-            d_021D3D2C.state = 24;
+            ctx->state = 24;
             DWC_GetLastErrorEx(&code, &type);
-            d_021D3D2C.result = func_021C8EB4(type);
+            ctx->result = func_021C8EB4(type);
             DWCi_EncSessionShutdown();
             return;
         case 8:
-            d_021D3D2C.state = 24;
-            resp = DWCi_EncSessionGetResponse(&len);
-            func_02092344(d_021D3D2C.buf, resp, 0x128);
+            ctx->state = 24;
+            resp = (u8 *)DWCi_EncSessionGetResponse(&len);
+            func_02092344(ctx->buf, resp, 0x128);
             if (len == 0x128) {
-                d_021D3D2C.result = 0;
+                ctx->result = 0;
             } else {
-                switch (d_021D3D2C.buf[0]) {
-                case 5: d_021D3D2C.result = -3; break;
-                case 3: d_021D3D2C.result = -4; break;
-                case 14: d_021D3D2C.result = -2; break;
-                default: d_021D3D2C.result = -13; break;
+                switch (ctx->buf[0]) {
+                case 5: ctx->result = -3; break;
+                case 3: ctx->result = -4; break;
+                case 14: ctx->result = -2; break;
+                default: ctx->result = -13; break;
                 }
             }
             DWCi_EncSessionShutdown();
@@ -150,24 +153,24 @@ void func_021C7C1C(void)
     case 8:
         switch (DWCi_EncSessionProcess()) {
         case 1:
-            d_021D3D2C.state = 24;
+            ctx->state = 24;
             DWC_GetLastErrorEx(&code, &type);
-            d_021D3D2C.result = func_021C8EB4(type);
+            ctx->result = func_021C8EB4(type);
             DWCi_EncSessionShutdown();
             return;
         case 8:
-            d_021D3D2C.state = 24;
-            resp = DWCi_EncSessionGetResponse(&len);
-            func_02092344(d_021D3D2C.buf, resp, 0x128);
+            ctx->state = 24;
+            resp = (u8 *)DWCi_EncSessionGetResponse(&len);
+            func_02092344(ctx->buf, resp, 0x128);
             if (len == 0x128) {
-                d_021D3D2C.result = 1;
+                ctx->result = 1;
             } else {
-                switch (d_021D3D2C.buf[0]) {
-                case 5: d_021D3D2C.result = -3; break;
-                case 3: d_021D3D2C.result = -4; break;
-                case 4: d_021D3D2C.result = 0; break;
-                case 14: d_021D3D2C.result = -2; break;
-                default: d_021D3D2C.result = -13; break;
+                switch (ctx->buf[0]) {
+                case 5: ctx->result = -3; break;
+                case 3: ctx->result = -4; break;
+                case 4: ctx->result = 0; break;
+                case 14: ctx->result = -2; break;
+                default: ctx->result = -13; break;
                 }
             }
             DWCi_EncSessionShutdown();
@@ -177,20 +180,20 @@ void func_021C7C1C(void)
     case 10:
         switch (DWCi_EncSessionProcess()) {
         case 1:
-            d_021D3D2C.state = 24;
+            ctx->state = 24;
             DWC_GetLastErrorEx(&code, &type);
-            d_021D3D2C.result = func_021C8EB4(type);
+            ctx->result = func_021C8EB4(type);
             DWCi_EncSessionShutdown();
             return;
         case 8:
-            d_021D3D2C.state = 24;
+            ctx->state = 24;
             d_021D3EF0 = *(Hdr *)DWCi_EncSessionGetResponse(&len);
-            switch (d_021D3D2C.hdr.code) {
-            case 1: d_021D3D2C.result = 0; break;
-            case 5: d_021D3D2C.result = -3; break;
-            case 3: d_021D3D2C.result = -4; break;
-            case 14: d_021D3D2C.result = -2; break;
-            default: d_021D3D2C.result = -13; break;
+            switch (ctx->hdr.code) {
+            case 1: ctx->result = 0; break;
+            case 5: ctx->result = -3; break;
+            case 3: ctx->result = -4; break;
+            case 14: ctx->result = -2; break;
+            default: ctx->result = -13; break;
             }
             DWCi_EncSessionShutdown();
             return;
@@ -199,21 +202,21 @@ void func_021C7C1C(void)
     case 12:
         switch (DWCi_EncSessionProcess()) {
         case 1:
-            d_021D3D2C.state = 24;
+            ctx->state = 24;
             DWC_GetLastErrorEx(&code, &type);
-            d_021D3D2C.result = func_021C8EB4(type);
+            ctx->result = func_021C8EB4(type);
             DWCi_EncSessionShutdown();
             return;
         case 8:
-            d_021D3D2C.state = 24;
+            ctx->state = 24;
             d_021D3EF0 = *(Hdr *)DWCi_EncSessionGetResponse(&len);
-            switch (d_021D3D2C.hdr.code) {
-            case 1: d_021D3D2C.result = 0; break;
-            case 5: d_021D3D2C.result = -3; break;
-            case 2: d_021D3D2C.result = -5; break;
-            case 3: d_021D3D2C.result = -4; break;
-            case 14: d_021D3D2C.result = -2; break;
-            default: d_021D3D2C.result = -13; break;
+            switch (ctx->hdr.code) {
+            case 1: ctx->result = 0; break;
+            case 5: ctx->result = -3; break;
+            case 2: ctx->result = -5; break;
+            case 3: ctx->result = -4; break;
+            case 14: ctx->result = -2; break;
+            default: ctx->result = -13; break;
             }
             DWCi_EncSessionShutdown();
             return;
@@ -222,26 +225,26 @@ void func_021C7C1C(void)
     case 14:
         switch (DWCi_EncSessionProcess()) {
         case 1:
-            d_021D3D2C.state = 24;
+            ctx->state = 24;
             DWC_GetLastErrorEx(&code, &type);
-            d_021D3D2C.result = func_021C8EB4(type);
+            ctx->result = func_021C8EB4(type);
             DWCi_EncSessionShutdown();
             return;
         case 8:
-            d_021D3D2C.state = 24;
-            resp = DWCi_EncSessionGetResponse(&len);
-            *(Hdr *)d_021D3D2C.buf = *(Hdr *)resp;
-            switch (d_021D3D2C.buf[0]) {
+            ctx->state = 24;
+            resp = (u8 *)DWCi_EncSessionGetResponse(&len);
+            *(Hdr *)ctx->buf = *(Hdr *)resp;
+            switch (ctx->buf[0]) {
             case 1:
                 if (len - 2 >= 0x128) {
-                    d_021D3D2C.result = (len - 2) / 0x128;
-                    func_02092344(d_021D3D2C.buf, resp + 2, len - 2);
+                    ctx->result = (len - 2) / 0x128;
+                    func_02092344(ctx->buf, resp + 2, len - 2);
                 } else if (len == 2) {
-                    d_021D3D2C.result = 0;
+                    ctx->result = 0;
                 }
                 break;
-            case 14: d_021D3D2C.result = -2; break;
-            default: d_021D3D2C.result = -13; break;
+            case 14: ctx->result = -2; break;
+            default: ctx->result = -13; break;
             }
             DWCi_EncSessionShutdown();
             return;
@@ -250,28 +253,28 @@ void func_021C7C1C(void)
     case 16:
         switch (DWCi_EncSessionProcess()) {
         case 1:
-            d_021D3D2C.state = 24;
+            ctx->state = 24;
             DWC_GetLastErrorEx(&code, &type);
-            d_021D3D2C.result = func_021C8EB4(type);
+            ctx->result = func_021C8EB4(type);
             DWCi_EncSessionShutdown();
             return;
         case 8:
-            d_021D3D2C.state = 24;
-            resp = DWCi_EncSessionGetResponse(&len);
-            func_02092344(d_021D3D2C.buf, resp, 0x128);
+            ctx->state = 24;
+            resp = (u8 *)DWCi_EncSessionGetResponse(&len);
+            func_02092344(ctx->buf, resp, 0x128);
             if (len == 0x128) {
-                d_021D3D2C.result = 0;
+                ctx->result = 0;
             } else {
-                switch (d_021D3D2C.buf[0]) {
-                case 2: d_021D3D2C.result = -5; break;
-                case 12: d_021D3D2C.result = -6; break;
-                case 13: d_021D3D2C.result = -7; break;
-                case 8: d_021D3D2C.result = -8; break;
-                case 9: d_021D3D2C.result = -9; break;
-                case 10: d_021D3D2C.result = -10; break;
-                case 11: d_021D3D2C.result = -11; break;
-                case 14: d_021D3D2C.result = -2; break;
-                default: d_021D3D2C.result = -13; break;
+                switch (ctx->buf[0]) {
+                case 2: ctx->result = -5; break;
+                case 12: ctx->result = -6; break;
+                case 13: ctx->result = -7; break;
+                case 8: ctx->result = -8; break;
+                case 9: ctx->result = -9; break;
+                case 10: ctx->result = -10; break;
+                case 11: ctx->result = -11; break;
+                case 14: ctx->result = -2; break;
+                default: ctx->result = -13; break;
                 }
             }
             DWCi_EncSessionShutdown();
@@ -281,18 +284,18 @@ void func_021C7C1C(void)
     case 18:
         switch (DWCi_EncSessionProcess()) {
         case 1:
-            d_021D3D2C.state = 24;
+            ctx->state = 24;
             DWC_GetLastErrorEx(&code, &type);
-            d_021D3D2C.result = func_021C8EB4(type);
+            ctx->result = func_021C8EB4(type);
             DWCi_EncSessionShutdown();
             return;
         case 8:
-            d_021D3D2C.state = 24;
+            ctx->state = 24;
             d_021D3EF0 = *(Hdr *)DWCi_EncSessionGetResponse(&len);
-            switch (d_021D3D2C.hdr.code) {
-            case 1: d_021D3D2C.result = 0; break;
-            case 2: d_021D3D2C.result = -5; break;
-            case 14: d_021D3D2C.result = -2; break;
+            switch (ctx->hdr.code) {
+            case 1: ctx->result = 0; break;
+            case 2: ctx->result = -5; break;
+            case 14: ctx->result = -2; break;
             }
             DWCi_EncSessionShutdown();
             return;
@@ -301,20 +304,20 @@ void func_021C7C1C(void)
     case 20:
         switch (DWCi_EncSessionProcess()) {
         case 1:
-            d_021D3D2C.state = 24;
+            ctx->state = 24;
             DWC_GetLastErrorEx(&code, &type);
-            d_021D3D2C.result = func_021C8EB4(type);
+            ctx->result = func_021C8EB4(type);
             DWCi_EncSessionShutdown();
             return;
         case 8:
-            d_021D3D2C.state = 24;
+            ctx->state = 24;
             d_021D3EF0 = *(Hdr *)DWCi_EncSessionGetResponse(&len);
-            switch (d_021D3D2C.hdr.code) {
-            case 1: d_021D3D2C.result = 0; break;
-            case 6: d_021D3D2C.result = 1; break;
-            case 7: d_021D3D2C.result = 2; break;
-            case 14: d_021D3D2C.result = -2; break;
-            default: d_021D3D2C.result = -13; break;
+            switch (ctx->hdr.code) {
+            case 1: ctx->result = 0; break;
+            case 6: ctx->result = 1; break;
+            case 7: ctx->result = 2; break;
+            case 14: ctx->result = -2; break;
+            default: ctx->result = -13; break;
             }
             DWCi_EncSessionShutdown();
             return;
@@ -323,24 +326,24 @@ void func_021C7C1C(void)
     case 22:
         switch (DWCi_EncSessionProcess()) {
         case 1:
-            d_021D3D2C.state = 24;
+            ctx->state = 24;
             DWC_GetLastErrorEx(&code, &type);
-            d_021D3D2C.result = func_021C8EB4(type);
+            ctx->result = func_021C8EB4(type);
             DWCi_EncSessionShutdown();
             return;
         case 8:
-            d_021D3D2C.state = 24;
-            resp = DWCi_EncSessionGetResponse(&len);
-            *(Hdr *)d_021D3D2C.buf = *(Hdr *)resp;
+            ctx->state = 24;
+            resp = (u8 *)DWCi_EncSessionGetResponse(&len);
+            *(Hdr *)ctx->buf = *(Hdr *)resp;
             if (len == 8) {
-                d_021D3D2C.result = 0;
+                ctx->result = 0;
             } else {
-                switch (d_021D3D2C.buf[0]) {
-                case 1: d_021D3D2C.result = 0; break;
-                case 6: d_021D3D2C.result = 1; break;
-                case 7: d_021D3D2C.result = 2; break;
-                case 14: d_021D3D2C.result = -2; break;
-                default: d_021D3D2C.result = -13; break;
+                switch (ctx->buf[0]) {
+                case 1: ctx->result = 0; break;
+                case 6: ctx->result = 1; break;
+                case 7: ctx->result = 2; break;
+                case 14: ctx->result = -2; break;
+                default: ctx->result = -13; break;
                 }
             }
             DWCi_EncSessionShutdown();
@@ -358,8 +361,8 @@ void func_021C7C1C(void)
     case 19:
     case 21:
     case 23:
-        d_021D3D2C.state = 24;
-        d_021D3D2C.result = -12;
+        ctx->state = 24;
+        ctx->result = -12;
         DWCi_EncSessionShutdown();
         return;
     case 0:

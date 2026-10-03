@@ -1,21 +1,23 @@
 /*
  * function: func_021BA04C
- * address:  0x021BA04C
- * packet:   pkt_ov099_021BA04C
- * region:   ov099
+ * address: 0x021BA04C
+ * packet: pkt_ov099_021BA04C
+ * region: ov099
  * compiler: dsi/1.1p1
- * flags:    -O4,p
- * lang:     c99
- * isa:      thumb
- * status:   DIFF
- * checks: 1 own getter bodies return u16, 4864 three arguments/full-word result; retained caller u16 argument truncations, u32 return probe13; 2 BA0F8 and ov127 own leaves reread; 3 enum x/y42, narrowed input14 uses wrong arithmetic shift and is rejected, masked u16 lo176B/166diff, const Work pointer13; 4 reused n25 and decl order13 exhaust two manual variants; 5 fresh idioms/neighbours checked; once300 baseline13 agreed and safe temp/use winner fixed one2.
- * residual: DIFF2/172: only cmp r1,r0 versus cmp r0,r1 at +0066 and +007C. All four calls resolved. Fresh once-only types budget300 consumed; mutations use(hi), temp(tmp=func_021C47F8(o->f588)) preserve values/order. Fixed one validates2. Evidence: scratchpad/overlay-newpass-20261003-w76/R22/021BA04C-perm.log and 021BA04C-permuter.log. No manual sweep reopened.
+ * flags: -O4,p
+ * lang: c99
+ * isa: thumb
+ * status: DIFF
+ * checks: 1 own 47F8/47FC/4864 definitions rederived; updated exact-prototype instruction applied after initial EXACT; 2 B9800/B9FDC twins reread; 3 u16 x gave62/172, unsigned-long x115/176; 4 direct caller casts115/176 and narrow inline wrapper115/176, cmp-temporary idiom read; 5 fresh idioms/neighbours reread. No further compile per orchestrator.
+ * residual: Canonical-prototype best DIFF62/172 below; initial EXACT172 used forbidden u16 4864 extern. Corrected u32 extern with caller casts/wrapper yields115/176, u16 loop x62/172. Five fresh runs; scoped verify reported DIFF, matched candidate removed per orchestrator; no shard remains. Initial snapshot retained in scratch a04c.c. W76 permuter consumed, never repeated.
+ * evidence: scratchpad/overlay-newpass-20261003-w77/R3, unique per-run logs; no repeated search.
  * symbols:
- *   func_021C47F8  0x021C47F8  thumb  ov127
- *   func_021C47FC  0x021C47FC  thumb  ov127
- *   func_021C4864  0x021C4864  thumb  ov127
+ *   func_021C47F8 0x021C47F8 thumb ov127
+ *   func_021C47FC 0x021C47FC thumb ov127
+ *   func_021C4864 0x021C4864 thumb ov127
  */
 typedef unsigned short u16;
+typedef unsigned char u8;
 typedef unsigned int u32;
 typedef struct
 {
@@ -27,9 +29,13 @@ typedef struct
   char pad[0x588];
   void *f588;
 } Work;
-extern u32 func_021C47F8(void *m);
-extern u32 func_021C47FC(void *m);
-extern u32 func_021C4864(void *m, u16 x, u16 y);
+extern u16 func_021C47F8(u16 *m);
+extern u16 func_021C47FC(u16 *m);
+extern u32 func_021C4864(u8 *m, u32 x, u32 y);
+static inline u32 cell(u8 *m, u16 x, u16 y)
+{
+  return func_021C4864(m, x, y);
+}
 void func_021BA04C(Work *o, Pos *out, u32 n)
 {
   u32 hi = n >> 3;
@@ -37,7 +43,8 @@ void func_021BA04C(Work *o, Pos *out, u32 n)
   u32 lo = n & 7;
   u32 y;
   u32 h;
-  u32 x;
+  u16 x;
+  u32 code;
   u32 tmp = func_021C47F8(o->f588);
   w = tmp;
   h = func_021C47FC(o->f588);
@@ -45,14 +52,18 @@ void func_021BA04C(Work *o, Pos *out, u32 n)
   {
     for (x = 0; x < w; x++)
     {
-      if ((func_021C4864(o->f588, x, y) == (lo + 7)) && (func_021C4864(o->f588, x, y + 1) == (hi + 3)))
+      code = cell(o->f588, x, y);
+      if (code == (lo + 7))
       {
+        code = cell(o->f588, x, y + 1);
+        if (code == (hi + 3)) {
         out->x = x * 16;
         if (hi)
         {
         }
         out->y = y * 16;
         return;
+        }
       }
     }
 

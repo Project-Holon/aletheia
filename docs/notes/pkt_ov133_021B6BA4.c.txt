@@ -7,9 +7,9 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: retry 1 own 490F4/49658/498F4/A6C8/AF28/ABF0/B294/409B4 bodies plus 133/112 callers reread, live r0 preserved; 2 ov112 44F8 twin reread; 3 narrow scalar externs32, signed-long scalar externs32, const p232; 4 distinct enum-returning zero inline32; 5 directory/neighbours refreshed. Earlier permuter300 already ran, not repeated. Retry exhausted, original32 best retained.
+ * checks: w77 renewed: 1 own ARM9 definitions and listing reread; ABF0/B294 wrong void return definitions block further work under revised callee rule, no divergence authorized; 2 ov112 44F8 and ov133 9DE8 request twin reread; 3 byte zero rejected DIFF619; 4 enum-argument alloc/level/enable inline unchanged32; 5 directory and stack-object idiom refreshed. Two fresh one runs before rule refresh; historical best C below retained as suspended evidence, not a new compile declaration. Earlier once300 consumed, not repeated. Owner blocked; wait for ARM9 definition fixes.
  * residue: 680/680 bytes, all 33 relocations resolved; scalar zero arguments use adds from r6 instead of movs #0 at BA..27C.
- * prototype: ABF0 and B294 return live r0 from forwarding calls despite legacy void declarations; preserve caller's observed result.
+ * prototype: OWNER BLOCKED arm9 0204ABF0 and 0204B294 are currently void in their own matched definitions. Original ov133 021B6BA4 +010C BLX204ABF0, +0114 STR r0,[r5,r1]; +01EA BLX204B294, +01F4 STR r0,[r5,r1] prove live word returns. Definitions forward to 4AC18 s32 /4CFDC respectively. Historical nonvoid declarations below explain DIFF32 only; do not compile them until owner corrects definitions. Caller/callee tools untouched.
  * symbols:
  *   func_020490F4 0x020490F4 arm
  *   func_02049B68 0x02049B68 arm

@@ -7,8 +7,8 @@
  * flags: -O4,p
  * isa: thumb
  * status: DIFF
- * checks: 1 BA188 halfword getter, BA19C four arguments and own matched 7458/ov133 callers reread; 2 8140/8254/8444 agree; 3 const Context worsened225/244 bytes, u16 BA188 return unchanged4/240; 4 Vec inline setter and named y scheduling both worsened, scheduling variants exhausted; 5 fresh idiom directory and current ov133/ov112 neighbours reread; prior permuter300 baseline4 flat, not repeated; retry exhausted.
- * residual: DIFF4, compiled240/original240, 17/17 resolved; manager-offset ldr and Vec.z store swap at +98/+9A. Six retry one runs.
+ * checks: W77 1 final own-definition BA188/19C/100/21C and F4EB4 types inert in run7; own matched callees reread; BA19C heap widened to own u32, BA21C const source and BA218 u32 corrected without code change; 2 current8140/8254 agree; 3 long id inert, previous const Context failure not repeated; 4 long Vec members and named Managers binding inert; 5 complete idiom directory/current neighbours refreshed, declared-struct stack form already correct. Prior permuter300 consumed, not repeated.
+ * residual: W77 DIFF4, compiled240/original240, 17/17 resolved; manager-offset load and Vec.y store swap at +98/+9A. Seven one runs; three nonshrinking changes stopped iteration.
  * symbols:
  *   func_021B7458 0x021B7458 thumb ov133
  *   func_021BA188 0x021BA188 thumb ov133
@@ -29,12 +29,12 @@ typedef struct { u16 id; u16 pad; int a,b,c,d; } Record;
 typedef struct { u8 prefix[0xa8]; u16 count,pad; Record records[]; } Context;
 typedef struct { u8 prefix[0x1820]; void *manager; u8 gap[0x60]; void *display; } Managers;
 extern void func_021B7458(void *, int *);
-extern u16 func_021BA188(void *);
-extern u8 *func_021BA19C(u16, void *, u8 *, Vec *);
-extern void func_021BA100(void *, u8 *);
-extern void func_021BA21C(u8 *, int *);
-extern u8 *func_021BA218(u8 *);
-extern void func_021F4EB4(int, int, short, short);
+extern u16 func_021BA188(char *);
+extern u8 *func_021BA19C(unsigned int, void *, u8 *, int *);
+extern void func_021BA100(u8 *, u8 *);
+extern void func_021BA21C(u8 *, const u8 *);
+extern unsigned int func_021BA218(u8 *);
+extern void func_021F4EB4(unsigned int, unsigned int, short, short);
 void func_021B7368(Context *ctx, int id)
 {
     int pos[2];
@@ -57,9 +57,9 @@ void func_021B7368(Context *ctx, int id)
         if (pos[1] > 0) v.y = (int)(0.5f + (float)(pos[1] << 12));
         else v.y = (int)((float)(pos[1] << 12) - 0.5f);
         v.z = 0xa000 - (func_021BA188(((const Managers *)p)->manager) << 10);
-        e = func_021BA19C(*(u16 *)p, ((const Managers *)p)->display, (u8 *)record, &v);
+        e = func_021BA19C(*(u16 *)p, ((const Managers *)p)->display, (u8 *)record, (int *)&v);
         func_021BA100(((const Managers *)p)->manager, e);
-        func_021BA21C(e, pos);
+        func_021BA21C(e, (const u8 *)pos);
         func_021F4EB4((int)((const Managers *)p)->display, (int)func_021BA218(e), 4096, 4096);
         record->c = 1;
     }
