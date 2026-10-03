@@ -113,7 +113,8 @@ extern void  func_02008494(void *a, void *b);
 extern void  func_02175710(Work *w, u32 a);
 extern u8    func_02012984(void *sv);
 extern int   func_02158590(void *sv);
-extern u32   func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern u32   func_020399B8(u32 a);
 extern void  func_02161F54(void *p);
 extern void  func_02174E3C(Work *w);
@@ -190,7 +191,7 @@ void func_02172D70(int *state, Param *p, Work *w)
         }
         break;
     case 1:
-        if (func_020399B8(func_020399A8()) == 1) {
+        if (func_020399B8((u32)func_020399A8()) == 1) {
             w->step = 6;
             (*state)++;
         }

@@ -39,7 +39,8 @@ typedef struct {
 extern void func_02082BCC(void *dst, int v, u32 n);
 extern void func_02008494(u32 name, void *dst);
 extern void func_02087C6C(void *p);
-extern u32 func_020399A8(void);
+struct Entry;
+extern struct Entry *func_020399A8(void);
 extern void func_0203D3F8(u32, u32, u32, u32, void *, u32, u32, u32);
 extern void func_021CF110(u32, u32, u32);
 
@@ -52,9 +53,9 @@ void func_021CF1AC(u32 a, u32 b, u32 c)
     func_02087C6C(buf.x);
     buf.x[6] = b;
     if (c == 1)
-        func_0203D3F8(func_020399A8(), 0xff, 0x2700, 0x28, &buf, 0, 0, 0);
+        func_0203D3F8((u32)func_020399A8(), 0xff, 0x2700, 0x28, &buf, 0, 0, 0);
     else
-        func_0203D3F8(func_020399A8(), 0, 0x2700, 0x28, &buf, 0, 0, 0);
+        func_0203D3F8((u32)func_020399A8(), 0, 0x2700, 0x28, &buf, 0, 0, 0);
 }
 
 void func_021CF214(u32 a, u32 b, u32 c, u32 d)
