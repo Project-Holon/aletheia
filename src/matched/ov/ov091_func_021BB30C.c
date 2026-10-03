@@ -15,9 +15,10 @@
 
 typedef unsigned char u8;
 typedef unsigned short u16;
+typedef unsigned int u32;
 typedef signed char s8;
 
-extern int func_02017E1C(int obj, int key, int off);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 
 typedef struct {
     int obj;
@@ -28,7 +29,7 @@ typedef struct {
 
 void func_021BB30C(u8 *a, S *s)
 {
-    s->hi = func_02017E1C(s->obj, 0xa0, 0);
+    s->hi = func_02017E1C((void *)s->obj, 0xa0, 0);
     ((s8 *)a)[0x11e] = (s->hi - s->lo) / 100;
     if (s->hi > s->lo)
         ((s8 *)a)[0x11e] = ((s8 *)a)[0x11e] + 1;

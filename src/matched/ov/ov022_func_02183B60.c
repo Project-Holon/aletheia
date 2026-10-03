@@ -32,7 +32,7 @@ typedef struct Rec20 {
 
 extern u8 d_021841C0[];
 
-extern u8 *func_02030734(int heap, int size, int clear, u8 *file, int line);
+extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, unsigned short line);
 extern u32 func_0203D378(void);
 extern void func_02082BCC(void *p, int v, int n);
 extern void func_02087C6C(void *p);
@@ -47,7 +47,7 @@ u8 *func_02183B60(u8 *a, int heap, int kind, Rec20 *src)
     u8 *s;
     u8 buf[0x28];
 
-    s = func_02030734(heap, 0x100, 1, d_021841C0, 0x4d);
+    s = func_02030734(heap, 0x100, 1, (const char *)d_021841C0, 0x4d);
     if (func_0203D378() == 1) {
         s[1] = 3;
     }

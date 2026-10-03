@@ -38,7 +38,7 @@ extern void *func_02188D2C(void *p);
 extern u16 func_02188C84(u8 *p);
 extern void *func_02189764(void *a, int b, u16 c, int d);
 extern u8 *func_021897BC(void *p, int i);
-extern void *func_02030734(u16 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void func_021BE310(void *a, void *b, int c);
 extern void func_021BE4B4(char *p, int i, int j, int v);
 extern u8 *func_021BE674(void *p, int i, u16 j, u16 k);
@@ -59,7 +59,7 @@ void func_021F3868(void *a)
     h = (func_02188C84(a) & 0x7FFF) | 0x8000;
     func_02189764(a, 1, h, 0x28);
     w = func_021897BC(a, 1);
-    *(void **)(w + 0x24) = func_02030734(h, 4, 1, d_021F4080, 0x1D1);
+    *(void **)(w + 0x24) = func_02030734((u16)h, 4, 1, d_021F4080, 0x1D1);
     i = 0;
     func_021BE310(s, d_021F3E74, 0);
     func_021BE4B4(s, 0, 1, 1);

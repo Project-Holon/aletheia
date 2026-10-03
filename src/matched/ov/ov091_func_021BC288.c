@@ -16,8 +16,8 @@
 
 typedef unsigned short u16;
 
-extern int func_02017E1C(int, int, int);
 typedef unsigned int   u32;
+extern u32 func_02017E1C(void *, u32, u32);
 extern u32 func_02019D00(u32 id);
 extern void func_02017988(int, u16);
 
@@ -25,8 +25,8 @@ void func_021BC288(int unused, int a, int b)
 {
     int t = 0;
     int r;
-    if (func_02017E1C(a, 5, 0) == 0x289) {
-        t = func_02017E1C(a, 0x6f, t);
+    if (func_02017E1C((void *)a, 5, 0) == 0x289) {
+        t = func_02017E1C((void *)a, 0x6f, t);
         r = func_02019D00(b);
         if (t != r) {
             func_02017988(a, r);

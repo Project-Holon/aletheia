@@ -36,7 +36,7 @@ extern void  func_021BB7A4(u8 *p, u32 obj);
 extern int   func_02009020(void *obj, int v);
 struct Sub02008F80Obj;
 extern void *func_02008F08(int a0);
-extern u32   func_02017E1C(void *obj, u32 key, void *off);
+extern u32   func_02017E1C(void *obj, u32 key, u32 off);
 extern void func_0200903C(struct Sub02008F80Obj *arr, u32 unused, int i, const struct Sub02008F80Obj *src);
 extern void  func_020307B0(void *p);
 extern void  func_02017E40(void *obj, u32 key, u32 v);
@@ -57,7 +57,7 @@ void func_021BA3A4(u8 *p, u32 state)
         r = func_02009020((void *)((u32 *)W(0x280))[2], 0);
         if (r >= 0) {
             buf = func_02008F08(*(u16 *)p);
-            func_02017E1C((void *)W(0x38), 0xa7, buf);
+            func_02017E1C((void *)W(0x38), 0xa7, (u32)buf);
             func_0200903C((void *)((u32 *)W(0x280))[2], 0, r, buf);
             func_020307B0(buf);
             func_02017E40((void *)W(0x38), 6, 0);

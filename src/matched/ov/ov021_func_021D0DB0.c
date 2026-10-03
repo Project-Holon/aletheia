@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT*
+ * status:   EXACT
  *
  * The listing extent (568 B) runs over the unlabelled 8-byte follower leaf
  * at 0x021D0FE0 (return *(u32 *)(r1 + 0x150)); the function is 560 B.
@@ -60,7 +60,7 @@ extern u8 *func_0200E8F8(u32 h);
 extern void func_02082BCC(void *p, int v, int n);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *mon, u32 id, u32 v);
-extern void *func_02030734(u32 heap, u32 size, u32 flag, void *file, u32 line);
+extern void *func_02030734(u32 heap, u32 size, int flag, const char *file, u16 line);
 extern int func_020072CC(u32 sv, u32 id, u32 heap, void *buf, u32 size);
 extern u8 *func_020073D8(u32 sv, u32 id, u32 v);
 extern void func_02082D44(void *src, void *dst, u32 n);
@@ -149,7 +149,7 @@ void func_021D0DB0(u32 a, u8 *w, u16 *outRank, u16 *outScore)
 
     if (U32(0x150) != 0) {
         h2 = func_02012EBC(func_020120F4(a));
-        buf = func_02030734(0x8004, 0x8004 >> 3, 1, &d_021DE674, 0x277);
+        buf = func_02030734(0x8004, 0x8004 >> 3, 1, (const char *)&d_021DE674, 0x277);
         if (func_020072CC(h2, 5, 0x8004, buf, 0x8004 >> 3) == 1) {
             func_02082D44(func_020073D8(h2, 5, 0) + 0x5a0, rec += 0x38, 0x22);
         }

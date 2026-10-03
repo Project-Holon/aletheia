@@ -42,7 +42,7 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_0201AA18(int);
+extern u32 func_0201AA18(void *);
 extern u8 func_020355C4(void);
 extern u16 func_020212B0(u16 id);
 extern void func_021B6D90(u8 *p);
@@ -74,7 +74,7 @@ int func_021B660C(u8 *p)
     u8 *q;
     int e;
 
-    n = func_0201AA18(*(int *)W(0x280));
+    n = func_0201AA18((void *)*(int *)W(0x280));
     W(8) = func_020355C4();
     W(0x3c) = 0x17;
     p[0xc] = 0;

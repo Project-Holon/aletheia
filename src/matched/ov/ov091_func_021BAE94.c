@@ -25,7 +25,7 @@ typedef unsigned int u32;
 
 extern int func_021B9A84(u8 *a);
 extern u8 func_021BB554(u8 *s);
-extern int func_02017E1C(int obj, int key, int off);
+extern u32 func_02017E1C(void *obj, u32 key, u32 off);
 extern u32 func_0202D01C(u32 a, u32 b, u32 c);
 extern u32 func_02045770(u32 p);
 extern void func_02043AF4(u32 a, int b, int c, int d, int e, int f);
@@ -44,7 +44,7 @@ void func_021BAE94(u8 *a, u8 *s)
     if (*(int *)(*(u8 **)(a + 0x280) + 0x34) == 6)
         return;
     r = func_021BB554(s);
-    h = func_0202D01C(*(u16 *)(s + 6), func_02017E1C(*(int *)s, 0xa1, 0), 0x30);
+    h = func_0202D01C(*(u16 *)(s + 6), func_02017E1C((void *)*(int *)s, 0xa1, 0), 0x30);
     w = func_02045770(*(u32 *)(s + 0x20));
     if (r == 2 || r == 3) {
         x = 0xe;

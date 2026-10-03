@@ -28,7 +28,7 @@ extern const Ent d_021BD5EC[8];
 extern char d_021BDA00[];
 
 extern void *func_020490F4(unsigned int id, u16 heap);
-extern u32 func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
 extern void *func_02049EF4(void *o, u32 a, u32 b, void **out, u16 e);
 extern void func_02082A60(void *srcp, void *destp, unsigned long size);
 extern void func_020307B0(void *p);
@@ -42,7 +42,7 @@ void func_021BB544(char *p)
         u32 sz = d_021BD5EC[i].b * 0x34;
         void *out;
         void *r;
-        *(u32 *)(p + i * 4 + 0xf8) = func_02030734(0xb, sz, 0, d_021BDA00, 0x7e9);
+        *(u32 *)(p + i * 4 + 0xf8) = (u32)func_02030734(0xb, sz, 0, d_021BDA00, 0x7e9);
         r = func_02049EF4(h, d_021BD5EC[i].a, 1, &out, 0xb);
         func_02082A60((char *)out + 0xc, *(void **)(p + i * 4 + 0xf8), sz);
         func_020307B0(r);

@@ -22,7 +22,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern u8 d_021BED28[];
-extern u32 *func_02030734(u16 heap, int size, int align, u8 *file, int line);
+extern void *func_02030734(u32 heap, u32 size, int align, const char *file, u16 line);
 extern void func_0201F5BC(u32 a, u32 b, u32 c, u32 d, u16 e);
 extern u32 sub_0203101C(u16 a, u16 b, int c, int d);
 extern u32 func_02028590(int a, int b, int c, u16 d);
@@ -33,7 +33,7 @@ u32 *func_021BB594(u16 *h)
     u32 *r;
     u32 z;
 
-    r = func_02030734(*h, 0x38, 0, d_021BED28, 0x64);
+    r = func_02030734(*h, 0x38, 0, (const char *)d_021BED28, 0x64);
     z = 0;
     func_0201F5BC(0, 1, 0xc, 0, *h);
     r[2] = sub_0203101C(*h, *h, 1, 0);

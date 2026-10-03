@@ -24,7 +24,7 @@ typedef struct {
     int *f;
 } P;
 
-extern int func_0201AA18(int);
+extern u32 func_0201AA18(void *);
 extern void *func_0201AB28(void *p, u32 idx);
 extern int func_021BDD78(int, int, int, int);
 
@@ -32,7 +32,7 @@ int func_021BC1D0(P *p)
 {
     u8 n;
     u8 i;
-    n = func_0201AA18(*p->f);
+    n = func_0201AA18((void *)*p->f);
     for (i = 0; i < n; i++) {
         int **q = &p->f;
         int e = (int)func_0201AB28((void *)*p->f, i);

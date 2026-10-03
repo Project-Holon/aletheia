@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef unsigned int u32;
 
 extern void func_021BB7A4(u8 *a, int b);
-extern int func_02017E1C(int obj, int key, int off);
+extern u32 func_02017E1C(void *obj, u32 key, u32 off);
 extern void func_02017E40(int obj, int key, int off);
 extern u32 func_021BA65C(u8 *p, u16 id);
 extern u32 func_021BA688(u8 *p, u16 id);
@@ -39,7 +39,7 @@ void func_021BA454(u8 *a, int k)
 {
     func_021BB7A4(a, *(int *)(a + 0x150));
     if (k == 0xe) {
-        int v = func_02017E1C(*(int *)(a + 0x38), 6, 0);
+        int v = func_02017E1C((void *)*(int *)(a + 0x38), 6, 0);
 
         if (func_021BA65C(a, v) == 0x3e7) {
             func_021B9788(a, 0x3f, 1, func_021B9E20);

@@ -36,7 +36,7 @@ typedef unsigned int   u32;
 
 extern u32 func_020120F4(u32 a);
 extern u32 func_02012EBC(u32 a);
-extern u32 func_02030734(u32 heap, u32 size, u32 clear, const char *file, u32 line);
+extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
 extern void func_020072CC(u32 a, u32 b, u32 c, u32 d, u32 e);
 extern u32 func_020073D8(u32 a, u32 b, u32 c);
 extern void func_0200E684(u32 a);
@@ -58,7 +58,7 @@ int func_021D10A8(u32 a, u32 *b, u32 *c)
 
     switch (b[0]) {
     case 0:
-        c[1] = func_02030734(0x8004, 0x1000, 0, d_021DE674, 0x34C);
+        c[1] = (u32)func_02030734(0x8004, 0x1000, 0, d_021DE674, 0x34C);
         func_020072CC(r6, 5, 0x8004, c[1], 0x1000);
         x = func_020073D8(r6, 5, 0);
         if (c[2] == 1) {

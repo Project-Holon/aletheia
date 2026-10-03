@@ -39,7 +39,7 @@ typedef unsigned int   u32;
 
 extern int d_021F3554;
 
-extern void *func_02030734(u32 heap, u32 size, u32 flag, void *file, u32 line);
+extern void *func_02030734(u32 heap, u32 size, int flag, const char *file, u16 line);
 extern u32 func_020120F4(u32 a);
 extern u32 func_02012EBC(u32 a);
 extern int func_020072CC(u32 sv, u32 id, u32 heap, void *buf, u32 size);
@@ -68,7 +68,7 @@ int func_021F23CC(u8 *p, u32 a)
     u16 *pal;
 
     result = 0;
-    buf = func_02030734(0x70, 0x3000, 0, &d_021F3554, 0x104E);
+    buf = func_02030734(0x70, 0x3000, 0, (const char *)&d_021F3554, 0x104E);
     h = func_02012EBC(func_020120F4(a));
     if (func_020072CC(h, 4, 0x70, buf, 0x3000) == 1) {
         crc = func_0203F1FC(buf, 0x2600);

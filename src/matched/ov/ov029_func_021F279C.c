@@ -16,12 +16,12 @@
 typedef unsigned int u32;
 typedef unsigned char u8;
 extern int d_021F3554;
-extern void *func_02030734(u32, u32, u32, void *, u32);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, unsigned short tag);
 extern void func_021F251C(u8 *, int, int, int, int);
 void *func_021F279C(int a, int b, int c, int d)
 {
     u8 *p;
-    p = func_02030734(0x70, 0x468, 1, &d_021F3554, 0x1147);
+    p = func_02030734(0x70, 0x468, 1, (const char *)&d_021F3554, 0x1147);
     func_021F251C(p, a, b, c, d);
     return p;
 }

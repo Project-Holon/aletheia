@@ -51,7 +51,7 @@ extern int  func_021BB468(u8 *p, int v);
 extern int  func_021B9A84(u8 *p);
 extern int  func_021B9AA0(u8 *p);
 extern int  func_021B9AB4(u8 *p);
-extern int  func_0201AA18(int);
+extern u32 func_0201AA18(void *p);
 extern int func_021BB3C4(void *unused, u32 p);
 extern void func_0204B878(int h, int f);
 
@@ -122,7 +122,7 @@ void func_021B8AC4(u8 *p)
                 max = 5;
             }
             if ((u32)(W(0x2c) - 6) <= 1 && (rep & 0xc0)) {
-                cnt = func_0201AA18(*(int *)W(0x280));
+                cnt = func_0201AA18((void *)*(int *)W(0x280));
                 if (up) {
                     if (W(0x2c) == 7 || func_021B9AA0(p) == 0) {
                         W(0x2c) = d_021BEAB0[cnt - 1];
