@@ -26,9 +26,9 @@
  */
 
 extern unsigned char abs_id_14[];
-extern void sub_02034A5C(const void *id);
+extern void sub_02034A5C(int handle);
 
 void func_0215FA44(void)
 {
-    sub_02034A5C(abs_id_14);
+    sub_02034A5C((int)abs_id_14);
 }

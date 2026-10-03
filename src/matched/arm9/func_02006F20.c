@@ -83,7 +83,7 @@ struct SaveCtrl
   void *unk14[9];
 };
 extern int func_02034AC4(int id);
-extern void func_02034A5C(void *id);
+extern void func_02034A5C(int id);
 typedef unsigned short u16;
 struct State;
 extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
@@ -124,7 +124,7 @@ struct SaveCtrl *func_02006F20(int heap)
     mode = func_021DFE90(ov);
     sub = func_021DFE98(ov);
     func_021DFDB8(ov);
-    func_02034A5C(ov228_id);
+    func_02034A5C((int)ov228_id);
     c = (struct SaveCtrl *)func_02030734(heap, 0x38, 1, sub_02006F20_File, 0x58);
     sub_02006F20_Ptr = c;
     c->unk00 = 1;

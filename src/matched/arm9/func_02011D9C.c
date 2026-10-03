@@ -64,7 +64,7 @@ extern u32   func_021882A0(void (*a)(void), void (*b)(void), u32 c);
 extern u32   func_02188354(void (*a)(void), void (*b)(void), u32 c);
 extern u32   func_02188390(void (*a)(void), void (*b)(void), u32 c);
 //P
-extern void  func_02034A5C(u8 *id);
+extern void  func_02034A5C(s32 id);
 extern void *func_0203159C(void *a, u32 size, u32 c);
 extern void  func_02082BCC(void *p, u32 v, u32 size);
 extern void *g_02146248;
@@ -113,7 +113,7 @@ u32 func_02011D9C(void *a0, u32 a1, u32 a2)
     func_0203064C(1, 4, 4 << 14);
     func_02188390((void (*)(void))start, func_02011D7C, 0);
     func_0203064C(9, 5, 5 << 10);
-    func_02034A5C(ov230_id);
+    func_02034A5C((s32)ov230_id);
     p = func_0203159C(a0, size, 3);
     func_02082BCC(p, 0, size);
     g_02146248 = p;

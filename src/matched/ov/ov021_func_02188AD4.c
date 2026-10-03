@@ -42,7 +42,7 @@ extern void func_020307B0(u32 a);
 extern void func_02030EAC(u32 a);
 extern void func_0204A5AC(void);
 extern void func_020450C8(void);
-extern void func_02034A5C(const void *id);
+extern void func_02034A5C(s32 handle);
 extern void func_021D31A4(u32 a);
 extern void func_021C6D5C(u32 a);
 extern void func_0218CA4C(u32 a);
@@ -65,8 +65,8 @@ u32 func_02188AD4(void *a, u8 *b)
     func_020450C8();
     func_02188E38(b);
     if (func_02013CC8(*(u16 *)(b + 0xD0)) == 1 || func_02013CE0(*(u16 *)(b + 0xD0)) == 1)
-        func_02034A5C(abs_id_13);
+        func_02034A5C((s32)abs_id_13);
     else
-        func_02034A5C(abs_id_12);
+        func_02034A5C((s32)abs_id_12);
     return 2;
 }

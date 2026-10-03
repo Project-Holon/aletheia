@@ -76,7 +76,7 @@ extern void func_0203A574(int a, void *b, int c, int d);
 extern void func_02031348(u32 a, int b, void *c, Work *w);
 extern int func_0203CD98(void);
 extern void func_0203A5E4(u32 key);
-extern void func_02034A5C(void *id);
+extern void func_02034A5C(int handle);
 extern void func_020130DC(Work *w);
 extern char d_021F03C4[];
 extern u8 ov093_id[];
@@ -145,7 +145,7 @@ int func_02176504(void *a0, int *state, Obj *obj, Work *work)
             if (func_0203CD98() == 1) {
                 func_0203A5E4(0x100);
             }
-            func_02034A5C(ov093_id);
+            func_02034A5C((int)ov093_id);
         }
         func_020130DC(work);
         return 1;

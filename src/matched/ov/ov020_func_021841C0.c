@@ -69,7 +69,7 @@ extern void func_0201447C(int a, int b);
 extern int func_02014554(int a, int b);
 extern void func_02012374(int a, int b);
 extern int func_02034AC4(int id);
-extern void func_02034A5C(u8 *id);
+extern void func_02034A5C(int handle);
 extern int func_02013D34(int a);
 extern int func_02026454(int a);
 extern void func_02026400(int a);
@@ -165,7 +165,7 @@ int func_021841C0(int ctx, int *state, u8 **pp)
             func_0216445C(y, *(u16 *)(p + 0x14));
             break;
         }
-        func_02034A5C(ov230_id);
+        func_02034A5C((int)ov230_id);
         func_0215874C(w);
         (*state)++;
         break;

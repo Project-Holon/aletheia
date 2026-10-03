@@ -30,7 +30,7 @@ extern int func_020124E4(void *a);
 extern void func_02012374(void *a, u32 b);
 extern u32  func_021F5550(int a);
 extern int func_02159168(int a, int b);
-extern void func_02034A5C(void *a);
+extern void func_02034A5C(int a);
 extern u8 ov_id_52[];
 
 int func_021649E8(void *a, int *st)
@@ -43,7 +43,7 @@ int func_021649E8(void *a, int *st)
         break;
     case 1:
         func_02159168(7, *st);
-        func_02034A5C(ov_id_52);
+        func_02034A5C((int)ov_id_52);
         return 1;
     }
     return 0;

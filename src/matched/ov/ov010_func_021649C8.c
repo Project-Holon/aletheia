@@ -21,6 +21,6 @@ struct Ctx;
 extern void *func_0201210C(const struct Ctx *p);
 extern void func_021F5578(u8 *p);
 extern void func_02159168(int);
-extern void func_02034A5C(void *);
+extern void func_02034A5C(int handle);
 extern u8 ov_id_52[];
-int func_021649C8(void **p){func_021F5578(func_0201210C(*p));func_02159168(7);func_02034A5C(ov_id_52);return 1;}
+int func_021649C8(void **p){func_021F5578(func_0201210C(*p));func_02159168(7);func_02034A5C((int)ov_id_52);return 1;}

@@ -39,7 +39,7 @@
  */
 
 extern void func_02082BCC(void *dst, int val, unsigned n);
-extern void func_02034A5C(void *id);
+extern void func_02034A5C(int handle);
 extern int func_02034AC4(int id);
 extern void func_02157138(void *p);
 
@@ -51,13 +51,13 @@ extern unsigned char ov_id_0D[];
 void sub_02009800(void *p)
 {
     func_02082BCC(p, 0, 0x7c4);
-    func_02034A5C(ov_id_0A);
-    func_02034A5C(ov_id_0B);
+    func_02034A5C((int)ov_id_0A);
+    func_02034A5C((int)ov_id_0B);
     func_02034AC4((int)ov_id_0D);
     func_02034AC4((int)ov_id_09);
     func_02157138(p);
-    func_02034A5C(ov_id_09);
-    func_02034A5C(ov_id_0D);
+    func_02034A5C((int)ov_id_09);
+    func_02034A5C((int)ov_id_0D);
     func_02034AC4((int)ov_id_0A);
     func_02034AC4((int)ov_id_0B);
 }
