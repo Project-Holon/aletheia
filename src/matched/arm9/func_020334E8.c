@@ -21,12 +21,12 @@ typedef unsigned int  u32;
 extern u8 *g_02146994;
 extern u32 func_02031EAC(u8 *p, u32 a);
 extern u32 func_02033B68(u8 *p, u32 i);
-extern void func_020335E8(u32 a, u32 b, u32 c, u32 d);
+extern int func_020335E8(u32 a, u32 b, u32 c, void (*d)(void));
 
-void func_020334E8(u8 *p, u32 b, u32 c, u32 d, u32 e)
+int func_020334E8(u8 *p, u32 b, u32 c, u32 d, u32 e)
 {
     u32 n = func_02031EAC(p, c + 1);
     u32 m = func_02033B68(*(u8 **)(p + 0x2c), b);
 
-    func_020335E8(n + m, d, e, *(u32 *)(g_02146994 + 0x204));
+    return func_020335E8(n + m, d, e, (void (*)(void))*(u32 *)(g_02146994 + 0x204));
 }
