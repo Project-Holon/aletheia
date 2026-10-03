@@ -54,8 +54,10 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void *sub_020071CC(int a, int b);
-extern int   sub_020071EC(int a);
+struct Sub020071CCCtrl;
+struct Sub020071E4Ctrl;
+extern void *sub_020071CC(struct Sub020071CCCtrl *ctrl, u32 id);
+extern u8    sub_020071EC(const struct Sub020071E4Ctrl *ctrl);
 extern void  sub_0200A480(u8 *p);
 extern int func_02034AC4(int id);
 extern void  func_02082BCC(void *dst, int val, unsigned n);
@@ -64,7 +66,7 @@ extern u8 func_021DFE90(u8 *p);
 extern void *func_021DFEAC(u8 *p);
 extern u8    ov_id_E4[];
 
-void sub_0200A358(u8 *p, int a1, int a2, int a3)
+void sub_0200A358(u8 *p, void *ctrl, int a2, int a3)
 {
     int t;
     void *w;
@@ -75,14 +77,14 @@ void sub_0200A358(u8 *p, int a1, int a2, int a3)
         t = 1;
         break;
     case 1:
-        t = sub_020071EC(a1);
+        t = sub_020071EC((const struct Sub020071E4Ctrl *)ctrl);
         break;
     default:
         t = 1;
         break;
     }
     if (t != 0) {
-        *(u32 *)p = (u32)sub_020071CC(a1, 0x22);
+        *(u32 *)p = (u32)sub_020071CC((struct Sub020071CCCtrl *)ctrl, 0x22);
         *(u32 *)(p + 4) = 1;
         return;
     }

@@ -8,7 +8,33 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  */
 
-int func_020084A0(int a0, int a1, int a2, int a3){ int t0, t1; t0 = func_02082BCC((int)a0, (int)0, (int)0x20); *(unsigned char *)(((char *)((a0 + 0)) + 26)) = (unsigned char)2; t1 = func_02008560((int)((a0 + 0) + 0), (int)0x15); return t1; }
+typedef unsigned char u8;
+typedef unsigned int u32;
+
+struct Sub0200852CObj {
+    u32 unk00;
+    u32 unk04;
+    u32 unk08;
+    u32 unk0C;
+    u32 unk10;
+    u32 unk14;
+    u8 unk18;
+    u8 unk19;
+    u8 unk1A;
+    u8 unk1B;
+    u8 unk1C;
+    u8 unk1D;
+};
+
+extern void func_02082BCC(void *dst, u8 value, u32 size);
+extern void func_02008560(struct Sub0200852CObj *obj, u8 value);
+
+void func_020084A0(struct Sub0200852CObj *obj)
+{
+    func_02082BCC(obj, 0, 0x20);
+    obj->unk1A = 2;
+    func_02008560(obj, 0x15);
+}

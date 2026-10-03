@@ -7,7 +7,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      thumb
- * status:   EXACT
+ * status:   EXACT*
  *
  * symbols:
  *   func_02082BCC  0x02082BCC  arm
@@ -17,17 +17,10 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-extern int func_02082BCC();
+extern void func_02082BCC(void *dst, u8 data, u32 size);
 
-int func_02161F00(int a0, int a1, int a2)
+void func_02161F00(void *p)
 {
-    int t4;
-
-a1 = 0;
-a2 = 4;
-t4 = a0 + 0;
-    a0 = func_02082BCC(a0, a1, a2);
-loc_02161F0C:
-a0 = 0xa;
-*(u16 *)((char *)t4 + 2) = a0;
-    return a0;}
+    func_02082BCC(p, 0, 4);
+    *(u16 *)((char *)p + 2) = 10;
+}
