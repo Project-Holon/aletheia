@@ -23,9 +23,10 @@
 typedef unsigned char u8;
 typedef unsigned int  u32;
 
-extern void func_02008450(u32 flags, int on);
+struct Flags02008450;
+extern void func_02008450(struct Flags02008450 *flags, int on);
 
 void func_02012BC8(u8 *p, int on)
 {
-    func_02008450(*(u32 *)(p + 0x198), on ? 1 : 0);
+    func_02008450((struct Flags02008450 *)*(u32 *)(p + 0x198), on ? 1 : 0);
 }

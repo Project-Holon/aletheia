@@ -27,23 +27,25 @@ typedef unsigned char u8;
 typedef unsigned int  u32;
 
 struct Obj;
+struct SaveBlock;
+struct Rec44;
 
-extern u32  func_020127A4(u32 v);
-extern void func_02012AC8(u32 v);
+extern void *func_020127A4(struct SaveBlock *p);
 typedef unsigned short u16;
+extern u16 func_02012AC8(const struct Rec44 *p);
 extern u16 func_02005C44(void);
 
-u32 func_0202B7F8(struct Obj *o)
+void *func_0202B7F8(struct Obj *o)
 {
-    return func_020127A4(*(u32 *)((u8 *)o + 0x4));
+    return func_020127A4((struct SaveBlock *)*(u32 *)((u8 *)o + 0x4));
 }
 
-void func_0202B804(struct Obj *o)
+u16 func_0202B804(struct Obj *o)
 {
-    func_02012AC8(func_0202B7F8(o));
+    return func_02012AC8(func_0202B7F8(o));
 }
 
-void func_0202B810(void)
+u16 func_0202B810(void)
 {
-    func_02005C44();
+    return func_02005C44();
 }

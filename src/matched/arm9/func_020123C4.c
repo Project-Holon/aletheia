@@ -11,4 +11,7 @@
  * status:   EXACT*
  */
 
-int func_020123C4(int a0){ int t0; t0 = func_02012104(a0); if ((unsigned int)(t0) != (unsigned int)(0)) {  return 1; } else {  return 0; } }
+struct Ctx;
+extern unsigned int func_02012104(const struct Ctx *p);
+
+int func_020123C4(void *a0){ unsigned int t0; t0 = func_02012104(a0); if ((unsigned int)(t0) != (unsigned int)(0)) {  return 1; } else {  return 0; } }
