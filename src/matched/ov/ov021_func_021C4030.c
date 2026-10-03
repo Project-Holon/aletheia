@@ -16,16 +16,16 @@
 
 typedef unsigned int u32;
 
-extern u32 func_02017E1C(u32 a, u32 b, u32 c);
+extern u32 func_02017E1C(void *a, u32 b, u32 c);
 extern u32 func_02017ED8(u32 a, u32 b);
 extern u32 func_021C4078(void);
 
 void func_021C4030(u32 *p, u32 *q)
 {
     int i = 0;
-    u32 a = func_02017E1C(p[0], 0xc, 0);
+    u32 a = func_02017E1C((void *)p[0], 0xc, 0);
 
-    if (a == func_02017E1C(p[1], 0xc, 0))
+    if (a == func_02017E1C((void *)p[1], 0xc, 0))
         return;
     if (func_02017ED8(q[0xc], q[0xd]) != 0)
         return;

@@ -26,7 +26,7 @@ typedef unsigned short u16;
 typedef struct { u32 v[4]; } T;
 
 extern void *func_02048F60(u32 archive, u32 member, u32 heap);
-extern u32 func_02017E1C(u32 a, u32 b, u32 c);
+extern u32 func_02017E1C(void *a, u32 b, u32 c);
 extern void func_021C42F4(u32 *p, u32 v);
 extern void func_020307B0(void *p);
 extern T d_021DA908;
@@ -40,7 +40,7 @@ void func_021C40F8(u32 *p, u32 *q, u32 heap)
     int i;
 
     for (i = 0; i < 4; i++) {
-        u32 v = func_02017E1C(p[0], pt[i], 0);
+        u32 v = func_02017E1C((void *)p[0], pt[i], 0);
         int j;
 
         for (j = 1; j <= n; j++) {

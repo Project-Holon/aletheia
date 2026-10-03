@@ -31,7 +31,7 @@ struct BigObj;
 struct Ctx;
 extern void *func_020120F4(const struct Ctx *p);
 extern void *func_02012934(const struct BigObj *p);
-extern int func_0201AA18(void *a);
+extern u32 func_0201AA18(void *a);
 extern int func_020122C0(void *a, int b, void *cb, int c);
 struct Work {
     void *a;
@@ -47,7 +47,7 @@ extern void *func_0201210C(const struct Ctx *p);
 extern void *func_0201AB28(void *p, u32 idx);
 extern void *func_02012EBC(struct Big *p);
 extern void *func_0200C0F0(void *a);
-extern int func_02017E1C(int a, int b, int c);
+extern u32 func_02017E1C(void *a, u32 b, u32 c);
 extern int *func_0216BFD4(int a, int b, int c, int d, int e, int f, void *g);
 extern int func_021C5B58(int a, int *b, int *c);
 
@@ -60,7 +60,7 @@ int func_021C5AAC(void *a, int b, int c, int d)
     int x;
     int y;
 
-    if (func_0201AA18(func_02012934(func_020120F4(a))) <= c) {
+    if ((int)func_0201AA18(func_02012934(func_020120F4(a))) <= c) {
         c = 0;
     }
     h = func_020122C0(a, 0, (void *)func_021C5B58, 0x18);
@@ -72,8 +72,8 @@ int func_021C5AAC(void *a, int b, int c, int d)
     r6 = func_020120F4(p->a);
     e = (int)func_0201AB28(func_02012934(r6), c);
     r6 = func_0200C0F0(func_02012EBC(r6));
-    x = func_02017E1C(e, 5, 0);
-    y = func_02017E1C(e, 0x6f, 0) | (func_02017E1C(e, 0x6e, 0) << 8);
+    x = func_02017E1C((void *)e, 5, 0);
+    y = func_02017E1C((void *)e, 0x6f, 0) | (func_02017E1C((void *)e, 0x6e, 0) << 8);
     p->f08 = func_0216BFD4(4, 1, x, y, 0xa, 0, r6);
     p->f0C = e;
     return h;

@@ -71,7 +71,7 @@ typedef struct {
 } Sys;
 
 extern u32 func_02188C54(u32 a);
-extern Work *func_02030734(u32 heap, u32 size, u32 a, const u8 *file, u32 line);
+extern void *func_02030734(u32 heap, u32 size, int a, const char *file, u16 line);
 extern u32 func_0201EC64(u32 heap);
 extern int func_021904B0(u32 a, u32 b);
 extern u32 func_02190F64(u32 a, u32 b);
@@ -92,7 +92,7 @@ Work *func_021CD48C(u32 a0, u32 a1, u32 a2, u32 a3, u32 heap, u32 a5, u32 a6, vo
     Sys *s;
 
     t = func_02188C54(a1);
-    w = func_02030734(heap, 0x580, 1, d_021DE5E8, 0x179);
+    w = func_02030734(heap, 0x580, 1, (const char *)d_021DE5E8, 0x179);
     w->f4 = func_0201EC64(heap);
     w->f8 = func_021904B0(t, 0x1e);
     w->f14 = func_02190F64(t, w->f8);

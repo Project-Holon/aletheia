@@ -21,7 +21,7 @@ typedef unsigned short u16;
 
 typedef struct { u32 v[4]; } T;
 
-extern u32 func_02017E1C(u32 a, u32 b, u32 c);
+extern u32 func_02017E1C(void *a, u32 b, u32 c);
 extern u16 func_020212B0(u16 id);
 extern int func_021C447C(u32 *c, u16 a, u16 b, u16 d);
 extern void func_021C42F4(u32 *p, u32 v);
@@ -33,7 +33,7 @@ void func_021C4238(u32 *a, u32 *b, u32 *c)
     int i;
 
     for (i = 0; i < 4; i++) {
-        u32 v = func_02017E1C(a[0], t.v[i], 0);
+        u32 v = func_02017E1C((void *)a[0], t.v[i], 0);
         int k;
 
         for (k = 0x148; k <= 0x272; k++) {

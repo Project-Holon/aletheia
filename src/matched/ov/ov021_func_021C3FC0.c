@@ -18,7 +18,7 @@ typedef unsigned char u8;
 
 typedef struct { u32 v[6]; } T;
 
-extern u32 func_02017E1C(u32 a, u32 b, u32 c);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern T d_021DA918;
 
 void func_021C3FC0(u32 *a, u32 *b)
@@ -31,8 +31,8 @@ void func_021C3FC0(u32 *a, u32 *b)
         u32 *e = b + i;
 
         if (e[0x16] != 0)
-            e[6] = func_02017E1C(a[0], pt[i], 0);
+            e[6] = func_02017E1C((void *)a[0], pt[i], 0);
         if (e[0x1c] != 0)
-            e[6] = func_02017E1C(a[1], pt[i], 0);
+            e[6] = func_02017E1C((void *)a[1], pt[i], 0);
     }
 }

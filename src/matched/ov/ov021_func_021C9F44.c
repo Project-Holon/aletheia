@@ -30,7 +30,7 @@ typedef struct {
 
 extern void *func_021CA210(u8 *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern u16 func_02017E1C(u32 m, int id, int c);
+extern u32 func_02017E1C(void *m, u32 id, u32 c);
 
 int func_021C9F44(u8 *p)
 {
@@ -48,8 +48,8 @@ int func_021C9F44(u8 *p)
             q[0x7c] = 1;
         q[0x1e] = q[0x7c] - 1;
         m = (u32)func_0201AB28(h, q[0x1e]);
-        ((Stats *)p)->a22[i] = func_02017E1C(m, 5, 0);
-        ((Stats *)p)->a2a[i] = func_02017E1C(m, 6, 0);
+        ((Stats *)p)->a22[i] = func_02017E1C((void *)m, 5, 0);
+        ((Stats *)p)->a2a[i] = func_02017E1C((void *)m, 6, 0);
     }
     return 1;
 }

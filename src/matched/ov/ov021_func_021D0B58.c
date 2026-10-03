@@ -31,7 +31,7 @@ extern int d_021DE674;
 
 extern int func_020120F4(int x);
 extern int func_02012EBC(int x);
-extern void *func_02030734(int a, int b, int c, void *d, int e);
+extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern int func_020072CC(int a, int b, int c, void *d, int e);
 extern int func_020073D8(int a, int b, int c);
 extern Big *func_0200E5F8(int a, int b);
@@ -45,7 +45,7 @@ void func_021D0B58(int a, Big *dst, int idx)
     int v;
 
     h = func_02012EBC(func_020120F4(a));
-    buf = func_02030734(0x8004, 0x8004 >> 3, 1, &d_021DE674, 0x14C);
+    buf = func_02030734(0x8004, 0x8004 >> 3, 1, (const char *)&d_021DE674, 0x14C);
     v = 0x8004 >> 3;
     if (func_020072CC(h, 5, 0x8004, buf, v) == 1) {
         *dst = *func_0200E5F8(func_020073D8(h, 5, 0), idx);

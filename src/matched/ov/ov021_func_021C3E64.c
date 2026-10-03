@@ -27,7 +27,7 @@ typedef struct {
     u32 n;
 } S;
 
-extern u32 func_02017E1C(u32 a, u32 b, u32 c);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern u32 func_02005728(u32 n);
 extern const T6 d_021DA930;
 
@@ -44,8 +44,8 @@ void func_021C3E64(u32 *p, S *q)
 
     fa = 0;
     fb = 0;
-    a = func_02017E1C(p[0], 6, 0);
-    b = func_02017E1C(p[1], 6, 0);
+    a = func_02017E1C((void *)p[0], 6, 0);
+    b = func_02017E1C((void *)p[1], 6, 0);
     t = d_021DA930;
     for (i = 0; i < 6; i++) {
         if (a == t.v[i]) {

@@ -26,7 +26,7 @@ typedef struct { u16 x, y; } P;
 typedef struct { u32 v[4]; } T4;
 
 extern void func_0201ADD0(u16 a, u16 b, P *buf);
-extern u32 func_02017E1C(u32 a, u32 b, u32 c);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void func_021C42F4(u32 *p, u32 v);
 extern const T4 d_021DA8F8;
 
@@ -52,14 +52,14 @@ body:
     fa = 0;
     fb = 0;
     for (k = 0; k < 4; k++) {
-        v = func_02017E1C(p[0], t.v[k], 0);
+        v = func_02017E1C((void *)p[0], t.v[k], 0);
         if (v == mv) {
             fa = 1;
             break;
         }
     }
     for (k = 0; k < 4; k++) {
-        v = func_02017E1C(p[1], t.v[k], 0);
+        v = func_02017E1C((void *)p[1], t.v[k], 0);
         if (v == mv) {
             fb = 1;
             break;

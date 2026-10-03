@@ -30,7 +30,7 @@ extern int func_02188C84(int a);
 extern int func_02188C80(int a);
 extern int func_02012134(int a);
 extern int func_0202B57C(int a);
-extern void *func_02030734(int a, int b, int c, void *d, int e);
+extern void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, u16 e);
 extern int func_0202B928(int a, int b);
 extern void func_0202B920(int a, int b, int c, int d);
 
@@ -41,7 +41,7 @@ void *func_021C4D14(int a, int b, int c, int d, int e)
     int *p;
 
     r = func_0202B57C(func_02012134(func_02188C80(a)));
-    p = (int *)func_02030734(n, 0x18, 0, &d_021DE48C, 0x3c);
+    p = (int *)func_02030734(n, 0x18, 0, (const char *)&d_021DE48C, 0x3c);
     *(u16 *)p = n;
     p[1] = a;
     p[2] = r;

@@ -29,7 +29,7 @@ extern u32 func_02188C84(u32 a);
 extern u32 func_02188C58(u32 a);
 extern u32 func_02188D30(u32 a);
 extern u32 func_0218ED54(u32 a);
-extern void *func_02030734(int, int, int, void *, int);
+extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_02030DA8(u32 a, void *cb, void *arg, int z);
 extern void func_021C6B8C(void);
 extern int d_021DE4B8;
@@ -41,7 +41,7 @@ void func_021C6B18(u32 a, u16 b, u32 c)
     u32 y = func_02188D30(a);
     u32 *e;
 
-    e = (u32 *)func_02030734((u16)((h & 0x7FFF) | 0x8000), 0x10, 0, &d_021DE4B8, 0x5F);
+    e = (u32 *)func_02030734((u16)((h & 0x7FFF) | 0x8000), 0x10, 0, (const char *)&d_021DE4B8, 0x5F);
     *(u16 *)((u8 *)e + 4) = 0;
     *(u16 *)((u8 *)e + 6) = b;
     e[2] = func_0218ED54(x);

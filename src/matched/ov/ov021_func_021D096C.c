@@ -29,7 +29,7 @@ typedef unsigned int   u32;
 extern u32 func_0200E588(void);
 extern int func_020120F4(int x);
 extern int func_02012EBC(int x);
-extern void *func_02030734(int a, int b, int c, void *d, int e);
+extern void *func_02030734(u32 heap, u32 size, int clear, const char *site, u16 tag);
 extern int func_0201A920(int x);
 extern void func_021D09D0(int a, char *out);
 
@@ -40,9 +40,9 @@ void *func_021D096C(int a)
 
     r7 = func_0200E588();
     func_02012EBC(func_020120F4(a));
-    p = func_02030734(5, 0x154, 1, &d_021DE674, 0x5D);
+    p = func_02030734(5, 0x154, 1, (const char *)&d_021DE674, 0x5D);
     *(u16 *)(p + 0x120) = 5;
-    *(int *)(p + 0x14C) = (int)func_02030734(5, r7, 1, &d_021DE674, 0x5F);
+    *(int *)(p + 0x14C) = (int)func_02030734(5, r7, 1, (const char *)&d_021DE674, 0x5F);
     func_021D09D0(a, p);
     *(int *)(p + 0x128) = func_0201A920(*(u16 *)(p + 0x120));
     return p;
