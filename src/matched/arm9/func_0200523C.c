@@ -60,7 +60,7 @@ extern u8 func_02008414(const struct Flags02008414 *p);
 extern void func_02012FF0(void *val);
 extern void func_0200F6B8(void);
 extern void func_0200F6D8(u32 kind);
-extern void func_02034704(void *a0);
+extern void func_02034704(u32 a0);
 extern void func_0201F344(u16 heap);
 extern void func_020173D0(u32 heap);
 extern void func_02005B24(void);
@@ -92,7 +92,7 @@ void func_0200523C(void)
     func_02012FF0(func_020070A4());
     func_0200F6B8();
     func_0200F6D8(8);
-    func_02034704((void *)&func_0200FB6C);
+    func_02034704((u32)&func_0200FB6C);
     func_0201F344(0);
     func_020173D0(0);
     func_02005B24();
