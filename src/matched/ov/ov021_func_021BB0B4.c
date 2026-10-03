@@ -20,7 +20,7 @@ typedef unsigned int u32;
 typedef unsigned short u16;
 
 extern u32 *func_0204A298(int, u32, int, u16, u32 *);
-extern u32 *func_02030734(u16, u32, int, void *, int);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, unsigned short tag);
 extern int d_021DE2C4;
 
 void func_021BB0B4(u32 *a, u32 b, u32 c)
@@ -30,7 +30,7 @@ void func_021BB0B4(u32 *a, u32 b, u32 c)
 
     a[0] = (u32)func_0204A298(0x4f, b, 0, c, &a[1]);
     a[2] = *(u32 *)a[0];
-    a[3] = (u32)func_02030734(c, a[2] * 4, 1, &d_021DE2C4, 0x86);
+    a[3] = (u32)func_02030734((u16)c, a[2] * 4, 1, (const char *)&d_021DE2C4, 0x86);
     off = 4;
     for (i = 0; i < a[2]; i++) {
         u16 *q;

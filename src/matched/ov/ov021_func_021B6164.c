@@ -29,7 +29,7 @@ extern u32 func_02159B10(u32 a, u32 b);
 extern u16 *func_02159AE8(void *a0, void *a1);
 extern int func_0215B4AC(u32 a, u32 b, u32 *out);
 extern int func_0215B500(u32 a, u32 b);
-extern u32 func_02017E1C(u32 a, u32 b, u32 c);
+extern u32 func_02017E1C(void *a, u32 b, u32 c);
 extern int func_021B5FB8(u32 a, int sel);
 extern int func_021B5FB4(u32 a);
 extern int func_021B5F24(u32 a, int sel);
@@ -51,7 +51,7 @@ int func_021B6164(u32 a, u32 b)
         *o = 1;
     } else if (func_0215B500(rec, func_021B5F24(rec, x)) == 1) {
         *o = 3;
-    } else if (func_02017E1C(rec, 9, 0) < func_021B5FB4(x)) {
+    } else if (func_02017E1C((void *)rec, 9, 0) < func_021B5FB4(x)) {
         *o = 2;
     } else {
         *o = 0;

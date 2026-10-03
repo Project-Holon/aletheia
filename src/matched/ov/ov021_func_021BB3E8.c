@@ -29,7 +29,7 @@ typedef unsigned short u16;
 
 extern u32 func_02013C9C(u16);
 extern u32 func_020490A8(u32 a, u32 b);
-extern void *func_02030734(u16, int, int, void *, int);
+extern void *func_02030734(u32, u32, int, const char *, u16);
 extern void func_02048F4C(void *dst, u32 archive_id, u32 member);
 extern u32 func_0219EF44(u32);
 extern void func_0219EF7C(u32, u32, u32);
@@ -46,7 +46,7 @@ void func_021BB3E8(u32 *a, u32 b, u16 c, u16 d, u16 e, u32 f, u16 g)
     u32 h;
 
     id = (g & 0x7FFF) | 0x8000;
-    p = (u16 *)func_02030734(id, func_020490A8(0x6d, func_02013C9C(b)), 1, &d_021DE2D0, 0x1c9);
+    p = (u16 *)func_02030734(id, func_020490A8(0x6d, func_02013C9C(b)), 1, (const char *)&d_021DE2D0, 0x1c9);
     func_02048F4C(p, 0x6d, func_02013C9C(b));
     h = func_0219EF44(id);
     func_0219EF7C(h, p[0], id);

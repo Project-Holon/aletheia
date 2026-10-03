@@ -21,7 +21,7 @@
 extern int func_021BD090(int a);
 extern int func_021BD094(int a);
 extern int func_020493D4(int a, int b);
-extern int func_02030734(int a, int b, int c, int d, int e);
+extern void *func_02030734(unsigned int heapId, unsigned int size, int clear, const char *site, unsigned short tag);
 extern void func_0204932C(int a, int b, int c);
 extern void func_02062A98(int a, int b);
 
@@ -37,7 +37,7 @@ void func_021BC664(S *p)
 
     r4 = func_021BD090((int)p);
     r6 = func_021BD094((int)p);
-    h =func_02030734(r4, func_020493D4(r6, 1), 0, 0x021DE354, 0x2c8);
+    h = (int)func_02030734(r4, func_020493D4(r6, 1), 0, (const char *)0x021DE354, 0x2c8);
     p->a = h;
     func_0204932C(r6, 1, h);
     func_02062A98(p->a, (int)&p->b);

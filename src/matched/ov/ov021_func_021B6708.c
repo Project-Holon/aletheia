@@ -58,10 +58,10 @@ extern void *func_0201293C(void *a);
 extern u8 *func_02012944(void *p);
 extern int func_021B6850(void *a, u16 b, u16 *c, u16 *d);
 extern u32 func_020173EC(void);
-extern void *func_02030734(u32 heap, u32 size, u32 a, const u8 *file, u32 line);
+extern void *func_02030734(u32 heapId, u32 size, int clear, const char *site, u16 tag);
 extern void *func_0201AB28(void *p, u32 idx);
 extern void func_02082D44(void *src, void *dst, u32 n);
-extern u32 func_02017E1C(void *mon, u32 id, void *v);
+extern u32 func_02017E1C(void *mon, u32 id, u32 v);
 extern u32 func_0202136C(u16 v);
 extern struct Sub02008F80Obj *func_02008FEC(void *sys);
 extern void *func_02008F08(int a0);
@@ -100,14 +100,14 @@ void func_021B6708(u32 a, int idx)
     }
     heap = func_0215A5CC(a);
     save = func_0201293C(sv);
-    mon = func_02030734(heap, func_020173EC(), 1, d_021DE270, 0x4c7);
+    mon = func_02030734(heap, func_020173EC(), 1, (const char *)d_021DE270, 0x4c7);
     sz = func_020173EC();
     func_02082D44(func_0201AB28(party, idx), mon, sz);
     if (func_0202136C(func_02017E1C(mon, 6, 0)) == 1) {
         o = func_02008FEC(sv);
         buf = func_02008F08(func_0215A5CC(a));
         i = func_02009020(o, 0);
-        func_02017E1C(mon, 0xa7, buf);
+        func_02017E1C(mon, 0xa7, (u32)buf);
         func_02012944(sv);
         if (i >= 0) {
             func_0200903C(o, 0, i, buf);

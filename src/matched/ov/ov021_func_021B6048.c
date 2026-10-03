@@ -29,7 +29,7 @@ struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
 extern u32 func_0201AA18(void *p);
 extern void *func_0201AB28(void *p, u32 idx);
-extern u32 func_02017E1C(u32 a, u32 b, u32 c);
+extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern int func_021B5FB8(u32 a, int sel);
 extern int func_021B5FB4(u32 a);
 
@@ -49,13 +49,13 @@ int func_021B6048(u32 a, u32 b, u32 key, u8 *mask, u32 flag)
     *mask = found;
     for (i = 0; i < n; i++) {
         item = (u32)func_0201AB28(lst, i);
-        if (func_02017E1C(item, 0x4c, 0) == 1)
+        if (func_02017E1C((void *)item, 0x4c, 0) == 1)
             continue;
         if (func_021B5FB8(item, key) == 0)
             continue;
         found = 1;
         if (flag != 0) {
-            item = func_02017E1C(item, 9, 0);
+            item = func_02017E1C((void *)item, 9, 0);
             if (item < func_021B5FB4(key))
                 continue;
         }

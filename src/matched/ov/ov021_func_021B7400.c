@@ -41,7 +41,7 @@ typedef struct Obj {
 
 extern u32 func_02188C84(u32 a);
 extern u32 func_02188C54(u32 a);
-extern Obj *func_02030734(u32 heap, u32 size, u32 a, const u8 *file, u32 line);
+extern void *func_02030734(u32 heap, u32 size, int clear, const char *file, u16 line);
 extern u32 func_02045B38(u32 a, u32 b, u32 c, u32 d);
 extern u32 func_0201EC64(u32 heap);
 extern u32 func_020457B0(u32 a, u32 b);
@@ -57,7 +57,7 @@ Obj *func_021B7400(u32 a, u32 b, int c)
 
     heap = func_02188C84(a);
     line = 0x73;
-    o = func_02030734(heap, 0x28, 1, d_021DE288, line);
+    o = func_02030734(heap, 0x28, 1, (const char *)d_021DE288, line);
     o->f0 = heap;
     o->f4 = a;
     o->f24 = b;

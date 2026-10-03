@@ -17,14 +17,14 @@
 
 extern int d_021DE138;
 
-void *func_02030734(int a, int b, int c, void *d, int e);
+void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, unsigned short e);
 void *func_02188CB4(unsigned char *p);
 
 typedef struct { int w[6]; } S24;
 
 void *func_021AE454(int a, int b, S24 *src, int c)
 {
-    char *p = (char *)func_02030734(a, 0x38, 1, &d_021DE138, 0x1fa);
+    char *p = (char *)func_02030734(a, 0x38, 1, (const char *)&d_021DE138, 0x1fa);
 
     *(S24 *)(p + 8) = *src;
     *(int *)(p + 0x20) = 0;

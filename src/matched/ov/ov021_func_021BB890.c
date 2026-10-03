@@ -18,24 +18,24 @@
 
 extern int d_021DE2F8;
 
-int *func_02030734(int a, int b, int c, void *d, int e);
+void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, unsigned short e);
 typedef unsigned int   u32;
 u32 func_02030CB0(u32 idx);
 int func_02030CBC(int n, int buf);
 
 int *func_021BB890(int a, int b, int n)
 {
-    int *p = func_02030734(b, 0x18, 1, &d_021DE2F8, 0x46);
+    int *p = func_02030734(b, 0x18, 1, (const char *)&d_021DE2F8, 0x46);
     int sz;
 
     p[0] = a;
     p[1] = b;
     p[2] = n;
-    p[3] = (int)func_02030734(b, 0x18 * n, 1, &d_021DE2F8, 0x4a);
+    p[3] = (int)func_02030734(b, 0x18 * n, 1, (const char *)&d_021DE2F8, 0x4a);
     sz = func_02030CB0(n);
-    p[5] = (int)func_02030734(b, sz, 1, &d_021DE2F8, 0x56);
+    p[5] = (int)func_02030734(b, sz, 1, (const char *)&d_021DE2F8, 0x56);
     p[5] = func_02030CBC(n, p[5]);
-    p[4] = (int)func_02030734(b, sz, 1, &d_021DE2F8, 0x59);
+    p[4] = (int)func_02030734(b, sz, 1, (const char *)&d_021DE2F8, 0x59);
     p[4] = func_02030CBC(n, p[4]);
     return p;
 }

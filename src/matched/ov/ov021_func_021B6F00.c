@@ -20,11 +20,11 @@ typedef unsigned int   u32;
 
 struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
-extern int func_0201AA18(void *);
+extern u32 func_0201AA18(void *);
 
 int func_021B6F00(void *a, void *b)
 {
-    if (func_0201AA18(func_02012934(b)) < 6) {
+    if ((int)func_0201AA18(func_02012934(b)) < 6) {
         return 1;
     }
     return 0;

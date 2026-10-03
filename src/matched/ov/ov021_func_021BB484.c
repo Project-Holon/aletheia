@@ -20,12 +20,12 @@ typedef struct {
 
 extern int d_021DE2E8;
 
-extern void *func_02030734(int a, int b, int c, void *d, int e);
+extern void *func_02030734(unsigned int a, unsigned int b, int c, const char *d, unsigned short e);
 extern void func_021BB4BC(Obj *p);
 
 Obj *func_021BB484(int a, int b)
 {
-    Obj *q = func_02030734(b, 0x38, 1, &d_021DE2E8, 0x6F);
+    Obj *q = func_02030734(b, 0x38, 1, (const char *)&d_021DE2E8, 0x6F);
 
     q->f0 = a;
     func_021BB4BC(q);

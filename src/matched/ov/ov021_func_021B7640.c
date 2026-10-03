@@ -29,7 +29,7 @@ typedef struct Pair {
 } Pair;
 
 extern void *func_0201292C(u32 a);
-extern Pair *func_02030734(u32 heap, u32 size, u32 a, const u8 *file, u32 line);
+extern void *func_02030734(u32 heap, u32 size, int a, const char *file, u16 line);
 extern u16 func_02009310(u32 a, u32 i);
 extern u16 func_02009330(u32 a, u32 i);
 extern int func_02007E3C(void *a, u32 b, u32 c, u32 d);
@@ -45,7 +45,7 @@ Pair *func_021B7640(u32 a, u32 b, u32 c, int *d)
     u16 y;
 
     h = func_0201292C(a);
-    buf = func_02030734(b, 0x50, 1, d_021DE288, 0x14d);
+    buf = func_02030734(b, 0x50, 1, (const char *)d_021DE288, 0x14d);
     i = 0;
     n = 0;
     for (; i < 0x14; i++) {

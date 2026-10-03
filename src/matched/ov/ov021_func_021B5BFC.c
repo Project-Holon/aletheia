@@ -31,7 +31,7 @@ extern void *func_0215A5E4(void *a0);
 extern unsigned int func_02159B10(void *a0, void *a1);
 struct BigObj;
 extern void *func_02012934(const struct BigObj *p);
-extern int func_0201AA18(void *a0);
+extern u32 func_0201AA18(void *a0);
 extern void *func_0201AB28(void *p, u32 idx);
 extern u32 func_02017E1C(void *p, u32 id, u32 v);
 extern void *func_02012F08(int *p);
@@ -53,7 +53,7 @@ int func_021B5BFC(void *a, void *b)
     r = func_02159B10(a, b);
     for (i = 0; i < 6; i++)
         buf[i] = 0;
-    for (j = 0, n = 0; j < func_0201AA18(bag); j++) {
+    for (j = 0, n = 0; j < (int)func_0201AA18(bag); j++) {
         mon = func_0201AB28(bag, j);
         if (func_02017E1C(mon, 0x4C, 0) == 0)
             buf[n++] = func_02017E1C(mon, 5, 0);
