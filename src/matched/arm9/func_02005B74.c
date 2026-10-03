@@ -17,7 +17,7 @@ extern char g_020AA260[];
 typedef unsigned short u16;
 typedef unsigned int   u32;
 extern u32 func_020754C4(u32 a);
-extern void func_020057DC(void *p);
+extern void func_020057DC(u32 **a);
 extern void *func_02074518(int index);
 extern void func_02074A54(int a, int b);
 extern void func_02006118(void);
@@ -26,7 +26,7 @@ extern void func_02005F5C(void);
 void func_02005B74(int a0)
 {
     func_020754C4(*(int *)(g_020AA260 + 0x10));
-    func_020057DC(g_020AA260 + 0x10);
+    func_020057DC((u32 **)(g_020AA260 + 0x10));
     if (a0 != 0) {
         func_02074518(0);
         func_02074A54(0, *(int *)(g_020AA260 + 0x10));

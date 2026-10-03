@@ -8,7 +8,7 @@
  * flags:    -O4,p
  * lang:     c99
  * isa:      arm
- * status:   EXACT*
+ * status:   EXACT
  *
  * symbols:
  *   g_02146B80     0x02146B80  data
@@ -26,7 +26,8 @@
  * reads back as a pointer into arm9), so `literal` witnesses func_02061B5C
  * from outside this function's own 0x02061C0C..0x02061C30 range.
  *
- * Installs the two callbacks into the queue object at 0x02146B80 and tail
+ * Installs the request-buffer base and capacity into the queue object at
+ * 0x02146B80 and tail
  * calls func_02061B5C on it (docs/idioms/tail-call-is-a-pool-word-and-bx.md,
  * hence the `ldr ip` / `bx ip` pair rather than a `b`). The same queue object
  * is the one src/pending/sub_02061CA4.c pushes requests onto, and the stub at
@@ -39,15 +40,13 @@
  * argument, a cast through `void *` and a cast of the store base all still
  * CSE. Two distinct declarations at the address are the only spelling that
  * reproduces the pair, so that is what this file uses: `g_02146B80_cb` for
- * the two callback slots and `g_02146B80` for the queue the tail call takes.
- * Writing the callbacks as a static helper the compiler might inline instead
+ * the base/capacity slots and `g_02146B80` for the queue the tail call takes.
+ * Writing the two stores as a static helper the compiler might inline instead
  * makes it worse, not better: mwcc emits a real tail call to the helper and
  * merges the two stores into one `stm`, which the original does not have.
  *
- * Reports EXACT*, not EXACT, because 0x02061C30 still has no label of its
- * own (nothing seeds it into layout/function_starts.txt) and the listing's
- * inferred extent for this packet therefore runs 20 bytes past this
- * function's real, compiled 36 bytes; every byte of those 36 matches.
+ * Historically reported EXACT* before the follower at 0x02061C30 had its
+ * own label. Current verification reports EXACT for the 36-byte function.
  *
  * Verified with:
  *   python tools/match.py one --src src/matched/sub_02061C0C.c \
@@ -55,23 +54,24 @@
  */
 
 typedef unsigned char u8;
+typedef unsigned int u32;
 typedef signed int    s32;
 
 struct Queue {
     void *unk_00;
-    void *unk_04;
+    u32 capacity;
     u8 pad_08[8];
     s32 total;
 };
 
 extern struct Queue g_02146B80;
-extern void *g_02146B80_cb[2];
+extern struct Queue g_02146B80_cb;
 
 extern void func_02061B5C(struct Queue *q);
 
-void sub_02061C0C(void *a, void *b)
+void sub_02061C0C(void *a, u32 capacity)
 {
-    g_02146B80_cb[0] = a;
-    g_02146B80_cb[1] = b;
+    g_02146B80_cb.unk_00 = a;
+    g_02146B80_cb.capacity = capacity;
     func_02061B5C(&g_02146B80);
 }

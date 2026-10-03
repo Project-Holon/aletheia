@@ -47,7 +47,7 @@ extern char g_020A7010[];
 extern char g_020AA2BC[];
 
 extern void func_020726D0(void);
-extern u32  func_020746E8(char *base, u32 size);
+extern u32  func_020746E8(u32 off, u32 size);
 extern void func_02073FB8(char *a, char *b, u32 c, u32 d);
 extern void func_02005B74(int a0);
 extern int  func_02085D3C(void);
@@ -58,7 +58,7 @@ void func_02005B24(void)
     u32 handle;
 
     func_020726D0();
-    handle = func_020746E8(g_020AA9B4, 0x95AD0);
+    handle = func_020746E8((u32)g_020AA9B4, 0x95AD0);
     *(u32 *)(g_020AA260 + 0x10) = handle;
     func_02073FB8(g_020AA2BC, g_020A7010, handle, 0);
     func_02005B74(1);
